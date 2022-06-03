@@ -1,44 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0575453C767
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 11:23:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF7E53C780
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jun 2022 11:26:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F87112039;
-	Fri,  3 Jun 2022 09:23:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54FBC112303;
+	Fri,  3 Jun 2022 09:26:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFA410FE8A;
- Fri,  3 Jun 2022 09:23:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1654248186; x=1685784186;
- h=from:to:cc:subject:date:message-id;
- bh=V2lKivc9M3T8itEYOlhL4nuspF06rOXNkuFJ8fsnkqw=;
- b=gMt1+Lm3LQ7HJ52SklO0bT/NRxHF5XuKVY0XCWvymT9ASTV1NZYggf/y
- QLv/OzR5i8by7ag4xtGr7exJxA8zRr0ZuJPmfmfW94Se9ouzgyanLkOP6
- T+r+mELWOUSxuqjNzb4DYLkM4W54PuqkvKKw6eFz8sFH+aXmu+qYLkyWW Y=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 03 Jun 2022 02:23:05 -0700
-X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 03 Jun 2022 02:23:03 -0700
-X-QCInternal: smtphost
-Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
- by ironmsg02-blr.qualcomm.com with ESMTP; 03 Jun 2022 14:52:50 +0530
-Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
- id 680753A0D; Fri,  3 Jun 2022 14:52:49 +0530 (IST)
-From: Vinod Polimera <quic_vpolimer@quicinc.com>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: [v1] drm/msm: add null checks for drm device to avoid crash during
- probe defer
-Date: Fri,  3 Jun 2022 14:52:47 +0530
-Message-Id: <1654248167-10594-1-git-send-email-quic_vpolimer@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F26E11226A
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jun 2022 09:26:16 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id q21so14819555ejm.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jun 2022 02:26:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d11o2d5ri6Bk3Uwjrg8nECkV0m9NEQVoIzTmBlBjqJY=;
+ b=mst1SLjj6wyXb2uviGvZufvlFxMq3ZJoL4FEPys1MRgBswbH3yb//Uw7puA1DvWDU4
+ a/FzGbr8quWSyRk4QEZFmzqia7u8phdOCtiSzQcKUxmIvnWTx1byjhRoX9w6ZZAG3/h8
+ dE/+VubgeMBTthjvLVXJldjdsP4dHoZg5q4roG1w79PE40XqTYlJ92MZr3C/jcAOdiLC
+ 10Aqqfm4asD/tey4t93bjYARP0dH0ic3b1bOn49M1DW8GzbvaNNj4fmt+umpSrOYuZK6
+ avk4RAtJEvzmZz/dpwW8Ehmwt8t7PqNykc6SMcohI/FMm2tCwrtWJReX7MOGC+WYg0KS
+ JZjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d11o2d5ri6Bk3Uwjrg8nECkV0m9NEQVoIzTmBlBjqJY=;
+ b=GOvHjEFk+I/Bi+KQ1pfoEcqPXQDT5ofInv3PID36hVRuZAjmNgosMClApRgwvER7rL
+ vmkxEhtXj+2wElRtaJskwA+5uI3BXBhdkSB2XQXmUoIvba9kMiYD3qKTLns/L7SD5+R3
+ DZj/hGXRGm+gOphKMqoF1oCv3oPRZBGVnGISuPDS2+xQjz2oDgGYD3XvozHaO+bE9H6K
+ URPXfnAckPsvRbCSYiBSnSZosmM33xkgqdp9s4QWF4idSp3h8VWALXqwEqFNZpT9B+XM
+ SfGDeawwfxfZomiUb/P7C8oaKyPI7n7PsWV+tXuM+t7XYCA2+OPpiWoulccamNFWt/Z8
+ uw5w==
+X-Gm-Message-State: AOAM531E0thiXZ1oKW/LmtdExLoq7xUbOM9oECRlJ+x3i+qDNMSO08iq
+ fspPpYjRrZExdXzfcDRfwtw=
+X-Google-Smtp-Source: ABdhPJxkNXgUmvit6rTJAt+5eLug2jZIAIktydFQGW4RAn6SX4BpLsboURL2jIrnxm7yMn/3XWjxAQ==
+X-Received: by 2002:a17:906:f845:b0:70e:fb6a:9b76 with SMTP id
+ ks5-20020a170906f84500b0070efb6a9b76mr1055447ejb.530.1654248374650; 
+ Fri, 03 Jun 2022 02:26:14 -0700 (PDT)
+Received: from morpheus.home.roving-it.com
+ (3.e.2.0.0.0.0.0.0.0.0.0.0.0.0.0.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa.
+ [2001:8b0:fb11:2681::2e3]) by smtp.googlemail.com with ESMTPSA id
+ b5-20020a17090691c500b006feaa22e367sm2617672ejx.165.2022.06.03.02.26.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Jun 2022 02:26:14 -0700 (PDT)
+From: Peter Robinson <pbrobinson@gmail.com>
+To: Arnd Bergmann <arnd@arndb.de>, bcm-kernel-feedback-list@broadcom.com,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Emma Anholt <emma@anholt.net>, Florian Fainelli <f.fainelli@gmail.com>,
+ javierm@redhat.com, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, maxime@cerno.tech,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+Subject: [PATCH v6 0/6] Raspberry PI 4 V3D enablement
+Date: Fri,  3 Jun 2022 10:26:04 +0100
+Message-Id: <20220603092610.1909675-1-pbrobinson@gmail.com>
+X-Mailer: git-send-email 2.36.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,71 +76,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vpolimer@quicinc.com, dianders@chromium.org, linux-kernel@vger.kernel.org,
- dmitry.baryshkov@linaro.org, swboyd@chromium.org, kalyant@quicinc.com,
- Vinod Polimera <quic_vpolimer@quicinc.com>
+Cc: Peter Robinson <pbrobinson@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During probe defer, drm device is not initialized and an external
-trigger to shutdown is trying to clean up drm device leading to crash.
-Add checks to avoid drm device cleanup in such cases.
+This is a follow up from my v4 patchset. The power management pieces have
+been split out to a separate independent set of patches by Stefan [1]. This
+version 5 of the DRM patches are independent and given the V3D driver has
+been upstream for some time the two patches to enable it in defconfigs can 
+be taken at anytime independent of the enablement for the Raspberry Pi 4.
 
-BUG: unable to handle kernel NULL pointer dereference at virtual
-address 00000000000000b8
+I've tested this using mesa 22.0.x and Wayland/Gnome on Fedora 36, it's 
+more or less stable with basic testing.
 
-Call trace:
+Changes since v5:
+- Update the DT compatible to match the others that were updated
+- Adjust the Kconfig help text
+- Add review tags
 
-drm_atomic_helper_shutdown+0x44/0x144
-msm_pdev_shutdown+0x2c/0x38
-platform_shutdown+0x2c/0x38
-device_shutdown+0x158/0x210
-kernel_restart_prepare+0x40/0x4c
-kernel_restart+0x20/0x6c
-__arm64_sys_reboot+0x194/0x23c
-invoke_syscall+0x50/0x13c
-el0_svc_common+0xa0/0x17c
-do_el0_svc_compat+0x28/0x34
-el0_svc_compat+0x20/0x70
-el0t_32_sync_handler+0xa8/0xcc
-el0t_32_sync+0x1a8/0x1ac
+Changes since v4:
+- Fixes for device tree and bindings
+- Split out the power management changes into an independent set
+- Rebase to 5.18
+- Individual changes in patches
 
-Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
----
- drivers/gpu/drm/msm/msm_drv.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+[1] https://www.spinics.net/lists/arm-kernel/msg980342.html
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 4448536..d62ac66 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -142,6 +142,9 @@ static void msm_irq_uninstall(struct drm_device *dev)
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct msm_kms *kms = priv->kms;
- 
-+	if (!irq_has_action(kms->irq))
-+		return;
-+
- 	kms->funcs->irq_uninstall(kms);
- 	if (kms->irq_requested)
- 		free_irq(kms->irq, dev);
-@@ -259,6 +262,7 @@ static int msm_drm_uninit(struct device *dev)
- 
- 	ddev->dev_private = NULL;
- 	drm_dev_put(ddev);
-+	priv->dev = NULL;
- 
- 	destroy_workqueue(priv->wq);
- 
-@@ -1167,7 +1171,7 @@ void msm_drv_shutdown(struct platform_device *pdev)
- 	struct msm_drm_private *priv = platform_get_drvdata(pdev);
- 	struct drm_device *drm = priv ? priv->dev : NULL;
- 
--	if (!priv || !priv->kms)
-+	if (!priv || !priv->kms || !drm)
- 		return;
- 
- 	drm_atomic_helper_shutdown(drm);
+Nicolas Saenz Julienne (1):
+  arm64: config: Enable DRM_V3D
+
+Peter Robinson (5):
+  dt-bindings: gpu: v3d: Add BCM2711's compatible
+  drm/v3d: Get rid of pm code
+  drm/v3d: Add support for bcm2711
+  ARM: dts: bcm2711: Enable V3D
+  ARM: configs: Enable DRM_V3D
+
+ .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml  |  1 +
+ arch/arm/boot/dts/bcm2711-rpi.dtsi             |  4 ++++
+ arch/arm/boot/dts/bcm2711.dtsi                 | 11 +++++++++++
+ arch/arm/configs/bcm2835_defconfig             |  1 +
+ arch/arm/configs/multi_v7_defconfig            |  1 +
+ arch/arm64/configs/defconfig                   |  1 +
+ drivers/gpu/drm/v3d/Kconfig                    |  5 +++--
+ drivers/gpu/drm/v3d/v3d_debugfs.c              | 18 +-----------------
+ drivers/gpu/drm/v3d/v3d_drv.c                  | 12 +-----------
+ drivers/gpu/drm/v3d/v3d_gem.c                  | 12 +-----------
+ 10 files changed, 25 insertions(+), 41 deletions(-)
+
 -- 
-2.7.4
+2.36.1
 
