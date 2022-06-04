@@ -2,66 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CFBF53D67C
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jun 2022 13:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A1353D898
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jun 2022 23:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8AC810FF31;
-	Sat,  4 Jun 2022 11:05:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 092C911B55B;
+	Sat,  4 Jun 2022 21:19:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55BB110FEC1
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jun 2022 11:05:23 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id h23so9273571ejj.12
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Jun 2022 04:05:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=FCy6U/sBYUo6M+pZ1lxt7cmoVEOCVXy4gz+vX3J3iEE=;
- b=HSjkimYO9h+VgJILk+nxvdtn59bZao5UUu5mssbNsFdgwzfEu4ejKDY8C3Ox2Rb0jC
- gAByvycGCz64CjMsWWa6jsYc/qs4UUHJ49IsYpWVlVXTIN4YLunNglFwG7oZEcBi9IrF
- Iqzj3MKc9igTMS0Tog5LRFjM9bjahb/KLwXbrUGPAFpJj1IXOWC3M8U2Re8kvzxFrTN1
- wTV6dOIjPWgQK/rjccj64Vil+degeVf7wuh5dAzODrbnC6GY+6KiQ584gMSQMPbl+zTF
- SNUlRkBmOddioitp988dqu7Xz9+yU5o9eCQ69FTSyoA3Qdcppxzzqcu9086jGFIvdrk8
- PJHg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8F6C11B559
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jun 2022 21:19:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654377590;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=biGb1LIeV3oDXMzLTt8yH29/Uud1ibwNh8spx4nPUag=;
+ b=GKr7l/2Ku5bW8VbpgjMzXwRo/Npo61iFL7Y20ifbJcPMxJI1fqdc5EmQo6jllDEjVdvNP5
+ O/UTepZrEaYkFWCptrzCnK8SFDevuk5W9CeKLwj3yH8USmIhIK7pZaS7XO27Q1nCEO4zvV
+ qG3iW/OC8NmNRE0pEZoZwTD2OzBPHVc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-450-RID8D-BvMg6AMr_Dh87rdw-1; Sat, 04 Jun 2022 17:19:48 -0400
+X-MC-Unique: RID8D-BvMg6AMr_Dh87rdw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ o17-20020a50fd91000000b0042dbded81deso7726447edt.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Jun 2022 14:19:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=FCy6U/sBYUo6M+pZ1lxt7cmoVEOCVXy4gz+vX3J3iEE=;
- b=hziKpEFGn33+7ssTcCYuKTQEBJmHb2CoKQnybSUCyKnibTtOayGQyQgzCToSuiBMBP
- KiyFMJM2ra35U1EnCBcGIB3OK1SW7YxGOv4lr1C+M9CFJS6aVQ7MX7q1Y//SPFt4+/TL
- Wg75BLuvyvczYtRMJdkFsFGyTU9ZNYkn4ktajAue/sX9yUeiIzwdxcbg/SHsxAOMVqC9
- p/hv83y+CfiDX9GosWgnzguBUla5/O5dV4Bx+7XO/Fcou66bOtQEo2AM8b+Wkvdz07aE
- u6LCGPboY+zsBxKN21IMFE+co3v22N1v66cnlt5XDJepJfzbeMBfEk6LvhOnO1EJsdOK
- QqGQ==
-X-Gm-Message-State: AOAM530RSJJS7KTBGBFH/mbraGeJS1Q70GIIlW08jVj0EgoaDeQsh2zy
- FlmWpU6SIN0k8AomY4aCSEQ=
-X-Google-Smtp-Source: ABdhPJy7JNTPKsGzTM0qDvf5RVldQhrdtEyiPLP42ZwPB3SZqGDdZRzDfTYgw0xAV3iwzB9QP4oVWQ==
-X-Received: by 2002:a17:906:b816:b0:708:2e56:97d7 with SMTP id
- dv22-20020a170906b81600b007082e5697d7mr12443686ejb.502.1654340721564; 
- Sat, 04 Jun 2022 04:05:21 -0700 (PDT)
-Received: from adroid (102-167-184-091.ip-addr.vsenet.de. [91.184.167.102])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=biGb1LIeV3oDXMzLTt8yH29/Uud1ibwNh8spx4nPUag=;
+ b=UHDO4FJ15grQ9Bzn5OGhEwoBeawP1OXrz/OscPT67u3vp+MId14eGVGLL5UKNNV8XW
+ vY6uNxU6yeJ3nBLgovyPXhL0JkE3iRu39jzYWtAewLULVpEjiSWe4u4tzILbxLr4kmIJ
+ zFAzzii2iMnBLUyGc6G+1DoXNixU9U3zYjxVQV4cjSwkqUwa+zHCjl0syx+iz4ZZ/xeG
+ OJW9F82HUGn88eA+DSpLlQbcYNhOXcGtWknNBol3qvLnd+hC3K2f3V8Bt6q77ryL8xm1
+ dqOupB3BtYlpLZtWnwjxJo3jUSjlV/YrdX3nhDS1eL/UGRqL6zPbIOOWFPBOepB2NhFi
+ 7iPg==
+X-Gm-Message-State: AOAM530EoYE2Hc80QmhJtq6eNnbyABvwKeir8Pi+bDRFlBhzmsfm80ER
+ 03KAkSmdp6qtC8qYbURJTXhm2g8uwzwD74Gda+ZXDVjnjJ2ikzuHVEUok6Dn3IfYzbvNgPmuG9c
+ WaegUHUvTvZ7UVkLLg/WKnY6KMa/Z
+X-Received: by 2002:a17:907:9721:b0:70c:65e7:2aa5 with SMTP id
+ jg33-20020a170907972100b0070c65e72aa5mr11350984ejc.132.1654377587186; 
+ Sat, 04 Jun 2022 14:19:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxaLjhGsZ1R3gGgw586LIcKRkJePrSFDMmCYX9YkAgAyoFRBNQI17p9kHYaGxjblXqHIJFpCw==
+X-Received: by 2002:a17:907:9721:b0:70c:65e7:2aa5 with SMTP id
+ jg33-20020a170907972100b0070c65e72aa5mr11350972ejc.132.1654377586966; 
+ Sat, 04 Jun 2022 14:19:46 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
  by smtp.gmail.com with ESMTPSA id
- jo13-20020a170906f6cd00b006febc86b8besm3780620ejb.117.2022.06.04.04.05.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jun 2022 04:05:20 -0700 (PDT)
-Date: Sat, 4 Jun 2022 13:05:18 +0200
-From: Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>
-To: Inki Dae <daeinki@gmail.com>
-Subject: Re: Exynos vblank timeout issue
-Message-ID: <20220604110518.GA4254@adroid>
-References: <20220522000219.GB241035@adroid>
- <6aa0b632-674d-d9ca-2ba9-cab497aa1f37@kernel.org>
- <20220522100639.GA191106@adroid> <20220526233439.GA81797@adroid>
- <CAAQKjZPejin5asY4ctg__bTgSvtftP0YE4h096iJo34xGy55bQ@mail.gmail.com>
+ gk2-20020a17090790c200b006febce7081esm4435400ejb.177.2022.06.04.14.19.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 04 Jun 2022 14:19:46 -0700 (PDT)
+Message-ID: <18519d7e-6594-3b05-dfa5-9fcd580c8fea@redhat.com>
+Date: Sat, 4 Jun 2022 23:19:45 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
+To: Simon Ser <contact@emersion.fr>, Zack Rusin <zackr@vmware.com>
+References: <20220602154243.1015688-1-zack@kde.org>
+ <wRnf-Lm5zz6v1e-NlnFPteyARuLl-R98mOZZVjePHD5ue7QQNR_TSU7RwYBssgUa7xM5hf7Fe59-gMEj81ESrHY3mu_H7yE0dtGhFHFPTnc=@emersion.fr>
+ <0F911D96-1C9B-4EF1-84D7-F5335B3FFEB7@vmware.com>
+ <5Et1VowGX_0a0i5weC4YVMX7bhGDU45hQyiv4CjqyxQStY1CSUJs-xamBowRO8go8yCk1l_jgKmM_OrMB0Fdx166545AX5nL09NGsEYaBs0=@emersion.fr>
+ <06E05345-758E-456A-803D-B50978A935CA@vmware.com>
+ <wgIEdQpY_K8Qlq_xWBLy4DHOGwKi0P2c8a5dnTXM4dKOsA2hydYyT9DC6T1ldVZmi_mduaTPi4fnidg1msOofUUKkbnal0-Vv3VuTnfZh0s=@emersion.fr>
+ <E53D9148-350D-4430-B4EF-689BBC1A9506@vmware.com>
+ <GWQv37zd56Jok0LiKDGflZUSaHMYyk9Uad7M6-6-gqjeUGoT5dJOfsB9XDS4UuVEcZSI34GOTFa4XA0Cf2A1sGNhvbIsE16V7CyhxFne0d4=@emersion.fr>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <GWQv37zd56Jok0LiKDGflZUSaHMYyk9Uad7M6-6-gqjeUGoT5dJOfsB9XDS4UuVEcZSI34GOTFa4XA0Cf2A1sGNhvbIsE16V7CyhxFne0d4=@emersion.fr>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAQKjZPejin5asY4ctg__bTgSvtftP0YE4h096iJo34xGy55bQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,234 +96,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
+Cc: David Airlie <airlied@linux.ie>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Martin Krastev <krastevm@vmware.com>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>,
+ Maaz Mombasawala <mombasawalam@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 04, 2022 at 01:05:39PM +0900, Inki Dae wrote:
-> Hi Martin,
+Hi,
+
+On 6/3/22 17:22, Simon Ser wrote:
+> On Friday, June 3rd, 2022 at 17:17, Zack Rusin <zackr@vmware.com> wrote:
 > 
-
-Hi Inki,
-
-> What kind of panel does Galaxy Note 10.1 use? I guess it uses I80
-> panel which needs CPU-trigger.
-
-the Note 10.1 uses a Samsung LTL101AL01 LCD which is connected via the
-RGB interface.
-
-In the meantime I tried several things but to no avail. Krzysztof
-proposed in IRC to disable devfreq which had no effect. I compared the
-mainline sources with the vendor kernel, but there are no notable
-differences and the parts that were a bit different also didn't solve
-the problem when applied to mainline.
-
-I then tried to reproduce the issue, I noticed that things go wrong as
-soon as I get to planes that are less than 8x8 pixels. There is two
-different issues I can make out:
-
-1) Active pixels are not what expected, so the plane is 1x4 pixels but
-only two pixels will be visible on the display
-2) The screen goes dark and the vblank interrupt stops working
-
-The vblank occurs for all planes that are 1x8 or any multiple of it, so
-1x16, 1x24 as well as planes bigger than 1x279 in size. This is for the
-primary plane. A width of two seems to be fine here.
-
-For overlay planes, the situation is worse. All planes of width one will
-trigger a vsync timeout. Also, planes of widths smaller 8 seem to be hit
-and miss, most of them don't work.
-
-The first issue with the wrong number of pixels seems to be for small
-planes less than 8x8 pixels that don't trigger the vsync issue but it's
-more difficult to find a pattern here. It looks like even numbers like
-4x4, 4x6 are fine but as soon as at least one odd number is present, it
-will go down the drain. 5x6 for example will only display 5x5 pixels,
-5x5 will display four rows of five pixels and one row with one pixel.
-
-Kind Regards
-Martin
-
-
-
-> If so, you may need to check if the panel device works correctly after
-> booting because FIMD will incur vsync timeout if the panel doesn't
-> work.
-> I think you could try to check if te signal works or not in
-> exynos_dsi_te_irq_handler function of exynos_drm_dsi.c
+>>
+>>> On Jun 3, 2022, at 10:56 AM, Simon Ser <contact@emersion.fr> wrote:
+>>> ⚠ External Email
+>>>
+>>> On Friday, June 3rd, 2022 at 16:38, Zack Rusin <zackr@vmware.com> wrote:
+>>>
+>>>>> On Jun 3, 2022, at 10:32 AM, Simon Ser <contact@emersion.fr> wrote:
+>>>>>
+>>>>> ⚠ External Email
+>>>>>
+>>>>> On Friday, June 3rd, 2022 at 16:27, Zack Rusin <zackr@vmware.com> wrote:
+>>>>>
+>>>>>>> In particular: since the driver will ignore the KMS cursor plane
+>>>>>>> position set by user-space, I don't think it's okay to just expose
+>>>>>>> without opt-in from user-space (e.g. with a DRM_CLIENT_CAP).
+>>>>>>>
+>>>>>>> cc wayland-devel and Pekka for user-space feedback.
+>>>>>>
+>>>>>> I think Thomas expressed our concerns and reasons why those wouldn’t
+>>>>>> work for us back then. Is there something else you’d like to add?
+>>>>>
+>>>>> I disagreed, and I don't understand Thomas' reasoning.
+>>>>>
+>>>>> KMS clients will need an update to work correctly. Adding a new prop
+>>>>> without a cap leaves existing KMS clients broken. Adding a cap allows
+>>>>> both existing KMS clients and updated KMS clients to work correctly.
+>>>>
+>>>> I’m not sure what you mean here. They are broken right now. That’s what we’re
+>>>> fixing. That’s the reason why the virtualized drivers are on deny-lists for
+>>>> all atomic kms. So nothing needs to be updated. If you have a kms client that
+>>>> was using virtualized drivers with atomic kms then mouse clicks never worked
+>>>> correctly.
+>>>>
+>>>> So, yes, clients need to set cursor hotspot if they want mouse to work
+>>>> correctly with virtualized drivers.
+>>>
+>>> My proposal was:
+>>>
+>>> - Introduce DRM_CLIENT_CAP_CURSOR_PLANE_NO_POSITION (or a better name). Only
+>>> user-space which supports the hotspot props will enable it.
+>>> - By default, don't expose a cursor plane, because current user-space doesn't
+>>> support it (Weston might put a window in the cursor plane, and nobody can
+>>> report hotspot).
+>>> - If the KMS client enables the cap, advertise the cursor
+>>> plane, and make it so the plane doesn't have the CRTC_X/CRTC_Y properties
+>>> since the driver will pick the position.
+>>>
+>>> That way both old and new user-space are fixed.
+>>
+>> I don’t think I see how that fixes anything. In particular I don’t see a way
+>> of fixing the old user space at all. We require hotspot info, old user space
+>> doesn’t set it because there’s no way of setting it on atomic kms.
 > 
-> Thanks,
-> Inki Dae
-> 
-> 2022년 5월 27일 (금) 오전 8:34, Martin Jücker <martin.juecker@gmail.com>님이 작성:
-> >
-> > Hello again,
-> >
-> > I tried to dig around a bit to unearth some more information. What I'm
-> > seeing is that it works just fine in the beginning, planes are updated a
-> > couple of times and suddenly, after one of the plane updates, the
-> > interrupt handler in the FIMD driver is no longer called. The screen
-> > goes dark but the device is still operational, e.g. ADB works fine, I
-> > can connect and execute commands.
-> >
-> > Trying to figure out what is called when and curious about the state of
-> > the registers, I littered the code with print statements and it looks
-> > like vsync is still active, no other code calls into disabling it. All
-> > registers are as expected, e.g. VIDINTCON0 has the interrupt bit set. I
-> > also had a look at the interrupt combiner, this too has the
-> > corresponding lcd0-1 interrupt enabled at all times and there is no
-> > interrupt pending, even after FIMD stopped receiving them.
-> >
-> > Looking at the wiki at https://exynos.wiki.kernel.org/todo_tasks I found
-> > issue #9. It's about trashed display or DMA freeze if planes are too
-> > narrow and I was wondering if this could be related. So I had a look at
-> > the drm debug output and planes are indeed getting very small. This
-> > happens exactly when the animation that is triggering the issue is
-> > playing, so this would match. Looking a bit closer at the position and
-> > size of the planes, I could see that the last working vsync was right
-> > after one of the planes was exactly 1 pixel in width and vsync only
-> > stopped working one update later. Here are the plane updates from the
-> > logs:
-> >
-> > -
-> >
-> > Planes getting smaller and smaller with each update:
-> > plane : offset_x/y(0,0), width/height(4,800)
-> > plane : offset_x/y(4,0), width/height(1276,800)
-> > plane : offset_x/y(0,0), width/height(1280,800)
-> > plane : offset_x/y(0,776), width/height(1280,24)
-> >
-> > plane : offset_x/y(0,0), width/height(2,800)
-> > plane : offset_x/y(2,0), width/height(1278,800)
-> > plane : offset_x/y(0,0), width/height(1280,800)
-> > plane : offset_x/y(0,776), width/height(1280,24)
-> >
-> > plane : offset_x/y(0,0), width/height(1,800)
-> > plane : offset_x/y(1,0), width/height(1279,800)
-> > plane : offset_x/y(0,0), width/height(1280,800)
-> > plane : offset_x/y(0,776), width/height(1280,24)
-> >
-> > Still got a vsync in between those two. But after the following update,
-> > it's dead:
-> > plane : offset_x/y(0,0), width/height(1280,800)
-> > plane : offset_x/y(0,0), width/height(1280,24)
-> > plane : offset_x/y(0,740), width/height(1280,60)
-> > plane : offset_x/y(0,0), width/height(1280,800)
-> >
-> > -> vsync timeout comes here
-> >
-> > -
-> >
-> > I have no idea how to analyze this further on the kernel side. I'll try
-> > to write an executable that triggers this bug next. If you have any
-> > ideas on that, I'd be very grateful.
-> >
-> > Kind Regards
-> > Martin
-> >
-> > On Sun, May 22, 2022 at 12:06:39PM +0200, Martin Jücker wrote:
-> > > On Sun, May 22, 2022 at 09:45:51AM +0200, Krzysztof Kozlowski wrote:
-> > > > On 22/05/2022 02:02, Martin Jücker wrote:
-> > > > > Hello,
-> > > > >
-> > > > > I'm trying to get Android 12 up and running on my Galaxy Note 10.1 which
-> > > > > is based on Exynos 4412 with a Mali GPU. For Android 11, I had no issues
-> > > > > with graphics but after upgrading and building Android 12, I'm getting a
-> > > > > vblank wait timeout shortly after starting the device setup, which in
-> > > > > turn leads to my display turning black and SurfaceFlinger hanging. This
-> > > > > can be reliably reproduced after every reboot, so much so that it's
-> > > > > basically always on the exact same step of the setup.
-> > > > >
-> > > > > I'm using the following setup:
-> > > > >
-> > > > > * 5.10.101 Android Common Kernel with some patches to get
-> > > > > the Note 10.1 up and running
-> > > >
-> > > > It's Android kernel, so not upstream. It is perfectly fine to use
-> > > > downstream kernels, but with the issues you also go to downstream folks.
-> > > > I have no clue what Android did to Exynos.
-> > >
-> > > Hi Krzysztof,
-> > >
-> > > indeed, that was my mistake. Should have done that on mainline first.
-> > >
-> > > I rebased some patches on top of v5.17.9 and tried again, same result.
-> > > There are no Android patches in there, only p4note related things. You
-> > > can have a look here:
-> > >
-> > > https://github.com/Viciouss/linux/commits/v5.17.9-android
-> > >
-> > > The behaviour is exactly the same, as soon as I try to advance in the
-> > > setup process, it suddenly turns the screen all black.
-> > >
-> > > Here is the warning again, just in case there are any differences.
-> > >
-> > > [   77.651495] ------------[ cut here ]------------
-> > > [   77.651527] WARNING: CPU: 2 PID: 8 at
-> > > ../drivers/gpu/drm/drm_atomic_helper.c:1530
-> > > drm_atomic_helper_wait_for_vblanks.part.1+0x2b0/0x2b4
-> > > [   77.651593] [CRTC:49:crtc-0] vblank wait timed out
-> > > [   77.651608] Modules linked in: s5p_mfc s5p_jpeg v4l2_mem2mem
-> > > videobuf2_dma_contig videobuf2_memops videobuf2_v4l2 videobuf2_common
-> > > rfcomm kheaders hidp hci_uart cpufreq_userspace cpufreq_powersave
-> > > cpufreq_conservative btbcm brcmfmac brcmutil bnep bluetooth atmel_mxt_ts
-> > > [   77.651789] CPU: 2 PID: 8 Comm: kworker/u8:0 Not tainted 5.17.9+ #3
-> > > [   77.651813] Hardware name: Samsung Exynos (Flattened Device Tree)
-> > > [   77.651828] Workqueue: events_unbound commit_work
-> > > [   77.651858] Backtrace:
-> > > [   77.651874] dump_backtrace from show_stack+0x20/0x24
-> > > [   77.651915] r7:c071097c r6:00000000 r5:c10ec66c r4:600f0013
-> > > [   77.651926] show_stack from dump_stack_lvl+0x48/0x54
-> > > [   77.651958] dump_stack_lvl from dump_stack+0x18/0x1c
-> > > [   77.651986] r5:c113dcf4 r4:c1d51e04
-> > > [   77.651996] dump_stack from __warn+0x18c/0x190
-> > > [   77.652030] __warn from warn_slowpath_fmt+0x80/0xbc
-> > > [   77.652070] r9:00000009 r8:c071097c r7:000005fa r6:c113dcf4
-> > > r5:c1d8cb40 r4:c113e338
-> > > [   77.652081] warn_slowpath_fmt from
-> > > drm_atomic_helper_wait_for_vblanks.part.1+0x2b0/0x2b4
-> > > [   77.652123] r9:00000001 r8:00000000 r7:00000000 r6:00000000
-> > > r5:00000000 r4:c398c800
-> > > [   77.652135] drm_atomic_helper_wait_for_vblanks.part.1 from
-> > > drm_atomic_helper_commit_tail_rpm+0x6c/0x7c
-> > > [   77.652175] r10:c14cce68 r9:c1c2a005 r8:00000000 r7:0e3f351d
-> > > r6:00000012 r5:c398c000
-> > > [   77.652188] r4:d42943c0
-> > > [   77.652197] drm_atomic_helper_commit_tail_rpm from
-> > > commit_tail+0xb8/0x1d8
-> > > [   77.652228] r5:00000000 r4:d42943c0
-> > > [   77.652238] commit_tail from commit_work+0x1c/0x20
-> > > [   77.652274] r10:c1518d20 r9:c1c2a005 r8:00000000 r7:c1c2a000
-> > > r6:c1c0a800 r5:c1c08a00
-> > > [   77.652287] r4:d42943ec
-> > > [   77.652297] commit_work from process_one_work+0x1b0/0x528
-> > > [   77.652324] process_one_work from worker_thread+0x54/0x4d8
-> > > [   77.652356] r10:c1c0a800 r9:00000088 r8:c1403d00 r7:c1c0a81c
-> > > r6:c1c08a18 r5:c1c0a800
-> > > [   77.652368] r4:c1c08a00
-> > > [   77.652378] worker_thread from kthread+0x104/0x134
-> > > [   77.652419] r10:00000000 r9:c1d43e5c r8:c1d05880 r7:c1d8cb40
-> > > r6:c1c08a00 r5:c015530c
-> > > [   77.652432] r4:c1d05700
-> > > [   77.652441] kthread from ret_from_fork+0x14/0x2c
-> > > [   77.652468] Exception stack(0xc1d51fb0 to 0xc1d51ff8)
-> > > [   77.652488] 1fa0:                                     00000000
-> > > 00000000 00000000 00000000
-> > > [   77.652509] 1fc0: 00000000 00000000 00000000 00000000 00000000
-> > > 00000000 00000000 00000000
-> > > [   77.652528] 1fe0: 00000000 00000000 00000000 00000000 00000013
-> > > 00000000
-> > > [   77.652550] r9:00000000 r8:00000000 r7:00000000 r6:00000000
-> > > r5:c015da78 r4:c1d05700
-> > > [   77.652561] ---[ end trace 0000000000000000 ]---
-> > >
-> > > Kind Regards
-> > > Martin
-> > >
-> > > >
-> > > > Best regards,
-> > > > Krzysztof
+> Old atomic user-space is fixed by removing the cursor plane. Then old
+> atomic user-space will fallback to drawing the cursor itself, e.g. via
+> OpenGL.
+
+That is just a terrible idea, the current situation is that userspace has a
+hardcoded list of drivers which need hotspots, so it uses the old non-atomic
+APIs on that "hw" since the atomic APIs don't support hotspots.
+
+The downsides I see to your proposal are:
+
+1. Falling back to sw cursor rendering instead of using the old APIs would
+be a pretty significant regression in user experience. I know that in theory
+sw rendering can be made to not flicker, but in practice it tends to be a
+flickery mess.
+
+2. It does not help anything since userspace is still hardcoded to use
+the old, hotspot aware non-atomic API anyways. So it would only make things
+worse since hiding the cursorplane for userspace which does not set the CAP
+would mean the the old non-atomic API also stops working. Or this would add
+extra complications in the kernel to still keep the old APIs working.
+
+I do think that a CAP might be a good idea, but the disabling of the
+cursor plane based on the CAP does not sound like a good idea to me.
+
+Regards,
+
+Hans
+
