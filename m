@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69DEC53DE83
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 00:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4181253DE90
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 00:07:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69C0311B2AB;
-	Sun,  5 Jun 2022 22:02:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D78EF11B40B;
+	Sun,  5 Jun 2022 22:07:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA84E11B2AB
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jun 2022 22:02:49 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id q21so25680265ejm.1
- for <dri-devel@lists.freedesktop.org>; Sun, 05 Jun 2022 15:02:49 -0700 (PDT)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89E4611B455
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jun 2022 22:07:12 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id s12so18444384ejx.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 Jun 2022 15:07:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=googlemail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Zt9GSJY6oHFpCzwgjAcBrGgFRTLh7TnEuClTteoy+qI=;
- b=fD8XxZY1UodhyOBn79r1tZ+Q0MT0UQOxYmKuwWu9STl2WERhDyPRlrW76bSrHbR0p8
- h2jIOQMEfKo943/CfW+W7qD3jgv8tlDwjC38Z1qyfiROdPyldOBURnJyTjq+0wFyEQOv
- ZOymioOaqVofr8QXjy5bYg0FEnQs8GYNYYIlsIkqVeYAUXLIRFsmX/DXdu41cZy60tvx
- nqI9VHkEHq1z4KTzZ8pKcWGAa8ctpadE/cjcK3VZSw2YGKVjZAmRhoRlQ4FjZNlRYuq5
- 1WxPCDQd8EDwxH/hZFWu2q0o7VouN3IK6vpONMII7jLb5dcT+6YyJJVv/6F5DKewRHt0
- GFEA==
+ :cc; bh=EvdrzNnwpDnDn9YN3OQw+McxNhWHrslS9QPN5TMLp4w=;
+ b=jvBhc6+k40HESfBa2/kHjiPXNsmhn9RWusQQuekRCoRpZQxLjI+/bUUbQl40oGkXNZ
+ DDlDD3Kts3OXg3AmYrDeujl79CfM+aMVcarycdisbklXcuz9M6WyPexFrr+ZQMwsJ7fn
+ dYHoHaT6aA2SCKYliWMEXzOsKPHOWWDi99Y6hRp5dv1oHYwcBWUEXQlnm+bbcGdQQLZH
+ LV2qZDFjXplNKazciGbp3xseWSxXEVDm6+uGpG8oJEcAMulX+6vxNeX0qqBb+3f0vEKP
+ okp7x7oGotXEuPMC3aAd5a+4/PqZ12tcenMvg6drAosssBmSjmuhpmp/86uuoPdeDk2c
+ QyMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Zt9GSJY6oHFpCzwgjAcBrGgFRTLh7TnEuClTteoy+qI=;
- b=vXMFYma771jYbppkRx9z4sc/JkVmJvBtrsPtZ5ap0oieVPlln0VVtCHaUv3V1bauH1
- 5Y0CQcDVcj2POGXAXup+wKp55bwlBw8WsMc3NWOG178aVvMDUIF3LvmFx65Kyy6G/m86
- YyjC8EZ0NIB3sMAsMndGKAZ5sDXO2+6gTXVkFVfSVoTXxXo1okiLDpXRaMdeeWKRYIxU
- Vd5DbyC41pn7ecAEKs00d59X2Fu23GsaYmkO+RoeMvMwnfudXXwxEFcq6LwwJufIRqRj
- GGvJVKHGeVYAXeDWGcJd2/g+PHI3c5vB+ezvt5ZNEBaHSXBWl6XqMxHx6FiJf4/xnu0r
- wyKA==
-X-Gm-Message-State: AOAM5331vhsn7CFtjhVp65D9FJCAxtUYJCpGPbvEsz5Oxk/K/J+w9VMp
- bCjSg9DI4f9yrWrJ8knQXA8OKtxmdt/tD9hHyZ+GsDWN+YM=
-X-Google-Smtp-Source: ABdhPJwPw8jFhUlGOroYyzAMGOrWBCkJypBlZn//O+7ZtQdDWM0D6LpkEi2VMyUEjPbLEZCd+AQhTQeVLI3Q18ByDY0=
-X-Received: by 2002:a17:906:b18e:b0:710:26db:7a53 with SMTP id
- w14-20020a170906b18e00b0071026db7a53mr10185146ejy.290.1654466568353; Sun, 05
- Jun 2022 15:02:48 -0700 (PDT)
+ bh=EvdrzNnwpDnDn9YN3OQw+McxNhWHrslS9QPN5TMLp4w=;
+ b=H+9Q4OQ93apJ7kbqlImHgZRIHcW9SlplKk2zBpxpikuuuxtxZtvAhue6bI+B3iwTXp
+ JF85H6qzzHPjY94kvSdpZJcT2P3F5CTyYuiZMtrhH1ozkLqPTIFBZjnxrfvKF4cb6Ye2
+ vh1fWl0a2YLsrAqjg05/Vsme1No7CAq1hvvNQnJ3zs0f+0TxsfMrIW9jOKupcRR4f/q2
+ uEJp8SKN+99d0FVqoO5CC/+Gxa+d1eOpjwBhWcrd/sgxKD7KEqALsy3F+mFhmeEximMx
+ 9FNl/yRNnYnt8seccWtyxMgK4K+sfq2S46OkZXj7tc2o3XLxDXm/ffzJPYATR6Y+80b7
+ N+mw==
+X-Gm-Message-State: AOAM532e2/yu4aCdXrUVe5s21StBw34glGDSICLhUIsVvgfAIUwlp6pB
+ Pa6ZIOzDJX4sLgie5eyRJUBb5WQCHzVJlSZ+QQk=
+X-Google-Smtp-Source: ABdhPJyum2q6NTjWpptCxZaYoHpCsIXUQommOK3UQGv2TUoY11eOyZCV12TIf8OGUqFO9UJM26QCVQsp7K7VJczHj2I=
+X-Received: by 2002:a17:907:1b19:b0:6f0:1022:1430 with SMTP id
+ mp25-20020a1709071b1900b006f010221430mr19174262ejc.13.1654466831106; Sun, 05
+ Jun 2022 15:07:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220601033927.47814-1-linmq006@gmail.com>
- <20220601033927.47814-2-linmq006@gmail.com>
-In-Reply-To: <20220601033927.47814-2-linmq006@gmail.com>
+ <20220601033927.47814-3-linmq006@gmail.com>
+In-Reply-To: <20220601033927.47814-3-linmq006@gmail.com>
 From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Mon, 6 Jun 2022 00:02:37 +0200
-Message-ID: <CAFBinCAkdRrk+EcZvFFiGEU3r9QtKfxYEPgpkn-HtRmBdwRSmA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/meson: encoder_cvbs: Fix refcount leak in
- meson_encoder_cvbs_init
+Date: Mon, 6 Jun 2022 00:07:00 +0200
+Message-ID: <CAFBinCCS2ypuv8jWCyhTVruGJTUfq394CySDDaXExHq4R526rQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/meson: encoder_hdmi: Fix refcount leak in
+ meson_encoder_hdmi_init
 To: Miaoqian Lin <linmq006@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,20 +75,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hello,
 
-thank you for your patch!
+thank you for working on this!
 
-On Wed, Jun 1, 2022 at 5:39 AM Miaoqian Lin <linmq006@gmail.com> wrote:
+On Wed, Jun 1, 2022 at 5:40 AM Miaoqian Lin <linmq006@gmail.com> wrote:
 >
 > of_graph_get_remote_node() returns remote device nodepointer with
 > refcount incremented, we should use of_node_put() on it when done.
 > Add missing of_node_put() to avoid refcount leak.
 >
-> Fixes: 318ba02cd8a8 ("drm/meson: encoder_cvbs: switch to bridge with ATTACH_NO_CONNECTOR")
+> Fixes: e67f6037ae1b ("drm/meson: split out encoder from meson_dw_hdmi")
 > Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
-As far as I can tell this patch is identical to the one from v1.
-Please keep my Reviewed-by from the previous version in case nothing
-has changed for this specific patch:
 Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+
+Note to self: at first I thought the following code needs to be changed as well:
+  notifier = cec_notifier_conn_register(&pdev->dev, NULL, &conn_info);
+  if (!notifier)
+    return -ENOMEM;
+But a few lines before this we already have:
+of_node_put(remote);
+Meaning: this patch is fine as is.
 
 
 Best regards,
