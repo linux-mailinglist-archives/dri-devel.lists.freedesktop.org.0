@@ -1,55 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB0753DEA9
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 00:38:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8583653DF05
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 01:57:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C82C610E42B;
-	Sun,  5 Jun 2022 22:38:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF6FA11ADF0;
+	Sun,  5 Jun 2022 23:57:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
- [209.85.160.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C442510E09B;
- Sun,  5 Jun 2022 22:38:34 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id p8so9318017qtx.9;
- Sun, 05 Jun 2022 15:38:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2o4Si/ESwdinfrZMz9nTD0LmxXF7OLAHry8I5SkRmG4=;
- b=3G+Xa0wAtbRQa7fMfwtPMs7hbcZ1BdqIByplSJ3AAcdCKy+KSUe6bPN+WiH7tjjiev
- zxrlAS4zLqPOlvaJLlgnXZuEvD/Bwxh7YZtNyisKF1N1hcgAUczCjNO7WMtPVBdrARmz
- egtsXorQhF37gw3HbbUtfXrxq2XQrE2wmHvBu5EoM/x6HPf3ceLnYN3IgLyiOlN/x6Do
- DRsICXrpWLUPjtIzZSoMuuUJFZ/mPrDSuTx3iv8AK4UQINZt35dOUNEgSNt+EjdY+Go0
- KHoddY7aGPEVnARgqgwjY9mQ9QYXfaG48jOFR7Gb/XIGQFTMNbnwbePbnjdRQfvcvOFs
- z4nw==
-X-Gm-Message-State: AOAM530JYYvni1UFd5bPOQvbX8FYNEPC0TuwY7W2Kuh8sZICsjZgvfdW
- AzMWRwk4FKmkLWeRNb+5RQ==
-X-Google-Smtp-Source: ABdhPJzSKRDnrny8BKo9He5QTFTcAXpqrnhpYOyi4zRLtD4q9a2RlGz5Mr2RHgWmvJf67C+lU0kTdg==
-X-Received: by 2002:ac8:7d49:0:b0:304:e4ce:3345 with SMTP id
- h9-20020ac87d49000000b00304e4ce3345mr7305436qtb.508.1654468713846; 
- Sun, 05 Jun 2022 15:38:33 -0700 (PDT)
-Received: from robh.at.kernel.org ([2607:fb90:1bdb:2e61:f12:452:5315:9c7e])
- by smtp.gmail.com with ESMTPSA id
- w184-20020a3794c1000000b006a098381abcsm10168131qkd.114.2022.06.05.15.38.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jun 2022 15:38:33 -0700 (PDT)
-Received: (nullmailer pid 3657152 invoked by uid 1000);
- Sun, 05 Jun 2022 22:38:30 -0000
-Date: Sun, 5 Jun 2022 17:38:30 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krishna <quic_mkrishn@quicinc.com>
-Subject: Re: [PATCH v1] dt-bindings: msm: update maintainers list with proper
- id
-Message-ID: <20220605223830.GA3657088-robh@kernel.org>
-References: <1654166998-14907-1-git-send-email-quic_mkrishn@quicinc.com>
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CB9E11ADF0
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jun 2022 23:57:29 +0000 (UTC)
+Received: from [192.168.1.107] ([37.4.249.155]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MryGj-1nS1Pp1O9l-00nvpx; Mon, 06 Jun 2022 01:57:20 +0200
+Message-ID: <3f2b686d-f92d-5cb5-1cd3-07f4e3d6df94@i2se.com>
+Date: Mon, 6 Jun 2022 01:57:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1654166998-14907-1-git-send-email-quic_mkrishn@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Content-Language: en-US
+To: Peter Mattern <pmattern@arcor.de>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Subject: drm/vc4: module dysfunctional on Raspberry Pi 3B as of 5.18.0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:HLDc28bkKiq5K7HhY3atyVW1GKaWXUY70YoLFcchrq6ZHcCK9X3
+ VbRUQlQOzP9Wc2cOOuoYZ8cE6K5oAPArwckngh8fa4ZifjXXORToXb3FUjU6KcH+9mQSNRv
+ cMpT1NZKgbm96/wb331+JKEKLJtYPlD4IEE65S4NvO2hLwKnjgFriA0RiA5VRu387/Kjdyb
+ QnBG/baYKglFgHAj815pg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UmJ43Ns0SNw=:Sibl/Lg/8Thuxf8q23Ckg+
+ 3yP4kGom88tg6Z3SYR1LumAsj806lZV5282mQ1o/CspIdsxNBxkGLoL7WBIikRrMenBsuSDk8
+ 7J7AmgjuHWJovD0q5FX8tFi8WVnFEW/wSUKHqOtoLfd6vUlgH08AtbLarEMW6eR0dn8UM/1bK
+ 0UZX/VFue81q8/jYcSRGY6pEBpPBmTGS7fZi/gWb51muhviVBdPELt6uXzq801u++dgSfjTmP
+ odKOtBWnQCbNpNMiVkR/WN6A3qa9Og+WV8EXeZ9WnQHKdLpqtk4yiFJ+JVX+PYxwJ7liAviqz
+ tTxSj3vXB1yROMGcZpSncvDoFwWYVWuUTnhla52K8uZ0Ub4Cueq6JQLGPjDIdMYv29I0XOXDB
+ 0k9o6ebVIS+1ltuYQm42IhITVyO5G9aCdYfNM0GDc4cobAEwNJUhNQL+PblY/h/rHh5fVtCT/
+ atUD4W6VQbPsKhai93Jx3esKHD/m83Tdxy0v4gY80TeAThfwIiW/l/sX6BbXdlpft7s3p5zcg
+ iE7VvkW4xz6nYAXH2k9S7g5wMs5LLR9GZq6aaPAUJKUuDqbKcsEdJTLq5wIKqkYf+BkUrnQi/
+ 4sAruskKR6yUJBwxZLJhN9NqMrv/fm0RgYllr8uO3ypJ9sX/LzPfXfGPlY2Yl1rujli7eNPdp
+ OiujXpwBQl7Imgomx19Nzw7uHcSQEYWnHLBuzvpmNbluP7+tW81gMacrQWrP2xpJlVxLxsVV0
+ h81xHQW59SSvGJxtEgDbz9DjLg3rcFhJsWHXIsUiFjR0dtf/vh33+Z6uxyk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,31 +55,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- freedreno@lists.freedesktop.org
+Cc: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 02 Jun 2022 16:19:58 +0530, Krishna wrote:
-> From: Krishna Manikandan <quic_mkrishn@quicinc.com>
-> 
-> Use quic id instead of codeaurora id in maintainers list
-> for display devicetree bindings.
-> 
-> Signed-off-by: Krishna Manikandan <quic_mkrishn@quicinc.com>
-> ---
->  Documentation/devicetree/bindings/display/msm/dpu-sc7180.yaml          | 2 +-
->  Documentation/devicetree/bindings/display/msm/dpu-sc7280.yaml          | 2 +-
->  Documentation/devicetree/bindings/display/msm/dpu-sdm845.yaml          | 2 +-
->  Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml | 2 +-
->  Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml        | 2 +-
->  Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml        | 2 +-
->  Documentation/devicetree/bindings/display/msm/dsi-phy-20nm.yaml        | 2 +-
->  Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml        | 2 +-
->  Documentation/devicetree/bindings/display/msm/dsi-phy-common.yaml      | 2 +-
->  9 files changed, 9 insertions(+), 9 deletions(-)
-> 
+Hi Peter,
 
-Applied, thanks!
+i didn't subscribe to dri-devel, but i noticed your bug report.
+
+Could you please provide more information:
+
+Which kernel config do you use (is it a defconfig)?
+Do you use the mainline device tree blob or the Raspberry Pi DTB?
+Please provide the version/date of the GPU firmware?
+Do you have any KMS related setting in the config.txt?
+Can you provide a full dmesg for the bad case?
+
+Best regards
+
