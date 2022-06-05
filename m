@@ -2,132 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CF753DCA0
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Jun 2022 17:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD4F53DCA1
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Jun 2022 17:48:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2EC511AB5B;
-	Sun,  5 Jun 2022 15:47:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A761A11211F;
+	Sun,  5 Jun 2022 15:48:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2082.outbound.protection.outlook.com [40.107.92.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B573A11AB5B;
- Sun,  5 Jun 2022 15:47:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZvVjrln8EaawKcfusHHs25k/SMIgK2huSnexSkk0lBud+AdgEHfTl8+Wj9kHdB6Tn/efXPf/1KsBCkax5sMXRXCqi/sjaBEDxEITzRw3IrGu9nmYaO3mn6gYia11/FvZ8Gh8gHpqllqlF/+QExK939/0koQdt0FFCSkpu0P9xXwQzf3LyMdxE58PjI6z5tMHWn1V9f8kYGOmFFUNSoqyjCDZZoNV1QsWelL3geBNekOazjE9yZOskqQ2WailfxhLVj/1roty4ijt9rk81KTd1zKFgPziUCG23v57bk+cGv5itash3h8WC2XjaPDHg/D5nO7JoqX3GJOcaqvpxwa5+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u5urEgmfwKlOeC1rfWKCfvKrEarIzHFtt1Eyiw6dxaA=;
- b=DU8ons0QDyJJ74cpVCO3/ghdlkuXggfkmRi+/EmOyoJwvAl6Ia5zZVoJurk1Q0I6BwDNTNWZU+j7fKgtuzFlL3Eriv6HhslTmnwqA+9aDyi8BlUe7BNi8rMJv25RN5s9GBBSkujd8/ge3KMXhoNNb9KpO+fKvu+8c2/1aOVICCpnMj2OQCt16w050WsLF7rY0xRqjS8V4yUjdeFppHraDgqWLdlbtECJ92Y4yOZAgb0R0fVjBS/ZiIHmWTeWmmWZ5uvYDp5p7cGSSu8Cii9SFGhjZWDmADa9pu8TSA10jGVYVcwZBPIE/W93senXp5Hlq5eWMiLumvmikmvqSBoKdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u5urEgmfwKlOeC1rfWKCfvKrEarIzHFtt1Eyiw6dxaA=;
- b=DLg7tXEEnTHBjA43qCb8/fHnLSNrHcWEcVpi9bYto8KlaV2O+EdZK5xnqweEhwoy2p+6pJEDd+XgQ9nGMf0gnwgjwPaebyJn8KfHAFHHZlNbcm5Z0BXUVPvcKB4r83S3IOVURkc8ynJCK0vz9ewJoMAvEHvn5lZ5vZ+BnqqJOhs=
-Received: from CY4PR05MB3047.namprd05.prod.outlook.com (2603:10b6:903:f4::7)
- by BN8PR05MB6244.namprd05.prod.outlook.com (2603:10b6:408:45::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.8; Sun, 5 Jun
- 2022 15:47:30 +0000
-Received: from CY4PR05MB3047.namprd05.prod.outlook.com
- ([fe80::10c6:987:f526:83aa]) by CY4PR05MB3047.namprd05.prod.outlook.com
- ([fe80::10c6:987:f526:83aa%3]) with mapi id 15.20.5332.009; Sun, 5 Jun 2022
- 15:47:29 +0000
-From: Zack Rusin <zackr@vmware.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
-Thread-Topic: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
-Thread-Index: AQHYdpeKjA+fIeSl9UGD1Oezsoj+Fa09u26AgAADaYCAAAGbAIAAAasAgAAE/ICAAAXJgIAAAWOAgAACrgCAAATmAIAALVWAgAJrx4CAAIr7gA==
-Date: Sun, 5 Jun 2022 15:47:29 +0000
-Message-ID: <40CAE3E3-9C74-4DC3-B0FD-8F00C7C29291@vmware.com>
-References: <20220602154243.1015688-1-zack@kde.org>
- <5Et1VowGX_0a0i5weC4YVMX7bhGDU45hQyiv4CjqyxQStY1CSUJs-xamBowRO8go8yCk1l_jgKmM_OrMB0Fdx166545AX5nL09NGsEYaBs0=@emersion.fr>
- <06E05345-758E-456A-803D-B50978A935CA@vmware.com>
- <wgIEdQpY_K8Qlq_xWBLy4DHOGwKi0P2c8a5dnTXM4dKOsA2hydYyT9DC6T1ldVZmi_mduaTPi4fnidg1msOofUUKkbnal0-Vv3VuTnfZh0s=@emersion.fr>
- <E53D9148-350D-4430-B4EF-689BBC1A9506@vmware.com>
- <GWQv37zd56Jok0LiKDGflZUSaHMYyk9Uad7M6-6-gqjeUGoT5dJOfsB9XDS4UuVEcZSI34GOTFa4XA0Cf2A1sGNhvbIsE16V7CyhxFne0d4=@emersion.fr>
- <00204913-BCF7-4D42-856D-675342B2B3E9@vmware.com>
- <GpX_UKNDfd2A3OuFfb9ga63xIKRP4vKVT2HTWBRw9mX0gsN743hR9bmx4be0OMukhdVmh0p3djW7Zj-ECCr4Q5-NRiPbWMLWAnTiZaPQVMU=@emersion.fr>
- <1E185B64-591E-47A5-A4D9-55E1BC3105CC@vmware.com>
- <VdFbe3wmVv8sSzgW8rsWsOaP3vTRyGGs86yIrHzf95_hCzy2ZNc90dY1TNUcVCo6057K1hsY0y_kVoFRfZ23hgUKMIpSoRAh5MAh5RmBUZI=@emersion.fr>
-In-Reply-To: <VdFbe3wmVv8sSzgW8rsWsOaP3vTRyGGs86yIrHzf95_hCzy2ZNc90dY1TNUcVCo6057K1hsY0y_kVoFRfZ23hgUKMIpSoRAh5MAh5RmBUZI=@emersion.fr>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.80.82.1.1)
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vmware.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a2b70df8-633b-4a06-91e9-08da470ab2a1
-x-ms-traffictypediagnostic: BN8PR05MB6244:EE_
-x-microsoft-antispam-prvs: <BN8PR05MB6244AA033216C27B3B466F77CEA39@BN8PR05MB6244.namprd05.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4aJ6tW3ZOEDuy7DxlE4+43iejKkpfOaFrV9s5gNsQ0RJXtxm2cfKjQDQX/wbA2ocBIMZJJZNZEnW41sGr5D18DO36g0B7Q2jOgDMaQki9g29QyCwwIS5La2wydLv8tO4+us39/dnkcW2jOlSDaEdNfubt/dS36y9mMpntBMizedAUc7oNX+Eh6eCNW/dyuxx8CeRy94JahpnxBYJIoNyFs9a0EshI5Yrh2fIZE9yyxpLxv7+lFMl5TqaqvQ6pqdHvKMUXX2kfEgU++AYLtmE9lBcF5REjMIN/NRw9liX4ZOVdTDOvXTfza5zQB1pT1mucUVHUPW5ljBmZyoVTgQLed+4FAKAHLPXUo0lyRZOKYk8WTOT5BTyiJ2eF/eADIJiAOv5zu96ol+bxOTMObIDnXE4OyDtU7eJQkvwi493v5hxKZT2YOKRzOQivAhxXmg0fEyGA0VQjeiEFmh7ObvbrSvWCUzUHuo0z/S4ureo2dlT4D/iOXH1HFO2KvLvvomdL5sNbOp/R3LdWQi2lO75MFOq3hfagoGsqSoQHD8MGUWr9Bu6EsD/wxLU/0PAX7LyI+wIaYAqbD7+XAlLuXweCV9sG4Lw80Uykh13fX6Eiv11qeEqvu4uyBiCCnYMGfkXYYbDglYGGMBnlhbQDnRrUAK+JxWLnquvbSVlvOVptr4beLzdnaad0kItgJ6QNs0MFFfWic/p8Oerp/NjC1N2fHc3dLyFIHdU8CDKyCwfPEhGr2HrBJymUk1WwxQRXJpCsxDsQTOy3EtnEl0t3+7mYfqH5+QKwftPXPrunscCbnVblvOEZWO4Fa0WQwNiLt4T
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR05MB3047.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(38070700005)(64756008)(8676002)(4326008)(91956017)(5660300002)(66446008)(66556008)(53546011)(66476007)(6512007)(86362001)(66946007)(71200400001)(45080400002)(966005)(26005)(76116006)(6486002)(2906002)(8936002)(6506007)(508600001)(36756003)(33656002)(316002)(38100700002)(186003)(66574015)(6916009)(2616005)(54906003)(83380400001)(122000001)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VGRzaVdHMkQ4QmxwSHAxL202SXROcHgvYWdJR25oZi9sOVBnOW9ITklpM1R2?=
- =?utf-8?B?MjlLZ05YZG5PV3F0TG5FSUZlc2daYmovbEg0M1lqZWUrQ25DQUJOQnNzdDBR?=
- =?utf-8?B?VGhzL1JvakZmTW4zN21BTjVvRWFXUUhGQi9NVFRGdVRoNC9PSWp3VHdnT2xK?=
- =?utf-8?B?bm1UWVZKb2tPU3NScDdRakFTQ3hjNE8vQWdud00vSXdMZlVDRWNWM2VpWUZ6?=
- =?utf-8?B?N29BK2xJcy9GL3lSRjB6U3ZLeHk1SUZOSGRGYjFDMWsvVmZoS1J2eXdYSkdF?=
- =?utf-8?B?SkFRcWtyWlBXRFBiMkM4QVZySFhJQk1RTnZNN1JRQTYwTVdySXBMNkpxYU9H?=
- =?utf-8?B?RGdubzAwTmRLbHRNRDdSbXhJQ1JoMENOQnV6djVGOGh1SEFSRVNFMlRjU1Rl?=
- =?utf-8?B?TWorODRiSjBxWGVCSUxhWVo0TkJjQXlaOUlRL1IzVnVlbFlXMkJDV3I4Q1dy?=
- =?utf-8?B?VzhsdHdQWXNEbi8yUmQwSGdHS2czcVRFSFVrZm5kalhZSGNxTjE1eG4rOTNF?=
- =?utf-8?B?UTM0TTdYK0dBL0M5K1gzT2NIVjl3UlhTTjZxWldhQms4WHpseWpPZFh2Q2lJ?=
- =?utf-8?B?dGRDTndFWU8zMm5Ha3BiZU5VU1BLbURNZzRUWGpWTHFlZ1ByNXliTDFqY1Aw?=
- =?utf-8?B?OTFHK1pCeFFlcDJHanU2eGY1a1UrajNWejY0WGF6TUNvakFMK2tNalppMUdi?=
- =?utf-8?B?NnRqOURZTzhwWnZxU2l4c0JzUzNOb1Y1NENpbXRudTRVSGpwMml4SGVPUE1T?=
- =?utf-8?B?cEZLREFuaWRyM05XNXZPb25mR2t2UkRLZTh2cmFUa2M3ODFzbnRpK1JoNkZn?=
- =?utf-8?B?eEUybStieFpHYzNmT1FxNWFWR2FwNTkxNVVRWjRQQVVacWZrQ0lYMTBxVTA0?=
- =?utf-8?B?Z3FPWEN2bWEzL2JQS2t1VGErakJBUzE0T2Y5enl1dGZFdU5pd0V4VXFpczk2?=
- =?utf-8?B?Y2Zwb21kZlN3elpEamxvd2dWeWF3LzExNlE3UE01L1hsUWdMZWJUcHpLWlB2?=
- =?utf-8?B?YlRheW55dlhtWVJQVXhGMnhTTmgwQTl4NGJ1TG8yTnFSNktJZVZHZzExQnd2?=
- =?utf-8?B?dm5DK0FORG9kMlNjNlE3Z2poV01LTVk5RGxZSWpWZXVSNGlzczZBYXIzTU15?=
- =?utf-8?B?L250RkZDYkFqTkVVbzRPdFJ1Z1N6Ri9JOVp3Y0s2YTFUUUlkQVFWL2RaQTdn?=
- =?utf-8?B?S3NnWTE2S3czN2tNdE1DZWlGSjlzdWtreGlXZ0JtYS9iS3NLMThXcVdGSDE2?=
- =?utf-8?B?dnFrNDVFWXNQNVByMmV1T0hTREI4eEdHc2dmUFE4bWJyKzJES240WHpNQVg0?=
- =?utf-8?B?ckRlSVg2T2ZzVXM5Tkg4KzF3ZWIrOVBNbkhObE9qaDJEdTZzcld0T1NLbE9y?=
- =?utf-8?B?cnFXMHNPOG94TVBpZTh4aG9YRXE2L3h6WDVSRnBua1pHanhib3BDK2JnQkNQ?=
- =?utf-8?B?bStEcWpEUEZERXZwYmZzOGJ1ZUE3NG5obi9RTERWTVlMTERUN3VacUxQTHZh?=
- =?utf-8?B?Q1FKckQzQnNFeDYzMnNxRCt6aEs0RjkyeWUrcy9CMlZYK2lmQTJIUHYrVVF1?=
- =?utf-8?B?YmRGZ2hXSlJ5MWN5a1c0OVVFT0VBb0tLMUlOWGFkNDVCdWo1UGV6ZWxMelQ5?=
- =?utf-8?B?RFF5QkxHcHB4QXpicVNJeHMxbFd0VkN6WURsTEJWWTFiaUxUNzVUeEtRYUNG?=
- =?utf-8?B?WTh1VDJFL2NHb1JZM3BGNWg1Q0ozQTJ0aWc5aWd6cTBNVnVLOVZsNFd2bzRZ?=
- =?utf-8?B?b0d4VEZZcXNrOEhLZW5rV0dML09uY0pMZlhndHJXMXl5RUdDcFV0NTFLRE5K?=
- =?utf-8?B?OWsrUGFpMC8zYlBRMk12aFZoR3N6MGU2czBMWG1qZ0FscVZjOUhpSmZlZ01j?=
- =?utf-8?B?V20zbThqWE1tSU40YlZqZmpGVzQ4bnAwVlhKcGtLWCtSK0ZQRGRXcExBL2ZF?=
- =?utf-8?B?RWo5NGJZVnZnbC95ZVZVTVJIOGpTT1J3RjhORVNmZE9ENjJRRm5FQk5YaVR4?=
- =?utf-8?B?SGpSV3RJdHhVVVRaNk9yVGg1OVBWS1EwdEgyY1JnMmlweWJLRHBSVjVsUzVv?=
- =?utf-8?B?YUNUZTFyWVJyZDlSaGVPcDNZTjFzR2pURUJSbkh4NFl1MXIzTUNoMVZpZ3NF?=
- =?utf-8?B?aUJsQ3ZQOGxhSUhTSXp2ZVc4bDRHaHVZdjE0VjB3ajRoZ0JxcS9vbTNVNStu?=
- =?utf-8?B?WWw0OXpHRVhYa1JwL2JrMEVrUkJRbDlnRGhvSzBkWkxWcnJ5Uk92WXpPejFT?=
- =?utf-8?B?UFR3TkZPQTJyZVNUUlFmQTJWc1JsUkdvdHVOSGxVQWVWd3NzYU9vZGE2VG52?=
- =?utf-8?B?Slplblo5VmkyRVhXNHlQbXBvR09zQ0J3U0hESllqRkJzTHcwbjgyZz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <37DA7435051FED439738D6F65D40AC00@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1079389CF6
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jun 2022 15:48:31 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id kq6so11649284ejb.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 Jun 2022 08:48:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gSYeiZ7oUoMxWDDyeJI1yXrT7W0Sy61MVFDPsaXV1bw=;
+ b=WOYvsyocINozIHqGcfRiCpnuqcO4IrGyPzXIEjOe29K935TN4PJbwbDyoTUny9WQNQ
+ RUWn5k0OHVPlgc992Cpzpl/gY0yIi0g8DJJZDwK8NK/5Bv6Pt6jrnlR7PTDrEpKU7964
+ FA2bfzY4YtAXFUElGKZCogRhqQblkOhzz+iAJf3P1zfYmniTa8XTJDV1UEJ7EsWcP+2c
+ 2WhZXCQo7rJ7/UzNeE2xCP+kk57+BwRW6XITzWGxorfiha4lNPtIEp5QUQj5C040yX7w
+ SkbngIF9Lcdj6n0UtEwcfab39l9n0sOabxeSy2IyL00bdzBV5L68pShN/lrcYqTzfhoI
+ FPfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gSYeiZ7oUoMxWDDyeJI1yXrT7W0Sy61MVFDPsaXV1bw=;
+ b=3GsUmx40NzdfO/THlWp7nbnL1NINEdhM7FK+JjwRImFouy2/gLAqVVbbAKjviUFVbQ
+ TcmpCYvKRWMG7ulqHFofnEXIp6O7T35bnX5xTumPOQx0wdCSZoezyGOgpReACqehazdx
+ +H/1skVntyfofVmmK5p77srqeK6YUxAESzC1WQdBOK9Uts8tk4NQOYNfnKlQQS5SaW8r
+ Ko87uObe9EktbgkKAlfyBUBD2iE5UAjmxcfPWpIjhE82xaIfRSUf7Og80gKcXVlvcazX
+ 0rNDBtffyymjcV5NahHpUvrTTV5S5Empnim/UcVTBJrtQdPKz2kS5zQ6n+UuK25YyaJo
+ 4weQ==
+X-Gm-Message-State: AOAM532xzGQ75qQDD6D5CWosUQdwuw7pxZJfRXIRUrQbPrWc448xeJeX
+ E0W1AZ88UQtet4Zu0GDJdyk=
+X-Google-Smtp-Source: ABdhPJyvaw+jUONXuZAqYG6ccuSBvU2Jo+1Jj8wzG47cJpWoDIljKct9zXPGtXnTQqA2gDZU9TFoIg==
+X-Received: by 2002:a17:907:3d8a:b0:710:c2e8:79f2 with SMTP id
+ he10-20020a1709073d8a00b00710c2e879f2mr7042974ejc.577.1654444109397; 
+ Sun, 05 Jun 2022 08:48:29 -0700 (PDT)
+Received: from orangepi3.mydomain.example ([195.234.74.2])
+ by smtp.gmail.com with ESMTPSA id
+ y24-20020a170906071800b006feed200464sm5329004ejb.131.2022.06.05.08.48.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 05 Jun 2022 08:48:28 -0700 (PDT)
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+X-Google-Original-From: Roman Stratiienko <roman.o.stratiienko@globallogic.com>
+To: mripard@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+ airlied@linux.ie, daniel@ffwll.ch, samuel@sholland.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, megi@xff.cz
+Subject: [PATCH] drm/sun4i: sun8i: Add support for pixel blend mode property
+Date: Sun,  5 Jun 2022 15:47:31 +0000
+Message-Id: <20220605154731.17362-1-roman.o.stratiienko@globallogic.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR05MB3047.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a2b70df8-633b-4a06-91e9-08da470ab2a1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2022 15:47:29.8055 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /K4L9YA84HXi/f15MXwNnFCOcl+QAthxx6pmi+1oe0Bc8S1QsCqxXe4Ds6IKY3EKLZqxkSjiwKyByV4EsZT5Zw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR05MB6244
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,138 +71,262 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Krastev <krastevm@vmware.com>, David Airlie <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, Pekka Paalanen <ppaalanen@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- wayland-devel <wayland-devel@lists.freedesktop.org>,
- Maaz Mombasawala <mombasawalam@vmware.com>
+Cc: Roman Stratiienko <roman.o.stratiienko@globallogic.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gT24gSnVuIDUsIDIwMjIsIGF0IDM6MzAgQU0sIFNpbW9uIFNlciA8Y29udGFjdEBlbWVy
-c2lvbi5mcj4gd3JvdGU6DQo+IA0KPiDimqAgRXh0ZXJuYWwgRW1haWwNCj4gDQo+IE9uIEZyaWRh
-eSwgSnVuZSAzcmQsIDIwMjIgYXQgMjA6MzEsIFphY2sgUnVzaW4gPHphY2tyQHZtd2FyZS5jb20+
-IHdyb3RlOg0KPiANCj4+Pj4+Pj4gTXkgcHJvcG9zYWwgd2FzOg0KPj4+Pj4+PiANCj4+Pj4+Pj4g
-LSBJbnRyb2R1Y2UgRFJNX0NMSUVOVF9DQVBfQ1VSU09SX1BMQU5FX05PX1BPU0lUSU9OIChvciBh
-IGJldHRlciBuYW1lKS4gT25seQ0KPj4+Pj4+PiB1c2VyLXNwYWNlIHdoaWNoIHN1cHBvcnRzIHRo
-ZSBob3RzcG90IHByb3BzIHdpbGwgZW5hYmxlIGl0Lg0KPj4+Pj4+PiAtIEJ5IGRlZmF1bHQsIGRv
-bid0IGV4cG9zZSBhIGN1cnNvciBwbGFuZSwgYmVjYXVzZSBjdXJyZW50IHVzZXItc3BhY2UgZG9l
-c24ndA0KPj4+Pj4+PiBzdXBwb3J0IGl0IChXZXN0b24gbWlnaHQgcHV0IGEgd2luZG93IGluIHRo
-ZSBjdXJzb3IgcGxhbmUsIGFuZCBub2JvZHkgY2FuDQo+Pj4+Pj4+IHJlcG9ydCBob3RzcG90KS4N
-Cj4+Pj4+Pj4gLSBJZiB0aGUgS01TIGNsaWVudCBlbmFibGVzIHRoZSBjYXAsIGFkdmVydGlzZSB0
-aGUgY3Vyc29yDQo+Pj4+Pj4+IHBsYW5lLCBhbmQgbWFrZSBpdCBzbyB0aGUgcGxhbmUgZG9lc24n
-dCBoYXZlIHRoZSBDUlRDX1gvQ1JUQ19ZIHByb3BlcnRpZXMNCj4+Pj4+Pj4gc2luY2UgdGhlIGRy
-aXZlciB3aWxsIHBpY2sgdGhlIHBvc2l0aW9uLg0KPj4+Pj4+PiANCj4+Pj4+Pj4gVGhhdCB3YXkg
-Ym90aCBvbGQgYW5kIG5ldyB1c2VyLXNwYWNlIGFyZSBmaXhlZC4NCj4+Pj4+PiANCj4+Pj4+PiBJ
-IGRvbuKAmXQgdGhpbmsgSSBzZWUgaG93IHRoYXQgZml4ZXMgYW55dGhpbmcuIEluIHBhcnRpY3Vs
-YXIgSSBkb27igJl0IHNlZSBhIHdheQ0KPj4+Pj4+IG9mIGZpeGluZyB0aGUgb2xkIHVzZXIgc3Bh
-Y2UgYXQgYWxsLiBXZSByZXF1aXJlIGhvdHNwb3QgaW5mbywgb2xkIHVzZXIgc3BhY2UNCj4+Pj4+
-PiBkb2VzbuKAmXQgc2V0IGl0IGJlY2F1c2UgdGhlcmXigJlzIG5vIHdheSBvZiBzZXR0aW5nIGl0
-IG9uIGF0b21pYyBrbXMuDQo+Pj4+PiANCj4+Pj4+IE9sZCBhdG9taWMgdXNlci1zcGFjZSBpcyBm
-aXhlZCBieSByZW1vdmluZyB0aGUgY3Vyc29yIHBsYW5lLiBUaGVuIG9sZA0KPj4+Pj4gYXRvbWlj
-IHVzZXItc3BhY2Ugd2lsbCBmYWxsYmFjayB0byBkcmF3aW5nIHRoZSBjdXJzb3IgaXRzZWxmLCBl
-LmcuIHZpYQ0KPj4+Pj4gT3BlbkdMLg0KPj4+PiANCj4+Pj4gQnV0IGl04oCZcyBub3QgZml4ZWQs
-IGJlY2F1c2UgdGhlIGRyaXZlciBpcyBzdGlsbCBvbiBhIGRlbnktbGlzdCBhbmQNCj4+Pj4gbm90
-aGluZyBpbXBsZW1lbnRzIHRoaXMuIFlvdeKAmXJlIHNheWluZyB5b3UgY291bGQgcG90ZW50aWFs
-bHkg4oCcZml44oCdIGJ5DQo+Pj4+IGltcGxlbWVudGluZyBjbGllbnQgc2lkZSBjdXJzb3IgaGFu
-ZGxpbmcgaW4gYWxsIGttcyBjbGllbnRzPyBUaGF04oCZcyBhDQo+Pj4+IGhhcmQgc2VsbCBpZiB0
-aGUgdXNlciBzcGFjZSBjYW4ganVzdCBwdXQgdGhlIHZpcnR1YWxpemVkIGRyaXZlciBvbg0KPj4+
-PiBkZW55LWxpc3RzIGFuZCBmYWxsYmFjayB0byB1c2Ugb2xkIGttcyB3aGljaCBzdXBwb3J0cyBo
-b3RzcG90cy4NCj4+PiANCj4+PiBXaGF0IGRlbnktbGlzdCBhcmUgeW91IHJlZmVycmluZyB0bz8N
-Cj4+PiANCj4+PiBBbGwgY29tcG9zaXRvcnMgSSBrbm93IG9mIGltcGxlbWVudCBhIGZhbGxiYWNr
-IHdoZW4gbm8gY3Vyc29yIHBsYW5lIGlzDQo+Pj4gdXNhYmxlLg0KPj4gDQo+PiBJIHB1dCB0aGUg
-bGlua3MgaW4gdGhlIGZpcnN0IGVtYWlsIGluIHRoZQ0KPj4gc2VyaWVzOg0KPj4gaHR0cHM6Ly9u
-YW0wNC5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJG
-Z2l0bGFiLmdub21lLm9yZyUyRkdOT01FJTJGbXV0dGVyJTJGLSUyRmJsb2IlMkZtYWluJTJGc3Jj
-JTJGYmFja2VuZHMlMkZuYXRpdmUlMkZtZXRhLWttcy1pbXBsLWRldmljZS1hdG9taWMuYyUyM0wx
-MTg4JmFtcDtkYXRhPTA1JTdDMDElN0N6YWNrciU0MHZtd2FyZS5jb20lN0MyYjBhYjZjNjdlN2Q0
-YmZiNjE4YTA4ZGE0NmM1Mzk0ZiU3Q2IzOTEzOGNhM2NlZTRiNGFhNGQ2Y2Q4M2Q5ZGQ2MmYwJTdD
-MCU3QzAlN0M2Mzc5MDAxMTAxNTc3MTIwNDQlN0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lq
-b2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4w
-JTNEJTdDMzAwMCU3QyU3QyU3QyZhbXA7c2RhdGE9d2dnSmFOU2NGMHppSUclMkJmU2RTVUtCVlpH
-b05qdG00UThhbVM3U2JKYSUyRlklM0QmYW1wO3Jlc2VydmVkPTANCj4+IGh0dHBzOi8vbmFtMDQu
-c2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRmludmVu
-dC5rZGUub3JnJTJGcGxhc21hJTJGa3dpbiUyRi0lMkZibG9iJTJGbWFzdGVyJTJGc3JjJTJGYmFj
-a2VuZHMlMkZkcm0lMkZkcm1fZ3B1LmNwcCUyM0wxNTYmYW1wO2RhdGE9MDUlN0MwMSU3Q3phY2ty
-JTQwdm13YXJlLmNvbSU3QzJiMGFiNmM2N2U3ZDRiZmI2MThhMDhkYTQ2YzUzOTRmJTdDYjM5MTM4
-Y2EzY2VlNGI0YWE0ZDZjZDgzZDlkZDYyZjAlN0MwJTdDMCU3QzYzNzkwMDExMDE1NzcxMjA0NCU3
-Q1Vua25vd24lN0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdMakF3TURBaUxDSlFJam9pVjJsdU16
-SWlMQ0pCVGlJNklrMWhhV3dpTENKWFZDSTZNbjAlM0QlN0MzMDAwJTdDJTdDJTdDJmFtcDtzZGF0
-YT0lMkJDVEVKOVh0bEk5a3VLSkpaVk1Ob2R0a1pTa1JJdjhSTjlqU1JBTTFwcU0lM0QmYW1wO3Jl
-c2VydmVkPTANCj4gDQo+IEkgd2FzIG5vdCBhd2FyZSBvZiB0aGVzZSBsaXN0cy4gSGF2aW5nIHRv
-IHdvcmstYXJvdW5kIGRyaXZlcnMgaW4gdXNlci1zcGFjZSBpcw0KPiByZWFsbHkgbm90IGdyZWF0
-Lg0KPiANCj4gQnV0IHJlZ2FyZGxlc3MsIHRoYXQgZG9lc24ndCByZWFsbHkgY2hhbmdlIGFueXRo
-aW5nLiBXaXRoIG15IHByb3Bvc2FsOg0KPiANCj4gLSBPbGQgdXNlci1zcGFjZSB3aXRoIGhhY2t5
-IGRlbnktbGlzdHMgKE11dHRlciwgS1dpbikgc3RpbGwgZ29lcyB0aHJvdWdoIHRoZQ0KPiAgbGVn
-YWN5IHVBUEkuDQo+IC0gT2xkIHVzZXItc3BhY2Ugd2l0aG91dCB0aGUgaGFja3kgZGVueS1saXN0
-cyAoV2VzdG9uLCB3bHJvb3RzKSB1c2VzIHNvZnR3YXJlDQo+ICBjdXJzb3JzIGFuZCBpcyBub3Qg
-YnJva2VuIGFueW1vcmUuDQo+IC0gTmV3IHVzZXItc3BhY2UgY2FuIHJlcG9ydCBob3RzcG90IGFu
-ZCBpcyBub3QgYnJva2VuLg0KDQpZZWEsIHRoYXQgZG9lc27igJl0IHdvcmssIGJ1dCBJIHRoaW5r
-IGJlbG93IEkgc3RvcHBlZCB3aGVyZSB0aGUgaXNzdWUgaXMuDQoNCj4+IEFsc28sIGxldCBtZSBw
-b2ludCB0aGlzIG91dCBiZWNhdXNlIGl0IGFsc28gc2VlbXMgdG8gYmUgYSBmdW5kYW1lbnRhbA0K
-Pj4gbWlzdW5kZXJzdGFuZGluZywgdXNlciBzcGFjZSBpbXBsZW1lbnRpbmcgc29mdHdhcmUgY3Vy
-c29yIGRvZXNu4oCZdCBmaXgNCj4+IGFueXRoaW5nLiBKdXN0IGxlYXZlcyBldmVyeXRoaW5nIGJy
-b2tlbiBpbiBkaWZmZXJlbnQgd2F5cy4gVGhlIHJlYXNvbg0KPj4gdmlydHVhbGl6ZWQgZHJpdmVy
-cyB3ZW50IGF3YXkgZnJvbSBzb2Z0d2FyZSBjdXJzb3JzIGlzIGJlY2F1c2UgaXQgbWFrZXMgaXQN
-Cj4+IGltcG9zc2libGUgdG8gbWFrZSBpdCB3b3JrIHdpdGggYSBidW5jaCBvZiBpbnRlcmVzdGlu
-ZyBhbmQgZGVzaXJhYmxlDQo+PiBzY2VuYXJpb3MsIGUuZy4gdW5pdHkgbW9kZSB3aGVyZSB0aGUg
-Z3Vlc3QgbWlnaHQgaGF2ZSBhIHRlcm1pbmFsIGFuZCBicm93c2VyDQo+PiBvcGVuIGFuZCB0aGVu
-IHRoZSB2aXJ0dWFsIG1hY2hpbmUgc29mdHdhcmUgY3JlYXRlcyB3aW5kb3dzIG91dCBvZiB0aG9z
-ZSwgc28NCj4+IHlvdSBkb27igJl0IGhhdmUgdGhlIGVudGlyZSBkZXNrdG9wIG9mIHRoZSBndWVz
-dCBidXQgaW5zdGVhZCBuYXRpdmUgbG9va2luZw0KPj4gd2luZG93cyB3aXRoIHRoZSBhcHBzLiBJ
-biB0aGF0IGNhc2UgZ3Vlc3QgaGFzIG5vIHdheSBvZiBrbm93aW5nIHdoZW4gdGhlDQo+PiBjdXJz
-b3IgbGVhdmVzIHRoZSB3aW5kb3csIHNvIHRvIG1ha2Ugc2VlbWxlc3MgY3Vyc29ycyB3b3JrIHlv
-deKAmWQgbmVlZCB0bw0KPj4gaW1wbGVtZW50IGlyYyBvciBiYWNrZG9vcnMgdGhhdCBzZW5kIHRo
-YXQgaW5mb3JtYXRpb24gZnJvbSB0aGUgaG9zdCB0byB0aGUNCj4+IGd1ZXN0LCB0aGVuIGhhdmUg
-dmlydHVhbGl6ZWQgZHJpdmVycyBjcmVhdGUgc29tZSBzb3J0IG9mIHVldmVudCwgdG8gc2VuZCB0
-bw0KPj4gdGhlIHVzZXJzcGFjZSB0byBsZXQgaXQga25vdyB0byBoaWRlIHRoZSBjdXJzb3IgYmVj
-YXVzZSBpdCBhY3R1YWxseSBsZWZ0IHRoZQ0KPj4gd2luZG93LiBUaGF04oCZcyBhIHRyaXZpYWwg
-c2NlbmFyaW8gYW5kIHRoZXJl4oCZcyBhIGxvdCBtb3JlIHdpdGggbWljZSB0aGF0IGFyZQ0KPj4g
-cmVtb3RlZCB0aGVtc2VsdmVzLCBndWVzdHMgd2l0aCBzaW5ndWxhciBvciBtYXliZSBtYW55IGFw
-cHMgZXhwb3J0ZWQsDQo+PiBwb3NzaWJseSBvdmVybGFwcGluZyBvbiB0aGUgaG9zdCBidXQgYWxs
-IHdpdGhpbiBhIGRlc2t0b3AgaW4gdGhlIGd1ZXN0LCBldGMuDQo+IA0KPiBBcmUgeW91IHNheWlu
-ZyB0aGF0IHRoZSBjdXJyZW50IGJyb2tlbiBiZWhhdmlvciBpcyBiZXR0ZXIgdGhhbiBzb2Z0d2Fy
-ZQ0KPiBjdXJzb3JzPw0KDQpUaGV54oCZcmUgYnJva2VuIGluIHZlcnkgZGlmZmVyZW50IHdheXMu
-IFlvdeKAmXJlIGFza2luZyBtZSB3aGljaCBidWdzIGRvIEkgcHJlZmVyLiBVbHRpbWF0ZWx5IHRo
-ZSBjdXJyZW50IGxhY2sgb2YgaG90c3BvdHMgbGVhdmVzIG1vdXNlIHVudXNhYmxlIGJ1dCBJIGRv
-buKAmXQgc2VlIGFueSByZWFzb24gdG8gdHJhZGUgdGhhdCBmb3IgYW5vdGhlciBzZXQgb2YgYnVn
-cyBpbnN0ZWFkIG9mIGp1c3QgZml4aW5nIGl0IChlaXRoZXIgdmlhIGZhbGxiYWNrIHRvIGxlZ2Fj
-eSBvciB1c2luZyB0aGUgbmV3IGhvdHNwb3QgYXBpKS4NCg0KPj4+Pj4gTmV3IHVzZXItc3BhY2Ug
-c3VwcG9ydHMgc2V0dGluZyB0aGUgaG90c3BvdCBwcm9wLCBhbmQgaXMgYXdhcmUgdGhhdCBpdCBj
-YW4ndA0KPj4+Pj4gc2V0IHRoZSBjdXJzb3IgcGxhbmUgcG9zaXRpb24sIHNvIHRoZSBjdXJzb3Ig
-cGxhbmUgY2FuIGJlIGV4cG9zZWQgYWdhaW4gd2hlbg0KPj4+Pj4gdGhlIGNhcCBpcyBlbmFibGVk
-Lg0KPj4+PiANCj4+Pj4gQnV0IHdlIHN0aWxsIHVzZSBjdXJzb3IgcGxhbmUgcG9zaXRpb24uIEhv
-dHNwb3RzIGFyZSBvZmZzZXRzIGZyb20NCj4+Pj4gY3Vyc29yIHBsYW5lIHBvc2l0aW9ucy4gQm90
-aCBhcmUgcmVxdWlyZWQuDQo+Pj4gDQo+Pj4gTm8sIFZNIGRyaXZlcnMgZG9uJ3QgbmVlZCBhbmQg
-ZGlzcmVnYXJkIHRoZSBjdXJzb3IgcG9zaXRpb24gQUZBSUsuIFRoZXkNCj4+PiByZXBsYWNlIGl0
-IHdpdGggdGhlIGhvc3QgY3Vyc29yJ3MgcG9zaXRpb24uDQo+PiANCj4+IElpcmMgdGhleSBhbGwg
-dXNlIGl0Lg0KPiANCj4gV2hhdCBkbyB0aGV5IHVzZSBpdCBmb3I/DQo+IA0KPiBUaGUgd2hvbGUg
-cG9pbnQgb2YgdGhpcyBkaXNjdXNzaW9uIGlzIHRvIGJlIGFibGUgdG8gZGlzcGxheSB0aGUgZ3Vl
-c3QncyBjdXJzb3INCj4gaW1hZ2Ugb24gdGhlIGhvc3QncyBjdXJzb3IsIHNvIHRoYXQgbGF0ZW5j
-eSBpcyByZWR1Y2VkPw0KDQpBaCwgSSB0aGluayBJIHNlZSBub3cgd2hlcmUgdGhlIGNvbmZ1c2lv
-biBpcyBjb21pbmcgZnJvbS4gTm8sIGl04oCZcyBkZWZpbml0ZWx5IG5vdC4gVGhpcyBoYXMgbm90
-aGluZyB0byBkbyB3aXRoIGxhdGVuY3kuIEJ5IGRlZmF1bHQgcG9zaXRpb24gb2YgYSBtb3VzZSBj
-dXJzb3IgZG9lc27igJl0IHRlbGwgdXMgd2hlcmUgdGhlIHBvaW50IHRoYXQgaXMgYWN0dWFsbHkg
-dXNlZCBhcyBhbiBhY3RpdmF0aW9uIG9mIGEgY2xpY2sgaXMsIGUuZy4gYSBtb3VzZSBjdXJzb3Ig
-aW1hZ2Ugd2l0aCBhbiBhcnJvdyBwb2ludGluZyB0byB0aGUgdG9wLWxlZnQgYW5kIGEgbW91c2Ug
-Y3Vyc29yIGltYWdlIHBvaW50aW5nIHRvIHRoZSBib3R0b20gcmlnaHQgLSBib3RoIGF0IHRoZSBz
-YW1lIHBvc2l0aW9uLCBhcyB5b3UgY2FuIGltYWdpbmUgaXQgd2lsbCBiZWNvbWUgaW1wb3NzaWJs
-ZSB0byB1c2UgdGhlIGRlc2t0b3AgaWYgdGhlIGNsaWNrIGRlZmF1bHRzIHRvIHRoZSB0b3AgbGVm
-dCwgZXNwZWNpYWxseSBhcyB0aGUgbnVtYmVyIG9mIGN1cnNvciBpbWFnZXMgaW5jcmVhc2VzLCB5
-b3UgbmVlZCBpbmZvcm1hdGlvbiBhYm91dCB3aGljaCBwb2ludCB3aXRoaW4gdGhlIGN1cnNvciBp
-bWFnZSBhY3RpdmF0ZXMgdGhlIGNsaWNrLCB0aGF04oCZcyB0aGUgaG90c3BvdC4gWW91IG5lZWQg
-dG8ga25vdyB0aGUgcG9zaXRpb24gb2YgdGhlIGltYWdlIGFuZCB5b3UgbmVlZCB0byBrbm93IHdo
-aWNoIHBvaW50IHdpdGhpbiB0aGF0IGltYWdlIGlzIHJlc3BvbnNpYmxlIGZvciBhY3R1YWxseSBh
-Y3RpdmF0aW5nIHRoZSBldmVudHMuDQoNClNvIHRoaXMgaGFzIG5vdGhpbmcgdG8gZG8gd2l0aCBs
-YXRlbmN5LCB0aGlzIGlzIGFib3V0IG1vdXNlIGN1cnNvciBjbGlja3MvZHJhZ3Mgc2ltcGx5IGhh
-dmluZyB3cm9uZyBjb29yZGluYXRlcyBhbmQgbW91c2UgYmVpbmcgZWZmZWN0aXZlbHkgaW1wb3Nz
-aWJsZSB0byB1c2Ugb24gYW55dGhpbmcgdGhhdCBkb2VzbuKAmXQgaGF2ZSB0aGUgc2FtZSB3b3Jr
-YXJvdW5kcyBhcyBnbm9tZS1zaGVsbC9rd2luLiBTbyBpZiB5b3UgaGF2ZSB1c2VyIHNwYWNlIGNv
-ZGUgd2hpY2ggaGFzbuKAmXQgaW1wbGVtZW50ZWQgdGhlIHNhbWUgd29ya2Fyb3VuZHMgZ25vbWUt
-c2hlbGwva3dpbiB0aGF0IG1lYW5zIHRoYXQgaXMgaGFzIG5ldmVyIGJlZW4gdXNlZCB3aXRoIHZp
-cnR1YWxpemVkIGRyaXZlcnMgYmVjYXVzZSBwZW9wbGUgdGVuZCB0byBub3RpY2UgcHJldHR5IHF1
-aWNrbHkgdGhhdCB3aGVuIHRoZXkgY2xpY2sgb24gYSBidXR0b24vbGluayBhIGNvbXBsZXRlbHkg
-ZGlmZmVyZW50IGJ1dHRvbi9saW5rIGluIGEgZGlmZmVyZW50IHBhcnQgb2YgdGhlIHNjcmVlbiBp
-cyBhY3RpdmF0ZWQuLi4NCg0Keg0KDQo=
+Allwinner DE2 and DE3 hardware support 3 pixel blend modes:
+"None", "Pre-multiplied", "Coverage"
+
+Add the blend mode property and route it to the appropriate registers.
+
+Note:
+"force_premulti" parameter was added to handle multi-overlay channel
+cases in future changes. It must be set to true for cases when more
+than 1 overlay layer is used within a channel and at least one of the
+overlay layers within a group uses premultiplied blending mode.
+
+Test:
+Manually tested all the modes using kmsxx python wrapper with and
+without 'force_premulti' flag enabled.
+
+Signed-off-by: Roman Stratiienko <roman.o.stratiienko@globallogic.com>
+---
+ drivers/gpu/drm/sun4i/sun8i_mixer.h    |  2 ++
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 48 ++++++++++++++++++++-----
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.h |  5 +++
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 49 ++++++++++++++++++++++----
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.h |  5 +++
+ 5 files changed, 94 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+index ebfc276b2464..5c05907e26fb 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+@@ -65,6 +65,8 @@
+ #define SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(n)	(0xf << ((n) << 2))
+ #define SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(n)	((n) << 2)
+ 
++#define SUN8I_MIXER_BLEND_PREMULTIPLY_EN(pipe)	BIT(pipe)
++
+ #define SUN8I_MIXER_BLEND_OUTCTL_INTERLACED	BIT(1)
+ 
+ #define SUN50I_MIXER_BLEND_CSC_CTL_EN(ch)	BIT(ch)
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+index 6ccbbca3176d..29c0d9cca19a 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+@@ -58,24 +58,46 @@ static void sun8i_ui_layer_enable(struct sun8i_mixer *mixer, int channel,
+ }
+ 
+ static void sun8i_ui_layer_update_alpha(struct sun8i_mixer *mixer, int channel,
+-					int overlay, struct drm_plane *plane)
++					int overlay, struct drm_plane *plane,
++					unsigned int zpos, bool force_premulti)
+ {
+-	u32 mask, val, ch_base;
++	u32 mask, val, ch_base, bld_base;
++	bool in_premulti, out_premulti;
+ 
++	bld_base = sun8i_blender_base(mixer);
+ 	ch_base = sun8i_channel_base(mixer, channel);
+ 
++	in_premulti = plane->state->pixel_blend_mode == DRM_MODE_BLEND_PREMULTI;
++	out_premulti = force_premulti || in_premulti;
++
+ 	mask = SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_MASK |
+-		SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MASK;
++	       SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MASK |
++	       SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_MASK;
+ 
+ 	val = SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA(plane->state->alpha >> 8);
+ 
+-	val |= (plane->state->alpha == DRM_BLEND_ALPHA_OPAQUE) ?
+-		SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_PIXEL :
+-		SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_COMBINED;
++	if (plane->state->pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
++		val |= SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_LAYER;
++	} else {
++		val |= (plane->state->alpha == DRM_BLEND_ALPHA_OPAQUE) ?
++			       SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_PIXEL :
++			       SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_COMBINED;
++
++		if (in_premulti)
++			val |= SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_PREMULTI;
++	}
++
++	if (!in_premulti && out_premulti)
++		val |= SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_COV2PREM;
+ 
+ 	regmap_update_bits(mixer->engine.regs,
+ 			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overlay),
+ 			   mask, val);
++
++	regmap_update_bits(
++		mixer->engine.regs, SUN8I_MIXER_BLEND_PREMULTIPLY(bld_base),
++		SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos),
++		out_premulti ? SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos) : 0);
+ }
+ 
+ static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+@@ -274,7 +296,7 @@ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+ 	sun8i_ui_layer_update_coord(mixer, layer->channel,
+ 				    layer->overlay, plane, zpos);
+ 	sun8i_ui_layer_update_alpha(mixer, layer->channel,
+-				    layer->overlay, plane);
++				    layer->overlay, plane, zpos, false);
+ 	sun8i_ui_layer_update_formats(mixer, layer->channel,
+ 				      layer->overlay, plane);
+ 	sun8i_ui_layer_update_buffer(mixer, layer->channel,
+@@ -332,8 +354,8 @@ struct sun8i_ui_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
+ {
+ 	enum drm_plane_type type = DRM_PLANE_TYPE_OVERLAY;
+ 	int channel = mixer->cfg->vi_num + index;
++	unsigned int plane_cnt, blend_modes;
+ 	struct sun8i_ui_layer *layer;
+-	unsigned int plane_cnt;
+ 	int ret;
+ 
+ 	layer = devm_kzalloc(drm->dev, sizeof(*layer), GFP_KERNEL);
+@@ -362,6 +384,16 @@ struct sun8i_ui_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
+ 		return ERR_PTR(ret);
+ 	}
+ 
++	blend_modes = BIT(DRM_MODE_BLEND_PREMULTI) |
++		      BIT(DRM_MODE_BLEND_COVERAGE) |
++		      BIT(DRM_MODE_BLEND_PIXEL_NONE);
++
++	ret = drm_plane_create_blend_mode_property(&layer->plane, blend_modes);
++	if (ret) {
++		dev_err(drm->dev, "Couldn't add blend mode property\n");
++		return ERR_PTR(ret);
++	}
++
+ 	ret = drm_plane_create_zpos_property(&layer->plane, channel,
+ 					     0, plane_cnt - 1);
+ 	if (ret) {
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
+index 43c48cf7bc51..bd3c30e8058d 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
+@@ -46,6 +46,11 @@
+ #define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_LAYER		((1) << 1)
+ #define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_COMBINED	((2) << 1)
+ 
++#define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_MASK	GENMASK(17, 16)
++#define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_COVERAGE	((0) << 16)
++#define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_COV2PREM	((1) << 16)
++#define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_PREMULTI	((2) << 16)
++
+ struct sun8i_mixer;
+ 
+ struct sun8i_ui_layer {
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index 662ba1018cc4..6581fc7d9668 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -52,21 +52,38 @@ static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int channel,
+ }
+ 
+ static void sun8i_vi_layer_update_alpha(struct sun8i_mixer *mixer, int channel,
+-					int overlay, struct drm_plane *plane)
++					int overlay, struct drm_plane *plane,
++					unsigned int zpos, bool force_premulti)
+ {
+-	u32 mask, val, ch_base;
++	u32 mask, val, ch_base, bld_base;
++	bool in_premulti = false, out_premulti = false;
+ 
+ 	ch_base = sun8i_channel_base(mixer, channel);
++	bld_base = sun8i_blender_base(mixer);
+ 
+ 	if (mixer->cfg->is_de3) {
++		in_premulti = plane->state->pixel_blend_mode == DRM_MODE_BLEND_PREMULTI;
++		out_premulti = force_premulti || in_premulti;
++
+ 		mask = SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MASK |
+-		       SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_MASK;
++		       SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_MASK |
++		       SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_MASK;
+ 		val = SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA
+ 			(plane->state->alpha >> 8);
+ 
+-		val |= (plane->state->alpha == DRM_BLEND_ALPHA_OPAQUE) ?
+-			SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_PIXEL :
+-			SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_COMBINED;
++		if (plane->state->pixel_blend_mode == DRM_MODE_BLEND_PIXEL_NONE) {
++			val |= SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_LAYER;
++		} else {
++			val |= (plane->state->alpha == DRM_BLEND_ALPHA_OPAQUE) ?
++				       SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_PIXEL :
++				       SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_COMBINED;
++
++			if (in_premulti)
++				val |= SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_PREMULTI;
++		}
++
++		if (!in_premulti && out_premulti)
++			val |= SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_COV2PREM;
+ 
+ 		regmap_update_bits(mixer->engine.regs,
+ 				   SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base,
+@@ -79,6 +96,11 @@ static void sun8i_vi_layer_update_alpha(struct sun8i_mixer *mixer, int channel,
+ 				   SUN8I_MIXER_FCC_GLOBAL_ALPHA
+ 					(plane->state->alpha >> 8));
+ 	}
++
++	regmap_update_bits(
++		mixer->engine.regs, SUN8I_MIXER_BLEND_PREMULTIPLY(bld_base),
++		SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos),
++		out_premulti ? SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos) : 0);
+ }
+ 
+ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+@@ -408,7 +430,7 @@ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+ 	sun8i_vi_layer_update_coord(mixer, layer->channel,
+ 				    layer->overlay, plane, zpos);
+ 	sun8i_vi_layer_update_alpha(mixer, layer->channel,
+-				    layer->overlay, plane);
++				    layer->overlay, plane, zpos, false);
+ 	sun8i_vi_layer_update_formats(mixer, layer->channel,
+ 				      layer->overlay, plane);
+ 	sun8i_vi_layer_update_buffer(mixer, layer->channel,
+@@ -563,6 +585,19 @@ struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
+ 		}
+ 	}
+ 
++	if (mixer->cfg->is_de3) {
++		unsigned int blend_modes = BIT(DRM_MODE_BLEND_PREMULTI) |
++					   BIT(DRM_MODE_BLEND_COVERAGE) |
++					   BIT(DRM_MODE_BLEND_PIXEL_NONE);
++
++		ret = drm_plane_create_blend_mode_property(&layer->plane,
++							   blend_modes);
++		if (ret) {
++			dev_err(drm->dev, "Couldn't add blend mode property\n");
++			return ERR_PTR(ret);
++		}
++	}
++
+ 	ret = drm_plane_create_zpos_property(&layer->plane, index,
+ 					     0, plane_cnt - 1);
+ 	if (ret) {
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.h b/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
+index 9939a4cc7a52..ccf91f09f1fe 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
+@@ -44,6 +44,11 @@
+ #define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MASK	GENMASK(31, 24)
+ #define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA(x)	((x) << 24)
+ 
++#define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_MASK	GENMASK(17, 16)
++#define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_COVERAGE	((0) << 16)
++#define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_COV2PREM	((1) << 16)
++#define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_PREMULTI	((2) << 16)
++
+ #define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_PIXEL	((0) << 1)
+ #define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_LAYER	((1) << 1)
+ #define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_COMBINED	((2) << 1)
+-- 
+2.30.2
+
