@@ -1,46 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6520E53DB8D
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Jun 2022 15:28:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07DB653DC70
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Jun 2022 17:08:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D35A10F36E;
-	Sun,  5 Jun 2022 13:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B9C111A236;
+	Sun,  5 Jun 2022 15:08:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53E8810F36E
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jun 2022 13:28:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A898E60F73;
- Sun,  5 Jun 2022 13:28:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9338C385A5;
- Sun,  5 Jun 2022 13:28:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1654435703;
- bh=HierzychIYSfee9l8j1OTtj4tWyJ2mBt2LQfQBnykFE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rUOLXX3zrCJW0VLSBgnwsV6+UDkVAMmy79GxbOk7fdLc2vwTbubEBMfk6lLCR8SP+
- 4tx89jtNe0ovs1kAzbY1X0KLbrLv8vu2QysOGPHSJ1MVBmX9C4omjHic/DfechABkg
- 5Bog0KunRk7wAi7E8NZ1C22JF94T2YOl8NGtdBs1JXXTQVrVfl/8G5rCQcZvxOYzE8
- on2ucRXTtqr/mL4Mm72xfxnWcR0SnR05xdeYBeHLr2kEyI/lPdKmLDZ1tak1S0A+Fe
- mVPaU3WRFvN0DN79O5iZseiyybXts2j/HgHgVK8xvYjZZwVR+1sJ0L7t1FPTCeFRCb
- E9zEkkXe/gLlA==
-Date: Sun, 5 Jun 2022 09:28:21 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH AUTOSEL 4.19 16/38] drm/sun4i: Add support for D1 TCONs
-Message-ID: <YpyvdSCoVwhAcpgs@sashalap>
-References: <20220530134924.1936816-1-sashal@kernel.org>
- <20220530134924.1936816-16-sashal@kernel.org>
- <0f81cfb5-de3c-02eb-8d6d-e5aa1b69c439@sholland.org>
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
+ [209.85.167.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3C0211A236
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jun 2022 15:08:26 +0000 (UTC)
+Received: by mail-oi1-f180.google.com with SMTP id r206so16691408oib.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 Jun 2022 08:08:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=O/5Kk8YxDjFostjbu27e4DNO545UqELI2BQbep59s2c=;
+ b=kRKl4ogCajrgbsAm8ZjXAi+SeS/BSoHZTXF5zfKfIJOW7kFfS1xh2cmTW9fvtrcoyY
+ 1jq4lCB8Wtg32Ricy2g9t1LIyY+bsdVFJNfAgGJTKB8jBfQnwfnOGUII+TZO3tPVRlYq
+ lDpt3BZ8bEjwPhejPzMCWe9ivJgCKTnscFKoNZE01Ul/FA4KKptXy8uQuPEFVBfp5JNT
+ +HqXAh8HxSGHHU1akAD/SbwSmQvdyBR1fqywlFy0qBpVAbHej1s83Jz7/5vGLPDJm6S3
+ st/jv47fxBjBLg7uo0DFJ2ArXwNeBd9SxKJ6D1/q3UlO56sjR7Dpt4v4ArR3ag6ElsEF
+ Q9iw==
+X-Gm-Message-State: AOAM533Vdp+VrrGHvdiBmhBPb7qpUCYH2DSmJI+jTUBJx6VUpRlYcTPu
+ q8yslvvaYljrAAv/gUzQuA==
+X-Google-Smtp-Source: ABdhPJx0T/nvzT6nuhRLT97FJIW+iCS0LZ2al+osTrqDlbdxxKFzs9RA6AGcv/KMr5AHyyry1BS3pA==
+X-Received: by 2002:a05:6808:e87:b0:32e:4789:d2c with SMTP id
+ k7-20020a0568080e8700b0032e47890d2cmr8305390oil.193.1654441705815; 
+ Sun, 05 Jun 2022 08:08:25 -0700 (PDT)
+Received: from robh.at.kernel.org ([2607:fb90:20d2:7c7e:bed3:ffa4:df1c:4ad2])
+ by smtp.gmail.com with ESMTPSA id
+ y14-20020a0568302a0e00b006060322127bsm6312321otu.75.2022.06.05.08.08.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 05 Jun 2022 08:08:25 -0700 (PDT)
+Received: (nullmailer pid 3508795 invoked by uid 1000);
+ Sun, 05 Jun 2022 15:08:23 -0000
+Date: Sun, 5 Jun 2022 10:08:23 -0500
+From: Rob Herring <robh@kernel.org>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH 1/2] dt-bindings: display: simple: add EDT ETML0700Y5DHA
+ panel
+Message-ID: <20220605150823.GA3508729-robh@kernel.org>
+References: <20220530122407.918874-1-m.felsch@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0f81cfb5-de3c-02eb-8d6d-e5aa1b69c439@sholland.org>
+In-Reply-To: <20220530122407.918874-1-m.felsch@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,44 +62,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, wens@csie.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, stable@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- Maxime Ripard <maxime@cerno.tech>
+Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org, thierry.reding@gmail.com,
+ sam@ravnborg.org, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 30, 2022 at 09:41:59AM -0500, Samuel Holland wrote:
->Hi Sasha,
->
->On 5/30/22 8:49 AM, Sasha Levin wrote:
->> From: Samuel Holland <samuel@sholland.org>
->>
->> [ Upstream commit b9b52d2f4aafa2bd637ace0f24615bdad8e49f01 ]
->>
->> D1 has a TCON TOP, so its quirks are similar to those for the R40 TCONs.
->> While there are some register changes, the part of the TCON TV supported
->> by the driver matches the R40 quirks, so that quirks structure can be
->> reused. D1 has the first supported TCON LCD with a TCON TOP, so the TCON
->> LCD needs a new quirks structure.
->>
->> D1's TCON LCD hardware supports LVDS; in fact it provides dual-link LVDS
->> from a single TCON. However, it comes with a brand new LVDS PHY. Since
->> this PHY has not been tested, leave out LVDS driver support for now.
->>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->> Link: https://patchwork.freedesktop.org/patch/msgid/20220424162633.12369-14-samuel@sholland.org
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->
->This patch adds support for hardware in a SoC that will not boot on earlier
->kernel releases, so there is no benefit to backporting the patch (to any
->previous release).
+On Mon, 30 May 2022 14:24:06 +0200, Marco Felsch wrote:
+> Add binding for the Emerging Display Technology ETML0700Y5DHA panel.
+> It is a 7" WSVGA (1024x600) TFT LCD panel with:
+>  - LVDS data interface,
+>  - backlight and
+>  - capacitive touch.
+> 
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> ---
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-Dropped, thanks!
-
--- 
-Thanks,
-Sasha
+Acked-by: Rob Herring <robh@kernel.org>
