@@ -2,63 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DB753DB0F
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Jun 2022 11:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6520E53DB8D
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Jun 2022 15:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 720E7112604;
-	Sun,  5 Jun 2022 09:41:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D35A10F36E;
+	Sun,  5 Jun 2022 13:28:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8D3112604
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jun 2022 09:41:02 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id me5so23204032ejb.2
- for <dri-devel@lists.freedesktop.org>; Sun, 05 Jun 2022 02:41:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DhfJ8Vbs3H5rmwl9R/OPOQbDlu4cgubnQOXlVvnJ8XM=;
- b=mOQkSwye820r1FKdsZutlM9eSUJKpNAnIeEW3h1hw3pJpNQkcIX7WmhcZ7L9p/yk1B
- G8OJN4NdgfFi1sixdvbKsmjP4yuJcurJFlpD3c1O8JNC7NHV8jWo337y7dm5+5p7NbAy
- xjjLdat36kRx29QbdBP7GfoRX0HyMy72rpam+ZNaVbBI0hdhdCTPTrm2YL2ZEcrKge8u
- fzQOpaL/JwnB59Sh+O5T6LMtd5hnptqEtG7fdJII0sfDioFtC7UUdBYgwvl2KwGbMe9l
- 81HZ05saCykmbY7k0z29JnhVz4cf5xyxvxMJZLe3P0sdBYyW9T5micD6xgbQp4NXZmfM
- otQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DhfJ8Vbs3H5rmwl9R/OPOQbDlu4cgubnQOXlVvnJ8XM=;
- b=NYS/SLehPSWa4DiQ0q72i6eooihgCKOv02dG1FGUNgCkZrHiRanJPrtJ7kJijoeXWD
- hQddcdx72aPyMX38WF8hfsKEQUBr4I9FIeMORAOYsrt8frrECs61CyTJf2DaEN2GpsZy
- PSbWYoJSp749d7OarWHv7+CDO80gau+UCth/HtkA4Yyyl+vAphiuCvsFIEd6xDU6r7WM
- lXuxdDJX7E80wSQaMEztjvgq4x+d6PrD2NoeDM1SrK3kU5vUgB/K1F8IMVsOCF7oJDot
- hBnwSWBig/Y4O3PtuKw2MLFA2XBdIfU6q06Wcve0eVuYdjhQHqnVH2k1smY9PcvfpnI/
- o3eQ==
-X-Gm-Message-State: AOAM5327XQQXqqOl6BTc3R9AvtCIE1o+Mwvuw5cJwUMqIZ7nMsYpT2xI
- Guttlg0Eb81JiggmNedN3x0=
-X-Google-Smtp-Source: ABdhPJxndU5trzyMzutaIfO7WYpzqjFkxUDj+CyOBND1p38sWX2rvYJITyUyDqp31HpwKS/1znQpzQ==
-X-Received: by 2002:a17:906:4fc4:b0:6da:b4c6:fadb with SMTP id
- i4-20020a1709064fc400b006dab4c6fadbmr17175123ejw.282.1654422060788; 
- Sun, 05 Jun 2022 02:41:00 -0700 (PDT)
-Received: from orangepi3.mydomain.example ([195.234.74.2])
- by smtp.gmail.com with ESMTPSA id
- kl10-20020a170907994a00b006fec69a3978sm4970837ejc.207.2022.06.05.02.40.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jun 2022 02:41:00 -0700 (PDT)
-From: Roman Stratiienko <r.stratiienko@gmail.com>
-To: mripard@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
- airlied@linux.ie, daniel@ffwll.ch, samuel@sholland.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, megi@xff.cz
-Subject: [PATCH v2] drm/sun4i: Enable output signal premultiplication for
- DE2/DE3
-Date: Sun,  5 Jun 2022 09:40:18 +0000
-Message-Id: <20220605094018.9782-1-r.stratiienko@gmail.com>
-X-Mailer: git-send-email 2.30.2
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53E8810F36E
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jun 2022 13:28:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A898E60F73;
+ Sun,  5 Jun 2022 13:28:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9338C385A5;
+ Sun,  5 Jun 2022 13:28:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1654435703;
+ bh=HierzychIYSfee9l8j1OTtj4tWyJ2mBt2LQfQBnykFE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rUOLXX3zrCJW0VLSBgnwsV6+UDkVAMmy79GxbOk7fdLc2vwTbubEBMfk6lLCR8SP+
+ 4tx89jtNe0ovs1kAzbY1X0KLbrLv8vu2QysOGPHSJ1MVBmX9C4omjHic/DfechABkg
+ 5Bog0KunRk7wAi7E8NZ1C22JF94T2YOl8NGtdBs1JXXTQVrVfl/8G5rCQcZvxOYzE8
+ on2ucRXTtqr/mL4Mm72xfxnWcR0SnR05xdeYBeHLr2kEyI/lPdKmLDZ1tak1S0A+Fe
+ mVPaU3WRFvN0DN79O5iZseiyybXts2j/HgHgVK8xvYjZZwVR+1sJ0L7t1FPTCeFRCb
+ E9zEkkXe/gLlA==
+Date: Sun, 5 Jun 2022 09:28:21 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH AUTOSEL 4.19 16/38] drm/sun4i: Add support for D1 TCONs
+Message-ID: <YpyvdSCoVwhAcpgs@sashalap>
+References: <20220530134924.1936816-1-sashal@kernel.org>
+ <20220530134924.1936816-16-sashal@kernel.org>
+ <0f81cfb5-de3c-02eb-8d6d-e5aa1b69c439@sholland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <0f81cfb5-de3c-02eb-8d6d-e5aa1b69c439@sholland.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,57 +53,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Roman Stratiienko <r.stratiienko@gmail.com>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, wens@csie.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, stable@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Otherwise alpha value is discarded, resulting incorrect pixel
-apperance on the display.
+On Mon, May 30, 2022 at 09:41:59AM -0500, Samuel Holland wrote:
+>Hi Sasha,
+>
+>On 5/30/22 8:49 AM, Sasha Levin wrote:
+>> From: Samuel Holland <samuel@sholland.org>
+>>
+>> [ Upstream commit b9b52d2f4aafa2bd637ace0f24615bdad8e49f01 ]
+>>
+>> D1 has a TCON TOP, so its quirks are similar to those for the R40 TCONs.
+>> While there are some register changes, the part of the TCON TV supported
+>> by the driver matches the R40 quirks, so that quirks structure can be
+>> reused. D1 has the first supported TCON LCD with a TCON TOP, so the TCON
+>> LCD needs a new quirks structure.
+>>
+>> D1's TCON LCD hardware supports LVDS; in fact it provides dual-link LVDS
+>> from a single TCON. However, it comes with a brand new LVDS PHY. Since
+>> this PHY has not been tested, leave out LVDS driver support for now.
+>>
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>> Link: https://patchwork.freedesktop.org/patch/msgid/20220424162633.12369-14-samuel@sholland.org
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>
+>This patch adds support for hardware in a SoC that will not boot on earlier
+>kernel releases, so there is no benefit to backporting the patch (to any
+>previous release).
 
-This also fixes missing transparency for the most bottom layer.
+Dropped, thanks!
 
-Test applications and videos w/ w/o this patch are available at [1].
-
-[1]: https://github.com/GloDroid/glodroid_tests/issues/1
-Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-
----
-Changelog:
-
-V2: Added code hunk missing in v1
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 5 +++--
- drivers/gpu/drm/sun4i/sun8i_mixer.h | 1 +
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 6b1711a9a71f..ba2932aaed08 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -320,8 +320,9 @@ static void sun8i_mixer_mode_set(struct sunxi_engine *engine,
- 	else
- 		val = 0;
- 
--	regmap_update_bits(engine->regs, SUN8I_MIXER_BLEND_OUTCTL(bld_base),
--			   SUN8I_MIXER_BLEND_OUTCTL_INTERLACED, val);
-+	val |= SUN8I_MIXER_BLEND_OUTCTL_PREMULTIPLY;
-+
-+	regmap_write(engine->regs, SUN8I_MIXER_BLEND_OUTCTL(bld_base), val);
- 
- 	DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
- 			 interlaced ? "on" : "off");
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-index ebfc276b2464..bc12c95af6f3 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-@@ -65,6 +65,7 @@
- #define SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(n)	(0xf << ((n) << 2))
- #define SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(n)	((n) << 2)
- 
-+#define SUN8I_MIXER_BLEND_OUTCTL_PREMULTIPLY	BIT(0)
- #define SUN8I_MIXER_BLEND_OUTCTL_INTERLACED	BIT(1)
- 
- #define SUN50I_MIXER_BLEND_CSC_CTL_EN(ch)	BIT(ch)
 -- 
-2.30.2
-
+Thanks,
+Sasha
