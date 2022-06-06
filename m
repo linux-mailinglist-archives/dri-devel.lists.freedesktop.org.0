@@ -2,81 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7459853E4D0
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 15:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B325453E4D2
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 15:42:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4641911B4DB;
-	Mon,  6 Jun 2022 13:40:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 689E111A2E0;
+	Mon,  6 Jun 2022 13:42:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87CD311B4DB
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 13:40:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654522825;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8qoXnoqYpBHw1hBc7oMi8KrfARACS0m8xSrOHvWHVRQ=;
- b=UtO+g8ZJN8gyRWuFORByS89SnT3I5ZCPG8o9kLEjUSdK9+Wb9uSZqrImkphWqTHMT7xJzO
- VIY3d4uZcXqEAn4R5UdnWcuMQnQpwoadtL4HXiE+MYv1G6CdK1HaC8QO3roksETVdtzE2m
- vBnlK0xb/13olPaVP9KUqr/+VzxqAco=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-93-7pF1gm77M5WKGG2Kpjj7tw-1; Mon, 06 Jun 2022 09:40:24 -0400
-X-MC-Unique: 7pF1gm77M5WKGG2Kpjj7tw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 6-20020a05600c024600b0039c4de3576aso1791750wmj.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 06:40:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=8qoXnoqYpBHw1hBc7oMi8KrfARACS0m8xSrOHvWHVRQ=;
- b=xsWHzp3QOAdNrTiUfW5OrnDarxM/nbO8j0ME0ggjbEuyGrX2yGDzhSdAHpkpuwh/Sb
- 2YhtPKQEysPUsLwAmE7Ot03ggKtVmD63FVlB8OayvDg+SrQfvmMcf5G3xnCPWtqfYwFA
- ZDSXlqteyD+WblfgwCo1BNUOkFhl9Y+qht7jpdkw1S2Eav+cA/fimTUdQkk+I7nmYT3k
- 8EybrUWP/qc2BmRJZbEoDxh3tQzpcX+qEnjFkrnz8IJj8OKIcoPKhZoSvZRBIaUH06Ju
- +owQdXtPfIuMxnl0YELJ+7hB00P/cDfBA9Z86kNzNJZ5V6V8aYr+Yr0K0/PFOkBfrvVP
- bEfg==
-X-Gm-Message-State: AOAM533IRW2WcKeFe4lzA9y/I+f6wLLKJ0+cx2tXme1ShInhhH4lpFH5
- t9UUM0mJ2a4MXrmAGfjRbuz8JfNt89MXNUiEvOgssm9ssRgM0SpkJbbCfavJ3qpURZNPn7PMiJv
- C8vcvMua6iBwNWkLeBn5bmewVfYq2
-X-Received: by 2002:adf:f403:0:b0:218:82e:4c9e with SMTP id
- g3-20020adff403000000b00218082e4c9emr6360626wro.247.1654522822988; 
- Mon, 06 Jun 2022 06:40:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZVdyGqAyzV/vlvckyOLNGFcL34R33cBgwYqi3lWgUaeO7ZYsoldrhJ+J93QvdRXiow3GN5g==
-X-Received: by 2002:adf:f403:0:b0:218:82e:4c9e with SMTP id
- g3-20020adff403000000b00218082e4c9emr6360601wro.247.1654522822756; 
- Mon, 06 Jun 2022 06:40:22 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- h6-20020adfa4c6000000b0020fe61acd09sm16056329wrb.12.2022.06.06.06.40.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jun 2022 06:40:22 -0700 (PDT)
-Message-ID: <cbef78d3-c392-37e6-afdd-177806dfb033@redhat.com>
-Date: Mon, 6 Jun 2022 15:40:20 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFC9B11A2E0
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 13:42:51 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 4A04032002FB;
+ Mon,  6 Jun 2022 09:42:47 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Mon, 06 Jun 2022 09:42:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1654522966; x=1654609366; bh=45Gfr3inFH
+ 9BeaLjl/yNEArpn/SIzL1LRhq2ulFzT50=; b=FpgXV2txJMebnxi0z5IpgJA/wh
+ m0Holm0r0ygOAAxUMdxAThh5nb4i7gdoIEpADiEL2qIT+qei1D1V861Ce5xfe6xP
+ t8TKNCtupHJKLYItc1wt96a/Red25VsRTSp7fyiXKSEA+NhYQxkWCXe16uM6cdBe
+ 0HbYG1vFm84aCxe4M0+BfkgN87e4arUsVKiSnzz+GvdGf18+fP0FMkc2FWlSfW1X
+ /E0xrZER7SBJRakGX4ISxJ+vtqZNdtYK5CDWBAwXYdLtlC9c0CA6Hs3uCJUrUQLk
+ 278gPMInGtpgiNcuVjYoqzfCVgPtBscDx6QBf60R1VGFLHXeMMB2hg7ShUYQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1654522966; x=1654609366; bh=45Gfr3inFH9BeaLjl/yNEArpn/SI
+ zL1LRhq2ulFzT50=; b=Qn1rkyZZGY5y56FLKg2vzeJ8EMF+ED3pUYT2B+3CzTZW
+ epggyMvlKmw+kqtSZDln5CTsAwwYniy4T9T2gN12xS9RWau3eWwsALMuysmCwn8f
+ zvjggfWr3LHmyyTBpi6++Uvi71HZnRiUjioAjjXvc6/vIhuNsl1KV5tdcDCc17a5
+ c2Y3b0YTVkRGrsmT3joBSdjrZ7VnMwO8igY6OVR2bKZh2lJaHcnvxefdIvd4Yy/0
+ i0kcS7d6WZLBlIXek7SRPZfAFcB2ES3NDa4gxjJ5QKw4PMEuDEjujw/r4oWCl47X
+ uI+ztZG++ggPHKJq85OLjBcRcVPvpWn8YDE8W6T8Uw==
+X-ME-Sender: <xms:VgSeYpYKOrw4gI02xlpFQhClMeOzjHYXblJUKvrd2SLImLLQbIYUyQ>
+ <xme:VgSeYgZid2jJ7TLdVC3IvPfdgWSwwoX6srxs5fCR96bXUAa_pB1MSonx6yxn2TbYv
+ Zfq5svHZ3_Tj_km55w>
+X-ME-Received: <xmr:VgSeYr94zkX8yCAnsQpWhoBW5fngvx3TaOaoccJiDbKq06EHvfXIetuKKB8HCXGzcewjtuEDdaesSOVg4uKPaGl7hIq3ZkCKFjon82o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtvddgieejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
+ ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:VgSeYnpvXHBNTCInimcQ4hNdd6VV-BMMJB62KEfcNIIag40oU-jAgA>
+ <xmx:VgSeYkrXPrBt4TTOYAdbEGr6wDg9ffh9VUphi7oHqJoESk9DWvjDgA>
+ <xmx:VgSeYtTCTKUCEnDMaa_aL6YObwhbI2uPyi6CaNteZN1ODPpLy2YCXA>
+ <xmx:VgSeYr1itKC1cmOOd9mQezji3dTodUcHXWRF92STzpFw9qjQ-ZFdnA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Jun 2022 09:42:45 -0400 (EDT)
+Date: Mon, 6 Jun 2022 15:42:42 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Subject: Re: [PATCH 1/1] drm/format-helper: Add KUnit tests for
  drm_fb_xrgb8888_to_rgb332()
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Message-ID: <20220606134242.h6kuqn4zbpmc2rql@houat>
 References: <20220606095516.938934-1-jose.exposito89@gmail.com>
  <20220606095516.938934-2-jose.exposito89@gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="nmupzpdydlfrfe4r"
+Content-Disposition: inline
 In-Reply-To: <20220606095516.938934-2-jose.exposito89@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,50 +85,51 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: davidgow@google.com, airlied@linux.ie, dlatypov@google.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, kunit-dev@googlegroups.com
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, tzimmermann@suse.de, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello José,
 
-On 6/6/22 11:55, José Expósito wrote:
+--nmupzpdydlfrfe4r
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Mon, Jun 06, 2022 at 11:55:16AM +0200, Jos=E9 Exp=F3sito wrote:
 > Test the conversion from XRGB8888 to RGB332.
-> 
+>=20
 > What is tested?
-> 
+>=20
 >  - Different values for the X in XRGB8888 to make sure it is ignored
 >  - Different clip values: Single pixel and full and partial buffer
 >  - Well known colors: White, black, red, green, blue, magenta, yellow
 >    and cyan
 >  - Other colors: Randomly picked
 >  - Destination pitch
-> 
+>=20
 > How to run the tests?
-> 
->  $ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm \
->          --kconfig_add CONFIG_VIRTIO_UML=y \
->          --kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
-> 
-> Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> 
-> ---
+>=20
+>  $ ./tools/testing/kunit/kunit.py run --kunitconfig=3Ddrivers/gpu/drm \
+>          --kconfig_add CONFIG_VIRTIO_UML=3Dy \
+>          --kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=3Dy
 
-Thanks for addressing the issues pointed out. Patch looks good to me now.
+It's not clear to me why you would need VIRTIO here? The Kunit config
+file should be enough to run the tests properly
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Maxime
 
-By the way, I think you should request an account [0], so that you can push
-patches to drm-misc directly. Specially since AFAIU the plan is to add more
-KUnit tests in future patch series.
+--nmupzpdydlfrfe4r
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[0]: https://www.freedesktop.org/wiki/AccountRequests/
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Best regards,
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYp4EUgAKCRDj7w1vZxhR
+xdD/AQCVKUFsKCwDjplnL7J+4MZC7u9BvBuBbUwiUaBES9UgqQEA+JV0l+OYLBD+
+6FCuKDewDOpOGvmYO3+pxyijE6tjnws=
+=aLxf
+-----END PGP SIGNATURE-----
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+--nmupzpdydlfrfe4r--
