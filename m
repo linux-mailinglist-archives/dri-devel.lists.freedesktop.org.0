@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE80053E506
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 16:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E7053E507
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 16:22:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5EBA11B51C;
-	Mon,  6 Jun 2022 14:21:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52F7711B52D;
+	Mon,  6 Jun 2022 14:21:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
  [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 343C611B51C
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 14:21:46 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id v1so18586077ejg.13
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:21:46 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D45E611B52B
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 14:21:57 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id u12so29289764eja.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:21:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=opLWEqC00jn82y4owwASw7k3zRYvjzMou2cjWKLBV64=;
- b=gkHpY3ulU0qVJsCW/7cg5SzAjNDdn7t3avgpO4JqTMDcqwd128gyp/ezfuttq/hmoR
- aLEzdUBdsdu9XlKb5oqWrctb+KeObzqrZ5blifz3w5ziL2IdUk1HAwIZtGb0nj94jxEo
- WdDsmtzzAZ//UM7RfSH9d71dAoQNSW5P6aMlc=
+ :cc; bh=Vp8NNxHI8Mr5cvDebnpWHQ0r8fITxP4wMBgbky8hlKs=;
+ b=cbfuFGvG9P3RoNLs/7komKcZAI5iYlhxO2c1PtY35nnPC3+G7B+1hWFJWkoS4PJIsj
+ 12l7R0+8en8jn64ramruBDLAM4LNDxwV5QlXnXU3GiVqV+E3Gtvm4iPw/S9vicOs+MKd
+ veBzx9Qi7+Ff2iaPYmy4Uf1JlMPTfqESgCUDU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=opLWEqC00jn82y4owwASw7k3zRYvjzMou2cjWKLBV64=;
- b=LQb0jPK91hkFWmRBCs1gYFAOkicwab+JuAWsJ2wm9IEAh1CsDvt+U0u4NVxCDYqTKi
- dV2u7YyfuEU3shhkpFm7rwbmMjYGHQbbNriwWlfeZ+0CaUSeOx2R6RJ5y6GJormMOSZQ
- plK6Lulo3AMLWi94G52DD4iMCycmcumlZbU0lTB/OpHratl8Bwb1+BT+e1FtUb8sz5Ud
- 4QWDxspzARXFkcorF44/zGpgIWPjd8Mjz7P/cIVhKqpBcSPFeee1aQNF+X9vjqhE1cNw
- 3c9Xv1m0hygNG7P+UL+lYzjF+XMOFFIbHNt2Jzr+Xs5iSkeS/QjaUih/J10EiixxYnIq
- GM6A==
-X-Gm-Message-State: AOAM532IgcOQSGxubzmqTQVY3bByOHnmqctaculmUzunxgO7h6cKO4k4
- RfXNFBsraSFX8rc+E+Lk7QYyxZ2QPOOpUszo
-X-Google-Smtp-Source: ABdhPJzTDDGix7KGDPe5a+RTLuM9K+RFxxF7tpr2yaahWG5oN9zKlohw9fnCxQCGIMtIWj9L0v/1IQ==
-X-Received: by 2002:a17:906:f17:b0:6fe:94f6:cb8a with SMTP id
- z23-20020a1709060f1700b006fe94f6cb8amr21174453eji.456.1654525304150; 
- Mon, 06 Jun 2022 07:21:44 -0700 (PDT)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com.
- [209.85.128.45]) by smtp.gmail.com with ESMTPSA id
- lo27-20020a170906fa1b00b006fe9209a9edsm6230564ejb.128.2022.06.06.07.21.39
+ bh=Vp8NNxHI8Mr5cvDebnpWHQ0r8fITxP4wMBgbky8hlKs=;
+ b=oqs2pRhpt4QUcm4F2176t146f8lN7uN9Z+UJLkIAxQ/XEbLQzeWy6Csf4zxcAnC41T
+ mfDhHs55lMueCswUToCMkkM254oRqo4VU912R40f9zDtiaRvmn75fsJlxzRyhZcsPk00
+ 9l5Z5dxMzFVAeCzZz6aTPjFiC6z/Mag0oTTl6FSzbyHyic/CuugnLnAJ9JImB9bYHkZs
+ U6MfrEk7u6eHZg5HSPBC/lOapsvhsQEMmDtPwQHuZ22HeostuIfCKQIdZH2Gj5oR1DXw
+ Jrn2Pq1TSlwktaAZsgbAP7hxRI6GHWTWGR6m46wOiHjB+weUvouBvp1EjRdrWlAhyIgz
+ tXpg==
+X-Gm-Message-State: AOAM532jmJiPt6llTA/ozHvGtQ8gnBZnAKwHymXJ+mCbiPUuHesoZG6b
+ Y/i98GVzPrEfNruYoYS2gBPrKdKi/2bKOa5h
+X-Google-Smtp-Source: ABdhPJz6BkAQVvO8QyvpUESWK2NQydakcKVuoThmAqj5NpBvO404MmmX7NZ7smaCDrHXSPTcaodD8g==
+X-Received: by 2002:a17:907:6090:b0:6fa:14ca:fba8 with SMTP id
+ ht16-20020a170907609000b006fa14cafba8mr21942037ejc.212.1654525316487; 
+ Mon, 06 Jun 2022 07:21:56 -0700 (PDT)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com.
+ [209.85.221.54]) by smtp.gmail.com with ESMTPSA id
+ l9-20020a50cbc9000000b0042ab87ea713sm3336941edi.22.2022.06.06.07.21.54
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jun 2022 07:21:39 -0700 (PDT)
-Received: by mail-wm1-f45.google.com with SMTP id
- 67-20020a1c1946000000b00397382b44f4so8015649wmz.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:21:39 -0700 (PDT)
-X-Received: by 2002:a05:600c:591:b0:39c:4544:b814 with SMTP id
- o17-20020a05600c059100b0039c4544b814mr12815954wmd.118.1654525298761; Mon, 06
- Jun 2022 07:21:38 -0700 (PDT)
+ Mon, 06 Jun 2022 07:21:56 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id p10so20073315wrg.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:21:54 -0700 (PDT)
+X-Received: by 2002:a05:6000:1685:b0:218:45f0:5be6 with SMTP id
+ y5-20020a056000168500b0021845f05be6mr2525253wrd.301.1654525314159; Mon, 06
+ Jun 2022 07:21:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220606044720.945964-1-hsinyi@chromium.org>
- <20220606044720.945964-2-hsinyi@chromium.org>
-In-Reply-To: <20220606044720.945964-2-hsinyi@chromium.org>
+ <20220606044720.945964-3-hsinyi@chromium.org>
+In-Reply-To: <20220606044720.945964-3-hsinyi@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 6 Jun 2022 07:21:26 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V7FmkJyyXr4C6jy9-hOhnzgoo=g5tx_3z3rnCCC40Exg@mail.gmail.com>
-Message-ID: <CAD=FV=V7FmkJyyXr4C6jy9-hOhnzgoo=g5tx_3z3rnCCC40Exg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/8] drm/panel: Add an API drm_panel_get_orientation()
- to return panel orientation
+Date: Mon, 6 Jun 2022 07:21:42 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VYjMKN=M=PWnGny0x5TaQ5gF7b_vL4muCsCi+rH7FAbA@mail.gmail.com>
+Message-ID: <CAD=FV=VYjMKN=M=PWnGny0x5TaQ5gF7b_vL4muCsCi+rH7FAbA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/8] drm/panel: boe-tv101wum-nl6: Implement
+ .get_orientation callback
 To: Hsin-Yi Wang <hsinyi@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,48 +89,14 @@ Hi,
 
 On Sun, Jun 5, 2022 at 9:47 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
 >
-> Panels usually call drm_connector_set_panel_orientation(), which is
-> later than drm/kms driver calling drm_dev_register(). This leads to a
-> WARN().
+> To return the orientation property to drm/kms driver.
 >
-> The orientation property is known earlier. For example, some panels
-> parse the property through device tree during probe.
->
-> Add an API to return the property from panel to drm/kms driver, so the
-> drivers are able to call drm_connector_set_panel_orientation() before
-> drm_dev_register().
->
-> Suggested-by: Hans de Goede <hdegoede@redhat.com>
 > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 > Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 > ---
-> v2->v3: no change
+> v2->v3: add comments for notice.
 > ---
->  drivers/gpu/drm/drm_panel.c |  8 ++++++++
->  include/drm/drm_panel.h     | 10 ++++++++++
->  2 files changed, 18 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> index f634371c717a..4a512ca80673 100644
-> --- a/drivers/gpu/drm/drm_panel.c
-> +++ b/drivers/gpu/drm/drm_panel.c
-> @@ -223,6 +223,14 @@ int drm_panel_get_modes(struct drm_panel *panel,
->  }
->  EXPORT_SYMBOL(drm_panel_get_modes);
->
-> +enum drm_panel_orientation drm_panel_get_orientation(struct drm_panel *panel)
-> +{
-> +       if (panel && panel->funcs && panel->funcs->get_orientation)
-> +               return panel->funcs->get_orientation(panel);
-> +
-> +       return DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
-> +}
-> +EXPORT_SYMBOL(drm_panel_get_orientation);
->  #ifdef CONFIG_OF
-
-nit: there used to be a blank line before the #ifdef but there no
-longer is after your patch.
-
-Other than that...
+>  drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
