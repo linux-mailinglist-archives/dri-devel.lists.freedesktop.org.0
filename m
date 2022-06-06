@@ -1,59 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3482A53E407
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 12:16:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 056FD53E40F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 12:20:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 184C010E29D;
-	Mon,  6 Jun 2022 10:16:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38C8110E460;
+	Mon,  6 Jun 2022 10:20:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
- [IPv6:2607:f8b0:4864:20::731])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5682A10E29D
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 10:16:18 +0000 (UTC)
-Received: by mail-qk1-x731.google.com with SMTP id 15so5309809qki.6
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 03:16:18 -0700 (PDT)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E93BF10E1CE;
+ Mon,  6 Jun 2022 10:20:31 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id a15so10683162wrh.2;
+ Mon, 06 Jun 2022 03:20:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fc/OFAn0RvDAWJQtQ9B+1H+QxhmbSSJd9Hi613D0Bsw=;
- b=KrxENmFO1QgWlWAeJCa+rew4MZ/Z6QR5iukbATFS7s8iFV0QZVhYSMTmzPhd5oC4vh
- pluEXGxwfa233uFAQC3uo6A93DOqHr7hgYBAbzJUH58UH3mPrCPIVvNDuM7oLTNmQa7l
- CecyCYcK7uRWxaElpG8gA8i2i8Js7+SHCbLtQkjxJ83RaYMhitJ4mWe0/mI5iItK7/A7
- Uqk6v4YhCRui45xPLmv5UQgd/pqIvyOay2Bu6Sgwjw3K3vhO3YGilYTE+TBLuTvy8EEI
- 0YdfITyCJtezho5vU/xHQy1xidYG5aeW8gwlcT7H8lKWf8zswK9T3hPvhYvG/NDMjiED
- Ia8w==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=EuXDZRhRuhRCmRhs3PpKrJLa+cdvtSiMZjyeJ20l9a4=;
+ b=FtR4Qc7xmbd9AR3erDAvaIorvvnPRGnS8BNPLB71cWIPZs6aIE+TtMfN0T0WySyz43
+ Zt0CVi1dz5QDAstQyRJzjSBpElW1gW3OI1fqrMQ+bm8S1gD9VulOBbZk1ZkC0aF+/osm
+ nBtBv+nSbrmh9RtVt68APlGx9Ju4tKu7XtURM80rMNkA0HM2TjE+lzNGGh59Kmxfi2jG
+ 8h6iIR6cLRuc0wD8yRBUwtnG0h7Ai/d3sPnooqRKCiV0PODSN8nhUoVSUsCrL6pd3Rbz
+ hSP6p0HhMMQo2N23Zsq2rEKn2GYQnCEmVp50o9xPsVGgmm45rTXWG6VUcWMWlTey114G
+ e8qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fc/OFAn0RvDAWJQtQ9B+1H+QxhmbSSJd9Hi613D0Bsw=;
- b=VRdIkcFoK4RcAzEDduNyIpGFJ9ow1ioJfS+unCsqyT0A/OLQ7USKegadxIs1xZc41x
- GD7baqvUkUxcdl1l6MHIQGXqsRgPDDfJHQpf+BPfXOvXdD4tRv2h4NmGCzqQ7hvgc/PY
- yoKNbaUw9gUgf2DqIBLgTNS/lsMerHQuDpsmB6zUyvbpjk/2kmu4JRc26u136N1YHhwq
- TtV1IQU4Yrmq49ZC9W+tmdarH7v4kqEn9R+Lb7e1YH84D+AQlrR0+cKppttkeo75K/Ti
- TNTZYryO1MZ9hHhD4b0DktDzlJxNoaZG9j6IFgdDCNhuQiHD8Vk54o3iTQ/SYIjp+zaF
- e9tA==
-X-Gm-Message-State: AOAM531yNRuqeqjZgkhs3594q8nG1l6pW/TEaVuwxpKD2tajeIfdTzHc
- 5hm6SzxKOxaaMopJ9stFXBYM6q4aWIJZxfpZwQg=
-X-Google-Smtp-Source: ABdhPJzvmmwoAzRBHaAGyreIeKWdCWu7b5koSZ6XfRTIpHHHC8VvO+dYQd2nZJ945oooKEFeorywlbdLzYHZ6TmHgjw=
-X-Received: by 2002:a37:a1c4:0:b0:6a6:ac4f:1d3f with SMTP id
- k187-20020a37a1c4000000b006a6ac4f1d3fmr6832834qke.666.1654510577365; Mon, 06
- Jun 2022 03:16:17 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=EuXDZRhRuhRCmRhs3PpKrJLa+cdvtSiMZjyeJ20l9a4=;
+ b=mZtcKcS7Nc0y8tUXHAXKKFXrvrcF+pePCcCKZImKnX6MDM4HzUuAkua7FzfhCCqzSe
+ 6G1PSMLAtZXT2bXjIeYd58Fzv5Xra0Bd83HcL1xI2ZlyAPLay9Z49Yl2Y8CLkCj5boY3
+ BB0v/QNuGuFDe5r+gaBXddU/oskkp6Xhb1tiXzlzosYfHudqskdmTI+3iWXujG2vgJCz
+ qJuKWzbNUUu84FNbAPxZ4SFokrTWYQKmYXVmRi6S4WIrG7CxGtG2YxLE/SKVjtiJmTQP
+ tySsiEE3blZ7+wXU34fwUbSxDV+1MHSuf0f5Apo3MAQIRSuyusIrxmn4uQY3OqncYzcH
+ etag==
+X-Gm-Message-State: AOAM5321ni4sRqOX4pFVo6ufnRL5mSiMDU07cWH2zxlteOeLDLeuSN7/
+ Lbmi3sY/vhJmBxyELTasnik=
+X-Google-Smtp-Source: ABdhPJw+sfOyH2JSm6Nz0dAlbCzNUEypLdOhFTHlGgb2PNjTiTbSt3eHmvhdiQg5qFqkf2M2z1uPDA==
+X-Received: by 2002:a05:6000:1111:b0:212:d9ea:8609 with SMTP id
+ z17-20020a056000111100b00212d9ea8609mr20148395wrw.522.1654510830385; 
+ Mon, 06 Jun 2022 03:20:30 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:2d98:9160:7074:86ca?
+ ([2a02:908:1256:79a0:2d98:9160:7074:86ca])
+ by smtp.gmail.com with ESMTPSA id
+ g9-20020a05600c4ec900b0039c17452732sm22820694wmq.19.2022.06.06.03.20.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Jun 2022 03:20:29 -0700 (PDT)
+Message-ID: <dbb8694b-74d2-f205-1736-926faa858868@gmail.com>
+Date: Mon, 6 Jun 2022 12:20:31 +0200
 MIME-Version: 1.0
-References: <20220605094018.9782-1-r.stratiienko@gmail.com>
- <5826286.lOV4Wx5bFT@jernej-laptop>
-In-Reply-To: <5826286.lOV4Wx5bFT@jernej-laptop>
-From: Roman Stratiienko <r.stratiienko@gmail.com>
-Date: Mon, 6 Jun 2022 13:16:06 +0300
-Message-ID: <CAGphcdm=sOyppe8sAYMK6aeRXpxiHvj-h-Es6nigCNKBxdBNZQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/sun4i: Enable output signal premultiplication for
- DE2/DE3
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] drm/ttm: fix missing NULL check in ttm_device_swapout
+Content-Language: en-US
+To: Felix Kuehling <felix.kuehling@amd.com>, mike@fireburn.co.uk,
+ dri-devel@lists.freedesktop.org,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+References: <20220603104604.456991-1-christian.koenig@amd.com>
+ <c9b23cac-6bf0-e8ad-d6b1-f59c1ee1569f@amd.com>
+ <29cb2391-3a91-dbef-da59-65d1ea1e50a7@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <29cb2391-3a91-dbef-da59-65d1ea1e50a7@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,113 +78,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Samuel Holland <samuel@sholland.org>, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
- megi@xff.cz, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-=D0=B2=D1=81, 5 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 23:23, Jernej =C5=
-=A0krabec <jernej.skrabec@gmail.com>:
+Am 04.06.22 um 00:44 schrieb Felix Kuehling:
+> [+amd-gfx]
 >
-> Dne nedelja, 05. junij 2022 ob 11:40:18 CEST je Roman Stratiienko napisal=
-(a):
-> > Otherwise alpha value is discarded, resulting incorrect pixel
-> > apperance on the display.
-> >
-> > This also fixes missing transparency for the most bottom layer.
 >
-> Can you explain that a bit more?
+> On 2022-06-03 15:37, Felix Kuehling wrote:
+>>
+>> On 2022-06-03 06:46, Christian König wrote:
+>>> Resources about to be destructed are not tied to BOs any more.
+>> I've been seeing a backtrace in that area with a patch series I'm 
+>> working on, but didn't have enough time to track it down yet. I'll 
+>> try if this patch fixes it.
+>
+> The patch doesn't apply on amd-staging-drm-next. I made the following 
+> change instead, which fixes my problem (and I do see the pr_err being 
+> triggered):
+>
+> --- a/drivers/gpu/drm/ttm/ttm_device.c
+> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> @@ -157,6 +157,10 @@ int ttm_device_swapout(struct ttm_device *bdev, 
+> struct ttm_operation_ctx *ctx,
+>                         list_for_each_entry(bo, &man->lru[j], lru) {
+>                                 uint32_t num_pages = 
+> PFN_UP(bo->base.size);
+>
+> +                               if (!bo->resource) {
+> +                                       pr_err("### bo->resource is 
+> NULL\n");
+> +                                       continue;
+> +                               }
 
-Well... I would recommend reading Bartosz Ciechanowski's blog
-https://ciechanow.ski/alpha-compositing/ or the Porter-Duff's 1984
-whitepaper itself.
+Yeah, that should be functional identical.
 
-HINT: That magic numbers from sun8i_mixer.h ( 0x03010301 ) corresponds
-to SOURCE OVER mode.
-
-As you can see from the blending equation it outputs both pixel value
-and alpha value (non-premultiplied data mode).
-
-Also single-layer non-premultiplied buffers may have for example
-(R255,G255,B255,A2) pixel value, which should be sent as {R2, G2, B2}
-through the physical display interface.
-
-When OUTCTL.PREMULTI disabled pixel, the RGB values passes as is, and
-even 100% transparent data {R255, G255, B255, A0} will appear as 100%
-opaque white.
-
->Also, BSP driver never enables this bit. What are we doing differently?
-
-Are you sure the BSP does not have an issues with presenting
-transparent buffers?
-Does the sunxi even have a customer-feedback mechanism and publicly
-available stable BSP with all the fixes?
+Can I get an rb for that? Going to provide backports to older kernels as 
+well then.
 
 Regards,
-Roman
+Christian.
 
+> ret = ttm_bo_swapout(bo, ctx, gfp_flags);
+>                                 /* ttm_bo_swapout has dropped the 
+> lru_lock */
+>                                 if (!ret)
 >
-> >
-> > Test applications and videos w/ w/o this patch are available at [1].
-> >
-> > [1]: https://github.com/GloDroid/glodroid_tests/issues/1
->
-> As stated in other emails, commit messages should not contain external li=
-nks
-> (per patch rules).
->
-> Best regards,
-> Jernej
->
-> > Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> >
-> > ---
-> > Changelog:
-> >
-> > V2: Added code hunk missing in v1
-> > ---
-> >  drivers/gpu/drm/sun4i/sun8i_mixer.c | 5 +++--
-> >  drivers/gpu/drm/sun4i/sun8i_mixer.h | 1 +
-> >  2 files changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > b/drivers/gpu/drm/sun4i/sun8i_mixer.c index 6b1711a9a71f..ba2932aaed08
-> > 100644
-> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > @@ -320,8 +320,9 @@ static void sun8i_mixer_mode_set(struct sunxi_engin=
-e
-> > *engine, else
-> >               val =3D 0;
-> >
-> > -     regmap_update_bits(engine->regs,
-> SUN8I_MIXER_BLEND_OUTCTL(bld_base),
-> > -                        SUN8I_MIXER_BLEND_OUTCTL_INTERLACED,
-> val);
-> > +     val |=3D SUN8I_MIXER_BLEND_OUTCTL_PREMULTIPLY;
-> > +
-> > +     regmap_write(engine->regs, SUN8I_MIXER_BLEND_OUTCTL(bld_base),
-> val);
-> >
-> >       DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
-> >                        interlaced ? "on" : "off");
-> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> > b/drivers/gpu/drm/sun4i/sun8i_mixer.h index ebfc276b2464..bc12c95af6f3
-> > 100644
-> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> > @@ -65,6 +65,7 @@
-> >  #define SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(n)  (0xf << ((n) << 2))
-> >  #define SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(n)        ((n) << 2)
-> >
-> > +#define SUN8I_MIXER_BLEND_OUTCTL_PREMULTIPLY BIT(0)
-> >  #define SUN8I_MIXER_BLEND_OUTCTL_INTERLACED  BIT(1)
-> >
-> >  #define SUN50I_MIXER_BLEND_CSC_CTL_EN(ch)    BIT(ch)
->
->
->
->
+>>
+>> Regards,
+>>   Felix
+>>
+>>
+>>>
+>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/ttm/ttm_device.c | 6 +++++-
+>>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ttm/ttm_device.c 
+>>> b/drivers/gpu/drm/ttm/ttm_device.c
+>>> index a0562ab386f5..e7147e304637 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_device.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+>>> @@ -156,8 +156,12 @@ int ttm_device_swapout(struct ttm_device *bdev, 
+>>> struct ttm_operation_ctx *ctx,
+>>>             ttm_resource_manager_for_each_res(man, &cursor, res) {
+>>>               struct ttm_buffer_object *bo = res->bo;
+>>> -            uint32_t num_pages = PFN_UP(bo->base.size);
+>>> +            uint32_t num_pages;
+>>>   +            if (!bo)
+>>> +                continue;
+>>> +
+>>> +            num_pages = PFN_UP(bo->base.size);
+>>>               ret = ttm_bo_swapout(bo, ctx, gfp_flags);
+>>>               /* ttm_bo_swapout has dropped the lru_lock */
+>>>               if (!ret)
+
