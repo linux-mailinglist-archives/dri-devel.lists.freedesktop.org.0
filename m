@@ -1,65 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1BC53E514
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 16:31:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5492353E513
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 16:30:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E57C10ECA8;
-	Mon,  6 Jun 2022 14:31:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5861610EBAB;
+	Mon,  6 Jun 2022 14:30:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
  [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5992610EC29
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 14:31:06 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id s12so22117426ejx.3
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:31:06 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFFE10EB9E
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 14:30:50 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id h23so18243195ejj.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:30:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GtB/1q8V6w+BWdhC9EKrHFyvz/JN34Sk5t7oVzNMdlI=;
- b=S54yq+aqgMtQgBARzs3r9I0ZrPQI5ZVZEutMIlcApQ0O+ylp3x4EGRtSkJThXVjx2y
- aHxka38JYLUmgi2B0Sh9t/3M28Bm9PGYHW8+XnhqG2jI9keSQmZuZPdHSadC73yyLPQ7
- Io5j+kBcKNbhtIatxrfuoa626ix5piOgJmDyk=
+ :cc; bh=H9gSJdumX788ea5ymBPhF6Qx4oKS3kXqxz2HGbJIL4Q=;
+ b=NDhxYiHFP2DQ/Hg/9TucNlDLLMsU/ntXpeN0g2X8O+A2BUihfdLVBLLH7RWDprBeHQ
+ YwaJrLW49qHLVTYYoKNvynnJ3jb79kiSyxeSMy2uxFQjXwG+gVg48vktfIa85w7hKfQ1
+ g4jx4e8LsxUAl7JSRLIBkVIW6BW0V9jVja/Dk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GtB/1q8V6w+BWdhC9EKrHFyvz/JN34Sk5t7oVzNMdlI=;
- b=ToNg8mihkj0e2KDjPVUD6AjJ3O17ZM1Igi7vyu1oiY/CZen+aYEIZ6k70W+8kX5/9B
- gIIHnN0YyOIbHBAoodmYk0wgvqzfUl0MROL4oGAl/tlND5nxAlI06DSObG4WuesOuoOg
- fVt4FPxPSEcvkxD2QMVuSJd/A+6sORWm1JsHRtPQ1BWnyWEp/drVIcdUIIfktdgaHDpt
- +B6XVrnVuhnPSr/wcLUenH6kaRMNhr8xNpXX+K9XpxUU5viYwKRmgb2Wdj0qayw5xpxZ
- xgVtKaW1EZE6oV/EEhluzimEdCB5388YTDxkuMZRXAC/yzFdWYt0faSa1dMyVVfcPvTH
- UWIw==
-X-Gm-Message-State: AOAM532I7l4C/ewM10CIgf22+XrEC5q2+L7ahvMAvPfo3jFpq0XU8GTK
- 8aaJ+jI2TZ+xxqSIDRXZr3WimAu2QimUu0b3MjY=
-X-Google-Smtp-Source: ABdhPJyT8BvFz1uoJMCupDXkVJPDsOXhhS6GTJgDqeqkg0b/TgGYWmVo68M7wy+xeQ3TEHV1tmrDKg==
-X-Received: by 2002:a17:907:248b:b0:70d:cedd:6c99 with SMTP id
- zg11-20020a170907248b00b0070dcedd6c99mr15867450ejb.675.1654525864708; 
- Mon, 06 Jun 2022 07:31:04 -0700 (PDT)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com.
- [209.85.128.52]) by smtp.gmail.com with ESMTPSA id
- s9-20020a056402164900b0042ddfbea36asm9001138edx.62.2022.06.06.07.31.04
+ bh=H9gSJdumX788ea5ymBPhF6Qx4oKS3kXqxz2HGbJIL4Q=;
+ b=TqhwRfedrXT374sinuZaZg9qfK/ladsfE7gDjFJMjLjmGfQQ2n4qqbfu1rA0Hk236M
+ BVTrANHytfG3YSjhqIWZCoXDk03RMkp9FClMw4IGt5o71jsWMLSfvS7HzFy2QlBNZZor
+ fah78kqFv5xPkextqMy6DDordAgTCmjWmPIZqzwb7lCLQw9we93m90yBGvQBRI8cVaBW
+ aMn1GKUHxYzBNqSAYazma2pfLVBjyFZVxi3FKRZK0ZQAsqfcXeSNzeE/4elcAlUcD6m0
+ YHGRGOUA9aETCBQqsFQ/df6yAYeDNW9zTeY1Kac/BsyP61KrDRJrld0l3LYPIwL2/dlY
+ tYfw==
+X-Gm-Message-State: AOAM532vqLZ6pki7NXn78xJHGeIRc2aqRb/qCNpodLSZiIdKDdMfWmT6
+ s9Ex4hXsucJE6DtyL0ttXGqVsHC9S4XKeKSCQX0=
+X-Google-Smtp-Source: ABdhPJytv8cGqC2CftTMVHcHzFpoLLS3sKsndhg36c25nqdu5D2LMqs6n7zq6PSBPNhh0K7AH1VJqg==
+X-Received: by 2002:a17:907:608b:b0:711:623e:b344 with SMTP id
+ ht11-20020a170907608b00b00711623eb344mr9386216ejc.230.1654525848284; 
+ Mon, 06 Jun 2022 07:30:48 -0700 (PDT)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com.
+ [209.85.208.42]) by smtp.gmail.com with ESMTPSA id
+ ly2-20020a170906af4200b006feec47dae9sm6362522ejb.157.2022.06.06.07.30.47
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jun 2022 07:31:04 -0700 (PDT)
-Received: by mail-wm1-f52.google.com with SMTP id
- l126-20020a1c2584000000b0039c1a10507fso2178404wml.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:31:04 -0700 (PDT)
-X-Received: by 2002:a05:600c:202:b0:39c:40de:ec19 with SMTP id
- 2-20020a05600c020200b0039c40deec19mr16405042wmi.29.1654525391306; Mon, 06 Jun
- 2022 07:23:11 -0700 (PDT)
+ Mon, 06 Jun 2022 07:30:47 -0700 (PDT)
+Received: by mail-ed1-f42.google.com with SMTP id o10so19079124edi.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:30:47 -0700 (PDT)
+X-Received: by 2002:a05:6000:1685:b0:218:45f0:5be6 with SMTP id
+ y5-20020a056000168500b0021845f05be6mr2533347wrd.301.1654525406801; Mon, 06
+ Jun 2022 07:23:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220606044720.945964-1-hsinyi@chromium.org>
- <20220606044720.945964-7-hsinyi@chromium.org>
-In-Reply-To: <20220606044720.945964-7-hsinyi@chromium.org>
+ <20220606044720.945964-8-hsinyi@chromium.org>
+In-Reply-To: <20220606044720.945964-8-hsinyi@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 6 Jun 2022 07:22:59 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UwFuNrgBqyseHNLzuRQqyYHXe_sgSfQUSfsp80923h7A@mail.gmail.com>
-Message-ID: <CAD=FV=UwFuNrgBqyseHNLzuRQqyYHXe_sgSfQUSfsp80923h7A@mail.gmail.com>
-Subject: Re: [PATCH v3 6/8] drm/panel: ili9881c: Implement .get_orientation
- callback
+Date: Mon, 6 Jun 2022 07:23:15 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V7EiaYgzr57geyeqEafLJ67G2PJa8ejZwgWNV+icD0RQ@mail.gmail.com>
+Message-ID: <CAD=FV=V7EiaYgzr57geyeqEafLJ67G2PJa8ejZwgWNV+icD0RQ@mail.gmail.com>
+Subject: Re: [PATCH v3 7/8] drm/panel: elida-kd35t133: Implement
+ .get_orientation callback
 To: Hsin-Yi Wang <hsinyi@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,7 +96,7 @@ On Sun, Jun 5, 2022 at 9:47 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
 > ---
 > v2->v3: add comments for notice.
 > ---
->  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 14 ++++++++++++++
+>  drivers/gpu/drm/panel/panel-elida-kd35t133.c | 14 ++++++++++++++
 >  1 file changed, 14 insertions(+)
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
