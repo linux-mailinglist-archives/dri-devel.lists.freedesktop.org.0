@@ -2,65 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A6153E5BC
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 18:30:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870AD53ECD3
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 19:14:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C347410F852;
-	Mon,  6 Jun 2022 16:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 446E010EA3A;
+	Mon,  6 Jun 2022 17:14:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA39D10F852
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 16:30:10 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id d14so11570872wra.10
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 09:30:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=xJwQl/PiEUwiwk52JeaaRavLlxhGbowpTp1ZVoSGKqg=;
- b=XAmkm6HeHfdJZ2x9c75GpfnvFb80dmOF3hQbzJZ3pnpuH2s+eKJ4MTulLbTixbbrzP
- hX2iLDaET9JJC2ywRNuep0vyoObiTJaQs7e+HJ6ziWBvK7JVOeRqqm5d0vyqLc52lXkK
- nI7+hM0umb7pILpvQMJfFEEkHGCQUnUoXFlq1GLd+Uxblg/aOOI1zhLlXS/woiwYyIMS
- yaqJU86mR5V0RVnYUGCBxJgpC9ctLyl2NrokbvLVdQbzS7RfIytd6/O+NMJcggDoF5NZ
- 2mZ8CV9V5abU1aAX7nuF0Fox0C+tozWfeL4ya7kE+8W6fRmm3mT1YSEmZEPq76hB6wzW
- rOWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=xJwQl/PiEUwiwk52JeaaRavLlxhGbowpTp1ZVoSGKqg=;
- b=ca+juF68ZR9U6etW/v1KN0UsZEJCSMruFUeSfDLQ1ZwbhOgvsPuSSyktwVNHH5/52O
- SmlxnLVB2z/yWKM8Yj+YeDRgJaqUFimURLEPC9SDiObfuhsGLd+qbdV5c5UG2l5eV9TA
- uQhD5A99pBC5lseG2DsEQb4LLQ/JR5ZhY7ySp2kO/vmlW4xiDvAZFPf9bry6iyWiJ1I2
- NX2ruliikhL+GsQPkKIKRpskmvsZlvWKX5SMbSlMY0TRn9hBTtFUc4SCqBLrFPDRls5X
- FD65y3KMhnO7mhgMTAoBHIsnm9wt8CI0xQ8sUPCp9r3pqJ5B5ydWB4/f2DwOCppLYGkg
- sRAA==
-X-Gm-Message-State: AOAM532zGepyD2lQ7hELT+XJSQEJhq6inABq8pavZwxQU04CGj62PHL2
- 9P59DcyA0xatCDMQV0WrLc8=
-X-Google-Smtp-Source: ABdhPJxQ3J9vZ+ZM5ZF6/sQz314KJ/6atguYE7HzUvHP+PXE9tWeHbp0/vF63dUCKiZApdTziRo6tw==
-X-Received: by 2002:a05:6000:716:b0:213:b7d1:adeb with SMTP id
- bs22-20020a056000071600b00213b7d1adebmr18475559wrb.337.1654533009215; 
- Mon, 06 Jun 2022 09:30:09 -0700 (PDT)
-Received: from elementary ([94.73.36.128]) by smtp.gmail.com with ESMTPSA id
- d11-20020adffbcb000000b002183ee5c0c5sm3143096wrs.50.2022.06.06.09.30.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 09:30:08 -0700 (PDT)
-Date: Mon, 6 Jun 2022 18:30:05 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH 1/1] drm/format-helper: Add KUnit tests for
- drm_fb_xrgb8888_to_rgb332()
-Message-ID: <20220606163005.GA5274@elementary>
-References: <20220606095516.938934-1-jose.exposito89@gmail.com>
- <20220606095516.938934-2-jose.exposito89@gmail.com>
- <cbef78d3-c392-37e6-afdd-177806dfb033@redhat.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF13410E972
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 17:14:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2FEAAB817F2;
+ Mon,  6 Jun 2022 17:14:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70B69C385A9;
+ Mon,  6 Jun 2022 17:14:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1654535683;
+ bh=wPIRuMsqYczU+dDbzX3MkG700WSQK/kwIYf2AEoWPgo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=pvfhh7K3t1QIQIaJNTFuoQuS0/l0G/P18v7ksfanA/J7GAVcgU6RU/UfJ2O+sEDlX
+ GRvmJcN5+xy8t1iZJ8Iksvbp+Swb2KFs+j4WiaR0OrU8RYvb+T5Mj8J+/cgL6qSq5s
+ BjqQmAuUir5xOSx1B1AviXjxo1z0QBkxJiJXyJeHb9oRdVVmV3+yonrdVPhw1TP/+k
+ C55vuSFnxbYANgMIV7h3VXjxzBssf7j6g0KHbsDiBcuTFHF9MtKaLrTeTURuZKILXV
+ oGhVsjCcf7oxYvNe42hOgKB87aEeXfDg1/U3rfMQzOHb2Lm/oXU1BbXY15YCBGuyXL
+ prSXqTXLkj1cA==
+From: Mark Brown <broonie@kernel.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] drm/i2c: tda9950: Lower severity of log message about missing
+ interrupts
+Date: Mon,  6 Jun 2022 18:14:36 +0100
+Message-Id: <20220606171436.2438051-1-broonie@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1441; h=from:subject;
+ bh=wPIRuMsqYczU+dDbzX3MkG700WSQK/kwIYf2AEoWPgo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBinjX48hgZWn5OjUYw6uHfKImPQihXLYJJZ8JbFJH3
+ D570zu6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYp41+AAKCRAk1otyXVSH0Kt4B/
+ 40mAPeLu316RBMq1/kwiR2hYsf4A7HnzEtFgN+xv8LqbdUidi3mDTWIoTmM4PRwVeUB3/8gxiTLdhN
+ ZXS9Di/zzdMKXswF0mleaPK3dnQvEUZquSefMSobmky9gdcMzJD+GvadepO7Fa++zz0l2GldjbrqLK
+ OYBP0Vmtu5RIJ2gd9ldPpIiXFqBn77aUZisvGbEWmZfsP+Duzk7NeaHWcP2d3jU6DZFFMclElP++rO
+ OeiOce4dsMGVULQ1x2B+F8oDKhijrZlA2+bDuZ+T9yWHVH6WmT59VKf4CJ2IU2CPKad+cJp6RBld1u
+ DXsTRL4laLYZukUCiZFZo3zv4DemSH
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cbef78d3-c392-37e6-afdd-177806dfb033@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,87 +62,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: davidgow@google.com, airlied@linux.ie, dlatypov@google.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, kunit-dev@googlegroups.com
+Cc: Russell King <rmk+kernel@armlinux.org.uk>, Mark Brown <broonie@kernel.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
+The tda9950 driver prints an error message if it is instantiated without
+an interrupt being available since the device is non-functional in that
+case. Unfortunately due to packaging of tda9950 with tda998x series devices
+the tda998x driver unconditionally instantiates a tda9950 so systems with a
+tda998x configured without an interrupt will trigger this error message
+during boot if tda9950 support is available. Reduce the severity to debug
+level so this is less likely to be presented to end users, the information
+is still there for system integrators who run into problems.
 
-Javier Martinez Canillas wrote:
-> Hello José,
-> 
-> On 6/6/22 11:55, José Expósito wrote:
-> > Test the conversion from XRGB8888 to RGB332.
-> > 
-> > What is tested?
-> > 
-> >  - Different values for the X in XRGB8888 to make sure it is ignored
-> >  - Different clip values: Single pixel and full and partial buffer
-> >  - Well known colors: White, black, red, green, blue, magenta, yellow
-> >    and cyan
-> >  - Other colors: Randomly picked
-> >  - Destination pitch
-> > 
-> > How to run the tests?
-> > 
-> >  $ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm \
-> >          --kconfig_add CONFIG_VIRTIO_UML=y \
-> >          --kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
-> > 
-> > Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
-> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> > 
-> > ---
-> 
-> Thanks for addressing the issues pointed out. Patch looks good to me now.
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+We could add a check for an interrupt to the tda998x driver instead but
+this feels better from an encapsulation point of view, there's still a log
+message to help anyone doing system integration.
 
-Thanks for the quick review Javier :)
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/gpu/drm/i2c/tda9950.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Javier Martinez Canillas wrote:
-> By the way, I think you should request an account [0], so that you can push
-> patches to drm-misc directly. Specially since AFAIU the plan is to add more
-> KUnit tests in future patch series.
-> 
-> [0]: https://www.freedesktop.org/wiki/AccountRequests/
+diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/gpu/drm/i2c/tda9950.c
+index 5b03fdd1eaa4..781d5665cd04 100644
+--- a/drivers/gpu/drm/i2c/tda9950.c
++++ b/drivers/gpu/drm/i2c/tda9950.c
+@@ -397,7 +397,7 @@ static int tda9950_probe(struct i2c_client *client,
+ 
+ 	/* We must have an interrupt to be functional. */
+ 	if (client->irq <= 0) {
+-		dev_err(&client->dev, "driver requires an interrupt\n");
++		dev_dbg(&client->dev, "driver requires an interrupt\n");
+ 		return -ENXIO;
+ 	}
+ 
+-- 
+2.30.2
 
-I'll request one, thanks for the tip.
-
--------
-
-Maxime Ripard wrote:
-> > > The following works correctly but it won't use User Mode Linux:
-> > >
-> > > ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/.kunitconfig --arch=x86_64
-> > >
-> > > But then, can't we add them to .kunitconfig?
-> > >
-> >
-> > That's what I asked in the previous RFC too. Daniel mentioned that it shouldn't
-> > go there because is platform specific (AFAIU, one might want to test it on x86,
-> > aarch64, etc) but then I asked why we couldn't have a arch/um/.kunitconfig.
-> >
-> > The answer was that's not that simple and some agreement on how to do it is needed:
-> >
-> > https://lists.freedesktop.org/archives/dri-devel/2022-June/357617.html
->
-> We should probably just document it somewhere in KMS then? It doesn't
-> have to be in this patch series, but I have the feeling that we will end
-> up with that discussion a lot from people frustrated to have spent too
-> much time figuring it out :)
-
-My understanding from Daniel's comment [1] is also that at the moment
-it is not easy to support this use case, so yes, at least copy and
-pasting the command in the docs should help everyone figure out how to
-run the tests.
-
-Documentation/gpu/drm-internals.rst seems like a good place to add some
-information about how to run and add tests.
-I'll send a patch with the docs ASAP.
-
-Jose
-
-[1] https://lore.kernel.org/dri-devel/CAGS_qxqpiCim_sy1LDK7PLwVgWf-LKW+uNFTGM=T7ydk-dYcEw@mail.gmail.com/
