@@ -1,61 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCE953E093
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 06:47:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A0B053E0A1
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 07:11:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBDC11238E;
-	Mon,  6 Jun 2022 04:47:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9F5F1125A4;
+	Mon,  6 Jun 2022 05:11:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3721B11238E
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 04:47:55 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id p8so11811336pfh.8
- for <dri-devel@lists.freedesktop.org>; Sun, 05 Jun 2022 21:47:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=rFqpHuECGLqoarwvqRrQML/2d/T3XwkU1fNzjkmrThY=;
- b=nG1yyOS5j92wx36wFLjCQZuqCI8wBnye/wbubTHe2BewKZzQ9yMf1UIW4GqUrEowLO
- oNioyR4aXi/4ny+ODAKcr8PzVpr6DIY/BPv7GvZ70ptVaGPylbVMca7uastiacbDBQ4f
- ILJTMDta6UTJD0Pb6Sx2xdZNL3cnUMePfPSak=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=rFqpHuECGLqoarwvqRrQML/2d/T3XwkU1fNzjkmrThY=;
- b=hhfKHeXpd8gimuzumv/LAVB5CQWoZskTj3RYXv8bH7DvNVo8lDIz3SciFbay40vILZ
- 2GyKeb6BhmIwdy0BZje134/0pn00X+SbF27zo9fPhlPIqSJ6hd99TerALjsjMp9+La/m
- tG0yqB2ZqQ2eBtF53sphREpQ5EQv6q/m8anf2sKxighvbY8VNn/b1P5wumJ1pWQR99a4
- JN/rJxEL81KvQt0DxkXrsPi2HJ6CTL0ocgbRnkXVtV0nXJjuTXX3CoL/C+nWcUiVwYR7
- VM7CP1wHcQK9fUL6OqG9V+BubJKTUeoO+/3QkWwno577TFjjTSfxIKph+aEh7uvlphHb
- WUdg==
-X-Gm-Message-State: AOAM531Wld4R2Z0MoCK8/+bg8SDuf/6liDA1KE/rkKYIvl3KdJ3xWWVo
- +yyuCttwpSQJ1vtVsVfHlR9DnQ==
-X-Google-Smtp-Source: ABdhPJzMQinIyRVXtoVcfR4sTm2R3u3+0i2fuXPqOVvQzKi6bI2cScBSpS72MoNigiZHZpLbI2uKdA==
-X-Received: by 2002:a05:6a00:23c4:b0:51c:5e8:e8a9 with SMTP id
- g4-20020a056a0023c400b0051c05e8e8a9mr7064626pfc.62.1654490874687; 
- Sun, 05 Jun 2022 21:47:54 -0700 (PDT)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:ced3:b110:401b:b32c])
- by smtp.gmail.com with ESMTPSA id
- t190-20020a6381c7000000b003db7de758besm9718609pgd.5.2022.06.05.21.47.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jun 2022 21:47:54 -0700 (PDT)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v3 8/8] drm/mediatek: Config orientation property if panel
- provides it
-Date: Mon,  6 Jun 2022 12:47:20 +0800
-Message-Id: <20220606044720.945964-9-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
-In-Reply-To: <20220606044720.945964-1-hsinyi@chromium.org>
-References: <20220606044720.945964-1-hsinyi@chromium.org>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E47CC11259C
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 05:11:37 +0000 (UTC)
+X-UUID: b90dc76aab8445e0975b15471b83c89f-20220606
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:646d8357-28e2-4d69-8057-c6a9539acc69, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:47,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:42
+X-CID-INFO: VERSION:1.1.5, REQID:646d8357-28e2-4d69-8057-c6a9539acc69, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:47,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:42
+X-CID-META: VersionHash:2a19b09, CLOUDID:ecca447e-c8dc-403a-96e8-6237210dceee,
+ C
+ OID:d1a002376914,Recheck:0,SF:28|100|17|19|48|101,TC:nil,Content:0,EDM:-3,
+ IP:nil,URL:1,File:nil,QS:0,BEC:nil
+X-UUID: b90dc76aab8445e0975b15471b83c89f-20220606
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1777165115; Mon, 06 Jun 2022 13:11:34 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Mon, 6 Jun 2022 13:11:32 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Mon, 6 Jun 2022 13:11:32 +0800
+From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <robh+dt@kernel.org>, 
+ <krzysztof.kozlowski+dt@linaro.org>
+Subject: [RESEND v4 0/3] MediaTek MT8195 display binding
+Date: Mon, 6 Jun 2022 13:11:28 +0800
+Message-ID: <20220606051131.14182-1-rex-bc.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,71 +60,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Bo-Chen Chen <rex-bc.chen@mediatek.com>,
+ airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, nancy.lin@mediatek.com,
+ linux-mediatek@lists.infradead.org, pavel@ucw.cz, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Panel orientation property should be set before drm_dev_register().
-Mediatek drm driver calls drm_dev_register() in .bind(). However, most
-panels sets orientation property relatively late, mostly in .get_modes()
-callback, since this is when they are able to get the connector and
-binds the orientation property to it, though the value should be known
-when the panel is probed.
+Add this series to present MediaTek display binding for MT8195.
+The reason I send this series is Jason and Nancy's binding patches are
+never received by devicetree mail server.
+Therefore, I help them to resend binding patches.
 
-Let the drm driver check if the remote end point is a panel and if it
-contains the orientation property. If it does, set it before
-drm_dev_register() is called.
+Changes for resend v4:
+1. Rebase to v5.19-rc1 which iommu series is included.
+2. Add my signed-off.
+3. v4 is not received by devicetree mail server, add more cc and resend.
+4. This patch is from Nancy's v22 series:[2].
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
----
-v2->v3: no change.
----
- drivers/gpu/drm/mediatek/mtk_dsi.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+[2]: https://patchwork.kernel.org/project/linux-mediatek/list/?series=645240
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index bd3f5b485085..86613360d2d9 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -185,6 +185,7 @@ struct mtk_dsi {
- 	struct drm_encoder encoder;
- 	struct drm_bridge bridge;
- 	struct drm_bridge *next_bridge;
-+	struct drm_panel *panel;
- 	struct drm_connector *connector;
- 	struct phy *phy;
- 
-@@ -822,6 +823,12 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
- 		ret = PTR_ERR(dsi->connector);
- 		goto err_cleanup_encoder;
- 	}
-+
-+	/* Read panel orientation */
-+	if (dsi->panel)
-+		drm_connector_set_panel_orientation(dsi->connector,
-+				drm_panel_get_orientation(dsi->panel));
-+
- 	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
- 
- 	return 0;
-@@ -837,6 +844,9 @@ static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
- 	struct drm_device *drm = data;
- 	struct mtk_dsi *dsi = dev_get_drvdata(dev);
- 
-+	/* Get panel if existed */
-+	drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &dsi->panel, NULL);
-+
- 	ret = mtk_dsi_encoder_init(drm, dsi);
- 	if (ret)
- 		return ret;
+Changes for v3:
+1. Fix rdma and ethdr binding doc.
+2. Nancy's series: [1].
+3. This series is based on linux-next: next-20220511.
+
+Changes for v2:
+1. This patch is based on linux next-20220506.
+2. Jason's patches are accepted and I drop them.
+
+[1]: https://lore.kernel.org/all/20220512053128.31415-1-nancy.lin@mediatek.com/
+
+Nancy.Lin (3):
+  dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  dt-bindings: mediatek: add ethdr definition for mt8195
+
+ .../display/mediatek/mediatek,ethdr.yaml      | 188 ++++++++++++++++++
+ .../display/mediatek/mediatek,mdp-rdma.yaml   |  88 ++++++++
+ include/dt-bindings/reset/mt8195-resets.h     |  45 +++++
+ 3 files changed, 321 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+
 -- 
-2.36.1.255.ge46751e96f-goog
+2.18.0
 
