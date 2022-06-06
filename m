@@ -2,68 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1F453E3F9
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 11:44:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B83C53E3FA
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 11:55:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5A1C113294;
-	Mon,  6 Jun 2022 09:44:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E46DC11326F;
+	Mon,  6 Jun 2022 09:55:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
  [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4A7113294
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 09:44:03 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- v4-20020a1cac04000000b00397001398c0so9699441wme.5
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 02:44:03 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8013111326E
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 09:55:27 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id n185so7376343wmn.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 02:55:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=pZxJjfzSiCSZsMONOLroxHj+cORse23nRQ7Nf9aFbIc=;
- b=puvFF5bwhhEj943FfBvEgJQNken3NkxQXXVtOTW9FZ0wWYxuufZaGSEPSxzGFlW2V+
- NwCaRIBw6GwBp7XyXBxOCty2lYhcvKXkr6YUgxRs5J3ACpmDfC5q2D4M+w8VluKsk3g6
- cknukAivObmf3R+Y0ANqLyc+ThVXeByD/kkR0S0Gv61lgCdnEsDfrNFulNjww9Kbd09/
- cg0QtoM4Bd5s2JUdTbnn+WAIJBsfrK+onQ5aNZmboBXOU2E/8bhfnGYtcSc9XmFBFgcn
- RND9Dron4qv6GnVM+FqfPO/NZlsNfkxwpA7X/F+P7yDfDvNBR3YOPFW5nSgRFrvNTBuL
- 0+1g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bvF3M+uYRlSr3a5KCLyADnsjEKpxlfPHpuUaTqCte5k=;
+ b=TMLYk3P5KEeYKrnQQoCZUXZVPwB2mbU7alH5Gx4k/19pdn3njqwEFTMI+7m8VKErN6
+ TyOXzpHBdLR0Kt3x1tROE5OXVWNksjfmAQxhr3HUQi/pjx7V5dSmeVRXKTzOcN7Hg/qQ
+ mjVY8F8yOQ1tfO/CSoQ6FzRT5Rf55hvOnRoozHGfV4IP8maZVO0DxJiSVaXHmrPfY3GT
+ wQpGeV5A2/Dy510LdMvlPlWFMB/7/yJOz7Tup27ELisnmIXT5KkFNZwhHLO4o6Bx3onR
+ MQArlYX11jqdswVBqYmZSvONbiMv0eqZfDkd1nSO6+Ox+7wufKpxu+RiuZ1mCaA85CV5
+ vCZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=pZxJjfzSiCSZsMONOLroxHj+cORse23nRQ7Nf9aFbIc=;
- b=lamJeKW3TprFHrHQEDdLMx3JmIgmYE44BG8ty14Wsx9Yp9W27D3ha5G7ADEk0qU7Ox
- 3+MC3mSXhgEAEq8oQ0PpPH+qfrSWpPKPwcAJMVYTjRuDPqhgPUf0YqJIQ0a9J0UIfWgI
- kC4mWE2/l2ekruGU4mnZ3Lt8iDYeXoV9nElg3bvnYNF35GLJVqm5/5cBGEtDs1RtuXTL
- jTijIapRB821W6f0+//ADBhlPsOWGRyx213mkup6+NNq+AA8mt6CeRX2M9kADHmq+iZ8
- SiWfI0duXNPqEK4L9SpnL2M7M+3727J2f76lIyUtmS6cdZvBI/G3gZUDICV2zBMQ18ow
- ABKQ==
-X-Gm-Message-State: AOAM533IXd3P5Z4C11XnGPdVNYsWQvxm/wTTbIq+O5PFKVQhelQhoAtA
- nW0i1Atv/oxiNewHnU8JONM=
-X-Google-Smtp-Source: ABdhPJwzPOWPoj4ZpAEG+LGY0/gEwkp9MyfTcQfRvPzVTjX38rwGye6seHpxn3Wfb0JiATEaiOMsew==
-X-Received: by 2002:a05:600c:3c91:b0:39b:6b:d5de with SMTP id
- bg17-20020a05600c3c9100b0039b006bd5demr39564985wmb.132.1654508641506; 
- Mon, 06 Jun 2022 02:44:01 -0700 (PDT)
-Received: from elementary ([94.73.36.128]) by smtp.gmail.com with ESMTPSA id
- l6-20020a5d4bc6000000b0020e615bab7bsm14956105wrt.7.2022.06.06.02.43.58
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bvF3M+uYRlSr3a5KCLyADnsjEKpxlfPHpuUaTqCte5k=;
+ b=yyF/brTKOtfoSIdAyPdLVdKgq3ix+50Z2yoi8KredkB53Qb4LoSMQJRZCYlmT+JrhU
+ sgI/ROxKCyxwvhOb8AThRssW6S7bpP9IB5UkP6/niCTBeKi6M0ZCVF4AxPKVm8G56h9W
+ IOH9in7FiOyhgxKzW+HtoIbA/NwWNL9HTBsCl+1m8joMEcLKXAu+gqLkYwiFXU87G7KA
+ MMY0TFuv+8yRolETdKTM7Z/9aFFkSVpSqi5aymFfx5hJGAxzf3cJK1zLA10D7NwKA3W8
+ D/kbNJoZ+J8vQtwPGSxLKN7C7LL2PJ1qOmA+6t2UCyi2BHMJ+0yhD0kW3LexYjiCZEe9
+ P9yw==
+X-Gm-Message-State: AOAM532qHiWz5tUwVb2SE0OPN2/p08wSEuvymE9yOeAjF5DJTSF9NCiB
+ MMJfsQGZ/qAzatz4RRvwkTU=
+X-Google-Smtp-Source: ABdhPJweK6O54b1wrPEaEYBA76q/aE6w57fAhWpEqGNMnJj5PnHBvLp+W+RHTDNJYZJcvI32S5M60A==
+X-Received: by 2002:a05:600c:1992:b0:397:8d3b:8a9b with SMTP id
+ t18-20020a05600c199200b003978d3b8a9bmr46251245wmq.20.1654509326115; 
+ Mon, 06 Jun 2022 02:55:26 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.36.128])
+ by smtp.gmail.com with ESMTPSA id
+ n8-20020a05600c4f8800b0039c325eaff2sm13654326wmq.26.2022.06.06.02.55.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jun 2022 02:44:00 -0700 (PDT)
-Date: Mon, 6 Jun 2022 11:43:52 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [RFC PATCH 1/1] drm/format-helper: Add KUnit tests for
- drm_fb_xrgb8888_to_rgb332()
-Message-ID: <20220606094352.GA937049@elementary>
-References: <20220530102017.471865-1-jose.exposito89@gmail.com>
- <20220530102017.471865-2-jose.exposito89@gmail.com>
- <e26de140-afb7-7b1b-4826-6ac4f3a4fe02@redhat.com>
- <CABVgOSkCxu2xBnxwc6mO2AQaqzTbDf53PJzT2QvZNyLeumt5hg@mail.gmail.com>
- <195c6865-d6f7-fbc4-6ee5-784c5c49d243@redhat.com>
+ Mon, 06 Jun 2022 02:55:25 -0700 (PDT)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: javierm@redhat.com
+Subject: [PATCH 0/1] KUnit tests for drm_format_helper
+Date: Mon,  6 Jun 2022 11:55:15 +0200
+Message-Id: <20220606095516.938934-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <195c6865-d6f7-fbc4-6ee5-784c5c49d243@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,55 +68,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, David Airlie <airlied@linux.ie>,
- Daniel Latypov <dlatypov@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, David Gow <davidgow@google.com>,
- KUnit Development <kunit-dev@googlegroups.com>
+Cc: davidgow@google.com, airlied@linux.ie, dlatypov@google.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hello everyone,
 
-On Thu, Jun 02, 2022 at 07:21:28PM +0200, Javier Martinez Canillas wrote:
-> Hello David,
-> 
-> On 6/2/22 19:07, David Gow wrote:
-> > On Thu, Jun 2, 2022 at 9:27 AM Javier Martinez Canillas
-> 
-> [snip]
-> 
-> >>
-> >> And doing that will also allow you to get rid of this, since just selecting
-> >> CONFIG_DRM_KUNIT_TEST=y would be enough for the tests built and run by KUnit.
-> >>
-> > 
-> > This is definitely something other KUnit tests (apparmor, elf, etc)
-> > are doing, and it's generally fine. You do lose the ability to build
-> > the tests as a separate module, though. (This is not usually a big
-> > problem, but there are some cases where it's useful.)
-> > 
-> > That being said, I don't think 'select' is enough of a problem that
-> > you should feel the need to refactor in this way just to avoid it.
-> 
-> Oh, yes I didn't want to imply that this was the main reason but just
-> pointed out that wouldn't even be needed if done that way. And it is
-> something that we want to do anyway IMO, since as mentioned it would
-> allow to test the static functions, which are the majority the format
-> helpers in that file.
+Recently Javier added a new task in the ToDo list [1] to create KUnit
+tests for the functions present in "drm_format_helper".
 
-Conversion functions alway call drm_fb_xfrm()/drm_fb_xfrm_toio() and
-their *_line function. For example, drm_fb_xrgb8888_to_rgb332() calls
-drm_fb_xfrm() and drm_fb_xrgb8888_to_rgb332_line().
+This patch includes the changes suggested in the RFC version [2].
 
-The current tests already check that the *_line() function works as
-expected. I'd like to test the high-level functions first and, if
-required, go into more detail in the future. The refactor is pretty
-easy, so I'd prefer to keep it as it is for the moment.
+Best wishes,
+José Expósito
 
-About the other changes suggested, I applied all of them over the
-weekend. I'll send v1 of the patch to the mailing list including them
-so we have an up to date code to comment on.
+[1] https://cgit.freedesktop.org/drm/drm-misc/commit/?id=596c35b1440e
+[2] https://lore.kernel.org/dri-devel/20220530102017.471865-1-jose.exposito89@gmail.com/T/
 
-Thanks a lot for all of your comments and help,
-Jos� Exp�sito
+José Expósito (1):
+  drm/format-helper: Add KUnit tests for drm_fb_xrgb8888_to_rgb332()
+
+ drivers/gpu/drm/.kunitconfig             |   3 +
+ drivers/gpu/drm/Kconfig                  |  16 +++
+ drivers/gpu/drm/Makefile                 |   2 +
+ drivers/gpu/drm/drm_format_helper_test.c | 166 +++++++++++++++++++++++
+ 4 files changed, 187 insertions(+)
+ create mode 100644 drivers/gpu/drm/.kunitconfig
+ create mode 100644 drivers/gpu/drm/drm_format_helper_test.c
+
+-- 
+2.25.1
+
