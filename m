@@ -2,79 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD4B153E55E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 17:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CA053E561
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 17:24:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3A011207A;
-	Mon,  6 Jun 2022 15:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F01A1122AA;
+	Mon,  6 Jun 2022 15:24:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6368E11207A
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 15:22:10 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 0FEDB5C0180;
- Mon,  6 Jun 2022 11:22:07 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 06 Jun 2022 11:22:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1654528927; x=1654615327; bh=5ITxZxvR1U
- lRTYtQl9N1pR+J3NyPRM9g+aD58BJaVd4=; b=OjuClaajF/eirW2Z9aHqQUxNTE
- sUI51qTu/wStJIUps/cFueadz5P9GPjR6ChIhFvQGWaKZqGmDZs2i0oheaUi0t1G
- 3sEiy/MXiLXtI5K4I5RT/k6ODDlK0CogBj5FEfM6PzybCUd9Mx9lBfhpsHxaFeh2
- IkadfScVvH/UJmQbfj6NCZzoFYa977DLFONh543nQ6KhF0LYWjeZgHZuf1Jcgf4H
- ayHQLjkUmu3jUSfjZDtbKjrAScpe+x+6YVRnREC8ao37YmVr0az+/dnpfriVJQct
- ybxXV/dFqgIc1nAYZT/wbKqyBkaE/lXsdUP2jPkfS2PdfrBwv+P6aYIlNSWg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1654528927; x=1654615327; bh=5ITxZxvR1UlRTYtQl9N1pR+J3NyP
- RM9g+aD58BJaVd4=; b=izqgZLioq8aklMwfTl4hqaFTY/rnYctpSmnX9FMQkuOz
- tp8Z881d3PFmihqGrSbqqa9s6SvEk1YiRsb2qlFt9uydneEYhL2D2n3xrttBkqfM
- dHijjfs7Tk6ymtIaNn2Sbya4Lku50zdcj4hX7oVDYq8qbM4K8APpqyP7eOBS48ul
- tX7n9tA4bP3AlLvN2zIkSMdWlWZimzEE2sUHqVaXjcRb3UOCMu3jcRAfEzJL0xhu
- pOK8/rOqnuYAZ3pZuka2tZAPveqE7B6zNLEBy8kP/zoSDfgGMfa6B3BzR351jRjh
- NSTnxyZ/nVv/UMJKhAXJceoRSut8HRXTGHNTFRVYcQ==
-X-ME-Sender: <xms:nhueYuglc_InoQNB6GttWHlFl-3riobk4oqIHoUDBVnbzCgztQPX-w>
- <xme:nhueYvCv6xi_x3xouXP9GKa6wjYhZ6VnkP6wbKXRTXQ9xfxlX5TuxJxEjL8XgqC4N
- -rgKwZHJXXpVQ>
-X-ME-Received: <xmr:nhueYmHhC6V5Hx3XYVU0paluWuacZD1HxQbXttofQkFbltLzWslX5Tvq_Uv7zY-Ub4qDXzeK5gIzTFDQG1B8JBJ-nOreLSNh>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtvddgkeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
- ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvd
- evvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhs
- thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
- hhrdgtohhm
-X-ME-Proxy: <xmx:nhueYnSI2xqLrxCR_rnVh3jUr1SbtiB6mofB0vsrzvjL8CiT12EUwQ>
- <xmx:nhueYrwVRUtDy61NE8chSESXAKeaXWT3fzCcrEHMxeL3qWllJkNW1g>
- <xmx:nhueYl7FJ7AwX4kbqirM7NYVML5ivcWsbGDpGcLFbxk7n9qsvkn-OA>
- <xmx:nxueYgqPTJCJTk5tOKOe8SP_1v66zB52d_QQu06I5592Or1Ocd5EgA>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Jun 2022 11:22:06 -0400 (EDT)
-Date: Mon, 6 Jun 2022 17:22:03 +0200
-From: Greg KH <greg@kroah.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v4] dma-buf: Add a capabilities directory
-Message-ID: <Yp4bmxFEBHwOlSf3@kroah.com>
-References: <20220601161303.64797-1-contact@emersion.fr>
- <YphNaq/JZdlTW8S7@kroah.com>
- <BCduk8OI3oQXvl2_-ejGwile7y09VscIp1U2MKHX2kEVun1JNxznDByVlidyN8B0vf5xOxS35axHhz5QYWmrmrQmsa8qONFJof6ZtR7CC1Y=@emersion.fr>
- <YphX2erQp3e4mUba@kroah.com>
- <CtTIPo68VAvDRUp7-QFc0m-2SnikPFd0QpdogNj2xueFfyQKa3DQqiw3Meqtsu8vQgEuKX_-MPKbe7jQdf49-Y3z2TAYbajUrC5GKF0Dolk=@emersion.fr>
- <CAKMK7uEYncnjbwq6fQMNB_5tupMASrAFEadPg9xBS3ykNgNk4A@mail.gmail.com>
- <97e77916-93c9-4be2-a734-2b9f4170276f@arm.com>
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCAC51122AA
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 15:24:37 +0000 (UTC)
+Received: by mail-pj1-x102f.google.com with SMTP id gd1so13092071pjb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 08:24:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nCKSgi5ghJh488few+daxz3n+frldGQMli1tF7tyziw=;
+ b=Ly/cjxqyjPT9IndQDQLYI+ZjtL8lWCrmZudRv3GvHr7KjYTv4MVJzC8F4KqzUH1WZI
+ ctE8rDupsFcURmpqMWiF944tW2wc65OHIXrkmqNN1RblfZ5SXZrHEPuXa7lrzgx0btu8
+ +bCBc0Pcrtiwv8frSSD330az/t2Dp7qQy0uMM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nCKSgi5ghJh488few+daxz3n+frldGQMli1tF7tyziw=;
+ b=tZQTcg949OFiviWJc0+1VQjLoUwlTm4f/SFfEzgfnlMfclBNT+xi8Ws38DLOFjnkXQ
+ O++wPQPW+jkjTxAoayXimbHZZKzBj7lA3t5LaLbZQ+MOihr66+bj90OegC8tcXT1vez2
+ N9+liSxlAExKpn/K1V0vIFEd3Zu86WV3SSPeUCht8hPr9OfQPz44W3LSYO1+kzj/E+li
+ U2lv7hxpjZO8Ygp2rDMzu4CDtPAT0EJRx71xmt3HJtKwj0oo6tmlw5ZEFzzlAZj6GUh/
+ w+TuIrXcmeiY9/RHikJZ/QCYoQUJ/hz+Q55JneK02fx6p/z+hnZ/pIyGk6TD9gv746j6
+ 8UMA==
+X-Gm-Message-State: AOAM5328WsIm8tbUy7s03SuA7jzuctQc3LTewiACeQj1MqQuDmbsqYCj
+ fHYIJNatKW4RrjgocJ5LGD9FsQ==
+X-Google-Smtp-Source: ABdhPJx/j2miMgCNt4Lz+zNAOBFsU+ps9maigyn2E1oMZ0cj6Y7pMkdlNEf4FN7+jd1e8jQNIgqnrw==
+X-Received: by 2002:a17:90b:33c4:b0:1e8:6e2f:97a2 with SMTP id
+ lk4-20020a17090b33c400b001e86e2f97a2mr10110935pjb.165.1654529077457; 
+ Mon, 06 Jun 2022 08:24:37 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:a0a:5e4:e24:c8c4]) by smtp.gmail.com with ESMTPSA id
+ h1-20020a655181000000b003fbaae74971sm10749306pgq.72.2022.06.06.08.24.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jun 2022 08:24:37 -0700 (PDT)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: [PATCH v4 0/8] Add a panel API to return panel orientation
+Date: Mon,  6 Jun 2022 23:24:23 +0800
+Message-Id: <20220606152431.1889185-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <97e77916-93c9-4be2-a734-2b9f4170276f@arm.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,96 +64,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jason Ekstrand <jason.ekstrand@collabora.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 06, 2022 at 04:10:09PM +0100, Robin Murphy wrote:
-> On 2022-06-02 07:47, Daniel Vetter wrote:
-> > On Thu, 2 Jun 2022 at 08:34, Simon Ser <contact@emersion.fr> wrote:
-> > > 
-> > > On Thursday, June 2nd, 2022 at 08:25, Greg KH <greg@kroah.com> wrote:
-> > > 
-> > > > On Thu, Jun 02, 2022 at 06:17:31AM +0000, Simon Ser wrote:
-> > > > 
-> > > > > On Thursday, June 2nd, 2022 at 07:40, Greg KH greg@kroah.com wrote:
-> > > > > 
-> > > > > > On Wed, Jun 01, 2022 at 04:13:14PM +0000, Simon Ser wrote:
-> > > > > > 
-> > > > > > > To discover support for new DMA-BUF IOCTLs, user-space has no
-> > > > > > > choice but to try to perform the IOCTL on an existing DMA-BUF.
-> > > > > > 
-> > > > > > Which is correct and how all kernel features work (sorry I missed the
-> > > > > > main goal of this patch earlier and focused only on the sysfs stuff).
-> > > > > > 
-> > > > > > > However, user-space may want to figure out whether or not the
-> > > > > > > IOCTL is available before it has a DMA-BUF at hand, e.g. at
-> > > > > > > initialization time in a Wayland compositor.
-> > > > > > 
-> > > > > > Why not just do the ioctl in a test way? That's how we determine kernel
-> > > > > > features, we do not poke around in sysfs to determine what is, or is
-> > > > > > not, present at runtime.
-> > > > > > 
-> > > > > > > Add a /sys/kernel/dmabuf/caps directory which allows the DMA-BUF
-> > > > > > > subsystem to advertise supported features. Add a
-> > > > > > > sync_file_import_export entry which indicates that importing and
-> > > > > > > exporting sync_files from/to DMA-BUFs is supported.
-> > > > > > 
-> > > > > > No, sorry, this is not a sustainable thing to do for all kernel features
-> > > > > > over time. Please just do the ioctl and go from there. sysfs is not
-> > > > > > for advertising what is and is not enabled/present in a kernel with
-> > > > > > regards to functionality or capabilities of the system.
-> > > > > > 
-> > > > > > If sysfs were to export this type of thing, it would have to do it for
-> > > > > > everything, not just some random tiny thing of one kernel driver.
-> > > > > 
-> > > > > I'd argue that DMA-BUF is a special case here.
-> > > > 
-> > > > So this is special and unique just like everything else? :)
-> > > > 
-> > > > > To check whether the import/export IOCTLs are available, user-space
-> > > > > needs a DMA-BUF to try to perform the IOCTL. To get a DMA-BUF,
-> > > > > user-space needs to enumerate GPUs, pick one at random, load GBM or
-> > > > > Vulkan, use that heavy-weight API to allocate a "fake" buffer on the
-> > > > > GPU, export that buffer into a DMA-BUF, try the IOCTL, then teardown
-> > > > > all of this. There is no other way.
-> > > > > 
-> > > > > This sounds like a roundabout way to answer the simple question "is the
-> > > > > IOCTL available?". Do you have another suggestion to address this
-> > > > > problem?
-> > > > 
-> > > > What does userspace do differently if the ioctl is present or not?
-> > > 
-> > > Globally enable a synchronization API for Wayland clients, for instance
-> > > in the case of a Wayland compositor.
-> > > 
-> > > > And why is this somehow more special than of the tens of thousands of
-> > > > other ioctl calls where you have to do exactly the same thing you list
-> > > > above to determine if it is present or not?
-> > > 
-> > > For other IOCTLs it's not as complicated to obtain a FD to do the test
-> > > with.
-> > 
-> > Two expand on this:
-> > 
-> > - compositor opens the drm render /dev node
-> > - compositor initializes the opengl or vulkan userspace driver on top of that
-> > - compositor asks that userspace driver to allocate some buffer, which
-> > can be pretty expensive
-> > - compositor asks the userspace driver to export that buffer into a dma-buf
-> > - compositor can finally do the test ioctl, realizes support isn't
-> > there and tosses the entire thing
-> > 
-> > read() on a sysfs file is so much more reasonable it's not even funny.
-> 
-> Just a drive-by observation, so apologies if I'm overlooking something
-> obvious, but it sounds like the ideal compromise would be to expose a sysfs
-> file which behaves as a dummy exported dma-buf. That way userspace could
-> just open() it and try ioctl() directly - assuming that supported operations
-> can fail distinctly from unsupported ones, or succeed as a no-op - which
-> seems even simpler still.
+Panels usually call drm_connector_set_panel_orientation(), which is
+later than drm/kms driver calling drm_dev_register(). This leads to a
+WARN()[1].
 
-ioctl() will not work on a sysfs file, sorry.
+The orientation property is known earlier. For example, some panels
+parse the property through device tree during probe.
+
+The series add a panel API drm_panel_get_orientation() for drm/kms
+drivers. The drivers can use the API to get panel's orientation, so they
+can call drm_connector_set_panel_orientation() before drm_dev_register().
+
+Panel needs to implement .get_orientation callback to return the property.
+
+[1] https://patchwork.kernel.org/project/linux-mediatek/patch/20220530081910.3947168-2-hsinyi@chromium.org/
+
+Hsin-Yi Wang (8):
+  drm/panel: Add an API drm_panel_get_orientation() to return panel
+    orientation
+  drm/panel: boe-tv101wum-nl6: Implement .get_orientation callback
+  drm/panel: panel-edp: Implement .get_orientation callback
+  drm/panel: lvds: Implement .get_orientation callback
+  drm/panel: panel-simple: Implement .get_orientation callback
+  drm/panel: ili9881c: Implement .get_orientation callback
+  drm/panel: elida-kd35t133: Implement .get_orientation callback
+  drm/mediatek: Config orientation property if panel provides it
+
+ drivers/gpu/drm/drm_panel.c                    |  9 +++++++++
+ drivers/gpu/drm/mediatek/mtk_dsi.c             | 10 ++++++++++
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 14 ++++++++++++++
+ drivers/gpu/drm/panel/panel-edp.c              | 15 ++++++++++++++-
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c   | 14 ++++++++++++++
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c  | 14 ++++++++++++++
+ drivers/gpu/drm/panel/panel-lvds.c             | 15 +++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c           | 16 +++++++++++++++-
+ include/drm/drm_panel.h                        | 10 ++++++++++
+ 9 files changed, 115 insertions(+), 2 deletions(-)
+
+-- 
+2.36.1.255.ge46751e96f-goog
+
