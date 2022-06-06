@@ -1,50 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADDB53ED1C
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 19:42:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC2453ED40
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 19:53:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 284D611BAF8;
-	Mon,  6 Jun 2022 17:42:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A5EA10FB04;
+	Mon,  6 Jun 2022 17:53:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
- [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B36DC11BAF7
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 17:42:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=o6KcmZERReMj91I4Z2hAEfo65JLY4e4eAS5un7mwvs8=; b=PTT0GDJfE3l97+z6Athyiwm7C5
- Ct6bJeSh2TYszVTIOOtyn7LU3RO1NbVPk25Dz7VJScrAYkijDfMqaWmqRHJ8ht3PvwGvJgX1HRA+v
- Fc9kx0d6/APwwqpcOgosf3oBbC85APJ2ZPfhDI7aADVCacdKENkNBpfr7TDi8jBFY72JPJMjIiXXm
- 78l4Qej2seXMVb8N/oGOdqEBgdZhQNVzGyVOWtiI6ZfhzBFRpjPVJe3BHbJ3UC3mN4qOJRTtiTzU5
- X9CNm9lh2k91LeGsfDx35pacyJZxJXQ2OFXx1DJ8GWuOBsC+2jxi93oeDKbcLmFYTvPetdBBF0ydh
- 47btb7zQ==;
-Received: from shell.armlinux.org.uk
- ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60976)
- by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <linux@armlinux.org.uk>)
- id 1nyGkG-0002IK-88; Mon, 06 Jun 2022 18:42:28 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1nyGkE-0008Qc-KL; Mon, 06 Jun 2022 18:42:26 +0100
-Date: Mon, 6 Jun 2022 18:42:26 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH] drm/i2c: tda9950: Lower severity of log message about
- missing interrupts
-Message-ID: <Yp48gqLTp8Bwu7rG@shell.armlinux.org.uk>
-References: <20220606171436.2438051-1-broonie@kernel.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8084D88AC8
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 17:53:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654538009;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sA5FRYdjW46yogT585AFPa7Uprs64JJvNY0R0SXT104=;
+ b=B4DlcezkaZvGnDMOpjqb8x132VBa0ukodPsc9qIiu3J13ybEB6ctN+h9zA69esajpqUq+s
+ GV9ruat4Bd4QrljSk1HFXO4uTc1ZuY//wLI1o1SWX1tbGnxkV0Y9/H4QEPsFsbTAoJoLaU
+ l+CUaqOvEME2O6flsS+t1fcf5lp2ZxI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-94-wX3yXpk8OOSRpbxGlbph8g-1; Mon, 06 Jun 2022 13:53:18 -0400
+X-MC-Unique: wX3yXpk8OOSRpbxGlbph8g-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7799E3C60524;
+ Mon,  6 Jun 2022 17:53:17 +0000 (UTC)
+Received: from [172.30.41.16] (unknown [10.22.35.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F4F7492C3B;
+ Mon,  6 Jun 2022 17:53:16 +0000 (UTC)
+Subject: [PATCH 0/2] Improve vfio-pci primary GPU assignment behavior
+From: Alex Williamson <alex.williamson@redhat.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch
+Date: Mon, 06 Jun 2022 11:53:15 -0600
+Message-ID: <165453797543.3592816.6381793341352595461.stgit@omen>
+User-Agent: StGit/1.5.dev2+g9ce680a52bd9
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220606171436.2438051-1-broonie@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,30 +59,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- dri-devel@lists.freedesktop.org
+Cc: kvm@vger.kernel.org, Laszlo Ersek <lersek@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 06, 2022 at 06:14:36PM +0100, Mark Brown wrote:
-> The tda9950 driver prints an error message if it is instantiated without
-> an interrupt being available since the device is non-functional in that
-> case. Unfortunately due to packaging of tda9950 with tda998x series devices
-> the tda998x driver unconditionally instantiates a tda9950 so systems with a
-> tda998x configured without an interrupt will trigger this error message
-> during boot if tda9950 support is available. Reduce the severity to debug
-> level so this is less likely to be presented to end users, the information
-> is still there for system integrators who run into problems.
-> 
-> We could add a check for an interrupt to the tda998x driver instead but
-> this feels better from an encapsulation point of view, there's still a log
-> message to help anyone doing system integration.
+Users attempting to enable vfio PCI device assignment with a GPU will
+often block the default PCI driver from the device to avoid conflicts
+with the device initialization or release path.  This means that
+vfio-pci is sometimes the first PCI driver to bind to the device.  In 
+the case of assigning the primary graphics device, low-level console
+drivers may still generate resource conflicts.  Users often employ
+kernel command line arguments to disable conflicting drivers or
+perform unbinding in userspace to avoid this, but the actual solution
+is often distribution/kernel config specific based on the included
+drivers.
 
-As the tda998x also makes use of the interrupt, it would be trivial to
-avoid instantiating the tda9950 device if there's no interrupt. tda9950
-does require it, and if it's missing, then it isn't functional. No
-point wasting memory on the struct device.
+We can instead allow vfio-pci to copy the behavior of
+drm_aperture_remove_conflicting_pci_framebuffers() in order to remove
+these low-level drivers with conflicting resources.  vfio-pci is not
+however a DRM driver, nor does vfio-pci depend on DRM config options,
+thus we split out and export the necessary DRM apterture support and
+mirror the framebuffer and VGA support.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+I'd be happy to pull this series in through the vfio branch if
+approved by the DRM maintainers.  Thanks,
+
+Alex
+
+---
+
+Alex Williamson (2):
+      drm/aperture: Split conflicting platform driver removal
+      vfio/pci: Remove console drivers
+
+
+ drivers/gpu/drm/drm_aperture.c   | 33 +++++++++++++++++++++++---------
+ drivers/vfio/pci/vfio_pci_core.c | 17 ++++++++++++++++
+ include/drm/drm_aperture.h       |  2 ++
+ 3 files changed, 43 insertions(+), 9 deletions(-)
+
