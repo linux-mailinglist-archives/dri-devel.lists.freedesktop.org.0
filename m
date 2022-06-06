@@ -1,55 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59CE753F0F8
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 22:51:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3570353F5BB
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 07:55:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5C9810FB71;
-	Mon,  6 Jun 2022 20:51:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D406112A9A5;
+	Tue,  7 Jun 2022 05:55:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
- (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC77310FB71
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 20:51:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=Ka1TstOWIq/uwWbI0ltivqnySUBaQmYAJjhs5L+uFtQ=;
- b=LNfDtB4wj+D5BF2YFa+dsimjUyIRcnBqRJuc1gWVJJ2WQRGzCCK2/Fp7XmPd2x8CwqX3VFpy7xGJe
- /twRS6RP+Jl9wjBLOaLoykj2E48IOEbfGQSxCBTJDrEqg3uIods5z0+kmNkajaDRdqnOrnqSDY4qCx
- Z7wC90armxFFwKN1QPDnWZwnNU9QUjjxp6CcnFFNY6qKV5fkoqXbbcmEd2CFqPBPXOBt5WDEnY84on
- dEXQ9z8KV9CJfh/NIDcEZEDP+QyNzhjajPIn+xnm1zeFt7P5A0zYvsCMIq49UUrrPdQ6QUbM0ZlPUv
- tB3uf3WfVLZng5ZEHrh46QhC9oo7lww==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=Ka1TstOWIq/uwWbI0ltivqnySUBaQmYAJjhs5L+uFtQ=;
- b=03czCzu+A+UQWWKkvZaMDlWN9f8keJg9Lub74nSGWSf9HSwJrZ5ek2baj1eWVW6pVVOJ0jqCx4tEJ
- OkQd9zXAw==
-X-HalOne-Cookie: 21ab51b31a6fe080a3deed71589524505420b830
-X-HalOne-ID: 5e400a0c-e5da-11ec-be77-d0431ea8bb03
-Received: from mailproxy1.cst.dirpod3-cph3.one.com
- (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
- by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 5e400a0c-e5da-11ec-be77-d0431ea8bb03;
- Mon, 06 Jun 2022 20:50:59 +0000 (UTC)
-Date: Mon, 6 Jun 2022 22:50:57 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v4 1/8] drm/panel: Add an API drm_panel_get_orientation()
- to return panel orientation
-Message-ID: <Yp5osTQK+HCN2Ads@ravnborg.org>
-References: <20220606152431.1889185-1-hsinyi@chromium.org>
- <20220606152431.1889185-2-hsinyi@chromium.org>
- <Yp5Ti3ov/fnw0xeQ@ravnborg.org>
- <1c6e4d09-cf7a-2812-fd0d-09a21a275201@redhat.com>
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE9DB10F122;
+ Mon,  6 Jun 2022 21:13:36 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id n10so31387145ejk.5;
+ Mon, 06 Jun 2022 14:13:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/vrjMAvCFt6wUI3BDJ99m6gry4K6PxML5aBtTWp7pZQ=;
+ b=JjYSoRegWg4TZgb8oMQZIZJSQWGIKj9z2gM5kWLF70V1Ib9I32PpN4BWerHyWCrw5l
+ HvB34rGAglkE+wPkkNQab9kQ2pJrPEfJWtJDZUJ1KBouMzrWehKMd1FW8niFVKONtVfI
+ g8AU4ecym7aMzL+hZZnsf9cHrn/sZB/GQzUuKLBn6HuBaL+iDsAEJlQDHkHpJZXUX6DD
+ 449ChyQIf7H4J5vEq0bzWxuAkbYfh+b2mtm2xu6bpHJvtbS1Ac2IchV5YbnwjZcQ8JBx
+ psWXQsq67vFX3OebEtCBqQkMpm5deM6VD7q/RQgrd4xR56BCBk+k27cAQ7XNpg83GQdl
+ b6hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/vrjMAvCFt6wUI3BDJ99m6gry4K6PxML5aBtTWp7pZQ=;
+ b=mn37cDLPbiiSF9VC6eFmO8MUKqGyi0U5I5E+zVDgHbEr2PPrZYlw4OmbFe+99fHEvw
+ eomXn8MvH775HF5s8umo3y9xKO99bHuMsGaUET8Y4ZS66dVBZ2Nj5vkP0tob9U54b/xu
+ yGfShqPh2Z2lsacJGbAHLPSx2fqP8PXpIj79L46Pha4vhiCqxMQEpc9Mq7AZLOXKQy/5
+ M655cQWvQkqdhATVOkn10zV6iI9eN7wnOP6q1KMN5wS7A+zAjemIjEfoA17J7tiMD0tp
+ B7MQOWGWRt1yVi5Dc7DHvXsLXG3aGoXvlIDMdt1ZR1YDTk10raURnoxPZpBCoMKDmpXP
+ jgWQ==
+X-Gm-Message-State: AOAM5304imriCee5lAGQgwIRAMS1+bjRb3TtAUzPGNJlB9+jHFP3q/Io
+ iTgwP9XrFnV1kry9wBdEjf4=
+X-Google-Smtp-Source: ABdhPJzu0VYk2HyNbCEmKotVrY7I0kwRusHR3DozhQRm/s4pEzZeZM0+mkyCZ1uSwCq8FooJhmyt9w==
+X-Received: by 2002:a17:907:961a:b0:6ff:b74:7e67 with SMTP id
+ gb26-20020a170907961a00b006ff0b747e67mr23436126ejc.424.1654550015210; 
+ Mon, 06 Jun 2022 14:13:35 -0700 (PDT)
+Received: from xws.localdomain ([37.120.217.83])
+ by smtp.gmail.com with ESMTPSA id
+ kq15-20020a170906abcf00b0070cac22060esm5144284ejb.95.2022.06.06.14.13.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jun 2022 14:13:34 -0700 (PDT)
+From: Maximilian Luz <luzmaximilian@gmail.com>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
+Subject: [PATCH] drm/msm: Fix double pm_runtime_disable() call
+Date: Mon,  6 Jun 2022 23:13:05 +0200
+Message-Id: <20220606211305.189585-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1c6e4d09-cf7a-2812-fd0d-09a21a275201@redhat.com>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 07 Jun 2022 05:55:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,32 +69,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Maximilian Luz <luzmaximilian@gmail.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hans,
+Following commit 17e822f7591f ("drm/msm: fix unbalanced
+pm_runtime_enable in adreno_gpu_{init, cleanup}"), any call to
+adreno_unbind() will disable runtime PM twice, as indicated by the call
+trees below:
 
-> > Please move this up so it is together with the other get_* methods, in
-> > alphabetic order. That is, right after get_modes(), and then this also
-> > matches the order in the .c file with is extra bonus.
-> 
-> The downside of moving this up is that it will break drivers which don't
-> use c99 style named-struct-field initializers for there drm_panel_funcs.
-> 
-> I admit that no drivers should be using the old style struct init, but
-> are we sure that that is the case?
+  adreno_unbind()
+   -> pm_runtime_force_suspend()
+   -> pm_runtime_disable()
 
-There is no in-tree driver that uses old style struct init for
-drm_panel_funcs - so we are safe here.
+  adreno_unbind()
+   -> gpu->funcs->destroy() [= aNxx_destroy()]
+   -> adreno_gpu_cleanup()
+   -> pm_runtime_disable()
 
-I just did a quick git grep -A 4 drm_panel_funcs to verify it,
-browsing through the output did not reveal any old style users.
+Note that pm_runtime_force_suspend() is called right before
+gpu->funcs->destroy() and both functions are called unconditionally.
 
-	Sam
+With recent addition of the eDP AUX bus code, this problem manifests
+itself when the eDP panel cannot be found yet and probing is deferred.
+On the first probe attempt, we disable runtime PM twice as described
+above. This then causes any later probe attempt to fail with
+
+  [drm:adreno_load_gpu [msm]] *ERROR* Couldn't power up the GPU: -13
+
+preventing the driver from loading.
+
+As there seem to be scenarios where the aNxx_destroy() functions are not
+called from adreno_unbind(), simply removing pm_runtime_disable() from
+inside adreno_unbind() does not seem to be the proper fix. This is what
+commit 17e822f7591f ("drm/msm: fix unbalanced pm_runtime_enable in
+adreno_gpu_{init, cleanup}") intended to fix. Therefore, instead check
+whether runtime PM is still enabled, and only disable it in that case.
+
+Fixes: 17e822f7591f ("drm/msm: fix unbalanced pm_runtime_enable in adreno_gpu_{init, cleanup}")
+Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index 4e665c806a14..f944b69e2a25 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -1057,7 +1057,8 @@ void adreno_gpu_cleanup(struct adreno_gpu *adreno_gpu)
+ 	for (i = 0; i < ARRAY_SIZE(adreno_gpu->info->fw); i++)
+ 		release_firmware(adreno_gpu->fw[i]);
+ 
+-	pm_runtime_disable(&priv->gpu_pdev->dev);
++	if (pm_runtime_enabled(&priv->gpu_pdev->dev))
++		pm_runtime_disable(&priv->gpu_pdev->dev);
+ 
+ 	msm_gpu_cleanup(&adreno_gpu->base);
+ }
+-- 
+2.36.1
+
