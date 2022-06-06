@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5492353E513
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 16:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C7B53E511
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 16:29:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5861610EBAB;
-	Mon,  6 Jun 2022 14:30:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56DB210E761;
+	Mon,  6 Jun 2022 14:29:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFFE10EB9E
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 14:30:50 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id h23so18243195ejj.12
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:30:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H9gSJdumX788ea5ymBPhF6Qx4oKS3kXqxz2HGbJIL4Q=;
- b=NDhxYiHFP2DQ/Hg/9TucNlDLLMsU/ntXpeN0g2X8O+A2BUihfdLVBLLH7RWDprBeHQ
- YwaJrLW49qHLVTYYoKNvynnJ3jb79kiSyxeSMy2uxFQjXwG+gVg48vktfIa85w7hKfQ1
- g4jx4e8LsxUAl7JSRLIBkVIW6BW0V9jVja/Dk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=H9gSJdumX788ea5ymBPhF6Qx4oKS3kXqxz2HGbJIL4Q=;
- b=TqhwRfedrXT374sinuZaZg9qfK/ladsfE7gDjFJMjLjmGfQQ2n4qqbfu1rA0Hk236M
- BVTrANHytfG3YSjhqIWZCoXDk03RMkp9FClMw4IGt5o71jsWMLSfvS7HzFy2QlBNZZor
- fah78kqFv5xPkextqMy6DDordAgTCmjWmPIZqzwb7lCLQw9we93m90yBGvQBRI8cVaBW
- aMn1GKUHxYzBNqSAYazma2pfLVBjyFZVxi3FKRZK0ZQAsqfcXeSNzeE/4elcAlUcD6m0
- YHGRGOUA9aETCBQqsFQ/df6yAYeDNW9zTeY1Kac/BsyP61KrDRJrld0l3LYPIwL2/dlY
- tYfw==
-X-Gm-Message-State: AOAM532vqLZ6pki7NXn78xJHGeIRc2aqRb/qCNpodLSZiIdKDdMfWmT6
- s9Ex4hXsucJE6DtyL0ttXGqVsHC9S4XKeKSCQX0=
-X-Google-Smtp-Source: ABdhPJytv8cGqC2CftTMVHcHzFpoLLS3sKsndhg36c25nqdu5D2LMqs6n7zq6PSBPNhh0K7AH1VJqg==
-X-Received: by 2002:a17:907:608b:b0:711:623e:b344 with SMTP id
- ht11-20020a170907608b00b00711623eb344mr9386216ejc.230.1654525848284; 
- Mon, 06 Jun 2022 07:30:48 -0700 (PDT)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com.
- [209.85.208.42]) by smtp.gmail.com with ESMTPSA id
- ly2-20020a170906af4200b006feec47dae9sm6362522ejb.157.2022.06.06.07.30.47
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jun 2022 07:30:47 -0700 (PDT)
-Received: by mail-ed1-f42.google.com with SMTP id o10so19079124edi.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:30:47 -0700 (PDT)
-X-Received: by 2002:a05:6000:1685:b0:218:45f0:5be6 with SMTP id
- y5-20020a056000168500b0021845f05be6mr2533347wrd.301.1654525406801; Mon, 06
- Jun 2022 07:23:26 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9F2210E761
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 14:29:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654525766; x=1686061766;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=6gFuK9m/CegkpD/g+gX8hVz/ChSurSOe3kM0kYWm6aE=;
+ b=eMC426nikFbLleMpcDTh7f0evVLQFOc0EOD+mur79kxbvG6TELXmV8Aj
+ nKCCefZWHVfjqCAiqyuxa6AoT7ForInPA8yVKBMPw0N5veqmcsRD0MHpG
+ WfnXh0EIX4qO/xF58JQ14SySJcla3/QhtBM00+2CbGX7MYqJ01fHG4pCM
+ OmHgeLZTj9y3aiEgmKrcwqGTCAd27vIFsy+QS7RkB6xTPSlM/eYjbTEvY
+ jIYL5BuSi5oE4+2LfaM97VvzDcnwrsHa0onSb5vU/EInWkCdLieVMka/T
+ D5FyRsO5GakZz4AcB75dugRKVfr3X7rX7Hio/NQkBb6988DLPTnDDPa6P w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10369"; a="363002551"
+X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; d="scan'208";a="363002551"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jun 2022 07:29:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; d="scan'208";a="554471422"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+ by orsmga006.jf.intel.com with ESMTP; 06 Jun 2022 07:29:19 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1nyDjK-000Cnd-JV;
+ Mon, 06 Jun 2022 14:29:18 +0000
+Date: Mon, 6 Jun 2022 22:28:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
+ daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
+ gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
+ lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
+ heikki.krogerus@linux.intel.com, deller@gmx.de
+Subject: Re: [RESEND 12/14] leds: mt6370: Add Mediatek MT6370 Indicator support
+Message-ID: <202206062207.q0S8wxpj-lkp@intel.com>
+References: <20220531111900.19422-13-peterwu.pub@gmail.com>
 MIME-Version: 1.0
-References: <20220606044720.945964-1-hsinyi@chromium.org>
- <20220606044720.945964-8-hsinyi@chromium.org>
-In-Reply-To: <20220606044720.945964-8-hsinyi@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 6 Jun 2022 07:23:15 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V7EiaYgzr57geyeqEafLJ67G2PJa8ejZwgWNV+icD0RQ@mail.gmail.com>
-Message-ID: <CAD=FV=V7EiaYgzr57geyeqEafLJ67G2PJa8ejZwgWNV+icD0RQ@mail.gmail.com>
-Subject: Re: [PATCH v3 7/8] drm/panel: elida-kd35t133: Implement
- .get_orientation callback
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220531111900.19422-13-peterwu.pub@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,30 +64,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org, alice_chen@richtek.com,
+ linux-pm@vger.kernel.org, linux-iio@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ cy_huang@richtek.com, chiaen_wu@richtek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ peterwu.pub@gmail.com, linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi ChiaEn,
 
-On Sun, Jun 5, 2022 at 9:47 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
->
-> To return the orientation property to drm/kms driver.
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-> v2->v3: add comments for notice.
-> ---
->  drivers/gpu/drm/panel/panel-elida-kd35t133.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+Thank you for the patch! Yet something to improve:
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+[auto build test ERROR on pavel-leds/for-next]
+[also build test ERROR on lee-mfd/for-mfd-next lee-backlight/for-backlight-next v5.19-rc1 next-20220606]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ChiaEn-Wu/Add-Mediatek-MT6370-PMIC-support/20220531-211432
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
+config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20220606/202206062207.q0S8wxpj-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4de9e5ff11aeade155aa744bcaf9efca82b3d4ee
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review ChiaEn-Wu/Add-Mediatek-MT6370-PMIC-support/20220531-211432
+        git checkout 4de9e5ff11aeade155aa744bcaf9efca82b3d4ee
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/leds/leds-mt6370.c: In function 'mt6370_check_vendor_info':
+>> drivers/leds/leds-mt6370.c:873:15: error: implicit declaration of function 'FIELD_GET'; did you mean 'FOLL_GET'? [-Werror=implicit-function-declaration]
+     873 |         vid = FIELD_GET(MT6370_VENID_MASK, devinfo);
+         |               ^~~~~~~~~
+         |               FOLL_GET
+   cc1: some warnings being treated as errors
+
+
+vim +873 drivers/leds/leds-mt6370.c
+
+   863	
+   864	static int mt6370_check_vendor_info(struct mt6370_priv *priv)
+   865	{
+   866		unsigned int devinfo, vid;
+   867		int ret;
+   868	
+   869		ret = regmap_read(priv->regmap, MT6370_REG_DEV_INFO, &devinfo);
+   870		if (ret)
+   871			return ret;
+   872	
+ > 873		vid = FIELD_GET(MT6370_VENID_MASK, devinfo);
+   874		if (vid == 0x9 || vid == 0xb) {
+   875			priv->reg_fields = mt6372_reg_fields;
+   876			priv->ranges = mt6372_led_ranges;
+   877			priv->is_mt6372 = true;
+   878		} else {
+   879			priv->reg_fields = common_reg_fields;
+   880			priv->ranges = common_led_ranges;
+   881		}
+   882	
+   883		return 0;
+   884	}
+   885	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
