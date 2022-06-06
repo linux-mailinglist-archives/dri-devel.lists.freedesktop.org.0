@@ -2,62 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10AE353ED17
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 19:40:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AADDB53ED1C
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 19:42:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28D5311BA7E;
-	Mon,  6 Jun 2022 17:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 284D611BAF8;
+	Mon,  6 Jun 2022 17:42:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59E7711BA7E;
- Mon,  6 Jun 2022 17:40:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1654537240; x=1686073240;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=zESBcsC3q66fDUCxK78kqEowxXd5sdCuRRFUeC5plGY=;
- b=bUc1GhThZGPl/F+SCbyk7cHMV5yFtlOioAcOAniB7OH9oiQcCx/RZ5L2
- gOXpCOEC/ixexnU4oDY+cFgTAY6Kp8YNusgUMIiKD42XpJ44z5uxZ6wFF
- P3FVUfHhp6m/0frQZYg30x1lBwufqVxQ+rjQrfeF4ASqTpamePk44jmEP c=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 06 Jun 2022 10:40:39 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2022 10:40:39 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 6 Jun 2022 10:40:38 -0700
-Received: from [10.110.88.53] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 6 Jun 2022
- 10:40:37 -0700
-Message-ID: <68c6f375-5b11-98f2-83f5-1b481ea09ebd@quicinc.com>
-Date: Mon, 6 Jun 2022 10:40:36 -0700
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
+ [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B36DC11BAF7
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 17:42:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=o6KcmZERReMj91I4Z2hAEfo65JLY4e4eAS5un7mwvs8=; b=PTT0GDJfE3l97+z6Athyiwm7C5
+ Ct6bJeSh2TYszVTIOOtyn7LU3RO1NbVPk25Dz7VJScrAYkijDfMqaWmqRHJ8ht3PvwGvJgX1HRA+v
+ Fc9kx0d6/APwwqpcOgosf3oBbC85APJ2ZPfhDI7aADVCacdKENkNBpfr7TDi8jBFY72JPJMjIiXXm
+ 78l4Qej2seXMVb8N/oGOdqEBgdZhQNVzGyVOWtiI6ZfhzBFRpjPVJe3BHbJ3UC3mN4qOJRTtiTzU5
+ X9CNm9lh2k91LeGsfDx35pacyJZxJXQ2OFXx1DJ8GWuOBsC+2jxi93oeDKbcLmFYTvPetdBBF0ydh
+ 47btb7zQ==;
+Received: from shell.armlinux.org.uk
+ ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:60976)
+ by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1nyGkG-0002IK-88; Mon, 06 Jun 2022 18:42:28 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1nyGkE-0008Qc-KL; Mon, 06 Jun 2022 18:42:26 +0100
+Date: Mon, 6 Jun 2022 18:42:26 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH] drm/i2c: tda9950: Lower severity of log message about
+ missing interrupts
+Message-ID: <Yp48gqLTp8Bwu7rG@shell.armlinux.org.uk>
+References: <20220606171436.2438051-1-broonie@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v1 1/2] drm/msm: enable msm irq after all initializations
- are done successfully at msm_drm_init()
-Content-Language: en-US
-To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
- <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-References: <1654291716-6603-1-git-send-email-quic_khsieh@quicinc.com>
- <1654291716-6603-2-git-send-email-quic_khsieh@quicinc.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <1654291716-6603-2-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220606171436.2438051-1-broonie@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,90 +57,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I will drop this patch since the problem had been fixed by Dmitry 
-Baryshkov patch.
+On Mon, Jun 06, 2022 at 06:14:36PM +0100, Mark Brown wrote:
+> The tda9950 driver prints an error message if it is instantiated without
+> an interrupt being available since the device is non-functional in that
+> case. Unfortunately due to packaging of tda9950 with tda998x series devices
+> the tda998x driver unconditionally instantiates a tda9950 so systems with a
+> tda998x configured without an interrupt will trigger this error message
+> during boot if tda9950 support is available. Reduce the severity to debug
+> level so this is less likely to be presented to end users, the information
+> is still there for system integrators who run into problems.
+> 
+> We could add a check for an interrupt to the tda998x driver instead but
+> this feels better from an encapsulation point of view, there's still a log
+> message to help anyone doing system integration.
 
-https://gitlab.freedesktop.org/drm/msm/-/commit/577e2a9dfc8fba7938aaf75db63fae7e328cc3cb
+As the tda998x also makes use of the interrupt, it would be trivial to
+avoid instantiating the tda9950 device if there's no interrupt. tda9950
+does require it, and if it's missing, then it isn't functional. No
+point wasting memory on the struct device.
 
-
-
-On 6/3/2022 2:28 PM, Kuogee Hsieh wrote:
-> At msm initialize phase, msm_drm_init() is called to initialize modules
-> sequentially. It will call msm_drm_uninit() to clean up initialized phase
-> if any module initialization return failed. This patch move msm_irq_install()
-> to the last step of msm_drm_init() after all modules are initialized successfully
-> so that no msm_irq_unistall() required at msm_drm_uninit() if any module
-> initialization failed happen at msm_drm_init().
->
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/msm_drv.c | 29 ++++++-----------------------
->   1 file changed, 6 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 6665c5a..ab42e9a 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -132,15 +132,6 @@ static int msm_irq_install(struct drm_device *dev, unsigned int irq)
->   	return 0;
->   }
->   
-> -static void msm_irq_uninstall(struct drm_device *dev)
-> -{
-> -	struct msm_drm_private *priv = dev->dev_private;
-> -	struct msm_kms *kms = priv->kms;
-> -
-> -	kms->funcs->irq_uninstall(kms);
-> -	free_irq(kms->irq, dev);
-> -}
-> -
->   struct msm_vblank_work {
->   	struct work_struct work;
->   	int crtc_id;
-> @@ -232,10 +223,6 @@ static int msm_drm_uninit(struct device *dev)
->   
->   	drm_mode_config_cleanup(ddev);
->   
-> -	pm_runtime_get_sync(dev);
-> -	msm_irq_uninstall(ddev);
-> -	pm_runtime_put_sync(dev);
-> -
->   	if (kms && kms->funcs)
->   		kms->funcs->destroy(kms);
->   
-> @@ -437,16 +424,6 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
->   		goto err_msm_uninit;
->   	}
->   
-> -	if (kms) {
-> -		pm_runtime_get_sync(dev);
-> -		ret = msm_irq_install(ddev, kms->irq);
-> -		pm_runtime_put_sync(dev);
-> -		if (ret < 0) {
-> -			DRM_DEV_ERROR(dev, "failed to install IRQ handler\n");
-> -			goto err_msm_uninit;
-> -		}
-> -	}
-> -
->   	ret = drm_dev_register(ddev, 0);
->   	if (ret)
->   		goto err_msm_uninit;
-> @@ -467,6 +444,12 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
->   	if (ret)
->   		goto err_msm_uninit;
->   
-> +	if (kms) {
-> +		pm_runtime_get_sync(dev);
-> +		msm_irq_install(ddev, kms->irq);
-> +		pm_runtime_put_sync(dev);
-> +	}
-> +
->   	drm_kms_helper_poll_init(ddev);
->   
->   	return 0;
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
