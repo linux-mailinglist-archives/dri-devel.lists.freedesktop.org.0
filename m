@@ -2,78 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B9E53E3E4
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 11:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E4E53E3E5
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 11:22:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01CB210E5D2;
-	Mon,  6 Jun 2022 09:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C3910E662;
+	Mon,  6 Jun 2022 09:22:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4927C10E348
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 09:22:30 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 93D2132002FB;
- Mon,  6 Jun 2022 05:22:28 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 06 Jun 2022 05:22:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1654507348; x=1654593748; bh=Xw4lnTY/et
- JsJAGDFGc3jcxrakgTZHGFztPy9C0RzDM=; b=qxiiLfWULeAPQo8wYKlgqESjFG
- 6TGaZfecQYvAdffjoLWu9YG0TrJovLyO7ylqUihe6F61QahAqc0BAVqRy4Ucxxy4
- DrxmKAJLMzMOgbfXVoP+AHuvh6QztQtYmBw4ibyH0LST0wlJmazaMMxuzMvSoMta
- s3YBZb5JA644H4gnTon7TvG0pEfMZV9xrjpkm9Fh5FlMYGpn3gpkemo5Yyq+KG2a
- LlhxrUovfCmLEph0pA7McLE9e/u+JYiDvoyXB723FRFYjBvXw6hEHQpzrDaGkgeo
- kittXLPBx1KAA5i5K9YN2Y0eVrcEGROCfDa21n8f+jMnK1plVMDohSYuZlDw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1654507348; x=1654593748; bh=Xw4lnTY/etJsJAGDFGc3jcxrakgT
- ZHGFztPy9C0RzDM=; b=PEwqST23OMlAUNHFqMxHnAJfKU40BvEfscyGrQViseSX
- px/VVlVaH+85i1wn8bN9DA7pxQX5/Rxm5Zmo/ntfQmPFTukTpi+NRnAX23o72TF7
- V5KBmBp5lnVpSAoYMAIQP4CCa0XL9IhN2Sg5yPHxMzUheZ50BpYNaZwKXLw3TRaY
- TatwtKg9n/tMw8K4WTrtjSx4mQPhRPBSpekrPd+o9PdJ31SSjUsTWQQAn34Wq4Fg
- 3ph9Q0957ns9Xr+D4pChkbEj8qG/pzqR8cC4c4tuZpOy9lGyxyjLnLIQKjlfA86L
- xz32lzWRe/283rcsK4w7GAZCkCsNYQ1UvgN0yUkovA==
-X-ME-Sender: <xms:U8edYg2cRD82UHQxi1oxy42mFBVxzggZweD4Nwu3WAAIGVxZDDk4dQ>
- <xme:U8edYrE7XP7dBoaKUXxX-NGMjWuj3IvRvSuBjLHp7VkS6IB6S_Jx1TqjU0a0A6t8x
- PfYVE0mSmsk6TPrQCk>
-X-ME-Received: <xmr:U8edYo7IcqcQ_YmKavdRNLFx3FiGjQf09ogJ_6Q8UX9yCopdZPW4avJhuyJQuJy7Bcjqz-_p53wK5pjg2dshDTVfA7tk8pRTitZScAE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtvddgudegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejgeeiveevvdfgffeftdevuefhheduveejieefgeejveeuhfetkeelgfev
- teefffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:U8edYp1k2rdN6LO_i3E36JF8vVN-xX-clV_1IrYu677gipX0WUG4dA>
- <xmx:U8edYjGpYaHBOxOiONoCqdCg9oObmTyUyKXtkVsge35Si535KTsYBA>
- <xmx:U8edYi-sqWw1vD9L4j8_KtpIJF59CU6yj1bz7VspQPAy4co9HE1VKA>
- <xmx:VMedYr_puFd5iP3itjaz9la2pq6V6Vbt4L3B8XB-XInrG1Gjccl17g>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Jun 2022 05:22:26 -0400 (EDT)
-Date: Mon, 6 Jun 2022 11:22:25 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Roman Stratiienko <r.stratiienko@gmail.com>
-Subject: Re: [PATCH] drm/sun4i: sun8i: Add support for pixel blend mode
- property
-Message-ID: <20220606092225.yxyw77mtuqpbmd35@houat>
-References: <20220605154731.17362-1-roman.o.stratiienko@globallogic.com>
- <4714286.GXAFRqVoOG@jernej-laptop>
- <CAGphcdniPFdqgLcpUc88ak9GzNaCvmj_TDVYTOe2bXto-Y12FQ@mail.gmail.com>
- <20220606092006.4bgxibmayv44juox@houat>
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B912710E348
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 09:22:45 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id v1so17020441ejg.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 02:22:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YRul4En+zUsvPscyNur2BYtLJ2pA1uRWUnvIRnDGwd4=;
+ b=pvyIsI7n6qmT9178HKdHJ+asUjScObVc4OEl1M7mzVYo4ABDlmCZMmwt4+NEkQi3dY
+ Tqr4aGLjZwyhmHZqYpzAWUewSdELp4B8lhQxwq0hm0dynLQFf/PmlGooGA5YxSfoZAV6
+ NqSEUpEbhK6NCZgUGPmMsnb80byIWbiH2Jd2rl1PxEFNG8iyy8LqeZna/kno2f2RorEI
+ WIsHR/EnSH3X5XslvgYyd4VUixl3jJ+KXU6nU+Ec2j8/uwKxxUdAxZPQYBNtVArh2qMf
+ ALNrMXO6+9woEyca3X7h1am4Bt4J0z2cWDteO5KKuZBtCPTh2lkfK293+hmIT0Jemm7q
+ mQkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=YRul4En+zUsvPscyNur2BYtLJ2pA1uRWUnvIRnDGwd4=;
+ b=CmRRN4GDPS4I1qfG3Yid+zWwl9Zz4p5cRDH4NIFXoeQd0MYVoDYu1HLO/kAyFmB/b0
+ MThE+FZBKO1Jv11P3bNNvoAWw59sw+17vWHap6LWujItS2Q2lZBxfrp1A40K38zqZKtQ
+ BqcLVrz+0h3j9ncEXJM6M42ou4Nz8SkF+rYjcBuVUdR87GqhSkM2vinxlDVvkAesWR3P
+ kIFOR0++qr+luTiT4EPy3MG56HGb7qhpkeeM32qRFWibSOwpdZY5aPGTcNy489+3ocHG
+ CIZfQJYYE7nOq7MIcNDlidhvzkSVUxJ3xbm2Jgoy9+JhJBng/KBwT9dLB+pCH5erzSmp
+ n+AA==
+X-Gm-Message-State: AOAM5321/fmRFdzH7cMvW/k33pCgmMBCQ4K4MZA9oBSjjIkmn2B1FExv
+ D6u6qUpeU6sGhJxd8FBL7ahXeA==
+X-Google-Smtp-Source: ABdhPJwKE3yxHKkpb+wb3yYnG20dDaj72u4ByxtQEbBoT8JgvyXTD9DJ5O3+EtlrYr2h87XGF3eF3w==
+X-Received: by 2002:a17:907:6e12:b0:6fe:c2fd:89b7 with SMTP id
+ sd18-20020a1709076e1200b006fec2fd89b7mr19647703ejc.581.1654507364209; 
+ Mon, 06 Jun 2022 02:22:44 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch.
+ [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
+ u21-20020a1709064ad500b006f3ef214e14sm5956397ejt.122.2022.06.06.02.22.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jun 2022 02:22:43 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: =?UTF-8?q?Martin=20J=C3=BCcker?= <martin.juecker@gmail.com>,
+ linux-samsung-soc@vger.kernel.org
+Subject: Re: (subset) [PATCH 3/3] ARM: dts: exynos: add panel and backlight to
+ p4note
+Date: Mon,  6 Jun 2022 11:22:35 +0200
+Message-Id: <165450734050.62970.863137205835285072.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220516193709.10037-3-martin.juecker@gmail.com>
+References: <20220516193709.10037-1-martin.juecker@gmail.com>
+ <20220516193709.10037-3-martin.juecker@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ycmmdvpgrnhgi2cu"
-Content-Disposition: inline
-In-Reply-To: <20220606092006.4bgxibmayv44juox@houat>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,76 +73,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Samuel Holland <samuel@sholland.org>, airlied@linux.ie,
- Roman Stratiienko <roman.o.stratiienko@globallogic.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
- megi@xff.cz, Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Alim Akhtar <alim.akhtar@samsung.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 16 May 2022 21:37:09 +0200, Martin Jücker wrote:
+> Add configuration for the LTL101AL01 panel and a pwm backlight to drive
+> the display in the p4note devices.
+> 
+> 
 
---ycmmdvpgrnhgi2cu
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks!
 
-On Mon, Jun 06, 2022 at 11:20:06AM +0200, Maxime Ripard wrote:
-> On Mon, Jun 06, 2022 at 11:17:20AM +0300, Roman Stratiienko wrote:
-> > Hello Jernej,
-> >=20
-> > Thank you for having a look.
-> >=20
-> > =D0=B2=D1=81, 5 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 23:37, Jernej =
-=C5=A0krabec <jernej.skrabec@gmail.com>:
-> > >
-> > > Dne nedelja, 05. junij 2022 ob 17:47:31 CEST je Roman Stratiienko nap=
-isal(a):
-> > > > Allwinner DE2 and DE3 hardware support 3 pixel blend modes:
-> > > > "None", "Pre-multiplied", "Coverage"
-> > > >
-> > > > Add the blend mode property and route it to the appropriate registe=
-rs.
-> > > >
-> > > > Note:
-> > > > "force_premulti" parameter was added to handle multi-overlay channel
-> > > > cases in future changes. It must be set to true for cases when more
-> > > > than 1 overlay layer is used within a channel and at least one of t=
-he
-> > > > overlay layers within a group uses premultiplied blending mode.
-> > >
-> > > Please remove this parameter. It's nothing special, so it can be easi=
-ly added
-> > > once it's actually needed. For now, it only complicates code.
-> >=20
-> > I would prefer keeping it if you do not have any strong opinion against=
- it.
-> >=20
-> > I am working now on exposing all overlays, so it will be needed soon an=
-yway.
->=20
-> KMS assumes pre-multiplied alpha anyway, so we shouldn't need a
-> parameter to force it: we're always going to force it.
+[3/3] ARM: dts: exynos: add panel and backlight to p4note
+      https://git.kernel.org/krzk/linux/c/6c52573bf4c3a0f6e7142264fb36b31ae2c3707a
 
-My bad, I got confused with your other patch.
-
-Still, I agree with Jernej, if it's not needed it only complicates the
-code for no particular reason. If you need it at some point in the
-future, add it then. Otherwise, it's hard to reason about, since we
-don't know what are the expectations that those future patches will
-bring.
-
-Maxime
-
---ycmmdvpgrnhgi2cu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYp3HUQAKCRDj7w1vZxhR
-xQ7JAPwOH2WywNctfCg4rbYtCxC02Owlfgb33BXYypx4Py8rtQEAp7OVVf9HelNl
-uO4X3n7onqZVEW/knsWlXLnynOLuLgo=
-=oSp3
------END PGP SIGNATURE-----
-
---ycmmdvpgrnhgi2cu--
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
