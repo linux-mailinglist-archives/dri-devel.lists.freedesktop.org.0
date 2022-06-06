@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870AD53ECD3
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 19:14:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 055ED53ECE6
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 19:19:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 446E010EA3A;
-	Mon,  6 Jun 2022 17:14:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC46211B1A0;
+	Mon,  6 Jun 2022 17:19:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF13410E972
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 17:14:46 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2FEAAB817F2;
- Mon,  6 Jun 2022 17:14:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70B69C385A9;
- Mon,  6 Jun 2022 17:14:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1654535683;
- bh=wPIRuMsqYczU+dDbzX3MkG700WSQK/kwIYf2AEoWPgo=;
- h=From:To:Cc:Subject:Date:From;
- b=pvfhh7K3t1QIQIaJNTFuoQuS0/l0G/P18v7ksfanA/J7GAVcgU6RU/UfJ2O+sEDlX
- GRvmJcN5+xy8t1iZJ8Iksvbp+Swb2KFs+j4WiaR0OrU8RYvb+T5Mj8J+/cgL6qSq5s
- BjqQmAuUir5xOSx1B1AviXjxo1z0QBkxJiJXyJeHb9oRdVVmV3+yonrdVPhw1TP/+k
- C55vuSFnxbYANgMIV7h3VXjxzBssf7j6g0KHbsDiBcuTFHF9MtKaLrTeTURuZKILXV
- oGhVsjCcf7oxYvNe42hOgKB87aEeXfDg1/U3rfMQzOHb2Lm/oXU1BbXY15YCBGuyXL
- prSXqTXLkj1cA==
-From: Mark Brown <broonie@kernel.org>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] drm/i2c: tda9950: Lower severity of log message about missing
- interrupts
-Date: Mon,  6 Jun 2022 18:14:36 +0100
-Message-Id: <20220606171436.2438051-1-broonie@kernel.org>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com
+ [209.85.166.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9547D11B13E
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 17:18:59 +0000 (UTC)
+Received: by mail-il1-f177.google.com with SMTP id f12so12414396ilj.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 10:18:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=oUB1RtAxwcnRE2CEYiw/IkNM/uWyKljTbcTDvBqQ/Ms=;
+ b=bcUkeBu52w57JHZKcdWdGdMnLB+HzGRLgYF7Z1UtmgwU7pp9YqD6atI1x2Z2NAMFNp
+ m3BR9ztm1GcHPu3tq97+5uS7YHds86HVyiJzEF4Tw9VU1r0KaPjcoDUN4kYXqv6LU7Eh
+ CBuYf+dRNeth/BwgFBuFRDsGvkTcrj53vqAPGGPrMtCiD+/g4q/NPfJia13IfrDH6DpP
+ LlfCoAtfiAz6NEVVMy4BE+q8y40fPN1Wscoqb7VOUtoxcViAjaRlMFMdvznmrr2KOYtK
+ rp639Cf3WhkUD5s72AGl3DCtEVk7lgLnlwN5uif+Z3NYmCU1DiSF2HVdQzeLKU4ks5uK
+ 0QJg==
+X-Gm-Message-State: AOAM5333JIk4vY//gTL8fHMgqwCSr6QRskTbc9Nx4rVT+iQquS0N54f6
+ xD8TsSjdlbujddaMQeyeqg==
+X-Google-Smtp-Source: ABdhPJwwqIpJPlfuz1tpdxBnIscqptcD/jrSI7SGTP9v7AyxAyS8obOg7qY7NyGvzBbBtOYBzZmBUg==
+X-Received: by 2002:a05:6e02:1523:b0:2d3:cb16:2d03 with SMTP id
+ i3-20020a056e02152300b002d3cb162d03mr14157340ilu.198.1654535938816; 
+ Mon, 06 Jun 2022 10:18:58 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.251])
+ by smtp.gmail.com with ESMTPSA id
+ e1-20020a022101000000b0032b3a78179csm5823216jaa.96.2022.06.06.10.18.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jun 2022 10:18:58 -0700 (PDT)
+Received: (nullmailer pid 912769 invoked by uid 1000);
+ Mon, 06 Jun 2022 17:18:55 -0000
+Date: Mon, 6 Jun 2022 12:18:55 -0500
+From: Rob Herring <robh@kernel.org>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: rectify entries for ARM DRM DRIVERS after
+ dt conversion
+Message-ID: <20220606171855.GA912412-robh@kernel.org>
+References: <20220601041746.22986-1-lukas.bulwahn@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1441; h=from:subject;
- bh=wPIRuMsqYczU+dDbzX3MkG700WSQK/kwIYf2AEoWPgo=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBinjX48hgZWn5OjUYw6uHfKImPQihXLYJJZ8JbFJH3
- D570zu6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYp41+AAKCRAk1otyXVSH0Kt4B/
- 40mAPeLu316RBMq1/kwiR2hYsf4A7HnzEtFgN+xv8LqbdUidi3mDTWIoTmM4PRwVeUB3/8gxiTLdhN
- ZXS9Di/zzdMKXswF0mleaPK3dnQvEUZquSefMSobmky9gdcMzJD+GvadepO7Fa++zz0l2GldjbrqLK
- OYBP0Vmtu5RIJ2gd9ldPpIiXFqBn77aUZisvGbEWmZfsP+Duzk7NeaHWcP2d3jU6DZFFMclElP++rO
- OeiOce4dsMGVULQ1x2B+F8oDKhijrZlA2+bDuZ+T9yWHVH6WmT59VKf4CJ2IU2CPKad+cJp6RBld1u
- DXsTRL4laLYZukUCiZFZo3zv4DemSH
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220601041746.22986-1-lukas.bulwahn@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,42 +62,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <rmk+kernel@armlinux.org.uk>, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ malidp@foss.arm.com, Andre Przywara <andre.przywara@arm.com>,
+ James Wang <james.qian.wang@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tda9950 driver prints an error message if it is instantiated without
-an interrupt being available since the device is non-functional in that
-case. Unfortunately due to packaging of tda9950 with tda998x series devices
-the tda998x driver unconditionally instantiates a tda9950 so systems with a
-tda998x configured without an interrupt will trigger this error message
-during boot if tda9950 support is available. Reduce the severity to debug
-level so this is less likely to be presented to end users, the information
-is still there for system integrators who run into problems.
+On Wed, 01 Jun 2022 06:17:46 +0200, Lukas Bulwahn wrote:
+> The three commits:
+> 
+>   36fd2a65bcaf ("dt-bindings: display: convert Arm HDLCD to DT schema")
+>   0f6983509ea1 ("dt-bindings: display: convert Arm Komeda to DT schema")
+>   2c8b082a3ab1 ("dt-bindings: display: convert Arm Mali-DP to DT schema")
+> 
+> convert the arm display dt-bindings, arm,*.txt to arm,*.yaml, but miss to
+> adjust its reference in MAINTAINERS.
+> 
+> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about
+> broken references.
+> 
+> Repair these file references in ARM HDLCD DRM DRIVER, ARM KOMEDA DRM-KMS
+> DRIVER and ARM MALI-DP DRM DRIVER.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+> Andre, please ack.
+> Rob, Krzysztof, please pick this minor non-urgent clean-up patch in
+> your -next dt tree.
+> 
+>  MAINTAINERS | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
 
-We could add a check for an interrupt to the tda998x driver instead but
-this feels better from an encapsulation point of view, there's still a log
-message to help anyone doing system integration.
-
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- drivers/gpu/drm/i2c/tda9950.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/gpu/drm/i2c/tda9950.c
-index 5b03fdd1eaa4..781d5665cd04 100644
---- a/drivers/gpu/drm/i2c/tda9950.c
-+++ b/drivers/gpu/drm/i2c/tda9950.c
-@@ -397,7 +397,7 @@ static int tda9950_probe(struct i2c_client *client,
- 
- 	/* We must have an interrupt to be functional. */
- 	if (client->irq <= 0) {
--		dev_err(&client->dev, "driver requires an interrupt\n");
-+		dev_dbg(&client->dev, "driver requires an interrupt\n");
- 		return -ENXIO;
- 	}
- 
--- 
-2.30.2
-
+Applied, thanks!
