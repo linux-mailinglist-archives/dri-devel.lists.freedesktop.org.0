@@ -2,70 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056FD53E40F
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 12:20:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E6E853E414
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 12:30:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38C8110E460;
-	Mon,  6 Jun 2022 10:20:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECDDB10E529;
+	Mon,  6 Jun 2022 10:30:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E93BF10E1CE;
- Mon,  6 Jun 2022 10:20:31 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id a15so10683162wrh.2;
- Mon, 06 Jun 2022 03:20:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=EuXDZRhRuhRCmRhs3PpKrJLa+cdvtSiMZjyeJ20l9a4=;
- b=FtR4Qc7xmbd9AR3erDAvaIorvvnPRGnS8BNPLB71cWIPZs6aIE+TtMfN0T0WySyz43
- Zt0CVi1dz5QDAstQyRJzjSBpElW1gW3OI1fqrMQ+bm8S1gD9VulOBbZk1ZkC0aF+/osm
- nBtBv+nSbrmh9RtVt68APlGx9Ju4tKu7XtURM80rMNkA0HM2TjE+lzNGGh59Kmxfi2jG
- 8h6iIR6cLRuc0wD8yRBUwtnG0h7Ai/d3sPnooqRKCiV0PODSN8nhUoVSUsCrL6pd3Rbz
- hSP6p0HhMMQo2N23Zsq2rEKn2GYQnCEmVp50o9xPsVGgmm45rTXWG6VUcWMWlTey114G
- e8qQ==
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5C0F10E529
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 10:30:03 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-2f83983782fso138392357b3.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 03:30:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen.nl; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=w0Kz9D/3vP2LDqIOv6SYLVKg4AEyhTrK23bQ1Z+qnn8=;
+ b=JlE1XfQs6DGhuGLY4zj7mfloL/5Z5H4Y/Mgbr9o5q4rtwHddUgO8yJKPNWrkR/30PR
+ wjvZg7cp51pbAXMRGyrJi+bPHeUBUi1eDIHhkEjnBmy4FeXK5/KXBV8rJSLH0l9i9DMY
+ 47fV9mQJojo7JZKlgx+pZyONWPBU5DpWJUlHDisGGbXg0fq8KRU5p3OhNblnb8Z6HTw5
+ LIH6r3ABhwyoM38gssVFSaUlyPtmDu81u014vCDs0nBuW1i11OAKnzS3TUYDLSVxfEkf
+ kQDDHOhD0Qc675JBLesUJjWCgY38FJz9Sj2qVnKETUpU+WvaZ7QcURPiQ+JsqsGtUeXm
+ FUbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=EuXDZRhRuhRCmRhs3PpKrJLa+cdvtSiMZjyeJ20l9a4=;
- b=mZtcKcS7Nc0y8tUXHAXKKFXrvrcF+pePCcCKZImKnX6MDM4HzUuAkua7FzfhCCqzSe
- 6G1PSMLAtZXT2bXjIeYd58Fzv5Xra0Bd83HcL1xI2ZlyAPLay9Z49Yl2Y8CLkCj5boY3
- BB0v/QNuGuFDe5r+gaBXddU/oskkp6Xhb1tiXzlzosYfHudqskdmTI+3iWXujG2vgJCz
- qJuKWzbNUUu84FNbAPxZ4SFokrTWYQKmYXVmRi6S4WIrG7CxGtG2YxLE/SKVjtiJmTQP
- tySsiEE3blZ7+wXU34fwUbSxDV+1MHSuf0f5Apo3MAQIRSuyusIrxmn4uQY3OqncYzcH
- etag==
-X-Gm-Message-State: AOAM5321ni4sRqOX4pFVo6ufnRL5mSiMDU07cWH2zxlteOeLDLeuSN7/
- Lbmi3sY/vhJmBxyELTasnik=
-X-Google-Smtp-Source: ABdhPJw+sfOyH2JSm6Nz0dAlbCzNUEypLdOhFTHlGgb2PNjTiTbSt3eHmvhdiQg5qFqkf2M2z1uPDA==
-X-Received: by 2002:a05:6000:1111:b0:212:d9ea:8609 with SMTP id
- z17-20020a056000111100b00212d9ea8609mr20148395wrw.522.1654510830385; 
- Mon, 06 Jun 2022 03:20:30 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:2d98:9160:7074:86ca?
- ([2a02:908:1256:79a0:2d98:9160:7074:86ca])
- by smtp.gmail.com with ESMTPSA id
- g9-20020a05600c4ec900b0039c17452732sm22820694wmq.19.2022.06.06.03.20.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jun 2022 03:20:29 -0700 (PDT)
-Message-ID: <dbb8694b-74d2-f205-1736-926faa858868@gmail.com>
-Date: Mon, 6 Jun 2022 12:20:31 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=w0Kz9D/3vP2LDqIOv6SYLVKg4AEyhTrK23bQ1Z+qnn8=;
+ b=LCS4OaAA4gArPOaLHsq7vkJCdpkZeWECxDWuUlOQtGKQpoivNAWvLjBJm6vIob2w1+
+ sqwQdqGq/3A6GbCkuAWRH0nkjXomXeG8fmibHJxP0/E98qsnaBUuaJGUZsEFz++EThki
+ VxGejIgtxyZ57EVoKpM867DTapi+S90v+SnHp4CD9hx/9CO6ZEpqPK7CIQ9IaZ6ovAwX
+ gJZe+XwbcyPkVsMVtBf1KNgFbfMkj7ONWTg3sE3jNRQ76FvSNVOa11uK0z7m1GrtQAoR
+ EOB1nhAJ3N71ND42Te1yLWA/PJGGXtXuyzapUnU2YejHrFGuuVzqAaHDspFXQX4p8nrL
+ CCbg==
+X-Gm-Message-State: AOAM532wYFMBb7FHWKyoMizXPVlbc4rwWbRlY7AuP8zXNNf5vE6pxE4I
+ xITVHfeICdvkjojQDiOk76onY3hlzS84jpN38Rf2TtXs6Z3BHA==
+X-Google-Smtp-Source: ABdhPJwPdRBpY7BT9L4gzWzVbbj8GTXtt/lA/0iIzxWI74vslA3DLLt0pmTRUcuqHZAxyHYjAnuke1m+dW0xu005cy8=
+X-Received: by 2002:a81:2008:0:b0:2f8:3968:e70a with SMTP id
+ g8-20020a812008000000b002f83968e70amr26006160ywg.321.1654511402882; Mon, 06
+ Jun 2022 03:30:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] drm/ttm: fix missing NULL check in ttm_device_swapout
-Content-Language: en-US
-To: Felix Kuehling <felix.kuehling@amd.com>, mike@fireburn.co.uk,
- dri-devel@lists.freedesktop.org,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-References: <20220603104604.456991-1-christian.koenig@amd.com>
- <c9b23cac-6bf0-e8ad-d6b1-f59c1ee1569f@amd.com>
- <29cb2391-3a91-dbef-da59-65d1ea1e50a7@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <29cb2391-3a91-dbef-da59-65d1ea1e50a7@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220601004014.158247-1-bas@basnieuwenhuizen.nl>
+ <e502a4b7-e927-2abf-9014-0b23d15d401b@amd.com>
+ <CAP+8YyHdbrvA-sJ=VZccmLkyZ9WCO7CnOp5K0pMoXA=MrHLCsw@mail.gmail.com>
+ <bd850268-8324-79cb-854f-b0c843f9581b@amd.com>
+ <CAP+8YyGuU_fBMLkSuqBMk7uy-F=BAaopWS-Vxi=-E0P5LGbsRQ@mail.gmail.com>
+ <ea49dfd3-3c20-c330-3412-5b48481331cd@amd.com>
+ <CAP+8YyGgam6Hr40PS_Rc7Dg=S2dLJdce=87=wNt2B0yAyPEPOw@mail.gmail.com>
+ <237f28b7-258e-8b6c-f7b3-93f0db9676d3@amd.com>
+ <CAP+8YyHnR=eQZMkxn=RpdzYF69y-54ri2pFrTj8DJuRTtwrDaA@mail.gmail.com>
+ <7cba4b1d-724a-3c32-2546-015fa069342d@amd.com>
+ <CAP+8YyEMDNR_5=uGf8BEV5DCovr-Z_ZDWS2E7-7zqSFGG7bdKg@mail.gmail.com>
+ <6c7e8167-fd72-ef7f-c390-8750c61bc411@amd.com>
+ <CAP+8YyGRf2XRoaw9aZhwFBryxccYTRrpSLVh8X6WG02zO5ed0A@mail.gmail.com>
+ <4d30fb54-be88-7913-74f5-fa998c28f033@amd.com>
+ <CAP+8YyFKOM1qztPBNGk4nzsaX7Dq8-cwg0h_GUgz6sUxBZLhEw@mail.gmail.com>
+ <98c1ea95-2b1e-36dd-6706-b3667f0f5f47@amd.com>
+ <CAP+8YyEWE9KCmo2pGOHMyT3fSEXskTG-tfymwQmmy7d1c9CuRQ@mail.gmail.com>
+ <3b6a7d56-6c65-046d-0a51-bbe167e04322@amd.com>
+In-Reply-To: <3b6a7d56-6c65-046d-0a51-bbe167e04322@amd.com>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Mon, 6 Jun 2022 12:30:16 +0200
+Message-ID: <CAP+8YyGL_WEME-1_oB_K5_K600c5kcmO0GxXBQGVQEF7aP_D7w@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/5] drm/amdgpu: Allow explicit sync for VM ops.
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,80 +83,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 04.06.22 um 00:44 schrieb Felix Kuehling:
-> [+amd-gfx]
+On Mon, Jun 6, 2022 at 12:15 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
 >
-> On 2022-06-03 15:37, Felix Kuehling wrote:
->>
->> On 2022-06-03 06:46, Christian König wrote:
->>> Resources about to be destructed are not tied to BOs any more.
->> I've been seeing a backtrace in that area with a patch series I'm 
->> working on, but didn't have enough time to track it down yet. I'll 
->> try if this patch fixes it.
 >
-> The patch doesn't apply on amd-staging-drm-next. I made the following 
-> change instead, which fixes my problem (and I do see the pr_err being 
-> triggered):
+> Am 03.06.22 um 21:11 schrieb Bas Nieuwenhuizen:
+> > On Fri, Jun 3, 2022 at 8:41 PM Christian K=C3=B6nig <christian.koenig@a=
+md.com> wrote:
+> >> Am 03.06.22 um 19:50 schrieb Bas Nieuwenhuizen:
+> >>> [SNIP]
+> >>>>>> Yeah, but that's exactly the bubble we try to avoid. Isn't it?
+> >>>>> For this series, not really.  To clarify there are two sides for
+> >>>>> getting GPU bubbles and no overlap:
+> >>>>>
+> >>>>> (1) VM operations implicitly wait for earlier CS submissions
+> >>>>> (2) CS submissions implicitly wait for earlier VM operations
+> >>>>>
+> >>>>> Together, these combine to ensure that you get a (potentially small=
+)
+> >>>>> bubble any time VM work happens.
+> >>>>>
+> >>>>> Your series (and further ideas) tackles (2), and is a worthwhile th=
+ing
+> >>>>> to do. However, while writing the userspace for this I noticed this
+> >>>>> isn't enough to get rid of all our GPU bubbles. In particular when
+> >>>>> doing a non-sparse map of a new BO, that tends to need to be waited=
+ on
+> >>>>> for the next CS anyway for API semantics. Due to VM operations
+> >>>>> happening on a single timeline that means this high priority map ca=
+n
+> >>>>> end up being blocked by earlier sparse maps and hence the bubble in
+> >>>>> that case still exists.
+> >>>>>
+> >>>>> So in this series I try to tackle (1) instead. Since GPU work
+> >>>>> typically lags behind CPU submissions and VM operations aren't that
+> >>>>> slow, we can typically execute VM operations early enough that any
+> >>>>> implicit syncs from (2) are less/no issue.
+> >>>> Ok, once more since you don't seem to understand what I want to say:=
+ It
+> >>>> isn't possible to fix #1 before you have fixed #2.
+> >>>>
+> >>>> The VM unmap operation here is a barrier which divides the CS operat=
+ions
+> >>>> in a before and after. This is intentional design.
+> >>> Why is that barrier needed? The two barriers I got and understood and
+> >>> I think we can deal with:
+> >>>
+> >>> 1) the VM unmap is a barrier between prior CS and later memory free.
+> >>> 2) The TLB flush need to happen between a VM unmap and later CS.
+> >>>
+> >>> But why do we need the VM unmap to be a strict barrier between prior
+> >>> CS and later CS?
+> >> Exactly because of the two reasons you mentioned.
+> > This is the part I'm not seeing. I get that removing #2 is a
+> > nightmare, which is why I did something that doesn't violate that
+> > constraint.
+> >
+> > Like if an explicit CS that was running before the VM operation  runs
+> > till after the VM operation (and hence possibly till after the TLB
+> > flush, or otherwise have the TLB flush not apply due to lack of async
+> > TLB flush support), that is not an issue. It might see the state from
+> > before the unmap, or after the unmap, or some intermediate state and
+> > all of those would be okay.
+> >
+> > We still get the constraint that the TLB flush happens between the VM
+> > unmap and later CS and hence the unmap is certainly visible to them.
 >
-> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> @@ -157,6 +157,10 @@ int ttm_device_swapout(struct ttm_device *bdev, 
-> struct ttm_operation_ctx *ctx,
->                         list_for_each_entry(bo, &man->lru[j], lru) {
->                                 uint32_t num_pages = 
-> PFN_UP(bo->base.size);
->
-> +                               if (!bo->resource) {
-> +                                       pr_err("### bo->resource is 
-> NULL\n");
-> +                                       continue;
-> +                               }
+> So you basically just want to set the sync mode in
+> amdgpu_vm_update_range() to AMDGPU_SYNC_EXPLICIT even when it is an unmap=
+?
 
-Yeah, that should be functional identical.
+Yes, with the caveat that I want to do that only for
+DMA_RESV_USAGE_BOOKKEEP or higher (i.e. if we submit a CS with
+implicit sync we get the old implicit behavior, if we submit a CS with
+explicit sync we get the new explicit behavior). The rest of the
+series is basically just for enabling explicit sync submissions.
 
-Can I get an rb for that? Going to provide backports to older kernels as 
-well then.
-
-Regards,
-Christian.
-
-> ret = ttm_bo_swapout(bo, ctx, gfp_flags);
->                                 /* ttm_bo_swapout has dropped the 
-> lru_lock */
->                                 if (!ret)
+> That should be doable, but then you don't need any of the other changes.
 >
->>
->> Regards,
->>   Felix
->>
->>
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>   drivers/gpu/drm/ttm/ttm_device.c | 6 +++++-
->>>   1 file changed, 5 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/ttm/ttm_device.c 
->>> b/drivers/gpu/drm/ttm/ttm_device.c
->>> index a0562ab386f5..e7147e304637 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_device.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_device.c
->>> @@ -156,8 +156,12 @@ int ttm_device_swapout(struct ttm_device *bdev, 
->>> struct ttm_operation_ctx *ctx,
->>>             ttm_resource_manager_for_each_res(man, &cursor, res) {
->>>               struct ttm_buffer_object *bo = res->bo;
->>> -            uint32_t num_pages = PFN_UP(bo->base.size);
->>> +            uint32_t num_pages;
->>>   +            if (!bo)
->>> +                continue;
->>> +
->>> +            num_pages = PFN_UP(bo->base.size);
->>>               ret = ttm_bo_swapout(bo, ctx, gfp_flags);
->>>               /* ttm_bo_swapout has dropped the lru_lock */
->>>               if (!ret)
-
+> Regards,
+> Christian.
+>
+> >
+> >> #1 Is rather easy to fix, you just need to copy all dma_fences from th=
+e
+> >> page table dma_resv object over to the BOs dma_resv object in the gem
+> >> close handler. E.g. exactly what you suggested with the dma_resv_copy
+> >> function.
+> >>
+> >> #2 is a nightmare.
+> >>
+> >> We can't move the TLB flush at the end of the unmap operation because =
+on
+> >> async TLB flushes are either a bit complicated (double flushes etc..) =
+or
+> >> don't even work at all because of hw bugs. So to have a reliable TLB
+> >> flush we must make sure that nothing else is ongoing and that means
+> >> CS->VM->CS barrier.
+> >>
+> >> We try very hard to circumvent that already on maps by (for example)
+> >> using a completely new VMID for CS after the VM map operation.
+> >>
+> >> But for the unmap operation we would need some kind special dma_fence
+> >> implementation which would not only wait for all existing dma_fence bu=
+t
+> >> also for the one added until the unmap operation is completed. Cause
+> >> otherwise our operation we do at #1 would simply not catch all
+> >> dma_fences which have access to the memory.
+> >>
+> >> That's certainly doable, but I think just using the drm_exec stuff I
+> >> already came up with is easier.
+> >>
+> >> When we can grab locks for all the BOs involved amdgpu_vm_clear_freed(=
+)
+> >> goes away and we can keep track of the unmap operations in the bo_va
+> >> structure.
+> >>
+> >> With that done you can make the explicit sync you noted in the bo_va
+> >> structure and implicit sync when the bo_va structure goes away.
+> >>
+> >> Then the only reason I can see why we would need a CS->VM dependency i=
+s
+> >> implicit synchronization, and that's what we are trying to avoid here =
+in
+> >> the first place.
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>>> To get rid of this barrier you must first fix the part where CS
+> >>>> submissions wait for the VM operation to complete, e.g. the necessit=
+y of
+> >>>> the barrier.
+> >>>>
+> >>>> I'm working on this for a couple of years now and I'm really running=
+ out
+> >>>> of idea how to explain this restriction.
+> >>>>
+> >>>> Regards,
+> >>>> Christian.
+> >>>>
+>
