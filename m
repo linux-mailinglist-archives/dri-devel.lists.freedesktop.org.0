@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407ED53E08C
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 06:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 276A753E08D
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 06:47:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EBF010E06B;
-	Mon,  6 Jun 2022 04:47:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6555010F2AB;
+	Mon,  6 Jun 2022 04:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B899C10E06B
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 04:47:27 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id
- l20-20020a17090a409400b001dd2a9d555bso11668602pjg.0
- for <dri-devel@lists.freedesktop.org>; Sun, 05 Jun 2022 21:47:27 -0700 (PDT)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D03710F2AB
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 04:47:31 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ k5-20020a17090a404500b001e8875e6242so881928pjg.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 Jun 2022 21:47:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=V48jIpUPpkwi/mXw0vV1qlo/0R+nh6UqO3bUzG0QHns=;
- b=nqQSjOvanX+8t+tfNQWjxQaFfRS/+GiSKg6PgDaC+vs0EtY834wW/8lUSx+MIh6+66
- QxSZBzAa72S8ewu9/W+7na7Kc7k0dqpizfCf/j+3vNxRtbDBwkBlrf52exTYP/uHo+77
- Ssb8uKKBEcUSKuPtsbTbCH81UkVrmiSnDCncw=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=8MQxz8kqIDAZ2fZ4kfRiAMdgAPZT0OSWTELIOXH4bpA=;
+ b=bijG36Pt+M1nDEyjoGMrkaI9t4WYfcYdP+WZvFtG4qqKlRVCURyenQorZwvdwzgOV2
+ rgV2/0rYZAVwdMhSIzPujdPzeTd3lkGeRkbFI1yuY0dQnqMJr+1tpT4r0onWdGqgqkHa
+ GqYdc69FSkzbyYjUAq914jSACIJVZt8JnQi1I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=V48jIpUPpkwi/mXw0vV1qlo/0R+nh6UqO3bUzG0QHns=;
- b=GXX9RwXJfvG2jB5xiD90lfQv2GmPZQIEae0Nlb+8KOURC7lt11n+coqzUojALf9zFI
- acIMlxicI5Z8PPs8iI6tn0iBpe0kyvgpWP40u6bI13WjVRjZllK0qFG37Gbzp/PSWOj9
- YovClAQCCuX+FnLn3aHHbG4VGkOgNsOmBLl1BQ69v6D3tvMirG5KZjFQao8PrTjOYEX0
- DdyQ4kbQoWT4KdNF8bmO5lyyXtt+JacoXAOCyYX+ci3hnlg3Suc//eGR32WZ5QKO0etI
- CzrRFsaCkqUxezvN1K2BxmD5wGbNb5noKu6o/lr+1iT0bo3+6lRp+t6d2VXDBbiqCYEX
- ksEA==
-X-Gm-Message-State: AOAM533m8624VrKTKU7Qqm/MLTUMThz1+Y3E218XJjLC3GJQ6wISvFUT
- R48KsZwBw5VHXDm/aA4DRFphJg==
-X-Google-Smtp-Source: ABdhPJwNc9WTpHKy7nu/+3cTPEdExZl8996ly7Ju/bCZ1Rjy5dZNznjIR0+wzUFpxhRy9BhxaOu5oQ==
-X-Received: by 2002:a17:90a:c002:b0:1d9:250a:73c8 with SMTP id
- p2-20020a17090ac00200b001d9250a73c8mr24459800pjt.133.1654490847065; 
- Sun, 05 Jun 2022 21:47:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8MQxz8kqIDAZ2fZ4kfRiAMdgAPZT0OSWTELIOXH4bpA=;
+ b=yTDuaUyrPJli6aS/n+cSIm8I65NI2E9UcpvSo5Dbrx4WM/6Dcgz1WVo89WEzliFWQQ
+ L0bWWnq+p0ORw2HPiZELe8Yv355CvGvpynLJURk8mSGfJnn9n3tHrcAxWW39vQmy0Q57
+ lES/KNspNuJM7xvl06b/Ft1Fpx5U8PjvMupzp5E8VWj+FbFbzbyfUB3cBSPCqw1ZYWdl
+ rLxxo+2EfQ9+kbk+S3vJOv4EnSQeNRG1iP1Be+DvZ+VHOPe7bj3z5FTVszwo5DCcSrFr
+ 4JluU2YBBKq/sSy5VMovynCfFtZrxLbF5T8+FVrVMeMx9uWUbhHPVFHECP3C3xiVObD9
+ 9FNw==
+X-Gm-Message-State: AOAM530+qzYh0XNSS3ZKnDQsXC0W6Na3Kw9f99Hq1DREHoGkp4X0z8rt
+ Gsc+9xiyGpoKIffFthFMlog2CA==
+X-Google-Smtp-Source: ABdhPJyEhyggeaOMzIgoDx50rqIZ96LmNePoBj+W9JhZTpmi9YNIR5A0G9TFAJu584hNP5KsKh6jeg==
+X-Received: by 2002:a17:90b:38c1:b0:1e8:5df7:cfd8 with SMTP id
+ nn1-20020a17090b38c100b001e85df7cfd8mr10240268pjb.79.1654490850677; 
+ Sun, 05 Jun 2022 21:47:30 -0700 (PDT)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:ced3:b110:401b:b32c])
  by smtp.gmail.com with ESMTPSA id
- t190-20020a6381c7000000b003db7de758besm9718609pgd.5.2022.06.05.21.47.23
+ t190-20020a6381c7000000b003db7de758besm9718609pgd.5.2022.06.05.21.47.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jun 2022 21:47:26 -0700 (PDT)
+ Sun, 05 Jun 2022 21:47:30 -0700 (PDT)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH v3 0/8] Add a panel API to return panel orientation
-Date: Mon,  6 Jun 2022 12:47:12 +0800
-Message-Id: <20220606044720.945964-1-hsinyi@chromium.org>
+Subject: [PATCH v3 1/8] drm/panel: Add an API drm_panel_get_orientation() to
+ return panel orientation
+Date: Mon,  6 Jun 2022 12:47:13 +0800
+Message-Id: <20220606044720.945964-2-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
+In-Reply-To: <20220606044720.945964-1-hsinyi@chromium.org>
+References: <20220606044720.945964-1-hsinyi@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,41 +82,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Panels usually call drm_connector_set_panel_orientation(), which is
 later than drm/kms driver calling drm_dev_register(). This leads to a
-WARN()[1].
+WARN().
 
 The orientation property is known earlier. For example, some panels
 parse the property through device tree during probe.
 
-The series add a panel API drm_panel_get_orientation() for drm/kms
-drivers. The drivers can use the API to get panel's orientation, so they
-can call drm_connector_set_panel_orientation() before drm_dev_register().
+Add an API to return the property from panel to drm/kms driver, so the
+drivers are able to call drm_connector_set_panel_orientation() before
+drm_dev_register().
 
-Panel needs to implement .get_orientation callback to return the property.
+Suggested-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+---
+v2->v3: no change
+---
+ drivers/gpu/drm/drm_panel.c |  8 ++++++++
+ include/drm/drm_panel.h     | 10 ++++++++++
+ 2 files changed, 18 insertions(+)
 
-[1] https://patchwork.kernel.org/project/linux-mediatek/patch/20220530081910.3947168-2-hsinyi@chromium.org/
-
-Hsin-Yi Wang (8):
-  drm/panel: Add an API drm_panel_get_orientation() to return panel
-    orientation
-  drm/panel: boe-tv101wum-nl6: Implement .get_orientation callback
-  drm/panel: panel-edp: Implement .get_orientation callback
-  drm/panel: lvds: Implement .get_orientation callback
-  drm/panel: panel-simple: Implement .get_orientation callback
-  drm/panel: ili9881c: Implement .get_orientation callback
-  drm/panel: elida-kd35t133: Implement .get_orientation callback
-  drm/mediatek: Config orientation property if panel provides it
-
- drivers/gpu/drm/drm_panel.c                    |  8 ++++++++
- drivers/gpu/drm/mediatek/mtk_dsi.c             | 10 ++++++++++
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 14 ++++++++++++++
- drivers/gpu/drm/panel/panel-edp.c              | 15 ++++++++++++++-
- drivers/gpu/drm/panel/panel-elida-kd35t133.c   | 14 ++++++++++++++
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c  | 14 ++++++++++++++
- drivers/gpu/drm/panel/panel-lvds.c             | 14 ++++++++++++++
- drivers/gpu/drm/panel/panel-simple.c           | 16 +++++++++++++++-
- include/drm/drm_panel.h                        | 10 ++++++++++
- 9 files changed, 113 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+index f634371c717a..4a512ca80673 100644
+--- a/drivers/gpu/drm/drm_panel.c
++++ b/drivers/gpu/drm/drm_panel.c
+@@ -223,6 +223,14 @@ int drm_panel_get_modes(struct drm_panel *panel,
+ }
+ EXPORT_SYMBOL(drm_panel_get_modes);
+ 
++enum drm_panel_orientation drm_panel_get_orientation(struct drm_panel *panel)
++{
++	if (panel && panel->funcs && panel->funcs->get_orientation)
++		return panel->funcs->get_orientation(panel);
++
++	return DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
++}
++EXPORT_SYMBOL(drm_panel_get_orientation);
+ #ifdef CONFIG_OF
+ /**
+  * of_drm_find_panel - look up a panel using a device tree node
+diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+index 1ba2d424a53f..d1bd3be4bbdf 100644
+--- a/include/drm/drm_panel.h
++++ b/include/drm/drm_panel.h
+@@ -133,6 +133,15 @@ struct drm_panel_funcs {
+ 	 * Allows panels to create panels-specific debugfs files.
+ 	 */
+ 	void (*debugfs_init)(struct drm_panel *panel, struct dentry *root);
++
++	/**
++	 * @get_orientation:
++	 *
++	 * Return the panel orientation set by device tree or EDID.
++	 *
++	 * This function is optional.
++	 */
++	enum drm_panel_orientation (*get_orientation)(struct drm_panel *panel);
+ };
+ 
+ /**
+@@ -195,6 +204,7 @@ int drm_panel_enable(struct drm_panel *panel);
+ int drm_panel_disable(struct drm_panel *panel);
+ 
+ int drm_panel_get_modes(struct drm_panel *panel, struct drm_connector *connector);
++enum drm_panel_orientation drm_panel_get_orientation(struct drm_panel *panel);
+ 
+ #if defined(CONFIG_OF) && defined(CONFIG_DRM_PANEL)
+ struct drm_panel *of_drm_find_panel(const struct device_node *np);
 -- 
 2.36.1.255.ge46751e96f-goog
 
