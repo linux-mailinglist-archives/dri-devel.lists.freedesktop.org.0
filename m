@@ -1,54 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE0C653ED50
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 19:55:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0EAA53EDA1
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 20:09:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B491511AA60;
-	Mon,  6 Jun 2022 17:55:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A14A510F73F;
+	Mon,  6 Jun 2022 18:09:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9706711AA30;
- Mon,  6 Jun 2022 17:55:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1654538151; x=1686074151;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=nA3VMIc0EdXLtq38zIS6zslzeXYlwNxm4o2TKajA+5E=;
- b=aB8f/Hnkgq8hYIVzjcTOYMszJsB1KWRG9RNUjETlqJ5rrmQs5FiUJh+9
- jP6YGLM07uGvILaRQsmYpMsl2HSMWUqanH6W5TlkD8NxBDeinrYmqxscS
- 01rDhYl0kLH+KwVOpvOxHR13rbwL71SlXhPpDFgzZgyITeGDRfzDiDwk0 E=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 06 Jun 2022 10:55:51 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2022 10:55:50 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 6 Jun 2022 10:55:49 -0700
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 6 Jun 2022 10:55:49 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v2] drm/msm/dp: check core_initialized before disable
- interrupts at dp_display_unbind()
-Date: Mon, 6 Jun 2022 10:55:39 -0700
-Message-ID: <1654538139-7450-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F86B10F179
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 18:09:46 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id u3so20923967wrg.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 11:09:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tCYZwzCVdZ6wVDocKg/5gFZzksm/d5GDUpBKZN9UWJM=;
+ b=hJTRzt5eI6lwU2NYGJNW7/inkfglbXLnSlLWurfAAJspK66rpNis2ApDm8VMTUKtCl
+ 291daY3KHI3tuYIRQUXJOyV8JgvvCNr+m79efaLJplCT6nsjVLK1P4Cw2o1WUee+g7Ij
+ hL+kYkccEt800lzno5Lphehcg2RjKNstaCTxlGZ4luTnRCfItlezvVC23dt3briQNFmZ
+ gF0HY5Y/chuBKF69KtC+o4vVyYsjmV6/QYpUnJb5qsNcQTH+bjqhYGnjhgjx/8x0iv5w
+ UKvnTglYP7jWFW4zPzrZyCarncHvrHFEwfZU1GRKDPPuCLTfSAdD8eVvF/KEdwCaPFck
+ PopQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tCYZwzCVdZ6wVDocKg/5gFZzksm/d5GDUpBKZN9UWJM=;
+ b=cnjy1Xhse12G9lUMT6rdQyHTd29xyO5q52YS6nCZ2oum+x8tdi1kjhMKvKLDaDkAmo
+ 5U2aqNgFWaVP/kxueZ8n7h5sRQf4+uu81fRQvPnDl93Adzj4UPrhTpJV1UCjJZncF2jq
+ 4RStK6W0+dNY4EsQ5D3hV7/DjF2ZDjOkDOPaIJ3yGfw3S6tpa2abcY34Ueb+r9MB8j+g
+ ttS6GY4JUi0FRM6YrBj+7W8j0MW51AU5YGn0oqPLcg9uWwG8E0tStf2rYGxW68MEcE4S
+ 55xqvpAgt3eWUFiGIKiBOu4jHTzBo66Bpj6Wia97ALPok0ZfuUKg2xKNAk+JidBcJNr3
+ SOow==
+X-Gm-Message-State: AOAM532jkDvEAiXH7AhSkTqYBax6498+vC9auvxO3SDN4rAwxM0l62n1
+ C/3Bj+URrkDPWVm3ic8zwos=
+X-Google-Smtp-Source: ABdhPJzGMHflGxxR8RN7X7m0FPxaI+9qGxcVDUq0BaJwRW9ffdAtkUO4v+/00+b/FOSmS988We2rvA==
+X-Received: by 2002:a5d:4811:0:b0:213:bab0:64f3 with SMTP id
+ l17-20020a5d4811000000b00213bab064f3mr19222823wrq.499.1654538984919; 
+ Mon, 06 Jun 2022 11:09:44 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.36.128])
+ by smtp.gmail.com with ESMTPSA id
+ h13-20020a05600c2cad00b00397623ff335sm19785050wmc.10.2022.06.06.11.09.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jun 2022 11:09:44 -0700 (PDT)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: javierm@redhat.com
+Subject: [PATCH] drm/doc: Add KUnit documentation
+Date: Mon,  6 Jun 2022 20:09:40 +0200
+Message-Id: <20220606180940.43371-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,65 +68,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: davidgow@google.com, airlied@linux.ie, dlatypov@google.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-During msm initialize phase, dp_display_unbind() will be called to undo
-initializations had been done by dp_display_bind() previously if there is
-error happen at msm_drm_bind. In this case, core_initialized flag had to
-be check to make sure clocks is on before update DP controller register
-to disable HPD interrupts. Otherwise system will crash due to below NOC
-fatal error.
+Explain how to run the KUnit tests present in the DRM subsystem and
+clarify why the UML-only options were not added to the configuration
+file present in drivers/gpu/drm/.kunitconfig [1] [2].
 
-QTISECLIB [01f01a7ad]CNOC2 ERROR: ERRLOG0_LOW = 0x00061007
-QTISECLIB [01f01a7ad]GEM_NOC ERROR: ERRLOG0_LOW = 0x00001007
-QTISECLIB [01f0371a0]CNOC2 ERROR: ERRLOG0_HIGH = 0x00000003
-QTISECLIB [01f055297]GEM_NOC ERROR: ERRLOG0_HIGH = 0x00000003
-QTISECLIB [01f072beb]CNOC2 ERROR: ERRLOG1_LOW = 0x00000024
-QTISECLIB [01f0914b8]GEM_NOC ERROR: ERRLOG1_LOW = 0x00000042
-QTISECLIB [01f0ae639]CNOC2 ERROR: ERRLOG1_HIGH = 0x00004002
-QTISECLIB [01f0cc73f]GEM_NOC ERROR: ERRLOG1_HIGH = 0x00004002
-QTISECLIB [01f0ea092]CNOC2 ERROR: ERRLOG2_LOW = 0x0009020c
-QTISECLIB [01f10895f]GEM_NOC ERROR: ERRLOG2_LOW = 0x0ae9020c
-QTISECLIB [01f125ae1]CNOC2 ERROR: ERRLOG2_HIGH = 0x00000000
-QTISECLIB [01f143be7]GEM_NOC ERROR: ERRLOG2_HIGH = 0x00000000
-QTISECLIB [01f16153a]CNOC2 ERROR: ERRLOG3_LOW = 0x00000000
-QTISECLIB [01f17fe07]GEM_NOC ERROR: ERRLOG3_LOW = 0x00000000
-QTISECLIB [01f19cf89]CNOC2 ERROR: ERRLOG3_HIGH = 0x00000000
-QTISECLIB [01f1bb08e]GEM_NOC ERROR: ERRLOG3_HIGH = 0x00000000
-QTISECLIB [01f1d8a31]CNOC2 ERROR: SBM1 FAULTINSTATUS0_LOW = 0x00000002
-QTISECLIB [01f1f72a4]GEM_NOC ERROR: SBM0 FAULTINSTATUS0_LOW = 0x00000001
-QTISECLIB [01f21a217]CNOC3 ERROR: ERRLOG0_LOW = 0x00000006
-QTISECLIB [01f23dfd3]NOC error fatal
+[1] https://lore.kernel.org/dri-devel/CABVgOSn8i=LO5p7830h2XU1Jgg0KrN0qTnxkOMhf1oTgxjaKKw@mail.gmail.com/
+[2] https://lore.kernel.org/dri-devel/CAGS_qxqpiCim_sy1LDK7PLwVgWf-LKW+uNFTGM=T7ydk-dYcEw@mail.gmail.com/
 
-changes in v2:
--- drop the first patch (drm/msm: enable msm irq after all initializations are done successfully at msm_drm_init()) since the problem had been fixed by other patch
-
-Fixes: a65c95ff88f2 ("drm/msm/dp: stop event kernel thread when DP unbind")
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/gpu/drm-internals.rst | 31 +++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index da5c03a..2b72639 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -309,7 +309,8 @@ static void dp_display_unbind(struct device *dev, struct device *master,
- 	struct msm_drm_private *priv = dev_get_drvdata(master);
+diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
+index 38afed24a75c..08f115417381 100644
+--- a/Documentation/gpu/drm-internals.rst
++++ b/Documentation/gpu/drm-internals.rst
+@@ -207,6 +207,37 @@ Utilities
+    :internal:
  
- 	/* disable all HPD interrupts */
--	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
-+	if (dp->core_initialized)
-+		dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
  
- 	kthread_stop(dp->ev_tsk);
++Unit testing
++============
++
++KUnit
++-----
++
++KUnit (Kernel unit testing framework) provides a common framework for unit tests
++within the Linux kernel.
++
++This section covers the specifics for the DRM subsystem. For general information
++about KUnit, please refer to Documentation/dev-tools/kunit/start.rst.
++
++How to run the tests?
++~~~~~~~~~~~~~~~~~~~~~
++
++In order to facilitate running the test suite, a configuration file is present
++in ``drivers/gpu/drm/.kunitconfig``. It can be used by ``kunit.py`` as follows:
++
++.. code-block:: bash
++
++	$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm \
++		--kconfig_add CONFIG_VIRTIO_UML=y \
++		--kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
++
++.. note::
++	The configuration included in ``.kunitconfig`` should be as generic as
++	possible.
++	``CONFIG_VIRTIO_UML`` and ``CONFIG_UML_PCI_OVER_VIRTIO`` are not
++	included in it because they are only required for User Mode Linux.
++
++
+ Legacy Support Code
+ ===================
  
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.25.1
 
