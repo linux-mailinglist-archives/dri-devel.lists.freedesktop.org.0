@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A164253EEA1
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 21:31:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E653353EEE7
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 21:54:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F13DD11BAD2;
-	Mon,  6 Jun 2022 19:31:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3B3610E581;
+	Mon,  6 Jun 2022 19:54:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
- (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0662611BAE1
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 19:31:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=wCRPXxH3TgL7AtKRIM4kQGYE5THJ1u4cAVHFfmnp23I=;
- b=SF0ovNOODl+ysB/CTvSKPbEriSHX/CRcfHRXG7MwzpxRCOlXVl2RHxnESjLDrzS2aGC2EVVbE3rvy
- XZ/tqcXYkX+0ZVagpfEWkXAhjQLKX8wOsJsVUOPk8s9aRpUr/97pTCnpXLo4fpiRYe0foBikXx/6wv
- NN2t48g57sOU2tYk0V2FI5M27BHRrdYwE5HBqO6qkmvjy8q+Gayyf2Lk8HpdH42OjJfPyAYX3E1nd4
- H5k3a4/An1fRWJW31BA/jmYggXs4eD1ATWFbX9xTE1B/L4LYiEvY2T/pkQAvuCk82vqt3nEMKQKix0
- tXx+TGTXm7eOjCZVneJFXhXkl5L7gLA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=wCRPXxH3TgL7AtKRIM4kQGYE5THJ1u4cAVHFfmnp23I=;
- b=1F+wwMxDLCppDOU47omnaGMHoNwunuSPx33O8NmEVcVnFC/y171hv+XSeRzP12e3EInOVRzuZeNRm
- 1Dgt8V3Cg==
-X-HalOne-Cookie: 2bafee458b238af5551c965e6954a36589d2a2e0
-X-HalOne-ID: 45c8e030-e5cf-11ec-a911-d0431ea8a290
-Received: from mailproxy3.cst.dirpod3-cph3.one.com
- (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
- by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 45c8e030-e5cf-11ec-a911-d0431ea8a290;
- Mon, 06 Jun 2022 19:31:33 +0000 (UTC)
-Date: Mon, 6 Jun 2022 21:31:32 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Subject: Re: [PATCH v4 8/8] drm/mediatek: Config orientation property if
- panel provides it
-Message-ID: <Yp5WFA2H52nHVP3d@ravnborg.org>
-References: <20220606152431.1889185-1-hsinyi@chromium.org>
- <20220606152431.1889185-9-hsinyi@chromium.org>
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 309AE10E5D8;
+ Mon,  6 Jun 2022 19:54:28 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id p8so13543814pfh.8;
+ Mon, 06 Jun 2022 12:54:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U22q+bCY4VehZDY1ro1wKhQ9JA/5THGWTqZ5PD1r04Q=;
+ b=MsRh9c98MvoAppDPeqo38Vb739JyYwj+s41ar9mghVqyhGsmukgMPi8IRp/2ifr+/1
+ wQUx2lZuy3g5xrM+gAYUS2bNFC3/1WHTkaJmkc6iVqDutQ5aYD6gdfcq+qxJ9r8B77Xl
+ MSS2HCpHn+G/A/MNwYJ8UhktBiScFyL6xUiQZnY7PvOCVX9O5HdFIrRqph2pvjgMGBRJ
+ G1007ZgbrDnvrFm3gcnAT64XrMDrUTQQG+JSzKGlArdPK5w4NiiM9gzegK8PDTkou/gF
+ ej5Oe62IVuk91glANudWjZN9AxhpX9TOaxrB3G8ttEn79cmf3yPfPl1xGyuni1H/xeM/
+ 9Tnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U22q+bCY4VehZDY1ro1wKhQ9JA/5THGWTqZ5PD1r04Q=;
+ b=KdOLu3r56S38sMlZjYdfJ+35dOjNX0RIC2jlgTzdYWzk8CvLMWgvPNOTXWAbZogDfD
+ uBghqifuIbneZpGh+14qaDc4xbpT20NzWO+WoV8r+JjrhlimAy/kB4CgCTZ5HHEjxaCA
+ djlemn5C+uuDPrcddSb+vUxrx9IUO2PGZQR1iPtztPWTMu5LSttE+636jBYg7ho5jmeX
+ cwxlvqUjC60IKHsCHEJBC6X5lj/cjVTj2K2ehZSX0R3CoTbWX5GtHv54FuXvnwZkwUtO
+ uWimnW9i2Sw4B44HR7PK75pVp8J8oF/rFAB1aiKhalU8juM7wrtpk3O7xTPtRxuLmd5v
+ D7Gw==
+X-Gm-Message-State: AOAM533ZQmiqphJ+SaX9agyMYJSv9nR6Nnf4j2UcM2mDZeAhEY+7A4kL
+ Wogor2L5SliD1QtYiqiVdjRit5r4kZ4=
+X-Google-Smtp-Source: ABdhPJyOhQAvqpntmLlHAcjV3qfEg+KW6muhda1YLTUDNbrs9eK1BvjRMgvyNwrpCI/PRLxHSCMoEw==
+X-Received: by 2002:a65:64d9:0:b0:3fc:5285:5d63 with SMTP id
+ t25-20020a6564d9000000b003fc52855d63mr22376970pgv.456.1654545266970; 
+ Mon, 06 Jun 2022 12:54:26 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ w22-20020a1709026f1600b0016196bcf743sm4556724plk.275.2022.06.06.12.54.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jun 2022 12:54:25 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm: Add DRM_GEM_FOPS
+Date: Mon,  6 Jun 2022 12:54:31 -0700
+Message-Id: <20220606195432.1888346-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220606152431.1889185-9-hsinyi@chromium.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,82 +67,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- Stephen Boyd <swboyd@chromium.org>, Hans de Goede <hdegoede@redhat.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hsin-Yi,
+From: Rob Clark <robdclark@chromium.org>
 
-On Mon, Jun 06, 2022 at 11:24:31PM +0800, Hsin-Yi Wang wrote:
-> Panel orientation property should be set before drm_dev_register().
-> Mediatek drm driver calls drm_dev_register() in .bind(). However, most
-> panels sets orientation property relatively late, mostly in .get_modes()
-> callback, since this is when they are able to get the connector and
-> binds the orientation property to it, though the value should be known
-> when the panel is probed.
-> 
-> Let the drm driver check if the remote end point is a panel and if it
-> contains the orientation property. If it does, set it before
-> drm_dev_register() is called.
+The DEFINE_DRM_GEM_FOPS() helper is a bit limiting if a driver wants to
+provide additional file ops, like show_fdinfo().
 
-I do not know the best way to do what you need to do here.
-But it seems wrong to introduce a deprecated function
-(drm_of_find_panel_or_bridge), to set the rotation property early.
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ include/drm/drm_gem.h | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
 
-I think you need to find a way to do this utilising the panel_bridge or
-something.
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index 9d7c61a122dc..dc88d4a2cdf6 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -314,6 +314,23 @@ struct drm_gem_object {
+ 	const struct drm_gem_object_funcs *funcs;
+ };
+ 
++/**
++ * DRM_GEM_FOPS - Default drm GEM file operations
++ *
++ * This macro provides a shorthand for setting the GEM file ops in the
++ * &file_operations structure.
++ */
++#define DRM_GEM_FOPS \
++	.open		= drm_open,\
++	.release	= drm_release,\
++	.unlocked_ioctl	= drm_ioctl,\
++	.compat_ioctl	= drm_compat_ioctl,\
++	.poll		= drm_poll,\
++	.read		= drm_read,\
++	.llseek		= noop_llseek,\
++	.mmap		= drm_gem_mmap
++
++
+ /**
+  * DEFINE_DRM_GEM_FOPS() - macro to generate file operations for GEM drivers
+  * @name: name for the generated structure
+@@ -330,14 +347,7 @@ struct drm_gem_object {
+ #define DEFINE_DRM_GEM_FOPS(name) \
+ 	static const struct file_operations name = {\
+ 		.owner		= THIS_MODULE,\
+-		.open		= drm_open,\
+-		.release	= drm_release,\
+-		.unlocked_ioctl	= drm_ioctl,\
+-		.compat_ioctl	= drm_compat_ioctl,\
+-		.poll		= drm_poll,\
+-		.read		= drm_read,\
+-		.llseek		= noop_llseek,\
+-		.mmap		= drm_gem_mmap,\
++		DRM_GEM_FOPS,\
+ 	}
+ 
+ void drm_gem_object_release(struct drm_gem_object *obj);
+-- 
+2.36.1
 
-	Sam
-
-> 
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index d9f10a33e6fa..c56282412bfa 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -185,6 +185,7 @@ struct mtk_dsi {
->  	struct drm_encoder encoder;
->  	struct drm_bridge bridge;
->  	struct drm_bridge *next_bridge;
-> +	struct drm_panel *panel;
->  	struct drm_connector *connector;
->  	struct phy *phy;
->  
-> @@ -822,6 +823,12 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
->  		ret = PTR_ERR(dsi->connector);
->  		goto err_cleanup_encoder;
->  	}
-> +
-> +	/* Read panel orientation */
-> +	if (dsi->panel)
-> +		drm_connector_set_panel_orientation(dsi->connector,
-> +				drm_panel_get_orientation(dsi->panel));
-> +
->  	drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
->  
->  	return 0;
-> @@ -837,6 +844,9 @@ static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
->  	struct drm_device *drm = data;
->  	struct mtk_dsi *dsi = dev_get_drvdata(dev);
->  
-> +	/* Get panel if existed */
-> +	drm_of_find_panel_or_bridge(dev->of_node, 0, 0, &dsi->panel, NULL);
-> +
->  	ret = mtk_dsi_encoder_init(drm, dsi);
->  	if (ret)
->  		return ret;
-> -- 
-> 2.36.1.255.ge46751e96f-goog
