@@ -2,56 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C7B53E511
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 16:29:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9553253E51F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 16:45:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56DB210E761;
-	Mon,  6 Jun 2022 14:29:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C00910E590;
+	Mon,  6 Jun 2022 14:44:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9F2210E761
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 14:29:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654525766; x=1686061766;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=6gFuK9m/CegkpD/g+gX8hVz/ChSurSOe3kM0kYWm6aE=;
- b=eMC426nikFbLleMpcDTh7f0evVLQFOc0EOD+mur79kxbvG6TELXmV8Aj
- nKCCefZWHVfjqCAiqyuxa6AoT7ForInPA8yVKBMPw0N5veqmcsRD0MHpG
- WfnXh0EIX4qO/xF58JQ14SySJcla3/QhtBM00+2CbGX7MYqJ01fHG4pCM
- OmHgeLZTj9y3aiEgmKrcwqGTCAd27vIFsy+QS7RkB6xTPSlM/eYjbTEvY
- jIYL5BuSi5oE4+2LfaM97VvzDcnwrsHa0onSb5vU/EInWkCdLieVMka/T
- D5FyRsO5GakZz4AcB75dugRKVfr3X7rX7Hio/NQkBb6988DLPTnDDPa6P w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10369"; a="363002551"
-X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; d="scan'208";a="363002551"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2022 07:29:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,280,1647327600"; d="scan'208";a="554471422"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 06 Jun 2022 07:29:19 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nyDjK-000Cnd-JV;
- Mon, 06 Jun 2022 14:29:18 +0000
-Date: Mon, 6 Jun 2022 22:28:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
- daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
- gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
- lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
- heikki.krogerus@linux.intel.com, deller@gmx.de
-Subject: Re: [RESEND 12/14] leds: mt6370: Add Mediatek MT6370 Indicator support
-Message-ID: <202206062207.q0S8wxpj-lkp@intel.com>
-References: <20220531111900.19422-13-peterwu.pub@gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00CF610E586
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 14:44:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654526696;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V6sFIaEvt0irS8gFD+GfLBK0UsH28DnBZODJnvNGXs4=;
+ b=TXcedSKvTHg4l+BPOCYvWqa5/8tW1k8d52JxDwA4bVVKkFoaLMlJ609KMlwKslIUcpOx6Q
+ 9rHnWgjYc4V9jORH6C9Ck3l/0ODgzJsXV4ZOr1LurY1dIlmHoM5WaVotwY5B47JlmOzGte
+ sIdsm+wBMzbvzM6VGkouEOVO+6IgKPY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-299-GmpTFfmhNIiyeJE4C3US0Q-1; Mon, 06 Jun 2022 10:44:55 -0400
+X-MC-Unique: GmpTFfmhNIiyeJE4C3US0Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r13-20020adff10d000000b002160e9d64f8so1417893wro.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:44:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=V6sFIaEvt0irS8gFD+GfLBK0UsH28DnBZODJnvNGXs4=;
+ b=vYdjaXB9WLZ10LjiyZaEy/Wdn6ZgEXCob9ZqO6AnSiMxmGj2fjRIvMl9RnkJOuO0CG
+ 0HqE17NUkiz9YP504wdBvLD5WrMFWAMldE1WL/ank2e3q16eQVTRq9XCFoAbKLfBa9FJ
+ 8tVH5nIVFgbNhFC9DR+TKsluMpYgJwdt74gNB3fKzIlAamExmFRxNEpWunAxUMTlGCDl
+ h0TC32KCK0cdtxg4l2gIlpbombcaL3FQBT312OYvv97vdCsGuwgB+IRyqBBWA5oVIylt
+ dA3lRfSFuzUcOCFMaQEejKvJpYVC4hEwejLNgbuUKhni35OmQ+KFe6s7v0tw/XCg4CTY
+ Nr9w==
+X-Gm-Message-State: AOAM530/NkAwZIHlAKtiNvO9vmWVRrGw9dCWaqnh7KPLdfve20B25xPf
+ ukLkUdtkaux4LML7Bn3wLQRrdBZXNfTRObQTTP9RlIz0GavChhCRsTp4WNETne1H29qY2Ew67L5
+ GtPNIzeHAGF9et7YTzvvrpPhMjZv7
+X-Received: by 2002:a5d:4351:0:b0:20c:f52c:f869 with SMTP id
+ u17-20020a5d4351000000b0020cf52cf869mr22888080wrr.516.1654526693930; 
+ Mon, 06 Jun 2022 07:44:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz2lRqC2aACsYfImtX5vBgn7AmRKggfP50Pqugjye5W0SwKWMoJY2Blxl6ylBEtSRbX6NiwZQ==
+X-Received: by 2002:a5d:4351:0:b0:20c:f52c:f869 with SMTP id
+ u17-20020a5d4351000000b0020cf52cf869mr22888061wrr.516.1654526693709; 
+ Mon, 06 Jun 2022 07:44:53 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ l65-20020a1c2544000000b00397393419e3sm20794650wml.28.2022.06.06.07.44.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Jun 2022 07:44:53 -0700 (PDT)
+Message-ID: <0e638b6e-cfcf-638d-1892-5c11d92a8e90@redhat.com>
+Date: Mon, 6 Jun 2022 16:44:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220531111900.19422-13-peterwu.pub@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/1] drm/format-helper: Add KUnit tests for
+ drm_fb_xrgb8888_to_rgb332()
+To: Daniel Latypov <dlatypov@google.com>
+References: <20220606095516.938934-1-jose.exposito89@gmail.com>
+ <20220606095516.938934-2-jose.exposito89@gmail.com>
+ <20220606134242.h6kuqn4zbpmc2rql@houat>
+ <576ed6ef-b961-9214-2c9b-56cb5b493b4e@redhat.com>
+ <20220606135219.nwhp4fdawg2qjeam@houat>
+ <78c1eb65-ea78-8744-5382-ea86a56a66f4@redhat.com>
+ <CAGS_qxrPKJrXufMKOCO3eCEpq-Udq6uy32x6aneSPRnm=1O4HQ@mail.gmail.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <CAGS_qxrPKJrXufMKOCO3eCEpq-Udq6uy32x6aneSPRnm=1O4HQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,79 +94,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org, alice_chen@richtek.com,
- linux-pm@vger.kernel.org, linux-iio@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- cy_huang@richtek.com, chiaen_wu@richtek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- peterwu.pub@gmail.com, linux-leds@vger.kernel.org
+Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ davidgow@google.com,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi ChiaEn,
+Hello Daniel,
 
-Thank you for the patch! Yet something to improve:
+On 6/6/22 16:19, Daniel Latypov wrote:
 
-[auto build test ERROR on pavel-leds/for-next]
-[also build test ERROR on lee-mfd/for-mfd-next lee-backlight/for-backlight-next v5.19-rc1 next-20220606]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+[snip]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ChiaEn-Wu/Add-Mediatek-MT6370-PMIC-support/20220531-211432
-base:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git for-next
-config: nios2-allyesconfig (https://download.01.org/0day-ci/archive/20220606/202206062207.q0S8wxpj-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4de9e5ff11aeade155aa744bcaf9efca82b3d4ee
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review ChiaEn-Wu/Add-Mediatek-MT6370-PMIC-support/20220531-211432
-        git checkout 4de9e5ff11aeade155aa744bcaf9efca82b3d4ee
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
+>> That's what I asked in the previous RFC too. Daniel mentioned that it shouldn't
+>> go there because is platform specific (AFAIU, one might want to test it on x86,
+> 
+> Slight correction, it was David who explicitly suggested it shouldn't
+> go in there.
+> https://lists.freedesktop.org/archives/dri-devel/2022-June/357611.html
+>
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   drivers/leds/leds-mt6370.c: In function 'mt6370_check_vendor_info':
->> drivers/leds/leds-mt6370.c:873:15: error: implicit declaration of function 'FIELD_GET'; did you mean 'FOLL_GET'? [-Werror=implicit-function-declaration]
-     873 |         vid = FIELD_GET(MT6370_VENID_MASK, devinfo);
-         |               ^~~~~~~~~
-         |               FOLL_GET
-   cc1: some warnings being treated as errors
-
-
-vim +873 drivers/leds/leds-mt6370.c
-
-   863	
-   864	static int mt6370_check_vendor_info(struct mt6370_priv *priv)
-   865	{
-   866		unsigned int devinfo, vid;
-   867		int ret;
-   868	
-   869		ret = regmap_read(priv->regmap, MT6370_REG_DEV_INFO, &devinfo);
-   870		if (ret)
-   871			return ret;
-   872	
- > 873		vid = FIELD_GET(MT6370_VENID_MASK, devinfo);
-   874		if (vid == 0x9 || vid == 0xb) {
-   875			priv->reg_fields = mt6372_reg_fields;
-   876			priv->ranges = mt6372_led_ranges;
-   877			priv->is_mt6372 = true;
-   878		} else {
-   879			priv->reg_fields = common_reg_fields;
-   880			priv->ranges = common_led_ranges;
-   881		}
-   882	
-   883		return 0;
-   884	}
-   885	
+Ups, sorry for getting that wrong. I should had looked at the thread
+again before writing my answer.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
