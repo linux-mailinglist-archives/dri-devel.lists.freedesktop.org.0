@@ -1,60 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB2053E503
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 16:20:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE80053E506
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jun 2022 16:21:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D08AF10FB5B;
-	Mon,  6 Jun 2022 14:20:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5EBA11B51C;
+	Mon,  6 Jun 2022 14:21:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 729EB10EC88
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 14:20:04 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id v1so18576049ejg.13
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:20:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 343C611B51C
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jun 2022 14:21:46 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id v1so18586077ejg.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+zeR4exPLerrOWbFqJdvC1kGSPV0cQ3LiC/P/8HiMc8=;
- b=PonbL/t/3A7d5fxWp714fQaE0asV5scUDmSWkPDH/8ppJ3ACkjD7EQxVjGPRTczbAV
- +ZhuqpjDO9slqOB13l23ZRAGbkF7eFZeKZm7Cu+8FA5rhbqpcoQ+NVZTycnhk3HUoB9F
- jmHkHnS82cP/zG/7a9T1ujSZRRldb5j5Kvc91nEc49qIKGZu5hFv7znxKPK8Xd+Ex8fg
- kDTOkJT1V8c7b91pZjT2ER8nRbYddJvXY7rqbHYtkepKifmL3A/zeDvO0eXoF23oCIUx
- MeD2T/s68EQSuRUjvGt5kc9ECHPodgpZAF470X92i6sC3hSVrYjROw4y0r/c65V2F5JG
- Tc9w==
+ :cc; bh=opLWEqC00jn82y4owwASw7k3zRYvjzMou2cjWKLBV64=;
+ b=gkHpY3ulU0qVJsCW/7cg5SzAjNDdn7t3avgpO4JqTMDcqwd128gyp/ezfuttq/hmoR
+ aLEzdUBdsdu9XlKb5oqWrctb+KeObzqrZ5blifz3w5ziL2IdUk1HAwIZtGb0nj94jxEo
+ WdDsmtzzAZ//UM7RfSH9d71dAoQNSW5P6aMlc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+zeR4exPLerrOWbFqJdvC1kGSPV0cQ3LiC/P/8HiMc8=;
- b=TpfujY592DdZ9/yxPIxl//yWTiCph0zpSwpUmp/PEXOEnYDvWrlAmlmdQZluOLsJfF
- unZT/5y1C4AoJghvGaw25SCb5/rMPvBoiYeHWkDYQWR6dYEGpcNVg1d4O23KghNTbpUA
- ZUVhGnnXysBBHY0DT4AYHQM8aB8NmB7iwnpLh6MI6A0iVcxdHHy36CMxwDms5H1RdKo6
- U+5SfuN0HbSn6hZ1qo0+ICZ1vKFZKVMncWJPSrcRaAb0I+y99wX0hsLq082OKcvDU/2m
- jnfT7xekGjy0b6jnPL47hQNQMzgqA770GNVwpVuvPXsqkvglVwqdKUJknFfwCJfmIefk
- yVfg==
-X-Gm-Message-State: AOAM5309cp7yJxTTcGUdq0pW9QRW6p1hPk5bIKM+FE98Se1Nih6NlgmS
- chjcftEdU6joqEb4I51KmZX9Xr6Jh7xBMP3juSLEsQ==
-X-Google-Smtp-Source: ABdhPJxDecYJ9aEv69zBvu7MNAmQYz5Y28J8OShJ+zypoo94WzMWVcetkjW5fUL/4qVdb/vHqRg5X8tnlC42fQjH8DA=
-X-Received: by 2002:a17:907:1c06:b0:6df:b257:cbb3 with SMTP id
- nc6-20020a1709071c0600b006dfb257cbb3mr21651391ejc.631.1654525202555; Mon, 06
- Jun 2022 07:20:02 -0700 (PDT)
+ bh=opLWEqC00jn82y4owwASw7k3zRYvjzMou2cjWKLBV64=;
+ b=LQb0jPK91hkFWmRBCs1gYFAOkicwab+JuAWsJ2wm9IEAh1CsDvt+U0u4NVxCDYqTKi
+ dV2u7YyfuEU3shhkpFm7rwbmMjYGHQbbNriwWlfeZ+0CaUSeOx2R6RJ5y6GJormMOSZQ
+ plK6Lulo3AMLWi94G52DD4iMCycmcumlZbU0lTB/OpHratl8Bwb1+BT+e1FtUb8sz5Ud
+ 4QWDxspzARXFkcorF44/zGpgIWPjd8Mjz7P/cIVhKqpBcSPFeee1aQNF+X9vjqhE1cNw
+ 3c9Xv1m0hygNG7P+UL+lYzjF+XMOFFIbHNt2Jzr+Xs5iSkeS/QjaUih/J10EiixxYnIq
+ GM6A==
+X-Gm-Message-State: AOAM532IgcOQSGxubzmqTQVY3bByOHnmqctaculmUzunxgO7h6cKO4k4
+ RfXNFBsraSFX8rc+E+Lk7QYyxZ2QPOOpUszo
+X-Google-Smtp-Source: ABdhPJzTDDGix7KGDPe5a+RTLuM9K+RFxxF7tpr2yaahWG5oN9zKlohw9fnCxQCGIMtIWj9L0v/1IQ==
+X-Received: by 2002:a17:906:f17:b0:6fe:94f6:cb8a with SMTP id
+ z23-20020a1709060f1700b006fe94f6cb8amr21174453eji.456.1654525304150; 
+ Mon, 06 Jun 2022 07:21:44 -0700 (PDT)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com.
+ [209.85.128.45]) by smtp.gmail.com with ESMTPSA id
+ lo27-20020a170906fa1b00b006fe9209a9edsm6230564ejb.128.2022.06.06.07.21.39
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Jun 2022 07:21:39 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 67-20020a1c1946000000b00397382b44f4so8015649wmz.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 07:21:39 -0700 (PDT)
+X-Received: by 2002:a05:600c:591:b0:39c:4544:b814 with SMTP id
+ o17-20020a05600c059100b0039c4544b814mr12815954wmd.118.1654525298761; Mon, 06
+ Jun 2022 07:21:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220606095516.938934-1-jose.exposito89@gmail.com>
- <20220606095516.938934-2-jose.exposito89@gmail.com>
- <20220606134242.h6kuqn4zbpmc2rql@houat>
- <576ed6ef-b961-9214-2c9b-56cb5b493b4e@redhat.com>
- <20220606135219.nwhp4fdawg2qjeam@houat>
- <78c1eb65-ea78-8744-5382-ea86a56a66f4@redhat.com>
-In-Reply-To: <78c1eb65-ea78-8744-5382-ea86a56a66f4@redhat.com>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Mon, 6 Jun 2022 07:19:51 -0700
-Message-ID: <CAGS_qxrPKJrXufMKOCO3eCEpq-Udq6uy32x6aneSPRnm=1O4HQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] drm/format-helper: Add KUnit tests for
- drm_fb_xrgb8888_to_rgb332()
-To: Javier Martinez Canillas <javierm@redhat.com>
+References: <20220606044720.945964-1-hsinyi@chromium.org>
+ <20220606044720.945964-2-hsinyi@chromium.org>
+In-Reply-To: <20220606044720.945964-2-hsinyi@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 6 Jun 2022 07:21:26 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V7FmkJyyXr4C6jy9-hOhnzgoo=g5tx_3z3rnCCC40Exg@mail.gmail.com>
+Message-ID: <CAD=FV=V7FmkJyyXr4C6jy9-hOhnzgoo=g5tx_3z3rnCCC40Exg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/8] drm/panel: Add an API drm_panel_get_orientation()
+ to return panel orientation
+To: Hsin-Yi Wang <hsinyi@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,70 +74,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
- davidgow@google.com,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- kunit-dev@googlegroups.com
+Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 6, 2022 at 6:57 AM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
+Hi,
+
+On Sun, Jun 5, 2022 at 9:47 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
 >
-
-<snip>
-
-> >>>>  $ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm \
-> >>>>          --kconfig_add CONFIG_VIRTIO_UML=y \
-> >>>>          --kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
-> >>>
-> >>> It's not clear to me why you would need VIRTIO here? The Kunit config
-> >>> file should be enough to run the tests properly
-> >>>
-> >>
-> >> It's needed or otherwise KUnit will complain with:
-> >>
-> >> ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/.kunitconfig
-> >> [15:47:31] Configuring KUnit Kernel ...
-> >> Regenerating .config ...
-> >> Populating config with:
-> >> $ make ARCH=um O=.kunit olddefconfig
-> >> ERROR:root:Not all Kconfig options selected in kunitconfig were in the generated .config.
-> >> This is probably due to unsatisfied dependencies.
-> >> Missing: CONFIG_DRM=y, CONFIG_DRM_KUNIT_TEST=y
-> >> Note: many Kconfig options aren't available on UML. You can try running on a different architecture with something like "--arch=x86_64".
-> >>
-> >> The following works correctly but it won't use User Mode Linux:
-> >>
-> >> ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/.kunitconfig --arch=x86_64
-> >
-> > But then, can't we add them to .kunitconfig?
-> >
+> Panels usually call drm_connector_set_panel_orientation(), which is
+> later than drm/kms driver calling drm_dev_register(). This leads to a
+> WARN().
 >
-> That's what I asked in the previous RFC too. Daniel mentioned that it shouldn't
-> go there because is platform specific (AFAIU, one might want to test it on x86,
-
-Slight correction, it was David who explicitly suggested it shouldn't
-go in there.
-https://lists.freedesktop.org/archives/dri-devel/2022-June/357611.html
-
-> aarch64, etc) but then I asked why we couldn't have a arch/um/.kunitconfig.
+> The orientation property is known earlier. For example, some panels
+> parse the property through device tree during probe.
 >
-> The answer was that's not that simple and some agreement on how to do it is needed:
+> Add an API to return the property from panel to drm/kms driver, so the
+> drivers are able to call drm_connector_set_panel_orientation() before
+> drm_dev_register().
+>
+> Suggested-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> v2->v3: no change
+> ---
+>  drivers/gpu/drm/drm_panel.c |  8 ++++++++
+>  include/drm/drm_panel.h     | 10 ++++++++++
+>  2 files changed, 18 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+> index f634371c717a..4a512ca80673 100644
+> --- a/drivers/gpu/drm/drm_panel.c
+> +++ b/drivers/gpu/drm/drm_panel.c
+> @@ -223,6 +223,14 @@ int drm_panel_get_modes(struct drm_panel *panel,
+>  }
+>  EXPORT_SYMBOL(drm_panel_get_modes);
+>
+> +enum drm_panel_orientation drm_panel_get_orientation(struct drm_panel *panel)
+> +{
+> +       if (panel && panel->funcs && panel->funcs->get_orientation)
+> +               return panel->funcs->get_orientation(panel);
+> +
+> +       return DRM_MODE_PANEL_ORIENTATION_UNKNOWN;
+> +}
+> +EXPORT_SYMBOL(drm_panel_get_orientation);
+>  #ifdef CONFIG_OF
 
-I'm a bit more in favor of having UML-specific options in the drm
-.kunitconfig file, but I agree it's a bit unclear.
-If people want to easily run with --arch=x86_64 or others, then
-they're indeed a liability.
+nit: there used to be a blank line before the #ifdef but there no
+longer is after your patch.
 
-Another option is to perhaps explicitly name the .kunitconfig file
-something like drm/uml.kunitconfig, which doesn't solve the problem
-but makes it less of a footgun.
+Other than that...
 
-Stepping back, I feel like perhaps a cleaner answer lies in adding a
-new Kconfig option that selects CONFIG_UML_PCI_OVER_VIRTIO under UML
-and just CONFIG_PCI otherwise.
-But that's a bigger discussion still.
-
-Daniel
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
