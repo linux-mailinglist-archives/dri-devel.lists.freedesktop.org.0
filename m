@@ -2,55 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F10153FB31
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 12:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA2B53FB74
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 12:36:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0468E112D0C;
-	Tue,  7 Jun 2022 10:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09F5C11A05B;
+	Tue,  7 Jun 2022 10:36:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80FC9112A14;
- Tue,  7 Jun 2022 10:29:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654597741; x=1686133741;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Jt1dqW5Ta2fs7csm1WC/U0R7qOx5pwGEUv1fmeHOebE=;
- b=B/8E2ikb3ylRcncGUvjAtgpv59+GgAis4n9NMQ09wOryDtgAU8ifMWAk
- JnvkymyirRIMwqvlIwljlNWZLwsm1pgsUN1GcH5nH/C8lCTMlZpNndvIo
- f2iU3u8NwVvuwGE/WSDM6XzPUyEmdkshkOZXf9+S3WcDEOyukOkNhrSQ1
- BHiG4ki9Bo+rRJQpY0SPdggZr/XFCy9yQ1C+GK+wGwcq5K/WTfcwkbLS3
- WBkM8XWYlQjFkbpj6VbBXmbgXwNcjUF3Ry3sbJSGuIL2dcz4kJSwgN/7T
- Y/gyURJrfSrjDXR5rb6GOqPa8xbPKIaHOr8Y05W0jvJl38rhkIw/amKF/ Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="259447478"
-X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="259447478"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 03:27:18 -0700
-X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="636067118"
-Received: from bdgardin-mobl1.ger.corp.intel.com (HELO [10.213.217.225])
- ([10.213.217.225])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 03:27:16 -0700
-Message-ID: <14f7c965-5aa2-8404-534d-d15d31720139@linux.intel.com>
-Date: Tue, 7 Jun 2022 11:27:14 +0100
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr70075.outbound.protection.outlook.com [40.107.7.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCD41112D6A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 10:36:39 +0000 (UTC)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=eSkmXGYOKujet6y3rGFBjahz9kZ7JSPjhKGWHFSKsT1o20/k4JwV7gIi873gFxGSKz0kyMVKz3NXZkvWNRyNfvBglTXA9ckEZPDUiFak+dsHS6sV3fVBNq+jU5MqvbUzIawHOFNJlTJ9xPabdVYd12GnTz8o80IawrCkA8jzp2yrqfqyKRo8o6EBxEbGgnHqMNqlYpT6mWSeb3G7CDi6hFVeyjAN0lRyA8jL64JPNGKEUv4WDsQ3AYyxoWwTQLj15TxmApvKRusr0mv54E3Db3zpTn3yP1HhlDQLg5QauDGclQGWUUrPSPNkz3dZqoxYTAafujBBLB93OWz2Yd1iJQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V3m+JiXyoFUJYqW4mFSlO+jcqWkugo+1UjvnPZfPoxM=;
+ b=gDFt84vuv9YFi6kUF5CfxjJgUWi0HnzQXw3GpKtO0hC+5UWHfwKZWorYKw/pfNp8u1MrxToic4xAJeiv6zVSp/4IxRTRyGF1Q7jYbC9G/NlOO8ZZzrPjsXAAnPv09p317jZgSsiCQv8oUCV9PqSqgoE5BwbeidtELmQ2oGuG7YRdh/TdsLdB8tmqze7rwxCymt6Bld+cIgJcezfIvgSy1hsmKi8Vn9tQFlaBW4oHPu0859ekyjN55vO+SztMrgavhIVrFe6n3winI4kFoa68LcuYqBVf+hJ/LxD/VnM/YqwA+KrBYONRWi+RPagve0501sL4wSlIWEkLZ+TTGtcG+g==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V3m+JiXyoFUJYqW4mFSlO+jcqWkugo+1UjvnPZfPoxM=;
+ b=xjeyih4zer7PLJoGfa6MvEkgz+FmxP4vIgTtUrYHEiltM5LkPls5myHJbpA2qtPv4HEd8ZheoSFCgiZyXTsNGHO4+gPbBI65OCFscyoEcRi6HKzVOENXslAiRD//nWsnClbQTIu5QvJe8Bxhocg6IyMho1IBYzY0TpevYPHLGfE=
+Received: from AM5PR0601CA0073.eurprd06.prod.outlook.com (2603:10a6:206::38)
+ by AM6PR08MB4311.eurprd08.prod.outlook.com (2603:10a6:20b:b4::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.16; Tue, 7 Jun
+ 2022 10:36:26 +0000
+Received: from VE1EUR03FT047.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:206:0:cafe::39) by AM5PR0601CA0073.outlook.office365.com
+ (2603:10a6:206::38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13 via Frontend
+ Transport; Tue, 7 Jun 2022 10:36:26 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT047.mail.protection.outlook.com (10.152.19.218) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5314.12 via Frontend Transport; Tue, 7 Jun 2022 10:36:26 +0000
+Received: ("Tessian outbound ff2e13d26e0f:v120");
+ Tue, 07 Jun 2022 10:36:25 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: e482334ed026861d
+X-CR-MTA-TID: 64aa7808
+Received: from 5889fbd31eb8.1
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 266134E5-0418-4F28-A148-771E4D0FB2DF.1; 
+ Tue, 07 Jun 2022 10:36:17 +0000
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 5889fbd31eb8.1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Tue, 07 Jun 2022 10:36:17 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XFGI6i8sblu9OSIk3Itwl2bo0aqj6w7TtlYhrzUjPRxxIPU5kO7dv3wwJfspZYDktetzRHMqpSP9lpy9woBSVot83rcoIs/nbsFKrlo1+UmDMYb8mBRxcTOIjnl8LQsIjHg6GFHvtvXdN4cd/dr+sSDXlxpK2EH1YU6kT4tKk4ZvOPVzOZs4T2HBWjDL1l1RAEHMyLnH/Alq/AV2eZ/A4yRtRM9/zAX5RuLywQFpBkHOJEIZTG1XBXD9Nfo8zCYfRRDjK2JaSRecTetEylmBU87XjiOlR+g5QB9dAOvfPrhO3E8B5AGNY1aCWFcG4MoB1GbQZYIcRz0dpP6Th0lSZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V3m+JiXyoFUJYqW4mFSlO+jcqWkugo+1UjvnPZfPoxM=;
+ b=WYrSKsJvq3S1omatzlbg3GkPJ56GLr4WK42d3RrZQ1rvwlVqGFOpTmcVnEMZTexIfGy+0qN/QlmYvzRAhR+iPv2yuhwrY98Cn9H5WI9WEwNvQq3MnBHONDow4clbeipWjjvKWt6V4m8gj29GnOAgZOjue+Bj9HG09MfdCDCFRYVDfbGWxnlr30mQPh3tBJnZQcxmIOHnp7RFQP+BENS7+w/K0GVxWqGP8Ud2BrhZbeEjL4Wxp2rG9SgY4LTAgsuRPhO+iFyGCvchHZdlzijcIHf2keOfUNdsaRU1+MXwl2+geGZ8w0cbTvzZe/fUNo90lGc5IJl2qbIx+JRvx5vOkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V3m+JiXyoFUJYqW4mFSlO+jcqWkugo+1UjvnPZfPoxM=;
+ b=xjeyih4zer7PLJoGfa6MvEkgz+FmxP4vIgTtUrYHEiltM5LkPls5myHJbpA2qtPv4HEd8ZheoSFCgiZyXTsNGHO4+gPbBI65OCFscyoEcRi6HKzVOENXslAiRD//nWsnClbQTIu5QvJe8Bxhocg6IyMho1IBYzY0TpevYPHLGfE=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from DB9PR08MB6812.eurprd08.prod.outlook.com (2603:10a6:10:2a2::15)
+ by AS8PR08MB8087.eurprd08.prod.outlook.com (2603:10a6:20b:54c::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.19; Tue, 7 Jun
+ 2022 10:36:16 +0000
+Received: from DB9PR08MB6812.eurprd08.prod.outlook.com
+ ([fe80::3424:f572:9049:e32]) by DB9PR08MB6812.eurprd08.prod.outlook.com
+ ([fe80::3424:f572:9049:e32%7]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
+ 10:36:16 +0000
+Date: Tue, 7 Jun 2022 11:36:14 +0100
+From: Brian Starkey <brian.starkey@arm.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v4] dma-buf: Add a capabilities directory
+Message-ID: <20220607103614.7ucvgdeprg4yv6li@000377403353>
+References: <20220601161303.64797-1-contact@emersion.fr>
+ <YphNaq/JZdlTW8S7@kroah.com>
+ <BCduk8OI3oQXvl2_-ejGwile7y09VscIp1U2MKHX2kEVun1JNxznDByVlidyN8B0vf5xOxS35axHhz5QYWmrmrQmsa8qONFJof6ZtR7CC1Y=@emersion.fr>
+ <YphX2erQp3e4mUba@kroah.com>
+ <CtTIPo68VAvDRUp7-QFc0m-2SnikPFd0QpdogNj2xueFfyQKa3DQqiw3Meqtsu8vQgEuKX_-MPKbe7jQdf49-Y3z2TAYbajUrC5GKF0Dolk=@emersion.fr>
+ <CAKMK7uEYncnjbwq6fQMNB_5tupMASrAFEadPg9xBS3ykNgNk4A@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEYncnjbwq6fQMNB_5tupMASrAFEadPg9xBS3ykNgNk4A@mail.gmail.com>
+X-ClientProxiedBy: LO2P265CA0173.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a::17) To DB9PR08MB6812.eurprd08.prod.outlook.com
+ (2603:10a6:10:2a2::15)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [Intel-gfx] [RFC v3 3/3] drm/doc/rfc: VM_BIND uapi definition
-Content-Language: en-US
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@intel.com
-References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
- <20220517183212.20274-4-niranjana.vishwanathapura@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220517183212.20274-4-niranjana.vishwanathapura@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Office365-Filtering-Correlation-Id: 5e79530a-ec5e-4bf4-65da-08da48719306
+X-MS-TrafficTypeDiagnostic: AS8PR08MB8087:EE_|VE1EUR03FT047:EE_|AM6PR08MB4311:EE_
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
+X-Microsoft-Antispam-PRVS: <AM6PR08MB431108A596E7ABFAB0441E62F0A59@AM6PR08MB4311.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: uSxSL/gK2NVnpbGW85XVttryT5mbtL+P3EzgDOkTBAV03Qd5mQlHWzIbDya+z6nP5YP2Ac4zv/9nOT2oO02CJH0/gVKtFIrW8bDZ6QyFz/dl8ILdOyXk9MdvKOT6BzM5RUnLye+Z+/PlzhV/SSSIJ7kwOLuetz7x1ssJtzbw/zjqQYOV5oPbUn+LUI/Gl7GG1tHgkTV9rFjPGFT1tNiDvhQWzIqMeg2cjX1CdyKyCyYaB4W6X7SvhQJiv0fhEdmJxtwaFWnf8EFasYtNc7p0T3zVOp/lbld05v35QBrD8z07hS6xo2mn9FHXITe9iGwMb2lKPTST9kyCju82o6+I4ZIoce7uFQzFKUXzEhpPS/+BN/15p1A7crhDqeyGQJgmzTti5fPysXRrabretS30KcVBgdTjnBub+sckPXIyBffq4w48C027Kto0lBxtJQZ1ctHVnxc9huDQHkjB2UVjOGe86JYfIxQoO8zGvQjTIFRygMjfj8EdgSAaUtnFxxFdKRsbyMmdnZ6x994GR86mzisRPLsGSNfvPvsswa1rFPb8DB+b/q91sPTcmpZViDwO2sJjFlsSgiqz2h9f8T0n1zRRGbDMg5H/wagkfk22yeZr3CTuLUxqeyrkwDlqSu1f/MwqYYCafRZ8dTucMevWzw==
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:DB9PR08MB6812.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE;
+ SFS:(13230001)(7916004)(4636009)(366004)(186003)(4326008)(2906002)(1076003)(38100700002)(86362001)(6506007)(316002)(66556008)(66946007)(8676002)(54906003)(26005)(6916009)(4744005)(66476007)(9686003)(6512007)(6486002)(5660300002)(508600001)(44832011)(33716001)(8936002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8087
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT047.eop-EUR03.prod.protection.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: b55ec022-19a6-41d8-d86c-08da48718cf1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Z9RZm75eiVJCED95uq9gDG4rHtcKRBTNWqvbpsr6k8m66qBxECnylVDUKEkHKKjjjpbi7Qb4q5I034Jn8SHPt8sb8w6jU9coSEVBJFGXa7eJUZyItu9raz352BMqB2oseUOrmcHlKp9HCXHQwjy70ALnFeTztmM2X00KwkTMozioI1nEkXSY5fKajxz69GHXy+lWV+CjbFWBy569QxPj7fq0t32jN+IUvE0WWGZJF0VX0z8xjSBK3FrppUZALm1qzu8PESk5+6EWC0Y4a0BO6PKucT7/4tF9bG6DZ+Xkm4p+WC3QEGNcDxOk5YJsrHMuDOSGVpqG8txBEBhXKWieTWuFijWZ9Zd5xokyWzAgo7HIXmbUOhslDnPBGU4cryqWtbuE1WhTwhYPPrJSviV4C4DDmJzcbIb/a3vnjJx1VKAzAmRWnHT5sm1hdN7qgp8I43JJtp5BOigiHg6l6xmLkibZEJE9dGq3IsHdKxF1JzjCTpj6ZKDt8EXRYTGnBqqJ2dfAB0irEZmk2QRtWz/MgpSYL1m1WcH3fojIl9yCQ5TplRBG3ru/DFQPrbPBP0Y1ys2cC+cXO23tx8jcFbaUOAjp8B++0gK5eGKY3+tIIR8EfStdtZjQ9nbHTamzis+lKUZXOyK4KE1DGotK3kD4of9UqXH99oUUqDINs6lX+cLTSxox5hWdt6SybF2GO0FF
+X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
+ SFS:(13230001)(4636009)(7916004)(36840700001)(46966006)(40470700004)(356005)(70586007)(4744005)(47076005)(70206006)(82310400005)(8676002)(1076003)(4326008)(36860700001)(5660300002)(8936002)(336012)(6862004)(186003)(33716001)(81166007)(40460700003)(44832011)(26005)(9686003)(6506007)(2906002)(6512007)(54906003)(316002)(508600001)(6486002)(86362001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 10:36:26.0402 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e79530a-ec5e-4bf4-65da-08da48719306
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: VE1EUR03FT047.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4311
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,440 +161,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.hellstrom@intel.com, christian.koenig@amd.com,
- chris.p.wilson@intel.com
+Cc: dri-devel@lists.freedesktop.org, Greg KH <greg@kroah.com>,
+ Jason Ekstrand <jason.ekstrand@collabora.com>, nd@arm.com,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 17/05/2022 19:32, Niranjana Vishwanathapura wrote:
-> VM_BIND and related uapi definitions
+On Thu, Jun 02, 2022 at 08:47:56AM +0200, Daniel Vetter wrote:
 > 
-> v2: Ensure proper kernel-doc formatting with cross references.
->      Also add new uapi and documentation as per review comments
->      from Daniel.
+> Two expand on this:
 > 
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> ---
->   Documentation/gpu/rfc/i915_vm_bind.h | 399 +++++++++++++++++++++++++++
->   1 file changed, 399 insertions(+)
->   create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
+> - compositor opens the drm render /dev node
+> - compositor initializes the opengl or vulkan userspace driver on top of that
+> - compositor asks that userspace driver to allocate some buffer, which
+> can be pretty expensive
+> - compositor asks the userspace driver to export that buffer into a dma-buf
+> - compositor can finally do the test ioctl, realizes support isn't
+> there and tosses the entire thing
 > 
-> diff --git a/Documentation/gpu/rfc/i915_vm_bind.h b/Documentation/gpu/rfc/i915_vm_bind.h
-> new file mode 100644
-> index 000000000000..589c0a009107
-> --- /dev/null
-> +++ b/Documentation/gpu/rfc/i915_vm_bind.h
-> @@ -0,0 +1,399 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright © 2022 Intel Corporation
-> + */
-> +
-> +/**
-> + * DOC: I915_PARAM_HAS_VM_BIND
-> + *
-> + * VM_BIND feature availability.
-> + * See typedef drm_i915_getparam_t param.
-> + */
-> +#define I915_PARAM_HAS_VM_BIND		57
-> +
-> +/**
-> + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
-> + *
-> + * Flag to opt-in for VM_BIND mode of binding during VM creation.
-> + * See struct drm_i915_gem_vm_control flags.
-> + *
-> + * A VM in VM_BIND mode will not support the older execbuff mode of binding.
-> + * In VM_BIND mode, execbuff ioctl will not accept any execlist (ie., the
-> + * &drm_i915_gem_execbuffer2.buffer_count must be 0).
-> + * Also, &drm_i915_gem_execbuffer2.batch_start_offset and
-> + * &drm_i915_gem_execbuffer2.batch_len must be 0.
-> + * DRM_I915_GEM_EXECBUFFER_EXT_BATCH_ADDRESSES extension must be provided
-> + * to pass in the batch buffer addresses.
-> + *
-> + * Additionally, I915_EXEC_NO_RELOC, I915_EXEC_HANDLE_LUT and
-> + * I915_EXEC_BATCH_FIRST of &drm_i915_gem_execbuffer2.flags must be 0
-> + * (not used) in VM_BIND mode. I915_EXEC_USE_EXTENSIONS flag must always be
-> + * set (See struct drm_i915_gem_execbuffer_ext_batch_addresses).
-> + * The buffers_ptr, buffer_count, batch_start_offset and batch_len fields
-> + * of struct drm_i915_gem_execbuffer2 are also not used and must be 0.
-> + */
-> +#define I915_VM_CREATE_FLAGS_USE_VM_BIND	(1 << 0)
-> +
-> +/**
-> + * DOC: I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING
-> + *
-> + * Flag to declare context as long running.
-> + * See struct drm_i915_gem_context_create_ext flags.
-> + *
-> + * Usage of dma-fence expects that they complete in reasonable amount of time.
-> + * Compute on the other hand can be long running. Hence it is not appropriate
-> + * for compute contexts to export request completion dma-fence to user.
-> + * The dma-fence usage will be limited to in-kernel consumption only.
-> + * Compute contexts need to use user/memory fence.
-> + *
-> + * So, long running contexts do not support output fences. Hence,
-> + * I915_EXEC_FENCE_OUT (See &drm_i915_gem_execbuffer2.flags and
-> + * I915_EXEC_FENCE_SIGNAL (See &drm_i915_gem_exec_fence.flags) are expected
-> + * to be not used.
-> + *
-> + * DRM_I915_GEM_WAIT ioctl call is also not supported for objects mapped
-> + * to long running contexts.
-> + */
-> +#define I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING   (1u << 2)
-> +
-> +/* VM_BIND related ioctls */
-> +#define DRM_I915_GEM_VM_BIND		0x3d
-> +#define DRM_I915_GEM_VM_UNBIND		0x3e
-> +#define DRM_I915_GEM_WAIT_USER_FENCE	0x3f
-> +
-> +#define DRM_IOCTL_I915_GEM_VM_BIND		DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
-> +#define DRM_IOCTL_I915_GEM_VM_UNBIND		DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_UNBIND, struct drm_i915_gem_vm_bind)
-> +#define DRM_IOCTL_I915_GEM_WAIT_USER_FENCE	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_WAIT_USER_FENCE, struct drm_i915_gem_wait_user_fence)
-> +
-> +/**
-> + * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
-> + *
-> + * This structure is passed to VM_BIND ioctl and specifies the mapping of GPU
-> + * virtual address (VA) range to the section of an object that should be bound
-> + * in the device page table of the specified address space (VM).
-> + * The VA range specified must be unique (ie., not currently bound) and can
-> + * be mapped to whole object or a section of the object (partial binding).
-> + * Multiple VA mappings can be created to the same section of the object
-> + * (aliasing).
-> + */
-> +struct drm_i915_gem_vm_bind {
-> +	/** @vm_id: VM (address space) id to bind */
-> +	__u32 vm_id;
-> +
-> +	/** @handle: Object handle */
-> +	__u32 handle;
-> +
-> +	/** @start: Virtual Address start to bind */
-> +	__u64 start;
-> +
-> +	/** @offset: Offset in object to bind */
-> +	__u64 offset;
-> +
-> +	/** @length: Length of mapping to bind */
-> +	__u64 length;
+> read() on a sysfs file is so much more reasonable it's not even funny.
+> 
 
-Does it support, or should it, equivalent of EXEC_OBJECT_PAD_TO_SIZE? Or 
-if not userspace is expected to map the remainder of the space to a 
-dummy object? In which case would there be any alignment/padding issues 
-preventing the two bind to be placed next to each other?
+What about dma-buf heaps? That should be a shorter route to getting a
+dma-buf fd if that's all that's needed.
 
-I ask because someone from the compute side asked me about a problem 
-with their strategy of dealing with overfetch and I suggested pad to size.
+Cheers,
+-Brian
 
-Regards,
-
-Tvrtko
-
-> +
-> +	/**
-> +	 * @flags: Supported flags are,
-> +	 *
-> +	 * I915_GEM_VM_BIND_READONLY:
-> +	 * Mapping is read-only.
-> +	 *
-> +	 * I915_GEM_VM_BIND_CAPTURE:
-> +	 * Capture this mapping in the dump upon GPU error.
-> +	 */
-> +	__u64 flags;
-> +#define I915_GEM_VM_BIND_READONLY    (1 << 0)
-> +#define I915_GEM_VM_BIND_CAPTURE     (1 << 1)
-> +
-> +	/** @extensions: 0-terminated chain of extensions for this mapping. */
-> +	__u64 extensions;
-> +};
-> +
-> +/**
-> + * struct drm_i915_gem_vm_unbind - VA to object mapping to unbind.
-> + *
-> + * This structure is passed to VM_UNBIND ioctl and specifies the GPU virtual
-> + * address (VA) range that should be unbound from the device page table of the
-> + * specified address space (VM). The specified VA range must match one of the
-> + * mappings created with the VM_BIND ioctl. TLB is flushed upon unbind
-> + * completion.
-> + */
-> +struct drm_i915_gem_vm_unbind {
-> +	/** @vm_id: VM (address space) id to bind */
-> +	__u32 vm_id;
-> +
-> +	/** @rsvd: Reserved for future use; must be zero. */
-> +	__u32 rsvd;
-> +
-> +	/** @start: Virtual Address start to unbind */
-> +	__u64 start;
-> +
-> +	/** @length: Length of mapping to unbind */
-> +	__u64 length;
-> +
-> +	/** @flags: reserved for future usage, currently MBZ */
-> +	__u64 flags;
-> +
-> +	/** @extensions: 0-terminated chain of extensions for this mapping. */
-> +	__u64 extensions;
-> +};
-> +
-> +/**
-> + * struct drm_i915_vm_bind_fence - An input or output fence for the vm_bind
-> + * or the vm_unbind work.
-> + *
-> + * The vm_bind or vm_unbind aync worker will wait for input fence to signal
-> + * before starting the binding or unbinding.
-> + *
-> + * The vm_bind or vm_unbind async worker will signal the returned output fence
-> + * after the completion of binding or unbinding.
-> + */
-> +struct drm_i915_vm_bind_fence {
-> +	/** @handle: User's handle for a drm_syncobj to wait on or signal. */
-> +	__u32 handle;
-> +
-> +	/**
-> +	 * @flags: Supported flags are,
-> +	 *
-> +	 * I915_VM_BIND_FENCE_WAIT:
-> +	 * Wait for the input fence before binding/unbinding
-> +	 *
-> +	 * I915_VM_BIND_FENCE_SIGNAL:
-> +	 * Return bind/unbind completion fence as output
-> +	 */
-> +	__u32 flags;
-> +#define I915_VM_BIND_FENCE_WAIT            (1<<0)
-> +#define I915_VM_BIND_FENCE_SIGNAL          (1<<1)
-> +#define __I915_VM_BIND_FENCE_UNKNOWN_FLAGS (-(I915_VM_BIND_FENCE_SIGNAL << 1))
-> +};
-> +
-> +/**
-> + * struct drm_i915_vm_bind_ext_timeline_fences - Timeline fences for vm_bind
-> + * and vm_unbind.
-> + *
-> + * This structure describes an array of timeline drm_syncobj and associated
-> + * points for timeline variants of drm_syncobj. These timeline 'drm_syncobj's
-> + * can be input or output fences (See struct drm_i915_vm_bind_fence).
-> + */
-> +struct drm_i915_vm_bind_ext_timeline_fences {
-> +#define I915_VM_BIND_EXT_timeline_FENCES	0
-> +	/** @base: Extension link. See struct i915_user_extension. */
-> +	struct i915_user_extension base;
-> +
-> +	/**
-> +	 * @fence_count: Number of elements in the @handles_ptr & @value_ptr
-> +	 * arrays.
-> +	 */
-> +	__u64 fence_count;
-> +
-> +	/**
-> +	 * @handles_ptr: Pointer to an array of struct drm_i915_vm_bind_fence
-> +	 * of length @fence_count.
-> +	 */
-> +	__u64 handles_ptr;
-> +
-> +	/**
-> +	 * @values_ptr: Pointer to an array of u64 values of length
-> +	 * @fence_count.
-> +	 * Values must be 0 for a binary drm_syncobj. A Value of 0 for a
-> +	 * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
-> +	 * binary one.
-> +	 */
-> +	__u64 values_ptr;
-> +};
-> +
-> +/**
-> + * struct drm_i915_vm_bind_user_fence - An input or output user fence for the
-> + * vm_bind or the vm_unbind work.
-> + *
-> + * The vm_bind or vm_unbind aync worker will wait for the input fence (value at
-> + * @addr to become equal to @val) before starting the binding or unbinding.
-> + *
-> + * The vm_bind or vm_unbind async worker will signal the output fence after
-> + * the completion of binding or unbinding by writing @val to memory location at
-> + * @addr
-> + */
-> +struct drm_i915_vm_bind_user_fence {
-> +	/** @addr: User/Memory fence qword aligned process virtual address */
-> +	__u64 addr;
-> +
-> +	/** @val: User/Memory fence value to be written after bind completion */
-> +	__u64 val;
-> +
-> +	/**
-> +	 * @flags: Supported flags are,
-> +	 *
-> +	 * I915_VM_BIND_USER_FENCE_WAIT:
-> +	 * Wait for the input fence before binding/unbinding
-> +	 *
-> +	 * I915_VM_BIND_USER_FENCE_SIGNAL:
-> +	 * Return bind/unbind completion fence as output
-> +	 */
-> +	__u32 flags;
-> +#define I915_VM_BIND_USER_FENCE_WAIT            (1<<0)
-> +#define I915_VM_BIND_USER_FENCE_SIGNAL          (1<<1)
-> +#define __I915_VM_BIND_USER_FENCE_UNKNOWN_FLAGS \
-> +	(-(I915_VM_BIND_USER_FENCE_SIGNAL << 1))
-> +};
-> +
-> +/**
-> + * struct drm_i915_vm_bind_ext_user_fence - User/memory fences for vm_bind
-> + * and vm_unbind.
-> + *
-> + * These user fences can be input or output fences
-> + * (See struct drm_i915_vm_bind_user_fence).
-> + */
-> +struct drm_i915_vm_bind_ext_user_fence {
-> +#define I915_VM_BIND_EXT_USER_FENCES	1
-> +	/** @base: Extension link. See struct i915_user_extension. */
-> +	struct i915_user_extension base;
-> +
-> +	/** @fence_count: Number of elements in the @user_fence_ptr array. */
-> +	__u64 fence_count;
-> +
-> +	/**
-> +	 * @user_fence_ptr: Pointer to an array of
-> +	 * struct drm_i915_vm_bind_user_fence of length @fence_count.
-> +	 */
-> +	__u64 user_fence_ptr;
-> +};
-> +
-> +/**
-> + * struct drm_i915_gem_execbuffer_ext_batch_addresses - Array of batch buffer
-> + * gpu virtual addresses.
-> + *
-> + * In the execbuff ioctl (See struct drm_i915_gem_execbuffer2), this extension
-> + * must always be appended in the VM_BIND mode and it will be an error to
-> + * append this extension in older non-VM_BIND mode.
-> + */
-> +struct drm_i915_gem_execbuffer_ext_batch_addresses {
-> +#define DRM_I915_GEM_EXECBUFFER_EXT_BATCH_ADDRESSES	1
-> +	/** @base: Extension link. See struct i915_user_extension. */
-> +	struct i915_user_extension base;
-> +
-> +	/** @count: Number of addresses in the addr array. */
-> +	__u32 count;
-> +
-> +	/** @addr: An array of batch gpu virtual addresses. */
-> +	__u64 addr[0];
-> +};
-> +
-> +/**
-> + * struct drm_i915_gem_execbuffer_ext_user_fence - First level batch completion
-> + * signaling extension.
-> + *
-> + * This extension allows user to attach a user fence (@addr, @value pair) to an
-> + * execbuf to be signaled by the command streamer after the completion of first
-> + * level batch, by writing the @value at specified @addr and triggering an
-> + * interrupt.
-> + * User can either poll for this user fence to signal or can also wait on it
-> + * with i915_gem_wait_user_fence ioctl.
-> + * This is very much usefaul for long running contexts where waiting on dma-fence
-> + * by user (like i915_gem_wait ioctl) is not supported.
-> + */
-> +struct drm_i915_gem_execbuffer_ext_user_fence {
-> +#define DRM_I915_GEM_EXECBUFFER_EXT_USER_FENCE		2
-> +	/** @base: Extension link. See struct i915_user_extension. */
-> +	struct i915_user_extension base;
-> +
-> +	/**
-> +	 * @addr: User/Memory fence qword aligned GPU virtual address.
-> +	 *
-> +	 * Address has to be a valid GPU virtual address at the time of
-> +	 * first level batch completion.
-> +	 */
-> +	__u64 addr;
-> +
-> +	/**
-> +	 * @value: User/Memory fence Value to be written to above address
-> +	 * after first level batch completes.
-> +	 */
-> +	__u64 value;
-> +
-> +	/** @rsvd: Reserved for future extensions, MBZ */
-> +	__u64 rsvd;
-> +};
-> +
-> +/**
-> + * struct drm_i915_gem_create_ext_vm_private - Extension to make the object
-> + * private to the specified VM.
-> + *
-> + * See struct drm_i915_gem_create_ext.
-> + */
-> +struct drm_i915_gem_create_ext_vm_private {
-> +#define I915_GEM_CREATE_EXT_VM_PRIVATE		2
-> +	/** @base: Extension link. See struct i915_user_extension. */
-> +	struct i915_user_extension base;
-> +
-> +	/** @vm_id: Id of the VM to which the object is private */
-> +	__u32 vm_id;
-> +};
-> +
-> +/**
-> + * struct drm_i915_gem_wait_user_fence - Wait on user/memory fence.
-> + *
-> + * User/Memory fence can be woken up either by:
-> + *
-> + * 1. GPU context indicated by @ctx_id, or,
-> + * 2. Kerrnel driver async worker upon I915_UFENCE_WAIT_SOFT.
-> + *    @ctx_id is ignored when this flag is set.
-> + *
-> + * Wakeup condition is,
-> + * ``((*addr & mask) op (value & mask))``
-> + *
-> + * See :ref:`Documentation/driver-api/dma-buf.rst <indefinite_dma_fences>`
-> + */
-> +struct drm_i915_gem_wait_user_fence {
-> +	/** @extensions: Zero-terminated chain of extensions. */
-> +	__u64 extensions;
-> +
-> +	/** @addr: User/Memory fence address */
-> +	__u64 addr;
-> +
-> +	/** @ctx_id: Id of the Context which will signal the fence. */
-> +	__u32 ctx_id;
-> +
-> +	/** @op: Wakeup condition operator */
-> +	__u16 op;
-> +#define I915_UFENCE_WAIT_EQ      0
-> +#define I915_UFENCE_WAIT_NEQ     1
-> +#define I915_UFENCE_WAIT_GT      2
-> +#define I915_UFENCE_WAIT_GTE     3
-> +#define I915_UFENCE_WAIT_LT      4
-> +#define I915_UFENCE_WAIT_LTE     5
-> +#define I915_UFENCE_WAIT_BEFORE  6
-> +#define I915_UFENCE_WAIT_AFTER   7
-> +
-> +	/**
-> +	 * @flags: Supported flags are,
-> +	 *
-> +	 * I915_UFENCE_WAIT_SOFT:
-> +	 *
-> +	 * To be woken up by i915 driver async worker (not by GPU).
-> +	 *
-> +	 * I915_UFENCE_WAIT_ABSTIME:
-> +	 *
-> +	 * Wait timeout specified as absolute time.
-> +	 */
-> +	__u16 flags;
-> +#define I915_UFENCE_WAIT_SOFT    0x1
-> +#define I915_UFENCE_WAIT_ABSTIME 0x2
-> +
-> +	/** @value: Wakeup value */
-> +	__u64 value;
-> +
-> +	/** @mask: Wakeup mask */
-> +	__u64 mask;
-> +#define I915_UFENCE_WAIT_U8     0xffu
-> +#define I915_UFENCE_WAIT_U16    0xffffu
-> +#define I915_UFENCE_WAIT_U32    0xfffffffful
-> +#define I915_UFENCE_WAIT_U64    0xffffffffffffffffull
-> +
-> +	/**
-> +	 * @timeout: Wait timeout in nanoseconds.
-> +	 *
-> +	 * If I915_UFENCE_WAIT_ABSTIME flag is set, then time timeout is the
-> +	 * absolute time in nsec.
-> +	 */
-> +	__s64 timeout;
-> +};
