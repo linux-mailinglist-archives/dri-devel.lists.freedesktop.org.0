@@ -1,49 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A5153F989
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 11:22:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1215953F8DC
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 10:56:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6816412B1D2;
-	Tue,  7 Jun 2022 09:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B050910E1BB;
+	Tue,  7 Jun 2022 08:56:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1979 seconds by postgrey-1.36 at gabe;
- Tue, 07 Jun 2022 09:22:40 UTC
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5B4512B1D3
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 09:22:40 +0000 (UTC)
-Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
- by twspam01.aspeedtech.com with ESMTP id 2578YtMw023348
- for <dri-devel@lists.freedesktop.org>; Tue, 7 Jun 2022 16:34:55 +0800 (GMT-8)
- (envelope-from kuohsiang_chou@aspeedtech.com)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 2578YnEj023332;
- Tue, 7 Jun 2022 16:34:49 +0800 (GMT-8)
- (envelope-from kuohsiang_chou@aspeedtech.com)
-Received: from localhost.localdomain.com (192.168.2.180) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 7 Jun 2022 16:49:37 +0800
-From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-To: <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5] drm/ast: Create the driver for ASPEED proprietory
- Display-Port
-Date: Tue, 7 Jun 2022 16:49:27 +0800
-Message-ID: <20220607084927.38432-1-kuohsiang_chou@aspeedtech.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <202206071218.LWKSPm1P-lkp@intel.com>
-References: <202206071218.LWKSPm1P-lkp@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8809110E1BB;
+ Tue,  7 Jun 2022 08:56:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654592171; x=1686128171;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=TNjuxlNqjf4QqyCj82B4tS5ErRzaVWZCJ6/e6HR0xyA=;
+ b=EKi115tUmXEItRoDHuHEBWnfTTdERyKGfSr1V7HsAvyEBuqyOMolbVvl
+ Kc8r2aTkFhNnAYqopJsS1Cct4qsxYTDPf/y5iaWgdNgR61hwr/dESvGwU
+ NnjBm8yvIFVuvN7leZ1CqBs4sYpbFXoRZFL566KZrVTDpNJ0GcNsO3FKx
+ 07rncMtPXWTiOrn3mpvvbQkY9/ErfiODcXHN88o0dn4TbRSHNvvpBcfdd
+ uTZxhcGzlfVjWDMTKre/u3gccHiVDn5GMqGutc54ehxfls39qD1DR7KEs
+ Uw/Tfmh//PiNfvoHq+4OgMznZh8ShJvJb6X+cUCaDJhzXP2zZtjguoZb6 A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="302075522"
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="302075522"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 01:56:09 -0700
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="636033838"
+Received: from bdgardin-mobl1.ger.corp.intel.com (HELO [10.213.217.225])
+ ([10.213.217.225])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 01:56:06 -0700
+Message-ID: <8559b6f0-0322-9232-7000-534087e786fe@linux.intel.com>
+Date: Tue, 7 Jun 2022 09:56:02 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.180]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 2578YnEj023332
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 2/2] drm/msm: Expose client engine utilization via
+ fdinfo
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20220606195432.1888346-1-robdclark@gmail.com>
+ <20220606195432.1888346-2-robdclark@gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220606195432.1888346-2-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,756 +62,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, hungju_huang@aspeedtech.com,
- airlied@linux.ie, tommy_huang@aspeedtech.com, airlied@redhat.com,
- arc_sung@aspeedtech.com, luke_chen@aspeedtech.com
+Cc: Rob Clark <robdclark@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V1:
-1. The MCU FW controling ASPEED DP is loaded by BMC boot loader.
-2. Driver starts after CR[3:1] == 111b that indicates Tx is ASTDP,
-   and CRD1[5] has been asserted by BMVC boot loader.
-3. EDID is prioritized by DP monitor.
-4. DP's EDID has high priority to decide resolution supporting.
 
-V2:
-Modules description:
-1. ASTDP (ASPEED DisplayPort) is controlled by dedicated
-   AST-MCU (ASPEED propriatary MCU).
-2. MCU is looping in charged of HPD, Read EDID, Link Training with
-   DP sink.
-3. ASTDP and AST-MUC reside in BMC (Baseboard Management controller)
-   addressing-space.
-4. ASPEED DRM driver requests MCU to get HPD and EDID by CR-scratched
-   register.
+On 06/06/2022 20:54, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Similar to AMD commit
+> 874442541133 ("drm/amdgpu: Add show_fdinfo() interface"), using the
+> infrastructure added in previous patches, we add basic client info
+> and GPU engine utilisation for msm.
+> 
+> Example output:
+> 
+> 	# cat /proc/`pgrep glmark2`/fdinfo/6
+> 	pos:	0
+> 	flags:	02400002
+> 	mnt_id:	21
+> 	ino:	162
+> 	drm-driver:	msm
+> 	drm-client-id:	7
+> 	drm-engine-gpu:	1734371319 ns
+> 	drm-cycles-gpu:	1153645024
+> 	drm-maxfreq-gpu:	800000000 Hz
+> 
+> See also: https://patchwork.freedesktop.org/patch/468505/
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   Documentation/gpu/drm-usage-stats.rst | 21 +++++++++++++++++++++
+>   drivers/gpu/drm/msm/msm_drv.c         | 19 ++++++++++++++++++-
+>   drivers/gpu/drm/msm/msm_gpu.c         | 21 +++++++++++++++++++--
+>   drivers/gpu/drm/msm/msm_gpu.h         | 19 +++++++++++++++++++
+>   4 files changed, 77 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+> index 6c9f166a8d6f..60e5cc9c13ad 100644
+> --- a/Documentation/gpu/drm-usage-stats.rst
+> +++ b/Documentation/gpu/drm-usage-stats.rst
+> @@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
+>   Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+>   indicating kibi- or mebi-bytes.
+>   
+> +- drm-cycles-<str> <uint>
+> +
+> +Engine identifier string must be the same as the one specified in the
+> +drm-engine-<str> tag and shall contain the number of busy cycles for the given
+> +engine.
+> +
+> +Values are not required to be constantly monotonic if it makes the driver
+> +implementation easier, but are required to catch up with the previously reported
+> +larger value within a reasonable period. Upon observing a value lower than what
+> +was previously read, userspace is expected to stay with that larger previous
+> +value until a monotonic update is seen.
+> +
+> +- drm-maxfreq-<str> <uint> [Hz|MHz|KHz]
+> +
+> +Engine identifier string must be the same as the one specified in the
+> +drm-engine-<str> tag and shall contain the maxium frequence for the given
 
-Booting sequence:
-1. Check if TX is ASTDP					// ast_dp_launch()
-2. Check if DP-MCU FW has loaded					// ast_dp_launch()
-3. Read EDID					// ast_dp_read_edid()
-4. Resolution switch					// ast_dp_SetOutput()
+maximum frequency
 
-V3:
-1. Remove unneeded semicolon.
-2. Apply to git://anongit.freedesktop.org/drm/drm, instead of
-   git://anongit.freedesktop.org/drm/drm-misc
-3. Resolve auto build test WARNINGs on V1 patch.
+> +engine.  Taken together with drm-cycles-<str>, this can be used to calculate
+> +percentage utilization of the engine, whereas drm-engine-<str> only refects
 
-V4:
-1. Sync code-base with kernel 5.17_rc6
-2. Remove the define of DPControlPower, because DP chips need to be
-   powered on to be used.
-3. Remove the switches of PHY and Display from EDID procedure.
-4. Revise increaing delay to fixed delay, because this version kernel
-   doesn't detect minitor consistenntly.
-5. Create clean-up code used for reset of power state on errors with
-   -EIO manner.
-6. Revise the DP detection by TX type and its DP-FW status during
-   booting and resume.
-7. Correct the CamelCase Style.
-8. Use register reading while needing, and remove to hold full
-   register.
-9. Instead of 'u8', revise to 'bool' on swwitch of PHY and video.
-10.Correct typo
-11.Remove the duplicated copy of TX definition.
-12.Use EDID_LENGTH as the constant of 128.
+reflects
 
-V5:
-1.Fixed sparse:cast truncates bits form constant value ()cast
-  truncates bits from constant value (ffffffffffffff00 becomes 0)
+> +time active without considering what frequency the engine is operating as a
+> +percentage of it's maximum frequency.
 
-Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-Reported-by: kernel test robot <lkp@intel.com>
----
- drivers/gpu/drm/ast/Makefile   |   2 +-
- drivers/gpu/drm/ast/ast_dp.c   | 282 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/ast/ast_drv.h  | 115 ++++++++++++++
- drivers/gpu/drm/ast/ast_main.c |   5 +-
- drivers/gpu/drm/ast/ast_mode.c | 124 ++++++++++++++-
- drivers/gpu/drm/ast/ast_post.c |   4 +-
- 6 files changed, 524 insertions(+), 8 deletions(-)
- create mode 100644 drivers/gpu/drm/ast/ast_dp.c
+Cycles vs max freq sounds very useful. My reservations is that how come 
+the idea hasn't happened in the CPU world. Or maybe it has and I am 
+un-informed?
 
-diff --git a/drivers/gpu/drm/ast/Makefile b/drivers/gpu/drm/ast/Makefile
-index 21f71160b..5a53ce51f 100644
---- a/drivers/gpu/drm/ast/Makefile
-+++ b/drivers/gpu/drm/ast/Makefile
-@@ -3,6 +3,6 @@
- # Makefile for the drm device driver.  This driver provides support for the
- # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+In any case, if going with this I think we need to clarify the text that 
+the value should reflect the current soft limit, where the driver 
+supports that, in case it has been set to lower than the maximum 
+frequency hardware can support. I am thinking about avoiding "my gpu 
+cannot hit 100%" support incidents in cases when user/admin lowered the 
+soft limit for some reason. Possibly does not apply to msm but can apply 
+to i915, if we decided to export the same data.
 
--ast-y := ast_drv.o ast_i2c.o ast_main.o ast_mm.o ast_mode.o ast_post.o ast_dp501.o
-+ast-y := ast_drv.o ast_i2c.o ast_main.o ast_mm.o ast_mode.o ast_post.o ast_dp501.o ast_dp.o
+No other gotchas come to mind at the moment.
 
- obj-$(CONFIG_DRM_AST) := ast.o
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-new file mode 100644
-index 000000000..1ae12c407
---- /dev/null
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -0,0 +1,282 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (c) 2021, ASPEED Technology Inc.
-+// Authors: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-+
-+#include <linux/firmware.h>
-+#include <linux/delay.h>
-+#include <drm/drm_print.h>
-+#include "ast_drv.h"
-+
-+int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
-+{
-+	struct ast_private *ast = to_ast_private(dev);
-+	u8 i = 0, j = 0;
-+
-+	/*
-+	 * CRD1[b5]: DP MCU FW is executing
-+	 * CRDC[b0]: DP link success
-+	 * CRDF[b0]: DP HPD
-+	 * CRE5[b0]: Host reading EDID process is done
-+	 */
-+	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, ASTDP_MCU_FW_EXECUTING) &&
-+		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, ASTDP_LINK_SUCCESS) &&
-+		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD) &&
-+		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
-+								ASTDP_HOST_EDID_READ_DONE_MASK))) {
-+		goto err_astdp_edid_not_ready;
-+	}
-+
-+	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5, (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
-+							0x00);
-+
-+	for (i = 0; i < 32; i++) {
-+		/*
-+		 * CRE4[7:0]: Read-Pointer for EDID (Unit: 4bytes); valid range: 0~64
-+		 */
-+		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE4,
-+					ASTDP_AND_CLEAR_MASK, (u8) i);
-+		j = 0;
-+
-+		/*
-+		 * CRD7[b0]: valid flag for EDID
-+		 * CRD6[b0]: mirror read pointer for EDID
-+		 */
-+		while ((ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD7,
-+				ASTDP_EDID_VALID_FLAG_MASK) != 0x01) ||
-+			(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD6,
-+						ASTDP_EDID_READ_POINTER_MASK) != i)) {
-+			/*
-+			 * Delay are getting longer with each retry.
-+			 * 1. The Delays are often 2 loops when users request "Display Settings"
-+			 *	  of right-click of mouse.
-+			 * 2. The Delays are often longer a lot when system resume from S3/S4.
-+			 */
-+			mdelay(j+1);
-+
-+			if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1,
-+							ASTDP_MCU_FW_EXECUTING) &&
-+				ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC,
-+							ASTDP_LINK_SUCCESS) &&
-+				ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD))) {
-+				goto err_astdp_jump_out_loop_of_edid;
-+			}
-+
-+			j++;
-+			if (j > 200)
-+				goto err_astdp_jump_out_loop_of_edid;
-+		}
-+
-+		*(ediddata) = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT,
-+							0xD8, ASTDP_EDID_READ_DATA_MASK);
-+		*(ediddata + 1) = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD9,
-+								ASTDP_EDID_READ_DATA_MASK);
-+		*(ediddata + 2) = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDA,
-+								ASTDP_EDID_READ_DATA_MASK);
-+		*(ediddata + 3) = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDB,
-+								ASTDP_EDID_READ_DATA_MASK);
-+
-+		if (i == 31) {
-+			/*
-+			 * For 128-bytes EDID_1.3,
-+			 * 1. Add the value of Bytes-126 to Bytes-127.
-+			 *		The Bytes-127 is Checksum. Sum of all 128bytes should
-+			 *		equal 0	(mod 256).
-+			 * 2. Modify Bytes-126 to be 0.
-+			 *		The Bytes-126 indicates the Number of extensions to
-+			 *		follow. 0 represents noextensions.
-+			 */
-+			*(ediddata + 3) = *(ediddata + 3) + *(ediddata + 2);
-+			*(ediddata + 2) = 0;
-+		}
-+
-+		ediddata += 4;
-+	}
-+
-+	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5, (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
-+							ASTDP_HOST_EDID_READ_DONE);
-+
-+	return 0;
-+
-+err_astdp_jump_out_loop_of_edid:
-+	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
-+							(u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
-+							ASTDP_HOST_EDID_READ_DONE);
-+	return (~(j+256) + 1);
-+
-+err_astdp_edid_not_ready:
-+	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, ASTDP_MCU_FW_EXECUTING)))
-+		return (~0xD1 + 1);
-+	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, ASTDP_LINK_SUCCESS)))
-+		return (~0xDC + 1);
-+	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD)))
-+		return (~0xDF + 1);
-+	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5, ASTDP_HOST_EDID_READ_DONE_MASK)))
-+		return (~0xE5 + 1);
-+
-+	return	0;
-+}
-+
-+/*
-+ * Launch Aspeed DP
-+ */
-+void ast_dp_launch(struct drm_device *dev, u8 bPower)
-+{
-+	u32 i = 0, j = 0, WaitCount = 1;
-+	u8 bDPTX = 0;
-+	u8 bDPExecute = 1;
-+
-+	struct ast_private *ast = to_ast_private(dev);
-+	// S3 come back, need more time to wait BMC ready.
-+	if (bPower)
-+		WaitCount = 300;
-+
-+
-+	// Wait total count by different condition.
-+	for (j = 0; j < WaitCount; j++) {
-+		bDPTX = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, TX_TYPE_MASK);
-+
-+		if (bDPTX)
-+			break;
-+
-+		msleep(100);
-+	}
-+
-+	// 0xE : ASTDP with DPMCU FW handling
-+	if (bDPTX == ASTDP_DPMCU_TX) {
-+		// Wait one second then timeout.
-+		i = 0;
-+
-+		while (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, COPROCESSOR_LAUNCH) !=
-+			COPROCESSOR_LAUNCH) {
-+			i++;
-+			// wait 100 ms
-+			msleep(100);
-+
-+			if (i >= 10) {
-+				// DP would not be ready.
-+				bDPExecute = 0;
-+				break;
-+			}
-+		}
-+
-+		if (bDPExecute)
-+			ast->tx_chip_type = AST_TX_ASTDP;
-+
-+		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
-+							(u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
-+							ASTDP_HOST_EDID_READ_DONE);
-+	} else
-+		ast->tx_chip_type = AST_TX_NONE;
-+}
-+
-+
-+
-+void ast_dp_power_on_off(struct drm_device *dev, bool on)
-+{
-+	struct ast_private *ast = to_ast_private(dev);
-+	// Read and Turn off DP PHY sleep
-+	u8 bE3 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE3, AST_DP_VIDEO_ENABLE);
-+
-+	// Turn on DP PHY sleep
-+	if (!on)
-+		bE3 |= AST_DP_PHY_SLEEP;
-+
-+	// DP Power on/off
-+	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE3, (u8) ~AST_DP_PHY_SLEEP, bE3);
-+}
-+
-+
-+
-+void ast_dp_set_on_off(struct drm_device *dev, bool on)
-+{
-+	struct ast_private *ast = to_ast_private(dev);
-+	u8 video_on_off = on;
-+
-+	// Video On/Off
-+	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE3, (u8) ~AST_DP_VIDEO_ENABLE, on);
-+
-+	// If DP plug in and link successful then check video on / off status
-+	if (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, ASTDP_LINK_SUCCESS) &&
-+		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD)) {
-+		video_on_off <<= 4;
-+		while (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF,
-+						ASTDP_MIRROR_VIDEO_ENABLE) != video_on_off) {
-+			// wait 1 ms
-+			mdelay(1);
-+		}
-+	}
-+}
-+
-+void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode)
-+{
-+	struct ast_private *ast = to_ast_private(crtc->dev);
-+
-+	u32 ulRefreshRateIndex;
-+	u8 ModeIdx;
-+
-+	ulRefreshRateIndex = vbios_mode->enh_table->refresh_rate_index - 1;
-+
-+	switch (crtc->mode.crtc_hdisplay) {
-+	case 320:
-+		ModeIdx = ASTDP_320x240_60;
-+		break;
-+	case 400:
-+		ModeIdx = ASTDP_400x300_60;
-+		break;
-+	case 512:
-+		ModeIdx = ASTDP_512x384_60;
-+		break;
-+	case 640:
-+		ModeIdx = (ASTDP_640x480_60 + (u8) ulRefreshRateIndex);
-+		break;
-+	case 800:
-+		ModeIdx = (ASTDP_800x600_56 + (u8) ulRefreshRateIndex);
-+		break;
-+	case 1024:
-+		ModeIdx = (ASTDP_1024x768_60 + (u8) ulRefreshRateIndex);
-+		break;
-+	case 1152:
-+		ModeIdx = ASTDP_1152x864_75;
-+		break;
-+	case 1280:
-+		if (crtc->mode.crtc_vdisplay == 800)
-+			ModeIdx = (ASTDP_1280x800_60_RB - (u8) ulRefreshRateIndex);
-+		else		// 1024
-+			ModeIdx = (ASTDP_1280x1024_60 + (u8) ulRefreshRateIndex);
-+		break;
-+	case 1360:
-+	case 1366:
-+		ModeIdx = ASTDP_1366x768_60;
-+		break;
-+	case 1440:
-+		ModeIdx = (ASTDP_1440x900_60_RB - (u8) ulRefreshRateIndex);
-+		break;
-+	case 1600:
-+		if (crtc->mode.crtc_vdisplay == 900)
-+			ModeIdx = (ASTDP_1600x900_60_RB - (u8) ulRefreshRateIndex);
-+		else		//1200
-+			ModeIdx = ASTDP_1600x1200_60;
-+		break;
-+	case 1680:
-+		ModeIdx = (ASTDP_1680x1050_60_RB - (u8) ulRefreshRateIndex);
-+		break;
-+	case 1920:
-+		if (crtc->mode.crtc_vdisplay == 1080)
-+			ModeIdx = ASTDP_1920x1080_60;
-+		else		//1200
-+			ModeIdx = ASTDP_1920x1200_60;
-+		break;
-+	default:
-+		return;
-+	}
-+
-+	/*
-+	 * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
-+	 * CRE1[7:0]: MISC1 (default: 0x00)
-+	 * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
-+	 */
-+	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE0, ASTDP_AND_CLEAR_MASK,
-+				ASTDP_MISC0_24bpp);
-+	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE1, ASTDP_AND_CLEAR_MASK, ASTDP_MISC1);
-+	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE2, ASTDP_AND_CLEAR_MASK, ModeIdx);
-+}
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index a19315b2f..79451130c 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -70,6 +70,7 @@ enum ast_tx_chip {
- 	AST_TX_NONE,
- 	AST_TX_SIL164,
- 	AST_TX_DP501,
-+	AST_TX_ASTDP,
- };
+Regards,
 
- #define AST_DRAM_512Mx16 0
-@@ -184,6 +185,10 @@ struct ast_private {
- 			struct drm_encoder encoder;
- 			struct drm_connector connector;
- 		} dp501;
-+		struct {
-+			struct drm_encoder encoder;
-+			struct drm_connector connector;
-+		} astdp;
- 	} output;
+Tvrtko
 
- 	bool support_wide_screen;
-@@ -357,10 +362,113 @@ int ast_mode_config_init(struct ast_private *ast);
- #define AST_DP501_EDID_DATA	0xf020
-
- /* Define for Soc scratched reg */
-+#define COPROCESSOR_LAUNCH			BIT(5)
-+
-+/*
-+ * Display Transmitter Type:
-+ */
-+#define TX_TYPE_MASK				GENMASK(3, 1)
-+#define NO_TX						(0 << 1)
-+#define ITE66121_VBIOS_TX			(1 << 1)
-+#define SI164_VBIOS_TX				(2 << 1)
-+#define CH7003_VBIOS_TX			(3 << 1)
-+#define DP501_VBIOS_TX				(4 << 1)
-+#define ANX9807_VBIOS_TX			(5 << 1)
-+#define TX_FW_EMBEDDED_FW_TX		(6 << 1)
-+#define ASTDP_DPMCU_TX				(7 << 1)
-+
- #define AST_VRAM_INIT_STATUS_MASK	GENMASK(7, 6)
- //#define AST_VRAM_INIT_BY_BMC		BIT(7)
- //#define AST_VRAM_INIT_READY		BIT(6)
-
-+/* Define for Soc scratched reg used on ASTDP */
-+#define AST_DP_PHY_SLEEP			BIT(4)
-+#define AST_DP_VIDEO_ENABLE		BIT(0)
-+
-+#define AST_DP_POWER_ON			true
-+#define AST_DP_POWER_OFF			false
-+
-+/*
-+ * CRD1[b5]: DP MCU FW is executing
-+ * CRDC[b0]: DP link success
-+ * CRDF[b0]: DP HPD
-+ * CRE5[b0]: Host reading EDID process is done
-+ */
-+#define ASTDP_MCU_FW_EXECUTING			BIT(5)
-+#define ASTDP_LINK_SUCCESS				BIT(0)
-+#define ASTDP_HPD						BIT(0)
-+#define ASTDP_HOST_EDID_READ_DONE		BIT(0)
-+#define ASTDP_HOST_EDID_READ_DONE_MASK	GENMASK(0, 0)
-+
-+/*
-+ * CRB8[b1]: Enable VSYNC off
-+ * CRB8[b0]: Enable HSYNC off
-+ */
-+#define AST_DPMS_VSYNC_OFF				BIT(1)
-+#define AST_DPMS_HSYNC_OFF				BIT(0)
-+
-+/*
-+ * CRDF[b4]: Mirror of AST_DP_VIDEO_ENABLE
-+ * Precondition:	A. ~AST_DP_PHY_SLEEP  &&
-+ *			B. DP_HPD &&
-+ *			C. DP_LINK_SUCCESS
-+ */
-+#define ASTDP_MIRROR_VIDEO_ENABLE		BIT(4)
-+
-+#define ASTDP_EDID_READ_POINTER_MASK	GENMASK(7, 0)
-+#define ASTDP_EDID_VALID_FLAG_MASK		GENMASK(0, 0)
-+#define ASTDP_EDID_READ_DATA_MASK		GENMASK(7, 0)
-+
-+/*
-+ * ASTDP setmode registers:
-+ * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
-+ * CRE1[7:0]: MISC1 (default: 0x00)
-+ * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
-+ */
-+#define ASTDP_MISC0_24bpp			BIT(5)
-+#define ASTDP_MISC1				0
-+#define ASTDP_AND_CLEAR_MASK		0x00
-+
-+/*
-+ * ASTDP resoultion table:
-+ * EX:	ASTDP_A_B_C:
-+ *		A: Resolution
-+ *		B: Refresh Rate
-+ *		C: Misc information, such as CVT, Reduce Blanked
-+ */
-+#define ASTDP_640x480_60		0x00
-+#define ASTDP_640x480_72		0x01
-+#define ASTDP_640x480_75		0x02
-+#define ASTDP_640x480_85		0x03
-+#define ASTDP_800x600_56		0x04
-+#define ASTDP_800x600_60		0x05
-+#define ASTDP_800x600_72		0x06
-+#define ASTDP_800x600_75		0x07
-+#define ASTDP_800x600_85		0x08
-+#define ASTDP_1024x768_60		0x09
-+#define ASTDP_1024x768_70		0x0A
-+#define ASTDP_1024x768_75		0x0B
-+#define ASTDP_1024x768_85		0x0C
-+#define ASTDP_1280x1024_60		0x0D
-+#define ASTDP_1280x1024_75		0x0E
-+#define ASTDP_1280x1024_85		0x0F
-+#define ASTDP_1600x1200_60		0x10
-+#define ASTDP_320x240_60		0x11
-+#define ASTDP_400x300_60		0x12
-+#define ASTDP_512x384_60		0x13
-+#define ASTDP_1920x1200_60		0x14
-+#define ASTDP_1920x1080_60		0x15
-+#define ASTDP_1280x800_60		0x16
-+#define ASTDP_1280x800_60_RB	0x17
-+#define ASTDP_1440x900_60		0x18
-+#define ASTDP_1440x900_60_RB	0x19
-+#define ASTDP_1680x1050_60		0x1A
-+#define ASTDP_1680x1050_60_RB	0x1B
-+#define ASTDP_1600x900_60		0x1C
-+#define ASTDP_1600x900_60_RB	0x1D
-+#define ASTDP_1366x768_60		0x1E
-+#define ASTDP_1152x864_75		0x1F
-+
- int ast_mm_init(struct ast_private *ast);
-
- /* ast post */
-@@ -381,4 +489,11 @@ void ast_init_3rdtx(struct drm_device *dev);
- /* ast_i2c.c */
- struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
-
-+/* aspeed DP */
-+int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
-+void ast_dp_launch(struct drm_device *dev, u8 bPower);
-+void ast_dp_power_on_off(struct drm_device *dev, bool no);
-+void ast_dp_set_on_off(struct drm_device *dev, bool no);
-+void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode);
-+
- #endif
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 22e9e2d3c..1113ee1cb 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -232,7 +232,7 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 			ast->tx_chip_type = AST_TX_SIL164;
- 	}
-
--	if ((ast->chip == AST2300) || (ast->chip == AST2400)) {
-+	if ((ast->chip == AST2300) || (ast->chip == AST2400) || (ast->chip == AST2500)) {
- 		/*
- 		 * On AST2300 and 2400, look the configuration set by the SoC in
- 		 * the SOC scratch register #1 bits 11:8 (interestingly marked
-@@ -256,7 +256,8 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
- 		case 0x0c:
- 			ast->tx_chip_type = AST_TX_DP501;
- 		}
--	}
-+	} else if (ast->chip == AST2600)
-+		ast_dp_launch(&ast->base, 0);
-
- 	/* Print stuff for diagnostic purposes */
- 	switch(ast->tx_chip_type) {
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 45b56b39a..4728825b7 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -988,21 +988,41 @@ static int ast_cursor_plane_init(struct ast_private *ast)
- static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
- {
- 	struct ast_private *ast = to_ast_private(crtc->dev);
-+	u8 ch = AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF;
-
- 	/* TODO: Maybe control display signal generation with
- 	 *       Sync Enable (bit CR17.7).
- 	 */
- 	switch (mode) {
- 	case DRM_MODE_DPMS_ON:
--	case DRM_MODE_DPMS_STANDBY:
--	case DRM_MODE_DPMS_SUSPEND:
-+		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT,  0x01, 0xdf, 0);
-+		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xfc, 0);
- 		if (ast->tx_chip_type == AST_TX_DP501)
- 			ast_set_dp501_video_output(crtc->dev, 1);
-+
-+		if (ast->tx_chip_type == AST_TX_ASTDP) {
-+			ast_dp_power_on_off(crtc->dev, AST_DP_POWER_ON);
-+			ast_wait_for_vretrace(ast);
-+			ast_dp_set_on_off(crtc->dev, 1);
-+		}
-+
-+		ast_crtc_load_lut(ast, crtc);
- 		break;
-+	case DRM_MODE_DPMS_STANDBY:
-+	case DRM_MODE_DPMS_SUSPEND:
- 	case DRM_MODE_DPMS_OFF:
-+		ch = mode;
- 		if (ast->tx_chip_type == AST_TX_DP501)
- 			ast_set_dp501_video_output(crtc->dev, 0);
- 		break;
-+
-+		if (ast->tx_chip_type == AST_TX_ASTDP) {
-+			ast_dp_set_on_off(crtc->dev, 0);
-+			ast_dp_power_on_off(crtc->dev, AST_DP_POWER_OFF);
-+		}
-+
-+		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT,  0x01, 0xdf, 0x20);
-+		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xfc, ch);
- 	}
- }
-
-@@ -1027,7 +1047,7 @@ ast_crtc_helper_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode
-
- 		if ((ast->chip == AST2100) || (ast->chip == AST2200) ||
- 		    (ast->chip == AST2300) || (ast->chip == AST2400) ||
--		    (ast->chip == AST2500)) {
-+		    (ast->chip == AST2500) || (ast->chip == AST2600)) {
- 			if ((mode->hdisplay == 1920) && (mode->vdisplay == 1080))
- 				return MODE_OK;
-
-@@ -1110,6 +1130,7 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
- 	struct ast_private *ast = to_ast_private(crtc->dev);
- 	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
- 	struct ast_crtc_state *old_ast_crtc_state = to_ast_crtc_state(old_crtc_state);
-+	struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
-
- 	/*
- 	 * The gamma LUT has to be reloaded after changing the primary
-@@ -1117,6 +1138,10 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
- 	 */
- 	if (old_ast_crtc_state->format != ast_crtc_state->format)
- 		ast_crtc_load_lut(ast, crtc);
-+
-+	//Set Aspeed Display-Port
-+	if (ast->tx_chip_type == AST_TX_ASTDP)
-+		ast_dp_set_mode(crtc, vbios_mode_info);
- }
-
- static void
-@@ -1527,6 +1552,93 @@ static int ast_dp501_output_init(struct ast_private *ast)
- 	return 0;
- }
-
-+/*
-+ * ASPEED Display-Port Connector
-+ */
-+
-+static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
-+{
-+	void *edid;
-+
-+	int succ;
-+	int count;
-+
-+	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
-+	if (!edid)
-+		goto err_drm_connector_update_edid_property;
-+
-+	succ = ast_astdp_read_edid(connector->dev, edid);
-+	if (succ < 0)
-+		goto err_kfree;
-+
-+	drm_connector_update_edid_property(connector, edid);
-+	count = drm_add_edid_modes(connector, edid);
-+	kfree(edid);
-+
-+	return count;
-+
-+err_kfree:
-+	kfree(edid);
-+err_drm_connector_update_edid_property:
-+	drm_connector_update_edid_property(connector, NULL);
-+	return 0;
-+}
-+
-+static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs = {
-+	.get_modes = ast_astdp_connector_helper_get_modes,
-+};
-+
-+static const struct drm_connector_funcs ast_astdp_connector_funcs = {
-+	.reset = drm_atomic_helper_connector_reset,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_connector_cleanup,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static int ast_astdp_connector_init(struct drm_device *dev, struct drm_connector *connector)
-+{
-+	int ret;
-+
-+	ret = drm_connector_init(dev, connector, &ast_astdp_connector_funcs,
-+				 DRM_MODE_CONNECTOR_DisplayPort);
-+	if (ret)
-+		return ret;
-+
-+	drm_connector_helper_add(connector, &ast_astdp_connector_helper_funcs);
-+
-+	connector->interlace_allowed = 0;
-+	connector->doublescan_allowed = 0;
-+
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
-+
-+	return 0;
-+}
-+
-+static int ast_astdp_output_init(struct ast_private *ast)
-+{
-+	struct drm_device *dev = &ast->base;
-+	struct drm_crtc *crtc = &ast->crtc;
-+	struct drm_encoder *encoder = &ast->output.astdp.encoder;
-+	struct drm_connector *connector = &ast->output.astdp.connector;
-+	int ret;
-+
-+	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
-+	if (ret)
-+		return ret;
-+	encoder->possible_crtcs = drm_crtc_mask(crtc);
-+
-+	ret = ast_astdp_connector_init(dev, connector);
-+	if (ret)
-+		return ret;
-+
-+	ret = drm_connector_attach_encoder(connector, encoder);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
- /*
-  * Mode config
-  */
-@@ -1563,7 +1675,8 @@ int ast_mode_config_init(struct ast_private *ast)
- 	    ast->chip == AST2200 ||
- 	    ast->chip == AST2300 ||
- 	    ast->chip == AST2400 ||
--	    ast->chip == AST2500) {
-+	    ast->chip == AST2500 ||
-+	    ast->chip == AST2600) {
- 		dev->mode_config.max_width = 1920;
- 		dev->mode_config.max_height = 2048;
- 	} else {
-@@ -1594,6 +1707,9 @@ int ast_mode_config_init(struct ast_private *ast)
- 	case AST_TX_DP501:
- 		ret = ast_dp501_output_init(ast);
- 		break;
-+	case AST_TX_ASTDP:
-+		ret = ast_astdp_output_init(ast);
-+		break;
- 	}
- 	if (ret)
- 		return ret;
-diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index b5d92f652..0aa9cf0fb 100644
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -379,7 +379,9 @@ void ast_post_gpu(struct drm_device *dev)
- 	ast_enable_mmio(dev);
- 	ast_set_def_ext_reg(dev);
-
--	if (ast->config_mode == ast_use_p2a) {
-+	if (ast->chip == AST2600) {
-+		ast_dp_launch(dev, 1);
-+	} else if (ast->config_mode == ast_use_p2a) {
- 		if (ast->chip == AST2500)
- 			ast_post_chip_2500(dev);
- 		else if (ast->chip == AST2300 || ast->chip == AST2400)
-
-base-commit: c54b39a565227538c52ead2349eb17d54aadd6f7
---
-2.27.0
-
+> +
+>   ===============================
+>   Driver specific implementations
+>   ===============================
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 14ab9a627d8b..57a66093e671 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -948,7 +948,24 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
+>   	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
+>   };
+>   
+> -DEFINE_DRM_GEM_FOPS(fops);
+> +static void msm_fop_show_fdinfo(struct seq_file *m, struct file *f)
+> +{
+> +	struct drm_file *file = f->private_data;
+> +	struct drm_device *dev = file->minor->dev;
+> +	struct msm_drm_private *priv = dev->dev_private;
+> +	struct drm_printer p = drm_seq_file_printer(m);
+> +
+> +	if (!priv->gpu)
+> +		return;
+> +
+> +	msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, &p);
+> +}
+> +
+> +static const struct file_operations fops = {
+> +	.owner = THIS_MODULE,
+> +	DRM_GEM_FOPS,
+> +	.show_fdinfo = msm_fop_show_fdinfo,
+> +};
+>   
+>   static const struct drm_driver msm_driver = {
+>   	.driver_features    = DRIVER_GEM |
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+> index eb8a6663f309..333a9a299b41 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.c
+> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> @@ -4,6 +4,8 @@
+>    * Author: Rob Clark <robdclark@gmail.com>
+>    */
+>   
+> +#include "drm/drm_drv.h"
+> +
+>   #include "msm_gpu.h"
+>   #include "msm_gem.h"
+>   #include "msm_mmu.h"
+> @@ -146,6 +148,16 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
+>   	return 0;
+>   }
+>   
+> +void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
+> +			 struct drm_printer *p)
+> +{
+> +	drm_printf(p, "drm-driver:\t%s\n", gpu->dev->driver->name);
+> +	drm_printf(p, "drm-client-id:\t%u\n", ctx->seqno);
+> +	drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
+> +	drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
+> +	drm_printf(p, "drm-maxfreq-gpu:\t%lu Hz\n", gpu->fast_rate);
+> +}
+> +
+>   int msm_gpu_hw_init(struct msm_gpu *gpu)
+>   {
+>   	int ret;
+> @@ -652,7 +664,7 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+>   {
+>   	int index = submit->seqno % MSM_GPU_SUBMIT_STATS_COUNT;
+>   	volatile struct msm_gpu_submit_stats *stats;
+> -	u64 elapsed, clock = 0;
+> +	u64 elapsed, clock = 0, cycles;
+>   	unsigned long flags;
+>   
+>   	stats = &ring->memptrs->stats[index];
+> @@ -660,12 +672,17 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+>   	elapsed = (stats->alwayson_end - stats->alwayson_start) * 10000;
+>   	do_div(elapsed, 192);
+>   
+> +	cycles = stats->cpcycles_end - stats->cpcycles_start;
+> +
+>   	/* Calculate the clock frequency from the number of CP cycles */
+>   	if (elapsed) {
+> -		clock = (stats->cpcycles_end - stats->cpcycles_start) * 1000;
+> +		clock = cycles * 1000;
+>   		do_div(clock, elapsed);
+>   	}
+>   
+> +	submit->queue->ctx->elapsed_ns += elapsed;
+> +	submit->queue->ctx->cycles     += cycles;
+> +
+>   	trace_msm_gpu_submit_retired(submit, elapsed, clock,
+>   		stats->alwayson_start, stats->alwayson_end);
+>   
+> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+> index 6def00883046..4911943ba53b 100644
+> --- a/drivers/gpu/drm/msm/msm_gpu.h
+> +++ b/drivers/gpu/drm/msm/msm_gpu.h
+> @@ -361,6 +361,22 @@ struct msm_file_private {
+>   	/** cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE */
+>   	char *cmdline;
+>   
+> +	/**
+> +	 * elapsed:
+> +	 *
+> +	 * The total (cumulative) elapsed time GPU was busy with rendering
+> +	 * from this context in ns.
+> +	 */
+> +	uint64_t elapsed_ns;
+> +
+> +	/**
+> +	 * cycles:
+> +	 *
+> +	 * The total (cumulative) GPU cycles elapsed attributed to this
+> +	 * context.
+> +	 */
+> +	uint64_t cycles;
+> +
+>   	/**
+>   	 * entities:
+>   	 *
+> @@ -544,6 +560,9 @@ static inline void gpu_write64(struct msm_gpu *gpu, u32 lo, u32 hi, u64 val)
+>   int msm_gpu_pm_suspend(struct msm_gpu *gpu);
+>   int msm_gpu_pm_resume(struct msm_gpu *gpu);
+>   
+> +void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
+> +			 struct drm_printer *p);
+> +
+>   int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx);
+>   struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
+>   		u32 id);
