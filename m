@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29BE853FEB0
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 14:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E576353FEBE
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 14:27:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D1D010E844;
-	Tue,  7 Jun 2022 12:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04B6F10E8DF;
+	Tue,  7 Jun 2022 12:27:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69CD310E842
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 12:24:38 +0000 (UTC)
-X-UUID: fb5b78e7daca4a7db5691981b3edb879-20220607
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:a0705966-04a2-4de5-943a-691efd1ac7ab, OB:0,
- LO
- B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:50
-X-CID-INFO: VERSION:1.1.5, REQID:a0705966-04a2-4de5-943a-691efd1ac7ab, OB:0,
- LOB:
- 0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:50
-X-CID-META: VersionHash:2a19b09, CLOUDID:8857f3e4-2ba2-4dc1-b6c5-11feb6c769e0,
- C
- OID:24b0c7df9da5,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:0,BEC:nil
-X-UUID: fb5b78e7daca4a7db5691981b3edb879-20220607
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2012312828; Tue, 07 Jun 2022 20:24:32 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Tue, 7 Jun 2022 20:24:31 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Tue, 7 Jun 2022 20:24:31 +0800
-Message-ID: <8af7938ae9244e4b7caf62e0c6ce0bcdddc13889.camel@mediatek.com>
-Subject: Re: [PATCH v10 18/21] drm/mediatek: Add mt8195 Embedded DisplayPort
- driver
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, Guillaume Ranquet <granquet@baylibre.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chunfeng Yun
- =?UTF-8?Q?=28=E4=BA=91=E6=98=A5=E5=B3=B0=29?= <Chunfeng.Yun@mediatek.com>,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, Helge
- Deller <deller@gmx.de>, Jitao Shi
- =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?= <jitao.shi@mediatek.com>
-Date: Tue, 7 Jun 2022 20:24:31 +0800
-In-Reply-To: <0bd8b0c66b9e2a1b63280e7eab63048bee7fe786.camel@mediatek.com>
-References: <20220523104758.29531-1-granquet@baylibre.com>
- <20220523104758.29531-19-granquet@baylibre.com>
- <0bd8b0c66b9e2a1b63280e7eab63048bee7fe786.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0FB110E8DC
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 12:27:15 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id q15so15907930wrc.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 05:27:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=MnS9eZBppnZjRJEyPEWcwbc8qEUGNcbl9p3ctix2mdQ=;
+ b=Jszx/Wi26USE9TtJWbMiiHrtAozvWbXe9c3sHzU7LSgZNED7VOPVQmXwkicOV9u6RT
+ /wX0EMV6B19rD42E+0GzJ6YUnQgc9DtniJ9Ixff4M5oRQaw6rRM51B98kwscnMTjT45H
+ T1ip3clG3PHk1wh/HVieVEzlNf6lvK/ZJLhgGgXinrM8DG/lLmsccix1OgrMV7rpbjwj
+ 9VHRhqjYrBRaihvRnR4fRqqZJ5YakE5G5kG9N6vKLWiVfRzcqowm9zISNFFko0nLesv5
+ IHNF5f+8hQyLleVlNdc/9rHU0RCoZco/GincvPZJbvVltgITdRm2u2ts7cIL1ePL5QJT
+ CopA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=MnS9eZBppnZjRJEyPEWcwbc8qEUGNcbl9p3ctix2mdQ=;
+ b=1TY3uowL5n4BvjWg4qauGtd73QGznfJrH+HWDW9Ox64smSV8kydEnShE7adZ1cpgQI
+ i4hpDj2rItCVCD4o4lEAkbP5Dus5MSJk6jedoOFdZ2hyAqywhQfNFw5IWGmkNYDYI1K/
+ 3bxmGF0dnfj9nSKZUY5BOI977ggAs9JkGfANOMp2LZ99fW377ayIalfOKWIk8WT4+b7O
+ w8+krYlImndWIMOOItv899V5Zl0/6ATtvVpTUJE/pwLIKs2Kjq5JJZnqmOB5ODaDACL/
+ NVFXpk2aE+OkfnALHkKLwLSUCOa+gCBQNMxU4UIN/pdODH+Co9bsPtog/h3iXX6FdK8o
+ hb0A==
+X-Gm-Message-State: AOAM533no+9OfLwc3mEqufsxZcVWQDp8V5C7CRbjprtX5oeX7BI7XLVN
+ Qu+3WtuPYI1pk7bY1Q5cZqFcKg==
+X-Google-Smtp-Source: ABdhPJz39mrIrz65dmQlmcX3m/aOeY5/aTHzZPbMkd34nx5R2i8IAXjv1ymugad1I8spt3xpgUJJcQ==
+X-Received: by 2002:a5d:6483:0:b0:20f:d046:6382 with SMTP id
+ o3-20020a5d6483000000b0020fd0466382mr27123834wri.342.1654604834197; 
+ Tue, 07 Jun 2022 05:27:14 -0700 (PDT)
+Received: from localhost.localdomain ([2001:861:44c0:66c0:87c5:1f51:1550:2ebc])
+ by smtp.gmail.com with ESMTPSA id
+ 186-20020a1c19c3000000b0039c4ec6fdacsm6553533wmz.40.2022.06.07.05.27.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jun 2022 05:27:13 -0700 (PDT)
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: Daniel Vetter <daniel@ffwll.ch>, Jerome Brunet <jbrunet@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Miaoqian Lin <linmq006@gmail.com>,
+ David Airlie <airlied@linux.ie>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, Kevin Hilman <khilman@baylibre.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 0/2] drm/meson: Fix refcount leak
+Date: Tue,  7 Jun 2022 14:27:11 +0200
+Message-Id: <165460481589.1168988.17623464252935400226.b4-ty@baylibre.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220601033927.47814-1-linmq006@gmail.com>
+References: <20220601033927.47814-1-linmq006@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,164 +77,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-06-07 at 14:21 +0800, CK Hu wrote:
-> Hi, Rex:
-> 
-> On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
-> > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> > 
-> > This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
-> > 
-> > It supports the mt8195, the embedded DisplayPort units. It offers
-> > DisplayPort 1.4 with up to 4 lanes.
-> > 
-> > The driver creates a child device for the phy. The child device
-> > will
-> > never exist without the parent being active. As they are sharing a
-> > register range, the parent passes a regmap pointer to the child so
-> > that
-> > both can work with the same register range. The phy driver sets
-> > device
-> > data that is read by the parent to get the phy device that can be
-> > used
-> > to control the phy properties.
-> > 
-> > This driver is based on an initial version by
-> > Jason-JH.Lin <jason-jh.lin@mediatek.com>.
-> > 
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > ---
-> 
-> [snip]
-> 
-> > +
-> > +static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
-> > +{
-> > +	struct mtk_dp *mtk_dp = dev;
-> > +	int event;
-> > +	u8 buf[DP_RECEIVER_CAP_SIZE] = {};
-> > +
-> > +	event = mtk_dp_plug_state(mtk_dp) ? connector_status_connected
-> > :
-> > +						  connector_status_disc
-> > onnected;
-> > +
-> > +	if (event < 0)
-> 
-> event is always > 0, isn't it?
-> 
-Hello CK,
+Hi,
 
-ok, I will move this to dp patch.
+On Wed, 1 Jun 2022 07:39:25 +0400, Miaoqian Lin wrote:
+> The following patchset fix two refcount leak bugs.
+> The cause of the bugs are missing of_node_put()
+> after of_graph_get_remote_node().
+> 
+> changes in v2:
+> - patch#2:Fixed patch in meson_encoder_hdmi_init, call of_node_put()
+>   after of_find_device_by_node() and error paths before that.
+>   noted by Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> 
+> [...]
 
-> > +		return IRQ_HANDLED;
-> > +
-> > +	if (mtk_dp->drm_dev) {
-> > +		dev_info(mtk_dp->dev, "drm_helper_hpd_irq_event\n");
-> > +		drm_helper_hpd_irq_event(mtk_dp->bridge.dev);
-> 
-> I think this ISR would come once. If bridge has not attached, the drm
-> core would lost this event. Maybe you should enable eDP hardware
-> after
-> bridge attached or send this event when attached.
-> 
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
 
-for edp patch, I will move it to (mtk_dp_bridge_attach).
-for dp patch, I will add it back.
+[1/2] drm/meson: encoder_cvbs: Fix refcount leak in meson_encoder_cvbs_init
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=7d255ddbbf679aa47e041cbf68520fd985ed2279
+[2/2] drm/meson: encoder_hdmi: Fix refcount leak in meson_encoder_hdmi_init
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=d82a5a4aae9d0203234737caed1bf470aa317568
 
-> > +	}
-> > +
-> > +	if (mtk_dp->train_info.cable_state_change) {
-> 
-> Executing this thread imply cable_state_change = true, so drop
-> cable_state_change.
-> 
-
-In mtk_dp_hpd_isr_handler(), there is another irq
-"MTK_DP_HPD_INTERRUPT" which means the sink devices give a interrupt to
-source device. it's not about connected status, so I think we still
-need this.
-
-> > +		mtk_dp->train_info.cable_state_change = false;
-> > +
-> > +		mtk_dp->train_state = MTK_DP_TRAIN_STATE_STARTUP;
-> > +
-> > +		if (!mtk_dp->train_info.cable_plugged_in ||
-> > +		    !mtk_dp_plug_state(mtk_dp)) {
-> 
-> I do not like two variable to present one thing. If
-> 
-> mtk_dp->train_info.cable_plugged_in = false
-> and
-> mtk_dp_plug_state(mtk_dp) = ture
-> 
-> What does this mean? I think this mean 'now' is connected because
-> cable_plugged_in is old information and mtk_dp_plug_state() is
-> current
-> information.
-> 
-> But I would like to keep cable_plugged_in and drop
-> mtk_dp_plug_state()
-> because cable_plugged_in would be changed in isr and it would be the
-> same as mtk_dp_plug_state().
-> 
-> Regards,
-> CK
-> 
-
-ok, I will drop this.
-
-BRs,
-Rex
-
-> > +			mtk_dp_video_mute(mtk_dp, true);
-> > +
-> > +			mtk_dp_initialize_priv_data(mtk_dp);
-> > +			mtk_dp_set_idle_pattern(mtk_dp, true);
-> > +			if (mtk_dp->has_fec)
-> > +				mtk_dp_fec_enable(mtk_dp, false);
-> > +
-> > +			mtk_dp_update_bits(mtk_dp,
-> > MTK_DP_TOP_PWR_STATE,
-> > +					   DP_PWR_STATE_BANDGAP_TPLL,
-> > +					   DP_PWR_STATE_MASK);
-> > +		} else {
-> > +			mtk_dp_update_bits(mtk_dp,
-> > MTK_DP_TOP_PWR_STATE,
-> > +					   DP_PWR_STATE_BANDGAP_TPLL_LA
-> > NE,
-> > +					   DP_PWR_STATE_MASK);
-> > +			drm_dp_read_dpcd_caps(&mtk_dp->aux, buf);
-> > +			mtk_dp->train_info.link_rate =
-> > +				min_t(int, mtk_dp->max_linkrate,
-> > +				      buf[mtk_dp->max_linkrate]);
-> > +			mtk_dp->train_info.lane_count =
-> > +				min_t(int, mtk_dp->max_lanes,
-> > +				      drm_dp_max_lane_count(buf));
-> > +		}
-> > +	}
-> > +
-> > +	if (mtk_dp->train_info.irq_status & MTK_DP_HPD_INTERRUPT) {
-> > +		dev_dbg(mtk_dp->dev, "MTK_DP_HPD_INTERRUPT\n");
-> > +		mtk_dp->train_info.irq_status &= ~MTK_DP_HPD_INTERRUPT;
-> > +		mtk_dp_hpd_sink_event(mtk_dp);
-> > +	}
-> > +
-> > +	return IRQ_HANDLED;
-> > +}
-> > +
-> 
-> 
-
+-- 
+Neil
