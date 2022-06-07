@@ -2,58 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3912A541258
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 21:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C0154142D
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 22:16:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C885810F441;
-	Tue,  7 Jun 2022 19:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3474A10E166;
+	Tue,  7 Jun 2022 20:16:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C6D110F441
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 19:47:12 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id m20so37218606ejj.10
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 12:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4XySnnRFpt2mLi3WF6kBX9bcNdR38hrM+Wc0sglR8Cg=;
- b=infoXu0A0+jYrRow2N8uPEOn5aR6FTxU4AnpbRKgCkNQEPHJ7EpA5bIY3IDYXRcC96
- 8w67nSswWKbazPfQJ3xA/EWanVl1jWTr3BjSSZCZbfl0LlSjEbdBpvJRdsD0nkJUqhos
- AZ7ffHDgLKlzqmZdnkV+L5TDPz7x0A7Bkokxk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4XySnnRFpt2mLi3WF6kBX9bcNdR38hrM+Wc0sglR8Cg=;
- b=vFMCcW4UY4S2KmfqHwJPCXf13/WXoGCWfAzVhFROnAcc0ntvo5uawnW0FKAKFVYqyb
- MqD1zUSS3HF/BYpgRZfNzQ1hu58GSx4lC5UUPhM9e2vnoVNeRMeTYmgm/ZiIAYpiX4A6
- G7XXr82xhajxdx2LpF88CzcEUvlAfx56X2KIo+P328/k95mgvKo2wiZmi/8gBd5NnXqA
- 6t/EkwYzv1kv6dwQOFu9JeiRsbjbjJexZYmXtAlAkvReIh3wL0If8fkUz0s3/FeNCiVs
- 2KpXG0/j9OnwX8nPWdJlnZqt6qUTzLph5N5ZlAQk8XxYhp2fA3ddEPE9RabLpJlbFkXi
- 2/KA==
-X-Gm-Message-State: AOAM531ar5lgt5eiDkYtQpYkPthN+CtIAN/YZ6M58pu+ImFnB0U0txgo
- TBQio/d40aag7oK4eh/IzZfh+F8i4etWzoKLbWo/OA==
-X-Google-Smtp-Source: ABdhPJx7A8xs8aleBgdvSi5xWCpOETJPfeuNL4Qg5b+N2o3BQoa8KBAu3aZvU9VDnXSMS0dLbWRNiE+30sBBJoViVDI=
-X-Received: by 2002:a17:906:b898:b0:711:ca46:24ec with SMTP id
- hb24-20020a170906b89800b00711ca4624ecmr12821641ejb.111.1654631230795; Tue, 07
- Jun 2022 12:47:10 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D987A10E166
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 20:16:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654633010; x=1686169010;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=7V/VA70lsYPB2rHKj1GQNpN5bDhVdxSUPtPF7P0+zbo=;
+ b=fbsSxyQUV8mvku3KKGwZ4Q3jQfGS2tG5xtFQ/UQYvtEp3Gruj1nAwISO
+ T0BGRmZkrfzuhlxavw2agJVj1n1BZrMCkN9yDls3FuDXCOoRrd9n2iT9L
+ DrFYTjbJxxdvtO3Pc6uglyNTM6xtfoge6bLMscRY9NIV/k84H3vI4Li3r
+ i2En5jse4+Z4prQcQ/Wu6+Y30kEYudIF7mhkUWRUkSybS0NMk026aoylM
+ k6DuaWC/jpsS/9Bpp89904e/WwquViakZ/EhOsfMyRNXHBtX7z36QPkYU
+ 5kBK5lutWxf5/r/8/24S1hUc7HgRlcji5HKfyt92qU+pvRXPJ5emn2BSP Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="257186936"
+X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="257186936"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 13:16:50 -0700
+X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="648216227"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 13:16:48 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nyfd6-000W7i-N9; Tue, 07 Jun 2022 23:16:44 +0300
+Date: Tue, 7 Jun 2022 23:16:44 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Stephen Kitt <steve@sk2.org>
+Subject: Re: [PATCH] staging: ftbft: Use backlight helper
+Message-ID: <Yp+yLJNq70U3Z7AZ@smile.fi.intel.com>
+References: <20220607185516.1129900-1-steve@sk2.org>
 MIME-Version: 1.0
-References: <cover.1646406653.git.dave.stevenson@raspberrypi.com>
- <CAPY8ntC-2Yij+a5wWEZ3BRBSh7bz+74coHCoB01ZhY550H+BDg@mail.gmail.com>
- <CGME20220405114402eucas1p1d139ce6825a481d1318f013cf27a5fe7@eucas1p1.samsung.com>
- <CAPY8ntAi1tM7BZEpKkMAasRH3R_+tJCUFY7k-yVBdtogvxQNRA@mail.gmail.com>
- <e96197f9-948a-997e-5453-9f9d179b5f5a@samsung.com>
- <CAPY8ntDR54vaBuwQN2F_j4_rxYgkFmsxc+mKYBn0YLe8=CtxtQ@mail.gmail.com>
- <b4eb6670-79a9-eec0-bbd1-6c5a0e31ff08@samsung.com>
-In-Reply-To: <b4eb6670-79a9-eec0-bbd1-6c5a0e31ff08@samsung.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 8 Jun 2022 01:16:59 +0530
-Message-ID: <CAMty3ZDyy61iHufOD7rtnB0HseyxtvZJQX2qodyWcOiZXpNG_A@mail.gmail.com>
-Subject: Re: [PATCH V2 0/3] DSI host and peripheral initialisation ordering
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220607185516.1129900-1-steve@sk2.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,112 +60,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Len Baker <len.baker@gmx.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+On Tue, Jun 07, 2022 at 08:55:16PM +0200, Stephen Kitt wrote:
+> backlight_properties.fb_blank is deprecated. The states it represents
+> are handled by other properties; but instead of accessing those
+> properties directly, drivers should use the helpers provided by
+> backlight.h.
+> 
+> Instead of manually checking the power state in struct
+> backlight_properties, use backlight_is_blank().
 
-On Wed, May 18, 2022 at 7:35 PM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
->
-> Hi Dave,
->
-> On 11.05.2022 17:47, Dave Stevenson wrote:
-> > On Wed, 11 May 2022 at 15:58, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
-> >> On 05.04.2022 13:43, Dave Stevenson wrote:
-> >>> On Fri, 18 Mar 2022 at 12:25, Dave Stevenson
-> >>> <dave.stevenson@raspberrypi.com>  wrote:
-> >>>> On Fri, 4 Mar 2022 at 15:18, Dave Stevenson
-> >>>> <dave.stevenson@raspberrypi.com>  wrote:
-> >>>>> Hi All
-> >>>> A gentle ping on this series. Any comments on the approach?
-> >>>> Thanks.
-> >>> I realise the merge window has just closed and therefore folks have
-> >>> been busy, but no responses on this after a month?
-> >>>
-> >>> Do I give up and submit a patch to document that DSI is broken and no one cares?
-> >> Thanks for pointing this patchset in the 'drm: bridge: Add Samsung MIPI
-> >> DSIM bridge' thread, otherwise I would miss it since I'm not involved
-> >> much in the DRM development.
-> >>
-> >> This resolves most of the issues in the Exynos DSI and its recent
-> >> conversion to the drm bridge framework. I've added the needed
-> >> prepare_upstream_first flags to the panels and everything works fine
-> >> without the bridge chain order hacks.
-> >>
-> >> Feel free to add:
-> >>
-> >> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > Thanks for testing it. I was almost at the stage of abandoning the patch set.
-> >
-> >> The only remaining thing to resolve is the moment of enabling DSI host.
-> >> The proper sequence is:
-> >>
-> >> 1. host power on, 2. device power on, 3. host init, 4. device init, 5.
-> >> video enable.
-> >>
-> >> #1 is done in dsi's pre_enable, #2 is done in panel's prepare. #3 was so
-> >> far done in the first host transfer call, which usually happens in
-> >> panel's prepare, then the #4 happens. Then video enable is done in the
-> >> enable callbacks.
-> > What's your definition of host power on and host init here? What state
-> > are you defining the DSI interface to be in after each operation?
->
-> Well, lets start from the point that I'm not a DSI specialist nor I'm
-> not the exynos-dsi author. I just played a bit with the code trying to
-> restore proper driver operation on the various Exynos based boards I have.
->
-> By the host/device power on I mean enabling their power regulators. By
-> host init I mean executing the samsung_dsim_init() function, which
-> basically sets the lp-11 state if I understand it right.
->
->
-> >> Jagan wants to move it to the dsi host pre_enable() to let it work with
-> >> DSI bridges controlled over different interfaces
-> >> (https://lore.kernel.org/all/20220504114021.33265-6-jagan@amarulasolutions.com/
-> >> ).
-> > I think I'm in agreement with Jagan.
-> > As documented in patch 4/4:
-> > + * A DSI host should keep the PHY powered down until the pre_enable
-> > operation is
-> > + * called. All lanes are in an undefined idle state up to this point, and it
-> > + * must not be assumed that it is LP-11.
-> > + * pre_enable should initialise the PHY, set the data lanes to LP-11, and the
-> > + * clock lane to either LP-11 or HS depending on the mode_flag
-> > + * %MIPI_DSI_CLOCK_NON_CONTINUOUS.
->
-> Right, this theory makes sense.
->
-> However Exynos DSI for some reasons did the host initialization in the
-> first call of the samsung_dsim_host_transfer(). If I moved the host
-> initialization to pre_enable (before powering the panel on), executing
-> DSI commands failed (timeout). This issue happens on all boards I have
-> access (Trats, Trats2, Arndale, TM2e), so this must be an issue with
-> Exynos DSI host itself not related to particular panel/bridge.
->
-> If I call samsung_dsim_init() once again, before issuing the first DSI
-> command, then everything works fine. I've tried to check which part of
-> that function is needed to be executed before transferring the commands,
-> but it turned out that the complete host reset and (re)configuration is
-> necessary. It looks that the initialization will need to be done twice,
-> first time in the pre_enable to satisfy Jagan case, then on the first
-> dsi transfer to make it work with real DSI panels.
->
-> Here is a git repo with such change:
-> https://github.com/mszyprow/linux/tree/v5.18-next-20220511-dsi-rework-v2
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-This is worthy check, I will test it on imx8mm and integrate it into
-the next version - hope this is fine for you?
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Noralf Trønnes" <noralf@tronnes.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Len Baker <len.baker@gmx.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: linux-staging@lists.linux.dev
+> ---
+>  drivers/staging/fbtft/fb_ssd1351.c | 3 +--
+>  drivers/staging/fbtft/fbtft-core.c | 3 +--
+>  2 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
+> index 6fd549a424d5..b8d55aa8c5c7 100644
+> --- a/drivers/staging/fbtft/fb_ssd1351.c
+> +++ b/drivers/staging/fbtft/fb_ssd1351.c
+> @@ -196,8 +196,7 @@ static int update_onboard_backlight(struct backlight_device *bd)
+>  		      "%s: power=%d, fb_blank=%d\n",
+>  		      __func__, bd->props.power, bd->props.fb_blank);
+>  
+> -	on = (bd->props.power == FB_BLANK_UNBLANK) &&
+> -	     (bd->props.fb_blank == FB_BLANK_UNBLANK);
+> +	on = !backlight_is_blank(bd);
+>  	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1 unused */
+>  	write_reg(par, 0xB5, on ? 0x03 : 0x02);
+>  
+> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+> index 60b2278d8b16..9b3eaed80cdd 100644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -137,8 +137,7 @@ static int fbtft_backlight_update_status(struct backlight_device *bd)
+>  		      "%s: polarity=%d, power=%d, fb_blank=%d\n",
+>  		      __func__, polarity, bd->props.power, bd->props.fb_blank);
+>  
+> -	if ((bd->props.power == FB_BLANK_UNBLANK) &&
+> -	    (bd->props.fb_blank == FB_BLANK_UNBLANK))
+> +	if (!backlight_is_blank(bd))
+>  		gpiod_set_value(par->gpio.led[0], polarity);
+>  	else
+>  		gpiod_set_value(par->gpio.led[0], !polarity);
+> 
+> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+> -- 
+> 2.30.2
+> 
 
-Jagan.
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
