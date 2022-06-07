@@ -1,46 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8767954077C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 19:47:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E21D554046D
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 19:12:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAE3E10EC8E;
-	Tue,  7 Jun 2022 17:47:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77ABA10EDCE;
+	Tue,  7 Jun 2022 17:12:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5675E10F0C6
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 17:47:46 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C0B0A616B6;
- Tue,  7 Jun 2022 17:47:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D18D8C385A5;
- Tue,  7 Jun 2022 17:47:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1654624065;
- bh=wlau1dshHNRQvKJUZTXil8xlx3EVVAG/4k/WKwapXEA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Q4mfUo1mj5q/vNL1SVAqHiGUp0+wvTYz3vx6d0sM6SUj1hCscbMzSGC3EsFK/hvXv
- 95xUbP52aQcaxUORahqmzwO/PU+xQGSK2WGJ2BfKaZRcMmh+E3wAGIIIZ7zJ0CdBA5
- 19IjEZJtKG0Tfxz2qevXzI1q2FIieHCT8mjIJNdE=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 5.15 192/667] drm: bridge: icn6211: Fix HFP_HSW_HBP_HI and
- HFP_MIN handling
-Date: Tue,  7 Jun 2022 18:57:37 +0200
-Message-Id: <20220607164940.561410840@linuxfoundation.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220607164934.766888869@linuxfoundation.org>
-References: <20220607164934.766888869@linuxfoundation.org>
-User-Agent: quilt/0.66
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 006B210EDCE
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 17:12:05 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id er5so23832994edb.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 10:12:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=516c1ECeAdlTDYUv5SFW9WeHPEyFi2CPyVtGYdPkmAE=;
+ b=dMWz8Fu3pnpw7EgoHQ8AoC3kGZ93ymrLgYNbUyChqTuJIaSdzlRMJYc2hThjfcvEwT
+ xisRuno3peKuEKyqG+5tPELfFRBU2Y3AYcY56udOuCNl/HXC1GmQ44uxO5QgK53f83Ad
+ jGFl9UVWsMqBujvYjmJ+ZL9zUiF2uoWE69PYXzH3dFDPvPYQtjKC21JkJLLCjPF9fcmP
+ rJGzJo1Rh85V9h7gtjh0eSNaxu74ud8uzRJHGaIkkpDV2Q5u2UvTWGQKFUOHlQ9jGig4
+ Z90ZJ6sS0msIRaYbPtWA/3DmV8Wg9rL3ldvq7sKcFIkCI4Y10GyX446hKN+OpDc4ETQP
+ PP4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=516c1ECeAdlTDYUv5SFW9WeHPEyFi2CPyVtGYdPkmAE=;
+ b=U9Rd5VQV+9Or1//Rk96XFjOFV/fnVkZNAADFAEBCLF1qAihmKD5KliJACwv1sIvmZl
+ +D3mKddWubcALlnSudSp2J4NW1mf95e0Jx7zfMXAgY2FYwWzeqXaqROylXmLpsnDXVSk
+ 3Y7cj/P6h7Ahc2AuIAIWBH148fR+QeiVi7MEj/LUB/vyrIGEz/EokqvnzvuittMiLHmM
+ u7pc4UaKHsu/PLjLv846doHMlZkKwPVJOsdqiKnRA0ZyS27Lce9E/lqmzQzN/cxucUX2
+ mJno1qVE17uxEOfT1iHjY3SCxo54elH6z0LBbFqezXQH7aKpFwXL26lFG31ZEunVt87z
+ MO+Q==
+X-Gm-Message-State: AOAM531dZQlNtd5JuZA9rg1+iRi38mrXPkm8hw8beR9oLFdi2LRBW764
+ wi2iAzeCwZ6eJWwYG2Jzz0ZzeQ==
+X-Google-Smtp-Source: ABdhPJzvpSk0Qjg661liVIKltScH0Q9G3bh+JG3VX3DkiOZwIcBf4+cWHgZ6prLeIuDfqneiTvvBwg==
+X-Received: by 2002:a05:6402:35c9:b0:431:3b5f:ecc1 with SMTP id
+ z9-20020a05640235c900b004313b5fecc1mr18641630edc.349.1654621924477; 
+ Tue, 07 Jun 2022 10:12:04 -0700 (PDT)
+Received: from [192.168.0.186] (xdsl-188-155-176-92.adslplus.ch.
+ [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
+ d19-20020a056402145300b0043151e18630sm4521204edx.21.2022.06.07.10.12.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 10:12:03 -0700 (PDT)
+Message-ID: <cd9b1212-0950-9fd8-7481-e3ef14de2131@linaro.org>
+Date: Tue, 7 Jun 2022 19:12:01 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v4 1/3] dt-bindings: mediatek: add vdosys1 RDMA definition
+ for mt8195
+Content-Language: en-US
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+References: <20220606031818.13646-1-rex-bc.chen@mediatek.com>
+ <20220606031818.13646-2-rex-bc.chen@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220606031818.13646-2-rex-bc.chen@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,102 +76,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Sasha Levin <sashal@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Robert Foss <robert.foss@linaro.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>, stable@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
+Cc: devicetree@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ "Nancy.Lin" <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
+ pavel@ucw.cz, matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marek Vasut <marex@denx.de>
+On 06/06/2022 05:18, Bo-Chen Chen wrote:
+> From: "Nancy.Lin" <nancy.lin@mediatek.com>
+> 
+> Add vdosys1 RDMA definition.
+> 
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
+>  .../display/mediatek/mediatek,mdp-rdma.yaml   | 88 +++++++++++++++++++
+>  1 file changed, 88 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+> new file mode 100644
+> index 000000000000..678abb321cc2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+> @@ -0,0 +1,88 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek MDP RDMA
+> +
+> +maintainers:
+> +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> +  - Philipp Zabel <p.zabel@pengutronix.de>
+> +
+> +description:
+> +  The MediaTek MDP RDMA stands for Read Direct Memory Access.
+> +  It provides real time data to the back-end panel driver, such as DSI,
+> +  DPI and DP_INTF.
+> +  It contains one line buffer to store the sufficient pixel data.
+> +  RDMA device node must be siblings to the central MMSYS_CONFIG node.
+> +  For a description of the MMSYS_CONFIG binding, see
+> +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml for details.
+> +
+> +properties:
+> +  compatible:
+> +    - const: mediatek,mt8195-vdo1-rdma
 
-[ Upstream commit c0ff7a649d62105a9308cc3ac36e52a4669d9cb4 ]
+During my review I missed that part. But your testing should not miss it
+- please always run `make dt_bindings_check` and do not send code which
+fails.
 
-The HFP_HSW_HBP_HI register must be programmed with 2 LSbits of each
-Horizontal Front Porch/Sync/Back Porch. Currently the driver programs
-this register to 0, which breaks displays with either value above 255.
-
-The HFP_MIN register must be set to the same value as HFP_LI, otherwise
-there is visible image distortion, usually in the form of missing lines
-at the bottom of the panel.
-
-Fix this by correctly programming the HFP_HSW_HBP_HI and HFP_MIN registers.
-
-Acked-by: Maxime Ripard <maxime@cerno.tech>
-Fixes: ce517f18944e3 ("drm: bridge: Add Chipone ICN6211 MIPI-DSI to RGB bridge")
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-To: dri-devel@lists.freedesktop.org
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220331150509.9838-3-marex@denx.de
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/bridge/chipone-icn6211.c | 23 ++++++++++++++++-------
- 1 file changed, 16 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index eb26615b2993..d7eedf35e841 100644
---- a/drivers/gpu/drm/bridge/chipone-icn6211.c
-+++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -34,6 +34,9 @@
- #define HSYNC_LI		0x24
- #define HBP_LI			0x25
- #define HFP_HSW_HBP_HI		0x26
-+#define HFP_HSW_HBP_HI_HFP(n)		(((n) & 0x300) >> 4)
-+#define HFP_HSW_HBP_HI_HS(n)		(((n) & 0x300) >> 6)
-+#define HFP_HSW_HBP_HI_HBP(n)		(((n) & 0x300) >> 8)
- #define VFP			0x27
- #define VSYNC			0x28
- #define VBP			0x29
-@@ -165,6 +168,7 @@ static void chipone_enable(struct drm_bridge *bridge)
- {
- 	struct chipone *icn = bridge_to_chipone(bridge);
- 	struct drm_display_mode *mode = bridge_to_mode(bridge);
-+	u16 hfp, hbp, hsync;
- 
- 	ICN6211_DSI(icn, MIPI_CFG_PW, MIPI_CFG_PW_CONFIG_DSI);
- 
-@@ -180,13 +184,18 @@ static void chipone_enable(struct drm_bridge *bridge)
- 		    ((mode->hdisplay >> 8) & 0xf) |
- 		    (((mode->vdisplay >> 8) & 0xf) << 4));
- 
--	ICN6211_DSI(icn, HFP_LI, mode->hsync_start - mode->hdisplay);
-+	hfp = mode->hsync_start - mode->hdisplay;
-+	hsync = mode->hsync_end - mode->hsync_start;
-+	hbp = mode->htotal - mode->hsync_end;
- 
--	ICN6211_DSI(icn, HSYNC_LI, mode->hsync_end - mode->hsync_start);
--
--	ICN6211_DSI(icn, HBP_LI, mode->htotal - mode->hsync_end);
--
--	ICN6211_DSI(icn, HFP_HSW_HBP_HI, 0x00);
-+	ICN6211_DSI(icn, HFP_LI, hfp & 0xff);
-+	ICN6211_DSI(icn, HSYNC_LI, hsync & 0xff);
-+	ICN6211_DSI(icn, HBP_LI, hbp & 0xff);
-+	/* Top two bits of Horizontal Front porch/Sync/Back porch */
-+	ICN6211_DSI(icn, HFP_HSW_HBP_HI,
-+		    HFP_HSW_HBP_HI_HFP(hfp) |
-+		    HFP_HSW_HBP_HI_HS(hsync) |
-+		    HFP_HSW_HBP_HI_HBP(hbp));
- 
- 	ICN6211_DSI(icn, VFP, mode->vsync_start - mode->vdisplay);
- 
-@@ -196,7 +205,7 @@ static void chipone_enable(struct drm_bridge *bridge)
- 
- 	/* dsi specific sequence */
- 	ICN6211_DSI(icn, SYNC_EVENT_DLY, 0x80);
--	ICN6211_DSI(icn, HFP_MIN, 0x28);
-+	ICN6211_DSI(icn, HFP_MIN, hfp & 0xff);
- 	ICN6211_DSI(icn, MIPI_PD_CK_LANE, 0xa0);
- 	ICN6211_DSI(icn, PLL_CTRL(12), 0xff);
- 	ICN6211_DSI(icn, BIST_POL, BIST_POL_DE_POL);
--- 
-2.35.1
-
-
-
+Best regards,
+Krzysztof
