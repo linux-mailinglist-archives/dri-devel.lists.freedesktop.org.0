@@ -2,153 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72938541F4D
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 01:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 620DB541F51
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 01:04:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D18B911206A;
-	Tue,  7 Jun 2022 23:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A74D112117;
+	Tue,  7 Jun 2022 23:04:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C64A311206C;
- Tue,  7 Jun 2022 23:02:45 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58A6F112113;
+ Tue,  7 Jun 2022 23:04:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654642965; x=1686178965;
- h=message-id:date:subject:to:references:from:in-reply-to:
- mime-version; bh=PfldJGRgDlmYTXd8GXNNF/RdhdL4Ft6TSNOfF7pzmP8=;
- b=HeagEi1Snvb7rKR1GEaM3tlmFA5oh1MWmvZpjiMtRNNdYWoOLu993k7W
- ctLwSsxfnnOZV1YmjUxOl5MRik1OdehEpXqtxwVyxFszewbRiMIEdo95c
- s27iBsTRC7h4VkPt1dlPxwZRdMtS31Lui7xF9PM0aUUnGPWUtYwD1rNW8
- TeI4d+CL5fxQ8X1OOX13g7vqql6W/vGZYHxnOvIHl3t+B4WXmUecg1PYR
- gmR8Tb7zAPmXAWvvQGYnmVvq4ieu9ebgrJCP0ZtokGmDOeUVVOfs4fNwK
- 5pBE+letFyGlPWlZlnk26R3cDo6wHax3krrUMm8DJrSUJZ4Yfw8lE/lpM Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="302120465"
-X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; 
- d="scan'208,217";a="302120465"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 16:02:45 -0700
+ t=1654643085; x=1686179085;
+ h=message-id:date:subject:from:to:references:in-reply-to:
+ content-transfer-encoding:mime-version;
+ bh=tCNQOngvkuoiliRAdWTH906xIcrki6/P+OSbXefG9bM=;
+ b=eN5Azf4hyPIkJJp8MP8HeIzoV+PQhfcQ42q0GLi4D6Dbv5LaghpEDKhW
+ GTihYXSqCnsTtXeB57CeMjRThOcKXG8vwTn34ltMTIna7N04C4enzg4TV
+ UtHwlcreogjhNeCmy9GMOkfzh+xKsCMwCLHMTRO4b2UtY1ztzaTcOCgOX
+ MtO+06vP/Oc5+aXhekZosD0tuNGh5zFv4/BXA21U+OWuLqcslnbUVXAYZ
+ pXCSs0CRrzvvVndmsJg7nypOh9vz1gz96ovMQeL7bGP541AaMBC5IFLru
+ W+nPMXXhOMcXngtGOnH6Rn+pLwMUyAb0sfo71YUYQxQuKVapbyb+7pS3I w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="275532751"
+X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="275532751"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 16:04:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; 
- d="scan'208,217";a="907302051"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by fmsmga005.fm.intel.com with ESMTP; 07 Jun 2022 16:02:45 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="609405335"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by orsmga008.jf.intel.com with ESMTP; 07 Jun 2022 16:04:44 -0700
+Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Tue, 7 Jun 2022 16:04:44 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
  fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 7 Jun 2022 16:02:44 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Tue, 7 Jun 2022 16:02:44 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.177)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2308.27 via Frontend Transport; Tue, 7 Jun 2022 16:04:44 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.177)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Tue, 7 Jun 2022 16:02:44 -0700
+ 15.1.2308.27; Tue, 7 Jun 2022 16:04:43 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O0muMdNkSjcJtDyG/fRx6W13khKjB5dxoblQGMvoCtI0nTuOs/+VLE6bjccgpxo7xhxbDBx/4f34NOfc0grAqUrD3j746hAZPgefOzpnVpjY0oprd0NWaOA7032txqhBlSf9x53oWd2aoHFEVb+CFip6ACKeR8G3d2W95ZgG349/SdnPVNTcvFQYd/Dnpl1Ine5EuykkKIdyKLM+gru32yPDZ+1MMdbzgUsXB663nYqbo47D3iOQkCBJg4+ySxrbJjC47PLrWBrjKBai6X1VZwv9h6WTYLeQ7TbLgmxiPzGsvsEfzihkHTsj2yjUiXBeDoyKDRaRTNvnzO8WrMcciw==
+ b=QB2tqrYY1kJ13kwE+X3oq2oFBv/zp+AoPzZV3saMMl2G7V5u6sgyk9L6hZ2mxXEVVgMhnMGC++PKZ5soqKEE8YCygsATXbll4ambYivjupE/6OHb2mV4i4FPce6jevWPyaETEiRW5DdjdLclBoC+IeXauxeN0qL4bGUSOsj/DAc+VvZ4SM0cEf4ZNOvh65hF70TbshIn+7rkBR3ZULpY7XgJVqq5x/g7KkfOZ6peAEvoMAW95Mn2mmZgscsvW+1yEHaKrG4XzvwiRgnlrDayyEmCJ6UyHMEJ97k2NuJUDV56S6debdZcTNElzmg1swEjPH1eNvoTls7sHmF7vWbqYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VRGOLj4PIRe36xsT/IIVHtm8ockG9lHYWc4DuviS54I=;
- b=CPnJRfgy0YZb4f1g6p8sFN0y/v6lBd/9Xv4zD1Vh6xaZTIV4a44/YMEMSzLMC7IJ9lePAjSkXJD3RBVHFglfAyNpKMumFDvFI4l4ysVme3eUD93C3fRb11DTDqNHvFDySFX05LbnUYGv/klKrHhb8Te7Hn2CaCYKULynvCGwMdD73CvNo8k/DD3iClbm8kWjb2djmCqEfGcZ7rsWXRRG7H2DjPJJwV3q2CO2+c4i0+/12x1Bi04lC08X1lgfJuU8vjsfcwX6bL8qiEnxT3OP2nW22VKHv39svQDlgAf8BB0w3qKBWOB30inNOM2Cy6dqHPzis9T+9R2KwqypQYZ6xw==
+ bh=56qoDPjgC5f70BhEQHNu5Tr7dkwtv03212zTBDF3nq0=;
+ b=IP4A3dhUSIuSUDzEIngIcDvnG6lJkZDQbBt8kzugkUbHQ4f4wLDCBd0qSxmuUZZErYFGk/5TcnXQMNMBVqEJFc2ATYi8GGLdzboVv4g3ZUybOwaT87NPZ6m8/1gGZegg3EFAU295swVnTEobbGtzeQ6GgzSpU02T22cHR31i1A5ZbmGbfSszQq2cILKMLSd23idS/ztkUjwj4tj0tFqH79FsQjFae/NbMc9UkW7WWKAvDf5Jo+zHHKyQjEMIOIFFNA8ngrKxmDysXyxFAQ0gEng48FYy8uxRFvkV5iQahNNrKkRehnw2Y/TIBrRCfrAFelxQ/CXNXPvUsWU2MmQvxw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
- by CH0PR11MB5521.namprd11.prod.outlook.com (2603:10b6:610:d4::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13; Tue, 7 Jun
- 2022 23:02:41 +0000
+ by CO1PR11MB5060.namprd11.prod.outlook.com (2603:10b6:303:93::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12; Tue, 7 Jun
+ 2022 23:04:42 +0000
 Received: from BY5PR11MB3911.namprd11.prod.outlook.com
  ([fe80::c4f8:da8e:7cef:8cf]) by BY5PR11MB3911.namprd11.prod.outlook.com
  ([fe80::c4f8:da8e:7cef:8cf%6]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
- 23:02:41 +0000
-Content-Type: multipart/alternative;
- boundary="------------mnvacnBJiLe20emF53ojqZA0"
-Message-ID: <2f66b35c-e7a1-fb48-e490-566b05f9a03b@intel.com>
-Date: Tue, 7 Jun 2022 16:02:32 -0700
+ 23:04:42 +0000
+Message-ID: <2fc2a62f-4146-c738-3c68-ca70c64e8c29@intel.com>
+Date: Tue, 7 Jun 2022 16:04:40 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Firefox/91.0 Thunderbird/91.10.0
 Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc/slpc: Use non-blocking H2G for
  waitboost
 Content-Language: en-GB
+From: John Harrison <john.c.harrison@intel.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>, Vinay Belgaumkar
  <vinay.belgaumkar@intel.com>, <intel-gfx@lists.freedesktop.org>,
  <dri-devel@lists.freedesktop.org>
 References: <20220515060506.22084-1-vinay.belgaumkar@intel.com>
- <874k1pj4bi.fsf@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-In-Reply-To: <874k1pj4bi.fsf@intel.com>
-X-ClientProxiedBy: MW4PR03CA0299.namprd03.prod.outlook.com
- (2603:10b6:303:b5::34) To BY5PR11MB3911.namprd11.prod.outlook.com
+ <874k1pj4bi.fsf@intel.com> <2f66b35c-e7a1-fb48-e490-566b05f9a03b@intel.com>
+In-Reply-To: <2f66b35c-e7a1-fb48-e490-566b05f9a03b@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0109.namprd03.prod.outlook.com
+ (2603:10b6:303:b7::24) To BY5PR11MB3911.namprd11.prod.outlook.com
  (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c6cbcc2e-ff71-4bca-ae23-08da48d9d33b
-X-MS-TrafficTypeDiagnostic: CH0PR11MB5521:EE_
-X-Microsoft-Antispam-PRVS: <CH0PR11MB55218500E05EE60EF24F89A7BDA59@CH0PR11MB5521.namprd11.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 4a325b81-de4d-46c5-da49-08da48da1b3a
+X-MS-TrafficTypeDiagnostic: CO1PR11MB5060:EE_
+X-Microsoft-Antispam-PRVS: <CO1PR11MB5060B78C345E853195388811BDA59@CO1PR11MB5060.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XvJnuMHshJnr1FQdaPdiUin80LwehI9Is4IqQ+XlR4abE3CfFBVshP+sMJT1ALal3J25WCjyAOgzX+w/4pZTsCk330zzNlsSttR9TpZ200meR6WE65NmAGnhUAELgeaty5k2ASUd+gg+Jihw3xheH/30QUgWrIkP7ZFkew6TA6Bo1zWso0oBp0QB2NmiyeLWX/tJf5WSthavF1zUVu6SxJUD0kXZHPlvFkeSDJkFpu8l8PJtLd40EAE8EnYB7mUnCqnvdyZ1scyNsnVT0vdBr8sAK+HsQ2LJTSwk29PiqzHiqGmuxkdcYZVPl7vcHgrmH7/wH8Nt7EASEEYHhq4NJkRTDbD38VaBqmSfrz9sgELg57uy7JPcgTGMJHXuP/Yrtddsrm1M8clyngiir5vTTEBHdJmlKQ0xqZQBj76M3BPsU6e2Wo6YBZrazgIxjt3LxQN1ZBcZOSfJHf/N8impCSZe1Xsds3BHDzzq97/GNhZrz7OpbPmzuyHXSh7IIvd+dtKgh8XBUIvdJ0xeUuJjAX+UBObPJDtZqqCeFxmk2FGNhoQtqWFJwcVZIEtivmPvQMjTBfPZiyc+/22HK10+sWCr/3NLJRxod6SlShK8M38B30klS5M8pH21pnswC6nCEfYCHMqY+z1Y6ojB4udcvqa4WS7YdBFlWE/dPKnKVqbBTdSPisKcC4E6Ayndspn+xq5ZNzP0rnlph/F+C2Iu3TG1ZhiCV+CnZaXUm5ujzBXfRYUADRakUGX3kdlKyKkD
+X-Microsoft-Antispam-Message-Info: 9swbCKIb260GezgoRVQUSrdN3iWQosN53zvy74YzpuB+8vc2rDHaOpqvs7lxvDcbEBf2XNgyhymksiMEubNwz0R2jbQWkfuQV19WfRdehymo+adrtnMfpkvwYAKU88ACPYasUKgZRp0THbf++fH74kkcYe6c0Bvv8vncupOUhNG3Ax7UMFmm24HFHJmT3TdeyGnG2dS3mTK0F0sB9sidk7SQIAdCaZrBQ64t3BdtRbzjSp0wZ8MjS6DoDDgJhN6QP+pJzf5KbcOpt1zWjkkDDU5/yxhuUaIRQh0HsVnjfmUq8E+l9wWXRITulpMKu/dTkyj+X1RCrjZ+1EM/aJkzmBWiXkEqcJU4FBPrUuadnV63g1/Paqw3iYsRepHhe5pOm0YeweK64sZR2CpzHBZFjaTe0JApKNyHjBkeC1oU3ZYalbcy6PULjV+zJMpAnddmGRwVhHi6dgGlBHSF9sHyn8eedKP+pkvyhj15Lj/fvQDM/ipuuuSFeJJLbSJOnMYbVFXyEmXavL72IgPC8fw5nTg07dvvcCOn1oCaBAKqyvH+33KEz9k0zlgiCdkST4ccb2Y36exKWH8VAk4dx015n7uir3qiOUQf409XX7bvyko/nDPoOMe5G08Nku3nU1WR4jzccWDAgJiHY+VmQRpd3G1hgwQCEo0YKdcQnDbEtet+W3l9t+2Cu9Nd7L2PpVfz29ifJQTSiKZiJJSmJnUSnuhy5ebYf71nzEv+TqzJk8i7mb9iv5fCP1fTx2yzSgMx
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(26005)(82960400001)(6666004)(2906002)(38100700002)(6506007)(33964004)(6512007)(86362001)(316002)(36756003)(83380400001)(53546011)(31696002)(66476007)(8676002)(110136005)(2616005)(6486002)(66946007)(31686004)(186003)(66556008)(5660300002)(508600001)(8936002)(45980500001)(43740500002);
+ SFS:(13230001)(366004)(66476007)(66946007)(6506007)(53546011)(38100700002)(31696002)(6486002)(86362001)(2616005)(8936002)(186003)(5660300002)(36756003)(2906002)(508600001)(66556008)(82960400001)(83380400001)(31686004)(6512007)(110136005)(26005)(316002)(8676002)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ek5VZEExNUJYSmMvandrV2RLaUNNQ3llS3VPQm9KanNJK3Z4WCtna01zdm1F?=
- =?utf-8?B?TlNJTWJobXhCLzVyRG1sT3FpVG9ObzVGNEdKV2M2d293MmNTVE1TSG9PZzFz?=
- =?utf-8?B?TUFnalI3VklaOXRFbXN0MGMyck8wZDRhcUk4ZmJVMEh4ZVk1cWNDMnMrVHo4?=
- =?utf-8?B?cDNLL0pEMW5TZEhOdTg4QWhUT09wSHhjV2wyczhlSUwzTmpiTHNnaHBSczVX?=
- =?utf-8?B?QWowdTI5S01ZNWR3QU9sS1RJaDF3R2tZQnZML21yMGtreGtzMHlZRHRXRUlQ?=
- =?utf-8?B?YjlNY1llYjM2ckUyVEptdTB6bFVsYUxHSWtOb0NUc0VGaDhMbXhXanVydHor?=
- =?utf-8?B?TnFVYitpcjNVU1AzUnVONDVxU3RmaHVqY1ZFUU5ZKzBSNHpVNmVhOXMxc3hY?=
- =?utf-8?B?ZUtaQ0dpNGtBbGI4cVZFSVlFaXYrcXdLWXpaNFp5MmhnU0luNlVxamc4WGpV?=
- =?utf-8?B?bVF5Q2F1RmNQNnRZamVETVhlME13NGJjUUhPd3g1Z0tRMzlPQlZzZDhsRDJa?=
- =?utf-8?B?ckEvQm5hZjM2clpCWEVKSHU3U3FTN0FuVVBYR2F4aWZPNVRodEk1d0VISkdu?=
- =?utf-8?B?YWc2WUFqUnNWYitYWXd5clhyVzZEWVBaSEVOZW1tcU53blVqaVlkMWw0SGxD?=
- =?utf-8?B?MnJlVHMzc25uamd3U3R5a2VHVVVDMmZYc3hOcWcxK1JzQUFOankvY1dsRWQ1?=
- =?utf-8?B?dEZjWUxNN3YzV296TkFuTXJLL1drL2dkdWpaa1NVbmRyVXpGNHBvT0ducWRV?=
- =?utf-8?B?VlhzUFJtd21wUjlEVEkvallEbkEzeDJOdVYxWTNBcWJzSmtxMGJadHR0dzhK?=
- =?utf-8?B?SUd5UUpKbDVtVVl3SThxcHRTNis1UXBONUVhUDhtaWpuejl3dkRBamJDK05Y?=
- =?utf-8?B?anVIVlpFdkZ2eTEzYWRhOEZjUlZiTFo2b0hsVHlrTmoxZzVQNEl2RWJNbkxt?=
- =?utf-8?B?K1VLdXZFQStmb1J2cHovTGgvQzk4NEJoQXdVRGo0N0pSVmZQQ0Vub2cvWmVG?=
- =?utf-8?B?Y2tWNEZYSmdMOEVGYkhpSzZSRG9UaEN3RFNPZ3BwbVZIUVpsVkRUemF4eHg4?=
- =?utf-8?B?cE5XVHhmaG1FSVdmOXYvcVFLb1l6SGtSUlI2VEJ4WFFEUVBKNUpEVnpLS3Rr?=
- =?utf-8?B?WXhiV01sYUpwOUR0ZDdBalJ3MzFWM0owdklrRHBZSzljbTVSTTNRUHJZcW5w?=
- =?utf-8?B?bmtwNlcyNCsrRDZWdDV4UmMrYXJyeG1mUXp5NmFMUDRHRHVUcGl2OTB5U2Iv?=
- =?utf-8?B?WEl1NU9jb01DbU1qUVVLOTZseEhRRW4xWTlMWjhyb21FUjFSNlRSVmhOaTli?=
- =?utf-8?B?MzVYc3NCOTBuSXZkMXhGeTYwOWZJUTE1MjlpTjEyZE04ZzMxdFFEdW4wdGRj?=
- =?utf-8?B?NDBhMjdRK2tJb2xubnNveFFhSE1yc3RVNnAwZnpldDJNbXowR25oQWloOTZu?=
- =?utf-8?B?QkNyR3hscTJhOTR3N0ZobDk0ZFMwMFppbHZpTVFqMlVkb3gvbEsrNkpXQXJ3?=
- =?utf-8?B?NHdjZGhISEdsTVRrcGJ3dVpXWEcxRHI3UGdlNlFzaExEWWh0UUR5VEZ6azFY?=
- =?utf-8?B?OTdDUjZSMDgyUk5JQWYyRVNrcXR1Y0hjSmdvK1pxYmxzelJqOUpBV24zZjc0?=
- =?utf-8?B?YUl0VTVaVnZUWTA4UTlTeWlUSzJ3dEE3UVFDOHRsRzl6bkgvOXVYR0ZZWUpG?=
- =?utf-8?B?QmxQVUJwdVNWNG1UV2tuYkN2L3ZYYnY3V0dnYjBMKzJuRkZ0R3FYbkhGUzFv?=
- =?utf-8?B?T3Y2em1FdzdxazlyaEVIMXlEOUlObVcrNTFycnc3d3kzNjk5VHhhNFRUQ1BR?=
- =?utf-8?B?WGZZOGhvVThqc2paRVFRRTBCVWIwaUZxYy9adVdxSkExN3NvOGpkdktOUXN3?=
- =?utf-8?B?YlVnVzhLQWRENlEzdHl5NlRQSGkybk9hUDlBVU1aNUp2Z0R5OUpLYVNXUllF?=
- =?utf-8?B?c2xkOFZ2ODkyL1lBaFZCaUpJVzZQQU5DeE9LVlA3elpJZ0ZtY3hjdEttQms0?=
- =?utf-8?B?Lzh2Vi8vWTJ3cUdKQWt5MkZtbElML2dCQ1hMWHRFWEQxaFJqYisvbCtmd0lV?=
- =?utf-8?B?R3ZyTEZZbFdlZDFqR2FtZ0hBb0U5K2x0enZ6eENibHdrUlV0enAzQTFSMGpB?=
- =?utf-8?B?NVZyS0NRNk9wcXhQZzh3KzJUVDA2NTk1YlZ4MWE1NzF6RllJYUZqeExLV1lQ?=
- =?utf-8?B?MFQvLzJZTVE5WGJxL1lGWEpQY0F1Z2RQZjFPQzAzeEVWKzlydzdhZEt4UG5R?=
- =?utf-8?B?WG5uMjZHY2t2YUFQdlRJdzVXblovVDJ2emJ0V01jRTRET21yWkE4UGl0bjlI?=
- =?utf-8?B?Z2hkUXQ5dEF3RFVOMDMxSVhEWW15b1pmYk9KWWVsSTMrS04wckhuRnExZExw?=
- =?utf-8?Q?YAUinYrh3831S3uw=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6cbcc2e-ff71-4bca-ae23-08da48d9d33b
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dW9adlF5ckR1a0VQNW5Tc282TGM1VXlBdjZsbkcxUUoydVpDS1k2Ky9rNUl6?=
+ =?utf-8?B?SmhZU1hXdWhMMTlva2lEVUVZc1RWVG5pSld2N1J4RFJKcVRqVWxidzhWZEd6?=
+ =?utf-8?B?KzNkUnc2VWVLa1pzVFRLa1BKREphSW9HckdoOTE5M3FtMnNNVGUwSWVCWHRX?=
+ =?utf-8?B?eWJKRUM1eTZZUG9wdGsvQ0lvUmR2WHJWT0JRN1cyYzd2UEExdm9qNTkvSVVG?=
+ =?utf-8?B?QVFLRi9ReURkNmxBYmJobm1OajhCMTByajlOeFhMSzZJQ3IvbEtTUTFKT0Ur?=
+ =?utf-8?B?ZDkrMjRWbW0zMk9xZlJqcUhkYzhXK2c2THNXb2NXOG9jYzdTYndFZ1dNSGpz?=
+ =?utf-8?B?WW1LTy9iYVBKNzFBWlQ3TmdIWFlBbTdhbStXZXRXYndEOElVTDJGWE9uMmRp?=
+ =?utf-8?B?Skl5bnJST2dTcU1aRXRTRzQ0azMvRnUzQXQvZjFrWFZITGovZkQza2FSNGVE?=
+ =?utf-8?B?OVNxa3RxNVUwMHNKR3V0VjBkMUpCbkxNenJ4eTBKamEveStXNy9nSHBQSjVK?=
+ =?utf-8?B?UEtBc09ob1E5SisrUzFmWEVRV0ludTRDZzVaM09ITW5GaHJPclQzMHREUFFZ?=
+ =?utf-8?B?dms1OGgwTzZDRnFURWFrWVhmK1JRbTFRdUZZb0VvcXFha3BqQWlFdGc4RGdF?=
+ =?utf-8?B?RnRwSWthVWZzcVJWWGI4SytUMDdoTlJjaWlGUVQzUHR3WjZTUlRydnYzZjZk?=
+ =?utf-8?B?OEVySW96OS9zSjFKV0hPVjQrMG5JUndQVWhYN0lJWDB6YmdseXNPSVVqNGdn?=
+ =?utf-8?B?eVIyaldtMDBYTnI2Rm1DcCt3b3kwUVFWS2JjclcwM0hiRVZpZEo5NU5CZ0ZW?=
+ =?utf-8?B?eFBBNlp0Q2lvZnIrYTVkYi9iQkxkOEtlelhNQkovUFhCaTl4UFpDNWxKMFdz?=
+ =?utf-8?B?UTVKcmxzbjI3bzZhdDNqbmNlSlUvRDZMc2M4UEZqNlRZeU1WSElWaHl6aFcz?=
+ =?utf-8?B?amttWEd6bU9WYW5kWmdPSXlDaDJ0SW5TUUlqVVAvdVhmdkxVRnZxUnJWVVYw?=
+ =?utf-8?B?U1Eyc3ZnNHBwNWVLczNlQTZqWG04cVpQb3dHbXZZbFYramtidVJoV1RObU41?=
+ =?utf-8?B?OTM5bnZRT3BBM1BPSU9wbEpYdTVteTJRTmNDUWhVVEs2RWVReFhRKzJQNDZU?=
+ =?utf-8?B?QVVMVnBRemlVWlc0YXV3RUFFN29mWWdSYUkzZTduNnFkTnkxZG9DTVlEV3lC?=
+ =?utf-8?B?VERkWTJXL2xjOTlRMVVha2JTZHhYQ2ZMdzRTMFVjNWhLU1hHZUNkcysrTXFH?=
+ =?utf-8?B?cS9Vclh3ZGkzSkFlZ0VEZCtYTEhQeElKa3h4dzlYZURMcTMvY21lR0ZwM1RQ?=
+ =?utf-8?B?TXgyYVlUNGkyRlo2NjB4V1NaUDE0a2hDUUc4N2ZoSmZaWVVWT1FEZ3lkakVj?=
+ =?utf-8?B?Q2dGQ0haenJsdzVSdzAycnFRYW1EdzRNYnN6dXlpcnFEZ25DY0VtSis5L1J0?=
+ =?utf-8?B?NUduZW45clRBTXdLU0pLOEVIMVNBU1VmMDMvSnh4bUhMdStNV2lHdGxweWl0?=
+ =?utf-8?B?dU5meDdON0NZTlhjelpuUHM0ZzBVR1lWMVVYa01EMDFJNEVhWWE2dVM3TEtm?=
+ =?utf-8?B?WEwzQjRyUjYyS3JvSllLd3ZMMFBSQk1iSHg1RE14VXU0c1IzSlhpK0plcmda?=
+ =?utf-8?B?T2JMNWZKTWpTYkV5WjlLYnFqQkE3SUhQajNFUkcvSERZdVpUWHRPYld5Z0hH?=
+ =?utf-8?B?LzJsRDY0eE5wRE5LZzQxNnc4c0g4UnNjcEoyQUc1Uy81bjlCem1QUnVUdDZZ?=
+ =?utf-8?B?dkFYSEV0eWFNMHd1L01nVURjNElvWE9nY0tQWFduY3BoTWNjL0lheEJMbUJY?=
+ =?utf-8?B?b2k5aFpiRkkrWVZzZ3VEZjBDOFp5VmhtREdCdDRIN0pOS1FjY0kxNWVvMm1s?=
+ =?utf-8?B?QTNhWDlveVBvUXhNY0RTdmk2UlpySTNBUmV3UHRnb0h2TDRhZHNBbzhKbmlw?=
+ =?utf-8?B?M3dIbWFvTStJYU8vV1k1VUpVTGhCaVgvbWo2b015bFFjNENyaE0wbmUvcXJF?=
+ =?utf-8?B?RFNTaTNEVHNybE14WHR4REgyd2hYa0pGc1RWd2hJUnllUkM4bXNXbjhRVE1L?=
+ =?utf-8?B?Z3RqcUxESGJLbldwNWJVL1RubWVtT2ZzTFpwWFh1WkdjNWdkTHMyVXVJLzUy?=
+ =?utf-8?B?Y0FRN2dDMHFwY1lYMTYyY24xRDJhZVdSVkhQdHRYOWNXU0hVWGswRnZMSWJH?=
+ =?utf-8?B?a0tudjV6ek5FdE0zSncxQitkcHMyNGpSL1M4OGc3SjhGQ21IYWJmdlZwaVV1?=
+ =?utf-8?B?TzRGM1oxTG11MVFPZi9ib0gxc01WWTJ3N200VWZnWFdnTWZLOVJqS20zQXdQ?=
+ =?utf-8?B?Qmk4TGl5VmRXT0cvRk9oS052b0c2akE4T1NsS2cxVnY5K2dTeHB4dXo2cUV3?=
+ =?utf-8?Q?VMHB29xMVHNJSB5s=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a325b81-de4d-46c5-da49-08da48da1b3a
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 23:02:41.6915 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 23:04:42.4821 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lvJosdqxpMdrjifA0X+XBb75+3a8ZA+gicVEKmck19cQT8A9SLhuYXNyt4xPN+RKIvrWGXFaYbvoUXJtVFRQqrSvqHbl4VK+baBK/43B0N8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5521
+X-MS-Exchange-CrossTenant-UserPrincipalName: FzotATCUpyind+TE+Qk64pSvaW2XWDn4y4lbwhPSpkAJk/D6lzPkBF4zzUeG2izX2GtmBrOh/SZyidvlJpuBfHJ3FOU67XN7fVNgR394OiE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5060
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -165,308 +164,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------mnvacnBJiLe20emF53ojqZA0
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-
-On 5/16/2022 00:59, Jani Nikula wrote:
-> On Sat, 14 May 2022, Vinay Belgaumkar<vinay.belgaumkar@intel.com>  wrote:
->> SLPC min/max frequency updates require H2G calls. We are seeing
->> timeouts when GuC channel is backed up and it is unable to respond
->> in a timely fashion causing warnings and affecting CI.
+On 6/7/2022 16:02, John Harrison wrote:
+> On 5/16/2022 00:59, Jani Nikula wrote:
+>> On Sat, 14 May 2022, Vinay Belgaumkar<vinay.belgaumkar@intel.com>  wrote:
+>>> SLPC min/max frequency updates require H2G calls. We are seeing
+>>> timeouts when GuC channel is backed up and it is unable to respond
+>>> in a timely fashion causing warnings and affecting CI.
+>>>
+>>> This is seen when waitboosting happens during a stress test.
+>>> this patch updates the waitboost path to use a non-blocking
+>>> H2G call instead, which returns as soon as the message is
+>>> successfully transmitted.
+>>>
+>>> v2: Use drm_notice to report any errors that might occur while
+>>> sending the waitboost H2G request (Tvrtko)
+>>>
+>>> Signed-off-by: Vinay Belgaumkar<vinay.belgaumkar@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 44 +++++++++++++++++----
+>>>   1 file changed, 36 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>>> index 1db833da42df..e5e869c96262 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>>> @@ -98,6 +98,30 @@ static u32 slpc_get_state(struct intel_guc_slpc *slpc)
+>>>   	return data->header.global_state;
+>>>   }
+>>>   
+>>> +static int guc_action_slpc_set_param_nb(struct intel_guc *guc, u8 id, u32 value)
+>>> +{
+>>> +	u32 request[] = {
+>> static const
 >>
->> This is seen when waitboosting happens during a stress test.
->> this patch updates the waitboost path to use a non-blocking
->> H2G call instead, which returns as soon as the message is
->> successfully transmitted.
+>>> +		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
+>>> +		SLPC_EVENT(SLPC_EVENT_PARAMETER_SET, 2),
+>>> +		id,
+>>> +		value,
+>>> +	};
+>>> +	int ret;
+>>> +
+>>> +	ret = intel_guc_send_nb(guc, request, ARRAY_SIZE(request), 0);
+>>> +
+>>> +	return ret > 0 ? -EPROTO : ret;
+>>> +}
+>>> +
+>>> +static int slpc_set_param_nb(struct intel_guc_slpc *slpc, u8 id, u32 value)
+>>> +{
+>>> +	struct intel_guc *guc = slpc_to_guc(slpc);
+>>> +
+>>> +	GEM_BUG_ON(id >= SLPC_MAX_PARAM);
+>>> +
+>>> +	return guc_action_slpc_set_param_nb(guc, id, value);
+>>> +}
+>>> +
+>>>   static int guc_action_slpc_set_param(struct intel_guc *guc, u8 id, u32 value)
+>>>   {
+>>>   	u32 request[] = {
+>> Ditto here, and the whole gt/uc directory seems to have tons of these
+>> u32 action/request array variables on stack, with the required
+>> initialization, that could be in rodata.
 >>
->> v2: Use drm_notice to report any errors that might occur while
->> sending the waitboost H2G request (Tvrtko)
+>> Please fix all of them.
 >>
->> Signed-off-by: Vinay Belgaumkar<vinay.belgaumkar@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 44 +++++++++++++++++----
->>   1 file changed, 36 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> index 1db833da42df..e5e869c96262 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> @@ -98,6 +98,30 @@ static u32 slpc_get_state(struct intel_guc_slpc *slpc)
->>   	return data->header.global_state;
->>   }
->>   
->> +static int guc_action_slpc_set_param_nb(struct intel_guc *guc, u8 id, u32 value)
->> +{
->> +	u32 request[] = {
-> static const
->
->> +		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
->> +		SLPC_EVENT(SLPC_EVENT_PARAMETER_SET, 2),
->> +		id,
->> +		value,
->> +	};
->> +	int ret;
->> +
->> +	ret = intel_guc_send_nb(guc, request, ARRAY_SIZE(request), 0);
->> +
->> +	return ret > 0 ? -EPROTO : ret;
->> +}
->> +
->> +static int slpc_set_param_nb(struct intel_guc_slpc *slpc, u8 id, u32 value)
->> +{
->> +	struct intel_guc *guc = slpc_to_guc(slpc);
->> +
->> +	GEM_BUG_ON(id >= SLPC_MAX_PARAM);
->> +
->> +	return guc_action_slpc_set_param_nb(guc, id, value);
->> +}
->> +
->>   static int guc_action_slpc_set_param(struct intel_guc *guc, u8 id, u32 value)
->>   {
->>   	u32 request[] = {
-> Ditto here, and the whole gt/uc directory seems to have tons of these
-> u32 action/request array variables on stack, with the required
-> initialization, that could be in rodata.
->
-> Please fix all of them.
->
-> BR,
-> Jani.
-But the only constant is the action code. Everything else is parameters 
-and will be different on each call.
+>> BR,
+>> Jani.
+> But the only constant is the action code. Everything else is 
+> parameters and will be different on each call.
+> ...
 
-You mean something like this?
-
-    static const u32 template[] = {
-         action,
-    };
-    u32 *request = kmalloc_array(sizeof(*request), 4);
-    memcpy(request, template, sizeof(*request) * 1);
-    request[1] = param0;
-    request[2] = param1;
-    request[3] = param2;
-    ret = send(request);
-    kfree(request);
-    return ret;
-
-
-Not seeing how that would be an improvement. It's a lot more code, a lot 
-less readable, more prone to bugs due to incorrect structure sizes 
-and/or params in the wrong place. The current version is easy to read 
-and therefore to maintain, almost impossible to get wrong, and only puts 
-a few words on the stack. I think the largest request is region of 15 
-words? I'm not seeing what the problem is.
+Oops. Just saw your follow up message. No worries!
 
 John.
 
-
->> @@ -208,12 +232,10 @@ static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
->>   	 */
->>   
->>   	with_intel_runtime_pm(&i915->runtime_pm, wakeref) {
->> -		ret = slpc_set_param(slpc,
->> -				     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
->> -				     freq);
->> -		if (ret)
->> -			i915_probe_error(i915, "Unable to force min freq to %u: %d",
->> -					 freq, ret);
->> +		/* Non-blocking request will avoid stalls */
->> +		ret = slpc_set_param_nb(slpc,
->> +					SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
->> +					freq);
->>   	}
->>   
->>   	return ret;
->> @@ -222,6 +244,8 @@ static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
->>   static void slpc_boost_work(struct work_struct *work)
->>   {
->>   	struct intel_guc_slpc *slpc = container_of(work, typeof(*slpc), boost_work);
->> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
->> +	int err;
->>   
->>   	/*
->>   	 * Raise min freq to boost. It's possible that
->> @@ -231,8 +255,12 @@ static void slpc_boost_work(struct work_struct *work)
->>   	 */
->>   	mutex_lock(&slpc->lock);
->>   	if (atomic_read(&slpc->num_waiters)) {
->> -		slpc_force_min_freq(slpc, slpc->boost_freq);
->> -		slpc->num_boosts++;
->> +		err = slpc_force_min_freq(slpc, slpc->boost_freq);
->> +		if (!err)
->> +			slpc->num_boosts++;
->> +		else
->> +			drm_notice(&i915->drm, "Failed to send waitboost request (%d)\n",
->> +				   err);
->>   	}
->>   	mutex_unlock(&slpc->lock);
->>   }
-
---------------mnvacnBJiLe20emF53ojqZA0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    On 5/16/2022 00:59, Jani Nikula wrote:<br>
-    <blockquote type="cite" cite="mid:874k1pj4bi.fsf@intel.com">
-      <pre class="moz-quote-pre" wrap="">On Sat, 14 May 2022, Vinay Belgaumkar <a class="moz-txt-link-rfc2396E" href="mailto:vinay.belgaumkar@intel.com">&lt;vinay.belgaumkar@intel.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">SLPC min/max frequency updates require H2G calls. We are seeing
-timeouts when GuC channel is backed up and it is unable to respond
-in a timely fashion causing warnings and affecting CI.
-
-This is seen when waitboosting happens during a stress test.
-this patch updates the waitboost path to use a non-blocking
-H2G call instead, which returns as soon as the message is
-successfully transmitted.
-
-v2: Use drm_notice to report any errors that might occur while
-sending the waitboost H2G request (Tvrtko)
-
-Signed-off-by: Vinay Belgaumkar <a class="moz-txt-link-rfc2396E" href="mailto:vinay.belgaumkar@intel.com">&lt;vinay.belgaumkar@intel.com&gt;</a>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 44 +++++++++++++++++----
- 1 file changed, 36 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-index 1db833da42df..e5e869c96262 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-@@ -98,6 +98,30 @@ static u32 slpc_get_state(struct intel_guc_slpc *slpc)
- 	return data-&gt;header.global_state;
- }
- 
-+static int guc_action_slpc_set_param_nb(struct intel_guc *guc, u8 id, u32 value)
-+{
-+	u32 request[] = {
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-static const
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">+		GUC_ACTION_HOST2GUC_PC_SLPC_REQUEST,
-+		SLPC_EVENT(SLPC_EVENT_PARAMETER_SET, 2),
-+		id,
-+		value,
-+	};
-+	int ret;
-+
-+	ret = intel_guc_send_nb(guc, request, ARRAY_SIZE(request), 0);
-+
-+	return ret &gt; 0 ? -EPROTO : ret;
-+}
-+
-+static int slpc_set_param_nb(struct intel_guc_slpc *slpc, u8 id, u32 value)
-+{
-+	struct intel_guc *guc = slpc_to_guc(slpc);
-+
-+	GEM_BUG_ON(id &gt;= SLPC_MAX_PARAM);
-+
-+	return guc_action_slpc_set_param_nb(guc, id, value);
-+}
-+
- static int guc_action_slpc_set_param(struct intel_guc *guc, u8 id, u32 value)
- {
- 	u32 request[] = {
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Ditto here, and the whole gt/uc directory seems to have tons of these
-u32 action/request array variables on stack, with the required
-initialization, that could be in rodata.
-
-Please fix all of them.
-
-BR,
-Jani.
-</pre>
-    </blockquote>
-    But the only constant is the action code. Everything else is
-    parameters and will be different on each call. <br>
-    <br>
-    You mean something like this?<br>
-    <blockquote>static const u32 template[] = {<br>
-      &nbsp;&nbsp;&nbsp; action,<br>
-      };<br>
-      u32 *request = kmalloc_array(sizeof(*request), 4);<br>
-      memcpy(request, template, sizeof(*request) * 1);<br>
-      request[1] = param0;<br>
-      request[2] = param1;<br>
-      request[3] = param2;<br>
-      ret = send(request);<br>
-      kfree(request);<br>
-      return ret;<br>
-    </blockquote>
-    <br>
-    Not seeing how that would be an improvement. It's a lot more code, a
-    lot less readable, more prone to bugs due to incorrect structure
-    sizes and/or params in the wrong place. The current version is easy
-    to read and therefore to maintain, almost impossible to get wrong,
-    and only puts a few words on the stack. I think the largest request
-    is region of 15 words? I'm not seeing what the problem is.<br>
-    <br>
-    John.<br>
-    <br>
-    <br>
-    <blockquote type="cite" cite="mid:874k1pj4bi.fsf@intel.com">
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">@@ -208,12 +232,10 @@ static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
- 	 */
- 
- 	with_intel_runtime_pm(&amp;i915-&gt;runtime_pm, wakeref) {
--		ret = slpc_set_param(slpc,
--				     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
--				     freq);
--		if (ret)
--			i915_probe_error(i915, &quot;Unable to force min freq to %u: %d&quot;,
--					 freq, ret);
-+		/* Non-blocking request will avoid stalls */
-+		ret = slpc_set_param_nb(slpc,
-+					SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
-+					freq);
- 	}
- 
- 	return ret;
-@@ -222,6 +244,8 @@ static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
- static void slpc_boost_work(struct work_struct *work)
- {
- 	struct intel_guc_slpc *slpc = container_of(work, typeof(*slpc), boost_work);
-+	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-+	int err;
- 
- 	/*
- 	 * Raise min freq to boost. It's possible that
-@@ -231,8 +255,12 @@ static void slpc_boost_work(struct work_struct *work)
- 	 */
- 	mutex_lock(&amp;slpc-&gt;lock);
- 	if (atomic_read(&amp;slpc-&gt;num_waiters)) {
--		slpc_force_min_freq(slpc, slpc-&gt;boost_freq);
--		slpc-&gt;num_boosts++;
-+		err = slpc_force_min_freq(slpc, slpc-&gt;boost_freq);
-+		if (!err)
-+			slpc-&gt;num_boosts++;
-+		else
-+			drm_notice(&amp;i915-&gt;drm, &quot;Failed to send waitboost request (%d)\n&quot;,
-+				   err);
- 	}
- 	mutex_unlock(&amp;slpc-&gt;lock);
- }
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------mnvacnBJiLe20emF53ojqZA0--
