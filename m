@@ -1,59 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5153541A1F
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 23:31:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4668541A24
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 23:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB7BA10E090;
-	Tue,  7 Jun 2022 21:31:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3E810E701;
+	Tue,  7 Jun 2022 21:32:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D62E10E090;
- Tue,  7 Jun 2022 21:31:12 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id u3so25830433wrg.3;
- Tue, 07 Jun 2022 14:31:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6dyegJ835SphWTsNBqySaDW+KZborTC+d08ajYqSReg=;
- b=ALiNEgN8fGMa/xWIg6XeX6eOBYpNheAJzSfvaSwtYWGBR+/FugJY8xMhrKT4iaOsMs
- QkJ9jrXIpX0UNCzssfNwXEDUofdghlxWv5uepajClafPx1xBX6SRhXRo8nSVrrC8pVzV
- TpdOlZSHbonUji004KENUNGhOJ0wbgCcjLIJmasCe4cp0IMyMRNQ3FqvCcU5ft8ozlXh
- OTnUKuc/O4h/oAQn50S4QQXCuI+r3txD2dK8jE4qvr/NQe9xnEPQDPZS4s16IcviS/8f
- zQ8OSr8egNB7j5NX0h8MQsQ8A4OFDBEwo3Z5Hyw5zjEtCl8rqKsLkLe6bxO/mJJBnGng
- RQEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6dyegJ835SphWTsNBqySaDW+KZborTC+d08ajYqSReg=;
- b=NydZydAb4CLIb6+k9ZBD7NBzHg7S+whHnHxJHn+c1B2xNsNPINlaRsJdy0/A/Hf7ZQ
- Q9Rg9Iq/cDpKE/Z+gIqbRnrhCwylpccl44jqj82muVLKJiVN3FqHcO9K7XERoIeVN56Y
- KKphaZ95ufSJZdMFAMkkh+WWty7oddZTT8gjwuwAaE4rOz983P7lo6B5XI2kj7og5jnT
- hs2og+1k//uaGgiJnhVYF0iN8TVcuBRucigiGdDs91btsVsTLx6At+pKqDMGfGGIFey1
- PzclRonotW35uhRSJczkTIUIbr5uv/dJP0RBD6TBaJDk9WnwkfsEectBG3P26cd/Rbjg
- /gvQ==
-X-Gm-Message-State: AOAM530NvujLtzEntO4MO+h/AR6mGSVRuOdLGLnNDI7bXaSayOul1KQN
- Ka0NbYjMKoNI0/k8Vc8glKKlQPvUGVpS/aG/r9s=
-X-Google-Smtp-Source: ABdhPJzwBr3G8vXVdcNxkh8k1wHi1ib5MLhQOQtSWLstQP8ZmoZFNcN1WccMs+qZLLWQBnzR3YZeFOANb950bayQd4A=
-X-Received: by 2002:adf:fb0d:0:b0:20d:97e:17ce with SMTP id
- c13-20020adffb0d000000b0020d097e17cemr30233397wrr.585.1654637470976; Tue, 07
- Jun 2022 14:31:10 -0700 (PDT)
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85F7210E358
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 21:32:23 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 257Dp7RS005196;
+ Tue, 7 Jun 2022 23:32:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=selector1;
+ bh=tteCDJduDnLaPT3UrtfGVEXpLQ6Eom01HkHJbWAJnmg=;
+ b=nBziXhMM5mjUyc2h0og/zFDpSK/T1pukaGpVucB2fxJkUJ3fQTQs7OiaeXoZxUEER9f5
+ HEn1cGjZDOr7Gpc9we8iHq/5waKDvpAGQQd5hN7BJJL+bgFrkDRQlzwKTLI+ig2+fxB+
+ zUfqpTHX4LLZ6rEYRjIZq1QqbOBv/qfMoQ1DWv7E/wjbEtaWdTKBeAJ5rdV/eHq1Y0Rs
+ Z9vlbdT0m3kRrXJpXktOZBfK01Ot/xYWw58UzK5QKdvdPek6Nbhb3fj2KKkSv5awP7dK
+ v7+MQQg7O5r/ahdI0+Huv0UQFnUqdj0whM5Gu6nikIXKllQSfpW0sRz41AAiElHy0AUW Lg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3gj3d3mbd1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Jun 2022 23:32:12 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 3920510002A;
+ Tue,  7 Jun 2022 23:32:09 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2310C20AA91;
+ Tue,  7 Jun 2022 23:32:09 +0200 (CEST)
+Received: from localhost (10.75.127.44) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Tue, 7 Jun
+ 2022 23:32:08 +0200
+From: Antonio Borneo <antonio.borneo@foss.st.com>
+To: Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH RESEND] drm: adv7511: override i2c address of cec before
+ accessing it
+Date: Tue, 7 Jun 2022 23:31:44 +0200
+Message-ID: <20220607213144.427177-1-antonio.borneo@foss.st.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20211218182804.208906-1-antonio.borneo@foss.st.com>
+References: <20211218182804.208906-1-antonio.borneo@foss.st.com>
 MIME-Version: 1.0
-References: <20210927152928.831245-1-robdclark@gmail.com>
- <f1c6fff0-a220-86d9-8572-2de3d47ab96a@codeaurora.org>
-In-Reply-To: <f1c6fff0-a220-86d9-8572-2de3d47ab96a@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 7 Jun 2022 14:30:58 -0700
-Message-ID: <CAF6AEGtRO2VdweN014JpApQ460=KxEU9uF8jf1U__Gh-bMRo7w@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH] drm/msm: Switch ordering of runpm put vs
- devfreq_idle
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-07_10,2022-06-07_02,2022-02-23_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,184 +75,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Cc: Antonio Borneo <antonio.borneo@foss.st.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 28, 2021 at 7:52 AM Akhil P Oommen <akhilpo@codeaurora.org> wro=
-te:
->
-> On 9/27/2021 8:59 PM, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > I've seen a few crashes like:
-> >
-> >      Internal error: synchronous external abort: 96000010 [#1] PREEMPT =
-SMP
-> >      Modules linked in: snd_seq_dummy snd_seq snd_seq_device bridge stp=
- llc tun nf_nat_tftp nf_conntrack_tftp nf_nat_ftp nf_conntrack_ftp esp6 ah6=
- ip6t_REJECT ip6t_ipv6header vhost_vsock vhost vmw_vsock_virtio_transport_c=
-ommon vsock rfcomm algif_hash algif_skcipher af_alg uinput veth xt_cgroup x=
-t_MASQUERADE venus_enc venus_dec videobuf2_dma_contig qcom_spmi_adc5 qcom_s=
-pmi_adc_tm5 hci_uart qcom_vadc_common cros_ec_typec qcom_spmi_temp_alarm ty=
-pec btqca snd_soc_rt5682_i2c snd_soc_rt5682 snd_soc_sc7180 bluetooth snd_so=
-c_qcom_common snd_soc_rl6231 ecdh_generic ecc venus_core v4l2_mem2mem snd_s=
-oc_lpass_sc7180 snd_soc_lpass_hdmi snd_soc_lpass_cpu snd_soc_lpass_platform=
- snd_soc_max98357a ip6table_nat fuse iio_trig_sysfs cros_ec_lid_angle cros_=
-ec_sensors cros_ec_sensors_core industrialio_triggered_buffer kfifo_buf cro=
-s_ec_sensorhub lzo_rle ath10k_snoc lzo_compress ath10k_core ath zram mac802=
-11 cfg80211 ax88179_178a usbnet mii uvcvideo videobuf2_vmalloc joydev
-> >      CPU: 3 PID: 212 Comm: A618-worker Tainted: G W 5.4.139-16300-g88d8=
-e1285982 #1
-> >      Hardware name: Google Pompom (rev1) with LTE (DT)
-> >      pstate: 60c00009 (nZCv daif +PAN +UAO)
-> >      pc : a6xx_gmu_set_oob+0x114/0x200
-> >      lr : a6xx_gmu_set_oob+0x10c/0x200
-> >      sp : ffffffc011b7bc20
-> >      x29: ffffffc011b7bc20 x28: ffffffdad27c5000
-> >      x27: 0000000000000001 x26: ffffffdad1521044
-> >      x25: ffffffbef7498338 x24: 0000000000000018
-> >      x23: 0000000000000002 x22: 0000000000014648
-> >      x21: 0000033732fe638b x20: 0000000080000000
-> >      x19: ffffffbef7433bc8 x18: 0000000040000000
-> >      x17: 000000243508d982 x16: 000000000000b67e
-> >      x15: 00000000000090d4 x14: 0000000000000024
-> >      x13: 0000000000000024 x12: 0000000000017521
-> >      x11: 0000000000000b48 x10: 0000000000326a48
-> >      x9 : 1a130d33f6371600 x8 : ffffffc011e54648
-> >      x7 : 614948e00005003c x6 : ffffffbe3cd17e60
-> >      x5 : 0000000000000040 x4 : 0000000000000004
-> >      x3 : 0000000000000000 x2 : ffffffbef7488000
-> >      x1 : ffffffbef7488000 x0 : 0000000000000000
-> >      Call trace:
-> >      a6xx_gmu_set_oob+0x114/0x200
-> >      a6xx_gmu_set_freq+0xe0/0x1fc
-> >      msm_devfreq_target+0x80/0x13c
-> >      msm_devfreq_idle+0x54/0x94
-> >      retire_submit+0x170/0x254
-> >      retire_submits+0xa4/0xdc
-> >      retire_worker+0x1c/0x28
-> >      kthread_worker_fn+0xf4/0x1bc
-> >      kthread+0x140/0x158
-> >      ret_from_fork+0x10/0x18
-> >      Code: 52800c81 9415bbe5 f9400a68 8b160108 (b9400108)
-> >      ---[ end trace 16b871df2482cd61 ]---
-> >      Kernel panic - not syncing: Fatal exception
-> >      SMP: stopping secondary CPUs
-> >      Kernel Offset: 0x1ac1400000 from 0xffffffc010000000
-> >      PHYS_OFFSET: 0xffffffc280000000
-> >      CPU features: 0x88102e,2a80aa38
-> >      Memory Limit: none
-> >
-> > Which smells a lot like touching hw after power collapse.  I'm not
-> > *entirely* sure how it could have taken 66ms (the autosuspend delay)
-> > before we get to a6xx_gmu_set_oob(), but to be safe we should move
-> > the pm_runtime_put_autosuspend() after msm_devfreq_idle().
-> https://elixir.bootlin.com/linux/v5.15-rc1/source/drivers/gpu/drm/msm/adr=
-eno/a6xx_gmu.c#L132
-> We have this check in the gmu freq set path which should avoid this
-> scenario. I might be a bit pedantic here, but I feel that the original
-> code is more accurate. We should immediately mark last busy and put
-> runtime_pm refcount.
+Commit 680532c50bca ("drm: adv7511: Add support for
+i2c_new_secondary_device") allows a device tree node to override
+the default addresses of the secondary i2c devices. This is useful
+for solving address conflicts on the i2c bus.
 
-So, I've been doing some experiments, changing the _put_autosuspend()
-to _put_sync(), in the course of tracking down some remaining "GMU
-OOB" timeout type issues and related badness, and discovered things
-very quickly die with SError splats like below.  Possibly the issue is
-that runpm has some race conditions, but I'm not sure we can trust
-pm_runtime_get_if_in_use() quite as much as one would like..
+In adv7511_init_cec_regmap() the new i2c address of cec device is
+read from device tree and immediately accessed, well before it is
+written in the proper register to override the default address.
+This can cause an i2c error during probe and a consequent probe
+failure.
 
------------
-[   33.225332] CPU: 0 PID: 216 Comm: A618-worker Tainted: G        W
-      5.4.196 #7
-[   33.225337] Hardware name: Google Wormdingler rev1+ INX panel board (DT)
-[   33.225343] pstate: 20c00009 (nzCv daif +PAN +UAO)
-[   33.225353] pc : msm_readl+0x14/0x34
-[   33.225361] lr : a6xx_gpu_busy+0x40/0x80
-[   33.225365] sp : ffffffc011b93ad0
-[   33.225371] x29: ffffffc011b93ad0 x28: ffffffe77cba3000
-[   33.225377] x27: 0000000000000001 x26: ffffffe77bb4c4ac
-[   33.225384] x25: ffffffa2f227dfa0 x24: ffffffa2f22aab28
-[   33.225390] x23: 0000000000000000 x22: ffffffa2f22bf020
-[   33.225397] x21: ffffffa2f22bf000 x20: ffffffc011b93b10
-[   33.225404] x19: ffffffc011bd4110 x18: 000000000000000e
-[   33.225410] x17: 0000000000000004 x16: 000000000000000c
-[   33.225416] x15: 000001be3a969450 x14: 0000000000000400
-[   33.225423] x13: 00000000000101d6 x12: 0000000034155555
-[   33.225429] x11: 0000000000000001 x10: 0000000000000000
-[   33.225436] x9 : 0000000100000000 x8 : ffffffc011bd4000
-[   33.225443] x7 : 0000000000000000 x6 : 0000000000000007
-[   33.225450] x5 : ffffffc01d8b38f0 x4 : 0000000000000000
-[   33.225457] x3 : 00000000ffffffff x2 : 0000000000000002
-[   33.225463] x1 : 0000000000000000 x0 : ffffffc011bd4110
-[   33.225471] Call trace:
-[   33.225478]  msm_readl+0x14/0x34
-[   33.225484]  a6xx_gpu_busy+0x40/0x80
-[   33.225490]  msm_devfreq_get_dev_status+0x70/0x1d0
-[   33.225500]  devfreq_simple_ondemand_func+0x34/0x100
-[   33.225510]  update_devfreq+0x50/0xe8
-[   33.225517]  qos_notifier_call+0x2c/0x64
-[   33.225523]  qos_max_notifier_call+0x1c/0x2c
-[   33.225532]  notifier_call_chain+0x58/0x98
-[   33.225539]  __blocking_notifier_call_chain+0x74/0x84
-[   33.225545]  blocking_notifier_call_chain+0x38/0x48
-[   33.225554]  pm_qos_update_target+0xf8/0x19c
-[   33.225560]  freq_qos_apply+0x54/0x6c
-[   33.225566]  apply_constraint+0x60/0x104
-[   33.225572]  __dev_pm_qos_update_request+0xb4/0x184
-[   33.225578]  dev_pm_qos_update_request+0x38/0x58
-[   33.225584]  msm_devfreq_idle_work+0x34/0x40
-[   33.225591]  kthread_worker_fn+0x144/0x1c8
-[   33.225597]  kthread+0x140/0x284
-[   33.225604]  ret_from_fork+0x10/0x18
-[   33.225617] Code: f9000bf3 910003fd aa0003f3 d503201f (b9400260)
-[   33.225623] ---[ end trace f6309767a42d0831 ]---
-[   33.236185] SMP: stopping secondary CPUs
-[   33.236186] Kernel Offset: 0x276b600000 from 0xffffffc010000000
-[   33.236186] PHYS_OFFSET: 0xffffffdf80000000
-[   33.236187] CPU features: 0x088102e,2a80aa38
------------
+Once the new i2c address is read from the device tree, override
+the default address before any attempt to access the cec.
 
->
-> -Akhil.
->
-> >
-> > Fixes: 9bc95570175a ("drm/msm: Devfreq tuning")
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >   drivers/gpu/drm/msm/msm_gpu.c | 6 +++---
-> >   1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gp=
-u.c
-> > index d1a16642ecd5..2b2bbe7499e6 100644
-> > --- a/drivers/gpu/drm/msm/msm_gpu.c
-> > +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> > @@ -667,9 +667,6 @@ static void retire_submit(struct msm_gpu *gpu, stru=
-ct msm_ringbuffer *ring,
-> >
-> >       msm_submit_retire(submit);
-> >
-> > -     pm_runtime_mark_last_busy(&gpu->pdev->dev);
-> > -     pm_runtime_put_autosuspend(&gpu->pdev->dev);
-> > -
-> >       spin_lock_irqsave(&ring->submit_lock, flags);
-> >       list_del(&submit->node);
-> >       spin_unlock_irqrestore(&ring->submit_lock, flags);
-> > @@ -683,6 +680,9 @@ static void retire_submit(struct msm_gpu *gpu, stru=
-ct msm_ringbuffer *ring,
-> >       mutex_unlock(&gpu->active_lock);
-> >
-> >       msm_gem_submit_put(submit);
-> > +
-> > +     pm_runtime_mark_last_busy(&gpu->pdev->dev);
-> > +     pm_runtime_put_autosuspend(&gpu->pdev->dev);
-> >   }
-> >
-> >   static void retire_submits(struct msm_gpu *gpu)
-> >
->
+Tested with adv7533 and stm32mp157f.
+
+Signed-off-by: Antonio Borneo <antonio.borneo@foss.st.com>
+Fixes: 680532c50bca ("drm: adv7511: Add support for i2c_new_secondary_device")
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+---
+
+This patch got somehow lost, I'm resending it.
+Added reviewed by Kieran Bingham.
+Rebased on drm-misc-next.
+
+---
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index 5bb9300040dd..074c2e650cae 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -1065,6 +1065,10 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
+ 						ADV7511_CEC_I2C_ADDR_DEFAULT);
+ 	if (IS_ERR(adv->i2c_cec))
+ 		return PTR_ERR(adv->i2c_cec);
++
++	regmap_write(adv->regmap, ADV7511_REG_CEC_I2C_ADDR,
++		     adv->i2c_cec->addr << 1);
++
+ 	i2c_set_clientdata(adv->i2c_cec, adv);
+ 
+ 	adv->regmap_cec = devm_regmap_init_i2c(adv->i2c_cec,
+@@ -1271,9 +1275,6 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+ 	if (ret)
+ 		goto err_i2c_unregister_packet;
+ 
+-	regmap_write(adv7511->regmap, ADV7511_REG_CEC_I2C_ADDR,
+-		     adv7511->i2c_cec->addr << 1);
+-
+ 	INIT_WORK(&adv7511->hpd_work, adv7511_hpd_work);
+ 
+ 	if (i2c->irq) {
+
+base-commit: dfa687bffc8a4a21ed929c7dececf01b8f1f52ee
+-- 
+2.36.1
+
