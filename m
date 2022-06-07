@@ -1,49 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475B2540F2A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 21:03:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF454540E86
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 20:58:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4843B10F3FD;
-	Tue,  7 Jun 2022 19:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 419C610EF24;
+	Tue,  7 Jun 2022 18:58:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 450 seconds by postgrey-1.36 at gabe;
- Tue, 07 Jun 2022 19:03:07 UTC
-Received: from 9.mo581.mail-out.ovh.net (9.mo581.mail-out.ovh.net
- [46.105.60.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B43B10F405
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 19:03:07 +0000 (UTC)
-Received: from player738.ha.ovh.net (unknown [10.111.208.48])
- by mo581.mail-out.ovh.net (Postfix) with ESMTP id 3C2F824816
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 18:55:35 +0000 (UTC)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
- (Authenticated sender: steve@sk2.org)
- by player738.ha.ovh.net (Postfix) with ESMTPSA id 98BE12B7105E6;
- Tue,  7 Jun 2022 18:55:22 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002c3165992-545e-42a9-9988-75529117242b,
- 38FB55E0ED6224772C245AF554E1AE62085133ED) smtp.auth=steve@sk2.org
-X-OVh-ClientIp: 82.65.25.201
-From: Stephen Kitt <steve@sk2.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Len Baker <len.baker@gmx.com>
-Subject: [PATCH] staging: ftbft: Use backlight helper
-Date: Tue,  7 Jun 2022 20:55:16 +0200
-Message-Id: <20220607185516.1129900-1-steve@sk2.org>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89EB710EF0D
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 18:58:09 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id d19so7775737lji.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 11:58:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/W9jGpIH/OL56+uBhFnE9P3noAAOQAr28i57rZ4o8JQ=;
+ b=Fx68vBqv45589Im4IvB0H8RQ6BqBh+sZp72BRgAEYLdJUHRr5zV3uUKQXxAjSGUa6q
+ TCRiIPrfiGlbN9VT3oaxlxkAEPik61ghm4YmrJEiPPrnU6kFTxxb+LhB2c2O8iujSbpZ
+ vYa0IXYWBue7/PqO70VJ2VbjW+HXeMZIspILfuL/mUL0wG5E+krhe8/YDsfxiZe5D8+k
+ qCMIHa60w5zUFT9WMf2LTRvvMJrH4MU7NV8zhsJT1ffDSPXHA54XjHcBlj8S0T94Bb3G
+ fkQdrK5t0CnollXZ7RGFXTbvnyOPE2iMS5kBvNZWKmI7LkrPYHWDCqkJTfc7KvdS2Ilt
+ fesA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/W9jGpIH/OL56+uBhFnE9P3noAAOQAr28i57rZ4o8JQ=;
+ b=HLHECEAevqa1l1eXwvrciBgVPZi4oCL+/gjGdDPjfwrUBtJL0BHFYoGtYgWfQ28iKZ
+ opKZnBujOC0zENpEBxvTJUeFodnrDRA4gViCsw0cVzkZgrp3duuLs06nnVrLUj7KXpV7
+ B8aiaIlyqm+kDihDAVM4Irwy4Q0VRfn0YYaNuXz5cio9MhCqLr1D8hoFrN65WlHzlEiC
+ 7fOPhKLt/w8sVjpSpwn8VfzJY1TFsrAJdx+K8K5ZgfZunjbi0Zp+58A+BdpYc+TWtWqs
+ 49jwlbwoXTKV8Z+vlDdinlzA46GzzUdfOQY4AKXThl76g3CaXgKc6wML2sYXDZbx8FsN
+ pTFg==
+X-Gm-Message-State: AOAM530oGW6iV1BVJbMRO0TMQbq++zKsNhwgdYlz4YCTvyVBikGQhFMH
+ if+hBFfypnAGMZJP0mQpUOGV5Q==
+X-Google-Smtp-Source: ABdhPJzLmOS1+/guV5q204SUkhFztXDSFtNTawl/bLE9lR2G+hjpUayf3IPB1mxKvThg6bhdHx7edw==
+X-Received: by 2002:a05:651c:1a10:b0:255:9422:a7c6 with SMTP id
+ by16-20020a05651c1a1000b002559422a7c6mr7959383ljb.328.1654628287555; 
+ Tue, 07 Jun 2022 11:58:07 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ d19-20020a2eb053000000b0025587b872cesm1611668ljl.70.2022.06.07.11.58.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jun 2022 11:58:07 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH v1 0/7] drm/msm/hdmi: YAML-ify schema and cleanup some
+ platform properties
+Date: Tue,  7 Jun 2022 21:57:59 +0300
+Message-Id: <20220607185806.2771739-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 11468134978585724588
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddthedgudefudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhephfevveeuhfduuedvteduheduveekveekkeduteduiedvkeejgeelveeuffetteetnecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrjeefkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdpoffvtefjohhsthepmhhoheekud
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,65 +72,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- Stephen Kitt <steve@sk2.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, David Heidelberg <david@ixit.cz>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-backlight_properties.fb_blank is deprecated. The states it represents
-are handled by other properties; but instead of accessing those
-properties directly, drivers should use the helpers provided by
-backlight.h.
+As agreed with David, this is a continuation of his work started at [1].
 
-Instead of manually checking the power state in struct
-backlight_properties, use backlight_is_blank().
+Changes since his patches:
+HDMI schema:
+- Dropped generic pinctrl properties
+- Dropped data-lanes property, which is not supported by the HDMI driver
+- Switched to unevaluatedProperties
+- Moved clocks/regulators/supplies to condition clauses
+- Specified phy-names as used by existing DT files
+- Dropped #phy-cells
+- Dropped power-domains property (which is not used by the device trees)
+- Marked old GPIO properties as deprecated (in a separate patch)
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Noralf Trønnes" <noralf@tronnes.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Len Baker <len.baker@gmx.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-fbdev@vger.kernel.org
-Cc: linux-staging@lists.linux.dev
----
- drivers/staging/fbtft/fb_ssd1351.c | 3 +--
- drivers/staging/fbtft/fbtft-core.c | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+HDMI PHY schema:
+- Split into QMP (msm8996) and non-QMP (other) PHY schemas
+- Added proper clocks/clock-names/reg/reg-names descriptions
 
-diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
-index 6fd549a424d5..b8d55aa8c5c7 100644
---- a/drivers/staging/fbtft/fb_ssd1351.c
-+++ b/drivers/staging/fbtft/fb_ssd1351.c
-@@ -196,8 +196,7 @@ static int update_onboard_backlight(struct backlight_device *bd)
- 		      "%s: power=%d, fb_blank=%d\n",
- 		      __func__, bd->props.power, bd->props.fb_blank);
- 
--	on = (bd->props.power == FB_BLANK_UNBLANK) &&
--	     (bd->props.fb_blank == FB_BLANK_UNBLANK);
-+	on = !backlight_is_blank(bd);
- 	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1 unused */
- 	write_reg(par, 0xB5, on ? 0x03 : 0x02);
- 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 60b2278d8b16..9b3eaed80cdd 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -137,8 +137,7 @@ static int fbtft_backlight_update_status(struct backlight_device *bd)
- 		      "%s: polarity=%d, power=%d, fb_blank=%d\n",
- 		      __func__, polarity, bd->props.power, bd->props.fb_blank);
- 
--	if ((bd->props.power == FB_BLANK_UNBLANK) &&
--	    (bd->props.fb_blank == FB_BLANK_UNBLANK))
-+	if (!backlight_is_blank(bd))
- 		gpiod_set_value(par->gpio.led[0], polarity);
- 	else
- 		gpiod_set_value(par->gpio.led[0], !polarity);
+The rest of the patches consist of the new work. They further cleanup
+the platform configs, remove unused supplies, etc.
 
-base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+[1]: https://patchwork.freedesktop.org/series/98353/
+
+Dmitry Baryshkov (7):
+  dt-bindings: display/msm: hdmi: split and convert to yaml
+  dt-bindings: display/msm: hdmi: mark old GPIO properties as deprecated
+  drm/msm/hdmi: drop unused GPIO support
+  drm/msm/hdmi: enable core-vcc/core-vdda-supply for 8996 platform
+  drm/msm/hdmi: drop empty 'none' regulator lists
+  drm/msm/hdmi: drop hpd_regs usage on 8x74/8084
+  drm/msm/hdmi: merge platform config for 8974/8084/8994/8996
+
+ .../devicetree/bindings/display/msm/hdmi.txt  |  99 --------
+ .../bindings/display/msm/qcom,hdmi.yaml       | 240 ++++++++++++++++++
+ .../bindings/phy/qcom,hdmi-phy-other.yaml     | 103 ++++++++
+ .../bindings/phy/qcom,hdmi-phy-qmp.yaml       |  84 ++++++
+ drivers/gpu/drm/msm/hdmi/hdmi.c               |  98 +------
+ drivers/gpu/drm/msm/hdmi/hdmi.h               |  13 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_hpd.c           |  62 +----
+ 7 files changed, 447 insertions(+), 252 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/msm/hdmi.txt
+ create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,hdmi.yaml
+ create mode 100644 Documentation/devicetree/bindings/phy/qcom,hdmi-phy-other.yaml
+ create mode 100644 Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml
+
 -- 
-2.30.2
+2.35.1
 
