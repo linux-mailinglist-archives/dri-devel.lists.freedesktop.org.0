@@ -2,54 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631CB53F846
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 10:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A5153F989
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 11:22:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3997412B188;
-	Tue,  7 Jun 2022 08:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6816412B1D2;
+	Tue,  7 Jun 2022 09:22:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD6C412B188;
- Tue,  7 Jun 2022 08:36:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654590982; x=1686126982;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=oPVHuslC8ltTbLsplJVNwU9OvSMmhAzO26CpPgNFxaY=;
- b=LbxTYXx6ggnT5wuCn+Go2SHlVvjfxYyod0GdeIbO6Xyu1B9SW5+Q4Jpm
- h0goqslPvi2d9nAaQfPHPiUIZdTzw2qp4SHZHFpUBzVQ8vhhr8y3HVza1
- 4z0N2XvklkIiWNye5/n9Lc7P7FBvLYQZ+TJmlvvuRDTGkF1yS5UlwK22G
- G9BqU4Dq+q2qgBnYMKuAh9oGIv3DNGNuawSsWYzSbemCjxlnniN+Xm6Ii
- guOhoW0sY/ZQ9JMBTyNIepMihOv3QfwUANpf/REg1uo95WFI5LeEbgSJ3
- TtbA1PSYhcnlf5VKpU5fxW5xnGU3OUKhSfXT6mh90A/TRdG6mLC4Aazel Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="276754447"
-X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="276754447"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 01:36:21 -0700
-X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="636025496"
-Received: from bdgardin-mobl1.ger.corp.intel.com (HELO [10.213.217.225])
- ([10.213.217.225])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 01:36:19 -0700
-Message-ID: <d91647ec-c941-0f99-5cdc-0fe7ac1c0d07@linux.intel.com>
-Date: Tue, 7 Jun 2022 09:36:17 +0100
+X-Greylist: delayed 1979 seconds by postgrey-1.36 at gabe;
+ Tue, 07 Jun 2022 09:22:40 UTC
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5B4512B1D3
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 09:22:40 +0000 (UTC)
+Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
+ by twspam01.aspeedtech.com with ESMTP id 2578YtMw023348
+ for <dri-devel@lists.freedesktop.org>; Tue, 7 Jun 2022 16:34:55 +0800 (GMT-8)
+ (envelope-from kuohsiang_chou@aspeedtech.com)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 2578YnEj023332;
+ Tue, 7 Jun 2022 16:34:49 +0800 (GMT-8)
+ (envelope-from kuohsiang_chou@aspeedtech.com)
+Received: from localhost.localdomain.com (192.168.2.180) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 7 Jun 2022 16:49:37 +0800
+From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+To: <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5] drm/ast: Create the driver for ASPEED proprietory
+ Display-Port
+Date: Tue, 7 Jun 2022 16:49:27 +0800
+Message-ID: <20220607084927.38432-1-kuohsiang_chou@aspeedtech.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <202206071218.LWKSPm1P-lkp@intel.com>
+References: <202206071218.LWKSPm1P-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Improve user experience and driver
- robustness under SIGINT or similar
-Content-Language: en-US
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Intel-gfx@lists.freedesktop.org
-References: <20220527072452.2225610-1-tvrtko.ursulin@linux.intel.com>
- <fa45f87d-9aa1-a36d-631b-2363a95a7665@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <fa45f87d-9aa1-a36d-631b-2363a95a7665@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.180]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 2578YnEj023332
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,375 +56,756 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
+Cc: kernel test robot <lkp@intel.com>, hungju_huang@aspeedtech.com,
+ airlied@linux.ie, tommy_huang@aspeedtech.com, airlied@redhat.com,
+ arc_sung@aspeedtech.com, luke_chen@aspeedtech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+V1:
+1. The MCU FW controling ASPEED DP is loaded by BMC boot loader.
+2. Driver starts after CR[3:1] == 111b that indicates Tx is ASTDP,
+   and CRD1[5] has been asserted by BMVC boot loader.
+3. EDID is prioritized by DP monitor.
+4. DP's EDID has high priority to decide resolution supporting.
 
-On 27/05/2022 13:07, Andrzej Hajda wrote:
-> On 27.05.2022 09:24, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> We have long standing customer complaints that pressing Ctrl-C (or to the
->> effect of) causes engine resets with otherwise well behaving programs.
->>
->> Not only is logging engine resets during normal operation not desirable
->> since it creates support incidents, but more fundamentally we should 
->> avoid
->> going the engine reset path when we can since any engine reset introduces
->> a chance of harming an innocent context.
->>
->> Reason for this undesirable behaviour is that the driver currently does
->> not distinguish between banned contexts and non-persistent contexts which
->> have been closed.
->>
->> To fix this we add the distinction between the two reasons for revoking
->> contexts, which then allows the strict timeout only be applied to banned,
->> while innocent contexts (well behaving) can preempt cleanly and exit
->> without triggering the engine reset path.
->>
->> Note that the added context exiting category applies both to closed non-
->> persistent context, and any exiting context when hangcheck has been
->> disabled by the user.
->>
->> At the same time we rename the backend operation from 'ban' to 'revoke'
->> which more accurately describes the actual semantics. (There is no ban at
->> the backend level since banning is a concept driven by the scheduling
->> frontend. Backends are simply able to revoke a running context so that
->> is the more appropriate name chosen.)
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 23 +++++++++++------
->>   drivers/gpu/drm/i915/gt/intel_context.c       | 24 ++++++++++++++++++
->>   drivers/gpu/drm/i915/gt/intel_context.h       | 25 +++++++++++++------
->>   drivers/gpu/drm/i915/gt/intel_context_types.h |  4 ++-
->>   .../drm/i915/gt/intel_execlists_submission.c  |  6 ++---
->>   .../gpu/drm/i915/gt/intel_ring_submission.c   |  7 +++---
->>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 15 ++++++-----
->>   drivers/gpu/drm/i915/i915_request.c           |  2 +-
->>   8 files changed, 77 insertions(+), 29 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c 
->> b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->> index ab4c5ab28e4d..6b171c89b1b3 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->> @@ -1367,7 +1367,8 @@ static struct intel_engine_cs 
->> *active_engine(struct intel_context *ce)
->>       return engine;
->>   }
->> -static void kill_engines(struct i915_gem_engines *engines, bool ban)
->> +static void
->> +kill_engines(struct i915_gem_engines *engines, bool exit, bool 
->> persistent)
->>   {
->>       struct i915_gem_engines_iter it;
->>       struct intel_context *ce;
->> @@ -1381,9 +1382,15 @@ static void kill_engines(struct 
->> i915_gem_engines *engines, bool ban)
->>        */
->>       for_each_gem_engine(ce, engines, it) {
->>           struct intel_engine_cs *engine;
->> +        bool skip = false;
->> -        if (ban && intel_context_ban(ce, NULL))
->> -            continue;
->> +        if (exit)
->> +            skip = intel_context_set_exiting(ce);
->> +        else if (!persistent)
->> +            skip = intel_context_exit_nonpersistent(ce, NULL);
->> +
->> +        if (skip)
->> +            continue; /* Already marked. */
-> 
-> why not:
->      if (exit && intel_context_set_exiting(ce))
->          continue;
->      else if (!persistent && intel_context_exit_nonpersistent(ce, NULL)
->          continue;
+V2:
+Modules description:
+1. ASTDP (ASPEED DisplayPort) is controlled by dedicated
+   AST-MCU (ASPEED propriatary MCU).
+2. MCU is looping in charged of HPD, Read EDID, Link Training with
+   DP sink.
+3. ASTDP and AST-MUC reside in BMC (Baseboard Management controller)
+   addressing-space.
+4. ASPEED DRM driver requests MCU to get HPD and EDID by CR-scratched
+   register.
 
-Just so I can put the "already marked" comment on single line.
+Booting sequence:
+1. Check if TX is ASTDP					// ast_dp_launch()
+2. Check if DP-MCU FW has loaded					// ast_dp_launch()
+3. Read EDID					// ast_dp_read_edid()
+4. Resolution switch					// ast_dp_SetOutput()
 
-> 
-> Anyway:
-> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+V3:
+1. Remove unneeded semicolon.
+2. Apply to git://anongit.freedesktop.org/drm/drm, instead of
+   git://anongit.freedesktop.org/drm/drm-misc
+3. Resolve auto build test WARNINGs on V1 patch.
 
-Thanks!
+V4:
+1. Sync code-base with kernel 5.17_rc6
+2. Remove the define of DPControlPower, because DP chips need to be
+   powered on to be used.
+3. Remove the switches of PHY and Display from EDID procedure.
+4. Revise increaing delay to fixed delay, because this version kernel
+   doesn't detect minitor consistenntly.
+5. Create clean-up code used for reset of power state on errors with
+   -EIO manner.
+6. Revise the DP detection by TX type and its DP-FW status during
+   booting and resume.
+7. Correct the CamelCase Style.
+8. Use register reading while needing, and remove to hold full
+   register.
+9. Instead of 'u8', revise to 'bool' on swwitch of PHY and video.
+10.Correct typo
+11.Remove the duplicated copy of TX definition.
+12.Use EDID_LENGTH as the constant of 128.
 
-John, Daniel - you had reservations against the older version of this 
-patch AFAIR. This time round I believe I conceptually simplified it by 
-doing a clean separation of contexts which should not be scheduled any 
-more becuase they want it so, versus the ones we banned. That is, the 
-patch stops abusing the banned status for contexts which haven't been 
-(banned). This allows to only apply the strict preempt timeout to 
-banned, while there is no reason to add any new timeout values for the rest.
+V5:
+1.Fixed sparse:cast truncates bits form constant value ()cast
+  truncates bits from constant value (ffffffffffffff00 becomes 0)
 
-Any objections to this version?
+Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+Reported-by: kernel test robot <lkp@intel.com>
+---
+ drivers/gpu/drm/ast/Makefile   |   2 +-
+ drivers/gpu/drm/ast/ast_dp.c   | 282 +++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/ast/ast_drv.h  | 115 ++++++++++++++
+ drivers/gpu/drm/ast/ast_main.c |   5 +-
+ drivers/gpu/drm/ast/ast_mode.c | 124 ++++++++++++++-
+ drivers/gpu/drm/ast/ast_post.c |   4 +-
+ 6 files changed, 524 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/gpu/drm/ast/ast_dp.c
 
-Regards,
+diff --git a/drivers/gpu/drm/ast/Makefile b/drivers/gpu/drm/ast/Makefile
+index 21f71160b..5a53ce51f 100644
+--- a/drivers/gpu/drm/ast/Makefile
++++ b/drivers/gpu/drm/ast/Makefile
+@@ -3,6 +3,6 @@
+ # Makefile for the drm device driver.  This driver provides support for the
+ # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
 
-Tvrtko
+-ast-y := ast_drv.o ast_i2c.o ast_main.o ast_mm.o ast_mode.o ast_post.o ast_dp501.o
++ast-y := ast_drv.o ast_i2c.o ast_main.o ast_mm.o ast_mode.o ast_post.o ast_dp501.o ast_dp.o
 
-> 
-> Regards
-> Andrzej
-> 
->>           /*
->>            * Check the current active state of this context; if we
->> @@ -1395,7 +1402,7 @@ static void kill_engines(struct i915_gem_engines 
->> *engines, bool ban)
->>           engine = active_engine(ce);
->>           /* First attempt to gracefully cancel the context */
->> -        if (engine && !__cancel_engine(engine) && ban)
->> +        if (engine && !__cancel_engine(engine) && (exit || !persistent))
->>               /*
->>                * If we are unable to send a preemptive pulse to bump
->>                * the context from the GPU, we have to resort to a full
->> @@ -1407,8 +1414,6 @@ static void kill_engines(struct i915_gem_engines 
->> *engines, bool ban)
->>   static void kill_context(struct i915_gem_context *ctx)
->>   {
->> -    bool ban = (!i915_gem_context_is_persistent(ctx) ||
->> -            !ctx->i915->params.enable_hangcheck);
->>       struct i915_gem_engines *pos, *next;
->>       spin_lock_irq(&ctx->stale.lock);
->> @@ -1421,7 +1426,8 @@ static void kill_context(struct i915_gem_context 
->> *ctx)
->>           spin_unlock_irq(&ctx->stale.lock);
->> -        kill_engines(pos, ban);
->> +        kill_engines(pos, !ctx->i915->params.enable_hangcheck,
->> +                 i915_gem_context_is_persistent(ctx));
->>           spin_lock_irq(&ctx->stale.lock);
->>           GEM_BUG_ON(i915_sw_fence_signaled(&pos->fence));
->> @@ -1467,7 +1473,8 @@ static void engines_idle_release(struct 
->> i915_gem_context *ctx,
->>   kill:
->>       if (list_empty(&engines->link)) /* raced, already closed */
->> -        kill_engines(engines, true);
->> +        kill_engines(engines, true,
->> +                 i915_gem_context_is_persistent(ctx));
->>       i915_sw_fence_commit(&engines->fence);
->>   }
->> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c 
->> b/drivers/gpu/drm/i915/gt/intel_context.c
->> index 4070cb5711d8..654a092ed3d6 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_context.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
->> @@ -601,6 +601,30 @@ u64 intel_context_get_avg_runtime_ns(struct 
->> intel_context *ce)
->>       return avg;
->>   }
->> +bool intel_context_ban(struct intel_context *ce, struct i915_request 
->> *rq)
->> +{
->> +    bool ret = intel_context_set_banned(ce);
->> +
->> +    trace_intel_context_ban(ce);
->> +
->> +    if (ce->ops->revoke)
->> +        ce->ops->revoke(ce, rq,
->> +                INTEL_CONTEXT_BANNED_PREEMPT_TIMEOUT_MS);
->> +
->> +    return ret;
->> +}
->> +
->> +bool intel_context_exit_nonpersistent(struct intel_context *ce,
->> +                      struct i915_request *rq)
->> +{
->> +    bool ret = intel_context_set_exiting(ce);
->> +
->> +    if (ce->ops->revoke)
->> +        ce->ops->revoke(ce, rq, ce->engine->props.preempt_timeout_ms);
->> +
->> +    return ret;
->> +}
->> +
->>   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
->>   #include "selftest_context.c"
->>   #endif
->> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h 
->> b/drivers/gpu/drm/i915/gt/intel_context.h
->> index b7d3214d2cdd..8e2d70630c49 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_context.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
->> @@ -25,6 +25,8 @@
->>                ##__VA_ARGS__);                    \
->>   } while (0)
->> +#define INTEL_CONTEXT_BANNED_PREEMPT_TIMEOUT_MS (1)
->> +
->>   struct i915_gem_ww_ctx;
->>   void intel_context_init(struct intel_context *ce,
->> @@ -309,18 +311,27 @@ static inline bool 
->> intel_context_set_banned(struct intel_context *ce)
->>       return test_and_set_bit(CONTEXT_BANNED, &ce->flags);
->>   }
->> -static inline bool intel_context_ban(struct intel_context *ce,
->> -                     struct i915_request *rq)
->> +bool intel_context_ban(struct intel_context *ce, struct i915_request 
->> *rq);
->> +
->> +static inline bool intel_context_is_schedulable(const struct 
->> intel_context *ce)
->>   {
->> -    bool ret = intel_context_set_banned(ce);
->> +    return !test_bit(CONTEXT_EXITING, &ce->flags) &&
->> +           !test_bit(CONTEXT_BANNED, &ce->flags);
->> +}
->> -    trace_intel_context_ban(ce);
->> -    if (ce->ops->ban)
->> -        ce->ops->ban(ce, rq);
->> +static inline bool intel_context_is_exiting(const struct 
->> intel_context *ce)
->> +{
->> +    return test_bit(CONTEXT_EXITING, &ce->flags);
->> +}
->> -    return ret;
->> +static inline bool intel_context_set_exiting(struct intel_context *ce)
->> +{
->> +    return test_and_set_bit(CONTEXT_EXITING, &ce->flags);
->>   }
->> +bool intel_context_exit_nonpersistent(struct intel_context *ce,
->> +                      struct i915_request *rq);
->> +
->>   static inline bool
->>   intel_context_force_single_submission(const struct intel_context *ce)
->>   {
->> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h 
->> b/drivers/gpu/drm/i915/gt/intel_context_types.h
->> index 09f82545789f..d2d75d9c0c8d 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
->> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
->> @@ -40,7 +40,8 @@ struct intel_context_ops {
->>       int (*alloc)(struct intel_context *ce);
->> -    void (*ban)(struct intel_context *ce, struct i915_request *rq);
->> +    void (*revoke)(struct intel_context *ce, struct i915_request *rq,
->> +               unsigned int preempt_timeout_ms);
->>       int (*pre_pin)(struct intel_context *ce, struct i915_gem_ww_ctx 
->> *ww, void **vaddr);
->>       int (*pin)(struct intel_context *ce, void *vaddr);
->> @@ -122,6 +123,7 @@ struct intel_context {
->>   #define CONTEXT_GUC_INIT        10
->>   #define CONTEXT_PERMA_PIN        11
->>   #define CONTEXT_IS_PARKING        12
->> +#define CONTEXT_EXITING            13
->>       struct {
->>           u64 timeout_us;
->> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c 
->> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> index a4510b5c0c3d..ad72e2c5c4e7 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->> @@ -480,9 +480,9 @@ __execlists_schedule_in(struct i915_request *rq)
->>       if (unlikely(intel_context_is_closed(ce) &&
->>                !intel_engine_has_heartbeat(engine)))
->> -        intel_context_set_banned(ce);
->> +        intel_context_set_exiting(ce);
->> -    if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
->> +    if (unlikely(!intel_context_is_schedulable(ce) || bad_request(rq)))
->>           reset_active(rq, engine);
->>       if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
->> @@ -1243,7 +1243,7 @@ static unsigned long 
->> active_preempt_timeout(struct intel_engine_cs *engine,
->>       /* Force a fast reset for terminated contexts (ignoring sysfs!) */
->>       if (unlikely(intel_context_is_banned(rq->context) || 
->> bad_request(rq)))
->> -        return 1;
->> +        return INTEL_CONTEXT_BANNED_PREEMPT_TIMEOUT_MS;
->>       return READ_ONCE(engine->props.preempt_timeout_ms);
->>   }
->> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c 
->> b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
->> index f8f279a195c0..d5d6f1fadcae 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
->> @@ -598,8 +598,9 @@ static void ring_context_reset(struct 
->> intel_context *ce)
->>       clear_bit(CONTEXT_VALID_BIT, &ce->flags);
->>   }
->> -static void ring_context_ban(struct intel_context *ce,
->> -                 struct i915_request *rq)
->> +static void ring_context_revoke(struct intel_context *ce,
->> +                struct i915_request *rq,
->> +                unsigned int preempt_timeout_ms)
->>   {
->>       struct intel_engine_cs *engine;
->> @@ -634,7 +635,7 @@ static const struct intel_context_ops 
->> ring_context_ops = {
->>       .cancel_request = ring_context_cancel_request,
->> -    .ban = ring_context_ban,
->> +    .revoke = ring_context_revoke,
->>       .pre_pin = ring_context_pre_pin,
->>       .pin = ring_context_pin,
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> index 5a1dfacf24ea..e62ea35513ea 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->> @@ -2790,7 +2790,9 @@ static void 
->> __guc_context_set_preemption_timeout(struct intel_guc *guc,
->>       __guc_context_set_context_policies(guc, &policy, true);
->>   }
->> -static void guc_context_ban(struct intel_context *ce, struct 
->> i915_request *rq)
->> +static void
->> +guc_context_revoke(struct intel_context *ce, struct i915_request *rq,
->> +           unsigned int preempt_timeout_ms)
->>   {
->>       struct intel_guc *guc = ce_to_guc(ce);
->>       struct intel_runtime_pm *runtime_pm =
->> @@ -2829,7 +2831,8 @@ static void guc_context_ban(struct intel_context 
->> *ce, struct i915_request *rq)
->>            * gets kicked off the HW ASAP.
->>            */
->>           with_intel_runtime_pm(runtime_pm, wakeref) {
->> -            __guc_context_set_preemption_timeout(guc, guc_id, 1);
->> +            __guc_context_set_preemption_timeout(guc, guc_id,
->> +                                 preempt_timeout_ms);
->>               __guc_context_sched_disable(guc, ce, guc_id);
->>           }
->>       } else {
->> @@ -2837,7 +2840,7 @@ static void guc_context_ban(struct intel_context 
->> *ce, struct i915_request *rq)
->>               with_intel_runtime_pm(runtime_pm, wakeref)
->>                   __guc_context_set_preemption_timeout(guc,
->>                                        ce->guc_id.id,
->> -                                     1);
->> +                                     preempt_timeout_ms);
->>           spin_unlock_irqrestore(&ce->guc_state.lock, flags);
->>       }
->>   }
->> @@ -3190,7 +3193,7 @@ static const struct intel_context_ops 
->> guc_context_ops = {
->>       .unpin = guc_context_unpin,
->>       .post_unpin = guc_context_post_unpin,
->> -    .ban = guc_context_ban,
->> +    .revoke = guc_context_revoke,
->>       .cancel_request = guc_context_cancel_request,
->> @@ -3439,7 +3442,7 @@ static const struct intel_context_ops 
->> virtual_guc_context_ops = {
->>       .unpin = guc_virtual_context_unpin,
->>       .post_unpin = guc_context_post_unpin,
->> -    .ban = guc_context_ban,
->> +    .revoke = guc_context_revoke,
->>       .cancel_request = guc_context_cancel_request,
->> @@ -3528,7 +3531,7 @@ static const struct intel_context_ops 
->> virtual_parent_context_ops = {
->>       .unpin = guc_parent_context_unpin,
->>       .post_unpin = guc_context_post_unpin,
->> -    .ban = guc_context_ban,
->> +    .revoke = guc_context_revoke,
->>       .cancel_request = guc_context_cancel_request,
->> diff --git a/drivers/gpu/drm/i915/i915_request.c 
->> b/drivers/gpu/drm/i915/i915_request.c
->> index 73d5195146b0..c3937640b119 100644
->> --- a/drivers/gpu/drm/i915/i915_request.c
->> +++ b/drivers/gpu/drm/i915/i915_request.c
->> @@ -611,7 +611,7 @@ bool __i915_request_submit(struct i915_request 
->> *request)
->>           goto active;
->>       }
->> -    if (unlikely(intel_context_is_banned(request->context)))
->> +    if (unlikely(!intel_context_is_schedulable(request->context)))
->>           i915_request_set_error_once(request, -EIO);
->>       if (unlikely(fatal_error(request->fence.error)))
-> 
+ obj-$(CONFIG_DRM_AST) := ast.o
+diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+new file mode 100644
+index 000000000..1ae12c407
+--- /dev/null
++++ b/drivers/gpu/drm/ast/ast_dp.c
+@@ -0,0 +1,282 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright (c) 2021, ASPEED Technology Inc.
++// Authors: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
++
++#include <linux/firmware.h>
++#include <linux/delay.h>
++#include <drm/drm_print.h>
++#include "ast_drv.h"
++
++int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
++{
++	struct ast_private *ast = to_ast_private(dev);
++	u8 i = 0, j = 0;
++
++	/*
++	 * CRD1[b5]: DP MCU FW is executing
++	 * CRDC[b0]: DP link success
++	 * CRDF[b0]: DP HPD
++	 * CRE5[b0]: Host reading EDID process is done
++	 */
++	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, ASTDP_MCU_FW_EXECUTING) &&
++		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, ASTDP_LINK_SUCCESS) &&
++		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD) &&
++		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
++								ASTDP_HOST_EDID_READ_DONE_MASK))) {
++		goto err_astdp_edid_not_ready;
++	}
++
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5, (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
++							0x00);
++
++	for (i = 0; i < 32; i++) {
++		/*
++		 * CRE4[7:0]: Read-Pointer for EDID (Unit: 4bytes); valid range: 0~64
++		 */
++		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE4,
++					ASTDP_AND_CLEAR_MASK, (u8) i);
++		j = 0;
++
++		/*
++		 * CRD7[b0]: valid flag for EDID
++		 * CRD6[b0]: mirror read pointer for EDID
++		 */
++		while ((ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD7,
++				ASTDP_EDID_VALID_FLAG_MASK) != 0x01) ||
++			(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD6,
++						ASTDP_EDID_READ_POINTER_MASK) != i)) {
++			/*
++			 * Delay are getting longer with each retry.
++			 * 1. The Delays are often 2 loops when users request "Display Settings"
++			 *	  of right-click of mouse.
++			 * 2. The Delays are often longer a lot when system resume from S3/S4.
++			 */
++			mdelay(j+1);
++
++			if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1,
++							ASTDP_MCU_FW_EXECUTING) &&
++				ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC,
++							ASTDP_LINK_SUCCESS) &&
++				ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD))) {
++				goto err_astdp_jump_out_loop_of_edid;
++			}
++
++			j++;
++			if (j > 200)
++				goto err_astdp_jump_out_loop_of_edid;
++		}
++
++		*(ediddata) = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT,
++							0xD8, ASTDP_EDID_READ_DATA_MASK);
++		*(ediddata + 1) = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD9,
++								ASTDP_EDID_READ_DATA_MASK);
++		*(ediddata + 2) = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDA,
++								ASTDP_EDID_READ_DATA_MASK);
++		*(ediddata + 3) = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDB,
++								ASTDP_EDID_READ_DATA_MASK);
++
++		if (i == 31) {
++			/*
++			 * For 128-bytes EDID_1.3,
++			 * 1. Add the value of Bytes-126 to Bytes-127.
++			 *		The Bytes-127 is Checksum. Sum of all 128bytes should
++			 *		equal 0	(mod 256).
++			 * 2. Modify Bytes-126 to be 0.
++			 *		The Bytes-126 indicates the Number of extensions to
++			 *		follow. 0 represents noextensions.
++			 */
++			*(ediddata + 3) = *(ediddata + 3) + *(ediddata + 2);
++			*(ediddata + 2) = 0;
++		}
++
++		ediddata += 4;
++	}
++
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5, (u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
++							ASTDP_HOST_EDID_READ_DONE);
++
++	return 0;
++
++err_astdp_jump_out_loop_of_edid:
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
++							(u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
++							ASTDP_HOST_EDID_READ_DONE);
++	return (~(j+256) + 1);
++
++err_astdp_edid_not_ready:
++	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, ASTDP_MCU_FW_EXECUTING)))
++		return (~0xD1 + 1);
++	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, ASTDP_LINK_SUCCESS)))
++		return (~0xDC + 1);
++	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD)))
++		return (~0xDF + 1);
++	if (!(ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5, ASTDP_HOST_EDID_READ_DONE_MASK)))
++		return (~0xE5 + 1);
++
++	return	0;
++}
++
++/*
++ * Launch Aspeed DP
++ */
++void ast_dp_launch(struct drm_device *dev, u8 bPower)
++{
++	u32 i = 0, j = 0, WaitCount = 1;
++	u8 bDPTX = 0;
++	u8 bDPExecute = 1;
++
++	struct ast_private *ast = to_ast_private(dev);
++	// S3 come back, need more time to wait BMC ready.
++	if (bPower)
++		WaitCount = 300;
++
++
++	// Wait total count by different condition.
++	for (j = 0; j < WaitCount; j++) {
++		bDPTX = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, TX_TYPE_MASK);
++
++		if (bDPTX)
++			break;
++
++		msleep(100);
++	}
++
++	// 0xE : ASTDP with DPMCU FW handling
++	if (bDPTX == ASTDP_DPMCU_TX) {
++		// Wait one second then timeout.
++		i = 0;
++
++		while (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xD1, COPROCESSOR_LAUNCH) !=
++			COPROCESSOR_LAUNCH) {
++			i++;
++			// wait 100 ms
++			msleep(100);
++
++			if (i >= 10) {
++				// DP would not be ready.
++				bDPExecute = 0;
++				break;
++			}
++		}
++
++		if (bDPExecute)
++			ast->tx_chip_type = AST_TX_ASTDP;
++
++		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE5,
++							(u8) ~ASTDP_HOST_EDID_READ_DONE_MASK,
++							ASTDP_HOST_EDID_READ_DONE);
++	} else
++		ast->tx_chip_type = AST_TX_NONE;
++}
++
++
++
++void ast_dp_power_on_off(struct drm_device *dev, bool on)
++{
++	struct ast_private *ast = to_ast_private(dev);
++	// Read and Turn off DP PHY sleep
++	u8 bE3 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE3, AST_DP_VIDEO_ENABLE);
++
++	// Turn on DP PHY sleep
++	if (!on)
++		bE3 |= AST_DP_PHY_SLEEP;
++
++	// DP Power on/off
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE3, (u8) ~AST_DP_PHY_SLEEP, bE3);
++}
++
++
++
++void ast_dp_set_on_off(struct drm_device *dev, bool on)
++{
++	struct ast_private *ast = to_ast_private(dev);
++	u8 video_on_off = on;
++
++	// Video On/Off
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE3, (u8) ~AST_DP_VIDEO_ENABLE, on);
++
++	// If DP plug in and link successful then check video on / off status
++	if (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDC, ASTDP_LINK_SUCCESS) &&
++		ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF, ASTDP_HPD)) {
++		video_on_off <<= 4;
++		while (ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xDF,
++						ASTDP_MIRROR_VIDEO_ENABLE) != video_on_off) {
++			// wait 1 ms
++			mdelay(1);
++		}
++	}
++}
++
++void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode)
++{
++	struct ast_private *ast = to_ast_private(crtc->dev);
++
++	u32 ulRefreshRateIndex;
++	u8 ModeIdx;
++
++	ulRefreshRateIndex = vbios_mode->enh_table->refresh_rate_index - 1;
++
++	switch (crtc->mode.crtc_hdisplay) {
++	case 320:
++		ModeIdx = ASTDP_320x240_60;
++		break;
++	case 400:
++		ModeIdx = ASTDP_400x300_60;
++		break;
++	case 512:
++		ModeIdx = ASTDP_512x384_60;
++		break;
++	case 640:
++		ModeIdx = (ASTDP_640x480_60 + (u8) ulRefreshRateIndex);
++		break;
++	case 800:
++		ModeIdx = (ASTDP_800x600_56 + (u8) ulRefreshRateIndex);
++		break;
++	case 1024:
++		ModeIdx = (ASTDP_1024x768_60 + (u8) ulRefreshRateIndex);
++		break;
++	case 1152:
++		ModeIdx = ASTDP_1152x864_75;
++		break;
++	case 1280:
++		if (crtc->mode.crtc_vdisplay == 800)
++			ModeIdx = (ASTDP_1280x800_60_RB - (u8) ulRefreshRateIndex);
++		else		// 1024
++			ModeIdx = (ASTDP_1280x1024_60 + (u8) ulRefreshRateIndex);
++		break;
++	case 1360:
++	case 1366:
++		ModeIdx = ASTDP_1366x768_60;
++		break;
++	case 1440:
++		ModeIdx = (ASTDP_1440x900_60_RB - (u8) ulRefreshRateIndex);
++		break;
++	case 1600:
++		if (crtc->mode.crtc_vdisplay == 900)
++			ModeIdx = (ASTDP_1600x900_60_RB - (u8) ulRefreshRateIndex);
++		else		//1200
++			ModeIdx = ASTDP_1600x1200_60;
++		break;
++	case 1680:
++		ModeIdx = (ASTDP_1680x1050_60_RB - (u8) ulRefreshRateIndex);
++		break;
++	case 1920:
++		if (crtc->mode.crtc_vdisplay == 1080)
++			ModeIdx = ASTDP_1920x1080_60;
++		else		//1200
++			ModeIdx = ASTDP_1920x1200_60;
++		break;
++	default:
++		return;
++	}
++
++	/*
++	 * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
++	 * CRE1[7:0]: MISC1 (default: 0x00)
++	 * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
++	 */
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE0, ASTDP_AND_CLEAR_MASK,
++				ASTDP_MISC0_24bpp);
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE1, ASTDP_AND_CLEAR_MASK, ASTDP_MISC1);
++	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xE2, ASTDP_AND_CLEAR_MASK, ModeIdx);
++}
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index a19315b2f..79451130c 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -70,6 +70,7 @@ enum ast_tx_chip {
+ 	AST_TX_NONE,
+ 	AST_TX_SIL164,
+ 	AST_TX_DP501,
++	AST_TX_ASTDP,
+ };
+
+ #define AST_DRAM_512Mx16 0
+@@ -184,6 +185,10 @@ struct ast_private {
+ 			struct drm_encoder encoder;
+ 			struct drm_connector connector;
+ 		} dp501;
++		struct {
++			struct drm_encoder encoder;
++			struct drm_connector connector;
++		} astdp;
+ 	} output;
+
+ 	bool support_wide_screen;
+@@ -357,10 +362,113 @@ int ast_mode_config_init(struct ast_private *ast);
+ #define AST_DP501_EDID_DATA	0xf020
+
+ /* Define for Soc scratched reg */
++#define COPROCESSOR_LAUNCH			BIT(5)
++
++/*
++ * Display Transmitter Type:
++ */
++#define TX_TYPE_MASK				GENMASK(3, 1)
++#define NO_TX						(0 << 1)
++#define ITE66121_VBIOS_TX			(1 << 1)
++#define SI164_VBIOS_TX				(2 << 1)
++#define CH7003_VBIOS_TX			(3 << 1)
++#define DP501_VBIOS_TX				(4 << 1)
++#define ANX9807_VBIOS_TX			(5 << 1)
++#define TX_FW_EMBEDDED_FW_TX		(6 << 1)
++#define ASTDP_DPMCU_TX				(7 << 1)
++
+ #define AST_VRAM_INIT_STATUS_MASK	GENMASK(7, 6)
+ //#define AST_VRAM_INIT_BY_BMC		BIT(7)
+ //#define AST_VRAM_INIT_READY		BIT(6)
+
++/* Define for Soc scratched reg used on ASTDP */
++#define AST_DP_PHY_SLEEP			BIT(4)
++#define AST_DP_VIDEO_ENABLE		BIT(0)
++
++#define AST_DP_POWER_ON			true
++#define AST_DP_POWER_OFF			false
++
++/*
++ * CRD1[b5]: DP MCU FW is executing
++ * CRDC[b0]: DP link success
++ * CRDF[b0]: DP HPD
++ * CRE5[b0]: Host reading EDID process is done
++ */
++#define ASTDP_MCU_FW_EXECUTING			BIT(5)
++#define ASTDP_LINK_SUCCESS				BIT(0)
++#define ASTDP_HPD						BIT(0)
++#define ASTDP_HOST_EDID_READ_DONE		BIT(0)
++#define ASTDP_HOST_EDID_READ_DONE_MASK	GENMASK(0, 0)
++
++/*
++ * CRB8[b1]: Enable VSYNC off
++ * CRB8[b0]: Enable HSYNC off
++ */
++#define AST_DPMS_VSYNC_OFF				BIT(1)
++#define AST_DPMS_HSYNC_OFF				BIT(0)
++
++/*
++ * CRDF[b4]: Mirror of AST_DP_VIDEO_ENABLE
++ * Precondition:	A. ~AST_DP_PHY_SLEEP  &&
++ *			B. DP_HPD &&
++ *			C. DP_LINK_SUCCESS
++ */
++#define ASTDP_MIRROR_VIDEO_ENABLE		BIT(4)
++
++#define ASTDP_EDID_READ_POINTER_MASK	GENMASK(7, 0)
++#define ASTDP_EDID_VALID_FLAG_MASK		GENMASK(0, 0)
++#define ASTDP_EDID_READ_DATA_MASK		GENMASK(7, 0)
++
++/*
++ * ASTDP setmode registers:
++ * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
++ * CRE1[7:0]: MISC1 (default: 0x00)
++ * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
++ */
++#define ASTDP_MISC0_24bpp			BIT(5)
++#define ASTDP_MISC1				0
++#define ASTDP_AND_CLEAR_MASK		0x00
++
++/*
++ * ASTDP resoultion table:
++ * EX:	ASTDP_A_B_C:
++ *		A: Resolution
++ *		B: Refresh Rate
++ *		C: Misc information, such as CVT, Reduce Blanked
++ */
++#define ASTDP_640x480_60		0x00
++#define ASTDP_640x480_72		0x01
++#define ASTDP_640x480_75		0x02
++#define ASTDP_640x480_85		0x03
++#define ASTDP_800x600_56		0x04
++#define ASTDP_800x600_60		0x05
++#define ASTDP_800x600_72		0x06
++#define ASTDP_800x600_75		0x07
++#define ASTDP_800x600_85		0x08
++#define ASTDP_1024x768_60		0x09
++#define ASTDP_1024x768_70		0x0A
++#define ASTDP_1024x768_75		0x0B
++#define ASTDP_1024x768_85		0x0C
++#define ASTDP_1280x1024_60		0x0D
++#define ASTDP_1280x1024_75		0x0E
++#define ASTDP_1280x1024_85		0x0F
++#define ASTDP_1600x1200_60		0x10
++#define ASTDP_320x240_60		0x11
++#define ASTDP_400x300_60		0x12
++#define ASTDP_512x384_60		0x13
++#define ASTDP_1920x1200_60		0x14
++#define ASTDP_1920x1080_60		0x15
++#define ASTDP_1280x800_60		0x16
++#define ASTDP_1280x800_60_RB	0x17
++#define ASTDP_1440x900_60		0x18
++#define ASTDP_1440x900_60_RB	0x19
++#define ASTDP_1680x1050_60		0x1A
++#define ASTDP_1680x1050_60_RB	0x1B
++#define ASTDP_1600x900_60		0x1C
++#define ASTDP_1600x900_60_RB	0x1D
++#define ASTDP_1366x768_60		0x1E
++#define ASTDP_1152x864_75		0x1F
++
+ int ast_mm_init(struct ast_private *ast);
+
+ /* ast post */
+@@ -381,4 +489,11 @@ void ast_init_3rdtx(struct drm_device *dev);
+ /* ast_i2c.c */
+ struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev);
+
++/* aspeed DP */
++int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata);
++void ast_dp_launch(struct drm_device *dev, u8 bPower);
++void ast_dp_power_on_off(struct drm_device *dev, bool no);
++void ast_dp_set_on_off(struct drm_device *dev, bool no);
++void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode);
++
+ #endif
+diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+index 22e9e2d3c..1113ee1cb 100644
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -232,7 +232,7 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
+ 			ast->tx_chip_type = AST_TX_SIL164;
+ 	}
+
+-	if ((ast->chip == AST2300) || (ast->chip == AST2400)) {
++	if ((ast->chip == AST2300) || (ast->chip == AST2400) || (ast->chip == AST2500)) {
+ 		/*
+ 		 * On AST2300 and 2400, look the configuration set by the SoC in
+ 		 * the SOC scratch register #1 bits 11:8 (interestingly marked
+@@ -256,7 +256,8 @@ static int ast_detect_chip(struct drm_device *dev, bool *need_post)
+ 		case 0x0c:
+ 			ast->tx_chip_type = AST_TX_DP501;
+ 		}
+-	}
++	} else if (ast->chip == AST2600)
++		ast_dp_launch(&ast->base, 0);
+
+ 	/* Print stuff for diagnostic purposes */
+ 	switch(ast->tx_chip_type) {
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 45b56b39a..4728825b7 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -988,21 +988,41 @@ static int ast_cursor_plane_init(struct ast_private *ast)
+ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+ 	struct ast_private *ast = to_ast_private(crtc->dev);
++	u8 ch = AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF;
+
+ 	/* TODO: Maybe control display signal generation with
+ 	 *       Sync Enable (bit CR17.7).
+ 	 */
+ 	switch (mode) {
+ 	case DRM_MODE_DPMS_ON:
+-	case DRM_MODE_DPMS_STANDBY:
+-	case DRM_MODE_DPMS_SUSPEND:
++		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT,  0x01, 0xdf, 0);
++		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xfc, 0);
+ 		if (ast->tx_chip_type == AST_TX_DP501)
+ 			ast_set_dp501_video_output(crtc->dev, 1);
++
++		if (ast->tx_chip_type == AST_TX_ASTDP) {
++			ast_dp_power_on_off(crtc->dev, AST_DP_POWER_ON);
++			ast_wait_for_vretrace(ast);
++			ast_dp_set_on_off(crtc->dev, 1);
++		}
++
++		ast_crtc_load_lut(ast, crtc);
+ 		break;
++	case DRM_MODE_DPMS_STANDBY:
++	case DRM_MODE_DPMS_SUSPEND:
+ 	case DRM_MODE_DPMS_OFF:
++		ch = mode;
+ 		if (ast->tx_chip_type == AST_TX_DP501)
+ 			ast_set_dp501_video_output(crtc->dev, 0);
+ 		break;
++
++		if (ast->tx_chip_type == AST_TX_ASTDP) {
++			ast_dp_set_on_off(crtc->dev, 0);
++			ast_dp_power_on_off(crtc->dev, AST_DP_POWER_OFF);
++		}
++
++		ast_set_index_reg_mask(ast, AST_IO_SEQ_PORT,  0x01, 0xdf, 0x20);
++		ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xfc, ch);
+ 	}
+ }
+
+@@ -1027,7 +1047,7 @@ ast_crtc_helper_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode
+
+ 		if ((ast->chip == AST2100) || (ast->chip == AST2200) ||
+ 		    (ast->chip == AST2300) || (ast->chip == AST2400) ||
+-		    (ast->chip == AST2500)) {
++		    (ast->chip == AST2500) || (ast->chip == AST2600)) {
+ 			if ((mode->hdisplay == 1920) && (mode->vdisplay == 1080))
+ 				return MODE_OK;
+
+@@ -1110,6 +1130,7 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
+ 	struct ast_private *ast = to_ast_private(crtc->dev);
+ 	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
+ 	struct ast_crtc_state *old_ast_crtc_state = to_ast_crtc_state(old_crtc_state);
++	struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
+
+ 	/*
+ 	 * The gamma LUT has to be reloaded after changing the primary
+@@ -1117,6 +1138,10 @@ ast_crtc_helper_atomic_flush(struct drm_crtc *crtc,
+ 	 */
+ 	if (old_ast_crtc_state->format != ast_crtc_state->format)
+ 		ast_crtc_load_lut(ast, crtc);
++
++	//Set Aspeed Display-Port
++	if (ast->tx_chip_type == AST_TX_ASTDP)
++		ast_dp_set_mode(crtc, vbios_mode_info);
+ }
+
+ static void
+@@ -1527,6 +1552,93 @@ static int ast_dp501_output_init(struct ast_private *ast)
+ 	return 0;
+ }
+
++/*
++ * ASPEED Display-Port Connector
++ */
++
++static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
++{
++	void *edid;
++
++	int succ;
++	int count;
++
++	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
++	if (!edid)
++		goto err_drm_connector_update_edid_property;
++
++	succ = ast_astdp_read_edid(connector->dev, edid);
++	if (succ < 0)
++		goto err_kfree;
++
++	drm_connector_update_edid_property(connector, edid);
++	count = drm_add_edid_modes(connector, edid);
++	kfree(edid);
++
++	return count;
++
++err_kfree:
++	kfree(edid);
++err_drm_connector_update_edid_property:
++	drm_connector_update_edid_property(connector, NULL);
++	return 0;
++}
++
++static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs = {
++	.get_modes = ast_astdp_connector_helper_get_modes,
++};
++
++static const struct drm_connector_funcs ast_astdp_connector_funcs = {
++	.reset = drm_atomic_helper_connector_reset,
++	.fill_modes = drm_helper_probe_single_connector_modes,
++	.destroy = drm_connector_cleanup,
++	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++};
++
++static int ast_astdp_connector_init(struct drm_device *dev, struct drm_connector *connector)
++{
++	int ret;
++
++	ret = drm_connector_init(dev, connector, &ast_astdp_connector_funcs,
++				 DRM_MODE_CONNECTOR_DisplayPort);
++	if (ret)
++		return ret;
++
++	drm_connector_helper_add(connector, &ast_astdp_connector_helper_funcs);
++
++	connector->interlace_allowed = 0;
++	connector->doublescan_allowed = 0;
++
++	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
++
++	return 0;
++}
++
++static int ast_astdp_output_init(struct ast_private *ast)
++{
++	struct drm_device *dev = &ast->base;
++	struct drm_crtc *crtc = &ast->crtc;
++	struct drm_encoder *encoder = &ast->output.astdp.encoder;
++	struct drm_connector *connector = &ast->output.astdp.connector;
++	int ret;
++
++	ret = drm_simple_encoder_init(dev, encoder, DRM_MODE_ENCODER_TMDS);
++	if (ret)
++		return ret;
++	encoder->possible_crtcs = drm_crtc_mask(crtc);
++
++	ret = ast_astdp_connector_init(dev, connector);
++	if (ret)
++		return ret;
++
++	ret = drm_connector_attach_encoder(connector, encoder);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
+ /*
+  * Mode config
+  */
+@@ -1563,7 +1675,8 @@ int ast_mode_config_init(struct ast_private *ast)
+ 	    ast->chip == AST2200 ||
+ 	    ast->chip == AST2300 ||
+ 	    ast->chip == AST2400 ||
+-	    ast->chip == AST2500) {
++	    ast->chip == AST2500 ||
++	    ast->chip == AST2600) {
+ 		dev->mode_config.max_width = 1920;
+ 		dev->mode_config.max_height = 2048;
+ 	} else {
+@@ -1594,6 +1707,9 @@ int ast_mode_config_init(struct ast_private *ast)
+ 	case AST_TX_DP501:
+ 		ret = ast_dp501_output_init(ast);
+ 		break;
++	case AST_TX_ASTDP:
++		ret = ast_astdp_output_init(ast);
++		break;
+ 	}
+ 	if (ret)
+ 		return ret;
+diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
+index b5d92f652..0aa9cf0fb 100644
+--- a/drivers/gpu/drm/ast/ast_post.c
++++ b/drivers/gpu/drm/ast/ast_post.c
+@@ -379,7 +379,9 @@ void ast_post_gpu(struct drm_device *dev)
+ 	ast_enable_mmio(dev);
+ 	ast_set_def_ext_reg(dev);
+
+-	if (ast->config_mode == ast_use_p2a) {
++	if (ast->chip == AST2600) {
++		ast_dp_launch(dev, 1);
++	} else if (ast->config_mode == ast_use_p2a) {
+ 		if (ast->chip == AST2500)
+ 			ast_post_chip_2500(dev);
+ 		else if (ast->chip == AST2300 || ast->chip == AST2400)
+
+base-commit: c54b39a565227538c52ead2349eb17d54aadd6f7
+--
+2.27.0
+
