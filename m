@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813AC54084C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 19:57:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C997540854
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 19:57:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24AF510F1B9;
-	Tue,  7 Jun 2022 17:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B09510F428;
+	Tue,  7 Jun 2022 17:57:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B5D110F1B9;
- Tue,  7 Jun 2022 17:57:45 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA2C10F385;
+ Tue,  7 Jun 2022 17:57:55 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A2F49617A8;
- Tue,  7 Jun 2022 17:57:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BB35C385A5;
- Tue,  7 Jun 2022 17:57:43 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 632DBCE2439;
+ Tue,  7 Jun 2022 17:57:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FB74C34115;
+ Tue,  7 Jun 2022 17:57:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1654624664;
- bh=14TsCn54a3xzE/a5cVI/njMjihJEWCBEFwfM8vZP8RI=;
+ s=k20201202; t=1654624669;
+ bh=V+2fr26x6mH1tjdXZJG+wmFJjeJtUEdbGyA7Ms03VpE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qF2H5lbWAc/w9pBhA1GYOkIrHZS77y9rnzzBIsmt+5vvduX3RRk0t0FEnpKgd24Zs
- rVwx7Tp89agDu2r5omD2YmQ68dIN4YifFfiiLONp1HaCMrLLTOt5a2ejaBTFI4+8HX
- iyX22WsrO5FegrxD1fRM0P5ys/MnsPsyqQs7mYV4MMEUfykohBGUGjg6zWN5pFTuBm
- R1OjZwu5VNt2YWiimE4xuIB/bwYO3LlU1FAmsTLQr2M41PvxbNxv3TVu6571TEM5Gn
- sdubRh++L/7JzcLbjoz+Ti9wrAihdAE6dYyHMLQ/0Sx4OqmqX1BMwLA1nCtkNiqKVv
- xLUvvou3+kg/g==
+ b=NVPOaZ0tN9p7YhOulNx9Chq9rMVzhE5cgDBMD9OAuyma9XIJdHLvUOIOyd4eQmIzS
+ FPOwTJ/8QYYvzsW0NSj4DaQHucWLbc5aA/3vbeyUr2/YRxkdzZZz4++77kKaA3xWpg
+ g3MNuQ8Nx+0Fb7bYpl4tLSeGK1xZ+SNa5B+19J3PS51F+l2wUlh1ePrS7/Kv6CxAp7
+ GNGXNOyHxBorkTqYHZnj4PdPDMWC9KzqSeC96qHGvLjILSnyqEuYmr3WzW2fwiIRMm
+ L31y4UHwzFR84Yt8gcq0I3K4OrGmnnF8jo4Gog+U9n5aILn7vFyt2L5TP6BJBIfVow
+ DH0Gh5sMP/Dtw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 38/51] drm/radeon: fix a possible null pointer
- dereference
-Date: Tue,  7 Jun 2022 13:55:37 -0400
-Message-Id: <20220607175552.479948-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 39/51] drm/amd/pm: Fix missing thermal throttler
+ status
+Date: Tue,  7 Jun 2022 13:55:38 -0400
+Message-Id: <20220607175552.479948-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220607175552.479948-1-sashal@kernel.org>
 References: <20220607175552.479948-1-sashal@kernel.org>
@@ -55,52 +55,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, Gong Yuanjun <ruc_gongyuanjun@163.com>,
+Cc: Sasha Levin <sashal@kernel.org>, kevin1.wang@amd.com, Xinhui.Pan@amd.com,
+ Yang Wang <kevinyang.wang@amd.com>, airlied@linux.ie,
+ Lijo Lazar <lijo.lazar@amd.com>, tao.zhou1@amd.com,
+ amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com, Stanley.Yang@amd.com,
  dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+ evan.quan@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Gong Yuanjun <ruc_gongyuanjun@163.com>
+From: Lijo Lazar <lijo.lazar@amd.com>
 
-[ Upstream commit a2b28708b645c5632dc93669ab06e97874c8244f ]
+[ Upstream commit b0f4d663fce6a4232d3c20ce820f919111b1c60b ]
 
-In radeon_fp_native_mode(), the return value of drm_mode_duplicate()
-is assigned to mode, which will lead to a NULL pointer dereference
-on failure of drm_mode_duplicate(). Add a check to avoid npd.
+On aldebaran, when thermal throttling happens due to excessive GPU
+temperature, the reason for throttling event is missed in warning
+message. This patch fixes it.
 
-The failure status of drm_cvt_mode() on the other path is checked too.
-
-Signed-off-by: Gong Yuanjun <ruc_gongyuanjun@163.com>
+Signed-off-by: Lijo Lazar <lijo.lazar@amd.com>
+Reviewed-by: Yang Wang <kevinyang.wang@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/radeon/radeon_connectors.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index 1546abcadacf..d157bb9072e8 100644
---- a/drivers/gpu/drm/radeon/radeon_connectors.c
-+++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-@@ -473,6 +473,8 @@ static struct drm_display_mode *radeon_fp_native_mode(struct drm_encoder *encode
- 	    native_mode->vdisplay != 0 &&
- 	    native_mode->clock != 0) {
- 		mode = drm_mode_duplicate(dev, native_mode);
-+		if (!mode)
-+			return NULL;
- 		mode->type = DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER;
- 		drm_mode_set_name(mode);
- 
-@@ -487,6 +489,8 @@ static struct drm_display_mode *radeon_fp_native_mode(struct drm_encoder *encode
- 		 * simpler.
- 		 */
- 		mode = drm_cvt_mode(dev, native_mode->hdisplay, native_mode->vdisplay, 60, true, false, false);
-+		if (!mode)
-+			return NULL;
- 		mode->type = DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER;
- 		DRM_DEBUG_KMS("Adding cvt approximation of native panel mode %s\n", mode->name);
- 	}
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
+index c9cfeb094750..d0c6b864d00a 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c
+@@ -1627,6 +1627,7 @@ static const struct throttling_logging_label {
+ 	uint32_t feature_mask;
+ 	const char *label;
+ } logging_label[] = {
++	{(1U << THROTTLER_TEMP_GPU_BIT), "GPU"},
+ 	{(1U << THROTTLER_TEMP_MEM_BIT), "HBM"},
+ 	{(1U << THROTTLER_TEMP_VR_GFX_BIT), "VR of GFX rail"},
+ 	{(1U << THROTTLER_TEMP_VR_MEM_BIT), "VR of HBM rail"},
 -- 
 2.35.1
 
