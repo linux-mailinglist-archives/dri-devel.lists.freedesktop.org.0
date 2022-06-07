@@ -1,69 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A2A53FB8C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 12:41:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2367953FB98
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 12:42:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B97111B502;
-	Tue,  7 Jun 2022 10:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D459B11B95B;
+	Tue,  7 Jun 2022 10:42:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D728F11B502
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 10:41:40 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- l2-20020a05600c4f0200b0039c55c50482so1454242wmq.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 03:41:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=qw8JacEfJNF9P2iNLjQzkAXW/8/vZkXuOjt3GnWBvjw=;
- b=hyDSvJIfh0LYoaLEeqkmPROm1N2u7R8cMpaut6DZYA8pNoxIG7jthQ5F82HOCMq2rG
- fYjscsLiZQgKk+uyZcbEemQ19fmtnvUYc1F4ZnC8f0xbYYmnoXgHcdlVqTkkiGAZFBqw
- 9s6rtFDUlnRG2c31zUx4ljO2jYpPUAnFu2CD7zbQdqqR7D+ujyFr+ex7gPKhkrnSR44Y
- KTeHSqWku7fvSZxcJb7rgNvOQP8DFieQ2czxXmC8Grj3rVCEqXal1Ce2ctYVkpSgaPKD
- 4Q++EwprNd3zbAp7TC5+zWZnPLhJLp5WeJfaaKmzs3WBKvfUaGGXdb6qII//hNYJ6OuU
- 10vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=qw8JacEfJNF9P2iNLjQzkAXW/8/vZkXuOjt3GnWBvjw=;
- b=YaioaHOObYQHyxSJXYcwEzKWQ12PUGpGA6uMKkGFUfLCN/YisfRKDzZJ7awcpjZxwe
- WsqsG8xKwr21HXzX/3cIl0qFD39UO1NtxVs02N+mbTk7Y/47QM95hVoUOUl2lKUuB8sd
- nJMjUBAoCfkbNKu5kANHZfDmatGTykrlLAnQDNu42XMIIr+mLSLIyjmpi/KBKGxStld/
- a0KqhUfGtof+OhRzT4vmSbIVbdzoYVMt+hhjxgKgFH95uiplUY6RGYYjeWOesqAmJAZG
- ptr0JPUYEVScq9Yv/GFlitIbfw+Hf+EE61VgPcmd0IXElnQ1h7ak4nSL738i+E0UBroF
- 5+kw==
-X-Gm-Message-State: AOAM5303I2v0ewh4AUNVtaq4TVrS8k5HueGUDqBuL6xqpBfVv4zL6M6o
- rf0C0+MwifIx2EZuSjrMecLOrw==
-X-Google-Smtp-Source: ABdhPJz0rzj4eqfRw2wspCI3jipVGst2fbnr65Qmu05TDb5e0ptD3uTC6nEhOxZyIE8KFnMOZnH58g==
-X-Received: by 2002:a05:600c:3c8f:b0:39b:808c:b5cb with SMTP id
- bg15-20020a05600c3c8f00b0039b808cb5cbmr28760884wmb.11.1654598498995; 
- Tue, 07 Jun 2022 03:41:38 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- n22-20020a05600c3b9600b00397342e3830sm27940708wms.0.2022.06.07.03.41.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 03:41:38 -0700 (PDT)
-Date: Tue, 7 Jun 2022 11:41:36 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: ChiaEn Wu <peterwu.pub@gmail.com>
-Subject: Re: [RESEND 14/14] video: backlight: mt6370: Add Mediatek MT6370
- support
-Message-ID: <20220607104136.cfnpwo6ajqiuafbf@maple.lan>
-References: <20220531111900.19422-1-peterwu.pub@gmail.com>
- <20220531111900.19422-15-peterwu.pub@gmail.com>
- <20220601094623.jnwh2fgsqepy72tc@maple.lan>
- <CABtFH5+-o=cML_VCSY9frJwEU_TnZt0+myJebi8J7BpP+BOqOw@mail.gmail.com>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D11C211B943;
+ Tue,  7 Jun 2022 10:42:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654598532; x=1686134532;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=PRalwZtSnMIxW5k+mavGX+Erxl4VZ3WiZMfZb3fAxhU=;
+ b=cNououU5GzT95/gRa7+yvB8os8mLDfmNPPfCu05WbwTzAvlsNZJPqlsc
+ r20gXaRpyfMuCRJtMIagXmVmMkR0C+0Kox6IBuWIPxy5PU/mZCYau2iX0
+ mb9JsglVzuqqYLpzf7uINK1JQFWFKcK3U/IHRxhQBfCe+ZLhyL1H/6fff
+ ZOqxnbUf9W1xZYwWG2Nc60rRJZv7RWgzWfmw53O1TelEyIFt8od3RpVtj
+ hq9owoI+x0tKVHF4jxjsGpvnQbnoQsD6JO/MoCr28aLj3UlFsHgwch7Fl
+ NwOhYATBqdTBEftfu4umxwSqBBgkhn6I50QG4adzAcilGnMt+ZJkSiGyJ A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="338058453"
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="338058453"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 03:42:12 -0700
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="636072403"
+Received: from bdgardin-mobl1.ger.corp.intel.com (HELO [10.213.217.225])
+ ([10.213.217.225])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 03:42:10 -0700
+Message-ID: <d15da726-82d1-da01-fec8-7c86866f9d54@linux.intel.com>
+Date: Tue, 7 Jun 2022 11:42:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [Intel-gfx] [RFC v3 3/3] drm/doc/rfc: VM_BIND uapi definition
+Content-Language: en-US
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
+ <20220517183212.20274-4-niranjana.vishwanathapura@intel.com>
+ <e4e1989c314d3958d58010431515ea371935d0c3.camel@intel.com>
+ <20220523191943.GH4461@nvishwa1-DESK>
+ <CAPM=9tzcYL5kwv18cfq5NzE00jwHuwTj_L73NVgE8vdcBgrQww@mail.gmail.com>
+ <CAKMK7uFt23yZxGJfuZ71ngNw-46yvyed8LaQCQ1ksq73MLGEug@mail.gmail.com>
+ <20220602050833.GP4461@nvishwa1-DESK> <20220603065330.GT4461@nvishwa1-DESK>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220603065330.GT4461@nvishwa1-DESK>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABtFH5+-o=cML_VCSY9frJwEU_TnZt0+myJebi8J7BpP+BOqOw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,157 +67,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
- krzysztof.kozlowski+dt@linaro.org, alice_chen@richtek.com,
- linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- lgirdwood@gmail.com, ChiYuan Huang <cy_huang@richtek.com>, pavel@ucw.cz,
- lee.jones@linaro.org, linux-leds@vger.kernel.org, deller@gmx.de,
- robh+dt@kernel.org, chunfeng.yun@mediatek.com, linux@roeck-us.net,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org, broonie@kernel.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, jingoohan1@gmail.com,
- linux-usb@vger.kernel.org, sre@kernel.org, linux-kernel@vger.kernel.org,
- chiaen_wu@richtek.com, gregkh@linuxfoundation.org, jic23@kernel.org
+Cc: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Wilson,
+ Chris P" <chris.p.wilson@intel.com>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 03, 2022 at 03:14:56AM +0800, ChiaEn Wu wrote:
-> Daniel Thompson <daniel.thompson@linaro.org> 於 2022年6月1日 週三 下午5:46寫道：
-> >
-> > On Tue, May 31, 2022 at 07:19:00PM +0800, ChiaEn Wu wrote:
-> > > +#define MT6370_DT_PROP_DECL(_name, _type, _reg, _mask, _max, _inv)   \
-> > > +{                                                                    \
-> > > +     .name = "mediatek,bled-" #_name,                                \
-> >
-> > I'd rather have the whole DT property in the macro (because it helps
-> > with grepability).
+
+On 03/06/2022 07:53, Niranjana Vishwanathapura wrote:
+> On Wed, Jun 01, 2022 at 10:08:35PM -0700, Niranjana Vishwanathapura wrote:
+>> On Wed, Jun 01, 2022 at 11:27:17AM +0200, Daniel Vetter wrote:
+>>> On Wed, 1 Jun 2022 at 11:03, Dave Airlie <airlied@gmail.com> wrote:
+>>>>
+>>>> On Tue, 24 May 2022 at 05:20, Niranjana Vishwanathapura
+>>>> <niranjana.vishwanathapura@intel.com> wrote:
+>>>>>
+>>>>> On Thu, May 19, 2022 at 04:07:30PM -0700, Zanoni, Paulo R wrote:
+>>>>> >On Tue, 2022-05-17 at 11:32 -0700, Niranjana Vishwanathapura wrote:
+>>>>> >> VM_BIND and related uapi definitions
+>>>>> >>
+>>>>> >> v2: Ensure proper kernel-doc formatting with cross references.
+>>>>> >>     Also add new uapi and documentation as per review comments
+>>>>> >>     from Daniel.
+>>>>> >>
+>>>>> >> Signed-off-by: Niranjana Vishwanathapura 
+>>>>> <niranjana.vishwanathapura@intel.com>
+>>>>> >> ---
+>>>>> >>  Documentation/gpu/rfc/i915_vm_bind.h | 399 
+>>>>> +++++++++++++++++++++++++++
+>>>>> >>  1 file changed, 399 insertions(+)
+>>>>> >>  create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
+>>>>> >>
+>>>>> >> diff --git a/Documentation/gpu/rfc/i915_vm_bind.h 
+>>>>> b/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>> >> new file mode 100644
+>>>>> >> index 000000000000..589c0a009107
+>>>>> >> --- /dev/null
+>>>>> >> +++ b/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>> >> @@ -0,0 +1,399 @@
+>>>>> >> +/* SPDX-License-Identifier: MIT */
+>>>>> >> +/*
+>>>>> >> + * Copyright © 2022 Intel Corporation
+>>>>> >> + */
+>>>>> >> +
+>>>>> >> +/**
+>>>>> >> + * DOC: I915_PARAM_HAS_VM_BIND
+>>>>> >> + *
+>>>>> >> + * VM_BIND feature availability.
+>>>>> >> + * See typedef drm_i915_getparam_t param.
+>>>>> >> + */
+>>>>> >> +#define I915_PARAM_HAS_VM_BIND               57
+>>>>> >> +
+>>>>> >> +/**
+>>>>> >> + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
+>>>>> >> + *
+>>>>> >> + * Flag to opt-in for VM_BIND mode of binding during VM creation.
+>>>>> >> + * See struct drm_i915_gem_vm_control flags.
+>>>>> >> + *
+>>>>> >> + * A VM in VM_BIND mode will not support the older execbuff 
+>>>>> mode of binding.
+>>>>> >> + * In VM_BIND mode, execbuff ioctl will not accept any execlist 
+>>>>> (ie., the
+>>>>> >> + * &drm_i915_gem_execbuffer2.buffer_count must be 0).
+>>>>> >> + * Also, &drm_i915_gem_execbuffer2.batch_start_offset and
+>>>>> >> + * &drm_i915_gem_execbuffer2.batch_len must be 0.
+>>>>> >> + * DRM_I915_GEM_EXECBUFFER_EXT_BATCH_ADDRESSES extension must 
+>>>>> be provided
+>>>>> >> + * to pass in the batch buffer addresses.
+>>>>> >> + *
+>>>>> >> + * Additionally, I915_EXEC_NO_RELOC, I915_EXEC_HANDLE_LUT and
+>>>>> >> + * I915_EXEC_BATCH_FIRST of &drm_i915_gem_execbuffer2.flags 
+>>>>> must be 0
+>>>>> >> + * (not used) in VM_BIND mode. I915_EXEC_USE_EXTENSIONS flag 
+>>>>> must always be
+>>>>> >> + * set (See struct drm_i915_gem_execbuffer_ext_batch_addresses).
+>>>>> >> + * The buffers_ptr, buffer_count, batch_start_offset and 
+>>>>> batch_len fields
+>>>>> >> + * of struct drm_i915_gem_execbuffer2 are also not used and 
+>>>>> must be 0.
+>>>>> >> + */
+>>>>> >
+>>>>> >From that description, it seems we have:
+>>>>> >
+>>>>> >struct drm_i915_gem_execbuffer2 {
+>>>>> >        __u64 buffers_ptr;              -> must be 0 (new)
+>>>>> >        __u32 buffer_count;             -> must be 0 (new)
+>>>>> >        __u32 batch_start_offset;       -> must be 0 (new)
+>>>>> >        __u32 batch_len;                -> must be 0 (new)
+>>>>> >        __u32 DR1;                      -> must be 0 (old)
+>>>>> >        __u32 DR4;                      -> must be 0 (old)
+>>>>> >        __u32 num_cliprects; (fences)   -> must be 0 since using 
+>>>>> extensions
+>>>>> >        __u64 cliprects_ptr; (fences, extensions) -> contains an 
+>>>>> actual pointer!
+>>>>> >        __u64 flags;                    -> some flags must be 0 (new)
+>>>>> >        __u64 rsvd1; (context info)     -> repurposed field (old)
+>>>>> >        __u64 rsvd2;                    -> unused
+>>>>> >};
+>>>>> >
+>>>>> >Based on that, why can't we just get drm_i915_gem_execbuffer3 instead
+>>>>> >of adding even more complexity to an already abused interface? While
+>>>>> >the Vulkan-like extension thing is really nice, I don't think what
+>>>>> >we're doing here is extending the ioctl usage, we're completely
+>>>>> >changing how the base struct should be interpreted based on how 
+>>>>> the VM
+>>>>> >was created (which is an entirely different ioctl).
+>>>>> >
+>>>>> >From Rusty Russel's API Design grading, drm_i915_gem_execbuffer2 is
+>>>>> >already at -6 without these changes. I think after vm_bind we'll need
+>>>>> >to create a -11 entry just to deal with this ioctl.
+>>>>> >
+>>>>>
+>>>>> The only change here is removing the execlist support for VM_BIND
+>>>>> mode (other than natual extensions).
+>>>>> Adding a new execbuffer3 was considered, but I think we need to be 
+>>>>> careful
+>>>>> with that as that goes beyond the VM_BIND support, including any 
+>>>>> future
+>>>>> requirements (as we don't want an execbuffer4 after VM_BIND).
+>>>>
+>>>> Why not? it's not like adding extensions here is really that different
+>>>> than adding new ioctls.
+>>>>
+>>>> I definitely think this deserves an execbuffer3 without even
+>>>> considering future requirements. Just  to burn down the old
+>>>> requirements and pointless fields.
+>>>>
+>>>> Make execbuffer3 be vm bind only, no relocs, no legacy bits, leave the
+>>>> older sw on execbuf2 for ever.
+>>>
+>>> I guess another point in favour of execbuf3 would be that it's less
+>>> midlayer. If we share the entry point then there's quite a few vfuncs
+>>> needed to cleanly split out the vm_bind paths from the legacy
+>>> reloc/softping paths.
+>>>
+>>> If we invert this and do execbuf3, then there's the existing ioctl
+>>> vfunc, and then we share code (where it even makes sense, probably
+>>> request setup/submit need to be shared, anything else is probably
+>>> cleaner to just copypaste) with the usual helper approach.
+>>>
+>>> Also that would guarantee that really none of the old concepts like
+>>> i915_active on the vma or vma open counts and all that stuff leaks
+>>> into the new vm_bind execbuf.
+>>>
+>>> Finally I also think that copypasting would make backporting easier,
+>>> or at least more flexible, since it should make it easier to have the
+>>> upstream vm_bind co-exist with all the other things we have. Without
+>>> huge amounts of conflicts (or at least much less) that pushing a pile
+>>> of vfuncs into the existing code would cause.
+>>>
+>>> So maybe we should do this?
+>>
+>> Thanks Dave, Daniel.
+>> There are a few things that will be common between execbuf2 and
+>> execbuf3, like request setup/submit (as you said), fence handling 
+>> (timeline fences, fence array, composite fences), engine selection,
+>> etc. Also, many of the 'flags' will be there in execbuf3 also (but
+>> bit position will differ).
+>> But I guess these should be fine as the suggestion here is to
+>> copy-paste the execbuff code and having a shared code where possible.
+>> Besides, we can stop supporting some older feature in execbuff3
+>> (like fence array in favor of newer timeline fences), which will
+>> further reduce common code.
+>>
+>> Ok, I will update this series by adding execbuf3 and send out soon.
+>>
 > 
-> Do you mean the _name parameter must be the full name of the DT
-> property and do not use "#" to concat like following example?
+> Does this sound reasonable?
 > 
-> // in declare
->             .name = _name,
-> // in use
->             MT6370_DT_PROP_DECL(mediatek,bled-pwm-enable, ......)
-
-Yes, I would prefer this form, although, as discussed below, I don't really
-like MT6370_DT_PROP_DECL().
-
-
-> > > +     .type = MT6370_PARSE_TYPE_##_type,                              \
-> > > +     .reg = _reg,                                                    \
-> > > +     .mask = _mask,                                                  \
-> > > +     .max_val = _max,                                                \
-> > > +     .invert = _inv,                                                 \
-> > > +}
-> > > +
-> > > +static int mt6370_init_backlight_properties(struct mt6370_priv *priv,
-> > > +                                         struct backlight_properties *props)
-> > > +{
-> > > +     struct device *dev = priv->dev;
-> > > +     u8 prop_val;
-> > > +     u32 brightness;
-> > > +     unsigned int mask, val;
-> > > +     static const struct {
-> > > +             char *name;
-> > > +             enum mt6370_prop_type type;
-> > > +             unsigned int reg;
-> > > +             unsigned int mask;
-> > > +             u8 max_val;
-> > > +             bool invert;
-> > > +     } vendor_opt_props[] = {
-> > > +             MT6370_DT_PROP_DECL(pwm-enable, BOOL, MT6370_REG_BL_PWM,
-> > > +                                 MT6370_BL_PWM_EN_MASK, 1, false),
-> > > +             MT6370_DT_PROP_DECL(pwm-hys-enable, BOOL, MT6370_REG_BL_PWM,
-> > > +                                 MT6370_BL_PWM_HYS_EN_MASK, 1, false),
-> > > +             MT6370_DT_PROP_DECL(pwm-hys-sel, U8, MT6370_REG_BL_PWM,
-> > > +                                 MT6370_BL_PWM_HYS_SEL_MASK, 3, false),
-> > > +             MT6370_DT_PROP_DECL(ovp-level-sel, U8, MT6370_REG_BL_BSTCTRL,
-> > > +                                 MT6370_BL_OVP_SEL_MASK, 3, false),
-> > > +             MT6370_DT_PROP_DECL(ovp-shutdown, BOOL, MT6370_REG_BL_BSTCTRL,
-> > > +                                 MT6370_BL_OVP_EN_MASK, 1, true),
-> > > +             MT6370_DT_PROP_DECL(ocp-level-sel, U8, MT6370_REG_BL_BSTCTRL,
-> > > +                                 MT6370_BL_OC_SEL_MASK, 3, false),
-> > > +             MT6370_DT_PROP_DECL(ocp-shutdown, BOOL, MT6370_REG_BL_BSTCTRL,
-> > > +                                 MT6370_BL_OC_EN_MASK, 1, true),
-> > > +     }, *prop_now;
-> > > +     int i, ret;
-> > > +
-> > > +     /* vendor optional properties */
-> > > +     for (i = 0; i < ARRAY_SIZE(vendor_opt_props); i++) {
-> > > +             prop_now = vendor_opt_props + i;
-> > > +
-> > > +             switch (prop_now->type) {
-> > > +             case MT6370_PARSE_TYPE_BOOL:
-> > > +                     if (device_property_read_bool(dev, prop_now->name))
-> > > +                             val = 1;
-> > > +                     else
-> > > +                             val = 0;
-> > > +                     break;
-> > > +             case MT6370_PARSE_TYPE_U8:
-> > > +                     ret = device_property_read_u8(dev, prop_now->name,
-> > > +                                                   &prop_val);
-> > > +                     /* Property not exist, keep value in default */
-> > > +                     if (ret)
-> > > +                             continue;
-> > > +
-> > > +                     val = min_t(u8, prop_val, prop_now->max_val);
-> > > +                     break;
-> > > +             default:
-> > > +                     return -EINVAL;
-> > > +             }
-> > > +
-> > > +             if (prop_now->invert)
-> > > +                     val = prop_now->max_val - val;
-> > > +
-> > > +             val <<= ffs(prop_now->mask) - 1;
-> > > +
-> > > +             ret = regmap_update_bits(priv->regmap, prop_now->reg,
-> > > +                                      prop_now->mask, val);
-> > > +             if (ret)
-> > > +                     return ret;
-> > > +     }
-> >
-> > Is it really worth all this tricky code for 7 properties?
-> >
-> > The code would be much easier to read and maintain if it were coded
-> > directly. For example, the inverted boolean code is hard to read and
-> > can be written directly as:
-> >
-> >
-> >         val = device_property_read_bool(dev, "mediatek,bled-ovp_shutdown");
-> >         ret = regmap_update_bits(priv->regmap, MT6370_REG_BL_BST_CTRL,
-> >                                  MT6370_BL_OVP_EN_MASK,
-> >                                  MT6370_BL_OVP_EN_MASK * !val);
-> >         if (ret)
-> >                 return ret;
-> >
-> > The direct coded approach will probably also pay off if you switch
-> > the bindings over to microvolts/microamps since it becomes much more
-> > natural to call out to a lookup function to convert it into a register
-> > value.
-> >
+> struct drm_i915_gem_execbuffer3 {
+>         __u32 ctx_id;        /* previously execbuffer2.rsvd1 */
 > 
-> The purpose of my code is trying to avoid the repeat code in this
-> function. And for loop can help to decrease the lines of code
-> effectively, that's why I use these code to parse the DT properties.
+>         __u32 batch_count;
+>         __u64 batch_addr_ptr;    /* Pointer to an array of batch gpu 
+> virtual addresses */
 
-I'm not really convinced that is uses fewer lines of code. It
-certainly would if there were a very large number of properties
-but here there is only seven.
+Casual stumble upon..
 
-However I guess what I'm really complaining about is how hard it is to
-read the for loop. We have to study the macros, keep track six different
-arguments per property and review the complex logic of the for loop
-(which for example handles inverted u8's that don't actually exist).
+Alternatively you could embed N pointers to make life a bit easier for 
+both userspace and kernel side. Yes, but then "N batch buffers should be 
+enough for everyone" problem.. :)
 
-To be clear, it's not that loops aren't useful for reducing boilerplate
-code. They can be. However trying to handle booleans and integers in the
-*same* loop ends up needlessly hard to read.
+> 
+>         __u64 flags;
+> #define I915_EXEC3_RING_MASK              (0x3f)
+> #define I915_EXEC3_DEFAULT                (0<<0)
+> #define I915_EXEC3_RENDER                 (1<<0)
+> #define I915_EXEC3_BSD                    (2<<0)
+> #define I915_EXEC3_BLT                    (3<<0)
+> #define I915_EXEC3_VEBOX                  (4<<0)
+> 
+> #define I915_EXEC3_SECURE               (1<<6)
+> #define I915_EXEC3_IS_PINNED            (1<<7)
+> 
+> #define I915_EXEC3_BSD_SHIFT     (8)
+> #define I915_EXEC3_BSD_MASK      (3 << I915_EXEC3_BSD_SHIFT)
+> #define I915_EXEC3_BSD_DEFAULT   (0 << I915_EXEC3_BSD_SHIFT)
+> #define I915_EXEC3_BSD_RING1     (1 << I915_EXEC3_BSD_SHIFT)
+> #define I915_EXEC3_BSD_RING2     (2 << I915_EXEC3_BSD_SHIFT)
 
-Also, I think that if/when you adopt microamps/microvolts then the
-hard-to-read problem will get even worse unless you get loops to do only
-one thing!
+I'd suggest legacy engine selection is unwanted, especially not with the 
+convoluted BSD1/2 flags. Can we just require context with engine map and 
+index? Or if default context has to be supported then I'd suggest 
+...class_instance for that mode.
 
+> #define I915_EXEC3_FENCE_IN             (1<<10)
+> #define I915_EXEC3_FENCE_OUT            (1<<11)
+> #define I915_EXEC3_FENCE_SUBMIT         (1<<12)
 
-Daniel.
+People are likely to object to submit fence since generic mechanism to 
+align submissions was rejected.
+
+> 
+>         __u64 in_out_fence;        /* previously execbuffer2.rsvd2 */
+
+New ioctl you can afford dedicated fields.
+
+In any case I suggest you involve UMD folks in designing it.
+
+Regards,
+
+Tvrtko
+
+> 
+>         __u64 extensions;        /* currently only for 
+> DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES */
+> };
+> 
+> With this, user can pass in batch addresses and count directly,
+> instead of as an extension (as this rfc series was proposing).
+> 
+> I have removed many of the flags which were either legacy or not
+> applicable to BM_BIND mode.
+> I have also removed fence array support (execbuffer2.cliprects_ptr)
+> as we have timeline fence array support. Is that fine?
+> Do we still need FENCE_IN/FENCE_OUT/FENCE_SUBMIT support?
+> 
+> Any thing else needs to be added or removed?
+> 
+> Niranjana
+> 
+>> Niranjana
+>>
+>>> -Daniel
+>>> -- 
+>>> Daniel Vetter
+>>> Software Engineer, Intel Corporation
+>>> http://blog.ffwll.ch
