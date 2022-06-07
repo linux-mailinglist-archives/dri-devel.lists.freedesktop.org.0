@@ -1,60 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08B77540163
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 16:30:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 611D2540182
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 16:35:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2415D10EF5D;
-	Tue,  7 Jun 2022 14:30:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 836DF10E331;
+	Tue,  7 Jun 2022 14:34:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2125910E257
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 14:30:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654612231;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=weYZHvf2Pb55a7XkzVb9Fs0gze+mb7uAQgT1g2Q6xUc=;
- b=Jmkh0v35Zym4o7tF5Nn6JW9TZjOtDaKcXku/c6Qgx+aG6iXcOF08DcOrwjPjsKEPk582/r
- Hy6bqw3o1bK/C/hDZdUhUmk0cfEq7XH4RJPn9/J+BDaC8USyPTAjEBBL7gtc0bpqn/FiwI
- dUL2c8L25snKpOxjt1jEuZrVeG0e0dE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554-MIA-mb97P06mINpZ80vtTg-1; Tue, 07 Jun 2022 10:30:28 -0400
-X-MC-Unique: MIA-mb97P06mINpZ80vtTg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED432294EDC2;
- Tue,  7 Jun 2022 14:30:27 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 48501492C3B;
- Tue,  7 Jun 2022 14:30:27 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1BEC91800081; Tue,  7 Jun 2022 16:30:23 +0200 (CEST)
-Date: Tue, 7 Jun 2022 16:30:23 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
-Message-ID: <20220607143023.jz5qt2jktusstb5t@sirius.home.kraxel.org>
-References: <20220602154243.1015688-1-zack@kde.org>
- <wRnf-Lm5zz6v1e-NlnFPteyARuLl-R98mOZZVjePHD5ue7QQNR_TSU7RwYBssgUa7xM5hf7Fe59-gMEj81ESrHY3mu_H7yE0dtGhFHFPTnc=@emersion.fr>
- <20220607110707.02eccda5@eldfell>
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
+ [IPv6:2001:4860:4864:20::2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9184E10E331
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 14:34:58 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-f2cd424b9cso23377074fac.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 07:34:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Wa7tcb589nK2o6o4iHC08NJxRqvrxo6iuKy41eP3gzc=;
+ b=QSLp0x9dX+7wYXPnJJ2JidExKW3hzdJre7ZS4BFSkT2eI0R5uoLaNtYUttHaLdB6zX
+ qMF5xuOCKV8zKOwTEmgLxkoPHEqwkdZEpj4+EY3jPZ+HaUHCXKeM5N1X8vnP5w0zGg95
+ SUwSXTT3pb4TUufvjhC0KUhkQ1ETAhKhdH09k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Wa7tcb589nK2o6o4iHC08NJxRqvrxo6iuKy41eP3gzc=;
+ b=3Jb/ORzvkRusJK83HnP4fZ2646KMhLFh0SwSNu9znvnEi7+NND1sS8GL4k9TVl3bI1
+ URxC/oDMHNoeMYLiWVNv9k14xBAHLd07qWsxvf1DZgeVqVAY5DQCmUQ6lx2uBjTmSk5W
+ l1lAtgvN7iGxOC1uAIfwbFWMl0ziAVoeIb0HoiKggORB88nCgr5tFrbEsV98TChWels+
+ sVyUVR7OaBjlrOXN8zHLHPhJcgnJSmaJf5FEsoxtGCJva8FZdu+p6pJbgQigdfYVwWsT
+ onXIgx0G7SkpXi4LKjVZXehyfVeyiyLpsPO/7i1Ln3so5l+LvwPADKEI9wgJSmMospov
+ OhRQ==
+X-Gm-Message-State: AOAM533J8u9XpZ7xb+vFGv4QWcMfNefy9CiERAs5KEbCc6g6trBEmUyg
+ oaYduDiLTYYI2ydHqb/KrffwjnBPUOoaHLheMUw3Mw==
+X-Google-Smtp-Source: ABdhPJyLeFCwTHkqZ6VOyuztuwAfKO4RDXNS8dW53oDe60aPD0OdeOCwdlsw5TRVsz9uHS4E08Pw6KFffE/JXYV/RA8=
+X-Received: by 2002:a05:6870:eaa5:b0:da:b3f:2b45 with SMTP id
+ s37-20020a056870eaa500b000da0b3f2b45mr35408403oap.228.1654612497740; Tue, 07
+ Jun 2022 07:34:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220607110707.02eccda5@eldfell>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <CAMty3ZBT9WEPbkaoS_8t1O153tckBk0pxiP2cF75ASZb54SPUQ@mail.gmail.com>
+ <20220330085254.yow3w4frr56wllou@houat> <YkQpo1JgGkE8FqK3@phenom.ffwll.local>
+ <CAMty3ZAKGVNBFPcFdnVORbmzKUk_qYZjEkfBmx8PKxH-1CpSwA@mail.gmail.com>
+In-Reply-To: <CAMty3ZAKGVNBFPcFdnVORbmzKUk_qYZjEkfBmx8PKxH-1CpSwA@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 7 Jun 2022 16:34:46 +0200
+Message-ID: <CAKMK7uEauPsLSX3JuO7Ztm2hkdoMiXz+63Zj8BiR46TxmRoEfQ@mail.gmail.com>
+Subject: Re: DRM Master ignoring hotplug event during display switching (QT)
+To: Jagan Teki <jagan@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,120 +62,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krastevm@vmware.com, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, mombasawalam@vmware.com,
+Cc: Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- wayland-devel <wayland-devel@lists.freedesktop.org>
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Why are pointer cursors misplaced on paravirtualized drivers?
-> 
-> It is because the paravirtualized drivers or VM viewers do *not* place
-> the cursor plane at the CRTC_X, CRTC_Y position in the guest CRTC area.
-> This is obvious: if CRTC_X, CRTC_Y were honoured, there would be no
-> misplacement.
-> 
-> Instead, the VM stack plays clever tricks with cursor planes. I have
-> understood only one of those tricks, and it goes something like this.
-> To improve hand-eye coordination, that is to reduce the hand-to-eye
-> response time a.k.a latency, the VM guest KMS driver relays the cursor
-> plane separately to the VM viewer application.
+On Thu, 2 Jun 2022 at 17:43, Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+> Hi Daniel,
+>
+> On Wed, Mar 30, 2022 at 3:27 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Wed, Mar 30, 2022 at 10:52:54AM +0200, Maxime Ripard wrote:
+> > > On Tue, Mar 29, 2022 at 11:38:32PM +0530, Jagan Teki wrote:
+> > > > Hi all,
+> > > >
+> > > > I have implemented runtime display switching in the MIPI switch design
+> > > > where LVDS and HDMI bridges are selected with the help of runtime
+> > > > GPIO.
+> > > >
+> > > > Initial discussion on the same can be found here,
+> > > > https://www.spinics.net/lists/dri-devel/msg318524.html
+> > > >
+> > > > The implementation has been done by creating each connector at
+> > > > runtime. The default boot will create the LVDS connector and based on
+> > > > the HDMI plug-in the ISR.
+> > > >
+> > > > 1. forcing the LVDS to disconnect
+> > > > 2. call drm_kms_helper_hotplug_event
+> > > > 3. detach the bridge chain
+> > > > 4. attach the new bridge chain (HDMI)
+> > > > 5. call drm_kms_helper_hotplug_event
+> > > >
+> > > > do the reverse when we unplug the HDMI cable.
+> > > >
+> > > > So, the bridge chains are attached and detached based on GPIO
+> > > > Interrupt which is indeed identified based on the physical HDMIA
+> > > > connector.
+> > > >
+> > > > Pipeline for LVDS,
+> > > > mxfsb => nwl-dsi => display-switch => sn65dsi83=> panel-bridge
+> > > >
+> > > > Pipeline for HDMI,
+> > > > mxfsb => nwl-dsi => display-switch => adv7511 => display-connector
+> > > >
+> > > > With this, implementation and I can able switch the displays with
+> > > > default DRM (without specific DRM applications) where the LVDS is ON
+> > > > by default and when HDMI plug-in the LVDS OFF/HDMI ON, and when HDMI
+> > > > unplug the HDMI OFF/LVDS ON.
+> > > >
+> > > > However, with QT5 I can see the DRM Master ignoring hotplug event by
+> > > > returning 0 on drm_master_internal_acquire in
+> > > > drm_fb_helper_hotplug_event. With this the hotplug returned early so
+> > > > it cannot able to disconnect and connect the new switching connector.
+> > > >
+> > > > Any help?
+> > >
+> > > I'm not sure why you started another discussion with pretty much the
+> > > same content, but you can't rely on userspace handling the hotplug
+> > > event. You'll have to deal with the case where it just doesn't.
+> >
+> > Well I missed the old thread, so I'm replying here.
+> >
+> > You should not handle this at all from a hotplug.
+> >
+> > The way kms works is roughly as follows:
+> >
+> > 1. hw output state changes
+> > 2. driver detects this (either through hpd interrupt or polling)
+> > 3. driver sends out hotplug uevent
+> >
+> > That's it. Nothing else, no bridge rebinding, no link retaining is
+> > required.
+> >
+> > Then either userspace or fbcon emulation reacts to this hotplug event by
+> > doing an atomic modeset, where it hopefully disables the old output and
+> > re-enables the new output. Your atomic_check needs to validate that
+> > everything is all right (i.e. not enabling both at the same time).
+> >
+> > Note that if you change stuff underneath, then that tends to seriously
+> > upset atomic users. Also you should try to continue supporting at least
+> > page flips with the wrong config, compositors otherwise tend to crash.
+> >
+> > This also means that if userspace doesn't handle hotplug events, then you
+> > might end up with a black screen. That's ok. We try to avoid that when
+> > it's practical (e.g. dp sst link retraining), but not when it's too hard
+> > (dp mst hot-replug relies on userspace restoring everything).
+> >
+> > Finally exchanging the bridge chain isn't supported, there's no locking
+> > for that since it's assumed to be invariant over the lifetim of the
+> > drm_device instance. The simplest way to make that happen right now is to
+> > have 2 drm_encoder instances, one with the lvds bridge chain, the other
+> > with the hdmi bridge chain, and select the right encoder/bridge chain
+> > depending upon which output userspace picks.
+>
+> I've created 2 instances of encoders. endpoint 0 for HDMI bridge chain
+> and endpoint 1 for LVDS bridge chain. Each bridge chain uses a
+> respective encoder instance in order to start attaching the bridge
+> like below.
+>
+> 1. find the bridge at endpoint 0
+> 2. drm_bridge_attach(&mxsfb->encoder[0], mxsfb->bridge[0], NULL, 0)
+>
+> and repeat for endpoint 1
+>
+> The bridge chain established fine for endpoint 0 but returned -EBUSY
+> while the bridge chain attached for endpoint 1. looks like bridge->dev
+> is still being used in endpoint 0 even though we have a separate
+> bridge point from mxsfb.
+>
+> Any thought on how to establish the dual bridge chain here?
 
-Yes, the cursor is sent separately.
-
-> The VM viewer application presents the cursor plane content by pushing
-> them to the host window system as the pointer cursor.
-
-Yes (i.e. gdk_window_set_cursor() on the host).
-
-> This means the host window system will be autonomously moving the
-> cursor plane image around, completely disregarding what the guest KMS
-> client programmed into CRTC_X, CRTC_Y.
-
-Yes.
-
-That is combined with a virtual input device sending absolute
-coordinates (i.e. tablet), so mouse clicks land at the correct place.
-And that is the point where having the hotspot information is essential
-on the host side.
-
-> Given this UAPI contract, it is very easy for userspace to make the
-> conclusion that a cursor plane is just another plane it can use for
-> whatever it wants. Weston and wlroots indeed leverage this, putting
-> also normal windows and other stuff to the cursor plane when they
-> happen to fit.
-
-virtual machine display devices typically offer small (64x64) cursor
-planes, so unlike the 512x512 planes I've seen offered by i915 they are
-hardly usable for anything but cursors.  Likewise additional overlay
-planes typically not offered, so the classic primary+cursor setup is
-pretty much the only reasonable option userspace has.
-
-> I believe the solution has two parts:
-> 
-> - The guest KMS driver needs to know whether the guest userspace is
->   prepared for the cursor plane being commandeered. If userspace does
->   not indicate it is prepared for it, commandeering must not happen.
-
-Yes.  That isn't much of a problem in practice though due to the limited
-driver/device offerings outlined above.
-
-> - Cursor hotspot needs new KMS properties, and a KMS client must set
->   them if the KMS client indicates it is prepared for cursor plane
->   commandeering.
-
-Yes, and that is what hurts in practice and thus caused the blacklists
-being created.
-
-> There are further problems with cursor plane commandeering. The 2020
-> email thread Simon linked to discusses the problem of pointer devices:
-> if VM guest userspace takes pointer input from multiple sources, how
-> will the VM stack know which virtual input device, if any, should drive
-> the cursor plane position?
-
-Typically there is a communication path from guest to host for pointer
-movements (i.e. crtc_x + crtc_y updates), so the host knows where the
-guest wants the cursor plane being placed.  So in case the pointer is
-moved by other means (different input device, some application warping
-the pointer, ...) the host can adapt.
-
-Nevertheless behavior is not consistent here because in some cases the
-feedback loop is not wired up end-to-end.  The spice protocol has a
-message type for that, so pointer warps work.  The vnc protocol has not,
-so they don't.
-
-> To me the answer to this question seems it could be intimately tied to
-> the first problem: commandeering the cursor plane is allowed only if
-> guest userspace tells the guest KMS driver which input device the
-> cursor plane shall be related to. If no input device is indicated,
-> then commandeering must not happen.
-
-Why require an input device?  I just don't see how that would help.
-
-For allowing the host freely move around the cursor place
-("commandeering") I do see the point in enforcing that from a design
-point of view, although I doubt it'll buy us much in practice given we
-have broken drivers in the wild so userspace will continue to work with
-blacklists.
-
-Having some capability to negotiate "commandeering" between kernel and
-userspace certainly makes sense, so we can get of the black lists
-long-term (although it'll probably takes a few years ...).
-
-> I can understand if people do not want to tackle this question,
-> because it probably has not been a problem yet.
-
-On a standard guest this isn't a problem indeed because there is only
-one input device and only one crtc.
-
-It actually is a problem for multihead configurations though.  Having
-some way to map input devices to scanouts would actually be helpful.
-Years ago I checked how this works for touchscreens to see whenever it
-is possible to leverage that for VMs somehow.  There wasn't some obvious
-way, and I forgot the details meanwhile ...
-
-take care,
-  Gerd
-
+Are you using 2 different struct drm_bridge for this? Reusing the same
+drm_bridge for the 2nd encoder and endpoint is the only thing I can
+come up with that would result in this.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
