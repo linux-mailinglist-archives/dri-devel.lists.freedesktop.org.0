@@ -2,65 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F265053F8F6
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 11:04:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3239953F900
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 11:05:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0201F10E49B;
-	Tue,  7 Jun 2022 09:04:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBF16112B50;
+	Tue,  7 Jun 2022 09:05:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E2CC10E8FA
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 09:04:20 +0000 (UTC)
-X-UUID: 59a7452825b544c7b63f26518729eefd-20220607
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:8ac88e8f-7228-48bc-8820-aa1287e00cf3, OB:0,
- LO
- B:30,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:50
-X-CID-INFO: VERSION:1.1.5, REQID:8ac88e8f-7228-48bc-8820-aa1287e00cf3, OB:0,
- LOB:
- 30,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:50
-X-CID-META: VersionHash:2a19b09, CLOUDID:2068ece4-2ba2-4dc1-b6c5-11feb6c769e0,
- C
- OID:85e7ce479c59,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:0,BEC:nil
-X-UUID: 59a7452825b544c7b63f26518729eefd-20220607
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 459881593; Tue, 07 Jun 2022 17:04:15 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 7 Jun 2022 17:04:13 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 7 Jun 2022 17:04:13 +0800
-Message-ID: <77cdd43716b49aaffd9e052f4fe2c88e198ea7ff.camel@mediatek.com>
-Subject: Re: [PATCH v10 18/21] drm/mediatek: Add mt8195 Embedded DisplayPort
- driver
-From: CK Hu <ck.hu@mediatek.com>
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>, Guillaume Ranquet
- <granquet@baylibre.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
- Zabel" <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, "Kishon
- Vijay Abraham I" <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
- Deller" <deller@gmx.de>, Jitao shi <jitao.shi@mediatek.com>
-Date: Tue, 7 Jun 2022 17:04:13 +0800
-In-Reply-To: <20220523104758.29531-19-granquet@baylibre.com>
-References: <20220523104758.29531-1-granquet@baylibre.com>
- <20220523104758.29531-19-granquet@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBF41112AEC
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 09:05:55 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id y187so15294941pgd.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 02:05:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U4LE7zrySWEA9gMurfRvYyAHVJx1m9VkHmbAjloR5rc=;
+ b=OSmFZAqcOBYpVk9PtT//wYdshGIbZFqLmNvinrT7LM2bplu1QaPw+SAh9TblfHTm81
+ tHtOg9TZdOLiWycsapflLUGU+qZw0lGKzsP2SvF0Sru6lkn3VoC4KdThYPVwFRvsn7IC
+ DSxoneUuol+XxCC8sHbzH+zHV1oF13gvUW5o4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U4LE7zrySWEA9gMurfRvYyAHVJx1m9VkHmbAjloR5rc=;
+ b=q0KtlQovzAtXo4AnsePcB4unUMPkUJaqumkI7q98LnWDZgRJBDeTp1mfB/i8bCfhHC
+ +6221JJm1C2NG/DQO/shUUsq0stnsVso2wA0usiImCxiqmbzRAmbSpEgQN397p+kkb1B
+ dwbH1Ufylknl62C7A/YNHJsrIi14s6hOGqNm0LjGfkpCwO7mfAWRjZKFvm3YFgh1lV5m
+ klVdqHFci5GfgKtM6j3woFedy2Rpn/0MJKUyGAiV85p/phQw7CIn1qybVEIn4fo7aSlA
+ q98ZvsA1V06VLrzREZSCSFDQiDe+WqTLNGCVDh00RrPVat85mVLNf4DxGLLw/45jtemG
+ tvzg==
+X-Gm-Message-State: AOAM532ts6cwBiTlykDVZwRp2udbwrnsh2Dc3lVksWCjQZl1O2ojzjrC
+ cB8KoLwsd6Kwi8WtV3/OSUS0tw==
+X-Google-Smtp-Source: ABdhPJw1n+xUkdGWbXx1cahLihtS+UTJFd1fPnlTaE3+N4brLzLb0z8zg/XQOnqI8aeTH/v2v9Cp7g==
+X-Received: by 2002:a05:6a00:244a:b0:4fa:ebf9:75de with SMTP id
+ d10-20020a056a00244a00b004faebf975demr28675288pfj.73.1654592755183; 
+ Tue, 07 Jun 2022 02:05:55 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:40b7:55ce:10ee:c7a0])
+ by smtp.gmail.com with ESMTPSA id
+ t27-20020aa7947b000000b0051c0fe8fb8csm4507010pfq.95.2022.06.07.02.05.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jun 2022 02:05:54 -0700 (PDT)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: [PATCH v5 0/8] Add a panel API to set orientation properly
+Date: Tue,  7 Jun 2022 17:05:41 +0800
+Message-Id: <20220607090549.2345795-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,111 +65,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+Cc: Rob Clark <robdclark@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Rex:
+Panels usually call drm_connector_set_panel_orientation(), which is
+later than drm/kms driver calling drm_dev_register(). This leads to a
+WARN()[1].
 
-On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
-> 
-> It supports the mt8195, the embedded DisplayPort units. It offers
-> DisplayPort 1.4 with up to 4 lanes.
-> 
-> The driver creates a child device for the phy. The child device will
-> never exist without the parent being active. As they are sharing a
-> register range, the parent passes a regmap pointer to the child so
-> that
-> both can work with the same register range. The phy driver sets
-> device
-> data that is read by the parent to get the phy device that can be
-> used
-> to control the phy properties.
-> 
-> This driver is based on an initial version by
-> Jason-JH.Lin <jason-jh.lin@mediatek.com>.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> ---
+The orientation property is known earlier. For example, some panels
+parse the property through device tree during probe.
 
-[snip]
+The series add a panel API drm_connector_set_orientation_from_panel()
+for drm/kms drivers. The drivers can call the API to set panel's
+orientation before drm_dev_register().
 
-> +
-> +static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
-> +{
-> +	struct mtk_dp *mtk_dp = dev;
-> +	int event;
-> +	u8 buf[DP_RECEIVER_CAP_SIZE] = {};
-> +
-> +	event = mtk_dp_plug_state(mtk_dp) ? connector_status_connected
-> :
-> +						  connector_status_disc
-> onnected;
-> +
-> +	if (event < 0)
-> +		return IRQ_HANDLED;
-> +
-> +	if (mtk_dp->drm_dev) {
-> +		dev_info(mtk_dp->dev, "drm_helper_hpd_irq_event\n");
-> +		drm_helper_hpd_irq_event(mtk_dp->bridge.dev);
-> +	}
-> +
-> +	if (mtk_dp->train_info.cable_state_change) {
-> +		mtk_dp->train_info.cable_state_change = false;
-> +
-> +		mtk_dp->train_state = MTK_DP_TRAIN_STATE_STARTUP;
-> +
-> +		if (!mtk_dp->train_info.cable_plugged_in ||
-> +		    !mtk_dp_plug_state(mtk_dp)) {
-> +			mtk_dp_video_mute(mtk_dp, true);
+Panel needs to implement .get_orientation callback to return the property.
 
-For eDP, when does 'unplug' happen? Explain this or move unplug
-processing to DP patch.
+[1] https://patchwork.kernel.org/project/linux-mediatek/patch/20220530081910.3947168-2-hsinyi@chromium.org/
 
-Regards,
-CK
+v4 of this series is "Add a panel API to return panel orientation":
+https://lore.kernel.org/lkml/20220606152431.1889185-1-hsinyi@chromium.org/
 
-> +
-> +			mtk_dp_initialize_priv_data(mtk_dp);
-> +			mtk_dp_set_idle_pattern(mtk_dp, true);
-> +			if (mtk_dp->has_fec)
-> +				mtk_dp_fec_enable(mtk_dp, false);
-> +
-> +			mtk_dp_update_bits(mtk_dp,
-> MTK_DP_TOP_PWR_STATE,
-> +					   DP_PWR_STATE_BANDGAP_TPLL,
-> +					   DP_PWR_STATE_MASK);
-> +		} else {
-> +			mtk_dp_update_bits(mtk_dp,
-> MTK_DP_TOP_PWR_STATE,
-> +					   DP_PWR_STATE_BANDGAP_TPLL_LA
-> NE,
-> +					   DP_PWR_STATE_MASK);
-> +			drm_dp_read_dpcd_caps(&mtk_dp->aux, buf);
-> +			mtk_dp->train_info.link_rate =
-> +				min_t(int, mtk_dp->max_linkrate,
-> +				      buf[mtk_dp->max_linkrate]);
-> +			mtk_dp->train_info.lane_count =
-> +				min_t(int, mtk_dp->max_lanes,
-> +				      drm_dp_max_lane_count(buf));
-> +		}
-> +	}
-> +
-> +	if (mtk_dp->train_info.irq_status & MTK_DP_HPD_INTERRUPT) {
-> +		dev_dbg(mtk_dp->dev, "MTK_DP_HPD_INTERRUPT\n");
-> +		mtk_dp->train_info.irq_status &= ~MTK_DP_HPD_INTERRUPT;
-> +		mtk_dp_hpd_sink_event(mtk_dp);
-> +	}
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
+Hsin-Yi Wang (8):
+  drm/panel: Add an API to allow drm to set orientation from panel
+  drm/panel: boe-tv101wum-nl6: Implement .get_orientation callback
+  drm/panel: panel-edp: Implement .get_orientation callback
+  drm/panel: lvds: Implement .get_orientation callback
+  drm/panel: panel-simple: Implement .get_orientation callback
+  drm/panel: ili9881c: Implement .get_orientation callback
+  drm/panel: elida-kd35t133: Implement .get_orientation callback
+  drm/mediatek: Config orientation property if panel provides it
+
+ drivers/gpu/drm/drm_connector.c               | 32 +++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_dsi.c            | 15 +++++++++
+ .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 12 +++++++
+ drivers/gpu/drm/panel/panel-edp.c             | 13 +++++++-
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c  | 12 +++++++
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 12 +++++++
+ drivers/gpu/drm/panel/panel-lvds.c            | 13 ++++++++
+ drivers/gpu/drm/panel/panel-simple.c          | 14 +++++++-
+ include/drm/drm_connector.h                   |  4 +++
+ include/drm/drm_panel.h                       |  9 ++++++
+ 10 files changed, 134 insertions(+), 2 deletions(-)
+
+-- 
+2.36.1.255.ge46751e96f-goog
 
