@@ -1,60 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9A7540FC1
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 21:12:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2835415DF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 22:43:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27C5B10F567;
-	Tue,  7 Jun 2022 19:12:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74E3910F785;
+	Tue,  7 Jun 2022 20:43:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EEA910F567
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 19:12:28 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id hh4so13339112qtb.10
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 12:12:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4teGkJzSagIZsgcLH+V56SrWNU+r6L/guCBWA6f0Qx0=;
- b=e2xuOqjVNFJYOtWvJedkZBxXBSQbUEDP5gOb2pcknpDE7s279mL7IedFhCNUvdXJpS
- xOZqepDNf4XJRpSqngrqDth44fo+oLZddAbS0ShDYxDXEKDly6+OyndQcmOJoLG2P3tt
- YsmeaCJENGVHgjv6EnmDbJWiHJqtn8CsTtdvZue3f7Qt9vLS+o9f6F/VM5/B/EeaFpWq
- fUYyYK3uFwfza9ar9te00dtFjJVzIwYojATQp3R6AVdGiZKTP6UchOpR1PsBYFy78KsB
- /ubArLe2oN1d2cpjkxRjmoyucmzAtVeU89/Jp56RYRm7KQfcbY7tQae219E+5IfcWuM8
- ooDg==
-X-Gm-Message-State: AOAM530FwdqcTbB/9q9ZmZ0y/GQfeXkO+UCi4LM1fZn137rZagCiKDVR
- DOGB+QtuBvDZDikFA9ElShAF0v+p1jacTQ==
-X-Google-Smtp-Source: ABdhPJxV6hAAkohCMDPW3amjToMTMxwao6EI7HiT4LO+z9tRSpSt+2LzJoX9XoTzVSSc2L+J2BFTKQ==
-X-Received: by 2002:ac8:4e53:0:b0:304:e911:b41f with SMTP id
- e19-20020ac84e53000000b00304e911b41fmr12355921qtw.592.1654629147092; 
- Tue, 07 Jun 2022 12:12:27 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
- [209.85.219.174]) by smtp.gmail.com with ESMTPSA id
- m13-20020a05622a054d00b003030d9f518dsm13202106qtx.60.2022.06.07.12.12.26
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 12:12:26 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id s39so5135058ybi.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 12:12:26 -0700 (PDT)
-X-Received: by 2002:a25:cc53:0:b0:65c:b19c:fac1 with SMTP id
- l80-20020a25cc53000000b0065cb19cfac1mr30127900ybf.89.1654629145915; Tue, 07
- Jun 2022 12:12:25 -0700 (PDT)
+X-Greylist: delayed 4200 seconds by postgrey-1.36 at gabe;
+ Tue, 07 Jun 2022 20:43:13 UTC
+Received: from 17.mo582.mail-out.ovh.net (17.mo582.mail-out.ovh.net
+ [46.105.36.150])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C719810F785
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 20:43:13 +0000 (UTC)
+Received: from player698.ha.ovh.net (unknown [10.109.156.38])
+ by mo582.mail-out.ovh.net (Postfix) with ESMTP id DB09A22A93
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 19:24:01 +0000 (UTC)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+ (Authenticated sender: steve@sk2.org)
+ by player698.ha.ovh.net (Postfix) with ESMTPSA id 67A972B48042C;
+ Tue,  7 Jun 2022 19:23:52 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-110S0043a930085-a9b6-4bf1-b62d-4f18fbec254c,
+ 38FB55E0ED6224772C245AF554E1AE62085133ED) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+From: Stephen Kitt <steve@sk2.org>
+To: Antonino Daplas <adaplas@gmail.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Helge Deller <deller@gmx.de>, Paul Mackerras <paulus@samba.org>
+Subject: [PATCH 1/7] fbdev: aty128fb: Use backlight helper
+Date: Tue,  7 Jun 2022 21:23:29 +0200
+Message-Id: <20220607192335.1137249-2-steve@sk2.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220607192335.1137249-1-steve@sk2.org>
+References: <20220607192335.1137249-1-steve@sk2.org>
 MIME-Version: 1.0
-References: <CAPM=9tw62EZfAm0PbiOPmMrpfR98QMFTWGEQcA34G4ap4xxNkA@mail.gmail.com>
- <CAMuHMdXb5-gOVRsQx6tDqjQMD9cC-p=o56VuF2cBPWyMFRgHMA@mail.gmail.com>
- <CAHk-=wgcv_YewP0rgwR1+gj3YF-7Jz8WPVzDgndx0DVMVKzV=Q@mail.gmail.com>
-In-Reply-To: <CAHk-=wgcv_YewP0rgwR1+gj3YF-7Jz8WPVzDgndx0DVMVKzV=Q@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 7 Jun 2022 21:12:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU-HQZ3ZozS8AEP2P6aU3eMp6jO-GYOCOFOju_rcxOg+w@mail.gmail.com>
-Message-ID: <CAMuHMdU-HQZ3ZozS8AEP2P6aU3eMp6jO-GYOCOFOju_rcxOg+w@mail.gmail.com>
-Subject: Re: [git pull] drm for 5.19-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 11948331288570660585
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddthedgudefiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeeghffhleeigffhteeiffelveefhfeiudehkedtgefhgedvleffgfejgfdtveeigeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrheileekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehkedv
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,63 +54,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, Stephen Kitt <steve@sk2.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Instead of retrieving the backlight brightness in struct
+backlight_properties manually, and then checking whether the backlight
+should be on at all, use backlight_get_brightness() which does all
+this and insulates this from future changes.
 
-On Tue, Jun 7, 2022 at 8:15 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
-> On Tue, Jun 7, 2022 at 3:23 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > These header files are heavy users of large constants lacking the "U"
-> > suffix e.g.:
-> >
-> >     #define NB_ADAPTER_ID__SUBSYSTEM_ID_MASK 0xFFFF0000L
->
-> As Andreas says, this is not undefined behavior.
->
-> A hexadecimal integer constant will always get a type that fits the
-> actual value. So on a 32-bit architecture, because 0xFFFF0000 doesn't
-> fit in 'long', it will automatically become 'unsigned long'.
->
-> Now, a C compiler might still warn about such implicit type
-> conversions, but I'd be a bit surprised if any version of gcc actually
-> would do that, because this behavior for hex constants is *very*
-> traditional, and very common.
->
-> It's also true that the type of the constant - but not the value -
-> will be different on 32-bit and 64-bit architectures (ie on 64-bit, it
-> will be plain "long" and never extended to "unsigned long", because
-> the hex value obviously fits just fine).
->
-> I don't see any normal situation where that really matters, since any
-> normal use will have the same result.
->
-> The case you point to at
->
->   https://lore.kernel.org/r/CAK8P3a0QrihBR_2FQ7uZ5w2JmLjv7czfrrarCMmJOhvNdJ3p9g@mail.gmail.com
->
-> is very different, because the constant "1" is always just a plain
-> signed "int". So when you do "(1 << 31)", that is now a signed integer
-> with the top bit set, and so it will have an actual negative value,
-> and that can cause various problems (when right-shifted, or when
-> compared to other values).
->
-> But hexadecimal constants can be signed types, but they never have
-> negative values.
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/video/fbdev/aty/aty128fb.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Thank you, I stand corrected.
+diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
+index b26c81233b6b..a8f9baac3d3f 100644
+--- a/drivers/video/fbdev/aty/aty128fb.c
++++ b/drivers/video/fbdev/aty/aty128fb.c
+@@ -1765,12 +1765,10 @@ static int aty128_bl_update_status(struct backlight_device *bd)
+ 	unsigned int reg = aty_ld_le32(LVDS_GEN_CNTL);
+ 	int level;
+ 
+-	if (bd->props.power != FB_BLANK_UNBLANK ||
+-	    bd->props.fb_blank != FB_BLANK_UNBLANK ||
+-	    !par->lcd_on)
++	if (!par->lcd_on)
+ 		level = 0;
+ 	else
+-		level = bd->props.brightness;
++		level = backlight_get_brightness(bd);
+ 
+ 	reg |= LVDS_BL_MOD_EN | LVDS_BLON;
+ 	if (level > 0) {
+-- 
+2.30.2
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
