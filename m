@@ -2,70 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DF853F2EF
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 02:23:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0966F53F2FF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 02:34:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF3E11BF2F;
-	Tue,  7 Jun 2022 00:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC3051124E7;
+	Tue,  7 Jun 2022 00:34:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92E3911BF10
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 00:23:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654561402; x=1686097402;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=cfnfM4v5rEHIlWjIY9bhQvgX8vAtfeODWi2dU6u5vC0=;
- b=npXW3OBkNgkWp3usyhq16PGSejXammOODdbcr1ctbbWG/Pui0cC+WWwP
- d9TI5AmGplO+wxl/pYaEoJ6B650wMvNKXKC6hFP2jbrzifK/T/Fdm+Bgw
- Y99iXmr0g3w5I+na52ZUX88MuDTPdWf666b2gLzFXzJLrgTK7uZkNAwvB
- 513GbvEKD6yMAvDGwH/ms/YcUqTZCfNivJDBeTb/S4eIncYqf4sowlpoS
- 1BKxrWBJi67czvwfY0XuyXO/Pwot7U+xCVaIPaxk+IBejV/tFYG8BL4gR
- d1uvcTimIxQL8Nh6ktJPs0NMANxWOVF5y4iS1KtpTs0Ks6K+VIUzT8X0m Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="340225407"
-X-IronPort-AV: E=Sophos;i="5.91,282,1647327600"; d="scan'208";a="340225407"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2022 17:23:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,282,1647327600"; d="scan'208";a="758787620"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by orsmga005.jf.intel.com with ESMTP; 06 Jun 2022 17:23:21 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 6 Jun 2022 17:23:21 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 6 Jun 2022 17:23:21 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2308.027;
- Mon, 6 Jun 2022 17:23:21 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: "Kim, Dongwon" <dongwon.kim@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v2 2/2] drm/virtio: fence created per cursor/plane update
-Thread-Topic: [PATCH v2 2/2] drm/virtio: fence created per cursor/plane update
-Thread-Index: AQHYd5A99Vlo+z5m0E6T4dlFRryAuq1DEejA
-Date: Tue, 7 Jun 2022 00:23:20 +0000
-Message-ID: <a3ee13eb8b7348569478bec7655e1418@intel.com>
-References: <20220603211849.27703-1-dongwon.kim@intel.com>
- <20220603211849.27703-3-dongwon.kim@intel.com>
-In-Reply-To: <20220603211849.27703-3-dongwon.kim@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.6.500.17
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2052.outbound.protection.outlook.com [40.107.96.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D50510F732;
+ Tue,  7 Jun 2022 00:34:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g+Z54o0zdRsJZjATTuZKvBShyA+3ruwhK5nyCC9oGrk+/2gZjpcWmL8bvHWKiIBKfkMcEcmVCXIosB59c0eiieJkwg6QP3rg+2TgcnzZM/VMV6iT0G+x0NbZrIrFdK8Vejs6nLKeEofeceh+2WnRoM15bubcsKgyydDUmkDCTTMrmoNzIW3CK+bcF0uPF8c9CneN+/+cyBM9Sg8RZtpEz8pQ7qgni2/Vwgx4NEJgT4SUwLMNEgjHqEEf+kwgoNjuW+nAW4/HiESsvXsxrNo2APEFjbJO0dYoDdsVVbVt/692xAPhBbOgnrIVHXTMrTkzF83GqaZKQNDxBU+uAv6gzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fQqEc6nM5xp+6xCi2Xyhw/OjF2OVsdqPbxK5t1gmAnU=;
+ b=buyDZVY3jNSb7x2SOFHrRqOlNQqiDvKfOKyucPXw1u+AqRv0tPWKowlT5qwTd8OXqxe/2lx/HxMCZNp7aFxxij3olGRaCfgUVWktL/YcGhKdUqjAeTdJX5rmpMdQGpgu47mtCPfATdHT4LEwgycKytJtLn+w53plVD0HJFnWBSlYyBqqJiVcZdBMJYecPkYgoYBPmjqQd5bPJMLC6KXZTzLnKkP+LXSSaWQOEhiVKFf7JxMkZHcr/oNxFao+iGxDoQbgSoMa23FMEwIxzQonJU+lTnIsbli11TNRtW/RAL6CnWsGWvaQ0/NltWVcEXVvwaW4lO7Qt7HuoTOH8gAs2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fQqEc6nM5xp+6xCi2Xyhw/OjF2OVsdqPbxK5t1gmAnU=;
+ b=dM6Iod4EqXMaBs/WNm7SawKMzlprDb77D/bt2bM+bsbkp1/5FxzM1rLJnzM4MKUiilabtH47fLZytjSSFdiHy4Wjlw07E2E9GIPwIBU47Y5+xFW1fUXylCyIregDU2vK2S4eDKi5TykrdiEgNmIJ8CDoDchXE8AyAjI4EQ1R6X19a1K4y+pMxRBI3hU9sNDdJ7noKXoEgTkaabGwaM8klRz3GRvG6LzfLTWG5AgVLWuzTvipATDzC7YrN+jFAs0heudWmZsdr5//p696Md8thVWWxBJXQQzGBlnscuxE6y/OEqd803NjD6u0j8niqefWcd5YgIey6nAFHrTBOZ+Ofg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by MN2PR12MB3758.namprd12.prod.outlook.com (2603:10b6:208:169::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13; Tue, 7 Jun
+ 2022 00:34:37 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::2484:51da:d56f:f1a5]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::2484:51da:d56f:f1a5%9]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
+ 00:34:37 +0000
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alexander Gordeev <agordeev@linux.ibm.com>,
+ David Airlie <airlied@linux.ie>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Eric Farman <farman@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org,
+ linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
+Subject: [PATCH 0/2] Remove the VFIO_IOMMU_NOTIFY_DMA_UNMAP notifier
+Date: Mon,  6 Jun 2022 21:34:34 -0300
+Message-Id: <0-v1-896844109f36+a-vfio_unmap_notif_jgg@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR12CA0023.namprd12.prod.outlook.com
+ (2603:10b6:208:a8::36) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 21dc3d71-e826-4aef-4d65-08da481d8080
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3758:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3758A40D3EE2C58503A6EA8CC2A59@MN2PR12MB3758.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gP+Le57U62IRvKajsMbpU1palgqLlNTgJ2iebM8JGoQe/0MfvDBAUGALRjpqwHQkwzuJpDZu07juRZOVWBUO0qeatJ9xIt1GVwKNFIfdqrSPEvOGbUpu6OuauFI5OIbcGQcznfjACNYD8DgWnEGSyt2B/pWyybVsi7vThnwUaMtjvvvMWnUd+yJd6ow0nc5vg9BNu6KcdxKhZJlgw/YPpnAXr1f2yVoz5Ixn/UAFWGwlzgWH4kENJ0CJqlQiaqRZKzovINCDztqjUCYam8TBgLkDx71Rq2sJSVCs06PDQZOA0gVfp++4mG3PbkPg1j1qt+R94Z/a8x0Y6/4geeXuSFAsLTviMhAqcyjGhVFI87g8lfpUn5en1BSMyIaggPDdMonHa5dOt9nJqQKybw9Dl3LYWbx5U7v9IkfwOiFKEjQiWemTQWu9OpCRb2Q+xKWV6zsAFGyIHkfTn2v/JpzLJF4znvwQN1oNfS5GYSwIw/vvxYqH1H5SlFO5vW+LChLoVp/xutVS9HmrK5y3owsR8i5bxElvN847UfszSSCOIxGRc51yjVCgRwJirQIZ5JeE14xQJMpK5EWGXI9U25TI5fnSufxNBl+HSqE36uZOI5fZ49kNpMF9hgylOFu2L8hOW5IDlap/UwiuWgATFSjzwdRfB5im+Ob/8gc3uGkUJtUpqPi+eqTu7svDzChuWkwO9W0QJAHOAGfOoDmLmQK8fQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(6506007)(66476007)(38100700002)(66946007)(86362001)(6666004)(6486002)(4326008)(4744005)(8676002)(7416002)(2616005)(186003)(8936002)(36756003)(2906002)(5660300002)(66556008)(508600001)(83380400001)(6512007)(110136005)(316002)(26005)(921005)(4216001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?q18sCw3AGsm9bbawIyaS7crP1H8ZecjVPc+/8kzSE4eX+rl9ID9aChTZpgRo?=
+ =?us-ascii?Q?2Fo40I67mAytGRHVJkZ7dbHBAp2EbbXinADaSbpag+znl5e/ZC8eNriGkcfT?=
+ =?us-ascii?Q?/xr26JGMz75Nt1IYzJ6GfaFuATdEGDPJsgxd6/rnuKoqGEJza6JdhxCd4aCJ?=
+ =?us-ascii?Q?5N9glJ+GVnir4DkUnxC4xDhYt5xTa2Cfwm0gF71l2rN8j4B/kmXWueN8F9J1?=
+ =?us-ascii?Q?j9U6sOfkst55wk5kpiUnDF24ecfDuM2RzdhA/sXCd2VDrcjWz8V1KgOIBBJW?=
+ =?us-ascii?Q?u+yYKMjgrW3tfaQ7Oo2uce9py+AwVLWapD7b5M9vapHF9ERksefYLXCLsHrI?=
+ =?us-ascii?Q?5YcV4m/LtbInA+cbZWPYPFRxaX/Ea+EDIs/BUStODj5Z/G5+v0FJneoqH+TO?=
+ =?us-ascii?Q?M7KmPKKuGLdWphDRMYdNOedp1ON9hJogAlSmhScQi2pcUzxne93FAGgZbP4q?=
+ =?us-ascii?Q?P1bCyZsNwjom3uWrql3NVmg4wRWxMYECqYS1ulDrOUNN0vEjgZ0DsY3CZQQE?=
+ =?us-ascii?Q?poaw/tEa9+OrTqaO2PhthNjDBZpmzCufrZvYMOlZj7UrxItbWe+7lXLLkRyy?=
+ =?us-ascii?Q?ss1xnN5QwzxZrcU9+2LZpnDeu81I6YjlSd9/7PlEznzX5aCSJb8DUdrwQ34n?=
+ =?us-ascii?Q?xhJCJ/YgUIMxUo7J05cLtKOXxj9yvKObEmtl3HPDxkpRMi2SnoSa9QfrQT4N?=
+ =?us-ascii?Q?/dmZtzuKcjiPkZ77WpwdCvqPQZAhnVKMgQjU9lpjgB8AbV/XQmhbQgKU+tEK?=
+ =?us-ascii?Q?myjNGoW2g++I8f9X5yedUF9fWJhpBEbTzP7cd4BXqKm2kz8ghJhBLoTuNmGX?=
+ =?us-ascii?Q?Psz6g82tIHmKXNyjdRUqV/bQ+3hx9ALXQTHIolIoFqbDgGkHC9Xz31Y1Sgs8?=
+ =?us-ascii?Q?HpGYoNzgelBzNYB/UEF0D5iMTjfOJ1Q4Z2Ptmj8BaIxz8a2Km0OrSDLV4lwz?=
+ =?us-ascii?Q?qVIYyC2y4Z3YsAqUUxAO82FitywkcjW7zfRzsT/czWwAQudeTEwjYqWmofSN?=
+ =?us-ascii?Q?TRBw/B3HSjerbujOlPCrpSXwy1SFymq9Lyyk1BD4RVLOlpX0aCB/J02mAU6z?=
+ =?us-ascii?Q?a6KXsS158x3mn2wf/DRxKe6PPpCgzHK3vorMgdE26ujCeOwQaiyWgI9eIi6h?=
+ =?us-ascii?Q?IEJSUQa9RD4ennwc7vVqsvwX4D9IPLoNW+l/YXtCMxj2OT21nQ+D9tjXlCfm?=
+ =?us-ascii?Q?k2VIWMkeP6cgPvClAyPdp/RMLlpBi1DGQmj+kuXEv5XT4E0I9tFYT1ahJ4CP?=
+ =?us-ascii?Q?h9mgZd2wD470jSwVWGqLrvCXqeDKXHw5DIu9lR8NYZoknbW5NwVx7zs7KP12?=
+ =?us-ascii?Q?9i/JqnW3cYgiAU+2sHXiwsUTuTif48SbAiRC9pBaFb0f9WRXQvxE76pjNIe3?=
+ =?us-ascii?Q?oLJLJMuHk/2aavyxwSwdVLO5/vX5yozG341hLWMyVGGtfGWA/ByR48SoZu5t?=
+ =?us-ascii?Q?c4DVvIxGrk3GyiWWbIJyO2M8rh55rlQA4CuaR/OOffA6c5hdEdsYd7iYlKz8?=
+ =?us-ascii?Q?Yg6XeuWRNiQlH2SMWEOrBR4yeuXkqpZzCxRvjKZ8OJZIinZLthvy8AaK4Odt?=
+ =?us-ascii?Q?VTUwNSg7eBPES4vjuzx5iFgwwdV6w06aM3j7QkoS7idvboHjdpM+zsP5Gewg?=
+ =?us-ascii?Q?meQXR8RsEsAGQ81s2ukcZ4y9HKcebKs8Cr7423M6dMEi5fvILg108WcxvPns?=
+ =?us-ascii?Q?ZStzejBFGoegLtUPbH/4RFFJR76hb9dDZ93lz+5ARs9KoO+sLoaKjVRanGbh?=
+ =?us-ascii?Q?GNQOmI1c/w=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21dc3d71-e826-4aef-4d65-08da481d8080
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 00:34:37.5664 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xinQoV0f/caouJ4hoZgw7/MEBpnfrrVsnbuqBIGYmxUCzLVTGPXEmRIrXWQrOfop
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3758
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,259 +133,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, lkp <lkp@intel.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, Gurchetan
- Singh <gurchetansingh@chromium.org>
+Cc: Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi DW,
+This is the last notifier toward the drivers, replace it with a simple op
+callback in the vfio_device_ops.
 
-> Subject: [PATCH v2 2/2] drm/virtio: fence created per cursor/plane update
->=20
-> Having one fence for a vgfb would cause conflict in case there are
-> multiple planes referencing the same vgfb (e.g. Xorg screen covering
-> two displays in extended mode) being flushed simultaneously. So it makes
-> sence to use a separated fence for each plane update to prevent this.
->=20
-> vgfb->fence is not required anymore with the suggested code change so
-> both prepare_fb and cleanup_fb are removed since only fence creation/
-> freeing are done in there.
->=20
-> v2: - use the fence always as long as guest_blob is enabled on the
->       scanout object
->     - obj and fence initialized as NULL ptrs to avoid uninitialzed
->       ptr problem (Reported by Dan Carpenter/kernel-test-robot)
->=20
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Cc: Gurchetan Singh <gurchetansingh@chromium.org>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_drv.h   |   1 -
->  drivers/gpu/drm/virtio/virtgpu_plane.c | 103 ++++++++++---------------
->  2 files changed, 39 insertions(+), 65 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virti=
-o/virtgpu_drv.h
-> index 0a194aaad419..4c59c1e67ca5 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-> @@ -186,7 +186,6 @@ struct virtio_gpu_output {
->=20
->  struct virtio_gpu_framebuffer {
->  	struct drm_framebuffer base;
-> -	struct virtio_gpu_fence *fence;
->  };
->  #define to_virtio_gpu_framebuffer(x) \
->  	container_of(x, struct virtio_gpu_framebuffer, base)
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/vir=
-tio/virtgpu_plane.c
-> index 6d3cc9e238a4..821023b7d57d 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-> @@ -137,29 +137,37 @@ static void virtio_gpu_resource_flush(struct drm_pl=
-ane *plane,
->  	struct virtio_gpu_device *vgdev =3D dev->dev_private;
->  	struct virtio_gpu_framebuffer *vgfb;
->  	struct virtio_gpu_object *bo;
-> +	struct virtio_gpu_object_array *objs =3D NULL;
-> +	struct virtio_gpu_fence *fence =3D NULL;
->=20
->  	vgfb =3D to_virtio_gpu_framebuffer(plane->state->fb);
->  	bo =3D gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
-> -	if (vgfb->fence) {
-> -		struct virtio_gpu_object_array *objs;
->=20
-> +	if (!bo)
-> +		return;
-[Kasireddy, Vivek] I think you can drop the above check as bo is guaranteed
-to be valid in resource_flush as the necessary checks are already done earl=
-y
-in virtio_gpu_primary_plane_update().
+Jason Gunthorpe (2):
+  vfio: Replace the DMA unmapping notifier with a callback
+  vfio: Replace the iommu notifier with a device list
 
-> +
-> +	if (bo->dumb && bo->guest_blob)
-> +		fence =3D virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
-> +					       0);
-> +
-> +	if (fence) {
->  		objs =3D virtio_gpu_array_alloc(1);
-> -		if (!objs)
-> +		if (!objs) {
-> +			kfree(fence);
->  			return;
-> +		}
->  		virtio_gpu_array_add_obj(objs, vgfb->base.obj[0]);
->  		virtio_gpu_array_lock_resv(objs);
-> -		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
-> -					      width, height, objs, vgfb->fence);
-> -		virtio_gpu_notify(vgdev);
-> +	}
-> +
-> +	virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
-> +				      width, height, objs, fence);
-> +	virtio_gpu_notify(vgdev);
-[Kasireddy, Vivek] I think it is OK to retain the existing style where all =
-the
-statements relevant for if (fence) would be lumped together. I do understan=
-d that
-the above two statements would be redundant in that case but it looks a bit=
- cleaner.
+ drivers/gpu/drm/i915/gvt/gvt.h        |   1 -
+ drivers/gpu/drm/i915/gvt/kvmgt.c      |  75 +++++-------------
+ drivers/s390/cio/vfio_ccw_ops.c       |  41 +++-------
+ drivers/s390/cio/vfio_ccw_private.h   |   1 -
+ drivers/s390/crypto/vfio_ap_ops.c     |  54 +++----------
+ drivers/s390/crypto/vfio_ap_private.h |   3 -
+ drivers/vfio/vfio.c                   | 105 +++++---------------------
+ drivers/vfio/vfio.h                   |   9 +--
+ drivers/vfio/vfio_iommu_type1.c       |  74 ++++++++++--------
+ include/linux/vfio.h                  |  21 +-----
+ 10 files changed, 114 insertions(+), 270 deletions(-)
 
->=20
-> -		dma_fence_wait_timeout(&vgfb->fence->f, true,
-> +	if (fence) {
-> +		dma_fence_wait_timeout(&fence->f, true,
->  				       msecs_to_jiffies(50));
-> -		dma_fence_put(&vgfb->fence->f);
-> -		vgfb->fence =3D NULL;
-> -	} else {
-> -		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
-> -					      width, height, NULL, NULL);
-> -		virtio_gpu_notify(vgdev);
-> +		dma_fence_put(&fence->f);
->  	}
->  }
->=20
-> @@ -239,47 +247,6 @@ static void virtio_gpu_primary_plane_update(struct d=
-rm_plane
-> *plane,
->  				  rect.y2 - rect.y1);
->  }
->=20
-> -static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
-> -				       struct drm_plane_state *new_state)
-> -{
-> -	struct drm_device *dev =3D plane->dev;
-> -	struct virtio_gpu_device *vgdev =3D dev->dev_private;
-> -	struct virtio_gpu_framebuffer *vgfb;
-> -	struct virtio_gpu_object *bo;
-> -
-> -	if (!new_state->fb)
-> -		return 0;
-> -
-> -	vgfb =3D to_virtio_gpu_framebuffer(new_state->fb);
-> -	bo =3D gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
-> -	if (!bo || (plane->type =3D=3D DRM_PLANE_TYPE_PRIMARY && !bo->guest_blo=
-b))
-> -		return 0;
-> -
-> -	if (bo->dumb && (plane->state->fb !=3D new_state->fb)) {
-> -		vgfb->fence =3D virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context=
-,
-> -						     0);
-> -		if (!vgfb->fence)
-> -			return -ENOMEM;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
-> -					struct drm_plane_state *old_state)
-> -{
-> -	struct virtio_gpu_framebuffer *vgfb;
-> -
-> -	if (!plane->state->fb)
-> -		return;
-> -
-> -	vgfb =3D to_virtio_gpu_framebuffer(plane->state->fb);
-> -	if (vgfb->fence) {
-> -		dma_fence_put(&vgfb->fence->f);
-> -		vgfb->fence =3D NULL;
-> -	}
-> -}
-> -
->  static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
->  					   struct drm_atomic_state *state)
->  {
-> @@ -290,6 +257,8 @@ static void virtio_gpu_cursor_plane_update(struct drm=
-_plane
-> *plane,
->  	struct virtio_gpu_output *output =3D NULL;
->  	struct virtio_gpu_framebuffer *vgfb;
->  	struct virtio_gpu_object *bo =3D NULL;
-> +	struct virtio_gpu_object_array *objs =3D NULL;
-> +	struct virtio_gpu_fence *fence =3D NULL;
->  	uint32_t handle;
->=20
->  	if (plane->state->crtc)
-> @@ -309,22 +278,32 @@ static void virtio_gpu_cursor_plane_update(struct d=
-rm_plane
-> *plane,
->=20
->  	if (bo && bo->dumb && (plane->state->fb !=3D old_state->fb)) {
->  		/* new cursor -- update & wait */
-> -		struct virtio_gpu_object_array *objs;
-> +		fence =3D virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
-> +					       0);
-> +		if (!fence)
-> +			return;
->=20
->  		objs =3D virtio_gpu_array_alloc(1);
-> -		if (!objs)
-> +		if (!objs) {
-> +			if (fence)
-[Kasireddy, Vivek] I think you can drop the above check given that you chec=
-ked it
-earlier.
 
-> +				kfree(fence);
-> +
->  			return;
-> +		}
-> +
->  		virtio_gpu_array_add_obj(objs, vgfb->base.obj[0]);
->  		virtio_gpu_array_lock_resv(objs);
->  		virtio_gpu_cmd_transfer_to_host_2d
->  			(vgdev, 0,
->  			 plane->state->crtc_w,
->  			 plane->state->crtc_h,
-> -			 0, 0, objs, vgfb->fence);
-> +			 0, 0, objs, fence);
->  		virtio_gpu_notify(vgdev);
-> -		dma_fence_wait(&vgfb->fence->f, true);
-> -		dma_fence_put(&vgfb->fence->f);
-> -		vgfb->fence =3D NULL;
-> +
-> +		if (fence) {
-[Kasireddy, Vivek] Same as above; i.e, you can drop the if (fence) check as=
- we
-wouldn't get here without a valid fence.
-
-I think with the above changes, the diff may get smaller and simpler. Regar=
-dless,
-this patch is Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-
-> +			dma_fence_wait(&fence->f, true);
-> +			dma_fence_put(&fence->f);
-> +		}
->  	}
->=20
->  	if (plane->state->fb !=3D old_state->fb) {
-> @@ -358,15 +337,11 @@ static void virtio_gpu_cursor_plane_update(struct d=
-rm_plane
-> *plane,
->  }
->=20
->  static const struct drm_plane_helper_funcs virtio_gpu_primary_helper_fun=
-cs =3D {
-> -	.prepare_fb		=3D virtio_gpu_plane_prepare_fb,
-> -	.cleanup_fb		=3D virtio_gpu_plane_cleanup_fb,
->  	.atomic_check		=3D virtio_gpu_plane_atomic_check,
->  	.atomic_update		=3D virtio_gpu_primary_plane_update,
->  };
->=20
->  static const struct drm_plane_helper_funcs virtio_gpu_cursor_helper_func=
-s =3D {
-> -	.prepare_fb		=3D virtio_gpu_plane_prepare_fb,
-> -	.cleanup_fb		=3D virtio_gpu_plane_cleanup_fb,
->  	.atomic_check		=3D virtio_gpu_plane_atomic_check,
->  	.atomic_update		=3D virtio_gpu_cursor_plane_update,
->  };
-> --
-> 2.20.1
+base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+-- 
+2.36.1
 
