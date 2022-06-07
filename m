@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39730540893
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 20:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 022495408B0
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 20:03:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB52910F48E;
-	Tue,  7 Jun 2022 18:03:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC3A110EE8D;
+	Tue,  7 Jun 2022 18:03:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16E5E10F48E;
- Tue,  7 Jun 2022 18:03:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F11E110EE8D;
+ Tue,  7 Jun 2022 18:03:54 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id AAA88B82348;
- Tue,  7 Jun 2022 18:03:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C19FC3411F;
- Tue,  7 Jun 2022 18:03:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 73F61617B0;
+ Tue,  7 Jun 2022 18:03:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9977EC36AFF;
+ Tue,  7 Jun 2022 18:03:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1654624987;
- bh=Vn10bNQPc5pbtkyvWaaTmAUvAzjVuNIpxar3jUlAj00=;
+ s=k20201202; t=1654625033;
+ bh=YE0pJrDeJoyTrRbMq3cux7zcBCmalMxfwe9xAefkfg0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=H/U2drwV55Jl+3c90D7mcjsQeuzSiO6a3gr3jO+mjenQNzoZk0K0waGcZDIsFH3tU
- b42NNFe46rE86Y4IJH+9sZE/ITnUx381hQf5w6KT+6f5VGzkeurt8pWakDdjb6OX3J
- QSUBnhIGiYoZZ87NKnHpSqPNUDHa3bIcWFtHip81VS0x2VX6WilOQSYutmK/af34WP
- 6L65L4PXbIgS+bfG+GyuANLZo8lbo9T15EjWF44COKxnv7jR5XGzu3JeGc0oU0g1Zb
- TT2WOH7cIUmSPSmek2QeNvpnVoHavJk7LEezCqh7Ubb5NB1o3MBUGKPiLeHUo+z5L4
- YAxuAtxUU9GcA==
+ b=avjFlB8yI5ZVDKCbikbZdZh0akO/coF44bfE8UfBODqsdjbi4LK9Se0M8dTbn1ZiB
+ 9mhta2xkCsMXOLZPsu3mkrV6e+Wnlo5x9WPQ7/GXQG/gndptBXcM4Ewef0nZJaPz1x
+ bfZZpfpC5ljIQbKQbXWRcrPuW8jnnBkVYB7gX4OHePpQOGOBhCqYRuV1pTNvalIX6X
+ zGXnkzbixdGKnusmH0leknoYAlb1MBQCwoEN3pttxleEhrXHRF3KVNlvNw88fv3PC+
+ 5s1x73+16CPAJJ4dtuixl9Poaeuv1YegrFiB+gom3dlpw0jX+Lsrca7evGS6TL2UjR
+ q5h312m4ryVkw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 20/25] drm/radeon: fix a possible null pointer
+Subject: [PATCH AUTOSEL 4.9 17/19] drm/radeon: fix a possible null pointer
  dereference
-Date: Tue,  7 Jun 2022 14:02:21 -0400
-Message-Id: <20220607180229.482040-20-sashal@kernel.org>
+Date: Tue,  7 Jun 2022 14:03:12 -0400
+Message-Id: <20220607180317.482354-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220607180229.482040-1-sashal@kernel.org>
-References: <20220607180229.482040-1-sashal@kernel.org>
+In-Reply-To: <20220607180317.482354-1-sashal@kernel.org>
+References: <20220607180317.482354-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -80,7 +81,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index fc021b8e4077..dd7d771d13b5 100644
+index 9e6c2be0cc7d..a759955e3797 100644
 --- a/drivers/gpu/drm/radeon/radeon_connectors.c
 +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
 @@ -489,6 +489,8 @@ static struct drm_display_mode *radeon_fp_native_mode(struct drm_encoder *encode
