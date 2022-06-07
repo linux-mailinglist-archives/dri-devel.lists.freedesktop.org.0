@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19611540EB1
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 20:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36AF6540F11
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 21:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F52A10F341;
-	Tue,  7 Jun 2022 18:58:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC22410EF6A;
+	Tue,  7 Jun 2022 19:01:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9EA910F047
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 18:58:15 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id c2so10309056lfk.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 11:58:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yBKwPOiE2yNJ0h72czELiOyk+g2uWrk6+KM2TvTz5JU=;
- b=Yks/q3su0YHCpP1GZiev8M6GFNTj/3QTyI/Ndrs53Y55o0csQ1hVU4LwAIIwQ1IUA8
- +c8piT29CypwfC4legDBxZZwLyPxAueBvOI0cTL5z0ciBVniJGYgb5TnNRKbyMGfkFef
- XGmf76jAhEZHLHskC+nHi6zFOlIsr0+cUZ+SpDHRQYp5FIJSJ3wmAjATYAnfnzc9bqDX
- vWgAtgUYsKGJiCZg31C+DxRgkODuIMf5EC3TfuPT0UrLuxdnGO3oPuZb6oReRe0Yaw50
- mvCNAEHspgbqg1KrOwxjqEXNCUI4/HaVIl0z0fPopLAIINbFd/2k15Q0nTo2443jmeyb
- IMog==
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F4DE10EF6A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 19:01:41 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ l20-20020a17090a409400b001dd2a9d555bso16262165pjg.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 12:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XlC5WhPEtlChZIl+n5BBhBXh04p3vnO18/6gEyRk/7I=;
+ b=aiEoUfInXs6muqWe9eAFyYvM/XQRsycTnGNXLPtV5k6vx6lf9JLcKGqq5Qnluowoaj
+ z4Wl1unEUXEkk8niQrnFc5kvsyfgbdRvPcRZtypHElhb1b+AmCNk3ZVDHDXvgObfm7Uy
+ eKNnzoJvWvkExKgTkl65s6gsf+sxZl7wd9uc4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yBKwPOiE2yNJ0h72czELiOyk+g2uWrk6+KM2TvTz5JU=;
- b=J+12C/4K1PNQ0ii1HZNz2i0C/eZl7K/E6fblIFY3d/s0alXS2bR3TuV5kn/qkURnPV
- K7CVVjwNDRF6qZJRjiCeudkDu/qQVAsIRoBHCIz7KC83aJrC6zF29fSUDAWtewQpLmXR
- lT9FRZ1eCci/XfNeXqLUh1qasgRqjDdJUz6YKIFmBrjQlLJ8oKKUdOqo5BeoRKd8q6by
- PdJso2DPUcw+nu9KLxRngnJgBv2cGmL3g6Hwt2pcQqs5Qs3poAAh9jIYA9gxV/FUyYGw
- WGnb14vuMM1X3x8aQtoZa68pRPeeOrAolVw4NHoUfg/2gR3q50w3aQEEQzsUM6qgGt/3
- PQFw==
-X-Gm-Message-State: AOAM532GDnPSIr1S3X0hz8qqCQ3t8/Txf+OrdCOoSt5RstJEjwjg9oGv
- QQUq7IfJeVDSrxXhybOBidZ9qA==
-X-Google-Smtp-Source: ABdhPJy9e5t8nWUlQ5axbawTm+yy688KCIdLqxL6iY8tn6zylCOr28nbh97saNaGf6LTXBhAevBKLw==
-X-Received: by 2002:a19:4918:0:b0:478:7e82:86f1 with SMTP id
- w24-20020a194918000000b004787e8286f1mr54777219lfa.353.1654628295453; 
- Tue, 07 Jun 2022 11:58:15 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- d19-20020a2eb053000000b0025587b872cesm1611668ljl.70.2022.06.07.11.58.14
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XlC5WhPEtlChZIl+n5BBhBXh04p3vnO18/6gEyRk/7I=;
+ b=HWlwL9cbhK3zvIwc7VQ5t32yS7hLIV9HFINZIJh5cSoLw7p94lXgid3zgNhvF7YVHU
+ AbdGXjZ/yLszfeysXYw/4HA/C5fMEptSnbjp6fak9zQVd5rHrMoOIirf3hjzJKv5Gkmw
+ D/LTXE51cjRx3gMZwG1sjhk3Nou+hxmkuIOLZFsLmA2EadzeoRYie3C3zub0BRKYaYnN
+ bmB4xbjUmGyYYNkSvqT4Qhht0n5Vu+zQPuHO1VY6VrqYmlqkELmS8Gezo46VRYXZLOPu
+ gNDDxJSnCz64emOKrupYfiB3ADSvVsDzJYqtuvNxbyaxX3wb3rqLFFnviNW8R9bmE1pc
+ Zr+Q==
+X-Gm-Message-State: AOAM532xU2fvCujUtl2ntuK+JphhVrgWi0UVkt6o/+njcc2hdxfQ5pbs
+ jmnCRZF6oLP5354y9KTIOL4sgA==
+X-Google-Smtp-Source: ABdhPJys+qHC9VhA3c9fwXaPhk0EIhEKcRgheZtI7KEsqbNQpujN5/HXjl1x4+YKKseCyyA6hK7pOg==
+X-Received: by 2002:a17:90a:2c0c:b0:1ea:14c0:f0ca with SMTP id
+ m12-20020a17090a2c0c00b001ea14c0f0camr2481026pjd.143.1654628501156; 
+ Tue, 07 Jun 2022 12:01:41 -0700 (PDT)
+Received: from pmalani.c.googlers.com.com
+ (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+ by smtp.gmail.com with ESMTPSA id
+ g29-20020aa79ddd000000b0050dc762819esm13236084pfq.120.2022.06.07.12.01.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 11:58:15 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v1 7/7] drm/msm/hdmi: merge platform config for
- 8974/8084/8994/8996
-Date: Tue,  7 Jun 2022 21:58:06 +0300
-Message-Id: <20220607185806.2771739-8-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220607185806.2771739-1-dmitry.baryshkov@linaro.org>
-References: <20220607185806.2771739-1-dmitry.baryshkov@linaro.org>
+ Tue, 07 Jun 2022 12:01:40 -0700 (PDT)
+From: Prashant Malani <pmalani@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH 0/7] usb: typec: Introduce typec-switch binding
+Date: Tue,  7 Jun 2022 19:00:17 +0000
+Message-Id: <20220607190131.1647511-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,67 +67,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, David Heidelberg <david@ixit.cz>,
- freedreno@lists.freedesktop.org
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>, Jonas Karlman <jonas@kwiboo.se>,
+ swboyd@chromium.org, Pin-Yen Lin <treapking@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robert Foss <robert.foss@linaro.org>, Prashant Malani <pmalani@chromium.org>,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since there is no more difference between the HDMI platform data
-between MSM8974/APQ8084/MSM8994/MSM8996, merge these configs into a
-single entry.
+This series introduces a binding for Type-C data lane switches. These
+control the routing and operating modes of USB Type-C data lanes based
+on the PD messaging from the Type-C port driver regarding connected peripherals.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/hdmi/hdmi.c | 27 +++------------------------
- 1 file changed, 3 insertions(+), 24 deletions(-)
+The first patch introduces a change to the Type-C mux class mode-switch
+matching code, while the second adds a config guard to a Type-C header.
+The next couple of patches introduce the new "typec-switch" binding as
+well as one user of it (the ANX7625 drm bridge).
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index 03d8f97b0cd8..8ae60e97cc94 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -375,27 +375,6 @@ static struct hdmi_platform_config hdmi_tx_8974_config = {
- 		.hpd_freq      = hpd_clk_freq_8x74,
- };
- 
--static struct hdmi_platform_config hdmi_tx_8084_config = {
--		HDMI_CFG(pwr_reg, 8x74),
--		HDMI_CFG(pwr_clk, 8x74),
--		HDMI_CFG(hpd_clk, 8x74),
--		.hpd_freq      = hpd_clk_freq_8x74,
--};
--
--static struct hdmi_platform_config hdmi_tx_8994_config = {
--		HDMI_CFG(pwr_reg, 8x74),
--		HDMI_CFG(pwr_clk, 8x74),
--		HDMI_CFG(hpd_clk, 8x74),
--		.hpd_freq      = hpd_clk_freq_8x74,
--};
--
--static struct hdmi_platform_config hdmi_tx_8996_config = {
--		HDMI_CFG(pwr_reg, 8x74),
--		HDMI_CFG(pwr_clk, 8x74),
--		HDMI_CFG(hpd_clk, 8x74),
--		.hpd_freq      = hpd_clk_freq_8x74,
--};
--
- /*
-  * HDMI audio codec callbacks
-  */
-@@ -577,9 +556,9 @@ static int msm_hdmi_dev_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id msm_hdmi_dt_match[] = {
--	{ .compatible = "qcom,hdmi-tx-8996", .data = &hdmi_tx_8996_config },
--	{ .compatible = "qcom,hdmi-tx-8994", .data = &hdmi_tx_8994_config },
--	{ .compatible = "qcom,hdmi-tx-8084", .data = &hdmi_tx_8084_config },
-+	{ .compatible = "qcom,hdmi-tx-8996", .data = &hdmi_tx_8974_config },
-+	{ .compatible = "qcom,hdmi-tx-8994", .data = &hdmi_tx_8974_config },
-+	{ .compatible = "qcom,hdmi-tx-8084", .data = &hdmi_tx_8974_config },
- 	{ .compatible = "qcom,hdmi-tx-8974", .data = &hdmi_tx_8974_config },
- 	{ .compatible = "qcom,hdmi-tx-8960", .data = &hdmi_tx_8960_config },
- 	{ .compatible = "qcom,hdmi-tx-8660", .data = &hdmi_tx_8660_config },
+The remaining patches add functionality to the anx7625 driver to
+register the mode-switches, as well as program its crosspoint
+switch depending on which Type-C port has a DisplayPort (DP) peripheral
+connected to it.
+
+Pin-Yen Lin (1):
+  drm/bridge: anx7625: Add typec_mux_set callback function
+
+Prashant Malani (6):
+  usb: typec: mux: Allow muxes to specify mode-switch
+  usb: typec: mux: Add CONFIG guards for functions
+  dt-bindings: usb: Add Type-C switch binding
+  dt-bindings: drm/bridge: anx7625: Add mode-switch support
+  drm/bridge: anx7625: Register number of Type C switches
+  drm/bridge: anx7625: Register Type-C mode switches
+
+ .../display/bridge/analogix,anx7625.yaml      |  56 +++++++
+ .../devicetree/bindings/usb/typec-switch.yaml |  76 +++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.c     | 151 ++++++++++++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.h     |  20 +++
+ drivers/usb/typec/mux.c                       |   8 +-
+ include/linux/usb/typec_mux.h                 |  38 +++++
+ 6 files changed, 347 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/typec-switch.yaml
+
 -- 
-2.35.1
+2.36.1.255.ge46751e96f-goog
 
