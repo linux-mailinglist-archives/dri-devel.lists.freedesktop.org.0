@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B1D53F97E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 11:20:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4BE853F979
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 11:20:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A292A12AEFB;
-	Tue,  7 Jun 2022 09:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 716B712AEE4;
+	Tue,  7 Jun 2022 09:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A71B12AEFB
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 09:20:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C6EB12AEDF
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 09:20:16 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4DCAF21B3F;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 861BA21B46;
  Tue,  7 Jun 2022 09:20:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1654593610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XrLUQUmPE+FfrQ6hezGj/dP9HZMl3+seOVVPCugGjUw=;
- b=Ge1EUusi1M5XQVw1lYi2gNE3evDKky8oH7UJgX50PAeJOnmqa47fFsVQohAlUmcrBobCvL
- jucBY6Y13LsKNesjRXwlLMUArqDCM7YI2XBuGZ6ABp3XIo60QiJDofOkZf0yPdOmVXjMd+
- VwibDzt5xfKr9U07Ka627SxFPU0GfaU=
+ bh=xhjvJnMRV/+8A9BwOiH88DdcVHNFmF14jzAf+GiYuFc=;
+ b=A8DgANlCEi4+GSzyACpxO3LW4OQ3SSiyXChIZurEJQffOL7RsKP9YH224A+UuOmwXei22J
+ r4xwRDGg9SSTwFesyxOyu5sIkJHpGMX01YxbdnxBpFJjEozjuI9JGc/2ZNlwF1IOC3OFpH
+ ZazW1scqYsnjKJDSSAEQCOq3/npSx3o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1654593610;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XrLUQUmPE+FfrQ6hezGj/dP9HZMl3+seOVVPCugGjUw=;
- b=ZcN7WRnwWQpN1m90mNhiaVICe7SN5XB25esQWNKdPv7ESZ403fRUtDJelsapI9Qa/Hja3h
- 9/0mTYP8rmFLhlAw==
+ bh=xhjvJnMRV/+8A9BwOiH88DdcVHNFmF14jzAf+GiYuFc=;
+ b=cWGBFPrtDbUDpnLoFCg8ICSGLO41g365PGbvsv9six4OfMsnDuFdimJeIFLVMfAFOtmHUp
+ S2zrJEbiJveKV8CA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1B4B713B40;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 539B813638;
  Tue,  7 Jun 2022 09:20:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SNfLBUoYn2JwLwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 0LgsE0oYn2JwLwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 07 Jun 2022 09:20:10 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, kuohsiang_chou@aspeedtech.com, airlied@linux.ie,
  patrik.r.jakobsson@gmail.com, daniel@ffwll.ch,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Subject: [PATCH v3 3/5] drm/ast: Support output polling
-Date: Tue,  7 Jun 2022 11:20:06 +0200
-Message-Id: <20220607092008.22123-4-tzimmermann@suse.de>
+Subject: [PATCH v3 4/5] drm/ast: Fail probing if DCC channel could not be
+ initialized
+Date: Tue,  7 Jun 2022 11:20:07 +0200
+Message-Id: <20220607092008.22123-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220607092008.22123-1-tzimmermann@suse.de>
 References: <20220607092008.22123-1-tzimmermann@suse.de>
@@ -73,162 +74,126 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable output polling for all connectors. VGA always uses EDID for this. As
-there's currently no interrupt handling for the ast devices, we have to use
-that trick for the various DP and DVI ports as well.
-
-v3:
-	* clearly state in the docs that the EDID needs to be updated
-	  on each call to .detect_ctx (Patrik)
+Expect the hardware to provide a DDC channel. Fail probing if its
+initialization fails.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 ---
- drivers/gpu/drm/ast/ast_mode.c     | 14 ++++++++---
- drivers/gpu/drm/drm_probe_helper.c | 40 ++++++++++++++++++++++++++++++
- include/drm/drm_probe_helper.h     |  3 +++
- 3 files changed, 53 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/ast/ast_drv.h  |  2 --
+ drivers/gpu/drm/ast/ast_i2c.c  |  7 ++++---
+ drivers/gpu/drm/ast/ast_mode.c | 38 ++++++++++++++++------------------
+ 3 files changed, 22 insertions(+), 25 deletions(-)
 
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index a34db4380f68..bc01090d0ad1 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -137,7 +137,6 @@ struct ast_i2c_chan {
+ 
+ struct ast_vga_connector {
+ 	struct drm_connector base;
+-	struct ast_i2c_chan *i2c;
+ };
+ 
+ static inline struct ast_vga_connector *
+@@ -148,7 +147,6 @@ to_ast_vga_connector(struct drm_connector *connector)
+ 
+ struct ast_sil164_connector {
+ 	struct drm_connector base;
+-	struct ast_i2c_chan *i2c;
+ };
+ 
+ static inline struct ast_sil164_connector *
+diff --git a/drivers/gpu/drm/ast/ast_i2c.c b/drivers/gpu/drm/ast/ast_i2c.c
+index 93e91c36d649..1d039ff1396e 100644
+--- a/drivers/gpu/drm/ast/ast_i2c.c
++++ b/drivers/gpu/drm/ast/ast_i2c.c
+@@ -117,7 +117,7 @@ struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev)
+ 
+ 	i2c = kzalloc(sizeof(struct ast_i2c_chan), GFP_KERNEL);
+ 	if (!i2c)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	i2c->adapter.owner = THIS_MODULE;
+ 	i2c->adapter.class = I2C_CLASS_DDC;
+@@ -143,10 +143,11 @@ struct ast_i2c_chan *ast_i2c_create(struct drm_device *dev)
+ 
+ 	ret = drmm_add_action_or_reset(dev, ast_i2c_release, i2c);
+ 	if (ret)
+-		return NULL;
++		return ERR_PTR(ret);
++
+ 	return i2c;
+ 
+ out_kfree:
+ 	kfree(i2c);
+-	return NULL;
++	return ERR_PTR(ret);
+ }
 diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 57f41e56c6cb..582f278436ea 100644
+index 582f278436ea..364035d22463 100644
 --- a/drivers/gpu/drm/ast/ast_mode.c
 +++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1319,6 +1319,7 @@ static int ast_vga_connector_helper_get_modes(struct drm_connector *connector)
+@@ -1334,19 +1334,18 @@ static int ast_vga_connector_init(struct drm_device *dev,
+ 				  struct ast_vga_connector *ast_vga_connector)
+ {
+ 	struct drm_connector *connector = &ast_vga_connector->base;
++	struct ast_i2c_chan *i2c;
+ 	int ret;
  
- static const struct drm_connector_helper_funcs ast_vga_connector_helper_funcs = {
- 	.get_modes = ast_vga_connector_helper_get_modes,
-+	.detect_ctx = drm_connector_helper_detect_ctx_from_edid,
- };
+-	ast_vga_connector->i2c = ast_i2c_create(dev);
+-	if (!ast_vga_connector->i2c)
+-		drm_err(dev, "failed to add ddc bus for connector\n");
++	i2c = ast_i2c_create(dev);
++	if (IS_ERR(i2c)) {
++		ret = PTR_ERR(i2c);
++		drm_err(dev, "failed to add ddc bus for connector; ret=%d\n", ret);
++		return ret;
++	}
  
- static const struct drm_connector_funcs ast_vga_connector_funcs = {
-@@ -1354,7 +1355,7 @@ static int ast_vga_connector_init(struct drm_device *dev,
- 	connector->interlace_allowed = 0;
- 	connector->doublescan_allowed = 0;
+-	if (ast_vga_connector->i2c)
+-		ret = drm_connector_init_with_ddc(dev, connector, &ast_vga_connector_funcs,
+-						  DRM_MODE_CONNECTOR_VGA,
+-						  &ast_vga_connector->i2c->adapter);
+-	else
+-		ret = drm_connector_init(dev, connector, &ast_vga_connector_funcs,
+-					 DRM_MODE_CONNECTOR_VGA);
++	ret = drm_connector_init_with_ddc(dev, connector, &ast_vga_connector_funcs,
++					  DRM_MODE_CONNECTOR_VGA, &i2c->adapter);
+ 	if (ret)
+ 		return ret;
  
--	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+@@ -1406,19 +1405,18 @@ static int ast_sil164_connector_init(struct drm_device *dev,
+ 				     struct ast_sil164_connector *ast_sil164_connector)
+ {
+ 	struct drm_connector *connector = &ast_sil164_connector->base;
++	struct ast_i2c_chan *i2c;
+ 	int ret;
  
- 	return 0;
- }
-@@ -1390,6 +1391,7 @@ static int ast_vga_output_init(struct ast_private *ast)
+-	ast_sil164_connector->i2c = ast_i2c_create(dev);
+-	if (!ast_sil164_connector->i2c)
+-		drm_err(dev, "failed to add ddc bus for connector\n");
++	i2c = ast_i2c_create(dev);
++	if (IS_ERR(i2c)) {
++		ret = PTR_ERR(i2c);
++		drm_err(dev, "failed to add ddc bus for connector; ret=%d\n", ret);
++		return ret;
++	}
  
- static const struct drm_connector_helper_funcs ast_sil164_connector_helper_funcs = {
- 	.get_modes = ast_vga_connector_helper_get_modes, // same as VGA connector
-+	.detect_ctx = drm_connector_helper_detect_ctx_from_edid,
- };
+-	if (ast_sil164_connector->i2c)
+-		ret = drm_connector_init_with_ddc(dev, connector, &ast_sil164_connector_funcs,
+-						  DRM_MODE_CONNECTOR_DVII,
+-						  &ast_sil164_connector->i2c->adapter);
+-	else
+-		ret = drm_connector_init(dev, connector, &ast_sil164_connector_funcs,
+-					 DRM_MODE_CONNECTOR_DVII);
++	ret = drm_connector_init_with_ddc(dev, connector, &ast_sil164_connector_funcs,
++					  DRM_MODE_CONNECTOR_DVII, &i2c->adapter);
+ 	if (ret)
+ 		return ret;
  
- static const struct drm_connector_funcs ast_sil164_connector_funcs = {
-@@ -1425,7 +1427,7 @@ static int ast_sil164_connector_init(struct drm_device *dev,
- 	connector->interlace_allowed = 0;
- 	connector->doublescan_allowed = 0;
- 
--	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
- 
- 	return 0;
- }
-@@ -1488,6 +1490,7 @@ static int ast_dp501_connector_helper_get_modes(struct drm_connector *connector)
- 
- static const struct drm_connector_helper_funcs ast_dp501_connector_helper_funcs = {
- 	.get_modes = ast_dp501_connector_helper_get_modes,
-+	.detect_ctx = drm_connector_helper_detect_ctx_from_edid,
- };
- 
- static const struct drm_connector_funcs ast_dp501_connector_funcs = {
-@@ -1512,7 +1515,7 @@ static int ast_dp501_connector_init(struct drm_device *dev, struct drm_connector
- 	connector->interlace_allowed = 0;
- 	connector->doublescan_allowed = 0;
- 
--	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
- 
- 	return 0;
- }
-@@ -1575,6 +1578,7 @@ static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
- 
- static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs = {
- 	.get_modes = ast_astdp_connector_helper_get_modes,
-+	.detect_ctx = drm_connector_helper_detect_ctx_from_edid,
- };
- 
- static const struct drm_connector_funcs ast_astdp_connector_funcs = {
-@@ -1599,7 +1603,7 @@ static int ast_astdp_connector_init(struct drm_device *dev, struct drm_connector
- 	connector->interlace_allowed = 0;
- 	connector->doublescan_allowed = 0;
- 
--	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
-+	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
- 
- 	return 0;
- }
-@@ -1709,5 +1713,7 @@ int ast_mode_config_init(struct ast_private *ast)
- 
- 	drm_mode_config_reset(dev);
- 
-+	drm_kms_helper_poll_init(dev);
-+
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 425f56280d51..e6b9a21ee59d 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -1031,3 +1031,43 @@ int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector)
- 	return count;
- }
- EXPORT_SYMBOL(drm_connector_helper_get_modes_from_ddc);
-+
-+/**
-+ * drm_connector_helper_detect_ctx_from_edid -
-+ *	Updates the connector's status by reading EDID data
-+ * @connector: The connector.
-+ * @ctx: The lock-acquisition context.
-+ * @force: True if the operation was requested by userspace, false otherwise.
-+ *
-+ * Returns:
-+ * The connector's status as enum drm_connector_status.
-+ *
-+ * Updates the connector's EDID property by reading the display modes
-+ * and returns the connector's status. If the EDID property is set, the
-+ * connector is assumed to be connected; and disconnected otherwise.
-+ * The function relies on the get_modes helper to update the EDID
-+ * information on each call. If the EDID data has been cached or provided
-+ * at the kernel's command-line the connector-state detection is
-+ * unreliable.
-+ *
-+ * If the get_modes helper is missing, the default status is 'unknown'.
-+ *
-+ * See struct drm_connector_helper_funcs.detect_ctx.
-+ */
-+int drm_connector_helper_detect_ctx_from_edid(struct drm_connector *connector,
-+					      struct drm_modeset_acquire_ctx *ctx,
-+					      bool force)
-+{
-+	const struct drm_connector_helper_funcs *helper_funcs = connector->helper_private;
-+
-+	if (!helper_funcs || !helper_funcs->get_modes)
-+		return connector_status_unknown;
-+
-+	helper_funcs->get_modes(connector);
-+
-+	if (!connector->edid_blob_ptr)
-+		return connector_status_disconnected;
-+
-+	return connector_status_connected;
-+}
-+EXPORT_SYMBOL(drm_connector_helper_detect_ctx_from_edid);
-diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
-index c80cab7a53b7..7408cf010794 100644
---- a/include/drm/drm_probe_helper.h
-+++ b/include/drm/drm_probe_helper.h
-@@ -27,5 +27,8 @@ void drm_kms_helper_poll_enable(struct drm_device *dev);
- bool drm_kms_helper_is_poll_worker(void);
- 
- int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector);
-+int drm_connector_helper_detect_ctx_from_edid(struct drm_connector *connector,
-+					      struct drm_modeset_acquire_ctx *ctx,
-+					      bool force);
- 
- #endif
 -- 
 2.36.1
 
