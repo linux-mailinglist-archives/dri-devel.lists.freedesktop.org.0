@@ -1,82 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8515406DD
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 19:40:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E378A540780
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 19:51:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 020F110F5C2;
-	Tue,  7 Jun 2022 17:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC2C510F443;
+	Tue,  7 Jun 2022 17:51:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29FE710F5C4
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 17:40:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654623645;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8C0NEBO/ea6+vfvU3O1/xfsUBzcZiJoiCFBeBhlMW4s=;
- b=FZQX3RouvbJMgGfzpBflRNhBCfCs7lbrsf25cf/MCDxWONo0H5Ejn/PPM6j88cQd0e+pt7
- 0GZ1BQFKu7QGi/dapdE5rIdXZDFht4quwjqsfFE6lYnnOxYe6Iq7wV2SJtofVg82a02GTF
- XOmOMTl8fDeK8RPjK8r039XULw6DiPA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-338-M7Q7jAagPe-yXO2_ChiOuQ-1; Tue, 07 Jun 2022 13:40:44 -0400
-X-MC-Unique: M7Q7jAagPe-yXO2_ChiOuQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d9-20020adfe849000000b00213375a746aso3667121wrn.18
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 10:40:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=8C0NEBO/ea6+vfvU3O1/xfsUBzcZiJoiCFBeBhlMW4s=;
- b=wbWZXl4M2YDaRktj2az5WFmQf16DVqhvzKeIHD2471RSXf7AscdYP+hItyfYnbO+lH
- HSs88SokBwu2/jf1k1efEp8g6Rxkd1HVZvI2CKWdaEjiQxXOwAlH23EAaKnY1hJ93Q1K
- VKKzC0O/CZpGqnMgFNjXZBqVENLkYjoL2CkTpwGMlvgSYdpfUZ2mVk9M6hjgfNEC3p2m
- fOprZCL/98x5QVvVGbz2saOlDak2I5RMjzj0TfHtdLPh8WxSgCBNfAO7U9Y+7REymXIu
- x4tkbkQ9+BpfkLTZhZV1+ai7ihHK8sqXjIQ9flf+T2z9K7uh6kHLOE9IRZ3XJruKiKBZ
- 04zA==
-X-Gm-Message-State: AOAM533GWQDK7zC0gQZnqNuig9Xfw5uV2NcSZrb1HsQWXd83+qSOxx1t
- 8M12kiBxEW5N93JjNaYMw9tLl9Sflj0cB8FBN7ksgUs5R4H7iVpWvh1YSn8z3Wx/+Q7oAu3NQms
- xzscjOg7wFHQXN9Ec5GBbTOrFcp3v
-X-Received: by 2002:a5d:6e01:0:b0:210:1a7c:7319 with SMTP id
- h1-20020a5d6e01000000b002101a7c7319mr28352626wrz.227.1654623642500; 
- Tue, 07 Jun 2022 10:40:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx5QIu9HFXcvDPWLU03G7ZoVTO2C4kFZ1I91LvWeDKHDznQ8bnGcRSAU8CITtMC8w64B9s67A==
-X-Received: by 2002:a5d:6e01:0:b0:210:1a7c:7319 with SMTP id
- h1-20020a5d6e01000000b002101a7c7319mr28352599wrz.227.1654623642212; 
- Tue, 07 Jun 2022 10:40:42 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- v190-20020a1cacc7000000b003975c7058bfsm21166382wme.12.2022.06.07.10.40.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 10:40:41 -0700 (PDT)
-Message-ID: <badc8e91-f843-2c96-9c02-4fbb59accdc4@redhat.com>
-Date: Tue, 7 Jun 2022 19:40:40 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97D1810F0FD;
+ Tue,  7 Jun 2022 17:51:30 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 151BE6170B;
+ Tue,  7 Jun 2022 17:51:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4056C385A5;
+ Tue,  7 Jun 2022 17:51:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1654624287;
+ bh=JFMCjGRirR0FmWsQPOEbQH2Ao92E7UdBKDrpiz0uqQo=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=qocTYGwFU2Uy1wGcqOsNWoCYozgte379OXNsQBrQ4/zdmkkCvdd+uMRawa3A+isdk
+ s+Qu9VXAv0mLPctAR0I4bYAxHIht2r0gL6WEesETy+wiMb1/Q2JMFTlu6LmO11o9SP
+ 7oMOmqKv9m/vb/WmO6BVBHBhXQ5bzgX2sc+eAecq6biixqUNB/e4hJsMRbEdc94JIH
+ zaC/XJ7nXyrSH8SVQTiA0/D3JHH2QM6UCLUhWNxPNjMexWKgg9kQU7aD3o5N8gYvlr
+ gwsIeoQzdJl3a9vbOXFo2Bnmw0CHQsbAeyVI9TrOEHWonCTuW//lLMulgnwVfPSXUa
+ S2m0eS4nR5pQA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.18 45/68] drm/amd/display: Check if modulo is 0
+ before dividing.
+Date: Tue,  7 Jun 2022 13:48:11 -0400
+Message-Id: <20220607174846.477972-45-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220607174846.477972-1-sashal@kernel.org>
+References: <20220607174846.477972-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 0/2] Improve vfio-pci primary GPU assignment behavior
-To: Alex Williamson <alex.williamson@redhat.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch
-References: <165453797543.3592816.6381793341352595461.stgit@omen>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <165453797543.3592816.6381793341352595461.stgit@omen>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,75 +55,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Laszlo Ersek <lersek@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com, baihaowen@meizu.com,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, alex.hung@amd.com,
+ Nevenko.Stupar@amd.com, HaoPing.Liu@amd.com, sunpeng.li@amd.com,
+ Daniel Wheeler <daniel.wheeler@amd.com>, dillon.varone@amd.com,
+ Martin Leung <Martin.Leung@amd.com>, Hansen.Dsouza@amd.com,
+ David Galiffi <David.Galiffi@amd.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Xinhui.Pan@amd.com, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Alex,
+From: David Galiffi <David.Galiffi@amd.com>
 
-On 6/6/22 19:53, Alex Williamson wrote:
-> Users attempting to enable vfio PCI device assignment with a GPU will
-> often block the default PCI driver from the device to avoid conflicts
-> with the device initialization or release path.  This means that
-> vfio-pci is sometimes the first PCI driver to bind to the device.  In 
-> the case of assigning the primary graphics device, low-level console
-> drivers may still generate resource conflicts.  Users often employ
-> kernel command line arguments to disable conflicting drivers or
-> perform unbinding in userspace to avoid this, but the actual solution
-> is often distribution/kernel config specific based on the included
-> drivers.
-> 
-> We can instead allow vfio-pci to copy the behavior of
-> drm_aperture_remove_conflicting_pci_framebuffers() in order to remove
-> these low-level drivers with conflicting resources.  vfio-pci is not
-> however a DRM driver, nor does vfio-pci depend on DRM config options,
-> thus we split out and export the necessary DRM apterture support and
-> mirror the framebuffer and VGA support.
-> 
-> I'd be happy to pull this series in through the vfio branch if
-> approved by the DRM maintainers.  Thanks,
->
+[ Upstream commit 49947b906a6bd9668eaf4f9cf691973c25c26955 ]
 
-I understand your issue but I really don't think that using this helper
-is the correct thing to do. We already have some races with the current
-aperture infrastructure As an example you can look at [0].
+[How & Why]
+If a value of 0 is read, then this will cause a divide-by-0 panic.
 
-The agreement on the mentioned thread is that we want to unify the fbdev
-and DRM drivers apertures into a single list, and ideally moving all to
-the Linux device model to handle the removal of conflicting devices.
+Reviewed-by: Martin Leung <Martin.Leung@amd.com>
+Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
+Signed-off-by: David Galiffi <David.Galiffi@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-That's why I don't feel that leaking the DRM aperture helper to another
-is desirable since it would make even harder to cleanup this later.
-
-But also, this issue isn't something that only affects graphic devices,
-right? AFAIU from [1] and [2], the same issue happens if a PCI device
-has to be bound to vfio-pci but already was bound to a host driver.
-
-The fact that DRM happens to have some infrastructure to remove devices
-that conflict with an aperture is just a coincidence. Since this is used
-to remove devices bound to drivers that make use of the firmware-provided
-system framebuffer.
-
-The series [0] mentioned above, adds a sysfb_disable() that disables the
-Generic System Framebuffer logic that is what registers the framebuffer
-devices that are bound to these generic video drivers. On disable, the
-devices registered by sysfb are also unregistered.
-
-Would be enough for your use case to use that helper function if it lands
-or do you really need to look at the apertures? That is, do you want to
-remove the {vesa,efi,simple}fb and simpledrm drivers or is there a need
-to also remove real fbdev and DRM drivers?
-
-[0]: https://lore.kernel.org/lkml/YnvrxICnisXU6I1y@ravnborg.org/T/
-[1]: https://www.ibm.com/docs/en/linux-on-systems?topic=through-pci
-[2]: https://www.kernel.org/doc/Documentation/vfio.txt
-
+diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c b/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
+index cc5128e67daf..8e9a7409c17a 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dce_clock_source.c
+@@ -1105,9 +1105,12 @@ static bool get_pixel_clk_frequency_100hz(
+ 			 * not be programmed equal to DPREFCLK
+ 			 */
+ 			modulo_hz = REG_READ(MODULO[inst]);
+-			*pixel_clk_khz = div_u64((uint64_t)clock_hz*
+-				clock_source->ctx->dc->clk_mgr->dprefclk_khz*10,
+-				modulo_hz);
++			if (modulo_hz)
++				*pixel_clk_khz = div_u64((uint64_t)clock_hz*
++					clock_source->ctx->dc->clk_mgr->dprefclk_khz*10,
++					modulo_hz);
++			else
++				*pixel_clk_khz = 0;
+ 		} else {
+ 			/* NOTE: There is agreement with VBIOS here that MODULO is
+ 			 * programmed equal to DPREFCLK, in which case PHASE will be
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.35.1
 
