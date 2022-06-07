@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A1B53F602
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 08:21:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7039253F672
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 08:44:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25D3812AAD7;
-	Tue,  7 Jun 2022 06:21:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF64112A71;
+	Tue,  7 Jun 2022 06:44:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 354DD12AAD4
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 06:21:33 +0000 (UTC)
-X-UUID: 65a4006f858644e5b49a6e18ee0f91e9-20220607
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E8301125BB
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 06:44:38 +0000 (UTC)
+X-UUID: f2ff2b99b3a6428b81381a0435a5737a-20220607
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:2c3b1d89-4978-4ed5-8c92-0baceb47a6ee, OB:0,
+X-CID-O-INFO: VERSION:1.1.5, REQID:bd6e63f1-6500-4bea-bd3e-52a63a9384c9, OB:0,
  LO
- B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:5
-X-CID-META: VersionHash:2a19b09, CLOUDID:47f0e4e4-2ba2-4dc1-b6c5-11feb6c769e0,
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:2a19b09, CLOUDID:bde48d21-199a-43f9-af93-057fe480bdd5,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
  ,QS:0,BEC:nil
-X-UUID: 65a4006f858644e5b49a6e18ee0f91e9-20220607
+X-UUID: f2ff2b99b3a6428b81381a0435a5737a-20220607
 Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1400721123; Tue, 07 Jun 2022 14:21:27 +0800
+ with ESMTP id 528559842; Tue, 07 Jun 2022 14:44:33 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
  mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Tue, 7 Jun 2022 14:21:25 +0800
+ Tue, 7 Jun 2022 14:44:32 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Tue, 7 Jun 2022 14:21:24 +0800
-Message-ID: <0bd8b0c66b9e2a1b63280e7eab63048bee7fe786.camel@mediatek.com>
+ Transport; Tue, 7 Jun 2022 14:44:32 +0800
+Message-ID: <b8aef76cef2fa434401b6a016de291eb24198faa.camel@mediatek.com>
 Subject: Re: [PATCH v10 18/21] drm/mediatek: Add mt8195 Embedded DisplayPort
  driver
 From: CK Hu <ck.hu@mediatek.com>
@@ -48,7 +48,7 @@ To: Rex-BC Chen <rex-bc.chen@mediatek.com>, Guillaume Ranquet
  <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, "Kishon
  Vijay Abraham I" <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
  Deller" <deller@gmx.de>, Jitao shi <jitao.shi@mediatek.com>
-Date: Tue, 7 Jun 2022 14:21:24 +0800
+Date: Tue, 7 Jun 2022 14:44:32 +0800
 In-Reply-To: <20220523104758.29531-19-granquet@baylibre.com>
 References: <20220523104758.29531-1-granquet@baylibre.com>
  <20220523104758.29531-19-granquet@baylibre.com>
@@ -107,96 +107,101 @@ On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
 [snip]
 
 > +
-> +static irqreturn_t mtk_dp_hpd_event_thread(int hpd, void *dev)
+> +static int mtk_dp_train_handler(struct mtk_dp *mtk_dp)
 > +{
-> +	struct mtk_dp *mtk_dp = dev;
-> +	int event;
-> +	u8 buf[DP_RECEIVER_CAP_SIZE] = {};
+> +	bool training_done = false;
+> +	short max_retry = 50;
+> +	int ret = 0;
 > +
-> +	event = mtk_dp_plug_state(mtk_dp) ? connector_status_connected
-> :
-> +						  connector_status_disc
-> onnected;
+> +	do {
+> +		switch (mtk_dp->train_state) {
+> +		case MTK_DP_TRAIN_STATE_STARTUP:
+
+mtk_dp->train_state is initialized as MTK_DP_TRAIN_STATE_STARTUP even
+though HPD ISR does not exist. Does this mean HPD ISR is redundant? If
+HPD ISR is not redundant, create a new state MTK_DP_TRAIN_STATE_NONE
+for init state.
+
+> +			mtk_dp_state_handler(mtk_dp);
+> +			mtk_dp->train_state =
+> MTK_DP_TRAIN_STATE_CHECKCAP;
+> +			break;
 > +
-> +	if (event < 0)
-
-event is always > 0, isn't it?
-
-> +		return IRQ_HANDLED;
+> +		case MTK_DP_TRAIN_STATE_CHECKCAP:
+> +			if (mtk_dp_parse_capabilities(mtk_dp)) {
+> +				mtk_dp->train_info.check_cap_count = 0;
+> +				mtk_dp->train_state =
+> MTK_DP_TRAIN_STATE_CHECKEDID;
+> +			} else {
+> +				mtk_dp->train_info.check_cap_count++;
 > +
-> +	if (mtk_dp->drm_dev) {
-> +		dev_info(mtk_dp->dev, "drm_helper_hpd_irq_event\n");
-> +		drm_helper_hpd_irq_event(mtk_dp->bridge.dev);
-
-I think this ISR would come once. If bridge has not attached, the drm
-core would lost this event. Maybe you should enable eDP hardware after
-bridge attached or send this event when attached.
-
-> +	}
+> +				if (mtk_dp->train_info.check_cap_count
+> >
+> +				    MTK_DP_CHECK_SINK_CAP_TIMEOUT_COUNT
+> ) {
+> +					mtk_dp-
+> >train_info.check_cap_count = 0;
+> +					mtk_dp->train_state =
+> MTK_DP_TRAIN_STATE_DPIDLE;
+> +					ret = -ETIMEDOUT;
+> +				}
+> +			}
+> +			break;
 > +
-> +	if (mtk_dp->train_info.cable_state_change) {
+> +		case MTK_DP_TRAIN_STATE_CHECKEDID:
+> +			mtk_dp->train_state =
+> MTK_DP_TRAIN_STATE_TRAINING_PRE;
 
-Executing this thread imply cable_state_change = true, so drop
-cable_state_change.
+MTK_DP_TRAIN_STATE_CHECKEDID is a redundant state, drop it.
 
-> +		mtk_dp->train_info.cable_state_change = false;
+> +			break;
 > +
-> +		mtk_dp->train_state = MTK_DP_TRAIN_STATE_STARTUP;
+> +		case MTK_DP_TRAIN_STATE_TRAINING_PRE:
+> +			mtk_dp_state_handler(mtk_dp);
+> +			mtk_dp->train_state =
+> MTK_DP_TRAIN_STATE_TRAINING;
+> +			break;
 > +
-> +		if (!mtk_dp->train_info.cable_plugged_in ||
-> +		    !mtk_dp_plug_state(mtk_dp)) {
+> +		case MTK_DP_TRAIN_STATE_TRAINING:
+> +			ret = mtk_dp_train_start(mtk_dp);
+> +			if (ret == 0) {
+> +				mtk_dp_video_mute(mtk_dp, true);
+> +				mtk_dp->train_state =
+> MTK_DP_TRAIN_STATE_NORMAL;
+> +				mtk_dp_fec_enable(mtk_dp, mtk_dp-
+> >has_fec);
+> +			} else if (ret != -EAGAIN) {
+> +				mtk_dp->train_state =
+> MTK_DP_TRAIN_STATE_DPIDLE;
+> +			}
+> +			break;
+> +		case MTK_DP_TRAIN_STATE_NORMAL:
+> +			mtk_dp_state_handler(mtk_dp);
+> +			training_done = true;
+> +			break;
+> +		case MTK_DP_TRAIN_STATE_DPIDLE:
 
-I do not like two variable to present one thing. If
-
-mtk_dp->train_info.cable_plugged_in = false
-and
-mtk_dp_plug_state(mtk_dp) = ture
-
-What does this mean? I think this mean 'now' is connected because
-cable_plugged_in is old information and mtk_dp_plug_state() is current
-information.
-
-But I would like to keep cable_plugged_in and drop mtk_dp_plug_state()
-because cable_plugged_in would be changed in isr and it would be the
-same as mtk_dp_plug_state().
+When would this case happen?
 
 Regards,
 CK
 
-> +			mtk_dp_video_mute(mtk_dp, true);
-> +
-> +			mtk_dp_initialize_priv_data(mtk_dp);
-> +			mtk_dp_set_idle_pattern(mtk_dp, true);
-> +			if (mtk_dp->has_fec)
-> +				mtk_dp_fec_enable(mtk_dp, false);
-> +
-> +			mtk_dp_update_bits(mtk_dp,
-> MTK_DP_TOP_PWR_STATE,
-> +					   DP_PWR_STATE_BANDGAP_TPLL,
-> +					   DP_PWR_STATE_MASK);
-> +		} else {
-> +			mtk_dp_update_bits(mtk_dp,
-> MTK_DP_TOP_PWR_STATE,
-> +					   DP_PWR_STATE_BANDGAP_TPLL_LA
-> NE,
-> +					   DP_PWR_STATE_MASK);
-> +			drm_dp_read_dpcd_caps(&mtk_dp->aux, buf);
-> +			mtk_dp->train_info.link_rate =
-> +				min_t(int, mtk_dp->max_linkrate,
-> +				      buf[mtk_dp->max_linkrate]);
-> +			mtk_dp->train_info.lane_count =
-> +				min_t(int, mtk_dp->max_lanes,
-> +				      drm_dp_max_lane_count(buf));
+> +			break;
+> +		default:
+> +			break;
 > +		}
-> +	}
 > +
-> +	if (mtk_dp->train_info.irq_status & MTK_DP_HPD_INTERRUPT) {
-> +		dev_dbg(mtk_dp->dev, "MTK_DP_HPD_INTERRUPT\n");
-> +		mtk_dp->train_info.irq_status &= ~MTK_DP_HPD_INTERRUPT;
-> +		mtk_dp_hpd_sink_event(mtk_dp);
-> +	}
+> +		if (ret) {
+> +			if (ret == -EAGAIN)
+> +				continue;
+> +			/*
+> +			 * If we get any other error number, it doesn't
+> +			 * make any sense to keep iterating.
+> +			 */
+> +			break;
+> +		}
+> +	} while (!training_done || --max_retry);
 > +
-> +	return IRQ_HANDLED;
+> +	return ret;
 > +}
-> +
 
