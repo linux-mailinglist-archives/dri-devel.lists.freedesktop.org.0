@@ -1,56 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE5854060C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 19:33:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B8515406DD
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 19:40:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E335110F3AB;
-	Tue,  7 Jun 2022 17:33:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 020F110F5C2;
+	Tue,  7 Jun 2022 17:40:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 116FC10F3AB
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 17:33:26 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id s12so29422774ejx.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 10:33:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HRzUIOkbxlg4/baczvJWPf/GkLt3/DWxPl6VZozAums=;
- b=RD4SU2my+tlM0JZgfOe5VXMNi83hxwjg4YOJwHBmwJIL4tu0DeN6/fhVoCvtVOcO+B
- ZYDF+M0o2A3/ZD3lDMStIxQ5ml7W1pXpB6QqCuxhowoQNM/1bumDiZjb6iKJJ4ApCGyv
- aM5WR+3t+mYCU2JQZbt3hAcaH3vmLql1KZPRY=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29FE710F5C4
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 17:40:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654623645;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8C0NEBO/ea6+vfvU3O1/xfsUBzcZiJoiCFBeBhlMW4s=;
+ b=FZQX3RouvbJMgGfzpBflRNhBCfCs7lbrsf25cf/MCDxWONo0H5Ejn/PPM6j88cQd0e+pt7
+ 0GZ1BQFKu7QGi/dapdE5rIdXZDFht4quwjqsfFE6lYnnOxYe6Iq7wV2SJtofVg82a02GTF
+ XOmOMTl8fDeK8RPjK8r039XULw6DiPA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-338-M7Q7jAagPe-yXO2_ChiOuQ-1; Tue, 07 Jun 2022 13:40:44 -0400
+X-MC-Unique: M7Q7jAagPe-yXO2_ChiOuQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d9-20020adfe849000000b00213375a746aso3667121wrn.18
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 10:40:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HRzUIOkbxlg4/baczvJWPf/GkLt3/DWxPl6VZozAums=;
- b=UZj1Nlcpb/+BUtah9r8EKZwPZ4eWRlfM0MsM/QsyG1yaP6pkGFE/Et67DdqKC44Jp8
- S9upVpaSahJE/cgpdP1THjDyV5l4+L45GVXtpxtIr2PFTJFMdbltrwx4h3urFJYYyCBI
- AJcVSCpSRbDyJMInkkM0gPDD5uvw4LNmW+39Ldh4im7At8M7FgRSEo2Iiw+QM1M5QEyt
- MLfrefjWwIWSUMsfB8IA8SqB4OJr/2ejtASI6rpxLWFpK8wJlf4zGzWS4KpOQ2Gwd/Tw
- CNW2LjPeOWML7cYg9QH/vrOLeO0SCXCbklYSKJKNio7Rtf1CbyERJ+SWNVC0ZGxxp2pS
- 33nw==
-X-Gm-Message-State: AOAM533Zq8jQIDEE5iW+Zu1ZHo4MPZkET4a/ggodufx+yuGcxejG2N2N
- OzUa4wYIDToRmhyLjs24wJCo/1IOXgvI65vwZ9uOhA==
-X-Google-Smtp-Source: ABdhPJxbaOHGnKwPS7RzOxJK4jreT9rv3t5T+XECb3XXVjD4MwCLEFJyF5jGbhZYrWSctlP0MSYKbrnxp1PjI4yFWNk=
-X-Received: by 2002:a17:906:2cc3:b0:70d:b6c8:f83b with SMTP id
- r3-20020a1709062cc300b0070db6c8f83bmr23327150ejr.770.1654623200838; Tue, 07
- Jun 2022 10:33:20 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=8C0NEBO/ea6+vfvU3O1/xfsUBzcZiJoiCFBeBhlMW4s=;
+ b=wbWZXl4M2YDaRktj2az5WFmQf16DVqhvzKeIHD2471RSXf7AscdYP+hItyfYnbO+lH
+ HSs88SokBwu2/jf1k1efEp8g6Rxkd1HVZvI2CKWdaEjiQxXOwAlH23EAaKnY1hJ93Q1K
+ VKKzC0O/CZpGqnMgFNjXZBqVENLkYjoL2CkTpwGMlvgSYdpfUZ2mVk9M6hjgfNEC3p2m
+ fOprZCL/98x5QVvVGbz2saOlDak2I5RMjzj0TfHtdLPh8WxSgCBNfAO7U9Y+7REymXIu
+ x4tkbkQ9+BpfkLTZhZV1+ai7ihHK8sqXjIQ9flf+T2z9K7uh6kHLOE9IRZ3XJruKiKBZ
+ 04zA==
+X-Gm-Message-State: AOAM533GWQDK7zC0gQZnqNuig9Xfw5uV2NcSZrb1HsQWXd83+qSOxx1t
+ 8M12kiBxEW5N93JjNaYMw9tLl9Sflj0cB8FBN7ksgUs5R4H7iVpWvh1YSn8z3Wx/+Q7oAu3NQms
+ xzscjOg7wFHQXN9Ec5GBbTOrFcp3v
+X-Received: by 2002:a5d:6e01:0:b0:210:1a7c:7319 with SMTP id
+ h1-20020a5d6e01000000b002101a7c7319mr28352626wrz.227.1654623642500; 
+ Tue, 07 Jun 2022 10:40:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx5QIu9HFXcvDPWLU03G7ZoVTO2C4kFZ1I91LvWeDKHDznQ8bnGcRSAU8CITtMC8w64B9s67A==
+X-Received: by 2002:a5d:6e01:0:b0:210:1a7c:7319 with SMTP id
+ h1-20020a5d6e01000000b002101a7c7319mr28352599wrz.227.1654623642212; 
+ Tue, 07 Jun 2022 10:40:42 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ v190-20020a1cacc7000000b003975c7058bfsm21166382wme.12.2022.06.07.10.40.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 10:40:41 -0700 (PDT)
+Message-ID: <badc8e91-f843-2c96-9c02-4fbb59accdc4@redhat.com>
+Date: Tue, 7 Jun 2022 19:40:40 +0200
 MIME-Version: 1.0
-References: <CAMty3ZBT9WEPbkaoS_8t1O153tckBk0pxiP2cF75ASZb54SPUQ@mail.gmail.com>
- <20220330085254.yow3w4frr56wllou@houat> <YkQpo1JgGkE8FqK3@phenom.ffwll.local>
- <CAMty3ZAKGVNBFPcFdnVORbmzKUk_qYZjEkfBmx8PKxH-1CpSwA@mail.gmail.com>
- <CAKMK7uEauPsLSX3JuO7Ztm2hkdoMiXz+63Zj8BiR46TxmRoEfQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uEauPsLSX3JuO7Ztm2hkdoMiXz+63Zj8BiR46TxmRoEfQ@mail.gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 7 Jun 2022 23:03:09 +0530
-Message-ID: <CAMty3ZD_=Q5M3v5btwEBqwax8tN_0F00Z0Fmv0a+CS=kjnEKfQ@mail.gmail.com>
-Subject: Re: DRM Master ignoring hotplug event during display switching (QT)
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 0/2] Improve vfio-pci primary GPU assignment behavior
+To: Alex Williamson <alex.williamson@redhat.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <165453797543.3592816.6381793341352595461.stgit@omen>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <165453797543.3592816.6381793341352595461.stgit@omen>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,130 +89,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, Laszlo Ersek <lersek@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 7, 2022 at 8:04 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Thu, 2 Jun 2022 at 17:43, Jagan Teki <jagan@amarulasolutions.com> wrote:
-> >
-> > Hi Daniel,
-> >
-> > On Wed, Mar 30, 2022 at 3:27 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Wed, Mar 30, 2022 at 10:52:54AM +0200, Maxime Ripard wrote:
-> > > > On Tue, Mar 29, 2022 at 11:38:32PM +0530, Jagan Teki wrote:
-> > > > > Hi all,
-> > > > >
-> > > > > I have implemented runtime display switching in the MIPI switch design
-> > > > > where LVDS and HDMI bridges are selected with the help of runtime
-> > > > > GPIO.
-> > > > >
-> > > > > Initial discussion on the same can be found here,
-> > > > > https://www.spinics.net/lists/dri-devel/msg318524.html
-> > > > >
-> > > > > The implementation has been done by creating each connector at
-> > > > > runtime. The default boot will create the LVDS connector and based on
-> > > > > the HDMI plug-in the ISR.
-> > > > >
-> > > > > 1. forcing the LVDS to disconnect
-> > > > > 2. call drm_kms_helper_hotplug_event
-> > > > > 3. detach the bridge chain
-> > > > > 4. attach the new bridge chain (HDMI)
-> > > > > 5. call drm_kms_helper_hotplug_event
-> > > > >
-> > > > > do the reverse when we unplug the HDMI cable.
-> > > > >
-> > > > > So, the bridge chains are attached and detached based on GPIO
-> > > > > Interrupt which is indeed identified based on the physical HDMIA
-> > > > > connector.
-> > > > >
-> > > > > Pipeline for LVDS,
-> > > > > mxfsb => nwl-dsi => display-switch => sn65dsi83=> panel-bridge
-> > > > >
-> > > > > Pipeline for HDMI,
-> > > > > mxfsb => nwl-dsi => display-switch => adv7511 => display-connector
-> > > > >
-> > > > > With this, implementation and I can able switch the displays with
-> > > > > default DRM (without specific DRM applications) where the LVDS is ON
-> > > > > by default and when HDMI plug-in the LVDS OFF/HDMI ON, and when HDMI
-> > > > > unplug the HDMI OFF/LVDS ON.
-> > > > >
-> > > > > However, with QT5 I can see the DRM Master ignoring hotplug event by
-> > > > > returning 0 on drm_master_internal_acquire in
-> > > > > drm_fb_helper_hotplug_event. With this the hotplug returned early so
-> > > > > it cannot able to disconnect and connect the new switching connector.
-> > > > >
-> > > > > Any help?
-> > > >
-> > > > I'm not sure why you started another discussion with pretty much the
-> > > > same content, but you can't rely on userspace handling the hotplug
-> > > > event. You'll have to deal with the case where it just doesn't.
-> > >
-> > > Well I missed the old thread, so I'm replying here.
-> > >
-> > > You should not handle this at all from a hotplug.
-> > >
-> > > The way kms works is roughly as follows:
-> > >
-> > > 1. hw output state changes
-> > > 2. driver detects this (either through hpd interrupt or polling)
-> > > 3. driver sends out hotplug uevent
-> > >
-> > > That's it. Nothing else, no bridge rebinding, no link retaining is
-> > > required.
-> > >
-> > > Then either userspace or fbcon emulation reacts to this hotplug event by
-> > > doing an atomic modeset, where it hopefully disables the old output and
-> > > re-enables the new output. Your atomic_check needs to validate that
-> > > everything is all right (i.e. not enabling both at the same time).
-> > >
-> > > Note that if you change stuff underneath, then that tends to seriously
-> > > upset atomic users. Also you should try to continue supporting at least
-> > > page flips with the wrong config, compositors otherwise tend to crash.
-> > >
-> > > This also means that if userspace doesn't handle hotplug events, then you
-> > > might end up with a black screen. That's ok. We try to avoid that when
-> > > it's practical (e.g. dp sst link retraining), but not when it's too hard
-> > > (dp mst hot-replug relies on userspace restoring everything).
-> > >
-> > > Finally exchanging the bridge chain isn't supported, there's no locking
-> > > for that since it's assumed to be invariant over the lifetim of the
-> > > drm_device instance. The simplest way to make that happen right now is to
-> > > have 2 drm_encoder instances, one with the lvds bridge chain, the other
-> > > with the hdmi bridge chain, and select the right encoder/bridge chain
-> > > depending upon which output userspace picks.
-> >
-> > I've created 2 instances of encoders. endpoint 0 for HDMI bridge chain
-> > and endpoint 1 for LVDS bridge chain. Each bridge chain uses a
-> > respective encoder instance in order to start attaching the bridge
-> > like below.
-> >
-> > 1. find the bridge at endpoint 0
-> > 2. drm_bridge_attach(&mxsfb->encoder[0], mxsfb->bridge[0], NULL, 0)
-> >
-> > and repeat for endpoint 1
-> >
-> > The bridge chain established fine for endpoint 0 but returned -EBUSY
-> > while the bridge chain attached for endpoint 1. looks like bridge->dev
-> > is still being used in endpoint 0 even though we have a separate
-> > bridge point from mxsfb.
-> >
-> > Any thought on how to establish the dual bridge chain here?
->
-> Are you using 2 different struct drm_bridge for this? Reusing the same
-> drm_bridge for the 2nd encoder and endpoint is the only thing I can
-> come up with that would result in this.
+Hello Alex,
 
-Yes, I did try to re-use the same bridge pointer. drm_bridge_attach
-giving an -EBUSY while attaching the 2nd bridge chain.
+On 6/6/22 19:53, Alex Williamson wrote:
+> Users attempting to enable vfio PCI device assignment with a GPU will
+> often block the default PCI driver from the device to avoid conflicts
+> with the device initialization or release path.  This means that
+> vfio-pci is sometimes the first PCI driver to bind to the device.  In 
+> the case of assigning the primary graphics device, low-level console
+> drivers may still generate resource conflicts.  Users often employ
+> kernel command line arguments to disable conflicting drivers or
+> perform unbinding in userspace to avoid this, but the actual solution
+> is often distribution/kernel config specific based on the included
+> drivers.
+> 
+> We can instead allow vfio-pci to copy the behavior of
+> drm_aperture_remove_conflicting_pci_framebuffers() in order to remove
+> these low-level drivers with conflicting resources.  vfio-pci is not
+> however a DRM driver, nor does vfio-pci depend on DRM config options,
+> thus we split out and export the necessary DRM apterture support and
+> mirror the framebuffer and VGA support.
+> 
+> I'd be happy to pull this series in through the vfio branch if
+> approved by the DRM maintainers.  Thanks,
+>
 
-Jagan.
+I understand your issue but I really don't think that using this helper
+is the correct thing to do. We already have some races with the current
+aperture infrastructure As an example you can look at [0].
+
+The agreement on the mentioned thread is that we want to unify the fbdev
+and DRM drivers apertures into a single list, and ideally moving all to
+the Linux device model to handle the removal of conflicting devices.
+
+That's why I don't feel that leaking the DRM aperture helper to another
+is desirable since it would make even harder to cleanup this later.
+
+But also, this issue isn't something that only affects graphic devices,
+right? AFAIU from [1] and [2], the same issue happens if a PCI device
+has to be bound to vfio-pci but already was bound to a host driver.
+
+The fact that DRM happens to have some infrastructure to remove devices
+that conflict with an aperture is just a coincidence. Since this is used
+to remove devices bound to drivers that make use of the firmware-provided
+system framebuffer.
+
+The series [0] mentioned above, adds a sysfb_disable() that disables the
+Generic System Framebuffer logic that is what registers the framebuffer
+devices that are bound to these generic video drivers. On disable, the
+devices registered by sysfb are also unregistered.
+
+Would be enough for your use case to use that helper function if it lands
+or do you really need to look at the apertures? That is, do you want to
+remove the {vesa,efi,simple}fb and simpledrm drivers or is there a need
+to also remove real fbdev and DRM drivers?
+
+[0]: https://lore.kernel.org/lkml/YnvrxICnisXU6I1y@ravnborg.org/T/
+[1]: https://www.ibm.com/docs/en/linux-on-systems?topic=through-pci
+[2]: https://www.kernel.org/doc/Documentation/vfio.txt
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
