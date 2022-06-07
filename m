@@ -1,64 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2DF953F7F6
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 10:13:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 631CB53F846
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 10:36:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B737412B031;
-	Tue,  7 Jun 2022 08:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3997412B188;
+	Tue,  7 Jun 2022 08:36:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C67512B031
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 08:13:10 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 380021F88C;
- Tue,  7 Jun 2022 08:13:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1654589589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZPU+Ixr44yslEkTBMf6xfc+4god9MNXIYPtsXYr8qo8=;
- b=I24ow9SRfOr/LJlnrPi/rbf1aiah3tnrvDwfBKXwjod3RjiEsRzGCLs6wgvuDa08F+BBmK
- jlPNxL8IuWKpIixgRKimRb1DtOkclHaE1PALyhiapnqvhr4DqDPCIibNeO7jwQK73ucac4
- +4CfMfGElEDvJ0i5FVJQ/B6wjMomynE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1654589589;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZPU+Ixr44yslEkTBMf6xfc+4god9MNXIYPtsXYr8qo8=;
- b=sWC497iN0epGokpfzdWDexIoiwUjAP4b4mHfnAynVLyVQeDh/KlU7KS15L3z8N24vJuKGp
- Gt82LW+9YQa9WdCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 00FF613A88;
- Tue,  7 Jun 2022 08:13:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 1vTaOpQIn2IdEQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 07 Jun 2022 08:13:08 +0000
-Message-ID: <9a6c51a1-6634-fd1b-3451-9d0cd0a68e47@suse.de>
-Date: Tue, 7 Jun 2022 10:13:08 +0200
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD6C412B188;
+ Tue,  7 Jun 2022 08:36:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654590982; x=1686126982;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=oPVHuslC8ltTbLsplJVNwU9OvSMmhAzO26CpPgNFxaY=;
+ b=LbxTYXx6ggnT5wuCn+Go2SHlVvjfxYyod0GdeIbO6Xyu1B9SW5+Q4Jpm
+ h0goqslPvi2d9nAaQfPHPiUIZdTzw2qp4SHZHFpUBzVQ8vhhr8y3HVza1
+ 4z0N2XvklkIiWNye5/n9Lc7P7FBvLYQZ+TJmlvvuRDTGkF1yS5UlwK22G
+ G9BqU4Dq+q2qgBnYMKuAh9oGIv3DNGNuawSsWYzSbemCjxlnniN+Xm6Ii
+ guOhoW0sY/ZQ9JMBTyNIepMihOv3QfwUANpf/REg1uo95WFI5LeEbgSJ3
+ TtbA1PSYhcnlf5VKpU5fxW5xnGU3OUKhSfXT6mh90A/TRdG6mLC4Aazel Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="276754447"
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="276754447"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 01:36:21 -0700
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="636025496"
+Received: from bdgardin-mobl1.ger.corp.intel.com (HELO [10.213.217.225])
+ ([10.213.217.225])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 01:36:19 -0700
+Message-ID: <d91647ec-c941-0f99-5cdc-0fe7ac1c0d07@linux.intel.com>
+Date: Tue, 7 Jun 2022 09:36:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 2/5] drm/ast: Fix updating the connector's EDID property
+ Thunderbird/91.9.1
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Improve user experience and driver
+ robustness under SIGINT or similar
 Content-Language: en-US
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-References: <20220531111502.4470-1-tzimmermann@suse.de>
- <20220531111502.4470-3-tzimmermann@suse.de>
- <CAMeQTsbfYsqM5V_HT6=SsqJ-Xiegz7R8ZDRdCV=GDDHXJbNBYQ@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMeQTsbfYsqM5V_HT6=SsqJ-Xiegz7R8ZDRdCV=GDDHXJbNBYQ@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------lJfrjnnZp2MaAf3b0u5MtQOA"
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Intel-gfx@lists.freedesktop.org
+References: <20220527072452.2225610-1-tvrtko.ursulin@linux.intel.com>
+ <fa45f87d-9aa1-a36d-631b-2363a95a7665@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <fa45f87d-9aa1-a36d-631b-2363a95a7665@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,142 +62,375 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>, Dave Airlie <airlied@redhat.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------lJfrjnnZp2MaAf3b0u5MtQOA
-Content-Type: multipart/mixed; boundary="------------VwUXNEQNWhUO6Os3w1xAiNFI";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: Dave Airlie <airlied@redhat.com>, kuohsiang_chou@aspeedtech.com,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Message-ID: <9a6c51a1-6634-fd1b-3451-9d0cd0a68e47@suse.de>
-Subject: Re: [PATCH v2 2/5] drm/ast: Fix updating the connector's EDID
- property
-References: <20220531111502.4470-1-tzimmermann@suse.de>
- <20220531111502.4470-3-tzimmermann@suse.de>
- <CAMeQTsbfYsqM5V_HT6=SsqJ-Xiegz7R8ZDRdCV=GDDHXJbNBYQ@mail.gmail.com>
-In-Reply-To: <CAMeQTsbfYsqM5V_HT6=SsqJ-Xiegz7R8ZDRdCV=GDDHXJbNBYQ@mail.gmail.com>
 
---------------VwUXNEQNWhUO6Os3w1xAiNFI
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 27/05/2022 13:07, Andrzej Hajda wrote:
+> On 27.05.2022 09:24, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> We have long standing customer complaints that pressing Ctrl-C (or to the
+>> effect of) causes engine resets with otherwise well behaving programs.
+>>
+>> Not only is logging engine resets during normal operation not desirable
+>> since it creates support incidents, but more fundamentally we should 
+>> avoid
+>> going the engine reset path when we can since any engine reset introduces
+>> a chance of harming an innocent context.
+>>
+>> Reason for this undesirable behaviour is that the driver currently does
+>> not distinguish between banned contexts and non-persistent contexts which
+>> have been closed.
+>>
+>> To fix this we add the distinction between the two reasons for revoking
+>> contexts, which then allows the strict timeout only be applied to banned,
+>> while innocent contexts (well behaving) can preempt cleanly and exit
+>> without triggering the engine reset path.
+>>
+>> Note that the added context exiting category applies both to closed non-
+>> persistent context, and any exiting context when hangcheck has been
+>> disabled by the user.
+>>
+>> At the same time we rename the backend operation from 'ban' to 'revoke'
+>> which more accurately describes the actual semantics. (There is no ban at
+>> the backend level since banning is a concept driven by the scheduling
+>> frontend. Backends are simply able to revoke a running context so that
+>> is the more appropriate name chosen.)
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 23 +++++++++++------
+>>   drivers/gpu/drm/i915/gt/intel_context.c       | 24 ++++++++++++++++++
+>>   drivers/gpu/drm/i915/gt/intel_context.h       | 25 +++++++++++++------
+>>   drivers/gpu/drm/i915/gt/intel_context_types.h |  4 ++-
+>>   .../drm/i915/gt/intel_execlists_submission.c  |  6 ++---
+>>   .../gpu/drm/i915/gt/intel_ring_submission.c   |  7 +++---
+>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 15 ++++++-----
+>>   drivers/gpu/drm/i915/i915_request.c           |  2 +-
+>>   8 files changed, 77 insertions(+), 29 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c 
+>> b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> index ab4c5ab28e4d..6b171c89b1b3 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> @@ -1367,7 +1367,8 @@ static struct intel_engine_cs 
+>> *active_engine(struct intel_context *ce)
+>>       return engine;
+>>   }
+>> -static void kill_engines(struct i915_gem_engines *engines, bool ban)
+>> +static void
+>> +kill_engines(struct i915_gem_engines *engines, bool exit, bool 
+>> persistent)
+>>   {
+>>       struct i915_gem_engines_iter it;
+>>       struct intel_context *ce;
+>> @@ -1381,9 +1382,15 @@ static void kill_engines(struct 
+>> i915_gem_engines *engines, bool ban)
+>>        */
+>>       for_each_gem_engine(ce, engines, it) {
+>>           struct intel_engine_cs *engine;
+>> +        bool skip = false;
+>> -        if (ban && intel_context_ban(ce, NULL))
+>> -            continue;
+>> +        if (exit)
+>> +            skip = intel_context_set_exiting(ce);
+>> +        else if (!persistent)
+>> +            skip = intel_context_exit_nonpersistent(ce, NULL);
+>> +
+>> +        if (skip)
+>> +            continue; /* Already marked. */
+> 
+> why not:
+>      if (exit && intel_context_set_exiting(ce))
+>          continue;
+>      else if (!persistent && intel_context_exit_nonpersistent(ce, NULL)
+>          continue;
 
-SGkNCg0KQW0gMDIuMDYuMjIgdW0gMDk6MjQgc2NocmllYiBQYXRyaWsgSmFrb2Jzc29uOg0K
-PiBPbiBUdWUsIE1heSAzMSwgMjAyMiBhdCAxOjE1IFBNIFRob21hcyBaaW1tZXJtYW5uIDx0
-emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToNCj4+DQo+PiBSZWFkIHRoZSBkaXNwbGF5IG1v
-ZGVzIGZyb20gdGhlIGNvbm5lY3RvcnMgRERDIGhlbHBlciwgd2hpY2ggYWxzbw0KPj4gdXBk
-YXRlcyB0aGUgY29ubmVjdG9yJ3MgRURJRCBwcm9wZXJ0eS4gVGhlIGNvZGUgZm9yIHRoZSBj
-b25uZWN0b3Incw0KPj4gLmdldF9tb2RlcyBoZWxwZXIgaXMgbm93IHNoYXJlZCBiZXR3ZWVu
-IFZHQSBhbmQgU0lMMTY0Lg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJt
-YW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiAgIGRyaXZlcnMvZ3B1L2Ry
-bS9hc3QvYXN0X21vZGUuYyB8IDU3ICsrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0NCj4+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNTUgZGVsZXRpb25z
-KC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYw0KPj4gaW5kZXggZTE5ZGQyZjli
-M2NlLi40ZmY4ZWMxYzg5MzEgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0
-L2FzdF9tb2RlLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYw0K
-Pj4gQEAgLTEzMDIsMzcgKzEzMDIsMTkgQEAgc3RhdGljIGludCBhc3RfY3J0Y19pbml0KHN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+Pg0KPj4gICBzdGF0aWMgaW50IGFzdF92Z2FfY29u
-bmVjdG9yX2hlbHBlcl9nZXRfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rv
-cikNCj4gDQo+IFNpbmNlIHRoaXMgZnVuY3Rpb24gaXMgbm93IGdlbmVyaWMgeW91IGNvdWxk
-IGNvbnNpZGVyIHJlbW92aW5nIF92Z2ENCj4gZnJvbSB0aGUgbmFtZS4NCg0KSXQncyBub3Qg
-ZnVsbHkgZ2VuZXJpYy4gVGhlcmUgYXJlIERpc3BsYXlQb3J0IGZ1bmN0aW9ucyB0aGF0IGRv
-IHRoZWlyIA0Kb3duIHRoaW5nLg0KDQogRnJvbSBob3cgSSB1bmRlcnN0YW5kIHRoZSBkcml2
-ZXIncyBzb3VyY2UgY29kZSwgdGhlcmUncyBhIGhhcmR3YXJlIA0Kc2V0dGluZyB0byBzd2l0
-Y2ggYmV0d2VlbiBlaXRoZXIgYW5hbG9nIFZHQSBvciBTSUwxNjQtYmFzZWQgRFZJLiBCb3Ro
-IA0KdXNlIHRoZSBzYW1lIHJlZ2lzdGVycy4gU28gdGhlIGdldF9tb2RlcyBmdW5jdGlvbiBj
-YW4gYmUgc2hhcmVkLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBFaXRoZXIg
-d2F5Og0KPiBSZXZpZXdlZC1ieTogUGF0cmlrIEpha29ic3NvbiA8cGF0cmlrLnIuamFrb2Jz
-c29uQGdtYWlsLmNvbT4NCj4gDQo+IA0KPj4gICB7DQo+PiAtICAgICAgIHN0cnVjdCBhc3Rf
-dmdhX2Nvbm5lY3RvciAqYXN0X3ZnYV9jb25uZWN0b3IgPSB0b19hc3RfdmdhX2Nvbm5lY3Rv
-cihjb25uZWN0b3IpOw0KPj4gICAgICAgICAgc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IGNv
-bm5lY3Rvci0+ZGV2Ow0KPj4gICAgICAgICAgc3RydWN0IGFzdF9wcml2YXRlICphc3QgPSB0
-b19hc3RfcHJpdmF0ZShkZXYpOw0KPj4gLSAgICAgICBzdHJ1Y3QgZWRpZCAqZWRpZDsNCj4+
-ICAgICAgICAgIGludCBjb3VudDsNCj4+DQo+PiAtICAgICAgIGlmICghYXN0X3ZnYV9jb25u
-ZWN0b3ItPmkyYykNCj4+IC0gICAgICAgICAgICAgICBnb3RvIGVycl9kcm1fY29ubmVjdG9y
-X3VwZGF0ZV9lZGlkX3Byb3BlcnR5Ow0KPj4gLQ0KPj4gICAgICAgICAgLyoNCj4+ICAgICAg
-ICAgICAqIFByb3RlY3QgYWNjZXNzIHRvIEkvTyByZWdpc3RlcnMgZnJvbSBjb25jdXJyZW50
-IG1vZGVzZXR0aW5nDQo+PiAgICAgICAgICAgKiBieSBhY3F1aXJpbmcgdGhlIEkvTy1yZWdp
-c3RlciBsb2NrLg0KPj4gICAgICAgICAgICovDQo+PiAgICAgICAgICBtdXRleF9sb2NrKCZh
-c3QtPmlvcmVnc19sb2NrKTsNCj4+IC0NCj4+IC0gICAgICAgZWRpZCA9IGRybV9nZXRfZWRp
-ZChjb25uZWN0b3IsICZhc3RfdmdhX2Nvbm5lY3Rvci0+aTJjLT5hZGFwdGVyKTsNCj4+IC0g
-ICAgICAgaWYgKCFlZGlkKQ0KPj4gLSAgICAgICAgICAgICAgIGdvdG8gZXJyX211dGV4X3Vu
-bG9jazsNCj4+IC0NCj4+ICsgICAgICAgY291bnQgPSBkcm1fY29ubmVjdG9yX2hlbHBlcl9n
-ZXRfbW9kZXNfZnJvbV9kZGMoY29ubmVjdG9yKTsNCj4+ICAgICAgICAgIG11dGV4X3VubG9j
-aygmYXN0LT5pb3JlZ3NfbG9jayk7DQo+Pg0KPj4gLSAgICAgICBjb3VudCA9IGRybV9hZGRf
-ZWRpZF9tb2Rlcyhjb25uZWN0b3IsIGVkaWQpOw0KPj4gLSAgICAgICBrZnJlZShlZGlkKTsN
-Cj4+IC0NCj4+ICAgICAgICAgIHJldHVybiBjb3VudDsNCj4+IC0NCj4+IC1lcnJfbXV0ZXhf
-dW5sb2NrOg0KPj4gLSAgICAgICBtdXRleF91bmxvY2soJmFzdC0+aW9yZWdzX2xvY2spOw0K
-Pj4gLWVycl9kcm1fY29ubmVjdG9yX3VwZGF0ZV9lZGlkX3Byb3BlcnR5Og0KPj4gLSAgICAg
-ICBkcm1fY29ubmVjdG9yX3VwZGF0ZV9lZGlkX3Byb3BlcnR5KGNvbm5lY3RvciwgTlVMTCk7
-DQo+PiAtICAgICAgIHJldHVybiAwOw0KPj4gICB9DQo+Pg0KPj4gICBzdGF0aWMgY29uc3Qg
-c3RydWN0IGRybV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzIGFzdF92Z2FfY29ubmVjdG9yX2hl
-bHBlcl9mdW5jcyA9IHsNCj4+IEBAIC0xNDA2LDQzICsxMzg4LDggQEAgc3RhdGljIGludCBh
-c3RfdmdhX291dHB1dF9pbml0KHN0cnVjdCBhc3RfcHJpdmF0ZSAqYXN0KQ0KPj4gICAgKiBT
-SUwxNjQgQ29ubmVjdG9yDQo+PiAgICAqLw0KPj4NCj4+IC1zdGF0aWMgaW50IGFzdF9zaWwx
-NjRfY29ubmVjdG9yX2hlbHBlcl9nZXRfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNv
-bm5lY3RvcikNCj4+IC17DQo+PiAtICAgICAgIHN0cnVjdCBhc3Rfc2lsMTY0X2Nvbm5lY3Rv
-ciAqYXN0X3NpbDE2NF9jb25uZWN0b3IgPSB0b19hc3Rfc2lsMTY0X2Nvbm5lY3Rvcihjb25u
-ZWN0b3IpOw0KPj4gLSAgICAgICBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gY29ubmVjdG9y
-LT5kZXY7DQo+PiAtICAgICAgIHN0cnVjdCBhc3RfcHJpdmF0ZSAqYXN0ID0gdG9fYXN0X3By
-aXZhdGUoZGV2KTsNCj4+IC0gICAgICAgc3RydWN0IGVkaWQgKmVkaWQ7DQo+PiAtICAgICAg
-IGludCBjb3VudDsNCj4+IC0NCj4+IC0gICAgICAgaWYgKCFhc3Rfc2lsMTY0X2Nvbm5lY3Rv
-ci0+aTJjKQ0KPj4gLSAgICAgICAgICAgICAgIGdvdG8gZXJyX2RybV9jb25uZWN0b3JfdXBk
-YXRlX2VkaWRfcHJvcGVydHk7DQo+PiAtDQo+PiAtICAgICAgIC8qDQo+PiAtICAgICAgICAq
-IFByb3RlY3QgYWNjZXNzIHRvIEkvTyByZWdpc3RlcnMgZnJvbSBjb25jdXJyZW50IG1vZGVz
-ZXR0aW5nDQo+PiAtICAgICAgICAqIGJ5IGFjcXVpcmluZyB0aGUgSS9PLXJlZ2lzdGVyIGxv
-Y2suDQo+PiAtICAgICAgICAqLw0KPj4gLSAgICAgICBtdXRleF9sb2NrKCZhc3QtPmlvcmVn
-c19sb2NrKTsNCj4+IC0NCj4+IC0gICAgICAgZWRpZCA9IGRybV9nZXRfZWRpZChjb25uZWN0
-b3IsICZhc3Rfc2lsMTY0X2Nvbm5lY3Rvci0+aTJjLT5hZGFwdGVyKTsNCj4+IC0gICAgICAg
-aWYgKCFlZGlkKQ0KPj4gLSAgICAgICAgICAgICAgIGdvdG8gZXJyX211dGV4X3VubG9jazsN
-Cj4+IC0NCj4+IC0gICAgICAgbXV0ZXhfdW5sb2NrKCZhc3QtPmlvcmVnc19sb2NrKTsNCj4+
-IC0NCj4+IC0gICAgICAgY291bnQgPSBkcm1fYWRkX2VkaWRfbW9kZXMoY29ubmVjdG9yLCBl
-ZGlkKTsNCj4+IC0gICAgICAga2ZyZWUoZWRpZCk7DQo+PiAtDQo+PiAtICAgICAgIHJldHVy
-biBjb3VudDsNCj4+IC0NCj4+IC1lcnJfbXV0ZXhfdW5sb2NrOg0KPj4gLSAgICAgICBtdXRl
-eF91bmxvY2soJmFzdC0+aW9yZWdzX2xvY2spOw0KPj4gLWVycl9kcm1fY29ubmVjdG9yX3Vw
-ZGF0ZV9lZGlkX3Byb3BlcnR5Og0KPj4gLSAgICAgICBkcm1fY29ubmVjdG9yX3VwZGF0ZV9l
-ZGlkX3Byb3BlcnR5KGNvbm5lY3RvciwgTlVMTCk7DQo+PiAtICAgICAgIHJldHVybiAwOw0K
-Pj4gLX0NCj4+IC0NCj4+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2hl
-bHBlcl9mdW5jcyBhc3Rfc2lsMTY0X2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MgPSB7DQo+PiAt
-ICAgICAgIC5nZXRfbW9kZXMgPSBhc3Rfc2lsMTY0X2Nvbm5lY3Rvcl9oZWxwZXJfZ2V0X21v
-ZGVzLA0KPj4gKyAgICAgICAuZ2V0X21vZGVzID0gYXN0X3ZnYV9jb25uZWN0b3JfaGVscGVy
-X2dldF9tb2RlcywgLy8gc2FtZSBhcyBWR0EgY29ubmVjdG9yDQo+PiAgIH07DQo+Pg0KPj4g
-ICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9jb25uZWN0b3JfZnVuY3MgYXN0X3NpbDE2NF9j
-b25uZWN0b3JfZnVuY3MgPSB7DQo+PiAtLQ0KPj4gMi4zNi4xDQo+Pg0KDQotLSANClRob21h
-cyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJl
-IFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVy
-ZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhy
-ZXI6IEl2byBUb3Rldg0K
+Just so I can put the "already marked" comment on single line.
 
---------------VwUXNEQNWhUO6Os3w1xAiNFI--
+> 
+> Anyway:
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
---------------lJfrjnnZp2MaAf3b0u5MtQOA
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Thanks!
 
------BEGIN PGP SIGNATURE-----
+John, Daniel - you had reservations against the older version of this 
+patch AFAIR. This time round I believe I conceptually simplified it by 
+doing a clean separation of contexts which should not be scheduled any 
+more becuase they want it so, versus the ones we banned. That is, the 
+patch stops abusing the banned status for contexts which haven't been 
+(banned). This allows to only apply the strict preempt timeout to 
+banned, while there is no reason to add any new timeout values for the rest.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKfCJQFAwAAAAAACgkQlh/E3EQov+CG
-vA//S10dYxalJsaJJS6tBZEQfm3Scw6KZAf9EbKw8sUC9gbG5e88scdf4xCEEzAAGS2Gbj/Y8gbN
-xbVK68VJSj0pLck5NGUOmtTa7ya0a32mAWgXnaGu/56hHgvy1paf5sqKo1Ywsvk5HbBwDkVEmgil
-PKXSa+dNMKVXaGwRP7UwnOBrpKqlo07cKNDxmJO35qyNolaRyXhFzzUNAovw4PTWHlPfRKFs8GcP
-MUObB42CPksDeoOxmBi7lnW4pJiGtrhRO+bhGXTIKPAhDOVxD7S7VXGDIhCr1azMQDaxmfJsUqgq
-39Li9NLQjwfzRHOKMvGY9HREEsyuGp7Uc+RjOsbAUzEJ3qj7M6kvN9TAKjlR2L/ek+zNq1vHzGYC
-NefbTN3dbtoB4g/u86y327syrCa4wf3u313erqyLmxRHqYXw/xy6xcljf61iczsB52yxX+ZH5wl6
-gDrGbjla0vUch/4naxyElRMPD+HS4zf+4oh53Y4u4v4IuiVV45WVqWZ5UZCGgu13bXHOJJNV60QL
-oSETN8tRsQbxvQmnJ+N84jtrPr5I5MwKZaevoL+LA4JrBgNZuCN/4woCeFlx6dUC2UBxTQ/9Ta66
-HqOGc+OzUbgCijUFD91LkCnH8LcMyl4U9NnbnZYBq0d+Nxe27dfE8JVFn2i9rUHPBhmYpExL3a1y
-hIg=
-=YDde
------END PGP SIGNATURE-----
+Any objections to this version?
 
---------------lJfrjnnZp2MaAf3b0u5MtQOA--
+Regards,
+
+Tvrtko
+
+> 
+> Regards
+> Andrzej
+> 
+>>           /*
+>>            * Check the current active state of this context; if we
+>> @@ -1395,7 +1402,7 @@ static void kill_engines(struct i915_gem_engines 
+>> *engines, bool ban)
+>>           engine = active_engine(ce);
+>>           /* First attempt to gracefully cancel the context */
+>> -        if (engine && !__cancel_engine(engine) && ban)
+>> +        if (engine && !__cancel_engine(engine) && (exit || !persistent))
+>>               /*
+>>                * If we are unable to send a preemptive pulse to bump
+>>                * the context from the GPU, we have to resort to a full
+>> @@ -1407,8 +1414,6 @@ static void kill_engines(struct i915_gem_engines 
+>> *engines, bool ban)
+>>   static void kill_context(struct i915_gem_context *ctx)
+>>   {
+>> -    bool ban = (!i915_gem_context_is_persistent(ctx) ||
+>> -            !ctx->i915->params.enable_hangcheck);
+>>       struct i915_gem_engines *pos, *next;
+>>       spin_lock_irq(&ctx->stale.lock);
+>> @@ -1421,7 +1426,8 @@ static void kill_context(struct i915_gem_context 
+>> *ctx)
+>>           spin_unlock_irq(&ctx->stale.lock);
+>> -        kill_engines(pos, ban);
+>> +        kill_engines(pos, !ctx->i915->params.enable_hangcheck,
+>> +                 i915_gem_context_is_persistent(ctx));
+>>           spin_lock_irq(&ctx->stale.lock);
+>>           GEM_BUG_ON(i915_sw_fence_signaled(&pos->fence));
+>> @@ -1467,7 +1473,8 @@ static void engines_idle_release(struct 
+>> i915_gem_context *ctx,
+>>   kill:
+>>       if (list_empty(&engines->link)) /* raced, already closed */
+>> -        kill_engines(engines, true);
+>> +        kill_engines(engines, true,
+>> +                 i915_gem_context_is_persistent(ctx));
+>>       i915_sw_fence_commit(&engines->fence);
+>>   }
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c 
+>> b/drivers/gpu/drm/i915/gt/intel_context.c
+>> index 4070cb5711d8..654a092ed3d6 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+>> @@ -601,6 +601,30 @@ u64 intel_context_get_avg_runtime_ns(struct 
+>> intel_context *ce)
+>>       return avg;
+>>   }
+>> +bool intel_context_ban(struct intel_context *ce, struct i915_request 
+>> *rq)
+>> +{
+>> +    bool ret = intel_context_set_banned(ce);
+>> +
+>> +    trace_intel_context_ban(ce);
+>> +
+>> +    if (ce->ops->revoke)
+>> +        ce->ops->revoke(ce, rq,
+>> +                INTEL_CONTEXT_BANNED_PREEMPT_TIMEOUT_MS);
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +bool intel_context_exit_nonpersistent(struct intel_context *ce,
+>> +                      struct i915_request *rq)
+>> +{
+>> +    bool ret = intel_context_set_exiting(ce);
+>> +
+>> +    if (ce->ops->revoke)
+>> +        ce->ops->revoke(ce, rq, ce->engine->props.preempt_timeout_ms);
+>> +
+>> +    return ret;
+>> +}
+>> +
+>>   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+>>   #include "selftest_context.c"
+>>   #endif
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h 
+>> b/drivers/gpu/drm/i915/gt/intel_context.h
+>> index b7d3214d2cdd..8e2d70630c49 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_context.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+>> @@ -25,6 +25,8 @@
+>>                ##__VA_ARGS__);                    \
+>>   } while (0)
+>> +#define INTEL_CONTEXT_BANNED_PREEMPT_TIMEOUT_MS (1)
+>> +
+>>   struct i915_gem_ww_ctx;
+>>   void intel_context_init(struct intel_context *ce,
+>> @@ -309,18 +311,27 @@ static inline bool 
+>> intel_context_set_banned(struct intel_context *ce)
+>>       return test_and_set_bit(CONTEXT_BANNED, &ce->flags);
+>>   }
+>> -static inline bool intel_context_ban(struct intel_context *ce,
+>> -                     struct i915_request *rq)
+>> +bool intel_context_ban(struct intel_context *ce, struct i915_request 
+>> *rq);
+>> +
+>> +static inline bool intel_context_is_schedulable(const struct 
+>> intel_context *ce)
+>>   {
+>> -    bool ret = intel_context_set_banned(ce);
+>> +    return !test_bit(CONTEXT_EXITING, &ce->flags) &&
+>> +           !test_bit(CONTEXT_BANNED, &ce->flags);
+>> +}
+>> -    trace_intel_context_ban(ce);
+>> -    if (ce->ops->ban)
+>> -        ce->ops->ban(ce, rq);
+>> +static inline bool intel_context_is_exiting(const struct 
+>> intel_context *ce)
+>> +{
+>> +    return test_bit(CONTEXT_EXITING, &ce->flags);
+>> +}
+>> -    return ret;
+>> +static inline bool intel_context_set_exiting(struct intel_context *ce)
+>> +{
+>> +    return test_and_set_bit(CONTEXT_EXITING, &ce->flags);
+>>   }
+>> +bool intel_context_exit_nonpersistent(struct intel_context *ce,
+>> +                      struct i915_request *rq);
+>> +
+>>   static inline bool
+>>   intel_context_force_single_submission(const struct intel_context *ce)
+>>   {
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h 
+>> b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> index 09f82545789f..d2d75d9c0c8d 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>> @@ -40,7 +40,8 @@ struct intel_context_ops {
+>>       int (*alloc)(struct intel_context *ce);
+>> -    void (*ban)(struct intel_context *ce, struct i915_request *rq);
+>> +    void (*revoke)(struct intel_context *ce, struct i915_request *rq,
+>> +               unsigned int preempt_timeout_ms);
+>>       int (*pre_pin)(struct intel_context *ce, struct i915_gem_ww_ctx 
+>> *ww, void **vaddr);
+>>       int (*pin)(struct intel_context *ce, void *vaddr);
+>> @@ -122,6 +123,7 @@ struct intel_context {
+>>   #define CONTEXT_GUC_INIT        10
+>>   #define CONTEXT_PERMA_PIN        11
+>>   #define CONTEXT_IS_PARKING        12
+>> +#define CONTEXT_EXITING            13
+>>       struct {
+>>           u64 timeout_us;
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c 
+>> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> index a4510b5c0c3d..ad72e2c5c4e7 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> @@ -480,9 +480,9 @@ __execlists_schedule_in(struct i915_request *rq)
+>>       if (unlikely(intel_context_is_closed(ce) &&
+>>                !intel_engine_has_heartbeat(engine)))
+>> -        intel_context_set_banned(ce);
+>> +        intel_context_set_exiting(ce);
+>> -    if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
+>> +    if (unlikely(!intel_context_is_schedulable(ce) || bad_request(rq)))
+>>           reset_active(rq, engine);
+>>       if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
+>> @@ -1243,7 +1243,7 @@ static unsigned long 
+>> active_preempt_timeout(struct intel_engine_cs *engine,
+>>       /* Force a fast reset for terminated contexts (ignoring sysfs!) */
+>>       if (unlikely(intel_context_is_banned(rq->context) || 
+>> bad_request(rq)))
+>> -        return 1;
+>> +        return INTEL_CONTEXT_BANNED_PREEMPT_TIMEOUT_MS;
+>>       return READ_ONCE(engine->props.preempt_timeout_ms);
+>>   }
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c 
+>> b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>> index f8f279a195c0..d5d6f1fadcae 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>> @@ -598,8 +598,9 @@ static void ring_context_reset(struct 
+>> intel_context *ce)
+>>       clear_bit(CONTEXT_VALID_BIT, &ce->flags);
+>>   }
+>> -static void ring_context_ban(struct intel_context *ce,
+>> -                 struct i915_request *rq)
+>> +static void ring_context_revoke(struct intel_context *ce,
+>> +                struct i915_request *rq,
+>> +                unsigned int preempt_timeout_ms)
+>>   {
+>>       struct intel_engine_cs *engine;
+>> @@ -634,7 +635,7 @@ static const struct intel_context_ops 
+>> ring_context_ops = {
+>>       .cancel_request = ring_context_cancel_request,
+>> -    .ban = ring_context_ban,
+>> +    .revoke = ring_context_revoke,
+>>       .pre_pin = ring_context_pre_pin,
+>>       .pin = ring_context_pin,
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> index 5a1dfacf24ea..e62ea35513ea 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> @@ -2790,7 +2790,9 @@ static void 
+>> __guc_context_set_preemption_timeout(struct intel_guc *guc,
+>>       __guc_context_set_context_policies(guc, &policy, true);
+>>   }
+>> -static void guc_context_ban(struct intel_context *ce, struct 
+>> i915_request *rq)
+>> +static void
+>> +guc_context_revoke(struct intel_context *ce, struct i915_request *rq,
+>> +           unsigned int preempt_timeout_ms)
+>>   {
+>>       struct intel_guc *guc = ce_to_guc(ce);
+>>       struct intel_runtime_pm *runtime_pm =
+>> @@ -2829,7 +2831,8 @@ static void guc_context_ban(struct intel_context 
+>> *ce, struct i915_request *rq)
+>>            * gets kicked off the HW ASAP.
+>>            */
+>>           with_intel_runtime_pm(runtime_pm, wakeref) {
+>> -            __guc_context_set_preemption_timeout(guc, guc_id, 1);
+>> +            __guc_context_set_preemption_timeout(guc, guc_id,
+>> +                                 preempt_timeout_ms);
+>>               __guc_context_sched_disable(guc, ce, guc_id);
+>>           }
+>>       } else {
+>> @@ -2837,7 +2840,7 @@ static void guc_context_ban(struct intel_context 
+>> *ce, struct i915_request *rq)
+>>               with_intel_runtime_pm(runtime_pm, wakeref)
+>>                   __guc_context_set_preemption_timeout(guc,
+>>                                        ce->guc_id.id,
+>> -                                     1);
+>> +                                     preempt_timeout_ms);
+>>           spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>>       }
+>>   }
+>> @@ -3190,7 +3193,7 @@ static const struct intel_context_ops 
+>> guc_context_ops = {
+>>       .unpin = guc_context_unpin,
+>>       .post_unpin = guc_context_post_unpin,
+>> -    .ban = guc_context_ban,
+>> +    .revoke = guc_context_revoke,
+>>       .cancel_request = guc_context_cancel_request,
+>> @@ -3439,7 +3442,7 @@ static const struct intel_context_ops 
+>> virtual_guc_context_ops = {
+>>       .unpin = guc_virtual_context_unpin,
+>>       .post_unpin = guc_context_post_unpin,
+>> -    .ban = guc_context_ban,
+>> +    .revoke = guc_context_revoke,
+>>       .cancel_request = guc_context_cancel_request,
+>> @@ -3528,7 +3531,7 @@ static const struct intel_context_ops 
+>> virtual_parent_context_ops = {
+>>       .unpin = guc_parent_context_unpin,
+>>       .post_unpin = guc_context_post_unpin,
+>> -    .ban = guc_context_ban,
+>> +    .revoke = guc_context_revoke,
+>>       .cancel_request = guc_context_cancel_request,
+>> diff --git a/drivers/gpu/drm/i915/i915_request.c 
+>> b/drivers/gpu/drm/i915/i915_request.c
+>> index 73d5195146b0..c3937640b119 100644
+>> --- a/drivers/gpu/drm/i915/i915_request.c
+>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>> @@ -611,7 +611,7 @@ bool __i915_request_submit(struct i915_request 
+>> *request)
+>>           goto active;
+>>       }
+>> -    if (unlikely(intel_context_is_banned(request->context)))
+>> +    if (unlikely(!intel_context_is_schedulable(request->context)))
+>>           i915_request_set_error_once(request, -EIO);
+>>       if (unlikely(fatal_error(request->fence.error)))
+> 
