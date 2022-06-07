@@ -1,65 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22C753FC1C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 12:50:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7249A53FC7D
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 12:55:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5008210EDAF;
-	Tue,  7 Jun 2022 10:50:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DE67112D62;
+	Tue,  7 Jun 2022 10:55:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 903E8112BEE
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 10:50:36 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3506321AE4;
- Tue,  7 Jun 2022 10:50:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1654599035; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YNeSor2TlqO5s65mha0RnllB/O03gVzaPqsMHpzYKfs=;
- b=r7ypU4dIQtmrc46mGdGm2XfB1msliL0plCbk+R/tA06Ue7aINqlNZ+zpjeEhpw9P1iLsZw
- QtcxGjK6tQr+l7BxLiE0yux3EhD0VxRSXmEvEPaNfY6ZglXiePCWnm94ctiPq8QKHxH1NN
- uoUXQeCp0BaeKb428Jk12ohD/RONBds=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1654599035;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YNeSor2TlqO5s65mha0RnllB/O03gVzaPqsMHpzYKfs=;
- b=VQUl5pFoBszxvTYTeZIbjyGYfnPnNHqce6E04aXsFvKxmFDqlc4jFVga7EadCjSNMtW0oG
- Ac8oKvLfz2ugLPCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0573613A88;
- Tue,  7 Jun 2022 10:50:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id exYUAHstn2IpWQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 07 Jun 2022 10:50:34 +0000
-Message-ID: <ec0b5a08-d31f-fd32-eeca-edee4125c209@suse.de>
-Date: Tue, 7 Jun 2022 12:50:34 +0200
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9B4A112D62
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 10:55:29 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 2141F3200998;
+ Tue,  7 Jun 2022 06:55:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Tue, 07 Jun 2022 06:55:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1654599324; x=1654685724; bh=y8SMUqaWeI
+ 216djbxpeTcRyKgXTNBmTvxJxBXz/Ti0U=; b=d53iHQQ+9gRinlvNLos77f4e4q
+ 2BRyDxeDdze+0EkqqD4xbT7Vmc5pPttjbYnYZwAVi97YYqmH9mu72jpYCz664nFd
+ W2rSN7VyuO1988etu5SM89BUOWeQoLCKgA+h7e5JsnNQdnCTn6K2d0wlkDDY7gLo
+ mQtykCXLUcU4NacbMVGClptv9pUC1apaQi8n2VruXeAtI+IupFZ9VXnGLa2ADepw
+ bmRf0H+BEoOoh2wWk+7O6smTbvjF+0IuQ62Abtd04t0L42BZWZkfULdW6SK2Kdmf
+ RAFR0YV9I2VztawCpAj5RwOrx78ofHqhP3O/N1IMf3z94MlA3a2IhOSkliQA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1654599324; x=1654685724; bh=y8SMUqaWeI216djbxpeTcRyKgXTN
+ BmTvxJxBXz/Ti0U=; b=XylwXJWDeRNat7tz4IiEUgqym5JLwmBRNwIb4tSWchZk
+ S5IWv2wLFOPXAzIS90Q2OYyV947vPN9k4SxXz08fx3oV1bC0NznlxUn42vNsbRCT
+ QFsGf9TFnHMIS0lvggaedO+NLNEm8odILCXqW70LBQZtnzn31wbZx632MXEo5Qs9
+ d+QAO/qrpyhoTqJibMuoj71F0voONa+T4F2ANxb/dyE7yuxvLb64cfNDRHO+IUUW
+ J2ES3CXErTf+SF1TJCYfLIqy0UfnedDrPEFaJHE4BIMTx1eL4ojbiHQcUU2ndE5u
+ xmKOs5yK0SjbOzY+JzF+5G5a5/CW0916h+PUNFLC4w==
+X-ME-Sender: <xms:nC6fYrQUU98yZdlrP-cuAgu-4dICnZYQeb4DJ1zI28dzSx0a3iP6lg>
+ <xme:nC6fYsyk3zAT2EbcVHfBp7OQoVoes-yY5Ml6o2tb2ASTbiavzgUotib4TassBS1ej
+ LkqC3_uUGd9Xg>
+X-ME-Received: <xmr:nC6fYg3LuIhcAl5MbBBPtNCcSVR-El3wEXR4ZKdtWxKSIox8IJ-Z_HtmJckS>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddthedgfedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
+ ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepheegvd
+ evvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeufefhgfehkeetnecuvehluhhs
+ thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
+ hhrdgtohhm
+X-ME-Proxy: <xmx:nC6fYrCO-_cqgUV7b4P4RZumNplTOr9IePvLshtO9poWNA9nXJ_tBQ>
+ <xmx:nC6fYkil0f7bdf_zxAnGQn6-k5UUteyxfVE0Ep3jNJsvD1wdsEqnpQ>
+ <xmx:nC6fYvqrCCmP0m1c4-cpoWxnU2jF3qDvgs9aXAdRR14P4YP5p-YbKw>
+ <xmx:nC6fYpYZjMt1YY0to4M3NIkhbJ7cQF17JFVoZdMoniaLAvx2pn4oHw>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 Jun 2022 06:55:22 -0400 (EDT)
+Date: Tue, 7 Jun 2022 12:55:20 +0200
+From: Greg KH <greg@kroah.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v4] dma-buf: Add a capabilities directory
+Message-ID: <Yp8umMtviDqDeDWV@kroah.com>
+References: <20220601161303.64797-1-contact@emersion.fr>
+ <YphNaq/JZdlTW8S7@kroah.com>
+ <BCduk8OI3oQXvl2_-ejGwile7y09VscIp1U2MKHX2kEVun1JNxznDByVlidyN8B0vf5xOxS35axHhz5QYWmrmrQmsa8qONFJof6ZtR7CC1Y=@emersion.fr>
+ <YphX2erQp3e4mUba@kroah.com>
+ <CtTIPo68VAvDRUp7-QFc0m-2SnikPFd0QpdogNj2xueFfyQKa3DQqiw3Meqtsu8vQgEuKX_-MPKbe7jQdf49-Y3z2TAYbajUrC5GKF0Dolk=@emersion.fr>
+ <CAKMK7uEYncnjbwq6fQMNB_5tupMASrAFEadPg9xBS3ykNgNk4A@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 3/5] drm/ast: Support output polling
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, airlied@linux.ie, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-References: <20220531111502.4470-1-tzimmermann@suse.de>
- <20220531111502.4470-4-tzimmermann@suse.de> <87pmjkpz7n.fsf@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <87pmjkpz7n.fsf@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------RwopC88NiWAPOQ7BlYocTIRb"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEYncnjbwq6fQMNB_5tupMASrAFEadPg9xBS3ykNgNk4A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,192 +86,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, Jason Ekstrand <jason.ekstrand@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------RwopC88NiWAPOQ7BlYocTIRb
-Content-Type: multipart/mixed; boundary="------------MXna0iDyH09k3l8lN4EE1GdA";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jani Nikula <jani.nikula@linux.intel.com>, airlied@redhat.com,
- kuohsiang_chou@aspeedtech.com, airlied@linux.ie, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <ec0b5a08-d31f-fd32-eeca-edee4125c209@suse.de>
-Subject: Re: [PATCH v2 3/5] drm/ast: Support output polling
-References: <20220531111502.4470-1-tzimmermann@suse.de>
- <20220531111502.4470-4-tzimmermann@suse.de> <87pmjkpz7n.fsf@intel.com>
-In-Reply-To: <87pmjkpz7n.fsf@intel.com>
+On Thu, Jun 02, 2022 at 08:47:56AM +0200, Daniel Vetter wrote:
+> On Thu, 2 Jun 2022 at 08:34, Simon Ser <contact@emersion.fr> wrote:
+> >
+> > On Thursday, June 2nd, 2022 at 08:25, Greg KH <greg@kroah.com> wrote:
+> >
+> > > On Thu, Jun 02, 2022 at 06:17:31AM +0000, Simon Ser wrote:
+> > >
+> > > > On Thursday, June 2nd, 2022 at 07:40, Greg KH greg@kroah.com wrote:
+> > > >
+> > > > > On Wed, Jun 01, 2022 at 04:13:14PM +0000, Simon Ser wrote:
+> > > > >
+> > > > > > To discover support for new DMA-BUF IOCTLs, user-space has no
+> > > > > > choice but to try to perform the IOCTL on an existing DMA-BUF.
+> > > > >
+> > > > > Which is correct and how all kernel features work (sorry I missed the
+> > > > > main goal of this patch earlier and focused only on the sysfs stuff).
+> > > > >
+> > > > > > However, user-space may want to figure out whether or not the
+> > > > > > IOCTL is available before it has a DMA-BUF at hand, e.g. at
+> > > > > > initialization time in a Wayland compositor.
+> > > > >
+> > > > > Why not just do the ioctl in a test way? That's how we determine kernel
+> > > > > features, we do not poke around in sysfs to determine what is, or is
+> > > > > not, present at runtime.
+> > > > >
+> > > > > > Add a /sys/kernel/dmabuf/caps directory which allows the DMA-BUF
+> > > > > > subsystem to advertise supported features. Add a
+> > > > > > sync_file_import_export entry which indicates that importing and
+> > > > > > exporting sync_files from/to DMA-BUFs is supported.
+> > > > >
+> > > > > No, sorry, this is not a sustainable thing to do for all kernel features
+> > > > > over time. Please just do the ioctl and go from there. sysfs is not
+> > > > > for advertising what is and is not enabled/present in a kernel with
+> > > > > regards to functionality or capabilities of the system.
+> > > > >
+> > > > > If sysfs were to export this type of thing, it would have to do it for
+> > > > > everything, not just some random tiny thing of one kernel driver.
+> > > >
+> > > > I'd argue that DMA-BUF is a special case here.
+> > >
+> > > So this is special and unique just like everything else? :)
+> > >
+> > > > To check whether the import/export IOCTLs are available, user-space
+> > > > needs a DMA-BUF to try to perform the IOCTL. To get a DMA-BUF,
+> > > > user-space needs to enumerate GPUs, pick one at random, load GBM or
+> > > > Vulkan, use that heavy-weight API to allocate a "fake" buffer on the
+> > > > GPU, export that buffer into a DMA-BUF, try the IOCTL, then teardown
+> > > > all of this. There is no other way.
+> > > >
+> > > > This sounds like a roundabout way to answer the simple question "is the
+> > > > IOCTL available?". Do you have another suggestion to address this
+> > > > problem?
+> > >
+> > > What does userspace do differently if the ioctl is present or not?
+> >
+> > Globally enable a synchronization API for Wayland clients, for instance
+> > in the case of a Wayland compositor.
+> >
+> > > And why is this somehow more special than of the tens of thousands of
+> > > other ioctl calls where you have to do exactly the same thing you list
+> > > above to determine if it is present or not?
+> >
+> > For other IOCTLs it's not as complicated to obtain a FD to do the test
+> > with.
+> 
+> Two expand on this:
+> 
+> - compositor opens the drm render /dev node
+> - compositor initializes the opengl or vulkan userspace driver on top of that
+> - compositor asks that userspace driver to allocate some buffer, which
+> can be pretty expensive
+> - compositor asks the userspace driver to export that buffer into a dma-buf
+> - compositor can finally do the test ioctl, realizes support isn't
+> there and tosses the entire thing
+> 
+> read() on a sysfs file is so much more reasonable it's not even funny.
 
---------------MXna0iDyH09k3l8lN4EE1GdA
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I agree it seems trivial and "simple", but that is NOT how to determine
+what is, and is not, a valid ioctl command for a device node.
 
-SGkNCg0KQW0gMDcuMDYuMjIgdW0gMTI6MDMgc2NocmllYiBKYW5pIE5pa3VsYToNCj4gT24g
-VHVlLCAzMSBNYXkgMjAyMiwgVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
-ZGU+IHdyb3RlOg0KPj4gRW5hYmxlIG91dHB1dCBwb2xsaW5nIGZvciBhbGwgY29ubmVjdG9y
-cy4gVkdBIGFsd2F5cyB1c2VzIEVESUQgZm9yIHRoaXMuIEFzDQo+PiB0aGVyZSdzIGN1cnJl
-bnRseSBubyBpbnRlcnJ1cHQgaGFuZGxpbmcgZm9yIHRoZSBhc3QgZGV2aWNlcywgd2UgaGF2
-ZSB0byB1c2UNCj4+IHRoYXQgdHJpY2sgZm9yIHRoZSB2YXJpb3VzIERQIGFuZCBEVkkgcG9y
-dHMgYXMgd2VsbC4NCj4gDQo+IEluIGdlbmVyYWwsIHBsZWFzZSBkb24ndCBhZGQgbmV3IGhl
-bHBlciBmdW5jdGlvbnMgdW5kZXIgImRybS9hc3QiDQo+IHN1YmplY3QgcHJlZml4LiBUaGVz
-ZSB3aWxsIGdvIHVuZGVyIHRoZSByYWRhci4gSSBvbmx5IHN0dW1ibGVkIG9uIHRoaXMNCj4g
-YnkgYWNjaWRlbnQuDQo+IA0KPiBQbGVhc2UgZG9uJ3QgYWRkIG5ldyBoZWxwZXIgZnVuY3Rp
-b25zIGFyb3VuZCBnZXRfbW9kZXMgYW5kIEVESUQNCj4gcmVhZGluZy4gSSd2ZSBiZWVuIHB1
-dHRpbmcgYSBsb3Qgb2YgZWZmb3J0IGludG8gY2hhbmdpbmcgaG93IEVESUQgd2lsbA0KPiBi
-ZSBoYW5kbGVkIGdvaW5nIGZvcndhcmQsIGFuZCB0aGlzIHdpbGwganVzdCBtYWtlIGl0IGhh
-cmRlci4gU2VlDQo+IGUuZy4gWzFdLCB0aG91Z2ggdGhlcmUgYXJlIHBlbmRpbmcgcmV2aWV3
-IGNvbW1lbnRzLg0KPiANCj4gUGxlYXNlIGRvbid0IHVzZSBjb25uZWN0b3ItPmVkaWRfYmxv
-Yl9wdHIgZm9yIGJhc2ljYWxseSBhbnl0aGluZyBpbiB0aGUNCj4gZHJpdmVycywgb3IgZm9y
-IGxvZ2ljIHJlZ2FyZGluZyBkZXRlY3Rpb24uIEl0J3Mgd2F5IHRvbyBvdmVybG9hZGVkDQo+
-IGFscmVhZHksIGFuZCBkaWZmaWN1bHQgdG8gdW50YW5nbGUuDQoNClRoYW5rcyBmb3IgdGhl
-IHRoYXQgaW5mby4gIEknbGwgbWVyZ2UgcGF0Y2ggMSwgd2hpY2ggaXMgdW5yZWxhdGVkIGFu
-ZCANCmxhdGVyIHJlY3JlYXRlIG15IHBhdGNoc2V0IG9uIHRvcCBvZiB5b3VyIGNoYW5nZXMu
-DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IA0KPiBCUiwNCj4gSmFuaS4NCj4g
-DQo+IA0KPiBbMV0gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy8x
-MDQzMDkvDQo+IA0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0
-emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9hc3Qv
-YXN0X21vZGUuYyAgICAgfCAxNCArKysrKysrKy0tLS0NCj4+ICAgZHJpdmVycy9ncHUvZHJt
-L2RybV9wcm9iZV9oZWxwZXIuYyB8IDM1ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-Kw0KPj4gICBpbmNsdWRlL2RybS9kcm1fcHJvYmVfaGVscGVyLmggICAgIHwgIDMgKysrDQo+
-PiAgIDMgZmlsZXMgY2hhbmdlZCwgNDggaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkN
-Cj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+PiBpbmRleCA0ZmY4ZWMxYzg5MzEu
-LmJiYzU2NmM0Yzc2OCAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
-X21vZGUuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+PiBA
-QCAtMTMxOSw2ICsxMzE5LDcgQEAgc3RhdGljIGludCBhc3RfdmdhX2Nvbm5lY3Rvcl9oZWxw
-ZXJfZ2V0X21vZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpDQo+PiAgIA0K
-Pj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzIGFz
-dF92Z2FfY29ubmVjdG9yX2hlbHBlcl9mdW5jcyA9IHsNCj4+ICAgCS5nZXRfbW9kZXMgPSBh
-c3RfdmdhX2Nvbm5lY3Rvcl9oZWxwZXJfZ2V0X21vZGVzLA0KPj4gKwkuZGV0ZWN0X2N0eCA9
-IGRybV9jb25uZWN0b3JfaGVscGVyX2RldGVjdF9jdHhfZnJvbV9lZGlkLA0KPj4gICB9Ow0K
-Pj4gICANCj4+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2Z1bmNzIGFz
-dF92Z2FfY29ubmVjdG9yX2Z1bmNzID0gew0KPj4gQEAgLTEzNTQsNyArMTM1NSw3IEBAIHN0
-YXRpYyBpbnQgYXN0X3ZnYV9jb25uZWN0b3JfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
-LA0KPj4gICAJY29ubmVjdG9yLT5pbnRlcmxhY2VfYWxsb3dlZCA9IDA7DQo+PiAgIAljb25u
-ZWN0b3ItPmRvdWJsZXNjYW5fYWxsb3dlZCA9IDA7DQo+PiAgIA0KPj4gLQljb25uZWN0b3It
-PnBvbGxlZCA9IERSTV9DT05ORUNUT1JfUE9MTF9DT05ORUNUOw0KPj4gKwljb25uZWN0b3It
-PnBvbGxlZCA9IERSTV9DT05ORUNUT1JfUE9MTF9DT05ORUNUIHwgRFJNX0NPTk5FQ1RPUl9Q
-T0xMX0RJU0NPTk5FQ1Q7DQo+PiAgIA0KPj4gICAJcmV0dXJuIDA7DQo+PiAgIH0NCj4+IEBA
-IC0xMzkwLDYgKzEzOTEsNyBAQCBzdGF0aWMgaW50IGFzdF92Z2Ffb3V0cHV0X2luaXQoc3Ry
-dWN0IGFzdF9wcml2YXRlICphc3QpDQo+PiAgIA0KPj4gICBzdGF0aWMgY29uc3Qgc3RydWN0
-IGRybV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzIGFzdF9zaWwxNjRfY29ubmVjdG9yX2hlbHBl
-cl9mdW5jcyA9IHsNCj4+ICAgCS5nZXRfbW9kZXMgPSBhc3RfdmdhX2Nvbm5lY3Rvcl9oZWxw
-ZXJfZ2V0X21vZGVzLCAvLyBzYW1lIGFzIFZHQSBjb25uZWN0b3INCj4+ICsJLmRldGVjdF9j
-dHggPSBkcm1fY29ubmVjdG9yX2hlbHBlcl9kZXRlY3RfY3R4X2Zyb21fZWRpZCwNCj4+ICAg
-fTsNCj4+ICAgDQo+PiAgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9mdW5j
-cyBhc3Rfc2lsMTY0X2Nvbm5lY3Rvcl9mdW5jcyA9IHsNCj4+IEBAIC0xNDI1LDcgKzE0Mjcs
-NyBAQCBzdGF0aWMgaW50IGFzdF9zaWwxNjRfY29ubmVjdG9yX2luaXQoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldiwNCj4+ICAgCWNvbm5lY3Rvci0+aW50ZXJsYWNlX2FsbG93ZWQgPSAwOw0K
-Pj4gICAJY29ubmVjdG9yLT5kb3VibGVzY2FuX2FsbG93ZWQgPSAwOw0KPj4gICANCj4+IC0J
-Y29ubmVjdG9yLT5wb2xsZWQgPSBEUk1fQ09OTkVDVE9SX1BPTExfQ09OTkVDVDsNCj4+ICsJ
-Y29ubmVjdG9yLT5wb2xsZWQgPSBEUk1fQ09OTkVDVE9SX1BPTExfQ09OTkVDVCB8IERSTV9D
-T05ORUNUT1JfUE9MTF9ESVNDT05ORUNUOw0KPj4gICANCj4+ICAgCXJldHVybiAwOw0KPj4g
-ICB9DQo+PiBAQCAtMTQ4OCw2ICsxNDkwLDcgQEAgc3RhdGljIGludCBhc3RfZHA1MDFfY29u
-bmVjdG9yX2hlbHBlcl9nZXRfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rv
-cikNCj4+ICAgDQo+PiAgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9oZWxw
-ZXJfZnVuY3MgYXN0X2RwNTAxX2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MgPSB7DQo+PiAgIAku
-Z2V0X21vZGVzID0gYXN0X2RwNTAxX2Nvbm5lY3Rvcl9oZWxwZXJfZ2V0X21vZGVzLA0KPj4g
-KwkuZGV0ZWN0X2N0eCA9IGRybV9jb25uZWN0b3JfaGVscGVyX2RldGVjdF9jdHhfZnJvbV9l
-ZGlkLA0KPj4gICB9Ow0KPj4gICANCj4+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29u
-bmVjdG9yX2Z1bmNzIGFzdF9kcDUwMV9jb25uZWN0b3JfZnVuY3MgPSB7DQo+PiBAQCAtMTUx
-Miw3ICsxNTE1LDcgQEAgc3RhdGljIGludCBhc3RfZHA1MDFfY29ubmVjdG9yX2luaXQoc3Ry
-dWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGRybV9jb25uZWN0b3INCj4+ICAgCWNvbm5l
-Y3Rvci0+aW50ZXJsYWNlX2FsbG93ZWQgPSAwOw0KPj4gICAJY29ubmVjdG9yLT5kb3VibGVz
-Y2FuX2FsbG93ZWQgPSAwOw0KPj4gICANCj4+IC0JY29ubmVjdG9yLT5wb2xsZWQgPSBEUk1f
-Q09OTkVDVE9SX1BPTExfQ09OTkVDVDsNCj4+ICsJY29ubmVjdG9yLT5wb2xsZWQgPSBEUk1f
-Q09OTkVDVE9SX1BPTExfQ09OTkVDVCB8IERSTV9DT05ORUNUT1JfUE9MTF9ESVNDT05ORUNU
-Ow0KPj4gICANCj4+ICAgCXJldHVybiAwOw0KPj4gICB9DQo+PiBAQCAtMTU3NSw2ICsxNTc4
-LDcgQEAgc3RhdGljIGludCBhc3RfYXN0ZHBfY29ubmVjdG9yX2hlbHBlcl9nZXRfbW9kZXMo
-c3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikNCj4+ICAgDQo+PiAgIHN0YXRpYyBj
-b25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MgYXN0X2FzdGRwX2Nvbm5l
-Y3Rvcl9oZWxwZXJfZnVuY3MgPSB7DQo+PiAgIAkuZ2V0X21vZGVzID0gYXN0X2FzdGRwX2Nv
-bm5lY3Rvcl9oZWxwZXJfZ2V0X21vZGVzLA0KPj4gKwkuZGV0ZWN0X2N0eCA9IGRybV9jb25u
-ZWN0b3JfaGVscGVyX2RldGVjdF9jdHhfZnJvbV9lZGlkLA0KPj4gICB9Ow0KPj4gICANCj4+
-ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2Z1bmNzIGFzdF9hc3RkcF9j
-b25uZWN0b3JfZnVuY3MgPSB7DQo+PiBAQCAtMTU5OSw3ICsxNjAzLDcgQEAgc3RhdGljIGlu
-dCBhc3RfYXN0ZHBfY29ubmVjdG9yX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3Ry
-dWN0IGRybV9jb25uZWN0b3INCj4+ICAgCWNvbm5lY3Rvci0+aW50ZXJsYWNlX2FsbG93ZWQg
-PSAwOw0KPj4gICAJY29ubmVjdG9yLT5kb3VibGVzY2FuX2FsbG93ZWQgPSAwOw0KPj4gICAN
-Cj4+IC0JY29ubmVjdG9yLT5wb2xsZWQgPSBEUk1fQ09OTkVDVE9SX1BPTExfQ09OTkVDVDsN
-Cj4+ICsJY29ubmVjdG9yLT5wb2xsZWQgPSBEUk1fQ09OTkVDVE9SX1BPTExfQ09OTkVDVCB8
-IERSTV9DT05ORUNUT1JfUE9MTF9ESVNDT05ORUNUOw0KPj4gICANCj4+ICAgCXJldHVybiAw
-Ow0KPj4gICB9DQo+PiBAQCAtMTcwOSw1ICsxNzEzLDcgQEAgaW50IGFzdF9tb2RlX2NvbmZp
-Z19pbml0KHN0cnVjdCBhc3RfcHJpdmF0ZSAqYXN0KQ0KPj4gICANCj4+ICAgCWRybV9tb2Rl
-X2NvbmZpZ19yZXNldChkZXYpOw0KPj4gICANCj4+ICsJZHJtX2ttc19oZWxwZXJfcG9sbF9p
-bml0KGRldik7DQo+PiArDQo+PiAgIAlyZXR1cm4gMDsNCj4+ICAgfQ0KPj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vZHJtX3Byb2JlX2hlbHBlci5jDQo+PiBpbmRleCA0MjVmNTYyODBkNTEuLjQ0NDBhN2I2
-YjI0MCAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVy
-LmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMNCj4+IEBA
-IC0xMDMxLDMgKzEwMzEsMzggQEAgaW50IGRybV9jb25uZWN0b3JfaGVscGVyX2dldF9tb2Rl
-c19mcm9tX2RkYyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQ0KPj4gICAJcmV0
-dXJuIGNvdW50Ow0KPj4gICB9DQo+PiAgIEVYUE9SVF9TWU1CT0woZHJtX2Nvbm5lY3Rvcl9o
-ZWxwZXJfZ2V0X21vZGVzX2Zyb21fZGRjKTsNCj4+ICsNCj4+ICsvKioNCj4+ICsgKiBkcm1f
-Y29ubmVjdG9yX2hlbHBlcl9kZXRlY3RfY3R4X2Zyb21fZWRpZCAtDQo+PiArICoJVXBkYXRl
-cyB0aGUgY29ubmVjdG9yJ3Mgc3RhdHVzIGJ5IHJlYWRpbmcgRURJRCBkYXRhDQo+PiArICog
-QGNvbm5lY3RvcjogVGhlIGNvbm5lY3Rvci4NCj4+ICsgKiBAY3R4OiBUaGUgbG9jay1hY3F1
-aXNpdGlvbiBjb250ZXh0Lg0KPj4gKyAqIEBmb3JjZTogVHJ1ZSBpZiB0aGUgb3BlcmF0aW9u
-IHdhcyByZXF1ZXN0ZWQgYnkgdXNlcnNwYWNlLCBmYWxzZSBvdGhlcndpc2UuDQo+PiArICoN
-Cj4+ICsgKiBSZXR1cm5zOg0KPj4gKyAqIFRoZSBjb25uZWN0b3IncyBzdGF0dXMgYXMgZW51
-bSBkcm1fY29ubmVjdG9yX3N0YXR1cy4NCj4+ICsgKg0KPj4gKyAqIFVwZGF0ZXMgdGhlIGNv
-bm5lY3RvcidzIEVESUQgcHJvcGVydHkgYnkgcmVhZGluZyB0aGUgZGlzcGxheSBtb2Rlcw0K
-Pj4gKyAqIGFuZCByZXR1cm5zIHRoZSBjb25uZWN0b3IncyBzdGF0dXMuIElmIHRoZSBFRElE
-IHByb3BlcnR5IGlzIHNldCwgdGhlDQo+PiArICogY29ubmVjdG9yIGlzIGFzc3VtZWQgdG8g
-YmUgY29ubmVjdGVkOyBhbmQgZGlzY29ubmVjdGVkIG90aGVyd2lzZS4NCj4+ICsgKiBJZiB0
-aGUgZ2V0X21vZGVzIGhlbHBlciBpcyBtaXNzaW5nLCB0aGUgZGVmYXVsdCBzdGF0dXMgaXMg
-J3Vua25vd24nLg0KPj4gKyAqDQo+PiArICogU2VlIHN0cnVjdCBkcm1fY29ubmVjdG9yX2hl
-bHBlcl9mdW5jcy5kZXRlY3RfY3R4Lg0KPj4gKyAqLw0KPj4gK2ludCBkcm1fY29ubmVjdG9y
-X2hlbHBlcl9kZXRlY3RfY3R4X2Zyb21fZWRpZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29u
-bmVjdG9yLA0KPj4gKwkJCQkJICAgICAgc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4
-ICpjdHgsDQo+PiArCQkJCQkgICAgICBib29sIGZvcmNlKQ0KPj4gK3sNCj4+ICsJY29uc3Qg
-c3RydWN0IGRybV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzICpoZWxwZXJfZnVuY3MgPSBjb25u
-ZWN0b3ItPmhlbHBlcl9wcml2YXRlOw0KPj4gKw0KPj4gKwlpZiAoIWhlbHBlcl9mdW5jcyB8
-fCAhaGVscGVyX2Z1bmNzLT5nZXRfbW9kZXMpDQo+PiArCQlyZXR1cm4gY29ubmVjdG9yX3N0
-YXR1c191bmtub3duOw0KPj4gKw0KPj4gKwloZWxwZXJfZnVuY3MtPmdldF9tb2Rlcyhjb25u
-ZWN0b3IpOw0KPj4gKw0KPj4gKwlpZiAoIWNvbm5lY3Rvci0+ZWRpZF9ibG9iX3B0cikNCj4+
-ICsJCXJldHVybiBjb25uZWN0b3Jfc3RhdHVzX2Rpc2Nvbm5lY3RlZDsNCj4+ICsNCj4+ICsJ
-cmV0dXJuIGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkOw0KPj4gK30NCj4+ICtFWFBPUlRf
-U1lNQk9MKGRybV9jb25uZWN0b3JfaGVscGVyX2RldGVjdF9jdHhfZnJvbV9lZGlkKTsNCj4+
-IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fcHJvYmVfaGVscGVyLmggYi9pbmNsdWRl
-L2RybS9kcm1fcHJvYmVfaGVscGVyLmgNCj4+IGluZGV4IGM4MGNhYjdhNTNiNy4uNzQwOGNm
-MDEwNzk0IDEwMDY0NA0KPj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3Byb2JlX2hlbHBlci5o
-DQo+PiArKysgYi9pbmNsdWRlL2RybS9kcm1fcHJvYmVfaGVscGVyLmgNCj4+IEBAIC0yNyw1
-ICsyNyw4IEBAIHZvaWQgZHJtX2ttc19oZWxwZXJfcG9sbF9lbmFibGUoc3RydWN0IGRybV9k
-ZXZpY2UgKmRldik7DQo+PiAgIGJvb2wgZHJtX2ttc19oZWxwZXJfaXNfcG9sbF93b3JrZXIo
-dm9pZCk7DQo+PiAgIA0KPj4gICBpbnQgZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfZ2V0X21vZGVz
-X2Zyb21fZGRjKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpOw0KPj4gK2ludCBk
-cm1fY29ubmVjdG9yX2hlbHBlcl9kZXRlY3RfY3R4X2Zyb21fZWRpZChzdHJ1Y3QgZHJtX2Nv
-bm5lY3RvciAqY29ubmVjdG9yLA0KPj4gKwkJCQkJICAgICAgc3RydWN0IGRybV9tb2Rlc2V0
-X2FjcXVpcmVfY3R4ICpjdHgsDQo+PiArCQkJCQkgICAgICBib29sIGZvcmNlKTsNCj4+ICAg
-DQo+PiAgICNlbmRpZg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
-RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
-DQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDks
-IEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+The only sane way to do this is like we have been doing for the past 30+
+years, make the ioctl and look at the return value.
 
---------------MXna0iDyH09k3l8lN4EE1GdA--
+Now if we want to come up with a new generic "here's the
+capabilities/ioctls/whatever" that the kernel currently supports at this
+point in time api, wonderful, but PLEASE do not overload sysfs to do
+something like this as that is not what it is for at this moment in
+time.
 
---------------RwopC88NiWAPOQ7BlYocTIRb
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Don't just do this for one specific ioctl as there really is nothing
+special about it at all ("it's special and unique just like all other
+ioctls...")
 
------BEGIN PGP SIGNATURE-----
+> Plan B we discussed is to add a getparam to signify this to the drm
+> ioctl interface, but that has the design problem that a feature in the
+> dma-buf subsystem is announced in a totally different subsystem (ok
+> same maintainers), and if that ever gets out of sync your userspace
+> breaks. So really no good.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKfLXoFAwAAAAAACgkQlh/E3EQov+C0
-tA//dd9lFK9zq7TFWHsaRgRiWxkjfAfSICYQvVE+i2uElix9iHQL3hUTv/o9TeHHpB7g/ZrsZ4ik
-9csW6VuQsTOygTPB6I86GJMLJxnxidTzx1b1v4CgMTo/IDuokLP6pvdPoGGNZWQWz/fwV1Bjej4U
-JcjLc5VFIS7NxWspQH54PFJHrGvBdUBfPxn/E/tp265wEL4Fx6KF+WjvDpPOIqdhCkWO2R4wZ/Xc
-oZjuQUEXxhuww1jNoxj2JZYHq8VCouRSdt6TU6wzik0z02sFawWbJ2ll92jUVlH6Q8HzNmBY/OE8
-/kv77hXZ655bGhN6YHWsmhQvPvNPq1lLDsilmmnWqLRedK8hwmfwtvmUxWLEw6I6dG9Xp1DbKWTm
-wfCHt5480AIbqMjFaKZyk1DcHGovplwI8im3hPDVcynYLV/tXrz0ymprgzha3mZG6XCjo3w1d1O4
-4Luy67bd4hCQZSNHNnUKH/xHF1ieQkvuAIvw2KrDO1G45+zoFkq1+UjQCzAC2CNqlZH/vBgdDt+N
-sDcafqWaRKwiYzWqzBBjDrFJyGWwj+E3L+hg7dgCUyJRd0vF+KljynRhU+R/4TuEAgzetB7coIhU
-B0wmPeGoRw40HYYfnpiiCM8pqhD/BHZnzNGh16dF3zxa5rdT4PCt9ypwZwbKXHw73/rYTqqv7KOe
-8fA=
-=GRaN
------END PGP SIGNATURE-----
+getparam makes sense in a way, if it doesn't change over time (i.e. if
+you call it now, will it be the same if you call it again if some kernel
+module is added/removed in the meantime?)  Also be aware of
+suspend/resume where you can swap out the kernel underneath running
+userspace and that kernel might have different capabilities now.  So you
+can't just not check error values of ioctl commands (not that you are
+saying you want to here, just that it's more complex than might
+originally seem.)
 
---------------RwopC88NiWAPOQ7BlYocTIRb--
+> So if sysfs also isn't the right approach, and the getparam ioctl on
+> drm is defo worse, what is the right approach? Ideally without setting
+> up the entire userspace render driver and doing some expensive-ish
+> (depending upon driver at least) buffer allocations just to check for
+> a feature.
+> 
+> Note that some compositors want to gate their "should I use vk for
+> rendering and expose some additional features to client" decision on
+> this, so setting up the wrong renderer just to test whether that would
+> work is not a very great approach.
+> 
+> Also the last time we added a feature to dma-buf was in 3.17, so I
+> guess everyone just hardcodes nowadays that all dma-buf features are
+> present. Which isn't great, and that's why we're trying to fix here.
+
+Why can't you call the test ioctl with an invalid value to see if it is
+present or not (-ENOTTY vs. -EINVAL) right at the beginning before you
+set up anything?
+
+thanks,
+
+greg k-h
