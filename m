@@ -1,84 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C79953FF97
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 14:59:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B9D53FFA8
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 15:06:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87BAD10E62C;
-	Tue,  7 Jun 2022 12:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 709A510EE78;
+	Tue,  7 Jun 2022 13:06:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D979110E62C
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 12:59:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654606790;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lLkIExdSAfZXhKlnnfUm2v8chK83vx8JP1WYxXIWoTk=;
- b=NLmivx0qhhsWxleJ4DTvBvhIJxA+m3uW9htbHA0ua/4GWVv8ZodUmx3/aSa4S3PNY0E5xF
- djFP15KrDV4iCFXx+2z1IYU/MrMPQZY8eIrQbOS4g4piAHf7eTUP8W3IU1Xg0BcX20JTil
- WTqHhv8WUkicz5AGgmKog9DQ8Afwt70=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-264-tSO0tHdjONeA97LUl474Uw-1; Tue, 07 Jun 2022 08:59:47 -0400
-X-MC-Unique: tSO0tHdjONeA97LUl474Uw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- bw25-20020a0560001f9900b002175d64fd29so1987457wrb.9
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 05:59:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=lLkIExdSAfZXhKlnnfUm2v8chK83vx8JP1WYxXIWoTk=;
- b=vgb+wcamUTrjmlSc+hJyHb9utUjWyGdxrubEZYDluhnwvGk4QrPJseEXVVD7P1obZX
- QYGJ7axOHQNgMuFINvQiMLSRcBZSAYt3tvNMMn1uogY5u7idNStfu+z3IU2tSTV2Z6X/
- iGU4EtgwQAqvUU6jTocnGGUiG5XCtvNxO6u9CY4CasLt1QaGBoKlNPEetaFvLjXs/i1V
- tWKwPI1vnm2Y9AiBBVUCQcrZyoXFkXEvJ8Op3/Neg5C7QxgyFUVpHoJ8yhzKK+Zsq+m6
- +T2TWZ6QcB6YlPz6Z0jB7RbO82K1B3A7YGUWV47XSXtN/+mYZU7d3BenvPY2XwP78jki
- jNpg==
-X-Gm-Message-State: AOAM531a1VDJJD+kK/W+way4hfZWuJY4dX/VKoRaLYGdZ2VDdVK4I+9n
- E4nW9VPC1I2RAwnG1JSS1JDJpmbWYUSpkL+pgrM7hw2Aepry4KTtgPgWwa5lFv4qttCwi7jkFpa
- rSLT+tFaN63OiY7zBtqJd7NiwvfTG
-X-Received: by 2002:a05:600c:154d:b0:394:880f:ae3a with SMTP id
- f13-20020a05600c154d00b00394880fae3amr57162978wmg.13.1654606786069; 
- Tue, 07 Jun 2022 05:59:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxqobIROp0frQyRbHeDBQX0/wyK9D7b9XqZKUc3BVsApHVxTT80upGqI6zMshvJq/DgrW/pbQ==
-X-Received: by 2002:a05:600c:154d:b0:394:880f:ae3a with SMTP id
- f13-20020a05600c154d00b00394880fae3amr57162952wmg.13.1654606785803; 
- Tue, 07 Jun 2022 05:59:45 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c709:500:4c8d:4886:f874:7b6f?
- (p200300cbc70905004c8d4886f8747b6f.dip0.t-ipconnect.de.
- [2003:cb:c709:500:4c8d:4886:f874:7b6f])
- by smtp.gmail.com with ESMTPSA id
- be5-20020a05600c1e8500b003942a244ee6sm20657928wmb.43.2022.06.07.05.59.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jun 2022 05:59:44 -0700 (PDT)
-Message-ID: <16c92358-0daf-94d0-0f73-92faef827d51@redhat.com>
-Date: Tue, 7 Jun 2022 14:59:39 +0200
+X-Greylist: delayed 334 seconds by postgrey-1.36 at gabe;
+ Tue, 07 Jun 2022 13:06:22 UTC
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2AC710EE6F;
+ Tue,  7 Jun 2022 13:06:22 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LHVpK6Ftcz4xD9;
+ Tue,  7 Jun 2022 23:00:41 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+ s=201909; t=1654606844;
+ bh=mWFx87zXWLQDl7q7jrVe29eZihP1nivqaWchBWxV+Rk=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=ojcvXYrpYzRmGHGW/m7vcIq75WnW8Oqw6iR2ee4yxHgqSvO8fht8hguK/iU/G5gou
+ hp8ShO1H0BWVarvP0ufdm8gVevr02sxgtZaEg/VugOnVHwTfyItvOOptOxzA5a5QN5
+ 70RwZbQo6QeTOx0zltYRI7BI0X9E1dQeWW86Lj6J3FCdEWAHmLzg9ylDHKTghZ52O1
+ GueKlc+A8eQRa2z/t1J5x1if8edVC6DG/8suvhgc0hHJUfq0rvkRW3anshJlsil47N
+ 5i2ukl83fDFhfSZssAREgM2JCKA+bYlQGRFIwTWVqdZ0P1wBHTFoxtpZZMz0+AYym3
+ DMEv2rntl+nOQ==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Lyude Paul <lyude@redhat.com>, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, Ben Skeggs <bskeggs@redhat.com>, Karol
+ Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2] drm/nouveau/bios: Rename prom_init() and friends
+ functions
+In-Reply-To: <f6e72c6e6d9ae9019ad675081493372f745cbbf5.camel@redhat.com>
+References: <7e0612b61511ec8030e3b2dcbfaa7751781c8b91.1647684507.git.christophe.leroy@csgroup.eu>
+ <f6e72c6e6d9ae9019ad675081493372f745cbbf5.camel@redhat.com>
+Date: Tue, 07 Jun 2022 23:00:41 +1000
+Message-ID: <8735ggeih2.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 2/3] mm/slab: delete cache_alloc_debugcheck_before()
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>
-References: <20220605152539.3196045-1-daniel.vetter@ffwll.ch>
- <20220605152539.3196045-2-daniel.vetter@ffwll.ch>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20220605152539.3196045-2-daniel.vetter@ffwll.ch>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,38 +57,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Pekka Enberg <penberg@kernel.org>, linux-mm@kvack.org,
- David Rientjes <rientjes@google.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Christoph Lameter <cl@linux.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Vlastimil Babka <vbabka@suse.cz>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05.06.22 17:25, Daniel Vetter wrote:
-> It only does a might_sleep_if(GFP_RECLAIM) check, which is already
-> covered by the might_alloc() in slab_pre_alloc_hook(). And all callers
-> of cache_alloc_debugcheck_before() call that beforehand already.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Christoph Lameter <cl@linux.com>
-> Cc: Pekka Enberg <penberg@kernel.org>
-> Cc: David Rientjes <rientjes@google.com>
-> Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Roman Gushchin <roman.gushchin@linux.dev>
-> Cc: linux-mm@kvack.org
-> ---
+Lyude Paul <lyude@redhat.com> writes:
+> Reviewed-by: Lyude Paul <lyude@redhat.com>
+>
+> Will push to drm-misc-next
 
-LGTM
+I don't see this patch in mainline or drm-misc-next, did it get lost?
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+cheers
 
--- 
-Thanks,
-
-David / dhildenb
-
+> On Sat, 2022-03-19 at 11:27 +0100, Christophe Leroy wrote:
+>> While working at fixing powerpc headers, I ended up with the
+>> following error.
+>>=20
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/nouveau/=
+nvkm/subdev/bios/shadowrom.c:48:1: error:
+>> conflicting types for 'prom_init'; have 'void *(struct nvkm_bios *, const
+>> char *)'
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0make[5]: *** [scripts/Ma=
+kefile.build:288:
+>> drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.o] Error 1
+>>=20
+>> powerpc and a few other architectures have a prom_init() global function.
+>> One day or another it will conflict with the one in shadowrom.c
+>>=20
+>> Those being static, they can easily be renamed. Do it.
+>>=20
+>> While at it, also rename the ops structure as 'nvbios_prom' instead of
+>> 'nvbios_rom' in order to make it clear that it refers to the
+>> NV_PROM device.
+>>=20
+>> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+>> ---
+>> v2: using nvbios_prom prefix instead of nvbios_rom. Changed structure na=
+me
+>> to keep things consistant.
+>>=20
+>> =C2=A0drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h=C2=A0=C2=A0=C2=A0 =
+|=C2=A0 2 +-
+>> =C2=A0drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c=C2=A0 |=C2=A0 2 =
++-
+>> =C2=A0.../gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c=C2=A0=C2=A0 | 14 =
++++++++-------
+>> =C2=A03 files changed, 9 insertions(+), 9 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
+>> b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
+>> index fac1bff1311b..cfa8a0c356dd 100644
+>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
+>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
+>> @@ -19,7 +19,7 @@ struct nvbios_source {
+>> =C2=A0int nvbios_extend(struct nvkm_bios *, u32 length);
+>> =C2=A0int nvbios_shadow(struct nvkm_bios *);
+>> =C2=A0
+>> -extern const struct nvbios_source nvbios_rom;
+>> +extern const struct nvbios_source nvbios_prom;
+>> =C2=A0extern const struct nvbios_source nvbios_ramin;
+>> =C2=A0extern const struct nvbios_source nvbios_acpi_fast;
+>> =C2=A0extern const struct nvbios_source nvbios_acpi_slow;
+>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+>> b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+>> index 4b571cc6bc70..19188683c8fc 100644
+>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+>> @@ -171,7 +171,7 @@ nvbios_shadow(struct nvkm_bios *bios)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct shadow mthds[] =
+=3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0{ 0, &nvbios_of },
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0{ 0, &nvbios_ramin },
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0{ 0, &nvbios_rom },
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0{ 0, &nvbios_prom },
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0{ 0, &nvbios_acpi_fast },
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0{ 4, &nvbios_acpi_slow },
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0{ 1, &nvbios_pcirom },
+>> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
+>> b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
+>> index ffa4b395220a..39144ceb117b 100644
+>> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
+>> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
+>> @@ -25,7 +25,7 @@
+>> =C2=A0#include <subdev/pci.h>
+>> =C2=A0
+>> =C2=A0static u32
+>> -prom_read(void *data, u32 offset, u32 length, struct nvkm_bios *bios)
+>> +nvbios_prom_read(void *data, u32 offset, u32 length, struct nvkm_bios
+>> *bios)
+>> =C2=A0{
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct nvkm_device *devi=
+ce =3D data;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u32 i;
+>> @@ -38,14 +38,14 @@ prom_read(void *data, u32 offset, u32 length, struct
+>> nvkm_bios *bios)
+>> =C2=A0}
+>> =C2=A0
+>> =C2=A0static void
+>> -prom_fini(void *data)
+>> +nvbios_prom_fini(void *data)
+>> =C2=A0{
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct nvkm_device *devi=
+ce =3D data;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0nvkm_pci_rom_shadow(devi=
+ce->pci, true);
+>> =C2=A0}
+>> =C2=A0
+>> =C2=A0static void *
+>> -prom_init(struct nvkm_bios *bios, const char *name)
+>> +nvbios_prom_init(struct nvkm_bios *bios, const char *name)
+>> =C2=A0{
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct nvkm_device *devi=
+ce =3D bios->subdev.device;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (device->card_type =
+=3D=3D NV_40 && device->chipset >=3D 0x4c)
+>> @@ -55,10 +55,10 @@ prom_init(struct nvkm_bios *bios, const char *name)
+>> =C2=A0}
+>> =C2=A0
+>> =C2=A0const struct nvbios_source
+>> -nvbios_rom =3D {
+>> +nvbios_prom =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.name =3D "PROM",
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.init =3D prom_init,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.fini =3D prom_fini,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.read =3D prom_read,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.init =3D nvbios_prom_init,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.fini =3D nvbios_prom_fini,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.read =3D nvbios_prom_read,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.rw =3D false,
+>> =C2=A0};
+>
+> --=20
+> Cheers,
+>  Lyude Paul (she/her)
+>  Software Engineer at Red Hat
