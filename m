@@ -1,58 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8941540226
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 17:11:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFAA54027C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 17:32:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1730F10E059;
-	Tue,  7 Jun 2022 15:11:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20DAD10EB32;
+	Tue,  7 Jun 2022 15:32:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com
- [209.85.166.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA8810E156
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 15:11:23 +0000 (UTC)
-Received: by mail-il1-f169.google.com with SMTP id h7so6840850ila.10
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 08:11:23 -0700 (PDT)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C90B10EB32
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 15:32:36 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id n28so23500874edb.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 08:32:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8mWAcxmdEaXtXEf9bkpBT1dXxrFHE82EQI8/Jd/D+m0=;
+ b=GPfz/jg87i8Zik3e8kzVXPFh+GLz9PHfv82fQeGPkCn0GfiS5QUaw/pZFKY3MMdomI
+ /LuGFP+pL0A4/djAMIc8djgLEpFxw3hqlfiemCoHbAJraq7EEdYsE7sHKSJQfkCWxDhT
+ erwf8YK192cyUffD1u6jI914YqFVstgnWVijI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=yZvply317AePPx+C+0gJXDyN0OP2009ot+8UwJNT7lc=;
- b=itKbA9DROVuNwtmf7+QkSWoIycJ/ygPuPJLPDFs97eyO9Cgh9FBwppXZI+9CtXYLl1
- c8TPZsURFIA5cv78u6xiqDVUslqiCVquSSzThLxijgjsG4EGa8nQwXezgyQIvkumxn88
- 2Ppkr8ST5knYZyyTy9u4R7gRfQwwgtrMzxw04TA/l4SwW1RziTufrW6F9wCV/WQCIn4O
- HVIwK77Voj6ToBGlRb1FFoKtPCJUfpz7ed7CGT/BpOzYt+Jap7g5he7tuneaGpJ8qyNp
- W6HVH2D11H8dx8yq/4DujakCqrwkV0wiTxUD3FGYUFBXQq9lbDvYDECJwEPfu9xiJLjt
- S8Tg==
-X-Gm-Message-State: AOAM530uqt2zUF+6HuYkjvRgDadExUAMSi6EAvIRQSjn51+Bbk1gQ8hH
- O2So7rpml+aiHT0IoWd+6w==
-X-Google-Smtp-Source: ABdhPJx/aj8OkTZ5sZWk9M29SQS/0eDgBTSzLYMt1Sjvv9q41ldddqHu8JdQx/N4vjM5hJPYMOdyQg==
-X-Received: by 2002:a05:6e02:164b:b0:2d3:ccea:ff38 with SMTP id
- v11-20020a056e02164b00b002d3cceaff38mr16702955ilu.37.1654614682299; 
- Tue, 07 Jun 2022 08:11:22 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.251])
- by smtp.gmail.com with ESMTPSA id
- b14-20020a05663805ae00b00331d98c9a7fsm409601jar.40.2022.06.07.08.11.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 08:11:21 -0700 (PDT)
-Received: (nullmailer pid 3258163 invoked by uid 1000);
- Tue, 07 Jun 2022 15:11:19 -0000
-Date: Tue, 7 Jun 2022 09:11:19 -0600
-From: Rob Herring <robh@kernel.org>
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>
-Subject: Re: [RESEND v4 1/3] dt-bindings: mediatek: add vdosys1 RDMA
- definition for mt8195
-Message-ID: <20220607151119.GA3254370-robh@kernel.org>
-References: <20220606051131.14182-1-rex-bc.chen@mediatek.com>
- <20220606051131.14182-2-rex-bc.chen@mediatek.com>
- <1654520033.524963.534472.nullmailer@robh.at.kernel.org>
- <8598b46381861bd36008cc87599c73863cb4b98e.camel@mediatek.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8mWAcxmdEaXtXEf9bkpBT1dXxrFHE82EQI8/Jd/D+m0=;
+ b=3NH0NT52EDGCgm6NDZ6X+yoaSq7+Gr5M5qMVoKS3T7rTNCn4IpO36oKWykF5E6JyaA
+ ozL6fKjxKkJYouo0KEL0c9AF4FBpKOSEb7lb3hA7U304BS/WCWeWZz9YfMVyYFxyDUpz
+ nynkvqrOy9bOOANi+9ZLRF7MEj27URCUuJJgxsVIdF66H517mUHd4sKv5BGAEeXlnwBb
+ 8Cnowe3PGAyehAuMFMIasV9689F8Upml1DrmcWyFfQlJI7TZsTuGsiNXbRObYBJM1YCy
+ H8o9ge8kL3B00I4JTZt+uNA4aIHOHbXaUZ2J2iLwCGUJfU1Tenwm77r6gXLqsTQcmWjs
+ 0nLA==
+X-Gm-Message-State: AOAM532JhSx1RMrChRM973kOB16BKsKcx05btaa0Od6rLgYKDmga06vl
+ 54vOV6qZqZgQz62Ms4xKeKiB2ErXnfV4hB0b
+X-Google-Smtp-Source: ABdhPJzZFjxtFl0Ic9bmrBihqYM4qrm6cWUmsFSKNmemiKRrsdj5BvSI8ZyxyGtnFbYVTZFcp1uiqg==
+X-Received: by 2002:a05:6402:120b:b0:42f:aa44:4d85 with SMTP id
+ c11-20020a056402120b00b0042faa444d85mr24741829edw.338.1654615954072; 
+ Tue, 07 Jun 2022 08:32:34 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
+ [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
+ c24-20020a056402159800b0042617ba63c2sm10675892edv.76.2022.06.07.08.32.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 08:32:32 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id q15so16658628wrc.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 08:32:32 -0700 (PDT)
+X-Received: by 2002:a5d:608d:0:b0:218:3cfa:afe9 with SMTP id
+ w13-20020a5d608d000000b002183cfaafe9mr12177876wrt.422.1654615951748; Tue, 07
+ Jun 2022 08:32:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8598b46381861bd36008cc87599c73863cb4b98e.camel@mediatek.com>
+References: <20220607090549.2345795-1-hsinyi@chromium.org>
+ <20220607090549.2345795-9-hsinyi@chromium.org>
+In-Reply-To: <20220607090549.2345795-9-hsinyi@chromium.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 7 Jun 2022 08:32:19 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Xe=iEh080QjE+Awgw0Q+Rb=xnrAj6OtO3EXp==XgvD0g@mail.gmail.com>
+Message-ID: <CAD=FV=Xe=iEh080QjE+Awgw0Q+Rb=xnrAj6OtO3EXp==XgvD0g@mail.gmail.com>
+Subject: Re: [PATCH v5 8/8] drm/mediatek: Config orientation property if panel
+ provides it
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,101 +73,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- Nancy Lin =?utf-8?B?KOael+aso+ieoik=?= <Nancy.Lin@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "pavel@ucw.cz" <pavel@ucw.cz>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 06, 2022 at 09:30:42PM +0800, Rex-BC Chen wrote:
-> On Mon, 2022-06-06 at 20:53 +0800, Rob Herring wrote:
-> > On Mon, 06 Jun 2022 13:11:29 +0800, Bo-Chen Chen wrote:
-> > > From: "Nancy.Lin" <nancy.lin@mediatek.com>
-> > > 
-> > > Add vdosys1 RDMA definition.
-> > > 
-> > > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> > > Reviewed-by: AngeloGioacchino Del Regno <
-> > > angelogioacchino.delregno@collabora.com>
-> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > > Tested-by: AngeloGioacchino Del Regno <
-> > > angelogioacchino.delregno@collabora.com>
-> > > ---
-> > >  .../display/mediatek/mediatek,mdp-rdma.yaml   | 88
-> > > +++++++++++++++++++
-> > >  1 file changed, 88 insertions(+)
-> > >  create mode 100644
-> > > Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
-> > > rdma.yaml
-> > > 
-> > 
-> > My bot found errors running 'make DT_CHECKER_FLAGS=-m
-> > dt_binding_check'
-> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> > 
-> > yamllint warnings/errors:
-> > 
-> > dtschema/dtc warnings/errors:
-> > /builds/robherring/linux-dt-
-> > review/Documentation/devicetree/bindings/display/mediatek/mediatek,md
-> > p-rdma.yaml: properties:compatible: [{'const': 'mediatek,mt8195-vdo1-
-> > rdma'}] is not of type 'object', 'boolean'
-> > 	from schema $id: 
-> > https://urldefense.com/v3/__http://json-schema.org/draft-07/schema*__;Iw!!CTRNKA9wMg0ARbw!3hhZrSKSWnCN5Bha9laiHlB5JCx9_p-ksaYDZmoCLQRi1tI4KJCcTJQva2vds3j3bwKF$
-> >  
-> > /builds/robherring/linux-dt-
-> > review/Documentation/devicetree/bindings/display/mediatek/mediatek,md
-> > p-rdma.yaml: ignoring, error in schema: properties: compatible
-> > Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
-> > rdma.example.dtb:0:0: /example-0/soc/rdma@1c104000: failed to match
-> > any schema with compatible: ['mediatek,mt8195-vdo1-rdma']
-> > 
-> > doc reference errors (make refcheckdocs):
-> > 
-> > See https://patchwork.ozlabs.org/patch/
-> > 
-> > This check can fail if there are any dependencies. The base for a
-> > patch
-> > series is generally the most recent rc1.
-> > 
-> > If you already ran 'make dt_binding_check' and didn't see the above
-> > error(s), then make sure 'yamllint' is installed and dt-schema is up
-> > to
-> > date:
-> > 
-> > pip3 install dtschema --upgrade
-> > 
-> > Please check and re-submit.
-> > 
-> 
-> Hello Rob,
-> 
-> We found that if we write this, and the error will disapear:
->  properties:
->    compatible:
-> -    - const: mediatek,mt8195-vdo1-rdma
-> +    items:
-> +      - const: mediatek,mt8195-vdo1-rdma
-> 
-> But from Krzysztof's review[1], he adviced us to drop items.
-> 
-> Is there any suggsetion for this error or do we have any
-> misunderstanding?
+Hi,
 
-The '-' is important.
+On Tue, Jun 7, 2022 at 2:06 AM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+>
+> Panel orientation property should be set before drm_dev_register().
+> Mediatek drm driver calls drm_dev_register() in .bind(). However, most
+> panels sets orientation property relatively late, mostly in .get_modes()
+> callback, since this is when they are able to get the connector and
+> binds the orientation property to it, though the value should be known
+> when the panel is probed.
+>
+> Let the drm driver check if the remote end point is a panel and if it
+> contains the orientation property. If it does, set it before
+> drm_dev_register() is called.
+>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+> v4->v5:
+> - use the new function in v5.
+> - don't use drm_of_find_panel_or_bridge().
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index d9f10a33e6fa..998b1237e193 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -185,6 +185,7 @@ struct mtk_dsi {
+>         struct drm_encoder encoder;
+>         struct drm_bridge bridge;
+>         struct drm_bridge *next_bridge;
+> +       struct drm_panel *panel;
+>         struct drm_connector *connector;
+>         struct phy *phy;
+>
+> @@ -822,6 +823,10 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
+>                 ret = PTR_ERR(dsi->connector);
+>                 goto err_cleanup_encoder;
+>         }
+> +
+> +       /* Read panel orientation */
+> +       drm_connector_set_orientation_from_panel(dsi->connector, dsi->panel);
+> +
+>         drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
+>
+>         return 0;
+> @@ -836,6 +841,16 @@ static int mtk_dsi_bind(struct device *dev, struct device *master, void *data)
+>         int ret;
+>         struct drm_device *drm = data;
+>         struct mtk_dsi *dsi = dev_get_drvdata(dev);
+> +       struct device_node *panel_node;
+> +
+> +       /* Get panel if existed */
+> +       panel_node = of_graph_get_remote_node(dev->of_node, 0, 0);
+> +       if (panel_node) {
+> +               dsi->panel = of_drm_find_panel(panel_node);
+> +               if (IS_ERR(dsi->panel))
+> +                       dsi->panel = NULL;
+> +               of_node_put(panel_node);
+> +       }
 
-compatible:
-  const: mediatek,mt8195-vdo1-rdma
+While the above works, it feels like we could do better. What about this?
+
+* We add _some_ way to determine if a bridge is actually a
+panel_bridge. If nothing else maybe this could be
+drm_bridge_is_panel() and it could just check if bridge.funcs ==
+panel_bridge_bridge_funcs
+
+* In drm_bridge_connector_init(), when we're looping through all the
+bridges we find the panel_bridge if it's there.
+
+* At the end of drm_bridge_connector_init() if we found a panel_bridge
+then we call a function like drm_panel_bridge_set_orientation().
+
+
+Then you can fully get rid of the mediatek patch, right? The above
+will only work if you're using a panel_bridge / bridge_connector, but
+that's "the future" anyway and we want to encourage people to
+transition to that.
+
+-Doug
