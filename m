@@ -2,52 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C0154142D
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 22:16:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CEF454163E
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 22:48:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3474A10E166;
-	Tue,  7 Jun 2022 20:16:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C83B510E726;
+	Tue,  7 Jun 2022 20:48:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D987A10E166
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 20:16:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654633010; x=1686169010;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=7V/VA70lsYPB2rHKj1GQNpN5bDhVdxSUPtPF7P0+zbo=;
- b=fbsSxyQUV8mvku3KKGwZ4Q3jQfGS2tG5xtFQ/UQYvtEp3Gruj1nAwISO
- T0BGRmZkrfzuhlxavw2agJVj1n1BZrMCkN9yDls3FuDXCOoRrd9n2iT9L
- DrFYTjbJxxdvtO3Pc6uglyNTM6xtfoge6bLMscRY9NIV/k84H3vI4Li3r
- i2En5jse4+Z4prQcQ/Wu6+Y30kEYudIF7mhkUWRUkSybS0NMk026aoylM
- k6DuaWC/jpsS/9Bpp89904e/WwquViakZ/EhOsfMyRNXHBtX7z36QPkYU
- 5kBK5lutWxf5/r/8/24S1hUc7HgRlcji5HKfyt92qU+pvRXPJ5emn2BSP Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="257186936"
-X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="257186936"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 13:16:50 -0700
-X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="648216227"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 13:16:48 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1nyfd6-000W7i-N9; Tue, 07 Jun 2022 23:16:44 +0300
-Date: Tue, 7 Jun 2022 23:16:44 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Stephen Kitt <steve@sk2.org>
-Subject: Re: [PATCH] staging: ftbft: Use backlight helper
-Message-ID: <Yp+yLJNq70U3Z7AZ@smile.fi.intel.com>
-References: <20220607185516.1129900-1-steve@sk2.org>
+X-Greylist: delayed 379 seconds by postgrey-1.36 at gabe;
+ Tue, 07 Jun 2022 20:48:46 UTC
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A429710E6AB
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 20:48:46 +0000 (UTC)
+Received: from localhost (82-69-11-11.dsl.in-addr.zen.co.uk [82.69.11.11])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: alarumbe)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 1B8B0660197B;
+ Tue,  7 Jun 2022 21:42:24 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1654634544;
+ bh=k8nK0zw3fOmf5g/9gFWID6pXkptj7sfDJUxun95yEKo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=R0uQZCqzMjjQ0/tLEploQI0LIuxRjoeNrg4xjCwU4++GrjvF3yxjRNOydi8S8RQ/J
+ HMpPGpkwmq0n7ZB4KemXvkEOY31SUKiDLDM5fVX2IzTGEVu0uuxkouJBICxmPOavfT
+ hMJ5OyptJnVnCjE0L3GlRmy0fzfZoRpqWftEXxekDcXe6n1pVvqPEjlnVqkB/ZsOkg
+ u1Zbf2x9AcTNGetjjQXL3yDwUR9jyHkpeDsoTBiNLUVeEdev1UgQrMngFCIgcDN6u4
+ 956ckSW58PrjpCdTMSCt1sdbKuhSfBTIAxH2zp2jYEp06GFOlau1NWCRnT7xpoeSgV
+ SUxz9RSYOMppA==
+Date: Tue, 7 Jun 2022 21:42:21 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH 1/1] drm/panfrost: Add support for devcoredump
+Message-ID: <20220607204221.gh22tj5cgyd2rtmw@sobremesa>
+References: <20220517174216.381287-1-adrian.larumbe@collabora.com>
+ <20220517174216.381287-2-adrian.larumbe@collabora.com>
+ <CAF6AEGvcHoejVoL0Ch5k0YPG_-9jb+8LrR5YmfDNxC=sPOgB1A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220607185516.1129900-1-steve@sk2.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <CAF6AEGvcHoejVoL0Ch5k0YPG_-9jb+8LrR5YmfDNxC=sPOgB1A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,77 +56,369 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Len Baker <len.baker@gmx.com>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Steven Price <steven.price@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 07, 2022 at 08:55:16PM +0200, Stephen Kitt wrote:
-> backlight_properties.fb_blank is deprecated. The states it represents
-> are handled by other properties; but instead of accessing those
-> properties directly, drivers should use the helpers provided by
-> backlight.h.
+On 18.05.2022 13:54, Rob Clark wrote:
+> On Tue, May 17, 2022 at 10:42 AM Adrián Larumbe
+> <adrian.larumbe@collabora.com> wrote:
+> >
+> > In the event of a job timeout, debug dump information will be written into
+> > /sys/class/devcoredump.
+> >
+> > Inspired by etnaviv's similar feature.
+> >
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panfrost/Kconfig         |   1 +
+> >  drivers/gpu/drm/panfrost/Makefile        |   3 +-
+> >  drivers/gpu/drm/panfrost/panfrost_dump.c | 198 +++++++++++++++++++++++
+> >  drivers/gpu/drm/panfrost/panfrost_dump.h |  12 ++
+> >  drivers/gpu/drm/panfrost/panfrost_job.c  |   3 +
+> >  include/uapi/drm/panfrost_drm.h          |  32 ++++
+> >  6 files changed, 248 insertions(+), 1 deletion(-)
+> >  create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.c
+> >  create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.h
+> >
+> > diff --git a/drivers/gpu/drm/panfrost/Kconfig b/drivers/gpu/drm/panfrost/Kconfig
+> > index 86cdc0ce79e6..079600328be1 100644
+> > --- a/drivers/gpu/drm/panfrost/Kconfig
+> > +++ b/drivers/gpu/drm/panfrost/Kconfig
+> > @@ -11,6 +11,7 @@ config DRM_PANFROST
+> >         select DRM_GEM_SHMEM_HELPER
+> >         select PM_DEVFREQ
+> >         select DEVFREQ_GOV_SIMPLE_ONDEMAND
+> > +       select WANT_DEV_COREDUMP
+> >         help
+> >           DRM driver for ARM Mali Midgard (T6xx, T7xx, T8xx) and
+> >           Bifrost (G3x, G5x, G7x) GPUs.
+> > diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
+> > index b71935862417..7da2b3f02ed9 100644
+> > --- a/drivers/gpu/drm/panfrost/Makefile
+> > +++ b/drivers/gpu/drm/panfrost/Makefile
+> > @@ -9,6 +9,7 @@ panfrost-y := \
+> >         panfrost_gpu.o \
+> >         panfrost_job.o \
+> >         panfrost_mmu.o \
+> > -       panfrost_perfcnt.o
+> > +       panfrost_perfcnt.o \
+> > +       panfrost_dump.o
+> >
+> >  obj-$(CONFIG_DRM_PANFROST) += panfrost.o
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.c b/drivers/gpu/drm/panfrost/panfrost_dump.c
+> > new file mode 100644
+> > index 000000000000..a76dcf4acf6f
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_dump.c
+> > @@ -0,0 +1,198 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/* Copyright 2021 Collabora ltd. */
+> > +
+> > +#include <linux/err.h>
+> > +#include <linux/device.h>
+> > +#include <linux/devcoredump.h>
+> > +#include <linux/moduleparam.h>
+> > +#include <linux/iosys-map.h>
+> > +#include <drm/panfrost_drm.h>
+> > +#include <drm/drm_device.h>
+> > +
+> > +#include "panfrost_job.h"
+> > +#include "panfrost_gem.h"
+> > +#include "panfrost_regs.h"
+> > +#include "panfrost_dump.h"
+> > +#include "panfrost_device.h"
+> > +
+> > +static bool panfrost_dump_core = true;
+> > +module_param_named(dump_core, panfrost_dump_core, bool, 0600);
+> > +
+> > +struct panfrost_dump_iterator {
+> > +       void *start;
+> > +       struct panfrost_dump_object_header *hdr;
+> > +       void *data;
+> > +};
+> > +
+> > +static const unsigned short panfrost_dump_registers[] = {
+> > +       GPU_ID,
+> > +       GPU_L2_FEATURES,
+> > +       GPU_CORE_FEATURES,
+> > +       GPU_TILER_FEATURES,
+> > +       GPU_MEM_FEATURES,
+> > +       GPU_MMU_FEATURES,
+> > +       GPU_AS_PRESENT,
+> > +       GPU_JS_PRESENT,
+> > +       GPU_INT_RAWSTAT,
+> > +       GPU_INT_CLEAR,
+> > +       GPU_INT_MASK,
+> > +       GPU_INT_STAT,
+> > +};
+> > +
+> > +static void panfrost_core_dump_header(struct panfrost_dump_iterator *iter,
+> > +       u32 type, void *data_end)
+> > +{
+> > +       struct panfrost_dump_object_header *hdr = iter->hdr;
+> > +
+> > +       hdr->magic = cpu_to_le32(PANFROSTDUMP_MAGIC);
+> > +       hdr->type = cpu_to_le32(type);
+> > +       hdr->file_offset = cpu_to_le32(iter->data - iter->start);
+> > +       hdr->file_size = cpu_to_le32(data_end - iter->data);
+> > +
+> > +       iter->hdr++;
+> > +       iter->data += le32_to_cpu(hdr->file_size);
+> > +}
+> > +
+> > +static void
+> > +panfrost_core_dump_registers(struct panfrost_dump_iterator *iter,
+> > +                            struct panfrost_device *pfdev)
+> > +{
+> > +       struct panfrost_dump_registers *reg = iter->data;
+> > +       unsigned int i;
+> > +
+> > +       for (i = 0; i < ARRAY_SIZE(panfrost_dump_registers); i++, reg++) {
+> > +               reg->reg = cpu_to_le32(panfrost_dump_registers[i]);
+> > +               reg->value = cpu_to_le32(gpu_read(pfdev, panfrost_dump_registers[i]));
+> > +       }
+> > +
+> > +       panfrost_core_dump_header(iter, PANFROSTDUMP_BUF_REG, reg);
+> > +}
+> > +
+> > +void panfrost_core_dump(struct panfrost_job *job)
+> > +{
+> > +       struct panfrost_device *pfdev = job->pfdev;
+> > +       struct panfrost_dump_iterator iter;
+> > +       struct drm_gem_object *dbo;
+> > +       unsigned int n_obj, n_bomap_pages;
+> > +       __le64 *bomap, *bomap_start;
+> > +       size_t file_size;
+> > +       int ret, i;
+> > +
+> > +       /* Only catch the first event, or when manually re-armed */
+> > +       if (!panfrost_dump_core)
+> > +               return;
+> > +       panfrost_dump_core = false;
+> > +
+> > +       /* At least, we dump registers and end marker */
+> > +       n_obj = 2;
+> > +       n_bomap_pages = 0;
+> > +       file_size = ARRAY_SIZE(panfrost_dump_registers) *
+> > +                       sizeof(struct panfrost_dump_registers);
+> > +
+> > +       /* Add in the active buffer objects */
+> > +       for (i = 0; i < job->bo_count; i++) {
+> > +               dbo = job->bos[i];
+> > +               file_size += dbo->size;
+> > +               n_bomap_pages += dbo->size >> PAGE_SHIFT;
+> > +               n_obj++;
+> > +       }
+> > +
+> > +       /* If we have any buffer objects, add a bomap object */
+> > +       if (n_bomap_pages) {
+> > +               file_size += n_bomap_pages * sizeof(__le64);
+> > +               n_obj++;
+> > +       }
+> > +
+> > +       /* Add the size of the headers */
+> > +       file_size += sizeof(*iter.hdr) * n_obj;
+> > +
+> > +       /* Allocate the file in vmalloc memory, it's likely to be big */
+> > +       iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
+> > +                       __GFP_NORETRY);
+> > +       if (!iter.start) {
+> > +               dev_warn(pfdev->dev, "failed to allocate devcoredump file\n");
+> > +               return;
+> > +       }
+> > +
+> > +       /* Point the data member after the headers */
+> > +       iter.hdr = iter.start;
+> > +       iter.data = &iter.hdr[n_obj];
+> > +
+> > +       memset(iter.hdr, 0, iter.data - iter.start);
+> > +
+> > +       /*
+> > +        * For now, we write the job identifier in the register dump header,
+> > +        * so that we can decode the entire dump later with pandecode
+> > +        */
+> > +       iter.hdr->jc = cpu_to_le64(job->jc);
+> > +       iter.hdr->version = cpu_to_le32(PANFROSTDUMP_VERSION_1);
+> > +       iter.hdr->gpu_id = cpu_to_le32(pfdev->features.id);
+> > +       iter.hdr->nbos = cpu_to_le64(job->bo_count);
+> > +
+> > +       panfrost_core_dump_registers(&iter, pfdev);
+> > +
+> > +       /* Reserve space for the bomap */
+> > +       if (n_bomap_pages) {
+> > +               bomap_start = bomap = iter.data;
+> > +               memset(bomap, 0, sizeof(*bomap) * n_bomap_pages);
+> > +               panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BOMAP,
+> > +                                         bomap + n_bomap_pages);
+> > +       } else {
+> > +               /* Silence warning */
+> > +               bomap_start = bomap = NULL;
+> > +       }
+> > +
+> > +       for (i = 0; i < job->bo_count; i++) {
+> > +               struct iosys_map map;
+> > +               struct panfrost_gem_mapping *mapping;
+> > +               struct panfrost_gem_object *bo;
+> > +               struct sg_page_iter page_iter;
+> > +               void *vaddr;
+> > +
+> > +               bo = to_panfrost_bo(job->bos[i]);
+> > +               mapping = job->mappings[i];
+> > +
+> > +               if (!bo->base.sgt) {
+> > +                       dev_err(pfdev->dev, "Panfrost Dump: BO has no sgt, cannot dump\n");
+> > +                       iter.hdr->valid = 0;
+> > +                       continue;
+> > +               }
+> > +
+> > +               ret = drm_gem_shmem_vmap(&bo->base, &map);
+> > +               if (ret) {
+> > +                       dev_err(pfdev->dev, "Panfrost Dump: couldn't map Buffer Object\n");
+> > +                       iter.hdr->valid = 0;
+> > +                       continue;
+> > +               }
+> > +
+> > +               WARN_ON(!mapping->active);
+> > +
+> > +               iter.hdr->data[0] = cpu_to_le32((bomap - bomap_start));
+> > +
+> > +               for_each_sgtable_page(bo->base.sgt, &page_iter, 0) {
+> > +                       struct page *page = sg_page_iter_page(&page_iter);
+> > +
+> > +                       if (!IS_ERR(page))
+> > +                               *bomap++ = cpu_to_le64(page_to_phys(page));
+> > +                       else {
+> > +                               dev_err(pfdev->dev, "Panfrost Dump: wrong page\n");
+> > +                               *bomap++ = ~cpu_to_le64(0);
+> > +                       }
+> > +               }
+> > +
+> > +               iter.hdr->iova = cpu_to_le64(mapping->mmnode.start << PAGE_SHIFT);
+> > +
+> > +               vaddr = map.vaddr;
+> > +               memcpy(iter.data, vaddr, bo->base.base.size);
 > 
-> Instead of manually checking the power state in struct
-> backlight_properties, use backlight_is_blank().
+> I think you are going to want to invent some way to flag which buffers
+> you want to dump.  For example, cmdstream and cmdstream related
+> buffers, you want to capture.  But things that potentially texture
+> data, you do not for PII reasons, if this is ever wired up to distro
+> crash telemetry.  (Which is a thing that we've found very useful on
+> msm/freedreno devices.)
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Looks like the panfrost submit ioctl doesn't already have per-bo
+> flags, but perhaps that dump flag could be a property of the GEM
+> object?
 
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "Noralf Tr�nnes" <noralf@tronnes.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Len Baker <len.baker@gmx.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: linux-staging@lists.linux.dev
-> ---
->  drivers/staging/fbtft/fb_ssd1351.c | 3 +--
->  drivers/staging/fbtft/fbtft-core.c | 3 +--
->  2 files changed, 2 insertions(+), 4 deletions(-)
+I guess flagging what kind of BO one is creating inside the ioctl params might
+require quite a few changes in both the uAPI and Mesa, which I don't know that
+much about anyway.
+
+I'll see how I can go about figuring it out inside the kernel driver instead,
+but from a quick look at it, it seems that it cannot learn it without userspace
+intervention.
+
+> BR,
+> -R
 > 
-> diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
-> index 6fd549a424d5..b8d55aa8c5c7 100644
-> --- a/drivers/staging/fbtft/fb_ssd1351.c
-> +++ b/drivers/staging/fbtft/fb_ssd1351.c
-> @@ -196,8 +196,7 @@ static int update_onboard_backlight(struct backlight_device *bd)
->  		      "%s: power=%d, fb_blank=%d\n",
->  		      __func__, bd->props.power, bd->props.fb_blank);
->  
-> -	on = (bd->props.power == FB_BLANK_UNBLANK) &&
-> -	     (bd->props.fb_blank == FB_BLANK_UNBLANK);
-> +	on = !backlight_is_blank(bd);
->  	/* Onboard backlight connected to GPIO0 on SSD1351, GPIO1 unused */
->  	write_reg(par, 0xB5, on ? 0x03 : 0x02);
->  
-> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-> index 60b2278d8b16..9b3eaed80cdd 100644
-> --- a/drivers/staging/fbtft/fbtft-core.c
-> +++ b/drivers/staging/fbtft/fbtft-core.c
-> @@ -137,8 +137,7 @@ static int fbtft_backlight_update_status(struct backlight_device *bd)
->  		      "%s: polarity=%d, power=%d, fb_blank=%d\n",
->  		      __func__, polarity, bd->props.power, bd->props.fb_blank);
->  
-> -	if ((bd->props.power == FB_BLANK_UNBLANK) &&
-> -	    (bd->props.fb_blank == FB_BLANK_UNBLANK))
-> +	if (!backlight_is_blank(bd))
->  		gpiod_set_value(par->gpio.led[0], polarity);
->  	else
->  		gpiod_set_value(par->gpio.led[0], !polarity);
-> 
-> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
-> -- 
-> 2.30.2
-> 
+> > +
+> > +               drm_gem_shmem_vunmap(&bo->base, &map);
+> > +
+> > +               iter.hdr->valid = cpu_to_le32(1);
+> > +
+> > +               panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BO, iter.data +
+> > +                                         bo->base.base.size);
+> > +       }
+> > +       panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_END, iter.data);
+> > +
+> > +       dev_coredumpv(pfdev->dev, iter.start, iter.data - iter.start, GFP_KERNEL);
+> > +}
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.h b/drivers/gpu/drm/panfrost/panfrost_dump.h
+> > new file mode 100644
+> > index 000000000000..7d9bcefa5346
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_dump.h
+> > @@ -0,0 +1,12 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright 2021 Collabora ltd.
+> > + */
+> > +
+> > +#ifndef PANFROST_DUMP_H
+> > +#define PANFROST_DUMP_H
+> > +
+> > +struct panfrost_job;
+> > +void panfrost_core_dump(struct panfrost_job *job);
+> > +
+> > +#endif
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > index fda5871aebe3..f506d0ea067c 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> > @@ -20,6 +20,7 @@
+> >  #include "panfrost_regs.h"
+> >  #include "panfrost_gpu.h"
+> >  #include "panfrost_mmu.h"
+> > +#include "panfrost_dump.h"
+> >
+> >  #define JOB_TIMEOUT_MS 500
+> >
+> > @@ -727,6 +728,8 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+> >                 job_read(pfdev, JS_TAIL_LO(js)),
+> >                 sched_job);
+> >
+> > +       panfrost_core_dump(job);
+> > +
+> >         atomic_set(&pfdev->reset.pending, 1);
+> >         panfrost_reset(pfdev, sched_job);
+> >
+> > diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
+> > index 9e40277d8185..a4e988be8478 100644
+> > --- a/include/uapi/drm/panfrost_drm.h
+> > +++ b/include/uapi/drm/panfrost_drm.h
+> > @@ -224,6 +224,38 @@ struct drm_panfrost_madvise {
+> >         __u32 retained;       /* out, whether backing store still exists */
+> >  };
+> >
+> > +/* Definitions for coredump decoding in user space */
+> > +enum {
+> > +       PANFROSTDUMP_MAGIC = 0xCAFECAFE,
+> > +       PANFROSTDUMP_BUF_REG = 0,
+> > +       PANFROSTDUMP_BUF_BOMAP,
+> > +       PANFROSTDUMP_BUF_BO,
+> > +       PANFROSTDUMP_BUF_END,
+> > +};
+> > +
+> > +#define PANFROSTDUMP_VERSION_1 1
+> > +
+> > +struct panfrost_dump_object_header {
+> > +       __le32 magic;
+> > +       __le32 type;
+> > +       __le32 version;
+> > +       __le32 bifrost;
+> > +       __le64 nbos;
+> > +       __le64 jc;
+> > +       __le32 file_offset;
+> > +       __le32 file_size;
+> > +       __le64 iova;
+> > +       __le32 gpu_id;
+> > +       __le32 valid;
+> > +       __le32 data[2];
+> > +};
+> > +
+> > +/* Registers object, an array of these */
+> > +struct panfrost_dump_registers {
+> > +       __le32 reg;
+> > +       __le32 value;
+> > +};
+> > +
+> >  #if defined(__cplusplus)
+> >  }
+> >  #endif
+> > --
+> > 2.35.1
 
--- 
-With Best Regards,
-Andy Shevchenko
 
-
+Adrian Larumbe
