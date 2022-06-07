@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F268540795
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 19:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C035407E1
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 19:53:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69AE010F290;
-	Tue,  7 Jun 2022 17:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFB4A10F328;
+	Tue,  7 Jun 2022 17:52:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCFB110F21C;
- Tue,  7 Jun 2022 17:52:08 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FC1210F348;
+ Tue,  7 Jun 2022 17:52:56 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6281DB82370;
- Tue,  7 Jun 2022 17:52:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 632D6C385A5;
- Tue,  7 Jun 2022 17:52:03 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2EF27B82348;
+ Tue,  7 Jun 2022 17:52:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37CC9C385A5;
+ Tue,  7 Jun 2022 17:52:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1654624325;
- bh=gXYvlZnPFUNaM7G9ja0Y0pLazVMlcUftyKWO1ibNkxM=;
+ s=k20201202; t=1654624373;
+ bh=LYQzyA3EYOwaI3hpcICIfprp+dWtUSLsCT350YaAutI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HNzoz0NKuUwVkcr4002XwwyJNPQS1c9/ZsQlYU3bbxdOPsjbOpWuooGCMXU3wzVwa
- AWLSRLuKVpFjfbNHweI0GnluxE+sBF9nvSzUeHuaWnDn+oPQUxrHNmhpx7NikG5CVM
- Sdc2Fx1FopCaRKMAkunhA79DkXrbQ58YeVZGWcOVxNMGSs/lbinSX3/oBjpLY6Bu1G
- hfvM1DEvdq1YzjIW2gLO2V1X2k3zWFeeEw+S0PsdxQ2ck71DMxqWpHi4dR6PQ2x59l
- hHe/N/THGrPI45AO9DYPhQALmhe4Oly3OF8JYcKs8RykSN2JzCIpjX10FrY6ifayV4
- oSfc2Gq1HgycA==
+ b=mVutd+eVskD4IIqimz2qMaSVPzAvbiR++yEYPYXpijjMSp5Jj02FgPbMdEymHbxWr
+ 8uo2NfrMFm8WGsXTMd+bkV0IeQQoPZIAFnsJ2dN39el3I23/IdKkXjqAp0VipB5i33
+ 91CaQgBTZ6sPS6FmcDBOi9fhT8Au/CpetRgG9xVLyGFW16JbZeFhzk2O8bvvuNMKtz
+ lCiVBVmg/uIAXL2b7VUv5s2ovlGXaVQtYpPVMm9xrspjCbq1UyhC/smhNaUXCfq7Yk
+ 1pEY31Jujygcak3dpuMrvdtpSbiD9R9S9tR1MVEIW4MNiEWy7ZMrSEVcc9P9cnEGvm
+ ApmmO3BnVVDZw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 50/68] drm/amd/pm: correct the metrics version
- for SMU 11.0.11/12/13
-Date: Tue,  7 Jun 2022 13:48:16 -0400
-Message-Id: <20220607174846.477972-50-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 67/68] drm/amd/pm: use bitmap_{from,
+ to}_arr32 where appropriate
+Date: Tue,  7 Jun 2022 13:48:33 -0400
+Message-Id: <20220607174846.477972-67-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220607174846.477972-1-sashal@kernel.org>
 References: <20220607174846.477972-1-sashal@kernel.org>
@@ -56,105 +55,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, lijo.lazar@amd.com,
- sathishkumar.sundararaju@amd.com, airlied@linux.ie, danijel.slivka@amd.com,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Evan Quan <evan.quan@amd.com>, christian.koenig@amd.com
+Cc: David Hildenbrand <david@redhat.com>, airlied@linux.ie, lijo.lazar@amd.com,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
+ Xiaomeng.Hou@amd.com, mario.limonciello@amd.com, darren.powell@amd.com,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, Sasha Levin <sashal@kernel.org>,
+ evan.quan@amd.com, Yury Norov <yury.norov@gmail.com>,
+ Janosch Frank <frankja@linux.ibm.com>, guchun.chen@amd.com,
+ amd-gfx@lists.freedesktop.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, kenneth.feng@amd.com,
+ tim.huang@amd.com, tao.zhou1@amd.com, Vasily Gorbik <gor@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, kevin1.wang@amd.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Jack.Gui@amd.com,
+ Xinhui.Pan@amd.com, Sven Schnelle <svens@linux.ibm.com>,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Evan Quan <evan.quan@amd.com>
+From: Yury Norov <yury.norov@gmail.com>
 
-[ Upstream commit 396beb91a9eb86cbfa404e4220cca8f3ada70777 ]
+[ Upstream commit 525d6515604eb1373ce5e6372a6b6640953b2d6a ]
 
-Correct the metrics version used for SMU 11.0.11/12/13.
-Fixes misreported GPU metrics (e.g., fan speed, etc.) depending
-on which version of SMU firmware is loaded.
+The smu_v1X_0_set_allowed_mask() uses bitmap_copy() to convert
+bitmap to 32-bit array. This may be wrong due to endiannes issues.
+Fix it by switching to bitmap_{from,to}_arr32.
 
-Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1925
-Signed-off-by: Evan Quan <evan.quan@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+CC: Alexander Gordeev <agordeev@linux.ibm.com>
+CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Christian Borntraeger <borntraeger@linux.ibm.com>
+CC: Claudio Imbrenda <imbrenda@linux.ibm.com>
+CC: David Hildenbrand <david@redhat.com>
+CC: Heiko Carstens <hca@linux.ibm.com>
+CC: Janosch Frank <frankja@linux.ibm.com>
+CC: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+CC: Sven Schnelle <svens@linux.ibm.com>
+CC: Vasily Gorbik <gor@linux.ibm.com>
+Signed-off-by: Yury Norov <yury.norov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/pm/swsmu/smu11/sienna_cichlid_ppt.c   | 57 ++++++++++++++-----
- 1 file changed, 44 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c | 2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
-index 38f04836c82f..7a1e225fb823 100644
---- a/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
-+++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c
-@@ -586,12 +586,28 @@ static int sienna_cichlid_get_smu_metrics_data(struct smu_context *smu,
- 	uint16_t average_gfx_activity;
- 	int ret = 0;
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c
+index b87f550af26b..5f8809f6990d 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c
+@@ -781,7 +781,7 @@ int smu_v11_0_set_allowed_mask(struct smu_context *smu)
+ 		goto failed;
+ 	}
  
--	if ((smu->adev->ip_versions[MP1_HWIP][0] == IP_VERSION(11, 0, 7)) &&
--		(smu->smc_fw_version >= 0x3A4900))
--		use_metrics_v3 = true;
--	else if ((smu->adev->ip_versions[MP1_HWIP][0] == IP_VERSION(11, 0, 7)) &&
--		(smu->smc_fw_version >= 0x3A4300))
--		use_metrics_v2 =  true;
-+	switch (smu->adev->ip_versions[MP1_HWIP][0]) {
-+	case IP_VERSION(11, 0, 7):
-+		if (smu->smc_fw_version >= 0x3A4900)
-+			use_metrics_v3 = true;
-+		else if (smu->smc_fw_version >= 0x3A4300)
-+			use_metrics_v2 = true;
-+		break;
-+	case IP_VERSION(11, 0, 11):
-+		if (smu->smc_fw_version >= 0x412D00)
-+			use_metrics_v2 = true;
-+		break;
-+	case IP_VERSION(11, 0, 12):
-+		if (smu->smc_fw_version >= 0x3B2300)
-+			use_metrics_v2 = true;
-+		break;
-+	case IP_VERSION(11, 0, 13):
-+		if (smu->smc_fw_version >= 0x491100)
-+			use_metrics_v2 = true;
-+		break;
-+	default:
-+		break;
-+	}
+-	bitmap_copy((unsigned long *)feature_mask, feature->allowed, 64);
++	bitmap_to_arr32(feature_mask, feature->allowed, 64);
  
- 	ret = smu_cmn_get_metrics_table(smu,
- 					NULL,
-@@ -3701,13 +3717,28 @@ static ssize_t sienna_cichlid_get_gpu_metrics(struct smu_context *smu,
- 	uint16_t average_gfx_activity;
- 	int ret = 0;
+ 	ret = smu_cmn_send_smc_msg_with_param(smu, SMU_MSG_SetAllowedFeaturesMaskHigh,
+ 					  feature_mask[1], NULL);
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+index cf09e30bdfe0..747430ce6394 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c
+@@ -730,7 +730,7 @@ int smu_v13_0_set_allowed_mask(struct smu_context *smu)
+ 	    feature->feature_num < 64)
+ 		return -EINVAL;
  
--	if ((adev->ip_versions[MP1_HWIP][0] == IP_VERSION(11, 0, 7)) &&
--		(smu->smc_fw_version >= 0x3A4900))
--		use_metrics_v3 = true;
--	else if ((adev->ip_versions[MP1_HWIP][0] == IP_VERSION(11, 0, 7)) &&
--		(smu->smc_fw_version >= 0x3A4300))
--		use_metrics_v2 = true;
--
-+	switch (smu->adev->ip_versions[MP1_HWIP][0]) {
-+	case IP_VERSION(11, 0, 7):
-+		if (smu->smc_fw_version >= 0x3A4900)
-+			use_metrics_v3 = true;
-+		else if (smu->smc_fw_version >= 0x3A4300)
-+			use_metrics_v2 = true;
-+		break;
-+	case IP_VERSION(11, 0, 11):
-+		if (smu->smc_fw_version >= 0x412D00)
-+			use_metrics_v2 = true;
-+		break;
-+	case IP_VERSION(11, 0, 12):
-+		if (smu->smc_fw_version >= 0x3B2300)
-+			use_metrics_v2 = true;
-+		break;
-+	case IP_VERSION(11, 0, 13):
-+		if (smu->smc_fw_version >= 0x491100)
-+			use_metrics_v2 = true;
-+		break;
-+	default:
-+		break;
-+	}
+-	bitmap_copy((unsigned long *)feature_mask, feature->allowed, 64);
++	bitmap_to_arr32(feature_mask, feature->allowed, 64);
  
- 	ret = smu_cmn_get_metrics_table(smu,
- 					&metrics_external,
+ 	ret = smu_cmn_send_smc_msg_with_param(smu, SMU_MSG_SetAllowedFeaturesMaskHigh,
+ 					      feature_mask[1], NULL);
 -- 
 2.35.1
 
