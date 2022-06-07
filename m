@@ -1,113 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8C853FE22
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 13:57:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9C453FE3C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 14:02:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0488A10E142;
-	Tue,  7 Jun 2022 11:57:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4943610E11A;
+	Tue,  7 Jun 2022 12:02:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2040.outbound.protection.outlook.com [40.107.94.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EED110E142;
- Tue,  7 Jun 2022 11:57:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m6BOK94bu0jlw7S5xtB0luy6zo5XUCFfYm4TcJe1cGxv9hZlQYaCnXQqfVajbv6SHwgnfd5m0CjI4uTbN9aQzet8prmbaoh2BpBxRJFlQsEAgvzeeby6jzxLpEUCEwXWtW+p16CxKm/0706jvtPnXBnruuA3vaO/naNxqGMqwb9u8i767uHkYzSNMwTwL28c1d3hV94Pdjnr6XaNXbXY4vGcWnV5jrBKsoLZblg42GElIoxgFlhhj6WD0ahB4oadmKqdsbF3mmlbYmGIrc22M1H/dYu6Yd7N0IxfWRehDqvmGHBdBPb7yxTeaPDIqVgvYx7Nqbm91yYsn6dG64X2Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s2cQAhR5ZQwqsiYj1WGRSX4+I5B6hETIAm+INThvVuM=;
- b=a+vaSBshROMpde5cgZHV3v3dyX5RfqcJHucvoJwpXe1V9njdJ5Y+7TN4Z73S7Vjoyi32IInBMSwTyLn0NnEJZEwSSbA0kNGQgFT8JGe/vUE0zvS348MofRPh86QO7QrmCGaMIb2pYpOrxRS1UGAdUp0nPLK4WtW0bLu9Q5BRmEqmzceFpsXBEMbF79gn22mJd4EkGazm294DIhykmSlqpPOgw0kmt2cK6I0GltTEhR3L2PpW37rDpfdrtELJiWT2gQwkkiPLLgAc1DhVmxRBT1by/Szb6t/WApdJAjUh7e2gHZnsqQz8l+RnvWiRaXpHiEMyjj3oOiVvSyyrwBnR9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s2cQAhR5ZQwqsiYj1WGRSX4+I5B6hETIAm+INThvVuM=;
- b=HQSUHs+bonQscjgxFNZvnvqNh7zf/gvZK3+poS54KiULYSx2yyE8aVq31GWdQjq2P2bCweuIfXrYRRXKuy8bC9K9f0D5L7IcOER3FbqDDRAxnISzViSuMyhuKCFpOYl0q+kGMFsFkBtU7y5oPxnokf6RM8fR8nX6NM/n6kjFu/okE/l5R9T7BXo7ZIDuG/EY8SA0UvmUiNORsDx37Xb1SJzumZyRj/CqsTNj2xS/QbDj23IWnkGlVJXaWhag2L3aDvxmALzxTkvtxmepDLwl5eTqxCZWz7hBe0Zww9Z5+9ZJNm7hsmMR/MBjRtwByhRVPOo6C7Z2+Aost+jlUK1itQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by DM6PR12MB4403.namprd12.prod.outlook.com (2603:10b6:5:2ab::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12; Tue, 7 Jun
- 2022 11:57:53 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::2484:51da:d56f:f1a5]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::2484:51da:d56f:f1a5%9]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
- 11:57:53 +0000
-Date: Tue, 7 Jun 2022 08:57:52 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 1/2] vfio: Replace the DMA unmapping notifier with a
- callback
-Message-ID: <20220607115752.GG1343366@nvidia.com>
-References: <0-v1-896844109f36+a-vfio_unmap_notif_jgg@nvidia.com>
- <1-v1-896844109f36+a-vfio_unmap_notif_jgg@nvidia.com>
- <20220607053955.GA8508@lst.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220607053955.GA8508@lst.de>
-X-ClientProxiedBy: MN2PR20CA0037.namprd20.prod.outlook.com
- (2603:10b6:208:235::6) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E55E510E11A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 12:02:52 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6CD761F920;
+ Tue,  7 Jun 2022 12:02:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1654603371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=OPkzJv54bBcdb8Y6n/fghKQGahLDVTSc24YWr0WG7xw=;
+ b=tvmNOMYiYkpSPs6U8TVFnmCO55iFPELgDpEm5E4U3w8wu/tz4ay/8hoAmwAvntvo30My7A
+ IxGK/46lpSZg9ORjUGtaNCDkk498tP5AKLEZBsf+HsNBL8tS9KHfO0N9CKRhM/lJ5QMai0
+ MyoFPwnM2E8OIM4VuoEYRdXbBKl3PcM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1654603371;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=OPkzJv54bBcdb8Y6n/fghKQGahLDVTSc24YWr0WG7xw=;
+ b=E2lqa9WJqFqgBuR7DM7kWdP7D/wHfSE3TBD9MziPADVqWOi5MJ+HH+IuE9sOMyqD5rtTpN
+ 9xfEPrjPefhir0DQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3D85B13638;
+ Tue,  7 Jun 2022 12:02:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id RioWDms+n2JXfAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 07 Jun 2022 12:02:51 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch, jfalempe@redhat.com,
+ regressions@leemhuis.info, kuohsiang_chou@aspeedtech.com
+Subject: [PATCH] drm/ast: Treat AST2600 like AST2500 in most places
+Date: Tue,  7 Jun 2022 14:02:48 +0200
+Message-Id: <20220607120248.31716-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e2bf1cd1-b5e5-40b1-ad4c-08da487cf3c8
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4403:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4403A989A15F06B1A0E3D77DC2A59@DM6PR12MB4403.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BPOBOUn890IgphWsVYnynSwKtqJdyqfgToRVbR5t1tzfli8fvOmvADSY73vt2xsk/rpdd7+gaIgGUCplIq0peQWfb8ncylcobsHB5sCUBjRzybxzgBXgAaGX8+AKsweoXmrXMLdgKl/cHqIf1Mg4rzetVTTHP5bmPdjrD9NbNe/Nm53b3S5T88K8PvqQdd9KFuMFbUZC756oK/YRrUi7ToKamCuQfWsCv4dJDW3mO11YptfYaknOFKR+ETLsNL9uExnQe8skB4obXAUpfPQUJNZxy1RaB+YKOT5JKTVOXjLLsmgJtEkSaZw5zagdUm+j8KDfaIkFyPB8jnyyx1CY5G1cMvdIdfklFJllbCfY25CI5A8lGAfCnCfR/Y+m0Rgs4sIOgPVlfndvlDLz4qeduovlkrFYgpuBx6UNUeG/g9dcRwf42OwaXco6DkMVmCbsnsf4sDxDnXEwRXKR8RDfhR7m4l5oCzp9HODHqxRnmC/PBcwDNPOSXF5O0CEk4UFh6WCWnvjewu1IFqiBxNwBKaSNE/mRTtaQFoVP6+zaxMNhCXBLMJjS/v+nfFM4NFQFcmh149/Tj+2Q68YGOHOJk9LCMPCj3Zfs00b9dffNBieEZbyfG/jByzlEYQZGCGi2965jSQ4NyukByA54TFUCVA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(2616005)(36756003)(7416002)(83380400001)(508600001)(6506007)(8936002)(66556008)(8676002)(66476007)(4326008)(66946007)(2906002)(38100700002)(5660300002)(4744005)(6512007)(6486002)(86362001)(6916009)(33656002)(54906003)(316002)(26005)(1076003)(186003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TDmM+j2g69OoW5t7F74P/IJ+qdQ8d+wqD5W/lrHrVU/USVcfubZJsGdZNcXn?=
- =?us-ascii?Q?ueYhs8Xq5foR/CgNE+LCKfHrdBBd3xxkNtDa20Xcfg+mLuppVi7+8F9L3G1W?=
- =?us-ascii?Q?lUp5Z10ypTUtMu6HrpUhNH1LWKre52H5pxM3cUgUw2LnAYEQ49mckOBHNsSd?=
- =?us-ascii?Q?qnj1hrdtd5ewgMoQJ8tmEbUh3PdejxAEiRu3dowEC4rC8MG+7PXIU6FByYqe?=
- =?us-ascii?Q?bdXkwhZ+uXlGXnSbVG3LSi968jgWFnvAzVcws+xwQWuMt/J8R4avD7LCJsqr?=
- =?us-ascii?Q?Go+izA8xWPvV7UvZVONuQMbf7pr9/UppPv7V6/ows6AKUcNJPaf76hj7I1YG?=
- =?us-ascii?Q?4dBbIx5djzAvO+6CYXp30y9o498/KJDi6qLPh963VGiZH+V25v7pHSeSPbJ1?=
- =?us-ascii?Q?Ag/4nKu1TPnHVNMY7J9QPwMcQwJoIXCEwqGNbibLwfcrI2i3aPyiZ9T/HZBP?=
- =?us-ascii?Q?5ZTkE/k3xZpqMWXueYJ5HtidNkLaYsYnHFv4XPTUxmizCpW2lGW0uIjQmVup?=
- =?us-ascii?Q?hDouZDHVPbAehq0sBEZiUaHitlzNJT/8BD9VQMZ1NRPXW5LAj+2zgNhiJIuB?=
- =?us-ascii?Q?1P270r8MCRgondMRJijH0iv5IbvdzJkAlu3tvbTj5iIACSVrIyL5fviEV1Oc?=
- =?us-ascii?Q?CLaUwe1ZNXNY9ARAHtRuZrDPu3es59OTnb6D9uXaUTq92Pq233Bo8IPtXhOc?=
- =?us-ascii?Q?xPzbcmWPmONppAStyVM6SgyI/OGYgd0SSqJfcmO+wg+x2uYLe1JIAhBOnjMS?=
- =?us-ascii?Q?fLTltkFoN//7yFYHrPQ5l0/vZdP86uWfjYXSIy823ic1pdUTpWW+j2K8qqfB?=
- =?us-ascii?Q?j4GiuYWUjK9pBYJtN1G1rjmscYGo5bZ+BWUtivSyP526mer6pDz18zn5FoUU?=
- =?us-ascii?Q?rNBIZL/iyj8EZbf8tF+/5P4wFQsd7jB3Ve3NbWM3K6r6hlh0/FspQMtOlcJB?=
- =?us-ascii?Q?9YRpocZUXbxz2WZfciWH7KhEqyZUF2hDpEtsPktkQhJ3DvYNzkPuxjmIKO4L?=
- =?us-ascii?Q?PeXo+9Hx7zPVk6NzrgqZKpoGb7GfQgIc0SsjmOBNPoS6REAnkRvr3BgJqMjU?=
- =?us-ascii?Q?/LigsHeISdVyZvWjp0vyqzHLpGFzYXisEARPMMBczzdbfKhHo7lUgeQNaxWf?=
- =?us-ascii?Q?E49rKYM2s27ITHksRu3sx8xtQ9HNQUKL00zH+eDQy0NAYDSI9cW86/Zmd2dC?=
- =?us-ascii?Q?+PBgnBqANr6palpUOthXN9PtoRjfKtW4vTA+bDfEaHf9u7l1M6rjcrUvb0Wk?=
- =?us-ascii?Q?flAayjLT0hL5kYfcuSKfOa2JXay4yCOepeCHdWYC9iJeqR69DYi8++VNqu/Q?=
- =?us-ascii?Q?XgKtnSlWF1t7fhMzI5kCeJO59cSShV99wHgDmGDKOp2ODmBsvO+DeToqjUW1?=
- =?us-ascii?Q?y7bhkZkyUGG4fQFFeWwGjyG8b7koJwE4/wXxlWtXXC5au+7IHDHEz69Or+SX?=
- =?us-ascii?Q?UZzcdCk9d34HQKb3/4Hm6prp9P0bLlYOQ1G3GU9xuOpJ70CRxv15yJTSHLa9?=
- =?us-ascii?Q?jAIDXf6ZuVy9yQiEY1ifX1l9/AO3pvGcOL8pBzZvjLn6laxZx4ReuMMsufP+?=
- =?us-ascii?Q?uX4e54GfCyPnAbsaImi5+e5Bwmc+8s6lmpd2FoWMLjo2U77QWznkuy3y6k20?=
- =?us-ascii?Q?2DZTODtMku0jsJco8+ksfu+A6BXgnQ1AZMZUTh0LAtpxmpSW1/LSt0aZCAPO?=
- =?us-ascii?Q?N2TRALqy0lGud6crDotCAK+Y1YmXvp6knp8IvzLMvrhE+lEQ2T6PcjguoZQM?=
- =?us-ascii?Q?AD7ADe34pw=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2bf1cd1-b5e5-40b1-ad4c-08da487cf3c8
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 11:57:53.1368 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FkeySzMJkycOiXPSI07/pxTWXS2mCfxcpOSB6a3t2bGc3yAHGvwgwqgTFikRiyrI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4403
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,38 +62,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Vineeth Vijayan <vneethv@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, linux-s390@vger.kernel.org,
- Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>,
- Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Cornelia Huck <cohuck@redhat.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>
+Cc: stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 07, 2022 at 07:39:55AM +0200, Christoph Hellwig wrote:
+Include AST2600 in most of the branches for AST2500. Thereby revert
+most effects of commit f9bd00e0ea9d ("drm/ast: Create chip AST2600").
 
-> > +static int vfio_iommu_notifier(struct notifier_block *nb, unsigned long action,
-> > +			       void *data)
-> > +{
-> > +	struct vfio_device *vfio_device =
-> > +		container_of(nb, struct vfio_device, iommu_nb);
-> > +	struct vfio_iommu_type1_dma_unmap *unmap = data;
-> 
-> Using the iommu type 1 UAPI structure in the core vfio code for a
-> subset of its field is kinda weird.  But we can fix this later.
+The AST2600 used to be treated like an AST2500, which at least gave
+usable display output. After introducing AST2600 in the driver without
+further updates, lots of functions take the wrong branches.
 
-Ah, I did type this in at one point.. It was small lets include it in
-this patch
+Handling AST2600 in the AST2500 branches reverts back to the original
+settings. The exception are cases where AST2600 meanwhile got its own
+branch.
 
-Thanks,
-Jason
+Reported-by: Jocelyn Falempe <jfalempe@redhat.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Suggested-by: Jocelyn Falempe <jfalempe@redhat.com>
+Fixes: f9bd00e0ea9d ("drm/ast: Create chip AST2600")
+Cc: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.11+
+---
+ drivers/gpu/drm/ast/ast_main.c | 4 ++--
+ drivers/gpu/drm/ast/ast_mode.c | 6 +++---
+ drivers/gpu/drm/ast/ast_post.c | 6 +++---
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+index d770d5a23c1a..56b2ac138375 100644
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -307,7 +307,7 @@ static int ast_get_dram_info(struct drm_device *dev)
+ 	default:
+ 		ast->dram_bus_width = 16;
+ 		ast->dram_type = AST_DRAM_1Gx16;
+-		if (ast->chip == AST2500)
++		if ((ast->chip == AST2500) || (ast->chip == AST2600))
+ 			ast->mclk = 800;
+ 		else
+ 			ast->mclk = 396;
+@@ -319,7 +319,7 @@ static int ast_get_dram_info(struct drm_device *dev)
+ 	else
+ 		ast->dram_bus_width = 32;
+ 
+-	if (ast->chip == AST2500) {
++	if ((ast->chip == AST2600) || (ast->chip == AST2500)) {
+ 		switch (mcr_cfg & 0x03) {
+ 		case 0:
+ 			ast->dram_type = AST_DRAM_1Gx16;
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 323af2746aa9..1dde30b98317 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -310,7 +310,7 @@ static void ast_set_crtc_reg(struct ast_private *ast,
+ 	u8 jreg05 = 0, jreg07 = 0, jreg09 = 0, jregAC = 0, jregAD = 0, jregAE = 0;
+ 	u16 temp, precache = 0;
+ 
+-	if ((ast->chip == AST2500) &&
++	if (((ast->chip == AST2600) || (ast->chip == AST2500)) &&
+ 	    (vbios_mode->enh_table->flags & AST2500PreCatchCRT))
+ 		precache = 40;
+ 
+@@ -428,7 +428,7 @@ static void ast_set_dclk_reg(struct ast_private *ast,
+ {
+ 	const struct ast_vbios_dclk_info *clk_info;
+ 
+-	if (ast->chip == AST2500)
++	if ((ast->chip == AST2600) || (ast->chip == AST2500))
+ 		clk_info = &dclk_table_ast2500[vbios_mode->enh_table->dclk_index];
+ 	else
+ 		clk_info = &dclk_table[vbios_mode->enh_table->dclk_index];
+@@ -476,7 +476,7 @@ static void ast_set_crtthd_reg(struct ast_private *ast)
+ 		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa7, 0xe0);
+ 		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa6, 0xa0);
+ 	} else if (ast->chip == AST2300 || ast->chip == AST2400 ||
+-	    ast->chip == AST2500) {
++		   ast->chip == AST2500 || ast->chip == AST2600) {
+ 		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa7, 0x78);
+ 		ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa6, 0x60);
+ 	} else if (ast->chip == AST2100 ||
+diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
+index 0aa9cf0fb5c3..eb1ff9084034 100644
+--- a/drivers/gpu/drm/ast/ast_post.c
++++ b/drivers/gpu/drm/ast/ast_post.c
+@@ -80,7 +80,7 @@ ast_set_def_ext_reg(struct drm_device *dev)
+ 		ast_set_index_reg(ast, AST_IO_CRTC_PORT, i, 0x00);
+ 
+ 	if (ast->chip == AST2300 || ast->chip == AST2400 ||
+-	    ast->chip == AST2500) {
++	    ast->chip == AST2500 || ast->chip == AST2600) {
+ 		if (pdev->revision >= 0x20)
+ 			ext_reg_info = extreginfo_ast2300;
+ 		else
+@@ -105,7 +105,7 @@ ast_set_def_ext_reg(struct drm_device *dev)
+ 	/* Enable RAMDAC for A1 */
+ 	reg = 0x04;
+ 	if (ast->chip == AST2300 || ast->chip == AST2400 ||
+-	    ast->chip == AST2500)
++	    ast->chip == AST2500 || ast->chip == AST2600)
+ 		reg |= 0x20;
+ 	ast_set_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xb6, 0xff, reg);
+ }
+@@ -382,7 +382,7 @@ void ast_post_gpu(struct drm_device *dev)
+ 	if (ast->chip == AST2600) {
+ 		ast_dp_launch(dev, 1);
+ 	} else if (ast->config_mode == ast_use_p2a) {
+-		if (ast->chip == AST2500)
++		if (ast->chip == AST2500 || ast->chip == AST2600)
+ 			ast_post_chip_2500(dev);
+ 		else if (ast->chip == AST2300 || ast->chip == AST2400)
+ 			ast_post_chip_2300(dev);
+-- 
+2.36.1
+
