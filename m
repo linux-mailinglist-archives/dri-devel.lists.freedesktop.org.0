@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3A7540FA5
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 21:11:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A032540F72
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 21:09:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B87FC10F35A;
-	Tue,  7 Jun 2022 19:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 131A610E152;
+	Tue,  7 Jun 2022 19:09:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1218410F223
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 19:11:44 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id q140so1701528pgq.6
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 12:11:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Y9v+zfN+LDZJBzv64yfNd1oezlZ5d8K5Q7FPfZj4YOs=;
- b=MqSRLcI9BH2Og5WEHOEXrEXxc6/IJDbQEKpVB/xaJSTHPdJt6e6mTgYsBo2p5JHUm3
- 4qza7GyCwvpG8ZDUtQWYZxg8BOfd5cdXnHg10Bdc4zD98BIgxoSEzeYnnIBiXglepADs
- iVqV5Epkav9UXLpkGqTq9CUPDvw+gGhPbyFoc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Y9v+zfN+LDZJBzv64yfNd1oezlZ5d8K5Q7FPfZj4YOs=;
- b=rBEp6uD+ufLTAY+DYehNv9YXTT/MRktOL8I0nnxHyh7j4B7PFmCwJXA3+YH04eUGuZ
- NsBErVeiYq7z6ybKQehvmjHc7F6QdKDFx3zWPcvVGGxU085TCXOS6M5Uf8EK8XF34O4z
- 42ZvD8XRc2Ucv0UhsXuz9uPCQuqRN/y+fWtTJ1q3+IOVVdvipZ4BVrRqxTUnl5RoEsDG
- qhTj96LPO5M5wxUdHEq8Zfdmc83lOGG0qm9Wxbdboaw6RuB+U3IvXEWWy7cFNf0BrC0h
- /BT1girVPHQxbEmIHRMHTo305K16Lp7TKO/zX4PEd9zdvPH2maqE4FE2Ep1QCaPU5a5h
- aJeA==
-X-Gm-Message-State: AOAM532kS2L+TwtUK8szBg2f1ANPO38pp9Vt00dluMtiE6q1mWnNAQ64
- 0JObsE8HGXOmEHpyjxg43E28Bg==
-X-Google-Smtp-Source: ABdhPJy42YNTwejMbajhVemlLo4iEhdSYP1Ea5z93nYnnsV1N64UMZ1hkHmT1boNizeLbkEDtlqzDg==
-X-Received: by 2002:a63:fa56:0:b0:3fc:d3d2:ceac with SMTP id
- g22-20020a63fa56000000b003fcd3d2ceacmr26639313pgk.99.1654629103599; 
- Tue, 07 Jun 2022 12:11:43 -0700 (PDT)
-Received: from pmalani.c.googlers.com.com
- (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
- by smtp.gmail.com with ESMTPSA id
- g29-20020aa79ddd000000b0050dc762819esm13236084pfq.120.2022.06.07.12.11.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jun 2022 12:11:43 -0700 (PDT)
-From: Prashant Malani <pmalani@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH 7/7] drm/bridge: anx7625: Add typec_mux_set callback function
-Date: Tue,  7 Jun 2022 19:00:25 +0000
-Message-Id: <20220607190131.1647511-8-pmalani@chromium.org>
-X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
-In-Reply-To: <20220607190131.1647511-1-pmalani@chromium.org>
-References: <20220607190131.1647511-1-pmalani@chromium.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3E2710E0F8
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 19:09:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654628939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jitMaBvgpiYrIfeF7hVOKcaE/vPIHzwMRpY0/ZgEXZI=;
+ b=Lte8NBeV2ks0ztselMkxJZWkqlDK1SBmOhWh700m842cG91+pZHpQlaIGouNOyVGprp0hI
+ ruZkm22DHkSS2MksAYKuJVoJGRSGN4ZKVVnEYfYSA8kXXopQbVJdZ7HFiLVA2NMLPfoosy
+ fmn6zCm8/XG73iB4v4dFok3bSeUIteM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-641-Q8FDH_tQNfKOMSDR_-POxA-1; Tue, 07 Jun 2022 15:08:58 -0400
+X-MC-Unique: Q8FDH_tQNfKOMSDR_-POxA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B51B31C161BE;
+ Tue,  7 Jun 2022 19:07:57 +0000 (UTC)
+Received: from emerald.redhat.com (unknown [10.22.9.252])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E139540FF619;
+ Tue,  7 Jun 2022 19:07:26 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Subject: [RFC 00/18] drm/display/dp_mst: Drop Radeon MST support,
+ make MST atomic-only
+Date: Tue,  7 Jun 2022 15:06:57 -0400
+Message-Id: <20220607190715.1331124-1-lyude@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,150 +63,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
- <nfraprado@collabora.com>, Jonas Karlman <jonas@kwiboo.se>,
- swboyd@chromium.org, Pin-Yen Lin <treapking@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Robert Foss <robert.foss@linaro.org>, Prashant Malani <pmalani@chromium.org>,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Pin-Yen Lin <treapking@chromium.org>
+For quite a while we've been carrying around a lot of legacy modesetting
+code in the MST helpers that has been rather annoying to keep around,
+and very often gets in the way of trying to implement additional
+functionality in MST such as fallback link rate retraining, dynamic BPC
+management and DSC support, etc. because of the fact that we can't rely
+on atomic for everything.
 
-Add the callback function when the driver receives state
-changes of the Type-C port. The callback function configures the
-crosspoint switch of the anx7625 bridge chip, which can change the
-output pins of the signals according to the port state.
+Luckily, we only actually have one user of the legacy MST code in the
+kernel - radeon. Originally I was thinking of trying to maintain this
+code and keep it around in some form, but I'm pretty unconvinced anyone
+is actually using this. My reasoning for that is because I've seen
+nearly no issues regarding MST on radeon for quite a while now - despite
+the fact my local testing seems to indicate it's quite broken. This
+isn't too surprising either, as MST support in radeon.ko is gated behind
+a module parameter that isn't enabled by default. This isn't to say I
+wouldn't be open to alternative suggestions, but I'd rather not be the
+one to have to spend time on that if at all possible! Plus, I already
+floated the idea of dropping this code by AMD folks a few times and
+didn't get much resistance.
 
-Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 58 +++++++++++++++++++++++
- drivers/gpu/drm/bridge/analogix/anx7625.h | 13 +++++
- 2 files changed, 71 insertions(+)
+As well, this series has some basic refactoring that I did along the way
+and some bugs I had to fix in order to get my atomic-only MST code
+working. Most of this is pretty straight forward and simply renaming
+things to more closely match the DisplayPort specification, as I think
+this will also make maintaining this code a lot easier in the long run
+(I've gotten myself confused way too many times because of this).
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index d41a21103bd3..2c308d12fab2 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -15,6 +15,7 @@
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-+#include <linux/usb/typec_dp.h>
- #include <linux/usb/typec_mux.h>
- #include <linux/workqueue.h>
- 
-@@ -2582,9 +2583,66 @@ static void anx7625_runtime_disable(void *data)
- 	pm_runtime_disable(data);
- }
- 
-+static void anx7625_set_crosspoint_switch(struct anx7625_data *ctx,
-+					  enum typec_orientation orientation)
-+{
-+	if (orientation == TYPEC_ORIENTATION_NORMAL) {
-+		anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
-+				  SW_SEL1_SSRX_RX1 | SW_SEL1_DPTX0_RX2);
-+		anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
-+				  SW_SEL2_SSTX_TX1 | SW_SEL2_DPTX1_TX2);
-+	} else if (orientation == TYPEC_ORIENTATION_REVERSE) {
-+		anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
-+				  SW_SEL1_SSRX_RX2 | SW_SEL1_DPTX0_RX1);
-+		anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
-+				  SW_SEL2_SSTX_TX2 | SW_SEL2_DPTX1_TX1);
-+	}
-+}
-+
-+static void anx7625_typec_two_ports_update(struct anx7625_data *ctx)
-+{
-+	if (ctx->typec_ports[0].dp_connected && ctx->typec_ports[1].dp_connected)
-+		/* Both ports available, do nothing to retain the current one. */
-+		return;
-+	else if (ctx->typec_ports[0].dp_connected)
-+		anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_NORMAL);
-+	else if (ctx->typec_ports[1].dp_connected)
-+		anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_REVERSE);
-+}
-+
- static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
- 				 struct typec_mux_state *state)
- {
-+	struct anx7625_port_data *data = typec_mux_get_drvdata(mux);
-+	struct anx7625_data *ctx = data->ctx;
-+	struct device *dev = &ctx->client->dev;
-+
-+	bool old_dp_connected = (ctx->typec_ports[0].dp_connected ||
-+				 ctx->typec_ports[1].dp_connected);
-+	bool new_dp_connected;
-+
-+	if (ctx->num_typec_switches == 1)
-+		return 0;
-+
-+	dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
-+		ctx->typec_ports[0].dp_connected, ctx->typec_ports[1].dp_connected);
-+
-+	data->dp_connected = (state->alt && state->alt->svid == USB_TYPEC_DP_SID &&
-+			      state->alt->mode == USB_TYPEC_DP_MODE);
-+
-+	new_dp_connected = (ctx->typec_ports[0].dp_connected ||
-+			    ctx->typec_ports[1].dp_connected);
-+
-+	/* dp on, power on first */
-+	if (!old_dp_connected && new_dp_connected)
-+		pm_runtime_get_sync(dev);
-+
-+	anx7625_typec_two_ports_update(ctx);
-+
-+	/* dp off, power off last */
-+	if (old_dp_connected && !new_dp_connected)
-+		pm_runtime_put_sync(dev);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index 76cfc64f7574..7d6c6fdf9a3a 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -55,6 +55,18 @@
- #define HPD_STATUS_CHANGE 0x80
- #define HPD_STATUS 0x80
- 
-+#define TCPC_SWITCH_0 0xB4
-+#define SW_SEL1_DPTX0_RX2 BIT(0)
-+#define SW_SEL1_DPTX0_RX1 BIT(1)
-+#define SW_SEL1_SSRX_RX2 BIT(4)
-+#define SW_SEL1_SSRX_RX1 BIT(5)
-+
-+#define TCPC_SWITCH_1 0xB5
-+#define SW_SEL2_DPTX1_TX2 BIT(0)
-+#define SW_SEL2_DPTX1_TX1 BIT(1)
-+#define SW_SEL2_SSTX_TX2 BIT(4)
-+#define SW_SEL2_SSTX_TX1 BIT(5)
-+
- /******** END of I2C Address 0x58 ********/
- 
- /***************************************************************/
-@@ -444,6 +456,7 @@ struct anx7625_i2c_client {
- };
- 
- struct anx7625_port_data {
-+	bool dp_connected;
- 	struct typec_mux_dev *typec_mux;
- 	struct anx7625_data *ctx;
- };
+So far I've tested this on all three MST drivers: amdgpu, i915 and
+nouveau, along with making sure that removing the radeon MST code
+doesn't break anything else. The one thing I very much could use help
+with regarding testing though is making sure that this works with
+amdgpu's DSC support on MST.
+
+So, with this we should be using the atomic state as much as possible
+with MST modesetting, hooray!
+
+Cc: Wayne Lin <Wayne.Lin@amd.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Fangzhi Zuo <Jerry.Zuo@amd.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Imre Deak <imre.deak@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Sean Paul <sean@poorly.run>
+
+Lyude Paul (18):
+  drm/amdgpu/dc/mst: Rename dp_mst_stream_allocation(_table)
+  drm/amdgpu/dm/mst: Rename get_payload_table()
+  drm/display/dp_mst: Rename drm_dp_mst_vcpi_allocation
+  drm/display/dp_mst: Call them time slots, not VCPI slots
+  drm/display/dp_mst: Fix confusing docs for
+    drm_dp_atomic_release_time_slots()
+  drm/display/dp_mst: Add some missing kdocs for atomic MST structs
+  drm/display/dp_mst: Add helper for finding payloads in atomic MST
+    state
+  drm/display/dp_mst: Add nonblocking helpers for DP MST
+  drm/display/dp_mst: Don't open code modeset checks for releasing time
+    slots
+  drm/display/dp_mst: Fix modeset tracking in
+    drm_dp_atomic_release_vcpi_slots()
+  drm/nouveau/kms: Cache DP encoders in nouveau_connector
+  drm/nouveau/kms: Pull mst state in for all modesets
+  drm/display/dp_mst: Add helpers for serializing SST <-> MST
+    transitions
+  drm/display/dp_mst: Drop all ports from topology on CSNs before
+    queueing link address work
+  drm/display/dp_mst: Skip releasing payloads if last connected port
+    isn't connected
+  drm/display/dp_mst: Maintain time slot allocations when deleting
+    payloads
+  drm/radeon: Drop legacy MST support
+  drm/display/dp_mst: Move all payload info into the atomic state
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   72 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  111 +-
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  126 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c |   10 +-
+ drivers/gpu/drm/amd/display/dc/dm_helpers.h   |    4 +-
+ .../amd/display/include/link_service_types.h  |   18 +-
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 1160 ++++++++---------
+ drivers/gpu/drm/i915/display/intel_display.c  |   11 +
+ drivers/gpu/drm/i915/display/intel_dp.c       |    9 +
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |   91 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c     |   24 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c       |  202 ++-
+ drivers/gpu/drm/nouveau/dispnv50/disp.h       |    2 +
+ drivers/gpu/drm/nouveau/nouveau_connector.c   |   18 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.h   |    3 +
+ drivers/gpu/drm/radeon/Makefile               |    2 +-
+ drivers/gpu/drm/radeon/atombios_crtc.c        |   11 +-
+ drivers/gpu/drm/radeon/atombios_encoders.c    |   59 -
+ drivers/gpu/drm/radeon/radeon_atombios.c      |    2 -
+ drivers/gpu/drm/radeon/radeon_connectors.c    |   61 +-
+ drivers/gpu/drm/radeon/radeon_device.c        |    1 -
+ drivers/gpu/drm/radeon/radeon_dp_mst.c        |  778 -----------
+ drivers/gpu/drm/radeon/radeon_drv.c           |    4 -
+ drivers/gpu/drm/radeon/radeon_encoders.c      |   14 +-
+ drivers/gpu/drm/radeon/radeon_irq_kms.c       |   10 +-
+ drivers/gpu/drm/radeon/radeon_mode.h          |   40 -
+ include/drm/display/drm_dp_mst_helper.h       |  230 ++--
+ 27 files changed, 991 insertions(+), 2082 deletions(-)
+ delete mode 100644 drivers/gpu/drm/radeon/radeon_dp_mst.c
+
 -- 
-2.36.1.255.ge46751e96f-goog
+2.35.3
 
