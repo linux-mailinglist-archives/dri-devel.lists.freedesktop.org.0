@@ -2,54 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E061E53F7AE
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 09:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682D453F7BE
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 10:01:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE9D010E3F5;
-	Tue,  7 Jun 2022 07:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73DD012AED5;
+	Tue,  7 Jun 2022 08:01:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4786310E3F5
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 07:53:59 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id w27so21812801edl.7
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 00:53:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bTcKUvKBFqx0lJtGawmW30NCfuDMQMt7XlkJoMiwP40=;
- b=BRcrqvdcJ8xhPPgG0bBbVBAiVx5+b1kxVRYTF+auAqOwaNxiSEJIGoWo2Vw1NSQv+g
- m+QFnkk9OCc0qPYzLEDDAl6JIeZKI2nmJ3WKE52P77RWJopLhG0nlii3OGBErGC4aljv
- V5z+8qwkVzCJGQbsGoFZmWoLE7owrtk67FYI4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bTcKUvKBFqx0lJtGawmW30NCfuDMQMt7XlkJoMiwP40=;
- b=F0STDKe/k1AwjJcTSNG+FzMyM5pxrJK+dfvLOhPzscYRmfvSgbNbd4tqgWo9x0q6/B
- l9QLQSpkWJfMB5bkWMbV08W1062aosKRh4DjnemkYrfAzHeuKaoUvQg5j2GfgeqnNTF9
- ZG2L+KfvDTcoJtVBAWfhcxcKmKf+WTlU2LnLqm3N2zsnLFMDT7u4HToBPxPn6LQkV456
- 7+TEJgX8991bRr3YBoaFq8Doq4W77eeHc3hjFTp7ZOb9XnncLVF4lkzdBbcUsKdMq/Ul
- dfPZapqZQx3gJy4idYOQ51Fj6ZQcMd1KdsAbz9U7lnKV6Q1hg4WbTAara5HF3BsrjUtA
- QW6w==
-X-Gm-Message-State: AOAM533xxuOfXfbcYbiCBDxx8UMgcLP3wekmcXJ8x5/0qO0Wy8C1oTxo
- AyxoxcChmkw3ltwquzxbNCQi4e2pQ1kAKTQQB2kudg==
-X-Google-Smtp-Source: ABdhPJxwDZlNTB+YxaMW6ZNNbb9evKtxWWCIjvCP63mUZOd90Ckf8Jn8me1MaQylI36w6ArAMzXiudnaT/5dtDqKCfQ=
-X-Received: by 2002:a05:6402:1941:b0:413:2b5f:9074 with SMTP id
- f1-20020a056402194100b004132b5f9074mr32019311edz.414.1654588437586; Tue, 07
- Jun 2022 00:53:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220606152431.1889185-1-hsinyi@chromium.org>
- <20220606152431.1889185-2-hsinyi@chromium.org>
- <CAE-0n52mzczUdtwUgfdNOC_V7kBGhzFWHRT=QHDoH4kN+yCMGA@mail.gmail.com>
-In-Reply-To: <CAE-0n52mzczUdtwUgfdNOC_V7kBGhzFWHRT=QHDoH4kN+yCMGA@mail.gmail.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 7 Jun 2022 15:53:31 +0800
-Message-ID: <CAJMQK-joqHaJeTNurzecmXcZ_eiK+24Tc0ok2zcFdUNXz3TQmQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/8] drm/panel: Add an API drm_panel_get_orientation()
- to return panel orientation
-To: Stephen Boyd <swboyd@chromium.org>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2E7D12AED1
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 08:01:30 +0000 (UTC)
+X-UUID: d742e5a3f56f4ec89160624d0e463bdc-20220607
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:5f35ce3b-6f41-4603-a32d-3e26e3b75624, OB:0,
+ LO
+ B:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:45
+X-CID-INFO: VERSION:1.1.5, REQID:5f35ce3b-6f41-4603-a32d-3e26e3b75624, OB:0,
+ LOB:
+ 10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:45
+X-CID-META: VersionHash:2a19b09, CLOUDID:69b7737e-c8dc-403a-96e8-6237210dceee,
+ C
+ OID:a9c23a514e78,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:0,BEC:nil
+X-UUID: d742e5a3f56f4ec89160624d0e463bdc-20220607
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 298287096; Tue, 07 Jun 2022 16:01:27 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 7 Jun 2022 16:01:25 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 7 Jun 2022 16:01:25 +0800
+Message-ID: <387fc4f9a65b87467fbff3878ad371bee4552e6e.camel@mediatek.com>
+Subject: Re: [PATCH v10 18/21] drm/mediatek: Add mt8195 Embedded DisplayPort
+ driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>, Guillaume Ranquet
+ <granquet@baylibre.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
+ Zabel" <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, "Kishon
+ Vijay Abraham I" <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
+ Deller" <deller@gmx.de>, Jitao shi <jitao.shi@mediatek.com>
+Date: Tue, 7 Jun 2022 16:01:25 +0800
+In-Reply-To: <20220523104758.29531-19-granquet@baylibre.com>
+References: <20220523104758.29531-1-granquet@baylibre.com>
+ <20220523104758.29531-19-granquet@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,43 +73,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
- Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Markus Schneider-Pargmann <msp@baylibre.com>,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 7, 2022 at 3:06 AM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Hsin-Yi Wang (2022-06-06 08:24:24)
-> > diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> > index f634371c717a..e12056cfeca8 100644
-> > --- a/drivers/gpu/drm/drm_panel.c
-> > +++ b/drivers/gpu/drm/drm_panel.c
-> > @@ -223,6 +223,15 @@ int drm_panel_get_modes(struct drm_panel *panel,
-> >  }
-> >  EXPORT_SYMBOL(drm_panel_get_modes);
-> >
-> > +enum drm_panel_orientation drm_panel_get_orientation(struct drm_panel *panel)
->
-> Should 'panel' be marked const to indicate that it can't be modified?
->
+Hi, Rex:
 
-But .get_orientation() will need to call to_XXX_panel, eg.
-static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
+On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
+> 
+> It supports the mt8195, the embedded DisplayPort units. It offers
+> DisplayPort 1.4 with up to 4 lanes.
+> 
+> The driver creates a child device for the phy. The child device will
+> never exist without the parent being active. As they are sharing a
+> register range, the parent passes a regmap pointer to the child so
+> that
+> both can work with the same register range. The phy driver sets
+> device
+> data that is read by the parent to get the phy device that can be
+> used
+> to control the phy properties.
+> 
+> This driver is based on an initial version by
+> Jason-JH.Lin <jason-jh.lin@mediatek.com>.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> ---
 
-==> .get_modes(panel) <-- can't be const.
-==> drm_panel_get_orientation(panel) <-- can't be const.
+[snip]
 
-We can definitely cast it in the functions, or make to_XXX_panel()
-accept const, but I think this will lose the meaning of using const
-anyway.
+> +
+> +static void mtk_dp_state_handler(struct mtk_dp *mtk_dp)
+> +{
+> +	switch (mtk_dp->state) {
 
-> > +{
-> > +       if (panel && panel->funcs && panel->funcs->get_orientation)
-> > +               return panel->funcs->get_orientation(panel);
+Does mtk_dp->state has any relation with mtk_dp->train_state. If yes,
+mix mtk_dp->state and mtk_dp->train_state into one state. If no, move
+calling mtk_dp_state_handler() out of mtk_dp_train_handler().
+
+Regards,
+CK
+
+> +	case MTK_DP_STATE_INITIAL:
+> +		mtk_dp_video_mute(mtk_dp, true);
+> +		mtk_dp->state = MTK_DP_STATE_IDLE;
+> +		break;
+> +
+> +	case MTK_DP_STATE_IDLE:
+> +		if (mtk_dp->train_state == MTK_DP_TRAIN_STATE_NORMAL)
+> +			mtk_dp->state = MTK_DP_STATE_PREPARE;
+> +		break;
+> +
+> +	case MTK_DP_STATE_PREPARE:
+> +		mtk_dp_video_config(mtk_dp);
+> +		mtk_dp_video_enable(mtk_dp, true);
+> +
+> +		mtk_dp->state = MTK_DP_STATE_NORMAL;
+> +		break;
+> +
+> +	case MTK_DP_STATE_NORMAL:
+> +		if (mtk_dp->train_state != MTK_DP_TRAIN_STATE_NORMAL) {
+> +			mtk_dp_video_mute(mtk_dp, true);
+> +			mtk_dp->state = MTK_DP_STATE_IDLE;
+> +		}
+> +		break;
+> +
+> +	default:
+> +		break;
+> +	}
+> +}
+
