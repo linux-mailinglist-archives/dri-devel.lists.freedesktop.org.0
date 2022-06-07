@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0648C541E15
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 00:25:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0BE541E5C
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 00:29:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB0A10E100;
-	Tue,  7 Jun 2022 22:25:51 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 156CD10E100;
- Tue,  7 Jun 2022 22:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C989910E0A6;
+	Tue,  7 Jun 2022 22:29:34 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8422E10E0A6;
+ Tue,  7 Jun 2022 22:29:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654640751; x=1686176751;
+ t=1654640973; x=1686176973;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=Jsw+z9J5gOe/PXAgV4ZrgCokfetsJMNLa3T8bfW/V9c=;
- b=DqVr9jRFclD4SmY8Tfe6M4pL9D/0FxtiMkw2hgDnTBBqxhjAuxpdov9P
- JVvXH8auZOcIkvBTBkNAu/rPFpDtWfCwpewcGIWteXl8ZG4MyFjVA/TiH
- R7bEWV6SUEiKZ+N/mFTBosts4oa0wBfqyxIqf77Cs+Y5Hp4UlKHSPHNj+
- sixAfBUMyYh43rW9oUSorTN8ILvTgyNBPkCocV/j6WbyWK8vyQ/b4pQfI
- MaBhgq7R24T+SZXukdTk+nM5GHR8ulNXAnXQtlhf5iMs3OE08h8jXpV4B
- uDyfA9kSW4EJrdvQA/IlXlywOfixI67YWhCKXvKxuYjIIdYMtPUF6KWiI g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="338408088"
-X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="338408088"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 15:25:25 -0700
-X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="670225417"
+ bh=Wjr0Wz6iwc88HCtMZg+CGs0mPmkrXQ3vQ1GaSI4Hhr0=;
+ b=D226VTi7Mr5242geykNwL5Z7t1bn4BFKBiCPTMuZ57GPr4LebHxYRzhw
+ 1qlt9Hr2IhNXrNq4U2Ov+tS90GJdQTkl03VaWfFVBBBsmLgvOtNqBBRW3
+ lYSvoNet2VMRIaFVPKWIFfZETBqr1PUE8jA2vgShyIcBP2g+0hqPh4F+g
+ KU/4JDx3v8+3MXtRTQrn3CHSj3uIpohEV6ypIBgaOASYoPzHsyREvNhka
+ njKzd3MbeJhFYBG1qiRn7g21oscmMTD2Fkgx1rFZ256ykxWQhEo4vv0O4
+ q3WkKQ/2xMPgRPWDBWkWAEg+mHZ1K/zx8IdP56vBRQOp94xfSjtCFp2I3 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="274291280"
+X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="274291280"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 15:29:32 -0700
+X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="648274960"
 Received: from adixit-mobl1.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.212.186.67])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 15:25:25 -0700
-Date: Tue, 07 Jun 2022 15:25:24 -0700
-Message-ID: <87zgiojeln.wl-ashutosh.dixit@intel.com>
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 15:29:32 -0700
+Date: Tue, 07 Jun 2022 15:29:32 -0700
+Message-ID: <87y1y8jeer.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-To: John Harrison <john.c.harrison@intel.com>
-Subject: Re: [PATCH] drm/i915/guc: Use drm_err instead of pr_err
-In-Reply-To: <6fd4a9fa-5e02-a34f-7c8e-68c8f747e4fb@intel.com>
-References: <20220607215103.3342267-1-John.C.Harrison@Intel.com>	<871qw0ktzw.wl-ashutosh.dixit@intel.com>	<6fd4a9fa-5e02-a34f-7c8e-68c8f747e4fb@intel.com>
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Subject: Re: [PATCH] drm/i915/guc/slpc: Use non-blocking H2G for waitboost
+In-Reply-To: <20220515060506.22084-1-vinay.belgaumkar@intel.com>
+References: <20220515060506.22084-1-vinay.belgaumkar@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -58,27 +58,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-GFX@Lists.FreeDesktop.Org, DRI-Devel@Lists.FreeDesktop.Org
+Cc: intel-gfx@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ John Harrison <john.c.harrison@intel.com>, dri-devel@lists.freedesktop.org,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 07 Jun 2022 15:23:17 -0700, John Harrison wrote:
+On Sat, 14 May 2022 23:05:06 -0700, Vinay Belgaumkar wrote:
 >
-> On 6/7/2022 15:07, Dixit, Ashutosh wrote:
-> > On Tue, 07 Jun 2022 14:51:03 -0700, John.C.Harrison@Intel.com wrote:
-> >> From: John Harrison <John.C.Harrison@Intel.com>
-> >>
-> >> Don't use pr_err in places where we have access to a struct_drm.
-> > Seem to be many more pr_err's in selftests. Is there a reason why drm_err's
-> > cannot be used in selftests (especially those using an i915 device)?
-> > Thanks.
-> I figured I'd start small and just do the gt/uc ones to being with as those
-> are the ones that affect me.
+> SLPC min/max frequency updates require H2G calls. We are seeing
+> timeouts when GuC channel is backed up and it is unable to respond
+> in a timely fashion causing warnings and affecting CI.
 >
-> It sounds like the only reason to use pr_err is in the mock selftests where
-> there is no easy access to a DRM structure. For everything else, there is
-> no reason that I am aware of.
+> This is seen when waitboosting happens during a stress test.
+> this patch updates the waitboost path to use a non-blocking
+> H2G call instead, which returns as soon as the message is
+> successfully transmitted.
 
-Fair enough:
+Overall I think this patch is trying to paper over problems in the blocking
+H2G CT interface (specifically the 1 second timeout in
+wait_for_ct_request_update()). So I think we should address that problem in
+the interface directly rather than having each client (SLPC and any future
+client) work around the problem. Following points:
 
-Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+1. This patch seems to assume that it is 'ok' to ignore the return code
+   from FW for a waitboost request (arguing waitboost is best effort so
+   it's ok to 'fire and forget'). But the return code is still useful
+   e.g. in cases where we see performance issues and want to go back and
+   investigate if FW rejected any waitboost requests.
+
+2. We are already seeing that a 1 second timeout is not sufficient. So why
+   not simply increase that timeout?
+
+3. In fact if we are saying that the CT interface is a "reliable" interface
+   (implying no message loss), to ensure reliability that timeout should
+   not simply be increased, it should be made "infinite" (in quotes).
+
+4. Maybe it would have been best to not have a "blocking" H2G interface at
+   all (with the wait in wait_for_ct_request_update()). Just have an
+   asynchronous interface (which mirrors the actual interface between FW
+   and i915) in which clients register callbacks which are invoked when FW
+   responds. If this is too big a change we can probably continue with the
+   current blocking interface after increasing the timeout as mentioned
+   above.
+
+5. Finally, the waitboost request is just the most likely to get stuck at
+   the back of a full CT queue since it happens during normal
+   operation. Actually any request, say one initiated from sysfs, can also
+   get similarly stuck at the back of a full queue. So any solution should
+   also address that situation (where the return code is needed and
+   similarly for a future client of the "blocking" (REQUEST/RESPONSE)
+   interface).
+
+Thanks.
+--
+Ashutosh
