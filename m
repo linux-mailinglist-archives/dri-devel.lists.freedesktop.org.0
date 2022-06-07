@@ -2,44 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7DE53FD08
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 13:11:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DCC53FD1F
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 13:15:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD5010E098;
-	Tue,  7 Jun 2022 11:11:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02AEF10E13A;
+	Tue,  7 Jun 2022 11:15:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA38A10E15F
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 11:11:24 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCCDC80A;
- Tue,  7 Jun 2022 13:11:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1654600282;
- bh=N5RM2H8SfGb+mMU6E4blW8c4w3vdII/75WdAW/cgngo=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=qmWEDsxG7u5UO7k+nsK6F3kbmVmh4V/4OGcC7iquW/PcmEBQhUVZ+OLeu/cx6PegD
- 99LOT80hdQxy2bur571lVYl1pHXpp0NB+CtR5peu8bqVPuJ4yCYKw62KDAdutzqr4U
- NyXuVuNsONj/ZViZ52fsdgstBtbu+qV3VvutINm8=
-Content-Type: text/plain; charset="utf-8"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D364810E12A;
+ Tue,  7 Jun 2022 11:14:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654600499; x=1686136499;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=Q4DD6Gu/aSRDkzAQ+tgk8rapaBwE5igmzYyTcbz+tGw=;
+ b=DnPvdK+4GYhvIxcRFS9alPedcRvIHE7OB1ObvCmr1yTWkNMB/W72tAmJ
+ FAWkGjKuFmDXpPCjShZNawVue8NK0/a7ZD9WtxlN/0N0hpXwKOurJsio2
+ JTXO5t+pDzxt/2yQsw3N5D4tm5Nn3fFb9mHcFtISx8tqU3ONoKbVeqLZf
+ BmB/s7NBtGASOwF/qZFItg0QZbAJw26dGGSSWSjhW69dt8IKlwbo8jhCY
+ KXKnU6t0npLFoYhOJZfVEX5UYv0ypVCFKzRAXLlS43uasMEyndZEBWCDB
+ M8tvEgBdqf3fYX7Xx8OIES9VTMfwegi+P/PJpSk85PW4FW7fjOpJ+NI7j A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="259463685"
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="259463685"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 04:14:59 -0700
+X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="636081446"
+Received: from gknielse-mobl.amr.corp.intel.com (HELO localhost)
+ ([10.252.57.112])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 04:14:57 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v1 06/13] drm/probe-helper: make .get_modes() optional,
+ add default action
+In-Reply-To: <Ypjv3k6tbHjOtGOB@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1653381821.git.jani.nikula@intel.com>
+ <a38b2547f43e827a401a4123744edbb402e9f4d7.1653381821.git.jani.nikula@intel.com>
+ <Ypjv3k6tbHjOtGOB@intel.com>
+Date: Tue, 07 Jun 2022 14:14:54 +0300
+Message-ID: <87mteopvwx.fsf@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <OS0PR01MB5922168B367D861B8653668786A59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220421163128.101520-1-biju.das.jz@bp.renesas.com>
- <20220421163128.101520-4-biju.das.jz@bp.renesas.com>
- <OS0PR01MB5922168B367D861B8653668786A59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Subject: RE: [PATCH v3 3/4] drm: rcar-du: Add num_rpf to struct
- rcar_du_device_info
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date: Tue, 07 Jun 2022 12:11:20 +0100
-Message-ID: <165460028054.4123576.7297620320138351680@Monstersaurus>
-User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,273 +60,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
- linux-renesas-soc@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Biju Das (2022-06-07 11:58:08)
-> Hi All,
->=20
-> Gentle ping. Are we happy with this patch?
->=20
-
-The patch itself looks fine to me.
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> Since RZ/G2L is using separate drm driver,
-> I can drop this patch, if needed.
->=20
-
-But indeed, it's not clear if the requirement is still there if the RZ
-doesn't use this code path now. But there could be future generations
-with more (or less?) RPFs ... so it's not unreasonable.
-
-I wonder if it's something that would only be worth applying when needed
-though, as otherwise we're increasing the binary size for no real gain.
-
-(17 * 4 =3D only 68 bytes ... but ... I know people try to reduce these
-sizes where possible).
-
---
-Kieran
-
-
-
-> Please let me know.
->=20
-> Cheers,
-> Biju
->=20
-> > Subject: [PATCH v3 3/4] drm: rcar-du: Add num_rpf to struct
-> > rcar_du_device_info
-> >=20
-> > Number of RPF's VSP is different on R-Car and RZ/G2L  R-Car Gen3 -> 5
-> > RPFs  R-Car Gen2 -> 4 RPFs  RZ/G2L -> 2 RPFs
-> >=20
-> > Add num_rpf to struct rcar_du_device_info to support later SoC without
-> > any code changes.
-> >=20
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > v2->v3:
-> >  * Added Rb tag from Laurent.
-> >  * Fixed the comment "max num"->"num"
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 17 +++++++++++++++++
-> > drivers/gpu/drm/rcar-du/rcar_du_drv.h |  2 ++  drivers/gpu/drm/rcar-
-> > du/rcar_du_vsp.c |  6 +-----
-> >  3 files changed, 20 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > index 957ea97541d5..1bc7325aa356 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > @@ -55,6 +55,7 @@ static const struct rcar_du_device_info
-> > rzg1_du_r8a7743_info =3D {
-> >               },
-> >       },
-> >       .num_lvds =3D 1,
-> > +     .num_rpf =3D 4,
-> >  };
-> >=20
-> >  static const struct rcar_du_device_info rzg1_du_r8a7745_info =3D { @@ -
-> > 77,6 +78,7 @@ static const struct rcar_du_device_info
-> > rzg1_du_r8a7745_info =3D {
-> >                       .port =3D 1,
-> >               },
-> >       },
-> > +     .num_rpf =3D 4,
-> >  };
-> >=20
-> >  static const struct rcar_du_device_info rzg1_du_r8a77470_info =3D { @@=
- -
-> > 104,6 +106,7 @@ static const struct rcar_du_device_info
-> > rzg1_du_r8a77470_info =3D {
-> >                       .port =3D 2,
-> >               },
-> >       },
-> > +     .num_rpf =3D 4,
-> >  };
-> >=20
-> >  static const struct rcar_du_device_info rcar_du_r8a774a1_info =3D { @@=
- -
-> > 133,6 +136,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a774a1_info =3D {
-> >               },
-> >       },
-> >       .num_lvds =3D 1,
-> > +     .num_rpf =3D 5,
-> >       .dpll_mask =3D  BIT(1),
-> >  };
-> >=20
-> > @@ -163,6 +167,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a774b1_info =3D {
-> >               },
-> >       },
-> >       .num_lvds =3D 1,
-> > +     .num_rpf =3D 5,
-> >       .dpll_mask =3D  BIT(1),
-> >  };
-> >=20
-> > @@ -190,6 +195,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a774c0_info =3D {
-> >               },
-> >       },
-> >       .num_lvds =3D 2,
-> > +     .num_rpf =3D 4,
-> >       .lvds_clk_mask =3D  BIT(1) | BIT(0),
-> >  };
-> >=20
-> > @@ -220,6 +226,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a774e1_info =3D {
-> >               },
-> >       },
-> >       .num_lvds =3D 1,
-> > +     .num_rpf =3D 5,
-> >       .dpll_mask =3D  BIT(1),
-> >  };
-> >=20
-> > @@ -272,6 +279,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a7790_info =3D {
-> >               },
-> >       },
-> >       .num_lvds =3D 2,
-> > +     .num_rpf =3D 4,
-> >  };
-> >=20
-> >  /* M2-W (r8a7791) and M2-N (r8a7793) are identical */ @@ -297,6 +305,7
-> > @@ static const struct rcar_du_device_info rcar_du_r8a7791_info =3D {
-> >               },
-> >       },
-> >       .num_lvds =3D 1,
-> > +     .num_rpf =3D 4,
-> >  };
-> >=20
-> >  static const struct rcar_du_device_info rcar_du_r8a7792_info =3D { @@ -
-> > 317,6 +326,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a7792_info =3D {
-> >                       .port =3D 1,
-> >               },
-> >       },
-> > +     .num_rpf =3D 4,
-> >  };
-> >=20
-> >  static const struct rcar_du_device_info rcar_du_r8a7794_info =3D { @@ -
-> > 340,6 +350,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a7794_info =3D {
-> >                       .port =3D 1,
-> >               },
-> >       },
-> > +     .num_rpf =3D 4,
-> >  };
-> >=20
-> >  static const struct rcar_du_device_info rcar_du_r8a7795_info =3D { @@ -
-> > 373,6 +384,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a7795_info =3D {
-> >               },
-> >       },
-> >       .num_lvds =3D 1,
-> > +     .num_rpf =3D 5,
-> >       .dpll_mask =3D  BIT(2) | BIT(1),
-> >  };
-> >=20
-> > @@ -403,6 +415,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a7796_info =3D {
-> >               },
-> >       },
-> >       .num_lvds =3D 1,
-> > +     .num_rpf =3D 5,
-> >       .dpll_mask =3D  BIT(1),
-> >  };
-> >=20
-> > @@ -433,6 +446,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a77965_info =3D {
-> >               },
-> >       },
-> >       .num_lvds =3D 1,
-> > +     .num_rpf =3D 5,
-> >       .dpll_mask =3D  BIT(1),
-> >  };
-> >=20
-> > @@ -459,6 +473,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a77970_info =3D {
-> >               },
-> >       },
-> >       .num_lvds =3D 1,
-> > +     .num_rpf =3D 5,
-> >  };
-> >=20
-> >  static const struct rcar_du_device_info rcar_du_r8a7799x_info =3D { @@=
- -
-> > 486,6 +501,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a7799x_info =3D {
-> >               },
-> >       },
-> >       .num_lvds =3D 2,
-> > +     .num_rpf =3D 5,
-> >       .lvds_clk_mask =3D  BIT(1) | BIT(0),
-> >  };
-> >=20
-> > @@ -505,6 +521,7 @@ static const struct rcar_du_device_info
-> > rcar_du_r8a779a0_info =3D {
-> >                       .port =3D 1,
-> >               },
-> >       },
-> > +     .num_rpf =3D 5,
-> >       .dsi_clk_mask =3D  BIT(1) | BIT(0),
-> >  };
-> >=20
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> > b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> > index 101f42df86ea..83530721e373 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> > @@ -69,6 +69,7 @@ struct rcar_du_output_routing {
-> >   * @channels_mask: bit mask of available DU channels
-> >   * @routes: array of CRTC to output routes, indexed by output
-> > (RCAR_DU_OUTPUT_*)
-> >   * @num_lvds: number of internal LVDS encoders
-> > + * @num_rpf: number of RPFs in VSP
-> >   * @dpll_mask: bit mask of DU channels equipped with a DPLL
-> >   * @dsi_clk_mask: bitmask of channels that can use the DSI clock as dot
-> > clock
-> >   * @lvds_clk_mask: bitmask of channels that can use the LVDS clock as
-> > dot clock @@ -80,6 +81,7 @@ struct rcar_du_device_info {
-> >       unsigned int channels_mask;
-> >       struct rcar_du_output_routing routes[RCAR_DU_OUTPUT_MAX];
-> >       unsigned int num_lvds;
-> > +     unsigned int num_rpf;
-> >       unsigned int dpll_mask;
-> >       unsigned int dsi_clk_mask;
-> >       unsigned int lvds_clk_mask;
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> > b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> > index 9c4d1d1be1d4..abd31fd1e979 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> > @@ -405,11 +405,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp,
-> > struct device_node *np,
-> >       if (ret < 0)
-> >               return ret;
-> >=20
-> > -      /*
-> > -       * The VSP2D (Gen3) has 5 RPFs, but the VSP1D (Gen2) is limited
-> > to
-> > -       * 4 RPFs.
-> > -       */
-> > -     num_planes =3D rcdu->info->gen >=3D 3 ? 5 : 4;
-> > +     num_planes =3D rcdu->info->num_rpf;
-> >=20
-> >       vsp->planes =3D kcalloc(num_planes, sizeof(*vsp->planes),
-> > GFP_KERNEL);
-> >       if (!vsp->planes)
-> > --
-> > 2.25.1
+On Thu, 02 Jun 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
+> wrote:
+> On Tue, May 24, 2022 at 01:39:28PM +0300, Jani Nikula wrote:
+>> Add default action when .get_modes() not set. This also defines what a
+>> .get_modes() hook should do.
+>>=20
+>> Cc: David Airlie <airlied@linux.ie>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>  drivers/gpu/drm/drm_probe_helper.c       | 14 +++++++++++++-
+>>  include/drm/drm_modeset_helper_vtables.h |  4 ++++
+>>  2 files changed, 17 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_pr=
+obe_helper.c
+>> index 836bcd5b4cb6..9df17f0ae225 100644
+>> --- a/drivers/gpu/drm/drm_probe_helper.c
+>> +++ b/drivers/gpu/drm/drm_probe_helper.c
+>> @@ -360,7 +360,19 @@ static int drm_helper_probe_get_modes(struct drm_co=
+nnector *connector)
+>>  		connector->helper_private;
+>>  	int count;
+>>=20=20
+>> -	count =3D connector_funcs->get_modes(connector);
+>> +	if (connector_funcs->get_modes) {
+>> +		count =3D connector_funcs->get_modes(connector);
+>> +	} else {
+>> +		const struct drm_edid *drm_edid;
+>> +
+>> +		/* Note: This requires connector->ddc is set */
+>> +		drm_edid =3D drm_edid_read(connector);
+>> +
+>> +		/* Update modes etc. from the EDID */
+>> +		count =3D drm_edid_connector_update(connector, drm_edid);
+>> +
+>> +		drm_edid_free(drm_edid);
+>> +	}
 >
+> Not really a huge fan of this automagic fallback. I think I'd prefer
+> to keep it mandatory and just provide this as a helper for drivers to
+> plug into the right spot. Otherwise I'm sure I'll forget how this works
+> and then I'll be confused when I see a connector withput any apparent
+> .get_modes() implementation.
+
+Fair enough.
+
+I'm not sure how useful that is going to be, though, at least not for
+i915. If we add a .get_edid hook, where would you bolt that? It doesn't
+feel right to set a .get_modes hook to a default function that goes on
+to call a .get_edid hook. Or what do you think?
+
+BR,
+Jani.
+
+>
+>>=20=20
+>>  	/*
+>>  	 * Fallback for when DDC probe failed in drm_get_edid() and thus skipp=
+ed
+>> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_=
+modeset_helper_vtables.h
+>> index fafa70ac1337..b4402bc64e57 100644
+>> --- a/include/drm/drm_modeset_helper_vtables.h
+>> +++ b/include/drm/drm_modeset_helper_vtables.h
+>> @@ -894,6 +894,10 @@ struct drm_connector_helper_funcs {
+>>  	 * libraries always call this with the &drm_mode_config.connection_mut=
+ex
+>>  	 * held. Because of this it's safe to inspect &drm_connector->state.
+>>  	 *
+>> +	 * This callback is optional. By default, it reads the EDID using
+>> +	 * drm_edid_read() and updates the connector display info, modes, and
+>> +	 * properties using drm_edid_connector_update().
+>> +	 *
+>>  	 * RETURNS:
+>>  	 *
+>>  	 * The number of modes added by calling drm_mode_probed_add().
+>> --=20
+>> 2.30.2
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
