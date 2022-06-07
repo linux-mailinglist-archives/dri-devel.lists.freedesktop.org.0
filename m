@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1702E53F978
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 11:20:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B1D53F97E
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 11:20:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93BBD12AEF9;
-	Tue,  7 Jun 2022 09:20:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A292A12AEFB;
+	Tue,  7 Jun 2022 09:20:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB1112AEE4
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 09:20:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A71B12AEFB
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 09:20:24 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 17EC821B3B;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4DCAF21B3F;
  Tue,  7 Jun 2022 09:20:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1654593610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q/JTVYx6YIzOT0oExnwndA8ZEyZRP0LJ7CQLQgKW+BM=;
- b=bCwNDDweQO/QlAorgGAi137B0RIjekcDmrFFxXEylL+y1NjmxjRmkpLt7r/XnwrgLp2xVM
- uKBJQUvYyn/bBCSPM4HMYQWgknidWMYqy82EGFVG4T0CUVZxaRsXkyYtE99Ck0H7UL2kbv
- qVP3HUXmD/7HUQT+BmfKefGUjlCYYzg=
+ bh=XrLUQUmPE+FfrQ6hezGj/dP9HZMl3+seOVVPCugGjUw=;
+ b=Ge1EUusi1M5XQVw1lYi2gNE3evDKky8oH7UJgX50PAeJOnmqa47fFsVQohAlUmcrBobCvL
+ jucBY6Y13LsKNesjRXwlLMUArqDCM7YI2XBuGZ6ABp3XIo60QiJDofOkZf0yPdOmVXjMd+
+ VwibDzt5xfKr9U07Ka627SxFPU0GfaU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1654593610;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q/JTVYx6YIzOT0oExnwndA8ZEyZRP0LJ7CQLQgKW+BM=;
- b=IeUM19pmcK/rov5DXJ5o2GexywyGAKpUHy5CxrlZ66B/H1LZ5CJORcOTUmz/UtVTlLENYm
- 22VQJMFDzIFUNiDQ==
+ bh=XrLUQUmPE+FfrQ6hezGj/dP9HZMl3+seOVVPCugGjUw=;
+ b=ZcN7WRnwWQpN1m90mNhiaVICe7SN5XB25esQWNKdPv7ESZ403fRUtDJelsapI9Qa/Hja3h
+ 9/0mTYP8rmFLhlAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D6A5013638;
- Tue,  7 Jun 2022 09:20:09 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1B4B713B40;
+ Tue,  7 Jun 2022 09:20:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id IAOQM0kYn2JwLwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 07 Jun 2022 09:20:09 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id SNfLBUoYn2JwLwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 07 Jun 2022 09:20:10 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, kuohsiang_chou@aspeedtech.com, airlied@linux.ie,
  patrik.r.jakobsson@gmail.com, daniel@ffwll.ch,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Subject: [PATCH v3 2/5] drm/ast: Fix updating the connector's EDID property
-Date: Tue,  7 Jun 2022 11:20:05 +0200
-Message-Id: <20220607092008.22123-3-tzimmermann@suse.de>
+Subject: [PATCH v3 3/5] drm/ast: Support output polling
+Date: Tue,  7 Jun 2022 11:20:06 +0200
+Message-Id: <20220607092008.22123-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220607092008.22123-1-tzimmermann@suse.de>
 References: <20220607092008.22123-1-tzimmermann@suse.de>
@@ -73,104 +73,162 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Read the display modes from the connectors DDC helper, which also
-updates the connector's EDID property. The code for the connector's
-.get_modes helper is now shared between VGA and SIL164.
+Enable output polling for all connectors. VGA always uses EDID for this. As
+there's currently no interrupt handling for the ast devices, we have to use
+that trick for the various DP and DVI ports as well.
+
+v3:
+	* clearly state in the docs that the EDID needs to be updated
+	  on each call to .detect_ctx (Patrik)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 ---
- drivers/gpu/drm/ast/ast_mode.c | 57 ++--------------------------------
- 1 file changed, 2 insertions(+), 55 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c     | 14 ++++++++---
+ drivers/gpu/drm/drm_probe_helper.c | 40 ++++++++++++++++++++++++++++++
+ include/drm/drm_probe_helper.h     |  3 +++
+ 3 files changed, 53 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index db2010a55674..57f41e56c6cb 100644
+index 57f41e56c6cb..582f278436ea 100644
 --- a/drivers/gpu/drm/ast/ast_mode.c
 +++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -1302,37 +1302,19 @@ static int ast_crtc_init(struct drm_device *dev)
- 
- static int ast_vga_connector_helper_get_modes(struct drm_connector *connector)
- {
--	struct ast_vga_connector *ast_vga_connector = to_ast_vga_connector(connector);
- 	struct drm_device *dev = connector->dev;
- 	struct ast_private *ast = to_ast_private(dev);
--	struct edid *edid;
- 	int count;
- 
--	if (!ast_vga_connector->i2c)
--		goto err_drm_connector_update_edid_property;
--
- 	/*
- 	 * Protect access to I/O registers from concurrent modesetting
- 	 * by acquiring the I/O-register lock.
- 	 */
- 	mutex_lock(&ast->ioregs_lock);
--
--	edid = drm_get_edid(connector, &ast_vga_connector->i2c->adapter);
--	if (!edid)
--		goto err_mutex_unlock;
--
-+	count = drm_connector_helper_get_modes_from_ddc(connector);
- 	mutex_unlock(&ast->ioregs_lock);
- 
--	count = drm_add_edid_modes(connector, edid);
--	kfree(edid);
--
- 	return count;
--
--err_mutex_unlock:
--	mutex_unlock(&ast->ioregs_lock);
--err_drm_connector_update_edid_property:
--	drm_connector_update_edid_property(connector, NULL);
--	return 0;
- }
+@@ -1319,6 +1319,7 @@ static int ast_vga_connector_helper_get_modes(struct drm_connector *connector)
  
  static const struct drm_connector_helper_funcs ast_vga_connector_helper_funcs = {
-@@ -1406,43 +1388,8 @@ static int ast_vga_output_init(struct ast_private *ast)
-  * SIL164 Connector
-  */
+ 	.get_modes = ast_vga_connector_helper_get_modes,
++	.detect_ctx = drm_connector_helper_detect_ctx_from_edid,
+ };
  
--static int ast_sil164_connector_helper_get_modes(struct drm_connector *connector)
--{
--	struct ast_sil164_connector *ast_sil164_connector = to_ast_sil164_connector(connector);
--	struct drm_device *dev = connector->dev;
--	struct ast_private *ast = to_ast_private(dev);
--	struct edid *edid;
--	int count;
--
--	if (!ast_sil164_connector->i2c)
--		goto err_drm_connector_update_edid_property;
--
--	/*
--	 * Protect access to I/O registers from concurrent modesetting
--	 * by acquiring the I/O-register lock.
--	 */
--	mutex_lock(&ast->ioregs_lock);
--
--	edid = drm_get_edid(connector, &ast_sil164_connector->i2c->adapter);
--	if (!edid)
--		goto err_mutex_unlock;
--
--	mutex_unlock(&ast->ioregs_lock);
--
--	count = drm_add_edid_modes(connector, edid);
--	kfree(edid);
--
--	return count;
--
--err_mutex_unlock:
--	mutex_unlock(&ast->ioregs_lock);
--err_drm_connector_update_edid_property:
--	drm_connector_update_edid_property(connector, NULL);
--	return 0;
--}
--
+ static const struct drm_connector_funcs ast_vga_connector_funcs = {
+@@ -1354,7 +1355,7 @@ static int ast_vga_connector_init(struct drm_device *dev,
+ 	connector->interlace_allowed = 0;
+ 	connector->doublescan_allowed = 0;
+ 
+-	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
++	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+ 
+ 	return 0;
+ }
+@@ -1390,6 +1391,7 @@ static int ast_vga_output_init(struct ast_private *ast)
+ 
  static const struct drm_connector_helper_funcs ast_sil164_connector_helper_funcs = {
--	.get_modes = ast_sil164_connector_helper_get_modes,
-+	.get_modes = ast_vga_connector_helper_get_modes, // same as VGA connector
+ 	.get_modes = ast_vga_connector_helper_get_modes, // same as VGA connector
++	.detect_ctx = drm_connector_helper_detect_ctx_from_edid,
  };
  
  static const struct drm_connector_funcs ast_sil164_connector_funcs = {
+@@ -1425,7 +1427,7 @@ static int ast_sil164_connector_init(struct drm_device *dev,
+ 	connector->interlace_allowed = 0;
+ 	connector->doublescan_allowed = 0;
+ 
+-	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
++	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+ 
+ 	return 0;
+ }
+@@ -1488,6 +1490,7 @@ static int ast_dp501_connector_helper_get_modes(struct drm_connector *connector)
+ 
+ static const struct drm_connector_helper_funcs ast_dp501_connector_helper_funcs = {
+ 	.get_modes = ast_dp501_connector_helper_get_modes,
++	.detect_ctx = drm_connector_helper_detect_ctx_from_edid,
+ };
+ 
+ static const struct drm_connector_funcs ast_dp501_connector_funcs = {
+@@ -1512,7 +1515,7 @@ static int ast_dp501_connector_init(struct drm_device *dev, struct drm_connector
+ 	connector->interlace_allowed = 0;
+ 	connector->doublescan_allowed = 0;
+ 
+-	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
++	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+ 
+ 	return 0;
+ }
+@@ -1575,6 +1578,7 @@ static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
+ 
+ static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs = {
+ 	.get_modes = ast_astdp_connector_helper_get_modes,
++	.detect_ctx = drm_connector_helper_detect_ctx_from_edid,
+ };
+ 
+ static const struct drm_connector_funcs ast_astdp_connector_funcs = {
+@@ -1599,7 +1603,7 @@ static int ast_astdp_connector_init(struct drm_device *dev, struct drm_connector
+ 	connector->interlace_allowed = 0;
+ 	connector->doublescan_allowed = 0;
+ 
+-	connector->polled = DRM_CONNECTOR_POLL_CONNECT;
++	connector->polled = DRM_CONNECTOR_POLL_CONNECT | DRM_CONNECTOR_POLL_DISCONNECT;
+ 
+ 	return 0;
+ }
+@@ -1709,5 +1713,7 @@ int ast_mode_config_init(struct ast_private *ast)
+ 
+ 	drm_mode_config_reset(dev);
+ 
++	drm_kms_helper_poll_init(dev);
++
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index 425f56280d51..e6b9a21ee59d 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -1031,3 +1031,43 @@ int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector)
+ 	return count;
+ }
+ EXPORT_SYMBOL(drm_connector_helper_get_modes_from_ddc);
++
++/**
++ * drm_connector_helper_detect_ctx_from_edid -
++ *	Updates the connector's status by reading EDID data
++ * @connector: The connector.
++ * @ctx: The lock-acquisition context.
++ * @force: True if the operation was requested by userspace, false otherwise.
++ *
++ * Returns:
++ * The connector's status as enum drm_connector_status.
++ *
++ * Updates the connector's EDID property by reading the display modes
++ * and returns the connector's status. If the EDID property is set, the
++ * connector is assumed to be connected; and disconnected otherwise.
++ * The function relies on the get_modes helper to update the EDID
++ * information on each call. If the EDID data has been cached or provided
++ * at the kernel's command-line the connector-state detection is
++ * unreliable.
++ *
++ * If the get_modes helper is missing, the default status is 'unknown'.
++ *
++ * See struct drm_connector_helper_funcs.detect_ctx.
++ */
++int drm_connector_helper_detect_ctx_from_edid(struct drm_connector *connector,
++					      struct drm_modeset_acquire_ctx *ctx,
++					      bool force)
++{
++	const struct drm_connector_helper_funcs *helper_funcs = connector->helper_private;
++
++	if (!helper_funcs || !helper_funcs->get_modes)
++		return connector_status_unknown;
++
++	helper_funcs->get_modes(connector);
++
++	if (!connector->edid_blob_ptr)
++		return connector_status_disconnected;
++
++	return connector_status_connected;
++}
++EXPORT_SYMBOL(drm_connector_helper_detect_ctx_from_edid);
+diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
+index c80cab7a53b7..7408cf010794 100644
+--- a/include/drm/drm_probe_helper.h
++++ b/include/drm/drm_probe_helper.h
+@@ -27,5 +27,8 @@ void drm_kms_helper_poll_enable(struct drm_device *dev);
+ bool drm_kms_helper_is_poll_worker(void);
+ 
+ int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector);
++int drm_connector_helper_detect_ctx_from_edid(struct drm_connector *connector,
++					      struct drm_modeset_acquire_ctx *ctx,
++					      bool force);
+ 
+ #endif
 -- 
 2.36.1
 
