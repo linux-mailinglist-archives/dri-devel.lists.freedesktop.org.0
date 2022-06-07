@@ -1,60 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2367953FB98
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 12:42:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D22C753FC1C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 12:50:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D459B11B95B;
-	Tue,  7 Jun 2022 10:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5008210EDAF;
+	Tue,  7 Jun 2022 10:50:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D11C211B943;
- Tue,  7 Jun 2022 10:42:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654598532; x=1686134532;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=PRalwZtSnMIxW5k+mavGX+Erxl4VZ3WiZMfZb3fAxhU=;
- b=cNououU5GzT95/gRa7+yvB8os8mLDfmNPPfCu05WbwTzAvlsNZJPqlsc
- r20gXaRpyfMuCRJtMIagXmVmMkR0C+0Kox6IBuWIPxy5PU/mZCYau2iX0
- mb9JsglVzuqqYLpzf7uINK1JQFWFKcK3U/IHRxhQBfCe+ZLhyL1H/6fff
- ZOqxnbUf9W1xZYwWG2Nc60rRJZv7RWgzWfmw53O1TelEyIFt8od3RpVtj
- hq9owoI+x0tKVHF4jxjsGpvnQbnoQsD6JO/MoCr28aLj3UlFsHgwch7Fl
- NwOhYATBqdTBEftfu4umxwSqBBgkhn6I50QG4adzAcilGnMt+ZJkSiGyJ A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="338058453"
-X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="338058453"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 03:42:12 -0700
-X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; d="scan'208";a="636072403"
-Received: from bdgardin-mobl1.ger.corp.intel.com (HELO [10.213.217.225])
- ([10.213.217.225])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 03:42:10 -0700
-Message-ID: <d15da726-82d1-da01-fec8-7c86866f9d54@linux.intel.com>
-Date: Tue, 7 Jun 2022 11:42:08 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 903E8112BEE
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 10:50:36 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3506321AE4;
+ Tue,  7 Jun 2022 10:50:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1654599035; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YNeSor2TlqO5s65mha0RnllB/O03gVzaPqsMHpzYKfs=;
+ b=r7ypU4dIQtmrc46mGdGm2XfB1msliL0plCbk+R/tA06Ue7aINqlNZ+zpjeEhpw9P1iLsZw
+ QtcxGjK6tQr+l7BxLiE0yux3EhD0VxRSXmEvEPaNfY6ZglXiePCWnm94ctiPq8QKHxH1NN
+ uoUXQeCp0BaeKb428Jk12ohD/RONBds=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1654599035;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YNeSor2TlqO5s65mha0RnllB/O03gVzaPqsMHpzYKfs=;
+ b=VQUl5pFoBszxvTYTeZIbjyGYfnPnNHqce6E04aXsFvKxmFDqlc4jFVga7EadCjSNMtW0oG
+ Ac8oKvLfz2ugLPCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0573613A88;
+ Tue,  7 Jun 2022 10:50:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id exYUAHstn2IpWQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 07 Jun 2022 10:50:34 +0000
+Message-ID: <ec0b5a08-d31f-fd32-eeca-edee4125c209@suse.de>
+Date: Tue, 7 Jun 2022 12:50:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [Intel-gfx] [RFC v3 3/3] drm/doc/rfc: VM_BIND uapi definition
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 3/5] drm/ast: Support output polling
 Content-Language: en-US
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
- <20220517183212.20274-4-niranjana.vishwanathapura@intel.com>
- <e4e1989c314d3958d58010431515ea371935d0c3.camel@intel.com>
- <20220523191943.GH4461@nvishwa1-DESK>
- <CAPM=9tzcYL5kwv18cfq5NzE00jwHuwTj_L73NVgE8vdcBgrQww@mail.gmail.com>
- <CAKMK7uFt23yZxGJfuZ71ngNw-46yvyed8LaQCQ1ksq73MLGEug@mail.gmail.com>
- <20220602050833.GP4461@nvishwa1-DESK> <20220603065330.GT4461@nvishwa1-DESK>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220603065330.GT4461@nvishwa1-DESK>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Jani Nikula <jani.nikula@linux.intel.com>, airlied@redhat.com,
+ kuohsiang_chou@aspeedtech.com, airlied@linux.ie, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+References: <20220531111502.4470-1-tzimmermann@suse.de>
+ <20220531111502.4470-4-tzimmermann@suse.de> <87pmjkpz7n.fsf@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <87pmjkpz7n.fsf@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------RwopC88NiWAPOQ7BlYocTIRb"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,254 +72,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Wilson,
- Chris P" <chris.p.wilson@intel.com>, "Vetter,
- Daniel" <daniel.vetter@intel.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------RwopC88NiWAPOQ7BlYocTIRb
+Content-Type: multipart/mixed; boundary="------------MXna0iDyH09k3l8lN4EE1GdA";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Jani Nikula <jani.nikula@linux.intel.com>, airlied@redhat.com,
+ kuohsiang_chou@aspeedtech.com, airlied@linux.ie, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <ec0b5a08-d31f-fd32-eeca-edee4125c209@suse.de>
+Subject: Re: [PATCH v2 3/5] drm/ast: Support output polling
+References: <20220531111502.4470-1-tzimmermann@suse.de>
+ <20220531111502.4470-4-tzimmermann@suse.de> <87pmjkpz7n.fsf@intel.com>
+In-Reply-To: <87pmjkpz7n.fsf@intel.com>
 
-On 03/06/2022 07:53, Niranjana Vishwanathapura wrote:
-> On Wed, Jun 01, 2022 at 10:08:35PM -0700, Niranjana Vishwanathapura wrote:
->> On Wed, Jun 01, 2022 at 11:27:17AM +0200, Daniel Vetter wrote:
->>> On Wed, 1 Jun 2022 at 11:03, Dave Airlie <airlied@gmail.com> wrote:
->>>>
->>>> On Tue, 24 May 2022 at 05:20, Niranjana Vishwanathapura
->>>> <niranjana.vishwanathapura@intel.com> wrote:
->>>>>
->>>>> On Thu, May 19, 2022 at 04:07:30PM -0700, Zanoni, Paulo R wrote:
->>>>> >On Tue, 2022-05-17 at 11:32 -0700, Niranjana Vishwanathapura wrote:
->>>>> >> VM_BIND and related uapi definitions
->>>>> >>
->>>>> >> v2: Ensure proper kernel-doc formatting with cross references.
->>>>> >>     Also add new uapi and documentation as per review comments
->>>>> >>     from Daniel.
->>>>> >>
->>>>> >> Signed-off-by: Niranjana Vishwanathapura 
->>>>> <niranjana.vishwanathapura@intel.com>
->>>>> >> ---
->>>>> >>  Documentation/gpu/rfc/i915_vm_bind.h | 399 
->>>>> +++++++++++++++++++++++++++
->>>>> >>  1 file changed, 399 insertions(+)
->>>>> >>  create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
->>>>> >>
->>>>> >> diff --git a/Documentation/gpu/rfc/i915_vm_bind.h 
->>>>> b/Documentation/gpu/rfc/i915_vm_bind.h
->>>>> >> new file mode 100644
->>>>> >> index 000000000000..589c0a009107
->>>>> >> --- /dev/null
->>>>> >> +++ b/Documentation/gpu/rfc/i915_vm_bind.h
->>>>> >> @@ -0,0 +1,399 @@
->>>>> >> +/* SPDX-License-Identifier: MIT */
->>>>> >> +/*
->>>>> >> + * Copyright © 2022 Intel Corporation
->>>>> >> + */
->>>>> >> +
->>>>> >> +/**
->>>>> >> + * DOC: I915_PARAM_HAS_VM_BIND
->>>>> >> + *
->>>>> >> + * VM_BIND feature availability.
->>>>> >> + * See typedef drm_i915_getparam_t param.
->>>>> >> + */
->>>>> >> +#define I915_PARAM_HAS_VM_BIND               57
->>>>> >> +
->>>>> >> +/**
->>>>> >> + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
->>>>> >> + *
->>>>> >> + * Flag to opt-in for VM_BIND mode of binding during VM creation.
->>>>> >> + * See struct drm_i915_gem_vm_control flags.
->>>>> >> + *
->>>>> >> + * A VM in VM_BIND mode will not support the older execbuff 
->>>>> mode of binding.
->>>>> >> + * In VM_BIND mode, execbuff ioctl will not accept any execlist 
->>>>> (ie., the
->>>>> >> + * &drm_i915_gem_execbuffer2.buffer_count must be 0).
->>>>> >> + * Also, &drm_i915_gem_execbuffer2.batch_start_offset and
->>>>> >> + * &drm_i915_gem_execbuffer2.batch_len must be 0.
->>>>> >> + * DRM_I915_GEM_EXECBUFFER_EXT_BATCH_ADDRESSES extension must 
->>>>> be provided
->>>>> >> + * to pass in the batch buffer addresses.
->>>>> >> + *
->>>>> >> + * Additionally, I915_EXEC_NO_RELOC, I915_EXEC_HANDLE_LUT and
->>>>> >> + * I915_EXEC_BATCH_FIRST of &drm_i915_gem_execbuffer2.flags 
->>>>> must be 0
->>>>> >> + * (not used) in VM_BIND mode. I915_EXEC_USE_EXTENSIONS flag 
->>>>> must always be
->>>>> >> + * set (See struct drm_i915_gem_execbuffer_ext_batch_addresses).
->>>>> >> + * The buffers_ptr, buffer_count, batch_start_offset and 
->>>>> batch_len fields
->>>>> >> + * of struct drm_i915_gem_execbuffer2 are also not used and 
->>>>> must be 0.
->>>>> >> + */
->>>>> >
->>>>> >From that description, it seems we have:
->>>>> >
->>>>> >struct drm_i915_gem_execbuffer2 {
->>>>> >        __u64 buffers_ptr;              -> must be 0 (new)
->>>>> >        __u32 buffer_count;             -> must be 0 (new)
->>>>> >        __u32 batch_start_offset;       -> must be 0 (new)
->>>>> >        __u32 batch_len;                -> must be 0 (new)
->>>>> >        __u32 DR1;                      -> must be 0 (old)
->>>>> >        __u32 DR4;                      -> must be 0 (old)
->>>>> >        __u32 num_cliprects; (fences)   -> must be 0 since using 
->>>>> extensions
->>>>> >        __u64 cliprects_ptr; (fences, extensions) -> contains an 
->>>>> actual pointer!
->>>>> >        __u64 flags;                    -> some flags must be 0 (new)
->>>>> >        __u64 rsvd1; (context info)     -> repurposed field (old)
->>>>> >        __u64 rsvd2;                    -> unused
->>>>> >};
->>>>> >
->>>>> >Based on that, why can't we just get drm_i915_gem_execbuffer3 instead
->>>>> >of adding even more complexity to an already abused interface? While
->>>>> >the Vulkan-like extension thing is really nice, I don't think what
->>>>> >we're doing here is extending the ioctl usage, we're completely
->>>>> >changing how the base struct should be interpreted based on how 
->>>>> the VM
->>>>> >was created (which is an entirely different ioctl).
->>>>> >
->>>>> >From Rusty Russel's API Design grading, drm_i915_gem_execbuffer2 is
->>>>> >already at -6 without these changes. I think after vm_bind we'll need
->>>>> >to create a -11 entry just to deal with this ioctl.
->>>>> >
->>>>>
->>>>> The only change here is removing the execlist support for VM_BIND
->>>>> mode (other than natual extensions).
->>>>> Adding a new execbuffer3 was considered, but I think we need to be 
->>>>> careful
->>>>> with that as that goes beyond the VM_BIND support, including any 
->>>>> future
->>>>> requirements (as we don't want an execbuffer4 after VM_BIND).
->>>>
->>>> Why not? it's not like adding extensions here is really that different
->>>> than adding new ioctls.
->>>>
->>>> I definitely think this deserves an execbuffer3 without even
->>>> considering future requirements. Just  to burn down the old
->>>> requirements and pointless fields.
->>>>
->>>> Make execbuffer3 be vm bind only, no relocs, no legacy bits, leave the
->>>> older sw on execbuf2 for ever.
->>>
->>> I guess another point in favour of execbuf3 would be that it's less
->>> midlayer. If we share the entry point then there's quite a few vfuncs
->>> needed to cleanly split out the vm_bind paths from the legacy
->>> reloc/softping paths.
->>>
->>> If we invert this and do execbuf3, then there's the existing ioctl
->>> vfunc, and then we share code (where it even makes sense, probably
->>> request setup/submit need to be shared, anything else is probably
->>> cleaner to just copypaste) with the usual helper approach.
->>>
->>> Also that would guarantee that really none of the old concepts like
->>> i915_active on the vma or vma open counts and all that stuff leaks
->>> into the new vm_bind execbuf.
->>>
->>> Finally I also think that copypasting would make backporting easier,
->>> or at least more flexible, since it should make it easier to have the
->>> upstream vm_bind co-exist with all the other things we have. Without
->>> huge amounts of conflicts (or at least much less) that pushing a pile
->>> of vfuncs into the existing code would cause.
->>>
->>> So maybe we should do this?
->>
->> Thanks Dave, Daniel.
->> There are a few things that will be common between execbuf2 and
->> execbuf3, like request setup/submit (as you said), fence handling 
->> (timeline fences, fence array, composite fences), engine selection,
->> etc. Also, many of the 'flags' will be there in execbuf3 also (but
->> bit position will differ).
->> But I guess these should be fine as the suggestion here is to
->> copy-paste the execbuff code and having a shared code where possible.
->> Besides, we can stop supporting some older feature in execbuff3
->> (like fence array in favor of newer timeline fences), which will
->> further reduce common code.
->>
->> Ok, I will update this series by adding execbuf3 and send out soon.
->>
-> 
-> Does this sound reasonable?
-> 
-> struct drm_i915_gem_execbuffer3 {
->         __u32 ctx_id;        /* previously execbuffer2.rsvd1 */
-> 
->         __u32 batch_count;
->         __u64 batch_addr_ptr;    /* Pointer to an array of batch gpu 
-> virtual addresses */
+--------------MXna0iDyH09k3l8lN4EE1GdA
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Casual stumble upon..
+SGkNCg0KQW0gMDcuMDYuMjIgdW0gMTI6MDMgc2NocmllYiBKYW5pIE5pa3VsYToNCj4gT24g
+VHVlLCAzMSBNYXkgMjAyMiwgVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
+ZGU+IHdyb3RlOg0KPj4gRW5hYmxlIG91dHB1dCBwb2xsaW5nIGZvciBhbGwgY29ubmVjdG9y
+cy4gVkdBIGFsd2F5cyB1c2VzIEVESUQgZm9yIHRoaXMuIEFzDQo+PiB0aGVyZSdzIGN1cnJl
+bnRseSBubyBpbnRlcnJ1cHQgaGFuZGxpbmcgZm9yIHRoZSBhc3QgZGV2aWNlcywgd2UgaGF2
+ZSB0byB1c2UNCj4+IHRoYXQgdHJpY2sgZm9yIHRoZSB2YXJpb3VzIERQIGFuZCBEVkkgcG9y
+dHMgYXMgd2VsbC4NCj4gDQo+IEluIGdlbmVyYWwsIHBsZWFzZSBkb24ndCBhZGQgbmV3IGhl
+bHBlciBmdW5jdGlvbnMgdW5kZXIgImRybS9hc3QiDQo+IHN1YmplY3QgcHJlZml4LiBUaGVz
+ZSB3aWxsIGdvIHVuZGVyIHRoZSByYWRhci4gSSBvbmx5IHN0dW1ibGVkIG9uIHRoaXMNCj4g
+YnkgYWNjaWRlbnQuDQo+IA0KPiBQbGVhc2UgZG9uJ3QgYWRkIG5ldyBoZWxwZXIgZnVuY3Rp
+b25zIGFyb3VuZCBnZXRfbW9kZXMgYW5kIEVESUQNCj4gcmVhZGluZy4gSSd2ZSBiZWVuIHB1
+dHRpbmcgYSBsb3Qgb2YgZWZmb3J0IGludG8gY2hhbmdpbmcgaG93IEVESUQgd2lsbA0KPiBi
+ZSBoYW5kbGVkIGdvaW5nIGZvcndhcmQsIGFuZCB0aGlzIHdpbGwganVzdCBtYWtlIGl0IGhh
+cmRlci4gU2VlDQo+IGUuZy4gWzFdLCB0aG91Z2ggdGhlcmUgYXJlIHBlbmRpbmcgcmV2aWV3
+IGNvbW1lbnRzLg0KPiANCj4gUGxlYXNlIGRvbid0IHVzZSBjb25uZWN0b3ItPmVkaWRfYmxv
+Yl9wdHIgZm9yIGJhc2ljYWxseSBhbnl0aGluZyBpbiB0aGUNCj4gZHJpdmVycywgb3IgZm9y
+IGxvZ2ljIHJlZ2FyZGluZyBkZXRlY3Rpb24uIEl0J3Mgd2F5IHRvbyBvdmVybG9hZGVkDQo+
+IGFscmVhZHksIGFuZCBkaWZmaWN1bHQgdG8gdW50YW5nbGUuDQoNClRoYW5rcyBmb3IgdGhl
+IHRoYXQgaW5mby4gIEknbGwgbWVyZ2UgcGF0Y2ggMSwgd2hpY2ggaXMgdW5yZWxhdGVkIGFu
+ZCANCmxhdGVyIHJlY3JlYXRlIG15IHBhdGNoc2V0IG9uIHRvcCBvZiB5b3VyIGNoYW5nZXMu
+DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IA0KPiBCUiwNCj4gSmFuaS4NCj4g
+DQo+IA0KPiBbMV0gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy8x
+MDQzMDkvDQo+IA0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0
+emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9hc3Qv
+YXN0X21vZGUuYyAgICAgfCAxNCArKysrKysrKy0tLS0NCj4+ICAgZHJpdmVycy9ncHUvZHJt
+L2RybV9wcm9iZV9oZWxwZXIuYyB8IDM1ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+Kw0KPj4gICBpbmNsdWRlL2RybS9kcm1fcHJvYmVfaGVscGVyLmggICAgIHwgIDMgKysrDQo+
+PiAgIDMgZmlsZXMgY2hhbmdlZCwgNDggaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkN
+Cj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+PiBpbmRleCA0ZmY4ZWMxYzg5MzEu
+LmJiYzU2NmM0Yzc2OCAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
+X21vZGUuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jDQo+PiBA
+QCAtMTMxOSw2ICsxMzE5LDcgQEAgc3RhdGljIGludCBhc3RfdmdhX2Nvbm5lY3Rvcl9oZWxw
+ZXJfZ2V0X21vZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpDQo+PiAgIA0K
+Pj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzIGFz
+dF92Z2FfY29ubmVjdG9yX2hlbHBlcl9mdW5jcyA9IHsNCj4+ICAgCS5nZXRfbW9kZXMgPSBh
+c3RfdmdhX2Nvbm5lY3Rvcl9oZWxwZXJfZ2V0X21vZGVzLA0KPj4gKwkuZGV0ZWN0X2N0eCA9
+IGRybV9jb25uZWN0b3JfaGVscGVyX2RldGVjdF9jdHhfZnJvbV9lZGlkLA0KPj4gICB9Ow0K
+Pj4gICANCj4+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2Z1bmNzIGFz
+dF92Z2FfY29ubmVjdG9yX2Z1bmNzID0gew0KPj4gQEAgLTEzNTQsNyArMTM1NSw3IEBAIHN0
+YXRpYyBpbnQgYXN0X3ZnYV9jb25uZWN0b3JfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+LA0KPj4gICAJY29ubmVjdG9yLT5pbnRlcmxhY2VfYWxsb3dlZCA9IDA7DQo+PiAgIAljb25u
+ZWN0b3ItPmRvdWJsZXNjYW5fYWxsb3dlZCA9IDA7DQo+PiAgIA0KPj4gLQljb25uZWN0b3It
+PnBvbGxlZCA9IERSTV9DT05ORUNUT1JfUE9MTF9DT05ORUNUOw0KPj4gKwljb25uZWN0b3It
+PnBvbGxlZCA9IERSTV9DT05ORUNUT1JfUE9MTF9DT05ORUNUIHwgRFJNX0NPTk5FQ1RPUl9Q
+T0xMX0RJU0NPTk5FQ1Q7DQo+PiAgIA0KPj4gICAJcmV0dXJuIDA7DQo+PiAgIH0NCj4+IEBA
+IC0xMzkwLDYgKzEzOTEsNyBAQCBzdGF0aWMgaW50IGFzdF92Z2Ffb3V0cHV0X2luaXQoc3Ry
+dWN0IGFzdF9wcml2YXRlICphc3QpDQo+PiAgIA0KPj4gICBzdGF0aWMgY29uc3Qgc3RydWN0
+IGRybV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzIGFzdF9zaWwxNjRfY29ubmVjdG9yX2hlbHBl
+cl9mdW5jcyA9IHsNCj4+ICAgCS5nZXRfbW9kZXMgPSBhc3RfdmdhX2Nvbm5lY3Rvcl9oZWxw
+ZXJfZ2V0X21vZGVzLCAvLyBzYW1lIGFzIFZHQSBjb25uZWN0b3INCj4+ICsJLmRldGVjdF9j
+dHggPSBkcm1fY29ubmVjdG9yX2hlbHBlcl9kZXRlY3RfY3R4X2Zyb21fZWRpZCwNCj4+ICAg
+fTsNCj4+ICAgDQo+PiAgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9mdW5j
+cyBhc3Rfc2lsMTY0X2Nvbm5lY3Rvcl9mdW5jcyA9IHsNCj4+IEBAIC0xNDI1LDcgKzE0Mjcs
+NyBAQCBzdGF0aWMgaW50IGFzdF9zaWwxNjRfY29ubmVjdG9yX2luaXQoc3RydWN0IGRybV9k
+ZXZpY2UgKmRldiwNCj4+ICAgCWNvbm5lY3Rvci0+aW50ZXJsYWNlX2FsbG93ZWQgPSAwOw0K
+Pj4gICAJY29ubmVjdG9yLT5kb3VibGVzY2FuX2FsbG93ZWQgPSAwOw0KPj4gICANCj4+IC0J
+Y29ubmVjdG9yLT5wb2xsZWQgPSBEUk1fQ09OTkVDVE9SX1BPTExfQ09OTkVDVDsNCj4+ICsJ
+Y29ubmVjdG9yLT5wb2xsZWQgPSBEUk1fQ09OTkVDVE9SX1BPTExfQ09OTkVDVCB8IERSTV9D
+T05ORUNUT1JfUE9MTF9ESVNDT05ORUNUOw0KPj4gICANCj4+ICAgCXJldHVybiAwOw0KPj4g
+ICB9DQo+PiBAQCAtMTQ4OCw2ICsxNDkwLDcgQEAgc3RhdGljIGludCBhc3RfZHA1MDFfY29u
+bmVjdG9yX2hlbHBlcl9nZXRfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rv
+cikNCj4+ICAgDQo+PiAgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9oZWxw
+ZXJfZnVuY3MgYXN0X2RwNTAxX2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MgPSB7DQo+PiAgIAku
+Z2V0X21vZGVzID0gYXN0X2RwNTAxX2Nvbm5lY3Rvcl9oZWxwZXJfZ2V0X21vZGVzLA0KPj4g
+KwkuZGV0ZWN0X2N0eCA9IGRybV9jb25uZWN0b3JfaGVscGVyX2RldGVjdF9jdHhfZnJvbV9l
+ZGlkLA0KPj4gICB9Ow0KPj4gICANCj4+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29u
+bmVjdG9yX2Z1bmNzIGFzdF9kcDUwMV9jb25uZWN0b3JfZnVuY3MgPSB7DQo+PiBAQCAtMTUx
+Miw3ICsxNTE1LDcgQEAgc3RhdGljIGludCBhc3RfZHA1MDFfY29ubmVjdG9yX2luaXQoc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGRybV9jb25uZWN0b3INCj4+ICAgCWNvbm5l
+Y3Rvci0+aW50ZXJsYWNlX2FsbG93ZWQgPSAwOw0KPj4gICAJY29ubmVjdG9yLT5kb3VibGVz
+Y2FuX2FsbG93ZWQgPSAwOw0KPj4gICANCj4+IC0JY29ubmVjdG9yLT5wb2xsZWQgPSBEUk1f
+Q09OTkVDVE9SX1BPTExfQ09OTkVDVDsNCj4+ICsJY29ubmVjdG9yLT5wb2xsZWQgPSBEUk1f
+Q09OTkVDVE9SX1BPTExfQ09OTkVDVCB8IERSTV9DT05ORUNUT1JfUE9MTF9ESVNDT05ORUNU
+Ow0KPj4gICANCj4+ICAgCXJldHVybiAwOw0KPj4gICB9DQo+PiBAQCAtMTU3NSw2ICsxNTc4
+LDcgQEAgc3RhdGljIGludCBhc3RfYXN0ZHBfY29ubmVjdG9yX2hlbHBlcl9nZXRfbW9kZXMo
+c3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikNCj4+ICAgDQo+PiAgIHN0YXRpYyBj
+b25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MgYXN0X2FzdGRwX2Nvbm5l
+Y3Rvcl9oZWxwZXJfZnVuY3MgPSB7DQo+PiAgIAkuZ2V0X21vZGVzID0gYXN0X2FzdGRwX2Nv
+bm5lY3Rvcl9oZWxwZXJfZ2V0X21vZGVzLA0KPj4gKwkuZGV0ZWN0X2N0eCA9IGRybV9jb25u
+ZWN0b3JfaGVscGVyX2RldGVjdF9jdHhfZnJvbV9lZGlkLA0KPj4gICB9Ow0KPj4gICANCj4+
+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2Z1bmNzIGFzdF9hc3RkcF9j
+b25uZWN0b3JfZnVuY3MgPSB7DQo+PiBAQCAtMTU5OSw3ICsxNjAzLDcgQEAgc3RhdGljIGlu
+dCBhc3RfYXN0ZHBfY29ubmVjdG9yX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3Ry
+dWN0IGRybV9jb25uZWN0b3INCj4+ICAgCWNvbm5lY3Rvci0+aW50ZXJsYWNlX2FsbG93ZWQg
+PSAwOw0KPj4gICAJY29ubmVjdG9yLT5kb3VibGVzY2FuX2FsbG93ZWQgPSAwOw0KPj4gICAN
+Cj4+IC0JY29ubmVjdG9yLT5wb2xsZWQgPSBEUk1fQ09OTkVDVE9SX1BPTExfQ09OTkVDVDsN
+Cj4+ICsJY29ubmVjdG9yLT5wb2xsZWQgPSBEUk1fQ09OTkVDVE9SX1BPTExfQ09OTkVDVCB8
+IERSTV9DT05ORUNUT1JfUE9MTF9ESVNDT05ORUNUOw0KPj4gICANCj4+ICAgCXJldHVybiAw
+Ow0KPj4gICB9DQo+PiBAQCAtMTcwOSw1ICsxNzEzLDcgQEAgaW50IGFzdF9tb2RlX2NvbmZp
+Z19pbml0KHN0cnVjdCBhc3RfcHJpdmF0ZSAqYXN0KQ0KPj4gICANCj4+ICAgCWRybV9tb2Rl
+X2NvbmZpZ19yZXNldChkZXYpOw0KPj4gICANCj4+ICsJZHJtX2ttc19oZWxwZXJfcG9sbF9p
+bml0KGRldik7DQo+PiArDQo+PiAgIAlyZXR1cm4gMDsNCj4+ICAgfQ0KPj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9k
+cm0vZHJtX3Byb2JlX2hlbHBlci5jDQo+PiBpbmRleCA0MjVmNTYyODBkNTEuLjQ0NDBhN2I2
+YjI0MCAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVy
+LmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMNCj4+IEBA
+IC0xMDMxLDMgKzEwMzEsMzggQEAgaW50IGRybV9jb25uZWN0b3JfaGVscGVyX2dldF9tb2Rl
+c19mcm9tX2RkYyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQ0KPj4gICAJcmV0
+dXJuIGNvdW50Ow0KPj4gICB9DQo+PiAgIEVYUE9SVF9TWU1CT0woZHJtX2Nvbm5lY3Rvcl9o
+ZWxwZXJfZ2V0X21vZGVzX2Zyb21fZGRjKTsNCj4+ICsNCj4+ICsvKioNCj4+ICsgKiBkcm1f
+Y29ubmVjdG9yX2hlbHBlcl9kZXRlY3RfY3R4X2Zyb21fZWRpZCAtDQo+PiArICoJVXBkYXRl
+cyB0aGUgY29ubmVjdG9yJ3Mgc3RhdHVzIGJ5IHJlYWRpbmcgRURJRCBkYXRhDQo+PiArICog
+QGNvbm5lY3RvcjogVGhlIGNvbm5lY3Rvci4NCj4+ICsgKiBAY3R4OiBUaGUgbG9jay1hY3F1
+aXNpdGlvbiBjb250ZXh0Lg0KPj4gKyAqIEBmb3JjZTogVHJ1ZSBpZiB0aGUgb3BlcmF0aW9u
+IHdhcyByZXF1ZXN0ZWQgYnkgdXNlcnNwYWNlLCBmYWxzZSBvdGhlcndpc2UuDQo+PiArICoN
+Cj4+ICsgKiBSZXR1cm5zOg0KPj4gKyAqIFRoZSBjb25uZWN0b3IncyBzdGF0dXMgYXMgZW51
+bSBkcm1fY29ubmVjdG9yX3N0YXR1cy4NCj4+ICsgKg0KPj4gKyAqIFVwZGF0ZXMgdGhlIGNv
+bm5lY3RvcidzIEVESUQgcHJvcGVydHkgYnkgcmVhZGluZyB0aGUgZGlzcGxheSBtb2Rlcw0K
+Pj4gKyAqIGFuZCByZXR1cm5zIHRoZSBjb25uZWN0b3IncyBzdGF0dXMuIElmIHRoZSBFRElE
+IHByb3BlcnR5IGlzIHNldCwgdGhlDQo+PiArICogY29ubmVjdG9yIGlzIGFzc3VtZWQgdG8g
+YmUgY29ubmVjdGVkOyBhbmQgZGlzY29ubmVjdGVkIG90aGVyd2lzZS4NCj4+ICsgKiBJZiB0
+aGUgZ2V0X21vZGVzIGhlbHBlciBpcyBtaXNzaW5nLCB0aGUgZGVmYXVsdCBzdGF0dXMgaXMg
+J3Vua25vd24nLg0KPj4gKyAqDQo+PiArICogU2VlIHN0cnVjdCBkcm1fY29ubmVjdG9yX2hl
+bHBlcl9mdW5jcy5kZXRlY3RfY3R4Lg0KPj4gKyAqLw0KPj4gK2ludCBkcm1fY29ubmVjdG9y
+X2hlbHBlcl9kZXRlY3RfY3R4X2Zyb21fZWRpZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29u
+bmVjdG9yLA0KPj4gKwkJCQkJICAgICAgc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4
+ICpjdHgsDQo+PiArCQkJCQkgICAgICBib29sIGZvcmNlKQ0KPj4gK3sNCj4+ICsJY29uc3Qg
+c3RydWN0IGRybV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzICpoZWxwZXJfZnVuY3MgPSBjb25u
+ZWN0b3ItPmhlbHBlcl9wcml2YXRlOw0KPj4gKw0KPj4gKwlpZiAoIWhlbHBlcl9mdW5jcyB8
+fCAhaGVscGVyX2Z1bmNzLT5nZXRfbW9kZXMpDQo+PiArCQlyZXR1cm4gY29ubmVjdG9yX3N0
+YXR1c191bmtub3duOw0KPj4gKw0KPj4gKwloZWxwZXJfZnVuY3MtPmdldF9tb2Rlcyhjb25u
+ZWN0b3IpOw0KPj4gKw0KPj4gKwlpZiAoIWNvbm5lY3Rvci0+ZWRpZF9ibG9iX3B0cikNCj4+
+ICsJCXJldHVybiBjb25uZWN0b3Jfc3RhdHVzX2Rpc2Nvbm5lY3RlZDsNCj4+ICsNCj4+ICsJ
+cmV0dXJuIGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkOw0KPj4gK30NCj4+ICtFWFBPUlRf
+U1lNQk9MKGRybV9jb25uZWN0b3JfaGVscGVyX2RldGVjdF9jdHhfZnJvbV9lZGlkKTsNCj4+
+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fcHJvYmVfaGVscGVyLmggYi9pbmNsdWRl
+L2RybS9kcm1fcHJvYmVfaGVscGVyLmgNCj4+IGluZGV4IGM4MGNhYjdhNTNiNy4uNzQwOGNm
+MDEwNzk0IDEwMDY0NA0KPj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3Byb2JlX2hlbHBlci5o
+DQo+PiArKysgYi9pbmNsdWRlL2RybS9kcm1fcHJvYmVfaGVscGVyLmgNCj4+IEBAIC0yNyw1
+ICsyNyw4IEBAIHZvaWQgZHJtX2ttc19oZWxwZXJfcG9sbF9lbmFibGUoc3RydWN0IGRybV9k
+ZXZpY2UgKmRldik7DQo+PiAgIGJvb2wgZHJtX2ttc19oZWxwZXJfaXNfcG9sbF93b3JrZXIo
+dm9pZCk7DQo+PiAgIA0KPj4gICBpbnQgZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfZ2V0X21vZGVz
+X2Zyb21fZGRjKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpOw0KPj4gK2ludCBk
+cm1fY29ubmVjdG9yX2hlbHBlcl9kZXRlY3RfY3R4X2Zyb21fZWRpZChzdHJ1Y3QgZHJtX2Nv
+bm5lY3RvciAqY29ubmVjdG9yLA0KPj4gKwkJCQkJICAgICAgc3RydWN0IGRybV9tb2Rlc2V0
+X2FjcXVpcmVfY3R4ICpjdHgsDQo+PiArCQkJCQkgICAgICBib29sIGZvcmNlKTsNCj4+ICAg
+DQo+PiAgICNlbmRpZg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
+RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
+DQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDks
+IEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-Alternatively you could embed N pointers to make life a bit easier for 
-both userspace and kernel side. Yes, but then "N batch buffers should be 
-enough for everyone" problem.. :)
+--------------MXna0iDyH09k3l8lN4EE1GdA--
 
-> 
->         __u64 flags;
-> #define I915_EXEC3_RING_MASK              (0x3f)
-> #define I915_EXEC3_DEFAULT                (0<<0)
-> #define I915_EXEC3_RENDER                 (1<<0)
-> #define I915_EXEC3_BSD                    (2<<0)
-> #define I915_EXEC3_BLT                    (3<<0)
-> #define I915_EXEC3_VEBOX                  (4<<0)
-> 
-> #define I915_EXEC3_SECURE               (1<<6)
-> #define I915_EXEC3_IS_PINNED            (1<<7)
-> 
-> #define I915_EXEC3_BSD_SHIFT     (8)
-> #define I915_EXEC3_BSD_MASK      (3 << I915_EXEC3_BSD_SHIFT)
-> #define I915_EXEC3_BSD_DEFAULT   (0 << I915_EXEC3_BSD_SHIFT)
-> #define I915_EXEC3_BSD_RING1     (1 << I915_EXEC3_BSD_SHIFT)
-> #define I915_EXEC3_BSD_RING2     (2 << I915_EXEC3_BSD_SHIFT)
+--------------RwopC88NiWAPOQ7BlYocTIRb
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-I'd suggest legacy engine selection is unwanted, especially not with the 
-convoluted BSD1/2 flags. Can we just require context with engine map and 
-index? Or if default context has to be supported then I'd suggest 
-...class_instance for that mode.
+-----BEGIN PGP SIGNATURE-----
 
-> #define I915_EXEC3_FENCE_IN             (1<<10)
-> #define I915_EXEC3_FENCE_OUT            (1<<11)
-> #define I915_EXEC3_FENCE_SUBMIT         (1<<12)
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKfLXoFAwAAAAAACgkQlh/E3EQov+C0
+tA//dd9lFK9zq7TFWHsaRgRiWxkjfAfSICYQvVE+i2uElix9iHQL3hUTv/o9TeHHpB7g/ZrsZ4ik
+9csW6VuQsTOygTPB6I86GJMLJxnxidTzx1b1v4CgMTo/IDuokLP6pvdPoGGNZWQWz/fwV1Bjej4U
+JcjLc5VFIS7NxWspQH54PFJHrGvBdUBfPxn/E/tp265wEL4Fx6KF+WjvDpPOIqdhCkWO2R4wZ/Xc
+oZjuQUEXxhuww1jNoxj2JZYHq8VCouRSdt6TU6wzik0z02sFawWbJ2ll92jUVlH6Q8HzNmBY/OE8
+/kv77hXZ655bGhN6YHWsmhQvPvNPq1lLDsilmmnWqLRedK8hwmfwtvmUxWLEw6I6dG9Xp1DbKWTm
+wfCHt5480AIbqMjFaKZyk1DcHGovplwI8im3hPDVcynYLV/tXrz0ymprgzha3mZG6XCjo3w1d1O4
+4Luy67bd4hCQZSNHNnUKH/xHF1ieQkvuAIvw2KrDO1G45+zoFkq1+UjQCzAC2CNqlZH/vBgdDt+N
+sDcafqWaRKwiYzWqzBBjDrFJyGWwj+E3L+hg7dgCUyJRd0vF+KljynRhU+R/4TuEAgzetB7coIhU
+B0wmPeGoRw40HYYfnpiiCM8pqhD/BHZnzNGh16dF3zxa5rdT4PCt9ypwZwbKXHw73/rYTqqv7KOe
+8fA=
+=GRaN
+-----END PGP SIGNATURE-----
 
-People are likely to object to submit fence since generic mechanism to 
-align submissions was rejected.
-
-> 
->         __u64 in_out_fence;        /* previously execbuffer2.rsvd2 */
-
-New ioctl you can afford dedicated fields.
-
-In any case I suggest you involve UMD folks in designing it.
-
-Regards,
-
-Tvrtko
-
-> 
->         __u64 extensions;        /* currently only for 
-> DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES */
-> };
-> 
-> With this, user can pass in batch addresses and count directly,
-> instead of as an extension (as this rfc series was proposing).
-> 
-> I have removed many of the flags which were either legacy or not
-> applicable to BM_BIND mode.
-> I have also removed fence array support (execbuffer2.cliprects_ptr)
-> as we have timeline fence array support. Is that fine?
-> Do we still need FENCE_IN/FENCE_OUT/FENCE_SUBMIT support?
-> 
-> Any thing else needs to be added or removed?
-> 
-> Niranjana
-> 
->> Niranjana
->>
->>> -Daniel
->>> -- 
->>> Daniel Vetter
->>> Software Engineer, Intel Corporation
->>> http://blog.ffwll.ch
+--------------RwopC88NiWAPOQ7BlYocTIRb--
