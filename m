@@ -1,65 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6CF053FF81
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 14:55:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F2253FF8B
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 14:57:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5959310ED83;
-	Tue,  7 Jun 2022 12:55:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0F1810EDED;
+	Tue,  7 Jun 2022 12:57:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F303510ED83
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 12:55:32 +0000 (UTC)
-X-UUID: bb5e143a916949d992b27f2fdc9c1465-20220607
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:3eaa7c96-6260-46d2-b3f5-7101e12b16b0, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:2a19b09, CLOUDID:275c7e7e-c8dc-403a-96e8-6237210dceee,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:0,BEC:nil
-X-UUID: bb5e143a916949d992b27f2fdc9c1465-20220607
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 931050928; Tue, 07 Jun 2022 20:55:27 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Tue, 7 Jun 2022 20:55:26 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Tue, 7 Jun 2022 20:55:26 +0800
-Message-ID: <6d7a38e4fe4cd1811c826888531144511407a06a.camel@mediatek.com>
-Subject: Re: [PATCH v10 18/21] drm/mediatek: Add mt8195 Embedded DisplayPort
- driver
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, Guillaume Ranquet <granquet@baylibre.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chunfeng Yun
- =?UTF-8?Q?=28=E4=BA=91=E6=98=A5=E5=B3=B0=29?= <Chunfeng.Yun@mediatek.com>,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
- Deller" <deller@gmx.de>, Jitao Shi
- =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?= <jitao.shi@mediatek.com>
-Date: Tue, 7 Jun 2022 20:55:25 +0800
-In-Reply-To: <ff858934b622e6716dd48bf02d4d57f19358b805.camel@mediatek.com>
-References: <20220523104758.29531-1-granquet@baylibre.com>
- <20220523104758.29531-19-granquet@baylibre.com>
- <ff858934b622e6716dd48bf02d4d57f19358b805.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE4810EDED
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 12:57:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654606659;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4QSRH8DM0EWIFp4tvv53kVC06dJu/u/EgMkz7xegTNs=;
+ b=IlfHaANbAfeu4tHp+sErIt4woPcYRu6h6I71aKbtmUlbpmW6QfLLNFa7dFgg5Zk2uKttLZ
+ j5qmqfZNkwAxuTU7zM20xwkdT0Xlo76+cAsNXtuJFOJzOGpzBupylmtTTAP4oMbcw8Yfbp
+ Xd47FZhQdtW6S4b5UlME2R2GGkvizSk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-489-lAfjrvu1PfGQqh4Y0q8Xsw-1; Tue, 07 Jun 2022 08:57:35 -0400
+X-MC-Unique: lAfjrvu1PfGQqh4Y0q8Xsw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ q14-20020a5d61ce000000b00210353e32b0so3860497wrv.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jun 2022 05:57:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=4QSRH8DM0EWIFp4tvv53kVC06dJu/u/EgMkz7xegTNs=;
+ b=WrEJ6TwnU6j9wtGO1tPVWviWkXql0E2Rr06BnjzlA00woRnZZy8993yEgOXGqTR/zR
+ arQkOh6H0b8uYmhgRkPWCrlFKO1QxOGPSWYFXlRREPgm0qJpB5KAA71n2seutA9q1MuK
+ GBXyfdQr3B02KngEtE2wHMdjc+e/2PQXjh4wSQzu0rl4jD9g2DNcLlncelOPi6CV/5DA
+ rF307O9GGmo9UdSqtICETWttOcawc6RbWtLtTYRiEfMrMwvLdH5mREO8DUQoDbJ/OlK0
+ 3ULd4YRAjNv5JqxVPV0yBzuvNPKFXPbokQRnXz1a2heXNYO4/KcQ2V4IDRtKMoYkCGVj
+ NIcA==
+X-Gm-Message-State: AOAM531seO/5F6iZgtnN73U0zlh+MmhqfJ4eAPrJKfxdRm8ybio8fpp0
+ gDYK14QeSN1khlj7AxawXTUCyx7gGWRPZoeb3Fz5mDY4etmV+uI61krRplnsKIpSYVAjkFle1bL
+ cX+JYykaUpC3PvTQJPeZ9K0Pvc5Uf
+X-Received: by 2002:a05:600c:4f90:b0:397:89b1:539b with SMTP id
+ n16-20020a05600c4f9000b0039789b1539bmr54389412wmq.149.1654606654443; 
+ Tue, 07 Jun 2022 05:57:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyUkMuPhmF8WVpmZThM74o1w4iOAEeqbYNAVijCPByVKvmwU21f0ZJXPf9IJ4t1pum0BoCPxA==
+X-Received: by 2002:a05:600c:4f90:b0:397:89b1:539b with SMTP id
+ n16-20020a05600c4f9000b0039789b1539bmr54389386wmq.149.1654606654169; 
+ Tue, 07 Jun 2022 05:57:34 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c709:500:4c8d:4886:f874:7b6f?
+ (p200300cbc70905004c8d4886f8747b6f.dip0.t-ipconnect.de.
+ [2003:cb:c709:500:4c8d:4886:f874:7b6f])
+ by smtp.gmail.com with ESMTPSA id
+ n20-20020a7bc5d4000000b0039aef592ca0sm20181432wmk.35.2022.06.07.05.57.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jun 2022 05:57:33 -0700 (PDT)
+Message-ID: <11e5905b-f3a9-dced-d5dc-1446a3334f7f@redhat.com>
+Date: Tue, 7 Jun 2022 14:57:32 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 1/3] mm/page_alloc: use might_alloc()
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>
+References: <20220605152539.3196045-1-daniel.vetter@ffwll.ch>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220605152539.3196045-1-daniel.vetter@ffwll.ch>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,157 +90,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, linux-mm@kvack.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-06-07 at 16:12 +0800, CK Hu wrote:
-> Hi, Rex:
+On 05.06.22 17:25, Daniel Vetter wrote:
+> ... instead of open codding it. Completely equivalent code, just
+> a notch more meaningful when reading.
 > 
-> On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
-> > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> > 
-> > This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
-> > 
-> > It supports the mt8195, the embedded DisplayPort units. It offers
-> > DisplayPort 1.4 with up to 4 lanes.
-> > 
-> > The driver creates a child device for the phy. The child device
-> > will
-> > never exist without the parent being active. As they are sharing a
-> > register range, the parent passes a regmap pointer to the child so
-> > that
-> > both can work with the same register range. The phy driver sets
-> > device
-> > data that is read by the parent to get the phy device that can be
-> > used
-> > to control the phy properties.
-> > 
-> > This driver is based on an initial version by
-> > Jason-JH.Lin <jason-jh.lin@mediatek.com>.
-> > 
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > ---
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: linux-mm@kvack.org
+> ---
+>  mm/page_alloc.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> [snip]
-> 
-> > +
-> > +static int mtk_dp_train_start(struct mtk_dp *mtk_dp)
-> > +{
-> > +	int ret = 0;
-> > +	u8 lane_count;
-> > +	u8 link_rate;
-> > +	u8 train_limit;
-> > +	u8 max_link_rate;
-> > +	u8 plug_wait;
-> > +
-> > +	for (plug_wait = 7; !mtk_dp_plug_state(mtk_dp) && plug_wait >
-> > 0;
-> > +	     --plug_wait)
-> > +		/* Avoid short pulses on the HPD isr */
-> > +		usleep_range(1000, 5000);
-> > +	if (plug_wait == 0) {
-> > +		mtk_dp->train_state = MTK_DP_TRAIN_STATE_DPIDLE;
-> 
-> After return, mtk_dp->train_state would be set to
-> MTK_DP_TRAIN_STATE_DPIDLE, so drop this.
-> 
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 2db95780e003..277774d170cb 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -5177,10 +5177,7 @@ static inline bool prepare_alloc_pages(gfp_t gfp_mask, unsigned int order,
+>  			*alloc_flags |= ALLOC_CPUSET;
+>  	}
+>  
+> -	fs_reclaim_acquire(gfp_mask);
+> -	fs_reclaim_release(gfp_mask);
+> -
+> -	might_sleep_if(gfp_mask & __GFP_DIRECT_RECLAIM);
+> +	might_alloc(gfp_mask);
+>  
+>  	if (should_fail_alloc_page(gfp_mask, order))
+>  		return false;
 
-ok, I will do this.
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-> > +		return -ENODEV;
-> > +	}
-> > +
-> > +	link_rate = mtk_dp->rx_cap[1];
-> > +	lane_count = mtk_dp->rx_cap[2] & 0x1F;
-> > +
-> > +	mtk_dp->train_info.link_rate = min(mtk_dp->max_linkrate,
-> > link_rate);
-> > +	mtk_dp->train_info.lane_count = min(mtk_dp->max_lanes,
-> > lane_count);
-> > +	link_rate = mtk_dp->train_info.link_rate;
-> > +	lane_count = mtk_dp->train_info.lane_count;
-> > +
-> > +	switch (link_rate) {
-> > +	case MTK_DP_LINKRATE_RBR:
-> > +	case MTK_DP_LINKRATE_HBR:
-> > +	case MTK_DP_LINKRATE_HBR2:
-> > +	case MTK_DP_LINKRATE_HBR25:
-> > +	case MTK_DP_LINKRATE_HBR3:
-> > +		break;
-> > +	default:
-> > +		mtk_dp->train_info.link_rate = MTK_DP_LINKRATE_HBR3;
-> > +		break;
-> > +	};
-> > +
-> > +	max_link_rate = link_rate;
-> > +	for (train_limit = 6; train_limit > 0; train_limit--) {
-> > +		mtk_dp->train_info.cr_done = false;
-> > +		mtk_dp->train_info.eq_done = false;
-> > +
-> > +		mtk_dp_train_change_mode(mtk_dp);
-> > +		ret = mtk_dp_train_flow(mtk_dp, link_rate, lane_count);
-> > +		if (ret)
-> > +			return ret;
-> > +
-> > +		if (!mtk_dp->train_info.cr_done) {
-> > +			switch (link_rate) {
-> > +			case MTK_DP_LINKRATE_RBR:
-> > +				lane_count = lane_count / 2;
-> > +				link_rate = max_link_rate;
-> > +				if (lane_count == 0) {
-> > +					mtk_dp->train_state =
-> > +						MTK_DP_TRAIN_STATE_DPID
-> > LE;
-> 
-> After return, mtk_dp->train_state would be set to
-> MTK_DP_TRAIN_STATE_DPIDLE, so drop this.
-> 
-> Regards,
-> CK
-> 
+-- 
+Thanks,
 
-ok.
-
-> > +					return -EIO;
-> > +				}
-> > +				break;
-> > +			case MTK_DP_LINKRATE_HBR:
-> > +				link_rate = MTK_DP_LINKRATE_RBR;
-> > +				break;
-> > +			case MTK_DP_LINKRATE_HBR2:
-> > +				link_rate = MTK_DP_LINKRATE_HBR;
-> > +				break;
-> > +			case MTK_DP_LINKRATE_HBR3:
-> > +				link_rate = MTK_DP_LINKRATE_HBR2;
-> > +				break;
-> > +			default:
-> > +				return -EINVAL;
-> > +			};
-> > +		} else if (!mtk_dp->train_info.eq_done) {
-> > +			if (lane_count == 0)
-> > +				return -EIO;
-> > +
-> > +			lane_count /= 2;
-> > +		} else {
-> > +			break;
-> > +		}
-> > +	}
-> > +
-> > +	if (train_limit == 0)
-> > +		return -ETIMEDOUT;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> 
-> 
+David / dhildenb
 
