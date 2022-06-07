@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A9A8540891
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 20:02:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39730540893
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 20:03:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB86010F442;
-	Tue,  7 Jun 2022 18:02:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB52910F48E;
+	Tue,  7 Jun 2022 18:03:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A862510F3DA;
- Tue,  7 Jun 2022 18:02:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16E5E10F48E;
+ Tue,  7 Jun 2022 18:03:09 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 4D02BB82182;
- Tue,  7 Jun 2022 18:02:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E67FCC34115;
- Tue,  7 Jun 2022 18:02:17 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id AAA88B82348;
+ Tue,  7 Jun 2022 18:03:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C19FC3411F;
+ Tue,  7 Jun 2022 18:03:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1654624939;
- bh=CLxhyRsIbGorzJp3CfbUxXaPLoemca5e22KRT6otbHs=;
+ s=k20201202; t=1654624987;
+ bh=Vn10bNQPc5pbtkyvWaaTmAUvAzjVuNIpxar3jUlAj00=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HxE2GrcI2XMSSItKlfBLnLDtlpDepq5fIp5hzC0TrsGTIZZWhjYmor3QHyTn9bzlK
- o4yJeDJ4YwcYr8hrp4QjCH5ZGL6p7Xrpy6hECIkOg+9TeEe8iXxIw7uxakYUjkKm5b
- f7jpkCnV+XuIY8x5HOgPo/lU9vZi7rgz/8gVNj6Qhsa9TjcyepPkDESHhhFaJqbSjM
- RD6BsMZTaUGFkkPcinABjIx4TzR6e06nU1UzwxlXG2gdhD7S8NOHBR3YgnqBd5/fqr
- pV5BDLpxfp5CuwnL8n3w1KhgW9tgkewgMhkIX3PrGFJT2bSFw4Nu9VPn8l2l2cVZsq
- Epn/6iKCzR7rQ==
+ b=H/U2drwV55Jl+3c90D7mcjsQeuzSiO6a3gr3jO+mjenQNzoZk0K0waGcZDIsFH3tU
+ b42NNFe46rE86Y4IJH+9sZE/ITnUx381hQf5w6KT+6f5VGzkeurt8pWakDdjb6OX3J
+ QSUBnhIGiYoZZ87NKnHpSqPNUDHa3bIcWFtHip81VS0x2VX6WilOQSYutmK/af34WP
+ 6L65L4PXbIgS+bfG+GyuANLZo8lbo9T15EjWF44COKxnv7jR5XGzu3JeGc0oU0g1Zb
+ TT2WOH7cIUmSPSmek2QeNvpnVoHavJk7LEezCqh7Ubb5NB1o3MBUGKPiLeHUo+z5L4
+ YAxuAtxUU9GcA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 22/27] drm/radeon: fix a possible null pointer
+Subject: [PATCH AUTOSEL 4.14 20/25] drm/radeon: fix a possible null pointer
  dereference
-Date: Tue,  7 Jun 2022 14:01:26 -0400
-Message-Id: <20220607180133.481701-22-sashal@kernel.org>
+Date: Tue,  7 Jun 2022 14:02:21 -0400
+Message-Id: <20220607180229.482040-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220607180133.481701-1-sashal@kernel.org>
-References: <20220607180133.481701-1-sashal@kernel.org>
+In-Reply-To: <20220607180229.482040-1-sashal@kernel.org>
+References: <20220607180229.482040-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -80,10 +80,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index b9927101e845..47240983f360 100644
+index fc021b8e4077..dd7d771d13b5 100644
 --- a/drivers/gpu/drm/radeon/radeon_connectors.c
 +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-@@ -476,6 +476,8 @@ static struct drm_display_mode *radeon_fp_native_mode(struct drm_encoder *encode
+@@ -489,6 +489,8 @@ static struct drm_display_mode *radeon_fp_native_mode(struct drm_encoder *encode
  	    native_mode->vdisplay != 0 &&
  	    native_mode->clock != 0) {
  		mode = drm_mode_duplicate(dev, native_mode);
@@ -92,7 +92,7 @@ index b9927101e845..47240983f360 100644
  		mode->type = DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER;
  		drm_mode_set_name(mode);
  
-@@ -490,6 +492,8 @@ static struct drm_display_mode *radeon_fp_native_mode(struct drm_encoder *encode
+@@ -503,6 +505,8 @@ static struct drm_display_mode *radeon_fp_native_mode(struct drm_encoder *encode
  		 * simpler.
  		 */
  		mode = drm_cvt_mode(dev, native_mode->hdisplay, native_mode->vdisplay, 60, true, false, false);
