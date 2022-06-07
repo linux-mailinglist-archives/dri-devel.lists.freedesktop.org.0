@@ -2,67 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7217653F455
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 05:10:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C1653F49C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jun 2022 05:38:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB0DA112757;
-	Tue,  7 Jun 2022 03:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6C8311B273;
+	Tue,  7 Jun 2022 03:38:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74506112761
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 03:10:43 +0000 (UTC)
-X-UUID: 549b59eda6404f65abd5b720e744a6f4-20220607
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:9e2bbc86-1cd8-49ab-8252-e5e5c7c7ebaf, OB:0,
- LO
- B:20,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:45
-X-CID-INFO: VERSION:1.1.5, REQID:9e2bbc86-1cd8-49ab-8252-e5e5c7c7ebaf, OB:0,
- LOB:
- 20,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:45
-X-CID-META: VersionHash:2a19b09, CLOUDID:9a03687e-c8dc-403a-96e8-6237210dceee,
- C
- OID:e0ded3fc8b76,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:0,BEC:nil
-X-UUID: 549b59eda6404f65abd5b720e744a6f4-20220607
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 516054270; Tue, 07 Jun 2022 11:10:38 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Tue, 7 Jun 2022 11:10:35 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Tue, 7 Jun 2022 11:10:35 +0800
-Message-ID: <f971913e22a29b77df3a0eb3da3ea8d40a3b1be6.camel@mediatek.com>
-Subject: Re: [PATCH v10 05/21] video/hdmi: Add audio_infoframe packing for DP
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Guillaume Ranquet <granquet@baylibre.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "David
- Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, "Kishon
- Vijay Abraham I" <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
- Deller" <deller@gmx.de>, CK Hu <ck.hu@mediatek.com>, Jitao shi
- <jitao.shi@mediatek.com>
-Date: Tue, 7 Jun 2022 11:10:35 +0800
-In-Reply-To: <7ae7e42c-9225-2ff2-f167-8235ab4cadc3@collabora.com>
-References: <20220523104758.29531-1-granquet@baylibre.com>
- <20220523104758.29531-6-granquet@baylibre.com>
- <7ae7e42c-9225-2ff2-f167-8235ab4cadc3@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B27A889B5F
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jun 2022 03:38:30 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id fu3so31088957ejc.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jun 2022 20:38:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lJ9t0JsMzf9+b8G+NsrCGuGZ2WHm7yJdraWRSfiKGkA=;
+ b=luqlEGHcZ3EsuUaCVY6GMNpFf/WWxyuViWZVeRqUEErf9I9VtVM1lds0X9kadOzOJN
+ cszTD9YoVUoRI7Y7blXJ11oo9McRcIKLzrEKA7N554p76iZLgY8Rd3ITfDBweQcSXSEp
+ ZvIHkSGHIxEHuVqKNxRubd5d5H8shRx58lWHE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lJ9t0JsMzf9+b8G+NsrCGuGZ2WHm7yJdraWRSfiKGkA=;
+ b=E6LrDL2Pqparugw6KdUNiNfSjQK2hqs6cJhSxVvT+X4f8IXnnANTcqXO277KgXMS8+
+ wqVG+qYTxqNKQw4Fo635Ov+1ZDOrnGkqiM6Jwxha8op9YNzKOorKNYtJ1AF7NTos7gXp
+ VFOBUq9TKv8JCm7dG7YaCDzsNQq2Bbc0ZFPbgduXCZW7TGzHpbHmlPRMcWfT2BojhAp4
+ dlbd75RiBvGSkSK0Gt8f+37csHa2OIAqbLTn/n7z4PUv1ZtXoxP61QBbnB8aWq0eKrtc
+ B3UvHezO63B7uaUZqzQw+Vj/HBsiCm+6/NNNRaDyYq/yJitDz4HdGuJ7deJu69wGQLD/
+ 67Eg==
+X-Gm-Message-State: AOAM533bmTkJDO1W9MEQZt6YaN1IqTknTluLuqLj4gwm7kKeLSWqkUGS
+ oQde3oZVPcgHYiaI8b1q8NA+WAbv/uu5P8jTYVZ9yg==
+X-Google-Smtp-Source: ABdhPJxvmyTN4ySZ5rqR9pOFJ1zEcnVcYm+SktOdEe+JR5rDOKDREJpcaAfPg15x/AOi9cNPiXshMUiWFFvhktMChtw=
+X-Received: by 2002:a17:907:868f:b0:702:f865:55de with SMTP id
+ qa15-20020a170907868f00b00702f86555demr24650686ejc.24.1654573109183; Mon, 06
+ Jun 2022 20:38:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+References: <20220606152431.1889185-1-hsinyi@chromium.org>
+ <20220606152431.1889185-9-hsinyi@chromium.org>
+ <CAE-0n51Lq381dQW6zw3D0fibdj=Jm4r3uAYG59ySo4CXbx+EpA@mail.gmail.com>
+In-Reply-To: <CAE-0n51Lq381dQW6zw3D0fibdj=Jm4r3uAYG59ySo4CXbx+EpA@mail.gmail.com>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Tue, 7 Jun 2022 11:46:24 +0800
+Message-ID: <CAJMQK-hoKB+W4AY8trW-ni145oxde4ot1_z+d6sbxGrbQ6aMig@mail.gmail.com>
+Subject: Re: [PATCH v4 8/8] drm/mediatek: Config orientation property if panel
+ provides it
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,57 +62,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+Cc: Rob Clark <robdclark@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
+ Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-05-25 at 14:32 +0200, AngeloGioacchino Del Regno wrote:
-> Il 23/05/22 12:47, Guillaume Ranquet ha scritto:
-> > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> > 
-> > Similar to HDMI, DP uses audio infoframes as well which are
-> > structured
-> > very similar to the HDMI ones.
-> > 
-> > This patch adds a helper function to pack the HDMI audio infoframe
-> > for
-> > DP, called hdmi_audio_infoframe_pack_for_dp().
-> > hdmi_audio_infoframe_pack_only() is split into two parts. One of
-> > them
-> > packs the payload only and can be used for HDMI and DP.
-> > 
-> > Also constify the frame parameter in hdmi_audio_infoframe_check()
-> > as
-> > it is passed to hdmi_audio_infoframe_check_only() which expects a
-> > const.
-> > 
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > ---
-> >   drivers/video/hdmi.c           | 82 ++++++++++++++++++++++++++---
-> > -----
-> >   include/drm/dp/drm_dp_helper.h |  2 +
-> 
-> this has been moved... again... this time it's
-> include/drm/display/drm_dp_helper.h
-> 
+On Tue, Jun 7, 2022 at 3:16 AM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Hsin-Yi Wang (2022-06-06 08:24:31)
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > index d9f10a33e6fa..c56282412bfa 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > @@ -822,6 +823,12 @@ static int mtk_dsi_encoder_init(struct drm_device *drm, struct mtk_dsi *dsi)
+> >                 ret = PTR_ERR(dsi->connector);
+> >                 goto err_cleanup_encoder;
+> >         }
+> > +
+> > +       /* Read panel orientation */
+> > +       if (dsi->panel)
+> > +               drm_connector_set_panel_orientation(dsi->connector,
+> > +                               drm_panel_get_orientation(dsi->panel));
+> > +
+>
+> It could be simplified like so?
+>
+>         drm_connector_set_orientation_from_panel(dsi->connector, dsi->panel);
+>
+> Then the API could get the orientation if the panel pointer is valid.
+> Does any code need to use/modify the orientation value besides
+> drm_connector_set_panel_orientation()?
+>
 
-Hello Angelo,
+We can add another function to call
+drm_connector_set_orientation_from_panel(), which will be like
 
-yes, I will rebase on 5.19-rc1 and fix this in next version.
+void drm_connector_set_orientation_from_panel(connector, panel)
+{
+     if (panel)
+          drm_connector_set_panel_orientation(connector,drm_panel_get_orientation(panel));
+}
 
-BRs,
-Bo-Chen
-> >   include/linux/hdmi.h           |  7 ++-
-> >   3 files changed, 71 insertions(+), 20 deletions(-)
-> > 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+Though it's very should but I can add this if this can make the caller
+more convenient.
 
+> >         drm_connector_attach_encoder(dsi->connector, &dsi->encoder);
+> >
+> >         return 0;
