@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17E3542890
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 09:53:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E96542891
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 09:54:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18B8710EBA9;
-	Wed,  8 Jun 2022 07:53:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A579C10E08E;
+	Wed,  8 Jun 2022 07:53:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5F5610E08E;
- Wed,  8 Jun 2022 07:53:52 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id be31so31965779lfb.10;
- Wed, 08 Jun 2022 00:53:52 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14EE810E08E;
+ Wed,  8 Jun 2022 07:53:59 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id u23so31979122lfc.1;
+ Wed, 08 Jun 2022 00:53:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=Jcejieg8fSGD4FRUiB6XtubXegORq7N0Vn+r4bqLdgc=;
- b=eH/vCnnbKdMwkddXmNC1+Lo+dfzNPzFJfJd/ViqiUkzrBBkZIHlHyCNUeikZKCX3Lx
- orWOKOeZt1vx3sAcZVxjqUdvKOFObFo0a4ku40eM2ikgBbl+4hTPxSdd5R7YFi/AaLFk
- K2bUJUvsf5KCy2diFjBdBDWaI0gof+LSKX35NGqxYdgxVHQQ+kq2ljA/WUz6JfnpFB+s
- KRpGBiztHO5qYqhyLJSoPoOEq+Ghgb42P1HduMAqrQhgUJHgqvqybxHJgYfvY55anMHH
- rE28hmsZfgeoJvYuXYVAEcD3LIwJ5N7p4Bnr53ZzYG/gDupf5qBoc7hJQzYQ6aqidhCp
- iCbw==
+ :mime-version; bh=51i10BfDgoaO6dLGYDlXTEEIUhsoXqykHU3IKn8w6a4=;
+ b=efRPauAmO5nIgyNVLhKOlt3x88Rri8YoK4P+2PHMWKdC9Q1Ggtt2CrD6E+jPkzaZYM
+ Q/Smx1PglyKfj6ApjEjRcw89pn1d3ULMOBuEtuoGMQxk/XshDkcMofPv80JUi4FavaJL
+ BaFDtxUNhDXrd37eaJBO5r7Q1xkxkjJYKMhpXlbWDFc4wsF7rTBEKCdO9617fu8ioQZU
+ DktIouiZAI95m6yDEGy6sR2ny/A2CJ6VtH99ktkXjBiJCfBDHME7Nw4cfY/9MggS+V+B
+ Mehquc8QMUUlQJI+Ak1dc38qxB2Vr3vZRRCKwWia3X47XKNIuys0l4jgrludJaWMHkVi
+ p4wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version;
- bh=Jcejieg8fSGD4FRUiB6XtubXegORq7N0Vn+r4bqLdgc=;
- b=zODWBJ0H+D5meJVOGyjBNsczPOn8bTmSy30L757RUALugP37AmRQpHzmcc4o7zbIPs
- dh2y3Ca3FOXpimSzh+sXyDym9z1pAk+W2xMnrJGFW9xQgavbLqDeNzpmNaNYbDay/QLq
- n9JZSqfnIgFV5CSKWnVqNygs9FsEIUJIy8Nxf/+geyiiNRATJQO1WdkM8V+ioVYOq8vL
- JBoTLIdzMCVisxKn13YS2+R6S53G36WUUXCAY3cArASQGp6wxYz8XS9yZH9monBd1zld
- Ic/O46dd2ecvP6IzF2UvPAQvmdt7z3YenUtDhzGw09yYocMyRNiLuOBO/c3BhYojp9nR
- sd1g==
-X-Gm-Message-State: AOAM531afbEEPi+C6n5WaNXpIiC0JEqucSsKP4W77eho1mhGrONM16KW
- iNXJRFGySncJV4otsGIr7p4=
-X-Google-Smtp-Source: ABdhPJwJz7cEqBvxSfkUu6N3Jxp078wmmdD1srX8qIqCdpzBvL5F516W+lYzRTRivzd+u8AwRdl1uA==
-X-Received: by 2002:a05:6512:3b0e:b0:479:150a:ed09 with SMTP id
- f14-20020a0565123b0e00b00479150aed09mr17976568lfv.231.1654674830484; 
- Wed, 08 Jun 2022 00:53:50 -0700 (PDT)
+ bh=51i10BfDgoaO6dLGYDlXTEEIUhsoXqykHU3IKn8w6a4=;
+ b=Xy4M6GSHQH8UdUT4d5MmpKvbLchTzAobfQtji6Xs5o/L2zAyrnkr0VZUxn3Y09OBZk
+ 5M3cmh0NZNKHCOgqCmLX5WbWh3BGCwU0Zaiw2l50V1BAtFitt3sbVVUQOKcCf86oQo5V
+ vIHvOawLT76qKg8e/LrRShHSetLyl0iTnV9h5HTpVOFZn6GXR3vtGVWBfUzg01VOH74a
+ C0cX+vL9dOWqBgD7YAFucCYrS7gDShfMAImHpmMcU5l3d5GVcW1nGdjLtwuu7uGc6PPt
+ JKbLlKLJKj2CeQGgCEYnSbzOQpDOrneAiJNlVtj8kPxQAclYaAx1oT4/r1+g543gpMJE
+ xD9A==
+X-Gm-Message-State: AOAM533wkzYII7DCWd9YJAQQk1bW0raLwsWQ2+6TC3oGwc/tKKsLYc15
+ 9Q9oVcDN5iBUevVgTtzwsGM=
+X-Google-Smtp-Source: ABdhPJyA2PpWyycZAXPLDGEFTy8Qy02U2YDbONoob6nOyTUH9WMc3fZ6qH0T7vN6kr+MQgjl72KjSw==
+X-Received: by 2002:a05:6512:32c5:b0:47a:28a2:bfe with SMTP id
+ f5-20020a05651232c500b0047a28a20bfemr466889lfg.239.1654674837277; 
+ Wed, 08 Jun 2022 00:53:57 -0700 (PDT)
 Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- h11-20020ac24d2b000000b00477a287438csm3615901lfk.2.2022.06.08.00.53.49
+ dt27-20020a0565122a9b00b004790c425b35sm3140080lfb.291.2022.06.08.00.53.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 00:53:50 -0700 (PDT)
-Date: Wed, 8 Jun 2022 10:53:38 +0300
+ Wed, 08 Jun 2022 00:53:56 -0700 (PDT)
+Date: Wed, 8 Jun 2022 10:53:54 +0300
 From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Zack Rusin <zackr@vmware.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
 Subject: Re: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
-Message-ID: <20220608105338.22592a09@eldfell>
-In-Reply-To: <197201d5da2c504502b8c2225d6766338b18d732.camel@vmware.com>
+Message-ID: <20220608105354.6bf881d0@eldfell>
+In-Reply-To: <20220607143023.jz5qt2jktusstb5t@sirius.home.kraxel.org>
 References: <20220602154243.1015688-1-zack@kde.org>
  <wRnf-Lm5zz6v1e-NlnFPteyARuLl-R98mOZZVjePHD5ue7QQNR_TSU7RwYBssgUa7xM5hf7Fe59-gMEj81ESrHY3mu_H7yE0dtGhFHFPTnc=@emersion.fr>
  <20220607110707.02eccda5@eldfell>
- <197201d5da2c504502b8c2225d6766338b18d732.camel@vmware.com>
+ <20220607143023.jz5qt2jktusstb5t@sirius.home.kraxel.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/zu+NI+kUJ.7ddHqdr9LH9zQ";
+Content-Type: multipart/signed; boundary="Sig_/vubopZKadvQOPNGXqgGZczX";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,234 +71,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
- Martin Krastev <krastevm@vmware.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>,
- Maaz Mombasawala <mombasawalam@vmware.com>
+Cc: krastevm@vmware.com, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, mombasawalam@vmware.com,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/zu+NI+kUJ.7ddHqdr9LH9zQ
+--Sig_/vubopZKadvQOPNGXqgGZczX
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 7 Jun 2022 17:50:24 +0000
-Zack Rusin <zackr@vmware.com> wrote:
+On Tue, 7 Jun 2022 16:30:23 +0200
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> On Tue, 2022-06-07 at 11:07 +0300, Pekka Paalanen wrote:
-> > On Fri, 03 Jun 2022 14:14:59 +0000
-> > Simon Ser <contact@emersion.fr> wrote:
-> >  =20
-> > > Hi,
-> > >=20
-> > > Please, read this thread:
-> > > https://lists.freedesktop.org/archives/dri-devel/2020-March/thread.ht=
-ml#259615
-> > >=20
-> > > It has a lot of information about the pitfalls of cursor hotspot and
-> > > other things done by VM software.
-> > >=20
-> > > In particular: since the driver will ignore the KMS cursor plane
-> > > position set by user-space, I don't think it's okay to just expose
-> > > without opt-in from user-space (e.g. with a DRM_CLIENT_CAP).
-> > >=20
-> > > cc wayland-devel and Pekka for user-space feedback.
-> > >=20
-> > > On Thursday, June 2nd, 2022 at 17:42, Zack Rusin <zack@kde.org> wrote:
-> > >  =20
-> > > > - all userspace code needs to hardcore a list of drivers which requ=
-ire
-> > > > hotspots because there's no way to query from drm "does this driver
-> > > > require hotspot"   =20
-> > >=20
-> > > Can you elaborate? I'm not sure I understand what you mean here.
-> > >  =20
+> > Why are pointer cursors misplaced on paravirtualized drivers?
 > >=20
-> > Hi Zack and everyone,
+> > It is because the paravirtualized drivers or VM viewers do *not* place
+> > the cursor plane at the CRTC_X, CRTC_Y position in the guest CRTC area.
+> > This is obvious: if CRTC_X, CRTC_Y were honoured, there would be no
+> > misplacement.
 > >=20
-> > I would like to try to reboot this discussion and explain where I come
-> > from. Maybe I have misunderstood something. =20
+> > Instead, the VM stack plays clever tricks with cursor planes. I have
+> > understood only one of those tricks, and it goes something like this.
+> > To improve hand-eye coordination, that is to reduce the hand-to-eye
+> > response time a.k.a latency, the VM guest KMS driver relays the cursor
+> > plane separately to the VM viewer application. =20
 >=20
-> <snip> First of all thanks for restarting the discussions. I think Gerd d=
-id a good
-> job responding to individual points, so let me take a step back and expla=
-in the big
-> picture here so we can reboot.
+> Yes, the cursor is sent separately.
 >=20
-> > Which root problems do you want to solve exactly? =20
+> > The VM viewer application presents the cursor plane content by pushing
+> > them to the host window system as the pointer cursor. =20
 >=20
-> The problem that this patch set is solving is the relatively trivial prob=
-lem of not
-> having a way of setting the hotspot in the atomic kms interface. When we
-> (virtualized drivers) are using the native cursor we need to know not onl=
-y the image
-
-Could you clarify what is "native cursor" here?
-I guess it is the host window system pointer's cursor?
-
-> and position of the cursor, we need to know which point within that curso=
-r activates
-> the click (going back to analogy from the previous email: cursor image wi=
-th arrow
-> point top-left and cursor image image with arrow pointing bottom-right wi=
-ll have
-> different hotspots, likely  [0, 0] in the first case and [cursor_width,
-> cursor_height] in the latter). To correctly route the mouse clicks we nee=
-d to be
-> aware of the hotspot coordinates. Currently even though all virtualized d=
-rivers are
-> atomic userspace has to explicitly disable atomic kms for those drivers b=
-ecause
-> mouse clicks are offset incorrectly as soon as the cursor image changes f=
-rom the
-> top-left pointing arrow, i.e. the hotspot isn't at [0,0]).
+> Yes (i.e. gdk_window_set_cursor() on the host).
 >=20
-> So we would like to be able to enable atomic kms with gnome and kde on vi=
-rtualized
-> drivers and to do that we need a way to pass hotspot coordinates from use=
-rspace to
-> virtualized driver.
+> > This means the host window system will be autonomously moving the
+> > cursor plane image around, completely disregarding what the guest KMS
+> > client programmed into CRTC_X, CRTC_Y. =20
 >=20
-> That seems to be pretty self-explanatory and, I think, we all agree that =
-will go
-> through properties like in the attached patch set.
-
-Right.
-
-> Now, where the disagreements come from is from the fact that all virtuali=
-zed drivers
-> do not implement the atomic KMS cursor plane contract exactly as specifie=
-d. In
-> atomic kms with universal planes the "cursor" plane can be anything so as=
-king for
-> hotspot's for something that's not a cursor is a bit silly (but arguably =
-so is
-> calling it a cursor plane and then complaining that people expect cursor =
-in it).
+> Yes.
 >=20
-> So the argument is that we can't put hotspot data into atomic kms without=
- first
-> rewriting all of the virtualized drivers cursor code to fix the underlyin=
-g contract
-> violation that they all commit. That would likely be a lot easier sell if=
- not that
-> gnome/kde don't put none cursor stuff in the cursor plane, so all this wo=
-rk is to
-> fix breakages that seem to affect 0 of our users (and I completely unders=
-tand that
-> we'd still like all the drivers to be correct and unified in terms of the=
-ir
-> behaviour, I'm just saying it's a hard sell without something that we can=
- point to
-> and say "this fixes/improves things for our customers")=20
+> That is combined with a virtual input device sending absolute
+> coordinates (i.e. tablet), so mouse clicks land at the correct place.
+> And that is the point where having the hotspot information is essential
+> on the host side.
 
-What's the cost of making paravirtualized drivers honour the UAPI contract?
-Can't you do that on the side of implementing these new hotspot
-properties, with the little addition to allowing guest userspace to be
-explicit about whether it supports commandeering or not?
+Hi Gerd,
 
-The deny-lists exist in guest userspace already, and they are not going
-anywhere any time soon that I can see. So the delay in getting those
-deny-lists side-stepped is the same delay it would take to have the
-guest userspace use the new UAPI to properly say they do support
-commandeering.
+thanks for confirming.
 
-In your mind, how do you expect guest userspace like Mutter to drop the
-deny-lists? What would make GNOME developers be willing to do that? And
-why is that somehow easier or faster than a new proper UAPI to be
-explicit about commandeering?
-
-You already need patches to guest userspace to fill in the hotspot
-properties, so I don't get the resistance to adding another flag to be
-explicit about commandeering as well. Especially when, as you say, the
-big desktops do not even try to put non-cursor images on cursor planes,
-it should be trivial for them to set the flag, easier than filling in
-the hotspot properties.
-
-Then projects like Weston who would indeed need larger surgery to
-support commandeering will simply not set the flag, nor program hotspot
-properties, and will get correct (but with high cursor latency)
-behaviour from guest KMS.
-
-> Finally there's a discussion on how to fix it and whether virtualized dri=
-vers need
-> to do funky stuff with the cursor. I'd like to first make sure we're on t=
-he same
-> page and then discuss how to fix it next, so let me finish by saying why =
-not
-> "software cursor".
+> > Given this UAPI contract, it is very easy for userspace to make the
+> > conclusion that a cursor plane is just another plane it can use for
+> > whatever it wants. Weston and wlroots indeed leverage this, putting
+> > also normal windows and other stuff to the cursor plane when they
+> > happen to fit. =20
 >=20
-> The easiest way to understand why we do what we do with the cursor, avoid=
-ing any
-> complex and weird cases lets go back to the latency issue: the round trip=
-s to the
-> guest to move the cursor are certainly noticeable when running locally, b=
-ut with my
-> VMware hat on, "local" is not the case that interest us, e.g. on ESXi eve=
-ry VM is
-> accessed over a network so now we're dealing with remote round trips. When
-> multiplied by slow connections and scale at which we're operating the "so=
-ftware
-> cursors" go from "some latency" to "completely unusable". That's what I w=
-as alluding
-> to in the earlier email when I said they're broken in different ways beca=
-use if
-> asked what would you prefer: cursor that when clicked is always incorrect=
-ly offset,
-> or choppy/unusably slow cursor - you'll get different answers, depending =
-on who you
-> ask. Virtualization vendors tend to invest pretty heavily into protocols =
-that
-> improve on vnc/rdp for remote machine access and we'd like to not lose th=
-at.
+> virtual machine display devices typically offer small (64x64) cursor
+> planes, so unlike the 512x512 planes I've seen offered by i915 they are
+> hardly usable for anything but cursors.  Likewise additional overlay
+> planes typically not offered, so the classic primary+cursor setup is
+> pretty much the only reasonable option userspace has.
 
-Very good.
+weston-simple-shm is 256x256, and has been demonstrated to go flying in
+e.g. vmware environments:
+https://oftc.irclog.whitequark.org/dri-devel/2022-06-06#30987017;
 
-It is important to be clear about the different ways of being broken,
-so that we can discuss which faults are being fixed by a proposal
-rather than arguing whether the proposal fixes "the fault" or not. If
-one side understands "the fault" to be one thing and the other side
-thinks it's two separate things, there can never be agreement.
+If KMS exposes planes, then userspace will try hard to make use of them
+as much as possible. It's not unimaginable that there could also be
+some small icon generated by the window system overlaying an
+application window. That might fit a tiny cursor plane perfectly.
 
-> All in all, what we'd like:
->  - is to be able to run at least the dominant desktops with atomic kms
-> what we need:
->  - we need the hotspot data,
-> what we want to avoid:
->  - fallbacks to software cursors
->  - large additions to user-space
+> > I believe the solution has two parts:
+> >=20
+> > - The guest KMS driver needs to know whether the guest userspace is
+> >   prepared for the cursor plane being commandeered. If userspace does
+> >   not indicate it is prepared for it, commandeering must not happen. =20
 >=20
-> I hope this clarifies things a bit.
+> Yes.  That isn't much of a problem in practice though due to the limited
+> driver/device offerings outlined above.
+>=20
+> > - Cursor hotspot needs new KMS properties, and a KMS client must set
+> >   them if the KMS client indicates it is prepared for cursor plane
+> >   commandeering. =20
+>=20
+> Yes, and that is what hurts in practice and thus caused the blacklists
+> being created.
+>=20
+> > There are further problems with cursor plane commandeering. The 2020
+> > email thread Simon linked to discusses the problem of pointer devices:
+> > if VM guest userspace takes pointer input from multiple sources, how
+> > will the VM stack know which virtual input device, if any, should drive
+> > the cursor plane position? =20
+>=20
+> Typically there is a communication path from guest to host for pointer
+> movements (i.e. crtc_x + crtc_y updates), so the host knows where the
+> guest wants the cursor plane being placed.  So in case the pointer is
+> moved by other means (different input device, some application warping
+> the pointer, ...) the host can adapt.
 
-Yes, it does, to me at least.
+Would it not be better to be explicit about it? To avoid fragile
+heuristics.
+
+> Nevertheless behavior is not consistent here because in some cases the
+> feedback loop is not wired up end-to-end.  The spice protocol has a
+> message type for that, so pointer warps work.  The vnc protocol has not,
+> so they don't.
+>=20
+> > To me the answer to this question seems it could be intimately tied to
+> > the first problem: commandeering the cursor plane is allowed only if
+> > guest userspace tells the guest KMS driver which input device the
+> > cursor plane shall be related to. If no input device is indicated,
+> > then commandeering must not happen. =20
+>=20
+> Why require an input device?  I just don't see how that would help.
+>=20
+> For allowing the host freely move around the cursor place
+> ("commandeering") I do see the point in enforcing that from a design
+> point of view, although I doubt it'll buy us much in practice given we
+> have broken drivers in the wild so userspace will continue to work with
+> blacklists.
+>=20
+> Having some capability to negotiate "commandeering" between kernel and
+> userspace certainly makes sense, so we can get of the black lists
+> long-term (although it'll probably takes a few years ...).
+
+Yes, there is no quick solution that I can imagine. Propagating the
+fixes takes time. I don't think the deny-lists will ever be completely
+removed, because people may run old or LTS kernels which won't be
+getting new UAPI I presume. The only thing I can imagine happening is
+that the deny-lists get overridden if the userspace software detects
+kernel support for the new negotiation UAPI. Then the negotiation UAPI
+takes precedence and the deny-list becomes ineffective.
+
+> > I can understand if people do not want to tackle this question,
+> > because it probably has not been a problem yet. =20
+>=20
+> On a standard guest this isn't a problem indeed because there is only
+> one input device and only one crtc.
+>=20
+> It actually is a problem for multihead configurations though.  Having
+> some way to map input devices to scanouts would actually be helpful.
+> Years ago I checked how this works for touchscreens to see whenever it
+> is possible to leverage that for VMs somehow.  There wasn't some obvious
+> way, and I forgot the details meanwhile ...
+
+Ah, that's the other way around, right? To tell guest OS which output
+an absolute input device is relative to?
+
+For bare hardware touchscreens we have some vague convention of using
+udev device properties to tag an input device with an output name.
+
+The first attempt at it was libinput_device_get_output_name():
+https://wayland.freedesktop.org/libinput/doc/latest/api/group__device.html#=
+gab86a05e7a220d6ccd0d45a79d85339dd
+But using it is discouraged because of being too vaguely defined what
+the value is. Weston uses the discouraged API still, and I'm not aware
+of any better standard having been developed.
+
+Having a standard for naming outputs is hard it seems, and there is
+also the connector vs. monitor dilemma. I guess absolute input devices
+would usually want to be associated with the (real or virtual) monitor
+regardless of which (real or virtual) connector it is connected to.
 
 
 Thanks,
 pq
 
---Sig_/zu+NI+kUJ.7ddHqdr9LH9zQ
+--Sig_/vubopZKadvQOPNGXqgGZczX
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmKgVYIACgkQI1/ltBGq
-qqeO4xAAi6cKWeNeEAB046e6P+t553WHx/HbKmy07DtpksX+98/DXkEbSJliJaPc
-coUaiZ9i0Sq4g6QR3tH5t+a8kl72jOz94klXGecMn+MXL9xi3KBv++mfRsS8B8xQ
-u7mps6Mf7bvT20/i6Dab4L1xwZ2cuIWMpDsnm7yU09jj/J4MU93+0p6nT69XqfZC
-DMp5Iqya0OfnmyhCnkWdG4AJ8VF7wlBmdrqNYCbFiDL37BT5GiTSXd2p0fdKNFt0
-kn2cLLgRsoEfFBOXZpVRvT1qBrvzVdRA+gcyqDcrLa2CUasc7Ydc97tEFUMYlNsb
-1ixiX3YqFNUUV9I1nX9/fdzV+eR+rP8Fazorcep0VhpniHg53fNGFcFflIgfYJL1
-fL4P4tTqEFa2qt8qu4XkPRxfQEDm3Ra0nBLNvGPzcEJGjXyZ0B0wTUeMBy8U9Mgm
-ibnmJama/rhn21m7tr7zI7qNCUgz/TElgROyg6sc1KN0gvBxbV9Tq7wc3o3TqS/s
-aMYxKRBfsOUyeDR0JuSrbbrZ+dbmRN5rNfZbpdChaHJcB7KDH/zcR9svGXsNwJP3
-2ZnPLnRUNWQn3G5dmEyUqVxZpzKmY5j9wdQwFhVrgRRV+pl2JYv7306Kptyz/b3i
-IalsyTAeXj8dFEUp7P5mNnLtdYpt/6d3TGSTJY5HibcfRCQ6pBw=
-=Z0MA
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmKgVZIACgkQI1/ltBGq
+qqejIA/+NX7A7uRmHAZ3x8uV8XiG3AM9knrzjw670lhrpzxyCGJPAKWXZaWiyiVX
+cp6+3EMoEsKIo8TsAkRU1jzrlEmDq/qGZ2qdSYhVYvOxlglZL0t0e/Ig4FfzQ0V4
+gupcVOfNKXxVyHwKCfMY3Y6GL/8aRphCNZoyYH/cYrURwfCPa5HP+wsfODH3oODR
+UHjXU+851BBvo7qShB/ZRGoNprvBY3P+cpPp7eo+HXed4UQ5CE9lTSInLetRneJt
+lTdhutg76HklZuU/kIM6DcF/iknQWfjXaJoS2Vuyw76PFdp3R6MXUeZ6CwkppLek
+szfvYuyqpYQ7GqA8KNAyrSC9v1YACOXp8iOj4j5HPjxzZntBbMJqJfQLxNE8HYRl
+tWiWevkklFOk0cNleQI/jdkXX1VxxGWDqN/71Jka+IJcd+7dZEVX8b4rwn+Rntlz
+gqxuMWCCD6Li8fPFMhLcuZcmyihQxlYnzYaoMExG7wo8+lyNaGg8QcORMTdSNaSQ
+DWr4fFYTwyOjPX3bwzN6PjO5LsnxUyLcVjGth+tZliWp6qWILV27By/Xj9X3K69u
+3FHsuyWYpd+5bYtWsMwSxa0fwv4VQe/mbaIsm4jZyn48jcelPH5CBDgqaH4mF41k
+Z3fZVF6RQPqvl45AJ6IuBezhi4JqQ+ZpsEU8Id6B9JFyyxGIAmI=
+=CLha
 -----END PGP SIGNATURE-----
 
---Sig_/zu+NI+kUJ.7ddHqdr9LH9zQ--
+--Sig_/vubopZKadvQOPNGXqgGZczX--
