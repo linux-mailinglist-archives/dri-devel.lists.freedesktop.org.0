@@ -1,64 +1,153 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B25D5429B9
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 10:45:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 924395429CB
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 10:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 666C810E9DF;
-	Wed,  8 Jun 2022 08:45:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B10AA10E9AF;
+	Wed,  8 Jun 2022 08:46:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92F6D10E9DF;
- Wed,  8 Jun 2022 08:45:38 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC6910E9AF;
+ Wed,  8 Jun 2022 08:46:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654677938; x=1686213938;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=wpzRudqvKrYwD3CBmNe1f0XKizCkwJtBtM7QiSLcNtA=;
- b=XI5AcOg7kQt3zz18oshXCjoFjhFizR/+BgPRTfLhC6lTcPPjScXFirW6
- SmdwSAhvRKjOuPf2MDgZYJVITxrZ7+bjzXBro2qK9ph53Q3UNNF5Dfcxq
- zyGzYiNzT7618O0Q/+e7hI91RIJcnanrGppn7exsr6G/pphSePwXYDyfB
- hZVO+VjwYvm0rQGm/qmjQscxgj4Pm9ob9GoRnk9TlXCPWJ+1lxGi0/Cp2
- PgCaHsmNLtJOe8coij8j53yTQSCATsWIDcheMNOhrOVT5kZ4LqcTIqZLx
- z36unxNyHy1i6k8LUKSfOSNtio9u3fb9RkFk7eGv0vS7SZRZExxEiHfQu A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="275583556"
-X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="275583556"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2022 01:45:31 -0700
+ t=1654677997; x=1686213997;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=kTcwhxVAg72P3eKoTUf0k1rEbppB6GpLmGU+22HNoGs=;
+ b=OgOdBo09LnD9ckocYPbdBTVh/60TI9t7RStYDGJcCqP/w4M5fxTmn7HF
+ TbKb83i53hdO/I4apsRZ66vDro0wl6GY2XTbOpRd6XyGxCm7Kuu76mSWm
+ Th939I0XBN0MFg3Eh+vC2hYYWVnEWBGm2wvN5R/s8lebxlFR/br5mJg2p
+ /ZgBO8qHx8OlGymMcu5uZ/TTK3jfAmn5YcHKCktS6TiRxMaDVQjIH2w9F
+ v4FU7HHd5/ezEV6vRP6ZfdNnu2AuGzhtzmnQYFEZQ1SHwp5qY8GTdbYcF
+ +79fl5gJLMFRLgXPaKbMTdyFwH15kBfHLUGMqxW8VUC5Lr5zOQCwuAS0a g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="363151708"
+X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="363151708"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 01:46:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="683214818"
-Received: from linux.intel.com ([10.54.29.200])
- by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2022 01:45:30 -0700
-Received: from [10.249.140.120] (unknown [10.249.140.120])
- by linux.intel.com (Postfix) with ESMTP id 158DC580B9E;
- Wed,  8 Jun 2022 01:45:26 -0700 (PDT)
-Message-ID: <577d8612-ae68-4b0d-7a28-f9ebb92020f6@intel.com>
-Date: Wed, 8 Jun 2022 11:45:25 +0300
+X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="670431736"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
+ by FMSMGA003.fm.intel.com with ESMTP; 08 Jun 2022 01:46:36 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 8 Jun 2022 01:46:36 -0700
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 8 Jun 2022 01:46:35 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Wed, 8 Jun 2022 01:46:35 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Wed, 8 Jun 2022 01:46:35 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fz3uJoJcmKZ20oFQ0BEEeovslab+hLN3cCyfZjJ/jaUSWFsSkZxjz1NurcpCjTLH8mALpBkDhE2tGtDJE7SLH6ny3bU7bfsi7cYlH+PNsBuataumI0WRhqC19uzEJVpgQ3RrwGronXdKGm3QIk9+fNBAihR5sHYDUjFEL3ytko3BjidnF10IibaHYsDxZJL6WscHXPlwav4io7XBQ9iTGLstt1x0tbFG+/hx12mN7wEl+IKkxUtDDb5NGDMSKLi6Wf8i8wa5yiq57S5swyngDTHQJytQiYO/W7fNc4Z6LnTHh6u/pJczsymcyR+2PZ3taOhdU7C/38oWKy4ocOS+5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EXPRQbWyMMcPflAHnQgI0/cSCKZo1O5k3gOsxF2dEYQ=;
+ b=oajcPTRPb+KtKlmSClg+kn+5pHg31VPHzP2pMDHi8tVYt+sEUJ8cEctLaYFDuoY5hKECPXp3neW0PwHhqKKNlBsj5bDcGQAmR3DyLRp9oruY7iTaLfwEgUN5QxZ6LyeLACTRcJW65m+xbUJBRQMIaycT75/ZY74csRwvaTr5o+7UX8z3ml220EU3bVI1aaVOByLd17sgaoC6cRQDBCSC+NKrneJwVDt20RA8U9keg+vaQ/4HOIP2mSSRYa2Ys3+SchBLuYNYIoU6ukcMdMVVKlWEnuNu6tbLLu7Ey+yA+jpf6kbldW8fz7m0iA0ger4PF+CnRok3l7ypzLc6qF35eQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM5PR11MB1897.namprd11.prod.outlook.com (2603:10b6:3:112::9) by
+ BN7PR11MB2564.namprd11.prod.outlook.com (2603:10b6:406:b1::17) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5314.13; Wed, 8 Jun 2022 08:46:34 +0000
+Received: from DM5PR11MB1897.namprd11.prod.outlook.com
+ ([fe80::29a0:67ad:4b77:ce13]) by DM5PR11MB1897.namprd11.prod.outlook.com
+ ([fe80::29a0:67ad:4b77:ce13%8]) with mapi id 15.20.5314.019; Wed, 8 Jun 2022
+ 08:46:34 +0000
+Date: Wed, 8 Jun 2022 14:16:24 +0530
+From: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>, <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/i915/xehp: Correct steering initialization
+Message-ID: <YqBh4JCNorWAdJBB@bvivekan-mobl.gar.corp.intel.com>
+References: <20220607175716.3338661-1-matthew.d.roper@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <20220607175716.3338661-1-matthew.d.roper@intel.com>
+X-ClientProxiedBy: BMXP287CA0004.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:2c::23) To DM5PR11MB1897.namprd11.prod.outlook.com
+ (2603:10b6:3:112::9)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [Intel-gfx] [RFC v3 3/3] drm/doc/rfc: VM_BIND uapi definition
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
- <20220517183212.20274-4-niranjana.vishwanathapura@intel.com>
- <e4e1989c314d3958d58010431515ea371935d0c3.camel@intel.com>
- <20220523191943.GH4461@nvishwa1-DESK>
- <CAPM=9tzcYL5kwv18cfq5NzE00jwHuwTj_L73NVgE8vdcBgrQww@mail.gmail.com>
- <CAKMK7uFt23yZxGJfuZ71ngNw-46yvyed8LaQCQ1ksq73MLGEug@mail.gmail.com>
- <20220602050833.GP4461@nvishwa1-DESK> <20220603065330.GT4461@nvishwa1-DESK>
- <08e61393-d4ec-d35e-9b8f-41195365f179@intel.com>
- <0603b682-a196-9324-5c96-3ab5a8487a53@linux.intel.com>
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-In-Reply-To: <0603b682-a196-9324-5c96-3ab5a8487a53@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6f2083ca-a8bf-4710-29eb-08da492b6467
+X-MS-TrafficTypeDiagnostic: BN7PR11MB2564:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <BN7PR11MB2564145A21C92C6CCD1347E79FA49@BN7PR11MB2564.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AwP1s6QPvJpwFHH6f+waxXu+x3wV7Gf01sj3ru96PCf6Q6iBa3afCa+5fOlvvXD/nOgRMCZfRDUwCWxPkNuxw71Ma65HwEDS1BLzsczpiuV9NvrkukMbCI9alQ/zBssnVRPYe1gMMIEjkqg9Ct6WrFsIKWlAZJinyT6otmY4l1y2xNI3Xx8lHo23vILAHozzE38CQRcXrbP+gocKjYdIIu40n40MtIFJR7DvjEf7zII1baji2qqiit979KCmmCUDJrVN8LPghsJ1I1UuMLDRCBRJ+RZJzQhfJq9+73DSjZIuvMo/pe291O7yFiCZcMgJyR9dtoUm0VswnxZeBHO/qC6f9ZAfk+LQ2cdaYvGN07yYLhr7daB/lb9whWqgNk45DgnBV2Jr6JfIZOW0xc3yo+Hl6lugax4EMKhOPDkdUrfI5YaupVhM8Ugz11mnW0yVoz5JnAK5FK/LCZuDiVM6HNUIfCsh4cjVNcNuIiz5AsL8YkqP/8ughjIZQiNaAEDiMb9YFIkS2JkmT8vCaIUZs0SJqgXeynrkyqUDTyubzCMWQpLGHNlWSzPKa8FP00Kf1w0zrP0H3A+5OOW8PHTn6tE1ZVS3AimDpwbs3zZgI1Uf0jXJG07tqM7BYtCZ9IJvyWRrDggKSuJLub6PO5LcCg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR11MB1897.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(82960400001)(186003)(44832011)(38100700002)(5660300002)(8936002)(66556008)(2906002)(86362001)(83380400001)(66476007)(4326008)(66946007)(450100002)(6486002)(6506007)(53546011)(6666004)(508600001)(26005)(6512007)(8676002)(316002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WmtmMkpYcDFpUW1iRnYrV1U5TUlFVmx5ck8valdZMGxLcllTWURIVVAyOEll?=
+ =?utf-8?B?dDhuZmVseE5xWEEvVFdTeWFnbkcvVHJBNzFaMGh5K1BkQ3ZLN055NWdRUE1L?=
+ =?utf-8?B?ZXArZVZVMUV4MysrSWo2RGE2ZDdnd3pjSHlIbFFmd2hUOXhEc0hNc3VVMWU2?=
+ =?utf-8?B?bTYrWDl2KzdOQWp5RVREVitVeXNyZlh4dHB5N0xjTHJXU2d6VFVPZFNaNEIy?=
+ =?utf-8?B?eHVXdmovSmExWUtMUHRzYm4vSFFkeVplUld1YWJqV1NlamhnWkJuQ1AwL2Uz?=
+ =?utf-8?B?dTZCVzFZZkNGU0pMbE1MVVVaL2FYWE9hbUJrdG80K2dyUXNaclAwclI0SzZk?=
+ =?utf-8?B?T2EwNC9zbVp2ZHhneXV4SXB6WkZRZTQrR0d3S3FnaG10ZGoxd21USTJPR0c3?=
+ =?utf-8?B?RzRoLzlDN0dIMENWVTAvaFp1aEtFQVphdVVxdjVxdU9sVlpWZyt0MTNsNTJn?=
+ =?utf-8?B?c3NxMXFnQVBkMjBsSnpQcnlBazhoR3REeXFTK2pXbitJekJTeGtuOVFCeHl1?=
+ =?utf-8?B?R1VSMDBzY2xSUXFleWc4VHdCRXhpNVVKbWI4SnlxMzUyWE1qRU1CU09VVzlr?=
+ =?utf-8?B?UXcyRmNXODlSTmJMNlZyai8yNDFOYUtadmk1VE05amZaNVlQNVlvM2lyRzly?=
+ =?utf-8?B?QkpnRnhDckJLeDFsZVVaNVVKY2hxZFBIcVMrQm1Nbm1JYk9ncHMzSEVrTmFk?=
+ =?utf-8?B?TVlZTzJzVFovK0NvSS82NEZrYjdnWjFoUkFpNEtIcnlBL1hUZVRVVk4yeG9B?=
+ =?utf-8?B?dUdKWDNkRUNxNE01TWx2aDJPN0cxL3cwdFNLOWVrRUMvbE9pLyt0bHloemVZ?=
+ =?utf-8?B?ckhVUGNtM0VoQ2ZWSm5aWHZvMEZSR216NjB0aG5PWVlLOC81SmFoQy9tNUtH?=
+ =?utf-8?B?QTNDQ1dNRkRUTUdLZTlpWndsMkFNb0ZkZ0lKbjBuT0NCNjBFck51NEZIV2hm?=
+ =?utf-8?B?OGdxYi9GazFDSnhxZlJET3FqSFpDRmFUZ0xKUmdoazZQY29iUmcxRWNBWnRP?=
+ =?utf-8?B?dmdKT3lDWlA3K0gvcG9yMk81ZVBVTFhPRi9NakhmOUcxSDMwZkNGbk5QakZw?=
+ =?utf-8?B?MXpyakFkazRlQnZpRHdUNXhaOW1rb21GcHFaRmwwbzZFRWtsb2p4TDVMeFB4?=
+ =?utf-8?B?dllmZW9QTjVhV1hrOUlLNlNCdE9LL1MxN2VqRWR2VWdnOXQ2MG1DNUZkc3d1?=
+ =?utf-8?B?bDRTdGc4MFRIM1cxUk0zQTBjUExpQ0N5eEVjRTlVdS9hMXVVdFlIN21TcDdP?=
+ =?utf-8?B?MnhPWEpmRkdmNElGN05pZ1RGL0xXeUlhNGFOZFNURU14a2RLUTI0QzgxN3RO?=
+ =?utf-8?B?M0I0S09qZWJEU2xjNUd5NEk5dkt3Rmk0blArQkNJS1FXTGdEK1RwRmdZSU5Q?=
+ =?utf-8?B?dG1NaE5ZK2Fxc1R3NDRheE55YWhGNlNVRzdLRldhelFqOWJ3Wko5ZjBxRlRs?=
+ =?utf-8?B?dFdUTGY4c3Vlc1BEWTcvTVQrMEVQL0dtVThPem16enFBVUExZDl6Vkp4aHlZ?=
+ =?utf-8?B?akJYRVNuSTUreE5VUFNpWUIyU3Y2aWhxc09FbGxORVJXRGdVanl1RmdQeTNz?=
+ =?utf-8?B?bjhGZGlzN2NOQlhubDBDeTRIOEg4UFZIY1RTdm9BcDh5VnZxOFpvMml3TlNi?=
+ =?utf-8?B?Tk5zNlNLYkNtWUlSNDIxRndoazh3RDRtZkNQdFNwSTlWUXh0T281NHY4T3cx?=
+ =?utf-8?B?M0lIWThmRjFrMmNDRUw1WFpVZ0tpdnVIWC9kaThKczFpZGhUTk1rS2RpQksv?=
+ =?utf-8?B?Wnp1RVQ0U3FPR2FjNmZ3SEEzYldQVFhEODJ2QSt0MU9BNmUwN3NYQkhYKy81?=
+ =?utf-8?B?SnRZZDJwWXBkazUrVHVUelZIWnVvdm5RR1B1SW1qZU1MUlVMd0crbDhkd3FC?=
+ =?utf-8?B?VEh2OEFzeWQ3RU9wMmdHczJocTRpaW8yK3VrcmVNMWxubzE3RXdHRHdIY3Uy?=
+ =?utf-8?B?ZjBpU3JFL2hYbWltNmFPblBneHBEM0lRQnU2cW1YdHNPcmtLOVI2Z3lNMStN?=
+ =?utf-8?B?cTJRaUxYR1lOK1ZBbU1teDBEcHdEd0RkbEFIcHI3Y0hHT0FCZTdoaExLUkZD?=
+ =?utf-8?B?VnUzZlFmcE93dW54UnJDTG9yRkplSzFWU09BRGU0UG42M2EwMTBpSDFrUDNa?=
+ =?utf-8?B?eCtQaGVicEJlYW9QMjU2cVIyeDRQblVsWTY1TnFkZDdTa2dOLzlTS0NTQ0Jl?=
+ =?utf-8?B?UDd4ZDkrSThvY1VkN2VxdkJDMVU1TllHZHRnbkZSdWZKM3BFQUxXd2FkNmlH?=
+ =?utf-8?B?VTVaY2MvZHhIaGE4K2dSWlJxN0tzek1CZUczQzVqZXZQNStiYzhxaEJtL2xJ?=
+ =?utf-8?B?NGlEUzBGLzZBTnN4aVVSWGprQjdVSHdEWkxKOUo5bDNzUlpocmtKcllidUlp?=
+ =?utf-8?Q?+Bk5XIwZ6us9LazvGt+KocW48TQ6Y7BZTuHX4zlqAXgZf?=
+X-MS-Exchange-AntiSpam-MessageData-1: 5fonKtSa/rrfZg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f2083ca-a8bf-4710-29eb-08da492b6467
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1897.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2022 08:46:34.4500 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lqo9xvyf4ROnmahUM1kBoDZgDZvmPqXby9Rmd9nWw4qgwReuVbmwUIufcKoDGwByrx2eOCCtLoHSzlgwVCnboWnsWUjToWjGwBciWwZ+PNTnWFGLUKVHtfI78C9L5lva
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR11MB2564
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,316 +160,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Wilson,
- Chris P" <chris.p.wilson@intel.com>, "Vetter,
- Daniel" <daniel.vetter@intel.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/06/2022 11:36, Tvrtko Ursulin wrote:
->
-> On 08/06/2022 07:40, Lionel Landwerlin wrote:
->> On 03/06/2022 09:53, Niranjana Vishwanathapura wrote:
->>> On Wed, Jun 01, 2022 at 10:08:35PM -0700, Niranjana Vishwanathapura 
->>> wrote:
->>>> On Wed, Jun 01, 2022 at 11:27:17AM +0200, Daniel Vetter wrote:
->>>>> On Wed, 1 Jun 2022 at 11:03, Dave Airlie <airlied@gmail.com> wrote:
->>>>>>
->>>>>> On Tue, 24 May 2022 at 05:20, Niranjana Vishwanathapura
->>>>>> <niranjana.vishwanathapura@intel.com> wrote:
->>>>>>>
->>>>>>> On Thu, May 19, 2022 at 04:07:30PM -0700, Zanoni, Paulo R wrote:
->>>>>>> >On Tue, 2022-05-17 at 11:32 -0700, Niranjana Vishwanathapura 
->>>>>>> wrote:
->>>>>>> >> VM_BIND and related uapi definitions
->>>>>>> >>
->>>>>>> >> v2: Ensure proper kernel-doc formatting with cross references.
->>>>>>> >>     Also add new uapi and documentation as per review comments
->>>>>>> >>     from Daniel.
->>>>>>> >>
->>>>>>> >> Signed-off-by: Niranjana Vishwanathapura 
->>>>>>> <niranjana.vishwanathapura@intel.com>
->>>>>>> >> ---
->>>>>>> >>  Documentation/gpu/rfc/i915_vm_bind.h | 399 
->>>>>>> +++++++++++++++++++++++++++
->>>>>>> >>  1 file changed, 399 insertions(+)
->>>>>>> >>  create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
->>>>>>> >>
->>>>>>> >> diff --git a/Documentation/gpu/rfc/i915_vm_bind.h 
->>>>>>> b/Documentation/gpu/rfc/i915_vm_bind.h
->>>>>>> >> new file mode 100644
->>>>>>> >> index 000000000000..589c0a009107
->>>>>>> >> --- /dev/null
->>>>>>> >> +++ b/Documentation/gpu/rfc/i915_vm_bind.h
->>>>>>> >> @@ -0,0 +1,399 @@
->>>>>>> >> +/* SPDX-License-Identifier: MIT */
->>>>>>> >> +/*
->>>>>>> >> + * Copyright © 2022 Intel Corporation
->>>>>>> >> + */
->>>>>>> >> +
->>>>>>> >> +/**
->>>>>>> >> + * DOC: I915_PARAM_HAS_VM_BIND
->>>>>>> >> + *
->>>>>>> >> + * VM_BIND feature availability.
->>>>>>> >> + * See typedef drm_i915_getparam_t param.
->>>>>>> >> + */
->>>>>>> >> +#define I915_PARAM_HAS_VM_BIND 57
->>>>>>> >> +
->>>>>>> >> +/**
->>>>>>> >> + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
->>>>>>> >> + *
->>>>>>> >> + * Flag to opt-in for VM_BIND mode of binding during VM 
->>>>>>> creation.
->>>>>>> >> + * See struct drm_i915_gem_vm_control flags.
->>>>>>> >> + *
->>>>>>> >> + * A VM in VM_BIND mode will not support the older execbuff 
->>>>>>> mode of binding.
->>>>>>> >> + * In VM_BIND mode, execbuff ioctl will not accept any 
->>>>>>> execlist (ie., the
->>>>>>> >> + * &drm_i915_gem_execbuffer2.buffer_count must be 0).
->>>>>>> >> + * Also, &drm_i915_gem_execbuffer2.batch_start_offset and
->>>>>>> >> + * &drm_i915_gem_execbuffer2.batch_len must be 0.
->>>>>>> >> + * DRM_I915_GEM_EXECBUFFER_EXT_BATCH_ADDRESSES extension 
->>>>>>> must be provided
->>>>>>> >> + * to pass in the batch buffer addresses.
->>>>>>> >> + *
->>>>>>> >> + * Additionally, I915_EXEC_NO_RELOC, I915_EXEC_HANDLE_LUT and
->>>>>>> >> + * I915_EXEC_BATCH_FIRST of &drm_i915_gem_execbuffer2.flags 
->>>>>>> must be 0
->>>>>>> >> + * (not used) in VM_BIND mode. I915_EXEC_USE_EXTENSIONS flag 
->>>>>>> must always be
->>>>>>> >> + * set (See struct 
->>>>>>> drm_i915_gem_execbuffer_ext_batch_addresses).
->>>>>>> >> + * The buffers_ptr, buffer_count, batch_start_offset and 
->>>>>>> batch_len fields
->>>>>>> >> + * of struct drm_i915_gem_execbuffer2 are also not used and 
->>>>>>> must be 0.
->>>>>>> >> + */
->>>>>>> >
->>>>>>> >From that description, it seems we have:
->>>>>>> >
->>>>>>> >struct drm_i915_gem_execbuffer2 {
->>>>>>> >        __u64 buffers_ptr;              -> must be 0 (new)
->>>>>>> >        __u32 buffer_count;             -> must be 0 (new)
->>>>>>> >        __u32 batch_start_offset;       -> must be 0 (new)
->>>>>>> >        __u32 batch_len;                -> must be 0 (new)
->>>>>>> >        __u32 DR1;                      -> must be 0 (old)
->>>>>>> >        __u32 DR4;                      -> must be 0 (old)
->>>>>>> >        __u32 num_cliprects; (fences)   -> must be 0 since 
->>>>>>> using extensions
->>>>>>> >        __u64 cliprects_ptr; (fences, extensions) -> contains 
->>>>>>> an actual pointer!
->>>>>>> >        __u64 flags;                    -> some flags must be 0 
->>>>>>> (new)
->>>>>>> >        __u64 rsvd1; (context info)     -> repurposed field (old)
->>>>>>> >        __u64 rsvd2;                    -> unused
->>>>>>> >};
->>>>>>> >
->>>>>>> >Based on that, why can't we just get drm_i915_gem_execbuffer3 
->>>>>>> instead
->>>>>>> >of adding even more complexity to an already abused interface? 
->>>>>>> While
->>>>>>> >the Vulkan-like extension thing is really nice, I don't think what
->>>>>>> >we're doing here is extending the ioctl usage, we're completely
->>>>>>> >changing how the base struct should be interpreted based on how 
->>>>>>> the VM
->>>>>>> >was created (which is an entirely different ioctl).
->>>>>>> >
->>>>>>> >From Rusty Russel's API Design grading, 
->>>>>>> drm_i915_gem_execbuffer2 is
->>>>>>> >already at -6 without these changes. I think after vm_bind 
->>>>>>> we'll need
->>>>>>> >to create a -11 entry just to deal with this ioctl.
->>>>>>> >
->>>>>>>
->>>>>>> The only change here is removing the execlist support for VM_BIND
->>>>>>> mode (other than natual extensions).
->>>>>>> Adding a new execbuffer3 was considered, but I think we need to 
->>>>>>> be careful
->>>>>>> with that as that goes beyond the VM_BIND support, including any 
->>>>>>> future
->>>>>>> requirements (as we don't want an execbuffer4 after VM_BIND).
->>>>>>
->>>>>> Why not? it's not like adding extensions here is really that 
->>>>>> different
->>>>>> than adding new ioctls.
->>>>>>
->>>>>> I definitely think this deserves an execbuffer3 without even
->>>>>> considering future requirements. Just  to burn down the old
->>>>>> requirements and pointless fields.
->>>>>>
->>>>>> Make execbuffer3 be vm bind only, no relocs, no legacy bits, 
->>>>>> leave the
->>>>>> older sw on execbuf2 for ever.
->>>>>
->>>>> I guess another point in favour of execbuf3 would be that it's less
->>>>> midlayer. If we share the entry point then there's quite a few vfuncs
->>>>> needed to cleanly split out the vm_bind paths from the legacy
->>>>> reloc/softping paths.
->>>>>
->>>>> If we invert this and do execbuf3, then there's the existing ioctl
->>>>> vfunc, and then we share code (where it even makes sense, probably
->>>>> request setup/submit need to be shared, anything else is probably
->>>>> cleaner to just copypaste) with the usual helper approach.
->>>>>
->>>>> Also that would guarantee that really none of the old concepts like
->>>>> i915_active on the vma or vma open counts and all that stuff leaks
->>>>> into the new vm_bind execbuf.
->>>>>
->>>>> Finally I also think that copypasting would make backporting easier,
->>>>> or at least more flexible, since it should make it easier to have the
->>>>> upstream vm_bind co-exist with all the other things we have. Without
->>>>> huge amounts of conflicts (or at least much less) that pushing a pile
->>>>> of vfuncs into the existing code would cause.
->>>>>
->>>>> So maybe we should do this?
->>>>
->>>> Thanks Dave, Daniel.
->>>> There are a few things that will be common between execbuf2 and
->>>> execbuf3, like request setup/submit (as you said), fence handling 
->>>> (timeline fences, fence array, composite fences), engine selection,
->>>> etc. Also, many of the 'flags' will be there in execbuf3 also (but
->>>> bit position will differ).
->>>> But I guess these should be fine as the suggestion here is to
->>>> copy-paste the execbuff code and having a shared code where possible.
->>>> Besides, we can stop supporting some older feature in execbuff3
->>>> (like fence array in favor of newer timeline fences), which will
->>>> further reduce common code.
->>>>
->>>> Ok, I will update this series by adding execbuf3 and send out soon.
->>>>
->>>
->>> Does this sound reasonable?
->>
->>
->> Thanks for proposing this. Some comments below.
->>
->>
->>>
->>> struct drm_i915_gem_execbuffer3 {
->>>        __u32 ctx_id;        /* previously execbuffer2.rsvd1 */
->>>
->>>        __u32 batch_count;
->>>        __u64 batch_addr_ptr;    /* Pointer to an array of batch gpu 
->>> virtual addresses */
->>>
->>>        __u64 flags;
->>> #define I915_EXEC3_RING_MASK              (0x3f)
->>> #define I915_EXEC3_DEFAULT                (0<<0)
->>> #define I915_EXEC3_RENDER                 (1<<0)
->>> #define I915_EXEC3_BSD                    (2<<0)
->>> #define I915_EXEC3_BLT                    (3<<0)
->>> #define I915_EXEC3_VEBOX                  (4<<0)
->>
->>
->> Shouldn't we use the new engine selection uAPI instead?
->>
->> We can already create an engine map with I915_CONTEXT_PARAM_ENGINES 
->> in drm_i915_gem_context_create_ext_setparam.
->>
->> And you can also create virtual engines with the same extension.
->>
->> It feels like this could be a single u32 with the engine index (in 
->> the context engine map).
->
-> Yes I said the same yesterday.
->
-> Also note that as you can't any longer set engines on a default 
-> context, question is whether userspace cares to use execbuf3 with it 
-> (default context).
->
-> If it does, it will need an alternative engine selection for that 
-> case. I was proposing class:instance rather than legacy cumbersome flags.
->
-> If it does not, I  mean if the decision is to only allow execbuf3 with 
-> engine maps, then it leaves the default context a waste of kernel 
-> memory in the execbuf3 future. :( Don't know what to do there..
->
-> Regards,
->
-> Tvrtko
+On 07.06.2022 10:57, Matt Roper wrote:
+> Another mistake during the conversion to DSS bitmaps:  after retrieving
+> the DSS ID intel_sseu_find_first_xehp_dss() we forgot to modulo it down
+> to obtain which ID within the current gslice it is.
+> 
+> Fixes: b87d39019651 ("drm/i915/sseu: Disassociate internal subslice mask representation from uapi")
+> Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_workarounds.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> index b7421f109c13..a5c0508c5b63 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> @@ -1177,8 +1177,8 @@ xehp_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
+>  	}
+>  
+>  	slice = __ffs(slice_mask);
+> -	subslice = intel_sseu_find_first_xehp_dss(sseu, GEN_DSS_PER_GSLICE, slice);
+> -	WARN_ON(subslice > GEN_DSS_PER_GSLICE);
+> +	subslice = intel_sseu_find_first_xehp_dss(sseu, GEN_DSS_PER_GSLICE, slice) %
+> +		GEN_DSS_PER_GSLICE;
 
-
-Thanks Tvrtko, I only saw your reply after responding.
-
-
-Both Iris & Anv create a context with engines (if kernel supports it) : 
-https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/intel/common/intel_gem.c#L73
-
-I think we should be fine with just a single engine id and we don't care 
-about the default context.
-
-
--Lionel
-
-
->
->>
->>
->>>
->>> #define I915_EXEC3_SECURE               (1<<6)
->>> #define I915_EXEC3_IS_PINNED            (1<<7)
->>
->>
->> What's the meaning of PINNED?
->>
->>
->>>
->>> #define I915_EXEC3_BSD_SHIFT     (8)
->>> #define I915_EXEC3_BSD_MASK      (3 << I915_EXEC3_BSD_SHIFT)
->>> #define I915_EXEC3_BSD_DEFAULT   (0 << I915_EXEC3_BSD_SHIFT)
->>> #define I915_EXEC3_BSD_RING1     (1 << I915_EXEC3_BSD_SHIFT)
->>> #define I915_EXEC3_BSD_RING2     (2 << I915_EXEC3_BSD_SHIFT)
->>>
->>> #define I915_EXEC3_FENCE_IN             (1<<10)
->>> #define I915_EXEC3_FENCE_OUT            (1<<11)
->>
->>
->> For Mesa, as soon as we have 
->> DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES support, we only use that.
->>
->> So there isn't much point for FENCE_IN/OUT.
->>
->> Maybe check with other UMDs?
->>
->>
->>> #define I915_EXEC3_FENCE_SUBMIT (1<<12)
->>
->>
->> What's FENCE_SUBMIT?
->>
->>
->>>
->>>        __u64 in_out_fence;        /* previously execbuffer2.rsvd2 */
->>>
->>>        __u64 extensions;        /* currently only for 
->>> DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES */
->>> };
->>>
->>> With this, user can pass in batch addresses and count directly,
->>> instead of as an extension (as this rfc series was proposing).
->>>
->>> I have removed many of the flags which were either legacy or not
->>> applicable to BM_BIND mode.
->>> I have also removed fence array support (execbuffer2.cliprects_ptr)
->>> as we have timeline fence array support. Is that fine?
->>> Do we still need FENCE_IN/FENCE_OUT/FENCE_SUBMIT support?
->>>
->>> Any thing else needs to be added or removed?
->>>
->>> Niranjana
->>>
->>>> Niranjana
->>>>
->>>>> -Daniel
->>>>> -- 
->>>>> Daniel Vetter
->>>>> Software Engineer, Intel Corporation
->>>>> http://blog.ffwll.ch
->>
->>
-
+Acked-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+>  
+>  	__add_mcr_wa(gt, wal, slice, subslice);
+>  
+> -- 
+> 2.35.3
+> 
