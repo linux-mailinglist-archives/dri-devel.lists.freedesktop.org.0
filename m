@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8C55437AC
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:42:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2965437D0
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:46:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FFEC112812;
-	Wed,  8 Jun 2022 15:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 234B110FEC1;
+	Wed,  8 Jun 2022 15:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFA4C112812
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 15:42:46 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id k19so28885964wrd.8
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 08:42:46 -0700 (PDT)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89ADD10FEC1
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 15:45:58 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ n124-20020a1c2782000000b003972dfca96cso11290859wmn.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 08:45:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=mzJ4G1o0Trd4U4zwb278em3VD46LoPprKnpzuUI5xp0=;
- b=llQ2jryl/SAF/QPuP7ggN8svYG6d6y1VOaL3PJBk6U5x+QKF/qwNUfzevIF93Ypg1A
- ATSW/n11ceVEbbdg5wLZBrAI092oFJs/8b2BZJexwp1eAKt4aVDdoV7eJa9gIiQzQkkM
- gkdDYsMirMV+H2kcuWVekHCB7j9jlfSPHDH3c=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=N6H8Ertss7nVuJfrblmsqAKJ3bnDjGiCuFbvmYrRxv0=;
+ b=KLl9c/1+qBFYumnS/e93Dj/fkPHdWFE3f3IT6oX5eeVmBrxXOSzCIaGAay6q9xYS47
+ Y4+e/ewqaMH+pnPkAH2xI9oZMRdaPAE7Nre2FEksg4+ax57m7Y2lc7mC7bbFBAXclBj0
+ WSLTKzM2BuJILEG1lKv/TwwdLQIsCjg4/1BNc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=mzJ4G1o0Trd4U4zwb278em3VD46LoPprKnpzuUI5xp0=;
- b=xld1Mj4lUJCG8hU8YBwBSEKXfDcSqBGv4WTnBaEQfjVhQjyC1St8PcrO845ZD05Zp7
- ys+Kwv8WXd3XHOKku/F+0UAGT/JV+3EVyNPfEwkXDfNIH+1OrFRqHbndqwRduyoNnLx/
- qW5vNWHvjKGnhAC5swEP5v4qXlTtVA2jZ1nD/bz4tBujurKlcu/jNxh0wD336vsS95MZ
- tZYplJSE2yW1nRjA3WGO63EIowe2hZ8bTSvtFwOqjNanfzslSilCGTCSQC9Xz7tpYjhV
- JYJUw7e8dtNXegnBLB9u+O5PL38hF5rSaOY5D5m4hid5nRI1TTSK28p4WpaloaKFIrxc
- PuIA==
-X-Gm-Message-State: AOAM5313ykPfyi42ouMh3SFUo2xoiQJiWKF13sbix+R8ZFpTwqLQZy39
- UNZSt8jSBY7rmwNjuHBmJBXjaA==
-X-Google-Smtp-Source: ABdhPJxFRHJNME7/UEaod2yTQrD11+2ukG9WyiuPKvVs/GI89jxO7mNl3Uy2pRKdTp0QoQeMPSNzqQ==
-X-Received: by 2002:adf:d1ec:0:b0:210:2c68:a06d with SMTP id
- g12-20020adfd1ec000000b002102c68a06dmr33855197wrd.37.1654702965076; 
- Wed, 08 Jun 2022 08:42:45 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=N6H8Ertss7nVuJfrblmsqAKJ3bnDjGiCuFbvmYrRxv0=;
+ b=gn15z1fPcbSOPv3pUbf5SlqQHC9//WE07ZdHwAH6GWx4YiGi7FFft1xn/gvgZ4r+uY
+ LQ3sKxzNLqE76T35an4z9+eNmwLJwbILz2bNiBO+j9PMShMotGOPokKW9/DfQrZWtdBY
+ 5XciNYLo28pJvg9btHoA2jFigtXZ1sBHy5305cYFUtIi11G+9oPFU35Rxicj+Mm+Kfze
+ l/KQ7rzJkSQ5KAErgsdwh9wxgNnUMtUYOrvuMFicVAYjMju5yme7tz3ON/gMpaePVTVQ
+ iglQzEBnTiOeIjWMgBkpLO7sbTXy3tv0SVOnVnC76StCRrXJHIJJaCjfheEg4gT9trsg
+ OoNQ==
+X-Gm-Message-State: AOAM53277/JIKe9njeizXSJTLGQ8Gw/gWcV9BVXqE8E3WtT/HopcOIY8
+ IBOUokHQC6ZvajcPI1SbqaSymQ==
+X-Google-Smtp-Source: ABdhPJzD7aQCxNkjXEEKsUOuHORNwrZKcexkrnoWYMT8J4u/PL1Em6ceN+aJxZWRqfaoYKUv5qeu8w==
+X-Received: by 2002:a05:600c:2d88:b0:39c:3c07:2845 with SMTP id
+ i8-20020a05600c2d8800b0039c3c072845mr31215287wmg.116.1654703156793; 
+ Wed, 08 Jun 2022 08:45:56 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- a4-20020a5d5084000000b002102f2fac37sm21967549wrt.51.2022.06.08.08.42.43
+ o10-20020a5d474a000000b002184a3a3641sm6606106wrs.100.2022.06.08.08.45.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 08:42:44 -0700 (PDT)
-Date: Wed, 8 Jun 2022 17:42:42 +0200
+ Wed, 08 Jun 2022 08:45:56 -0700 (PDT)
+Date: Wed, 8 Jun 2022 17:45:54 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: DRM Master ignoring hotplug event during display switching (QT)
-Message-ID: <YqDDckn95plcCuT0@phenom.ffwll.local>
-References: <CAMty3ZBT9WEPbkaoS_8t1O153tckBk0pxiP2cF75ASZb54SPUQ@mail.gmail.com>
- <20220330085254.yow3w4frr56wllou@houat>
- <YkQpo1JgGkE8FqK3@phenom.ffwll.local>
- <CAMty3ZAKGVNBFPcFdnVORbmzKUk_qYZjEkfBmx8PKxH-1CpSwA@mail.gmail.com>
- <CAKMK7uEauPsLSX3JuO7Ztm2hkdoMiXz+63Zj8BiR46TxmRoEfQ@mail.gmail.com>
- <CAMty3ZD_=Q5M3v5btwEBqwax8tN_0F00Z0Fmv0a+CS=kjnEKfQ@mail.gmail.com>
- <YqDDKcmcmQ/4pb4F@phenom.ffwll.local>
+To: Jim Shargo <jshargo@google.com>
+Subject: Re: [RFC PATCH 0/1] drm/vkms: ConfigFS support
+Message-ID: <YqDEMiRtrUWgPKkA@phenom.ffwll.local>
+References: <20220506001822.890772-1-jshargo@chromium.org>
+ <Ynku/J0KuplmKJ23@phenom.ffwll.local>
+ <CACmi3jE+g_GdPXTc7+uWzhPky2ak2rYwknXndeaEj7_vL802Cw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YqDDKcmcmQ/4pb4F@phenom.ffwll.local>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACmi3jE+g_GdPXTc7+uWzhPky2ak2rYwknXndeaEj7_vL802Cw@mail.gmail.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,144 +72,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, Melissa Wen <melissa.srw@gmail.com>,
+ dri-devel@lists.freedesktop.org, Jim Shargo <jshargo@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 08, 2022 at 05:41:29PM +0200, Daniel Vetter wrote:
-> On Tue, Jun 07, 2022 at 11:03:09PM +0530, Jagan Teki wrote:
-> > On Tue, Jun 7, 2022 at 8:04 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Thu, 2 Jun 2022 at 17:43, Jagan Teki <jagan@amarulasolutions.com> wrote:
-> > > >
-> > > > Hi Daniel,
-> > > >
-> > > > On Wed, Mar 30, 2022 at 3:27 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > >
-> > > > > On Wed, Mar 30, 2022 at 10:52:54AM +0200, Maxime Ripard wrote:
-> > > > > > On Tue, Mar 29, 2022 at 11:38:32PM +0530, Jagan Teki wrote:
-> > > > > > > Hi all,
-> > > > > > >
-> > > > > > > I have implemented runtime display switching in the MIPI switch design
-> > > > > > > where LVDS and HDMI bridges are selected with the help of runtime
-> > > > > > > GPIO.
-> > > > > > >
-> > > > > > > Initial discussion on the same can be found here,
-> > > > > > > https://www.spinics.net/lists/dri-devel/msg318524.html
-> > > > > > >
-> > > > > > > The implementation has been done by creating each connector at
-> > > > > > > runtime. The default boot will create the LVDS connector and based on
-> > > > > > > the HDMI plug-in the ISR.
-> > > > > > >
-> > > > > > > 1. forcing the LVDS to disconnect
-> > > > > > > 2. call drm_kms_helper_hotplug_event
-> > > > > > > 3. detach the bridge chain
-> > > > > > > 4. attach the new bridge chain (HDMI)
-> > > > > > > 5. call drm_kms_helper_hotplug_event
-> > > > > > >
-> > > > > > > do the reverse when we unplug the HDMI cable.
-> > > > > > >
-> > > > > > > So, the bridge chains are attached and detached based on GPIO
-> > > > > > > Interrupt which is indeed identified based on the physical HDMIA
-> > > > > > > connector.
-> > > > > > >
-> > > > > > > Pipeline for LVDS,
-> > > > > > > mxfsb => nwl-dsi => display-switch => sn65dsi83=> panel-bridge
-> > > > > > >
-> > > > > > > Pipeline for HDMI,
-> > > > > > > mxfsb => nwl-dsi => display-switch => adv7511 => display-connector
-> > > > > > >
-> > > > > > > With this, implementation and I can able switch the displays with
-> > > > > > > default DRM (without specific DRM applications) where the LVDS is ON
-> > > > > > > by default and when HDMI plug-in the LVDS OFF/HDMI ON, and when HDMI
-> > > > > > > unplug the HDMI OFF/LVDS ON.
-> > > > > > >
-> > > > > > > However, with QT5 I can see the DRM Master ignoring hotplug event by
-> > > > > > > returning 0 on drm_master_internal_acquire in
-> > > > > > > drm_fb_helper_hotplug_event. With this the hotplug returned early so
-> > > > > > > it cannot able to disconnect and connect the new switching connector.
-> > > > > > >
-> > > > > > > Any help?
-> > > > > >
-> > > > > > I'm not sure why you started another discussion with pretty much the
-> > > > > > same content, but you can't rely on userspace handling the hotplug
-> > > > > > event. You'll have to deal with the case where it just doesn't.
-> > > > >
-> > > > > Well I missed the old thread, so I'm replying here.
-> > > > >
-> > > > > You should not handle this at all from a hotplug.
-> > > > >
-> > > > > The way kms works is roughly as follows:
-> > > > >
-> > > > > 1. hw output state changes
-> > > > > 2. driver detects this (either through hpd interrupt or polling)
-> > > > > 3. driver sends out hotplug uevent
-> > > > >
-> > > > > That's it. Nothing else, no bridge rebinding, no link retaining is
-> > > > > required.
-> > > > >
-> > > > > Then either userspace or fbcon emulation reacts to this hotplug event by
-> > > > > doing an atomic modeset, where it hopefully disables the old output and
-> > > > > re-enables the new output. Your atomic_check needs to validate that
-> > > > > everything is all right (i.e. not enabling both at the same time).
-> > > > >
-> > > > > Note that if you change stuff underneath, then that tends to seriously
-> > > > > upset atomic users. Also you should try to continue supporting at least
-> > > > > page flips with the wrong config, compositors otherwise tend to crash.
-> > > > >
-> > > > > This also means that if userspace doesn't handle hotplug events, then you
-> > > > > might end up with a black screen. That's ok. We try to avoid that when
-> > > > > it's practical (e.g. dp sst link retraining), but not when it's too hard
-> > > > > (dp mst hot-replug relies on userspace restoring everything).
-> > > > >
-> > > > > Finally exchanging the bridge chain isn't supported, there's no locking
-> > > > > for that since it's assumed to be invariant over the lifetim of the
-> > > > > drm_device instance. The simplest way to make that happen right now is to
-> > > > > have 2 drm_encoder instances, one with the lvds bridge chain, the other
-> > > > > with the hdmi bridge chain, and select the right encoder/bridge chain
-> > > > > depending upon which output userspace picks.
-> > > >
-> > > > I've created 2 instances of encoders. endpoint 0 for HDMI bridge chain
-> > > > and endpoint 1 for LVDS bridge chain. Each bridge chain uses a
-> > > > respective encoder instance in order to start attaching the bridge
-> > > > like below.
-> > > >
-> > > > 1. find the bridge at endpoint 0
-> > > > 2. drm_bridge_attach(&mxsfb->encoder[0], mxsfb->bridge[0], NULL, 0)
-> > > >
-> > > > and repeat for endpoint 1
-> > > >
-> > > > The bridge chain established fine for endpoint 0 but returned -EBUSY
-> > > > while the bridge chain attached for endpoint 1. looks like bridge->dev
-> > > > is still being used in endpoint 0 even though we have a separate
-> > > > bridge point from mxsfb.
-> > > >
-> > > > Any thought on how to establish the dual bridge chain here?
-> > >
-> > > Are you using 2 different struct drm_bridge for this? Reusing the same
-> > > drm_bridge for the 2nd encoder and endpoint is the only thing I can
-> > > come up with that would result in this.
-> > 
-> > Yes, I did try to re-use the same bridge pointer. drm_bridge_attach
-> > giving an -EBUSY while attaching the 2nd bridge chain.
+On Mon, Jun 06, 2022 at 05:59:37PM -0400, Jim Shargo wrote:
+> Thanks for taking a look! Sorry for the delay in response, I've been
+> moving house and prototyping locally.
 > 
-> Yeah that doesn't work. You can embed 2 drm_bridge within the same struct,
-> that should work. So essentially 1 platform_driver which registers 2
-> bridges. But binding the same bridge twice is an error, because a bridge
-> is strictly a 1:1 connection. Not a 2:2 connection.
+> On Mon, May 9, 2022 at 11:10 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Fri, May 06, 2022 at 12:18:20AM +0000, Jim Shargo wrote:
+> > > Hi!
+> > >
+> > > I wanted to send this patch out early to get some feedback on the layout
+> > > of the code and new ConfigFS directory. I intend to follow this up with
+> > > a more complete patch set that uses this to, for instance, add more
+> > > connectors and toggle feature support.
+> > >
+> > > A few questions I had as someone new to kernel dev:
+> > >
+> > > 1. Would you prefer laying out all the objects right now or add them
+> > > as-needed? IMO it’s nice to lay things out now to make future work that
+> > > much easier.
+> > >
+> > > 2. Is the layout of /config/vkms/<type>s/<id>/<attributes> OK? If VKMS
+> > > would eventually want to support installing multiple devices, we could
+> > > do something like /config/vkms/card<N>/<type>s/<id>/<attributes>.
+> > >
+> > > 3. Should I split out the documention into a separate change?
+> > >
+> > > 4. Any other style / design thoughts?
+> > >
+> > > Thanks! I am excited to be reaching out and contributing.
+> >
+> > So the overall idea here is that a lot of these things cannot be changed
+> > once the vkms_device instance is created, due to how drm works. This is
+> > why struct vmks_config has been extracted. The rough flow would be:
+> >
+> > 1. you create a new directory in the vkms configfs directory when creating
+> > a new instance. This then gets populated with all the properties from
+> > vkms_config
+> >
+> > 2. user sets these properts through configfs
+> >
+> > 3. There is a special property called "registered" or similar, which
+> > starts out as 0/false. When set to 1/true the vkms_device will be
+> > registered with the vkms_config that's been prepared. After that point
+> > further changes to vkms_config are not allowed anymore at all (this might
+> > change later on for connector hotplug, which really is the only thing a
+> > drm_device can change at runtime).
+> 
+> I think this allows for a slightly easier initialization, too, where
+> we don't keep a half-built drm device around or need to manage ids in
+> any special way.
+> 
+> I'll get things working and send out a new patch set.
+> 
+> I'm also thinking that, to make life easier, we'll create the regular
+> default device during init and register it automatically, so unless
+> someone starts actively adding virtual devices things behavior remains
+> the same.
 
-Two clarify: That struct with the 2 drm_bridge would be the platform
-driver private you register, not part of your platform_driver structure
-ofc. It needs to be attached to the struct platform_dev, not the driver.
-Just in case I confused you here even more :-)
--Daniel
+Yup, I think keeping the regular default device is a good idea.
+
+Also I think initializing a new instance's vkms_config with the module
+options we have would probably also make sense. Of course for new complex
+features (like special plane features or attaching ebpf to implement
+atomic_check restrictions) are best done only through configfs, so that we
+can slowly deprecate the module options.
+
+But for the handful of existing knobs I think it's fine to just keep it
+all as-is.
+
+> > 4. removal of the vkms_device could perhaps be done simply be deleting the
+> > entire directory? I think that would be a nice clean interface.
+> 
+> Yep! I just got that wired up locally.
+> 
+> >
+> > So in other words, basing the configfs interface on drm objects doesn't
+> > work, because once the drm objects exist you cannot change the
+> > configuration anymore.
+> 
+> I wasn't 100% sure how much trouble we'd get into if we tried to set
+> DRM device properties at run time, but with this confirmation I think
+> that this staging/registration approach is the best.
+
+Looking forward to your next round!
+
+Cheers, Daniel
+
+> 
+> > Cheers, Daniel
+> > >
+> > >
+> > > Jim Shargo (1):
+> > >   drm/vkms: Add basic support for ConfigFS to VKMS
+> > >
+> > >  Documentation/gpu/vkms.rst           |  23 +++++
+> > >  drivers/gpu/drm/Kconfig              |   1 +
+> > >  drivers/gpu/drm/vkms/Makefile        |   1 +
+> > >  drivers/gpu/drm/vkms/vkms_configfs.c | 129 +++++++++++++++++++++++++++
+> > >  drivers/gpu/drm/vkms/vkms_drv.c      |  10 +++
+> > >  drivers/gpu/drm/vkms/vkms_drv.h      |  25 ++++++
+> > >  drivers/gpu/drm/vkms/vkms_output.c   |   2 +
+> > >  drivers/gpu/drm/vkms/vkms_plane.c    |   2 +
+> > >  8 files changed, 193 insertions(+)
+> > >  create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
+> > >
+> > > --
+> > > 2.36.0.512.ge40c2bad7a-goog
+> > >
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
