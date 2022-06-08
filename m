@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF87E542FCC
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 14:07:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 618A2542FD1
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 14:07:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EAC710FB05;
-	Wed,  8 Jun 2022 12:07:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7243D10FB22;
+	Wed,  8 Jun 2022 12:07:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C76E10FAEA
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 12:07:34 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id a2so26768658lfg.5
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 05:07:34 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43DFD10FB09
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 12:07:35 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id t25so32872373lfg.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 05:07:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UlsyCuI1r3kbK/vtjTE2HeZ8epmog4rrC1c8iQZTka0=;
- b=zoUeZmH6+YhsKGt/+OtsIOhd03KmWslGLbyTmHplE7q6dwzKeYTnmkZMQCrMqWcDT4
- ENB6eiVIws3hdUaLZdT7rxppqZHlo+EWfHPU84W/gP33F4LjDBgMyuC81kcjBD9S5OCC
- cuwIV0/NLZXekhh0WMbb+j2JCvJSr4LsfPAjkc0ls0fpP3HudjhWmku4oPh3Ohe4LQO1
- 2DKDjG2noCZA5pYUZxuwmUzwcDVEyL6gQIoxOHw34jpoR/eCTsBdVRXGbb1J+9CLRYzR
- EtkWtXBnnY2ILHsYCcckQjGFNR3Ak8RymPgXJktw5q0lMU0Usxzou5FdvZPd6wFW6FcA
- l0oQ==
+ bh=OpFXH16in5cHn4raKF0Pb6v4UhkdcLR/Jb9aXlUmXhE=;
+ b=VHwNwMhKOhOS/njzIln1ebySUKrHlmCd4ta2Gc74f3Sqkfto12atc0vNrNU3saj8PM
+ PswzUU3GXZf44jbg2HOU4EFobDKjWy0VN7jVK6RS76TcnCZZUqHEYM4s49sm8Ets492v
+ qEH5oeNx79S+F9VCka3lAQkJ7LyAtVn8hdsvVv7VvlRuYW7XxtH7DESM6v19PMwjBOGr
+ c1OmHRVdlp2ziNNDfAwxanfeNwYyZziOYqBRg9YMxy2oQDIbBWRF0ikuLzRLoIT6S7HB
+ UQiruR+WuVuteegOizNp5VnbBI56wDf48m308FZaQJLJsLFYn/YVi7Gzh29llWUtkkeS
+ K9rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UlsyCuI1r3kbK/vtjTE2HeZ8epmog4rrC1c8iQZTka0=;
- b=BhMPqc7NyX5/xyy+GT1cJVoVW8UOdQO6vPeVSwsq9oFH4KkBHdCiKllYFZi2Hannfa
- x6aKI+sHvVTHzgisZNj7xL1DJL7nKeFkJD2cABaFloC8yxerGnt5zUcRAN6UphmIKwCn
- wOuxynULbewcLCMWUHChtom8bXE1LFKv9jDQ+tUu1XcWV5BSbg0Mds0iWVg7EpQ5nOBx
- NMBS/4xJ0T39++dt3JV2Mk5m0zbksk3X1cI0RDQgUuPXnrt2B4yC/PSB2BiZ5EgbYofD
- LTf50KIgeMqST2baAlYM5Tx9gnKLQgDu2PIwMNHD3jlbCfCWRTTJJ2y326MsaCU06U3i
- aNug==
-X-Gm-Message-State: AOAM532jkFINrPBRFygdUHa38h8+spcy+PKFTaU+u8DTQs9Qjj4ZSRZw
- 4OB+rKAPNtc3mDXyDbfB/lO6nw==
-X-Google-Smtp-Source: ABdhPJz2NiZWUioo69UFimWOsc7iqwnrDHZDOQ0ftc1GX9KufMOGeb3fHe9xiD6jbW0mKqaIQz5IgA==
-X-Received: by 2002:a19:f24e:0:b0:479:1376:793c with SMTP id
- d14-20020a19f24e000000b004791376793cmr19393937lfk.526.1654690052543; 
- Wed, 08 Jun 2022 05:07:32 -0700 (PDT)
+ bh=OpFXH16in5cHn4raKF0Pb6v4UhkdcLR/Jb9aXlUmXhE=;
+ b=xoNk1PmOjlMu2aP1V4qp8RayvZV3IJgJYblKTVKOdPmhy4oXqfq93Y8rKUsA3uyOF4
+ Y4wNb2V5QFOj5Qt5kqUBiPFvVqMvAbIK4bT6jYSwnCPOG3sixmFq5k6KdWoV1EyEhAQj
+ AJBMLAM0kDY3XgroTOTwuUdg2RuJGheO4suEAvwDQiCNrcFPyElpEfwpqT3M3socQVf0
+ 1Nw3MRrApqSZ5w26OWDMUFZJG+nhiGfL6oyHnqrLo0o1hr4BbUNlL8DApVhplEEXt+pk
+ Pvepitfc4hp3VnNoOcvyy5bcy9Z5xT2RYUvMJQGBH0z8RuFoqigbE4fh8vozU1NDJ1Xj
+ XDPw==
+X-Gm-Message-State: AOAM532jNJxreUVSH7OOkLCMqUSN6ZU987PkZMNN3sufd8LJ0qX4PLIA
+ gs9qE7fImC60NHIJnhX0KfpbwQ==
+X-Google-Smtp-Source: ABdhPJwbrQN2RGqJpe8Uw9ASRmVYQFvgJ8+fpfIF7QqXelS1hGc+IZolxnyt5rU2w6vzHBEHhM0R4g==
+X-Received: by 2002:a05:6512:2625:b0:478:5a51:7fe3 with SMTP id
+ bt37-20020a056512262500b004785a517fe3mr20891208lfb.158.1654690053628; 
+ Wed, 08 Jun 2022 05:07:33 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- 4-20020ac25f04000000b0047b0f2d7650sm52049lfq.271.2022.06.08.05.07.31
+ 4-20020ac25f04000000b0047b0f2d7650sm52049lfq.271.2022.06.08.05.07.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 05:07:32 -0700 (PDT)
+ Wed, 08 Jun 2022 05:07:33 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -53,10 +53,9 @@ To: Andy Gross <agross@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v2 07/12] drm/msm/hdmi: enable core-vcc/core-vdda-supply for
- 8996 platform
-Date: Wed,  8 Jun 2022 15:07:18 +0300
-Message-Id: <20220608120723.2987843-8-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 08/12] drm/msm/hdmi: drop empty 'none' regulator lists
+Date: Wed,  8 Jun 2022 15:07:19 +0300
+Message-Id: <20220608120723.2987843-9-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220608120723.2987843-1-dmitry.baryshkov@linaro.org>
 References: <20220608120723.2987843-1-dmitry.baryshkov@linaro.org>
@@ -80,29 +79,45 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DB820c makes use of core-vcc-supply and core-vdda-supply, however the
-driver code doesn't support these regulators. Enable them for HDMI on
-8996 platform.
+Several platform configs use empty 'none' regulator arrays. They are not
+necessary, as the code will use corresponding _cnt field and skip the
+array completely. Drop them now.
 
-Fixes: 0afbe59edd3f ("drm/msm/hdmi: Add basic HDMI support for msm8996")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/hdmi/hdmi.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index 7cb687458a56..67397fff645c 100644
+index 67397fff645c..ebc87f2a626c 100644
 --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
 +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -399,7 +399,7 @@ static struct hdmi_platform_config hdmi_tx_8994_config = {
- };
+@@ -353,9 +353,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+ 	.item ## _names = item ##_names_ ## entry, \
+ 	.item ## _cnt   = ARRAY_SIZE(item ## _names_ ## entry)
  
- static struct hdmi_platform_config hdmi_tx_8996_config = {
--		HDMI_CFG(pwr_reg, none),
-+		HDMI_CFG(pwr_reg, 8x74),
- 		HDMI_CFG(hpd_reg, none),
+-static const char *pwr_reg_names_none[] = {};
+-static const char *hpd_reg_names_none[] = {};
+-
+ static struct hdmi_platform_config hdmi_tx_8660_config;
+ 
+ static const char *hpd_reg_names_8960[] = {"core-vdda"};
+@@ -392,7 +389,6 @@ static struct hdmi_platform_config hdmi_tx_8084_config = {
+ 
+ static struct hdmi_platform_config hdmi_tx_8994_config = {
+ 		HDMI_CFG(pwr_reg, 8x74),
+-		HDMI_CFG(hpd_reg, none),
  		HDMI_CFG(pwr_clk, 8x74),
  		HDMI_CFG(hpd_clk, 8x74),
+ 		.hpd_freq      = hpd_clk_freq_8x74,
+@@ -400,7 +396,6 @@ static struct hdmi_platform_config hdmi_tx_8994_config = {
+ 
+ static struct hdmi_platform_config hdmi_tx_8996_config = {
+ 		HDMI_CFG(pwr_reg, 8x74),
+-		HDMI_CFG(hpd_reg, none),
+ 		HDMI_CFG(pwr_clk, 8x74),
+ 		HDMI_CFG(hpd_clk, 8x74),
+ 		.hpd_freq      = hpd_clk_freq_8x74,
 -- 
 2.35.1
 
