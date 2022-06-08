@@ -2,65 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAAE5542FD0
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 14:07:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC6354302A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 14:23:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9F1B10FB12;
-	Wed,  8 Jun 2022 12:07:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BB0210E8F8;
+	Wed,  8 Jun 2022 12:23:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 439AE10FB0A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 12:07:38 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id u23so32923819lfc.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 05:07:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TJk/SikG5/vA45QkNSVMmjHsA7wDjKxXh9SBvVTqBUw=;
- b=sV7t8YmUJotbqhmny0KXLae01QlXJrO1YBHx77u9k3QFfh+3zqvPItyBJyaS1FSv7n
- zofVscq7IFaRIt37QtUg3Xah/S/2x5BMa7bt5TIsFxMVg3v9WsuE2gmGUQrKz7jfteZb
- LxpkyVpOdjs1wgqiib7kPuH29KShJYz1qzWB7qr2fDY4oCeeLt8Y7J1TC32OqBr5sik4
- LvHn0NljE/1m1OCvzbP68KOKpqvV5Tgoy35yGPZUblvdRh8i6Jifb6O0do8lrkwasnEZ
- /J8MC/UF9y286BcUe0J/rS4twQRemKlVO/7pONjdufzYWOzlIMMGgkSppW52k6Crup6/
- hAdQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DABA10E8F8
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 12:23:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654690999;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WysPZlcw09T7q+C1fUqR9rq1Bzu/+VYftlOBGYd++mc=;
+ b=cGae2+wANtVL7pIELQJjbIEioJ8aUZz+pY4S4rpKOONeAR+/H78gBhptKf+iziMVzha3kc
+ gnxBxhvBrE3zInreOY3eKDTpRXZ7pqhPt8pNU47JLRqwG6vp7Sbsu59Em9or96yyQmktP1
+ +Snl4dus5i26Pe1FBLGx7M86nyBZ/3w=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-486-di-g4QigOyafGdxofKHDMw-1; Wed, 08 Jun 2022 08:23:18 -0400
+X-MC-Unique: di-g4QigOyafGdxofKHDMw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h2-20020adfe982000000b002102da95c71so4750412wrm.23
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 05:23:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=TJk/SikG5/vA45QkNSVMmjHsA7wDjKxXh9SBvVTqBUw=;
- b=LGu5lBzG1M7/vT8bj2r4qbneRfgNsAqaAFWGNU6PXBmDol83ItNURYMkt47zTtKXTW
- mLLKDTIJjXQms3S8iWBZX5Z99dvpy2guaIEZQkItC/g562ZxpeH4LZKhuIgQtu2Md9s2
- 2jratMRIiE+a24ktZB7k9QGUfMBO9cwkfucD6ezt1EFUp75PkTjITZTZJjR+Ov5cb1Mc
- /rghZSqVkQ8ExG8HyLsML3gFS7E4DEjoziZeI3czIyxOOAajuIWYtPlL4YSVdtjaQGG9
- 49CjaXGQx4ck+Zo4eL+8qjS5SZ7hACRwutRFrGOMKtRpL6O5n7x0f4Tz+UQMAwQ8tMsM
- EBMA==
-X-Gm-Message-State: AOAM5330c1CECM9bpOe22k5in7Tu4nm7rX+MIY+as4ghpF7bA3p0rUKc
- ZYkMMvDXR0D/OLgDMpDXoedIPw==
-X-Google-Smtp-Source: ABdhPJwLAAPw1s0RFNSdQ2kbvtrB/PHpfA5nUjCe4dgJOTxGw02vXyxc47pFvRGLPzW0518hV1Di7g==
-X-Received: by 2002:a05:6512:15a9:b0:479:56e2:6f1b with SMTP id
- bp41-20020a05651215a900b0047956e26f1bmr7015597lfb.219.1654690057808; 
- Wed, 08 Jun 2022 05:07:37 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- 4-20020ac25f04000000b0047b0f2d7650sm52049lfq.271.2022.06.08.05.07.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 05:07:37 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v2 12/12] drm/msm/hdmi-phy: populate 8x60 HDMI PHY requirements
-Date: Wed,  8 Jun 2022 15:07:23 +0300
-Message-Id: <20220608120723.2987843-13-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220608120723.2987843-1-dmitry.baryshkov@linaro.org>
-References: <20220608120723.2987843-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WysPZlcw09T7q+C1fUqR9rq1Bzu/+VYftlOBGYd++mc=;
+ b=m6dyIkpoHm8dYjfppRcZW7at0x2cFdQ6TaibN53rrYQYc2mMDUdeZ31adnvKTzLpGU
+ ArQoeHrMpFTkTnxULDDjXTcSvxLXsHgKDz0IU9Nv5My40rE5eT2JQ2NVRU9T0H4F1Bg8
+ XwjLOzzOcOzPei/b6WIE7v3ZrCMHYba4uSd1wND40SJwXfRft3HVM5wyN9DSszypfdeF
+ CxDaIZrvQ+pZ2z2qZTlKjzp7hsIOfwTqAkM/YheGmWdz8zP8iAcjOoSY+7t4JxFlq39k
+ vZbhz0Z2SHYgiuTCw8e6A30krB5pzy8apwPgjMQS/6BZhQI2xzkAXFPczIsKNo80JOW5
+ cxbQ==
+X-Gm-Message-State: AOAM533XC5V+PmjSbmzwXMECh9/3Ixw+/RN9iCBkPIwRXoT8qpiAX5vh
+ BBhLDNPl+pXy72U3Jh1MtHwq6Sp/hHZIVhmwL/zVsj9N+hXQfAEZe5qLY3V4J/Whz7ZtpbTcPlX
+ hl9HhO5K2i5TMtiSODWFZmMmVxCW3
+X-Received: by 2002:adf:f38f:0:b0:210:30cf:6e4a with SMTP id
+ m15-20020adff38f000000b0021030cf6e4amr34276132wro.676.1654690996873; 
+ Wed, 08 Jun 2022 05:23:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnn0twO0DVIW7IZ6/4N32WijMPurWbHo+V8aC9+pPIdJveu5UOwQ9M/8i7btwDkro790RfwA==
+X-Received: by 2002:adf:f38f:0:b0:210:30cf:6e4a with SMTP id
+ m15-20020adff38f000000b0021030cf6e4amr34276097wro.676.1654690996523; 
+ Wed, 08 Jun 2022 05:23:16 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ o10-20020adfeaca000000b0020c5253d8c2sm20778215wrn.14.2022.06.08.05.23.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jun 2022 05:23:16 -0700 (PDT)
+Message-ID: <9aaaaa29-11c0-d494-11dd-0bbf5d384364@redhat.com>
+Date: Wed, 8 Jun 2022 14:23:14 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 0/6] Raspberry PI 4 V3D enablement
+To: Florian Fainelli <f.fainelli@gmail.com>,
+ Peter Robinson <pbrobinson@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ bcm-kernel-feedback-list@broadcom.com, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ maxime@cerno.tech, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
+References: <20220603092610.1909675-1-pbrobinson@gmail.com>
+ <cadecbfd-e174-eadb-276c-577bb2bf70f2@gmail.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <cadecbfd-e174-eadb-276c-577bb2bf70f2@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,45 +96,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Declare that 8x60 HDMI PHY uses the core-vdda regulator and slave_iface
-clock (this is the same config as is used by the 8960).
+Hello Florian,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/hdmi/hdmi_phy_8x60.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+On 6/8/22 11:26, Florian Fainelli wrote:
+> 
+> 
+> On 6/3/2022 11:26 AM, Peter Robinson wrote:
+>> This is a follow up from my v4 patchset. The power management pieces have
+>> been split out to a separate independent set of patches by Stefan [1]. This
+>> version 5 of the DRM patches are independent and given the V3D driver has
+>> been upstream for some time the two patches to enable it in defconfigs can
+>> be taken at anytime independent of the enablement for the Raspberry Pi 4.
+>>
+>> I've tested this using mesa 22.0.x and Wayland/Gnome on Fedora 36, it's
+>> more or less stable with basic testing.
+>>
+>> Changes since v5:
+>> - Update the DT compatible to match the others that were updated
+>> - Adjust the Kconfig help text
+>> - Add review tags
+>>
+>> Changes since v4:
+>> - Fixes for device tree and bindings
+>> - Split out the power management changes into an independent set
+>> - Rebase to 5.18
+>> - Individual changes in patches
+>>
+>> [1] https://www.spinics.net/lists/arm-kernel/msg980342.html
+> 
+> I can take the last 3 patches through the Broadcom ARM SoC pull request, 
+> but the first three should probably go via the DRM tree unless you want 
+> me to merge them all?
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_phy_8x60.c b/drivers/gpu/drm/msm/hdmi/hdmi_phy_8x60.c
-index 95f2928cb2cb..1d97640d8c24 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_phy_8x60.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_phy_8x60.c
-@@ -122,8 +122,20 @@ static void hdmi_phy_8x60_powerdown(struct hdmi_phy *phy)
- 		       HDMI_8x60_PHY_REG2_PD_DESER);
- }
- 
-+static const char * const hdmi_phy_8x60_reg_names[] = {
-+	"core-vdda",
-+};
-+
-+static const char * const hdmi_phy_8x60_clk_names[] = {
-+	"slave_iface",
-+};
-+
- const struct hdmi_phy_cfg msm_hdmi_phy_8x60_cfg = {
- 	.type = MSM_HDMI_PHY_8x60,
- 	.powerup = hdmi_phy_8x60_powerup,
- 	.powerdown = hdmi_phy_8x60_powerdown,
-+	.reg_names = hdmi_phy_8x60_reg_names,
-+	.num_regs = ARRAY_SIZE(hdmi_phy_8x60_reg_names),
-+	.clk_names = hdmi_phy_8x60_clk_names,
-+	.num_clks = ARRAY_SIZE(hdmi_phy_8x60_clk_names),
- };
+I can merge the first 3 patches through the drm-misc tree. Can I get
+an ack from you for those ?
+
+The changes are independent so there's no need for an immutable branch
+or any kind of cross tree coordination.
+
 -- 
-2.35.1
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
