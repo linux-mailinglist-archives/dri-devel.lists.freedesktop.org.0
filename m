@@ -2,57 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D1D543115
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 15:10:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F54654312F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 15:17:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9051210FE2E;
-	Wed,  8 Jun 2022 13:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B6B910FE8D;
+	Wed,  8 Jun 2022 13:17:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2e.google.com (mail-vk1-xa2e.google.com
- [IPv6:2607:f8b0:4864:20::a2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2DF910FE29
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 13:10:31 +0000 (UTC)
-Received: by mail-vk1-xa2e.google.com with SMTP id u188so8981445vku.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 06:10:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=sHyDTOm6lqUiG1tD8A2W8nqmZQbSNybMLepUwsmygh4=;
- b=Olt6xkR9Ye+XreClVMgFeqMIfyq8Prv9k+5XYI6uUPlAxxA/INsPsZp9/8kgsOsUvy
- yRmwYz8DVT2cnNLyMRvqwmxFS1qB+X04wTJkeo0mjQpFZt1YD7P4Zd8oe9zZqYl6sqmc
- HiYn/UO5tcB8kOEClkmAV55xFhy5EkhWYWY2iXqPcXlD/o2ND2+kXETuMpT05OPbtwX3
- YGqkur4u7rfB5RrEKs9s5iv1m7sXUzVVzsgQOuKaiPbpBdd9+U02wDGJk348zY2Wvoxe
- O+hbjoF86lBwFTLDDB3FoqPT6Q2j2peE7/bZu/zSDpXMeBEEyTDbu1ccCnDW1kpkiTly
- ajlA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F117210FE9F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 13:17:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654694223;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=35IFJYFxAzFnBmyN6TQCYl3GgLH/bjCkWr2t2lYzin8=;
+ b=UlsMkEluEMHkrZ5LIXqFMRsdLhnI7eQdNmnYJ/vTU/1Vy1pPe+rsarb63I56zzpAbF+HHF
+ pDprs6hluy+tcr8RCC6oVSbpa66vYWhxl4njo+MBCnU+pDVMeVDNv+naZgGHukY5hox0AR
+ +nr5BQ/Oz0zelmO/vFZzdkq2yyw5tXk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-122-FQe8ik6dNcy3GbcZHtOpXg-1; Wed, 08 Jun 2022 09:17:02 -0400
+X-MC-Unique: FQe8ik6dNcy3GbcZHtOpXg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ bv8-20020a0560001f0800b002183c5d5c26so2684512wrb.20
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 06:17:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=sHyDTOm6lqUiG1tD8A2W8nqmZQbSNybMLepUwsmygh4=;
- b=sqJCMJhzTKPn98NI5B2Dx60N73Ie+Xd3mf1y+gW154iy+c6LdXIRvp9LBI+SZzorTm
- No7WMck8ifbImfROKF73ZNhnvDnlmLk42rMoN5cKCBzbmTbhEJWabwMKwCb6fORb2DDs
- YquucpRUqyOKCt90WKqARaQ9jpRfKEAXvkGZnITg9ckeZ7U0m9sKAjDGswqMExOGEj2y
- ctxKvM4O/6WDGyalrqgi1r4Faj2zmMpS4PhZ9vLGrvLgD5uIiVrTt/Z5HwUOn6D259pv
- kxLDyED5LFgGe9Ahqf9puCqVJtMszJsFStXGLRZeez6WgsnW0Q64vd5wKunzRek7pSD5
- aliQ==
-X-Gm-Message-State: AOAM530sWMELE5kv4IAR5faDoI4Qf2YKrsHG9cEy5Zkzsxa4GsLRIe0E
- wSneuEDu8Pr/JUZsPFXpuWDuDTBnKsIOW8rK9GM=
-X-Google-Smtp-Source: ABdhPJx9FBBBy2XeqE8s8EmFtFgqC3JYLKQd/NS49O0DTX2HitpWKnhU0TiAIticKb9ryJiEaTKeGwRM8N/xIrw34HI=
-X-Received: by 2002:a1f:1245:0:b0:35d:7991:7385 with SMTP id
- 66-20020a1f1245000000b0035d79917385mr11780357vks.2.1654693830800; Wed, 08 Jun
- 2022 06:10:30 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=35IFJYFxAzFnBmyN6TQCYl3GgLH/bjCkWr2t2lYzin8=;
+ b=lOYOZ3pxJDb2f9kpDcUeCdk54YkHxP5DxpFAprIpAKIfv3n2g6Sv6307a2LURSK+Yv
+ negZ+k3G8kr3udCKQxhcS/E+F8QoQFb0+n5aTRLLVMmM1srA1078Nl6jvqHdVFtuk8Om
+ gflfMOfnaHylORE/9T9fZb8vbG5s6DB2xyn1xIX+cUcJ8Y+HXdcCm3Fj0tN7SMttWtWN
+ /sLPogOzEYyil9f1PrNSzCMzIOJl54hBfmyhQtXN8F7P0tbwkE8/8O1Mgii8CG2xVoBS
+ +annHyJjPqpkbsre5i6vpxjlX16nuiWV23kfwDKMSkjCraL96KDOd/r4w/EKfgwUcIvs
+ /rIw==
+X-Gm-Message-State: AOAM532uCKkE1aQmP5/Ui/QyO2Di1LqhPcI0Ekm6reWd7nbfx1cCB13t
+ rT+YomHsa9Mlrh3zVcu7iYikYK71TuG7MrkZPt2h0Fb5ZeJKMI4xeuvBIICfaQ4QK4FQrmd6wn3
+ GqC+4tRKFPNKAvarNQP72ETQdNe6i
+X-Received: by 2002:a5d:6786:0:b0:215:3cb5:b16c with SMTP id
+ v6-20020a5d6786000000b002153cb5b16cmr26148268wru.6.1654694220528; 
+ Wed, 08 Jun 2022 06:17:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzb0xlaZX8diXj5CVPBq20XL/dK0cPt+ajXfdFa+Plm9ZItKdQioKLmDwJrsL0wIlM7Gr4S0g==
+X-Received: by 2002:a5d:6786:0:b0:215:3cb5:b16c with SMTP id
+ v6-20020a5d6786000000b002153cb5b16cmr26148250wru.6.1654694220293; 
+ Wed, 08 Jun 2022 06:17:00 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
+ ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
+ by smtp.gmail.com with ESMTPSA id
+ w7-20020adfee47000000b002185631adf0sm3927529wro.23.2022.06.08.06.16.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jun 2022 06:16:59 -0700 (PDT)
+Message-ID: <c99f305f-ac4d-628b-b092-920af767a2e4@redhat.com>
+Date: Wed, 8 Jun 2022 15:16:58 +0200
 MIME-Version: 1.0
-References: <75eec8af-66fd-bbaa-9aea-4cdf634bf2c8@arcor.de>
-In-Reply-To: <75eec8af-66fd-bbaa-9aea-4cdf634bf2c8@arcor.de>
-From: Peter Robinson <pbrobinson@gmail.com>
-Date: Wed, 8 Jun 2022 14:10:19 +0100
-Message-ID: <CALeDE9MzaG0vGfwMrZVArCWpNT94=vTakoM71qykBkVbeL1QmQ@mail.gmail.com>
-Subject: Re: drm/vc4: module dysfunctional on Raspberry Pi 3B as of 5.18.0
-To: Peter Mattern <pmattern@arcor.de>, Maxime Ripard <maxime@cerno.tech>,
- stefan.wahren@i2se.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] drm/ast: Treat AST2600 like AST2500 in most places
+To: Kuo-Hsiang Chou <kuohsiang_chou@aspeedtech.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "airlied@redhat.com" <airlied@redhat.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "regressions@leemhuis.info" <regressions@leemhuis.info>
+References: <20220607120248.31716-1-tzimmermann@suse.de>
+ <PSAPR06MB4805B23B053F80C0F23A8C6C8CA49@PSAPR06MB4805.apcprd06.prod.outlook.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <PSAPR06MB4805B23B053F80C0F23A8C6C8CA49@PSAPR06MB4805.apcprd06.prod.outlook.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,74 +93,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Charles Kuan <charles_kuan@aspeedtech.com>,
+ Hungju Huang <hungju_huang@aspeedtech.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Luke Chen <luke_chen@aspeedtech.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Peter,
+On 08/06/2022 10:09, Kuo-Hsiang Chou wrote:
+> Hi Thomas
+> 
+> Thanks for your suggestions!
+> 
+> I answer each revision inline that followed by [KH]:.
 
-Adding Stefan and Maxime
-
-> As of Linux 5.18.0, module vc4 apparently isn't working on Raspberry Pi
-> 3B any more.
->
-> If a monitor is attached to the device, the boot messages show up as
-> usual, but right when KMS starts, the screen turns black. Similarly, the
-> screen also turns black when the module is blacklisted at boot time and
-> loaded from the running system.
-> The problem looks quite similar to the one posted some months ago in [1].
->
-> Unfortunately, looking through systemd's journal didn't seem to yield
-> any real hint. Nevertheless, the results from grepping vc4 are
-
-I'm seeing the same issue with vc4 on a RPi3 on 5.18.1 on Fedora so
-can confirm the regression. Maxime would know what might be up here?
-
-> =E2=86=92 5.17.1
->  > kernel: vc4-drm soc:gpu: bound 3f400000.hvs (ops vc4_hvs_ops [vc4])
->  > kernel: rc rc0: vc4 as /devices/platform/soc/3f902000.hdmi/rc/rc0
->  > kernel: input: vc4 as /devices/platform/soc/3f902000.hdmi/rc/rc0/input=
-0
->  > kernel: vc4-drm soc:gpu: bound 3f902000.hdmi (ops vc4_hdmi_ops [vc4])
->  > kernel: vc4-drm soc:gpu: bound 3f806000.vec (ops vc4_vec_ops [vc4])
->  > kernel: vc4-drm soc:gpu: bound 3f004000.txp (ops vc4_txp_ops [vc4])
->  > kernel: vc4-drm soc:gpu: bound 3f206000.pixelvalve (ops vc4_crtc_ops
-> [vc4])
->  > kernel: vc4-drm soc:gpu: bound 3f207000.pixelvalve (ops vc4_crtc_ops
-> [vc4])
->  > kernel: vc4-drm soc:gpu: bound 3f807000.pixelvalve (ops vc4_crtc_ops
-> [vc4])
->  > kernel: vc4-drm soc:gpu: bound 3fc00000.v3d (ops vc4_v3d_ops [vc4])
->  > kernel: fb0: switching to vc4 from simple
->  > kernel: [drm] Initialized vc4 0.0.0 20140616 for soc:gpu on minor 0
->  > kernel: vc4-drm soc:gpu: [drm] fb0: vc4drmfb frame buffer device
->  > systemd-logind[338]: Watching system buttons on /dev/input/event0 (vc4=
-)
-> =E2=86=92 5.18.0
->  > kernel: fb0: switching to vc4 from simple
->  > kernel: vc4-drm soc:gpu: bound 3f400000.hvs (ops vc4_hvs_ops [vc4])
->  > kernel: rc rc0: vc4 as /devices/platform/soc/3f902000.hdmi/rc/rc0
->  > kernel: input: vc4 as /devices/platform/soc/3f902000.hdmi/rc/rc0/input=
-0
->  > kernel: vc4-drm soc:gpu: bound 3f902000.hdmi (ops vc4_hdmi_ops [vc4])
->  > kernel: vc4-drm soc:gpu: bound 3f806000.vec (ops vc4_vec_ops [vc4])
->  > kernel: vc4-drm soc:gpu: bound 3f004000.txp (ops vc4_txp_ops [vc4])
->  > kernel: vc4-drm soc:gpu: bound 3f206000.pixelvalve (ops vc4_crtc_ops
-> [vc4])
->  > kernel: vc4-drm soc:gpu: bound 3f207000.pixelvalve (ops vc4_crtc_ops
-> [vc4])
->  > kernel: vc4-drm soc:gpu: bound 3f807000.pixelvalve (ops vc4_crtc_ops
-> [vc4])
->  > kernel: vc4-drm soc:gpu: bound 3fc00000.v3d (ops vc4_v3d_ops [vc4])
->  > kernel: [drm] Initialized vc4 0.0.0 20140616 for soc:gpu on minor 0
->  > kernel: vc4-drm soc:gpu: [drm] fb0: vc4drmfb frame buffer device
->  > systemd-logind[337]: Watching system buttons on /dev/input/event0 (vc4=
-)
->
+Thanks for reviewing this.
+> 
 > Regards,
->
-> Peter Mattern
->
-> [1]
-> https://lists.freedesktop.org/archives/dri-devel/2022-January/339458.html
->
+> 
+>          Kuo-Hsiang Chou
+> 
+> -----Original Message-----
+> 
+> From: Thomas Zimmermann [mailto:tzimmermann@suse.de]
+> 
+> Sent: Tuesday, June 07, 2022 8:03 PM
+> 
+> To: airlied@redhat.com; airlied@linux.ie; daniel@ffwll.ch; 
+> jfalempe@redhat.com; regressions@leemhuis.info; Kuo-Hsiang Chou 
+> <kuohsiang_chou@aspeedtech.com>
+> 
+> Subject: [PATCH] drm/ast: Treat AST2600 like AST2500 in most places
+> 
+> Include AST2600 in most of the branches for AST2500. Thereby revert most 
+> effects of commit f9bd00e0ea9d ("drm/ast: Create chip AST2600").
+> 
+> The AST2600 used to be treated like an AST2500, which at least gave 
+> usable display output. After introducing AST2600 in the driver without 
+> further updates, lots of functions take the wrong branches.
+> 
+> Handling AST2600 in the AST2500 branches reverts back to the original 
+> settings. The exception are cases where AST2600 meanwhile got its own 
+> branch.
+> 
+> [KH]: Based on CVE_2019_6260 item3, P2A is disallowed anymore.
+> 
+> P2A (PCIe to AMBA) is a bridge that is able to revise any BMC registers.
+> 
+> Yes, P2A is dangerous on security issue, because Host open a backdoor 
+> and someone malicious SW/APP will be easy to take control of BMC.
+> 
+> Therefore, P2A is disabled forever.
+> 
+> Now, return to this patch, there is no need to add AST2600 condition on 
+> the P2A flow.
+> 
+
+[snip]
+> 
+> [KH]: Yes, the patch is "drm/ast: Create threshold values for AST2600" 
+> that is the root cause of whites lines on AST2600
+> 
+> commit
+> 
+> 
+> bcc77411e8a65929655cef7b63a36000724cdc4b 
+> <https://cgit.freedesktop.org/drm/drm/commit/?id=bcc77411e8a65929655cef7b63a36000724cdc4b> (patch 
+> <https://cgit.freedesktop.org/drm/drm/patch/?id=bcc77411e8a65929655cef7b63a36000724cdc4b>)
+> 
+
+
+So basically this commit should be enough to fix the white lines  and 
+flickering with VGA output on AST2600 ?
+I will try to have it tested, and if it's good, we may want to have it 
+on stable kernel.
+
+Best regards,
+
+-- 
+
+Jocelyn
+
