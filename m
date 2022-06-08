@@ -1,70 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28067542AC1
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 11:07:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F29BF542ACB
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 11:11:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04FE210E2D5;
-	Wed,  8 Jun 2022 09:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69DED10E3AE;
+	Wed,  8 Jun 2022 09:11:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ECC310E2D5
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 09:07:30 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id d14so623503eda.12
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 02:07:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=rGAq4iJpxrWH26r4v3kGADYD/+3w1lhJSCcD5FIQXdU=;
- b=O0xd2Hdn/TXw/TpQcEa4m6r6LaJMi3/Wjf8zui/j3m4s1mNB1Ak508t1pdTQu7PR3j
- Qy3Yt3JJIP4c9RPAsZBuYMm9vYU1hF2OSlXA9WPI5sKXggrKJwzrFcN/mpJDlnPWaSmX
- rQj8hHoM0cklzvFtBuT1VEji2jaNz8c66zbSAdDjePPg170tpP9rsobsg4nVyge+ngV+
- ybNN8BdagbF7r+qKjyJHO3xwLDQ2k7b51Zm99s16yP0LzD3hFEdsbhWevO/ULRqceoxm
- PGNEJzRhwBRZeSyu+YwWjGbrSiAN/AuNJiRIMz8VAn3IurSzVPzRQ9e9QEUg1kgGY362
- 2n7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=rGAq4iJpxrWH26r4v3kGADYD/+3w1lhJSCcD5FIQXdU=;
- b=QrM6e52JGMt8G2AZdbe9mGBzk+QCwToJmuFMpO1+U0j8ThITCIN4aOIbzFR8tCyO6e
- zG0UKgL+VF5bkFQlWouvXU6rhuCS1w0G7pz/nD9l291rgLmLWoj10ojgAzl/qjo32HNa
- HwCrEF0sw8qeojdjO5tr/ZRXCrPQAj0nV7TaqW8MRvbLBJyC3vS6a1x0/1l54jrobLz8
- BA697ymL5pA6W0cRdVJL++O0mm6UoV823bZg3qebtPmhO69RnIiIiqeTABU3Q8w73gGq
- xmwMq3dVSj4B5mgxlOhuBMfh4VvSTnZs828yGmoyfjTKAe2ltZ6u2/0xQSVWnH4KgT2U
- WdWA==
-X-Gm-Message-State: AOAM532n7xErHaeQ5P0qRH8/57WBY6jYYuug8ypQ8H3mFjXLYu6N3xPd
- vkE0tuLJ5qQqa9iZzhZSYMAsPw==
-X-Google-Smtp-Source: ABdhPJza6k5S7+pmqbQfI8gdRti+QgJDdbBtfUOc7HjAeExYq9Q1uMmaVNDhDI7HMIbSJ/vcySsU3A==
-X-Received: by 2002:a05:6402:b03:b0:42d:ce84:387a with SMTP id
- bm3-20020a0564020b0300b0042dce84387amr38840161edb.3.1654679249188; 
- Wed, 08 Jun 2022 02:07:29 -0700 (PDT)
-Received: from [192.168.0.190] (xdsl-188-155-176-92.adslplus.ch.
- [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- ft29-20020a170907801d00b0071145c2f494sm5101080ejc.27.2022.06.08.02.07.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jun 2022 02:07:28 -0700 (PDT)
-Message-ID: <e3add370-de7d-db41-0a35-489fda0a3f60@linaro.org>
-Date: Wed, 8 Jun 2022 11:07:27 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A6F110E3A4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 09:11:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654679477;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0mce/AbWJS8N2abWnygb+NCcQbErCMoK/WZZka14SPg=;
+ b=ZBpQfhIldPL1wv9SnXyc8D3G5+Mm1hPp3L8M7GbrpAvZjaK3ySEltNzzKmDuuugRdyPfnW
+ Q/j3J11ofQIkN7rf11UWvYo8xDgLmv4gC1WMzj3yuEvm2HXt/stNu6rOToOZ3fNeGxM9Rd
+ k/6ORZsCvwKFtKSHuItjyuD8PmM+0RA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-210-ecap_Jd4Puen-NXH4ANqQw-1; Wed, 08 Jun 2022 05:11:14 -0400
+X-MC-Unique: ecap_Jd4Puen-NXH4ANqQw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8633685A583;
+ Wed,  8 Jun 2022 09:11:13 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 49AFC40CF8E8;
+ Wed,  8 Jun 2022 09:11:13 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B2E2B18003AA; Wed,  8 Jun 2022 11:11:11 +0200 (CEST)
+Date: Wed, 8 Jun 2022 11:11:11 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH 0/2] Improve vfio-pci primary GPU assignment behavior
+Message-ID: <20220608091111.wx2dbboxg2ntuapw@sirius.home.kraxel.org>
+References: <165453797543.3592816.6381793341352595461.stgit@omen>
+ <badc8e91-f843-2c96-9c02-4fbb59accdc4@redhat.com>
+ <20220608074306.wyav3oerq5crdk6c@sirius.home.kraxel.org>
+ <b8eee5a7-7428-fcfd-9266-fa63b9fde5e9@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 1/2] dt-bindings: backlight: rt4831: Add the new ocp
- level property
-Content-Language: en-US
-To: cy_huang <u0084500@gmail.com>, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
- daniel.thompson@linaro.org, jingoohan1@gmail.com
-References: <1654677674-15417-1-git-send-email-u0084500@gmail.com>
- <1654677674-15417-2-git-send-email-u0084500@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <1654677674-15417-2-git-send-email-u0084500@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b8eee5a7-7428-fcfd-9266-fa63b9fde5e9@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,48 +64,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- lucas_tsai@richtek.com, deller@gmx.de, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, cy_huang@richtek.com, pavel@ucw.cz,
- linux-leds@vger.kernel.org
+Cc: tzimmermann@suse.de, kvm@vger.kernel.org, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
+ dri-devel@lists.freedesktop.org, Laszlo Ersek <lersek@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/06/2022 10:41, cy_huang wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> Add 'richtek,bled-ocp-microamp' property to make it chooseable.
-> 
-> The wrong backlight ocp level may affect the backlight channel output
-> current smaller than configured.
-> 
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
-> Since v2:
-> - Change the property name from 'richtek,bled-ocp-sel' to 'richtek,bled-ocp-microamp'.
-> 
-> ---
->  .../devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
-> index e0ac686..0f4beeb 100644
-> --- a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
-> +++ b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
-> @@ -47,6 +47,11 @@ properties:
->      minimum: 0
->      maximum: 3
->  
-> +  richtek,bled-ocp-microamp:
-> +    description: |
-> +      Backlight over current protection level, unit in microamp.
+  Hi,
 
-Skip last part. Unit comes from property name.
+> >> But also, this issue isn't something that only affects graphic devices,
+> >> right? AFAIU from [1] and [2], the same issue happens if a PCI device
+> >> has to be bound to vfio-pci but already was bound to a host driver.
+> > 
+> > Nope.  There is a standard procedure to bind and unbind pci drivers via
+> > sysfs, using /sys/bus/pci/drivers/$name/{bind,unbind}.
+> >
+> 
+> Yes, but the cover letter says:
+> 
+> "Users often employ kernel command line arguments to disable conflicting
+> drivers or perform unbinding in userspace to avoid this"
 
-> The current
-> +      supported level is 0.9A/1.2A/1.5A/1.8A.
+Thats helpful at times to deal with driver and/or hardware quirks.
+Example: Years ago drm drivers used to be horrible when it came to
+unbind, leaving oopses and panics left & right when you tried (luckily
+it works much better these days).
 
-Define here enum instead of this text.
+[ leaving this here for completeness, snipping the remaining reply,
+  noting that we are on the same page now ]
 
-Best regards,
-Krzysztof
+thanks & take care,
+  Gerd
+
