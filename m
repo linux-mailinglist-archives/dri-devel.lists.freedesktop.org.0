@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E77543DDD
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 22:53:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF6B8543DDF
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 22:53:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3929311A091;
-	Wed,  8 Jun 2022 20:53:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E612D11A09F;
+	Wed,  8 Jun 2022 20:53:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BD7D11A094;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E164C11A08C;
  Wed,  8 Jun 2022 20:52:58 +0000 (UTC)
 Received: from hermes-devbox.fritz.box (82-71-8-225.dsl.in-addr.zen.co.uk
  [82.71.8.225])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbeckett)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 810DB6601805;
- Wed,  8 Jun 2022 21:52:55 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 31E376601809;
+ Wed,  8 Jun 2022 21:52:56 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1654721575;
- bh=JT0TnJkB0rL8RAGj5L8WxKKfTjJ2qr1XwBthtCgxh3Y=;
+ s=mail; t=1654721576;
+ bh=r6lF+wb4oVIUvBtEdpQAsS/+HQWGO3JeX6KjqiaMQi0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kisOM10h9nMW6pgqPu1+eO9FO086hy96YBnCUh110Q2IycstFCxOCLlHs13LDWV6x
- HujXxpbzKEOzCvh+2WBN5eAtWYA2dH3WEy+y3C6J6192yea7TyhtA4kJklLHp7N8Os
- /fCmjqkzp5ucSGO6PwX2vcq/Qm1bGTGNeIGXK9RdkfB+cfJ0EI6Ome+veZhZoczhsI
- SHQpztRcrtAuffcsJpVOROCClhcCJrpKnG5HE8Bm+jVeF2Jh0n0XHONGhCqlTa6XtH
- n/sTggH2d/fjFIh0vk25rn5OumM+51by4+9YJ6Yj0d/0hfj0/0l8HkQ0ubfFactygj
- UJk3ehFDcMlzw==
+ b=F0HAuM23UJf5E7QHrXaIFFVXkx6DchpY6GZh5Av4142EiJOa4Abh+fqgLTjtcz5G9
+ 3cA1QvXRosGUsg6WuYQuZ9c8ZvE+G4slTkLGhMiSqFL48+eLcVXBPGgSg9Oiv5Mak+
+ WJSuyOvbfYAmsKRN4NBTjX4DrsTdKFqWrw8QTVNwkjN355F9z2AmDhNe6HPQ3JnRN1
+ xEYMkHfDJAAu+HJDYm8rPQjhFJ/AUGwxDTj05WwPR20V5ZTD9pe6ahRyx3/+gmALe2
+ RnN2nNMNDpTgYFuzsrE1itZB4YFTVLNwo+tiqnh7ikMrozPpUDMidpgu6XVdf9cIE+
+ FEepQ6N0I/DRA==
 From: Robert Beckett <bob.beckett@collabora.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -36,9 +36,9 @@ To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 5/8] drm/i915: limit ttm to dma32 for i965G[M]
-Date: Wed,  8 Jun 2022 20:51:28 +0000
-Message-Id: <20220608205132.438596-6-bob.beckett@collabora.com>
+Subject: [PATCH v2 6/8] drm/i915/gem: further fix mman selftest
+Date: Wed,  8 Jun 2022 20:51:29 +0000
+Message-Id: <20220608205132.438596-7-bob.beckett@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220608205132.438596-1-bob.beckett@collabora.com>
 References: <20220608205132.438596-1-bob.beckett@collabora.com>
@@ -63,35 +63,70 @@ Cc: Robert Beckett <bob.beckett@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-i965G[M] cannot relocate objects above 4GiB.
-Ensure ttm uses dma32 on these systems.
+In commit 450cede7f380 ("drm/i915/gem: Fix the mman selftest") we fixed up
+the mman selftest to allocate user buffers via smem only if we have lmem,
+otherwise it uses internal buffers.
+
+As the commit message asserts, we should only be using buffers that
+userland should be able to create.
+Internal buffers are not intended to be used by userland.
+
+Instead, fix the code to always create buffers from smem.
+In the case of integrated, this will create them from the shmem non-ttm
+backend, which is fine.
+
+This also fixes up the code to allow conversion of internal backend to
+ttm without breaking this test.
 
 Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
 ---
- drivers/gpu/drm/i915/intel_region_ttm.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ .../gpu/drm/i915/gem/selftests/i915_gem_mman.c  | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
-index 62ff77445b01..fd2ecfdd8fa1 100644
---- a/drivers/gpu/drm/i915/intel_region_ttm.c
-+++ b/drivers/gpu/drm/i915/intel_region_ttm.c
-@@ -32,10 +32,15 @@
- int intel_region_ttm_device_init(struct drm_i915_private *dev_priv)
- {
- 	struct drm_device *drm = &dev_priv->drm;
-+	bool use_dma32 = false;
-+
-+	/* i965g[m] cannot relocate objects above 4GiB. */
-+	if (IS_I965GM(dev_priv) || IS_I965G(dev_priv))
-+		use_dma32 = true;
- 
- 	return ttm_device_init(&dev_priv->bdev, i915_ttm_driver(),
- 			       drm->dev, drm->anon_inode->i_mapping,
--			       drm->vma_offset_manager, false, false);
-+			       drm->vma_offset_manager, false, use_dma32);
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+index 5bc93a1ce3e3..ee2ad1281f97 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+@@ -594,17 +594,12 @@ static enum i915_mmap_type default_mapping(struct drm_i915_private *i915)
  }
  
- /**
+ static struct drm_i915_gem_object *
+-create_sys_or_internal(struct drm_i915_private *i915,
+-		       unsigned long size)
++create_sys(struct drm_i915_private *i915, unsigned long size)
+ {
+-	if (HAS_LMEM(i915)) {
+-		struct intel_memory_region *sys_region =
+-			i915->mm.regions[INTEL_REGION_SMEM];
++	struct intel_memory_region *sys_region =
++		i915->mm.regions[INTEL_REGION_SMEM];
+ 
+-		return __i915_gem_object_create_user(i915, size, &sys_region, 1);
+-	}
+-
+-	return i915_gem_object_create_internal(i915, size);
++	return __i915_gem_object_create_user(i915, size, &sys_region, 1);
+ }
+ 
+ static bool assert_mmap_offset(struct drm_i915_private *i915,
+@@ -615,7 +610,7 @@ static bool assert_mmap_offset(struct drm_i915_private *i915,
+ 	u64 offset;
+ 	int ret;
+ 
+-	obj = create_sys_or_internal(i915, size);
++	obj = create_sys(i915, size);
+ 	if (IS_ERR(obj))
+ 		return expected && expected == PTR_ERR(obj);
+ 
+@@ -717,7 +712,7 @@ static int igt_mmap_offset_exhaustion(void *arg)
+ 	}
+ 
+ 	/* Fill the hole, further allocation attempts should then fail */
+-	obj = create_sys_or_internal(i915, PAGE_SIZE);
++	obj = create_sys(i915, PAGE_SIZE);
+ 	if (IS_ERR(obj)) {
+ 		err = PTR_ERR(obj);
+ 		pr_err("Unable to create object for reclaimed hole\n");
 -- 
 2.25.1
 
