@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65F8542178
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 08:35:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF209542227
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 08:46:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D63F910E0E3;
-	Wed,  8 Jun 2022 06:35:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 771E210E18B;
+	Wed,  8 Jun 2022 06:46:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13D3010E0A2;
- Wed,  8 Jun 2022 06:35:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654670106; x=1686206106;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=kg6x+lZ5Hy6d/AgdPvu2rwKDPUvIhscPIg6TyP1pHSg=;
- b=EZguWupcgAK/c07BwcEVQ+qN6r1eNQ/eAbgaisgd1tJobp6JXczwFukD
- mrghm313N36zOQyLgUF3HCMRWrSyNCHUwdbAbo9lo5cBW7r7DZ+mSTpjA
- SE5b3DQhQ/ohV2G9Ev0/vI3KOtw417PODUZmdld6qmoI9lieO1ag2MCWB
- hTz6EeDAN7c+SZ4H8yiAuOnjB2HwoCzEwSgPpbLzC+LXGMH58PuBKd5pd
- nI/y3x8cOCyBWmtE5cMhojh3FZ/DwIgPx1MUZtMunCX7f0ufRttW1rycE
- FyEwDsXLS4d9UYXf0QPbvS6c4YWAte/z/Kyi5fsz2f3UhEBpAdmHt1HTO A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="259929598"
-X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="259929598"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 23:35:05 -0700
-X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="636612447"
-Received: from hchegond-ivm1.jf.intel.com (HELO intel.com) ([10.165.21.208])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2022 23:35:04 -0700
-Date: Tue, 7 Jun 2022 23:35:00 -0700
-From: Harish Chegondi <harish.chegondi@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/pvc: Add register steering
-Message-ID: <YqBDFPT+a1rM2Fa+@intel.com>
-References: <20220603005335.1733129-1-matthew.d.roper@intel.com>
+X-Greylist: delayed 538 seconds by postgrey-1.36 at gabe;
+ Wed, 08 Jun 2022 06:46:24 UTC
+Received: from ixit.cz (ip-94-112-206-30.net.upcbroadband.cz [94.112.206.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 481F010E295;
+ Wed,  8 Jun 2022 06:46:24 +0000 (UTC)
+Received: from [10.0.0.209] (_gateway [10.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id 133132007F;
+ Wed,  8 Jun 2022 08:37:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1654670242;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vQWAM2+Oy2QQku1a4j0zeYTKANEXZbLJmb5QlDhuAok=;
+ b=GzoMy8imyUp0RGEdV2StlNqhYZE2wXuH+OB+wi2F5ch9PSgsGQyAvM8LphsMGG4myh5R7g
+ GmmSuKkJOmvAHpCLeUgQUSz0aTDAUianJMbFHJpe4QFTWzTU5n3kpQSAyIQzP7tQd01N/u
+ 2HkGhP1yqNPmPNhG4hbSbIGBG3VQbac=
+Message-ID: <7222b152-9cb8-f406-53a4-e3c5b800521a@ixit.cz>
+Date: Wed, 8 Jun 2022 08:37:21 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220603005335.1733129-1-matthew.d.roper@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20220607185806.2771739-1-dmitry.baryshkov@linaro.org>
+ <20220607185806.2771739-2-dmitry.baryshkov@linaro.org>
+From: David Heidelberg <david@ixit.cz>
+Subject: Re: [PATCH v1 1/7] dt-bindings: display/msm: hdmi: split and convert
+ to yaml
+In-Reply-To: <20220607185806.2771739-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,274 +57,595 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 02, 2022 at 05:53:35PM -0700, Matt Roper wrote:
-> Ponte Vecchio no longer has MSLICE or LNCF steering, but the bspec does
-> document several new types of multicast register ranges.  Fortunately,
-> most of the different MCR types all provide valid values at instance
-> (0,0) so there's no need to read fuse registers and calculate a valid
-> instance.  We'll lump all of those range types (BSLICE, HALFBSLICE,
-> TILEPSMI, CC, and L3BANK) into a single category called "INSTANCE0" to
-> keep things simple.  We'll also perform explicit steering for each of
-> these multicast register types, even if the implicit steering setup for
-> COMPUTE/DSS ranges would have worked too; this is based on guidance from
-> our hardware architects who suggested that we move away from implicit
-> steering and start explicitly steer all MCR register accesses on modern
-> platforms (we'll work on transitioning COMPUTE/DSS to explicit steering
-> in the future).
-> 
-> Note that there's one additional MCR range type defined in the bspec
-> (SQIDI) that we don't handle here.  Those ranges use a different
-> steering control register that we never touch; since instance 0 is also
-> always a valid setting there, we can just ignore those ranges.
-> 
-> Finally, we'll rename the HAS_MSLICES() macro to HAS_MSLICE_STEERING().
-> PVC hardware still has units referred to as mslices, but there's no
-> register steering based on mslice for this platform.
-> 
-> Bspec: 67609
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+Thank you for bringing it back to life!
+
+Reviewed-by: David Heidelberg <david@ixit.cz>
+
+On 07/06/2022 20:58, Dmitry Baryshkov wrote:
+> Convert Qualcomm HDMI binding into HDMI TX and PHY yaml bindings.
+>
+> Changes to schema:
+> HDMI:
+>   - fixed reg-names numbering to match 0..3 instead 0,1,3,4
+>
+> PHY:
+>   - moved into phy/ directory
+>   - split into QMP and non-QMP PHY schemas
+>
+> Co-developed-by: David Heidelberg <david@ixit.cz>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/i915/gt/intel_gt.c          | 50 ++++++++++++++++++---
->  drivers/gpu/drm/i915/gt/intel_gt_types.h    |  7 +++
->  drivers/gpu/drm/i915/gt/intel_workarounds.c | 22 ++++++++-
->  drivers/gpu/drm/i915/i915_drv.h             |  3 +-
->  drivers/gpu/drm/i915/i915_pci.c             |  3 +-
->  drivers/gpu/drm/i915/intel_device_info.h    |  2 +-
->  6 files changed, 76 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index ddfb98f70489..b335eacd7a6c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -106,6 +106,7 @@ static const char * const intel_steering_types[] = {
->  	"L3BANK",
->  	"MSLICE",
->  	"LNCF",
-> +	"INSTANCE 0",
->  };
->  
->  static const struct intel_mmio_range icl_l3bank_steering_table[] = {
-> @@ -133,6 +134,27 @@ static const struct intel_mmio_range dg2_lncf_steering_table[] = {
->  	{},
->  };
->  
-> +/*
-> + * We have several types of MCR registers on PVC where steering to (0,0)
-> + * will always provide us with a non-terminated value.  We'll stick them
-> + * all in the same table for simplicity.
-> + */
-> +static const struct intel_mmio_range pvc_instance0_steering_table[] = {
-> +	{ 0x004000, 0x004AFF },		/* HALF-BSLICE */
-> +	{ 0x008A80, 0x008AFF },		/* TILEPSMI */
-> +	{ 0x008800, 0x00887F },		/* CC */
-minor nit: The above two lines need to be swapped to keep this table
-sorted in the increasing order of addresses.
-> +	{ 0x00B000, 0x00B0FF },		/* HALF-BSLICE */
-> +	{ 0x00B100, 0x00B3FF },		/* L3BANK */
-> +	{ 0x00C800, 0x00CFFF },		/* HALF-BSLICE */
-> +	{ 0x00D800, 0x00D8FF },		/* HALF-BSLICE */
-> +	{ 0x00DD00, 0x00DDFF },		/* BSLICE */
-> +	{ 0x00E900, 0x00E9FF },		/* HALF-BSLICE */
-> +	{ 0x00EC00, 0x00EEFF },		/* HALF-BSLICE */
-> +	{ 0x00F000, 0x00FFFF },		/* HALF-BSLICE */
-> +	{ 0x024180, 0x0241FF },		/* HALF-BSLICE */
-> +	{},
-> +};
+>   .../devicetree/bindings/display/msm/hdmi.txt  |  99 --------
+>   .../bindings/display/msm/qcom,hdmi.yaml       | 237 ++++++++++++++++++
+>   .../bindings/phy/qcom,hdmi-phy-other.yaml     | 103 ++++++++
+>   .../bindings/phy/qcom,hdmi-phy-qmp.yaml       |  84 +++++++
+>   4 files changed, 424 insertions(+), 99 deletions(-)
+>   delete mode 100644 Documentation/devicetree/bindings/display/msm/hdmi.txt
+>   create mode 100644 Documentation/devicetree/bindings/display/msm/qcom,hdmi.yaml
+>   create mode 100644 Documentation/devicetree/bindings/phy/qcom,hdmi-phy-other.yaml
+>   create mode 100644 Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/display/msm/hdmi.txt b/Documentation/devicetree/bindings/display/msm/hdmi.txt
+> deleted file mode 100644
+> index 5f90a40da51b..000000000000
+> --- a/Documentation/devicetree/bindings/display/msm/hdmi.txt
+> +++ /dev/null
+> @@ -1,99 +0,0 @@
+> -Qualcomm adreno/snapdragon hdmi output
+> -
+> -Required properties:
+> -- compatible: one of the following
+> -   * "qcom,hdmi-tx-8996"
+> -   * "qcom,hdmi-tx-8994"
+> -   * "qcom,hdmi-tx-8084"
+> -   * "qcom,hdmi-tx-8974"
+> -   * "qcom,hdmi-tx-8660"
+> -   * "qcom,hdmi-tx-8960"
+> -- reg: Physical base address and length of the controller's registers
+> -- reg-names: "core_physical"
+> -- interrupts: The interrupt signal from the hdmi block.
+> -- power-domains: Should be <&mmcc MDSS_GDSC>.
+> -- clocks: device clocks
+> -  See ../clocks/clock-bindings.txt for details.
+> -- core-vdda-supply: phandle to supply regulator
+> -- hdmi-mux-supply: phandle to mux regulator
+> -- phys: the phandle for the HDMI PHY device
+> -- phy-names: the name of the corresponding PHY device
+> -
+> -Optional properties:
+> -- hpd-gpios: hpd pin
+> -- qcom,hdmi-tx-mux-en-gpios: hdmi mux enable pin
+> -- qcom,hdmi-tx-mux-sel-gpios: hdmi mux select pin
+> -- qcom,hdmi-tx-mux-lpm-gpios: hdmi mux lpm pin
+> -- power-domains: reference to the power domain(s), if available.
+> -- pinctrl-names: the pin control state names; should contain "default"
+> -- pinctrl-0: the default pinctrl state (active)
+> -- pinctrl-1: the "sleep" pinctrl state
+> -
+> -HDMI PHY:
+> -Required properties:
+> -- compatible: Could be the following
+> -  * "qcom,hdmi-phy-8660"
+> -  * "qcom,hdmi-phy-8960"
+> -  * "qcom,hdmi-phy-8974"
+> -  * "qcom,hdmi-phy-8084"
+> -  * "qcom,hdmi-phy-8996"
+> -- #phy-cells: Number of cells in a PHY specifier; Should be 0.
+> -- reg: Physical base address and length of the registers of the PHY sub blocks.
+> -- reg-names: The names of register regions. The following regions are required:
+> -  * "hdmi_phy"
+> -  * "hdmi_pll"
+> -  For HDMI PHY on msm8996, these additional register regions are required:
+> -    * "hdmi_tx_l0"
+> -    * "hdmi_tx_l1"
+> -    * "hdmi_tx_l3"
+> -    * "hdmi_tx_l4"
+> -- power-domains: Should be <&mmcc MDSS_GDSC>.
+> -- clocks: device clocks
+> -  See Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
+> -- core-vdda-supply: phandle to vdda regulator device node
+> -
+> -Example:
+> -
+> -/ {
+> -	...
+> -
+> -	hdmi: hdmi@4a00000 {
+> -		compatible = "qcom,hdmi-tx-8960";
+> -		reg-names = "core_physical";
+> -		reg = <0x04a00000 0x2f0>;
+> -		interrupts = <GIC_SPI 79 0>;
+> -		power-domains = <&mmcc MDSS_GDSC>;
+> -		clock-names =
+> -		    "core",
+> -		    "master_iface",
+> -		    "slave_iface";
+> -		clocks =
+> -		    <&mmcc HDMI_APP_CLK>,
+> -		    <&mmcc HDMI_M_AHB_CLK>,
+> -		    <&mmcc HDMI_S_AHB_CLK>;
+> -		qcom,hdmi-tx-ddc-clk = <&msmgpio 70 GPIO_ACTIVE_HIGH>;
+> -		qcom,hdmi-tx-ddc-data = <&msmgpio 71 GPIO_ACTIVE_HIGH>;
+> -		qcom,hdmi-tx-hpd = <&msmgpio 72 GPIO_ACTIVE_HIGH>;
+> -		core-vdda-supply = <&pm8921_hdmi_mvs>;
+> -		hdmi-mux-supply = <&ext_3p3v>;
+> -		pinctrl-names = "default", "sleep";
+> -		pinctrl-0 = <&hpd_active  &ddc_active  &cec_active>;
+> -		pinctrl-1 = <&hpd_suspend &ddc_suspend &cec_suspend>;
+> -
+> -		phys = <&hdmi_phy>;
+> -		phy-names = "hdmi_phy";
+> -	};
+> -
+> -	hdmi_phy: phy@4a00400 {
+> -		compatible = "qcom,hdmi-phy-8960";
+> -		reg-names = "hdmi_phy",
+> -			    "hdmi_pll";
+> -		reg = <0x4a00400 0x60>,
+> -		      <0x4a00500 0x100>;
+> -		#phy-cells = <0>;
+> -		power-domains = <&mmcc MDSS_GDSC>;
+> -		clock-names = "slave_iface";
+> -		clocks = <&mmcc HDMI_S_AHB_CLK>;
+> -		core-vdda-supply = <&pm8921_hdmi_mvs>;
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,hdmi.yaml b/Documentation/devicetree/bindings/display/msm/qcom,hdmi.yaml
+> new file mode 100644
+> index 000000000000..2f485b5d1c5d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/msm/qcom,hdmi.yaml
+> @@ -0,0 +1,237 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
 > +
->  int intel_gt_init_mmio(struct intel_gt *gt)
->  {
->  	struct drm_i915_private *i915 = gt->i915;
-> @@ -146,7 +168,7 @@ int intel_gt_init_mmio(struct intel_gt *gt)
->  	 * An mslice is unavailable only if both the meml3 for the slice is
->  	 * disabled *and* all of the DSS in the slice (quadrant) are disabled.
->  	 */
-> -	if (HAS_MSLICES(i915)) {
-> +	if (HAS_MSLICE_STEERING(i915)) {
->  		gt->info.mslice_mask =
->  			intel_slicemask_from_xehp_dssmask(gt->info.sseu.subslice_mask,
->  							  GEN_DSS_PER_MSLICE);
-> @@ -158,7 +180,9 @@ int intel_gt_init_mmio(struct intel_gt *gt)
->  			drm_warn(&i915->drm, "mslice mask all zero!\n");
->  	}
->  
-> -	if (IS_DG2(i915)) {
-> +	if (IS_PONTEVECCHIO(i915)) {
-> +		gt->steering_table[INSTANCE0] = pvc_instance0_steering_table;
-> +	} else if (IS_DG2(i915)) {
->  		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
->  		gt->steering_table[LNCF] = dg2_lncf_steering_table;
->  	} else if (IS_XEHPSDV(i915)) {
-> @@ -172,7 +196,11 @@ int intel_gt_init_mmio(struct intel_gt *gt)
->  			GEN10_L3BANK_MASK;
->  		if (!gt->info.l3bank_mask) /* should be impossible! */
->  			drm_warn(&i915->drm, "L3 bank mask is all zero!\n");
-> -	} else if (HAS_MSLICES(i915)) {
-> +	} else if (GRAPHICS_VER(i915) >= 11) {
-> +		/*
-> +		 * We expect all modern platforms to have at least some
-> +		 * type of steering that needs to be initialized.
-> +		 */
->  		MISSING_CASE(INTEL_INFO(i915)->platform);
->  	}
->  
-> @@ -888,7 +916,7 @@ static void intel_gt_get_valid_steering(struct intel_gt *gt,
->  		*subsliceid = __ffs(gt->info.l3bank_mask);
->  		break;
->  	case MSLICE:
-> -		GEM_WARN_ON(!HAS_MSLICES(gt->i915));
-> +		GEM_WARN_ON(!HAS_MSLICE_STEERING(gt->i915));
->  		*sliceid = __ffs(gt->info.mslice_mask);
->  		*subsliceid = 0;	/* unused */
->  		break;
-> @@ -897,10 +925,18 @@ static void intel_gt_get_valid_steering(struct intel_gt *gt,
->  		 * An LNCF is always present if its mslice is present, so we
->  		 * can safely just steer to LNCF 0 in all cases.
->  		 */
-> -		GEM_WARN_ON(!HAS_MSLICES(gt->i915));
-> +		GEM_WARN_ON(!HAS_MSLICE_STEERING(gt->i915));
->  		*sliceid = __ffs(gt->info.mslice_mask) << 1;
->  		*subsliceid = 0;	/* unused */
->  		break;
-> +	case INSTANCE0:
-> +		/*
-> +		 * There are a lot of MCR types for which instance (0, 0)
-> +		 * will always provide a non-terminated value.
-> +		 */
-> +		*sliceid = 0;
-> +		*subsliceid = 0;
-> +		break;
->  	default:
->  		MISSING_CASE(type);
->  		*sliceid = 0;
-> @@ -1020,7 +1056,9 @@ void intel_gt_report_steering(struct drm_printer *p, struct intel_gt *gt,
->  		   gt->default_steering.groupid,
->  		   gt->default_steering.instanceid);
->  
-> -	if (HAS_MSLICES(gt->i915)) {
-> +	if (IS_PONTEVECCHIO(gt->i915)) {
-> +		report_steering_type(p, gt, INSTANCE0, dump_table);
-> +	} else if (HAS_MSLICE_STEERING(gt->i915)) {
->  		report_steering_type(p, gt, MSLICE, dump_table);
->  		report_steering_type(p, gt, LNCF, dump_table);
->  	}
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> index 993f003dad1d..df708802889d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> @@ -59,6 +59,13 @@ enum intel_steering_type {
->  	MSLICE,
->  	LNCF,
->  
-> +	/*
-> +	 * On some platforms there are multiple types of MCR registers that
-> +	 * will always return a non-terminated value at instance (0, 0).  We'll
-> +	 * lump those all into a single category to keep things simple.
-> +	 */
-> +	INSTANCE0,
+> +$id: "http://devicetree.org/schemas/display/msm/qcom,hdmi.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 > +
->  	NUM_STEERING_TYPES
->  };
->  
-> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> index eb0598593724..1b191b234160 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> @@ -1195,6 +1195,20 @@ xehp_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
->  	__set_mcr_steering(wal, SF_MCR_SELECTOR, 0, 2);
->  }
->  
-> +static void
-> +pvc_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
-> +{
-> +	unsigned int dss;
+> +title: Qualcomm Adreno/Snapdragon HDMI output
 > +
-> +	/*
-> +	 * Setup implicit steering for COMPUTE and DSS ranges to the first
-> +	 * non-fused-off DSS.  All other types of MCR registers will be
-> +	 * explicitly steered.
-> +	 */
-> +	dss = intel_sseu_find_first_xehp_dss(&gt->info.sseu, 0, 0);
-> +	__add_mcr_wa(gt, wal, dss / GEN_DSS_PER_CSLICE, dss % GEN_DSS_PER_CSLICE);
-> +}
+> +maintainers:
+> +  - Rob Clark <robdclark@gmail.com>
 > +
->  static void
->  icl_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
->  {
-> @@ -1488,13 +1502,19 @@ dg2_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
->  	wa_write_or(wal, GEN12_SQCM, EN_32B_ACCESS);
->  }
->  
-> +static void
-> +pvc_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
-> +{
-> +	pvc_init_mcr(gt, wal);
-> +}
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - qcom,hdmi-tx-8660
+> +      - qcom,hdmi-tx-8960
+> +      - qcom,hdmi-tx-8974
+> +      - qcom,hdmi-tx-8084
+> +      - qcom,hdmi-tx-8994
+> +      - qcom,hdmi-tx-8996
 > +
->  static void
->  gt_init_workarounds(struct intel_gt *gt, struct i915_wa_list *wal)
->  {
->  	struct drm_i915_private *i915 = gt->i915;
->  
->  	if (IS_PONTEVECCHIO(i915))
-> -		; /* none yet */
-> +		pvc_gt_workarounds_init(gt, wal);
->  	else if (IS_DG2(i915))
->  		dg2_gt_workarounds_init(gt, wal);
->  	else if (IS_XEHPSDV(i915))
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index c3854b8a014f..5870cf9eb0b4 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -1283,8 +1283,7 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->  #define HAS_RUNTIME_PM(dev_priv) (INTEL_INFO(dev_priv)->has_runtime_pm)
->  #define HAS_64BIT_RELOC(dev_priv) (INTEL_INFO(dev_priv)->has_64bit_reloc)
->  
-> -#define HAS_MSLICES(dev_priv) \
-> -	(INTEL_INFO(dev_priv)->has_mslices)
-> +#define HAS_MSLICE_STEERING(dev_priv)	(INTEL_INFO(dev_priv)->has_mslice_steering)
->  
->  /*
->   * Set this flag, when platform requires 64K GTT page sizes or larger for
-> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-> index a5a1a7647320..5e51fc29bb8b 100644
-> --- a/drivers/gpu/drm/i915/i915_pci.c
-> +++ b/drivers/gpu/drm/i915/i915_pci.c
-> @@ -1021,7 +1021,7 @@ static const struct intel_device_info adl_p_info = {
->  	.has_llc = 1, \
->  	.has_logical_ring_contexts = 1, \
->  	.has_logical_ring_elsq = 1, \
-> -	.has_mslices = 1, \
-> +	.has_mslice_steering = 1, \
->  	.has_rc6 = 1, \
->  	.has_reset_engine = 1, \
->  	.has_rps = 1, \
-> @@ -1091,6 +1091,7 @@ static const struct intel_device_info ats_m_info = {
->  	.has_3d_pipeline = 0, \
->  	.has_guc_deprivilege = 1, \
->  	.has_l3_ccs_read = 1, \
-> +	.has_mslice_steering = 0, \
->  	.has_one_eu_per_fuse_bit = 1
->  
->  __maybe_unused
-> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-> index 346f17f2dce8..08341174ee0a 100644
-> --- a/drivers/gpu/drm/i915/intel_device_info.h
-> +++ b/drivers/gpu/drm/i915/intel_device_info.h
-> @@ -157,7 +157,7 @@ enum intel_ppgtt_type {
->  	func(has_logical_ring_contexts); \
->  	func(has_logical_ring_elsq); \
->  	func(has_media_ratio_mode); \
-> -	func(has_mslices); \
-> +	func(has_mslice_steering); \
->  	func(has_one_eu_per_fuse_bit); \
->  	func(has_pooled_eu); \
->  	func(has_pxp); \
-Looks good to me.
-Reviewed-by: Harish Chegondi <harish.chegondi@intel.com>
-> -- 
-> 2.35.3
-> 
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 5
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 5
+> +
+> +  reg:
+> +    minItems: 1
+> +    maxItems: 3
+> +    description: Physical base address and length of the controller's registers
+> +
+> +  reg-names:
+> +    minItems: 1
+> +    items:
+> +      - const: core_physical
+> +      - const: qfprom_physical
+> +      - const: hdcp_physical
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description: The interrupt signal from the hdmi block.
+> +
+> +  phys:
+> +    description: the phandle for the HDMI PHY device
+> +    maxItems: 1
+> +
+> +  phy-names:
+> +    enum:
+> +      - hdmi_phy
+> +      - hdmi-phy
+> +
+> +  hpd-gpios:
+> +    maxItems: 1
+> +    description: hpd pin
+> +
+> +  qcom,hdmi-tx-ddc-clk-gpios:
+> +    maxItems: 1
+> +    description: HDMI DDC clock
+> +
+> +  qcom,hdmi-tx-ddc-data-gpios:
+> +    maxItems: 1
+> +    description: HDMI DDC data
+> +
+> +  qcom,hdmi-tx-mux-en-gpios:
+> +    maxItems: 1
+> +    description: HDMI mux enable pin
+> +
+> +  qcom,hdmi-tx-mux-sel-gpios:
+> +    maxItems: 1
+> +    description: HDMI mux select pin
+> +
+> +  qcom,hdmi-tx-mux-lpm-gpios:
+> +    maxItems: 1
+> +    description: HDMI mux lpm pin
+> +
+> +  '#sound-dai-cells':
+> +    const: 1
+> +
+> +  ports:
+> +    type: object
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: |
+> +          Input endpoints of the controller.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: |
+> +          Output endpoints of the controller.
+> +
+> +    required:
+> +      - port@0
+> +
+> +required:
+> +  - compatible
+> +  - clocks
+> +  - clock-names
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - phys
+> +  - phy-names
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,hdmi-tx-8960
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 3
+> +          maxItems: 3
+> +        clock-names:
+> +          items:
+> +            - const: core
+> +            - const: master_iface
+> +            - const: slave_iface
+> +        core-vdda-supply:
+> +          description: phandle to VDDA supply regulator
+> +        hdmi-mux-supply:
+> +          description: phandle to mux regulator
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,hdmi-tx-8974
+> +              - qcom,hdmi-tx-8084
+> +              - qcom,hdmi-tx-8994
+> +              - qcom,hdmi-tx-8996
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 5
+> +        clock-names:
+> +          items:
+> +            - const: mdp_core
+> +            - const: iface
+> +            - const: core
+> +            - const: alt_iface
+> +            - const: extp
+> +        core-vdda-supply:
+> +          description: phandle to VDDA supply regulator
+> +        core-vcc-supply:
+> +          description: phandle to VCC supply regulator
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    hdmi: hdmi@4a00000 {
+> +      compatible = "qcom,hdmi-tx-8960";
+> +      reg-names = "core_physical";
+> +      reg = <0x04a00000 0x2f0>;
+> +      interrupts = <0 79 0>;
+> +      clock-names =
+> +          "core",
+> +          "master_iface",
+> +          "slave_iface";
+> +      clocks =
+> +          <&clk 61>,
+> +          <&clk 72>,
+> +          <&clk 98>;
+> +      qcom,hdmi-tx-ddc-clk-gpios = <&msmgpio 70 0>;
+> +      qcom,hdmi-tx-ddc-data-gpios = <&msmgpio 71 0>;
+> +      hpd-gpios = <&msmgpio 72 0>;
+> +      core-vdda-supply = <&pm8921_hdmi_mvs>;
+> +      hdmi-mux-supply = <&ext_3p3v>;
+> +      pinctrl-names = "default", "sleep";
+> +      pinctrl-0 = <&hpd_active  &ddc_active  &cec_active>;
+> +      pinctrl-1 = <&hpd_suspend &ddc_suspend &cec_suspend>;
+> +
+> +      phys = <&hdmi_phy>;
+> +      phy-names = "hdmi_phy";
+> +    };
+> +  - |
+> +    #include <dt-bindings/clock/qcom,gcc-msm8996.h>
+> +    #include <dt-bindings/clock/qcom,mmcc-msm8996.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    hdmi-tx@9a0000 {
+> +      compatible = "qcom,hdmi-tx-8996";
+> +      reg = <0x009a0000 0x50c>,
+> +            <0x00070000 0x6158>,
+> +            <0x009e0000 0xfff>;
+> +      reg-names = "core_physical",
+> +                  "qfprom_physical",
+> +                  "hdcp_physical";
+> +
+> +      interrupt-parent = <&mdss>;
+> +      interrupts = <8 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +      clocks = <&mmcc MDSS_MDP_CLK>,
+> +               <&mmcc MDSS_AHB_CLK>,
+> +               <&mmcc MDSS_HDMI_CLK>,
+> +               <&mmcc MDSS_HDMI_AHB_CLK>,
+> +               <&mmcc MDSS_EXTPCLK_CLK>;
+> +      clock-names = "mdp_core",
+> +                    "iface",
+> +                    "core",
+> +                    "alt_iface",
+> +                    "extp";
+> +
+> +      phys = <&hdmi_phy>;
+> +      phy-names = "hdmi_phy";
+> +      #sound-dai-cells = <1>;
+> +
+> +      pinctrl-names = "default", "sleep";
+> +      pinctrl-0 = <&hdmi_hpd_active &hdmi_ddc_active>;
+> +      pinctrl-1 = <&hdmi_hpd_suspend &hdmi_ddc_suspend>;
+> +
+> +      core-vdda-supply = <&vreg_l12a_1p8>;
+> +      core-vcc-supply = <&vreg_s4a_1p8>;
+> +
+> +      ports {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        port@0 {
+> +          reg = <0>;
+> +          endpoint {
+> +            remote-endpoint = <&mdp5_intf3_out>;
+> +          };
+> +        };
+> +      };
+> +    };
+> +...
+> diff --git a/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-other.yaml b/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-other.yaml
+> new file mode 100644
+> index 000000000000..79193cf71828
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-other.yaml
+> @@ -0,0 +1,103 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +
+> +$id: "http://devicetree.org/schemas/phy/qcom,hdmi-phy-other.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Qualcomm Adreno/Snapdragon HDMI phy
+> +
+> +maintainers:
+> +  - Rob Clark <robdclark@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    contains:
+> +      enum:
+> +        - qcom,hdmi-phy-8660
+> +        - qcom,hdmi-phy-8960
+> +        - qcom,hdmi-phy-8974
+> +        - qcom,hdmi-phy-8084
+> +
+> +  reg:
+> +    minItems: 2
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: hdmi_phy
+> +      - const: hdmi_pll
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  '#phy-cells':
+> +    const: 0
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,hdmi-phy-8960
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 1
+> +        clock-names:
+> +          items:
+> +            - const: slave_iface
+> +        core-vdda-supply:
+> +          description: phandle to VDDA supply regulator
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,hdmi-phy-8974
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 2
+> +        clock-names:
+> +          items:
+> +            - const: iface
+> +            - const: alt_iface
+> +        core-vdda-supply:
+> +          description: phandle to VDDA supply regulator
+> +        vddio-supply:
+> +          description: phandle to VDD I/O supply regulator
+> +
+> +required:
+> +  - compatible
+> +  - clocks
+> +  - reg
+> +  - reg-names
+> +  - '#phy-cells'
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    hdmi_phy: phy@4a00400 {
+> +      compatible = "qcom,hdmi-phy-8960";
+> +      reg-names = "hdmi_phy",
+> +                  "hdmi_pll";
+> +      reg = <0x4a00400 0x60>,
+> +            <0x4a00500 0x100>;
+> +      #phy-cells = <0>;
+> +      power-domains = <&mmcc 1>;
+> +      clock-names = "slave_iface";
+> +      clocks = <&clk 21>;
+> +      core-vdda-supply = <&pm8921_hdmi_mvs>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml b/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml
+> new file mode 100644
+> index 000000000000..2b36a4c3d4c3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml
+> @@ -0,0 +1,84 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +
+> +$id: "http://devicetree.org/schemas/phy/qcom,hdmi-phy-qmp.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Qualcomm Adreno/Snapdragon QMP HDMI phy
+> +
+> +maintainers:
+> +  - Rob Clark <robdclark@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    contains:
+> +      enum:
+> +        - qcom,hdmi-phy-8996
+> +
+> +  reg:
+> +    maxItems: 6
+> +
+> +  reg-names:
+> +    items:
+> +      - const: hdmi_pll
+> +      - const: hdmi_tx_l0
+> +      - const: hdmi_tx_l1
+> +      - const: hdmi_tx_l2
+> +      - const: hdmi_tx_l3
+> +      - const: hdmi_phy
+> +
+> +  clocks:
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    items:
+> +      - const: iface
+> +      - const: ref
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  vcca-supply: true
+> +
+> +  vddio-supply: true
+> +
+> +  '#phy-cells':
+> +    const: 0
+> +
+> +required:
+> +  - compatible
+> +  - clocks
+> +  - clock-names
+> +  - reg
+> +  - reg-names
+> +  - '#phy-cells'
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    hdmi-phy@9a0600 {
+> +      compatible = "qcom,hdmi-phy-8996";
+> +      reg = <0x009a0600 0x1c4>,
+> +            <0x009a0a00 0x124>,
+> +            <0x009a0c00 0x124>,
+> +            <0x009a0e00 0x124>,
+> +            <0x009a1000 0x124>,
+> +            <0x009a1200 0x0c8>;
+> +      reg-names = "hdmi_pll",
+> +                  "hdmi_tx_l0",
+> +                  "hdmi_tx_l1",
+> +                  "hdmi_tx_l2",
+> +                  "hdmi_tx_l3",
+> +                  "hdmi_phy";
+> +
+> +      clocks = <&mmcc 116>,
+> +               <&gcc 214>;
+> +      clock-names = "iface",
+> +                    "ref";
+> +      #phy-cells = <0>;
+> +
+> +      vddio-supply = <&vreg_l12a_1p8>;
+> +      vcca-supply = <&vreg_l28a_0p925>;
+> +    };
+
+-- 
+David Heidelberg
+Consultant Software Engineer
+
+Matrix: @okias:matrix.org
+
