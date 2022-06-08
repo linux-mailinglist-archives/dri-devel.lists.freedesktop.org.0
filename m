@@ -1,128 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B1B54298A
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 10:35:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 182E954298E
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 10:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC4C10E41C;
-	Wed,  8 Jun 2022 08:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE82B10E516;
+	Wed,  8 Jun 2022 08:36:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2073.outbound.protection.outlook.com [40.107.92.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23E7810E419;
- Wed,  8 Jun 2022 08:35:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lr9AtieIHTfd5ZUR0f+92lyEdm4YH5548wc6DCdh9Ca/trLcsovTftV3aAJkNSa+T1Kz6W56uf2jb/utofi8JjYO3i/LQb8wZk1Diz4Rv0IT7zYaNc4rx+qvqlsrltQoQmYTj29AT4AVGO08fERhWYlXw/RAAm4LYIrmaG92nUIVBHm59mEQmA6/0xYODHmUmY0foe3w8s0WMyezgdV7/J0AvFdpWlZl4wl4Fcq2QBrs33XVEuh673lHewhlhUsSkxYkkP/xsVFdMC7bfquF0aIAs04sSXeYPXaXP0N4ajQgm/75geCCaTfDK9uQSq9cWyimp58pc1a/9m47xQQMFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HIlG6/V8CagKWFtxZL2sj8vN0WzsSEz59i8JmuREPsY=;
- b=nmyngiuZZ39Cx+HYSSCn3F6uZchbht+KJkLefFVwhWT4u8ceX5+wgW1FD2jRBCFh/2mwurxE33bXP83UDGtv7d9B8wVmCX42qgTCJzQEQEShX2JVkk7znHxoZg6Rj1QZHNkuHV9BW8MUtiiLN5jt0Q4T0jE1gjj+qwzKMubnRowByJKWby4K3YdgWxE/TMZ3Jutd+3X0WXWZqEMTfbTm3LzjZqEnxAgr2YhZj4Nl5iOxz715XbdZqfcwbqlG+XzsZa81Brmy5w+SzoyvoQyW/PnR3X8wOHIVRYV0Y7FDs3um2admX+IJKiCjRmfgPUGvJKM5j4MkyormFw+y3fNA0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HIlG6/V8CagKWFtxZL2sj8vN0WzsSEz59i8JmuREPsY=;
- b=zHSGkn//5llILg9droLK791BN2yHDFv5gb+DnFwpcfWAxhyHXZWaHcK4F3mpPcCbM42m/zG16v961/Erz3WuMusR7gwdljo4vrLGZDdbWcRNL2d0Sfz6KetMmWUPBEihTOZj7WqZDOJfgxgArA8hYTJUKafszthjQ2vdl66cZ8U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BY5PR12MB4180.namprd12.prod.outlook.com (2603:10b6:a03:213::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.12; Wed, 8 Jun
- 2022 08:35:19 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7146:65ee:8fd3:dd03]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::7146:65ee:8fd3:dd03%4]) with mapi id 15.20.5314.019; Wed, 8 Jun 2022
- 08:35:19 +0000
-Message-ID: <b2bfdb5e-25d7-22d8-1788-ba34256e7664@amd.com>
-Date: Wed, 8 Jun 2022 10:35:13 +0200
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 078FD10E516;
+ Wed,  8 Jun 2022 08:36:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654677375; x=1686213375;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=MnAiJ2mpQq03sHfOALaeE4FCwjxn5O8rr++cwpkjzaQ=;
+ b=Ob0FdLSwjDvc08svv7/lpqRlLCWVbldvos33wYD1hfR6QfrHc4VO9gcY
+ xhE4HX/XGTps1qc1pEa/tPiSx4GXr+hB7o2atihTu74atHjmjePHn2xAi
+ gcTA8dUntYYNrMgd0/ijwQRj4wO4muhWuddgl/LgrvpFripfVB51sqcfd
+ pxWSsgafH+shf0Wprk5b0ZUwoNI9GQr6dccBav+zvmJ+NFz6lXuZBw/VZ
+ e/H3JiooUlwUOFgEj7G7qBgu/TnZqiJtOxBfR4Km9w4Xn6Eo699SKsjYl
+ ZENsGv10qDRe9CZ+yN+UtsQ1O+V9X3iyZTOCQ+2vPMe62vSl1Z7jZNbjR Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="276846408"
+X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="276846408"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 01:36:14 -0700
+X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="907553234"
+Received: from jking17-mobl.ger.corp.intel.com (HELO [10.213.193.156])
+ ([10.213.193.156])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 01:36:12 -0700
+Message-ID: <0603b682-a196-9324-5c96-3ab5a8487a53@linux.intel.com>
+Date: Wed, 8 Jun 2022 09:36:10 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 1/1] drm/radeon: Initialize fences array entries in
- radeon_sa_bo_next_hole
+Subject: Re: [Intel-gfx] [RFC v3 3/3] drm/doc/rfc: VM_BIND uapi definition
 Content-Language: en-US
-To: Xiaohui Zhang <xiaohuizhang@ruc.edu.cn>,
- Alex Deucher <alexander.deucher@amd.com>, Xinhui.Pan@amd.com,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20220607151933.32850-1-xiaohuizhang@ruc.edu.cn>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220607151933.32850-1-xiaohuizhang@ruc.edu.cn>
+To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
+ <20220517183212.20274-4-niranjana.vishwanathapura@intel.com>
+ <e4e1989c314d3958d58010431515ea371935d0c3.camel@intel.com>
+ <20220523191943.GH4461@nvishwa1-DESK>
+ <CAPM=9tzcYL5kwv18cfq5NzE00jwHuwTj_L73NVgE8vdcBgrQww@mail.gmail.com>
+ <CAKMK7uFt23yZxGJfuZ71ngNw-46yvyed8LaQCQ1ksq73MLGEug@mail.gmail.com>
+ <20220602050833.GP4461@nvishwa1-DESK> <20220603065330.GT4461@nvishwa1-DESK>
+ <08e61393-d4ec-d35e-9b8f-41195365f179@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <08e61393-d4ec-d35e-9b8f-41195365f179@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM6PR05CA0023.eurprd05.prod.outlook.com
- (2603:10a6:20b:2e::36) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7de2be80-9d48-4ee5-e86e-08da4929d1b6
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4180:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB41809C0BA992D67984F9BCB183A49@BY5PR12MB4180.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hLaWZvEUCIUboOpp9QswVm0FN3LyfjASjVY9LNswIRTs3IHNqtU4FV8H0HKjBZu2xCAehjYGwfMXKFIV8VAKEPW2HF8yqp9ChWByFwTfPV18FBKkDVgckzJ9Lfv6Aml0hpvoOxA3uADVLBNhMn+euOdXKfHRnnebbqTHqsLNtg6fwv0Loo7TX/6LwL86sdGPbPspTr2Wa0q49jMXzhSPL6GjBf7tvfHvF/L1fDdzK2ZVwmKG7TFcipeEg7hvYxK/KUZLwE/UEsUSeO8XcEf6pk5JColxILA+b777sChjK7ADoex3xP4fAvoEkKmA1eAPdhxXfFDHLYlPgp+ftJuaG3gCRrK1Jed3KS57RjkX2lqtuZihR37gjL6XE7qpVsx11VZ5IzyD9DtfEx1DaHYmCIiXriwwM2AYHcwXXVH1Qq/6YaAQsWSerE5nBvcOUZ9KisOtTYr+zP+mezqPF5mfEnRlPJnh5U18kKjqUUxYyQjin93C9Nu6+IcrTz95MZKMDF/R/JZAWJQRHWPzwZ9woh73VauEVn11/BpDoNfWIxSoTvpI+L9btipnTZZ86F+b6kiCeuGXPRutf575HbDf9BgRxl80146eNFGhfcDvIV8/PtDC/3k6xiD8jEh24sD4wUKt4o0Ks8aYBjKYfwr831rMk4hdhQceW1ORXDl1TTjumLqYhkp/QRJEhvpw+VV37h4NFJPewU/KqJmqnNPEwbQozrackF5119TTxw2Fk6zN1iLsb+anU9502QUUNeEk
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(86362001)(31696002)(8676002)(83380400001)(38100700002)(31686004)(6506007)(66556008)(66476007)(5660300002)(2906002)(36756003)(8936002)(6512007)(508600001)(6486002)(66946007)(110136005)(186003)(6666004)(2616005)(316002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M0NnMUF3bHQxWm1jVjErQ0JleVc2a0h4eW0wUXpMVFdvdDhpNGtDT0lvbnRU?=
- =?utf-8?B?cFUvdURnWmQveWJoOXJjczRldEVtdGV4cmYxL0ZhU1BJc1NFNXEwSXNjTFZz?=
- =?utf-8?B?dW1iQWcyRm9DUEdZYUt0clo0K1FKcDR2QkNiNVB0a1NrdjBoRjA3QWpod3po?=
- =?utf-8?B?VTVCeGhTejNCRmMrNzhpc3ZSYjV5Y1NuMUp2NDVuRTh6T2hwemQ5RnVFdDRh?=
- =?utf-8?B?RXlrOFgza1RaMEZBTUMycFdveG1INWlxbzFpeUdJYUJDdURDYmVneWo1MWdW?=
- =?utf-8?B?QmNaVkFSY0V0UUVJS012Zzd6dWV2dm5rM250eHZkR0lmUUsxNGJZalZndDYr?=
- =?utf-8?B?N3QrTUFPd2RNbFNMa2pwT2xOcDQwTlQzMXV3OURveVJxUWFNbEJEaWVMZFRD?=
- =?utf-8?B?M2ZrLzRvU3NYV1ZYV1NzZFVpVkZLQzZhYVRnUVVRNlJTdS9pUi9kbXRQQnBG?=
- =?utf-8?B?QVh0RmxzNmlTZFl3c1kyemx4NjV5aFh1TWNub3FHMHhVZkZzWll4dzBHUUp1?=
- =?utf-8?B?cGVYR3VjalRON2RuSGVQY2F3eE5taE9KRGxmNXV2NURJUWJIWFdJSUFVTkhB?=
- =?utf-8?B?OHVod1F6TTVJM0N3U1BVK01aZlZ4aUt5cGh6NWRpUTZOVjNPNUtSeDVOSFpE?=
- =?utf-8?B?M0VEcVEzTWRmdUZHKzBwQ01qK2V4OUVrUmV3SkdNT1NTRmdpejM2eTRzZ1RP?=
- =?utf-8?B?RjJmUk01RHBHRnJFamtsZmZjdzdZK0RhRVJyL0s0bFYrdWpFUm9HNlE2ZnNK?=
- =?utf-8?B?SFZtOVN5cmkzeUhwUFhaaGVScWEvOGE3OEZYd0ttV21DemViZEtMckFKQjZU?=
- =?utf-8?B?bVJ1bkNxU2J1N1FUTWhOWU4xNzMzUnJlVVU5TWNXZEhreXA3dldwd1lRK0Yx?=
- =?utf-8?B?S1A1UHlVM1V5UjVodU5kMjlpVWRNTDRzTW5IMFFWZFlqK0pVUWhlalk5N2NF?=
- =?utf-8?B?Z2xuZGF3K2NIckVBalo1QWdlMVhZM2hCcUdFZjdZYXFKY3FOT2hxQWRVWkp3?=
- =?utf-8?B?YmlrNnlNZ1M0Y0E2OUthY0FGNXNFZTg1ZzZINmM5L2FNTUVSU3pxa3BVQkow?=
- =?utf-8?B?dnVMYWRRQkpUbmVhU1BtRlF5eXg5Ri93b1hyVCtlZC83dkQ0TFowc0ZTeTBl?=
- =?utf-8?B?eXJyVFdEdkFHQW1ZOVFCbDJsRFdKVXgxQ2F4NXY3TC9NTCsvQlhvckNUUUxh?=
- =?utf-8?B?NTB5OUZQRWx5UWpPZ3BQZDQ2U0Vya3NDemJkbEc4d2ZYbWlwTFFxK3kvS0Yy?=
- =?utf-8?B?RVVCOXBuN3BBWHl0QjRQL296OTRVdjVkTUczVWhlTll1RjRBak9ZbmdNbEIz?=
- =?utf-8?B?VVgySVcwa2g4TEhBZVBpNUtpb2ZYa2NNdjNESFFVVGtDUlVvTGUvYkpvZnhH?=
- =?utf-8?B?R1JBSU9ob09BQlptQ3FDMFdsR1BMekFuMXJNZCsvV1VvOGhTMkg2UGpoak9Z?=
- =?utf-8?B?cmtxV3RrRWc3ZklFWkovbElGSHZFUXpsL0NYTGJGYkFqY2h0b2pzTnpqR0lJ?=
- =?utf-8?B?RnNEK1Nmd0VubzhVUmd1Qi9aZHYyTmdqZllLQ28yekNMTjVaaWhBL1duNTdw?=
- =?utf-8?B?OGkxM2YrSkxpREtkZ3hBUWhWdWZUMzRKNnYwWkxoNVI0VldtbkpCZVBrSVE5?=
- =?utf-8?B?dDlRaGlOa1l2enVpeTY1eW1SOExOR2VRVEJoTk02WHBhYlYwUXk5UXZCMHBh?=
- =?utf-8?B?RXdLenAvUkZCOGZkWDlJNW8xNWVPUWVWSUxqTllVaUdYRXowMXRabUlLRm5C?=
- =?utf-8?B?LzBIQ0Q4QXFaTnpuVU9XN2syQTQrZzAvbUw4N2NGQnhPUkk4MjV5bGFoSzBU?=
- =?utf-8?B?UmFsSG5idFVNNldaNDJqZVV4bTBUOFFwaWRNR29hY3B3aEFGVXpPSXpxY2tO?=
- =?utf-8?B?cnc3RnE1Q282aG02cVZKK0F4YXBMekNDQzVCSXc2OVd5VlJXRi9lMWxrZ1Fk?=
- =?utf-8?B?bnY2bWc1UDlSU1dnZk9YNGx2WTgyWloxMzNZdEU4NWFVUThDNHhERTEwQzhm?=
- =?utf-8?B?TEVvN0pobGZXcTZCQ3hzWElBRmtRazU4T3ZPbDVxR01aaitWV1hjeDhoR3JZ?=
- =?utf-8?B?SysvWnpqZ0dIU1poRUorNzhETzRvcWkrWW1WQWlwcnpUOGNlMW93ZCtZR01K?=
- =?utf-8?B?S1NHZ1QwTGxPNXdhUUZlWXJBakhSTU1UcWwwd2NDR3NqVnpkOE1LSTh0bTJG?=
- =?utf-8?B?REJoZGQ1YnVRTHliWU4yYlhZRmx6RFJKUFJXNll6bENZTzlHOG9hWUJTSGVR?=
- =?utf-8?B?cklUKy9qL012YlBPcU02M09COTM0Zm1uMkpHQmJQdkQ1ZHdjL0I1T0R4MVRq?=
- =?utf-8?B?UVZXRGlwdGs5T29LeXZYT3NQOXpIR0gxcHRMYmtkT1lnUTRXcEV4R2IwaHFQ?=
- =?utf-8?Q?Z4li4e6LfOHRkaMFtD7dYJ3FdqUvqWquGL32ldJIi04rU?=
-X-MS-Exchange-AntiSpam-MessageData-1: p4mqBjnlsbvhng==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7de2be80-9d48-4ee5-e86e-08da4929d1b6
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2022 08:35:18.9445 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nfViJrY8L1P0DODqXu+TpfXPiQil4qojPInlN+bgvFrnfbs57/WnLqBkHY19cOTi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4180
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,54 +69,292 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Wilson,
+ Chris P" <chris.p.wilson@intel.com>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.06.22 um 17:19 schrieb Xiaohui Zhang:
-> Similar to the handling of amdgpu_sa_bo_next_hole in commit 6a15f3ff19a8
-> ("drm/amdgpu: Initialize fences array entries in amdgpu_sa_bo_next_hole"),
-> we thought a patch might be needed here as well.
->
-> The entries were only initialized once in radeon_sa_bo_new. If a fence
-> wasn't signalled yet in the first radeon_sa_bo_next_hole call, but then
-> got signalled before a later radeon_sa_bo_next_hole call, it could
-> destroy the fence but leave its pointer in the array, resulting in
-> use-after-free in radeon_sa_bo_new.
 
-I would rather like to see the sub allocator moved into a common drm helper.
+On 08/06/2022 07:40, Lionel Landwerlin wrote:
+> On 03/06/2022 09:53, Niranjana Vishwanathapura wrote:
+>> On Wed, Jun 01, 2022 at 10:08:35PM -0700, Niranjana Vishwanathapura 
+>> wrote:
+>>> On Wed, Jun 01, 2022 at 11:27:17AM +0200, Daniel Vetter wrote:
+>>>> On Wed, 1 Jun 2022 at 11:03, Dave Airlie <airlied@gmail.com> wrote:
+>>>>>
+>>>>> On Tue, 24 May 2022 at 05:20, Niranjana Vishwanathapura
+>>>>> <niranjana.vishwanathapura@intel.com> wrote:
+>>>>>>
+>>>>>> On Thu, May 19, 2022 at 04:07:30PM -0700, Zanoni, Paulo R wrote:
+>>>>>> >On Tue, 2022-05-17 at 11:32 -0700, Niranjana Vishwanathapura wrote:
+>>>>>> >> VM_BIND and related uapi definitions
+>>>>>> >>
+>>>>>> >> v2: Ensure proper kernel-doc formatting with cross references.
+>>>>>> >>     Also add new uapi and documentation as per review comments
+>>>>>> >>     from Daniel.
+>>>>>> >>
+>>>>>> >> Signed-off-by: Niranjana Vishwanathapura 
+>>>>>> <niranjana.vishwanathapura@intel.com>
+>>>>>> >> ---
+>>>>>> >>  Documentation/gpu/rfc/i915_vm_bind.h | 399 
+>>>>>> +++++++++++++++++++++++++++
+>>>>>> >>  1 file changed, 399 insertions(+)
+>>>>>> >>  create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>> >>
+>>>>>> >> diff --git a/Documentation/gpu/rfc/i915_vm_bind.h 
+>>>>>> b/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>> >> new file mode 100644
+>>>>>> >> index 000000000000..589c0a009107
+>>>>>> >> --- /dev/null
+>>>>>> >> +++ b/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>> >> @@ -0,0 +1,399 @@
+>>>>>> >> +/* SPDX-License-Identifier: MIT */
+>>>>>> >> +/*
+>>>>>> >> + * Copyright © 2022 Intel Corporation
+>>>>>> >> + */
+>>>>>> >> +
+>>>>>> >> +/**
+>>>>>> >> + * DOC: I915_PARAM_HAS_VM_BIND
+>>>>>> >> + *
+>>>>>> >> + * VM_BIND feature availability.
+>>>>>> >> + * See typedef drm_i915_getparam_t param.
+>>>>>> >> + */
+>>>>>> >> +#define I915_PARAM_HAS_VM_BIND               57
+>>>>>> >> +
+>>>>>> >> +/**
+>>>>>> >> + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
+>>>>>> >> + *
+>>>>>> >> + * Flag to opt-in for VM_BIND mode of binding during VM creation.
+>>>>>> >> + * See struct drm_i915_gem_vm_control flags.
+>>>>>> >> + *
+>>>>>> >> + * A VM in VM_BIND mode will not support the older execbuff 
+>>>>>> mode of binding.
+>>>>>> >> + * In VM_BIND mode, execbuff ioctl will not accept any 
+>>>>>> execlist (ie., the
+>>>>>> >> + * &drm_i915_gem_execbuffer2.buffer_count must be 0).
+>>>>>> >> + * Also, &drm_i915_gem_execbuffer2.batch_start_offset and
+>>>>>> >> + * &drm_i915_gem_execbuffer2.batch_len must be 0.
+>>>>>> >> + * DRM_I915_GEM_EXECBUFFER_EXT_BATCH_ADDRESSES extension must 
+>>>>>> be provided
+>>>>>> >> + * to pass in the batch buffer addresses.
+>>>>>> >> + *
+>>>>>> >> + * Additionally, I915_EXEC_NO_RELOC, I915_EXEC_HANDLE_LUT and
+>>>>>> >> + * I915_EXEC_BATCH_FIRST of &drm_i915_gem_execbuffer2.flags 
+>>>>>> must be 0
+>>>>>> >> + * (not used) in VM_BIND mode. I915_EXEC_USE_EXTENSIONS flag 
+>>>>>> must always be
+>>>>>> >> + * set (See struct drm_i915_gem_execbuffer_ext_batch_addresses).
+>>>>>> >> + * The buffers_ptr, buffer_count, batch_start_offset and 
+>>>>>> batch_len fields
+>>>>>> >> + * of struct drm_i915_gem_execbuffer2 are also not used and 
+>>>>>> must be 0.
+>>>>>> >> + */
+>>>>>> >
+>>>>>> >From that description, it seems we have:
+>>>>>> >
+>>>>>> >struct drm_i915_gem_execbuffer2 {
+>>>>>> >        __u64 buffers_ptr;              -> must be 0 (new)
+>>>>>> >        __u32 buffer_count;             -> must be 0 (new)
+>>>>>> >        __u32 batch_start_offset;       -> must be 0 (new)
+>>>>>> >        __u32 batch_len;                -> must be 0 (new)
+>>>>>> >        __u32 DR1;                      -> must be 0 (old)
+>>>>>> >        __u32 DR4;                      -> must be 0 (old)
+>>>>>> >        __u32 num_cliprects; (fences)   -> must be 0 since using 
+>>>>>> extensions
+>>>>>> >        __u64 cliprects_ptr; (fences, extensions) -> contains an 
+>>>>>> actual pointer!
+>>>>>> >        __u64 flags;                    -> some flags must be 0 
+>>>>>> (new)
+>>>>>> >        __u64 rsvd1; (context info)     -> repurposed field (old)
+>>>>>> >        __u64 rsvd2;                    -> unused
+>>>>>> >};
+>>>>>> >
+>>>>>> >Based on that, why can't we just get drm_i915_gem_execbuffer3 
+>>>>>> instead
+>>>>>> >of adding even more complexity to an already abused interface? While
+>>>>>> >the Vulkan-like extension thing is really nice, I don't think what
+>>>>>> >we're doing here is extending the ioctl usage, we're completely
+>>>>>> >changing how the base struct should be interpreted based on how 
+>>>>>> the VM
+>>>>>> >was created (which is an entirely different ioctl).
+>>>>>> >
+>>>>>> >From Rusty Russel's API Design grading, drm_i915_gem_execbuffer2 is
+>>>>>> >already at -6 without these changes. I think after vm_bind we'll 
+>>>>>> need
+>>>>>> >to create a -11 entry just to deal with this ioctl.
+>>>>>> >
+>>>>>>
+>>>>>> The only change here is removing the execlist support for VM_BIND
+>>>>>> mode (other than natual extensions).
+>>>>>> Adding a new execbuffer3 was considered, but I think we need to be 
+>>>>>> careful
+>>>>>> with that as that goes beyond the VM_BIND support, including any 
+>>>>>> future
+>>>>>> requirements (as we don't want an execbuffer4 after VM_BIND).
+>>>>>
+>>>>> Why not? it's not like adding extensions here is really that different
+>>>>> than adding new ioctls.
+>>>>>
+>>>>> I definitely think this deserves an execbuffer3 without even
+>>>>> considering future requirements. Just  to burn down the old
+>>>>> requirements and pointless fields.
+>>>>>
+>>>>> Make execbuffer3 be vm bind only, no relocs, no legacy bits, leave the
+>>>>> older sw on execbuf2 for ever.
+>>>>
+>>>> I guess another point in favour of execbuf3 would be that it's less
+>>>> midlayer. If we share the entry point then there's quite a few vfuncs
+>>>> needed to cleanly split out the vm_bind paths from the legacy
+>>>> reloc/softping paths.
+>>>>
+>>>> If we invert this and do execbuf3, then there's the existing ioctl
+>>>> vfunc, and then we share code (where it even makes sense, probably
+>>>> request setup/submit need to be shared, anything else is probably
+>>>> cleaner to just copypaste) with the usual helper approach.
+>>>>
+>>>> Also that would guarantee that really none of the old concepts like
+>>>> i915_active on the vma or vma open counts and all that stuff leaks
+>>>> into the new vm_bind execbuf.
+>>>>
+>>>> Finally I also think that copypasting would make backporting easier,
+>>>> or at least more flexible, since it should make it easier to have the
+>>>> upstream vm_bind co-exist with all the other things we have. Without
+>>>> huge amounts of conflicts (or at least much less) that pushing a pile
+>>>> of vfuncs into the existing code would cause.
+>>>>
+>>>> So maybe we should do this?
+>>>
+>>> Thanks Dave, Daniel.
+>>> There are a few things that will be common between execbuf2 and
+>>> execbuf3, like request setup/submit (as you said), fence handling 
+>>> (timeline fences, fence array, composite fences), engine selection,
+>>> etc. Also, many of the 'flags' will be there in execbuf3 also (but
+>>> bit position will differ).
+>>> But I guess these should be fine as the suggestion here is to
+>>> copy-paste the execbuff code and having a shared code where possible.
+>>> Besides, we can stop supporting some older feature in execbuff3
+>>> (like fence array in favor of newer timeline fences), which will
+>>> further reduce common code.
+>>>
+>>> Ok, I will update this series by adding execbuf3 and send out soon.
+>>>
+>>
+>> Does this sound reasonable?
+> 
+> 
+> Thanks for proposing this. Some comments below.
+> 
+> 
+>>
+>> struct drm_i915_gem_execbuffer3 {
+>>        __u32 ctx_id;        /* previously execbuffer2.rsvd1 */
+>>
+>>        __u32 batch_count;
+>>        __u64 batch_addr_ptr;    /* Pointer to an array of batch gpu 
+>> virtual addresses */
+>>
+>>        __u64 flags;
+>> #define I915_EXEC3_RING_MASK              (0x3f)
+>> #define I915_EXEC3_DEFAULT                (0<<0)
+>> #define I915_EXEC3_RENDER                 (1<<0)
+>> #define I915_EXEC3_BSD                    (2<<0)
+>> #define I915_EXEC3_BLT                    (3<<0)
+>> #define I915_EXEC3_VEBOX                  (4<<0)
+> 
+> 
+> Shouldn't we use the new engine selection uAPI instead?
+> 
+> We can already create an engine map with I915_CONTEXT_PARAM_ENGINES in 
+> drm_i915_gem_context_create_ext_setparam.
+> 
+> And you can also create virtual engines with the same extension.
+> 
+> It feels like this could be a single u32 with the engine index (in the 
+> context engine map).
+
+Yes I said the same yesterday.
+
+Also note that as you can't any longer set engines on a default context, 
+question is whether userspace cares to use execbuf3 with it (default 
+context).
+
+If it does, it will need an alternative engine selection for that case. 
+I was proposing class:instance rather than legacy cumbersome flags.
+
+If it does not, I  mean if the decision is to only allow execbuf3 with 
+engine maps, then it leaves the default context a waste of kernel memory 
+in the execbuf3 future. :( Don't know what to do there..
 
 Regards,
-Christian.
 
->
-> Signed-off-by: Xiaohui Zhang <xiaohuizhang@ruc.edu.cn>
-> ---
->   drivers/gpu/drm/radeon/radeon_sa.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/radeon/radeon_sa.c b/drivers/gpu/drm/radeon/radeon_sa.c
-> index 310c322c7112..0981948bd9ed 100644
-> --- a/drivers/gpu/drm/radeon/radeon_sa.c
-> +++ b/drivers/gpu/drm/radeon/radeon_sa.c
-> @@ -267,6 +267,8 @@ static bool radeon_sa_bo_next_hole(struct radeon_sa_manager *sa_manager,
->   	for (i = 0; i < RADEON_NUM_RINGS; ++i) {
->   		struct radeon_sa_bo *sa_bo;
->   
-> +		fences[i] = NULL;
-> +
->   		if (list_empty(&sa_manager->flist[i])) {
->   			continue;
->   		}
-> @@ -332,10 +334,8 @@ int radeon_sa_bo_new(struct radeon_device *rdev,
->   
->   	spin_lock(&sa_manager->wq.lock);
->   	do {
-> -		for (i = 0; i < RADEON_NUM_RINGS; ++i) {
-> -			fences[i] = NULL;
-> +		for (i = 0; i < RADEON_NUM_RINGS; ++i)
->   			tries[i] = 0;
-> -		}
->   
->   		do {
->   			radeon_sa_bo_try_free(sa_manager);
+Tvrtko
 
+> 
+> 
+>>
+>> #define I915_EXEC3_SECURE               (1<<6)
+>> #define I915_EXEC3_IS_PINNED            (1<<7)
+> 
+> 
+> What's the meaning of PINNED?
+> 
+> 
+>>
+>> #define I915_EXEC3_BSD_SHIFT     (8)
+>> #define I915_EXEC3_BSD_MASK      (3 << I915_EXEC3_BSD_SHIFT)
+>> #define I915_EXEC3_BSD_DEFAULT   (0 << I915_EXEC3_BSD_SHIFT)
+>> #define I915_EXEC3_BSD_RING1     (1 << I915_EXEC3_BSD_SHIFT)
+>> #define I915_EXEC3_BSD_RING2     (2 << I915_EXEC3_BSD_SHIFT)
+>>
+>> #define I915_EXEC3_FENCE_IN             (1<<10)
+>> #define I915_EXEC3_FENCE_OUT            (1<<11)
+> 
+> 
+> For Mesa, as soon as we have DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES 
+> support, we only use that.
+> 
+> So there isn't much point for FENCE_IN/OUT.
+> 
+> Maybe check with other UMDs?
+> 
+> 
+>> #define I915_EXEC3_FENCE_SUBMIT         (1<<12)
+> 
+> 
+> What's FENCE_SUBMIT?
+> 
+> 
+>>
+>>        __u64 in_out_fence;        /* previously execbuffer2.rsvd2 */
+>>
+>>        __u64 extensions;        /* currently only for 
+>> DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES */
+>> };
+>>
+>> With this, user can pass in batch addresses and count directly,
+>> instead of as an extension (as this rfc series was proposing).
+>>
+>> I have removed many of the flags which were either legacy or not
+>> applicable to BM_BIND mode.
+>> I have also removed fence array support (execbuffer2.cliprects_ptr)
+>> as we have timeline fence array support. Is that fine?
+>> Do we still need FENCE_IN/FENCE_OUT/FENCE_SUBMIT support?
+>>
+>> Any thing else needs to be added or removed?
+>>
+>> Niranjana
+>>
+>>> Niranjana
+>>>
+>>>> -Daniel
+>>>> -- 
+>>>> Daniel Vetter
+>>>> Software Engineer, Intel Corporation
+>>>> http://blog.ffwll.ch
+> 
+> 
