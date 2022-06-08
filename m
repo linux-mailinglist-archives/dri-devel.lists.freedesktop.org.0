@@ -2,66 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D2A5430DD
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 14:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D1D543115
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 15:10:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CED8810FD76;
-	Wed,  8 Jun 2022 12:54:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9051210FE2E;
+	Wed,  8 Jun 2022 13:10:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7236910FD76
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 12:54:23 +0000 (UTC)
-X-UUID: cc31f711586f46a2a3cc1ba1ab7b7834-20220608
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:a8661de1-c5b3-4c18-bb21-ffd838d2566f, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:2a19b09, CLOUDID:aa611de5-2ba2-4dc1-b6c5-11feb6c769e0,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:0,BEC:nil
-X-UUID: cc31f711586f46a2a3cc1ba1ab7b7834-20220608
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1477899185; Wed, 08 Jun 2022 20:54:16 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Wed, 8 Jun 2022 20:54:14 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Wed, 8 Jun 2022 20:54:14 +0800
-Message-ID: <61ed067bc117a67ccdf64420401605c2fadfe43a.camel@mediatek.com>
-Subject: Re: [PATCH v10 18/21] drm/mediatek: Add mt8195 Embedded DisplayPort
- driver
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, Guillaume Ranquet <granquet@baylibre.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chunfeng Yun
- =?UTF-8?Q?=28=E4=BA=91=E6=98=A5=E5=B3=B0=29?= <Chunfeng.Yun@mediatek.com>,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, Helge
- Deller <deller@gmx.de>, Jitao Shi
- =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?= <jitao.shi@mediatek.com>
-Date: Wed, 8 Jun 2022 20:54:14 +0800
-In-Reply-To: <79bea587e20de842d48dcb2e1da19e276f9d635b.camel@mediatek.com>
-References: <20220523104758.29531-1-granquet@baylibre.com>
- <20220523104758.29531-19-granquet@baylibre.com>
- <b8aef76cef2fa434401b6a016de291eb24198faa.camel@mediatek.com>
- <4329859ca11c13e7f6a9951b01a779fc391f029b.camel@mediatek.com>
- <79bea587e20de842d48dcb2e1da19e276f9d635b.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-vk1-xa2e.google.com (mail-vk1-xa2e.google.com
+ [IPv6:2607:f8b0:4864:20::a2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2DF910FE29
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 13:10:31 +0000 (UTC)
+Received: by mail-vk1-xa2e.google.com with SMTP id u188so8981445vku.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 06:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=sHyDTOm6lqUiG1tD8A2W8nqmZQbSNybMLepUwsmygh4=;
+ b=Olt6xkR9Ye+XreClVMgFeqMIfyq8Prv9k+5XYI6uUPlAxxA/INsPsZp9/8kgsOsUvy
+ yRmwYz8DVT2cnNLyMRvqwmxFS1qB+X04wTJkeo0mjQpFZt1YD7P4Zd8oe9zZqYl6sqmc
+ HiYn/UO5tcB8kOEClkmAV55xFhy5EkhWYWY2iXqPcXlD/o2ND2+kXETuMpT05OPbtwX3
+ YGqkur4u7rfB5RrEKs9s5iv1m7sXUzVVzsgQOuKaiPbpBdd9+U02wDGJk348zY2Wvoxe
+ O+hbjoF86lBwFTLDDB3FoqPT6Q2j2peE7/bZu/zSDpXMeBEEyTDbu1ccCnDW1kpkiTly
+ ajlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sHyDTOm6lqUiG1tD8A2W8nqmZQbSNybMLepUwsmygh4=;
+ b=sqJCMJhzTKPn98NI5B2Dx60N73Ie+Xd3mf1y+gW154iy+c6LdXIRvp9LBI+SZzorTm
+ No7WMck8ifbImfROKF73ZNhnvDnlmLk42rMoN5cKCBzbmTbhEJWabwMKwCb6fORb2DDs
+ YquucpRUqyOKCt90WKqARaQ9jpRfKEAXvkGZnITg9ckeZ7U0m9sKAjDGswqMExOGEj2y
+ ctxKvM4O/6WDGyalrqgi1r4Faj2zmMpS4PhZ9vLGrvLgD5uIiVrTt/Z5HwUOn6D259pv
+ kxLDyED5LFgGe9Ahqf9puCqVJtMszJsFStXGLRZeez6WgsnW0Q64vd5wKunzRek7pSD5
+ aliQ==
+X-Gm-Message-State: AOAM530sWMELE5kv4IAR5faDoI4Qf2YKrsHG9cEy5Zkzsxa4GsLRIe0E
+ wSneuEDu8Pr/JUZsPFXpuWDuDTBnKsIOW8rK9GM=
+X-Google-Smtp-Source: ABdhPJx9FBBBy2XeqE8s8EmFtFgqC3JYLKQd/NS49O0DTX2HitpWKnhU0TiAIticKb9ryJiEaTKeGwRM8N/xIrw34HI=
+X-Received: by 2002:a1f:1245:0:b0:35d:7991:7385 with SMTP id
+ 66-20020a1f1245000000b0035d79917385mr11780357vks.2.1654693830800; Wed, 08 Jun
+ 2022 06:10:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+References: <75eec8af-66fd-bbaa-9aea-4cdf634bf2c8@arcor.de>
+In-Reply-To: <75eec8af-66fd-bbaa-9aea-4cdf634bf2c8@arcor.de>
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Wed, 8 Jun 2022 14:10:19 +0100
+Message-ID: <CALeDE9MzaG0vGfwMrZVArCWpNT94=vTakoM71qykBkVbeL1QmQ@mail.gmail.com>
+Subject: Re: drm/vc4: module dysfunctional on Raspberry Pi 3B as of 5.18.0
+To: Peter Mattern <pmattern@arcor.de>, Maxime Ripard <maxime@cerno.tech>,
+ stefan.wahren@i2se.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,214 +65,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-06-08 at 10:44 +0800, CK Hu wrote:
-> Hi, Rex:
-> 
-> On Tue, 2022-06-07 at 20:44 +0800, Rex-BC Chen wrote:
-> > On Tue, 2022-06-07 at 14:44 +0800, CK Hu wrote:
-> > > Hi, Rex:
-> > > 
-> > > On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
-> > > > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> > > > 
-> > > > This patch adds a DisplayPort driver for the Mediatek mt8195
-> > > > SoC.
-> > > > 
-> > > > It supports the mt8195, the embedded DisplayPort units. It
-> > > > offers
-> > > > DisplayPort 1.4 with up to 4 lanes.
-> > > > 
-> > > > The driver creates a child device for the phy. The child device
-> > > > will
-> > > > never exist without the parent being active. As they are
-> > > > sharing
-> > > > a
-> > > > register range, the parent passes a regmap pointer to the child
-> > > > so
-> > > > that
-> > > > both can work with the same register range. The phy driver sets
-> > > > device
-> > > > data that is read by the parent to get the phy device that can
-> > > > be
-> > > > used
-> > > > to control the phy properties.
-> > > > 
-> > > > This driver is based on an initial version by
-> > > > Jason-JH.Lin <jason-jh.lin@mediatek.com>.
-> > > > 
-> > > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > > > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > > > ---
-> > > 
-> > > [snip]
-> > > 
-> > > > +
-> > > > +static int mtk_dp_train_handler(struct mtk_dp *mtk_dp)
-> > > > +{
-> > > > +	bool training_done = false;
-> > > > +	short max_retry = 50;
-> > > > +	int ret = 0;
-> > > > +
-> > > > +	do {
-> > > > +		switch (mtk_dp->train_state) {
-> > > > +		case MTK_DP_TRAIN_STATE_STARTUP:
-> > > 
-> > > mtk_dp->train_state is initialized as MTK_DP_TRAIN_STATE_STARTUP
-> > > even
-> > > though HPD ISR does not exist. Does this mean HPD ISR is
-> > > redundant?
-> > > If
-> > > HPD ISR is not redundant, create a new state
-> > > MTK_DP_TRAIN_STATE_NONE
-> > > for init state.
-> > > 
-> > 
-> > Hello CK,
-> > 
-> > I think we don't need MTK_DP_TRAIN_STATE_NONE.
-> > Because it's "DP_TRAIN_STATE" not "DP_STATE", I think it's ok if we
-> > start this state machine with "MTK_DP_TRAIN_STATE_STARTUP".
-> 
-> The initial state is MTK_DP_TRAIN_STATE_STARTUP, and HPD thread would
-> change state from MTK_DP_TRAIN_STATE_STARTUP to
-> MTK_DP_TRAIN_STATE_STARTUP, this is redundant. So drop the state
-> change
-> in HPD thread.
-> 
+Hi Peter,
 
-ok, in edp it's redundant in mtk_dp_hpd_event_thread(), but I will add
-it back in dp patch.
+Adding Stefan and Maxime
 
-> > 
-> > > > +			mtk_dp_state_handler(mtk_dp);
-> > > > +			mtk_dp->train_state =
-> > > > MTK_DP_TRAIN_STATE_CHECKCAP;
-> > > > +			break;
-> > > > +
-> > > > +		case MTK_DP_TRAIN_STATE_CHECKCAP:
-> > > > +			if (mtk_dp_parse_capabilities(mtk_dp))
-> > > > {
-> > > > +				mtk_dp-
-> > > > >train_info.check_cap_count = 0;
-> > > > +				mtk_dp->train_state =
-> > > > MTK_DP_TRAIN_STATE_CHECKEDID;
-> > > > +			} else {
-> > > > +				mtk_dp-
-> > > > >train_info.check_cap_count++;
-> > > > +
-> > > > +				if (mtk_dp-
-> > > > >train_info.check_cap_count
-> > > > > 
-> > > > 
-> > > > +				    MTK_DP_CHECK_SINK_CAP_TIMEO
-> > > > UT_COUNT
-> > > > ) {
-> > > > +					mtk_dp-
-> > > > > train_info.check_cap_count = 0;
-> > > > 
-> > > > +					mtk_dp->train_state =
-> > > > MTK_DP_TRAIN_STATE_DPIDLE;
-> > > > +					ret = -ETIMEDOUT;
-> > > > +				}
-> > > > +			}
-> > > > +			break;
-> > > > +
-> > > > +		case MTK_DP_TRAIN_STATE_CHECKEDID:
-> > > > +			mtk_dp->train_state =
-> > > > MTK_DP_TRAIN_STATE_TRAINING_PRE;
-> > > 
-> > > MTK_DP_TRAIN_STATE_CHECKEDID is a redundant state, drop it.
-> > > 
-> > > > +			break;
-> > > > +
-> > > > +		case MTK_DP_TRAIN_STATE_TRAINING_PRE:
-> > > > +			mtk_dp_state_handler(mtk_dp);
-> > > > +			mtk_dp->train_state =
-> > > > MTK_DP_TRAIN_STATE_TRAINING;
-> > > > +			break;
-> > > > +
-> > > > +		case MTK_DP_TRAIN_STATE_TRAINING:
-> > > > +			ret = mtk_dp_train_start(mtk_dp);
-> > > > +			if (ret == 0) {
-> > > > +				mtk_dp_video_mute(mtk_dp,
-> > > > true);
-> > > > +				mtk_dp->train_state =
-> > > > MTK_DP_TRAIN_STATE_NORMAL;
-> > > > +				mtk_dp_fec_enable(mtk_dp,
-> > > > mtk_dp-
-> > > > > has_fec);
-> > > > 
-> > > > +			} else if (ret != -EAGAIN) {
-> > > > +				mtk_dp->train_state =
-> > > > MTK_DP_TRAIN_STATE_DPIDLE;
-> > > > +			}
-> > > > +			break;
-> > > > +		case MTK_DP_TRAIN_STATE_NORMAL:
-> > > > +			mtk_dp_state_handler(mtk_dp);
-> > > > +			training_done = true;
-> > > > +			break;
-> > > > +		case MTK_DP_TRAIN_STATE_DPIDLE:
-> > > 
-> > > When would this case happen?
-> > > 
-> > > Regards,
-> > > CK
-> > 
-> > Yes, if it's disconnected if we are still training for dp.
-> > or failed to training min spec RBR.
-> 
-> I mean, every time state change to MTK_DP_TRAIN_STATE_DPIDLE, it
-> would
-> jump out of this loop and would not get into this loop, so this case
-> would never get in. This is redundant, so remove this.
-> 
+> As of Linux 5.18.0, module vc4 apparently isn't working on Raspberry Pi
+> 3B any more.
+>
+> If a monitor is attached to the device, the boot messages show up as
+> usual, but right when KMS starts, the screen turns black. Similarly, the
+> screen also turns black when the module is blacklisted at boot time and
+> loaded from the running system.
+> The problem looks quite similar to the one posted some months ago in [1].
+>
+> Unfortunately, looking through systemd's journal didn't seem to yield
+> any real hint. Nevertheless, the results from grepping vc4 are
+
+I'm seeing the same issue with vc4 on a RPi3 on 5.18.1 on Fedora so
+can confirm the regression. Maxime would know what might be up here?
+
+> =E2=86=92 5.17.1
+>  > kernel: vc4-drm soc:gpu: bound 3f400000.hvs (ops vc4_hvs_ops [vc4])
+>  > kernel: rc rc0: vc4 as /devices/platform/soc/3f902000.hdmi/rc/rc0
+>  > kernel: input: vc4 as /devices/platform/soc/3f902000.hdmi/rc/rc0/input=
+0
+>  > kernel: vc4-drm soc:gpu: bound 3f902000.hdmi (ops vc4_hdmi_ops [vc4])
+>  > kernel: vc4-drm soc:gpu: bound 3f806000.vec (ops vc4_vec_ops [vc4])
+>  > kernel: vc4-drm soc:gpu: bound 3f004000.txp (ops vc4_txp_ops [vc4])
+>  > kernel: vc4-drm soc:gpu: bound 3f206000.pixelvalve (ops vc4_crtc_ops
+> [vc4])
+>  > kernel: vc4-drm soc:gpu: bound 3f207000.pixelvalve (ops vc4_crtc_ops
+> [vc4])
+>  > kernel: vc4-drm soc:gpu: bound 3f807000.pixelvalve (ops vc4_crtc_ops
+> [vc4])
+>  > kernel: vc4-drm soc:gpu: bound 3fc00000.v3d (ops vc4_v3d_ops [vc4])
+>  > kernel: fb0: switching to vc4 from simple
+>  > kernel: [drm] Initialized vc4 0.0.0 20140616 for soc:gpu on minor 0
+>  > kernel: vc4-drm soc:gpu: [drm] fb0: vc4drmfb frame buffer device
+>  > systemd-logind[338]: Watching system buttons on /dev/input/event0 (vc4=
+)
+> =E2=86=92 5.18.0
+>  > kernel: fb0: switching to vc4 from simple
+>  > kernel: vc4-drm soc:gpu: bound 3f400000.hvs (ops vc4_hvs_ops [vc4])
+>  > kernel: rc rc0: vc4 as /devices/platform/soc/3f902000.hdmi/rc/rc0
+>  > kernel: input: vc4 as /devices/platform/soc/3f902000.hdmi/rc/rc0/input=
+0
+>  > kernel: vc4-drm soc:gpu: bound 3f902000.hdmi (ops vc4_hdmi_ops [vc4])
+>  > kernel: vc4-drm soc:gpu: bound 3f806000.vec (ops vc4_vec_ops [vc4])
+>  > kernel: vc4-drm soc:gpu: bound 3f004000.txp (ops vc4_txp_ops [vc4])
+>  > kernel: vc4-drm soc:gpu: bound 3f206000.pixelvalve (ops vc4_crtc_ops
+> [vc4])
+>  > kernel: vc4-drm soc:gpu: bound 3f207000.pixelvalve (ops vc4_crtc_ops
+> [vc4])
+>  > kernel: vc4-drm soc:gpu: bound 3f807000.pixelvalve (ops vc4_crtc_ops
+> [vc4])
+>  > kernel: vc4-drm soc:gpu: bound 3fc00000.v3d (ops vc4_v3d_ops [vc4])
+>  > kernel: [drm] Initialized vc4 0.0.0 20140616 for soc:gpu on minor 0
+>  > kernel: vc4-drm soc:gpu: [drm] fb0: vc4drmfb frame buffer device
+>  > systemd-logind[337]: Watching system buttons on /dev/input/event0 (vc4=
+)
+>
 > Regards,
-> CK
-> 
-
-ok, I will remove it
-
-BRs,
-Bo-Chen
-
-> > 
-> > BRs,
-> > Rex
-> > > 
-> > > > +			break;
-> > > > +		default:
-> > > > +			break;
-> > > > +		}
-> > > > +
-> > > > +		if (ret) {
-> > > > +			if (ret == -EAGAIN)
-> > > > +				continue;
-> > > > +			/*
-> > > > +			 * If we get any other error number, it
-> > > > doesn't
-> > > > +			 * make any sense to keep iterating.
-> > > > +			 */
-> > > > +			break;
-> > > > +		}
-> > > > +	} while (!training_done || --max_retry);
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > 
-> > > 
-> > 
-> > 
-> 
-> 
-
+>
+> Peter Mattern
+>
+> [1]
+> https://lists.freedesktop.org/archives/dri-devel/2022-January/339458.html
+>
