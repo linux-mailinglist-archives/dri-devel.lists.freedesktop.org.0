@@ -1,86 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63810543829
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:56:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00BBF54382F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:57:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 023BF10EFA7;
-	Wed,  8 Jun 2022 15:56:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3CA7112630;
+	Wed,  8 Jun 2022 15:57:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4C6B10F22D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 15:56:51 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id s1so5842862wra.9
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 08:56:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=hvjv3fnVF8/pJboCz6mWgtVEtXjO0iOOfBgaF/yNVMo=;
- b=ahT9YKwEeR+XSeONSXQTycUR9Rwmkdy7lCR5zYJRh4X5bG9rUUhmTMOSm37a1x2dQg
- sMSmyJrsx3DNYa++Z88Bhsarj8eGiDNj6lZ14rsnqIbYC6BOHbBt5Y+tBBLl0+ML7RHn
- Ih5H8wQKW1wJh2UK/djICTHx/r/bY8cS7pAc8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=hvjv3fnVF8/pJboCz6mWgtVEtXjO0iOOfBgaF/yNVMo=;
- b=54dJ9DJdzleMwEwG0tcdqSACtR5muC8GT48ylqChNcCyRZksKo0FBmzyAmnWRcBquT
- O2F8oTQ08Op072K/uGR9Jul4YGJN6MAbRE9dBNzHC+m+0yu7yM0tR0UHpU93jnm7X+sT
- bg501qWWet699Uq1yxCLopfh9P9iv08erkY1lPtsk4/Hp/3EHq2sfta1mBqFNj2epAbw
- JLXLUiY1PdUe2gip9E90j56oMBxuS3gtP69QoqzWbHps16c/S+FMdp+vBKbPccKp17vA
- N0PyHxaMBNcTduyBE5Z/ExaCWFViIt02dVCHgZKXYHe2y9ZvF5BkMHgsTkbsyY6Wayxn
- mv0A==
-X-Gm-Message-State: AOAM531UoZN0UYE2dZwH6JKY03v/JPnL2FZO0x15AxCvU8jbGm8ObqTt
- kl5CVSbrsfNTy5Ev0nvzD8dBZQ==
-X-Google-Smtp-Source: ABdhPJwAMheQ1yFKSE/vSoH57NTuCuUEEt5+IEndiXLbnF/iIe54uouTXcKfsDHA5SD7lcSxX7tXDQ==
-X-Received: by 2002:a5d:594f:0:b0:213:d715:cec7 with SMTP id
- e15-20020a5d594f000000b00213d715cec7mr28858360wri.44.1654703809923; 
- Wed, 08 Jun 2022 08:56:49 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- m19-20020a05600c4f5300b003942a244f2esm30998208wmq.7.2022.06.08.08.56.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 08:56:47 -0700 (PDT)
-Date: Wed, 8 Jun 2022 17:56:44 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: jim.cromie@gmail.com
-Subject: Re: [RFC PATCH v2 00/27] DRM.debug on DYNAMIC_DEBUG, add trace events
-Message-ID: <YqDGvJtNjDFIViQu@phenom.ffwll.local>
-Mail-Followup-To: jim.cromie@gmail.com, Jason Baron <jbaron@akamai.com>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- intel-gvt-dev@lists.freedesktop.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Greg KH <gregkh@linuxfoundation.org>,
- Sean Paul <seanpaul@chromium.org>, robdclark@gmail.com,
- Steven Rostedt <rostedt@goodmis.org>,
- mathieu.desnoyers@efficios.com, quic_saipraka@quicinc.com,
- Will Deacon <will@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- quic_psodagud@quicinc.com, Marc Zyngier <maz@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-arm-msm@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
- David Airlie <airlied@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>
-References: <20220516225640.3102269-1-jim.cromie@gmail.com>
- <Yo5FFMbNG1Viirj1@phenom.ffwll.local>
- <CAJfuBxzQPeYvpzd_=WkQasKJceHrUYK8umG6gWbTmoAUfApJ8w@mail.gmail.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45CAA11259D;
+ Wed,  8 Jun 2022 15:57:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654703863; x=1686239863;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=hQWh/ajhlNrdHVnR8asoXOOhohzEj4Vrv4I0sYKIHMk=;
+ b=Hf2yPBd1EukiMalQN77+ApBRqBxtLEJR4PppT0NpNdLBw4A2BnefC138
+ slwfrTr1UFUgdmx/RpJ63d3Q3HdRoUtCn7+bjEdp5tcYe1o+Y9vGGLrA8
+ 3nFEuQycQwIfMKgsbxrLFVJ7wWLKk/pv356BldI77fn6O0ENpTg7MNa2Y
+ q3ywPfLd2snPxP8ooHys6D7+GkVP4X5ln0XAKZ1nzXnS+pswrH0HnvQ8C
+ xTwjlnDe8nqngSZQs4K0rY/adTBC6CuHqgyAHl1Mr9HBL7sOXIrY6/9Jr
+ pQAApVCyGH+A/B3gZo0rj/llx6iaUwLChAiXnXZLfTP6U995xysb4Qt7g A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10372"; a="276972308"
+X-IronPort-AV: E=Sophos;i="5.91,286,1647327600"; d="scan'208";a="276972308"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 08:57:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,286,1647327600"; d="scan'208";a="609717426"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+ by orsmga008.jf.intel.com with ESMTP; 08 Jun 2022 08:57:38 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1nyy3u-000ElX-2h;
+ Wed, 08 Jun 2022 15:57:38 +0000
+Date: Wed, 8 Jun 2022 23:57:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v2 06/12] drm/msm/hdmi: drop unused GPIO support
+Message-ID: <202206082312.XB745jWy-lkp@intel.com>
+References: <20220608120723.2987843-7-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJfuBxzQPeYvpzd_=WkQasKJceHrUYK8umG6gWbTmoAUfApJ8w@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <20220608120723.2987843-7-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,320 +63,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_saipraka@quicinc.com, Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Will Deacon <will@kernel.org>,
- Marc Zyngier <maz@kernel.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Ingo Molnar <mingo@redhat.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- linux-arm-msm@vger.kernel.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Jason Baron <jbaron@akamai.com>, Sean Paul <seanpaul@chromium.org>,
- Steven Rostedt <rostedt@goodmis.org>, intel-gvt-dev@lists.freedesktop.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Pekka Paalanen <ppaalanen@gmail.com>, Greg KH <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>, quic_psodagud@quicinc.com,
- mathieu.desnoyers@efficios.com
+Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 06, 2022 at 08:59:36AM -0600, jim.cromie@gmail.com wrote:
-> On Wed, May 25, 2022 at 9:02 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> 
-> > On Mon, May 16, 2022 at 04:56:13PM -0600, Jim Cromie wrote:
-> > > DRM.debug API is 23 macros, issuing 10 exclusive categories of debug
-> > > messages.  By rough count, they are used 5140 times in the kernel.
-> > > These all call drm_dbg or drm_devdbg, which call drm_debug_enabled(),
-> > > which checks bits in global __drm_debug.  Some of these are page-flips
-> > > and vblanks, and get called often.
-> > >
-> > > DYNAMIC_DEBUG (with CONFIG_JUMP_LABEL) is built to avoid this kind of
-> > > work, with NOOPd jump/callsites.
-> > >
-> > > This patchset is RFC because:
-> > > - it touches 2.5 subsystems: dyndbg, drm, tracefs (new events)
-> > > - dyndbg class support is built for drm, needs it for validation
-> > > - new api, used by drm
-> > > - big memory impact, with 5100 new pr-debug callsites.
-> > > - drm class bikeshedding opportunities
-> > > - others, names etc.
-> >
-> > Thanks a lot for keeping on pushing this!
-> 
-> 
-> > >
-> > > DYNAMIC_DEBUG:
-> > >
-> 
-> 
-> 
-> > > RFC:
-> > >
-> > > dynamic_debug_register_classes() cannot act early enough to be in
-> > > effect at module-load.  So this will not work as you'd reasonably
-> > > expect:
-> > >
-> > >   modprobe test_dynamic_debug dyndbg='+pfm; class FOO +pfmlt'
-> > >
-> > > The 1st query:+pfm will be enabled during load, but in the 2nd query,
-> > > "class FOO" will be unknown at load time.  Early class enablement
-> > > would be nice.  DYNAMIC_DEBUG_CLASSES is a static initializer, which
-> > > is certainly early enough, but Im missing a trick, suggestions?
-> >
-> > So maybe I'm just totally overloading this work here so feel free to
-> > ignore or postpone, but: Could we do the dynamic_debug_register_classes()
-> > automatically at module load as a new special section? And then throw in a
-> > bit of kbuild so that in a given subsystem every driver gets the same
-> > class names by default and everything would just work, without having to
-> > sprinkle calls to dynamic_debug_register_classes() all over the place?
-> >
-> 
-> This is now done; Ive added __dyndbg_classes section.
-> load_module() now grabs it from the .ko
-> and ddebug_add_module() attaches it to the module's ddebug_table record.
-> for builtins, dynamic_debug_init feeds the builtin class-maps to
-> ddebug_add_module
-> 
-> bash-5.1# modprobe test_dynamic_debug dyndbg="class FOO +p"
-> [   88.374722] dyndbg: class[0]: nm:test_dynamic_debug base:20 len:7 ty:1
-> [   88.375158] dyndbg:  0: EMERG
-> [   88.375345] dyndbg:  1: DANGER
-> [   88.375540] dyndbg:  2: ERROR
-> [   88.375726] dyndbg:  3: WARNING
-> [   88.375930] dyndbg:  4: NOTICE
-> [   88.376130] dyndbg:  5: INFO
-> [   88.376310] dyndbg:  6: DEBUG
-> [   88.376499] dyndbg: class[1]: nm:test_dynamic_debug base:12 len:3 ty:1
-> [   88.376903] dyndbg:  0: ONE
-> [   88.377079] dyndbg:  1: TWO
-> [   88.377253] dyndbg:  2: THREE
-> [   88.377441] dyndbg: class[2]: nm:test_dynamic_debug base:8 len:3 ty:0
-> [   88.377837] dyndbg:  0: bing
-> [   88.378022] dyndbg:  1: bong
-> [   88.378203] dyndbg:  2: boom
-> [   88.378387] dyndbg: class[3]: nm:test_dynamic_debug base:4 len:3 ty:0
-> [   88.378800] dyndbg:  0: Foo
-> [   88.378986] dyndbg:  1: Bar
-> [   88.379167] dyndbg:  2: Buzz
-> [   88.379348] dyndbg: class[4]: nm:test_dynamic_debug base:0 len:3 ty:0
-> [   88.379757] dyndbg:  0: FOO
-> [   88.379938] dyndbg:  1: BAR
-> [   88.380136] dyndbg:  2: BUZZ
-> [   88.380410] dyndbg: module:test_dynamic_debug attached 5 classes
-> [   88.380881] dyndbg:  24 debug prints in module test_dynamic_debug
-> [   88.381315] dyndbg: module: test_dynamic_debug dyndbg="class FOO +p"
-> [   88.381714] dyndbg: query 0: "class FOO +p" mod:test_dynamic_debug
-> [   88.382109] dyndbg: split into words: "class" "FOO" "+p"
-> [   88.382445] dyndbg: op='+'
-> [   88.382616] dyndbg: flags=0x1
-> [   88.382802] dyndbg: *flagsp=0x1 *maskp=0xffffffff
-> [   88.383101] dyndbg: parsed: func="" file="" module="test_dynamic_debug"
-> format="" lineno=0-0 class=FOO
-> [   88.383740] dyndbg: applied: func="" file="" module="test_dynamic_debug"
-> format="" lineno=0-0 class=FOO
-> [   88.384324] dyndbg: processed 1 queries, with 2 matches, 0 errs
-> bash-5.1#
-> 
-> so its working at module-load time.
+Hi Dmitry,
 
-Awesome!
+I love your patch! Perhaps something to improve:
 
-> > For the entire class approach, did you spot another subsystem that could
-> > benefit from this and maybe make a more solid case that this is something
-> > good?
-> >
-> 
-> I had been working on the premise that ~4k drm*dbg callsites was a good
-> case.
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on robh/for-next linus/master v5.19-rc1 next-20220608]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Oh I'm happy with just drm, but occasionally we've done stuff in drm that
-the wider kernel community found a bit silly. So bit more acks/validation
-from outside the dri-devel echo chamber would be great, whatever form it
-is.
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-msm-hdmi-YAML-ify-schema-and-cleanup-some-platform-properties/20220608-200925
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: hexagon-randconfig-r045-20220608 (https://download.01.org/0day-ci/archive/20220608/202206082312.XB745jWy-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b92436efcb7813fc481b30f2593a4907568d917a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/c3e263fe0a077b382c2a76911c8ace385bd59a4c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Baryshkov/drm-msm-hdmi-YAML-ify-schema-and-cleanup-some-platform-properties/20220608-200925
+        git checkout c3e263fe0a077b382c2a76911c8ace385bd59a4c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/msm/
 
-> verbosity-levels - with x<y logic instead of x==y is what's currently
-> missing.
-> 
-> the next revision adds something, which "kinda works".
-> But I think I'll rip it out, and do this simpler approach instead:
-> 
-> implement a verbose/levels  param & callback, which takes
-> 
->    echo 3 > /sys/module/foo/parameters/debug_verbosity
-> 
-> and effectively does
-> 
->   echo <<EOQRY  > /proc/dynamic_debug/control
-> module foo class V1 +p
-> module foo class V2 +p
-> module foo class V3 +p
-> module foo class V4 -p
-> module foo class V5 -p
-> module foo class V6 -p
-> module foo class V7 -p
-> module foo class V8 -p
-> EOQRY
-> 
-> since only real +/-p changes incur kernel-patching costs,
-> the remaining overheads are minimal.
-> 
-> 
-> > RFC for DRM:
-> >
-> > - decoration flags "fmlt" do not work on drm_*dbg().
-> >   (drm_*dbg() dont use pr_debug, they *become* one flavor of them)
-> >   this could (should?) be added, and maybe tailored for drm.
-> >   some of the device prefixes are very long, a "d" flag could optionalize
-> them.
-> 
-> I'm lost what the fmlt decoration flags are?
-> 
-> 
-> The flags are::
-> 
->   p    enables the pr_debug() callsite.
->   f    Include the function name in the printed message
->   l    Include line number in the printed message
->   m    Include module name in the printed message
->   t    Include thread ID in messages not generated from interrupt context
->   _    No flags are set. (Or'd with others on input)
-> 
-> 
-> the fmlt flags add a "decoration" prefix to enabled/printed log messages
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Oh I was just confused and thought fmlt was some special format thing, and
-not just the list of letters that wond work due to the implementation.
+All warnings (new ones prefixed by >>):
 
-If you havent, maybe just spell the above list out (like you do here) in
-the docs?
+>> drivers/gpu/drm/msm/hdmi/hdmi.c:532:2: warning: variable 'hdmi' is uninitialized when used here [-Wuninitialized]
+           hdmi->hpd_gpiod = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
+           ^~~~
+   drivers/gpu/drm/msm/hdmi/hdmi.c:518:19: note: initialize the variable 'hdmi' to silence this warning
+           struct hdmi *hdmi;
+                            ^
+                             = NULL
+   1 warning generated.
 
-> > - api use needs review wrt drm life-cycle.
-> > >   enum drm_debug_category and DYNAMIC_DEBUG_CLASSES could be together?
-> >
-> > Hm if they're tied to module lifetime we should be good? Not sure what
-> > could go wrong here.
-> >
-> >
-> with the new __section, "life-cycle" doesnt really pertain.
-> the new issue is how the class-maps are shared across the subsystem;
-> the current class-maps list for each module will probably break;
-> a list item cannot be on N different lists of different modules.
-> Altering the list-items to ref the class-map (not contain it) should solve
-> the problem.
-> 
-> 
-> 
-> 
-> > > - class-names could stand review, perhaps extension
-> > >   "drm:core:" etc have appeared (maybe just from me)
-> > >   or a "plan" to look at it later
-> >
-> > Yeah it's been a bit sprawling. I'm kinda hoping that by firmly
-> > establishing dyndbg as the drm debug approach we can cut down for the need
-> > for ad-hoc flags a bit.
-> >
-> > yeah thats why I kept the DRM_UT_* names.
-> OTOH - the symbolic names patch exposes the choices,
-> which locks the names as API ??
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_DP_AUX_BUS
+   Depends on HAS_IOMEM && DRM && OF
+   Selected by
+   - DRM_MSM && HAS_IOMEM && DRM && (ARCH_QCOM || SOC_IMX5 || COMPILE_TEST && COMMON_CLK && IOMMU_SUPPORT && (QCOM_OCMEM || QCOM_OCMEM && (QCOM_LLCC || QCOM_LLCC && (QCOM_COMMAND_DB || QCOM_COMMAND_DB
 
-Yeah that part is fine. It's more because the flags was the only thing we
-ever had, any debug need was solved with them. With dyndbg we should have
-a lot more and a lot more precise options for handling this.
 
-So I'm not worried about the flags and their names per-se, more that we
-had some pressure to add more flags for specific files and libraries.
-Dyndbg should give us a much more powerful tool for these problems.
+vim +/hdmi +532 drivers/gpu/drm/msm/hdmi/hdmi.c
 
-> > > - i915 & amdgpu have pr_debugs (DC_LOG_*, gvt_dbg_*) that have
-> > > class-ish prefixes that are separate from, but similar to DRM_UT_*,
-> > > and could stand review and possible unification with reformed or
-> > > extended drm categories.
-> >
-> > Yeah drm is not entirely consistent with how exactly driver debug printing
-> > should be done. Another reason why I'm hoping that the kitchen sync with
-> > everything approach you're doing here could help unify things.
-> >
-> 
-> 
-> the decoration flags can help here; they loosely/precisely describe
-> the elements of most/all the current debug format-prefix variations.
-> So case by case, the ad-hoc variations should map onto these flags,
-> 
-> The flags allow selectively dropping the prefix info from some of the log
-> entries,
-> after you've seen the module name and function a dozen times,
-> it's helpful to reduce screen clutter.
-> 
-> It might make sense to add a new flag for device,
-> so that dev_dbg() flavors can shorten-or-skip the longer device strings,
-> maybe some drm specific flavors.
-> 
-> 
-> 
-> >
-> > > - the change to enum drm_debug_category from bitmask values to 0..31
-> > >   means that we foreclose this possiblility:
-> > >
-> > >    drm_dbg(DRM_UT_CORE|DRM_UT_KMS, "wierd double-cat experiment");
-> >
-> > Yeah no, that doesn't make much sense to me :-)
-> >
-> > no chuckles for the schrodinger's cat joke ?
-> (maybe "yeah no" is the artful superpositional reply, I just caught :)
-> 
-> 
-> > > - nouveau has very few drm.debug calls,
-> > >   has NV_DEBUG, VMM_DEBUG, nvkm_printk_, I havent looked deeply.
-> >
-> >
-> nouveau has like levels, man ..
-> test_dynamic_debug implements its priority-style names as a POC
-> 
-> patch 18 converts nvkm_debug/trace to use dev_dbg instead of dev_info
-> it probably could adapt to use drm_devdbg
-> 
-> 
-> 
-> 
-> > Yeah see above. There's a pile more drivers (more on the armsoc side of
-> > things) which are quite big on the raw debug call approach.
-> >
-> >
-> LOW, MID, HI has been proposed at least once wrt dyndbg.
-> that probably fits well with current disjoint classes.
-> level/verbose classes should be practical too, as described above.
-> 
-> NB: The symbolic names should also work
-> 
->    echo +MID > /sys/module/foobar/parameters/debug_verbosity
-> 
-> though theres some ambiguity with
-> 
->    echo -V3 > /sys/module/foobar/parameters/debug_verbosity
-> 
-> that should turn off V4,5,6,
-> but what about V1,2 ?
-> it could leave them alone (whatever their previous settings are)
-> 
-> anyway, lkp-robot and igt-trybot should be grinding on the latest patchset
-> soon,
-> I'll send it after I fix whatever breaks.
-
-Awesome, like I said I'm a bit drowned in everything, but I'm really happy
-you're pushing this!
--Daniel
-
-> 
-> 
-> 
-> > Cheers, Daniel
-> >
-> 
-> thanks,
-> Jim
+   513	
+   514	static int msm_hdmi_bind(struct device *dev, struct device *master, void *data)
+   515	{
+   516		struct msm_drm_private *priv = dev_get_drvdata(master);
+   517		struct hdmi_platform_config *hdmi_cfg;
+   518		struct hdmi *hdmi;
+   519		struct device_node *of_node = dev->of_node;
+   520		int err;
+   521	
+   522		hdmi_cfg = (struct hdmi_platform_config *)
+   523				of_device_get_match_data(dev);
+   524		if (!hdmi_cfg) {
+   525			DRM_DEV_ERROR(dev, "unknown hdmi_cfg: %pOFn\n", of_node);
+   526			return -ENXIO;
+   527		}
+   528	
+   529		hdmi_cfg->mmio_name     = "core_physical";
+   530		hdmi_cfg->qfprom_mmio_name = "qfprom_physical";
+   531	
+ > 532		hdmi->hpd_gpiod = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
+   533		/* This will catch e.g. -PROBE_DEFER */
+   534		if (IS_ERR(hdmi->hpd_gpiod))
+   535			return PTR_ERR(hdmi->hpd_gpiod);
+   536	
+   537		if (!hdmi->hpd_gpiod)
+   538			DBG("failed to get HPD gpio");
+   539	
+   540		if (hdmi->hpd_gpiod)
+   541			gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
+   542	
+   543		dev->platform_data = hdmi_cfg;
+   544	
+   545		hdmi = msm_hdmi_init(to_platform_device(dev));
+   546		if (IS_ERR(hdmi))
+   547			return PTR_ERR(hdmi);
+   548		priv->hdmi = hdmi;
+   549	
+   550		err = msm_hdmi_register_audio_driver(hdmi, dev);
+   551		if (err) {
+   552			DRM_ERROR("Failed to attach an audio codec %d\n", err);
+   553			hdmi->audio_pdev = NULL;
+   554		}
+   555	
+   556		return 0;
+   557	}
+   558	
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+0-DAY CI Kernel Test Service
+https://01.org/lkp
