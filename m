@@ -2,86 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CC6354302A
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 14:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB45F543088
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 14:37:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BB0210E8F8;
-	Wed,  8 Jun 2022 12:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F93810E660;
+	Wed,  8 Jun 2022 12:37:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DABA10E8F8
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 12:23:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654690999;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WysPZlcw09T7q+C1fUqR9rq1Bzu/+VYftlOBGYd++mc=;
- b=cGae2+wANtVL7pIELQJjbIEioJ8aUZz+pY4S4rpKOONeAR+/H78gBhptKf+iziMVzha3kc
- gnxBxhvBrE3zInreOY3eKDTpRXZ7pqhPt8pNU47JLRqwG6vp7Sbsu59Em9or96yyQmktP1
- +Snl4dus5i26Pe1FBLGx7M86nyBZ/3w=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-di-g4QigOyafGdxofKHDMw-1; Wed, 08 Jun 2022 08:23:18 -0400
-X-MC-Unique: di-g4QigOyafGdxofKHDMw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h2-20020adfe982000000b002102da95c71so4750412wrm.23
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 05:23:18 -0700 (PDT)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
+ [IPv6:2a00:1450:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8D6D10E660
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 12:37:45 +0000 (UTC)
+Received: by mail-ej1-x635.google.com with SMTP id gl15so27331843ejb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 05:37:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=H0WIvtDK8p0hub9/Szus7esLARC3UMiO3VioApHUPBY=;
+ b=Tsg1x0Q8gQ3BwxdDKxr3GztlxX4tjBiwzsVdK/a8gxfowQSkHgSZ8zcX0TpFfNRidL
+ Srb+CtQa6fOlcNTwnam9zdq22zbwYe0P046H0hS5F+qvQNjoTBe11Hs29KrKR/npMjtl
+ aqy20peak7dBdXuXTvUODVZI2rhuhgApqEtHi3M37GUaDppZaxRrQYO/o+QnrEQD+W9i
+ 3s95MzkblBaQ99c+Lm937NU/9RjX5gaiJWh14VA+NP1sLlLI2nRJbi4c8nln+9YEXzmz
+ 93l1W1tv+z9yU/XV7Yo2kqFxQHqLcuH1Fg/2d8ltZCJg22FG4R8aaHFQ8qS0NMPIiI/E
+ MoEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WysPZlcw09T7q+C1fUqR9rq1Bzu/+VYftlOBGYd++mc=;
- b=m6dyIkpoHm8dYjfppRcZW7at0x2cFdQ6TaibN53rrYQYc2mMDUdeZ31adnvKTzLpGU
- ArQoeHrMpFTkTnxULDDjXTcSvxLXsHgKDz0IU9Nv5My40rE5eT2JQ2NVRU9T0H4F1Bg8
- XwjLOzzOcOzPei/b6WIE7v3ZrCMHYba4uSd1wND40SJwXfRft3HVM5wyN9DSszypfdeF
- CxDaIZrvQ+pZ2z2qZTlKjzp7hsIOfwTqAkM/YheGmWdz8zP8iAcjOoSY+7t4JxFlq39k
- vZbhz0Z2SHYgiuTCw8e6A30krB5pzy8apwPgjMQS/6BZhQI2xzkAXFPczIsKNo80JOW5
- cxbQ==
-X-Gm-Message-State: AOAM533XC5V+PmjSbmzwXMECh9/3Ixw+/RN9iCBkPIwRXoT8qpiAX5vh
- BBhLDNPl+pXy72U3Jh1MtHwq6Sp/hHZIVhmwL/zVsj9N+hXQfAEZe5qLY3V4J/Whz7ZtpbTcPlX
- hl9HhO5K2i5TMtiSODWFZmMmVxCW3
-X-Received: by 2002:adf:f38f:0:b0:210:30cf:6e4a with SMTP id
- m15-20020adff38f000000b0021030cf6e4amr34276132wro.676.1654690996873; 
- Wed, 08 Jun 2022 05:23:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnn0twO0DVIW7IZ6/4N32WijMPurWbHo+V8aC9+pPIdJveu5UOwQ9M/8i7btwDkro790RfwA==
-X-Received: by 2002:adf:f38f:0:b0:210:30cf:6e4a with SMTP id
- m15-20020adff38f000000b0021030cf6e4amr34276097wro.676.1654690996523; 
- Wed, 08 Jun 2022 05:23:16 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- o10-20020adfeaca000000b0020c5253d8c2sm20778215wrn.14.2022.06.08.05.23.15
+ bh=H0WIvtDK8p0hub9/Szus7esLARC3UMiO3VioApHUPBY=;
+ b=7KTyL/HyA/zNsOlPvjySMOEny1SUMXCyDn/sipJs+Xf8Y13oJtRlPVsZK72evf/9sF
+ In0CaZd52/6e/OlTpdO2S0hwdcEIuswFwzTz9WFUrYKJD9OAhmqz7xl2MdpulGyBu2zs
+ rFj69uEp7YmGRCb/4ptHL1ABjXF2ynvpJPc7sAljyN/mpDM6GJb42H+KzT22pZK8LFgQ
+ 1tWcBJVQtbiP9puvT4uimV/ZNnwDZhODwg2/9QXOzUFWv7WbqH0epZNs7+4c0iGsiEo8
+ RTZJ9url+5qIU8xVzgnFJPHKs2QvjvtjJA+EfPYVRK+jZ9KDxvWm34wIgluG9qC/kaR6
+ Nk9w==
+X-Gm-Message-State: AOAM533zsd0dHlR2cd6W+gpeOrXiOjTe3Qo/Fm8KQH50I0/PdIrlNmsc
+ /CfHjCPoxy3uXCnmZMc16MC0dQ==
+X-Google-Smtp-Source: ABdhPJy0CWdqL36Ktq7laF+3NF2aMLunQqcEfbts6nMe4AvWKnaPdOnxG/P/zeEoYq1eMlQKYpwQeQ==
+X-Received: by 2002:a17:907:6286:b0:6da:6e24:5e43 with SMTP id
+ nd6-20020a170907628600b006da6e245e43mr31108018ejc.449.1654691864091; 
+ Wed, 08 Jun 2022 05:37:44 -0700 (PDT)
+Received: from [192.168.0.192] (xdsl-188-155-176-92.adslplus.ch.
+ [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
+ w2-20020a056402268200b0042ddd08d5f8sm12908878edd.2.2022.06.08.05.37.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jun 2022 05:23:16 -0700 (PDT)
-Message-ID: <9aaaaa29-11c0-d494-11dd-0bbf5d384364@redhat.com>
-Date: Wed, 8 Jun 2022 14:23:14 +0200
+ Wed, 08 Jun 2022 05:37:43 -0700 (PDT)
+Message-ID: <e9918d06-1b53-d847-016f-2310c4fa9866@linaro.org>
+Date: Wed, 8 Jun 2022 14:37:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v6 0/6] Raspberry PI 4 V3D enablement
-To: Florian Fainelli <f.fainelli@gmail.com>,
- Peter Robinson <pbrobinson@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- bcm-kernel-feedback-list@broadcom.com, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- maxime@cerno.tech, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-References: <20220603092610.1909675-1-pbrobinson@gmail.com>
- <cadecbfd-e174-eadb-276c-577bb2bf70f2@gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <cadecbfd-e174-eadb-276c-577bb2bf70f2@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v2 01/12] dt-bindings: display/msm: hdmi: split and
+ convert to yaml
 Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20220608120723.2987843-1-dmitry.baryshkov@linaro.org>
+ <20220608120723.2987843-2-dmitry.baryshkov@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220608120723.2987843-2-dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,51 +80,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, David Heidelberg <david@ixit.cz>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Florian,
-
-On 6/8/22 11:26, Florian Fainelli wrote:
+On 08/06/2022 14:07, Dmitry Baryshkov wrote:
+> Convert Qualcomm HDMI binding into HDMI TX and PHY yaml bindings.
 > 
+> Changes to schema:
+> HDMI:
+>  - fixed reg-names numbering to match 0..3 instead 0,1,3,4
+>  - dropped qcom,tx-ddc-* from example, they were not documented
 > 
-> On 6/3/2022 11:26 AM, Peter Robinson wrote:
->> This is a follow up from my v4 patchset. The power management pieces have
->> been split out to a separate independent set of patches by Stefan [1]. This
->> version 5 of the DRM patches are independent and given the V3D driver has
->> been upstream for some time the two patches to enable it in defconfigs can
->> be taken at anytime independent of the enablement for the Raspberry Pi 4.
->>
->> I've tested this using mesa 22.0.x and Wayland/Gnome on Fedora 36, it's
->> more or less stable with basic testing.
->>
->> Changes since v5:
->> - Update the DT compatible to match the others that were updated
->> - Adjust the Kconfig help text
->> - Add review tags
->>
->> Changes since v4:
->> - Fixes for device tree and bindings
->> - Split out the power management changes into an independent set
->> - Rebase to 5.18
->> - Individual changes in patches
->>
->> [1] https://www.spinics.net/lists/arm-kernel/msg980342.html
+> PHY:
+>  - moved into phy/ directory
+>  - split into QMP and non-QMP PHY schemas
 > 
-> I can take the last 3 patches through the Broadcom ARM SoC pull request, 
-> but the first three should probably go via the DRM tree unless you want 
-> me to merge them all?
+> Co-developed-by: David Heidelberg <david@ixit.cz>
 
-I can merge the first 3 patches through the drm-misc tree. Can I get
-an ack from you for those ?
+David also needs to SoB here.
 
-The changes are independent so there's no need for an immutable branch
-or any kind of cross tree coordination.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
--- 
+(...)
+
+> +$id: http://devicetree.org/schemas/display/msm/hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm Adreno/Snapdragon HDMI output
+> +
+> +maintainers:
+> +  - Rob Clark <robdclark@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - qcom,hdmi-tx-8084
+> +      - qcom,hdmi-tx-8660
+> +      - qcom,hdmi-tx-8960
+> +      - qcom,hdmi-tx-8974
+> +      - qcom,hdmi-tx-8994
+> +      - qcom,hdmi-tx-8996
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 5
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 5
+> +
+> +  reg:
+> +    minItems: 1
+> +    maxItems: 3
+> +
+> +  reg-names:
+> +    minItems: 1
+> +    items:
+> +      - const: core_physical
+> +      - const: qfprom_physical
+> +      - const: hdcp_physical
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  phys:
+> +    maxItems: 1
+> +
+> +  phy-names:
+> +    enum:
+> +      - hdmi_phy
+> +      - hdmi-phy
+
+I did not notice your question on v1. I see now two DTS files using two
+different names... yeah, let's mark it deprecated and remove entirely
+from DTS. Let's hope DTS does not have other users than Linux kernel. :)
+
+> +
+> +  core-vdda-supply:
+> +    description: phandle to VDDA supply regulator
+> +
+> +  hdmi-mux-supply:
+> +    description: phandle to mux regulator
+> +
+> +  core-vcc-supply:
+> +    description: phandle to VCC supply regulator
+> +
+
+(...)
+
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - qcom,hdmi-phy-8660
+> +      - qcom,hdmi-phy-8960
+> +      - qcom,hdmi-phy-8974
+> +      - qcom,hdmi-phy-8084
+> +
+> +  reg:
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: hdmi_phy
+> +      - const: hdmi_pll
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  core-vdda-supply:
+> +    description: phandle to VDDA supply regulator
+
+Blank line
+
+> +  vddio-supply:
+> +    description: phandle to VDD I/O supply regulator
+> +
+
+
 Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Krzysztof
