@@ -1,78 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A600854380C
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:50:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8590454380F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:51:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B1CB10EF60;
-	Wed,  8 Jun 2022 15:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42CE210E6BC;
+	Wed,  8 Jun 2022 15:51:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C758210EF60
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 15:50:19 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- i17-20020a7bc951000000b0039c4760ec3fso4637049wml.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 08:50:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=CMsRXdWPmCDKvHowScgEPfcStDkBg94b5gd4aiXfFOo=;
- b=Xqtl8Ykb4qZhu60PLm3yREsrhfN7nycopV9Cg9DUODp+2a1GNn/lBEVFmoUaJT4ctn
- Og0NsuClCH8RLjcbeHc3nTohfjXaaOF5zeejqNfesaxvPyIkipv6pYygVud9iJNcmYKh
- ahaIdZft8ba9IAW5aiqjdFaX5F43Oza1EtamY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=CMsRXdWPmCDKvHowScgEPfcStDkBg94b5gd4aiXfFOo=;
- b=k72tBMKb8rYMeECtjs79LYhfyo5kfDwApmKi/VQRYH8FMx4aP+pfHrlEW5q/dgu/Pi
- TbtakfNLs2I+oT8ACifzVvJ1KMG7U/x5ql0wic1YRVHSH0BFcxe67jiHQKp+f6J1ouZS
- MGgHGWOjWjmyf244nwZq0IpckPznHNd0N1cK5Rrj4CSMPD24d+2TlG8MJEqTHiHiSeEq
- W1ra2OrWKkaXc7/A2IcSbTGRCHJyU/K/lMaJ2DEDQVbF0Hbbf0rufyfrgEOZLrvfRl2q
- KR1PBoQs9Jnu7yo5ZHv3Z5T3SJZWlIxKWNx9tT5RtnX/pUZXm8UIjuS/WsKaD3e10Wjz
- JEBw==
-X-Gm-Message-State: AOAM531kd02MWm1j131Pb/in68f8lawuuRycXMCtiHvn6jaSoumizyGq
- LE/7yaGTF2G8ShHyIKNsSJuV3w==
-X-Google-Smtp-Source: ABdhPJyiIwGCreHBsvQ2VeugCyr176Iz/EYHcScGY1DBTFXJ2J9uF7B9z1Usvrt4vZT/C7DnLh5RkA==
-X-Received: by 2002:a05:600c:10cb:b0:39c:4e74:2b41 with SMTP id
- l11-20020a05600c10cb00b0039c4e742b41mr19026418wmd.130.1654703418228; 
- Wed, 08 Jun 2022 08:50:18 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- h4-20020adffd44000000b002102d4ed579sm21547079wrs.39.2022.06.08.08.50.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 08:50:17 -0700 (PDT)
-Date: Wed, 8 Jun 2022 17:50:15 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v3 3/4] drm/bridge: Add devm_drm_bridge_add()
-Message-ID: <YqDFNx0Oim9RBIMf@phenom.ffwll.local>
-Mail-Followup-To: Maxime Ripard <maxime@cerno.tech>,
- Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Philip Chen <philipchen@chromium.org>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Robert Foss <robert.foss@linaro.org>,
- freedreno@lists.freedesktop.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-msm@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-References: <20220510192944.2408515-1-dianders@chromium.org>
- <20220510122726.v3.3.Iba4b9bf6c7a1ee5ea2835ad7bd5eaf84d7688520@changeid>
- <20220521091751.opeiqbmc5c2okdq6@houat>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220521091751.opeiqbmc5c2okdq6@houat>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CFE810E541;
+ Wed,  8 Jun 2022 15:51:43 +0000 (UTC)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 258Ee8Pd017857;
+ Wed, 8 Jun 2022 15:50:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=Lk0It611U/P8w0OoOgtqUslrDxiX8rH2mlYcAYsbsS0=;
+ b=DBmOimV5vskk/4O0H+ASMGsNH63DhJtNCLTnFgqZRUTK+X7zMc3lzDikf4MIzRHvOo+n
+ CVuXtMEUwvjuCMOsUvQCLxzvDPxq7MQJe7nH+QxMrKvnDdWtXb8oyiJThMyDSNmQyxD3
+ ijL4l1DZuEndT6CwVj7RjePrrfdNownPuIdFcAe2iz7z67jgpwlpo6+o3tw5AN4Gu+24
+ pg+OxytyddKWHjnLb8mNA5mmg0dpDiOFrVNo/85Pv/lEsOcOUlXsqNxyxX9Z1qi04T0N
+ kBV8kNOLpxfageJqTysUeV/gNjQBlwj1yN5Oz04VInZCZj3AJdqMbvLCgosERRxiDkCE ZA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gjum6cr0a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Jun 2022 15:50:38 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 258E4HP3023930;
+ Wed, 8 Jun 2022 15:50:37 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3gjum6cr01-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Jun 2022 15:50:37 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 258FoSB1013311;
+ Wed, 8 Jun 2022 15:50:36 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma02wdc.us.ibm.com with ESMTP id 3gfy19v6w2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Jun 2022 15:50:36 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 258FoZtr41419236
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Jun 2022 15:50:35 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 346DC6A04D;
+ Wed,  8 Jun 2022 15:50:35 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A70566A054;
+ Wed,  8 Jun 2022 15:50:32 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.211.94.47])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Jun 2022 15:50:32 +0000 (GMT)
+Message-ID: <1ae0abaaa4fc7959ba25cf59b3ef0da39bfc7f36.camel@linux.ibm.com>
+Subject: Re: [PATCH v2 1/2] vfio: Replace the DMA unmapping notifier with a
+ callback
+From: Eric Farman <farman@linux.ibm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, David Airlie <airlied@linux.ie>, Tony Krowiak
+ <akrowiak@linux.ibm.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, Cornelia Huck
+ <cohuck@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Harald Freudenberger
+ <freude@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens
+ <hca@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>,
+ kvm@vger.kernel.org, linux-s390@vger.kernel.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Peter
+ Oberparleiter <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sven Schnelle <svens@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>, Zhenyu Wang
+ <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
+Date: Wed, 08 Jun 2022 11:50:31 -0400
+In-Reply-To: <1-v2-80aa110d03ce+24b-vfio_unmap_notif_jgg@nvidia.com>
+References: <1-v2-80aa110d03ce+24b-vfio_unmap_notif_jgg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: c5zZRiJ_GxhZY7_iHg0OAYza3tR4OGQ2
+X-Proofpoint-ORIG-GUID: Etbix-epMN6oZyGKbVGn0eVZ0GN7YlSS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
+ definitions=2022-06-08_05,2022-06-07_02,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 phishscore=0
+ mlxlogscore=999 spamscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
+ mlxscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206080065
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,65 +115,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, May 21, 2022 at 11:17:51AM +0200, Maxime Ripard wrote:
-> Hi,
+On Tue, 2022-06-07 at 20:02 -0300, Jason Gunthorpe wrote:
+> Instead of having drivers register the notifier with explicit code
+> just
+> have them provide a dma_unmap callback op in their driver ops and
+> rely on
+> the core code to wire it up.
 > 
-> On Tue, May 10, 2022 at 12:29:43PM -0700, Douglas Anderson wrote:
-> > This adds a devm managed version of drm_bridge_add(). Like other
-> > "devm" function listed in drm_bridge.h, this function takes an
-> > explicit "dev" to use for the lifetime management. A few notes:
-> > * In general we have a "struct device" for bridges that makes a good
-> >   candidate for where the lifetime matches exactly what we want.
-> > * The "bridge->dev->dev" device appears to be the encoder
-> >   device. That's not the right device to use for lifetime management.
-> > 
-> > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Suggested-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/gpu/drm/i915/gvt/gvt.h        |   1 -
+>  drivers/gpu/drm/i915/gvt/kvmgt.c      |  75 ++++-----------
+>  drivers/s390/cio/vfio_ccw_ops.c       |  41 ++-------
+>  drivers/s390/cio/vfio_ccw_private.h   |   1 -
+>  drivers/s390/crypto/vfio_ap_ops.c     |  53 ++---------
+>  drivers/s390/crypto/vfio_ap_private.h |   3 -
+>  drivers/vfio/vfio.c                   | 126 +++++++++---------------
+> --
+>  drivers/vfio/vfio.h                   |   5 +
+>  include/linux/vfio.h                  |  21 +----
+>  9 files changed, 87 insertions(+), 239 deletions(-)
 > 
-> If we are to introduce more managed helpers, I think it'd be wiser to
-> introduce them as DRM-managed, and not device managed.
 > 
-> Otherwise, you'll end up in a weird state when a device has been removed
-> but the DRM device is still around.
 
-Top-level post since I didn't see any good place to reply in the thread
-below:
+...snip...
 
-- devm is for device stuff, which drm_bridge is (it's not uapi visible in
-  any way or fasion)
+> diff --git a/drivers/s390/cio/vfio_ccw_private.h
+> b/drivers/s390/cio/vfio_ccw_private.h
+> index 7272eb78861244..2627791c9006d4 100644
+> --- a/drivers/s390/cio/vfio_ccw_private.h
+> +++ b/drivers/s390/cio/vfio_ccw_private.h
+> @@ -98,7 +98,6 @@ struct vfio_ccw_private {
+>  	struct completion	*completion;
+>  	atomic_t		avail;
+>  	struct mdev_device	*mdev;
+> -	struct notifier_block	nb;
 
-- drmm is for uapi visible stuff (like drm_encoder)
+Could you also remove this from the comment block above the struct?
+Besides that, this is fine for -ccw.
 
-Yes the uapi-visible stuff can outlive the device-related pieces. The way
-to handle this is:
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
 
-- drm_dev_unplug() when the device disappears underneath you (or just a
-  part, I guess the infra for that doesn't exist yet and maybe we should
-  add it).
+>  	struct ccw_io_region	*io_region;
+>  	struct mutex		io_mutex;
+>  	struct vfio_ccw_region *region;
+> 
 
-- drm_dev_enter/exit wrapped around the device related parts.
+...snip...
 
-Iow, this patch here I think is the right direction, and gets my
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-But also, it's definitely not a complete solution as the discussion in the
-thread here points out.
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
