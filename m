@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C4C543B2D
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 20:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B381A543B95
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 20:35:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E0EF112186;
-	Wed,  8 Jun 2022 18:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7B3810F3E2;
+	Wed,  8 Jun 2022 18:35:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C1F5112186
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 18:14:55 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A36810F3E2
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 18:35:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654712095; x=1686248095;
+ t=1654713351; x=1686249351;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=USR+6rgHbgZJo4Au9EyLSSIMNVZXWNHuMgZbXeF60T8=;
- b=X0j9JAzlWHUDyeeYiYluIu245UwRnK2njMOkWqcP4h47w4U5UR6T44Ln
- c1MrNS6UDp0m9x4Zu1CQUmsi+Qrdq3EdKbzip2DhNxv9lGuhdtOvVIflB
- bq1X+W6rn2gaCiRuSRX/dmBqlOFInI6Ase3ezyK/y3d6vMH0mNc6B42XC
- f2dK3ICAIMBD4ngl0qd5OOG9ahRF35wxpKNpqFq9ENADXyNgIGrhuyHN6
- VxvP32pSVIBvo+Gfg6v2j8a0HU5GkMmlvnom2z1SlbZTbLSWWuoZZ6aUH
- MW32pYxbfrDWZu6YfLOjObeXBFox7R3bCN4n35bKmWQahsQD6T1Mz4aoO Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10372"; a="275760191"
-X-IronPort-AV: E=Sophos;i="5.91,286,1647327600"; d="scan'208";a="275760191"
+ bh=DqUiRXlTjJeKVR62BqB5dFoUTGYJ9vm4Fy2jswQl65M=;
+ b=cyCEWC3PD49mj7v2q+xbYRewWs69UiXQ2r7t4ZTfrwUxSj55a6c79Qnd
+ ql20jVoC59uvfQy7TsxPeHc1gVhwMU9UEfqtSoOqMwbRBA/wZ3ZMlRLZ3
+ VQDjCVAvBu1V6OuwNRywI6CwbtXO8nGsJoCXfofl2mkTMPbVrNyuB9CJ3
+ IgkpzhDDC6S5EucGLkjJlJPbusc3aeQmc8avVSeulCVv8/O4l3UlazfgO
+ eKlt5xNIVV0c2r8OIrIHypVvevk+TwWi3ZQJ8wKTQUSZcN6fRtdKsWtPL
+ K0+pKLeQeFQVG3/ggvy/KqCIp+38H05UJ3FQ0OHWeIKfHW5O8irHIT9E1 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10372"; a="260144389"
+X-IronPort-AV: E=Sophos;i="5.91,286,1647327600"; d="scan'208";a="260144389"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2022 11:14:54 -0700
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 11:35:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,286,1647327600"; d="scan'208";a="683478114"
+X-IronPort-AV: E=Sophos;i="5.91,286,1647327600"; d="scan'208";a="683490966"
 Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2022 11:14:48 -0700
+ by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2022 11:35:43 -0700
 Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nz0CY-000Et1-O8;
- Wed, 08 Jun 2022 18:14:42 +0000
-Date: Thu, 9 Jun 2022 02:14:34 +0800
+ (envelope-from <lkp@intel.com>) id 1nz0Wt-000Eu1-5U;
+ Wed, 08 Jun 2022 18:35:43 +0000
+Date: Thu, 9 Jun 2022 02:35:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: Prashant Malani <pmalani@chromium.org>, linux-kernel@vger.kernel.org,
  linux-usb@vger.kernel.org
 Subject: Re: [PATCH 6/7] drm/bridge: anx7625: Register Type-C mode switches
-Message-ID: <202206090139.lV7qgO5F-lkp@intel.com>
+Message-ID: <202206090245.ZHrBQ2To-lkp@intel.com>
 References: <20220607190131.1647511-7-pmalani@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -83,10 +83,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Prashant,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on usb/usb-testing v5.19-rc1 next-20220608]
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on usb/usb-testing v5.19-rc1 next-20220608]
 [cannot apply to balbi-usb/testing/next peter-chen-usb/for-usb-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -94,7 +94,7 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Prashant-Malani/usb-typec-Introduce-typec-switch-binding/20220608-042545
 base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: i386-randconfig-a006 (https://download.01.org/0day-ci/archive/20220609/202206090139.lV7qgO5F-lkp@intel.com/config)
+config: hexagon-buildonly-randconfig-r012-20220608 (https://download.01.org/0day-ci/archive/20220609/202206090245.ZHrBQ2To-lkp@intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b92436efcb7813fc481b30f2593a4907568d917a)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
@@ -105,12 +105,12 @@ reproduce (this is a W=1 build):
         git checkout 2ac4609c73d7bb4d1a585dae84559967ced3bad6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/bridge/analogix/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/bridge/analogix/
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
    In file included from drivers/gpu/drm/bridge/analogix/anx7625.c:18:
 >> include/linux/usb/typec_mux.h:83:19: warning: no previous prototype for function 'fwnode_typec_mux_get' [-Wmissing-prototypes]
@@ -162,10 +162,10 @@ All warnings (new ones prefixed by >>):
    void *typec_mux_get_drvdata(struct typec_mux *mux)
    ^
    static 
-   drivers/gpu/drm/bridge/analogix/anx7625.c:2617:23: error: incompatible pointer types assigning to 'struct typec_mux_dev *' from 'struct typec_mux *' [-Werror,-Wincompatible-pointer-types]
+>> drivers/gpu/drm/bridge/analogix/anx7625.c:2617:23: error: incompatible pointer types assigning to 'struct typec_mux_dev *' from 'struct typec_mux *' [-Werror,-Wincompatible-pointer-types]
            port_data->typec_mux = typec_mux_register(dev, &mux_desc);
                                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/analogix/anx7625.c:2631:24: error: incompatible pointer types passing 'struct typec_mux_dev *' to parameter of type 'struct typec_mux *' [-Werror,-Wincompatible-pointer-types]
+>> drivers/gpu/drm/bridge/analogix/anx7625.c:2631:24: error: incompatible pointer types passing 'struct typec_mux_dev *' to parameter of type 'struct typec_mux *' [-Werror,-Wincompatible-pointer-types]
                    typec_mux_unregister(ctx->typec_ports[i].typec_mux);
                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    include/linux/usb/typec_mux.h:107:45: note: passing argument to parameter 'mux' here
@@ -174,41 +174,52 @@ All warnings (new ones prefixed by >>):
    7 warnings and 2 errors generated.
 
 
-vim +/fwnode_typec_mux_get +83 include/linux/usb/typec_mux.h
+vim +2617 drivers/gpu/drm/bridge/analogix/anx7625.c
 
-0835afe6b807ae Prashant Malani 2022-06-07   82  
-0835afe6b807ae Prashant Malani 2022-06-07  @83  struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
-0835afe6b807ae Prashant Malani 2022-06-07   84  				       const struct typec_altmode_desc *desc)
-0835afe6b807ae Prashant Malani 2022-06-07   85  {
-0835afe6b807ae Prashant Malani 2022-06-07   86  	return ERR_PTR(-EOPNOTSUPP);
-0835afe6b807ae Prashant Malani 2022-06-07   87  }
-0835afe6b807ae Prashant Malani 2022-06-07   88  
-0835afe6b807ae Prashant Malani 2022-06-07  @89  void typec_mux_put(struct typec_mux *mux) {}
-0835afe6b807ae Prashant Malani 2022-06-07   90  
-0835afe6b807ae Prashant Malani 2022-06-07  @91  int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state)
-0835afe6b807ae Prashant Malani 2022-06-07   92  {
-0835afe6b807ae Prashant Malani 2022-06-07   93  	return -EOPNOTSUPP;
-0835afe6b807ae Prashant Malani 2022-06-07   94  }
-0835afe6b807ae Prashant Malani 2022-06-07   95  
-0835afe6b807ae Prashant Malani 2022-06-07   96  static inline struct typec_mux *
-0835afe6b807ae Prashant Malani 2022-06-07   97  typec_mux_get(struct device *dev, const struct typec_altmode_desc *desc)
-0835afe6b807ae Prashant Malani 2022-06-07   98  {
-0835afe6b807ae Prashant Malani 2022-06-07   99  	return ERR_PTR(-EOPNOTSUPP);
-0835afe6b807ae Prashant Malani 2022-06-07  100  }
-0835afe6b807ae Prashant Malani 2022-06-07  101  
-0835afe6b807ae Prashant Malani 2022-06-07  102  struct typec_mux *
-0835afe6b807ae Prashant Malani 2022-06-07 @103  typec_mux_register(struct device *parent, const struct typec_mux_desc *desc)
-0835afe6b807ae Prashant Malani 2022-06-07  104  {
-0835afe6b807ae Prashant Malani 2022-06-07  105  	return ERR_PTR(-EOPNOTSUPP);
-0835afe6b807ae Prashant Malani 2022-06-07  106  }
-0835afe6b807ae Prashant Malani 2022-06-07 @107  void typec_mux_unregister(struct typec_mux *mux) {}
-0835afe6b807ae Prashant Malani 2022-06-07  108  
-0835afe6b807ae Prashant Malani 2022-06-07 @109  void typec_mux_set_drvdata(struct typec_mux *mux, void *data) {}
-0835afe6b807ae Prashant Malani 2022-06-07 @110  void *typec_mux_get_drvdata(struct typec_mux *mux)
-0835afe6b807ae Prashant Malani 2022-06-07  111  {
-0835afe6b807ae Prashant Malani 2022-06-07  112  	return ERR_PTR(-EOPNOTSUPP);
-0835afe6b807ae Prashant Malani 2022-06-07  113  }
-0835afe6b807ae Prashant Malani 2022-06-07  114  
+  2590	
+  2591	static int anx7625_register_mode_switch(struct device *dev, struct device_node *node,
+  2592						struct anx7625_data *ctx)
+  2593	{
+  2594		struct anx7625_port_data *port_data;
+  2595		struct typec_mux_desc mux_desc = {};
+  2596		char name[32];
+  2597		u32 port_num;
+  2598		int ret;
+  2599	
+  2600		ret = of_property_read_u32(node, "reg", &port_num);
+  2601		if (ret)
+  2602			return ret;
+  2603	
+  2604		if (port_num >= ctx->num_typec_switches) {
+  2605			dev_err(dev, "Invalid port number specified: %d\n", port_num);
+  2606			return -EINVAL;
+  2607		}
+  2608	
+  2609		port_data = &ctx->typec_ports[port_num];
+  2610		port_data->ctx = ctx;
+  2611		mux_desc.fwnode = &node->fwnode;
+  2612		mux_desc.drvdata = port_data;
+  2613		snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
+  2614		mux_desc.name = name;
+  2615		mux_desc.set = anx7625_typec_mux_set;
+  2616	
+> 2617		port_data->typec_mux = typec_mux_register(dev, &mux_desc);
+  2618		if (IS_ERR(port_data->typec_mux)) {
+  2619			ret = PTR_ERR(port_data->typec_mux);
+  2620			dev_err(dev, "Mode switch register for port %d failed: %d", port_num, ret);
+  2621		}
+  2622	
+  2623		return ret;
+  2624	}
+  2625	
+  2626	static void anx7625_unregister_typec_switches(struct anx7625_data *ctx)
+  2627	{
+  2628		int i;
+  2629	
+  2630		for (i = 0; i < ctx->num_typec_switches; i++)
+> 2631			typec_mux_unregister(ctx->typec_ports[i].typec_mux);
+  2632	}
+  2633	
 
 -- 
 0-DAY CI Kernel Test Service
