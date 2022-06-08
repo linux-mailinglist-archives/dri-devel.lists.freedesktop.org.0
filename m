@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A19542868
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 09:51:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9B054286A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 09:51:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4730B10EE8B;
-	Wed,  8 Jun 2022 07:51:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D405C10EEA7;
+	Wed,  8 Jun 2022 07:51:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25E5410EE8B;
- Wed,  8 Jun 2022 07:51:05 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A37EE10EE97;
+ Wed,  8 Jun 2022 07:51:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654674665; x=1686210665;
+ t=1654674669; x=1686210669;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3JQEegJscKLQ9puxBz4jqFm2U2w5qsN3TvPIE/I7ezU=;
- b=YzPbrw/3heafPgNBaU8EPImaHKt1RKwB2NnwkRfi0tN2giZtiYk5HKv1
- xn45CXG4s32rQ1H+HRnaARLuRX9M82mk1MDhdj2+1mlZx8lDdQHABEpz8
- A9D20nt46tD0N3Wea6hJmEER/yjw87nDQtHQkh19dzPx4ZsOodXbmS2Sn
- HJO6meRRCyGmp3Kn+LPm9OWy7LHHSqt2OKIkb6hf2A1QEyuLkiB62Qe4c
- IK2urBCogrPT9SvuHiYrbZTrtnfedJLx8UNxgib7L46sX5j32phWB0XhY
- syWZlJ94LMhxxdbhyveuF5RFVhiEJyW4Ic6ZwiJ1E72AMhQkIAwgQrLAQ Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="338595940"
-X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="338595940"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2022 00:51:04 -0700
-X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="636656954"
+ bh=W6IbeIsu765KHTG/89ijhUh5Yf/VdOAKMFTnqhYFiYU=;
+ b=SYCT1TfP02nsnzFt8SXuBKyMTK8orYTn1a6sUYYwxMAl0mWaSi9f3l0X
+ j+BpQ0yBlP1TmBm9N0QUOW685Lt/VmgggYw5S0E4vcskeJub83r2wEesd
+ 8fDoUGP0JmBajUJJzWBDVA9N50ebn+6ggMK231VObbBvWYdlxRLdZO2Iv
+ +U2UWIwk1as7ZG+W83kEj7W8A06P5UNpqOEe6eDMtm+1c8qoGz2T28tXz
+ I9o3t0IT12KTsprTCmCDP5NJQAkdW2qfx1/CHiMZfD7JZ5+ldckNXbiL5
+ OqTdqET9AeEqA47qNYYJ/ULBfYVn8OEckgnh1RHkI+xa4ABIfaI4+f66t Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="265611311"
+X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="265611311"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 00:51:08 -0700
+X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="907528327"
 Received: from jkosticx-mobl.amr.corp.intel.com (HELO localhost)
  ([10.252.58.130])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2022 00:51:01 -0700
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 00:51:06 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 03/15] drm/edid: add block count and data helper functions
- for drm_edid
-Date: Wed,  8 Jun 2022 10:50:33 +0300
-Message-Id: <1a68c8667a88e7c451b001ad8bd86c8badb57fb8.1654674560.git.jani.nikula@intel.com>
+Subject: [PATCH v2 04/15] drm/edid: keep track of alloc size in
+ drm_do_get_edid()
+Date: Wed,  8 Jun 2022 10:50:34 +0300
+Message-Id: <8e4261d8c2947ea99240ea929f09a04878235f4e.1654674560.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1654674560.git.jani.nikula@intel.com>
 References: <cover.1654674560.git.jani.nikula@intel.com>
@@ -58,101 +58,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add drm_edid based block count and data access helper functions that
-take the EDID allocated size into account.
-
-At the moment, the allocated size should always match the EDID size
-indicated by the extension count, but this will change in the future.
+We'll want to return the allocated buffer size in the future. Keep track
+of it.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 42 +++++++++++++++++++++++++++++++-------
- 1 file changed, 35 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 27 +++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 002816509fc8..f44ada4bfa5b 100644
+index f44ada4bfa5b..2beaa48301c1 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -1613,6 +1613,35 @@ static const void *edid_extension_block_data(const struct edid *edid, int index)
- 	return edid_block_data(edid, index + 1);
- }
+@@ -2021,13 +2021,16 @@ bool drm_edid_is_valid(struct edid *edid)
+ EXPORT_SYMBOL(drm_edid_is_valid);
  
-+static int drm_edid_block_count(const struct drm_edid *drm_edid)
-+{
-+	int num_blocks;
-+
-+	/* Starting point */
-+	num_blocks = edid_block_count(drm_edid->edid);
-+
-+	/* Limit by allocated size */
-+	num_blocks = min(num_blocks, (int)drm_edid->size / EDID_LENGTH);
-+
-+	return num_blocks;
-+}
-+
-+static int drm_edid_extension_block_count(const struct drm_edid *drm_edid)
-+{
-+	return drm_edid_block_count(drm_edid) - 1;
-+}
-+
-+static const void *drm_edid_block_data(const struct drm_edid *drm_edid, int index)
-+{
-+	return edid_block_data(drm_edid->edid, index);
-+}
-+
-+static const void *drm_edid_extension_block_data(const struct drm_edid *drm_edid,
-+						 int index)
-+{
-+	return edid_extension_block_data(drm_edid->edid, index);
-+}
-+
- /*
-  * Initializer helper for legacy interfaces, where we have no choice but to
-  * trust edid size. Not for general purpose use.
-@@ -1665,8 +1694,8 @@ static const void *__drm_edid_iter_next(struct drm_edid_iter *iter)
- 	if (!iter->drm_edid)
- 		return NULL;
- 
--	if (iter->index < edid_block_count(iter->drm_edid->edid))
--		block = edid_block_data(iter->drm_edid->edid, iter->index++);
-+	if (iter->index < drm_edid_block_count(iter->drm_edid))
-+		block = drm_edid_block_data(iter->drm_edid, iter->index++);
- 
- 	return block;
- }
-@@ -3574,22 +3603,21 @@ static int add_detailed_modes(struct drm_connector *connector,
- const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
- 				  int ext_id, int *ext_index)
+ static struct edid *edid_filter_invalid_blocks(const struct edid *edid,
+-					       int invalid_blocks)
++					       int invalid_blocks,
++					       size_t *alloc_size)
  {
--	const struct edid *edid = drm_edid ? drm_edid->edid : NULL;
- 	const u8 *edid_ext = NULL;
+ 	struct edid *new, *dest_block;
+ 	int valid_extensions = edid->extensions - invalid_blocks;
  	int i;
  
- 	/* No EDID or EDID extensions */
--	if (!edid || !edid_extension_block_count(edid))
-+	if (!drm_edid || !drm_edid_extension_block_count(drm_edid))
+-	new = kmalloc(edid_size_by_blocks(valid_extensions + 1), GFP_KERNEL);
++	*alloc_size = edid_size_by_blocks(valid_extensions + 1);
++
++	new = kmalloc(*alloc_size, GFP_KERNEL);
+ 	if (!new)
+ 		goto out;
+ 
+@@ -2140,7 +2143,8 @@ static void connector_bad_edid(struct drm_connector *connector,
+ }
+ 
+ /* Get override or firmware EDID */
+-static struct edid *drm_get_override_edid(struct drm_connector *connector)
++static struct edid *drm_get_override_edid(struct drm_connector *connector,
++					  size_t *alloc_size)
+ {
+ 	struct edid *override = NULL;
+ 
+@@ -2150,6 +2154,10 @@ static struct edid *drm_get_override_edid(struct drm_connector *connector)
+ 	if (!override)
+ 		override = drm_load_edid_firmware(connector);
+ 
++	/* FIXME: Get alloc size from deeper down the stack */
++	if (!IS_ERR_OR_NULL(override) && alloc_size)
++		*alloc_size = edid_size(override);
++
+ 	return IS_ERR(override) ? NULL : override;
+ }
+ 
+@@ -2169,7 +2177,7 @@ int drm_add_override_edid_modes(struct drm_connector *connector)
+ 	struct edid *override;
+ 	int num_modes = 0;
+ 
+-	override = drm_get_override_edid(connector);
++	override = drm_get_override_edid(connector, NULL);
+ 	if (override) {
+ 		drm_connector_update_edid_property(connector, override);
+ 		num_modes = drm_add_edid_modes(connector, override);
+@@ -2245,12 +2253,13 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+ 	enum edid_block_status status;
+ 	int i, invalid_blocks = 0;
+ 	struct edid *edid, *new;
++	size_t alloc_size = EDID_LENGTH;
+ 
+-	edid = drm_get_override_edid(connector);
++	edid = drm_get_override_edid(connector, &alloc_size);
+ 	if (edid)
+ 		goto ok;
+ 
+-	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
++	edid = kmalloc(alloc_size, GFP_KERNEL);
+ 	if (!edid)
  		return NULL;
  
- 	/* Find CEA extension */
--	for (i = *ext_index; i < edid_extension_block_count(edid); i++) {
--		edid_ext = edid_extension_block_data(edid, i);
-+	for (i = *ext_index; i < drm_edid_extension_block_count(drm_edid); i++) {
-+		edid_ext = drm_edid_extension_block_data(drm_edid, i);
- 		if (edid_block_tag(edid_ext) == ext_id)
- 			break;
+@@ -2278,7 +2287,8 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+ 	if (!edid_extension_block_count(edid))
+ 		goto ok;
+ 
+-	new = krealloc(edid, edid_size(edid), GFP_KERNEL);
++	alloc_size = edid_size(edid);
++	new = krealloc(edid, alloc_size, GFP_KERNEL);
+ 	if (!new)
+ 		goto fail;
+ 	edid = new;
+@@ -2300,7 +2310,8 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+ 	if (invalid_blocks) {
+ 		connector_bad_edid(connector, edid, edid_block_count(edid));
+ 
+-		edid = edid_filter_invalid_blocks(edid, invalid_blocks);
++		edid = edid_filter_invalid_blocks(edid, invalid_blocks,
++						  &alloc_size);
  	}
  
--	if (i >= edid_extension_block_count(edid))
-+	if (i >= drm_edid_extension_block_count(drm_edid))
- 		return NULL;
- 
- 	*ext_index = i + 1;
+ ok:
 -- 
 2.30.2
 
