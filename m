@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69ECA541F94
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 01:59:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D343B542087
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 02:51:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6040110E0F4;
-	Tue,  7 Jun 2022 23:59:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52DE510E598;
+	Wed,  8 Jun 2022 00:51:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A89ED10E0F4;
- Tue,  7 Jun 2022 23:59:38 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LHnQc41TJz4xD9;
- Wed,  8 Jun 2022 09:59:36 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1654646377;
- bh=qMAL1jVBkcRNa7CuXLedIvQH7GZUdyMOYdDM3XQ6o8E=;
- h=Date:From:To:Cc:Subject:From;
- b=V8jjSVrVKRxsBz2Ar5yvxoDzEXe2NEZ4RtEsehU2OBVJHycdwDsU5AQMkLfYEliTL
- 4MaIQ040AVnj3hh4MD7IwLcE05vQMYZkImX/a8FY0XwhgbWBFEYe5sDOQIBnbUUaUJ
- cmZHyBdtlAF5CNra4tsXUghBO7TCxg3B4id3nVZNZGPzC4d06etFVfZqKfDDD5iLf5
- BcxSa0T+bbadM+En9EXf+KsUUqJjGsqY9FjkWKSRUNhLFCpdLQqfzqXd7f19hyhaUi
- yrA0SubKFMDcoR1Sj/4YbZi4MUif0wHCCOLe2f1m/9ILqgz4MfJwbcjUxptv2UfOrb
- G/wkwTYPwDSHw==
-Date: Wed, 8 Jun 2022 09:59:35 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: linux-next: manual merge of the drm-intel tree with Linus' tree
-Message-ID: <20220608095935.2265208c@canb.auug.org.au>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A879910E598;
+ Wed,  8 Jun 2022 00:51:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654649471; x=1686185471;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NeUon+I41dZZ9Ikd8BPpxcpK3Zp+I5SU/mDLgw1DSSE=;
+ b=X0tb6hp2PDgM1oqaK7oVGNFieXsoAPo0qHcu/5kXr+I18FccMnMFudDh
+ RkrsiUw22TWaQgwnJzo8SWhqmfKh9zPVS/ApCoho+Z67qhVmJPbSUnjzr
+ Js9D4L++sOQA57a5Xu4EZpQUqmcyzem6jL8SQ3JjQUSCto2sMHqBkzwzC
+ +r7mGbLZGwOcvyKzhcsJw7gpZrChjvOqtkhYDyRoEDedwILgPRS0PV6mQ
+ 3KJyZD0vxM1xpLebAsXtEGGbQUpKqmPZay9wVKScLsHYHwBfPO+CnLhEo
+ 2d9nUF1bP+uY019FedmvE94r74fv88GB9SC1TcjC+LWzChhtfMgCYrd8T w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="275542590"
+X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="275542590"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 17:51:11 -0700
+X-IronPort-AV: E=Sophos;i="5.91,284,1647327600"; d="scan'208";a="609435748"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2022 17:51:10 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: More PVC+DG2 workarounds
+Date: Tue,  7 Jun 2022 17:51:08 -0700
+Message-Id: <20220608005108.3717895-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/TOyBKbYeeW.Z63VLYgIRDgG";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,86 +53,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Ashutosh Dixit <ashutosh.dixit@intel.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Anshuman Gupta <anshuman.gupta@intel.com>,
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
+ Badal Nilawar <badal.nilawar@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/TOyBKbYeeW.Z63VLYgIRDgG
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+A new PVC+DG2 workaround has appeared recently:
+ - Wa_16015675438
 
-Hi all,
+And a couple existing DG2 workarounds have been extended to PVC:
+ - Wa_14015795083
+ - Wa_18018781329
 
-Today's linux-next merge of the drm-intel tree got a conflict in:
+Note that Wa_16015675438 asks us to program a register that is in the
+0x2xxx range typically associated with the RCS engine, even though PVC
+does not have an RCS.  By default the GuC will think we've made a
+mistake and throw an exception when it sees this register on a CCS
+engine's save/restore list, so we need to pass an extra GuC control flag
+to tell it that this is expected and not a problem.
 
-  drivers/gpu/drm/i915/gt/intel_rps.c
+Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+Signed-off-by: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  1 +
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 24 +++++++++++++++------
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c      |  4 ++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  1 +
+ 4 files changed, 23 insertions(+), 7 deletions(-)
 
-between commit:
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index c8129a351731..226557018037 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -140,6 +140,7 @@
+ #define FF_SLICE_CS_CHICKEN2			_MMIO(0x20e4)
+ #define   GEN9_TSG_BARRIER_ACK_DISABLE		(1 << 8)
+ #define   GEN9_POOLED_EU_LOAD_BALANCING_FIX_DISABLE	(1 << 10)
++#define   GEN12_PERF_FIX_BALANCING_CFE_DISABLE	REG_BIT(15)
+ 
+ #define GEN9_CS_DEBUG_MODE1			_MMIO(0x20ec)
+ #define   FF_DOP_CLOCK_GATE_DISABLE		REG_BIT(1)
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 1e7ca3863f20..e1e70eff9aac 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -1491,13 +1491,20 @@ dg2_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
+ 	wa_write_clr(wal, GEN7_MISCCPCTL, GEN12_DOP_CLOCK_GATE_RENDER_ENABLE);
+ }
+ 
++static void
++pvc_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
++{
++	/* Wa_14015795083 */
++	wa_write_clr(wal, GEN7_MISCCPCTL, GEN12_DOP_CLOCK_GATE_RENDER_ENABLE);
++}
++
+ static void
+ gt_init_workarounds(struct intel_gt *gt, struct i915_wa_list *wal)
+ {
+ 	struct drm_i915_private *i915 = gt->i915;
+ 
+ 	if (IS_PONTEVECCHIO(i915))
+-		; /* none yet */
++		pvc_gt_workarounds_init(gt, wal);
+ 	else if (IS_DG2(i915))
+ 		dg2_gt_workarounds_init(gt, wal);
+ 	else if (IS_XEHPSDV(i915))
+@@ -2082,12 +2089,6 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 		 * performance guide section.
+ 		 */
+ 		wa_write_or(wal, XEHP_L3SCQREG7, BLEND_FILL_CACHING_OPT_DIS);
+-
+-		/* Wa_18018781329:dg2 */
+-		wa_write_or(wal, RENDER_MOD_CTRL, FORCE_MISS_FTLB);
+-		wa_write_or(wal, COMP_MOD_CTRL, FORCE_MISS_FTLB);
+-		wa_write_or(wal, VDBX_MOD_CTRL, FORCE_MISS_FTLB);
+-		wa_write_or(wal, VEBX_MOD_CTRL, FORCE_MISS_FTLB);
+ 	}
+ 
+ 	if (IS_DG2_GRAPHICS_STEP(i915, G11, STEP_A0, STEP_B0)) {
+@@ -2700,6 +2701,15 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
+ 
+ 		/* Wa_22014226127:dg2,pvc */
+ 		wa_write_or(wal, LSC_CHICKEN_BIT_0, DISABLE_D8_D16_COASLESCE);
++
++		/* Wa_16015675438:dg2,pvc */
++		wa_masked_en(wal, FF_SLICE_CS_CHICKEN2, GEN12_PERF_FIX_BALANCING_CFE_DISABLE);
++
++		/* Wa_18018781329:dg2,pvc */
++		wa_write_or(wal, RENDER_MOD_CTRL, FORCE_MISS_FTLB);
++		wa_write_or(wal, COMP_MOD_CTRL, FORCE_MISS_FTLB);
++		wa_write_or(wal, VDBX_MOD_CTRL, FORCE_MISS_FTLB);
++		wa_write_or(wal, VEBX_MOD_CTRL, FORCE_MISS_FTLB);
+ 	}
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+index 2c4ad4a65089..35887cb53201 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+@@ -327,6 +327,10 @@ static u32 guc_ctl_wa_flags(struct intel_guc *guc)
+ 	    IS_DG2_GRAPHICS_STEP(gt->i915, G11, STEP_A0, STEP_FOREVER))
+ 		flags |= GUC_WA_CONTEXT_ISOLATION;
+ 
++	/* Wa_16015675438 */
++	if (!RCS_MASK(gt))
++		flags |= GUC_WA_RCS_REGS_IN_CCS_REGS_LIST;
++
+ 	return flags;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+index 42cb7a9a6199..b3c9a9327f76 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+@@ -105,6 +105,7 @@
+ #define   GUC_WA_PRE_PARSER		BIT(14)
+ #define   GUC_WA_HOLD_CCS_SWITCHOUT	BIT(17)
+ #define   GUC_WA_POLLCS			BIT(18)
++#define   GUC_WA_RCS_REGS_IN_CCS_REGS_LIST	BIT(21)
+ 
+ #define GUC_CTL_FEATURE			2
+ #define   GUC_CTL_ENABLE_SLPC		BIT(2)
+-- 
+2.35.3
 
-  56758cc45955 ("drm/i915/rps: Centralize computation of freq caps")
-
-from Linus' tree and commit:
-
-  ee421bb4cb95 ("drm/i915/pcode: Extend pcode functions for multiple gt's")
-
-from the drm-intel tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/gt/intel_rps.c
-index 3476a11f294c,ce61ceb07114..000000000000
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@@ -1138,15 -1095,13 +1138,16 @@@ static void gen6_rps_init(struct intel_
-  	if (IS_HASWELL(i915) || IS_BROADWELL(i915) ||
-  	    IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >=3D 11) {
-  		u32 ddcc_status =3D 0;
- +		u32 mult =3D 1;
- =20
- +		if (IS_GEN9_BC(i915) || GRAPHICS_VER(i915) >=3D 11)
- +			mult =3D GEN9_FREQ_SCALER;
-- 		if (snb_pcode_read(i915, HSW_PCODE_DYNAMIC_DUTY_CYCLE_CONTROL,
-+ 		if (snb_pcode_read(rps_to_gt(rps)->uncore,
-+ 				   HSW_PCODE_DYNAMIC_DUTY_CYCLE_CONTROL,
-  				   &ddcc_status, NULL) =3D=3D 0)
-  			rps->efficient_freq =3D
- -				clamp_t(u8,
- -					(ddcc_status >> 8) & 0xff,
- +				clamp_t(u32,
- +					((ddcc_status >> 8) & 0xff) * mult,
-  					rps->min_freq,
-  					rps->max_freq);
-  	}
-
---Sig_/TOyBKbYeeW.Z63VLYgIRDgG
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmKf5mcACgkQAVBC80lX
-0GyXQgf7BX8DnOO0GivgnVtHilyjOsd3SssG+71vVW0GOiXtJkJi3pkbgTGaQ3DG
-bmco/k94IAKLipqDqLx6YmN8MSh+fyJeJCLA3FyGEJEiNGi47DLje4YGo0OwGmxK
-J/cpqwFHgQ8j1sIKK8rbAVeORJ+M/pPBHCNeZbseDG1gi2eJlRwzTlHJdFgNdMWk
-nTrI/FkTzxykW/K7YhJf5bUarrvDvKJkqfeJhZXb6nsSfU3RZylnXsztkh7xk5lm
-HS8VqEirKLuCK8N5M2JlPkO1+tj1SIAEQSzhUYkTUc2rr52U+zTdplZDSxpbSr/s
-b+iqHl61jVrgNk+hPC3LSW4yEilQmQ==
-=W50a
------END PGP SIGNATURE-----
-
---Sig_/TOyBKbYeeW.Z63VLYgIRDgG--
