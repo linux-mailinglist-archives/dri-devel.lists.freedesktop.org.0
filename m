@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA158542871
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 09:51:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E93542870
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 09:51:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 384AA10EECD;
-	Wed,  8 Jun 2022 07:51:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E36C310EED4;
+	Wed,  8 Jun 2022 07:51:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3131D10EECD;
- Wed,  8 Jun 2022 07:51:29 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9980810EECF;
+ Wed,  8 Jun 2022 07:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654674689; x=1686210689;
+ t=1654674685; x=1686210685;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=RQfazp2nFqOsH62ebKVXq86BZfYqYSUML1XmhL+OOAY=;
- b=EH4s9vaBEnFsF55KO0C6EM2q6CmBxKP/E6lTcX2KSC3VbTgQFl5Xfxp6
- Whud6OPjQRugeDtyvTCjRihX7ZW9iJVSqM04gwbqFtfWQVpLsiGtID6bP
- xUcjP+Sdu0HqzaPRW4xFHtzShOLv7gmquJnzIO2r11aY+WgIc7RwXNHgS
- KjTBhvePkkIK4KHKzdWKigH6jY7J8P0Lq4vVCNqQr1hjGpaQhRvEq5sbR
- jWmlWQfkKSVvcdhrL2rrFy2TLZmYQ+akALQeO+z6jMR9FrPqgn1un4KcY
- kv+yyZJU5bRpmdmm6ruoLzrQdPXz1BAuteHmfMOq1O8kH2jyvToxkUde+ A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="340914850"
-X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="340914850"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2022 00:51:21 -0700
-X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="648466340"
+ bh=XQo3smV5NO5DcJSapW84cgjYQHG7/Tk+pIqDeGK/Uc4=;
+ b=hQYSSWRRK5hv/sIa0gcQ4Vzr4O5GcXVNordjT/fG/N0pN3EBJht1W/fd
+ G7OjnZlK0ukrNEwkLfRDZKXq/JGT4SP0J1Dh/mL9SqJNssThq6Crd4Uqx
+ 1tEsWIVjPNjjiRPmMTG5guuxhdPitXddN3G2Zt+Za3Mxso1f9OR5KZhWv
+ hOcYRuqNFhli0F9go9I9IJrtBvYFsvCkB513y6ML+gj2o7TE9Y5tIMSNa
+ XT9M4NkQblkVdWZEUldQSn6DfGqu7OGoWp2Z4XlNJk7qLhdxQsn/C8jfu
+ S5kYakHbCd5h8up58+nULNpsrQlOiUM9C/+G4ZZLQPiO4tAeZeNLh7TKg w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="274336252"
+X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="274336252"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 00:51:25 -0700
+X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="670411653"
 Received: from jkosticx-mobl.amr.corp.intel.com (HELO localhost)
  ([10.252.58.130])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2022 00:51:19 -0700
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 00:51:23 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 07/15] drm/probe-helper: abstract .get_modes() connector
- helper call
-Date: Wed,  8 Jun 2022 10:50:37 +0300
-Message-Id: <a4de51efc246e4f5bcbf7b84d66bb49aaf7fd974.1654674560.git.jani.nikula@intel.com>
+Subject: [PATCH v2 08/15] drm/probe-helper: add
+ drm_connector_helper_get_modes()
+Date: Wed,  8 Jun 2022 10:50:38 +0300
+Message-Id: <977ae3f897f41ce69e091e38706ca841900c31b5.1654674560.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1654674560.git.jani.nikula@intel.com>
 References: <cover.1654674560.git.jani.nikula@intel.com>
@@ -62,68 +62,70 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Abstract the .get_modes() connector helper call, including the
-override/firmware EDID fallback, for clarity.
+Add a helper function to be used as the "default" .get_modes()
+hook. This also works as an example of what the driver .get_modes()
+hooks are supposed to do regarding the new drm_edid_read*() and
+drm_edid_connector_update() calls.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_probe_helper.c | 29 +++++++++++++++++++----------
- 1 file changed, 19 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/drm_probe_helper.c | 34 ++++++++++++++++++++++++++++++
+ include/drm/drm_probe_helper.h     |  1 +
+ 2 files changed, 35 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 75a71649b64d..a8d26b29bfa0 100644
+index a8d26b29bfa0..e6b8f2923aa7 100644
 --- a/drivers/gpu/drm/drm_probe_helper.c
 +++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -354,6 +354,24 @@ drm_helper_probe_detect(struct drm_connector *connector,
+@@ -1049,3 +1049,37 @@ int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector)
+ 	return count;
  }
- EXPORT_SYMBOL(drm_helper_probe_detect);
- 
-+static int drm_helper_probe_get_modes(struct drm_connector *connector)
+ EXPORT_SYMBOL(drm_connector_helper_get_modes_from_ddc);
++
++/**
++ * drm_connector_helper_get_modes - Read EDID and update connector.
++ * @connector: The connector
++ *
++ * Read the EDID using drm_edid_read() (which requires that connector->ddc is
++ * set), and update the connector using the EDID.
++ *
++ * This can be used as the "default" connector helper .get_modes() hook if the
++ * driver does not need any special processing. This is sets the example what
++ * custom .get_modes() hooks should do regarding EDID read and connector update.
++ *
++ * Returns: Number of modes.
++ */
++int drm_connector_helper_get_modes(struct drm_connector *connector)
 +{
-+	const struct drm_connector_helper_funcs *connector_funcs =
-+		connector->helper_private;
++	const struct drm_edid *drm_edid;
 +	int count;
 +
-+	count = connector_funcs->get_modes(connector);
++	drm_edid = drm_edid_read(connector);
 +
 +	/*
-+	 * Fallback for when DDC probe failed in drm_get_edid() and thus skipped
-+	 * override/firmware EDID.
++	 * Unconditionally update the connector. If the EDID was read
++	 * succesfully, fill in the connector information derived from the
++	 * EDID. Otherwise, if the EDID is NULL, clear the connector
++	 * information.
 +	 */
-+	if (count == 0 && connector->status == connector_status_connected)
-+		count = drm_add_override_edid_modes(connector);
++	count = drm_edid_connector_update(connector, drm_edid);
++
++	drm_edid_free(drm_edid);
 +
 +	return count;
 +}
-+
- static int __drm_helper_update_and_validate(struct drm_connector *connector,
- 					    uint32_t maxX, uint32_t maxY,
- 					    struct drm_modeset_acquire_ctx *ctx)
-@@ -473,8 +491,6 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
- {
- 	struct drm_device *dev = connector->dev;
- 	struct drm_display_mode *mode;
--	const struct drm_connector_helper_funcs *connector_funcs =
--		connector->helper_private;
- 	int count = 0, ret;
- 	enum drm_connector_status old_status;
- 	struct drm_modeset_acquire_ctx ctx;
-@@ -559,14 +575,7 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
- 		goto exit;
- 	}
++EXPORT_SYMBOL(drm_connector_helper_get_modes);
+diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
+index c80cab7a53b7..8075e02aa865 100644
+--- a/include/drm/drm_probe_helper.h
++++ b/include/drm/drm_probe_helper.h
+@@ -27,5 +27,6 @@ void drm_kms_helper_poll_enable(struct drm_device *dev);
+ bool drm_kms_helper_is_poll_worker(void);
  
--	count = (*connector_funcs->get_modes)(connector);
--
--	/*
--	 * Fallback for when DDC probe failed in drm_get_edid() and thus skipped
--	 * override/firmware EDID.
--	 */
--	if (count == 0 && connector->status == connector_status_connected)
--		count = drm_add_override_edid_modes(connector);
-+	count = drm_helper_probe_get_modes(connector);
+ int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector);
++int drm_connector_helper_get_modes(struct drm_connector *connector);
  
- 	if (count == 0 && (connector->status == connector_status_connected ||
- 			   connector->status == connector_status_unknown)) {
+ #endif
 -- 
 2.30.2
 
