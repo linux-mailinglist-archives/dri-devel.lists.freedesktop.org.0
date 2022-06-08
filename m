@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A405A543A10
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 19:15:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7520B543AAF
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 19:39:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 328AA112885;
-	Wed,  8 Jun 2022 17:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A2F10F337;
+	Wed,  8 Jun 2022 17:39:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 327D7112885
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 17:15:19 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id cx11so19186533pjb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 10:15:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=oH5uSEXgacKKfpEHTJJprfTXKBauCCXmjG/dRGDnTp0=;
- b=F2j4EyCRQ4esZS5rbSoSjLJlVg1KyteIP6cE3LN9453W0Yd/gSP6kkCPlhrYoF10ZZ
- c5W6dVkzES8e65A8wNGFtVrk/aiFT2T5JMn8JeZXCeGEdzEiGvdYArUPLJ3tKsvYEQZH
- ggca4mYXT40ImHDmzrKFFaC279eH7JLC3d7b8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=oH5uSEXgacKKfpEHTJJprfTXKBauCCXmjG/dRGDnTp0=;
- b=kOV+IsjgBRmYc7FEXO8+byKyjIr2Sf6Yps4KYT+bzATgsUvhqQ+Qy3H4KAlaZXsn64
- i+K2VHrd8gAFkoOOZaheJ7w2LetRt8rIO7Lwnz0ENFa/kjzWH8zyGm3yX48hRro9btPF
- meeB7dAHTvJMBN3raK+jLY5XmvSVAP1rGQOE8mY4zy5bK4I97Dfu02Xdfp7VZ++8Yvgk
- uIfzIWlSBwHnF+W4W7q/hKoGz6ZENIiLSO6VR57S4GSwmFsfFJGxg193KDKqk18CUlTY
- XaEdGvoueQPGGll40IqLNbigVIUQa45Xfg3E9mHmctIzCzNOFODfXKT2e7fka4WUBcfV
- gR8w==
-X-Gm-Message-State: AOAM533LXf7mtdbD+X4kuNLZbeDSajI8Jh0oAQnUcs3M80XTwYN0ktgT
- aRdWwJVpt+S/H+shoUkaYpG5Wg==
-X-Google-Smtp-Source: ABdhPJzEOdF+hiLQJ76yi5LDmB6MtapdNTYM8JdrFeaUFWEgT0fkKdgiPR7EJyZu6Oz5avgTWxcygQ==
-X-Received: by 2002:a17:90a:c981:b0:1e6:75f0:d4ea with SMTP id
- w1-20020a17090ac98100b001e675f0d4eamr215793pjt.37.1654708518745; 
- Wed, 08 Jun 2022 10:15:18 -0700 (PDT)
-Received: from chromium.org (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157]) by smtp.gmail.com with ESMTPSA id
- 190-20020a6219c7000000b005184c9c46dbsm15229447pfz.81.2022.06.08.10.15.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 10:15:17 -0700 (PDT)
-Date: Wed, 8 Jun 2022 17:15:16 +0000
-From: Prashant Malani <pmalani@chromium.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 3/7] dt-bindings: usb: Add Type-C switch binding
-Message-ID: <YqDZJFTji5nRs3bk@chromium.org>
-References: <20220607190131.1647511-1-pmalani@chromium.org>
- <20220607190131.1647511-4-pmalani@chromium.org>
- <ba499783-1794-1c00-348a-d912c9562e1e@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ba499783-1794-1c00-348a-d912c9562e1e@linaro.org>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E42510F337;
+ Wed,  8 Jun 2022 17:39:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654709983; x=1686245983;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=Nn6IF+tbUDc474ZjdSe8A8uHwLOl/FApHm3m2uWzBys=;
+ b=ixuykNttCAaYHxOYWMtrvfd/oRxy55dPrrJFXHS3VZLS4nLT+2YunM7n
+ 8LITubQwsE3rFHo4giCD1TuH+p6kAD5ahLXBuC/Hn0DxJk4THQoW4Kr8P
+ o7vSbGaMn6Uzwz2I2w5QaXBj2P1GDunbodka4czzX0mVX0OZCMW/kmbmS
+ QGFVEt8ne/g8BNNY3uZPdPkrdXsVeO/4mmO+7rxasEqzCfOs/bbB7KKRo
+ oqW1NbTk4AUlMvqZdKoQC1VUWI6+3oTzYjObDu7wodOOVd9C9eDGucgpf
+ U+2sN3jmcDcUVisHKuDRniovA90kzxOzxNF/Mp3IPdVMpBZU5kQbL/4ZD w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10372"; a="302344490"
+X-IronPort-AV: E=Sophos;i="5.91,286,1647327600"; d="scan'208";a="302344490"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 10:39:42 -0700
+X-IronPort-AV: E=Sophos;i="5.91,286,1647327600"; d="scan'208";a="759576251"
+Received: from adixit-mobl1.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.170.194])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 10:39:42 -0700
+Date: Wed, 08 Jun 2022 10:39:41 -0700
+Message-ID: <87tu8vjbqa.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [PATCH] drm/i915/guc/slpc: Use non-blocking H2G for waitboost
+In-Reply-To: <c9edf8d0-d36c-8b65-d536-f8eee4986662@intel.com>
+References: <20220515060506.22084-1-vinay.belgaumkar@intel.com>	<87y1y8jeer.wl-ashutosh.dixit@intel.com>	<c9edf8d0-d36c-8b65-d536-f8eee4986662@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,156 +58,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Tzung-Bi Shih <tzungbi@google.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
- Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc: jeff.mcgee@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
+On Tue, 07 Jun 2022 16:15:19 -0700, John Harrison wrote:
+>
+> On 6/7/2022 15:29, Dixit, Ashutosh wrote:
+> > On Sat, 14 May 2022 23:05:06 -0700, Vinay Belgaumkar wrote:
+> >> SLPC min/max frequency updates require H2G calls. We are seeing
+> >> timeouts when GuC channel is backed up and it is unable to respond
+> >> in a timely fashion causing warnings and affecting CI.
+> >>
+> >> This is seen when waitboosting happens during a stress test.
+> >> this patch updates the waitboost path to use a non-blocking
+> >> H2G call instead, which returns as soon as the message is
+> >> successfully transmitted.
+> > Overall I think this patch is trying to paper over problems in the blocking
+> > H2G CT interface (specifically the 1 second timeout in
+> > wait_for_ct_request_update()). So I think we should address that problem in
+> > the interface directly rather than having each client (SLPC and any future
+> > client) work around the problem. Following points:
+> >
+> > 1. This patch seems to assume that it is 'ok' to ignore the return code
+> >     from FW for a waitboost request (arguing waitboost is best effort so
+> >     it's ok to 'fire and forget'). But the return code is still useful
+> >     e.g. in cases where we see performance issues and want to go back and
+> >     investigate if FW rejected any waitboost requests.
+>
+> You still get errors reported in the GuC log. Indeed, some errors (or at
+> least error reasons) are only visible in the log not in the return code.
 
-On Jun 08 11:18, Krzysztof Kozlowski wrote:
-> On 07/06/2022 21:00, Prashant Malani wrote:
-> > Introduce a binding which represents a component that can control the
-> > routing of USB Type-C data lines as well as address data line
-> > orientation (based on CC lines' orientation).
-> > 
-> > Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> > ---
-> >  .../devicetree/bindings/usb/typec-switch.yaml | 76 +++++++++++++++++++
-> >  1 file changed, 76 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/usb/typec-switch.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/usb/typec-switch.yaml b/Documentation/devicetree/bindings/usb/typec-switch.yaml
-> > new file mode 100644
-> > index 000000000000..60a600a63fef
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/usb/typec-switch.yaml
-> > @@ -0,0 +1,76 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: USB Type-C Switch
-> > +
-> > +maintainers:
-> > +  - Prashant Malani <pmalani@chromium.org>
-> > +
-> > +description:
-> > +  A USB Type-C switch represents a component which routes USB Type-C data
-> > +  lines to various protocol host controllers (e.g USB, VESA DisplayPort,
-> > +  Thunderbolt etc.) depending on which mode the Type-C port, port partner
-> > +  and cable are operating in. It can also modify lane routing based on
-> > +  the orientation of a connected Type-C peripheral.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> 
-> Single item, so no need for items.
+OK, so we at least have this method for debug available.
 
-I tried this initially, but dt_binding_check throws the following
-error:
-$ make dt_binding_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/usb/typec-switch.yaml
+> > 2. We are already seeing that a 1 second timeout is not sufficient. So why
+> >     not simply increase that timeout?
+> >
+> > 3. In fact if we are saying that the CT interface is a "reliable" interface
+> >     (implying no message loss), to ensure reliability that timeout should
+> >     not simply be increased, it should be made "infinite" (in quotes).
+> >
+> > 4. Maybe it would have been best to not have a "blocking" H2G interface at
+> >     all (with the wait in wait_for_ct_request_update()). Just have an
+> >     asynchronous interface (which mirrors the actual interface between FW
+> >     and i915) in which clients register callbacks which are invoked when FW
+> >     responds. If this is too big a change we can probably continue with the
+> >     current blocking interface after increasing the timeout as mentioned
+> >     above.
+> >
+> > 5. Finally, the waitboost request is just the most likely to get stuck at
+> >     the back of a full CT queue since it happens during normal
+> >     operation. Actually any request, say one initiated from sysfs, can also
+> >     get similarly stuck at the back of a full queue. So any solution should
+> >     also address that situation (where the return code is needed and
+> >     similarly for a future client of the "blocking" (REQUEST/RESPONSE)
+> >     interface).
+> The blocking interface is only intended for init time operations, not
+> runtime.
 
-LINT    Documentation/devicetree/bindings
-CHKDT   Documentation/devicetree/bindings/processed-schema.json
-/foo/linux/Documentation/devicetree/bindings/usb/typec-switch.yaml: properties:compatible: [{'enum': ['typec-switch']}] is not of type 'object', 'boolean'
-from schema $id: http://json-schema.org/draft-07/schema#
-SCHEMA Documentation/devicetree/bindings/processed-schema.json
-/foo/linux/Documentation/devicetree/bindings/usb/typec-switch.yaml: ignoring, error in schema: properties: compatible
+In that case we should probably have code to enforce this in i915.
 
-> 
-> > +      - enum:
-> > +          - typec-switch
-> > +
-> > +  mode-switch:
-> > +    type: boolean
-> > +    description: Specify that this switch can handle alternate mode switching.
-> > +
-> > +  orientation-switch:
-> > +    type: boolean
-> > +    description: Specify that this switch can handle orientation switching.
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +    description: OF graph binding modelling data lines to the Type-C switch.
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Link between the switch and a Type-C connector.
-> > +
-> > +    required:
-> > +      - port@0
-> > +
-> > +required:
-> > +  - compatible
-> > +  - ports
-> > +
-> > +anyOf:
-> > +  - required:
-> > +      - mode-switch
-> > +  - required:
-> > +      - orientation-switch
-> > +
-> > +additionalProperties: true
-> 
-> Why true? I see usb-connector has it from commit 6a0e321ea735
-> ("dt-bindings: Explicitly allow additional properties in common schemas")
->  but that looks also weird - this is not a common schema, but a
-> complete, generic one.
-> 
-> > +
-> > +examples:
-> > +  - |
-> > +    anx7625 {
-> 
-> Generic node name.
+> Stuff where the operation is meant to be synchronous and the KMD
+> should not proceed until it has an ack back from the GuC that the update
+> has taken place. All runtime operations are expected to be asynchronous. If
+> a response is required, then it should be sent via an async
+> callback. E.g. context de-registration is a 'fire and forget' H2G call but
+> gets a 'deregistration complete' G2H notification when it is safe for the
+> KMD to free up the associated storage.
 
-Will fix in v2.
-> 
-> > +      typecswitch {
-> 
-> I guess here as well, so "usb-switch"?
+At present all GuC interactions in intel_guc_slpc.c (in i915) do *not*
+follow this. They use the REQUEST/RESPONSE FW interface which is pushed
+through the blocking H2G CT interface in i915. If we are serious about this
+this needs a GuC FW change to use bi-directional EVENT's used in the
+asynchronous interface (with corresponding changes in intel_guc_slpc.c).
 
-Same here, will fix with v2, along with 4-space indentation.
+> There is an 'errors only' H2G mechanism. That will not send an ack back in
+> the case of a successful H2G but will send back an error notification in
+> the case of a failure. All async H2Gs should really be using that
+> mechanism. I think Michal W did post a patch for it and I was meant to be
+> reviewing it but it dropped of my radar due to other higher priorities.
 
-> 
-> > +        compatible = "typec-switch";
-> > +        mode-switch;
-> > +        orientation-switch;
-> > +        ports {
-> > +          #address-cells = <1>;
-> > +          #size-cells = <0>;
-> > +
-> > +          port@0 {
-> > +            reg = <0>;
-> > +            anx_ep: endpoint {
-> > +              remote-endpoint = <&typec_controller>;
-> > +            };
-> > +          };
-> > +        };
-> > +      };
-> > +    };
-> 
-> 
-> Best regards,
-> Krzysztof
+These I believe are referred to as FAST_REQUEST's in GuC FW. That success
+is not communicated back to the KMD might be an issue in cases where KMD
+needs to know whether a particular operation was successful (such as
+for operations initiated via sysfs).
+
+Thanks.
+--
+Ashutosh
