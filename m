@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7A55435B0
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 16:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98095436E2
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:14:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D956E10E104;
-	Wed,  8 Jun 2022 14:54:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6A2710F08C;
+	Wed,  8 Jun 2022 15:14:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F05F910E104
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 14:54:06 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id z17so6204456wmi.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 07:54:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=/UVSlpPd3rsOTMDlQ1ZyeboYDpPQXRxEscJnVQE7aXc=;
- b=NOVyZ0ybVuagM0hyY5lUQmNY5Z6tlfSssVLuHrioj4pFXSStCE299BtFou21UZk/8m
- VepKg6OpRednAFUOH+DrFvmLI9yOlC/IAMdYiSfQ6UOc7UJzfTqtO3wrZhRQ6Y3PkLuY
- gqjs0vLD5jjUsL/mscM1fXT35tsnMSwcomlX6a9/g3w8TXZ3R497MNNJCeBYOYZ22HGL
- 9l/NPiOWTrux+f9ruw4K5CJf1Cr/GWmk6hkYBSp06qahIqkm03PO9JisT+Q0fZgMrbut
- ZpW2yIjJYDnnTb1+8qLVNW55t1H1tePx44wBwq4uu593J2cdba146uVXx2JRI0sZqR7f
- x2kg==
+Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com
+ [IPv6:2607:f8b0:4864:20::e29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F58010F08C
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 15:14:34 +0000 (UTC)
+Received: by mail-vs1-xe29.google.com with SMTP id g6so1658554vsb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 08:14:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NxsB1Chj3tNX/41HImIY1zgXULTulTxGvHsce7DACcM=;
+ b=le3MmjhMFKxtfIVGFaHhZaRmOvAUEyFwCs5xXOYL6nol6bUERxlxo/usqOQslYdCUt
+ n2vdm78SLP7RLnsH2CpP5WX3G73T9xJ1E/4c1ggA1D+mQyfq6+GtJ/jyBiLTphbmn4oM
+ j5hk8Sx2riBtbgflUngB+BkYwYj3BS9FFIi0WSbyMPq8Qdv+gYG0MROy3lNS/7HzQmY6
+ n/hYb+GbXrGMujQdYmK9b1UwOENeEy81wMS1fBdWGGolgZAQIc3WCQ/QkOIT+eSN/nzV
+ M0cZl97mWyij5/H9VQOqTXzoYQwnM6Pea0Aygm6n1tyLbkx/frgX+Fkdal6a+Sys6S8l
+ 2BBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=/UVSlpPd3rsOTMDlQ1ZyeboYDpPQXRxEscJnVQE7aXc=;
- b=nX8c5f6xl21eE4eWYO6NK+aboA/XCtBoWRhrXgxp/6ryJX5cwzzlKQrW42IuZsZ1HL
- jMtMvhTd6Hr6POClS1Gw37T+Qzg2OGmZ2pcnYLuG+DrUD3ny4yNRtTlU0XgrU0iDD+kK
- pmIYswvoOzJNuLiqLhZjuInSOSQBVaBh1TC5u0wKs9rLFQ/Tx+NX9oKFGrSWM2CKNsB8
- ag3D+aHJYprt+hg2MGPMd2Tv/xFAHZc5AwS/lYMAMbuLAnL0r4kSobJMXy4QkUtSsk4/
- sk5Cry0TgzoV5hVOIn0Qt9vqMEEfDWrXzb8ojIr07T8HRgj4oWfMwtkIb2dqOk6a07W3
- 2AxQ==
-X-Gm-Message-State: AOAM530c1yzD4vilqUntTWu5glzUxtzSxJ+0pPIohsAWF0+lvNbxgBEz
- 2imjJ3csTrEHkyGwQQUC/LQlNg==
-X-Google-Smtp-Source: ABdhPJyEA+RemPKIQuk742PCiLnKJ52To3H1lPVlBXw0lq0Iq7rdYqBME7INiy/5snTFyMG/KiRGTQ==
-X-Received: by 2002:a7b:c354:0:b0:39c:6753:21f8 with SMTP id
- l20-20020a7bc354000000b0039c675321f8mr707309wmj.113.1654700044185; 
- Wed, 08 Jun 2022 07:54:04 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- m19-20020a05600c4f5300b003942a244f2esm30757054wmq.7.2022.06.08.07.54.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 07:54:03 -0700 (PDT)
-Date: Wed, 8 Jun 2022 15:54:01 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Stephen Kitt <steve@sk2.org>
-Subject: Re: [PATCH] staging: ftbft: Use backlight helper
-Message-ID: <20220608145401.qaycvdfc7ks3bbx3@maple.lan>
-References: <20220607185516.1129900-1-steve@sk2.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NxsB1Chj3tNX/41HImIY1zgXULTulTxGvHsce7DACcM=;
+ b=3X1FdLGHtx1U3m5txgR10mGHHyDPa5IBF8SuOphSXpN9oQjCoVG0KIcNtXrEwagc4U
+ h1RhNPIhZ/Iegz8ga8atPpRHd9KzwrQ11Nj5BIDfiaghz4dAQjnUMJTnqNtPLNaywU44
+ 0fgQkVNo0sa//AjI/7b4W/mebRyc8NSdy9VJwzdc8S7Hbxp4IdsEW2XWw+ubsheTPz0t
+ FVDMw7yDXisLaNkDAmJyYLIJhgTc3LK2kyFz2hq5ucCs1k/Qu/NK30OPwKWPgRTQ55O4
+ i5XcCVc0Cc2vybLJWOI1yV4dgAIqNiBJ/nw07aZ6FTqasfgLHPsurqssRKzh0HxsLSZL
+ ibOw==
+X-Gm-Message-State: AOAM53117T3kA0dbhj8kHp0voY2hCLKMT3hjeM2VLVKloIhRhdG2Wb8p
+ 9Bu6P4cl90vpTQClI02caDGFoGI86tcILP4HHqrslhHc6ks=
+X-Google-Smtp-Source: ABdhPJzWy914bBh4zEU7xojf8Ail+alfYikx8hDgKS3PEbggzxkat8ZUet9brDOdlB91jbg/Sh+YK0ME6A0/mPLpl5A=
+X-Received: by 2002:a67:cd16:0:b0:34b:95ab:715a with SMTP id
+ u22-20020a67cd16000000b0034b95ab715amr12630854vsl.19.1654701273281; Wed, 08
+ Jun 2022 08:14:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220607185516.1129900-1-steve@sk2.org>
+References: <75eec8af-66fd-bbaa-9aea-4cdf634bf2c8@arcor.de>
+ <CALeDE9MzaG0vGfwMrZVArCWpNT94=vTakoM71qykBkVbeL1QmQ@mail.gmail.com>
+ <20220608143605.x4arwudst3nqeg7b@houat>
+In-Reply-To: <20220608143605.x4arwudst3nqeg7b@houat>
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Wed, 8 Jun 2022 16:14:22 +0100
+Message-ID: <CALeDE9OyJtvRGnN80JNW3AwwgAa_h_bs8GTLJzo06WK-o+_7Ng@mail.gmail.com>
+Subject: Re: drm/vc4: module dysfunctional on Raspberry Pi 3B as of 5.18.0
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,37 +64,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Len Baker <len.baker@gmx.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: stefan.wahren@i2se.com, Peter Mattern <pmattern@arcor.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 07, 2022 at 08:55:16PM +0200, Stephen Kitt wrote:
-> backlight_properties.fb_blank is deprecated. The states it represents
-> are handled by other properties; but instead of accessing those
-> properties directly, drivers should use the helpers provided by
-> backlight.h.
-> 
-> Instead of manually checking the power state in struct
-> backlight_properties, use backlight_is_blank().
-> 
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "Noralf Trønnes" <noralf@tronnes.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Len Baker <len.baker@gmx.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: linux-staging@lists.linux.dev
+Hi Maxime,
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> > > As of Linux 5.18.0, module vc4 apparently isn't working on Raspberry Pi
+> > > 3B any more.
+> > >
+> > > If a monitor is attached to the device, the boot messages show up as
+> > > usual, but right when KMS starts, the screen turns black. Similarly, the
+> > > screen also turns black when the module is blacklisted at boot time and
+> > > loaded from the running system.
+> > > The problem looks quite similar to the one posted some months ago in [1].
+>
+> If I understand you properly, it results in a blank screen if the
+> monitor is connected, but the system is still responsive?
 
+Yes, it boots fine, I see all serial console output and the module
+loads etc, without a screen I didn't notice the issue
 
-Daniel.
+> If so, it's a very different problem than the link you provided, since
+> it was occurring when no monitor was connected and resulted in a total
+> system hang.
+>
+> > > Unfortunately, looking through systemd's journal didn't seem to yield
+> > > any real hint. Nevertheless, the results from grepping vc4 are
+> >
+> > I'm seeing the same issue with vc4 on a RPi3 on 5.18.1 on Fedora so
+> > can confirm the regression. Maxime would know what might be up here?
+>
+> I tested on 5.18 on my 3B and it works well. Could you paste your kernel
+> configuration and config.txt somewhere?
+
+It boots with output on 5.17.13, and not on 5.18. The config is at the
+following link (Fedora config). The config.txt is below.
+https://pbrobinson.fedorapeople.org/config-5.18.2-201.fc36.armv7hl
+
+===
+# Raspberry Pi 2
+[pi2]
+kernel=rpi2-u-boot.bin
+dtoverlay=upstream
+
+# Raspberry Pi 3
+[pi3]
+kernel=rpi3-u-boot.bin
+dtoverlay=upstream
+
+# Raspberry Pi 4
+[pi4]
+kernel=rpi4-u-boot.bin
+dtoverlay=upstream-pi4
+
+# Default Fedora configs for all Raspberry Pi Revisions
+[all]
+# Enable UART
+# Only enable UART if you're going to use it as it has speed implications
+# Serial console is ttyS0 on RPi3 and ttyAMA0 on all other variants
+# u-boot will auto detect serial and pass corrent options to kernel if enabled
+# Speed details: https://www.raspberrypi.org/forums/viewtopic.php?f=28&t=141195
+
+# Terrible hack to work around U-Boot issues on most devices
+enable_uart=1
+
+# Early boot delay in the hope monitors are initialised enough to provide EDID
+bootcode_delay=1
+
+# We need this to be 32Mb to support VCHI services and drivers which use them
+# but this isn't used by mainline VC4 driver so reduce to lowest supported value
+# You need to set this to at least 80 for using the camera
+gpu_mem=32
+
+# Use eXtended firmware by default
+start_x=1
+
+# Stop the RPi turning on HDMI monitors on reboot
+hdmi_ignore_cec_init=1
+
+# New option to allow the firmware to load upstream dtb
+# Will allow things like camera, touchscreen etc to work OOTB
+upstream_kernel=1
+===
