@@ -1,56 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B231543EE8
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 23:56:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 514ED543F09
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 00:15:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B465112159;
-	Wed,  8 Jun 2022 21:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75DA311A5B2;
+	Wed,  8 Jun 2022 22:14:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A867D112144
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 21:56:54 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-2ef5380669cso223250507b3.9
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 14:56:54 -0700 (PDT)
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
+ [IPv6:2001:4860:4864:20::2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B65A11A5B1
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 22:14:55 +0000 (UTC)
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-fe32122311so320226fac.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 15:14:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o/FxEvZvW1gTJxwxNX2DkDyV7vVmddxl0z+6t//DzGw=;
- b=GfP2IP4Fat3QQOJUQ1zjmZgkYIDYRLt6vRQO45pbcMcGVtU5pBvQcFY5UvJcGk8abd
- +JSzoHHE0NFLzvXxIbPCxL7Mld79vHYVn5PIdyGBgg0FkKvkhTDeiTe8VNdYvnRPSjGO
- KRwPsYoXEKfCPsnJrtFV9ohI5YEFExn5kwhkM=
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to; bh=4+3RQXUOPtCpLvkD/U0erPbjIdgGtkmXEv+DgUOZHBk=;
+ b=kD5nxNFk80W+73EVv5maekxoUggnhB7L4tjOpUL4RRMV5c6rh/qT1Rt1SrPD6LfQi+
+ Spbena1c1XCLUDtW8Sh5BOJhqkJRyiGnBFMLU3M2EgtcdLie4f4a7td17XlNsz7/RUnl
+ PfqlebSOrrHdXbIIVyL4gF+Qo070/pnIZmwd4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=o/FxEvZvW1gTJxwxNX2DkDyV7vVmddxl0z+6t//DzGw=;
- b=JMHI4Md1Y7Rv96T9+l35s7PpNYIyZBDkD3kQa/CqyhciTcvJeJr9NpPaxYfzPumMvO
- IsqWKWGm2YnOzMVcJTaKomGoGW4j5qmhGKCyFow48Fu0yuSZBkXXwXub6Zns0W+KL/YK
- kHqiT6jDpgy5NDEUfXz9TqgxN/IKZOOfmyi/IWG1Zu771f0/mOtyF0fY2ymm/xDGpJuI
- rlzYEZbyuVNZ8JPB7FeKXIw8YxF2v3MYYYmXweXGGeG+/Az9qb01aMdwN4HX9GKh6cb9
- PwpDr5LPgU9p2wBNZ7AOo7oUp8XGk148QiMI9GxFmiqIrSlIgHX6iSLjGGZxquzu/VI7
- L68w==
-X-Gm-Message-State: AOAM533t5Hc4+8/10X7Si3aGcHolff5u67nz8vu8QonYWDIQ6MihAFnu
- fj3BQ2+zbitRGk/W4Eo6T93O1UlB/Av0aNtKvKBKWQ==
-X-Google-Smtp-Source: ABdhPJyNxCPNzrOQbcyyyd4qjPEc47HfGivnM4HCR4GSlQ1K3nk/S/w0ukyRatBku42k6tv5eQ/gkohhiS9vlMCItdg=
-X-Received: by 2002:a81:54c5:0:b0:302:53b8:806b with SMTP id
- i188-20020a8154c5000000b0030253b8806bmr39710077ywb.432.1654725413771; Wed, 08
- Jun 2022 14:56:53 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to;
+ bh=4+3RQXUOPtCpLvkD/U0erPbjIdgGtkmXEv+DgUOZHBk=;
+ b=JW+9d5WELT0ThCadEQgh35Ruqc8+yO9wuUUjDxI560PDZFMmFSq3RxF4Do6xq62mTW
+ VU5sLS0w7KXdiTAFe77OcXyXWfdHrkxnDIAnQ7oIYJBMqOcKyvNfU/93KMAEp+MajBTb
+ Figov6n6l+pLJLnkQ8mjoD5fn5cC3r/xkT0lHyBUVCCV9ZnnUaKwo0wi89fHkdBaQbPd
+ oyFk/VoV0xzvdkga3NBXmkSWZuPFfG6CQucZoFyww4iC28dJ+hhToLZSjZ7NCwgTZ2gM
+ MkKWJVqM4FbHQCKi2uIDnFvx2Gz7lEFBaR3sP1IsNeWWHvY+2tUeRXJq3sXLEhqFCYo1
+ L5fg==
+X-Gm-Message-State: AOAM5302H//2EM6pOeak7pkwqq5Ku2XyMhY9F1M//Nlk+tGTpMoPIExB
+ klKtGjLtx7M3Mnr9Ql4c4G/BGrOnQO1d1w6ghqquMw==
+X-Google-Smtp-Source: ABdhPJyqsGvOKTE4uunfCR1Mb+T+23hK+RV3b+F13PhuhOCuTw0rP+YUQOmxZHfZGkHHt9+RtkGFHec2aKtLrzEwEeo=
+X-Received: by 2002:a05:6870:b381:b0:fe:2004:b3b5 with SMTP id
+ w1-20020a056870b38100b000fe2004b3b5mr85785oap.63.1654726494871; Wed, 08 Jun
+ 2022 15:14:54 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 8 Jun 2022 15:14:54 -0700
 MIME-Version: 1.0
-References: <20220607190131.1647511-1-pmalani@chromium.org>
- <20220607190131.1647511-5-pmalani@chromium.org>
- <fbc48d41-b2cc-86f6-5f1c-7cfcbdb41e46@linaro.org>
- <YqDXfGa9bugnLFGH@chromium.org>
-In-Reply-To: <YqDXfGa9bugnLFGH@chromium.org>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Wed, 8 Jun 2022 14:56:42 -0700
-Message-ID: <CACeCKaeHocnAuY5D-oVt1fhgRGkNT014RcK3JSe6piKoXNtKCQ@mail.gmail.com>
-Subject: Re: [PATCH 4/7] dt-bindings: drm/bridge: anx7625: Add mode-switch
- support
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220607110841.53889-1-linmq006@gmail.com>
+References: <20220607110841.53889-1-linmq006@gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 8 Jun 2022 15:14:54 -0700
+Message-ID: <CAE-0n52aJC_LzT_cYxQXKEpcE58YqCbT7jW0iEaaxtbW9jL4jg@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/mdp4: Fix refcount leak in mdp4_modeset_init_intf
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, David Heidelberg <david@ixit.cz>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Guo Zhengkui <guozhengkui@vivo.com>, 
+ Miaoqian Lin <linmq006@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>, 
+ Rob Clark <robdclark@gmail.com>, Rob Herring <robh@kernel.org>,
+ Sean Paul <sean@poorly.run>, 
+ Xu Wang <vulab@iscas.ac.cn>, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,157 +72,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
- Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 8, 2022 at 10:08 AM Prashant Malani <pmalani@chromium.org> wrote:
+Quoting Miaoqian Lin (2022-06-07 04:08:38)
+> of_graph_get_remote_node() returns remote device node pointer with
+> refcount incremented, we should use of_node_put() on it
+> when not need anymore.
+> Add missing of_node_put() to avoid refcount leak.
 >
-> Hi Krzysztof,
->
-> Thank you for looking at the patch.
->
-> On Jun 08 11:24, Krzysztof Kozlowski wrote:
-> > On 07/06/2022 21:00, Prashant Malani wrote:
-> > > Analogix 7625 can be used in systems to switch USB Type-C DisplayPort
-> > > alternate mode lane traffic between 2 Type-C ports.
-> > >
-> > > Update the binding to accommodate this usage by introducing a switch
-> > > property.
-> > >
-> > > Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> > > ---
-> > >  .../display/bridge/analogix,anx7625.yaml      | 56 +++++++++++++++++++
-> > >  1 file changed, 56 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > index 35a48515836e..7e1f655ddfcc 100644
-> > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > @@ -105,6 +105,26 @@ properties:
-> > >        - port@0
-> > >        - port@1
-> > >
-> > > +  switches:
-> > > +    type: object
-> > > +    description: Set of switches controlling DisplayPort traffic on
-> > > +      outgoing RX/TX lanes to Type C ports.
-> > > +
-> > > +    properties:
-> > > +      switch:
-> >
-> > You allow only one switch with such schema, so no need for "switches"...
->
-> See below comment (summary: we'd like to allow 1 or 2 switches).
-> >
-> > > +        $ref: /schemas/usb/typec-switch.yaml#
-> > > +        maxItems: 2
-> >
-> > Are you sure this works? what are you limiting here with maxItems? I
-> > think you wanted patternProperties...
->
-> Yeah, I might not have used the DT syntax correctly here.
-> What I'm aiming for is:
-> "switches" should can contain 1 or 2 "switch" nodes.
-> 2 is the maximum (limitation of the hardware).
->
-> >
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            maxItems: 1
-> > > +
-> > > +        required:
-> > > +          - reg
-> > > +
-> > > +    required:
-> > > +      - switch@0
-> >
-> > This does not match the property.
-> >
-> > You also need unevaluatedProperties:false
->
-> Ack, will update this in the next version.
+> Fixes: 86418f90a4c1 ("drm: convert drivers to use of_graph_get_remote_node")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+> ---
 
-Actually, could you kindly clarify which of the two needs this?
-"switches" or "switch" ?
-I interpreted "switch" as requiring it, but I thought it better to confirm.
-
->
-> >
-> >
-> > > +
-> > >  required:
-> > >    - compatible
-> > >    - reg
-> > > @@ -167,5 +187,41 @@ examples:
-> > >                      };
-> > >                  };
-> > >              };
-> > > +            switches {
-> > > +                #address-cells = <1>;
-> > > +                #size-cells = <0>;
-> > > +                switch@0 {
-> > > +                    compatible = "typec-switch";
-> > > +                    reg = <0>;
-> > > +                    mode-switch;
-> > > +
-> > > +                    ports {
-> > > +                        #address-cells = <1>;
-> > > +                        #size-cells = <0>;
-> > > +                        port@0 {
-> > > +                            reg = <0>;
-> > > +                            anx_typec0: endpoint {
-> > > +                              remote-endpoint = <&typec_port0>;
-> >
-> > Messed up indentation. Your previous patch should also switch to 4-space
-> > as recommended by schema coding style.
->
-> Sorry about that, will fix up the indentation in the next version.
->
-> >
-> > > +                            };
-> > > +                        };
-> > > +                    };
-> > > +                };
-> > > +                switch@1 {
-> > > +                    compatible = "typec-switch";
-> > > +                    reg = <1>;
-> > > +                    mode-switch;
-> > > +
-> > > +                    ports {
-> > > +                        #address-cells = <1>;
-> > > +                        #size-cells = <0>;
-> > > +                        port@0 {
-> > > +                            reg = <0>;
-> > > +                            anx_typec1: endpoint {
-> > > +                              remote-endpoint = <&typec_port1>;
-> >
-> > Ditto.
-> >
-> > > +                            };
-> > > +                        };
-> > > +                    };
-> > > +                };
-> > > +            };
-> > >          };
-> > >      };
-> >
-> >
-> > Best regards,
-> > Krzysztof
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
