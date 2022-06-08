@@ -2,62 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BF55432A3
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 16:34:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98CA5432AB
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 16:36:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0396310E374;
-	Wed,  8 Jun 2022 14:34:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 845F5112141;
+	Wed,  8 Jun 2022 14:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FC5710E374
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 14:34:17 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id h5so28686598wrb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 07:34:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=smuYMl0mhH56tDeHdXWNQOJZvruGPXatNdGHlD7YYTs=;
- b=lh/wsibIUywoWWz5yLN1RVAdkgCCFrBp+/s6WpZdSKwBaZHa3wcoks5skuKZz30cfP
- nSZWTrzWnqLrVP1W2Wk7qG5pXrVup+/0Wwy1s6utotmkgIgACXZfPb+9Y79qoUfX+oJ9
- ExKOMgNgf/jN6HJ6ywgE+i/QHy5irCgS3+L230B7vEM9DAXccGChvXIK5jIi7Z+x71Cc
- b0iNAVnZ9lvEzXnIlIjF1NlS2vyBb2eyTgxDgDrBW9qowNQ0Zwq9SSLVLFmfM2NmFXQo
- UOvufvy+J2IzDSJrbR/BjQxjf1cfYIk5QRwc+J6D2AYq1DnctbL2XqJq/7cEZA+q/GF6
- 73QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=smuYMl0mhH56tDeHdXWNQOJZvruGPXatNdGHlD7YYTs=;
- b=zHZakWOlvqpyrSTCIMvAIWjbsRtlZcxNVsgK6A8mxeOCE/kw3IgKxXOKbWNTfQnn9D
- P0VRH5yS02AU0+7tGv93Tn6/gm04WtpXL9LHh8oJ0QLi3FVIol9dHgPrtQoFOjW+ZaY+
- Gkz8lWpzKc+vd+dAh77fkDw4b3Bjgmj1/IGXvIOvR1xd1sqozwDNo0IegyMrfzbauDBa
- GQX7228OJJxHkwlkUtRp0r8+pvvi0HHu0/1wbr0kGQ1Km/vIethXLGG/XwuCUq5rcu8M
- 5X4ee/8IBGNv15mf2BGpgNq/ctHgBEPjpN/i/rgQRQR8jnaKKw/ImcpXDgg5Bn+4uEQv
- TSqg==
-X-Gm-Message-State: AOAM533tq/nxMMfPyf/QwdrMJRtBwDh0Kp5oTRO+KGz2KUSSDbTMgCtd
- 4c63wsfwLTZqNF88QCqqac+z5w==
-X-Google-Smtp-Source: ABdhPJzA4yH9/T+sa0NpsuRjmT5XXk943o+/qsHi0qHrpaB16l7/vjdk7u5BWNDdUZEneCaB74mdag==
-X-Received: by 2002:adf:f390:0:b0:218:4de4:510c with SMTP id
- m16-20020adff390000000b002184de4510cmr10350628wro.475.1654698855460; 
- Wed, 08 Jun 2022 07:34:15 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- bp3-20020a5d5a83000000b0020cff559b1dsm21061219wrb.47.2022.06.08.07.34.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 07:34:14 -0700 (PDT)
-Date: Wed, 8 Jun 2022 15:34:12 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Stephen Kitt <steve@sk2.org>
-Subject: Re: [PATCH 3/4] backlight: ipaq_micro: Use backlight helper
-Message-ID: <20220608143412.rbhk4ne7jwubzz6g@maple.lan>
-References: <20220607190925.1134737-1-steve@sk2.org>
- <20220607190925.1134737-4-steve@sk2.org>
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC74112141
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 14:36:08 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3C2585C00C7;
+ Wed,  8 Jun 2022 10:36:08 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 08 Jun 2022 10:36:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1654698968; x=1654785368; bh=PT9W5SBjSv
+ vMosv2DiRDrUQM/xrup3C/BSwljoKZACY=; b=nCOeEw18+qSmU37GkB5FjTZMwr
+ UZB30I+dzGYYbB8KhsNyYHZdj2xhl9kI8SLXwaUZAx2Qh6DItbGI2TQboEbC5mEx
+ GbmUEzsYNocNwOpBOevwwonJn6yQmfjQ5Xxcqz/pURPpY7WOxGhQQTpzabQqJKvs
+ Abf8ff6H0bsEav2BV1lD/wpGBDY/yI7ZdciuvdAq6eEpO9k8C4A9KI0c08ekrr+w
+ EDEfr1dLKIwdfgnY5f6Mel22780ruboJ/36y99moFuf0gExGMrHXGK82f3kHheX1
+ ZO2aFRQeLLSbNxkkSAEBOR4mibkhpLywLSXjYXmrbK6LPmMWZ6RuQa+9JK+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1654698968; x=1654785368; bh=PT9W5SBjSvvMosv2DiRDrUQM/xru
+ p3C/BSwljoKZACY=; b=XXd7XvXxpbAPapjUTXPDhROcUUlZsxaZJYOlEr3rSBYM
+ Q5yOqIe8wqmd2S7+ZCwx9qrTPKbQyuECz8v/2pnGNpnjpQ1ObZdf6cF3S7V0Raza
+ 7JlqiKWryHPv/mkGupi72vBhSkvVcZKstLcm3houbZG+6Kk+V7e5RyH9k6ec9nuN
+ RF7U0Cj5felCwvq89/WmBsriArbm/piS814Xq1TSK2KGp0/g0Nb7FW4i+DOQqqvv
+ 0BwgGwuYSBb9aSqq/gXZsP9Bn61PZY9q/HSspgZfmaPPUn//NeW0idgAfBfIvcJH
+ L2pYNZTRZ4sQmHQgY49F+XQi++6ZIF08NLcC8zRy+w==
+X-ME-Sender: <xms:17OgYhl6RGf_tjMTAWigRIr3ZWDcKId41mja7V7gTMWrV8GAQzx1ZA>
+ <xme:17OgYs2O3ALgLt1jNBrgb8R_rMs-kt8YMi-vBckYPY8KSojYEui-oaqxw0FQFwBE8
+ deIZVSTQ-ZbOG6DGaE>
+X-ME-Received: <xmr:17OgYnpTkcIRZ76cRE9Em8bJ7nb4qIMQE_hZsCasmy63aL1YLCRdatuQBPVcsUXhYcmqOGnzgMpt4ch3FqiOS3RC9feVtk9vq6yxv1k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtjedgjeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeejgeeiveevvdfgffeftdevuefhheduveejieefgeejveeuhfetkeelgfev
+ teefffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:17OgYhmTO25f6ugN0MfHXKj6YFR8J_IhM4nm500CJN0W3fKhtjYm7A>
+ <xmx:17OgYv3b1frFpliW_eNlYMKfc3IicqFFTsmjK1JwBZp-aMpFpu55SQ>
+ <xmx:17OgYguV1qT3Tmmyfzeaiv7XFUyNYp5X1AfqzgONGOJ9SXTuFJ41Zg>
+ <xmx:2LOgYtCLj9TkFguFYbWYaw4-oWVQoa9X13YnSTj-xrRkZEOiI6xtOg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 8 Jun 2022 10:36:07 -0400 (EDT)
+Date: Wed, 8 Jun 2022 16:36:05 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Peter Robinson <pbrobinson@gmail.com>
+Subject: Re: drm/vc4: module dysfunctional on Raspberry Pi 3B as of 5.18.0
+Message-ID: <20220608143605.x4arwudst3nqeg7b@houat>
+References: <75eec8af-66fd-bbaa-9aea-4cdf634bf2c8@arcor.de>
+ <CALeDE9MzaG0vGfwMrZVArCWpNT94=vTakoM71qykBkVbeL1QmQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="o7z2pgpciwxuuchm"
 Content-Disposition: inline
-In-Reply-To: <20220607190925.1134737-4-steve@sk2.org>
+In-Reply-To: <CALeDE9MzaG0vGfwMrZVArCWpNT94=vTakoM71qykBkVbeL1QmQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,27 +83,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+Cc: stefan.wahren@i2se.com, Peter Mattern <pmattern@arcor.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 07, 2022 at 09:09:24PM +0200, Stephen Kitt wrote:
-> Instead of retrieving the backlight brightness in struct
-> backlight_properties manually, and then checking whether the backlight
-> should be on at all, use backlight_get_brightness() which does all
-> this and insulates this from future changes.
-> 
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-fbdev@vger.kernel.org
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+--o7z2pgpciwxuuchm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi Peter(s)
 
-Daniel.
+On Wed, Jun 08, 2022 at 02:10:19PM +0100, Peter Robinson wrote:
+> Hi Peter,
+>=20
+> Adding Stefan and Maxime
+>=20
+> > As of Linux 5.18.0, module vc4 apparently isn't working on Raspberry Pi
+> > 3B any more.
+> >
+> > If a monitor is attached to the device, the boot messages show up as
+> > usual, but right when KMS starts, the screen turns black. Similarly, the
+> > screen also turns black when the module is blacklisted at boot time and
+> > loaded from the running system.
+> > The problem looks quite similar to the one posted some months ago in [1=
+].
+
+If I understand you properly, it results in a blank screen if the
+monitor is connected, but the system is still responsive?
+
+If so, it's a very different problem than the link you provided, since
+it was occurring when no monitor was connected and resulted in a total
+system hang.
+
+> > Unfortunately, looking through systemd's journal didn't seem to yield
+> > any real hint. Nevertheless, the results from grepping vc4 are
+>=20
+> I'm seeing the same issue with vc4 on a RPi3 on 5.18.1 on Fedora so
+> can confirm the regression. Maxime would know what might be up here?
+
+I tested on 5.18 on my 3B and it works well. Could you paste your kernel
+configuration and config.txt somewhere?
+
+> > =E2=86=92 5.17.1
+> >  > kernel: vc4-drm soc:gpu: bound 3f400000.hvs (ops vc4_hvs_ops [vc4])
+> >  > kernel: rc rc0: vc4 as /devices/platform/soc/3f902000.hdmi/rc/rc0
+> >  > kernel: input: vc4 as /devices/platform/soc/3f902000.hdmi/rc/rc0/inp=
+ut0
+> >  > kernel: vc4-drm soc:gpu: bound 3f902000.hdmi (ops vc4_hdmi_ops [vc4])
+> >  > kernel: vc4-drm soc:gpu: bound 3f806000.vec (ops vc4_vec_ops [vc4])
+> >  > kernel: vc4-drm soc:gpu: bound 3f004000.txp (ops vc4_txp_ops [vc4])
+> >  > kernel: vc4-drm soc:gpu: bound 3f206000.pixelvalve (ops vc4_crtc_ops
+> > [vc4])
+> >  > kernel: vc4-drm soc:gpu: bound 3f207000.pixelvalve (ops vc4_crtc_ops
+> > [vc4])
+> >  > kernel: vc4-drm soc:gpu: bound 3f807000.pixelvalve (ops vc4_crtc_ops
+> > [vc4])
+> >  > kernel: vc4-drm soc:gpu: bound 3fc00000.v3d (ops vc4_v3d_ops [vc4])
+> >  > kernel: fb0: switching to vc4 from simple
+> >  > kernel: [drm] Initialized vc4 0.0.0 20140616 for soc:gpu on minor 0
+> >  > kernel: vc4-drm soc:gpu: [drm] fb0: vc4drmfb frame buffer device
+> >  > systemd-logind[338]: Watching system buttons on /dev/input/event0 (v=
+c4)
+> > =E2=86=92 5.18.0
+> >  > kernel: fb0: switching to vc4 from simple
+> >  > kernel: vc4-drm soc:gpu: bound 3f400000.hvs (ops vc4_hvs_ops [vc4])
+> >  > kernel: rc rc0: vc4 as /devices/platform/soc/3f902000.hdmi/rc/rc0
+> >  > kernel: input: vc4 as /devices/platform/soc/3f902000.hdmi/rc/rc0/inp=
+ut0
+> >  > kernel: vc4-drm soc:gpu: bound 3f902000.hdmi (ops vc4_hdmi_ops [vc4])
+> >  > kernel: vc4-drm soc:gpu: bound 3f806000.vec (ops vc4_vec_ops [vc4])
+> >  > kernel: vc4-drm soc:gpu: bound 3f004000.txp (ops vc4_txp_ops [vc4])
+> >  > kernel: vc4-drm soc:gpu: bound 3f206000.pixelvalve (ops vc4_crtc_ops
+> > [vc4])
+> >  > kernel: vc4-drm soc:gpu: bound 3f207000.pixelvalve (ops vc4_crtc_ops
+> > [vc4])
+> >  > kernel: vc4-drm soc:gpu: bound 3f807000.pixelvalve (ops vc4_crtc_ops
+> > [vc4])
+> >  > kernel: vc4-drm soc:gpu: bound 3fc00000.v3d (ops vc4_v3d_ops [vc4])
+> >  > kernel: [drm] Initialized vc4 0.0.0 20140616 for soc:gpu on minor 0
+> >  > kernel: vc4-drm soc:gpu: [drm] fb0: vc4drmfb frame buffer device
+> >  > systemd-logind[337]: Watching system buttons on /dev/input/event0 (v=
+c4)
+
+Yeah, it doesn't look that different.
+
+Maxime
+
+--o7z2pgpciwxuuchm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYqCz1QAKCRDj7w1vZxhR
+xbM+AQCkY7QYZzqIMRtvBYqwt7K+yCBOahimlglOMp2qT6qUuQD+PkD/6+VItCy8
+Vw2wd3r4AhTrQVIrpfvAWcQNv3x+pgI=
+=GGCz
+-----END PGP SIGNATURE-----
+
+--o7z2pgpciwxuuchm--
