@@ -1,75 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18476542922
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 10:17:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB24542973
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 10:30:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65E4710EF5C;
-	Wed,  8 Jun 2022 08:17:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C539710EEA8;
+	Wed,  8 Jun 2022 08:30:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C32B510EF5C
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 08:17:46 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 2E79D5C00F1;
- Wed,  8 Jun 2022 04:17:46 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 08 Jun 2022 04:17:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1654676266; x=1654762666; bh=GtRc427glM
- /xP+8OThEKlx0/YlIMe1xhil9qzlof6uo=; b=gDaY8oQp8EdDym0ZVsDATk6Rru
- yTw1tuwn0z7s2Y1u8pfcW4qj4Gqe8Z2lLTELYhpctsXlWLs+HhVN8ahqiMqzLu6N
- wNDK/u2YkQIeUxIMWqTAhjQ8X7UOHAve3sdj9hDw5bylw48yPaU0J+SYfx1D7FGc
- tc4yzXSGZ7Z7HcQlqXGn/62M3GruEBCzN53yckhs7RwX23Xy8GAq41bB5L7Rof/4
- WpKgsIm/dpO7ToSzhBoyCKGrqLiRK+AOknSq4U2yc9SG4CLhLBrAa/69C6gMm0PZ
- OBNhngHOHhjMJXbDDRHkva09OCa38wXJsgExHDTK1x5ZTDYgs6Zeee5ZKRkQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1654676266; x=1654762666; bh=GtRc427glM/xP+8OThEKlx0/YlIM
- e1xhil9qzlof6uo=; b=AGyygz+lHO9sUkNOUZjTrm4CSBm9UVQl//Q0srCGn9Mu
- Sv0mdlM14QricV3ulFFdJpf76XRQA2MEG6YZIBU/GncfTdjy+xLooVcgkoVr4ZWA
- VP1jgoFQDxJDReQzZ+mMR/MrhAq9DTBM0264jC50eNSKXuVaEH2MywG9tDE2JloD
- LKLoE/x+pG/dCDtA2gupx/KqDiAqBAkECPbjfuxI/y0TJ7QS7nutrdQHqy9/XKlq
- A64Dnk2pRwk3YoDJJc5gjXy3A3pR51zAQXBfQHmxSbiyfB4/oEj3DxpNLUYH+FY1
- +zzB2ZPWE1BpmIfzW1R+jV58qcfQcrV5imMZKqD3NQ==
-X-ME-Sender: <xms:KVugYrBhtEsvjQ83PwCyZVhuizaVwRfC-BE6EQryKNGRUe_azzySuA>
- <xme:KVugYhjUx0Gbn--fnuVgPRw3Z9Qm6WCZfxys0b49R8tzTqvipupqMkUhluMzzaney
- FQ24e9HQxvIGNs7XMY>
-X-ME-Received: <xmr:KVugYmk2I9jH152C7XSWkyFIoIBSVSU6okFRZkrFmuVz4kMGRpR48li79JEGwK0B4bIkp1VCi3qj74jnAoKiBSriQxLMJL-3LA8orpg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtjecutefuodetggdotefrodftvfcurf
- hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
- hrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepleejuefggeevteelveekteffgeduveeiteeiueegueegiedvtdejjedvfeeftefg
- necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:KlugYtzsjyWFZHtwq4nBoQKmUIChQzp9CzSRZzBlcJOU8xMhNfb2iw>
- <xmx:KlugYgRGKaxcSCIXdsjbS_Uzl5LfB68sWZVppBz-fsoZ97_StW4XRA>
- <xmx:KlugYgYEEefynSBSM6oufriJY4EaHhAkV02T0oxROWYSmhXtabHj_w>
- <xmx:KlugYp_8KZoGXj8SNLcjz_H5RuNbATJ_JlSw3bC8DNsZgKwV7ziOvw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 8 Jun 2022 04:17:45 -0400 (EDT)
-Date: Wed, 8 Jun 2022 10:17:44 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Subject: Re: [PATCH] drm/doc: Add KUnit documentation
-Message-ID: <20220608081744.fchecz4epcjwz6iw@houat>
-References: <20220606180940.43371-1-jose.exposito89@gmail.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20E6010EEA8
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 08:30:52 +0000 (UTC)
+X-UUID: a37301e5447b4942a3b56d2a91fe09e9-20220608
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:0c547b5c-1586-4a17-b9e0-cd64a1cdb344, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:2a19b09, CLOUDID:a650b342-1e5e-4cfb-b16f-006f4c195e5d,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:0,BEC:nil
+X-UUID: a37301e5447b4942a3b56d2a91fe09e9-20220608
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 2013580248; Wed, 08 Jun 2022 16:30:47 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Wed, 8 Jun 2022 16:30:46 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Wed, 8 Jun 2022 16:30:46 +0800
+Message-ID: <651e6b993562d53c893d0325d33fa137e98ab596.camel@mediatek.com>
+Subject: Re: [PATCH v10 18/21] drm/mediatek: Add mt8195 Embedded DisplayPort
+ driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>, Guillaume Ranquet
+ <granquet@baylibre.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
+ Zabel" <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, "Daniel
+ Vetter" <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, "Kishon
+ Vijay Abraham I" <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
+ Deller" <deller@gmx.de>, Jitao shi <jitao.shi@mediatek.com>
+Date: Wed, 8 Jun 2022 16:30:45 +0800
+In-Reply-To: <20220523104758.29531-19-granquet@baylibre.com>
+References: <20220523104758.29531-1-granquet@baylibre.com>
+ <20220523104758.29531-19-granquet@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="5vpnlnj62jed3kce"
-Content-Disposition: inline
-In-Reply-To: <20220606180940.43371-1-jose.exposito89@gmail.com>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,44 +69,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: davidgow@google.com, airlied@linux.ie, dlatypov@google.com,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, tzimmermann@suse.de, kunit-dev@googlegroups.com
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Markus Schneider-Pargmann <msp@baylibre.com>,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Rex:
 
---5vpnlnj62jed3kce
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
+> 
+> It supports the mt8195, the embedded DisplayPort units. It offers
+> DisplayPort 1.4 with up to 4 lanes.
+> 
+> The driver creates a child device for the phy. The child device will
+> never exist without the parent being active. As they are sharing a
+> register range, the parent passes a regmap pointer to the child so
+> that
+> both can work with the same register range. The phy driver sets
+> device
+> data that is read by the parent to get the phy device that can be
+> used
+> to control the phy properties.
+> 
+> This driver is based on an initial version by
+> Jason-JH.Lin <jason-jh.lin@mediatek.com>.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> ---
 
-On Mon, Jun 06, 2022 at 08:09:40PM +0200, Jos=E9 Exp=F3sito wrote:
-> Explain how to run the KUnit tests present in the DRM subsystem and
-> clarify why the UML-only options were not added to the configuration
-> file present in drivers/gpu/drm/.kunitconfig [1] [2].
->=20
-> [1] https://lore.kernel.org/dri-devel/CABVgOSn8i=3DLO5p7830h2XU1Jgg0KrN0q=
-TnxkOMhf1oTgxjaKKw@mail.gmail.com/
-> [2] https://lore.kernel.org/dri-devel/CAGS_qxqpiCim_sy1LDK7PLwVgWf-LKW+uN=
-FTGM=3DT7ydk-dYcEw@mail.gmail.com/
->=20
-> Signed-off-by: Jos=E9 Exp=F3sito <jose.exposito89@gmail.com>
+[snip]
 
-Reviewed-by: Maxime Ripard <maxime@cerno.tech>
+> +
+> +static bool mtk_dp_parse_capabilities(struct mtk_dp *mtk_dp)
+> +{
+> +	u8 buf[DP_RECEIVER_CAP_SIZE] = {};
+> +	u8 val;
+> +	struct mtk_dp_train_info *train_info = &mtk_dp->train_info;
+> +
+> +	if (!mtk_dp_plug_state(mtk_dp))
+> +		return false;
+> +
+> +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER,
+> DP_SET_POWER_D0);
+> +	/* Wait for power on */
+> +	usleep_range(2000, 5000);
+> +
+> +	drm_dp_read_dpcd_caps(&mtk_dp->aux, buf);
+> +
+> +	memcpy(mtk_dp->rx_cap, buf, min(sizeof(mtk_dp->rx_cap),
+> sizeof(buf)));
 
-Thanks!
-Maxime
+sizeof(mtk_dp->rx_cap) is identical to sizeof(buf), so
 
---5vpnlnj62jed3kce
-Content-Type: application/pgp-signature; name="signature.asc"
+drm_dp_read_dpcd_caps(&mtk_dp->aux, mtk_dp->rx_cap);
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYqBbKAAKCRDj7w1vZxhR
-xZ70APwPJij4R6yEOlpggjHukEShwxdvrYDRgpKiNl7JodU3EwEAjjDHB0auYWvF
-S1fDhBvGr9bIkgvbs3aUY4i4PSWnxQs=
-=zzPn
------END PGP SIGNATURE-----
+> +	mtk_dp->rx_cap[DP_TRAINING_AUX_RD_INTERVAL] &=
+> DP_TRAINING_AUX_RD_MASK;
+> +
+> +	train_info->link_rate =
+> +		min_t(int, mtk_dp->max_linkrate, buf[mtk_dp-
+> >max_linkrate]);
+> +	train_info->lane_count =
+> +		min_t(int, mtk_dp->max_lanes,
+> drm_dp_max_lane_count(buf));
+> +
+> +	train_info->tps3 = drm_dp_tps3_supported(buf);
+> +	train_info->tps4 = drm_dp_tps4_supported(buf);
+> +
+> +	train_info->sink_ssc =
+> +		!!(buf[DP_MAX_DOWNSPREAD] & DP_MAX_DOWNSPREAD_0_5);
+> +
+> +	train_info->sink_ssc = false;
 
---5vpnlnj62jed3kce--
+What does these two statement do?
+
+Regards,
+CK
+
+> +
+> +	drm_dp_dpcd_readb(&mtk_dp->aux, DP_MSTM_CAP, &val);
+> +	if (val & DP_MST_CAP) {
+> +		/* Clear DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0 */
+> +		drm_dp_dpcd_readb(&mtk_dp->aux,
+> +				  DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0,
+> &val);
+> +		if (val)
+> +			drm_dp_dpcd_writeb(&mtk_dp->aux,
+> +					   DP_DEVICE_SERVICE_IRQ_VECTOR
+> _ESI0,
+> +					   val);
+> +	}
+> +
+> +	return true;
+> +}
+> +
+
