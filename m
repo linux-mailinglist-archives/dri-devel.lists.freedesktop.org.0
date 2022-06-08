@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015B3543E11
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 23:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13E7B543E16
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 23:02:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1D5811A1AE;
-	Wed,  8 Jun 2022 21:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8559C11A275;
+	Wed,  8 Jun 2022 21:02:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3D7A11A1AD
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 21:00:25 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-e93bbb54f9so28737408fac.12
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 14:00:25 -0700 (PDT)
+Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
+ [IPv6:2607:f8b0:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8A7011A270
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 21:02:38 +0000 (UTC)
+Received: by mail-ot1-x336.google.com with SMTP id
+ a21-20020a9d4715000000b0060bfaac6899so7185200otf.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 14:02:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=RfojhM+HvhoFUnCUYXubG1c+YnDVOjxUgDJWQ5CNrD8=;
- b=Zbg5T0Ft2Qyes3tF93Q6J0IzPyCQhYKtIWw0jw6DstsqqYQV1A/dk+2CMasNFSbRvB
- 4c0u2mufR0ywsmnFBOkHTL0n5Fg+v3ZSb40aysn12VBT5NzbFrfKUHDL/jQZXUw23KRE
- qt5+O6JXDBXfWdg0zBNwFvXEibj0LTQqci6zg=
+ bh=2CGBmWLR2xIwoDoHoMFGRINdSlBNsIoLd8gsi73vQfg=;
+ b=VzQ3zIc3G7mt2Ifg7TTSBMylzEr3xESyWpuSJuEeASkLmI2ziP3vZFx6MUyazXRZWf
+ IbR0GT4Kx5+vK9gjLbXyiiup3rC2TitC1VuNWcsyzGo/pBvAyBo5kV9FYf/lGZxgor+X
+ h5o+08/jecsCbonvsupxcV3+NOtXTcDlWkl4c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=RfojhM+HvhoFUnCUYXubG1c+YnDVOjxUgDJWQ5CNrD8=;
- b=HVS0Njkx2GP8H7pDPGxZFbrlY6rd6YyA5C7xok6XCSqKu1Iort9W+DOT4bcyEX1bM3
- obtxUSAYCkyO+nNCmjXSkswwMehuD7TuWTmuderQRq89qWRbztDId/Kr45UeY1ewn6Sd
- Md9l+/fHdue3rOYGgrCjPJ6I00ZkHbPdx/2Ol7ncRYynjbSLnd9vPs5qA7ixyolrzvMP
- XIkHIsIVXQ9LgxMbOyu2Oa/zeNtLnvhlfcTDLBDO2xiucxV8pfr8zmB+0Q1pAhQ3k8Mh
- 9e1rWmXkIFtSRdfj9YNbFDNuNMD2CI6CytIp3+eLt7uDghEsQ7sRg4sZszImefkWbuRX
- TGXQ==
-X-Gm-Message-State: AOAM531+LDXBUVLPK+kBJscSZtwBdJzXxD7L7r71bziIApi8ulLzLZ3I
- o+ZzdjICLkQfWStsvbf9bZLbWVkuiRxzwu8aXV7W4g==
-X-Google-Smtp-Source: ABdhPJwFBJUEkULzJAaH7LxPz94JppRi9Mr0BKxOSBfhv34a+e+Ti2dPDnik5hKcgov0hA6wVNLtyuNw8WJ6wXaJ0Y8=
-X-Received: by 2002:a05:6870:240d:b0:f1:b878:e97c with SMTP id
- n13-20020a056870240d00b000f1b878e97cmr3374939oap.193.1654722025105; Wed, 08
- Jun 2022 14:00:25 -0700 (PDT)
+ bh=2CGBmWLR2xIwoDoHoMFGRINdSlBNsIoLd8gsi73vQfg=;
+ b=hdcagZP9lTvbLTS4mY3lkPVSi5R2QH7HXAWT+POvxFUuUWmp4rc9Ukt+Ht4YdwHks+
+ 1IlsdO9M6VQxs31UjPW0l9gp2Df2gHSyMVYcn5Lr6pI8VZXMxi9JgtcHpfxtoGql4O9k
+ qF3wD583L1Tl2i4iyaZgSwKCkOOFYOIR6jFZRSpSOJap19jeXQ5MtjXvHBIgwiya2oje
+ JNKdPa4JtGJiEByrx+TF1xet3Ufp1W+0AFmJV+9zKy7d28mtHgPGKoabNFYKW0ZGzx6s
+ 81Kjl9ARDLTc2eLo4g1w5CFn/bHrYTZlyi9Al8Cj7djMJdxQIAmmXG042YReF/1OSTnz
+ c+qA==
+X-Gm-Message-State: AOAM530dlqVSyi1Rm/4idWPPWb5I+tuNMwu5Nk5MFwikrbpJ8UTnlJWQ
+ c3mD+uQRfgxYDSy4tlXr8VA5Wt1HRed/1hu0OyxVNg==
+X-Google-Smtp-Source: ABdhPJxyMYGo6n+3U+XbOkgU/x6UlYrqKAW6EHI9VoY0z/klK3N5HwW21ZWy5t1rGHjjVuGeU6XWfVcApWoGdSEAFVI=
+X-Received: by 2002:a9d:729b:0:b0:60c:21bd:97c0 with SMTP id
+ t27-20020a9d729b000000b0060c21bd97c0mr599352otj.77.1654722158067; Wed, 08 Jun
+ 2022 14:02:38 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 8 Jun 2022 14:00:24 -0700
+ HTTPREST; Wed, 8 Jun 2022 14:02:37 -0700
 MIME-Version: 1.0
-In-Reply-To: <20220608120723.2987843-9-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220608120723.2987843-8-dmitry.baryshkov@linaro.org>
 References: <20220608120723.2987843-1-dmitry.baryshkov@linaro.org>
- <20220608120723.2987843-9-dmitry.baryshkov@linaro.org>
+ <20220608120723.2987843-8-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Wed, 8 Jun 2022 14:00:24 -0700
-Message-ID: <CAE-0n53BuO91fZEQzTmhOmNxvdmLBfJaf7cu77FGU5hZgme2RQ@mail.gmail.com>
-Subject: Re: [PATCH v2 08/12] drm/msm/hdmi: drop empty 'none' regulator lists
+Date: Wed, 8 Jun 2022 14:02:37 -0700
+Message-ID: <CAE-0n517WyGbmN86=q5Qx06ektgKFNdY1N5fgkH7ZM6AhGJ+9A@mail.gmail.com>
+Subject: Re: [PATCH v2 07/12] drm/msm/hdmi: enable core-vcc/core-vdda-supply
+ for 8996 platform
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Andy Gross <agross@kernel.org>, 
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
@@ -76,12 +77,15 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-06-08 05:07:19)
-> Several platform configs use empty 'none' regulator arrays. They are not
-> necessary, as the code will use corresponding _cnt field and skip the
-> array completely. Drop them now.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+Quoting Dmitry Baryshkov (2022-06-08 05:07:18)
+> DB820c makes use of core-vcc-supply and core-vdda-supply, however the
+> driver code doesn't support these regulators. Enable them for HDMI on
+> 8996 platform.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+The 'vdda-supply' name makes me think this is another scenario where the
+phy isn't powering on the analog supply when it should be and so the
+controller driver is doing it instead. Is that the case here?
+
+>
+> Fixes: 0afbe59edd3f ("drm/msm/hdmi: Add basic HDMI support for msm8996")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
