@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AEDA542BE1
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 11:48:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF96542BEA
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 11:48:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E716810E263;
-	Wed,  8 Jun 2022 09:48:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D57310E549;
+	Wed,  8 Jun 2022 09:48:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B96310E263
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 09:48:41 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- gc3-20020a17090b310300b001e33092c737so17837954pjb.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 02:48:41 -0700 (PDT)
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B369510E38F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 09:48:44 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id bo5so17908659pfb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 02:48:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1HCnyXhOafzmcP69v2HLalUicns4RO/ZQ4qvjS6XyGk=;
- b=TKlka2JWr44ssLLTx/ABCtjfqthwug/PJ8osEPhlEiu9s3s0R2eFiNlLU2VVBCK2oY
- spEI6IcIC0Y7RuS5XIz/7AcpSgMzg9RJ+pNYuGhUAVQ+QcbzhgLC4+gLDblo9s8kXDwj
- LwKR6/SQt8R+YXpVbDMufrMBVQbFsJS6qxt74=
+ bh=k48F1xGdZKHAitodolvWiz5jWt34V6z7uuaNSWQHz/4=;
+ b=mjuft6W3VEPdNGWKnaMySpl6rJhexsAI7rf4/oPj/3tXgbm/bcKGzqwDhkVuWJKaoW
+ 6ZkK7zLQTboNF1KItp4Oxfn3PweihWVf1xrivLIyCgakTPyxHhEPSn37kHoOU5EpDFgD
+ fYZKTD6N8AwubVrXTmhjJCn+kUhyJL/ibOvnM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1HCnyXhOafzmcP69v2HLalUicns4RO/ZQ4qvjS6XyGk=;
- b=xmLlZlrtMB7J8XAsEYVdLI4xa+A4ejCR7gPP0xNc0gm+hmwKPs69pU0afBNDa9Aa6N
- XG9CjFjhAfug9CRfK3w2qQLOBYxkNpdoRMCtaT05ZA+ygGclijaVHvkTjvm0ySI5vsny
- ADJNP25Pc82NPrEK9T/ZHXeaqVmarpPt9roH5B3tlaklrq8o0v5zBNJiw8uUUKDZDmow
- ne6iiQhQia3L4xwZ4wlFJfv71wsZwi+O/79uPxX9dKRIg5fdgFnK1nC8LjU4gL5gh77y
- tpM9zWf6ahRTNDX6X6K0KJnAz3CzIVPyJSIrPlkU/RozZZw5aSiHHg+EjAALx4F6gqUK
- QpYw==
-X-Gm-Message-State: AOAM531UR9XGhHAVEWZYX7X3DeIWQ1iNUfzGaKo3udACqV25PPGk57+J
- CuGErd9TKsCtdZOzCsT/W6VH7A==
-X-Google-Smtp-Source: ABdhPJziscByCaE36IM356mQcufbuxFzgH4ydP6X03lbRU/92TTGOXEDQhe7TphA6EcNjWJhBZO09g==
-X-Received: by 2002:a17:90b:1d8e:b0:1e6:74da:97b4 with SMTP id
- pf14-20020a17090b1d8e00b001e674da97b4mr37453886pjb.147.1654681720998; 
- Wed, 08 Jun 2022 02:48:40 -0700 (PDT)
+ bh=k48F1xGdZKHAitodolvWiz5jWt34V6z7uuaNSWQHz/4=;
+ b=EN0OOwVGLUsucz2JSHOtNKQf1cnWLzUI+x6uuc0Mp8b4mDc5qGSnNQ1AfccGfqt3la
+ sDOcya89EAxJIH/ncSbQ+kbRy8bGHL8Rn0PFxdWdnDPr7hJ8HPFDvBQu5TQy194UKu7j
+ hEjp+/ATh1whw2hJiScOxNpxR7cd3aioq5HpCMptMDATlK4ZWk6HF6f9bZcRAUdjzwiy
+ uGDpp2DgzSz1yMbIzfFrI3FFPEeaVzHm7Dz9jZbUtlUvgbQzIIaW8yCBKQGRt+2G6usO
+ tUZWOBX0PmWeQ9NFfONIE06r7vPY6ph+WySTuZHpjWA79zkMCUt9rELUj088PgfsA1Lc
+ AS1w==
+X-Gm-Message-State: AOAM5328eM/O7UPGenWc+BMh/4hs39Pv7DhzCRaUw/RpKszqciTfU+Pj
+ LzrPUoWtRes079Ypg4bUThQPdg==
+X-Google-Smtp-Source: ABdhPJw0BdPzl0+1r4mTbW1xYGaRkwt3tvYvHMMvISgXDyTrIfNUNk9FoJ++5/FT423uIbh+qaXxnA==
+X-Received: by 2002:a65:644b:0:b0:3fd:d5d5:8c7e with SMTP id
+ s11-20020a65644b000000b003fdd5d58c7emr11242077pgv.590.1654681724058; 
+ Wed, 08 Jun 2022 02:48:44 -0700 (PDT)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:c46b:e7b1:f6c8:5eb8])
  by smtp.gmail.com with ESMTPSA id
- t10-20020a17090a950a00b001e28e80a8d6sm13584038pjo.38.2022.06.08.02.48.38
+ t10-20020a17090a950a00b001e28e80a8d6sm13584038pjo.38.2022.06.08.02.48.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 02:48:40 -0700 (PDT)
+ Wed, 08 Jun 2022 02:48:43 -0700 (PDT)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: Hans de Goede <hdegoede@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
  Stephen Boyd <swboyd@chromium.org>,
  Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v6 6/8] drm/panel: ili9881c: Implement .get_orientation
+Subject: [PATCH v6 7/8] drm/panel: elida-kd35t133: Implement .get_orientation
  callback
-Date: Wed,  8 Jun 2022 17:48:14 +0800
-Message-Id: <20220608094816.2898692-7-hsinyi@chromium.org>
+Date: Wed,  8 Jun 2022 17:48:15 +0800
+Message-Id: <20220608094816.2898692-8-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
 In-Reply-To: <20220608094816.2898692-1-hsinyi@chromium.org>
 References: <20220608094816.2898692-1-hsinyi@chromium.org>
@@ -84,17 +83,17 @@ Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
 ---
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 12 ++++++++++++
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c | 12 ++++++++++++
  1 file changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-index ba30d11547ad..58d6798c25ed 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-@@ -853,17 +853,29 @@ static int ili9881c_get_modes(struct drm_panel *panel,
+diff --git a/drivers/gpu/drm/panel/panel-elida-kd35t133.c b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+index 80227617a4d6..fa613d1d7a8f 100644
+--- a/drivers/gpu/drm/panel/panel-elida-kd35t133.c
++++ b/drivers/gpu/drm/panel/panel-elida-kd35t133.c
+@@ -217,15 +217,27 @@ static int kd35t133_get_modes(struct drm_panel *panel,
  	connector->display_info.width_mm = mode->width_mm;
  	connector->display_info.height_mm = mode->height_mm;
- 
+ 	drm_mode_probed_add(connector, mode);
 +	/*
 +	 * TODO: Remove once all drm drivers call
 +	 * drm_connector_set_orientation_from_panel()
@@ -104,23 +103,21 @@ index ba30d11547ad..58d6798c25ed 100644
  	return 1;
  }
  
-+static enum drm_panel_orientation ili9881c_get_orientation(struct drm_panel *panel)
++static enum drm_panel_orientation kd35t133_get_orientation(struct drm_panel *panel)
 +{
-+       struct ili9881c *ctx = panel_to_ili9881c(panel);
++       struct kd35t133 *ctx = panel_to_kd35t133(panel);
 +
 +       return ctx->orientation;
 +}
 +
- static const struct drm_panel_funcs ili9881c_funcs = {
- 	.prepare	= ili9881c_prepare,
- 	.unprepare	= ili9881c_unprepare,
- 	.enable		= ili9881c_enable,
- 	.disable	= ili9881c_disable,
- 	.get_modes	= ili9881c_get_modes,
-+	.get_orientation = ili9881c_get_orientation,
+ static const struct drm_panel_funcs kd35t133_funcs = {
+ 	.unprepare	= kd35t133_unprepare,
+ 	.prepare	= kd35t133_prepare,
+ 	.get_modes	= kd35t133_get_modes,
++	.get_orientation = kd35t133_get_orientation,
  };
  
- static int ili9881c_dsi_probe(struct mipi_dsi_device *dsi)
+ static int kd35t133_probe(struct mipi_dsi_device *dsi)
 -- 
 2.36.1.255.ge46751e96f-goog
 
