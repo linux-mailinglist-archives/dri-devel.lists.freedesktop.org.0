@@ -1,82 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DDD5429DC
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 10:51:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B82E45429F9
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 10:54:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA76510E156;
-	Wed,  8 Jun 2022 08:51:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EC0210E047;
+	Wed,  8 Jun 2022 08:54:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17F2C10E047
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 08:51:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654678293;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YTJNxPhm7RLPPszuwy8H6thl/19s3griMfO8/U8OJSI=;
- b=ilM8zUFe30YwA55Z6ckaK9NaK3VDTsAhgWL/5k/pL9+cbeFpPKIu+BuBHJCWl3yxDDchDQ
- acf71PydUvCgsC6ZjNjscQ6uvnDZKpgERYOtgYgFIlzkd+NpU6mSP70NyrHAtwLxrRZ74c
- H813SJZrSVd/rjk/25hY5h2oCpzgoTo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-278-nFRMUZG_N4K6QWFRcQwYOg-1; Wed, 08 Jun 2022 04:51:32 -0400
-X-MC-Unique: nFRMUZG_N4K6QWFRcQwYOg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w8-20020adfde88000000b00213b7fa3a37so3798696wrl.2
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 01:51:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YTJNxPhm7RLPPszuwy8H6thl/19s3griMfO8/U8OJSI=;
- b=GZVa7nfQugNY+PGYdORHDXuy4znl33lvE1HyCmfqe1IUWkx31IU5FXWBAT96JT2Ms7
- 51pErcqiJ6V2hO/oVya7jsAdTEZ/oNoXbhyZkA3Dpa63WBparJLnHIC0Uxhbj3j3M8EX
- +JM8TXHQnqc5mU7zV35tDqn4R9kujDOend0IxT/TNdq/HZX8EGFPqAGSkVjoB0mW+yRQ
- Fa3HATcoeByivY45pA1S3yCVZjebvVA3cTRqsT/n+VUUxiI/nJ7rR8F3Wk9pkFuNlQ0q
- 1aDgAYBE7SIh637d9tsV1DvNpDs+kJ+Q9COw0LhsaOLccDak4NcSHg23WYkoZ/3QrW2y
- rxuw==
-X-Gm-Message-State: AOAM533JOQU484IyGk+2GeL9aNwKUnoMoSSS6Wx7ksU6eEAv/7Hystgk
- 4RmU/wcz/RUrA/+aBOf3NoynCe1axeVBYYkGIn1t3MqEMeBzFCVs0yX4O2W2AkHpQkK4vhKAGux
- AWnmDvsseJZ7aIqT5h5i+sUvHuH1J
-X-Received: by 2002:a5d:6c61:0:b0:210:7277:774c with SMTP id
- r1-20020a5d6c61000000b002107277774cmr32149893wrz.212.1654678290645; 
- Wed, 08 Jun 2022 01:51:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw9FLAVx/XGPFkjTafQfU+5134QjcX4BkF6fWgLxlLiGCIxPsAWXQSt59EybZDIXIW+BiEaHw==
-X-Received: by 2002:a5d:6c61:0:b0:210:7277:774c with SMTP id
- r1-20020a5d6c61000000b002107277774cmr32149854wrz.212.1654678290282; 
- Wed, 08 Jun 2022 01:51:30 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- h7-20020a05600c350700b0039c3b05540fsm20692462wmq.27.2022.06.08.01.51.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jun 2022 01:51:29 -0700 (PDT)
-Message-ID: <b8eee5a7-7428-fcfd-9266-fa63b9fde5e9@redhat.com>
-Date: Wed, 8 Jun 2022 10:51:28 +0200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BFFC10E047;
+ Wed,  8 Jun 2022 08:54:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654678468; x=1686214468;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=+q21eh8PM0WdZpakF+zzkOhgYE5mC+cQ04Up0s7YHAM=;
+ b=Zs8MFudq4WcGz/jp0ejTo6wZ2HEUMmJKnRYakeWkL/FzhZ5GSkko+irl
+ /MVjJ4SKvKgvaOhjY4buvh1HQg/ou2AwBpzuc0/TmMnPWroHnmQFZTOCu
+ 4kRqPCgxOFytKPH5Ri8Ka4gu5amCMJkbYdE3Da4fQPdY7g7VWNRcmBhKp
+ 2TRpmdxQp863k0i20a2tNeIFc1MImEIt628jdorZC757HAsQvwT2e6j+F
+ N3dE07JPoFh5Ygn5zM7iCQHVgQEOEpWJ1c3e1SBTzkJcGVVL7aT/sW5ca
+ EcQeKbJU1/9J3GUQIjzpB599aD1sfDFcH5jBCw8QuGILuHEKHetM9UVSM g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="274348146"
+X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="274348146"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 01:54:28 -0700
+X-IronPort-AV: E=Sophos;i="5.91,285,1647327600"; d="scan'208";a="907560494"
+Received: from jking17-mobl.ger.corp.intel.com (HELO [10.213.193.156])
+ ([10.213.193.156])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 01:54:25 -0700
+Message-ID: <07a45817-7daf-eb4b-e420-05f02cb98b07@linux.intel.com>
+Date: Wed, 8 Jun 2022 09:54:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 0/2] Improve vfio-pci primary GPU assignment behavior
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <165453797543.3592816.6381793341352595461.stgit@omen>
- <badc8e91-f843-2c96-9c02-4fbb59accdc4@redhat.com>
- <20220608074306.wyav3oerq5crdk6c@sirius.home.kraxel.org>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220608074306.wyav3oerq5crdk6c@sirius.home.kraxel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.9.1
+Subject: Re: [Intel-gfx] [RFC v3 3/3] drm/doc/rfc: VM_BIND uapi definition
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20220517183212.20274-1-niranjana.vishwanathapura@intel.com>
+ <20220517183212.20274-4-niranjana.vishwanathapura@intel.com>
+ <e4e1989c314d3958d58010431515ea371935d0c3.camel@intel.com>
+ <20220523191943.GH4461@nvishwa1-DESK>
+ <CAPM=9tzcYL5kwv18cfq5NzE00jwHuwTj_L73NVgE8vdcBgrQww@mail.gmail.com>
+ <CAKMK7uFt23yZxGJfuZ71ngNw-46yvyed8LaQCQ1ksq73MLGEug@mail.gmail.com>
+ <20220602050833.GP4461@nvishwa1-DESK> <20220603065330.GT4461@nvishwa1-DESK>
+ <08e61393-d4ec-d35e-9b8f-41195365f179@intel.com>
+ <0603b682-a196-9324-5c96-3ab5a8487a53@linux.intel.com>
+ <577d8612-ae68-4b0d-7a28-f9ebb92020f6@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <577d8612-ae68-4b0d-7a28-f9ebb92020f6@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,95 +71,329 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, kvm@vger.kernel.org, airlied@linux.ie,
- linux-kernel@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- dri-devel@lists.freedesktop.org, Laszlo Ersek <lersek@redhat.com>
+Cc: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Wilson,
+ Chris P" <chris.p.wilson@intel.com>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Gerd and Alex,
 
-On 6/8/22 09:43, Gerd Hoffmann wrote:
->   Hi,
+On 08/06/2022 09:45, Lionel Landwerlin wrote:
+> On 08/06/2022 11:36, Tvrtko Ursulin wrote:
+>>
+>> On 08/06/2022 07:40, Lionel Landwerlin wrote:
+>>> On 03/06/2022 09:53, Niranjana Vishwanathapura wrote:
+>>>> On Wed, Jun 01, 2022 at 10:08:35PM -0700, Niranjana Vishwanathapura 
+>>>> wrote:
+>>>>> On Wed, Jun 01, 2022 at 11:27:17AM +0200, Daniel Vetter wrote:
+>>>>>> On Wed, 1 Jun 2022 at 11:03, Dave Airlie <airlied@gmail.com> wrote:
+>>>>>>>
+>>>>>>> On Tue, 24 May 2022 at 05:20, Niranjana Vishwanathapura
+>>>>>>> <niranjana.vishwanathapura@intel.com> wrote:
+>>>>>>>>
+>>>>>>>> On Thu, May 19, 2022 at 04:07:30PM -0700, Zanoni, Paulo R wrote:
+>>>>>>>> >On Tue, 2022-05-17 at 11:32 -0700, Niranjana Vishwanathapura 
+>>>>>>>> wrote:
+>>>>>>>> >> VM_BIND and related uapi definitions
+>>>>>>>> >>
+>>>>>>>> >> v2: Ensure proper kernel-doc formatting with cross references.
+>>>>>>>> >>     Also add new uapi and documentation as per review comments
+>>>>>>>> >>     from Daniel.
+>>>>>>>> >>
+>>>>>>>> >> Signed-off-by: Niranjana Vishwanathapura 
+>>>>>>>> <niranjana.vishwanathapura@intel.com>
+>>>>>>>> >> ---
+>>>>>>>> >>  Documentation/gpu/rfc/i915_vm_bind.h | 399 
+>>>>>>>> +++++++++++++++++++++++++++
+>>>>>>>> >>  1 file changed, 399 insertions(+)
+>>>>>>>> >>  create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>>>> >>
+>>>>>>>> >> diff --git a/Documentation/gpu/rfc/i915_vm_bind.h 
+>>>>>>>> b/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>>>> >> new file mode 100644
+>>>>>>>> >> index 000000000000..589c0a009107
+>>>>>>>> >> --- /dev/null
+>>>>>>>> >> +++ b/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>>>> >> @@ -0,0 +1,399 @@
+>>>>>>>> >> +/* SPDX-License-Identifier: MIT */
+>>>>>>>> >> +/*
+>>>>>>>> >> + * Copyright © 2022 Intel Corporation
+>>>>>>>> >> + */
+>>>>>>>> >> +
+>>>>>>>> >> +/**
+>>>>>>>> >> + * DOC: I915_PARAM_HAS_VM_BIND
+>>>>>>>> >> + *
+>>>>>>>> >> + * VM_BIND feature availability.
+>>>>>>>> >> + * See typedef drm_i915_getparam_t param.
+>>>>>>>> >> + */
+>>>>>>>> >> +#define I915_PARAM_HAS_VM_BIND 57
+>>>>>>>> >> +
+>>>>>>>> >> +/**
+>>>>>>>> >> + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
+>>>>>>>> >> + *
+>>>>>>>> >> + * Flag to opt-in for VM_BIND mode of binding during VM 
+>>>>>>>> creation.
+>>>>>>>> >> + * See struct drm_i915_gem_vm_control flags.
+>>>>>>>> >> + *
+>>>>>>>> >> + * A VM in VM_BIND mode will not support the older execbuff 
+>>>>>>>> mode of binding.
+>>>>>>>> >> + * In VM_BIND mode, execbuff ioctl will not accept any 
+>>>>>>>> execlist (ie., the
+>>>>>>>> >> + * &drm_i915_gem_execbuffer2.buffer_count must be 0).
+>>>>>>>> >> + * Also, &drm_i915_gem_execbuffer2.batch_start_offset and
+>>>>>>>> >> + * &drm_i915_gem_execbuffer2.batch_len must be 0.
+>>>>>>>> >> + * DRM_I915_GEM_EXECBUFFER_EXT_BATCH_ADDRESSES extension 
+>>>>>>>> must be provided
+>>>>>>>> >> + * to pass in the batch buffer addresses.
+>>>>>>>> >> + *
+>>>>>>>> >> + * Additionally, I915_EXEC_NO_RELOC, I915_EXEC_HANDLE_LUT and
+>>>>>>>> >> + * I915_EXEC_BATCH_FIRST of &drm_i915_gem_execbuffer2.flags 
+>>>>>>>> must be 0
+>>>>>>>> >> + * (not used) in VM_BIND mode. I915_EXEC_USE_EXTENSIONS flag 
+>>>>>>>> must always be
+>>>>>>>> >> + * set (See struct 
+>>>>>>>> drm_i915_gem_execbuffer_ext_batch_addresses).
+>>>>>>>> >> + * The buffers_ptr, buffer_count, batch_start_offset and 
+>>>>>>>> batch_len fields
+>>>>>>>> >> + * of struct drm_i915_gem_execbuffer2 are also not used and 
+>>>>>>>> must be 0.
+>>>>>>>> >> + */
+>>>>>>>> >
+>>>>>>>> >From that description, it seems we have:
+>>>>>>>> >
+>>>>>>>> >struct drm_i915_gem_execbuffer2 {
+>>>>>>>> >        __u64 buffers_ptr;              -> must be 0 (new)
+>>>>>>>> >        __u32 buffer_count;             -> must be 0 (new)
+>>>>>>>> >        __u32 batch_start_offset;       -> must be 0 (new)
+>>>>>>>> >        __u32 batch_len;                -> must be 0 (new)
+>>>>>>>> >        __u32 DR1;                      -> must be 0 (old)
+>>>>>>>> >        __u32 DR4;                      -> must be 0 (old)
+>>>>>>>> >        __u32 num_cliprects; (fences)   -> must be 0 since 
+>>>>>>>> using extensions
+>>>>>>>> >        __u64 cliprects_ptr; (fences, extensions) -> contains 
+>>>>>>>> an actual pointer!
+>>>>>>>> >        __u64 flags;                    -> some flags must be 0 
+>>>>>>>> (new)
+>>>>>>>> >        __u64 rsvd1; (context info)     -> repurposed field (old)
+>>>>>>>> >        __u64 rsvd2;                    -> unused
+>>>>>>>> >};
+>>>>>>>> >
+>>>>>>>> >Based on that, why can't we just get drm_i915_gem_execbuffer3 
+>>>>>>>> instead
+>>>>>>>> >of adding even more complexity to an already abused interface? 
+>>>>>>>> While
+>>>>>>>> >the Vulkan-like extension thing is really nice, I don't think what
+>>>>>>>> >we're doing here is extending the ioctl usage, we're completely
+>>>>>>>> >changing how the base struct should be interpreted based on how 
+>>>>>>>> the VM
+>>>>>>>> >was created (which is an entirely different ioctl).
+>>>>>>>> >
+>>>>>>>> >From Rusty Russel's API Design grading, 
+>>>>>>>> drm_i915_gem_execbuffer2 is
+>>>>>>>> >already at -6 without these changes. I think after vm_bind 
+>>>>>>>> we'll need
+>>>>>>>> >to create a -11 entry just to deal with this ioctl.
+>>>>>>>> >
+>>>>>>>>
+>>>>>>>> The only change here is removing the execlist support for VM_BIND
+>>>>>>>> mode (other than natual extensions).
+>>>>>>>> Adding a new execbuffer3 was considered, but I think we need to 
+>>>>>>>> be careful
+>>>>>>>> with that as that goes beyond the VM_BIND support, including any 
+>>>>>>>> future
+>>>>>>>> requirements (as we don't want an execbuffer4 after VM_BIND).
+>>>>>>>
+>>>>>>> Why not? it's not like adding extensions here is really that 
+>>>>>>> different
+>>>>>>> than adding new ioctls.
+>>>>>>>
+>>>>>>> I definitely think this deserves an execbuffer3 without even
+>>>>>>> considering future requirements. Just  to burn down the old
+>>>>>>> requirements and pointless fields.
+>>>>>>>
+>>>>>>> Make execbuffer3 be vm bind only, no relocs, no legacy bits, 
+>>>>>>> leave the
+>>>>>>> older sw on execbuf2 for ever.
+>>>>>>
+>>>>>> I guess another point in favour of execbuf3 would be that it's less
+>>>>>> midlayer. If we share the entry point then there's quite a few vfuncs
+>>>>>> needed to cleanly split out the vm_bind paths from the legacy
+>>>>>> reloc/softping paths.
+>>>>>>
+>>>>>> If we invert this and do execbuf3, then there's the existing ioctl
+>>>>>> vfunc, and then we share code (where it even makes sense, probably
+>>>>>> request setup/submit need to be shared, anything else is probably
+>>>>>> cleaner to just copypaste) with the usual helper approach.
+>>>>>>
+>>>>>> Also that would guarantee that really none of the old concepts like
+>>>>>> i915_active on the vma or vma open counts and all that stuff leaks
+>>>>>> into the new vm_bind execbuf.
+>>>>>>
+>>>>>> Finally I also think that copypasting would make backporting easier,
+>>>>>> or at least more flexible, since it should make it easier to have the
+>>>>>> upstream vm_bind co-exist with all the other things we have. Without
+>>>>>> huge amounts of conflicts (or at least much less) that pushing a pile
+>>>>>> of vfuncs into the existing code would cause.
+>>>>>>
+>>>>>> So maybe we should do this?
+>>>>>
+>>>>> Thanks Dave, Daniel.
+>>>>> There are a few things that will be common between execbuf2 and
+>>>>> execbuf3, like request setup/submit (as you said), fence handling 
+>>>>> (timeline fences, fence array, composite fences), engine selection,
+>>>>> etc. Also, many of the 'flags' will be there in execbuf3 also (but
+>>>>> bit position will differ).
+>>>>> But I guess these should be fine as the suggestion here is to
+>>>>> copy-paste the execbuff code and having a shared code where possible.
+>>>>> Besides, we can stop supporting some older feature in execbuff3
+>>>>> (like fence array in favor of newer timeline fences), which will
+>>>>> further reduce common code.
+>>>>>
+>>>>> Ok, I will update this series by adding execbuf3 and send out soon.
+>>>>>
+>>>>
+>>>> Does this sound reasonable?
+>>>
+>>>
+>>> Thanks for proposing this. Some comments below.
+>>>
+>>>
+>>>>
+>>>> struct drm_i915_gem_execbuffer3 {
+>>>>        __u32 ctx_id;        /* previously execbuffer2.rsvd1 */
+>>>>
+>>>>        __u32 batch_count;
+>>>>        __u64 batch_addr_ptr;    /* Pointer to an array of batch gpu 
+>>>> virtual addresses */
+>>>>
+>>>>        __u64 flags;
+>>>> #define I915_EXEC3_RING_MASK              (0x3f)
+>>>> #define I915_EXEC3_DEFAULT                (0<<0)
+>>>> #define I915_EXEC3_RENDER                 (1<<0)
+>>>> #define I915_EXEC3_BSD                    (2<<0)
+>>>> #define I915_EXEC3_BLT                    (3<<0)
+>>>> #define I915_EXEC3_VEBOX                  (4<<0)
+>>>
+>>>
+>>> Shouldn't we use the new engine selection uAPI instead?
+>>>
+>>> We can already create an engine map with I915_CONTEXT_PARAM_ENGINES 
+>>> in drm_i915_gem_context_create_ext_setparam.
+>>>
+>>> And you can also create virtual engines with the same extension.
+>>>
+>>> It feels like this could be a single u32 with the engine index (in 
+>>> the context engine map).
+>>
+>> Yes I said the same yesterday.
+>>
+>> Also note that as you can't any longer set engines on a default 
+>> context, question is whether userspace cares to use execbuf3 with it 
+>> (default context).
+>>
+>> If it does, it will need an alternative engine selection for that 
+>> case. I was proposing class:instance rather than legacy cumbersome flags.
+>>
+>> If it does not, I  mean if the decision is to only allow execbuf3 with 
+>> engine maps, then it leaves the default context a waste of kernel 
+>> memory in the execbuf3 future. :( Don't know what to do there..
+>>
+>> Regards,
+>>
+>> Tvrtko
 > 
->> But also, this issue isn't something that only affects graphic devices,
->> right? AFAIU from [1] and [2], the same issue happens if a PCI device
->> has to be bound to vfio-pci but already was bound to a host driver.
 > 
-> Nope.  There is a standard procedure to bind and unbind pci drivers via
-> sysfs, using /sys/bus/pci/drivers/$name/{bind,unbind}.
->
-
-Yes, but the cover letter says:
-
-"Users often employ kernel command line arguments to disable conflicting
-drivers or perform unbinding in userspace to avoid this"
-
-So I misunderstood that the goal was to avoid the need to do this via sysfs
-in user-space. I understand now that the problem is that for real PCI devices
-bound to a driver, you know the PCI device ID and bus so that you can use it,
-but with platform devices bound to drivers that just use a firmware-provided
-framebuffers you don't have that information to unbound.
-
-Because you could use the standard sysfs bind/unbind interface for this too,
-but don't have a way to know if the "simple-framebuffer" or "efi-framebuffer"
-is associated with a PCI device that you want to pass through or another one.
-
-The only information that could tell you that is the I/O memory resource that
-is associated with the platform device registered and that's why you want to
-use the drm_aperture_remove_conflicting_pci_framebuffers() helper.
- 
->> The fact that DRM happens to have some infrastructure to remove devices
->> that conflict with an aperture is just a coincidence.
+> Thanks Tvrtko, I only saw your reply after responding.
 > 
-> No.  It's a consequence of firmware framebuffers not being linked to the
-> pci device actually backing them, so some other way is needed to find
-> and solve conflicts.
->
-
-Right, it's clear to me now. As mentioned I misunderstood your problem.
-
->> The series [0] mentioned above, adds a sysfb_disable() that disables the
->> Generic System Framebuffer logic that is what registers the framebuffer
->> devices that are bound to these generic video drivers. On disable, the
->> devices registered by sysfb are also unregistered.
 > 
-> As Alex already mentioned this might not have the desired effect on
-> systems with multiple GPUs (I think even without considering vfio-pci).
->
-
-That's correct, although the firmware framebuffer drivers are just a best
-effort to allow having some display output even if there's no real video
-driver (or if the user prevented them to load with "nomodeset").
-
-We have talked about improving this, by unifying fbdev and DRM apertures
-in a single list that could track all the devices registered and their
-requested aperture so that all subsystems could use it. The reason why
-I was pushing back on using the DRM aperture helper is that it would
-make more complicated later to do this refactoring as more subsystems
-use the current API.
-
-But as Alex said, it wouldn't make the problem worse so I'm OK with this
-if others agree that's the correct thing to do.
- 
->> That is, do you want to remove the {vesa,efi,simple}fb and simpledrm
->> drivers or is there a need to also remove real fbdev and DRM drivers?
+> Both Iris & Anv create a context with engines (if kernel supports it) : 
+> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/intel/common/intel_gem.c#L73 
 > 
-> Boot framebuffers are the problem because they are neither visible nor
-> manageable in /sys/bus/pci.  For real fbdev/drm drivers the standard pci
-> unbind can be used.
->
+> 
+> I think we should be fine with just a single engine id and we don't care 
+> about the default context.
 
-Yes. Honestly I believe all this should be handled by the Linux device model.
+I wonder if in this case we could stop creating the default context 
+starting from a future "gen"? Otherwise, with engine map only execbuf3 
+and execbuf3 only userspace, it would serve no purpose apart from 
+wasting kernel memory.
 
-That is, drivers could just do pci_request_region() / request_mem_region()
-and drivers that want to unbind another bound device could do something like
-pci_request_region_force() / request_mem_region_force() to kick them out.
+Regards,
 
--- 
-Best regards,
+Tvrtko
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+> 
+> 
+> -Lionel
+> 
+> 
+>>
+>>>
+>>>
+>>>>
+>>>> #define I915_EXEC3_SECURE               (1<<6)
+>>>> #define I915_EXEC3_IS_PINNED            (1<<7)
+>>>
+>>>
+>>> What's the meaning of PINNED?
+>>>
+>>>
+>>>>
+>>>> #define I915_EXEC3_BSD_SHIFT     (8)
+>>>> #define I915_EXEC3_BSD_MASK      (3 << I915_EXEC3_BSD_SHIFT)
+>>>> #define I915_EXEC3_BSD_DEFAULT   (0 << I915_EXEC3_BSD_SHIFT)
+>>>> #define I915_EXEC3_BSD_RING1     (1 << I915_EXEC3_BSD_SHIFT)
+>>>> #define I915_EXEC3_BSD_RING2     (2 << I915_EXEC3_BSD_SHIFT)
+>>>>
+>>>> #define I915_EXEC3_FENCE_IN             (1<<10)
+>>>> #define I915_EXEC3_FENCE_OUT            (1<<11)
+>>>
+>>>
+>>> For Mesa, as soon as we have 
+>>> DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES support, we only use that.
+>>>
+>>> So there isn't much point for FENCE_IN/OUT.
+>>>
+>>> Maybe check with other UMDs?
+>>>
+>>>
+>>>> #define I915_EXEC3_FENCE_SUBMIT (1<<12)
+>>>
+>>>
+>>> What's FENCE_SUBMIT?
+>>>
+>>>
+>>>>
+>>>>        __u64 in_out_fence;        /* previously execbuffer2.rsvd2 */
+>>>>
+>>>>        __u64 extensions;        /* currently only for 
+>>>> DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES */
+>>>> };
+>>>>
+>>>> With this, user can pass in batch addresses and count directly,
+>>>> instead of as an extension (as this rfc series was proposing).
+>>>>
+>>>> I have removed many of the flags which were either legacy or not
+>>>> applicable to BM_BIND mode.
+>>>> I have also removed fence array support (execbuffer2.cliprects_ptr)
+>>>> as we have timeline fence array support. Is that fine?
+>>>> Do we still need FENCE_IN/FENCE_OUT/FENCE_SUBMIT support?
+>>>>
+>>>> Any thing else needs to be added or removed?
+>>>>
+>>>> Niranjana
+>>>>
+>>>>> Niranjana
+>>>>>
+>>>>>> -Daniel
+>>>>>> -- 
+>>>>>> Daniel Vetter
+>>>>>> Software Engineer, Intel Corporation
+>>>>>> http://blog.ffwll.ch
+>>>
+>>>
+> 
