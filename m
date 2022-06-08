@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ED93543F2F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 00:32:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55DA9543F39
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 00:36:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35430113628;
-	Wed,  8 Jun 2022 22:32:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 405E9112BE5;
+	Wed,  8 Jun 2022 22:36:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7B211361F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 22:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654727531; x=1686263531;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=tKBsN7TLvPst4gWPH9NKX5dpH3pR/K/LrPbJPg+2h3s=;
- b=fZ1i2NOmBl2c+LfznI+/a6PbhjN2EnS3Ba6y9GpBu03e/71jW8kqLjuN
- bxqkWyC+lTmz3GwyBWVs2dPqaB1AQJv7E0qM8N5TOlsQrVQ4gBUYJcfNL
- rfeH+Ler+hjHu52NTu2jXmQ9H9g2LwQUHHlaAG6x2ueG0taYJsgta6tUE
- ZD5XaUdUUWbjj3/oY3rKPafycgtHAqVUJgm4aWKdM12WAwMTZrgEmwV4k
- URxDuIWvx54BqEqefp0TXfekbhu3ubIuBpn1UBZ+Y+PYgxcwNICHjYfNi
- 8SDrxUZOXEMO1hb0kjfBFUDSbA2lPpcEjqKgeURd9LGJfG+al0u0HRRbC w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10372"; a="341163436"
-X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; d="scan'208";a="341163436"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jun 2022 15:32:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; d="scan'208";a="555627386"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 08 Jun 2022 15:32:05 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nz4Dc-000FB4-Do;
- Wed, 08 Jun 2022 22:32:04 +0000
-Date: Thu, 9 Jun 2022 06:31:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Prashant Malani <pmalani@chromium.org>, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org
-Subject: Re: [PATCH 6/7] drm/bridge: anx7625: Register Type-C mode switches
-Message-ID: <202206090626.D0er2ez1-lkp@intel.com>
-References: <20220607190131.1647511-7-pmalani@chromium.org>
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ECB7112BE4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 22:36:05 +0000 (UTC)
+Received: from [192.168.1.107] ([37.4.249.155]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MKKER-1oKJmj0RrD-00LjJZ; Thu, 09 Jun 2022 00:35:34 +0200
+Message-ID: <d315b387-8500-ceee-d7ef-1d11779baf54@i2se.com>
+Date: Thu, 9 Jun 2022 00:35:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220607190131.1647511-7-pmalani@chromium.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v6 0/6] Raspberry PI 4 V3D enablement
+Content-Language: en-US
+To: Melissa Wen <mwen@igalia.com>, Peter Robinson <pbrobinson@gmail.com>
+References: <20220603092610.1909675-1-pbrobinson@gmail.com>
+ <20220608125113.q6bfhf3o424iwuzn@mail.igalia.com>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20220608125113.q6bfhf3o424iwuzn@mail.igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:XeocH6bh5+umXROrV69UM9f2AoqI2hCIywMcMk0r6wzLP9EGcrh
+ H5h+/qRx+GQMDNtmdXGFc7IhlyO8aOWmH2d3n5IDrtUwD2QYsOYnNM/0Rf5tQL6qWk/nFpO
+ YDfXWXZPSX2TO7+lttmWYM20jnaOXV/faQir16UumJIAoXMsrsMz/ogkxRigXS81sXc/Ypl
+ wcMfOgppIbjYJ2+/ZmbhQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2VfwKV7+e14=:qQmsPFZm+fXF28lz48QiKC
+ Efl6HjpqxHVSeppd8KOGzDJ8Wwnj0SWuWlmBhUTdiv/7aEtFBa0Ea7la5N+6Wn03n8/aN4CA7
+ g9BmT94R/ucZcfYJ+87R0M21Vs/aa5rhCOFIq2RTMTjRUzIW+CsRtqYtbP2BaPfvhWzETGtsS
+ Rz/mRxQzJi6Tds4sdEXN935ZH5omOK22hegFbinW2M6SpsFOiN/CGqZklwd8PBSLdhbQmxGmL
+ wJzfukWWq34XVvn+iQDyyTw0JfFUlbLIji3X33vWLr5XcZkEs0Qjv7COHcGaGi7sKL4LdoS2g
+ Ykqch9R5Y28ncWJynlVcd7POMdkaguOKGZiNE1bA+THjihtPiLtpxZFroDBFme/WsMFVpEiQi
+ Si2/5W+v/D8Yig/fGyxE9+ku+b6VpRodDHWFzv+taNtjMo0aDoesFE8v0UK9jM2ghP3ROGLZh
+ UklNvxafkJUr/adAGebfY9bOQSfaYhQ+tCzSRc6NGarSVv5GRcUV4Q1RHyX0o/QoOqDO8XMLf
+ vXKY4bsSQRfKo/E4HIwrqEZoJKAp2kZdOR4II5yc5QNbf9+1xPbabnp3CCgSndi5S/6agVaeF
+ VtyXapyxchdT8tExV192A+WGkL6xItL3CIcK1kd0u8LXN37D/sXwN+MfYdBDJ6RA7R+Zz0pf3
+ vnudHoW4/AroOkITLraJa4M8IJeZ+d97zTfcmsq/HNUZVqfhwl2BuGIA43u5Kp79h620DUphG
+ 1Zht/M5BfKktRFDWeO45Zgr1VEhpAVh2EVBkO7LskPpoWhKdPVmq0sM0S9Y=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,144 +58,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Tzung-Bi Shih <tzungbi@google.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
- Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- kbuild-all@lists.01.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Robert Foss <robert.foss@linaro.org>, Prashant Malani <pmalani@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc: devicetree@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
+ Emma Anholt <emma@anholt.net>, Arnd Bergmann <arnd@arndb.de>,
+ David Airlie <airlied@linux.ie>, Catalin Marinas <catalin.marinas@arm.com>,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Prashant,
+Hi Melissa,
 
-I love your patch! Yet something to improve:
+Am 08.06.22 um 14:51 schrieb Melissa Wen:
+> On 06/03, Peter Robinson wrote:
+>> This is a follow up from my v4 patchset. The power management pieces have
+>> been split out to a separate independent set of patches by Stefan [1]. This
+>> version 5 of the DRM patches are independent and given the V3D driver has
+>> been upstream for some time the two patches to enable it in defconfigs can
+>> be taken at anytime independent of the enablement for the Raspberry Pi 4.
+> Hi Peter,
+>
+> I was able to check and run some tests on arm64, and it seems ok. But I
+> was not successful on bringing it up for arm using multi_v7_defconfig +
+> device_tree=bcm2711-rpi-4-b.dtb.
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on usb/usb-testing v5.19-rc1 next-20220608]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+for Raspberry Pi 4 you also need to enable CONFIG_ARM_LPAE, which is not 
+enabled in multi_v7_defconfig.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Prashant-Malani/usb-typec-Introduce-typec-switch-binding/20220608-042545
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: nios2-buildonly-randconfig-r006-20220608 (https://download.01.org/0day-ci/archive/20220609/202206090626.D0er2ez1-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2ac4609c73d7bb4d1a585dae84559967ced3bad6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Prashant-Malani/usb-typec-Introduce-typec-switch-binding/20220608-042545
-        git checkout 2ac4609c73d7bb4d1a585dae84559967ced3bad6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/gpu/drm/bridge/analogix/
+Best regards
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All error/warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/bridge/analogix/anx7625.c:18:
->> include/linux/usb/typec_mux.h:83:19: warning: no previous prototype for 'fwnode_typec_mux_get' [-Wmissing-prototypes]
-      83 | struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
-         |                   ^~~~~~~~~~~~~~~~~~~~
->> include/linux/usb/typec_mux.h:89:6: warning: no previous prototype for 'typec_mux_put' [-Wmissing-prototypes]
-      89 | void typec_mux_put(struct typec_mux *mux) {}
-         |      ^~~~~~~~~~~~~
->> include/linux/usb/typec_mux.h:91:5: warning: no previous prototype for 'typec_mux_set' [-Wmissing-prototypes]
-      91 | int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state)
-         |     ^~~~~~~~~~~~~
->> include/linux/usb/typec_mux.h:103:1: warning: no previous prototype for 'typec_mux_register' [-Wmissing-prototypes]
-     103 | typec_mux_register(struct device *parent, const struct typec_mux_desc *desc)
-         | ^~~~~~~~~~~~~~~~~~
->> include/linux/usb/typec_mux.h:107:6: warning: no previous prototype for 'typec_mux_unregister' [-Wmissing-prototypes]
-     107 | void typec_mux_unregister(struct typec_mux *mux) {}
-         |      ^~~~~~~~~~~~~~~~~~~~
->> include/linux/usb/typec_mux.h:109:6: warning: no previous prototype for 'typec_mux_set_drvdata' [-Wmissing-prototypes]
-     109 | void typec_mux_set_drvdata(struct typec_mux *mux, void *data) {}
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/usb/typec_mux.h:110:7: warning: no previous prototype for 'typec_mux_get_drvdata' [-Wmissing-prototypes]
-     110 | void *typec_mux_get_drvdata(struct typec_mux *mux)
-         |       ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/analogix/anx7625.c: In function 'anx7625_register_mode_switch':
->> drivers/gpu/drm/bridge/analogix/anx7625.c:2617:30: error: assignment to 'struct typec_mux_dev *' from incompatible pointer type 'struct typec_mux *' [-Werror=incompatible-pointer-types]
-    2617 |         port_data->typec_mux = typec_mux_register(dev, &mux_desc);
-         |                              ^
-   drivers/gpu/drm/bridge/analogix/anx7625.c: In function 'anx7625_unregister_typec_switches':
->> drivers/gpu/drm/bridge/analogix/anx7625.c:2631:57: error: passing argument 1 of 'typec_mux_unregister' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2631 |                 typec_mux_unregister(ctx->typec_ports[i].typec_mux);
-         |                                      ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
-         |                                                         |
-         |                                                         struct typec_mux_dev *
-   In file included from drivers/gpu/drm/bridge/analogix/anx7625.c:18:
-   include/linux/usb/typec_mux.h:107:45: note: expected 'struct typec_mux *' but argument is of type 'struct typec_mux_dev *'
-     107 | void typec_mux_unregister(struct typec_mux *mux) {}
-         |                           ~~~~~~~~~~~~~~~~~~^~~
-   cc1: some warnings being treated as errors
-
-
-vim +2617 drivers/gpu/drm/bridge/analogix/anx7625.c
-
-  2590	
-  2591	static int anx7625_register_mode_switch(struct device *dev, struct device_node *node,
-  2592						struct anx7625_data *ctx)
-  2593	{
-  2594		struct anx7625_port_data *port_data;
-  2595		struct typec_mux_desc mux_desc = {};
-  2596		char name[32];
-  2597		u32 port_num;
-  2598		int ret;
-  2599	
-  2600		ret = of_property_read_u32(node, "reg", &port_num);
-  2601		if (ret)
-  2602			return ret;
-  2603	
-  2604		if (port_num >= ctx->num_typec_switches) {
-  2605			dev_err(dev, "Invalid port number specified: %d\n", port_num);
-  2606			return -EINVAL;
-  2607		}
-  2608	
-  2609		port_data = &ctx->typec_ports[port_num];
-  2610		port_data->ctx = ctx;
-  2611		mux_desc.fwnode = &node->fwnode;
-  2612		mux_desc.drvdata = port_data;
-  2613		snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
-  2614		mux_desc.name = name;
-  2615		mux_desc.set = anx7625_typec_mux_set;
-  2616	
-> 2617		port_data->typec_mux = typec_mux_register(dev, &mux_desc);
-  2618		if (IS_ERR(port_data->typec_mux)) {
-  2619			ret = PTR_ERR(port_data->typec_mux);
-  2620			dev_err(dev, "Mode switch register for port %d failed: %d", port_num, ret);
-  2621		}
-  2622	
-  2623		return ret;
-  2624	}
-  2625	
-  2626	static void anx7625_unregister_typec_switches(struct anx7625_data *ctx)
-  2627	{
-  2628		int i;
-  2629	
-  2630		for (i = 0; i < ctx->num_typec_switches; i++)
-> 2631			typec_mux_unregister(ctx->typec_ports[i].typec_mux);
-  2632	}
-  2633	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+>
+> How can I check this path?
+>
+> Btw, using the config from rpi downstream kernel works nicely for arm
+> (on my side)
+>
+> Best regards,
+>
+> Melissa
+>> I've tested this using mesa 22.0.x and Wayland/Gnome on Fedora 36, it's
+>> more or less stable with basic testing.
+>>
+>> Changes since v5:
+>> - Update the DT compatible to match the others that were updated
+>> - Adjust the Kconfig help text
+>> - Add review tags
+>>
+>> Changes since v4:
+>> - Fixes for device tree and bindings
+>> - Split out the power management changes into an independent set
+>> - Rebase to 5.18
+>> - Individual changes in patches
+>>
+>> [1] https://www.spinics.net/lists/arm-kernel/msg980342.html
+>>
+>> Nicolas Saenz Julienne (1):
+>>    arm64: config: Enable DRM_V3D
+>>
+>> Peter Robinson (5):
+>>    dt-bindings: gpu: v3d: Add BCM2711's compatible
+>>    drm/v3d: Get rid of pm code
+>>    drm/v3d: Add support for bcm2711
+>>    ARM: dts: bcm2711: Enable V3D
+>>    ARM: configs: Enable DRM_V3D
+>>
+>>   .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml  |  1 +
+>>   arch/arm/boot/dts/bcm2711-rpi.dtsi             |  4 ++++
+>>   arch/arm/boot/dts/bcm2711.dtsi                 | 11 +++++++++++
+>>   arch/arm/configs/bcm2835_defconfig             |  1 +
+>>   arch/arm/configs/multi_v7_defconfig            |  1 +
+>>   arch/arm64/configs/defconfig                   |  1 +
+>>   drivers/gpu/drm/v3d/Kconfig                    |  5 +++--
+>>   drivers/gpu/drm/v3d/v3d_debugfs.c              | 18 +-----------------
+>>   drivers/gpu/drm/v3d/v3d_drv.c                  | 12 +-----------
+>>   drivers/gpu/drm/v3d/v3d_gem.c                  | 12 +-----------
+>>   10 files changed, 25 insertions(+), 41 deletions(-)
+>>
+>> -- 
+>> 2.36.1
+>>
+>>
+>> _______________________________________________
+>> linux-arm-kernel mailing list
+>> linux-arm-kernel@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
