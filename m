@@ -1,68 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8EE554378E
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:37:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D54455437A1
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:40:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B376A112896;
-	Wed,  8 Jun 2022 15:37:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8995D1127BC;
+	Wed,  8 Jun 2022 15:40:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D47CF112895
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 15:37:54 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id k16so28891874wrg.7
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 08:37:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=6XNNQkZKgPmssLAHf6MSlgF2aV4I+1BVjg1Utoy07+0=;
- b=HXs2FloXoibOAI7Toe0jNUVVkb3f+HdHUGKRmblAbS/t4Oaf4WUwTVDeyKMa0Hphv0
- h2+n/AMIuQ/ulg7nH5oF7XD8r/xbWblUvA5GIxHtucs6fYM84zejc6N3HSOHb7om20EH
- LpitoCSLxUUEto84nfA5BGBAKEaul0m8l/vAU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=6XNNQkZKgPmssLAHf6MSlgF2aV4I+1BVjg1Utoy07+0=;
- b=Iuby0lKf0XJpTwNvBUs5C1CKYe9iBiKkOI6vBGCqo2eO2VAziHKJqO+jBKrs0YBL1Y
- sOgxtHFf1izB4zTmqOcC4wQZt8RVGAKbo1K0tJrlB2f/IhewH9C3G6S2+WTn005w4AWl
- xy70VJROsUy8rnR8dAVryf7GAqQyFt1fsD4vwcE00kSe/C+9YpRu5uZZz0vTG4P+5Dcw
- qrwTtwjMcTFGT3tnuqVKj28MFezqoR/OPwvVbBZPGtAbKJmXbufy/LPAmTh/C6tZebrP
- 1gx8lmkwmrC9U1ZsyQAEZP+bzHQwHAjH0r1EiE9d5PHKOaXYRF0L8BrNe5j1DSr8iz2+
- oZiw==
-X-Gm-Message-State: AOAM530wULGfImF72ELrpxFdKR7CkHl8PgTg4/KpEZv6ug6UP5DSPzLQ
- cPWXCUX5aQYN/TyiQleZiLei2A==
-X-Google-Smtp-Source: ABdhPJwu+sLbb5doHOWv5pv89T/OItjdaE9EfmW31UNw7lpDTQOiqnbgFHnjs28fNpl9FZnUib3UHw==
-X-Received: by 2002:a5d:4a4c:0:b0:210:27dd:e57 with SMTP id
- v12-20020a5d4a4c000000b0021027dd0e57mr32933633wrs.655.1654702673146; 
- Wed, 08 Jun 2022 08:37:53 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- a7-20020a05600c224700b0039c693a54ecsm24886wmm.23.2022.06.08.08.37.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 08:37:52 -0700 (PDT)
-Date: Wed, 8 Jun 2022 17:37:50 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [RESEND PATCH v3] drm/cma-helper: Describe what a "contiguous
- chunk" actually means
-Message-ID: <YqDCTrlPmDZQei8Q@phenom.ffwll.local>
-Mail-Followup-To: Daniel Thompson <daniel.thompson@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Lucas Stach <l.stach@pengutronix.de>
-References: <20220608135821.1153346-1-daniel.thompson@linaro.org>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB4251127BC
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 15:40:09 +0000 (UTC)
+X-UUID: bee3831b47d74af4846d6a5d96237ef8-20220608
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:fee6ddc9-049d-48dc-960f-dc46aead21b8, OB:0,
+ LO
+ B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:5
+X-CID-META: VersionHash:2a19b09, CLOUDID:affaaa7e-c8dc-403a-96e8-6237210dceee,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,QS:0,BEC:nil
+X-UUID: bee3831b47d74af4846d6a5d96237ef8-20220608
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 2023209277; Wed, 08 Jun 2022 23:40:02 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Wed, 8 Jun 2022 23:40:00 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Wed, 8 Jun 2022 23:40:00 +0800
+Message-ID: <b9f62fe5e39d23d8ce64773814fbb9f5ba1a0a21.camel@mediatek.com>
+Subject: Re: [RESEND v5 3/3] dt-bindings: mediatek: add ethdr definition for
+ mt8195
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: Rob Herring <robh@kernel.org>
+Date: Wed, 8 Jun 2022 23:40:00 +0800
+In-Reply-To: <1654695907.376302.1272085.nullmailer@robh.at.kernel.org>
+References: <20220608043852.4980-1-rex-bc.chen@mediatek.com>
+ <20220608043852.4980-4-rex-bc.chen@mediatek.com>
+ <1654695907.376302.1272085.nullmailer@robh.at.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220608135821.1153346-1-daniel.thompson@linaro.org>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,142 +61,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ Nancy Lin =?UTF-8?Q?=28=E6=9E=97=E6=AC=A3=E8=9E=A2=29?=
+ <Nancy.Lin@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "pavel@ucw.cz" <pavel@ucw.cz>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 08, 2022 at 02:58:21PM +0100, Daniel Thompson wrote:
-> Since it's inception in 2012 it has been understood that the DRM GEM CMA
-> helpers do not depend on CMA as the backend allocator. In fact the first
-> bug fix to ensure the cma-helpers work correctly with an IOMMU backend
-> appeared in 2014. However currently the documentation for
-> drm_gem_cma_create() talks about "a contiguous chunk of memory" without
-> making clear which address space it will be a contiguous part of.
-> Additionally the CMA introduction is actively misleading because it only
-> contemplates the CMA backend.
+On Wed, 2022-06-08 at 21:45 +0800, Rob Herring wrote:
+> On Wed, 08 Jun 2022 12:38:52 +0800, Bo-Chen Chen wrote:
+> > From: "Nancy.Lin" <nancy.lin@mediatek.com>
+> > 
+> > Add vdosys1 ETHDR definition.
+> > 
+> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Tested-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > ---
+> >  .../display/mediatek/mediatek,ethdr.yaml      | 188
+> > ++++++++++++++++++
+> >  1 file changed, 188 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.y
+> > aml
+> > 
 > 
-> This matters because when the device accesses the bus through an IOMMU
-> (and don't use the CMA backend) then the allocated memory is contiguous
-> only in the IOVA space. This is a significant difference compared to the
-> CMA backend and the behaviour can be a surprise even to someone who does
-> a reasonable level of code browsing (but doesn't find all the relevant
-> function pointers ;-) ).
+> My bot found errors running 'make DT_CHECKER_FLAGS=-m
+> dt_binding_check'
+> on your patch (DT_CHECKER_FLAGS is new in v5.13):
 > 
-> Improve the kernel doc comments accordingly.
+> yamllint warnings/errors:
 > 
-> Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
-> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
+> dtschema/dtc warnings/errors:
+> Error:
+> Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.exa
+> mple.dts:71.40-41 syntax error
+> FATAL ERROR: Unable to parse input tree
+> make[1]: *** [scripts/Makefile.lib:383:
+> Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.exa
+> mple.dtb] Error 1
+> make[1]: *** Waiting for unfinished jobs....
+> make: *** [Makefile:1404: dt_binding_check] Error 2
 > 
-> Notes:
->     Am I Cc:ing the correct reviewers/maintainers with this patch? There
->     has been no negative feedback but I've been rebasing and re-posting it
->     for three kernel cycles now. Do I need to queue it somewhere special or
->     get it in front of someone specific?
-
-Occasionally stuff falls through a few too many cracks, that's all. We
-have tons of committers for drm-misc (and Lucas is one of them), but
-sometimes they shy away from pushing themselves and others see the r-b and
-assume it's already handled, and then it doesn't move :-/
-
-Anyway I pushed it now, thanks for your patch.
--Daniel
-
->     
->     Either way...
->     
->     This RESEND is unaltered (except for collecting tags) and is rebased on
->     v5.19-rc1.
->     
->     RESEND for v5.18-rc3
->     - Unaltered but rebased on v5.18-rc3
->     
->     Changes in v3:
->     - Rebased on v5.17-rc2
->     - Minor improvements to wording.
->     
->     Changes in v2:
->     - Oops. I did a final proof read and accidentally committed these
->       changes as a seperate patch. This means that v1 contains only
->       one tenth of the actual patch. This is fixed in v2. Many apologies
->       for the noise!
+> doc reference errors (make refcheckdocs):
 > 
->  drivers/gpu/drm/drm_gem_cma_helper.c | 39 +++++++++++++++++++++-------
->  1 file changed, 29 insertions(+), 10 deletions(-)
+> See https://patchwork.ozlabs.org/patch/
 > 
-> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-> index f36734c2c9e1..42abee9a0f4f 100644
-> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-> @@ -26,12 +26,22 @@
->  /**
->   * DOC: cma helpers
->   *
-> - * The Contiguous Memory Allocator reserves a pool of memory at early boot
-> - * that is used to service requests for large blocks of contiguous memory.
-> + * The DRM GEM/CMA helpers are a means to provide buffer objects that are
-> + * presented to the device as a contiguous chunk of memory. This is useful
-> + * for devices that do not support scatter-gather DMA (either directly or
-> + * by using an intimately attached IOMMU).
->   *
-> - * The DRM GEM/CMA helpers use this allocator as a means to provide buffer
-> - * objects that are physically contiguous in memory. This is useful for
-> - * display drivers that are unable to map scattered buffers via an IOMMU.
-> + * Despite the name, the DRM GEM/CMA helpers are not hardwired to use the
-> + * Contiguous Memory Allocator (CMA).
-> + *
-> + * For devices that access the memory bus through an (external) IOMMU then
-> + * the buffer objects are allocated using a traditional page-based
-> + * allocator and may be scattered through physical memory. However they
-> + * are contiguous in the IOVA space so appear contiguous to devices using
-> + * them.
-> + *
-> + * For other devices then the helpers rely on CMA to provide buffer
-> + * objects that are physically contiguous in memory.
->   *
->   * For GEM callback helpers in struct &drm_gem_object functions, see likewise
->   * named functions with an _object_ infix (e.g., drm_gem_cma_object_vmap() wraps
-> @@ -111,8 +121,14 @@ __drm_gem_cma_create(struct drm_device *drm, size_t size, bool private)
->   * @drm: DRM device
->   * @size: size of the object to allocate
->   *
-> - * This function creates a CMA GEM object and allocates a contiguous chunk of
-> - * memory as backing store.
-> + * This function creates a CMA GEM object and allocates memory as backing store.
-> + * The allocated memory will occupy a contiguous chunk of bus address space.
-> + *
-> + * For devices that are directly connected to the memory bus then the allocated
-> + * memory will be physically contiguous. For devices that access through an
-> + * IOMMU, then the allocated memory is not expected to be physically contiguous
-> + * because having contiguous IOVAs is sufficient to meet a devices DMA
-> + * requirements.
->   *
->   * Returns:
->   * A struct drm_gem_cma_object * on success or an ERR_PTR()-encoded negative
-> @@ -162,9 +178,12 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_create);
->   * @size: size of the object to allocate
->   * @handle: return location for the GEM handle
->   *
-> - * This function creates a CMA GEM object, allocating a physically contiguous
-> - * chunk of memory as backing store. The GEM object is then added to the list
-> - * of object associated with the given file and a handle to it is returned.
-> + * This function creates a CMA GEM object, allocating a chunk of memory as
-> + * backing store. The GEM object is then added to the list of object associated
-> + * with the given file and a handle to it is returned.
-> + *
-> + * The allocated memory will occupy a contiguous chunk of bus address space.
-> + * See drm_gem_cma_create() for more details.
->   *
->   * Returns:
->   * A struct drm_gem_cma_object * on success or an ERR_PTR()-encoded negative
+> This check can fail if there are any dependencies. The base for a
+> patch
+> series is generally the most recent rc1.
 > 
-> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
-> --
-> 2.35.1
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up
+> to
+> date:
+> 
+> pip3 install dtschema --upgrade
+> 
+> Please check and re-submit.
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Hello Rob,
+
+I am not sure why there is this error.
+But from my running result: line 71 in mediatek,ethdr.example.dts is
+"resets = <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC>,"
+
+This reset define is in previous patch of this series.
+I don't know how to avoid this.
+
+And I also just got this:
+./Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.exa
+mple.dtb: hdr-engine@1c114000: mediatek,gce-client-reg:0: [4294967295,
+7, 16384, 4096, 4294967295, 7, 20480, 4096, 4294967295, 7, 28672, 4096,
+4294967295, 7, 36864, 4096, 4294967295, 7, 40960, 4096, 4294967295, 7,
+45056, 4096, 4294967295, 7, 49152, 4096] is too long
+        From schema:
+./Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yam
+l
+./Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.exa
+mple.dtb: hdr-engine@1c114000: mediatek,gce-client-reg: [[4294967295,
+7, 16384, 4096, 4294967295, 7,
+20480, 4096, 4294967295, 7, 28672, 4096, 4294967295, 7, 36864, 4096,
+4294967295, 7, 40960, 4096, 4294967295, 7, 45056, 4096, 4294967295, 7,
+49152, 4096]] is too short
+        From schema:
+./Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yam
+l
+
+Is there any suggestion?
+
+BRs,
+Bo-Chen
+
