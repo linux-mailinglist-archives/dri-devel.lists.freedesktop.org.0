@@ -2,61 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570BB543F2C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 00:30:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED93543F2F
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 00:32:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0549112E06;
-	Wed,  8 Jun 2022 22:30:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35430113628;
+	Wed,  8 Jun 2022 22:32:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
- [IPv6:2607:f8b0:4864:20::833])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B9AA112E06
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 22:30:47 +0000 (UTC)
-Received: by mail-qt1-x833.google.com with SMTP id fu17so97790qtb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 15:30:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/NGZa6hS3QU47AvbSLK2GIuv57CIGfWo682J5ZRFd+M=;
- b=XJMeMhyzCMUm2owaMJ1iE92NLxC5exYof72g2v0sE+ZhYrpK7zgAz+BHp6EGTg/cQt
- 1Lrj55QT/60zOGXDq/tfODnJM4EEPq/GuRTF2dlXbPmhq3UuoWotqY5HknEMc732sJac
- u1BLKhnTV9Q+4lSj7H9v0K5Rl+H9rtY13LsFv/UtcQX3PfC1nZOZb+ZmIf6MoxJrWVlL
- sn+K2WonojYz9lo+n7aDnLdl2l/xE2ut69JjqbvI9eo9fnqR2AtzUwanm29JunK19dOK
- 4K5GnvvJDloWUOEifLWpkI995vH6XJwUm2VfMxl58cdH5VoePU23jYfmUxs8/On6x9Zf
- TMjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/NGZa6hS3QU47AvbSLK2GIuv57CIGfWo682J5ZRFd+M=;
- b=o1RNEZPFBW35XvkcW49HdeEnCFLrY6ynIWi4S0tO84+rn+F7xK8xXgPzVBGmA5pEso
- aiPYrHEvXjfTZ2ZmiiwJ9po37qpA59T2un8Ux6qP/ozT9+ryda2cVQyULiw+cD3+lVTG
- QGoA28zh9pXoPoQ8PXJXvzYwruSCW6mWreBGQOaMxFm8kWLhXixRvfPjrw5gKbPguIC+
- aNfl6EhdxfazSCWx8smHAbleQP8lVfLmyd/XgV6Kulvkv1oPxzLvu9TwOy+zhW0tj491
- SmuTR5Cq3GCJSz1Oxdfub+lK5Hg8OGqnLPdjZGJbCLrRkyRI++157CCrs+x+twPRYw0z
- TO7A==
-X-Gm-Message-State: AOAM530eSIaN3Gdw8jyH/7iuP3nvqK/qgzj1S7xjp1rpVti84aJaQAVD
- xoGUPWabpMwp7/wuM56y7asVppEGxWEa2JdYrOKl4w==
-X-Google-Smtp-Source: ABdhPJzjB7X8h/8IOETHWb1n0jnV1+PHsvNYrRXqTH2Ft/wqAi4yNwbmecuXHfPUIScml8Xs0woLI0fu3SoSOKqgxiI=
-X-Received: by 2002:a05:622a:13c7:b0:305:abf:dd29 with SMTP id
- p7-20020a05622a13c700b003050abfdd29mr1539289qtk.629.1654727446356; Wed, 08
- Jun 2022 15:30:46 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F7B211361F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 22:32:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654727531; x=1686263531;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=tKBsN7TLvPst4gWPH9NKX5dpH3pR/K/LrPbJPg+2h3s=;
+ b=fZ1i2NOmBl2c+LfznI+/a6PbhjN2EnS3Ba6y9GpBu03e/71jW8kqLjuN
+ bxqkWyC+lTmz3GwyBWVs2dPqaB1AQJv7E0qM8N5TOlsQrVQ4gBUYJcfNL
+ rfeH+Ler+hjHu52NTu2jXmQ9H9g2LwQUHHlaAG6x2ueG0taYJsgta6tUE
+ ZD5XaUdUUWbjj3/oY3rKPafycgtHAqVUJgm4aWKdM12WAwMTZrgEmwV4k
+ URxDuIWvx54BqEqefp0TXfekbhu3ubIuBpn1UBZ+Y+PYgxcwNICHjYfNi
+ 8SDrxUZOXEMO1hb0kjfBFUDSbA2lPpcEjqKgeURd9LGJfG+al0u0HRRbC w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10372"; a="341163436"
+X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; d="scan'208";a="341163436"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 15:32:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; d="scan'208";a="555627386"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+ by orsmga006.jf.intel.com with ESMTP; 08 Jun 2022 15:32:05 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1nz4Dc-000FB4-Do;
+ Wed, 08 Jun 2022 22:32:04 +0000
+Date: Thu, 9 Jun 2022 06:31:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Prashant Malani <pmalani@chromium.org>, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org
+Subject: Re: [PATCH 6/7] drm/bridge: anx7625: Register Type-C mode switches
+Message-ID: <202206090626.D0er2ez1-lkp@intel.com>
+References: <20220607190131.1647511-7-pmalani@chromium.org>
 MIME-Version: 1.0
-References: <20220531121825.1126204-1-dmitry.baryshkov@linaro.org>
- <d7084452-ea90-3a8b-d39a-b09d9f45f839@quicinc.com>
- <CAA8EJprW7xnYJaeqh4vozSTx04DcQ20MMRrzLaEJPJTC3dV30w@mail.gmail.com>
- <80c1da0f-0006-6602-ec86-ebdf71c3037a@quicinc.com>
- <CAA8EJppfWfP-bZLOYF8QBe6kW6gBBw5eXpzzDA6GFo8U7g=jRQ@mail.gmail.com>
- <963f5ef5-4b1d-6b0d-5b6d-0d6136e9e8d3@quicinc.com>
- <CAA8EJppCiN65NV7w9TyR=P+XzGPVxZJoAZoX5+XjxKwXsL_FQg@mail.gmail.com>
- <e56780cb-44c1-b26b-90b8-ceb40b8f218b@quicinc.com>
-In-Reply-To: <e56780cb-44c1-b26b-90b8-ceb40b8f218b@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 9 Jun 2022 01:30:35 +0300
-Message-ID: <CAA8EJprCHW61_0zd+GqOZgpx1C-CDv6iuJZU60cc-1M2YZZhpw@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH] drm/msm: less magic numbers in msm_mdss_enable
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220607190131.1647511-7-pmalani@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,195 +59,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: heikki.krogerus@linux.intel.com, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Tzung-Bi Shih <tzungbi@google.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
+ Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ kbuild-all@lists.01.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robert Foss <robert.foss@linaro.org>, Prashant Malani <pmalani@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 8 Jun 2022 at 22:29, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 6/2/2022 1:13 PM, Dmitry Baryshkov wrote:
-> > On Thu, 2 Jun 2022 at 21:18, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 6/1/2022 1:04 PM, Dmitry Baryshkov wrote:
-> >>> On Wed, 1 Jun 2022 at 20:38, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>>>
-> >>>>
-> >>>>
-> >>>> On 6/1/2022 2:46 AM, Dmitry Baryshkov wrote:
-> >>>>> On Wed, 1 Jun 2022 at 01:01, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>>>>> On 5/31/2022 5:18 AM, Dmitry Baryshkov wrote:
-> >>>>>>> Replace magic register writes in msm_mdss_enable() with version that
-> >>>>>>> contains less magic and more variable names that can be traced back to
-> >>>>>>> the dpu_hw_catalog or the downstream dtsi files.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>>>>>> ---
-> >>>>>>>      drivers/gpu/drm/msm/msm_mdss.c | 79 ++++++++++++++++++++++++++++++----
-> >>>>>>>      1 file changed, 71 insertions(+), 8 deletions(-)
-> >>>>>>>
-> >>>>>>> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-> >>>>>>> index 0454a571adf7..2a48263cd1b5 100644
-> >>>>>>> --- a/drivers/gpu/drm/msm/msm_mdss.c
-> >>>>>>> +++ b/drivers/gpu/drm/msm/msm_mdss.c
-> >>>>>>> @@ -21,6 +21,7 @@
-> >>>>>>>      #define HW_REV                              0x0
-> >>>>>>>      #define HW_INTR_STATUS                      0x0010
-> >>>>>>>
-> >>>>>>> +#define UBWC_DEC_HW_VERSION          0x58
-> >>>>>>>      #define UBWC_STATIC                 0x144
-> >>>>>>>      #define UBWC_CTRL_2                 0x150
-> >>>>>>>      #define UBWC_PREDICTION_MODE                0x154
-> >>>>>>> @@ -132,9 +133,63 @@ static int _msm_mdss_irq_domain_add(struct msm_mdss *msm_mdss)
-> >>>>>>>          return 0;
-> >>>>>>>      }
-> >>>>>>>
-> >>>>>>> +#define UBWC_1_0 0x10000000
-> >>>>>>> +#define UBWC_2_0 0x20000000
-> >>>>>>> +#define UBWC_3_0 0x30000000
-> >>>>>>> +#define UBWC_4_0 0x40000000
-> >>>>>>> +
-> >>>>>>> +static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss *msm_mdss,
-> >>>>>>> +                                    u32 ubwc_static)
-> >>>>>>> +{
-> >>>>>>> +     writel_relaxed(ubwc_static, msm_mdss->mmio + UBWC_STATIC);
-> >>>>>>> +}
-> >>>>>>> +
-> >>>>>>> +static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss *msm_mdss,
-> >>>>>>> +                                    unsigned int ubwc_version,
-> >>>>>>> +                                    u32 ubwc_swizzle,
-> >>>>>>> +                                    u32 highest_bank_bit,
-> >>>>>>> +                                    u32 macrotile_mode)
-> >>>>>>> +{
-> >>>>>>> +     u32 value = (ubwc_swizzle & 0x1) |
-> >>>>>>> +                 (highest_bank_bit & 0x3) << 4 |
-> >>>>>>> +                 (macrotile_mode & 0x1) << 12;
-> >>>>>>> +
-> >>>>>>> +     if (ubwc_version == UBWC_3_0)
-> >>>>>>> +             value |= BIT(10);
-> >>>>>>> +
-> >>>>>>> +     if (ubwc_version == UBWC_1_0)
-> >>>>>>> +             value |= BIT(8);
-> >>>>>>> +
-> >>>>>>> +     writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
-> >>>>>>> +}
-> >>>>>>> +
-> >>>>>>> +static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss,
-> >>>>>>> +                                    unsigned int ubwc_version,
-> >>>>>>> +                                    u32 ubwc_swizzle,
-> >>>>>>> +                                    u32 ubwc_static,
-> >>>>>>> +                                    u32 highest_bank_bit,
-> >>>>>>> +                                    u32 macrotile_mode)
-> >>>>>>> +{
-> >>>>>>> +     u32 value = (ubwc_swizzle & 0x7) |
-> >>>>>>> +                 (ubwc_static & 0x1) << 3 |
-> >>>>>>> +                 (highest_bank_bit & 0x7) << 4 |
-> >>>>>>> +                 (macrotile_mode & 0x1) << 12;
-> >>>>>>> +
-> >>>>>>> +     writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
-> >>>>>>> +
-> >>>>>>> +     if (ubwc_version == UBWC_3_0) {
-> >>>>>>> +             writel_relaxed(1, msm_mdss->mmio + UBWC_CTRL_2);
-> >>>>>>> +             writel_relaxed(0, msm_mdss->mmio + UBWC_PREDICTION_MODE);
-> >>>>>>> +     } else {
-> >>>>>>> +             writel_relaxed(2, msm_mdss->mmio + UBWC_CTRL_2);
-> >>>>>>> +             writel_relaxed(1, msm_mdss->mmio + UBWC_PREDICTION_MODE);
-> >>>>>>> +     }
-> >>>>>>> +}
-> >>>>>>> +
-> >>>>>>
-> >>>>>> Is it possible to unify the above functions by having the internal
-> >>>>>> ubwc_version checks?
-> >>>>>
-> >>>>> Note, it's not the ubwc_version, it is the ubwc_dec_hw_version. And
-> >>>>> also different functions take different sets of arguments.
-> >>>>>
-> >>>>>> It seems like msm_mdss_setup_ubwc_dec_xxx can keep growing.
-> >>>>>>
-> >>>>>> I have not looked into each bit programming but from the top level so
-> >>>>>> feel free to correct if wrong but it seems both do write UBWC_STATIC
-> >>>>>> (different values based on different UBWC versions) and write some extra
-> >>>>>> registers based on version
-> >>>>>
-> >>>>> This is what both the current code and the downstream do. See
-> >>>>> https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/zeus-s-oss/techpack/display-drivers/msm/sde/sde_hw_top.c#L312
-> >>>>>
-> >>>>
-> >>>> Thanks for pointing to the downstream method for this,
-> >>>>
-> >>>> This is exactly what i was also suggesting to do when I mentioned
-> >>>> unifying the above functions.
-> >>>>
-> >>>> So instead of having a separate function for each version why not handle
-> >>>> all the versions in the same function like what the link you have shown
-> >>>> does.
-> >>>
-> >>> I wouldn't like that. The downstream uses hw_catalog to pass all
-> >>> possible parameters. We do not, so we'd have a whole set of artificial
-> >>> values.
-> >>>
-> >>
-> >> Now that you brought that up, why cannot even upstream dpu start using
-> >> catalog for ubwc settings?
-> >
-> > Because msm_mdss lives out of disp/dpu1. And using the disp/dpu1 for
-> > it would be an inversion of dependencies.
-> > I like the fact that msm_mdss is independent of mdp/dpu drivers and I
-> > do not want to add such dependency.
-> >
->
-> Ok, so I think this function itself is placed incorrectly. It should not
-> be in msm_mdss.c and should in the DPU folder.
->
-> This check tells me that this will not be executed for mdp5 devices.
->
->     /*
->       * HW_REV requires MDSS_MDP_CLK, which is not enabled by the mdss on
->       * mdp5 hardware. Skip reading it for now.
->       */
->      if (msm_mdss->is_mdp5)
->          return 0;
+Hi Prashant,
 
-This condition should be changed to check for the MDP_CLK being
-available in the clocks array rather than checking for is_mdp5. I'd
-like to phase is_mdp5 away at some point.
+I love your patch! Yet something to improve:
 
-> In that case, what prevents us from moving this to dpu and start using
-> catalog for this?
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on usb/usb-testing v5.19-rc1 next-20220608]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Because there is nothing tying mdss and dpu drivers. For example, is
-the msm8998 (3.0.0) the DPU or MDP5 device? MSM8996?
-Neither struct msm_mdss nor the MDSS device itself are accessible
-through the msm_drv (or dpu_kms).
-I think trying to invent such a link would make the code worse.
+url:    https://github.com/intel-lab-lkp/linux/commits/Prashant-Malani/usb-typec-Introduce-typec-switch-binding/20220608-042545
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: nios2-buildonly-randconfig-r006-20220608 (https://download.01.org/0day-ci/archive/20220609/202206090626.D0er2ez1-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/2ac4609c73d7bb4d1a585dae84559967ced3bad6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Prashant-Malani/usb-typec-Introduce-typec-switch-binding/20220608-042545
+        git checkout 2ac4609c73d7bb4d1a585dae84559967ced3bad6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/gpu/drm/bridge/analogix/
 
-> >> /* struct dpu_mdp_cfg : MDP TOP-BLK instance info
-> >>    * @id:                index identifying this block
-> >>    * @base:              register base offset to mdss
-> >>    * @features           bit mask identifying sub-blocks/features
-> >>    * @highest_bank_bit:  UBWC parameter
-> >>    * @ubwc_static:       ubwc static configuration
-> >>    * @ubwc_swizzle:      ubwc default swizzle setting
-> >>    * @clk_ctrls          clock control register definition
-> >>    */
-> >> struct dpu_mdp_cfg {
-> >>       DPU_HW_BLK_INFO;
-> >>       u32 highest_bank_bit;
-> >>       u32 ubwc_swizzle;
-> >>       struct dpu_clk_ctrl_reg clk_ctrls[DPU_CLK_CTRL_MAX];
-> >> };
-> >>
-> >> We already do seem to have a couple of parameters. have to add the others.
-> >>
-> >> That way the number of functions wont keep growing.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
+All error/warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/bridge/analogix/anx7625.c:18:
+>> include/linux/usb/typec_mux.h:83:19: warning: no previous prototype for 'fwnode_typec_mux_get' [-Wmissing-prototypes]
+      83 | struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/usb/typec_mux.h:89:6: warning: no previous prototype for 'typec_mux_put' [-Wmissing-prototypes]
+      89 | void typec_mux_put(struct typec_mux *mux) {}
+         |      ^~~~~~~~~~~~~
+>> include/linux/usb/typec_mux.h:91:5: warning: no previous prototype for 'typec_mux_set' [-Wmissing-prototypes]
+      91 | int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state)
+         |     ^~~~~~~~~~~~~
+>> include/linux/usb/typec_mux.h:103:1: warning: no previous prototype for 'typec_mux_register' [-Wmissing-prototypes]
+     103 | typec_mux_register(struct device *parent, const struct typec_mux_desc *desc)
+         | ^~~~~~~~~~~~~~~~~~
+>> include/linux/usb/typec_mux.h:107:6: warning: no previous prototype for 'typec_mux_unregister' [-Wmissing-prototypes]
+     107 | void typec_mux_unregister(struct typec_mux *mux) {}
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/usb/typec_mux.h:109:6: warning: no previous prototype for 'typec_mux_set_drvdata' [-Wmissing-prototypes]
+     109 | void typec_mux_set_drvdata(struct typec_mux *mux, void *data) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~
+>> include/linux/usb/typec_mux.h:110:7: warning: no previous prototype for 'typec_mux_get_drvdata' [-Wmissing-prototypes]
+     110 | void *typec_mux_get_drvdata(struct typec_mux *mux)
+         |       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/analogix/anx7625.c: In function 'anx7625_register_mode_switch':
+>> drivers/gpu/drm/bridge/analogix/anx7625.c:2617:30: error: assignment to 'struct typec_mux_dev *' from incompatible pointer type 'struct typec_mux *' [-Werror=incompatible-pointer-types]
+    2617 |         port_data->typec_mux = typec_mux_register(dev, &mux_desc);
+         |                              ^
+   drivers/gpu/drm/bridge/analogix/anx7625.c: In function 'anx7625_unregister_typec_switches':
+>> drivers/gpu/drm/bridge/analogix/anx7625.c:2631:57: error: passing argument 1 of 'typec_mux_unregister' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2631 |                 typec_mux_unregister(ctx->typec_ports[i].typec_mux);
+         |                                      ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+         |                                                         |
+         |                                                         struct typec_mux_dev *
+   In file included from drivers/gpu/drm/bridge/analogix/anx7625.c:18:
+   include/linux/usb/typec_mux.h:107:45: note: expected 'struct typec_mux *' but argument is of type 'struct typec_mux_dev *'
+     107 | void typec_mux_unregister(struct typec_mux *mux) {}
+         |                           ~~~~~~~~~~~~~~~~~~^~~
+   cc1: some warnings being treated as errors
+
+
+vim +2617 drivers/gpu/drm/bridge/analogix/anx7625.c
+
+  2590	
+  2591	static int anx7625_register_mode_switch(struct device *dev, struct device_node *node,
+  2592						struct anx7625_data *ctx)
+  2593	{
+  2594		struct anx7625_port_data *port_data;
+  2595		struct typec_mux_desc mux_desc = {};
+  2596		char name[32];
+  2597		u32 port_num;
+  2598		int ret;
+  2599	
+  2600		ret = of_property_read_u32(node, "reg", &port_num);
+  2601		if (ret)
+  2602			return ret;
+  2603	
+  2604		if (port_num >= ctx->num_typec_switches) {
+  2605			dev_err(dev, "Invalid port number specified: %d\n", port_num);
+  2606			return -EINVAL;
+  2607		}
+  2608	
+  2609		port_data = &ctx->typec_ports[port_num];
+  2610		port_data->ctx = ctx;
+  2611		mux_desc.fwnode = &node->fwnode;
+  2612		mux_desc.drvdata = port_data;
+  2613		snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
+  2614		mux_desc.name = name;
+  2615		mux_desc.set = anx7625_typec_mux_set;
+  2616	
+> 2617		port_data->typec_mux = typec_mux_register(dev, &mux_desc);
+  2618		if (IS_ERR(port_data->typec_mux)) {
+  2619			ret = PTR_ERR(port_data->typec_mux);
+  2620			dev_err(dev, "Mode switch register for port %d failed: %d", port_num, ret);
+  2621		}
+  2622	
+  2623		return ret;
+  2624	}
+  2625	
+  2626	static void anx7625_unregister_typec_switches(struct anx7625_data *ctx)
+  2627	{
+  2628		int i;
+  2629	
+  2630		for (i = 0; i < ctx->num_typec_switches; i++)
+> 2631			typec_mux_unregister(ctx->typec_ports[i].typec_mux);
+  2632	}
+  2633	
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://01.org/lkp
