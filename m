@@ -1,60 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23972543F81
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 00:59:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0742B543FBD
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 01:04:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 864CD113D01;
-	Wed,  8 Jun 2022 22:59:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92EC010F3CB;
+	Wed,  8 Jun 2022 23:04:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
- [IPv6:2607:f8b0:4864:20::732])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C882113D01
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 22:59:03 +0000 (UTC)
-Received: by mail-qk1-x732.google.com with SMTP id x75so13213253qkb.12
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 15:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=X9hlImzyEvBxvl0tBCS9rvUZQGqdth4+UM0LIHHP/pc=;
- b=qY+gKBjBgfP092SAeHRL4sRZ4XAGmRJK1yLkZ/bIXSH/CnhFAyg+dNJ030tm5BNXgY
- TWxVnmD/BONZSUFczbaTBBCNtSp928utbjynS6qnIUN/xy85AKs3cszkXM9LyiC/sYj6
- jCzurspWKF9AlY4lYaRMsKgA84iKor9D6Hju7E1YDwWOANaC6ybTVvH57QV7jwJTsg2E
- sYIdnfADedR6+Olp0fJsePKCT4W6FYPi6XRmDJousdkgkZglntONzt1ERrtGIrFLGtkl
- 76ByOL8Br1PGC//d1JhvdrbsheodSJH9lTJ+jUCTqFXlVrQQ54dTWKDxBMxEXU0OW/7b
- zt/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=X9hlImzyEvBxvl0tBCS9rvUZQGqdth4+UM0LIHHP/pc=;
- b=VsHZavevVzfuB4Rt0Z2RmedSkCch3/dywb/8WjcMsw7P6Xv/UD4MaO5zkh/9vBEVSM
- /m9t17WQKyPgIbqfG0EDM2/dsLLFl6oONpxN18/89uKpcto2FYXYM6EeO325ur+Gv4R1
- ZhNhCbPXi1TjzDcWyNYNpG+UMO4YXen4FAf1+1Ud9K4Sn7AYmGW2657HgQtE5iSLa1ti
- m/PdMb/vjiD14YwWNy5Xm726aWZmGhJRRNO/FA4NA9jgAMrc1HCBbCqp282EfVIt+eQn
- 8kvvRt+2I2rshz9zhiuwBeZi/YIj1F0bngLPWd0PhzYRFb/gvV5//cpwtMlaF1AQ4FHr
- +6JA==
-X-Gm-Message-State: AOAM530gqG6Th6R9MdOSiOhRWSGrRIvcOla83NpAqEfWQZDmiGPEKiw3
- U56o1sv6hwI2zdCukQFDQmcZqPGKGiDqaqN5oxcBpQ==
-X-Google-Smtp-Source: ABdhPJwloqlLrxryB81tH2mmTWtotD1MwJqZdjuhJ822FbZIJ5roIbw1TX8CMKFMm0yFALwyZTgjVd6J1q7pOTTD9Ls=
-X-Received: by 2002:a37:a83:0:b0:6a6:7e4d:41dc with SMTP id
- 125-20020a370a83000000b006a67e4d41dcmr23472964qkk.59.1654729142674; Wed, 08
- Jun 2022 15:59:02 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 760B710F1B8
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 23:04:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654729449; x=1686265449;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ZuW7d6Hd3qS3fsRXcyOsB5Ocuf1o56M9ckFfDq/pFQk=;
+ b=X4KmZE3EYMq0MeRfl4gcgG1kkyVpBQPcpVJF8KjBK7w1pzfgQTiw/NMq
+ 8wOHES8VsJqLC+LivYOk5cQ8hSO6b5/77QYiEr9ZBAzHp6KGOUStv4Rly
+ s7XdmBwHtyXB0ambuxU92BHMFkLMOL1DnWqMpi6TRaMTR+nvQeXySqPKe
+ pvbXnA5qpYJ3kDlRrdX8LfQVFjgSpZCcbzVfDi76PlgVbEd2GTgqvJHkf
+ zvb0EMqy/DwMZNJ5VrreMMGNqIMGm8MtbeicwQ5/cZzeE7u7iBkxkTRsr
+ nKsqGQkyA5R4/yfxtLowVjUXc9HpuHkyK0m58ZA83r3WOWXcFzlUtw+ot Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10372"; a="265870807"
+X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; d="scan'208";a="265870807"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 16:04:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; d="scan'208";a="609894999"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+ by orsmga008.jf.intel.com with ESMTP; 08 Jun 2022 16:04:06 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1nz4ic-000FD7-0U;
+ Wed, 08 Jun 2022 23:04:06 +0000
+Date: Thu, 9 Jun 2022 07:03:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] dma-buf: Add an API for exporting sync files (v14)
+Message-ID: <202206090608.jRFcxzQE-lkp@intel.com>
+References: <20220608152142.14495-2-jason@jlekstrand.net>
 MIME-Version: 1.0
-References: <20220608120723.2987843-1-dmitry.baryshkov@linaro.org>
- <20220608120723.2987843-8-dmitry.baryshkov@linaro.org>
- <CAE-0n517WyGbmN86=q5Qx06ektgKFNdY1N5fgkH7ZM6AhGJ+9A@mail.gmail.com>
-In-Reply-To: <CAE-0n517WyGbmN86=q5Qx06ektgKFNdY1N5fgkH7ZM6AhGJ+9A@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 9 Jun 2022 01:58:51 +0300
-Message-ID: <CAA8EJpp5OzD+GXosia=O87AThqCEA8jAV9fCxRhQ6FnLck8fyA@mail.gmail.com>
-Subject: Re: [PATCH v2 07/12] drm/msm/hdmi: enable core-vcc/core-vdda-supply
- for 8996 platform
-To: Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220608152142.14495-2-jason@jlekstrand.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,41 +58,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: kbuild-all@lists.01.org, Jason Ekstrand <jason.ekstrand@collabora.com>,
+ llvm@lists.linux.dev, Sumit Semwal <sumit.semwal@linaro.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 9 Jun 2022 at 00:02, Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Dmitry Baryshkov (2022-06-08 05:07:18)
-> > DB820c makes use of core-vcc-supply and core-vdda-supply, however the
-> > driver code doesn't support these regulators. Enable them for HDMI on
-> > 8996 platform.
->
-> The 'vdda-supply' name makes me think this is another scenario where the
-> phy isn't powering on the analog supply when it should be and so the
-> controller driver is doing it instead. Is that the case here?
+Hi Jason,
 
-Good question. There are different HDMI pins on 8996, with slight
-disagreement between the schematics and the datasheet.
-vcca_hdmi/vdd_hdmi1: 0.925V, Power for HDMI circuits =E2=80=93 low voltage
-vdda_hdmi/vdd_hdmi2: 1.8V, Power for HDMI circuits =E2=80=93 high voltage
-vdda_hdmi_pll/vdd_pll3, 1.8V, Power for PLL circuits
+Thank you for the patch! Yet something to improve:
 
-I'm not sure which are required for the PHY and which are required for
-the core HDMI. However I'd note that we have a generic tendency of
-duplicating pins between the HDMI and the PHY devices. Compare this
-with 8064, where core-vdda-supply is also used both by the hdmi-tx and
-hdmi-phy devices. I think we unify 8x74/84 with 8996 and allow
-powering up the HDMI correctly even if it results in duplication
-between the -phy and -tx parts.
+[auto build test ERROR on tegra-drm/drm/tegra/for-next]
+[cannot apply to drm-tip/drm-tip linus/master v5.19-rc1 next-20220608]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Ekstrand/dma-buf-Add-an-API-for-exporting-sync-files-v15/20220608-232447
+base:   git://anongit.freedesktop.org/tegra/linux.git drm/tegra/for-next
+config: hexagon-randconfig-r041-20220608 (https://download.01.org/0day-ci/archive/20220609/202206090608.jRFcxzQE-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project b92436efcb7813fc481b30f2593a4907568d917a)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/d9d427e1ab310adae7e076f2531d00862d74a120
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jason-Ekstrand/dma-buf-Add-an-API-for-exporting-sync-files-v15/20220608-232447
+        git checkout d9d427e1ab310adae7e076f2531d00862d74a120
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/dma-buf/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/dma-buf/dma-buf.c:337:22: error: variable has incomplete type 'enum dma_resv_usage'
+           enum dma_resv_usage usage;
+                               ^
+   drivers/dma-buf/dma-buf.c:337:7: note: forward declaration of 'enum dma_resv_usage'
+           enum dma_resv_usage usage;
+                ^
+>> drivers/dma-buf/dma-buf.c:355:10: error: implicit declaration of function 'dma_resv_usage_rw' [-Werror,-Wimplicit-function-declaration]
+           usage = dma_resv_usage_rw(arg.flags & DMA_BUF_SYNC_WRITE);
+                   ^
+>> drivers/dma-buf/dma-buf.c:356:8: error: implicit declaration of function 'dma_resv_get_singleton' [-Werror,-Wimplicit-function-declaration]
+           ret = dma_resv_get_singleton(dmabuf->resv, usage, &fence);
+                 ^
+   3 errors generated.
 
 
---=20
-With best wishes
-Dmitry
+vim +337 drivers/dma-buf/dma-buf.c
+
+   331	
+   332	#if IS_ENABLED(CONFIG_SYNC_FILE)
+   333	static long dma_buf_export_sync_file(struct dma_buf *dmabuf,
+   334					     void __user *user_data)
+   335	{
+   336		struct dma_buf_export_sync_file arg;
+ > 337		enum dma_resv_usage usage;
+   338		struct dma_fence *fence = NULL;
+   339		struct sync_file *sync_file;
+   340		int fd, ret;
+   341	
+   342		if (copy_from_user(&arg, user_data, sizeof(arg)))
+   343			return -EFAULT;
+   344	
+   345		if (arg.flags & ~DMA_BUF_SYNC_RW)
+   346			return -EINVAL;
+   347	
+   348		if ((arg.flags & DMA_BUF_SYNC_RW) == 0)
+   349			return -EINVAL;
+   350	
+   351		fd = get_unused_fd_flags(O_CLOEXEC);
+   352		if (fd < 0)
+   353			return fd;
+   354	
+ > 355		usage = dma_resv_usage_rw(arg.flags & DMA_BUF_SYNC_WRITE);
+ > 356		ret = dma_resv_get_singleton(dmabuf->resv, usage, &fence);
+   357		if (ret)
+   358			goto err_put_fd;
+   359	
+   360		if (!fence)
+   361			fence = dma_fence_get_stub();
+   362	
+   363		sync_file = sync_file_create(fence);
+   364	
+   365		dma_fence_put(fence);
+   366	
+   367		if (!sync_file) {
+   368			ret = -ENOMEM;
+   369			goto err_put_fd;
+   370		}
+   371	
+   372		arg.fd = fd;
+   373		if (copy_to_user(user_data, &arg, sizeof(arg))) {
+   374			ret = -EFAULT;
+   375			goto err_put_file;
+   376		}
+   377	
+   378		fd_install(fd, sync_file->file);
+   379	
+   380		return 0;
+   381	
+   382	err_put_file:
+   383		fput(sync_file->file);
+   384	err_put_fd:
+   385		put_unused_fd(fd);
+   386		return ret;
+   387	}
+   388	#endif
+   389	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
