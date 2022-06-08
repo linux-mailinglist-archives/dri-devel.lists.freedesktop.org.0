@@ -2,66 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBB2543728
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D604754377D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:34:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68C6010EE46;
-	Wed,  8 Jun 2022 15:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7249F1126DD;
+	Wed,  8 Jun 2022 15:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72EE410ED0B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 15:21:47 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id
- g17-20020a9d6491000000b0060c0f0101ffso3056432otl.7
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 08:21:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jlekstrand-net.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=VhOq7OdyeGHUOam7aoughXkAfVJM3ELVk3dvlCmt00A=;
- b=2iAgsJ8XkxmGPQ2MChw6JU1rQa9wzGwCIOmgGnaAFFH0nMwYLBO4xLCdXMNIO+4H/v
- 1pwcQMgsRdEP0FXzf+jJhOvW7gC54zQmssszNqhBd+Sndk4rNT9bZ6HeepsYLjTKQguD
- ZPADxfT7jrx5AgNP8NWSzJbFJljZPeoCYB9aGpQIV+GQ/VZQgSJ+KJqMtylBXge2iIZS
- dwelgv6VP0gRINRkxOxZgEQ+ZYDq4OYXIZ26w8KFYFnDbPLOpcLS5MiXLTKYIouWhBgV
- Pyq56d2sB6W6ztDvnkzTugU/2lToWn8ivnqntFiUmfKTWr3VhFRpS2HFvRK5z+pw0rni
- 2Xng==
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6C9A11252B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 15:34:32 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id a15so20350372wrh.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 08:34:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/3Uhz2MzX+opEJ1vl2VMkznGEHPHcYf9Tcal/QO6uyQ=;
+ b=YATbmhtVNkDLRL1cMxkgnNPvC9xkZ/OO1tTeSzJBVdWnAcc3ED6f4ZkzxnoUisY+l1
+ uFpUnotT+0w/sJ/jbMoxdaAhnVQfGFYwMKasa5+bWHDDG/3oeCOpsYhc0YPvPPQCAsAP
+ CpLOGClljy6gCmZajMHqSotb7MH0++HqNHL+8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VhOq7OdyeGHUOam7aoughXkAfVJM3ELVk3dvlCmt00A=;
- b=XhZAlva821wxy5jQoAOhWA8NK3RAMA2SQjrFFjqQ7eN/cD8QzB76JdtA3scK3iaPzI
- OcZjsKWput7GBPJxDX68bf0PNPICvZb559WQLOOUxTfrSTqmgoQ/2b6cfrtw6GxxKPN5
- 0wnVr74e4rKMsU24A9ObHEx2e56YsbEfAmDHXjamsxiPnxbP7AqksuC4uSgQlcZmrHrO
- S9Aw3kDYmlIaW/MAwYW/fihexlfczN5URQvqdMpHw3R8hZfF588p8Y4xYhYIKhlVtyZS
- VrMxtC2ve7iP07gTGJZFRRkZxP+jf3GClT0KE5rWdVIxw0cju/HUTUzhf6JgkbAWeeOg
- IQEg==
-X-Gm-Message-State: AOAM53141JGbkYfje+i7UnGB+vw3m+DY0fEZbGM3+0SDwOS8VPoAZPDp
- mB3m/8OO3H7fjWcxzh16/EprG4GgcoA1Ag==
-X-Google-Smtp-Source: ABdhPJxgHjhA1lEYnv1gAxHu2fGdOtvN0E1KOm92fd6lI7sKwGB1SpQEBLIdLZYIu1pkDwczwfs9ig==
-X-Received: by 2002:a9d:718d:0:b0:60b:f241:4537 with SMTP id
- o13-20020a9d718d000000b0060bf2414537mr8716105otj.361.1654701706351; 
- Wed, 08 Jun 2022 08:21:46 -0700 (PDT)
-Received: from animal.lan
- (2603-8080-2102-63d7-a603-c311-740a-6dbf.res6.spectrum.com.
- [2603:8080:2102:63d7:a603:c311:740a:6dbf])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=/3Uhz2MzX+opEJ1vl2VMkznGEHPHcYf9Tcal/QO6uyQ=;
+ b=dtBcCWPjR9hIxgDmQKIx2SM+i2kVitkex+u0OieJP9tPavTbyEveVBkT0ededZFhiA
+ wRro2/LkaYGpZeTiYdurekjD2p1pHwzjyTCjhyK0L3EPCCt+/nIl1tGUh4acvIWuad8v
+ l256YztWnmEduSBczHUxjPgfzNE1u2aVfIP94TosbyM52bbCkopldsz4+XTcSnXnvkS5
+ K0YIlCP0hajXY1y/D5IpRNMPeuHddd0FXYQme6Q1leajJXobKD1gGHTHWGG5dOlAaDCN
+ qIAufSdtMgB+hqBnDF3FOVaZXMGL4UN5byFAuVvE2xLuycBMtSo45IzH5HsPOjKrQe73
+ kLKA==
+X-Gm-Message-State: AOAM530LmWxgDVIekKZ7Rl3r2pc8KXn9S+5Bk1EKGFT3Sewi8GxB43xg
+ qArOYFK4DBl8RVBJdGDxsASYkQ==
+X-Google-Smtp-Source: ABdhPJyGzzVZ3D0bxcuNPUPGWV3cn1+ftk4zl/yiq3z2ZoGXPol7G7JsxCQHanG23JHpFxLm/6GTig==
+X-Received: by 2002:a05:6000:1c1b:b0:215:840a:3fc4 with SMTP id
+ ba27-20020a0560001c1b00b00215840a3fc4mr25725772wrb.30.1654702470986; 
+ Wed, 08 Jun 2022 08:34:30 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- b185-20020aca34c2000000b0032e956162f5sm4418232oia.53.2022.06.08.08.21.45
+ m18-20020a05600c3b1200b00397122e63b6sm24818307wms.29.2022.06.08.08.34.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 08:21:45 -0700 (PDT)
-From: Jason Ekstrand <jason@jlekstrand.net>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] dma-buf: Add an API for importing sync files (v10)
-Date: Wed,  8 Jun 2022 10:21:42 -0500
-Message-Id: <20220608152142.14495-3-jason@jlekstrand.net>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220608152142.14495-1-jason@jlekstrand.net>
-References: <20220608152142.14495-1-jason@jlekstrand.net>
+ Wed, 08 Jun 2022 08:34:30 -0700 (PDT)
+Date: Wed, 8 Jun 2022 17:34:28 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [RFC PATCH 00/16] drm/rockchip: Rockchip EBC ("E-Book
+ Controller") display driver
+Message-ID: <YqDBhMZCu1gKNFfs@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <maxime@cerno.tech>,
+ Samuel Holland <samuel@sholland.org>,
+ Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org,
+ Alistair Francis <alistair@alistair23.me>,
+ =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xff.cz>,
+ Andreas Kemnade <andreas@kemnade.info>,
+ David Airlie <airlied@linux.ie>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Liang Chen <cl@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Peter Geis <pgwipeout@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20220413221916.50995-1-samuel@sholland.org>
+ <20220414085018.ayjvscgdkoen5nw5@houat>
+ <Yo5kz/9cSd6ewC5f@phenom.ffwll.local>
+ <20220531085835.grw5nt4vyofis3po@penduick>
+ <YpddFxvC9pCsobNB@phenom.ffwll.local>
+ <20220608144847.3ibr4buxcbmfj3al@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220608144847.3ibr4buxcbmfj3al@houat>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,244 +94,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason.ekstrand@collabora.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Jason Ekstrand <jason.ekstrand@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: David Airlie <airlied@linux.ie>, =?utf-8?Q?Ond=C5=99ej?= Jirman <x@xff.cz>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Sam Ravnborg <sam@ravnborg.org>, Samuel Holland <samuel@sholland.org>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ linux-rockchip@lists.infradead.org, Andreas Kemnade <andreas@kemnade.info>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Liang Chen <cl@rock-chips.com>,
+ devicetree@vger.kernel.org, Peter Geis <pgwipeout@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, Sandy Huang <hjc@rock-chips.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch is analogous to the previous sync file export patch in that
-it allows you to import a sync_file into a dma-buf.  Unlike the previous
-patch, however, this does add genuinely new functionality to dma-buf.
-Without this, the only way to attach a sync_file to a dma-buf is to
-submit a batch to your driver of choice which waits on the sync_file and
-claims to write to the dma-buf.  Even if said batch is a no-op, a submit
-is typically way more overhead than just attaching a fence.  A submit
-may also imply extra synchronization with other work because it happens
-on a hardware queue.
+On Wed, Jun 08, 2022 at 04:48:47PM +0200, Maxime Ripard wrote:
+> On Wed, Jun 01, 2022 at 02:35:35PM +0200, Daniel Vetter wrote:
+> > On Tue, May 31, 2022 at 10:58:35AM +0200, Maxime Ripard wrote:
+> > > Hi Daniel,
+> > > 
+> > > Thanks for your feedback
+> > > 
+> > > On Wed, May 25, 2022 at 07:18:07PM +0200, Daniel Vetter wrote:
+> > > > > > VBLANK Events and Asynchronous Commits
+> > > > > > ======================================
+> > > > > > When should the VBLANK event complete? When the pixels have been blitted
+> > > > > > to the kernel's shadow buffer? When the first frame of the waveform is
+> > > > > > sent to the panel? When the last frame is sent to the panel?
+> > > > > > 
+> > > > > > Currently, the driver is taking the first option, letting
+> > > > > > drm_atomic_helper_fake_vblank() send the VBLANK event without waiting og
+> > > > > > the refresh thread. This is the only way I was able to get good
+> > > > > > performance with existing userspace.
+> > > > > 
+> > > > > I've been having the same kind of discussions in private lately, so I'm
+> > > > > interested by the answer as well :)
+> > > > > 
+> > > > > It would be worth looking into the SPI/I2C panels for this, since it's
+> > > > > basically the same case.
+> > > > 
+> > > > So it's maybe a bit misnamed and maybe kerneldocs aren't super clear (pls
+> > > > help improve them), but there's two modes:
+> > > > 
+> > > > - drivers which have vblank, which might be somewhat variable (VRR) or
+> > > >   become simulated (self-refresh panels), but otherwise is a more-or-less
+> > > >   regular clock. For this case the atomic commit event must match the
+> > > >   vblank events exactly (frame count and timestamp)
+> > > 
+> > > Part of my interrogation there is do we have any kind of expectation
+> > > on whether or not, when we commit, the next vblank is going to be the
+> > > one matching that commit or we're allowed to defer it by an arbitrary
+> > > number of frames (provided that the frame count and timestamps are
+> > > correct) ?
+> > 
+> > In general yes, but there's no guarantee. The only guarante we give for
+> > drivers with vblank counters is that if you receive a vblank event (flip
+> > complete or vblank event) for frame #n, then an immediate flip/atomic
+> > ioctl call will display earliest for frame #n+1.
+> > 
+> > Also usually you should be able to hit #n+1, but even today with fun stuff
+> > like self refresh panels getting out of self refresh mode might take a bit
+> > more than a few frames, and so you might end up being late. But otoh if
+> > you just do a page flip loop then on average (after the crtc is fully
+> > resumed) you should be able to update at vrefresh rate exactly.
+> 
+> I had more the next item in mind there: if we were to write something in
+> the kernel that would transparently behave like a full-blown KMS driver,
+> but would pipe the commits through a KMS writeback driver before sending
+> them to our SPI panel, we would always be at best two vblanks late.
+> 
+> So this would mean that userspace would do a page flip, get a first
+> vblank, but the actual vblank for that commit would be the next one (at
+> best), consistently.
+> 
+> > > > - drivers which don't have vblank at all, mostly these are i2c/spi panels
+> > > >   or virtual hw and stuff like that. In this case the event simply happens
+> > > >   when the driver is done with refresh/upload, and the frame count should
+> > > >   be zero (since it's meaningless).
+> > > > 
+> > > > Unfortuantely the helper to dtrt has fake_vblank in it's name, maybe
+> > > > should be renamed to no_vblank or so (the various flags that control it
+> > > > are a bit better named).
+> > > > 
+> > > > Again the docs should explain it all, but maybe we should clarify them or
+> > > > perhaps rename that helper to be more meaningful.
+> > > > 
+> > > > > > Blitting/Blending in Software
+> > > > > > =============================
+> > > > > > There are multiple layers to this topic (pun slightly intended):
+> > > > > >  1) Today's userspace does not expect a grayscale framebuffer.
+> > > > > >     Currently, the driver advertises XRGB8888 and converts to Y4
+> > > > > >     in software. This seems to match other drivers (e.g. repaper).
+> > > > > >
+> > > > > >  2) Ignoring what userspace "wants", the closest existing format is
+> > > > > >     DRM_FORMAT_R8. Geert sent a series[4] adding DRM_FORMAT_R1 through
+> > > > > >     DRM_FORMAT_R4 (patch 9), which I believe are the "correct" formats
+> > > > > >     to use.
+> > > > > > 
+> > > > > >  3) The RK356x SoCs have an "RGA" hardware block that can do the
+> > > > > >     RGB-to-grayscale conversion, and also RGB-to-dithered-monochrome
+> > > > > >     which is needed for animation/video. Currently this is exposed with
+> > > > > >     a V4L2 platform driver. Can this be inserted into the pipeline in a
+> > > > > >     way that is transparent to userspace? Or must some userspace library
+> > > > > >     be responsible for setting up the RGA => EBC pipeline?
+> > > > > 
+> > > > > I'm very interested in this answer as well :)
+> > > > > 
+> > > > > I think the current consensus is that it's up to userspace to set this
+> > > > > up though.
+> > > > 
+> > > > Yeah I think v4l mem2mem device is the answer for these, and then
+> > > > userspace gets to set it all up.
+> > > 
+> > > I think the question wasn't really about where that driver should be,
+> > > but more about who gets to set it up, and if the kernel could have
+> > > some component to expose the formats supported by the converter, but
+> > > whenever a commit is being done pipe that to the v4l2 device before
+> > > doing a page flip.
+> > > 
+> > > We have a similar use-case for the RaspberryPi where the hardware
+> > > codec will produce a framebuffer format that isn't standard. That
+> > > format is understood by the display pipeline, and it can do
+> > > writeback.
+> > > 
+> > > However, some people are using a separate display (like a SPI display
+> > > supported by tinydrm) and we would still like to be able to output the
+> > > decoded frames there.
+> > > 
+> > > Is there some way we could plumb things to "route" that buffer through
+> > > the writeback engine to perform a format conversion before sending it
+> > > over to the SPI display automatically?
+> > 
+> > Currently not transparently. Or at least no one has done that, and I'm not
+> > sure that's really a great idea. With big gpus all that stuff is done with
+> > separate command submission to the render side of things, and you can
+> > fully pipeline all that with in/out-fences.
+> > 
+> > Doing that in the kms driver side in the kernel feels very wrong to me :-/
+> 
+> So I guess what you're saying is that there's a close to 0% chance of it
+> being accepted if we were to come up with such an architecture?
 
-In the Vulkan world, this is useful for dealing with the out-fence from
-vkQueuePresent.  Current Linux window-systems (X11, Wayland, etc.) all
-rely on dma-buf implicit sync.  Since Vulkan is an explicit sync API, we
-get a set of fences (VkSemaphores) in vkQueuePresent and have to stash
-those as an exclusive (write) fence on the dma-buf.  We handle it in
-Mesa today with the above mentioned dummy submit trick.  This ioctl
-would allow us to set it directly without the dummy submit.
+Yup.
 
-This may also open up possibilities for GPU drivers to move away from
-implicit sync for their kernel driver uAPI and instead provide sync
-files and rely on dma-buf import/export for communicating with other
-implicit sync clients.
+I think the only exception is if you have a multi-region memory manager
+using ttm (or hand-rolled, but please don't), where we first have to move
+the buffer into the right region before it can be scanned out. And that's
+generally done with a copy engine, for performance reasons.
 
-We make the explicit choice here to only allow setting RW fences which
-translates to an exclusive fence on the dma_resv.  There's no use for
-read-only fences for communicating with other implicit sync userspace
-and any such attempts are likely to be racy at best.  When we got to
-insert the RW fence, the actual fence we set as the new exclusive fence
-is a combination of the sync_file provided by the user and all the other
-fences on the dma_resv.  This ensures that the newly added exclusive
-fence will never signal before the old one would have and ensures that
-we don't break any dma_resv contracts.  We require userspace to specify
-RW in the flags for symmetry with the export ioctl and in case we ever
-want to support read fences in the future.
+But that copy engine is really just a very dumb (but fast!) memcpy, and
+doesn't do any format conversion or stride/orientation changes like a
+full-blown blitter engine (or mem2mem in v4l speak) can do.
 
-There is one downside here that's worth documenting:  If two clients
-writing to the same dma-buf using this API race with each other, their
-actions on the dma-buf may happen in parallel or in an undefined order.
-Both with and without this API, the pattern is the same:  Collect all
-the fences on dma-buf, submit work which depends on said fences, and
-then set a new exclusive (write) fence on the dma-buf which depends on
-said work.  The difference is that, when it's all handled by the GPU
-driver's submit ioctl, the three operations happen atomically under the
-dma_resv lock.  If two userspace submits race, one will happen before
-the other.  You aren't guaranteed which but you are guaranteed that
-they're strictly ordered.  If userspace manages the fences itself, then
-these three operations happen separately and the two render operations
-may happen genuinely in parallel or get interleaved.  However, this is a
-case of userspace racing with itself.  As long as we ensure userspace
-can't back the kernel into a corner, it should be fine.
+So if it's really just memory management then I think it's fine, but
+anything beyond that is a no imo.
 
-v2 (Jason Ekstrand):
- - Use a wrapper dma_fence_array of all fences including the new one
-   when importing an exclusive fence.
+Now for an overall full-featured stack we clearly need that, and it would
+be great if there's some common userspace libraries for hosting such code.
+But thus far all attempts have fallen short :-/ Which I guess is another
+indicator that we really shouldn't try to solve this problem in a generic
+fashion, and hence really shouldn't try to solve it with magic behind the
+generic kms interface in the kernel.
 
-v3 (Jason Ekstrand):
- - Lock around setting shared fences as well as exclusive
- - Mark SIGNAL_SYNC_FILE as a read-write ioctl.
- - Initialize ret to 0 in dma_buf_wait_sync_file
+For even more context I do think my old "why is 2d so hard" blogpost rant
+still applies:
 
-v4 (Jason Ekstrand):
- - Use the new dma_resv_get_singleton helper
+https://blog.ffwll.ch/2018/08/no-2d-in-drm.html
 
-v5 (Jason Ekstrand):
- - Rename the IOCTLs to import/export rather than wait/signal
- - Drop the WRITE flag and always get/set the exclusive fence
-
-v6 (Jason Ekstrand):
- - Split import and export into separate patches
- - New commit message
-
-v7 (Daniel Vetter):
- - Fix the uapi header to use the right struct in the ioctl
- - Use a separate dma_buf_import_sync_file struct
- - Add kerneldoc for dma_buf_import_sync_file
-
-v8 (Jason Ekstrand):
- - Rebase on Christian König's fence rework
-
-v9 (Daniel Vetter):
- - Fix -EINVAL checks for the flags parameter
- - Add documentation about read/write fences
- - Add documentation about the expected usage of import/export and
-   specifically call out the possible userspace race.
-
-v10 (Simon Ser):
- - Fix a typo in the docs
-
-Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-Signed-off-by: Jason Ekstrand <jason.ekstrand@intel.com>
-Signed-off-by: Jason Ekstrand <jason.ekstrand@collabora.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
----
- drivers/dma-buf/dma-buf.c    | 39 ++++++++++++++++++++++++++++
- include/uapi/linux/dma-buf.h | 49 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 88 insertions(+)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 6ff54f7e6119..f23f1482eb38 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -386,6 +386,43 @@ static long dma_buf_export_sync_file(struct dma_buf *dmabuf,
- 	put_unused_fd(fd);
- 	return ret;
- }
-+
-+static long dma_buf_import_sync_file(struct dma_buf *dmabuf,
-+				     const void __user *user_data)
-+{
-+	struct dma_buf_import_sync_file arg;
-+	struct dma_fence *fence;
-+	enum dma_resv_usage usage;
-+	int ret = 0;
-+
-+	if (copy_from_user(&arg, user_data, sizeof(arg)))
-+		return -EFAULT;
-+
-+	if (arg.flags & ~DMA_BUF_SYNC_RW)
-+		return -EINVAL;
-+
-+	if ((arg.flags & DMA_BUF_SYNC_RW) == 0)
-+		return -EINVAL;
-+
-+	fence = sync_file_get_fence(arg.fd);
-+	if (!fence)
-+		return -EINVAL;
-+
-+	usage = (arg.flags & DMA_BUF_SYNC_WRITE) ? DMA_RESV_USAGE_WRITE :
-+						   DMA_RESV_USAGE_READ;
-+
-+	dma_resv_lock(dmabuf->resv, NULL);
-+
-+	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
-+	if (!ret)
-+		dma_resv_add_fence(dmabuf->resv, fence, usage);
-+
-+	dma_resv_unlock(dmabuf->resv);
-+
-+	dma_fence_put(fence);
-+
-+	return ret;
-+}
- #endif
- 
- static long dma_buf_ioctl(struct file *file,
-@@ -434,6 +471,8 @@ static long dma_buf_ioctl(struct file *file,
- #if IS_ENABLED(CONFIG_SYNC_FILE)
- 	case DMA_BUF_IOCTL_EXPORT_SYNC_FILE:
- 		return dma_buf_export_sync_file(dmabuf, (void __user *)arg);
-+	case DMA_BUF_IOCTL_IMPORT_SYNC_FILE:
-+		return dma_buf_import_sync_file(dmabuf, (const void __user *)arg);
- #endif
- 
- 	default:
-diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-index 46f1e3e98b02..30fb8834aa3c 100644
---- a/include/uapi/linux/dma-buf.h
-+++ b/include/uapi/linux/dma-buf.h
-@@ -96,6 +96,24 @@ struct dma_buf_sync {
-  * dma-buf for waiting later instead of waiting immediately.  This is
-  * useful for modern graphics APIs such as Vulkan which assume an explicit
-  * synchronization model but still need to inter-operate with dma-buf.
-+ *
-+ * The intended usage pattern is the following:
-+ *
-+ *  1. Export a sync_file with flags corresponding to the expected GPU usage
-+ *     via DMA_BUF_IOCTL_EXPORT_SYNC_FILE.
-+ *
-+ *  2. Submit rendering work which uses the dma-buf.  The work should wait on
-+ *     the exported sync file before rendering and produce another sync_file
-+ *     when complete.
-+ *
-+ *  3. Import the rendering-complete sync_file into the dma-buf with flags
-+ *     corresponding to the GPU usage via DMA_BUF_IOCTL_IMPORT_SYNC_FILE.
-+ *
-+ * Unlike doing implicit synchronization via a GPU kernel driver's exec ioctl,
-+ * the above is not a single atomic operation.  If userspace wants to ensure
-+ * ordering via these fences, it is the respnosibility of userspace to use
-+ * locks or other mechanisms to ensure that no other context adds fences or
-+ * submits work between steps 1 and 3 above.
-  */
- struct dma_buf_export_sync_file {
- 	/**
-@@ -119,6 +137,36 @@ struct dma_buf_export_sync_file {
- 	__s32 fd;
- };
- 
-+/**
-+ * struct dma_buf_import_sync_file - Insert a sync_file into a dma-buf
-+ *
-+ * Userspace can perform a DMA_BUF_IOCTL_IMPORT_SYNC_FILE to insert a
-+ * sync_file into a dma-buf for the purposes of implicit synchronization
-+ * with other dma-buf consumers.  This allows clients using explicitly
-+ * synchronized APIs such as Vulkan to inter-op with dma-buf consumers
-+ * which expect implicit synchronization such as OpenGL or most media
-+ * drivers/video.
-+ */
-+struct dma_buf_import_sync_file {
-+	/**
-+	 * @flags: Read/write flags
-+	 *
-+	 * Must be DMA_BUF_SYNC_READ, DMA_BUF_SYNC_WRITE, or both.
-+	 *
-+	 * If DMA_BUF_SYNC_READ is set and DMA_BUF_SYNC_WRITE is not set,
-+	 * this inserts the sync_file as a read-only fence.  Any subsequent
-+	 * implicitly synchronized writes to this dma-buf will wait on this
-+	 * fence but reads will not.
-+	 *
-+	 * If DMA_BUF_SYNC_WRITE is set, this inserts the sync_file as a
-+	 * write fence.  All subsequent implicitly synchronized access to
-+	 * this dma-buf will wait on this fence.
-+	 */
-+	__u32 flags;
-+	/** @fd: Sync file descriptor */
-+	__s32 fd;
-+};
-+
- #define DMA_BUF_BASE		'b'
- #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
- 
-@@ -129,5 +177,6 @@ struct dma_buf_export_sync_file {
- #define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, u32)
- #define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, u64)
- #define DMA_BUF_IOCTL_EXPORT_SYNC_FILE	_IOWR(DMA_BUF_BASE, 2, struct dma_buf_export_sync_file)
-+#define DMA_BUF_IOCTL_IMPORT_SYNC_FILE	_IOW(DMA_BUF_BASE, 3, struct dma_buf_import_sync_file)
- 
- #endif
+The "why no 2d api for the more limited problem of handling framebuffers"
+is really just a small, but not any less complex, subset of that bigger
+conundrum.
+-Daniel
 -- 
-2.36.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
