@@ -1,65 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7112542D91
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 12:26:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D05542DA4
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 12:30:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2DD610E39B;
-	Wed,  8 Jun 2022 10:26:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4F510E373;
+	Wed,  8 Jun 2022 10:30:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E41210E05B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 10:26:40 +0000 (UTC)
-X-UUID: 7ce3e81b0211425a9202e780efe66aeb-20220608
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:715d832e-f55f-4544-b15e-841338791c1f, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:2a19b09, CLOUDID:62c219e5-2ba2-4dc1-b6c5-11feb6c769e0,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:0,BEC:nil
-X-UUID: 7ce3e81b0211425a9202e780efe66aeb-20220608
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 510881272; Wed, 08 Jun 2022 18:26:34 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Wed, 8 Jun 2022 18:26:34 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Wed, 8 Jun 2022 18:26:33 +0800
-Message-ID: <75c00caca74b8366ca2c4594a8229b6de95c5f47.camel@mediatek.com>
-Subject: Re: [PATCH v10 18/21] drm/mediatek: Add mt8195 Embedded DisplayPort
- driver
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, Guillaume Ranquet <granquet@baylibre.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chunfeng Yun
- =?UTF-8?Q?=28=E4=BA=91=E6=98=A5=E5=B3=B0=29?= <Chunfeng.Yun@mediatek.com>,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
- Deller" <deller@gmx.de>, Jitao Shi
- =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?= <jitao.shi@mediatek.com>
-Date: Wed, 8 Jun 2022 18:26:33 +0800
-In-Reply-To: <f791f46c6307a18818574cb7fb8653bcc84aa9ad.camel@mediatek.com>
-References: <20220523104758.29531-1-granquet@baylibre.com>
- <20220523104758.29531-19-granquet@baylibre.com>
- <f791f46c6307a18818574cb7fb8653bcc84aa9ad.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E3EA10E182;
+ Wed,  8 Jun 2022 10:30:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654684247; x=1686220247;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=jqF9jU5P7g97ANyjHG2YiqzPJANo8jrNFo3dcZwjCe0=;
+ b=LsDmC315HQ3wP3SDkjGDCyCO31ylhXR+jdxrVYagF+dLPA8Zd3g0pfvB
+ MYMhSaipIIvieZOOkVnfMGf1/PsiU+ba4zj8rQNwkbvyb6Nf4DJhWMq64
+ xlaJkw/Ynj/zgZemq5rzWIQMrOfHjbKkS0JCHyM5strcQK9l8Ta9OIx5+
+ h/51hcOQ5f9b1eWcOEccOFGzgFbPPOcfIwaqJerH4C/MhS1xDhOlTirEo
+ vlOKwjojrweQpvHsGys/xqEuCU2X+PRIJYWfrGgqQqD9TFQwyLAChvck8
+ 7RmCyi+Ls4UgxwDJKpn0IXSxEDdIF9Y3VL+CK5/H5QxHlBbTmqclWQn7G g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10371"; a="260005299"
+X-IronPort-AV: E=Sophos;i="5.91,286,1647327600"; d="scan'208";a="260005299"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 03:30:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,286,1647327600"; d="scan'208";a="636738311"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga008.fm.intel.com with ESMTP; 08 Jun 2022 03:30:46 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 8 Jun 2022 03:30:46 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 8 Jun 2022 03:30:45 -0700
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
+ Wed, 8 Jun 2022 03:30:45 -0700
+From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+To: "Roper, Matthew D" <matthew.d.roper@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/i915: More PVC+DG2 workarounds
+Thread-Topic: [PATCH] drm/i915: More PVC+DG2 workarounds
+Thread-Index: AQHYetHZvaDmsimpXkewkkVgEw8ccq1FRZBw
+Date: Wed, 8 Jun 2022 10:30:45 +0000
+Message-ID: <c3ad73d5f88b4616b1c4c1799e722583@intel.com>
+References: <20220608005108.3717895-1-matthew.d.roper@intel.com>
+In-Reply-To: <20220608005108.3717895-1-matthew.d.roper@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.500.17
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.1]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,123 +77,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: "Kumar Valsan, Prathap" <prathap.kumar.valsan@intel.com>, "Nilawar,
+ Badal" <badal.nilawar@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-06-07 at 15:47 +0800, CK Hu wrote:
-> Hi, Rex:
-> 
-> On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
-> > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> > 
-> > This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
-> > 
-> > It supports the mt8195, the embedded DisplayPort units. It offers
-> > DisplayPort 1.4 with up to 4 lanes.
-> > 
-> > The driver creates a child device for the phy. The child device
-> > will
-> > never exist without the parent being active. As they are sharing a
-> > register range, the parent passes a regmap pointer to the child so
-> > that
-> > both can work with the same register range. The phy driver sets
-> > device
-> > data that is read by the parent to get the phy device that can be
-> > used
-> > to control the phy properties.
-> > 
-> > This driver is based on an initial version by
-> > Jason-JH.Lin <jason-jh.lin@mediatek.com>.
-> > 
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > ---
-> 
-> [snip]
-> 
-> > +
-> > +static int mtk_dp_hpd_sink_event(struct mtk_dp *mtk_dp)
-> > +{
-> > +	ssize_t ret;
-> > +	u8 sink_count;
-> > +	bool locked;
-> > +	u8 link_status[DP_LINK_STATUS_SIZE] = {};
-> > +	u32 sink_count_reg = DP_SINK_COUNT_ESI;
-> > +	u32 link_status_reg = DP_LANE0_1_STATUS;
-> > +
-> > +	ret = drm_dp_dpcd_readb(&mtk_dp->aux, sink_count_reg,
-> > &sink_count);
-> > +	if (ret < 0) {
-> > +		drm_err(mtk_dp->drm_dev, "Read sink count failed:
-> > %ld\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	ret = drm_dp_dpcd_read(&mtk_dp->aux, link_status_reg,
-> > link_status,
-> > +			       sizeof(link_status));
-> > +	if (!ret) {
-> > +		drm_err(mtk_dp->drm_dev, "Read link status failed:
-> > %ld\n",
-> > +			ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	locked = drm_dp_channel_eq_ok(link_status,
-> > +				      mtk_dp->train_info.lane_count);
-> > +	if (!locked && mtk_dp->train_state >
-> > MTK_DP_TRAIN_STATE_TRAINING_PRE)
-> 
-> Before enter this function, mtk_dp->train_state is set to
-> MTK_DP_TRAIN_STATE_STARTUP, so this never happen, drop this.
-> 
 
-The interrupt from sink device could come any time. Why it's
-impossible?
 
-> > +		mtk_dp->train_state = MTK_DP_TRAIN_STATE_TRAINING_PRE;
-> > +
-> > +	if (link_status[1] & DP_REMOTE_CONTROL_COMMAND_PENDING)
-> > +		drm_dp_dpcd_writeb(&mtk_dp->aux,
-> > DP_DEVICE_SERVICE_IRQ_VECTOR,
-> > +				   DP_REMOTE_CONTROL_COMMAND_PENDING);
-> > +
-> > +	if (DP_GET_SINK_COUNT(sink_count) &&
-> > +	    (link_status[2] & DP_DOWNSTREAM_PORT_STATUS_CHANGED)) {
-> > +		mtk_dp->train_info.check_cap_count = 0;
-> > +		mtk_dp->train_state = MTK_DP_TRAIN_STATE_CHECKEDID;
-> 
-> Why change state from MTK_DP_TRAIN_STATE_STARTUP to
-> MTK_DP_TRAIN_STATE_CHECKEDID? In mtk_dp_train_handler(),
-> mtk_dp_parse_capabilities() is true then change to
-> MTK_DP_TRAIN_STATE_CHECKEDID. Give a reason why these two are
-> different.
-> 
-> Regards,
-> CK
-> 
-
-I will drop this and drop state of MTK_DP_TRAIN_STATE_CHECKEDID.
-MTK_DP_TRAIN_STATE_CHECKEDID is only used for audio.
-We can check enable status in another place.
-
-BRs,
-Bo-Chen
-
-> > +		msleep(20);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> 
-> 
+> -----Original Message-----
+> From: Roper, Matthew D <matthew.d.roper@intel.com>
+> Sent: Wednesday, June 8, 2022 6:21 AM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org; Roper, Matthew D
+> <matthew.d.roper@intel.com>; Gupta, Anshuman
+> <anshuman.gupta@intel.com>; Nilawar, Badal <badal.nilawar@intel.com>;
+> Kumar Valsan, Prathap <prathap.kumar.valsan@intel.com>
+> Subject: [PATCH] drm/i915: More PVC+DG2 workarounds
+>=20
+> A new PVC+DG2 workaround has appeared recently:
+>  - Wa_16015675438
+>=20
+> And a couple existing DG2 workarounds have been extended to PVC:
+>  - Wa_14015795083
+>  - Wa_18018781329
+Looks good to me.
+Reviewed-by: Anshuman Gupta <anshuman.gupta@intel.com>
+Regards,
+Anshuman Gupta.
+>=20
+> Note that Wa_16015675438 asks us to program a register that is in the 0x2=
+xxx
+> range typically associated with the RCS engine, even though PVC does not =
+have
+> an RCS.  By default the GuC will think we've made a mistake and throw an
+> exception when it sees this register on a CCS engine's save/restore list,=
+ so we
+> need to pass an extra GuC control flag to tell it that this is expected a=
+nd not a
+> problem.
+>=20
+> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+> Signed-off-by: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  1 +
+>  drivers/gpu/drm/i915/gt/intel_workarounds.c | 24 +++++++++++++++------
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.c      |  4 ++++
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h |  1 +
+>  4 files changed, 23 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> index c8129a351731..226557018037 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+> @@ -140,6 +140,7 @@
+>  #define FF_SLICE_CS_CHICKEN2			_MMIO(0x20e4)
+>  #define   GEN9_TSG_BARRIER_ACK_DISABLE		(1 << 8)
+>  #define   GEN9_POOLED_EU_LOAD_BALANCING_FIX_DISABLE	(1 << 10)
+> +#define   GEN12_PERF_FIX_BALANCING_CFE_DISABLE	REG_BIT(15)
+>=20
+>  #define GEN9_CS_DEBUG_MODE1			_MMIO(0x20ec)
+>  #define   FF_DOP_CLOCK_GATE_DISABLE		REG_BIT(1)
+> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> index 1e7ca3863f20..e1e70eff9aac 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+> @@ -1491,13 +1491,20 @@ dg2_gt_workarounds_init(struct intel_gt *gt, stru=
+ct
+> i915_wa_list *wal)
+>  	wa_write_clr(wal, GEN7_MISCCPCTL,
+> GEN12_DOP_CLOCK_GATE_RENDER_ENABLE);
+>  }
+>=20
+> +static void
+> +pvc_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
+> +{
+> +	/* Wa_14015795083 */
+> +	wa_write_clr(wal, GEN7_MISCCPCTL,
+> GEN12_DOP_CLOCK_GATE_RENDER_ENABLE);
+> +}
+> +
+>  static void
+>  gt_init_workarounds(struct intel_gt *gt, struct i915_wa_list *wal)  {
+>  	struct drm_i915_private *i915 =3D gt->i915;
+>=20
+>  	if (IS_PONTEVECCHIO(i915))
+> -		; /* none yet */
+> +		pvc_gt_workarounds_init(gt, wal);
+>  	else if (IS_DG2(i915))
+>  		dg2_gt_workarounds_init(gt, wal);
+>  	else if (IS_XEHPSDV(i915))
+> @@ -2082,12 +2089,6 @@ rcs_engine_wa_init(struct intel_engine_cs *engine,
+> struct i915_wa_list *wal)
+>  		 * performance guide section.
+>  		 */
+>  		wa_write_or(wal, XEHP_L3SCQREG7,
+> BLEND_FILL_CACHING_OPT_DIS);
+> -
+> -		/* Wa_18018781329:dg2 */
+> -		wa_write_or(wal, RENDER_MOD_CTRL, FORCE_MISS_FTLB);
+> -		wa_write_or(wal, COMP_MOD_CTRL, FORCE_MISS_FTLB);
+> -		wa_write_or(wal, VDBX_MOD_CTRL, FORCE_MISS_FTLB);
+> -		wa_write_or(wal, VEBX_MOD_CTRL, FORCE_MISS_FTLB);
+>  	}
+>=20
+>  	if (IS_DG2_GRAPHICS_STEP(i915, G11, STEP_A0, STEP_B0)) { @@ -
+> 2700,6 +2701,15 @@ general_render_compute_wa_init(struct intel_engine_cs
+> *engine, struct i915_wa_li
+>=20
+>  		/* Wa_22014226127:dg2,pvc */
+>  		wa_write_or(wal, LSC_CHICKEN_BIT_0,
+> DISABLE_D8_D16_COASLESCE);
+> +
+> +		/* Wa_16015675438:dg2,pvc */
+> +		wa_masked_en(wal, FF_SLICE_CS_CHICKEN2,
+> +GEN12_PERF_FIX_BALANCING_CFE_DISABLE);
+> +
+> +		/* Wa_18018781329:dg2,pvc */
+> +		wa_write_or(wal, RENDER_MOD_CTRL, FORCE_MISS_FTLB);
+> +		wa_write_or(wal, COMP_MOD_CTRL, FORCE_MISS_FTLB);
+> +		wa_write_or(wal, VDBX_MOD_CTRL, FORCE_MISS_FTLB);
+> +		wa_write_or(wal, VEBX_MOD_CTRL, FORCE_MISS_FTLB);
+>  	}
+>  }
+>=20
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> index 2c4ad4a65089..35887cb53201 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> @@ -327,6 +327,10 @@ static u32 guc_ctl_wa_flags(struct intel_guc *guc)
+>  	    IS_DG2_GRAPHICS_STEP(gt->i915, G11, STEP_A0, STEP_FOREVER))
+>  		flags |=3D GUC_WA_CONTEXT_ISOLATION;
+>=20
+> +	/* Wa_16015675438 */
+> +	if (!RCS_MASK(gt))
+> +		flags |=3D GUC_WA_RCS_REGS_IN_CCS_REGS_LIST;
+> +
+>  	return flags;
+>  }
+>=20
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> index 42cb7a9a6199..b3c9a9327f76 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> @@ -105,6 +105,7 @@
+>  #define   GUC_WA_PRE_PARSER		BIT(14)
+>  #define   GUC_WA_HOLD_CCS_SWITCHOUT	BIT(17)
+>  #define   GUC_WA_POLLCS			BIT(18)
+> +#define   GUC_WA_RCS_REGS_IN_CCS_REGS_LIST	BIT(21)
+>=20
+>  #define GUC_CTL_FEATURE			2
+>  #define   GUC_CTL_ENABLE_SLPC		BIT(2)
+> --
+> 2.35.3
 
