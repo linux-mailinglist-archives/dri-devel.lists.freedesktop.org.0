@@ -1,41 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D975437A2
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:40:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC235437AA
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 17:41:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 519851127C4;
-	Wed,  8 Jun 2022 15:40:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB7A1127D2;
+	Wed,  8 Jun 2022 15:41:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9AE1127C8
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 15:40:12 +0000 (UTC)
-Date: Wed, 08 Jun 2022 15:40:05 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1654702810; x=1654962010;
- bh=UCcQZenfE+6rWnoVBlrwhToeLvaduCRC7GsJ2SXx8bw=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
- Feedback-ID:Message-ID;
- b=mEsbXQry0vpktFc83FZT2Lo6p9nUl386W3EbRfMll3qrcYgPTI0SIc2I64Othy2K7
- JJSA7WHZfYSPyfGnhbLh8uFydWZRZVH9gHhcnhmEYboFuFD3ymhT0nun2lOhW0GVvp
- rc5nEx0qT8EA5dUX+UIQPkLzhfNvZoagltyoL8mKBaWdV6oJaiqK6OWPynDnEZRvc/
- euGVWpk98uyaWkMQDiO0HXUMRuvDmJAPW9J9I1+lrzI62W0ioRkvwObAlMILqeUEYu
- zVYAzl/gW1PusrmkrJA7MRt8hzs7o5tmZ3h8IkUw+peJ0qD5zWkTHrfS5ikUNsnZLF
- 4spqcqREy2b9g==
-To: Jason Ekstrand <jason@jlekstrand.net>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 1/2] dma-buf: Add an API for exporting sync files (v14)
-Message-ID: <Q5tld7A7XW0xpz2bo3Lo-tAE0U6YY6UqFq79WpN2bMEy1qNPZGpGm2krLCg4wYR6DAvgXPCZd-nkba_GcbMzYu7AYRH21XaTtUcdRL40978=@emersion.fr>
-In-Reply-To: <20220608152142.14495-2-jason@jlekstrand.net>
-References: <20220608152142.14495-1-jason@jlekstrand.net>
- <20220608152142.14495-2-jason@jlekstrand.net>
-Feedback-ID: 1358184:user:proton
+Received: from albert.telenet-ops.be (albert.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:1a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 068381127C8
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 15:41:20 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:243a:e14b:d107:1f56])
+ by albert.telenet-ops.be with bizsmtp
+ id gfhJ2700X1qF9lr06fhJ5X; Wed, 08 Jun 2022 17:41:18 +0200
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1nyxo6-003E1A-CT; Wed, 08 Jun 2022 17:41:18 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1nyxo5-008kMo-Tr; Wed, 08 Jun 2022 17:41:17 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Helge Deller <deller@gmx.de>
+Subject: [PATCH] fbcon: Remove obsolete reference to initmem_freed
+Date: Wed,  8 Jun 2022 17:41:16 +0200
+Message-Id: <b8b9147a48e233fe32e072f2085c7b413cd92a00.1654702835.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,13 +44,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Jason Ekstrand <jason.ekstrand@collabora.com>,
- dri-devel@lists.freedesktop.org,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jason Ekstrand <jason.ekstrand@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-fbdev@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both patches pushed to drm-misc-next, thanks for your contribution!
+initmem_freed was removed in v2.1.124, and the underlying issue was
+fixed for good in commit 92b004d1aa9f367c ("video/logo: prevent use of
+logos after they have been freed").
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/video/fbdev/core/fbcon.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 594650452afd14d8..1be8aa9f80747987 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -2180,7 +2180,6 @@ static int fbcon_switch(struct vc_data *vc)
+ 	if (logo_shown == FBCON_LOGO_DRAW) {
+ 
+ 		logo_shown = fg_console;
+-		/* This is protected above by initmem_freed */
+ 		fb_show_logo(info, ops->rotate);
+ 		update_region(vc,
+ 			      vc->vc_origin + vc->vc_size_row * vc->vc_top,
+-- 
+2.25.1
+
