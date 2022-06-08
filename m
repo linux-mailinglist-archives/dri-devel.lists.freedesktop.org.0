@@ -1,65 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2021543208
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 15:58:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8BD54322A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 16:04:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A66710ED12;
-	Wed,  8 Jun 2022 13:58:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8AAA112267;
+	Wed,  8 Jun 2022 14:04:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91CBA10ED12
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 13:58:32 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- p6-20020a05600c1d8600b0039c630b8d96so728297wms.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 06:58:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=R8VISYkcT36CEH8dMwAYw+ltzDmUvfvK80231Ui7esE=;
- b=J7G/eT+pCEdsUdaKgEq2rWy3gbNxitJi8XbpO5rq/p3uX8phRW3JuT9+ipCapfg7L4
- tV3QU9HJCETelVZpmzXAHuIxa3KDPL//3ISMfZBRnO8YKsTV+w0krxqGU0iG/TTyGKwQ
- NAE9MRlK/RdhXSInOE6/zl2arKI6sxoIqC61g5vZV7zqAeYYe/5MZSLvwMvHIDYZP0wg
- n5iGTArVAygP4+qWHfyglNOHscf+GtBuWTbtYDbm9VI2PRS4/ptLk6MbFhJMTdBazsZ7
- Ci2+QSU8MoSBryOZJjrTzAsH3Y1K3iifa1Ctoh/l58ZVmq5+X5ggmTkfOjZKIHXIqeaj
- xmmw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09535112178
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 14:04:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654697077;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1BWR1iPg67/76Jhn7RzCgMANX3cJBPsC3uFhzpZxFQg=;
+ b=Qvhq5TQuTZO6iiaBf0qN6Q2/KTRVG2xlExfP5HsO7hfMpdXsQozjbHiDDzIyt5AchaXglV
+ X+3g/+RWifSDUtg7p8arQpz6eljxowJ3ueclIPggn9a1/sSQxcwY2E0J3zmaBD3VsmbhDD
+ pjOceFzfCiBLqqHj0BRYEOHsVsPaGhk=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-Dy4WAvwjNe6KyOT_AXBJYQ-1; Wed, 08 Jun 2022 10:04:36 -0400
+X-MC-Unique: Dy4WAvwjNe6KyOT_AXBJYQ-1
+Received: by mail-il1-f200.google.com with SMTP id
+ p12-20020a056e02144c00b002d196a4d73eso15740781ilo.18
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 07:04:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=R8VISYkcT36CEH8dMwAYw+ltzDmUvfvK80231Ui7esE=;
- b=a0rxMNx2ANkHDXoij10AwxFTXuDPUDtxWsZL69VZqG8109dnMBoxsf5v7yRyXQlbqh
- IRTjxm8fmO0jm7jyGA90diz0er5EBLxvuCn9t+OCzIZa6y/8xhaoMwBwtsHrnCpOUKPY
- uNpRIf+vu5lkhIblXW2l3wqVbswTcl9pR/wcYPdA6Y5aEuen12MUSxXj0oa8SapjoqFI
- D7FBuKj3GQKcGwIljSH6P+fkq9dy/T8BqnWruGchEmmx5Q4Kz5DIwHRZA/X0pvxsTXDs
- ga/2E4m757JQtDypF9Yt3JqrYrljJExQhc7IlZxCTvLDPcAoEVXIAecP0n/k5ZqEfxKj
- StKw==
-X-Gm-Message-State: AOAM531fTdHWZS5Sho/sHeBrQRHY9WkfzuF+MCr9OXAMaSoQ7tLpqDTK
- +BoqgrZPKUD+491jB0fZHR+emw==
-X-Google-Smtp-Source: ABdhPJzezq807irvaFo462Vn31bjZwnJ0ZSAMoyQCnfO++eLUY5d9+VSN4Nt8DFAJeB9pEhbZAASBQ==
-X-Received: by 2002:a05:600c:2c46:b0:39c:55a0:9533 with SMTP id
- r6-20020a05600c2c4600b0039c55a09533mr13137412wmg.104.1654696711042; 
- Wed, 08 Jun 2022 06:58:31 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- m125-20020a1ca383000000b0039c5b4ab1b0sm4852519wme.48.2022.06.08.06.58.30
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=1BWR1iPg67/76Jhn7RzCgMANX3cJBPsC3uFhzpZxFQg=;
+ b=N1/9eaOx3cDtBq5m/fc07xR++fMw00Q2v5dsUlCRFXHKl3XvSn7OPPjjU6ZSOFFxEh
+ zgsaWWMIMJhYUfcX4MZSpKJWrspgu9SiWA0DECrnbd/hkSeqrLmJ0NFZ4aiYPY8ze6DS
+ zHTHVpqJLlzHKTAN/ZDzp8N+rIHWGPudOdmS3o+rEEP8oFwA4fla1V4cxygNqgEZVMIx
+ N8VvrHWqU9tR+RlyyUamwIF4suBoBLBpQQ50K+Zu3V5MJwCIk6MKwk0lztVBy0m/qTGF
+ NDDOoyMCpRm3yZzii16Ej89VEbe0kD63iq5DXKaJiFjzUJ7QOdf29NbewCjKvVDLV6rh
+ 0q4Q==
+X-Gm-Message-State: AOAM533YLXwfnGuP08WBlfw38go8g+j5Uoib9tRo2+I0Re287EFXaHy8
+ xzGMNWTSxN5nYCdZbyGaDSvmEa66Y6IKU4LF/62UeeL5hsU6aI4nzyeNPstaaMuD9DWU7JcmsXn
+ XVPO0OkhX7q4mB4mAi6BGcJg+pMIX
+X-Received: by 2002:a02:1105:0:b0:330:ec01:f04c with SMTP id
+ 5-20020a021105000000b00330ec01f04cmr18109732jaf.87.1654697074888; 
+ Wed, 08 Jun 2022 07:04:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwcbsemhYPtEW2RxxzY4T+70hTn6dNmp2D9+a0WEnP5LfYkb7EKVi/XVLp74c1u9qpmBliF3w==
+X-Received: by 2002:a02:1105:0:b0:330:ec01:f04c with SMTP id
+ 5-20020a021105000000b00330ec01f04cmr18109717jaf.87.1654697074610; 
+ Wed, 08 Jun 2022 07:04:34 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ m19-20020a02c893000000b00331b5a2c5d4sm3248455jao.164.2022.06.08.07.04.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jun 2022 06:58:30 -0700 (PDT)
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [RESEND PATCH v3] drm/cma-helper: Describe what a "contiguous chunk"
- actually means
-Date: Wed,  8 Jun 2022 14:58:21 +0100
-Message-Id: <20220608135821.1153346-1-daniel.thompson@linaro.org>
-X-Mailer: git-send-email 2.35.1
+ Wed, 08 Jun 2022 07:04:34 -0700 (PDT)
+Date: Wed, 8 Jun 2022 08:04:32 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/2] vfio/pci: Remove console drivers
+Message-ID: <20220608080432.45282f0b.alex.williamson@redhat.com>
+In-Reply-To: <0c45183c-cdb8-4578-e346-bc4855be038f@suse.de>
+References: <165453797543.3592816.6381793341352595461.stgit@omen>
+ <165453800875.3592816.12944011921352366695.stgit@omen>
+ <0c45183c-cdb8-4578-e346-bc4855be038f@suse.de>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,127 +85,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: kvm@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Laszlo Ersek <lersek@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since it's inception in 2012 it has been understood that the DRM GEM CMA
-helpers do not depend on CMA as the backend allocator. In fact the first
-bug fix to ensure the cma-helpers work correctly with an IOMMU backend
-appeared in 2014. However currently the documentation for
-drm_gem_cma_create() talks about "a contiguous chunk of memory" without
-making clear which address space it will be a contiguous part of.
-Additionally the CMA introduction is actively misleading because it only
-contemplates the CMA backend.
+Hi Thomas,
 
-This matters because when the device accesses the bus through an IOMMU
-(and don't use the CMA backend) then the allocated memory is contiguous
-only in the IOVA space. This is a significant difference compared to the
-CMA backend and the behaviour can be a surprise even to someone who does
-a reasonable level of code browsing (but doesn't find all the relevant
-function pointers ;-) ).
+On Wed, 8 Jun 2022 13:11:21 +0200
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-Improve the kernel doc comments accordingly.
+> Hi Alex
+> 
+> Am 06.06.22 um 19:53 schrieb Alex Williamson:
+> > Console drivers can create conflicts with PCI resources resulting in
+> > userspace getting mmap failures to memory BARs.  This is especially evident
+> > when trying to re-use the system primary console for userspace drivers.
+> > Attempt to remove all nature of conflicting drivers as part of our VGA
+> > initialization.  
+> 
+> First a dumb question about your use case.  You want to assign a PCI 
+> graphics card to a virtual machine and need to remove the generic driver 
+> from the framebuffer?
 
-Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
----
+Exactly.
+ 
+> > Reported-by: Laszlo Ersek <lersek@redhat.com>
+> > Tested-by: Laszlo Ersek <lersek@redhat.com>
+> > Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
+> > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> > ---
+> >   drivers/vfio/pci/vfio_pci_core.c |   17 +++++++++++++++++
+> >   1 file changed, 17 insertions(+)
+> > 
+> > diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+> > index a0d69ddaf90d..e0cbcbc2aee1 100644
+> > --- a/drivers/vfio/pci/vfio_pci_core.c
+> > +++ b/drivers/vfio/pci/vfio_pci_core.c
+> > @@ -13,6 +13,7 @@
+> >   #include <linux/device.h>
+> >   #include <linux/eventfd.h>
+> >   #include <linux/file.h>
+> > +#include <linux/fb.h>
+> >   #include <linux/interrupt.h>
+> >   #include <linux/iommu.h>
+> >   #include <linux/module.h>
+> > @@ -29,6 +30,8 @@
+> >   
+> >   #include <linux/vfio_pci_core.h>
+> >   
+> > +#include <drm/drm_aperture.h>
+> > +
+> >   #define DRIVER_AUTHOR   "Alex Williamson <alex.williamson@redhat.com>"
+> >   #define DRIVER_DESC "core driver for VFIO based PCI devices"
+> >   
+> > @@ -1793,6 +1796,20 @@ static int vfio_pci_vga_init(struct vfio_pci_core_device *vdev)
+> >   	if (!vfio_pci_is_vga(pdev))
+> >   		return 0;
+> >   
+> > +#if IS_REACHABLE(CONFIG_DRM)
+> > +	drm_aperture_detach_platform_drivers(pdev);
+> > +#endif
+> > +
+> > +#if IS_REACHABLE(CONFIG_FB)
+> > +	ret = remove_conflicting_pci_framebuffers(pdev, vdev->vdev.ops->name);
+> > +	if (ret)
+> > +		return ret;
+> > +#endif
+> > +
+> > +	ret = vga_remove_vgacon(pdev);
+> > +	if (ret)
+> > +		return ret;
+> > +  
+> 
+> You shouldn't have to copy any of the implementation of the aperture 
+> helpers.
+> 
+> If you call drm_aperture_remove_conflicting_pci_framebuffers() it should 
+> work correctly. The only reason why it requires a DRM driver structure 
+> as second argument is for the driver's name. [1] And that name is only 
+> used for printing an info message. [2]
 
-Notes:
-    Am I Cc:ing the correct reviewers/maintainers with this patch? There
-    has been no negative feedback but I've been rebasing and re-posting it
-    for three kernel cycles now. Do I need to queue it somewhere special or
-    get it in front of someone specific?
-    
-    Either way...
-    
-    This RESEND is unaltered (except for collecting tags) and is rebased on
-    v5.19-rc1.
-    
-    RESEND for v5.18-rc3
-    - Unaltered but rebased on v5.18-rc3
-    
-    Changes in v3:
-    - Rebased on v5.17-rc2
-    - Minor improvements to wording.
-    
-    Changes in v2:
-    - Oops. I did a final proof read and accidentally committed these
-      changes as a seperate patch. This means that v1 contains only
-      one tenth of the actual patch. This is fixed in v2. Many apologies
-      for the noise!
+vfio-pci is not dependent on CONFIG_DRM, therefore we need to open code
+this regardless.  The only difference if we were to use the existing
+function would be something like:
 
- drivers/gpu/drm/drm_gem_cma_helper.c | 39 +++++++++++++++++++++-------
- 1 file changed, 29 insertions(+), 10 deletions(-)
+#if IS_REACHABLE(CONFIG_DRM)
+	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &dummy_drm_driver);
+	if (ret)
+		return ret;
+#else
+#if IS_REACHABLE(CONFIG_FB)
+	ret = remove_conflicting_pci_framebuffers(pdev, vdev->vdev.ops->name);
+	if (ret)
+		return ret;
+#endif
+	ret = vga_remove_vgacon(pdev);
+	if (ret)
+		return ret;
+#endif
 
-diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-index f36734c2c9e1..42abee9a0f4f 100644
---- a/drivers/gpu/drm/drm_gem_cma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-@@ -26,12 +26,22 @@
- /**
-  * DOC: cma helpers
-  *
-- * The Contiguous Memory Allocator reserves a pool of memory at early boot
-- * that is used to service requests for large blocks of contiguous memory.
-+ * The DRM GEM/CMA helpers are a means to provide buffer objects that are
-+ * presented to the device as a contiguous chunk of memory. This is useful
-+ * for devices that do not support scatter-gather DMA (either directly or
-+ * by using an intimately attached IOMMU).
-  *
-- * The DRM GEM/CMA helpers use this allocator as a means to provide buffer
-- * objects that are physically contiguous in memory. This is useful for
-- * display drivers that are unable to map scattered buffers via an IOMMU.
-+ * Despite the name, the DRM GEM/CMA helpers are not hardwired to use the
-+ * Contiguous Memory Allocator (CMA).
-+ *
-+ * For devices that access the memory bus through an (external) IOMMU then
-+ * the buffer objects are allocated using a traditional page-based
-+ * allocator and may be scattered through physical memory. However they
-+ * are contiguous in the IOVA space so appear contiguous to devices using
-+ * them.
-+ *
-+ * For other devices then the helpers rely on CMA to provide buffer
-+ * objects that are physically contiguous in memory.
-  *
-  * For GEM callback helpers in struct &drm_gem_object functions, see likewise
-  * named functions with an _object_ infix (e.g., drm_gem_cma_object_vmap() wraps
-@@ -111,8 +121,14 @@ __drm_gem_cma_create(struct drm_device *drm, size_t size, bool private)
-  * @drm: DRM device
-  * @size: size of the object to allocate
-  *
-- * This function creates a CMA GEM object and allocates a contiguous chunk of
-- * memory as backing store.
-+ * This function creates a CMA GEM object and allocates memory as backing store.
-+ * The allocated memory will occupy a contiguous chunk of bus address space.
-+ *
-+ * For devices that are directly connected to the memory bus then the allocated
-+ * memory will be physically contiguous. For devices that access through an
-+ * IOMMU, then the allocated memory is not expected to be physically contiguous
-+ * because having contiguous IOVAs is sufficient to meet a devices DMA
-+ * requirements.
-  *
-  * Returns:
-  * A struct drm_gem_cma_object * on success or an ERR_PTR()-encoded negative
-@@ -162,9 +178,12 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_create);
-  * @size: size of the object to allocate
-  * @handle: return location for the GEM handle
-  *
-- * This function creates a CMA GEM object, allocating a physically contiguous
-- * chunk of memory as backing store. The GEM object is then added to the list
-- * of object associated with the given file and a handle to it is returned.
-+ * This function creates a CMA GEM object, allocating a chunk of memory as
-+ * backing store. The GEM object is then added to the list of object associated
-+ * with the given file and a handle to it is returned.
-+ *
-+ * The allocated memory will occupy a contiguous chunk of bus address space.
-+ * See drm_gem_cma_create() for more details.
-  *
-  * Returns:
-  * A struct drm_gem_cma_object * on success or an ERR_PTR()-encoded negative
+It's also bad practice to create a dummy DRM driver struct with some
+assumption which fields are used.  If the usage is later expanded, we'd
+only discover it by users getting segfaults.  If DRM wanted to make
+such an API guarantee, then we shouldn't have commit 97c9bfe3f660
+("drm/aperture: Pass DRM driver structure instead of driver name").
 
-base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
---
-2.35.1
+> The plan forward would be to drop patch 1 entirely.
+> 
+> For patch 2, the most trivial workaround is to instanciate struct 
+> drm_driver here and set the name field to 'vdev->vdev.ops->name'. In the 
+> longer term, the aperture helpers will be moved out of DRM and into a 
+> more prominent location. That workaround will be cleaned up then.
+
+Trivial in execution, but as above, this is poor practice and should be
+avoided.
+
+> Alternatively, drm_aperture_remove_conflicting_pci_framebuffers() could 
+> be changed to accept the name string as second argument, but that's 
+> quite a bit of churn within the DRM code.
+
+The series as presented was exactly meant to provide the most correct
+solution with the least churn to the DRM code.  The above referenced
+commit precludes us from calling the existing DRM function directly
+without resorting to poor practices of assuming the usage of the DRM
+driver struct.  Using the existing DRM function also does not prevent
+us from open coding the remainder of the function to avoid a CONFIG_DRM
+dependency.  Thanks,
+
+Alex
 
