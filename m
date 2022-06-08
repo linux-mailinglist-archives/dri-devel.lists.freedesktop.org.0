@@ -1,73 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BBB854308B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 14:38:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D795A5430C6
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jun 2022 14:51:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4976A10E759;
-	Wed,  8 Jun 2022 12:38:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 007EF10E1CB;
+	Wed,  8 Jun 2022 12:51:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 666E310E759
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 12:38:14 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id gl15so27331843ejb.4
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 05:38:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=aEGXQECe4H9Yr1drGqc8tKF4uy6G/ckZC8sU26gHtJg=;
- b=b0/e4QaChXD6ECkdPGCyuGyJUawjE5WGDcCNngEWwicQcNjDBbxo96ujUWEmtKrU2G
- ZMV1/fftHeM20VSZ1GnA3cO3UI2z2DsvrBZNPz7+jiUrFVPZIBy0sgoNg5p0Pfy1zMZF
- YNPucSatWgbT1iWYyD9lZJ1QDWLyJbfaTO/sOfHHfuGk6h60/vmfjohGEYeGC7QA6Ijl
- sMHq3Sn0Kc6zK80Gnb/dC/bhil/qMHH5H6HB6ULVl1KM9OQgbQSpzqcyx6JC0Ie/CTlr
- vOsO7I/mJ97tFrhOLU/JqhZnShBHwZR5U33m/zhkDAyJ/AmCyI1K/R4Fp11qMP6Sc0TM
- rxQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=aEGXQECe4H9Yr1drGqc8tKF4uy6G/ckZC8sU26gHtJg=;
- b=bcowkbpJ0/WxLGcaJqI5K5JZ20/FwxoUr1ZIcjExxx4biMgKnJicuhMP+LJsBa/wln
- XcraQrm8DSsWWqrE6OlvydEdM/UjeLXYjX2Q+74P/8YU6qWjyhLancFD49EWk4qo7B+o
- aJHFcmzAezurVgLjuaOmqDFCTbr8pbt4fN+zdpleZ+KwxRDNtkDVeB4L1pe2qT+dJByP
- qjPcaTqxe6M2oJE/zlqlAs0iqiy712LWgtGQStV0FZDVy2urxKasTZWNCH5czXGdCbpW
- xCxGxks1V0sVCTA/QRDetE60KFBdU2B2lnBDbaNFssSlPaLarVeTek6lwkJKJZKl179a
- Dx1w==
-X-Gm-Message-State: AOAM53101MKtJNfQzy9RiLnPsd7sPErJIrCCfFoA436U0djg/t25eoVP
- rCaz5HTWI+6bVY34VJndueQVew==
-X-Google-Smtp-Source: ABdhPJw2db8NS2pKzLZNRjdCIdLmNenvGRa27Y2xy0C/8AXs/h3fBZJZTn7uOXirBYfkc7BesWdcBA==
-X-Received: by 2002:a17:906:414f:b0:711:ce99:69ec with SMTP id
- l15-20020a170906414f00b00711ce9969ecmr14718867ejk.724.1654691894016; 
- Wed, 08 Jun 2022 05:38:14 -0700 (PDT)
-Received: from [192.168.0.192] (xdsl-188-155-176-92.adslplus.ch.
- [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- t20-20020a1709066bd400b006fea3702e56sm9102856ejs.79.2022.06.08.05.38.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jun 2022 05:38:13 -0700 (PDT)
-Message-ID: <1fa92614-d08f-162a-da3a-28fa9388d314@linaro.org>
-Date: Wed, 8 Jun 2022 14:38:12 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72BE310E1CB
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jun 2022 12:51:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=DqR83INAeF2lLLfWNGvfjQvG07ed/LwGsF/j5yAEBn8=; b=cjIys5A+lx1csT7PzgKd/P/QI9
+ n0kWQgFym4GWQq1k2qTlFSwb6u1Sm1KsON5UKbs9Ff7wYmdQLeKpcUT3RYhJOILcgHYdNmGwDwzX5
+ E64hkwzRT36jYQs9Od8jJG8lBLCNJu3BUabeNb9ljoq/LZTUhWa0cf118p8wFIRWlz6EnMWnSeBaq
+ dkBxfJSBGh5Nd2I+RzCPn/nZjjgVN+W5RT6Vyst6nN83+U6M0VsQXkI3QV5heQKPSqE+BqeEUk9cB
+ fNm+VU65t3tsLdNUL5UF13GQtC/31wwy85GcudVbwwwNz3YMfJe4coCETIzuRtPEuYzFFF4e/XgaW
+ r9gBJMUw==;
+Received: from [165.90.126.25] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1nyv9h-00EGEM-Sy; Wed, 08 Jun 2022 14:51:26 +0200
+Date: Wed, 8 Jun 2022 11:51:13 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Peter Robinson <pbrobinson@gmail.com>
+Subject: Re: [PATCH v6 0/6] Raspberry PI 4 V3D enablement
+Message-ID: <20220608125113.q6bfhf3o424iwuzn@mail.igalia.com>
+References: <20220603092610.1909675-1-pbrobinson@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 03/12] dt-bindings: display/msm: hdmi: mark
- hdmi-mux-supply as deprecated
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220608120723.2987843-1-dmitry.baryshkov@linaro.org>
- <20220608120723.2987843-4-dmitry.baryshkov@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220608120723.2987843-4-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="xuzaeukway3atmdn"
+Content-Disposition: inline
+In-Reply-To: <20220603092610.1909675-1-pbrobinson@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,23 +52,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>, devicetree@vger.kernel.org,
+ Florian Fainelli <f.fainelli@gmail.com>, Emma Anholt <emma@anholt.net>,
+ Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Catalin Marinas <catalin.marinas@arm.com>, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/06/2022 14:07, Dmitry Baryshkov wrote:
-> hdmi-mux-supply is not used by the SoC's HDMI block, it is thought to
-> power up the external logic. Thus it should not be a part of HDMI
-> bindings, but it should be declared at some other device in the DT (like
-> HDMI mux, bridge, etc). Mark it as deprecated.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
+--xuzaeukway3atmdn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On 06/03, Peter Robinson wrote:
+> This is a follow up from my v4 patchset. The power management pieces have
+> been split out to a separate independent set of patches by Stefan [1]. Th=
+is
+> version 5 of the DRM patches are independent and given the V3D driver has
+> been upstream for some time the two patches to enable it in defconfigs ca=
+n=20
+> be taken at anytime independent of the enablement for the Raspberry Pi 4.
 
+Hi Peter,
+
+I was able to check and run some tests on arm64, and it seems ok. But I
+was not successful on bringing it up for arm using multi_v7_defconfig +
+device_tree=3Dbcm2711-rpi-4-b.dtb.
+
+How can I check this path?
+
+Btw, using the config from rpi downstream kernel works nicely for arm
+(on my side)=20
 
 Best regards,
-Krzysztof
+
+Melissa
+>=20
+> I've tested this using mesa 22.0.x and Wayland/Gnome on Fedora 36, it's=
+=20
+> more or less stable with basic testing.
+>=20
+> Changes since v5:
+> - Update the DT compatible to match the others that were updated
+> - Adjust the Kconfig help text
+> - Add review tags
+>=20
+> Changes since v4:
+> - Fixes for device tree and bindings
+> - Split out the power management changes into an independent set
+> - Rebase to 5.18
+> - Individual changes in patches
+>=20
+> [1] https://www.spinics.net/lists/arm-kernel/msg980342.html
+>=20
+> Nicolas Saenz Julienne (1):
+>   arm64: config: Enable DRM_V3D
+>=20
+> Peter Robinson (5):
+>   dt-bindings: gpu: v3d: Add BCM2711's compatible
+>   drm/v3d: Get rid of pm code
+>   drm/v3d: Add support for bcm2711
+>   ARM: dts: bcm2711: Enable V3D
+>   ARM: configs: Enable DRM_V3D
+>=20
+>  .../devicetree/bindings/gpu/brcm,bcm-v3d.yaml  |  1 +
+>  arch/arm/boot/dts/bcm2711-rpi.dtsi             |  4 ++++
+>  arch/arm/boot/dts/bcm2711.dtsi                 | 11 +++++++++++
+>  arch/arm/configs/bcm2835_defconfig             |  1 +
+>  arch/arm/configs/multi_v7_defconfig            |  1 +
+>  arch/arm64/configs/defconfig                   |  1 +
+>  drivers/gpu/drm/v3d/Kconfig                    |  5 +++--
+>  drivers/gpu/drm/v3d/v3d_debugfs.c              | 18 +-----------------
+>  drivers/gpu/drm/v3d/v3d_drv.c                  | 12 +-----------
+>  drivers/gpu/drm/v3d/v3d_gem.c                  | 12 +-----------
+>  10 files changed, 25 insertions(+), 41 deletions(-)
+>=20
+> --=20
+> 2.36.1
+>=20
+
+--xuzaeukway3atmdn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmKgmz0ACgkQwqF3j0dL
+ehzeTw//Yuj61o7HF0drku2YTWQ0GJGt/u7nLZbAb/HA/awBhy+7rZ56hkwBTZT+
+lHgWk0nKSRiEXw0UJYAWs3ABB+R9YnpVve/qKQ9bEW68WVQ+0m75MqtLlLWJnMpO
+3xxpqIhhfzp2WN6kuMRSLleflTvQoZRccYckxefWTkiwz3tRQ/QcZw14g27Ksdki
+XPN3Iicc9WcRidWEABoVPPjFyBGBz5jSQo8gGbzTFuuN8EZLQ0uJU7UQMzPjpzly
+MqOE0uwq8XSqnXavX+6S8eh1WiKE5YpoDNQvozJ8b9A31IfC/1AWR4HcJVf1JowS
+3N1XjwvQOgnftpxN0tZ39diinxPq9XjhHd2ZNNWGbRuE9/b/OzXWnSFzrzLteMEP
+VSUsdKJECT2oOezYky8YSkucmrm6Tmx+pnL46TTaxuTZWCcVYT47hE6yeoNWu1Mh
+hhbfvi3L4sUVf/hGHUx5CbJfxSn9i4IExQZEj/1hh0nkBJyER+AHqdCXD3+qdUHz
++J1fev1VWLXTe72HEKWNvpCcO2QckMQm21aAK/iasut2WMWRHpVV99rutHq4pLza
+1CD0YNPP1HKoURcQ75LZ6MPVKeddqHF+AmiH/yEiVppqNn3MuK12XGS5xBuwXsNB
+u+4myuqWEA3BHotzUO1Jnbx6yIvYoia1pvPUkCg2fBbP0nkWXKQ=
+=TJpT
+-----END PGP SIGNATURE-----
+
+--xuzaeukway3atmdn--
