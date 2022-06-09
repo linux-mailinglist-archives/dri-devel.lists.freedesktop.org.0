@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D9454414E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 04:13:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3231054414F
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 04:13:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EAEA11A993;
-	Thu,  9 Jun 2022 02:13:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9512A10E781;
+	Thu,  9 Jun 2022 02:13:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A11211A993
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 02:13:26 +0000 (UTC)
-X-UUID: 9739e73cfaea409abbd242cb0c9adb6f-20220609
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2178410E781
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 02:13:44 +0000 (UTC)
+X-UUID: 1355711ed1e740e5b66c6ef4d9032e25-20220609
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:cd681a12-1d6d-4987-8953-2914f49e2fc0, OB:0,
+X-CID-O-INFO: VERSION:1.1.5, REQID:aa99de07-c438-4fb6-b77f-97892adec285, OB:0,
  LO
  B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:5
-X-CID-META: VersionHash:2a19b09, CLOUDID:437db67e-c8dc-403a-96e8-6237210dceee,
+X-CID-META: VersionHash:2a19b09, CLOUDID:a9242ce5-2ba2-4dc1-b6c5-11feb6c769e0,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
  ,QS:0,BEC:nil
-X-UUID: 9739e73cfaea409abbd242cb0c9adb6f-20220609
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+X-UUID: 1355711ed1e740e5b66c6ef4d9032e25-20220609
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
  mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 844256322; Thu, 09 Jun 2022 10:13:21 +0800
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1336069284; Thu, 09 Jun 2022 10:13:38 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Thu, 9 Jun 2022 10:13:19 +0800
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Thu, 9 Jun 2022 10:13:37 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 9 Jun 2022 10:13:19 +0800
-Message-ID: <dc61c89d9aabaa44496d4f765c097e837a75819b.camel@mediatek.com>
-Subject: Re: [PATCH v22 18/24] drm/mediatek: add ETHDR support for MT8195
+ Transport; Thu, 9 Jun 2022 10:13:36 +0800
+Message-ID: <14ca38d3d00eb4308076dd9c39ef9eb5cb27c7d8.camel@mediatek.com>
+Subject: Re: [PATCH v22 19/24] drm/mediatek: add mediatek-drm plane color
+ encoding info
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
 To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- "wim@linux-watchdog.org" <wim@linux-watchdog.org>, "AngeloGioacchino Del
- Regno" <angelogioacchino.delregno@collabora.com>, "linux@roeck-us.net"
- <linux@roeck-us.net>
-Date: Thu, 9 Jun 2022 10:13:19 +0800
-In-Reply-To: <20220526110233.20080-19-nancy.lin@mediatek.com>
+ <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Date: Thu, 9 Jun 2022 10:13:36 +0800
+In-Reply-To: <20220526110233.20080-20-nancy.lin@mediatek.com>
 References: <20220526110233.20080-1-nancy.lin@mediatek.com>
- <20220526110233.20080-19-nancy.lin@mediatek.com>
+ <20220526110233.20080-20-nancy.lin@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -64,33 +64,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- David Airlie <airlied@linux.ie>,
- Jason-JH Lin =?UTF-8?Q?=28=E6=9E=97=E7=9D=BF=E7=A5=A5=29?=
- <Jason-JH.Lin@mediatek.com>,
- Singo Chang =?UTF-8?Q?=28=E5=BC=B5=E8=88=88=E5=9C=8B=29?=
- <Singo.Chang@mediatek.com>, "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
- Nick Desaulniers <ndesaulniers@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Nathan
- Chancellor <nathan@kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- Yongqiang Niu =?UTF-8?Q?=28=E7=89=9B=E6=B0=B8=E5=BC=BA=29?=
- <yongqiang.niu@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nathan
+ Chancellor <nathan@kernel.org>, linux-mediatek@lists.infradead.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 2022-05-26 at 19:02 +0800, Nancy.Lin wrote:
-> ETHDR is a part of ovl_adaptor.
-> ETHDR is designed for HDR video and graphics conversion in the
-> external
-> display path. It handles multiple HDR input types and performs tone
-> mapping, color space/color format conversion, and then combine
-> different layers, output the required HDR or SDR signal to the
-> subsequent display path.
+> Add plane color encoding information for color space conversion.
+> It's a preparation for adding support for mt8195 ovl_adaptor mdp_rdma
+> csc control.
 > 
 > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
@@ -99,7 +88,7 @@ On Thu, 2022-05-26 at 19:02 +0800, Nancy.Lin wrote:
 > Tested-by: AngeloGioacchino Del Regno <
 > angelogioacchino.delregno@collabora.com>
 > ---
->  
+> 
 
 [Bo-Chen: Test on MT8195 Tomato Chromebook with external display]
 Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
