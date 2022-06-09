@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10896545145
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 17:52:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE21545154
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 17:55:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB3712A990;
-	Thu,  9 Jun 2022 15:52:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1206A12AD7C;
+	Thu,  9 Jun 2022 15:55:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6342B12A990;
- Thu,  9 Jun 2022 15:52:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1654789967; x=1686325967;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=qfKnae2570h4uEL9FaMYyvGU2UTZ2rcWlTl6+sZcd+w=;
- b=ssO0MFKAumERaanNzvABTvi19ep6Cn++7JjeRkKL5/Npm0p0qRT/MfPC
- ghnHrFT+VchEfsQbqJJgmaBpVJAgs79g1PHCyXXusiMb99F4eY9gNH/LP
- J2WsvJV75hlX3MVMB0BssS5evVHTX/nzB+JTITvcB0PWEgmMmAFOuERaz 8=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 09 Jun 2022 08:52:47 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jun 2022 08:52:46 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 9 Jun 2022 08:52:46 -0700
-Received: from [10.216.42.89] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 9 Jun 2022
- 08:52:41 -0700
-Message-ID: <e721e6dd-2f31-4e29-f32c-ddecccaaacdc@quicinc.com>
-Date: Thu, 9 Jun 2022 21:22:37 +0530
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0C812AD1F;
+ Thu,  9 Jun 2022 15:55:01 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id q15so24959890wrc.11;
+ Thu, 09 Jun 2022 08:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HPTTw8mZS9qCqg/rFDlQPOOF9JZNn3O4I/G+LvFjh/Q=;
+ b=QialQ71u5h76TuIsgfz8dTTuieX6GOZtpi/pEA88S5lSgzjPfNUnULivDt8ZjtB3dI
+ w2nmUBrdFpsLA2f3HvxbN52Nulpu6anBFcWKoG7glkUpkkeW5Gm5DihmZq37IDWN1yCj
+ F3zU+QPMH/8KPVo260ok04Z93xCfb66fWJY9TaZYzWMwJVzzxPratCF17+qvWV8ekncM
+ acKNX+/0I+HxZCHM74fnO++RZjW+xKOs6cTGj6Jm2XWIWeQbNvMHmcBqV5qJZEtuLbcU
+ j0HdGGdKJX7ehQLoWf6uTbbJS5VDltOz+WogObcsh20ovV76ST6GPBU978P23cPPWzQN
+ KDTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HPTTw8mZS9qCqg/rFDlQPOOF9JZNn3O4I/G+LvFjh/Q=;
+ b=YM2+mVWEHtSTDe4CJkiPNLLISlrqT363DubndrZsofv/RKszBtLJ7NFiJZhpaYmHfq
+ UU9QhHqdDPREcpCWCwKY1cwn+MivADkK319FTmZbFHeuhGkrFnHhyAwsa255e1IqaMoP
+ V5lA3GSQ08FGDfdwJR1nkAx5JOMPod7XoMaj/ToeblhMxYttlC4SDccN9NWUoTyV2RiH
+ XSxQ0gLbup3eSgO61SCXAtCIPbpPeRma+8r8LuRAv3OteHd89hOe4jJ2bAu5s/NThR48
+ AeIBHcHALYbulgd9rVjz4r/mu1amK15i03DD0g68L7Q4fJlGUOBpYxE0Qxdyb5CI0gc8
+ 4sTg==
+X-Gm-Message-State: AOAM533cxYw3cb+N6N3NZQswVMDsqC9stlqS5fow5j81e01vaXC2YJjU
+ 7yv9ZTNravDysf+QKHOfvF8tFFDQd4smYpSmddU=
+X-Google-Smtp-Source: ABdhPJy1Qwk8DTTOTC4BRQxtoXpppd8s00/nGGaO6B2/Pm9OwblAacmmt5Zq7YgvOZToG8V6Ig8bQnivX+/mNfU1Fas=
+X-Received: by 2002:a5d:47c3:0:b0:219:b391:b748 with SMTP id
+ o3-20020a5d47c3000000b00219b391b748mr4753347wrc.221.1654790099704; Thu, 09
+ Jun 2022 08:54:59 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v2] drm/msm: Switch ordering of runpm put vs devfreq_idle
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>
-References: <20220608161334.2140611-1-robdclark@gmail.com>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <20220608161334.2140611-1-robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220609073317.1.Ie846c5352bc307ee4248d7cab998ab3016b85d06@changeid>
+In-Reply-To: <20220609073317.1.Ie846c5352bc307ee4248d7cab998ab3016b85d06@changeid>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 9 Jun 2022 08:54:47 -0700
+Message-ID: <CAF6AEGvAJqWK7peyTBDjQH_XCT3=XfqKrxsdkYD4s=DxbR4r7Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Grab the GPU runtime in a6xx routines, not the
+ GMU one
+To: Douglas Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,106 +63,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Doug
- Anderson <dianders@chromium.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Jonathan Marek <jonathan@marek.ca>, Eric Anholt <eric@anholt.net>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Yangtao Li <tiny.windzz@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Wang Qing <wangqing@vivo.com>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/8/2022 9:43 PM, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Thu, Jun 9, 2022 at 7:34 AM Douglas Anderson <dianders@chromium.org> wrote:
 >
-> I've seen a few crashes like:
+> From testing on sc7180-trogdor devices, reading the GMU registers
+> needs the GMU clocks to be enabled. Those clocks get turned on in
+> a6xx_gmu_resume(). Confusingly enough, that function is called as a
+> result of the runtime_pm of the GPU "struct device", not the GMU
+> "struct device".
 >
->      CPU: 0 PID: 216 Comm: A618-worker Tainted: G        W         5.4.196 #7
->      Hardware name: Google Wormdingler rev1+ INX panel board (DT)
->      pstate: 20c00009 (nzCv daif +PAN +UAO)
->      pc : msm_readl+0x14/0x34
->      lr : a6xx_gpu_busy+0x40/0x80
->      sp : ffffffc011b93ad0
->      x29: ffffffc011b93ad0 x28: ffffffe77cba3000
->      x27: 0000000000000001 x26: ffffffe77bb4c4ac
->      x25: ffffffa2f227dfa0 x24: ffffffa2f22aab28
->      x23: 0000000000000000 x22: ffffffa2f22bf020
->      x21: ffffffa2f22bf000 x20: ffffffc011b93b10
->      x19: ffffffc011bd4110 x18: 000000000000000e
->      x17: 0000000000000004 x16: 000000000000000c
->      x15: 000001be3a969450 x14: 0000000000000400
->      x13: 00000000000101d6 x12: 0000000034155555
->      x11: 0000000000000001 x10: 0000000000000000
->      x9 : 0000000100000000 x8 : ffffffc011bd4000
->      x7 : 0000000000000000 x6 : 0000000000000007
->      x5 : ffffffc01d8b38f0 x4 : 0000000000000000
->      x3 : 00000000ffffffff x2 : 0000000000000002
->      x1 : 0000000000000000 x0 : ffffffc011bd4110
->      Call trace:
->       msm_readl+0x14/0x34
->       a6xx_gpu_busy+0x40/0x80
->       msm_devfreq_get_dev_status+0x70/0x1d0
->       devfreq_simple_ondemand_func+0x34/0x100
->       update_devfreq+0x50/0xe8
->       qos_notifier_call+0x2c/0x64
->       qos_max_notifier_call+0x1c/0x2c
->       notifier_call_chain+0x58/0x98
->       __blocking_notifier_call_chain+0x74/0x84
->       blocking_notifier_call_chain+0x38/0x48
->       pm_qos_update_target+0xf8/0x19c
->       freq_qos_apply+0x54/0x6c
->       apply_constraint+0x60/0x104
->       __dev_pm_qos_update_request+0xb4/0x184
->       dev_pm_qos_update_request+0x38/0x58
->       msm_devfreq_idle_work+0x34/0x40
->       kthread_worker_fn+0x144/0x1c8
->       kthread+0x140/0x284
->       ret_from_fork+0x10/0x18
->      Code: f9000bf3 910003fd aa0003f3 d503201f (b9400260)
->      ---[ end trace f6309767a42d0831 ]---
+> Let's grab a reference to the correct device. Incidentally, this makes
+> us match the a5xx routine more closely.
 >
-> Which smells a lot like touching hw after power collapse.  This seems
-> a bit like a race/timing issue elsewhere, as pm_runtime_get_if_in_use()
-> in a6xx_gpu_busy() should have kept us from touching hw if it wasn't
-> powered.
+> This is easily shown to fix crashes that happen if we change the GPU's
+> pm_runtime usage to not use autosuspend. It's also believed to fix
+> some long tail GPU crashes even with autosuspend.
 >
-> But, we've seen cases where the idle_work scheduled by
-> msm_devfreq_idle() ends up racing with the resume path.  Which, again,
-> shouldn't be a problem other than unnecessary freq changes.
+> NOTE: the crashes I've seen were fixed by _only_ fixing
+> a6xx_gpu_busy(). However, I believe that the same arguments should be
+> made to a6xx_gmu_set_freq() so I've changed that function too.
 >
-> v2. Only move the runpm _put_autosuspend, and not the _mark_last_busy()
->
-> Fixes: 9bc95570175a ("drm/msm: Devfreq tuning")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Link: https://lore.kernel.org/r/20210927152928.831245-1-robdclark@gmail.com
+> Fixes: eadf79286a4b ("drm/msm: Check for powered down HW in the devfreq callbacks")
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
->   drivers/gpu/drm/msm/msm_gpu.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-> index eb8a6663f309..244511f85044 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> @@ -672,7 +672,6 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
->   	msm_submit_retire(submit);
->   
->   	pm_runtime_mark_last_busy(&gpu->pdev->dev);
-> -	pm_runtime_put_autosuspend(&gpu->pdev->dev);
->   
->   	spin_lock_irqsave(&ring->submit_lock, flags);
->   	list_del(&submit->node);
-> @@ -686,6 +685,8 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
->   		msm_devfreq_idle(gpu);
->   	mutex_unlock(&gpu->active_lock);
->   
-> +	pm_runtime_put_autosuspend(&gpu->pdev->dev);
-> +
->   	msm_gem_submit_put(submit);
->   }
->   
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 6 +++---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 4 ++--
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 9f76f5b15759..b79ad2e0649c 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -129,13 +129,13 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+>          * This can get called from devfreq while the hardware is idle. Don't
+>          * bring up the power if it isn't already active
+>          */
+> -       if (pm_runtime_get_if_in_use(gmu->dev) == 0)
+> +       if (pm_runtime_get_if_in_use(&gpu->pdev->dev) == 0)
 
-Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+IMHO, if we do end up using the GPU's runpm instead of the GMU's, we
+should probably just move this _get_if_in_use() into msm_gpu_devfreq,
+etc.  (And probably also this should be "<= 0".. I have that change
+locally but haven't sent a patch yet
 
+BR,
+-R
 
--Akhil.
-
-
+>                 return;
+>
+>         if (!gmu->legacy) {
+>                 a6xx_hfi_set_freq(gmu, perf_index);
+>                 dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
+> -               pm_runtime_put(gmu->dev);
+> +               pm_runtime_put(&gpu->pdev->dev);
+>                 return;
+>         }
+>
+> @@ -159,7 +159,7 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+>                 dev_err(gmu->dev, "GMU set GPU frequency error: %d\n", ret);
+>
+>         dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
+> -       pm_runtime_put(gmu->dev);
+> +       pm_runtime_put(&gpu->pdev->dev);
+>  }
+>
+>  unsigned long a6xx_gmu_get_freq(struct msm_gpu *gpu)
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 841e47a0b06b..87568d0b6ef8 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1659,7 +1659,7 @@ static u64 a6xx_gpu_busy(struct msm_gpu *gpu, unsigned long *out_sample_rate)
+>         *out_sample_rate = 19200000;
+>
+>         /* Only read the gpu busy if the hardware is already active */
+> -       if (pm_runtime_get_if_in_use(a6xx_gpu->gmu.dev) == 0)
+> +       if (pm_runtime_get_if_in_use(&gpu->pdev->dev) == 0)
+>                 return 0;
+>
+>         busy_cycles = gmu_read64(&a6xx_gpu->gmu,
+> @@ -1667,7 +1667,7 @@ static u64 a6xx_gpu_busy(struct msm_gpu *gpu, unsigned long *out_sample_rate)
+>                         REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_0_H);
+>
+>
+> -       pm_runtime_put(a6xx_gpu->gmu.dev);
+> +       pm_runtime_put(&gpu->pdev->dev);
+>
+>         return busy_cycles;
+>  }
+> --
+> 2.36.1.255.ge46751e96f-goog
+>
