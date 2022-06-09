@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC85545246
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 18:48:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E18C7545253
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 18:50:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3C0F11AC80;
-	Thu,  9 Jun 2022 16:48:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D8F6113D30;
+	Thu,  9 Jun 2022 16:50:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3236911ADD8
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 16:48:04 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- q12-20020a17090a304c00b001e2d4fb0eb4so27129856pjl.4
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 09:48:04 -0700 (PDT)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10C3D113C80
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 16:50:54 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id fu3so47144709ejc.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 09:50:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NSFLxHjX9pMycxKTM0KPFzZkP3WCJJ9nmb7apyQmhsQ=;
- b=L9eqPxjo/s/7fHwfFGMbsBWQ0r4+2bLKP+yeCfbkKQFpCNIK73nLIVBds6YluS/aRV
- WDH/GL7GsI1GIZ3Zw1/u1q/Rt4z2wduSmgAxDjdsWz+sezBtnyB5cQJCNM3Zp+yyaBiY
- ioSqRYXiW8YT/sOBewXvgN1qeEqOKwpyBo3AA=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E2+fNvmvqWQKCDAUtcMyd7aXG5n324Z+HdNSzbIXbwY=;
+ b=cNg6um7nb4nsy8UZupEsWZNHMESEj7pcV8kfXlsQGluYfUfW6CxrwB0vWECsZVGvDC
+ YdqdDxzW4KhSSo0ErUP2b7x7wvuB5yML2DZZ5WGYkbTZS+hMOmzLGMdfYMpoPOiIoj5+
+ Nww5cc17i1TZn60VrQC0+FBhYlVvi3+MMiWVw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NSFLxHjX9pMycxKTM0KPFzZkP3WCJJ9nmb7apyQmhsQ=;
- b=Z8BbELGtGPtsbd8GsvqgTO64Nb23/mRg/wiOLXh2S58B+T++LR0rG/KHRJ01pXz37a
- X4Cwo7OyTWBT+u5+XBlx2fUdXesXKmxVPbjQXIHpHaX4JJ251QNaFOjBf4lFTb73cygw
- vQv8yJxqP3nZOojN1Gb6/aSggYHK7bFD/kFs3QLaKLvkcreL7t0CLNKrCS5KfugsTlOc
- 1GVrogibpvMpoOr1DJoJHzLNfChI1YHg3Lh5H2kwC1Ov/liu7Tk5PQRNSKKJPC9/eRow
- KKRyI04rMkw+wrO0UiVTZNAim7qg9CQhR4Nt6QAQVvMBh2/o4bbj38KSuOegoaZvFXe2
- IjfQ==
-X-Gm-Message-State: AOAM533KGKBijFbZ3MrMnmQ47eQDnYhc8LMAf19VvRsMI13vy12GND0B
- e6rL+2XpTnncOyvz1ak53Ngj3Q==
-X-Google-Smtp-Source: ABdhPJweBYZvB7rCaFGKITUI8g6+sEQrirdQnN0496EWTmLSjLsKTQewq3DsxEwg+BCZuWtIhPT+dw==
-X-Received: by 2002:a17:902:8345:b0:167:879c:abe8 with SMTP id
- z5-20020a170902834500b00167879cabe8mr18738687pln.7.1654793283762; 
- Thu, 09 Jun 2022 09:48:03 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:4732:8bcf:1bc2:ec84])
- by smtp.gmail.com with ESMTPSA id
- y2-20020a17090264c200b00167838b82e0sm8131607pli.205.2022.06.09.09.48.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 09:48:02 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Rob Clark <robdclark@gmail.com>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Jordan Crouse <jordan@cosmicpenguin.net>
-Subject: [PATCH v2] drm/msm: Grab the GPU runtime in a6xx routines,
- not the GMU one
-Date: Thu,  9 Jun 2022 09:47:35 -0700
-Message-Id: <20220609094716.v2.1.Ie846c5352bc307ee4248d7cab998ab3016b85d06@changeid>
-X-Mailer: git-send-email 2.36.1.255.ge46751e96f-goog
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E2+fNvmvqWQKCDAUtcMyd7aXG5n324Z+HdNSzbIXbwY=;
+ b=6FumBjNJAppffl4mxNJrObHtGdRXE5o6vcO2oIPlgyBYW4GCcfQfpIFjqfVyR8m43t
+ dh9XHgwvPp35wbo8YiK6liFvG17QkLIPH1HbkZMwD7YGmoqNRthega3ex0qgVyZ3M/5l
+ Q/Z7Ggs7rQQogq8ZhtkeamychF+ZXxHd67KYGnVlOzbS3btUxmJo3jDKVZ9KfaHeP5Qm
+ xo7R9Lqt+L7omzEIWozBuvM0AX5saxfFXdNpUfRCEPSoLMJz6Crl6gwHAh9EYEsFVt7V
+ eetZa3W7NJS4toeTmZ70wfAWs2zKBSN+LkEJ+BddyavR1Id6wZD0TrXSyG9G0cL9lSzw
+ 12Sw==
+X-Gm-Message-State: AOAM531CRyk1SDZ6aIKFtinrDxMyPi77E0h12prec9vZmKW+8yz3GSBa
+ KIkyqLkpg91/HsUhiEOM8XGTSg13BxMqBrt8
+X-Google-Smtp-Source: ABdhPJz72rNagVat6lyTzmwrNOSG+BOD6nqLJTzVNKSNZEEQe/GrdJbuM9xu1vb3Md10UwUu1Q21DQ==
+X-Received: by 2002:a17:906:6a09:b0:6ff:182e:ce33 with SMTP id
+ qw9-20020a1709066a0900b006ff182ece33mr36678779ejc.14.1654793452180; 
+ Thu, 09 Jun 2022 09:50:52 -0700 (PDT)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com.
+ [209.85.221.42]) by smtp.gmail.com with ESMTPSA id
+ v3-20020aa7cd43000000b0043153c9f4d0sm8440916edw.11.2022.06.09.09.50.50
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jun 2022 09:50:51 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id v14so6954791wra.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 09:50:50 -0700 (PDT)
+X-Received: by 2002:a5d:608d:0:b0:218:3cfa:afe9 with SMTP id
+ w13-20020a5d608d000000b002183cfaafe9mr23536562wrt.422.1654793450068; Thu, 09
+ Jun 2022 09:50:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220608161334.2140611-1-robdclark@gmail.com>
+In-Reply-To: <20220608161334.2140611-1-robdclark@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 9 Jun 2022 09:50:37 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WJotkL=BN-qvyEjVpa8Fsbt_15D-8wV3RUe8j5dA41gQ@mail.gmail.com>
+Message-ID: <CAD=FV=WJotkL=BN-qvyEjVpa8Fsbt_15D-8wV3RUe8j5dA41gQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm: Switch ordering of runpm put vs devfreq_idle
+To: Rob Clark <robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,122 +71,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org, Yangtao Li <tiny.windzz@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Wang Qing <wangqing@vivo.com>,
- Eric Anholt <eric@anholt.net>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From testing on sc7180-trogdor devices, reading the GMU registers
-needs the GMU clocks to be enabled. Those clocks get turned on in
-a6xx_gmu_resume(). Confusingly enough, that function is called as a
-result of the runtime_pm of the GPU "struct device", not the GMU
-"struct device".
+Hi,
 
-Let's grab a reference to the correct device. Incidentally, this makes
-us match the a5xx routine more closely.
+On Wed, Jun 8, 2022 at 9:13 AM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> I've seen a few crashes like:
+>
+>     CPU: 0 PID: 216 Comm: A618-worker Tainted: G        W         5.4.196 #7
+>     Hardware name: Google Wormdingler rev1+ INX panel board (DT)
+>     pstate: 20c00009 (nzCv daif +PAN +UAO)
+>     pc : msm_readl+0x14/0x34
+>     lr : a6xx_gpu_busy+0x40/0x80
+>     sp : ffffffc011b93ad0
+>     x29: ffffffc011b93ad0 x28: ffffffe77cba3000
+>     x27: 0000000000000001 x26: ffffffe77bb4c4ac
+>     x25: ffffffa2f227dfa0 x24: ffffffa2f22aab28
+>     x23: 0000000000000000 x22: ffffffa2f22bf020
+>     x21: ffffffa2f22bf000 x20: ffffffc011b93b10
+>     x19: ffffffc011bd4110 x18: 000000000000000e
+>     x17: 0000000000000004 x16: 000000000000000c
+>     x15: 000001be3a969450 x14: 0000000000000400
+>     x13: 00000000000101d6 x12: 0000000034155555
+>     x11: 0000000000000001 x10: 0000000000000000
+>     x9 : 0000000100000000 x8 : ffffffc011bd4000
+>     x7 : 0000000000000000 x6 : 0000000000000007
+>     x5 : ffffffc01d8b38f0 x4 : 0000000000000000
+>     x3 : 00000000ffffffff x2 : 0000000000000002
+>     x1 : 0000000000000000 x0 : ffffffc011bd4110
+>     Call trace:
+>      msm_readl+0x14/0x34
+>      a6xx_gpu_busy+0x40/0x80
+>      msm_devfreq_get_dev_status+0x70/0x1d0
+>      devfreq_simple_ondemand_func+0x34/0x100
+>      update_devfreq+0x50/0xe8
+>      qos_notifier_call+0x2c/0x64
+>      qos_max_notifier_call+0x1c/0x2c
+>      notifier_call_chain+0x58/0x98
+>      __blocking_notifier_call_chain+0x74/0x84
+>      blocking_notifier_call_chain+0x38/0x48
+>      pm_qos_update_target+0xf8/0x19c
+>      freq_qos_apply+0x54/0x6c
+>      apply_constraint+0x60/0x104
+>      __dev_pm_qos_update_request+0xb4/0x184
+>      dev_pm_qos_update_request+0x38/0x58
+>      msm_devfreq_idle_work+0x34/0x40
+>      kthread_worker_fn+0x144/0x1c8
+>      kthread+0x140/0x284
+>      ret_from_fork+0x10/0x18
+>     Code: f9000bf3 910003fd aa0003f3 d503201f (b9400260)
+>     ---[ end trace f6309767a42d0831 ]---
+>
+> Which smells a lot like touching hw after power collapse.  This seems
+> a bit like a race/timing issue elsewhere, as pm_runtime_get_if_in_use()
+> in a6xx_gpu_busy() should have kept us from touching hw if it wasn't
+> powered.
 
-This is easily shown to fix crashes that happen if we change the GPU's
-pm_runtime usage to not use autosuspend. It's also believed to fix
-some long tail GPU crashes even with autosuspend.
+I dunno if we want to change the commit message since I think my patch
+[1] addresses the above problem?
 
-NOTE: the crashes I've seen were fixed by _only_ fixing
-a6xx_gpu_busy(). However, I believe that the same arguments should be
-made to a6xx_gmu_set_freq() so I've fixed that case too. To make that
-fix clean, we've moved the pm runtime grabbing into the GPU file.
+[1] https://lore.kernel.org/r/20220609094716.v2.1.Ie846c5352bc307ee4248d7cab998ab3016b85d06@changeid
 
-As a bonus fix with this change, we change the pm_runtime get
-functions to check for <= 0 instead of ==. This handles the case where
-pm_runtime is disabled.
 
-Fixes: eadf79286a4b ("drm/msm: Check for powered down HW in the devfreq callbacks")
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+> But, we've seen cases where the idle_work scheduled by
+> msm_devfreq_idle() ends up racing with the resume path.  Which, again,
+> shouldn't be a problem other than unnecessary freq changes.
+>
+> v2. Only move the runpm _put_autosuspend, and not the _mark_last_busy()
+>
+> Fixes: 9bc95570175a ("drm/msm: Devfreq tuning")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Link: https://lore.kernel.org/r/20210927152928.831245-1-robdclark@gmail.com
+> ---
+>  drivers/gpu/drm/msm/msm_gpu.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Changes in v2:
-- Move the set_freq runtime pm grab to the GPU file.
-- Use <= for the pm_runtime test, not ==.
+In any case, your patch fixes the potential WARN_ON and seems like the
+right thing to do, so:
 
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  9 ---------
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 13 +++++++++++--
- 2 files changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index 9f76f5b15759..2410815e77b4 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -125,17 +125,9 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
- 
- 	trace_msm_gmu_freq_change(gmu->freq, perf_index);
- 
--	/*
--	 * This can get called from devfreq while the hardware is idle. Don't
--	 * bring up the power if it isn't already active
--	 */
--	if (pm_runtime_get_if_in_use(gmu->dev) == 0)
--		return;
--
- 	if (!gmu->legacy) {
- 		a6xx_hfi_set_freq(gmu, perf_index);
- 		dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
--		pm_runtime_put(gmu->dev);
- 		return;
- 	}
- 
-@@ -159,7 +151,6 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
- 		dev_err(gmu->dev, "GMU set GPU frequency error: %d\n", ret);
- 
- 	dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
--	pm_runtime_put(gmu->dev);
- }
- 
- unsigned long a6xx_gmu_get_freq(struct msm_gpu *gpu)
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 42ed9a3c4905..54efd9b76ea6 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1659,7 +1659,7 @@ static u64 a6xx_gpu_busy(struct msm_gpu *gpu, unsigned long *out_sample_rate)
- 	*out_sample_rate = 19200000;
- 
- 	/* Only read the gpu busy if the hardware is already active */
--	if (pm_runtime_get_if_in_use(a6xx_gpu->gmu.dev) == 0)
-+	if (pm_runtime_get_if_in_use(&gpu->pdev->dev) <= 0)
- 		return 0;
- 
- 	busy_cycles = gmu_read64(&a6xx_gpu->gmu,
-@@ -1667,7 +1667,7 @@ static u64 a6xx_gpu_busy(struct msm_gpu *gpu, unsigned long *out_sample_rate)
- 			REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_0_H);
- 
- 
--	pm_runtime_put(a6xx_gpu->gmu.dev);
-+	pm_runtime_put(&gpu->pdev->dev);
- 
- 	return busy_cycles;
- }
-@@ -1677,9 +1677,18 @@ static void a6xx_gpu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
- 
-+	/*
-+	 * This can get called from devfreq while the hardware is idle. Don't
-+	 * bring up the power if it isn't already active
-+	 */
-+	if (pm_runtime_get_if_in_use(&gpu->pdev->dev) <= 0)
-+		return;
-+
- 	mutex_lock(&a6xx_gpu->gmu.lock);
- 	a6xx_gmu_set_freq(gpu, opp);
- 	mutex_unlock(&a6xx_gpu->gmu.lock);
-+
-+	pm_runtime_put(&gpu->pdev->dev);
- }
- 
- static struct msm_gem_address_space *
--- 
-2.36.1.255.ge46751e96f-goog
-
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
