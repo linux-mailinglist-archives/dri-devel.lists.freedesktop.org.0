@@ -1,62 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CBD54540C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 20:23:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E075453C8
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 20:12:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFA4912B68F;
-	Thu,  9 Jun 2022 18:22:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D41712B5D1;
+	Thu,  9 Jun 2022 18:12:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA7812B68F
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 18:22:56 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id f9so10426473plg.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 11:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bYHSWVAz8sc2Hq56GzwHRzN8zEt6GA6w2xGVe/udHaA=;
- b=ZHbYf9ieMGJM7HHE5mZGYyKX3LmRpIwGWx1JL5WrJ0w8lEXvBoEbQialUFF0CpLzP4
- iwz+YIZnra9h066AoUMlo1lQIgbhj3q2UvKl0GmyfiH1L3Ge31v8NxS888HwuVE7Q4LJ
- gF8jhzaCuL24ZvT2J2zvK+fSjC2/JJx8jwTkA=
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3D912B5CF;
+ Thu,  9 Jun 2022 18:12:01 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id u8so29158490wrm.13;
+ Thu, 09 Jun 2022 11:12:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7S2ceE7woIMIKL2mO+qhG9DggNJZRzCyjYT++CIPsP0=;
+ b=VShGNdmPe5Ks9p3j3gghuphe1A+GdpCaffaHxCr6UiuN9pqECJ2MWvjqBdlsDXMsyH
+ S8R9knU06ocOFSSXI4j5op6AJT9LI9/NrMUut81/RtI5m7FxWXvlos9r/WD2l9L5qFw8
+ Vw6f6XurBOU2w/zYkO6XRBXSwwqjKeh3tIvoldR+0R3DL1pNkhzZGzh6bWAcaCXFRi79
+ hJoM+GnfgC1hCuOdAAt7KzIlUbbJJfJ1dD+/V2BSIiRGwua7GyqcWLIe4kPQikt84lkF
+ g9OyNmQyuuV+IvbmTM2YE163d0qicOp6STsqwj6xtmwiTIzbUIfCnMrUH9mohiix6nzL
+ rOHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bYHSWVAz8sc2Hq56GzwHRzN8zEt6GA6w2xGVe/udHaA=;
- b=T4xjLtk8xpfIfepqsqnLNGkMlcYbKG/eLgyE+yAsgEQ9/UoFcHW6CRiGHNzRZpYX63
- rdWzF6LPcsw2Rcc8A1TfWercXxTW9QVOlbcRldr7mb2Bb/asdE+bxqWiYwW7vfLnuWqU
- HWd1t5iCH/BO7kFrnesztuK71O1kBEOIsYnxvPfe/oAZ8qFMGB5RxxmzuZjntw67NY6Z
- 3aEFosaK3HoyGEF0ba0ogDGPoMftjt5TrVoTWX+ShA4C04PXZKDWDPTUdB8N5/xLLI/S
- oqTxx8sJ6jCuLvl3uNqnc30xFIZ7K5JkrXmHM/ORoKBicmWL5j1G+PXbkNhz0R2aFboV
- Sdrg==
-X-Gm-Message-State: AOAM531SkF8bUYgEEivq7e0oQowRDYh/M+d77ihXW/fIelMJ+rq9wXHd
- bPT4b6M8dNG12+/MWv1CquNxDg==
-X-Google-Smtp-Source: ABdhPJz2c+GxRfwsd9VulhlAQur0eWc+jSHBFwmDVu4obJK7ZER985MUAfbOSAeNTIrEUx3rFTtfZA==
-X-Received: by 2002:a17:903:244a:b0:167:74f3:7463 with SMTP id
- l10-20020a170903244a00b0016774f37463mr23852563pls.44.1654798976256; 
- Thu, 09 Jun 2022 11:22:56 -0700 (PDT)
-Received: from pmalani.c.googlers.com.com
- (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
- by smtp.gmail.com with ESMTPSA id
- r14-20020a63ec4e000000b003fb0354c43asm17728049pgj.32.2022.06.09.11.22.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 11:22:55 -0700 (PDT)
-From: Prashant Malani <pmalani@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v2 7/7] drm/bridge: anx7625: Add typec_mux_set callback
- function
-Date: Thu,  9 Jun 2022 18:09:46 +0000
-Message-Id: <20220609181106.3695103-8-pmalani@chromium.org>
-X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
-In-Reply-To: <20220609181106.3695103-1-pmalani@chromium.org>
-References: <20220609181106.3695103-1-pmalani@chromium.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7S2ceE7woIMIKL2mO+qhG9DggNJZRzCyjYT++CIPsP0=;
+ b=ssZSpz6HFQPwnDELQMTRa9YKuhEh0/ZHEh6ZX+LTc1P/A0LwypN39rOZm1ouCM7XTn
+ i3EVi2mnj8By8hLd1kDxaKCpysCVmADuE6fzAOu0I1ZyeeA+kZXfneBLegAY/nJ4YBU0
+ cElBUznjXHbazONoNg4jINAtRzxAew5SB5cO9IfR9ypj1xtGVVFWVftc9OID0KQldJTy
+ WGbILDNFHXkDrocFwNOJKaFgdtVbGTpnPjOkyktID6+9MK19PJfDUggYyfFYgjbxiTyx
+ Wf2EiOXFQzYdQfwIiMOaNbVdgLzwFYYXG2bxDy44kduBUET77Yw9qEggTA0h/XnmQ0UN
+ nn3Q==
+X-Gm-Message-State: AOAM533LeFHAHJxzBZe+8nIm609SU/5xu6o7piRB5luRw5olUuk4BTV5
+ mo2LWVvxuGRRNC2UK3z5WlTFHh7D3cK9wukG6ag=
+X-Google-Smtp-Source: ABdhPJwD7FKBXrJFMbznl/HrU3Hzhn/j7/p5HiR1eA4JgejzkmBEL5sdzRlQV9VVsmRRTQ1YGu9EohS8AxoJuTW+qgc=
+X-Received: by 2002:a5d:6487:0:b0:218:35ed:d4ea with SMTP id
+ o7-20020a5d6487000000b0021835edd4eamr25251350wri.344.1654798319418; Thu, 09
+ Jun 2022 11:11:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220609094716.v2.1.Ie846c5352bc307ee4248d7cab998ab3016b85d06@changeid>
+ <a4abf2dd-7bb9-2638-9684-8c140a22491e@quicinc.com>
+In-Reply-To: <a4abf2dd-7bb9-2638-9684-8c140a22491e@quicinc.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 9 Jun 2022 11:12:03 -0700
+Message-ID: <CAF6AEGs3aLoAiiA1hMFu_k6oBAs1bA6Htu3BRFjkg0eU72-1Zw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm: Grab the GPU runtime in a6xx routines, not
+ the GMU one
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,154 +64,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Tzung-Bi Shih <tzungbi@google.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
- <nfraprado@collabora.com>, Jonas Karlman <jonas@kwiboo.se>,
- swboyd@chromium.org, Pin-Yen Lin <treapking@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Robert Foss <robert.foss@linaro.org>, Prashant Malani <pmalani@chromium.org>,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Jonathan Marek <jonathan@marek.ca>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ David Airlie <airlied@linux.ie>, freedreno <freedreno@lists.freedesktop.org>,
+ Yangtao Li <tiny.windzz@gmail.com>, Douglas Anderson <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Wang Qing <wangqing@vivo.com>,
+ Eric Anholt <eric@anholt.net>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Pin-Yen Lin <treapking@chromium.org>
+On Thu, Jun 9, 2022 at 11:04 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>
+> On 6/9/2022 10:17 PM, Douglas Anderson wrote:
+> > >From testing on sc7180-trogdor devices, reading the GMU registers
+> > needs the GMU clocks to be enabled. Those clocks get turned on in
+> > a6xx_gmu_resume(). Confusingly enough, that function is called as a
+> > result of the runtime_pm of the GPU "struct device", not the GMU
+> > "struct device".
+> >
+> > Let's grab a reference to the correct device. Incidentally, this makes
+> > us match the a5xx routine more closely.
+> >
+> > This is easily shown to fix crashes that happen if we change the GPU's
+> > pm_runtime usage to not use autosuspend. It's also believed to fix
+> > some long tail GPU crashes even with autosuspend.
+> >
+> > NOTE: the crashes I've seen were fixed by _only_ fixing
+> > a6xx_gpu_busy(). However, I believe that the same arguments should be
+> > made to a6xx_gmu_set_freq() so I've fixed that case too. To make that
+> > fix clean, we've moved the pm runtime grabbing into the GPU file.
+> >
+> > As a bonus fix with this change, we change the pm_runtime get
+> > functions to check for <= 0 instead of ==. This handles the case where
+> > pm_runtime is disabled.
+> >
+> > Fixes: eadf79286a4b ("drm/msm: Check for powered down HW in the devfreq callbacks")
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > ---
+> >
+> > Changes in v2:
+> > - Move the set_freq runtime pm grab to the GPU file.
+> > - Use <= for the pm_runtime test, not ==.
+> >
+> >   drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  9 ---------
+> >   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 13 +++++++++++--
+> >   2 files changed, 11 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > index 9f76f5b15759..2410815e77b4 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> > @@ -125,17 +125,9 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+> >
+> >       trace_msm_gmu_freq_change(gmu->freq, perf_index);
+> >
+> > -     /*
+> > -      * This can get called from devfreq while the hardware is idle. Don't
+> > -      * bring up the power if it isn't already active
+> > -      */
+> > -     if (pm_runtime_get_if_in_use(gmu->dev) == 0)
+> > -             return;
+> > -
+> >       if (!gmu->legacy) {
+> >               a6xx_hfi_set_freq(gmu, perf_index);
+> >               dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
+> > -             pm_runtime_put(gmu->dev);
+> >               return;
+> >       }
+> >
+> > @@ -159,7 +151,6 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+> >               dev_err(gmu->dev, "GMU set GPU frequency error: %d\n", ret);
+> >
+> >       dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
+> > -     pm_runtime_put(gmu->dev);
+> >   }
+> >
+> >   unsigned long a6xx_gmu_get_freq(struct msm_gpu *gpu)
+> > diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > index 42ed9a3c4905..54efd9b76ea6 100644
+> > --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> > @@ -1659,7 +1659,7 @@ static u64 a6xx_gpu_busy(struct msm_gpu *gpu, unsigned long *out_sample_rate)
+> >       *out_sample_rate = 19200000;
+> >
+> >       /* Only read the gpu busy if the hardware is already active */
+> > -     if (pm_runtime_get_if_in_use(a6xx_gpu->gmu.dev) == 0)
+> > +     if (pm_runtime_get_if_in_use(&gpu->pdev->dev) <= 0)
+> You are changing the behavior here when CONFIG_PM is not enabled.
 
-Add the callback function when the driver receives state
-changes of the Type-C port. The callback function configures the
-crosspoint switch of the anx7625 bridge chip, which can change the
-output pins of the signals according to the port state.
+I'd guess the odds of anything working with PM=n are low
 
-Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
----
+BR,
+-R
 
-Changes since v2:
-- No changes.
-
- drivers/gpu/drm/bridge/analogix/anx7625.c | 58 +++++++++++++++++++++++
- drivers/gpu/drm/bridge/analogix/anx7625.h | 13 +++++
- 2 files changed, 71 insertions(+)
-
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index d41a21103bd3..2c308d12fab2 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -15,6 +15,7 @@
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-+#include <linux/usb/typec_dp.h>
- #include <linux/usb/typec_mux.h>
- #include <linux/workqueue.h>
- 
-@@ -2582,9 +2583,66 @@ static void anx7625_runtime_disable(void *data)
- 	pm_runtime_disable(data);
- }
- 
-+static void anx7625_set_crosspoint_switch(struct anx7625_data *ctx,
-+					  enum typec_orientation orientation)
-+{
-+	if (orientation == TYPEC_ORIENTATION_NORMAL) {
-+		anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
-+				  SW_SEL1_SSRX_RX1 | SW_SEL1_DPTX0_RX2);
-+		anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
-+				  SW_SEL2_SSTX_TX1 | SW_SEL2_DPTX1_TX2);
-+	} else if (orientation == TYPEC_ORIENTATION_REVERSE) {
-+		anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
-+				  SW_SEL1_SSRX_RX2 | SW_SEL1_DPTX0_RX1);
-+		anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
-+				  SW_SEL2_SSTX_TX2 | SW_SEL2_DPTX1_TX1);
-+	}
-+}
-+
-+static void anx7625_typec_two_ports_update(struct anx7625_data *ctx)
-+{
-+	if (ctx->typec_ports[0].dp_connected && ctx->typec_ports[1].dp_connected)
-+		/* Both ports available, do nothing to retain the current one. */
-+		return;
-+	else if (ctx->typec_ports[0].dp_connected)
-+		anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_NORMAL);
-+	else if (ctx->typec_ports[1].dp_connected)
-+		anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_REVERSE);
-+}
-+
- static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
- 				 struct typec_mux_state *state)
- {
-+	struct anx7625_port_data *data = typec_mux_get_drvdata(mux);
-+	struct anx7625_data *ctx = data->ctx;
-+	struct device *dev = &ctx->client->dev;
-+
-+	bool old_dp_connected = (ctx->typec_ports[0].dp_connected ||
-+				 ctx->typec_ports[1].dp_connected);
-+	bool new_dp_connected;
-+
-+	if (ctx->num_typec_switches == 1)
-+		return 0;
-+
-+	dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
-+		ctx->typec_ports[0].dp_connected, ctx->typec_ports[1].dp_connected);
-+
-+	data->dp_connected = (state->alt && state->alt->svid == USB_TYPEC_DP_SID &&
-+			      state->alt->mode == USB_TYPEC_DP_MODE);
-+
-+	new_dp_connected = (ctx->typec_ports[0].dp_connected ||
-+			    ctx->typec_ports[1].dp_connected);
-+
-+	/* dp on, power on first */
-+	if (!old_dp_connected && new_dp_connected)
-+		pm_runtime_get_sync(dev);
-+
-+	anx7625_typec_two_ports_update(ctx);
-+
-+	/* dp off, power off last */
-+	if (old_dp_connected && !new_dp_connected)
-+		pm_runtime_put_sync(dev);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index 76cfc64f7574..7d6c6fdf9a3a 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -55,6 +55,18 @@
- #define HPD_STATUS_CHANGE 0x80
- #define HPD_STATUS 0x80
- 
-+#define TCPC_SWITCH_0 0xB4
-+#define SW_SEL1_DPTX0_RX2 BIT(0)
-+#define SW_SEL1_DPTX0_RX1 BIT(1)
-+#define SW_SEL1_SSRX_RX2 BIT(4)
-+#define SW_SEL1_SSRX_RX1 BIT(5)
-+
-+#define TCPC_SWITCH_1 0xB5
-+#define SW_SEL2_DPTX1_TX2 BIT(0)
-+#define SW_SEL2_DPTX1_TX1 BIT(1)
-+#define SW_SEL2_SSTX_TX2 BIT(4)
-+#define SW_SEL2_SSTX_TX1 BIT(5)
-+
- /******** END of I2C Address 0x58 ********/
- 
- /***************************************************************/
-@@ -444,6 +456,7 @@ struct anx7625_i2c_client {
- };
- 
- struct anx7625_port_data {
-+	bool dp_connected;
- 	struct typec_mux_dev *typec_mux;
- 	struct anx7625_data *ctx;
- };
--- 
-2.36.1.476.g0c4daa206d-goog
-
+> -Akhil.
+> >               return 0;
+> >
+> >       busy_cycles = gmu_read64(&a6xx_gpu->gmu,
+> > @@ -1667,7 +1667,7 @@ static u64 a6xx_gpu_busy(struct msm_gpu *gpu, unsigned long *out_sample_rate)
+> >                       REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_0_H);
+> >
+> >
+> > -     pm_runtime_put(a6xx_gpu->gmu.dev);
+> > +     pm_runtime_put(&gpu->pdev->dev);
+> >
+> >       return busy_cycles;
+> >   }
+> > @@ -1677,9 +1677,18 @@ static void a6xx_gpu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+> >       struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> >       struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> >
+> > +     /*
+> > +      * This can get called from devfreq while the hardware is idle. Don't
+> > +      * bring up the power if it isn't already active
+> > +      */
+> > +     if (pm_runtime_get_if_in_use(&gpu->pdev->dev) <= 0)
+> > +             return;
+> > +
+> >       mutex_lock(&a6xx_gpu->gmu.lock);
+> >       a6xx_gmu_set_freq(gpu, opp);
+> >       mutex_unlock(&a6xx_gpu->gmu.lock);
+> > +
+> > +     pm_runtime_put(&gpu->pdev->dev);
+> >   }
+> >
+> >   static struct msm_gem_address_space *
+>
