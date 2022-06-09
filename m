@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40AF544161
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 04:22:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8E8544164
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 04:22:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 314FA11AF95;
-	Thu,  9 Jun 2022 02:22:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCF011AF97;
+	Thu,  9 Jun 2022 02:22:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC9C11AF95
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 02:22:36 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id c196so19906550pfb.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 19:22:36 -0700 (PDT)
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 619B111AF97
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 02:22:41 +0000 (UTC)
+Received: by mail-pg1-x529.google.com with SMTP id c18so12249696pgh.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 19:22:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=m+CpzL32MJHRZYZDgBzpwQnx86VfK2H69F/qGC0XfI0=;
- b=U0bxjLbFOl10tf8GWT8fIiAYppnmK4xrmmSNHHEf760MXcmV0kCY2V78Ae4maBKj5H
- GpcF03gxnizNDwMshZsC8QdTudjUOr2vWOVN8+mgFHrfI/lf/c3NFVuknm7Fb7zu7bwb
- dZKz+i5301TJ9EWWmS0B9KQf5JNEemrG3Bm5qR3nwBAdUUClvq3aROAfW8qSEMPn9J/s
- +lKc7bze0Ol7qDrCRBOlJmd37/ARrNf/6RuMIh4ZusRWZhOjiCKSCAQpWplu8Er68285
- xTbh2jXiI41+4WvD7vF4PypX+rNH9lRbN5mBR590sgoLa7ElY16YSJ4Iw57UwxZqt1HF
- xZgA==
+ bh=zUInyvNeOnDXs6rfO5VKVDhyL30Ry7vKQyVq8b/sXhM=;
+ b=URFVRvzYDluiblUwQq0fFYaerhtlF8YxghQ8N9Sk9qFp3XcUC/UN6ixBnaxA2e4s9l
+ 2XU1ufsmKeJFRB8lKM/0XUTQ/seh6zC/7VWXW2ktyopwuZvHMa1x42kogSv8c9cYuK5i
+ keBswrmSPE26QtkbcNEIqCYXw0L9DJJdv8Hz/RFjEo5yib6drZVERoP/5ge5QUE5I4JO
+ s+5/rxrM0nBL0ig3B3rRwZr2ndKjhCmlcQpdyM6l8ekz29Pb4d9wWNvoAVelyCL2IDEW
+ 2WNlja1Ue5RBd7NabxHWxha+FK3kDgvIDtp5e/ZDNmCQSKuXljhNcLxLGG2Zqw3gab0h
+ fhfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=m+CpzL32MJHRZYZDgBzpwQnx86VfK2H69F/qGC0XfI0=;
- b=pwrISTvRnsvZk4+ISn9ECi6SRE7Tbe0FKCoZYczW+ORXLFkaSzEiEFvBnEjxff43E/
- wPujONJJZ911jkeej7l2reFvKO9w8Yw2cvRONo/Z9q9Bl2uJGUtC7aBqQm08Xax53pox
- pwAS0BgO4LkLQi36YdE16OZM18NhhzygZ+SxIDT5i/43ckcb/E0s7Cqg5JVnVeaLJJC6
- +NJ0d8tiGZq9pL0N3HMgFPddRF0NJWvq++9mmLdJ1RlN3b0sJKPAK52+fNkQwCW4kPFC
- bdQhX+tQdcNrxDb5KalOh3GZxWzpk+Atp1Biap3X0ibLg8HvAYcQoTcTDuvpfOPII/fF
- fKgg==
-X-Gm-Message-State: AOAM531XSCPzkUqaZlj3/JZuJBdAQmsWumRrB8yrW9Q0ouHZ1K4YqTpf
- T44c2+uOS1zJ6xAYy6aMGyc=
-X-Google-Smtp-Source: ABdhPJzXbLLy8MQgfWhrfW3Lanr7tdpKafQO63EjjVGOPJXJ8imC9BhA9caiO6leM26zJoqSXz/oxQ==
-X-Received: by 2002:a05:6a00:22d1:b0:51c:15ac:396e with SMTP id
- f17-20020a056a0022d100b0051c15ac396emr19378533pfj.58.1654741355935; 
- Wed, 08 Jun 2022 19:22:35 -0700 (PDT)
+ bh=zUInyvNeOnDXs6rfO5VKVDhyL30Ry7vKQyVq8b/sXhM=;
+ b=a1d5v7q3SbnNjk7Z6SyM1Urpm6UHJ5IDHsZnMeDbaHpIGfiaJUAOKkjpBt9vGtLHiq
+ u6GU/o3nfpxi2Yv79ZfVbGKbNXoVeT25RUPWU7okYSV48U+7QWNmSbGjkVpJ/AXOTvFN
+ DWrisWJnbrIWIpQPOOaJ/WEnF1i0TihHX913cCTZSn3vssAnGtHxbw7Rniqm2m1eRO0O
+ ejikrk6YyU/2gmGyYYpYUaf/yc1dl8Y8y6hFicBBoSaSuXA0IwrTYJ9b2VRNelFOACdO
+ jRRdTm2B6cRXreUhTolfsttuHXU3Qi70dyoW/Y11E7sYmzvDQcSBwJrfLWzRnKgZEQ0a
+ C0aA==
+X-Gm-Message-State: AOAM530OSyVbP8n/VxTyu9Mlj6qKdW5KeZXL7ye6QCfqS15xtKIAr43B
+ bC34G10PHyfDtD9M/AZZ90Q=
+X-Google-Smtp-Source: ABdhPJxgN6xlX7nmneOpKS4cylXau9IRK1Vj1JgQbUIyitFG9LNgyXER82qKAdrSu8+0lZQhHjeIXw==
+X-Received: by 2002:a63:ea4f:0:b0:3c6:6534:d8f2 with SMTP id
+ l15-20020a63ea4f000000b003c66534d8f2mr32515923pgk.187.1654741360832; 
+ Wed, 08 Jun 2022 19:22:40 -0700 (PDT)
 Received: from localhost.localdomain ([2402:7500:478:d041:804b:4db9:72:b011])
  by smtp.gmail.com with ESMTPSA id
- y22-20020aa78056000000b005183f333721sm15748770pfm.87.2022.06.08.19.22.31
+ y22-20020aa78056000000b005183f333721sm15748770pfm.87.2022.06.08.19.22.36
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 08 Jun 2022 19:22:35 -0700 (PDT)
+ Wed, 08 Jun 2022 19:22:40 -0700 (PDT)
 From: cy_huang <u0084500@gmail.com>
 To: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
  lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com
-Subject: [PATCH v3 1/2] dt-bindings: backlight: rt4831: Add the new ocp level
- property
-Date: Thu,  9 Jun 2022 10:22:18 +0800
-Message-Id: <1654741339-12756-2-git-send-email-u0084500@gmail.com>
+Subject: [PATCH v3 2/2] backlight: rt4831: Apply ocp level from devicetree
+Date: Thu,  9 Jun 2022 10:22:19 +0800
+Message-Id: <1654741339-12756-3-git-send-email-u0084500@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1654741339-12756-1-git-send-email-u0084500@gmail.com>
 References: <1654741339-12756-1-git-send-email-u0084500@gmail.com>
@@ -77,40 +76,90 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: ChiYuan Huang <cy_huang@richtek.com>
 
-Add 'richtek,bled-ocp-microamp' property to make it chooseable.
+Add 'richtek,bled-ocp-microamp' property parsing in
+device_property_init function.
 
-The wrong backlight ocp level may affect the backlight channel output
-current smaller than configured.
+This value may configure prior to the kernel driver. If it's not specified in
+devicetree, keep the original setting. Else, use clamp to align the
+value in min/max range and also roundup to choose the best selector.
 
+Reported-by: Lucas Tsai <lucas_tsai@richtek.com>
 Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 ---
-Since v3:
-- Refine the description for backlight ocp property.
-- Use the enum to list the supported value.
-
 Since v2:
-- Change the property name from 'richtek,bled-ocp-sel' to 'richtek,bled-ocp-microamp'.
+- Prase the 'richtek,bled-ocp-microamp', clamp the value in min/max range, and
+  roundup to get the best selector.
 
 ---
- .../devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/video/backlight/rt4831-backlight.c | 33 +++++++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
-index e0ac686..99e9e13 100644
---- a/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
-+++ b/Documentation/devicetree/bindings/leds/backlight/richtek,rt4831-backlight.yaml
-@@ -47,6 +47,11 @@ properties:
-     minimum: 0
-     maximum: 3
+diff --git a/drivers/video/backlight/rt4831-backlight.c b/drivers/video/backlight/rt4831-backlight.c
+index 42155c7..8c2001b 100644
+--- a/drivers/video/backlight/rt4831-backlight.c
++++ b/drivers/video/backlight/rt4831-backlight.c
+@@ -12,6 +12,7 @@
+ #define RT4831_REG_BLCFG	0x02
+ #define RT4831_REG_BLDIML	0x04
+ #define RT4831_REG_ENABLE	0x08
++#define RT4831_REG_BLOPT2	0x11
  
-+  richtek,bled-ocp-microamp:
-+    description: |
-+      Backlight over current protection level.
-+    enum: [900000, 1200000, 1500000, 1800000]
+ #define RT4831_BLMAX_BRIGHTNESS	2048
+ 
+@@ -23,6 +24,11 @@
+ #define RT4831_BLDIML_MASK	GENMASK(2, 0)
+ #define RT4831_BLDIMH_MASK	GENMASK(10, 3)
+ #define RT4831_BLDIMH_SHIFT	3
++#define RT4831_BLOCP_MASK	GENMASK(1, 0)
 +
-   richtek,channel-use:
-     description: |
-       Backlight LED channel to be used.
++#define RT4831_BLOCP_MINUA	900000
++#define RT4831_BLOCP_MAXUA	1800000
++#define RT4831_BLOCP_STEPUA	300000
+ 
+ struct rt4831_priv {
+ 	struct device *dev;
+@@ -85,7 +91,7 @@ static int rt4831_parse_backlight_properties(struct rt4831_priv *priv,
+ {
+ 	struct device *dev = priv->dev;
+ 	u8 propval;
+-	u32 brightness;
++	u32 brightness, ocp_uA;
+ 	unsigned int val = 0;
+ 	int ret;
+ 
+@@ -120,6 +126,31 @@ static int rt4831_parse_backlight_properties(struct rt4831_priv *priv,
+ 	if (ret)
+ 		return ret;
+ 
++	/*
++	 * This OCP level is used to protect and limit the inductor current.
++	 * If inductor peak current reach the level, low-side MOSFET will be
++	 * turned off. Meanwhile, the output channel current may be limited.
++	 * To match the configured channel current, the inductor chosen must
++	 * be higher than the OCP level.
++	 *
++	 * Not like the OVP level, the default 21V can be used in the most
++	 * application. But if the chosen OCP level is smaller than needed,
++	 * it will also affect the backlight channel output current to be
++	 * smaller than the register setting.
++	 */
++	ret = device_property_read_u32(dev, "richtek,bled-ocp-microamp",
++				       &ocp_uA);
++	if (!ret) {
++		ocp_uA = clamp_val(ocp_uA, RT4831_BLOCP_MINUA,
++				   RT4831_BLOCP_MAXUA);
++		val = roundup(ocp_uA - RT4831_BLOCP_MINUA,
++			      RT4831_BLOCP_STEPUA);
++		ret = regmap_update_bits(priv->regmap, RT4831_REG_BLOPT2,
++					 RT4831_BLOCP_MASK, val);
++		if (ret)
++			return ret;
++	}
++
+ 	ret = device_property_read_u8(dev, "richtek,channel-use", &propval);
+ 	if (ret) {
+ 		dev_err(dev, "richtek,channel-use DT property missing\n");
 -- 
 2.7.4
 
