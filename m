@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22DE5544BE8
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 14:24:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A92CF544BB7
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 14:24:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84CC111BE93;
-	Thu,  9 Jun 2022 12:24:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C3F111BE6B;
+	Thu,  9 Jun 2022 12:23:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5583C11BE64
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 12:23:55 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id c4so5671820lfj.12
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 05:23:55 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89B5B11BE67
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 12:23:56 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id s6so37675585lfo.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 05:23:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dKhPg/cmcxmOfyln8LHNh+0LZCcWe3u5I/ocqfZ0+pI=;
- b=lI3jQFgc0+LXTMushC5OLGDeMWomfNObhV/nHldYgNqyiCEbc+LzVtRtngp0TpUmJ3
- 5s3cCPUStcNQmnUVxDTpSLH0V77bLR9Ov3SQMS6hv/pZj+E/PPqn2HLcq8ruAwAxyp0b
- CsAPFwyFO7D4M8HDoOcg7p/jxrGDhhePTuLyeVWDmXsM4RNHPVqI2hyjapqLNhZLaBwQ
- 9X5tEFTGiCYxuxifIO9UnpWX0LY4J7Hykix2MI38I6xRGI2t7J160PWwALBeqTFujh80
- wa0gEsblY96daHAxDEslxTqbYwc1mlBoNGIXo+n2JKweCmjnSYl6r6NnQyotLK1lAjSZ
- 2K1Q==
+ bh=EY69blhAfLwlzhpt3ykQvo28dBBPjots5a/LOCelKuM=;
+ b=IjpDkqE/seTW6CIHsQ7Hfj04A0JuPKLtjnMjErJkpXYhl3WM7UKcxD0rkphldo8FZC
+ Mt4ewdaEMkw0E16QV2L9dZFqPbtQA33ZlEvTfYhrCm9TuHTYZjC6A9Rwby1HFvcu2Q31
+ OBEQkbqwpslCgU5lAnkn/2YDYmtsefhglKT72IebkRpVx9KaHI2rGrRIFYginXZUm8ET
+ 1L170gjwFR5mP4d5WCrlSlsuPeCLhPtT/3RF/E/oK1/wndCGVc5TLkKNS1FsNWvZJh70
+ jmZey/NNpZY0X/F4Bmbc7/vjsTjnbiHMzqcX7YXKU78liLB6/BOcSFOprVkZeQiOYJjo
+ bKbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dKhPg/cmcxmOfyln8LHNh+0LZCcWe3u5I/ocqfZ0+pI=;
- b=hLISSoa1Fi9UTGpSS9A22STH4/gX1mASKo3BJs9P4PWhskThs8qg9kOT98tYrZPPed
- oDPSq6IzG+Oc/qOKWSW1+wDLy5ZjU3gV0jfbIVkduMvEPh9djNfBxb6Xkuz90MfA1IYX
- JmmyKCCJi4DCnlideaAzDqOI7iwXd0PnVmaSfrny6CY8kscJYlMOH7RxlXLiYsfc2H6Y
- tLYF/rUiMutZMTnJyfK9V5X+fO4P55DWXTPw/GPGq8P+LivVnbQbtKRbuK+uOGXsnshf
- OUNqibJwbtW0dMP2UkrxcGRNntviwyo8P2wh59xCSPxWXyfeHmwu/UMAgrCn/t9ynrAt
- +HHA==
-X-Gm-Message-State: AOAM533cewA92JdLbsfygPo2drf1VX6EDNcEiT5Rr1GrZ6/JmGS27cRQ
- wV22oLmwbdTwT60M/Gmp1zRUgw==
-X-Google-Smtp-Source: ABdhPJw3aoUmQUcvwbwWhKIumYnCx/E7+cjUB82s+Zz4Vy/vCI85MMS9FqQTOhQanhAqebfhanQMSQ==
-X-Received: by 2002:a05:6512:1115:b0:479:36b5:b8e2 with SMTP id
- l21-20020a056512111500b0047936b5b8e2mr14394247lfg.522.1654777433621; 
- Thu, 09 Jun 2022 05:23:53 -0700 (PDT)
+ bh=EY69blhAfLwlzhpt3ykQvo28dBBPjots5a/LOCelKuM=;
+ b=jGxQk2zbRS4meloEeqH7nwhQfp4ak5KDk/kaMJBs7jhARkYg44eHfbZUUq2k364L3y
+ Q1UI9j1IjteS94/hIhRR7kICoJkWNXX93o4rYL4NPcVqEFCutT9v2zGCUCBknbVx/MsN
+ 1RREO261im89vsRQofoe8WJ2LZYvMs7Rghl32Tw9WJt3LzT76QdeKc+LOY33iGIm3tXX
+ r/N+CfQnbe4EhYEPgYKtS66/ueS97iV7mVALNoFFNpE7T32wgY+5c5cavK/irMRTCPj1
+ bUY8Gv2vjN/aZ+apz9a3FOms9ireIpYsp/mlvVK0IB1Bk7N59i2KJ6LceJVl4xU9Vimz
+ z+sQ==
+X-Gm-Message-State: AOAM530ixVLOV8EoWeZTmPJOCg2dW8d0sapjItfCJm+NBKtZo+3twrZ8
+ YqLgS4drs48sfh2sL4qSmpb1zA==
+X-Google-Smtp-Source: ABdhPJzyp0Hfr5XdSnJVDwteMfnRMn7T+LClAtbpwVJRURvWT0U8/5q5O/b5BG1sUgsG0uwrLVVaUA==
+X-Received: by 2002:ac2:5bdd:0:b0:47c:bea8:f254 with SMTP id
+ u29-20020ac25bdd000000b0047cbea8f254mr1682585lfn.407.1654777434599; 
+ Thu, 09 Jun 2022 05:23:54 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- f11-20020a056512360b00b0047daa133decsm32421lfs.166.2022.06.09.05.23.52
+ f11-20020a056512360b00b0047daa133decsm32421lfs.166.2022.06.09.05.23.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 05:23:53 -0700 (PDT)
+ Thu, 09 Jun 2022 05:23:54 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -53,10 +53,10 @@ To: Andy Gross <agross@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v3 02/14] dt-bindings: display/msm: hdmi: mark old GPIO
- properties as deprecated
-Date: Thu,  9 Jun 2022 15:23:38 +0300
-Message-Id: <20220609122350.3157529-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 03/14] dt-bindings: display/msm: hdmi: mark hdmi-mux-supply
+ as deprecated
+Date: Thu,  9 Jun 2022 15:23:39 +0300
+Message-Id: <20220609122350.3157529-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220609122350.3157529-1-dmitry.baryshkov@linaro.org>
 References: <20220609122350.3157529-1-dmitry.baryshkov@linaro.org>
@@ -82,39 +82,30 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mark obsolete GPIO properties as deprecated. They are not used by
-existing device trees. While we are at it, also drop them from the
-schema example.
+hdmi-mux-supply is not used by the SoC's HDMI block, it is thought to
+power up the external logic. Thus it should not be a part of HDMI
+bindings, but it should be declared at some other device in the DT (like
+HDMI mux, bridge, etc). Mark it as deprecated.
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- Documentation/devicetree/bindings/display/msm/hdmi.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/devicetree/bindings/display/msm/hdmi.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/devicetree/bindings/display/msm/hdmi.yaml b/Documentation/devicetree/bindings/display/msm/hdmi.yaml
-index 861678b2bf94..99b07abcd960 100644
+index 99b07abcd960..47e97669821c 100644
 --- a/Documentation/devicetree/bindings/display/msm/hdmi.yaml
 +++ b/Documentation/devicetree/bindings/display/msm/hdmi.yaml
-@@ -66,14 +66,17 @@ properties:
+@@ -56,6 +56,7 @@ properties:
  
-   qcom,hdmi-tx-mux-en-gpios:
-     maxItems: 1
+   hdmi-mux-supply:
+     description: phandle to mux regulator
 +    deprecated: true
-     description: HDMI mux enable pin
  
-   qcom,hdmi-tx-mux-sel-gpios:
-     maxItems: 1
-+    deprecated: true
-     description: HDMI mux select pin
- 
-   qcom,hdmi-tx-mux-lpm-gpios:
-     maxItems: 1
-+    deprecated: true
-     description: HDMI mux lpm pin
- 
-   '#sound-dai-cells':
+   core-vcc-supply:
+     description: phandle to VCC supply regulator
 -- 
 2.35.1
 
