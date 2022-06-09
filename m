@@ -1,59 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC722544DD2
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 15:37:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AE2544E73
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 16:12:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD9FA11A469;
-	Thu,  9 Jun 2022 13:37:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E45A12A8C7;
+	Thu,  9 Jun 2022 14:12:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mr3.vodafonemail.de (mr3.vodafonemail.de [145.253.228.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 298DC11A471
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 13:37:16 +0000 (UTC)
-Received: from smtp.vodafone.de (unknown [10.0.0.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by mr3.vodafonemail.de (Postfix) with ESMTPS id 4LJlWZ5XS3z21gc
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 13:37:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arcor.de;
- s=vfde-mb-mr2-21dec; t=1654781834;
- bh=CVLPrl/xomwkRCtDLdakQc1i8o7YEc0ysYoVaK6Q1DA=;
- h=Message-ID:Date:User-Agent:Subject:Content-Language:To:References:
- From:In-Reply-To:Content-Type:From;
- b=S3VLl1LEGgNPIQvZGY/lmOSsV6tyra5cAlVD0sOHJEVjAjrvEoOhcMqxutP7OSN2n
- ZKMUUYvEF+TvqN1v6MIzQUPxxKBP1h3tNoeF/61xF/8S90aVs8s68EdjRiMrnbsqr2
- 2cBiJkg1hx7m3w0dGcuBloUaWF/LtviwwGh0XseM=
-Received: from schreibtisch (p2e579e8f.dip0.t-ipconnect.de [46.87.158.143])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp.vodafone.de (Postfix) with ESMTPSA id 4LJlWY3Q1fz9vqG
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 13:37:10 +0000 (UTC)
-Message-ID: <a65f93bd-e45b-c074-b7b8-390df0b02a4b@arcor.de>
-Date: Thu, 9 Jun 2022 15:37:09 +0200
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A59C012A8C3
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 14:12:37 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 06A3E5C00AE;
+ Thu,  9 Jun 2022 10:12:37 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 09 Jun 2022 10:12:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1654783957; x=
+ 1654870357; bh=gNYsik8nqVS6cCFgco/fTwol9HFsUQQ4C+jbTb0Pkpo=; b=Y
+ mOlN80iAH5kIMHXEOHonqskDpQER46PM5MvReSlXjj2BoCAlSr0EmwxCyR7Uvz0c
+ fMi1fzKW0ZRH8TRfpAsFiMRCHm/pEZGZL2VGFoCgmYzIe3TxPcVE+c5M43ZAojfR
+ nTdl5PtyoTRCsGd91EGbMX1BMbIn054Z+SYrN+U9PC951sRxiBPe6N7nX2RRhoSF
+ f9h0gJ7Evh83Arky1xzhEJBMsIk8Hw6rDk/oozrk1hFm75vTa9jGMh4T0EobQYrG
+ 1y5U+xz/cN7Cx2IM5iNJFawj+XyOAmnC803Yvcl2DVMrokEdaJyIAeNmQBZlBVoc
+ oq/em68Pmg6bvQvZOhodg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1654783957; x=
+ 1654870357; bh=gNYsik8nqVS6cCFgco/fTwol9HFsUQQ4C+jbTb0Pkpo=; b=x
+ M7BqJIgLvioLqn1pHhkr428nlWtXCCoL/oAUKwHiLqKff+H3Qmu64gvbDlxFdqs3
+ n9PrMQXky+TcnihD52ucb2B0HasndDv3LfgO2EXCzAwfs18G+5M87hAe+9b9pD5Z
+ FBJj9OoWBbRDETQjNZ7ypvZ3xS48fRcVFUpfvkTvuCwy+SBttwXFYneaXCRASQOj
+ Z72dLBYN69gaoceCOmvIjGLK+dIl2JegAEkwybJSqGLQc40Z9sZVogfP6B0xSFCs
+ WRRLo2VNOIEgi7ULuepLXrytH9XC6rC7O3xvvf9UJKMkThVgR+bbGq8RTwnvBxSX
+ afxxSWR6ZxVO6KzhooTzg==
+X-ME-Sender: <xms:1P-hYnJdgag9gqpkhdy8C7GgSEsphgLpDa2e-VAB7w_pKF70KXVWdA>
+ <xme:1P-hYrJRF0JlnBn13AfKHjlud8JOx5RMVcjonkk0d-wY3wl3aHwgusrkRJhpRqztk
+ UJgcqUjgSUwUd1SGbA>
+X-ME-Received: <xmr:1P-hYvsMzLo9bVx-re4Pogqg2Jm2f2u2S0dpXtpGkmCqCRbBJTVHL3NIdxBAoLkuDGptjevfrCx1etXxuxsQksk0iwPdayiwdlymblc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtledgieelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepueeigefghfffffeifeehudeiuedvteegueefffevgfetvdffheehkeff
+ vedufeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:1P-hYgZ10sLQfry1jBimpD7-YjBI3qU6-DzPV5qXLu17c0YZ3i1HJw>
+ <xmx:1P-hYub7ilpCWIyZnzh0gZfRKERT3u6hP8NhaG1jFUqaCRFMXThV-A>
+ <xmx:1P-hYkCBbJiPVsMdy1Yy3-3w_gUK8qBQXD0px2vZsEegWk4I5CmS2g>
+ <xmx:1f-hYkMqVD_UZAonM4MghWBNa04zW_tmIOHYS9vjFVr62gKz7hkTcA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 Jun 2022 10:12:35 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: "GONG, Ruiqi" <gongruiqi1@huawei.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@linux.ie>
+Subject: Re: (subset) [PATCH] drm/atomic: fix warning of unused variable
+Date: Thu,  9 Jun 2022 16:12:32 +0200
+Message-Id: <165478394694.607768.18185681425162290628.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220607110848.941486-1-gongruiqi1@huawei.com>
+References: <20220607110848.941486-1-gongruiqi1@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: drm/vc4: module dysfunctional on Raspberry Pi 3B as of 5.18.0
-Content-Language: en-US
-To: dri-devel@lists.freedesktop.org
-References: <75eec8af-66fd-bbaa-9aea-4cdf634bf2c8@arcor.de>
- <CALeDE9MzaG0vGfwMrZVArCWpNT94=vTakoM71qykBkVbeL1QmQ@mail.gmail.com>
- <20220608143605.x4arwudst3nqeg7b@houat>
- <CALeDE9OyJtvRGnN80JNW3AwwgAa_h_bs8GTLJzo06WK-o+_7Ng@mail.gmail.com>
- <20220608153608.ntgyokt67f3m7pn6@houat>
- <20220609092351.t2muybqjnqaqzemz@houat>
-From: Peter Mattern <pmattern@arcor.de>
-In-Reply-To: <20220609092351.t2muybqjnqaqzemz@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-purgate-type: clean
-X-purgate: clean
-X-purgate-size: 848
-X-purgate-ID: 155817::1654781833-EA3593BB-63FA0E5F/0/0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,26 +88,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Wang Weiyang <wangweiyang2@huawei.com>, Maxime Ripard <maxime@cerno.tech>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
- > Could you start a bisection maybe?
+On Tue, 7 Jun 2022 19:08:48 +0800, GONG, Ruiqi wrote:
+> Fix the `unused-but-set-variable` warning as how other iteration
+> wrappers do.
+> 
+> 
 
-I for one am having two issues here.
+Applied to drm/drm-misc (drm-misc-fixes).
 
-The harmless one is that I'm lacking a cooler for the RPi and my cross 
-compiling skills have become a bit rusty.
-Both could be fixed quickly, of course.
-
-The not so harmless one is that kernel 5.18.x is completely unusable due 
-to an other regression: the SD card is slow to a degree that makes it 
-rather unusable, rather simple tasks are tainting the kernel because of 
-this. E. g. a simple kernel update takes half an hour on 5.18.x.
-Neither sure what's the culprit here nor how to deal with it.
-
-Nonetheless:
-Could the module be installed without updating the kernel as a whole, e. 
-g.by DKMS?
-Is there a way to narrow down the commits in question, e. g. something 
-like 'git log ./drivers/gpu/drm/vc4/' in a Git checkout of the kernel 
-sources?
+Thanks!
+Maxime
