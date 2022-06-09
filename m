@@ -1,70 +1,128 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DADD54448A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 09:13:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0A654449A
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 09:18:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC85113F56;
-	Thu,  9 Jun 2022 07:13:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 271AD113F66;
+	Thu,  9 Jun 2022 07:18:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57232113F56
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 07:13:28 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 887841FD7F;
- Thu,  9 Jun 2022 07:13:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1654758806; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=F4F3m3qUD4PJ2g2dytktet4kMrsV3jAcJqPsjVvdwsk=;
- b=fFl+1jSN+9kUlPNJ4gbBCt6xwiNuvr6CVzza3yrlNBEEU2q0I5UmrShJ+n99R38O/f1k3y
- bd7fFdu7fVjiRSBXkRFl1VcvtRo2betC+/BFEaygbJ403HrsxwPc4WkxHv0oWQ9Gk+M3Zo
- y+2Jr/OCAuTgZ/b1sISKOwbF5oE0wX0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1654758806;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=F4F3m3qUD4PJ2g2dytktet4kMrsV3jAcJqPsjVvdwsk=;
- b=N0Sd5/sZmw2vfg/NH7gV0oL+F8oSeDjJGY7JADc+juKfc9jIKMFYswsxvH18zg2oTanztr
- +Cl0oyur/Kfe31Cg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 52D2A13456;
- Thu,  9 Jun 2022 07:13:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id lfdXE5adoWIqLQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 09 Jun 2022 07:13:26 +0000
-Message-ID: <f29a8c60-7f4e-eb93-feb1-863f82ec8f4f@suse.de>
-Date: Thu, 9 Jun 2022 09:13:25 +0200
-MIME-Version: 1.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2082.outbound.protection.outlook.com [40.107.244.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93D2D113F69;
+ Thu,  9 Jun 2022 07:18:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z2eBN8cvh5Ydf3K8I1dI6l/vO2VcCwJrS6msq1D0tv5VGhiiIrVXBvEvB7H6ZjQ2IXRmMQW5mhwimb3bu5dHID0o5XkrJbby1Mi53gWD4ki5b2yE1n4oFcgC0XTCkzjdQChAKmp9OAy82M/8LVfFBF8TrOCtVjTVR68xRi0v6QUXcTFGhNNm9+Z6/N878+7JkXkLNANULFME/9tRdoHlVDTNil2rJvSHwcPGy+S/P02CbWarYNRhk6byt1p1EqXI5rLw5Npc2uxGbL9dHh6hTTFqjoe15CJmrOI805zgm9tp390SoJOE7Lji/bnEYioGuTfyKqgu1WUwMQGQWRLJ3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wVyQxzxfdIrl/z7vk31vS0jwRP0OJoqbBlSA4ExAnig=;
+ b=ElIDmCx/RY2ECPn2yEf/Y4SO/zKR4XHUiVloQUlKjPNaIKyyremGmNH9RnRuQEWKMgb70htG0z8dfjRWkkrEpMQG+wCBBM4aNcOPbWPuOfh3ZH/WktJd/OTJ2ieP5HLTxMyqfE7V2Uob/plMkEBjk4amnRszjCJwF2xi/7fnC+tqCRlogMdPpoeLOIHjfMrs0NWD2SNT29Zke33hAzezAa1dW06d81XXP6SeqcwxvCCr3XYz1f1H2aGhrbvcf5Q6DznD/6nvQHqBPBDL9wj9iIx220+W0akKMfAL13lQeDnmuLQabJWKFJhOdZfLvWcn7T/XKClkoEnUVWV3Yf1GtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wVyQxzxfdIrl/z7vk31vS0jwRP0OJoqbBlSA4ExAnig=;
+ b=4gx9gViljcpKyJ7cbWu9eVctjEmmyZx/JllFaKMdNquWo43uWm33QXc7Yn0PUjwB10swwXC3DFuWxqt0hazAVudxWCCPKj3YpuIxvEeg27ZQ0gCgqiF2xkYtjA4oF/ioYcBBGeCPt83hfGvsy7xos/Syx7giXbezS0gYB+zNtcs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MN2PR12MB4376.namprd12.prod.outlook.com (2603:10b6:208:26c::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.12; Thu, 9 Jun
+ 2022 07:18:28 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e0fd:45cf:c701:2731]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e0fd:45cf:c701:2731%6]) with mapi id 15.20.5332.013; Thu, 9 Jun 2022
+ 07:18:28 +0000
+Message-ID: <a9b9129e-6881-bb6a-261a-8a30d25fc377@amd.com>
+Date: Thu, 9 Jun 2022 09:18:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/ast: Treat AST2600 like AST2500 in most places
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/8] drm: execution context for GEM buffers v2
 Content-Language: en-US
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Kuo-Hsiang Chou <kuohsiang_chou@aspeedtech.com>,
- "airlied@redhat.com" <airlied@redhat.com>,
- "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "regressions@leemhuis.info" <regressions@leemhuis.info>
-References: <20220607120248.31716-1-tzimmermann@suse.de>
- <PSAPR06MB4805B23B053F80C0F23A8C6C8CA49@PSAPR06MB4805.apcprd06.prod.outlook.com>
- <c99f305f-ac4d-628b-b092-920af767a2e4@redhat.com>
- <PSAPR06MB48051E6CA20163561BAD80298CA79@PSAPR06MB4805.apcprd06.prod.outlook.com>
- <91519070-5c5b-1337-3dab-10decb1b258d@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <91519070-5c5b-1337-3dab-10decb1b258d@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------BQvaUHea1HTqdV8BFbs8hZlK"
+To: Felix Kuehling <felix.kuehling@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ daniel@ffwll.ch
+References: <20220504074739.2231-1-christian.koenig@amd.com>
+ <20220504074739.2231-2-christian.koenig@amd.com>
+ <9ef430d2-1748-10eb-7708-ae8ad9d47804@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <9ef430d2-1748-10eb-7708-ae8ad9d47804@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS8PR07CA0031.eurprd07.prod.outlook.com
+ (2603:10a6:20b:459::24) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 389c993a-cee8-4075-9855-08da49e84005
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4376:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4376F0D2A9C9E946B2ACA1BE83A79@MN2PR12MB4376.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5NCdGjGRy8YdKGRGfe80Xd4clN/mdaRCaQeKxf98fMuUlV7p8nc2vhuYiDVRg0G/zuLU/Yp98NxTnTNj++CMsHE2HwaKF2CXkh8Zkv72VksfyEE/UIHOtxOargq7DMxt+kMLbwHRF8bqgAN4gZZpaTtRwNGcJkP1fi3wcVBdfhfVRuJv2uy5CxcVzlmVvBr3LotyE8tm4G1lLuRCmtieZvziefBNK9XMqn+1fzRI71bNxygS2mDJyIulEHO5hKyVfvsU0Ex7avGobw7bpVQB488bTsAn+smOQ4GCi0G31XucIWqV8xMkX9gagq5m4yCKHgGdruG9Si9U7pp+83lMgBfi+kEAzJKWq3HhlJqkG5aVNHGd4zyGU8huTfJswwnqE4mz60N6AIzihBm6w+8ouLmXivHBqJLb31jNp/uFB6l8GbOhte8Hzz0a7VKk62rwvSbocPcEydJ+EwymAAdca2sM+pAOAHN3ZETqoemmpYrydClrhvdEQwDtqQnVYbV4PhKy8qDRStx/MdAKiHbAA/sSi7PG9lq9X1/lNWI0cnxUFCtlUcdvmBJ4CoXnpeaBK5g0VB39z6X2QGaNp7H2j3wm8jsuLmTXWyzbNb7bXSpXC7qkGXrmgLYy1bu/wXbGVcc/5EvfgmRnY/47uP3jiDQrm/VpCPW3dY6GYqjQvW2LI6c/vJwogYJhK7Bqh22YNAtOzoBiDQAoADm7Pth5RzWumhdJlAwcgba+99YvwSMjglZW/P4Zuarfej0FzjkP
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(5660300002)(31686004)(8936002)(36756003)(66946007)(66476007)(316002)(66556008)(8676002)(6666004)(6486002)(6506007)(110136005)(2906002)(508600001)(83380400001)(38100700002)(6512007)(2616005)(86362001)(31696002)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eVJFNnlqOS9sZjRiZlptVG0va2Y2ZXR6d1hUZXRITEkrSGpVL0FQeHhLT0o5?=
+ =?utf-8?B?WUNLZ0N3TjBYbWtaU2FTVTNEb1piQkJCMXUzYk5FdW03SW9KSi8yT0w5UVJF?=
+ =?utf-8?B?amVGaFdXdTJtTnh6a0lzZ0JGT255NEZNS05pNVAxbmVSdkVtcHFVNkcydDVE?=
+ =?utf-8?B?RG94MzJlSTJaaWxHQTdCZDRuSG5Za0h2UU9xNTJBV21tZTM1L0F3emhxT1E1?=
+ =?utf-8?B?WncwK1NIQlNNeWcrVWRuTVNDaGsrc1ZDeEpTbm5MVENKakVJOWtNKzd5WklF?=
+ =?utf-8?B?dTVtVGRVWWdGUVJmRXZydDFrZk5QVkZqcEpiMjVwNjV0NVRNai9GbHNrbDQ4?=
+ =?utf-8?B?dkZ2VzRtUnB2SUp0VUZLT1p4WG5rclV5SFhrRkVKMnNJQ1FsQXhvaWVub1dy?=
+ =?utf-8?B?RVBLQjdSZklsWVUzMzBDbWRNNFBFL2hyK0VOOWZCbjlUY0QySjJ4OHdpeG9Z?=
+ =?utf-8?B?VGpZMEhwMEpZWC9KT3ZKNUl6KzVRb2NKbHJmSnBjRkV3WFFlNWxvRFY4ZFlO?=
+ =?utf-8?B?KzZTeTZ1VWM0U3ozbnhiZDFQazJHeGs0VGROSmJ0ekQ3dVFFKzNHeVZLV2VD?=
+ =?utf-8?B?NjYxVGFING5Za2FIRk11eUpWUVhVNW41Rkd2T1RIWUs0bGFxaEdKQ1lHa3R5?=
+ =?utf-8?B?ZVBlTjZYZWVhYlNCMThWWHZPbElZRSthbHZvMEF4Zlo0OXJBVU40bmVaUk1z?=
+ =?utf-8?B?SDhCWEFQRDBGcGVHeVZ0K2swQmwvbDBXS09XWVc4SWl1U2NuRkVDOTZpR1ln?=
+ =?utf-8?B?UFI2QWttQWxBQkxnQ2dHNk05MEVMZldwTGFoaldxbm5LRms1ZHU3M1RJZ0pD?=
+ =?utf-8?B?MGRnMVJBcFRPYW1XZmlpbHNQUmF1SmVjQjBBeXMydG9sYmRjVjhXNjVJSU5r?=
+ =?utf-8?B?M1FxeVVZT1cza3VUbmduWElpRk8vZ2VvNElwTGo4aXUvU1o3clRycExBZkFC?=
+ =?utf-8?B?Qm51aEJQdkRUQ0FKZWpSTkpmTitMWTgrd2l0cVo5eXBaRVJOeGd6cTlUeFVJ?=
+ =?utf-8?B?aWxoWFpMdFpxSVBnQ05nWldkZTl2cWZ6MU8zZXhjSTk4L1FleVFvVjZtR2xk?=
+ =?utf-8?B?d1RucVZhV3dQTkNseEszTERvbUdIN1lJdXd3aGpFWHVodGhzWmVUb0wrMUN5?=
+ =?utf-8?B?MVVmUDYwRGFXTEdBVlNnQ1N5RlJJYkRuVy9aTzg4ZnZhdk91UmVvWFpEUzRa?=
+ =?utf-8?B?M01vQVNkQWY2QTN3S2VWL0ZnWWROc1BaTmRWOGpIOG9TRXhoN2VCRXF3ckdI?=
+ =?utf-8?B?KzY0S2FOTXZoNGNJUkQrVURaWmNkMWpTWUEva28vRVpVVXA1VlFIVjJQYXl0?=
+ =?utf-8?B?T0h3aVFESzh3QUdYT0N5UXU1azlwRE9nRVZHNVI5SDl2SGVRblV2Wlh3OFAz?=
+ =?utf-8?B?OEVsdXJ3OUFnUDZRWStlcVQ0MUNFZWRmcXg3MStYWWo3Nm1qNGYrVExrcHFk?=
+ =?utf-8?B?YWVoUUxHaFZwaXFtZmNGL1JyaEFPS3RLK0F3T2g4cHRpTTZHMWQ1NHJkMnUv?=
+ =?utf-8?B?YUJ4ckJYVXU1aS9VczYrSGMrWmhrT2ZPWityUCtMZVZnQTJBSE9kQWs1WEdH?=
+ =?utf-8?B?L25PbXhLbnpqNW02aEp0WUtKMVhsaE5yNDNKY25GQklydm01bzNlY0FNQ3Zy?=
+ =?utf-8?B?Y1lRS0FQZVRZRnFDQ2V1YmhqeEN1NURSSUtMYUF6QVlpNXhjS1AvQWxYUUpR?=
+ =?utf-8?B?bllaeVROWVNLZzhXdEJ2MytEbGpFWXZ4MDFKeVByc3NickNwYXVXanVSYjRz?=
+ =?utf-8?B?TzQxYXowbmdFTXFBeE5icGQ5UUVtZVpzSjBPR2N1bkpONHJRS3M1Y0wwRm0w?=
+ =?utf-8?B?SlEzbkYyLzhyVkNVL2tvVkNiQTUvZUtYWjBUa0J5VlZRdVlHVHBaMU9VVE5r?=
+ =?utf-8?B?RjlPekwxWnlta3ZsdndxUS94ZC81ZGtiMnkwcG5nZ1lFWVludk5sdlk2OU9p?=
+ =?utf-8?B?dFlkL0Q5bGJYcC9taUllTVJxVm16L0Z2bmFtdnpnWFFRSGVQYjdJRWdrZXJt?=
+ =?utf-8?B?ZDVkcitxZVUzajBPMVBacStOdGhFZU5Na3lOdXBIektFeXhCU0k0MWQrTGlX?=
+ =?utf-8?B?bDFWS096eDlMYktiY2V1eWJIY09velNBSlpaWUJxenhRdkNvY1pTajVZYVhP?=
+ =?utf-8?B?KzNwQzJzZ2hvVGZaQnZEdnRiOTJmaDUrbXp5TXhZdFMxcEVHRG40ajhLY2N0?=
+ =?utf-8?B?eHhYZ0ozY3M0NmNVa2s4aHkvV2owZDltZjR4WmVUSG9kYzZlV0ZZUExXZkpD?=
+ =?utf-8?B?Z2Q0dks4NE5wSTBQWnM1ZDlwdmJ2Smt3L3MyRFNEYUh3eElmMzU4U2p2dTJi?=
+ =?utf-8?B?b2MwZ3djd3F4aEpUaFQrMGV4Nks3MlcxMUNma0lCY0lOemRhL1FWdXhTMUxY?=
+ =?utf-8?Q?3iCoFFhA/KEk270roX+mlD7+ow1XuwPvwTB+oZcPY9/aN?=
+X-MS-Exchange-AntiSpam-MessageData-1: m0EYGQuxlkG+bw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 389c993a-cee8-4075-9855-08da49e84005
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2022 07:18:28.4507 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jJHb3n5psLQuUCmLc7M7hkIqOWaWvqb7jVUgHJH+RZ5O0GjwaPIHjYEVf2cisMEK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4376
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,135 +135,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Charles Kuan <charles_kuan@aspeedtech.com>,
- Hungju Huang <hungju_huang@aspeedtech.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Luke Chen <luke_chen@aspeedtech.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------BQvaUHea1HTqdV8BFbs8hZlK
-Content-Type: multipart/mixed; boundary="------------e0RZY9tGfnxfmhM7aJTEq7ZF";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Kuo-Hsiang Chou <kuohsiang_chou@aspeedtech.com>,
- "airlied@redhat.com" <airlied@redhat.com>,
- "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "regressions@leemhuis.info" <regressions@leemhuis.info>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Luke Chen <luke_chen@aspeedtech.com>,
- Hungju Huang <hungju_huang@aspeedtech.com>,
- Charles Kuan <charles_kuan@aspeedtech.com>
-Message-ID: <f29a8c60-7f4e-eb93-feb1-863f82ec8f4f@suse.de>
-Subject: Re: [PATCH] drm/ast: Treat AST2600 like AST2500 in most places
-References: <20220607120248.31716-1-tzimmermann@suse.de>
- <PSAPR06MB4805B23B053F80C0F23A8C6C8CA49@PSAPR06MB4805.apcprd06.prod.outlook.com>
- <c99f305f-ac4d-628b-b092-920af767a2e4@redhat.com>
- <PSAPR06MB48051E6CA20163561BAD80298CA79@PSAPR06MB4805.apcprd06.prod.outlook.com>
- <91519070-5c5b-1337-3dab-10decb1b258d@redhat.com>
-In-Reply-To: <91519070-5c5b-1337-3dab-10decb1b258d@redhat.com>
+Am 09.06.22 um 02:05 schrieb Felix Kuehling:
+> [SNIP]
+>> + *
+>> + *        ret = drm_exec_lock(&exec, boB, 1);
+>
+> Where is drm_exec_lock? It's not in this patch.
 
---------------e0RZY9tGfnxfmhM7aJTEq7ZF
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I've renamed this function to drm_exec_prepare_obj() but forgot to 
+update the documentation. Going to fix this, thanks.
 
-DQoNCkFtIDA5LjA2LjIyIHVtIDA5OjA2IHNjaHJpZWIgSm9jZWx5biBGYWxlbXBlOg0KPiBP
-biAwOS8wNi8yMDIyIDA0OjMyLCBLdW8tSHNpYW5nIENob3Ugd3JvdGU6DQo+PiBIaSBKb2Nl
-bHluIEZhbGVtcGUsDQo+Pg0KPj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4+IEZy
-b206IEpvY2VseW4gRmFsZW1wZSBbbWFpbHRvOmpmYWxlbXBlQHJlZGhhdC5jb21dDQo+PiBT
-ZW50OiBXZWRuZXNkYXksIEp1bmUgMDgsIDIwMjIgOToxNyBQTQ0KPj4gVG86IEt1by1Ic2lh
-bmcgQ2hvdSA8a3VvaHNpYW5nX2Nob3VAYXNwZWVkdGVjaC5jb20+OyBUaG9tYXMgWmltbWVy
-bWFubiANCj4+IDx0emltbWVybWFubkBzdXNlLmRlPjsgYWlybGllZEByZWRoYXQuY29tOyBh
-aXJsaWVkQGxpbnV4LmllOyANCj4+IGRhbmllbEBmZndsbC5jaDsgcmVncmVzc2lvbnNAbGVl
-bWh1aXMuaW5mbw0KPj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IHN0
-YWJsZUB2Z2VyLmtlcm5lbC5vcmc7IEx1a2UgQ2hlbiANCj4+IDxsdWtlX2NoZW5AYXNwZWVk
-dGVjaC5jb20+OyBIdW5nanUgSHVhbmcgDQo+PiA8aHVuZ2p1X2h1YW5nQGFzcGVlZHRlY2gu
-Y29tPjsgQ2hhcmxlcyBLdWFuIDxjaGFybGVzX2t1YW5AYXNwZWVkdGVjaC5jb20+DQo+PiBT
-dWJqZWN0OiBSZTogW1BBVENIXSBkcm0vYXN0OiBUcmVhdCBBU1QyNjAwIGxpa2UgQVNUMjUw
-MCBpbiBtb3N0IHBsYWNlcw0KPj4NCj4+IE9uIDA4LzA2LzIwMjIgMTA6MDksIEt1by1Ic2lh
-bmcgQ2hvdSB3cm90ZToNCj4+PiBIaSBUaG9tYXMNCj4+Pg0KPj4+IFRoYW5rcyBmb3IgeW91
-ciBzdWdnZXN0aW9ucyENCj4+Pg0KPj4+IEkgYW5zd2VyIGVhY2ggcmV2aXNpb24gaW5saW5l
-IHRoYXQgZm9sbG93ZWQgYnkgW0tIXTouDQo+Pg0KPj4gVGhhbmtzIGZvciByZXZpZXdpbmcg
-dGhpcy4NCj4+Pg0KPj4+IFJlZ2FyZHMsDQo+Pj4NCj4+PiDCoCDCoMKgwqDCoMKgwqDCoCBL
-dW8tSHNpYW5nIENob3UNCj4+Pg0KPj4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+
-Pj4NCj4+PiBGcm9tOiBUaG9tYXMgWmltbWVybWFubiBbbWFpbHRvOnR6aW1tZXJtYW5uQHN1
-c2UuZGVdDQo+Pj4NCj4+PiBTZW50OiBUdWVzZGF5LCBKdW5lIDA3LCAyMDIyIDg6MDMgUE0N
-Cj4+Pg0KPj4+IFRvOiBhaXJsaWVkQHJlZGhhdC5jb207IGFpcmxpZWRAbGludXguaWU7IGRh
-bmllbEBmZndsbC5jaDsNCj4+PiBqZmFsZW1wZUByZWRoYXQuY29tOyByZWdyZXNzaW9uc0Bs
-ZWVtaHVpcy5pbmZvOyBLdW8tSHNpYW5nIENob3UNCj4+PiA8a3VvaHNpYW5nX2Nob3VAYXNw
-ZWVkdGVjaC5jb20+DQo+Pj4NCj4+PiBTdWJqZWN0OiBbUEFUQ0hdIGRybS9hc3Q6IFRyZWF0
-IEFTVDI2MDAgbGlrZSBBU1QyNTAwIGluIG1vc3QgcGxhY2VzDQo+Pj4NCj4+PiBJbmNsdWRl
-IEFTVDI2MDAgaW4gbW9zdCBvZiB0aGUgYnJhbmNoZXMgZm9yIEFTVDI1MDAuIFRoZXJlYnkg
-cmV2ZXJ0DQo+Pj4gbW9zdCBlZmZlY3RzIG9mIGNvbW1pdCBmOWJkMDBlMGVhOWQgKCJkcm0v
-YXN0OiBDcmVhdGUgY2hpcCBBU1QyNjAwIikuDQo+Pj4NCj4+PiBUaGUgQVNUMjYwMCB1c2Vk
-IHRvIGJlIHRyZWF0ZWQgbGlrZSBhbiBBU1QyNTAwLCB3aGljaCBhdCBsZWFzdCBnYXZlDQo+
-Pj4gdXNhYmxlIGRpc3BsYXkgb3V0cHV0LiBBZnRlciBpbnRyb2R1Y2luZyBBU1QyNjAwIGlu
-IHRoZSBkcml2ZXIgd2l0aG91dA0KPj4+IGZ1cnRoZXIgdXBkYXRlcywgbG90cyBvZiBmdW5j
-dGlvbnMgdGFrZSB0aGUgd3JvbmcgYnJhbmNoZXMuDQo+Pj4NCj4+PiBIYW5kbGluZyBBU1Qy
-NjAwIGluIHRoZSBBU1QyNTAwIGJyYW5jaGVzIHJldmVydHMgYmFjayB0byB0aGUgb3JpZ2lu
-YWwNCj4+PiBzZXR0aW5ncy4gVGhlIGV4Y2VwdGlvbiBhcmUgY2FzZXMgd2hlcmUgQVNUMjYw
-MCBtZWFud2hpbGUgZ290IGl0cyBvd24NCj4+PiBicmFuY2guDQo+Pj4NCj4+PiBbS0hdOiBC
-YXNlZCBvbiBDVkVfMjAxOV82MjYwIGl0ZW0zLCBQMkEgaXMgZGlzYWxsb3dlZCBhbnltb3Jl
-Lg0KPj4+DQo+Pj4gUDJBIChQQ0llIHRvIEFNQkEpIGlzIGEgYnJpZGdlIHRoYXQgaXMgYWJs
-ZSB0byByZXZpc2UgYW55IEJNQyByZWdpc3RlcnMuDQo+Pj4NCj4+PiBZZXMsIFAyQSBpcyBk
-YW5nZXJvdXMgb24gc2VjdXJpdHkgaXNzdWUsIGJlY2F1c2UgSG9zdCBvcGVuIGEgYmFja2Rv
-b3INCj4+PiBhbmQgc29tZW9uZSBtYWxpY2lvdXMgU1cvQVBQIHdpbGwgYmUgZWFzeSB0byB0
-YWtlIGNvbnRyb2wgb2YgQk1DLg0KPj4+DQo+Pj4gVGhlcmVmb3JlLCBQMkEgaXMgZGlzYWJs
-ZWQgZm9yZXZlci4NCj4+Pg0KPj4+IE5vdywgcmV0dXJuIHRvIHRoaXMgcGF0Y2gsIHRoZXJl
-IGlzIG5vIG5lZWQgdG8gYWRkIEFTVDI2MDAgY29uZGl0aW9uDQo+Pj4gb24gdGhlIFAyQSBm
-bG93Lg0KPj4+DQo+Pg0KPj4gW3NuaXBdDQo+Pj4NCj4+PiBbS0hdOiBZZXMsIHRoZSBwYXRj
-aCBpcyAiZHJtL2FzdDogQ3JlYXRlIHRocmVzaG9sZCB2YWx1ZXMgZm9yIEFTVDI2MDAiDQo+
-Pj4gdGhhdCBpcyB0aGUgcm9vdCBjYXVzZSBvZiB3aGl0ZXMgbGluZXMgb24gQVNUMjYwMA0K
-Pj4+DQo+Pj4gY29tbWl0DQo+Pj4NCj4+Pg0KPj4+IGJjYzc3NDExZThhNjU5Mjk2NTVjZWY3
-YjYzYTM2MDAwNzI0Y2RjNGINCj4+PiA8aHR0cHM6Ly9jZ2l0LmZyZWVkZXNrdG9wLm9yZy9k
-cm0vZHJtL2NvbW1pdC8/aWQ9YmNjNzc0MTFlOGE2NTkyOTY1NWNlDQo+Pj4gZjdiNjNhMzYw
-MDA3MjRjZGM0Yj7CoChwYXRjaA0KPj4+IDxodHRwczovL2NnaXQuZnJlZWRlc2t0b3Aub3Jn
-L2RybS9kcm0vcGF0Y2gvP2lkPWJjYzc3NDExZThhNjU5Mjk2NTVjZWYNCj4+PiA3YjYzYTM2
-MDAwNzI0Y2RjNGI+KQ0KPj4+DQo+Pg0KPj4NCj4+IFNvIGJhc2ljYWxseSB0aGlzIGNvbW1p
-dCBzaG91bGQgYmUgZW5vdWdoIHRvIGZpeCB0aGUgd2hpdGUgbGluZXPCoCBhbmQgDQo+PiBm
-bGlja2VyaW5nIHdpdGggVkdBIG91dHB1dCBvbiBBU1QyNjAwID8NCj4+IFtLSF06IFllcy4N
-Cj4+IMKgwqDCoMKgWW91IGFyZSB3ZWxjb21lIHRvIHRlbGwgbWUgc29tZXRoaW5nIGlmIHlv
-dSBjb25zaWRlciB0aGVyZSBpcyANCj4+IG90aGVyIHN0cmFuZ2UgaXNzdWUuDQo+PiDCoMKg
-wqDCoFRoYW5rcyBmb3IgeW91ciBlZmZvcnRzIG9uIGRybS9hc3QgcHJvamVjdCENCj4+IFJl
-Z2FyZHMsDQo+PiDCoMKgwqDCoEt1by1Ic2lhbmcgQ2hvdQ0KPiANCj4gSSd2ZSBnb3QgY29u
-ZmlybWF0aW9uIHRoYXQgdGhpcyBjb21taXQgaXMgZW5vdWdoIHRvIGZpeCB0aGUgaXNzdWUg
-DQo+IGludHJvZHVjZWQgd2l0aCBmOWJkMDBlMGVhOWQuDQo+IA0KPiBTbyBsZXQncyBkcm9w
-IHRoaXMgcGF0Y2gsIGFuZCBzdWJtaXQgYmNjNzc0MTFlOGE2ICJkcm0vYXN0OiBDcmVhdGUg
-DQo+IHRocmVzaG9sZCB2YWx1ZXMgZm9yIEFTVDI2MDAiIHRvIHN0YWJsZSBrZXJuZWwgaW5z
-dGVhZC4NCg0KVGhhbmtzIHRvIGJvdGggb2YgeW91IGZvciB5b3VyIGhlbHAgd2l0aCB0aGlz
-IGJ1Zy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gVGhhbmtzLA0KPiANCj4+
-DQo+PiBJIHdpbGwgdHJ5IHRvIGhhdmUgaXQgdGVzdGVkLCBhbmQgaWYgaXQncyBnb29kLCB3
-ZSBtYXkgd2FudCB0byBoYXZlIGl0IA0KPj4gb24gc3RhYmxlIGtlcm5lbC4NCj4+DQo+PiBC
-ZXN0IHJlZ2FyZHMsDQo+Pg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhp
-Y3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBH
-bWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4
-MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+>
+>
+>> + * drm_exec_continue_on_contention(&exec);
+>> + *        if (ret)
+>> + *            goto error;
+>> + *    }
+>> + *
+>> + *    drm_exec_for_each_locked_object(&exec, index, obj) {
+>> + *        dma_resv_add_fence(obj->resv, fence, DMA_RESV_USAGE_READ);
+>> + *        ...
+>> + *    }
+>> + *    drm_exec_fini(&exec);
+>> + *
+>> + * See struct dma_exec for more details.
+>> + */
+>> +
+>> +/* Dummy value used to initially enter the retry loop */
+>> +#define DRM_EXEC_DUMMY (void*)~0
+>> +
+>> +/* Initialize the drm_exec_objects container */
+>> +static void drm_exec_objects_init(struct drm_exec_objects *container)
+>> +{
+>> +    container->objects = kmalloc(PAGE_SIZE, GFP_KERNEL);
+>
+> Should this be kvmalloc? You're using kvrealloc and kvfree elsewhere.
 
---------------e0RZY9tGfnxfmhM7aJTEq7ZF--
+The initial number of objects tracked should be small enough so that we 
+can use kmalloc() directly.
 
---------------BQvaUHea1HTqdV8BFbs8hZlK
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> [SNIP]
+>>
+>> +/**
+>> + * drm_exec_prepare_obj - prepare a GEM object for use
+>> + * @exec: the drm_exec object with the state
+>> + * @obj: the GEM object to prepare
+>> + * @num_fences: how many fences to reserve
+>> + *
+>> + * Prepare a GEM object for use by locking it and reserving fence 
+>> slots. All
+>> + * succesfully locked objects are put into the locked container. 
+>> Duplicates
+>> + * detected as well and automatically moved into the duplicates 
+>> container.
+>> + *
+>> + * Returns: -EDEADLK if a contention is detected, -ENOMEM when memory
+>> + * allocation failed and zero for success.
+>> + */
+>> +int drm_exec_prepare_obj(struct drm_exec *exec, struct 
+>> drm_gem_object *obj,
+>> +             unsigned int num_fences)
+>> +{
+>> +    int ret;
+>> +
+>> +    ret = drm_exec_lock_contended(exec);
+>
+> If this succeeds, it won't reserve any fence slots for object. Is that 
+> a problem?
 
------BEGIN PGP SIGNATURE-----
+No, the contended object should be re-presented later on and then we 
+allocate the fence slots.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKhnZUFAwAAAAAACgkQlh/E3EQov+BA
-XxAAkUzJhkwaS7PYeIl0ghNG1pXw6Z9D6WegG51ccGevkSJhkAddC3asoBZMpkP5ZqmAwmgwMGea
-iZaG0DGaDFCFdkNe5Lmk9Ej/o2RdkS3CniXhNo0Shv9krl3KjqhXJfd8YI5eu5CnRNjN9o7iTfWL
-0b0HYBcU8HHwvk+tertq97Z1YqJ5Zefuj62BjDNfBaJNdRm7MPpTVWN0eVyecktNZHPNDGM3tfh9
-R2SvttTR4tbvW8JMaUzRdtxi9/tAEeOz4RuisrArpsRlAM/FuvYhuls6fmaQ/g9Z+k/OTlu409wQ
-bktl6vieSDG+LnvIe6tPB4RYAjhzq111TvjeT1YKihamA6WXFRjORBhw90CAELQipINeAyCvChSK
-VmixlnNiY/k4O2xZikc0gU9KZYNqk1Hh6PSRZB0BBqQU+aXErnX98dGZN/4P1Dpt2bEyDkwEEToe
-aoVZbcQoIgLlKA/XZQRhb74p+b3qLSdV25TywmQynR6ByyLeeDY0+HNaRNGHUKpaR08zPAJzTjFA
-jR6ydjaou+nh+PFXAv6OaAI1L1UGRLCZuzpsU746q8qTI38PmaE2pnzQ44gdKRgIr8mVVBmO1YyA
-05Rp6h8DNA/gqbuDitD4Z29J/TfM4Q1NfDMe+usXMS7RqTO8xH0XpCXLSRbQuBOSc1W0W8g6PjcU
-FWo=
-=oGKc
------END PGP SIGNATURE-----
+>>
+>> +    if (unlikely(ret == -EALREADY)) {
+>> +        struct drm_exec_objects *container = &exec->duplicates;
+>> +
+>> +        /*
+>> +         * If this is the first locked GEM object it was most likely
+>> +         * just contended. So don't add it to the duplicates, just
+>> +         * reserve the fence slots.
+>
+> I don't understand this. Seems a bit arbitrary. Is it even legal to 
+> try to add the same object twice? I thought duplicates was for 
+> different objects that share the same reservation, not actually the 
+> same object on the same list twice.
 
---------------BQvaUHea1HTqdV8BFbs8hZlK--
+Yes, it's legal to try the same object twice. That can easily happen 
+when userspace specifies the same handle twice for a submission.
+
+The other possibility is that we had a contention, backed off and then 
+locked the contention first and then re-tried everything else once more.
+
+> Maybe you meant to compare with 
+> exec->locked.objects[exec->locked.num_objects-1], assuming that 
+> drm_exec_lock_contended just succeeded locking a previously contended 
+> object, and the caller retried locking that same object again?
+
+Yes, that's pretty much the idea. But then exec->locked.num_objects is 
+just 1 so that's equal to checking exec->locked.num_objects[0].
+
+On the other hand we would also catch cases where we lock the same 
+object multiple times directly behind each other. Need to think about 
+that a bit.
+
+>> +         */
+>> +        if (exec->locked.num_objects && exec->locked.objects[0] == obj)
+>> +            container = NULL;
+>> +
+>> +        ret = drm_exec_obj_locked(container, obj, num_fences);
+>> +        if (ret)
+>> +            return ret;
+>> +
+>> +    } else if (unlikely(ret)) {
+>> +        return ret;
+>> +
+>> +    } else {
+>> +        ret = drm_exec_obj_locked(&exec->locked, obj, num_fences);
+>> +        if (ret)
+>> +            goto error_unlock;
+>> +    }
+>> +
+>> +    drm_gem_object_get(obj);
+>
+> The container already gets a reference to obj. What is this extra 
+> reference for? And where does it get dropped?
+
+Need to double check this, might be that it's just a leftover.
+
+Thanks,
+Christian.
+
+>
+> Regards,
+>   Felix
+
