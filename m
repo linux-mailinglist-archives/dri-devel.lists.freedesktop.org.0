@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E60B55441CB
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 05:13:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E93544273
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 06:24:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ADDE1129DD;
-	Thu,  9 Jun 2022 03:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96AD210F8E6;
+	Thu,  9 Jun 2022 04:24:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0DBE1122AF
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 03:13:47 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id d19so12240881lji.10
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jun 2022 20:13:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WAB02C3ZkH9VbHetvGWn5Py2rhK3DERsYsHyjK16wTE=;
- b=XbRWmIGGGenwao2Tk7wJ1Mr9i3hHZQHKx9STxE+UuTq7k04t4aXKpWuKhPOVswBUD9
- pEO8M6LEtGpJhPGuBYJYojpVZpAFGHKwRBoxKbKnWUiFKJmi1gd9o0k/2AjheVs6HNgB
- 3035f8G9eiId/7FVig6JqCQvOd+JSX9dxM+eE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WAB02C3ZkH9VbHetvGWn5Py2rhK3DERsYsHyjK16wTE=;
- b=lyp/D0xOKhSgbacBe930VPaZeoxpyVes3u21LC0B1g0uwEfQLZg5KCy9svNSUy2BOy
- eNtn/RPOgVES7wJgojTq/cbl+nh4yBiwXFbLjL6sG4ittvzW65B5GrEGrKAj37stPPIF
- R0b6ArftGnra3z5P1PFe8V89CUGY887Dz0CMyTlz7K3+Qr53PUYlXy0ELLpKG+U5NqpI
- jWaLT5/sL0fX/BUStqOpv5f5hullVPwEpiXWbR2RU3Aaiq2xS2OOAQAELIHxp7ZmSjj4
- 8d/to5tUMmGAMJYP7BRNUmafdLBRUhtkp8zck8tJ1VPidlopxjFXpl/cu7fd+qU6XOv2
- s5/w==
-X-Gm-Message-State: AOAM530PIlSSv2tiMshh1dsakOCGK1Fk2MllyrcQ2YEXsal1jRkRdniK
- 0DQ4UgXIUS/NEd0Zdg3LFnUF15ahHqgWUwzs7PzOU4Vuk1o=
-X-Google-Smtp-Source: ABdhPJyVjcaUH2c41gSc30QMinoAfJYAtQr3o/n0OUHhR0BwgrviMwb7SQgNmDG5Qp0lzNm1q2HT77RONbvJMun3cA4=
-X-Received: by 2002:a05:6402:149:b0:431:7dde:9b59 with SMTP id
- s9-20020a056402014900b004317dde9b59mr15089962edu.339.1654744414987; Wed, 08
- Jun 2022 20:13:34 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21CB110F8E6
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 04:24:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654748689;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cSVuoqBPD75E3qr8pbOUrlgQPBVekMZDYqvbR5nuvQk=;
+ b=MzqEpz8Bwb+DOqUbfkEFK6gQPtaAR0yTfqxv7xKXCe0aJjH9yZtTugCH1LYGqPmBDHsqTx
+ FNSQylM812lMicJ6POMl2eaDw0IBzgu+KyCYePESWW0I8Vq080zJXZq6izSxSY1iTaqTD6
+ tYfKMHjgxfQ/M0YlswJAFSAnqjlH5YA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-564-UQnzExmLP32YwXfpwLeR0Q-1; Thu, 09 Jun 2022 00:24:45 -0400
+X-MC-Unique: UQnzExmLP32YwXfpwLeR0Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5EB161C0513E;
+ Thu,  9 Jun 2022 04:24:45 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0745CC28118;
+ Thu,  9 Jun 2022 04:24:45 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 7E3251800094; Thu,  9 Jun 2022 06:24:43 +0200 (CEST)
+Date: Thu, 9 Jun 2022 06:24:43 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Dongwon Kim <dongwon.kim@intel.com>
+Subject: Re: [PATCH v2 2/2] drm/virtio: fence created per cursor/plane update
+Message-ID: <20220609042443.giva3mt773fteaio@sirius.home.kraxel.org>
+References: <20220603211849.27703-1-dongwon.kim@intel.com>
+ <20220603211849.27703-3-dongwon.kim@intel.com>
 MIME-Version: 1.0
-References: <20220608094816.2898692-1-hsinyi@chromium.org>
- <20220608094816.2898692-9-hsinyi@chromium.org>
- <CAD=FV=VShXpy+6ESXGKhw5Z9o3hfXNV2_HvdOAPM3YN2qSA9Sg@mail.gmail.com>
-In-Reply-To: <CAD=FV=VShXpy+6ESXGKhw5Z9o3hfXNV2_HvdOAPM3YN2qSA9Sg@mail.gmail.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Thu, 9 Jun 2022 11:13:09 +0800
-Message-ID: <CAJMQK-hoecGwz3AmN7qdRhYCOzDXbaHZ2Fa2UCmWMFO7ouFGUg@mail.gmail.com>
-Subject: Re: [PATCH v6 8/8] drm: Config orientation property if panel provides
- it
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20220603211849.27703-3-dongwon.kim@intel.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,73 +66,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, kernel test robot <lkp@intel.com>,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 8, 2022 at 10:17 PM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Wed, Jun 8, 2022 at 2:48 AM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
-> >
-> > @@ -269,6 +280,31 @@ void drm_panel_bridge_remove(struct drm_bridge *bridge)
-> >  }
-> >  EXPORT_SYMBOL(drm_panel_bridge_remove);
-> >
-> > +/**
-> > + * drm_panel_bridge_set_orientation - Set the connector's panel orientation
-> > + * if the bridge is a panel bridge.
-> > + *
-> > + * @connector: The connector to be set panel orientation.
-> > + * @bridge: The drm_bridge to be transformed to panel bridge.
->
-> Ideally you should have a kernel doc to describe what you're returning.
->
->
-> > + */
-> > +int drm_panel_bridge_set_orientation(struct drm_connector *connector,
-> > +                                    struct drm_bridge *bridge)
-> > +{
-> > +       struct panel_bridge *panel_bridge;
-> > +
-> > +       if (!bridge)
-> > +               return 0;
-> > +
-> > +       if (bridge->funcs != &panel_bridge_bridge_funcs)
-> > +               return 0;
->
-> nit: Why do you need to handle NULL bridge and the case that someone
-> calls you with something other than a panel-bridge? I'm not convinced
-> that's useful. In general kernel style doesn't do massive validation
-> of parameters unless there's a reason for it. ...if we do need to
-> handle them then it feels like they should be returning -EINVAL or
-> something, not 0.
+On Fri, Jun 03, 2022 at 02:18:49PM -0700, Dongwon Kim wrote:
+> Having one fence for a vgfb would cause conflict in case there are
+> multiple planes referencing the same vgfb (e.g. Xorg screen covering
+> two displays in extended mode) being flushed simultaneously. So it makes
+> sence to use a separated fence for each plane update to prevent this.
+> 
+> vgfb->fence is not required anymore with the suggested code change so
+> both prepare_fb and cleanup_fb are removed since only fence creation/
+> freeing are done in there.
 
-The only caller had checked it. I can remove the check here.
+The fences are allocated and released in prepare_fb + cleanup_fb for a
+reason: atomic_update must not fail.
 
->
->
-> > @@ -917,10 +917,13 @@ void drm_bridge_hpd_notify(struct drm_bridge *bridge,
-> >                            enum drm_connector_status status);
-> >
-> >  #ifdef CONFIG_DRM_PANEL_BRIDGE
-> > +bool drm_bridge_is_panel(const struct drm_bridge *bridge);
-> >  struct drm_bridge *drm_panel_bridge_add(struct drm_panel *panel);
-> >  struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
-> >                                               u32 connector_type);
-> >  void drm_panel_bridge_remove(struct drm_bridge *bridge);
-> > +int drm_panel_bridge_set_orientation(struct drm_connector *connector,
-> > +                                     struct drm_bridge *bridge);
->
-> I suspect that you need some dummy versions of your new functions
-> defined if "CONFIG_DRM_PANEL_BRIDGE" is not defined. Otherwise we're
-> going to be yelled at by the kernel robot eventually.
->
-> -Doug
+I guess virtio-gpu must be fixed to use drm_plane_state->fence
+correctly ...
+
+take care,
+  Gerd
+
