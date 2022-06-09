@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40743544BE3
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 14:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E372544BE0
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 14:24:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45E2111BE91;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72EF911BE9D;
 	Thu,  9 Jun 2022 12:24:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE89311BE5D
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 12:24:03 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id a2so31594860lfg.5
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 05:24:03 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA5AD11BE87
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 12:24:04 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id a29so9210183lfk.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 05:24:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SUn1WOp+JZSnlJIDDrxH+O9fgRsQXrcw9L2S+Zca6OM=;
- b=EtrvkCBe0NgzfUAPrPX2jYHqaxd/nG9HcYiVXsFU+ROL/t8759M9ti0tkbthJGhTpQ
- HLie4OUOUEFIAcYrpJkr/uIWCtaS5fAFy5r8kYfNsx7HeHi2PIoa0c5sa4nSrXc9PthH
- KP5FvRtOq+0Is+pyI4ZLIqxActQUQ3VAh8RzP3oYkFYmhPkicqRkpAKYqBNBM9paCEAZ
- UeGXRs/kZFFVf02ZI6fDc5QOoagK030Y3J5D7U+M4siq/10TKQahS63WQQ0dk+s0eYqX
- xKocU+YtXkTBMux7h14v/cjRX13BKBP8dJ7fR5V6ZdX/yoUxt5cm2OIud1h786P/UPMY
- 3CdQ==
+ bh=qs3Tgo9HxtYbegYMsCk59QI8qhrr1tyZgYEjx7n8Wk4=;
+ b=SqHFt07SCMIijq4IN+FXHu5/qFgbby/8hR5MpdRzb3971Dzc5Ik0+eymmwAHuAUfKO
+ bAHEZT56jczuI4+o8ngXAYtGIdC5S3n4KNKgXLP7Ag+ZXE8+iMnWijnXvtOFHEU0psMy
+ Hq59zvmQyGPXhWq8Ub2EQNb5qNmFD2uKPser0sySf3l3gP01/pam1rFTv0T88dQ+ogw5
+ H4cUgfvYE2vVZ5wZh4qnccUif5oK4xrGAO0vzW6X1RaflRK2VKniV90nUVn4VKz0l0YY
+ HJa/3W3GQknLX/aL8SqjrLd/cejz90eLX29yUw0D6oLtBeHb85dbQh8ecosbzGd478ET
+ UR+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SUn1WOp+JZSnlJIDDrxH+O9fgRsQXrcw9L2S+Zca6OM=;
- b=UW1xPsdeemlOaF8E56kd8oZrThqXhjqqg+0QoQA3taAoRhbMMku6b6PUXHJBpZC1NS
- zPoYWkR9bXqjXAwtkEs7ZufkFef/djQyLqGqs6tHAbb4Np/3Hy4IPzLWGm3p/jWclH5D
- juPjPRlIFfF/4RHIQ7FoVHlh+/nBWbPilDncS+Lluwk9osKn++ZDwYnQlbdGIZwD/PT2
- ++9WWQxcT4VRh8T9GZv5O5doxAv9E2uks90DqRP3hUud6yhVIE/mopjIPv1iL9b5aUdW
- Rlb9xPctbLwlVWj8IU8qDpAyoxVERpD9C7UZr51KJMIS/Cmbgp/64nFY2aXsa70CCZf9
- ptYg==
-X-Gm-Message-State: AOAM532yPKuCNHYIltrfFoBwkEibX0hsVKDsAWi/ofHFVZnCGlWWWsyd
- ILUfeqIx7YGtP1E6gzJCHBKDUw==
-X-Google-Smtp-Source: ABdhPJwCXoEf6TkZjW0q7EHMhRCvA2o+dBUu8Cm/IqQaJmBV3E7VjgKjZV1hohNlh5iKc8A/ZUwXZA==
-X-Received: by 2002:a05:6512:130c:b0:477:e2ea:396e with SMTP id
- x12-20020a056512130c00b00477e2ea396emr68244331lfu.489.1654777443367; 
- Thu, 09 Jun 2022 05:24:03 -0700 (PDT)
+ bh=qs3Tgo9HxtYbegYMsCk59QI8qhrr1tyZgYEjx7n8Wk4=;
+ b=ZTuydizbr6L1R540GvQVfNsbxFH0EvBV4P1oBk0QWy3t/vu2HbzUD8CoQZU4tP8VB9
+ FcQU+XnMqr//S5M0Uii6Xdgx3Qipj41XJnJryDjCjYqXvYWPYbt4OyTQ1qep5E8RlNVB
+ XF5Hkp/tq2Gai5J6FK6yyc1c+Qd1AELufgh58QZ5vq/bd1uI6J5epMbpKLMbbRUOgVig
+ DIV9wohc7yXuSpF2T65qiYFRhAbe17g/sNBcbSPc2Q6hGo4Z9RPtIKWbLbK+w4GiAxGh
+ 2Sd3lG3j239D3ys7FJeTEYtRxF22IGioxFRzZ1YfhWZNX2G1LtI1bu1cEfNzwyhPNU/V
+ 8v1A==
+X-Gm-Message-State: AOAM533qLYL81SLml+VMLsk5/kJ3Jgkx84t0vEOTka7UxZBXIsBJqG+n
+ Y0A+Ydt36V3GXCsJXcZA5xMQiw==
+X-Google-Smtp-Source: ABdhPJyvQuKGTYPc/8i9ydAXsIXFgspf1mz3WicEZf36eNYWiwrLcqCbebVPPaTSa0mxzJpI1Rzfaw==
+X-Received: by 2002:a05:6512:234e:b0:479:3bb1:8d3c with SMTP id
+ p14-20020a056512234e00b004793bb18d3cmr14715871lfu.478.1654777444407; 
+ Thu, 09 Jun 2022 05:24:04 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- f11-20020a056512360b00b0047daa133decsm32421lfs.166.2022.06.09.05.24.02
+ f11-20020a056512360b00b0047daa133decsm32421lfs.166.2022.06.09.05.24.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 09 Jun 2022 05:24:03 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
@@ -53,10 +53,10 @@ To: Andy Gross <agross@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v3 13/14] ARM: dts: qcom: apq8064: drop phy-names from HDMI
+Subject: [PATCH v3 14/14] arm64: dts: qcom: msm8996: drop phy-names from HDMI
  device node
-Date: Thu,  9 Jun 2022 15:23:49 +0300
-Message-Id: <20220609122350.3157529-14-dmitry.baryshkov@linaro.org>
+Date: Thu,  9 Jun 2022 15:23:50 +0300
+Message-Id: <20220609122350.3157529-15-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220609122350.3157529-1-dmitry.baryshkov@linaro.org>
 References: <20220609122350.3157529-1-dmitry.baryshkov@linaro.org>
@@ -87,21 +87,21 @@ from existing DTs.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- arch/arm/boot/dts/qcom-apq8064.dtsi | 1 -
+ arch/arm64/boot/dts/qcom/msm8996.dtsi | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/qcom-apq8064.dtsi b/arch/arm/boot/dts/qcom-apq8064.dtsi
-index 34c0ba7fa358..391ad85559bd 100644
---- a/arch/arm/boot/dts/qcom-apq8064.dtsi
-+++ b/arch/arm/boot/dts/qcom-apq8064.dtsi
-@@ -1420,7 +1420,6 @@ hdmi: hdmi-tx@4a00000 {
- 				      "slave_iface";
+diff --git a/arch/arm64/boot/dts/qcom/msm8996.dtsi b/arch/arm64/boot/dts/qcom/msm8996.dtsi
+index 9932186f7ceb..fa446889d25d 100644
+--- a/arch/arm64/boot/dts/qcom/msm8996.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8996.dtsi
+@@ -925,7 +925,6 @@ hdmi: hdmi-tx@9a0000 {
+ 					"extp";
  
- 			phys = <&hdmi_phy>;
--			phy-names = "hdmi-phy";
+ 				phys = <&hdmi_phy>;
+-				phy-names = "hdmi_phy";
+ 				#sound-dai-cells = <1>;
  
- 			ports {
- 				#address-cells = <1>;
+ 				status = "disabled";
 -- 
 2.35.1
 
