@@ -1,62 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08DB54480A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 11:54:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A31544849
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 12:08:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F090311372F;
-	Thu,  9 Jun 2022 09:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22FA61137D3;
+	Thu,  9 Jun 2022 10:07:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1715F11303F
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 09:54:17 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id q26so21271971wra.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 02:54:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=dgxIUh9kZnAhshZpAfcCNmc5NM9XP1H+pazqAWk3o4M=;
- b=sYbi7/4QmhUcDAphES1n3sjziqocBdZaVokz7jqGR4vrF3G3Qx7JFQpiauElXr2toJ
- gZCDaP679DwAhMrD7ycpRlIYOzaEABiJxvohe6lQDbOyZ046TDwXOkS0cfiY0nbpoyJn
- YCLA016qOzd+q/EJpiVMQjT/jLcQTvR3KG6oXmdYhV8Q2nNGNmausPfLhEbsQeMd/AeP
- cCNlWGGAQTCzmt6MBNFK4z7FzPN3oY6B1jDnNTP8HO6T7vXWhZeqo2tkfKjPrjmkzih1
- okOr9aVs9Hff9CcOIbUAMS5m1PFeAewjo+nOUf8xnjRWRtJM3OEVD6S68MmTywxggO4G
- esMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dgxIUh9kZnAhshZpAfcCNmc5NM9XP1H+pazqAWk3o4M=;
- b=WTYjiZVLNZPwA51+yu4KWBRh7vLshs8cqw8DD8D8/BL5KK0aB34tv+45aF6CFYSYAf
- jTo7g0u5zyd0KaW1GFAZ8OhWEM21FU7Q5PlVadNXoSktrSRwGTpS+LU/FhmE1ENcSm2M
- 8SDhgKsW/ZWbgfLZvRvCMQLOiw/MhUbFaoPpnEy8MXnxVXrMLcWYTspTdMn9kbmissGD
- DtTjaEvlki1kHCBM0dvKG7SIs9DEMfJTiNNha4RzvvNWJ8klTPylDbdfLLdw8K6suA2U
- ZXUkZGc/MDpBr37Wt3QS7cgK29VeAPS8AMUzG8ZsI3W0F7ypCYv4fSSNebDgWj9qWJsc
- 6I4Q==
-X-Gm-Message-State: AOAM533c6kBbOwMnWVWTHmKOMXHHXSDapHb6hU2A0z+S/KTAsFZYF36h
- QU1QMHtd5bMXq3h+14xl7hyODQ==
-X-Google-Smtp-Source: ABdhPJwFTfJT5VBRvmZdE52zTqSkomJN72re/rRGHQq1XZGdbN0tmi270rT5tG9338WBlHEIN7CpYw==
-X-Received: by 2002:a5d:64e7:0:b0:218:5626:7e7f with SMTP id
- g7-20020a5d64e7000000b0021856267e7fmr11844016wri.245.1654768455480; 
- Thu, 09 Jun 2022 02:54:15 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- h13-20020a5d504d000000b002100e86319asm15031976wrt.78.2022.06.09.02.54.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jun 2022 02:54:14 -0700 (PDT)
-Date: Thu, 9 Jun 2022 10:54:12 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Stephen Kitt <steve@sk2.org>
-Subject: Re: [PATCH] fbdev: atmel_lcdfb: Rework backlight status updates
-Message-ID: <20220609095412.fccofr2e2kpzhw4t@maple.lan>
-References: <20220608205623.2106113-1-steve@sk2.org>
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C262C113783;
+ Thu,  9 Jun 2022 10:07:57 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id EF4375C014B;
+ Thu,  9 Jun 2022 06:07:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 09 Jun 2022 06:07:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm1; t=
+ 1654769276; x=1654855676; bh=f1FVNivSAW6w18p7eCpNqBRpqJHkTr+yPcZ
+ kyLc+V/Q=; b=kBp1Guo7bZ54mogYWfF8Af+dnNoOHKx0rY6+O36G8Qwo1dSKiV5
+ qQaXEFBZZYIUtiuGfOfHDSAPyhPCsoh0qUrXQc786WCN5YrzralBNx5uNejo9Zjz
+ qL8wCooTwQjm/Y04gqPSe+/D1Mze0DEBIqaYGgNN+AsYaxItFTDY1xT4OUuKu+Ky
+ 7Q6BK36IuSm3CBh8GCHelskwIsirfWP2YydWfF94/9BImw5rGDwfT/anAjNEj1SU
+ qSLzwxXvov0msnEPsJp8dTI2DmDJ49UcFSFB9nCD+nKkdmKpQO31a1HysrZVXct9
+ z/dY+EMiUdZY/uI2Vo0UBv+8TZrzggAA5EQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:message-id:mime-version
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1654769276; x=
+ 1654855676; bh=f1FVNivSAW6w18p7eCpNqBRpqJHkTr+yPcZkyLc+V/Q=; b=P
+ kYTbLtiyFSMWIiHX44tsQgSGBYI2vhbfXoKXftVeVuts+A9K3WD+rWPJJLum0OEg
+ ZYQqmOah7cfHB5pEsqCURGffYC8+Y71ayha+5xUMD7q0cvdcR0V2MdjuEOaFaYp5
+ RMY28fQozZjk/WC6wPpx+dX2lHer2pUebtWLCVkWjNNvD14rQJUbYKiQaYg9damT
+ IVw9gtR1q7lbZmWoRZcRNwdhkO5fhs6FK23jAemYbHFhm/MDCzoBQJXbFg+Jj8CE
+ AmpjJHEgkxdjmsOxlfq7+e6Sn8ISQlOLGMqL87iGeZHcL8bNBUsb8BmYcEf+vv5C
+ RGgwJrUm5azP/NFCg4yiw==
+X-ME-Sender: <xms:fMahYj8igzyfq9mq-obJSLSGAHU_4iqbsrxWAC6jkO4Gmrd7bZ3FcQ>
+ <xme:fMahYvtKpBAbB0HLVIRJ3Rmys9XazBUyTFTkekL-EJrUYXK2dPK4m9RIKgmjVN2UK
+ W6-oTq8atPQTt6izbk>
+X-ME-Received: <xmr:fMahYhDHFXJ9szKM2LT_DUba1QgA1EG1ElmKgmku453Tb1QBigCftmv9Ynv_ApFip9eI12ogyEMNJ7yfCX04IZB1vhgBtwROHkmI-eI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtledgvddtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkgggtugesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeeuieehjefhieevtdehudfftdetgfdtuedvvdeugeetgfevgeevudegffduveej
+ ieenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
+ thgvtghh
+X-ME-Proxy: <xmx:fMahYveNwcvkw6hM9Iyxbi1v3_rhvGI1grsgBNL_65OmAX8WvnIeow>
+ <xmx:fMahYoMg7fThsGUbeDIgqXpArdzpRaUMVFnizphNqXX9ySWGecBdQQ>
+ <xmx:fMahYhkm12d3OGmudbufpysza8TuD7h8P3JcSHrcxGXABs9MetddCQ>
+ <xmx:fMahYpHZOHYb8GiSHK_k3ttUGkRhAKMGV6sF6YPwoV0JumisLmNA5Q>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 Jun 2022 06:07:56 -0400 (EDT)
+Date: Thu, 9 Jun 2022 12:07:54 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20220609100754.kvrkjy67gqabjuee@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="z5qqkj5p3qkumxi3"
 Content-Disposition: inline
-In-Reply-To: <20220608205623.2106113-1-steve@sk2.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,67 +81,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Helge Deller <deller@gmx.de>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 08, 2022 at 10:56:23PM +0200, Stephen Kitt wrote:
-> Instead of checking the state of various backlight_properties fields
-> against the memorised state in atmel_lcdfb_info.bl_power,
-> atmel_bl_update_status() should retrieve the desired state using
-> backlight_get_brightness (which takes into account the power state,
-> blanking etc.). This means the explicit checks using props.fb_blank
-> and props.power can be dropped.
-> 
-> Then brightness can only be negative if the backlight is on but
-> props.brightness is negative, so the test before reading the
-> brightness value from the hardware can be simplified to
-> (brightness < 0).
 
-props.brightness should always be in the interval 0..max_brightness.
+--z5qqkj5p3qkumxi3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This is enforced by the main backlight code (and APIs to set the
-brightness use unsigned values). Thus props.brightness could only be
-negative is the driver explicitly sets a negative value as some kind of
-placeholder (which this driver does not do).
+Hi Daniel, Dave,
 
-I don't think there is any need to keep this logic.
+Here's this week drm-misc-fixes PR
 
+Maxime
 
-Daniel.
+drm-misc-fixes-2022-06-09:
+One fix to handle DT errors in ti-sn65dsi83, a fix for a use-after-free in
+panfrost, two fixes for panel self-refresh handling, and one to fix
+multiple output support on AST.
+The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56:
 
+  Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
 
-> diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/atmel_lcdfb.c
-> index 1fc8de4ecbeb..06159a4da293 100644
-> --- a/drivers/video/fbdev/atmel_lcdfb.c
-> +++ b/drivers/video/fbdev/atmel_lcdfb.c
-> @@ -109,22 +108,10 @@ static u32 contrast_ctr = ATMEL_LCDC_PS_DIV8
->  static int atmel_bl_update_status(struct backlight_device *bl)
->  {
->  	struct atmel_lcdfb_info *sinfo = bl_get_data(bl);
-> -	int			power = sinfo->bl_power;
-> -	int			brightness = bl->props.brightness;
-> +	int			brightness = backlight_get_brightness(bl);
->  
-> -	/* REVISIT there may be a meaningful difference between
-> -	 * fb_blank and power ... there seem to be some cases
-> -	 * this doesn't handle correctly.
-> -	 */
-> -	if (bl->props.fb_blank != sinfo->bl_power)
-> -		power = bl->props.fb_blank;
-> -	else if (bl->props.power != sinfo->bl_power)
-> -		power = bl->props.power;
-> -
-> -	if (brightness < 0 && power == FB_BLANK_UNBLANK)
-> +	if (brightness < 0)
->  		brightness = lcdc_readl(sinfo, ATMEL_LCDC_CONTRAST_VAL);
-> -	else if (power != FB_BLANK_UNBLANK)
-> -		brightness = 0;
->  
->  	lcdc_writel(sinfo, ATMEL_LCDC_CONTRAST_VAL, brightness);
->  	if (contrast_ctr & ATMEL_LCDC_POL_POSITIVE)
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-06-09
+
+for you to fetch changes up to 477277c7fd43d48ae68cbdcaa7c0f82024a87421:
+
+  drm/ast: Support multiple outputs (2022-06-09 10:27:49 +0200)
+
+----------------------------------------------------------------
+One fix to handle DT errors in ti-sn65dsi83, a fix for a use-after-free in
+panfrost, two fixes for panel self-refresh handling, and one to fix
+multiple output support on AST.
+
+----------------------------------------------------------------
+Brian Norris (2):
+      drm/bridge: analogix_dp: Support PSR-exit to disable transition
+      drm/atomic: Force bridge self-refresh-exit on CRTC switch
+
+Marek Vasut (1):
+      drm/bridge: ti-sn65dsi83: Handle dsi_lanes == 0 as invalid
+
+Maxime Ripard (1):
+      Merge v5.19-rc1 into drm-misc-fixes
+
+Steven Price (1):
+      drm/panfrost: Job should reference MMU not file_priv
+
+Thomas Zimmermann (1):
+      drm/ast: Support multiple outputs
+
+ drivers/gpu/drm/ast/ast_dp.c                       |  5 ++-
+ drivers/gpu/drm/ast/ast_dp501.c                    |  2 +-
+ drivers/gpu/drm/ast/ast_drv.h                      |  9 +++--
+ drivers/gpu/drm/ast/ast_main.c                     | 21 +++++------
+ drivers/gpu/drm/ast/ast_mode.c                     | 38 +++++++++++---------
+ drivers/gpu/drm/ast/ast_post.c                     |  2 +-
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 42 +++++++++++++++++++---
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c              |  2 +-
+ drivers/gpu/drm/drm_atomic_helper.c                | 16 +++++++--
+ drivers/gpu/drm/panfrost/panfrost_drv.c            |  5 +--
+ drivers/gpu/drm/panfrost/panfrost_job.c            |  6 ++--
+ drivers/gpu/drm/panfrost/panfrost_job.h            |  2 +-
+ 12 files changed, 100 insertions(+), 50 deletions(-)
+
+--z5qqkj5p3qkumxi3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYqHGegAKCRDj7w1vZxhR
+xZs5AQDYGRx/0R7I5H15naD7uzHVVhqjKJi2Aqh4h/vwC4nUxwD/Qc5+JPq1OAo9
+lsd0e8EQ4KrwgTfCjG+PF/hVpGlS1wI=
+=YSUp
+-----END PGP SIGNATURE-----
+
+--z5qqkj5p3qkumxi3--
