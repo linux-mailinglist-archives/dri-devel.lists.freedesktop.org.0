@@ -2,124 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F171A54404B
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 02:05:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 074BA54406D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 02:15:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4701F10E8BC;
-	Thu,  9 Jun 2022 00:05:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB8210E4B0;
+	Thu,  9 Jun 2022 00:15:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam07on2060.outbound.protection.outlook.com [40.107.212.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB71C10E8BC;
- Thu,  9 Jun 2022 00:05:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tce57ri689Gu4/s2oYewgyzrtFtlcMt+PyrMe0MsuvPuQc/TkikDkqRqVr49LP9lxsDxcxovF/aKL/jxVOg73VOYYBcL5gNb0c/NVltaKhzJLL55fDGrDj+YfCi4kQRVeWetbD7iFxRX90tnEwPU5xUxliIMLIk4ZjUXy4eEHTRGOF6xYQ7PntNSGRM1jq7StS7Tp7fpn/xzxxoZJaG4YsKql/yS/A9vVHZUax5xG7HXh6G1fY5IaMCMpkdMxsqJ+7WxjB//NwhhVGpEUx5SYI6894boRlanWrluihXlC8pi5G/5tuyJa8JP5CjsdCmKdil5W7DWZ3HYpo8zapbaYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=94YQ8ce43YkJtS89IHfdHs9hycJ6PU89tcVbyoG+gR4=;
- b=lKFikeey7jeBVvwDy1F4MV/S8pt/F+icN4HA+TapWAIyzbkk+tjOlf9jufJnG8gc1qILf3AFeSpWKMQzx2NQ0RHQdgn7oCXiL10+X1AKOF2BsMyM8RTsiwRy/hCUkR38wYgzEVV1hQPIF+NXDHcEokroJMw/pzCipl5ydCd4oNLPgZNKrSN07heZy7IrHG/tXAzA319oC7wFw/fYcFBDmpWwgIk9oNThoNYgsSjPVKrsy1sWSPs588GwKnsaLl/Xw+WSdZ8Sd2bv6nJKMA6mpKx0TIW1WBchmGDY3igrcWlyN5ftRZI6iEICcEqQgrJeQHoac8CFVvrSNgzstKRhRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=94YQ8ce43YkJtS89IHfdHs9hycJ6PU89tcVbyoG+gR4=;
- b=Nl6Bkdi69E1wfFpL6mz07Zt9iWnye/J971ARp6RtkCyZL9dqL1O67e8Ht4fu5EX9QKVo9ZF5FpX0XjWxJW3qGzURETeY85k7UpDEMCQ/9ybhHWaSOkfxx8Q+toup8Q6KdgGykJB8vlCyA9HoulTh88kyK3WIEOTB3oV7lODhLI0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by IA1PR12MB6091.namprd12.prod.outlook.com (2603:10b6:208:3ed::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.19; Thu, 9 Jun
- 2022 00:05:13 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::1cf6:2a9d:41d6:e8c3]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::1cf6:2a9d:41d6:e8c3%4]) with mapi id 15.20.5332.012; Thu, 9 Jun 2022
- 00:05:12 +0000
-Message-ID: <9ef430d2-1748-10eb-7708-ae8ad9d47804@amd.com>
-Date: Wed, 8 Jun 2022 20:05:11 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/8] drm: execution context for GEM buffers v2
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- daniel@ffwll.ch
-References: <20220504074739.2231-1-christian.koenig@amd.com>
- <20220504074739.2231-2-christian.koenig@amd.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-In-Reply-To: <20220504074739.2231-2-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH2PR14CA0004.namprd14.prod.outlook.com
- (2603:10b6:610:60::14) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2A4A10E4B0
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 00:15:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654733714; x=1686269714;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=VJaoEcVsxQq1bvI/6bf3ZD+VGSdcsRuFeFp57nRDdjc=;
+ b=mFXFR3ajhmTAghtq8gMvdRabflgzq2sexcREy1yXf1hN4ZEbvu8BrLCB
+ 26i9vTHgUop5je5xzUEVMosbaPr6C/NyUhJY7pjNpzneQW+TQRQM1/sIR
+ jwY22F2vOc8cJarB95MbXiSHcz8pS4urnW1bO9Og8/opRUo63yLtomUNN
+ a3QqtnPp90vw+ecNxZ9DO+df3MeIjLPcALK5iUsdOlyPBvq1hlDPy/njN
+ 9EB+BKaY9nl301IamnKlsXAfpg0T9l2IRrIFgjEAc48shvtT8mS/PtiaM
+ BYAzavk5nRyuoXY/wtFfyizATMV3ppTqdqOdVqilk8oMYMDFyTS0OP8CA w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10372"; a="338869025"
+X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; d="scan'208";a="338869025"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jun 2022 17:15:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,287,1647327600"; d="scan'208";a="609915376"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+ by orsmga008.jf.intel.com with ESMTP; 08 Jun 2022 17:15:08 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1nz5pL-000FG8-Nb;
+ Thu, 09 Jun 2022 00:15:07 +0000
+Date: Thu, 9 Jun 2022 08:14:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Prashant Malani <pmalani@chromium.org>, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org
+Subject: Re: [PATCH 7/7] drm/bridge: anx7625: Add typec_mux_set callback
+ function
+Message-ID: <202206090842.UVDwwfxx-lkp@intel.com>
+References: <20220607190131.1647511-8-pmalani@chromium.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6fe94160-f737-408a-12a0-08da49abb994
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6091:EE_
-X-Microsoft-Antispam-PRVS: <IA1PR12MB6091C37C78D0C4D1714E23DE92A79@IA1PR12MB6091.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: N4lUsBHsne1l81AL4RjeULlwF/3TVDXGDPoME35xZ87yliDA57P+ME9FllkW4fhkoUTLEyLewroJJA7VNhHiuDOpsnjor/RuMxuTd3V3b8h/YgmtHWzz/U6vXid3ROYG5Ski5wUzwZ8tvwoTmVEuagr/K3ZXD4a7h0VF7JVHqqULcqc0xJARfM+lpgik2EgdiCGSS3rbuoFCIrIL/N/9nA3cBpiyk6NzuTl2PwNsls0s0TRa1lIns1p2TUxdQpwsGdpjvzbZzJiwt9a57UqBiMdVFrwC5vEq2RzgZw/zNeZcJk7jROZ7lX6C7LqHn9Ddc2FJeB7akA5p26kpbq8aQxErzTaKNM3ZGfKzcuMyzGRZ20P4KR7Xs29WGI/l6zR61UbGoXAFwXxeZdEqC8oDrR1Cb9LXfyi+jEcEQXJSU9nqWDEo/KOURE6PkyvGEdZKd9sWFyDTCAlounFqdE4nIBaxaI/VdizKw9zJtcg8mkegZO/aPK47+bcmPoUpTI0ZvhnsHncIDjw4E8YNQifjUHgDdVzlLKwrj2UIoCgRhqCcCFvpMu7EoBuAR5V67UEWJ9/8Gb4f0eL+X9LDpVH2FjwMJfNJciMRHEFUHCeLHb/TRkLhdxXtwYXf5QFDgKwvxQEynH9qeJkJjBqkBXtm4YVljJZuTeUWW1B5njB8ZURTooBovm15Juok8MIMAsvd76dL1p61h9Z4GgMOd+g9ubF7Rs/2LXED8tS/x5+c+CbD17M1pXXS6C1HGeP26cM05BiiAPyBFLD5WnjLQQpR4g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6486002)(86362001)(5660300002)(38100700002)(316002)(66476007)(31686004)(31696002)(66946007)(30864003)(44832011)(4326008)(186003)(8936002)(8676002)(66556008)(83380400001)(36756003)(66574015)(26005)(53546011)(6512007)(2616005)(2906002)(508600001)(6506007)(36916002)(43740500002)(45980500001)(309714004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aWtVczFXSjdEendyNVZoK3hqVE44RTNJN3ZDSXRHMFJYM21BSndlYmYwU0Jn?=
- =?utf-8?B?TGZzNjFWc0RpYWxwdDAraGo5TDRUeDlmc1dsTG04ZjAwTGV5MGZlZ0dZVCts?=
- =?utf-8?B?V3lhVXZZb29ST01uWW9KT0Foekh4RnJibzE5N1hkcVcrT3U3QUZ5c3ZKWFMr?=
- =?utf-8?B?Ykx1UlR1T1Rrb0NxMDQ5RGQwT1B3bVNIY05SeFFIS3hDdVFIQjdjTkxkZjZt?=
- =?utf-8?B?ZExCUUVrcnBPcW1jVDE5Tk1vcEtPL2ZucVNtVm0xeFhyY2s0OVhOQ0hGZWxZ?=
- =?utf-8?B?U1NlVm9YQjBiK2RNRStINXRkL0djZWZGdnN4VWZQdGwrSFZYQ1c3ay94bHFo?=
- =?utf-8?B?MXVOcDhqSU9nNGJKVFBhZnRtTDRqeW5OVEZYQ3RBcW1kSWVqRERoYmRiQldZ?=
- =?utf-8?B?UWR0NU11ODRBL0U4N1B4UlEzUDRaaGxtaHY2M0tXMUJ1NlYwRWZFYnErc05z?=
- =?utf-8?B?eDFaRksrK2hLSGJ4RmZpTlVxREszSEt0ZTUyWXJaT3lwTVBlUExVaFkrMkkv?=
- =?utf-8?B?YW1wUDFGVHJWV2VzUWpmdjIzY3VlbnYrZSs5a3ZOZWlwMFlFZE00VEhFUDdC?=
- =?utf-8?B?R0ltMERZTnRXMDZJNll6a2xsd1YxZ0Rkc0JOSGViNWF6clh3a2tXMmpOVXEr?=
- =?utf-8?B?RUI3dVhlMzJmemtiOGVYYkFTa1ptOWlaOGZlR2xJbkdRTUp3Q3F3ZFV6QkVj?=
- =?utf-8?B?N0J4UmNOZ1R2bzVHNkFQbzNEdEFiUCtrU1lpWndVVStUSVQrTWJQaHd0K20w?=
- =?utf-8?B?Q2pQRS9KOEVvYUN5VFVmRUdWMFpLa21mNDFXSHFINDNlTHMxNklGUFIraGNG?=
- =?utf-8?B?akdtMWltL1IvUFFQR3ljbjVvK1UyZWs2SzVHYWR1RWg2eHh5UDFTY2tmTkpo?=
- =?utf-8?B?cnc1cnZQMXp3L2JkR2pvVUhqMC9vcmxuN3pUTyt2TUtQTFlIWEtpaFZZK3dD?=
- =?utf-8?B?T2xiSFg0c1NEdFBsWksyWis3TTVraWg1UDRoczRONWhDUjVTTTNDTWhETEh2?=
- =?utf-8?B?Y2FXemUwU2VqZU9mYUZ1L0VTbzlEY0gzcENDN0kyMldnQVYya3Y3SkdjNnhD?=
- =?utf-8?B?em1xQkR5OWhzR0RJb1RtakQ1S3dlNE0weWd5L1U0WkZKK2VVQ293MHhqTjJ2?=
- =?utf-8?B?eGR6SVZtQm5jZEt3WFVFc3VRc0RqL2NBRjB1aVdCZUdMQlUzTlMyMDE2Z0dp?=
- =?utf-8?B?YU05a0duejlhZHJWWFBENXJKUFAzdnJBaDgrTEtpTGFFY2N3Zml3WWF1M052?=
- =?utf-8?B?bHZUc3NBeXF5OWUva29qQ2VBeEJDWHhsSElCZTlySWlHYnVsaU1YUHlKcFAy?=
- =?utf-8?B?SEozWnNacGRHOVlkai9vOUorZFVWeUNtdjB3T2RxVHRuSjhnblcvZnBMQ0kr?=
- =?utf-8?B?RUNnaE9YcjZKVVlwRndJdE5BZnN1Ym4xTi9OMmlGSW02ZmljWUZnTGp0YUNl?=
- =?utf-8?B?Z0puVFVBNkEvYlVhVTBZNEJyYmhvcS9CZTNqV2ZPby94SjkvWDRQUnJqUDJ5?=
- =?utf-8?B?bnNzLzRDY1JqYnpuVUVMdHRydHF3azBhc0RkN0xhN2I1VHhYMTZ3NXZWUjQ2?=
- =?utf-8?B?UTBzQ1BmU2lERnhJOFY0ck9RZEdRU3hiZi8zYWU0cW1DWEY1U3VtaXNuL1dR?=
- =?utf-8?B?OEpFaGk4b00xaUNmTnVJMFpUK3lhRzJidXJSKzZBWTBkL01jWm43M0dhWitt?=
- =?utf-8?B?bzN0VExGME1uK213bHE1R01BdVFiVFo5Q3V0WnI3V0pVK3UrTnFhS2lRNmw2?=
- =?utf-8?B?cURKOHp4MVFyRFFwRUZIa0FjVCt5KzFYTExrTTUzdWI0U1hObTNucGFQWURj?=
- =?utf-8?B?aEkyeER2TzZYYk5tdFh5S0RYVkhWWkcyTGoxQ3dKQnF5Y2liN0Fyanh3Qysz?=
- =?utf-8?B?WUpzN0doWDFIRVBsN3lxckViQ3ZUQVppQktvdktia2FXR2F2YnpJZ1ptUk14?=
- =?utf-8?B?ZHZqMFFWK1IxM3dYU2tYUmJzOWxwR1RSK081bE9JQWZ4VDdpbDJSSGJVUm9O?=
- =?utf-8?B?VFBsZEdldG5tZndhYjY1VEFETHhoU1F0U1EyVGJDQmlGYThwZnJiZEhXTkVw?=
- =?utf-8?B?cmNBOHc4MUhBVkc4YXRseVpINTBPR3V3dUU1Y0lkM00rakJsWDBLZ1FpYWph?=
- =?utf-8?B?WDVCWCtqRDluYzBuUm1PRjF2dFdTaDlVeW93VnNQV2doVXcwREJ6b05mZytS?=
- =?utf-8?B?VnNJVFZmWnNNTlpmM2lIVFFya21ML1lkRURpTE1iSGYveW9pWW04eGRQMkJl?=
- =?utf-8?B?eGFsOVp3RGNMK3N0cXJrSktuSDdyWkhId01tRXVNUG9zOHMvSUlEeTNDdXFl?=
- =?utf-8?B?UldUN0JSUFhSekVGSktQTlBqQVpmRmRMTEF4SUNFTlp5UFVHSTg4QT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6fe94160-f737-408a-12a0-08da49abb994
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2022 00:05:12.9163 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lj/6pW3PmoW8fIARbOW7CqUWZIOzc5ZIxn6mZWU5BcBmnQANQxGN3dKdW51BDhoaU01tIDsO3npkTxSlQ4YRgg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6091
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220607190131.1647511-8-pmalani@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,580 +60,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: heikki.krogerus@linux.intel.com, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
+ Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ kbuild-all@lists.01.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robert Foss <robert.foss@linaro.org>, Prashant Malani <pmalani@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Prashant,
 
-On 2022-05-04 03:47, Christian König wrote:
-> This adds the infrastructure for an execution context for GEM buffers
-> which is similar to the existinc TTMs execbuf util and intended to replace
-> it in the long term.
->
-> The basic functionality is that we abstracts the necessary loop to lock
-> many different GEM buffers with automated deadlock and duplicate handling.
->
-> v2: drop xarray and use dynamic resized array instead, the locking
->      overhead is unecessary and measureable.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+Thank you for the patch! Yet something to improve:
 
-I finally got around to catching up with this thread. See some questions 
-and comments inline.
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on usb/usb-testing v5.19-rc1 next-20220608]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Prashant-Malani/usb-typec-Introduce-typec-switch-binding/20220608-042545
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: nios2-buildonly-randconfig-r006-20220608 (https://download.01.org/0day-ci/archive/20220609/202206090842.UVDwwfxx-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/49c4c89ed5b50cbd623e611c8f4eba4b5ca9dd02
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Prashant-Malani/usb-typec-Introduce-typec-switch-binding/20220608-042545
+        git checkout 49c4c89ed5b50cbd623e611c8f4eba4b5ca9dd02
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/gpu/drm/bridge/analogix/
 
-> ---
->   Documentation/gpu/drm-mm.rst |  12 ++
->   drivers/gpu/drm/Kconfig      |   7 +
->   drivers/gpu/drm/Makefile     |   2 +
->   drivers/gpu/drm/drm_exec.c   | 295 +++++++++++++++++++++++++++++++++++
->   include/drm/drm_exec.h       | 144 +++++++++++++++++
->   5 files changed, 460 insertions(+)
->   create mode 100644 drivers/gpu/drm/drm_exec.c
->   create mode 100644 include/drm/drm_exec.h
->
-> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> index f32ccce5722d..bf7dd2a78e9b 100644
-> --- a/Documentation/gpu/drm-mm.rst
-> +++ b/Documentation/gpu/drm-mm.rst
-> @@ -493,6 +493,18 @@ DRM Sync Objects
->   .. kernel-doc:: drivers/gpu/drm/drm_syncobj.c
->      :export:
->   
-> +DRM Execution context
-> +=====================
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_exec.c
-> +   :doc: Overview
-> +
-> +.. kernel-doc:: include/drm/drm_exec.h
-> +   :internal:
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_exec.c
-> +   :export:
-> +
->   GPU Scheduler
->   =============
->   
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index e88c497fa010..1b35c10df263 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -179,6 +179,12 @@ config DRM_TTM
->   	  GPU memory types. Will be enabled automatically if a device driver
->   	  uses it.
->   
-> +config DRM_EXEC
-> +	tristate
-> +	depends on DRM
-> +	help
-> +	  Execution context for command submissions
-> +
->   config DRM_BUDDY
->   	tristate
->   	depends on DRM
-> @@ -252,6 +258,7 @@ config DRM_AMDGPU
->   	select DRM_SCHED
->   	select DRM_TTM
->   	select DRM_TTM_HELPER
-> +	select DRM_EXEC
->   	select POWER_SUPPLY
->   	select HWMON
->   	select BACKLIGHT_CLASS_DEVICE
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index 15fe3163f822..ee8573b683f3 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -37,6 +37,8 @@ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
->   #
->   # Memory-management helpers
->   #
-> +#
-> +obj-$(CONFIG_DRM_EXEC) += drm_exec.o
->   
->   obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
->   
-> diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
-> new file mode 100644
-> index 000000000000..ed2106c22786
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_exec.c
-> @@ -0,0 +1,295 @@
-> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-> +
-> +#include <drm/drm_exec.h>
-> +#include <drm/drm_gem.h>
-> +#include <linux/dma-resv.h>
-> +
-> +/**
-> + * DOC: Overview
-> + *
-> + * This component mainly abstracts the retry loop necessary for locking
-> + * multiple GEM objects while preparing hardware operations (e.g. command
-> + * submissions, page table updates etc..).
-> + *
-> + * If a contention is detected while locking a GEM object the cleanup procedure
-> + * unlocks all previously locked GEM objects and locks the contended one first
-> + * before locking any further objects.
-> + *
-> + * After an object is locked fences slots can optionally be reserved on the
-> + * dma_resv object inside the GEM object.
-> + *
-> + * A typical usage pattern should look like this::
-> + *
-> + *	struct drm_gem_object *obj;
-> + *	struct drm_exec exec;
-> + *	unsigned long index;
-> + *	int ret;
-> + *
-> + *	drm_exec_init(&exec, true);
-> + *	drm_exec_while_not_all_locked(&exec) {
-> + *		ret = drm_exec_prepare_obj(&exec, boA, 1);
-> + *		drm_exec_continue_on_contention(&exec);
-> + *		if (ret)
-> + *			goto error;
-> + *
-> + *		ret = drm_exec_lock(&exec, boB, 1);
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Where is drm_exec_lock? It's not in this patch.
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/bridge/analogix/anx7625.c:19:
+   include/linux/usb/typec_mux.h:83:19: warning: no previous prototype for 'fwnode_typec_mux_get' [-Wmissing-prototypes]
+      83 | struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
+         |                   ^~~~~~~~~~~~~~~~~~~~
+   include/linux/usb/typec_mux.h:89:6: warning: no previous prototype for 'typec_mux_put' [-Wmissing-prototypes]
+      89 | void typec_mux_put(struct typec_mux *mux) {}
+         |      ^~~~~~~~~~~~~
+   include/linux/usb/typec_mux.h:91:5: warning: no previous prototype for 'typec_mux_set' [-Wmissing-prototypes]
+      91 | int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state)
+         |     ^~~~~~~~~~~~~
+   include/linux/usb/typec_mux.h:103:1: warning: no previous prototype for 'typec_mux_register' [-Wmissing-prototypes]
+     103 | typec_mux_register(struct device *parent, const struct typec_mux_desc *desc)
+         | ^~~~~~~~~~~~~~~~~~
+   include/linux/usb/typec_mux.h:107:6: warning: no previous prototype for 'typec_mux_unregister' [-Wmissing-prototypes]
+     107 | void typec_mux_unregister(struct typec_mux *mux) {}
+         |      ^~~~~~~~~~~~~~~~~~~~
+   include/linux/usb/typec_mux.h:109:6: warning: no previous prototype for 'typec_mux_set_drvdata' [-Wmissing-prototypes]
+     109 | void typec_mux_set_drvdata(struct typec_mux *mux, void *data) {}
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/usb/typec_mux.h:110:7: warning: no previous prototype for 'typec_mux_get_drvdata' [-Wmissing-prototypes]
+     110 | void *typec_mux_get_drvdata(struct typec_mux *mux)
+         |       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/analogix/anx7625.c: In function 'anx7625_typec_mux_set':
+>> drivers/gpu/drm/bridge/analogix/anx7625.c:2616:64: error: passing argument 1 of 'typec_mux_get_drvdata' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2616 |         struct anx7625_port_data *data = typec_mux_get_drvdata(mux);
+         |                                                                ^~~
+         |                                                                |
+         |                                                                struct typec_mux_dev *
+   In file included from drivers/gpu/drm/bridge/analogix/anx7625.c:19:
+   include/linux/usb/typec_mux.h:110:47: note: expected 'struct typec_mux *' but argument is of type 'struct typec_mux_dev *'
+     110 | void *typec_mux_get_drvdata(struct typec_mux *mux)
+         |                             ~~~~~~~~~~~~~~~~~~^~~
+   drivers/gpu/drm/bridge/analogix/anx7625.c: In function 'anx7625_register_mode_switch':
+   drivers/gpu/drm/bridge/analogix/anx7625.c:2675:30: error: assignment to 'struct typec_mux_dev *' from incompatible pointer type 'struct typec_mux *' [-Werror=incompatible-pointer-types]
+    2675 |         port_data->typec_mux = typec_mux_register(dev, &mux_desc);
+         |                              ^
+   drivers/gpu/drm/bridge/analogix/anx7625.c: In function 'anx7625_unregister_typec_switches':
+   drivers/gpu/drm/bridge/analogix/anx7625.c:2689:57: error: passing argument 1 of 'typec_mux_unregister' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2689 |                 typec_mux_unregister(ctx->typec_ports[i].typec_mux);
+         |                                      ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+         |                                                         |
+         |                                                         struct typec_mux_dev *
+   In file included from drivers/gpu/drm/bridge/analogix/anx7625.c:19:
+   include/linux/usb/typec_mux.h:107:45: note: expected 'struct typec_mux *' but argument is of type 'struct typec_mux_dev *'
+     107 | void typec_mux_unregister(struct typec_mux *mux) {}
+         |                           ~~~~~~~~~~~~~~~~~~^~~
+   cc1: some warnings being treated as errors
 
 
-> + *		drm_exec_continue_on_contention(&exec);
-> + *		if (ret)
-> + *			goto error;
-> + *	}
-> + *
-> + *	drm_exec_for_each_locked_object(&exec, index, obj) {
-> + *		dma_resv_add_fence(obj->resv, fence, DMA_RESV_USAGE_READ);
-> + *		...
-> + *	}
-> + *	drm_exec_fini(&exec);
-> + *
-> + * See struct dma_exec for more details.
-> + */
-> +
-> +/* Dummy value used to initially enter the retry loop */
-> +#define DRM_EXEC_DUMMY (void*)~0
-> +
-> +/* Initialize the drm_exec_objects container */
-> +static void drm_exec_objects_init(struct drm_exec_objects *container)
-> +{
-> +	container->objects = kmalloc(PAGE_SIZE, GFP_KERNEL);
+vim +/typec_mux_get_drvdata +2616 drivers/gpu/drm/bridge/analogix/anx7625.c
 
-Should this be kvmalloc? You're using kvrealloc and kvfree elsewhere.
+  2612	
+  2613	static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
+  2614					 struct typec_mux_state *state)
+  2615	{
+> 2616		struct anx7625_port_data *data = typec_mux_get_drvdata(mux);
+  2617		struct anx7625_data *ctx = data->ctx;
+  2618		struct device *dev = &ctx->client->dev;
+  2619	
+  2620		bool old_dp_connected = (ctx->typec_ports[0].dp_connected ||
+  2621					 ctx->typec_ports[1].dp_connected);
+  2622		bool new_dp_connected;
+  2623	
+  2624		if (ctx->num_typec_switches == 1)
+  2625			return 0;
+  2626	
+  2627		dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
+  2628			ctx->typec_ports[0].dp_connected, ctx->typec_ports[1].dp_connected);
+  2629	
+  2630		data->dp_connected = (state->alt && state->alt->svid == USB_TYPEC_DP_SID &&
+  2631				      state->alt->mode == USB_TYPEC_DP_MODE);
+  2632	
+  2633		new_dp_connected = (ctx->typec_ports[0].dp_connected ||
+  2634				    ctx->typec_ports[1].dp_connected);
+  2635	
+  2636		/* dp on, power on first */
+  2637		if (!old_dp_connected && new_dp_connected)
+  2638			pm_runtime_get_sync(dev);
+  2639	
+  2640		anx7625_typec_two_ports_update(ctx);
+  2641	
+  2642		/* dp off, power off last */
+  2643		if (old_dp_connected && !new_dp_connected)
+  2644			pm_runtime_put_sync(dev);
+  2645	
+  2646		return 0;
+  2647	}
+  2648	
 
-
-> +
-> +	/* If allocation here fails, just delay that till the first use */
-> +	container->max_objects = container->objects ?
-> +		PAGE_SIZE / sizeof(void *) : 0;
-> +	container->num_objects = 0;
-> +}
-> +
-> +/* Cleanup the drm_exec_objects container */
-> +static void drm_exec_objects_fini(struct drm_exec_objects *container)
-> +{
-> +	kvfree(container->objects);
-> +}
-> +
-> +/* Make sure we have enough room and add an object the container */
-> +static int drm_exec_objects_add(struct drm_exec_objects *container,
-> +				struct drm_gem_object *obj)
-> +{
-> +	if (unlikely(container->num_objects == container->max_objects)) {
-> +		size_t size = container->max_objects * sizeof(void *);
-> +		void *tmp;
-> +
-> +		tmp = kvrealloc(container->objects, size, size + PAGE_SIZE,
-> +				GFP_KERNEL);
-> +		if (!tmp)
-> +			return -ENOMEM;
-> +
-> +		container->objects = tmp;
-> +		container->max_objects += PAGE_SIZE / sizeof(void *);
-> +	}
-> +	drm_gem_object_get(obj);
-> +	container->objects[container->num_objects++] = obj;
-> +	return 0;
-> +}
-> +
-> +/* Unlock all objects and drop references */
-> +static void drm_exec_unlock_all(struct drm_exec *exec)
-> +{
-> +	struct drm_gem_object *obj;
-> +	unsigned long index;
-> +
-> +	drm_exec_for_each_duplicate_object(exec, index, obj)
-> +		drm_gem_object_put(obj);
-> +
-> +	drm_exec_for_each_locked_object(exec, index, obj) {
-> +		dma_resv_unlock(obj->resv);
-> +		drm_gem_object_put(obj);
-> +	}
-> +}
-> +
-> +/**
-> + * drm_exec_init - initialize a drm_exec object
-> + * @exec: the drm_exec object to initialize
-> + * @interruptible: if locks should be acquired interruptible
-> + *
-> + * Initialize the object and make sure that we can track locked and duplicate
-> + * objects.
-> + */
-> +void drm_exec_init(struct drm_exec *exec, bool interruptible)
-> +{
-> +	exec->interruptible = interruptible;
-> +	drm_exec_objects_init(&exec->locked);
-> +	drm_exec_objects_init(&exec->duplicates);
-> +	exec->contended = DRM_EXEC_DUMMY;
-> +}
-> +EXPORT_SYMBOL(drm_exec_init);
-> +
-> +/**
-> + * drm_exec_fini - finalize a drm_exec object
-> + * @exec: the drm_exec object to finilize
-> + *
-> + * Unlock all locked objects, drop the references to objects and free all memory
-> + * used for tracking the state.
-> + */
-> +void drm_exec_fini(struct drm_exec *exec)
-> +{
-> +	drm_exec_unlock_all(exec);
-> +	drm_exec_objects_fini(&exec->locked);
-> +	drm_exec_objects_fini(&exec->duplicates);
-> +	if (exec->contended != DRM_EXEC_DUMMY) {
-> +		drm_gem_object_put(exec->contended);
-> +		ww_acquire_fini(&exec->ticket);
-> +	}
-> +}
-> +EXPORT_SYMBOL(drm_exec_fini);
-> +
-> +/**
-> + * drm_exec_cleanup - cleanup when contention is detected
-> + * @exec: the drm_exec object to cleanup
-> + *
-> + * Cleanup the current state and return true if we should stay inside the retry
-> + * loop, false if there wasn't any contention detected and we can keep the
-> + * objects locked.
-> + */
-> +bool drm_exec_cleanup(struct drm_exec *exec)
-> +{
-> +	if (likely(!exec->contended)) {
-> +		ww_acquire_done(&exec->ticket);
-> +		return false;
-> +	}
-> +
-> +	if (likely(exec->contended == DRM_EXEC_DUMMY)) {
-> +		exec->contended = NULL;
-> +		ww_acquire_init(&exec->ticket, &reservation_ww_class);
-> +		return true;
-> +	}
-> +
-> +	drm_exec_unlock_all(exec);
-> +	exec->locked.num_objects = 0;
-> +	exec->duplicates.num_objects = 0;
-> +	return true;
-> +}
-> +EXPORT_SYMBOL(drm_exec_cleanup);
-> +
-> +/* Track the locked object in the xa and reserve fences */
-> +static int drm_exec_obj_locked(struct drm_exec_objects *container,
-> +			       struct drm_gem_object *obj,
-> +			       unsigned int num_fences)
-> +{
-> +	int ret;
-> +
-> +	if (container) {
-> +		ret = drm_exec_objects_add(container, obj);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	if (num_fences) {
-> +		ret = dma_resv_reserve_fences(obj->resv, num_fences);
-> +		if (ret)
-> +			goto error_erase;
-> +	}
-> +
-> +	return 0;
-> +
-> +error_erase:
-> +	if (container) {
-> +		--container->num_objects;
-> +		drm_gem_object_put(obj);
-> +	}
-> +	return ret;
-> +}
-> +
-> +/* Make sure the contended object is locked first */
-> +static int drm_exec_lock_contended(struct drm_exec *exec)
-> +{
-> +	struct drm_gem_object *obj = exec->contended;
-> +	int ret;
-> +
-> +	if (likely(!obj))
-> +		return 0;
-> +
-> +	if (exec->interruptible) {
-> +		ret = dma_resv_lock_slow_interruptible(obj->resv,
-> +						       &exec->ticket);
-> +		if (unlikely(ret))
-> +			goto error_dropref;
-> +	} else {
-> +		dma_resv_lock_slow(obj->resv, &exec->ticket);
-> +	}
-> +
-> +	ret = drm_exec_obj_locked(&exec->locked, obj, 0);
-> +	if (unlikely(ret))
-> +		dma_resv_unlock(obj->resv);
-> +
-> +error_dropref:
-> +	/* Always cleanup the contention so that error handling can kick in */
-> +	drm_gem_object_put(obj);
-> +	exec->contended = NULL;
-> +	return ret;
-> +}
-> +
-> +/**
-> + * drm_exec_prepare_obj - prepare a GEM object for use
-> + * @exec: the drm_exec object with the state
-> + * @obj: the GEM object to prepare
-> + * @num_fences: how many fences to reserve
-> + *
-> + * Prepare a GEM object for use by locking it and reserving fence slots. All
-> + * succesfully locked objects are put into the locked container. Duplicates
-> + * detected as well and automatically moved into the duplicates container.
-> + *
-> + * Returns: -EDEADLK if a contention is detected, -ENOMEM when memory
-> + * allocation failed and zero for success.
-> + */
-> +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
-> +			 unsigned int num_fences)
-> +{
-> +	int ret;
-> +
-> +	ret = drm_exec_lock_contended(exec);
-
-If this succeeds, it won't reserve any fence slots for object. Is that a 
-problem?
-
-
-> +	if (unlikely(ret))
-> +		return ret;
-> +
-> +	if (exec->interruptible)
-> +		ret = dma_resv_lock_interruptible(obj->resv, &exec->ticket);
-> +	else
-> +		ret = dma_resv_lock(obj->resv, &exec->ticket);
-> +
-> +	if (unlikely(ret == -EDEADLK)) {
-> +		drm_gem_object_get(obj);
-> +		exec->contended = obj;
-> +		return -EDEADLK;
-> +	}
-> +
-> +	if (unlikely(ret == -EALREADY)) {
-> +		struct drm_exec_objects *container = &exec->duplicates;
-> +
-> +		/*
-> +		 * If this is the first locked GEM object it was most likely
-> +		 * just contended. So don't add it to the duplicates, just
-> +		 * reserve the fence slots.
-
-I don't understand this. Seems a bit arbitrary. Is it even legal to try 
-to add the same object twice? I thought duplicates was for different 
-objects that share the same reservation, not actually the same object on 
-the same list twice.
-
-Maybe you meant to compare with 
-exec->locked.objects[exec->locked.num_objects-1], assuming that 
-drm_exec_lock_contended just succeeded locking a previously contended 
-object, and the caller retried locking that same object again?
-
-
-> +		 */
-> +		if (exec->locked.num_objects && exec->locked.objects[0] == obj)
-> +			container = NULL;
-> +
-> +		ret = drm_exec_obj_locked(container, obj, num_fences);
-> +		if (ret)
-> +			return ret;
-> +
-> +	} else if (unlikely(ret)) {
-> +		return ret;
-> +
-> +	} else {
-> +		ret = drm_exec_obj_locked(&exec->locked, obj, num_fences);
-> +		if (ret)
-> +			goto error_unlock;
-> +	}
-> +
-> +	drm_gem_object_get(obj);
-
-The container already gets a reference to obj. What is this extra 
-reference for? And where does it get dropped?
-
-Regards,
-   Felix
-
-
-> +	return 0;
-> +
-> +error_unlock:
-> +	dma_resv_unlock(obj->resv);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_exec_prepare_obj);
-> +
-> +MODULE_DESCRIPTION("DRM execution context");
-> +MODULE_LICENSE("Dual MIT/GPL");
-> diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-> new file mode 100644
-> index 000000000000..f73981c6292e
-> --- /dev/null
-> +++ b/include/drm/drm_exec.h
-> @@ -0,0 +1,144 @@
-> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-> +
-> +#ifndef __DRM_EXEC_H__
-> +#define __DRM_EXEC_H__
-> +
-> +#include <linux/ww_mutex.h>
-> +
-> +struct drm_gem_object;
-> +
-> +/**
-> + * struct drm_exec_objects - Container for GEM objects in a drm_exec
-> + */
-> +struct drm_exec_objects {
-> +	unsigned int		num_objects;
-> +	unsigned int		max_objects;
-> +	struct drm_gem_object	**objects;
-> +};
-> +
-> +/**
-> + * drm_exec_objects_for_each - iterate over all the objects inside the container
-> + */
-> +#define drm_exec_objects_for_each(array, index, obj)		\
-> +	for (index = 0, obj = (array)->objects[0];		\
-> +	     index < (array)->num_objects;			\
-> +	     ++index, obj = (array)->objects[index])
-> +
-> +/**
-> + * struct drm_exec - Execution context
-> + */
-> +struct drm_exec {
-> +	/**
-> +	 * @interruptible: If locks should be taken interruptible
-> +	 */
-> +	bool			interruptible;
-> +
-> +	/**
-> +	 * @ticket: WW ticket used for acquiring locks
-> +	 */
-> +	struct ww_acquire_ctx	ticket;
-> +
-> +	/**
-> +	 * @locked: container for the locked GEM objects
-> +	 */
-> +	struct drm_exec_objects	locked;
-> +
-> +	/**
-> +	 * @duplicates: container for the duplicated GEM objects
-> +	 */
-> +	struct drm_exec_objects	duplicates;
-> +
-> +	/**
-> +	 * @contended: contended GEM object we backet of for.
-> +	 */
-> +	struct drm_gem_object	*contended;
-> +};
-> +
-> +/**
-> + * drm_exec_for_each_locked_object - iterate over all the locked objects
-> + * @exec: drm_exec object
-> + * @index: unsigned long index for the iteration
-> + * @obj: the current GEM object
-> + *
-> + * Iterate over all the locked GEM objects inside the drm_exec object.
-> + */
-> +#define drm_exec_for_each_locked_object(exec, index, obj)	\
-> +	drm_exec_objects_for_each(&(exec)->locked, index, obj)
-> +
-> +/**
-> + * drm_exec_for_each_duplicate_object - iterate over all the duplicate objects
-> + * @exec: drm_exec object
-> + * @index: unsigned long index for the iteration
-> + * @obj: the current GEM object
-> + *
-> + * Iterate over all the duplicate GEM objects inside the drm_exec object.
-> + */
-> +#define drm_exec_for_each_duplicate_object(exec, index, obj)	\
-> +	drm_exec_objects_for_each(&(exec)->duplicates, index, obj)
-> +
-> +/**
-> + * drm_exec_while_not_all_locked - loop until all GEM objects are prepared
-> + * @exec: drm_exec object
-> + *
-> + * Core functionality of the drm_exec object. Loops until all GEM objects are
-> + * prepared and no more contention exists.
-> + *
-> + * At the beginning of the loop it is guaranteed that no GEM object is locked.
-> + */
-> +#define drm_exec_while_not_all_locked(exec)	\
-> +	while (drm_exec_cleanup(exec))
-> +
-> +/**
-> + * drm_exec_continue_on_contention - continue the loop when we need to cleanup
-> + * @exec: drm_exec object
-> + *
-> + * Control flow helper to continue when a contention was detected and we need to
-> + * clean up and re-start the loop to prepare all GEM objects.
-> + */
-> +#define drm_exec_continue_on_contention(exec)		\
-> +	if (unlikely(drm_exec_is_contended(exec)))	\
-> +		continue
-> +
-> +/**
-> + * drm_exec_break_on_contention - break a subordinal loop on contention
-> + * @exec: drm_exec object
-> + *
-> + * Control flow helper to break a subordinal loop when a contention was detected
-> + * and we need to clean up and re-start the loop to prepare all GEM objects.
-> + */
-> +#define drm_exec_break_on_contention(exec)		\
-> +	if (unlikely(drm_exec_is_contended(exec)))	\
-> +		break
-> +
-> +/**
-> + * drm_exec_is_contended - check for contention
-> + * @exec: drm_exec object
-> + *
-> + * Returns true if the drm_exec object has run into some contention while
-> + * locking a GEM object and needs to clean up.
-> + */
-> +static inline bool drm_exec_is_contended(struct drm_exec *exec)
-> +{
-> +	return !!exec->contended;
-> +}
-> +
-> +/**
-> + * drm_exec_has_duplicates - check for duplicated GEM object
-> + * @exec: drm_exec object
-> + *
-> + * Return true if the drm_exec object has encountered some already locked GEM
-> + * objects while trying to lock them. This can happen if multiple GEM objects
-> + * share the same underlying resv object.
-> + */
-> +static inline bool drm_exec_has_duplicates(struct drm_exec *exec)
-> +{
-> +	return exec->duplicates.num_objects > 0;
-> +}
-> +
-> +void drm_exec_init(struct drm_exec *exec, bool interruptible);
-> +void drm_exec_fini(struct drm_exec *exec);
-> +bool drm_exec_cleanup(struct drm_exec *exec);
-> +int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
-> +			 unsigned int num_fences);
-> +
-> +#endif
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
