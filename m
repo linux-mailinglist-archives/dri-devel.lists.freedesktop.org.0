@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2ED544C7C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 14:49:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8E2544D1E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 15:08:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBB5D10F388;
-	Thu,  9 Jun 2022 12:49:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94B6D112E8C;
+	Thu,  9 Jun 2022 13:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mr4.vodafonemail.de (mr4.vodafonemail.de [145.253.228.164])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3E5010F388
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 12:49:37 +0000 (UTC)
+Received: from mr3.vodafonemail.de (mr3.vodafonemail.de [145.253.228.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7678A112E8C
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 13:08:33 +0000 (UTC)
 Received: from smtp.vodafone.de (unknown [10.0.0.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by mr4.vodafonemail.de (Postfix) with ESMTPS id 4LJkSb4Wg0z1yQ9
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 12:49:35 +0000 (UTC)
+ by mr3.vodafonemail.de (Postfix) with ESMTPS id 4LJktR4S7fz20Rf
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 13:08:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arcor.de;
- s=vfde-mb-mr2-21dec; t=1654778975;
- bh=zwhFgGTxzT06Re0cygr1h1oR7WtqkXsjsLWAcnUieWk=;
- h=Message-ID:Date:User-Agent:To:Content-Language:From:Subject:
- Content-Type:From;
- b=Qti+hgmGW+6qE4vBwrDD7rd8/8vNPf2i/BtKgr11aNnt6t145dmx/ocpvjyXWwLfh
- zl2qX6iNW5OcIEiwk/OMTZbMwEvEPhacHn3kz/HAUOmqQcDOqEuIJMVIOZfv7ZmH6E
- J5LPhkX+iMQAXzVX4luAHxyq829CXW26xnirq/J0=
+ s=vfde-mb-mr2-21dec; t=1654780111;
+ bh=KhvKfjg3BUt5QsQHpd1oxS5sJu7LWs+iRxpZlu41zns=;
+ h=Message-ID:Date:User-Agent:Subject:Content-Language:To:References:
+ From:In-Reply-To:Content-Type:From;
+ b=fEq7ZJdrd3EnHzaK8tHYT6vvNrtNldlW3/b0ejBPrcjFPQpNwY3g/I/4qg6IIvXjZ
+ hpqAlxu01PBHdjbXg9ZkejtFL0J5sV34ujKU3Tg+vauvJRlMyFo/OE6cYIgwf4fQhp
+ vylJslkH9PZr8u1WcdXj0BduJoeVFqe7n0UReNg0=
 Received: from schreibtisch (p2e579e8f.dip0.t-ipconnect.de [46.87.158.143])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp.vodafone.de (Postfix) with ESMTPSA id 4LJkSb0fXjz9vYH
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 12:49:31 +0000 (UTC)
-Message-ID: <5d81e922-fa5b-7a81-0e91-7f79a3646289@arcor.de>
-Date: Thu, 9 Jun 2022 14:49:20 +0200
+ by smtp.vodafone.de (Postfix) with ESMTPSA id 4LJktQ5K7Yz9wMx
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 13:08:27 +0000 (UTC)
+Message-ID: <d4d19e5d-360e-f62f-ea8d-229a85803bc1@arcor.de>
+Date: Thu, 9 Jun 2022 15:08:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-To: dri-devel@lists.freedesktop.org
+Subject: Re: drm/vc4: module dysfunctional on Raspberry Pi 3B as of 5.18.0
 Content-Language: en-US
+To: dri-devel@lists.freedesktop.org
+References: <75eec8af-66fd-bbaa-9aea-4cdf634bf2c8@arcor.de>
+ <CALeDE9MzaG0vGfwMrZVArCWpNT94=vTakoM71qykBkVbeL1QmQ@mail.gmail.com>
+ <20220608143605.x4arwudst3nqeg7b@houat>
 From: Peter Mattern <pmattern@arcor.de>
-Subject: drm/vc4: module dysfunctional on Raspberry Pi 3B as of 5.18.0
+In-Reply-To: <20220608143605.x4arwudst3nqeg7b@houat>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-purgate-type: clean
 X-purgate: clean
-X-purgate-size: 2082
-X-purgate-ID: 155817::1654778975-EA3593BB-CD2BB902/0/0
+X-purgate-size: 1596
+X-purgate-ID: 155817::1654780110-0000049E-51E070F7/0/0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,44 +66,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
- > Which kernel config do you use (is it a defconfig)?
-These are custom configs provided by the distribution, the origin of 
-which I do not know.
-You can find them at [1] (5.17.0, used in 5.17.1 as well) and [2] 
-(5.18.0, modified in 5.18.1).
-The difference between these files and their upstream (kernel.org) 
-counterpart as created by running 'make ARCH=arm64 defconfig' is about 
-11k lines, the difference between the two files of the distribution 
-around 800 lines. Didn't investigate the differences in detail yet.
+ > If I understand you properly, it results in a blank screen if the
+ > monitor is connected, but the system is still responsive?
+Yes. Similar to (the other) Peter's findings, the system is fully 
+responsive, it's just that the monitor is displaying a black screen.
+Meanwhile I stumbled upon another detail: when the problem is manifest, 
+the monitor's LED displaying whether a signal is available keeps shining 
+permanently. I does not start flashing as it does when an attached 
+computer is switched off.
 
- > Do you use the mainline device tree blob or the Raspberry Pi DTB?
-It's the one from the kernel.org sources.
-Note: At times you'll find claims that the DTBs of the Raspberry Pi 
-Foundation were used on Arch Linux ARM. These probably are due to the 
-fact that those blobs happen to be around. But U-Boot's boot.scr does 
-pick the "mainline" ones in /boot/dtbs/.
+ > If so, it's a very different problem than the link you provided, since
+ > it was occurring when no monitor was connected and resulted in a total
+ > system hang.
+I didn't follow up things too closely. But I remember very well that I 
+stumbled upon that thread "Linux 5.16.3 breaks headless Raspberry Pi 3 
+boot, again" while I was facing the exact same problem we're discussing 
+right now. Also, some findings in the Arch Linux ARM forums were similar 
+then [1].
+The problem did disappear in 5.16.7 when some offending commit was reverted.
 
- > Please provide the version/date of the GPU firmware?
-It is provided by the Broadcom bootloader package (which is used to 
-chainload U-Boot). It happened to be updated in parallel with kernel 
-5.18.0 to commit f145afcf [3] and has since been updated to upstream 
-commit 8f91a969. Those latest changes don't seem to have an impact on 
-the problem we're discussing here (not all combinations bootloader / 
-kernel tested).
+ > I tested on 5.18 on my 3B and it works well. Could you paste your kernel
+ > configuration and config.txt somewhere?
+Just done in a Mail which was supposed to respond to Stefan's first one, 
+which went wrong. (As Stefan isn't subscribed his mail was lacking the 
+usual headers like "In-Reply-to". So I started editing by hitting the 
+link on top of [2]. But this didn't work.)
 
- > Do you have any KMS related setting in the config.txt?
-No.
-My epic config.txt is: enable_uart=1
-
- > Can you provide a full dmesg for the bad case?
-I sure could. But grepping through it yields the exact same results 
-included in my first post. And assuming this list scrubs attachments I'm 
-not sure whether posting those 500 lines in a mail would make sense?
-
-[1] 
-https://github.com/archlinuxarm/PKGBUILDs/blob/ae861a830e6e1d6d3e37c94462c8f48671aa9b79/core/linux-aarch64/config
-[2] 
-https://github.com/archlinuxarm/PKGBUILDs/blob/9c5b51b25ecc038cd505b26e15bb80464783a713/core/linux-aarch64/config
-[3] 
-https://github.com/archlinuxarm/PKGBUILDs/blob/722080b0aaa7e158d91b323d27c41839d1ef42f0/alarm/raspberrypi-bootloader/PKGBUILD
-
+[1] https://archlinuxarm.org/forum/viewtopic.php?f=57&t=15842
+[2] https://lists.freedesktop.org/archives/dri-devel/2022-June/357819.html
