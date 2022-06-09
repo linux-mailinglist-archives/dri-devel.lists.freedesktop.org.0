@@ -2,113 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65347544429
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 08:49:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B97754446E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 09:06:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE317113DEA;
-	Thu,  9 Jun 2022 06:49:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D703113EF1;
+	Thu,  9 Jun 2022 07:06:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-VE1-obe.outbound.protection.outlook.com
- (mail-eopbgr50067.outbound.protection.outlook.com [40.107.5.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 524E1113E01
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 06:49:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kwchLStUN8FgCegQKk/5c+Kj7qeOXwvIeiZS8M+YYU94yBC4Ggotx9f9byP5Do2kFkOn2CXaph86wKu2lQYvNNXPrqFAAe2+RH6oA8Q4aommjNhZfyshAGlxnzCONMCEmTwGSNEytdw72SOTQ2NQ81/pZeqfK7HTzYhnbHc7GpQSuzTXQu6I5kbP3KE2EXPqK7RzsN0zOhk2H+pp8/H2qMLSTe/ck3dsvXrGHHd46ldQfY1QhxeFlVTKtpJR9glkIbaEJXaQmt+dEJmAQJ32jGYyCxFyQYSL3JnM2BY4D2oVdPeUcmM3Ooq7q9A4kEYjjPmMQFRWbATLalVz/pmzEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LVxre4AWA+IrSerFD3kYGHhiFn0XUGSgjF2pv/MAWhU=;
- b=cYhRGIF3wSXVmNoYfTxhE7+ExhoyBsFdk8NLfr1Zyg1GOGOMVZ5xxx1kcRV7whtfCWq5nFIcGDEhicFHikbwZdceJnmA0eBSTA1B0YqJvI/lnhnwQVcdEZUULv0u6GI4P52M/lsWOhhZi71B/SYxU+OTrW3Q3I3zm0D7YTZ7X0R228bk60cuhrbNeQPEEJwO7PjJHDZ4kybUCbqE4mB8Gwk2RNGcPRHCFRy1ITBA8JcQ6Zc1Rbl130Y6mbGYv5ZyP7s46s8YJrLHfiR0cBGQtST0YQYRa2yHwVnKLqM6NDnvUFOw0g/i067Fd4JZ2JPZWD2CSSe3r9UTV84nUovpNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LVxre4AWA+IrSerFD3kYGHhiFn0XUGSgjF2pv/MAWhU=;
- b=J/FJORQQubFJ793Cbd7QrlydttDYi1DvNCmP9smnOrbA3HHe1VD4JAzSw0XXZPI3Um+QvvMYd29Kt7WbGmF0uYrKtUj11gu5CXpmF/RFzUvSV1+RpIdj3XPVZL6ERgBdLs3ELCjXCpgf8vVZscJD+EOiX1yRONInsejv1Be+3dg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by VI1PR04MB5280.eurprd04.prod.outlook.com (2603:10a6:803:5f::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.12; Thu, 9 Jun
- 2022 06:49:40 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::3c82:f63b:711a:502]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::3c82:f63b:711a:502%7]) with mapi id 15.20.5332.013; Thu, 9 Jun 2022
- 06:49:40 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-Subject: [PATCH v8 14/14] MAINTAINERS: add maintainer for DRM bridge drivers
- for i.MX SoCs
-Date: Thu,  9 Jun 2022 14:49:31 +0800
-Message-Id: <20220609064931.3068601-15-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220609064931.3068601-1-victor.liu@nxp.com>
-References: <20220609064931.3068601-1-victor.liu@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SGXP274CA0008.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::20)
- To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0325F113F09
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 07:06:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654758393;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ejJ+Ng78DSXpeboh/1Se2ZSB8MGGkShzLxeIkWVzXd4=;
+ b=DBr1cYDo+X7iK+G6FSLlGMjRB0VVJOWZRbYjvTqrbwxqn0jO0scN+T2C+N4QSfU9bQMB7O
+ 104/WF2pTRPN4bCfLK/pIfktvdrgHyWWdy1gnTiV/p3CjezFiywSw1Q0a/hSJdx3/T4Gkx
+ LdCEwLn2JaXZnu/clELSaHzqNkOZ8uw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-122-4-iBXMAaMjGkuW7mzocrEw-1; Thu, 09 Jun 2022 03:06:32 -0400
+X-MC-Unique: 4-iBXMAaMjGkuW7mzocrEw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c125-20020a1c3583000000b003978decffedso15580652wma.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 00:06:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ejJ+Ng78DSXpeboh/1Se2ZSB8MGGkShzLxeIkWVzXd4=;
+ b=n8g4nZ44TvgloCh8tUiu5A13mYrldMTHEkj8HZyqt8dsiuAqQASuO+/JIXW1FvnluC
+ LM1fg2B51IdPjlBh0iE7nickrX8PgwIuhB8SxxEmdq/Gzl+NCsIahtSu3fS9BxRjjpnK
+ t7YvwNYMPKcuzciR0uxXfCngi/+YUFXE9jPGIworcfjuxHn61fGE3V4Jkvl1jVt1LtJI
+ /JatXWXaltQqzHImvpZwsncqe7IsGpaEVGrpwQzQLN60fhi1lXnNUnqgFfSArtFKBT2Q
+ LMnsOWLFdc0iLMEJHxsf/rSZ32TgSgkgsXzmGaTCx+btJ9GLaAx5O9CyO1xlfJiObJr8
+ 7hDA==
+X-Gm-Message-State: AOAM533k/11uIKu2Wm6Qn+nL7Mun63bXJFwjQx7vEbfYlqROZX90u8B9
+ RmEkml8mXgciFRZaH414jTWrJwQgRomwHyykkH3dbamgfDQFhohE/d1GCkfsdQG3uAN37hNESoH
+ hvJz9TLBs/LgNUi5AqedeBiOgxzPV
+X-Received: by 2002:a7b:cd83:0:b0:39c:46d2:6ebb with SMTP id
+ y3-20020a7bcd83000000b0039c46d26ebbmr1796671wmj.187.1654758390072; 
+ Thu, 09 Jun 2022 00:06:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzURfxSxbfQDUMi5WFVw7d975uJim2i12ha4ko3FuWfeZb9SYb/AKLdPPfeU/USfSlh7RiJSQ==
+X-Received: by 2002:a7b:cd83:0:b0:39c:46d2:6ebb with SMTP id
+ y3-20020a7bcd83000000b0039c46d26ebbmr1796634wmj.187.1654758389800; 
+ Thu, 09 Jun 2022 00:06:29 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
+ ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
+ by smtp.gmail.com with ESMTPSA id
+ m8-20020a05600c4f4800b003942a244f51sm34189442wmq.42.2022.06.09.00.06.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jun 2022 00:06:29 -0700 (PDT)
+Message-ID: <91519070-5c5b-1337-3dab-10decb1b258d@redhat.com>
+Date: Thu, 9 Jun 2022 09:06:28 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4ea5f6af-5fd9-4598-b888-08da49e439d3
-X-MS-TrafficTypeDiagnostic: VI1PR04MB5280:EE_
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-Microsoft-Antispam-PRVS: <VI1PR04MB5280131EF45276487891146198A79@VI1PR04MB5280.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zDP8EJuHywL+QZS+72jailp2KMBofJcW+DdMa18azomBSl/R/tfAkUEJ5o+Y8nt32zCVbtzACvMIm+fXBaYz64UcY2b9ycQDJ22OlSqCPWTMrL7yFlNPtitgkJHkzy4d8Ew4TqOHqNZ46n8BIMxA0kXRDvIIPMmBjeoXFz2MvSfbUKBeQ1cDY70+vaJOOwD0plR8Xdz/+2GC4P9PH47mpdXYYa0aOh23M3h8Xts9kR+ZWiJQcMMlQcq0bikDkahBTI+zKUnnzTNfmvOg3kuzbkfs/+HDwlYDgngMMvBdnbPR7EQ3QIyDNO8tPH/cyj4kHhGwZIjNJdFF/d/B0fDMtkL+okoxi2ZMMZr00aU++rFdamaFdCMOny/rRDIB893HeMHn6BRPKmiZA+gXzSrq+7MVphsb4h++Cv1YjlWmHzcAqxXRYOqNduIwfPAaU5+tmW6COdgH5idHHgrFJlZeX6/vQcUTwwVCHkmRcnexu6HchhWMS5zHxWhqmdpTDJeCO+E/PYlZUMi+5Sw/l6N5luzVoip/nJFy3wP+HPw9EOu/eek0noKvOFN3PJuYJqa9dZOSUdtipUm4GUXwpvl6lyIqUHbobri5oJQb5oogtt8UHlJZqxT+TlUpw15uFslQb+8K18OD26n16wkNe8i5SVMax5RTtsk7+FMFZlMdGLyNKFXXDJ1FbG/CaBlxo4uRQyW0pcht3eycytWjz+5Cow==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(6029001)(4636009)(366004)(1076003)(186003)(38350700002)(38100700002)(6506007)(6666004)(36756003)(2906002)(52116002)(316002)(6512007)(508600001)(66946007)(6486002)(2616005)(66476007)(66556008)(8676002)(4326008)(7416002)(5660300002)(8936002)(86362001)(26005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0adZu0KPYLEw4ky4osbI5L/WYtuu7OfAH4T5yIGJD7lratTJ3nFrBgQFIuaf?=
- =?us-ascii?Q?4Uz1huOMf270Cam6GOzVtmDqUK4AvxSt7SvSGlMX4Ey4ejr/F0Rtgpb9Z9Vc?=
- =?us-ascii?Q?LqZl5rdOvqz8jWlM/wYEJd8E1CTh7VBAMailY/mOltmQ0o2E7DdfPzBVxuhD?=
- =?us-ascii?Q?TmUHX7Ekx8NkScqtgkEpHRxyKT4h37YlidTWQsGHkwaGPl4tvRF83aeoCDqm?=
- =?us-ascii?Q?myGFl6F5rW98SG7f34KXW3tF8m6ZApfJeOyo52kRoXIZXXWyUgO201avbPhK?=
- =?us-ascii?Q?4qyn1LsXNs4gKzLFcB9TZbCxRanHUmBGUh2cKnZAUQ+7H+Ybgp56nP7yM7V4?=
- =?us-ascii?Q?e2mcbE5Wk7s1hBiYW2CgjE5+zzfdXRfqY13jOwLrurXWtt/lyEiDdToau9yK?=
- =?us-ascii?Q?MxWaie+Ps0LCGy9F2MFIP0DgDB65iDDRft22180I5LwOi3xlAQwoy7OPTP8y?=
- =?us-ascii?Q?xzDQh6cSju7HpnMAyeDGX88QMwEcRZ1WIYHKAmbwf6Gqd3ahkR0mSx0tQ8t8?=
- =?us-ascii?Q?6kF5+09gDrVBPQQAP3l1xUtfP5Z0l/H4DxveDT70mfVUNljr7iIa8KwkYufX?=
- =?us-ascii?Q?vB+8KexXcd0BPFO59W2M/Hq+Qh1grH+XJmiV+cBzknZKJuicaK+riVegF8yN?=
- =?us-ascii?Q?xT1Q1BJFO8D03wHC9/WcVhPT4RjlAbdqPkSj/vfPv9hEnGW0zPwtX1Snh8Ot?=
- =?us-ascii?Q?8D/1zFhdx5rXwmY5JfNqCtdrF6qKeTR1CYVPiDkDiO4xhwKjqCVUgTa0rabD?=
- =?us-ascii?Q?oMx+T8OMLms5E8a7FIyrVmFMdGtIq1TpvD+lbMtYEtySi49UBnmGBVdu7Cpm?=
- =?us-ascii?Q?cNlTZMFhpzT2gVQ/ivDB5XIk+NXmjETE2UspomJ45dBlaMZ6qs5fJQ1rS4uY?=
- =?us-ascii?Q?o66RyQV4vwUFyzTJZYcsYucq+3N9jXrp5I7mhxS6zjRcf5/mwvs74xNzu4wG?=
- =?us-ascii?Q?Pzv95fk6D3cvToPE6Lgl8IHSVbdo365fZF5LGKrU7Arq96YXc7LWIdOFdK4i?=
- =?us-ascii?Q?qM9hK2gisSewjXFZAh5gufRmUMQWBBqwAUGTUKHrmzCB6lvAikICKrAF9/bH?=
- =?us-ascii?Q?w5/dFhb66dQMSksjgPumUydF89UqZ90ZO25M8SIN/R90yqvN1TSV60hYuHsH?=
- =?us-ascii?Q?RBl8XPDCDARs8Iqh9FnDz+IDcZoWrJg58pANE/ltZky+KrD8ztDspL5HkwgG?=
- =?us-ascii?Q?c35+T/kGZxVN4iVutRUYiMi+c961D4E5wCNBgqiNv9oU0OO/yLnpTz/hmtyQ?=
- =?us-ascii?Q?s0p5nXjEc9nNUHgeQdo2x7LSME1V3VwourYOYjrWHJz7+OYCpYeDZPesQ8wC?=
- =?us-ascii?Q?JN95zoU8UMAAgf0fxN91KPyRGooKWH4CFE0HhgsHy5mgEYfHT1zjxHLbTCVw?=
- =?us-ascii?Q?xZcgYQFElOMPLK42/fa0XjKajny6D9N2ImLrm0zOBj16yDeWdo0L6bw2Ja30?=
- =?us-ascii?Q?VspbeC8PRZeI7fde6QIIW4NYF9Quv9xjd5EAdTqOhDD5V8CEeTFp4mWdOA2s?=
- =?us-ascii?Q?9dpmEvVTQLVaw/JFRR3YbBNjY2xh+vWsx6yHqRAZduyuJZFKP8kozAkcbBAa?=
- =?us-ascii?Q?quARj6UrJ+sDC78figyj3X0qmGPHjSjIsEBu8nlwYbRqnI/x5lgnKVaQ2u+q?=
- =?us-ascii?Q?9gAfRYZ7n4fe7rcozTzdifOwEDJliH7lfmWZC1ogvitZagTmup9tL1zagUDe?=
- =?us-ascii?Q?QnZLO/0s9Pva37kRy8Z6UqnjN90+5OfK+xAdPkpzFn4kWMSGGot0UmSZ3xRK?=
- =?us-ascii?Q?H1rBIDM55A=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ea5f6af-5fd9-4598-b888-08da49e439d3
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2022 06:49:40.1956 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pr5YZtpm0J66xLdOn/LRkxlZQneUP1nKvo3M0BOURbRF0F2D7bz4hTiqSS9MxYvzwmxYMdrWhSTOwXKfMcMT/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5280
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] drm/ast: Treat AST2600 like AST2500 in most places
+To: Kuo-Hsiang Chou <kuohsiang_chou@aspeedtech.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "airlied@redhat.com" <airlied@redhat.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "regressions@leemhuis.info" <regressions@leemhuis.info>
+References: <20220607120248.31716-1-tzimmermann@suse.de>
+ <PSAPR06MB4805B23B053F80C0F23A8C6C8CA49@PSAPR06MB4805.apcprd06.prod.outlook.com>
+ <c99f305f-ac4d-628b-b092-920af767a2e4@redhat.com>
+ <PSAPR06MB48051E6CA20163561BAD80298CA79@PSAPR06MB4805.apcprd06.prod.outlook.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <PSAPR06MB48051E6CA20163561BAD80298CA79@PSAPR06MB4805.apcprd06.prod.outlook.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,65 +95,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se, airlied@linux.ie,
- robert.foss@linaro.org, s.hauer@pengutronix.de, narmstrong@baylibre.com,
- jernej.skrabec@gmail.com, marcel.ziswiler@toradex.com, robh+dt@kernel.org,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- lee.jones@linaro.org, mchehab@kernel.org, shawnguo@kernel.org,
- kernel@pengutronix.de, linux-imx@nxp.com
+Cc: Charles Kuan <charles_kuan@aspeedtech.com>,
+ Hungju Huang <hungju_huang@aspeedtech.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Luke Chen <luke_chen@aspeedtech.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add myself as the maintainer of DRM bridge drivers for i.MX SoCs.
+On 09/06/2022 04:32, Kuo-Hsiang Chou wrote:
+> Hi Jocelyn Falempe,
+> 
+> -----Original Message-----
+> From: Jocelyn Falempe [mailto:jfalempe@redhat.com]
+> Sent: Wednesday, June 08, 2022 9:17 PM
+> To: Kuo-Hsiang Chou <kuohsiang_chou@aspeedtech.com>; Thomas Zimmermann <tzimmermann@suse.de>; airlied@redhat.com; airlied@linux.ie; daniel@ffwll.ch; regressions@leemhuis.info
+> Cc: dri-devel@lists.freedesktop.org; stable@vger.kernel.org; Luke Chen <luke_chen@aspeedtech.com>; Hungju Huang <hungju_huang@aspeedtech.com>; Charles Kuan <charles_kuan@aspeedtech.com>
+> Subject: Re: [PATCH] drm/ast: Treat AST2600 like AST2500 in most places
+> 
+> On 08/06/2022 10:09, Kuo-Hsiang Chou wrote:
+>> Hi Thomas
+>>
+>> Thanks for your suggestions!
+>>
+>> I answer each revision inline that followed by [KH]:.
+> 
+> Thanks for reviewing this.
+>>
+>> Regards,
+>>
+>>           Kuo-Hsiang Chou
+>>
+>> -----Original Message-----
+>>
+>> From: Thomas Zimmermann [mailto:tzimmermann@suse.de]
+>>
+>> Sent: Tuesday, June 07, 2022 8:03 PM
+>>
+>> To: airlied@redhat.com; airlied@linux.ie; daniel@ffwll.ch;
+>> jfalempe@redhat.com; regressions@leemhuis.info; Kuo-Hsiang Chou
+>> <kuohsiang_chou@aspeedtech.com>
+>>
+>> Subject: [PATCH] drm/ast: Treat AST2600 like AST2500 in most places
+>>
+>> Include AST2600 in most of the branches for AST2500. Thereby revert
+>> most effects of commit f9bd00e0ea9d ("drm/ast: Create chip AST2600").
+>>
+>> The AST2600 used to be treated like an AST2500, which at least gave
+>> usable display output. After introducing AST2600 in the driver without
+>> further updates, lots of functions take the wrong branches.
+>>
+>> Handling AST2600 in the AST2500 branches reverts back to the original
+>> settings. The exception are cases where AST2600 meanwhile got its own
+>> branch.
+>>
+>> [KH]: Based on CVE_2019_6260 item3, P2A is disallowed anymore.
+>>
+>> P2A (PCIe to AMBA) is a bridge that is able to revise any BMC registers.
+>>
+>> Yes, P2A is dangerous on security issue, because Host open a backdoor
+>> and someone malicious SW/APP will be easy to take control of BMC.
+>>
+>> Therefore, P2A is disabled forever.
+>>
+>> Now, return to this patch, there is no need to add AST2600 condition
+>> on the P2A flow.
+>>
+> 
+> [snip]
+>>
+>> [KH]: Yes, the patch is "drm/ast: Create threshold values for AST2600"
+>> that is the root cause of whites lines on AST2600
+>>
+>> commit
+>>
+>>
+>> bcc77411e8a65929655cef7b63a36000724cdc4b
+>> <https://cgit.freedesktop.org/drm/drm/commit/?id=bcc77411e8a65929655ce
+>> f7b63a36000724cdc4b> (patch
+>> <https://cgit.freedesktop.org/drm/drm/patch/?id=bcc77411e8a65929655cef
+>> 7b63a36000724cdc4b>)
+>>
+> 
+> 
+> So basically this commit should be enough to fix the white lines  and flickering with VGA output on AST2600 ?
+> [KH]: Yes.
+> 	You are welcome to tell me something if you consider there is other strange issue.
+> 	Thanks for your efforts on drm/ast project!
+> Regards,
+> 	Kuo-Hsiang Chou
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-v7->v8:
-* No change.
+I've got confirmation that this commit is enough to fix the issue 
+introduced with f9bd00e0ea9d.
 
-v6->v7:
-* Add Robert's R-b tag.
+So let's drop this patch, and submit bcc77411e8a6 "drm/ast: Create 
+threshold values for AST2600" to stable kernel instead.
 
-v5->v6:
-* No change.
+Thanks,
 
-v4->v5:
-* No change.
-
-v3->v4:
-* No change.
-
-v2->v3:
-* No change.
-
-v1->v2:
-* No change.
-
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a6d3bd9d2a8d..033d4e8b838b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6654,6 +6654,16 @@ F:	Documentation/devicetree/bindings/display/imx/
- F:	drivers/gpu/drm/imx/
- F:	drivers/gpu/ipu-v3/
- 
-+DRM DRIVERS FOR FREESCALE IMX BRIDGE
-+M:	Liu Ying <victor.liu@nxp.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
-+F:	drivers/gpu/drm/bridge/imx/
-+
- DRM DRIVERS FOR GMA500 (Poulsbo, Moorestown and derivative chipsets)
- M:	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
- L:	dri-devel@lists.freedesktop.org
--- 
-2.25.1
+> 
+> I will try to have it tested, and if it's good, we may want to have it on stable kernel.
+> 
+> Best regards,
+> 
 
