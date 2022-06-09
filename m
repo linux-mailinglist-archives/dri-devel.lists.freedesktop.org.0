@@ -2,53 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EED7545680
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 23:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C0B545695
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 23:41:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E14F412B356;
-	Thu,  9 Jun 2022 21:33:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C986112B849;
+	Thu,  9 Jun 2022 21:41:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEF8512B352
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 21:33:11 +0000 (UTC)
-Received: from [192.168.1.107] ([37.4.249.155]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1Mrggc-1nN2AE3LUq-00nk8a; Thu, 09 Jun 2022 23:33:02 +0200
-Message-ID: <fb2035d3-5322-7b03-e9fc-89ce1f892db6@i2se.com>
-Date: Thu, 9 Jun 2022 23:33:01 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 685D112B848
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 21:41:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654810870;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+0dAgKBzfPuu/Qpg4c3Cqr8k4N4HCUwtJu4hqNYeV2g=;
+ b=YmbL4XZoIJIOU4TL7LW8rCrw/7uNf5B5FP8xCfmWk3JAYRaupqmT4j/MS/WkcR74lWZGHn
+ RtSTBE6ULNM77O3y18CSeqyaMeAG67/fgAZG5R5LVQ1ZU00MowNrZezPy5WLmVXnGTYFPe
+ K/WbUwPqIRzXvEP/Tdl1Sb7UHjFSSfs=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-48-n2dSX0ZfOhCKCt4Bfi2UHg-1; Thu, 09 Jun 2022 17:41:06 -0400
+X-MC-Unique: n2dSX0ZfOhCKCt4Bfi2UHg-1
+Received: by mail-il1-f197.google.com with SMTP id
+ q15-20020a056e0220ef00b002d15dcd2750so18469146ilv.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 14:41:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=+0dAgKBzfPuu/Qpg4c3Cqr8k4N4HCUwtJu4hqNYeV2g=;
+ b=ZrzuKbjZNKjJmcmmWJi183A67n1SuioXsTtrA0vOJe+ekwFiqTkELoxUnF55aB5SwG
+ C3RdRRHxgifE0W5RddsAb4quiihOCC5HHmfeEeDfky5Zfk89RDLdU127EoqvyPyBbHFc
+ 33t6xrMvn425APHsPoOrPO+PUr6m+TvwscLFhchTsKXyayWsWyAKeA1CJZX4UYisZOLj
+ IA8sO8ZFY5RUf0874iaOKRPHA2uGjxtQDkHT2ZvEWbAfpQlzxujhhpybjph5E/3kBXQy
+ L565N+d+AtXZdWNihiaaYJrACe4UqOZ3wop/3fs7M5pWZbMNpQQgwxrtr2XaTEnK0QKC
+ So4g==
+X-Gm-Message-State: AOAM530DD6GPKM/IyqwveCrxtjq83Kr7BYfxQA1VERSD1ORzN5yn7EXu
+ 73MvGB8Vja/Dkkp+hCu6waICPEfFZnfIT2Ik2s4w1xhCPypZE+sJnxAF5MRnTDo0sJ2l1inHrH1
+ xxkmOzdazv4Wh1XYFP6PE5o3jqfK5
+X-Received: by 2002:a05:6638:dd3:b0:331:d98c:9a67 with SMTP id
+ m19-20020a0566380dd300b00331d98c9a67mr7194726jaj.47.1654810866035; 
+ Thu, 09 Jun 2022 14:41:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxLYxbzXLY+uqvkGUeuaM8Esk3FhbYDeZwBAuNSC8NN4cjxlecj6CnbA+l3i4GOPufnvI4knw==
+X-Received: by 2002:a05:6638:dd3:b0:331:d98c:9a67 with SMTP id
+ m19-20020a0566380dd300b00331d98c9a67mr7194664jaj.47.1654810864338; 
+ Thu, 09 Jun 2022 14:41:04 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ a18-20020a6b6d12000000b0066938e02579sm7583703iod.38.2022.06.09.14.41.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jun 2022 14:41:03 -0700 (PDT)
+Date: Thu, 9 Jun 2022 15:41:02 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 2/2] vfio/pci: Remove console drivers
+Message-ID: <20220609154102.5cb1d3ca.alex.williamson@redhat.com>
+In-Reply-To: <01c74525-38b7-1e00-51ba-7cd793439f03@suse.de>
+References: <165453797543.3592816.6381793341352595461.stgit@omen>
+ <165453800875.3592816.12944011921352366695.stgit@omen>
+ <0c45183c-cdb8-4578-e346-bc4855be038f@suse.de>
+ <20220608080432.45282f0b.alex.williamson@redhat.com>
+ <01c74525-38b7-1e00-51ba-7cd793439f03@suse.de>
+Organization: Red Hat
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: drm/vc4: module dysfunctional on Raspberry Pi 3B as of 5.18.0
-Content-Language: en-US
-To: Peter Robinson <pbrobinson@gmail.com>
-References: <75eec8af-66fd-bbaa-9aea-4cdf634bf2c8@arcor.de>
- <CALeDE9MzaG0vGfwMrZVArCWpNT94=vTakoM71qykBkVbeL1QmQ@mail.gmail.com>
- <20220608143605.x4arwudst3nqeg7b@houat>
- <3648b281-c6b0-a91c-2a4f-ddbee6988b3f@i2se.com>
- <CALeDE9OkN5Vq-_L=VzSdKK0=6dKrNBX1q3zm3ZaNX8Jy9VJ35w@mail.gmail.com>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <CALeDE9OkN5Vq-_L=VzSdKK0=6dKrNBX1q3zm3ZaNX8Jy9VJ35w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:LNifFNFS44PfjB/74EhGog96KMMtkvWUBmQ6XrVJD6NKNyVdIdv
- h+qd79MsqiqTLFSIDue2YEmVvasuQ5nN+44maipOJ2ZV506zO59XHNWywx5Z7x0577PdtAf
- kCwD3gTflvGA4vwphNLxsacTx0rPSXksQ9G9X1XLN6zO/3QCyWDLOX5BMVB1EcjWQyItqfZ
- DV+8HakisKNxSBdnPz8KA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FqeQ+vbFm3E=:81kB4RGk/u2CdVZ6TTwAzs
- ZPpFQNOSuyNIFB5jZUTPSuBVPW8Smzaum8zX1FOwwFk2SsLm4WxKXKl5oLbXphWCpdXkDs4lO
- LJIJyHlYLArYF0gHLSbfA/nzIa5pM777OPYaIIH5/H0nV6ECITYK9Pc0xanV5RvL/DVVlpRVE
- 4c/aktRBqSmLcsQRcyGfTKryaOSUXCbuqu6yWy//asveyc/tL8PelLHYiMdk/4pl3xSK/oaR+
- dHEOQj7dmYy+BNpwPUq5zlK0Yjcth5hlhaO7laL9MuKWtXMdVrgxx+gQlMI2m+sb2ZslCpLIa
- BMzD+JZ5cQeWVEq1Z0glcGardglbHyCJfpbEhe6hs241GJejwmpC8S1T8YhlD6P+8Z8ZrDqJJ
- oLNOydzv005q1RPQdxl3uQ8ZWcQaqRFPOz/gU87F34Lq/uPIsCFosZ8LmwlIGghewnoRA/9hl
- dAyy8s3pblpnpTuG5lpyY1CCFJovJXfgjZufjpvDHM8NbIfRcbxnuEPq3ZxkHy83SP91n0zz5
- BPOCpVp9tjENT8pTBSJdr/7nlnIWmVeKfB8bGEktXegZUnzP+8neyoBTCruCLN2wqbOjJzrg7
- y5EPbbLaX89HND09FhmhXjcrlN5IgIJ7MK83aHyOwY+oDr0+3YaRKEw6OjHNsTwRfLpsIKPt3
- d1L4YUdALwyXsSsTPyvil7YPda/bzhpZceGbZZNY+Jt+OSyeINz86FH8csrL3sKVBvlKLv5gW
- QM8Uu+wylBIeyiFSiYVjQvws1LWtJnGEOgulK1ArwdJ7tYb4SuA6yDHJVXA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,47 +87,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Mattern <pmattern@arcor.de>, Maxime Ripard <maxime@cerno.tech>,
- dri-devel@lists.freedesktop.org
+Cc: kvm@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Peter,
+On Thu, 9 Jun 2022 11:13:22 +0200
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> 
+> Please have a look at the attached patch. It moves the aperture helpers 
+> to a location common to the various possible users (DRM, fbdev, vfio). 
+> The DRM interfaces remain untouched for now.  The patch should provide 
+> what you need in vfio and also serve our future use cases for graphics 
+> drivers. If possible, please create your patch on top of it.
 
-Am 09.06.22 um 13:52 schrieb Peter Robinson:
->>>>> As of Linux 5.18.0, module vc4 apparently isn't working on Raspberry Pi
->>>>> 3B any more.
->>>>>
->>>>> If a monitor is attached to the device, the boot messages show up as
->>>>> usual, but right when KMS starts, the screen turns black. Similarly, the
->>>>> screen also turns black when the module is blacklisted at boot time and
->>>>> loaded from the running system.
->>>>> The problem looks quite similar to the one posted some months ago in [1].
->>> If I understand you properly, it results in a blank screen if the
->>> monitor is connected, but the system is still responsive?
->>>
->>> If so, it's a very different problem than the link you provided, since
->>> it was occurring when no monitor was connected and resulted in a total
->>> system hang.
->>>
->>>>> Unfortunately, looking through systemd's journal didn't seem to yield
->>>>> any real hint. Nevertheless, the results from grepping vc4 are
->>>> I'm seeing the same issue with vc4 on a RPi3 on 5.18.1 on Fedora so
->>>> can confirm the regression. Maxime would know what might be up here?
->> i assume you are using the downstream DTB?
-> In this case it's the one in the Linux kernel (not sure if that's
-> upstream or downstream in this context) not the one provided by the
-> RPi firmware.
+Looks good to me, this of course makes the vfio change quite trivial.
+One change I'd request:
 
-okay thanks. I tried the kernel config but its huge.
+diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kconfig
+index 40c50fa2dd70..7f3c44e1538b 100644
+--- a/drivers/video/console/Kconfig
++++ b/drivers/video/console/Kconfig
+@@ -10,6 +10,7 @@ config VGA_CONSOLE
+ 	depends on !4xx && !PPC_8xx && !SPARC && !M68K && !PARISC &&  !SUPERH && \
+ 		(!ARM || ARCH_FOOTBRIDGE || ARCH_INTEGRATOR || ARCH_NETWINDER) && \
+ 		!ARM64 && !ARC && !MICROBLAZE && !OPENRISC && !S390 && !UML
++	select APERTURE_HELPERS if (DRM || FB || VFIO_PCI)
+ 	default y
+ 	help
+ 	  Saying Y here will allow you to use Linux in text mode through a
 
-Is it correct that the issue occurs with your kernel config, but not 
-with multi_v7_defconfig?
+This should be VFIO_PCI_CORE.  Thanks,
 
->
->> Please provide the version/date of the GPU firmware?
-> [    6.205121] raspberrypi-firmware soc:firmware: Attached to firmware
-> from 2022-05-24T13:26:52
-> Which is git f145afc
-This is good. I had issues with older firmware which didn't implement 
-RPI_FIRMWARE_NOTIFY_DISPLAY_DONE. So it must be something different.
+Alex
+
