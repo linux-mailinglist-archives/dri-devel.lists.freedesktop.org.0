@@ -1,60 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB50544736
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 11:19:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C785C544734
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 11:19:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1E891124A4;
-	Thu,  9 Jun 2022 09:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 817391124C3;
+	Thu,  9 Jun 2022 09:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75AF01124C2;
- Thu,  9 Jun 2022 09:19:27 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 75F7A61B97;
- Thu,  9 Jun 2022 09:19:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8870CC34114;
- Thu,  9 Jun 2022 09:19:25 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="UArqgGwg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1654766363;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9Er+J+1CnioC8hdj/XQvRCbloD3JhuE8VxkclGA3cDU=;
- b=UArqgGwgUA80BX6wygtiHrtrGaBpi4I/llidG47Rs1pUnUVEbj2b5CzaAtabQs//Y/nebm
- idd3GoeHvSgYhOi1c6tRom4DsWoC8p05ju0dhGaokHqKXG/eMETulR9Kuan29EDI9eFtAh
- OmmGeM2ZtfSmKqo/qYaXLRqZ13bNtYE=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 454bf9b7
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Thu, 9 Jun 2022 09:19:23 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-2ef5380669cso234430807b3.9; 
- Thu, 09 Jun 2022 02:19:23 -0700 (PDT)
-X-Gm-Message-State: AOAM532a36WKabFcNvr8/UJ8xo4qNhsKoTdscMZv7xXFr7EUrJGQLJnk
- k1rsn5jWmZTQ/fRWU/T5XxlQDsDSGbDONpNJoqg=
-X-Google-Smtp-Source: ABdhPJzAqE1avOsz4vImNc+NoFNBR2NTgG8AidXBx3PTt0RlNB5opM9XHUDXRrl4E82/TtT/ere1kN4UlOxz/iclkN0=
-X-Received: by 2002:a81:4887:0:b0:30c:40bd:3e7b with SMTP id
- v129-20020a814887000000b0030c40bd3e7bmr42817771ywa.396.1654766362745; Thu, 09
- Jun 2022 02:19:22 -0700 (PDT)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B02671124BC
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 09:19:26 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ l2-20020a05600c4f0200b0039c55c50482so4575182wmq.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 02:19:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=f/iBGt4xN7zzCFQSjNLwi4Ry+Kpyk/3pfrO2M9cm4OQ=;
+ b=iuL3C0TadnvQ/K14iUfaUoZbhV2yRA+ewm1TptnZf8FjVkH2jA3YFNACeR+uxyeoc1
+ S4b8x3fuYzWpMPSVr5L7V0up1RJ7KDmA0ZjN98Ov+EajgfD4IGrPMe5e0sU6uRY7VMus
+ gmG7Fjbj3h13widN8jJRdUhxiRmAFVfblP5iWwQmB3HojvJva8WVnkZ9ALha6vKK8tl6
+ Ect8ifuxuthfEzJwXbn1vIVrqFtJPGZQgV6OM5LajtL++cWYdgL4HPymBqscHTifNZPg
+ 4gtcf2kQ7xL72MjEFi/XZxoR5CznRHUdsDjxP+Gd87CTOE/QTzPSqfCg4BrIyZ7BW1xe
+ qCyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=f/iBGt4xN7zzCFQSjNLwi4Ry+Kpyk/3pfrO2M9cm4OQ=;
+ b=symtcpr2xjbGArhH1dG58lt0OqahJ0s28I0MUiIiy+fjCTqGbCE2lnCRxRiBJKTjOG
+ CazLrkEjqi8OA9UDVjNMxrddhqffV1/amaUdtzpTSwm/4ZNIdGmxVegQXyS8GVxsnsDF
+ EQs2NqYmIONDh6WralU89PboFIkCUlHtSrN1UJpbDXlwbSjGmtAhp4cyw8x7a3c2KlO2
+ QHmSKUU7T1G787Pm3QC53SPyWbgGntlFOenlsbeMmWnQdpcc37jaEzmhcR4oI15gfKTn
+ Tr8tA9oq1nBHtYm2aU9kys6YLEjKsLICBiic48l6/nngiq0ePq/x04xosX1LUc1+g46O
+ VutQ==
+X-Gm-Message-State: AOAM531eZ8HI8nj9uI9yOiSZgwNMTmDU2LgSVIb19pBTUs5MGfPVIGWY
+ 7lZXrL8Kq2NProWavD0pB3si4Q==
+X-Google-Smtp-Source: ABdhPJwFZrOR/0oGzmAtsFR27TnfBD5OvFlRRibuQc57qR4bFY2nupml8YcXoSl2/M2wBwLsfNyzCg==
+X-Received: by 2002:a1c:cc07:0:b0:397:b2f:ac59 with SMTP id
+ h7-20020a1ccc07000000b003970b2fac59mr2303142wmb.157.1654766365179; 
+ Thu, 09 Jun 2022 02:19:25 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ u12-20020adfdb8c000000b002119c1a03e4sm22758115wri.31.2022.06.09.02.19.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jun 2022 02:19:24 -0700 (PDT)
+Date: Thu, 9 Jun 2022 10:19:22 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [RESEND PATCH v3] drm/cma-helper: Describe what a "contiguous
+ chunk" actually means
+Message-ID: <20220609091922.6gn2nlysrpndfu4n@maple.lan>
+References: <20220608135821.1153346-1-daniel.thompson@linaro.org>
+ <YqDCTrlPmDZQei8Q@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <CAHmME9oyjj2cHjyqUrDQHQ1+YBafhBvj0utpU4kox6YK0gcT6w@mail.gmail.com>
- <DM8PR11MB5655E231601FD2195816F017E0A79@DM8PR11MB5655.namprd11.prod.outlook.com>
-In-Reply-To: <DM8PR11MB5655E231601FD2195816F017E0A79@DM8PR11MB5655.namprd11.prod.outlook.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Thu, 9 Jun 2022 11:19:11 +0200
-X-Gmail-Original-Message-ID: <CAHmME9r=vhjhKbqGuhfa6TK=GJKx4wJ7RNHrkeW-ncEcvgHhiw@mail.gmail.com>
-Message-ID: <CAHmME9r=vhjhKbqGuhfa6TK=GJKx4wJ7RNHrkeW-ncEcvgHhiw@mail.gmail.com>
-Subject: Re: [Intel-gfx] i915 w/5.19: wild flickering glitching technicolor
- pyrotechnics on resumption from suspend
-To: "Saarinen, Jani" <jani.saarinen@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YqDCTrlPmDZQei8Q@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,9 +76,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Done. https://gitlab.freedesktop.org/drm/intel/-/issues/6205
+On Wed, Jun 08, 2022 at 05:37:50PM +0200, Daniel Vetter wrote:
+> On Wed, Jun 08, 2022 at 02:58:21PM +0100, Daniel Thompson wrote:
+> > Since it's inception in 2012 it has been understood that the DRM GEM CMA
+> > helpers do not depend on CMA as the backend allocator. In fact the first
+> > bug fix to ensure the cma-helpers work correctly with an IOMMU backend
+> > appeared in 2014. However currently the documentation for
+> > drm_gem_cma_create() talks about "a contiguous chunk of memory" without
+> > making clear which address space it will be a contiguous part of.
+> > Additionally the CMA introduction is actively misleading because it only
+> > contemplates the CMA backend.
+> > 
+> > This matters because when the device accesses the bus through an IOMMU
+> > (and don't use the CMA backend) then the allocated memory is contiguous
+> > only in the IOVA space. This is a significant difference compared to the
+> > CMA backend and the behaviour can be a surprise even to someone who does
+> > a reasonable level of code browsing (but doesn't find all the relevant
+> > function pointers ;-) ).
+> > 
+> > Improve the kernel doc comments accordingly.
+> > 
+> > Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
+> > Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+> > ---
+> > 
+> > Notes:
+> >     Am I Cc:ing the correct reviewers/maintainers with this patch? There
+> >     has been no negative feedback but I've been rebasing and re-posting it
+> >     for three kernel cycles now. Do I need to queue it somewhere special or
+> >     get it in front of someone specific?
+> 
+> Occasionally stuff falls through a few too many cracks, that's all. We
+> have tons of committers for drm-misc (and Lucas is one of them), but
+> sometimes they shy away from pushing themselves and others see the r-b and
+> assume it's already handled, and then it doesn't move :-/
+
+No worries. Arguably I should have asked this question a little earlier
+anyway.
+
+
+Thanks for pushing it.
+
+
+Daniel.
