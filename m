@@ -1,35 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3231054414F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 04:13:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC665441D6
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 05:17:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9512A10E781;
-	Thu,  9 Jun 2022 02:13:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE48011B7A2;
+	Thu,  9 Jun 2022 03:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2178410E781
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 02:13:44 +0000 (UTC)
-X-UUID: 1355711ed1e740e5b66c6ef4d9032e25-20220609
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFCAE11B7A1
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 03:17:09 +0000 (UTC)
+X-UUID: 9b5cdd2d1d4b4bdb8333e36f057d06c4-20220609
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:aa99de07-c438-4fb6-b77f-97892adec285, OB:0,
- LO
- B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:5
-X-CID-META: VersionHash:2a19b09, CLOUDID:a9242ce5-2ba2-4dc1-b6c5-11feb6c769e0,
+X-CID-O-INFO: VERSION:1.1.5, REQID:d78a6897-1c8e-42bd-b6fe-e3afb6c6d5f4, OB:10,
+ L
+ OB:20,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,A
+ CTION:release,TS:50
+X-CID-INFO: VERSION:1.1.5, REQID:d78a6897-1c8e-42bd-b6fe-e3afb6c6d5f4, OB:10,
+ LOB
+ :20,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:50
+X-CID-META: VersionHash:2a19b09, CLOUDID:a49eb97e-c8dc-403a-96e8-6237210dceee,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,QS:0,BEC:nil
-X-UUID: 1355711ed1e740e5b66c6ef4d9032e25-20220609
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ OID:f3b1ef258f60,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:0,BEC:nil
+X-UUID: 9b5cdd2d1d4b4bdb8333e36f057d06c4-20220609
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1336069284; Thu, 09 Jun 2022 10:13:38 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ with ESMTP id 1875450102; Thu, 09 Jun 2022 11:17:03 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with ShadowRedundancy id 15.2.792.3; 
+ Thu, 9 Jun 2022 03:16:32 +0000
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
  Thu, 9 Jun 2022 10:13:37 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
