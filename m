@@ -2,44 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4145C5453D3
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 20:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231BD5453C3
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 20:11:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B62F12B5FA;
-	Thu,  9 Jun 2022 18:13:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A11C12B5BB;
+	Thu,  9 Jun 2022 18:11:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 415 seconds by postgrey-1.36 at gabe;
- Thu, 09 Jun 2022 18:13:22 UTC
-Received: from 5.mo575.mail-out.ovh.net (5.mo575.mail-out.ovh.net
- [46.105.62.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B97212B5FC
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 18:13:22 +0000 (UTC)
-Received: from player788.ha.ovh.net (unknown [10.108.16.160])
- by mo575.mail-out.ovh.net (Postfix) with ESMTP id AC5D2252FE
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 18:06:25 +0000 (UTC)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
- (Authenticated sender: steve@sk2.org)
- by player788.ha.ovh.net (Postfix) with ESMTPSA id C45D92B66FB16;
- Thu,  9 Jun 2022 18:06:13 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005d40fa0bf-8e0f-46d4-85d9-c1d69ed95b28,
- FB82ABC7E83112E23A0D9558C7043BAE976A9334) smtp.auth=steve@sk2.org
-X-OVh-ClientIp: 82.65.25.201
-From: Stephen Kitt <steve@sk2.org>
-To: Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: [PATCH v2] fbdev: atmel_lcdfb: Rework backlight status updates
-Date: Thu,  9 Jun 2022 20:04:40 +0200
-Message-Id: <20220609180440.3138625-1-steve@sk2.org>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F05EE12B5C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 18:11:37 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ hv24-20020a17090ae41800b001e33eebdb5dso2087279pjb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 11:11:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B5EoYi45ZBUgcYzH5QmcJabRI+K9dAvb3lNExbNzDTc=;
+ b=IRBv/Csm/7toLZfIoXEPX0E45ay4Enl4+enzXX7DKTkX5nUg1cRxZOi2qv4NePVtAg
+ VoHy+EUE1WpiNMTX9FhRf/mrnjfYQPaESFmpZVcbJGR4OGpEFAlKDDengyMyRxJYaCqe
+ 7Zb9IVzTdblW1xpdWU5oA4UNZms7szwAcKGXQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B5EoYi45ZBUgcYzH5QmcJabRI+K9dAvb3lNExbNzDTc=;
+ b=m8y0u/P3s/u8vGsobL0yxoX9IjRghhId6LwjGm0IC49I08QK8hYgB8rUB+uq8FZQ9k
+ 3lDKNiPJViCCJtNrH24sq+prkrgvclhLSKcbma5VqBlaG3QILn1IKlQjNi/bUIBBdCpP
+ YIPmSOUHaHrLoactvqVgPW8Nu5vgxFMGGfZEFbLQnnc1Que5d0dvnGIHZd+AwcN4cRc4
+ juIsRWx5zJz7mTcERplr6gdLB5TERK54xUXab5QMQFiD5EMNYn6R3b2X3nwsb5CE3POv
+ 7LGFIWtk+8bxzJ4G89A/HJ39J6CpPOSFjZt7/t3heF2icZ21rxEq7+Eo3usij3G6OlrL
+ UH4A==
+X-Gm-Message-State: AOAM531NO0cvKDeeg3WNyRUBEgic9RHpV/jG4OkBHRJPJUZbJW0Zrqzc
+ jqgy6i+4el5Ni9mviN/VuYDY4w==
+X-Google-Smtp-Source: ABdhPJxbvQFA24STYjSmsFQeh34YR6aLuV8nQK5wlXXW3CPcVjhZjHvmK6qgZXTrZwPj8dZKeSjFjQ==
+X-Received: by 2002:a17:902:7248:b0:167:95e2:f83c with SMTP id
+ c8-20020a170902724800b0016795e2f83cmr14304302pll.74.1654798297569; 
+ Thu, 09 Jun 2022 11:11:37 -0700 (PDT)
+Received: from pmalani.c.googlers.com.com
+ (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+ by smtp.gmail.com with ESMTPSA id
+ r14-20020a63ec4e000000b003fb0354c43asm17728049pgj.32.2022.06.09.11.11.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jun 2022 11:11:36 -0700 (PDT)
+From: Prashant Malani <pmalani@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH v2 0/7] usb: typec: Introduce typec-switch binding
+Date: Thu,  9 Jun 2022 18:09:39 +0000
+Message-Id: <20220609181106.3695103-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 3936427552257050331
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddtledgudduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeelgeetueejffejfeejvefhtddufeejgfetleegtddukeelieelvddvteduveejtdenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejkeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehjeeh
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,99 +67,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>, Stephen Kitt <steve@sk2.org>,
- Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Tzung-Bi Shih <tzungbi@google.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>, Jonas Karlman <jonas@kwiboo.se>,
+ swboyd@chromium.org, Pin-Yen Lin <treapking@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robert Foss <robert.foss@linaro.org>, Prashant Malani <pmalani@chromium.org>,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of checking the state of various backlight_properties fields
-against the memorised state in atmel_lcdfb_info.bl_power,
-atmel_bl_update_status() should retrieve the desired state using
-backlight_get_brightness (which takes into account the power state,
-blanking etc.). This means the explicit checks using props.fb_blank
-and props.power can be dropped.
+This series introduces a binding for Type-C data lane switches. These
+control the routing and operating modes of USB Type-C data lanes based
+on the PD messaging from the Type-C port driver regarding connected
+peripherals.
 
-The backlight framework ensures that backlight is never negative, so
-the test before reading the brightness from the hardware always ends
-up false and the whole block can be removed. The framework retrieves
-the brightness from the hardware through atmel_bl_get_brightness()
-when necessary.
+The first patch introduces a change to the Type-C mux class mode-switch
+matching code, while the second adds a config guard to a Type-C header.
+The next couple of patches introduce the new "typec-switch" binding as
+well as one user of it (the ANX7625 drm bridge).
 
-As a result, bl_power in struct atmel_lcdfb_info is no longer
-necessary, so remove that while we're at it. Since we only ever care
-about reading the current state in backlight_properties, drop the
-updates at the end of the function.
+The remaining patches add functionality to the anx7625 driver to
+register the mode-switches, as well as program its crosspoint
+switch depending on which Type-C port has a DisplayPort (DP) peripheral
+connected to it.
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org
----
- drivers/video/fbdev/atmel_lcdfb.c | 22 +---------------------
- 1 file changed, 1 insertion(+), 21 deletions(-)
+v1: https://lore.kernel.org/linux-usb/20220607190131.1647511-1-pmalani@chromium.org/
 
-diff --git a/drivers/video/fbdev/atmel_lcdfb.c b/drivers/video/fbdev/atmel_lcdfb.c
-index 1fc8de4ecbeb..8187a7c4f910 100644
---- a/drivers/video/fbdev/atmel_lcdfb.c
-+++ b/drivers/video/fbdev/atmel_lcdfb.c
-@@ -49,7 +49,6 @@ struct atmel_lcdfb_info {
- 	struct clk		*lcdc_clk;
- 
- 	struct backlight_device	*backlight;
--	u8			bl_power;
- 	u8			saved_lcdcon;
- 
- 	u32			pseudo_palette[16];
-@@ -109,22 +108,7 @@ static u32 contrast_ctr = ATMEL_LCDC_PS_DIV8
- static int atmel_bl_update_status(struct backlight_device *bl)
- {
- 	struct atmel_lcdfb_info *sinfo = bl_get_data(bl);
--	int			power = sinfo->bl_power;
--	int			brightness = bl->props.brightness;
--
--	/* REVISIT there may be a meaningful difference between
--	 * fb_blank and power ... there seem to be some cases
--	 * this doesn't handle correctly.
--	 */
--	if (bl->props.fb_blank != sinfo->bl_power)
--		power = bl->props.fb_blank;
--	else if (bl->props.power != sinfo->bl_power)
--		power = bl->props.power;
--
--	if (brightness < 0 && power == FB_BLANK_UNBLANK)
--		brightness = lcdc_readl(sinfo, ATMEL_LCDC_CONTRAST_VAL);
--	else if (power != FB_BLANK_UNBLANK)
--		brightness = 0;
-+	int			brightness = backlight_get_brightness(bl);
- 
- 	lcdc_writel(sinfo, ATMEL_LCDC_CONTRAST_VAL, brightness);
- 	if (contrast_ctr & ATMEL_LCDC_POL_POSITIVE)
-@@ -133,8 +117,6 @@ static int atmel_bl_update_status(struct backlight_device *bl)
- 	else
- 		lcdc_writel(sinfo, ATMEL_LCDC_CONTRAST_CTR, contrast_ctr);
- 
--	bl->props.fb_blank = bl->props.power = sinfo->bl_power = power;
--
- 	return 0;
- }
- 
-@@ -155,8 +137,6 @@ static void init_backlight(struct atmel_lcdfb_info *sinfo)
- 	struct backlight_properties props;
- 	struct backlight_device	*bl;
- 
--	sinfo->bl_power = FB_BLANK_UNBLANK;
--
- 	if (sinfo->backlight)
- 		return;
- 
+Changes since v1:
+- Fixed function signature error in "else case" of typec_mux.h
+- typec-switch.yaml: Fixed indentation, compatible, and node names in examples.
+- anx7625.yaml:
+    + Introduced patternProperties for "switch" children (suggested by Krzysztof Kozlowski).
+    + Added unevaluatedProperties descriptor (suggested by Krzysztof Kozlowski).
+    + Added "address-cells" and "size-cells" properties to "switches".
 
-base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+Pin-Yen Lin (1):
+  drm/bridge: anx7625: Add typec_mux_set callback function
+
+Prashant Malani (6):
+  usb: typec: mux: Allow muxes to specify mode-switch
+  usb: typec: mux: Add CONFIG guards for functions
+  dt-bindings: usb: Add Type-C switch binding
+  dt-bindings: drm/bridge: anx7625: Add mode-switch support
+  drm/bridge: anx7625: Register number of Type C switches
+  drm/bridge: anx7625: Register Type-C mode switches
+
+ .../display/bridge/analogix,anx7625.yaml      |  63 ++++++++
+ .../devicetree/bindings/usb/typec-switch.yaml |  74 +++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.c     | 151 ++++++++++++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.h     |  20 +++
+ drivers/usb/typec/mux.c                       |   8 +-
+ include/linux/usb/typec_mux.h                 |  38 +++++
+ 6 files changed, 352 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/typec-switch.yaml
+
 -- 
-2.30.2
+2.36.1.476.g0c4daa206d-goog
 
