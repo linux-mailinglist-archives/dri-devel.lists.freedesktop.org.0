@@ -1,70 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D4E85450EC
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 17:36:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F69545122
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 17:44:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0332012ADE5;
-	Thu,  9 Jun 2022 15:36:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F44E1130CC;
+	Thu,  9 Jun 2022 15:44:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F5C512ADE5
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 15:36:17 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 259CqInK014220;
- Thu, 9 Jun 2022 17:36:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- h=message-id : date :
- mime-version : subject : to : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=fBBK0lRj7eRfQiKEbQnTSqGbA1p8lUqyMPbkLL/n2hM=;
- b=IZEyTsmCQsBm3CFjoZJzXyY6TStR7QMuWnhr6iKGYgESbiU3gOMRrGEOWBAVh/wlTiMO
- Y3VFPey3Iy9SjY1JsagqevT/BsZ5bXY8wMI9uW0CueyYvrHlPWy+s8TJTuvvRa0/zp06
- Ssxg4Sa7BlFp8VfvZ1Em0vVzmnSlfPOr/Omfzgp6L2bquQcZdHbS9s/2Uk8zDM7YqhiN
- 8Q415dk5ac8aHwR8CZzKD2sWiFicN74Ls+w0hyUSJcU2NriiLQn4q1FdWKmUrguqILkj
- Sq7wNFxyI23CN5s12zJWv6cx+fuXs1U4rn9RnfmJhGRAG4eBI9+bkPKnrV/uSJ5TATuY lg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3gj3cu1smg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Jun 2022 17:36:14 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id F0FB110002A;
- Thu,  9 Jun 2022 17:36:13 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E9B59221793;
- Thu,  9 Jun 2022 17:36:13 +0200 (CEST)
-Received: from [10.201.21.53] (10.75.127.51) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Thu, 9 Jun
- 2022 17:36:12 +0200
-Message-ID: <be63f46a-d6b0-8109-4c8a-a421aa791e3b@foss.st.com>
-Date: Thu, 9 Jun 2022 17:36:12 +0200
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33A4A112053;
+ Thu,  9 Jun 2022 15:44:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1654789469; x=1686325469;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=AyctHdx5ic41iiv6bacgkvRNkNQXHSvvLv/tMJJxBYM=;
+ b=iPiD0Q+N2CRlhu/fLxJeIqLTh9fEQblsRkJilRjJHH1nSKpW9aXWiB6/
+ YDabF43ChAfG72XjF/tI8IQWdqcnkYin1QHvEQLq6+kO9KyP4kgY6q4nB
+ Fnp4b8CSwdfCTxZMbEBKIrXBf10imDxtC5SXhjJFH7rcn4imhdb+P5xTN I=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 09 Jun 2022 08:44:28 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jun 2022 08:44:28 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 9 Jun 2022 08:44:27 -0700
+Received: from [10.216.42.89] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 9 Jun 2022
+ 08:44:20 -0700
+Message-ID: <f3b53f49-6e3f-3a3f-6737-d51a9d6ab78b@quicinc.com>
+Date: Thu, 9 Jun 2022 21:14:16 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] drm/stm: ltdc: fix various coding-style warnings
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] drm/msm: Grab the GPU runtime in a6xx routines, not the
+ GMU one
 Content-Language: en-US
-To: Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>, <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20220603134334.592805-1-yannick.fertre@foss.st.com>
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20220603134334.592805-1-yannick.fertre@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Douglas Anderson <dianders@chromium.org>, Rob Clark <robdclark@gmail.com>, 
+ Jordan Crouse <jordan@cosmicpenguin.net>
+References: <20220609073317.1.Ie846c5352bc307ee4248d7cab998ab3016b85d06@changeid>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <20220609073317.1.Ie846c5352bc307ee4248d7cab998ab3016b85d06@changeid>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.75.127.51]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.874,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-09_12,2022-06-09_01,2022-02-23_01
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,52 +66,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ Yangtao Li <tiny.windzz@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Wang Qing <wangqing@vivo.com>, Eric
+ Anholt <eric@anholt.net>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-
-Thanks
-
-Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-
-
-Cheers,
-
-Raphaël
-
-On 6/3/22 15:43, Yannick Fertre wrote:
-> Fix issues reported by checkpatch.pl:
-> - Braces {} should be used on all arms
-> - Blank lines
+On 6/9/2022 8:03 PM, Douglas Anderson wrote:
+> >From testing on sc7180-trogdor devices, reading the GMU registers
+">"  ??
+> needs the GMU clocks to be enabled. Those clocks get turned on in
+> a6xx_gmu_resume(). Confusingly enough, that function is called as a
+> result of the runtime_pm of the GPU "struct device", not the GMU
+> "struct device".
 >
-> Signed-off-by: Yannick Fertre <yannick.fertre@foss.st.com>
+> Let's grab a reference to the correct device. Incidentally, this makes
+> us match the a5xx routine more closely.
+>
+> This is easily shown to fix crashes that happen if we change the GPU's
+> pm_runtime usage to not use autosuspend. It's also believed to fix
+> some long tail GPU crashes even with autosuspend.
+>
+> NOTE: the crashes I've seen were fixed by _only_ fixing
+> a6xx_gpu_busy(). However, I believe that the same arguments should be
+> made to a6xx_gmu_set_freq() so I've changed that function too.
+>
+> Fixes: eadf79286a4b ("drm/msm: Check for powered down HW in the devfreq callbacks")
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
->  drivers/gpu/drm/stm/ltdc.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-> index a4098aaff243..6a9f613839b5 100644
-> --- a/drivers/gpu/drm/stm/ltdc.c
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -908,9 +908,9 @@ static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
->  		drm_connector_list_iter_end(&iter);
->  	}
->  
-> -	if (bridge && bridge->timings)
-> +	if (bridge && bridge->timings) {
->  		bus_flags = bridge->timings->input_bus_flags;
-> -	else if (connector) {
-> +	} else if (connector) {
->  		bus_flags = connector->display_info.bus_flags;
->  		if (connector->display_info.num_bus_formats)
->  			bus_formats = connector->display_info.bus_formats[0];
-> @@ -1917,7 +1917,6 @@ int ltdc_load(struct drm_device *ddev)
->  			DRM_ERROR("Failed to register LTDC interrupt\n");
->  			goto err;
->  		}
-> -
->  	}
->  
->  	crtc = devm_kzalloc(dev, sizeof(*crtc), GFP_KERNEL);
+>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 6 +++---
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 4 ++--
+>   2 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 9f76f5b15759..b79ad2e0649c 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -129,13 +129,13 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+>   	 * This can get called from devfreq while the hardware is idle. Don't
+>   	 * bring up the power if it isn't already active
+>   	 */
+> -	if (pm_runtime_get_if_in_use(gmu->dev) == 0)
+> +	if (pm_runtime_get_if_in_use(&gpu->pdev->dev) == 0)
+
+Wouldn't we return early here when this fn is called from a6xx_gmu_set_initial_freq()?
+
+-Akhil.
+
+>   		return;
+>   
+>   	if (!gmu->legacy) {
+>   		a6xx_hfi_set_freq(gmu, perf_index);
+>   		dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
+> -		pm_runtime_put(gmu->dev);
+> +		pm_runtime_put(&gpu->pdev->dev);
+>   		return;
+>   	}
+>   
+> @@ -159,7 +159,7 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+>   		dev_err(gmu->dev, "GMU set GPU frequency error: %d\n", ret);
+>   
+>   	dev_pm_opp_set_opp(&gpu->pdev->dev, opp);
+> -	pm_runtime_put(gmu->dev);
+> +	pm_runtime_put(&gpu->pdev->dev);
+>   }
+>   
+>   unsigned long a6xx_gmu_get_freq(struct msm_gpu *gpu)
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 841e47a0b06b..87568d0b6ef8 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1659,7 +1659,7 @@ static u64 a6xx_gpu_busy(struct msm_gpu *gpu, unsigned long *out_sample_rate)
+>   	*out_sample_rate = 19200000;
+>   
+>   	/* Only read the gpu busy if the hardware is already active */
+> -	if (pm_runtime_get_if_in_use(a6xx_gpu->gmu.dev) == 0)
+> +	if (pm_runtime_get_if_in_use(&gpu->pdev->dev) == 0)
+>   		return 0;
+>   
+>   	busy_cycles = gmu_read64(&a6xx_gpu->gmu,
+> @@ -1667,7 +1667,7 @@ static u64 a6xx_gpu_busy(struct msm_gpu *gpu, unsigned long *out_sample_rate)
+>   			REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_0_H);
+>   
+>   
+> -	pm_runtime_put(a6xx_gpu->gmu.dev);
+> +	pm_runtime_put(&gpu->pdev->dev);
+>   
+>   	return busy_cycles;
+>   }
+
