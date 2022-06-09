@@ -1,57 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87155452DE
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 19:23:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EF8B5452F6
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 19:31:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49D9710EB24;
-	Thu,  9 Jun 2022 17:23:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 451661138F8;
+	Thu,  9 Jun 2022 17:31:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
- (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0F64112D2B
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 17:23:34 +0000 (UTC)
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 484BF1138F8
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 17:31:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=wNOUiBw/rJTSYauDyEhMfXMRlRrqLZQh50hYSmQWq+w=;
- b=h03dH+2IzhirOaSl9zx/tKAOAkC/lbsNkbuqFgMq3C5lLkr/gxxqZwLR44Erz+gNZy4kbJLuDmGew
- W+cPbunM+Y5Sfl0oXhDpHQJBjdkt0Qp6fUpCR5CX7kaCESRdub5RSh48rU2dQ4F6LMxzln4q+jl3Fn
- /LsLQ372w6ohuZ65PCsAZF7Uvk3rDEVE/7poQn+NNkm46FhZ9WGm8J1KlnEBep58BVc9sEX/j7xgcI
- INDaYdJeY9Qs+PGcAXmA5rq5W3ZAkBVaZ/F94UmjlaVId1Nd0bXyysacJFGOKGy/n6cKjtxRjxs2G1
- DsBVtN9IGIldkT3Y1RmvdQITFTKLZfw==
+ bh=PngJV0fOQLwfKIkqb7hkPhv5VV2jzxuklqa/4eAL0Wc=;
+ b=Xxq+NRf2PMtLyiVHS86SoJwNRzPssFYIVkOdVqqA+g+6M9LoJg9GaMQrG6hmwzEdMQxeKBtuKVJDk
+ ixNQt92nXHp5bjSU7IMMKd/SJ0/+W3oUtHCVEN3Z5Hhkh69GAU7F/Z2eSIUcFiksSr1C03X0y24JM8
+ 1cjBAZl472mdM2tjV+pIsSyRclb8yzgYwZhIJ6ftW4uzRctQlmISSjiu6cIutg1HDcpdJfUTyuHFvm
+ RQxSAekV2EX+NXrsr8mvssDFD8+sgO8XLA+VkLxIAeYTVtalTQYe5mz8X4CoK+DgTlNkIaK73AEFBv
+ 2hMcv3ArLfAZAcVAvqeBqDF3Cb1deYw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=wNOUiBw/rJTSYauDyEhMfXMRlRrqLZQh50hYSmQWq+w=;
- b=fo2mWotsx0uFkMRqN2XFQ1cnTjbBQHaQfHLt/uBrj6cCvJ1Wj8s/PWRcuZVP+MsTfNIKBoPkPAtpv
- PpRwURcAA==
-X-HalOne-Cookie: 3ddab91af89094ee70c34864cd093f29a661beea
-X-HalOne-ID: e1a5637b-e818-11ec-a6bf-d0431ea8a283
+ bh=PngJV0fOQLwfKIkqb7hkPhv5VV2jzxuklqa/4eAL0Wc=;
+ b=e/H/5jol8vzhvLtury+WU8PNc8TExjdg+CCmoAvGFdbAWGDTwNgTdhzT9FEYXOYKhNdJqeh/b/eeJ
+ 52ViYCWCg==
+X-HalOne-Cookie: e8b68a89220797ee6f84a44fb1bf6d39574960f8
+X-HalOne-ID: ecbedf15-e819-11ec-8231-d0431ea8bb10
 Received: from mailproxy1.cst.dirpod4-cph3.one.com
  (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
- by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id e1a5637b-e818-11ec-a6bf-d0431ea8a283;
- Thu, 09 Jun 2022 17:23:31 +0000 (UTC)
-Date: Thu, 9 Jun 2022 19:23:28 +0200
+ by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id ecbedf15-e819-11ec-8231-d0431ea8bb10;
+ Thu, 09 Jun 2022 17:30:58 +0000 (UTC)
+Date: Thu, 9 Jun 2022 19:30:57 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Jerry Lin <wahahab11@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Mark olpc_dcon BROKEN [Was: [PATCH v6 5/5] fbdev: Make
- registered_fb[] private to fbmem.c]
-Message-ID: <YqIskEjUvJo4y4cb@ravnborg.org>
-References: <20220607182338.344270-1-javierm@redhat.com>
- <20220607182338.344270-6-javierm@redhat.com>
- <3ebac271-1276-8132-6175-ca95a26cfcbb@suse.de>
- <69d8ad0e-efc6-f37d-9aa7-d06f8de16a6a@redhat.com>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH] fbdev: atmel_lcdfb: Rework backlight status updates
+Message-ID: <YqIuUYUXzxeSgZ/o@ravnborg.org>
+References: <20220608205623.2106113-1-steve@sk2.org>
+ <20220609095412.fccofr2e2kpzhw4t@maple.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <69d8ad0e-efc6-f37d-9aa7-d06f8de16a6a@redhat.com>
+In-Reply-To: <20220609095412.fccofr2e2kpzhw4t@maple.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,81 +59,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Zheyu Ma <zheyuma97@gmail.com>,
- kvm@vger.kernel.org, Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jon Nettleton <jon.nettleton@gmail.com>, dri-devel@lists.freedesktop.org,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- kernel test robot <lkp@intel.com>, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
- Jens Frederich <jfrederich@gmail.com>, Helge Deller <deller@gmx.de>,
- linux-staging@lists.linux.dev, Matthew Wilcox <willy@infradead.org>,
- Laszlo Ersek <lersek@redhat.com>, Guenter Roeck <linux@roeck-us.net>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Williamson <alex.williamson@redhat.com>,
- Zhen Lei <thunder.leizhen@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>
+Cc: linux-fbdev@vger.kernel.org, Stephen Kitt <steve@sk2.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Helge Deller <deller@gmx.de>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier.
+Hi Stephen,
 
-On Thu, Jun 09, 2022 at 03:09:21PM +0200, Javier Martinez Canillas wrote:
-> Hello Thomas,
+thanks for taking care of all these backlight simplifications - this
+really helps to make the code simpler and more readable.
+
+On Thu, Jun 09, 2022 at 10:54:12AM +0100, Daniel Thompson wrote:
+> On Wed, Jun 08, 2022 at 10:56:23PM +0200, Stephen Kitt wrote:
+> > Instead of checking the state of various backlight_properties fields
+> > against the memorised state in atmel_lcdfb_info.bl_power,
+> > atmel_bl_update_status() should retrieve the desired state using
+> > backlight_get_brightness (which takes into account the power state,
+> > blanking etc.). This means the explicit checks using props.fb_blank
+> > and props.power can be dropped.
+> > 
+> > Then brightness can only be negative if the backlight is on but
+> > props.brightness is negative, so the test before reading the
+> > brightness value from the hardware can be simplified to
+> > (brightness < 0).
 > 
-> On 6/9/22 13:49, Thomas Zimmermann wrote:
-> > Hi Javier
-> > 
-> > Am 07.06.22 um 20:23 schrieb Javier Martinez Canillas:
-> >> From: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >>
-> >> Well except when the olpc dcon fbdev driver is enabled, that thing
-> >> digs around in there in rather unfixable ways.
-> > 
-> > There is fb_client_register() to set up a 'client' on top of an fbdev. 
-> > The client would then get messages about modesetting, blanks, removals, 
-> > etc. But you'd probably need an OLPC to convert dcon, and the mechanism 
-> > itself is somewhat unloved these days.
-> > 
-> > Your patch complicates the fbdev code AFAICT. So I'd either drop it or, 
-> > even better, build a nicer interface for dcon.
-> > 
-> > The dcon driver appears to look only at the first entry. Maybe add 
-> > fb_info_get_by_index() and fb_info_put() and export those. They would be 
-> > trivial wrappers somewhere in fbmem.c:
-> > 
-> > #if IS_ENABLED(CONFIG_FB_OLPC_DCON)
-> > struct fb_info *fb_info_get_by_index(unsigned int index)
-> > {
-> > 	return get_fb_info(index);
-> > }
-> > EXPORT_SYMBOL()
-> > void fb_info_put(struct fb_info *fb_info)
-> > {
-> > 	put_fb_info(fb_info);
-> > }
-> > EXPORT_SYMBOL()
-> > #endif
-> > 
-> > In dcon itself, using the new interfaces will actually acquire a 
-> > reference to keep the display alive. The code at [1] could be replaced. 
-> > And a call to fb_info_put() needs to go into dcon_remove(). [2]
-> > 
+> props.brightness should always be in the interval 0..max_brightness.
 > 
-> Thanks for your suggestions, that makes sense to me. I'll drop this
-> patch from the set and post as a follow-up a different approach as
-> you suggested.
+> This is enforced by the main backlight code (and APIs to set the
+> brightness use unsigned values). Thus props.brightness could only be
+> negative is the driver explicitly sets a negative value as some kind of
+> placeholder (which this driver does not do).
+> 
+> I don't think there is any need to keep this logic.
 
-To repeat myself from irc.
-olpc_dcon is a staging driver and we should avoid inventing anything in
-core code for to make staging drivers works.
-Geert suggested EXPORT_SYMPBOL_NS_GPL() that could work and narrow it
-down to olpc_dcon.
-The better approach is to mark said driver BROKEN and then someone can
-fix it it there is anyone who cares.
-Last commit to olpc_dcon was in 2019: e40219d5e4b2177bfd4d885e7b64e3b236af40ac
-and maybe Jerry Lin cares enough to fix it.
-
-Added Jerry and Greg to the mail.
+Daniel is right - please drop the "if (brightness < 0)" logic.
+I have looked a bit on the datasheet in my attempt to do a drm version
+of this driver - something that I am yet to succeed and the backlight
+core avoid any negative values.
 
 	Sam
