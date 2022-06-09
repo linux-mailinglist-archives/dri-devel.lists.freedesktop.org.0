@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA44544152
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 04:14:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D638A544153
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 04:15:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7867210F3B5;
-	Thu,  9 Jun 2022 02:14:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7790C11285A;
+	Thu,  9 Jun 2022 02:15:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B46E10F3B5
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 02:14:47 +0000 (UTC)
-X-UUID: 6311ddc7ebfd4a2fa9c8a34883bf0c29-20220609
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B5BD11285A
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 02:15:26 +0000 (UTC)
+X-UUID: dfcd95bee926480fa109f01242096194-20220609
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:b2b57cf3-6779-41df-955e-9e1fe39b0668, OB:0,
+X-CID-O-INFO: VERSION:1.1.5, REQID:cf220b4a-f865-4e44-bf4e-ae186c629ea1, OB:0,
  LO
  B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:5
-X-CID-META: VersionHash:2a19b09, CLOUDID:0b8eb67e-c8dc-403a-96e8-6237210dceee,
+X-CID-META: VersionHash:2a19b09, CLOUDID:d53a2ce5-2ba2-4dc1-b6c5-11feb6c769e0,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
  ,QS:0,BEC:nil
-X-UUID: 6311ddc7ebfd4a2fa9c8a34883bf0c29-20220609
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+X-UUID: dfcd95bee926480fa109f01242096194-20220609
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1634002823; Thu, 09 Jun 2022 10:14:44 +0800
+ with ESMTP id 1952213516; Thu, 09 Jun 2022 10:15:21 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Thu, 9 Jun 2022 10:14:43 +0800
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Thu, 9 Jun 2022 10:15:19 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 9 Jun 2022 10:14:43 +0800
-Message-ID: <782d2d11b40f89b751e54fbd6283092f345a8aef.camel@mediatek.com>
-Subject: Re: [PATCH v22 22/24] drm/mediatek: modify mediatek-drm for mt8195
- multi mmsys support
+ Transport; Thu, 9 Jun 2022 10:15:19 +0800
+Message-ID: <60385ac1279050954f17665a4472caa1406d6e96.camel@mediatek.com>
+Subject: Re: [PATCH v22 23/24] drm/mediatek: add drm ovl_adaptor sub driver
+ for MT8195
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
 To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
@@ -44,10 +44,10 @@ To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  "wim@linux-watchdog.org" <wim@linux-watchdog.org>, "AngeloGioacchino Del
  Regno" <angelogioacchino.delregno@collabora.com>, "linux@roeck-us.net"
  <linux@roeck-us.net>
-Date: Thu, 9 Jun 2022 10:14:43 +0800
-In-Reply-To: <20220526110233.20080-23-nancy.lin@mediatek.com>
+Date: Thu, 9 Jun 2022 10:15:19 +0800
+In-Reply-To: <20220526110233.20080-24-nancy.lin@mediatek.com>
 References: <20220526110233.20080-1-nancy.lin@mediatek.com>
- <20220526110233.20080-23-nancy.lin@mediatek.com>
+ <20220526110233.20080-24-nancy.lin@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -85,12 +85,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 2022-05-26 at 19:02 +0800, Nancy.Lin wrote:
-> MT8195 have two mmsys. Modify drm for MT8195 multi-mmsys support.
-> The two mmsys (vdosys0 and vdosys1) will bring up two drm drivers,
-> only one drm driver register as the drm device.
-> Each drm driver binds its own component. The last bind drm driver
-> allocates and registers the drm device to drm core.
-> Each crtc path is created with the corresponding drm driver data.
+> Add drm ovl_adaptor sub driver. Bring up ovl_adaptor sub driver if
+> the component exists in the path.
 > 
 > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > Reviewed-by: AngeloGioacchino Del Regno <
@@ -99,8 +95,7 @@ On Thu, 2022-05-26 at 19:02 +0800, Nancy.Lin wrote:
 > Tested-by: AngeloGioacchino Del Regno <
 > angelogioacchino.delregno@collabora.com>
 > ---
->  
-
+> 
 [Bo-Chen: Test on MT8195 Tomato Chromebook with external display]
 Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 
