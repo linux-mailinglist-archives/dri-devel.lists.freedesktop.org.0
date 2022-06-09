@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C40E544147
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 04:11:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41FEB5441D9
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 05:17:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0208F11A8A6;
-	Thu,  9 Jun 2022 02:11:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B679411B7B6;
+	Thu,  9 Jun 2022 03:17:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6869A11A8A6
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 02:11:27 +0000 (UTC)
-X-UUID: 010e397e93574b32afbf574080a493aa-20220609
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6043411B7A7
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 03:17:29 +0000 (UTC)
+X-UUID: e168ff53fd3044f2815a265181ab267a-20220609
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:23552071-0d0f-42ea-bfb7-048bb009f8e8, OB:30,
- L
- OB:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:50
-X-CID-INFO: VERSION:1.1.5, REQID:23552071-0d0f-42ea-bfb7-048bb009f8e8, OB:30,
- LOB
- :0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:50
-X-CID-META: VersionHash:2a19b09, CLOUDID:3c64b67e-c8dc-403a-96e8-6237210dceee,
+X-CID-O-INFO: VERSION:1.1.5, REQID:85038e28-24fb-483c-8cb7-113756ed7c3a, OB:0,
+ LO
+ B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:5
+X-CID-META: VersionHash:2a19b09, CLOUDID:c0422fe5-2ba2-4dc1-b6c5-11feb6c769e0,
  C
- OID:78c8b171625a,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:0,BEC:nil
-X-UUID: 010e397e93574b32afbf574080a493aa-20220609
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,QS:0,BEC:nil
+X-UUID: e168ff53fd3044f2815a265181ab267a-20220609
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1531148781; Thu, 09 Jun 2022 10:11:22 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Thu, 9 Jun 2022 10:11:21 +0800
+ with ESMTP id 1229902029; Thu, 09 Jun 2022 11:17:12 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with ShadowRedundancy id 15.2.792.3; 
+ Thu, 9 Jun 2022 03:16:37 +0000
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 9 Jun 2022 10:11:39 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 9 Jun 2022 10:11:21 +0800
-Message-ID: <c5ff2de01a34fa0d3e57de8e46521a322acf8a3d.camel@mediatek.com>
-Subject: Re: [PATCH v22 13/24] drm/mediatek: add display MDP RDMA support
- for MT8195
+ Transport; Thu, 9 Jun 2022 10:11:39 +0800
+Message-ID: <7705264ce2b4bbaeb873325b6f596d1046e6d8ca.camel@mediatek.com>
+Subject: Re: [PATCH v22 14/24] drm/mediatek: add display merge advance
+ config API for MT8195
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
 To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
@@ -48,10 +47,10 @@ To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  "wim@linux-watchdog.org" <wim@linux-watchdog.org>, "AngeloGioacchino Del
  Regno" <angelogioacchino.delregno@collabora.com>, "linux@roeck-us.net"
  <linux@roeck-us.net>
-Date: Thu, 9 Jun 2022 10:11:21 +0800
-In-Reply-To: <20220526110233.20080-14-nancy.lin@mediatek.com>
+Date: Thu, 9 Jun 2022 10:11:39 +0800
+In-Reply-To: <20220526110233.20080-15-nancy.lin@mediatek.com>
 References: <20220526110233.20080-1-nancy.lin@mediatek.com>
- <20220526110233.20080-14-nancy.lin@mediatek.com>
+ <20220526110233.20080-15-nancy.lin@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -89,8 +88,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 2022-05-26 at 19:02 +0800, Nancy.Lin wrote:
-> Add MDP_RDMA driver for MT8195. MDP_RDMA is the DMA engine of
-> the ovl_adaptor component.
+> Add merge new advance config API. The original merge API is
+> mtk_ddp_comp_funcs function prototype. The API interface parameters
+> cannot be modified, so add a new config API for extension. This is
+> the preparation for ovl_adaptor merge control.
 > 
 > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
@@ -99,6 +100,7 @@ On Thu, 2022-05-26 at 19:02 +0800, Nancy.Lin wrote:
 > Tested-by: AngeloGioacchino Del Regno <
 > angelogioacchino.delregno@collabora.com>
 > ---
+>  
 
 [Bo-Chen: Test on MT8195 Tomato Chromebook with external display]
 Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
