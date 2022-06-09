@@ -2,69 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F5754417E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 04:30:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8409F544183
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jun 2022 04:32:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A3C211A220;
-	Thu,  9 Jun 2022 02:30:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F33D511AFBE;
+	Thu,  9 Jun 2022 02:32:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 345EE1132CB
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 02:30:16 +0000 (UTC)
-X-UUID: dd1bd8e1630141b0bd212d121e8881e5-20220609
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:e3600c47-fefd-4c44-94cd-3943c328797c, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:45
-X-CID-INFO: VERSION:1.1.5, REQID:e3600c47-fefd-4c44-94cd-3943c328797c, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:45
-X-CID-META: VersionHash:2a19b09, CLOUDID:dc49b77e-c8dc-403a-96e8-6237210dceee,
- C
- OID:340581f72794,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:0,BEC:nil
-X-UUID: dd1bd8e1630141b0bd212d121e8881e5-20220609
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 646342669; Thu, 09 Jun 2022 10:30:08 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Thu, 9 Jun 2022 10:30:07 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Thu, 9 Jun 2022 10:30:07 +0800
-Message-ID: <49f4f8732eb1df31b0c8a82761e1c4dad9aef106.camel@mediatek.com>
-Subject: Re: [PATCH v10 18/21] drm/mediatek: Add mt8195 Embedded DisplayPort
- driver
-From: CK Hu <ck.hu@mediatek.com>
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>, Guillaume Ranquet
- <granquet@baylibre.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
- Zabel" <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, "Daniel
- Vetter" <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chunfeng Yun
- =?UTF-8?Q?=28=E4=BA=91=E6=98=A5=E5=B3=B0=29?= <Chunfeng.Yun@mediatek.com>,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
- Deller" <deller@gmx.de>, Jitao Shi
- =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?= <jitao.shi@mediatek.com>
-Date: Thu, 9 Jun 2022 10:30:07 +0800
-In-Reply-To: <75c00caca74b8366ca2c4594a8229b6de95c5f47.camel@mediatek.com>
-References: <20220523104758.29531-1-granquet@baylibre.com>
- <20220523104758.29531-19-granquet@baylibre.com>
- <f791f46c6307a18818574cb7fb8653bcc84aa9ad.camel@mediatek.com>
- <75c00caca74b8366ca2c4594a8229b6de95c5f47.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2104.outbound.protection.outlook.com [40.107.255.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7902611AFBC
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jun 2022 02:32:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hoJVo3fpjx624VW2Gp64x194FOv0BtuSKVuCyuwNNNvGwfMhul4laPJfkPYkTxiZ+zO4hjTl7vRX5q6VGi3oeep3ZhJV/6zp6eCSOZTmEu+Q4BEhyoCY8IkClxuv7bTq8CIPFdOxABbjNA2i3XlI93zUgCIYnKTSD7gbG9J9VFpBJf4PlbKA43GqKI11wWk7zIa/SX7lldnSAGL9zAWmnmFibUrxy0Q6baklDvBEsYD0xllFlVeN1K2EsyKG0FHRBaA87UKS+KqBFyif2upbTADIaHPb4IsZpDIQlFg91FNBts75KI/FQ4XKP265oSB1VDePKRdIYP+S7kL+AVOM1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WHc2UlKZ1V6vYiH/Y7PlHleYrkkthHk3ybwTzfeLr3M=;
+ b=kZVJBCYFeEy1ts367Izebu9N27M1l4YMvYkoR/CGe6YDWWeNvwZt4W0dkPx+uc3t1/JnK0NJUgMdoOsXHzA8+NQ9V5VqZjTV/kuwmzmCzYlMNmJ9Iiirjb0rbnVqxvFTOCD66ZQkrdyrDl/RUmLpZlEIq5GWzUSuCDXi/BF5bm1/MQSymSmI094yGvvFDu5eyCUYpMjF11lpgvhm7o5MOAgafxC7Jn/eQhkIGmxwh8mi4DAQFxPL49B+1qBSJZROfBXdnpILBE7+fImwDsQ779VM7nwP3an6ldBHvKtB8rCmayJG1mX71XSZuRs9uU7e3h7qrLz7QW2UhKQk7NtFqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WHc2UlKZ1V6vYiH/Y7PlHleYrkkthHk3ybwTzfeLr3M=;
+ b=PesivY1gIbWdpldVMdeSFmE8fjV/XXaM5G9tSs/YrHG8U8mlYrTB/DVvymJnZo1ivCNIFjAP5En+5MRzBJcsqLB19HQEsRGgIWoZdY1Jqg7eU7+FZLm+XO8vwzO0ZfTK5CZoljf61wYBXAN5vQ3dO5JHiWVO6cSrqeCO/cSSd8KS0hnB1QNuiIdDxbtLOxz8cB+ACIMMCG8wCdDtkjDeC6mHoMcA98N7FQTvVvfNceIO/7RRlLhrXW0Xis2qXso3LRM1JogCnXf1dWT2YQAU3jInITkqpGaBdsIn/tP7Xa8RyU5m1yVxSDpio25M5sX7xpy1+Gv6XLImGprL8SFgag==
+Received: from PSAPR06MB4805.apcprd06.prod.outlook.com (2603:1096:301:9a::13)
+ by TYZPR06MB4511.apcprd06.prod.outlook.com (2603:1096:400:66::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.11; Thu, 9 Jun
+ 2022 02:32:48 +0000
+Received: from PSAPR06MB4805.apcprd06.prod.outlook.com
+ ([fe80::a05e:baab:fb12:c6fa]) by PSAPR06MB4805.apcprd06.prod.outlook.com
+ ([fe80::a05e:baab:fb12:c6fa%6]) with mapi id 15.20.5314.019; Thu, 9 Jun 2022
+ 02:32:48 +0000
+From: Kuo-Hsiang Chou <kuohsiang_chou@aspeedtech.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, "airlied@redhat.com" <airlied@redhat.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "regressions@leemhuis.info" <regressions@leemhuis.info>
+Subject: RE: [PATCH] drm/ast: Treat AST2600 like AST2500 in most places
+Thread-Topic: [PATCH] drm/ast: Treat AST2600 like AST2500 in most places
+Thread-Index: AQHYemaHfJa2yEMfXkmDImVEyBPZjq1E3VTwgACh7gCAANxHgA==
+Date: Thu, 9 Jun 2022 02:32:47 +0000
+Message-ID: <PSAPR06MB48051E6CA20163561BAD80298CA79@PSAPR06MB4805.apcprd06.prod.outlook.com>
+References: <20220607120248.31716-1-tzimmermann@suse.de>
+ <PSAPR06MB4805B23B053F80C0F23A8C6C8CA49@PSAPR06MB4805.apcprd06.prod.outlook.com>
+ <c99f305f-ac4d-628b-b092-920af767a2e4@redhat.com>
+In-Reply-To: <c99f305f-ac4d-628b-b092-920af767a2e4@redhat.com>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a755d33d-1ddc-4b3b-1ffc-08da49c057a6
+x-ms-traffictypediagnostic: TYZPR06MB4511:EE_
+x-microsoft-antispam-prvs: <TYZPR06MB45116DD32BEC6AA2D22818EC8CA79@TYZPR06MB4511.apcprd06.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Dfm9cXn2sOn8N0nq2bjHmzqDHz1HxKMx3MXbs2oeuFWr0y8jAVzTH8PcygrjJ33PRMNbR9zOlQrlc+1cqZ/LMT25t1A80idrn6KwwnXHXJ+C+nAilk9APyHdebbHg3GnzSXubymAyYIh8S2bbijmPj/8a+0+IRWtPsuML+YWT8fVKisoG6KJNY/7w7xIfvM7nfbfkh7mU5oEaO67R7ftwaU/gZrUpcd6k6TAhKyYfB559Ri/+yr8WJvKOMSyAgrpOBu9+i2wH51M06qOFa8igBsoOE2/CFv6Ywglk1u0dyuJAsm9dbY6oW+NPpzSR23hwYN4IqBwjzZToxnJXVuuBOZFb9AEEOVcF/w7vgZvTnHpBy38kfFoPvOWOpOOrSkF2RuHGnqQ5eLKGiBxzHhEEdlL4cssZaoD5CPQvRWplLoKqdbkqUimPKHzDaRZ4H4AX734YYvD8JYniszmihJL1dG8MJdEBskOU9BthYXLhcHjLfGlQQLXpichfzsIumiqF0BQNjFxwkSxuqf+GHhDkOb5KTp9vMt9iQ1Bp8OBaQx5nEKoZRi+ZVQ11fcubkUKDRjGnuU2J1tPxVZJY0DNrxcx2i54O8IxeQgK2k8W3lWAk23V5edBPAyyqmk520FuDkXprLR/iwnKHe5U/cifCmx99rC25+nMpqOiAdF55py6AElemVxLBH9CporOWr2FJeDAD47NWPRVGpJNzNegog==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PSAPR06MB4805.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(64756008)(26005)(52536014)(66476007)(316002)(9686003)(66946007)(33656002)(107886003)(186003)(66446008)(8936002)(83380400001)(86362001)(71200400001)(8676002)(122000001)(53546011)(38070700005)(2906002)(66556008)(4326008)(55016003)(5660300002)(38100700002)(6506007)(110136005)(7696005)(54906003)(508600001)(76116006);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cDk4cmF0UEsyS3YyZTBpZ2QwallyMnEvQW8wNDVtdXpYS1FaNTlXU05vdlVI?=
+ =?utf-8?B?UENvMk45U2J0Ylg1eUEweWRiaFNmNFE5ZE1mdlZKRHBjNTF4cklYUHdQSlp2?=
+ =?utf-8?B?S0FmdHgwVFJBZGErVFlYT3g3cC9TMUE1c0lvUm0vdXhjcko3dmwzYU5IYU56?=
+ =?utf-8?B?RHZIdUlYMEJ4Q2lmaFZ0dCtaUlRIUnVKWDNOS3dwZFB1MUVrOU1QWVJxK1Rs?=
+ =?utf-8?B?bDdVd0F0Ny9ZLzRYL2dzYm15NWUwV0xlNzdYSldrTnptSnZaTldWcWJlUDVp?=
+ =?utf-8?B?MDExTVdleWFJbjBZek4vWGtRbDJJNWpzZTNHMll2cnh0VkRDUUdEK2dmTU1E?=
+ =?utf-8?B?V2NrdEdJYmxtempZSlh0eWFRYkM5MHNOWlFIRU9xcHN0eTZWRTY1R1E5dzQw?=
+ =?utf-8?B?NnU4MUh2YzVIUHBKK2Z5RHU3WmlIbVllbU5SMUNKM3RmU243eWJrOTNUOE15?=
+ =?utf-8?B?RGVtWnVmakxCRXFpOTJIK3p2dEFVY0RBYzhTTUc2Rk1GK2x6MkIvcGZKSDE0?=
+ =?utf-8?B?aytNcCt0bytuSnpjRk0ya2kvR0hEdDErSXZCMExrVVlyNDkxN0tNL2JzZnNC?=
+ =?utf-8?B?SzQ5cHM5V290L1hTRlJlOUJFQkU4MFVpK21pcFpma05xeTFqb2hKTXpwVmZU?=
+ =?utf-8?B?dFRneHo4aDhOaWQzV3NadXZMd0ZXb1B4NFVxandobnBDMGYrWm10TlNWZkZS?=
+ =?utf-8?B?RGRUS2NnckliK05za1pxZng1ckd3c0s0dmZWU0lsaE01SUdEb2d6R2FwZzM3?=
+ =?utf-8?B?bGlVZ1U5VVhUWG56a05RZElUdWZqWTdoU0xRbWNFbDUvSFlYN0xiN3FNdys5?=
+ =?utf-8?B?OXJkNTJBREgyK1A5cXBFamxrU2ZIbVNvV3dSQk12OEVDbUlZY3h3ODVLTVlP?=
+ =?utf-8?B?QUVKc0ErVmdvV2JidENud3JOajBpNU00c1U4WEZ0SnVGdE5PS2c3YUptc0Fr?=
+ =?utf-8?B?RE9OVmpFeCtRdEJsK1BuTHc2d20yRmNuV2QvWW1aR3JZaXJrWWE0cE51ZFRk?=
+ =?utf-8?B?elJXbzgxUWJyY3NuQzBRaEZ1L00wWThiUDBzcVBmV2lHcWIxeEg3MDBHWnpz?=
+ =?utf-8?B?U2pFVGVUektXMHl5WFl0UFE0SzJ5azlVcHFNbW16VU1oak1ZNDMzWTBwNGsx?=
+ =?utf-8?B?K2l1YlpTbFlpdUxOdy9jWjYrTDhkVzRtVGNyeVNLRkhVbTBVa1N0WjRWRUtL?=
+ =?utf-8?B?N3JSZms4NzhOY3pYbVNwVVJHRVo2bkpERU5iMCtQbTZ1dnI1YjVvWDhwUWxh?=
+ =?utf-8?B?dS92ZlJ1RHF6Zmo0dVRNc0p1dW1oc096TFp5aDZsRDE2K3RWS2ZHQ1N3aWcv?=
+ =?utf-8?B?QmhZYmRrd24vTW4xTkkrbE5HbDBIM29qQi9UVDVNQnFOOGJ0U3h5U1YwaVQx?=
+ =?utf-8?B?am5Ga1ArR1FxMHphV0FqMVN1cWxCZ0Z0UDJET3VNcjFEQzFTSENyanZZa1Bp?=
+ =?utf-8?B?Z09RQVZvRW1hSzM2dDFjOUphbExCVVFaTTh2cXJHVFN4THRQR096NnFNTkFR?=
+ =?utf-8?B?RlVqK1dRL1UxZjJ0UmwyZzhIZW5QOWJJU05YcFlhNzlSYTVRb1UxUlo5L3Nx?=
+ =?utf-8?B?OThMdnJXeG5YaGZSVWVocVQ3Y3VaRHBCL1A4ZnV5Mm5zWE9tUEVGajlzYWZU?=
+ =?utf-8?B?MEZjNnVJcEpxM1lYUC83RXJSd3ZhR2FiK2RWQmRlRGZ3N0ZaOE5hV0p0cTM5?=
+ =?utf-8?B?WE56RDVkeDQrNVQ5Uy9MUTFGV3FJejNySDdMaWxCaFNvQmhoUXM0MTRjVzQw?=
+ =?utf-8?B?QlBONjhCTkRYeU55bDVUWTJOcUJYdXgreUVzVDBESlFnY3ZpcTJ4SFZvY3g5?=
+ =?utf-8?B?d3Fkdjl1eHIyUTVQRW1ueWRKbU15Wk1YWUZSNUdNRlFLRE8zNUFDZ3l2Yi8v?=
+ =?utf-8?B?dEhYY25RTTMzTXpsVFZUK0Mya1pEMWMvVnY4cUxtZkhmOE5oNWhlNUl2RGFH?=
+ =?utf-8?B?NnF1R045eWZCdzN6RlE0V25uZEFsL01nUGFiRDlnRE14UHYyNlkvdHVKTko2?=
+ =?utf-8?B?eENhUXBSandncksxM0FNQzBYUFNoWEo2dmZiM2pwZ0Q5cEZmVlhTUmoyMWJi?=
+ =?utf-8?B?KzNvdVAyQndtOGRud2ZoQTB0cHY1Yk51aXhkQjR4N3Jtd2JvOEJBeGQ1Qllh?=
+ =?utf-8?B?Nnk5NUZLY0lRY01ERVJhQnhKbmdvamIyWE0yTnlXbDN4NlVzVEdYZ1E0TTBY?=
+ =?utf-8?B?Ry9od1BQM3BDa29seERoOUY2bnR5TnJyUzlEdUZlVEdacWtnQkxJR3ZaZEJR?=
+ =?utf-8?B?alI1ODJnSDQzaklVZXM3MmxPVVZGMjQwbEREWjFwNGFEd3JyY3ludUxHYXdF?=
+ =?utf-8?B?R0NVc2dmeDFzSlpCSmM3YnhCUWhOYXRRUTV0MDVPVVRpRURqd3NuQU5ML2E0?=
+ =?utf-8?Q?O2u1vuEBYa3X5d4I=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PSAPR06MB4805.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a755d33d-1ddc-4b3b-1ffc-08da49c057a6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jun 2022 02:32:47.9087 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SGpWB5Y6zfKh+kxaLyTgFZkNAh93AvHQBTS/yEGODo1M8J5IHsf9yZT4QFjwfPP1FhzMP+u2QL1DVRgpPCMASaTTAeH3FXtHXpikhnA3PsI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4511
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,141 +135,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc: Charles Kuan <charles_kuan@aspeedtech.com>,
+ Hungju Huang <hungju_huang@aspeedtech.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+ Luke Chen <luke_chen@aspeedtech.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Rex:
-
-On Wed, 2022-06-08 at 18:26 +0800, Rex-BC Chen wrote:
-> On Tue, 2022-06-07 at 15:47 +0800, CK Hu wrote:
-> > Hi, Rex:
-> > 
-> > On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
-> > > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> > > 
-> > > This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
-> > > 
-> > > It supports the mt8195, the embedded DisplayPort units. It offers
-> > > DisplayPort 1.4 with up to 4 lanes.
-> > > 
-> > > The driver creates a child device for the phy. The child device
-> > > will
-> > > never exist without the parent being active. As they are sharing
-> > > a
-> > > register range, the parent passes a regmap pointer to the child
-> > > so
-> > > that
-> > > both can work with the same register range. The phy driver sets
-> > > device
-> > > data that is read by the parent to get the phy device that can be
-> > > used
-> > > to control the phy properties.
-> > > 
-> > > This driver is based on an initial version by
-> > > Jason-JH.Lin <jason-jh.lin@mediatek.com>.
-> > > 
-> > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > > ---
-> > 
-> > [snip]
-> > 
-> > > +
-> > > +static int mtk_dp_hpd_sink_event(struct mtk_dp *mtk_dp)
-> > > +{
-> > > +	ssize_t ret;
-> > > +	u8 sink_count;
-> > > +	bool locked;
-> > > +	u8 link_status[DP_LINK_STATUS_SIZE] = {};
-> > > +	u32 sink_count_reg = DP_SINK_COUNT_ESI;
-> > > +	u32 link_status_reg = DP_LANE0_1_STATUS;
-> > > +
-> > > +	ret = drm_dp_dpcd_readb(&mtk_dp->aux, sink_count_reg,
-> > > &sink_count);
-> > > +	if (ret < 0) {
-> > > +		drm_err(mtk_dp->drm_dev, "Read sink count failed:
-> > > %ld\n", ret);
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	ret = drm_dp_dpcd_read(&mtk_dp->aux, link_status_reg,
-> > > link_status,
-> > > +			       sizeof(link_status));
-> > > +	if (!ret) {
-> > > +		drm_err(mtk_dp->drm_dev, "Read link status failed:
-> > > %ld\n",
-> > > +			ret);
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	locked = drm_dp_channel_eq_ok(link_status,
-> > > +				      mtk_dp->train_info.lane_count);
-> > > +	if (!locked && mtk_dp->train_state >
-> > > MTK_DP_TRAIN_STATE_TRAINING_PRE)
-> > 
-> > Before enter this function, mtk_dp->train_state is set to
-> > MTK_DP_TRAIN_STATE_STARTUP, so this never happen, drop this.
-> > 
-> 
-> The interrupt from sink device could come any time. Why it's
-> impossible?
-
-I still ask this question: "For eDP, when does disconnect happened?" If
-it indeed happen, I still do not like to change state here. When
-disconnect, the training flow would result in fail finally and need not
-to change state here, but the training flow would block for a while
-when disconnect. You could add some check point to check train_info-
->cable_plugged_in to quickly break out the training flow.
-
-Regards,
-CK
-
-> 
-> > > +		mtk_dp->train_state = MTK_DP_TRAIN_STATE_TRAINING_PRE;
-> > > +
-> > > +	if (link_status[1] & DP_REMOTE_CONTROL_COMMAND_PENDING)
-> > > +		drm_dp_dpcd_writeb(&mtk_dp->aux,
-> > > DP_DEVICE_SERVICE_IRQ_VECTOR,
-> > > +				   DP_REMOTE_CONTROL_COMMAND_PENDING);
-> > > +
-> > > +	if (DP_GET_SINK_COUNT(sink_count) &&
-> > > +	    (link_status[2] & DP_DOWNSTREAM_PORT_STATUS_CHANGED)) {
-> > > +		mtk_dp->train_info.check_cap_count = 0;
-> > > +		mtk_dp->train_state = MTK_DP_TRAIN_STATE_CHECKEDID;
-> > 
-> > Why change state from MTK_DP_TRAIN_STATE_STARTUP to
-> > MTK_DP_TRAIN_STATE_CHECKEDID? In mtk_dp_train_handler(),
-> > mtk_dp_parse_capabilities() is true then change to
-> > MTK_DP_TRAIN_STATE_CHECKEDID. Give a reason why these two are
-> > different.
-> > 
-> > Regards,
-> > CK
-> > 
-> 
-> I will drop this and drop state of MTK_DP_TRAIN_STATE_CHECKEDID.
-> MTK_DP_TRAIN_STATE_CHECKEDID is only used for audio.
-> We can check enable status in another place.
-> 
-> BRs,
-> Bo-Chen
-> 
-> > > +		msleep(20);
-> > > +	}
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > 
-> > 
-> 
-> 
-
+SGkgSm9jZWx5biBGYWxlbXBlLA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTog
+Sm9jZWx5biBGYWxlbXBlIFttYWlsdG86amZhbGVtcGVAcmVkaGF0LmNvbV0gDQpTZW50OiBXZWRu
+ZXNkYXksIEp1bmUgMDgsIDIwMjIgOToxNyBQTQ0KVG86IEt1by1Ic2lhbmcgQ2hvdSA8a3VvaHNp
+YW5nX2Nob3VAYXNwZWVkdGVjaC5jb20+OyBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
+c3VzZS5kZT47IGFpcmxpZWRAcmVkaGF0LmNvbTsgYWlybGllZEBsaW51eC5pZTsgZGFuaWVsQGZm
+d2xsLmNoOyByZWdyZXNzaW9uc0BsZWVtaHVpcy5pbmZvDQpDYzogZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZzsgc3RhYmxlQHZnZXIua2VybmVsLm9yZzsgTHVrZSBDaGVuIDxsdWtlX2No
+ZW5AYXNwZWVkdGVjaC5jb20+OyBIdW5nanUgSHVhbmcgPGh1bmdqdV9odWFuZ0Bhc3BlZWR0ZWNo
+LmNvbT47IENoYXJsZXMgS3VhbiA8Y2hhcmxlc19rdWFuQGFzcGVlZHRlY2guY29tPg0KU3ViamVj
+dDogUmU6IFtQQVRDSF0gZHJtL2FzdDogVHJlYXQgQVNUMjYwMCBsaWtlIEFTVDI1MDAgaW4gbW9z
+dCBwbGFjZXMNCg0KT24gMDgvMDYvMjAyMiAxMDowOSwgS3VvLUhzaWFuZyBDaG91IHdyb3RlOg0K
+PiBIaSBUaG9tYXMNCj4gDQo+IFRoYW5rcyBmb3IgeW91ciBzdWdnZXN0aW9ucyENCj4gDQo+IEkg
+YW5zd2VyIGVhY2ggcmV2aXNpb24gaW5saW5lIHRoYXQgZm9sbG93ZWQgYnkgW0tIXTouDQoNClRo
+YW5rcyBmb3IgcmV2aWV3aW5nIHRoaXMuDQo+IA0KPiBSZWdhcmRzLA0KPiANCj4gIMKgwqDCoMKg
+wqDCoMKgIEt1by1Ic2lhbmcgQ2hvdQ0KPiANCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+Cj4gDQo+IEZyb206IFRob21hcyBaaW1tZXJtYW5uIFttYWlsdG86dHppbW1lcm1hbm5Ac3VzZS5k
+ZV0NCj4gDQo+IFNlbnQ6IFR1ZXNkYXksIEp1bmUgMDcsIDIwMjIgODowMyBQTQ0KPiANCj4gVG86
+IGFpcmxpZWRAcmVkaGF0LmNvbTsgYWlybGllZEBsaW51eC5pZTsgZGFuaWVsQGZmd2xsLmNoOyAN
+Cj4gamZhbGVtcGVAcmVkaGF0LmNvbTsgcmVncmVzc2lvbnNAbGVlbWh1aXMuaW5mbzsgS3VvLUhz
+aWFuZyBDaG91IA0KPiA8a3VvaHNpYW5nX2Nob3VAYXNwZWVkdGVjaC5jb20+DQo+IA0KPiBTdWJq
+ZWN0OiBbUEFUQ0hdIGRybS9hc3Q6IFRyZWF0IEFTVDI2MDAgbGlrZSBBU1QyNTAwIGluIG1vc3Qg
+cGxhY2VzDQo+IA0KPiBJbmNsdWRlIEFTVDI2MDAgaW4gbW9zdCBvZiB0aGUgYnJhbmNoZXMgZm9y
+IEFTVDI1MDAuIFRoZXJlYnkgcmV2ZXJ0IA0KPiBtb3N0IGVmZmVjdHMgb2YgY29tbWl0IGY5YmQw
+MGUwZWE5ZCAoImRybS9hc3Q6IENyZWF0ZSBjaGlwIEFTVDI2MDAiKS4NCj4gDQo+IFRoZSBBU1Qy
+NjAwIHVzZWQgdG8gYmUgdHJlYXRlZCBsaWtlIGFuIEFTVDI1MDAsIHdoaWNoIGF0IGxlYXN0IGdh
+dmUgDQo+IHVzYWJsZSBkaXNwbGF5IG91dHB1dC4gQWZ0ZXIgaW50cm9kdWNpbmcgQVNUMjYwMCBp
+biB0aGUgZHJpdmVyIHdpdGhvdXQgDQo+IGZ1cnRoZXIgdXBkYXRlcywgbG90cyBvZiBmdW5jdGlv
+bnMgdGFrZSB0aGUgd3JvbmcgYnJhbmNoZXMuDQo+IA0KPiBIYW5kbGluZyBBU1QyNjAwIGluIHRo
+ZSBBU1QyNTAwIGJyYW5jaGVzIHJldmVydHMgYmFjayB0byB0aGUgb3JpZ2luYWwgDQo+IHNldHRp
+bmdzLiBUaGUgZXhjZXB0aW9uIGFyZSBjYXNlcyB3aGVyZSBBU1QyNjAwIG1lYW53aGlsZSBnb3Qg
+aXRzIG93biANCj4gYnJhbmNoLg0KPiANCj4gW0tIXTogQmFzZWQgb24gQ1ZFXzIwMTlfNjI2MCBp
+dGVtMywgUDJBIGlzIGRpc2FsbG93ZWQgYW55bW9yZS4NCj4gDQo+IFAyQSAoUENJZSB0byBBTUJB
+KSBpcyBhIGJyaWRnZSB0aGF0IGlzIGFibGUgdG8gcmV2aXNlIGFueSBCTUMgcmVnaXN0ZXJzLg0K
+PiANCj4gWWVzLCBQMkEgaXMgZGFuZ2Vyb3VzIG9uIHNlY3VyaXR5IGlzc3VlLCBiZWNhdXNlIEhv
+c3Qgb3BlbiBhIGJhY2tkb29yIA0KPiBhbmQgc29tZW9uZSBtYWxpY2lvdXMgU1cvQVBQIHdpbGwg
+YmUgZWFzeSB0byB0YWtlIGNvbnRyb2wgb2YgQk1DLg0KPiANCj4gVGhlcmVmb3JlLCBQMkEgaXMg
+ZGlzYWJsZWQgZm9yZXZlci4NCj4gDQo+IE5vdywgcmV0dXJuIHRvIHRoaXMgcGF0Y2gsIHRoZXJl
+IGlzIG5vIG5lZWQgdG8gYWRkIEFTVDI2MDAgY29uZGl0aW9uIA0KPiBvbiB0aGUgUDJBIGZsb3cu
+DQo+IA0KDQpbc25pcF0NCj4gDQo+IFtLSF06IFllcywgdGhlIHBhdGNoIGlzICJkcm0vYXN0OiBD
+cmVhdGUgdGhyZXNob2xkIHZhbHVlcyBmb3IgQVNUMjYwMCIgDQo+IHRoYXQgaXMgdGhlIHJvb3Qg
+Y2F1c2Ugb2Ygd2hpdGVzIGxpbmVzIG9uIEFTVDI2MDANCj4gDQo+IGNvbW1pdA0KPiANCj4gDQo+
+IGJjYzc3NDExZThhNjU5Mjk2NTVjZWY3YjYzYTM2MDAwNzI0Y2RjNGINCj4gPGh0dHBzOi8vY2dp
+dC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS9jb21taXQvP2lkPWJjYzc3NDExZThhNjU5Mjk2NTVj
+ZQ0KPiBmN2I2M2EzNjAwMDcyNGNkYzRiPsKgKHBhdGNoDQo+IDxodHRwczovL2NnaXQuZnJlZWRl
+c2t0b3Aub3JnL2RybS9kcm0vcGF0Y2gvP2lkPWJjYzc3NDExZThhNjU5Mjk2NTVjZWYNCj4gN2I2
+M2EzNjAwMDcyNGNkYzRiPikNCj4gDQoNCg0KU28gYmFzaWNhbGx5IHRoaXMgY29tbWl0IHNob3Vs
+ZCBiZSBlbm91Z2ggdG8gZml4IHRoZSB3aGl0ZSBsaW5lcyAgYW5kIGZsaWNrZXJpbmcgd2l0aCBW
+R0Egb3V0cHV0IG9uIEFTVDI2MDAgPw0KW0tIXTogWWVzLiANCglZb3UgYXJlIHdlbGNvbWUgdG8g
+dGVsbCBtZSBzb21ldGhpbmcgaWYgeW91IGNvbnNpZGVyIHRoZXJlIGlzIG90aGVyIHN0cmFuZ2Ug
+aXNzdWUuDQoJVGhhbmtzIGZvciB5b3VyIGVmZm9ydHMgb24gZHJtL2FzdCBwcm9qZWN0IQ0KUmVn
+YXJkcywNCglLdW8tSHNpYW5nIENob3UNCg0KSSB3aWxsIHRyeSB0byBoYXZlIGl0IHRlc3RlZCwg
+YW5kIGlmIGl0J3MgZ29vZCwgd2UgbWF5IHdhbnQgdG8gaGF2ZSBpdCBvbiBzdGFibGUga2VybmVs
+Lg0KDQpCZXN0IHJlZ2FyZHMsDQoNCi0tIA0KDQpKb2NlbHluDQoNCg==
