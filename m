@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD5C54660A
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 13:52:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6B2546611
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 13:52:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE6910EB14;
-	Fri, 10 Jun 2022 11:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4339110EC19;
+	Fri, 10 Jun 2022 11:52:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 399B510EB14
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 11:52:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5C2E10EBD9
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 11:52:11 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 971AA5C012E;
- Fri, 10 Jun 2022 07:52:09 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Fri, 10 Jun 2022 07:52:09 -0400
+ by mailout.nyi.internal (Postfix) with ESMTP id 4545F5C01A0;
+ Fri, 10 Jun 2022 07:52:11 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 10 Jun 2022 07:52:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1654861929; x=1654948329; bh=O2
- Z8X0N4uMlj0CNqel9Ba8Gcy7xDPqtyXw872MAId3s=; b=kmFDG7s9XLZOd0N987
- vYnKI5Wk7FhCZu39syq4EumG2Nr0YCxT19CDWHX6lz1+JPLfFSqO5XJE7oHw9Oqa
- Hq7kIsUlmnBxfyrsqe94YYNUAbCMO+Igu8ayQkBbiVj4/InZ+brDod+jvzkohFjr
- g5ZOQomvwQa9lfljXaryrHDSPAR0szcmqhZqvuwpkyeyF+/epAx8fWBnb+NxVWjK
- djOLh4v9nSgFekZSc2FQFDxnoRbDSaVMvGtMg0lV7iWBzT7n+Voo0LgX/pztHmuH
- Ova/F+08fUl/lv5AyFanuYAlkFAdJaxpk57WQugoDQ+3ZbjMrJT2iP4hFpSGBGoZ
- beKQ==
+ :subject:subject:to:to; s=fm1; t=1654861931; x=1654948331; bh=Jz
+ Es86apTXmXn6b8kArkP/V2SLj865fR4Uh6j23Ua5I=; b=urkxp6S1dc/RDRhs+C
+ OwmfjErN3hs0FuSBV3TSpCqRycEi9bX4Im3Y5VHzswOj+a+lzi4EkfkXPi0LGVIJ
+ j6cLIJEBzGrVP8au5Wv/uJMQtDg0vScwcP57HZhUl1Qyu8Q6PR7Ax2vQrFOnsbhf
+ tfzQj7pRdMBPYXdTk6xd8TaXkf6VFbEsbHgoCRmx2QRTR72QPheD0vAttny3szY8
+ ua8io3HQi8YYm9W3tPZPS4LNRyawL4VK9ZTEciZiVDiZ712k3cs1sYBCOdVFPK3G
+ QfLX9khITAxeOnXPppQ6MqiLj5btb5ovV7AV3v9fKG5rWgdJtz5HAieckDX8m1Xf
+ pFNw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1654861929; x=1654948329; bh=O2Z8X0N4uMlj0
- CNqel9Ba8Gcy7xDPqtyXw872MAId3s=; b=B6My1jmwfvzdi6qtcGxdYOXn8tSYn
- mpH7tBd5QsJJp8uFxGL2z1F6CbxJTav9ESbWHl5bbrEF3Nj/P3uYbJgJ37fhPVjk
- LD9PHCSoWp4njyydZANMiqDZAhmZxk3OCgW9dsesdnp1uiN3LB4s+V/0UBcSKXyE
- SwADvm1Em75m3RIKIogfobpl35/j63l+jxEiYkVDhg7KICTreZMTwSLWPNjaNKQr
- 8Ua5q4NOtKGDq3N7kNmuviGZsCsupYVzDl9HS4Ea2EnS1M3e9mVXZ8EKg+Ks0JwE
- ie6dj2PGy4fLlldQiHNdSIUj14XPODk66J8vQYq3vBgfzS7LW/5TR3NBw==
-X-ME-Sender: <xms:aTCjYhTv3Q1dHiQB4dlI_MINVtJV74Qz7A_Qz2VIxihH-_io3XY0SA>
- <xme:aTCjYqzfsFIOi4yGvx-6HgaJXFn06Iv6ZdPmbyBvzi_iIIwM8kvWiuS1EWsmIy0fI
- nb3L2q7bqub-jYkcL4>
-X-ME-Received: <xmr:aTCjYm0cNHDxJat0mSuPc3Vm_QwqGPRAuOXDpQV8t12eL5FEtsS95JyR5uDoGbX_LVK55U8_EAdGte41709m11v4aZJmH8uitGctvo0>
+ :x-sasl-enc; s=fm2; t=1654861931; x=1654948331; bh=JzEs86apTXmXn
+ 6b8kArkP/V2SLj865fR4Uh6j23Ua5I=; b=YBuQVAZctxrlI0uLGscRzTfppMnyc
+ a46V3Tttr0K45vX6QIx8y2k/5MMGzEKWLYrwuZcsl5KVrsGU83VDNgvXrzK1rqD9
+ /a95gUlkiY8FwgkIVMRKB2vZLnq8iodAXP0BEVbiuRyUS14Z4+0rw7Qjpc83Uyuo
+ 8b5Ii7VrW82pKugxsvKZd4Y0Rt4Q6hNNDvJAIwYy2oyDU9sLmQHldMKHHDCM8ybM
+ 97FRbgHvrVv4cU/gf6+Pd14rt7mOWi9WPbLPzHX/9lIYCEbe/JxKaogMIZ5uIgLI
+ KGrBBxtaIbFpNreSBBq/1Ia/fa3JxL7Eu9CVqmhY3bACAO3e4LMskBEoA==
+X-ME-Sender: <xms:azCjYogw85OK60yGd52PYutRMtgzUO96wtJzUuNK27PlDExG_LkuiQ>
+ <xme:azCjYhD2e3HiMbT3LUrtERSTGhGZNximpeN54LoaEL8BJlaAuBDEYGzurHYfiwiw9
+ oWGut5dGJ4A-MMETYA>
+X-ME-Received: <xmr:azCjYgF9-l4eQGjkX6cf3qWebna0z7iqgbD62RjHlgYv3UtfnLa3KmeJgnQR17ALcGmqSHPFdyVDIatkzvwgK_jS6OeCWCa15QhVXUY>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddggeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,21 +53,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddggeegucetufdoteggod
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
  vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:aTCjYpB0GZdD761HscCNzDuB6vHWw900ym4gVW-bWiZiG1d4Qfy4Eg>
- <xmx:aTCjYqjFk8V420VR4EjREKoD1J5BdIjyI3sWY4cormar554X9wJgaA>
- <xmx:aTCjYtq0Rks0m6h72LjynolM9KxNnngNmlW5HojwR85pAI8-6KDtNg>
- <xmx:aTCjYsbAq5N-dnxh_3Cprbc8FG_FPBTxyqXb3FMNQHgv3OnvUgfzXg>
+X-ME-Proxy: <xmx:azCjYpSLxdxiAzr3yQtsm6O-a-kqt6TpgiwV0MI5sjWKIOXfqDjFWA>
+ <xmx:azCjYlwqN7xZAtABoMOq8vbVOCfmLEUpuYImBvkghk4gS0e5NaQGMA>
+ <xmx:azCjYn5NQgnBrN0hH0G2hru0wOedWDK6ZQMgyLoqmYfIi2HmwjyV4A>
+ <xmx:azCjYopoL6Xui3NRezb6XBDZdYwGbfp5m0FOOBIXryUtzOaIwGYjyg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Jun 2022 07:52:09 -0400 (EDT)
+ 10 Jun 2022 07:52:10 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v2 09/14] drm/vc4: crtc: Use an union to store the page flip
- callback
-Date: Fri, 10 Jun 2022 13:51:44 +0200
-Message-Id: <20220610115149.964394-10-maxime@cerno.tech>
+Subject: [PATCH v2 10/14] drm/vc4: crtc: Move the BO handling out of common
+ page-flip callback
+Date: Fri, 10 Jun 2022 13:51:45 +0200
+Message-Id: <20220610115149.964394-11-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610115149.964394-1-maxime@cerno.tech>
 References: <20220610115149.964394-1-maxime@cerno.tech>
@@ -89,68 +89,71 @@ Cc: Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'll need to extend the vc4_async_flip_state structure to rely on
-another callback implementation, so let's move the current one into a
-union.
+We'll soon introduce another completion callback source that won't need
+to use the BO reference counting, so let's move it around to create a
+function we will be able to share between both callbacks.
 
 Reviewed-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 34 ++++++++++++++++++++--------------
+ 1 file changed, 20 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index dd5fb25d0f43..1f247c037ce0 100644
+index 1f247c037ce0..0410db97b9d1 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -775,17 +775,17 @@ struct vc4_async_flip_state {
- 	struct drm_framebuffer *old_fb;
- 	struct drm_pending_vblank_event *event;
+@@ -802,21 +802,8 @@ vc4_async_page_flip_complete(struct vc4_async_flip_state *flip_state)
+ 	drm_crtc_vblank_put(crtc);
+ 	drm_framebuffer_put(flip_state->fb);
  
--	struct vc4_seqno_cb cb;
-+	union {
-+		struct vc4_seqno_cb seqno;
-+	} cb;
- };
+-	/* Decrement the BO usecnt in order to keep the inc/dec calls balanced
+-	 * when the planes are updated through the async update path.
+-	 * FIXME: we should move to generic async-page-flip when it's
+-	 * available, so that we can get rid of this hand-made cleanup_fb()
+-	 * logic.
+-	 */
+-	if (flip_state->old_fb) {
+-		struct drm_gem_cma_object *cma_bo;
+-		struct vc4_bo *bo;
+-
+-		cma_bo = drm_fb_cma_get_gem_obj(flip_state->old_fb, 0);
+-		bo = to_vc4_bo(&cma_bo->base);
+-		vc4_bo_dec_usecnt(bo);
++	if (flip_state->old_fb)
+ 		drm_framebuffer_put(flip_state->old_fb);
+-	}
  
- /* Called when the V3D execution for the BO being flipped to is done, so that
-  * we can actually update the plane's address to point to it.
-  */
- static void
--vc4_async_page_flip_complete(struct vc4_seqno_cb *cb)
-+vc4_async_page_flip_complete(struct vc4_async_flip_state *flip_state)
- {
--	struct vc4_async_flip_state *flip_state =
--		container_of(cb, struct vc4_async_flip_state, cb);
- 	struct drm_crtc *crtc = flip_state->crtc;
- 	struct drm_device *dev = crtc->dev;
- 	struct drm_plane *plane = crtc->primary;
-@@ -821,6 +821,14 @@ vc4_async_page_flip_complete(struct vc4_seqno_cb *cb)
  	kfree(flip_state);
  }
+@@ -825,8 +812,27 @@ static void vc4_async_page_flip_seqno_complete(struct vc4_seqno_cb *cb)
+ {
+ 	struct vc4_async_flip_state *flip_state =
+ 		container_of(cb, struct vc4_async_flip_state, cb.seqno);
++	struct vc4_bo *bo = NULL;
++
++	if (flip_state->old_fb) {
++		struct drm_gem_cma_object *cma_bo =
++			drm_fb_cma_get_gem_obj(flip_state->old_fb, 0);
++		bo = to_vc4_bo(&cma_bo->base);
++	}
  
-+static void vc4_async_page_flip_seqno_complete(struct vc4_seqno_cb *cb)
-+{
-+	struct vc4_async_flip_state *flip_state =
-+		container_of(cb, struct vc4_async_flip_state, cb.seqno);
+ 	vc4_async_page_flip_complete(flip_state);
 +
-+	vc4_async_page_flip_complete(flip_state);
-+}
-+
++	/*
++	 * Decrement the BO usecnt in order to keep the inc/dec
++	 * calls balanced when the planes are updated through
++	 * the async update path.
++	 *
++	 * FIXME: we should move to generic async-page-flip when
++	 * it's available, so that we can get rid of this
++	 * hand-made cleanup_fb() logic.
++	 */
++	if (bo)
++		vc4_bo_dec_usecnt(bo);
+ }
+ 
  /* Implements async (non-vblank-synced) page flips.
-  *
-  * The page flip ioctl needs to return immediately, so we grab the
-@@ -881,8 +889,8 @@ static int vc4_async_page_flip(struct drm_crtc *crtc,
- 	 */
- 	drm_atomic_set_fb_for_plane(plane->state, fb);
- 
--	vc4_queue_seqno_cb(dev, &flip_state->cb, bo->seqno,
--			   vc4_async_page_flip_complete);
-+	vc4_queue_seqno_cb(dev, &flip_state->cb.seqno, bo->seqno,
-+			   vc4_async_page_flip_seqno_complete);
- 
- 	/* Driver takes ownership of state on successful async commit. */
- 	return 0;
 -- 
 2.36.1
 
