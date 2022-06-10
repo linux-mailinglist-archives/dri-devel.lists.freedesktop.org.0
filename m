@@ -2,76 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8970B54626F
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 11:31:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98865462B5
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 11:47:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C2712B227;
-	Fri, 10 Jun 2022 09:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00DB810E28A;
+	Fri, 10 Jun 2022 09:47:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56E7312B0A2
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 09:31:20 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id AFB9A5C00F2;
- Fri, 10 Jun 2022 05:31:19 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Fri, 10 Jun 2022 05:31:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1654853479; x=1654939879; bh=Uf
- rNm1aT2NCEXjU1j37GI22AueNWGOVjpc+X750FpoQ=; b=TF9NZSGa2qO3uYtyIa
- q7HznHHxDVVQyFtGwqs0h8xbYolQdxFCU32bxkEHE4NpeOSAkVBReZng9aT1/02R
- nmZIedfKddddp9BXJKuba2iRc5PxOoO9YARydZmFrp2wlFTz3RljQgeelegcHdY5
- 5cNjLi0ABTyFw6glcgoz6N2jrnl1FqGaCE2cP7O4X/8avggGPON3TgoOzTwKAmbn
- LWxEJohkj7eXBPB0lPBPX7rotlBeMlUzF1OgLu5nCU9KQlZJoZu0lB1m8r/k+UXK
- hACjWWr/kD9JnhR/kgAr3nMj7o7gVf4iVd5egYTVPzoKWsrPrDchps8uHvT4yZkw
- rwcA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1654853479; x=1654939879; bh=UfrNm1aT2NCEX
- jU1j37GI22AueNWGOVjpc+X750FpoQ=; b=gn1gxexVn83RtsTpDjJmX+UDdoaAz
- jU4sOpUhmsRWVkupCnsLChspUT3V+RV7y3+Iy4KFjItuoZdsGgLjVGk+RyP6TI4T
- YEaBF2yJTLUChVfpqV8DA1daC7l3MZn52xDNpop0xEVsMpsqFxcr2ghxnFOj0q9d
- UVKEULPm+IhPMvsHAXPVsWN3d29dGrwdpNj/lM5K3ei4ElYnMynlQehRhF2dVG3w
- i2nkmw5X+ZE1d+yANdhDpDtECtTeqGOtAX6NChvL7wSDC0TG5vH0qFBkQ9RAZ8Jj
- vK5CLzCj4NPhUI8UpSWbyshyKS5ZdZV91o8jY4tcnqaImfxhRvL9Pw8yw==
-X-ME-Sender: <xms:Zw-jYjC0Otcc-qDBpZRgBrYOsOWY8FHZIwUIXFH1o2RV2xvjRFGAoA>
- <xme:Zw-jYpj0F2aFtf-DRTb-KtR06KyYvDj5G5E3PL9U5YsLDaxQ9BTjfd1J1ROdz_BXU
- dE2-mNAT5nCqsYAZG0>
-X-ME-Received: <xmr:Zw-jYukMdEG1O1WasjxpfgRNKX2Fb31eiFYYIDa31ccSba1D44nk2AkmtbczfDRcVo9dnBskDHFrZzt1kGuvFCgV7lvWz0y7swbfqEU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddgudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedutdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Zw-jYlxBsluu9jKLkxwz16uh_anqxPvY--n1g5WYz5AFqlEjp6uhQg>
- <xmx:Zw-jYoRAsnZkh_FcPDavQQCbqRru9RTpiEWesiUfu0JfPvygZgcWSA>
- <xmx:Zw-jYoasciJSmK7jXJCqV8ETM_ib6BTsJQjry2HeydQs4XOycYel2w>
- <xmx:Zw-jYuM3rnT2APTMvggd5DPVJuTJrVFzCXcuIahOplNESZIrcaKpIQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Jun 2022 05:31:19 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 64/64] drm/vc4: v3d: Switch to devm_pm_runtime_enable
-Date: Fri, 10 Jun 2022 11:29:24 +0200
-Message-Id: <20220610092924.754942-65-maxime@cerno.tech>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220610092924.754942-1-maxime@cerno.tech>
-References: <20220610092924.754942-1-maxime@cerno.tech>
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3A9910E28A
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 09:47:19 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id a15so27249729wrh.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 02:47:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OPbvFpgsCXrc/RPsUnJXvMubbP17Qr2YxU9/bS1wZjk=;
+ b=Sx9VSFOKuSIF/SG/wZmN6t3GEVIdE7lEIrbl9Mm6OhO6ibXPIulugZeY3eOarE4gWg
+ Xmxf7UQrHvFKBv/T01+affQqxcOeCFb1i3fIGXdkw5hb2dEDXYgTkvw4vOo6uE4njvOA
+ Cr+H0XBeSDbYhAPd/i/bPJeriwwqBIj+qQ0CY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=OPbvFpgsCXrc/RPsUnJXvMubbP17Qr2YxU9/bS1wZjk=;
+ b=UDAG8wEoKX0WkpGv68uCZAB6q0cN53PBjTYbw/VJ0KOdhsM/mUxV1Yglx4lITai6P2
+ a9PUOkoduS0o2tR75AjPl6AiIgCNsqNZDfeLGArerUDebQuXB6fQtwNb1bsAwtPbZJZ+
+ uOGW43zMv3mMfRYy+PVGLpoACGhdqR9wwQRAl1J4qm56q/2aSy2oJxd+7aTwF1puOfs0
+ oKhbzWt/Xm0fjoDiQzC37h+7/FIdSOW2qCOZNOFZjG+PzvuNV2XDwHx+rbqF0AavvBq8
+ fPOGkHxZFcsBQBRARSztUxwBeOkzShpfs6o3mAg/ZXkrLJzMNozLQYbjzaQRarvR2T0i
+ 0cPQ==
+X-Gm-Message-State: AOAM531mvxzM0X5r0HnAa1471bsAzdHBtczcSi2/Da1v/0WLb/LfK/j4
+ aqHgiV0uMpUL2oPXdDenesNBFA==
+X-Google-Smtp-Source: ABdhPJw/3X2seKC/9g3emEoshWFl3NznfblFRQrKNLuh5mPnwP52ajg48RkiCudO7VotgG18/i6y3Q==
+X-Received: by 2002:adf:e4cb:0:b0:219:b63c:d238 with SMTP id
+ v11-20020adfe4cb000000b00219b63cd238mr7519156wrm.705.1654854438519; 
+ Fri, 10 Jun 2022 02:47:18 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ h18-20020a05600c351200b0039c50d2d28csm2364864wmq.44.2022.06.10.02.47.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jun 2022 02:47:17 -0700 (PDT)
+Date: Fri, 10 Jun 2022 11:47:15 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] Revert "fbdev: vesafb: Allow to be built if COMPILE_TEST
+ is enabled"
+Message-ID: <YqMTI3yxmWq/f+Gp@phenom.ffwll.local>
+Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ linux-fbdev@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20220610085450.1341880-1-javierm@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220610085450.1341880-1-javierm@redhat.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,57 +75,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-fbdev@vger.kernel.org,
+ kernel test robot <lkp@intel.com>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_pm_runtime_enable() simplifies the driver a bit since it will call
-pm_runtime_disable() automatically through a device-managed action.
+On Fri, Jun 10, 2022 at 10:54:50AM +0200, Javier Martinez Canillas wrote:
+> This reverts commit fa0e256450f27a7d85f65c63f05e6897954a1d53. The kernel
+> test robot reported that attempting to build the vesafb driver fails on
+> some architectures, because these don't define a `struct screen_info`.
+> 
+> This leads to linking errors, for example on parisc with allyesconfig:
+> 
+>   hppa-linux-ld: drivers/video/fbdev/vesafb.o: in function `vesafb_probe':
+> >> (.text+0x738): undefined reference to `screen_info'
+> >> hppa-linux-ld: (.text+0x73c): undefined reference to `screen_info'
+>    hppa-linux-ld: drivers/firmware/sysfb.o: in function `sysfb_init':
+> >> (.init.text+0x28): undefined reference to `screen_info'
+> >> hppa-linux-ld: (.init.text+0x30): undefined reference to `screen_info'
+>    hppa-linux-ld: (.init.text+0x78): undefined reference to `screen_info'
+> 
+> The goal of commit fa0e256450f2 ("fbdev: vesafb: Allow to be built if
+> COMPILE_TEST is enabled") was to have more build coverage for the driver
+> but it wrongly assumed that all architectures would define a screen_info.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_v3d.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+> 
+>  drivers/video/fbdev/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+> index bd849013f16f..f2a6b81e45c4 100644
+> --- a/drivers/video/fbdev/Kconfig
+> +++ b/drivers/video/fbdev/Kconfig
+> @@ -616,7 +616,7 @@ config FB_UVESA
+>  
+>  config FB_VESA
+>  	bool "VESA VGA graphics support"
+> -	depends on (FB = y) && (X86 || COMPILE_TEST)
+> +	depends on (FB = y) && X86
+>  	select FB_CFB_FILLRECT
+>  	select FB_CFB_COPYAREA
+>  	select FB_CFB_IMAGEBLIT
+> -- 
+> 2.36.1
+> 
 
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index a3fcabf5e6ab..2d63124e2ac0 100644
---- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -453,11 +453,13 @@ static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 	vc4->irq = ret;
- 
--	pm_runtime_enable(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return ret;
- 
- 	ret = pm_runtime_resume_and_get(dev);
- 	if (ret)
--		goto err_disable_runtime_pm;
-+		return ret;
- 
- 	if (V3D_READ(V3D_IDENT0) != V3D_EXPECTED_IDENT0) {
- 		DRM_ERROR("V3D_IDENT0 read 0x%08x instead of 0x%08x\n",
-@@ -486,9 +488,6 @@ static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
- err_put_runtime_pm:
- 	pm_runtime_put(dev);
- 
--err_disable_runtime_pm:
--	pm_runtime_disable(dev);
--
- 	return ret;
- }
- 
-@@ -498,8 +497,6 @@ static void vc4_v3d_unbind(struct device *dev, struct device *master,
- 	struct drm_device *drm = dev_get_drvdata(master);
- 	struct vc4_dev *vc4 = to_vc4_dev(drm);
- 
--	pm_runtime_disable(dev);
--
- 	vc4_irq_uninstall(drm);
- 
- 	/* Disable the binner's overflow memory address, so the next
 -- 
-2.36.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
