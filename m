@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53D6546251
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FABF546250
 	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 11:30:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 540A211B609;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3821B11B3DE;
 	Fri, 10 Jun 2022 09:30:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAC0511B30D
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 09:30:36 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 1CEDF5C01AE;
- Fri, 10 Jun 2022 05:30:36 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 10 Jun 2022 05:30:36 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A3D911B3DE
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 09:30:38 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id B73A65C01AE;
+ Fri, 10 Jun 2022 05:30:37 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 10 Jun 2022 05:30:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1654853436; x=1654939836; bh=2j
- mZKoaQadOSFboDIHkVmMqixspiiZhEtekQJG+eI/w=; b=jsxXs0V9giv1iWZvkU
- RI/SoiO31a1zc7quDkGTQD/RmRB3usBAoIj+pDKEsRvBW7XvQB9b1hn0vmUVBw9K
- 3jicirNRy6c2eoj9po2gJs/F9FRG4/LGrKBR4mxOEZhkxV1BjyhyQq1842wQ8wPu
- pVJBenzV6l54MJVrv2ROznqWt1xqxu9vY+tvWrMkbi/QNJIvGt1e1MOMazTZfo+T
- c5BLeOYr/+zh99qB/jbCSDO/vngWGoeXqfevviasUA4HTRFPYvEZP+8FXLFWyLs6
- f5h7G8TrhJLVNRUSHpfb/fvqfivlDMBB/t4wn0mIg1/ZnvJFhhrYDunTIYueZRBE
- 6rFQ==
+ :subject:subject:to:to; s=fm1; t=1654853437; x=1654939837; bh=LG
+ 2s29Q2wCEHhbxknfeIVyGJw7GQY8kWj8VeYfe10T8=; b=YP9rVV0ZSqbAWW5G1y
+ UCJmKmzbWvBv7yWchnf5bv284uDrECxhtPJv8SLj6jRQzso7cwZszo08S50rZCfg
+ lgbzPk+HavE58imyBeuta3Q4tl9AsRVd59BWof1jDuwDkZ6QAnvj0b/ALc+5GKQY
+ b3hxI6YCReWSSjBcO9iR0ODJOVJLjQCr3ti6mFmOVN5qXVBNNWf2D/D/iuzxnkUB
+ khFcs349qD2IFyPKjhiDNlKMO41ePc8JhplSjDO8+gc/ATdxM3n27CD+hWoVRr3p
+ 5wBeO5RODdoY54nwATzA14AyaHmQaUqRMJhBYuQ9EWktgiGvpelsbEdfXuSiIWB4
+ tuZg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1654853436; x=1654939836; bh=2jmZKoaQadOSF
- boDIHkVmMqixspiiZhEtekQJG+eI/w=; b=trYHP7c3TMqNIAc347X8LWAlYBsHp
- 72xjCrGChZ1z/Z5Y0tg85DTOOe44O3ucO1maQ7V4E5L6/8h1xb/XvFppFdmd8Myr
- yryM9Q0o5+2nUCjGNNF/5ifHoQVWtVhI771htAYuTiw3LOONdvSGkFbFeCY6H0zH
- 8Im1HJ+KtOOqSb9JkWUcUplyV7z9H03qdr63DN6GyB+8dv8jBOfbLZ4wv0oKbtCu
- Tq4gEvKNB3mH3fxU0dSrZGpXXCYKBTSHP8ltPZVoqN8QNIoCkKdJoC9jutBX7HZx
- YlmDuvQp/8SZWL/ogXpCmwEykKhFRkNufVYYY+W8fkmLim4RAxNWwZmGg==
-X-ME-Sender: <xms:Ow-jYmZ2dQVsf02ItK6tT3_mCsjI2xJLUYGmG-Ah3fDYYBOyvMCeSQ>
- <xme:Ow-jYpYpYb2yywtymq9sup8wcPZJb5NyAGevzFmqRgFQTObhdssYQVggWUY1Y6X9N
- PZLGB2gvrPT7T5MaIk>
-X-ME-Received: <xmr:Ow-jYg_RY0_QVyJWR7COQBP4BY0XGdA611RivlP4DIIH-jM-3Cdn46kSUysr89utxs4IK814XfvM2IdLU2hHHEYUPeDdXZHlQnaNDVo>
+ :x-sasl-enc; s=fm2; t=1654853437; x=1654939837; bh=LG2s29Q2wCEHh
+ bxknfeIVyGJw7GQY8kWj8VeYfe10T8=; b=GZkAViDR8o0lM/q/NlITJnPajN5em
+ lr2ikVt2sRJE4UqQ1r/fXs0W4Dh+3tgT+HARt5ZBOpA1EdkItBdEiFiZRhwU2JB/
+ n3AHwyzM8gmxOsVe1j+nGr9HDuURU+CPce6nSp+GRikku0k8cygRIqrV6D0ieO26
+ jPnPH6+GWoGU/aPmWHUxj3CMZvQEZMCrucX4Z9eEg+gIQdFMlEw9ki0xBhZvIvF3
+ xhLapidP6B0xR1ltAYD5P7L3bG43tiPgrq4ezvwKLanj/rL4Q1OsEV/9RMAgDxl4
+ 7sq0gc2P4JfeiVQROD8yZnAindebdIxQLEzMdO5YfgY2jJfX4FftkInVw==
+X-ME-Sender: <xms:PQ-jYsx6lPmCrFQTPZFb7uaCFrF_D7XN9YnygGqPjiN4ksQojEzdHw>
+ <xme:PQ-jYgStkQ7-EkRZwJIqZiJ7IAqhSCrdkmzZpgi3_EOWPtaL3AOE9Gd4slmCkEUOq
+ HSUxTU5nFyJdyplhGc>
+X-ME-Received: <xmr:PQ-jYuWaiAQu_jZt2PEmTEkakVQr7jEyDQZF9-t9LBhcBjEqLW-NkpqLoaqOPPRaEIeIq5hhiUC1HhcFAcJDOygCNY-VsnagBH_mAHk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddgudehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeejnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeeknecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Ow-jYorpCnxPuQeUoqfHBi0C_kW3Bew_dXalRuujmhV7ta_9ujA_CQ>
- <xmx:Ow-jYhow89Gihl4csgXQ0GiUnNtWOPzLrp0dy9uIiT-01u2E2snDDg>
- <xmx:Ow-jYmRzoUZjmoqWN0VhqqcZEQO12UqCB3cWmCEpM0lh4ECUiJo6EA>
- <xmx:PA-jYimjQSc_MLxE0WX23HHZHGazG2nOLgZ1JD_Xhl5ZW0dNf3ePkg>
+X-ME-Proxy: <xmx:PQ-jYqgdU08QiURCSdVZAUXZm34o2uQgoltHMFE6QyiInHDyqo1eQA>
+ <xmx:PQ-jYuBULLaSoYX4y5AOR0GyLE1xStUMhdGkpBOepsfJuaDqYsd1kw>
+ <xmx:PQ-jYrL_h2R_JEhMMghzBqE-ngCAjs1hJSGsMArbtg9iWOM1C2DMvg>
+ <xmx:PQ-jYh8lGq5hWAJzAab9YU-QvDZB_B7xM2sjn6AziXduSEy5CCtcWQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Jun 2022 05:30:35 -0400 (EDT)
+ 10 Jun 2022 05:30:37 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 38/64] drm/vc4: hdmi: Switch to device-managed CEC
- initialization
-Date: Fri, 10 Jun 2022 11:28:58 +0200
-Message-Id: <20220610092924.754942-39-maxime@cerno.tech>
+Subject: [PATCH 39/64] drm/vc4: hdmi: Use a device-managed action for DDC
+Date: Fri, 10 Jun 2022 11:28:59 +0200
+Message-Id: <20220610092924.754942-40-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610092924.754942-1-maxime@cerno.tech>
 References: <20220610092924.754942-1-maxime@cerno.tech>
@@ -89,181 +88,78 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current code to unregister our CEC device needs to be undone manually
-when we remove the HDMI driver.
-
-Since the CEC framework will allocate its main structure, and will defer
-its deallocation to when the last user will have closed it, we don't really
-need to take any particular measure to prevent any use-after-free and can
-thus use any managed action.
+The reference to the DDC controller device needs to be put back when we're
+done with it. Let's use a device-managed action to simplify the driver.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 95 ++++++++++++++++++----------------
- 1 file changed, 50 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 8f71f5a5e4ce..402bfde3b5fe 100644
+index 402bfde3b5fe..bb9bd0c701be 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -2541,6 +2541,14 @@ static const struct cec_adap_ops vc4_hdmi_cec_adap_ops = {
- 	.adap_transmit = vc4_hdmi_cec_adap_transmit,
- };
+@@ -2857,6 +2857,13 @@ static int vc4_hdmi_runtime_resume(struct device *dev)
+ 	return 0;
+ }
  
-+static void vc4_hdmi_cec_release(void *ptr)
++static void vc4_hdmi_put_ddc_device(void *ptr)
 +{
 +	struct vc4_hdmi *vc4_hdmi = ptr;
 +
-+	cec_unregister_adapter(vc4_hdmi->cec_adap);
-+	vc4_hdmi->cec_adap = NULL;
++	put_device(&vc4_hdmi->ddc->dev);
 +}
 +
- static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
+ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
  {
- 	struct cec_connector_info conn_info;
-@@ -2576,75 +2584,75 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
- 	vc4_hdmi_cec_update_clk_div(vc4_hdmi);
- 
- 	if (vc4_hdmi->variant->external_irq_controller) {
--		ret = request_threaded_irq(platform_get_irq_byname(pdev, "cec-rx"),
--					   vc4_cec_irq_handler_rx_bare,
--					   vc4_cec_irq_handler_rx_thread, 0,
--					   "vc4 hdmi cec rx", vc4_hdmi);
-+		ret = devm_request_threaded_irq(dev, platform_get_irq_byname(pdev, "cec-rx"),
-+						vc4_cec_irq_handler_rx_bare,
-+						vc4_cec_irq_handler_rx_thread, 0,
-+						"vc4 hdmi cec rx", vc4_hdmi);
- 		if (ret)
- 			goto err_delete_cec_adap;
- 
--		ret = request_threaded_irq(platform_get_irq_byname(pdev, "cec-tx"),
--					   vc4_cec_irq_handler_tx_bare,
--					   vc4_cec_irq_handler_tx_thread, 0,
--					   "vc4 hdmi cec tx", vc4_hdmi);
-+		ret = devm_request_threaded_irq(dev, platform_get_irq_byname(pdev, "cec-tx"),
-+						vc4_cec_irq_handler_tx_bare,
-+						vc4_cec_irq_handler_tx_thread, 0,
-+						"vc4 hdmi cec tx", vc4_hdmi);
- 		if (ret)
--			goto err_remove_cec_rx_handler;
-+			goto err_delete_cec_adap;
- 	} else {
- 		spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
- 		HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, 0xffffffff);
- 		spin_unlock_irqrestore(&vc4_hdmi->hw_lock, flags);
- 
--		ret = request_threaded_irq(platform_get_irq(pdev, 0),
--					   vc4_cec_irq_handler,
--					   vc4_cec_irq_handler_thread, 0,
--					   "vc4 hdmi cec", vc4_hdmi);
-+		ret = devm_request_threaded_irq(dev, platform_get_irq(pdev, 0),
-+						vc4_cec_irq_handler,
-+						vc4_cec_irq_handler_thread, 0,
-+						"vc4 hdmi cec", vc4_hdmi);
- 		if (ret)
- 			goto err_delete_cec_adap;
+ 	const struct vc4_hdmi_variant *variant = of_device_get_match_data(dev);
+@@ -2912,13 +2919,16 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 		return -EPROBE_DEFER;
  	}
  
- 	ret = cec_register_adapter(vc4_hdmi->cec_adap, &pdev->dev);
- 	if (ret < 0)
--		goto err_remove_handlers;
-+		goto err_delete_cec_adap;
-+
-+	/*
-+	 * NOTE: Strictly speaking, we should probably use a DRM-managed
-+	 * registration there to avoid removing the CEC adapter by the
-+	 * time the DRM driver doesn't have any user anymore.
-+	 *
-+	 * However, the CEC framework already cleans up the CEC adapter
-+	 * only when the last user has closed its file descriptor, so we
-+	 * don't need to handle it in DRM.
-+	 *
-+	 * By the time the device-managed hook is executed, we will give
-+	 * up our reference to the CEC adapter and therefore don't
-+	 * really care when it's actually freed.
-+	 *
-+	 * There's still a problematic sequence: if we unregister our
-+	 * CEC adapter, but the userspace keeps a handle on the CEC
-+	 * adapter but not the DRM device for some reason. In such a
-+	 * case, our vc4_hdmi structure will be freed, but the
-+	 * cec_adapter structure will have a dangling pointer to what
-+	 * used to be our HDMI controller. If we get a CEC call at that
-+	 * moment, we could end up with a use-after-free. Fortunately,
-+	 * the CEC framework already handles this too, by calling
-+	 * cec_is_registered() in cec_ioctl() and cec_poll().
-+	 */
-+	ret = devm_add_action_or_reset(dev, vc4_hdmi_cec_release, vc4_hdmi);
++	ret = devm_add_action_or_reset(dev, vc4_hdmi_put_ddc_device, vc4_hdmi);
 +	if (ret)
 +		return ret;
++
+ 	/* Only use the GPIO HPD pin if present in the DT, otherwise
+ 	 * we'll use the HDMI core's register.
+ 	 */
+ 	vc4_hdmi->hpd_gpio = devm_gpiod_get_optional(dev, "hpd", GPIOD_IN);
+ 	if (IS_ERR(vc4_hdmi->hpd_gpio)) {
+-		ret = PTR_ERR(vc4_hdmi->hpd_gpio);
+-		goto err_put_ddc;
++		return PTR_ERR(vc4_hdmi->hpd_gpio);
+ 	}
  
- 	return 0;
+ 	vc4_hdmi->disable_wifi_frequencies =
+@@ -2938,7 +2948,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 	 */
+ 	ret = vc4_hdmi_runtime_resume(dev);
+ 	if (ret)
+-		goto err_put_ddc;
++		return ret;
  
--err_remove_handlers:
--	if (vc4_hdmi->variant->external_irq_controller)
--		free_irq(platform_get_irq_byname(pdev, "cec-tx"), vc4_hdmi);
--	else
--		free_irq(platform_get_irq(pdev, 0), vc4_hdmi);
--
--err_remove_cec_rx_handler:
--	if (vc4_hdmi->variant->external_irq_controller)
--		free_irq(platform_get_irq_byname(pdev, "cec-rx"), vc4_hdmi);
--
- err_delete_cec_adap:
- 	cec_delete_adapter(vc4_hdmi->cec_adap);
+ 	pm_runtime_get_noresume(dev);
+ 	pm_runtime_set_active(dev);
+@@ -2990,8 +3000,6 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ err_put_runtime_pm:
+ 	pm_runtime_put_sync(dev);
+ 	pm_runtime_disable(dev);
+-err_put_ddc:
+-	put_device(&vc4_hdmi->ddc->dev);
  
  	return ret;
  }
--
--static void vc4_hdmi_cec_exit(struct vc4_hdmi *vc4_hdmi)
--{
--	struct platform_device *pdev = vc4_hdmi->pdev;
--
--	if (vc4_hdmi->variant->external_irq_controller) {
--		free_irq(platform_get_irq_byname(pdev, "cec-rx"), vc4_hdmi);
--		free_irq(platform_get_irq_byname(pdev, "cec-tx"), vc4_hdmi);
--	} else {
--		free_irq(platform_get_irq(pdev, 0), vc4_hdmi);
--	}
--
--	cec_unregister_adapter(vc4_hdmi->cec_adap);
--}
- #else
- static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
- {
- 	return 0;
- }
--
--static void vc4_hdmi_cec_exit(struct vc4_hdmi *vc4_hdmi) {};
--
- #endif
- 
- static int vc4_hdmi_build_regset(struct vc4_hdmi *vc4_hdmi,
-@@ -2967,7 +2975,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 
- 	ret = vc4_hdmi_audio_init(vc4_hdmi);
- 	if (ret)
--		goto err_free_cec;
-+		goto err_free_hotplug;
- 
- 	vc4_debugfs_add_file(drm, variant->debugfs_name,
- 			     vc4_hdmi_debugfs_regs,
-@@ -2977,8 +2985,6 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 
- 	return 0;
- 
--err_free_cec:
--	vc4_hdmi_cec_exit(vc4_hdmi);
- err_free_hotplug:
- 	vc4_hdmi_hotplug_exit(vc4_hdmi);
- err_put_runtime_pm:
-@@ -3019,7 +3025,6 @@ static void vc4_hdmi_unbind(struct device *dev, struct device *master,
- 	kfree(vc4_hdmi->hdmi_regset.regs);
- 	kfree(vc4_hdmi->hd_regset.regs);
- 
--	vc4_hdmi_cec_exit(vc4_hdmi);
+@@ -3028,8 +3036,6 @@ static void vc4_hdmi_unbind(struct device *dev, struct device *master,
  	vc4_hdmi_hotplug_exit(vc4_hdmi);
  
  	pm_runtime_disable(dev);
+-
+-	put_device(&vc4_hdmi->ddc->dev);
+ }
+ 
+ static const struct component_ops vc4_hdmi_ops = {
 -- 
 2.36.1
 
