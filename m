@@ -2,44 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89CD15466E1
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 14:53:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E971D54671D
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 15:09:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01BC689E5F;
-	Fri, 10 Jun 2022 12:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E44DF10EB33;
+	Fri, 10 Jun 2022 13:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88D2C10EB8A
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 12:53:29 +0000 (UTC)
-Date: Fri, 10 Jun 2022 12:53:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1654865607; x=1655124807;
- bh=bQyakDdHtu/mu7qge4S2DS96HIDwGQmpubPsiCuCsBA=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
- Feedback-ID:Message-ID;
- b=m2F7WG6NHsB2hTArqcHjc4aiJh0EJl8nWYvOV9iBed9j44E9e+CQ/gqwD62HlFfTd
- jKRDEh/jxSnyasDmA0jlnA0yHMxI3pZmvpB48CcqGyzS08h+KSZEWZHYOJXAIYDUp6
- KzPVHwYrlBuhuXp6FvMXszcn9EbuhUhJqtBQ9OrajwrsEujjrGgELcgxxNPNmOZphP
- IQEElGBoMkZ95Y/fckbmpARiwdTqHCwsFAqZ5+5E4kWigSPi1so/SshB701lSV74lo
- bXy3dbEsC94gMXNmsUVdtvRezIG9vvKYzn9dCEpZRWO06uE+FiRGUbCXggSC9XbyFT
- r/zAb6+/ZnNfg==
-To: Gerd Hoffmann <kraxel@redhat.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
-Message-ID: <_D4uOTfLqaVCoV94kNfeXYvOph3EjOL80mbzeJNHm1EPqranCclhnAjS2dj40X32-wE8Nux_QM-m-LBXHSHLkXu0P5oypBYLLK3_MWK4STg=@emersion.fr>
-In-Reply-To: <20220610123629.fgu2em3fto53fpfy@sirius.home.kraxel.org>
-References: <20220602154243.1015688-1-zack@kde.org>
- <wRnf-Lm5zz6v1e-NlnFPteyARuLl-R98mOZZVjePHD5ue7QQNR_TSU7RwYBssgUa7xM5hf7Fe59-gMEj81ESrHY3mu_H7yE0dtGhFHFPTnc=@emersion.fr>
- <YqMDoSMOL2rsfJj/@phenom.ffwll.local>
- <lcIVipq8mkBAPioQAVQmwsM_Gwo0e9fd2334yGSvIW6uEIEElwUrTe-x9J9h29TB1H3NY3liNCohaXDyjslDFIqxPZNSPbSPJ3vctA2jEAk=@emersion.fr>
- <YqMTk9C8/g1buL+8@phenom.ffwll.local>
- <20220610123629.fgu2em3fto53fpfy@sirius.home.kraxel.org>
-Feedback-ID: 1358184:user:proton
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 027EE10EB33
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 13:09:29 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id v14so10213298wra.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 06:09:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DvMLQyCpX4I7EUgax4yyuPoiR3vnUAJVSMXTDQWafgE=;
+ b=L6IIf5wmRxBm24rEsS8xhGTOFhip3gH3gRygBHAg3oTaILjMQNPDXFjKkHT4SSc8rm
+ xm9+dSpqI8sMs2OK0arBHn5FXweTnx98aiS82EZiIZ7cQTYGAGULv16DEI0MtAf+U0Vn
+ z0i4AnDEEq2qkPWxICHmtY5tfAP/wi/pNzSX7Xt6tbJOLTf++7F4U5I+7kHUKQul58jJ
+ i6U6R9guUi9DSRys/+rjQnlqVZfzFo/3+bVawcBI4hD+GW0+bPPqZrIZj/jJsZ7rrVYu
+ YtyCZpytxv4sqklcFL2d94sUTXgqZGfJha35Ek1WNDNSzyt7Xz2tctbdWj7MCz8YHzFG
+ HTrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DvMLQyCpX4I7EUgax4yyuPoiR3vnUAJVSMXTDQWafgE=;
+ b=liKVna8KQCNKSUVsxfp/2xJHEROJTnOoBe74pB7aL15LNr9a1+VlpwobGiXOLBsRY9
+ xiWrh56hojD/YtUY+dRwoAHOSzIeb0zH71qjdoJhq4TKhx//6kVymQNKPUpA7cgf1n4i
+ 2rAMxFXuU9Q03BP5IsjxyifUTvdA/PyaVs3FdWpeCqGzTIOeUNLr9E33Tfaa1CnzUT3t
+ bZb9Xgl7eSdw/OFNoRCqSwlDlK9OySRZHLdM31IucWr9ApooF8MmsPmL5n3gYmiXMKQl
+ GJTnYU5R/HkBXw8VDtDUUYVi7fXO6QyQ/dfKssUaKoLTV3z+XxhmrA8TE4Q5HFBll5Ev
+ MYWw==
+X-Gm-Message-State: AOAM5331/CHXkIpYZewLvVqt5UKFCJiOHGQL5y1TVfqFmA/UQbxfIMZC
+ 62PBTjbHnknd+c26xHs1az3nvFmhpfc=
+X-Google-Smtp-Source: ABdhPJxRp/vG1p3S2vxxtMjDLuILpuLc+WEs+fRfWsUGVN9ZTFMSlgcLcbG2FQQJo0IfsOUlZkWGwg==
+X-Received: by 2002:a5d:64a3:0:b0:218:639a:d7ff with SMTP id
+ m3-20020a5d64a3000000b00218639ad7ffmr13740128wrp.191.1654866567956; 
+ Fri, 10 Jun 2022 06:09:27 -0700 (PDT)
+Received: from workstation.suse.de (81-226-149-122-no518.tbcn.telia.com.
+ [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
+ i7-20020a1c3b07000000b0039744bd664esm3128174wma.13.2022.06.10.06.09.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jun 2022 06:09:26 -0700 (PDT)
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/gma500: Fix SDVO command debug printing
+Date: Fri, 10 Jun 2022 15:09:25 +0200
+Message-Id: <20220610130925.8650-1-patrik.r.jakobsson@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,81 +67,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- krastevm@vmware.com, Pekka Paalanen <ppaalanen@gmail.com>,
- mombasawalam@vmware.com, wayland-devel <wayland-devel@lists.freedesktop.org>
+Cc: tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, June 10th, 2022 at 14:36, Gerd Hoffmann <kraxel@redhat.com> wrot=
-e:
+At some point the DRM printers started adding a newline after each
+print. This caused SDVO command debug printing to look weird. Fix this
+by using snprintf to print into a buffer which can be printed as a whole
+by DRM_DEBUG_KMS(). Code is heavily inspired by i915.
 
-> Hi,
->
-> > > As Pekka mentionned, I'd also like to have a conversation of how far =
-we want to
-> > > push virtualized driver features. I think KMS support is a good featu=
-re to have
-> > > to spin up a VM and have all of the basics working. However I don't t=
-hink it's
-> > > a good idea to try to plumb an ever-growing list of fancy features
-> > > (seamless integration of guest windows into the host, HiDPI, multi-mo=
-nitor,
-> > > etc) into KMS. You'd just end up re-inventing Wayland or RDP on top o=
-f KMS.
-> > > Instead of re-inventing these, just use RDP or waypipe or X11 forward=
-ing
-> > > directly.
->
-> > > So I think we need to draw a line somewhere, and decide e.g. that vir=
-tualized
-> > > cursors are fine to add in KMS, but HiDPI is not.
->
->
-> What is the problem with HiDPI? qemu generates standard edid blobs,
-> there should be no need to special-case virtualized drivers in any way.
->
-> What is the problem with multi-monitor? That isn't much different than
-> physical multi-monitor either.
->
-> One little thing though: On physical hardware you just don't know which
-> monitor is left and which is right until the user tells you. In case of
-> a virtual multi-monitor setup we know how the two windows for the two
-> virtual monitors are arranged on the host and can pass that as hint to
-> the guest (not sure whenever that is the purpose of the
-> suggested_{x,y} properties).
+Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+---
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c | 62 ++++++++++++++++---------
+ 1 file changed, 41 insertions(+), 21 deletions(-)
 
-The problem with suggested_x/y is described here:
-https://lore.kernel.org/dri-devel/20220610123629.fgu2em3fto53fpfy@sirius.ho=
-me.kraxel.org/T/#m119cfbbf736e43831c3105f0c91bd790da2d58fb
+diff --git a/drivers/gpu/drm/gma500/psb_intel_sdvo.c b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
+index a85aace25548..bdced46dd333 100644
+--- a/drivers/gpu/drm/gma500/psb_intel_sdvo.c
++++ b/drivers/gpu/drm/gma500/psb_intel_sdvo.c
+@@ -400,26 +400,38 @@ static const struct _sdvo_cmd_name {
+ #define IS_SDVOB(reg)	(reg == SDVOB)
+ #define SDVO_NAME(svdo) (IS_SDVOB((svdo)->sdvo_reg) ? "SDVOB" : "SDVOC")
+ 
+-static void psb_intel_sdvo_debug_write(struct psb_intel_sdvo *psb_intel_sdvo, u8 cmd,
+-				   const void *args, int args_len)
++static void psb_intel_sdvo_debug_write(struct psb_intel_sdvo *psb_intel_sdvo,
++				       u8 cmd, const void *args, int args_len)
+ {
+-	int i;
++	struct drm_device *dev = psb_intel_sdvo->base.base.dev;
++	int i, pos = 0;
++	char buffer[73];
++
++#define BUF_PRINT(args...) \
++	pos += snprintf(buffer + pos, max_t(int, sizeof(buffer) - pos, 0), args)
++
++	for (i = 0; i < args_len; i++) {
++		BUF_PRINT("%02X ", ((u8 *)args)[i]);
++	}
++
++	for (; i < 8; i++) {
++		BUF_PRINT("   ");
++	}
+ 
+-	DRM_DEBUG_KMS("%s: W: %02X ",
+-				SDVO_NAME(psb_intel_sdvo), cmd);
+-	for (i = 0; i < args_len; i++)
+-		DRM_DEBUG_KMS("%02X ", ((u8 *)args)[i]);
+-	for (; i < 8; i++)
+-		DRM_DEBUG_KMS("   ");
+ 	for (i = 0; i < ARRAY_SIZE(sdvo_cmd_names); i++) {
+ 		if (cmd == sdvo_cmd_names[i].cmd) {
+-			DRM_DEBUG_KMS("(%s)", sdvo_cmd_names[i].name);
++			BUF_PRINT("(%s)", sdvo_cmd_names[i].name);
+ 			break;
+ 		}
+ 	}
++
+ 	if (i == ARRAY_SIZE(sdvo_cmd_names))
+-		DRM_DEBUG_KMS("(%02X)", cmd);
+-	DRM_DEBUG_KMS("\n");
++		BUF_PRINT("(%02X)", cmd);
++
++	drm_WARN_ON(dev, pos >= sizeof(buffer) - 1);
++#undef BUF_PRINT
++
++	DRM_DEBUG_KMS("%s: W: %02X %s\n", SDVO_NAME(psb_intel_sdvo), cmd, buffer);
+ }
+ 
+ static const char *cmd_status_names[] = {
+@@ -490,13 +502,13 @@ static bool psb_intel_sdvo_write_cmd(struct psb_intel_sdvo *psb_intel_sdvo, u8 c
+ }
+ 
+ static bool psb_intel_sdvo_read_response(struct psb_intel_sdvo *psb_intel_sdvo,
+-				     void *response, int response_len)
++					 void *response, int response_len)
+ {
++	struct drm_device *dev = psb_intel_sdvo->base.base.dev;
++	char buffer[73];
++	int i, pos = 0;
+ 	u8 retry = 5;
+ 	u8 status;
+-	int i;
+-
+-	DRM_DEBUG_KMS("%s: R: ", SDVO_NAME(psb_intel_sdvo));
+ 
+ 	/*
+ 	 * The documentation states that all commands will be
+@@ -520,10 +532,13 @@ static bool psb_intel_sdvo_read_response(struct psb_intel_sdvo *psb_intel_sdvo,
+ 			goto log_fail;
+ 	}
+ 
++#define BUF_PRINT(args...) \
++	pos += snprintf(buffer + pos, max_t(int, sizeof(buffer) - pos, 0), args)
++
+ 	if (status <= SDVO_CMD_STATUS_SCALING_NOT_SUPP)
+-		DRM_DEBUG_KMS("(%s)", cmd_status_names[status]);
++		BUF_PRINT("(%s)", cmd_status_names[status]);
+ 	else
+-		DRM_DEBUG_KMS("(??? %d)", status);
++		BUF_PRINT("(??? %d)", status);
+ 
+ 	if (status != SDVO_CMD_STATUS_SUCCESS)
+ 		goto log_fail;
+@@ -534,13 +549,18 @@ static bool psb_intel_sdvo_read_response(struct psb_intel_sdvo *psb_intel_sdvo,
+ 					  SDVO_I2C_RETURN_0 + i,
+ 					  &((u8 *)response)[i]))
+ 			goto log_fail;
+-		DRM_DEBUG_KMS(" %02X", ((u8 *)response)[i]);
++		BUF_PRINT(" %02X", ((u8 *)response)[i]);
+ 	}
+-	DRM_DEBUG_KMS("\n");
++
++	drm_WARN_ON(dev, pos >= sizeof(buffer) - 1);
++#undef BUF_PRINT
++
++	DRM_DEBUG_KMS("%s: R: %s\n", SDVO_NAME(psb_intel_sdvo), buffer);
+ 	return true;
+ 
+ log_fail:
+-	DRM_DEBUG_KMS("... failed\n");
++	DRM_DEBUG_KMS("%s: R: ... failed %s\n",
++		      SDVO_NAME(psb_intel_sdvo), buffer);
+ 	return false;
+ }
+ 
+-- 
+2.36.1
 
-HiDPI would need a way to propagate the scale factor back-and-forth:
-the VM viewer needs to advertise the preferred scale to the guest
-compositor, and the guest compositor needs to indicate the scale it
-renders with to the VM viewer.
-
-Sounds familiar? Yup, that's exactly the Wayland protocol. Do we really
-want to replicate the Wayland protocol in KMS? I'm not so sure.
-
-> > It's getting a bit far off-topic, but google cros team has an out-of-tr=
-ee
-> > (at least I think it's not merged yet) wayland-virtio driver for exactl=
-y
-> > this use-case. Trying to move towards something like that for fancy
-> > virtualized setups sounds like the better approach indeed, with kms jus=
-t
-> > as the bare-bones fallback option.
->
-> virtio-gpu got the ability to attach uuids to objects, to allow them
-> being identified on the host side. So it could be that wayland-virtio
-> still uses kms for framebuffers (disclaimer: don't know how
-> wayland-virtio works in detail). But, yes, all the scanout + cursor
-> handling would be out of the way, virtio-gpu would "only" handle fast
-> buffer sharing.
-
-wayland-virtio is not used with KMS. wayland-virtio proxies the Wayland
-protocol between the host and the guest, so the guest doesn't use KMS
-in that case.
