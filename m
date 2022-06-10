@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D34A54686E
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 16:36:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A057546883
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 16:40:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2549C10E035;
-	Fri, 10 Jun 2022 14:36:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8E601132A7;
+	Fri, 10 Jun 2022 14:40:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D4F510E0A9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 14:35:59 +0000 (UTC)
-Received: from fsav314.sakura.ne.jp (fsav314.sakura.ne.jp [153.120.85.145])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 25AEZvW8083526;
- Fri, 10 Jun 2022 23:35:57 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav314.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav314.sakura.ne.jp);
- Fri, 10 Jun 2022 23:35:57 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav314.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 25AEZvpm083523
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 10 Jun 2022 23:35:57 +0900 (JST)
- (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <e9b95132-89cd-5cfc-1a09-966393c5ecb0@I-love.SAKURA.ne.jp>
-Date: Fri, 10 Jun 2022 23:35:53 +0900
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E85DE11327A;
+ Fri, 10 Jun 2022 14:40:25 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-136-92.dynamic.spd-mgts.ru
+ [109.252.136.92])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 83A966601719;
+ Fri, 10 Jun 2022 15:40:21 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1654872024;
+ bh=6JgrTd9VkJ1ZFFosiAo/vV8cwTThuk9Z72vQ6NWys/g=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=AoLXW6oXSBZwVImhJc2GgACmS9jxP2XcuDIfwZPyAahSDTWPlU1wD8yk7JJvjWsc2
+ bRtW7PEsjkxYyL6DYiSQiQLBfGY6I28c6IXYBWoKS+b3ou3e+emkaBD13uUfhcbyMc
+ t4Y7QprkwXCAf/16y1ntNhQzLenrm6CHAFKuzz9B/GnS11eLHlUdVSMaXE1am3becO
+ 2HsjdndjPfrc2INjygEllHPErAcYv8vO6XcQXpGc+iPioJk88YGxLr5+kaLuwVKeUL
+ MJWGxd3oDU0Qt4wPhngT0udvhy6ensZb+rkAYM95t+RSj84huKHQwUmhFJ2AiUpThg
+ e1CXYy5Aubqog==
+Message-ID: <3cbc42df-fff1-5325-6c6f-17dfc6899283@collabora.com>
+Date: Fri, 10 Jun 2022 17:40:18 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: [PATCH v2] gpu/drm/bridge/cadence: avoid flush_scheduled_work() usage
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v6 00/22] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
 Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <d87fdfd0-71d0-09e0-a5ea-652edd50dfdd@I-love.SAKURA.ne.jp>
-In-Reply-To: <d87fdfd0-71d0-09e0-a5ea-652edd50dfdd@I-love.SAKURA.ne.jp>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,171 +57,252 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-tegra@vger.kernel.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, amd-gfx@lists.freedesktop.org,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, Qiang Yu <yuq825@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Robin Murphy <robin.murphy@arm.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use local wq in order to avoid flush_scheduled_work() usage.
+On 5/27/22 02:50, Dmitry Osipenko wrote:
+> Hello,
+> 
+> This patchset introduces memory shrinker for the VirtIO-GPU DRM driver
+> and adds memory purging and eviction support to VirtIO-GPU driver.
+> 
+> The new dma-buf locking convention is introduced here as well.
+> 
+> During OOM, the shrinker will release BOs that are marked as "not needed"
+> by userspace using the new madvise IOCTL, it will also evict idling BOs
+> to SWAP. The userspace in this case is the Mesa VirGL driver, it will mark
+> the cached BOs as "not needed", allowing kernel driver to release memory
+> of the cached shmem BOs on lowmem situations, preventing OOM kills.
+> 
+> The Panfrost driver is switched to use generic memory shrinker.
+> 
+> This patchset includes improvements and fixes for various things that
+> I found while was working on the shrinker.
+> 
+> The Mesa and IGT patches will be kept on hold until this kernel series
+> will be approved and merged.
+> 
+> This patchset was tested using Qemu and crosvm, including both cases of
+> IOMMU off/on.
+> 
+> Mesa: https://gitlab.freedesktop.org/digetx/mesa/-/commits/virgl-madvise
+> IGT:  https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/virtio-madvise
+>       https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/panfrost-madvise
+> 
+> Changelog:
+> 
+> v6: - Added new VirtIO-related fix patch that previously was sent separately
+>       and didn't get much attention:
+> 
+>         drm/gem: Properly annotate WW context on drm_gem_lock_reservations() error
+> 
+>     - Added new patch that fixes mapping of imported dma-bufs for
+>       Tegra DRM and other affected drivers. It's also handy to have it
+>       for switching to the new dma-buf locking convention scheme:
+> 
+>         drm/gem: Move mapping of imported dma-bufs to drm_gem_mmap_obj()
+> 
+>     - Added new patch that fixes shrinker list corruption for stable Panfrost
+>       driver:
+> 
+>         drm/panfrost: Fix shrinker list corruption by madvise IOCTL
+> 
+>     - Added new minor patch-fix for drm-shmem:
+> 
+>         drm/shmem-helper: Add missing vunmap on error
+> 
+>     - Added fixes tag to the "Put mapping ..." patch like was suggested by
+>       Steven Price.
+> 
+>     - Added new VirtIO-GPU driver improvement patch:
+> 
+>         drm/virtio: Return proper error codes instead of -1
+> 
+>     - Reworked shrinker patches like was suggested by Daniel Vetter:
+> 
+>         - Introduced the new locking convention for dma-bufs. Tested on
+>           VirtIO-GPU, Panfrost, Lima, Tegra and Intel selftests.
+> 
+>         - Dropped separate purge() callback. Now single evict() does
+>           everything.
+> 
+>         - Dropped swap_in() callback from drm-shmem objects. DRM drivers
+>           now could and should restore only the required mappings.
+> 
+>         - Dropped dynamic counting of evictable pages. This simplifies
+>           code in exchange to *potentially* burning more CPU time on OOM.
+> 
+> v5: - Added new for-stable patch "drm/panfrost: Put mapping instead of
+>       shmem obj on panfrost_mmu_map_fault_addr() error" that corrects GEM's
+>       refcounting in case of error.
+> 
+>     - The drm_gem_shmem_v[un]map() now takes a separate vmap_lock for
+>       imported GEMs to avoid recursive locking of DMA reservations.
+>       This addresses v4 comment from Thomas Zimmermann about the potential
+>       deadlocking of vmapping.
+> 
+>     - Added ack from Thomas Zimmermann to "drm/shmem-helper: Correct
+>       doc-comment of drm_gem_shmem_get_sg_table()" patch.
+> 
+>     - Dropped explicit shmem states from the generic shrinker patch as
+>       was requested by Thomas Zimmermann.
+> 
+>     - Improved variable names and comments of the generic shrinker code.
+> 
+>     - Extended drm_gem_shmem_print_info() with the shrinker-state info in
+>       the "drm/virtio: Support memory shrinking" patch.
+> 
+>     - Moved evict()/swap_in()/purge() callbacks from drm_gem_object_funcs
+>       to drm_gem_shmem_object in the generic shrinker patch, for more
+>       consistency.
+> 
+>     - Corrected bisectability of the patches that was broken in v4
+>       by accident.
+> 
+>     - The virtio_gpu_plane_prepare_fb() now uses drm_gem_shmem_pin() instead
+>       of drm_gem_shmem_set_unpurgeable_and_unevictable() and does it only for
+>       shmem BOs in the "drm/virtio: Support memory shrinking" patch.
+> 
+>     - Made more functions private to drm_gem_shmem_helper.c as was requested
+>       by Thomas Zimmermann. This minimizes number of the public shmem helpers.
+> 
+> v4: - Corrected minor W=1 warnings reported by kernel test robot for v3.
+> 
+>     - Renamed DRM_GEM_SHMEM_PAGES_STATE_ACTIVE/INACTIVE to PINNED/UNPINNED,
+>       for more clarity.
+> 
+> v3: - Hardened shrinker's count() with usage of READ_ONCE() since we don't
+>       use atomic type for counting and technically compiler is free to
+>       re-fetch counter's variable.
+> 
+>     - "Correct drm_gem_shmem_get_sg_table() error handling" now uses
+>       PTR_ERR_OR_ZERO(), fixing typo that was made in v2.
+> 
+>     - Removed obsoleted shrinker from the Panfrost driver, which I missed to
+>       do in v2 by accident and Alyssa Rosenzweig managed to notice it.
+> 
+>     - CCed stable kernels in all patches that make fixes, even the minor ones,
+>       like was suggested by Emil Velikov and added his r-b to the patches.
+> 
+>     - Added t-b from Steven Price to the Panfrost's shrinker patch.
+> 
+>     - Corrected doc-comment of drm_gem_shmem_object.madv, like was suggested
+>       by Steven Price. Comment now says that madv=1 means "object is purged"
+>       instead of saying that value is unused.
+> 
+>     - Added more doc-comments to the new shmem shrinker API.
+> 
+>     - The "Improve DMA API usage for shmem BOs" patch got more improvements
+>       by removing the obsoleted drm_dev_set_unique() quirk and its comment.
+> 
+>     - Added patch that makes Virtio-GPU driver to use common dev_is_pci()
+>       helper, which was suggested by Robin Murphy.
+> 
+>     - Added new "drm/shmem-helper: Take GEM reservation lock instead of
+>       drm_gem_shmem locks" patch, which was suggested by Daniel Vetter.
+> 
+>     - Added new "drm/virtio: Simplify error handling of
+>       virtio_gpu_object_create()" patch.
+> 
+>     - Improved "Correct doc-comment of drm_gem_shmem_get_sg_table()" patch,
+>       like was suggested by Daniel Vetter, by saying that function returns
+>       ERR_PTR() and not errno.
+> 
+>     - virtio_gpu_purge_object() is fenced properly now, turned out
+>       virtio_gpu_notify() doesn't do fencing as I was supposing before.
+>       Stress testing of memory eviction revealed that.
+> 
+>     - Added new patch that corrects virtio_gpu_plane_cleanup_fb() to use
+>       appropriate atomic plane state.
+> 
+>     - SHMEM shrinker got eviction support.
+> 
+>     - VirtIO-GPU driver now supports memory eviction. It's enabled for a
+>       non-blob GEMs only, i.e. for VirGL. The blobs don't support dynamic
+>       attaching/detaching of guest's memory, so it's not trivial to enable
+>       them.
+> 
+>     - Added patch that removes obsoleted drm_gem_shmem_purge()
+> 
+>     - Added patch that makes drm_gem_shmem_get_pages() private.
+> 
+>     - Added patch that fixes lockup on dma_resv_reserve_fences() error.
+> 
+> v2: - Improved shrinker by using a more fine-grained locking to reduce
+>       contention during scan of objects and dropped locking from the
+>       'counting' callback by tracking count of shrinkable pages. This
+>       was suggested by Rob Clark in the comment to v1.
+> 
+>     - Factored out common shrinker code into drm_gem_shmem_helper.c
+>       and switched Panfrost driver to use the new common memory shrinker.
+>       This was proposed by Thomas Zimmermann in his prototype series that
+>       he shared with us in the comment to v1. Note that I only compile-tested
+>       the Panfrost driver.
+> 
+>     - Shrinker now takes object_name_lock during scan to prevent racing
+>       with dma-buf exporting.
+> 
+>     - Shrinker now takes vmap_lock during scan to prevent racing with shmem
+>       vmap/unmap code.
+> 
+>     - Added "Correct doc-comment of drm_gem_shmem_get_sg_table()" patch,
+>       which I sent out previously as a standalone change, since the
+>       drm_gem_shmem_helper.c is now touched by this patchset anyways and
+>       it doesn't hurt to group all the patches together.
+> 
+> Dmitry Osipenko (22):
+>   drm/gem: Properly annotate WW context on drm_gem_lock_reservations()
+>     error
+>   drm/gem: Move mapping of imported dma-bufs to drm_gem_mmap_obj()
+>   drm/panfrost: Put mapping instead of shmem obj on
+>     panfrost_mmu_map_fault_addr() error
+>   drm/panfrost: Fix shrinker list corruption by madvise IOCTL
+>   drm/virtio: Correct drm_gem_shmem_get_sg_table() error handling
+>   drm/virtio: Check whether transferred 2D BO is shmem
+>   drm/virtio: Unlock reservations on virtio_gpu_object_shmem_init()
+>     error
+>   drm/virtio: Unlock reservations on dma_resv_reserve_fences() error
+>   drm/virtio: Use appropriate atomic state in
+>     virtio_gpu_plane_cleanup_fb()
+>   drm/shmem-helper: Add missing vunmap on error
+>   drm/shmem-helper: Correct doc-comment of drm_gem_shmem_get_sg_table()
+...
 
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
----
-Changes in v2:
-  Replace flush_scheduled_work() with flush_workqueue().
+Thomas, do you think it will be possible for you to take the fix patches
+1-11 into the drm-fixes or would you prefer me to re-send them separately?
 
-Please see commit c4f135d643823a86 ("workqueue: Wrap flush_workqueue()
-using a macro") for background.
+The VirtIO patches 12-13 also are good to go into drm-next, IMO.
 
-This is a blind conversion, and is only compile tested.
+I'm going to factor out the new dma-buf convention into a separate
+patchset, like was suggested by Christian. But it will take me some time
+to get the dma-buf patches ready and I also will be on a vacation soon.
 
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 32 ++++++++++++++++---
- .../drm/bridge/cadence/cdns-mhdp8546-core.h   |  2 ++
- .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   | 16 +++++-----
- 3 files changed, 37 insertions(+), 13 deletions(-)
+At minimum nothing should hold the fixes, so will be great if they could
+land sooner.
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index 67f0f444b4e8..f29c9484d4bb 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -53,6 +53,8 @@
- #include "cdns-mhdp8546-hdcp.h"
- #include "cdns-mhdp8546-j721e.h"
- 
-+struct workqueue_struct *cadence_mhdp_wq;
-+
- static int cdns_mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
- {
- 	int ret, empty;
-@@ -2049,7 +2051,7 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
- out:
- 	mutex_unlock(&mhdp->link_mutex);
- 	if (ret < 0)
--		schedule_work(&mhdp->modeset_retry_work);
-+		queue_work(cadence_mhdp_wq, &mhdp->modeset_retry_work);
- }
- 
- static void cdns_mhdp_atomic_disable(struct drm_bridge *bridge,
-@@ -2373,7 +2375,7 @@ static irqreturn_t cdns_mhdp_irq_handler(int irq, void *data)
- 	spin_unlock(&mhdp->start_lock);
- 
- 	if (bridge_attached && (sw_ev0 & CDNS_DPTX_HPD)) {
--		schedule_work(&mhdp->hpd_work);
-+		queue_work(cadence_mhdp_wq, &mhdp->hpd_work);
- 	}
- 
- 	if (sw_ev0 & ~CDNS_DPTX_HPD) {
-@@ -2413,7 +2415,7 @@ static void cdns_mhdp_hpd_work(struct work_struct *work)
- 	ret = cdns_mhdp_update_link_status(mhdp);
- 	if (mhdp->connector.dev) {
- 		if (ret < 0)
--			schedule_work(&mhdp->modeset_retry_work);
-+			queue_work(cadence_mhdp_wq, &mhdp->modeset_retry_work);
- 		else
- 			drm_kms_helper_hotplug_event(mhdp->bridge.dev);
- 	} else {
-@@ -2603,7 +2605,7 @@ static int cdns_mhdp_remove(struct platform_device *pdev)
- 	pm_runtime_disable(&pdev->dev);
- 
- 	cancel_work_sync(&mhdp->modeset_retry_work);
--	flush_scheduled_work();
-+	flush_workqueue(cadence_mhdp_wq);
- 
- 	clk_disable_unprepare(mhdp->clk);
- 
-@@ -2632,7 +2634,27 @@ static struct platform_driver mhdp_driver = {
- 	.probe	= cdns_mhdp_probe,
- 	.remove	= cdns_mhdp_remove,
- };
--module_platform_driver(mhdp_driver);
-+
-+static int __init mhdp_init(void)
-+{
-+	int ret;
-+
-+	cadence_mhdp_wq = alloc_workqueue("cadence_mhdp_wq", 0, 0);
-+	if (!cadence_mhdp_wq)
-+		return -ENOMEM;
-+	ret = platform_driver_register(&mhdp_driver);
-+	if (ret)
-+		destroy_workqueue(cadence_mhdp_wq);
-+	return ret;
-+}
-+module_init(mhdp_init);
-+
-+static void __exit mhdp_exit(void)
-+{
-+	platform_driver_unregister(&mhdp_driver);
-+	destroy_workqueue(cadence_mhdp_wq);
-+}
-+module_exit(mhdp_exit);
- 
- MODULE_FIRMWARE(FW_NAME);
- 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-index bedddd510d17..e6c475612480 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-@@ -419,4 +419,6 @@ struct cdns_mhdp_device {
- 
- u32 cdns_mhdp_wait_for_sw_event(struct cdns_mhdp_device *mhdp, uint32_t event);
- 
-+extern struct workqueue_struct *cadence_mhdp_wq;
-+
- #endif
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-index 946212a95598..09f9e3d42f11 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-@@ -449,14 +449,14 @@ static int cdns_mhdp_hdcp_check_link(struct cdns_mhdp_device *mhdp)
- 	ret = _cdns_mhdp_hdcp_disable(mhdp);
- 	if (ret) {
- 		mhdp->hdcp.value = DRM_MODE_CONTENT_PROTECTION_DESIRED;
--		schedule_work(&mhdp->hdcp.prop_work);
-+		queue_work(cadence_mhdp_wq, &mhdp->hdcp.prop_work);
- 		goto out;
- 	}
- 
- 	ret = _cdns_mhdp_hdcp_enable(mhdp, mhdp->hdcp.hdcp_content_type);
- 	if (ret) {
- 		mhdp->hdcp.value = DRM_MODE_CONTENT_PROTECTION_DESIRED;
--		schedule_work(&mhdp->hdcp.prop_work);
-+		queue_work(cadence_mhdp_wq, &mhdp->hdcp.prop_work);
- 	}
- out:
- 	mutex_unlock(&mhdp->hdcp.mutex);
-@@ -474,8 +474,8 @@ static void cdns_mhdp_hdcp_check_work(struct work_struct *work)
- 						     hdcp);
- 
- 	if (!cdns_mhdp_hdcp_check_link(mhdp))
--		schedule_delayed_work(&hdcp->check_work,
--				      DRM_HDCP_CHECK_PERIOD_MS);
-+		queue_delayed_work(cadence_mhdp_wq, &hdcp->check_work,
-+				   DRM_HDCP_CHECK_PERIOD_MS);
- }
- 
- static void cdns_mhdp_hdcp_prop_work(struct work_struct *work)
-@@ -538,9 +538,9 @@ int cdns_mhdp_hdcp_enable(struct cdns_mhdp_device *mhdp, u8 content_type)
- 
- 	mhdp->hdcp.hdcp_content_type = content_type;
- 	mhdp->hdcp.value = DRM_MODE_CONTENT_PROTECTION_ENABLED;
--	schedule_work(&mhdp->hdcp.prop_work);
--	schedule_delayed_work(&mhdp->hdcp.check_work,
--			      DRM_HDCP_CHECK_PERIOD_MS);
-+	queue_work(cadence_mhdp_wq, &mhdp->hdcp.prop_work);
-+	queue_delayed_work(cadence_mhdp_wq, &mhdp->hdcp.check_work,
-+			   DRM_HDCP_CHECK_PERIOD_MS);
- out:
- 	mutex_unlock(&mhdp->hdcp.mutex);
- 	return ret;
-@@ -553,7 +553,7 @@ int cdns_mhdp_hdcp_disable(struct cdns_mhdp_device *mhdp)
- 	mutex_lock(&mhdp->hdcp.mutex);
- 	if (mhdp->hdcp.value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
- 		mhdp->hdcp.value = DRM_MODE_CONTENT_PROTECTION_UNDESIRED;
--		schedule_work(&mhdp->hdcp.prop_work);
-+		queue_work(cadence_mhdp_wq, &mhdp->hdcp.prop_work);
- 		ret = _cdns_mhdp_hdcp_disable(mhdp);
- 	}
- 	mutex_unlock(&mhdp->hdcp.mutex);
+Thank you!
+
 -- 
-2.18.4
-
-
+Best regards,
+Dmitry
