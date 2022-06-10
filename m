@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BC9546234
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 11:30:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44AC854622F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 11:30:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 120C111B288;
-	Fri, 10 Jun 2022 09:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B13311B267;
+	Fri, 10 Jun 2022 09:30:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6899811B0C5
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 09:30:03 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 6CDA35C01B5;
- Fri, 10 Jun 2022 05:30:02 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0680111B24E
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 09:30:04 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3F7DE5C01B5;
+ Fri, 10 Jun 2022 05:30:04 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 10 Jun 2022 05:30:02 -0400
+ by compute3.internal (MEProxy); Fri, 10 Jun 2022 05:30:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1654853402; x=1654939802; bh=ZA
- 1ZABDHPOxrJAUkU7pzNOG0xTW1W0z464X/pTaziM0=; b=CaMibSVLiWxAnXCP9u
- mvW92KmWaIz/kM/1UOQWMMaNiF7291eLjvD9T0nmHW0uK6BMDuTHt6/cfxA7N8EI
- naCerijlvglv2AKtR7nOjQlDpZWBAvXsc6sZ3TmrOdUwx0iw3bF9/grAVFz680f9
- bwRP5kJbqBlBD/CMaS6A6qmiOe8dwd5ymC7QJHAGXq2binlQyzp5Lwo5jp532AJ8
- NLZ3B9qbVbqumHXv3c2wOurdzxi6/oZUp4mY2cF2VfdO3M5LIf6dnBJ8yblI8McZ
- wae06x+yIhuCcf+YgByIcRGEiWzqK2u6nzQRFOVLq2IKpF+kaxtR7DHz5Yx9f33J
- /RHA==
+ :subject:subject:to:to; s=fm1; t=1654853404; x=1654939804; bh=1+
+ sliJFZNu3SuOKgrh1R4J3cRr7ooqaay9fcMSx6iPs=; b=DIDE1+MZN2dxD7BdFw
+ FTiAF/kUe2yS7GE1qVU7EP2um7s2/R5kMrmskqQHS6dHHqAIr72oQYs0OaoSWQbu
+ D1bTlH/wvL2qiNzbJqo8+5Oin2OXq7bU5i5LsI3RcudtgQjoFwWoCDK+tYAzAkIm
+ GCMc0WqOIVBIvaUc2ObFNxd5fkQrxpX/vsbY53VKVS0LhUpeNUPQsPfYN9OaHMeF
+ oNr1VeIiXPb1mHN1yiTfqz1Hu/BIKWmUAA251fC5489wx177h35d57ulRPhHr1Ag
+ 0/fkzYOlkAGUA+sAJ/X9wMVjvVKx7iTM/cGcZhI6Drt27Omar0QEpX+7dQXlQHm/
+ H1Kg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1654853402; x=1654939802; bh=ZA1ZABDHPOxrJ
- AUkU7pzNOG0xTW1W0z464X/pTaziM0=; b=lg7uza/JD4qqAQ8AJEjVcmPlI1nEn
- ozjG84zvRZY3Dq4s+qUZowmZ0g2ubr2TrNndRDZgDC03bAVT1RZegOf2eAmfLrhb
- BTKTMECzrMvOMhNljOq1bTFbgoP1WUW1wJyCHqnicEpZFIYCGWhgdUQ4UBnILlMK
- z1jU/FLmglvmfHvn1WzIPFxl49TW6QDFN40w3hXkOi/dZ6RYnTE/hB1ETb5FyyWm
- UpvKNBQIvjnYYu+6qjvWPBGsXhpkabA9foGMBCnlT8EmxFVGxK96zS31uYJsrPx9
- 3UAvJT9MHNldg2W3CAEbWSa1Je8kWHUT7NiFeez00uPznzrDTj+lh9uOg==
-X-ME-Sender: <xms:Gg-jYm4aNKyI3DUwndnnIOQErpO5_q1d-uDkubWoXUn85nfbK3ArSw>
- <xme:Gg-jYv4wTCu2xG6XRxDGSJo_VG8sMOBEl57qtK3JqB0yd7tmh7zriOdR0t6hDJ9B6
- mLLms5wEeILWgAHHKg>
-X-ME-Received: <xmr:Gg-jYldo_Uhfi51ECxg3lwrJY74FFuop0EoE9jtJpCJFX-rDxnefssVfm4-wpKeQ0nfZEjjoRnldVtG0JCv-zfpLAEhX18v2cahvZl4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddgudeiucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm2; t=1654853404; x=1654939804; bh=1+sliJFZNu3Su
+ OKgrh1R4J3cRr7ooqaay9fcMSx6iPs=; b=ieMuB8JeEV15SlE1OeeGTobwe5M0V
+ kjaz6DwyhNkTRv0JoDNB5GAB3AajqsdXJe/BZyUlqOSUgVA0s9rQpBFxSvGzKNUv
+ 6yS1Psunu8xHnFkbkTVg5t2CKn4r18wjr9UO1Htm8DK083J9TCRFHakK34tEhCd+
+ ky1ltpoRTW4jmi9XwNB3nG1L3mFiUCtSf3J24UPEI2gyIiGjc+LGbOuBB6KdvBe8
+ 0DSycCg0GbgaAtnAwq0Bb+5XZnb5FnvO6LbrV1w7k/M3oA06GVkXaqb7phlXRM2W
+ FLtPxvHRZD3NwPsxgkcuGo6c8pVZzCKR8JDMZE/oxpuAfPQHSbgi+rZWg==
+X-ME-Sender: <xms:HA-jYsc5PxgSIp1g78_cjDcQ18IV-OL1oWyiORLAS8PjEN1RENjxFQ>
+ <xme:HA-jYuN_Pj4LAYExuW186cBjeMlVB4ENs8RsfhFWSOBs9mX7OVcbZBkQsi2CnfINY
+ AojxY_URvc_kCKf_zA>
+X-ME-Received: <xmr:HA-jYti9Jl6-__-TCnV__ZdvOABqwQvCkMfRTKRJ-4YemQsqnwaCcQTnV1wBh_dnevVutOuiI4NhqX6LUZ99Eln8LRbRNctm1zYeayk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddgudehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Gg-jYjIDu6YBlbmI4RR33FUFzVLVlj4IvNcDaTjL-_ZopBmSnT77yA>
- <xmx:Gg-jYqIM24yVBP309i1lYmqJ8xHsC1zlxhznEdL92-hBUg9BkLf67g>
- <xmx:Gg-jYkyJ3GiskxCD9OK_J6JCn0Qo6ts_bJMfQ-CGloyT2b5UCm9m7g>
- <xmx:Gg-jYvEXUpAZFmXzacpyuk_sisdjylU3Co9vKSprNxLIB0425AWnjQ>
+X-ME-Proxy: <xmx:HA-jYh9REn1lsUbSlwt9xdKfrgzShhiQCTtGSFuyWnqP9CqeKIePMg>
+ <xmx:HA-jYosohpwLT9aTOlbblC_oMzkPSVd9GDuHV1dE2DEP6yDMYWyefg>
+ <xmx:HA-jYoHBlpjBrYuVicFVXN0q1IV4aNBE9dnHn3U6gvooCndbnp1uEw>
+ <xmx:HA-jYqJF7B6uuZz53sEFZJQgZ_Ex8siW4kEizWumbPxLSNv-ap-MYQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Jun 2022 05:30:01 -0400 (EDT)
+ 10 Jun 2022 05:30:03 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 19/64] drm/vc4: crtc: Switch to DRM-managed CRTC initialization
-Date: Fri, 10 Jun 2022 11:28:39 +0200
-Message-Id: <20220610092924.754942-20-maxime@cerno.tech>
+Subject: [PATCH 20/64] drm/vc4: dpi: Remove vc4_dev dpi pointer
+Date: Fri, 10 Jun 2022 11:28:40 +0200
+Message-Id: <20220610092924.754942-21-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610092924.754942-1-maxime@cerno.tech>
 References: <20220610092924.754942-1-maxime@cerno.tech>
@@ -88,103 +88,65 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current code will call drm_crtc_cleanup() when the device is
-unbound. However, by then, there might still be some references held to
-that CRTC, including by the userspace that might still have the DRM
-device open.
-
-Let's switch to a DRM-managed initialization to clean up after ourselves
-only once the DRM device has been last closed.
+There's no user for that pointer so let's just get rid of it.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 18 +++++++-----------
- drivers/gpu/drm/vc4/vc4_drv.h  |  1 -
- drivers/gpu/drm/vc4/vc4_txp.c  |  1 -
- 3 files changed, 7 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/vc4/vc4_dpi.c | 7 -------
+ drivers/gpu/drm/vc4/vc4_drv.h | 1 -
+ 2 files changed, 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index c74fa3d07561..24de4706b61a 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -205,11 +205,6 @@ static bool vc4_crtc_get_scanout_position(struct drm_crtc *crtc,
- 	return ret;
+diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
+index c180eb60bee8..f2b46c524919 100644
+--- a/drivers/gpu/drm/vc4/vc4_dpi.c
++++ b/drivers/gpu/drm/vc4/vc4_dpi.c
+@@ -249,7 +249,6 @@ static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct drm_device *drm = dev_get_drvdata(master);
+-	struct vc4_dev *vc4 = to_vc4_dev(drm);
+ 	struct vc4_dpi *dpi;
+ 	struct vc4_dpi_encoder *vc4_dpi_encoder;
+ 	int ret;
+@@ -308,8 +307,6 @@ static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	dev_set_drvdata(dev, dpi);
+ 
+-	vc4->dpi = dpi;
+-
+ 	vc4_debugfs_add_regset32(drm, "dpi_regs", &dpi->regset);
+ 
+ 	return 0;
+@@ -323,8 +320,6 @@ static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
+ static void vc4_dpi_unbind(struct device *dev, struct device *master,
+ 			   void *data)
+ {
+-	struct drm_device *drm = dev_get_drvdata(master);
+-	struct vc4_dev *vc4 = to_vc4_dev(drm);
+ 	struct vc4_dpi *dpi = dev_get_drvdata(dev);
+ 
+ 	drm_of_panel_bridge_remove(dev->of_node, 0, 0);
+@@ -332,8 +327,6 @@ static void vc4_dpi_unbind(struct device *dev, struct device *master,
+ 	drm_encoder_cleanup(dpi->encoder);
+ 
+ 	clk_disable_unprepare(dpi->core_clock);
+-
+-	vc4->dpi = NULL;
  }
  
--void vc4_crtc_destroy(struct drm_crtc *crtc)
--{
--	drm_crtc_cleanup(crtc);
--}
--
- static u32 vc4_get_fifo_full_level(struct vc4_crtc *vc4_crtc, u32 format)
- {
- 	const struct vc4_crtc_data *crtc_data = vc4_crtc_to_vc4_crtc_data(vc4_crtc);
-@@ -953,7 +948,6 @@ void vc4_crtc_reset(struct drm_crtc *crtc)
- 
- static const struct drm_crtc_funcs vc4_crtc_funcs = {
- 	.set_config = drm_atomic_helper_set_config,
--	.destroy = vc4_crtc_destroy,
- 	.page_flip = vc4_page_flip,
- 	.set_property = NULL,
- 	.cursor_set = NULL, /* handled by drm_mode_cursor_universal */
-@@ -1131,6 +1125,7 @@ int vc4_crtc_init(struct drm_device *drm, struct vc4_crtc *vc4_crtc,
- 	struct drm_crtc *crtc = &vc4_crtc->base;
- 	struct drm_plane *primary_plane;
- 	unsigned int i;
-+	int ret;
- 
- 	/* For now, we create just the primary and the legacy cursor
- 	 * planes.  We should be able to stack more planes on easily,
-@@ -1144,10 +1139,13 @@ int vc4_crtc_init(struct drm_device *drm, struct vc4_crtc *vc4_crtc,
- 		return PTR_ERR(primary_plane);
- 	}
- 
--	spin_lock_init(&vc4_crtc->irq_lock);
--	drm_crtc_init_with_planes(drm, crtc, primary_plane, NULL,
--				  crtc_funcs, NULL);
-+	ret = drmm_crtc_init_with_planes(drm, crtc, primary_plane, NULL,
-+					 crtc_funcs, NULL);
-+	if (ret)
-+		return ret;
-+
- 	drm_crtc_helper_add(crtc, crtc_helper_funcs);
-+	spin_lock_init(&vc4_crtc->irq_lock);
- 
- 	if (!vc4->hvs->hvs5) {
- 		drm_mode_crtc_set_gamma_size(crtc, ARRAY_SIZE(vc4_crtc->lut_r));
-@@ -1226,8 +1224,6 @@ static void vc4_crtc_unbind(struct device *dev, struct device *master,
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct vc4_crtc *vc4_crtc = dev_get_drvdata(dev);
- 
--	vc4_crtc_destroy(&vc4_crtc->base);
--
- 	CRTC_WRITE(PV_INTEN, 0);
- 
- 	platform_set_drvdata(pdev, NULL);
+ static const struct component_ops vc4_dpi_ops = {
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 9a53ace85d95..fff3772be2d4 100644
+index fff3772be2d4..846f3cda179a 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.h
 +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -845,7 +845,6 @@ int vc4_crtc_disable_at_boot(struct drm_crtc *crtc);
- int vc4_crtc_init(struct drm_device *drm, struct vc4_crtc *vc4_crtc,
- 		  const struct drm_crtc_funcs *crtc_funcs,
- 		  const struct drm_crtc_helper_funcs *crtc_helper_funcs);
--void vc4_crtc_destroy(struct drm_crtc *crtc);
- int vc4_page_flip(struct drm_crtc *crtc,
- 		  struct drm_framebuffer *fb,
- 		  struct drm_pending_vblank_event *event,
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index e983ff7c5e13..f306e05ac5b2 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -383,7 +383,6 @@ static void vc4_txp_disable_vblank(struct drm_crtc *crtc) {}
+@@ -79,7 +79,6 @@ struct vc4_dev {
  
- static const struct drm_crtc_funcs vc4_txp_crtc_funcs = {
- 	.set_config		= drm_atomic_helper_set_config,
--	.destroy		= vc4_crtc_destroy,
- 	.page_flip		= vc4_page_flip,
- 	.reset			= vc4_crtc_reset,
- 	.atomic_duplicate_state	= vc4_crtc_duplicate_state,
+ 	struct vc4_hvs *hvs;
+ 	struct vc4_v3d *v3d;
+-	struct vc4_dpi *dpi;
+ 	struct vc4_vec *vec;
+ 	struct vc4_txp *txp;
+ 
 -- 
 2.36.1
 
