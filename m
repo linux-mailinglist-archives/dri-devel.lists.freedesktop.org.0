@@ -1,73 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905B754621E
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 11:29:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7925754621B
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 11:29:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2249B1124AD;
-	Fri, 10 Jun 2022 09:29:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25DDD112394;
+	Fri, 10 Jun 2022 09:29:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A57911124AD
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4EB9112394
  for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 09:29:32 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 693A55C01A5;
- Fri, 10 Jun 2022 05:29:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 10 Jun 2022 05:29:27 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7FFB55C01A6;
+ Fri, 10 Jun 2022 05:29:30 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 10 Jun 2022 05:29:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1654853367; x=1654939767; bh=HC4xm0hm2I
- hmtWHHJIRwCU5ThPxGw7SxeJVTG+/vnZg=; b=ykCEU2Dub/iQORnFa3AiLM54SJ
- hx2AY/hb3tGc466lQlqKaOlv1sbC+ZBSkTRmqlX+hgujXamYoLDB1TmDyApPOwEy
- cjEmv8SGX2/eLcCykPdZbzBUCZukf4mfB6ydYfGF2vFl17HPm/0Md3tHUw+h3N5C
- GtakW1QTpLKIZysLQnGGoxSgIDA8Rokfn6IFauBCEDLT8VI8NQmv3AbF4z92LbnK
- 6hOzD5OnhOYNDHHHyl2CeTiJ2xsINTQtYqNHC1rNfBvKXZkBAhmZCdmiIvpTpNuz
- pUFaNWSnZjH1evhxt23y4Kn+3heJ+TfkGjJmy75WG/TSLfbUFW1bG5XqxMjg==
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1654853370; x=1654939770; bh=ym
+ BhDJF4q6mehOBaWADfPA4QyEuYhC+KMn24ivptCcs=; b=v2Krq3oor+zaSafzJu
+ qPh0lOEtprTmUlRU/MVfLGlVL+OsW+ZtFR1xXcEsXqxeNnlGW+5mtN7+Bm46Avcu
+ R/GKbntFWZ6zDhqC7muy7mrATO0ptOfFrLnwY3wzHz0OTM/Aj+xhcDRSYGdxMgw/
+ 9PE//+KlJvnqt5KtlZCKafFYyDK3c+D8tu5LW0QRNLEWckELapu2zjmAWa1khsig
+ TUlS9R5ePMOR02v8aXAGerCdS7I1OiR6dddctMR0zTfhu+s1x23d4+mbHVz9RIV+
+ 1sAi5DB3cG25E+kOSHt2odWpKiJpIKCuEvhL7xsBGniC9eZtU3jr/iREgP9oJ+Kb
+ LvpQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1654853367; x=1654939767; bh=HC4xm0hm2Ihmt
- WHHJIRwCU5ThPxGw7SxeJVTG+/vnZg=; b=N5s8d8lE/p320cISx39Cn4rJq1qii
- u1v24/sjOhjXYwrQwKUZuy7acheZZtZ0ELhROjQzv1Ex4hld6R+tOk5B/i1R15B7
- xDnzfEH9MVs6CcyKH80DSPLQoM9BzVeEGG+S4OKjDIKXHaQRSc6a2V08rUmBkaZM
- WVorESyTFsXJlfV4/gtPQBbW/2cI7dL0fobUvWUvbXrzDexd5kupd3hLyxCrLXZA
- 1M46GnqHzeC8f/VqLg7UAf78OGqUjQGxvboKmLIYPPceCb2vuSKWzy73moaQcixB
- uwnIII2F4Fx9dYOKa3wHM6mIPnO5V47oyiB2XgzbJl52OMD/SZUnP7O5Q==
-X-ME-Sender: <xms:9g6jYjI6F06ZHX28N7_S3wIond1BSIrPAaJsy3yuOzkgkRnSNnuFZQ>
- <xme:9g6jYnLPOmg2fcUCBwKYlzWxiY1KTAFEQA_ARyJrLXTWPsoi8jRafCIp9R4a6eJLB
- dYNO66E-KM1EYyvtUM>
-X-ME-Received: <xmr:9g6jYrsX40c55p5T8E5nmy9JTEIrDSBGRCs8JNPRqUSgJgIYHhSEDZf3x9tdeJOBdN6G6RFVzITN0OpikVzEh630WmsfzdZISDsbkYg>
+ :x-sasl-enc; s=fm2; t=1654853370; x=1654939770; bh=ymBhDJF4q6meh
+ OBaWADfPA4QyEuYhC+KMn24ivptCcs=; b=fbuWFpuhGavo6F9kjGmR6nMsAPx/K
+ /myC4pcE8ARKIH/N9rs3Srp/+kMrvsSngfx9w2juwYWl7Htv+jx2r5zb06j3M6F3
+ z7RNsbflWqdRv3kfkuwsck/wUJdAES+C1tenVShh+lZAcxb/xRCtL2SJpHufNEdb
+ CCG8vKsGAhSFagYEVb/WPSD6TazjQfb9g2PrC5CszWpjJ6LgQaLfeR8ZuNCop8QK
+ CxyG9ZiP/YeG+YgBl9paBfy2plQmDiY/TEdMooMx736AK1vYtNDZ+jPztmzqe5Hw
+ eXmDvgQJtLlHz7H/H/izL/C+yS+4V7UJ608NSCIOL9nvUn3Znge9xTfvA==
+X-ME-Sender: <xms:-g6jYhvIOtKwHmrQZZYfP0_3sGV9O56LjPOK1L-QIWKLPcNgEGVnyA>
+ <xme:-g6jYqeRqX1FxPp-RViinTg1THi-oncanscW2qCTmaBnklzuyFF-vfETXfJOhg8a7
+ 3e27suJ9VhJ-2UmNDw>
+X-ME-Received: <xmr:-g6jYkxmY-lzyXGgTgNx8X2ZCycmroZ_NC8G7zf7OqfkkFYR3lX5T6Xqq53vsYcdp-dW8oorKkbrgkUSLKIi_i6w2_WAhspZHuMk2p0>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddgudehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgtggfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepledvtdegkeegtdejvdejvdejleeifeegfeevueegvddvleevieeghffhtdet
- geffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:9g6jYsaISvJYrU-snpfXQbJuGA7V8UOBZ-geUkTSmdZDUUE3CPXsmg>
- <xmx:9g6jYqbkaSf3WiArlrYJ50-hXGHO3_flUhqlWzDIdHTbVH6GmiNuYA>
- <xmx:9g6jYgAbcil2dkl-SZRy35TOVxGJn43Eg63JoGn9m5jZ-8EjQaLjvA>
- <xmx:9w6jYhXqqTaGaiGO8DpEHftNHLNKBfwWE-z2OATMmTYHJ6ABqNiPrQ>
+ cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
+ vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:-g6jYoNCLiigrBCYKIfSUUY-Vh3J4ZoZ-BzyLViNqYq2N3nKecuRNw>
+ <xmx:-g6jYh_Ie9JhvAH84HUHo4ZinPARdVkLgo4EgSDYlczyArGvGM3b7A>
+ <xmx:-g6jYoWr-rNx9SD-8CKbCH3KvqhRhAq1nII1kM1GfwB_-YcV6CS62A>
+ <xmx:-g6jYtbDxkcw0pYVGDzEDyddVwczOPGjkFnOcBhElO8_0gtcn5NYSg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Jun 2022 05:29:26 -0400 (EDT)
+ 10 Jun 2022 05:29:29 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 00/64] drm/vc4: Fix hotplug for vc4
-Date: Fri, 10 Jun 2022 11:28:20 +0200
-Message-Id: <20220610092924.754942-1-maxime@cerno.tech>
+Subject: [PATCH 01/64] drm/mipi-dsi: Detach devices when removing the host
+Date: Fri, 10 Jun 2022 11:28:21 +0200
+Message-Id: <20220610092924.754942-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220610092924.754942-1-maxime@cerno.tech>
+References: <20220610092924.754942-1-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,122 +88,32 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Whenever the MIPI-DSI host is unregistered, the code of
+mipi_dsi_host_unregister() loops over every device currently found on that
+bus and will unregister it.
 
-Here is a series that address multiple issues when trying to unbind/rebind
-vc4-related devices to their drivers.
+However, it doesn't detach it from the bus first, which leads to all kind
+of resource leaks if the host wants to perform some clean up whenever a
+device is detached.
 
-Most of these issues involve either use-after-free, improper resource
-liberation or similar.
+Fixes: 068a00233969 ("drm: Add MIPI DSI bus support")
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/drm_mipi_dsi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-It has been tested on the Pi3 and Pi4, with X and glxgears running and KASAN
-enabled to properly validate our memory accesses.
-
-Pi3 isn't functional after a rebind though, with vblank timeouts occuring. I'm
-not quite sure why at this point, but at least the kernel doesn't completely
-crash now.
-
-Let me know what you think,
-Maxime
-
-Maxime Ripard (64):
-  drm/mipi-dsi: Detach devices when removing the host
-  drm/crtc: Introduce drmm_crtc_init_with_planes
-  drm/encoder: Introduce drmm_encoder_init
-  drm/connector: Reorder headers
-  drm/connector: Mention the cleanup after drm_connector_init
-  drm/connector: Introduce drmm_connector_init
-  drm/connector: Introduce drmm_connector_init_with_ddc
-  drm/writeback: Introduce drmm_writeback_connector_init
-  drm/simple: Introduce drmm_simple_encoder_init
-  drm/bridge: panel: Introduce drmm_panel_bridge_add
-  drm/bridge: panel: Introduce drmm_of_get_bridge
-  drm/vc4: Call component_unbind_all()
-  drm/vc4: hvs: Protect device resources after removal
-  drm/vc4: hvs: Remove planes currently allocated before taking down
-  drm/vc4: plane: Take possible_crtcs as an argument
-  drm/vc4: plane: Switch to drmm_universal_plane_alloc()
-  drm/vc4: crtc: Move debugfs_name to crtc_data
-  drm/vc4: crtc: Switch to drmm_kzalloc
-  drm/vc4: crtc: Switch to DRM-managed CRTC initialization
-  drm/vc4: dpi: Remove vc4_dev dpi pointer
-  drm/vc4: dpi: Embed DRM structures into the private structure
-  drm/vc4: dpi: Switch to drmm_kzalloc
-  drm/vc4: dpi: Return an error if we can't enable our clock
-  drm/vc4: dpi: Remove unnecessary drm_of_panel_bridge_remove call
-  drm/vc4: dpi: Add action to disable the clock
-  drm/vc4: dpi: Switch to DRM-managed encoder initialization
-  drm/vc4: dpi: Switch to drmm_of_get_bridge
-  drm/vc4: dpi: Protect device resources
-  drm/vc4: dsi: Embed DRM structures into the private structure
-  drm/vc4: dsi: Switch to DRM-managed encoder initialization
-  drm/vc4: dsi: Switch to drmm_of_get_bridge
-  drm/vc4: dsi: Fix the driver structure lifetime
-  drm/vc4: dsi: Switch to devm_pm_runtime_enable
-  drm/vc4: hdmi: Switch to drmm_kzalloc
-  drm/vc4: hdmi: Switch to DRM-managed encoder initialization
-  drm/vc4: hdmi: Switch to DRM-managed connector initialization
-  drm/vc4: hdmi: Switch to device-managed ALSA initialization
-  drm/vc4: hdmi: Switch to device-managed CEC initialization
-  drm/vc4: hdmi: Use a device-managed action for DDC
-  drm/vc4: hdmi: Switch to DRM-managed kfree to build regsets
-  drm/vc4: hdmi: Use devm to register hotplug interrupts
-  drm/vc4: hdmi: Move audio structure offset checks
-  drm/vc4: hdmi: Protect device resources after removal
-  drm/vc4: hdmi: Switch to devm_pm_runtime_enable
-  drm/vc4: txp: Remove vc4_dev txp pointer
-  drm/vc4: txp: Remove duplicate regset
-  drm/vc4: txp: Switch to drmm_kzalloc
-  drm/vc4: txp: Switch to DRM-managed writeback initialization
-  drm/vc4: txp: Protect device resources
-  drm/vc4: vec: Remove vc4_dev vec pointer
-  drm/vc4: vec: Embed DRM structures into the private structure
-  drm/vc4: vec: Switch to drmm_kzalloc
-  drm/vc4: vec: Switch to DRM-managed encoder initialization
-  drm/vc4: vec: Switch to DRM-managed connector initialization
-  drm/vc4: vec: Protect device resources after removal
-  drm/vc4: vec: Switch to devm_pm_runtime_enable
-  drm/vc4: debugfs: Protect device resources
-  drm/vc4: debugfs: Return an error on failure
-  drm/vc4: debugfs: Simplify debugfs registration
-  drm/vc4: Switch to drmm_mutex_init
-  drm/vc4: perfmon: Add missing mutex_destroy
-  drm/vc4: v3d: Stop disabling interrupts
-  drm/vc4: v3d: Rework the runtime_pm setup
-  drm/vc4: v3d: Switch to devm_pm_runtime_enable
-
- drivers/gpu/drm/bridge/panel.c          |  74 +++
- drivers/gpu/drm/drm_connector.c         | 186 +++++--
- drivers/gpu/drm/drm_crtc.c              |  70 ++-
- drivers/gpu/drm/drm_encoder.c           |  48 +-
- drivers/gpu/drm/drm_mipi_dsi.c          |   1 +
- drivers/gpu/drm/drm_simple_kms_helper.c |  46 +-
- drivers/gpu/drm/drm_writeback.c         | 136 +++--
- drivers/gpu/drm/vc4/vc4_bo.c            |  33 +-
- drivers/gpu/drm/vc4/vc4_crtc.c          |  69 ++-
- drivers/gpu/drm/vc4/vc4_debugfs.c       |  71 ++-
- drivers/gpu/drm/vc4/vc4_dpi.c           | 131 ++---
- drivers/gpu/drm/vc4/vc4_drv.c           |  18 +-
- drivers/gpu/drm/vc4/vc4_drv.h           |  47 +-
- drivers/gpu/drm/vc4/vc4_dsi.c           | 120 +++--
- drivers/gpu/drm/vc4/vc4_gem.c           |  10 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c          | 637 +++++++++++++++++-------
- drivers/gpu/drm/vc4/vc4_hdmi.h          |   3 +-
- drivers/gpu/drm/vc4/vc4_hvs.c           | 145 +++++-
- drivers/gpu/drm/vc4/vc4_irq.c           |   2 +-
- drivers/gpu/drm/vc4/vc4_perfmon.c       |   1 +
- drivers/gpu/drm/vc4/vc4_plane.c         |  36 +-
- drivers/gpu/drm/vc4/vc4_txp.c           |  69 +--
- drivers/gpu/drm/vc4/vc4_v3d.c           |  65 ++-
- drivers/gpu/drm/vc4/vc4_vec.c           | 216 ++++----
- include/drm/drm_bridge.h                |   4 +
- include/drm/drm_connector.h             |   9 +
- include/drm/drm_crtc.h                  |   6 +
- include/drm/drm_encoder.h               |   5 +
- include/drm/drm_simple_kms_helper.h     |   3 +
- include/drm/drm_writeback.h             |   5 +
- 30 files changed, 1621 insertions(+), 645 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index c40bde96cfdf..c317ee9fa445 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -346,6 +346,7 @@ static int mipi_dsi_remove_device_fn(struct device *dev, void *priv)
+ {
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(dev);
+ 
++	mipi_dsi_detach(dsi);
+ 	mipi_dsi_device_unregister(dsi);
+ 
+ 	return 0;
 -- 
 2.36.1
 
