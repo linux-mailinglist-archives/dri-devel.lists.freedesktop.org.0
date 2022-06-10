@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CB4D546606
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 13:52:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CAE054660E
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 13:52:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D85410EC72;
-	Fri, 10 Jun 2022 11:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46D3510EBF0;
+	Fri, 10 Jun 2022 11:52:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69D8D10EB14
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 11:52:01 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id BF14D5C0166;
- Fri, 10 Jun 2022 07:52:00 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 10 Jun 2022 07:52:00 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 978DF10EB2C
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 11:52:03 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id F1D055C0066;
+ Fri, 10 Jun 2022 07:52:02 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Fri, 10 Jun 2022 07:52:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1654861920; x=1654948320; bh=XN
- KQXEuhXdObeq9vFnTEN4yp4QUlhxHH1BBo2JXvKrw=; b=xIpcS6vUECvrzAC0H+
- 7bsYaXFk0V6gbov7Lb1nq4ve85PlobZKm2HZbszeBzB6W2sd4U1GftuZsfONWK4E
- X1nLnmpHM5ztItC+lO0F8WofZXFuP1RPprsBflF5L2REmhz9gOXJZU9gG97pA6+A
- Ck/RLqvM3u7F7/nMeQmzeg6gei5RutLVM419YZ6D9xZUbWV/5ZB1diQbFp1ovUgg
- A/P7FwmO02Vm0lcFBpdY8LplpVOnlACwlPYoqlzQWxfZqQdW8uV0tGJi0qBrpREs
- lECqgY+fEK76bvM382mX8K6bKQdkF2hcTLY1BoHUIx64VZjaTBE3U0gym3MRo0hE
- +49Q==
+ :subject:subject:to:to; s=fm1; t=1654861922; x=1654948322; bh=3y
+ JYQ//Wp0CnbFJZ+5y+Pssvy7ePKGZ5L9npe5Dvsyw=; b=V3ijhIU2zag6l9l4RU
+ pyCnky6HyMSBTiCn7FJCYCXfOnVAY//Uyx19HEoTybRgKNO1j1B9PbIpkbBPlper
+ TNr8Jyu1Wl6kUSS+3KBbNe8c2AWepZrS+DQWP5d3NNwfvIm7/gufTCEak65dBjDS
+ uAe0ccZezzPvllkh6xEOIIXjiNoYlvu4chTOvKHGvK/Wbuu9ZcA/cRG9NV89GzPw
+ /XBrQehPM6tYvUOk69Z17uMmARUhkFDUNcQwZTV8Tv7uY/xShHeXIt7TkAzJYAZd
+ AqpniBYnR7OGo8ZECu/lmtmxX0Z7MzzV4b9wWtK0JijqHBZY81rKvUqThFNd+Dgl
+ u79w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1654861920; x=1654948320; bh=XNKQXEuhXdObe
- q9vFnTEN4yp4QUlhxHH1BBo2JXvKrw=; b=hkgCXyXT/2wDYFEYaRYfUuz34hFO0
- 8pcZ7f6VJBziVsS2Zwt3sZJOFrxnxCcJ8n1ErUy0CIfWvqTEuupuMbJ5d6JPOq3b
- kC48Ez0sfVwTo72zGVh4qsPNuYev1kKU85CtInl9awsoIzQhaQhx6qL+qfelqonV
- OZf5tpv6XIxP/McobEYbFYDsTp3KQUO2I/Hzlg9dtx/2w3qEfcOsEK206K9T8VAZ
- bOGawhw9xiSM5VJE9LyQ6WJM45DSQ5SMHEZme55p9R8SKWLjTmfS1CCP4SZMvSe7
- cYqbWijLgYVzBveaTTjMIPDFK+bAHswxq+qYGEVyN/tCNOD+at063Ibzw==
-X-ME-Sender: <xms:YDCjYsKPXsOltJaXx4cydcG9Qm-a_zmvEI-UU44cyRjmt2Nl9Um0vA>
- <xme:YDCjYsKdOS9nkCtR6rWUR75WjAWtzAiOep9ZJcf-PpZrMwuGcvaba81vRCUArqhup
- BTOFyFhynD_CI1Sdoc>
-X-ME-Received: <xmr:YDCjYsvPfIEcjboeNsiOuiSdx89Pe_7nCUVC-vqFoj84lvFb2A_ApXth5ab99-lBctzPukA3MKpPdcAgVPnxs9gKKJ_e_hLutlrKuEg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddggeefucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm2; t=1654861922; x=1654948322; bh=3yJYQ//Wp0Cnb
+ FJZ+5y+Pssvy7ePKGZ5L9npe5Dvsyw=; b=x4nanVmhUht94hp9diyblP7TEEjQA
+ cxLYWJ8x8y+ZocVThoUaAFcJgAZC0LT6ZkKPIBQHugvOGOwCBUyx5Fo3NcqYEKMx
+ Rfz8I+1HF1mxGcaibj3ZZpEDadApz8JFnqm19yC8NsHKM5oXRk++hUsgptBksof7
+ 3PHLOmVOU3ZgUO46+X6n6tJAKKnCgQeZwCykWgxv37ubeQw4oFQOioUjJ++4dLsf
+ CCy6+ssarMTS3Ok0F77iYC9w0jgSdTFMyLsZCggPbaksBBUzDPMDA+2iIOXFFCVB
+ t39VxIO8XmMT2p1I8QDOcZNNEmIpKc6SbflMdTxEI8bAQJGIDMz15KmiQ==
+X-ME-Sender: <xms:YjCjYsNdNfR_4WvLoLrp6Y06x0w46DWTaQN1e-G-qH6iDWBsf4DADg>
+ <xme:YjCjYi86sL48sMEVo8WR-8pQpEaRDN0eo9GI2Lk-51_xXiKUFBppxcxlo3StfC4ZH
+ ZbefX4i4ap0K7sq9r8>
+X-ME-Received: <xmr:YjCjYjRYA-I8BMQ2qdBYbqx3X2KX_m0Cs9eAwdy6WDiYm7PsYlD39F79as2MnMnGdeHeCjC0XL7qV1JM59nU59N3IitNVNxnT1B9uac>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddggeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:YDCjYpZH3CLudBWi-FsUdyQT2Jxp31wxtnNRlc5Dt_wplQahK4elfw>
- <xmx:YDCjYjYDpw634p7uM1K1MozEzuV9vuqmARKuwaFUkTO9wY-HR_JtyQ>
- <xmx:YDCjYlB-rZThIZztJHedVdo6TcYVz4K6828sPwoFdB3PCwVUFJmQWw>
- <xmx:YDCjYuwEuxhKPLqFpxqmo79pz9-J24m2-HebuD2C_C_U_26uOv6jJA>
+X-ME-Proxy: <xmx:YjCjYkuyfumQJmP3SyCXBYDna3vayofPeyyyLR62T1aLLXnaAsGskw>
+ <xmx:YjCjYkcQieJHOrZX2bDBRu4X4cJyenksZXi0N0gG8o7DxloSubeaVg>
+ <xmx:YjCjYo1UVq3Ee9HtPrTLpSIo1oGi2kQuGYVs_p2Qj_ET_Nowy_6Czg>
+ <xmx:YjCjYpGBHAR5QmHGkRTrXM_R2WoWEEUxHYtUfyCmysLwadic68DPEQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Jun 2022 07:52:00 -0400 (EDT)
+ 10 Jun 2022 07:52:02 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v2 04/14] drm/vc4: bo: Split out Dumb buffers fixup
-Date: Fri, 10 Jun 2022 13:51:39 +0200
-Message-Id: <20220610115149.964394-5-maxime@cerno.tech>
+Subject: [PATCH v2 05/14] drm/vc4: drv: Register a different driver on BCM2711
+Date: Fri, 10 Jun 2022 13:51:40 +0200
+Message-Id: <20220610115149.964394-6-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610115149.964394-1-maxime@cerno.tech>
 References: <20220610115149.964394-1-maxime@cerno.tech>
@@ -88,80 +88,126 @@ Cc: Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vc4_bo_dumb_create() both fixes up the allocation arguments to match
-the hardware constraints and actually performs the allocation.
+Prior to the BCM2711/RaspberryPi4, the GPU was a part of the display
+components of the SoC. It was thus a part of the vc4 driver.
 
-Since we're going to introduce a new function that uses a different
-allocator, let's split the arguments fixup to a separate function we
-will be able to reuse.
+However, with the BCM2711, it got split out and thus the v3d driver was
+created. The vc4 driver now only handles the display part.
+
+We didn't properly split out the code when doing the BCM2711 support
+though, and most of the code around buffer allocations is still
+involved, even though it doesn't have the backing hardware anymore.
+
+Let's start the split out by creating a new drm_driver that only reports
+and uses what we support on the BCM2711. The ioctl were properly
+filtered already, but we were still exposing a .gem_create_object hook,
+as well as having an .open and .postclose hooks which are only relevant
+on older generations.
 
 Reviewed-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_bo.c  |  9 +++------
- drivers/gpu/drm/vc4/vc4_drv.c | 13 +++++++++++++
- drivers/gpu/drm/vc4/vc4_drv.h |  1 +
- 3 files changed, 17 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.c | 51 ++++++++++++++++++++++++++++-------
+ 1 file changed, 42 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index 6d505da6b6cf..3ca16d682fc0 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -475,15 +475,12 @@ int vc4_bo_dumb_create(struct drm_file *file_priv,
- 		       struct drm_device *dev,
- 		       struct drm_mode_create_dumb *args)
- {
--	int min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
- 	struct vc4_bo *bo = NULL;
- 	int ret;
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index eb08940028d3..528a1e2761f1 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -76,6 +76,19 @@ int vc4_dumb_fixup_args(struct drm_mode_create_dumb *args)
+ 	return 0;
+ }
  
--	if (args->pitch < min_pitch)
--		args->pitch = min_pitch;
--
--	if (args->size < args->pitch * args->height)
--		args->size = args->pitch * args->height;
++static int vc5_dumb_create(struct drm_file *file_priv,
++			   struct drm_device *dev,
++			   struct drm_mode_create_dumb *args)
++{
++	int ret;
++
 +	ret = vc4_dumb_fixup_args(args);
 +	if (ret)
 +		return ret;
- 
- 	bo = vc4_bo_create(dev, args->size, false, VC4_BO_TYPE_DUMB);
- 	if (IS_ERR(bo))
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 5f39e40ef238..eb08940028d3 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -63,6 +63,19 @@ void __iomem *vc4_ioremap_regs(struct platform_device *pdev, int index)
- 	return map;
- }
- 
-+int vc4_dumb_fixup_args(struct drm_mode_create_dumb *args)
-+{
-+	int min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
 +
-+	if (args->pitch < min_pitch)
-+		args->pitch = min_pitch;
-+
-+	if (args->size < args->pitch * args->height)
-+		args->size = args->pitch * args->height;
-+
-+	return 0;
++	return drm_gem_cma_dumb_create_internal(file_priv, dev, args);
 +}
 +
  static int vc4_get_param_ioctl(struct drm_device *dev, void *data,
  			       struct drm_file *file_priv)
  {
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 37c93654480f..9c324c12c410 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -885,6 +885,7 @@ static inline void vc4_debugfs_add_regset32(struct drm_device *drm,
+@@ -173,7 +186,7 @@ static const struct drm_ioctl_desc vc4_drm_ioctls[] = {
+ 	DRM_IOCTL_DEF_DRV(VC4_PERFMON_GET_VALUES, vc4_perfmon_get_values_ioctl, DRM_RENDER_ALLOW),
+ };
  
- /* vc4_drv.c */
- void __iomem *vc4_ioremap_regs(struct platform_device *dev, int index);
-+int vc4_dumb_fixup_args(struct drm_mode_create_dumb *args);
+-static struct drm_driver vc4_drm_driver = {
++static const struct drm_driver vc4_drm_driver = {
+ 	.driver_features = (DRIVER_MODESET |
+ 			    DRIVER_ATOMIC |
+ 			    DRIVER_GEM |
+@@ -202,6 +215,27 @@ static struct drm_driver vc4_drm_driver = {
+ 	.patchlevel = DRIVER_PATCHLEVEL,
+ };
  
- /* vc4_dpi.c */
- extern struct platform_driver vc4_dpi_driver;
++static const struct drm_driver vc5_drm_driver = {
++	.driver_features = (DRIVER_MODESET |
++			    DRIVER_ATOMIC |
++			    DRIVER_GEM),
++
++#if defined(CONFIG_DEBUG_FS)
++	.debugfs_init = vc4_debugfs_init,
++#endif
++
++	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(vc5_dumb_create),
++
++	.fops = &vc4_drm_fops,
++
++	.name = DRIVER_NAME,
++	.desc = DRIVER_DESC,
++	.date = DRIVER_DATE,
++	.major = DRIVER_MAJOR,
++	.minor = DRIVER_MINOR,
++	.patchlevel = DRIVER_PATCHLEVEL,
++};
++
+ static void vc4_match_add_drivers(struct device *dev,
+ 				  struct component_match **match,
+ 				  struct platform_driver *const *drivers,
+@@ -225,6 +259,7 @@ static void vc4_match_add_drivers(struct device *dev,
+ static int vc4_drm_bind(struct device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
++	const struct drm_driver *driver;
+ 	struct rpi_firmware *firmware = NULL;
+ 	struct drm_device *drm;
+ 	struct vc4_dev *vc4;
+@@ -236,14 +271,12 @@ static int vc4_drm_bind(struct device *dev)
+ 	dev->coherent_dma_mask = DMA_BIT_MASK(32);
+ 
+ 	is_vc5 = of_device_is_compatible(dev->of_node, "brcm,bcm2711-vc5");
++	if (is_vc5)
++		driver = &vc5_drm_driver;
++	else
++		driver = &vc4_drm_driver;
+ 
+-	/* If VC4 V3D is missing, don't advertise render nodes. */
+-	node = of_find_matching_node_and_match(NULL, vc4_v3d_dt_match, NULL);
+-	if (!node || !of_device_is_available(node))
+-		vc4_drm_driver.driver_features &= ~DRIVER_RENDER;
+-	of_node_put(node);
+-
+-	vc4 = devm_drm_dev_alloc(dev, &vc4_drm_driver, struct vc4_dev, base);
++	vc4 = devm_drm_dev_alloc(dev, driver, struct vc4_dev, base);
+ 	if (IS_ERR(vc4))
+ 		return PTR_ERR(vc4);
+ 	vc4->is_vc5 = is_vc5;
+@@ -275,7 +308,7 @@ static int vc4_drm_bind(struct device *dev)
+ 			return -EPROBE_DEFER;
+ 	}
+ 
+-	ret = drm_aperture_remove_framebuffers(false, &vc4_drm_driver);
++	ret = drm_aperture_remove_framebuffers(false, driver);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
 2.36.1
 
