@@ -1,66 +1,128 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161B7545DC9
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 09:49:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1AD5545DD4
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 09:52:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64ADE10EF15;
-	Fri, 10 Jun 2022 07:49:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76D1610EFBD;
+	Fri, 10 Jun 2022 07:52:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A96410EF15;
- Fri, 10 Jun 2022 07:49:49 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id y32so41553369lfa.6;
- Fri, 10 Jun 2022 00:49:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=qcbkzXed/yCCzEcxhuOOEacfsTUVtBDnoeFG4UDTccM=;
- b=Gm6NuWC8uEvTCE+mjfepiH3VoNv0ABc2BH1RMain6nMvqbbL3omuE+LBl7dVyfrhre
- pB9p27kJErn4w3E3YQDVxYyQat9FW4iUbMY8d2RBma4FuQnVJZKI6wkFQ78rb254osXG
- HLS4VSSdn17c18f+3qihhfu4Q1Ue/m4gOuCehXda7bRxdEMZu3FX8BRc+VhmM/R7sQFI
- bqAjjYdKm14JpyJFXwXgsck8W6qwl7A+4BpJp1B32PHbSfaCdtAgmV0tBsUpAAef5OcF
- DiFMNL/eTRuGWVpXDOaFOklKantV1YcsL0BMET5YzvpaOP7+qHEnfYA3k+ef+gea6AqS
- xk/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=qcbkzXed/yCCzEcxhuOOEacfsTUVtBDnoeFG4UDTccM=;
- b=uqIzxYnOIWmusiOCa2k1WZ5IOqbwYdKrAOEimvoWg5NUg+EvoIjRn4Drkemfq2bb/G
- QQP3h8CfdSwMikDIgGbqMqqk4Zml/6hSlenc3JxbsSBomsiDccdDqWwUmlV5/cTNd7uO
- bXM5SlaydoyA4CpnvuszIHaBcmqc6BNkxGFWlbGNU9D0fzs1oCkEZ/kkuw3KECtnVhGS
- YZWFcfk+pSWjxz5RmXIV7jJQNWv3uzry/Lw/zSXn7pZa68RN2UJ+qBn90UWiQz8SqgK/
- KnzZA/OIOlzqz3/23tWmLvI34K4SMD9OQSkzQkhNxZottPcqtzMKEe+3RQfNvuVztnYG
- W2bA==
-X-Gm-Message-State: AOAM532u49cmFHqXGbH/SyiNVvOx1JLJLRI7wced4NHPSmCJL8MC8Ivr
- +d3VvnMJlNe3O5CHmlBL9E4=
-X-Google-Smtp-Source: ABdhPJzwKHkl+EvasBbM9dm5oeGusyQGZC9M92qbq0nLJcgA8gr47rArtPbs8OwbpQJxCJgsiceR+A==
-X-Received: by 2002:a05:6512:6c6:b0:47d:b651:daeb with SMTP id
- u6-20020a05651206c600b0047db651daebmr445752lff.360.1654847387339; 
- Fri, 10 Jun 2022 00:49:47 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- h23-20020ac25977000000b0047255d21128sm4620857lfp.87.2022.06.10.00.49.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 00:49:46 -0700 (PDT)
-Date: Fri, 10 Jun 2022 10:49:31 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Zack Rusin <zackr@vmware.com>
-Subject: Re: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
-Message-ID: <20220610104931.29e1d172@eldfell>
-In-Reply-To: <0485fdf9844f8c89cd5670096b78f8090378b2a1.camel@vmware.com>
-References: <20220602154243.1015688-1-zack@kde.org>
- <wRnf-Lm5zz6v1e-NlnFPteyARuLl-R98mOZZVjePHD5ue7QQNR_TSU7RwYBssgUa7xM5hf7Fe59-gMEj81ESrHY3mu_H7yE0dtGhFHFPTnc=@emersion.fr>
- <20220607110707.02eccda5@eldfell>
- <197201d5da2c504502b8c2225d6766338b18d732.camel@vmware.com>
- <20220608105338.22592a09@eldfell>
- <0485fdf9844f8c89cd5670096b78f8090378b2a1.camel@vmware.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01on2125.outbound.protection.outlook.com [40.107.215.125])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C72C10EFBD
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 07:52:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N5h4D6opVLtSGne5yC0db7N8DZNU7yju62VIC5EHM9XXJloZ5K37t/CLYtnBUSNNkyjL8oc1Duuu73fRTu3Pwvo2ZDvOYoOzXSC8zzG5WAaw0dY5qENROEBSgeZp0yMPiTV+HT250w1V/jkkB5is5aAUTr6C3H1GGHrezvCX1lmErs+vGiwN5Nio8EpowFAda2P2IiSbDK8NUTw2+x8K+kE4tkiVyyWTSFaLMOYZ9VtjUahc6ltYOquT8gOQ4iQg/XWDVJ5O1P4q1r5/lGndRLd4OPQYLuk6hgsFUkZyBTc92K0pM6tAnubgyzTAslyQbWd91jZ96pjRZbGtIATgzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EKZoOldyoVb419C3vi8I1N+6etu14Vr1vxkkcwjqACg=;
+ b=DWof5XhU8QZ6kzsI/Kl0s0sKkzKVgYxuzVXZ9Pgxe/NnycvEqbXF4XhCim3Xhp2hS5hrr+MREBIRBy4QP4hc4zvrjyAivS1nlId5SSNOuKZ6SZ9F1ZRQMwCvWFwpDKUDCs8HrrShFFhWmWqP4BSTp4m/I82GvwfRZsRPPnbeCZV75IWjLY5YIhY80q+/SSMf0/XXJZw3z+WY4Tj3Lnfax/76VCGWlRS7sV1wWJBol1sSYpaKojKcgkHJgwSHwSlO4q13eVL0ZxWOu9YawrPNIbhB18KPdjJvAjbk5GOrPNx7KZNlatVoCK2j+rOrpAgqOb/BaOyPzFvcVly3ESlGeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EKZoOldyoVb419C3vi8I1N+6etu14Vr1vxkkcwjqACg=;
+ b=V0BXpiB+uyql0gyQtvog99p/0nm2wz8DMrDCQSR2AjBv4IkU9FnQeXa6eO6RMFVcZrXVfw7my1xc1my82d/90Thjuxm5jS1SrkS/X+5mgHVU0JKDhxoRawlQOOhssfJWcip657Meu1SKeb3SHkOeKto3hi+knpJLHgAfF7xlrqM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com (2603:1096:4:78::19) by
+ PS1PR0601MB3689.apcprd06.prod.outlook.com (2603:1096:300:78::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.18; Fri, 10 Jun
+ 2022 07:52:48 +0000
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::ccb7:f612:80b2:64d5]) by SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::ccb7:f612:80b2:64d5%4]) with mapi id 15.20.5314.019; Fri, 10 Jun 2022
+ 07:52:48 +0000
+Message-ID: <7a689b6c-31b7-61d2-7bf4-6fdf49bb4ae4@vivo.com>
+Date: Fri, 10 Jun 2022 15:52:39 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] dma-buf: Don't use typeof in va_arg
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org
+References: <20220610072019.3075023-1-wanjiabing@vivo.com>
+ <c079243c-9084-b565-2320-20453815c79a@amd.com>
+From: Jiabing Wan <wanjiabing@vivo.com>
+Organization: vivo
+In-Reply-To: <c079243c-9084-b565-2320-20453815c79a@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ME2PR01CA0062.ausprd01.prod.outlook.com
+ (2603:10c6:201:2b::26) To SG2PR06MB3367.apcprd06.prod.outlook.com
+ (2603:1096:4:78::19)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/RZQYNUEIsMgAdC646ZT_i4K";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f30d2bf0-464e-4186-6fcf-08da4ab63635
+X-MS-TrafficTypeDiagnostic: PS1PR0601MB3689:EE_
+X-Microsoft-Antispam-PRVS: <PS1PR0601MB3689C6A6A8B056E862007E0CABA69@PS1PR0601MB3689.apcprd06.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aQxy22c684aAePEda9FhYGeW26AqIMhTTwT6/H5qissipU4/QmU4wat+Sy6ZFYe6MZUWnrYXo6/XqFxl598LZ2ICTOPT/0HhjpvPfp4jpAqLD01Kbg8saDl1hiHWDLGqkICnZ+T8F0KlRZ6FSEo78wu/o+5YRT6hWM+plMmZEuzvPsr3jdfUp4VVFD5Hw8pQnwwhKFznhUEgdPBsxcSTF4ZBXSXzITPROahfQyysfwVzUoCqvni+4vO/at02yif0jAzJekvuqgUyZr10b/P6Afd8h3A1Stgzv16kzJ6/WUbrMXzxfRZK5jk/621BD08vOkV4s859wuq26oFgOta0fOOZixBAUkDY/BMcJZ4uaGndvPXbaIOWWOg8kbmvymbyg/8o1mPFXQk7yphi8jde39M8zsykN73T92aDts8aSi5jISDBf2DXRELo4PBN83VChhdBzYBMVeq3FCg7IiJ5cO7rxwoxhG8N+FGk8RC2qeRMgKXyaGUfXlYK2s3F55bkNd9OMY/mqIa8MZn662CLOpCTGwo6AwosS/miEFA4xvYHWH+SwAOTPyUsiIIVL3V9K8VB8LNKuo46jNPJVDwfOCE6yvxBe4RF11dXLgHf73IysH73LT3ryIF1nYAn0MlQde5Y2Z5m+lTQOZ81/1yAqU8uJnmLTUofT8jbdM+9LaX2ru3BgqmVvMVTKEATOdY4glz269HnLpnye7EDRgdtIg6aH6IVCCG+7CPbUxOj++pIXzIa6k9Ll478MWfZc4EvA5vC2OKZqGTTEmqYaqbLNrdedJgbgmaCkO3GZNTRQyM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SG2PR06MB3367.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(66946007)(66556008)(31686004)(8676002)(31696002)(86362001)(8936002)(5660300002)(316002)(49246003)(66476007)(110136005)(6666004)(2906002)(53546011)(6506007)(508600001)(26005)(6512007)(83380400001)(36756003)(186003)(38100700002)(2616005)(66574015)(38350700002)(6486002)(36916002)(52116002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V3JITEFlZGg2bG9VL3l6RXFUVDRKQ2VCTmt0T0VpQy9OS1gzai9QQTBKdEIz?=
+ =?utf-8?B?bkl4RnZ2aFpYKzczREtzbStOTnUyWnRWemdoK0xtM0dsUzVvN3ptMFRvYzRh?=
+ =?utf-8?B?Y1J3djMwb09lNzlUUXZlNDQ5MlRiTDFTZmRzQy8vRC93Y05uemhvdStMcVlz?=
+ =?utf-8?B?VjVJU3NNNWc4MXlFNVBlVE1NK0w2OGg3ZnRiZUhxY3ZJTVdoMjZlTEJ1STgr?=
+ =?utf-8?B?a3RxeEJVQ0JtVndkNW5lN20wVUFGRmwwVCtkTHBZSmFTM1ZBMTk5d25sb0Ri?=
+ =?utf-8?B?RWZ3ekZMK3U2N1lVbEdHWVR5bHo0SkZnUWltM3Y4ZVJuSEt3bnVNMXlxZ3hC?=
+ =?utf-8?B?MXl6VDBkL2NobmVyMVMxZFFvbzFhWkVaL0ZPK0VNNEdDMURDU0podit4eFBr?=
+ =?utf-8?B?RWxaQUd4dnRKUnEyV3lHU0orVWEyVmhIOWllMjNnekZ4NFpmWTNPc2JHTkdn?=
+ =?utf-8?B?UFRLTkIxT3ZhbVYrQXdmWEJxRzR0K0F2T3MzeXIvWHJUKytsWDZWZm41a0NG?=
+ =?utf-8?B?NGptOXplQlJZT1cyMUdzU3FjSDduanNabUZmNVdCNlBiTENyYjhIOXc4S3BJ?=
+ =?utf-8?B?TTdvRVRnSERDbkorTVc4ZXM1cjVrMXNqOFp5cW1OMjhweXk3R1N0L1hSWDJr?=
+ =?utf-8?B?RDlsV0plSjE1enBIZTFhOThEQS80cVNGOGZGWllXbnhjOXI1TEtVSnFTL0Zz?=
+ =?utf-8?B?MXdjUVpFd01zejhxcURsUEI5KzZ3MXJaa2IyS0RORURWOCtBUkFlWWpoM0tt?=
+ =?utf-8?B?aW03dDhIbGVMMHo5RE5yS0p1UlIxK0xoSkFYOW5ETnZkdE1wWitkeWJSTXZC?=
+ =?utf-8?B?d05qOGpIYXpHU0VNRTRKUWpDS0RNK2NFN3ZnUGVveVRJMjg2Ky9BSWZOUG1I?=
+ =?utf-8?B?cW9aQmNTT1JGY0szQUNwdGhOZGM1N3ZPalJsUWhzZGtVOTMrS1B0SElLbGNu?=
+ =?utf-8?B?MW1Vakg1dXhNTE93R29FNHlGeHpZMGk1TU1haFVZUXJMSWdzdHpwdU9pa1k1?=
+ =?utf-8?B?a1FVTEVNUVIwZThyakJTTjZhVFduRkxsUWdFY3pBRlhWK1B3NVJIeWFSalhz?=
+ =?utf-8?B?VW9UTDdnNTJBbGkyUzd1d1hGM25jTzd3M3U5ZGV0ODlJWW8rREZZR1VVZlIz?=
+ =?utf-8?B?QjFZRWtnV1JtUFZkTzYwNGRYdGdQcE4xK0pQdmFKek9WSGlzeVZQZ3laS21x?=
+ =?utf-8?B?bUZRajVGQ0plTWlDclhNb2pDMExnbi9GOXJwaUNVQndlaTFuZGt1R1FVbzZp?=
+ =?utf-8?B?T2R3cmxVL01UL3phRngrUlJxL3JteVZ0Y0swdm1kamVqZmk1U1dDNmJ1S0hD?=
+ =?utf-8?B?cGt3b2ovVFZrQTMrK3NNWlFkZTRDWHV1NzJHRWVmakpiT1B2TUpMd1JXS0dN?=
+ =?utf-8?B?R29lWG01bEN0b1ZwejBCR09ueUlPNHM0Q3lrRnFPTjhYUXlVVW9vaEVUdjNC?=
+ =?utf-8?B?TXJNbUhNZE40ZG1kSnlpZmNWaUp5NFRPaStVM3BrV3UwcjZyY1NEd1ZUM2lG?=
+ =?utf-8?B?UzFzcjJrNEtpR1YwRXAzWTdZSjYrYk5vd1FjcHhtZW9ZQkdNK0g3cW9xamRB?=
+ =?utf-8?B?eDVqd0hPV2tuT0ptWVpsWmlvNVlZN09GK0FJbFROQjNGY3FGUG5KOFcyMk0w?=
+ =?utf-8?B?UW1CMkNXNituVjN2cmFxdndhUzlwOFZpZVB1WDN0R2VIRm1hVjZiSmZkdWp0?=
+ =?utf-8?B?TmZtU3pYWGtiazdtV3BSYTBxa2hENWFXV1pBekVNaHVxNXY0VFZSVmlFSU1X?=
+ =?utf-8?B?WGtaRXJjaGlhejUzN09uSldXdnZ4SVhkN29FRzRQVTBPZXA1Nkt1T1A4ajlt?=
+ =?utf-8?B?Q0NtaHluRTVRRHoxSjQ3ck5hV0R5MWM5cFlTZkxsSDUvK3BMNERuR05KT1dw?=
+ =?utf-8?B?cjFjZ0x5ZVoyVHBwWW0xRXpPRy94ekgveVRLWi9MSzRLM1RGeFBTa3hjak5p?=
+ =?utf-8?B?cHlleWltZ09sU2huYW1JYkIvcXEvSnFadElJMkp0YVIzMVhnSTdZM3hFVzBv?=
+ =?utf-8?B?OHNVcWE0WFZjZGJIMkdJeWFXQXNGUFlrVE1JbTE5OGhUWHZiWDdNOEVWWXE3?=
+ =?utf-8?B?TVpGTWJ3MTNpOHdyVGpvNU55d3pUeUdDQnlaZnBrM0lCQjNKNTNVVi82N2VD?=
+ =?utf-8?B?M0FvVjVmVlVncmZqTnl0bVhwNitTN2MrVEFnNElEQUlSS2hZSmZZdWg5WlBV?=
+ =?utf-8?B?U2JqVU54RmVCV3VNVEx3YThsL3kxZmRGYm4xM1Noa2YxK0ZDV0lxUWJBUWlS?=
+ =?utf-8?B?VHRKVXZUL1JRUmpvbWxvdjVSVHY1SXBkdVBvVzY5NXQ4V3g0ZWRQRHF1ejJi?=
+ =?utf-8?B?bEw3VUpSeFFFeHpOVFM3Rll1R3ZaVGZ4WGIxS1FoSEY2NG1XWmthUT09?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f30d2bf0-464e-4186-6fcf-08da4ab63635
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3367.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2022 07:52:48.2665 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uN1Mhff/SJ13m9dHkLnDnoCiuIJv8dCTCycrihbWROPmr1F752SQrILwssUEQ+uRUfv0NYVG1uM8y9ba1Ccy+Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS1PR0601MB3689
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,264 +135,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "gurchetansingh@chromium.org" <gurchetansingh@chromium.org>,
- Martin Krastev <krastevm@vmware.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "wayland-devel@lists.freedesktop.org" <wayland-devel@lists.freedesktop.org>,
- Maaz Mombasawala <mombasawalam@vmware.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/RZQYNUEIsMgAdC646ZT_i4K
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 9 Jun 2022 19:39:39 +0000
-Zack Rusin <zackr@vmware.com> wrote:
 
-> On Wed, 2022-06-08 at 10:53 +0300, Pekka Paalanen wrote:
-> > On Tue, 7 Jun 2022 17:50:24 +0000
-> > Zack Rusin <zackr@vmware.com> wrote:
-> >  =20
-> > > On Tue, 2022-06-07 at 11:07 +0300, Pekka Paalanen wrote: =20
-> > > > On Fri, 03 Jun 2022 14:14:59 +0000
-> > > > Simon Ser <contact@emersion.fr> wrote:
-> > > >    =20
-> > > > > Hi,
-> > > > >=20
-> > > > > Please, read this thread:
-> > > > > https://lists.freedesktop.org/archives/dri-devel/2020-March/threa=
-d.html#259615
-> > > > >=20
-> > > > > It has a lot of information about the pitfalls of cursor hotspot =
-and
-> > > > > other things done by VM software.
-> > > > >=20
-> > > > > In particular: since the driver will ignore the KMS cursor plane
-> > > > > position set by user-space, I don't think it's okay to just expose
-> > > > > without opt-in from user-space (e.g. with a DRM_CLIENT_CAP).
-> > > > >=20
-> > > > > cc wayland-devel and Pekka for user-space feedback.
-> > > > >=20
-> > > > > On Thursday, June 2nd, 2022 at 17:42, Zack Rusin <zack@kde.org> w=
-rote:
-> > > > >    =20
-> > > > > > - all userspace code needs to hardcore a list of drivers which =
-require
-> > > > > > hotspots because there's no way to query from drm "does this dr=
-iver
-> > > > > > require hotspot"     =20
-> > > > >=20
-> > > > > Can you elaborate? I'm not sure I understand what you mean here.
-> > > > >    =20
-> > > >=20
-> > > > Hi Zack and everyone,
-> > > >=20
-> > > > I would like to try to reboot this discussion and explain where I c=
-ome
-> > > > from. Maybe I have misunderstood something.   =20
-> > >=20
-> > > <snip> First of all thanks for restarting the discussions. I think Ge=
-rd did a good
-> > > job responding to individual points, so let me take a step back and e=
-xplain the big
-> > > picture here so we can reboot.
-> > >  =20
-> > > > Which root problems do you want to solve exactly?   =20
-> > >=20
-> > > The problem that this patch set is solving is the relatively trivial =
-problem of not
-> > > having a way of setting the hotspot in the atomic kms interface. When=
- we
-> > > (virtualized drivers) are using the native cursor we need to know not=
- only the image =20
-> >=20
-> > Could you clarify what is "native cursor" here?
-> > I guess it is the host window system pointer's cursor? =20
->=20
-> Right, exactly. I'm a little hesitant to call it "host" because it gets t=
-ricky in
-> remote scenarios, where the host is some ESXi server but the local machin=
-e is the
-> one that's actually interacting with the guest. So it's the cursor of the=
- machine
-> where the guest screen is displayed.
->=20
->=20
-> > > Now, where the disagreements come from is from the fact that all virt=
-ualized drivers
-> > > do not implement the atomic KMS cursor plane contract exactly as spec=
-ified. In
-> > > atomic kms with universal planes the "cursor" plane can be anything s=
-o asking for
-> > > hotspot's for something that's not a cursor is a bit silly (but argua=
-bly so is
-> > > calling it a cursor plane and then complaining that people expect cur=
-sor in it).
-> > >=20
-> > > So the argument is that we can't put hotspot data into atomic kms wit=
-hout first
-> > > rewriting all of the virtualized drivers cursor code to fix the under=
-lying contract
-> > > violation that they all commit. That would likely be a lot easier sel=
-l if not that
-> > > gnome/kde don't put none cursor stuff in the cursor plane, so all thi=
-s work is to
-> > > fix breakages that seem to affect 0 of our users (and I completely un=
-derstand that
-> > > we'd still like all the drivers to be correct and unified in terms of=
- their
-> > > behaviour, I'm just saying it's a hard sell without something that we=
- can point to
-> > > and say "this fixes/improves things for our customers")  =20
-> >=20
-> > What's the cost of making paravirtualized drivers honour the UAPI contr=
-act?
-> > Can't you do that on the side of implementing these new hotspot
-> > properties, with the little addition to allowing guest userspace to be
-> > explicit about whether it supports commandeering or not? =20
->=20
-> I'm reluctant here because "fixing" here seems to be a bit ephemeral as w=
-e move from
-> one solution to the next. I'm happy to write a patch that's adding a
-> DRM_CLIENT_CAP_VIRTUAL_CURSOR_AWARE flag and hiding the cursor plane in v=
-irtualized
-> drivers for clients that advertise DRM_CLIENT_CAP_ATOMIC but not
-> DRM_CLIENT_CAP_VIRTUAL_CURSOR_AWARE, but that doesn't solve Weston on vir=
-tualized
-> drivers.
+On 2022/6/10 15:24, Christian König wrote:
+> Am 10.06.22 um 09:20 schrieb Wan Jiabing:
+>> Fix following coccicheck warning:
+>> ./drivers/dma-buf/st-dma-fence-unwrap.c:75:39-45: ERROR: reference 
+>> preceded by free on line 70
+>>
+>> Use 'struct dma_fence *' instead of 'typeof(*fences)' to avoid this
+>> warning and also fix other 'typeof(*fences)' to make them consistent.
+>
+> Well that doesn't looks correct to me.
+>
+> *fence should be valid at this point, why does coccicheck things it is 
+> freed?
 
-Mind, I have not talked about hiding cursor planes. I have talked
-*only* about stopping commandeering cursor planes if guest userspace
-does not indicate it is prepared for commandeering.
+*fence is valid. Coccicheck reports this because fence is freed.
+But use 'struct dma_fence *' can avoid this wrong report.
 
-I don't understand how it does not "solve on Weston on virtualized
-drivers". Can you explain what is not solved?
+I also grep all code and find it's unusual to use 'typeof' in va_arg, 
+only two files.
 
-As far as I can see, it does solve Weston: it makes cursor plane
-behaviour correct from KMS UAPI contract point of view. Anything that
-is not quite optimal after that with cursor planes you can blame on
-Weston not making use of additional optional features.
+grep -R "va_arg("  . | grep 'typeof'
+./drivers/dma-buf/st-dma-fence-unwrap.c:                fences[i] = 
+va_arg(valist, typeof(*fences));
+./drivers/dma-buf/st-dma-fence-unwrap.c: dma_fence_put(va_arg(valist, 
+typeof(*fences)));
+./lib/test_scanf.c:             typeof(*expect) got = *va_arg(ap, 
+typeof(expect));              \
 
-Cursor plane itself is an additional optional feature. Userspace has no
-obligation to use one at all, but if it does, it better behave by the
-UAPI contract.
-
-> I feel like that's a larger discussion. One that we need to have in gener=
-al - it's
-> about standardising on behaviour of userspace with virtualized drivers, e=
-.g. on
-> Weston even the most basic functionality of virtualized drivers which is =
-resizing a
-> window doesn't work correctly (virtualized drivers send drm_kms_helper_ho=
-tplug_event
-> which sends a HOTPLUG=3D1 event with a changed preferred width/height but=
- Weston
-> doesn't seem to resize the fb on them which results in Weston not resizin=
-g to the
-> new size of the window) or even considering the suggested_x and suggested=
-_y
-> properties. It seems like we might need to have a wider discussion on sta=
-ndardising
-> those common issues on virtualized drivers because currently, I'm guessin=
-g, that
-> apart from Gnome and KDE most compositors are completely broken on virtua=
-lized
-> drivers.
-
-You say "broken", I say "not implemented yet". *Those* problems are
-Weston's own problems. They are new features that require explicit
-support in Weston. No driver should try to implement those behind guest
-userspace back.
-
-This "not resizing" is not at all the same as the cursor plane
-commandeering. Weston not supporting KMS-induced resizing does not
-silently result in fundamentally incorrect behaviour. The CRTC size
-remains the same, and nothing is actually broken. Only the end user
-cannot seem to resize the viewer window, but everything works fine
-otherwise. OTOH, when the VM stack commandeers the cursor plane without
-permission, it breaks things so bad that user interaction is near
-impossible. And it's a violation of the KMS UAPI contract.
-
-If we are looking at things virtual drivers make strange, another thing
-is that Weston is not expecting KMS pageflips to complete always
-immediately regardless of the programmed refresh rate and "hardware"
-refresh cycle phase. It is only luck that Weston does not end up in a
-busy-loop updating the screen on virtual drivers, not intentional. We
-can have a similar discussion there, are KMS drivers in general allowed
-to complete atomic flips always immediately even if userspace asks for
-vsync'd flips, or does it require explicit userspace opt-in.
-
-> I'd prefer not blocking fixing hotspots until all those issues are resolv=
-ed so if we
-> can agree on what we'd like to fix before hotspots go in, that'd be great.
-
-I think you are confusing things here. In my mind there is no doubt
-about the KMS UAPI contract on cursor planes: commandeering is not
-allowed. You have to add new UAPI to allow the VM stack to commandeer
-cursor planes, and guest userspace must opt-in for that.
-
-How you design that is up to you. Maybe a new client cap, or maybe you
-inspect every atomic commit did the userspace set the hotspot
-properties this time or not. The main thing is that this has been
-thought about and documented.
-
-I really do not see why adding that detail is so big deal, while not
-adding that will leave virtual drivers fundamentally broken (incorrect
-behaviour resulting from violating the KMS UAPI contract) for cursor
-planes.
-
------
-
-Maybe we need to take another step back. Why are virtual drivers
-specifically DRM KMS drivers? Was the idea not that if virtual drivers
-pretend to be KMS drivers, we would not need to patch userspace? But
-now we need to patch userspace anyway, so why bother with KMS and its
-design limitations that are well appropriate for hardware drivers but
-not for virtual drivers? If you had your own winsys virtualization
-protocol, you could do so much more than KMS is ever going to allow
-you, and so much better.
-
-Or just, you know, use RDP, VNC, and whatnot there already exists.
-
-Why KMS?
-
-That's probably obvious to you, but not me.
-
-I would also like to point out that I am not a kernel developer and I
-have no NAK/veto rights on any kernel patches. I can only explain how
-things look like from userspace perspective.
-
-I suspect there is nothing more I can say. Those were my opinions, but
-the decisions are up to kernel maintainers. Hence, I can agree to
-disagree with you.
-
+And other files all use declaration name directly.
+So I send this patch makes code clearer and fix the wrong warning by the 
+way.
 
 Thanks,
-pq
+Wan Jiabing
 
---Sig_/RZQYNUEIsMgAdC646ZT_i4K
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+>
+> Regards,
+> Christian.
+>
+>>
+>> Fixes: 0c5064fa8d5a ("dma-buf: cleanup dma_fence_unwrap selftest v2")
+>> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+>> ---
+>>   drivers/dma-buf/st-dma-fence-unwrap.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c 
+>> b/drivers/dma-buf/st-dma-fence-unwrap.c
+>> index 4105d5ea8dde..1137a6d90b32 100644
+>> --- a/drivers/dma-buf/st-dma-fence-unwrap.c
+>> +++ b/drivers/dma-buf/st-dma-fence-unwrap.c
+>> @@ -56,7 +56,7 @@ static struct dma_fence *mock_array(unsigned int 
+>> num_fences, ...)
+>>         va_start(valist, num_fences);
+>>       for (i = 0; i < num_fences; ++i)
+>> -        fences[i] = va_arg(valist, typeof(*fences));
+>> +        fences[i] = va_arg(valist, struct dma_fence *);
+>>       va_end(valist);
+>>         array = dma_fence_array_create(num_fences, fences,
+>> @@ -72,7 +72,7 @@ static struct dma_fence *mock_array(unsigned int 
+>> num_fences, ...)
+>>   error_put:
+>>       va_start(valist, num_fences);
+>>       for (i = 0; i < num_fences; ++i)
+>> -        dma_fence_put(va_arg(valist, typeof(*fences)));
+>> +        dma_fence_put(va_arg(valist, struct dma_fence *));
+>>       va_end(valist);
+>>       return NULL;
+>>   }
+>
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmKi94sACgkQI1/ltBGq
-qqdtmQ/+JLJFItSoy+UQNHcqg5hxlncrhnvtXnCNgMcm9bbeH3Ckl82eubpAbn1U
-iZ1GppmFp+TmYZvOoZjcvFrzrkqJ6QYZg1YUka2287sUoAEyropWyDsQA394psP/
-A61ccy53HHxa78yegRoIb6emdZ/2JImWBf91e0aLXNWiQatNLG5/F3DWh+aAMNIr
-/Lf0ftn2Tpa4XRe7HFeUfjz34YAQoAfhPkbMm6NGkM9X1WCpG7JHdwi3vnru+7ce
-VtjyQ8eNb0qtHV6J908SpYTk5EB7u3y8Q2NYbRQQxSBkUpACFc46uWD6ZZLsvuk9
-oeoQKTHy3aVFix6PCHpUNbFjviMUQNSf50FmUZwa6wTjAkdsdwgXYvEOwylyKzDY
-3L2G2ZZOM6d3y2d4pzISEE1lIjqtf0x10Ab63XIMFgtWKKLtXO8IMUvY7VKcWU2+
-MJLwZDkI4/+Ff9nWvMMQULDjPsLcG5yoL3mYXA8t1oNumGTayhlt4J1bOukfW3FU
-KBoWVJWMXYN1/WS/JZrFsgdfAhJTbU1Z3T+B5A5/Ki1+XAA7qIXhxAx5k+/EdcgO
-MRO7WL0V9/Rx6qdAOgD9PsVfW3UCCctzsRjTEYSsg5y7p+IlXAsD8nEF5rC1PktK
-aTU6zhcutuguqjHO8ZTKuxB3WGoJJC60y+OetobK07IfzAvULro=
-=QD8D
------END PGP SIGNATURE-----
-
---Sig_/RZQYNUEIsMgAdC646ZT_i4K--
