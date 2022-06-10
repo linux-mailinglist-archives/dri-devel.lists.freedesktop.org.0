@@ -2,67 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DCB545B75
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 07:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E149C545B4C
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 06:50:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43B8F10E235;
-	Fri, 10 Jun 2022 05:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 445F41120EC;
+	Fri, 10 Jun 2022 04:50:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8683410E235
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 05:09:47 +0000 (UTC)
-X-UUID: 7a9a25b981704fa5a714679bbc8659eb-20220610
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:bcdbcac9-7a29-4fe5-b651-ac50c19885c8, OB:0,
- LO
- B:0,IP:0,URL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:25
-X-CID-META: VersionHash:2a19b09, CLOUDID:39bc59e5-2ba2-4dc1-b6c5-11feb6c769e0,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,QS:0,BEC:nil
-X-UUID: 7a9a25b981704fa5a714679bbc8659eb-20220610
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1635971216; Fri, 10 Jun 2022 13:09:44 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with ShadowRedundancy id 15.2.792.3; 
- Fri, 10 Jun 2022 05:07:19 +0000
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Fri, 10 Jun 2022 10:29:30 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Fri, 10 Jun 2022 10:29:28 +0800
-Message-ID: <92f634007cbdba37bf7c672e03814bdad53fa4de.camel@mediatek.com>
-Subject: Re: [PATCH v10 02/21] dt-bindings: mediatek,dp: Add Display Port
- binding
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Guillaume Ranquet <granquet@baylibre.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, "David
- Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, "Kishon
- Vijay Abraham I" <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
- Deller" <deller@gmx.de>, CK Hu <ck.hu@mediatek.com>, Jitao shi
- <jitao.shi@mediatek.com>
-Date: Fri, 10 Jun 2022 10:29:27 +0800
-In-Reply-To: <f2856b8f-9465-2638-aabf-d2dda842766b@collabora.com>
-References: <20220523104758.29531-1-granquet@baylibre.com>
- <20220523104758.29531-3-granquet@baylibre.com>
- <f2856b8f-9465-2638-aabf-d2dda842766b@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+X-Greylist: delayed 14753 seconds by postgrey-1.36 at gabe;
+ Fri, 10 Jun 2022 04:50:05 UTC
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9D151120EC;
+ Fri, 10 Jun 2022 04:50:05 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LK7mm43hfz4xZ0;
+ Fri, 10 Jun 2022 14:49:59 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1654836603;
+ bh=GJecETtcF+CcFT0RpOLHBOEvWAWAoW0sqEUBxQmvil4=;
+ h=Date:From:To:Cc:Subject:From;
+ b=kK+oegz4PdthnZafBDVT2hO4TTcV+Q1P0A73sHA8uFYOUD3Xq26DqW1cMJ/wSnA9f
+ P+W1mSReFGR/5sKEtd9/y9LL7BvQTx+O3k9HPbwDDMntWJL08tDIDL/8YZfq6f67aX
+ HzZnv5rrrvRcH1OrayviX7VGpwcB18LMdPJUYq2P/nyAjl2o5Coev7jbVS0k8aqC70
+ ekaKCE43SdR/7jl6DuGkNG2SQSqDNMl1ke48usaidP2VxSja+NtCyQR9NKns8Zt2xI
+ /+TMQBaNT5EKI44JxkzUz1sPiydeyYZDrzN78pUrCKpCDyGmMZXEovAe1pUEm32Q/u
+ kAm67qmx9mKsg==
+Date: Fri, 10 Jun 2022 14:49:58 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20220610144958.5b90e8d3@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: multipart/signed; boundary="Sig_/trBsv9OQy7natagn_x.Q+.J";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,203 +51,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-05-25 at 17:30 +0200, AngeloGioacchino Del Regno wrote:
-> Il 23/05/22 12:47, Guillaume Ranquet ha scritto:
-> > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> > 
-> > This controller is present on several mediatek hardware. Currently
-> > mt8195 and mt8395 have this controller without a functional
-> > difference,
-> > so only one compatible field is added.
-> > 
-> > The controller can have two forms, as a normal display port and as
-> > an
-> > embedded display port.
-> > 
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > ---
-> >   .../display/mediatek/mediatek,dp.yaml         | 99
-> > +++++++++++++++++++
-> >   1 file changed, 99 insertions(+)
-> >   create mode 100644
-> > Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.ya
-> > ml
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.ya
-> > ml
-> > new file mode 100644
-> > index 000000000000..36ae0a6df299
-> > --- /dev/null
-> > +++
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.ya
-> > ml
-> > @@ -0,0 +1,99 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: 
-> > http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: MediaTek Display Port Controller
-> > +
-> > +maintainers:
-> > +  - CK Hu <ck.hu@mediatek.com>
-> > +  - Jitao shi <jitao.shi@mediatek.com>
-> > +
-> > +description: |
-> > +  Device tree bindings for the MediaTek (embedded) Display Port
-> > controller
-> > +  present on some MediaTek SoCs.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - mediatek,mt8195-dp-tx
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: faxi clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: faxi
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Input endpoint of the controller, usually
-> > dp_intf
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Output endpoint of the controller
-> > +
-> 
-> You should add port@0 (and port@1, probably) as required... with what
-> you've done
-> here, you're saying that "ports" is required, but you're allowing it
-> to be empty..
-> 
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
->      properties:
->        port@0:
->          $ref: /schemas/graph.yaml#/properties/port
->          description: Input endpoint of the controller, usually
-> dp_intf
-> 
->        port@1:
->          $ref: /schemas/graph.yaml#/properties/port
->          description: Output endpoint of the controller
-> 
->      required:
->        - port@0
->        - port@1
-> 
-> ^^^ that's how it should look.
-> 
+--Sig_/trBsv9OQy7natagn_x.Q+.J
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Hello Angelo,
+Hi all,
 
-ok, I will add this.
+After merging the drm-misc tree, today's linux-next build (powerpc
+allyesconfig) failed like this:
 
-> > +  max-lanes:
-> > +    maxItems: 1
-> > +    description: maximum number of lanes supported by the hardware
-> > +
-> > +  max-linkrate:
-> > +    maxItems: 1
-> > +    description: maximum link rate supported by the hardware
-> 
-> As you've put it (in the example below), the max-linkrate property
-> wants a value
-> that corresponds to what you find in the HW registers... this is
-> wrong.
-> 
-> Devicetree bindings should be generic and devicetrees shouldn't have
-> hardware
-> specific bits inside, hence, please change this property to accept a
-> link rate
-> specified in Mbps and also specify that in the description.
-> 
-> Thanks,
-> Angelo
-> 
+drivers/firmware/efi/sysfb_efi.c:29:10: fatal error: asm/efi.h: No such fil=
+e or directory
+   29 | #include <asm/efi.h>
+      |          ^~~~~~~~~~~
 
-ok, I will change it to real linkrate value.
+Caused by commit
 
-BRs,
-Bo-Chen
+  fa0e256450f2 ("fbdev: vesafb: Allow to be built if COMPILE_TEST is enable=
+d")
 
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - ports
-> > +  - max-lanes
-> > +  - max-linkrate
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/power/mt8195-power.h>
-> > +    edp_tx: edp_tx@1c500000 {
-> > +        compatible = "mediatek,mt8195-dp-tx";
-> > +        reg = <0 0x1c500000 0 0x8000>;
-> > +        interrupts = <GIC_SPI 676 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +        power-domains = <&spm MT8195_POWER_DOMAIN_EPD_TX>;
-> > +        pinctrl-names = "default";
-> > +        pinctrl-0 = <&edp_pin>;
-> > +        max-lanes = /bits/ 8 <4>;
-> > +        max-linkrate = /bits/ 8 <0x1e>;
-> > +
-> > +        ports {
-> > +            #address-cells = <1>;
-> > +            #size-cells = <0>;
-> > +
-> > +            port@0 {
-> > +                reg = <0>;
-> > +                edp_in: endpoint {
-> > +                    remote-endpoint = <&dp_intf0_out>;
-> > +                };
-> > +            };
-> > +            port@1 {
-> > +                reg = <1>;
-> > +                edp_out: endpoint {
-> > +                	remote-endpoint = <&panel_in>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+$ find arch -name efi.h
+arch/arm/include/asm/efi.h
+arch/arm64/include/asm/efi.h
+arch/ia64/include/asm/efi.h
+arch/loongarch/include/asm/efi.h
+arch/riscv/include/asm/efi.h
+arch/x86/boot/compressed/efi.h
+arch/x86/include/asm/efi.h
 
+I have reverted that commit for today.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/trBsv9OQy7natagn_x.Q+.J
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmKizXYACgkQAVBC80lX
+0GzJ9wf/UZfcCcfZFtOIxf69VSO/I4SoUQd7WHNFRrjiIh5fn9/7NyGCB8ZZE0aY
+aAkPVQ1/haanooNM18BoaKY3FNxqehU2jrI70VmZrU1L72eZt0r1uMvZajNgWp0L
+pD7BHFKysW/NxllpVMY5LiNVUrRIY2VMGWjpJx8GgBqxQTZwLDGZJq2aSzrLhiKS
+uWGWw/uN2Lxoa2RmMKk4yEUqhCNuf628IBqRjVu2Ik6wN35mLavYUo38bkJB9Qoc
+h/U55n6x7ELv6oOILIN6CoNPQ4c28gWIp9q41xya4muJpt51+oiu6+v4+pbPTXKM
+B0A++zMhKdBT+EPeyk34I3xfJHqCbA==
+=b1wL
+-----END PGP SIGNATURE-----
+
+--Sig_/trBsv9OQy7natagn_x.Q+.J--
