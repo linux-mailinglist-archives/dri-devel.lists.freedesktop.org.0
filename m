@@ -1,50 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A057546883
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 16:40:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA565468C5
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 16:48:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8E601132A7;
-	Fri, 10 Jun 2022 14:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97FED1122E3;
+	Fri, 10 Jun 2022 14:48:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E85DE11327A;
- Fri, 10 Jun 2022 14:40:25 +0000 (UTC)
-Received: from [192.168.2.145] (109-252-136-92.dynamic.spd-mgts.ru
- [109.252.136.92])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 83A966601719;
- Fri, 10 Jun 2022 15:40:21 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1654872024;
- bh=6JgrTd9VkJ1ZFFosiAo/vV8cwTThuk9Z72vQ6NWys/g=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=AoLXW6oXSBZwVImhJc2GgACmS9jxP2XcuDIfwZPyAahSDTWPlU1wD8yk7JJvjWsc2
- bRtW7PEsjkxYyL6DYiSQiQLBfGY6I28c6IXYBWoKS+b3ou3e+emkaBD13uUfhcbyMc
- t4Y7QprkwXCAf/16y1ntNhQzLenrm6CHAFKuzz9B/GnS11eLHlUdVSMaXE1am3becO
- 2HsjdndjPfrc2INjygEllHPErAcYv8vO6XcQXpGc+iPioJk88YGxLr5+kaLuwVKeUL
- MJWGxd3oDU0Qt4wPhngT0udvhy6ensZb+rkAYM95t+RSj84huKHQwUmhFJ2AiUpThg
- e1CXYy5Aubqog==
-Message-ID: <3cbc42df-fff1-5325-6c6f-17dfc6899283@collabora.com>
-Date: Fri, 10 Jun 2022 17:40:18 +0300
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7785210E05C;
+ Fri, 10 Jun 2022 14:48:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654872532; x=1686408532;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=DdkA5RO9uabp21NRy0yewuseI/D7WIvatRPs3zTJpjA=;
+ b=NLrLledH1tjp/JbVHUq/sZVHU46/p11V+pwLrHnGgUpDLxXakomVoxZl
+ CUU3c4lR37sCsUeogndYczX4UPZ7meHqrvMpnc2ZwPv62E5Dk+5f3blZo
+ dYO6LEFYliwhiE1Pt+9XVKlA3S2E45T2pTGHTv29g6nF33MidxOw3cpRw
+ Zh9VdYkr5iy6VcpSzfV1x6E/FcAFBYjRVGwHZSaSlEJDn1Q0nvaYagQ42
+ 2vR9htoW8qMjnn4QFckn97Bb5/sXzrayx47JyEJRgiMFWA8kMJmFUfArB
+ wEw7XlHJiRDi3BGVgyUrr//wfGChee2SveiDqetMB7Op/sBXpbccNOw2V Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10374"; a="277682268"
+X-IronPort-AV: E=Sophos;i="5.91,290,1647327600"; d="scan'208";a="277682268"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2022 07:48:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,290,1647327600"; d="scan'208";a="671875850"
+Received: from linux.intel.com ([10.54.29.200])
+ by FMSMGA003.fm.intel.com with ESMTP; 10 Jun 2022 07:48:43 -0700
+Received: from [10.249.155.179] (unknown [10.249.155.179])
+ by linux.intel.com (Postfix) with ESMTP id 3CA5A58094D;
+ Fri, 10 Jun 2022 07:48:40 -0700 (PDT)
+Message-ID: <9043381e-ff63-934b-4576-132f15c2e363@intel.com>
+Date: Fri, 10 Jun 2022 17:48:39 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v6 00/22] Add generic memory shrinker to VirtIO-GPU and
- Panfrost DRM drivers
+ Thunderbird/91.9.1
+Subject: Re: [Intel-gfx] [PATCH 3/3] drm/doc/rfc: VM_BIND uapi definition
 Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>
-References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@intel.com
+References: <20220610070711.32407-1-niranjana.vishwanathapura@intel.com>
+ <20220610070711.32407-4-niranjana.vishwanathapura@intel.com>
+ <9b7c4864-18c2-5c70-009a-1c6e7843bf0d@linux.intel.com>
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+In-Reply-To: <9b7c4864-18c2-5c70-009a-1c6e7843bf0d@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,252 +66,613 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Steven Price <steven.price@arm.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-tegra@vger.kernel.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Daniel Almeida <daniel.almeida@collabora.com>, amd-gfx@lists.freedesktop.org,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
- Tomasz Figa <tfiga@chromium.org>, Qiang Yu <yuq825@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>, Robin Murphy <robin.murphy@arm.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: paulo.r.zanoni@intel.com, chris.p.wilson@intel.com,
+ thomas.hellstrom@intel.com, matthew.auld@intel.com,
+ Jason Ekstrand <jason@jlekstrand.net>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/27/22 02:50, Dmitry Osipenko wrote:
-> Hello,
-> 
-> This patchset introduces memory shrinker for the VirtIO-GPU DRM driver
-> and adds memory purging and eviction support to VirtIO-GPU driver.
-> 
-> The new dma-buf locking convention is introduced here as well.
-> 
-> During OOM, the shrinker will release BOs that are marked as "not needed"
-> by userspace using the new madvise IOCTL, it will also evict idling BOs
-> to SWAP. The userspace in this case is the Mesa VirGL driver, it will mark
-> the cached BOs as "not needed", allowing kernel driver to release memory
-> of the cached shmem BOs on lowmem situations, preventing OOM kills.
-> 
-> The Panfrost driver is switched to use generic memory shrinker.
-> 
-> This patchset includes improvements and fixes for various things that
-> I found while was working on the shrinker.
-> 
-> The Mesa and IGT patches will be kept on hold until this kernel series
-> will be approved and merged.
-> 
-> This patchset was tested using Qemu and crosvm, including both cases of
-> IOMMU off/on.
-> 
-> Mesa: https://gitlab.freedesktop.org/digetx/mesa/-/commits/virgl-madvise
-> IGT:  https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/virtio-madvise
->       https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/panfrost-madvise
-> 
-> Changelog:
-> 
-> v6: - Added new VirtIO-related fix patch that previously was sent separately
->       and didn't get much attention:
-> 
->         drm/gem: Properly annotate WW context on drm_gem_lock_reservations() error
-> 
->     - Added new patch that fixes mapping of imported dma-bufs for
->       Tegra DRM and other affected drivers. It's also handy to have it
->       for switching to the new dma-buf locking convention scheme:
-> 
->         drm/gem: Move mapping of imported dma-bufs to drm_gem_mmap_obj()
-> 
->     - Added new patch that fixes shrinker list corruption for stable Panfrost
->       driver:
-> 
->         drm/panfrost: Fix shrinker list corruption by madvise IOCTL
-> 
->     - Added new minor patch-fix for drm-shmem:
-> 
->         drm/shmem-helper: Add missing vunmap on error
-> 
->     - Added fixes tag to the "Put mapping ..." patch like was suggested by
->       Steven Price.
-> 
->     - Added new VirtIO-GPU driver improvement patch:
-> 
->         drm/virtio: Return proper error codes instead of -1
-> 
->     - Reworked shrinker patches like was suggested by Daniel Vetter:
-> 
->         - Introduced the new locking convention for dma-bufs. Tested on
->           VirtIO-GPU, Panfrost, Lima, Tegra and Intel selftests.
-> 
->         - Dropped separate purge() callback. Now single evict() does
->           everything.
-> 
->         - Dropped swap_in() callback from drm-shmem objects. DRM drivers
->           now could and should restore only the required mappings.
-> 
->         - Dropped dynamic counting of evictable pages. This simplifies
->           code in exchange to *potentially* burning more CPU time on OOM.
-> 
-> v5: - Added new for-stable patch "drm/panfrost: Put mapping instead of
->       shmem obj on panfrost_mmu_map_fault_addr() error" that corrects GEM's
->       refcounting in case of error.
-> 
->     - The drm_gem_shmem_v[un]map() now takes a separate vmap_lock for
->       imported GEMs to avoid recursive locking of DMA reservations.
->       This addresses v4 comment from Thomas Zimmermann about the potential
->       deadlocking of vmapping.
-> 
->     - Added ack from Thomas Zimmermann to "drm/shmem-helper: Correct
->       doc-comment of drm_gem_shmem_get_sg_table()" patch.
-> 
->     - Dropped explicit shmem states from the generic shrinker patch as
->       was requested by Thomas Zimmermann.
-> 
->     - Improved variable names and comments of the generic shrinker code.
-> 
->     - Extended drm_gem_shmem_print_info() with the shrinker-state info in
->       the "drm/virtio: Support memory shrinking" patch.
-> 
->     - Moved evict()/swap_in()/purge() callbacks from drm_gem_object_funcs
->       to drm_gem_shmem_object in the generic shrinker patch, for more
->       consistency.
-> 
->     - Corrected bisectability of the patches that was broken in v4
->       by accident.
-> 
->     - The virtio_gpu_plane_prepare_fb() now uses drm_gem_shmem_pin() instead
->       of drm_gem_shmem_set_unpurgeable_and_unevictable() and does it only for
->       shmem BOs in the "drm/virtio: Support memory shrinking" patch.
-> 
->     - Made more functions private to drm_gem_shmem_helper.c as was requested
->       by Thomas Zimmermann. This minimizes number of the public shmem helpers.
-> 
-> v4: - Corrected minor W=1 warnings reported by kernel test robot for v3.
-> 
->     - Renamed DRM_GEM_SHMEM_PAGES_STATE_ACTIVE/INACTIVE to PINNED/UNPINNED,
->       for more clarity.
-> 
-> v3: - Hardened shrinker's count() with usage of READ_ONCE() since we don't
->       use atomic type for counting and technically compiler is free to
->       re-fetch counter's variable.
-> 
->     - "Correct drm_gem_shmem_get_sg_table() error handling" now uses
->       PTR_ERR_OR_ZERO(), fixing typo that was made in v2.
-> 
->     - Removed obsoleted shrinker from the Panfrost driver, which I missed to
->       do in v2 by accident and Alyssa Rosenzweig managed to notice it.
-> 
->     - CCed stable kernels in all patches that make fixes, even the minor ones,
->       like was suggested by Emil Velikov and added his r-b to the patches.
-> 
->     - Added t-b from Steven Price to the Panfrost's shrinker patch.
-> 
->     - Corrected doc-comment of drm_gem_shmem_object.madv, like was suggested
->       by Steven Price. Comment now says that madv=1 means "object is purged"
->       instead of saying that value is unused.
-> 
->     - Added more doc-comments to the new shmem shrinker API.
-> 
->     - The "Improve DMA API usage for shmem BOs" patch got more improvements
->       by removing the obsoleted drm_dev_set_unique() quirk and its comment.
-> 
->     - Added patch that makes Virtio-GPU driver to use common dev_is_pci()
->       helper, which was suggested by Robin Murphy.
-> 
->     - Added new "drm/shmem-helper: Take GEM reservation lock instead of
->       drm_gem_shmem locks" patch, which was suggested by Daniel Vetter.
-> 
->     - Added new "drm/virtio: Simplify error handling of
->       virtio_gpu_object_create()" patch.
-> 
->     - Improved "Correct doc-comment of drm_gem_shmem_get_sg_table()" patch,
->       like was suggested by Daniel Vetter, by saying that function returns
->       ERR_PTR() and not errno.
-> 
->     - virtio_gpu_purge_object() is fenced properly now, turned out
->       virtio_gpu_notify() doesn't do fencing as I was supposing before.
->       Stress testing of memory eviction revealed that.
-> 
->     - Added new patch that corrects virtio_gpu_plane_cleanup_fb() to use
->       appropriate atomic plane state.
-> 
->     - SHMEM shrinker got eviction support.
-> 
->     - VirtIO-GPU driver now supports memory eviction. It's enabled for a
->       non-blob GEMs only, i.e. for VirGL. The blobs don't support dynamic
->       attaching/detaching of guest's memory, so it's not trivial to enable
->       them.
-> 
->     - Added patch that removes obsoleted drm_gem_shmem_purge()
-> 
->     - Added patch that makes drm_gem_shmem_get_pages() private.
-> 
->     - Added patch that fixes lockup on dma_resv_reserve_fences() error.
-> 
-> v2: - Improved shrinker by using a more fine-grained locking to reduce
->       contention during scan of objects and dropped locking from the
->       'counting' callback by tracking count of shrinkable pages. This
->       was suggested by Rob Clark in the comment to v1.
-> 
->     - Factored out common shrinker code into drm_gem_shmem_helper.c
->       and switched Panfrost driver to use the new common memory shrinker.
->       This was proposed by Thomas Zimmermann in his prototype series that
->       he shared with us in the comment to v1. Note that I only compile-tested
->       the Panfrost driver.
-> 
->     - Shrinker now takes object_name_lock during scan to prevent racing
->       with dma-buf exporting.
-> 
->     - Shrinker now takes vmap_lock during scan to prevent racing with shmem
->       vmap/unmap code.
-> 
->     - Added "Correct doc-comment of drm_gem_shmem_get_sg_table()" patch,
->       which I sent out previously as a standalone change, since the
->       drm_gem_shmem_helper.c is now touched by this patchset anyways and
->       it doesn't hurt to group all the patches together.
-> 
-> Dmitry Osipenko (22):
->   drm/gem: Properly annotate WW context on drm_gem_lock_reservations()
->     error
->   drm/gem: Move mapping of imported dma-bufs to drm_gem_mmap_obj()
->   drm/panfrost: Put mapping instead of shmem obj on
->     panfrost_mmu_map_fault_addr() error
->   drm/panfrost: Fix shrinker list corruption by madvise IOCTL
->   drm/virtio: Correct drm_gem_shmem_get_sg_table() error handling
->   drm/virtio: Check whether transferred 2D BO is shmem
->   drm/virtio: Unlock reservations on virtio_gpu_object_shmem_init()
->     error
->   drm/virtio: Unlock reservations on dma_resv_reserve_fences() error
->   drm/virtio: Use appropriate atomic state in
->     virtio_gpu_plane_cleanup_fb()
->   drm/shmem-helper: Add missing vunmap on error
->   drm/shmem-helper: Correct doc-comment of drm_gem_shmem_get_sg_table()
-...
+On 10/06/2022 13:37, Tvrtko Ursulin wrote:
+>
+> On 10/06/2022 08:07, Niranjana Vishwanathapura wrote:
+>> VM_BIND and related uapi definitions
+>>
+>> Signed-off-by: Niranjana Vishwanathapura 
+>> <niranjana.vishwanathapura@intel.com>
+>> ---
+>>   Documentation/gpu/rfc/i915_vm_bind.h | 490 +++++++++++++++++++++++++++
+>>   1 file changed, 490 insertions(+)
+>>   create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
+>>
+>> diff --git a/Documentation/gpu/rfc/i915_vm_bind.h 
+>> b/Documentation/gpu/rfc/i915_vm_bind.h
+>> new file mode 100644
+>> index 000000000000..9fc854969cfb
+>> --- /dev/null
+>> +++ b/Documentation/gpu/rfc/i915_vm_bind.h
+>> @@ -0,0 +1,490 @@
+>> +/* SPDX-License-Identifier: MIT */
+>> +/*
+>> + * Copyright © 2022 Intel Corporation
+>> + */
+>> +
+>> +/**
+>> + * DOC: I915_PARAM_HAS_VM_BIND
+>> + *
+>> + * VM_BIND feature availability.
+>> + * See typedef drm_i915_getparam_t param.
+>> + * bit[0]: If set, VM_BIND is supported, otherwise not.
+>> + * bits[8-15]: VM_BIND implementation version.
+>> + * version 0 will not have VM_BIND/UNBIND timeline fence array support.
+>> + */
+>> +#define I915_PARAM_HAS_VM_BIND        57
+>> +
+>> +/**
+>> + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
+>> + *
+>> + * Flag to opt-in for VM_BIND mode of binding during VM creation.
+>> + * See struct drm_i915_gem_vm_control flags.
+>> + *
+>> + * The older execbuf2 ioctl will not support VM_BIND mode of operation.
+>> + * For VM_BIND mode, we have new execbuf3 ioctl which will not 
+>> accept any
+>> + * execlist (See struct drm_i915_gem_execbuffer3 for more details).
+>> + *
+>> + */
+>> +#define I915_VM_CREATE_FLAGS_USE_VM_BIND    (1 << 0)
+>> +
+>> +/**
+>> + * DOC: I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING
+>> + *
+>> + * Flag to declare context as long running.
+>> + * See struct drm_i915_gem_context_create_ext flags.
+>> + *
+>> + * Usage of dma-fence expects that they complete in reasonable 
+>> amount of time.
+>> + * Compute on the other hand can be long running. Hence it is not 
+>> appropriate
+>> + * for compute contexts to export request completion dma-fence to user.
+>> + * The dma-fence usage will be limited to in-kernel consumption only.
+>> + * Compute contexts need to use user/memory fence.
+>> + *
+>> + * So, long running contexts do not support output fences. Hence,
+>> + * I915_EXEC_FENCE_SIGNAL (See &drm_i915_gem_exec_fence.flags) is 
+>> expected
+>> + * to be not used. DRM_I915_GEM_WAIT ioctl call is also not 
+>> supported for
+>> + * objects mapped to long running contexts.
+>> + */
+>> +#define I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING   (1u << 2)
+>> +
+>> +/* VM_BIND related ioctls */
+>> +#define DRM_I915_GEM_VM_BIND        0x3d
+>> +#define DRM_I915_GEM_VM_UNBIND        0x3e
+>> +#define DRM_I915_GEM_EXECBUFFER3    0x3f
+>> +#define DRM_I915_GEM_WAIT_USER_FENCE    0x40
+>> +
+>> +#define DRM_IOCTL_I915_GEM_VM_BIND DRM_IOWR(DRM_COMMAND_BASE + 
+>> DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
+>> +#define DRM_IOCTL_I915_GEM_VM_UNBIND DRM_IOWR(DRM_COMMAND_BASE + 
+>> DRM_I915_GEM_VM_UNBIND, struct drm_i915_gem_vm_bind)
+>> +#define DRM_IOCTL_I915_GEM_EXECBUFFER3 DRM_IOWR(DRM_COMMAND_BASE + 
+>> DRM_I915_GEM_EXECBUFFER3, struct drm_i915_gem_execbuffer3)
+>> +#define DRM_IOCTL_I915_GEM_WAIT_USER_FENCE DRM_IOWR(DRM_COMMAND_BASE 
+>> + DRM_I915_GEM_WAIT_USER_FENCE, struct drm_i915_gem_wait_user_fence)
+>> +
+>> +/**
+>> + * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
+>> + *
+>> + * This structure is passed to VM_BIND ioctl and specifies the 
+>> mapping of GPU
+>> + * virtual address (VA) range to the section of an object that 
+>> should be bound
+>> + * in the device page table of the specified address space (VM).
+>> + * The VA range specified must be unique (ie., not currently bound) 
+>> and can
+>> + * be mapped to whole object or a section of the object (partial 
+>> binding).
+>> + * Multiple VA mappings can be created to the same section of the 
+>> object
+>> + * (aliasing).
+>> + *
+>> + * The @queue_idx specifies the queue to use for binding. Same queue 
+>> can be
+>> + * used for both VM_BIND and VM_UNBIND calls. All submitted bind and 
+>> unbind
+>> + * operations in a queue are performed in the order of submission.
+>> + *
+>> + * The @start, @offset and @length should be 4K page aligned. 
+>> However the DG2
+>> + * and XEHPSDV has 64K page size for device local-memory and has 
+>> compact page
+>> + * table. On those platforms, for binding device local-memory 
+>> objects, the
+>> + * @start should be 2M aligned, @offset and @length should be 64K 
+>> aligned.
+>> + * Also, on those platforms, it is not allowed to bind an device 
+>> local-memory
+>> + * object and a system memory object in a single 2M section of VA 
+>> range.
+>> + */
+>> +struct drm_i915_gem_vm_bind {
+>> +    /** @vm_id: VM (address space) id to bind */
+>> +    __u32 vm_id;
+>> +
+>> +    /** @queue_idx: Index of queue for binding */
+>> +    __u32 queue_idx;
+>
+> I have a question here to which I did not find an answer by browsing 
+> the old threads.
+>
+> Queue index appears to be an implicit synchronisation mechanism, 
+> right? Operations on the same index are executed/complete in order of 
+> ioctl submission?
+>
+> Do we _have_ to implement this on the kernel side and could just allow 
+> in/out fence and let userspace deal with it?
 
-Thomas, do you think it will be possible for you to take the fix patches
-1-11 into the drm-fixes or would you prefer me to re-send them separately?
 
-The VirtIO patches 12-13 also are good to go into drm-next, IMO.
+It orders operations like in a queue. Which is kind of what happens with 
+existing queues/engines.
 
-I'm going to factor out the new dma-buf convention into a separate
-patchset, like was suggested by Christian. But it will take me some time
-to get the dma-buf patches ready and I also will be on a vacation soon.
+If I understood correctly, it's going to be a kthread + a linked list right?
 
-At minimum nothing should hold the fixes, so will be great if they could
-land sooner.
 
-Thank you!
+-Lionel
 
--- 
-Best regards,
-Dmitry
+
+>
+> Arbitrary/on-demand number of queues will add the complexity on the 
+> kernel side which should be avoided if possible.
+>
+> Regards,
+>
+> Tvrtko
+>
+>> +
+>> +    /** @rsvd: Reserved, MBZ */
+>> +    __u32 rsvd;
+>> +
+>> +    /** @handle: Object handle */
+>> +    __u32 handle;
+>> +
+>> +    /** @start: Virtual Address start to bind */
+>> +    __u64 start;
+>> +
+>> +    /** @offset: Offset in object to bind */
+>> +    __u64 offset;
+>> +
+>> +    /** @length: Length of mapping to bind */
+>> +    __u64 length;
+>> +
+>> +    /**
+>> +     * @flags: Supported flags are:
+>> +     *
+>> +     * I915_GEM_VM_BIND_READONLY:
+>> +     * Mapping is read-only.
+>> +     *
+>> +     * I915_GEM_VM_BIND_CAPTURE:
+>> +     * Capture this mapping in the dump upon GPU error.
+>> +     */
+>> +    __u64 flags;
+>> +#define I915_GEM_VM_BIND_READONLY    (1 << 0)
+>> +#define I915_GEM_VM_BIND_CAPTURE     (1 << 1)
+>> +
+>> +    /**
+>> +     * @extensions: 0-terminated chain of extensions for this 
+>> operation.
+>> +     *
+>> +     * I915_VM_BIND_EXT_TIMELINE_FENCES:
+>> +     * Specifies an array of input or output timeline fences for this
+>> +     * binding operation. See struct 
+>> drm_i915_vm_bind_ext_timeline_fences.
+>> +     *
+>> +     * I915_VM_BIND_EXT_USER_FENCES:
+>> +     * Specifies an array of input or output user fences for this
+>> +     * binding operation. See struct drm_i915_vm_bind_ext_user_fence.
+>> +     * This is required for compute contexts.
+>> +     */
+>> +    __u64 extensions;
+>> +#define I915_VM_BIND_EXT_TIMELINE_FENCES    0
+>> +#define I915_VM_BIND_EXT_USER_FENCES        1
+>> +};
+>> +
+>> +/**
+>> + * struct drm_i915_gem_vm_unbind - VA to object mapping to unbind.
+>> + *
+>> + * This structure is passed to VM_UNBIND ioctl and specifies the GPU 
+>> virtual
+>> + * address (VA) range that should be unbound from the device page 
+>> table of the
+>> + * specified address space (VM). The specified VA range must match 
+>> one of the
+>> + * mappings created with the VM_BIND ioctl. TLB is flushed upon unbind
+>> + * completion.
+>> + *
+>> + * The @queue_idx specifies the queue to use for unbinding.
+>> + * See struct drm_i915_gem_vm_unbind for more information on 
+>> @queue_idx.
+>> + *
+>> + * The @start and @length musy specify a unique mapping bound with 
+>> VM_BIND
+>> + * ioctl.
+>> + */
+>> +struct drm_i915_gem_vm_unbind {
+>> +    /** @vm_id: VM (address space) id to bind */
+>> +    __u32 vm_id;
+>> +
+>> +    /** @queue_idx: Index of queue for unbinding */
+>> +    __u32 queue_idx;
+>> +
+>> +    /** @start: Virtual Address start to unbind */
+>> +    __u64 start;
+>> +
+>> +    /** @length: Length of mapping to unbind */
+>> +    __u64 length;
+>> +
+>> +    /** @flags: Reserved for future usage, currently MBZ */
+>> +    __u64 flags;
+>> +
+>> +    /**
+>> +     * @extensions: 0-terminated chain of extensions for this 
+>> operation.
+>> +     *
+>> +     * I915_VM_UNBIND_EXT_TIMELINE_FENCES:
+>> +     * Specifies an array of input or output timeline fences for this
+>> +     * unbind operation.
+>> +     * It has same format as struct 
+>> drm_i915_vm_bind_ext_timeline_fences.
+>> +     *
+>> +     * I915_VM_UNBIND_EXT_USER_FENCES:
+>> +     * Specifies an array of input or output user fences for this
+>> +     * unbind operation. This is required for compute contexts.
+>> +     * It has same format as struct drm_i915_vm_bind_ext_user_fence.
+>> +     */
+>> +    __u64 extensions;
+>> +#define I915_VM_UNBIND_EXT_TIMELINE_FENCES    0
+>> +#define I915_VM_UNBIND_EXT_USER_FENCES        1
+>> +};
+>> +
+>> +/**
+>> + * struct drm_i915_vm_bind_fence - An input or output fence for the 
+>> vm_bind
+>> + * or the vm_unbind work.
+>> + *
+>> + * The vm_bind or vm_unbind aync worker will wait for input fence to 
+>> signal
+>> + * before starting the binding or unbinding.
+>> + *
+>> + * The vm_bind or vm_unbind async worker will signal the returned 
+>> output fence
+>> + * after the completion of binding or unbinding.
+>> + */
+>> +struct drm_i915_vm_bind_fence {
+>> +    /** @handle: User's handle for a drm_syncobj to wait on or 
+>> signal. */
+>> +    __u32 handle;
+>> +
+>> +    /**
+>> +     * @flags: Supported flags are:
+>> +     *
+>> +     * I915_VM_BIND_FENCE_WAIT:
+>> +     * Wait for the input fence before binding/unbinding
+>> +     *
+>> +     * I915_VM_BIND_FENCE_SIGNAL:
+>> +     * Return bind/unbind completion fence as output
+>> +     */
+>> +    __u32 flags;
+>> +#define I915_VM_BIND_FENCE_WAIT            (1<<0)
+>> +#define I915_VM_BIND_FENCE_SIGNAL          (1<<1)
+>> +#define __I915_VM_BIND_FENCE_UNKNOWN_FLAGS 
+>> (-(I915_VM_BIND_FENCE_SIGNAL << 1))
+>> +};
+>> +
+>> +/**
+>> + * struct drm_i915_vm_bind_ext_timeline_fences - Timeline fences for 
+>> vm_bind
+>> + * and vm_unbind.
+>> + *
+>> + * This structure describes an array of timeline drm_syncobj and 
+>> associated
+>> + * points for timeline variants of drm_syncobj. These timeline 
+>> 'drm_syncobj's
+>> + * can be input or output fences (See struct drm_i915_vm_bind_fence).
+>> + */
+>> +struct drm_i915_vm_bind_ext_timeline_fences {
+>> +    /** @base: Extension link. See struct i915_user_extension. */
+>> +    struct i915_user_extension base;
+>> +
+>> +    /**
+>> +     * @fence_count: Number of elements in the @handles_ptr & 
+>> @value_ptr
+>> +     * arrays.
+>> +     */
+>> +    __u64 fence_count;
+>> +
+>> +    /**
+>> +     * @handles_ptr: Pointer to an array of struct 
+>> drm_i915_vm_bind_fence
+>> +     * of length @fence_count.
+>> +     */
+>> +    __u64 handles_ptr;
+>> +
+>> +    /**
+>> +     * @values_ptr: Pointer to an array of u64 values of length
+>> +     * @fence_count.
+>> +     * Values must be 0 for a binary drm_syncobj. A Value of 0 for a
+>> +     * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
+>> +     * binary one.
+>> +     */
+>> +    __u64 values_ptr;
+>> +};
+>> +
+>> +/**
+>> + * struct drm_i915_vm_bind_user_fence - An input or output user 
+>> fence for the
+>> + * vm_bind or the vm_unbind work.
+>> + *
+>> + * The vm_bind or vm_unbind aync worker will wait for the input 
+>> fence (value at
+>> + * @addr to become equal to @val) before starting the binding or 
+>> unbinding.
+>> + *
+>> + * The vm_bind or vm_unbind async worker will signal the output 
+>> fence after
+>> + * the completion of binding or unbinding by writing @val to memory 
+>> location at
+>> + * @addr
+>> + */
+>> +struct drm_i915_vm_bind_user_fence {
+>> +    /** @addr: User/Memory fence qword aligned process virtual 
+>> address */
+>> +    __u64 addr;
+>> +
+>> +    /** @val: User/Memory fence value to be written after bind 
+>> completion */
+>> +    __u64 val;
+>> +
+>> +    /**
+>> +     * @flags: Supported flags are:
+>> +     *
+>> +     * I915_VM_BIND_USER_FENCE_WAIT:
+>> +     * Wait for the input fence before binding/unbinding
+>> +     *
+>> +     * I915_VM_BIND_USER_FENCE_SIGNAL:
+>> +     * Return bind/unbind completion fence as output
+>> +     */
+>> +    __u32 flags;
+>> +#define I915_VM_BIND_USER_FENCE_WAIT            (1<<0)
+>> +#define I915_VM_BIND_USER_FENCE_SIGNAL          (1<<1)
+>> +#define __I915_VM_BIND_USER_FENCE_UNKNOWN_FLAGS \
+>> +    (-(I915_VM_BIND_USER_FENCE_SIGNAL << 1))
+>> +};
+>> +
+>> +/**
+>> + * struct drm_i915_vm_bind_ext_user_fence - User/memory fences for 
+>> vm_bind
+>> + * and vm_unbind.
+>> + *
+>> + * These user fences can be input or output fences
+>> + * (See struct drm_i915_vm_bind_user_fence).
+>> + */
+>> +struct drm_i915_vm_bind_ext_user_fence {
+>> +    /** @base: Extension link. See struct i915_user_extension. */
+>> +    struct i915_user_extension base;
+>> +
+>> +    /** @fence_count: Number of elements in the @user_fence_ptr 
+>> array. */
+>> +    __u64 fence_count;
+>> +
+>> +    /**
+>> +     * @user_fence_ptr: Pointer to an array of
+>> +     * struct drm_i915_vm_bind_user_fence of length @fence_count.
+>> +     */
+>> +    __u64 user_fence_ptr;
+>> +};
+>> +
+>> +/**
+>> + * struct drm_i915_gem_execbuffer3 - Structure for 
+>> DRM_I915_GEM_EXECBUFFER3
+>> + * ioctl.
+>> + *
+>> + * DRM_I915_GEM_EXECBUFFER3 ioctl only works in VM_BIND mode and 
+>> VM_BIND mode
+>> + * only works with this ioctl for submission.
+>> + * See I915_VM_CREATE_FLAGS_USE_VM_BIND.
+>> + */
+>> +struct drm_i915_gem_execbuffer3 {
+>> +    /**
+>> +     * @ctx_id: Context id
+>> +     *
+>> +     * Only contexts with user engine map are allowed.
+>> +     */
+>> +    __u32 ctx_id;
+>> +
+>> +    /**
+>> +     * @engine_idx: Engine index
+>> +     *
+>> +     * An index in the user engine map of the context specified by 
+>> @ctx_id.
+>> +     */
+>> +    __u32 engine_idx;
+>> +
+>> +    /** @rsvd1: Reserved, MBZ */
+>> +    __u32 rsvd1;
+>> +
+>> +    /**
+>> +     * @batch_count: Number of batches in @batch_address array.
+>> +     *
+>> +     * 0 is invalid. For parallel submission, it should be equal to the
+>> +     * number of (parallel) engines involved in that submission.
+>> +     */
+>> +    __u32 batch_count;
+>> +
+>> +    /**
+>> +     * @batch_address: Array of batch gpu virtual addresses.
+>> +     *
+>> +     * If @batch_count is 1, then it is the gpu virtual address of the
+>> +     * batch buffer. If @batch_count > 1, then it is a pointer to an 
+>> array
+>> +     * of batch buffer gpu virtual addresses.
+>> +     */
+>> +    __u64 batch_address;
+>> +
+>> +    /**
+>> +     * @flags: Supported flags are:
+>> +     *
+>> +     * I915_EXEC3_SECURE:
+>> +     * Request a privileged ("secure") batch buffer/s.
+>> +     * It is only available for DRM_ROOT_ONLY | DRM_MASTER processes.
+>> +     */
+>> +    __u64 flags;
+>> +#define I915_EXEC3_SECURE    (1<<0)
+>> +
+>> +    /** @rsvd2: Reserved, MBZ */
+>> +    __u64 rsvd2;
+>> +
+>> +    /**
+>> +     * @extensions: Zero-terminated chain of extensions.
+>> +     *
+>> +     * DRM_I915_GEM_EXECBUFFER3_EXT_TIMELINE_FENCES:
+>> +     * It has same format as 
+>> DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES.
+>> +     * See struct drm_i915_gem_execbuffer_ext_timeline_fences.
+>> +     *
+>> +     * DRM_I915_GEM_EXECBUFFER3_EXT_USER_FENCE:
+>> +     * First level batch completion signaling extension.
+>> +     * See struct drm_i915_gem_execbuffer3_ext_user_fence.
+>> +     */
+>> +    __u64 extensions;
+>> +#define DRM_I915_GEM_EXECBUFFER3_EXT_TIMELINE_FENCES    0
+>> +#define DRM_I915_GEM_EXECBUFFER3_EXT_USER_FENCE        1
+>> +};
+>> +
+>> +/**
+>> + * struct drm_i915_gem_execbuffer3_ext_user_fence - First level 
+>> batch completion
+>> + * signaling extension.
+>> + *
+>> + * This extension allows user to attach a user fence (@addr, @value 
+>> pair) to
+>> + * execbuf3, to be signaled by the command streamer after the 
+>> completion of first
+>> + * level batch, by writing the @value at specified @addr and 
+>> triggering an
+>> + * interrupt.
+>> + * User can either poll for this user fence to signal or can also 
+>> wait on it
+>> + * with i915_gem_wait_user_fence ioctl.
+>> + * This is very much usefaul for long running contexts where waiting 
+>> on dma-fence
+>> + * by user (like i915_gem_wait ioctl) is not supported.
+>> + */
+>> +struct drm_i915_gem_execbuffer3_ext_user_fence {
+>> +    /** @base: Extension link. See struct i915_user_extension. */
+>> +    struct i915_user_extension base;
+>> +
+>> +    /**
+>> +     * @addr: User/Memory fence qword aligned GPU virtual address.
+>> +     *
+>> +     * Address has to be a valid GPU virtual address at the time of
+>> +     * first level batch completion.
+>> +     */
+>> +    __u64 addr;
+>> +
+>> +    /**
+>> +     * @value: User/Memory fence Value to be written to above address
+>> +     * after first level batch completes.
+>> +     */
+>> +    __u64 value;
+>> +
+>> +    /** @rsvd: Reserved, MBZ */
+>> +    __u64 rsvd;
+>> +};
+>> +
+>> +/**
+>> + * struct drm_i915_gem_create_ext_vm_private - Extension to make the 
+>> object
+>> + * private to the specified VM.
+>> + *
+>> + * See struct drm_i915_gem_create_ext.
+>> + */
+>> +struct drm_i915_gem_create_ext_vm_private {
+>> +#define I915_GEM_CREATE_EXT_VM_PRIVATE        2
+>> +    /** @base: Extension link. See struct i915_user_extension. */
+>> +    struct i915_user_extension base;
+>> +
+>> +    /** @vm_id: Id of the VM to which the object is private */
+>> +    __u32 vm_id;
+>> +};
+>> +
+>> +/**
+>> + * struct drm_i915_gem_wait_user_fence - Wait on user/memory fence.
+>> + *
+>> + * User/Memory fence can be woken up either by:
+>> + *
+>> + * 1. GPU context indicated by @ctx_id, or,
+>> + * 2. Kerrnel driver async worker upon I915_UFENCE_WAIT_SOFT.
+>> + *    @ctx_id is ignored when this flag is set.
+>> + *
+>> + * Wakeup condition is,
+>> + * ``((*addr & mask) op (value & mask))``
+>> + *
+>> + * See :ref:`Documentation/driver-api/dma-buf.rst 
+>> <indefinite_dma_fences>`
+>> + */
+>> +struct drm_i915_gem_wait_user_fence {
+>> +    /** @extensions: Zero-terminated chain of extensions. */
+>> +    __u64 extensions;
+>> +
+>> +    /** @addr: User/Memory fence address */
+>> +    __u64 addr;
+>> +
+>> +    /** @ctx_id: Id of the Context which will signal the fence. */
+>> +    __u32 ctx_id;
+>> +
+>> +    /** @op: Wakeup condition operator */
+>> +    __u16 op;
+>> +#define I915_UFENCE_WAIT_EQ      0
+>> +#define I915_UFENCE_WAIT_NEQ     1
+>> +#define I915_UFENCE_WAIT_GT      2
+>> +#define I915_UFENCE_WAIT_GTE     3
+>> +#define I915_UFENCE_WAIT_LT      4
+>> +#define I915_UFENCE_WAIT_LTE     5
+>> +#define I915_UFENCE_WAIT_BEFORE  6
+>> +#define I915_UFENCE_WAIT_AFTER   7
+>> +
+>> +    /**
+>> +     * @flags: Supported flags are:
+>> +     *
+>> +     * I915_UFENCE_WAIT_SOFT:
+>> +     *
+>> +     * To be woken up by i915 driver async worker (not by GPU).
+>> +     *
+>> +     * I915_UFENCE_WAIT_ABSTIME:
+>> +     *
+>> +     * Wait timeout specified as absolute time.
+>> +     */
+>> +    __u16 flags;
+>> +#define I915_UFENCE_WAIT_SOFT    0x1
+>> +#define I915_UFENCE_WAIT_ABSTIME 0x2
+>> +
+>> +    /** @value: Wakeup value */
+>> +    __u64 value;
+>> +
+>> +    /** @mask: Wakeup mask */
+>> +    __u64 mask;
+>> +#define I915_UFENCE_WAIT_U8     0xffu
+>> +#define I915_UFENCE_WAIT_U16    0xffffu
+>> +#define I915_UFENCE_WAIT_U32    0xfffffffful
+>> +#define I915_UFENCE_WAIT_U64    0xffffffffffffffffull
+>> +
+>> +    /**
+>> +     * @timeout: Wait timeout in nanoseconds.
+>> +     *
+>> +     * If I915_UFENCE_WAIT_ABSTIME flag is set, then time timeout is 
+>> the
+>> +     * absolute time in nsec.
+>> +     */
+>> +    __s64 timeout;
+>> +};
+
+
