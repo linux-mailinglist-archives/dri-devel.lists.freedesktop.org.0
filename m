@@ -1,36 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFA1546619
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 13:53:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2640546658
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 14:14:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C8CD10EC41;
-	Fri, 10 Jun 2022 11:53:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C88AB10EF8B;
+	Fri, 10 Jun 2022 12:14:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 09C3110EC41
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 11:53:18 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9A76112FC
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 04:53:17 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 48A293F766
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 04:53:17 -0700 (PDT)
-Date: Fri, 10 Jun 2022 12:53:11 +0100
-From: Liviu Dudau <Liviu.Dudau@arm.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH] dt-bindings: display: arm,malidp: remove bogus RQOS
- property
-Message-ID: <YqMwp/9AKYeqt34D@e110455-lin.cambridge.arm.com>
-References: <20220609162729.1441760-1-andre.przywara@arm.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63B9510EF86
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 12:14:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654863247;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WR1K58LGW8UUBKQRHKfvZsRKVXPRYZxOj4nAVmRS2ho=;
+ b=fp+EB6QbQsXY3BAdNHMUtbI1zAklHIeNJMTXjJKpYZRQ0Y1Tbr3fhyqNOUskVZy/eVN2a3
+ YOc6GpbHT7w2j2vbTK8I+x6LXt5YkqJwG31tssTS2hRsjOrAPsMsMxrIjNlHfFSfiWG4Vt
+ BX9L/ZK5HmzByqXAja5UYPvXiQpvbL8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-515-98c7Ka81OvCo50J8hSI7aQ-1; Fri, 10 Jun 2022 08:14:03 -0400
+X-MC-Unique: 98c7Ka81OvCo50J8hSI7aQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ECDEA1C05AB9;
+ Fri, 10 Jun 2022 12:14:02 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A2A22492C3B;
+ Fri, 10 Jun 2022 12:14:02 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D180F18000AA; Fri, 10 Jun 2022 14:03:54 +0200 (CEST)
+Date: Fri, 10 Jun 2022 14:03:54 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
+Message-ID: <20220610120354.ey2puw53eb4hzww7@sirius.home.kraxel.org>
+References: <20220602154243.1015688-1-zack@kde.org>
+ <wRnf-Lm5zz6v1e-NlnFPteyARuLl-R98mOZZVjePHD5ue7QQNR_TSU7RwYBssgUa7xM5hf7Fe59-gMEj81ESrHY3mu_H7yE0dtGhFHFPTnc=@emersion.fr>
+ <YqMDoSMOL2rsfJj/@phenom.ffwll.local>
+ <YqMH14MEqGZtujfk@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <YqMH14MEqGZtujfk@phenom.ffwll.local>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220609162729.1441760-1-andre.przywara@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,79 +68,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ krastevm@vmware.com, Pekka Paalanen <ppaalanen@gmail.com>,
+ mombasawalam@vmware.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 09, 2022 at 05:27:29PM +0100, Andre Przywara wrote:
-> As Liviu pointed out, the arm,malidp-arqos-high-level property
-> mentioned in the original .txt binding was a mistake, and
-> arm,malidp-arqos-value needs to take its place.
-> 
-> The binding commit ce6eb0253cba ("dt/bindings: display: Add optional
-> property node define for Mali DP500") mentions the right name in the
-> commit message, but has the wrong name in the diff.
-> Commit d298e6a27a81 ("drm/arm/mali-dp: Add display QoS interface
-> configuration for Mali DP500") uses the property in the driver, but uses
-> the shorter name.
-> 
-> Remove the wrong property from the binding, and use the proper name in
-> the example. The actual property was already documented properly.
-> 
-> Fixes: 2c8b082a3ab1 ("dt-bindings: display: convert Arm Mali-DP to DT schema")
-> Link: https://lore.kernel.org/linux-arm-kernel/YnumGEilUblhBx8E@e110455-lin.cambridge.arm.com/
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Reported-by: Liviu Dudau <liviu.dudau@arm.com>
+  Hi,
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Thanks for cleaning this up!
-
-Best regards,
-Liviu
-
-> ---
->  Documentation/devicetree/bindings/display/arm,malidp.yaml | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
+> >   4. make sure the hotspot property is only set on VIRTUAL_CURSOR planes
+> >   and nothing else in the rebased patch series
 > 
-> diff --git a/Documentation/devicetree/bindings/display/arm,malidp.yaml b/Documentation/devicetree/bindings/display/arm,malidp.yaml
-> index 795a08ac9f128..2a17ec6fc97c0 100644
-> --- a/Documentation/devicetree/bindings/display/arm,malidp.yaml
-> +++ b/Documentation/devicetree/bindings/display/arm,malidp.yaml
-> @@ -71,11 +71,6 @@ properties:
->        - description: number of output lines for the green channel (G)
->        - description: number of output lines for the blue channel (B)
->  
-> -  arm,malidp-arqos-high-level:
-> -    $ref: /schemas/types.yaml#/definitions/uint32
-> -    description:
-> -      integer describing the ARQoS levels of DP500's QoS signaling
-> -
->    arm,malidp-arqos-value:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      description:
-> @@ -113,7 +108,7 @@ examples:
->          clocks = <&oscclk2>, <&fpgaosc0>, <&fpgaosc1>, <&fpgaosc1>;
->          clock-names = "pxlclk", "mclk", "aclk", "pclk";
->          arm,malidp-output-port-lines = /bits/ 8 <8 8 8>;
-> -        arm,malidp-arqos-high-level = <0xd000d000>;
-> +        arm,malidp-arqos-value = <0xd000d000>;
->  
->          port {
->              dp0_output: endpoint {
-> -- 
-> 2.25.1
-> 
+> Simon also mentioned on irc that these special planes must not expose the
+> CRTC_X/Y property, since that doesn't really do much at all. Or is our
+> understanding of how this all works for commandeered cursors wrong?
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Depends.  In some cases the pointer position is a one-way host->guest
+ticket (via tablet device).  In some cases the other direction works too
+and the guest can warp the mouse pointer to another place on the host
+display.  The guest can't easily figure whenever warp works or not
+because that depends on host-side configuration the guest has no insight
+to.
+
+take care,
+  Gerd
+
