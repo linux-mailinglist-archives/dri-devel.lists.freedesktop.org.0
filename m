@@ -2,64 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFFBC546FF5
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jun 2022 01:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F6B546FF9
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jun 2022 01:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DC7211AF8B;
-	Fri, 10 Jun 2022 23:20:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54AC711AFB0;
+	Fri, 10 Jun 2022 23:21:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 749D411AF89;
- Fri, 10 Jun 2022 23:20:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1654903213; x=1686439213;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=9yAbVr8i+ycH3s6QgCiS4sWu5K/Nl73oEYUd3Goddgg=;
- b=V/Jl4KlizXftcHb+payH8uYJmarqVK9Djxn1+aYxyONRvf3nYRcyuTKv
- FrF9/FaHk51kAzk12O2DAKxIJ4JTUUwOL+1mLAlPhweybFN+uXNOExMz3
- 3weZp1SZgT7fJpAKAxiPpScod0+pInwxtLAfub3XGf5XursnsmH1on2+Y s=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 10 Jun 2022 16:20:12 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2022 16:20:12 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 10 Jun 2022 16:20:11 -0700
-Received: from [10.38.242.187] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 10 Jun
- 2022 16:20:08 -0700
-Message-ID: <059e0a81-3c0a-1c8f-90f0-a836da1204f5@quicinc.com>
-Date: Fri, 10 Jun 2022 16:20:07 -0700
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 144C011AFAD;
+ Fri, 10 Jun 2022 23:21:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1654903268; x=1686439268;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=F73a8Ft10vACEWr3RICOQTrJWj1S3nEcP6DzQv42DfI=;
+ b=SMGOwWLDPxCD3Gkzhxi6BwDkwS7YxUg8UbMsxSaa+ivMrjlu54tClMHO
+ tC3sVXmEHevpMQEIQhE102Jhq7BZ/3blUhIX9hHv0peLk9iNEglQRQAAA
+ 06etTbFAu0mXmV1rxI042QUpqUmv/ZCDDtL3RqD6EizcY6WsM2kSnkcva
+ rJDqPtb/hfwO5bgVZv7lIjPQRSXmqxHTPPJvKcrUNtl2NsP0pgUwFX/Nv
+ UnCwfL9GEQBU8tnytTgjQLZFrnbY7WjxziRhxItUxgAufzOolTESaXbkR
+ iYOoLNv5BJ+Zgx1NSoRZaHI8gNasf6ymklOJjwItUDn2z6V5TE/wFmqfC Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10374"; a="258210104"
+X-IronPort-AV: E=Sophos;i="5.91,291,1647327600"; d="scan'208";a="258210104"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2022 16:21:07 -0700
+X-IronPort-AV: E=Sophos;i="5.91,291,1647327600"; d="scan'208";a="610919567"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2022 16:21:07 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] iosys-map: Add per-word read
+Date: Fri, 10 Jun 2022 16:21:28 -0700
+Message-Id: <20220610232130.2865479-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/mdp4: Fix refcount leak in mdp4_modeset_init_intf
-Content-Language: en-US
-To: Miaoqian Lin <linmq006@gmail.com>, Rob Clark <robdclark@gmail.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Sean Paul
- <sean@poorly.run>, "David Airlie" <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>, David Heidelberg
- <david@ixit.cz>, Guo Zhengkui <guozhengkui@vivo.com>, Xu Wang
- <vulab@iscas.ac.cn>, Neil Armstrong <narmstrong@baylibre.com>, Rob Herring
- <robh@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20220607110841.53889-1-linmq006@gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220607110841.53889-1-linmq006@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,51 +54,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: daniel.vetter@ffwll.ch, Lucas De Marchi <lucas.demarchi@intel.com>,
+ christian.koenig@amd.com, tzimmermann@suse.de, chris@chris-wilson.co.uk
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Instead of always falling back to memcpy_fromio() for any size, prefer
+using read{b,w,l}(). When reading struct members it's common to read
+individual integer variables individually. Going through memcpy_fromio()
+for each of them poses a high penalty.
 
+Employ a similar trick as __seqprop() by using _Generic() to generate
+only the specific call based on a type-compatible variable.
 
-On 6/7/2022 4:08 AM, Miaoqian Lin wrote:
-> of_graph_get_remote_node() returns remote device node pointer with
-> refcount incremented, we should use of_node_put() on it
-> when not need anymore.
-> Add missing of_node_put() to avoid refcount leak.
-> 
-> Fixes: 86418f90a4c1 ("drm: convert drivers to use of_graph_get_remote_node")
-> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
-> ---
->   drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
+For a pariticular i915 workload producing GPU context switches,
+__get_engine_usage_record() is particularly hot since the engine usage
+is read from device local memory with dgfx, possibly multiple times
+since it's racy. Test execution time for this test shows a ~12.5%
+improvement with DG2:
 
-This patch itself looks fine and will cover the cases when there was an 
-error and we did not release the refcount.
+Before:
+	nrepeats = 1000; min = 7.63243e+06; max = 1.01817e+07;
+	median = 9.52548e+06; var = 526149;
+After:
+	nrepeats = 1000; min = 7.03402e+06; max = 8.8832e+06;
+	median = 8.33955e+06; var = 333113;
 
-But, even in the normal cases I am not finding where we are releasing 
-the refcount for the panel_node.
+Other things attempted that didn't prove very useful:
+1) Change the _Generic() on x86 to just dereference the memory address
+2) Change __get_engine_usage_record() to do just 1 read per loop,
+   comparing with the previous value read
+3) Change __get_engine_usage_record() to access the fields directly as it
+   was before the conversion to iosys-map
 
-I dont see a of_node_put() on mdp4_lcdc_encoder->panel_node.
+(3) did gave a small improvement (~3%), but doesn't seem to scale well
+to other similar cases in the driver.
 
-Am i missing something?
+Additional test by Chris Wilson using gem_create from igt with some
+changes to track object creation time. This happens to accidentally
+stress this code path:
 
-> diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-> index fb48c8c19ec3..17cb1fc78379 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-> @@ -216,6 +216,7 @@ static int mdp4_modeset_init_intf(struct mdp4_kms *mdp4_kms,
->   		encoder = mdp4_lcdc_encoder_init(dev, panel_node);
->   		if (IS_ERR(encoder)) {
->   			DRM_DEV_ERROR(dev->dev, "failed to construct LCDC encoder\n");
-> +			of_node_put(panel_node);
->   			return PTR_ERR(encoder);
->   		}
->   
-> @@ -225,6 +226,7 @@ static int mdp4_modeset_init_intf(struct mdp4_kms *mdp4_kms,
->   		connector = mdp4_lvds_connector_init(dev, panel_node, encoder);
->   		if (IS_ERR(connector)) {
->   			DRM_DEV_ERROR(dev->dev, "failed to initialize LVDS connector\n");
-> +			of_node_put(panel_node);
->   			return PTR_ERR(connector);
->   		}
->   
+	Pre iosys_map conversion of engine busyness:
+	lmem0: Creating    262144 4KiB objects took 59274.2ms
+
+	Unpatched:
+	lmem0: Creating    262144 4KiB objects took 108830.2ms
+
+	With readl (this patch):
+	lmem0: Creating    262144 4KiB objects took 61348.6ms
+
+	s/readl/READ_ONCE/
+	lmem0: Creating    262144 4KiB objects took 61333.2ms
+
+So we do take a little bit more time than before the conversion, but
+that is due to other factors: bringing the READ_ONCE back would be as
+good as just doing this conversion.
+
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+ include/linux/iosys-map.h | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
+
+diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
+index e69a002d5aa4..cd28c7a1b79c 100644
+--- a/include/linux/iosys-map.h
++++ b/include/linux/iosys-map.h
+@@ -333,6 +333,20 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
+ 		memset(dst->vaddr + offset, value, len);
+ }
+ 
++#ifdef CONFIG_64BIT
++#define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)			\
++	u64: val_ = readq(vaddr_iomem_),
++#else
++#define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)
++#endif
++
++#define __iosys_map_rd_io(val__, vaddr_iomem__, type__) _Generic(val__,	\
++	u8: val__ = readb(vaddr_iomem__),				\
++	u16: val__ = readw(vaddr_iomem__),				\
++	u32: val__ = readl(vaddr_iomem__),				\
++	__iosys_map_rd_io_u64_case(val__, vaddr_iomem__)		\
++	default: memcpy_fromio(&(val__), vaddr_iomem__, sizeof(val__)))
++
+ /**
+  * iosys_map_rd - Read a C-type value from the iosys_map
+  *
+@@ -346,10 +360,14 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
+  * Returns:
+  * The value read from the mapping.
+  */
+-#define iosys_map_rd(map__, offset__, type__) ({			\
+-	type__ val;							\
+-	iosys_map_memcpy_from(&val, map__, offset__, sizeof(val));	\
+-	val;								\
++#define iosys_map_rd(map__, offset__, type__) ({				\
++	type__ val;								\
++	if ((map__)->is_iomem) {						\
++		__iosys_map_rd_io(val, (map__)->vaddr_iomem + offset__, type__);\
++	} else {								\
++		memcpy(&val, (map__)->vaddr + offset__, sizeof(val));		\
++	}									\
++	val;									\
+ })
+ 
+ /**
+-- 
+2.36.1
+
