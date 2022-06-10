@@ -1,85 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD7A546656
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 14:13:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3865466B9
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 14:36:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3772C10EF0E;
-	Fri, 10 Jun 2022 12:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8129710E995;
+	Fri, 10 Jun 2022 12:36:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5D3C10EF86
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 12:13:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6332A10E94E
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 12:36:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654863230;
+ s=mimecast20190719; t=1654864596;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VjtHIlT7gJ/0dA78qBBDZKArnIxKj9no14NIn18ZcW4=;
- b=BICFvfUrRdhC8siW/Pbcee3YO6/DL2iSBScd4pX09P4cCrFQyhBX1QmtHIKLJF/CbF/HtK
- XRhZ7MVHe2xtyq7kP6+QaeQ/F1VnQ3Ux9KAZWoSyql6+S4nMMN36n0t8h89GHcT84rHSdY
- 8gE3rWOs7/HAjJj7Q9TaXqtUsPqR1Pw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Wys6hZiO6Dm7u2mX+PNhPSFXIUQyzI+/usnVOGfO2gg=;
+ b=b/uiX697HaVuoP/B4MB6c9BNcONtYVB0gPRXJUnz1KubDALq0Mr6y5jRE51vtitcU45t24
+ xl3e5q89H4eIXi8NYBHKe0dj2de+vcK/df6p/CPAWCtp0XSncShu2Z+mGXdnLSzwiKY0kr
+ IsLMDiquGu0Kz6wBVslNxrrZhw6njUQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-ojHodWXuOJus9XuH7R_r9w-1; Fri, 10 Jun 2022 08:13:36 -0400
-X-MC-Unique: ojHodWXuOJus9XuH7R_r9w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- e15-20020adfa44f000000b00219ebf65301so197003wra.4
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 05:13:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=VjtHIlT7gJ/0dA78qBBDZKArnIxKj9no14NIn18ZcW4=;
- b=PgCobmLqd7jl73NpSdw6A5sAaSkKXZAnIPO52y2rf1F1v9l3PMMi+Cz39xKBfWzZQH
- lSxNe4HUM0wFFdBcylmkMnH6smwY3tnRIpo/BWdb5PXjFGxrZH2HQ355llyMLCT3r+ng
- mjyVjdpZByABy4bXJ9qpr2GQt0RrGbAyjoyXzV//U6pSazljFz3jWEMrUAd6vATQWzMA
- cUU4bViRqlnX7k1wVUvr6lLWVCUc6+97qTQvgcPBFXnS+fWiEf1CCbkucsqZLmKnUy/V
- XIGOEofkTTndL1u2RndcsP5BnQPuh7x71ojCBkPkh4Ia/7yzZRpLnovJy5GfTtqSgum7
- 1t8w==
-X-Gm-Message-State: AOAM532k5EGSKKLsGQ3bIbHlBxVhwYcApA3Ea9uK2m+KJqGRAqLS83Ku
- HLzFBaUoJZfwU2KmPh0EAHCS5Ncd8C7GiBLSc2K1Hpn/Tqb0PnACGItqxYTQUYc2K1ytFlIpZwY
- e9RO0loZrIzdS3gZAv+U7ABXspxyM
-X-Received: by 2002:a05:6000:188a:b0:218:e9a8:1321 with SMTP id
- a10-20020a056000188a00b00218e9a81321mr12551076wri.504.1654863215417; 
- Fri, 10 Jun 2022 05:13:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzzO4paPz71oXlv08G+Vwdn5pwyUT+0j495DIKuEibJrRPSzv/rKYLB8HphMWOz65ZaCXFVng==
-X-Received: by 2002:a05:6000:188a:b0:218:e9a8:1321 with SMTP id
- a10-20020a056000188a00b00218e9a81321mr12551055wri.504.1654863215164; 
- Fri, 10 Jun 2022 05:13:35 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n11-20020a5d4c4b000000b00219b391c2d2sm6211650wrt.36.2022.06.10.05.13.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jun 2022 05:13:34 -0700 (PDT)
-Message-ID: <0ac368d9-efe6-ab98-a695-292bca8febf8@redhat.com>
-Date: Fri, 10 Jun 2022 14:13:33 +0200
+ us-mta-62-RCzI3wE_MYGD37cMeSZR5Q-1; Fri, 10 Jun 2022 08:36:33 -0400
+X-MC-Unique: RCzI3wE_MYGD37cMeSZR5Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D04E51C18272;
+ Fri, 10 Jun 2022 12:36:32 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9234D1121314;
+ Fri, 10 Jun 2022 12:36:32 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 82C8D18000AA; Fri, 10 Jun 2022 14:36:29 +0200 (CEST)
+Date: Fri, 10 Jun 2022 14:36:29 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
+Message-ID: <20220610123629.fgu2em3fto53fpfy@sirius.home.kraxel.org>
+References: <20220602154243.1015688-1-zack@kde.org>
+ <wRnf-Lm5zz6v1e-NlnFPteyARuLl-R98mOZZVjePHD5ue7QQNR_TSU7RwYBssgUa7xM5hf7Fe59-gMEj81ESrHY3mu_H7yE0dtGhFHFPTnc=@emersion.fr>
+ <YqMDoSMOL2rsfJj/@phenom.ffwll.local>
+ <lcIVipq8mkBAPioQAVQmwsM_Gwo0e9fd2334yGSvIW6uEIEElwUrTe-x9J9h29TB1H3NY3liNCohaXDyjslDFIqxPZNSPbSPJ3vctA2jEAk=@emersion.fr>
+ <YqMTk9C8/g1buL+8@phenom.ffwll.local>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v6 0/6] Raspberry PI 4 V3D enablement
-To: Melissa Wen <mwen@igalia.com>
-References: <20220603092610.1909675-1-pbrobinson@gmail.com>
- <cadecbfd-e174-eadb-276c-577bb2bf70f2@gmail.com>
- <9aaaaa29-11c0-d494-11dd-0bbf5d384364@redhat.com>
- <20220608155130.w4piz2g3obp7qnx7@mail.igalia.com>
- <40f27e32-720a-2f51-2164-5e152f53443a@redhat.com>
- <20220610110556.63mddbye7vxq6mzb@mail.igalia.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220610110556.63mddbye7vxq6mzb@mail.igalia.com>
+In-Reply-To: <YqMTk9C8/g1buL+8@phenom.ffwll.local>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,48 +69,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>, devicetree@vger.kernel.org,
- Florian Fainelli <f.fainelli@gmail.com>, Emma Anholt <emma@anholt.net>,
- Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- bcm-kernel-feedback-list@broadcom.com, Peter Robinson <pbrobinson@gmail.com>,
- maxime@cerno.tech, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
+Cc: Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ krastevm@vmware.com, Pekka Paalanen <ppaalanen@gmail.com>,
+ mombasawalam@vmware.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ wayland-devel <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Melissa,
+  Hi,
 
-On 6/10/22 13:05, Melissa Wen wrote:
-> On 06/08, Javier Martinez Canillas wrote:
+> > As Pekka mentionned, I'd also like to have a conversation of how far we want to
+> > push virtualized driver features. I think KMS support is a good feature to have
+> > to spin up a VM and have all of the basics working. However I don't think it's
+> > a good idea to try to plumb an ever-growing list of fancy features
+> > (seamless integration of guest windows into the host, HiDPI, multi-monitor,
+> > etc) into KMS. You'd just end up re-inventing Wayland or RDP on top of KMS.
+> > Instead of re-inventing these, just use RDP or waypipe or X11 forwarding
+> > directly.
 
-[snip]
+> > So I think we need to draw a line somewhere, and decide e.g. that virtualized
+> > cursors are fine to add in KMS, but HiDPI is not.
 
-> 
-> Hi Javier,
-> 
-> Thanks for waiting a little.
-> 
-> Stefan guided me to the missing part and I'm okay on this serie.
->
+What is the problem with HiDPI?  qemu generates standard edid blobs,
+there should be no need to special-case virtualized drivers in any way.
 
-No worries and thanks for the testing.
- 
-> If there's any r-b missing for drm/v3d, you can add mine:
-> Reviewed-by: Melissa Wen <mwen@igalia.com>
-> 
-> But if you prefer that I applied them, just let me know.
-> 
+What is the problem with multi-monitor?  That isn't much different than
+physical multi-monitor either.
 
-If you can apply them that's even better since you are more involved
-with this driver. I was just trying to be helpful and that's why I
-volunteered to push, to prevent this effort to get stalled :)
+One little thing though:  On physical hardware you just don't know which
+monitor is left and which is right until the user tells you.  In case of
+a virtual multi-monitor setup we know how the two windows for the two
+virtual monitors are arranged on the host and can pass that as hint to
+the guest (not sure whenever *that* is the purpose of the
+suggested_{x,y} properties).
 
--- 
-Best regards,
+> It's getting a bit far off-topic, but google cros team has an out-of-tree
+> (at least I think it's not merged yet) wayland-virtio driver for exactly
+> this use-case. Trying to move towards something like that for fancy
+> virtualized setups sounds like the better approach indeed, with kms just
+> as the bare-bones fallback option.
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+virtio-gpu got the ability to attach uuids to objects, to allow them
+being identified on the host side.  So it could be that wayland-virtio
+still uses kms for framebuffers (disclaimer: don't know how
+wayland-virtio works in detail).  But, yes, all the scanout + cursor
+handling would be out of the way, virtio-gpu would "only" handle fast
+buffer sharing.
+
+take care,
+  Gerd
 
