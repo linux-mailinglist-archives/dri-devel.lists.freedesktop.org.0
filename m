@@ -2,61 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55064545BE0
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 07:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D250545BFE
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 08:00:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C469912AFC5;
-	Fri, 10 Jun 2022 05:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42093113FED;
+	Fri, 10 Jun 2022 06:00:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EDD212AFC5
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 05:51:24 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EE1CC220BF;
- Fri, 10 Jun 2022 05:51:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1654840282; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=i1CE2gqZBO3aHwj3VKwM4ZfmOqqHUeaIHIP+GD1WsrY=;
- b=FUUKGiWMV5dEvnqpKkNHQrBHmnQWISLLqTPhw0GAgfxoyW/5Dezd4JpfrOWdjzY7v+rra0
- daj5KvJPsZUauo20vduZQEPVGDvl5FL8sQy0sOD1zuHLVJX0PbAO7xYRHP3fHc7U1ULUuS
- B5Epp+Mbq3VG6cYeVah/vv3ck7qJVOU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1654840282;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=i1CE2gqZBO3aHwj3VKwM4ZfmOqqHUeaIHIP+GD1WsrY=;
- b=tQIxqyGYv5jOA7PSNs60+oy6IpiqbYl03Wcpf5OfVyuyyUEaZlLZ2LVL5/8+lclCXrNDPp
- HTPNzd1JmxeG19Cw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BB206132F1;
- Fri, 10 Jun 2022 05:51:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id B+SeLNrbomKvEwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 10 Jun 2022 05:51:22 +0000
-Message-ID: <97ef8e74-5d5d-2f6d-1be0-e566099e2853@suse.de>
-Date: Fri, 10 Jun 2022 07:51:22 +0200
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8909A12A816
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 06:00:37 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id d14so8309195eda.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jun 2022 23:00:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=PMkR1TDRfzwZTrqwlKw4viO8iYqHY8UAxF3PGDlzvcM=;
+ b=BaSd3vCJYVXthq5kdEbHnNRury313tthTX1z6CJyxDoHrLGrwdoBY5ubG1A2GYsGzP
+ BtSJcpQuaQAavr55W8cndMenJJSWIcyXtIDcqzrmssByTikeSw4+9L7oZNM2I6eAIER3
+ 9cgzQ03cEgPPHbKBJmswWpfpJTeVyFEEN1NmYj9RQK9sz0tTQ8nWOHLeQqBSiYhbpSOR
+ R0RIsaD/rNZV3CK2f/SG8h3Y3+FUthaGTVtddaF+ft1o6cNIjtNC6kGIhuzn/F8E08sV
+ F9IPulbHcE9CauTfAziW39SuRED2jG49cemjWbCvQNOXs6nWoFMn5BC6OGW0eH1X7274
+ yggg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=PMkR1TDRfzwZTrqwlKw4viO8iYqHY8UAxF3PGDlzvcM=;
+ b=lOjIpQGkNYS6t919Yn0XrQdNlQWgk5LNmaNkJHGs6GpLCIxTWAqy8wX9OUjOiW3SCl
+ fDx6LsVcYdgp7iNQzC7wApownXdFuFKmqQu6EXXH+ff9JQzhI65fSTr/u/xr3B/HNsMv
+ dWaBVD67ntOWKmL0qZM3hzqhUqtIckS5XgH9yV90QqRTToCScQ/uekyVYISvZUAJQYNU
+ 6u7Nv8W2BKzonVN43KZT5YddivP/la9rYR7zHx1FfeHta+68VRhPD9Bw1oVe0fm2Ry+n
+ 8I8bBgg7Ghfuemo92Y4ZCnFrWbwea/+ifxEclD0Upe80q5D6fZs+SLnH7u4I/8QKDPXv
+ 8qxw==
+X-Gm-Message-State: AOAM531GMdj61uLfKGmUoQAem/bVouYmXqyTrq4KD746GaJXqalxYv7h
+ RAxBlc8YwT2HL3ssgQyBxQJrXan7AF0Q+yBaHQc=
+X-Google-Smtp-Source: ABdhPJws2TnOFnOyy2onanxmORhFQ87OJqoGfH9JTxJD4h5uXHVlULdX04/Rgk8+RSAtypECi2eEEMc8q1rg/QIHf6k=
+X-Received: by 2002:aa7:d6d5:0:b0:431:b7c0:50c9 with SMTP id
+ x21-20020aa7d6d5000000b00431b7c050c9mr14986258edr.62.1654840836027; Thu, 09
+ Jun 2022 23:00:36 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] staging: olpc_dcon: mark driver as broken
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20220609223424.907174-1-javierm@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220609223424.907174-1-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------fCcYL6yVIILU5fq9llbNbYPZ"
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 10 Jun 2022 16:00:24 +1000
+Message-ID: <CAPM=9txaEX1q3FxV3nZQemunXKsbtNhmW9BKGh4UNs3uaCmz_Q@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.19-rc2
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,98 +63,266 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jerry Lin <wahahab11@gmail.com>, Jens Frederich <jfrederich@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jon Nettleton <jon.nettleton@gmail.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------fCcYL6yVIILU5fq9llbNbYPZ
-Content-Type: multipart/mixed; boundary="------------uoErhsz0fH0XzfW7ZOt7uJrc";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Sam Ravnborg <sam@ravnborg.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Jerry Lin <wahahab11@gmail.com>, Helge Deller <deller@gmx.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jens Frederich <jfrederich@gmail.com>,
- Jon Nettleton <jon.nettleton@gmail.com>, linux-staging@lists.linux.dev
-Message-ID: <97ef8e74-5d5d-2f6d-1be0-e566099e2853@suse.de>
-Subject: Re: [PATCH] staging: olpc_dcon: mark driver as broken
-References: <20220609223424.907174-1-javierm@redhat.com>
-In-Reply-To: <20220609223424.907174-1-javierm@redhat.com>
+Hi Linus,
 
---------------uoErhsz0fH0XzfW7ZOt7uJrc
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Not a huge amount here, mainly a bunch of scattered amdgpu fixes, and
+then some misc panfrost, bridge/panel ones, and one ast fix for
+multi-monitors. Probably pick up a bit more next week like rc3 often
+does.
 
-DQoNCkFtIDEwLjA2LjIyIHVtIDAwOjM0IHNjaHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmls
-bGFzOg0KPiBUaGUgY29tbWl0IGVlY2IzZTRlNWQ5ZCAoInN0YWdpbmc6IG9scGNfZGNvbjog
-YWRkIE9MUEMgZGlzcGxheSBjb250cm9sbGVyDQo+IChEQ09OKSBzdXBwb3J0IikgYWRkZWQg
-dGhpcyBkcml2ZXIgaW4gMjAxMCwgYW5kIGhhcyBiZWVuIGluIHN0YWdpbmcgc2luY2UNCj4g
-dGhlbi4gSXQgd2FzIG1hcmtlZCBhcyBicm9rZW4gYXQgc29tZSBwb2ludCBiZWNhdXNlIGl0
-IGRpZG4ndCBldmVuIGJ1aWxkDQo+IGJ1dCB0aGF0IGdvdCByZW1vdmVkIG9uY2UgdGhlIGJ1
-aWxkIGlzc3VlcyB3ZXJlIGFkZHJlc3NlZC4NCj4gDQo+IEJ1dCBpdCBzZWVtcyB0aGF0IHRo
-ZSB3b3JrIHRvIG1vdmUgdGhpcyBkcml2ZXIgb3V0IG9mIHN0YWdpbmcgaGFzIHN0YWxsZWQs
-DQo+IHRoZSBsYXN0IG5vbi10cml2aWFsIGNoYW5nZSB0byBmaXggb25lIG9mIHRoZSBpdGVt
-cyBtZW50aW9uZWQgaW4gaXRzIHRvZG8NCj4gZmlsZSB3YXMgY29tbWl0IGU0MDIxOWQ1ZTRi
-MiAoInN0YWdpbmc6IG9scGNfZGNvbjogYWxsb3cgc2ltdWx0YW5lb3VzIFhPLTENCj4gYW5k
-IFhPLTEuNSBzdXBwb3J0IikgaW4gMjAxOS4NCj4gDQo+IEFuZCBldmVuIGlmIHdvcmsgdG8g
-ZGVzdGFnZSB0aGUgZHJpdmVyIGlzIHJlc3VtZWQsIHRoZSBmYmRldiBzdWJzeXN0ZW0gaGFz
-DQo+IGJlZW4gZGVwcmVjYXRlZCBmb3IgYSBsb25nIHRpbWUgYW5kIGluc3RlYWQgaXQgc2hv
-dWxkIGJlIHBvcnRlZCB0byBEUk0uDQo+IA0KPiBOb3cgdGhpcyBkcml2ZXIgaXMgcHJldmVu
-dGluZyB0byBsYW5kIGEga2VybmVsIHdpZGUgY2hhbmdlLCB0aGF0IG1ha2VzIHRoZQ0KPiBu
-dW1fcmVnaXN0ZXJlZF9mYiBzeW1ib2wgdG8gYmUgcHJpdmF0ZSB0byB0aGUgZmJtZW0uYyBm
-aWxlLg0KPiANCj4gU28gbGV0J3MganVzdCBtYXJrIHRoZSBkcml2ZXIgYXMgYnJva2VuLiBT
-b21lb25lIGNhbiB0aGVuIHdvcmsgb24gbWFraW5nDQo+IGl0IG5vdCBkZXBlbmQgb24gdGhl
-IG51bV9yZWdpc3RlcmVkX2ZiIHN5bWJvbCwgYWxsb3dpbmcgdG8gZHJvcCB0aGUgYnJva2Vu
-DQo+IGRlcGVuZGVuY3kgYWdhaW4uDQo+IA0KPiBTdWdnZXN0ZWQtYnk6IFNhbSBSYXZuYm9y
-ZyA8c2FtQHJhdm5ib3JnLm9yZz4NCj4gU2lnbmVkLW9mZi1ieTogSmF2aWVyIE1hcnRpbmV6
-IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQoNCkFja2VkLWJ5OiBUaG9tYXMgWmlt
-bWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KPiAtLS0NCj4gDQo+ICAgZHJpdmVy
-cy9zdGFnaW5nL29scGNfZGNvbi9LY29uZmlnIHwgMiArLQ0KPiAgIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvc3RhZ2luZy9vbHBjX2Rjb24vS2NvbmZpZyBiL2RyaXZlcnMvc3RhZ2luZy9vbHBj
-X2Rjb24vS2NvbmZpZw0KPiBpbmRleCBkMWEwZGVhMDllZjAuLmQwYmEzNGNjMzJmNyAxMDA2
-NDQNCj4gLS0tIGEvZHJpdmVycy9zdGFnaW5nL29scGNfZGNvbi9LY29uZmlnDQo+ICsrKyBi
-L2RyaXZlcnMvc3RhZ2luZy9vbHBjX2Rjb24vS2NvbmZpZw0KPiBAQCAtMSw3ICsxLDcgQEAN
-Cj4gICAjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wDQo+ICAgY29uZmlnIEZC
-X09MUENfRENPTg0KPiAgIAl0cmlzdGF0ZSAiT25lIExhcHRvcCBQZXIgQ2hpbGQgRGlzcGxh
-eSBDT050cm9sbGVyIHN1cHBvcnQiDQo+IC0JZGVwZW5kcyBvbiBPTFBDICYmIEZCDQo+ICsJ
-ZGVwZW5kcyBvbiBPTFBDICYmIEZCICYmIEJST0tFTg0KPiAgIAlkZXBlbmRzIG9uIEkyQw0K
-PiAgIAlkZXBlbmRzIG9uIEdQSU9fQ1M1NTM1ICYmIEFDUEkNCj4gICAJc2VsZWN0IEJBQ0tM
-SUdIVF9DTEFTU19ERVZJQ0UNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3Mg
-RHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
-DQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDks
-IEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Dave.
 
---------------uoErhsz0fH0XzfW7ZOt7uJrc--
+drm-fixes-2022-06-10:
+drm fixes for 5.19-rc2
 
---------------fCcYL6yVIILU5fq9llbNbYPZ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+amdgpu:
+- DCN 3.1 golden settings fix
+- eDP fixes
+- DMCUB fixes
+- GFX11 fixes and cleanups
+- VCN fix for yellow carp
+- GMC11 fixes
+- RAS fixes
+- GPUVM TLB flush fixes
+- SMU13 fixes
+- VCN3 AV1 regression fix
+- VCN2 JPEG fix
+- Other misc fixes
 
------BEGIN PGP SIGNATURE-----
+amdkfd:
+- MMU notifier fix
+- Support for more GC 10.3.x families
+- Pinned BO handling fix
+- Partial migration bug fix
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKi29oFAwAAAAAACgkQlh/E3EQov+Dn
-ww//ZknGsqmIS/vMyC8OrM7AevAEYaiH4dsdI1FFONjUGV7fnL0XtS0T+raH2zM9Wxa9W2iV+bfx
-8dPMXynHw9gEZEKfOvxi0uNT0Lor8T5y1qqEajrQ3j4bFqLVumhaaA99aex8UyHlbw1+S0fp8zSe
-0cGo6PeGqR+8j7+lHrf9Q1vyQIWAqDrKLSXTcbPTGAtjA1WjHc04rm8Thh4+Xx8q4Arc2qE5KxzJ
-du+QENFVEaIpOXoGoMPsw/F/CacSQs51LfDkj/5JL7C002baEK95/cpl1nUh1kgUxtT8XrCc7bqp
-qCk6RSKJmKM7ZUb6ThaQ7SRjRoer1+c6UNSbgllg/Z5m+WB1fWF7cNdE7SVe78SL0RTLiTgbelvy
-iOu7Q/FsQByc6jUWk1X6gSd6p7LlVilL+Uf2EBudU2QokoTnXofQINkz/qYhH+9oZKnzgwAcl0K3
-SQuxkLTwVnVgJtw2VGOdFGgT/gZ3iwrIhOcXicGDhabAkupatvniE2gYL7ZIDlMhnZ2dnNjvW/bW
-GYucBrsAqVjSdvaPImAEuPK29imoKOCKLZnouqx75V2nvCxHuyG/e76DkVEy3N+uAe+57vf4EIyC
-sBU93Et8jYI9byGiFeRErZZloJmOeippt0NwEhSYGO8YNlUzPsImurPpj1neWGpHP+AbmhJ0z648
-fus=
-=oIn+
------END PGP SIGNATURE-----
+panfrost:
+- fix a use after free
 
---------------fCcYL6yVIILU5fq9llbNbYPZ--
+ti-sn65dsi83:
+- fix invalid DT configuration
+
+panel:
+- two self refresh fixes
+
+ast:
+- multiple output fix
+The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56=
+:
+
+  Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-06-10
+
+for you to fetch changes up to 1f192b9e8d8a5c619b33a868fb1af063af65ce5d:
+
+  Merge tag 'drm-misc-fixes-2022-06-09' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2022-06-10
+13:29:22 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.19-rc2
+
+amdgpu:
+- DCN 3.1 golden settings fix
+- eDP fixes
+- DMCUB fixes
+- GFX11 fixes and cleanups
+- VCN fix for yellow carp
+- GMC11 fixes
+- RAS fixes
+- GPUVM TLB flush fixes
+- SMU13 fixes
+- VCN3 AV1 regression fix
+- VCN2 JPEG fix
+- Other misc fixes
+
+amdkfd:
+- MMU notifier fix
+- Support for more GC 10.3.x families
+- Pinned BO handling fix
+- Partial migration bug fix
+
+panfrost:
+- fix a use after free
+
+ti-sn65dsi83:
+- fix invalid DT configuration
+
+panel:
+- two self refresh fixes
+
+ast:
+- multiple output fix
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu: update VCN codec support for Yellow Carp
+
+Alvin (1):
+      drm/amd/display: Don't clear ref_dtbclk value
+
+Aric Cyr (1):
+      drm/amd/display: 3.2.187
+
+Aurabindo Pillai (1):
+      drm/amd/display: remove stale config guards
+
+Brian Norris (2):
+      drm/bridge: analogix_dp: Support PSR-exit to disable transition
+      drm/atomic: Force bridge self-refresh-exit on CRTC switch
+
+Candice Li (1):
+      drm/amdgpu: Resolve RAS GFX error count issue after cold boot on Arct=
+urus
+
+Christian K=C3=B6nig (2):
+      drm/amdgpu: fix limiting AV1 to the first instance on VCN3
+      drm/amdgpu: always flush the TLB on gfx8
+
+Dave Airlie (3):
+      Merge tag 'amd-drm-fixes-5.19-2022-06-08' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-misc-fixes-2022-05-26' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-misc-fixes-2022-06-09' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+
+Evan Quan (2):
+      drm/amd/pm: suppress compile warnings about possible unaligned access=
+es
+      drm/amdgpu: suppress the compile warning about 64 bit type
+
+Guchun Chen (1):
+      Revert "drm/amdgpu: Ensure the DMA engine is deactivated during set u=
+ps"
+
+Hung, Cruise (1):
+      drm/amd/display: Fix DMUB outbox trace in S4 (#4465)
+
+Ilya (1):
+      drm/amd/display: Fix possible infinite loop in DP LT fallback
+
+Jesse Zhang (1):
+      drm/amdkfd:Fix fw version for 10.3.6
+
+Jiapeng Chong (1):
+      drm/amdgpu: make program_imu_rlc_ram static
+
+Joseph Greathouse (1):
+      drm/amdgpu: Add MODE register to wave debug info in gfx11
+
+Lang Yu (1):
+      drm/amdkfd: add pinned BOs to kfd_bo_list
+
+Leung, Martin (1):
+      drm/amd/display: revert Blank eDP on disable/enable drv
+
+Marek Vasut (1):
+      drm/bridge: ti-sn65dsi83: Handle dsi_lanes =3D=3D 0 as invalid
+
+Mario Limonciello (1):
+      drm/amdkfd: Add GC 10.3.6 and 10.3.7 KFD definitions
+
+Maxime Ripard (1):
+      Merge v5.19-rc1 into drm-misc-fixes
+
+Mohammad Zafar Ziya (1):
+      drm/amdgpu/jpeg2: Add jpeg vmid update under IB submit
+
+Nicholas Kazlauskas (2):
+      drm/amd/display: Pass the new context into disable OTG WA
+      Revert "drm/amd/display: Pass the new context into disable OTG WA"
+
+Philip Yang (3):
+      drm/amdkfd: Use mmget_not_zero in MMU notifier
+      drm/amdgpu: Update PDEs flush TLB if PTB/PDB moved
+      drm/amdkfd: Fix partial migration bugs
+
+Roman Li (1):
+      drm/amdgpu: fix aper_base for APU
+
+Sherry Wang (1):
+      drm/amd/display: Read Golden Settings Table from VBIOS
+
+Stanley.Yang (1):
+      drm/amdgpu: fix ras supported check
+
+Steven Price (1):
+      drm/panfrost: Job should reference MMU not file_priv
+
+Sunil Khatri (1):
+      drm/amdgpu: enable tmz by default for GC 10.3.7
+
+Thomas Zimmermann (1):
+      drm/ast: Support multiple outputs
+
+Yifan Zhang (1):
+      drm/amdgpu/mes: only invalid/prime icache when finish loading
+both pipe MES FWs.
+
+hengzhou (1):
+      drm/amd/display: Wait DMCUB to idle state before reset.
+
+sunliming (2):
+      drm/amdgpu: fix a missing break in gfx_v11_0_handle_priv_fault
+      drm/amdgpu: make gfx_v11_0_rlc_stop static
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |  13 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |   9 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  32 ++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |  13 ++-
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |   6 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c             |   6 ++
+ drivers/gpu/drm/amd/amdgpu/imu_v11_0.c             |   2 +-
+ drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.c             |   6 +-
+ drivers/gpu/drm/amd/amdgpu/jpeg_v2_0.h             |   1 +
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c             |  36 ++++---
+ drivers/gpu/drm/amd/amdgpu/nv.c                    |   1 +
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c             | 109 +++++++++--------=
+----
+ drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c              |  17 ++--
+ drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |   2 +
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c            |  18 +++-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           |   6 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |   5 +-
+ .../amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c   |  11 ++-
+ .../amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.h   |   2 +
+ .../amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c |   7 +-
+ .../amd/display/dc/clk_mgr/dcn316/dcn316_clk_mgr.c |   3 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   | 106 +++++++++--------=
+---
+ drivers/gpu/drm/amd/display/dc/dc.h                |   5 +-
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_dccg.c  |  68 ++++++-------
+ .../amd/display/dc/dcn31/dcn31_dio_link_encoder.c  |   4 +-
+ drivers/gpu/drm/amd/display/dc/dml/dml_wrapper.c   |   2 -
+ drivers/gpu/drm/amd/display/dc/inc/hw/clk_mgr.h    |   1 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/dccg.h       |  18 ++--
+ .../gpu/drm/amd/display/dc/link/link_hwss_hpo_dp.c |  19 +++-
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn31.c  |  11 ++-
+ drivers/gpu/drm/amd/display/dmub/src/dmub_dcn31.h  |   3 +-
+ .../drm/amd/display/include/ddc_service_types.h    |   2 +
+ .../gpu/drm/amd/pm/swsmu/inc/smu_v11_0_7_pptable.h |   9 +-
+ .../gpu/drm/amd/pm/swsmu/inc/smu_v11_0_pptable.h   |   9 +-
+ .../gpu/drm/amd/pm/swsmu/inc/smu_v13_0_7_pptable.h |   5 +-
+ .../gpu/drm/amd/pm/swsmu/inc/smu_v13_0_pptable.h   |  10 +-
+ drivers/gpu/drm/ast/ast_dp.c                       |   5 +-
+ drivers/gpu/drm/ast/ast_dp501.c                    |   2 +-
+ drivers/gpu/drm/ast/ast_drv.h                      |   9 +-
+ drivers/gpu/drm/ast/ast_main.c                     |  21 ++--
+ drivers/gpu/drm/ast/ast_mode.c                     |  38 +++----
+ drivers/gpu/drm/ast/ast_post.c                     |   2 +-
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  42 +++++++-
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c              |   2 +-
+ drivers/gpu/drm/drm_atomic_helper.c                |  16 ++-
+ drivers/gpu/drm/panfrost/panfrost_drv.c            |   5 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c            |   6 +-
+ drivers/gpu/drm/panfrost/panfrost_job.h            |   2 +-
+ 49 files changed, 430 insertions(+), 301 deletions(-)
