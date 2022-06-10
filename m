@@ -1,66 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECF4546DB3
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 21:55:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D488D546E6C
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 22:28:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA3510E18D;
-	Fri, 10 Jun 2022 19:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9D02113B60;
+	Fri, 10 Jun 2022 20:28:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B63F310E18D
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 19:55:48 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id v25so255949eda.6
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 12:55:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=un+lSY3X7YxGwu/r7FDzIT1K5N2rDGm8eR6DAEKLWI8=;
- b=DTlJwrChV2ZxnBi9qNxUeHN+3nWNEObwhsUb7nrqwBjXjLYiSjfFg+U9eGFcvcYlzq
- oNTo53JdL8b6SdBk9IPuQtHKcfbJ/6qqgYGbbFIBL6pirvKXwQnjv5ecGP93pZul8GOV
- obKLA5Vj2oTreta7PXAzkR5F854ZpZ34W/nLY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=un+lSY3X7YxGwu/r7FDzIT1K5N2rDGm8eR6DAEKLWI8=;
- b=4SDR9rtzYlLZLl25M4OE5B+vXXSOgra1EXw75lbqTOtjDEwBLRfn7NI2h91NPOMzP8
- o6k3yys+le8ikut/ie6VYXpvhnZ6bIwR16CX61qZnn8/Lq5rf/aO3WB1R1T79mjzJPh+
- vYv2zEYOgOaGlF7o4+1rZn/2RyuOIfK0Q2gyPhrmBthoFWxfKif2w8ekmBb0j4yctKSj
- UnRXnL9K0nqMR45hII4kl0Tp6SZ9MM7FHJgdhJhb67BhD8pgRNyjlB45Fxj9F50ZPb3A
- vmey7yyN74EGcRrLqMJfWCx/KFDOJBdm/cPUtm5dwCFcSrvRC3QPY2C9QSufdtfEdLqT
- 5tBQ==
-X-Gm-Message-State: AOAM533cpRmfBIFZ2iVFKJ+qa1StDsQZhlvWTnNoHv4WovatkEEc9eJc
- PkS8WmEYEiEdLek4xmzBj8Zi4ciRCPX0PO1z
-X-Google-Smtp-Source: ABdhPJzwtXlT1n8s55hV9DhLDr6nMA1ctyeH3+jyCrxb+Vi6SA3gsOvtHBY0v5GQverla0AmQRwq2Q==
-X-Received: by 2002:a05:6402:2710:b0:42e:28c9:fa7 with SMTP id
- y16-20020a056402271000b0042e28c90fa7mr47583977edd.2.1654890946847; 
- Fri, 10 Jun 2022 12:55:46 -0700 (PDT)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com.
- [209.85.221.53]) by smtp.gmail.com with ESMTPSA id
- de46-20020a1709069bee00b0070f6855b90bsm10161839ejc.170.2022.06.10.12.55.45
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jun 2022 12:55:46 -0700 (PDT)
-Received: by mail-wr1-f53.google.com with SMTP id u8so33485675wrm.13
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 12:55:45 -0700 (PDT)
-X-Received: by 2002:a5d:68d2:0:b0:210:31cc:64a6 with SMTP id
- p18-20020a5d68d2000000b0021031cc64a6mr44505394wrw.679.1654890945353; Fri, 10
- Jun 2022 12:55:45 -0700 (PDT)
+X-Greylist: delayed 2116 seconds by postgrey-1.36 at gabe;
+ Fri, 10 Jun 2022 20:28:09 UTC
+Received: from 5.mo561.mail-out.ovh.net (5.mo561.mail-out.ovh.net
+ [87.98.178.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 251E7113B60
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 20:28:09 +0000 (UTC)
+Received: from player787.ha.ovh.net (unknown [10.109.146.132])
+ by mo561.mail-out.ovh.net (Postfix) with ESMTP id 7223723602
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 19:52:51 +0000 (UTC)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+ (Authenticated sender: steve@sk2.org)
+ by player787.ha.ovh.net (Postfix) with ESMTPSA id C17712BA6FB0A;
+ Fri, 10 Jun 2022 19:52:43 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R00590c0b8eb-a28d-41b2-a5b9-2a9d9c025f35,
+ 3EA6D779A65D7DCBA15D92F127CD72011C01B2E3) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+Date: Fri, 10 Jun 2022 21:52:36 +0200
+From: Stephen Kitt <steve@sk2.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 2/3] drm/panel: panel-dsi-cm: Use backlight helpers
+Message-ID: <20220610215236.0d5d47b7@heffalump.sk2.org>
+In-Reply-To: <YqObYPttYuRDikrO@ravnborg.org>
+References: <20220607182026.1121992-1-steve@sk2.org>
+ <20220607182026.1121992-3-steve@sk2.org>
+ <20220609215236.ojxw6l2vkf652hgu@mercury.elektranox.org>
+ <20220610194720.485cf7be@heffalump.sk2.org>
+ <YqObYPttYuRDikrO@ravnborg.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20220609072722.3488207-1-hsinyi@chromium.org>
- <20220609072722.3488207-9-hsinyi@chromium.org>
-In-Reply-To: <20220609072722.3488207-9-hsinyi@chromium.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 10 Jun 2022 12:55:33 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X+9+a2EdkpvEneUfcCS=nr34+aGa_ZjvhidF_vfSiLzg@mail.gmail.com>
-Message-ID: <CAD=FV=X+9+a2EdkpvEneUfcCS=nr34+aGa_ZjvhidF_vfSiLzg@mail.gmail.com>
-Subject: Re: [PATCH v7 8/8] drm: Config orientation property if panel provides
- it
-To: Hsin-Yi Wang <hsinyi@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/h3C.i8DgeSuOC0V+IcexQeD";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Ovh-Tracer-Id: 11606620668290696838
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddgudegtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtsehgtderreertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeeiheevvdeugeejffefteffvefhieegjeevhfekjeejvdelgfefkeehhfdufffhjeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejkeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehiedu
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,38 +57,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: David Airlie <airlied@linux.ie>, Thierry Reding <thierry.reding@gmail.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--Sig_/h3C.i8DgeSuOC0V+IcexQeD
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 9, 2022 at 12:28 AM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
->
-> Panel orientation property should be set before drm_dev_register().
-> Some drm driver calls drm_dev_register() in .bind(). However, most
-> panels sets orientation property relatively late, mostly in .get_modes()
-> callback, since this is when they are able to get the connector and
-> binds the orientation property to it, though the value should be known
-> when the panel is probed.
->
-> In drm_bridge_connector_init(), if a bridge is a panel bridge, use it to
-> set the connector's panel orientation property.
->
-> Suggested-by: Doug Anderson <dianders@chromium.org>
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
-> v6->v7: remove redundant check and fix config issue.
-> ---
->  drivers/gpu/drm/bridge/panel.c         | 34 ++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_bridge_connector.c |  8 +++++-
->  include/drm/drm_bridge.h               | 14 +++++++++++
->  3 files changed, 55 insertions(+), 1 deletion(-)
+On Fri, 10 Jun 2022 21:28:32 +0200, Sam Ravnborg <sam@ravnborg.org> wrote:
+> Hi Stephen.
+> On Fri, Jun 10, 2022 at 07:47:20PM +0200, Stephen Kitt wrote:
+> > Hi Sebastian,
+> >=20
+> > On Thu, 9 Jun 2022 23:52:36 +0200, Sebastian Reichel
+> > <sebastian.reichel@collabora.com> wrote: =20
+> > > On Tue, Jun 07, 2022 at 08:20:25PM +0200, Stephen Kitt wrote: =20
+> > > > diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c
+> > > > b/drivers/gpu/drm/panel/panel-dsi-cm.c index
+> > > > b58cb064975f..aa36dc6cedd3 100644 ---
+> > > > a/drivers/gpu/drm/panel/panel-dsi-cm.c +++
+> > > > b/drivers/gpu/drm/panel/panel-dsi-cm.c @@ -86,16 +86,10 @@ static
+> > > > void dsicm_bl_power(struct panel_drv_data *ddata, bool enable) retu=
+rn;
+> > > > =20
+> > > >  	if (enable) {
+> > > > -		backlight->props.fb_blank =3D FB_BLANK_UNBLANK;
+> > > > -		backlight->props.state =3D ~(BL_CORE_FBBLANK |
+> > > > BL_CORE_SUSPENDED);
+> > > > -		backlight->props.power =3D FB_BLANK_UNBLANK;
+> > > > +		backlight_enable(backlight);
+> > > >  	} else {
+> > > > -		backlight->props.fb_blank =3D FB_BLANK_NORMAL;
+> > > > -		backlight->props.power =3D FB_BLANK_POWERDOWN;
+> > > > -		backlight->props.state |=3D BL_CORE_FBBLANK |
+> > > > BL_CORE_SUSPENDED;
+> > > > +		backlight_disable(backlight);
+> > > >  	}   =20
+> > >=20
+> > > The brackets can be removed now. Otherwise: =20
+> >  =20
+> > >=20
+> > > Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com> =20
+> >=20
+> > Thanks, I=E2=80=99ll wait a little more to see if there are any other r=
+eviews of
+> > the patches and then push a v2 with that fix. =20
+> It would be very nice if you could kill all uses of FB_BLANK in the
+> drivers/gpu/drm/panel/* drivers, and post them as one series.
+> This is long overdue to introduce the backlight helpers.
+>=20
+> The three you posted is already a nice step forward, and there may be
+> more panel drivers I have missed.
 
-Reviewed-by: Doug Anderson <dianders@chromium.org>
+With this series on top of 5.19-rc1, the only remaining .fb_blank reference=
+ is
+in acx565akm_backlight_init() in panel-sony-acx565akm.c; I was planning on
+nuking that along with the other .fb_blank initialisers in a series removing
+.fb_blank entirely from backlight_properties. I=E2=80=99ll add it as a four=
+th patch
+for drm/panel if that makes things easier!
+
+There will still be references to FB_BLANK constants since they=E2=80=99re =
+used for
+backlight_properties.power values. Would it make sense to rename those?
+
+Regards,
+
+Stephen
+
+--Sig_/h3C.i8DgeSuOC0V+IcexQeD
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmKjoQQACgkQgNMC9Yht
+g5w1wA/+LN0+/CDVxZV49N+eebrd08Wh2wSZNW/GHE4YOp6TbzDidFX2NCp7PDG3
+huw6ptYSS5zwufLv/oLE4HlshS6+5fVyvZyungOSpwfto4Ay5KR211xsCbxpdFk/
+QDNRR6pn81hWzRxmdLle79HO1oWx1f2k1rVGSIYwt5LyxImdn3qS3CmNxYTR8ful
+H8Yu2CJ+udrhSxflQW74mpYzVTs7elnXL5MIhJ9noG1QJ9Ymn2fFth33sHNd6sWV
+S/SR0K1UUobBXVP37CyjldxTdxGYiu50kKrdiBEecp9RmE9fM3Gayzqep62mtBX4
+0SZncfWuiR5rB/+nvXgpvrjl+4Acas1lgfr+YwyXGnXNINUWcQBhZBPXx45dcFPP
+dosuSR+mkegJTcWjJgDarBAHNuYZfQ+3q0IB+M33D+oAkcgFhDZrgKJSK7peVi8n
+3i32dooNuMa6ljSStEkVW1N6ixNI2uhBcUydD3aB4SiDDGgfc5C1wTMTaVEFbkqT
+CUOZ1uTauftmBUyVIOEQ8Zij0p9+6AznP1kXfAA/qRm+xg1NDdkBo0198ToPnCDz
+Y5ykpmQ8wdj9IH/xlAwXNEdX1NtyuLPbx/GnpLx7m5g6m+f77DueJcXQhzz4WMDd
+Cy9/Jm5zVEw49ziokdLjhgYGx+qnQLm2hx+F/fzZAjF8fLDtzKg=
+=qbaU
+-----END PGP SIGNATURE-----
+
+--Sig_/h3C.i8DgeSuOC0V+IcexQeD--
