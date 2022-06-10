@@ -2,75 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C12546266
+	by mail.lfdr.de (Postfix) with ESMTPS id B0697546267
 	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 11:31:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B84312B54C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C744C12B552;
 	Fri, 10 Jun 2022 09:31:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 174BD11BA7D
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 09:31:07 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 6DC835C0121;
- Fri, 10 Jun 2022 05:31:06 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Fri, 10 Jun 2022 05:31:06 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFC3C12B54C
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 09:31:08 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 1786F5C00D7;
+ Fri, 10 Jun 2022 05:31:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Fri, 10 Jun 2022 05:31:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1654853466; x=1654939866; bh=NO
- QGh6AIWEvONe+PTcb3HveZum4NXCCV1WbSYoG2BtU=; b=PEZ4Tiv0hEbcvwCnX3
- yY49F73EEyIjeU8N2FOZij+54bMWXaly25YRfFNVnnBOjQ55GqERoZvxjS8QD9BO
- qo9QVSGRo+57MZHimxrvGlFAPkf/obAaN4hHgkCE23N6bGb+EtmWKmBMTQit4rTM
- oWRD+i3NgEEFYnc2dj2ZKm88lcOtL/jKz1FcOewQZO5YCQw7b0uqhNHUXV+BNpJV
- eRQTtXNaiVnkJ5JIDs1H4mwlcYI4B7gFt5y3v+p9VdtSQ1X/69R2WegJDkyZXPQS
- oNTCYUsAUJQJUKLclqJ1WcUiTcpy79gl7OgLbxv+Zg2wRXBx0pZhhdy6G910W4er
- ODEA==
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1654853468; x=
+ 1654939868; bh=is1SUOCWblDIvymDE/eZ/WEELF4q6ov293jMzKQUzR8=; b=F
+ b7E//F+1x9oVIGQ5rpatUmNgt3Vz7q77/nt8DKknpA/7f1xoAFnvPatRUTbI0jDs
+ q4/rk405g/omEkvRBIKELmjbvonslQH11wKVTbPDRfC2S4i4BtaMd4kDIui5YsFA
+ 6EdX+B1PzYNrMp8veMuNw2utgWZcekeESCJoxO9N1aTL+GZH4eXMUY3MGOxcJ22G
+ h7HoUEw4fDAKUBRvrH1CiYMSqcoEH8OpDIwe5QGstAPPe2uHKGUqGPKareP49p+p
+ VdUCAboFsstKTBXvpyI15NSkGu4RPIfeCAqLuTZeGVJeYHQDL6axaoKYoWl8xim+
+ eKuEDZD1BvEBf7HGttO7Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1654853466; x=1654939866; bh=NOQGh6AIWEvON
- e+PTcb3HveZum4NXCCV1WbSYoG2BtU=; b=Iwj+5GqzFc+mYfhuWfUUuIjhBIIsV
- OFrMI+sut09t0pUZRIjOOwfbs5enEBM49vcQYDZjOrwASUaKp8By2Vd+YTlD0jNS
- IR3vAgisFwuiZxEToZR49g2iEDHG4A4rYwzPk9w9aba+Xr8uP183aodTeg2T7eyG
- 6Z3I8DolYBh1W7cH5MSvFOmHK9usHl8DUlrm7Ef+FwSuEKECNaLXAiAm3H44DuVX
- GfHTTD91+O9YJf+JBZzxutRM8PLuR2tjOdyu5mMlRATTyw6CfRcbOG92REXWeeUi
- erZx8QjXYU3WZ+HhHQMGIPcfKGtzOUXTKiQL6glg1owGwgmmJ+MA6sjgA==
-X-ME-Sender: <xms:Wg-jYj1GtZCbF5TTdiBLSiI9-OJJVrUL4OfHBt-ep3CHFpDksQKCag>
- <xme:Wg-jYiHSe2jLKYG5pijrc2F6wPy7qwgqk8rteCB9cc34CBV9Krk1-u0RMvqjqiMoh
- -jPrtWw-Lb6m0K9JlM>
-X-ME-Received: <xmr:Wg-jYj52TgfAAx_gqiWXeU0b0OMoi6z6VCDmdTUj_N6cMWl28tpFs9g176uVk33It_M1we9S6Qkrvu9nEyINWTo7Woa3utu1S31PmsI>
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1654853468; x=
+ 1654939868; bh=is1SUOCWblDIvymDE/eZ/WEELF4q6ov293jMzKQUzR8=; b=o
+ EQ5mXndFXmW/3y6d5jHi+AgDUOlTb7VrYWDqkFKcCLAI0KFI/5oBqSSczqxv5RKp
+ Q5O0QHpKnKawqedSC/1TUPT7jqCtaQVHf4cE9hb2IFz4azEY+oenF5CVRSv8ijoL
+ IfGDDoRKBKd/4lsE0ed83P5PU/1838fm6Q7Y2IqyCp96Oh95ZN34M10Ea7PthkKI
+ b5mOEhkzLdIhlRVpvc6asTIWP9Yc0DIUlw7Yc5Fwd8QsMLjaWzlqv1VZikNswnm0
+ BSe1Aed6v3/1AgAud6M0jp4jwENovN5eXh3T5DBiH024TpcpL/RlRlbQ8U0pH2TI
+ 97NFwAGX8wB6HZseIA3FQ==
+X-ME-Sender: <xms:Ww-jYhR0nrTxYvTw0gsLavEUI87qz9eE_WqRuiwqVSh4BIry_qj8YA>
+ <xme:Ww-jYqyAJ-bDOrzltKeBsyOZvAtDPF8271UMlrpZOYXxGuCfAPS6hel_HgjAX6h4F
+ Oo7bxYREYHvSkhqkFQ>
+X-ME-Received: <xmr:Ww-jYm2pXDpcSj-l8nGGz0MOQxZqFCDAwhEzV7P3tWerSlbUIg70qCoImaUTWqpQbohPPHXy0O_6nsNYwsclxBNQqGbz0_bcnWrZ_KE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddgudehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedukeenucfrrghrrghmpehmrghilhhfrhhomh
+ cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepueeigefghfffffeifeehudeiuedvteegueefffevgfetvdffheehkeff
+ vedufeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Wg-jYo14r6Qzl1t5yfIJUVTZhkmxXW9BMHEN6vTfPtjMdVdN8w1P9Q>
- <xmx:Wg-jYmHGRGnbY7Dj_8vVyTM0e1t6cd9tjv47KCq5lT6i-9DIsb_BUw>
- <xmx:Wg-jYp851hxSk-4HJ0HcESW9kNdyDcEiyQkqCJ-2BunHqDrx85FP2w>
- <xmx:Wg-jYihxqWuoqr1n0XQO5esLEAyTegQ2jbp9eMeQSBg4MAIJKKUY9A>
+X-ME-Proxy: <xmx:Ww-jYpB9CxVOaYvQO5f89LFK6jCmpMl2tr0ELpOxv7CzItBHQTbClA>
+ <xmx:Ww-jYqiatyVT-SFkmMbPsRU7t96HfPvNtzyORTWi2HL-w2HY6HrtuQ>
+ <xmx:Ww-jYtpl5selZl76CvRlCyrIW_Pcmm_F8-CFYQgqb0WwFxYJrn_NJA>
+ <xmx:XA-jYidtPzU9aFZOWenqLXOfNyjhdqbjLWruP3gz9bhhYNT-SqPcBg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Jun 2022 05:31:05 -0400 (EDT)
+ 10 Jun 2022 05:31:07 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 56/64] drm/vc4: vec: Switch to devm_pm_runtime_enable
-Date: Fri, 10 Jun 2022 11:29:16 +0200
-Message-Id: <20220610092924.754942-57-maxime@cerno.tech>
+Subject: [PATCH 57/64] drm/vc4: debugfs: Protect device resources
+Date: Fri, 10 Jun 2022 11:29:17 +0200
+Message-Id: <20220610092924.754942-58-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610092924.754942-1-maxime@cerno.tech>
 References: <20220610092924.754942-1-maxime@cerno.tech>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,63 +90,56 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_pm_runtime_enable() simplifies the driver a bit since it will call
-pm_runtime_disable() automatically through a device-managed action.
+Our current code now mixes some resources whose lifetime are tied to the
+device (clocks, IO mappings, etc.) and some that are tied to the DRM device
+(encoder, bridge).
+
+The device one will be freed at unbind time, but the DRM one will only be
+freed when the last user of the DRM device closes its file handle.
+
+So we end up with a time window during which we can call the encoder hooks,
+but we don't have access to the underlying resources and device.
+
+Let's protect all those sections with drm_dev_enter() and drm_dev_exit() so
+that we bail out if we are during that window.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_vec.c | 20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/vc4/vc4_debugfs.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-index 2a72644d99c5..a75b82de3796 100644
---- a/drivers/gpu/drm/vc4/vc4_vec.c
-+++ b/drivers/gpu/drm/vc4/vc4_vec.c
-@@ -583,39 +583,29 @@ static int vc4_vec_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 	}
+diff --git a/drivers/gpu/drm/vc4/vc4_debugfs.c b/drivers/gpu/drm/vc4/vc4_debugfs.c
+index ba2d8ea562af..d6350a8ca048 100644
+--- a/drivers/gpu/drm/vc4/vc4_debugfs.c
++++ b/drivers/gpu/drm/vc4/vc4_debugfs.c
+@@ -3,6 +3,8 @@
+  *  Copyright © 2014 Broadcom
+  */
  
--	pm_runtime_enable(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return ret;
++#include <drm/drm_drv.h>
++
+ #include <linux/seq_file.h>
+ #include <linux/circ_buf.h>
+ #include <linux/ctype.h>
+@@ -41,11 +43,18 @@ vc4_debugfs_init(struct drm_minor *minor)
+ static int vc4_debugfs_regset32(struct seq_file *m, void *unused)
+ {
+ 	struct drm_info_node *node = (struct drm_info_node *)m->private;
++	struct drm_device *drm = node->minor->dev;
+ 	struct debugfs_regset32 *regset = node->info_ent->data;
+ 	struct drm_printer p = drm_seq_file_printer(m);
++	int idx;
++
++	if (!drm_dev_enter(drm, &idx))
++		return -ENODEV;
  
- 	ret = drmm_simple_encoder_init(drm, &vec->encoder.base, DRM_MODE_ENCODER_TVDAC);
- 	if (ret)
--		goto err_put_runtime_pm;
-+		return ret;
+ 	drm_print_regset32(&p, regset);
  
- 	drm_encoder_helper_add(&vec->encoder.base, &vc4_vec_encoder_helper_funcs);
- 
- 	ret = vc4_vec_connector_init(drm, vec);
- 	if (ret)
--		goto err_put_runtime_pm;
-+		return ret;
- 
- 	dev_set_drvdata(dev, vec);
- 
- 	vc4_debugfs_add_regset32(drm, "vec_regs", &vec->regset);
- 
++	drm_dev_exit(idx);
++
  	return 0;
--
--err_put_runtime_pm:
--	pm_runtime_disable(dev);
--
--	return ret;
--}
--
--static void vc4_vec_unbind(struct device *dev, struct device *master,
--			   void *data)
--{
--	pm_runtime_disable(dev);
  }
  
- static const struct component_ops vc4_vec_ops = {
- 	.bind   = vc4_vec_bind,
--	.unbind = vc4_vec_unbind,
- };
- 
- static int vc4_vec_dev_probe(struct platform_device *pdev)
 -- 
 2.36.1
 
