@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3865466B9
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 14:36:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A39B5466BB
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 14:38:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8129710E995;
-	Fri, 10 Jun 2022 12:36:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1DFC10E9C8;
+	Fri, 10 Jun 2022 12:38:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6332A10E94E
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 12:36:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1654864596;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wys6hZiO6Dm7u2mX+PNhPSFXIUQyzI+/usnVOGfO2gg=;
- b=b/uiX697HaVuoP/B4MB6c9BNcONtYVB0gPRXJUnz1KubDALq0Mr6y5jRE51vtitcU45t24
- xl3e5q89H4eIXi8NYBHKe0dj2de+vcK/df6p/CPAWCtp0XSncShu2Z+mGXdnLSzwiKY0kr
- IsLMDiquGu0Kz6wBVslNxrrZhw6njUQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-62-RCzI3wE_MYGD37cMeSZR5Q-1; Fri, 10 Jun 2022 08:36:33 -0400
-X-MC-Unique: RCzI3wE_MYGD37cMeSZR5Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55BA010E9C8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 12:38:12 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D04E51C18272;
- Fri, 10 Jun 2022 12:36:32 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9234D1121314;
- Fri, 10 Jun 2022 12:36:32 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 82C8D18000AA; Fri, 10 Jun 2022 14:36:29 +0200 (CEST)
-Date: Fri, 10 Jun 2022 14:36:29 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
-Message-ID: <20220610123629.fgu2em3fto53fpfy@sirius.home.kraxel.org>
-References: <20220602154243.1015688-1-zack@kde.org>
- <wRnf-Lm5zz6v1e-NlnFPteyARuLl-R98mOZZVjePHD5ue7QQNR_TSU7RwYBssgUa7xM5hf7Fe59-gMEj81ESrHY3mu_H7yE0dtGhFHFPTnc=@emersion.fr>
- <YqMDoSMOL2rsfJj/@phenom.ffwll.local>
- <lcIVipq8mkBAPioQAVQmwsM_Gwo0e9fd2334yGSvIW6uEIEElwUrTe-x9J9h29TB1H3NY3liNCohaXDyjslDFIqxPZNSPbSPJ3vctA2jEAk=@emersion.fr>
- <YqMTk9C8/g1buL+8@phenom.ffwll.local>
+ by ams.source.kernel.org (Postfix) with ESMTPS id EB683B834E6
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 12:38:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A8BCDC341C0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 12:38:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1654864689;
+ bh=OS0vPzH7+KFNXIdRh4Y2gZkbBERv9bVCscCSBhsPA3o=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=RGZeawFMIBFT+e5bXYTJ8n7AgFC0bdOckL2+BTWw1pL+0RNa2uUS0gMjQhyBejLpF
+ CFwCGSN6yAbe0B/YhGelho6weRoHdaWbfEqwNqsOWlLn/+sOOd1gWXiK15+f3ceNCQ
+ NWALdNaa3QUFv8woS6TFtm5KR0YuhBQU+YSPs+WGDUt2oLf/rfm7U+Mu4BtqIwAUJk
+ Ud/HXWtJZls5O9nM/OBBBIFnlQPGCk1wHNFhZnE61i9YSOptNoh8cnFe/pZQ3cRjii
+ bY4gKjUs3vy8F+hjuueiWLCeRMKBa9LvjpOnRW8tc9A1AfBHVjzwy+miZl7BfEtIET
+ lBLw7NFi6HC9w==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 8ACEFC05FD5; Fri, 10 Jun 2022 12:38:09 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 210301] *ERROR* IB test failed on gfx (-110) on Ryzen 4750u
+Date: Fri, 10 Jun 2022 12:38:09 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: me@ramast.me
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-210301-2300-L3WukdRawT@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210301-2300@https.bugzilla.kernel.org/>
+References: <bug-210301-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <YqMTk9C8/g1buL+8@phenom.ffwll.local>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,54 +70,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- krastevm@vmware.com, Pekka Paalanen <ppaalanen@gmail.com>,
- mombasawalam@vmware.com, Thomas Zimmermann <tzimmermann@suse.de>,
- wayland-devel <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D210301
 
-> > As Pekka mentionned, I'd also like to have a conversation of how far we want to
-> > push virtualized driver features. I think KMS support is a good feature to have
-> > to spin up a VM and have all of the basics working. However I don't think it's
-> > a good idea to try to plumb an ever-growing list of fancy features
-> > (seamless integration of guest windows into the host, HiDPI, multi-monitor,
-> > etc) into KMS. You'd just end up re-inventing Wayland or RDP on top of KMS.
-> > Instead of re-inventing these, just use RDP or waypipe or X11 forwarding
-> > directly.
+ramast (me@ramast.me) changed:
 
-> > So I think we need to draw a line somewhere, and decide e.g. that virtualized
-> > cursors are fine to add in KMS, but HiDPI is not.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |me@ramast.me
 
-What is the problem with HiDPI?  qemu generates standard edid blobs,
-there should be no need to special-case virtualized drivers in any way.
+--- Comment #1 from ramast (me@ramast.me) ---
+I had same problem. I found that removing iommu_v2 module from kernel solved
+the problem.
 
-What is the problem with multi-monitor?  That isn't much different than
-physical multi-monitor either.
+--=20
+You may reply to this email to add a comment.
 
-One little thing though:  On physical hardware you just don't know which
-monitor is left and which is right until the user tells you.  In case of
-a virtual multi-monitor setup we know how the two windows for the two
-virtual monitors are arranged on the host and can pass that as hint to
-the guest (not sure whenever *that* is the purpose of the
-suggested_{x,y} properties).
-
-> It's getting a bit far off-topic, but google cros team has an out-of-tree
-> (at least I think it's not merged yet) wayland-virtio driver for exactly
-> this use-case. Trying to move towards something like that for fancy
-> virtualized setups sounds like the better approach indeed, with kms just
-> as the bare-bones fallback option.
-
-virtio-gpu got the ability to attach uuids to objects, to allow them
-being identified on the host side.  So it could be that wayland-virtio
-still uses kms for framebuffers (disclaimer: don't know how
-wayland-virtio works in detail).  But, yes, all the scanout + cursor
-handling would be out of the way, virtio-gpu would "only" handle fast
-buffer sharing.
-
-take care,
-  Gerd
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
