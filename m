@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E92546609
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 13:52:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DD5C54660A
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 13:52:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7357910EB16;
-	Fri, 10 Jun 2022 11:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE6910EB14;
+	Fri, 10 Jun 2022 11:52:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9110010EB14
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 11:52:08 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id EDFAE5C0110;
- Fri, 10 Jun 2022 07:52:07 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 10 Jun 2022 07:52:07 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 399B510EB14
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 11:52:10 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 971AA5C012E;
+ Fri, 10 Jun 2022 07:52:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 10 Jun 2022 07:52:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1654861927; x=1654948327; bh=mI
- RldLRdZoIGgKsJzJbZrwcCHj8OhaIA1sASOgT8sI8=; b=VA3YXasrhmomrOnxNy
- YrdKGTPOqQDgKzmcw92Purg0/wZeu6YFgelbU4YyQzjg6hPf8/HK/YVCc7AmJ8pq
- xTzS15Au5tnFohK9kGAbMkiNsHGMr5x/Ts8ozC8LvyoZMg0yAQnXkE/TlXLrX2f6
- u8SUbvlw/PcSYve70ygG8vF9Euv71hENV1SuJuANSiiq6ihafeLXTJA389SBYju4
- 6AIFLeacTIg8fY5qfjUsxgdDqYzE6FIIbI+WevfUQCdH8Y4SrEIbAfyEIxWCOGoA
- MESqlpBZcbzBKyAoO1pO4YBAvNDNQl0W08PUKQ3muFuaW2f9jomnAunWmFh/W0AL
- e9yQ==
+ :subject:subject:to:to; s=fm1; t=1654861929; x=1654948329; bh=O2
+ Z8X0N4uMlj0CNqel9Ba8Gcy7xDPqtyXw872MAId3s=; b=kmFDG7s9XLZOd0N987
+ vYnKI5Wk7FhCZu39syq4EumG2Nr0YCxT19CDWHX6lz1+JPLfFSqO5XJE7oHw9Oqa
+ Hq7kIsUlmnBxfyrsqe94YYNUAbCMO+Igu8ayQkBbiVj4/InZ+brDod+jvzkohFjr
+ g5ZOQomvwQa9lfljXaryrHDSPAR0szcmqhZqvuwpkyeyF+/epAx8fWBnb+NxVWjK
+ djOLh4v9nSgFekZSc2FQFDxnoRbDSaVMvGtMg0lV7iWBzT7n+Voo0LgX/pztHmuH
+ Ova/F+08fUl/lv5AyFanuYAlkFAdJaxpk57WQugoDQ+3ZbjMrJT2iP4hFpSGBGoZ
+ beKQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1654861927; x=1654948327; bh=mIRldLRdZoIGg
- KsJzJbZrwcCHj8OhaIA1sASOgT8sI8=; b=fBYsyqUs1ZEjx0FVx+ZLwOY5ecjFB
- vv4TrpMxerS+9E7LOLwT5W3YTe3UZiiH78kVSW25LGTmW1Lp8PWEWkBWoHImgINa
- cYsa+RcWzp2+9EtY85xi6LRUv83Rg8za1yLkT50GpHA8iRVGVAn/me7WMgiGDaWZ
- 0WhbqOmRolC/Hw5knibxxRNP8BLwZ8A2UKC9mhSsoRlrqWAfG0PfliOj7aB7L1Q8
- sYQZDscpkGqYE9HbZqo8TRZ18dk85EV93qT5tA2GxSAuepdlZgLXeaPvEUChpF7d
- oRkodhACDlT0eH0sY3oSXUTzWfElK/qjXDfHGZCdbHh/72xoMVedkTl0A==
-X-ME-Sender: <xms:ZzCjYlaxQdloqZvgzqYKA0MNrZ8nyDOSX9UYCu6EMwokaxP25smXyQ>
- <xme:ZzCjYsbhid09XlBlwjkFDzW9HDwt7xWXgqrSDuf9XgGcvTXlm0J8Hu1AxA7zQb_y4
- vqi6Sc4MdmvkC2sr-Y>
-X-ME-Received: <xmr:ZzCjYn9ddQJ39kOTzqz8Ta3dwSXPlmBxSdoVtDSTCn81BwZEeZ29lE_9gsgj6NZUM7R5IKqgOw7gX-GknlzXnzWEiqSKc-mcuETTVms>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddggeefucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm2; t=1654861929; x=1654948329; bh=O2Z8X0N4uMlj0
+ CNqel9Ba8Gcy7xDPqtyXw872MAId3s=; b=B6My1jmwfvzdi6qtcGxdYOXn8tSYn
+ mpH7tBd5QsJJp8uFxGL2z1F6CbxJTav9ESbWHl5bbrEF3Nj/P3uYbJgJ37fhPVjk
+ LD9PHCSoWp4njyydZANMiqDZAhmZxk3OCgW9dsesdnp1uiN3LB4s+V/0UBcSKXyE
+ SwADvm1Em75m3RIKIogfobpl35/j63l+jxEiYkVDhg7KICTreZMTwSLWPNjaNKQr
+ 8Ua5q4NOtKGDq3N7kNmuviGZsCsupYVzDl9HS4Ea2EnS1M3e9mVXZ8EKg+Ks0JwE
+ ie6dj2PGy4fLlldQiHNdSIUj14XPODk66J8vQYq3vBgfzS7LW/5TR3NBw==
+X-ME-Sender: <xms:aTCjYhTv3Q1dHiQB4dlI_MINVtJV74Qz7A_Qz2VIxihH-_io3XY0SA>
+ <xme:aTCjYqzfsFIOi4yGvx-6HgaJXFn06Iv6ZdPmbyBvzi_iIIwM8kvWiuS1EWsmIy0fI
+ nb3L2q7bqub-jYkcL4>
+X-ME-Received: <xmr:aTCjYm0cNHDxJat0mSuPc3Vm_QwqGPRAuOXDpQV8t12eL5FEtsS95JyR5uDoGbX_LVK55U8_EAdGte41709m11v4aZJmH8uitGctvo0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddggeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ZzCjYjpV8BVfOjqe561_Rpjq50xSR1mTk-LhTZL-GozAL9ilQi-Lcw>
- <xmx:ZzCjYgoqol14ERKw00a8Db71vu2hr-rL2d2EKMA98q009xFxXLoOKw>
- <xmx:ZzCjYpR-730o65BVOp1gJ4NuelLg9z91aWPapuJwma0uqJrouleTbw>
- <xmx:ZzCjYlDhhsa7t69IAbdCnzjIwlaj13JY5wU9U8hAxt1MPenF5DOX2A>
+X-ME-Proxy: <xmx:aTCjYpB0GZdD761HscCNzDuB6vHWw900ym4gVW-bWiZiG1d4Qfy4Eg>
+ <xmx:aTCjYqjFk8V420VR4EjREKoD1J5BdIjyI3sWY4cormar554X9wJgaA>
+ <xmx:aTCjYtq0Rks0m6h72LjynolM9KxNnngNmlW5HojwR85pAI8-6KDtNg>
+ <xmx:aTCjYsbAq5N-dnxh_3Cprbc8FG_FPBTxyqXb3FMNQHgv3OnvUgfzXg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Jun 2022 07:52:07 -0400 (EDT)
+ 10 Jun 2022 07:52:09 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v2 08/14] drm/vc4: drv: Skip BO Backend Initialization on
- BCM2711
-Date: Fri, 10 Jun 2022 13:51:43 +0200
-Message-Id: <20220610115149.964394-9-maxime@cerno.tech>
+Subject: [PATCH v2 09/14] drm/vc4: crtc: Use an union to store the page flip
+ callback
+Date: Fri, 10 Jun 2022 13:51:44 +0200
+Message-Id: <20220610115149.964394-10-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220610115149.964394-1-maxime@cerno.tech>
 References: <20220610115149.964394-1-maxime@cerno.tech>
@@ -89,55 +89,68 @@ Cc: Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On the BCM2711, we currently call the vc4_bo_cache_init() and
-vc4_gem_init() functions. These functions initialize the BO and GEM
-backends.
-
-However, this code was initially created to accomodate the requirements
-of the GPU on the older SoCs, while the BCM2711 has a separate driver
-for it. So let's just skip these calls when we're on a newer hardware.
+We'll need to extend the vc4_async_flip_state structure to rely on
+another callback implementation, so let's move the current one into a
+union.
 
 Reviewed-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_drv.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 528a1e2761f1..ef4ab0563168 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -285,19 +285,23 @@ static int vc4_drm_bind(struct device *dev)
- 	platform_set_drvdata(pdev, drm);
- 	INIT_LIST_HEAD(&vc4->debugfs_list);
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index dd5fb25d0f43..1f247c037ce0 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -775,17 +775,17 @@ struct vc4_async_flip_state {
+ 	struct drm_framebuffer *old_fb;
+ 	struct drm_pending_vblank_event *event;
  
--	mutex_init(&vc4->bin_bo_lock);
-+	if (!is_vc5) {
-+		mutex_init(&vc4->bin_bo_lock);
+-	struct vc4_seqno_cb cb;
++	union {
++		struct vc4_seqno_cb seqno;
++	} cb;
+ };
  
--	ret = vc4_bo_cache_init(drm);
--	if (ret)
--		return ret;
-+		ret = vc4_bo_cache_init(drm);
-+		if (ret)
-+			return ret;
-+	}
+ /* Called when the V3D execution for the BO being flipped to is done, so that
+  * we can actually update the plane's address to point to it.
+  */
+ static void
+-vc4_async_page_flip_complete(struct vc4_seqno_cb *cb)
++vc4_async_page_flip_complete(struct vc4_async_flip_state *flip_state)
+ {
+-	struct vc4_async_flip_state *flip_state =
+-		container_of(cb, struct vc4_async_flip_state, cb);
+ 	struct drm_crtc *crtc = flip_state->crtc;
+ 	struct drm_device *dev = crtc->dev;
+ 	struct drm_plane *plane = crtc->primary;
+@@ -821,6 +821,14 @@ vc4_async_page_flip_complete(struct vc4_seqno_cb *cb)
+ 	kfree(flip_state);
+ }
  
- 	ret = drmm_mode_config_init(drm);
- 	if (ret)
- 		return ret;
++static void vc4_async_page_flip_seqno_complete(struct vc4_seqno_cb *cb)
++{
++	struct vc4_async_flip_state *flip_state =
++		container_of(cb, struct vc4_async_flip_state, cb.seqno);
++
++	vc4_async_page_flip_complete(flip_state);
++}
++
+ /* Implements async (non-vblank-synced) page flips.
+  *
+  * The page flip ioctl needs to return immediately, so we grab the
+@@ -881,8 +889,8 @@ static int vc4_async_page_flip(struct drm_crtc *crtc,
+ 	 */
+ 	drm_atomic_set_fb_for_plane(plane->state, fb);
  
--	ret = vc4_gem_init(drm);
--	if (ret)
--		return ret;
-+	if (!is_vc5) {
-+		ret = vc4_gem_init(drm);
-+		if (ret)
-+			return ret;
-+	}
+-	vc4_queue_seqno_cb(dev, &flip_state->cb, bo->seqno,
+-			   vc4_async_page_flip_complete);
++	vc4_queue_seqno_cb(dev, &flip_state->cb.seqno, bo->seqno,
++			   vc4_async_page_flip_seqno_complete);
  
- 	node = of_find_compatible_node(NULL, NULL, "raspberrypi,bcm2835-firmware");
- 	if (node) {
+ 	/* Driver takes ownership of state on successful async commit. */
+ 	return 0;
 -- 
 2.36.1
 
