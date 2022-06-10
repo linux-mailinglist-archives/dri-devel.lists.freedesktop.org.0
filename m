@@ -1,50 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C364546C18
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 20:03:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57135546CE2
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 21:03:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3A4310E502;
-	Fri, 10 Jun 2022 18:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E4261123B2;
+	Fri, 10 Jun 2022 19:03:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 600 seconds by postgrey-1.36 at gabe;
- Fri, 10 Jun 2022 18:03:16 UTC
-Received: from 18.mo581.mail-out.ovh.net (18.mo581.mail-out.ovh.net
- [188.165.56.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64D5510E502
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 18:03:16 +0000 (UTC)
-Received: from player779.ha.ovh.net (unknown [10.111.172.1])
- by mo581.mail-out.ovh.net (Postfix) with ESMTP id 1E6FF2387D
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 17:44:35 +0000 (UTC)
+Received: from 3.mo583.mail-out.ovh.net (3.mo583.mail-out.ovh.net
+ [46.105.40.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD2B112416
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 19:03:07 +0000 (UTC)
+Received: from player760.ha.ovh.net (unknown [10.111.208.129])
+ by mo583.mail-out.ovh.net (Postfix) with ESMTP id D85D0251E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 17:47:36 +0000 (UTC)
 Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
  (Authenticated sender: steve@sk2.org)
- by player779.ha.ovh.net (Postfix) with ESMTPSA id 94DBC2B5CF843;
- Fri, 10 Jun 2022 17:44:23 +0000 (UTC)
+ by player760.ha.ovh.net (Postfix) with ESMTPSA id 4E6CB2B728F28;
+ Fri, 10 Jun 2022 17:47:27 +0000 (UTC)
 Authentication-Results: garm.ovh; auth=pass
- (GARM-96R00152449f80-6e6f-48d1-97fa-f963f6478a11,
- 4E496447C43E4C7632BA90A0B7747719B130BEDF) smtp.auth=steve@sk2.org
+ (GARM-103G00515216049-9e93-4894-aa40-e1df9efa6a35,
+ 3EA6D779A65D7DCBA15D92F127CD72011C01B2E3) smtp.auth=steve@sk2.org
 X-OVh-ClientIp: 82.65.25.201
-Date: Fri, 10 Jun 2022 19:44:15 +0200
+Date: Fri, 10 Jun 2022 19:47:20 +0200
 From: Stephen Kitt <steve@sk2.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH] fbdev: atmel_lcdfb: Rework backlight status updates
-Message-ID: <20220610194415.05e1ee95@heffalump.sk2.org>
-In-Reply-To: <20220610094955.cy53ujicaplr7aw7@ash.lan>
-References: <20220608205623.2106113-1-steve@sk2.org>
- <20220609095412.fccofr2e2kpzhw4t@maple.lan>
- <YqIuUYUXzxeSgZ/o@ravnborg.org>
- <20220609194511.4e0bc3e6@heffalump.sk2.org>
- <20220610094955.cy53ujicaplr7aw7@ash.lan>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH 2/3] drm/panel: panel-dsi-cm: Use backlight helpers
+Message-ID: <20220610194720.485cf7be@heffalump.sk2.org>
+In-Reply-To: <20220609215236.ojxw6l2vkf652hgu@mercury.elektranox.org>
+References: <20220607182026.1121992-1-steve@sk2.org>
+ <20220607182026.1121992-3-steve@sk2.org>
+ <20220609215236.ojxw6l2vkf652hgu@mercury.elektranox.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/lMq9K57Nv6KWvkGmMFl3QXs";
+Content-Type: multipart/signed; boundary="Sig_/Fiv/6RAB4w3meaj/_BS+ruP";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Ovh-Tracer-Id: 9440389247221794438
+X-Ovh-Tracer-Id: 9491336218715915910
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddgudduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtsehgtderreertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeeiheevvdeugeejffefteffvefhieegjeevhfekjeejvdelgfefkeehhfdufffhjeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejjeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehkedu
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudduuddgudduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtsehgtderreertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeeiheevvdeugeejffefteffvefhieegjeevhfekjeejvdelgfefkeehhfdufffhjeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejiedtrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehkeef
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,63 +53,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Helge Deller <deller@gmx.de>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Claudiu Beznea <claudiu.beznea@microchip.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/lMq9K57Nv6KWvkGmMFl3QXs
+--Sig_/Fiv/6RAB4w3meaj/_BS+ruP
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 10 Jun 2022 10:49:55 +0100, Daniel Thompson
-<daniel.thompson@linaro.org> wrote:
-> On Thu, Jun 09, 2022 at 07:45:11PM +0200, Stephen Kitt wrote:
-> > Hi Sam, Daniel,
-> >
-> > On Thu, 9 Jun 2022 19:30:57 +0200, Sam Ravnborg <sam@ravnborg.org> wrot=
-e:
-> > =20
-> > > thanks for taking care of all these backlight simplifications - this
-> > > really helps to make the code simpler and more readable. =20
-> >
-> > You=E2=80=99re welcome! I noticed fb_blank was deprecated and near enou=
-gh unused,
-> > and started digging... =20
->=20
-> I saw Sam's comment and kinda wished I'd thought to say that... definitely
-> good to see these things being tidied up.
+Hi Sebastian,
 
-Thanks! I saw the nice wrapper functions in backlight.h and couldn=E2=80=99=
-t resist.
+On Thu, 9 Jun 2022 23:52:36 +0200, Sebastian Reichel
+<sebastian.reichel@collabora.com> wrote:
+> On Tue, Jun 07, 2022 at 08:20:25PM +0200, Stephen Kitt wrote:
+> > diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c
+> > b/drivers/gpu/drm/panel/panel-dsi-cm.c index b58cb064975f..aa36dc6cedd3
+> > 100644 --- a/drivers/gpu/drm/panel/panel-dsi-cm.c
+> > +++ b/drivers/gpu/drm/panel/panel-dsi-cm.c
+> > @@ -86,16 +86,10 @@ static void dsicm_bl_power(struct panel_drv_data
+> > *ddata, bool enable) return;
+> > =20
+> >  	if (enable) {
+> > -		backlight->props.fb_blank =3D FB_BLANK_UNBLANK;
+> > -		backlight->props.state =3D ~(BL_CORE_FBBLANK |
+> > BL_CORE_SUSPENDED);
+> > -		backlight->props.power =3D FB_BLANK_UNBLANK;
+> > +		backlight_enable(backlight);
+> >  	} else {
+> > -		backlight->props.fb_blank =3D FB_BLANK_NORMAL;
+> > -		backlight->props.power =3D FB_BLANK_POWERDOWN;
+> > -		backlight->props.state |=3D BL_CORE_FBBLANK |
+> > BL_CORE_SUSPENDED;
+> > +		backlight_disable(backlight);
+> >  	} =20
+>=20
+> The brackets can be removed now. Otherwise:
+
+>=20
+> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+Thanks, I=E2=80=99ll wait a little more to see if there are any other revie=
+ws of the
+patches and then push a v2 with that fix.
 
 Regards,
 
 Stephen
 
---Sig_/lMq9K57Nv6KWvkGmMFl3QXs
+--Sig_/Fiv/6RAB4w3meaj/_BS+ruP
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmKjgu8ACgkQgNMC9Yht
-g5y6fw/+KKVsNBW5fG/NXRxcpGQDkisyqwSf/FEeQxqGP1kAtLFQHHt7vT5BKZvt
-P/o0PaUun84je8XQfbRsdu4WvNqve0qPPVxl/aUZ35i64UJgNq3rJutIeDbmR2yl
-UsMZisIh8ZafXKmXpA88u7h5Hcdm9OkbplcM5Jhom8Amc70nDSU5nYJhk/eCPgz0
-5bgVGEedpfOVs2zXPv1NCz07g8xYzH2nx0i+TY5AkReY19QD/Wgabo5v555al41H
-uS5bTEdNESCcmroU2Gs5chc6DoDiPMhJgFYmRJpXUCHHcx+298fxvaBJKPZNhA65
-MnyknXePf7wh8IRwMZrm3DnWnUbG1J8wcsNnZEkZJda77hIzSDU+lKg9xgWuehki
-etT0e6MKqGyn5aJRMqzhJRVr3a7AIHAYpHmtvbZ+u7Snw+7ubMgrsks8Gxkq5Put
-4Px+0dQ3y+Cv/fMinzPqBfxIkjDBzs3A9TSkxVzHaSKFf3gCANL7g1FE4y9A2mdX
-DoBsGtEEsvLFT1VukhHvziTXd6mZoCQ7m6Yt0e0xTQ6a/lxesl+cA1HaGXAdThG+
-tCIFukMPzE6M6pRCS8YJtASaLjxKvMf3YhWgEKjJ4DjCgwu4+VSNnrpmii/jIrBI
-IeDCgyM0jv4Q9o90s2sPxc9MiDCgQf1j0KV0aagRKXrhMtExJU0=
-=cMaS
+iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmKjg6gACgkQgNMC9Yht
+g5zfSw//WI01jNuYSP0lMjDjiVPi3dZknMK/1vgV6zHCgisK5W9RahwyjRdg9hWW
+veSzZA4xLOVHS1WpSEcsQWSRCTAoi22tZ/IhGVFTW9hpWkKUzndtuebMzQ5LuEwq
+gP/c6sU3O5qP2tjMyUwDs8zAEugZl6hlcZGtkYdZUk50gUsP2ajEJ2XjblIkikEn
+JskElLBZSpvBS06TzHphA7DZZW1B/GjkucvmM6vOVklRtkxbCYck7E2PCM1uPe6x
+8U7pacTwdvzdf0j255cSxb6xehc1wTDKCelVrp9VcXyI1PiZb6nzW4+xSE/JF+iZ
+Kyrrw8Iuom5Zwr0SlPszmdk8HiKpj+DLRugmH0fHksHAxb09L77zSZZ3krUefXrF
+2A7g0AAXxy7OEZtCJyLHPiSL3Q9EHQ3FtzLH+3xddratrbdzjnbq+kPA37GqfWTk
+qNo0zrCK4o2E2GFAzZf08Hg6FT5o/4LnYPZikTfmOiOYyBR5FGW2nl2AyoH3WdZC
+EfzICSO2fB0i3miIcpTOH+YRJU5G0Ih1acm8FK/1x8A/GSPG/wY0juQMS9Zzkq3Q
+FlsH13MKT+fqlTDwf2wl8hF5ESklSJ90CTKITJTxZiWHLkKeKIZ2l8ll5o4qg4jt
+O5Rj0KaoPq+pkrIwj0Y//PlpPOd8d/X4pYuct2ujiPXp7pkaHLM=
+=9bxl
 -----END PGP SIGNATURE-----
 
---Sig_/lMq9K57Nv6KWvkGmMFl3QXs--
+--Sig_/Fiv/6RAB4w3meaj/_BS+ruP--
