@@ -1,51 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2802546A85
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 18:36:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8BC8546B95
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 19:20:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A41810EA69;
-	Fri, 10 Jun 2022 16:36:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEE7E10E8C0;
+	Fri, 10 Jun 2022 17:20:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E3F910EA69;
- Fri, 10 Jun 2022 16:36:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654878989; x=1686414989;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=9WlTb9FxnFyprobcTbmVYlPt6b/rz0mZIAoNHLTNidQ=;
- b=i48KclEESpUqy1FhBW0ojwA3KU9Pd6xcl1FZ89vvCZth4zv0n9x1EX6L
- 0DQC0MKcs1gnE6rYx5lCa97Qx2r68cdfMl3RiAnWifNdrhx6Cmq+rShL2
- N+DlInc0HxuE1RGbpZBwg1uSABXgM398t0AF9PbAiJfiGfmCogRivAmI0
- pCYKEiQKqgNmhp6inUPRw5/NLidd8hBABtrWLlQtPohUOTQzEc1TuERKu
- SkCOFc9iCX/KxiH1mxCvjYXnr3nIkZb4dc70gP09Rc18miJpRBVOKsRS8
- hb3VRAW1QF7uJut9yCFWkbO4Pw8+XBS1T77Z1GknfM1/+hlTgeNbEeysu Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10374"; a="276456534"
-X-IronPort-AV: E=Sophos;i="5.91,290,1647327600"; d="scan'208";a="276456534"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2022 09:36:28 -0700
-X-IronPort-AV: E=Sophos;i="5.91,290,1647327600"; d="scan'208";a="534144369"
-Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2022 09:36:27 -0700
-Date: Fri, 10 Jun 2022 09:36:09 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [PATCH 2/3] drm/i915: Update i915 uapi documentation
-Message-ID: <20220610163609.GD376@nvishwa1-DESK>
-References: <20220610070711.32407-1-niranjana.vishwanathapura@intel.com>
- <20220610070711.32407-3-niranjana.vishwanathapura@intel.com>
- <2054192a-b664-03c1-9733-707c71098430@intel.com>
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9574410E8C0;
+ Fri, 10 Jun 2022 17:20:48 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id 15so24404124pfy.3;
+ Fri, 10 Jun 2022 10:20:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1d1YjfsXHCfwVyos+52ZHT3Tu2EerzuEGkO0mh/Nu6Q=;
+ b=au0Vt2lCWbjQNYZBsc6w0sdUHlRzG7uateyoAZJeIopej7HCGHyqu+76/Rnll8Kobe
+ LnSqI0l4RLNjNN1RqjkTPWsuC2pUadgMzbln/NMia8AXkV62gHRQHgUIrCFa60oNNYj4
+ rZr3pubnLU3Ky7IE0bQ0vzoBrqL1+I7FHMTUDSoF6yuMop2I/2dsfYY1TLc+bLG/5vjK
+ NKH6LkbnoGcNYD2GSens2DUeXqu1kOu21DyOPwFmSPEmZZDiVlOptKZBQthxfKey6BnP
+ P0zX80/6ZIYFT9yqJwio6fPIKHJvHbA/xaFQXfxtOZzpDZKuSbpCKZYaSvKhpl6tYtWD
+ PBLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1d1YjfsXHCfwVyos+52ZHT3Tu2EerzuEGkO0mh/Nu6Q=;
+ b=BGYOf/rCVT4CqtKk5w33tn0zEUnf05Kpnm18MsuxX+y8n5l3f4L2O4DJJqdRD5KJXQ
+ oj4fWkuork4reQPDP7YjaFmEx15uElV4nQM4lCyHF8CgKOLRJbfHAy9m10YyeAnIGM/T
+ uTPTDjf1J3kjtnmD5X1nCaJUhXl2dSMw/d1TjYePhDAW7hA9GZqZhGg6s80iToHBRLN8
+ 7uu9bPp5YrQFlBflAaXguL4wVrZEpo4fHeh8GkY2DWAqaxZhiUDSrFIUuZHKVxjfQiRi
+ FKv6YkcKa7DXFMT0QrEUf+b1R4mkZ+lWGfndATCJA3dt8KO+osVyPPkyHxOfAH+rFteJ
+ NYXA==
+X-Gm-Message-State: AOAM533AWTkifodp2Sr2l+aRXnW5CJGADWacyO3Aj6aA5OPpx67vcsmD
+ 4nvF+XIA6SeD11YaFldeeszxWT1hjmo=
+X-Google-Smtp-Source: ABdhPJzv1bPE/Sdfur21MebWfhL8/IUFnAi8/MuTCkTO+62g950KjYPUDnGxHW6lox+gRfj2JlppCQ==
+X-Received: by 2002:a05:6a00:98b:b0:51b:d730:c58 with SMTP id
+ u11-20020a056a00098b00b0051bd7300c58mr43227873pfg.23.1654881647554; 
+ Fri, 10 Jun 2022 10:20:47 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ b9-20020a639309000000b00405111cd999sm34273pge.36.2022.06.10.10.20.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jun 2022 10:20:46 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm/gem: Drop early returns in close/purge vma
+Date: Fri, 10 Jun 2022 10:20:55 -0700
+Message-Id: <20220610172055.2337977-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <2054192a-b664-03c1-9733-707c71098430@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,358 +67,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com,
- lionel.g.landwerlin@intel.com, tvrtko.ursulin@intel.com,
- intel-gfx@lists.freedesktop.org, chris.p.wilson@intel.com,
- thomas.hellstrom@intel.com, oak.zeng@intel.com,
- dri-devel@lists.freedesktop.org, jason@jlekstrand.net, daniel.vetter@intel.com,
- christian.koenig@amd.com
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 10, 2022 at 12:01:24PM +0100, Matthew Auld wrote:
->On 10/06/2022 08:07, Niranjana Vishwanathapura wrote:
->>Add some missing i915 upai documentation which the new
->>i915 VM_BIND feature documentation will be refer to.
->>
->>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
->Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->
->This one looks to be standalone. If no objections should we go ahead 
->and merge this one?
+From: Rob Clark <robdclark@chromium.org>
 
-Yah, I agree.
+Keep the warn, but drop the early return.  If we do manage to hit this
+sort of issue, skipping the cleanup just makes things worse (dangling
+drm_mm_nodes when the msm_gem_vma is freed, etc).  Whereas the worst
+that happens if we tear down a mapping the GPU is accessing is that we
+get GPU iova faults, but otherwise the world keeps spinning.
 
-Niranjana
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gem_vma.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
->
->>---
->>  include/uapi/drm/i915_drm.h | 203 ++++++++++++++++++++++++++++--------
->>  1 file changed, 158 insertions(+), 45 deletions(-)
->>
->>diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
->>index de49b68b4fc8..9cf3bf47c7f2 100644
->>--- a/include/uapi/drm/i915_drm.h
->>+++ b/include/uapi/drm/i915_drm.h
->>@@ -751,14 +751,27 @@ typedef struct drm_i915_irq_wait {
->>  /* Must be kept compact -- no holes and well documented */
->>-typedef struct drm_i915_getparam {
->>+/**
->>+ * struct drm_i915_getparam - Driver parameter query structure.
->>+ */
->>+struct drm_i915_getparam {
->>+	/** @param: Driver parameter to query. */
->>  	__s32 param;
->>-	/*
->>+
->>+	/**
->>+	 * @value: Address of memory where queried value should be put.
->>+	 *
->>  	 * WARNING: Using pointers instead of fixed-size u64 means we need to write
->>  	 * compat32 code. Don't repeat this mistake.
->>  	 */
->>  	int __user *value;
->>-} drm_i915_getparam_t;
->>+};
->>+
->>+/**
->>+ * typedef drm_i915_getparam_t - Driver parameter query structure.
->>+ * See struct drm_i915_getparam.
->>+ */
->>+typedef struct drm_i915_getparam drm_i915_getparam_t;
->>  /* Ioctl to set kernel params:
->>   */
->>@@ -1239,76 +1252,119 @@ struct drm_i915_gem_exec_object2 {
->>  	__u64 rsvd2;
->>  };
->>+/**
->>+ * struct drm_i915_gem_exec_fence - An input or output fence for the execbuf
->>+ * ioctl.
->>+ *
->>+ * The request will wait for input fence to signal before submission.
->>+ *
->>+ * The returned output fence will be signaled after the completion of the
->>+ * request.
->>+ */
->>  struct drm_i915_gem_exec_fence {
->>-	/**
->>-	 * User's handle for a drm_syncobj to wait on or signal.
->>-	 */
->>+	/** @handle: User's handle for a drm_syncobj to wait on or signal. */
->>  	__u32 handle;
->>+	/**
->>+	 * @flags: Supported flags are:
->>+	 *
->>+	 * I915_EXEC_FENCE_WAIT:
->>+	 * Wait for the input fence before request submission.
->>+	 *
->>+	 * I915_EXEC_FENCE_SIGNAL:
->>+	 * Return request completion fence as output
->>+	 */
->>+	__u32 flags;
->>  #define I915_EXEC_FENCE_WAIT            (1<<0)
->>  #define I915_EXEC_FENCE_SIGNAL          (1<<1)
->>  #define __I915_EXEC_FENCE_UNKNOWN_FLAGS (-(I915_EXEC_FENCE_SIGNAL << 1))
->>-	__u32 flags;
->>  };
->>-/*
->>- * See drm_i915_gem_execbuffer_ext_timeline_fences.
->>- */
->>-#define DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES 0
->>-
->>-/*
->>+/**
->>+ * struct drm_i915_gem_execbuffer_ext_timeline_fences - Timeline fences
->>+ * for execbuf ioctl.
->>+ *
->>   * This structure describes an array of drm_syncobj and associated points for
->>   * timeline variants of drm_syncobj. It is invalid to append this structure to
->>   * the execbuf if I915_EXEC_FENCE_ARRAY is set.
->>   */
->>  struct drm_i915_gem_execbuffer_ext_timeline_fences {
->>+#define DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES 0
->>+	/** @base: Extension link. See struct i915_user_extension. */
->>  	struct i915_user_extension base;
->>  	/**
->>-	 * Number of element in the handles_ptr & value_ptr arrays.
->>+	 * @fence_count: Number of elements in the @handles_ptr & @value_ptr
->>+	 * arrays.
->>  	 */
->>  	__u64 fence_count;
->>  	/**
->>-	 * Pointer to an array of struct drm_i915_gem_exec_fence of length
->>-	 * fence_count.
->>+	 * @handles_ptr: Pointer to an array of struct drm_i915_gem_exec_fence
->>+	 * of length @fence_count.
->>  	 */
->>  	__u64 handles_ptr;
->>  	/**
->>-	 * Pointer to an array of u64 values of length fence_count. Values
->>-	 * must be 0 for a binary drm_syncobj. A Value of 0 for a timeline
->>-	 * drm_syncobj is invalid as it turns a drm_syncobj into a binary one.
->>+	 * @values_ptr: Pointer to an array of u64 values of length
->>+	 * @fence_count.
->>+	 * Values must be 0 for a binary drm_syncobj. A Value of 0 for a
->>+	 * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
->>+	 * binary one.
->>  	 */
->>  	__u64 values_ptr;
->>  };
->>+/**
->>+ * struct drm_i915_gem_execbuffer2 - Structure for DRM_I915_GEM_EXECBUFFER2
->>+ * ioctl.
->>+ */
->>  struct drm_i915_gem_execbuffer2 {
->>-	/**
->>-	 * List of gem_exec_object2 structs
->>-	 */
->>+	/** @buffers_ptr: Pointer to a list of gem_exec_object2 structs */
->>  	__u64 buffers_ptr;
->>+
->>+	/** @buffer_count: Number of elements in @buffers_ptr array */
->>  	__u32 buffer_count;
->>-	/** Offset in the batchbuffer to start execution from. */
->>+	/**
->>+	 * @batch_start_offset: Offset in the batchbuffer to start execution
->>+	 * from.
->>+	 */
->>  	__u32 batch_start_offset;
->>-	/** Bytes used in batchbuffer from batch_start_offset */
->>+
->>+	/**
->>+	 * @batch_len: Length in bytes of the batch buffer, starting from the
->>+	 * @batch_start_offset. If 0, length is assumed to be the batch buffer
->>+	 * object size.
->>+	 */
->>  	__u32 batch_len;
->>+
->>+	/** @DR1: deprecated */
->>  	__u32 DR1;
->>+
->>+	/** @DR4: deprecated */
->>  	__u32 DR4;
->>+
->>+	/** @num_cliprects: See @cliprects_ptr */
->>  	__u32 num_cliprects;
->>+
->>  	/**
->>-	 * This is a struct drm_clip_rect *cliprects if I915_EXEC_FENCE_ARRAY
->>-	 * & I915_EXEC_USE_EXTENSIONS are not set.
->>+	 * @cliprects_ptr: Kernel clipping was a DRI1 misfeature.
->>+	 *
->>+	 * It is invalid to use this field if I915_EXEC_FENCE_ARRAY or
->>+	 * I915_EXEC_USE_EXTENSIONS flags are not set.
->>  	 *
->>  	 * If I915_EXEC_FENCE_ARRAY is set, then this is a pointer to an array
->>-	 * of struct drm_i915_gem_exec_fence and num_cliprects is the length
->>-	 * of the array.
->>+	 * of &drm_i915_gem_exec_fence and @num_cliprects is the length of the
->>+	 * array.
->>  	 *
->>  	 * If I915_EXEC_USE_EXTENSIONS is set, then this is a pointer to a
->>-	 * single struct i915_user_extension and num_cliprects is 0.
->>+	 * single &i915_user_extension and num_cliprects is 0.
->>  	 */
->>  	__u64 cliprects_ptr;
->>+
->>+	/** @flags: Execbuf flags */
->>+	__u64 flags;
->>  #define I915_EXEC_RING_MASK              (0x3f)
->>  #define I915_EXEC_DEFAULT                (0<<0)
->>  #define I915_EXEC_RENDER                 (1<<0)
->>@@ -1326,10 +1382,6 @@ struct drm_i915_gem_execbuffer2 {
->>  #define I915_EXEC_CONSTANTS_REL_GENERAL (0<<6) /* default */
->>  #define I915_EXEC_CONSTANTS_ABSOLUTE 	(1<<6)
->>  #define I915_EXEC_CONSTANTS_REL_SURFACE (2<<6) /* gen4/5 only */
->>-	__u64 flags;
->>-	__u64 rsvd1; /* now used for context info */
->>-	__u64 rsvd2;
->>-};
->>  /** Resets the SO write offset registers for transform feedback on gen7. */
->>  #define I915_EXEC_GEN7_SOL_RESET	(1<<8)
->>@@ -1432,9 +1484,23 @@ struct drm_i915_gem_execbuffer2 {
->>   * drm_i915_gem_execbuffer_ext enum.
->>   */
->>  #define I915_EXEC_USE_EXTENSIONS	(1 << 21)
->>-
->>  #define __I915_EXEC_UNKNOWN_FLAGS (-(I915_EXEC_USE_EXTENSIONS << 1))
->>+	/** @rsvd1: Context id */
->>+	__u64 rsvd1;
->>+
->>+	/**
->>+	 * @rsvd2: in and out sync_file file descriptors.
->>+	 *
->>+	 * When I915_EXEC_FENCE_IN or I915_EXEC_FENCE_SUBMIT flag is set, the
->>+	 * lower 32 bits of this field will have the in sync_file fd (input).
->>+	 *
->>+	 * When I915_EXEC_FENCE_OUT flag is set, the upper 32 bits of this
->>+	 * field will have the out sync_file fd (output).
->>+	 */
->>+	__u64 rsvd2;
->>+};
->>+
->>  #define I915_EXEC_CONTEXT_ID_MASK	(0xffffffff)
->>  #define i915_execbuffer2_set_context_id(eb2, context) \
->>  	(eb2).rsvd1 = context & I915_EXEC_CONTEXT_ID_MASK
->>@@ -1814,19 +1880,56 @@ struct drm_i915_gem_context_create {
->>  	__u32 pad;
->>  };
->>+/**
->>+ * struct drm_i915_gem_context_create_ext - Structure for creating contexts.
->>+ */
->>  struct drm_i915_gem_context_create_ext {
->>-	__u32 ctx_id; /* output: id of new context*/
->>+	/** @ctx_id: Id of the created context (output) */
->>+	__u32 ctx_id;
->>+
->>+	/**
->>+	 * @flags: Supported flags are:
->>+	 *
->>+	 * I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS:
->>+	 * Extensions may be appended to this structure and driver must check
->>+	 * for those. See @extensions.
->>+	 *
->>+	 * I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE:
->>+	 * Created context will have single timeline.
->>+	 */
->>  	__u32 flags;
->>  #define I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS	(1u << 0)
->>  #define I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE	(1u << 1)
->>  #define I915_CONTEXT_CREATE_FLAGS_UNKNOWN \
->>  	(-(I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE << 1))
->>+
->>+	/**
->>+	 * @extensions: Zero-terminated chain of extensions.
->>+	 *
->>+	 * I915_CONTEXT_CREATE_EXT_SETPARAM:
->>+	 * Context parameter to set or query during context creation.
->>+	 * See struct drm_i915_gem_context_create_ext_setparam.
->>+	 *
->>+	 * I915_CONTEXT_CREATE_EXT_CLONE:
->>+	 * This extension has been removed. On the off chance someone somewhere
->>+	 * has attempted to use it, never re-use this extension number.
->>+	 */
->>  	__u64 extensions;
->>+#define I915_CONTEXT_CREATE_EXT_SETPARAM 0
->>+#define I915_CONTEXT_CREATE_EXT_CLONE 1
->>  };
->>+/**
->>+ * struct drm_i915_gem_context_param - Context parameter to set or query.
->>+ */
->>  struct drm_i915_gem_context_param {
->>+	/** @ctx_id: Context id */
->>  	__u32 ctx_id;
->>+
->>+	/** @size: Size of the parameter @value
->>  	__u32 size;
->>+
->>+	/** @param: Parameter to set or query */
->>  	__u64 param;
->>  #define I915_CONTEXT_PARAM_BAN_PERIOD	0x1
->>  /* I915_CONTEXT_PARAM_NO_ZEROMAP has been removed.  On the off chance
->>@@ -1973,6 +2076,7 @@ struct drm_i915_gem_context_param {
->>  #define I915_CONTEXT_PARAM_PROTECTED_CONTENT    0xd
->>  /* Must be kept compact -- no holes and well documented */
->>+	/** @value: Context parameter value to be set or queried */
->>  	__u64 value;
->>  };
->>@@ -2371,23 +2475,29 @@ struct i915_context_param_engines {
->>  	struct i915_engine_class_instance engines[N__]; \
->>  } __attribute__((packed)) name__
->>+/**
->>+ * struct drm_i915_gem_context_create_ext_setparam - Context parameter
->>+ * to set or query during context creation.
->>+ */
->>  struct drm_i915_gem_context_create_ext_setparam {
->>-#define I915_CONTEXT_CREATE_EXT_SETPARAM 0
->>+	/** @base: Extension link. See struct i915_user_extension. */
->>  	struct i915_user_extension base;
->>+
->>+	/**
->>+	 * @param: Context parameter to set or query.
->>+	 * See struct drm_i915_gem_context_param.
->>+	 */
->>  	struct drm_i915_gem_context_param param;
->>  };
->>-/* This API has been removed.  On the off chance someone somewhere has
->>- * attempted to use it, never re-use this extension number.
->>- */
->>-#define I915_CONTEXT_CREATE_EXT_CLONE 1
->>-
->>  struct drm_i915_gem_context_destroy {
->>  	__u32 ctx_id;
->>  	__u32 pad;
->>  };
->>-/*
->>+/**
->>+ * struct drm_i915_gem_vm_control - Structure to create or destroy VM.
->>+ *
->>   * DRM_I915_GEM_VM_CREATE -
->>   *
->>   * Create a new virtual memory address space (ppGTT) for use within a context
->>@@ -2397,20 +2507,23 @@ struct drm_i915_gem_context_destroy {
->>   * The id of new VM (bound to the fd) for use with I915_CONTEXT_PARAM_VM is
->>   * returned in the outparam @id.
->>   *
->>- * No flags are defined, with all bits reserved and must be zero.
->>- *
->>   * An extension chain maybe provided, starting with @extensions, and terminated
->>   * by the @next_extension being 0. Currently, no extensions are defined.
->>   *
->>   * DRM_I915_GEM_VM_DESTROY -
->>   *
->>- * Destroys a previously created VM id, specified in @id.
->>+ * Destroys a previously created VM id, specified in @vm_id.
->>   *
->>   * No extensions or flags are allowed currently, and so must be zero.
->>   */
->>  struct drm_i915_gem_vm_control {
->>+	/** @extensions: Zero-terminated chain of extensions. */
->>  	__u64 extensions;
->>+
->>+	/** @flags: reserved for future usage, currently MBZ */
->>  	__u32 flags;
->>+
->>+	/** @vm_id: Id of the VM created or to be destroyed */
->>  	__u32 vm_id;
->>  };
+diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
+index 3c1dc9241831..c471aebcdbab 100644
+--- a/drivers/gpu/drm/msm/msm_gem_vma.c
++++ b/drivers/gpu/drm/msm/msm_gem_vma.c
+@@ -62,8 +62,7 @@ void msm_gem_purge_vma(struct msm_gem_address_space *aspace,
+ 	unsigned size = vma->node.size;
+ 
+ 	/* Print a message if we try to purge a vma in use */
+-	if (GEM_WARN_ON(msm_gem_vma_inuse(vma)))
+-		return;
++	GEM_WARN_ON(msm_gem_vma_inuse(vma));
+ 
+ 	/* Don't do anything if the memory isn't mapped */
+ 	if (!vma->mapped)
+@@ -128,8 +127,7 @@ msm_gem_map_vma(struct msm_gem_address_space *aspace,
+ void msm_gem_close_vma(struct msm_gem_address_space *aspace,
+ 		struct msm_gem_vma *vma)
+ {
+-	if (GEM_WARN_ON(msm_gem_vma_inuse(vma) || vma->mapped))
+-		return;
++	GEM_WARN_ON(msm_gem_vma_inuse(vma) || vma->mapped);
+ 
+ 	spin_lock(&aspace->lock);
+ 	if (vma->iova)
+-- 
+2.36.1
+
