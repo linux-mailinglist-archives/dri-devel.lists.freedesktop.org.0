@@ -1,54 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D21546E8B
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 22:40:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 441B3546E90
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 22:41:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D8EE113DFA;
-	Fri, 10 Jun 2022 20:40:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA61113E21;
+	Fri, 10 Jun 2022 20:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com
- [209.85.166.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 158F1113DFA
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 20:40:49 +0000 (UTC)
-Received: by mail-il1-f178.google.com with SMTP id v7so189267ilo.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 13:40:49 -0700 (PDT)
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C9DA113E21
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 20:41:22 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-fb6b4da1dfso649778fac.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 13:41:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=1wOc0J4fYT2fujAD0N/SFPgzt/fgt6blJDB3o4DP2ak=;
+ b=HJndNUV/RX85HGvljX/EtGuC32YxOaIkn0U7bRqjBppXY0Jjfc12XCvOOYrw6VTM1g
+ 9OpOq0EKOn5tD06F+MsK7nJMe8SORGdywqBhNc2BWf+v9TSFSoNO75b2jXiBnvpA+PYA
+ kaUbt9thYk41DLzgsEZlgZpMmvd/4p2oTDqx0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nAvb3P2a4wY9hENy4s31EHxLoq20t7wJfzc0k0RgVzg=;
- b=CSoxc3W1NTSv6bUx812mrgPPzgpihnFLoNctn9fgEjKiwr+ZNL3vNScT7F6YpFI9ky
- 6SfnPadUlTNsKmYibagNUJjL7GQS4vVtVUA17LKg3EViaxcPu245z4QFEiJyFTJiLamq
- rU5TIDDmWozA5zZBxlqgiwMx5cVHUc0zXLxUrFJGbOPbO4hH1RWnpH9ejzIVZqu9yaMe
- zBOFS5jcbnikU70FevFpfzW1QRVRntuTobiCUK7wUlAlsdzq7O1FhzuKUG44UwYxj7lE
- 7kVdkyaz3OBooKtEzkNERCC2poJT/rnUG5Nx64dGgHA8tndjn2Eil+7z2WeWZ9ErK4Ao
- UlTA==
-X-Gm-Message-State: AOAM530AsJY3aaP9zjCNySc8+D8j3BmLbATqUjEyiS3TGGaYdxN9C56V
- rLZ9EXD5WpG9OAUrEaN79g==
-X-Google-Smtp-Source: ABdhPJwZ9K+rp8XDD+tCC6aqdUSu0IC1lm7lUFxEz2sIOi9p74vhZUp78IrbD4m/aSzN6nklbR8iMw==
-X-Received: by 2002:a05:6e02:1c88:b0:2d1:87ea:18c with SMTP id
- w8-20020a056e021c8800b002d187ea018cmr26193110ill.321.1654893648351; 
- Fri, 10 Jun 2022 13:40:48 -0700 (PDT)
-Received: from xps15.herring.priv ([64.188.179.251])
- by smtp.googlemail.com with ESMTPSA id
- x15-20020a02908f000000b0032e8c565e12sm23772jaf.109.2022.06.10.13.40.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jun 2022 13:40:48 -0700 (PDT)
-From: Rob Herring <robh@kernel.org>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Andre Przywara <andre.przywara@arm.com>
-Subject: [PATCH] dt-bindings: display: panel-simple: Add Arm virtual platforms
- display
-Date: Fri, 10 Jun 2022 14:38:18 -0600
-Message-Id: <20220610203818.2193593-1-robh@kernel.org>
-X-Mailer: git-send-email 2.34.1
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=1wOc0J4fYT2fujAD0N/SFPgzt/fgt6blJDB3o4DP2ak=;
+ b=HlaXG5jBVf7C8H+WU8FGi0ZVKMagZ3vl7YweHyxkZBqzDEUJdTE1PHQBx8SQbuU/ka
+ NbzjbNO576XVKpM/IAP7NWzmQHFDHARNjl3OP3HggMSBtO9Z3WxLgocDZKaANcwJRyjX
+ /UVsDpEvP7iteBmZvM7syya+rUn+cxJnbPC2MqtCog8+kQJqHVyZVO7/ByzSSgUNrbG+
+ 9+GCy/GlY/ZFhVPYTZGK0+in7tV6ZjLDMYLxkZi0g0i0SvnuNVzYxMVOenQGQWSgpUFk
+ AyiXHL9r8NZs3lg1b1Bqa0AkijDyeuXbg1rFqjncJkPtv2G5oI+YEqPAycW/zrdqyjc/
+ BbFw==
+X-Gm-Message-State: AOAM5307XaHZKQUyDbKlGHHvOhhNC/Vcr0IC7CfQNqjIOjJr5OwYRgJ6
+ ok0ElmOPU+yYmbh8FAO/ijvED0YsTxkFy+bNWp0yfw==
+X-Google-Smtp-Source: ABdhPJy1FIFw0/ZajJ73h4iKWxSpPY7TneAyV/yA60TeLcm44Rt1c746tdIuod7oRox8ozRoNH+AI+oN7vt+zXmGddg=
+X-Received: by 2002:a05:6870:b381:b0:fe:2004:b3b5 with SMTP id
+ w1-20020a056870b38100b000fe2004b3b5mr927327oap.63.1654893681353; Fri, 10 Jun
+ 2022 13:41:21 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 10 Jun 2022 13:41:20 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220609113148.3149194-1-dmitry.baryshkov@linaro.org>
+References: <20220609113148.3149194-1-dmitry.baryshkov@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Fri, 10 Jun 2022 13:41:20 -0700
+Message-ID: <CAE-0n502VOOw2bU7f+Qb4_JeH1WgWL49gxk12QNrGrxH-GFs7A@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/hdmi: fill the pwr_regs bulk regulators
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,106 +66,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'arm,rtsm-display' is a panel for Arm, Ltd. virtual platforms (e.g. FVP).
-The binding has been in use for a long time, but was never documented.
+Quoting Dmitry Baryshkov (2022-06-09 04:31:48)
+> Conversion to use bulk regulator API omitted filling the pwr_regs with
+> proper regulator IDs. This was left unnoticed, since none of my testing
+> platforms has used the pwr_regs. Fix this by propagating regulator ids
+> properly.
+>
+> Fixes: 31b3b1f5e352 ("drm/msm/hdmi: use bulk regulator API")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-Some users and an example have a 'panel-dpi' compatible, but that's not
-needed without a 'panel-timing' node which none of the users have since
-commit 928faf5e3e8d ("arm64: dts: fvp: Remove panel timings"). The
-example does have a 'panel-timing' node, but it should not for the
-same reasons the node was removed in the dts files. So update the
-example in arm,pl11x.yaml to match the schema.
-
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Andre Przywara <andre.przywara@arm.com>
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../bindings/display/arm,pl11x.yaml           | 15 +-------------
- .../bindings/display/panel/panel-simple.yaml  | 20 +++++++++++++------
- 2 files changed, 15 insertions(+), 20 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/arm,pl11x.yaml b/Documentation/devicetree/bindings/display/arm,pl11x.yaml
-index b545c6d20325..6cc9045e5c68 100644
---- a/Documentation/devicetree/bindings/display/arm,pl11x.yaml
-+++ b/Documentation/devicetree/bindings/display/arm,pl11x.yaml
-@@ -159,25 +159,12 @@ examples:
-     };
- 
-     panel {
--        compatible = "arm,rtsm-display", "panel-dpi";
--        power-supply = <&vcc_supply>;
-+        compatible = "arm,rtsm-display";
- 
-         port {
-             clcd_panel: endpoint {
-                 remote-endpoint = <&clcd_pads>;
-             };
-         };
--
--        panel-timing {
--            clock-frequency = <25175000>;
--            hactive = <640>;
--            hback-porch = <40>;
--            hfront-porch = <24>;
--            hsync-len = <96>;
--            vactive = <480>;
--            vback-porch = <32>;
--            vfront-porch = <11>;
--            vsync-len = <2>;
--        };
-     };
- ...
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 21ba90c9fe33..97afd276c54a 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -19,9 +19,6 @@ description: |
- 
-   If the panel is more advanced a dedicated binding file is required.
- 
--allOf:
--  - $ref: panel-common.yaml#
--
- properties:
- 
-   compatible:
-@@ -35,6 +32,8 @@ properties:
-       - ampire,am-480272h3tmqw-t01h
-         # Ampire AM-800480R3TMQW-A1H 7.0" WVGA TFT LCD panel
-       - ampire,am800480r3tmqwa1h
-+        # Arm, Ltd. Virtual Platforms Display
-+      - arm,rtsm-display
-         # AU Optronics Corporation 10.1" WSVGA TFT LCD panel
-       - auo,b101aw03
-         # AU Optronics Corporation 10.1" WSVGA TFT LCD panel
-@@ -340,9 +339,18 @@ properties:
- 
- additionalProperties: false
- 
--required:
--  - compatible
--  - power-supply
-+allOf:
-+  - $ref: panel-common.yaml#
-+  - if:
-+      # Most 'simple' panels must have a single supply, but a virtual display does not
-+      not:
-+        properties:
-+          compatible:
-+            contains:
-+              const: arm,rtsm-display
-+    then:
-+      required:
-+        - power-supply
- 
- examples:
-   - |
--- 
-2.34.1
-
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
