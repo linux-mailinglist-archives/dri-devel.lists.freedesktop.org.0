@@ -1,55 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D8E5464FD
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 13:01:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D86A2546506
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jun 2022 13:06:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1ADB10E967;
-	Fri, 10 Jun 2022 11:01:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64C5110ECE7;
+	Fri, 10 Jun 2022 11:06:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3431B10E960;
- Fri, 10 Jun 2022 11:01:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654858891; x=1686394891;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Wp7I7oSp7+iK07qX18AE4oA4B1K6/topAwQFkeCoZK0=;
- b=JRR61M9kNXDqWAdg8Pe6miNZMTn63HFNnRGPLHH3WgVcpz31i8Q4G/Z8
- FhrvrfdErUwBkMMHnaYNYKNtS6sgWxlluQzSbicnUtl2egPEHH5YJjIdU
- ItXk9gIyn3kcL3nwzAjjQnWdPzUcQnAhmzpnUqqHM8ow0RPEe5q81e0jB
- D2RaPdO17weIyDN4d3RV30S4Oaw0IuQ7CFH+Zyd7ZtCKw9cFxs+kNP9gK
- 0yHiDC9Xp3/wS30wHMOvEXneta1ZozDno1Tsc7rx8odetHmmYDUiPrqu6
- YmOY3aLgB6LJu2lTCRjoHfcDQ7RNFSk8JnJsKVTsdA/XFV3IW7pbggqjr Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10373"; a="258030189"
-X-IronPort-AV: E=Sophos;i="5.91,290,1647327600"; d="scan'208";a="258030189"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2022 04:01:30 -0700
-X-IronPort-AV: E=Sophos;i="5.91,290,1647327600"; d="scan'208";a="581026260"
-Received: from gsidhu-mobl.ger.corp.intel.com (HELO [10.213.235.160])
- ([10.213.235.160])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2022 04:01:26 -0700
-Message-ID: <2054192a-b664-03c1-9733-707c71098430@intel.com>
-Date: Fri, 10 Jun 2022 12:01:24 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C388D10ECB9
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jun 2022 11:06:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=hUj5o1DqAnHiMLID1jpTTw5PR6O+o4eTCGW3sI8ghOc=; b=r3Pw474NT7PlTt0K4Qiog96V0d
+ 0V7BVACQ/PCdQkDR1YZVcaH9KQmB6bdQiLyK29jmm+Ny1CwYOXL6hOrs2/zsAtaPdetkO2zE7fkrv
+ P690Uh81ark1/7Q2Mgfvd2gN/Z7jWsWYb3BvCrvRb12mgZL/iNQbz3KBEbKsI6Jkm66L1+x7ssDc7
+ muEhzOaA1BN6jpjGzliZSBCE27PVD5xDi452DjjtT/yzKMcJTwjRm9Ea3182lJrzcuiNJGDDr0lR6
+ 0efVJ4y3B03b4K7gZ7xxr2a85MV5EvahnKUPMAzxyotp5GqNCbHFhzojRV0gL/Ix9igQAfx6tixmA
+ 877FlZ7w==;
+Received: from [165.90.126.25] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1nzcSv-00FyEU-BJ; Fri, 10 Jun 2022 13:06:09 +0200
+Date: Fri, 10 Jun 2022 10:05:56 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v6 0/6] Raspberry PI 4 V3D enablement
+Message-ID: <20220610110556.63mddbye7vxq6mzb@mail.igalia.com>
+References: <20220603092610.1909675-1-pbrobinson@gmail.com>
+ <cadecbfd-e174-eadb-276c-577bb2bf70f2@gmail.com>
+ <9aaaaa29-11c0-d494-11dd-0bbf5d384364@redhat.com>
+ <20220608155130.w4piz2g3obp7qnx7@mail.igalia.com>
+ <40f27e32-720a-2f51-2164-5e152f53443a@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.10.0
-Subject: Re: [PATCH 2/3] drm/i915: Update i915 uapi documentation
-Content-Language: en-GB
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@intel.com
-References: <20220610070711.32407-1-niranjana.vishwanathapura@intel.com>
- <20220610070711.32407-3-niranjana.vishwanathapura@intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220610070711.32407-3-niranjana.vishwanathapura@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="jmztf5qy6qwyt4jv"
+Content-Disposition: inline
+In-Reply-To: <40f27e32-720a-2f51-2164-5e152f53443a@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,370 +56,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- chris.p.wilson@intel.com, thomas.hellstrom@intel.com, oak.zeng@intel.com,
- lionel.g.landwerlin@intel.com, jason@jlekstrand.net, christian.koenig@amd.com
+Cc: Stefan Wahren <stefan.wahren@i2se.com>, devicetree@vger.kernel.org,
+ Florian Fainelli <f.fainelli@gmail.com>, Emma Anholt <emma@anholt.net>,
+ Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, Peter Robinson <pbrobinson@gmail.com>,
+ maxime@cerno.tech, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/06/2022 08:07, Niranjana Vishwanathapura wrote:
-> Add some missing i915 upai documentation which the new
-> i915 VM_BIND feature documentation will be refer to.
-> 
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
-This one looks to be standalone. If no objections should we go ahead and 
-merge this one?
+--jmztf5qy6qwyt4jv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->   include/uapi/drm/i915_drm.h | 203 ++++++++++++++++++++++++++++--------
->   1 file changed, 158 insertions(+), 45 deletions(-)
-> 
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index de49b68b4fc8..9cf3bf47c7f2 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -751,14 +751,27 @@ typedef struct drm_i915_irq_wait {
->   
->   /* Must be kept compact -- no holes and well documented */
->   
-> -typedef struct drm_i915_getparam {
-> +/**
-> + * struct drm_i915_getparam - Driver parameter query structure.
-> + */
-> +struct drm_i915_getparam {
-> +	/** @param: Driver parameter to query. */
->   	__s32 param;
-> -	/*
-> +
-> +	/**
-> +	 * @value: Address of memory where queried value should be put.
-> +	 *
->   	 * WARNING: Using pointers instead of fixed-size u64 means we need to write
->   	 * compat32 code. Don't repeat this mistake.
->   	 */
->   	int __user *value;
-> -} drm_i915_getparam_t;
-> +};
-> +
-> +/**
-> + * typedef drm_i915_getparam_t - Driver parameter query structure.
-> + * See struct drm_i915_getparam.
-> + */
-> +typedef struct drm_i915_getparam drm_i915_getparam_t;
->   
->   /* Ioctl to set kernel params:
->    */
-> @@ -1239,76 +1252,119 @@ struct drm_i915_gem_exec_object2 {
->   	__u64 rsvd2;
->   };
->   
-> +/**
-> + * struct drm_i915_gem_exec_fence - An input or output fence for the execbuf
-> + * ioctl.
-> + *
-> + * The request will wait for input fence to signal before submission.
-> + *
-> + * The returned output fence will be signaled after the completion of the
-> + * request.
-> + */
->   struct drm_i915_gem_exec_fence {
-> -	/**
-> -	 * User's handle for a drm_syncobj to wait on or signal.
-> -	 */
-> +	/** @handle: User's handle for a drm_syncobj to wait on or signal. */
->   	__u32 handle;
->   
-> +	/**
-> +	 * @flags: Supported flags are:
-> +	 *
-> +	 * I915_EXEC_FENCE_WAIT:
-> +	 * Wait for the input fence before request submission.
-> +	 *
-> +	 * I915_EXEC_FENCE_SIGNAL:
-> +	 * Return request completion fence as output
-> +	 */
-> +	__u32 flags;
->   #define I915_EXEC_FENCE_WAIT            (1<<0)
->   #define I915_EXEC_FENCE_SIGNAL          (1<<1)
->   #define __I915_EXEC_FENCE_UNKNOWN_FLAGS (-(I915_EXEC_FENCE_SIGNAL << 1))
-> -	__u32 flags;
->   };
->   
-> -/*
-> - * See drm_i915_gem_execbuffer_ext_timeline_fences.
-> - */
-> -#define DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES 0
-> -
-> -/*
-> +/**
-> + * struct drm_i915_gem_execbuffer_ext_timeline_fences - Timeline fences
-> + * for execbuf ioctl.
-> + *
->    * This structure describes an array of drm_syncobj and associated points for
->    * timeline variants of drm_syncobj. It is invalid to append this structure to
->    * the execbuf if I915_EXEC_FENCE_ARRAY is set.
->    */
->   struct drm_i915_gem_execbuffer_ext_timeline_fences {
-> +#define DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES 0
-> +	/** @base: Extension link. See struct i915_user_extension. */
->   	struct i915_user_extension base;
->   
->   	/**
-> -	 * Number of element in the handles_ptr & value_ptr arrays.
-> +	 * @fence_count: Number of elements in the @handles_ptr & @value_ptr
-> +	 * arrays.
->   	 */
->   	__u64 fence_count;
->   
->   	/**
-> -	 * Pointer to an array of struct drm_i915_gem_exec_fence of length
-> -	 * fence_count.
-> +	 * @handles_ptr: Pointer to an array of struct drm_i915_gem_exec_fence
-> +	 * of length @fence_count.
->   	 */
->   	__u64 handles_ptr;
->   
->   	/**
-> -	 * Pointer to an array of u64 values of length fence_count. Values
-> -	 * must be 0 for a binary drm_syncobj. A Value of 0 for a timeline
-> -	 * drm_syncobj is invalid as it turns a drm_syncobj into a binary one.
-> +	 * @values_ptr: Pointer to an array of u64 values of length
-> +	 * @fence_count.
-> +	 * Values must be 0 for a binary drm_syncobj. A Value of 0 for a
-> +	 * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
-> +	 * binary one.
->   	 */
->   	__u64 values_ptr;
->   };
->   
-> +/**
-> + * struct drm_i915_gem_execbuffer2 - Structure for DRM_I915_GEM_EXECBUFFER2
-> + * ioctl.
-> + */
->   struct drm_i915_gem_execbuffer2 {
-> -	/**
-> -	 * List of gem_exec_object2 structs
-> -	 */
-> +	/** @buffers_ptr: Pointer to a list of gem_exec_object2 structs */
->   	__u64 buffers_ptr;
-> +
-> +	/** @buffer_count: Number of elements in @buffers_ptr array */
->   	__u32 buffer_count;
->   
-> -	/** Offset in the batchbuffer to start execution from. */
-> +	/**
-> +	 * @batch_start_offset: Offset in the batchbuffer to start execution
-> +	 * from.
-> +	 */
->   	__u32 batch_start_offset;
-> -	/** Bytes used in batchbuffer from batch_start_offset */
-> +
-> +	/**
-> +	 * @batch_len: Length in bytes of the batch buffer, starting from the
-> +	 * @batch_start_offset. If 0, length is assumed to be the batch buffer
-> +	 * object size.
-> +	 */
->   	__u32 batch_len;
-> +
-> +	/** @DR1: deprecated */
->   	__u32 DR1;
-> +
-> +	/** @DR4: deprecated */
->   	__u32 DR4;
-> +
-> +	/** @num_cliprects: See @cliprects_ptr */
->   	__u32 num_cliprects;
-> +
->   	/**
-> -	 * This is a struct drm_clip_rect *cliprects if I915_EXEC_FENCE_ARRAY
-> -	 * & I915_EXEC_USE_EXTENSIONS are not set.
-> +	 * @cliprects_ptr: Kernel clipping was a DRI1 misfeature.
-> +	 *
-> +	 * It is invalid to use this field if I915_EXEC_FENCE_ARRAY or
-> +	 * I915_EXEC_USE_EXTENSIONS flags are not set.
->   	 *
->   	 * If I915_EXEC_FENCE_ARRAY is set, then this is a pointer to an array
-> -	 * of struct drm_i915_gem_exec_fence and num_cliprects is the length
-> -	 * of the array.
-> +	 * of &drm_i915_gem_exec_fence and @num_cliprects is the length of the
-> +	 * array.
->   	 *
->   	 * If I915_EXEC_USE_EXTENSIONS is set, then this is a pointer to a
-> -	 * single struct i915_user_extension and num_cliprects is 0.
-> +	 * single &i915_user_extension and num_cliprects is 0.
->   	 */
->   	__u64 cliprects_ptr;
-> +
-> +	/** @flags: Execbuf flags */
-> +	__u64 flags;
->   #define I915_EXEC_RING_MASK              (0x3f)
->   #define I915_EXEC_DEFAULT                (0<<0)
->   #define I915_EXEC_RENDER                 (1<<0)
-> @@ -1326,10 +1382,6 @@ struct drm_i915_gem_execbuffer2 {
->   #define I915_EXEC_CONSTANTS_REL_GENERAL (0<<6) /* default */
->   #define I915_EXEC_CONSTANTS_ABSOLUTE 	(1<<6)
->   #define I915_EXEC_CONSTANTS_REL_SURFACE (2<<6) /* gen4/5 only */
-> -	__u64 flags;
-> -	__u64 rsvd1; /* now used for context info */
-> -	__u64 rsvd2;
-> -};
->   
->   /** Resets the SO write offset registers for transform feedback on gen7. */
->   #define I915_EXEC_GEN7_SOL_RESET	(1<<8)
-> @@ -1432,9 +1484,23 @@ struct drm_i915_gem_execbuffer2 {
->    * drm_i915_gem_execbuffer_ext enum.
->    */
->   #define I915_EXEC_USE_EXTENSIONS	(1 << 21)
-> -
->   #define __I915_EXEC_UNKNOWN_FLAGS (-(I915_EXEC_USE_EXTENSIONS << 1))
->   
-> +	/** @rsvd1: Context id */
-> +	__u64 rsvd1;
-> +
-> +	/**
-> +	 * @rsvd2: in and out sync_file file descriptors.
-> +	 *
-> +	 * When I915_EXEC_FENCE_IN or I915_EXEC_FENCE_SUBMIT flag is set, the
-> +	 * lower 32 bits of this field will have the in sync_file fd (input).
-> +	 *
-> +	 * When I915_EXEC_FENCE_OUT flag is set, the upper 32 bits of this
-> +	 * field will have the out sync_file fd (output).
-> +	 */
-> +	__u64 rsvd2;
-> +};
-> +
->   #define I915_EXEC_CONTEXT_ID_MASK	(0xffffffff)
->   #define i915_execbuffer2_set_context_id(eb2, context) \
->   	(eb2).rsvd1 = context & I915_EXEC_CONTEXT_ID_MASK
-> @@ -1814,19 +1880,56 @@ struct drm_i915_gem_context_create {
->   	__u32 pad;
->   };
->   
-> +/**
-> + * struct drm_i915_gem_context_create_ext - Structure for creating contexts.
-> + */
->   struct drm_i915_gem_context_create_ext {
-> -	__u32 ctx_id; /* output: id of new context*/
-> +	/** @ctx_id: Id of the created context (output) */
-> +	__u32 ctx_id;
-> +
-> +	/**
-> +	 * @flags: Supported flags are:
-> +	 *
-> +	 * I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS:
-> +	 * Extensions may be appended to this structure and driver must check
-> +	 * for those. See @extensions.
-> +	 *
-> +	 * I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE:
-> +	 * Created context will have single timeline.
-> +	 */
->   	__u32 flags;
->   #define I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS	(1u << 0)
->   #define I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE	(1u << 1)
->   #define I915_CONTEXT_CREATE_FLAGS_UNKNOWN \
->   	(-(I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE << 1))
-> +
-> +	/**
-> +	 * @extensions: Zero-terminated chain of extensions.
-> +	 *
-> +	 * I915_CONTEXT_CREATE_EXT_SETPARAM:
-> +	 * Context parameter to set or query during context creation.
-> +	 * See struct drm_i915_gem_context_create_ext_setparam.
-> +	 *
-> +	 * I915_CONTEXT_CREATE_EXT_CLONE:
-> +	 * This extension has been removed. On the off chance someone somewhere
-> +	 * has attempted to use it, never re-use this extension number.
-> +	 */
->   	__u64 extensions;
-> +#define I915_CONTEXT_CREATE_EXT_SETPARAM 0
-> +#define I915_CONTEXT_CREATE_EXT_CLONE 1
->   };
->   
-> +/**
-> + * struct drm_i915_gem_context_param - Context parameter to set or query.
-> + */
->   struct drm_i915_gem_context_param {
-> +	/** @ctx_id: Context id */
->   	__u32 ctx_id;
-> +
-> +	/** @size: Size of the parameter @value
->   	__u32 size;
-> +
-> +	/** @param: Parameter to set or query */
->   	__u64 param;
->   #define I915_CONTEXT_PARAM_BAN_PERIOD	0x1
->   /* I915_CONTEXT_PARAM_NO_ZEROMAP has been removed.  On the off chance
-> @@ -1973,6 +2076,7 @@ struct drm_i915_gem_context_param {
->   #define I915_CONTEXT_PARAM_PROTECTED_CONTENT    0xd
->   /* Must be kept compact -- no holes and well documented */
->   
-> +	/** @value: Context parameter value to be set or queried */
->   	__u64 value;
->   };
->   
-> @@ -2371,23 +2475,29 @@ struct i915_context_param_engines {
->   	struct i915_engine_class_instance engines[N__]; \
->   } __attribute__((packed)) name__
->   
-> +/**
-> + * struct drm_i915_gem_context_create_ext_setparam - Context parameter
-> + * to set or query during context creation.
-> + */
->   struct drm_i915_gem_context_create_ext_setparam {
-> -#define I915_CONTEXT_CREATE_EXT_SETPARAM 0
-> +	/** @base: Extension link. See struct i915_user_extension. */
->   	struct i915_user_extension base;
-> +
-> +	/**
-> +	 * @param: Context parameter to set or query.
-> +	 * See struct drm_i915_gem_context_param.
-> +	 */
->   	struct drm_i915_gem_context_param param;
->   };
->   
-> -/* This API has been removed.  On the off chance someone somewhere has
-> - * attempted to use it, never re-use this extension number.
-> - */
-> -#define I915_CONTEXT_CREATE_EXT_CLONE 1
-> -
->   struct drm_i915_gem_context_destroy {
->   	__u32 ctx_id;
->   	__u32 pad;
->   };
->   
-> -/*
-> +/**
-> + * struct drm_i915_gem_vm_control - Structure to create or destroy VM.
-> + *
->    * DRM_I915_GEM_VM_CREATE -
->    *
->    * Create a new virtual memory address space (ppGTT) for use within a context
-> @@ -2397,20 +2507,23 @@ struct drm_i915_gem_context_destroy {
->    * The id of new VM (bound to the fd) for use with I915_CONTEXT_PARAM_VM is
->    * returned in the outparam @id.
->    *
-> - * No flags are defined, with all bits reserved and must be zero.
-> - *
->    * An extension chain maybe provided, starting with @extensions, and terminated
->    * by the @next_extension being 0. Currently, no extensions are defined.
->    *
->    * DRM_I915_GEM_VM_DESTROY -
->    *
-> - * Destroys a previously created VM id, specified in @id.
-> + * Destroys a previously created VM id, specified in @vm_id.
->    *
->    * No extensions or flags are allowed currently, and so must be zero.
->    */
->   struct drm_i915_gem_vm_control {
-> +	/** @extensions: Zero-terminated chain of extensions. */
->   	__u64 extensions;
-> +
-> +	/** @flags: reserved for future usage, currently MBZ */
->   	__u32 flags;
-> +
-> +	/** @vm_id: Id of the VM created or to be destroyed */
->   	__u32 vm_id;
->   };
->   
+On 06/08, Javier Martinez Canillas wrote:
+> Hello Melissa,
+>=20
+> On 6/8/22 17:51, Melissa Wen wrote:
+>=20
+> [snip]
+>=20
+> >>>
+> >>> I can take the last 3 patches through the Broadcom ARM SoC pull reque=
+st,=20
+> >>> but the first three should probably go via the DRM tree unless you wa=
+nt=20
+> >>> me to merge them all?
+> >>
+> >> I can merge the first 3 patches through the drm-misc tree. Can I get
+> >> an ack from you for those ?
+> >>
+> >> The changes are independent so there's no need for an immutable branch
+> >> or any kind of cross tree coordination.
+> >=20
+> > Hi Javier,
+> >=20
+> > I'm not sure if you're suggesting here to apply the entire series as it
+> > is now.
+> >
+>=20
+> No. I suggested that could just apply the first 3 patches that were relat=
+ed
+> to DRM, not the last 3 three since Florian will pick those.
+> =20
+> > I'm not able to have a functional kernel from arm defconfig, only for
+> > arm64. I'd like to have this issue clarified before merge this serie. I
+> > tried multi_v7_defconfig on raspbian 32-bits and got a kernel panic.
+> > Things work better when using downstream bcm2711_defconfig.
+> >=20
+> > If you have an idea of what is going on, please, let me know. I can try
+>=20
+> Can you please share for info? For example your boot log when it panics,
+> maybe that could shed some light on what's going on.
+>=20
+> > again and I'll be okay on merging it. Otherwise, let's wait for more
+> > inputs to have a better picture of the situation.
+> >
+>=20
+> Of course I don't plan to push patches that are known to cause issues.
+>=20
+> I mentioned that could help merging the DRM changes if needed before
+> you sent your bug report.
+
+Hi Javier,
+
+Thanks for waiting a little.
+
+Stefan guided me to the missing part and I'm okay on this serie.
+
+If there's any r-b missing for drm/v3d, you can add mine:
+Reviewed-by: Melissa Wen <mwen@igalia.com>
+
+But if you prefer that I applied them, just let me know.
+
+Best Regards,
+
+Melissa
+
+>=20
+> --=20
+> Best regards,
+>=20
+> Javier Martinez Canillas
+> Linux Engineering
+> Red Hat
+>=20
+
+--jmztf5qy6qwyt4jv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmKjJYEACgkQwqF3j0dL
+ehy+gQ//b3B4voe4RrFb3jzsMa3i0vuZFO4MLSdjDnuHJO7tNTtldAFpOXIZKbeB
+Qr+uVGdDA/dXaedWWa2HR80Q4gic6DYOPS1RIlT6wymiwoJJ0ztMVscIpzZuUuiM
+ZnckfISjj7TG55jmqopgv/FLmThuRLyrTZ+j8GgCO+oxQBz0US8rnX0NJieuEIr4
+IXLYJfteOQRov2Y+ClEAzgUmjS2dMl7y1P8wSftVf3nTrcuvEBayeIHJ0/Dwiokn
+BmwWAZpM4bdY3ugiE30Xq4yB0XQWqamLOXBrwcJmJ7ixUplHBBwAxxaIfu7lRfQk
+p65LT+Meu+TBhAP/2tOp4Y1gmORTvm3NFPKRruIm92HCy/NVzeYCUwcmu33V9L0+
+8xh1IC5CNNy/nn4YPIEaXOAJRtbhr2IAFBiyqDyN0J5Sj+huJFHWS8TXZjdDbjOn
+uDgiuNM47yuBl+cHikXWq62DlM9jLKx92OPpo+PW+ZUoRbFkDlJBS+fUEA9A2crj
+OIWl5/AWKHn+0LHZi+mnw9XvdtBg+/uDylgYmixAXHAzYpOeVWheJR/tOLhbzM/g
+k4p34LWmw9/MekHPLrpiIXlEGGZqoEe67LZmKEgNgt9TzU7q1BXBp2wujgtK9LrQ
+M5jx2ftRdxo+9I8GUff/k4zqS+rLMfkLOJCj5MB3y8ovZ9QBIkM=
+=BuaU
+-----END PGP SIGNATURE-----
+
+--jmztf5qy6qwyt4jv--
