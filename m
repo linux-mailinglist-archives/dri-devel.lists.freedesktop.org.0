@@ -1,37 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F21546F88
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jun 2022 00:12:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3AC546F9C
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jun 2022 00:23:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9267311A538;
-	Fri, 10 Jun 2022 22:12:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C46B11A77F;
+	Fri, 10 Jun 2022 22:23:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 493 seconds by postgrey-1.36 at gabe;
- Fri, 10 Jun 2022 22:12:07 UTC
-Received: from mail.z3ntu.xyz (mail.z3ntu.xyz [128.199.32.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2B2211A538;
- Fri, 10 Jun 2022 22:12:07 +0000 (UTC)
-Received: from g550jk.arnhem.chello.nl (31-151-115-246.dynamic.upc.nl
- [31.151.115.246])
- by mail.z3ntu.xyz (Postfix) with ESMTPSA id D570BCD36F;
- Fri, 10 Jun 2022 22:03:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
- t=1654898602; bh=oeZz0OZexmMdYCMRKOgZDLEiOr1iNRAvEG7wdfdbtkA=;
- h=From:To:Cc:Subject:Date;
- b=NX/NiUfTnfYpFcspTrCqQqLYTDiBAp68cj/OwnswFvHiRrhRP4cfBBAXg9t4OhIIz
- BKUm2xllrZ+U40OITYYIUKP08W3QwAlAEw5X4IGrdB82TeWjPDy7lDiB8Oli5jA6Sv
- 9Krvp4OZLjN0bo+hPBCcnZrAhJPFNUuTeKFe81B8=
-From: Luca Weiss <luca@z3ntu.xyz>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm/dsi: Use single function for reset
-Date: Sat, 11 Jun 2022 00:02:57 +0200
-Message-Id: <20220610220259.220622-1-luca@z3ntu.xyz>
-X-Mailer: git-send-email 2.36.1
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 760AF11A77F;
+ Fri, 10 Jun 2022 22:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1654899808; x=1686435808;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=1YIvuBN3MZwcCcc+1EG3cR7ymtjM6NDuvsAojxPuEOA=;
+ b=bNKHQm+Hz/skyNGfhpFMesNll7Dl3Jcp0dYGL+ryo9ykEpC/p2Wu3ac2
+ m+wwB0G5RDJTXwITfv93m5FM2Gjt/zYoMKTzWtrDLiF/vDiduR5vu/Qse
+ ZeZ+0Jpy0PAZhCm1qE8aqTuOgEpRcsm/VTFkJSHlsCVNagZLSD4lcLCzZ 0=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 10 Jun 2022 15:23:27 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jun 2022 15:23:26 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 10 Jun 2022 15:23:25 -0700
+Received: from [10.38.242.187] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 10 Jun
+ 2022 15:23:24 -0700
+Message-ID: <974d79ce-c9f4-0baf-f905-f194ed1bd0ba@quicinc.com>
+Date: Fri, 10 Jun 2022 15:23:22 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH] drm/msm: less magic numbers in msm_mdss_enable
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20220531121825.1126204-1-dmitry.baryshkov@linaro.org>
+ <d7084452-ea90-3a8b-d39a-b09d9f45f839@quicinc.com>
+ <CAA8EJprW7xnYJaeqh4vozSTx04DcQ20MMRrzLaEJPJTC3dV30w@mail.gmail.com>
+ <80c1da0f-0006-6602-ec86-ebdf71c3037a@quicinc.com>
+ <CAA8EJppfWfP-bZLOYF8QBe6kW6gBBw5eXpzzDA6GFo8U7g=jRQ@mail.gmail.com>
+ <963f5ef5-4b1d-6b0d-5b6d-0d6136e9e8d3@quicinc.com>
+ <CAA8EJppCiN65NV7w9TyR=P+XzGPVxZJoAZoX5+XjxKwXsL_FQg@mail.gmail.com>
+ <e56780cb-44c1-b26b-90b8-ceb40b8f218b@quicinc.com>
+ <CAA8EJprCHW61_0zd+GqOZgpx1C-CDv6iuJZU60cc-1M2YZZhpw@mail.gmail.com>
+ <cb9bf456-2c50-2c59-1738-c72c920330d7@quicinc.com>
+ <2d61784b-fe0c-f572-dc75-2ccd38ff0f6a@linaro.org>
+ <08d454e6-5728-63e3-8b67-44158e84b775@quicinc.com>
+ <af4a03c1-70f5-79da-8c6f-932e213415b1@linaro.org>
+ <282f0fc4-34de-4549-723b-f5ce8075fcfd@quicinc.com>
+ <CAA8EJpqVdv8BMGMiQ4=vJ23qSpvzMsLA_yug3z9owKsYQX0xSg@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpqVdv8BMGMiQ4=vJ23qSpvzMsLA_yug3z9owKsYQX0xSg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,114 +77,313 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
- Luca Weiss <luca@z3ntu.xyz>, freedreno@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, phone-devel@vger.kernel.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Bjorn
+ Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vladimir Lypak <vladimir.lypak@gmail.com>
 
-There is currently two function for performing reset: dsi_sw_reset and
-dsi_sw_reset_restore. Only difference betwean those is that latter one
-assumes that DSI controller is enabled. In contrary former one assumes
-that controller is disabled and executed during power-on. However this
-assumtion is not true mobile devices which have boot splash set up by
-boot-loader.
 
-This patch removes dsi_sw_reset_restore and makes dsi_sw_reset disable
-DSI controller during reset sequence if it's enabled.
+On 6/8/2022 11:08 PM, Dmitry Baryshkov wrote:
+> On Thu, 9 Jun 2022 at 02:37, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 6/8/2022 3:46 PM, Dmitry Baryshkov wrote:
+>>> On 09/06/2022 01:42, Abhinav Kumar wrote:
+>>>>
+>>>>
+>>>> On 6/8/2022 3:38 PM, Dmitry Baryshkov wrote:
+>>>>> On 09/06/2022 01:35, Abhinav Kumar wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 6/8/2022 3:30 PM, Dmitry Baryshkov wrote:
+>>>>>>> On Wed, 8 Jun 2022 at 22:29, Abhinav Kumar
+>>>>>>> <quic_abhinavk@quicinc.com> wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On 6/2/2022 1:13 PM, Dmitry Baryshkov wrote:
+>>>>>>>>> On Thu, 2 Jun 2022 at 21:18, Abhinav Kumar
+>>>>>>>>> <quic_abhinavk@quicinc.com> wrote:
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> On 6/1/2022 1:04 PM, Dmitry Baryshkov wrote:
+>>>>>>>>>>> On Wed, 1 Jun 2022 at 20:38, Abhinav Kumar
+>>>>>>>>>>> <quic_abhinavk@quicinc.com> wrote:
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>> On 6/1/2022 2:46 AM, Dmitry Baryshkov wrote:
+>>>>>>>>>>>>> On Wed, 1 Jun 2022 at 01:01, Abhinav Kumar
+>>>>>>>>>>>>> <quic_abhinavk@quicinc.com> wrote:
+>>>>>>>>>>>>>> On 5/31/2022 5:18 AM, Dmitry Baryshkov wrote:
+>>>>>>>>>>>>>>> Replace magic register writes in msm_mdss_enable() with
+>>>>>>>>>>>>>>> version that
+>>>>>>>>>>>>>>> contains less magic and more variable names that can be
+>>>>>>>>>>>>>>> traced back to
+>>>>>>>>>>>>>>> the dpu_hw_catalog or the downstream dtsi files.
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>>>>>>>>>>>> ---
+>>>>>>>>>>>>>>>        drivers/gpu/drm/msm/msm_mdss.c | 79
+>>>>>>>>>>>>>>> ++++++++++++++++++++++++++++++----
+>>>>>>>>>>>>>>>        1 file changed, 71 insertions(+), 8 deletions(-)
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> diff --git a/drivers/gpu/drm/msm/msm_mdss.c
+>>>>>>>>>>>>>>> b/drivers/gpu/drm/msm/msm_mdss.c
+>>>>>>>>>>>>>>> index 0454a571adf7..2a48263cd1b5 100644
+>>>>>>>>>>>>>>> --- a/drivers/gpu/drm/msm/msm_mdss.c
+>>>>>>>>>>>>>>> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+>>>>>>>>>>>>>>> @@ -21,6 +21,7 @@
+>>>>>>>>>>>>>>>        #define HW_REV                              0x0
+>>>>>>>>>>>>>>>        #define HW_INTR_STATUS                      0x0010
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> +#define UBWC_DEC_HW_VERSION          0x58
+>>>>>>>>>>>>>>>        #define UBWC_STATIC                 0x144
+>>>>>>>>>>>>>>>        #define UBWC_CTRL_2                 0x150
+>>>>>>>>>>>>>>>        #define UBWC_PREDICTION_MODE                0x154
+>>>>>>>>>>>>>>> @@ -132,9 +133,63 @@ static int
+>>>>>>>>>>>>>>> _msm_mdss_irq_domain_add(struct msm_mdss *msm_mdss)
+>>>>>>>>>>>>>>>            return 0;
+>>>>>>>>>>>>>>>        }
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> +#define UBWC_1_0 0x10000000
+>>>>>>>>>>>>>>> +#define UBWC_2_0 0x20000000
+>>>>>>>>>>>>>>> +#define UBWC_3_0 0x30000000
+>>>>>>>>>>>>>>> +#define UBWC_4_0 0x40000000
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss
+>>>>>>>>>>>>>>> *msm_mdss,
+>>>>>>>>>>>>>>> +                                    u32 ubwc_static)
+>>>>>>>>>>>>>>> +{
+>>>>>>>>>>>>>>> +     writel_relaxed(ubwc_static, msm_mdss->mmio +
+>>>>>>>>>>>>>>> UBWC_STATIC);
+>>>>>>>>>>>>>>> +}
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss
+>>>>>>>>>>>>>>> *msm_mdss,
+>>>>>>>>>>>>>>> +                                    unsigned int
+>>>>>>>>>>>>>>> ubwc_version,
+>>>>>>>>>>>>>>> +                                    u32 ubwc_swizzle,
+>>>>>>>>>>>>>>> +                                    u32 highest_bank_bit,
+>>>>>>>>>>>>>>> +                                    u32 macrotile_mode)
+>>>>>>>>>>>>>>> +{
+>>>>>>>>>>>>>>> +     u32 value = (ubwc_swizzle & 0x1) |
+>>>>>>>>>>>>>>> +                 (highest_bank_bit & 0x3) << 4 |
+>>>>>>>>>>>>>>> +                 (macrotile_mode & 0x1) << 12;
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +     if (ubwc_version == UBWC_3_0)
+>>>>>>>>>>>>>>> +             value |= BIT(10);
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +     if (ubwc_version == UBWC_1_0)
+>>>>>>>>>>>>>>> +             value |= BIT(8);
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +     writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
+>>>>>>>>>>>>>>> +}
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss
+>>>>>>>>>>>>>>> *msm_mdss,
+>>>>>>>>>>>>>>> +                                    unsigned int
+>>>>>>>>>>>>>>> ubwc_version,
+>>>>>>>>>>>>>>> +                                    u32 ubwc_swizzle,
+>>>>>>>>>>>>>>> +                                    u32 ubwc_static,
+>>>>>>>>>>>>>>> +                                    u32 highest_bank_bit,
+>>>>>>>>>>>>>>> +                                    u32 macrotile_mode)
+>>>>>>>>>>>>>>> +{
+>>>>>>>>>>>>>>> +     u32 value = (ubwc_swizzle & 0x7) |
+>>>>>>>>>>>>>>> +                 (ubwc_static & 0x1) << 3 |
+>>>>>>>>>>>>>>> +                 (highest_bank_bit & 0x7) << 4 |
+>>>>>>>>>>>>>>> +                 (macrotile_mode & 0x1) << 12;
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +     writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +     if (ubwc_version == UBWC_3_0) {
+>>>>>>>>>>>>>>> +             writel_relaxed(1, msm_mdss->mmio + UBWC_CTRL_2);
+>>>>>>>>>>>>>>> +             writel_relaxed(0, msm_mdss->mmio +
+>>>>>>>>>>>>>>> UBWC_PREDICTION_MODE);
+>>>>>>>>>>>>>>> +     } else {
+>>>>>>>>>>>>>>> +             writel_relaxed(2, msm_mdss->mmio + UBWC_CTRL_2);
+>>>>>>>>>>>>>>> +             writel_relaxed(1, msm_mdss->mmio +
+>>>>>>>>>>>>>>> UBWC_PREDICTION_MODE);
+>>>>>>>>>>>>>>> +     }
+>>>>>>>>>>>>>>> +}
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Is it possible to unify the above functions by having the
+>>>>>>>>>>>>>> internal
+>>>>>>>>>>>>>> ubwc_version checks?
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Note, it's not the ubwc_version, it is the
+>>>>>>>>>>>>> ubwc_dec_hw_version. And
+>>>>>>>>>>>>> also different functions take different sets of arguments.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>> It seems like msm_mdss_setup_ubwc_dec_xxx can keep growing.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> I have not looked into each bit programming but from the top
+>>>>>>>>>>>>>> level so
+>>>>>>>>>>>>>> feel free to correct if wrong but it seems both do write
+>>>>>>>>>>>>>> UBWC_STATIC
+>>>>>>>>>>>>>> (different values based on different UBWC versions) and
+>>>>>>>>>>>>>> write some extra
+>>>>>>>>>>>>>> registers based on version
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> This is what both the current code and the downstream do. See
+>>>>>>>>>>>>> https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/zeus-s-oss/techpack/display-drivers/msm/sde/sde_hw_top.c#L312
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>> Thanks for pointing to the downstream method for this,
+>>>>>>>>>>>>
+>>>>>>>>>>>> This is exactly what i was also suggesting to do when I mentioned
+>>>>>>>>>>>> unifying the above functions.
+>>>>>>>>>>>>
+>>>>>>>>>>>> So instead of having a separate function for each version why
+>>>>>>>>>>>> not handle
+>>>>>>>>>>>> all the versions in the same function like what the link you
+>>>>>>>>>>>> have shown
+>>>>>>>>>>>> does.
+>>>>>>>>>>>
+>>>>>>>>>>> I wouldn't like that. The downstream uses hw_catalog to pass all
+>>>>>>>>>>> possible parameters. We do not, so we'd have a whole set of
+>>>>>>>>>>> artificial
+>>>>>>>>>>> values.
+>>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Now that you brought that up, why cannot even upstream dpu start
+>>>>>>>>>> using
+>>>>>>>>>> catalog for ubwc settings?
+>>>>>>>>>
+>>>>>>>>> Because msm_mdss lives out of disp/dpu1. And using the disp/dpu1 for
+>>>>>>>>> it would be an inversion of dependencies.
+>>>>>>>>> I like the fact that msm_mdss is independent of mdp/dpu drivers
+>>>>>>>>> and I
+>>>>>>>>> do not want to add such dependency.
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> Ok, so I think this function itself is placed incorrectly. It
+>>>>>>>> should not
+>>>>>>>> be in msm_mdss.c and should in the DPU folder.
+>>>>>>>>
+>>>>>>>> This check tells me that this will not be executed for mdp5 devices.
+>>>>>>>>
+>>>>>>>>       /*
+>>>>>>>>         * HW_REV requires MDSS_MDP_CLK, which is not enabled by the
+>>>>>>>> mdss on
+>>>>>>>>         * mdp5 hardware. Skip reading it for now.
+>>>>>>>>         */
+>>>>>>>>        if (msm_mdss->is_mdp5)
+>>>>>>>>            return 0;
+>>>>>>>
+>>>>>>> This condition should be changed to check for the MDP_CLK being
+>>>>>>> available in the clocks array rather than checking for is_mdp5. I'd
+>>>>>>> like to phase is_mdp5 away at some point.
+>>>>>>>
+>>>>>>>> In that case, what prevents us from moving this to dpu and start
+>>>>>>>> using
+>>>>>>>> catalog for this?
+>>>>>>>
+>>>>>>> Because there is nothing tying mdss and dpu drivers. For example, is
+>>>>>>> the msm8998 (3.0.0) the DPU or MDP5 device? MSM8996?
+>>>>>>> Neither struct msm_mdss nor the MDSS device itself are accessible
+>>>>>>> through the msm_drv (or dpu_kms).
+>>>>>>> I think trying to invent such a link would make the code worse.
+>>>>>>>
+>>>>>>
+>>>>>> Right, what I am trying to mention with that check is that means
+>>>>>> that code does not run today for mdp5 and it still works fine.
+>>>>>>
+>>>>>> So why not just move it to DPU first to carry less burden of these
+>>>>>> extra register settings which are unused today for mdp5 anyway.
+>>>>>
+>>>>> As I mentioned, there is no good way. msm_mdss doesn't know about
+>>>>> DPU. DPU doesn't know about the msm_mdss. Even the msm_drv doesn't
+>>>>> know about the msm_mdss.
+>>>>>
+>>>>> If you can sketch a nice piece of code, could you please demonstrate
+>>>>> your idea?
+>>>>>
+>>>>
+>>>> No, so I am not suggesting to do it in msm_mdss. Only then you will
+>>>> need msm_mdss to have knowledge of whether its DPU or MDP5.
+>>>>
+>>>> Correct me if wrong. msm_mdss is common to both MDP5 and DPU.
+>>>>
+>>>>   From the above check its clear that this code does not run for MDP5.
+>>>>
+>>>> So I am suggesting move this code completely to dpu_runtime_resume().
+>>>>
+>>>> That way you can use catalog there.
+>>>>
+>>>> I am questioning why we even need this function to be in msm_mdss. It
+>>>> can just belong in DPU as its not being used by MDP5 today.
+>>>
+>>> The region used by the mdss is not mapped by the DPU (or MDP5). This
+>>> caused some confusion with DPU code trying to write to the non-mapped or
+>>> incorrect memory areas before we ended up with Jonathan fixing the code
+>>> in 544d8b96150d ("drm/msm/dpu: update UBWC config for sm8150 and sm8250").
+>>>
+>>
+>> Thanks so much for the providing this change , it gave me some more context.
+>>
+>> I briefly went through this change.
+>>
+>> So what happened was dpu_kms->mmio is different from dpu_mdss->mmio in
+>> terms of offset.
+>>
+>> dpu_mdss->mmio is the one which starts from 0 and thats the one we
+>> should use for the UBWC config.
+>>
+>> So even after Jonathan's change we were doing this in dpu_mdss.c
+>>
+>> After we removed the dpu_mdss.c layer to start using msm_mdss.c, now
+>> this function looks somewhat misplaced to me because it was in dpu.
+>>
+>> One suggestion I have is, let dpu_kms.c map this region "mdss" by
+>> getting it from its parent using of_get_parent() and store it as
+>> "mdss_mmio". Then move this back to dpu_runtime_resume().
+>>
+>> Then rework that function to remove these magic numbers and start using
+>> catalog.
+>>
+>> Let me know what you think. Thats the best i can come up with in the
+>> current design.
+> 
+> I feel this is an overkill for setting just three registers. MDSS
+> register space is not used for anything else than handling generic
+> interrupts and setting the UBWC. I'd leave things as is and just
+> replace cryptic register writes with manageable API.
+> 
 
-Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
-Signed-off-by: Luca Weiss <luca@z3ntu.xyz>
----
- drivers/gpu/drm/msm/dsi/dsi_host.c | 48 +++++++++++++-----------------
- 1 file changed, 21 insertions(+), 27 deletions(-)
+Alright, as we discussed during the meeting, both of us are not really 
+too happy with how this API turned out and also because we cannot use 
+catalog anymore for these registers after the dpu_mdss ---> msm_mdss 
+separation. If the number of UBWC versions keeps increasing like this, 
+we will have to re-visit this of moving this back to DPU with the 
+solution I have suggested above and start using catalog.
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index a95d5df52653..bab2634ebd11 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -1080,12 +1080,32 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
- 
- static void dsi_sw_reset(struct msm_dsi_host *msm_host)
- {
-+	u32 ctrl;
-+
-+	ctrl = dsi_read(msm_host, REG_DSI_CTRL);
-+
-+	if (ctrl & DSI_CTRL_ENABLE) {
-+		dsi_write(msm_host, REG_DSI_CTRL, ctrl & ~DSI_CTRL_ENABLE);
-+		/*
-+		 * dsi controller need to be disabled before
-+		 * clocks turned on
-+		 */
-+		wmb();
-+	}
-+
- 	dsi_write(msm_host, REG_DSI_CLK_CTRL, DSI_CLK_CTRL_ENABLE_CLKS);
- 	wmb(); /* clocks need to be enabled before reset */
- 
-+	/* dsi controller can only be reset while clocks are running */
- 	dsi_write(msm_host, REG_DSI_RESET, 1);
- 	msleep(DSI_RESET_TOGGLE_DELAY_MS); /* make sure reset happen */
- 	dsi_write(msm_host, REG_DSI_RESET, 0);
-+	wmb(); /* controller out of reset */
-+
-+	if (ctrl & DSI_CTRL_ENABLE) {
-+		dsi_write(msm_host, REG_DSI_CTRL, ctrl);
-+		wmb();	/* make sure dsi controller enabled again */
-+	}
- }
- 
- static void dsi_op_mode_config(struct msm_dsi_host *msm_host,
-@@ -1478,32 +1498,6 @@ static int dsi_cmds2buf_tx(struct msm_dsi_host *msm_host,
- 	return len;
- }
- 
--static void dsi_sw_reset_restore(struct msm_dsi_host *msm_host)
--{
--	u32 data0, data1;
--
--	data0 = dsi_read(msm_host, REG_DSI_CTRL);
--	data1 = data0;
--	data1 &= ~DSI_CTRL_ENABLE;
--	dsi_write(msm_host, REG_DSI_CTRL, data1);
--	/*
--	 * dsi controller need to be disabled before
--	 * clocks turned on
--	 */
--	wmb();
--
--	dsi_write(msm_host, REG_DSI_CLK_CTRL, DSI_CLK_CTRL_ENABLE_CLKS);
--	wmb();	/* make sure clocks enabled */
--
--	/* dsi controller can only be reset while clocks are running */
--	dsi_write(msm_host, REG_DSI_RESET, 1);
--	msleep(DSI_RESET_TOGGLE_DELAY_MS); /* make sure reset happen */
--	dsi_write(msm_host, REG_DSI_RESET, 0);
--	wmb();	/* controller out of reset */
--	dsi_write(msm_host, REG_DSI_CTRL, data0);
--	wmb();	/* make sure dsi controller enabled again */
--}
--
- static void dsi_hpd_worker(struct work_struct *work)
- {
- 	struct msm_dsi_host *msm_host =
-@@ -1520,7 +1514,7 @@ static void dsi_err_worker(struct work_struct *work)
- 
- 	pr_err_ratelimited("%s: status=%x\n", __func__, status);
- 	if (status & DSI_ERR_STATE_MDP_FIFO_UNDERFLOW)
--		dsi_sw_reset_restore(msm_host);
-+		dsi_sw_reset(msm_host);
- 
- 	/* It is safe to clear here because error irq is disabled. */
- 	msm_host->err_work_state = 0;
--- 
-2.36.1
+I am not going to hold this patch back but we will re-visit the below 
+comment if we get more versions of UBWC.
 
++	 *
++	 * Decoder version can be read from the UBWC_DEC_HW_VERSION reg,
++	 * UBWC_n comes from hw_catalog.
++	 * Unforunately this driver can not access hw catalog.
+  	 */
+
+As I commented previously, please either drop the below print from here 
+OR push another change to remove it from
+https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c#L1096 
+
+
++	dev_info(msm_mdss->dev, "HW_REV: 0x%x\n", hw_rev);
+
++	 * Unforunately this driver can not access hw catalog.
+
+With the above print message concern addressed,
+
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
