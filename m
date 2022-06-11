@@ -1,51 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E870547235
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jun 2022 07:23:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B936554729B
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jun 2022 09:19:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8AD911BF9C;
-	Sat, 11 Jun 2022 05:23:06 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6013D11BF9B;
- Sat, 11 Jun 2022 05:23:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1654924985; x=1686460985;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=2Gsfa6/pnPDSaSI8IhymqyxGEgQ1H6vDrxW6HhskKls=;
- b=jiMcigtqhEow0jKXhHeC1cSWc6qbyL7pofCk/lxKhzb8jjNkW2swmc01
- 2xBthGbZpLt/GLtEG7G+BypAnkRo3geHHeq4ajAh+b2QspGCIoswscZUt
- jaqpwOmNrIY3K9OXDxoaLP1DQ+eie87jIiiZOBYb9UPU2I5l/8x+6o5CC
- 4Hc1r4fjtmJGGBYVo076aB7NZaXNqpBi/ZZZ2aIvLBZRozUb0CWSkuvy7
- NnYl/G83lcGRwW1mX/xeZZq9gA9VQJnAQNsCSaM+7PZM/qzPe388IMw5v
- KfMLRok3bcRwBUScJAK5eKiwCDVgN2AOP12y6mcm3VZPD4Ml7tN7jtlza Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10374"; a="276609627"
-X-IronPort-AV: E=Sophos;i="5.91,292,1647327600"; d="scan'208";a="276609627"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jun 2022 22:23:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,292,1647327600"; d="scan'208";a="616793128"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
- by orsmga001.jf.intel.com with ESMTP; 10 Jun 2022 22:23:03 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nztaQ-000IZb-Jn;
- Sat, 11 Jun 2022 05:23:02 +0000
-Date: Sat, 11 Jun 2022 13:22:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: John.C.Harrison@intel.com, Intel-GFX@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915/guc: Use drm_err instead of pr_err
-Message-ID: <202206111316.zDpQcjgJ-lkp@intel.com>
-References: <20220607215103.3342267-1-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECFAE112934;
+	Sat, 11 Jun 2022 07:19:24 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5E710F750;
+ Sat, 11 Jun 2022 07:19:23 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id u8so1092390wrm.13;
+ Sat, 11 Jun 2022 00:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=7bnwrqE4CJ7P3KxgNeGT8eICxR3BN5bU5B1VLZu7Hpc=;
+ b=GSfefEJJgtGoioOx6dyh3oXblZvnxnvDoCV2fk9gWFh97gQZQKVQtm3HNsPv/UiEAC
+ nJvOLeZpHVr/aGjVUG4oVGtLvQGJ88Y9iA4fQGusxWq0ikv77AygC9sx1KQlq2hPrB2p
+ HUS0xbD3TnLTLWZal+W2zs2Oi/G72mZ8RaU+i6AgY7L9ij7Kk4Qt1WoV5jN15nWJIhAH
+ HJ1z29EdH6PB0RdlYRs7ior9qkes/T5TTLQMIUWzbl1Dx8//2gPoPVq8PByV0fxxL2xV
+ PYg6WzGAAmDRHNRt0y6/pJ/CrCc88tRZDjWcJYcpNfRLbXOC9VCEiRIghDuk+oSBBiay
+ HwFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7bnwrqE4CJ7P3KxgNeGT8eICxR3BN5bU5B1VLZu7Hpc=;
+ b=PCgYF3CA3J5rpXB6J2KRU2pf2qLUSJR2Jiz8W4Aqgvx1U06TfkqbIj47ck+6zm9aDt
+ lidAERRib7HRb/kl3+Yq+9psBo7U9ZkhYje52uQx/w0sg+XCyrrfxmibQj2o1HJzWh7Y
+ Ni3uQ1as26ju70I2BT5CHSysERVqiuyejWOSO/Qh5lo7VKZC7M7kGKnjkGTmi5m+rPPe
+ 1HOgiD6egUzoGJNWBWrJqV+EBhLJewh7n/JQ00ckHqf1lBuVLJAy/w1MtoggcRTi904u
+ WTP0+LgMaKC90ug2+LTBpfuZ2zu5vJs3Gwm4rLwiATDpOzOBcdv1pJN2lE0GqcerScEE
+ e88g==
+X-Gm-Message-State: AOAM532lG+GVq3X4wo0GXLUpDjAsFcQpcqhi/9P2M0kSLhZHPnTcGnmn
+ li56nccxdqY7yuF26IBg8Ao=
+X-Google-Smtp-Source: ABdhPJymEx9IsFGzqBYjjqJPqsK9sVB5CXdUcB1kiAyAX3oO2eEKYxzNCHp5hOZy0ciO1+wVelFKwg==
+X-Received: by 2002:a5d:4532:0:b0:210:2c52:bac2 with SMTP id
+ j18-20020a5d4532000000b002102c52bac2mr45639489wra.711.1654931961964; 
+ Sat, 11 Jun 2022 00:19:21 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:285a:43cd:3b2c:3f3c?
+ ([2a02:908:1256:79a0:285a:43cd:3b2c:3f3c])
+ by smtp.gmail.com with ESMTPSA id
+ p1-20020a05600c204100b0039aef592ca0sm1201501wmg.35.2022.06.11.00.19.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 11 Jun 2022 00:19:21 -0700 (PDT)
+Message-ID: <2260b6a6-153c-6c12-212c-2b3f5199e6dc@gmail.com>
+Date: Sat, 11 Jun 2022 09:19:20 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220607215103.3342267-1-John.C.Harrison@Intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] drm/amdgpu: Fix GTT size reporting in amdgpu_ioctl
+Content-Language: en-US
+To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>
+References: <20220610135426.670120-1-michel@daenzer.net>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20220610135426.670120-1-michel@daenzer.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,93 +77,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, DRI-Devel@lists.freedesktop.org,
- John Harrison <John.C.Harrison@intel.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Am 10.06.22 um 15:54 schrieb Michel Dänzer:
+> From: Michel Dänzer <mdaenzer@redhat.com>
+>
+> The commit below changed the TTM manager size unit from pages to
+> bytes, but failed to adjust the corresponding calculations in
+> amdgpu_ioctl.
+>
+> Fixes: dfa714b88eb0 ("drm/amdgpu: remove GTT accounting v2")
+> Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1930
+> Bug: https://gitlab.freedesktop.org/mesa/mesa/-/issues/6642
+> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
 
-Thank you for the patch! Yet something to improve:
+Ah, WTF! You won't believe how long I have been searching for this one.
 
-[auto build test ERROR on v5.19-rc1]
-[also build test ERROR on next-20220610]
-[cannot apply to drm-intel/for-linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/John-C-Harrison-Intel-com/drm-i915-guc-Use-drm_err-instead-of-pr_err/20220608-055315
-base:    f2906aa863381afb0015a9eb7fefad885d4e5a56
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220611/202206111316.zDpQcjgJ-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/66426324c5bb1a53dd401b7d781c3c9c58f163d5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review John-C-Harrison-Intel-com/drm-i915-guc-Use-drm_err-instead-of-pr_err/20220608-055315
-        git checkout 66426324c5bb1a53dd401b7d781c3c9c58f163d5
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 2 --
+>   1 file changed, 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> index 801f6fa692e9..6de63ea6687e 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> @@ -642,7 +642,6 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+>   			    atomic64_read(&adev->visible_pin_size),
+>   			    vram_gtt.vram_size);
+>   		vram_gtt.gtt_size = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT)->size;
+> -		vram_gtt.gtt_size *= PAGE_SIZE;
+>   		vram_gtt.gtt_size -= atomic64_read(&adev->gart_pin_size);
+>   		return copy_to_user(out, &vram_gtt,
+>   				    min((size_t)size, sizeof(vram_gtt))) ? -EFAULT : 0;
+> @@ -675,7 +674,6 @@ int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+>   			mem.cpu_accessible_vram.usable_heap_size * 3 / 4;
+>   
+>   		mem.gtt.total_heap_size = gtt_man->size;
+> -		mem.gtt.total_heap_size *= PAGE_SIZE;
+>   		mem.gtt.usable_heap_size = mem.gtt.total_heap_size -
+>   			atomic64_read(&adev->gart_pin_size);
+>   		mem.gtt.heap_usage = ttm_resource_manager_usage(gtt_man);
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:4956:
-   drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c: In function '__intel_guc_multi_lrc_basic':
->> drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c:121:17: error: implicit declaration of function 'drm_debug'; did you mean 'pr_debug'? [-Werror=implicit-function-declaration]
-     121 |                 drm_debug(&gt->i915->drm, "Not enough engines in class: %d", class);
-         |                 ^~~~~~~~~
-         |                 pr_debug
-   cc1: all warnings being treated as errors
-
-
-vim +121 drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
-
-   109	
-   110	static int __intel_guc_multi_lrc_basic(struct intel_gt *gt, unsigned int class)
-   111	{
-   112		struct intel_context *parent;
-   113		struct i915_request *rq;
-   114		int ret;
-   115	
-   116		parent = multi_lrc_create_parent(gt, class, 0);
-   117		if (IS_ERR(parent)) {
-   118			drm_err(&gt->i915->drm, "Failed creating contexts: %ld", PTR_ERR(parent));
-   119			return PTR_ERR(parent);
-   120		} else if (!parent) {
- > 121			drm_debug(&gt->i915->drm, "Not enough engines in class: %d", class);
-   122			return 0;
-   123		}
-   124	
-   125		rq = multi_lrc_nop_request(parent);
-   126		if (IS_ERR(rq)) {
-   127			ret = PTR_ERR(rq);
-   128			drm_err(&gt->i915->drm, "Failed creating requests: %d", ret);
-   129			goto out;
-   130		}
-   131	
-   132		ret = intel_selftest_wait_for_rq(rq);
-   133		if (ret)
-   134			drm_err(&gt->i915->drm, "Failed waiting on request: %d", ret);
-   135	
-   136		i915_request_put(rq);
-   137	
-   138		if (ret >= 0) {
-   139			ret = intel_gt_wait_for_idle(gt, HZ * 5);
-   140			if (ret < 0)
-   141				drm_err(&gt->i915->drm, "GT failed to idle: %d\n", ret);
-   142		}
-   143	
-   144	out:
-   145		multi_lrc_context_unpin(parent);
-   146		multi_lrc_context_put(parent);
-   147		return ret;
-   148	}
-   149	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
