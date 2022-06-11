@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3128D54754D
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jun 2022 16:13:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7D0547553
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jun 2022 16:13:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A75D10E47B;
-	Sat, 11 Jun 2022 14:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBF710E6F9;
+	Sat, 11 Jun 2022 14:13:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr70055.outbound.protection.outlook.com [40.107.7.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDF7710E47B
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jun 2022 14:13:02 +0000 (UTC)
+ (mail-eopbgr70071.outbound.protection.outlook.com [40.107.7.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B361E10E6F9
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jun 2022 14:13:14 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c/BKE545qdqG/MR5LceaqEqRSTZcUkiZupdpizdan9wErP43qQ7vo+w4kAR4TuIi0kuLIEVBvg3Mp0s2G/CHdftrq0zXdziJtvZKSW+YymBX3ah4ZVMe0G0f9TeViOsZO0wyfYPWbNSnd9jqdTcfthRDRYufREW/cQllpoDOpD2ImWoMPDmkOPr/bN7ptjKBsfDv7uXO8JC4s6FW8bu5LN+oWDrOAxWPyibz63jtpe7iuLiQH+sp+F+zoB0jQaDRjl5omoMhTdxyXUeM5ebfvKoYHlE7/j/dFueGcN5TfL1emw/JLVAyWDNxwMGlYBm6GIolxv5ia2a83U9Lys66vQ==
+ b=INFo5PvARtYAQuNPtQORV+3gF1qhk8An6xxPL2C5tQgk5lmCaph8bji6nqyiZALqKn5kVCmD3UymdwGtlDyOXRNr7XLOdvXsu6KSnKSv6qSSAwPCnRGWF+0K4GmibfQYZa20lqzwDr1ihRXFdAJfdojf1E0gY0DevrtClZkcf/En4rRHbfSn5ICklZH+KcY6IZCn0p3NMJtM0ZeAO+3V0CWjjsNGeIM2YhXI4MK/jy7eh0pnL6Q439YwXc9mxIg8r9r+0SHwaU7rFvOa4AkylDV0Z1vHao51sFerZOGEOtuWs5eJZVuZF/E/u8QW9+019iqbfN2rp3cPJgNwub+MwQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5DnUWEOsEtka9J39JoFas6+F/5dT8mgaVhBQ4SY40aI=;
- b=UeJZ7Zxi2l31w1Xs5EnBNNK4Xu4V4ZvDxxoaA/UddfJypCfbKjlmmbFXu5kQE5bO5i7yGocAYygodnBr6uIFZ5WkYO7ATNhgAktdqj+CxTVRmxsk7kMYxCgXICpatFsJJg1Tc28VOiq7aI8NmBfl3X0d/92aY9TcpucLcoF8wlpsfVdnQWfT/YtRVAJpweL+3wYLa2aanQtS4c7qDGRgdh6mZfaCVLDKvUd9jI9OLIBSc5Fs8RrFYGH3rKeLCjXHld1eSBAzAz0zWUoS5v6dcMo/ViuKmuuy7nhfWDCQ45aiiOmdq/3ii8U8vbTo9bAeNWpDVUNp5GLy0k0RYkMkHQ==
+ bh=6Vbjlx1f2d0W7MpjweSmd3hwR+10ZDfxDVnklOGbVOM=;
+ b=AD5t9lxoxbjBg3sOD3Ob+ozOgm0J0CohaCicv/lstf8TV73fzLIxY+9zVszkl8bWB6mlB6qIGKV+BOqLb0uQ4vKAkuVgt5pby7LzlSNuUtn0k4ERupf+m7uzP/VRQ6FLEIQwSf78PnoQH8GGxyBBo2zCAKz/oFL6fHPyMtQABglG96QZuYpi4U9dp0R7oNkza0tg4joCZT0W7Sc/j/jQTCRZ+5nAfj2tRFXHFQT28FlBwdE5s1vI/XGEfJJvYAa3IIDjGc3fzHXeh1jmgVzE02mhPHszbJsS8oSWWK2FZTvw6srrpgeI5ECRlthfoZu/4GiYmGfww5W0jqy0pwfalQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5DnUWEOsEtka9J39JoFas6+F/5dT8mgaVhBQ4SY40aI=;
- b=n+NtSiullbXSoL9m4mHilo7GlDVcrC84ptONP75mKCQiZ1MOpBq7sqRPcuEwu8MrVyNg8Hx0ObInLWUrbQ0UI8VuccAaRkaz8ZYcpO9ZsiZPln8qqg9vbQR9vH+96hGdztw0QJgh/umeiI+ByJdPf4D40vm/E0TeGC7Bb8MFayI=
+ bh=6Vbjlx1f2d0W7MpjweSmd3hwR+10ZDfxDVnklOGbVOM=;
+ b=CB2YHESdVFtyi0HOJtbhuG92l7NCBh3DmpREGQtbJa8xfhyEl6JEhyNrOze2qKIUHC7xBzTa+QJFYv23qWzTBfEyECoO+9Dge0R94k4pV/HPTFGTPCJLRdWjkKCAJj2eoeD3UN3K51RJeUcGht0jRfr6IyBxL9IF+5lWG6OoyVM=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by DB8PR04MB6347.eurprd04.prod.outlook.com (2603:10a6:10:107::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.13; Sat, 11 Jun
- 2022 14:12:59 +0000
+ 2022 14:13:12 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::3c82:f63b:711a:502]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::3c82:f63b:711a:502%7]) with mapi id 15.20.5332.016; Sat, 11 Jun 2022
- 14:12:59 +0000
+ 14:13:06 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: [PATCH v9 01/14] media: uapi: Add some RGB bus formats for
+Subject: [PATCH v9 02/14] media: docs: Add some RGB bus formats for
  i.MX8qm/qxp pixel combiner
-Date: Sat, 11 Jun 2022 22:14:08 +0800
-Message-Id: <20220611141421.718743-2-victor.liu@nxp.com>
+Date: Sat, 11 Jun 2022 22:14:09 +0800
+Message-Id: <20220611141421.718743-3-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220611141421.718743-1-victor.liu@nxp.com>
 References: <20220611141421.718743-1-victor.liu@nxp.com>
@@ -56,58 +56,58 @@ X-ClientProxiedBy: SG2PR03CA0118.apcprd03.prod.outlook.com
  (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a5f5d974-98dc-4869-a0d1-08da4bb47d40
+X-MS-Office365-Filtering-Correlation-Id: f6e335ec-c11c-406d-38d6-08da4bb48110
 X-MS-TrafficTypeDiagnostic: DB8PR04MB6347:EE_
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-Microsoft-Antispam-PRVS: <DB8PR04MB63479CBD87C749C7DEA3877798A99@DB8PR04MB6347.eurprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DB8PR04MB6347A1F088DDB35A38ABAD7398A99@DB8PR04MB6347.eurprd04.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WrIQIxmxArCwBZCwdEcLn67GaMlGAFphSeiHnqpIkaGT5sVd4gsfqws/L9IAQGS/FROW3YQerGxSw7AKu6v4EeUReL7WNU7ZFTSoLIUK9TJGcpUNsPmhplrmLf1WDfqdByNnMMqwSAH7E1Xu8zBy021vCIf06/wOJJrmdAlxEy0gPAXInwZetEvEI+JEooMKQFy4IOzgw3MglhaBp5Ywubmpd/IQc/gGMhKbT58Z6a10oqq1tshI/ieK70JqmkfIDPkiErmjjYMR9WTKZZ1KIyGa70VKJ/ezRFxZQ13acUbkkxsyngDjWTHvHKmF5HIDAOqtNOHUXFEWp8/7HQEhXlWymrpXchZ0Cr9sedzMIT028aPRiDuayUkxleSuP2ubF0IvwuXXB4L4UEb3KYFeCBHwz9bJnl8eJbYIoH+SORKw2AV4eByORA+/hs2iXKTzD49urbYHiJyuahvBk0R1a8+x6UGimdBgv+If7Z43jiQ1T4/p/jI+vBnUbuvLB+p/Bg0rzwZn52Vu+Aln79/BK6JDC6hxJ2HOWwjEsoc7Uig+r6Jv+Wl137xdzLGkz2u9Sr3/0l9cKmo/LVIE5qJ3rmCmklQTIVwzcjDsjez8kpQC22chKtxUYjwBkfhngi9D1d2TkvxkUR965mMNHar8BcazybY7BZRBFSkQoXejmbLvmEQ+Pi3aiQd7lXYBRk08E1HsicTxmzR3C0rdUpFw0Q==
+X-Microsoft-Antispam-Message-Info: wMN2SIu6LS2hRqd+E/Z9u8gQhWqgWjShVgUkYO7DT/ynL3RDz/tF8WwNMS8BAHfBALcfy9udKbdkrD6IgUEgdKmI+TD5SWL+hXBTnbCQdSvkSVItqCLTbC04tFCr55Ug5dFC+5oyFdLvG7HhNK+OjyNzGhhRZNUr9+Tf+UcWNJctfkMjuKXecuEdCXNxn40BRYZ2HJ8K1lKM/+nHsduEGP276Z7ytG7a90IbUBwWQegTUEfz9u2KJ8icSfmQWCWuUtNjpYZy8P1bvS9J2WiZtfqPz96N9C8SBWTg6oSMkDhym6y01gnNL8Pgz4ue7jvs002tthquRSsk9/kr0x68T027n12mMaJd/TVNqN6079ri5L40GPoXQGdsj2ciSVUlKkiD5TZkDF1/BBVRCvM0XfqaEptKo49EZYSP1QXBDTzARS1Dzn56c86biPsu9d/kmCufj8HxGK9ecpVSFJ7vamD3EAwOAjJavzhpZmvK2SHfUTgo2N6dwtkJqS5ztcVqNmCSF201D1PLHawcrfwJDPjiMKVT/S17iM1VyK7xLSyCdHwflBQDXOsXji5xueGQDYwEM5XojI8cJVai1M1otZr4ZcTpV98aaQmw0U226XnVZbtmZb79x47uFeAyMQ4B5uOtBvj6LAKo6q7D0cREd90LtEws7sLNuGK5e69hIbD1MiwGwioNIa49Eee1MRBjIq8c4tjmO6l281NgbDj98Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(5660300002)(66556008)(66476007)(66946007)(1076003)(4326008)(8676002)(86362001)(316002)(186003)(8936002)(2616005)(7416002)(36756003)(83380400001)(52116002)(38350700002)(38100700002)(6512007)(26005)(6506007)(6666004)(508600001)(6486002)(2906002);
+ SFS:(13230016)(4636009)(366004)(5660300002)(66556008)(66476007)(66946007)(1076003)(4326008)(8676002)(86362001)(316002)(186003)(8936002)(2616005)(7416002)(36756003)(52116002)(38350700002)(38100700002)(6512007)(26005)(6506007)(508600001)(6486002)(2906002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/jerfXVpOOSCVnzIOTo6dAnc/AFiL/bLQYY6JqKXVkVkX3vHnKnoM8CKTLH4?=
- =?us-ascii?Q?eFEAPMe7zEiKZ0E9bTMaVpZeRXxWENQnQWkNyS6jFOsvnusaVt95Q3Vbwsnu?=
- =?us-ascii?Q?v6KXHErnMDHx3Es6s4iIlorb0vxZWvMxVShH9q/uy9xwJbq5ZJ6OyMC2PxdZ?=
- =?us-ascii?Q?wJlWQ/VsybnTRnwhYNKeOkwr/hHgSJ5iwj6E/dSjVJKI1s3e59Hdc9tojAsS?=
- =?us-ascii?Q?+Ys7fS6gNlf1qOrJdKUADa1bPVGciJorSGCbkmYpXbxZEiDq2SP3huD0mURO?=
- =?us-ascii?Q?lnSRmgaGNxpMdO5lKcxm2Wcht+kqmfBsOZ8muhWpBKFEDTGw5/cSW8ZayGPY?=
- =?us-ascii?Q?7QjxVDlqV82Q/vaHx5CJi2PXdyYqdBRoK+J+N/Yrx20NWZj3EUTUAnhARnq0?=
- =?us-ascii?Q?tANGX/VsxRewmy+c3KW+lnSfVBlOuHY0iz5ZH2cuggwjlxpi4wUrHePYk0gE?=
- =?us-ascii?Q?4iQ24lneNv0G/9fQlteVb/gOAh+g4AiFJ0fERLSxxZIYa0yYS6ddeZonQsR2?=
- =?us-ascii?Q?BBC2uKLrDN2nUB128sKqG9TjKyx7/RZXifOUasJRZpSwJrAECkfg+4ugbgAy?=
- =?us-ascii?Q?FpBrqRmmtTb4ygV61RH/qD/s1PvB5upFX7Or0y7DsGVj6/Kd4rlQmiqZw6d9?=
- =?us-ascii?Q?tvGcBYtUVmQ7uzGP8qQvQMHDeKVy/MydtKLVJ3OzoQQFAaWrZthOCGowKqXY?=
- =?us-ascii?Q?KpzuITP2LH74CKdAdw55bc0qlXAwQvrQaHZirHB9V/gOp+u0xzZ9mbgar5cV?=
- =?us-ascii?Q?mxLuaY9SiaHaAYwrGROevJc8upYUHrEGpnT7uuo8EmVcjTyT2MRxLYquqjBB?=
- =?us-ascii?Q?e3Ydzhv5O6iAMXo+a4rr6gTWLUzoXrzdQmnsf+ckhDQbd0SjZdtlmnY1hHjh?=
- =?us-ascii?Q?/q1i+utpfB/4fzyY3NKOoBJ7Fzhm946+DrKMOySbkJmEXwyTPp25fJfAoPNm?=
- =?us-ascii?Q?SJWN1RfD+R8S4IVSrRRYO8Cr+b4YcMwjpiovK8c4mwKHjpTShWP7WKpikTdy?=
- =?us-ascii?Q?c/ekN11UGaaUwbUB+W34MaV4PFDJGRTOTO5HkY+vmYWhXUDQhV0LawIh0p0s?=
- =?us-ascii?Q?WLJtSDeZGzU//XarV8vGilPuOdmgozWKzVSzwRPPGRcIGj/4tRIRHvWQJ5a3?=
- =?us-ascii?Q?BsuDIZEqbMnoQOqCSebo2NTkjVF4O+PUdIlmUoMJ5wM9k8MZ7xkZsxprqspo?=
- =?us-ascii?Q?VH20XkI3lnfMSL2SkFjfQp5Sxzp5TnZpF0sRa1m+hKTBURwqpZw8qwcWdPD/?=
- =?us-ascii?Q?r6qrOwfRqmV0uhP5cnzoZnEHb+B5JJunKYiXY3yQ1qnTDGKkGB5NnTYh3/zE?=
- =?us-ascii?Q?CtuH9oxSnZ+B99hES5ddObwhbPc0D39DwTYgIitdAs8zirIbPRM0a1EXwkff?=
- =?us-ascii?Q?AnqVryp1OEEkLieVcMUSQM9STaXDZy/GMgZQtH33r396ON+zaLoxD4Fy5DpG?=
- =?us-ascii?Q?SyEbTNLt4LZaqsfjbFAhk3RcY7E7hMbzi2E0Ve45J70yh5UF5nb1kCiQD+rR?=
- =?us-ascii?Q?ly2o4Ud7aMcIUutz2VGIvi7IpcUQxlQrOa268AeMVPJHbw6ixhfj/8CrOnB/?=
- =?us-ascii?Q?mJ0VEL31FcXVE6i687/3RKbg2+88oUAZ/R3JmUMfeXJO5FRI8zlQ8EAIPTu5?=
- =?us-ascii?Q?EwVZ7AI75/WslMfpmkDI1pJPR46LMIOs6KLluOgY1Kzw4g1CdgVZKi+IiHwb?=
- =?us-ascii?Q?ymb5VNvZeJ6gZCtJtv2brAInDbf1VIhcwQ8Nc9Z2kIj+ZMLaPrJdTx5/2/PS?=
- =?us-ascii?Q?skUetT6Y+A=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?O5h8tzKAE+eV7cwgOW3x6W+3e36wPndKX4rzozpK9MUTRQP36IIhzPkxXWTc?=
+ =?us-ascii?Q?1DiBBCSzPAb/LOLpXX9M5X5I1KsmGcFaMrKvih6WnRJxlc5LVL02lXBmHW3p?=
+ =?us-ascii?Q?ahOiLvBTltmTfBKeTDlYLWESfwb7xdlt9lAUINGbbMS8ZUYoUBvIDMqOtdCU?=
+ =?us-ascii?Q?2hfyh+PnRaG5LasxT3joQobRtt7pfKnvaSU2lfhj9+L9aGJH0yQw7n3Y/Kch?=
+ =?us-ascii?Q?pHgaada8q90aA9gNH8oTpj1Z4C09SMtqy81kAEio7roilD+jY85mJ0uLHCEG?=
+ =?us-ascii?Q?9KzLinU/8bx3O0a4dwIpY6Q5MVjkkVLCs8MHQIK6Arqc1emWVM2jWMLpmpZn?=
+ =?us-ascii?Q?u/yaDuAx40cDZGBN0jYwcVSlL6VxZyLbOSA0MGa4TTJjE4rSiXF14QXNtCww?=
+ =?us-ascii?Q?JmvTf5WTt+Eqp9Ifuo3DSo308ZnQXd90Zli2hnjv1Q14i6xjIDHGMNgN72Hk?=
+ =?us-ascii?Q?5uSizZuUSzx79jT+8V4HflBKvBgFIXX7pb4mUbe+7NQS8cNgjYqRK8if9AiN?=
+ =?us-ascii?Q?pGK+1+VoI+exGLH4svTnsdm5uaLiuPJq1rrQsoF/UdJfjeIKAoL0wAgsIE9O?=
+ =?us-ascii?Q?3wJV0izIbC6eJi0O7T3UGvg3oBXRQ7xday/Ne0X7/trCd/2VSVjqybFdqmIJ?=
+ =?us-ascii?Q?vAQ/mpPweBfLJd0WfC2lnlBuIhcneEc51fjbygep9lJaLX/iwnRR0wOX2xMW?=
+ =?us-ascii?Q?xaV4SaBcb3973QN3KRDcBf5rckv6QP5iSnrjhZ/3BdfPpK6o4Yqoqp5Sx1kN?=
+ =?us-ascii?Q?bO7cC802L5e98oiSrE8xWmQeG2GdcM5scW33WbIDI15BazCxiRyiw9/5vw2W?=
+ =?us-ascii?Q?xmHO8xH//zUWlnsrOZFaKWaFgNH46XNRf8RQ6dQ1UL8ro8nrsxd5grqaGZ0Z?=
+ =?us-ascii?Q?51A8TaraagdkXMtyWmdRkOunTOgLPVIgL98HqgBSf63SibOaiW1hpkrjaKTh?=
+ =?us-ascii?Q?fzq8Yzlab+/FNK/X/HeiwzMYzAXJpSf0Bd/8zD1yuKjbyIYVebsHwzTnAXqZ?=
+ =?us-ascii?Q?tYmvsa3d6MrSbX1ggwq1QaDUxwyz2dnBwI+msu8DE0coZm5w+JRncH7Y6Jge?=
+ =?us-ascii?Q?BxU/lV0YXGelTXcrSyMXjWbRgbIWirck7IWqhxahB7d+zoP4F+uf2mDnSRLl?=
+ =?us-ascii?Q?lD6XRVmEiaY8LFLX7QXepZZyq72oxL5kGJyuOO0cLNyYDsvsFS46fDp7bTU3?=
+ =?us-ascii?Q?fbGlMcUUOMVDQroVNdG8MIvd9Os0CpjhL/QSAjHZ6MoEw/wRLs+ZSaKq/pMs?=
+ =?us-ascii?Q?ez4E4IZotL5ZURWJb8TKA0i2b2B85s8UCPynUWkSatc+ZESfcZtIROKfsGWf?=
+ =?us-ascii?Q?EaIj8LrJCjavVWldF5Zz4wZrzuhDMkP4TBjBBdGuuuxhCelN671dZMYa1mVY?=
+ =?us-ascii?Q?KYbtgF6BHgQSr0R+Vxi1EXEfl6VBV/yI9tJ3U6Ve/H9Vd+jm60sDOvxPSow1?=
+ =?us-ascii?Q?tPgzq4/lKpGY8kWJuj+a9eZo0wf1SumhiQt+NCJG5jFCKENTblMnvbwOKBQs?=
+ =?us-ascii?Q?lOF01esah3CWh+gSJlhvW7IkBGYR8E8wNnPZ5edv/BsqnBQH8fApLjSL1cPQ?=
+ =?us-ascii?Q?if77hR5DWYZevB/6UAoR0piBvkhMfGZLSHC+lWCd0vgj+GT188t9bAhQ1yFu?=
+ =?us-ascii?Q?aRY7CMNxo2QeM8IvZtV4+At1TvmzrF6vYgdf9rQocPNLt+wCpiCwrLrL8zp3?=
+ =?us-ascii?Q?afXMipqF3VKy7hKmYxNZcFxNUCyPCHF7r6EWVBDRKl96S39MnrtDWVba/c1a?=
+ =?us-ascii?Q?6T64sMe/HQ=3D=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5f5d974-98dc-4869-a0d1-08da4bb47d40
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6e335ec-c11c-406d-38d6-08da4bb48110
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2022 14:12:59.5492 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2022 14:13:05.9272 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5EwC2w73LetbJSynptDlwRW/Ee4lBlV7KyP5NGYXZauLDM/Qd5yXR+AF1lJODq9Du8zY+G+I26wmxhneNyNXMQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q2zTHvNR0OORVUYN3O9DTC9ObfxBLYrKLnL2kfaFV3tgRxnW/5jSzRl47oPWgEX6oZ9ukDO3eQhmiMmmS7uiJw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6347
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -130,16 +130,19 @@ Cc: krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds RGB666_1X30_CPADLO, RGB888_1X30_CPADLO, RGB666_1X36_CPADLO
-and RGB888_1X36_CPADLO bus formats used by i.MX8qm/qxp pixel combiner.
-The RGB pixels with padding low per component are transmitted on a 30-bit
-input bus(10-bit per component) from a display controller or a 36-bit
-output bus(12-bit per component) to a pixel link.
+This patch adds documentations for RGB666_1X30_CPADLO, RGB888_1X30_CPADLO,
+RGB666_1X36_CPADLO and RGB888_1X36_CPADLO bus formats used by i.MX8qm/qxp
+pixel combiner.  The RGB pixels with padding low per component are
+transmitted on a 30-bit input bus(10-bit per component) from a display
+controller or a 36-bit output bus(12-bit per component) to a pixel link.
 
 Reviewed-by: Robert Foss <robert.foss@linaro.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
+Robert, I keep your R-b tag from v5. Let me know if you want me to drop it, as
+v6 contains a fix.
+
 v8->v9:
 * No change.
 
@@ -150,6 +153,7 @@ v6->v7:
 * No change.
 
 v5->v6:
+* Fix data organizations of MEDIA_BUS_FMT_RGB{666,888}_1X30-CPADLO. (Laurent)
 * Add Laurent's R-b tag.
 
 v4->v5:
@@ -164,36 +168,183 @@ v2->v3:
 v1->v2:
 * No change.
 
- include/uapi/linux/media-bus-format.h | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../media/v4l/subdev-formats.rst              | 156 ++++++++++++++++++
+ 1 file changed, 156 insertions(+)
 
-diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-index 0dfc11ee243a..ec3323dbb927 100644
---- a/include/uapi/linux/media-bus-format.h
-+++ b/include/uapi/linux/media-bus-format.h
-@@ -34,7 +34,7 @@
+diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+index 0cbc045d5df6..d21d532eee15 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+@@ -1492,6 +1492,80 @@ The following tables list existing packed RGB formats.
+       - b\ :sub:`2`
+       - b\ :sub:`1`
+       - b\ :sub:`0`
++    * .. _MEDIA-BUS-FMT-RGB666-1X30-CPADLO:
++
++      - MEDIA_BUS_FMT_RGB666_1X30-CPADLO
++      - 0x101e
++      -
++      -
++      -
++      - r\ :sub:`5`
++      - r\ :sub:`4`
++      - r\ :sub:`3`
++      - r\ :sub:`2`
++      - r\ :sub:`1`
++      - r\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - g\ :sub:`5`
++      - g\ :sub:`4`
++      - g\ :sub:`3`
++      - g\ :sub:`2`
++      - g\ :sub:`1`
++      - g\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - b\ :sub:`5`
++      - b\ :sub:`4`
++      - b\ :sub:`3`
++      - b\ :sub:`2`
++      - b\ :sub:`1`
++      - b\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++    * .. _MEDIA-BUS-FMT-RGB888-1X30-CPADLO:
++
++      - MEDIA_BUS_FMT_RGB888_1X30-CPADLO
++      - 0x101f
++      -
++      -
++      -
++      - r\ :sub:`7`
++      - r\ :sub:`6`
++      - r\ :sub:`5`
++      - r\ :sub:`4`
++      - r\ :sub:`3`
++      - r\ :sub:`2`
++      - r\ :sub:`1`
++      - r\ :sub:`0`
++      - 0
++      - 0
++      - g\ :sub:`7`
++      - g\ :sub:`6`
++      - g\ :sub:`5`
++      - g\ :sub:`4`
++      - g\ :sub:`3`
++      - g\ :sub:`2`
++      - g\ :sub:`1`
++      - g\ :sub:`0`
++      - 0
++      - 0
++      - b\ :sub:`7`
++      - b\ :sub:`6`
++      - b\ :sub:`5`
++      - b\ :sub:`4`
++      - b\ :sub:`3`
++      - b\ :sub:`2`
++      - b\ :sub:`1`
++      - b\ :sub:`0`
++      - 0
++      - 0
+     * .. _MEDIA-BUS-FMT-ARGB888-1X32:
  
- #define MEDIA_BUS_FMT_FIXED			0x0001
+       - MEDIA_BUS_FMT_ARGB888_1X32
+@@ -1669,6 +1743,88 @@ The following table list existing packed 36bit wide RGB formats.
+       - 2
+       - 1
+       - 0
++    * .. _MEDIA-BUS-FMT-RGB666-1X36-CPADLO:
++
++      - MEDIA_BUS_FMT_RGB666_1X36_CPADLO
++      - 0x1020
++      -
++      - r\ :sub:`5`
++      - r\ :sub:`4`
++      - r\ :sub:`3`
++      - r\ :sub:`2`
++      - r\ :sub:`1`
++      - r\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++      - g\ :sub:`5`
++      - g\ :sub:`4`
++      - g\ :sub:`3`
++      - g\ :sub:`2`
++      - g\ :sub:`1`
++      - g\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++      - b\ :sub:`5`
++      - b\ :sub:`4`
++      - b\ :sub:`3`
++      - b\ :sub:`2`
++      - b\ :sub:`1`
++      - b\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++      - 0
++    * .. _MEDIA-BUS-FMT-RGB888-1X36-CPADLO:
++
++      - MEDIA_BUS_FMT_RGB888_1X36_CPADLO
++      - 0x1021
++      -
++      - r\ :sub:`7`
++      - r\ :sub:`6`
++      - r\ :sub:`5`
++      - r\ :sub:`4`
++      - r\ :sub:`3`
++      - r\ :sub:`2`
++      - r\ :sub:`1`
++      - r\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - g\ :sub:`7`
++      - g\ :sub:`6`
++      - g\ :sub:`5`
++      - g\ :sub:`4`
++      - g\ :sub:`3`
++      - g\ :sub:`2`
++      - g\ :sub:`1`
++      - g\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
++      - b\ :sub:`7`
++      - b\ :sub:`6`
++      - b\ :sub:`5`
++      - b\ :sub:`4`
++      - b\ :sub:`3`
++      - b\ :sub:`2`
++      - b\ :sub:`1`
++      - b\ :sub:`0`
++      - 0
++      - 0
++      - 0
++      - 0
+     * .. _MEDIA-BUS-FMT-RGB121212-1X36:
  
--/* RGB - next is	0x101e */
-+/* RGB - next is	0x1022 */
- #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
- #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
- #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
-@@ -59,9 +59,13 @@
- #define MEDIA_BUS_FMT_RGB888_3X8_DELTA		0x101d
- #define MEDIA_BUS_FMT_RGB888_1X7X4_SPWG		0x1011
- #define MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA	0x1012
-+#define MEDIA_BUS_FMT_RGB666_1X30_CPADLO	0x101e
-+#define MEDIA_BUS_FMT_RGB888_1X30_CPADLO	0x101f
- #define MEDIA_BUS_FMT_ARGB8888_1X32		0x100d
- #define MEDIA_BUS_FMT_RGB888_1X32_PADHI		0x100f
- #define MEDIA_BUS_FMT_RGB101010_1X30		0x1018
-+#define MEDIA_BUS_FMT_RGB666_1X36_CPADLO	0x1020
-+#define MEDIA_BUS_FMT_RGB888_1X36_CPADLO	0x1021
- #define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
- #define MEDIA_BUS_FMT_RGB161616_1X48		0x101a
- 
+       - MEDIA_BUS_FMT_RGB121212_1X36
 -- 
 2.25.1
 
