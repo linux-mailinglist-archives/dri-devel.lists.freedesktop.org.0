@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7D0547553
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jun 2022 16:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0131547552
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jun 2022 16:13:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBF710E6F9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F3A10E3E2;
 	Sat, 11 Jun 2022 14:13:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR04-HE1-obe.outbound.protection.outlook.com
  (mail-eopbgr70071.outbound.protection.outlook.com [40.107.7.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B361E10E6F9
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jun 2022 14:13:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE8C10E3E2
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jun 2022 14:13:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=INFo5PvARtYAQuNPtQORV+3gF1qhk8An6xxPL2C5tQgk5lmCaph8bji6nqyiZALqKn5kVCmD3UymdwGtlDyOXRNr7XLOdvXsu6KSnKSv6qSSAwPCnRGWF+0K4GmibfQYZa20lqzwDr1ihRXFdAJfdojf1E0gY0DevrtClZkcf/En4rRHbfSn5ICklZH+KcY6IZCn0p3NMJtM0ZeAO+3V0CWjjsNGeIM2YhXI4MK/jy7eh0pnL6Q439YwXc9mxIg8r9r+0SHwaU7rFvOa4AkylDV0Z1vHao51sFerZOGEOtuWs5eJZVuZF/E/u8QW9+019iqbfN2rp3cPJgNwub+MwQ==
+ b=GKGN44ZMM4pCpEYZ0dMnIfslqw5GB1SrZaj3nZuV5HQsGOVpmUCZQjpt0Hzp9SPlAOeq1PC8Fd2bX7OLB6za+jwvCeNbAHSuVkEqK/hAvQcz66vq6mHXoYUSTyQnNPNY3bx9TAGB7xaPAgv2rN38y7sUyHMwWefZvAorz9Jn2MtErtKjNHWiuvXIHtJ1fuQQm+O7kxg7HG5HqPqmCtUQQnAjFyupLoFRiCtkHciAHco7UycGCgZUFNMg5SlGy+l5bpTlMuLbq79MwbIUaZiRqfateSXClb326zsDWXoKkhQwHScbwL3GGsCCG4xNyg2SiaIBs4fesxkTjTTQ/LEVNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6Vbjlx1f2d0W7MpjweSmd3hwR+10ZDfxDVnklOGbVOM=;
- b=AD5t9lxoxbjBg3sOD3Ob+ozOgm0J0CohaCicv/lstf8TV73fzLIxY+9zVszkl8bWB6mlB6qIGKV+BOqLb0uQ4vKAkuVgt5pby7LzlSNuUtn0k4ERupf+m7uzP/VRQ6FLEIQwSf78PnoQH8GGxyBBo2zCAKz/oFL6fHPyMtQABglG96QZuYpi4U9dp0R7oNkza0tg4joCZT0W7Sc/j/jQTCRZ+5nAfj2tRFXHFQT28FlBwdE5s1vI/XGEfJJvYAa3IIDjGc3fzHXeh1jmgVzE02mhPHszbJsS8oSWWK2FZTvw6srrpgeI5ECRlthfoZu/4GiYmGfww5W0jqy0pwfalQ==
+ bh=e1BfWpm32TObyNwHhWqJTBk5kH+meizE/V6mBV39rBk=;
+ b=RYdqpqE46T1H8z0IuzuMcU/v5MQv2bmbTNtcqRlv5aL4YczWjXTg2o6k8jl/WrAd8MZCXQ6Mgjdt29k6stId3hhpyTTIPUsYxZWFWM/pCDMRmUqEOLEmQbdykZAak8d6nS8Nqau7eM/X6VF1/lH4EdHNYxvdv02znF0JdzzsK0c5W2XgQ5oTgCAGMNTt2nLY6h5cK8d/ecDgkqPZwGNjZfd0conbAOo+RrS6Ah4EsguT1MKsjP5MgwJ4hd/JyOejsDa1CZbz50lxI2X3HUR0RuQM2hA+QYU1alULl7XQydcQ88QHxfyu0a3Upt8Tmonn3s/RqxtdaGU5bDWsKoQkKg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Vbjlx1f2d0W7MpjweSmd3hwR+10ZDfxDVnklOGbVOM=;
- b=CB2YHESdVFtyi0HOJtbhuG92l7NCBh3DmpREGQtbJa8xfhyEl6JEhyNrOze2qKIUHC7xBzTa+QJFYv23qWzTBfEyECoO+9Dge0R94k4pV/HPTFGTPCJLRdWjkKCAJj2eoeD3UN3K51RJeUcGht0jRfr6IyBxL9IF+5lWG6OoyVM=
+ bh=e1BfWpm32TObyNwHhWqJTBk5kH+meizE/V6mBV39rBk=;
+ b=UivQj9+IGAigSsbW617IxwmyDJZNc7K31r2yGEZrqog2ZE9rQlXvGwBAjSIp8h/l0YbFFhdBC+mqTASa3fTo8F9Ox7MKdGvfuHrL+TBF5x9+nHz328JYbVDAUJ85pOz9l0sr00W1JHekkrDOCMgVGWrLrwRxAuGSmqdBW6inu50=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
@@ -37,15 +37,15 @@ Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::3c82:f63b:711a:502]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::3c82:f63b:711a:502%7]) with mapi id 15.20.5332.016; Sat, 11 Jun 2022
- 14:13:06 +0000
+ 14:13:12 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
-Subject: [PATCH v9 02/14] media: docs: Add some RGB bus formats for
- i.MX8qm/qxp pixel combiner
-Date: Sat, 11 Jun 2022 22:14:09 +0800
-Message-Id: <20220611141421.718743-3-victor.liu@nxp.com>
+Subject: [PATCH v9 03/14] dt-bindings: display: bridge: Add i.MX8qm/qxp pixel
+ combiner binding
+Date: Sat, 11 Jun 2022 22:14:10 +0800
+Message-Id: <20220611141421.718743-4-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220611141421.718743-1-victor.liu@nxp.com>
 References: <20220611141421.718743-1-victor.liu@nxp.com>
@@ -56,58 +56,58 @@ X-ClientProxiedBy: SG2PR03CA0118.apcprd03.prod.outlook.com
  (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f6e335ec-c11c-406d-38d6-08da4bb48110
+X-MS-Office365-Filtering-Correlation-Id: c2d03f43-f249-40a8-7bdb-08da4bb484db
 X-MS-TrafficTypeDiagnostic: DB8PR04MB6347:EE_
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-Microsoft-Antispam-PRVS: <DB8PR04MB6347A1F088DDB35A38ABAD7398A99@DB8PR04MB6347.eurprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DB8PR04MB6347CBB3EEC7387877EE2FBD98A99@DB8PR04MB6347.eurprd04.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wMN2SIu6LS2hRqd+E/Z9u8gQhWqgWjShVgUkYO7DT/ynL3RDz/tF8WwNMS8BAHfBALcfy9udKbdkrD6IgUEgdKmI+TD5SWL+hXBTnbCQdSvkSVItqCLTbC04tFCr55Ug5dFC+5oyFdLvG7HhNK+OjyNzGhhRZNUr9+Tf+UcWNJctfkMjuKXecuEdCXNxn40BRYZ2HJ8K1lKM/+nHsduEGP276Z7ytG7a90IbUBwWQegTUEfz9u2KJ8icSfmQWCWuUtNjpYZy8P1bvS9J2WiZtfqPz96N9C8SBWTg6oSMkDhym6y01gnNL8Pgz4ue7jvs002tthquRSsk9/kr0x68T027n12mMaJd/TVNqN6079ri5L40GPoXQGdsj2ciSVUlKkiD5TZkDF1/BBVRCvM0XfqaEptKo49EZYSP1QXBDTzARS1Dzn56c86biPsu9d/kmCufj8HxGK9ecpVSFJ7vamD3EAwOAjJavzhpZmvK2SHfUTgo2N6dwtkJqS5ztcVqNmCSF201D1PLHawcrfwJDPjiMKVT/S17iM1VyK7xLSyCdHwflBQDXOsXji5xueGQDYwEM5XojI8cJVai1M1otZr4ZcTpV98aaQmw0U226XnVZbtmZb79x47uFeAyMQ4B5uOtBvj6LAKo6q7D0cREd90LtEws7sLNuGK5e69hIbD1MiwGwioNIa49Eee1MRBjIq8c4tjmO6l281NgbDj98Q==
+X-Microsoft-Antispam-Message-Info: 69R4CRbMkFRGJHSwmyjjLfuOtglPpqXEVVeQYX3HV7+mkCZD1i6r2yKcHKeLuCx5xoBM1LkyPa2/+9hWc53oMrawqvPBdIAqI3tDDb6l2fyjxI/YXGkYLRG5mJLJk503hW1OHkO5uCELxivUfjQfv2LXyiHB33u37FERM1v037xzzQvgGFD29F6YS6KSLoxjZx4U7UxT0YSfpxODQmnjKau/MOwgEEoooWSz4FylmjRrLsFu3Ob/ny4xpLqqctZHWCOcn6u6EwVxzDxuMGdlxwfT5E8Pzt3yl0vdMgKK/pcwTbjFI9/6aWb4I6N9wQC1vGZkCRaps48zuEuQpQt3h/8dLXShiOzKZD+QCh1j8Xm4D3kkVOpomMCnzzmvP0jPOH40YnXUe92opqXyFZCKF54QeElFeskd+c9bxsvrf1oEbEn+a6J8W9gafNpUZ3g0Smyw2uvta0Z8bWBWTU3ehWUJmphlNV8onh9zfYxkgcW6n1QM5m2hRSq6wLnqHmUsqIP9lsdb171g9CKMDjaDXtlYq94U+qbFGpeVUlFeipTXgSD+BrL4rpDZHjokuaHBzOQ4xPk+JMmW9wJ4zHM3cIkx3D6NAP0qCRtR86B/Qeftib5jNa+DEY2XBapXI4wsPumrXUDzfILdUBqGTzpQXl+kqBSXh0eT2THACoYrtR2NjdW8OXEdV7H4vkQB+jqz/xXStspuUn3lPBP6VwxkYwm0hHmqrjXQ0+z5HsZstng0jo3BNIcy3/aUDuCZsFy1QCxPg5+8ZGi24sqBjrJeZJntaPF7xKzR2m2HSiOO8w3R2SmZEySdnNH3TjtxoyoxK7RTbI8E95pQO0ZgH+usww==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(5660300002)(66556008)(66476007)(66946007)(1076003)(4326008)(8676002)(86362001)(316002)(186003)(8936002)(2616005)(7416002)(36756003)(52116002)(38350700002)(38100700002)(6512007)(26005)(6506007)(508600001)(6486002)(2906002);
+ SFS:(13230016)(4636009)(366004)(5660300002)(66556008)(66476007)(66946007)(1076003)(4326008)(8676002)(86362001)(316002)(186003)(8936002)(2616005)(7416002)(36756003)(83380400001)(52116002)(38350700002)(38100700002)(6512007)(26005)(966005)(6506007)(508600001)(6486002)(2906002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?O5h8tzKAE+eV7cwgOW3x6W+3e36wPndKX4rzozpK9MUTRQP36IIhzPkxXWTc?=
- =?us-ascii?Q?1DiBBCSzPAb/LOLpXX9M5X5I1KsmGcFaMrKvih6WnRJxlc5LVL02lXBmHW3p?=
- =?us-ascii?Q?ahOiLvBTltmTfBKeTDlYLWESfwb7xdlt9lAUINGbbMS8ZUYoUBvIDMqOtdCU?=
- =?us-ascii?Q?2hfyh+PnRaG5LasxT3joQobRtt7pfKnvaSU2lfhj9+L9aGJH0yQw7n3Y/Kch?=
- =?us-ascii?Q?pHgaada8q90aA9gNH8oTpj1Z4C09SMtqy81kAEio7roilD+jY85mJ0uLHCEG?=
- =?us-ascii?Q?9KzLinU/8bx3O0a4dwIpY6Q5MVjkkVLCs8MHQIK6Arqc1emWVM2jWMLpmpZn?=
- =?us-ascii?Q?u/yaDuAx40cDZGBN0jYwcVSlL6VxZyLbOSA0MGa4TTJjE4rSiXF14QXNtCww?=
- =?us-ascii?Q?JmvTf5WTt+Eqp9Ifuo3DSo308ZnQXd90Zli2hnjv1Q14i6xjIDHGMNgN72Hk?=
- =?us-ascii?Q?5uSizZuUSzx79jT+8V4HflBKvBgFIXX7pb4mUbe+7NQS8cNgjYqRK8if9AiN?=
- =?us-ascii?Q?pGK+1+VoI+exGLH4svTnsdm5uaLiuPJq1rrQsoF/UdJfjeIKAoL0wAgsIE9O?=
- =?us-ascii?Q?3wJV0izIbC6eJi0O7T3UGvg3oBXRQ7xday/Ne0X7/trCd/2VSVjqybFdqmIJ?=
- =?us-ascii?Q?vAQ/mpPweBfLJd0WfC2lnlBuIhcneEc51fjbygep9lJaLX/iwnRR0wOX2xMW?=
- =?us-ascii?Q?xaV4SaBcb3973QN3KRDcBf5rckv6QP5iSnrjhZ/3BdfPpK6o4Yqoqp5Sx1kN?=
- =?us-ascii?Q?bO7cC802L5e98oiSrE8xWmQeG2GdcM5scW33WbIDI15BazCxiRyiw9/5vw2W?=
- =?us-ascii?Q?xmHO8xH//zUWlnsrOZFaKWaFgNH46XNRf8RQ6dQ1UL8ro8nrsxd5grqaGZ0Z?=
- =?us-ascii?Q?51A8TaraagdkXMtyWmdRkOunTOgLPVIgL98HqgBSf63SibOaiW1hpkrjaKTh?=
- =?us-ascii?Q?fzq8Yzlab+/FNK/X/HeiwzMYzAXJpSf0Bd/8zD1yuKjbyIYVebsHwzTnAXqZ?=
- =?us-ascii?Q?tYmvsa3d6MrSbX1ggwq1QaDUxwyz2dnBwI+msu8DE0coZm5w+JRncH7Y6Jge?=
- =?us-ascii?Q?BxU/lV0YXGelTXcrSyMXjWbRgbIWirck7IWqhxahB7d+zoP4F+uf2mDnSRLl?=
- =?us-ascii?Q?lD6XRVmEiaY8LFLX7QXepZZyq72oxL5kGJyuOO0cLNyYDsvsFS46fDp7bTU3?=
- =?us-ascii?Q?fbGlMcUUOMVDQroVNdG8MIvd9Os0CpjhL/QSAjHZ6MoEw/wRLs+ZSaKq/pMs?=
- =?us-ascii?Q?ez4E4IZotL5ZURWJb8TKA0i2b2B85s8UCPynUWkSatc+ZESfcZtIROKfsGWf?=
- =?us-ascii?Q?EaIj8LrJCjavVWldF5Zz4wZrzuhDMkP4TBjBBdGuuuxhCelN671dZMYa1mVY?=
- =?us-ascii?Q?KYbtgF6BHgQSr0R+Vxi1EXEfl6VBV/yI9tJ3U6Ve/H9Vd+jm60sDOvxPSow1?=
- =?us-ascii?Q?tPgzq4/lKpGY8kWJuj+a9eZo0wf1SumhiQt+NCJG5jFCKENTblMnvbwOKBQs?=
- =?us-ascii?Q?lOF01esah3CWh+gSJlhvW7IkBGYR8E8wNnPZ5edv/BsqnBQH8fApLjSL1cPQ?=
- =?us-ascii?Q?if77hR5DWYZevB/6UAoR0piBvkhMfGZLSHC+lWCd0vgj+GT188t9bAhQ1yFu?=
- =?us-ascii?Q?aRY7CMNxo2QeM8IvZtV4+At1TvmzrF6vYgdf9rQocPNLt+wCpiCwrLrL8zp3?=
- =?us-ascii?Q?afXMipqF3VKy7hKmYxNZcFxNUCyPCHF7r6EWVBDRKl96S39MnrtDWVba/c1a?=
- =?us-ascii?Q?6T64sMe/HQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vFbO2yMtbQ+mqweMAIRGjaJor6HF6oCfkxsRV5U8++DkIGJmRRHbiAvDFbmV?=
+ =?us-ascii?Q?y63n4x4Y7S2TedO5m6aPW/vaGitkQrN7YuGACFJB7otDS8LHl83b7onqDmyE?=
+ =?us-ascii?Q?ctp1bIifHP25ghM6GcDbhzDof+0DpgnkRlmxz4eOtFTFp2c/E5S9crOCsdp0?=
+ =?us-ascii?Q?EAoH0IgQ2svn7OAgEJaqTZBox9R3VY13tk2Glxvjgkt7qiWWvGTjs7vI4aJv?=
+ =?us-ascii?Q?CVDrptX406ZJL+2cbjSLm3f40zLl+d3NYOYDinXjdCxpdaQk9fxdNLLV8Gi/?=
+ =?us-ascii?Q?mDB08o9g3bgo9j9QHl947V/OGs+9HKzbdv6z1sdQy7lvP1thKHi119fMAEw8?=
+ =?us-ascii?Q?v4wGITWazyxg2hrNm0Fj6K1xiB4JD5WugGjAv4Ai7i5jambpEdsi/XqunTGV?=
+ =?us-ascii?Q?/D9I5PlhOJ/3oxEbpmzZec54LmcQN6800N3JWp6FY+FfKO+0mxaUcKfDhIVz?=
+ =?us-ascii?Q?9gOKL2EUkKLVWL+tqBZp5Jfyi194Cwki+jeY8Kp6vl7g8Ya4MwV0Xmw9mPSj?=
+ =?us-ascii?Q?ZZxkGkVEDZuHdb5N2k6d6a8EGHVwdOHS5S1ks9acByIal/BTeLT0nAjtmcFc?=
+ =?us-ascii?Q?G65cO1R9Py9N9c2vj+HNfj+9DF9666cQ2oDc3l7TxmdS1+JoP4OeHJqxaPEv?=
+ =?us-ascii?Q?z4Otpisprl05fOeLymcUhjsCju2K5sq3ceYYAEgK11Kicos1z4VTYeOuDUp1?=
+ =?us-ascii?Q?JYelPAuOYviFaKXi/oKV/ytHTGk7Yt+HFnnqZjQl13Ros/dW5WNepfmn1xHV?=
+ =?us-ascii?Q?ZF2HD2wCxeoWytqnIeLPAZ0h63+x+NDyJHmJQ8OlWHNzZqys+CTMELYcFFX4?=
+ =?us-ascii?Q?SokaDDiHetZ51z8k6HBTA3ULVktEMbH+jsxvIQCvQdGe5Ah9rer0SvlMt2/m?=
+ =?us-ascii?Q?lBPBCJJLIcFA13dh2g+9klBwPvcAJeAJmpzNiJnf/NgyJBsj2bjIPr9grgl+?=
+ =?us-ascii?Q?ef+yROFRsB1nsHcLjuRAcolCEwB2drzuh5CrtkJUhmCMxd+GuTMC0jxLG3wp?=
+ =?us-ascii?Q?5QGHE6pZIqYapi6ZfsSl+hEJkQITdm6Bh43w4GQIJbi3nzdp4bIe19JlJzWm?=
+ =?us-ascii?Q?HmrIL+rFi9PWhoRiTfxlRkdyzjaDhwSqHefonEKlqQwpHf0mHKsrzM7LDAx9?=
+ =?us-ascii?Q?zcxIIE1FsbKs56I3XDKsMzypP1WrwnGV0g7gwBMv5oIKQi1ClaKoRbJNH0qb?=
+ =?us-ascii?Q?yyqPWuchTXhJDIYv5Owq5Zw7B2Y5pBtqDqem5Lf8kNcKwf/k2OS30EXy7lK1?=
+ =?us-ascii?Q?vCeLVYks5kd30V/+L2bTP2E/7axf4g7Y3ecpktOg6aKQl8ZVMf1vZT4TaSbv?=
+ =?us-ascii?Q?FhpO7wYIez30hWwRpwfB8jc3J3ioeoJ6Kxch50eLuNAwX55anbzIM5gCxAty?=
+ =?us-ascii?Q?XAgfeFk6CHAL5oB8OavI8iD4vQv+BwL9Vj/pfKdFaZg8OVNPTtwd6WKeBMON?=
+ =?us-ascii?Q?hHiswnwkMoV3TUQefanFEOT13wZ2EqeTiVcYWUYZh35iU4lh7ZR4lilMHnSW?=
+ =?us-ascii?Q?OyaFE7BTVxBAXXoGk+VVSRTpElAn0XWcEqezt86vZAMvZ/2O5aJ7h+4rGDGM?=
+ =?us-ascii?Q?QCqLD7YR62XuqHq8jbgq+D4cFArdI+m2Uf075xMr3v2CzcAS4VbFS1+P5Y/t?=
+ =?us-ascii?Q?2TxrmUOqz/vHfCnStAvj5GNQT11a9jO/ybxhbF4fMoTmkN8qRlZT8Z8tN5YD?=
+ =?us-ascii?Q?j4HgbVa5HTtn7K0swMdvjlomp7reUEmTCJgvraP1n/TMNQ2kRSqXzcJIetd8?=
+ =?us-ascii?Q?2gbQYFtvqg=3D=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6e335ec-c11c-406d-38d6-08da4bb48110
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2d03f43-f249-40a8-7bdb-08da4bb484db
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2022 14:13:05.9272 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2022 14:13:12.3862 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q2zTHvNR0OORVUYN3O9DTC9ObfxBLYrKLnL2kfaFV3tgRxnW/5jSzRl47oPWgEX6oZ9ukDO3eQhmiMmmS7uiJw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: F7WWj6DHAsLcnC9CGvg/i2MUAdYBYfAKTy8D2SuUANu5q9Kz0DmeBAI1BW3j9WJjyqG8YSDJaci+VUrdvv+GdQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6347
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -124,25 +124,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se, airlied@linux.ie,
  robert.foss@linaro.org, s.hauer@pengutronix.de, narmstrong@baylibre.com,
  jernej.skrabec@gmail.com, marcel.ziswiler@toradex.com, robh+dt@kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, andrzej.hajda@intel.com,
+ Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
  lee.jones@linaro.org, mchehab@kernel.org, shawnguo@kernel.org,
  kernel@pengutronix.de, linux-imx@nxp.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds documentations for RGB666_1X30_CPADLO, RGB888_1X30_CPADLO,
-RGB666_1X36_CPADLO and RGB888_1X36_CPADLO bus formats used by i.MX8qm/qxp
-pixel combiner.  The RGB pixels with padding low per component are
-transmitted on a 30-bit input bus(10-bit per component) from a display
-controller or a 36-bit output bus(12-bit per component) to a pixel link.
+This patch adds bindings for i.MX8qm/qxp pixel combiner.
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
-Robert, I keep your R-b tag from v5. Let me know if you want me to drop it, as
-v6 contains a fix.
-
 v8->v9:
 * No change.
 
@@ -153,198 +145,176 @@ v6->v7:
 * No change.
 
 v5->v6:
-* Fix data organizations of MEDIA_BUS_FMT_RGB{666,888}_1X30-CPADLO. (Laurent)
-* Add Laurent's R-b tag.
+* No change.
 
 v4->v5:
-* Add Robert's R-b tag.
+* No change.
 
 v3->v4:
 * No change.
 
 v2->v3:
-* No change.
+* Add Rob's R-b tag.
 
 v1->v2:
-* No change.
+* Use graph schema. (Laurent)
+* Use enum instead of oneOf + const for the reg property of pixel combiner
+  channels. (Rob)
 
- .../media/v4l/subdev-formats.rst              | 156 ++++++++++++++++++
- 1 file changed, 156 insertions(+)
+ .../bridge/fsl,imx8qxp-pixel-combiner.yaml    | 144 ++++++++++++++++++
+ 1 file changed, 144 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
 
-diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-index 0cbc045d5df6..d21d532eee15 100644
---- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-@@ -1492,6 +1492,80 @@ The following tables list existing packed RGB formats.
-       - b\ :sub:`2`
-       - b\ :sub:`1`
-       - b\ :sub:`0`
-+    * .. _MEDIA-BUS-FMT-RGB666-1X30-CPADLO:
+diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
+new file mode 100644
+index 000000000000..50bae2122183
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
+@@ -0,0 +1,144 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/fsl,imx8qxp-pixel-combiner.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+      - MEDIA_BUS_FMT_RGB666_1X30-CPADLO
-+      - 0x101e
-+      -
-+      -
-+      -
-+      - r\ :sub:`5`
-+      - r\ :sub:`4`
-+      - r\ :sub:`3`
-+      - r\ :sub:`2`
-+      - r\ :sub:`1`
-+      - r\ :sub:`0`
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+      - g\ :sub:`5`
-+      - g\ :sub:`4`
-+      - g\ :sub:`3`
-+      - g\ :sub:`2`
-+      - g\ :sub:`1`
-+      - g\ :sub:`0`
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+      - b\ :sub:`5`
-+      - b\ :sub:`4`
-+      - b\ :sub:`3`
-+      - b\ :sub:`2`
-+      - b\ :sub:`1`
-+      - b\ :sub:`0`
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+    * .. _MEDIA-BUS-FMT-RGB888-1X30-CPADLO:
++title: Freescale i.MX8qm/qxp Pixel Combiner
 +
-+      - MEDIA_BUS_FMT_RGB888_1X30-CPADLO
-+      - 0x101f
-+      -
-+      -
-+      -
-+      - r\ :sub:`7`
-+      - r\ :sub:`6`
-+      - r\ :sub:`5`
-+      - r\ :sub:`4`
-+      - r\ :sub:`3`
-+      - r\ :sub:`2`
-+      - r\ :sub:`1`
-+      - r\ :sub:`0`
-+      - 0
-+      - 0
-+      - g\ :sub:`7`
-+      - g\ :sub:`6`
-+      - g\ :sub:`5`
-+      - g\ :sub:`4`
-+      - g\ :sub:`3`
-+      - g\ :sub:`2`
-+      - g\ :sub:`1`
-+      - g\ :sub:`0`
-+      - 0
-+      - 0
-+      - b\ :sub:`7`
-+      - b\ :sub:`6`
-+      - b\ :sub:`5`
-+      - b\ :sub:`4`
-+      - b\ :sub:`3`
-+      - b\ :sub:`2`
-+      - b\ :sub:`1`
-+      - b\ :sub:`0`
-+      - 0
-+      - 0
-     * .. _MEDIA-BUS-FMT-ARGB888-1X32:
- 
-       - MEDIA_BUS_FMT_ARGB888_1X32
-@@ -1669,6 +1743,88 @@ The following table list existing packed 36bit wide RGB formats.
-       - 2
-       - 1
-       - 0
-+    * .. _MEDIA-BUS-FMT-RGB666-1X36-CPADLO:
++maintainers:
++  - Liu Ying <victor.liu@nxp.com>
 +
-+      - MEDIA_BUS_FMT_RGB666_1X36_CPADLO
-+      - 0x1020
-+      -
-+      - r\ :sub:`5`
-+      - r\ :sub:`4`
-+      - r\ :sub:`3`
-+      - r\ :sub:`2`
-+      - r\ :sub:`1`
-+      - r\ :sub:`0`
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+      - g\ :sub:`5`
-+      - g\ :sub:`4`
-+      - g\ :sub:`3`
-+      - g\ :sub:`2`
-+      - g\ :sub:`1`
-+      - g\ :sub:`0`
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+      - b\ :sub:`5`
-+      - b\ :sub:`4`
-+      - b\ :sub:`3`
-+      - b\ :sub:`2`
-+      - b\ :sub:`1`
-+      - b\ :sub:`0`
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+    * .. _MEDIA-BUS-FMT-RGB888-1X36-CPADLO:
++description: |
++  The Freescale i.MX8qm/qxp Pixel Combiner takes two output streams from a
++  single display controller and manipulates the two streams to support a number
++  of modes(bypass, pixel combine, YUV444 to YUV422, split_RGB) configured as
++  either one screen, two screens, or virtual screens.  The pixel combiner is
++  also responsible for generating some of the control signals for the pixel link
++  output channel.
 +
-+      - MEDIA_BUS_FMT_RGB888_1X36_CPADLO
-+      - 0x1021
-+      -
-+      - r\ :sub:`7`
-+      - r\ :sub:`6`
-+      - r\ :sub:`5`
-+      - r\ :sub:`4`
-+      - r\ :sub:`3`
-+      - r\ :sub:`2`
-+      - r\ :sub:`1`
-+      - r\ :sub:`0`
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+      - g\ :sub:`7`
-+      - g\ :sub:`6`
-+      - g\ :sub:`5`
-+      - g\ :sub:`4`
-+      - g\ :sub:`3`
-+      - g\ :sub:`2`
-+      - g\ :sub:`1`
-+      - g\ :sub:`0`
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-+      - b\ :sub:`7`
-+      - b\ :sub:`6`
-+      - b\ :sub:`5`
-+      - b\ :sub:`4`
-+      - b\ :sub:`3`
-+      - b\ :sub:`2`
-+      - b\ :sub:`1`
-+      - b\ :sub:`0`
-+      - 0
-+      - 0
-+      - 0
-+      - 0
-     * .. _MEDIA-BUS-FMT-RGB121212-1X36:
- 
-       - MEDIA_BUS_FMT_RGB121212_1X36
++properties:
++  compatible:
++    enum:
++      - fsl,imx8qm-pixel-combiner
++      - fsl,imx8qxp-pixel-combiner
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: apb
++
++  power-domains:
++    maxItems: 1
++
++patternProperties:
++  "^channel@[0-1]$":
++    type: object
++    description: Represents a display stream of pixel combiner.
++
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      reg:
++        description: The display stream index.
++        enum: [ 0, 1 ]
++
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Input endpoint of the display stream.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Output endpoint of the display stream.
++
++    required:
++      - "#address-cells"
++      - "#size-cells"
++      - reg
++      - port@0
++      - port@1
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - "#address-cells"
++  - "#size-cells"
++  - reg
++  - clocks
++  - clock-names
++  - power-domains
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx8-lpcg.h>
++    #include <dt-bindings/firmware/imx/rsrc.h>
++    pixel-combiner@56020000 {
++        compatible = "fsl,imx8qxp-pixel-combiner";
++        #address-cells = <1>;
++        #size-cells = <0>;
++        reg = <0x56020000 0x10000>;
++        clocks = <&dc0_pixel_combiner_lpcg IMX_LPCG_CLK_4>;
++        clock-names = "apb";
++        power-domains = <&pd IMX_SC_R_DC_0>;
++
++        channel@0 {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            reg = <0>;
++
++            port@0 {
++                reg = <0>;
++
++                dc0_pixel_combiner_ch0_dc0_dpu_disp0: endpoint {
++                    remote-endpoint = <&dc0_dpu_disp0_dc0_pixel_combiner_ch0>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++
++                dc0_pixel_combiner_ch0_dc0_pixel_link0: endpoint {
++                    remote-endpoint = <&dc0_pixel_link0_dc0_pixel_combiner_ch0>;
++                };
++            };
++        };
++
++        channel@1 {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            reg = <1>;
++
++            port@0 {
++                reg = <0>;
++
++                dc0_pixel_combiner_ch1_dc0_dpu_disp1: endpoint {
++                    remote-endpoint = <&dc0_dpu_disp1_dc0_pixel_combiner_ch1>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++
++                dc0_pixel_combiner_ch1_dc0_pixel_link1: endpoint {
++                    remote-endpoint = <&dc0_pixel_link1_dc0_pixel_combiner_ch1>;
++                };
++            };
++        };
++    };
 -- 
 2.25.1
 
