@@ -1,114 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9415B54755F
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jun 2022 16:14:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EABC0547624
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jun 2022 17:35:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE7E112E83;
-	Sat, 11 Jun 2022 14:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A853810E90A;
+	Sat, 11 Jun 2022 15:34:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (mail-eopbgr80073.outbound.protection.outlook.com [40.107.8.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D24110FC7C
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jun 2022 14:14:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=naVHLAktfHOPpAhN1GnkMOu1vm7FNqau9XlYTjUbn0Llj3NacfRiG1b12kqkh8RQ+CDJVTAJ+LthPNj139sukUGvPhjaKl2Wt8uwttBheII/r62DO/G0rWTiSoRicfbc8JfxTOnYqkuBEnOtwvEVnxaiHlSiMaIB94Ddth1SckOQ8bFjNog0EioaaE0/SBsJkMkSdl0kZ9K2YtF/r7lkzKf0Uf/fbZ71qvrLjo4vWmHlWc6gVNCdXwfu++LedkPsvPcMAAFRkWEBleVhoioHSbpIp+Yhx5BlYEyMeJ9SNoP4/AjAf/Ge1Rh1ib+oPyKOwiqjv0+kflnAQc5p0v1hFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WtV/1O09gmCo6ebdaVoHXJHDZNvjIeOZqOMnUc4yXwU=;
- b=Fienni41feQGtzdQ2/EdceX+vqXfLnNdpk3vVHz0l7UQtmqoKOhO7M54OhS1tmwz1gHifcddQUZCR1Ux5L0Fv8zu7awFIzKvttJ2R4xRzsKBOO1tZ8DoMyXUs+Hmmbs7uxj0LO7fZpQjiMsXTNX7Ez62cGcyrY+H81vO6NWw9b7ZkLYqFym5GDMZz54wkeBhYhf3gK6ByeZwSX2rzUGPiEiRHGiimV3nyUm6SgE5MisEHwSWNZSiRXCTebSi/pkcjGGlDUC3AGvp5OoQYYfhH6dy62vIIUCgFcNzX8pgCJuY8cn55h/WogFyHHvYzyidsaYryajGCqBFJHrplJwhKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WtV/1O09gmCo6ebdaVoHXJHDZNvjIeOZqOMnUc4yXwU=;
- b=NGz4iNR3qZmFUDaLSjdzZeW/xXYeEfQ+W6VRxAiUdWDAR5FLLdC9us46HMNoSz4/mZtrOtVBLydhgftQPWTTeJF9PrecC1VoIxwvqxBEaeW1fetoWXD4B+lJSk3qPJwG6OCT+J896eE8BTRQmFTEkwr5ZRnfYaX3M6MQXSDDF5A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DB9PR04MB8249.eurprd04.prod.outlook.com (2603:10a6:10:25c::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.16; Sat, 11 Jun
- 2022 14:14:21 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::3c82:f63b:711a:502]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::3c82:f63b:711a:502%7]) with mapi id 15.20.5332.016; Sat, 11 Jun 2022
- 14:14:21 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-Subject: [PATCH v9 14/14] MAINTAINERS: add maintainer for DRM bridge drivers
- for i.MX SoCs
-Date: Sat, 11 Jun 2022 22:14:21 +0800
-Message-Id: <20220611141421.718743-15-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220611141421.718743-1-victor.liu@nxp.com>
-References: <20220611141421.718743-1-victor.liu@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR03CA0118.apcprd03.prod.outlook.com
- (2603:1096:4:91::22) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 321EB10E550
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jun 2022 15:34:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1654961694;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wm9Fv9jtkblZY0ynNauc7tBPw2HroUUJfIN+zfKtoIA=;
+ b=VnLuVPzlnuGjQjo1gK0a1Ixotot7bX7MQzqOP0UiJ5hNmgvaJ5LSvP1VmBtAc073AYMBAm
+ Hj4Om7oclZfI4Sc9s9k21HhndVjIc2YgCA/60Xop6wKPIGTeS19Vfl9/SKivJE8XJ6QCmq
+ rwDn8+t0wOcHzyIq8admf3B9fe3d7eI=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-484-eXsBvKt_ML-OvJaZWXOmdA-1; Sat, 11 Jun 2022 11:34:53 -0400
+X-MC-Unique: eXsBvKt_ML-OvJaZWXOmdA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ g7-20020a056402424700b0042dee9d11d0so1462649edb.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jun 2022 08:34:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wm9Fv9jtkblZY0ynNauc7tBPw2HroUUJfIN+zfKtoIA=;
+ b=vzwJladB84l+hUyz9CJrZZe5B9WQgJMybPxQkK7lBZYjglTl2n+jYPzSjchbYQoi7h
+ Pb1t/UNJ2Hkc2J7hN0IPQnpaWchf5F2Kigte4fCr0liP2CTCUX/tB4weV9p8N9OohYrw
+ xXxofVe2ybmE23rKyzfsG3ABiGsAZWN4L92L35CJOw/yQAPz65h7L3iX1hskDLkPw+AA
+ w+jj/QtNn9Y/Rin3LLwsM5u/6PZQvqsDV+HItFG0STgkyoRkwDYOlonLpza41BIcJSKB
+ nO4f0Yabtr5REBru/zKEyl+u0VHFieEl3UIQegLO0t1MZeGW1Wnm1p/x9yfvDregRNwa
+ FxyA==
+X-Gm-Message-State: AOAM5316354DeOIneaRISEKnjlSDvdoqwL/xhfQsRqE9z9P/2AxLXipP
+ oGbjdr/G99U2dpI9XhO0JVCgxyVqGseT8mhMRSx8MaIGxDRTJe1p+sP/UX95yAhft86J0AqIeut
+ guQJhOIayfJ6EitMy54dLUSKbvpIi
+X-Received: by 2002:a05:6402:26ce:b0:431:52c9:5a9 with SMTP id
+ x14-20020a05640226ce00b0043152c905a9mr37877938edd.61.1654961692498; 
+ Sat, 11 Jun 2022 08:34:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzAVX6GH7mYJGJyUFOXpMfqDlRSgpkOBdGEgA67cVoK+2X6toSG/icPyR27b1t2ZEOxYWcSTQ==
+X-Received: by 2002:a05:6402:26ce:b0:431:52c9:5a9 with SMTP id
+ x14-20020a05640226ce00b0043152c905a9mr37877910edd.61.1654961692230; 
+ Sat, 11 Jun 2022 08:34:52 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
+ (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
+ by smtp.gmail.com with ESMTPSA id
+ h16-20020a1709060f5000b00711d0b41bcfsm1202908ejj.0.2022.06.11.08.34.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 11 Jun 2022 08:34:51 -0700 (PDT)
+Message-ID: <efdc6bb7-d088-467d-b843-a6e579263c61@redhat.com>
+Date: Sat, 11 Jun 2022 17:34:50 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d9150547-4bcb-47fe-2102-08da4bb4ae26
-X-MS-TrafficTypeDiagnostic: DB9PR04MB8249:EE_
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-Microsoft-Antispam-PRVS: <DB9PR04MB8249E3B91E0EF04B623BC51A98A99@DB9PR04MB8249.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CF50Ud+phQMNjHnTn0+8ylRsIdzzR5Fj1QJf5KZ6t74qSgZnLH4fpjvAtquHZ9VSR7Rc62TZDuw7HCFm0FpLnwfokW6N3VXpHvUKVSqLEFdB/kYD9NK4su/kZTo4LUUXHsw/yHxQa3AnhdI27ARBQZNtzT7q0Upw8PupgEK4z0COsNOymmtgiA90Pk1mmCdQdiu0BBPb25aSn/OVguIfwIVgFuhhOdZebMOELDoK4BEFvir1raSvRLtDJTtea1e8u9WhbhWoVFUiY+NKgUorATe2hWrPL81WzP3IYcFZgxvw/F1jfufB6NZiX3bl55oTaYFVgBIbrUxTKz4tLURorRfeRqCBC1+MBVZYikgO0UXU+1ENYWvZHU9sRPK8AlFV9uD3DBFIA7/Qgb0gxhb5eAP+klHqkxTPwAWGSp6uf9D5a+iqbfKBqg6ZmuZl/JP2xv3DUDNwN6Y4CfLr6nkejEIvmkr+LuF2Tdcog9xjn7eBS0S5K0qwpCHf8oqA6Ufk+s1EQdOwEzfX9duZDw6qHatBTXslxxnuBzkCXQkGyPoiDXcBV8JuLyk+/I/Gaw4PfbblFChIZB8w9+ZCXypIa/XcZRMIAbc8TdwCPblKBq0WxaCK9vypCs6CrrvVGyJonN5xI+Q4qPuOl/41jHORM1wRCCnzAOT19/Ho9m7EGhLRMPe8ZsR8KbZA9Z8HC7nkUmf0eQm1XS0K707z1cfvxQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(6029001)(4636009)(366004)(26005)(6512007)(38100700002)(38350700002)(86362001)(186003)(1076003)(2616005)(8936002)(316002)(5660300002)(66946007)(66556008)(66476007)(4326008)(8676002)(36756003)(7416002)(2906002)(508600001)(6486002)(6506007)(52116002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KftyKW1QiwHh75Lv4fu/vW5Ny6eRT6AWPnZom9EjAR/pgWPXbfhZBmySdz7y?=
- =?us-ascii?Q?lo0PclYxB0MYprYn257UghmL5Wp2FKnvNE1rnzsmHJBHBTpLQRpi3LpwVsj9?=
- =?us-ascii?Q?OzcWMVCcSbmAxBlfunZlkdCrsi5vVfMnkQ/729VOIRGJx+D4qYUbrsx6R978?=
- =?us-ascii?Q?F72IOF5jE9ZfP+HOjKmwWGGP12CXUBa/aqGmPou3Ra0Jl9rApcfpLtpsRt7I?=
- =?us-ascii?Q?680V7Tuu8lQTydlo/cqZxqRCbfmwCnJ/wY8Hm8innlmkXkvVSe4RWeatO2A3?=
- =?us-ascii?Q?aAcs+3E18UDsEr/XGwpwe4Hr9ZZaQv+6AA1I69s7EWr2lcPC4WQuvCe0MNye?=
- =?us-ascii?Q?U7uJTXYf6UqqHmlJlpeQfnBoiLCCYBcWmJDYzUOmv+I7BhCMu8Z6kOp1MjR0?=
- =?us-ascii?Q?xV21GqOScCRl3rPrc9bXW1PNOn1TBhRtNwqh2KT0wj9X/Rmgj7ddEvQIx45W?=
- =?us-ascii?Q?KFsrigkn2v8pfTfwu65HOQd1C+kImkA0i9e9bK/VN2JqaeUlY1W9gehgKhZQ?=
- =?us-ascii?Q?0NehuBF09iiamdq/UrmuOuhfK7GQIWC+Jci9aO37ZQhe5xFfPYk9p0jXITli?=
- =?us-ascii?Q?LgY5G/WITPCd8Q1QU5AZmatz0VPkUYlB42g86JrVEJI/KYUGMTFnytfwvPYJ?=
- =?us-ascii?Q?42rLYBIEbrT0/xtHGdZpCi9WMTFD+z9j4KXknLnCTpZWTEOQFiMxemgRZITU?=
- =?us-ascii?Q?QfU9/LaNes+ZnPRE3DZxjC+LqQUlp+riDENoV5y6fl9TfOL8qCJ4aoMPX4We?=
- =?us-ascii?Q?xZJRm0+fQjagMiDxbSajTe5OLTcg5gSfPzF7vvaMQpu7xfHHCJ/Y6Wd1jf+O?=
- =?us-ascii?Q?r2suOxP3PZFxSMU5SFV7NXZQ9q6TzzddVYVcTr/oXzbbdFz3huBtR73L6Sa1?=
- =?us-ascii?Q?lGVXAsC72MbEcol9d/RBGkL5qeMuFjGvqSmgPJMXFjJX1L55GESD0z1KPcjC?=
- =?us-ascii?Q?XUcH+Tz50z46wIGrJ3AVrGgpgR9QwVnMbEUuYtb8SxoX6QwRkRq7P4BHYc1E?=
- =?us-ascii?Q?9sqjl/38K5qelpSh6daFfTxMvXRuR+gDEVAICLAIKMYDD2+Oql69oAUHAY0Y?=
- =?us-ascii?Q?twFz/JUGG2oYmrzaZNMYS4ZM4EmmH2/+3VJzw/rtaUI2QX3I7rnW/xlnm5Du?=
- =?us-ascii?Q?tJe3SQw1oFRTXH1YsrVehglwOPehRT3LVNp6l7NpT/bkSjzyhePg+pS1uIEl?=
- =?us-ascii?Q?T/hE7IiL2goTzTidMgBvgZavdjbjRhqSo7j53oB7O/4oiosvZ5r8Ag/gpFvX?=
- =?us-ascii?Q?qk1trZdCjWCQaQKdyBdMuh9L9HKbprtXWnWgVOF8UB5XLfXiy+iPmCgjupfI?=
- =?us-ascii?Q?WU6D1XIcDx9sOI3Wskhu3jvIX2l2iwf99dokYY631eonEa18aMGnXlf5NGYE?=
- =?us-ascii?Q?KZ/wU0uP0dSuV4QtUdAGzVNSD2xExu1Sn/HgilWxuIcFjbZJz0gwqkje2BAK?=
- =?us-ascii?Q?p3nMqdwmQ845xdaMs2RKyZC9DJvmL4K9K7ImQD9bKhrJy8nj9DKLsuPrkP/L?=
- =?us-ascii?Q?wcs+NnO1nTqGlNizwlXck90spFIuMwc64GSybXxSM/XWVuQcWJkF/kHUrhSX?=
- =?us-ascii?Q?xIgG0RezHqGXFQQzDq/b1O0Z3VfehrI/fBS7dSSd057A//B99uB7y+mw1+aH?=
- =?us-ascii?Q?SI1FhVa9kAmQsLTjew0pJUMigprrtLP036Ioeh9+Um9YFTXeG5Als2WcNVbl?=
- =?us-ascii?Q?dyKdO4jnfj4z/Ir9m7MoRHa4ryH2Pyu4VDypsyseO1Jrimm37s3iqDdu0cEU?=
- =?us-ascii?Q?FmH75LsuzQ=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9150547-4bcb-47fe-2102-08da4bb4ae26
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2022 14:14:21.6933 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y5copZBv9C1EP+LY8IAN8mCuZlcHTvENtFz+htUatX1WmB5Au5BgnrIMWRtRiuXfXDzaN9hOYTxW5uoiWLJ8FA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8249
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 0/6] drm: Add mouse cursor hotspot support to atomic KMS
+To: Simon Ser <contact@emersion.fr>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20220602154243.1015688-1-zack@kde.org>
+ <wRnf-Lm5zz6v1e-NlnFPteyARuLl-R98mOZZVjePHD5ue7QQNR_TSU7RwYBssgUa7xM5hf7Fe59-gMEj81ESrHY3mu_H7yE0dtGhFHFPTnc=@emersion.fr>
+ <YqMDoSMOL2rsfJj/@phenom.ffwll.local>
+ <lcIVipq8mkBAPioQAVQmwsM_Gwo0e9fd2334yGSvIW6uEIEElwUrTe-x9J9h29TB1H3NY3liNCohaXDyjslDFIqxPZNSPbSPJ3vctA2jEAk=@emersion.fr>
+ <YqMTk9C8/g1buL+8@phenom.ffwll.local>
+ <20220610123629.fgu2em3fto53fpfy@sirius.home.kraxel.org>
+ <_D4uOTfLqaVCoV94kNfeXYvOph3EjOL80mbzeJNHm1EPqranCclhnAjS2dj40X32-wE8Nux_QM-m-LBXHSHLkXu0P5oypBYLLK3_MWK4STg=@emersion.fr>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <_D4uOTfLqaVCoV94kNfeXYvOph3EjOL80mbzeJNHm1EPqranCclhnAjS2dj40X32-wE8Nux_QM-m-LBXHSHLkXu0P5oypBYLLK3_MWK4STg=@emersion.fr>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,68 +95,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se, airlied@linux.ie,
- robert.foss@linaro.org, s.hauer@pengutronix.de, narmstrong@baylibre.com,
- jernej.skrabec@gmail.com, marcel.ziswiler@toradex.com, robh+dt@kernel.org,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- lee.jones@linaro.org, mchehab@kernel.org, shawnguo@kernel.org,
- kernel@pengutronix.de, linux-imx@nxp.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ krastevm@vmware.com, Pekka Paalanen <ppaalanen@gmail.com>,
+ mombasawalam@vmware.com, wayland-devel <wayland-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add myself as the maintainer of DRM bridge drivers for i.MX SoCs.
+Hi,
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-v8->v9:
-* No change.
+On 6/10/22 14:53, Simon Ser wrote:
+> On Friday, June 10th, 2022 at 14:36, Gerd Hoffmann <kraxel@redhat.com> wrote:
+> 
+>> Hi,
+>>
+>>>> As Pekka mentionned, I'd also like to have a conversation of how far we want to
+>>>> push virtualized driver features. I think KMS support is a good feature to have
+>>>> to spin up a VM and have all of the basics working. However I don't think it's
+>>>> a good idea to try to plumb an ever-growing list of fancy features
+>>>> (seamless integration of guest windows into the host, HiDPI, multi-monitor,
+>>>> etc) into KMS. You'd just end up re-inventing Wayland or RDP on top of KMS.
+>>>> Instead of re-inventing these, just use RDP or waypipe or X11 forwarding
+>>>> directly.
+>>
+>>>> So I think we need to draw a line somewhere, and decide e.g. that virtualized
+>>>> cursors are fine to add in KMS, but HiDPI is not.
+>>
+>>
+>> What is the problem with HiDPI? qemu generates standard edid blobs,
+>> there should be no need to special-case virtualized drivers in any way.
+>>
+>> What is the problem with multi-monitor? That isn't much different than
+>> physical multi-monitor either.
+>>
+>> One little thing though: On physical hardware you just don't know which
+>> monitor is left and which is right until the user tells you. In case of
+>> a virtual multi-monitor setup we know how the two windows for the two
+>> virtual monitors are arranged on the host and can pass that as hint to
+>> the guest (not sure whenever that is the purpose of the
+>> suggested_{x,y} properties).
+> 
+> The problem with suggested_x/y is described here:
+> https://lore.kernel.org/dri-devel/20220610123629.fgu2em3fto53fpfy@sirius.home.kraxel.org/T/#m119cfbbf736e43831c3105f0c91bd790da2d58fb
+> 
+> HiDPI would need a way to propagate the scale factor back-and-forth:
+> the VM viewer needs to advertise the preferred scale to the guest
+> compositor, and the guest compositor needs to indicate the scale it
+> renders with to the VM viewer.
+> 
+> Sounds familiar? Yup, that's exactly the Wayland protocol. Do we really
+> want to replicate the Wayland protocol in KMS? I'm not so sure.
+> 
+>>> It's getting a bit far off-topic, but google cros team has an out-of-tree
+>>> (at least I think it's not merged yet) wayland-virtio driver for exactly
+>>> this use-case. Trying to move towards something like that for fancy
+>>> virtualized setups sounds like the better approach indeed, with kms just
+>>> as the bare-bones fallback option.
+>>
+>> virtio-gpu got the ability to attach uuids to objects, to allow them
+>> being identified on the host side. So it could be that wayland-virtio
+>> still uses kms for framebuffers (disclaimer: don't know how
+>> wayland-virtio works in detail). But, yes, all the scanout + cursor
+>> handling would be out of the way, virtio-gpu would "only" handle fast
+>> buffer sharing.
+> 
+> wayland-virtio is not used with KMS. wayland-virtio proxies the Wayland
+> protocol between the host and the guest, so the guest doesn't use KMS
+> in that case.
 
-v7->v8:
-* No change.
+It would be more correct to say: wayland clients inside the guest
+don't talk to a compositor inside the guest (but rather one
+outside the guest) and thus also don't depend (indirectly) on\
+having kms inside the guest.
 
-v6->v7:
-* Add Robert's R-b tag.
+But the guest likely still needs kms for e.g. the kernel console
+to e.g. debug boot failures. Note this could be done over a serial
+console too, so in some cases whatever "video-card" emulation
+the guest has could theoretically go away. But it is also completely
+possible for a guest to have both some emulated video-card which
+offers a kms API to userspace as well as wayland-virtio.
 
-v5->v6:
-* No change.
+Regards,
 
-v4->v5:
-* No change.
-
-v3->v4:
-* No change.
-
-v2->v3:
-* No change.
-
-v1->v2:
-* No change.
-
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a6d3bd9d2a8d..033d4e8b838b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6654,6 +6654,16 @@ F:	Documentation/devicetree/bindings/display/imx/
- F:	drivers/gpu/drm/imx/
- F:	drivers/gpu/ipu-v3/
- 
-+DRM DRIVERS FOR FREESCALE IMX BRIDGE
-+M:	Liu Ying <victor.liu@nxp.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
-+F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
-+F:	drivers/gpu/drm/bridge/imx/
-+
- DRM DRIVERS FOR GMA500 (Poulsbo, Moorestown and derivative chipsets)
- M:	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
- L:	dri-devel@lists.freedesktop.org
--- 
-2.25.1
+Hans
 
