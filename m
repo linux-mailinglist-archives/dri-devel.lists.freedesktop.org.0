@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4EAC54810C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 10:00:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC05A54810A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 10:00:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C24410E486;
-	Mon, 13 Jun 2022 08:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A682110EC1A;
+	Mon, 13 Jun 2022 08:00:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C44D10E957
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 14:49:17 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id v19so4258518edd.4
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 07:49:17 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C1510E9EE
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 14:49:19 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id o7so6622499eja.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 07:49:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pqrs.dk; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZZYegJLBLKIFYA6731P7rWnnXUer1l3FN0VMP5JguwY=;
- b=FPXLILWZPGq7+yE5oU94gYNFh96HzpsKl+xzWHN+uwWHd4VyxnXpwpo/mj4VuZBrtD
- Tvg7JahnzUPnuHNGsBIpXKvCXDzm/3Vp7SaM9xq49uRA4P1vbNCzJkK9chsIpN2uL1qM
- 01+U5br4Xj3mvf1+QtPT++Musa0/OhMj07HLU=
+ bh=jc9EKbluzjQbPf5iJBQyy57Za56oj94XsJi9//DUTBs=;
+ b=QAe6zVMMuPfsOQVPhxjW7XQINSyvokcP1UXdDMRe3lQrtwNAX48p8aTaJq+fVtUi2W
+ tdKGv1ukA3ximfBZb+wbyixuIibc+PNndOgm0dQmTnezjVki/HaSY3bW2E63Ce9htt6q
+ OyI2DQuX5UQ6ukHBMmmH6YcQHHH2f0dbWFjOM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZZYegJLBLKIFYA6731P7rWnnXUer1l3FN0VMP5JguwY=;
- b=54ovQafGRxnIzy18/37y09lfqI0MZslNBzrl9z8Ih+HEDJW6F2QB32AuMoL7VhdqCG
- JGmLdWIT8i7DcQ9I0wY2jbRIxnaKQuYn8EZ3UJ3IyPvHhS216B9dJjMXpTSHOUxC5Frs
- e3f7pl/OBae0REMuOvWQk2KVg/rJm1DmYc8yRsW5kR9lBlSGnVmIf71Z+p6uuWfwHjF2
- suS+TiXGPgx36r2qRuUnkkz28KRcDMzLE2Vnsyg+l2pkCpKM+oC2q2/iQhRt5xj9J9DZ
- QI/NPHG6PHWkx9xKP/QuCT5lNTcb5yvGSHmr1uwMyMR722HU37h7mPoxwXH6dqvYDpNj
- P1ww==
-X-Gm-Message-State: AOAM5306If60HvYfqH4Se9GL/3RXsKeRy/5Yks8mZNSdBPAX5+9qJHH6
- QkGXkQw6TORIzCVWNvuucM5Q/w==
-X-Google-Smtp-Source: ABdhPJwrwWudy5n1gSRNpA4pV8YgeBNu8lNs+Ynkn3H26f6GqvaWiOLkI+WUyJSGNv4YS8RPuMGgdg==
-X-Received: by 2002:a50:fb99:0:b0:42d:e4fd:c368 with SMTP id
- e25-20020a50fb99000000b0042de4fdc368mr60703009edq.138.1655045355718; 
- Sun, 12 Jun 2022 07:49:15 -0700 (PDT)
+ bh=jc9EKbluzjQbPf5iJBQyy57Za56oj94XsJi9//DUTBs=;
+ b=3Z+7P49DG+y4bwQUQcUkD7xmT8uravy348ZMu8P12zGmBVBV0XIIbM9AqGSAebBTwT
+ EEpUqySiLfWu7PU1XQZ5UqhegkaqwknucgKpVDBCR6lyud0fUYlafiodoAd/+SdZk0Cp
+ Q0mn7Cwij+XKu2IrobgF1CJA546bbBJkTbpmsxE3hb1g5ZPjAd0XVHA4pTDUv4qq4c17
+ N0LuBh1IfOMbCxwZhA9MaaiA+Eo0dBD9OV0jkPzkAOoyHQvLgSoNAeFKDQZ0/Vx8DRQ6
+ IKNdSO1ewptJkOueRo9jM/p7NZkPwmoc3r7XTdi5XLSWJXr/ZTcRAAp50ZCRpZF72hzC
+ UaOg==
+X-Gm-Message-State: AOAM5302/dCNf6rZVP1eS0XdUcgo3S2+N/Fr4Yl0X/HABebsRBqazHBA
+ foe+1x53aqlesmXtSeLOT2+m/Q==
+X-Google-Smtp-Source: ABdhPJyvv3bZy0x8EdZVGn713v6ewfo8zGpqATwhEb2GGbMj9l6HERl46xAPhCd2QbNHUwuDFardFg==
+X-Received: by 2002:a17:907:da2:b0:711:f408:f098 with SMTP id
+ go34-20020a1709070da200b00711f408f098mr20945715ejc.208.1655045357616; 
+ Sun, 12 Jun 2022 07:49:17 -0700 (PDT)
 Received: from localhost.localdomain (80.71.142.18.ipv4.parknet.dk.
  [80.71.142.18]) by smtp.gmail.com with ESMTPSA id
- cm20-20020a0564020c9400b004316f94ec4esm3257076edb.66.2022.06.12.07.49.14
+ cm20-20020a0564020c9400b004316f94ec4esm3257076edb.66.2022.06.12.07.49.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Jun 2022 07:49:15 -0700 (PDT)
+ Sun, 12 Jun 2022 07:49:17 -0700 (PDT)
 From: =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alvin@pqrs.dk>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
@@ -51,12 +51,12 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Hans Verkuil <hans.verkuil@cisco.com>,
- Archit Taneja <architt@codeaurora.org>
-Subject: [PATCH RESEND 1/2] drm: bridge: adv7511: fix CEC power down control
- register offset
-Date: Sun, 12 Jun 2022 16:48:53 +0200
-Message-Id: <20220612144854.2223873-2-alvin@pqrs.dk>
+ Archit Taneja <architt@codeaurora.org>,
+ Hans Verkuil <hans.verkuil@cisco.com>
+Subject: [PATCH RESEND 2/2] drm: bridge: adv7511: unregister cec i2c device
+ after cec adapter
+Date: Sun, 12 Jun 2022 16:48:54 +0200
+Message-Id: <20220612144854.2223873-3-alvin@pqrs.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220612144854.2223873-1-alvin@pqrs.dk>
 References: <20220612144854.2223873-1-alvin@pqrs.dk>
@@ -83,56 +83,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alvin Šipraga <alsi@bang-olufsen.dk>
 
-The ADV7511_REG_CEC_CTRL = 0xE2 register is part of the main register
-map - not the CEC register map. As such, we shouldn't apply an offset to
-the register address. Doing so will cause us to address a bogus register
-for chips with a CEC register map offset (e.g. ADV7533).
+cec_unregister_adapter() assumes that the underlying adapter ops are
+callable. For example, if the CEC adapter currently has a valid physical
+address, then the unregistration procedure will invalidate the physical
+address by setting it to f.f.f.f. Whence the following kernel oops
+observed after removing the adv7511 module:
+
+    Unable to handle kernel execution of user memory at virtual address 0000000000000000
+    Internal error: Oops: 86000004 [#1] PREEMPT_RT SMP
+    Call trace:
+     0x0
+     adv7511_cec_adap_log_addr+0x1ac/0x1c8 [adv7511]
+     cec_adap_unconfigure+0x44/0x90 [cec]
+     __cec_s_phys_addr.part.0+0x68/0x230 [cec]
+     __cec_s_phys_addr+0x40/0x50 [cec]
+     cec_unregister_adapter+0xb4/0x118 [cec]
+     adv7511_remove+0x60/0x90 [adv7511]
+     i2c_device_remove+0x34/0xe0
+     device_release_driver_internal+0x114/0x1f0
+     driver_detach+0x54/0xe0
+     bus_remove_driver+0x60/0xd8
+     driver_unregister+0x34/0x60
+     i2c_del_driver+0x2c/0x68
+     adv7511_exit+0x1c/0x67c [adv7511]
+     __arm64_sys_delete_module+0x154/0x288
+     invoke_syscall+0x48/0x100
+     el0_svc_common.constprop.0+0x48/0xe8
+     do_el0_svc+0x28/0x88
+     el0_svc+0x1c/0x50
+     el0t_64_sync_handler+0xa8/0xb0
+     el0t_64_sync+0x15c/0x160
+    Code: bad PC value
+    ---[ end trace 0000000000000000 ]---
+
+Protect against this scenario by unregistering i2c_cec after
+unregistering the CEC adapter. Duly disable the CEC clock afterwards
+too.
 
 Fixes: 3b1b975003e4 ("drm: adv7511/33: add HDMI CEC support")
 Signed-off-by: Alvin Šipraga <alsi@bang-olufsen.dk>
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511.h     | 5 +----
- drivers/gpu/drm/bridge/adv7511/adv7511_cec.c | 4 ++--
- 2 files changed, 3 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-index 9e3bb8a8ee40..46ae6c0d9aa5 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-@@ -406,10 +406,7 @@ void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1);
- #else
- static inline int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index 5bb9300040dd..023c0ad132e0 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -1339,9 +1339,6 @@ static int adv7511_remove(struct i2c_client *i2c)
  {
--	unsigned int offset = adv7511->type == ADV7533 ?
--						ADV7533_REG_CEC_OFFSET : 0;
--
--	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL + offset,
-+	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL,
- 		     ADV7511_CEC_CTRL_POWER_DOWN);
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-index 399f625a50c8..6d067fa54bea 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
-@@ -347,7 +347,7 @@ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
- 		goto err_cec_alloc;
- 	}
+ 	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
  
--	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL + offset, 0);
-+	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL, 0);
- 	/* cec soft reset */
- 	regmap_write(adv7511->regmap_cec,
- 		     ADV7511_REG_CEC_SOFT_RESET + offset, 0x01);
-@@ -374,7 +374,7 @@ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
- 	dev_info(dev, "Initializing CEC failed with error %d, disabling CEC\n",
- 		 ret);
- err_cec_parse_dt:
--	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL + offset,
-+	regmap_write(adv7511->regmap, ADV7511_REG_CEC_CTRL,
- 		     ADV7511_CEC_CTRL_POWER_DOWN);
- 	return ret == -EPROBE_DEFER ? ret : 0;
- }
+-	i2c_unregister_device(adv7511->i2c_cec);
+-	clk_disable_unprepare(adv7511->cec_clk);
+-
+ 	adv7511_uninit_regulators(adv7511);
+ 
+ 	drm_bridge_remove(&adv7511->bridge);
+@@ -1349,6 +1346,8 @@ static int adv7511_remove(struct i2c_client *i2c)
+ 	adv7511_audio_exit(adv7511);
+ 
+ 	cec_unregister_adapter(adv7511->cec_adap);
++	i2c_unregister_device(adv7511->i2c_cec);
++	clk_disable_unprepare(adv7511->cec_clk);
+ 
+ 	i2c_unregister_device(adv7511->i2c_packet);
+ 	i2c_unregister_device(adv7511->i2c_edid);
 -- 
 2.36.1
 
