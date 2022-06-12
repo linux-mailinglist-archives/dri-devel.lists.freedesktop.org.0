@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7D6547C6B
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jun 2022 23:21:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8284C547C74
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jun 2022 23:28:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2F2310F250;
-	Sun, 12 Jun 2022 21:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B60110F0AD;
+	Sun, 12 Jun 2022 21:28:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98E0010F80C
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 21:21:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1330910F5D9
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 21:28:13 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72911825;
- Sun, 12 Jun 2022 23:21:44 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E26F825;
+ Sun, 12 Jun 2022 23:28:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1655068904;
- bh=ltDVV/FNzrC9IY/lw+6fQdMuSHJmmwoYyLRASzOYSs8=;
+ s=mail; t=1655069291;
+ bh=wycngWnNii8KVlPbxJ+kxwurGQwoP5WgGiStwYu1zwQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rbpmSsi5y28tyLJ+Zls/lTdm/TvvlymFVLz1bQBc32std4ExoNtt0IyBYkzXMP9b9
- 80s8rV2wtK/SSa6HdPY0iRXdRWIFUSSmwdEF1qahIOsHL5xqdoJEsL3mlldCY0rpp7
- M2PESCRnq01p5sSc74azeG/XRk+aqYZ7p6Qk6Rto=
-Date: Mon, 13 Jun 2022 00:21:37 +0300
+ b=JPTE4RYaFj2+s2MZYMDCiQrV+5tE9gzqS1HjsfrEzt4c33F2HJ3zLDVgIO7z+iLi8
+ XKiQ8e6PcM1lcxKFXXdfxqjrilyzIUYYDEt/ck/9S4tKhwtloLESFhccpOUWZVUqSE
+ l3vH+M/LLiEcLvrz2d0+FTy/cAkRsSirNY3Dn/gM=
+Date: Mon, 13 Jun 2022 00:28:03 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sam Ravnborg <sam@ravnborg.org>
 Subject: Re: [LINUX PATCH 2/2] drm: xlnx: dsi: driver for Xilinx DSI Tx
  subsystem
-Message-ID: <YqZY4QMAkGiFOOWE@pendragon.ideasonboard.com>
+Message-ID: <YqZaY8Jiprc69TQZ@pendragon.ideasonboard.com>
 References: <1652363593-45799-1-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
  <1652363593-45799-3-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
  <Yn47YsSH4fn/wjKN@ravnborg.org>
@@ -56,6 +56,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Sam,
+
+One more comment.
 
 On Fri, May 13, 2022 at 01:05:06PM +0200, Sam Ravnborg wrote:
 > On Thu, May 12, 2022 at 07:23:13PM +0530, Venkateshwar Rao Gannavarapu wrote:
@@ -89,22 +91,36 @@ On Fri, May 13, 2022 at 01:05:06PM +0200, Sam Ravnborg wrote:
 
 [snip]
 
-> > +static inline void xlnx_dsi_writel(void __iomem *base, int offset, u32 val)
-> > +{
-> > +	writel(val, base + offset);
-> > +}
-> > +
-> > +static inline u32 xlnx_dsi_readl(void __iomem *base, int offset)
-> > +{
-> > +	return readl(base + offset);
-> > +}
+> > +static const struct drm_bridge_funcs xlnx_dsi_bridge_funcs = {
+> > +	.mode_set	= xlnx_dsi_bridge_mode_set,
 > 
-> When I see implementations like this I wonder if a regmap would be
-> beneficial?
+> From the documentation of the mode_set operation:
+>  * This is deprecated, do not use!
+>  * New drivers shall set their mode in the
+>  * &drm_bridge_funcs.atomic_enable operation.
+> 
+> Please adjust accordingly.
+> 
+> > +	.atomic_enable	= xlnx_dsi_bridge_enable,
+> > +	.atomic_disable	= xlnx_dsi_bridge_disable,
+> > +	.attach		= xlnx_dsi_bridge_attach,
+> > +	.detach		= xlnx_dsi_bridge_detach,
+> > +};
+> 
+> For a new bridge please implement all the mandatory atomic operations.
+> 
+> You will need at least:
+> 	.atomic_get_output_bus_fmts = xlnx_dsi_bridge_get_output_bus_fmts,
 
-regmap often seems overkill to me when the driver only needs plain
-32-bit mmio read/write, given the overhead it adds at runtime. Is it
-just me ?
+As this DSI encoder will never be the last bridge in the chain (there
+should always be a panel or another bridge afterwards), I think this
+function can be skipped.
+
+> 	.atomic_get_input_bus_fmts = xlnx_dsi_bridge_get_input_bus_fmts,
+> 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> 	.atomic_reset = drm_atomic_helper_bridge_reset,
+> };
 
 [snip]
 
