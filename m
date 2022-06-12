@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA332547A53
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jun 2022 15:22:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E1A547A52
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jun 2022 15:22:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5438B10E32E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C37E10E371;
 	Sun, 12 Jun 2022 13:22:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABBCF10E36C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0117010E36C
  for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 13:22:14 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id B74C68441A;
- Sun, 12 Jun 2022 15:22:12 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 18BDB8441D;
+ Sun, 12 Jun 2022 15:22:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1655040133;
- bh=/uMkAREEyFL5fNhBsokObfv/Ik4lTHRXziN6JFpJnVg=;
+ bh=XGli3u2d7ZpdAcHpT03JTCw0BnJmNRM/hdnwYzPrjLw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=I2/2BEv/kFbSAeOZ8yqAZc12TudI99cdGifFBvWMdiAECF7EE0liwjy87i2nQd9Eo
- gQfTVY+8KQNOH+0ZV5w488kerk46O2m4G1by8Bnj/ZyhgQciFpPdjPsdvf6IlUkFXD
- m5/1wbMYyjR1SnZZ0jvAMiDceVLJMp3yN/Y4dvSkWhLi/Y2YRJ1uxA9e8AUYeKcC8p
- gAsNOaF/BRCLkAWgqiTNdsf41p6SFBfq08pPFC4gWb7iLJ5nEkLciO6E2IIw/eFkBz
- l8YUUQLkq42XSf69lZ/hx8mWuRqPo8DKXbom8orbOiHpShgj/2OAc4rrE5dMDlhQsv
- /ziPd89KJYD+A==
+ b=LBfIa+Qgsc2zUGrgfFTBH45Th3cHtDrF2ZAKT2mbhbG4QEfw9PNi22R23GhSmkOaB
+ 76nnqxWnwqDnkW+RiJp6V+BG4qXdaYKzgK+5yihyVQY6WpR9ZUuDMv7cBdW6C9QBt4
+ f3wSToCAebR2J83LotlytbWjf3cypMeSQ7KMF2UquRnXnbHOFaC8iqI90lsxkBNLW/
+ maZF7v51bOLTRxGKFFsPIDJqd4rh97CUdJe8c07212AcRhCIKadZCgl8tdsQphCCIN
+ bOUZYp5NN2A0kMGdIJdwL5A8lZnRF5u7K4DmSyapbMat1Fe9v+qaOKtDT924EIbpiR
+ ldw39TMnuEcvw==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] drm/bridge: tc358775: Fix drm_of_get_data_lanes_count_ep
- conversion
-Date: Sun, 12 Jun 2022 15:21:51 +0200
-Message-Id: <20220612132152.91052-2-marex@denx.de>
+Subject: [PATCH 3/3] drm/bridge: rcar: Drop unused variables due to
+ drm_of_get_data_lanes_count_ep
+Date: Sun, 12 Jun 2022 15:21:52 +0200
+Message-Id: <20220612132152.91052-3-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220612132152.91052-1-marex@denx.de>
 References: <20220612132152.91052-1-marex@denx.de>
@@ -61,11 +61,11 @@ Cc: Marek Vasut <marex@denx.de>, kernel test robot <lkp@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initialize dsi_lanes to -1, so that in case the endpoint is missing,
-probe would fail as it did before the conversion, instead of depending
-on uninitialized variable and thus undefined behavior.
+The rcar_mipi_dsi_parse_dt() now contains two uninitialized variables
+due to conversion to common drm_of_get_data_lanes_count_ep() helper.
+Drop them.
 
-Fixes: 56426faa1492 ("drm/bridge: tc358775: Convert to drm_of_get_data_lanes_count_ep")
+Fixes: d643daaf1694 ("drm/bridge: rcar: Convert to drm_of_get_data_lanes_count_ep")
 Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>
@@ -76,22 +76,22 @@ Cc: Robert Foss <robert.foss@linaro.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/bridge/tc358775.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-index 5b1fb8e2f9a7d..e5d00a6e7880b 100644
---- a/drivers/gpu/drm/bridge/tc358775.c
-+++ b/drivers/gpu/drm/bridge/tc358775.c
-@@ -529,7 +529,7 @@ static int tc358775_parse_dt(struct device_node *np, struct tc_data *tc)
- 	struct device_node *endpoint;
- 	struct device_node *parent;
- 	struct device_node *remote;
--	int dsi_lanes;
-+	int dsi_lanes = -1;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+index 67dce337098a5..31ed285073e0f 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
++++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+@@ -679,8 +679,6 @@ static const struct mipi_dsi_host_ops rcar_mipi_dsi_host_ops = {
  
- 	/*
- 	 * To get the data-lanes of dsi, we need to access the dsi0_out of port1
+ static int rcar_mipi_dsi_parse_dt(struct rcar_mipi_dsi *dsi)
+ {
+-	struct device_node *ep;
+-	u32 data_lanes[4];
+ 	int ret;
+ 
+ 	ret = drm_of_get_data_lanes_count_ep(dsi->dev->of_node, 1, 0, 1, 4);
 -- 
 2.35.1
 
