@@ -1,63 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B22547AFC
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jun 2022 18:13:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE7D6547C6B
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jun 2022 23:21:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E951112615;
-	Sun, 12 Jun 2022 16:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2F2310F250;
+	Sun, 12 Jun 2022 21:21:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0D411125F4
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 16:13:02 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id k16so4399439wrg.7
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 09:13:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6oCYTzwjrLnxnxwyKEfz2WikcR75QzF1FKToWqyNR9I=;
- b=EhGLCkTkonmCMTQ167DXhA1weWmaXnTSuHbeSYgX94Bbnt8e/zuyEaBLQCXuOeqGwQ
- ljluV5fPNJ4XJuR94rWf/pVYkcKS8/FQCfSNil9UILvam9R84Q1db9f0oeTUhDtWSGYw
- VC+Hm8xmx3gUMWVhqhj3Ewzw92irbBXqKmjG0fjRdyRQN2iU7PfmXb1VpWFK4+a/iABo
- vwLhdBeB0k+F0ISucP0eWTEJnjCvXtZy1rFdBrrM8XlB1N+Uop5m/DCVzyks4qAeAsGC
- b4J30utrAbopEdfxenAjg0KQbPMPI/0bSl9+l4j9P8SZlGBE/4Z7/iFQC9Zum6G4NLXJ
- 5ZlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6oCYTzwjrLnxnxwyKEfz2WikcR75QzF1FKToWqyNR9I=;
- b=8HHsz4kY8LpcPNStH912S90ztrtsrfiU+V8ruH/V8ti/zfflvTTqWLn3wwv5FQpDMy
- mv4s0NgE+NjFiWnUG2U7zTEfiXf4Melg7XYCX+QlB0NW0/ttjpllpfAmuBkrTRlGcwP6
- veG8d1x7mY/bCxyAMtPVACLLpK9nERDYlaie7yMp33aC3QnFyL60c0tfTQLbGWT9/5CJ
- a+ysJwhFGe2/eMC54X27Na3ftrmS6uN/glpj6IE0oASXMlWwatfkt0zKR9XWFncwHgsw
- IHtEBOYhwedw0AxcMRxV6/8QzvBhfVLya0CCKHNkiqSp69YLeq665fK5gV2/tW4T3hov
- VR9A==
-X-Gm-Message-State: AOAM530YUY7qmnakRNeuXbsDrw9uUzy7QXNObqUAWLMUnbN0TLFpyX7r
- XBGLacRPiOduTOFmzJESTVU=
-X-Google-Smtp-Source: ABdhPJz4mnmDUV4NLZknyHhTuGTurRoWbSWWgj8MlotV/lRDkKmaHLhTFIcWx+peDflYV5kyeC4q7w==
-X-Received: by 2002:a05:6000:1849:b0:219:be72:177e with SMTP id
- c9-20020a056000184900b00219be72177emr16450441wri.150.1655050381282; 
- Sun, 12 Jun 2022 09:13:01 -0700 (PDT)
-Received: from localhost.localdomain ([94.73.36.128])
- by smtp.gmail.com with ESMTPSA id
- y8-20020a5d6208000000b0020d0f111241sm6015925wru.24.2022.06.12.09.13.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Jun 2022 09:13:00 -0700 (PDT)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: javierm@redhat.com
-Subject: [PATCH v2 3/3] drm/doc: Add KUnit documentation
-Date: Sun, 12 Jun 2022 18:12:48 +0200
-Message-Id: <20220612161248.271590-4-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220612161248.271590-1-jose.exposito89@gmail.com>
-References: <20220612161248.271590-1-jose.exposito89@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E0010F80C
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 21:21:46 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72911825;
+ Sun, 12 Jun 2022 23:21:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1655068904;
+ bh=ltDVV/FNzrC9IY/lw+6fQdMuSHJmmwoYyLRASzOYSs8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rbpmSsi5y28tyLJ+Zls/lTdm/TvvlymFVLz1bQBc32std4ExoNtt0IyBYkzXMP9b9
+ 80s8rV2wtK/SSa6HdPY0iRXdRWIFUSSmwdEF1qahIOsHL5xqdoJEsL3mlldCY0rpp7
+ M2PESCRnq01p5sSc74azeG/XRk+aqYZ7p6Qk6Rto=
+Date: Mon, 13 Jun 2022 00:21:37 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [LINUX PATCH 2/2] drm: xlnx: dsi: driver for Xilinx DSI Tx
+ subsystem
+Message-ID: <YqZY4QMAkGiFOOWE@pendragon.ideasonboard.com>
+References: <1652363593-45799-1-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
+ <1652363593-45799-3-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
+ <Yn47YsSH4fn/wjKN@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Yn47YsSH4fn/wjKN@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,70 +49,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: davidgow@google.com, Maxime Ripard <maxime@cerno.tech>, airlied@linux.ie,
- dlatypov@google.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- kunit-dev@googlegroups.com
+Cc: airlied@linux.ie, vgannava@xilinx.com,
+ Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Explain how to run the KUnit tests present in the DRM subsystem and
-clarify why the UML-only options were not added to the configuration
-file present in drivers/gpu/drm/.kunitconfig [1] [2].
+Hi Sam,
 
-[1] https://lore.kernel.org/dri-devel/CABVgOSn8i=LO5p7830h2XU1Jgg0KrN0qTnxkOMhf1oTgxjaKKw@mail.gmail.com/
-[2] https://lore.kernel.org/dri-devel/CAGS_qxqpiCim_sy1LDK7PLwVgWf-LKW+uNFTGM=T7ydk-dYcEw@mail.gmail.com/
+On Fri, May 13, 2022 at 01:05:06PM +0200, Sam Ravnborg wrote:
+> On Thu, May 12, 2022 at 07:23:13PM +0530, Venkateshwar Rao Gannavarapu wrote:
+> > The Xilinx MIPI DSI Tx Subsystem soft IP is used to display video
+> > data from AXI-4 stream interface.
+> > 
+> > It supports upto 4 lanes, optional register interface for the DPHY
+> > and multiple RGB color formats.
+> > This is a MIPI-DSI host driver and provides DSI bus for panels.
+> > This driver also helps to communicate with its panel using panel
+> > framework.
+> 
+> Thanks for submitting this driver. I have added a few comments in the
+> following that I hope you will find useful to improve the driver.
+> 
+> > Signed-off-by: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
+> > ---
+> >  drivers/gpu/drm/xlnx/Kconfig    |  14 ++
+> >  drivers/gpu/drm/xlnx/Makefile   |   1 +
+> >  drivers/gpu/drm/xlnx/xlnx_dsi.c | 456 ++++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 471 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/xlnx/xlnx_dsi.c
 
-Reviewed-by: Maxime Ripard <maxime@cerno.tech>
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- Documentation/gpu/drm-internals.rst | 32 +++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+[snip]
 
-diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
-index 38afed24a75c..f1d97e80ca29 100644
---- a/Documentation/gpu/drm-internals.rst
-+++ b/Documentation/gpu/drm-internals.rst
-@@ -207,6 +207,38 @@ Utilities
-    :internal:
- 
- 
-+Unit testing
-+============
-+
-+KUnit
-+-----
-+
-+KUnit (Kernel unit testing framework) provides a common framework for unit tests
-+within the Linux kernel.
-+
-+This section covers the specifics for the DRM subsystem. For general information
-+about KUnit, please refer to Documentation/dev-tools/kunit/start.rst.
-+
-+How to run the tests?
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+In order to facilitate running the test suite, a configuration file is present
-+in ``drivers/gpu/drm/kunit/.kunitconfig``. It can be used by ``kunit.py`` as
-+follows:
-+
-+.. code-block:: bash
-+
-+	$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/kunit \
-+		--kconfig_add CONFIG_VIRTIO_UML=y \
-+		--kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
-+
-+.. note::
-+	The configuration included in ``.kunitconfig`` should be as generic as
-+	possible.
-+	``CONFIG_VIRTIO_UML`` and ``CONFIG_UML_PCI_OVER_VIRTIO`` are not
-+	included in it because they are only required for User Mode Linux.
-+
-+
- Legacy Support Code
- ===================
- 
+> > diff --git a/drivers/gpu/drm/xlnx/xlnx_dsi.c b/drivers/gpu/drm/xlnx/xlnx_dsi.c
+> > new file mode 100644
+> > index 0000000..a5291f3
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/xlnx/xlnx_dsi.c
+
+[snip]
+
+> > +static inline void xlnx_dsi_writel(void __iomem *base, int offset, u32 val)
+> > +{
+> > +	writel(val, base + offset);
+> > +}
+> > +
+> > +static inline u32 xlnx_dsi_readl(void __iomem *base, int offset)
+> > +{
+> > +	return readl(base + offset);
+> > +}
+> 
+> When I see implementations like this I wonder if a regmap would be
+> beneficial?
+
+regmap often seems overkill to me when the driver only needs plain
+32-bit mmio read/write, given the overhead it adds at runtime. Is it
+just me ?
+
+[snip]
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
