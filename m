@@ -2,50 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843BA5479C7
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jun 2022 12:37:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4975479DC
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jun 2022 13:02:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77BBC112655;
-	Sun, 12 Jun 2022 10:37:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C896910F980;
+	Sun, 12 Jun 2022 11:02:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C7BB112655
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 10:37:27 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id B91EF84414;
- Sun, 12 Jun 2022 12:37:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1655030246;
- bh=uanTPSGGFuVl2Va6yoXCyLMLlQ0kr7s3D/vz42vdEFY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lzru7bwSEALlX1Tu8LZPs+PxNxDC38ESICAQ73Un1A67o8ruMJbnuV3xg41yv6yvb
- 91pDx/FnS1ykyRDm+ijVHlxYmvBm9rD0SaCfhF5GMkRfnzXGNx9ugp003y2GkI7Hs5
- bX+6lN0G2+M4eP7/G6HFzt8CZWbk5GnFoXd6fv/FdVcxfBeW9AUTo/Vq3hNFstcDXZ
- les16vQMWueuiA9oxwvv91WswkJ+4MPJPx4vfzguYjcT0eXgDwldNLRMDoKZjd67yV
- 3QHMsgiOM661OjDpHT6rkQZa35VCEQCu8iKP1hInHV+Kfayici9251TWYbCIkfK0hf
- mezKpXj8zKKDA==
-Message-ID: <9a1bfd31-8dd6-ff79-96a1-81c935fb35a3@denx.de>
-Date: Sun, 12 Jun 2022 12:37:24 +0200
+Received: from mail2-relais-roc.national.inria.fr
+ (mail2-relais-roc.national.inria.fr [192.134.164.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A70CA10F980
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 11:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=JUYU3aqCoEdG9jehlyG1aKnpn6Chafc4XXOZBNqZ6PY=;
+ b=rXJHR/72ezrn2anPILZY3SDPdlDExwLi4v3xr8XkrFNo0+Q1t4vB8Kjy
+ X0fXYiC45xQpp1cBtInVsyTbSTeUaAEMcfQbo8BMFIl42CRBORtm+c5yc
+ fyToCdU6bRPcEQ4NR5XBDCylh/KDdFKUiHM9QdgG48CsnlSv3PrmFNosj k=;
+Authentication-Results: mail2-relais-roc.national.inria.fr;
+ dkim=none (message not signed) header.i=none;
+ spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr;
+ dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.91,294,1647298800"; d="scan'208";a="40585989"
+Received: from 245.122.68.85.rev.sfr.net (HELO hadrien) ([85.68.122.245])
+ by mail2-relais-roc.national.inria.fr with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2022 13:02:32 +0200
+Date: Sun, 12 Jun 2022 13:02:31 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH] drm: fix device_node_continue.cocci warnings (fwd)
+Message-ID: <alpine.DEB.2.22.394.2206121300120.3447@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 08/11] drm/bridge: ti-sn65dsi83: Convert to
- drm_of_get_data_lanes_count
-Content-Language: en-US
-To: dri-devel@lists.freedesktop.org
-References: <20220524010522.528569-1-marex@denx.de>
- <20220524010522.528569-8-marex@denx.de>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20220524010522.528569-8-marex@denx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,19 +48,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- robert.foss@linaro.org, Maxime Ripard <maxime@cerno.tech>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: kbuild-all@lists.01.org, lkp@intel.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/24/22 03:05, Marek Vasut wrote:
-> Convert driver to use this new helper to standardize
-> OF "data-lanes" parsing.
+The of_node_put does not seem to be needed.  Note that there is none at
+the preceeding continues.
 
-Applied all to drm-misc-next except for this particular patch, which 
-depends on yet unreviewed deduplication patch. Both remaining patches 
-are resubmitted:
+julia
 
-https://patchwork.freedesktop.org/patch/489197/
-https://patchwork.freedesktop.org/patch/489198/
+---------- Forwarded message ----------
+Date: Sat, 11 Jun 2022 06:02:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: kbuild@lists.01.org
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@lip6.fr>
+Subject: [PATCH] drm: fix device_node_continue.cocci warnings
+
+CC: kbuild-all@lists.01.org
+BCC: lkp@intel.com
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+CC: Maxime Ripard <mripard@kernel.org>
+CC: David Airlie <airlied@linux.ie>
+CC: Daniel Vetter <daniel@ffwll.ch>
+CC: dri-devel@lists.freedesktop.org
+CC: linux-kernel@vger.kernel.org
+
+From: kernel test robot <lkp@intel.com>
+
+drivers/gpu/drm/logicvc/logicvc_layer.c:616:2-13: ERROR: probable double put.
+
+ Device node iterators put the previous value of the index variable, so an
+ explicit put causes a double put.
+
+Generated by: scripts/coccinelle/iterators/device_node_continue.cocci
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: kernel test robot <lkp@intel.com>
+---
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6d0c806803170f120f8cb97b321de7bd89d3a791
+commit: efeeaefe9be56e8ae5e5b4e9ff6d2275ec977ec5 [2027/2566] drm: Add support for the LogiCVC display controller
+:::::: branch date: 17 hours ago
+:::::: commit date: 31 hours ago
+
+Please take the patch only if it's a positive warning. Thanks!
+
+ drivers/gpu/drm/logicvc/logicvc_layer.c |    2 --
+ 1 file changed, 2 deletions(-)
+
+--- a/drivers/gpu/drm/logicvc/logicvc_layer.c
++++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
+@@ -612,8 +612,6 @@ int logicvc_layers_init(struct logicvc_d
+ 		ret = logicvc_layer_init(logicvc, layer_node, index);
+ 		if (ret)
+ 			goto error;
+-
+-		of_node_put(layer_node);
+ 	}
+
+ 	of_node_put(layers_node);
