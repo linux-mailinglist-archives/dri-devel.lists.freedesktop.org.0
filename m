@@ -1,43 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EC05479C2
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jun 2022 12:30:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 843BA5479C7
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jun 2022 12:37:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5472D11261C;
-	Sun, 12 Jun 2022 10:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77BBC112655;
+	Sun, 12 Jun 2022 10:37:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A8AB11261C
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 10:30:00 +0000 (UTC)
-Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C7BB112655
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 10:37:27 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id AFF2684417;
- Sun, 12 Jun 2022 12:29:58 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id B91EF84414;
+ Sun, 12 Jun 2022 12:37:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1655029798;
- bh=IK1K/EmRwoUDiuAklTN3grTgImkKSSOXJrCn5XdBL1M=;
- h=From:To:Cc:Subject:Date:From;
- b=L70rLrQMiHJaHYRtXDJlt5iC4z3jY3719EtSZfkGGjdMtO98e94dlfZkHt4OVtNTY
- sbYAgCCwi2HMCVbp4Q4tvOAF+hUE9IZw9WrLJI9pgJ/bpdqB6FmBltUMo5BXkUsZmE
- 8CV7ORyJDYuvq6IYAY9FguzKwJNCcMsx/il9hfTRwFpa9Y+msIqdmKFD1tivL4D71p
- A84PMxma/5QRFHNgmlenWI/ijGTa05Dpj6iiKv4GXa1O5g5+BN+7+L9/PhbBdp9mz6
- VERfjc4ZplnGUJF9RPUQbKpeYMK7JbkagL88NSq3EOP9pgAGtvFOVnswpDv+aNG7xL
- 2YSPdWiEu87uQ==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/bridge: ti-sn65dsi83: Convert to
- drm_of_get_data_lanes_count
-Date: Sun, 12 Jun 2022 12:29:47 +0200
-Message-Id: <20220612102947.13912-1-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
+ s=phobos-20191101; t=1655030246;
+ bh=uanTPSGGFuVl2Va6yoXCyLMLlQ0kr7s3D/vz42vdEFY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lzru7bwSEALlX1Tu8LZPs+PxNxDC38ESICAQ73Un1A67o8ruMJbnuV3xg41yv6yvb
+ 91pDx/FnS1ykyRDm+ijVHlxYmvBm9rD0SaCfhF5GMkRfnzXGNx9ugp003y2GkI7Hs5
+ bX+6lN0G2+M4eP7/G6HFzt8CZWbk5GnFoXd6fv/FdVcxfBeW9AUTo/Vq3hNFstcDXZ
+ les16vQMWueuiA9oxwvv91WswkJ+4MPJPx4vfzguYjcT0eXgDwldNLRMDoKZjd67yV
+ 3QHMsgiOM661OjDpHT6rkQZa35VCEQCu8iKP1hInHV+Kfayici9251TWYbCIkfK0hf
+ mezKpXj8zKKDA==
+Message-ID: <9a1bfd31-8dd6-ff79-96a1-81c935fb35a3@denx.de>
+Date: Sun, 12 Jun 2022 12:37:24 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 08/11] drm/bridge: ti-sn65dsi83: Convert to
+ drm_of_get_data_lanes_count
+Content-Language: en-US
+To: dri-devel@lists.freedesktop.org
+References: <20220524010522.528569-1-marex@denx.de>
+ <20220524010522.528569-8-marex@denx.de>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20220524010522.528569-8-marex@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
 X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,46 +58,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, robert.foss@linaro.org,
- Maxime Ripard <maxime@cerno.tech>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ robert.foss@linaro.org, Maxime Ripard <maxime@cerno.tech>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert driver to use this new helper to standardize
-OF "data-lanes" parsing.
+On 5/24/22 03:05, Marek Vasut wrote:
+> Convert driver to use this new helper to standardize
+> OF "data-lanes" parsing.
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org
----
-V2: - Rename drm_of_get_data_lanes{,_ep} to drm_of_get_data_lanes_count{,_ep}
-    - Add RB from Andrzej
-V3: - Rebase on latest next
----
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied all to drm-misc-next except for this particular patch, which 
+depends on yet unreviewed deduplication patch. Both remaining patches 
+are resubmitted:
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 8bf99b32776e2..b27c0d7c451ad 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -620,7 +620,7 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
- 	int dsi_lanes, ret;
- 
- 	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, -1);
--	dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-+	dsi_lanes = drm_of_get_data_lanes_count(endpoint, 1, 4);
- 	host_node = of_graph_get_remote_port_parent(endpoint);
- 	host = of_find_mipi_dsi_host_by_node(host_node);
- 	of_node_put(host_node);
--- 
-2.35.1
-
+https://patchwork.freedesktop.org/patch/489197/
+https://patchwork.freedesktop.org/patch/489198/
