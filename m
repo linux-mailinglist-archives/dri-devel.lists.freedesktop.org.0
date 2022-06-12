@@ -2,46 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E1A547A52
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jun 2022 15:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66496547A62
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jun 2022 15:39:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C37E10E371;
-	Sun, 12 Jun 2022 13:22:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 821AF10E3A3;
+	Sun, 12 Jun 2022 13:39:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0117010E36C
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 13:22:14 +0000 (UTC)
-Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 18BDB8441D;
- Sun, 12 Jun 2022 15:22:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1655040133;
- bh=XGli3u2d7ZpdAcHpT03JTCw0BnJmNRM/hdnwYzPrjLw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LBfIa+Qgsc2zUGrgfFTBH45Th3cHtDrF2ZAKT2mbhbG4QEfw9PNi22R23GhSmkOaB
- 76nnqxWnwqDnkW+RiJp6V+BG4qXdaYKzgK+5yihyVQY6WpR9ZUuDMv7cBdW6C9QBt4
- f3wSToCAebR2J83LotlytbWjf3cypMeSQ7KMF2UquRnXnbHOFaC8iqI90lsxkBNLW/
- maZF7v51bOLTRxGKFFsPIDJqd4rh97CUdJe8c07212AcRhCIKadZCgl8tdsQphCCIN
- bOUZYp5NN2A0kMGdIJdwL5A8lZnRF5u7K4DmSyapbMat1Fe9v+qaOKtDT924EIbpiR
- ldw39TMnuEcvw==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/bridge: rcar: Drop unused variables due to
- drm_of_get_data_lanes_count_ep
-Date: Sun, 12 Jun 2022 15:21:52 +0200
-Message-Id: <20220612132152.91052-3-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220612132152.91052-1-marex@denx.de>
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18E4610E3A3
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 13:39:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=eAJJGHIbdHkWSaDmIQWC3bS7RO5oK3AFRovh0PE9eng=;
+ b=kLudzk1Gb/xZVB7ssF4sr/L+LJzy2bYDE46CG0yVRNZh7p6G6Xs3lAJlUfYJ/vG8OyrOsP5BTHAii
+ Vli5MWG9yGaMJu7yzakodq8dDhplHCFuMXza+74dgwCqrnz33IojAzHBf961rmlSd5C2rkBoyNSQkQ
+ 1caXJjfUGJIIifitGuZER1NVlN08KyY4fnao9ZT5MOeatWKD2Fmq6odD5eJgyDlLGM9iREzgdhMqwQ
+ eptQzt5BTq/uO4kUf6Zn9uEOKekbMLgl82mRjWTJMHW4INqAqb3mNq+Bs8OVIL8a13AMqPhxVLMJcD
+ Ze/IGby2TUKS93/L4Jt5yFs/TBDu2aA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=eAJJGHIbdHkWSaDmIQWC3bS7RO5oK3AFRovh0PE9eng=;
+ b=l1VJcPipoMr1WWa6mB6d35E2+PSMsFfvRSg4Dm35vQIPgcJ5SV1vTaji0d7xFrzWl0xdYdERB5ac+
+ eT9qpfdCA==
+X-HalOne-Cookie: df97afa6bf7bf79992ef46d629351bb85d6b2494
+X-HalOne-ID: 157a32e2-ea55-11ec-8231-d0431ea8bb10
+Received: from mailproxy4.cst.dirpod4-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 157a32e2-ea55-11ec-8231-d0431ea8bb10;
+ Sun, 12 Jun 2022 13:39:29 +0000 (UTC)
+Date: Sun, 12 Jun 2022 15:39:28 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 1/3] drm: of: Mark empty drm_of_get_data_lanes_count and
+ drm_of_get_data_lanes_ep static
+Message-ID: <YqXskO48hvlqp++c@ravnborg.org>
 References: <20220612132152.91052-1-marex@denx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220612132152.91052-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,44 +59,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, kernel test robot <lkp@intel.com>,
- Maxime Ripard <maxime@cerno.tech>, robert.foss@linaro.org,
+Cc: kernel test robot <lkp@intel.com>, Maxime Ripard <maxime@cerno.tech>,
+ dri-devel@lists.freedesktop.org, robert.foss@linaro.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The rcar_mipi_dsi_parse_dt() now contains two uninitialized variables
-due to conversion to common drm_of_get_data_lanes_count_ep() helper.
-Drop them.
-
-Fixes: d643daaf1694 ("drm/bridge: rcar: Convert to drm_of_get_data_lanes_count_ep")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-index 67dce337098a5..31ed285073e0f 100644
---- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
-@@ -679,8 +679,6 @@ static const struct mipi_dsi_host_ops rcar_mipi_dsi_host_ops = {
- 
- static int rcar_mipi_dsi_parse_dt(struct rcar_mipi_dsi *dsi)
- {
--	struct device_node *ep;
--	u32 data_lanes[4];
- 	int ret;
- 
- 	ret = drm_of_get_data_lanes_count_ep(dsi->dev->of_node, 1, 0, 1, 4);
--- 
-2.35.1
-
+On Sun, Jun 12, 2022 at 03:21:50PM +0200, Marek Vasut wrote:
+> Mark empty implementations of drm_of_get_data_lanes_count and
+> drm_of_get_data_lanes_ep as static inline, just like the rest
+> of empty implementations of various functions in drm_of.h .
+> Add missing comma to drm_of_get_data_lanes_count_ep() .
+> 
+> Fixes: fc801750b197 ("drm: of: Add drm_of_get_data_lanes_count and drm_of_get_data_lanes_ep")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> To: dri-devel@lists.freedesktop.org
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
