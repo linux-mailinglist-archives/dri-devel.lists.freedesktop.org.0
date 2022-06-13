@@ -1,71 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC611549E9C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 22:10:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E725549EAA
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 22:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5D2610F7DA;
-	Mon, 13 Jun 2022 20:10:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A66BF10F822;
+	Mon, 13 Jun 2022 20:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D3E610F7E5
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 20:10:08 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id b142so4901125qkg.2
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 13:10:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :content-transfer-encoding:user-agent:mime-version;
- bh=v7I9W+KWz8qCcwRO9hK+FauPyteN/yVzDhLqH8wmqRU=;
- b=qUfbsn7KlSJMoOLXI6w6yy7TrJ1t3GV0eaUVEpVlSmhhSGPrIysNUeydu8ibydKY2p
- 1zMc9WXdAnvTmzm/lrM27CFeS6jhwcwhiZx2Ch+XXMkguFXByWQ1/3m9I+9pp8etU2CF
- wrkQRVC0U5MG0ta45bpCFNsfYcLbmavJSAPP3NEu/pDmPwFapsEotpifbzYcKQ5wkiL4
- dAYl9wue9Te1yAbLZJE0fxDNbbZKuu1H0mwbDD3ztzuhlxwL2jF0RXF9WlqjiHKqlmm8
- +eZ7tSpup8IssWLJOtSXTNAsUlDpf5nuAlDTqiciGANTlc+VgbcwYDZbXTeCqb3jVEOo
- vXRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:content-transfer-encoding:user-agent:mime-version;
- bh=v7I9W+KWz8qCcwRO9hK+FauPyteN/yVzDhLqH8wmqRU=;
- b=whI7MnJdRlkMGRkxr0w8ztwRChZT1CL6FaRfx5OZrXkRZcyR3AnvblTWFy9xsbOTRS
- 7s914juMIG5veDVPc9bHBTmoKR5NGdkpOAul9540jtyk0/Uk5Yn8Mv1y7oiWWCZOsMhM
- /FhnCkS5ap7rYRKjwzxsbwxZP5KtURFzjg/xAvD63C1Vu/eysdMnUZqZ3YdmXC/rTO+T
- +MdAV1HhD2Nrli9JDz8GLFopzGI2K2bLOSQb57QEBKGhQF4ToJHk4l+d+Tq5/VQKrp7n
- g1FOQ3/wdyJIpRP7nB+T5ifMevdUHvUOqD725Q9C4XZdT+fu1SQdxhnQwpWhGzm7Icoq
- 33vg==
-X-Gm-Message-State: AOAM532k7Nz95rTN00YaD6/GSJ7uwvpUKGSINwG6rIMCdLsyIe+t+vM1
- DYnlLU48SShe+0s7j0DyrpoW8A==
-X-Google-Smtp-Source: ABdhPJypEb0jxGKtk5VfHQekdsoaNysCZ3OatxB9gwkAI+QgXupZeQPtmwZAmNKNz+Dgb1z5OMMIwQ==
-X-Received: by 2002:a05:620a:4e9:b0:6a7:8357:303d with SMTP id
- b9-20020a05620a04e900b006a78357303dmr1407957qkh.105.1655151007308; 
- Mon, 13 Jun 2022 13:10:07 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net.
- [192.222.136.102]) by smtp.gmail.com with ESMTPSA id
- r13-20020a05620a298d00b006a6d60a39d0sm8268202qkp.5.2022.06.13.13.10.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 13:10:06 -0700 (PDT)
-Message-ID: <edbb4605c9e30329d2f5a4ff738571acb6b91f1f.camel@ndufresne.ca>
-Subject: Re: [PATCH v4, 0/3] add h264 decoder driver for mt8186
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, Tiffany Lin
- <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Tomasz
- Figa <tfiga@google.com>
-Date: Mon, 13 Jun 2022 16:10:05 -0400
-In-Reply-To: <20220512034620.30500-1-yunfei.dong@mediatek.com>
-References: <20220512034620.30500-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.1 (3.44.1-1.fc36) 
+Received: from desiato.infradead.org (desiato.infradead.org
+ [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5D4E10F820
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 20:14:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+ :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=CF9UJrdeWimgjo6b+3sLXnRZ+YKpG34Hd87mZaFsWOQ=; b=c7khjL9wMhgkexLmyAP5JznkUn
+ VxdBdmEKdzpLyXSV9VSwQobUMXr98PHFoytDWiQ3HIhBlu694lInFw+iOU7AnJf/nW+gz5S9kJ11G
+ SCoCRG5b1TjhHYBX4qaK92eN62Kt76eunJAA/aEgAf11AkTBq1iM/rhvPErEdPacMTQVFH70dhvb4
+ vlrHgpxrZYLBjXB9VHFcUeLsq640SfT4uzfotwf+a9hfdMe0MvLN0qnEEzsqT9SLr/PpswCycaTIA
+ r/Ujr7d4yuDkHzfFA9xKaomERUPE1mbxc9qUI9TWS/YLPX3BX+X3TDWnUnQ4BbxeUICwJXWQ9RVC2
+ fe3jX5OQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+ by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1o0qS4-007f8t-8C; Mon, 13 Jun 2022 20:14:23 +0000
+Message-ID: <4aef2e48-9717-1aca-b716-5f9486bf320e@infradead.org>
+Date: Mon, 13 Jun 2022 13:14:11 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 08/15] mfd: mt6370: Add Mediatek MT6370 support
+Content-Language: en-US
+To: ChiaEn Wu <peterwu.pub@gmail.com>, jic23@kernel.org, lars@metafoo.de,
+ matthias.bgg@gmail.com, lee.jones@linaro.org, daniel.thompson@linaro.org,
+ jingoohan1@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
+References: <20220613111146.25221-1-peterwu.pub@gmail.com>
+ <20220613111146.25221-9-peterwu.pub@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220613111146.25221-9-peterwu.pub@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,55 +55,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ szunichen@gmail.com, linux-pm@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, ChiYuan Huang <cy_huang@richtek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le jeudi 12 mai 2022 =C3=A0 11:46 +0800, Yunfei Dong a =C3=A9crit=C2=A0:
-> Firstly, add mt8186 compatible and private data, then add document for
-> compatible "mediatek,mt8186-vcodec-dec". For mt8186 is single core
-> architecture, need to add new interface for h264 hardware decoder.
 
-Would be nice to take the habit of sharing fluster score for this new HW, I
-would expect no less then what the numbers you'd get from running over MT81=
-95 or
-92, remains nice to demonstrate that this was tested and document any oops =
-along
-the way.
->=20
-> Patche 1 add mt8186 compatible and private data.
-> Patche 2 add mt8186 compatible document.
-> Patche 3 add h264 single core driver.
-> ---
-> This patch depends on "support for MT8192 decoder"[1]
->=20
-> [1]  https://patchwork.kernel.org/project/linux-mediatek/cover/2022051202=
-1950.29087-1-yunfei.dong@mediatek.com/
-> ---
-> changed with v3:
-> - fix __iomem not reasonable, align share memory to dram.
-> changed with v2:
-> - fix sparse and smatch check fail for patch 3
-> changed with v1:
-> - rebase driver to the latest media_stage.
-> ---
-> Yunfei Dong (3):
->   dt-bindings: media: mediatek: vcodec: Adds decoder dt-bindings for
->     mt8186
->   media: mediatek: vcodec: Support MT8186
->   media: mediatek: vcodec: add h264 decoder driver for mt8186
->=20
->  .../media/mediatek,vcodec-subdev-decoder.yaml |   4 +-
->  .../platform/mediatek/vcodec/mtk_vcodec_dec.h |   1 +
->  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |   4 +
->  .../vcodec/mtk_vcodec_dec_stateless.c         |  19 ++
->  .../vcodec/vdec/vdec_h264_req_multi_if.c      | 177 +++++++++++++++++-
->  5 files changed, 203 insertions(+), 2 deletions(-)
->=20
 
+On 6/13/22 04:11, ChiaEn Wu wrote:
+> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> index 3b59456f5545..d9a7524a3e0e 100644
+> --- a/drivers/mfd/Kconfig
+> +++ b/drivers/mfd/Kconfig
+> @@ -937,6 +937,19 @@ config MFD_MT6360
+>  	  PMIC part includes 2-channel BUCKs and 2-channel LDOs
+>  	  LDO part includes 4-channel LDOs
+>  
+> +config MFD_MT6370
+> +	tristate "Mediatek MT6370 SubPMIC"
+> +	select MFD_CORE
+> +	select REGMAP_I2C
+> +	select REGMAP_IRQ
+> +	depends on I2C
+> +	help
+> +	  Say Y here to enable MT6370 SubPMIC functional support.
+> +	  It integrate single cell battery charger with adc monitoring, RGB
+
+	     integrates                                 ADC  (?)
+
+> +	  LEDs, dual channel flashlight, WLED backlight driver, display bias
+> +	  voltage supply, one general purpose LDO, and cc logic
+
+	                                               CC   (?)
+What is CC?
+
+> +	  controller with USBPD commmunication capable.
+
+	                                       capability.
+
+-- 
+~Randy
