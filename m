@@ -1,63 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22345499A5
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 19:17:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E84A5499AC
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 19:19:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2424810E58C;
-	Mon, 13 Jun 2022 17:17:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6067710E659;
+	Mon, 13 Jun 2022 17:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B95510E58C
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:17:51 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id o16so7984218wra.4
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 10:17:51 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B01C110E659
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:19:55 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id x17so7982257wrg.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 10:19:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6oCYTzwjrLnxnxwyKEfz2WikcR75QzF1FKToWqyNR9I=;
- b=F51NTLAyPWUJmIcreJGh+nbImazQe30mXy0M1R9WGuNAFL7yNxovOd0I4dYt9TkOYq
- /oWo/kycfvrF+HhazbbB+32J5kUXFxWTWp/vY4D+6IQnS9UxELCYAXpL0uCnmEooiYw/
- RCtD58rL8tsaqMP5UfwZUdlFSlRaB9l24wQpgSQ+Xd+tUM1XqhqgqJeaSqNNshdgc4Ew
- m+HeNbiKr42hrb2k0Oq0nOUcg8m1PZxxM1h5MHZym3iDUnG+K86b3vq7GltcAY4VNmaN
- 6KonpQUB3bGRBVD64qQb6DeuxfGJiRDnatmTER/KaMJDN699w5hJ13owDQtQ7QpBqLQU
- Iazg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=v9wOSbkkFgoouudCT5M9ut11ttnj6LGZRsAbuaQUW4w=;
+ b=AhRXQM/ukGy67WqPvSWEdkzh2PE+yy+GSFhlwgy+rjdEcBQcH5eTH7wmfvOFQZ2+2g
+ S2NoTKCqKPCjaIsxjCSDZKihElHpfrXopMf0Gvr1nWl6qFzmc4Rc9R/OCX8XXiAnZ3z2
+ 3mMZ1tYsDbkbr+HujclIPj1SogBHfm7NDSF8qEzfkoEuxVDqnMvotCfqtMgGcOLnrt0C
+ FNZiHc/RrEuV5NC0Wjh+Ib++wXt99f9T+4ntJIv7vi99j0/qXrAejs2G2swfZ3NBBBeS
+ i7Xxq0fQR9Et8WY8Hl5XgxQuIs4n+t1h9QP85QyB0kf3CHBK1OLwHHO8Ifsq88iyH651
+ YxAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6oCYTzwjrLnxnxwyKEfz2WikcR75QzF1FKToWqyNR9I=;
- b=BxRZtJQiIb4nUucTWmA9f6ThMlPV4ze0Bamz6PKv1kgrT/FHJFuV6HKSzTKrua22S2
- g3g5JtLz7IXgSsMlCWOh2GqRClpSroT6iGdxFV/HD1xQ6yUq9V5SbAXemVuw45lSDAeB
- E6OKyw9ozeWGQeqIxoycfxwovL/RuJB/Oz6uwRS0ZaAq7SJUKlUaWIdkY06ZsM9DxIVT
- cDMRTxwNbvs/DoBaBmHi7JhyRRZvBDlB2NaNzPgA74cV9Ua0LByHk7LFOVG4Htee/xQF
- KpOUQkDZaGC+TGplRl02ssTe/8IzXMSNiZLUx1UWKllCxT4wnzyDTHTboJx+HLDFEgZh
- 3ODQ==
-X-Gm-Message-State: AJIora/dKi4tiy1+3XTzy/5Stnf87TJ4D7QiJdA911itllnIRBCtmfTQ
- T0E3hEy3sVXMNrfG3c5Z48Q=
-X-Google-Smtp-Source: AGRyM1ukqjdWNtJpNtXwbhf0Bf6agIHIexrRYS1P411Ex0OXC4BusGashejJsEd+0rc1FkF98C2bfg==
-X-Received: by 2002:adf:f610:0:b0:213:b4e1:7276 with SMTP id
- t16-20020adff610000000b00213b4e17276mr808828wrp.712.1655140669679; 
- Mon, 13 Jun 2022 10:17:49 -0700 (PDT)
-Received: from localhost.localdomain ([94.73.36.128])
- by smtp.gmail.com with ESMTPSA id
- a10-20020a056000100a00b0020d106c0386sm9016129wrx.89.2022.06.13.10.17.48
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=v9wOSbkkFgoouudCT5M9ut11ttnj6LGZRsAbuaQUW4w=;
+ b=Ltz3Ffm3/gIi3yeZ/Z7MbmCSOwiYAqUJhPJGDN9EowSx+Prj97bGv8f2HDLVjrSbHI
+ ss5ZDo7nDgexd0gMuqG82AGBaOuaTA+/N0dKrCJvpfvt+jqqibFbL9Jhhu1GXPnTzjvA
+ UTdCDg5ApeqrjrOoYMdNRUzxv1iamBnnimTcTEjeMW6QTlHvWwxUEhtR4NwNWTJawPQi
+ l4QYqZKk3bgU4ePliJyTgIZhHBQlQrHD0KJYMKHviZCuitrC3CdAlgCu50L5l9cxBNeu
+ P2YIhBtNMq7/HmpR871OmApyPEgyPjzJ07LoIxWepqLHTMZeITTVSsypigGoiEwLYbEF
+ YC9Q==
+X-Gm-Message-State: AJIora9/NEpZGPcnF2iXWTtbKsrKxNkrHjibi1lZapa9jnc/eMXPd8iM
+ VmD2mfwL2CFk+QcK1pG5ISc=
+X-Google-Smtp-Source: AGRyM1vK1IbbnFk2rcDMjgTifM9dW4eAfDBLjuP8C26mHS6Fg6KbDO8FnPheE0vldCzWcRT9Eblp7g==
+X-Received: by 2002:a05:6000:1688:b0:218:47d6:5e46 with SMTP id
+ y8-20020a056000168800b0021847d65e46mr785988wrd.699.1655140794288; 
+ Mon, 13 Jun 2022 10:19:54 -0700 (PDT)
+Received: from elementary ([94.73.36.128]) by smtp.gmail.com with ESMTPSA id
+ r8-20020a05600c424800b0039740903c39sm9879039wmm.7.2022.06.13.10.19.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 10:17:49 -0700 (PDT)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: javierm@redhat.com
-Subject: [PATCH v3 3/3] drm/doc: Add KUnit documentation
-Date: Mon, 13 Jun 2022 19:17:38 +0200
-Message-Id: <20220613171738.111013-4-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220613171738.111013-1-jose.exposito89@gmail.com>
-References: <20220613171738.111013-1-jose.exposito89@gmail.com>
+ Mon, 13 Jun 2022 10:19:53 -0700 (PDT)
+Date: Mon, 13 Jun 2022 19:19:51 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2 1/3] drm/rect: Add DRM_RECT_INIT() macro
+Message-ID: <20220613171951.GA132742@elementary>
+References: <20220612161248.271590-1-jose.exposito89@gmail.com>
+ <20220612161248.271590-2-jose.exposito89@gmail.com>
+ <87pmjdyp62.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <87pmjdyp62.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,70 +72,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, davidgow@google.com,
- Maxime Ripard <maxime@cerno.tech>, airlied@linux.ie, dlatypov@google.com,
- linux-kernel@vger.kernel.org, tzimmermann@suse.de,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- kunit-dev@googlegroups.com
+Cc: tzimmermann@suse.de, airlied@linux.ie, dlatypov@google.com,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, davidgow@google.com, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Explain how to run the KUnit tests present in the DRM subsystem and
-clarify why the UML-only options were not added to the configuration
-file present in drivers/gpu/drm/.kunitconfig [1] [2].
+On Mon, Jun 13, 2022 at 10:53:57AM +0300, Jani Nikula wrote:
+> On Sun, 12 Jun 2022, José Expósito <jose.exposito89@gmail.com> wrote:
+> > Add a helper macro to initialize a rectangle from x, y, width and
+> > height information.
+> >
+> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> > ---
+> >  include/drm/drm_rect.h | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >
+> > diff --git a/include/drm/drm_rect.h b/include/drm/drm_rect.h
+> > index 6f6e19bd4dac..945696323c69 100644
+> > --- a/include/drm/drm_rect.h
+> > +++ b/include/drm/drm_rect.h
+> > @@ -47,6 +47,18 @@ struct drm_rect {
+> >  	int x1, y1, x2, y2;
+> >  };
+> >  
+> > +/**
+> > + * DRM_RECT_INIT - initialize a rectangle from x/y/w/h
+> > + * @x: x coordinate
+> > + * @y: y coordinate
+> > + * @w: width
+> > + * @h: height
+> > + *
+> > + * RETURNS:
+> > + * A new rectangle of the specified size.
+> > + */
+> > +#define DRM_RECT_INIT(x, y, w, h) { (x), (y), (x) + (w), (y) + (h) }
+> 
+> Please use designated initializers.
+> 
+> It might help type safety if it also contained a (struct drm_rect) cast.
 
-[1] https://lore.kernel.org/dri-devel/CABVgOSn8i=LO5p7830h2XU1Jgg0KrN0qTnxkOMhf1oTgxjaKKw@mail.gmail.com/
-[2] https://lore.kernel.org/dri-devel/CAGS_qxqpiCim_sy1LDK7PLwVgWf-LKW+uNFTGM=T7ydk-dYcEw@mail.gmail.com/
+Thanks a lot for your review Jani, just emailed v3 with your suggested
+changes.
 
-Reviewed-by: Maxime Ripard <maxime@cerno.tech>
-Signed-off-by: JosÃ© ExpÃ³sito <jose.exposito89@gmail.com>
----
- Documentation/gpu/drm-internals.rst | 32 +++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
-index 38afed24a75c..f1d97e80ca29 100644
---- a/Documentation/gpu/drm-internals.rst
-+++ b/Documentation/gpu/drm-internals.rst
-@@ -207,6 +207,38 @@ Utilities
-    :internal:
+Jose
  
- 
-+Unit testing
-+============
-+
-+KUnit
-+-----
-+
-+KUnit (Kernel unit testing framework) provides a common framework for unit tests
-+within the Linux kernel.
-+
-+This section covers the specifics for the DRM subsystem. For general information
-+about KUnit, please refer to Documentation/dev-tools/kunit/start.rst.
-+
-+How to run the tests?
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+In order to facilitate running the test suite, a configuration file is present
-+in ``drivers/gpu/drm/kunit/.kunitconfig``. It can be used by ``kunit.py`` as
-+follows:
-+
-+.. code-block:: bash
-+
-+	$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/kunit \
-+		--kconfig_add CONFIG_VIRTIO_UML=y \
-+		--kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
-+
-+.. note::
-+	The configuration included in ``.kunitconfig`` should be as generic as
-+	possible.
-+	``CONFIG_VIRTIO_UML`` and ``CONFIG_UML_PCI_OVER_VIRTIO`` are not
-+	included in it because they are only required for User Mode Linux.
-+
-+
- Legacy Support Code
- ===================
- 
--- 
-2.25.1
-
+> BR,
+> Jani.
+> 
+> 
+> > +
+> >  /**
+> >   * DRM_RECT_FMT - printf string for &struct drm_rect
+> >   */
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
