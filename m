@@ -1,58 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84BCF5485B0
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:31:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE7C95485B2
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:32:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 781A310E7F1;
-	Mon, 13 Jun 2022 14:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A43FB10E7FB;
+	Mon, 13 Jun 2022 14:32:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4511310E7EF
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:30:55 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id r3so10164897ybr.6
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 07:30:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LtBQupy2GQnMLL7swZmZzIqcNe++ymEU9o4RkgMv0ok=;
- b=AaSNivWx7thm1YddSGexeMcFHhOvApaSrf9hTAO82FUvMLjmC+OYxKcOLPyAaD+MdN
- MdX60bJjDjeqxGZUqr3kI4l0/W/epJ/ORFueaMGBlJq36dH0NSHJC76Z487w+R9c4Eyq
- 3+nj5y3v1INLhYem+RtooQplkk5xH/vT5J1k0hH0VJ+ilnhhiWGUP7rbTOVnSbSEXBmZ
- ZXrbQDjR0sbIZA0vv364vojxBhXv5EvNk11fxKbWBXCbNtQ/p/umJhB8SOUV0D2MaMiW
- 5XGG0EWz7Z2xS8sL2dcgvjh5OZbXyQQ9Be4l1hkxrgknlyB0XXhDxCZa76baS+s/qAe6
- E7jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LtBQupy2GQnMLL7swZmZzIqcNe++ymEU9o4RkgMv0ok=;
- b=bV7ixfjqMyIsZGOdlxfMNaOTLUn97XqqUZPI3NJ5dSUNdvBEr21GtfN3SAS1eR+JEd
- 7YQvOrVyZ1Z/gdQ+uSmqWgE6LvXEHNpDFp1dVKZYB1wRboUgAj5hduN+8zBcPgmwk727
- EUHa7c7N5kFUowuT+b+Pcgh9C10j0W6Ojohzz83wLxWflBSjuDM1eIqzBsfQMsUiemvO
- ED8usbHubuBa6xHnuD8rRsaKKIZWAw9rGj7ICzCURBiYFoXbMhpSCk14kTMD21Dakfcs
- tr3m5vwGZXzU24YvVbrjbp/11cLtlYa+UanasSlG5DmfDbcVKdC+PUeKoQtIda9UNdbx
- uLRQ==
-X-Gm-Message-State: AOAM531huYlYwLSem7UV1jsV7Sfg2CAgbgG9PedQYFjynjyrgjQ8HthO
- ygnBML5qzgH66pukEIugl2SslFMsjtcG+KoSH6tqQw==
-X-Google-Smtp-Source: ABdhPJzfzmCDwqbAjr/9ZHRxtTNYShMOMGjj1hoHMEBV9P0hWh5ArfA7RltlgJKbWViHS112Z8GXZ7da7vFkUjUgpvo=
-X-Received: by 2002:a25:ad85:0:b0:664:9682:3ce4 with SMTP id
- z5-20020a25ad85000000b0066496823ce4mr10726392ybi.280.1655130654099; Mon, 13
- Jun 2022 07:30:54 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F93910E7FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:32:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655130752; x=1686666752;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=8wF/1dU2hbX2DYy7M0ppAJdB0m/VKc5sXgeurboZAI8=;
+ b=jvskJfiZr6rpHVzjLa2gglnM0esxQPjUeTVc2XRv9ZvIYcHV8byhrNGZ
+ 6fayReejTxS0IOVNZ8uiXp9jcb7l9AeXeUqb3D3yf0MR4XpX5lEYwWSuA
+ qxPRm5QRvkAF/i1zx9fMwVRSbaaBYKRmvPQLrv+VTUl4lH/0hucU/rAhO
+ tTmaekEtrIQUFhnF1DaZtUmbOh+xiLTPmryV7lrnEN8EcQBmhQy3s/DZO
+ /S5SRXHJZJQmfT5dSoC+2+uhZCJ8lTU7kZXd5e4w3x125HDaDratSZTW+
+ U0xEagvS2pmo8aTT1DeN3mPsDO8A97R7qZVVj3KiKnzu6+2Ks/nvoRqOw w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="342271755"
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="342271755"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2022 07:32:31 -0700
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="639761550"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.18.236])
+ ([10.213.18.236])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2022 07:32:27 -0700
+Message-ID: <67c65cde-ccdd-5c1d-0b47-85e01d1e45e0@intel.com>
+Date: Mon, 13 Jun 2022 16:32:22 +0200
 MIME-Version: 1.0
-References: <304E860A-A638-45D1-9AF3-F121A31CF7B0@apple.com>
- <Yqa6aWa70/GqhAHO@quokka>
- <CAPj87rPHKmFq2-VTWEJH_iVe2R7xvmb44v_ZWcQ9VakhF+5ArA@mail.gmail.com>
-In-Reply-To: <CAPj87rPHKmFq2-VTWEJH_iVe2R7xvmb44v_ZWcQ9VakhF+5ArA@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Mon, 13 Jun 2022 15:30:35 +0100
-Message-ID: <CAPj87rPvEFCWeeohiczUCXGEdrwqwJza+CcrOy1E3d9UBHSnBA@mail.gmail.com>
-Subject: Re: 504 to gitlab.freedesktop.org
-To: Peter Hutterer <peter.hutterer@who-t.net>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.10.0
+Subject: Re: [PATCH] drm/msm: Fix convert to drm_of_get_data_lanes_count
+Content-Language: en-US
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+References: <20220612143349.105766-1-marex@denx.de>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20220612143349.105766-1-marex@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,28 +61,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xorg-devel@lists.freedesktop.org, Jeremy Sequoia <jeremyhu@apple.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- sitewranglers@lists.freedesktop.org, freedesktop@lists.freedesktop.org
+Cc: kernel test robot <lkp@intel.com>, Maxime Ripard <maxime@cerno.tech>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ robert.foss@linaro.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Mon, 13 Jun 2022 at 08:39, Daniel Stone <daniel@fooishbar.org> wrote:
-> Yes, that's what's happening. Our (multi-host-replicated etc) Ceph
-> storage setup has entered a degraded mode due to the loss of a couple
-> of disks - no data has been lost but the cluster is currently unhappy.
-> We're walking through fixing this, but have bumped into some other
-> issues since, including a newly-flaky network setup, and changes since
-> we last provisioned a new storage host.
+
+On 12.06.2022 16:33, Marek Vasut wrote:
+> Add missing header file into dsi_host.c and encode data-lanes string
+> directly into the warning message in the driver to avoid build issues
+> detected by lkp.
 >
-> We're working through them one by one and will have the service back
-> up with all our data intact - hopefully in a matter of hours but we
-> have no firm ETA right now.
+> Fixes: 185443efa26a ("drm/msm: Convert to drm_of_get_data_lanes_count")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Sean Paul <sean@poorly.run>
+> To: dri-devel@lists.freedesktop.org
 
-Thanks mainly to Ben, everything is back up and running now.
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-Cheers,
-Daniel
+Regards
+Andrzej
+> ---
+>   drivers/gpu/drm/msm/dp/dp_parser.c | 4 ++--
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 2 ++
+>   2 files changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
+> index 346556c5706d7..57ae14a0e1814 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
+> @@ -106,8 +106,8 @@ static int dp_parser_misc(struct dp_parser *parser)
+>   
+>   	len = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
+>   	if (len < 0) {
+> -		DRM_WARN("Invalid property %s, default max DP lanes = %d\n",
+> -				data_lane_property, DP_MAX_NUM_DP_LANES);
+> +		DRM_WARN("Invalid property \"data-lanes\", default max DP lanes = %d\n",
+> +			 DP_MAX_NUM_DP_LANES);
+>   		len = DP_MAX_NUM_DP_LANES;
+>   	}
+>   
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index db5871b9c5d88..7e21916d1511a 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -21,6 +21,8 @@
+>   
+>   #include <video/mipi_display.h>
+>   
+> +#include <drm/drm_of.h>
+> +
+>   #include "dsi.h"
+>   #include "dsi.xml.h"
+>   #include "sfpb.xml.h"
+
