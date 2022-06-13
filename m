@@ -2,55 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C4A549949
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 18:50:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6AA6549950
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 18:53:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38DD510F394;
-	Mon, 13 Jun 2022 16:50:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F3EB10F39B;
+	Mon, 13 Jun 2022 16:53:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 143C710F394
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 16:50:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1655139027; x=1686675027;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=+HRRagI1yvwv6mVQu+qg+lU9ojq/lySZ8wB/D8/AV38=;
- b=eDqGKVbcEYLZDVANFsMP+GAKfGtwaRFBFxx0B1j7iJs/KBGtXUAOQ81N
- VcNwTfuojdVahpuhkQu0BLgscasRjmIGK8Gl9vr3CeW+6DkGgXrrPoeB7
- FvrjS63qMOSBR8pXnAZG1FCw4BOvoA2LyZD+UTF2aYFl3kAULberqBgjZ s=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 13 Jun 2022 09:50:27 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2022 09:50:25 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 13 Jun 2022 09:50:25 -0700
-Received: from [10.111.164.34] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 13 Jun
- 2022 09:50:23 -0700
-Message-ID: <55143c95-00a3-b60f-cb12-1b249be3440d@quicinc.com>
-Date: Mon, 13 Jun 2022 09:50:21 -0700
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF48D10F397;
+ Mon, 13 Jun 2022 16:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655139215; x=1686675215;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/gDpzTXmB4DMe7dnviHQPNH9qRuwQcnNm0NLopVI2Nw=;
+ b=X5Pwut6d9igb+hqZgz09MuepQWcl7Z/h9n9ffZuXoQArH1WsTfosdtIt
+ BX1FSob8L3cH8VojenejkZcjAxlaBB7wObN3X5/bmkatH/LOiTbsD0Df/
+ 8OmXwIahR6422wW4BXnUN4sizd3ojh0GCag7qz5ryEvyog/9UcXVE0ck7
+ Hw2Ca5Tl0jdYdijZYMb4snwAJ7rpI1j9TNpmpTIc9e9XGelUFCZu+ZMtw
+ k1JCYNsCZTw/t+gdj9VmfixrUjQ+6bYmtDhwifovpIDt/P360b1vyQ542
+ oERweh+QrE1N6aWUcgDysMtg4g8VaWB4k7iGs/P04WdGzqh/fadaO7KDe g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="261383390"
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="261383390"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2022 09:53:35 -0700
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="829891206"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2022 09:53:35 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/pvc: Add recommended MMIO setting
+Date: Mon, 13 Jun 2022 09:53:14 -0700
+Message-Id: <20220613165314.862029-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm: Fix convert to drm_of_get_data_lanes_count
-Content-Language: en-US
-To: Marek Vasut <marex@denx.de>, <dri-devel@lists.freedesktop.org>
-References: <20220612143349.105766-1-marex@denx.de>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220612143349.105766-1-marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,68 +53,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Maxime Ripard <maxime@cerno.tech>,
- Sean Paul <sean@poorly.run>, robert.foss@linaro.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+As with past platforms, the bspec's performance tuning guide provides
+recommended MMIO settings.  Although not technically "workarounds" we
+apply these through the workaround framework to ensure that they're
+re-applied at the proper times (e.g., on engine resets) and that any
+conflicts with real workarounds are flagged.
 
+Bspec: 72161
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h     | 5 +++++
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 9 +++++++++
+ 2 files changed, 14 insertions(+)
 
-On 6/12/2022 7:33 AM, Marek Vasut wrote:
-> Add missing header file into dsi_host.c and encode data-lanes string
-> directly into the warning message in the driver to avoid build issues
-> detected by lkp.
-> 
-> Fixes: 185443efa26a ("drm/msm: Convert to drm_of_get_data_lanes_count")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Sean Paul <sean@poorly.run>
-> To: dri-devel@lists.freedesktop.org
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index 226557018037..07ef111947b8 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -981,6 +981,11 @@
+ #define XEHP_L3SCQREG7				_MMIO(0xb188)
+ #define   BLEND_FILL_CACHING_OPT_DIS		REG_BIT(3)
+ 
++#define XEHPC_L3SCRUB				_MMIO(0xb18c)
++#define   SCRUB_CL_DWNGRADE_SHARED		REG_BIT(12)
++#define   SCRUB_RATE_PER_BANK_MASK		REG_GENMASK(2, 0)
++#define   SCRUB_RATE_4B_PER_CLK			REG_FIELD_PREP(SCRUB_RATE_PER_BANK_MASK, 0x6)
++
+ #define L3SQCREG1_CCS0				_MMIO(0xb200)
+ #define   FLUSHALLNONCOH			REG_BIT(5)
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 1e982ac931dc..c4af51144216 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -2679,6 +2679,15 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
+ {
+ 	struct drm_i915_private *i915 = engine->i915;
+ 
++	if (IS_PONTEVECCHIO(i915)) {
++		/*
++		 * The following is not actually a "workaround" but rather
++		 * a recommended tuning setting documented in the bspec's
++		 * performance guide section.
++		 */
++		wa_write(wal, XEHPC_L3SCRUB, SCRUB_CL_DWNGRADE_SHARED | SCRUB_RATE_4B_PER_CLK);
++	}
++
+ 	if (IS_XEHPSDV(i915)) {
+ 		/* Wa_1409954639 */
+ 		wa_masked_en(wal,
+-- 
+2.35.3
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dp/dp_parser.c | 4 ++--
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 2 ++
->   2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index 346556c5706d7..57ae14a0e1814 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -106,8 +106,8 @@ static int dp_parser_misc(struct dp_parser *parser)
->   
->   	len = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
->   	if (len < 0) {
-> -		DRM_WARN("Invalid property %s, default max DP lanes = %d\n",
-> -				data_lane_property, DP_MAX_NUM_DP_LANES);
-> +		DRM_WARN("Invalid property \"data-lanes\", default max DP lanes = %d\n",
-> +			 DP_MAX_NUM_DP_LANES);
->   		len = DP_MAX_NUM_DP_LANES;
->   	}
->   
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index db5871b9c5d88..7e21916d1511a 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -21,6 +21,8 @@
->   
->   #include <video/mipi_display.h>
->   
-> +#include <drm/drm_of.h>
-> +
->   #include "dsi.h"
->   #include "dsi.xml.h"
->   #include "sfpb.xml.h"
