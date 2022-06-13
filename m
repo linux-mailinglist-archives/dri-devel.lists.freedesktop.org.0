@@ -1,73 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA065485D2
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:49:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1F45485D3
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE4E310E83C;
-	Mon, 13 Jun 2022 14:49:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E38110E83D;
+	Mon, 13 Jun 2022 14:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25FDB10E83C
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:49:06 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id DBAD53200958;
- Mon, 13 Jun 2022 10:49:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 13 Jun 2022 10:49:05 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DBE410E83F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:49:09 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 161E7320091E;
+ Mon, 13 Jun 2022 10:49:08 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Mon, 13 Jun 2022 10:49:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655131744; x=1655218144; bh=JG
- Ub0H1Rvgc5JH+tDA8fJg09a0a7JduOEsQ4jxaIf68=; b=jeEck/lLkETn2KbYD9
- co+EwjcvUvVL/cet9koOWMT4+OpsV7nIEKV/8tRZ5O5dovnfv4qpgK+qTXZ6eo9h
- 6x4ouzg9DCy9mE5o/fOMl7StB/5uwxdYMKuFdl2SwdYIRBF5doOqyg2B0877gSCl
- WO+csABmRQBhuNfeIEXWI8y/7zfERr87F+gzlb0ffEuqUkZOT0nkXWPekk5UkXxU
- HJuKqe+XHnilWow8DFmFBCBMJFNHIo57r79cSnLYiMNx+X6dLxc4JeXTMfWMIMiL
- MWHXlXR5DEOxnuh8BKGYyXoQPC/Az/lsWLpZP/rfk1wN33TWzPuVhVx83qKE7q4p
- Gm2A==
+ :subject:subject:to:to; s=fm1; t=1655131747; x=1655218147; bh=IY
+ auWIovMH1CpzdoSYKgGR+xLOqJC8GQzOesXUCDqrk=; b=iiJIGX0BzLpJHKgbCR
+ qJDgQS7tPeBRbJE/uW9a2ilcI+HhAxKmuTZ60hRxJDB+bp7E6de8ltthqCHk0zP/
+ 5e46pymK+E6be7joq1tQcO4LnLol11iKr/lVsaFPP4V5AekEgAFqu34RWBD2HDYZ
+ YZwlI+oaV/lTPMkj8zq7R6grqfutOu4iPe/JxisDOyg+Gv0lhlKgVoDV3qdl5YEC
+ VsBJ7numtGz+mzFOQUo/hqeLl8MRbRHI2momOrxjU0moyqJ8+0E72QHP+fywWJWB
+ cuJPe/16GPNXnIkI5y2fc6uv2mEDFVlnVjZMYJOoGe3gRDTd/rA/TmVmVhVpAKnH
+ RVmA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655131744; x=1655218144; bh=JGUb0H1Rvgc5J
- H+tDA8fJg09a0a7JduOEsQ4jxaIf68=; b=CC4z3dyZfBOcWhCJXu/ew98u4rtEM
- bg0kISeDU1sd/aihMwK4SuN2AcDiMN4+GMWl6U67UzmD3BorWfYWjFt8SLkR2A3e
- Xb9aH2xxrQ6qSTprQY42dspZNAZ+0uVt/osJzpzbju+7ow1yXAzCjmh17neRX6+n
- fOHwdF4JmVcgZ+ABGtXNDy037OdkdoRV726VOyQju84CGLZDLMTFj1ZAjmTBOxs/
- ME7dNaPEKElDnTXbIjUFnnsOtcfS+sjNeRIEdqmHYo65CNa4Kcs3f7Wq5aZom1n+
- T+n+Hc8xBE/9++xlymq+BUaYYMj9McJLjbyfJMJ+CbJ+2lHzK1tB8fUgw==
-X-ME-Sender: <xms:YE6nYqnxSxlxi_chAeY5d_eUhNKfrMM51FIFnK1YnlXFjTfsZt-bHw>
- <xme:YE6nYh3XNZ4MUIu11-19YVgqgTMVNqOzXCDhPYogKVJWtzz20EZFx2Raxvw25CYfu
- peJbDlAZZd3w2qsync>
-X-ME-Received: <xmr:YE6nYor9TChHV_fjrwcK0MfP3l7zR72qj10T4y0gafIQ8qH83efYjmXDfV53gGixxG1o_RUoTfrDqcl_4CMh0KioeSXXk7B8LFF-mQY>
+ :x-sasl-enc; s=fm2; t=1655131747; x=1655218147; bh=IYauWIovMH1Cp
+ zdoSYKgGR+xLOqJC8GQzOesXUCDqrk=; b=AC8oTTuBB6Pn1MtIOy88B/pVVAozU
+ vtJjZnAbZa8H6dZpimXYmcUYw4+atHPi0stGrxecTXRCe50bDXQg0kdbPSQzrC5j
+ cwSrgUWcglOckx7U0jsVzuNf9T32TGtLup5dKzAW65DSnDYh7JMcMfsXiUPz5JDD
+ Qujy34e0W8mRv0FVc2eWSa6UPfyH6QA0fXhmHZfpq1ni23+uX8rTH3pFITSAuHuq
+ /KOLrf8xKs0cGa2WmPVmBzmkwzvQA1SS3Lp0xAufba/B2jWTbapaXejqwRHQ4Rkm
+ CR17ax/KItsLV3y2EdX5plcJX4x4MKlIA4Pn5JsQLiWjwK8LrZQweqvzA==
+X-ME-Sender: <xms:Y06nYstBkmUsPu9KvOsylo0jZcinyI0G3vU8ANyd1tp_t3jibtoDqQ>
+ <xme:Y06nYpeBfJ-3vd_F8L1rWRPhLaBJwQWK2Hq7pUeuo9Kv9EXn9wWrdNM562ztZ_khV
+ bp0JtQH4tc2obn9IGQ>
+X-ME-Received: <xmr:Y06nYnwvBSWG3ojWpaN_g_A-Cnr39oYQEswe0aWlZjv9JNXVcmCpxSwdVh0NXeufVtHkTnJTsUCUSjPDv4SsAXY5VxB4K_0YuHyzX7o>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedgjeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:YE6nYulbrQC-CQprfY01Pb5uRMH73EFcRPUYzG3zUbFDzLp3JRb1XQ>
- <xmx:YE6nYo08cw-UEQkvCuijpr5bWJ-9BNLqzllqZ5XbsjoP9qvE5tjlZA>
- <xmx:YE6nYlsSWrX5Ebh842nzc362X4z9tIAqn4TncySbwqdQSCHxt14wow>
- <xmx:YE6nYs9YawhI-077HdM4W3Jzi8rSpWAGIUxycINxYn6dYzUosCfgFA>
+X-ME-Proxy: <xmx:Y06nYvMLEv-cM-XuplD0lYvZtAgAdN727liMN3iOPAI_it4vjqxaWg>
+ <xmx:Y06nYs8ss8uQr3bNqj3epFEoXMK6FM31TaT-ZVUxON-3_xkVauK82g>
+ <xmx:Y06nYnWqRgcMLB3ksolJEU957lIa9mGWH5jrYRPXgD3ArO5O5T9gcQ>
+ <xmx:Y06nYrkq6TroJJEl55mH8G7KI-SHTpalwzsmF3WBl3GuWJOw7mqkgw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jun 2022 10:49:03 -0400 (EDT)
+ 13 Jun 2022 10:49:06 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 19/33] drm/vc4: hdmi: Clear unused infoframe packet RAM
- registers
-Date: Mon, 13 Jun 2022 16:47:46 +0200
-Message-Id: <20220613144800.326124-20-maxime@cerno.tech>
+Subject: [PATCH 20/33] drm/vc4: hdmi: Avoid full hdmi audio fifo writes
+Date: Mon, 13 Jun 2022 16:47:47 +0200
+Message-Id: <20220613144800.326124-21-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613144800.326124-1-maxime@cerno.tech>
 References: <20220613144800.326124-1-maxime@cerno.tech>
@@ -91,50 +90,38 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dom Cobley <popcornmix@gmail.com>
 
-Using a hdmi analyser the bytes in packet ram
-registers beyond the length were visible in the
-infoframes and it flagged the checksum as invalid.
+We are getting occasional VC4_HD_MAI_CTL_ERRORF in
+HDMI_MAI_CTL which seem to correspond with audio dropouts.
 
-Zeroing unused words of packet RAM avoids this
+Reduce the threshold where we deassert DREQ to avoid the fifo
+overfilling
 
-Fixes: 21317b3fba54 ("drm/vc4: Set up the AVI and SPD infoframes.")
+Fixes: bb7d78568814 ("drm/vc4: Add HDMI audio support")
 Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index d23ed6e5bd65..4b73b4fea7ec 100644
+index 4b73b4fea7ec..53cc0b7b664c 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -460,9 +460,11 @@ static void vc4_hdmi_write_infoframe(struct drm_encoder *encoder,
- 	const struct vc4_hdmi_register *ram_packet_start =
- 		&vc4_hdmi->variant->registers[HDMI_RAM_PACKET_START];
- 	u32 packet_reg = ram_packet_start->offset + VC4_HDMI_PACKET_STRIDE * packet_id;
-+	u32 packet_reg_next = ram_packet_start->offset +
-+		VC4_HDMI_PACKET_STRIDE * (packet_id + 1);
- 	void __iomem *base = __vc4_hdmi_get_field_base(vc4_hdmi,
- 						       ram_packet_start->reg);
--	uint8_t buffer[VC4_HDMI_PACKET_STRIDE];
-+	uint8_t buffer[VC4_HDMI_PACKET_STRIDE] = {};
- 	unsigned long flags;
- 	ssize_t len, i;
- 	int ret;
-@@ -498,6 +500,13 @@ static void vc4_hdmi_write_infoframe(struct drm_encoder *encoder,
- 		packet_reg += 4;
- 	}
+@@ -1955,10 +1955,10 @@ static int vc4_hdmi_audio_prepare(struct device *dev, void *data,
  
-+	/*
-+	 * clear remainder of packet ram as it's included in the
-+	 * infoframe and triggers a checksum error on hdmi analyser
-+	 */
-+	for (; packet_reg < packet_reg_next; packet_reg += 4)
-+		writel(0, base + packet_reg);
-+
- 	HDMI_WRITE(HDMI_RAM_PACKET_CONFIG,
- 		   HDMI_READ(HDMI_RAM_PACKET_CONFIG) | BIT(packet_id));
+ 	/* Set the MAI threshold */
+ 	HDMI_WRITE(HDMI_MAI_THR,
+-		   VC4_SET_FIELD(0x10, VC4_HD_MAI_THR_PANICHIGH) |
+-		   VC4_SET_FIELD(0x10, VC4_HD_MAI_THR_PANICLOW) |
+-		   VC4_SET_FIELD(0x10, VC4_HD_MAI_THR_DREQHIGH) |
+-		   VC4_SET_FIELD(0x10, VC4_HD_MAI_THR_DREQLOW));
++		   VC4_SET_FIELD(0x08, VC4_HD_MAI_THR_PANICHIGH) |
++		   VC4_SET_FIELD(0x08, VC4_HD_MAI_THR_PANICLOW) |
++		   VC4_SET_FIELD(0x06, VC4_HD_MAI_THR_DREQHIGH) |
++		   VC4_SET_FIELD(0x08, VC4_HD_MAI_THR_DREQLOW));
  
+ 	HDMI_WRITE(HDMI_MAI_CONFIG,
+ 		   VC4_HDMI_MAI_CONFIG_BIT_REVERSE |
 -- 
 2.36.1
 
