@@ -1,72 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C185485C1
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:48:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33FCC5485C2
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:48:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5D510E81A;
-	Mon, 13 Jun 2022 14:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F292A10E809;
+	Mon, 13 Jun 2022 14:48:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0803F10E81A
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:12 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id CE8EF3200302;
- Mon, 13 Jun 2022 10:48:10 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06F8D10E809
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:15 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id C94083200923;
+ Mon, 13 Jun 2022 10:48:13 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 13 Jun 2022 10:48:11 -0400
+ by compute5.internal (MEProxy); Mon, 13 Jun 2022 10:48:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655131690; x=1655218090; bh=Cq
- u4qVj5XwGEIFbi/x5neftEkpNEgt0chneysUpiW0w=; b=qI2KUyF0DVI8Apy45P
- Kp8NldnqXkzVJCAnO63oA0Tsv9RJAKNLFlFK0I7naXUdF1TZAc+ApLPi5ErQDM1+
- 00PHqr0FYIfNd5YeDgR1ClYRPMbKgbp6zWFkxsuzqN/qv3hdAWpd8uTduKISC2fV
- J8CAR+bKM4WO9dNO9ZXYX3WC8IQmT7vhSBgS+Xlzc5m9egucuk3C45ftfGoU86OU
- a/Y4tIqotCAqCBunWoOFwmbdZhDOWWWMtcAK0W4x4HDSJtQ6mPd+5ngIQe5UlHwn
- Zh1d5WjvnKDxDJtX46P2Yc+oOZMV9AMV6rtA0a/BwDKnatrxVJXOFaUaDLEyZZE4
- 88hg==
+ :subject:subject:to:to; s=fm1; t=1655131693; x=1655218093; bh=20
+ ZZer0BGS4nj7x/1ZpdaBAiyNOK5pEWn+Mn9iHqYZQ=; b=oin0H5utuRzp7CWw29
+ QBuQCgITW8rIF9gHIijSnupSdBuKNoyWK4X7dM/wRX+z5+av9wAsWEj6j5+fpWzu
+ 6/D1P0zE3zHSgTp4pAVSjrgT4lJTsXw3AzQ/dm8SZ0v6afCzhf0DB/l7qgJJ4Q7K
+ VAi3dVP7CMFWj37QTuL9p8ZBAbbCeRa4eZj6CmSTsK89UZU3Gg4Izu91mnVMicgZ
+ nPoEE4V5izszHDRrm8yF2gBaW9FFKB1JUgwxwFGdQ/mzicNqes0SOSCDMCMn86TG
+ HiuBg9hdpbOul1eUpD7RSLnbUxgGgoU1L9GSbxs6Ili5koovsESdjSp6pDU16IKq
+ 7xbw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655131690; x=1655218090; bh=Cqu4qVj5XwGEI
- Fbi/x5neftEkpNEgt0chneysUpiW0w=; b=BezgB+l27Lm0pTShrIDXnOBEC4M/6
- g6PYWoWyC/wb24Kfa9mhH98XXllz1sAu9dlpGnxfJWD5LjsrbZtfv2tz11i9C+4U
- XhHnnBuMxIe9rZVM6THVsA0PH3Bfk9flx9jbQu2CWZ+BUf3qF/Gz5wcWgHqqIH47
- ixL1gL0BFzhew4rWfn10WeeqOruKea8BaHJnYwVRilHNSu38zf6M9HrVAI05slzV
- sIeWrcU6k0ld3BdpI5tFoBs6snXBzyQd1CQjnFR/O9xA1hDYTrAFz215GtANKPKP
- 5nSG7GABM8dUXyyGYoiRMGO+izCCApT07PuB9B9kodRaI9YO7JdfHwDBw==
-X-ME-Sender: <xms:Kk6nYoAph0Ke-nOKlNQTTP_jVf1q-MRy_e6XLr-_2xERuaqyjUR_tg>
- <xme:Kk6nYqjHy0zqoUgnif_ga1q-75CEvRDZsmGHPiYq3_1QegqIY12iUoCLn6OfKp3eL
- Orc6uo8ovXGoTNGqj8>
-X-ME-Received: <xmr:Kk6nYrlKZX5axunFlUnr7BMVz-Mtby6xlh0srHA_6PlaTKLIqBwSa-5--ST6HIOPnS895jhFAfwlUFYVqK8bJzP517xbAQzEIY83JTA>
+ :x-sasl-enc; s=fm2; t=1655131693; x=1655218093; bh=20ZZer0BGS4nj
+ 7x/1ZpdaBAiyNOK5pEWn+Mn9iHqYZQ=; b=poN3RFoUGE7nzIjzLk1TaiZ/8NDhl
+ bauCVgndJe+WkbWN/2Ur9+OKPtK2huKwLF1HesRdXPmWm5ZMNecPDty955tZddqP
+ JdouxeGjPVodsd0bd1R3IF/MA58KW2H+Fc6jmN1YOJnTAtnkiQUbDGGqHdb6ERgW
+ hetUprkg/8hbvI5GHQ8NNs1usjFY7No0/g3FNcNAdfA5DQer75UMFobwJb7IWltR
+ S3XkJNTpRsQGGi9s0h7z6munacrHETwOlc0HzjVhSIxeOWy7gTkferXmgObsp9hM
+ rC36e7yZ6yBp81ybpEwY0mL3jBIeiptzvb9VnB9P2NftabsHpJbKm7yDA==
+X-ME-Sender: <xms:LU6nYnQGYB55qrmgNq7T1bZmQTIM8wqAhL0Qv-h2kfN8KDX24PHWeA>
+ <xme:LU6nYowTlQeTSetX_HKsdtKra43AQWdd2omYEvhH3ky-Gv56z4vTBx8zZZlJEsW4y
+ YTkAKerYtZf7F1RGKw>
+X-ME-Received: <xmr:LU6nYs1yeY4yWTR9V4U-bPcbSRqVMvxSY1TZpMyLP-UUaoBm4mkea3HzbWTin4jeZ2kccRCmTnCQbRu3EYgCHQPtDk8sODT4CA0bpvs>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedgjeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Kk6nYuxysmd6vmxjH5PWPz2PFtCqgz_kxFVdANaSk_hZUtyuMMfH5A>
- <xmx:Kk6nYtS6DlCLIOJIDngRTLKYMy7FD7OA3ZgYAet4QDYInTBLWdiKXA>
- <xmx:Kk6nYpagduYYVXfhpaZxU8Gj0vNncpmvL5Fh_hKJJtJ3_GryVvjAiw>
- <xmx:Kk6nYrMMlCbs9bagtxWzKW4MHfrojw55ngzDnH9PM4LHixzAjwvbMA>
+X-ME-Proxy: <xmx:LU6nYnB7uaaptS7tjZGssSdTJrq2wVE5jyz1LOTarsk6-gIzbSw-bw>
+ <xmx:LU6nYgjzY8kQxXMDq94XbDbsuAiamBKdLhc-HJF2MXh3MmUY4M92dw>
+ <xmx:LU6nYrpGLgitABikRvbCHDRRToWXIsBlK-GCAme3KOs4Mg_tsH7ZIA>
+ <xmx:LU6nYof4X7_qfdPOLqjR-zwqsYoBxUKbupCtDucZTEyAaIxA7ZuYzw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jun 2022 10:48:09 -0400 (EDT)
+ 13 Jun 2022 10:48:12 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 02/33] drm/vc4: kms: Warn if clk_set_min_rate fails
-Date: Mon, 13 Jun 2022 16:47:29 +0200
-Message-Id: <20220613144800.326124-3-maxime@cerno.tech>
+Subject: [PATCH 03/33] drm/vc4: kms: Use maximum FIFO load for the HVS clock
+ rate
+Date: Mon, 13 Jun 2022 16:47:30 +0200
+Message-Id: <20220613144800.326124-4-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613144800.326124-1-maxime@cerno.tech>
 References: <20220613144800.326124-1-maxime@cerno.tech>
@@ -88,39 +89,42 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We currently ignore the clk_set_min_rate return code assuming it would
-succeed. However, it can fail if we ask for a rate higher than the
-current maximum for example.
+The core clock computation takes into account both the load due to the
+input (ie, planes) and its output (ie, encoders).
 
-Since we can't fail in atomic_commit, at least warn on failure.
+However, while the input load needs to consider all the planes, and thus
+sum all of their associated loads, the output happens mostly in
+parallel.
 
+Therefore, we need to consider only the maximum of all the output loads,
+and not the sum like we were doing. This resulted in a clock rate way
+too high which could be discarded for being too high by the clock
+framework.
+
+Since recent changes, the clock framework will even downright reject it,
+leading to a core clock being too low for its current needs.
+
+Fixes: 16e101051f32 ("drm/vc4: Increase the core clock based on HVS load")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_kms.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vc4/vc4_kms.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index c169bd72e53b..7a7c90d8520b 100644
+index 7a7c90d8520b..69eae37e82f6 100644
 --- a/drivers/gpu/drm/vc4/vc4_kms.c
 +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -405,7 +405,7 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 		 * Do a temporary request on the core clock during the
- 		 * modeset.
- 		 */
--		clk_set_min_rate(hvs->core_clk, core_rate);
-+		WARN_ON(clk_set_min_rate(hvs->core_clk, core_rate));
+@@ -946,7 +946,9 @@ vc4_core_clock_atomic_check(struct drm_atomic_state *state)
+ 			continue;
+ 
+ 		num_outputs++;
+-		cob_rate += hvs_new_state->fifo_state[i].fifo_load;
++		cob_rate = max_t(unsigned long,
++				 hvs_new_state->fifo_state[i].fifo_load,
++				 cob_rate);
  	}
  
- 	drm_atomic_helper_commit_modeset_disables(dev, state);
-@@ -438,7 +438,7 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 		 * Request a clock rate based on the current HVS
- 		 * requirements.
- 		 */
--		clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate);
-+		WARN_ON(clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate));
- 
- 		drm_dbg(dev, "Core clock actual rate: %lu Hz\n",
- 			clk_get_rate(hvs->core_clk));
+ 	pixel_rate = load_state->hvs_load;
 -- 
 2.36.1
 
