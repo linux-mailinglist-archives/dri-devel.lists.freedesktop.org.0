@@ -2,49 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617135484A3
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 12:55:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93825484A6
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 12:57:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2787E10E3CB;
-	Mon, 13 Jun 2022 10:55:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7CB610E3EF;
+	Mon, 13 Jun 2022 10:57:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1C310E3CB
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 10:55:52 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 956946601674;
- Mon, 13 Jun 2022 11:55:49 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1655117750;
- bh=AYCMDXpnrnlhea7/vMZzgZlR6eZJdympQCVtx5OxpTM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=a9CdHFRNL1cXCAvRh3XboG6jOiwZc4fzSdgrsQOHaYR4U5YU91vlz5msxD2p5T685
- lrRe0P/w83HJGc/dmA+zxPrEaVOblxEPEL0usxx2u0eC9sul7icX7gHrUJTO3im7AJ
- 9lOGwrKI80poQ9yvcbLTRhmP4tFA5tfCyrQM7DHFPvr/s4Dftv1ZxlgnUcTZ0EKc4F
- x2b7lXzuSt9Cke9UIztn45OivAJewKp5eRJqWd0GqVINKHCq6zQOteErj3iFsO9fTw
- ZoMeIxiT4MBZK49qKgdXbIBC4tpTk6P+2KtV9C+l8PSenJ4oIOBMiR1L7XB4fJ1QAK
- fRb9Z8IS6IG4w==
-Message-ID: <7d2a1d75-e400-71aa-7127-144e257f408d@collabora.com>
-Date: Mon, 13 Jun 2022 12:55:46 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v11 10/12] drm/mediatek: dpi: Add dpintf support
-Content-Language: en-US
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, daniel@ffwll.ch, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com, airlied@linux.ie
-References: <20220613064841.10481-1-rex-bc.chen@mediatek.com>
- <20220613064841.10481-11-rex-bc.chen@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220613064841.10481-11-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B23110E3EF
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 10:57:34 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ l2-20020a05600c4f0200b0039c55c50482so4367689wmq.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 03:57:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id;
+ bh=I+mQAAdlRxYZRH/29vXWOhrYvOZ8KHnvV5uZ0Clui7o=;
+ b=YpyLEN1/a2T0NyREDZwDbs+wwokpx38lbbSATmCX92bFRmpSoXUwuShVVr19qfrMiP
+ 7F3ltt35cRIHX3QT4MeuSbOD1WmTgOZGiB65n3BeqKUWihgcFmMxTr+/mtjH8qdOHI6p
+ susamQxk8bGDNiMihDzG+2GSzABq9j9JNZ0ufsis9uU/bJbyG40nZchW3JrfGsdsKAM3
+ 9vuKtElkiOlRcIwdBf707wuBUrCAsGuSWfZvcNGurFK+LWmnSD1P0fobCc2q5v6pMSmq
+ FBZEZJ3NpZLRhwZI53sn8TSIkkGrhzsbTyCDrhsaniB0DAiUe9EzGMpqfLOXfvMoWYXK
+ ccXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=I+mQAAdlRxYZRH/29vXWOhrYvOZ8KHnvV5uZ0Clui7o=;
+ b=bQVpHB5AheKnqI0h1v2zO6kT5VUJa6/TM8wV9VsM5ns5Hn14LyCOB7a/6m+LqiP4ng
+ KZARK8dwqU3Q3qIRO96ZUQq7lSTVnIszuGFHbHwZdjbcUr/SELcl6zY3ZmspHFIy7WA2
+ jNwiyU+1vG6rqFcPZKlB13PHVWlQ4Aok9yX1633Wz4ZIiUGnXKtoYeN4AjjrsEq8awQQ
+ SCqx7c2A2ASGQ8bEk2C4uWWM3MSTEZrBT+q1Fu6H2w7X8HOvzfTohLCvGCdHdyrnuwEK
+ /PbSZxbKI1SjiK8+BOLLN9eZfcdf5Svx85qrRQZOiDCuuyPYXX5gRwephTtsM6viSADJ
+ c87Q==
+X-Gm-Message-State: AOAM533m9tZCSZAgXkzMYhRKeLj4HaZzZrlTFuztc8FPrJsBo6K8o7Df
+ wBmOG5gmTWFvlOaKFTUGZ34=
+X-Google-Smtp-Source: ABdhPJyx101r3sLv5Q1UW6EdzWAxoF2lKwCmcCsohkETQk9BiO9huRU/LN+nbnRLzzeYjq3k6dfGGg==
+X-Received: by 2002:a05:600c:34cf:b0:39c:4dfb:1398 with SMTP id
+ d15-20020a05600c34cf00b0039c4dfb1398mr14043917wmq.133.1655117852610; 
+ Mon, 13 Jun 2022 03:57:32 -0700 (PDT)
+Received: from felia.fritz.box
+ (200116b8260df50089ef6db2443adc92.dip.versatel-1u1.de.
+ [2001:16b8:260d:f500:89ef:6db2:443a:dc92])
+ by smtp.gmail.com with ESMTPSA id
+ e5-20020a05600c4e4500b0039c4ff5e0a7sm9008225wmq.38.2022.06.13.03.57.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jun 2022 03:57:32 -0700 (PDT)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] MAINTAINERS: add include/dt-bindings/display to DRM DRIVERS
+Date: Mon, 13 Jun 2022 12:57:15 +0200
+Message-Id: <20220613105715.13578-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,69 +67,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 13/06/22 08:48, Bo-Chen Chen ha scritto:
-> From: Guillaume Ranquet <granquet@baylibre.com>
-> 
-> dpintf is the displayport interface hardware unit. This unit is similar
-> to dpi and can reuse most of the code.
-> 
-> This patch adds support for mt8195-dpintf to this dpi driver. Main
-> differences are:
->   - Some features/functional components are not available for dpintf
->     which are now excluded from code execution once is_dpintf is set
->   - dpintf can and needs to choose between different clockdividers based
->     on the clockspeed. This is done by choosing a different clock parent.
->   - There are two additional clocks that need to be managed. These are
->     only set for dpintf and will be set to NULL if not supplied. The
->     clk_* calls handle these as normal clocks then.
->   - Some register contents differ slightly between the two components. To
->     work around this I added register bits/masks with a DPINTF_ prefix
->     and use them where different.
-> 
-> Based on a separate driver for dpintf created by
-> Jitao shi <jitao.shi@mediatek.com>.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> [Bo-Chen: Modify reviewers' comments.]
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> ---
->   drivers/gpu/drm/mediatek/mtk_dpi.c          | 115 ++++++++++++++++++--
->   drivers/gpu/drm/mediatek/mtk_dpi_regs.h     |  13 +++
->   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |   4 +
->   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
->   drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   3 +
->   5 files changed, 126 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> index 6b8cf648a5b5..08c8f21b4421 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -71,6 +71,7 @@ struct mtk_dpi {
->   	void __iomem *regs;
->   	struct device *dev;
->   	struct clk *engine_clk;
-> +	struct clk *pll_gate_clk;
+Maintainers of the directory Documentation/devicetree/bindings/display
+are also the maintainers of the corresponding directory
+include/dt-bindings/display.
 
-You don't need this clock in this driver, at all.
+Add the file entry for include/dt-bindings/display to the appropriate
+section in MAINTAINERS.
 
-`pll_gate` would be CLK_VDO0_DP_INTF0_DP_INTF (parent = CLK_TOP_EDP);
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+David, Daniel, please pick this MAINTAINERS addition to your section.
 
-Currently, you're assigning CLK_TOP_EDP to "pixel", but you can, at this point,
-simply assign CLK_VDO0_DP_INTF0_DP_INTF to "pixel" instead... as when you call
-clk_prepare_enable() on it, that'll also take care of enabling its CLK_TOP_EDP
-parent for you.
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-You're not doing anything special if not taking care of enabling/disabling it.
-
-Regards,
-Angelo
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2e7d1e885aed..a8d243668992 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6597,6 +6597,7 @@ F:	Documentation/devicetree/bindings/gpu/
+ F:	Documentation/gpu/
+ F:	drivers/gpu/
+ F:	include/drm/
++F:	include/dt-bindings/display/
+ F:	include/linux/vga*
+ F:	include/uapi/drm/
+ 
+-- 
+2.17.1
 
