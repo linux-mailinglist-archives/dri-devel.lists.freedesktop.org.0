@@ -1,73 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 977DD5485BF
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:48:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D479F5485C0
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:48:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 407DE10E7F5;
-	Mon, 13 Jun 2022 14:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 305BF10E7FF;
+	Mon, 13 Jun 2022 14:48:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F5C10E7F5
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:05 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 34C2F3200923;
- Mon, 13 Jun 2022 10:48:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 13 Jun 2022 10:48:04 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EED5E10E7F7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:08 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 917E33200959;
+ Mon, 13 Jun 2022 10:48:07 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 13 Jun 2022 10:48:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1655131683; x=1655218083; bh=fXbxvfnzH6
- OEPjBQQ1ujRBLCWsmVXkpwe26aOb+2/Sw=; b=ZN3PzEewBPwj6QfuNSi7CB6IFO
- 5R0of7PFEgjMLiNyIXq2bBkU+mONsJnck+yIlHOG+3LI9Zft1pF1/2o6FPilSdUX
- 9Uti+IBagaikUn5NbB1NSf/YBNqjlg53Av6++pT221B7l46Hi1qqgmJ5IKdtazOK
- KAfpu8Kkpv/bCVkHDzMDPm283mBCeyQp6U6y5eFK4uC5PWW4quVIpcUYbhuQoAPL
- 35XW1AwLv1P/aTMQhaT03N0FP/nBE+8Se8Yj2K35TSSdICPsPGxEovKHTKyheQ+t
- NCz4kZlScSDY010SAtrKidJhkPCj2nGwLaXf0SWZhZ0pVnpZjTHaqQ0DQHmw==
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1655131687; x=1655218087; bh=Kj
+ 6x7vYD4tTzIdr59c0LLJaeSz8Fm4Y7cqHTjoIRr/o=; b=i14NujVyfJ1TAiHNc6
+ V64+O6+JILo3XG6cYUDF8nrBLMGqFElt3l7CWJnfkSTwOrBdtbX9LZ+/kruMKe3v
+ QTOLFdRg23vkRHuaGDj+JJVeibKf+CbanLSXplyXAAmwlw1dYcl+dGTs9c7PK2Qs
+ u2sHfHjtrDgjvW9/6t1K62NMxbYudIAWUy+GX2FV2sXWcjgb1La/dUxvWtwduum4
+ +m22d6xxo9wucYoIKna6r4uqA6HF+L8aCi4KT58tVkwTHlQ++yp1CoGCvE1T8VOH
+ aOO5wYIkH4L9zUSiJPEseuWGballHJDgFnkfIZqdD/RLSscHqMbRMFa93ee1Eggn
+ Ghsw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655131683; x=1655218083; bh=fXbxvfnzH6OEP
- jBQQ1ujRBLCWsmVXkpwe26aOb+2/Sw=; b=oTlzFgYQO+MmdJq32lU3sFYJJB/Q5
- XpHioFKC1I02AsPdqiTElnOkofFBTOlW8MDSZkZ+8Y1hsGDGY+LcsYZzJwDkPZ8Z
- 9vNbUdIii58S5JcFUxdQsccYMJ2tdzixo0pAzU9W1JrvOvfdAUFAWIzcVwLD6ULK
- yyMW/+7Jhuy8iOpc/9hsA+2LdPtd7CvGYx/OP4jP1fPaoEQvBLh9ijsMBNh9w1Ov
- rJBbJCHOd1sog4rpqV8oEyfLTNadt3bPNW38/z8g43RT17awJIb15/JCquzN7Zbv
- rx4jGVoZ2lsUbCrs/huPZyn0CdPbeRJ6/CkIHanT0SXqYySdMUdA2Ft/A==
-X-ME-Sender: <xms:Ik6nYuO87GulGtppu_jvUXj24YQeX_wmmuhhSBAU1Xkx4PBwiIBAfA>
- <xme:Ik6nYs96uujcuJ0RaVKinXNuo_2Xdgr4R3AhVtq6-6sROexppp6XO0S_LkbfwyIJU
- jSeItM36Dot060o5ZU>
-X-ME-Received: <xmr:Ik6nYlSc8FH6EYx5VzrUKnOH2lUdqWRYrnB3pAZ1-CloRxpuoIEBh9eo4yWNYh88sS3QILuGxZ7IUu9HZfEngjFuc6pj25wLpkwddsY>
+ :x-sasl-enc; s=fm2; t=1655131687; x=1655218087; bh=Kj6x7vYD4tTzI
+ dr59c0LLJaeSz8Fm4Y7cqHTjoIRr/o=; b=hoOWY+noCY57ZmSi9onKLHksZcwlQ
+ oM3PlyS/QSSuEXdJ+PKFsLWDz/g3XdOo3UO4C3/e1wN5IwZZ9+34SHtSRBhCi/Z/
+ AUMU+OtRfJu3mXYGsD/0dCY1ZA31QoajaDiLe3arGpZhpSbuB2bSRiBHTRy6n90P
+ LV7KCAPUio0h57FQ6rC/FojAeuF+mQR/mMlacB7meL4uzGzRkjepKAoeODt1T7cU
+ PCL8MjuxbnDMHUlhufbqxe/3ObzQuXc2UasWRDzW4q57brpldwpVDsszQWKpPwgL
+ GTgP2tCwW5mWew2KFkctTkGapza1oTclKaAHLEhgXvdolBS0BBCi8Ev+Q==
+X-ME-Sender: <xms:Jk6nYl2HTjM8Y7U1LLgt9aYScSyhHBRNRGjWbaeZGzVmYtI6k7QJnQ>
+ <xme:Jk6nYsFMvx2LX6Ci110_QpMjuo24zcysdb6DHOLdCvyDfHcVG1YkAQfTDGWzegsJt
+ UJO8lmYBjOQNMWMxbI>
+X-ME-Received: <xmr:Jk6nYl5staDNnidVHMWmReoY8cIrx-Ul6ttKXuFmZ_aXE5J2x99Fgt-stYEwaonOMOQ4J-vMZ2wbp-tthWbj55GrV8zFyy7cNpYAL0w>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedgjeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgtggfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepledvtdegkeegtdejvdejvdejleeifeegfeevueegvddvleevieeghffhtdet
- geffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Ik6nYutzOUqJrLnpcJOYD4kN5gvFM5OKzlhzWP5Nu9GUQb2gI-LpGg>
- <xmx:Ik6nYmdBgxvvJIghXxCXQvYl0fqzczBOTI1dipddEbOx1ns3x696nA>
- <xmx:Ik6nYi3_f8G5GlEqLY2C_q2KhcToIHnIkf07DT6R3oV71NLX3CeqoA>
- <xmx:I06nYl6bdJiXGtHEHMluF2T6vzVdUXGzD_u17haZNq196jkRwLi5Yw>
+ cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
+ vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:Jk6nYi0EJxyY2j377ySfgkyUeDun8_l4n82DULMqWejFZatbbqt_lg>
+ <xmx:Jk6nYoH5HCa81qwdityuJF2o0zStTVqBDeJQwshmTLYOl9UqeaxHbA>
+ <xmx:Jk6nYj--UqT3e9P_SjKXniyBV14FaxXDVxstc0OQFmLfDOybPi71NQ>
+ <xmx:J06nYt59kIUkzmwqclLvDmMvY4xyKV3vaTGt1hZIGlhYnPBlepZfxg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jun 2022 10:48:02 -0400 (EDT)
+ 13 Jun 2022 10:48:06 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 00/33] drm/vc4: Misc fixes
-Date: Mon, 13 Jun 2022 16:47:27 +0200
-Message-Id: <20220613144800.326124-1-maxime@cerno.tech>
+Subject: [PATCH 01/33] drm/vc4: drv: Adopt the dma configuration from the HVS
+ or V3D component
+Date: Mon, 13 Jun 2022 16:47:28 +0200
+Message-Id: <20220613144800.326124-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220613144800.326124-1-maxime@cerno.tech>
+References: <20220613144800.326124-1-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,75 +85,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Here's a collection of small fixes that have been used in the downstream
-kernel for a while, affecting several parts of the vc4 driver.
+vc4_drv isn't necessarily under the /soc node in DT as it is a
+virtual device, but it is the one that does the allocations.
+The DMA addresses are consumed by primarily the HVS or V3D, and
+those require VideoCore cache alias address mapping, and so will be
+under /soc.
 
-Let me know what you think,
-Maxime
+During probe find the a suitable device node for HVS or V3D,
+and adopt the DMA configuration of that node.
 
-Dave Stevenson (21):
-  drm/vc4: drv: Adopt the dma configuration from the HVS or V3D
-    component
-  drm/vc4: plane: Fix margin calculations for the right/bottom edges
-  drm/vc4: plane: Add alpha_blend_mode property to each plane.
-  drm/vc4: hvs: Add debugfs node that dumps the current display lists
-  drm/vc4: dpi: Add support for composite syncs to vc4_dpi
-  drm/vc4: dpi: Add option for inverting pixel clock and output enable
-  drm/vc4: dpi: Ensure a default format is selected
-  drm/vc4: dsi: Release workaround buffer and DMA
-  drm/vc4: dsi: Correct DSI divider calculations
-  drm/vc4: dsi: Correct pixel order for DSI0
-  drm/vc4: dsi: Register dsi0 as the correct vc4 encoder type
-  drm/vc4: dsi: Fix dsi0 interrupt support
-  drm/vc4: dsi: Add correct stop condition to vc4_dsi_encoder_disable
-    iteration
-  drm/vc4: hdmi: Add all the vc5 HDMI registers into the debugfs dumps
-  drm/vc4: hdmi: Reset HDMI MISC_CONTROL register
-  drm/vc4: hdmi: Switch to pm_runtime_status_suspended
-  drm/vc4: hdmi: Move HDMI reset to pm_resume
-  drm/vc4: hdmi: Add HDMI format detection registers to register list
-  drm/vc4: hdmi: Add MISC_CONTROL register for vc4
-  drm/vc4: hdmi: Correct HDMI timing registers for interlaced modes
-  drm/vc4: hdmi: Move pixel doubling from Pixelvalve to HDMI block
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_drv.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-Dom Cobley (8):
-  drm/vc4: plane: Remove subpixel positioning check
-  drm/vc4: hdmi: Clear unused infoframe packet RAM registers
-  drm/vc4: hdmi: Avoid full hdmi audio fifo writes
-  drm/vc4: hdmi: Stop checking for enabled output in audio
-  drm/vc4: hdmi: Skip writes to disabled packet RAM
-  drm/vc4: hdmi: Remove VC4_HDMI_SCHEDULER_CONTROL_VERT_ALWAYS_KEEPOUT
-  drm/vc4: hdmi: Report that 3d/stereo is allowed
-  drm/vc4: hdmi: Force modeset when bpc or format changes
-
-Mateusz Kwiatkowski (1):
-  drm/vc4: hdmi: Fix timings for interlaced modes
-
-Maxime Ripard (2):
-  drm/vc4: kms: Warn if clk_set_min_rate fails
-  drm/vc4: kms: Use maximum FIFO load for the HVS clock rate
-
-Phil Elwell (1):
-  drm/vc4: hdmi: Disable audio if dmas property is present but empty
-
- drivers/gpu/drm/vc4/vc4_crtc.c      |  14 +-
- drivers/gpu/drm/vc4/vc4_dpi.c       |  99 +++++++------
- drivers/gpu/drm/vc4/vc4_drv.c       |  19 +++
- drivers/gpu/drm/vc4/vc4_dsi.c       | 152 +++++++++++++++-----
- drivers/gpu/drm/vc4/vc4_hdmi.c      | 210 ++++++++++++++++++----------
- drivers/gpu/drm/vc4/vc4_hdmi.h      |  14 +-
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h |  38 ++++-
- drivers/gpu/drm/vc4/vc4_hvs.c       |  42 ++++++
- drivers/gpu/drm/vc4/vc4_kms.c       |   8 +-
- drivers/gpu/drm/vc4/vc4_plane.c     |  92 ++++++++----
- 10 files changed, 503 insertions(+), 185 deletions(-)
-
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 162bc18e7497..14a7d529144d 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -209,6 +209,15 @@ static void vc4_match_add_drivers(struct device *dev,
+ 	}
+ }
+ 
++const struct of_device_id vc4_dma_range_matches[] = {
++	{ .compatible = "brcm,bcm2711-hvs" },
++	{ .compatible = "brcm,bcm2835-hvs" },
++	{ .compatible = "brcm,bcm2835-v3d" },
++	{ .compatible = "brcm,cygnus-v3d" },
++	{ .compatible = "brcm,vc4-v3d" },
++	{}
++};
++
+ static int vc4_drm_bind(struct device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+@@ -227,6 +236,16 @@ static int vc4_drm_bind(struct device *dev)
+ 		vc4_drm_driver.driver_features &= ~DRIVER_RENDER;
+ 	of_node_put(node);
+ 
++	node = of_find_matching_node_and_match(NULL, vc4_dma_range_matches,
++					       NULL);
++	if (node) {
++		ret = of_dma_configure(dev, node, true);
++		of_node_put(node);
++
++		if (ret)
++			return ret;
++	}
++
+ 	vc4 = devm_drm_dev_alloc(dev, &vc4_drm_driver, struct vc4_dev, base);
+ 	if (IS_ERR(vc4))
+ 		return PTR_ERR(vc4);
 -- 
 2.36.1
 
