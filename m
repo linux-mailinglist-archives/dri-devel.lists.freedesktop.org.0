@@ -1,122 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA035483C7
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 11:55:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 971985483CB
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 11:59:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5724710E048;
-	Mon, 13 Jun 2022 09:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8389910E099;
+	Mon, 13 Jun 2022 09:59:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2083.outbound.protection.outlook.com [40.107.243.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4782210E048
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 09:54:56 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2053.outbound.protection.outlook.com [40.107.92.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A269C10E099
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 09:59:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C3cGYV1U/lHXkRXhEeQ6bBKIBWGXtx6goHdyB76UPch2kMR+LEfoO5PyvVtPSyfXxXs0m00Yh6MOujTkjNBCHCDVNRJqXlcANU6oYR6tptXnUlKe6e14PWTxt37087TFNc96SzqLXGqn/B5PYKkoIeUPCSIIVn+zrTNmGX3iYXclWgfZdu0nztmg+y4QeoB5x2ITSDCyUT58+gHwZodzAyJJdyImopp1DHcOXEZRMZq6EWYeRSniRJecMAYNlzbyktNQlBzDsPM4LxEAxfK12geA7KQ9idvFzT6sO4+CxowSPV2QF9wz0c3vG1JuIvTl2N+cPGrO0JdlXwThTDz3yA==
+ b=ZjWG3ngB7O9Ly01YAU/F89K1BXb/mX/gFXvWcgtsdbovJet2nzipp6Ot5AuGwJgRff91DLjwPSMa54i7U6yVHj1n0PSt/RyIYUyzvOU0HwRPU8dXQcxuEjq5n5+lpxzesDfBAtUWwv1hvpTnGXtInA1b7Qp4Jt5zM5Arb/DEa78TkTFhVZmrZJ37aVSF9x5IyTmVDgPQ8bmo2Ce3wPzL/IoM+zkGXN0OizQTTN938PRMMdZMM9cB2LpLFeTrs2rcynli7+ao38ZaRan9YqXn+FDXG6DvyUgqLNpFc4n99r9MHDcJPska6pyF8+d+ShTxTaMmTNbYcRkPGbMhHpoleA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bq9FoEymI65n/O8j807gDKyOvzR/6pGpXK0o+j4STf4=;
- b=i6PQFhOKIrVQv+fJhvk+mYx4tm0STbtb4jHjE+vrWCZYITe0S7idJ9SqQdYnH+qGhTKVPMg3C8VSBu9F6Qjaga2sfaI5Tc8rqridbvL2qmi+ToRz94QX1T2P+Iai7GZJrNgfyehfctfEsAvHo6QKA9phTawpz+8+n5jZSeh30BBn8l589OBmDnpxa1yFsvFPFfTO8U1hyhMxkkGvyhB9D82G9q/zO7uarp4sG056F+0s90F9ayadRr9SAVLvD9q9Ip9pR7D1GL0NUoDEv9ag4Amlk4AwpueOMRPmXnAqMy5KV3QqG6xjVS6dOLctfLapOcMgwMIXLZU+SESscfMRMw==
+ bh=YwSyxRahEAiQkVmNqRCztaC/dmZgHbQdv6voK+fKB6Y=;
+ b=gzrrxG4NygNlbVn7xm7X5N4qFm0MuMm7zJn5/OU8DH1mYtqTMjnJM2SvaZQhTkSN47bsT62vaelmWWchxTz9RUa47FQJx7hnNF3zpXYIqI3g/xGI63+Uivv1qS9k7TBpTOlXzRJYQlGmH133nyRVom1sLxsutqcXcaAnyj2HE6R9HOLdfcz7eGKt66DfhgqdSr59qiy50fav+hrckIxc8xWgpK2YU4F77AkF+xQPMX9K4ZN/A5Tw+rCvOTU5jnWw+ESJ+cFeDQUulnmHGlialOm6uUl+yMoc/UlQnhlOsqPXkHMd6oErq+xQfNd1eWk4YVIrvGHrN2P+OOsJtfSP4w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bq9FoEymI65n/O8j807gDKyOvzR/6pGpXK0o+j4STf4=;
- b=zcmIbfdFMpepETlOugVSHbS3oAnhCQw/nVfYjQqOTvdtWrgQY1m8lfBTe4m8hsDY/6HeX4mijkiuHBv3OW01ytNnLAVaQhujhej+ApRXxqNvRu2tfKmivV+Ca89d7p3ECyLh0ctp3fqlv27nRcZQIejDA/U3bPKE1MsPOeL6hDM=
-Received: from CO6PR12MB5489.namprd12.prod.outlook.com (10.242.165.178) by
- BN6PR12MB1795.namprd12.prod.outlook.com (10.175.101.144) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5332.17; Mon, 13 Jun 2022 09:54:53 +0000
+ bh=YwSyxRahEAiQkVmNqRCztaC/dmZgHbQdv6voK+fKB6Y=;
+ b=XEvHcdn97DsCdozxfnY7E/uucb0H2w0mlLZWuG9O/Ec5lVBbCLNJCAFR2lbf8pKf+HsjvfwUjdZocjWTNf7Pmrl3pPkzKd0B1LazGvWnHmnyPyN+NbOWmfGXHwykUzPEBeHjrM9042dbG6TcY+snOoNt8tB2/rtzbOKPNPchakY=
+Received: from CO6PR12MB5489.namprd12.prod.outlook.com (2603:10b6:303:139::18)
+ by CY5PR12MB6273.namprd12.prod.outlook.com (2603:10b6:930:22::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.20; Mon, 13 Jun
+ 2022 09:59:01 +0000
 Received: from CO6PR12MB5489.namprd12.prod.outlook.com
  ([fe80::68dc:88ad:eb33:1813]) by CO6PR12MB5489.namprd12.prod.outlook.com
  ([fe80::68dc:88ad:eb33:1813%7]) with mapi id 15.20.5332.020; Mon, 13 Jun 2022
- 09:54:52 +0000
+ 09:59:01 +0000
 From: "Lin, Wayne" <Wayne.Lin@amd.com>
 To: Lyude Paul <lyude@redhat.com>, "dri-devel@lists.freedesktop.org"
  <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH 1/3] drm/display/dp_mst: Don't validate port refs in
- drm_dp_check_and_send_link_address()
-Thread-Topic: [PATCH 1/3] drm/display/dp_mst: Don't validate port refs in
- drm_dp_check_and_send_link_address()
-Thread-Index: AQHYdr3zoWQclpOJ6kGx3BfvKy4BF61NJ7kw
-Date: Mon, 13 Jun 2022 09:54:52 +0000
-Message-ID: <CO6PR12MB5489E9906D3A0E81E01663B5FCAB9@CO6PR12MB5489.namprd12.prod.outlook.com>
+Subject: RE: [PATCH 3/3] drm/dp_mst: Get rid of old comment in
+ drm_atomic_get_mst_topology_state docs
+Thread-Topic: [PATCH 3/3] drm/dp_mst: Get rid of old comment in
+ drm_atomic_get_mst_topology_state docs
+Thread-Index: AQHYdr3rfxl56jhHOUq56EiL4VxHW61NKmrQ
+Date: Mon, 13 Jun 2022 09:59:01 +0000
+Message-ID: <CO6PR12MB5489D6138C8CC26344618172FCAB9@CO6PR12MB5489.namprd12.prod.outlook.com>
 References: <20220602201757.30431-1-lyude@redhat.com>
- <20220602201757.30431-2-lyude@redhat.com>
-In-Reply-To: <20220602201757.30431-2-lyude@redhat.com>
+ <20220602201757.30431-4-lyude@redhat.com>
+In-Reply-To: <20220602201757.30431-4-lyude@redhat.com>
 Accept-Language: en-US, zh-TW
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2022-06-13T09:54:50Z; 
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2022-06-13T09:58:59Z; 
  MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
  MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
  MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=684f895c-fc5c-4c9b-a812-87c376020b94;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=b25ac003-7823-4ee6-b948-720384bd8549;
  MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: dc960a5e-ed32-4759-ce99-08da4d22c34f
-x-ms-traffictypediagnostic: BN6PR12MB1795:EE_
-x-microsoft-antispam-prvs: <BN6PR12MB17956CC603CFF687D00E5E03FCAB9@BN6PR12MB1795.namprd12.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 2f486694-da7e-4beb-29b5-08da4d2357a7
+x-ms-traffictypediagnostic: CY5PR12MB6273:EE_
+x-microsoft-antispam-prvs: <CY5PR12MB6273F04F9FD1F5D7AAFF41E4FCAB9@CY5PR12MB6273.namprd12.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Fg034IXWi2p9ED9kalXTnzLmiPaI6MlD5CHECOH3kaaYj/SIuyy06aQwcceLaRR9X3QA0PYEYz2azvOanGetXchPSrRKkJapHsENh1+wsu8j7yDL9p2mQQV1EzkZF4al2Q3P0dwUwQjFR0FaSbsaqvg8mL2W3fPDwHvMEh2Qa+6WYu5mOLEQlRWW08tulBwy7T98faLKGe+y9ac241rO767iLLuU5W1LL9O46CZzyGe8ZLS+MfpDjAH+pAIL23zoxowUeehiVkOv6m6C3JFvkuLe0VRL1l0ilNXtQZSd/kMRr/iHcXeGgLLEa2Bh3DSRb6ETCnn/jLcdiMv50kyNkhn12hNnS5/WuNloEVLYTD8Qo1muAdi0iwkQ7TWv5bHZBoI/7tf+8CMdqpkmp9kvMsmENW/y5s4aRGLDENf9Oovk5K1Dt0/wga3EAfQsw/Np335GMrVHAhBEehQH2t7kpK/+j+5lEueOwZ0IXWlYu4yCPO4kFh6/PvGw954nTV931PtKtfjzLZbCxK9aoCL2QjwOLk20Wz7owKXOQibFLvikUAk9bIAW4cSAukE1XpM4ej2G4Y66NWQTp3C97JNqZhz6Kkg1B5LQoF0HIozlXxpGqbBtRB9FyIkEWEjAo0FRIoJXhJtSbx4E/FDtocFAtoYAohbJZUAHBjQgnZqBrK0jNjYWZFyxjCwEzjBi8WaKg4vOyUek0xz4pjoLiZmr5g==
+x-microsoft-antispam-message-info: nkiNljicWjHU0J6FHIbX59uO1QxeVp1TAX5HZnxJE9odtDqiWdzb35jcKnmTb3gMOaJxGk6Gn61IJa8QuFlNFDQMBjWxiMViwhj5yNoZm+/9/XArQfSOxK2wh8a9TZApVBmvEZwP+DVZcEwT20T0dRsPQR0OkJ/p40dX8EfdWL0N10lgbu2fK+tiabgDkPWnlJPLwOA96N9DaFuzksepcL/GdRdMJg3xiNllXXR8kSbo23gcgNzIBTKUkkIW7cCjmhcL9u9STWOXqrMnDzocZ6+q07yBEMxTufv2m+BoWOrf/Osb8yHhRG9OqTgyEu5UsnLX6guwzY+CD/f6HscY67JKq79PIzsax1FTjscbVkh/2Dka4ZY0zUIW4epLt2NlR9oMbwfn8Z02CUdHPJbKWtuJtXbKfo00r8RXb6fHW9iMkzyzoDEZgxspEuUAA0HNIo6A3izdeXxdjSqWMtZ+XRy8UT31vQy/izK/E64ei9HRI52b5MylfAyQYt8ipTNRBmcnTlmevog/M0xIX0YuBm40OFZuy0bsXhxbYskgc8An0YGvlazmm1roci3tKPBiZvUrTy+Gr5Pm9obdlFLK5gxfbXRhxEaxfK9qbfwi5ud2FjeJ6h9TKG8UkcRYDEWgW24nUwxNQFeUqRjT9mHkVS9YBnwUc0Qeby+f8uwK1fbbWOgEQ8uIz7J/ons7GuOkkbSgEyHBSD1J+G50E37EL/CG6TtZiDg07723qI64uxs=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO6PR12MB5489.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(2906002)(66946007)(508600001)(52536014)(8676002)(66446008)(66556008)(64756008)(55016003)(4326008)(66476007)(15650500001)(86362001)(316002)(53546011)(7696005)(9686003)(26005)(76116006)(6506007)(54906003)(110136005)(71200400001)(38100700002)(33656002)(83380400001)(186003)(8936002)(122000001)(5660300002)(38070700005);
+ SFS:(13230016)(4636009)(366004)(508600001)(66556008)(66446008)(66476007)(2906002)(64756008)(66946007)(5660300002)(76116006)(33656002)(8936002)(6506007)(52536014)(8676002)(86362001)(7696005)(9686003)(53546011)(4326008)(38100700002)(26005)(71200400001)(38070700005)(54906003)(83380400001)(316002)(55016003)(122000001)(186003)(110136005)(26583001);
  DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?P/oU54dYsG27GzqooZe8ed6XmmMRoTg+447b5jRkljY3R996dYQMyb2+P87B?=
- =?us-ascii?Q?oDXBS5KIJ81OBCl590TFJ/3OH9NdVjtsTm3P5wbrFCaVqetlNifjRuASX3/e?=
- =?us-ascii?Q?NvA8TW7OglDghD6eH+LkqXeGFm9MFpIdjtG4q0nXXrQFeRUHZb7Z4jmhCXe1?=
- =?us-ascii?Q?rJVSOUGavGgw64SVTHaDqF59m5vq0OMon9Jlub5iJ0RcgxWDaA/+kvaKZf7R?=
- =?us-ascii?Q?+OjJ0nXMjp8zzdo2UgF6vTznL0KEMs+JapoGg7TuxUor5BOCrR/YLytDTXWh?=
- =?us-ascii?Q?tAUZncz+2NeEvfAb3nrtZjYQkqgGFr7KZGPgtMMNWGYd2VVfCzSE+P0oUqrp?=
- =?us-ascii?Q?wPwU8V855taCfC1kZi/poNyay3RmbEsyeHAZLaFgs73ZAk1BXoivt6jHuwfp?=
- =?us-ascii?Q?6bcUZHkAbgHZ5LIL2mxuyWHSHe2XH2Twu0VYBzYqgpO+5VgFZWPATXkoCFJZ?=
- =?us-ascii?Q?ZN4AzGLBpvGX7Lvdd0LOOFDNvY4oEq7lPIvn3Ddh3tBvzqle+fXN83d2jXH3?=
- =?us-ascii?Q?Erwsa4iOAdXxajt4bu+QfeXHCOrBzp15SdESNO3GBlEYyYugN4K4bWp1UB+n?=
- =?us-ascii?Q?h0zKwNSLthxZh5mhW+1/Eb6iPWD8RzXRvyBJdtOIUR56jXBHgDl40gmQIP0s?=
- =?us-ascii?Q?+83YXzHpRtbIvRFyHlYDAaUsd8X1GX4QE0mTFWTxER/dt4OVauLV33Qkwy8h?=
- =?us-ascii?Q?rE7BmaKiKqOn6mOsRCr7JbwMlM3oK7So4/QwAA1yerY610N3RmMdCis+AuTf?=
- =?us-ascii?Q?/QDM5TfHMBae5qHXoboG/y8SHrPhU44PySPT88NvunWEci/1d2Qlx262LYCi?=
- =?us-ascii?Q?vzGqLlHrmKJ+5fEkRwST4VPvluELTFsJDqSV45WyuId+dODk3yopd8ipU5kj?=
- =?us-ascii?Q?hsFWT64TK9nzzqJs+XVKMPGwufWKARYp8fYetqIUQrEcScAVadw8J5fLaBu/?=
- =?us-ascii?Q?lT6+HNKiQaXZ5ZGmyun5sNm3dkCt+bHHVgTQh1HWB76ajEe6WslXV1P3MfoO?=
- =?us-ascii?Q?kkyZ5zT0DpbTxDyD8Pbo8+NmcSVnt+IDgOkx/xo4a/m8J2oXCUWJXQU2HAQ9?=
- =?us-ascii?Q?OZT6VX5wOl7h7ULYTvq5NHxUvl1bNzdrvzdkk5s8Z1ENRwUIeVMaZRBQ9QyR?=
- =?us-ascii?Q?8RQza7zQm1VpkRBuMVWz00hQ7n61Og4ODyGbbZXFc+2PJNOxV47jPbHRqr1l?=
- =?us-ascii?Q?WXQ67ad7RGBQrCEHw3LAzs6y+5h6yxruLBb2RB5xFl6N0a/uu4cBtd9NhUyz?=
- =?us-ascii?Q?4/FOsf/OEdAnN2oUZXXcojfOuErjBE7qLDuWZ1bVdRExuJ2C9Tb5kxZhjDT5?=
- =?us-ascii?Q?w+h9DddquG1LFHxTX4cMCMv3bxryPtp1eBB201+oq8NAtS8PJTxzPrWI8lhI?=
- =?us-ascii?Q?hlvWs7J2QnWg8jeNuj5mvUIA7CC+2mSbiOlAEBeRTiSJ4doyVYsGT5oNCC4i?=
- =?us-ascii?Q?pkdPrdeeep/N6u7WeC+cD9WrfTGnKBOCAa7/RURMyKK1uaZPDNza3u/gFzEV?=
- =?us-ascii?Q?vuhTaPzcNHad6x78kY7SnFnR0FKaGiVFlESafEhUe1SlJiWHAaqIA6CNTItm?=
- =?us-ascii?Q?Lwt87uzUXkZuf76ryM0s9NwbbnMna4I4NRlmWwxwoPujsWcyHt6qXZTxiSb+?=
- =?us-ascii?Q?A7lQL/I3ew4j4+0UIiR1oaybN+m0a6JoRpqbkhqZFlww+zMDZ7ueaiAa3Dco?=
- =?us-ascii?Q?s6/U+Iy+7vjgFd44IjjlsAMSgF/e8lutRpPwOIXL7B+HXpbUsyzoQw7nRwJF?=
- =?us-ascii?Q?dZCTK0+lNA=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?EdTZ48YWJGtugHCmatRGxvKW+16cvUo8hUj9Ahf5UKO8oasJFuKrlhfQ6n6D?=
+ =?us-ascii?Q?TjBLsgkNLwVmzlL6a/foH10gRCgUmaK76NgXR21VnX6H2+Sh2+/8HMYuihfi?=
+ =?us-ascii?Q?eDrqsbfvUbBAPQruxEAAqnOE7a1TXCiU8el5vZ0ro1GAqyiYkxeet5Jg8cZz?=
+ =?us-ascii?Q?QplJAaNcrERgzduI1BqHQEdHBmkE8LJnVtABk/4P5QyC2iRvCtHU9l2czlao?=
+ =?us-ascii?Q?0YxSBRWnYVP+qsEJwXFccbMQc3ogqTQ3U7nnbvbj3ip5FSZVhrb1o+HLxg+B?=
+ =?us-ascii?Q?6AyC43vN0UYjCYTxkhc1qq74O++NYyo0SnBXHPaKdGzPmkqXSqdrrzRcCya3?=
+ =?us-ascii?Q?z8sxfpm6Cj8yV5BbNF8Z5wI7YMoUu88m/k2a/HoVLjEd3TWkGUznu8Oeukju?=
+ =?us-ascii?Q?uBdEGe8O68KUB1nbDsxN4/pg98ExygPcXd8DwqEaVGgPmpQIluofbNaGpPXA?=
+ =?us-ascii?Q?L2PCFy7CK2+ieBmjHwWzf9fkILgRCyF79eTEJWiRtVCud560SxVur7lYGu+S?=
+ =?us-ascii?Q?pJwC3CynywPbDa1tI8Y+tob6eTcwd2gNxI3X0FQyvodTcct1AIr2bxKefb9m?=
+ =?us-ascii?Q?51lNKewJEjlNITDNTOaalpVgAU5NsGEkSHQG7QBcItQodD2BmZwoq2hAax91?=
+ =?us-ascii?Q?wAWBk35smI4085u3Rt6Xwp9OkRfj18pNsdsay1pLBTUzmBMMvje7n9t6IpWF?=
+ =?us-ascii?Q?mLWaLVf7JFF3A4wG04M5OxJdZUqlWM1C98yrZV+N/xQ8NpnGLUwHWqqLh9mZ?=
+ =?us-ascii?Q?IC5PzSVEVHxp9WHgzHT/ONY3bu3c7lnwpGGSH3SiLs1y/73e7lV4TiS3T8ZL?=
+ =?us-ascii?Q?u5349Z8V3japu/u7HKXc01vVoQUgFhGjxbx9vZ3mL2oF8rRaPwiVcQNcXEnu?=
+ =?us-ascii?Q?cbT2Lf0uxOLvh0YunfE1l1xWy105fWOpxwitR56jR7sprF6JO71ZXlPq4wQC?=
+ =?us-ascii?Q?bH/p/nJdMyZjyk7cybjezdHVc7H+FPfahmNUvijHCo8NYaq12zGtzC/LpnRv?=
+ =?us-ascii?Q?8B6vCjHk8fjX48hyZ14dCMxPoikPKpuroc+jVJG90iZuL9vbZ9klJK/cY+y1?=
+ =?us-ascii?Q?gbJT9s0qxXe8DziQJPvhOS2HsYVoxnAwo6nytfv6WqWGOxkNQQv0dK/rIrVG?=
+ =?us-ascii?Q?zGkP2TNIezziXjY5Hwecustuye2yWoLsgltixLsyy6CXJROdSIdLdqmNqGuW?=
+ =?us-ascii?Q?ob8IIc+F9/NlvHCR/GXxE6kE6Lcj7yn4XD6TkkR0GOMUxgJY5mGA5O6/21cx?=
+ =?us-ascii?Q?5I/mmcYSzn6xZTffdzN0gRKH0VilgkKce8gnKeUpUVww1eJ+3esWSc4lsmVb?=
+ =?us-ascii?Q?6aRH2LaAI4wXn+7/QSP6HhzVLY6q0e/CMTAUPm8MOEP7Gf/aJynMzs06coVV?=
+ =?us-ascii?Q?UVEvXDYX5zstEVgWREEZbuqx/rpJOH74b+YX6N9ogjyg9MmocljoHmcy4cv3?=
+ =?us-ascii?Q?ExPlBrsoK/SAC5+gKaZxnBrpI/OU5ShEaCC/8HLV1MegkUGIH59KSXNripCI?=
+ =?us-ascii?Q?l5fEZqiVy3mjJ6z0rR5qDiF1yG0+s0v8N2kw4YZAUCvoVWVLtMMA26T2Fb5Q?=
+ =?us-ascii?Q?g+OVSmJm9pQ1TLWjLXoCDnhigYUj7WIlGmA2+WHizC6OlsHywCWVdD8KxKD9?=
+ =?us-ascii?Q?yWlyP0OGIDMc6mgnMv1VVqdfa1nb4wPTgZ3c1yWkbcqM5HPS2zV33KL1CcI0?=
+ =?us-ascii?Q?N3dGSPeer1giUJU9sK+XvRPlQyGUsaGteOizL22qBYJshY6Tidse0HourjSQ?=
+ =?us-ascii?Q?FkqMkZjymA=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5489.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc960a5e-ed32-4759-ce99-08da4d22c34f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2022 09:54:52.7047 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f486694-da7e-4beb-29b5-08da4d2357a7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2022 09:59:01.5644 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2pbXwx4vYAnsqVMFketfli0qG0ehDe79dxGrI97MJrz5cNVog5ahL7WwkbuL4YsD12Civ6sffeJ1Z1dyMU2pPg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1795
+X-MS-Exchange-CrossTenant-userprincipalname: 75lAIRyXiM0kV0ZlrxlCfUB2CPAojtaQZYCCfeph9JfKo8EHdf7TcYzTSbntI/U6lwU86cGmzZcJc+XVV4eQ6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6273
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,7 +139,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 [Public]
 
-Thanks, Lyude.
+Hi Lyude,
 
 Feel free to add
 Reviewed-by: Wayne Lin <Wayne.Lin@amd.com>
@@ -153,68 +154,40 @@ mas
 > <Wayne.Lin@amd.com>; Jani Nikula <jani.nikula@intel.com>; Lakha,
 > Bhawanpreet <Bhawanpreet.Lakha@amd.com>; Rajkumar Subbiah
 > <rsubbia@codeaurora.org>; open list <linux-kernel@vger.kernel.org>
-> Subject: [PATCH 1/3] drm/display/dp_mst: Don't validate port refs in
-> drm_dp_check_and_send_link_address()
+> Subject: [PATCH 3/3] drm/dp_mst: Get rid of old comment in
+> drm_atomic_get_mst_topology_state docs
 >=20
-> Drive-by cleanup, we don't need to validate the port references here as w=
-e
-> already previously went through the effort of refactoring things such tha=
-t
-> we're guaranteed to be able to access ->mstb and ->port safely from
-> drm_dp_check_and_send_link_address(), since the only two places in the
-> codebase that drop an MST reference in such a way that it would remove it
-> from the topology are both protected under probe_lock.
->=20
-> Thanks for that, past Lyude!
+> We don't actually care about connection_mutex here anymore, so let's get
+> rid of the comment mentioning it in this function's kdocs.
 >=20
 > Signed-off-by: Lyude Paul <lyude@redhat.com>
 > ---
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 22 +++++--------------
->  1 file changed, 6 insertions(+), 16 deletions(-)
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >=20
 > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
 > b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> index 67b3b9697da7..d84673b3294b 100644
+> index d6e595b95f07..9f96132a5d74 100644
 > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
 > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -2666,24 +2666,14 @@ static int
-> drm_dp_check_and_send_link_address(struct drm_dp_mst_topology_mgr
-> *mg
->  	}
->=20
->  	list_for_each_entry(port, &mstb->ports, next) {
-> -		struct drm_dp_mst_branch *mstb_child =3D NULL;
-> -
-> -		if (port->input || !port->ddps)
-> +		if (port->input || !port->ddps || !port->mstb)
->  			continue;
->=20
-> -		if (port->mstb)
-> -			mstb_child =3D
-> drm_dp_mst_topology_get_mstb_validated(
-> -			    mgr, port->mstb);
-> -
-> -		if (mstb_child) {
-> -			ret =3D drm_dp_check_and_send_link_address(mgr,
-> -								 mstb_child);
-> -			drm_dp_mst_topology_put_mstb(mstb_child);
-> -			if (ret =3D=3D 1)
-> -				changed =3D true;
-> -			else if (ret < 0)
-> -				return ret;
-> -		}
-> +		ret =3D drm_dp_check_and_send_link_address(mgr, port-
-> >mstb);
-> +		if (ret =3D=3D 1)
-> +			changed =3D true;
-> +		else if (ret < 0)
-> +			return ret;
->  	}
->=20
->  	return changed;
+> @@ -5458,8 +5458,7 @@
+> EXPORT_SYMBOL(drm_dp_mst_topology_state_funcs);
+>   *
+>   * This function wraps drm_atomic_get_priv_obj_state() passing in the MS=
+T
+> atomic
+>   * state vtable so that the private object state returned is that of a M=
+ST
+> - * topology object. Also, drm_atomic_get_private_obj_state() expects the
+> caller
+> - * to care of the locking, so warn if don't hold the connection_mutex.
+> + * topology object.
+>   *
+>   * RETURNS:
+>   *
 > --
 > 2.35.3
 
 --
 Regards,
-Wayne
+Wayne Lin
