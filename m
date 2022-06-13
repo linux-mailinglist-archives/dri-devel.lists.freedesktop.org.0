@@ -1,65 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E84A5499AC
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 19:19:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88AE55499E5
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 19:24:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6067710E659;
-	Mon, 13 Jun 2022 17:19:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9AD10E732;
+	Mon, 13 Jun 2022 17:24:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B01C110E659
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:19:55 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id x17so7982257wrg.6
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 10:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=v9wOSbkkFgoouudCT5M9ut11ttnj6LGZRsAbuaQUW4w=;
- b=AhRXQM/ukGy67WqPvSWEdkzh2PE+yy+GSFhlwgy+rjdEcBQcH5eTH7wmfvOFQZ2+2g
- S2NoTKCqKPCjaIsxjCSDZKihElHpfrXopMf0Gvr1nWl6qFzmc4Rc9R/OCX8XXiAnZ3z2
- 3mMZ1tYsDbkbr+HujclIPj1SogBHfm7NDSF8qEzfkoEuxVDqnMvotCfqtMgGcOLnrt0C
- FNZiHc/RrEuV5NC0Wjh+Ib++wXt99f9T+4ntJIv7vi99j0/qXrAejs2G2swfZ3NBBBeS
- i7Xxq0fQR9Et8WY8Hl5XgxQuIs4n+t1h9QP85QyB0kf3CHBK1OLwHHO8Ifsq88iyH651
- YxAA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7834010E732
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:24:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655141058;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yGvm3qwPoTuLTdX5NWsaOkcpvKYLKtr/ysaBv6CZIVc=;
+ b=TozptT0xEY1aP5OSkkSo+GH0XDUt1LkOJXV4DM6uNDVL4mSaJYLbvW0DZyVpgsA/Dvq3Is
+ WLwkGpPNIt0kVF3ZtqJ4b46smEQSQJe9RTrbk3PHJPfgLgZ8HUElwMmpo10NuNAtS/fpd3
+ X9RmSVuKXM08g1j+7ORIwJeImkhX7Ys=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-412-Pmcl3pY9Mb-h14StWBmwBQ-1; Mon, 13 Jun 2022 13:24:17 -0400
+X-MC-Unique: Pmcl3pY9Mb-h14StWBmwBQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l17-20020a05600c4f1100b0039c860db521so3207908wmq.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 10:24:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=v9wOSbkkFgoouudCT5M9ut11ttnj6LGZRsAbuaQUW4w=;
- b=Ltz3Ffm3/gIi3yeZ/Z7MbmCSOwiYAqUJhPJGDN9EowSx+Prj97bGv8f2HDLVjrSbHI
- ss5ZDo7nDgexd0gMuqG82AGBaOuaTA+/N0dKrCJvpfvt+jqqibFbL9Jhhu1GXPnTzjvA
- UTdCDg5ApeqrjrOoYMdNRUzxv1iamBnnimTcTEjeMW6QTlHvWwxUEhtR4NwNWTJawPQi
- l4QYqZKk3bgU4ePliJyTgIZhHBQlQrHD0KJYMKHviZCuitrC3CdAlgCu50L5l9cxBNeu
- P2YIhBtNMq7/HmpR871OmApyPEgyPjzJ07LoIxWepqLHTMZeITTVSsypigGoiEwLYbEF
- YC9Q==
-X-Gm-Message-State: AJIora9/NEpZGPcnF2iXWTtbKsrKxNkrHjibi1lZapa9jnc/eMXPd8iM
- VmD2mfwL2CFk+QcK1pG5ISc=
-X-Google-Smtp-Source: AGRyM1vK1IbbnFk2rcDMjgTifM9dW4eAfDBLjuP8C26mHS6Fg6KbDO8FnPheE0vldCzWcRT9Eblp7g==
-X-Received: by 2002:a05:6000:1688:b0:218:47d6:5e46 with SMTP id
- y8-20020a056000168800b0021847d65e46mr785988wrd.699.1655140794288; 
- Mon, 13 Jun 2022 10:19:54 -0700 (PDT)
-Received: from elementary ([94.73.36.128]) by smtp.gmail.com with ESMTPSA id
- r8-20020a05600c424800b0039740903c39sm9879039wmm.7.2022.06.13.10.19.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 10:19:53 -0700 (PDT)
-Date: Mon, 13 Jun 2022 19:19:51 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2 1/3] drm/rect: Add DRM_RECT_INIT() macro
-Message-ID: <20220613171951.GA132742@elementary>
-References: <20220612161248.271590-1-jose.exposito89@gmail.com>
- <20220612161248.271590-2-jose.exposito89@gmail.com>
- <87pmjdyp62.fsf@intel.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=yGvm3qwPoTuLTdX5NWsaOkcpvKYLKtr/ysaBv6CZIVc=;
+ b=IKG1fF9JL5WEUsIBvRwCI8D6zFW5lmvTZjgYeNPlJL+AlGESHHdPM8hbR4ksa+gI1l
+ MDC3TA/Ys265cngjAEeOgU7QpPLLK3LB+HcQiaeL6WkTenr4sQBx52Xt15nw1+V4nbtS
+ 8bjZfiMGFp1TDJwsqNZk0cia6adFVMbDQEX7W3Fr5hSh0CoFipnS8fdtl/snhog+QA5y
+ 9SxHNmM0rMXrSXrXKSx8VIcVIvNl/hYxodwH7KluqojOQfOYUlPuxriWdt+schMQPMXW
+ AKq2wgLN4DW6h7LifklcpZ6D06fjlfi6K5xmBumppBHwaI2cDC4QCITAf/Lw58gIZzC2
+ Pw9w==
+X-Gm-Message-State: AJIora8Ohx/zznVnU9jv2Yn+Y1Di59YBFv2TZvTjDtYprP6rKaRTLF+4
+ CzaqKnBkn2JIkPKxKOa5EWG6Rm1JwRNfT1wZeU3SXIRIVCHk13l81hBglcF9/+nsQNITI2q6q1R
+ 5Eoj0i/mMtbDVkXImUg7dBMB01s17
+X-Received: by 2002:a5d:5109:0:b0:218:40cc:a29b with SMTP id
+ s9-20020a5d5109000000b0021840cca29bmr858414wrt.601.1655141055796; 
+ Mon, 13 Jun 2022 10:24:15 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1umQvbmUV5kyQfsWQKm16COOgbaUu2gIG10MNTDJcGldHmXD3XO1wIjQhiRvT60PcbnoxxDAQ==
+X-Received: by 2002:a5d:5109:0:b0:218:40cc:a29b with SMTP id
+ s9-20020a5d5109000000b0021840cca29bmr858386wrt.601.1655141055500; 
+ Mon, 13 Jun 2022 10:24:15 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ d5-20020a5d5385000000b00213b93cff5fsm9082661wrv.98.2022.06.13.10.24.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jun 2022 10:24:15 -0700 (PDT)
+Message-ID: <bbddcf97-7ab2-209b-e777-1874557491a3@redhat.com>
+Date: Mon, 13 Jun 2022 19:24:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87pmjdyp62.fsf@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] Revert "fbdev: vesafb: Allow to be built if COMPILE_TEST
+ is enabled"
+To: linux-kernel@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+ linux-fbdev@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20220610085450.1341880-1-javierm@redhat.com>
+ <YqMTI3yxmWq/f+Gp@phenom.ffwll.local>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YqMTI3yxmWq/f+Gp@phenom.ffwll.local>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,59 +92,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, dlatypov@google.com,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, davidgow@google.com, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 13, 2022 at 10:53:57AM +0300, Jani Nikula wrote:
-> On Sun, 12 Jun 2022, José Expósito <jose.exposito89@gmail.com> wrote:
-> > Add a helper macro to initialize a rectangle from x, y, width and
-> > height information.
-> >
-> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> > ---
-> >  include/drm/drm_rect.h | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/include/drm/drm_rect.h b/include/drm/drm_rect.h
-> > index 6f6e19bd4dac..945696323c69 100644
-> > --- a/include/drm/drm_rect.h
-> > +++ b/include/drm/drm_rect.h
-> > @@ -47,6 +47,18 @@ struct drm_rect {
-> >  	int x1, y1, x2, y2;
-> >  };
-> >  
-> > +/**
-> > + * DRM_RECT_INIT - initialize a rectangle from x/y/w/h
-> > + * @x: x coordinate
-> > + * @y: y coordinate
-> > + * @w: width
-> > + * @h: height
-> > + *
-> > + * RETURNS:
-> > + * A new rectangle of the specified size.
-> > + */
-> > +#define DRM_RECT_INIT(x, y, w, h) { (x), (y), (x) + (w), (y) + (h) }
+On 6/10/22 11:47, Daniel Vetter wrote:
+> On Fri, Jun 10, 2022 at 10:54:50AM +0200, Javier Martinez Canillas wrote:
+>> This reverts commit fa0e256450f27a7d85f65c63f05e6897954a1d53. The kernel
+>> test robot reported that attempting to build the vesafb driver fails on
+>> some architectures, because these don't define a `struct screen_info`.
+>>
+>> This leads to linking errors, for example on parisc with allyesconfig:
+>>
+>>   hppa-linux-ld: drivers/video/fbdev/vesafb.o: in function `vesafb_probe':
+>>>> (.text+0x738): undefined reference to `screen_info'
+>>>> hppa-linux-ld: (.text+0x73c): undefined reference to `screen_info'
+>>    hppa-linux-ld: drivers/firmware/sysfb.o: in function `sysfb_init':
+>>>> (.init.text+0x28): undefined reference to `screen_info'
+>>>> hppa-linux-ld: (.init.text+0x30): undefined reference to `screen_info'
+>>    hppa-linux-ld: (.init.text+0x78): undefined reference to `screen_info'
+>>
+>> The goal of commit fa0e256450f2 ("fbdev: vesafb: Allow to be built if
+>> COMPILE_TEST is enabled") was to have more build coverage for the driver
+>> but it wrongly assumed that all architectures would define a screen_info.
+>>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 > 
-> Please use designated initializers.
-> 
-> It might help type safety if it also contained a (struct drm_rect) cast.
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Thanks a lot for your review Jani, just emailed v3 with your suggested
-changes.
+Pushed to drm-misc (drm-misc-next). Thanks!
 
-Jose
- 
-> BR,
-> Jani.
-> 
-> 
-> > +
-> >  /**
-> >   * DRM_RECT_FMT - printf string for &struct drm_rect
-> >   */
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
