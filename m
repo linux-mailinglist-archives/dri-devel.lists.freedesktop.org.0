@@ -2,53 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7C95485B2
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:32:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 977DD5485BF
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:48:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A43FB10E7FB;
-	Mon, 13 Jun 2022 14:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 407DE10E7F5;
+	Mon, 13 Jun 2022 14:48:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F93910E7FB
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:32:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655130752; x=1686666752;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=8wF/1dU2hbX2DYy7M0ppAJdB0m/VKc5sXgeurboZAI8=;
- b=jvskJfiZr6rpHVzjLa2gglnM0esxQPjUeTVc2XRv9ZvIYcHV8byhrNGZ
- 6fayReejTxS0IOVNZ8uiXp9jcb7l9AeXeUqb3D3yf0MR4XpX5lEYwWSuA
- qxPRm5QRvkAF/i1zx9fMwVRSbaaBYKRmvPQLrv+VTUl4lH/0hucU/rAhO
- tTmaekEtrIQUFhnF1DaZtUmbOh+xiLTPmryV7lrnEN8EcQBmhQy3s/DZO
- /S5SRXHJZJQmfT5dSoC+2+uhZCJ8lTU7kZXd5e4w3x125HDaDratSZTW+
- U0xEagvS2pmo8aTT1DeN3mPsDO8A97R7qZVVj3KiKnzu6+2Ks/nvoRqOw w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="342271755"
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="342271755"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2022 07:32:31 -0700
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="639761550"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.18.236])
- ([10.213.18.236])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2022 07:32:27 -0700
-Message-ID: <67c65cde-ccdd-5c1d-0b47-85e01d1e45e0@intel.com>
-Date: Mon, 13 Jun 2022 16:32:22 +0200
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48F5C10E7F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:05 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 34C2F3200923;
+ Mon, 13 Jun 2022 10:48:04 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Mon, 13 Jun 2022 10:48:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1655131683; x=1655218083; bh=fXbxvfnzH6
+ OEPjBQQ1ujRBLCWsmVXkpwe26aOb+2/Sw=; b=ZN3PzEewBPwj6QfuNSi7CB6IFO
+ 5R0of7PFEgjMLiNyIXq2bBkU+mONsJnck+yIlHOG+3LI9Zft1pF1/2o6FPilSdUX
+ 9Uti+IBagaikUn5NbB1NSf/YBNqjlg53Av6++pT221B7l46Hi1qqgmJ5IKdtazOK
+ KAfpu8Kkpv/bCVkHDzMDPm283mBCeyQp6U6y5eFK4uC5PWW4quVIpcUYbhuQoAPL
+ 35XW1AwLv1P/aTMQhaT03N0FP/nBE+8Se8Yj2K35TSSdICPsPGxEovKHTKyheQ+t
+ NCz4kZlScSDY010SAtrKidJhkPCj2nGwLaXf0SWZhZ0pVnpZjTHaqQ0DQHmw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1655131683; x=1655218083; bh=fXbxvfnzH6OEP
+ jBQQ1ujRBLCWsmVXkpwe26aOb+2/Sw=; b=oTlzFgYQO+MmdJq32lU3sFYJJB/Q5
+ XpHioFKC1I02AsPdqiTElnOkofFBTOlW8MDSZkZ+8Y1hsGDGY+LcsYZzJwDkPZ8Z
+ 9vNbUdIii58S5JcFUxdQsccYMJ2tdzixo0pAzU9W1JrvOvfdAUFAWIzcVwLD6ULK
+ yyMW/+7Jhuy8iOpc/9hsA+2LdPtd7CvGYx/OP4jP1fPaoEQvBLh9ijsMBNh9w1Ov
+ rJBbJCHOd1sog4rpqV8oEyfLTNadt3bPNW38/z8g43RT17awJIb15/JCquzN7Zbv
+ rx4jGVoZ2lsUbCrs/huPZyn0CdPbeRJ6/CkIHanT0SXqYySdMUdA2Ft/A==
+X-ME-Sender: <xms:Ik6nYuO87GulGtppu_jvUXj24YQeX_wmmuhhSBAU1Xkx4PBwiIBAfA>
+ <xme:Ik6nYs96uujcuJ0RaVKinXNuo_2Xdgr4R3AhVtq6-6sROexppp6XO0S_LkbfwyIJU
+ jSeItM36Dot060o5ZU>
+X-ME-Received: <xmr:Ik6nYlSc8FH6EYx5VzrUKnOH2lUdqWRYrnB3pAZ1-CloRxpuoIEBh9eo4yWNYh88sS3QILuGxZ7IUu9HZfEngjFuc6pj25wLpkwddsY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedgjeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofgtggfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepledvtdegkeegtdejvdejvdejleeifeegfeevueegvddvleevieeghffhtdet
+ geffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:Ik6nYutzOUqJrLnpcJOYD4kN5gvFM5OKzlhzWP5Nu9GUQb2gI-LpGg>
+ <xmx:Ik6nYmdBgxvvJIghXxCXQvYl0fqzczBOTI1dipddEbOx1ns3x696nA>
+ <xmx:Ik6nYi3_f8G5GlEqLY2C_q2KhcToIHnIkf07DT6R3oV71NLX3CeqoA>
+ <xmx:I06nYl6bdJiXGtHEHMluF2T6vzVdUXGzD_u17haZNq196jkRwLi5Yw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 13 Jun 2022 10:48:02 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH 00/33] drm/vc4: Misc fixes
+Date: Mon, 13 Jun 2022 16:47:27 +0200
+Message-Id: <20220613144800.326124-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.36.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/msm: Fix convert to drm_of_get_data_lanes_count
-Content-Language: en-US
-To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-References: <20220612143349.105766-1-marex@denx.de>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20220612143349.105766-1-marex@denx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,71 +82,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Maxime Ripard <maxime@cerno.tech>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- robert.foss@linaro.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
+Here's a collection of small fixes that have been used in the downstream
+kernel for a while, affecting several parts of the vc4 driver.
 
-On 12.06.2022 16:33, Marek Vasut wrote:
-> Add missing header file into dsi_host.c and encode data-lanes string
-> directly into the warning message in the driver to avoid build issues
-> detected by lkp.
->
-> Fixes: 185443efa26a ("drm/msm: Convert to drm_of_get_data_lanes_count")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Sean Paul <sean@poorly.run>
-> To: dri-devel@lists.freedesktop.org
+Let me know what you think,
+Maxime
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Dave Stevenson (21):
+  drm/vc4: drv: Adopt the dma configuration from the HVS or V3D
+    component
+  drm/vc4: plane: Fix margin calculations for the right/bottom edges
+  drm/vc4: plane: Add alpha_blend_mode property to each plane.
+  drm/vc4: hvs: Add debugfs node that dumps the current display lists
+  drm/vc4: dpi: Add support for composite syncs to vc4_dpi
+  drm/vc4: dpi: Add option for inverting pixel clock and output enable
+  drm/vc4: dpi: Ensure a default format is selected
+  drm/vc4: dsi: Release workaround buffer and DMA
+  drm/vc4: dsi: Correct DSI divider calculations
+  drm/vc4: dsi: Correct pixel order for DSI0
+  drm/vc4: dsi: Register dsi0 as the correct vc4 encoder type
+  drm/vc4: dsi: Fix dsi0 interrupt support
+  drm/vc4: dsi: Add correct stop condition to vc4_dsi_encoder_disable
+    iteration
+  drm/vc4: hdmi: Add all the vc5 HDMI registers into the debugfs dumps
+  drm/vc4: hdmi: Reset HDMI MISC_CONTROL register
+  drm/vc4: hdmi: Switch to pm_runtime_status_suspended
+  drm/vc4: hdmi: Move HDMI reset to pm_resume
+  drm/vc4: hdmi: Add HDMI format detection registers to register list
+  drm/vc4: hdmi: Add MISC_CONTROL register for vc4
+  drm/vc4: hdmi: Correct HDMI timing registers for interlaced modes
+  drm/vc4: hdmi: Move pixel doubling from Pixelvalve to HDMI block
 
-Regards
-Andrzej
-> ---
->   drivers/gpu/drm/msm/dp/dp_parser.c | 4 ++--
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 2 ++
->   2 files changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index 346556c5706d7..57ae14a0e1814 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -106,8 +106,8 @@ static int dp_parser_misc(struct dp_parser *parser)
->   
->   	len = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
->   	if (len < 0) {
-> -		DRM_WARN("Invalid property %s, default max DP lanes = %d\n",
-> -				data_lane_property, DP_MAX_NUM_DP_LANES);
-> +		DRM_WARN("Invalid property \"data-lanes\", default max DP lanes = %d\n",
-> +			 DP_MAX_NUM_DP_LANES);
->   		len = DP_MAX_NUM_DP_LANES;
->   	}
->   
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index db5871b9c5d88..7e21916d1511a 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -21,6 +21,8 @@
->   
->   #include <video/mipi_display.h>
->   
-> +#include <drm/drm_of.h>
-> +
->   #include "dsi.h"
->   #include "dsi.xml.h"
->   #include "sfpb.xml.h"
+Dom Cobley (8):
+  drm/vc4: plane: Remove subpixel positioning check
+  drm/vc4: hdmi: Clear unused infoframe packet RAM registers
+  drm/vc4: hdmi: Avoid full hdmi audio fifo writes
+  drm/vc4: hdmi: Stop checking for enabled output in audio
+  drm/vc4: hdmi: Skip writes to disabled packet RAM
+  drm/vc4: hdmi: Remove VC4_HDMI_SCHEDULER_CONTROL_VERT_ALWAYS_KEEPOUT
+  drm/vc4: hdmi: Report that 3d/stereo is allowed
+  drm/vc4: hdmi: Force modeset when bpc or format changes
+
+Mateusz Kwiatkowski (1):
+  drm/vc4: hdmi: Fix timings for interlaced modes
+
+Maxime Ripard (2):
+  drm/vc4: kms: Warn if clk_set_min_rate fails
+  drm/vc4: kms: Use maximum FIFO load for the HVS clock rate
+
+Phil Elwell (1):
+  drm/vc4: hdmi: Disable audio if dmas property is present but empty
+
+ drivers/gpu/drm/vc4/vc4_crtc.c      |  14 +-
+ drivers/gpu/drm/vc4/vc4_dpi.c       |  99 +++++++------
+ drivers/gpu/drm/vc4/vc4_drv.c       |  19 +++
+ drivers/gpu/drm/vc4/vc4_dsi.c       | 152 +++++++++++++++-----
+ drivers/gpu/drm/vc4/vc4_hdmi.c      | 210 ++++++++++++++++++----------
+ drivers/gpu/drm/vc4/vc4_hdmi.h      |  14 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h |  38 ++++-
+ drivers/gpu/drm/vc4/vc4_hvs.c       |  42 ++++++
+ drivers/gpu/drm/vc4/vc4_kms.c       |   8 +-
+ drivers/gpu/drm/vc4/vc4_plane.c     |  92 ++++++++----
+ 10 files changed, 503 insertions(+), 185 deletions(-)
+
+-- 
+2.36.1
 
