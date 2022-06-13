@@ -1,53 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FAD6548570
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 15:33:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B898F54857F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 15:48:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 719AC10E7C3;
-	Mon, 13 Jun 2022 13:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C11010E7E5;
+	Mon, 13 Jun 2022 13:48:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com
- [209.85.166.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 007D410E7C3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 13:33:22 +0000 (UTC)
-Received: by mail-il1-f182.google.com with SMTP id y17so4232124ilj.11
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 06:33:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=n5jciRFgHV7TEd2xOcxd5PlRxTUMR+//Y01eSUV2T1g=;
- b=Hj4xt2oDMmCZuQRzsPyVRgf72H59ZUbAE4UWDtgKdhEomRg3gJcJcletLiI2iaXo67
- oYsIuNzA0xox5veXK83WPo22Bv1GMyskz6HyZ3szWQliXUo/kX90XYpAHsKMv11Fq7qn
- ysr64eQBf33Dhf6aWFTGHSJfpc29VRJFlx4jnJHQlbIAYfjCTMKT0xroWOkCk3E9GXdv
- tl6RvLtADzqUZGKI6enm4BWkaW6YdPUjKUXTXjVc2Ys5AK3yACsxbVHRjClE8epbDH/j
- ngpGow6mkrmbOq+LxhVjPEkfS+VVCi8j3AAAvAVTcGL08xpNeAWYcnLscJ/q+gut7ArI
- 8GyA==
-X-Gm-Message-State: AOAM531JW/e/AriVyAp9kM6RuQatToz2P0MVx2XHhyBNVPl8p4HkiCeh
- KpMQ/Ri9vfXs8UvGXsjkPg==
-X-Google-Smtp-Source: ABdhPJwPF2UYqCLy0MjugVo/d0pZuzKLj39QY8kf66rRczmdaVGt+15ynEKyrpTTZPzJBoKuuGYMHw==
-X-Received: by 2002:a05:6e02:1b04:b0:2d1:af55:eb92 with SMTP id
- i4-20020a056e021b0400b002d1af55eb92mr33611511ilv.227.1655127201997; 
- Mon, 13 Jun 2022 06:33:21 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.251])
- by smtp.gmail.com with ESMTPSA id
- i2-20020a02ca02000000b0032e79d23f8fsm3510831jak.156.2022.06.13.06.33.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 06:33:21 -0700 (PDT)
-Received: (nullmailer pid 3564135 invoked by uid 1000);
- Mon, 13 Jun 2022 13:33:17 -0000
-From: Rob Herring <robh@kernel.org>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-In-Reply-To: <20220613064841.10481-2-rex-bc.chen@mediatek.com>
-References: <20220613064841.10481-1-rex-bc.chen@mediatek.com>
- <20220613064841.10481-2-rex-bc.chen@mediatek.com>
-Subject: Re: [PATCH v11 01/12] dt-bindings: mediatek,
- dpi: Add DP_INTF compatible
-Date: Mon, 13 Jun 2022 07:33:17 -0600
-Message-Id: <1655127197.559996.3564134.nullmailer@robh.at.kernel.org>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41FF710E7E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 13:48:25 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3815AB8101F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 13:48:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E6243C3411B
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 13:48:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1655128100;
+ bh=4xEqvUtj+DMpv+x9UeCRCnmdTm8OsrIXA1CErM1KYXs=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=QRX1y6Ri+FH1gtrCXBMc/1I3YjEyXZOgU//ofN2/SssdFVr9yhTnwjTJb4NhpkQ9o
+ o1WMRwkQXlxSfeCwjmnoR9jZ+tFiOFLcZNCZAtj6qNlCkSDDTOaeZ6iG8XuhUagqTu
+ gV5AarsN+uvHCRyxCj9lCyef+rjFDXdFNNIaZnDjwTDsGcTBYJwBsrIHW7Lv8uP8xv
+ WaCO2Pm+sUycoBJxTZvaoPek7noKDzz9jppZhlS0h3kaioHNiy8ki2N4Z6yMr4nvCU
+ 7OOd2ejsY/leBZ97540N5NhFw+8HoG10RFmK/3gIG6EAuS50Mh6JwCRIQCnLS4WeFu
+ n+f/couXqRwkw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id D02AACC13B3; Mon, 13 Jun 2022 13:48:20 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
+ 390
+Date: Mon, 13 Jun 2022 13:48:20 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-216119-2300-jCBBywAztk@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
+References: <bug-216119-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,61 +72,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
- krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org,
- airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, msp@baylibre.com,
- Project_Global_Chrome_Upstream_Group@mediatek.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, wenst@chromium.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 13 Jun 2022 14:48:30 +0800, Bo-Chen Chen wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> DP_INTF is similar to DPI but does not have the exact same feature set
-> or register layouts.
-> 
-> DP_INTF is the sink of the display pipeline that is connected to the
-> DisplayPort controller and encoder unit. It takes the same clocks as
-> DPI.
-> 
-> In this patch, we also do these string replacement:
-> - s/mediatek/MediaTek/ in title.
-> - s/Mediatek/MediaTek/ in description.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> ---
->  .../bindings/display/mediatek/mediatek,dpi.yaml     | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Alex Deucher (alexdeucher@gmail.com) changed:
 
-yamllint warnings/errors:
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.example.dtb: dpi@1401d000: clocks: [[4294967295, 40], [4294967295, 41], [4294967295, 8]] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.example.dtb: dpi@1401d000: clock-names: ['pixel', 'engine', 'pll'] is too short
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+--- Comment #3 from Alex Deucher (alexdeucher@gmail.com) ---
+Does this patch fix it in your case?
 
-doc reference errors (make refcheckdocs):
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+h=3Dv5.18&id=3Df95af4a9236695caed24fe6401256bb974e8f2a7
 
-See https://patchwork.ozlabs.org/patch/
+--=20
+You may reply to this email to add a comment.
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
