@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5947547FC8
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 08:49:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 111A4547FC1
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 08:48:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAF6010E8B1;
-	Mon, 13 Jun 2022 06:49:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFE0310E82E;
+	Mon, 13 Jun 2022 06:48:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA52510E885
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 06:48:53 +0000 (UTC)
-X-UUID: 42f531b43e3a4355b674f5f6bbd5cdef-20220613
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B2F710E7A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 06:48:50 +0000 (UTC)
+X-UUID: 6153f37f00554545860bb19a2fbb724b-20220613
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:353ba3d0-a0e9-4b12-ac16-fdbf83731228, OB:0,
+X-CID-O-INFO: VERSION:1.1.5, REQID:95579b9f-f73c-4432-a9b7-49a87fbc990e, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:-5
-X-CID-META: VersionHash:2a19b09, CLOUDID:87715ac6-12ba-4305-bfdf-9aefbdc32516,
+ B:0,IP:0,URL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:20
+X-CID-META: VersionHash:2a19b09, CLOUDID:ba715ac6-12ba-4305-bfdf-9aefbdc32516,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:0,BEC:nil
-X-UUID: 42f531b43e3a4355b674f5f6bbd5cdef-20220613
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:5,IP:nil,URL:0,File:nil,
+ QS:0,BEC:nil
+X-UUID: 6153f37f00554545860bb19a2fbb724b-20220613
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 755631472; Mon, 13 Jun 2022 14:48:44 +0800
+ with ESMTP id 85491784; Mon, 13 Jun 2022 14:48:44 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
  Mon, 13 Jun 2022 14:48:43 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
@@ -38,10 +38,10 @@ From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <daniel@ffwll.ch>,
  <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
  <matthias.bgg@gmail.com>, <airlied@linux.ie>
-Subject: [PATCH v11 03/12] drm/mediatek: dpi: implement a CK/DE pol toggle in
+Subject: [PATCH v11 04/12] drm/mediatek: dpi: implement a swap_input toggle in
  SoC config
-Date: Mon, 13 Jun 2022 14:48:32 +0800
-Message-ID: <20220613064841.10481-4-rex-bc.chen@mediatek.com>
+Date: Mon, 13 Jun 2022 14:48:33 +0800
+Message-ID: <20220613064841.10481-5-rex-bc.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220613064841.10481-1-rex-bc.chen@mediatek.com>
 References: <20220613064841.10481-1-rex-bc.chen@mediatek.com>
@@ -71,10 +71,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Guillaume Ranquet <granquet@baylibre.com>
 
-Dp_intf does not support CK/DE polarity because the polarity information
-is not used for eDP and DP while dp_intf is only for eDP and DP.
-Therefore, we add a bit of flexibility to support SoCs without CK/DE pol
-support.
+The hardware design of dp_intf does not support input swap, so we add
+a bit of flexibility to support SoCs without swap_input support.
 
 Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 [Bo-Chen: Add modification reason in commit message.]
@@ -82,76 +80,75 @@ Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index ce8c5eefe5f1..15218c1e8c11 100644
+index 15218c1e8c11..c1438c744120 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -125,6 +125,7 @@ struct mtk_dpi_conf {
- 	bool edge_sel_en;
+@@ -126,6 +126,7 @@ struct mtk_dpi_conf {
  	const u32 *output_fmts;
  	u32 num_output_fmts;
-+	bool is_ck_de_pol;
+ 	bool is_ck_de_pol;
++	bool swap_input_support;
  	const struct mtk_dpi_yc_limit *limit;
  };
  
-@@ -211,13 +212,20 @@ static void mtk_dpi_config_pol(struct mtk_dpi *dpi,
- 			       struct mtk_dpi_polarities *dpi_pol)
- {
- 	unsigned int pol;
-+	unsigned int mask;
- 
--	pol = (dpi_pol->ck_pol == MTK_DPI_POLARITY_RISING ? 0 : CK_POL) |
--	      (dpi_pol->de_pol == MTK_DPI_POLARITY_RISING ? 0 : DE_POL) |
--	      (dpi_pol->hsync_pol == MTK_DPI_POLARITY_RISING ? 0 : HSYNC_POL) |
-+	mask = HSYNC_POL | VSYNC_POL;
-+	pol = (dpi_pol->hsync_pol == MTK_DPI_POLARITY_RISING ? 0 : HSYNC_POL) |
- 	      (dpi_pol->vsync_pol == MTK_DPI_POLARITY_RISING ? 0 : VSYNC_POL);
--	mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING, pol,
--		     CK_POL | DE_POL | HSYNC_POL | VSYNC_POL);
-+	if (dpi->conf->is_ck_de_pol) {
-+		mask |= CK_POL | DE_POL;
-+		pol |= (dpi_pol->ck_pol == MTK_DPI_POLARITY_RISING ?
-+			0 : CK_POL) |
-+		       (dpi_pol->de_pol == MTK_DPI_POLARITY_RISING ?
-+			0 : DE_POL);
-+	}
-+
-+	mtk_dpi_mask(dpi, DPI_OUTPUT_SETTING, pol, mask);
+@@ -378,18 +379,21 @@ static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
+ 	    (format == MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL)) {
+ 		mtk_dpi_config_yuv422_enable(dpi, false);
+ 		mtk_dpi_config_csc_enable(dpi, true);
+-		mtk_dpi_config_swap_input(dpi, false);
++		if (dpi->conf->swap_input_support)
++			mtk_dpi_config_swap_input(dpi, false);
+ 		mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_BGR);
+ 	} else if ((format == MTK_DPI_COLOR_FORMAT_YCBCR_422) ||
+ 		   (format == MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL)) {
+ 		mtk_dpi_config_yuv422_enable(dpi, true);
+ 		mtk_dpi_config_csc_enable(dpi, true);
+-		mtk_dpi_config_swap_input(dpi, true);
++		if (dpi->conf->swap_input_support)
++			mtk_dpi_config_swap_input(dpi, true);
+ 		mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_RGB);
+ 	} else {
+ 		mtk_dpi_config_yuv422_enable(dpi, false);
+ 		mtk_dpi_config_csc_enable(dpi, false);
+-		mtk_dpi_config_swap_input(dpi, false);
++		if (dpi->conf->swap_input_support)
++			mtk_dpi_config_swap_input(dpi, false);
+ 		mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_RGB);
+ 	}
  }
- 
- static void mtk_dpi_config_3d(struct mtk_dpi *dpi, bool en_3d)
-@@ -799,6 +807,7 @@ static const struct mtk_dpi_conf mt8173_conf = {
- 	.max_clock_khz = 300000,
+@@ -808,6 +812,7 @@ static const struct mtk_dpi_conf mt8173_conf = {
  	.output_fmts = mt8173_output_fmts,
  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
-+	.is_ck_de_pol = true,
+ 	.is_ck_de_pol = true,
++	.swap_input_support = true,
  	.limit = &mtk_dpi_limit,
  };
  
-@@ -809,6 +818,7 @@ static const struct mtk_dpi_conf mt2701_conf = {
- 	.max_clock_khz = 150000,
+@@ -819,6 +824,7 @@ static const struct mtk_dpi_conf mt2701_conf = {
  	.output_fmts = mt8173_output_fmts,
  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
-+	.is_ck_de_pol = true,
+ 	.is_ck_de_pol = true,
++	.swap_input_support = true,
  	.limit = &mtk_dpi_limit,
  };
  
-@@ -818,6 +828,7 @@ static const struct mtk_dpi_conf mt8183_conf = {
- 	.max_clock_khz = 100000,
+@@ -829,6 +835,7 @@ static const struct mtk_dpi_conf mt8183_conf = {
  	.output_fmts = mt8183_output_fmts,
  	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-+	.is_ck_de_pol = true,
+ 	.is_ck_de_pol = true,
++	.swap_input_support = true,
  	.limit = &mtk_dpi_limit,
  };
  
-@@ -827,6 +838,7 @@ static const struct mtk_dpi_conf mt8192_conf = {
- 	.max_clock_khz = 150000,
+@@ -839,6 +846,7 @@ static const struct mtk_dpi_conf mt8192_conf = {
  	.output_fmts = mt8183_output_fmts,
  	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-+	.is_ck_de_pol = true,
+ 	.is_ck_de_pol = true,
++	.swap_input_support = true,
  	.limit = &mtk_dpi_limit,
  };
  
