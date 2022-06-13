@@ -1,63 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465065484A8
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 12:59:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A0965484AF
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 13:05:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25E5310E3EC;
-	Mon, 13 Jun 2022 10:58:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFCB010E373;
+	Mon, 13 Jun 2022 11:05:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2BA710E3E4;
- Mon, 13 Jun 2022 10:58:54 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 640851F8AB;
- Mon, 13 Jun 2022 10:58:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1655117933; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=T24MDPB27mi/VChhQnoQUGgU6gaWYDClUwFZxKZD5Cc=;
- b=wSYsvTTZZNczoDAdBCwCjSw+MvpCeLG0GaxaKSph2ywZp9Ych8zpMs2xZ1/isVhTsm3y8o
- LNtuhU7rUTBzXY1MbtpTCYYZ0ETDKr1eBuFM73SWkoJXCNLbQxBzGjmqZO/RtnWeaD0Or3
- Gu3eTq+hQAzMH3JX8cnz9v81o94iQ+Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1655117933;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=T24MDPB27mi/VChhQnoQUGgU6gaWYDClUwFZxKZD5Cc=;
- b=ZkW8+FR6tagNu83JGBtCHmtChDIu1BFD+zL02/GM5qvwV+nUHu0GmT2zk7bCK4e0nO+Y5b
- mE2VonTopIlDI8CQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3DC0F13443;
- Mon, 13 Jun 2022 10:58:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 5WIqDm0Yp2IObAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 13 Jun 2022 10:58:53 +0000
-Message-ID: <f7f86767-ad4a-0e62-c1af-a227d5709a54@suse.de>
-Date: Mon, 13 Jun 2022 12:58:52 +0200
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3A6410E373;
+ Mon, 13 Jun 2022 11:05:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655118324; x=1686654324;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=eIB02uYfoFOCupkui0GuirERC+/vNh+am4bXH4TCy64=;
+ b=EgA4yO5fxmWLco+7z6TA7D6k+2Ch8nQ0G81uL9bpWTx2+pDdu/BtFVh5
+ +D6Ck+2cD4vbS8P1WHXv4M2AnijteJXlWmPhyd9Md0vDJ0H/v+E0fLKHz
+ auwrBbA7XRFGWUWRvD5Gwg5BUCeIOACF3tIGAPseKVMJk3XSNeN78gesP
+ 7LmUi2tnTBtXnb4jLLW93LlwqX4Jiok2pKc9Zx4WK8G8Ds4Gwyp1lep+D
+ SQet6Dg7n/YFyEVdmdRhL5+iaU4/FcdzSgzYzkEr22KSjt+QresDRRKX/
+ 7fEMrjyhXvslRrAsDovSUcDHSOgKsMYyG8iGsgzKt13lM9b4PdQsatGp2 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10376"; a="266939468"
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="266939468"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2022 04:05:23 -0700
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="639674205"
+Received: from njascanu-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.47.149])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2022 04:05:19 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, dri-devel
+ <dri-devel@lists.freedesktop.org>, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/display: Re-add check for low voltage sku for
+ max dp source rate
+In-Reply-To: <20220613102241.9236-1-Jason@zx2c4.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220613102241.9236-1-Jason@zx2c4.com>
+Date: Mon, 13 Jun 2022 14:05:17 +0300
+Message-ID: <87edzszuvm.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] iosys-map: Add word-sized reads
-Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220609232020.2292649-1-lucas.demarchi@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220609232020.2292649-1-lucas.demarchi@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------yhgdSWN1AougYqmWpQuBxOb1"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,172 +58,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, christian.koenig@amd.com,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Animesh Manna <animesh.manna@intel.com>,
+ Jani Saarinen <jani.saarinen@intel.com>, Uma Shankar <uma.shankar@intel.com>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------yhgdSWN1AougYqmWpQuBxOb1
-Content-Type: multipart/mixed; boundary="------------Fsn0iKrEhvdCMGCfVAqJXkBv";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: daniel.vetter@ffwll.ch, christian.koenig@amd.com,
- Chris Wilson <chris@chris-wilson.co.uk>
-Message-ID: <f7f86767-ad4a-0e62-c1af-a227d5709a54@suse.de>
-Subject: Re: [PATCH] iosys-map: Add word-sized reads
-References: <20220609232020.2292649-1-lucas.demarchi@intel.com>
-In-Reply-To: <20220609232020.2292649-1-lucas.demarchi@intel.com>
+On Mon, 13 Jun 2022, "Jason A. Donenfeld" <Jason@zx2c4.com> wrote:
+> This reverts commit 73867c8709b569cdd7fda67f01dfe02c8d055521, which, on
+> an i7-11850H iGPU with a Thinkpad X1 Extreme Gen 4, attached to a LG
+> LP160UQ1-SPB1 embedded panel, causes wild flickering glitching
+> technicolor pyrotechnics on resumption from suspend. The display shows
+> strobing colors in an utter disaster explosion of pantone, as though
+> bombs were dropped on the leprechauns at the base of the rainbow.
+>
+> Rebooting the machine fixes the issue, presumably because the display is
+> initialized by firmware rather than by i915. Otherwise, the GPU appears
+> to work fine.
+>
+> Bisection traced it back to this commit, which makes sense given the
+> issues.
 
---------------Fsn0iKrEhvdCMGCfVAqJXkBv
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thanks for putting in the effort to bisect, and the patch.
 
-SGkgTHVjYXMNCg0KQW0gMTAuMDYuMjIgdW0gMDE6MjAgc2NocmllYiBMdWNhcyBEZSBNYXJj
-aGk6DQo+IEluc3RlYWQgb2YgYWx3YXlzIGZhbGxpbmcgYmFjayB0byBtZW1jcHlfZnJvbWlv
-KCkgZm9yIGFueSBzaXplLCBwcmVmZXINCj4gdXNpbmcgcmVhZHtiLHcsbH0oKS4gV2hlbiBy
-ZWFkaW5nIHN0cnVjdCBtZW1iZXJzIGl0J3MgY29tbW9uIHRvIHJlYWQNCj4gaW5kaXZpZHVh
-bCBpbnRlZ2VyIHZhcmlhYmxlcyBpbmRpdmlkdWFsbHkuIEdvaW5nIHRocm91Z2ggbWVtY3B5
-X2Zyb21pbygpDQo+IGZvciBlYWNoIG9mIHRoZW0gcG9zZXMgYSBoaWdoIHBlbmFsdHkuDQo+
-IA0KPiBFbXBsb3kgYSBzaW1pbGFyIHRyaWNrIGFzIF9fc2VxcHJvcCgpIGJ5IHVzaW5nIF9H
-ZW5lcmljKCkgdG8gZ2VuZXJhdGUNCj4gb25seSB0aGUgc3BlY2lmaWMgY2FsbCBiYXNlZCBv
-biBhIHR5cGUtY29tcGF0aWJsZSB2YXJpYWJsZS4NCj4gDQo+IEZvciBhIHBhcml0aWN1bGFy
-IGk5MTUgd29ya2xvYWQgcHJvZHVjaW5nIEdQVSBjb250ZXh0IHN3aXRjaGVzLA0KPiBfX2dl
-dF9lbmdpbmVfdXNhZ2VfcmVjb3JkKCkgaXMgcGFydGljdWxhcmx5IGhvdCBzaW5jZSB0aGUg
-ZW5naW5lIHVzYWdlDQo+IGlzIHJlYWQgZnJvbSBkZXZpY2UgbG9jYWwgbWVtb3J5IHdpdGgg
-ZGdmeCwgcG9zc2libHkgbXVsdGlwbGUgdGltZXMNCj4gc2luY2UgaXQncyByYWN5LiBUZXN0
-IGV4ZWN1dGlvbiB0aW1lIGZvciB0aGlzIHRlc3Qgc2hvd3MgYSB+MTIuNSUNCj4gaW1wcm92
-ZW1lbnQgd2l0aCBERzI6DQo+IA0KPiBCZWZvcmU6DQo+IAlucmVwZWF0cyA9IDEwMDA7IG1p
-biA9IDcuNjMyNDNlKzA2OyBtYXggPSAxLjAxODE3ZSswNzsNCj4gCW1lZGlhbiA9IDkuNTI1
-NDhlKzA2OyB2YXIgPSA1MjYxNDk7DQo+IEFmdGVyOg0KPiAJbnJlcGVhdHMgPSAxMDAwOyBt
-aW4gPSA3LjAzNDAyZSswNjsgbWF4ID0gOC44ODMyZSswNjsNCj4gCW1lZGlhbiA9IDguMzM5
-NTVlKzA2OyB2YXIgPSAzMzMxMTM7DQo+IA0KPiBPdGhlciB0aGluZ3MgYXR0ZW1wdGVkIHRo
-YXQgZGlkbid0IHByb3ZlIHZlcnkgdXNlZnVsOg0KPiAxKSBDaGFuZ2UgdGhlIF9HZW5lcmlj
-KCkgb24geDg2IHRvIGp1c3QgZGVyZWZlcmVuY2UgdGhlIG1lbW9yeSBhZGRyZXNzDQo+IDIp
-IENoYW5nZSBfX2dldF9lbmdpbmVfdXNhZ2VfcmVjb3JkKCkgdG8gZG8ganVzdCAxIHJlYWQg
-cGVyIGxvb3AsDQo+ICAgICBjb21wYXJpbmcgd2l0aCB0aGUgcHJldmlvdXMgdmFsdWUgcmVh
-ZA0KPiAzKSBDaGFuZ2UgX19nZXRfZW5naW5lX3VzYWdlX3JlY29yZCgpIHRvIGFjY2VzcyB0
-aGUgZmllbGRzIGRpcmVjdGx5IGFzIGl0DQo+ICAgICB3YXMgYmVmb3JlIHRoZSBjb252ZXJz
-aW9uIHRvIGlvc3lzLW1hcA0KPiANCj4gKDMpIGRpZCBnYXZlIGEgc21hbGwgaW1wcm92ZW1l
-bnQgKH4zJSksIGJ1dCBkb2Vzbid0IHNlZW0gdG8gc2NhbGUgd2VsbA0KPiB0byBvdGhlciBz
-aW1pbGFyIGNhc2VzIGluIHRoZSBkcml2ZXIuDQo+IA0KPiBBZGRpdGlvbmFsIHRlc3QgYnkg
-Q2hyaXMgV2lsc29uIHVzaW5nIGdlbV9jcmVhdGUgZnJvbSBpZ3Qgd2l0aCBzb21lDQo+IGNo
-YW5nZXMgdG8gdHJhY2sgb2JqZWN0IGNyZWF0aW9uIHRpbWUuIFRoaXMgaGFwcGVucyB0byBh
-Y2NpZGVudGFseQ0KPiBzdHJlc3MgdGhpcyBjb2RlIHBhdGg6DQo+IA0KPiAJUHJlIGlvc3lz
-X21hcCBjb252ZXJzaW9uIG9mIGVuZ2luZSBidXN5bmVzczoNCj4gCWxtZW0wOiBDcmVhdGlu
-ZyAgICAyNjIxNDQgNEtpQiBvYmplY3RzIHRvb2sgNTkyNzQuMm1zDQo+IA0KPiAJVW5wYXRj
-aGVkOg0KPiAJbG1lbTA6IENyZWF0aW5nICAgIDI2MjE0NCA0S2lCIG9iamVjdHMgdG9vayAx
-MDg4MzAuMm1zDQo+IA0KPiAJV2l0aCByZWFkbCAodGhpcyBwYXRjaCk6DQo+IAlsbWVtMDog
-Q3JlYXRpbmcgICAgMjYyMTQ0IDRLaUIgb2JqZWN0cyB0b29rIDYxMzQ4LjZtcw0KPiANCj4g
-CXMvcmVhZGwvUkVBRF9PTkNFLw0KPiAJbG1lbTA6IENyZWF0aW5nICAgIDI2MjE0NCA0S2lC
-IG9iamVjdHMgdG9vayA2MTMzMy4ybXMNCj4gDQo+IFNvIHdlIGRvIHRha2UgYSBsaXR0bGUg
-Yml0IG1vcmUgdGltZSB0aGFuIGJlZm9yZSB0aGUgY29udmVyc2lvbiwgYnV0DQo+IHRoYXQg
-aXMgZHVlIHRvIG90aGVyIGZhY3RvcnM6IGJyaW5naW5nIHRoZSBSRUFEX09OQ0UgYmFjayB3
-b3VsZCBiZSBhcw0KPiBnb29kIGFzIGp1c3QgZG9pbmcgdGhpcyBjb252ZXJzaW9uLg0KPiAN
-Cj4gU2lnbmVkLW9mZi1ieTogTHVjYXMgRGUgTWFyY2hpIDxsdWNhcy5kZW1hcmNoaUBpbnRl
-bC5jb20+DQo+IC0tLQ0KPiANCj4gSWYgdGhpcyBpcyBhY2NlcHRhYmxlIHdlIHNob3VsZCBw
-cm9iYWJseSBhZGQgdGhlIHdyaXRlIGNvdW50ZXJwYXJ0LCB0b28uDQo+IFNlbmRpbmcgaGVy
-ZSBvbmx5IHRoZSByZWFkIGZvciBub3cgc2luY2UgdGhpcyBmaXhlcyB0aGUgaXNzdWUgd2Ug
-YXJlDQo+IHNlZWluZyBhbmQgdG8gZ2F0aGVyIGZlZWRiYWNrLg0KDQpUaGF0IHdvdWxkIG5v
-dCBiZSBhIHByb2JsZW0sIGJ1dCBwbGVhc2Ugb25seSBhZGQgZnVuY3Rpb25zIHRoYXQgeW91
-IHVzZS4NCg0KPiANCj4gICBpbmNsdWRlL2xpbnV4L2lvc3lzLW1hcC5oIHwgMjYgKysrKysr
-KysrKysrKysrKysrKysrKy0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMjIgaW5zZXJ0aW9u
-cygrKSwgNCBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4
-L2lvc3lzLW1hcC5oIGIvaW5jbHVkZS9saW51eC9pb3N5cy1tYXAuaA0KPiBpbmRleCBlNjlh
-MDAyZDVhYTQuLjRhZTNlNDU5NDE5ZSAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9saW51eC9p
-b3N5cy1tYXAuaA0KPiArKysgYi9pbmNsdWRlL2xpbnV4L2lvc3lzLW1hcC5oDQo+IEBAIC0z
-MzMsNiArMzMzLDIwIEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBpb3N5c19tYXBfbWVtc2V0KHN0
-cnVjdCBpb3N5c19tYXAgKmRzdCwgc2l6ZV90IG9mZnNldCwNCj4gICAJCW1lbXNldChkc3Qt
-PnZhZGRyICsgb2Zmc2V0LCB2YWx1ZSwgbGVuKTsNCj4gICB9DQo+ICAgDQo+ICsjaWZkZWYg
-Q09ORklHXzY0QklUDQo+ICsjZGVmaW5lIF9faW9zeXNfbWFwX3JkX2lvX3U2NF9jYXNlKHZh
-bF8sIHZhZGRyX2lvbWVtXykJCQlcDQo+ICsJdTY0OiB2YWxfID0gcmVhZHEodmFkZHJfaW9t
-ZW1fKSwNCj4gKyNlbHNlDQo+ICsjZGVmaW5lIF9faW9zeXNfbWFwX3U2NF9jYXNlKHZhbF8s
-IHZhZGRyX2lvbWVtXykNCj4gKyNlbmRpZg0KPiArDQo+ICsjZGVmaW5lIF9faW9zeXNfbWFw
-X3JkX2lvKHZhbF9fLCB2YWRkcl9pb21lbV9fLCB0eXBlX18pIF9HZW5lcmljKHZhbF9fLAlc
-DQo+ICsJdTg6IHZhbF9fID0gcmVhZGIodmFkZHJfaW9tZW1fXyksCQkJCVwNCj4gKwl1MTY6
-IHZhbF9fID0gcmVhZHcodmFkZHJfaW9tZW1fXyksCQkJCVwNCj4gKwl1MzI6IHZhbF9fID0g
-cmVhZGwodmFkZHJfaW9tZW1fXyksCQkJCVwNCj4gKwlfX2lvc3lzX21hcF9yZF9pb191NjRf
-Y2FzZSh2YWxfXywgdmFkZHJfaW9tZW1fXykJCVwNCj4gKwlkZWZhdWx0OiBtZW1jcHlfZnJv
-bWlvKCYodmFsX18pLCB2YWRkcl9pb21lbV9fLCBzaXplb2YodmFsX18pKSkNCj4gKw0KPiAg
-IC8qKg0KPiAgICAqIGlvc3lzX21hcF9yZCAtIFJlYWQgYSBDLXR5cGUgdmFsdWUgZnJvbSB0
-aGUgaW9zeXNfbWFwDQo+ICAgICoNCj4gQEAgLTM0NiwxMCArMzYwLDE0IEBAIHN0YXRpYyBp
-bmxpbmUgdm9pZCBpb3N5c19tYXBfbWVtc2V0KHN0cnVjdCBpb3N5c19tYXAgKmRzdCwgc2l6
-ZV90IG9mZnNldCwNCj4gICAgKiBSZXR1cm5zOg0KPiAgICAqIFRoZSB2YWx1ZSByZWFkIGZy
-b20gdGhlIG1hcHBpbmcuDQo+ICAgICovDQo+IC0jZGVmaW5lIGlvc3lzX21hcF9yZChtYXBf
-Xywgb2Zmc2V0X18sIHR5cGVfXykgKHsJCQlcDQo+IC0JdHlwZV9fIHZhbDsJCQkJCQkJXA0K
-PiAtCWlvc3lzX21hcF9tZW1jcHlfZnJvbSgmdmFsLCBtYXBfXywgb2Zmc2V0X18sIHNpemVv
-Zih2YWwpKTsJXA0KPiAtCXZhbDsJCQkJCQkJCVwNCj4gKyNkZWZpbmUgaW9zeXNfbWFwX3Jk
-KG1hcF9fLCBvZmZzZXRfXywgdHlwZV9fKSAoewkJCQlcDQo+ICsJdHlwZV9fIHZhbDsJCQkJ
-CQkJCVwNCj4gKwlpZiAoKG1hcF9fKS0+aXNfaW9tZW0pIHsJCQkJCQlcDQo+ICsJCV9faW9z
-eXNfbWFwX3JkX2lvKHZhbCwgKG1hcF9fKS0+dmFkZHJfaW9tZW0gKyBvZmZzZXRfXywgdHlw
-ZV9fKTtcDQo+ICsJfSBlbHNlIHsJCQkJCQkJCVwNCj4gKwkJbWVtY3B5KCZ2YWwsIChtYXBf
-XyktPnZhZGRyICsgb2Zmc2V0X18sIHNpemVvZih2YWwpKTsJCVwNCj4gKwl9CQkJCQkJCQkJ
-XA0KPiArCXZhbDsJCQkJCQkJCQlcDQoNClRvIG15IGtub3dsZWRnZSwgY2FsbHMgdG8gcmVh
-ZHcvcmVhZGwgaGF2ZSBhbGlnbm1lbnQgcmVxdWlyZW1lbnRzIG9uIA0Kc29tZSBwbGF0Zm9y
-bXMsIHdoaWxlIG1lbWNweV9mcm9taW8oKSBoYXMgbm9uZS4gTWl4aW5nIG1lbWNweSgpIGFu
-ZCANCnJlYWQqKCkgc291bmRzIGxpa2UgYSBwcm9ibGVtIGZvciBzdWJ0bGUgYnVncy4gSSdk
-IHByZWZlciB0byBhdCBsZWFzdCANCm1pdGlnYXRlIHRoYXQgdG8gc29tZSBleHRlbmQuDQoN
-CkZvciBlYWNoIGNhc2UgaW4gdGhlIF9HZW5lcmljIHN0YXRlbWVudCwgdGhlcmUgc2hvdWxk
-IGJlIGFuIGlmL2Vsc2UgDQpicmFuY2ggb24gaXNfaW9tZW0uIEhlcmUncyB0aGUgZXhhbXBs
-ZQ0KDQojZGVmaW5lIGlvc3lzX21hcF9yZCgpIFwNCl9HZW5lcmljKCAodmFsX18pLA0KICAg
-dTg6IHsNCiAgICAgaWYgKG1hcF9fKS0+aXNfaW9tZW0NCiAgICAgICB2YWxfXyA9IHJlYWRi
-KCkNCiAgICAgZWxzZQ0KICAgICAgIHZhbF9fICoodm9sYXRpbGUgdTgqKSh2YWRkcl9pb21l
-bSk7DQogICB9LA0KICAgdTE2OiB7DQogICAgIGlmIChtYXBfXyktPmlzX2lvbWVtDQogICAg
-ICAgdmFsX18gPSByZWFkdygpDQogICAgIGVsc2UNCiAgICAgICB2YWxfXyAqKHZvbGF0aWxl
-IHUxNiopKHZhZGRyX2lvbWVtKTsNCiAgIH0sDQogICB1MzIsDQogICB1NjQsDQogICAuLi4N
-CiAgIGRlZmF1bHQ6IHsNCiAgICAgaWYgKG1hcF9fKS0+aXNfaW9tZW0NCiAgICAgICBtZW1w
-eV9mcm9taW8oKQ0KICAgICBlbHNlDQogICAgICAgbWVtY3B5KCkNCiAgIH0pDQoNClVzaW5n
-IHZvbGF0aWxlIHdpdGggc3lzdGVtIG1lbW9yeSBlbmZvcmNlcyBzaW5nbGUgaW5zdHJ1Y3Rp
-b25zIG9yIGV2ZW4gDQphbGlnbm1lbnQgb24gc29tZSBwbGF0Zm9ybXMuIFdoaWxlIGV4cGVy
-aW1lbnRpbmcgd2l0aCBmcmFtZWJ1ZmZlciANCnVwZGF0ZXMsIEkndmUgYWxzbyBmb3VuZCB0
-aGlzIHRvIGJlIGZhc3RlciB0aGVuIHJlZ3VsYXIgY29kZS4gV2l0aCANCid2b2xhdGlsZScg
-dGhlIGNvbXBpbGVyIGdlbmVyYXRlZCBhIHNpbmdsZSBtb3ZxIGluc3RlYWQgb2YgYSBudW1i
-ZXIgb2YgDQpzaG9ydGVyIG1vdnMuIChCdXQgSSB3b24ndCBwcm9taXNlIGFueXRoaW5nLiA6
-KQ0KDQpXaXRoaW4gX0dlbmVyaWMsIGZvciBlYWNoIHR5cGUsIGEgbWFjcm8gY2FuIGdlbmVy
-YXRlIHRoZSBjYXNlLiBMaWtlIHRoaXMNCg0KI2RlZmluZSBfX2lvc3lzX21hcF9yZF9jYXNl
-KF9fdHlwZSwgX19tYXAsIF9fcmVhZCkgXA0KICAgX190eXBlOiBpZiBlbHNlIC4uLg0KDQpJ
-biB0aGUgY2FzZSBvZiB1NjQsIHlvdSBjYW4gc2ltcGx5IGRvDQoNCiNpZiBDT05GSUdfNjRC
-SVQNCiNkZWZpbmUgX19pb3N5c19tYXBfcmRfY2FzZV91NjQoX19tYXApIFwNCiAgIF9faW9z
-eXNfbWFwX3JjX2Nhc2UodTY0LCBfX21hcCwgcmVhZHEpDQojZWxzZQ0KI2RlZmluZSBfX2lv
-c3lzX21hcF9yZF9jYXNlX3U2NChfX21hcCkNCiNlbmRpZg0KDQphbmQgdXNlIHRoYXQgbWFj
-cm8gaW4gdGhlIF9HZW5lcmljLiBPbiA2NC1iaXQgc3lzdGVtcywgdGhlIGNhc2Ugd2lsbCBi
-ZSANCnRoZXJlLiBPdGhlcndpc2UgaXQgd2lsbCBiZSBlbXB0eS4NCg0KVGhlIG9ubHkgdXNl
-ciBvZiBpb3N5c19tYXBfcmQoKSBpcyBpOTE1LiBJIHF1aWNrbHkgbG9va2VkIHRocm91Z2gg
-dGhlIA0KdXNhZ2UgYW5kIGZvdW5kIG5vIGNhc2VzIHdoZXJlIHRoZSBkZWZhdWx0IG1lbWNw
-eSBjb3VsZCBiZSB1c2VkLiBJdCdzIA0KYWxsIHN0cnVjdHMgd2l0aCB1MzIuIChSaWdodD8p
-ICBJZiBzbywgcGxlYXNlIHJlbW92ZSB0aGUgZGVmYXVsdCBjYXNlIA0Kd2l0aCBtZW1jcHkg
-ZW50aXJlbHkuICBUaGlzIHdpbGwgcmVzdWx0IGluIGNsZWFyIGNvbXBpbGUtdGltZSBlcnJv
-cnMgaWYgDQphIGNlcnRhaW4gdHlwZSBpcyBub3Qgc3VwcG9ydGVkLiAgVGhlcmUncyBzdGls
-bCBpb3N5c19tZW1fbWVtY3B5KCkgZm9yIA0KdGhvc2Ugd2hvIG5lZWQgaXQuDQoNCkJlc3Qg
-cmVnYXJkcw0KVGhvbWFzDQoNCj4gICB9KQ0KPiAgIA0KPiAgIC8qKg0KDQotLSANClRob21h
-cyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJl
-IFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVy
-ZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhy
-ZXI6IEl2byBUb3Rldg0K
+As the commit message of the regressing commit suggests, the VBT (Video
+BIOS Tables) should contain the info about max rates, filled in by the
+OEM. Unfortunately, we were missing some of the checks,
+e.g. 24b8b74eb2eb ("drm/i915: Parse max link rate from the eDP BDB
+block") added to drm-intel-next just recently.
 
---------------Fsn0iKrEhvdCMGCfVAqJXkBv--
+Unfortunately, gitlab is down today so I can't check if you already
+tried drm-tip [1]; that might be helpful. Also, attaching
+/sys/kernel/debug/dri/0/i915_vbt might be useful to see if the
+limitation is there.
 
---------------yhgdSWN1AougYqmWpQuBxOb1
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+If your system works with the limitations from VBT, *and* the commits
+adding that support are trivial to backport to v5.19, I'm inclined to do
+that instead of the revert. But obviously the revert is the way to go if
+that doesn't happen.
 
------BEGIN PGP SIGNATURE-----
+BR,
+Jani.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKnGGwFAwAAAAAACgkQlh/E3EQov+AT
-MQ/+P6apz3Bfr+j+O8Q4mXV8o+hkSN4dh9NTKqdcJet38I1cuoGeRtyfRYXSvyRxrQAoXwpeRJwV
-Xbv8ixpcA/FDTNTXnzfrUJBPVeauSr2MiMZvIb3qQ5lVklCwfaHnqwAyVC/bT3m1uebydjcF9dRc
-GQ8fzynXe7ERc4GTfY1MiwuWsG3iWLE1UMeKPiz8EZGBrNJkyJsr8Hs04iKlaxFnXhejd+sPoE97
-YnL6XbvPKE8JzpZoeliEb2LkmSt4spA4+zXrVeW3Cv+Wv/0fr6cqIEOuXkDSysRvK9M3eSDh0JMG
-1R6l5uWj4PDziMyMd8iW0BqYFAOWCi7qN0329qh8f1At6TIDHvuocC7djS+n1/zBgPyYx2zj2HNL
-p1TceYGzNArg9TXkcrjV9KYBcexkyKN7oEjQKZu87DRMZLkemfJ0/aQOHFSWJwXYuWG3WQrQbWKq
-F1vK+BZhPWUqYFDfDhZgyqqv4NjsE5qxxvw1Iu4wqybOQkT9rWzIP1kHHHWMkpE4y2SfhUqJy7Bn
-ytWU6eWCVp2oolgKd3/mOQeWnMsOhnzVcZhN/pIpm7VTZeXri1xFwHvRBTeoXDOxlLftrzNBauvh
-VzkaAkP28VBgAElOVXGJh1Le80ym5aLqO0pYhLtMdwS5u1ZNbzarIzt0/CGN2z1nVtrgu4gv/2XD
-wd4=
-=fxIL
------END PGP SIGNATURE-----
 
---------------yhgdSWN1AougYqmWpQuBxOb1--
+[1] drm-tip branch of https://cgit.freedesktop.org/drm/drm-tip
+
+
+>
+> Fixes: 73867c8709b5 ("drm/i915/display: Remove check for low voltage sku for max dp source rate")
+> Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> Cc: Imre Deak <imre.deak@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Cc: Animesh Manna <animesh.manna@intel.com>
+> Cc: Jani Saarinen <jani.saarinen@intel.com>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp.c | 32 ++++++++++++++++++++++---
+>  1 file changed, 29 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index e4a79c11fd25..ff67899522cf 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -388,13 +388,23 @@ static int dg2_max_source_rate(struct intel_dp *intel_dp)
+>  	return intel_dp_is_edp(intel_dp) ? 810000 : 1350000;
+>  }
+>  
+> +static bool is_low_voltage_sku(struct drm_i915_private *i915, enum phy phy)
+> +{
+> +	u32 voltage;
+> +
+> +	voltage = intel_de_read(i915, ICL_PORT_COMP_DW3(phy)) & VOLTAGE_INFO_MASK;
+> +
+> +	return voltage == VOLTAGE_INFO_0_85V;
+> +}
+> +
+>  static int icl_max_source_rate(struct intel_dp *intel_dp)
+>  {
+>  	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+>  	struct drm_i915_private *dev_priv = to_i915(dig_port->base.base.dev);
+>  	enum phy phy = intel_port_to_phy(dev_priv, dig_port->base.port);
+>  
+> -	if (intel_phy_is_combo(dev_priv, phy) && !intel_dp_is_edp(intel_dp))
+> +	if (intel_phy_is_combo(dev_priv, phy) &&
+> +	    (is_low_voltage_sku(dev_priv, phy) || !intel_dp_is_edp(intel_dp)))
+>  		return 540000;
+>  
+>  	return 810000;
+> @@ -402,7 +412,23 @@ static int icl_max_source_rate(struct intel_dp *intel_dp)
+>  
+>  static int ehl_max_source_rate(struct intel_dp *intel_dp)
+>  {
+> -	if (intel_dp_is_edp(intel_dp))
+> +	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+> +	struct drm_i915_private *dev_priv = to_i915(dig_port->base.base.dev);
+> +	enum phy phy = intel_port_to_phy(dev_priv, dig_port->base.port);
+> +
+> +	if (intel_dp_is_edp(intel_dp) || is_low_voltage_sku(dev_priv, phy))
+> +		return 540000;
+> +
+> +	return 810000;
+> +}
+> +
+> +static int dg1_max_source_rate(struct intel_dp *intel_dp)
+> +{
+> +	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+> +	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+> +	enum phy phy = intel_port_to_phy(i915, dig_port->base.port);
+> +
+> +	if (intel_phy_is_combo(i915, phy) && is_low_voltage_sku(i915, phy))
+>  		return 540000;
+>  
+>  	return 810000;
+> @@ -445,7 +471,7 @@ intel_dp_set_source_rates(struct intel_dp *intel_dp)
+>  			max_rate = dg2_max_source_rate(intel_dp);
+>  		else if (IS_ALDERLAKE_P(dev_priv) || IS_ALDERLAKE_S(dev_priv) ||
+>  			 IS_DG1(dev_priv) || IS_ROCKETLAKE(dev_priv))
+> -			max_rate = 810000;
+> +			max_rate = dg1_max_source_rate(intel_dp);
+>  		else if (IS_JSL_EHL(dev_priv))
+>  			max_rate = ehl_max_source_rate(intel_dp);
+>  		else
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
