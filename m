@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D479F5485C0
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:48:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C185485C1
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:48:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 305BF10E7FF;
-	Mon, 13 Jun 2022 14:48:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B5D510E81A;
+	Mon, 13 Jun 2022 14:48:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EED5E10E7F7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:08 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 917E33200959;
- Mon, 13 Jun 2022 10:48:07 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0803F10E81A
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:12 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id CE8EF3200302;
+ Mon, 13 Jun 2022 10:48:10 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 13 Jun 2022 10:48:08 -0400
+ by compute3.internal (MEProxy); Mon, 13 Jun 2022 10:48:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655131687; x=1655218087; bh=Kj
- 6x7vYD4tTzIdr59c0LLJaeSz8Fm4Y7cqHTjoIRr/o=; b=i14NujVyfJ1TAiHNc6
- V64+O6+JILo3XG6cYUDF8nrBLMGqFElt3l7CWJnfkSTwOrBdtbX9LZ+/kruMKe3v
- QTOLFdRg23vkRHuaGDj+JJVeibKf+CbanLSXplyXAAmwlw1dYcl+dGTs9c7PK2Qs
- u2sHfHjtrDgjvW9/6t1K62NMxbYudIAWUy+GX2FV2sXWcjgb1La/dUxvWtwduum4
- +m22d6xxo9wucYoIKna6r4uqA6HF+L8aCi4KT58tVkwTHlQ++yp1CoGCvE1T8VOH
- aOO5wYIkH4L9zUSiJPEseuWGballHJDgFnkfIZqdD/RLSscHqMbRMFa93ee1Eggn
- Ghsw==
+ :subject:subject:to:to; s=fm1; t=1655131690; x=1655218090; bh=Cq
+ u4qVj5XwGEIFbi/x5neftEkpNEgt0chneysUpiW0w=; b=qI2KUyF0DVI8Apy45P
+ Kp8NldnqXkzVJCAnO63oA0Tsv9RJAKNLFlFK0I7naXUdF1TZAc+ApLPi5ErQDM1+
+ 00PHqr0FYIfNd5YeDgR1ClYRPMbKgbp6zWFkxsuzqN/qv3hdAWpd8uTduKISC2fV
+ J8CAR+bKM4WO9dNO9ZXYX3WC8IQmT7vhSBgS+Xlzc5m9egucuk3C45ftfGoU86OU
+ a/Y4tIqotCAqCBunWoOFwmbdZhDOWWWMtcAK0W4x4HDSJtQ6mPd+5ngIQe5UlHwn
+ Zh1d5WjvnKDxDJtX46P2Yc+oOZMV9AMV6rtA0a/BwDKnatrxVJXOFaUaDLEyZZE4
+ 88hg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655131687; x=1655218087; bh=Kj6x7vYD4tTzI
- dr59c0LLJaeSz8Fm4Y7cqHTjoIRr/o=; b=hoOWY+noCY57ZmSi9onKLHksZcwlQ
- oM3PlyS/QSSuEXdJ+PKFsLWDz/g3XdOo3UO4C3/e1wN5IwZZ9+34SHtSRBhCi/Z/
- AUMU+OtRfJu3mXYGsD/0dCY1ZA31QoajaDiLe3arGpZhpSbuB2bSRiBHTRy6n90P
- LV7KCAPUio0h57FQ6rC/FojAeuF+mQR/mMlacB7meL4uzGzRkjepKAoeODt1T7cU
- PCL8MjuxbnDMHUlhufbqxe/3ObzQuXc2UasWRDzW4q57brpldwpVDsszQWKpPwgL
- GTgP2tCwW5mWew2KFkctTkGapza1oTclKaAHLEhgXvdolBS0BBCi8Ev+Q==
-X-ME-Sender: <xms:Jk6nYl2HTjM8Y7U1LLgt9aYScSyhHBRNRGjWbaeZGzVmYtI6k7QJnQ>
- <xme:Jk6nYsFMvx2LX6Ci110_QpMjuo24zcysdb6DHOLdCvyDfHcVG1YkAQfTDGWzegsJt
- UJO8lmYBjOQNMWMxbI>
-X-ME-Received: <xmr:Jk6nYl5staDNnidVHMWmReoY8cIrx-Ul6ttKXuFmZ_aXE5J2x99Fgt-stYEwaonOMOQ4J-vMZ2wbp-tthWbj55GrV8zFyy7cNpYAL0w>
+ :x-sasl-enc; s=fm2; t=1655131690; x=1655218090; bh=Cqu4qVj5XwGEI
+ Fbi/x5neftEkpNEgt0chneysUpiW0w=; b=BezgB+l27Lm0pTShrIDXnOBEC4M/6
+ g6PYWoWyC/wb24Kfa9mhH98XXllz1sAu9dlpGnxfJWD5LjsrbZtfv2tz11i9C+4U
+ XhHnnBuMxIe9rZVM6THVsA0PH3Bfk9flx9jbQu2CWZ+BUf3qF/Gz5wcWgHqqIH47
+ ixL1gL0BFzhew4rWfn10WeeqOruKea8BaHJnYwVRilHNSu38zf6M9HrVAI05slzV
+ sIeWrcU6k0ld3BdpI5tFoBs6snXBzyQd1CQjnFR/O9xA1hDYTrAFz215GtANKPKP
+ 5nSG7GABM8dUXyyGYoiRMGO+izCCApT07PuB9B9kodRaI9YO7JdfHwDBw==
+X-ME-Sender: <xms:Kk6nYoAph0Ke-nOKlNQTTP_jVf1q-MRy_e6XLr-_2xERuaqyjUR_tg>
+ <xme:Kk6nYqjHy0zqoUgnif_ga1q-75CEvRDZsmGHPiYq3_1QegqIY12iUoCLn6OfKp3eL
+ Orc6uo8ovXGoTNGqj8>
+X-ME-Received: <xmr:Kk6nYrlKZX5axunFlUnr7BMVz-Mtby6xlh0srHA_6PlaTKLIqBwSa-5--ST6HIOPnS895jhFAfwlUFYVqK8bJzP517xbAQzEIY83JTA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedgjeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,21 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedgjeelucetufdoteggod
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
  vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Jk6nYi0EJxyY2j377ySfgkyUeDun8_l4n82DULMqWejFZatbbqt_lg>
- <xmx:Jk6nYoH5HCa81qwdityuJF2o0zStTVqBDeJQwshmTLYOl9UqeaxHbA>
- <xmx:Jk6nYj--UqT3e9P_SjKXniyBV14FaxXDVxstc0OQFmLfDOybPi71NQ>
- <xmx:J06nYt59kIUkzmwqclLvDmMvY4xyKV3vaTGt1hZIGlhYnPBlepZfxg>
+X-ME-Proxy: <xmx:Kk6nYuxysmd6vmxjH5PWPz2PFtCqgz_kxFVdANaSk_hZUtyuMMfH5A>
+ <xmx:Kk6nYtS6DlCLIOJIDngRTLKYMy7FD7OA3ZgYAet4QDYInTBLWdiKXA>
+ <xmx:Kk6nYpagduYYVXfhpaZxU8Gj0vNncpmvL5Fh_hKJJtJ3_GryVvjAiw>
+ <xmx:Kk6nYrMMlCbs9bagtxWzKW4MHfrojw55ngzDnH9PM4LHixzAjwvbMA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jun 2022 10:48:06 -0400 (EDT)
+ 13 Jun 2022 10:48:09 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 01/33] drm/vc4: drv: Adopt the dma configuration from the HVS
- or V3D component
-Date: Mon, 13 Jun 2022 16:47:28 +0200
-Message-Id: <20220613144800.326124-2-maxime@cerno.tech>
+Subject: [PATCH 02/33] drm/vc4: kms: Warn if clk_set_min_rate fails
+Date: Mon, 13 Jun 2022 16:47:29 +0200
+Message-Id: <20220613144800.326124-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613144800.326124-1-maxime@cerno.tech>
 References: <20220613144800.326124-1-maxime@cerno.tech>
@@ -85,66 +84,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+We currently ignore the clk_set_min_rate return code assuming it would
+succeed. However, it can fail if we ask for a rate higher than the
+current maximum for example.
 
-vc4_drv isn't necessarily under the /soc node in DT as it is a
-virtual device, but it is the one that does the allocations.
-The DMA addresses are consumed by primarily the HVS or V3D, and
-those require VideoCore cache alias address mapping, and so will be
-under /soc.
+Since we can't fail in atomic_commit, at least warn on failure.
 
-During probe find the a suitable device node for HVS or V3D,
-and adopt the DMA configuration of that node.
-
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_drv.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/gpu/drm/vc4/vc4_kms.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 162bc18e7497..14a7d529144d 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -209,6 +209,15 @@ static void vc4_match_add_drivers(struct device *dev,
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index c169bd72e53b..7a7c90d8520b 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -405,7 +405,7 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
+ 		 * Do a temporary request on the core clock during the
+ 		 * modeset.
+ 		 */
+-		clk_set_min_rate(hvs->core_clk, core_rate);
++		WARN_ON(clk_set_min_rate(hvs->core_clk, core_rate));
  	}
- }
  
-+const struct of_device_id vc4_dma_range_matches[] = {
-+	{ .compatible = "brcm,bcm2711-hvs" },
-+	{ .compatible = "brcm,bcm2835-hvs" },
-+	{ .compatible = "brcm,bcm2835-v3d" },
-+	{ .compatible = "brcm,cygnus-v3d" },
-+	{ .compatible = "brcm,vc4-v3d" },
-+	{}
-+};
-+
- static int vc4_drm_bind(struct device *dev)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-@@ -227,6 +236,16 @@ static int vc4_drm_bind(struct device *dev)
- 		vc4_drm_driver.driver_features &= ~DRIVER_RENDER;
- 	of_node_put(node);
+ 	drm_atomic_helper_commit_modeset_disables(dev, state);
+@@ -438,7 +438,7 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
+ 		 * Request a clock rate based on the current HVS
+ 		 * requirements.
+ 		 */
+-		clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate);
++		WARN_ON(clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate));
  
-+	node = of_find_matching_node_and_match(NULL, vc4_dma_range_matches,
-+					       NULL);
-+	if (node) {
-+		ret = of_dma_configure(dev, node, true);
-+		of_node_put(node);
-+
-+		if (ret)
-+			return ret;
-+	}
-+
- 	vc4 = devm_drm_dev_alloc(dev, &vc4_drm_driver, struct vc4_dev, base);
- 	if (IS_ERR(vc4))
- 		return PTR_ERR(vc4);
+ 		drm_dbg(dev, "Core clock actual rate: %lu Hz\n",
+ 			clk_get_rate(hvs->core_clk));
 -- 
 2.36.1
 
