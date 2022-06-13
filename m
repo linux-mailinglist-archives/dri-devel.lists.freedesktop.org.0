@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF4025485C9
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:48:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 328BB5485CA
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:48:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F82110E584;
-	Mon, 13 Jun 2022 14:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3215310E2D7;
+	Mon, 13 Jun 2022 14:48:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2F0C10E815
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC31810E2D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:39 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 62E2F320091E;
- Mon, 13 Jun 2022 10:48:35 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 13 Jun 2022 10:48:36 -0400
+ by mailout.west.internal (Postfix) with ESMTP id 6413D320091E;
+ Mon, 13 Jun 2022 10:48:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Mon, 13 Jun 2022 10:48:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655131714; x=1655218114; bh=9v
- e0FZgHMhIVEiZHAncRlXsNc5BBHr5t6sJWICzwfRw=; b=F/ms8Kc5z8Jy7WMILG
- JnceradVvySF/x8Bn3aIKm+iM1aT6DCRcMyVgMmn3a74bgBT5lsDstOEr9hsBUqm
- PjcRBB04zTHPjDyqZnRxJ3qJRFzFaXia8tquhxYWq6tJ41aBBBH1y0MYnEMZ/7Y8
- c+9/KQsVyg+iuOUngOomtgeZv/O0PMWNWCEgh/vI2Cg/HSLNxLYTpBbRy6XloGLU
- tVJ/9XsdwPoaGEUX6i+lf3Ic8mvo919kX8/29/T/SI8i14oY6nilwIr+IqkTLzSL
- cfEeBPW43K9Zgo9kGPkGM9L1ZzA5Iy7G2jZCbn1BCohDqf5P2tESxOuvwIr0PrCG
- OOtg==
+ :subject:subject:to:to; s=fm1; t=1655131717; x=1655218117; bh=3q
+ 7dVyJcCc6FDwW7sB39RGLsh3g0fc7P4p6J6WIfCIE=; b=byTZnUt8fObmMH6A54
+ cqA/CbJu5yR3rNM65BNIJ95wY5GzsaDxDiwkCJqlLYjo5hPFgfjWiVh3GHxaWkAS
+ kgkyDhjuGKc3HV6K19gXsA+5IZVx+XoPCImrB8E0lOTMmOYFiOU6Jf6OruC0plPi
+ C2y1Qr45V/Rds2r2btdbzht4urSv7v+XYpd9lQ+lSTX406hf2XX8aLL/upUpRfGy
+ cYimb0JNYS0splMiFllcPdI+HzMAWpZVyzMkQJIjnrzJ9Gkn8H7gnz99fdBeeI3b
+ tknb1eV4+2bAxrGcx4P9RMKQrQcaswR0ZQh780zqkJYlOaAja828mlpeaIYwnFb9
+ RnZw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655131714; x=1655218114; bh=9ve0FZgHMhIVE
- iZHAncRlXsNc5BBHr5t6sJWICzwfRw=; b=pycP+XCVIMwUlr2GiywWy5/cmq6iD
- HVwqBnRibAmy8rdDvvtUAPLgK1MC1E4NFTOrwuQIif3fHbw3vCgTuuNx0zuko1oF
- H/CdWjkwXCGa/v8ZTmTS+oJTZKMswfx4RYIf0dKsV6k0/xvvmA05TxJou/P4g2g2
- jMxWkRpygUOedAR36mqPbZP1qig07RT7W61u5k9B0/p8OwAgFNV11Pa8DK3wzkv9
- ENLrM7knUwXsU6dDyRNVRipTIQeI5Qmupo5JO5b8IgxUGEfNCydjRuEQzgKmyaeq
- XfIzQrbPC5OEQZuiDUjFW7ElDZutrQgpkP/BmE6+U/d7ij4zzC9IEPVyg==
-X-ME-Sender: <xms:Qk6nYtbUy3bctUAZ2y2c8PfCWGcdpVMnPllyo-pfc84LnciCxHKy9Q>
- <xme:Qk6nYkb_P8cmHoZZcXLDm-xSKpxUxs36r5VgDzBSYcEdT1bs8LxYs4yKNfVuAMe_E
- hLXjgSFGlinANYWW4g>
-X-ME-Received: <xmr:Qk6nYv_sgFUdFy1QjtDY321P6frpUHjjyI1wVtV3IVEoGu2LghlOJvM8r-jpKn2A6SPTcuwGZ7_HkVTpWpFNgVdWcIsrSjtzPQ4-VaA>
+ :x-sasl-enc; s=fm2; t=1655131717; x=1655218117; bh=3q7dVyJcCc6FD
+ wW7sB39RGLsh3g0fc7P4p6J6WIfCIE=; b=aFFJMxMhqgd2xPaT/Ik8SQIrtOZYD
+ Lpj0NzFS5lchT9Uy1jdGRtdP07w+/uARO94pIw2HGAtpGkVtWVRzftZ8rQRggqKy
+ kA0DRMkDzuLWzQXJ2xik+Iueos0m6xSsSAlzCA7aj4nJfdHae7SPNdOPO4vOoOE/
+ yYZpS7wIHD/nDXIgBltn5tNbB+E/TPMQ2KKkRgF7pR8EaVuSHeWV/UhhsJBIy+qE
+ +OmzXseOoy/eN9EiQjykUd79ev9OeA6qx3DTmoNMiyOBg19gTksIOiDaAsBl4kXa
+ HhPf10kab6tQAY7/2iez+9CNb0ZX4rcX/QkJVN0vyUYNKJEjYBruJw3Cg==
+X-ME-Sender: <xms:RU6nYukWb9v-Tv0lNgLLeazjqZQk1k3ctJysDWztULGrpKUpEAJFjg>
+ <xme:RU6nYl0zpLE6Bf0-8-8M-0tbWgbzwuAwx_0RKiSLGFKAtvnIGbDac_pUSid-DCQ21
+ 6vyBPjjsSpSoRD8D-g>
+X-ME-Received: <xmr:RU6nYsrEKyDR-8mIS1acJTVjf_wP6mPo-ufiLDD0vn75O0beOYGqe6oUWsBDPMPZ5w0U083cdcRSoW_jdPZzfP1y_26TVN_xg5KGGCk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedgjeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Qk6nYrpuyR664mmhWksoCk2QQGv5igUz0i1ea8VDp6GGRA1aYZj7fQ>
- <xmx:Qk6nYooF-7BWDwyD_nBg-3pxL9eKvMb1GZdmKaxDDvmQB_BCAJQGhw>
- <xmx:Qk6nYhT0-SlTNEZhMwQPAK8hsNedK8T8E2_WoH1ODLashpLwGpFTiA>
- <xmx:Qk6nYtDCzHBRkIA6DWZsFx2S9K317XkiQHU_s5SdfBnK_Qcigd2JaA>
+X-ME-Proxy: <xmx:RU6nYimyi-AJw3FnK7cLFRxnWfAlWSFN0sASWhFavxIaUlt0NuY_Dg>
+ <xmx:RU6nYs11myV1pwIcesbrBk_LADkD6wJUn_1qotSLYB6Fpi2gOHYZMA>
+ <xmx:RU6nYpvy6Y7FZ2tS_Vw_gNY3VP4c4nhPzV76_zcHMP3fVMlJD9dqvw>
+ <xmx:RU6nYg_bDWZkirf4JH_KLue-CEcO3MAOFhq0sMHdyqvYwoYjEFTvyw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jun 2022 10:48:34 -0400 (EDT)
+ 13 Jun 2022 10:48:37 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 10/33] drm/vc4: dpi: Ensure a default format is selected
-Date: Mon, 13 Jun 2022 16:47:37 +0200
-Message-Id: <20220613144800.326124-11-maxime@cerno.tech>
+Subject: [PATCH 11/33] drm/vc4: dsi: Release workaround buffer and DMA
+Date: Mon, 13 Jun 2022 16:47:38 +0200
+Message-Id: <20220613144800.326124-12-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613144800.326124-1-maxime@cerno.tech>
 References: <20220613144800.326124-1-maxime@cerno.tech>
@@ -91,47 +91,88 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-In a couple of error/incomplete configuration cases, the
-DPI_FORMAT bits wouldn't get set.
+On Pi0-3 the driver allocates a buffer and requests a DMA channel
+because the ARM can't write to DSI1's registers directly.
 
-Enforce our RGB888 default in all these cases.
+However, we never release that buffer or channel. Let's add a
+device-managed action to release each.
 
+Fixes: 4078f5757144 ("drm/vc4: Add DSI driver")
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_dpi.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_dsi.c | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index 695b759db9bc..44355b347ff2 100644
---- a/drivers/gpu/drm/vc4/vc4_dpi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -148,10 +148,15 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
- 	}
- 	drm_connector_list_iter_end(&conn_iter);
+diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
+index 98308a17e4ed..e82ee94cafc7 100644
+--- a/drivers/gpu/drm/vc4/vc4_dsi.c
++++ b/drivers/gpu/drm/vc4/vc4_dsi.c
+@@ -1487,13 +1487,29 @@ vc4_dsi_init_phy_clocks(struct vc4_dsi *dsi)
+ 				      dsi->clk_onecell);
+ }
  
-+	/* Default to 24bit if no connector or format found. */
-+	dpi_c |= VC4_SET_FIELD(DPI_FORMAT_24BIT_888_RGB, DPI_FORMAT);
++static void vc4_dsi_dma_mem_release(void *ptr)
++{
++	struct vc4_dsi *dsi = ptr;
++	struct device *dev = &dsi->pdev->dev;
 +
- 	if (connector) {
- 		if (connector->display_info.num_bus_formats) {
- 			u32 bus_format = connector->display_info.bus_formats[0];
- 
-+			dpi_c &= ~DPI_FORMAT_MASK;
++	dma_free_coherent(dev, 4, dsi->reg_dma_mem, dsi->reg_dma_paddr);
++	dsi->reg_dma_mem = NULL;
++}
 +
- 			switch (bus_format) {
- 			case MEDIA_BUS_FMT_RGB888_1X24:
- 				dpi_c |= VC4_SET_FIELD(DPI_FORMAT_24BIT_888_RGB,
-@@ -187,9 +192,6 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
++static void vc4_dsi_dma_chan_release(void *ptr)
++{
++	struct vc4_dsi *dsi = ptr;
++
++	dma_release_channel(dsi->reg_dma_chan);
++	dsi->reg_dma_chan = NULL;
++}
++
+ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct drm_device *drm = dev_get_drvdata(master);
+ 	struct vc4_dsi *dsi = dev_get_drvdata(dev);
+ 	struct vc4_dsi_encoder *vc4_dsi_encoder;
+-	dma_cap_mask_t dma_mask;
+ 	int ret;
  
- 		if (connector->display_info.bus_flags & DRM_BUS_FLAG_DE_LOW)
- 			dpi_c |= DPI_OUTPUT_ENABLE_INVERT;
--	} else {
--		/* Default to 24bit if no connector found. */
--		dpi_c |= VC4_SET_FIELD(DPI_FORMAT_24BIT_888_RGB, DPI_FORMAT);
- 	}
+ 	dsi->variant = of_device_get_match_data(dev);
+@@ -1527,6 +1543,8 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
+ 	 * so set up a channel for talking to it.
+ 	 */
+ 	if (dsi->variant->broken_axi_workaround) {
++		dma_cap_mask_t dma_mask;
++
+ 		dsi->reg_dma_mem = dma_alloc_coherent(dev, 4,
+ 						      &dsi->reg_dma_paddr,
+ 						      GFP_KERNEL);
+@@ -1535,8 +1553,13 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
+ 			return -ENOMEM;
+ 		}
  
- 	if (mode->flags & DRM_MODE_FLAG_CSYNC) {
++		ret = devm_add_action_or_reset(dev, vc4_dsi_dma_mem_release, dsi);
++		if (ret)
++			return ret;
++
+ 		dma_cap_zero(dma_mask);
+ 		dma_cap_set(DMA_MEMCPY, dma_mask);
++
+ 		dsi->reg_dma_chan = dma_request_chan_by_mask(&dma_mask);
+ 		if (IS_ERR(dsi->reg_dma_chan)) {
+ 			ret = PTR_ERR(dsi->reg_dma_chan);
+@@ -1546,6 +1569,10 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
+ 			return ret;
+ 		}
+ 
++		ret = devm_add_action_or_reset(dev, vc4_dsi_dma_chan_release, dsi);
++		if (ret)
++			return ret;
++
+ 		/* Get the physical address of the device's registers.  The
+ 		 * struct resource for the regs gives us the bus address
+ 		 * instead.
 -- 
 2.36.1
 
