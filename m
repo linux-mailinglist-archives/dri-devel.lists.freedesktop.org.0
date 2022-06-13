@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E22B54815D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 10:24:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D9B5481F4
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 10:37:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BDA610E0AA;
-	Mon, 13 Jun 2022 08:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 246D810E07F;
+	Mon, 13 Jun 2022 08:37:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0BDC10E028;
- Mon, 13 Jun 2022 08:24:23 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F380E10E031;
+ Mon, 13 Jun 2022 08:37:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655108663; x=1686644663;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=VnZ3imrVpMjjREPaozPbPYNPxEVpudTO/vdFhy89/1w=;
- b=j6ZxYOdMoW+T3x5RG5hUOmaJIKMUn/348mz29BSiCxKw3Dku0a89UtOk
- pnnngr/6W3PaP851wzh9uo1oAv77b14uiDA8yFiCrJvtTJTcQDRbwjTEi
- nv2Y63UzyHs24Va4B3W39C21zNwNuPw52KKVBudb9/IfmgVtidgN7iKzg
- r2YsVxAf3NFLNCupRxdWAHEm4tcA+jJvdbhyTrtkQ5XfBX15T9Ysa35zW
- 2JLqeK0BAIXNJtCh8Gsp7u/uG2hZi1xG7FjPzB1loU5A+1mwjuK652CjO
- aZ+EkiX0PRpglPQydUE2KZU0TJtnSE8PxLm4LDEVI6oNUwc0jdq8ho+nn Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10376"; a="278246088"
-X-IronPort-AV: E=Sophos;i="5.91,296,1647327600"; d="scan'208";a="278246088"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2022 01:24:23 -0700
-X-IronPort-AV: E=Sophos;i="5.91,296,1647327600"; d="scan'208";a="651292815"
-Received: from npower-mobl.ger.corp.intel.com (HELO [10.213.222.108])
- ([10.213.222.108])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2022 01:24:20 -0700
-Message-ID: <b5292e01-5a1f-d339-cbb4-e565e07e4437@linux.intel.com>
-Date: Mon, 13 Jun 2022 09:24:18 +0100
+ t=1655109471; x=1686645471;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=tc/QgwySnPCwvut+iCjaHkCRfv5cNtNMs74qWV3IgTs=;
+ b=VLvpOzQqOF7rhApTUOj0vbP6rIp4eRcf8KqGoLcgsVvvU+j/EVQ3kpBT
+ K1FJWT+R7gxTb4A7cXGpQcFWQRHAcnAPGSbz7CKnlIPrPmhf5zbsMrVx+
+ 5s3NX64dsfPp3wMgOZ81ZH3u5BIP9vgr3aNB139kTaKtaZhDYppF21fvp
+ jcvz6gDvBfflaY6nIqsLOmFqo6Jy426IhariQhiKzS3lbXsKAW8RzaNlh
+ 0N9aQB1QxkWPYCO1iCl02Rb9RTaMMaTPiiCVWECBuBjh4tWh9aiBoYytf
+ HFPgtgODCh3Fsk0/2yqNF4eARiRl/V+M86ttSjhSZI7jQCQpebFoennYr Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10376"; a="275746482"
+X-IronPort-AV: E=Sophos;i="5.91,296,1647327600"; d="scan'208";a="275746482"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2022 01:37:50 -0700
+X-IronPort-AV: E=Sophos;i="5.91,296,1647327600"; d="scan'208";a="639613667"
+Received: from njascanu-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.47.149])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2022 01:37:48 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v2 05/15] drm/edid: add new interfaces around struct
+ drm_edid
+In-Reply-To: <YqOe0IJIIn7bxO4C@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1654674560.git.jani.nikula@intel.com>
+ <5a6532a94cad6a79424f6d1918dbe7b7d607ac03.1654674560.git.jani.nikula@intel.com>
+ <YqOe0IJIIn7bxO4C@intel.com>
+Date: Mon, 13 Jun 2022 11:37:46 +0300
+Message-ID: <87k09lyn51.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [Intel-gfx] [PATCH 3/3] drm/doc/rfc: VM_BIND uapi definition
-Content-Language: en-US
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-References: <20220610070711.32407-1-niranjana.vishwanathapura@intel.com>
- <20220610070711.32407-4-niranjana.vishwanathapura@intel.com>
- <9b7c4864-18c2-5c70-009a-1c6e7843bf0d@linux.intel.com>
- <9043381e-ff63-934b-4576-132f15c2e363@intel.com>
- <20220610161420.GB376@nvishwa1-DESK>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220610161420.GB376@nvishwa1-DESK>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,651 +60,399 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, intel-gfx@lists.freedesktop.org,
- chris.p.wilson@intel.com, thomas.hellstrom@intel.com,
- dri-devel@lists.freedesktop.org, Jason Ekstrand <jason@jlekstrand.net>,
- daniel.vetter@intel.com, christian.koenig@amd.com, matthew.auld@intel.com
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 10 Jun 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
+> wrote:
+> On Wed, Jun 08, 2022 at 10:50:35AM +0300, Jani Nikula wrote:
+>> Add new functions drm_edid_read(), drm_edid_read_ddc(), and
+>> drm_edid_read_custom() to replace drm_get_edid() and drm_do_get_edid()
+>> for reading the EDID. The transition is expected to happen over a fairly
+>> long time.
+>>=20
+>> Note that the new drm_edid_read*() functions do not do any of the
+>> connector updates anymore. The reading and parsing will be completely
+>> separated from each other.
+>>=20
+>> Add new functions drm_edid_alloc(), drm_edid_dup(), and drm_edid_free()
+>> for allocating and freeing drm_edid containers.
+>>=20
+>> Cc: David Airlie <airlied@linux.ie>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>  drivers/gpu/drm/drm_edid.c | 245 +++++++++++++++++++++++++++++++++----
+>>  include/drm/drm_edid.h     |   9 ++
+>>  2 files changed, 230 insertions(+), 24 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index 2beaa48301c1..2bdaf1e34a9d 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -2226,29 +2226,9 @@ static enum edid_block_status edid_block_read(voi=
+d *block, unsigned int block_nu
+>>  	return status;
+>>  }
+>>=20=20
+>> -/**
+>> - * drm_do_get_edid - get EDID data using a custom EDID block read funct=
+ion
+>> - * @connector: connector we're probing
+>> - * @read_block: EDID block read function
+>> - * @context: private data passed to the block read function
+>> - *
+>> - * When the I2C adapter connected to the DDC bus is hidden behind a dev=
+ice that
+>> - * exposes a different interface to read EDID blocks this function can =
+be used
+>> - * to get EDID data using a custom block read function.
+>> - *
+>> - * As in the general case the DDC bus is accessible by the kernel at th=
+e I2C
+>> - * level, drivers must make all reasonable efforts to expose it as an I=
+2C
+>> - * adapter and use drm_get_edid() instead of abusing this function.
+>> - *
+>> - * The EDID may be overridden using debugfs override_edid or firmware E=
+DID
+>> - * (drm_load_edid_firmware() and drm.edid_firmware parameter), in this =
+priority
+>> - * order. Having either of them bypasses actual EDID reads.
+>> - *
+>> - * Return: Pointer to valid EDID or NULL if we couldn't find any.
+>> - */
+>> -struct edid *drm_do_get_edid(struct drm_connector *connector,
+>> -			     read_block_fn read_block,
+>> -			     void *context)
+>> +static struct edid *_drm_do_get_edid(struct drm_connector *connector,
+>> +				     read_block_fn read_block, void *context,
+>> +				     size_t *size)
+>>  {
+>>  	enum edid_block_status status;
+>>  	int i, invalid_blocks =3D 0;
+>> @@ -2315,14 +2295,125 @@ struct edid *drm_do_get_edid(struct drm_connect=
+or *connector,
+>>  	}
+>>=20=20
+>>  ok:
+>> +	if (size)
+>> +		*size =3D alloc_size;
+>> +
+>>  	return edid;
+>>=20=20
+>>  fail:
+>>  	kfree(edid);
+>>  	return NULL;
+>>  }
+>> +
+>> +/**
+>> + * drm_do_get_edid - get EDID data using a custom EDID block read funct=
+ion
+>> + * @connector: connector we're probing
+>> + * @read_block: EDID block read function
+>> + * @context: private data passed to the block read function
+>> + *
+>> + * When the I2C adapter connected to the DDC bus is hidden behind a dev=
+ice that
+>> + * exposes a different interface to read EDID blocks this function can =
+be used
+>> + * to get EDID data using a custom block read function.
+>> + *
+>> + * As in the general case the DDC bus is accessible by the kernel at th=
+e I2C
+>> + * level, drivers must make all reasonable efforts to expose it as an I=
+2C
+>> + * adapter and use drm_get_edid() instead of abusing this function.
+>> + *
+>> + * The EDID may be overridden using debugfs override_edid or firmware E=
+DID
+>> + * (drm_load_edid_firmware() and drm.edid_firmware parameter), in this =
+priority
+>> + * order. Having either of them bypasses actual EDID reads.
+>> + *
+>> + * Return: Pointer to valid EDID or NULL if we couldn't find any.
+>> + */
+>> +struct edid *drm_do_get_edid(struct drm_connector *connector,
+>> +			     read_block_fn read_block,
+>> +			     void *context)
+>> +{
+>> +	return _drm_do_get_edid(connector, read_block, context, NULL);
+>> +}
+>>  EXPORT_SYMBOL_GPL(drm_do_get_edid);
+>>=20=20
+>> +/* Allocate struct drm_edid container *without* duplicating the edid da=
+ta */
+>> +static const struct drm_edid *_drm_edid_alloc(const void *edid, size_t =
+size)
+>> +{
+>> +	struct drm_edid *drm_edid;
+>> +
+>> +	if (!edid || !size || size < EDID_LENGTH)
+>> +		return NULL;
+>> +
+>> +	drm_edid =3D kzalloc(sizeof(*drm_edid), GFP_KERNEL);
+>> +	if (drm_edid) {
+>> +		drm_edid->edid =3D edid;
+>> +		drm_edid->size =3D size;
+>> +	}
+>> +
+>> +	return drm_edid;
+>> +}
+>> +
+>> +/**
+>> + * drm_edid_alloc - Allocate a new drm_edid container
+>> + * @edid: Pointer to raw EDID data
+>> + * @size: Size of memory allocated for EDID
+>> + *
+>> + * Allocate a new drm_edid container. Do not calculate edid size from e=
+did, pass
+>> + * the actual size that has been allocated for the data. There is no va=
+lidation
+>> + * of the raw EDID data against the size, but at least the EDID base bl=
+ock must
+>> + * fit in the buffer.
+>> + *
+>> + * The returned pointer must be freed using drm_edid_free().
+>> + *
+>> + * Return: drm_edid container, or NULL on errors
+>> + */
+>> +const struct drm_edid *drm_edid_alloc(const void *edid, size_t size)
+>> +{
+>> +	const struct drm_edid *drm_edid;
+>> +
+>> +	if (!edid || !size || size < EDID_LENGTH)
+>> +		return NULL;
+>> +
+>> +	edid =3D kmemdup(edid, size, GFP_KERNEL);
+>> +	if (!edid)
+>> +		return NULL;
+>> +
+>> +	drm_edid =3D _drm_edid_alloc(edid, size);
+>> +	if (!drm_edid)
+>> +		kfree(edid);
+>> +
+>> +	return drm_edid;
+>> +}
+>> +EXPORT_SYMBOL(drm_edid_alloc);
+>> +
+>> +/**
+>> + * drm_edid_dup - Duplicate a drm_edid container
+>> + * @drm_edid: EDID to duplicate
+>> + *
+>> + * The returned pointer must be freed using drm_edid_free().
+>> + *
+>> + * Returns: drm_edid container copy, or NULL on errors
+>> + */
+>> +const struct drm_edid *drm_edid_dup(const struct drm_edid *drm_edid)
+>> +{
+>> +	if (!drm_edid)
+>> +		return NULL;
+>> +
+>> +	return drm_edid_alloc(drm_edid->edid, drm_edid->size);
+>> +}
+>> +EXPORT_SYMBOL(drm_edid_dup);
+>> +
+>> +/**
+>> + * drm_edid_free - Free the drm_edid container
+>> + * @drm_edid: EDID to free
+>> + */
+>> +void drm_edid_free(const struct drm_edid *drm_edid)
+>> +{
+>> +	if (!drm_edid)
+>> +		return;
+>> +
+>> +	kfree(drm_edid->edid);
+>> +	kfree(drm_edid);
+>> +}
+>> +EXPORT_SYMBOL(drm_edid_free);
+>> +
+>>  /**
+>>   * drm_probe_ddc() - probe DDC presence
+>>   * @adapter: I2C adapter to probe
+>> @@ -2359,12 +2450,118 @@ struct edid *drm_get_edid(struct drm_connector =
+*connector,
+>>  	if (connector->force =3D=3D DRM_FORCE_UNSPECIFIED && !drm_probe_ddc(ad=
+apter))
+>>  		return NULL;
+>>=20=20
+>> -	edid =3D drm_do_get_edid(connector, drm_do_probe_ddc_edid, adapter);
+>> +	edid =3D _drm_do_get_edid(connector, drm_do_probe_ddc_edid, adapter, N=
+ULL);
+>>  	drm_connector_update_edid_property(connector, edid);
+>>  	return edid;
+>>  }
+>>  EXPORT_SYMBOL(drm_get_edid);
+>>=20=20
+>> +/**
+>> + * drm_edid_read_custom - Read EDID data using given EDID block read fu=
+nction
+>> + * @connector: Connector to use
+>> + * @read_block: EDID block read function
+>> + * @context: Private data passed to the block read function
+>> + *
+>> + * When the I2C adapter connected to the DDC bus is hidden behind a dev=
+ice that
+>> + * exposes a different interface to read EDID blocks this function can =
+be used
+>> + * to get EDID data using a custom block read function.
+>> + *
+>> + * As in the general case the DDC bus is accessible by the kernel at th=
+e I2C
+>> + * level, drivers must make all reasonable efforts to expose it as an I=
+2C
+>> + * adapter and use drm_edid_read() or drm_edid_read_ddc() instead of ab=
+using
+>> + * this function.
+>> + *
+>> + * The EDID may be overridden using debugfs override_edid or firmware E=
+DID
+>> + * (drm_load_edid_firmware() and drm.edid_firmware parameter), in this =
+priority
+>> + * order. Having either of them bypasses actual EDID reads.
+>> + *
+>> + * The returned pointer must be freed using drm_edid_free().
+>> + *
+>> + * Return: Pointer to EDID, or NULL if probe/read failed.
+>> + */
+>> +const struct drm_edid *drm_edid_read_custom(struct drm_connector *conne=
+ctor,
+>> +					    read_block_fn read_block,
+>> +					    void *context)
+>> +{
+>> +	const struct drm_edid *drm_edid;
+>> +	struct edid *edid;
+>> +	size_t size =3D 0;
+>> +
+>> +	edid =3D _drm_do_get_edid(connector, read_block, context, &size);
+>> +	if (!edid)
+>> +		return NULL;
+>> +
+>> +	/* Sanity check for now */
+>> +	drm_WARN_ON(connector->dev, !size);
+>> +
+>> +	drm_edid =3D _drm_edid_alloc(edid, size);
+>> +	if (!drm_edid)
+>> +		kfree(edid);
+>> +
+>> +	return drm_edid;
+>> +}
+>> +EXPORT_SYMBOL(drm_edid_read_custom);
+>> +
+>> +/**
+>> + * drm_edid_read_ddc - Read EDID data using given I2C adapter
+>> + * @connector: Connector to use
+>> + * @adapter: I2C adapter to use for DDC
+>> + *
+>> + * Read EDID using the given I2C adapter.
+>> + *
+>> + * The EDID may be overridden using debugfs override_edid or firmware E=
+DID
+>> + * (drm_load_edid_firmware() and drm.edid_firmware parameter), in this =
+priority
+>> + * order. Having either of them bypasses actual EDID reads.
+>> + *
+>> + * Prefer initializing connector->ddc with drm_connector_init_with_ddc(=
+) and
+>> + * using drm_edid_read() instead of this function.
+>> + *
+>> + * The returned pointer must be freed using drm_edid_free().
+>> + *
+>> + * Return: Pointer to EDID, or NULL if probe/read failed.
+>> + */
+>> +const struct drm_edid *drm_edid_read_ddc(struct drm_connector *connecto=
+r,
+>> +					 struct i2c_adapter *adapter)
+>> +{
+>> +	const struct drm_edid *drm_edid;
+>> +
+>> +	if (connector->force =3D=3D DRM_FORCE_OFF)
+>> +		return NULL;
+>> +
+>> +	if (connector->force =3D=3D DRM_FORCE_UNSPECIFIED && !drm_probe_ddc(ad=
+apter))
+>> +		return NULL;
+>> +
+>> +	drm_edid =3D drm_edid_read_custom(connector, drm_do_probe_ddc_edid, ad=
+apter);
+>> +
+>> +	/* Note: Do *not* call connector updates here. */
+>> +
+>> +	return drm_edid;
+>> +}
+>> +EXPORT_SYMBOL(drm_edid_read_ddc);
+>> +
+>> +/**
+>> + * drm_edid_read - Read EDID data using connector's I2C adapter
+>> + * @connector: Connector to use
+>> + *
+>> + * Read EDID using the connector's I2C adapter.
+>> + *
+>> + * The EDID may be overridden using debugfs override_edid or firmware E=
+DID
+>> + * (drm_load_edid_firmware() and drm.edid_firmware parameter), in this =
+priority
+>> + * order. Having either of them bypasses actual EDID reads.
+>> + *
+>> + * The returned pointer must be freed using drm_edid_free().
+>> + *
+>> + * Return: Pointer to EDID, or NULL if probe/read failed.
+>> + */
+>> +const struct drm_edid *drm_edid_read(struct drm_connector *connector)
+>> +{
+>> +	if (drm_WARN_ON(connector->dev, !connector->ddc))
+>> +		return NULL;
+>> +
+>> +	return drm_edid_read_ddc(connector, connector->ddc);
+>> +}
+>> +EXPORT_SYMBOL(drm_edid_read);
+>
+> I'm wondering if we need this drm_edid_read() vs. drm_edid_read_ddc()
+> split? Ie. are there cases where connector->ddc wouldn't be populated
+> for some reason but we still want to use drm_edid_read_ddc()?
 
-On 10/06/2022 17:14, Niranjana Vishwanathapura wrote:
-> On Fri, Jun 10, 2022 at 05:48:39PM +0300, Lionel Landwerlin wrote:
->> On 10/06/2022 13:37, Tvrtko Ursulin wrote:
->>>
->>> On 10/06/2022 08:07, Niranjana Vishwanathapura wrote:
->>>> VM_BIND and related uapi definitions
->>>>
->>>> Signed-off-by: Niranjana Vishwanathapura 
->>>> <niranjana.vishwanathapura@intel.com>
->>>> ---
->>>>   Documentation/gpu/rfc/i915_vm_bind.h | 490 
->>>> +++++++++++++++++++++++++++
->>>>   1 file changed, 490 insertions(+)
->>>>   create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
->>>>
->>>> diff --git a/Documentation/gpu/rfc/i915_vm_bind.h 
->>>> b/Documentation/gpu/rfc/i915_vm_bind.h
->>>> new file mode 100644
->>>> index 000000000000..9fc854969cfb
->>>> --- /dev/null
->>>> +++ b/Documentation/gpu/rfc/i915_vm_bind.h
->>>> @@ -0,0 +1,490 @@
->>>> +/* SPDX-License-Identifier: MIT */
->>>> +/*
->>>> + * Copyright © 2022 Intel Corporation
->>>> + */
->>>> +
->>>> +/**
->>>> + * DOC: I915_PARAM_HAS_VM_BIND
->>>> + *
->>>> + * VM_BIND feature availability.
->>>> + * See typedef drm_i915_getparam_t param.
->>>> + * bit[0]: If set, VM_BIND is supported, otherwise not.
->>>> + * bits[8-15]: VM_BIND implementation version.
->>>> + * version 0 will not have VM_BIND/UNBIND timeline fence array 
->>>> support.
->>>> + */
->>>> +#define I915_PARAM_HAS_VM_BIND        57
->>>> +
->>>> +/**
->>>> + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
->>>> + *
->>>> + * Flag to opt-in for VM_BIND mode of binding during VM creation.
->>>> + * See struct drm_i915_gem_vm_control flags.
->>>> + *
->>>> + * The older execbuf2 ioctl will not support VM_BIND mode of 
->>>> operation.
->>>> + * For VM_BIND mode, we have new execbuf3 ioctl which will not 
->>>> accept any
->>>> + * execlist (See struct drm_i915_gem_execbuffer3 for more details).
->>>> + *
->>>> + */
->>>> +#define I915_VM_CREATE_FLAGS_USE_VM_BIND    (1 << 0)
->>>> +
->>>> +/**
->>>> + * DOC: I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING
->>>> + *
->>>> + * Flag to declare context as long running.
->>>> + * See struct drm_i915_gem_context_create_ext flags.
->>>> + *
->>>> + * Usage of dma-fence expects that they complete in reasonable 
->>>> amount of time.
->>>> + * Compute on the other hand can be long running. Hence it is not 
->>>> appropriate
->>>> + * for compute contexts to export request completion dma-fence to 
->>>> user.
->>>> + * The dma-fence usage will be limited to in-kernel consumption only.
->>>> + * Compute contexts need to use user/memory fence.
->>>> + *
->>>> + * So, long running contexts do not support output fences. Hence,
->>>> + * I915_EXEC_FENCE_SIGNAL (See &drm_i915_gem_exec_fence.flags) is 
->>>> expected
->>>> + * to be not used. DRM_I915_GEM_WAIT ioctl call is also not 
->>>> supported for
->>>> + * objects mapped to long running contexts.
->>>> + */
->>>> +#define I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING   (1u << 2)
->>>> +
->>>> +/* VM_BIND related ioctls */
->>>> +#define DRM_I915_GEM_VM_BIND        0x3d
->>>> +#define DRM_I915_GEM_VM_UNBIND        0x3e
->>>> +#define DRM_I915_GEM_EXECBUFFER3    0x3f
->>>> +#define DRM_I915_GEM_WAIT_USER_FENCE    0x40
->>>> +
->>>> +#define DRM_IOCTL_I915_GEM_VM_BIND DRM_IOWR(DRM_COMMAND_BASE + 
->>>> DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
->>>> +#define DRM_IOCTL_I915_GEM_VM_UNBIND DRM_IOWR(DRM_COMMAND_BASE + 
->>>> DRM_I915_GEM_VM_UNBIND, struct drm_i915_gem_vm_bind)
->>>> +#define DRM_IOCTL_I915_GEM_EXECBUFFER3 DRM_IOWR(DRM_COMMAND_BASE + 
->>>> DRM_I915_GEM_EXECBUFFER3, struct drm_i915_gem_execbuffer3)
->>>> +#define DRM_IOCTL_I915_GEM_WAIT_USER_FENCE 
->>>> DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_WAIT_USER_FENCE, struct 
->>>> drm_i915_gem_wait_user_fence)
->>>> +
->>>> +/**
->>>> + * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
->>>> + *
->>>> + * This structure is passed to VM_BIND ioctl and specifies the 
->>>> mapping of GPU
->>>> + * virtual address (VA) range to the section of an object that 
->>>> should be bound
->>>> + * in the device page table of the specified address space (VM).
->>>> + * The VA range specified must be unique (ie., not currently bound) 
->>>> and can
->>>> + * be mapped to whole object or a section of the object (partial 
->>>> binding).
->>>> + * Multiple VA mappings can be created to the same section of the 
->>>> object
->>>> + * (aliasing).
->>>> + *
->>>> + * The @queue_idx specifies the queue to use for binding. Same 
->>>> queue can be
->>>> + * used for both VM_BIND and VM_UNBIND calls. All submitted bind 
->>>> and unbind
->>>> + * operations in a queue are performed in the order of submission.
->>>> + *
->>>> + * The @start, @offset and @length should be 4K page aligned. 
->>>> However the DG2
->>>> + * and XEHPSDV has 64K page size for device local-memory and has 
->>>> compact page
->>>> + * table. On those platforms, for binding device local-memory 
->>>> objects, the
->>>> + * @start should be 2M aligned, @offset and @length should be 64K 
->>>> aligned.
->>>> + * Also, on those platforms, it is not allowed to bind an device 
->>>> local-memory
->>>> + * object and a system memory object in a single 2M section of VA 
->>>> range.
->>>> + */
->>>> +struct drm_i915_gem_vm_bind {
->>>> +    /** @vm_id: VM (address space) id to bind */
->>>> +    __u32 vm_id;
->>>> +
->>>> +    /** @queue_idx: Index of queue for binding */
->>>> +    __u32 queue_idx;
->>>
->>> I have a question here to which I did not find an answer by browsing 
->>> the old threads.
->>>
->>> Queue index appears to be an implicit synchronisation mechanism, 
->>> right? Operations on the same index are executed/complete in order of 
->>> ioctl submission?
->>>
->>> Do we _have_ to implement this on the kernel side and could just 
->>> allow in/out fence and let userspace deal with it?
->>
->>
->> It orders operations like in a queue. Which is kind of what happens 
->> with existing queues/engines.
->>
->> If I understood correctly, it's going to be a kthread + a linked list 
->> right?
->>
-> 
-> Yes, that is correct.
-> 
->>
->> -Lionel
->>
->>
->>>
->>> Arbitrary/on-demand number of queues will add the complexity on the 
->>> kernel side which should be avoided if possible.
->>>
-> 
-> It was discussed in the other thread. Jason prefers this over putting
-> an artificial limit on number of queues (as user can anyway can exhaust
-> the memory). I think complexity in the driver is manageable.
+I want to promote initializing connector->ddc and using drm_edid_read()
+with that. However, for e.g. i915, HDMI is the only connector where we
+have connector->ddc initialized. I just didn't want to take on
+converting that part too, not yet, not as part of this series.
 
-You'll need to create tracking structures on demand, with atomic replace 
-of last fence, ref counting and locking of some sort, more or less?
+BR,
+Jani.
 
-> The other option being discussed in to have the user create those
-> queues (like creating engine map) before hand and use that in vm_bind
-> and vm_unbind ioctls. This puts a limit on the number of queues.
-> But it is not clean either and not sure it is worth making the interface
-> more complex.
-> https://www.spinics.net/lists/dri-devel/msg350448.html
 
-What about the third option of a flag to return a fence (of some sort) 
-and pass in a fence? That way userspace can imagine zero or N queues 
-with very little effort on the kernel side. Was this considered?
+>
+>> +
+>>  static u32 edid_extract_panel_id(const struct edid *edid)
+>>  {
+>>  	/*
+>> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+>> index 95ac09ef41b2..9d2d78135dee 100644
+>> --- a/include/drm/drm_edid.h
+>> +++ b/include/drm/drm_edid.h
+>> @@ -594,6 +594,15 @@ drm_display_mode_from_cea_vic(struct drm_device *de=
+v,
+>>  			      u8 video_code);
+>>=20=20
+>>  /* Interface based on struct drm_edid */
+>> +const struct drm_edid *drm_edid_alloc(const void *edid, size_t size);
+>> +const struct drm_edid *drm_edid_dup(const struct drm_edid *drm_edid);
+>> +void drm_edid_free(const struct drm_edid *drm_edid);
+>> +const struct drm_edid *drm_edid_read(struct drm_connector *connector);
+>> +const struct drm_edid *drm_edid_read_ddc(struct drm_connector *connecto=
+r,
+>> +					 struct i2c_adapter *adapter);
+>> +const struct drm_edid *drm_edid_read_custom(struct drm_connector *conne=
+ctor,
+>> +					    int (*read_block)(void *context, u8 *buf, unsigned int block, =
+size_t len),
+>> +					    void *context);
+>>  const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
+>>  				  int ext_id, int *ext_index);
+>>=20=20
+>> --=20
+>> 2.30.2
 
-Regards,
-
-Tvrtko
-
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>> +
->>>> +    /** @rsvd: Reserved, MBZ */
->>>> +    __u32 rsvd;
->>>> +
->>>> +    /** @handle: Object handle */
->>>> +    __u32 handle;
->>>> +
->>>> +    /** @start: Virtual Address start to bind */
->>>> +    __u64 start;
->>>> +
->>>> +    /** @offset: Offset in object to bind */
->>>> +    __u64 offset;
->>>> +
->>>> +    /** @length: Length of mapping to bind */
->>>> +    __u64 length;
->>>> +
->>>> +    /**
->>>> +     * @flags: Supported flags are:
->>>> +     *
->>>> +     * I915_GEM_VM_BIND_READONLY:
->>>> +     * Mapping is read-only.
->>>> +     *
->>>> +     * I915_GEM_VM_BIND_CAPTURE:
->>>> +     * Capture this mapping in the dump upon GPU error.
->>>> +     */
->>>> +    __u64 flags;
->>>> +#define I915_GEM_VM_BIND_READONLY    (1 << 0)
->>>> +#define I915_GEM_VM_BIND_CAPTURE     (1 << 1)
->>>> +
->>>> +    /**
->>>> +     * @extensions: 0-terminated chain of extensions for this 
->>>> operation.
->>>> +     *
->>>> +     * I915_VM_BIND_EXT_TIMELINE_FENCES:
->>>> +     * Specifies an array of input or output timeline fences for this
->>>> +     * binding operation. See struct 
->>>> drm_i915_vm_bind_ext_timeline_fences.
->>>> +     *
->>>> +     * I915_VM_BIND_EXT_USER_FENCES:
->>>> +     * Specifies an array of input or output user fences for this
->>>> +     * binding operation. See struct drm_i915_vm_bind_ext_user_fence.
->>>> +     * This is required for compute contexts.
->>>> +     */
->>>> +    __u64 extensions;
->>>> +#define I915_VM_BIND_EXT_TIMELINE_FENCES    0
->>>> +#define I915_VM_BIND_EXT_USER_FENCES        1
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct drm_i915_gem_vm_unbind - VA to object mapping to unbind.
->>>> + *
->>>> + * This structure is passed to VM_UNBIND ioctl and specifies the 
->>>> GPU virtual
->>>> + * address (VA) range that should be unbound from the device page 
->>>> table of the
->>>> + * specified address space (VM). The specified VA range must match 
->>>> one of the
->>>> + * mappings created with the VM_BIND ioctl. TLB is flushed upon unbind
->>>> + * completion.
->>>> + *
->>>> + * The @queue_idx specifies the queue to use for unbinding.
->>>> + * See struct drm_i915_gem_vm_unbind for more information on 
->>>> @queue_idx.
->>>> + *
->>>> + * The @start and @length musy specify a unique mapping bound with 
->>>> VM_BIND
->>>> + * ioctl.
->>>> + */
->>>> +struct drm_i915_gem_vm_unbind {
->>>> +    /** @vm_id: VM (address space) id to bind */
->>>> +    __u32 vm_id;
->>>> +
->>>> +    /** @queue_idx: Index of queue for unbinding */
->>>> +    __u32 queue_idx;
->>>> +
->>>> +    /** @start: Virtual Address start to unbind */
->>>> +    __u64 start;
->>>> +
->>>> +    /** @length: Length of mapping to unbind */
->>>> +    __u64 length;
->>>> +
->>>> +    /** @flags: Reserved for future usage, currently MBZ */
->>>> +    __u64 flags;
->>>> +
->>>> +    /**
->>>> +     * @extensions: 0-terminated chain of extensions for this 
->>>> operation.
->>>> +     *
->>>> +     * I915_VM_UNBIND_EXT_TIMELINE_FENCES:
->>>> +     * Specifies an array of input or output timeline fences for this
->>>> +     * unbind operation.
->>>> +     * It has same format as struct 
->>>> drm_i915_vm_bind_ext_timeline_fences.
->>>> +     *
->>>> +     * I915_VM_UNBIND_EXT_USER_FENCES:
->>>> +     * Specifies an array of input or output user fences for this
->>>> +     * unbind operation. This is required for compute contexts.
->>>> +     * It has same format as struct drm_i915_vm_bind_ext_user_fence.
->>>> +     */
->>>> +    __u64 extensions;
->>>> +#define I915_VM_UNBIND_EXT_TIMELINE_FENCES    0
->>>> +#define I915_VM_UNBIND_EXT_USER_FENCES        1
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct drm_i915_vm_bind_fence - An input or output fence for the 
->>>> vm_bind
->>>> + * or the vm_unbind work.
->>>> + *
->>>> + * The vm_bind or vm_unbind aync worker will wait for input fence 
->>>> to signal
->>>> + * before starting the binding or unbinding.
->>>> + *
->>>> + * The vm_bind or vm_unbind async worker will signal the returned 
->>>> output fence
->>>> + * after the completion of binding or unbinding.
->>>> + */
->>>> +struct drm_i915_vm_bind_fence {
->>>> +    /** @handle: User's handle for a drm_syncobj to wait on or 
->>>> signal. */
->>>> +    __u32 handle;
->>>> +
->>>> +    /**
->>>> +     * @flags: Supported flags are:
->>>> +     *
->>>> +     * I915_VM_BIND_FENCE_WAIT:
->>>> +     * Wait for the input fence before binding/unbinding
->>>> +     *
->>>> +     * I915_VM_BIND_FENCE_SIGNAL:
->>>> +     * Return bind/unbind completion fence as output
->>>> +     */
->>>> +    __u32 flags;
->>>> +#define I915_VM_BIND_FENCE_WAIT            (1<<0)
->>>> +#define I915_VM_BIND_FENCE_SIGNAL          (1<<1)
->>>> +#define __I915_VM_BIND_FENCE_UNKNOWN_FLAGS 
->>>> (-(I915_VM_BIND_FENCE_SIGNAL << 1))
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct drm_i915_vm_bind_ext_timeline_fences - Timeline fences 
->>>> for vm_bind
->>>> + * and vm_unbind.
->>>> + *
->>>> + * This structure describes an array of timeline drm_syncobj and 
->>>> associated
->>>> + * points for timeline variants of drm_syncobj. These timeline 
->>>> 'drm_syncobj's
->>>> + * can be input or output fences (See struct drm_i915_vm_bind_fence).
->>>> + */
->>>> +struct drm_i915_vm_bind_ext_timeline_fences {
->>>> +    /** @base: Extension link. See struct i915_user_extension. */
->>>> +    struct i915_user_extension base;
->>>> +
->>>> +    /**
->>>> +     * @fence_count: Number of elements in the @handles_ptr & 
->>>> @value_ptr
->>>> +     * arrays.
->>>> +     */
->>>> +    __u64 fence_count;
->>>> +
->>>> +    /**
->>>> +     * @handles_ptr: Pointer to an array of struct 
->>>> drm_i915_vm_bind_fence
->>>> +     * of length @fence_count.
->>>> +     */
->>>> +    __u64 handles_ptr;
->>>> +
->>>> +    /**
->>>> +     * @values_ptr: Pointer to an array of u64 values of length
->>>> +     * @fence_count.
->>>> +     * Values must be 0 for a binary drm_syncobj. A Value of 0 for a
->>>> +     * timeline drm_syncobj is invalid as it turns a drm_syncobj 
->>>> into a
->>>> +     * binary one.
->>>> +     */
->>>> +    __u64 values_ptr;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct drm_i915_vm_bind_user_fence - An input or output user 
->>>> fence for the
->>>> + * vm_bind or the vm_unbind work.
->>>> + *
->>>> + * The vm_bind or vm_unbind aync worker will wait for the input 
->>>> fence (value at
->>>> + * @addr to become equal to @val) before starting the binding or 
->>>> unbinding.
->>>> + *
->>>> + * The vm_bind or vm_unbind async worker will signal the output 
->>>> fence after
->>>> + * the completion of binding or unbinding by writing @val to memory 
->>>> location at
->>>> + * @addr
->>>> + */
->>>> +struct drm_i915_vm_bind_user_fence {
->>>> +    /** @addr: User/Memory fence qword aligned process virtual 
->>>> address */
->>>> +    __u64 addr;
->>>> +
->>>> +    /** @val: User/Memory fence value to be written after bind 
->>>> completion */
->>>> +    __u64 val;
->>>> +
->>>> +    /**
->>>> +     * @flags: Supported flags are:
->>>> +     *
->>>> +     * I915_VM_BIND_USER_FENCE_WAIT:
->>>> +     * Wait for the input fence before binding/unbinding
->>>> +     *
->>>> +     * I915_VM_BIND_USER_FENCE_SIGNAL:
->>>> +     * Return bind/unbind completion fence as output
->>>> +     */
->>>> +    __u32 flags;
->>>> +#define I915_VM_BIND_USER_FENCE_WAIT            (1<<0)
->>>> +#define I915_VM_BIND_USER_FENCE_SIGNAL          (1<<1)
->>>> +#define __I915_VM_BIND_USER_FENCE_UNKNOWN_FLAGS \
->>>> +    (-(I915_VM_BIND_USER_FENCE_SIGNAL << 1))
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct drm_i915_vm_bind_ext_user_fence - User/memory fences for 
->>>> vm_bind
->>>> + * and vm_unbind.
->>>> + *
->>>> + * These user fences can be input or output fences
->>>> + * (See struct drm_i915_vm_bind_user_fence).
->>>> + */
->>>> +struct drm_i915_vm_bind_ext_user_fence {
->>>> +    /** @base: Extension link. See struct i915_user_extension. */
->>>> +    struct i915_user_extension base;
->>>> +
->>>> +    /** @fence_count: Number of elements in the @user_fence_ptr 
->>>> array. */
->>>> +    __u64 fence_count;
->>>> +
->>>> +    /**
->>>> +     * @user_fence_ptr: Pointer to an array of
->>>> +     * struct drm_i915_vm_bind_user_fence of length @fence_count.
->>>> +     */
->>>> +    __u64 user_fence_ptr;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct drm_i915_gem_execbuffer3 - Structure for 
->>>> DRM_I915_GEM_EXECBUFFER3
->>>> + * ioctl.
->>>> + *
->>>> + * DRM_I915_GEM_EXECBUFFER3 ioctl only works in VM_BIND mode and 
->>>> VM_BIND mode
->>>> + * only works with this ioctl for submission.
->>>> + * See I915_VM_CREATE_FLAGS_USE_VM_BIND.
->>>> + */
->>>> +struct drm_i915_gem_execbuffer3 {
->>>> +    /**
->>>> +     * @ctx_id: Context id
->>>> +     *
->>>> +     * Only contexts with user engine map are allowed.
->>>> +     */
->>>> +    __u32 ctx_id;
->>>> +
->>>> +    /**
->>>> +     * @engine_idx: Engine index
->>>> +     *
->>>> +     * An index in the user engine map of the context specified by 
->>>> @ctx_id.
->>>> +     */
->>>> +    __u32 engine_idx;
->>>> +
->>>> +    /** @rsvd1: Reserved, MBZ */
->>>> +    __u32 rsvd1;
->>>> +
->>>> +    /**
->>>> +     * @batch_count: Number of batches in @batch_address array.
->>>> +     *
->>>> +     * 0 is invalid. For parallel submission, it should be equal to 
->>>> the
->>>> +     * number of (parallel) engines involved in that submission.
->>>> +     */
->>>> +    __u32 batch_count;
->>>> +
->>>> +    /**
->>>> +     * @batch_address: Array of batch gpu virtual addresses.
->>>> +     *
->>>> +     * If @batch_count is 1, then it is the gpu virtual address of the
->>>> +     * batch buffer. If @batch_count > 1, then it is a pointer to 
->>>> an array
->>>> +     * of batch buffer gpu virtual addresses.
->>>> +     */
->>>> +    __u64 batch_address;
->>>> +
->>>> +    /**
->>>> +     * @flags: Supported flags are:
->>>> +     *
->>>> +     * I915_EXEC3_SECURE:
->>>> +     * Request a privileged ("secure") batch buffer/s.
->>>> +     * It is only available for DRM_ROOT_ONLY | DRM_MASTER processes.
->>>> +     */
->>>> +    __u64 flags;
->>>> +#define I915_EXEC3_SECURE    (1<<0)
->>>> +
->>>> +    /** @rsvd2: Reserved, MBZ */
->>>> +    __u64 rsvd2;
->>>> +
->>>> +    /**
->>>> +     * @extensions: Zero-terminated chain of extensions.
->>>> +     *
->>>> +     * DRM_I915_GEM_EXECBUFFER3_EXT_TIMELINE_FENCES:
->>>> +     * It has same format as 
->>>> DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES.
->>>> +     * See struct drm_i915_gem_execbuffer_ext_timeline_fences.
->>>> +     *
->>>> +     * DRM_I915_GEM_EXECBUFFER3_EXT_USER_FENCE:
->>>> +     * First level batch completion signaling extension.
->>>> +     * See struct drm_i915_gem_execbuffer3_ext_user_fence.
->>>> +     */
->>>> +    __u64 extensions;
->>>> +#define DRM_I915_GEM_EXECBUFFER3_EXT_TIMELINE_FENCES    0
->>>> +#define DRM_I915_GEM_EXECBUFFER3_EXT_USER_FENCE        1
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct drm_i915_gem_execbuffer3_ext_user_fence - First level 
->>>> batch completion
->>>> + * signaling extension.
->>>> + *
->>>> + * This extension allows user to attach a user fence (@addr, @value 
->>>> pair) to
->>>> + * execbuf3, to be signaled by the command streamer after the 
->>>> completion of first
->>>> + * level batch, by writing the @value at specified @addr and 
->>>> triggering an
->>>> + * interrupt.
->>>> + * User can either poll for this user fence to signal or can also 
->>>> wait on it
->>>> + * with i915_gem_wait_user_fence ioctl.
->>>> + * This is very much usefaul for long running contexts where 
->>>> waiting on dma-fence
->>>> + * by user (like i915_gem_wait ioctl) is not supported.
->>>> + */
->>>> +struct drm_i915_gem_execbuffer3_ext_user_fence {
->>>> +    /** @base: Extension link. See struct i915_user_extension. */
->>>> +    struct i915_user_extension base;
->>>> +
->>>> +    /**
->>>> +     * @addr: User/Memory fence qword aligned GPU virtual address.
->>>> +     *
->>>> +     * Address has to be a valid GPU virtual address at the time of
->>>> +     * first level batch completion.
->>>> +     */
->>>> +    __u64 addr;
->>>> +
->>>> +    /**
->>>> +     * @value: User/Memory fence Value to be written to above address
->>>> +     * after first level batch completes.
->>>> +     */
->>>> +    __u64 value;
->>>> +
->>>> +    /** @rsvd: Reserved, MBZ */
->>>> +    __u64 rsvd;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct drm_i915_gem_create_ext_vm_private - Extension to make 
->>>> the object
->>>> + * private to the specified VM.
->>>> + *
->>>> + * See struct drm_i915_gem_create_ext.
->>>> + */
->>>> +struct drm_i915_gem_create_ext_vm_private {
->>>> +#define I915_GEM_CREATE_EXT_VM_PRIVATE        2
->>>> +    /** @base: Extension link. See struct i915_user_extension. */
->>>> +    struct i915_user_extension base;
->>>> +
->>>> +    /** @vm_id: Id of the VM to which the object is private */
->>>> +    __u32 vm_id;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct drm_i915_gem_wait_user_fence - Wait on user/memory fence.
->>>> + *
->>>> + * User/Memory fence can be woken up either by:
->>>> + *
->>>> + * 1. GPU context indicated by @ctx_id, or,
->>>> + * 2. Kerrnel driver async worker upon I915_UFENCE_WAIT_SOFT.
->>>> + *    @ctx_id is ignored when this flag is set.
->>>> + *
->>>> + * Wakeup condition is,
->>>> + * ``((*addr & mask) op (value & mask))``
->>>> + *
->>>> + * See :ref:`Documentation/driver-api/dma-buf.rst 
->>>> <indefinite_dma_fences>`
->>>> + */
->>>> +struct drm_i915_gem_wait_user_fence {
->>>> +    /** @extensions: Zero-terminated chain of extensions. */
->>>> +    __u64 extensions;
->>>> +
->>>> +    /** @addr: User/Memory fence address */
->>>> +    __u64 addr;
->>>> +
->>>> +    /** @ctx_id: Id of the Context which will signal the fence. */
->>>> +    __u32 ctx_id;
->>>> +
->>>> +    /** @op: Wakeup condition operator */
->>>> +    __u16 op;
->>>> +#define I915_UFENCE_WAIT_EQ      0
->>>> +#define I915_UFENCE_WAIT_NEQ     1
->>>> +#define I915_UFENCE_WAIT_GT      2
->>>> +#define I915_UFENCE_WAIT_GTE     3
->>>> +#define I915_UFENCE_WAIT_LT      4
->>>> +#define I915_UFENCE_WAIT_LTE     5
->>>> +#define I915_UFENCE_WAIT_BEFORE  6
->>>> +#define I915_UFENCE_WAIT_AFTER   7
->>>> +
->>>> +    /**
->>>> +     * @flags: Supported flags are:
->>>> +     *
->>>> +     * I915_UFENCE_WAIT_SOFT:
->>>> +     *
->>>> +     * To be woken up by i915 driver async worker (not by GPU).
->>>> +     *
->>>> +     * I915_UFENCE_WAIT_ABSTIME:
->>>> +     *
->>>> +     * Wait timeout specified as absolute time.
->>>> +     */
->>>> +    __u16 flags;
->>>> +#define I915_UFENCE_WAIT_SOFT    0x1
->>>> +#define I915_UFENCE_WAIT_ABSTIME 0x2
->>>> +
->>>> +    /** @value: Wakeup value */
->>>> +    __u64 value;
->>>> +
->>>> +    /** @mask: Wakeup mask */
->>>> +    __u64 mask;
->>>> +#define I915_UFENCE_WAIT_U8     0xffu
->>>> +#define I915_UFENCE_WAIT_U16    0xffffu
->>>> +#define I915_UFENCE_WAIT_U32    0xfffffffful
->>>> +#define I915_UFENCE_WAIT_U64    0xffffffffffffffffull
->>>> +
->>>> +    /**
->>>> +     * @timeout: Wait timeout in nanoseconds.
->>>> +     *
->>>> +     * If I915_UFENCE_WAIT_ABSTIME flag is set, then time timeout 
->>>> is the
->>>> +     * absolute time in nsec.
->>>> +     */
->>>> +    __s64 timeout;
->>>> +};
->>
->>
+--=20
+Jani Nikula, Intel Open Source Graphics Center
