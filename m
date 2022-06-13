@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61216548531
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 14:35:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD7354853E
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 14:35:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A861910E763;
-	Mon, 13 Jun 2022 12:35:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 609B510E780;
+	Mon, 13 Jun 2022 12:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 239BC10E75A
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 12:34:56 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id be31so8586036lfb.10
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 05:34:55 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61B2610E76B
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 12:34:57 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id 20so8599561lfz.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 05:34:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JWCXEyjzg2pysk8ShcRPJc2kdw6w7ZsTAW93SlAzev0=;
- b=IWXUMAXagqtqTcFYIQoVjq2KpxARxvI90qf3Tv3bM//KCad0WvHEGp7LXwn88OVqB5
- llS4VjY+LbBjDCiT9yod7g78hX1zvKBQ7sqwqfd0oK9qKUHneNnMTtAV1WQMy8MwmkSZ
- AwPoIafKKbk2L/lVuSdVK23pP3QJTqybieqZ1DfHE0Dpn4L6o4wbaxfembBePmMre5QJ
- vRXFZD3C1CHpQHk/CQrN8uaL0ZsY+TXRLEewO7sPokPPwIbsxjAZlhRd88058fU22bZ6
- qGS5wLIHbHGb78sHA4ugvDXDVPRQ+tdN3JpvjlaFMcNg6xTpXbmAPB/TolZzVR/BbmHT
- lD1w==
+ bh=SCrm91gLJk0MFOsre/PgWeLSvVA34lRaSk1noLyxJm0=;
+ b=fxUi9RqztJx5avSbi4cZ0nZslBWIiA42d7jaxvcWWlYYC/PwSAnsJTuQfvKcxOAll2
+ XPP+ca5l598CTrp02iaLWFkEPm2h5a2FoJdGY9XUGgThOEpqz83FpHUBIvInSRiC15uI
+ NwKVPAmGy7M+hc1bOInfjmh4sCVxZvLLUZu6MT5vLf3ltRQo88A9pKf3E9Ya4wK5pK7+
+ XHAgDGBTB/7NiFzGuqm1x9GoD0vxAaIwIAIA1sY//iZHZvO67FXhRdGXqDTNCIYkVsdP
+ vvZW7gdYgDeOjRznI10J6dcH86HmY0UkeEKr+BY/wyBsKNdBHNEY+09nVvMX7Bg3nrjN
+ 2I/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JWCXEyjzg2pysk8ShcRPJc2kdw6w7ZsTAW93SlAzev0=;
- b=Lh9C/dfsb9wi2zB2LhwhTDJU/0HWajWIWXBeinDtgz8bKRHbOcptjHj/ICKFL7kK8u
- chjQ3WxxBaiTO/FNAKICFPpLzFeV1Ca0y1vPhEHc8ydiRLj1oC/0EJckis5Kj/ZY0y0q
- ntnx5TKEjp5YUzXfNa8WiSbrXRipfxtFJzS0auiWgcH8IUC+VpjVzd82Qsr747f3QM/i
- Wt/egxSdzv2uL0NqA4pf0IBVP7YItYdSeMFR9pW+CqacXhitEz8SXbWAOBIrSyEd5FCQ
- GuLg/e2GqdDVspXiqX03PqRTGvP/CRs0IgAdmh1rLcpqUbkKeh7PGOp6M83575Jpv1A2
- a1Xg==
-X-Gm-Message-State: AOAM532J4VbKNVXEzPxz5gyDsrH8hZuBl03DpWD/sIrX935xoUsp3VR6
- Cd6PxWanFwZaKvJeFRdSFE1ioZZJDWk=
-X-Google-Smtp-Source: ABdhPJxqm2MQ3MbDHxET6HBXw1UIBCQVgedDwQiwukHsCSDQn4g3/w6zE7pop9FpIxTMPA3tDONUEg==
-X-Received: by 2002:a05:6512:3b97:b0:479:1a44:f60e with SMTP id
- g23-20020a0565123b9700b004791a44f60emr33133736lfv.72.1655123693868; 
- Mon, 13 Jun 2022 05:34:53 -0700 (PDT)
+ bh=SCrm91gLJk0MFOsre/PgWeLSvVA34lRaSk1noLyxJm0=;
+ b=2vrq3+pw+gDmSobmdIih2+zrf/a6vGmKrlDnVSPYJXQbxcCq/uzqJuZD6ssiRUGBtF
+ jMDfwSoWkGxH1M/WaB1S0+mewj6sULbwKCsUxmZLArO42kaVEYyFEiy6FPAggyGBduqG
+ dp61MD3TpK76wucE6k9nQwS9BiZFhlcpIhwCF+Xj4pzDXUIDeEG68HD+I29U5k4QGd9Y
+ RqtrNOWH72Oix9RyUlLinQ+QkzSuxVgpJjYoG1fY7jRgb593V1q5nfjbGBGnZVAvgfyN
+ 7EGHgQjuogoO3pY01U4ULmxR6fKrUXRnQntZJAFb703GClAdwv9lpiUzNriGYqXoxqsa
+ qJ4A==
+X-Gm-Message-State: AOAM532yReb19bS55D8m3WkGFOgV1r0IpLmfqWveu/30XuE/hx6ovATE
+ wpTndiiEQTwIQK/fgY3KDZtHPgVaDmA=
+X-Google-Smtp-Source: ABdhPJwNpPCSd/roZYxvSdJ4y3lCVhm5ONlDL87G8Wb2TW4lG/7YM3DImKjOE4lq6OQATvIqLedlrg==
+X-Received: by 2002:a05:6512:3fa6:b0:47d:c87e:f8f8 with SMTP id
+ x38-20020a0565123fa600b0047dc87ef8f8mr5449314lfa.159.1655123694814; 
+ Mon, 13 Jun 2022 05:34:54 -0700 (PDT)
 Received: from localhost.localdomain (81-226-149-122-no518.tbcn.telia.com.
  [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- j12-20020a056512344c00b004791232dd6fsm973261lfr.257.2022.06.13.05.34.52
+ j12-20020a056512344c00b004791232dd6fsm973261lfr.257.2022.06.13.05.34.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 05:34:53 -0700 (PDT)
+ Mon, 13 Jun 2022 05:34:54 -0700 (PDT)
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 11/19] drm/gma500: Unify *_intel_lvds_commit()
-Date: Mon, 13 Jun 2022 14:34:28 +0200
-Message-Id: <20220613123436.15185-12-patrik.r.jakobsson@gmail.com>
+Subject: [PATCH 12/19] drm/gma500: Unify *_intel_lvds_mode_set()
+Date: Mon, 13 Jun 2022 14:34:29 +0200
+Message-Id: <20220613123436.15185-13-patrik.r.jakobsson@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613123436.15185-1-patrik.r.jakobsson@gmail.com>
 References: <20220613123436.15185-1-patrik.r.jakobsson@gmail.com>
@@ -73,161 +73,184 @@ Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These functions are identical so unify them
+These functions mostly do the same thing so unify them. CDV include the
+pipe select bit in the pfit control register but we can do this on PSB
+as well since LVDS is always on the same pipe there. Oaktrail lvds
+modeset sequence is slightly different so is not unified here.
 
 Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 ---
- drivers/gpu/drm/gma500/cdv_intel_lvds.c | 15 +--------------
- drivers/gpu/drm/gma500/gma_lvds.c       | 15 ++++++++++++++-
- drivers/gpu/drm/gma500/gma_lvds.h       |  2 +-
- drivers/gpu/drm/gma500/oaktrail_lvds.c  | 13 +------------
- drivers/gpu/drm/gma500/psb_intel_lvds.c | 15 +--------------
- 5 files changed, 18 insertions(+), 42 deletions(-)
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c | 38 +------------------------
+ drivers/gpu/drm/gma500/gma_lvds.c       | 35 +++++++++++++++++++++++
+ drivers/gpu/drm/gma500/gma_lvds.h       |  3 ++
+ drivers/gpu/drm/gma500/psb_intel_lvds.c | 35 +----------------------
+ 4 files changed, 40 insertions(+), 71 deletions(-)
 
 diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-index 4f0754b8c0b0..77a5d167c508 100644
+index 77a5d167c508..ddfb976b6059 100644
 --- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
 +++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-@@ -39,19 +39,6 @@
+@@ -39,42 +39,6 @@
  #define PSB_BACKLIGHT_PWM_CTL_SHIFT	(16)
  #define PSB_BACKLIGHT_PWM_POLARITY_BIT_CLEAR (0xFFFE)
  
--static void cdv_intel_lvds_commit(struct drm_encoder *encoder)
+-static void cdv_intel_lvds_mode_set(struct drm_encoder *encoder,
+-				struct drm_display_mode *mode,
+-				struct drm_display_mode *adjusted_mode)
 -{
 -	struct drm_device *dev = encoder->dev;
 -	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
--	struct psb_intel_mode_device *mode_dev = &dev_priv->mode_dev;
+-	struct gma_crtc *gma_crtc = to_gma_crtc(encoder->crtc);
+-	u32 pfit_control;
 -
--	if (mode_dev->backlight_duty_cycle == 0)
--		mode_dev->backlight_duty_cycle =
--		    gma_lvds_get_max_backlight(dev);
+-	/*
+-	 * The LVDS pin pair will already have been turned on in the
+-	 * cdv_intel_crtc_mode_set since it has a large impact on the DPLL
+-	 * settings.
+-	 */
 -
--	gma_lvds_set_power(dev, true);
+-	/*
+-	 * Enable automatic panel scaling so that non-native modes fill the
+-	 * screen.  Should be enabled before the pipe is enabled, according to
+-	 * register description and PRM.
+-	 */
+-	if (mode->hdisplay != adjusted_mode->hdisplay ||
+-	    mode->vdisplay != adjusted_mode->vdisplay)
+-		pfit_control = (PFIT_ENABLE | VERT_AUTO_SCALE |
+-				HORIZ_AUTO_SCALE | VERT_INTERP_BILINEAR |
+-				HORIZ_INTERP_BILINEAR);
+-	else
+-		pfit_control = 0;
+-
+-	pfit_control |= gma_crtc->pipe << PFIT_PIPE_SHIFT;
+-
+-	if (dev_priv->lvds_dither)
+-		pfit_control |= PANEL_8TO6_DITHER_ENABLE;
+-
+-	REG_WRITE(PFIT_CONTROL, pfit_control);
 -}
 -
- static void cdv_intel_lvds_mode_set(struct drm_encoder *encoder,
- 				struct drm_display_mode *mode,
- 				struct drm_display_mode *adjusted_mode)
-@@ -191,7 +178,7 @@ static const struct drm_encoder_helper_funcs
- 	.mode_fixup = gma_lvds_mode_fixup,
- 	.prepare = gma_lvds_prepare,
- 	.mode_set = cdv_intel_lvds_mode_set,
--	.commit = cdv_intel_lvds_commit,
-+	.commit = gma_lvds_commit,
- };
- 
- static const struct drm_connector_helper_funcs
-diff --git a/drivers/gpu/drm/gma500/gma_lvds.c b/drivers/gpu/drm/gma500/gma_lvds.c
-index d0a97eeac38b..6364d3aef064 100644
---- a/drivers/gpu/drm/gma500/gma_lvds.c
-+++ b/drivers/gpu/drm/gma500/gma_lvds.c
-@@ -62,7 +62,7 @@ static void gma_lvds_set_backlight(struct drm_device *dev, int level)
  /*
-  * Sets the power state for the panel.
+  * Return the list of DDC modes if available, or the BIOS fixed mode otherwise.
   */
--void gma_lvds_set_power(struct drm_device *dev, bool on)
-+static void gma_lvds_set_power(struct drm_device *dev, bool on)
- {
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	u32 pp_status;
-@@ -286,3 +286,16 @@ void gma_lvds_prepare(struct drm_encoder *encoder)
- 	gma_power_end(dev);
- }
- 
-+void gma_lvds_commit(struct drm_encoder *encoder)
-+{
-+	struct drm_device *dev = encoder->dev;
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-+	struct psb_intel_mode_device *mode_dev = &dev_priv->mode_dev;
-+
-+	if (mode_dev->backlight_duty_cycle == 0)
-+		mode_dev->backlight_duty_cycle =
-+		    gma_lvds_get_max_backlight(dev);
-+
-+	gma_lvds_set_power(dev, true);
-+}
-+
-diff --git a/drivers/gpu/drm/gma500/gma_lvds.h b/drivers/gpu/drm/gma500/gma_lvds.h
-index c1a7b3611d27..c2c8fe5b5aac 100644
---- a/drivers/gpu/drm/gma500/gma_lvds.h
-+++ b/drivers/gpu/drm/gma500/gma_lvds.h
-@@ -24,7 +24,6 @@ struct gma_lvds_priv {
- };
- 
- u32 gma_lvds_get_max_backlight(struct drm_device *dev);
--void gma_lvds_set_power(struct drm_device *dev, bool on);
- enum drm_mode_status gma_lvds_mode_valid(struct drm_connector *connector,
- 					 struct drm_display_mode *mode);
- void gma_lvds_encoder_dpms(struct drm_encoder *encoder, int mode);
-@@ -34,5 +33,6 @@ bool gma_lvds_mode_fixup(struct drm_encoder *encoder,
- 			 const struct drm_display_mode *mode,
- 			 struct drm_display_mode *adjusted_mode);
- void gma_lvds_prepare(struct drm_encoder *encoder);
-+void gma_lvds_commit(struct drm_encoder *encoder);
- 
- #endif
-diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds.c b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-index dba0ca4b73a0..85cab0f7028a 100644
---- a/drivers/gpu/drm/gma500/oaktrail_lvds.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_lvds.c
-@@ -105,23 +105,12 @@ static void oaktrail_lvds_mode_set(struct drm_encoder *encoder,
- 	gma_power_end(dev);
- }
- 
--static void oaktrail_lvds_commit(struct drm_encoder *encoder)
--{
--	struct drm_device *dev = encoder->dev;
--	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
--	struct psb_intel_mode_device *mode_dev = &dev_priv->mode_dev;
--
--	if (mode_dev->backlight_duty_cycle == 0)
--		mode_dev->backlight_duty_cycle = gma_lvds_get_max_backlight(dev);
--	gma_lvds_set_power(dev, true);
--}
--
- static const struct drm_encoder_helper_funcs oaktrail_lvds_helper_funcs = {
+@@ -177,7 +141,7 @@ static const struct drm_encoder_helper_funcs
  	.dpms = gma_lvds_encoder_dpms,
  	.mode_fixup = gma_lvds_mode_fixup,
  	.prepare = gma_lvds_prepare,
- 	.mode_set = oaktrail_lvds_mode_set,
--	.commit = oaktrail_lvds_commit,
-+	.commit = gma_lvds_commit,
+-	.mode_set = cdv_intel_lvds_mode_set,
++	.mode_set = gma_lvds_mode_set,
+ 	.commit = gma_lvds_commit,
  };
  
- /* Returns the panel fixed mode from configuration. */
+diff --git a/drivers/gpu/drm/gma500/gma_lvds.c b/drivers/gpu/drm/gma500/gma_lvds.c
+index 6364d3aef064..215bf8f7d41f 100644
+--- a/drivers/gpu/drm/gma500/gma_lvds.c
++++ b/drivers/gpu/drm/gma500/gma_lvds.c
+@@ -299,3 +299,38 @@ void gma_lvds_commit(struct drm_encoder *encoder)
+ 	gma_lvds_set_power(dev, true);
+ }
+ 
++void gma_lvds_mode_set(struct drm_encoder *encoder,
++		       struct drm_display_mode *mode,
++		       struct drm_display_mode *adjusted_mode)
++{
++	struct drm_device *dev = encoder->dev;
++	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
++	struct gma_crtc *gma_crtc = to_gma_crtc(encoder->crtc);
++	u32 pfit_control;
++
++	/*
++	 * The LVDS pin pair will already have been turned on in the
++	 * *_crtc_mode_set since it has a large impact on the DPLL * settings.
++	 */
++
++	/*
++	 * Enable automatic panel scaling so that non-native modes fill the
++	 * screen.  Should be enabled before the pipe is enabled, according to
++	 * register description and PRM.
++	 */
++	if (mode->hdisplay != adjusted_mode->hdisplay ||
++	    mode->vdisplay != adjusted_mode->vdisplay)
++		pfit_control = (PFIT_ENABLE | VERT_AUTO_SCALE |
++				HORIZ_AUTO_SCALE | VERT_INTERP_BILINEAR |
++				HORIZ_INTERP_BILINEAR);
++	else
++		pfit_control = 0;
++
++	pfit_control |= gma_crtc->pipe << PFIT_PIPE_SHIFT;
++
++	if (dev_priv->lvds_dither)
++		pfit_control |= PANEL_8TO6_DITHER_ENABLE;
++
++	REG_WRITE(PFIT_CONTROL, pfit_control);
++}
++
+diff --git a/drivers/gpu/drm/gma500/gma_lvds.h b/drivers/gpu/drm/gma500/gma_lvds.h
+index c2c8fe5b5aac..ebba869a25b7 100644
+--- a/drivers/gpu/drm/gma500/gma_lvds.h
++++ b/drivers/gpu/drm/gma500/gma_lvds.h
+@@ -34,5 +34,8 @@ bool gma_lvds_mode_fixup(struct drm_encoder *encoder,
+ 			 struct drm_display_mode *adjusted_mode);
+ void gma_lvds_prepare(struct drm_encoder *encoder);
+ void gma_lvds_commit(struct drm_encoder *encoder);
++void gma_lvds_mode_set(struct drm_encoder *encoder,
++		       struct drm_display_mode *mode,
++		       struct drm_display_mode *adjusted_mode);
+ 
+ #endif
 diff --git a/drivers/gpu/drm/gma500/psb_intel_lvds.c b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-index e4258205a262..fbb72be6e017 100644
+index fbb72be6e017..553f6cb5f322 100644
 --- a/drivers/gpu/drm/gma500/psb_intel_lvds.c
 +++ b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-@@ -132,19 +132,6 @@ void psb_intel_lvds_set_brightness(struct drm_device *dev, int level)
+@@ -132,39 +132,6 @@ void psb_intel_lvds_set_brightness(struct drm_device *dev, int level)
  		psb_lvds_pwm_set_brightness(dev, level);
  }
  
--static void psb_intel_lvds_commit(struct drm_encoder *encoder)
+-static void psb_intel_lvds_mode_set(struct drm_encoder *encoder,
+-				struct drm_display_mode *mode,
+-				struct drm_display_mode *adjusted_mode)
 -{
 -	struct drm_device *dev = encoder->dev;
 -	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
--	struct psb_intel_mode_device *mode_dev = &dev_priv->mode_dev;
+-	u32 pfit_control;
 -
--	if (mode_dev->backlight_duty_cycle == 0)
--		mode_dev->backlight_duty_cycle =
--		    gma_lvds_get_max_backlight(dev);
+-	/*
+-	 * The LVDS pin pair will already have been turned on in the
+-	 * psb_intel_crtc_mode_set since it has a large impact on the DPLL
+-	 * settings.
+-	 */
 -
--	gma_lvds_set_power(dev, true);
+-	/*
+-	 * Enable automatic panel scaling so that non-native modes fill the
+-	 * screen.  Should be enabled before the pipe is enabled, according to
+-	 * register description and PRM.
+-	 */
+-	if (mode->hdisplay != adjusted_mode->hdisplay ||
+-	    mode->vdisplay != adjusted_mode->vdisplay)
+-		pfit_control = (PFIT_ENABLE | VERT_AUTO_SCALE |
+-				HORIZ_AUTO_SCALE | VERT_INTERP_BILINEAR |
+-				HORIZ_INTERP_BILINEAR);
+-	else
+-		pfit_control = 0;
+-
+-	if (dev_priv->lvds_dither)
+-		pfit_control |= PANEL_8TO6_DITHER_ENABLE;
+-
+-	REG_WRITE(PFIT_CONTROL, pfit_control);
 -}
 -
- static void psb_intel_lvds_mode_set(struct drm_encoder *encoder,
- 				struct drm_display_mode *mode,
- 				struct drm_display_mode *adjusted_mode)
-@@ -287,7 +274,7 @@ static const struct drm_encoder_helper_funcs psb_intel_lvds_helper_funcs = {
+ /*
+  * Return the list of DDC modes if available, or the BIOS fixed mode otherwise.
+  */
+@@ -273,7 +240,7 @@ static const struct drm_encoder_helper_funcs psb_intel_lvds_helper_funcs = {
+ 	.dpms = gma_lvds_encoder_dpms,
  	.mode_fixup = gma_lvds_mode_fixup,
  	.prepare = gma_lvds_prepare,
- 	.mode_set = psb_intel_lvds_mode_set,
--	.commit = psb_intel_lvds_commit,
-+	.commit = gma_lvds_commit,
+-	.mode_set = psb_intel_lvds_mode_set,
++	.mode_set = gma_lvds_mode_set,
+ 	.commit = gma_lvds_commit,
  };
  
- const struct drm_connector_helper_funcs
 -- 
 2.36.1
 
