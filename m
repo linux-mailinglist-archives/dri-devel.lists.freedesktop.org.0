@@ -1,69 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC05A54810A
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 10:00:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB08547F56
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 08:05:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A682110EC1A;
-	Mon, 13 Jun 2022 08:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E337D10E1AB;
+	Mon, 13 Jun 2022 06:05:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18C1510E9EE
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 14:49:19 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id o7so6622499eja.1
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 07:49:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pqrs.dk; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jc9EKbluzjQbPf5iJBQyy57Za56oj94XsJi9//DUTBs=;
- b=QAe6zVMMuPfsOQVPhxjW7XQINSyvokcP1UXdDMRe3lQrtwNAX48p8aTaJq+fVtUi2W
- tdKGv1ukA3ximfBZb+wbyixuIibc+PNndOgm0dQmTnezjVki/HaSY3bW2E63Ce9htt6q
- OyI2DQuX5UQ6ukHBMmmH6YcQHHH2f0dbWFjOM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jc9EKbluzjQbPf5iJBQyy57Za56oj94XsJi9//DUTBs=;
- b=3Z+7P49DG+y4bwQUQcUkD7xmT8uravy348ZMu8P12zGmBVBV0XIIbM9AqGSAebBTwT
- EEpUqySiLfWu7PU1XQZ5UqhegkaqwknucgKpVDBCR6lyud0fUYlafiodoAd/+SdZk0Cp
- Q0mn7Cwij+XKu2IrobgF1CJA546bbBJkTbpmsxE3hb1g5ZPjAd0XVHA4pTDUv4qq4c17
- N0LuBh1IfOMbCxwZhA9MaaiA+Eo0dBD9OV0jkPzkAOoyHQvLgSoNAeFKDQZ0/Vx8DRQ6
- IKNdSO1ewptJkOueRo9jM/p7NZkPwmoc3r7XTdi5XLSWJXr/ZTcRAAp50ZCRpZF72hzC
- UaOg==
-X-Gm-Message-State: AOAM5302/dCNf6rZVP1eS0XdUcgo3S2+N/Fr4Yl0X/HABebsRBqazHBA
- foe+1x53aqlesmXtSeLOT2+m/Q==
-X-Google-Smtp-Source: ABdhPJyvv3bZy0x8EdZVGn713v6ewfo8zGpqATwhEb2GGbMj9l6HERl46xAPhCd2QbNHUwuDFardFg==
-X-Received: by 2002:a17:907:da2:b0:711:f408:f098 with SMTP id
- go34-20020a1709070da200b00711f408f098mr20945715ejc.208.1655045357616; 
- Sun, 12 Jun 2022 07:49:17 -0700 (PDT)
-Received: from localhost.localdomain (80.71.142.18.ipv4.parknet.dk.
- [80.71.142.18]) by smtp.gmail.com with ESMTPSA id
- cm20-20020a0564020c9400b004316f94ec4esm3257076edb.66.2022.06.12.07.49.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Jun 2022 07:49:17 -0700 (PDT)
-From: =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alvin@pqrs.dk>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Archit Taneja <architt@codeaurora.org>,
- Hans Verkuil <hans.verkuil@cisco.com>
-Subject: [PATCH RESEND 2/2] drm: bridge: adv7511: unregister cec i2c device
- after cec adapter
-Date: Sun, 12 Jun 2022 16:48:54 +0200
-Message-Id: <20220612144854.2223873-3-alvin@pqrs.dk>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220612144854.2223873-1-alvin@pqrs.dk>
-References: <20220612144854.2223873-1-alvin@pqrs.dk>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AECE10E222
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 06:05:52 +0000 (UTC)
+X-UUID: 026c566412a9405d94655abfa0feb386-20220613
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:3d246b70-29b7-43a2-8be8-403b47c5f172, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:2a19b09, CLOUDID:fd8f7e37-84c0-4f9a-9fbd-acd4a0e9ad0f,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,QS:0,BEC:nil
+X-UUID: 026c566412a9405d94655abfa0feb386-20220613
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 819150509; Mon, 13 Jun 2022 14:05:49 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Mon, 13 Jun 2022 14:05:46 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Mon, 13 Jun 2022 14:05:46 +0800
+Message-ID: <85102b2a8abeac8719ffdb2a1ec1c6463e91ddd7.camel@mediatek.com>
+Subject: Re: [PATCH v10 14/21] drm/mediatek: dpi: Add dpintf support
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, <granquet@baylibre.com>
+Date: Mon, 13 Jun 2022 14:05:45 +0800
+In-Reply-To: <60d33448-1cc9-c662-167b-10c1f9660545@wanadoo.fr>
+References: <20220523104758.29531-1-granquet@baylibre.com>
+ <20220523104758.29531-15-granquet@baylibre.com>
+ <60d33448-1cc9-c662-167b-10c1f9660545@wanadoo.fr>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 13 Jun 2022 08:00:14 +0000
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,79 +60,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alsi@bang-olufsen.dk>
+Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ linux-phy@lists.infradead.org, deller@gmx.de, kishon@ti.com,
+ chunkuang.hu@kernel.org, jitao.shi@mediatek.com, msp@baylibre.com,
+ chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, tzimmermann@suse.de,
+ linux-kernel@vger.kernel.org, vkoul@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alvin Šipraga <alsi@bang-olufsen.dk>
+On Thu, 2022-06-02 at 07:48 +0200, Christophe JAILLET wrote:
+> Le 23/05/2022 à 12:47, Guillaume Ranquet a écrit :
+> > dpintf is the displayport interface hardware unit. This unit is
+> > similar
+> > to dpi and can reuse most of the code.
+> > 
+> > This patch adds support for mt8195-dpintf to this dpi driver. Main
+> > differences are:
+> >   - Some features/functional components are not available for
+> > dpintf
+> >     which are now excluded from code execution once is_dpintf is
+> > set
+> >   - dpintf can and needs to choose between different clockdividers
+> > based
+> >     on the clockspeed. This is done by choosing a different clock
+> > parent.
+> >   - There are two additional clocks that need to be managed. These
+> > are
+> >     only set for dpintf and will be set to NULL if not supplied.
+> > The
+> >     clk_* calls handle these as normal clocks then.
+> >   - Some register contents differ slightly between the two
+> > components. To
+> >     work around this I added register bits/masks with a DPINTF_
+> > prefix
+> >     and use them where different.
+> > 
+> > Based on a separate driver for dpintf created by
+> > Jason-JH.Lin <jason-jh.lin-NuS5LvNUpcJWk0Htik3J/w@public.gmane.org>
+> > .
+> > 
+> > Signed-off-by: Markus Schneider-Pargmann <
+> > msp-rdvid1DuHRBWk0Htik3J/w@public.gmane.org>
+> > Signed-off-by: Guillaume Ranquet <
+> > granquet-rdvid1DuHRBWk0Htik3J/w@public.gmane.org>
+> > ---
+> >   drivers/gpu/drm/mediatek/mtk_dpi.c          | 126
+> > +++++++++++++++++---
+> >   drivers/gpu/drm/mediatek/mtk_dpi_regs.h     |  35 ++++++
+> >   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |   8 ++
+> >   drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
+> >   drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   5 +-
+> >   include/linux/soc/mediatek/mtk-mmsys.h      |   4 +-
+> >   6 files changed, 159 insertions(+), 20 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > index eb969c5c5c2e..763bfb700135 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > @@ -71,6 +71,7 @@ struct mtk_dpi {
+> >   	void __iomem *regs;
+> >   	struct device *dev;
+> >   	struct clk *engine_clk;
+> > +	struct clk *dpi_ck_cg;
+> >   	struct clk *pixel_clk;
+> >   	struct clk *tvd_clk;
+> >   	int irq;
+> > @@ -126,6 +127,7 @@ struct mtk_dpi_conf {
+> >   	const u32 *output_fmts;
+> >   	u32 num_output_fmts;
+> >   	bool is_ck_de_pol;
+> > +	bool is_dpintf;
+> >   	bool swap_input_support;
+> >   	/* Mask used for HWIDTH, HPORCH, VSYNC_WIDTH and VSYNC_PORCH
+> > (no shift) */
+> >   	u32 dimension_mask;
+> > @@ -438,6 +440,8 @@ static void mtk_dpi_power_off(struct mtk_dpi
+> > *dpi)
+> >   	mtk_dpi_disable(dpi);
+> >   	clk_disable_unprepare(dpi->pixel_clk);
+> >   	clk_disable_unprepare(dpi->engine_clk);
+> > +	clk_disable_unprepare(dpi->dpi_ck_cg);
+> > +	clk_disable_unprepare(dpi->tvd_clk);
+> >   }
+> >   
+> >   static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+> > @@ -447,12 +451,24 @@ static int mtk_dpi_power_on(struct mtk_dpi
+> > *dpi)
+> >   	if (++dpi->refcount != 1)
+> >   		return 0;
+> >   
+> 
+> Hi,
+> 
+> belwo the error handling path looks odd. (both where we goto, and
+> the 
+> order of the clk_disable_unprepare() in the error handling path.
+> 
+> just my 2c,
+> 
+> CJ
+> 
 
-cec_unregister_adapter() assumes that the underlying adapter ops are
-callable. For example, if the CEC adapter currently has a valid physical
-address, then the unregistration procedure will invalidate the physical
-address by setting it to f.f.f.f. Whence the following kernel oops
-observed after removing the adv7511 module:
+Hello Christophe,
 
-    Unable to handle kernel execution of user memory at virtual address 0000000000000000
-    Internal error: Oops: 86000004 [#1] PREEMPT_RT SMP
-    Call trace:
-     0x0
-     adv7511_cec_adap_log_addr+0x1ac/0x1c8 [adv7511]
-     cec_adap_unconfigure+0x44/0x90 [cec]
-     __cec_s_phys_addr.part.0+0x68/0x230 [cec]
-     __cec_s_phys_addr+0x40/0x50 [cec]
-     cec_unregister_adapter+0xb4/0x118 [cec]
-     adv7511_remove+0x60/0x90 [adv7511]
-     i2c_device_remove+0x34/0xe0
-     device_release_driver_internal+0x114/0x1f0
-     driver_detach+0x54/0xe0
-     bus_remove_driver+0x60/0xd8
-     driver_unregister+0x34/0x60
-     i2c_del_driver+0x2c/0x68
-     adv7511_exit+0x1c/0x67c [adv7511]
-     __arm64_sys_delete_module+0x154/0x288
-     invoke_syscall+0x48/0x100
-     el0_svc_common.constprop.0+0x48/0xe8
-     do_el0_svc+0x28/0x88
-     el0_svc+0x1c/0x50
-     el0t_64_sync_handler+0xa8/0xb0
-     el0t_64_sync+0x15c/0x160
-    Code: bad PC value
-    ---[ end trace 0000000000000000 ]---
+Thanks for your review.
+I will fix this order in enxt version.
 
-Protect against this scenario by unregistering i2c_cec after
-unregistering the CEC adapter. Duly disable the CEC clock afterwards
-too.
+Thanks
 
-Fixes: 3b1b975003e4 ("drm: adv7511/33: add HDMI CEC support")
-Signed-off-by: Alvin Šipraga <alsi@bang-olufsen.dk>
----
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+BRs,
+Bo-Chen
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 5bb9300040dd..023c0ad132e0 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1339,9 +1339,6 @@ static int adv7511_remove(struct i2c_client *i2c)
- {
- 	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
- 
--	i2c_unregister_device(adv7511->i2c_cec);
--	clk_disable_unprepare(adv7511->cec_clk);
--
- 	adv7511_uninit_regulators(adv7511);
- 
- 	drm_bridge_remove(&adv7511->bridge);
-@@ -1349,6 +1346,8 @@ static int adv7511_remove(struct i2c_client *i2c)
- 	adv7511_audio_exit(adv7511);
- 
- 	cec_unregister_adapter(adv7511->cec_adap);
-+	i2c_unregister_device(adv7511->i2c_cec);
-+	clk_disable_unprepare(adv7511->cec_clk);
- 
- 	i2c_unregister_device(adv7511->i2c_packet);
- 	i2c_unregister_device(adv7511->i2c_edid);
--- 
-2.36.1
+> > +	ret = clk_prepare_enable(dpi->tvd_clk);
+> > +	if (ret) {
+> > +		dev_err(dpi->dev, "Failed to enable tvd pll: %d\n",
+> > ret);
+> > +		goto err_pixel;
+> > +	}
+> > +
+> >   	ret = clk_prepare_enable(dpi->engine_clk);
+> >   	if (ret) {
+> >   		dev_err(dpi->dev, "Failed to enable engine clock:
+> > %d\n", ret);
+> >   		goto err_refcount;
+> >   	}
+> >   
+> > +	ret = clk_prepare_enable(dpi->dpi_ck_cg);
+> > +	if (ret) {
+> > +		dev_err(dpi->dev, "Failed to enable dpi_ck_cg clock:
+> > %d\n", ret);
+> > +		goto err_ck_cg;
+> > +	}
+> > +
+> >   	ret = clk_prepare_enable(dpi->pixel_clk);
+> >   	if (ret) {
+> >   		dev_err(dpi->dev, "Failed to enable pixel clock: %d\n",
+> > ret);
+> > @@ -466,6 +482,8 @@ static int mtk_dpi_power_on(struct mtk_dpi
+> > *dpi)
+> >   	return 0;
+> >   
+> >   err_pixel:
+> > +	clk_disable_unprepare(dpi->dpi_ck_cg);
+> > +err_ck_cg:
+> >   	clk_disable_unprepare(dpi->engine_clk);
+> >   err_refcount:
+> >   	dpi->refcount--;
+> 
+> [...]
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
