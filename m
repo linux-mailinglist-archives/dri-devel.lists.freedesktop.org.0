@@ -1,72 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBAA5485C3
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:48:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4775485C4
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:48:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6834C10E804;
-	Mon, 13 Jun 2022 14:48:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B89A10E826;
+	Mon, 13 Jun 2022 14:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F19E10E804
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:18 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 0094A3200931;
- Mon, 13 Jun 2022 10:48:16 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55C9E10E810
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:21 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 1134D3200931;
+ Mon, 13 Jun 2022 10:48:19 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 13 Jun 2022 10:48:17 -0400
+ by compute3.internal (MEProxy); Mon, 13 Jun 2022 10:48:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655131696; x=1655218096; bh=Qk
- wICmGwaWR+7wjxirm3F3E7gVtYR6OKDZ+E/kOBMYM=; b=k5EilDOKYfJvZ+a4qL
- qUwtd2E3recK8Hez2aW6x7n6sOuyhjICSVsTUsBPnATIEa+LaWQZAG1GMj8wQ73l
- ZxDOiFJwlk1GOB7vH3uMOmdm6so+FxmFBr41oX7QK1n+bC5LRp2mbkvMWpisZkHP
- jYEM3vcHkjttbTBMwkO3nKtd+12Uh29inJIXwuS4tjZimmDLb6AL5wT6GHr9r4wu
- dlVtILx5WGwLjwn5jXxg177j7NJs3cUztJt2ZCVKt0H4jfKjgobTcGzvbue6imqF
- x5W32iqxl2rsXX6mYrQ3o4I5f97iatkenW6gz09WVR3OtI3DxTaVbb0TmLyn0a1i
- iWPA==
+ :subject:subject:to:to; s=fm1; t=1655131699; x=1655218099; bh=GQ
+ mNCHWiRQ2njI4ZaYb8MBRbXyAYoY1cikYpnW9cwf8=; b=DJ2QYQ5CgWkdBDUqqq
+ BLykfGXIUvg9WHOVC9PATRSnG6bxpPU6tFxa1GfmJ98YgPYG433V68hTTPG9JpgV
+ g+a4qoaLp3PaBIMYXWBwES0el7ife+wFYRyByx616KSOG2LrsrYSsnynMu2gPm0q
+ YbgNyrqp8MQ1UFkkCddBtItqnF16tijx3+HNFvcbMwshSJb+gONhrRlkTYkd/riR
+ 2b+oMQZFw6+GZZj7I7BFM5TRnv04ytjycFgsfsoKtXwfH4me4T9BXwtEluL0zRIP
+ s3CZx9xKb9b9+0psZ0rQUben+NuTuUG3LHVke0W+lwJrx3v9tNGNujctGaQ96gRJ
+ mjGg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655131696; x=1655218096; bh=QkwICmGwaWR+7
- wjxirm3F3E7gVtYR6OKDZ+E/kOBMYM=; b=GypszQe0Ftd3j6/m0saFHelewMRhF
- p4iOG9E084LKJvd0Whe1HQxh2oSYPMC29qIzTiNIazCrfuV1wwnoXLqP2lhN0Tb6
- 6JAEjaLlyDKnZo5T9WE6xrzUp6GYLoawFfZZGosxqsl+CwHY/5vbdts0gfJShJ8X
- ScQl0s2kDjJCUslIZel9pijBOQmN6IB3dTThuxLzv371NtEf70Zpg0AqgLM9xaw6
- Y0R5R5N95n/PH2iuCszqZCSPD07Q5MFpvXQ6IhvQDFNWOSjI+yx0/d86zattfdfs
- mj2HUzBeZdmJSMK1ADKJgvkEcGdnesl5JAlkscuHbHpfiGuXaKdgNxEyg==
-X-ME-Sender: <xms:ME6nYo5AYsoEwXsqkaxKwbZhM8bUQd7tqJksMGbWratq0KihtyWZ_A>
- <xme:ME6nYp4ss2DtOyBLsn9JEcHyrtodMUFRFd-_KxN_wH-ppZU1YB5DQ-wf8TE8QKq5Y
- GBkbNXVB7fJxGgLIX0>
-X-ME-Received: <xmr:ME6nYndLaEO2S-6H-fAxX5vX61qGtuz2bbBLCrCPXlduZfy01MafN96De4dTaUjwRgKtXu5aJgA0MVONqPGO8o4bTNPBwyxOGteo2VI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedgjeekucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm2; t=1655131699; x=1655218099; bh=GQmNCHWiRQ2nj
+ I4ZaYb8MBRbXyAYoY1cikYpnW9cwf8=; b=VEpE5ZrBUpfvMz7vx94w6UmktKlVT
+ cOs+kDeWMf4HHwyZ7k/HBZsRoEt7YBSL4wSfyahdS04DlZv6iGHPlKyEupJBdyaD
+ zCrp9dKp6VBFay8zXXm3PmvC+lI0yT9srfpKtUJ7n/fjA5KvbDv+vWuoKxqjfWBY
+ P3IkRFgfQSTIGjA/B9f2I1vavKuZnPhdjWz90IbtfW2K6PAaSMHACdK3ENCjN9vA
+ uKH/wNyZs3AERT11AEIm1xWd5WB8ERHpVkRiy1wVqlgT6T2mHc2riibmP4nxHnQF
+ cxvzypUsPX3M9p1wP1cqjlazLWhD7tL2Jp6N/pObrOsdE54oO3s7EKxuw==
+X-ME-Sender: <xms:M06nYiDH3SvWqP2DYYaTKNIk8roSyjYWrbh9eQZBKxIV-HlPN7WclA>
+ <xme:M06nYsikyod_PaOlTLM3-NS0DaRDEyAk63IdWJIj0qME4uNEnO-ZlWnwHlu9hPkdo
+ x-OFvCP24m95XxjjXs>
+X-ME-Received: <xmr:M06nYlkxFDFcJf2YHkm3zWuZPDzOzHr9t51nEC1124amco4O4a73UEiNRCyQ99khbVPeOpBj_CMtIPKaKmDcB_hrTCKQdHl0kPP69GI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedgjeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ME6nYtJ3zG-uscFPg4a0e3eLhv-RTlXgA0QpjHmXsQdFjT7k1oqhfw>
- <xmx:ME6nYsJ0kRtEQKgTMCZmJ3VUUrtt843rgMXUW_xJeDylZ9-PPWKKyw>
- <xmx:ME6nYuyek8vZ5ZOCcfofZ6QvCgWv-HjEC3MOMFmF7kChKKnZOP4Hcw>
- <xmx:ME6nYmgABafU0O4uxQk4ODJ2rfuNvWnw7eDK8zDJ3sP5xlJNAHYy3w>
+X-ME-Proxy: <xmx:M06nYgxl3vrt4KXVYfwUoAro2AWI8jmlOTqIO7jW9fjbKWVcU0hJDA>
+ <xmx:M06nYnSSzWph67E-iNcCbmPMED89DoRmdpkNiSN9yWTAZKWlrtDRmQ>
+ <xmx:M06nYrYv8kZIQzy1QWhbAlZ6kkxPflnnXj6t0lYryI1zD9NT-qc7Kw>
+ <xmx:M06nYoKI4mroDx1GUa2uFGFzhov8Go8VWdJy2vj_YDOHJG5lT5aVrQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jun 2022 10:48:15 -0400 (EDT)
+ 13 Jun 2022 10:48:19 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 04/33] drm/vc4: plane: Remove subpixel positioning check
-Date: Mon, 13 Jun 2022 16:47:31 +0200
-Message-Id: <20220613144800.326124-5-maxime@cerno.tech>
+Subject: [PATCH 05/33] drm/vc4: plane: Fix margin calculations for the
+ right/bottom edges
+Date: Mon, 13 Jun 2022 16:47:32 +0200
+Message-Id: <20220613144800.326124-6-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613144800.326124-1-maxime@cerno.tech>
 References: <20220613144800.326124-1-maxime@cerno.tech>
@@ -84,74 +85,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <popcornmix@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dom Cobley <popcornmix@gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-There is little harm in ignoring fractional coordinates
-(they just get truncated).
+The current plane margin calculation code clips the right and bottom
+edges of the range based using the left and top margins.
 
-Without this:
-modetest -M vc4 -F tiles,gradient -s 32:1920x1080-60 -P89@74:1920x1080*.1.1@XR24
+This is obviously wrong, so let's fix it.
 
-is rejected. We have the same issue in Kodi when trying to
-use zoom options on video.
-
-Note: even if all coordinates are fully integer. e.g.
-src:[0,0,1920,1080] dest:[-10,-10,1940,1100]
-
-it will still get rejected as drm_atomic_helper_check_plane_state
-uses drm_rect_clip_scaled which transforms this to fractional src coords
-
-Fixes: 21af94cf1a4c ("drm/vc4: Add support for scaling of display planes.")
-Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+Fixes: 666e73587f90 ("drm/vc4: Take margin setup into account when updating planes")
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/vc4/vc4_plane.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index b3438f4a81ce..650c652281e8 100644
+index 650c652281e8..a64324179650 100644
 --- a/drivers/gpu/drm/vc4/vc4_plane.c
 +++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -339,7 +339,6 @@ static int vc4_plane_setup_clipping_and_scaling(struct drm_plane_state *state)
- 	struct vc4_plane_state *vc4_state = to_vc4_plane_state(state);
- 	struct drm_framebuffer *fb = state->fb;
- 	struct drm_gem_cma_object *bo = drm_fb_cma_get_gem_obj(fb, 0);
--	u32 subpixel_src_mask = (1 << 16) - 1;
- 	int num_planes = fb->format->num_planes;
- 	struct drm_crtc_state *crtc_state;
- 	u32 h_subsample = fb->format->hsub;
-@@ -361,18 +360,15 @@ static int vc4_plane_setup_clipping_and_scaling(struct drm_plane_state *state)
- 	for (i = 0; i < num_planes; i++)
- 		vc4_state->offsets[i] = bo->paddr + fb->offsets[i];
+@@ -310,16 +310,16 @@ static int vc4_plane_margins_adj(struct drm_plane_state *pstate)
+ 					       adjhdisplay,
+ 					       crtc_state->mode.hdisplay);
+ 	vc4_pstate->crtc_x += left;
+-	if (vc4_pstate->crtc_x > crtc_state->mode.hdisplay - left)
+-		vc4_pstate->crtc_x = crtc_state->mode.hdisplay - left;
++	if (vc4_pstate->crtc_x > crtc_state->mode.hdisplay - right)
++		vc4_pstate->crtc_x = crtc_state->mode.hdisplay - right;
  
--	/* We don't support subpixel source positioning for scaling. */
--	if ((state->src.x1 & subpixel_src_mask) ||
--	    (state->src.x2 & subpixel_src_mask) ||
--	    (state->src.y1 & subpixel_src_mask) ||
--	    (state->src.y2 & subpixel_src_mask)) {
--		return -EINVAL;
--	}
--
--	vc4_state->src_x = state->src.x1 >> 16;
--	vc4_state->src_y = state->src.y1 >> 16;
--	vc4_state->src_w[0] = (state->src.x2 - state->src.x1) >> 16;
--	vc4_state->src_h[0] = (state->src.y2 - state->src.y1) >> 16;
-+	/*
-+	 * We don't support subpixel source positioning for scaling,
-+	 * but fractional coordinates can be generated by clipping
-+	 * so just round for now
-+	 */
-+	vc4_state->src_x = DIV_ROUND_CLOSEST(state->src.x1, 1 << 16);
-+	vc4_state->src_y = DIV_ROUND_CLOSEST(state->src.y1, 1 << 16);
-+	vc4_state->src_w[0] = DIV_ROUND_CLOSEST(state->src.x2, 1 << 16) - vc4_state->src_x;
-+	vc4_state->src_h[0] = DIV_ROUND_CLOSEST(state->src.y2, 1 << 16) - vc4_state->src_y;
+ 	adjvdisplay = crtc_state->mode.vdisplay - (top + bottom);
+ 	vc4_pstate->crtc_y = DIV_ROUND_CLOSEST(vc4_pstate->crtc_y *
+ 					       adjvdisplay,
+ 					       crtc_state->mode.vdisplay);
+ 	vc4_pstate->crtc_y += top;
+-	if (vc4_pstate->crtc_y > crtc_state->mode.vdisplay - top)
+-		vc4_pstate->crtc_y = crtc_state->mode.vdisplay - top;
++	if (vc4_pstate->crtc_y > crtc_state->mode.vdisplay - bottom)
++		vc4_pstate->crtc_y = crtc_state->mode.vdisplay - bottom;
  
- 	vc4_state->crtc_x = state->dst.x1;
- 	vc4_state->crtc_y = state->dst.y1;
+ 	vc4_pstate->crtc_w = DIV_ROUND_CLOSEST(vc4_pstate->crtc_w *
+ 					       adjhdisplay,
 -- 
 2.36.1
 
