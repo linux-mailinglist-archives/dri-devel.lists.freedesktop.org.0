@@ -2,31 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D3F547FC3
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 08:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34458547FC9
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 08:49:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B28C10E7AE;
-	Mon, 13 Jun 2022 06:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA5C310E8A5;
+	Mon, 13 Jun 2022 06:49:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5EA610E7A1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 06:48:51 +0000 (UTC)
-X-UUID: 9e41176d10d24111a645ffc68f47bd6a-20220613
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0680D10E86E
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 06:48:52 +0000 (UTC)
+X-UUID: 852b16fdbd084e3fa7b56955cdeaf3a3-20220613
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.5, REQID:b2fd0514-3986-4c40-9eeb-5d316dcd3221, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:2a19b09, CLOUDID:d2628037-84c0-4f9a-9fbd-acd4a0e9ad0f,
+X-CID-O-INFO: VERSION:1.1.5, REQID:e1b1ec7c-91a3-4f45-aac3-02461839e6e2, OB:20,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,A
+ CTION:release,TS:90
+X-CID-INFO: VERSION:1.1.5, REQID:e1b1ec7c-91a3-4f45-aac3-02461839e6e2, OB:20,
+ LOB
+ :0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,A
+ CTION:quarantine,TS:90
+X-CID-META: VersionHash:2a19b09, CLOUDID:11725ac6-12ba-4305-bfdf-9aefbdc32516,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:0,BEC:nil
-X-UUID: 9e41176d10d24111a645ffc68f47bd6a-20220613
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ OID:ef7ad5cd4226,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:0,BEC:nil
+X-UUID: 852b16fdbd084e3fa7b56955cdeaf3a3-20220613
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1696470500; Mon, 13 Jun 2022 14:48:45 +0800
+ with ESMTP id 1925287180; Mon, 13 Jun 2022 14:48:46 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
  mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
@@ -38,10 +42,9 @@ From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <daniel@ffwll.ch>,
  <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
  <matthias.bgg@gmail.com>, <airlied@linux.ie>
-Subject: [PATCH v11 11/12] drm/mediatek: dpi: Only enable dpi after the bridge
- is enabled
-Date: Mon, 13 Jun 2022 14:48:40 +0800
-Message-ID: <20220613064841.10481-12-rex-bc.chen@mediatek.com>
+Subject: [PATCH v11 12/12] drm/mediatek: dpi: Add matrix_sel helper
+Date: Mon, 13 Jun 2022 14:48:41 +0800
+Message-ID: <20220613064841.10481-13-rex-bc.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220613064841.10481-1-rex-bc.chen@mediatek.com>
 References: <20220613064841.10481-1-rex-bc.chen@mediatek.com>
@@ -71,37 +74,74 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Guillaume Ranquet <granquet@baylibre.com>
 
-Enabling the dpi too early causes glitches on screen.
-
-Move the call to mtk_dpi_enable() at the end of the bridge_enable
-callback to ensure everything is setup properly before enabling dpi.
+Add a mtk_dpi_matrix_sel() helper to update the DPI_MATRIX_SET
+register depending on the color format.
 
 Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_dpi.c      | 21 +++++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_dpi_regs.h |  3 +++
+ 2 files changed, 24 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 08c8f21b4421..9668bd5dd14a 100644
+index 9668bd5dd14a..dc355a512963 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -480,7 +480,6 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
- 	if (dpi->pinctrl && dpi->pins_dpi)
- 		pinctrl_select_state(dpi->pinctrl, dpi->pins_dpi);
- 
--	mtk_dpi_enable(dpi);
- 	return 0;
- 
- err_pixel:
-@@ -726,6 +725,7 @@ static void mtk_dpi_bridge_enable(struct drm_bridge *bridge)
- 
- 	mtk_dpi_power_on(dpi);
- 	mtk_dpi_set_display_mode(dpi, &dpi->mode);
-+	mtk_dpi_enable(dpi);
+@@ -387,6 +387,25 @@ static void mtk_dpi_config_disable_edge(struct mtk_dpi *dpi)
+ 		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, 0, EDGE_SEL_EN);
  }
  
- static enum drm_mode_status
++static void mtk_dpi_matrix_sel(struct mtk_dpi *dpi, enum mtk_dpi_out_color_format format)
++{
++	u32 matrix_sel = 0;
++
++	switch (format) {
++	case MTK_DPI_COLOR_FORMAT_YCBCR_422:
++	case MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL:
++	case MTK_DPI_COLOR_FORMAT_YCBCR_444:
++	case MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL:
++	case MTK_DPI_COLOR_FORMAT_XV_YCC:
++		if (dpi->mode.hdisplay <= 720)
++			matrix_sel = 0x2;
++		break;
++	default:
++		break;
++	}
++	mtk_dpi_mask(dpi, DPI_MATRIX_SET, matrix_sel, INT_MATRIX_SEL_MASK);
++}
++
+ static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
+ 					enum mtk_dpi_out_color_format format)
+ {
+@@ -394,6 +413,7 @@ static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
+ 	    (format == MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL)) {
+ 		mtk_dpi_config_yuv422_enable(dpi, false);
+ 		mtk_dpi_config_csc_enable(dpi, true);
++		mtk_dpi_matrix_sel(dpi, format);
+ 		if (dpi->conf->swap_input_support)
+ 			mtk_dpi_config_swap_input(dpi, false);
+ 		mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_BGR);
+@@ -401,6 +421,7 @@ static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
+ 		   (format == MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL)) {
+ 		mtk_dpi_config_yuv422_enable(dpi, true);
+ 		mtk_dpi_config_csc_enable(dpi, true);
++		mtk_dpi_matrix_sel(dpi, format);
+ 		if (dpi->conf->swap_input_support)
+ 			mtk_dpi_config_swap_input(dpi, true);
+ 		mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_RGB);
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
+index f7f0272dbd6a..96c117202d0d 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
++++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
+@@ -230,4 +230,7 @@
+ #define EDGE_SEL_EN			BIT(5)
+ #define H_FRE_2N			BIT(25)
+ 
++#define DPI_MATRIX_SET		0xB4
++#define INT_MATRIX_SEL_MASK	(0x1F << 0)
++
+ #endif /* __MTK_DPI_REGS_H */
 -- 
 2.18.0
 
