@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277C1548529
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 14:34:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF52C54852E
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 14:35:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C921510E752;
-	Mon, 13 Jun 2022 12:34:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D55BC10E765;
+	Mon, 13 Jun 2022 12:34:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A30610E5CD
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 12:34:48 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id t25so8591106lfg.7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 05:34:48 -0700 (PDT)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF1BE10E75C
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 12:34:50 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id s10so5982778ljh.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 05:34:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P94lshXWehyxnVEtahyQ4jexFcrvEQPySe8lL7qMBNQ=;
- b=CeBb5/98aD7vTiw8RyvpqrWC7kZ5IlcxDNs6dU6xQWaPHu8IB5dlpQoB8rcwyHv077
- UmBTfvqG6VSdsmYRTw40UkFwBePXxH4qv1IMJqQ20PkUaw9TQXWoqrpACZYPiD5XYMW5
- vq+1/1oGwDD180gBKUF9QqmA7bf+M4udqsnahclL8F2oImflFmE2GNGVH6jLE4ePGmnw
- Rn03sTuhuFa2szoUa+Czv4Vsoc3ucxBth2hyP0Nrg7fxzhU+Xh4ZfpePy9zz4J1Mf99O
- 0J7E51380Qzp9PtDgc4uy4R9uEXW+jSxPpBrwLrS6odFSCzTl1UdJ8dHQjLPKjfsGMX2
- MprA==
+ bh=tMby9LBRj3OoFVfpfOF/v48SBQIdpuQZE3MuX9kabgU=;
+ b=LnmtaLaRyky4WXSnoAXP7yID0yWsJS5g8yuyXAFbFGxF9ZCCvDNzegZucBK5fBqkfY
+ +Y7ABpue5eC4XG2zmde853RUerL1VUoiv6ojPVTe/4oouNqa/qvKD76L8ywDfSwmXTkH
+ 1pdXOY8sxcBASmcVlDzhhUl47ug/8J6bFegb53Dr/aJip1cKZlanhQr4HeYAopjAps7m
+ qDuuli4bZcvWBHPcq/7bZYyPD1kfInowMHYF0G7hAyJYVJGCquiwMbNcoxfRC6VI4d6o
+ Ac0l0XWLDeWozkj4R3wSTY0Ko2/y6ceht9Byftd3YRQtJTSw3cSwpu+2Snhyu+grS8fI
+ 7tjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P94lshXWehyxnVEtahyQ4jexFcrvEQPySe8lL7qMBNQ=;
- b=SKABOsWMEH4KCjwUnAZUCq0OUTNIoais04Swov+9br6O1Yutr/khZbiTz8cTEoz9V9
- KLRrkBfPxw0fVXhB8n41yFjtARfwEROaHirgC0Aj2iErNYtXz+kKRmbcT7npgcztAaHH
- 91hq5glJ0EZMj/oHHUSTHDkZoMqVkmm71YjOMj4wqwjukzBJ8nQxcTy5sNTIvQfZQ01G
- MoEDA8YkT6aafE4de2/U97WjvpntMVltdb5H0pwLFi0jbf4pWOXalsel2PT8iJS7BJCH
- J7DxrIcvwgN5K0Qb+aGlSIX8mV/ud5b1GDQWr3CzHaE6PPHLKYOAMP8KdYMK/8SQy50M
- ztSQ==
-X-Gm-Message-State: AOAM5327WFiV/Nf4M5z8x7kgnI9ZrBaoSj+3S8kwUFtWYs173fI6z1sH
- Pat6MReE9J8xS3s5epJ4uROO7qJmZGE=
-X-Google-Smtp-Source: ABdhPJz69m3snq560VWdZrdG02iqZCJ6zdVNr1e/QlTSUZHfdkI8ndD/Hcnl7KLdYdevT5tKskynmQ==
-X-Received: by 2002:a05:6512:b95:b0:479:65bd:ac2f with SMTP id
- b21-20020a0565120b9500b0047965bdac2fmr18734870lfv.445.1655123686400; 
- Mon, 13 Jun 2022 05:34:46 -0700 (PDT)
+ bh=tMby9LBRj3OoFVfpfOF/v48SBQIdpuQZE3MuX9kabgU=;
+ b=CoPhbJDuBaUqOJJgYSeSB4pbXLjJ08Bzq9x52fMlC80rjEFC0MMgzVTEL73LZl1kVS
+ ruWzKlJEeMI2bpNi5ccxAEtTkeW4pzqeTAl4/Dz0Vk0+6+2Rj4ww38XwPkFFIk5nABB2
+ wC+V+vInqJ9i9tWU65zP7AknYg/6XPZqQU3IxiyJ0mrlOcvPJexRxxTGy5GaLpdR0+zH
+ cdGOTVEV3/66dHsdWZ/aqQplg85fvK+AuDoQQExeuOc4f12a5mkvrwpRDj2QTYfJcD+w
+ iCz1g4bXjrzb+Lpo1z/16XhynUcTaUcNSf8zzpry7ruLItwamf1pR4UOAKq+wCUWZGMW
+ NkGw==
+X-Gm-Message-State: AOAM532xZ9Oxg9tXyWTDfLlKMjcyVf2yo09ebT62UH24ON7DxTbFXcsA
+ 7A8ewwa3L9hCpb0Do162X5Wjofyy40I=
+X-Google-Smtp-Source: ABdhPJxn0geumypZMTGOUJkfV49Fj5Ua/bACpirmHUsYTjee8Zhn38f02SwaS63lIcoYpcmkj63H4w==
+X-Received: by 2002:a2e:908a:0:b0:255:6799:c8d8 with SMTP id
+ l10-20020a2e908a000000b002556799c8d8mr33185603ljg.147.1655123687704; 
+ Mon, 13 Jun 2022 05:34:47 -0700 (PDT)
 Received: from localhost.localdomain (81-226-149-122-no518.tbcn.telia.com.
  [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- j12-20020a056512344c00b004791232dd6fsm973261lfr.257.2022.06.13.05.34.45
+ j12-20020a056512344c00b004791232dd6fsm973261lfr.257.2022.06.13.05.34.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 05:34:45 -0700 (PDT)
+ Mon, 13 Jun 2022 05:34:47 -0700 (PDT)
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 06/19] drm/gma500: Unify *_intel_lvds_save()
-Date: Mon, 13 Jun 2022 14:34:23 +0200
-Message-Id: <20220613123436.15185-7-patrik.r.jakobsson@gmail.com>
+Subject: [PATCH 07/19] drm/gma500: Unify struct *_intel_lvds_priv
+Date: Mon, 13 Jun 2022 14:34:24 +0200
+Message-Id: <20220613123436.15185-8-patrik.r.jakobsson@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613123436.15185-1-patrik.r.jakobsson@gmail.com>
 References: <20220613123436.15185-1-patrik.r.jakobsson@gmail.com>
@@ -73,155 +73,166 @@ Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cedarview never implemented this so use the Poulsbo version for both.
+These structs are similar enough to be unified. This will allow unifying
+the lvds functions that access the lvds encoder private.
 
 Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 ---
- drivers/gpu/drm/gma500/cdv_intel_lvds.c |  6 +---
- drivers/gpu/drm/gma500/gma_lvds.c       | 38 +++++++++++++++++++++++
- drivers/gpu/drm/gma500/gma_lvds.h       |  1 +
- drivers/gpu/drm/gma500/psb_intel_lvds.c | 40 +------------------------
- 4 files changed, 41 insertions(+), 44 deletions(-)
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c | 18 ++----------------
+ drivers/gpu/drm/gma500/gma_lvds.c       |  5 +++--
+ drivers/gpu/drm/gma500/gma_lvds.h       | 16 ++++++++++++++++
+ drivers/gpu/drm/gma500/psb_intel_lvds.c | 24 ++++--------------------
+ 4 files changed, 25 insertions(+), 38 deletions(-)
 
 diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-index 59d30fa0eb53..777eb7cf7d7f 100644
+index 777eb7cf7d7f..b0e7b680f02b 100644
 --- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
 +++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-@@ -53,10 +53,6 @@ struct cdv_intel_lvds_priv {
- 	uint32_t saveBLC_PWM_CTL;
- };
+@@ -39,20 +39,6 @@
+ #define PSB_BACKLIGHT_PWM_CTL_SHIFT	(16)
+ #define PSB_BACKLIGHT_PWM_POLARITY_BIT_CLEAR (0xFFFE)
  
--static void cdv_intel_lvds_save(struct drm_connector *connector)
--{
--}
+-struct cdv_intel_lvds_priv {
+-	/**
+-	 * Saved LVDO output states
+-	 */
+-	uint32_t savePP_ON;
+-	uint32_t savePP_OFF;
+-	uint32_t saveLVDS;
+-	uint32_t savePP_CONTROL;
+-	uint32_t savePP_CYCLE;
+-	uint32_t savePFIT_CONTROL;
+-	uint32_t savePFIT_PGM_RATIOS;
+-	uint32_t saveBLC_PWM_CTL;
+-};
 -
  static void cdv_intel_lvds_restore(struct drm_connector *connector)
  {
  }
-@@ -398,7 +394,7 @@ void cdv_intel_lvds_init(struct drm_device *dev,
- 	gma_encoder->dev_priv = lvds_priv;
+@@ -356,7 +342,7 @@ void cdv_intel_lvds_init(struct drm_device *dev,
+ {
+ 	struct gma_encoder *gma_encoder;
+ 	struct gma_connector *gma_connector;
+-	struct cdv_intel_lvds_priv *lvds_priv;
++	struct gma_lvds_priv *lvds_priv;
+ 	struct drm_connector *connector;
+ 	struct drm_encoder *encoder;
+ 	struct drm_display_mode *scan;
+@@ -387,7 +373,7 @@ void cdv_intel_lvds_init(struct drm_device *dev,
+ 	if (!gma_connector)
+ 		goto err_free_encoder;
  
- 	connector = &gma_connector->base;
--	gma_connector->save = cdv_intel_lvds_save;
-+	gma_connector->save = gma_lvds_save;
- 	gma_connector->restore = cdv_intel_lvds_restore;
- 	encoder = &gma_encoder->base;
+-	lvds_priv = kzalloc(sizeof(struct cdv_intel_lvds_priv), GFP_KERNEL);
++	lvds_priv = kzalloc(sizeof(*lvds_priv), GFP_KERNEL);
+ 	if (!lvds_priv)
+ 		goto err_free_connector;
  
 diff --git a/drivers/gpu/drm/gma500/gma_lvds.c b/drivers/gpu/drm/gma500/gma_lvds.c
-index fb8f8bb599eb..bd08ed049c5e 100644
+index bd08ed049c5e..7a81f44a40bd 100644
 --- a/drivers/gpu/drm/gma500/gma_lvds.c
 +++ b/drivers/gpu/drm/gma500/gma_lvds.c
-@@ -129,3 +129,41 @@ void gma_lvds_encoder_dpms(struct drm_encoder *encoder, int mode)
- 	/* XXX: We never power down the LVDS pairs. */
- }
+@@ -8,6 +8,7 @@
+ #include "psb_intel_drv.h"
+ #include "power.h"
+ #include "psb_intel_reg.h"
++#include "gma_lvds.h"
  
-+void gma_lvds_save(struct drm_connector *connector)
-+{
-+	struct drm_device *dev = connector->dev;
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-+	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
-+	struct psb_intel_lvds_priv *lvds_priv =
-+		(struct psb_intel_lvds_priv *)gma_encoder->dev_priv;
-+
-+	lvds_priv->savePP_ON = REG_READ(LVDSPP_ON);
-+	lvds_priv->savePP_OFF = REG_READ(LVDSPP_OFF);
-+	lvds_priv->saveLVDS = REG_READ(LVDS);
-+	lvds_priv->savePP_CONTROL = REG_READ(PP_CONTROL);
-+	lvds_priv->savePP_CYCLE = REG_READ(PP_CYCLE);
-+	/*lvds_priv->savePP_DIVISOR = REG_READ(PP_DIVISOR);*/
-+	lvds_priv->saveBLC_PWM_CTL = REG_READ(BLC_PWM_CTL);
-+	lvds_priv->savePFIT_CONTROL = REG_READ(PFIT_CONTROL);
-+	lvds_priv->savePFIT_PGM_RATIOS = REG_READ(PFIT_PGM_RATIOS);
-+
-+	/*TODO: move backlight_duty_cycle to psb_intel_lvds_priv*/
-+	dev_priv->backlight_duty_cycle = (dev_priv->regs.saveBLC_PWM_CTL &
-+						BACKLIGHT_DUTY_CYCLE_MASK);
-+
-+	/*
-+	 * If the light is off at server startup,
-+	 * just make it full brightness
-+	 */
-+	if (dev_priv->backlight_duty_cycle == 0)
-+		dev_priv->backlight_duty_cycle = gma_lvds_get_max_backlight(dev);
-+
-+	dev_dbg(dev->dev, "(0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x)\n",
-+			lvds_priv->savePP_ON,
-+			lvds_priv->savePP_OFF,
-+			lvds_priv->saveLVDS,
-+			lvds_priv->savePP_CONTROL,
-+			lvds_priv->savePP_CYCLE,
-+			lvds_priv->saveBLC_PWM_CTL);
-+}
-+
-diff --git a/drivers/gpu/drm/gma500/gma_lvds.h b/drivers/gpu/drm/gma500/gma_lvds.h
-index 3babb522ee84..52422986be1e 100644
---- a/drivers/gpu/drm/gma500/gma_lvds.h
-+++ b/drivers/gpu/drm/gma500/gma_lvds.h
-@@ -12,5 +12,6 @@ void gma_lvds_set_power(struct drm_device *dev, bool on);
- enum drm_mode_status gma_lvds_mode_valid(struct drm_connector *connector,
- 					 struct drm_display_mode *mode);
- void gma_lvds_encoder_dpms(struct drm_encoder *encoder, int mode);
-+void gma_lvds_save(struct drm_connector *connector);
- 
- #endif
-diff --git a/drivers/gpu/drm/gma500/psb_intel_lvds.c b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-index 2470ab0e1e0e..c00b00d70a30 100644
---- a/drivers/gpu/drm/gma500/psb_intel_lvds.c
-+++ b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-@@ -148,44 +148,6 @@ void psb_intel_lvds_set_brightness(struct drm_device *dev, int level)
- 		psb_lvds_pwm_set_brightness(dev, level);
- }
- 
--static void psb_intel_lvds_save(struct drm_connector *connector)
--{
--	struct drm_device *dev = connector->dev;
--	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
--	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
+ /*
+  * Returns the maximum level of the backlight duty cycle field.
+@@ -134,8 +135,8 @@ void gma_lvds_save(struct drm_connector *connector)
+ 	struct drm_device *dev = connector->dev;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
 -	struct psb_intel_lvds_priv *lvds_priv =
 -		(struct psb_intel_lvds_priv *)gma_encoder->dev_priv;
--
--	lvds_priv->savePP_ON = REG_READ(LVDSPP_ON);
--	lvds_priv->savePP_OFF = REG_READ(LVDSPP_OFF);
--	lvds_priv->saveLVDS = REG_READ(LVDS);
--	lvds_priv->savePP_CONTROL = REG_READ(PP_CONTROL);
--	lvds_priv->savePP_CYCLE = REG_READ(PP_CYCLE);
--	/*lvds_priv->savePP_DIVISOR = REG_READ(PP_DIVISOR);*/
--	lvds_priv->saveBLC_PWM_CTL = REG_READ(BLC_PWM_CTL);
--	lvds_priv->savePFIT_CONTROL = REG_READ(PFIT_CONTROL);
--	lvds_priv->savePFIT_PGM_RATIOS = REG_READ(PFIT_PGM_RATIOS);
--
--	/*TODO: move backlight_duty_cycle to psb_intel_lvds_priv*/
--	dev_priv->backlight_duty_cycle = (dev_priv->regs.saveBLC_PWM_CTL &
--						BACKLIGHT_DUTY_CYCLE_MASK);
--
++	struct gma_lvds_priv *lvds_priv =
++		(struct gma_lvds_priv *)gma_encoder->dev_priv;
+ 
+ 	lvds_priv->savePP_ON = REG_READ(LVDSPP_ON);
+ 	lvds_priv->savePP_OFF = REG_READ(LVDSPP_OFF);
+diff --git a/drivers/gpu/drm/gma500/gma_lvds.h b/drivers/gpu/drm/gma500/gma_lvds.h
+index 52422986be1e..98ad9bc878b7 100644
+--- a/drivers/gpu/drm/gma500/gma_lvds.h
++++ b/drivers/gpu/drm/gma500/gma_lvds.h
+@@ -7,6 +7,22 @@
+ #ifndef _GMA_LVDS_H
+ #define _GMA_LVDS_H
+ 
++struct gma_lvds_priv {
++	/*
++	 * Saved LVDO output states
++	 */
++	uint32_t savePP_ON;
++	uint32_t savePP_OFF;
++	uint32_t saveLVDS;
++	uint32_t savePP_CONTROL;
++	uint32_t savePP_CYCLE;
++	uint32_t savePFIT_CONTROL;
++	uint32_t savePFIT_PGM_RATIOS;
++	uint32_t saveBLC_PWM_CTL;
++
++	struct gma_i2c_chan *i2c_bus;
++};
++
+ u32 gma_lvds_get_max_backlight(struct drm_device *dev);
+ void gma_lvds_set_power(struct drm_device *dev, bool on);
+ enum drm_mode_status gma_lvds_mode_valid(struct drm_connector *connector,
+diff --git a/drivers/gpu/drm/gma500/psb_intel_lvds.c b/drivers/gpu/drm/gma500/psb_intel_lvds.c
+index c00b00d70a30..995e7aac53b9 100644
+--- a/drivers/gpu/drm/gma500/psb_intel_lvds.c
++++ b/drivers/gpu/drm/gma500/psb_intel_lvds.c
+@@ -37,22 +37,6 @@
+ #define PSB_BACKLIGHT_PWM_CTL_SHIFT	(16)
+ #define PSB_BACKLIGHT_PWM_POLARITY_BIT_CLEAR (0xFFFE)
+ 
+-struct psb_intel_lvds_priv {
 -	/*
--	 * If the light is off at server startup,
--	 * just make it full brightness
+-	 * Saved LVDO output states
 -	 */
--	if (dev_priv->backlight_duty_cycle == 0)
--		dev_priv->backlight_duty_cycle = gma_lvds_get_max_backlight(dev);
+-	uint32_t savePP_ON;
+-	uint32_t savePP_OFF;
+-	uint32_t saveLVDS;
+-	uint32_t savePP_CONTROL;
+-	uint32_t savePP_CYCLE;
+-	uint32_t savePFIT_CONTROL;
+-	uint32_t savePFIT_PGM_RATIOS;
+-	uint32_t saveBLC_PWM_CTL;
 -
--	dev_dbg(dev->dev, "(0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x)\n",
--			lvds_priv->savePP_ON,
--			lvds_priv->savePP_OFF,
--			lvds_priv->saveLVDS,
--			lvds_priv->savePP_CONTROL,
--			lvds_priv->savePP_CYCLE,
--			lvds_priv->saveBLC_PWM_CTL);
--}
+-	struct gma_i2c_chan *i2c_bus;
+-};
 -
- static void psb_intel_lvds_restore(struct drm_connector *connector)
- {
+ /*
+  * Set LVDS backlight level by I2C command
+  *
+@@ -153,8 +137,8 @@ static void psb_intel_lvds_restore(struct drm_connector *connector)
  	struct drm_device *dev = connector->dev;
-@@ -526,7 +488,7 @@ void psb_intel_lvds_init(struct drm_device *dev,
- 	gma_encoder->dev_priv = lvds_priv;
+ 	u32 pp_status;
+ 	struct gma_encoder *gma_encoder = gma_attached_encoder(connector);
+-	struct psb_intel_lvds_priv *lvds_priv =
+-		(struct psb_intel_lvds_priv *)gma_encoder->dev_priv;
++	struct gma_lvds_priv *lvds_priv =
++		(struct gma_lvds_priv *)gma_encoder->dev_priv;
  
- 	connector = &gma_connector->base;
--	gma_connector->save = psb_intel_lvds_save;
-+	gma_connector->save = gma_lvds_save;
- 	gma_connector->restore = psb_intel_lvds_restore;
+ 	dev_dbg(dev->dev, "(0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x)\n",
+ 			lvds_priv->savePP_ON,
+@@ -455,7 +439,7 @@ void psb_intel_lvds_init(struct drm_device *dev,
+ {
+ 	struct gma_encoder *gma_encoder;
+ 	struct gma_connector *gma_connector;
+-	struct psb_intel_lvds_priv *lvds_priv;
++	struct gma_lvds_priv *lvds_priv;
+ 	struct drm_connector *connector;
+ 	struct drm_encoder *encoder;
+ 	struct drm_display_mode *scan;	/* *modes, *bios_mode; */
+@@ -479,7 +463,7 @@ void psb_intel_lvds_init(struct drm_device *dev,
+ 		goto err_free_encoder;
+ 	}
  
- 	/* Set up the DDC bus. */
+-	lvds_priv = kzalloc(sizeof(struct psb_intel_lvds_priv), GFP_KERNEL);
++	lvds_priv = kzalloc(sizeof(*lvds_priv), GFP_KERNEL);
+ 	if (!lvds_priv) {
+ 		dev_err(dev->dev, "LVDS private allocation error\n");
+ 		goto err_free_connector;
 -- 
 2.36.1
 
