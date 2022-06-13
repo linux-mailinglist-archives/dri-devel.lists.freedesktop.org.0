@@ -2,63 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EFF55499FF
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 19:31:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4F3549A40
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 19:41:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C976610F3F0;
-	Mon, 13 Jun 2022 17:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A85B210F444;
+	Mon, 13 Jun 2022 17:41:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16ACC10F3F0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:31:04 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id o16so8025981wra.4
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 10:31:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=b6LI4jSTppnwbn/7MHPjsmN7q6vhTZpE2X7+c7LKVK0=;
- b=TjSewGIwP0DCjp2l8QRZYjpF076U4CIy6nnYCGcm+6wAHhgocXZcndKQ01Sjwf9Z9x
- aXsRs94nQKH5njHHI5X7xUl9u0+ErvEIIcs8zmW47MyZ+dMJZxJ85VMQeFMaNCAD7vy3
- 2ELYlJ9/lA4/XTMg+JlYX2JAu6BTqdSCb+uilS5l4cRVuQ8ixXvoQHC9Xp9/sVcMQxhZ
- 35ROofq60l6F0c8S4Ebs/EkepuPtAh3ZzaZcxkoYYHjC7CFnab4ZQp0ZI7ywJZT3HeAZ
- YsajnPx8xEl6dED0MwsybEwHga8p1kd/sdmv+pyhisG6Wj9drHS0aIFJgwWat+9CyjoY
- NCWg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83E2610F444
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:41:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655142090;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q9imHR0PldrK/4QqffqMQG4YlpeKi0rN5tf1tCAqvxI=;
+ b=OfLxLKMmXh1S0JEAwuW9kESxX/WmvV01sGlNpabaDxngbFrcIEHSG/5Fkm581Wd2AvJodx
+ IQVrUHuwGIKNdBkaL7D8xdVWIAU2Hq3X5lUoWk55A2iwasA5NQz3M4jTNc1hKEoqJopw8A
+ xF1Ia0qB9fKRr0O0qyctqVGEdnh8MNc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-623-GI6j4ijjMaSh1Ts5Hbv5BQ-1; Mon, 13 Jun 2022 13:41:29 -0400
+X-MC-Unique: GI6j4ijjMaSh1Ts5Hbv5BQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n15-20020a05600c4f8f00b0039c3e76d646so3537975wmq.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 10:41:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=b6LI4jSTppnwbn/7MHPjsmN7q6vhTZpE2X7+c7LKVK0=;
- b=ebmzDbYuX4WWCs1zs942Je6jhHSf4gVcrlFDRCZjXWxLo3Huu3v+G7hKUwAqCEEVuC
- x2EpPRXMhBe5qdeRJDTg8eOSGF9EbVga+IK0DuQCSyfQhnRLo7PwMjHajFmkBsqFzFHi
- zi+dVZoIXAT2LVmBldSGxfMD9rQc54GU1CGSCa8w7gec3vCJZXYGHF1Q6RbLL4F0BC0y
- 875eCknR2OUSfEZihniFrs+mXXt8YKzON8XFNyIyXkkN0YiG73VyGVHEtL0rnr7qf8oS
- 4Yq9EikAYkeUeL1ux5KAprB7QpZ/GnmT0JO3glAuHTe3EG+sLJNlcDEfFsO9PCc9NLtI
- 9CGQ==
-X-Gm-Message-State: AJIora+Nlte2DuvKFH+zu1OvB/33awIBvfgy5logRa+QfG7r1KusCVU6
- ogSxnhzzSwCNYScV33wZQm4=
-X-Google-Smtp-Source: AGRyM1vtq4iKf+PhOy3uDZ8M6ggtx+BY/XhVl3NLTzqQGYY0BcpgVGbFm3Ker6Ngqo0WovrLJDRabw==
-X-Received: by 2002:a5d:46cc:0:b0:214:2d66:2d51 with SMTP id
- g12-20020a5d46cc000000b002142d662d51mr886667wrs.349.1655141462582; 
- Mon, 13 Jun 2022 10:31:02 -0700 (PDT)
-Received: from elementary ([94.73.36.128]) by smtp.gmail.com with ESMTPSA id
- n4-20020a05600c3b8400b0039c5224bfcbsm14479675wms.46.2022.06.13.10.31.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 10:31:02 -0700 (PDT)
-Date: Mon, 13 Jun 2022 19:30:58 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
-Subject: Re: [PATCH] drm/bridge: anx7625: Zero error variable when panel
- bridge not present
-Message-ID: <20220613173058.GA132991@elementary>
-References: <20220613163705.1531721-1-nfraprado@collabora.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=q9imHR0PldrK/4QqffqMQG4YlpeKi0rN5tf1tCAqvxI=;
+ b=Qh9K/xEnCsX3BYRu3h4Gq1nPCV8yKF6T5xjYEbhjIySUsovhPolbbpAHWLpcjgIJPV
+ Frp2yXaAxDtIqJ47mE3pFfHElvuapnw43sK+y++6EYqk5ezXT7XgNAtH2OMMujnoGsPh
+ ght81P5PJR8G0JWzf/JvXqsmP0j6qUIcWGQ05pbh0aomxc7tRYRkz7kQ6B7l4Fx9JAFq
+ 4Kkvlq/9SAtGqKhJG0+bnY9JxKgXFx9+W0YI+9cLKjOZ7/GCWA35CQtF9egr8RhyE0u/
+ OuVwb4isXAWgKGR1s3miLH1ok//9wFyrXFwlVm0z2NneBd932bAcg4uFlIuQSxGy81J5
+ NnTA==
+X-Gm-Message-State: AOAM531f29aRLdQbRICRyH4DhVf3gibsWuzfUgtj5pmnIji9Vsljp2ws
+ D29WExg2yNMTq0PSUw5noAHVQ8iXRhDQAHIVJ5bU8ldxVWov7+QRNDxZYxk+97dHsPUnziYBY75
+ 0+EN9fkbnJ/d43k9d6DYzj3WOg77g
+X-Received: by 2002:a7b:c389:0:b0:39c:49fe:25df with SMTP id
+ s9-20020a7bc389000000b0039c49fe25dfmr648457wmj.164.1655142087968; 
+ Mon, 13 Jun 2022 10:41:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzOHYbSdU3QvmmoWgh9ozEuOjCqKEtc/UugRXjsMVcbeHCAdcofLjg4QDbLTxfNrnseTW/13Q==
+X-Received: by 2002:a7b:c389:0:b0:39c:49fe:25df with SMTP id
+ s9-20020a7bc389000000b0039c49fe25dfmr648438wmj.164.1655142087759; 
+ Mon, 13 Jun 2022 10:41:27 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ b12-20020a05600010cc00b0020c5253d90asm9201616wrx.86.2022.06.13.10.41.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jun 2022 10:41:27 -0700 (PDT)
+Message-ID: <8cbfcc29-bc31-9bc8-2eaa-d873f7cf2d5f@redhat.com>
+Date: Mon, 13 Jun 2022 19:41:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220613163705.1531721-1-nfraprado@collabora.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 3/6] drm: Add driver for Solomon SSD130x OLED displays
+To: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ Dominik Kierner <dkierner@dh-electronics.com>
+References: <7a78d57342754a5d9bd3ce7c7bf3fa47@dh-electronics.com>
+ <YqdZN6mtEDF2CRtS@smile.fi.intel.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YqdZN6mtEDF2CRtS@smile.fi.intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,60 +89,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Maxime Ripard <maxime@cerno.tech>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Tzung-Bi Shih <tzungbi@google.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- kernel@collabora.com, Sam Ravnborg <sam@ravnborg.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "sam@ravnborg.org" <sam@ravnborg.org>, "airlied@linux.ie" <airlied@linux.ie>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "noralf@tronnes.org" <noralf@tronnes.org>,
+ "geert@linux-m68k.org" <geert@linux-m68k.org>,
+ "maxime@cerno.tech" <maxime@cerno.tech>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ "lee.jones@linaro.org" <lee.jones@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 13, 2022 at 12:37:05PM -0400, Nícolas F. R. A. Prado wrote:
-> While parsing the DT, the anx7625 driver checks for the presence of a
-> panel bridge on endpoint 1. If it is missing, pdata->panel_bridge stores
-> the error pointer and the function returns successfully without first
-> cleaning that variable. This is an issue since other functions later
-> check for the presence of a panel bridge by testing the trueness of that
-> variable.
+On 6/13/22 17:35, andriy.shevchenko@linux.intel.com wrote:
+> On Mon, Jun 13, 2022 at 11:39:30AM +0000, Dominik Kierner wrote:
+>> On 5/25/2022 21:46, Javier Martinez Canillas wrote:
 > 
-> In order to ensure proper behavior, zero out pdata->panel_bridge before
-> returning when no panel bridge is found.
+> ...
 > 
-> Fixes: 9e82ea0fb1df ("drm/bridge: anx7625: switch to devm_drm_of_get_bridge")
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+>>> Thanks, I looked at the code briefly and think that there are things there that we
+>>> could use. I.e the 3-wire SPI support that's in panel-solomon-ssd130x-spi-3wire.c.
+>>
+>> When writing my driver code, I wasn't even considering using regmaps,
+>> like You did in Your I2C-Code. If that's applicable for 3-wire-SPI,
+>> it would likely be the better, more generic option. Your SPI-code
+>> reuses these parts to some extent. For that case,
+>> ssd130x_spi_regmap_config.reg_bits would need be changed to 1,
+>> as the "register address" has a length of 1 bit and we are sending
+>> 9 bits over the line and not 16.
+>> Since we still have 2 bytes of host memory,
+>> it should still be compatible with the 4-wire write, right?
+>> Or would 3-wire SPI require a second regmap?
 > 
-> ---
-> 
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 53a5da6c49dd..3aed4de16690 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -1657,8 +1657,10 @@ static int anx7625_parse_dt(struct device *dev,
->  
->  	pdata->panel_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
->  	if (IS_ERR(pdata->panel_bridge)) {
-> -		if (PTR_ERR(pdata->panel_bridge) == -ENODEV)
-> +		if (PTR_ERR(pdata->panel_bridge) == -ENODEV) {
-> +			pdata->panel_bridge = NULL;
->  			return 0;
-> +		}
->  
->  		return PTR_ERR(pdata->panel_bridge);
->  	}
-> -- 
-> 2.36.1
+> I believe the cleanest solution is to have different regmap configurations.
 > 
 
-Thanks for spotting this error Nícolas. As you mentioned, prior to
-9e82ea0fb1df the "pdata->panel_bridge" pointer was not modified
-(i.e. left to NULL) on the ENODEV error branch.
+I agree with this.
 
-I missed it during the refactor, sorry about that.
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
