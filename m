@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E4254998A
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 19:08:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CD054998E
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 19:08:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 503F510F3A8;
-	Mon, 13 Jun 2022 17:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F284810F3AD;
+	Mon, 13 Jun 2022 17:08:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DFEB10F3A8
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:08:31 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- t3-20020a17090a510300b001ea87ef9a3dso6551557pjh.4
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 10:08:31 -0700 (PDT)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E527A10F3AD
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:08:48 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id g8so407304plt.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 10:08:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9BRUSjFdf8caOJguWY1nnRjK6EgjDSSb/DcnbNJxP1U=;
- b=Z9+9G1BG+p/hKmV549g45O1q4VTqeHS9IUrmT22Diyg8hnpEq3eKWEmbYwLsTqH8Qu
- 9ECPevoZeRVGZtzmojLDSx5sWRIxe+riGIZYFwz3Gz9lJ5PyZIZqNA0jjx2G2ozgUkSf
- x3E1RI7YsADCBaiPBejRF0CCHrGtHoy1o01FCTgy3TomkX+RfciG5Y1KZa3oAaaWzHFv
- Fq6snmnZpfw6hhQYmSVeWQfHfBZGyoZ1lqNWC10aY4+CXUAqsu/jA1HSyci1zCKrGhiT
- HrZOdZm5EKfHXNhnyF+yHeHy4VEiSGI1ohF+IymKeG8AafLmv80KvxGho1trQwwEey9F
- U84A==
+ bh=1gML3idNGzOA0oMgNls2+BU5SBWiBm9N/bZBNgDeAxA=;
+ b=LjrK5Tw72pH6r07cZyjsZP9qShKbpcYyU2qz6swdXVUYhTp5jJPgQ+wYlFPPrieYSC
+ 6f6WL8ahuPPPsrE4y+eIlingzwjiCo8vwB/NNlx02keTXe37cuNVORidWT2KrdisE9Y4
+ px0+QKCMJBZgYK4wpbYCogFMQkxrs48UN549blKB3vY5i2ro5sCPFsejvg5IB3j2ZLGf
+ OlcAQ1uX8yN9ZrxaisIOif/M0RsojN4ophYNCCryAVs2M03hGpbWVAPUoCA6G2ApdSS1
+ R7Rkd5KfE9E69HStd5mJfb9AgAMHyNycSymMQHRE9vv7SL3mWB5MEV7cpb9b0Lr2LhEl
+ hzFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9BRUSjFdf8caOJguWY1nnRjK6EgjDSSb/DcnbNJxP1U=;
- b=Dp7vA5s+bYYWq6x968P/iePmVGja5nuf0Epd91ZmP4gZdUjAUqurYnT/0GaqAPOFiW
- E1Qc0oa1ymJ3nSOqqhu9FQ8u4zsXyH1ed182SF70KS06ruoXCvVXht403bk8K3aB2f3r
- otqk39u1tyWblNOa/TJ1Gp2ZSRS1S4/YWdgOqKo2uB9DrMDfRax2DVVKK4pbDnS69gbG
- VgPN8dJLnRgN9xmMnyMnrCrJ1llTYzzVq3LseP+7g9GzwV9zowme97ubCZKneo5FbUd5
- p2XCsHYnwTwUojw36OS8KGERGU7JjCFbrAysu+NZ618dc5O4GcvJyThF++NHrGOQm/EZ
- 9EEQ==
-X-Gm-Message-State: AJIora+AmYASxDf5gzEXZ4wz3hjTjQ8mEXXp1OwTfOQ+I+IM/X/WqHmK
- 7KUga0tkB6XQFYZgTpANvlw=
-X-Google-Smtp-Source: AGRyM1s9m5eBvIotPjXn9XSZIR3fmtaxBpNZ89CJ3IkrEwLct92plDWrHE5Fs3tNekbPUW1ft43uFA==
-X-Received: by 2002:a17:902:6845:b0:168:b675:39e2 with SMTP id
- f5-20020a170902684500b00168b67539e2mr286379pln.33.1655140110977; 
- Mon, 13 Jun 2022 10:08:30 -0700 (PDT)
+ bh=1gML3idNGzOA0oMgNls2+BU5SBWiBm9N/bZBNgDeAxA=;
+ b=UmHFqbbgNT48DrxL8xa7gku3fazqAqoP6qTUoRhb5Fxya9o3/xdx+BZGutcifOPEe5
+ kU4acVSegBwshuWdBO2JZdIWjaDkkgrJILKFfz6Ii130Uc9jUP87D7y3hJAKNT2C4k7y
+ gmx3KlDYss8b5hxSFx1sfg5cPhxkd5aN1jyYvGwW2wGajedzN1WLad2Qef6+CK6O8Tee
+ akbxGszltVgc7JdVqfNBEYYz6PjI+3XMP5fD/lp4YCCemLDmiFi8+EBJ062yb1/atssx
+ +Ui1Ysqfc8ZO2oNM5ek+TjZPztWBG2bnmIQ45nw+Smwgx7r+n7qwH6WNMeXQ+QxnaNKP
+ S9lQ==
+X-Gm-Message-State: AJIora87PYi2fU6eq6yvZquZWeoQLD40HqHIGK+560CrkV9/Fgi8r0XS
+ sNbKdkiWqjZPMT/cRiI2A50=
+X-Google-Smtp-Source: AGRyM1vOmlNIm8TxD3FVnTYer8FcbncZuM9zaVG4E+EBjhe5zHyefnDA/r/xDFXJRxwiMJI1Ah6i+w==
+X-Received: by 2002:a17:902:7b8b:b0:168:a7d0:ddf3 with SMTP id
+ w11-20020a1709027b8b00b00168a7d0ddf3mr632943pll.118.1655140128466; 
+ Mon, 13 Jun 2022 10:08:48 -0700 (PDT)
 Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
  by smtp.gmail.com with ESMTPSA id
- ay21-20020a056a00301500b0051bc3a2355csm5615228pfb.64.2022.06.13.10.08.29
+ 19-20020a170902e9d300b001677841e9c2sm5394742plk.119.2022.06.13.10.08.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 10:08:30 -0700 (PDT)
+ Mon, 13 Jun 2022 10:08:48 -0700 (PDT)
 From: Florian Fainelli <f.fainelli@gmail.com>
 To: bcm-kernel-feedback-list@broadcom.com,
  Peter Robinson <pbrobinson@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
@@ -58,13 +57,13 @@ To: bcm-kernel-feedback-list@broadcom.com,
  maxime@cerno.tech, Nicolas Saenz Julienne <nsaenz@kernel.org>,
  Rob Herring <robh+dt@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>,
  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v6 5/6] ARM: configs: Enable DRM_V3D
-Date: Mon, 13 Jun 2022 10:08:28 -0700
-Message-Id: <20220613170828.238070-1-f.fainelli@gmail.com>
+Subject: Re: [PATCH v6 6/6] arm64: config: Enable DRM_V3D
+Date: Mon, 13 Jun 2022 10:08:46 -0700
+Message-Id: <20220613170846.238226-1-f.fainelli@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220603092610.1909675-6-pbrobinson@gmail.com>
+In-Reply-To: <20220603092610.1909675-7-pbrobinson@gmail.com>
 References: <20220603092610.1909675-1-pbrobinson@gmail.com>
- <20220603092610.1909675-6-pbrobinson@gmail.com>
+ <20220603092610.1909675-7-pbrobinson@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,10 +82,11 @@ Cc: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri,  3 Jun 2022 10:26:09 +0100, Peter Robinson <pbrobinson@gmail.com> wrote:
-> BCM2711, the SoC used on the Raspberry Pi 4 has a different 3D
-> render GPU IP than its predecessors. Enable it it on multi v7
-> and bcm2835 configs.
+On Fri,  3 Jun 2022 10:26:10 +0100, Peter Robinson <pbrobinson@gmail.com> wrote:
+> From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> 
+> BCM2711, the SoC used on the Raspberry Pi 4 has a different GPU than its
+> predecessors. Enable it.
 > 
 > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 > Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
@@ -94,6 +94,6 @@ On Fri,  3 Jun 2022 10:26:09 +0100, Peter Robinson <pbrobinson@gmail.com> wrote:
 > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 > ---
 
-Applied to https://github.com/Broadcom/stblinux/commits/defconfig/next, thanks!
+Applied to https://github.com/Broadcom/stblinux/commits/devicetree-arm64/next, thanks!
 --
 Florian
