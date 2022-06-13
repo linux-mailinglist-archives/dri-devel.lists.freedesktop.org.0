@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6160D54853A
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 14:35:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA7354853C
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 14:35:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D67610E76C;
-	Mon, 13 Jun 2022 12:35:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16DDF10E771;
+	Mon, 13 Jun 2022 12:35:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F0F610E75C
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 12:34:58 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id c4so8579085lfj.12
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 05:34:58 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF86210E75A
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 12:34:59 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id be31so8586036lfb.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 05:34:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0JCZnkpg9zCbffeVCB8cOxmJ6vhfU5iJyBCibQBNqMc=;
- b=TLNnSNnkgWHixno1VA1aROhjtiN8EjPdGp4hZsky3C60iyfSyFQX0bC1kZFV3R7CpW
- OUHQi6DB/ipwsEhwQmWexOL8TFFCOpuH/Tp9zA1TaLP3wATKibSK/Lo853+Q1kclTM67
- fRSvhDibEvt3OPCmCQpGKqZcAehZTkice1ocrdoLTuYMEIazUQFPxjjCw/BOLyY8jjpo
- iZPYD0k+vAOAaZWSN7VAZqfP0L/iV60El9vd5GdjCLnj06nao9AS0wbvrhyZFrltNa7a
- njXxCniQDK0jn0l56rGCfawwkF/R8WWNU7wXy9fKDvoo82qy4c2YzGYBRHfx3l+VBQXR
- aJ4g==
+ bh=q3DP4FwykHC1KRxxon4hPWqgxyZqCTbKsM3OsMeS/jg=;
+ b=danrjCZR/Y8aA+S7RQWJWN65FHJBbqdyhHP/v2w0c3CQG5nwsbM1/d7tuKInCgV3ab
+ wkVOUDoOob/fVgTcGipvQ996NAQA6KuT/xNdo6OLNAn7SqLS7OY1FvVdRFccMAMVRvpV
+ 9xFzxuLKLi8AWvH+ztUR+05BBRrBL7O8YyZx0vNww+72dJRuKOZcw1cxR/qQ+mbt92xR
+ 8/s/Q0v3WGXs8XFO/xpkDRkKr9L6J93WmqJJW8xnLs/sH3U3T1rmQ9Cw37YwpjaY1/ST
+ GMaP1YTJsOZ3LTVYQvcdbAp0zYTolZpVqjKPyy62USs+6YIjLoK3KNMSmW4L2NrDbCBn
+ AHlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0JCZnkpg9zCbffeVCB8cOxmJ6vhfU5iJyBCibQBNqMc=;
- b=UqYcgNW7+ahsOxRnQ5jTZZcfxZ5dHGqMG2+LV+CwviqRt6yLYPCjAqfvTOQcfM8alH
- UaHG0A5BDdWXFZViVrE9sKvl0d4t2yZP4jQ5UUxv4xLd+twn4PUmmlr1uEHvWtI+BC93
- lFid5AucbAK+WOgHDmGQnteUXXQaicM/vXZLo3GnCFxqJHOp0c3mGgKKzNmSXp/pQuI7
- APfbzoCjdotVHk8aUsX2awJLm2weYjZNv1iU36vwMQrFFpg0Ryn7h/B1fPBxNcO/Gd1j
- ywUW8gf9sU19ec2EhAZ8FN3Iw4h8Ql1t92qC2k/VvEM4fAnO12it58Z7Sz60Y33Lfb4a
- kQQg==
-X-Gm-Message-State: AOAM532HEWtWESVXZm3WxL15srW9J5/4FHMxkAVZfwPBRfwHNwpOvz7h
- YEMMod1mFg2kgZOgF8EQWmMZSDUzcls=
-X-Google-Smtp-Source: ABdhPJzaIG/oOaTvK4xKg8/7FF5ECDVCQ1P5QdTgcA7v1sX6PRA7e6AQY/YZo+PqmkOVeLwRz8EY3w==
-X-Received: by 2002:a19:ca13:0:b0:478:f667:11fd with SMTP id
- a19-20020a19ca13000000b00478f66711fdmr35530578lfg.174.1655123697576; 
- Mon, 13 Jun 2022 05:34:57 -0700 (PDT)
+ bh=q3DP4FwykHC1KRxxon4hPWqgxyZqCTbKsM3OsMeS/jg=;
+ b=x7irgNBqGvGFrm0r+/CFDCxgASrGFYe5zDS79YPr5vA38I/opD+1x0v2Uov17rireY
+ hgB3tkPED6dQzzPjt58++G3jssLDwZSuO45E6WglGa5Saj5MaWj4sxWA9pLMsoe6fjRI
+ D9C4ORyNvUZU65X7LD3zutbrevWe7czCNFcSRO84Zp7aAAH+dvDBnrNDfXSf6jqfdSms
+ zrffD6wwg6kUzWOpu+7J5AY8Abbr07MSqS9V0XkgYdf858nK4EuAcd1QmvKfBDvlNF9D
+ r23a5msT3z3zu/mGUd+ie7IWjJEMRz280VVB15o3uAT1Ro5I7uuJ7DDlHk9p4KjW9Wi/
+ ccNw==
+X-Gm-Message-State: AOAM530EcjNb/+pc8fKqanqE4ZySHe4FHT2ZbIWiYfceuDqWhrROiPCS
+ dqf10mZaWSgZFAvGvg4dgmS5zgiAQUw=
+X-Google-Smtp-Source: ABdhPJwEq0N3ZEgHPn/2lDOmwOCk+V5/HCadU9pn9Ro077u3X60qWuDM5Fp8Xgc2hLCrXUjsiErzhQ==
+X-Received: by 2002:a05:6512:b14:b0:479:626e:f13f with SMTP id
+ w20-20020a0565120b1400b00479626ef13fmr19353903lfu.607.1655123698890; 
+ Mon, 13 Jun 2022 05:34:58 -0700 (PDT)
 Received: from localhost.localdomain (81-226-149-122-no518.tbcn.telia.com.
  [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
- j12-20020a056512344c00b004791232dd6fsm973261lfr.257.2022.06.13.05.34.56
+ j12-20020a056512344c00b004791232dd6fsm973261lfr.257.2022.06.13.05.34.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 05:34:56 -0700 (PDT)
+ Mon, 13 Jun 2022 05:34:58 -0700 (PDT)
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 14/19] drm/gma500: Unify *_intel_lvds_get_modes()
-Date: Mon, 13 Jun 2022 14:34:31 +0200
-Message-Id: <20220613123436.15185-15-patrik.r.jakobsson@gmail.com>
+Subject: [PATCH 15/19] drm/gma500: Unify struct
+ *_intel_lvds_connector_helper_funcs
+Date: Mon, 13 Jun 2022 14:34:32 +0200
+Message-Id: <20220613123436.15185-16-patrik.r.jakobsson@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613123436.15185-1-patrik.r.jakobsson@gmail.com>
 References: <20220613123436.15185-1-patrik.r.jakobsson@gmail.com>
@@ -73,154 +74,145 @@ Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These functions mostly do the same thing so unify them. Oaktrail already
-uses the PSB connector helpers so it is already handled.
+These now only contains generic gma functions so create
+gma_lvds_connector_helper_funcs that all chips can use.
 
 Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 ---
- drivers/gpu/drm/gma500/cdv_intel_lvds.c | 27 +-----------------------
- drivers/gpu/drm/gma500/gma_lvds.c       | 26 +++++++++++++++++++++++
- drivers/gpu/drm/gma500/gma_lvds.h       |  1 +
- drivers/gpu/drm/gma500/psb_intel_lvds.c | 28 +------------------------
- 4 files changed, 29 insertions(+), 53 deletions(-)
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c | 10 +---------
+ drivers/gpu/drm/gma500/gma_lvds.c       | 12 +++++++++---
+ drivers/gpu/drm/gma500/gma_lvds.h       |  4 +---
+ drivers/gpu/drm/gma500/oaktrail_lvds.c  |  3 +--
+ drivers/gpu/drm/gma500/psb_intel_lvds.c | 10 +---------
+ 5 files changed, 13 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/gpu/drm/gma500/cdv_intel_lvds.c b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-index 80ccc00c47e5..a6f94572baaf 100644
+index a6f94572baaf..2ba635513401 100644
 --- a/drivers/gpu/drm/gma500/cdv_intel_lvds.c
 +++ b/drivers/gpu/drm/gma500/cdv_intel_lvds.c
-@@ -39,31 +39,6 @@
- #define PSB_BACKLIGHT_PWM_CTL_SHIFT	(16)
- #define PSB_BACKLIGHT_PWM_POLARITY_BIT_CLEAR (0xFFFE)
+@@ -111,13 +111,6 @@ static int cdv_intel_lvds_set_property(struct drm_connector *connector,
+ 	return 0;
+ }
  
--/*
-- * Return the list of DDC modes if available, or the BIOS fixed mode otherwise.
-- */
--static int cdv_intel_lvds_get_modes(struct drm_connector *connector)
--{
--	struct drm_device *dev = connector->dev;
--	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
--	struct psb_intel_mode_device *mode_dev = &dev_priv->mode_dev;
--	int ret;
+-static const struct drm_connector_helper_funcs
+-				cdv_intel_lvds_connector_helper_funcs = {
+-	.get_modes = gma_lvds_get_modes,
+-	.mode_valid = gma_lvds_mode_valid,
+-	.best_encoder = gma_best_encoder,
+-};
 -
--	ret = psb_intel_ddc_get_modes(connector, connector->ddc);
--
--	if (ret)
--		return ret;
--
--	if (mode_dev->panel_fixed_mode != NULL) {
--		struct drm_display_mode *mode =
--		    drm_mode_duplicate(dev, mode_dev->panel_fixed_mode);
--		drm_mode_probed_add(connector, mode);
--		return 1;
--	}
--
--	return 0;
--}
--
- static void cdv_intel_lvds_destroy(struct drm_connector *connector)
- {
- 	struct gma_connector *gma_connector = to_gma_connector(connector);
-@@ -138,7 +113,7 @@ static int cdv_intel_lvds_set_property(struct drm_connector *connector,
+ static const struct drm_connector_funcs cdv_intel_lvds_connector_funcs = {
+ 	.dpms = drm_helper_connector_dpms,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+@@ -253,8 +246,7 @@ void cdv_intel_lvds_init(struct drm_device *dev,
+ 	gma_encoder->type = INTEL_OUTPUT_LVDS;
  
- static const struct drm_connector_helper_funcs
- 				cdv_intel_lvds_connector_helper_funcs = {
--	.get_modes = cdv_intel_lvds_get_modes,
-+	.get_modes = gma_lvds_get_modes,
- 	.mode_valid = gma_lvds_mode_valid,
- 	.best_encoder = gma_best_encoder,
- };
+ 	drm_encoder_helper_add(encoder, &gma_lvds_helper_funcs);
+-	drm_connector_helper_add(connector,
+-				 &cdv_intel_lvds_connector_helper_funcs);
++	drm_connector_helper_add(connector, &gma_lvds_connector_helper_funcs);
+ 	connector->display_info.subpixel_order = SubPixelHorizontalRGB;
+ 	connector->interlace_allowed = false;
+ 	connector->doublescan_allowed = false;
 diff --git a/drivers/gpu/drm/gma500/gma_lvds.c b/drivers/gpu/drm/gma500/gma_lvds.c
-index bf9fa5ebdbd3..49c11b5337cb 100644
+index 49c11b5337cb..3b48999105d1 100644
 --- a/drivers/gpu/drm/gma500/gma_lvds.c
 +++ b/drivers/gpu/drm/gma500/gma_lvds.c
-@@ -342,3 +342,29 @@ const struct drm_encoder_helper_funcs gma_lvds_helper_funcs = {
- 	.commit = gma_lvds_commit,
- };
+@@ -94,8 +94,8 @@ static void gma_lvds_set_power(struct drm_device *dev, bool on)
+ 	gma_power_end(dev);
+ }
  
-+/*
-+ * Return the list of DDC modes if available, or the BIOS fixed mode otherwise.
-+ */
-+int gma_lvds_get_modes(struct drm_connector *connector)
-+{
-+	struct drm_device *dev = connector->dev;
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-+	struct psb_intel_mode_device *mode_dev = &dev_priv->mode_dev;
-+	int ret = 0;
-+
-+	if (!IS_MRST(dev))
-+		ret = psb_intel_ddc_get_modes(connector, connector->ddc);
-+
-+	if (ret)
-+		return ret;
-+
-+	if (mode_dev->panel_fixed_mode != NULL) {
-+		struct drm_display_mode *mode =
-+		    drm_mode_duplicate(dev, mode_dev->panel_fixed_mode);
-+		drm_mode_probed_add(connector, mode);
-+		return 1;
-+	}
-+
-+	return 0;
-+}
+-enum drm_mode_status gma_lvds_mode_valid(struct drm_connector *connector,
+-					 struct drm_display_mode *mode)
++static enum drm_mode_status gma_lvds_mode_valid(struct drm_connector *connector,
++						struct drm_display_mode *mode)
+ {
+ 	struct drm_device *dev = connector->dev;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+@@ -345,7 +345,7 @@ const struct drm_encoder_helper_funcs gma_lvds_helper_funcs = {
+ /*
+  * Return the list of DDC modes if available, or the BIOS fixed mode otherwise.
+  */
+-int gma_lvds_get_modes(struct drm_connector *connector)
++static int gma_lvds_get_modes(struct drm_connector *connector)
+ {
+ 	struct drm_device *dev = connector->dev;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+@@ -368,3 +368,9 @@ int gma_lvds_get_modes(struct drm_connector *connector)
+ 	return 0;
+ }
+ 
++const struct drm_connector_helper_funcs gma_lvds_connector_helper_funcs = {
++	.get_modes = gma_lvds_get_modes,
++	.mode_valid = gma_lvds_mode_valid,
++	.best_encoder = gma_best_encoder,
++};
 +
 diff --git a/drivers/gpu/drm/gma500/gma_lvds.h b/drivers/gpu/drm/gma500/gma_lvds.h
-index 3c47bea859ad..70c416d8b7a7 100644
+index 70c416d8b7a7..5c7da22400fb 100644
 --- a/drivers/gpu/drm/gma500/gma_lvds.h
 +++ b/drivers/gpu/drm/gma500/gma_lvds.h
-@@ -34,6 +34,7 @@ bool gma_lvds_mode_fixup(struct drm_encoder *encoder,
+@@ -24,8 +24,6 @@ struct gma_lvds_priv {
+ };
+ 
+ u32 gma_lvds_get_max_backlight(struct drm_device *dev);
+-enum drm_mode_status gma_lvds_mode_valid(struct drm_connector *connector,
+-					 struct drm_display_mode *mode);
+ void gma_lvds_encoder_dpms(struct drm_encoder *encoder, int mode);
+ void gma_lvds_save(struct drm_connector *connector);
+ void gma_lvds_restore(struct drm_connector *connector);
+@@ -34,8 +32,8 @@ bool gma_lvds_mode_fixup(struct drm_encoder *encoder,
  			 struct drm_display_mode *adjusted_mode);
  void gma_lvds_prepare(struct drm_encoder *encoder);
  void gma_lvds_commit(struct drm_encoder *encoder);
-+int gma_lvds_get_modes(struct drm_connector *connector);
+-int gma_lvds_get_modes(struct drm_connector *connector);
  
  extern const struct drm_encoder_helper_funcs gma_lvds_helper_funcs;
++extern const struct drm_connector_helper_funcs gma_lvds_connector_helper_funcs;
  
+ #endif
+diff --git a/drivers/gpu/drm/gma500/oaktrail_lvds.c b/drivers/gpu/drm/gma500/oaktrail_lvds.c
+index 85cab0f7028a..7724ebd71aa8 100644
+--- a/drivers/gpu/drm/gma500/oaktrail_lvds.c
++++ b/drivers/gpu/drm/gma500/oaktrail_lvds.c
+@@ -230,8 +230,7 @@ void oaktrail_lvds_init(struct drm_device *dev,
+ 	gma_encoder->type = INTEL_OUTPUT_LVDS;
+ 
+ 	drm_encoder_helper_add(encoder, &oaktrail_lvds_helper_funcs);
+-	drm_connector_helper_add(connector,
+-				 &psb_intel_lvds_connector_helper_funcs);
++	drm_connector_helper_add(connector, &gma_lvds_connector_helper_funcs);
+ 	connector->display_info.subpixel_order = SubPixelHorizontalRGB;
+ 	connector->interlace_allowed = false;
+ 	connector->doublescan_allowed = false;
 diff --git a/drivers/gpu/drm/gma500/psb_intel_lvds.c b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-index 29a9b4ea5803..4ef0150c6a03 100644
+index 4ef0150c6a03..f129e53f0233 100644
 --- a/drivers/gpu/drm/gma500/psb_intel_lvds.c
 +++ b/drivers/gpu/drm/gma500/psb_intel_lvds.c
-@@ -132,32 +132,6 @@ void psb_intel_lvds_set_brightness(struct drm_device *dev, int level)
- 		psb_lvds_pwm_set_brightness(dev, level);
+@@ -210,13 +210,6 @@ int psb_intel_lvds_set_property(struct drm_connector *connector,
+ 	return -1;
  }
  
--/*
-- * Return the list of DDC modes if available, or the BIOS fixed mode otherwise.
-- */
--static int psb_intel_lvds_get_modes(struct drm_connector *connector)
--{
--	struct drm_device *dev = connector->dev;
--	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
--	struct psb_intel_mode_device *mode_dev = &dev_priv->mode_dev;
--	int ret = 0;
+-const struct drm_connector_helper_funcs
+-				psb_intel_lvds_connector_helper_funcs = {
+-	.get_modes = gma_lvds_get_modes,
+-	.mode_valid = gma_lvds_mode_valid,
+-	.best_encoder = gma_best_encoder,
+-};
 -
--	if (!IS_MRST(dev))
--		ret = psb_intel_ddc_get_modes(connector, connector->ddc);
--
--	if (ret)
--		return ret;
--
--	if (mode_dev->panel_fixed_mode != NULL) {
--		struct drm_display_mode *mode =
--		    drm_mode_duplicate(dev, mode_dev->panel_fixed_mode);
--		drm_mode_probed_add(connector, mode);
--		return 1;
--	}
--
--	return 0;
--}
--
- void psb_intel_lvds_destroy(struct drm_connector *connector)
- {
- 	struct gma_connector *gma_connector = to_gma_connector(connector);
-@@ -238,7 +212,7 @@ int psb_intel_lvds_set_property(struct drm_connector *connector,
+ const struct drm_connector_funcs psb_intel_lvds_connector_funcs = {
+ 	.dpms = drm_helper_connector_dpms,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+@@ -296,8 +289,7 @@ void psb_intel_lvds_init(struct drm_device *dev,
+ 	gma_encoder->type = INTEL_OUTPUT_LVDS;
  
- const struct drm_connector_helper_funcs
- 				psb_intel_lvds_connector_helper_funcs = {
--	.get_modes = psb_intel_lvds_get_modes,
-+	.get_modes = gma_lvds_get_modes,
- 	.mode_valid = gma_lvds_mode_valid,
- 	.best_encoder = gma_best_encoder,
- };
+ 	drm_encoder_helper_add(encoder, &gma_lvds_helper_funcs);
+-	drm_connector_helper_add(connector,
+-				 &psb_intel_lvds_connector_helper_funcs);
++	drm_connector_helper_add(connector, &gma_lvds_connector_helper_funcs);
+ 	connector->display_info.subpixel_order = SubPixelHorizontalRGB;
+ 	connector->interlace_allowed = false;
+ 	connector->doublescan_allowed = false;
 -- 
 2.36.1
 
