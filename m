@@ -1,69 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF16547D9B
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 04:26:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B46E547DD6
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 05:12:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D0D510E0E5;
-	Mon, 13 Jun 2022 02:26:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1662B10E470;
+	Mon, 13 Jun 2022 03:12:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
- [IPv6:2607:f8b0:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE49810E0E5
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 02:26:28 +0000 (UTC)
-Received: by mail-pg1-x52b.google.com with SMTP id 129so4374671pgc.2
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jun 2022 19:26:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=mG3FMQMhEgGtwuCF752yIY6rjP37EMug4420nWGqk5M=;
- b=L91cB+LhIveLvM5QtRU43yYFS75yXthLZA5yo3LtT0Y6U6CgcfYeLTcVaiPkQZrA9o
- tEGkNHqAOFrZjuz8bGPoBrng6mch9Wa8egEwyj/eeUTVQtR3rAU54b7T+QYJkCyDf9EY
- aUP5dTKmx37x8gFjrW0bsgKNKeQFlRfRcf1tA0mo0AM8HuvpSp+rtVdC+Famv3ffuUGv
- cncqZaLMIoAObuRI5UVZFbpcKWyrm3N6+9CTiO+lyWksmGCNlzb6lfQP29Y/qbm1HmAI
- WY4qnp0fldubUbQpBQ38mDyS5fN63UodrmyUzZfAMtRRXZSlQ0O1l0jvFy6C/tK0Sjc/
- 9w+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mG3FMQMhEgGtwuCF752yIY6rjP37EMug4420nWGqk5M=;
- b=YQuq+AbI4NJuaOtG2QEXTmsDl9ht2+q9jBoN9TrAUwR2xY2Jsv0+7orC+j1a5YanyA
- HtT1bHnnQGTPFnOICP0dHIlsodrEeo1c4xbpyNBRtlJK8HH7XzBSLQXJvdxC5Uwgvm7A
- Wziym9KSbrDwi9TnuAvtJPDDbzM/AIaYsmjkHXWrOFf6aiIFvjCYzeocxHPQ7Vwu29kE
- qr0FPK6WfrnK31PSYzNOpnzk7EJflA7E8jUZGJgFizFSdTRnWUqKh8sT3hQRgqbU7VR3
- wKTDBv9R2xvyvRM/UlQU6q511E5kJa6avAfb1agpIRDpZ2hgafTt7ixMj5eyqYRE/dII
- ugLg==
-X-Gm-Message-State: AOAM530niX+YfTk5h2O3HhuX+8CvfZHFjPBISiMtARXRCZ0fnOLbPHVZ
- Y5D+9Id/huNj+z296P4F2FMJMQ==
-X-Google-Smtp-Source: ABdhPJwAwpZ90n8Bz+gXAsE62G+h2GY77K5IMoZH8I+CA35xy1Qoe35wL0UZyZiRMutccB7a1yRxlA==
-X-Received: by 2002:a63:6aca:0:b0:408:8af6:a885 with SMTP id
- f193-20020a636aca000000b004088af6a885mr646836pgc.477.1655087188171; 
- Sun, 12 Jun 2022 19:26:28 -0700 (PDT)
-Received: from [10.16.129.248] (napt.igel.co.jp. [219.106.231.132])
- by smtp.gmail.com with ESMTPSA id
- h10-20020a170902680a00b001635c9e7f77sm3724220plk.57.2022.06.12.19.26.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Jun 2022 19:26:27 -0700 (PDT)
-Message-ID: <d1530ba8-c45b-8cac-86f3-76fa5375e4b7@igel.co.jp>
-Date: Mon, 13 Jun 2022 11:26:24 +0900
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C46C910E470
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 03:12:41 +0000 (UTC)
+X-UUID: f7c315592ef14a779a345bf3483fb912-20220613
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.5, REQID:d00b79aa-2c5e-4094-b4fe-cc82990eee57, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:2a19b09, CLOUDID:8ad051c6-12ba-4305-bfdf-9aefbdc32516,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,QS:0,BEC:nil
+X-UUID: f7c315592ef14a779a345bf3483fb912-20220613
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1170772932; Mon, 13 Jun 2022 11:12:34 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Mon, 13 Jun 2022 11:12:33 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Mon, 13 Jun 2022 11:12:33 +0800
+Message-ID: <fc301b26d4e0fea003a9b6c2237eaca16a4929f6.camel@mediatek.com>
+Subject: Re: [PATCH v10 08/21] drm/mediatek: dpi: implement a swap_input
+ toggle in SoC config
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, Guillaume Ranquet <granquet@baylibre.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, "Kishon
+ Vijay Abraham I" <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, "Helge
+ Deller" <deller@gmx.de>, Jitao shi <jitao.shi@mediatek.com>
+Date: Mon, 13 Jun 2022 11:12:33 +0800
+In-Reply-To: <2c88fd4c308e86536d5996b3f32f68d05d452e23.camel@mediatek.com>
+References: <20220523104758.29531-1-granquet@baylibre.com>
+ <20220523104758.29531-9-granquet@baylibre.com>
+ <2c88fd4c308e86536d5996b3f32f68d05d452e23.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] drm: rcar-du: Lift z-pos restriction on primary plane for
- Gen3
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-References: <20220609235529.22254-1-laurent.pinchart+renesas@ideasonboard.com>
-From: Esaki Tomohito <etom@igel.co.jp>
-In-Reply-To: <20220609235529.22254-1-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,57 +70,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, Takanari Hayama <taki@igel.co.jp>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Laurent-san
-
-I tested this patch by kms-tests scripts and modetest on R-Car Gen3.
-
-On 2022/06/10 8:55, Laurent Pinchart wrote:
-> There's no reason to require the primary plane to always be at the
-> bottom of the stack, as the VSP supports arbitrary ordering of planes,
-> and the KMS API doesn't have such a requirement either. Lift the
-> restriction.
+On Mon, 2022-05-30 at 15:50 +0800, CK Hu wrote:
+> Hi, Guillaume:
 > 
-> As the primary plane can now be positioned arbitrarily, enable control
-> of its alpha channel as well.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Tested-by: Tomohito Esaki <etom@igel.co.jp>
-
-> ---
->   drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 11 +++--------
->   1 file changed, 3 insertions(+), 8 deletions(-)
+> On Mon, 2022-05-23 at 12:47 +0200, Guillaume Ranquet wrote:
+> > Adds a bit of flexibility to support SoCs without swap_input
+> > support
+> > 
+> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_dpi.c | 14 +++++++++++---
+> >  1 file changed, 11 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > index 545a1337cc89..454f8563efae 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > @@ -126,6 +126,7 @@ struct mtk_dpi_conf {
+> >  	const u32 *output_fmts;
+> >  	u32 num_output_fmts;
+> >  	bool is_ck_de_pol;
+> > +	bool swap_input_support;
+> >  	const struct mtk_dpi_yc_limit *limit;
+> >  };
+> >  
+> > @@ -378,18 +379,21 @@ static void
+> > mtk_dpi_config_color_format(struct
+> > mtk_dpi *dpi,
+> >  	    (format == MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL)) {
+> >  		mtk_dpi_config_yuv422_enable(dpi, false);
+> >  		mtk_dpi_config_csc_enable(dpi, true);
+> > -		mtk_dpi_config_swap_input(dpi, false);
+> > +		if (dpi->conf->swap_input_support)
+> > +			mtk_dpi_config_swap_input(dpi, false);
+> >  		mtk_dpi_config_channel_swap(dpi,
+> > MTK_DPI_OUT_CHANNEL_SWAP_BGR);
+> >  	} else if ((format == MTK_DPI_COLOR_FORMAT_YCBCR_422) ||
+> >  		   (format == MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL)) {
+> >  		mtk_dpi_config_yuv422_enable(dpi, true);
+> >  		mtk_dpi_config_csc_enable(dpi, true);
+> > -		mtk_dpi_config_swap_input(dpi, true);
+> > +		if (dpi->conf->swap_input_support)
+> > +			mtk_dpi_config_swap_input(dpi, true);
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> index 6b535abd799a..356861de17b0 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> @@ -431,14 +431,9 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
->   		drm_plane_helper_add(&plane->plane,
->   				     &rcar_du_vsp_plane_helper_funcs);
->   
-> -		if (type == DRM_PLANE_TYPE_PRIMARY) {
-> -			drm_plane_create_zpos_immutable_property(&plane->plane,
-> -								 0);
-> -		} else {
-> -			drm_plane_create_alpha_property(&plane->plane);
-> -			drm_plane_create_zpos_property(&plane->plane, 1, 1,
-> -						       num_planes - 1);
-> -		}
-> +		drm_plane_create_alpha_property(&plane->plane);
-> +		drm_plane_create_zpos_property(&plane->plane, i, 0,
-> +					       num_planes - 1);
->   
->   		vsp->num_planes++;
->   	}
+> As [1], please keep in touch with Mediatek engineer.
 > 
-> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+> Regards,
+> CK
+> 
+> [1] 
+> 
+https://patchwork.kernel.org/project/linux-mediatek/patch/20220218145437.18563-8-granquet@baylibre.com/
+> 
 
---
-Best regards,
-Tomohito Esaki
+Hello CK,
+
+the reason is the hardware design of dp_intf does not support input
+swap.
+I will add this in commit message.
+
+BRs,
+Bo-Chen
+
+> >  		mtk_dpi_config_channel_swap(dpi,
+> > MTK_DPI_OUT_CHANNEL_SWAP_RGB);
+> >  	} else {
+> >  		mtk_dpi_config_yuv422_enable(dpi, false);
+> >  		mtk_dpi_config_csc_enable(dpi, false);
+> > -		mtk_dpi_config_swap_input(dpi, false);
+> > +		if (dpi->conf->swap_input_support)
+> > +			mtk_dpi_config_swap_input(dpi, false);
+> >  		mtk_dpi_config_channel_swap(dpi,
+> > MTK_DPI_OUT_CHANNEL_SWAP_RGB);
+> >  	}
+> >  }
+> > @@ -808,6 +812,7 @@ static const struct mtk_dpi_conf mt8173_conf =
+> > {
+> >  	.output_fmts = mt8173_output_fmts,
+> >  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
+> >  	.is_ck_de_pol = true,
+> > +	.swap_input_support = true,
+> >  	.limit = &mtk_dpi_limit,
+> >  };
+> >  
+> > @@ -819,6 +824,7 @@ static const struct mtk_dpi_conf mt2701_conf =
+> > {
+> >  	.output_fmts = mt8173_output_fmts,
+> >  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
+> >  	.is_ck_de_pol = true,
+> > +	.swap_input_support = true,
+> >  	.limit = &mtk_dpi_limit,
+> >  };
+> >  
+> > @@ -829,6 +835,7 @@ static const struct mtk_dpi_conf mt8183_conf =
+> > {
+> >  	.output_fmts = mt8183_output_fmts,
+> >  	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
+> >  	.is_ck_de_pol = true,
+> > +	.swap_input_support = true,
+> >  	.limit = &mtk_dpi_limit,
+> >  };
+> >  
+> > @@ -839,6 +846,7 @@ static const struct mtk_dpi_conf mt8192_conf =
+> > {
+> >  	.output_fmts = mt8173_output_fmts,
+> >  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
+> >  	.is_ck_de_pol = true,
+> > +	.swap_input_support = true,
+> >  	.limit = &mtk_dpi_limit,
+> >  };
+> >  
+> 
+> 
+
