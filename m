@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC1F549AF8
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 20:03:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D20E549B23
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 20:09:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 227F610F570;
-	Mon, 13 Jun 2022 18:02:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65AAF10F449;
+	Mon, 13 Jun 2022 18:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15AAD10F570;
- Mon, 13 Jun 2022 18:02:58 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C276E10F0DC;
+ Mon, 13 Jun 2022 18:09:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655143378; x=1686679378;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=3HhSIV7WjsJyKX2mS/W6cBKPi1/AkyYVaNt3gqRwu60=;
- b=PB2D97Reo7YSxZozwtY/hepF0WfGIrDbX4cE/xs6Ne7Rb0/PmVfpRwwx
- NJZmQIkxbrxuDhfi4XNTlRcT4tnCAX2i5AdCIZ7XvDf/vGwJsspPEhoQt
- yPYsdpYbJO0taP130hhJuaiGLw/3MGeMf8c4i3a4+b7Be09ClDnrN/Isu
- 0DT6mi+yMEzt5icm7cqDhh9yDEoJFnvySxTa0BkR3gl1joJTijFoUJ4ye
- MOAmYjxRbHgPVgPx7tlyV1GwpFFv4jDOdK8Vo2ejYLzw6osp0FsZQfs8l
- ht/oWOCiufhEidojY4MkACDWN+LRUl835GKdxb7ZNp9aEO1HJJpWAlDWZ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="342338593"
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="342338593"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2022 11:02:56 -0700
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="686185301"
-Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2022 11:02:56 -0700
-Date: Mon, 13 Jun 2022 11:02:38 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: "Zeng, Oak" <oak.zeng@intel.com>
-Subject: Re: [Intel-gfx] [RFC v3 1/3] drm/doc/rfc: VM_BIND feature design
- document
-Message-ID: <20220613180237.GJ376@nvishwa1-DESK>
-References: <4be022cc-518e-49e1-96bd-b9720a313401@linux.intel.com>
- <20220608214431.GD4461@nvishwa1-DESK>
- <CAOFGe97UDd2S+LdKeOWubFvc4cNy6KbRTtCPKUbwd8PnZPuvMQ@mail.gmail.com>
- <54fb6c28-7954-123e-edd6-ba6c15b6d36e@intel.com>
- <20220609193150.GG4461@nvishwa1-DESK>
- <891017f7-e276-66a1-dd9b-cbebc8f8a00d@intel.com>
- <20220610075434.GA376@nvishwa1-DESK>
- <df9795c0-3b73-fe79-134b-4bd9a3890059@intel.com>
- <20220610174228.GE376@nvishwa1-DESK>
- <BN6PR11MB1633E5329618944A94D5D0A792AB9@BN6PR11MB1633.namprd11.prod.outlook.com>
+ t=1655143768; x=1686679768;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Uni21d2WEDOoZtZW5l47kxD0Coma5Oqk91wphfklYX0=;
+ b=ZmYfn86mcnlkI+4N6ZL3SOrkTHCilw1ChpNSHpH+Trozh3DL0owmagtx
+ nFgiIzXTNLUEs9NMYkzYUeDSAF7mZEfLMf/55PrVY71RvjVnxVA2X+wY5
+ nTr1zPQ9cmjIblxqs36QK4pdEWlOnpcXoE+Q8Bd30JLTONspbqzc0hjg5
+ zuzLnN3DrRO3+m5sjCFAgJ7VAaQgyT3Z+/r1uCjWhhvXcs4iDpR7lz/yw
+ LMwClriTTj+7jyI2XHCqeDJXspROQkFe9p1UJUxhrEtE20gRmu2SWMc+9
+ P7SngaRFX9cQRuzkePBwPnWbZcFbStZzdLyVbYszLAOoRfWecPMhcPTre Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="364695760"
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="364695760"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2022 11:09:10 -0700
+X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="651553638"
+Received: from npower-mobl.ger.corp.intel.com (HELO [10.213.222.108])
+ ([10.213.222.108])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2022 11:09:07 -0700
+Message-ID: <5ebcd237-a6df-add2-070a-056ccb83427a@linux.intel.com>
+Date: Mon, 13 Jun 2022 19:09:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [Intel-gfx] [PATCH 3/3] drm/doc/rfc: VM_BIND uapi definition
+Content-Language: en-US
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+References: <20220610070711.32407-1-niranjana.vishwanathapura@intel.com>
+ <20220610070711.32407-4-niranjana.vishwanathapura@intel.com>
+ <9b7c4864-18c2-5c70-009a-1c6e7843bf0d@linux.intel.com>
+ <9043381e-ff63-934b-4576-132f15c2e363@intel.com>
+ <20220610161420.GB376@nvishwa1-DESK>
+ <b5292e01-5a1f-d339-cbb4-e565e07e4437@linux.intel.com>
+ <20220613150551.GG376@nvishwa1-DESK>
+ <459c327d-5796-f9e4-4442-a51714525c73@linux.intel.com>
+ <20220613174956.GH376@nvishwa1-DESK>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220613174956.GH376@nvishwa1-DESK>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <BN6PR11MB1633E5329618944A94D5D0A792AB9@BN6PR11MB1633.namprd11.prod.outlook.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,812 +68,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Wilson, Chris P" <chris.p.wilson@intel.com>,
- Intel GFX <intel-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Hellstrom,
- Thomas" <thomas.hellstrom@intel.com>, "Landwerlin,
- Lionel G" <lionel.g.landwerlin@intel.com>, "Vetter,
- Daniel" <daniel.vetter@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: paulo.r.zanoni@intel.com, Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ intel-gfx@lists.freedesktop.org, chris.p.wilson@intel.com,
+ thomas.hellstrom@intel.com, dri-devel@lists.freedesktop.org,
+ Jason Ekstrand <jason@jlekstrand.net>, daniel.vetter@intel.com,
+ christian.koenig@amd.com, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 13, 2022 at 06:33:07AM -0700, Zeng, Oak wrote:
->
->
->Regards,
->Oak
->
->> -----Original Message-----
->> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Niranjana
->> Vishwanathapura
->> Sent: June 10, 2022 1:43 PM
->> To: Landwerlin, Lionel G <lionel.g.landwerlin@intel.com>
->> Cc: Intel GFX <intel-gfx@lists.freedesktop.org>; Maling list - DRI developers <dri-
->> devel@lists.freedesktop.org>; Hellstrom, Thomas <thomas.hellstrom@intel.com>;
->> Wilson, Chris P <chris.p.wilson@intel.com>; Vetter, Daniel
->> <daniel.vetter@intel.com>; Christian König <christian.koenig@amd.com>
->> Subject: Re: [Intel-gfx] [RFC v3 1/3] drm/doc/rfc: VM_BIND feature design
->> document
+
+On 13/06/2022 18:49, Niranjana Vishwanathapura wrote:
+> On Mon, Jun 13, 2022 at 05:22:02PM +0100, Tvrtko Ursulin wrote:
 >>
->> On Fri, Jun 10, 2022 at 11:18:14AM +0300, Lionel Landwerlin wrote:
->> >On 10/06/2022 10:54, Niranjana Vishwanathapura wrote:
->> >>On Fri, Jun 10, 2022 at 09:53:24AM +0300, Lionel Landwerlin wrote:
->> >>>On 09/06/2022 22:31, Niranjana Vishwanathapura wrote:
->> >>>>On Thu, Jun 09, 2022 at 05:49:09PM +0300, Lionel Landwerlin wrote:
->> >>>>>  On 09/06/2022 00:55, Jason Ekstrand wrote:
->> >>>>>
->> >>>>>    On Wed, Jun 8, 2022 at 4:44 PM Niranjana Vishwanathapura
->> >>>>>    <niranjana.vishwanathapura@intel.com> wrote:
->> >>>>>
->> >>>>>      On Wed, Jun 08, 2022 at 08:33:25AM +0100, Tvrtko Ursulin wrote:
->> >>>>>      >
->> >>>>>      >
->> >>>>>      >On 07/06/2022 22:32, Niranjana Vishwanathapura wrote:
->> >>>>>      >>On Tue, Jun 07, 2022 at 11:18:11AM -0700, Niranjana
->> >>>>>Vishwanathapura
->> >>>>>      wrote:
->> >>>>>      >>>On Tue, Jun 07, 2022 at 12:12:03PM -0500, Jason
->> >>>>>Ekstrand wrote:
->> >>>>>      >>>> On Fri, Jun 3, 2022 at 6:52 PM Niranjana Vishwanathapura
->> >>>>>      >>>> <niranjana.vishwanathapura@intel.com> wrote:
->> >>>>>      >>>>
->> >>>>>      >>>>   On Fri, Jun 03, 2022 at 10:20:25AM +0300, Lionel
->> >>>>>Landwerlin
->> >>>>>      wrote:
->> >>>>>      >>>>   >   On 02/06/2022 23:35, Jason Ekstrand wrote:
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >     On Thu, Jun 2, 2022 at 3:11 PM Niranjana
->> >>>>>Vishwanathapura
->> >>>>>      >>>>   > <niranjana.vishwanathapura@intel.com> wrote:
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       On Wed, Jun 01, 2022 at 01:28:36PM -0700, Matthew
->> >>>>>      >>>>Brost wrote:
->> >>>>>      >>>>   >       >On Wed, Jun 01, 2022 at 05:25:49PM +0300, Lionel
->> >>>>>      Landwerlin
->> >>>>>      >>>>   wrote:
->> >>>>>      >>>>   >       >> On 17/05/2022 21:32, Niranjana Vishwanathapura
->> >>>>>      wrote:
->> >>>>>      >>>>   >       >> > +VM_BIND/UNBIND ioctl will immediately start
->> >>>>>      >>>>   binding/unbinding
->> >>>>>      >>>>   >       the mapping in an
->> >>>>>      >>>>   >       >> > +async worker. The binding and
->> >>>>>unbinding will
->> >>>>>      >>>>work like a
->> >>>>>      >>>>   special
->> >>>>>      >>>>   >       GPU engine.
->> >>>>>      >>>>   >       >> > +The binding and unbinding operations are
->> >>>>>      serialized and
->> >>>>>      >>>>   will
->> >>>>>      >>>>   >       wait on specified
->> >>>>>      >>>>   >       >> > +input fences before the operation
->> >>>>>and will signal
->> >>>>>      the
->> >>>>>      >>>>   output
->> >>>>>      >>>>   >       fences upon the
->> >>>>>      >>>>   >       >> > +completion of the operation. Due to
->> >>>>>      serialization,
->> >>>>>      >>>>   completion of
->> >>>>>      >>>>   >       an operation
->> >>>>>      >>>>   >       >> > +will also indicate that all
->> >>>>>previous operations
->> >>>>>      >>>>are also
->> >>>>>      >>>>   >       complete.
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> I guess we should avoid saying "will
->> >>>>>immediately
->> >>>>>      start
->> >>>>>      >>>>   >       binding/unbinding" if
->> >>>>>      >>>>   >       >> there are fences involved.
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> And the fact that it's happening in an async
->> >>>>>      >>>>worker seem to
->> >>>>>      >>>>   imply
->> >>>>>      >>>>   >       it's not
->> >>>>>      >>>>   >       >> immediate.
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       Ok, will fix.
->> >>>>>      >>>>   >       This was added because in earlier design
->> >>>>>binding was
->> >>>>>      deferred
->> >>>>>      >>>>   until
->> >>>>>      >>>>   >       next execbuff.
->> >>>>>      >>>>   >       But now it is non-deferred (immediate in
->> >>>>>that sense).
->> >>>>>      >>>>But yah,
->> >>>>>      >>>>   this is
->> >>>>>      >>>>   >       confusing
->> >>>>>      >>>>   >       and will fix it.
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> I have a question on the behavior of the bind
->> >>>>>      >>>>operation when
->> >>>>>      >>>>   no
->> >>>>>      >>>>   >       input fence
->> >>>>>      >>>>   >       >> is provided. Let say I do :
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> VM_BIND (out_fence=fence1)
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> VM_BIND (out_fence=fence2)
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> VM_BIND (out_fence=fence3)
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> In what order are the fences going to
->> >>>>>be signaled?
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> In the order of VM_BIND ioctls? Or out
->> >>>>>of order?
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> Because you wrote "serialized I assume
->> >>>>>it's : in
->> >>>>>      order
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       Yes, in the order of VM_BIND/UNBIND
->> >>>>>ioctls. Note that
->> >>>>>      >>>>bind and
->> >>>>>      >>>>   unbind
->> >>>>>      >>>>   >       will use
->> >>>>>      >>>>   >       the same queue and hence are ordered.
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> One thing I didn't realize is that
->> >>>>>because we only
->> >>>>>      get one
->> >>>>>      >>>>   >       "VM_BIND" engine,
->> >>>>>      >>>>   >       >> there is a disconnect from the Vulkan
->> >>>>>specification.
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> In Vulkan VM_BIND operations are
->> >>>>>serialized but
->> >>>>>      >>>>per engine.
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> So you could have something like this :
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> VM_BIND (engine=rcs0, in_fence=fence1,
->> >>>>>      out_fence=fence2)
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> VM_BIND (engine=ccs0, in_fence=fence3,
->> >>>>>      out_fence=fence4)
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> fence1 is not signaled
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> fence3 is signaled
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> So the second VM_BIND will proceed before the
->> >>>>>      >>>>first VM_BIND.
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> I guess we can deal with that scenario in
->> >>>>>      >>>>userspace by doing
->> >>>>>      >>>>   the
->> >>>>>      >>>>   >       wait
->> >>>>>      >>>>   >       >> ourselves in one thread per engines.
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> But then it makes the VM_BIND input
->> >>>>>fences useless.
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> Daniel : what do you think? Should be
->> >>>>>rework this or
->> >>>>>      just
->> >>>>>      >>>>   deal with
->> >>>>>      >>>>   >       wait
->> >>>>>      >>>>   >       >> fences in userspace?
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >
->> >>>>>      >>>>   >       >My opinion is rework this but make the
->> >>>>>ordering via
->> >>>>>      >>>>an engine
->> >>>>>      >>>>   param
->> >>>>>      >>>>   >       optional.
->> >>>>>      >>>>   >       >
->> >>>>>      >>>>   >       >e.g. A VM can be configured so all binds
->> >>>>>are ordered
->> >>>>>      >>>>within the
->> >>>>>      >>>>   VM
->> >>>>>      >>>>   >       >
->> >>>>>      >>>>   >       >e.g. A VM can be configured so all binds
->> >>>>>accept an
->> >>>>>      engine
->> >>>>>      >>>>   argument
->> >>>>>      >>>>   >       (in
->> >>>>>      >>>>   >       >the case of the i915 likely this is a
->> >>>>>gem context
->> >>>>>      >>>>handle) and
->> >>>>>      >>>>   binds
->> >>>>>      >>>>   >       >ordered with respect to that engine.
->> >>>>>      >>>>   >       >
->> >>>>>      >>>>   >       >This gives UMDs options as the later
->> >>>>>likely consumes
->> >>>>>      >>>>more KMD
->> >>>>>      >>>>   >       resources
->> >>>>>      >>>>   >       >so if a different UMD can live with binds being
->> >>>>>      >>>>ordered within
->> >>>>>      >>>>   the VM
->> >>>>>      >>>>   >       >they can use a mode consuming less resources.
->> >>>>>      >>>>   >       >
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       I think we need to be careful here if we
->> >>>>>are looking
->> >>>>>      for some
->> >>>>>      >>>>   out of
->> >>>>>      >>>>   >       (submission) order completion of vm_bind/unbind.
->> >>>>>      >>>>   >       In-order completion means, in a batch of
->> >>>>>binds and
->> >>>>>      >>>>unbinds to be
->> >>>>>      >>>>   >       completed in-order, user only needs to specify
->> >>>>>      >>>>in-fence for the
->> >>>>>      >>>>   >       first bind/unbind call and the our-fence
->> >>>>>for the last
->> >>>>>      >>>>   bind/unbind
->> >>>>>      >>>>   >       call. Also, the VA released by an unbind
->> >>>>>call can be
->> >>>>>      >>>>re-used by
->> >>>>>      >>>>   >       any subsequent bind call in that in-order batch.
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       These things will break if
->> >>>>>binding/unbinding were to
->> >>>>>      >>>>be allowed
->> >>>>>      >>>>   to
->> >>>>>      >>>>   >       go out of order (of submission) and user
->> >>>>>need to be
->> >>>>>      extra
->> >>>>>      >>>>   careful
->> >>>>>      >>>>   >       not to run into pre-mature triggereing of
->> >>>>>out-fence and
->> >>>>>      bind
->> >>>>>      >>>>   failing
->> >>>>>      >>>>   >       as VA is still in use etc.
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       Also, VM_BIND binds the provided mapping on the
->> >>>>>      specified
->> >>>>>      >>>>   address
->> >>>>>      >>>>   >       space
->> >>>>>      >>>>   >       (VM). So, the uapi is not engine/context
->> >>>>>specific.
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       We can however add a 'queue' to the uapi
->> >>>>>which can be
->> >>>>>      >>>>one from
->> >>>>>      >>>>   the
->> >>>>>      >>>>   >       pre-defined queues,
->> >>>>>      >>>>   >       I915_VM_BIND_QUEUE_0
->> >>>>>      >>>>   >       I915_VM_BIND_QUEUE_1
->> >>>>>      >>>>   >       ...
->> >>>>>      >>>>   >       I915_VM_BIND_QUEUE_(N-1)
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       KMD will spawn an async work queue for
->> >>>>>each queue which
->> >>>>>      will
->> >>>>>      >>>>   only
->> >>>>>      >>>>   >       bind the mappings on that queue in the order of
->> >>>>>      submission.
->> >>>>>      >>>>   >       User can assign the queue to per engine
->> >>>>>or anything
->> >>>>>      >>>>like that.
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       But again here, user need to be careful and not
->> >>>>>      >>>>deadlock these
->> >>>>>      >>>>   >       queues with circular dependency of fences.
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       I prefer adding this later an as
->> >>>>>extension based on
->> >>>>>      >>>>whether it
->> >>>>>      >>>>   >       is really helping with the implementation.
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >     I can tell you right now that having
->> >>>>>everything on a
->> >>>>>      single
->> >>>>>      >>>>   in-order
->> >>>>>      >>>>   >     queue will not get us the perf we want.
->> >>>>>What vulkan
->> >>>>>      >>>>really wants
->> >>>>>      >>>>   is one
->> >>>>>      >>>>   >     of two things:
->> >>>>>      >>>>   >      1. No implicit ordering of VM_BIND ops.  They just
->> >>>>>      happen in
->> >>>>>      >>>>   whatever
->> >>>>>      >>>>   >     their dependencies are resolved and we
->> >>>>>ensure ordering
->> >>>>>      >>>>ourselves
->> >>>>>      >>>>   by
->> >>>>>      >>>>   >     having a syncobj in the VkQueue.
->> >>>>>      >>>>   >      2. The ability to create multiple VM_BIND
->> >>>>>queues.  We
->> >>>>>      need at
->> >>>>>      >>>>   least 2
->> >>>>>      >>>>   >     but I don't see why there needs to be a
->> >>>>>limit besides
->> >>>>>      >>>>the limits
->> >>>>>      >>>>   the
->> >>>>>      >>>>   >     i915 API already has on the number of
->> >>>>>engines.  Vulkan
->> >>>>>      could
->> >>>>>      >>>>   expose
->> >>>>>      >>>>   >     multiple sparse binding queues to the
->> >>>>>client if it's not
->> >>>>>      >>>>   arbitrarily
->> >>>>>      >>>>   >     limited.
->> >>>>>      >>>>
->> >>>>>      >>>>   Thanks Jason, Lionel.
->> >>>>>      >>>>
->> >>>>>      >>>>   Jason, what are you referring to when you say
->> >>>>>"limits the i915
->> >>>>>      API
->> >>>>>      >>>>   already
->> >>>>>      >>>>   has on the number of engines"? I am not sure if
->> >>>>>there is such
->> >>>>>      an uapi
->> >>>>>      >>>>   today.
->> >>>>>      >>>>
->> >>>>>      >>>> There's a limit of something like 64 total engines
->> >>>>>today based on
->> >>>>>      the
->> >>>>>      >>>> number of bits we can cram into the exec flags in
->> >>>>>execbuffer2.  I
->> >>>>>      think
->> >>>>>      >>>> someone had an extended version that allowed more
->> >>>>>but I ripped it
->> >>>>>      out
->> >>>>>      >>>> because no one was using it.  Of course,
->> >>>>>execbuffer3 might not
->> >>>>>      >>>>have that
->> >>>>>      >>>> problem at all.
->> >>>>>      >>>>
->> >>>>>      >>>
->> >>>>>      >>>Thanks Jason.
->> >>>>>      >>>Ok, I am not sure which exec flag is that, but yah,
->> >>>>>execbuffer3
->> >>>>>      probably
->> >>>>>      >>>will not have this limiation. So, we need to define a
->> >>>>>      VM_BIND_MAX_QUEUE
->> >>>>>      >>>and somehow export it to user (I am thinking of
->> >>>>>embedding it in
->> >>>>>      >>>I915_PARAM_HAS_VM_BIND. bits[0]->HAS_VM_BIND, bits[1-3]->'n'
->> >>>>>      meaning 2^n
->> >>>>>      >>>queues.
->> >>>>>      >>
->> >>>>>      >>Ah, I think you are waking about I915_EXEC_RING_MASK
->> >>>>>(0x3f) which
->> >>>>>      execbuf3
->> >>>>>
->> >>>>>    Yup!  That's exactly the limit I was talking about.
->> >>>>>
->> >>>>>      >>will also have. So, we can simply define in vm_bind/unbind
->> >>>>>      structures,
->> >>>>>      >>
->> >>>>>      >>#define I915_VM_BIND_MAX_QUEUE   64
->> >>>>>      >>        __u32 queue;
->> >>>>>      >>
->> >>>>>      >>I think that will keep things simple.
->> >>>>>      >
->> >>>>>      >Hmmm? What does execbuf2 limit has to do with how many engines
->> >>>>>      >hardware can have? I suggest not to do that.
->> >>>>>      >
->> >>>>>      >Change with added this:
->> >>>>>      >
->> >>>>>      >       if (set.num_engines > I915_EXEC_RING_MASK + 1)
->> >>>>>      >               return -EINVAL;
->> >>>>>      >
->> >>>>>      >To context creation needs to be undone and so let users
->> >>>>>create engine
->> >>>>>      >maps with all hardware engines, and let execbuf3 access
->> >>>>>them all.
->> >>>>>      >
->> >>>>>
->> >>>>>      Earlier plan was to carry I915_EXEC_RING_MAP (0x3f) to
->> >>>>>execbuff3 also.
->> >>>>>      Hence, I was using the same limit for VM_BIND queues
->> >>>>>(64, or 65 if we
->> >>>>>      make it N+1).
->> >>>>>      But, as discussed in other thread of this RFC series, we
->> >>>>>are planning
->> >>>>>      to drop this I915_EXEC_RING_MAP in execbuff3. So, there won't be
->> >>>>>      any uapi that limits the number of engines (and hence
->> >>>>>the vm_bind
->> >>>>>      queues
->> >>>>>      need to be supported).
->> >>>>>
->> >>>>>      If we leave the number of vm_bind queues to be arbitrarily large
->> >>>>>      (__u32 queue_idx) then, we need to have a hashmap for
->> >>>>>queue (a wq,
->> >>>>>      work_item and a linked list) lookup from the user
->> >>>>>specified queue
->> >>>>>      index.
->> >>>>>      Other option is to just put some hard limit (say 64 or
->> >>>>>65) and use
->> >>>>>      an array of queues in VM (each created upon first use).
->> >>>>>I prefer this.
->> >>>>>
->> >>>>>    I don't get why a VM_BIND queue is any different from any
->> >>>>>other queue or
->> >>>>>    userspace-visible kernel object.  But I'll leave those
->> >>>>>details up to
->> >>>>>    danvet or whoever else might be reviewing the implementation.
->> >>>>>    --Jason
->> >>>>>
->> >>>>>  I kind of agree here. Wouldn't be simpler to have the bind
->> >>>>>queue created
->> >>>>>  like the others when we build the engine map?
->> >>>>>
->> >>>>>  For userspace it's then just matter of selecting the right
->> >>>>>queue ID when
->> >>>>>  submitting.
->> >>>>>
->> >>>>>  If there is ever a possibility to have this work on the GPU,
->> >>>>>it would be
->> >>>>>  all ready.
->> >>>>>
->> >>>>
->> >>>>I did sync offline with Matt Brost on this.
->> >>>>We can add a VM_BIND engine class and let user create VM_BIND
->> >>>>engines (queues).
->> >>>>The problem is, in i915 engine creating interface is bound to
->> >>>>gem_context.
->> >>>>So, in vm_bind ioctl, we would need both context_id and
->> >>>>queue_idx for proper
->> >>>>lookup of the user created engine. This is bit ackward as vm_bind is an
->> >>>>interface to VM (address space) and has nothing to do with gem_context.
->> >>>
->> >>>
->> >>>A gem_context has a single vm object right?
->> >>>
->> >>>Set through I915_CONTEXT_PARAM_VM at creation or given a default
->> >>>one if not.
->> >>>
->> >>>So it's just like picking up the vm like it's done at execbuffer
->> >>>time right now : eb->context->vm
->> >>>
->> >>
->> >>Are you suggesting replacing 'vm_id' with 'context_id' in the
->> >>VM_BIND/UNBIND
->> >>ioctl and probably call it CONTEXT_BIND/UNBIND, because VM can be
->> >>obtained
->> >>from the context?
->> >
->> >
->> >Yes, because if we go for engines, they're associated with a context
->> >and so also associated with the VM bound to the context.
->> >
+>> On 13/06/2022 16:05, Niranjana Vishwanathapura wrote:
+>>> On Mon, Jun 13, 2022 at 09:24:18AM +0100, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 10/06/2022 17:14, Niranjana Vishwanathapura wrote:
+>>>>> On Fri, Jun 10, 2022 at 05:48:39PM +0300, Lionel Landwerlin wrote:
+>>>>>> On 10/06/2022 13:37, Tvrtko Ursulin wrote:
+>>>>>>>
+>>>>>>> On 10/06/2022 08:07, Niranjana Vishwanathapura wrote:
+>>>>>>>> VM_BIND and related uapi definitions
+>>>>>>>>
+>>>>>>>> Signed-off-by: Niranjana Vishwanathapura 
+>>>>>>>> <niranjana.vishwanathapura@intel.com>
+>>>>>>>> ---
+>>>>>>>>   Documentation/gpu/rfc/i915_vm_bind.h | 490 
+>>>>>>>> +++++++++++++++++++++++++++
+>>>>>>>>   1 file changed, 490 insertions(+)
+>>>>>>>>   create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>>>>
+>>>>>>>> diff --git a/Documentation/gpu/rfc/i915_vm_bind.h 
+>>>>>>>> b/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>>>> new file mode 100644
+>>>>>>>> index 000000000000..9fc854969cfb
+>>>>>>>> --- /dev/null
+>>>>>>>> +++ b/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>>>> @@ -0,0 +1,490 @@
+>>>>>>>> +/* SPDX-License-Identifier: MIT */
+>>>>>>>> +/*
+>>>>>>>> + * Copyright © 2022 Intel Corporation
+>>>>>>>> + */
+>>>>>>>> +
+>>>>>>>> +/**
+>>>>>>>> + * DOC: I915_PARAM_HAS_VM_BIND
+>>>>>>>> + *
+>>>>>>>> + * VM_BIND feature availability.
+>>>>>>>> + * See typedef drm_i915_getparam_t param.
+>>>>>>>> + * bit[0]: If set, VM_BIND is supported, otherwise not.
+>>>>>>>> + * bits[8-15]: VM_BIND implementation version.
+>>>>>>>> + * version 0 will not have VM_BIND/UNBIND timeline fence array 
+>>>>>>>> support.
+>>>>>>>> + */
+>>>>>>>> +#define I915_PARAM_HAS_VM_BIND        57
+>>>>>>>> +
+>>>>>>>> +/**
+>>>>>>>> + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
+>>>>>>>> + *
+>>>>>>>> + * Flag to opt-in for VM_BIND mode of binding during VM creation.
+>>>>>>>> + * See struct drm_i915_gem_vm_control flags.
+>>>>>>>> + *
+>>>>>>>> + * The older execbuf2 ioctl will not support VM_BIND mode of 
+>>>>>>>> operation.
+>>>>>>>> + * For VM_BIND mode, we have new execbuf3 ioctl which will not 
+>>>>>>>> accept any
+>>>>>>>> + * execlist (See struct drm_i915_gem_execbuffer3 for more 
+>>>>>>>> details).
+>>>>>>>> + *
+>>>>>>>> + */
+>>>>>>>> +#define I915_VM_CREATE_FLAGS_USE_VM_BIND    (1 << 0)
+>>>>>>>> +
+>>>>>>>> +/**
+>>>>>>>> + * DOC: I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING
+>>>>>>>> + *
+>>>>>>>> + * Flag to declare context as long running.
+>>>>>>>> + * See struct drm_i915_gem_context_create_ext flags.
+>>>>>>>> + *
+>>>>>>>> + * Usage of dma-fence expects that they complete in reasonable 
+>>>>>>>> amount of time.
+>>>>>>>> + * Compute on the other hand can be long running. Hence it is 
+>>>>>>>> not appropriate
+>>>>>>>> + * for compute contexts to export request completion dma-fence 
+>>>>>>>> to user.
+>>>>>>>> + * The dma-fence usage will be limited to in-kernel consumption 
+>>>>>>>> only.
+>>>>>>>> + * Compute contexts need to use user/memory fence.
+>>>>>>>> + *
+>>>>>>>> + * So, long running contexts do not support output fences. Hence,
+>>>>>>>> + * I915_EXEC_FENCE_SIGNAL (See &drm_i915_gem_exec_fence.flags) 
+>>>>>>>> is expected
+>>>>>>>> + * to be not used. DRM_I915_GEM_WAIT ioctl call is also not 
+>>>>>>>> supported for
+>>>>>>>> + * objects mapped to long running contexts.
+>>>>>>>> + */
+>>>>>>>> +#define I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING   (1u << 2)
+>>>>>>>> +
+>>>>>>>> +/* VM_BIND related ioctls */
+>>>>>>>> +#define DRM_I915_GEM_VM_BIND        0x3d
+>>>>>>>> +#define DRM_I915_GEM_VM_UNBIND        0x3e
+>>>>>>>> +#define DRM_I915_GEM_EXECBUFFER3    0x3f
+>>>>>>>> +#define DRM_I915_GEM_WAIT_USER_FENCE    0x40
+>>>>>>>> +
+>>>>>>>> +#define DRM_IOCTL_I915_GEM_VM_BIND DRM_IOWR(DRM_COMMAND_BASE + 
+>>>>>>>> DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
+>>>>>>>> +#define DRM_IOCTL_I915_GEM_VM_UNBIND DRM_IOWR(DRM_COMMAND_BASE 
+>>>>>>>> + DRM_I915_GEM_VM_UNBIND, struct drm_i915_gem_vm_bind)
+>>>>>>>> +#define DRM_IOCTL_I915_GEM_EXECBUFFER3 
+>>>>>>>> DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_EXECBUFFER3, struct 
+>>>>>>>> drm_i915_gem_execbuffer3)
+>>>>>>>> +#define DRM_IOCTL_I915_GEM_WAIT_USER_FENCE 
+>>>>>>>> DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_WAIT_USER_FENCE, struct 
+>>>>>>>> drm_i915_gem_wait_user_fence)
+>>>>>>>> +
+>>>>>>>> +/**
+>>>>>>>> + * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
+>>>>>>>> + *
+>>>>>>>> + * This structure is passed to VM_BIND ioctl and specifies the 
+>>>>>>>> mapping of GPU
+>>>>>>>> + * virtual address (VA) range to the section of an object that 
+>>>>>>>> should be bound
+>>>>>>>> + * in the device page table of the specified address space (VM).
+>>>>>>>> + * The VA range specified must be unique (ie., not currently 
+>>>>>>>> bound) and can
+>>>>>>>> + * be mapped to whole object or a section of the object 
+>>>>>>>> (partial binding).
+>>>>>>>> + * Multiple VA mappings can be created to the same section of 
+>>>>>>>> the object
+>>>>>>>> + * (aliasing).
+>>>>>>>> + *
+>>>>>>>> + * The @queue_idx specifies the queue to use for binding. Same 
+>>>>>>>> queue can be
+>>>>>>>> + * used for both VM_BIND and VM_UNBIND calls. All submitted 
+>>>>>>>> bind and unbind
+>>>>>>>> + * operations in a queue are performed in the order of submission.
+>>>>>>>> + *
+>>>>>>>> + * The @start, @offset and @length should be 4K page aligned. 
+>>>>>>>> However the DG2
+>>>>>>>> + * and XEHPSDV has 64K page size for device local-memory and 
+>>>>>>>> has compact page
+>>>>>>>> + * table. On those platforms, for binding device local-memory 
+>>>>>>>> objects, the
+>>>>>>>> + * @start should be 2M aligned, @offset and @length should be 
+>>>>>>>> 64K aligned.
+>>>>>>>> + * Also, on those platforms, it is not allowed to bind an 
+>>>>>>>> device local-memory
+>>>>>>>> + * object and a system memory object in a single 2M section of 
+>>>>>>>> VA range.
+>>>>>>>> + */
+>>>>>>>> +struct drm_i915_gem_vm_bind {
+>>>>>>>> +    /** @vm_id: VM (address space) id to bind */
+>>>>>>>> +    __u32 vm_id;
+>>>>>>>> +
+>>>>>>>> +    /** @queue_idx: Index of queue for binding */
+>>>>>>>> +    __u32 queue_idx;
+>>>>>>>
+>>>>>>> I have a question here to which I did not find an answer by 
+>>>>>>> browsing the old threads.
+>>>>>>>
+>>>>>>> Queue index appears to be an implicit synchronisation mechanism, 
+>>>>>>> right? Operations on the same index are executed/complete in 
+>>>>>>> order of ioctl submission?
+>>>>>>>
+>>>>>>> Do we _have_ to implement this on the kernel side and could just 
+>>>>>>> allow in/out fence and let userspace deal with it?
+>>>>>>
+>>>>>>
+>>>>>> It orders operations like in a queue. Which is kind of what 
+>>>>>> happens with existing queues/engines.
+>>>>>>
+>>>>>> If I understood correctly, it's going to be a kthread + a linked 
+>>>>>> list right?
+>>>>>>
+>>>>>
+>>>>> Yes, that is correct.
+>>>>>
+>>>>>>
+>>>>>> -Lionel
+>>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>> Arbitrary/on-demand number of queues will add the complexity on 
+>>>>>>> the kernel side which should be avoided if possible.
+>>>>>>>
+>>>>>
+>>>>> It was discussed in the other thread. Jason prefers this over putting
+>>>>> an artificial limit on number of queues (as user can anyway can 
+>>>>> exhaust
+>>>>> the memory). I think complexity in the driver is manageable.
+>>>>
+>>>> You'll need to create tracking structures on demand, with atomic 
+>>>> replace of last fence, ref counting and locking of some sort, more 
+>>>> or less?
+>>>>
+>>>
+>>> We will have a workqueue, an work item and a linked list per queue.
+>>> VM_BIND/UNBIND call will add the mapping request to the specified 
+>>> queue's
+>>> linked list and schedule the work item on the workqueue of that queue.
+>>> I am not sure what you mean by last fence and replacing it.
+>>>
+>>>>> The other option being discussed in to have the user create those
+>>>>> queues (like creating engine map) before hand and use that in vm_bind
+>>>>> and vm_unbind ioctls. This puts a limit on the number of queues.
+>>>>> But it is not clean either and not sure it is worth making the 
+>>>>> interface
+>>>>> more complex.
+>>>>> https://www.spinics.net/lists/dri-devel/msg350448.html
+>>>>
+>>>> What about the third option of a flag to return a fence (of some 
+>>>> sort) and pass in a fence? That way userspace can imagine zero or N 
+>>>> queues with very little effort on the kernel side. Was this considered?
+>>>>
+>>>
+>>> I am not clear what fence you are talking about here and how does that
+>>> help with the number of vm_bind queues. Can you eloborate?
 >>
->> Hmm...context doesn't sould like the right interface. It should be
->> VM and engine (independent of context). Engine can be virtual or soft
->> engine (kernel thread), each with its own queue. We can add an interface
->> to create such engines (independent of context). But we are anway
->> implicitly creating it when user uses a new queue_idx. If in future
->> we have hardware engines for VM_BIND operation, we can have that
->> explicit inteface to create engine instances and the queue_index
->> in vm_bind/unbind will point to those engines.
->> Anyone has any thoughts? Daniel?
->
->Exposing gem_context or intel_context to user space is a strange concept to me. A context represent some hw resources that is used to complete certain task. User space should care allocate some resources (memory, queues) and submit tasks to queues. But user space doesn't care how certain task is mapped to a HW context - driver/guc should take care of this.
->
->So a cleaner interface to me is: user space create a vm,  create gem object, vm_bind it to a vm; allocate queues (internally represent compute or blitter HW. Queue can be virtual to user) for this vm; submit tasks to queues. User can create multiple queues under one vm. One queue is only for one vm.
->
->I915 driver/guc manage the hw compute or blitter resources which is transparent to user space. When i915 or guc decide to schedule a queue (run tasks on that queue), a HW engine will be pick up and set up properly for the vm of that queue (ie., switch to page tables of that vm) - this is a context switch.
->
->From vm_bind perspective, it simply bind a gem_object to a vm. Engine/queue is not a parameter to vm_bind, as any engine can be pick up by i915/guc to execute a task using the vm bound va.
->
->I didn't completely follow the discussion here. Just share some thoughts.
->
-
-Yah, I agree.
-
-Lionel,
-How about we define the queue as
-union {
-        __u32 queue_idx;
-        __u64 rsvd;
-}
-
-If required, we can extend by expanding the 'rsvd' field to <ctx_id, queue_idx> later
-with a flag.
-
-Niranjana
-
->Regards,
->Oak
->
+>> It is actually already documented that bind/unbind will support input 
+>> and output fences - so what are these queues on top of what userspace 
+>> can already achieve by using them? Purely a convenience or there is 
+>> more to it?
 >>
->> Niranjana
->>
->> >
->> >>I think the interface is clean as a interface to VM. It is only that we
->> >>don't have a clean way to create a raw VM_BIND engine (not
->> >>associated with
->> >>any context) with i915 uapi.
->> >>May be we can add such an interface, but I don't think that is worth it
->> >>(we might as well just use a queue_idx in VM_BIND/UNBIND ioctl as I
->> >>mentioned
->> >>above).
->> >>Anyone has any thoughts?
->> >>
->> >>>
->> >>>>Another problem is, if two VMs are binding with the same defined
->> >>>>engine,
->> >>>>binding on VM1 can get unnecessary blocked by binding on VM2
->> >>>>(which may be
->> >>>>waiting on its in_fence).
->> >>>
->> >>>
->> >>>Maybe I'm missing something, but how can you have 2 vm objects
->> >>>with a single gem_context right now?
->> >>>
->> >>
->> >>No, we don't have 2 VMs for a gem_context.
->> >>Say if ctx1 with vm1 and ctx2 with vm2.
->> >>First vm_bind call was for vm1 with q_idx 1 in ctx1 engine map.
->> >>Second vm_bind call was for vm2 with q_idx 2 in ctx2 engine map. If
->> >>those two queue indicies points to same underlying vm_bind engine,
->> >>then the second vm_bind call gets blocked until the first vm_bind call's
->> >>'in' fence is triggered and bind completes.
->> >>
->> >>With per VM queues, this is not a problem as two VMs will not endup
->> >>sharing same queue.
->> >>
->> >>BTW, I just posted a updated PATCH series.
->> >>https://www.spinics.net/lists/dri-devel/msg350483.html
->> >>
->> >>Niranjana
->> >>
->> >>>
->> >>>>
->> >>>>So, my preference here is to just add a 'u32 queue' index in
->> >>>>vm_bind/unbind
->> >>>>ioctl, and the queues are per VM.
->> >>>>
->> >>>>Niranjana
->> >>>>
->> >>>>>  Thanks,
->> >>>>>
->> >>>>>  -Lionel
->> >>>>>
->> >>>>>
->> >>>>>      Niranjana
->> >>>>>
->> >>>>>      >Regards,
->> >>>>>      >
->> >>>>>      >Tvrtko
->> >>>>>      >
->> >>>>>      >>
->> >>>>>      >>Niranjana
->> >>>>>      >>
->> >>>>>      >>>
->> >>>>>      >>>>   I am trying to see how many queues we need and
->> >>>>>don't want it to
->> >>>>>      be
->> >>>>>      >>>>   arbitrarily
->> >>>>>      >>>>   large and unduely blow up memory usage and
->> >>>>>complexity in i915
->> >>>>>      driver.
->> >>>>>      >>>>
->> >>>>>      >>>> I expect a Vulkan driver to use at most 2 in the
->> >>>>>vast majority
->> >>>>>      >>>>of cases. I
->> >>>>>      >>>> could imagine a client wanting to create more than 1 sparse
->> >>>>>      >>>>queue in which
->> >>>>>      >>>> case, it'll be N+1 but that's unlikely. As far as
->> >>>>>complexity
->> >>>>>      >>>>goes, once
->> >>>>>      >>>> you allow two, I don't think the complexity is going up by
->> >>>>>      >>>>allowing N.  As
->> >>>>>      >>>> for memory usage, creating more queues means more
->> >>>>>memory.  That's
->> >>>>>      a
->> >>>>>      >>>> trade-off that userspace can make. Again, the
->> >>>>>expected number
->> >>>>>      >>>>here is 1
->> >>>>>      >>>> or 2 in the vast majority of cases so I don't think
->> >>>>>you need to
->> >>>>>      worry.
->> >>>>>      >>>
->> >>>>>      >>>Ok, will start with n=3 meaning 8 queues.
->> >>>>>      >>>That would require us create 8 workqueues.
->> >>>>>      >>>We can change 'n' later if required.
->> >>>>>      >>>
->> >>>>>      >>>Niranjana
->> >>>>>      >>>
->> >>>>>      >>>>
->> >>>>>      >>>>   >     Why?  Because Vulkan has two basic kind of bind
->> >>>>>      >>>>operations and we
->> >>>>>      >>>>   don't
->> >>>>>      >>>>   >     want any dependencies between them:
->> >>>>>      >>>>   >      1. Immediate.  These happen right after BO
->> >>>>>creation or
->> >>>>>      >>>>maybe as
->> >>>>>      >>>>   part of
->> >>>>>      >>>>   >     vkBindImageMemory() or VkBindBufferMemory().  These
->> >>>>>      >>>>don't happen
->> >>>>>      >>>>   on a
->> >>>>>      >>>>   >     queue and we don't want them serialized
->> >>>>>with anything.       To
->> >>>>>      >>>>   synchronize
->> >>>>>      >>>>   >     with submit, we'll have a syncobj in the
->> >>>>>VkDevice which
->> >>>>>      is
->> >>>>>      >>>>   signaled by
->> >>>>>      >>>>   >     all immediate bind operations and make
->> >>>>>submits wait on
->> >>>>>      it.
->> >>>>>      >>>>   >      2. Queued (sparse): These happen on a
->> >>>>>VkQueue which may
->> >>>>>      be the
->> >>>>>      >>>>   same as
->> >>>>>      >>>>   >     a render/compute queue or may be its own
->> >>>>>queue.  It's up
->> >>>>>      to us
->> >>>>>      >>>>   what we
->> >>>>>      >>>>   >     want to advertise.  From the Vulkan API
->> >>>>>PoV, this is like
->> >>>>>      any
->> >>>>>      >>>>   other
->> >>>>>      >>>>   >     queue.  Operations on it wait on and signal
->> >>>>>semaphores.       If we
->> >>>>>      >>>>   have a
->> >>>>>      >>>>   >     VM_BIND engine, we'd provide syncobjs to wait and
->> >>>>>      >>>>signal just like
->> >>>>>      >>>>   we do
->> >>>>>      >>>>   >     in execbuf().
->> >>>>>      >>>>   >     The important thing is that we don't want
->> >>>>>one type of
->> >>>>>      >>>>operation to
->> >>>>>      >>>>   block
->> >>>>>      >>>>   >     on the other.  If immediate binds are
->> >>>>>blocking on sparse
->> >>>>>      binds,
->> >>>>>      >>>>   it's
->> >>>>>      >>>>   >     going to cause over-synchronization issues.
->> >>>>>      >>>>   >     In terms of the internal implementation, I
->> >>>>>know that
->> >>>>>      >>>>there's going
->> >>>>>      >>>>   to be
->> >>>>>      >>>>   >     a lock on the VM and that we can't actually
->> >>>>>do these
->> >>>>>      things in
->> >>>>>      >>>>   >     parallel.  That's fine. Once the dma_fences have
->> >>>>>      signaled and
->> >>>>>      >>>>   we're
->> >>>>>      >>>>
->> >>>>>      >>>>   Thats correct. It is like a single VM_BIND engine with
->> >>>>>      >>>>multiple queues
->> >>>>>      >>>>   feeding to it.
->> >>>>>      >>>>
->> >>>>>      >>>> Right.  As long as the queues themselves are
->> >>>>>independent and
->> >>>>>      >>>>can block on
->> >>>>>      >>>> dma_fences without holding up other queues, I think
->> >>>>>we're fine.
->> >>>>>      >>>>
->> >>>>>      >>>>   >     unblocked to do the bind operation, I don't care if
->> >>>>>      >>>>there's a bit
->> >>>>>      >>>>   of
->> >>>>>      >>>>   >     synchronization due to locking.  That's
->> >>>>>expected.  What
->> >>>>>      >>>>we can't
->> >>>>>      >>>>   afford
->> >>>>>      >>>>   >     to have is an immediate bind operation
->> >>>>>suddenly blocking
->> >>>>>      on a
->> >>>>>      >>>>   sparse
->> >>>>>      >>>>   >     operation which is blocked on a compute job
->> >>>>>that's going
->> >>>>>      to run
->> >>>>>      >>>>   for
->> >>>>>      >>>>   >     another 5ms.
->> >>>>>      >>>>
->> >>>>>      >>>>   As the VM_BIND queue is per VM, VM_BIND on one VM
->> >>>>>doesn't block
->> >>>>>      the
->> >>>>>      >>>>   VM_BIND
->> >>>>>      >>>>   on other VMs. I am not sure about usecases here, but just
->> >>>>>      wanted to
->> >>>>>      >>>>   clarify.
->> >>>>>      >>>>
->> >>>>>      >>>> Yes, that's what I would expect.
->> >>>>>      >>>> --Jason
->> >>>>>      >>>>
->> >>>>>      >>>>   Niranjana
->> >>>>>      >>>>
->> >>>>>      >>>>   >     For reference, Windows solves this by allowing
->> >>>>>      arbitrarily many
->> >>>>>      >>>>   paging
->> >>>>>      >>>>   >     queues (what they call a VM_BIND
->> >>>>>engine/queue).  That
->> >>>>>      >>>>design works
->> >>>>>      >>>>   >     pretty well and solves the problems in
->> >>>>>question.       >>>>Again, we could
->> >>>>>      >>>>   just
->> >>>>>      >>>>   >     make everything out-of-order and require
->> >>>>>using syncobjs
->> >>>>>      >>>>to order
->> >>>>>      >>>>   things
->> >>>>>      >>>>   >     as userspace wants. That'd be fine too.
->> >>>>>      >>>>   >     One more note while I'm here: danvet said
->> >>>>>something on
->> >>>>>      >>>>IRC about
->> >>>>>      >>>>   VM_BIND
->> >>>>>      >>>>   >     queues waiting for syncobjs to
->> >>>>>materialize.  We don't
->> >>>>>      really
->> >>>>>      >>>>   want/need
->> >>>>>      >>>>   >     this.  We already have all the machinery in
->> >>>>>userspace to
->> >>>>>      handle
->> >>>>>      >>>>   >     wait-before-signal and waiting for syncobj
->> >>>>>fences to
->> >>>>>      >>>>materialize
->> >>>>>      >>>>   and
->> >>>>>      >>>>   >     that machinery is on by default.  It would actually
->> >>>>>      >>>>take MORE work
->> >>>>>      >>>>   in
->> >>>>>      >>>>   >     Mesa to turn it off and take advantage of
->> >>>>>the kernel
->> >>>>>      >>>>being able to
->> >>>>>      >>>>   wait
->> >>>>>      >>>>   >     for syncobjs to materialize. Also, getting
->> >>>>>that right is
->> >>>>>      >>>>   ridiculously
->> >>>>>      >>>>   >     hard and I really don't want to get it
->> >>>>>wrong in kernel
->> >>>>>      >>>>space.   �� When we
->> >>>>>      >>>>   >     do memory fences, wait-before-signal will
->> >>>>>be a thing.  We
->> >>>>>      don't
->> >>>>>      >>>>   need to
->> >>>>>      >>>>   >     try and make it a thing for syncobj.
->> >>>>>      >>>>   >     --Jason
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >   Thanks Jason,
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >   I missed the bit in the Vulkan spec that
->> >>>>>we're allowed to
->> >>>>>      have a
->> >>>>>      >>>>   sparse
->> >>>>>      >>>>   >   queue that does not implement either graphics
->> >>>>>or compute
->> >>>>>      >>>>operations
->> >>>>>      >>>>   :
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >     "While some implementations may include
->> >>>>>      >>>>   VK_QUEUE_SPARSE_BINDING_BIT
->> >>>>>      >>>>   >     support in queue families that also include
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >      graphics and compute support, other
->> >>>>>implementations may
->> >>>>>      only
->> >>>>>      >>>>   expose a
->> >>>>>      >>>>   > VK_QUEUE_SPARSE_BINDING_BIT-only queue
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >      family."
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >   So it can all be all a vm_bind engine that just does
->> >>>>>      bind/unbind
->> >>>>>      >>>>   >   operations.
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >   But yes we need another engine for the
->> >>>>>immediate/non-sparse
->> >>>>>      >>>>   operations.
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >   -Lionel
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >         >
->> >>>>>      >>>>   >       Daniel, any thoughts?
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       Niranjana
->> >>>>>      >>>>   >
->> >>>>>      >>>>   >       >Matt
->> >>>>>      >>>>   >       >
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> Sorry I noticed this late.
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >> -Lionel
->> >>>>>      >>>>   >       >>
->> >>>>>      >>>>   >       >>
->> >>>
->> >>>
->> >
+> 
+> Oh, the vm_bind queues are discussed in this thread.
+> https://lists.freedesktop.org/archives/intel-gfx/2022-June/299217.html
+> 
+> Apparently Vulkan has requirement for multiple queues, each queue
+> processing vm_bind/unbind calls in the order of submission.
+
+I don't see how that answers my question so I will take the freedom to 
+repeat it. What are these queues on top of what userspace can already 
+achieve by using in-out fences? Purely a convenience or there is more to it?
+
+Queue1:
+
+out_fence_A = vm_bind A
+out_fence_B = vm_bind B, in_fence=out_fence_A
+execbuf(in_fence = out_fence_B)
+
+Queue2:
+
+out_fence_C = vm_bind C
+out_fence_D = vm_bind D, in_fence=out_fence_C
+execbuf(in_fence = out_fence_D)
+
+Parallel bind:
+out_fence_E = vm_bind E
+out_fence_F = vm_bind F
+merged_fence = fence_merge(out_fence_E, out_fence_F)
+execbuf(in_fence = merged_fence)
+
+Regards,
+
+Tvrtko
