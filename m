@@ -1,48 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03EF054851F
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 14:27:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E60DC548524
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 14:34:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7554210E720;
-	Mon, 13 Jun 2022 12:27:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAABB10E522;
+	Mon, 13 Jun 2022 12:34:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FEF610E403
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 12:27:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655123226; x=1686659226;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=GH/dhRxIZe7ZCH/IVuABVLst327ENDF7aXz2fvh3P1Y=;
- b=CeFejzxAjfPiyQahhSU2VmnfLVKMPJtHcYT3NLGgpG25eLmYIMviE/FK
- yyAqoNny5/ShPfkdbJBEmRO+mjNRpz5S25THospcnJwrgcbEygwaCj0if
- H2rkNspccDoalZmlOFGSzAxhMLf3j3OVetHiPwMDUsEl81zsFf5Z3/VMr
- 17hrWaOap509xrYMG3JDZqT9EVgkFRsYNnIWB2j0KHOBeQFCmbeUqu0Dh
- gblG78XUx9t/NJGAgN9ioqa9/2Duue/y852tgIHeFxnRxdk5DHBTAXJnR
- BTzN68RBfDIj7AKdetyHK7iW9prEMLi6aX8x/03Zef/9wCNkL6e+oXyG0 g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10376"; a="261301359"
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="261301359"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2022 05:27:05 -0700
-X-IronPort-AV: E=Sophos;i="5.91,297,1647327600"; d="scan'208";a="829774511"
-Received: from tsengwil-desk1.itwn.intel.com (HELO gar) ([10.5.231.22])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2022 05:27:04 -0700
-From: William Tseng <william.tseng@intel.com>
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D34C10E522
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 12:34:41 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id d18so6034263ljc.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 05:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HWtx4fIImjTx8I7ZPlBLDjf00U3xjXt1lXOyZewZ3Zo=;
+ b=K9IldOEelq9dcN8/NS8pYNfLW8/FPiROQEmHAbK11Ry8wGhRv3rRpuq8nomMHKbK8A
+ Jxi3e1huJLuXtKwM675U4TOkqyX4QZqCjgDqPajnDC8DWTz+fa5ezsqrGQHFaokSGIZP
+ 9+i87Psj7P6+wn8gvZfF5T58k/WitC53V79Z2YYJZtfRfzIjjt+U/E2r+GijrOPQvA5z
+ 5HPfRPoK1VvW9aLIF4/R/UDzDqV8EgMycUlLdeZ+CTgmcokSJmCOTJNsqbA1McRjoSDo
+ f7mibOaelwALNrEnN/svINl5x5WNvz4qpWSr0+rup862xKzhGG3peYgK21gSNUWVgT2E
+ 45+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HWtx4fIImjTx8I7ZPlBLDjf00U3xjXt1lXOyZewZ3Zo=;
+ b=ti/nbBU8M+n/PiRegycCYX4fVbZJzR233MezyzqfVL9jnPIqMpWq5PQCRr+MKBZ4WB
+ lEszs2LxbG4kcxf1F3/4aKUZYLwULXboaqBTW36pnd9cxEShMjYyJCfvKj32EPw0xuLj
+ 307uWJDFqU8ejVIOdq5A/jVmGwyci8wi98OjPuaBzGeEa/ZxtdHW1Soxzjnr2llOQv3c
+ WJ1tuf5m1QdsgxzhfNhBsaGNVmi/A5x8NhbsBHLbiMG+ZIoFisNRbUofpGKxPyy2I48I
+ aXAfAu7RY5sHJv3wtaDqy1ZV2CqFbFxxXDhf0ZDB9+8YyUQ39Q7r31cNdJcssOynzHjH
+ qxBg==
+X-Gm-Message-State: AOAM531gtEZt+3+N3jO+y80R2DlYuCLLED6L4aB6oimzuzVgA1j01VVR
+ T2yjNTI0h9KWXp2YV/KtOaWxtXXEssI=
+X-Google-Smtp-Source: ABdhPJxjObch6Lr7n9PpEVPN2XTNrjhqQf1O5GPDnHhzYGYhTKZBqun6Wub/HLQaRuTJTBf0BsSSUw==
+X-Received: by 2002:a2e:9213:0:b0:258:fe1c:f1a with SMTP id
+ k19-20020a2e9213000000b00258fe1c0f1amr4610778ljg.490.1655123678761; 
+ Mon, 13 Jun 2022 05:34:38 -0700 (PDT)
+Received: from localhost.localdomain (81-226-149-122-no518.tbcn.telia.com.
+ [81.226.149.122]) by smtp.gmail.com with ESMTPSA id
+ j12-20020a056512344c00b004791232dd6fsm973261lfr.257.2022.06.13.05.34.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jun 2022 05:34:38 -0700 (PDT)
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/edid: ignore the CEA modes not defined in CEA-861-D
-Date: Mon, 13 Jun 2022 20:26:55 +0800
-Message-Id: <20220613122655.12432-1-william.tseng@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220613042707.8525-1-william.tseng@intel.com>
-References: <20220613042707.8525-1-william.tseng@intel.com>
+Subject: [PATCH 00/19] drm/gma500: Unify most of the lvds code
+Date: Mon, 13 Jun 2022 14:34:17 +0200
+Message-Id: <20220613123436.15185-1-patrik.r.jakobsson@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,76 +67,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lee Shawn C <shawn.c.lee@intel.com>, Wayne Lin <waynelin@amd.com>,
- William Tseng <william.tseng@intel.com>
+Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a workaround for HDMI 1.4 sink which has a CEA mode with higher vic
-than what is defined in CEA-861-D.
+Much of the lvds code for Poulsbo, Oaktrail and Cedarview are almost
+identical so there is no need to keep three copies of it. Unify as much
+as possible into one implementation. There are still things like the
+init code that can be unified but that requires unifying other parts of
+the driver first.
 
-As an example, a HDMI 1.4 sink has the video format 2560x1080p to be
-displayed and the video format is indicated by both SVD (with vic 90 and
-picture aspect ratio 64:27) and DTD.  When connecting to such sink,
-source can't output the video format in SVD because an error is returned by
-drm_hdmi_avi_infoframe_from_display_mode(), which can't fill the infoframe
-with picture aspect ratio 64:27 and the vic, which is originally 90 and is
-changed to 0 by drm_mode_cea_vic().
+Patrik Jakobsson (19):
+  drm/gma500: Unify *_lvds_get_max_backlight()
+  drm/gma500: Unify *_lvds_set_backlight()
+  drm/gma500: Unify *_lvds_set_power()
+  drm/gma500: Unify *_lvds_mode_valid()
+  drm/gma500: Unify *_lvds_encoder_dpms()
+  drm/gma500: Unify *_intel_lvds_save()
+  drm/gma500: Unify struct *_intel_lvds_priv
+  drm/gma500: Unify *_intel_lvds_restore()
+  drm/gma500: Unify *_intel_lvds_mode_fixup()
+  drm/gma500: Unify *_intel_lvds_prepare()
+  drm/gma500: Unify *_intel_lvds_commit()
+  drm/gma500: Unify *_intel_lvds_mode_set()
+  drm/gma500: Unify struct *_intel_lvds_helper_funcs
+  drm/gma500: Unify *_intel_lvds_get_modes()
+  drm/gma500: Unify struct *_intel_lvds_connector_helper_funcs
+  drm/gma500: Use i2c_bus in gma_encoder for PSB
+  drm/gma500: Unify *_intel_lvds_destroy()
+  drm/gma500: Unify *_intel_lvds_set_property()
+  drm/gma500: Unify struct *_intel_lvds_connector_funcs
 
-To work around it, do not set the vic 0 so the corresponding mode may be
-accepted in drm_hdmi_avi_infoframe_from_display_mode() and be dispalyed.
+ drivers/gpu/drm/gma500/Makefile         |   1 +
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c | 390 +-----------------
+ drivers/gpu/drm/gma500/gma_lvds.c       | 462 +++++++++++++++++++++
+ drivers/gpu/drm/gma500/gma_lvds.h       |  38 ++
+ drivers/gpu/drm/gma500/oaktrail_lvds.c  | 112 +-----
+ drivers/gpu/drm/gma500/psb_drv.h        |   1 -
+ drivers/gpu/drm/gma500/psb_intel_drv.h  |   2 -
+ drivers/gpu/drm/gma500/psb_intel_lvds.c | 507 +-----------------------
+ 8 files changed, 530 insertions(+), 983 deletions(-)
+ create mode 100644 drivers/gpu/drm/gma500/gma_lvds.c
+ create mode 100644 drivers/gpu/drm/gma500/gma_lvds.h
 
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Wayne Lin <waynelin@amd.com>
-Cc: Lee Shawn C <shawn.c.lee@intel.com>
-Signed-off-by: William Tseng <william.tseng@intel.com>
----
- drivers/gpu/drm/drm_edid.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index bc43e1b32092..a4582627ec9d 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -5876,7 +5876,8 @@ static u8 drm_mode_hdmi_vic(const struct drm_connector *connector,
- }
- 
- static u8 drm_mode_cea_vic(const struct drm_connector *connector,
--			   const struct drm_display_mode *mode)
-+			   const struct drm_display_mode *mode,
-+			   bool is_hdmi2_sink)
- {
- 	u8 vic;
- 
-@@ -5896,7 +5897,7 @@ static u8 drm_mode_cea_vic(const struct drm_connector *connector,
- 	 * HDMI 2.0 VIC range: 1 <= VIC <= 107 (CEA-861-F). So we
- 	 * have to make sure we dont break HDMI 1.4 sinks.
- 	 */
--	if (!is_hdmi2_sink(connector) && vic > 64)
-+	if (!is_hdmi2_sink && vic > 64)
- 		return 0;
- 
- 	return vic;
-@@ -5927,7 +5928,7 @@ drm_hdmi_avi_infoframe_from_display_mode(struct hdmi_avi_infoframe *frame,
- 	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
- 		frame->pixel_repeat = 1;
- 
--	vic = drm_mode_cea_vic(connector, mode);
-+	vic = drm_mode_cea_vic(connector, mode, true);
- 	hdmi_vic = drm_mode_hdmi_vic(connector, mode);
- 
- 	frame->picture_aspect = HDMI_PICTURE_ASPECT_NONE;
-@@ -5971,7 +5972,8 @@ drm_hdmi_avi_infoframe_from_display_mode(struct hdmi_avi_infoframe *frame,
- 		picture_aspect = HDMI_PICTURE_ASPECT_NONE;
- 	}
- 
--	frame->video_code = vic;
-+	frame->video_code = drm_mode_cea_vic(connector, mode,
-+						is_hdmi2_sink(connector));
- 	frame->picture_aspect = picture_aspect;
- 	frame->active_aspect = HDMI_ACTIVE_ASPECT_PICTURE;
- 	frame->scan_mode = HDMI_SCAN_MODE_UNDERSCAN;
 -- 
-2.17.1
+2.36.1
 
