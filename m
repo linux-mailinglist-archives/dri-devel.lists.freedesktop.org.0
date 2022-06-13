@@ -1,73 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740B55485DA
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:49:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B18E25485DB
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:49:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7945F10E857;
-	Mon, 13 Jun 2022 14:49:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 377F910E85D;
+	Mon, 13 Jun 2022 14:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF20E10E85D
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:49:30 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 87DAD320090B;
- Mon, 13 Jun 2022 10:49:29 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D094710E84F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:49:34 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 8EFDD320090B;
+ Mon, 13 Jun 2022 10:49:32 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 13 Jun 2022 10:49:30 -0400
+ by compute5.internal (MEProxy); Mon, 13 Jun 2022 10:49:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655131769; x=1655218169; bh=Nx
- CMaEsUwF5H/ajqcOEVyCVY11jdJAnFXAmZl2Ra3s4=; b=OAf4GZ/suNJPFRnmpX
- Sht+c7yQ6a8v8GOgLViN1zqtg9jgd63I+RWoMZu6mvivaFM46KnmWiREgMgD+xae
- WDgPM+LifZ0eS/WAIoNXCCRvMCq9O6mJipV9pEuluWL05XXEJZMTRGGldMbq6n7k
- 93jRqoaNLiQ/gEoW0CR+JwMxkdhw5WlR1sPP1+xO0ghh5FWK+vvMEUkjg96nLdPj
- eLWc5s7p3+07b/QF0DC6Oufu+IQl58oALN48kxdnboCXt8SMPx6kjixi8saTnnhd
- yB2ZmdeMRz66ME4YpWsbMZddLEKaYagmQe4D2SH1SoX/+oj0K4tXwW1ohpJWvnFc
- 2kaw==
+ :subject:subject:to:to; s=fm1; t=1655131772; x=1655218172; bh=iO
+ t3Oa3UXrMZz0PJIIBRXAPnmhF0MgeLZwnDxUdg0ak=; b=ZOTonDkoyD7rTX7D4F
+ kvc3angI0xc+wafi6yZ+1XJdZIZxD1wRcH6k0vxV0BTPmTvjtBXDxk+GEQqK7mqp
+ SEmTxLGTRd0KNQC+qEG5lC7+nTJLE+5LLJY28E/+5EJ3ayOZ49yAcpoAaFwmbi3f
+ LHP3aGdjTowRTwbTjHoHYSdyViUbDlGOdA034uG5ThV9z4WD31+iukrfnohhTdoC
+ 81WZ69bEKtUQTFGKjfi+r+STchpTtNLb8GGQMrjLdL4L0Jz+qRdYhm0tt/0xpslZ
+ 1he+3XFQWQ0Fe4AGeKubeHABTgdAg7zSUKoTa5uGwGluGNJJwYQqnAf20IXF3tTN
+ tucg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655131769; x=1655218169; bh=NxCMaEsUwF5H/
- ajqcOEVyCVY11jdJAnFXAmZl2Ra3s4=; b=WxG9Cb/1e6mMpe2afwC/IlfAFZLQL
- UtA6mqG0JyMdXMisUi6K0Ypqaxllg51+nHKaX/nywRcKbfrzRarkozOgspQlJYUJ
- f/F9i/1CE3exmfkVyb48UJD6m8WZ8PCDOh3TVnkzrUubp/D4NAioURF5FnNf7086
- C7p08hOzWD3oA1BZvGubAaE6QnDsVYUgMbw4vb9xAonpGvsTJWYy6KuJr0AL8xgA
- Qfa+fhpOME/wD5XnOh7gr557QHvhskB4pSa9gT2+pOeMqXeHvq59Bo93FkCLldiz
- dRLovsb91CVUd0JEg+TU5fm9M0ZJVng3zbD/jBS3z0U0jrMHu2JX4fS9w==
-X-ME-Sender: <xms:eE6nYgQ2naf0lFpyddwW_SEpxvfhDXeS0FbXNSAioPf4SAo74lAmMg>
- <xme:eE6nYtyzHSh19j8COa7vG7rNrHnfd7wrsSVrdd112GD22uP4arCTw3DNyQTQsY2H0
- SlD585JfYgstUD9_vg>
-X-ME-Received: <xmr:eE6nYt2UbVKfBOb5xouKLbhj_EpWZ2vU4e8uhrT2PWC2OutgvoTXmBY5ZVPuikHqnlaieGXQmpPASvBnj4FfHamESmi8uYP81gVj4WU>
+ :x-sasl-enc; s=fm2; t=1655131772; x=1655218172; bh=iOt3Oa3UXrMZz
+ 0PJIIBRXAPnmhF0MgeLZwnDxUdg0ak=; b=HgrsLw4KhIssP21BVQ4cHz6KrAKmO
+ UzeZIyHO2Yh1GZFVDdV4x3mPxpnhKLNtoJM0kfkkHTAr2f4jszkzjO/Uy2YZ4Qpe
+ R5qZeF1cC3Did7Y3TrVN+gGQHJ5OQMnbANcisjlFM/fyq53Oeya9bftU1z4bi0PU
+ UvVcsLhH/bjx5hOP4XtGgMyQYS/cTA8/6vBDvNpTx/kSke+DFq2aPgjcqPK6Omsa
+ 2L/fXkD6MP7+ReuS/USV/k2NJ/BJXxs7eHjKNsh3cqp1+uwgMvZNDJUHySnv3+QQ
+ fpd5FbQp/Pkbrd1Fzk1Hw1aMmThXBlAWZMx/MXc8Qofg2l0vIAnB9rvdw==
+X-ME-Sender: <xms:e06nYmwOD0Y41FQxgFd0N_1Es858SRnmGo945tgeM50Em1xIR_riRg>
+ <xme:e06nYiRI5JZdNyuO7fXUSD-7Pya9YFgU9aqs9pI3bhMEwbCj6ezEn1Gj5I_vpHS3_
+ BvX2p-FVSTwtw5jrd4>
+X-ME-Received: <xmr:e06nYoVnkwj2lI4U9BFBzCTxyvzXJNh00txG2pw8pVH_LBn7JZ8RaaBTRgBC5XvZaL1D_zJ_qhETTeHoJl9MZBQhpPrKrP5Qu_SefKc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedgjeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeeknecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:eE6nYkBcBrPP15_OR9C3p_5Wv6GFN4roaKLVk6I_ANktmmftYcG8cg>
- <xmx:eE6nYpiL2rdkgb4qel1D_Ds292mPRGsNLNC2oCMB16MK8AQFKAJAYQ>
- <xmx:eE6nYgqcfqLddDHo44DISW8LkxsIj0eebSh_7uPNWkuAZUqBGdyUSQ>
- <xmx:eU6nYnYZw5bgrwJjKMFfaihjyGOPYTqE2mkp7tvhdgR_RjjzPwFEWw>
+X-ME-Proxy: <xmx:e06nYsj9Qx9j_mzUK0JJXSUwCfKh5yuqPtkmhvdiKUh7xPE1MPPMcA>
+ <xmx:e06nYoCCmAbQVQ7tpYsWGuJRZrtKHkUEvmCOAnbjhfo9ihEMmzlhoQ>
+ <xmx:e06nYtIsFaOCqm0O7M0ZscnqtNr-NvEyzUnBEdfSyb1Y8pSKeOwXeA>
+ <xmx:fE6nYn6EjXdmn6TakDMt4CQe5yydg-I-fLIdYGei1RGdyZGDOnI-FQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jun 2022 10:49:28 -0400 (EDT)
+ 13 Jun 2022 10:49:31 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 27/33] drm/vc4: hdmi: Add HDMI format detection registers to
- register list
-Date: Mon, 13 Jun 2022 16:47:54 +0200
-Message-Id: <20220613144800.326124-28-maxime@cerno.tech>
+Subject: [PATCH 28/33] drm/vc4: hdmi: Add MISC_CONTROL register for vc4
+Date: Mon, 13 Jun 2022 16:47:55 +0200
+Message-Id: <20220613144800.326124-29-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613144800.326124-1-maxime@cerno.tech>
 References: <20220613144800.326124-1-maxime@cerno.tech>
@@ -92,71 +91,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-The block can detect what the incoming image timings are for
-debug purposes. Add them to the list of registers understood
-by the driver to allow easy dumping of the values.
+The MISC_CONTROL register allows configuration of pixel repetition
+for pixel doubling in the HDMI block instead of PixelValve.
+It was already defined for vc5, so add it for vc4.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h | 30 +++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-index 0198de96c7b2..5a56761e75af 100644
+index 5a56761e75af..48db438550b1 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-@@ -128,6 +128,16 @@ enum vc4_hdmi_field {
- 	HDMI_VERTB1,
- 	HDMI_VID_CTL,
- 	HDMI_MISC_CONTROL,
-+	HDMI_FORMAT_DET_1,
-+	HDMI_FORMAT_DET_2,
-+	HDMI_FORMAT_DET_3,
-+	HDMI_FORMAT_DET_4,
-+	HDMI_FORMAT_DET_5,
-+	HDMI_FORMAT_DET_6,
-+	HDMI_FORMAT_DET_7,
-+	HDMI_FORMAT_DET_8,
-+	HDMI_FORMAT_DET_9,
-+	HDMI_FORMAT_DET_10,
- };
- 
- struct vc4_hdmi_register {
-@@ -241,6 +251,16 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi0_fields[] = {
- 	VC4_HDMI_REG(HDMI_MISC_CONTROL, 0x100),
- 	VC4_HDMI_REG(HDMI_MAI_CHANNEL_MAP, 0x09c),
- 	VC4_HDMI_REG(HDMI_MAI_CONFIG, 0x0a0),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_1, 0x134),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_2, 0x138),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_3, 0x13c),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_4, 0x140),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_5, 0x144),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_6, 0x148),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_7, 0x14c),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_8, 0x150),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_9, 0x154),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_10, 0x158),
- 	VC4_HDMI_REG(HDMI_DEEP_COLOR_CONFIG_1, 0x170),
- 	VC4_HDMI_REG(HDMI_GCP_CONFIG, 0x178),
- 	VC4_HDMI_REG(HDMI_GCP_WORD_1, 0x17c),
-@@ -324,6 +344,16 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi1_fields[] = {
- 	VC4_HDMI_REG(HDMI_MISC_CONTROL, 0x100),
- 	VC4_HDMI_REG(HDMI_MAI_CHANNEL_MAP, 0x09c),
- 	VC4_HDMI_REG(HDMI_MAI_CONFIG, 0x0a0),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_1, 0x134),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_2, 0x138),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_3, 0x13c),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_4, 0x140),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_5, 0x144),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_6, 0x148),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_7, 0x14c),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_8, 0x150),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_9, 0x154),
-+	VC4_HDMI_REG(HDMI_FORMAT_DET_10, 0x158),
- 	VC4_HDMI_REG(HDMI_DEEP_COLOR_CONFIG_1, 0x170),
- 	VC4_HDMI_REG(HDMI_GCP_CONFIG, 0x178),
- 	VC4_HDMI_REG(HDMI_GCP_WORD_1, 0x17c),
+@@ -200,6 +200,7 @@ static const struct vc4_hdmi_register __maybe_unused vc4_hdmi_fields[] = {
+ 	VC4_HDMI_REG(HDMI_VERTB0, 0x00d0),
+ 	VC4_HDMI_REG(HDMI_VERTA1, 0x00d4),
+ 	VC4_HDMI_REG(HDMI_VERTB1, 0x00d8),
++	VC4_HDMI_REG(HDMI_MISC_CONTROL, 0x00e4),
+ 	VC4_HDMI_REG(HDMI_CEC_CNTRL_1, 0x00e8),
+ 	VC4_HDMI_REG(HDMI_CEC_CNTRL_2, 0x00ec),
+ 	VC4_HDMI_REG(HDMI_CEC_CNTRL_3, 0x00f0),
 -- 
 2.36.1
 
