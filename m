@@ -1,85 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88AE55499E5
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 19:24:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFF55499FF
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 19:31:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9AD10E732;
-	Mon, 13 Jun 2022 17:24:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C976610F3F0;
+	Mon, 13 Jun 2022 17:31:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7834010E732
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:24:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655141058;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yGvm3qwPoTuLTdX5NWsaOkcpvKYLKtr/ysaBv6CZIVc=;
- b=TozptT0xEY1aP5OSkkSo+GH0XDUt1LkOJXV4DM6uNDVL4mSaJYLbvW0DZyVpgsA/Dvq3Is
- WLwkGpPNIt0kVF3ZtqJ4b46smEQSQJe9RTrbk3PHJPfgLgZ8HUElwMmpo10NuNAtS/fpd3
- X9RmSVuKXM08g1j+7ORIwJeImkhX7Ys=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-412-Pmcl3pY9Mb-h14StWBmwBQ-1; Mon, 13 Jun 2022 13:24:17 -0400
-X-MC-Unique: Pmcl3pY9Mb-h14StWBmwBQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l17-20020a05600c4f1100b0039c860db521so3207908wmq.5
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 10:24:16 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16ACC10F3F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:31:04 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id o16so8025981wra.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 10:31:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=b6LI4jSTppnwbn/7MHPjsmN7q6vhTZpE2X7+c7LKVK0=;
+ b=TjSewGIwP0DCjp2l8QRZYjpF076U4CIy6nnYCGcm+6wAHhgocXZcndKQ01Sjwf9Z9x
+ aXsRs94nQKH5njHHI5X7xUl9u0+ErvEIIcs8zmW47MyZ+dMJZxJ85VMQeFMaNCAD7vy3
+ 2ELYlJ9/lA4/XTMg+JlYX2JAu6BTqdSCb+uilS5l4cRVuQ8ixXvoQHC9Xp9/sVcMQxhZ
+ 35ROofq60l6F0c8S4Ebs/EkepuPtAh3ZzaZcxkoYYHjC7CFnab4ZQp0ZI7ywJZT3HeAZ
+ YsajnPx8xEl6dED0MwsybEwHga8p1kd/sdmv+pyhisG6Wj9drHS0aIFJgwWat+9CyjoY
+ NCWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=yGvm3qwPoTuLTdX5NWsaOkcpvKYLKtr/ysaBv6CZIVc=;
- b=IKG1fF9JL5WEUsIBvRwCI8D6zFW5lmvTZjgYeNPlJL+AlGESHHdPM8hbR4ksa+gI1l
- MDC3TA/Ys265cngjAEeOgU7QpPLLK3LB+HcQiaeL6WkTenr4sQBx52Xt15nw1+V4nbtS
- 8bjZfiMGFp1TDJwsqNZk0cia6adFVMbDQEX7W3Fr5hSh0CoFipnS8fdtl/snhog+QA5y
- 9SxHNmM0rMXrSXrXKSx8VIcVIvNl/hYxodwH7KluqojOQfOYUlPuxriWdt+schMQPMXW
- AKq2wgLN4DW6h7LifklcpZ6D06fjlfi6K5xmBumppBHwaI2cDC4QCITAf/Lw58gIZzC2
- Pw9w==
-X-Gm-Message-State: AJIora8Ohx/zznVnU9jv2Yn+Y1Di59YBFv2TZvTjDtYprP6rKaRTLF+4
- CzaqKnBkn2JIkPKxKOa5EWG6Rm1JwRNfT1wZeU3SXIRIVCHk13l81hBglcF9/+nsQNITI2q6q1R
- 5Eoj0i/mMtbDVkXImUg7dBMB01s17
-X-Received: by 2002:a5d:5109:0:b0:218:40cc:a29b with SMTP id
- s9-20020a5d5109000000b0021840cca29bmr858414wrt.601.1655141055796; 
- Mon, 13 Jun 2022 10:24:15 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1umQvbmUV5kyQfsWQKm16COOgbaUu2gIG10MNTDJcGldHmXD3XO1wIjQhiRvT60PcbnoxxDAQ==
-X-Received: by 2002:a5d:5109:0:b0:218:40cc:a29b with SMTP id
- s9-20020a5d5109000000b0021840cca29bmr858386wrt.601.1655141055500; 
- Mon, 13 Jun 2022 10:24:15 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- d5-20020a5d5385000000b00213b93cff5fsm9082661wrv.98.2022.06.13.10.24.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jun 2022 10:24:15 -0700 (PDT)
-Message-ID: <bbddcf97-7ab2-209b-e777-1874557491a3@redhat.com>
-Date: Mon, 13 Jun 2022 19:24:14 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=b6LI4jSTppnwbn/7MHPjsmN7q6vhTZpE2X7+c7LKVK0=;
+ b=ebmzDbYuX4WWCs1zs942Je6jhHSf4gVcrlFDRCZjXWxLo3Huu3v+G7hKUwAqCEEVuC
+ x2EpPRXMhBe5qdeRJDTg8eOSGF9EbVga+IK0DuQCSyfQhnRLo7PwMjHajFmkBsqFzFHi
+ zi+dVZoIXAT2LVmBldSGxfMD9rQc54GU1CGSCa8w7gec3vCJZXYGHF1Q6RbLL4F0BC0y
+ 875eCknR2OUSfEZihniFrs+mXXt8YKzON8XFNyIyXkkN0YiG73VyGVHEtL0rnr7qf8oS
+ 4Yq9EikAYkeUeL1ux5KAprB7QpZ/GnmT0JO3glAuHTe3EG+sLJNlcDEfFsO9PCc9NLtI
+ 9CGQ==
+X-Gm-Message-State: AJIora+Nlte2DuvKFH+zu1OvB/33awIBvfgy5logRa+QfG7r1KusCVU6
+ ogSxnhzzSwCNYScV33wZQm4=
+X-Google-Smtp-Source: AGRyM1vtq4iKf+PhOy3uDZ8M6ggtx+BY/XhVl3NLTzqQGYY0BcpgVGbFm3Ker6Ngqo0WovrLJDRabw==
+X-Received: by 2002:a5d:46cc:0:b0:214:2d66:2d51 with SMTP id
+ g12-20020a5d46cc000000b002142d662d51mr886667wrs.349.1655141462582; 
+ Mon, 13 Jun 2022 10:31:02 -0700 (PDT)
+Received: from elementary ([94.73.36.128]) by smtp.gmail.com with ESMTPSA id
+ n4-20020a05600c3b8400b0039c5224bfcbsm14479675wms.46.2022.06.13.10.31.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jun 2022 10:31:02 -0700 (PDT)
+Date: Mon, 13 Jun 2022 19:30:58 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
+Subject: Re: [PATCH] drm/bridge: anx7625: Zero error variable when panel
+ bridge not present
+Message-ID: <20220613173058.GA132991@elementary>
+References: <20220613163705.1531721-1-nfraprado@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] Revert "fbdev: vesafb: Allow to be built if COMPILE_TEST
- is enabled"
-To: linux-kernel@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- linux-fbdev@vger.kernel.org, kernel test robot <lkp@intel.com>,
- Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20220610085450.1341880-1-javierm@redhat.com>
- <YqMTI3yxmWq/f+Gp@phenom.ffwll.local>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YqMTI3yxmWq/f+Gp@phenom.ffwll.local>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220613163705.1531721-1-nfraprado@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,40 +71,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Maxime Ripard <maxime@cerno.tech>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Tzung-Bi Shih <tzungbi@google.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ kernel@collabora.com, Sam Ravnborg <sam@ravnborg.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/10/22 11:47, Daniel Vetter wrote:
-> On Fri, Jun 10, 2022 at 10:54:50AM +0200, Javier Martinez Canillas wrote:
->> This reverts commit fa0e256450f27a7d85f65c63f05e6897954a1d53. The kernel
->> test robot reported that attempting to build the vesafb driver fails on
->> some architectures, because these don't define a `struct screen_info`.
->>
->> This leads to linking errors, for example on parisc with allyesconfig:
->>
->>   hppa-linux-ld: drivers/video/fbdev/vesafb.o: in function `vesafb_probe':
->>>> (.text+0x738): undefined reference to `screen_info'
->>>> hppa-linux-ld: (.text+0x73c): undefined reference to `screen_info'
->>    hppa-linux-ld: drivers/firmware/sysfb.o: in function `sysfb_init':
->>>> (.init.text+0x28): undefined reference to `screen_info'
->>>> hppa-linux-ld: (.init.text+0x30): undefined reference to `screen_info'
->>    hppa-linux-ld: (.init.text+0x78): undefined reference to `screen_info'
->>
->> The goal of commit fa0e256450f2 ("fbdev: vesafb: Allow to be built if
->> COMPILE_TEST is enabled") was to have more build coverage for the driver
->> but it wrongly assumed that all architectures would define a screen_info.
->>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+On Mon, Jun 13, 2022 at 12:37:05PM -0400, Nícolas F. R. A. Prado wrote:
+> While parsing the DT, the anx7625 driver checks for the presence of a
+> panel bridge on endpoint 1. If it is missing, pdata->panel_bridge stores
+> the error pointer and the function returns successfully without first
+> cleaning that variable. This is an issue since other functions later
+> check for the presence of a panel bridge by testing the trueness of that
+> variable.
 > 
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> In order to ensure proper behavior, zero out pdata->panel_bridge before
+> returning when no panel bridge is found.
+> 
+> Fixes: 9e82ea0fb1df ("drm/bridge: anx7625: switch to devm_drm_of_get_bridge")
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> 
+> ---
+> 
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index 53a5da6c49dd..3aed4de16690 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -1657,8 +1657,10 @@ static int anx7625_parse_dt(struct device *dev,
+>  
+>  	pdata->panel_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
+>  	if (IS_ERR(pdata->panel_bridge)) {
+> -		if (PTR_ERR(pdata->panel_bridge) == -ENODEV)
+> +		if (PTR_ERR(pdata->panel_bridge) == -ENODEV) {
+> +			pdata->panel_bridge = NULL;
+>  			return 0;
+> +		}
+>  
+>  		return PTR_ERR(pdata->panel_bridge);
+>  	}
+> -- 
+> 2.36.1
+> 
 
-Pushed to drm-misc (drm-misc-next). Thanks!
+Thanks for spotting this error Nícolas. As you mentioned, prior to
+9e82ea0fb1df the "pdata->panel_bridge" pointer was not modified
+(i.e. left to NULL) on the ENODEV error branch.
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+I missed it during the refactor, sorry about that.
