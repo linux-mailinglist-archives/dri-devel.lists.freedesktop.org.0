@@ -1,73 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B336F5485D9
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:49:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 740B55485DA
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:49:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0EE10E84A;
-	Mon, 13 Jun 2022 14:49:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7945F10E857;
+	Mon, 13 Jun 2022 14:49:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4BDE10E84F
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:49:27 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 87291320090B;
- Mon, 13 Jun 2022 10:49:26 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF20E10E85D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:49:30 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 87DAD320090B;
+ Mon, 13 Jun 2022 10:49:29 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 13 Jun 2022 10:49:27 -0400
+ by compute2.internal (MEProxy); Mon, 13 Jun 2022 10:49:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655131766; x=1655218166; bh=T0
- O+8P2w4AnMcUejarwwXq0/JstNCXpF5NdjzLRAKuo=; b=jgs2B8jGS4yc5BWgcz
- IeTd/zCBZn+xT/WMju30DhXr9Sqth3O7g5xpGvpjTl0S0mpHuQLwS0FKBJyqUUK5
- xwl5FF1FyFuXeoa7U5oaTrTBCGe1jWRVg9KAnUGF1KcCK6t+FS9ALcfzoJc5RT1f
- xfsVdRdHpXnKPdUWwDqg/AWeaAla0g20NDGkIcY1mB2t0JmBryqItsazmqUuYLZO
- 2LQcgrTyyAf2gyosk6nGH6CZmW8tXa6jMJ/MSO10t8fWHwcBE6+5f93pHQ3IG2XR
- tIc6Gw+dW9XqMEItoTdB6MzdZPCjhV6ONSJfrLYJT1ljIYc14PkeroMqhyNK7z7O
- jZjQ==
+ :subject:subject:to:to; s=fm1; t=1655131769; x=1655218169; bh=Nx
+ CMaEsUwF5H/ajqcOEVyCVY11jdJAnFXAmZl2Ra3s4=; b=OAf4GZ/suNJPFRnmpX
+ Sht+c7yQ6a8v8GOgLViN1zqtg9jgd63I+RWoMZu6mvivaFM46KnmWiREgMgD+xae
+ WDgPM+LifZ0eS/WAIoNXCCRvMCq9O6mJipV9pEuluWL05XXEJZMTRGGldMbq6n7k
+ 93jRqoaNLiQ/gEoW0CR+JwMxkdhw5WlR1sPP1+xO0ghh5FWK+vvMEUkjg96nLdPj
+ eLWc5s7p3+07b/QF0DC6Oufu+IQl58oALN48kxdnboCXt8SMPx6kjixi8saTnnhd
+ yB2ZmdeMRz66ME4YpWsbMZddLEKaYagmQe4D2SH1SoX/+oj0K4tXwW1ohpJWvnFc
+ 2kaw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655131766; x=1655218166; bh=T0O+8P2w4AnMc
- UejarwwXq0/JstNCXpF5NdjzLRAKuo=; b=DlL/1D7nEw7wBt62QqIi2XNXRJ/2i
- N/ohbu6tASzna5w0zxHzc8Kv9XIflRERYsTpD2xy+scFZXEnKsiHCT/ipV1cH1rA
- CKLBjWIF9mAbyFVM+46uBOjgmWfpHxOez3ix0Rqa0H5v6Djk/RVFxvLeVyJnptXH
- QR9yiuRqtW1OdOuMLw4NRDTZQmTKOk+osgZ9WjZDsymRDG93HtTbi5keAixMosdM
- 2n2Uikw+9owQ1DquhUOA8Kb28R1cCWqDwiGVMThf7miopnieOwut/g++89gPTTI1
- HO7/Jq7O6IuL+rGco3PIv2SoWwZMj1fNy9NARfeflT5Ol/3ILXoCLbcug==
-X-ME-Sender: <xms:dU6nYrXKGmF6nIQVodY4IJ0vzDCfoboP5ECj7rpXg-Fl-Y-JBs_YNA>
- <xme:dU6nYjkJWYcIoM5e5zfrPrJXiXJHHa2SnDj5pz3SnUfo67dg-XxtnKsYYtRTIbXwf
- UxJdsMLlBK6O33Ny5o>
-X-ME-Received: <xmr:dU6nYnZ7HoUitvotbSYg9jZQ1-3dQu1jrmaneCabL6Osb75DPnje5V2MP1CSkar8gzhDY_QAbkZ82Foab8h7AX88ohoqkYpjATf87dc>
+ :x-sasl-enc; s=fm2; t=1655131769; x=1655218169; bh=NxCMaEsUwF5H/
+ ajqcOEVyCVY11jdJAnFXAmZl2Ra3s4=; b=WxG9Cb/1e6mMpe2afwC/IlfAFZLQL
+ UtA6mqG0JyMdXMisUi6K0Ypqaxllg51+nHKaX/nywRcKbfrzRarkozOgspQlJYUJ
+ f/F9i/1CE3exmfkVyb48UJD6m8WZ8PCDOh3TVnkzrUubp/D4NAioURF5FnNf7086
+ C7p08hOzWD3oA1BZvGubAaE6QnDsVYUgMbw4vb9xAonpGvsTJWYy6KuJr0AL8xgA
+ Qfa+fhpOME/wD5XnOh7gr557QHvhskB4pSa9gT2+pOeMqXeHvq59Bo93FkCLldiz
+ dRLovsb91CVUd0JEg+TU5fm9M0ZJVng3zbD/jBS3z0U0jrMHu2JX4fS9w==
+X-ME-Sender: <xms:eE6nYgQ2naf0lFpyddwW_SEpxvfhDXeS0FbXNSAioPf4SAo74lAmMg>
+ <xme:eE6nYtyzHSh19j8COa7vG7rNrHnfd7wrsSVrdd112GD22uP4arCTw3DNyQTQsY2H0
+ SlD585JfYgstUD9_vg>
+X-ME-Received: <xmr:eE6nYt2UbVKfBOb5xouKLbhj_EpWZ2vU4e8uhrT2PWC2OutgvoTXmBY5ZVPuikHqnlaieGXQmpPASvBnj4FfHamESmi8uYP81gVj4WU>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedgjeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:dU6nYmUBknonNYPguIAbIlqUaWoNEsBfsj62bMjDHA7sgRL-BIqUyQ>
- <xmx:dU6nYlkay3hQ6BI0QvM_kvl2VzplYA4-oe3p3u-lhhGaKquaUR4zzw>
- <xmx:dU6nYjfKGOHuU9kak2LwdbDhoOFwQMEN99MBB_dPVqZUtjRiIq08yg>
- <xmx:dk6nYovFw3bRfV_I0CnPXY993Slo5OJxs-wplbyT3ZV6DGoRdKe8YA>
+X-ME-Proxy: <xmx:eE6nYkBcBrPP15_OR9C3p_5Wv6GFN4roaKLVk6I_ANktmmftYcG8cg>
+ <xmx:eE6nYpiL2rdkgb4qel1D_Ds292mPRGsNLNC2oCMB16MK8AQFKAJAYQ>
+ <xmx:eE6nYgqcfqLddDHo44DISW8LkxsIj0eebSh_7uPNWkuAZUqBGdyUSQ>
+ <xmx:eU6nYnYZw5bgrwJjKMFfaihjyGOPYTqE2mkp7tvhdgR_RjjzPwFEWw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jun 2022 10:49:25 -0400 (EDT)
+ 13 Jun 2022 10:49:28 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 26/33] drm/vc4: hdmi: Remove
- VC4_HDMI_SCHEDULER_CONTROL_VERT_ALWAYS_KEEPOUT
-Date: Mon, 13 Jun 2022 16:47:53 +0200
-Message-Id: <20220613144800.326124-27-maxime@cerno.tech>
+Subject: [PATCH 27/33] drm/vc4: hdmi: Add HDMI format detection registers to
+ register list
+Date: Mon, 13 Jun 2022 16:47:54 +0200
+Message-Id: <20220613144800.326124-28-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613144800.326124-1-maxime@cerno.tech>
 References: <20220613144800.326124-1-maxime@cerno.tech>
@@ -85,36 +85,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <popcornmix@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dom Cobley <popcornmix@gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-This bit ensures data island packets are never generated when disallowed
-by HDCP. As no Pi boards support HDCP this is providing an unnecessary
-restriction
+The block can detect what the incoming image timings are for
+debug purposes. Add them to the list of registers understood
+by the driver to allow easy dumping of the values.
 
-Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h | 30 +++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index c62e32f68974..fd5ff2a9bd6c 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1347,9 +1347,6 @@ static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder,
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
+index 0198de96c7b2..5a56761e75af 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
+@@ -128,6 +128,16 @@ enum vc4_hdmi_field {
+ 	HDMI_VERTB1,
+ 	HDMI_VID_CTL,
+ 	HDMI_MISC_CONTROL,
++	HDMI_FORMAT_DET_1,
++	HDMI_FORMAT_DET_2,
++	HDMI_FORMAT_DET_3,
++	HDMI_FORMAT_DET_4,
++	HDMI_FORMAT_DET_5,
++	HDMI_FORMAT_DET_6,
++	HDMI_FORMAT_DET_7,
++	HDMI_FORMAT_DET_8,
++	HDMI_FORMAT_DET_9,
++	HDMI_FORMAT_DET_10,
+ };
  
- 		WARN_ON(!(HDMI_READ(HDMI_SCHEDULER_CONTROL) &
- 			  VC4_HDMI_SCHEDULER_CONTROL_HDMI_ACTIVE));
--		HDMI_WRITE(HDMI_SCHEDULER_CONTROL,
--			   HDMI_READ(HDMI_SCHEDULER_CONTROL) |
--			   VC4_HDMI_SCHEDULER_CONTROL_VERT_ALWAYS_KEEPOUT);
- 
- 		HDMI_WRITE(HDMI_RAM_PACKET_CONFIG,
- 			   VC4_HDMI_RAM_PACKET_ENABLE);
+ struct vc4_hdmi_register {
+@@ -241,6 +251,16 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi0_fields[] = {
+ 	VC4_HDMI_REG(HDMI_MISC_CONTROL, 0x100),
+ 	VC4_HDMI_REG(HDMI_MAI_CHANNEL_MAP, 0x09c),
+ 	VC4_HDMI_REG(HDMI_MAI_CONFIG, 0x0a0),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_1, 0x134),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_2, 0x138),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_3, 0x13c),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_4, 0x140),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_5, 0x144),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_6, 0x148),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_7, 0x14c),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_8, 0x150),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_9, 0x154),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_10, 0x158),
+ 	VC4_HDMI_REG(HDMI_DEEP_COLOR_CONFIG_1, 0x170),
+ 	VC4_HDMI_REG(HDMI_GCP_CONFIG, 0x178),
+ 	VC4_HDMI_REG(HDMI_GCP_WORD_1, 0x17c),
+@@ -324,6 +344,16 @@ static const struct vc4_hdmi_register __maybe_unused vc5_hdmi_hdmi1_fields[] = {
+ 	VC4_HDMI_REG(HDMI_MISC_CONTROL, 0x100),
+ 	VC4_HDMI_REG(HDMI_MAI_CHANNEL_MAP, 0x09c),
+ 	VC4_HDMI_REG(HDMI_MAI_CONFIG, 0x0a0),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_1, 0x134),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_2, 0x138),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_3, 0x13c),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_4, 0x140),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_5, 0x144),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_6, 0x148),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_7, 0x14c),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_8, 0x150),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_9, 0x154),
++	VC4_HDMI_REG(HDMI_FORMAT_DET_10, 0x158),
+ 	VC4_HDMI_REG(HDMI_DEEP_COLOR_CONFIG_1, 0x170),
+ 	VC4_HDMI_REG(HDMI_GCP_CONFIG, 0x178),
+ 	VC4_HDMI_REG(HDMI_GCP_WORD_1, 0x17c),
 -- 
 2.36.1
 
