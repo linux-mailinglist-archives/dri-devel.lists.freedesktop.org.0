@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29D05485CF
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989215485D0
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 16:49:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12C4110E832;
-	Mon, 13 Jun 2022 14:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81C5510E83B;
+	Mon, 13 Jun 2022 14:49:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8181D10E832
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:56 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 436593200302;
- Mon, 13 Jun 2022 10:48:55 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE99410E837
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 14:48:59 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 7278C3200972;
+ Mon, 13 Jun 2022 10:48:58 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 13 Jun 2022 10:48:55 -0400
+ by compute2.internal (MEProxy); Mon, 13 Jun 2022 10:48:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655131734; x=1655218134; bh=J7
- INpyb5GsbU2D7caFWtjLc70COGRW5jhYI6chMEoD0=; b=iIE6wgazVKjKc6PE6j
- lIbYAMoWaVnueeALSFtUYlEyxbmZnlYzxuB5IsvIRezfHCLjxOZruV0ktRMIAFnh
- FcEQx21i1HbMJlrOi6VsKrV6WPJQdsSX0XxCqx1j3Rcaw6Nc3mW+tAYslgH704/m
- oKf151AdS1me1m1xIicW34bIUxCz6eepjCuG2GIbOFoCO5fFz08VXXyEB6FzaQJQ
- sYQfrpzfVc94NDaGKY+8xRc1QuMDuHsuVkFytuQ1jShMBbasyxfd4QSlo5Wsk88d
- cOW/UUrGDCMZdVXfjGMZx16MdlgSYD12UXWRHVD2rpiTYTKNZYC24gtVPDgcO0uL
- RKrA==
+ :subject:subject:to:to; s=fm1; t=1655131737; x=1655218137; bh=nd
+ A8eY6a5iymQUjqVhwiJTuImgDxQFcTtcXOYgHWCuo=; b=kAi1yhJczX7MPdDiaT
+ Izrf8qWozX2mLQZm6TE6OM6a+3T4W3XPWSykMoBWwY7qImfX6bLPuVESmvJDrerl
+ PdsPkWXg0TVhq6yWlxIHGpB2XcQqG2Of+1LmQchW/IEjK5urHYG7tD+cdnE39GYu
+ qT6/s67cny8kPAOLYqDf4VQSicV2eWl1WB1uqjgxLcANIBB5jGnSZeem9vyHwJnL
+ SyHcLBXL2CrcLAloQwlDS+8GsQ4X4p/4Tvnzz1AqcHQPu0o23Qv/57Ycbwkt4dLn
+ qJ/HdBr9QJfZXISwmULMgiW6rtTok0Q419CrSaABhUukeBGhL5m6TC8v35i/1E1C
+ 3PLA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655131734; x=1655218134; bh=J7INpyb5GsbU2
- D7caFWtjLc70COGRW5jhYI6chMEoD0=; b=SKPGHCelrsR4ah2ZF78JTNoQD/ECR
- 1DVP+gaq/vRlO7qr85PYFqQaUjK8AMewN8Wsm693zokborCvthm/16vKaG7e91UB
- mZFlmxDXOy2HhPMBKpbwH+IYwqHNyMAFZeM1IQzH7eYX/FUU/5SzPfEBgso0Dfu5
- DoRudi6JuJZ0RJUYAsJ8DjVtt2iTZR6Oh7qRin9zeyB1xXUg5L2yJKlpfDqkLPla
- 4jnFpGbxeCgO/21ce3DT7jt17caA3PmV0fXZ5D+VwQm3bzAmAFlaV3h1EzOjpuaO
- Rpy9cA5y9k7hnZNRbcJGHgzrnwNpJQxLLovTF/73TkBLJUf8AF78+jyCA==
-X-ME-Sender: <xms:Vk6nYipqZQobVci_3LnDjOdQfQwhIXW21dlHDplz8mZDcXA9aFk7ZA>
- <xme:Vk6nYgoMPh2o37V2u0exn8imNZ7E3-vudNYJvd6AKlI4993ynxyDeLItgNvElcaLh
- 52NN3YGdlvi4HVA7ms>
-X-ME-Received: <xmr:Vk6nYnN01O6g3E3-6oyj5Nvc1gBTxEKbBcpB-a_ETylXTRcNqEXf7kWdaBDltrhvPc0oL35cmfNdf-WA3mWn7ROC_QXtesjuy9rQlwo>
+ :x-sasl-enc; s=fm2; t=1655131737; x=1655218137; bh=ndA8eY6a5iymQ
+ UjqVhwiJTuImgDxQFcTtcXOYgHWCuo=; b=HMqq3PSD70IkmXYDcbbJS8M8WUd0m
+ simBT4zCdqUe+xLJTgIPLrP4Rn2bCTS75mJLsccj2rWVXttI26JoH7gYNuRBoQcI
+ L60lIpeqkzgQ0bH73ONXrXlgvz6FySmu0hSKUTpU+X0I2JalGUV4iHkHTe707lzF
+ Bc9t+lSrQMrGJqRjwmkZu9sFjnBgi7vZgjOLMk2fibwzvmoX7srK6lqmcjeCCetv
+ wflu4Uy+aRGpI2wEt7s5V2nkEDX2qj8gWaenLvy0VQgYxu2zNLeyUmzARPe7yCbb
+ pyP1xS9cefx51DBZed4XaNgk/JpxZzzi3TaoxiLmLBlCzcOw1oWC2M+ZA==
+X-ME-Sender: <xms:WU6nYomyOOgsT6i-RywMt9H8mSoGDY5mRllXJHnesDn65R1cL_ma8g>
+ <xme:WU6nYn02zXwUCKzPsMLSI5FWtHLU58KOlplrZvbuRC8o2fgo9HCeFluXcl8lDZewe
+ MFF-eG3D12iXRlpzpE>
+X-ME-Received: <xmr:WU6nYmrZ8BpH2lSip_ZU-5oupk2onTLSxu4gg9AsIxY-yI2u0XtVxtyiMhoZdsXfhYY9-h3lAS3L3JigpxwTXM3ahb61HldqdpYQiWE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddujedgjeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Vk6nYh5T_OnF2jmnOBORLtVS4KCTPNoautU_8knB7tNLf34lwZa-Tw>
- <xmx:Vk6nYh4cCDMeV6gfQyk-zQu5HLPhLlWdhrkUQGqIOQWnXgVpyZLf4w>
- <xmx:Vk6nYhiJRXT-oV1fOToQeGI6bmxm8wCXv4VyGACQqYY8nCLZtmSOFQ>
- <xmx:Vk6nYvS5-4QTMqdVpIe2dalnSJdRmc5pEF6ScCcr4zqgajz4OLb_MQ>
+X-ME-Proxy: <xmx:WU6nYkk6fXpx8-5t_nVZY-e7bZXR8-vbCt0dPv07P7hfeFeNpso9sA>
+ <xmx:WU6nYm0rP-8jtkY2R15pgwdutKZXNQdCt6sE_b1fSzO9fJznJPlVIw>
+ <xmx:WU6nYrsHTK4as33AerChKqltZEmzdmtQmbeO8shOV4r4gpYwvniX5A>
+ <xmx:WU6nYgrMS1nkR3Y53sgJcGpjDRihthNGxj3BYOOEMKTL7r4CmLXC7Q>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jun 2022 10:48:54 -0400 (EDT)
+ 13 Jun 2022 10:48:57 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 16/33] drm/vc4: dsi: Add correct stop condition to
- vc4_dsi_encoder_disable iteration
-Date: Mon, 13 Jun 2022 16:47:43 +0200
-Message-Id: <20220613144800.326124-17-maxime@cerno.tech>
+Subject: [PATCH 17/33] drm/vc4: hdmi: Disable audio if dmas property is
+ present but empty
+Date: Mon, 13 Jun 2022 16:47:44 +0200
+Message-Id: <20220613144800.326124-18-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220613144800.326124-1-maxime@cerno.tech>
 References: <20220613144800.326124-1-maxime@cerno.tech>
@@ -85,41 +85,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Phil Elwell <phil@raspberrypi.org>, stable@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+From: Phil Elwell <phil@raspberrypi.org>
 
-vc4_dsi_encoder_disable is partially an open coded version of
-drm_bridge_chain_disable, but it missed a termination condition
-in the loop for ->disable which meant that no post_disable
-calls were made.
+The dmas property is used to hold the dmaengine channel used for audio
+output.
 
-Add in the termination clause.
+Older device trees were missing that property, so if it's not there we
+disable the audio output entirely.
 
-Fixes: 033bfe7538a1 ("drm/vc4: dsi: Fix bridge chain handling")
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+However, some overlays have set an empty value to that property, mostly
+to workaround the fact that overlays cannot remove a property. Let's add
+a test for that case and if it's empty, let's disable it as well.
+
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Phil Elwell <phil@raspberrypi.org>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_dsi.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-index 333ea96fcde4..b7b2c76770dc 100644
---- a/drivers/gpu/drm/vc4/vc4_dsi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-@@ -803,6 +803,9 @@ static void vc4_dsi_encoder_disable(struct drm_encoder *encoder)
- 	list_for_each_entry_reverse(iter, &dsi->bridge_chain, chain_node) {
- 		if (iter->funcs->disable)
- 			iter->funcs->disable(iter);
-+
-+		if (iter == dsi->bridge)
-+			break;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 6aadb65eb640..c8571e17afa8 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -2034,12 +2034,12 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ 	struct device *dev = &vc4_hdmi->pdev->dev;
+ 	struct platform_device *codec_pdev;
+ 	const __be32 *addr;
+-	int index;
++	int index, len;
+ 	int ret;
+ 
+-	if (!of_find_property(dev->of_node, "dmas", NULL)) {
++	if (!of_find_property(dev->of_node, "dmas", &len) || !len) {
+ 		dev_warn(dev,
+-			 "'dmas' DT property is missing, no HDMI audio\n");
++			 "'dmas' DT property is missing or empty, no HDMI audio\n");
+ 		return 0;
  	}
  
- 	vc4_dsi_ulps(dsi, true);
 -- 
 2.36.1
 
