@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E5D54A00D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 22:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB08E54A017
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jun 2022 22:49:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BA0D10F99A;
-	Mon, 13 Jun 2022 20:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73DB710F99C;
+	Mon, 13 Jun 2022 20:49:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 870D710F99A
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 20:48:25 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-30c143c41e5so10685097b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 13:48:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3mzLXc3omMOdnceGi72bYvaWi09FowsdxsPXVOOLWCo=;
- b=UkGQCIGmy2VA2qNV54XgHFut1lruS44Ok6ioCXsNzw6LyRpNqBzZClI6cA1S7OvMcY
- Kp8PTojzzJD65eMqBbZ/0ziJq0NYOS6jETD9dqdsU4UjPK+Z84UhGwH6M7KldwNl2q3N
- 5tACt6+cbeMJpcLCaQEI4AOkuRxogFnBtnqG8=
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A408510F99C;
+ Mon, 13 Jun 2022 20:49:02 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id d5so3467046plo.12;
+ Mon, 13 Jun 2022 13:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9WbBxL9rxB+15RDo2ejuHuLx5dieu0bPV+8/sqzH35Y=;
+ b=DFL3pOHOBZ6uaJ9yEQKJPsB4zFwGx8lcLv8a8av/oYj7ZXVHpF9p4sbHQSM+SiPgzS
+ G8v5eO+mAEDU3qPqPtbDxwqMOgfXWgxVYZos6oI0uSl/K1IL6woCWmkehq9oS3XK4l7c
+ Uu+e25rcd3/Psv0Hx7k+uDQqHCQxeODGaPKqPeURWic69bRlu7thtwyczqT2D19SxSR7
+ GnxyQlGZrDiTQq4x25qyT/ovdPwjwkHlMJ+45YNBt8/4I2ATZvIgVWdMQLJt/JdszGV4
+ pRgA4XxU+dIMgKHpuiTMx2hCERNDNuVjp+s4IaereW/IY1CT/WT6dTHpkBGbium/OBgq
+ G/iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3mzLXc3omMOdnceGi72bYvaWi09FowsdxsPXVOOLWCo=;
- b=jckKkkDT86km/H01jAq+HeZaHyXycjsd20gDvpUXo0RZ+HLVtn0ZAZ/zdrVXv5WNX3
- No0at6daTy4m6z8RarJ+jkLT492Jo8+jSvQGf3Gf+I1cB2dHt/RXpftFFIm85CzgFZS/
- 1TNbMRvGydxIC/lNc7RWpXvHb5nAQCqnQEfTmWmVNBv93uwqLIKOZyjIXgG/67EUKqMb
- A5KIzgS18JF6bKDCOGVdh6Qdl1BPXjPx3VSQ9/swa4XQIazoFA4JEyqT+hft9tSioTdJ
- jla9/XYgPY5me0ZQkNsJV2GpIrXifHyS3sjjHahD40QrmE/6giejfPuyy8wXtNzRhzXU
- jyJw==
-X-Gm-Message-State: AJIora8Eery4XmoRWDLJ0cTxXc5ZtYy86bqXEC/XgfyegqcpOewBt+yB
- CPMiJijGXTMF4ZEDoaMQUQ+PDM81agh6zgtn1ey74Q==
-X-Google-Smtp-Source: AGRyM1v0IBXwwJvQ6ThVo9NueSieU7nIxKk5N1jB0CBM2omKJsAvjrCZ6AcsceMJ9k7lsbfvB7coyKa/u+Rb5K9KkgU=
-X-Received: by 2002:a0d:f882:0:b0:2f4:d830:6fd with SMTP id
- i124-20020a0df882000000b002f4d83006fdmr1775978ywf.387.1655153304756; Mon, 13
- Jun 2022 13:48:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9WbBxL9rxB+15RDo2ejuHuLx5dieu0bPV+8/sqzH35Y=;
+ b=iCrXjj1JY9vfHiw79HSzgy+qcIgcJWoY8yvYhlbItizopzPwaM2iYHNa/henXbWXgh
+ MYFv8yVELyy66GEjjxHu9b4QJsBHReuf1j0FtP2ljqGHVa/0e99pj6p0GurQk5mfAFQo
+ lk4XL5gFgh9evJSzYPFi7M2+p8KijeiwCHkC+vR8UvnCrErsordso25eX2RUrxmJQnan
+ CGBiUe3M9ZfQA4ZiuQa6MYGSWAHq3UmiGZ4wNwK4fWNQfnf8Pyvptq+iSBIx3uZxh9jS
+ Y7ConbhF4n+EVkqM+IjezYQsXl+zgzGWTV7FVukJGlZNhYHsBVM3/L/znn6q1xrBS675
+ QCPA==
+X-Gm-Message-State: AJIora+lr5KEDfjvaStFxA0e8Dx0ivDmRZsRfU4FAa7QZxVYOtMQTjL6
+ vl9lzmAUme/o6J5NlOPZqsWklicD00A=
+X-Google-Smtp-Source: AGRyM1uOTI6k/sL4XJU84/uEt3GMbUUcl5XCnXux4Nhuu8n+ayh648e2MJrOjk4qEy4XjYgEi16mpA==
+X-Received: by 2002:a17:90a:1588:b0:1e0:a45c:5c1 with SMTP id
+ m8-20020a17090a158800b001e0a45c05c1mr596780pja.65.1655153341625; 
+ Mon, 13 Jun 2022 13:49:01 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ a11-20020a170902900b00b00168b113f222sm5539202plp.173.2022.06.13.13.49.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jun 2022 13:49:00 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm: Make msm_gem_free_object() static
+Date: Mon, 13 Jun 2022 13:49:10 -0700
+Message-Id: <20220613204910.2651747-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220609181106.3695103-1-pmalani@chromium.org>
- <20220609181106.3695103-6-pmalani@chromium.org>
- <20220613204544.onfazkv4ciphddm3@notapiano>
-In-Reply-To: <20220613204544.onfazkv4ciphddm3@notapiano>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Mon, 13 Jun 2022 13:48:13 -0700
-Message-ID: <CACeCKacaq_6zc9daL38VycCxWaNvVHFETBfytrDXTBCa3Y3jRw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/7] drm/bridge: anx7625: Register number of Type C
- switches
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,120 +67,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Tzung-Bi Shih <tzungbi@google.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
- Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi N=C3=ADcolas,
+From: Rob Clark <robdclark@chromium.org>
 
-On Mon, Jun 13, 2022 at 1:45 PM N=C3=ADcolas F. R. A. Prado
-<nfraprado@collabora.com> wrote:
->
-> Hi Prashant,
->
-> On Thu, Jun 09, 2022 at 06:09:44PM +0000, Prashant Malani wrote:
-> > Parse the "switches" node, if available, and count and store the number
-> > of Type-C switches within it. Since we currently don't do anything with
-> > this info, no functional changes are expected from this change.
-> >
-> > This patch sets a foundation for the actual registering of Type-C
-> > switches with the Type-C connector class framework.
-> >
-> > Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> > ---
-> >
-> > Changes since v1:
-> > - No changes.
-> >
-> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 20 ++++++++++++++++++++
-> >  drivers/gpu/drm/bridge/analogix/anx7625.h |  1 +
-> >  2 files changed, 21 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/dr=
-m/bridge/analogix/anx7625.c
-> > index 53a5da6c49dd..07ed44c6b839 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > @@ -2581,6 +2581,22 @@ static void anx7625_runtime_disable(void *data)
-> >       pm_runtime_disable(data);
-> >  }
-> >
-> > +static int anx7625_register_typec_switches(struct device *device, stru=
-ct anx7625_data *ctx)
-> > +{
-> > +     struct device_node *of =3D NULL;
-> > +     int ret =3D 0;
-> > +
-> > +     of =3D of_get_child_by_name(device->of_node, "switches");
-> > +     if (!of)
-> > +             return -ENODEV;
-> > +
-> > +     ctx->num_typec_switches =3D of_get_child_count(of);
-> > +     if (ctx->num_typec_switches <=3D 0)
-> > +             return -ENODEV;
->
-> Since the hardware only allows at most 2 switches (based on the dt-bindin=
-gs),
-> you should have a define for that limit and check that it isn't exceeded =
-here.
+Misc small cleanup I noticed.  Not called from another object file since
+3c9edd9c85f5 ("drm/msm: Introduce GEM object funcs")
 
-This is already enforced by the DT binding (see the
-"patternProperties" in patch 4/7, suggested by Krzysztof in the
-previous version)
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gem.c | 2 +-
+ drivers/gpu/drm/msm/msm_gem.h | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
->
-> Thanks,
-> N=C3=ADcolas
->
-> > +
-> > +     return ret;
-> > +}
-> > +
-> >  static int anx7625_i2c_probe(struct i2c_client *client,
-> >                            const struct i2c_device_id *id)
-> >  {
-> > @@ -2686,6 +2702,10 @@ static int anx7625_i2c_probe(struct i2c_client *=
-client,
-> >       if (platform->pdata.intp_irq)
-> >               queue_work(platform->workqueue, &platform->work);
-> >
-> > +     ret =3D anx7625_register_typec_switches(dev, platform);
-> > +     if (ret)
-> > +             dev_info(dev, "Didn't register Type C switches, err: %d\n=
-", ret);
-> > +
-> >       platform->bridge.funcs =3D &anx7625_bridge_funcs;
-> >       platform->bridge.of_node =3D client->dev.of_node;
-> >       if (!anx7625_of_panel_on_aux_bus(&client->dev))
-> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/dr=
-m/bridge/analogix/anx7625.h
-> > index e257a84db962..d5cbca708842 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> > @@ -473,6 +473,7 @@ struct anx7625_data {
-> >       struct drm_connector *connector;
-> >       struct mipi_dsi_device *dsi;
-> >       struct drm_dp_aux aux;
-> > +     int num_typec_switches;
-> >  };
-> >
-> >  #endif  /* __ANX7625_H__ */
-> > --
-> > 2.36.1.476.g0c4daa206d-goog
-> >
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 35845e273d81..3ef7ada59392 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -1004,7 +1004,7 @@ void msm_gem_describe_objects(struct list_head *list, struct seq_file *m)
+ #endif
+ 
+ /* don't call directly!  Use drm_gem_object_put() */
+-void msm_gem_free_object(struct drm_gem_object *obj)
++static void msm_gem_free_object(struct drm_gem_object *obj)
+ {
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	struct drm_device *dev = obj->dev;
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 6b7d5bb3b575..d608339c1643 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -175,7 +175,6 @@ void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu);
+ void msm_gem_active_put(struct drm_gem_object *obj);
+ int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout);
+ int msm_gem_cpu_fini(struct drm_gem_object *obj);
+-void msm_gem_free_object(struct drm_gem_object *obj);
+ int msm_gem_new_handle(struct drm_device *dev, struct drm_file *file,
+ 		uint32_t size, uint32_t flags, uint32_t *handle, char *name);
+ struct drm_gem_object *msm_gem_new(struct drm_device *dev,
+-- 
+2.36.1
+
