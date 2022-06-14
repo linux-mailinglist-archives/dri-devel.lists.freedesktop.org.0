@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA68354A304
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 02:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A54E54A305
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 02:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5198310FD14;
-	Tue, 14 Jun 2022 00:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC0B110FD1A;
+	Tue, 14 Jun 2022 00:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
- [IPv6:2001:4860:4864:20::2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D82EC10FD14
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 00:02:56 +0000 (UTC)
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-fe539f9afbso10538294fac.5
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:02:56 -0700 (PDT)
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2595410FD17
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 00:03:00 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id s124so9766397oia.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:03:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FGgyy7KZJL6jZflObDRw+FVJFM0Z/5sowg3UO39vA7M=;
- b=bw5oNX+9u2SnX2UDsqc5vrleIxNK7Xw7yiG5JG1gkTFeL1oGcd9Y6shWIZE7fQWm1z
- OU+sR2nYgUcv4RcNfJ+QmaI37R4HYntLG7eAK+HCm4tR2lrTw6hFBpdAiJmO7nY+iyFB
- zRmN0NXf5fUsCMNwchdz3UP5Vi+ZpWdqOjg73NuqMNh6vS7fBl+bYfINpbKJunIHYIBX
- YlwJTZvWUpS25MuWpMMkW3vO5CJSj1NrfFrxTgmKIGMndooAvHOrmIWxvs/b+k/JR2Hb
- 4JfrHXXP4qYLVQp91Db5I7ITGwKruMX+qOsW2yGMAG5hV/sKXxPe0l3GQqn+vHJ/g/k7
- 3EsQ==
+ bh=H9jvaz+TKhTQQ94jOPEMuxEBJ78Jbnz5dqMWHsk+m9k=;
+ b=ImnqCiba5X1AT2qo6Gd4aKvmnbdLHL0Cen4rkYU6mmTlz9J/1yqh3kosCf0pwanD34
+ whoHo+DOkjm7aFxiEoYx2xSMwCdJYREWM3R4oz88kIpCz4GnYtYGD86ZpmhCl1gOQRJc
+ FFgFfPoJCShpOaA7DrmvTdYJYfwFlLtjRWB0tMbgvwKV2UUTa0hPXtQWE7mFoGBEA6JD
+ F17Xo4yCFetiiKKJJAfDQBlUj0Zr85da0tchvVqc2GSrmv09BIVTwa8aV504HYtn/TO8
+ 0GIcAOBZseufrByMZCrZzIivtjGK+9Zo9BkB3Gpm4gnUb9w2N4QuaNAFLMJzJuaELrim
+ cxUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FGgyy7KZJL6jZflObDRw+FVJFM0Z/5sowg3UO39vA7M=;
- b=jOAmhJv1nTkLQ+frscln6APXzFapFqsmhCHwjE78wBu00MvBoWYGOP6m/2Y/0rJ212
- I51rU9a3k5nYu26lhpCvYr4ce48iIO0QdQGplbfkmoqojHZVB5S2lOLaEwKRSwFDoTE/
- EX8HQLf427z1GGssQhaQgKGUDXEWzuhNby/MFcnCAEEJCgf9to7jFu0RVAExhX2jKLvZ
- 0rdjxUek/G3SOe7b86MOLRnwfvx1008H3u/8yvyPm8ydsU8N+bxBNT7XATioarTxU69U
- zFoKL1tGk4OpeR2xhNSTq5of8RuQ0mLx1CdiXet5vfZjowzZ815Z+9QiId2Aa0WzuTC1
- MTSA==
-X-Gm-Message-State: AJIora9j+Siy9c+N9dcxb4CiRnK0k4yQs/cOGPkJYcg2+I1Mnpq24jOM
- 20REn7y1J4AwMbO6J1/nbHs=
-X-Google-Smtp-Source: AGRyM1v0QQYKhLoVE4uSlYr15y5ZCumzp/xKgCgLGpgiwAVRmgqCOJ7h6JlunNny8bdPMkWgIAhf6Q==
-X-Received: by 2002:a05:6870:828d:b0:f3:4dd7:5ceb with SMTP id
- q13-20020a056870828d00b000f34dd75cebmr821680oae.294.1655164976088; 
- Mon, 13 Jun 2022 17:02:56 -0700 (PDT)
+ bh=H9jvaz+TKhTQQ94jOPEMuxEBJ78Jbnz5dqMWHsk+m9k=;
+ b=j7WMWu8I/kTN4nDxnoElEpSmAJDRyv68DNDBjZsuusroPLzx0r33jzthlAZVxVRt6Y
+ 64mMfYy4G94odNS3T4oSJpsME8cIn+LXRjKmPvcXcLPRFuFWU8DoK3EmS5U4X5PdiPG8
+ Bc5y/BdrefcXijch5BkBeu//zpqRKOrIC0sod2YuZKqfsA+ri4X3HWv8zRLIM6RRtgvF
+ kQ+2nWnBJFFQawmlMlXULRrEBLMRqzZdg3WdMoM7/j2cK5rk+kYSdrnWeYrJVQnrY/ef
+ PY7Er1JIUOVIaff8R17jWD/7TcdMs4hZjgf3GFoZ5WbNzIMla3OUMtd6FNBBZFLGVYB8
+ b5fg==
+X-Gm-Message-State: AOAM532A0QSC58ww2tRR5VTIQz9YvDh8efFCe3Cajdxn41ES7/BWEltP
+ xnv1JMM75uglKB+rVREGdDw=
+X-Google-Smtp-Source: ABdhPJy8OHVItRKn0eX0CSPeS8eVKi9GXLKA+WfyhWw8Jn/CAs7nhqm3+IHcMRdE4wxpYVzZRYTDPg==
+X-Received: by 2002:a05:6808:1387:b0:32b:1e76:e60 with SMTP id
+ c7-20020a056808138700b0032b1e760e60mr731899oiw.172.1655164979176; 
+ Mon, 13 Jun 2022 17:02:59 -0700 (PDT)
 Received: from localhost.localdomain ([2804:431:c7f5:a472:4c3:87f9:70d2:df2e])
  by smtp.googlemail.com with ESMTPSA id
- y23-20020a056808061700b0032b99637366sm3831232oih.25.2022.06.13.17.02.53
+ y23-20020a056808061700b0032b99637366sm3831232oih.25.2022.06.13.17.02.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 17:02:55 -0700 (PDT)
+ Mon, 13 Jun 2022 17:02:59 -0700 (PDT)
 From: Igor Torrente <igormtorrente@gmail.com>
 To: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, ppaalanen@gmail.com,
  tzimmermann@suse.de
-Subject: [PATCH v6 7/9] drm: vkms: Supports to the case where primary plane
- doesn't match the CRTC
-Date: Mon, 13 Jun 2022 21:02:24 -0300
-Message-Id: <20220614000226.93297-8-igormtorrente@gmail.com>
+Subject: [PATCH v6 8/9] drm: vkms: Adds XRGB_16161616 and ARGB_1616161616
+ formats
+Date: Mon, 13 Jun 2022 21:02:25 -0300
+Message-Id: <20220614000226.93297-9-igormtorrente@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220614000226.93297-1-igormtorrente@gmail.com>
 References: <20220614000226.93297-1-igormtorrente@gmail.com>
@@ -78,188 +77,164 @@ Cc: hamohammed.sa@gmail.com, airlied@linux.ie, leandro.ribeiro@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We will remove the current assumption that the primary plane has the
-same size and position as CRTC and that the primary plane is the
-bottom-most in zpos order, or is even enabled. At least as far
-as the blending machinery is concerned.
+This will be useful to write tests that depends on these formats.
 
-For that we will add CRTC dimension information to `vkms_crtc_state`
-and add a opaque black backgound color.
+ARGB and XRGB follows the a similar implementation of the former formats.
+Just adjusting for 16 bits per channel.
 
-Because now we need to fill the background, we had a loss in
-performance with this change. Results running the IGT[1] test
-`igt@kms_cursor_crc@pipe-a-cursor-512x512-onscreen` ten times:
-
-|                  Frametime                   |
-|:--------------------------------------------:|
-|  Implementation |  Previous |   This commit  |
-|:---------------:|:---------:|:--------------:|
-| frametime range |  5~18 ms  |     10~22 ms   |
-|     Average     |  8.47 ms  |     12.32 ms   |
-
-[1] IGT commit id: bc3f6833a12221a46659535dac06ebb312490eb4
-
-V6: Improve the commit description (Pekka Paalanen).
-    Update some comments (Pekka Paalanen).
-    Remove some fields from `vkms_crtc_state` and move where
-    some variables are set (Pekka Paalanen).
+V3: Adapt the handlers to the new format introduced in patch 7 V3.
+V5: Minor improvements
+    Added le16_to_cpu/cpu_to_le16 to the 16 bits color read/writes.
 
 Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
 ---
- Documentation/gpu/vkms.rst            |  3 +-
- drivers/gpu/drm/vkms/vkms_composer.c  | 59 +++++++++++++--------------
- drivers/gpu/drm/vkms/vkms_writeback.c |  4 ++
- 3 files changed, 33 insertions(+), 33 deletions(-)
+ drivers/gpu/drm/vkms/vkms_formats.c   | 77 +++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_plane.c     |  5 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c |  2 +
+ 3 files changed, 83 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index a49e4ae92653..49db221c0f52 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -121,8 +121,7 @@ There's lots of plane features we could add support for:
- - ARGB format on primary plane: blend the primary plane into background with
-   translucent alpha.
- 
--- Support when the primary plane isn't exactly matching the output size: blend
--  the primary plane into the black background.
-+- Add background color KMS property[Good to get started].
- 
- - Full alpha blending on all planes.
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 5b1a8bdd8268..8e53fa80742b 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -61,6 +61,13 @@ static bool check_y_limit(struct vkms_frame_info *frame_info, int y)
- 	return false;
- }
- 
-+static void fill_background(const struct pixel_argb_u16 *background_color,
-+			    struct line_buffer *output_buffer)
-+{
-+	for (size_t i = 0; i < output_buffer->n_pixels; i++)
-+		output_buffer->pixels[i] = *background_color;
-+}
-+
- /**
-  * @wb_frame_info: The writeback frame buffer metadata
-  * @crtc_state: The crtc state
-@@ -78,21 +85,17 @@ static void blend(struct vkms_writeback_job *wb,
- 		  struct line_buffer *output_buffer, size_t row_size)
- {
- 	struct vkms_plane_state **plane = crtc_state->active_planes;
--	struct vkms_frame_info *primary_plane_info = plane[0]->frame_info;
- 	u32 n_active_planes = crtc_state->num_active_planes;
- 
--	int y_dst = primary_plane_info->dst.y1;
--	int h_dst = drm_rect_height(&primary_plane_info->dst);
--	int y_limit = y_dst + h_dst;
-+	const struct pixel_argb_u16 background_color = { .a = 0xffff };
- 
--	for (size_t y = y_dst; y < y_limit; y++) {
--		plane[0]->plane_read(output_buffer, primary_plane_info, y);
-+	size_t crtc_y_limit = crtc_state->base.crtc->mode.vdisplay;
- 
--		/* If there are other planes besides primary, we consider the active
--		 * planes should be in z-order and compose them associatively:
--		 * ((primary <- overlay) <- cursor)
--		 */
--		for (size_t i = 1; i < n_active_planes; i++) {
-+	for (size_t y = 0; y < crtc_y_limit; y++) {
-+		fill_background(&background_color, output_buffer);
-+
-+		/* The active planes are composed associatively in z-order. */
-+		for (size_t i = 0; i < n_active_planes; i++) {
- 			if (!check_y_limit(plane[i]->frame_info, y))
- 				continue;
- 
-@@ -124,14 +127,24 @@ static int check_format_funcs(struct vkms_crtc_state *crtc_state,
- 	return 0;
- }
- 
-+static int check_iosys_map(struct vkms_crtc_state *crtc_state)
-+{
-+	struct vkms_plane_state **plane_state = crtc_state->active_planes;
-+	u32 n_active_planes = crtc_state->num_active_planes;
-+
-+	for (size_t i = 0; i < n_active_planes; i++)
-+		if (iosys_map_is_null(&plane_state[i]->frame_info->map[0]))
-+			return -1;
-+
-+	return 0;
-+}
-+
- static int compose_active_planes(struct vkms_writeback_job *active_wb,
- 				 struct vkms_crtc_state *crtc_state,
- 				 u32 *crc32)
- {
- 	size_t line_width, pixel_size = sizeof(struct pixel_argb_u16);
--	struct vkms_frame_info *primary_plane_info = NULL;
- 	struct line_buffer output_buffer, stage_buffer;
--	struct vkms_plane_state *act_plane = NULL;
- 	int ret = 0;
- 
- 	/*
-@@ -142,22 +155,13 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
- 	 */
- 	static_assert(sizeof(struct pixel_argb_u16) == 8);
- 
--	if (crtc_state->num_active_planes >= 1) {
--		act_plane = crtc_state->active_planes[0];
--		if (act_plane->base.base.plane->type == DRM_PLANE_TYPE_PRIMARY)
--			primary_plane_info = act_plane->frame_info;
--	}
--
--	if (!primary_plane_info)
--		return -EINVAL;
--
--	if (WARN_ON(iosys_map_is_null(&primary_plane_info->map[0])))
-+	if (WARN_ON(check_iosys_map(crtc_state)))
- 		return -EINVAL;
- 
- 	if (WARN_ON(check_format_funcs(crtc_state, active_wb)))
- 		return -EINVAL;
- 
--	line_width = drm_rect_width(&primary_plane_info->dst);
-+	line_width = crtc_state->base.crtc->mode.hdisplay;
- 	stage_buffer.n_pixels = line_width;
- 	output_buffer.n_pixels = line_width;
- 
-@@ -174,13 +178,6 @@ static int compose_active_planes(struct vkms_writeback_job *active_wb,
- 		goto free_stage_buffer;
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+index ca4bfcac686b..8b651ffcc743 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
++++ b/drivers/gpu/drm/vkms/vkms_formats.c
+@@ -78,6 +78,41 @@ static void XRGB8888_to_argb_u16(struct line_buffer *stage_buffer,
  	}
+ }
  
--	if (active_wb) {
--		struct vkms_frame_info *wb_frame_info = &active_wb->wb_frame_info;
--
--		wb_frame_info->src = primary_plane_info->src;
--		wb_frame_info->dst = primary_plane_info->dst;
--	}
--
- 	blend(active_wb, crtc_state, crc32, &stage_buffer,
- 	      &output_buffer, line_width * pixel_size);
++static void ARGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
++				     const struct vkms_frame_info *frame_info,
++				     int y)
++{
++	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
++	u16 *src_pixels = get_packed_src_addr(frame_info, y);
++	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
++			    stage_buffer->n_pixels);
++
++	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
++		out_pixels[x].a = le16_to_cpu(src_pixels[3]);
++		out_pixels[x].r = le16_to_cpu(src_pixels[2]);
++		out_pixels[x].g = le16_to_cpu(src_pixels[1]);
++		out_pixels[x].b = le16_to_cpu(src_pixels[0]);
++	}
++}
++
++static void XRGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
++				     const struct vkms_frame_info *frame_info,
++				     int y)
++{
++	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
++	u16 *src_pixels = get_packed_src_addr(frame_info, y);
++	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
++			    stage_buffer->n_pixels);
++
++	for (size_t x = 0; x < x_limit; x++, src_pixels += 4) {
++		out_pixels[x].a = (u16)0xffff;
++		out_pixels[x].r = le16_to_cpu(src_pixels[2]);
++		out_pixels[x].g = le16_to_cpu(src_pixels[1]);
++		out_pixels[x].b = le16_to_cpu(src_pixels[0]);
++	}
++}
++
++
+ /*
+  * The following  functions take an line of argb_u16 pixels from the
+  * src_buffer, convert them to a specific format, and store them in the
+@@ -130,6 +165,40 @@ static void argb_u16_to_XRGB8888(struct vkms_frame_info *frame_info,
+ 	}
+ }
  
++static void argb_u16_to_ARGB16161616(struct vkms_frame_info *frame_info,
++				     const struct line_buffer *src_buffer, int y)
++{
++	int x_dst = frame_info->dst.x1;
++	u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
++	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
++	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
++			    src_buffer->n_pixels);
++
++	for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
++		dst_pixels[3] = cpu_to_le16(in_pixels[x].a);
++		dst_pixels[2] = cpu_to_le16(in_pixels[x].r);
++		dst_pixels[1] = cpu_to_le16(in_pixels[x].g);
++		dst_pixels[0] = cpu_to_le16(in_pixels[x].b);
++	}
++}
++
++static void argb_u16_to_XRGB16161616(struct vkms_frame_info *frame_info,
++				     const struct line_buffer *src_buffer, int y)
++{
++	int x_dst = frame_info->dst.x1;
++	u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
++	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
++	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
++			    src_buffer->n_pixels);
++
++	for (size_t x = 0; x < x_limit; x++, dst_pixels += 4) {
++		dst_pixels[3] = 0xffff;
++		dst_pixels[2] = cpu_to_le16(in_pixels[x].r);
++		dst_pixels[1] = cpu_to_le16(in_pixels[x].g);
++		dst_pixels[0] = cpu_to_le16(in_pixels[x].b);
++	}
++}
++
+ frame_to_line_func get_frame_to_line_function(u32 format)
+ {
+ 	switch (format) {
+@@ -137,6 +206,10 @@ frame_to_line_func get_frame_to_line_function(u32 format)
+ 		return &ARGB8888_to_argb_u16;
+ 	case DRM_FORMAT_XRGB8888:
+ 		return &XRGB8888_to_argb_u16;
++	case DRM_FORMAT_ARGB16161616:
++		return &ARGB16161616_to_argb_u16;
++	case DRM_FORMAT_XRGB16161616:
++		return &XRGB16161616_to_argb_u16;
+ 	default:
+ 		return NULL;
+ 	}
+@@ -149,6 +222,10 @@ line_to_frame_func get_line_to_frame_function(u32 format)
+ 		return &argb_u16_to_ARGB8888;
+ 	case DRM_FORMAT_XRGB8888:
+ 		return &argb_u16_to_XRGB8888;
++	case DRM_FORMAT_ARGB16161616:
++		return &argb_u16_to_ARGB16161616;
++	case DRM_FORMAT_XRGB16161616:
++		return &argb_u16_to_XRGB16161616;
+ 	default:
+ 		return NULL;
+ 	}
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index 7a479a714565..0e33e3471d40 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -14,11 +14,14 @@
+ 
+ static const u32 vkms_formats[] = {
+ 	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_XRGB16161616
+ };
+ 
+ static const u32 vkms_plane_formats[] = {
+ 	DRM_FORMAT_ARGB8888,
+-	DRM_FORMAT_XRGB8888
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_XRGB16161616,
++	DRM_FORMAT_ARGB16161616
+ };
+ 
+ static struct drm_plane_state *
 diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index d2aabb52cb46..974db5defce4 100644
+index 974db5defce4..c417f94be2a2 100644
 --- a/drivers/gpu/drm/vkms/vkms_writeback.c
 +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -122,6 +122,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
- 	struct drm_connector_state *conn_state = wb_conn->base.state;
- 	struct vkms_crtc_state *crtc_state = output->composer_state;
- 	struct drm_framebuffer *fb = connector_state->writeback_job->fb;
-+	u16 crtc_height = crtc_state->base.crtc->mode.vdisplay;
-+	u16 crtc_width = crtc_state->base.crtc->mode.hdisplay;
- 	struct vkms_writeback_job *active_wb;
- 	struct vkms_frame_info *wb_frame_info;
- 	u32 wb_format = fb->format->format;
-@@ -143,6 +145,8 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
- 	spin_unlock_irq(&output->composer_lock);
- 	drm_writeback_queue_job(wb_conn, connector_state);
- 	active_wb->wb_write = get_line_to_frame_function(wb_format);
-+	drm_rect_init(&wb_frame_info->src, 0, 0, crtc_width, crtc_height);
-+	drm_rect_init(&wb_frame_info->dst, 0, 0, crtc_width, crtc_height);
- }
+@@ -15,6 +15,8 @@
  
- static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
+ static const u32 vkms_wb_formats[] = {
+ 	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_XRGB16161616,
++	DRM_FORMAT_ARGB16161616
+ };
+ 
+ static const struct drm_connector_funcs vkms_wb_connector_funcs = {
 -- 
 2.30.2
 
