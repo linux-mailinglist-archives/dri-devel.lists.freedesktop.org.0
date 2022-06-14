@@ -1,45 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D2654B819
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 19:53:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8246754B84A
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 20:10:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D91EF1127D2;
-	Tue, 14 Jun 2022 17:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 680751129FB;
+	Tue, 14 Jun 2022 18:09:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D8351127D1;
- Tue, 14 Jun 2022 17:53:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=Hsz3tB2pF9zm4YWcB7TwV89cMXBPp1AL0XArYJ78aRU=; b=gIIn6VZH752F+AYXhhL393cOYh
- dCndDcyUyAnhJPYJw5prnJ707ouGtGZ21nOTITrRsZkAJohIrpaKlrDdWXFxlkRjDsTGSK4sFhKpT
- b0Nteho2MV31/Fs/NaGavt7FIpjOYprRjEHec/uNGjXf/VbsCGVL//uu2oDaWbYswv4ntr/aF8WeD
- a3CB0cq0nsUnar7b5pGE4WJXIY/kCPnfp1Or64I7mm4z/XdF/12L8zr6ou8AxnH/C11Dht2Mk/No+
- swNL1JF7SfVz1lQtcpRM+C9330LwBPiVkXoTcCMYG4JTAOX7SLWxLWRUw/VMPaND/lGpXg5DIslEa
- zqvkh33Q==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1o1Aix-000NI0-G9; Tue, 14 Jun 2022 17:53:08 +0000
-Message-ID: <54173da3-8513-be7e-4351-227995688632@infradead.org>
-Date: Tue, 14 Jun 2022 10:53:01 -0700
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EFD11129F4
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 18:09:57 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id x17so12325950wrg.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 11:09:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=5HS94b3zbhVHb3Euo3cragOg32oYy8HF4UEWBUR8dUc=;
+ b=V3qhmoGdsgNZcH8lUWlVMk6P90TX4Owzcc39OBsyC5vIH2wHwzKrMW2ejWwQzJzuXg
+ lwSR1flwIYS+63bofMdKCitcj60wIN4X8YCqeuer8MH3GXN21xbu117aIIboDPyPh1j7
+ 4DZxi8Go2FK2Gs8qw+hiNhpo+TlTJnWNBi/Epi3uupwSxEVroA/KnwW0ToHp/AaHf81m
+ RWc2VnuSo3Fs7a6MLqpj1+1UXkJghCJkYRKi9/tBoWOHYOq/csFT6Kp7CiP3XMwmuTpV
+ A84X50mZNHlCzvEaELQs2VTLiu1GK1maLmMUGJFbPPhfilIWA5juT0NRieHgnKQZtfJz
+ rgKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=5HS94b3zbhVHb3Euo3cragOg32oYy8HF4UEWBUR8dUc=;
+ b=Z3wgzS49b1bWqd3yqoUH0tMEiqf9I9hyBUh6s8nUN+/xIyZc66IQLRd8K7H2AYzilf
+ UxozGfuujCPOG6arCPQ+mdAYvJ9Ba0b/kN9rVi3pL1G8avxgI3qa1dE5m3Q1NAyuwk1O
+ gl46m8jSqAOClJ1URd/7DF3AzHHhNqdmIzyZtpbOCVWuYNM2asX8AXVGl5x7WKX/x/ve
+ hRBJm9WRW1DPq0VF7G3bQ0JSKg3sf45xfXAJAEezeZdooGVRC2yToKicASyAIodepsn/
+ gteuZj8QNZnFDtM0zBfEOhLn2Q6kjBurmQaLTuo8iQlclthvZFPuOTGdY/73VmjfgaSu
+ ncKg==
+X-Gm-Message-State: AJIora/voJ2k77L/cuyM8if2sDWlInPFIi2C6rLy+6VHOJVdi1v8CZ0i
+ scbMpHjCn9HognyUeQUcmjM=
+X-Google-Smtp-Source: AGRyM1srLaIZ5Tq7ZiceCpCZ/v1Gtwa91Vj1Y1Dju2PSoqBndetCk80NVd5YKPXq4Y2H4aIzwPYz6w==
+X-Received: by 2002:adf:ae09:0:b0:20e:e4f0:2133 with SMTP id
+ x9-20020adfae09000000b0020ee4f02133mr6128115wrc.104.1655230195632; 
+ Tue, 14 Jun 2022 11:09:55 -0700 (PDT)
+Received: from elementary ([94.73.36.128]) by smtp.gmail.com with ESMTPSA id
+ g7-20020a5d4887000000b0021350f7b22esm12418652wrq.109.2022.06.14.11.09.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jun 2022 11:09:55 -0700 (PDT)
+Date: Tue, 14 Jun 2022 20:09:52 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v3 3/3] drm/doc: Add KUnit documentation
+Message-ID: <20220614180952.GA7067@elementary>
+References: <20220613171738.111013-1-jose.exposito89@gmail.com>
+ <20220613171738.111013-4-jose.exposito89@gmail.com>
+ <c50e5c87-3198-08b7-1e32-d0959af1f296@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] drm/amd/display: add stub for crtc_debugfs_init()
-Content-Language: en-US
-To: Harry Wentland <harry.wentland@amd.com>, dri-devel@lists.freedesktop.org
-References: <20220614155726.26211-1-rdunlap@infradead.org>
- <3289da9b-7b5c-e824-e55e-1648c527d7d9@amd.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <3289da9b-7b5c-e824-e55e-1648c527d7d9@amd.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <c50e5c87-3198-08b7-1e32-d0959af1f296@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,97 +72,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, patches@lists.linux.dev,
- amd-gfx@lists.freedesktop.org, Wayne Lin <Wayne.Lin@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, davidgow@google.com,
+ Maxime Ripard <maxime@cerno.tech>, airlied@linux.ie, dlatypov@google.com,
+ linux-kernel@vger.kernel.org, tzimmermann@suse.de, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Javier,
+
+On Tue, Jun 14, 2022 at 02:58:29PM +0200, Javier Martinez Canillas wrote:
+> Hello Jos�,
+> 
+> On 6/13/22 19:17, Jos� Exp�sito wrote:
+> 
+> [snip]
+> 
+> > +KUnit (Kernel unit testing framework) provides a common framework for unit tests
+> > +within the Linux kernel.
+> > +
+> 
+> I think that it will be useful to have a reference to the KUnit kernel doc here,
+> something like the following:
+> 
+> `KUnit <https://docs.kernel.org/dev-tools/kunit/index.html>`_ (Kernel Unit...
+
+There is a link in the next paragraph. Once the documentation is
+generated the path "Documentation/dev-tools/kunit/start.rst" is
+transformed into a link.
+ 
+> > +This section covers the specifics for the DRM subsystem. For general information
+> > +about KUnit, please refer to Documentation/dev-tools/kunit/start.rst.
+> > +
+> > +How to run the tests?
+> > +~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +In order to facilitate running the test suite, a configuration file is present
+> > +in ``drivers/gpu/drm/kunit/.kunitconfig``. It can be used by ``kunit.py`` as
+> > +follows:
+> > +
+> > +.. code-block:: bash
+> > +
+> > +	$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/kunit \
+> > +		--kconfig_add CONFIG_VIRTIO_UML=y \
+> > +		--kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
+> > +
+> > +.. note::
+> > +	The configuration included in ``.kunitconfig`` should be as generic as
+> > +	possible.
+> > +	``CONFIG_VIRTIO_UML`` and ``CONFIG_UML_PCI_OVER_VIRTIO`` are not
+> > +	included in it because they are only required for User Mode Linux.
+> > +
+> > +
+> 
+> Maybe also add something like this ?
+> 
+> For example, the following command can be used to run the test for x86_64:
+> 
+> 	$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/kunit \
+> 		--arch=x86_64
+
+I didn't want to go into much detail because the KUnit docs are
+a very good resource and already explain how to run the tests in your
+favorite architecture.
+
+Since running the test on x86_64 should not change the results, I'd
+prefer to keep it simple and trust the KUnit docs for the "advanced"
+options.
+ 
+> Regardless, the patch looks good to me:
+> 
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 
-On 6/14/22 10:45, Harry Wentland wrote:
-> On 2022-06-14 11:57, Randy Dunlap wrote:
->> Fix build error when CONFIG_DEBUG_FS is not enabled by adding a
->> stub function for crtc_debugfs_init().
->>
->> Eliminates this build error:
->>
->> ../drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function ‘amdgpu_dm_crtc_late_register’:
->> ../drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6599:2: error: implicit declaration of function ‘crtc_debugfs_init’; did you mean ‘amdgpu_debugfs_init’? [-Werror=implicit-function-declaration]
->>   crtc_debugfs_init(crtc);
->>   ^~~~~~~~~~~~~~~~~
->>   amdgpu_debugfs_init
->>
->> Fixes: 86bc22191892 ("drm/amd/display: Support crc on specific region")
-> 
-> That whole patch and the whole secure display feature depend on debugfs.
-> It should never try building without CONFIG_DEBUG_FS.
+Thanks a lot for taking the time to review it. I'll add the tag if a v4
+is required after chatting with the guys working on the AMDGPU tests.
 
-Hi Harry,
-Well, it's clearly possible to have this build error, so something needs
-to be fixed somewhere.
+Jose
 
-> See drivers/gpu/drm/amd/display/Kconfig:
+> -- 
+> Best regards,
 > 
->> config DRM_AMD_SECURE_DISPLAY
->>         bool "Enable secure display support"
->>         default n
->>         depends on DEBUG_FS
->>         depends on DRM_AMD_DC_DCN
->>         help
->>             Choose this option if you want to
->>             support secure display
->>
->>             This option enables the calculation
->>             of crc of specific region via debugfs.
->>             Cooperate with specific DMCU FW.
+> Javier Martinez Canillas
+> Linux Engineering
+> Red Hat
 > 
-> amdgpu_dm_crtc_late_register is guarded by CONIG_DRM_AMD_SECURE_DISPLAY.
-> 
-> Harry
-> 
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> Cc: Wayne Lin <Wayne.Lin@amd.com>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
->> Cc: amd-gfx@lists.freedesktop.org
->> Cc: dri-devel@lists.freedesktop.org
->> ---
->>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c         |    2 --
->>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.h |    6 ++++++
->>  2 files changed, 6 insertions(+), 2 deletions(-)
->>
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> @@ -57,9 +57,7 @@
->>  #include "amdgpu_dm_irq.h"
->>  #include "dm_helpers.h"
->>  #include "amdgpu_dm_mst_types.h"
->> -#if defined(CONFIG_DEBUG_FS)
->>  #include "amdgpu_dm_debugfs.h"
->> -#endif
->>  #include "amdgpu_dm_psr.h"
->>  
->>  #include "ivsrcid/ivsrcid_vislands30.h"
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.h
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.h
->> @@ -31,6 +31,12 @@
->>  
->>  void connector_debugfs_init(struct amdgpu_dm_connector *connector);
->>  void dtn_debugfs_init(struct amdgpu_device *adev);
->> +
->> +#ifdef CONFIG_DEBUG_FS
->>  void crtc_debugfs_init(struct drm_crtc *crtc);
->> +#else
->> +static inline void crtc_debugfs_init(struct drm_crtc *crtc)
->> +{}
->> +#endif
->>  
->>  #endif
-> 
-
-thanks.
--- 
-~Randy
