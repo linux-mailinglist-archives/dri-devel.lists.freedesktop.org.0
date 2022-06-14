@@ -1,65 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078BD54A300
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 02:02:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F8D54A301
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 02:02:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D861A10FD12;
-	Tue, 14 Jun 2022 00:02:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A17B10FD0B;
+	Tue, 14 Jun 2022 00:02:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0093010FD11
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 00:02:43 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-e93bbb54f9so10501772fac.12
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:02:43 -0700 (PDT)
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
+ [IPv6:2001:4860:4864:20::34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0C210FD10
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 00:02:47 +0000 (UTC)
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-f2a4c51c45so10524352fac.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:02:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UtXHWdMatL5evDQdd/0Xz5lOzFoyZ+/NU/2jUgvAefc=;
- b=jlE+Th5K+egVW1O3Wd7MrHyyyBq1C/SCW2w3aWVT8KkpWanhqEh41/Z4ALHvm+Ojwj
- MCsqmKzQUhoQvpnqMvt12Vk2WXJXtuJYblLAVgB/rMbi3Vhd1KWY3TBZnljHvTo7VJG8
- R+W8Zt3y8AwI7Y2/Z3ikimUX8EBODuiEwhf5mh+OiArHd5fgSIljvzZG7QhmjSD+wNy6
- tEfGSVAxOxmlpkkAyWyvnNaBElufSrfElDibfR7kNeyEiwK3nd7GTtFL3T92OyDHnZcm
- K1p+xU1rA4LaRcX5JFK8DabymPaIn9eg1JEw82OncWpsZGD6H/ohN/yV3srLzMweqXQV
- xCJA==
+ bh=YhJ0PfwGgRpVD8HRur52246q3ZW4qW6DCJJNxfqlZTM=;
+ b=Pqco1H+jUq8hhr7uQvBn1JO3sP9GT/EqStPaSXD81cIle3twsvz8PbdP5L2WZV4XtG
+ 99cclCkGpVulz3xk4EACwyGQizgWl+w6/F+fverLfPcDmZnS/BqrpPXbvYhZCwTXcilQ
+ VfzXrgQUWG6nVBRFUqrVXePe9Rvrk1eHHp873wy3vzJ/oP/xcZOOMOxw7ftTjC28HCmg
+ R8IgxxuCSIFon3vmL0nWX5PWJfCQDK6HDtji4BmHzW04JiaFmOkDLN08zjKNwCyU8M+J
+ IXaQdMstYT+NeL145y0VY9uFI+Qja15I0UMKWnKdkkC51r+4DmULv+rUiXd1l8n0+zG7
+ Zgqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UtXHWdMatL5evDQdd/0Xz5lOzFoyZ+/NU/2jUgvAefc=;
- b=bpw6F3zANpBVa7ThV1qTNpHuwj24gcsbVUKwHf/ELxRfc95fp1eJqkEg8y7hA6bQJT
- E5hk95iH4z7XKsHi+goRw7IiolbESdTCq9CeohlJfXpl78d3eOhqEfq0Z5fv5HN+wIGd
- tyzNZb0qJIdWkPGBFUj6Aqat0zChcVb8n1PUTUe9J5RYfEQBh2dE1Ax6pPnCp0Mizfw0
- xNcSZ/C1uzyjdzARY7DL+iLp4YZU4TmGuzDJvdnOr7iz+yBz1uouR68eN4nSAqaa/Qy6
- W3Iue+cy4CJErQFHCMKXQvK0sA1ArZ9xwDaukDNldXxPJ/sKjDUuVcD4p6OplAWRGDso
- ZPJQ==
-X-Gm-Message-State: AJIora/b6h/Kirt/rhWQq9x4HXhkNa1b2es6T88hF1jrH58N9BYuLb3o
- MQ48naTt3dWgURumxzQbd0c=
-X-Google-Smtp-Source: AGRyM1smgzaPD10nOPifKlQyRKCHKubJQEjYw49y9QHo7jqd4w156kOj6jQ7ruIH+sIeACELXfc9DA==
-X-Received: by 2002:a05:6870:b683:b0:e6:87cd:d6ae with SMTP id
- cy3-20020a056870b68300b000e687cdd6aemr776720oab.161.1655164963152; 
- Mon, 13 Jun 2022 17:02:43 -0700 (PDT)
+ bh=YhJ0PfwGgRpVD8HRur52246q3ZW4qW6DCJJNxfqlZTM=;
+ b=5NfLORueqCzjj9iPydjpOeMntajOtghaYsy2+Eu42KTmQh9wKrHL2aDanj+A40jmBD
+ 6B1P60TqXGEVwmyb7xzEa+Mszn+yDwVGCLopi+A5BSyVgzZbyRe/HOJ+Z5GScBaBztDI
+ GZv31nTtsoTTregwhrJFK0r1zyDJt0Pk2DqFBchH4IXKs1ZgiFfAmTy+pKJrmTDgAUWa
+ pM+0ZSSy0hqw4yl8nxsvJuQWsQgTdHuHqLoxD7XdK0iospRWfVy8VfjUyNPSM01RvKwQ
+ AWuKyn/CakxFuoFBWiA4+mRMYPnkXnEJNiGDJ7+9oEi4SFLw54eosXM3u2PvLgKfU/qs
+ qxyw==
+X-Gm-Message-State: AJIora/VbbkM3POnEAu470fnV5AgKGzx5KULZCpnW+VxkB07PhFH6TLf
+ x6TVdXSWgI7TtdNZMlFkXBU=
+X-Google-Smtp-Source: AGRyM1t13kZ2KS5o92N3CSO4e7+peNXTaHSFOq/P26GF6DgALX0IWK4eT7rvIwc8bbFL5JET3xhTcg==
+X-Received: by 2002:a05:6870:b4a8:b0:f3:3fb0:2da8 with SMTP id
+ y40-20020a056870b4a800b000f33fb02da8mr814144oap.179.1655164966344; 
+ Mon, 13 Jun 2022 17:02:46 -0700 (PDT)
 Received: from localhost.localdomain ([2804:431:c7f5:a472:4c3:87f9:70d2:df2e])
  by smtp.googlemail.com with ESMTPSA id
- y23-20020a056808061700b0032b99637366sm3831232oih.25.2022.06.13.17.02.40
+ y23-20020a056808061700b0032b99637366sm3831232oih.25.2022.06.13.17.02.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jun 2022 17:02:42 -0700 (PDT)
+ Mon, 13 Jun 2022 17:02:46 -0700 (PDT)
 From: Igor Torrente <igormtorrente@gmail.com>
 To: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, ppaalanen@gmail.com,
  tzimmermann@suse.de
-Subject: [PATCH v6 3/9] drm: drm_atomic_helper: Add a new helper to deal with
- the writeback connector validation
-Date: Mon, 13 Jun 2022 21:02:20 -0300
-Message-Id: <20220614000226.93297-4-igormtorrente@gmail.com>
+Subject: [PATCH v6 4/9] drm: vkms: get the reference to `drm_framebuffer`
+ instead if coping it
+Date: Mon, 13 Jun 2022 21:02:21 -0300
+Message-Id: <20220614000226.93297-5-igormtorrente@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220614000226.93297-1-igormtorrente@gmail.com>
 References: <20220614000226.93297-1-igormtorrente@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,115 +78,83 @@ Cc: hamohammed.sa@gmail.com, airlied@linux.ie, leandro.ribeiro@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a helper function to validate the connector configuration received in
-the encoder atomic_check by the drivers.
-
-So the drivers don't need to do these common validations themselves.
-
-V2: Move the format verification to a new helper at the drm_atomic_helper.c
-    (Thomas Zimmermann).
-V3: Format check improvements (Leandro Ribeiro).
-    Minor improvements(Thomas Zimmermann).
-V5: Fix some grammar issues in the commit message (André Almeida).
+Instead of coping `drm_framebuffer` - which can cause problems -
+we just get the reference and add the ref count.
 
 Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
 ---
- drivers/gpu/drm/drm_atomic_helper.c   | 39 +++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_writeback.c |  9 +++----
- include/drm/drm_atomic_helper.h       |  3 +++
- 3 files changed, 46 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/vkms/vkms_composer.c |  4 ++--
+ drivers/gpu/drm/vkms/vkms_drv.h      |  2 +-
+ drivers/gpu/drm/vkms/vkms_plane.c    | 10 +++++-----
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 9603193d2fa1..2052e18fa64c 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -776,6 +776,45 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
- }
- EXPORT_SYMBOL(drm_atomic_helper_check_modeset);
- 
-+/**
-+ * drm_atomic_helper_check_wb_connector_state() - Check writeback encoder state
-+ * @encoder: encoder state to check
-+ * @conn_state: connector state to check
-+ *
-+ * Checks if the writeback connector state is valid, and returns an error if it
-+ * isn't.
-+ *
-+ * RETURNS:
-+ * Zero for success or -errno
-+ */
-+int
-+drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
-+					 struct drm_connector_state *conn_state)
-+{
-+	struct drm_writeback_job *wb_job = conn_state->writeback_job;
-+	struct drm_property_blob *pixel_format_blob;
-+	struct drm_framebuffer *fb;
-+	size_t i, nformats;
-+	u32 *formats;
-+
-+	if (!wb_job || !wb_job->fb)
-+		return 0;
-+
-+	pixel_format_blob = wb_job->connector->pixel_formats_blob_ptr;
-+	nformats = pixel_format_blob->length / sizeof(u32);
-+	formats = pixel_format_blob->data;
-+	fb = wb_job->fb;
-+
-+	for (i = 0; i < nformats; i++)
-+		if (fb->format->format == formats[i])
-+			return 0;
-+
-+	drm_dbg_kms(encoder->dev, "Invalid pixel format %p4cc\n", &fb->format->format);
-+
-+	return -EINVAL;
-+}
-+EXPORT_SYMBOL(drm_atomic_helper_check_wb_encoder_state);
-+
- /**
-  * drm_atomic_helper_check_plane_state() - Check plane state for validity
-  * @plane_state: plane state to check
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index af1604dfbbaf..250e509a298f 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -30,6 +30,7 @@ static int vkms_wb_encoder_atomic_check(struct drm_encoder *encoder,
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index 0aded4e87e60..b9fb408e8973 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -153,7 +153,7 @@ static void compose_plane(struct vkms_frame_info *primary_plane_info,
+ 			  struct vkms_frame_info *plane_frame_info,
+ 			  void *vaddr_out)
  {
- 	struct drm_framebuffer *fb;
- 	const struct drm_display_mode *mode = &crtc_state->mode;
-+	int ret;
+-	struct drm_framebuffer *fb = &plane_frame_info->fb;
++	struct drm_framebuffer *fb = plane_frame_info->fb;
+ 	void *vaddr;
+ 	void (*pixel_blend)(const u8 *p_src, u8 *p_dst);
  
- 	if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
- 		return 0;
-@@ -41,11 +42,9 @@ static int vkms_wb_encoder_atomic_check(struct drm_encoder *encoder,
- 		return -EINVAL;
+@@ -175,7 +175,7 @@ static int compose_active_planes(void **vaddr_out,
+ 				 struct vkms_frame_info *primary_plane_info,
+ 				 struct vkms_crtc_state *crtc_state)
+ {
+-	struct drm_framebuffer *fb = &primary_plane_info->fb;
++	struct drm_framebuffer *fb = primary_plane_info->fb;
+ 	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
+ 	const void *vaddr;
+ 	int i;
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+index 5199c5f18e17..95d71322500b 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.h
++++ b/drivers/gpu/drm/vkms/vkms_drv.h
+@@ -28,7 +28,7 @@ struct vkms_writeback_job {
+ };
+ 
+ struct vkms_frame_info {
+-	struct drm_framebuffer fb;
++	struct drm_framebuffer *fb;
+ 	struct drm_rect src, dst;
+ 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
+ 	unsigned int offset;
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index fcae6c508f4b..8adbfdc05e50 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -50,12 +50,12 @@ static void vkms_plane_destroy_state(struct drm_plane *plane,
+ 	struct vkms_plane_state *vkms_state = to_vkms_plane_state(old_state);
+ 	struct drm_crtc *crtc = vkms_state->base.base.crtc;
+ 
+-	if (crtc) {
++	if (crtc && vkms_state->frame_info->fb) {
+ 		/* dropping the reference we acquired in
+ 		 * vkms_primary_plane_update()
+ 		 */
+-		if (drm_framebuffer_read_refcount(&vkms_state->frame_info->fb))
+-			drm_framebuffer_put(&vkms_state->frame_info->fb);
++		if (drm_framebuffer_read_refcount(vkms_state->frame_info->fb))
++			drm_framebuffer_put(vkms_state->frame_info->fb);
  	}
  
--	if (fb->format->format != vkms_wb_formats[0]) {
--		DRM_DEBUG_KMS("Invalid pixel format %p4cc\n",
--			      &fb->format->format);
--		return -EINVAL;
--	}
-+	ret = drm_atomic_helper_check_wb_encoder_state(encoder, conn_state);
-+	if (ret < 0)
-+		return ret;
- 
- 	return 0;
- }
-diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-index 4045e2507e11..3fbf695da60f 100644
---- a/include/drm/drm_atomic_helper.h
-+++ b/include/drm/drm_atomic_helper.h
-@@ -40,6 +40,9 @@ struct drm_private_state;
- 
- int drm_atomic_helper_check_modeset(struct drm_device *dev,
- 				struct drm_atomic_state *state);
-+int
-+drm_atomic_helper_check_wb_encoder_state(struct drm_encoder *encoder,
-+					 struct drm_connector_state *conn_state);
- int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
- 					const struct drm_crtc_state *crtc_state,
- 					int min_scale,
+ 	kfree(vkms_state->frame_info);
+@@ -110,9 +110,9 @@ static void vkms_plane_atomic_update(struct drm_plane *plane,
+ 	frame_info = vkms_plane_state->frame_info;
+ 	memcpy(&frame_info->src, &new_state->src, sizeof(struct drm_rect));
+ 	memcpy(&frame_info->dst, &new_state->dst, sizeof(struct drm_rect));
+-	memcpy(&frame_info->fb, fb, sizeof(struct drm_framebuffer));
++	frame_info->fb = fb;
+ 	memcpy(&frame_info->map, &shadow_plane_state->data, sizeof(frame_info->map));
+-	drm_framebuffer_get(&frame_info->fb);
++	drm_framebuffer_get(frame_info->fb);
+ 	frame_info->offset = fb->offsets[0];
+ 	frame_info->pitch = fb->pitches[0];
+ 	frame_info->cpp = fb->format->cpp[0];
 -- 
 2.30.2
 
