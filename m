@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FA254B6F8
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 18:57:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E7054B709
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 18:59:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC4211293A;
-	Tue, 14 Jun 2022 16:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E0BF10EE08;
+	Tue, 14 Jun 2022 16:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA34611293D
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 16:57:41 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id k2so16176496ybj.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 09:57:41 -0700 (PDT)
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7756F10E5DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 16:59:11 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-31336535373so36427927b3.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 09:59:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=F6g97R91sjtVG6ei6JULqw4mFypOAKmb8KKUSEZQlEM=;
- b=OhorWc2mjBDno2pDG8ZqawT9/vJ1MCCttW7q1lpoz7gdDgLYrJO6STISprKObl3IED
- V3HLrokuHjWh5byp4w9ZoEsXDb/AF69KJt0nEdSktT7jcbnUUmVYFVjf4E92yn15pJLR
- bncnJl6LfB4Py3RYJgpdu03zYHSoBIp1zBwT0=
+ :cc; bh=frgH5D5aZ/QCMYdKBtSKwr1Fa+OKDcjZdtrUi/1lSyM=;
+ b=Iy68FsENZikMJA1KZJTjwX1XEHgmkOCOlDXlEOiHXuGDZYlBW487hnOFgqOIKzqbGZ
+ fFRO0wPZaY/vxvv7gpbvanDkzTqsbr/Bs2SWkf8stYs73nG19v6Hs00zCU3D/wRsf9G3
+ uRqg0grrqVyVw5C8ve+NeyA1pqaYQZsBLGy4M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=F6g97R91sjtVG6ei6JULqw4mFypOAKmb8KKUSEZQlEM=;
- b=sQSrfI7u4S93qixMact1k8NmAx2RTcE0lqsfhHhMRI44mZDM64pEuJhfWyLXiog9Qg
- czKGwU6hc+ywdjM+P9svVNsmQ7OWSLQtqAnKQTPbwu9/l8UG4/NgE++PBda4swhqqNE2
- 4+1o5lPDM9zYIQNzgj5s1Tifxmnlzfn8uV8go6A6WGzX2MNqA0w0Wu8a5ssxMZErQ4+Z
- mNdpCCrfAjio38EF1yBB42jVG5uyhskAYhBJI8ckQZK+MYwemNmnAMIdSrV8pQVJSmQ8
- egRvp2+Jkz0J0mjwVJNlb+u50DyjuE2Up1RWjSfFRaT+/Q35+kosPDh0gr0/1xHco8Rc
- laIA==
-X-Gm-Message-State: AJIora9zEF4SnsgJnlrjDTbWLA3bTv2I8xGtcPR+sjyAVAYT7OLCTgpd
- +8VftzkIpv/ezMVoZNV1oJReulFm9ebJc613eHgYFQ==
-X-Google-Smtp-Source: AGRyM1tBFSQKwmiU3taZuWEgZ831zxUtkuGEWQfjxumQkpHwHDXWgjfEd+gTnhSaXwdtdDj3Em9Aee5szsA1eFQ4c8U=
-X-Received: by 2002:a25:67c2:0:b0:65d:555b:8f59 with SMTP id
- b185-20020a2567c2000000b0065d555b8f59mr5855580ybc.240.1655225860885; Tue, 14
- Jun 2022 09:57:40 -0700 (PDT)
+ bh=frgH5D5aZ/QCMYdKBtSKwr1Fa+OKDcjZdtrUi/1lSyM=;
+ b=MxoMoYn+6DIVd/rKFYEFZTDpA1rNl9eIgfvGrCLGXs4+oQ/r6LiEpGxQZa5GhHjy00
+ uNtTHkhuDhLb9VorCy1N5M1fc0ECLwA1sKBbkzuakoClPvH8Bv7MybKJg4zpYbSAySYI
+ cFwY55LRBE8sWaXwUCRxEf166Jc7IRhKWVg1jhGoth0/bw/6+4lMht8Jle8FkmmLYAjy
+ f52orQvaWSNvnhlXszZvngcAh6Z5xj2+FvTW+t1sqXaYymrPS9xdZL5IeBDEF45pf6lc
+ CSQ6OijVo6NQEG6sFZ9LLyIHR5ls5VDVX2g+fpk3wJUGs18JAYgKwnkdGPuYiiNRxn2+
+ OAjw==
+X-Gm-Message-State: AJIora/tw8wJ/fb1HCNSERQsfQbmYzEnsNwEOGUY4afWhdZ2lexOXHqR
+ coCG8ggMS2APD9UXy79XDqAGrCpYheVAN0AbK+LHWw==
+X-Google-Smtp-Source: AGRyM1tylgW3wSGschehZtJMDRjLFEU3xZbVs+AtL1Cy4Vu0B5yrroRvR3b8lL2U6xMNqB5j2IC6JxMRpK98NWwIU4k=
+X-Received: by 2002:a81:fd1:0:b0:30f:f98b:4957 with SMTP id
+ 200-20020a810fd1000000b0030ff98b4957mr6952329ywp.350.1655225950624; Tue, 14
+ Jun 2022 09:59:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220609181106.3695103-1-pmalani@chromium.org>
- <20220609181106.3695103-7-pmalani@chromium.org>
- <b3b9768d-e0d0-7132-5f50-dd6aa53a68ee@collabora.com>
-In-Reply-To: <b3b9768d-e0d0-7132-5f50-dd6aa53a68ee@collabora.com>
+ <20220609181106.3695103-8-pmalani@chromium.org>
+ <1191703c-efa5-7fe6-7dd0-e3e786b58411@collabora.com>
+ <CAEXTbpfh3aKS8DZ9T0KPNLfWJ4EsLxcJpP8aLYU-iQYC1N4sRQ@mail.gmail.com>
+In-Reply-To: <CAEXTbpfh3aKS8DZ9T0KPNLfWJ4EsLxcJpP8aLYU-iQYC1N4sRQ@mail.gmail.com>
 From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 14 Jun 2022 09:57:29 -0700
-Message-ID: <CACeCKaexczFCja_ndndb_A58yZYQ98rTtgY4vHMknENTLxBPPA@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] drm/bridge: anx7625: Register Type-C mode switches
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Date: Tue, 14 Jun 2022 09:58:59 -0700
+Message-ID: <CACeCKafeJ40y2LYsEm4Z2pRMxzM6W+VcC1F95oFqNq+xokPWUQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] drm/bridge: anx7625: Add typec_mux_set callback
+ function
+To: Pin-yen Lin <treapking@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,187 +70,155 @@ Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Tzung-Bi Shih <tzungbi@google.com>,
  "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>,
  =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
  Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
- Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 14, 2022 at 1:18 AM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
+On Tue, Jun 14, 2022 at 2:08 AM Pin-yen Lin <treapking@chromium.org> wrote:
 >
-> Il 09/06/22 20:09, Prashant Malani ha scritto:
-> > When the DT node has "switches" available, register a Type-C mode-switch
-> > for each listed "switch". This allows the driver to receive state
-> > information about what operating mode a Type-C port and its connected
-> > peripherals are in, as well as status information (like VDOs) related to
-> > that state.
-> >
-> > The callback function is currently a stub, but subsequent patches will
-> > implement the required functionality.
-> >
-> > Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> > ---
-> >
-> > Changes since v2:
-> > - No changes.
-> >
-> >   drivers/gpu/drm/bridge/analogix/anx7625.c | 73 +++++++++++++++++++++++
-> >   drivers/gpu/drm/bridge/analogix/anx7625.h |  6 ++
-> >   2 files changed, 79 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > index 07ed44c6b839..d41a21103bd3 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > @@ -15,6 +15,7 @@
-> >   #include <linux/regulator/consumer.h>
-> >   #include <linux/slab.h>
-> >   #include <linux/types.h>
-> > +#include <linux/usb/typec_mux.h>
-> >   #include <linux/workqueue.h>
-> >
-> >   #include <linux/of_gpio.h>
-> > @@ -2581,9 +2582,59 @@ static void anx7625_runtime_disable(void *data)
-> >       pm_runtime_disable(data);
-> >   }
-> >
-> > +static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
-> > +                              struct typec_mux_state *state)
-> > +{
-> > +     return 0;
-> > +}
-> > +
-> > +static int anx7625_register_mode_switch(struct device *dev, struct device_node *node,
-> > +                                     struct anx7625_data *ctx)
-> > +{
-> > +     struct anx7625_port_data *port_data;
-> > +     struct typec_mux_desc mux_desc = {};
-> > +     char name[32];
-> > +     u32 port_num;
-> > +     int ret;
-> > +
-> > +     ret = of_property_read_u32(node, "reg", &port_num);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     if (port_num >= ctx->num_typec_switches) {
-> > +             dev_err(dev, "Invalid port number specified: %d\n", port_num);
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     port_data = &ctx->typec_ports[port_num];
-> > +     port_data->ctx = ctx;
-> > +     mux_desc.fwnode = &node->fwnode;
-> > +     mux_desc.drvdata = port_data;
-> > +     snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
-> > +     mux_desc.name = name;
-> > +     mux_desc.set = anx7625_typec_mux_set;
-> > +
-> > +     port_data->typec_mux = typec_mux_register(dev, &mux_desc);
-> > +     if (IS_ERR(port_data->typec_mux)) {
-> > +             ret = PTR_ERR(port_data->typec_mux);
-> > +             dev_err(dev, "Mode switch register for port %d failed: %d", port_num, ret);
-> > +     }
+> Hi AngeloGioacchino,
 >
-> Please return 0 at the end of this function.
 >
->         if (IS_ERR(....)) {
->                 ......code......
->                 return ret;
->         }
+> On Tue, Jun 14, 2022 at 4:15 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+> >
+> > Il 09/06/22 20:09, Prashant Malani ha scritto:
+> > > From: Pin-Yen Lin <treapking@chromium.org>
+> > >
+> > > Add the callback function when the driver receives state
+> > > changes of the Type-C port. The callback function configures the
+> > > crosspoint switch of the anx7625 bridge chip, which can change the
+> > > output pins of the signals according to the port state.
+> > >
+> > > Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
+> > > Signed-off-by: Prashant Malani <pmalani@chromium.org>
+> > > ---
+> > >
+> > > Changes since v2:
+> > > - No changes.
+> > >
+> > >   drivers/gpu/drm/bridge/analogix/anx7625.c | 58 +++++++++++++++++++++++
+> > >   drivers/gpu/drm/bridge/analogix/anx7625.h | 13 +++++
+> > >   2 files changed, 71 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > index d41a21103bd3..2c308d12fab2 100644
+> > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > @@ -15,6 +15,7 @@
+> > >   #include <linux/regulator/consumer.h>
+> > >   #include <linux/slab.h>
+> > >   #include <linux/types.h>
+> > > +#include <linux/usb/typec_dp.h>
+> > >   #include <linux/usb/typec_mux.h>
+> > >   #include <linux/workqueue.h>
+> > >
+> > > @@ -2582,9 +2583,66 @@ static void anx7625_runtime_disable(void *data)
+> > >       pm_runtime_disable(data);
+> > >   }
+> > >
+> > > +static void anx7625_set_crosspoint_switch(struct anx7625_data *ctx,
+> > > +                                       enum typec_orientation orientation)
+> > > +{
+> > > +     if (orientation == TYPEC_ORIENTATION_NORMAL) {
+> > > +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
+> > > +                               SW_SEL1_SSRX_RX1 | SW_SEL1_DPTX0_RX2);
+> > > +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
+> > > +                               SW_SEL2_SSTX_TX1 | SW_SEL2_DPTX1_TX2);
+> > > +     } else if (orientation == TYPEC_ORIENTATION_REVERSE) {
+> > > +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
+> > > +                               SW_SEL1_SSRX_RX2 | SW_SEL1_DPTX0_RX1);
+> > > +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
+> > > +                               SW_SEL2_SSTX_TX2 | SW_SEL2_DPTX1_TX1);
+> > > +     }
+> > > +}
+> > > +
+> > > +static void anx7625_typec_two_ports_update(struct anx7625_data *ctx)
+> > > +{
+> > > +     if (ctx->typec_ports[0].dp_connected && ctx->typec_ports[1].dp_connected)
+> > > +             /* Both ports available, do nothing to retain the current one. */
+> > > +             return;
+> > > +     else if (ctx->typec_ports[0].dp_connected)
+> > > +             anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_NORMAL);
+> > > +     else if (ctx->typec_ports[1].dp_connected)
+> > > +             anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_REVERSE);
+> > > +}
+> > > +
+> > >   static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
+> > >                                struct typec_mux_state *state)
+> > >   {
+> > > +     struct anx7625_port_data *data = typec_mux_get_drvdata(mux);
+> > > +     struct anx7625_data *ctx = data->ctx;
+> > > +     struct device *dev = &ctx->client->dev;
+> > > +
+> > > +     bool old_dp_connected = (ctx->typec_ports[0].dp_connected ||
+> > > +                              ctx->typec_ports[1].dp_connected);
+> >
+> > So the old connection state is "either port0 or port1 are currently connected"...
+> >
+> > > +     bool new_dp_connected;
+> > > +
+> > > +     if (ctx->num_typec_switches == 1)
+> > > +             return 0;
+> > > +
+> > > +     dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
+> > > +             ctx->typec_ports[0].dp_connected, ctx->typec_ports[1].dp_connected);
+> > > +
+> > > +     data->dp_connected = (state->alt && state->alt->svid == USB_TYPEC_DP_SID &&
+> > > +                           state->alt->mode == USB_TYPEC_DP_MODE);
+> > > + > + new_dp_connected = (ctx->typec_ports[0].dp_connected ||
+> > > +                         ctx->typec_ports[1].dp_connected);
+> >
+> > ...and the new connection state is the same as the old one, because I don't see
+> > anything that could ever modify it in this function's flow, until reaching this
+> > assignment.
 >
->         return 0;
-> }
+> The typec mux driver data (`struct anx7625_port_data *data =
+> typec_mux_get_drvdata(mux)`) is set to one of the
+> `ctx->typec_ports[*]` in `anx7625_register_mode_switch` (see patch 6
+> of this series).
+>
+> So, the `data->dp_connected = ...` assignment may change the new
+> connection state.
 
-May I ask why? We're not missing any return paths. I would rather we
-keep it as is (which has the valid return value).
+Angelo, I think your interpretation of this logic is not accurate..
+|old_dp_connected| represents *whether* port1 or port0 has a DP
+partner connected, not that *either* of them has it.
+
+So, this logic looks OK to me.
+
 
 >
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static void anx7625_unregister_typec_switches(struct anx7625_data *ctx)
-> > +{
-> > +     int i;
-> > +
-> > +     for (i = 0; i < ctx->num_typec_switches; i++)
-> > +             typec_mux_unregister(ctx->typec_ports[i].typec_mux);
-> > +}
-> > +
-> >   static int anx7625_register_typec_switches(struct device *device, struct anx7625_data *ctx)
-> >   {
-> >       struct device_node *of = NULL;
-> > +     struct device_node *sw;
-> >       int ret = 0;
-> >
-> >       of = of_get_child_by_name(device->of_node, "switches");
-> > @@ -2594,6 +2645,26 @@ static int anx7625_register_typec_switches(struct device *device, struct anx7625
-> >       if (ctx->num_typec_switches <= 0)
-> >               return -ENODEV;
-> >
-> > +     ctx->typec_ports = devm_kzalloc(device,
-> > +                                     ctx->num_typec_switches * sizeof(struct anx7625_port_data),
-> > +                                     GFP_KERNEL);
-> > +     if (!ctx->typec_ports)
-> > +             return -ENOMEM;
-> > +
-> > +     /* Register switches for each connector. */
-> > +     for_each_available_child_of_node(of, sw) {
-> > +             if (!of_property_read_bool(sw, "mode-switch"))
-> > +                     continue;
-> > +             ret = anx7625_register_mode_switch(device, sw, ctx);
-> > +             if (ret) {
-> > +                     dev_err(device, "Failed to register mode switch: %d\n", ret);
-> > +                     break;
-> > +             }
-> > +     }
-> > +
-> > +     if (ret)
-> > +             anx7625_unregister_typec_switches(ctx);
-> > +
-> >       return ret;
-> >   }
-> >
-> > @@ -2759,6 +2830,8 @@ static int anx7625_i2c_remove(struct i2c_client *client)
-> >
-> >       drm_bridge_remove(&platform->bridge);
-> >
-> > +     anx7625_unregister_typec_switches(platform);
-> > +
-> >       if (platform->pdata.intp_irq)
-> >               destroy_workqueue(platform->workqueue);
-> >
-> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> > index d5cbca708842..76cfc64f7574 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> > @@ -443,6 +443,11 @@ struct anx7625_i2c_client {
-> >       struct i2c_client *tcpc_client;
-> >   };
-> >
-> > +struct anx7625_port_data {
-> > +     struct typec_mux_dev *typec_mux;
-> > +     struct anx7625_data *ctx;
-> > +};
-> > +
-> >   struct anx7625_data {
-> >       struct anx7625_platform_data pdata;
-> >       struct platform_device *audio_pdev;
-> > @@ -474,6 +479,7 @@ struct anx7625_data {
-> >       struct mipi_dsi_device *dsi;
-> >       struct drm_dp_aux aux;
-> >       int num_typec_switches;
-> > +     struct anx7625_port_data *typec_ports;
-> >   };
-> >
-> >   #endif  /* __ANX7625_H__ */
+> Best regards,
+> Pin-yen
 >
+> >
+> > > +
+> > > +     /* dp on, power on first */
+> > > +     if (!old_dp_connected && new_dp_connected)
+> > > +             pm_runtime_get_sync(dev);
+> >
+> > ...so that will never happen...
+> >
+> > > +
+> > > +     anx7625_typec_two_ports_update(ctx);
+> > > +
+> > > +     /* dp off, power off last */
+> > > +     if (old_dp_connected && !new_dp_connected)
+> > > +             pm_runtime_put_sync(dev);
+> >
+> > ...and same here.
+> >
+> > Regards,
+> > Angelo
