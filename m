@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565C554BB22
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 22:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AEAD54BB96
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 22:23:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3026610FFEB;
-	Tue, 14 Jun 2022 20:11:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1798810F947;
+	Tue, 14 Jun 2022 20:23:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
- [209.85.166.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDE6D10FB02
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 20:11:49 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id p69so10634471iod.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 13:11:49 -0700 (PDT)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
+ [209.85.166.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6EE6112D09
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 20:23:39 +0000 (UTC)
+Received: by mail-io1-f42.google.com with SMTP id a10so10612151ioe.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 13:23:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=9/XBqejShhBsGHynRMK/NnFFuohdRCp1F64DE0/PIZM=;
- b=qdV9tHgxSwPFU3R89aBQRi3QCwn8pnWB661pOUm8SEIoMBw4yYFrhlZ/ts06jkr2MQ
- v/OCTdJncAbKiKel4j8kQtH2S90xa3CYvUxYtZX+h0A3Dg27jhac97kJkN56qJSbC/ft
- bCB0fT6+daZiBBbfTQjbtIFUci2iiMSw0jFo0zxO2dDSDP5HOFjIL3SW9lJQsl4mciq0
- XOzyW/oHGH7+EA7ANep6qjZsZamPkcDeGxNw6fnpuLCdRqzHSH57icCH0fJOQqlZOgGp
- sf91V1zj9M0eDUkdGem4qK69XoZeqGQPc5ILz2VAgigS13Ymot/JgZZUfvJTXuItEne+
- 8xCQ==
-X-Gm-Message-State: AOAM533h/6J9mgaqS1OYX3bZ3OwzSjfPhdkF8hUcGuWDrMkaGkXpVlXP
- ITNpeLTcfXb29yhR0faNWE0tp/zHiw==
-X-Google-Smtp-Source: ABdhPJxWEsmo+mG/x3kXLODUtDKPZ8ETebE3K2+pKnnHvBgtT4SiuVSTIClpZz5EwzbOKjOIAfOuqA==
-X-Received: by 2002:a6b:6a07:0:b0:66a:2e5f:2058 with SMTP id
- x7-20020a6b6a07000000b0066a2e5f2058mr929393iog.72.1655237509097; 
- Tue, 14 Jun 2022 13:11:49 -0700 (PDT)
+ bh=yn1X9tsTyWKYB/yNHVHmt00Zq59Qs2y2qulf6vb+2UM=;
+ b=KvRwaS5lhB7Kj5o2TtbursS566bJGnp7SEZrOwrazlgN6zzdSzcZ+0abZCVNYRZ3CU
+ uQS1xBO3aatd8gzSW14z7SddhZfvJjb1f+5yKHt9yhTRoANhD3MpKebZMwI0hYFsLO0d
+ tNyexJez14mN4YA5iPBOiKjSFCN6Y5aOAYY/ovK3EBrH8wb+AvKGkAmk3FSDAbpQ5Acn
+ ZXIxjxuVH4hzxtl62W7mCkiECujfeg7oVS6TMjv5EjI8k61lZzU9PegQHqcDXQbGRT2k
+ YZeAVI/6+SsP3Z3d3+CbUrvtLp1VY9yeKjbQsnabuAQ2e5uN8/yrpE89x06rJNQfyVpa
+ hzOA==
+X-Gm-Message-State: AOAM531fFfPDzgIX4jWCwH52eNUmyPHydAQRcSINhx7VcHKHf9AQy8tX
+ 7GHEv16YMmgftZsHYWCtbA==
+X-Google-Smtp-Source: ABdhPJx9rerqWe1Bf7zW/nGD3+1oZxHbZiDkER+sQCEKjG2+KNxYREIe+A+7VgkMnLoB33NTi+7crg==
+X-Received: by 2002:a05:6638:2711:b0:332:1030:d6c2 with SMTP id
+ m17-20020a056638271100b003321030d6c2mr3817608jav.263.1655238218973; 
+ Tue, 14 Jun 2022 13:23:38 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.251])
  by smtp.gmail.com with ESMTPSA id
- t6-20020a025406000000b00331c8618d2esm5249796jaa.143.2022.06.14.13.11.46
+ r4-20020a92c504000000b002d54d827007sm5835499ilg.17.2022.06.14.13.23.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jun 2022 13:11:48 -0700 (PDT)
-Received: (nullmailer pid 2359572 invoked by uid 1000);
- Tue, 14 Jun 2022 20:11:46 -0000
-Date: Tue, 14 Jun 2022 14:11:46 -0600
+ Tue, 14 Jun 2022 13:23:38 -0700 (PDT)
+Received: (nullmailer pid 2415510 invoked by uid 1000);
+ Tue, 14 Jun 2022 20:23:36 -0000
+Date: Tue, 14 Jun 2022 14:23:36 -0600
 From: Rob Herring <robh@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v9 05/14] dt-bindings: display: bridge: Add i.MX8qm/qxp
- display pixel link binding
-Message-ID: <20220614201146.GA2344044-robh@kernel.org>
-References: <20220611141421.718743-1-victor.liu@nxp.com>
- <20220611141421.718743-6-victor.liu@nxp.com>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+Subject: Re: [PATCH v11 01/10] dt-bindings: mediatek,dp: Add Display Port
+ binding
+Message-ID: <20220614202336.GA2400714-robh@kernel.org>
+References: <20220610105522.13449-1-rex-bc.chen@mediatek.com>
+ <20220610105522.13449-2-rex-bc.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220611141421.718743-6-victor.liu@nxp.com>
+In-Reply-To: <20220610105522.13449-2-rex-bc.chen@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,173 +63,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.hajda@intel.com, narmstrong@baylibre.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
- krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
- jernej.skrabec@gmail.com, marcel.ziswiler@toradex.com, linux-imx@nxp.com,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org, kernel@pengutronix.de,
- jonas@kwiboo.se, s.hauer@pengutronix.de, mchehab@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- robert.foss@linaro.org, shawnguo@kernel.org
+Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ deller@gmx.de, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ wenst@chromium.org, chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
+ tzimmermann@suse.de, msp@baylibre.com, linux-mediatek@lists.infradead.org,
+ matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com, granquet@baylibre.com,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 11, 2022 at 10:14:12PM +0800, Liu Ying wrote:
-> This patch adds bindings for i.MX8qm/qxp display pixel link.
+On Fri, Jun 10, 2022 at 06:55:13PM +0800, Bo-Chen Chen wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
 > 
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> This controller is present on several mediatek hardware. Currently
+> mt8195 and mt8395 have this controller without a functional difference,
+> so only one compatible field is added.
+> 
+> The controller can have two forms, as a normal display port and as an
+> embedded display port.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> [Bo-Chen: Fix reviewers' comment]
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 > ---
-> v8->v9:
-> * Add 'fsl,dc-id' and 'fsl,dc-stream-id' properties. (Laurent)
-
-Why? Isn't the graph sufficient for determining the connections? That's 
-what it is for.
-
-> * Drop Rob's R-b tag.
+>  .../display/mediatek/mediatek,dp.yaml         | 101 ++++++++++++++++++
+>  1 file changed, 101 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
 > 
-> v7->v8:
-> * No change.
-> 
-> v6->v7:
-> * No change.
-> 
-> v5->v6:
-> * No change.
-> 
-> v4->v5:
-> * No change.
-> 
-> v3->v4:
-> * No change.
-> 
-> v2->v3:
-> * Add Rob's R-b tag.
-> 
-> v1->v2:
-> * Use graph schema. (Laurent)
-> * Require all four pixel link output ports. (Laurent)
-> * Mention pixel link is accessed via SCU firmware. (Rob)
-> 
->  .../bridge/fsl,imx8qxp-pixel-link.yaml        | 144 ++++++++++++++++++
->  1 file changed, 144 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
 > new file mode 100644
-> index 000000000000..38ecc7926fad
+> index 000000000000..10f50a0dcf49
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
-> @@ -0,0 +1,144 @@
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> @@ -0,0 +1,101 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/bridge/fsl,imx8qxp-pixel-link.yaml#
+> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Freescale i.MX8qm/qxp Display Pixel Link
+> +title: MediaTek Display Port Controller
 > +
 > +maintainers:
-> +  - Liu Ying <victor.liu@nxp.com>
+> +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> +  - Jitao shi <jitao.shi@mediatek.com>
 > +
 > +description: |
-> +  The Freescale i.MX8qm/qxp Display Pixel Link(DPL) forms a standard
-> +  asynchronous linkage between pixel sources(display controller or
-> +  camera module) and pixel consumers(imaging or displays).
-> +  It consists of two distinct functions, a pixel transfer function and a
-> +  control interface.  Multiple pixel channels can exist per one control channel.
-> +  This binding documentation is only for pixel links whose pixel sources are
-> +  display controllers.
-> +
-> +  The i.MX8qm/qxp Display Pixel Link is accessed via System Controller Unit(SCU)
-> +  firmware.
+> +  Device tree bindings for the MediaTek display port and
+> +  embedded display port controller present on some MediaTek SoCs.
 > +
 > +properties:
 > +  compatible:
 > +    enum:
-> +      - fsl,imx8qm-dc-pixel-link
-> +      - fsl,imx8qxp-dc-pixel-link
+> +      - mediatek,mt8195-dp-tx
+> +      - mediatek,mt8195-edp-tx
 > +
-> +  fsl,dc-id:
-> +    $ref: /schemas/types.yaml#/definitions/uint8
-> +    description: |
-> +      u8 value representing the display controller index that the pixel link
-> +      connects to.
+> +  reg:
+> +    maxItems: 1
 > +
-> +  fsl,dc-stream-id:
-> +    $ref: /schemas/types.yaml#/definitions/uint8
-> +    description: |
-> +      u8 value representing the display controller stream index that the pixel
-> +      link connects to.
-> +    enum: [0, 1]
+> +  nvmem-cells:
+> +    maxItems: 1
+> +    description: efuse data for display port calibration
+> +
+> +  nvmem-cell-names:
+> +    const: dp_calibration_data
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
 > +
 > +  ports:
 > +    $ref: /schemas/graph.yaml#/properties/ports
-> +
 > +    properties:
 > +      port@0:
 > +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: The pixel link input port node from upstream video source.
+> +        description: Input endpoint of the controller, usually dp_intf
 > +
-> +    patternProperties:
-> +      "^port@[1-4]$":
+> +      port@1:
 > +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: The pixel link output port node to downstream bridge.
+> +        description: Output endpoint of the controller
 > +
 > +    required:
 > +      - port@0
 > +      - port@1
-> +      - port@2
-> +      - port@3
-> +      - port@4
 > +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: fsl,imx8qxp-dc-pixel-link
-> +    then:
-> +      properties:
-> +        fsl,dc-id:
-> +          const: 0
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: fsl,imx8qm-dc-pixel-link
-> +    then:
-> +      properties:
-> +        fsl,dc-id:
-> +          enum: [0, 1]
-> +
-> +required:
-> +  - compatible
-> +  - fsl,dc-id
-> +  - fsl,dc-stream-id
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    dc0-pixel-link0 {
-> +        compatible = "fsl,imx8qxp-dc-pixel-link";
-> +        fsl,dc-id = /bits/ 8 <0>;
-> +        fsl,dc-stream-id = /bits/ 8 <0>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            /* from dc0 pixel combiner channel0 */
-> +            port@0 {
-> +                reg = <0>;
-> +
-> +                dc0_pixel_link0_dc0_pixel_combiner_ch0: endpoint {
-> +                    remote-endpoint = <&dc0_pixel_combiner_ch0_dc0_pixel_link0>;
+> +  max-lanes:
+> +    maxItems: 1
+> +    description: maximum number of lanes supported by the hardware.
 
-Isn't dc0 and link0 here the same information (if you get the port 
-number from the remote end).
+We already have a 'data-lanes' property defined in 
+'video-interfaces.yaml' that can serve this purpose.
 
-Rob
+> +
+> +  max-linkrate:
+> +    maxItems: 1
+> +    description: maximum link rate supported by the hardware and unit is MHz.
+
+Then use '-mhz' suffix on the property name. Then you don't need a type 
+(or maxItems).
