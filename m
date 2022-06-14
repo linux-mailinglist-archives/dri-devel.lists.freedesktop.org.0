@@ -1,46 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B74554B2D2
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 16:14:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3CD54B2D1
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 16:13:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 361C7112448;
-	Tue, 14 Jun 2022 14:14:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D50A11243B;
+	Tue, 14 Jun 2022 14:13:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 447 seconds by postgrey-1.36 at gabe;
- Tue, 14 Jun 2022 14:14:02 UTC
-Received: from mx3.securetransport.de (mx3.securetransport.de
- [IPv6:2a01:4f8:c0c:92be::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46EE3112448
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 14:14:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dh-electronics.com;
- s=dhelectronicscom; t=1655215552;
- bh=kZWe6Zc/bv5y1c1ZqXyxmMpzmoXjoTrNmG4TQBrLGXc=;
- h=From:To:CC:Subject:Date:From;
- b=Bn6KL59vtQ2XwQWrgwfpvmx+vrRJxkE38aajl1hPEdhFiqEfkWlhgnmx452oispNt
- 7CCHu+dCo5jfaDDgoRAZ0A8s2m92ta8ZXGXf8aMp6cYOBpyaz6+zX9/mCjz6Y2G/NQ
- CThsZmMojAiGBWDGYT5rmU9utEsTfI8j3AfbomUfsCq4ESfRChN7ZvtBl8qlqx/5gb
- bW6B3Met3wMCKUItB4UPLIRlm1+UKoWBygcfAHlZloKg6Ho1QEHMTh8Nut7xqrerL3
- EOqKzJnjXG8FatzxDWfJLtOv6r+7VfDSgt0BGgOpECnBsnuEw0NFXsXzFT272JDMT8
- 5cfDLXHZ+IS1A==
-X-secureTransport-forwarded: yes
-From: Dominik Kierner <dkierner@dh-electronics.com>
-Complaints-To: abuse@cubewerk.de
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v6 3/6] drm: Add driver for Solomon SSD130x OLED displays
-Thread-Topic: [PATCH v6 3/6] drm: Add driver for Solomon SSD130x OLED displays
-Thread-Index: Adh/98yd/bFLOXDpTTiVpWIDbnNb5w==
-Date: Tue, 14 Jun 2022 14:05:36 +0000
-Message-ID: <4dfc32123d1d4e38ae1afdd3f33109a9@dh-electronics.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 394DD1123A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 14:13:43 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ 3-20020a17090a174300b001e426a02ac5so11903194pjm.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 07:13:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=ANOowJ5ARtAcljDH6UUEi0ItbiiRCNHVn+O1+7Vhyfw=;
+ b=K6VAErCInuHbNCxmIHVTflFX7zxN8ilYfUa2exM1M+cyx7rBvDKyhW8j4OqZwmzSZk
+ gcx6nnLTVIPnpOB6xKwnVhf/aEdnzwLf+dCde737elSVBJhvlUdx/PBdwxS6YeRKCaq4
+ cw4RefBfytSwXD7sBmK8h2KQcBqLGKzq8eKrKELszYnSJ49uT53rClKH6jZxHgftj97w
+ qrcAXTOGSyD9pCMLxGPVIdygX8mPcTcef0v2J4ZUJFvhkj2/+W5ESr/SfCIk7G798oiH
+ 1We4sO4ghE7nLGOwuAlK4pAn7zgvmaA/faf7LvWRN3ZvLKlj7j75cTAvGaDpKPrGZUUF
+ iuag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=ANOowJ5ARtAcljDH6UUEi0ItbiiRCNHVn+O1+7Vhyfw=;
+ b=HaAmKxRBMeoDlixfnsfKbgB2/Y5O0Lx0gaxLlFEbmunysA6/7RVMiu9bfWWAOsM5K6
+ 1KVKclfozCkR6BVTLXFdzzLfLL/QXCYufb8C1TpjNLxg+VYU3qzE+kGSiltUrl8KBcus
+ VlC9yG6UAjk24cSmyh5SUwF/KxreIgWHnGWGrndI3CJRD3lDwCRN0XokuociJD3etLPN
+ FCM/WH2QXV7sfY22ser4wKADrHfQ8dUOGcocEfVuDdzlT5BPEb4uX1ygcF8cDjIJHbsH
+ 2bBmKzzOoTN5jaFjoEU7d5kPXlwF1xDDdRD4T2m3hkj7DydKu+Us2o4d6k3taI9M/HQy
+ Qc/w==
+X-Gm-Message-State: AJIora/xJ7f5RiZ4Dial5WGZ5B7aX8wk1oi/36brwNTd4FkeX+S3pT4K
+ 5/uKlmZCQweuyXmz53pFw5Q=
+X-Google-Smtp-Source: AGRyM1tjIvfmuMHaS07fxgbOS276UaMZCjk0+Johh6lVHiVKpXd1OLucB2eHGdLNFeJgF9JW6ZinKw==
+X-Received: by 2002:a17:902:d547:b0:168:ec21:2e5a with SMTP id
+ z7-20020a170902d54700b00168ec212e5amr3727491plf.58.1655216022708; 
+ Tue, 14 Jun 2022 07:13:42 -0700 (PDT)
+Received: from daeinki-virtual-machine.localdomain ([58.124.60.88])
+ by smtp.gmail.com with ESMTPSA id
+ v21-20020a170902e8d500b00163d8d9aefcsm7294762plg.80.2022.06.14.07.13.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jun 2022 07:13:41 -0700 (PDT)
+From: Inki Dae <inki.dae@samsung.com>
+To: airlied@linux.ie,
+	daniel.vetter@ffwll.ch
+Subject: [GIT PULL] exynos-drm-fixes
+Date: Tue, 14 Jun 2022 23:13:36 +0900
+Message-Id: <20220614141336.88614-1-inki.dae@samsung.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,93 +65,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "sam@ravnborg.org" <sam@ravnborg.org>, "airlied@linux.ie" <airlied@linux.ie>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "noralf@tronnes.org" <noralf@tronnes.org>,
- "geert@linux-m68k.org" <geert@linux-m68k.org>,
- "maxime@cerno.tech" <maxime@cerno.tech>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>
+Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Javier
+Hi Dave and Daniel,
 
-On 6/14/22 13:39, Javier Martinez Canillas wrote:
+   Just two regression fixups.
 
-> > I always understood regulator_get_optional() as a way of not having to =
-rely on a dummy,
-> > when a regulator is not present, but please correct me, if I am wrong o=
-n this.
-> > The dummies would only be necessary for the mandatory supplies VCC and =
-VDD.
-> >
->=20
-> Yes, that's what I tried to say. That's regulator_get() and not _optional=
-()
-> the function that will provide a dummy regulator if isn't physically pres=
-ent:
->=20
-> https://elixir.bootlin.com/linux/latest/source/drivers/regulator/core.c#L=
-2067
->=20
-> > You mean this part of the documentation of regulator_get_optional(), co=
-rrect?:
-> >
-> >> * This is intended for use by consumers for devices which can have
-> >> * some supplies unconnected in normal use, such as some MMC devices.
-> >> * It can allow the regulator core to provide stub supplies for other
-> >> * supplies requested using normal regulator_get() calls without
-> >> * disrupting the operation of drivers that can handle absent
-> >> * supplies.
-> >
-> >
-> So for example when you just use a voltage rail in let's say a board pin =
-header
-> then you will need to define supply nodes with compatible =3D "regulator-
-> fixed" ?
+   Please kindly let me know if there is any problem.
 
-Exactly.
+Thanks,
+Inki Dae
 
-> That is indeed more accurate from a hardware description point of view bu=
-t I'm
-> not convinced that this is something worth to break DT backward compatibi=
-lity.
+The following changes since commit b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3:
 
-> You also mentioned (IIUC) that the regulators could be made optional and =
-their
-> presence be used as an indication that an atomic charge pump configuratio=
-n can
-> be made instead of using the current ssd130x->display_settings.use_charge=
-_pump.
->=20
-> I think that would prefer that the latter option, but will let others to =
-chime
-> in since maybe I'm not correct on the preferred approach.
+  Linux 5.19-rc2 (2022-06-12 16:11:37 -0700)
 
-Yes, here the reference for the former approach:
-Chapter 2 "Charge Pump Regulator" on Page 62 of the SSD1306 datasheet:
-https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf
+are available in the Git repository at:
 
-Just a TL;DR of the former approach for easier discussion:
-The logic supply VDD would always be mandatory.
-The low voltage supply VBAT would be optional and probed first.
-If found, it would supersede the "high" voltage driving supply VCC and
-the charge pump would be enabled. If VBAT is not found, then VCC is
-mandatory and the charge pump will not be enabled.
+  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-fixes-v5.19-rc3
 
+for you to fetch changes up to 7d787184a18f0f84e996de8ff007e4395c1978ea:
 
---
-Best regards
+  drm/exynos: mic: Rework initialization (2022-06-14 22:32:16 +0900)
 
-Dominik Kierner
-Research & Development
-DH electronics
+----------------------------------------------------------------
+two regression fixups
+- Check a null pointer instead of IS_ERR().
+- Rework initialization code of Exynos MIC driver.
 
+----------------------------------------------------------------
+Dan Carpenter (1):
+      drm/exynos: fix IS_ERR() vs NULL check in probe
+
+Marek Szyprowski (1):
+      drm/exynos: mic: Rework initialization
+
+ drivers/gpu/drm/exynos/exynos_drm_drv.c |  6 ++---
+ drivers/gpu/drm/exynos/exynos_drm_mic.c | 42 ++++++++++-----------------------
+ 2 files changed, 15 insertions(+), 33 deletions(-)
