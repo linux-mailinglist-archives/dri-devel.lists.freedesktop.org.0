@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F6354B66E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 18:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08E854B69E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 18:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 412FD1121EE;
-	Tue, 14 Jun 2022 16:42:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A83FA1128D8;
+	Tue, 14 Jun 2022 16:47:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E89310FFCC;
- Tue, 14 Jun 2022 16:42:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655224951; x=1686760951;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Aljqi9x3kStakNAn8IEiUBMOqjtlPmQ2MB97QMEe0bc=;
- b=Y4Eho/exD8QRobNjowK/n5SP0Mi3ICnLLz69OXajpaoghmaJFU/fnZi7
- qP0GVM2jKiGYDSlYsjw1+liG8DSKL53gdqv+2RUp8exArlUjjaB1kXdcU
- 80CXa4+v9AMDCs8Li8BkCh6JyxzVMTJuu9ifCNzkO44tLfp/kJ7Jo/VUA
- lu2NhoidfdIMiPGU8YuoKqBTPhrInZqClWwXnqqffrVaLDBAomlFrunli
- vnGFFmKZAGSJ1ig8+9xSDWlncBreue2eOb0dT6i4WED4V2u7rM38aeK9O
- dXHX5vhTYtZ21VIffcZnNEikk9WaYAYp3GmXW7OlHioENBfh0jcv3XIfC w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="276218457"
-X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; d="scan'208";a="276218457"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2022 09:42:30 -0700
-X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; d="scan'208";a="558419000"
-Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2022 09:42:30 -0700
-Date: Tue, 14 Jun 2022 09:42:11 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 3/3] drm/doc/rfc: VM_BIND uapi definition
-Message-ID: <20220614164209.GM376@nvishwa1-DESK>
-References: <b5292e01-5a1f-d339-cbb4-e565e07e4437@linux.intel.com>
- <20220613150551.GG376@nvishwa1-DESK>
- <459c327d-5796-f9e4-4442-a51714525c73@linux.intel.com>
- <20220613174956.GH376@nvishwa1-DESK>
- <5ebcd237-a6df-add2-070a-056ccb83427a@linux.intel.com>
- <20220613233947.GA15145@jons-linux-dev-box>
- <652e76fa-d647-6267-dc6e-ba0be914415d@linux.intel.com>
- <20220614154341.GK376@nvishwa1-DESK>
- <ca635918-018e-db86-8ece-23f4fc4e2032@linux.intel.com>
- <61ca0001-cf34-670e-3f06-f45a330c609a@linux.intel.com>
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1FB21128EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 16:47:55 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id u12so18296889eja.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 09:47:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vVovGQ5fjfaOvKC3MlcNhsynn0qk9qxvdPKcyK4Jv4w=;
+ b=nDBYggQz56AaQegQSy4PvGQ/v4hU6wDc3U5ZHn5DmHMVptFBekry8XN/iFV8wvBsH8
+ wQWUtSe7P6wg3aRn3sJxNMZdY0KDY+TKVSF4jttsHMw4Hv7gheeTClBsgy4zANFVWqbw
+ /xOzQ4eLDnLvDVzHyVv8RqB0aBvmp36uJHOdUGJO6hqjd6fTwvVWvyyqB6klXhza2aQR
+ ENgPZDWUSFFqiEJlgJWVkFvrqBkuLRopsn56xNJ4Gv9YJPBVRwLU2mreH9quSjTO6P2P
+ qWC/tn8HRnUGU4BG1Ha0ni0WNu0Aj2nPZ63UnWDN/3ztDNxhbm+wAiUv/IjZ8yv8Vsbi
+ +9tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vVovGQ5fjfaOvKC3MlcNhsynn0qk9qxvdPKcyK4Jv4w=;
+ b=0H1qhapbEc035qwXm9QjSj0ZqYKMypmbQRfMhb9HMaxDTVRda8YshqNJ9Y3YiY0Kab
+ 6RFx4iOD+GWcKq5QFKrO1N+B0MUXobZY0HtcB527Mr7RfhLxee7acGWMW9h0mPkoyEIr
+ 99iW17oBnn82fWqaJ9qJE6Q65Clgrxl6nAZ312y7YpWEmrvMaaBEwDgMdKf9f1ynEbYm
+ kcO97JYwEqI3NPM1UFyZfrfFOYqqT5h4uETBKb9g+9tkWF6GpxUSvVX0bXqG8/acVXDo
+ nSNl/lZAPDhQbFH++3tkMSF2qegf+ziSUa3kfr5ceSNtpKYzCcnAEk83Xkd5rSS4sVbN
+ Im8w==
+X-Gm-Message-State: AOAM533D+J1uw9cTbaVo5AByYU/GuMMhXW0AbVKnGOfmmJndsB8tJB41
+ d6EbZR5EgNSSdle5jxVoztWeS5uDl/DAug+uZX4bAQ==
+X-Google-Smtp-Source: ABdhPJxah+q9lB20h/S1bst2Vd+U46LvT3NunyCVGnwL1zG0TY5UUWvGLrRl70BHU2xnrmIT+OvbhagZwM6c0qsZuYY=
+X-Received: by 2002:a17:907:8a13:b0:707:194c:30df with SMTP id
+ sc19-20020a1709078a1300b00707194c30dfmr5202131ejc.154.1655225274488; Tue, 14
+ Jun 2022 09:47:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <61ca0001-cf34-670e-3f06-f45a330c609a@linux.intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20220610092924.754942-1-maxime@cerno.tech>
+ <20220610092924.754942-26-maxime@cerno.tech>
+In-Reply-To: <20220610092924.754942-26-maxime@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 14 Jun 2022 17:47:28 +0100
+Message-ID: <CAPY8ntDemhFi3ZFfOE_9kxtmc7v8Wse0C+dz0xxLrBGvSPh12w@mail.gmail.com>
+Subject: Re: [PATCH 25/64] drm/vc4: dpi: Add action to disable the clock
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,394 +64,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, paulo.r.zanoni@intel.com,
- intel-gfx@lists.freedesktop.org, chris.p.wilson@intel.com,
- thomas.hellstrom@intel.com, dri-devel@lists.freedesktop.org,
- Jason Ekstrand <jason@jlekstrand.net>, daniel.vetter@intel.com,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>, christian.koenig@amd.com,
- matthew.auld@intel.com
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 14, 2022 at 05:07:37PM +0100, Tvrtko Ursulin wrote:
+Hi Maxime.
+
+On Fri, 10 Jun 2022 at 10:30, Maxime Ripard <maxime@cerno.tech> wrote:
 >
->On 14/06/2022 17:02, Tvrtko Ursulin wrote:
->>
->>On 14/06/2022 16:43, Niranjana Vishwanathapura wrote:
->>>On Tue, Jun 14, 2022 at 08:16:41AM +0100, Tvrtko Ursulin wrote:
->>>>
->>>>On 14/06/2022 00:39, Matthew Brost wrote:
->>>>>On Mon, Jun 13, 2022 at 07:09:06PM +0100, Tvrtko Ursulin wrote:
->>>>>>
->>>>>>On 13/06/2022 18:49, Niranjana Vishwanathapura wrote:
->>>>>>>On Mon, Jun 13, 2022 at 05:22:02PM +0100, Tvrtko Ursulin wrote:
->>>>>>>>
->>>>>>>>On 13/06/2022 16:05, Niranjana Vishwanathapura wrote:
->>>>>>>>>On Mon, Jun 13, 2022 at 09:24:18AM +0100, Tvrtko Ursulin wrote:
->>>>>>>>>>
->>>>>>>>>>On 10/06/2022 17:14, Niranjana Vishwanathapura wrote:
->>>>>>>>>>>On Fri, Jun 10, 2022 at 05:48:39PM +0300, Lionel 
->>>>>>>>>>>Landwerlin wrote:
->>>>>>>>>>>>On 10/06/2022 13:37, Tvrtko Ursulin wrote:
->>>>>>>>>>>>>
->>>>>>>>>>>>>On 10/06/2022 08:07, Niranjana Vishwanathapura wrote:
->>>>>>>>>>>>>>VM_BIND and related uapi definitions
->>>>>>>>>>>>>>
->>>>>>>>>>>>>>Signed-off-by: Niranjana Vishwanathapura
->>>>>>>>>>>>>><niranjana.vishwanathapura@intel.com>
->>>>>>>>>>>>>>---
->>>>>>>>>>>>>>  Documentation/gpu/rfc/i915_vm_bind.h | 490
->>>>>>>>>>>>>>+++++++++++++++++++++++++++
->>>>>>>>>>>>>>  1 file changed, 490 insertions(+)
->>>>>>>>>>>>>>  create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
->>>>>>>>>>>>>>
->>>>>>>>>>>>>>diff --git
->>>>>>>>>>>>>>a/Documentation/gpu/rfc/i915_vm_bind.h
->>>>>>>>>>>>>>b/Documentation/gpu/rfc/i915_vm_bind.h
->>>>>>>>>>>>>>new file mode 100644
->>>>>>>>>>>>>>index 000000000000..9fc854969cfb
->>>>>>>>>>>>>>--- /dev/null
->>>>>>>>>>>>>>+++ b/Documentation/gpu/rfc/i915_vm_bind.h
->>>>>>>>>>>>>>@@ -0,0 +1,490 @@
->>>>>>>>>>>>>>+/* SPDX-License-Identifier: MIT */
->>>>>>>>>>>>>>+/*
->>>>>>>>>>>>>>+ * Copyright © 2022 Intel Corporation
->>>>>>>>>>>>>>+ */
->>>>>>>>>>>>>>+
->>>>>>>>>>>>>>+/**
->>>>>>>>>>>>>>+ * DOC: I915_PARAM_HAS_VM_BIND
->>>>>>>>>>>>>>+ *
->>>>>>>>>>>>>>+ * VM_BIND feature availability.
->>>>>>>>>>>>>>+ * See typedef drm_i915_getparam_t param.
->>>>>>>>>>>>>>+ * bit[0]: If set, VM_BIND is supported, otherwise not.
->>>>>>>>>>>>>>+ * bits[8-15]: VM_BIND implementation version.
->>>>>>>>>>>>>>+ * version 0 will not have VM_BIND/UNBIND
->>>>>>>>>>>>>>timeline fence array support.
->>>>>>>>>>>>>>+ */
->>>>>>>>>>>>>>+#define I915_PARAM_HAS_VM_BIND        57
->>>>>>>>>>>>>>+
->>>>>>>>>>>>>>+/**
->>>>>>>>>>>>>>+ * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
->>>>>>>>>>>>>>+ *
->>>>>>>>>>>>>>+ * Flag to opt-in for VM_BIND mode of 
->>>>>>>>>>>>>>binding during VM creation.
->>>>>>>>>>>>>>+ * See struct drm_i915_gem_vm_control flags.
->>>>>>>>>>>>>>+ *
->>>>>>>>>>>>>>+ * The older execbuf2 ioctl will not
->>>>>>>>>>>>>>support VM_BIND mode of operation.
->>>>>>>>>>>>>>+ * For VM_BIND mode, we have new execbuf3
->>>>>>>>>>>>>>ioctl which will not accept any
->>>>>>>>>>>>>>+ * execlist (See struct
->>>>>>>>>>>>>>drm_i915_gem_execbuffer3 for more details).
->>>>>>>>>>>>>>+ *
->>>>>>>>>>>>>>+ */
->>>>>>>>>>>>>>+#define I915_VM_CREATE_FLAGS_USE_VM_BIND    (1 << 0)
->>>>>>>>>>>>>>+
->>>>>>>>>>>>>>+/**
->>>>>>>>>>>>>>+ * DOC: I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING
->>>>>>>>>>>>>>+ *
->>>>>>>>>>>>>>+ * Flag to declare context as long running.
->>>>>>>>>>>>>>+ * See struct drm_i915_gem_context_create_ext flags.
->>>>>>>>>>>>>>+ *
->>>>>>>>>>>>>>+ * Usage of dma-fence expects that they
->>>>>>>>>>>>>>complete in reasonable amount of time.
->>>>>>>>>>>>>>+ * Compute on the other hand can be long
->>>>>>>>>>>>>>running. Hence it is not appropriate
->>>>>>>>>>>>>>+ * for compute contexts to export request
->>>>>>>>>>>>>>completion dma-fence to user.
->>>>>>>>>>>>>>+ * The dma-fence usage will be limited to
->>>>>>>>>>>>>>in-kernel consumption only.
->>>>>>>>>>>>>>+ * Compute contexts need to use user/memory fence.
->>>>>>>>>>>>>>+ *
->>>>>>>>>>>>>>+ * So, long running contexts do not support 
->>>>>>>>>>>>>>output fences. Hence,
->>>>>>>>>>>>>>+ * I915_EXEC_FENCE_SIGNAL (See
->>>>>>>>>>>>>>&drm_i915_gem_exec_fence.flags) is expected
->>>>>>>>>>>>>>+ * to be not used. DRM_I915_GEM_WAIT ioctl
->>>>>>>>>>>>>>call is also not supported for
->>>>>>>>>>>>>>+ * objects mapped to long running contexts.
->>>>>>>>>>>>>>+ */
->>>>>>>>>>>>>>+#define I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING   (1u << 2)
->>>>>>>>>>>>>>+
->>>>>>>>>>>>>>+/* VM_BIND related ioctls */
->>>>>>>>>>>>>>+#define DRM_I915_GEM_VM_BIND        0x3d
->>>>>>>>>>>>>>+#define DRM_I915_GEM_VM_UNBIND        0x3e
->>>>>>>>>>>>>>+#define DRM_I915_GEM_EXECBUFFER3    0x3f
->>>>>>>>>>>>>>+#define DRM_I915_GEM_WAIT_USER_FENCE    0x40
->>>>>>>>>>>>>>+
->>>>>>>>>>>>>>+#define DRM_IOCTL_I915_GEM_VM_BIND
->>>>>>>>>>>>>>DRM_IOWR(DRM_COMMAND_BASE +
->>>>>>>>>>>>>>DRM_I915_GEM_VM_BIND, struct
->>>>>>>>>>>>>>drm_i915_gem_vm_bind)
->>>>>>>>>>>>>>+#define DRM_IOCTL_I915_GEM_VM_UNBIND
->>>>>>>>>>>>>>DRM_IOWR(DRM_COMMAND_BASE +
->>>>>>>>>>>>>>DRM_I915_GEM_VM_UNBIND, struct
->>>>>>>>>>>>>>drm_i915_gem_vm_bind)
->>>>>>>>>>>>>>+#define DRM_IOCTL_I915_GEM_EXECBUFFER3
->>>>>>>>>>>>>>DRM_IOWR(DRM_COMMAND_BASE +
->>>>>>>>>>>>>>DRM_I915_GEM_EXECBUFFER3, struct
->>>>>>>>>>>>>>drm_i915_gem_execbuffer3)
->>>>>>>>>>>>>>+#define DRM_IOCTL_I915_GEM_WAIT_USER_FENCE
->>>>>>>>>>>>>>DRM_IOWR(DRM_COMMAND_BASE +
->>>>>>>>>>>>>>DRM_I915_GEM_WAIT_USER_FENCE, struct
->>>>>>>>>>>>>>drm_i915_gem_wait_user_fence)
->>>>>>>>>>>>>>+
->>>>>>>>>>>>>>+/**
->>>>>>>>>>>>>>+ * struct drm_i915_gem_vm_bind - VA to 
->>>>>>>>>>>>>>object mapping to bind.
->>>>>>>>>>>>>>+ *
->>>>>>>>>>>>>>+ * This structure is passed to VM_BIND
->>>>>>>>>>>>>>ioctl and specifies the mapping of GPU
->>>>>>>>>>>>>>+ * virtual address (VA) range to the
->>>>>>>>>>>>>>section of an object that should be bound
->>>>>>>>>>>>>>+ * in the device page table of the 
->>>>>>>>>>>>>>specified address space (VM).
->>>>>>>>>>>>>>+ * The VA range specified must be unique
->>>>>>>>>>>>>>(ie., not currently bound) and can
->>>>>>>>>>>>>>+ * be mapped to whole object or a section
->>>>>>>>>>>>>>of the object (partial binding).
->>>>>>>>>>>>>>+ * Multiple VA mappings can be created to
->>>>>>>>>>>>>>the same section of the object
->>>>>>>>>>>>>>+ * (aliasing).
->>>>>>>>>>>>>>+ *
->>>>>>>>>>>>>>+ * The @queue_idx specifies the queue to
->>>>>>>>>>>>>>use for binding. Same queue can be
->>>>>>>>>>>>>>+ * used for both VM_BIND and VM_UNBIND
->>>>>>>>>>>>>>calls. All submitted bind and unbind
->>>>>>>>>>>>>>+ * operations in a queue are performed in 
->>>>>>>>>>>>>>the order of submission.
->>>>>>>>>>>>>>+ *
->>>>>>>>>>>>>>+ * The @start, @offset and @length should
->>>>>>>>>>>>>>be 4K page aligned. However the DG2
->>>>>>>>>>>>>>+ * and XEHPSDV has 64K page size for device
->>>>>>>>>>>>>>local-memory and has compact page
->>>>>>>>>>>>>>+ * table. On those platforms, for binding
->>>>>>>>>>>>>>device local-memory objects, the
->>>>>>>>>>>>>>+ * @start should be 2M aligned, @offset and
->>>>>>>>>>>>>>@length should be 64K aligned.
->>>>>>>>>>>>>>+ * Also, on those platforms, it is not
->>>>>>>>>>>>>>allowed to bind an device local-memory
->>>>>>>>>>>>>>+ * object and a system memory object in a
->>>>>>>>>>>>>>single 2M section of VA range.
->>>>>>>>>>>>>>+ */
->>>>>>>>>>>>>>+struct drm_i915_gem_vm_bind {
->>>>>>>>>>>>>>+    /** @vm_id: VM (address space) id to bind */
->>>>>>>>>>>>>>+    __u32 vm_id;
->>>>>>>>>>>>>>+
->>>>>>>>>>>>>>+    /** @queue_idx: Index of queue for binding */
->>>>>>>>>>>>>>+    __u32 queue_idx;
->>>>>>>>>>>>>
->>>>>>>>>>>>>I have a question here to which I did not find
->>>>>>>>>>>>>an answer by browsing the old threads.
->>>>>>>>>>>>>
->>>>>>>>>>>>>Queue index appears to be an implicit
->>>>>>>>>>>>>synchronisation mechanism, right? Operations on
->>>>>>>>>>>>>the same index are executed/complete in order of
->>>>>>>>>>>>>ioctl submission?
->>>>>>>>>>>>>
->>>>>>>>>>>>>Do we _have_ to implement this on the kernel
->>>>>>>>>>>>>side and could just allow in/out fence and let
->>>>>>>>>>>>>userspace deal with it?
->>>>>>>>>>>>
->>>>>>>>>>>>
->>>>>>>>>>>>It orders operations like in a queue. Which is kind
->>>>>>>>>>>>of what happens with existing queues/engines.
->>>>>>>>>>>>
->>>>>>>>>>>>If I understood correctly, it's going to be a
->>>>>>>>>>>>kthread + a linked list right?
->>>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>>Yes, that is correct.
->>>>>>>>>>>
->>>>>>>>>>>>
->>>>>>>>>>>>-Lionel
->>>>>>>>>>>>
->>>>>>>>>>>>
->>>>>>>>>>>>>
->>>>>>>>>>>>>Arbitrary/on-demand number of queues will add
->>>>>>>>>>>>>the complexity on the kernel side which should
->>>>>>>>>>>>>be avoided if possible.
->>>>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>>It was discussed in the other thread. Jason 
->>>>>>>>>>>prefers this over putting
->>>>>>>>>>>an artificial limit on number of queues (as user can
->>>>>>>>>>>anyway can exhaust
->>>>>>>>>>>the memory). I think complexity in the driver is manageable.
->>>>>>>>>>
->>>>>>>>>>You'll need to create tracking structures on demand, with
->>>>>>>>>>atomic replace of last fence, ref counting and locking of
->>>>>>>>>>some sort, more or less?
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>>We will have a workqueue, an work item and a linked list per queue.
->>>>>>>>>VM_BIND/UNBIND call will add the mapping request to the
->>>>>>>>>specified queue's
->>>>>>>>>linked list and schedule the work item on the 
->>>>>>>>>workqueue of that queue.
->>>>>>>>>I am not sure what you mean by last fence and replacing it.
->>>>>>>>>
->>>>>>>>>>>The other option being discussed in to have the user create those
->>>>>>>>>>>queues (like creating engine map) before hand and 
->>>>>>>>>>>use that in vm_bind
->>>>>>>>>>>and vm_unbind ioctls. This puts a limit on the number of queues.
->>>>>>>>>>>But it is not clean either and not sure it is worth
->>>>>>>>>>>making the interface
->>>>>>>>>>>more complex.
->>>>>>>>>>>https://www.spinics.net/lists/dri-devel/msg350448.html
->>>>>>>>>>
->>>>>>>>>>What about the third option of a flag to return a fence (of
->>>>>>>>>>some sort) and pass in a fence? That way userspace can
->>>>>>>>>>imagine zero or N queues with very little effort on the
->>>>>>>>>>kernel side. Was this considered?
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>>I am not clear what fence you are talking about here 
->>>>>>>>>and how does that
->>>>>>>>>help with the number of vm_bind queues. Can you eloborate?
->>>>>>>>
->>>>>>>>It is actually already documented that bind/unbind will support
->>>>>>>>input and output fences - so what are these queues on top of what
->>>>>>>>userspace can already achieve by using them? Purely a convenience or
->>>>>>>>there is more to it?
->>>>>>>>
->>>>>>>
->>>>>>>Oh, the vm_bind queues are discussed in this thread.
->>>>>>>https://lists.freedesktop.org/archives/intel-gfx/2022-June/299217.html
->>>>>>>
->>>>>>>
->>>>>>>Apparently Vulkan has requirement for multiple queues, each queue
->>>>>>>processing vm_bind/unbind calls in the order of submission.
->>>>>>
->>>>>>I don't see how that answers my question so I will take the freedom to
->>>>>>repeat it. What are these queues on top of what userspace can already
->>>>>>achieve by using in-out fences? Purely a convenience or 
->>>>>>there is more to it?
->>>>>>
->>>>>>Queue1:
->>>>>>
->>>>>>out_fence_A = vm_bind A
->>>>>>out_fence_B = vm_bind B, in_fence=out_fence_A
->>>>>>execbuf(in_fence = out_fence_B)
->>>>>>
->>>>>>Queue2:
->>>>>>
->>>>>>out_fence_C = vm_bind C
->>>>>>out_fence_D = vm_bind D, in_fence=out_fence_C
->>>>>>execbuf(in_fence = out_fence_D)
->>>>>>
->>>>>>Parallel bind:
->>>>>>out_fence_E = vm_bind E
->>>>>>out_fence_F = vm_bind F
->>>>>>merged_fence = fence_merge(out_fence_E, out_fence_F)
->>>>>>execbuf(in_fence = merged_fence)
->>>>>>
->>>>>
->>>>>Let's say you do this and only 1 queue:
->>>>>
->>>>>VM_BIND_A (in_fence=fence_A)
->>>>>VM_BIND_B (in_fence=NULL)
->>>>>
->>>>>With 1 queue VM_BIND_B in blocked on fence_A, hence the need for than 1
->>>>>queue.
->>>>
->>>>I don't follow - there isn't a concept of a queue exposed in 
->>>>uapi in what I have described so the above two run in parallel 
->>>>there, if we ignore fence_A in your example doesn't even exist 
->>>>before you pass it to bind A so something is not right.
->>>>
->>>>>e.g.
->>>>>VM_BIND_A (queue_id=0, in_fence=fence_A)
->>>>>VM_BIND_B (queue_id=1, in_fence=NULL)
->>>>>
->>>>>Now VM_BIND_B can immediately be executed regardless of fence_A status.
->>>>
->>>>In my examples userspace can serialise or not as it sees fit 
->>>>using fences. The "parallel bind" examples two binds run in 
->>>>parallel. Userspace can create multiple such parallel "queues" 
->>>>if it wanted.
->>>>
->>>>Parallel bind 1 and 2 interleaved:
->>>>out_fence_A = vm_bind A
->>>>out_fence_B = vm_bind B
->>>>out_fence_C = vm_bind C
->>>>out_fence_D = vm_bind D
->>>>// all binds can run in parallel
->>>>merged_fence_1 = fence_merge(out_fence_A, out_fence_B)
->>>>merged_fence_2 = fence_merge(out_fence_C, out_fence_D)
->>>>execbuf(in_fence = merged_fence_1) // after A&B to finish
->>>>execbuf(in_fence = merged_fence_2) // after C&D finish
->>>>
->>>>There is a huge disconnect somewhere but I don't know where.
->>>>
->>>
->>>Note that Vulkan has requirement that VM_BIND and VM_UNBIND
->>>operations will also have 'in' fences associated with them
->>>and not just the 'out' fences (which your example above shows).
->>
->>I gave more examples earlier:
->>
->>"""
->>Queue1:
->>
->>out_fence_A = vm_bind A
->>out_fence_B = vm_bind B, in_fence=out_fence_A
->>execbuf(in_fence = out_fence_B)
->>"""
->>
->>Clearly I showed both in and out fence.
->>
+> Adding a device-managed action will make the error path easier, so let's
+> create one to disable our clock.
 
-Ok, guess I missed that.
+The DPI block has two clocks (core and pixel), and this is only
+affecting one of them (the core clock).
+(I'm actually puzzling over what it's wanting to do with the core
+clock here as it's only enabling it rather than setting a rate. I
+think it may be redundant).
 
->>>Yes, one of the solution discussed was not to have any queue_idx
->>>at all (assume single queue) and let the vm_bind/unbind operations
->>>submitted run and complete out of submission order. That way
->>>a vm_bind/unbind sumitted later will not be blocked by a vm_bind/unbind
->>>submitted earlier.
->>>But removing the ordering here comes at a cost. Having the operations
->>>run in submission order has some benefits. These are discussed in the
->>>other thread.
->>>https://lists.freedesktop.org/archives/intel-gfx/2022-June/299217.html
->>
->>That is some messed up deep quoting in that link. Could you please 
->>summarize the cost which queues in the uapi intended to avoid?
->>
->>In any case it is not just for me. A significant addition is 
->>proposed for the driver so there should be a clear summary of cost 
->>vs benefit rather than a messy thread.
->>
+With that text amended:
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Say, user has a bunch of mappings to bind or unbind which must be done
-in the submission order. If we have only one queue which runs the
-operations out of submission order, then user has to insert in and out
-fences for each of the operation in the bunch. But by having a in order
-processing queues, user needs to insert 'in' fence only for the first
-submission and 'out' fence only for the last submission in that bunch.
+  Dave
 
-Also, having in order processing queues allows user to unbind a VA
-mapping and re-use the same VA in a subsequent bind operation without
-having any dependency (dependency is met by the fact that they are
-process in the submission order).
-
->>>Hence having multiple queues gives the benefit of both worlds and gives
->>>user more options.
->>
->>Maybe, but lets be specific.
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/vc4/vc4_dpi.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
 >
->Also, it can't really give the benefit of both worlds. You can't go 
->fully async with the queue_idx scheme without i915 having to create N 
->internal queues (where N = number of bind operations submitted).
+> diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
+> index 5a6cdea7bf7b..4e24dbad77f2 100644
+> --- a/drivers/gpu/drm/vc4/vc4_dpi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_dpi.c
+> @@ -237,6 +237,13 @@ static int vc4_dpi_init_bridge(struct vc4_dpi *dpi)
+>         return drm_bridge_attach(&dpi->encoder.base, bridge, NULL, 0);
+>  }
 >
-
-We will have 1 internal queue for each queue_idx used by the user as
-each queue is an ordered queue (processed in the submission order).
-
-Niranjana
-
->Therefore I suspect it's a trade-off between cost and convenience but 
->I'd like things clearly summarized so decision can be made.
+> +static void vc4_dpi_disable_clock(void *ptr)
+> +{
+> +       struct vc4_dpi *dpi = ptr;
+> +
+> +       clk_disable_unprepare(dpi->core_clock);
+> +}
+> +
+>  static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
+>  {
+>         struct platform_device *pdev = to_platform_device(dev);
+> @@ -285,6 +292,10 @@ static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
+>                 return ret;
+>         }
 >
->Regards,
+> +       ret = devm_add_action_or_reset(dev, vc4_dpi_disable_clock, dpi);
+> +       if (ret)
+> +               return ret;
+> +
+>         drm_simple_encoder_init(drm, &dpi->encoder.base, DRM_MODE_ENCODER_DPI);
+>         drm_encoder_helper_add(&dpi->encoder.base, &vc4_dpi_encoder_helper_funcs);
 >
->Tvrtko
+> @@ -300,7 +311,6 @@ static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
+>
+>  err_destroy_encoder:
+>         drm_encoder_cleanup(&dpi->encoder.base);
+> -       clk_disable_unprepare(dpi->core_clock);
+>         return ret;
+>  }
+>
+> @@ -310,8 +320,6 @@ static void vc4_dpi_unbind(struct device *dev, struct device *master,
+>         struct vc4_dpi *dpi = dev_get_drvdata(dev);
+>
+>         drm_encoder_cleanup(&dpi->encoder.base);
+> -
+> -       clk_disable_unprepare(dpi->core_clock);
+>  }
+>
+>  static const struct component_ops vc4_dpi_ops = {
+> --
+> 2.36.1
+>
