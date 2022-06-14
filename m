@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC1654B74C
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 19:04:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C258454B74D
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 19:05:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B00B910E87D;
-	Tue, 14 Jun 2022 17:04:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B04BC10F2E3;
+	Tue, 14 Jun 2022 17:05:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0B1110E87D
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 17:04:56 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id y19so18410907ejq.6
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 10:04:56 -0700 (PDT)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C41610F798
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 17:05:23 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id cn20so127485edb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 10:05:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xzhLv9G6CaeSeCKFJO7N9j7SHkabcgH60j1lb89MxMI=;
- b=lfKKKCgx9I3YBLNpmg1jBXVVsz2rKVYta3PQAd8iskRng4cNe9qIdXaCCYthyAfKU2
- hCEC4ROiFCBEqhRrnaVv/6t0QBqG3wANPG2i2dcltVLJU2FvoCTI+5xa3CQ3l4R3zXcy
- 1rRS7wb0DwF6mAYKE+3NPPL6/fd2uoqQpiN3pD61dAgxvksFvRZcXtRpEggK0Mnuik0I
- tG0AUpaoW3VgcSCe86c2NSZ4Jiiah4eCgxQmodMsv2v2BW9LE0yt7KKJeCgOvecPd+L4
- yL5SCTaLL7RRr01f4ktVQudBEKLBNACsB7F+e5pnnXuGuCyKA+bhT1XUcveO9DoL4XOK
- URRA==
+ :cc; bh=11dNLzt3SUmGnO4jGyGyu0zfTo5dEEb7eTkmHbSzfms=;
+ b=FpnxDLy6JQb1GrwjUPQD7wbLSSrJP2kpJOjbaVn/kumsGr1V5AcMjJnTY4hjKehhfu
+ Va/ipzGwfk/29tuNSS0fTRU3tZNF7gXseIUVdOcyCuDG9ZZNhW1jqHm2UQ1ChZ6WJDiT
+ VA93Cg5Ju79795rE8HMC1JbSlatbaVJ0hujymP7QezyoXbPNeSrVWYfPCuxkmsmcNZh7
+ sJEADoXlfEm1w2LKHot81tVg0kP+/nY3ujCYxpnWmTlBoQZM+KQyqISJgeKm/4pEqBTA
+ 0Mf6W02JdU7+2dnxu8P9ZAqh6DEHTahQyJi9jsgYUAa8e1TeGwb62Wa5pqgeXiPIt5ok
+ O8oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xzhLv9G6CaeSeCKFJO7N9j7SHkabcgH60j1lb89MxMI=;
- b=a9d+Vhiss8yFdpJ0VbcBG0e+3xBoOJyXXyB9QkL2lwAeB8NRtd9gDMt8kOmVq/5Q8l
- fPay3jKpwt8QdtvkxkaKfuikpxYHwUEvlrnffBe0pyvPb1hsHdMzkAddgzpzdh3CgorK
- Es0sgR6HWITE2eoWYN+YHHdR+iIwI9e/bXdv3exde50nliI7J6zqYSS24MzIrdNv6+qM
- 7mM6KeevJy+jMTEJGnF3lWcdnz208RK+wgjMcYwZ9OM9w0QSxRf8rQL3fxbJPboeZ+IK
- pP96FLj8RUATvLNObPRiDZvKRpbMYkdufULdUNH03dYZfXExROl+5Ibs8Bt3wXFDBmU2
- 6Dkw==
-X-Gm-Message-State: AOAM5334dpHpxL/6KiGWFw9JrWVhEq0v2DjN1vAvNvJHkJbW0jVFdZyy
- Swr85KCryOX/sJ1RC1Hj5V4rad1zCfvJOa93vSaIlA==
-X-Google-Smtp-Source: ABdhPJxHXecqff3yA0YqHQdgoeEPx/+jbWGqCeiLcoW3mvPKbk6T1XRdV8tCTiCu7vKAqeZwl0ziB2e8xF6OiHagBpM=
-X-Received: by 2002:a17:906:649b:b0:711:fde7:be43 with SMTP id
- e27-20020a170906649b00b00711fde7be43mr5357488ejm.294.1655226295217; Tue, 14
- Jun 2022 10:04:55 -0700 (PDT)
+ bh=11dNLzt3SUmGnO4jGyGyu0zfTo5dEEb7eTkmHbSzfms=;
+ b=clQEJyvn28DpXbWRsv47G1kOb0h79vMGeiZXifHMq4GB9+c6hjG9+p+KTxehBifHwM
+ xY+hyQf/gZP9RSwkkRXSPGoKvi8iNtABt/q9/PHvtS2xaNoC3KWrHiaSC+cOKKYq1o/4
+ g9zND3/nFF3wYjfKnHDJlgDFbQqVgh/ky0fjNoj2jwe8u2iMcajdFq4+ok4F0IRLhFaX
+ oLF+4PCkR283pJhINWovD94tlne7YUu4/5Bn1i1rOMpChi1Bwl5K6JsLQ4wYCPTMch/U
+ exQfUQrxQ4BeBfUW5DFfV2UTHlwOdTHedlQVv6m/bXj4A/LW4z/uYH6L8TsLnnU8WFoa
+ GX9w==
+X-Gm-Message-State: AOAM532ePwJG7fvNDxoQsIqaMh9dnq27kpWH7E8Dveom1w3lLWQprhcv
+ KJvl2emmYLml53DPqM/NWW10pGLCvKj9mK3vv6CEaA==
+X-Google-Smtp-Source: AGRyM1sqtfnCcCgh8Khfb46b+/ABYB4avOhXw6CqGZKt1bAmFTvfmQOze1FUWbJP57+fQrUg7BuRhKudoLO/Awqv05M=
+X-Received: by 2002:a05:6402:90d:b0:428:c1ad:1e74 with SMTP id
+ g13-20020a056402090d00b00428c1ad1e74mr7348195edz.345.1655226321797; Tue, 14
+ Jun 2022 10:05:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-31-maxime@cerno.tech>
-In-Reply-To: <20220610092924.754942-31-maxime@cerno.tech>
+ <20220610092924.754942-32-maxime@cerno.tech>
+In-Reply-To: <20220610092924.754942-32-maxime@cerno.tech>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 14 Jun 2022 18:04:39 +0100
-Message-ID: <CAPY8ntBM-F0F=vipCw=LRv+J_dHLTHzUdBA9_ks8R0S04My_PA@mail.gmail.com>
-Subject: Re: [PATCH 30/64] drm/vc4: dsi: Switch to DRM-managed encoder
- initialization
+Date: Tue, 14 Jun 2022 18:05:06 +0100
+Message-ID: <CAPY8ntDnTH9vzr0Nxu=P5cLh7MTc2MhBM4j21T_ZY_k3PiNNkw@mail.gmail.com>
+Subject: Re: [PATCH 31/64] drm/vc4: dsi: Switch to drmm_of_get_bridge
 To: Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,46 +72,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Fri, 10 Jun 2022 at 10:30, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> The current code will call drm_encoder_cleanup() when the device is
-> unbound. However, by then, there might still be some references held to
-> that encoder, including by the userspace that might still have the DRM
-> device open.
+> The current code uses a device-managed function to retrieve the next bridge
+> downstream.
 >
-> Let's switch to a DRM-managed initialization to clean up after ourselves
-> only once the DRM device has been last closed.
+> However, that means that it will be removed at unbind time, where the DRM
+> device is still very much live and might still have some applications that
+> still have it open.
+>
+> Switch to a DRM-managed variant to clean everything up once the DRM device
+> has been last closed.
 >
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->  drivers/gpu/drm/vc4/vc4_dsi.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_dsi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-> index dbb3f6fb39b4..bcaf87b43cbd 100644
+> index bcaf87b43cbd..10533a2a41b3 100644
 > --- a/drivers/gpu/drm/vc4/vc4_dsi.c
 > +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-> @@ -1599,7 +1599,10 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
->         if (ret)
+> @@ -1584,7 +1584,7 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
 >                 return ret;
+>         }
 >
-> -       drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_DSI);
-> +       ret = drmm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_DSI);
-> +       if (ret)
-> +               return ret;
-> +
->         drm_encoder_helper_add(encoder, &vc4_dsi_encoder_helper_funcs);
+> -       dsi->bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+> +       dsi->bridge = drmm_of_get_bridge(drm, dev->of_node, 0, 0);
+>         if (IS_ERR(dsi->bridge))
+>                 return PTR_ERR(dsi->bridge);
 >
->         ret = drm_bridge_attach(encoder, dsi->bridge, NULL, 0);
-> @@ -1632,7 +1635,6 @@ static void vc4_dsi_unbind(struct device *dev, struct device *master,
->          * normally.
->          */
->         list_splice_init(&dsi->bridge_chain, &encoder->bridge_chain);
-> -       drm_encoder_cleanup(encoder);
->  }
->
->  static const struct component_ops vc4_dsi_ops = {
 > --
 > 2.36.1
 >
