@@ -1,65 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F24E54ABC9
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 10:29:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9866554ABED
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 10:38:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40BE410E27F;
-	Tue, 14 Jun 2022 08:29:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B913310EF14;
+	Tue, 14 Jun 2022 08:38:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92DE810FAF1
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 08:29:22 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 430761F894;
- Tue, 14 Jun 2022 08:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1655195361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4WTVk6G9nUzhpysAZt1RnEduyQYGdaFvpvXMr3jn9RA=;
- b=GwSqsDqropK2mihlbiE4lzeL2vREBNo/E5H28OsRVi/QEZwd4GCidO+2/pb1MTGa8Sfnlz
- TKT4P0FzIKyItZqn6XYYnli5q9L7hxUc7i+ojoj4drDwJkTRhJffQk6CM/otk+kpfDzeyV
- xSVu61cfLO3P4VHOoMiysvfrDX0ynV8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1655195361;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4WTVk6G9nUzhpysAZt1RnEduyQYGdaFvpvXMr3jn9RA=;
- b=TdDVptVcwiSjNTEhvdMVfAGE4uLBj4FRCUoieXrpw0CRgxzZCLwC2T7CiKdfJx4gn7VnMD
- i66rWB02bGzMSVBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 21E2E1361C;
- Tue, 14 Jun 2022 08:29:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id dJBWB+FGqGICHwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 14 Jun 2022 08:29:21 +0000
-Message-ID: <ef19ba8b-ec66-9a00-5456-b4eefbec95cd@suse.de>
-Date: Tue, 14 Jun 2022 10:29:20 +0200
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE83B10EF14
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 08:38:10 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-1011df6971aso9178760fac.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 01:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=utIOJeHG0w8xs3SdDFyTFAYjLdnYVwoFoYTnpKxafwQ=;
+ b=PpOH0MNv6SWnsCve6x76GZ2a7kc2QZ0KWbrdW6PwdMuxBBXd7x7jmWZJ9Why9wWUlZ
+ mo3tuBIoV7efRGdIejyHvqTtg//3/Ea/6842v6XznIBCTIdLIF5P0UHz/RWKAikYCH6T
+ z60XTX8aSPx5UJmA8TfiQvgJ/E9L0dM3B9oBE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=utIOJeHG0w8xs3SdDFyTFAYjLdnYVwoFoYTnpKxafwQ=;
+ b=hyPwH0BjtNE/1+udjnuh3e6UPeb2kpGcH3ZnNp5cZBLmK0lcewxqpdgv8I4LraCOJ8
+ Uxo8dlNmbwcbUBCDnL1gUOtsCBIEVCoHsOCRPzc79i4ZxaltOuvOHfzLG+OSTUAfszQv
+ DweN+UTM0vMqo5+9moJfe2vwypcBU2XFe9/BpEsmf6WLz3jmio5AO2FsYk/p2tHA8tiG
+ hlx8vtwhoUaa2bJRX9WuC62y/DkPfr+I6NU2PekWhCiehm6WrjGEwcpkttdoysjn2DKq
+ E98j6quI7M9m9NaZoP+7gHNjuswUYl3BlSxP6+VRvrAdD76do98ODWjTlaFL+JCJxqyB
+ cg3Q==
+X-Gm-Message-State: AJIora9fBTfEY0htiOjqHgFnXWawxQlDpAs8auhLXa6Hvjomx66+0D3y
+ nTCTUZgvOprRc8oHlKW9bmp2dZLUbN9ZBlyOp3kMlA==
+X-Google-Smtp-Source: AGRyM1tIQCOd0lHpGAf9UboG4z86U6be0GMGv1Fy2kiXMRApvUT1XTQs3EslrPM7sbRGeKYe8XQa6rgpoSs+KeBwBEQ=
+X-Received: by 2002:a05:6870:b381:b0:fe:2004:b3b5 with SMTP id
+ w1-20020a056870b38100b000fe2004b3b5mr1683897oap.63.1655195889918; Tue, 14 Jun
+ 2022 01:38:09 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 14 Jun 2022 01:38:09 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 02/64] drm/crtc: Introduce drmm_crtc_init_with_planes
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-3-maxime@cerno.tech>
- <d975dc1d-7573-7976-427f-e941cbfa0caf@suse.de>
- <20220614073716.zwshdcf3q5fjobuq@houat>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220614073716.zwshdcf3q5fjobuq@houat>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------xc64ghTSnrEF6Lx7bj6D2S2M"
+In-Reply-To: <1655156917-21726-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1655156917-21726-1-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Tue, 14 Jun 2022 01:38:09 -0700
+Message-ID: <CAE-0n50Z92PM+j7S_wmTeLcmu5cVO3YBT+viLeoLs5QhgXZMoA@mail.gmail.com>
+Subject: Re: [PATCH v5] drm/msm/dp: force link training for display resolution
+ change
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
+ dmitry.baryshkov@linaro.org, robdclark@gmail.com, sean@poorly.run, 
+ vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,94 +68,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------xc64ghTSnrEF6Lx7bj6D2S2M
-Content-Type: multipart/mixed; boundary="------------MUguF7wP3nUDiLY12dlro4eF";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org
-Message-ID: <ef19ba8b-ec66-9a00-5456-b4eefbec95cd@suse.de>
-Subject: Re: [PATCH 02/64] drm/crtc: Introduce drmm_crtc_init_with_planes
-References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-3-maxime@cerno.tech>
- <d975dc1d-7573-7976-427f-e941cbfa0caf@suse.de>
- <20220614073716.zwshdcf3q5fjobuq@houat>
-In-Reply-To: <20220614073716.zwshdcf3q5fjobuq@houat>
+Quoting Kuogee Hsieh (2022-06-13 14:48:37)
+> During display resolution changes display have to be disabled first
+> followed by display enabling with new resolution. Display disable
+> will turn off both pixel clock and main link clock so that main link
+> have to be re-trained during display enable to have new video stream
+> flow again. At current implementation, display enable function manually
+> kicks up irq_hpd_handle which will read panel link status and start link
+> training if link status is not in sync state. However, there is rare
+> case that a particular panel links status keep staying in sync for
+> some period of time after main link had been shut down previously at
+> display disabled. Main link retraining will not be executed by
+> irq_hdp_handle() if the link status read from panel shows it is in
+> sync state. If this was happen, then video stream of newer display
+> resolution will fail to be transmitted to panel due to main link is
+> not in sync between host and panel. This patch force main link always
+> be retrained during display enable procedure to prevent this rare
+> failed case from happening. Also this implementation are more
+> efficient than manual kicking off irq_hpd_handle function.
 
---------------MUguF7wP3nUDiLY12dlro4eF
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+How is resolution change different from disabling and enabling the
+display? The commit text talks about resolution changes, but the code
+doesn't compare resolutions from before and after to know when to
+retrain the link. Can the code be made to actually do what the commit
+text says? It would be clearer if the code looked for actual resolution
+changes instead of hooking the dp_bridge_enable() function.
 
-SGkNCg0KQW0gMTQuMDYuMjIgdW0gMDk6Mzcgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBI
-aSBUaG9tYXMsDQo+IA0KPiBPbiBNb24sIEp1biAxMywgMjAyMiBhdCAwMToyMzo1NFBNICsw
-MjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IEFtIDEwLjA2LjIyIHVtIDExOjI4
-IHNjaHJpZWIgTWF4aW1lIFJpcGFyZDoNCj4+PiBUaGUgRFJNLW1hbmFnZWQgZnVuY3Rpb24g
-dG8gcmVnaXN0ZXIgYSBDUlRDIGlzDQo+Pj4gZHJtbV9jcnRjX2FsbG9jX3dpdGhfcGxhbmVz
-KCksIHdoaWNoIHdpbGwgYWxsb2NhdGUgdGhlIHVuZGVybHlpbmcNCj4+PiBzdHJ1Y3R1cmUg
-YW5kIGluaXRpYWxpc2F0aW9uIHRoZSBDUlRDLg0KPj4+DQo+Pj4gSG93ZXZlciwgd2UgbWln
-aHQgd2FudCB0byBzZXBhcmF0ZSB0aGUgc3RydWN0dXJlIGNyZWF0aW9uIGFuZCB0aGUgQ1JU
-Qw0KPj4+IGluaXRpYWxpc2F0aW9uLCBmb3IgZXhhbXBsZSBpZiB0aGUgc3RydWN0dXJlIGlz
-IHNoYXJlZCBhY3Jvc3MgbXVsdGlwbGUNCj4+PiBEUk0gZW50aXRpZXMsIGZvciBleGFtcGxl
-IGFuIGVuY29kZXIgYW5kIGEgY29ubmVjdG9yLg0KPj4+DQo+Pj4gTGV0J3MgY3JlYXRlIGFu
-IGhlbHBlciB0byBvbmx5IGluaXRpYWxpc2UgYSBDUlRDIHRoYXQgd291bGQgYmUgcGFzc2Vk
-IGFzDQo+Pj4gYW4gYXJndW1lbnQuDQo+Pg0KPj4gQmVmb3JlIEkgcmV2aWV3IGFsbCBvZiB0
-aGVzIHBhdGNoZXMsIG9uZSBxdWVzdGlvbi4gaXQncyB5ZXQgbm90IGNsZWFyIHRvIG1lDQo+
-PiB3aHkgZHJtX2NydGNfaW5pdF93aXRoX3BsYW5lcygpIHdvdWxkbid0IHdvcmsuIChJIGtu
-b3cgd2UgZGlzY3Vzc2VkIHRoaXMgb24NCj4+IElSQy4pDQo+Pg0KPj4gSWYgeW91J3JlIGNh
-bGxpbmcgZHJtbV9tb2RlX2NvbmZpZ19pbml0KCksIGl0IHdpbGwgY2xlYW4gdXAgYWxsIHRo
-ZSBDUlRDLA0KPj4gZW5jb2RlciBjb25uZWN0b3IsIGV0Yy4gZGF0YSBzdHJ1Y3R1cmVzIGZv
-ciB5b3UuIEZvciBDUlRDIGluc3RhbmNlcyBpbg0KPj4ga21hbGxvY2VkIG1lbW9yeSwgd291
-bGRuJ3QgaXQgYmUgc2ltcGxlciB0byBwdXQgdGhlIGNvcnJlc3BvbmRpbmcga2ZyZWUgaW50
-bw0KPj4gdmM0X2NydGNfZGVzdHJveSgpPw0KPiANCj4gTXkgaW50ZW50IHdhcyB0byByZW1v
-dmUgYXMgbXVjaCBvZiB0aGUgbGlmZXRpbWUgaGFuZGxpbmcgYW5kDQo+IG1lbW9yeS1tYW5h
-Z2VtZW50IGZyb20gZHJpdmVycyBhcyBwb3NzaWJsZS4NCj4gDQo+IE15IGZlZWxpbmcgaXMg
-dGhhdCB3aGlsZSB0aGUgc29sdXRpb24geW91IHN1Z2dlc3Qgd291bGQgZGVmaW5pdGVseSB3
-b3JrLA0KPiBpdCByZWxpZXMgb24gZHJpdmVycyBhdXRob3JzIHRvIGtub3cgYWJvdXQgdGhp
-cywgYW5kIG1ha2UgdGhlIGVmZm9ydCB0bw0KPiBjb252ZXJ0IHRoZSBkcml2ZXJzIHRoZW1z
-ZWx2ZXMuIEFuZCB0aGVuIHdlIHdvdWxkIGhhdmUgdG8gcmV2aWV3IHRoYXQsDQo+IHdoaWNo
-IHdlIHdpbGwgcHJvYmFibHkgbWlzcyAoY29sbGVjdGl2ZWx5KSwgYmVjYXVzZSBpdCdzIGEg
-Yml0IG9ic2N1cmUuDQo+IA0KPiBXaGlsZSB3aXRoIGVpdGhlciB0aGUgZHJtbV9hbGxvY18q
-IGZ1bmN0aW9ucywgb3IgdGhlIG5ldyBmdW5jdGlvbnMgSQ0KPiBpbnRyb2R1Y2UgdGhlcmUs
-IHdlIGNhbiBqdXN0IGRlcHJlY2F0ZSB0aGUgb2xkIG9uZXMsIGNyZWF0ZSBhIFRPRE8gZW50
-cnkNCj4gYW5kIGEgY29jY2luZWxsZSBzY3JpcHQgYW5kIHRydXN0IHRoYXQgaXQgd29ya3Mg
-cHJvcGVybHkuDQoNClRoYW5rcyBmb3IgZXhwbGFpbmluZyB0aGUgbW90aXZhdGlvbi4NCg0K
-SSB3b3VsZCBub3Qgd2FudCB0byBkZXByZWNhdGUgYW55IG9mIHRoZSBleGlzdGluZyBmdW5j
-dGlvbnMsIGFzIHRoZXkgDQp3b3JrIGZvciBtYW55IGRyaXZlcnMuIFRoZSBkcm1tXyBmdW5j
-dGlvbnMgYWRkIGFkZGl0aW9uYWwgb3ZlcmhlYWQgdGhhdCANCm5vdCBldmVyeW9uZSBpcyB3
-aWxsaW5nIHRvIHBheS4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gTWF4aW1l
-DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIN
-ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwg
-OTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpH
-ZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+>
+> Changes in v2:
+> -- set force_link_train flag on DP only (is_edp == false)
+>
+> Changes in v3:
+> -- revise commit  text
+> -- add Fixes tag
+>
+> Changes in v4:
+> -- revise commit  text
+>
+> Changes in v5:
+> -- fix spelling at commit text
+>
+> Fixes: 62671d2ef24b ("drm/msm/dp: fixes wrong connection state caused by failure of link train")
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c    |  6 +++---
+>  drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
+>  drivers/gpu/drm/msm/dp/dp_display.c | 15 ++++++++-------
+>  3 files changed, 12 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index af7a80c..bea93eb 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -1551,7 +1551,7 @@ static int dp_ctrl_process_phy_test_request(struct dp_ctrl_private *ctrl)
+>
+>         ret = dp_ctrl_on_link(&ctrl->dp_ctrl);
+>         if (!ret)
+> -               ret = dp_ctrl_on_stream(&ctrl->dp_ctrl);
+> +               ret = dp_ctrl_on_stream(&ctrl->dp_ctrl, false);
 
---------------MUguF7wP3nUDiLY12dlro4eF--
+Does this even matter if it's true or false? The 'sink_request' has
+DP_TEST_LINK_PHY_TEST_PATTERN set from what I can tell, and then
+dp_ctrl_on_stream() bails out before calling dp_ctrl_link_retrain()
+anyway. It would be nice if we could split dp_ctrl_on_stream() so that
+the part after the check for the sink request is a different function
+that is called by dp_display.c and then this code can call the 'prepare'
+function that does the first part. Then we can ignore the testing path
+in the code, and possibly remove the conditional in dp_ctrl_on_stream()?
 
---------------xc64ghTSnrEF6Lx7bj6D2S2M
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+>         else
+>                 DRM_ERROR("failed to enable DP link controller\n");
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index c388323..370348d 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -872,7 +872,7 @@ static int dp_display_enable(struct dp_display_private *dp, u32 data)
+>                 return 0;
+>         }
+>
+> -       rc = dp_ctrl_on_stream(dp->ctrl);
+> +       rc = dp_ctrl_on_stream(dp->ctrl, data);
+>         if (!rc)
+>                 dp_display->power_on = true;
+>
+> @@ -1654,6 +1654,7 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
+>         int rc = 0;
+>         struct dp_display_private *dp_display;
+>         u32 state;
+> +       bool force_link_train = false;
+>
+>         dp_display = container_of(dp, struct dp_display_private, dp_display);
+>         if (!dp_display->dp_mode.drm_mode.clock) {
+> @@ -1688,10 +1689,14 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
+>
+>         state =  dp_display->hpd_state;
+>
+> -       if (state == ST_DISPLAY_OFF)
+> +       if (state == ST_DISPLAY_OFF) {
+>                 dp_display_host_phy_init(dp_display);
+>
+> -       dp_display_enable(dp_display, 0);
+> +               if (!dp->is_edp)
 
------BEGIN PGP SIGNATURE-----
+I didn't see any answer to my question about why edp is special on v4.
+Can you at least add a comment to the code about why edp doesn't need to
+unconditionally retrain, but DP does?
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKoRuAFAwAAAAAACgkQlh/E3EQov+Bz
-PhAAoQCA/zxJhj2lJ2Uyfo1M2tYlcI76jNxEQrTapT3PJAAGBKI+KA85GmQp8FuHHWrvgqz0MbTs
-CdADvW2wLB5+4VNWvflFBetXcqhzM8kU2IYEdrhVlSN0zW8slzU7jfxJScx2ZUEkCL5/M80b6NAr
-vpVHBGYWuv+VcsBSgOU4oE4j8DLjvrMf9j4NKRegtYtPgmajCLVFbjXkke5ZzpZEbyzEiK2oEnbI
-nuCfNLEWmUf9F1wc84m4KLl1gbphdQyTqq3O4oLlQmKjIDsZQOE6bWK2Yh+rLmTWe+nMZ7IuaY+y
-/mQVl3TG4TRsKGKSWEV84CLZQ0XHI2WvB+hmuDo5DfTVoVtCz+NV6vDjuJ2+1Iq7GgvopIBtV0cA
-FTzZpqRx9cgaSE/KLV81RaDAI2Ey80971FycnQ2DvIfy12lxF5rz3Mk6Ee2t+14EToBIf0xSjkSV
-G0Ozz6k9/pJDq+hyRr/vZbMF1aQJjt7xgJ4qaasGfTqmmWpiKT3NaqOXJkhU2lqPklykNNNauL/0
-9HcrSQPg870fUXtFAiLhgaP+9Hq/kJ132DNWVB819ZbZIJkIDkn3PwakAAq6cUCQho0bueMKNXdB
-+nFoRgJHGO8oafUEYM3mJZQdDqGOehHqivRcOsv+Zd1DmIeOX8wUHzHfvGI+ji41RtJwnxma12XJ
-mQg=
-=nBM5
------END PGP SIGNATURE-----
-
---------------xc64ghTSnrEF6Lx7bj6D2S2M--
+> +                       force_link_train = true;
+> +       }
+> +
+> +       dp_display_enable(dp_display, force_link_train);
+>
+>         rc = dp_display_post_enable(dp);
+>         if (rc) {
