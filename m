@@ -2,49 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F6454ABC6
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 10:28:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F24E54ABC9
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 10:29:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D098010F960;
-	Tue, 14 Jun 2022 08:27:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40BE410E27F;
+	Tue, 14 Jun 2022 08:29:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9745410FD89
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 08:27:56 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 57AE466016A5;
- Tue, 14 Jun 2022 09:27:54 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1655195275;
- bh=ydqkHg2s0zBILzARZnJ3e6Y01dsz1E92/hWRLQFTOj8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=LXxn9p9IDVY0mvOrzmmkZlAZb8MoYCJIuQhaq56qZwxy6F+FDSxBjUQDtYXvifB4S
- FLyb6/LHJCGs6RjGuNZ30ZxYYHod9uMU3mkAPpCYuXSBaxYnKPn2lb6bG0c5YMOF+X
- g8hEfy6bRp1LQER1il8q9p3mB3kf/RMlRxk05s8DaSJTnzw+NH9suU9y/sL22WLduP
- /3Agloj16pnWlgFRdGCuRx66C3sXmRIGLDjpZVjvUI8JKCdv8xQ7N3/Tfun7OuwMvX
- 0lVeqyG8oIGFRpRsJPMv/Az3PDbFo3g8mS5OTQs0sHIUqJ7xGG109i5BNnuMCnOMfd
- jpIk1d/7cMibA==
-Message-ID: <260305f3-78e5-6b57-398c-f63073eb6c03@collabora.com>
-Date: Tue, 14 Jun 2022 10:27:51 +0200
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92DE810FAF1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 08:29:22 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 430761F894;
+ Tue, 14 Jun 2022 08:29:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1655195361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4WTVk6G9nUzhpysAZt1RnEduyQYGdaFvpvXMr3jn9RA=;
+ b=GwSqsDqropK2mihlbiE4lzeL2vREBNo/E5H28OsRVi/QEZwd4GCidO+2/pb1MTGa8Sfnlz
+ TKT4P0FzIKyItZqn6XYYnli5q9L7hxUc7i+ojoj4drDwJkTRhJffQk6CM/otk+kpfDzeyV
+ xSVu61cfLO3P4VHOoMiysvfrDX0ynV8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1655195361;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4WTVk6G9nUzhpysAZt1RnEduyQYGdaFvpvXMr3jn9RA=;
+ b=TdDVptVcwiSjNTEhvdMVfAGE4uLBj4FRCUoieXrpw0CRgxzZCLwC2T7CiKdfJx4gn7VnMD
+ i66rWB02bGzMSVBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 21E2E1361C;
+ Tue, 14 Jun 2022 08:29:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id dJBWB+FGqGICHwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 14 Jun 2022 08:29:21 +0000
+Message-ID: <ef19ba8b-ec66-9a00-5456-b4eefbec95cd@suse.de>
+Date: Tue, 14 Jun 2022 10:29:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v2 1/7] usb: typec: mux: Allow muxes to specify mode-switch
+Subject: Re: [PATCH 02/64] drm/crtc: Introduce drmm_crtc_init_with_planes
 Content-Language: en-US
-To: Prashant Malani <pmalani@chromium.org>, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org
-References: <20220609181106.3695103-1-pmalani@chromium.org>
- <20220609181106.3695103-2-pmalani@chromium.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220609181106.3695103-2-pmalani@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Maxime Ripard <maxime@cerno.tech>
+References: <20220610092924.754942-1-maxime@cerno.tech>
+ <20220610092924.754942-3-maxime@cerno.tech>
+ <d975dc1d-7573-7976-427f-e941cbfa0caf@suse.de>
+ <20220614073716.zwshdcf3q5fjobuq@houat>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220614073716.zwshdcf3q5fjobuq@houat>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------xc64ghTSnrEF6Lx7bj6D2S2M"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,35 +72,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
- Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Robert Foss <robert.foss@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 09/06/22 20:09, Prashant Malani ha scritto:
-> Loosen the typec_mux_match() requirements so that searches where an
-> alt mode is not specified, but the target mux device lists the
-> "mode-switch" property, return a success.
-> 
-> This is helpful in Type C port drivers which would like to get a pointer
-> to the mux switch associated with a Type C port, but don't want to
-> specify a particular alt mode.
-> 
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------xc64ghTSnrEF6Lx7bj6D2S2M
+Content-Type: multipart/mixed; boundary="------------MUguF7wP3nUDiLY12dlro4eF";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel@lists.freedesktop.org
+Message-ID: <ef19ba8b-ec66-9a00-5456-b4eefbec95cd@suse.de>
+Subject: Re: [PATCH 02/64] drm/crtc: Introduce drmm_crtc_init_with_planes
+References: <20220610092924.754942-1-maxime@cerno.tech>
+ <20220610092924.754942-3-maxime@cerno.tech>
+ <d975dc1d-7573-7976-427f-e941cbfa0caf@suse.de>
+ <20220614073716.zwshdcf3q5fjobuq@houat>
+In-Reply-To: <20220614073716.zwshdcf3q5fjobuq@houat>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+--------------MUguF7wP3nUDiLY12dlro4eF
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
+SGkNCg0KQW0gMTQuMDYuMjIgdW0gMDk6Mzcgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBI
+aSBUaG9tYXMsDQo+IA0KPiBPbiBNb24sIEp1biAxMywgMjAyMiBhdCAwMToyMzo1NFBNICsw
+MjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IEFtIDEwLjA2LjIyIHVtIDExOjI4
+IHNjaHJpZWIgTWF4aW1lIFJpcGFyZDoNCj4+PiBUaGUgRFJNLW1hbmFnZWQgZnVuY3Rpb24g
+dG8gcmVnaXN0ZXIgYSBDUlRDIGlzDQo+Pj4gZHJtbV9jcnRjX2FsbG9jX3dpdGhfcGxhbmVz
+KCksIHdoaWNoIHdpbGwgYWxsb2NhdGUgdGhlIHVuZGVybHlpbmcNCj4+PiBzdHJ1Y3R1cmUg
+YW5kIGluaXRpYWxpc2F0aW9uIHRoZSBDUlRDLg0KPj4+DQo+Pj4gSG93ZXZlciwgd2UgbWln
+aHQgd2FudCB0byBzZXBhcmF0ZSB0aGUgc3RydWN0dXJlIGNyZWF0aW9uIGFuZCB0aGUgQ1JU
+Qw0KPj4+IGluaXRpYWxpc2F0aW9uLCBmb3IgZXhhbXBsZSBpZiB0aGUgc3RydWN0dXJlIGlz
+IHNoYXJlZCBhY3Jvc3MgbXVsdGlwbGUNCj4+PiBEUk0gZW50aXRpZXMsIGZvciBleGFtcGxl
+IGFuIGVuY29kZXIgYW5kIGEgY29ubmVjdG9yLg0KPj4+DQo+Pj4gTGV0J3MgY3JlYXRlIGFu
+IGhlbHBlciB0byBvbmx5IGluaXRpYWxpc2UgYSBDUlRDIHRoYXQgd291bGQgYmUgcGFzc2Vk
+IGFzDQo+Pj4gYW4gYXJndW1lbnQuDQo+Pg0KPj4gQmVmb3JlIEkgcmV2aWV3IGFsbCBvZiB0
+aGVzIHBhdGNoZXMsIG9uZSBxdWVzdGlvbi4gaXQncyB5ZXQgbm90IGNsZWFyIHRvIG1lDQo+
+PiB3aHkgZHJtX2NydGNfaW5pdF93aXRoX3BsYW5lcygpIHdvdWxkbid0IHdvcmsuIChJIGtu
+b3cgd2UgZGlzY3Vzc2VkIHRoaXMgb24NCj4+IElSQy4pDQo+Pg0KPj4gSWYgeW91J3JlIGNh
+bGxpbmcgZHJtbV9tb2RlX2NvbmZpZ19pbml0KCksIGl0IHdpbGwgY2xlYW4gdXAgYWxsIHRo
+ZSBDUlRDLA0KPj4gZW5jb2RlciBjb25uZWN0b3IsIGV0Yy4gZGF0YSBzdHJ1Y3R1cmVzIGZv
+ciB5b3UuIEZvciBDUlRDIGluc3RhbmNlcyBpbg0KPj4ga21hbGxvY2VkIG1lbW9yeSwgd291
+bGRuJ3QgaXQgYmUgc2ltcGxlciB0byBwdXQgdGhlIGNvcnJlc3BvbmRpbmcga2ZyZWUgaW50
+bw0KPj4gdmM0X2NydGNfZGVzdHJveSgpPw0KPiANCj4gTXkgaW50ZW50IHdhcyB0byByZW1v
+dmUgYXMgbXVjaCBvZiB0aGUgbGlmZXRpbWUgaGFuZGxpbmcgYW5kDQo+IG1lbW9yeS1tYW5h
+Z2VtZW50IGZyb20gZHJpdmVycyBhcyBwb3NzaWJsZS4NCj4gDQo+IE15IGZlZWxpbmcgaXMg
+dGhhdCB3aGlsZSB0aGUgc29sdXRpb24geW91IHN1Z2dlc3Qgd291bGQgZGVmaW5pdGVseSB3
+b3JrLA0KPiBpdCByZWxpZXMgb24gZHJpdmVycyBhdXRob3JzIHRvIGtub3cgYWJvdXQgdGhp
+cywgYW5kIG1ha2UgdGhlIGVmZm9ydCB0bw0KPiBjb252ZXJ0IHRoZSBkcml2ZXJzIHRoZW1z
+ZWx2ZXMuIEFuZCB0aGVuIHdlIHdvdWxkIGhhdmUgdG8gcmV2aWV3IHRoYXQsDQo+IHdoaWNo
+IHdlIHdpbGwgcHJvYmFibHkgbWlzcyAoY29sbGVjdGl2ZWx5KSwgYmVjYXVzZSBpdCdzIGEg
+Yml0IG9ic2N1cmUuDQo+IA0KPiBXaGlsZSB3aXRoIGVpdGhlciB0aGUgZHJtbV9hbGxvY18q
+IGZ1bmN0aW9ucywgb3IgdGhlIG5ldyBmdW5jdGlvbnMgSQ0KPiBpbnRyb2R1Y2UgdGhlcmUs
+IHdlIGNhbiBqdXN0IGRlcHJlY2F0ZSB0aGUgb2xkIG9uZXMsIGNyZWF0ZSBhIFRPRE8gZW50
+cnkNCj4gYW5kIGEgY29jY2luZWxsZSBzY3JpcHQgYW5kIHRydXN0IHRoYXQgaXQgd29ya3Mg
+cHJvcGVybHkuDQoNClRoYW5rcyBmb3IgZXhwbGFpbmluZyB0aGUgbW90aXZhdGlvbi4NCg0K
+SSB3b3VsZCBub3Qgd2FudCB0byBkZXByZWNhdGUgYW55IG9mIHRoZSBleGlzdGluZyBmdW5j
+dGlvbnMsIGFzIHRoZXkgDQp3b3JrIGZvciBtYW55IGRyaXZlcnMuIFRoZSBkcm1tXyBmdW5j
+dGlvbnMgYWRkIGFkZGl0aW9uYWwgb3ZlcmhlYWQgdGhhdCANCm5vdCBldmVyeW9uZSBpcyB3
+aWxsaW5nIHRvIHBheS4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gTWF4aW1l
+DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIN
+ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwg
+OTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpH
+ZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+
+--------------MUguF7wP3nUDiLY12dlro4eF--
+
+--------------xc64ghTSnrEF6Lx7bj6D2S2M
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKoRuAFAwAAAAAACgkQlh/E3EQov+Bz
+PhAAoQCA/zxJhj2lJ2Uyfo1M2tYlcI76jNxEQrTapT3PJAAGBKI+KA85GmQp8FuHHWrvgqz0MbTs
+CdADvW2wLB5+4VNWvflFBetXcqhzM8kU2IYEdrhVlSN0zW8slzU7jfxJScx2ZUEkCL5/M80b6NAr
+vpVHBGYWuv+VcsBSgOU4oE4j8DLjvrMf9j4NKRegtYtPgmajCLVFbjXkke5ZzpZEbyzEiK2oEnbI
+nuCfNLEWmUf9F1wc84m4KLl1gbphdQyTqq3O4oLlQmKjIDsZQOE6bWK2Yh+rLmTWe+nMZ7IuaY+y
+/mQVl3TG4TRsKGKSWEV84CLZQ0XHI2WvB+hmuDo5DfTVoVtCz+NV6vDjuJ2+1Iq7GgvopIBtV0cA
+FTzZpqRx9cgaSE/KLV81RaDAI2Ey80971FycnQ2DvIfy12lxF5rz3Mk6Ee2t+14EToBIf0xSjkSV
+G0Ozz6k9/pJDq+hyRr/vZbMF1aQJjt7xgJ4qaasGfTqmmWpiKT3NaqOXJkhU2lqPklykNNNauL/0
+9HcrSQPg870fUXtFAiLhgaP+9Hq/kJ132DNWVB819ZbZIJkIDkn3PwakAAq6cUCQho0bueMKNXdB
++nFoRgJHGO8oafUEYM3mJZQdDqGOehHqivRcOsv+Zd1DmIeOX8wUHzHfvGI+ji41RtJwnxma12XJ
+mQg=
+=nBM5
+-----END PGP SIGNATURE-----
+
+--------------xc64ghTSnrEF6Lx7bj6D2S2M--
