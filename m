@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E7054B709
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 18:59:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A43F254B70A
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 18:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E0BF10EE08;
-	Tue, 14 Jun 2022 16:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B51F10E958;
+	Tue, 14 Jun 2022 16:59:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7756F10E5DA
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 16:59:11 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-31336535373so36427927b3.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 09:59:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA33A10E958
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 16:59:32 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id m20so18341127ejj.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 09:59:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=frgH5D5aZ/QCMYdKBtSKwr1Fa+OKDcjZdtrUi/1lSyM=;
- b=Iy68FsENZikMJA1KZJTjwX1XEHgmkOCOlDXlEOiHXuGDZYlBW487hnOFgqOIKzqbGZ
- fFRO0wPZaY/vxvv7gpbvanDkzTqsbr/Bs2SWkf8stYs73nG19v6Hs00zCU3D/wRsf9G3
- uRqg0grrqVyVw5C8ve+NeyA1pqaYQZsBLGy4M=
+ :cc; bh=GLHWj748874QLOEq9D3A2DOln1p7mfw6PQqmvrjagzw=;
+ b=IwBKv7Uq37K9eJpQFDTZWDhIcNLRxt59EBDxh1wlRCblzMk/2OT7zsQf/CGM764ORI
+ jmSQHIgqsPFcvLyOYxr8O52V7ZNvQL2BhuskfLiYcy2drzB01G/lfxk9o7ImM3HwvEcq
+ wI4s1eHn9N6Zp5IwGAr84lM0Jet4EpIkaCCBnR75Awz955VKxbqX7SQh0Z50XanyIVIi
+ H4EeQ5RCFcVTd+qEyRny2+XQ868eYK6zy8ZbV5VG36hKtXNlhsox/2u/zP66T6KMkEZ4
+ FF0Vrz4WsW9zWWM1UxlpOxWuotMfRcqJqc0zQPC/rxIE820mlDEcUzd7BxtKBflObcLQ
+ YD3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=frgH5D5aZ/QCMYdKBtSKwr1Fa+OKDcjZdtrUi/1lSyM=;
- b=MxoMoYn+6DIVd/rKFYEFZTDpA1rNl9eIgfvGrCLGXs4+oQ/r6LiEpGxQZa5GhHjy00
- uNtTHkhuDhLb9VorCy1N5M1fc0ECLwA1sKBbkzuakoClPvH8Bv7MybKJg4zpYbSAySYI
- cFwY55LRBE8sWaXwUCRxEf166Jc7IRhKWVg1jhGoth0/bw/6+4lMht8Jle8FkmmLYAjy
- f52orQvaWSNvnhlXszZvngcAh6Z5xj2+FvTW+t1sqXaYymrPS9xdZL5IeBDEF45pf6lc
- CSQ6OijVo6NQEG6sFZ9LLyIHR5ls5VDVX2g+fpk3wJUGs18JAYgKwnkdGPuYiiNRxn2+
- OAjw==
-X-Gm-Message-State: AJIora/tw8wJ/fb1HCNSERQsfQbmYzEnsNwEOGUY4afWhdZ2lexOXHqR
- coCG8ggMS2APD9UXy79XDqAGrCpYheVAN0AbK+LHWw==
-X-Google-Smtp-Source: AGRyM1tylgW3wSGschehZtJMDRjLFEU3xZbVs+AtL1Cy4Vu0B5yrroRvR3b8lL2U6xMNqB5j2IC6JxMRpK98NWwIU4k=
-X-Received: by 2002:a81:fd1:0:b0:30f:f98b:4957 with SMTP id
- 200-20020a810fd1000000b0030ff98b4957mr6952329ywp.350.1655225950624; Tue, 14
- Jun 2022 09:59:10 -0700 (PDT)
+ bh=GLHWj748874QLOEq9D3A2DOln1p7mfw6PQqmvrjagzw=;
+ b=pxdeVlwV3VolH8Ghm+GV86A2HpVJ/yY9uVZl3K0ur2AJMVpQezWkDfbWsVJ0T4ZuYj
+ MuUFrIILpEi5rMTPpWdpoThonsHL/aNJm/vh3HqssGaOkSlKCzTvxuOb4i24wl+QzPeP
+ 4A8YVw3IPffhwU0G856RLJ85F22H92kvn/d8X4IL4/A945WL+nfY1fyRrhisACjFjAnN
+ 4mlg1KT2WyUJ3P+74BZusyTsAlJxHV3fnO0nXpETxZEvriWgjreYWmVHtZL9ovoPP6LL
+ bQPGMHf2p5jxPDWCVNHu033iKtDya6EiTeHtJFNT5J1DX90Oq6uB/tQKtGMFCDUvt0qw
+ xHig==
+X-Gm-Message-State: AOAM5310LHMyGh+MlDlmE5PHXtNP1jP1Esm7aF2/IsaECQTrrJuphe2J
+ P2DiW1WTz6VvAzJ6dMp23X1DP2SUhEMmNljd6djWqNNp9Cn2Qt26
+X-Google-Smtp-Source: ABdhPJyCspAogzr1kzXbbBgK8Fy9sRQPgul36WkEgyyNbFzaiEuTlDVr+d8rFoq7oyQlAJTYxG/u7oUYSzJTIO/hmNo=
+X-Received: by 2002:a17:907:8a13:b0:707:194c:30df with SMTP id
+ sc19-20020a1709078a1300b00707194c30dfmr5243543ejc.154.1655225971353; Tue, 14
+ Jun 2022 09:59:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220609181106.3695103-1-pmalani@chromium.org>
- <20220609181106.3695103-8-pmalani@chromium.org>
- <1191703c-efa5-7fe6-7dd0-e3e786b58411@collabora.com>
- <CAEXTbpfh3aKS8DZ9T0KPNLfWJ4EsLxcJpP8aLYU-iQYC1N4sRQ@mail.gmail.com>
-In-Reply-To: <CAEXTbpfh3aKS8DZ9T0KPNLfWJ4EsLxcJpP8aLYU-iQYC1N4sRQ@mail.gmail.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Tue, 14 Jun 2022 09:58:59 -0700
-Message-ID: <CACeCKafeJ40y2LYsEm4Z2pRMxzM6W+VcC1F95oFqNq+xokPWUQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] drm/bridge: anx7625: Add typec_mux_set callback
- function
-To: Pin-yen Lin <treapking@chromium.org>
+References: <20220610092924.754942-1-maxime@cerno.tech>
+ <20220610092924.754942-14-maxime@cerno.tech>
+ <CAPY8ntDY3pCbc=zrC7Nx6fVv5CFmxXKPHdSNWGYNJo2dn32XUA@mail.gmail.com>
+In-Reply-To: <CAPY8ntDY3pCbc=zrC7Nx6fVv5CFmxXKPHdSNWGYNJo2dn32XUA@mail.gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 14 Jun 2022 17:59:15 +0100
+Message-ID: <CAPY8ntCLLSr5SHxwzcsQ=sN2KNE-=nqX7jBFZAR87eextDaXNg@mail.gmail.com>
+Subject: Re: [PATCH 13/64] drm/vc4: hvs: Protect device resources after removal
+To: Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,161 +65,348 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Tzung-Bi Shih <tzungbi@google.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 14, 2022 at 2:08 AM Pin-yen Lin <treapking@chromium.org> wrote:
+On Tue, 14 Jun 2022 at 16:11, Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
 >
-> Hi AngeloGioacchino,
+> Hi Maxime
 >
->
-> On Tue, Jun 14, 2022 at 4:15 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
+> On Fri, 10 Jun 2022 at 10:30, Maxime Ripard <maxime@cerno.tech> wrote:
 > >
-> > Il 09/06/22 20:09, Prashant Malani ha scritto:
-> > > From: Pin-Yen Lin <treapking@chromium.org>
-> > >
-> > > Add the callback function when the driver receives state
-> > > changes of the Type-C port. The callback function configures the
-> > > crosspoint switch of the anx7625 bridge chip, which can change the
-> > > output pins of the signals according to the port state.
-> > >
-> > > Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
-> > > Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> > > ---
-> > >
-> > > Changes since v2:
-> > > - No changes.
-> > >
-> > >   drivers/gpu/drm/bridge/analogix/anx7625.c | 58 +++++++++++++++++++++++
-> > >   drivers/gpu/drm/bridge/analogix/anx7625.h | 13 +++++
-> > >   2 files changed, 71 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > index d41a21103bd3..2c308d12fab2 100644
-> > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > @@ -15,6 +15,7 @@
-> > >   #include <linux/regulator/consumer.h>
-> > >   #include <linux/slab.h>
-> > >   #include <linux/types.h>
-> > > +#include <linux/usb/typec_dp.h>
-> > >   #include <linux/usb/typec_mux.h>
-> > >   #include <linux/workqueue.h>
-> > >
-> > > @@ -2582,9 +2583,66 @@ static void anx7625_runtime_disable(void *data)
-> > >       pm_runtime_disable(data);
-> > >   }
-> > >
-> > > +static void anx7625_set_crosspoint_switch(struct anx7625_data *ctx,
-> > > +                                       enum typec_orientation orientation)
-> > > +{
-> > > +     if (orientation == TYPEC_ORIENTATION_NORMAL) {
-> > > +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
-> > > +                               SW_SEL1_SSRX_RX1 | SW_SEL1_DPTX0_RX2);
-> > > +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
-> > > +                               SW_SEL2_SSTX_TX1 | SW_SEL2_DPTX1_TX2);
-> > > +     } else if (orientation == TYPEC_ORIENTATION_REVERSE) {
-> > > +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
-> > > +                               SW_SEL1_SSRX_RX2 | SW_SEL1_DPTX0_RX1);
-> > > +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
-> > > +                               SW_SEL2_SSTX_TX2 | SW_SEL2_DPTX1_TX1);
-> > > +     }
-> > > +}
-> > > +
-> > > +static void anx7625_typec_two_ports_update(struct anx7625_data *ctx)
-> > > +{
-> > > +     if (ctx->typec_ports[0].dp_connected && ctx->typec_ports[1].dp_connected)
-> > > +             /* Both ports available, do nothing to retain the current one. */
-> > > +             return;
-> > > +     else if (ctx->typec_ports[0].dp_connected)
-> > > +             anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_NORMAL);
-> > > +     else if (ctx->typec_ports[1].dp_connected)
-> > > +             anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_REVERSE);
-> > > +}
-> > > +
-> > >   static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
-> > >                                struct typec_mux_state *state)
-> > >   {
-> > > +     struct anx7625_port_data *data = typec_mux_get_drvdata(mux);
-> > > +     struct anx7625_data *ctx = data->ctx;
-> > > +     struct device *dev = &ctx->client->dev;
-> > > +
-> > > +     bool old_dp_connected = (ctx->typec_ports[0].dp_connected ||
-> > > +                              ctx->typec_ports[1].dp_connected);
+> > Whenever the device and driver are unbound, the main device and all the
+> > subdevices will be removed by calling their unbind() method.
 > >
-> > So the old connection state is "either port0 or port1 are currently connected"...
+> > However, the DRM device itself will only be freed when the last user will
+> > have closed it.
 > >
-> > > +     bool new_dp_connected;
-> > > +
-> > > +     if (ctx->num_typec_switches == 1)
-> > > +             return 0;
-> > > +
-> > > +     dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
-> > > +             ctx->typec_ports[0].dp_connected, ctx->typec_ports[1].dp_connected);
-> > > +
-> > > +     data->dp_connected = (state->alt && state->alt->svid == USB_TYPEC_DP_SID &&
-> > > +                           state->alt->mode == USB_TYPEC_DP_MODE);
-> > > + > + new_dp_connected = (ctx->typec_ports[0].dp_connected ||
-> > > +                         ctx->typec_ports[1].dp_connected);
+> > It means that there is a time window where the device and its resources
+> > aren't there anymore, but the userspace can still call into our driver.
 > >
-> > ...and the new connection state is the same as the old one, because I don't see
-> > anything that could ever modify it in this function's flow, until reaching this
-> > assignment.
+> > Fortunately, the DRM framework provides the drm_dev_enter() and
+> > drm_dev_exit() functions to make sure our underlying device is still there
+> > for the section protected by those calls. Let's add them to the HVS driver.
 >
-> The typec mux driver data (`struct anx7625_port_data *data =
-> typec_mux_get_drvdata(mux)`) is set to one of the
-> `ctx->typec_ports[*]` in `anx7625_register_mode_switch` (see patch 6
-> of this series).
+> The framework appears to rely on the remove function calling
+> drm_dev_unplug instead of drm_dev_unregister, but I haven't seen a
+> patch that makes that change in the vc4 driver.
+> Have I missed it, or is there some other route to set the unplugged
+> flag that drm_dev_enter/exit are relying on?
 >
-> So, the `data->dp_connected = ...` assignment may change the new
-> connection state.
+>   Dave
+>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  drivers/gpu/drm/vc4/vc4_drv.h |   1 +
+> >  drivers/gpu/drm/vc4/vc4_hvs.c | 106 +++++++++++++++++++++++++++++++---
+> >  2 files changed, 99 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+> > index aa4c5910ea05..080deae55f64 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> > +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> > @@ -317,6 +317,7 @@ struct vc4_v3d {
+> >  };
+> >
+> >  struct vc4_hvs {
+> > +       struct drm_device *dev;
+> >         struct platform_device *pdev;
+> >         void __iomem *regs;
+> >         u32 __iomem *dlist;
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
+> > index 2a58fc421cf6..483053e7b14f 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hvs.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
+> > @@ -25,6 +25,7 @@
+> >  #include <linux/platform_device.h>
+> >
+> >  #include <drm/drm_atomic_helper.h>
+> > +#include <drm/drm_drv.h>
+> >  #include <drm/drm_vblank.h>
+> >
+> >  #include "vc4_drv.h"
+> > @@ -66,11 +67,15 @@ static const struct debugfs_reg32 hvs_regs[] = {
+> >
+> >  void vc4_hvs_dump_state(struct vc4_hvs *hvs)
+> >  {
+> > +       struct drm_device *drm = hvs->dev;
+> >         struct drm_printer p = drm_info_printer(&hvs->pdev->dev);
+> > -       int i;
+> > +       int idx, i;
+> >
+> >         drm_print_regset32(&p, &hvs->regset);
+> >
+> > +       if (!drm_dev_enter(drm, &idx))
+> > +               return;
+> > +
+> >         DRM_INFO("HVS ctx:\n");
+> >         for (i = 0; i < 64; i += 4) {
+> >                 DRM_INFO("0x%08x (%s): 0x%08x 0x%08x 0x%08x 0x%08x\n",
+> > @@ -80,6 +85,8 @@ void vc4_hvs_dump_state(struct vc4_hvs *hvs)
+> >                          readl((u32 __iomem *)hvs->dlist + i + 2),
+> >                          readl((u32 __iomem *)hvs->dlist + i + 3));
+> >         }
+> > +
+> > +       drm_dev_exit(idx);
+> >  }
+> >
+> >  static int vc4_hvs_debugfs_underrun(struct seq_file *m, void *data)
+> > @@ -132,14 +139,18 @@ static int vc4_hvs_upload_linear_kernel(struct vc4_hvs *hvs,
+> >                                         struct drm_mm_node *space,
+> >                                         const u32 *kernel)
+> >  {
+> > -       int ret, i;
+> > +       struct drm_device *drm = hvs->dev;
+> > +       int idx, ret, i;
+> >         u32 __iomem *dst_kernel;
+> >
+> > +       if (!drm_dev_enter(drm, &idx))
+> > +               return -ENODEV;
+> > +
 
-Angelo, I think your interpretation of this logic is not accurate..
-|old_dp_connected| represents *whether* port1 or port0 has a DP
-partner connected, not that *either* of them has it.
+vc4_hvs_upload_linear_kernel is only called from vc4_hvs_bind, so
+unless bind and unbind calls can be concurrent, then there's no need
+for protection here.
 
-So, this logic looks OK to me.
-
-
->
-> Best regards,
-> Pin-yen
->
+> >         ret = drm_mm_insert_node(&hvs->dlist_mm, space, VC4_KERNEL_DWORDS);
+> >         if (ret) {
+> >                 DRM_ERROR("Failed to allocate space for filter kernel: %d\n",
+> >                           ret);
+> > -               return ret;
+> > +               goto err_dev_exit;
+> >         }
 > >
-> > > +
-> > > +     /* dp on, power on first */
-> > > +     if (!old_dp_connected && new_dp_connected)
-> > > +             pm_runtime_get_sync(dev);
+> >         dst_kernel = hvs->dlist + space->start;
+> > @@ -153,16 +164,26 @@ static int vc4_hvs_upload_linear_kernel(struct vc4_hvs *hvs,
+> >                 }
+> >         }
 > >
-> > ...so that will never happen...
+> > +       drm_dev_exit(idx);
+> >         return 0;
+> > +
+> > +err_dev_exit:
+> > +       drm_dev_exit(idx);
+> > +       return ret;
+> >  }
 > >
-> > > +
-> > > +     anx7625_typec_two_ports_update(ctx);
-> > > +
-> > > +     /* dp off, power off last */
-> > > +     if (old_dp_connected && !new_dp_connected)
-> > > +             pm_runtime_put_sync(dev);
+> >  static void vc4_hvs_lut_load(struct vc4_hvs *hvs,
+> >                              struct vc4_crtc *vc4_crtc)
+> >  {
+> > +       struct drm_device *drm = hvs->dev;
+> >         struct drm_crtc *crtc = &vc4_crtc->base;
+> >         struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
+> > +       int idx;
+> >         u32 i;
 > >
-> > ...and same here.
+> > +       if (!drm_dev_enter(drm, &idx))
+> > +               return;
+> > +
+> >         /* The LUT memory is laid out with each HVS channel in order,
+> >          * each of which takes 256 writes for R, 256 for G, then 256
+> >          * for B.
+> > @@ -177,6 +198,8 @@ static void vc4_hvs_lut_load(struct vc4_hvs *hvs,
+> >                 HVS_WRITE(SCALER_GAMDATA, vc4_crtc->lut_g[i]);
+> >         for (i = 0; i < crtc->gamma_size; i++)
+> >                 HVS_WRITE(SCALER_GAMDATA, vc4_crtc->lut_b[i]);
+> > +
+> > +       drm_dev_exit(idx);
+> >  }
 > >
-> > Regards,
-> > Angelo
+> >  static void vc4_hvs_update_gamma_lut(struct vc4_hvs *hvs,
+> > @@ -198,7 +221,12 @@ static void vc4_hvs_update_gamma_lut(struct vc4_hvs *hvs,
+> >
+> >  u8 vc4_hvs_get_fifo_frame_count(struct vc4_hvs *hvs, unsigned int fifo)
+> >  {
+> > +       struct drm_device *drm = hvs->dev;
+> >         u8 field = 0;
+> > +       int idx;
+> > +
+> > +       if (!drm_dev_enter(drm, &idx))
+> > +               return 0;
+> >
+> >         switch (fifo) {
+> >         case 0:
+> > @@ -215,6 +243,7 @@ u8 vc4_hvs_get_fifo_frame_count(struct vc4_hvs *hvs, unsigned int fifo)
+> >                 break;
+> >         }
+> >
+> > +       drm_dev_exit(idx);
+> >         return field;
+> >  }
+> >
+> > @@ -226,6 +255,12 @@ int vc4_hvs_get_fifo_from_output(struct vc4_hvs *hvs, unsigned int output)
+> >         if (!hvs->hvs5)
+> >                 return output;
+> >
+> > +       /*
+> > +        * NOTE: We should probably use drm_dev_enter()/drm_dev_exit()
+> > +        * here, but this function is only used during the DRM device
+> > +        * initialization, so we should be fine.
+> > +        */
+> > +
+> >         switch (output) {
+> >         case 0:
+> >                 return 0;
+> > @@ -273,12 +308,17 @@ int vc4_hvs_get_fifo_from_output(struct vc4_hvs *hvs, unsigned int output)
+> >  static int vc4_hvs_init_channel(struct vc4_hvs *hvs, struct drm_crtc *crtc,
+> >                                 struct drm_display_mode *mode, bool oneshot)
+> >  {
+> > +       struct drm_device *drm = hvs->dev;
+> >         struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
+> >         struct vc4_crtc_state *vc4_crtc_state = to_vc4_crtc_state(crtc->state);
+> >         unsigned int chan = vc4_crtc_state->assigned_channel;
+> >         bool interlace = mode->flags & DRM_MODE_FLAG_INTERLACE;
+> >         u32 dispbkgndx;
+> >         u32 dispctrl;
+> > +       int idx;
+> > +
+> > +       if (!drm_dev_enter(drm, &idx))
+> > +               return -ENODEV;
+> >
+> >         HVS_WRITE(SCALER_DISPCTRLX(chan), 0);
+> >         HVS_WRITE(SCALER_DISPCTRLX(chan), SCALER_DISPCTRLX_RESET);
+> > @@ -320,13 +360,21 @@ static int vc4_hvs_init_channel(struct vc4_hvs *hvs, struct drm_crtc *crtc,
+> >          */
+> >         vc4_hvs_lut_load(hvs, vc4_crtc);
+> >
+> > +       drm_dev_exit(idx);
+> > +
+> >         return 0;
+> >  }
+> >
+> >  void vc4_hvs_stop_channel(struct vc4_hvs *hvs, unsigned int chan)
+> >  {
+> > +       struct drm_device *drm = hvs->dev;
+> > +       int idx;
+> > +
+> > +       if (!drm_dev_enter(drm, &idx))
+> > +               return;
+> > +
+> >         if (HVS_READ(SCALER_DISPCTRLX(chan)) & SCALER_DISPCTRLX_ENABLE)
+> > -               return;
+> > +               goto out;
+> >
+> >         HVS_WRITE(SCALER_DISPCTRLX(chan),
+> >                   HVS_READ(SCALER_DISPCTRLX(chan)) | SCALER_DISPCTRLX_RESET);
+> > @@ -343,6 +391,9 @@ void vc4_hvs_stop_channel(struct vc4_hvs *hvs, unsigned int chan)
+> >         WARN_ON_ONCE((HVS_READ(SCALER_DISPSTATX(chan)) &
+> >                       (SCALER_DISPSTATX_FULL | SCALER_DISPSTATX_EMPTY)) !=
+> >                      SCALER_DISPSTATX_EMPTY);
+> > +
+> > +out:
+> > +       drm_dev_exit(idx);
+> >  }
+> >
+> >  int vc4_hvs_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
+> > @@ -384,9 +435,15 @@ static void vc4_hvs_install_dlist(struct drm_crtc *crtc)
+> >         struct vc4_dev *vc4 = to_vc4_dev(dev);
+> >         struct vc4_hvs *hvs = vc4->hvs;
+> >         struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
+> > +       int idx;
+> > +
+> > +       if (!drm_dev_enter(dev, &idx))
+> > +               return;
+> >
+> >         HVS_WRITE(SCALER_DISPLISTX(vc4_state->assigned_channel),
+> >                   vc4_state->mm.start);
+> > +
+> > +       drm_dev_exit(idx);
+> >  }
+> >
+> >  static void vc4_hvs_update_dlist(struct drm_crtc *crtc)
+> > @@ -471,6 +528,10 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
+> >         bool enable_bg_fill = false;
+> >         u32 __iomem *dlist_start = vc4->hvs->dlist + vc4_state->mm.start;
+> >         u32 __iomem *dlist_next = dlist_start;
+> > +       int idx;
+> > +
+> > +       if (!drm_dev_enter(dev, &idx))
+> > +               return;
+> >
+> >         if (debug_dump_regs) {
+> >                 DRM_INFO("CRTC %d HVS before:\n", drm_crtc_index(crtc));
+> > @@ -541,26 +602,44 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
+> >                 DRM_INFO("CRTC %d HVS after:\n", drm_crtc_index(crtc));
+> >                 vc4_hvs_dump_state(hvs);
+> >         }
+> > +
+> > +       drm_dev_exit(idx);
+> >  }
+> >
+> >  void vc4_hvs_mask_underrun(struct vc4_hvs *hvs, int channel)
+> >  {
+> > -       u32 dispctrl = HVS_READ(SCALER_DISPCTRL);
+> > +       struct drm_device *drm = hvs->dev;
+> > +       u32 dispctrl;
+> > +       int idx;
+> >
+> > +       if (!drm_dev_enter(drm, &idx))
+> > +               return;
+> > +
+> > +       dispctrl = HVS_READ(SCALER_DISPCTRL);
+> >         dispctrl &= ~SCALER_DISPCTRL_DSPEISLUR(channel);
+> >
+> >         HVS_WRITE(SCALER_DISPCTRL, dispctrl);
+> > +
+> > +       drm_dev_exit(idx);
+> >  }
+> >
+> >  void vc4_hvs_unmask_underrun(struct vc4_hvs *hvs, int channel)
+> >  {
+> > -       u32 dispctrl = HVS_READ(SCALER_DISPCTRL);
+> > +       struct drm_device *drm = hvs->dev;
+> > +       u32 dispctrl;
+> > +       int idx;
+> >
+> > +       if (!drm_dev_enter(drm, &idx))
+> > +               return;
+> > +
+> > +       dispctrl = HVS_READ(SCALER_DISPCTRL);
+> >         dispctrl |= SCALER_DISPCTRL_DSPEISLUR(channel);
+> >
+> >         HVS_WRITE(SCALER_DISPSTAT,
+> >                   SCALER_DISPSTAT_EUFLOW(channel));
+> >         HVS_WRITE(SCALER_DISPCTRL, dispctrl);
+> > +
+> > +       drm_dev_exit(idx);
+> >  }
+> >
+> >  static void vc4_hvs_report_underrun(struct drm_device *dev)
+> > @@ -581,6 +660,17 @@ static irqreturn_t vc4_hvs_irq_handler(int irq, void *data)
+> >         u32 control;
+> >         u32 status;
+> >
+> > +       /*
+> > +        * NOTE: We don't need to protect the register access using
+> > +        * drm_dev_enter() there because the interrupt handler lifetime
+> > +        * is tied to the device itself, and not to the DRM device.
+> > +        *
+> > +        * So when the device will be gone, one of the first thing we
+> > +        * will be doing will be to unregister the interrupt handler,
+> > +        * and then unregister the DRM device. drm_dev_enter() would
+> > +        * thus always succeed if we are here.
+> > +        */
+> > +
+> >         status = HVS_READ(SCALER_DISPSTAT);
+> >         control = HVS_READ(SCALER_DISPCTRL);
+> >
+> > @@ -613,10 +703,10 @@ static int vc4_hvs_bind(struct device *dev, struct device *master, void *data)
+> >         u32 dispctrl;
+> >         u32 reg;
+> >
+> > -       hvs = devm_kzalloc(&pdev->dev, sizeof(*hvs), GFP_KERNEL);
+> > +       hvs = drmm_kzalloc(drm, sizeof(*hvs), GFP_KERNEL);
+> >         if (!hvs)
+> >                 return -ENOMEM;
+> > -
+> > +       hvs->dev = drm;
+> >         hvs->pdev = pdev;
+> >
+> >         if (of_device_is_compatible(pdev->dev.of_node, "brcm,bcm2711-hvs"))
+> > --
+> > 2.36.1
+> >
