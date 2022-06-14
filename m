@@ -1,79 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 994DD54AAC1
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 09:37:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C9854AAD0
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 09:42:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5FFB10FB46;
-	Tue, 14 Jun 2022 07:37:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 608A210FB95;
+	Tue, 14 Jun 2022 07:42:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B014710FB46
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 07:37:21 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 0FBF03200933;
- Tue, 14 Jun 2022 03:37:19 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 14 Jun 2022 03:37:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1655192239; x=
- 1655278639; bh=wg1WM9Qi3pY7fS1DztK4KJHjvM53ufqXrbABiVEfdQM=; b=D
- 1IKy4x5n9grz56po4wxtG8rhnugFCUVkMvti8oLheqFdQmXEGqWSSG0hG4qhPP9p
- o3spYPFlqQdg6bGNLl9f7FCWsrPqqWElVArUkabhPW1lWX6w+llxnWio8jQ28vmt
- V9T/f6xuWjN2G2gsVhn3/ZPdk9mpLEr6N8sgBJaCGbhGS7XsPT10lNJYdzzpfkUS
- eHlpWXofiajo+6t+p97Cf/+dLGkfG6eJqL4smtGOmhEeSXTjFxpXwsabJkyICEbl
- HdOkE2PrN/bN6FdUiitLhGZHOQ+XmsE1VuBRaOm8jKEspelfhMm1HmX/c0yB4KJe
- wr4VjiQjbjasekC+uFcrQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655192239; x=
- 1655278639; bh=wg1WM9Qi3pY7fS1DztK4KJHjvM53ufqXrbABiVEfdQM=; b=F
- NyvYv2pqioHoACPFwzAAdjSpX8epxZye3e7svC2CoG85UGtzIg3RvdbVw4uHKQ98
- RFhNL2j3SkbpyCBfmwbPXJGra0L5yf6CK6eeI1uyNQiOnv5I/xZr3L3MFcr9U1vo
- zvBP561V6AqwMF6IUqGqXnRNP745KYnkKfhKyrC63iEGix+ZY8QTX/EPQzM4iSUK
- gpvNbqWuHHij0EsMbugCfj1MvcEYo5DXa6GK6wonnpLsn2fCOWBcse7WuMMtX/6b
- 2A/3TjOpWx83VvzpllzZOmfvxDtUEwbEqRoMkaGt7V0ssGM3AP0ugrPPhDRtQ1Qv
- 5sD5OHc4otbJxZCE9H+qQ==
-X-ME-Sender: <xms:rzqoYnPhaGKyugFi_yRsMXFtA9Bwa7puq7N1X9L3jAFI2JQALS2ERg>
- <xme:rzqoYh9sL_meOr5A5UOf5kqYPbn1AddbEWHIY9cDMBPn7PR53PeQvQq0qnmNt2LYL
- qXaqzWBeyEtKVdcX9w>
-X-ME-Received: <xmr:rzqoYmQ7STpg8rrbyuH7YosdjYveauhIzQK38uItvmZr3Qb2zZOgaTz32rJF1gi4_TVq9wuPfqMTNNpHsmU3f6SgJD4vbqbz_prC4sk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddukedguddulecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgr
- gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
- frrghtthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeu
- teefteefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:rzqoYruNnVnK6Lyh1LlOdgRW4leqGXJGZ760NUZzROQczj--ZA7Q7g>
- <xmx:rzqoYvceE8ShWkFxmIINr0F0l7d9K020t-InmOi2DYhcebMQwYuZGg>
- <xmx:rzqoYn21kOjghJEX03klDK-p0YFGqeC6DFjH9YJkDE86jB1U1VsTVQ>
- <xmx:rzqoYr5tGZ-3a0y9DG7wGJqmd9p0EF6PMvbjRSt3WgI8xASWmzurHw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Jun 2022 03:37:18 -0400 (EDT)
-Date: Tue, 14 Jun 2022 09:37:16 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 02/64] drm/crtc: Introduce drmm_crtc_init_with_planes
-Message-ID: <20220614073716.zwshdcf3q5fjobuq@houat>
-References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-3-maxime@cerno.tech>
- <d975dc1d-7573-7976-427f-e941cbfa0caf@suse.de>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62BA010FB95
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 07:42:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655192571; x=1686728571;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=+MarE9Bt954nv0S2s3X8rKe2+hnrvQ0fK8d6D4CykL8=;
+ b=MfJHrsJBYF3xes+G9W7b00L8WNW81KOGMYTWptfTfECA8iUHg98ET32R
+ Z2pc4eefW1cEew5ZBAlaUCh4CyOxkMeKXWLYR4f7Jj7jBq0JfZqDkMFbp
+ DHz06YytCLP2h23BhaFBcLStr442MC05xMci0YRp/y9Z8FkdbNDErA1E0
+ VKr5Db6XFWMelqHcjr44RTL+/YPxZvYq9tO/7yO3cL3ngfKHXi601eFyp
+ 5sro9A73eBM7hiBTw9xjmSkNMuKBf/OmUrL1lCO4IsLTfreKku05LEMFk
+ c9m94k4UMhDO0KX8S7EDqN6pWPlpmqDXT4f+Kv6hp/p5heKmRUH8T6M+q Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="303947148"
+X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; d="scan'208";a="303947148"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2022 00:42:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; d="scan'208";a="726695020"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+ by fmsmga001.fm.intel.com with SMTP; 14 Jun 2022 00:42:43 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
+ Tue, 14 Jun 2022 10:42:42 +0300
+Date: Tue, 14 Jun 2022 10:42:42 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Prashant Malani <pmalani@chromium.org>
+Subject: Re: [PATCH v2 1/7] usb: typec: mux: Allow muxes to specify mode-switch
+Message-ID: <Yqg78j6ffEVFklBX@kuha.fi.intel.com>
+References: <20220609181106.3695103-1-pmalani@chromium.org>
+ <20220609181106.3695103-2-pmalani@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <d975dc1d-7573-7976-427f-e941cbfa0caf@suse.de>
+In-Reply-To: <20220609181106.3695103-2-pmalani@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,48 +58,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
+ Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Thu, Jun 09, 2022 at 06:09:40PM +0000, Prashant Malani wrote:
+> Loosen the typec_mux_match() requirements so that searches where an
+> alt mode is not specified, but the target mux device lists the
+> "mode-switch" property, return a success.
+> 
+> This is helpful in Type C port drivers which would like to get a pointer
+> to the mux switch associated with a Type C port, but don't want to
+> specify a particular alt mode.
+> 
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
 
-On Mon, Jun 13, 2022 at 01:23:54PM +0200, Thomas Zimmermann wrote:
-> Am 10.06.22 um 11:28 schrieb Maxime Ripard:
-> > The DRM-managed function to register a CRTC is
-> > drmm_crtc_alloc_with_planes(), which will allocate the underlying
-> > structure and initialisation the CRTC.
-> >=20
-> > However, we might want to separate the structure creation and the CRTC
-> > initialisation, for example if the structure is shared across multiple
-> > DRM entities, for example an encoder and a connector.
-> >=20
-> > Let's create an helper to only initialise a CRTC that would be passed as
-> > an argument.
->=20
-> Before I review all of thes patches, one question. it's yet not clear to =
-me
-> why drm_crtc_init_with_planes() wouldn't work. (I know we discussed this =
-on
-> IRC.)
->=20
-> If you're calling drmm_mode_config_init(), it will clean up all the CRTC,
-> encoder connector, etc. data structures for you. For CRTC instances in
-> kmalloced memory, wouldn't it be simpler to put the corresponding kfree i=
-nto
-> vc4_crtc_destroy()?
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-My intent was to remove as much of the lifetime handling and
-memory-management from drivers as possible.
+> ---
+> 
+> Changes since v1:
+> - No changes.
+> 
+>  drivers/usb/typec/mux.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
+> index fd55c2c516a5..464330776cd6 100644
+> --- a/drivers/usb/typec/mux.c
+> +++ b/drivers/usb/typec/mux.c
+> @@ -281,9 +281,13 @@ static void *typec_mux_match(struct fwnode_handle *fwnode, const char *id,
+>  	if (match)
+>  		goto find_mux;
+>  
+> -	/* Accessory Mode muxes */
+>  	if (!desc) {
+> -		match = fwnode_property_present(fwnode, "accessory");
+> +		/*
+> +		 * Accessory Mode muxes & muxes which explicitly specify
+> +		 * the required identifier can avoid SVID matching.
+> +		 */
+> +		match = fwnode_property_present(fwnode, "accessory") ||
+> +			fwnode_property_present(fwnode, id);
+>  		if (match)
+>  			goto find_mux;
+>  		return NULL;
+> -- 
+> 2.36.1.476.g0c4daa206d-goog
 
-My feeling is that while the solution you suggest would definitely work,
-it relies on drivers authors to know about this, and make the effort to
-convert the drivers themselves. And then we would have to review that,
-which we will probably miss (collectively), because it's a bit obscure.
-
-While with either the drmm_alloc_* functions, or the new functions I
-introduce there, we can just deprecate the old ones, create a TODO entry
-and a coccinelle script and trust that it works properly.
-
-Maxime
+-- 
+heikki
