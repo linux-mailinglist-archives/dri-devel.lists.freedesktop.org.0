@@ -1,62 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC48C54B27D
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 15:48:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1811354B2B6
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 16:03:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D86F81122C9;
-	Tue, 14 Jun 2022 13:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 501F210FEEC;
+	Tue, 14 Jun 2022 14:03:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4907A1122C9
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 13:48:52 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EC2761F959;
- Tue, 14 Jun 2022 13:48:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1655214530; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Mkgkdzos4C543Q0JPho7kcYn5hoegCDHPUsUlV+dpLw=;
- b=tB2GVb9r8+CdLN78LP4FF3rLLFU0NfePcRtlTaLEga5kJklxmLVVTfKqAHxsaYc31LAxup
- u9lMaG4TDAPbYvVGRp8SqTEgib/j9iveCVeQQoFI1NZD45rLcWFV+ME6UMjGv66+YLh8e0
- nMfPchaSZ8PHTpNFbq8gxRQR5BuIqTQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1655214530;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Mkgkdzos4C543Q0JPho7kcYn5hoegCDHPUsUlV+dpLw=;
- b=oltVDL7XHCfPuHL7Nt4wBWWpEpsOmyS5oLV/Hox8dCkpMp9JMen+ogFzkXbWkKXhErSUdt
- O5MI6LAhywzdDGCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CF59E139EC;
- Tue, 14 Jun 2022 13:48:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id LGe5McKRqGLLMgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 14 Jun 2022 13:48:50 +0000
-Message-ID: <3d6303d4-4569-7078-76e1-0f7c46d9556c@suse.de>
-Date: Tue, 14 Jun 2022 15:48:50 +0200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 619DF11239E;
+ Tue, 14 Jun 2022 14:03:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655215414; x=1686751414;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=MakQODmiUTQ7+4pG4wWuoyIaucVqIRtTkgSMz7Kr06E=;
+ b=eTxW6ZBunUU8gwQlG7rgvY5aGb/11iPEFxpMVl43IsbPlH2YAeigvysu
+ UwaGE6Ntr8KVhIbG6aLEweM/wi/gTSZNtaPOFkOGzDm2eoDKbgU34lW5d
+ KcCCGnb7FyigeYmyDbbWuClm2vsHJ+NhQQ0sPCeksy2aJHkCOszxu+joZ
+ ni1Sq85SDbdPIDz54et/LiuQo5sbCKK7wntHvh8L0Y8XJeY1Q+R879JAf
+ bFWYcJXsmvrROzalJKkSfJAaAuTqssWEoAIvWSYE3PqS1gaDU2MRzlrix
+ A/dcJ9gQCwxWM84ZBquE7+qeP101v/QoJ1bUwzMtZAeegdx6K0i/mqgD9 A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="276167861"
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; d="scan'208";a="276167861"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2022 07:03:16 -0700
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; d="scan'208";a="640390127"
+Received: from nncongwa-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.32.178])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2022 07:03:14 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: imre.deak@intel.com
+Subject: Re: [PATCH] drm/dp/mst: Read the extended DPCD capabilities during
+ system resume
+In-Reply-To: <YqiF3k/gyy2Axtwz@ideak-desk.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220614094537.885472-1-imre.deak@intel.com>
+ <87sfo7xw5g.fsf@intel.com> <YqiF3k/gyy2Axtwz@ideak-desk.fi.intel.com>
+Date: Tue, 14 Jun 2022 17:03:12 +0300
+Message-ID: <87mtefxrz3.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/arm/hdlcd: Take over EFI framebuffer properly
-Content-Language: en-US
-To: Robin Murphy <robin.murphy@arm.com>, liviu.dudau@arm.com
-References: <0f96c44b10dcd1444ad43e6027fd5c6aff34e54d.1655211704.git.robin.murphy@arm.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <0f96c44b10dcd1444ad43e6027fd5c6aff34e54d.1655211704.git.robin.murphy@arm.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------hsUWOBibIkBO2iaUIRmwlzUR"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,77 +58,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------hsUWOBibIkBO2iaUIRmwlzUR
-Content-Type: multipart/mixed; boundary="------------NP7QhKiptNa25WrYzVM0GiEx";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Robin Murphy <robin.murphy@arm.com>, liviu.dudau@arm.com
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Message-ID: <3d6303d4-4569-7078-76e1-0f7c46d9556c@suse.de>
-Subject: Re: [PATCH] drm/arm/hdlcd: Take over EFI framebuffer properly
-References: <0f96c44b10dcd1444ad43e6027fd5c6aff34e54d.1655211704.git.robin.murphy@arm.com>
-In-Reply-To: <0f96c44b10dcd1444ad43e6027fd5c6aff34e54d.1655211704.git.robin.murphy@arm.com>
+On Tue, 14 Jun 2022, Imre Deak <imre.deak@intel.com> wrote:
+> On Tue, Jun 14, 2022 at 03:32:59PM +0300, Jani Nikula wrote:
+>> On Tue, 14 Jun 2022, Imre Deak <imre.deak@intel.com> wrote:
+>> > The WD22TB4 Thunderbolt dock at least will revert its DP_MAX_LINK_RATE
+>> > from HBR3 to HBR2 after system suspend/resume if the DP_DP13_DPCD_REV
+>> > registers are not read subsequently also as required.
+>> 
+>> Does it actually change the behaviour depending on whether the dpcd is
+>> read or not, or is this just about the resume path overwriting mgr->dpcd
+>> with stuff from DP_DPCD_REV?
+>
+> Yes, the reading out DP_DP13_DPCD_REV has a side-effect, see
+> https://gitlab.freedesktop.org/drm/intel/-/issues/5292#note_1343399
 
---------------NP7QhKiptNa25WrYzVM0GiEx
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+:o
 
-SGkNCg0KQW0gMTQuMDYuMjIgdW0gMTU6MDQgc2NocmllYiBSb2JpbiBNdXJwaHk6DQo+IFRo
-ZSBBcm0gSnVubyBib2FyZCBFREsyIHBvcnQgaGFzIHByb3ZpZGVkIGFuIEVGSSBHT1AgZGlz
-cGxheSB2aWEgSERMQ0QwDQo+IGZvciBzb21lIHRpbWUgbm93LCB3aGljaCB3b3JrcyBuaWNl
-bHkgYXMgYW4gZWFybHkgZnJhbWVidWZmZXIuIEhvd2V2ZXIsDQo+IG9uY2UgdGhlIEhETENE
-IGRyaXZlciBwcm9iZXMgYW5kIHRha2VzIG92ZXIgdGhlIGhhcmR3YXJlLCBpdCBzaG91bGQN
-Cj4gdGFrZSBvdmVyIHRoZSBsb2dpY2FsIGZyYW1lYnVmZmVyIGFzIHdlbGwsIG90aGVyd2lz
-ZSB0aGUgbm93LWRlZnVuY3QgR09QDQo+IGRldmljZSBoYW5ncyBhYm91dCBhbmQgdmlydHVh
-bCBjb25zb2xlIG91dHB1dCBpbmV2aXRhYmx5IGRpc2FwcGVhcnMgaW50bw0KPiB0aGUgd3Jv
-bmcgcGxhY2UgbW9zdCBvZiB0aGUgdGltZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFJvYmlu
-IE11cnBoeSA8cm9iaW4ubXVycGh5QGFybS5jb20+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1
-L2RybS9hcm0vaGRsY2RfZHJ2LmMgfCAyICsrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5z
-ZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRs
-Y2RfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2Rydi5jDQo+IGluZGV4IGFm
-NTkwNzdhNTQ4MS4uYTVkMDQ4ODQ2NThiIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vYXJtL2hkbGNkX2Rydi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2Rf
-ZHJ2LmMNCj4gQEAgLTMzMSw2ICszMzEsOCBAQCBzdGF0aWMgaW50IGhkbGNkX2RybV9iaW5k
-KHN0cnVjdCBkZXZpY2UgKmRldikNCj4gICAJCWdvdG8gZXJyX3ZibGFuazsNCj4gICAJfQ0K
-PiAgIA0KPiArCWRybV9mYl9oZWxwZXJfcmVtb3ZlX2NvbmZsaWN0aW5nX2ZyYW1lYnVmZmVy
-cyhOVUxMLCAiaGRsY2QiLCBmYWxzZSk7DQo+ICsNCg0KSW4gYWRkaXRpb24gdG8gd2hhdCBK
-YXZpZXIgc2FpZCwgaXQgYXBwZWFycyB0byBiZSB0b28gbGF0ZSB0byBjYWxsIHRoaXMgDQpm
-dW5jdGlvbi4gSWYgYW55dGhpbmcgaGVyIGV0b3VjaGVzIGhhcmR3YXJlLCB5b3UgbWlnaHQg
-YWNjaWRlbnRhbGx5IA0KaW50ZXJmZXJlIHdpdGggdGhlIEVGSS1yZWxhdGVkIGRyaXZlci4g
-UmF0aGVyIGNhbGwgaXQgYXQgdGhlIHRvcCBvZiANCmxkbGNkX2RybV9iaW5kKCkuDQoNCkJl
-c3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gICAJZHJtX21vZGVfY29uZmlnX3Jlc2V0KGRybSk7
-DQo+ICAgCWRybV9rbXNfaGVscGVyX3BvbGxfaW5pdChkcm0pOw0KPiAgIA0KDQotLSANClRo
-b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
-YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
-YmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bD
-vGhyZXI6IEl2byBUb3Rldg0K
+Okay, the commit message is fine as-is.
 
---------------NP7QhKiptNa25WrYzVM0GiEx--
+>
+>> drm_dp_mst_topology_mgr_set_mst() does use drm_dp_read_dpcd_caps() for
+>> reading the caps, which would normally set mgr->dpcd from
+>> DP_DP13_DPCD_REV.
+>
+> Right, but at that point DP_DP13_DPCD_REV returns HBR2 w/o this change.
+>
+>> BR,
+>> Jani.
+>> 
+>> >
+>> > Fix this by reading DP_DP13_DPCD_REV registers as well, matching what is
+>> > done during connector detection. While at it also fix up the same call
+>> > in drm_dp_mst_dump_topology().
+>> >
+>> > Cc: Lyude Paul <lyude@redhat.com>
+>> > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5292
+>> > Signed-off-by: Imre Deak <imre.deak@intel.com>
+>> > ---
+>> >  drivers/gpu/drm/display/drm_dp_mst_topology.c | 7 ++-----
+>> >  1 file changed, 2 insertions(+), 5 deletions(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+>> > index 67b3b9697da7f..18f2b6075b780 100644
+>> > --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+>> > +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+>> > @@ -3860,9 +3860,7 @@ int drm_dp_mst_topology_mgr_resume(struct drm_dp_mst_topology_mgr *mgr,
+>> >  	if (!mgr->mst_primary)
+>> >  		goto out_fail;
+>> >  
+>> > -	ret = drm_dp_dpcd_read(mgr->aux, DP_DPCD_REV, mgr->dpcd,
+>> > -			       DP_RECEIVER_CAP_SIZE);
+>> > -	if (ret != DP_RECEIVER_CAP_SIZE) {
+>> > +	if (drm_dp_read_dpcd_caps(mgr->aux, mgr->dpcd) < 0) {
+>> >  		drm_dbg_kms(mgr->dev, "dpcd read failed - undocked during suspend?\n");
+>> >  		goto out_fail;
+>> >  	}
+>> > @@ -4911,8 +4909,7 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
+>> >  		u8 buf[DP_PAYLOAD_TABLE_SIZE];
+>> >  		int ret;
+>> >  
+>> > -		ret = drm_dp_dpcd_read(mgr->aux, DP_DPCD_REV, buf, DP_RECEIVER_CAP_SIZE);
+>> > -		if (ret) {
+>> > +		if (drm_dp_read_dpcd_caps(mgr->aux, buf) < 0) {
+>> >  			seq_printf(m, "dpcd read failed\n");
+>> >  			goto out;
+>> >  		}
+>> 
+>> -- 
+>> Jani Nikula, Intel Open Source Graphics Center
 
---------------hsUWOBibIkBO2iaUIRmwlzUR
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKokcIFAwAAAAAACgkQlh/E3EQov+Ck
-kg//TQYTYg3Ci1cu3JN9o+A69K9AEvFP+3qdCsWsbk0O8AJmfJxqeShAfQh/l6dfG7CMjbpq166c
-F8VQ9m4t/dwyl/qxe9ZbDgDb+0bdUMzLMQn5vCJw2b16D2QVAwA5d8NIgskQzNSDEnW4PBft4cyY
-SR1vZNbz86VCtVGVj7+HpClRD1DbREnURz4PhhmcOqa8tQaRsbO8Z+AgB62EDw/VBvZvXLF/xUSk
-xl5SwcEjG+VfabbBJyhB3hqf/MTlpUAxbr9puZUOlSi6mBl4/88LdsoQA53c/qNRXOHx3kV0rBZh
-hjhG97yQjRkxKM2G4HDfPnOoYN1WyfnMujIrg3ZwEgf4FP4YteOY1P0HcnUELmC0Cao4jsqULkGv
-ulQPER1XaO7za9VzqhwixKF33ARp+aSGfqOi9dFQG+UN9K9tvaEPdMG7Pk4iyTMRybJDtSCSyP7k
-2fu3D+S7a1qZZX4ggqfB4Q0InwnZIIsobjv0Y0uVJHlzROSf0zz2gZse+aS8CKNhq2LlpOjxlHtm
-+dNFtPMMztbYzE6no6HdMi1LFUD/gqA0qTdYUsoXOBPHBRu6eHzA7mHHOVeEaH4Yu3dNoR6Jzrdx
-BSfVizrFZiGzrGb75OXHXAywLaqd3QqOE+1G5uaXg6boTMa4v3b07LUPGEmaih8YNVG3xlA9Rhvm
-JJU=
-=Gmga
------END PGP SIGNATURE-----
-
---------------hsUWOBibIkBO2iaUIRmwlzUR--
+-- 
+Jani Nikula, Intel Open Source Graphics Center
