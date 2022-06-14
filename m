@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8232B54BE03
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 01:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7181654BE05
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 01:01:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2441710FC41;
-	Tue, 14 Jun 2022 23:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42AB2112D56;
+	Tue, 14 Jun 2022 23:01:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2797E10FDF8
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 23:01:38 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id e24so9746987pjt.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 16:01:38 -0700 (PDT)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F343112A34
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 23:01:39 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id n18so8954427plg.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 16:01:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anholt-net.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RWlMcK/WiHaE2lupDQgc+icrhgmdMQxgOsPbDDDl0aE=;
- b=rxZaCTVb83tYMLMGAxqk8WP2FjGYRIoCovnvFYKSSOhMElgtlaDdZdSZMKPgSK4Yvo
- rC52cpeIJXo1GGTArDPxTrvH2g0j3p7QIUY5w78AbPKw2KsYXheKA8zc25on4qL9jc7k
- Pux+AQFyh9bQxZS2Av8mD7rxozr+inA00Hb7dAzDh+Di3oqIzFrchKq0vkDUvlbHaxek
- DRfGsep2dsYUDMjpJWrl4htAQKqUQVJIsWTNYxGeAn5KVIyPZqHF/KFc4lT4YMeLJIf5
- ry7iVS607W8w4IYMtJIee9psu43QKUIBJbDZIHwrUeV5l21LlnXFp0dg9U3JNTJh/a2F
- me6w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=F4m9A8Qo6zOltjkzi0N0zgRLf5Grbh0WeCZKflLJ7DY=;
+ b=vuq62C9vlXng27Gng4avkt6GXFI/9GQfRmTb1j/9RpzgytIr+h8bLihhhQ2Kdu8qxN
+ U+0N/Nw3VoStnuJhi1y87mQxOG1cio2AKy7jHmg5PzX9HABxw99eoZH8NbNDLwKdran/
+ fMfs22HceHQFa3ZNFgHaxWQzaVuRvEUx0a9d0DMc7Jqywcn0FIiLIIxTKKPYTkQZMJQi
+ M71kLAhFrB9vsfTpMpS1gunPEJdIJ70J4KofJg1WUloyOIQVqeebQRQacQeatC2GYSUi
+ XEiGzsqY2R9EQEVXD5wqx1AVGpGOSc9XCoMEGLgnWj17FTo4dnXsKWyPBO7FNhC+v8Um
+ xy2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RWlMcK/WiHaE2lupDQgc+icrhgmdMQxgOsPbDDDl0aE=;
- b=RGa5cuWaZcXrRKrfcZRbkCbSz9hT1Kk+y+KtCpSv/qIgZXCooHEvjhh1sU6oms9WH1
- 3mGrxKWrjbNpRTTr9AX08JtlGSV8/uGq1cGGq/K/nejpmtskN09CfmOfwQPyMfK5xfD4
- SlzX8p+wRpiLlwUtH/91O1Uv5vDP+Ra9A9xGfuC+6/+wiBTVDA+kENCD8FUcylJ57pvX
- 2/jh1WK8IBgKPwE1xfSoSS6jddaG9iLb7ky3LLrapxizWPqU/d/JxRZxlLPMg37SozBg
- J8GKybuGMXJUjkfcut1QH1Z7hmYi6+zi4QZtwk4O9juPZIl/Qz5y9uR5hi9M3qK2ul7c
- hiag==
-X-Gm-Message-State: AJIora8zde4wBGrNt7LxDzVIQLA8nigCGLoHEGv3mETw7KqunZGybRSh
- 6BTgOS3+5s2fO9OSJZaGRI/GXaIEfWUzOjckm+7Ifg==
-X-Google-Smtp-Source: AGRyM1sug/F5zUgorGwld6/cvjxSjJ3Ba76jZNwLVen3RaltHSazhsqEJzh8eunYtM28ILlpP5FJ5Q==
-X-Received: by 2002:a17:90a:a605:b0:1ea:6b4f:915e with SMTP id
- c5-20020a17090aa60500b001ea6b4f915emr6825913pjq.60.1655247697545; 
- Tue, 14 Jun 2022 16:01:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=F4m9A8Qo6zOltjkzi0N0zgRLf5Grbh0WeCZKflLJ7DY=;
+ b=tygzqfisu/Kgm8tLCOYHj8ZmvnbH4bJHL0QvwF7ErWzwv83sZ2vLj4lSqtVqaOXjuQ
+ WmA2Nmjrbhav3dOW9SGnBJfjs7Klj823CV6IsEO3zusux2+V2vFwO0tyOsjVupH6kYnR
+ wNo4qChV/pNntzdpeHGPQtKmvETi0ZdTCzt8cPd2qbjTdEt6CBJitRmpc0MuO+brdwil
+ MmIPAI8DPpLei+dwleoJaISzqCNheS5w8WjyEGuX8QjAuZkqes/BFxf9mFNIbPp2VG2j
+ /mwbHeZKwUoDA97Neid52PlOFSD77X+ZMv5fJiZZzggzLlWHA7UHJxkl6T3jr/FuE1ZA
+ Vagg==
+X-Gm-Message-State: AJIora/HgKsibKNJae23iRt05WjtlWtm3TwowSsrxyyteqjKMRvF3K/u
+ SRN4WYB1KHDcS6qVuvVQG262B6zsmuf90NSoPKVrYw==
+X-Google-Smtp-Source: AGRyM1sysLwTU+O4gfQ75Td7Y5l63JSZ6kQ5+2cLmKQHoxX1bX2xDe6Y/djjDLJekIO9y4ae3uDmHw==
+X-Received: by 2002:a17:90b:1bcd:b0:1e2:c8da:7c29 with SMTP id
+ oa13-20020a17090b1bcd00b001e2c8da7c29mr6858481pjb.4.1655247698383; 
+ Tue, 14 Jun 2022 16:01:38 -0700 (PDT)
 Received: from wildbow.anholt.net (97-115-79-125.ptld.qwest.net.
  [97.115.79.125]) by smtp.gmail.com with ESMTPSA id
- cp15-20020a170902e78f00b00168c5230332sm7787768plb.148.2022.06.14.16.01.36
+ cp15-20020a170902e78f00b00168c5230332sm7787768plb.148.2022.06.14.16.01.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jun 2022 16:01:37 -0700 (PDT)
+ Tue, 14 Jun 2022 16:01:38 -0700 (PDT)
 From: Emma Anholt <emma@anholt.net>
 To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
@@ -55,11 +55,12 @@ To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Herring <robh+dt@kernel.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 1/2] iommu: arm-smmu-impl: Add 8250 display compatible to the
- client list.
-Date: Tue, 14 Jun 2022 16:01:35 -0700
-Message-Id: <20220614230136.3726047-1-emma@anholt.net>
+Subject: [PATCH 2/2] arm64: dts: qcom: sm8250: Enable per-process page tables.
+Date: Tue, 14 Jun 2022 16:01:36 -0700
+Message-Id: <20220614230136.3726047-2-emma@anholt.net>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220614230136.3726047-1-emma@anholt.net>
+References: <20220614230136.3726047-1-emma@anholt.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,26 +80,31 @@ Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Required for turning on per-process page tables for the GPU.
+This is an SMMU for the adreno gpu, and adding this compatible lets
+the driver use per-fd page tables, which are required for security
+between GPU clients.
 
 Signed-off-by: Emma Anholt <emma@anholt.net>
 ---
 
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 1 +
- 1 file changed, 1 insertion(+)
+Tested with a full deqp-vk run on RB5, which did involve some iommu faults.
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-index d8e1ef83c01b..bb9220937068 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-@@ -233,6 +233,7 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
- 	{ .compatible = "qcom,sc7280-mdss" },
- 	{ .compatible = "qcom,sc7280-mss-pil" },
- 	{ .compatible = "qcom,sc8180x-mdss" },
-+	{ .compatible = "qcom,sm8250-mdss" },
- 	{ .compatible = "qcom,sdm845-mdss" },
- 	{ .compatible = "qcom,sdm845-mss-pil" },
- 	{ }
+ arch/arm64/boot/dts/qcom/sm8250.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+index a92230bec1dd..483c0e0f1d1a 100644
+--- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+@@ -2513,7 +2513,7 @@ gpucc: clock-controller@3d90000 {
+ 		};
+ 
+ 		adreno_smmu: iommu@3da0000 {
+-			compatible = "qcom,sm8250-smmu-500", "arm,mmu-500";
++			compatible = "qcom,sm8250-smmu-500", "arm,mmu-500", "qcom,adreno-smmu";
+ 			reg = <0 0x03da0000 0 0x10000>;
+ 			#iommu-cells = <2>;
+ 			#global-interrupts = <2>;
 -- 
 2.36.1
 
