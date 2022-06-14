@@ -1,47 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A93354AB00
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 09:52:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB0054AB34
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 09:56:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A84ED10FBCB;
-	Tue, 14 Jun 2022 07:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AC1810FC3D;
+	Tue, 14 Jun 2022 07:56:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE7EF10FBCB
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 07:52:16 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id F2C4766016A5;
- Tue, 14 Jun 2022 08:52:13 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1655193134;
- bh=YiYxfz9UJYMv0Yzl92YcMKOgxfk4MMa4/uB2sRksOJM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=UUod8iVfxYNNRG93+40eRBJxUTQ3ZMgriSgsL2pjQ7TOiQCiDUa9nUiDsYxWRkP1I
- J5w3HAl/BXe/Q6B6GwMcl3f9CawLTS2jXqIIot2MCzgKx1VFkVC0GNtMAC6dwA2sDu
- sEDwNJugHElihkizTLODY+vFVbqAyo2Nc0A+SANM34T/+FBJEumOXIHLvqCqkGORER
- 1n53h10MPyNSaoBd/YmIETwznwOUFBZEAvHx3Flg9n9RcaFEA42l6jXeKo+8jwHlhJ
- md6WWZoS6XWPCD3fJHg9pceZe1BIdNxOqZ1IZUCGa5AbcJ7mX8a4xoOH/xSH5aIdN5
- E7/yJ3pSnhAkQ==
-Message-ID: <9c8c712c-75d1-bd0f-0205-be769ce5e83d@collabora.com>
-Date: Tue, 14 Jun 2022 09:52:11 +0200
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97B1B10E7D6;
+ Tue, 14 Jun 2022 07:56:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655193360; x=1686729360;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=ltD/SHykF4KwSMRMZFJuue6WXCej+a0mjqpWw3Dwyx4=;
+ b=GfCxRuI/YGLGFEqE1pu/tGuLjCwobX7CuFDPuWFvmAFhQZqfHUYSs1TJ
+ l5YkKmtigoxKdRQnT/X7oyUWF7GAQ4h7EeG6qti7JGsSIstRlwbOceEvN
+ cImMP9//6JW7JLfUReRf0otk3S52AUP4HAhLD6jrLVh94PKgJLipNdSjE
+ Vj3q8MGfSE47rFVsCCpObVsDhHg5L9OD0eeIh3aSH4ucia6hOTF9TyT1R
+ 5zs/rIqyLOTgPhVJgnX5QY91K1rASqt4nhRpeuBAN2GmNte26NAqcvj3K
+ MRaTLVxY8rb5AMwOdZllucxRBHQAbwWl2NFIYfj1AZ3txa2TgDO29OBGE g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="279582960"
+X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; d="scan'208";a="279582960"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2022 00:55:51 -0700
+X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; d="scan'208";a="640204763"
+Received: from snkalval-mobl2.amr.corp.intel.com (HELO [10.212.46.198])
+ ([10.212.46.198])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2022 00:55:50 -0700
+Message-ID: <18c8927e-dc7c-61e0-6e5f-65837c2444b3@linux.intel.com>
+Date: Tue, 14 Jun 2022 08:55:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/bridge: anx7625: Zero error variable when panel
- bridge not present
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Improve user experience and driver
+ robustness under SIGINT or similar
 Content-Language: en-US
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Robert Foss <robert.foss@linaro.org>
-References: <20220613163705.1531721-1-nfraprado@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220613163705.1531721-1-nfraprado@collabora.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, Intel-gfx@lists.freedesktop.org
+References: <20220527072452.2225610-1-tvrtko.ursulin@linux.intel.com>
+ <fa45f87d-9aa1-a36d-631b-2363a95a7665@intel.com>
+ <d91647ec-c941-0f99-5cdc-0fe7ac1c0d07@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <d91647ec-c941-0f99-5cdc-0fe7ac1c0d07@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,36 +63,390 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Tzung-Bi Shih <tzungbi@google.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- kernel@collabora.com, Sam Ravnborg <sam@ravnborg.org>,
- Xin Ji <xji@analogixsemi.com>, Maxime Ripard <maxime@cerno.tech>
+Cc: John Harrison <John.C.Harrison@Intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 13/06/22 18:37, Nícolas F. R. A. Prado ha scritto:
-> While parsing the DT, the anx7625 driver checks for the presence of a
-> panel bridge on endpoint 1. If it is missing, pdata->panel_bridge stores
-> the error pointer and the function returns successfully without first
-> cleaning that variable. This is an issue since other functions later
-> check for the presence of a panel bridge by testing the trueness of that
-> variable.
-> 
-> In order to ensure proper behavior, zero out pdata->panel_bridge before
-> returning when no panel bridge is found.
-> 
-> Fixes: 9e82ea0fb1df ("drm/bridge: anx7625: switch to devm_drm_of_get_bridge")
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> 
 
-I would've preferred s/zero out/cleanup/g but it's also fine as you wrote it.
-Besides, good catch!
+Final call to raise objections.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Regards,
 
+Tvrtko
+
+On 07/06/2022 09:36, Tvrtko Ursulin wrote:
+> 
+> On 27/05/2022 13:07, Andrzej Hajda wrote:
+>> On 27.05.2022 09:24, Tvrtko Ursulin wrote:
+>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>
+>>> We have long standing customer complaints that pressing Ctrl-C (or to 
+>>> the
+>>> effect of) causes engine resets with otherwise well behaving programs.
+>>>
+>>> Not only is logging engine resets during normal operation not desirable
+>>> since it creates support incidents, but more fundamentally we should 
+>>> avoid
+>>> going the engine reset path when we can since any engine reset 
+>>> introduces
+>>> a chance of harming an innocent context.
+>>>
+>>> Reason for this undesirable behaviour is that the driver currently does
+>>> not distinguish between banned contexts and non-persistent contexts 
+>>> which
+>>> have been closed.
+>>>
+>>> To fix this we add the distinction between the two reasons for revoking
+>>> contexts, which then allows the strict timeout only be applied to 
+>>> banned,
+>>> while innocent contexts (well behaving) can preempt cleanly and exit
+>>> without triggering the engine reset path.
+>>>
+>>> Note that the added context exiting category applies both to closed non-
+>>> persistent context, and any exiting context when hangcheck has been
+>>> disabled by the user.
+>>>
+>>> At the same time we rename the backend operation from 'ban' to 'revoke'
+>>> which more accurately describes the actual semantics. (There is no 
+>>> ban at
+>>> the backend level since banning is a concept driven by the scheduling
+>>> frontend. Backends are simply able to revoke a running context so that
+>>> is the more appropriate name chosen.)
+>>>
+>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 23 +++++++++++------
+>>>   drivers/gpu/drm/i915/gt/intel_context.c       | 24 ++++++++++++++++++
+>>>   drivers/gpu/drm/i915/gt/intel_context.h       | 25 +++++++++++++------
+>>>   drivers/gpu/drm/i915/gt/intel_context_types.h |  4 ++-
+>>>   .../drm/i915/gt/intel_execlists_submission.c  |  6 ++---
+>>>   .../gpu/drm/i915/gt/intel_ring_submission.c   |  7 +++---
+>>>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 15 ++++++-----
+>>>   drivers/gpu/drm/i915/i915_request.c           |  2 +-
+>>>   8 files changed, 77 insertions(+), 29 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c 
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> index ab4c5ab28e4d..6b171c89b1b3 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>>> @@ -1367,7 +1367,8 @@ static struct intel_engine_cs 
+>>> *active_engine(struct intel_context *ce)
+>>>       return engine;
+>>>   }
+>>> -static void kill_engines(struct i915_gem_engines *engines, bool ban)
+>>> +static void
+>>> +kill_engines(struct i915_gem_engines *engines, bool exit, bool 
+>>> persistent)
+>>>   {
+>>>       struct i915_gem_engines_iter it;
+>>>       struct intel_context *ce;
+>>> @@ -1381,9 +1382,15 @@ static void kill_engines(struct 
+>>> i915_gem_engines *engines, bool ban)
+>>>        */
+>>>       for_each_gem_engine(ce, engines, it) {
+>>>           struct intel_engine_cs *engine;
+>>> +        bool skip = false;
+>>> -        if (ban && intel_context_ban(ce, NULL))
+>>> -            continue;
+>>> +        if (exit)
+>>> +            skip = intel_context_set_exiting(ce);
+>>> +        else if (!persistent)
+>>> +            skip = intel_context_exit_nonpersistent(ce, NULL);
+>>> +
+>>> +        if (skip)
+>>> +            continue; /* Already marked. */
+>>
+>> why not:
+>>      if (exit && intel_context_set_exiting(ce))
+>>          continue;
+>>      else if (!persistent && intel_context_exit_nonpersistent(ce, NULL)
+>>          continue;
+> 
+> Just so I can put the "already marked" comment on single line.
+> 
+>>
+>> Anyway:
+>> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> 
+> Thanks!
+> 
+> John, Daniel - you had reservations against the older version of this 
+> patch AFAIR. This time round I believe I conceptually simplified it by 
+> doing a clean separation of contexts which should not be scheduled any 
+> more becuase they want it so, versus the ones we banned. That is, the 
+> patch stops abusing the banned status for contexts which haven't been 
+> (banned). This allows to only apply the strict preempt timeout to 
+> banned, while there is no reason to add any new timeout values for the 
+> rest.
+> 
+> Any objections to this version?
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>>
+>> Regards
+>> Andrzej
+>>
+>>>           /*
+>>>            * Check the current active state of this context; if we
+>>> @@ -1395,7 +1402,7 @@ static void kill_engines(struct 
+>>> i915_gem_engines *engines, bool ban)
+>>>           engine = active_engine(ce);
+>>>           /* First attempt to gracefully cancel the context */
+>>> -        if (engine && !__cancel_engine(engine) && ban)
+>>> +        if (engine && !__cancel_engine(engine) && (exit || 
+>>> !persistent))
+>>>               /*
+>>>                * If we are unable to send a preemptive pulse to bump
+>>>                * the context from the GPU, we have to resort to a full
+>>> @@ -1407,8 +1414,6 @@ static void kill_engines(struct 
+>>> i915_gem_engines *engines, bool ban)
+>>>   static void kill_context(struct i915_gem_context *ctx)
+>>>   {
+>>> -    bool ban = (!i915_gem_context_is_persistent(ctx) ||
+>>> -            !ctx->i915->params.enable_hangcheck);
+>>>       struct i915_gem_engines *pos, *next;
+>>>       spin_lock_irq(&ctx->stale.lock);
+>>> @@ -1421,7 +1426,8 @@ static void kill_context(struct 
+>>> i915_gem_context *ctx)
+>>>           spin_unlock_irq(&ctx->stale.lock);
+>>> -        kill_engines(pos, ban);
+>>> +        kill_engines(pos, !ctx->i915->params.enable_hangcheck,
+>>> +                 i915_gem_context_is_persistent(ctx));
+>>>           spin_lock_irq(&ctx->stale.lock);
+>>>           GEM_BUG_ON(i915_sw_fence_signaled(&pos->fence));
+>>> @@ -1467,7 +1473,8 @@ static void engines_idle_release(struct 
+>>> i915_gem_context *ctx,
+>>>   kill:
+>>>       if (list_empty(&engines->link)) /* raced, already closed */
+>>> -        kill_engines(engines, true);
+>>> +        kill_engines(engines, true,
+>>> +                 i915_gem_context_is_persistent(ctx));
+>>>       i915_sw_fence_commit(&engines->fence);
+>>>   }
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c 
+>>> b/drivers/gpu/drm/i915/gt/intel_context.c
+>>> index 4070cb5711d8..654a092ed3d6 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+>>> @@ -601,6 +601,30 @@ u64 intel_context_get_avg_runtime_ns(struct 
+>>> intel_context *ce)
+>>>       return avg;
+>>>   }
+>>> +bool intel_context_ban(struct intel_context *ce, struct i915_request 
+>>> *rq)
+>>> +{
+>>> +    bool ret = intel_context_set_banned(ce);
+>>> +
+>>> +    trace_intel_context_ban(ce);
+>>> +
+>>> +    if (ce->ops->revoke)
+>>> +        ce->ops->revoke(ce, rq,
+>>> +                INTEL_CONTEXT_BANNED_PREEMPT_TIMEOUT_MS);
+>>> +
+>>> +    return ret;
+>>> +}
+>>> +
+>>> +bool intel_context_exit_nonpersistent(struct intel_context *ce,
+>>> +                      struct i915_request *rq)
+>>> +{
+>>> +    bool ret = intel_context_set_exiting(ce);
+>>> +
+>>> +    if (ce->ops->revoke)
+>>> +        ce->ops->revoke(ce, rq, ce->engine->props.preempt_timeout_ms);
+>>> +
+>>> +    return ret;
+>>> +}
+>>> +
+>>>   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+>>>   #include "selftest_context.c"
+>>>   #endif
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h 
+>>> b/drivers/gpu/drm/i915/gt/intel_context.h
+>>> index b7d3214d2cdd..8e2d70630c49 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_context.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
+>>> @@ -25,6 +25,8 @@
+>>>                ##__VA_ARGS__);                    \
+>>>   } while (0)
+>>> +#define INTEL_CONTEXT_BANNED_PREEMPT_TIMEOUT_MS (1)
+>>> +
+>>>   struct i915_gem_ww_ctx;
+>>>   void intel_context_init(struct intel_context *ce,
+>>> @@ -309,18 +311,27 @@ static inline bool 
+>>> intel_context_set_banned(struct intel_context *ce)
+>>>       return test_and_set_bit(CONTEXT_BANNED, &ce->flags);
+>>>   }
+>>> -static inline bool intel_context_ban(struct intel_context *ce,
+>>> -                     struct i915_request *rq)
+>>> +bool intel_context_ban(struct intel_context *ce, struct i915_request 
+>>> *rq);
+>>> +
+>>> +static inline bool intel_context_is_schedulable(const struct 
+>>> intel_context *ce)
+>>>   {
+>>> -    bool ret = intel_context_set_banned(ce);
+>>> +    return !test_bit(CONTEXT_EXITING, &ce->flags) &&
+>>> +           !test_bit(CONTEXT_BANNED, &ce->flags);
+>>> +}
+>>> -    trace_intel_context_ban(ce);
+>>> -    if (ce->ops->ban)
+>>> -        ce->ops->ban(ce, rq);
+>>> +static inline bool intel_context_is_exiting(const struct 
+>>> intel_context *ce)
+>>> +{
+>>> +    return test_bit(CONTEXT_EXITING, &ce->flags);
+>>> +}
+>>> -    return ret;
+>>> +static inline bool intel_context_set_exiting(struct intel_context *ce)
+>>> +{
+>>> +    return test_and_set_bit(CONTEXT_EXITING, &ce->flags);
+>>>   }
+>>> +bool intel_context_exit_nonpersistent(struct intel_context *ce,
+>>> +                      struct i915_request *rq);
+>>> +
+>>>   static inline bool
+>>>   intel_context_force_single_submission(const struct intel_context *ce)
+>>>   {
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h 
+>>> b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>>> index 09f82545789f..d2d75d9c0c8d 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>>> @@ -40,7 +40,8 @@ struct intel_context_ops {
+>>>       int (*alloc)(struct intel_context *ce);
+>>> -    void (*ban)(struct intel_context *ce, struct i915_request *rq);
+>>> +    void (*revoke)(struct intel_context *ce, struct i915_request *rq,
+>>> +               unsigned int preempt_timeout_ms);
+>>>       int (*pre_pin)(struct intel_context *ce, struct i915_gem_ww_ctx 
+>>> *ww, void **vaddr);
+>>>       int (*pin)(struct intel_context *ce, void *vaddr);
+>>> @@ -122,6 +123,7 @@ struct intel_context {
+>>>   #define CONTEXT_GUC_INIT        10
+>>>   #define CONTEXT_PERMA_PIN        11
+>>>   #define CONTEXT_IS_PARKING        12
+>>> +#define CONTEXT_EXITING            13
+>>>       struct {
+>>>           u64 timeout_us;
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c 
+>>> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>> index a4510b5c0c3d..ad72e2c5c4e7 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>> @@ -480,9 +480,9 @@ __execlists_schedule_in(struct i915_request *rq)
+>>>       if (unlikely(intel_context_is_closed(ce) &&
+>>>                !intel_engine_has_heartbeat(engine)))
+>>> -        intel_context_set_banned(ce);
+>>> +        intel_context_set_exiting(ce);
+>>> -    if (unlikely(intel_context_is_banned(ce) || bad_request(rq)))
+>>> +    if (unlikely(!intel_context_is_schedulable(ce) || bad_request(rq)))
+>>>           reset_active(rq, engine);
+>>>       if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
+>>> @@ -1243,7 +1243,7 @@ static unsigned long 
+>>> active_preempt_timeout(struct intel_engine_cs *engine,
+>>>       /* Force a fast reset for terminated contexts (ignoring sysfs!) */
+>>>       if (unlikely(intel_context_is_banned(rq->context) || 
+>>> bad_request(rq)))
+>>> -        return 1;
+>>> +        return INTEL_CONTEXT_BANNED_PREEMPT_TIMEOUT_MS;
+>>>       return READ_ONCE(engine->props.preempt_timeout_ms);
+>>>   }
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c 
+>>> b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>>> index f8f279a195c0..d5d6f1fadcae 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+>>> @@ -598,8 +598,9 @@ static void ring_context_reset(struct 
+>>> intel_context *ce)
+>>>       clear_bit(CONTEXT_VALID_BIT, &ce->flags);
+>>>   }
+>>> -static void ring_context_ban(struct intel_context *ce,
+>>> -                 struct i915_request *rq)
+>>> +static void ring_context_revoke(struct intel_context *ce,
+>>> +                struct i915_request *rq,
+>>> +                unsigned int preempt_timeout_ms)
+>>>   {
+>>>       struct intel_engine_cs *engine;
+>>> @@ -634,7 +635,7 @@ static const struct intel_context_ops 
+>>> ring_context_ops = {
+>>>       .cancel_request = ring_context_cancel_request,
+>>> -    .ban = ring_context_ban,
+>>> +    .revoke = ring_context_revoke,
+>>>       .pre_pin = ring_context_pre_pin,
+>>>       .pin = ring_context_pin,
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index 5a1dfacf24ea..e62ea35513ea 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -2790,7 +2790,9 @@ static void 
+>>> __guc_context_set_preemption_timeout(struct intel_guc *guc,
+>>>       __guc_context_set_context_policies(guc, &policy, true);
+>>>   }
+>>> -static void guc_context_ban(struct intel_context *ce, struct 
+>>> i915_request *rq)
+>>> +static void
+>>> +guc_context_revoke(struct intel_context *ce, struct i915_request *rq,
+>>> +           unsigned int preempt_timeout_ms)
+>>>   {
+>>>       struct intel_guc *guc = ce_to_guc(ce);
+>>>       struct intel_runtime_pm *runtime_pm =
+>>> @@ -2829,7 +2831,8 @@ static void guc_context_ban(struct 
+>>> intel_context *ce, struct i915_request *rq)
+>>>            * gets kicked off the HW ASAP.
+>>>            */
+>>>           with_intel_runtime_pm(runtime_pm, wakeref) {
+>>> -            __guc_context_set_preemption_timeout(guc, guc_id, 1);
+>>> +            __guc_context_set_preemption_timeout(guc, guc_id,
+>>> +                                 preempt_timeout_ms);
+>>>               __guc_context_sched_disable(guc, ce, guc_id);
+>>>           }
+>>>       } else {
+>>> @@ -2837,7 +2840,7 @@ static void guc_context_ban(struct 
+>>> intel_context *ce, struct i915_request *rq)
+>>>               with_intel_runtime_pm(runtime_pm, wakeref)
+>>>                   __guc_context_set_preemption_timeout(guc,
+>>>                                        ce->guc_id.id,
+>>> -                                     1);
+>>> +                                     preempt_timeout_ms);
+>>>           spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>>>       }
+>>>   }
+>>> @@ -3190,7 +3193,7 @@ static const struct intel_context_ops 
+>>> guc_context_ops = {
+>>>       .unpin = guc_context_unpin,
+>>>       .post_unpin = guc_context_post_unpin,
+>>> -    .ban = guc_context_ban,
+>>> +    .revoke = guc_context_revoke,
+>>>       .cancel_request = guc_context_cancel_request,
+>>> @@ -3439,7 +3442,7 @@ static const struct intel_context_ops 
+>>> virtual_guc_context_ops = {
+>>>       .unpin = guc_virtual_context_unpin,
+>>>       .post_unpin = guc_context_post_unpin,
+>>> -    .ban = guc_context_ban,
+>>> +    .revoke = guc_context_revoke,
+>>>       .cancel_request = guc_context_cancel_request,
+>>> @@ -3528,7 +3531,7 @@ static const struct intel_context_ops 
+>>> virtual_parent_context_ops = {
+>>>       .unpin = guc_parent_context_unpin,
+>>>       .post_unpin = guc_context_post_unpin,
+>>> -    .ban = guc_context_ban,
+>>> +    .revoke = guc_context_revoke,
+>>>       .cancel_request = guc_context_cancel_request,
+>>> diff --git a/drivers/gpu/drm/i915/i915_request.c 
+>>> b/drivers/gpu/drm/i915/i915_request.c
+>>> index 73d5195146b0..c3937640b119 100644
+>>> --- a/drivers/gpu/drm/i915/i915_request.c
+>>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>>> @@ -611,7 +611,7 @@ bool __i915_request_submit(struct i915_request 
+>>> *request)
+>>>           goto active;
+>>>       }
+>>> -    if (unlikely(intel_context_is_banned(request->context)))
+>>> +    if (unlikely(!intel_context_is_schedulable(request->context)))
+>>>           i915_request_set_error_once(request, -EIO);
+>>>       if (unlikely(fatal_error(request->fence.error)))
+>>
