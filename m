@@ -1,73 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F43D54AAA8
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 09:31:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9456A54AAAB
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 09:31:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 075B510FA4D;
-	Tue, 14 Jun 2022 07:31:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC7B410FAD0;
+	Tue, 14 Jun 2022 07:31:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FE4710FAB6
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 07:31:06 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id CF6FA5C00DE;
- Tue, 14 Jun 2022 03:31:02 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 14 Jun 2022 03:31:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm3; t=1655191862; x=1655278262; bh=Dbk8kA3/CUb/CaOmXekOBIJYO
- kqO37bfGP3D3h82pdI=; b=GjScZWiLfZQp+GRfzqrZkrlx8z0eymYKG26evbTcZ
- +xaJFYiHwkMa1WqUbD5Z5TVH3CsaX9i4BFzYvtTx1+Uk2pQ97xEg7PyX8BQJ51qG
- NmlRgX3lpLgV6iVpDbESPHnPYh3ut0lXwQPQtOAeLNk8M+AYL+P8SiCaPBDky7y8
- E0sw+Mu7K6+tEMPnhElJOMiGIlc3S6yElK7p/srJ/G9OqKkvSwarBlXq1hpJSNKp
- n90aQXXG4vSxG3rsuZNMl/+s0tHLkMrnYBlW5/we3fUQGzIvCh8S1MHh+oOzYI4g
- cwj4Du//PB1VKYI0BzrsHvUaUxEHMuDK7TbC+0HcS1NTA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1655191862; x=1655278262; bh=Dbk8kA3/CUb/CaOmXekOBIJYOkqO37bfGP3
- D3h82pdI=; b=RRx+YASnTQKS74TUfNjQxCEegiO474fxANvHlE2etkWoZOomiML
- J8WOEcjX3OlTw65GLjoTp/hyh/2vDcKPqGXo8TzPT2RAWhxYoT4Rv1jHxBG+bsdA
- VY2ef8nQCzQppCdzGD0eFBoT9V8fIqr3T3nphGTzvWuTBs4VqKxGWAg5PBdnUg5+
- PuoWYIebct4Src3LYLip+66Q9ZPMBUJzH43NM7wKIgkKXkU0XzlVHIDFKlV4pS/d
- CG2Afs7zqkPnGR57OaHXCzW+vBqzP0cxX2jKPLUBG4mxp+bzIIpDQXQwJ0d/JV2K
- rw7H1B1J87jW1YHcUe++T/RCAxhJkZVBNWg==
-X-ME-Sender: <xms:NjmoYjK6eDDoUIVQihZuQoHhq4K5AC2hcz7QUD3ho1Sd5Zkw4WAuhA>
- <xme:NjmoYnJPvmSGJfBVwvNhZ4nnYLRDpTkPpTCyff38kKRKOD_GR2Gp8IlPxrF7r8t63
- HbAZ5SfPmC_C650rQ>
-X-ME-Received: <xmr:NjmoYruX4PBmhgPBU9HliJ9tOECioYeac_cSZ6PjH7URGzN6rT6cl7wwpKR-XwVtbAaTz3xo685LYKelLt4-lF5cxmMFGwHEcvy-svsbQrJqydsmNXDuPZBh2kV_96eATrKfiQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddukedguddukecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
- lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
- frrghtthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeeh
- hffhkeekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:NjmoYsYIOqf-XLTYTfxq-IUOf7FECYtefDg3Ng70sZsS2zGK_GWX8g>
- <xmx:NjmoYqZkY16jvUk8Uqfsmx1MFx-cJ4dLbwZF1PdqgBwgu4aReC6rUg>
- <xmx:NjmoYgCbrbqXd0t3PiNvDqFlpQrwp-kgzqjWqlMD_QU_UKfna1yPsQ>
- <xmx:NjmoYmS-87aCNzBeVwL2beT_wtRysCRqSbeTfy3VdR2NEe1GxYQzWQ>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Jun 2022 03:31:01 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] drm/sun4i: dw-hdmi: Fix ddc-en GPIO consumer conflict
-Date: Tue, 14 Jun 2022 02:31:00 -0500
-Message-Id: <20220614073100.11550-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA6010FAFA
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 07:31:56 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id AE48F21A64;
+ Tue, 14 Jun 2022 07:31:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1655191914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VqnypRr1eNScxzRAgZV8XELb01acoydhapMiajG7QcU=;
+ b=fiXw+ioNWX72lnHBmyb9S9i6y3Gj7aXypOjJtLn2CWTL1hTTD8VciuKxuKjQDh82owfd2F
+ t8EWkTamtgUCOoKUEnYbTwmF3/9/WsXfu4omZrwUHFzLLM+BR4urG6zwvNmZKwQ6lbwOxp
+ 2GQ+g7BdYDXqiQ4jkIO3iHD89AW0RUU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1655191914;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VqnypRr1eNScxzRAgZV8XELb01acoydhapMiajG7QcU=;
+ b=gtV/jsumiOO9+g/UVp4QjuAdP0jDMcV0YA11C9YY/+UO1+SV5ZnMKi8Rwhc4MJ6MJwzZPK
+ KGLRn3zvAxMm3MAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 88457139EC;
+ Tue, 14 Jun 2022 07:31:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id aierH2o5qGINBAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 14 Jun 2022 07:31:54 +0000
+Message-ID: <31617a97-0898-bc4a-51f9-b818444a4590@suse.de>
+Date: Tue, 14 Jun 2022 09:31:54 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 15/19] drm/gma500: Unify struct
+ *_intel_lvds_connector_helper_funcs
+Content-Language: en-US
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220613123436.15185-1-patrik.r.jakobsson@gmail.com>
+ <20220613123436.15185-16-patrik.r.jakobsson@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220613123436.15185-16-patrik.r.jakobsson@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------e2Cxt2NFQRAgTfX7MZfVSV2G"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,160 +72,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit 6de79dd3a920 ("drm/bridge: display-connector: add ddc-en gpio
-support") added a consumer for this GPIO in the HDMI connector device.
-This new consumer conflicts with the pre-existing GPIO consumer in the
-sun8i HDMI controller driver, which prevents the driver from probing:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------e2Cxt2NFQRAgTfX7MZfVSV2G
+Content-Type: multipart/mixed; boundary="------------xhU0vK00tG8b0ewcFl0Px8Rr";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ dri-devel@lists.freedesktop.org
+Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org
+Message-ID: <31617a97-0898-bc4a-51f9-b818444a4590@suse.de>
+Subject: Re: [PATCH 15/19] drm/gma500: Unify struct
+ *_intel_lvds_connector_helper_funcs
+References: <20220613123436.15185-1-patrik.r.jakobsson@gmail.com>
+ <20220613123436.15185-16-patrik.r.jakobsson@gmail.com>
+In-Reply-To: <20220613123436.15185-16-patrik.r.jakobsson@gmail.com>
 
-  [    4.983358] display-connector connector: GPIO lookup for consumer ddc-en
-  [    4.983364] display-connector connector: using device tree for GPIO lookup
-  [    4.983392] gpio-226 (ddc-en): gpiod_request: status -16
-  [    4.983399] sun8i-dw-hdmi 6000000.hdmi: Couldn't get ddc-en gpio
-  [    4.983618] sun4i-drm display-engine: failed to bind 6000000.hdmi (ops sun8i_dw_hdmi_ops [sun8i_drm_hdmi]): -16
-  [    4.984082] sun4i-drm display-engine: Couldn't bind all pipelines components
-  [    4.984171] sun4i-drm display-engine: adev bind failed: -16
-  [    4.984179] sun8i-dw-hdmi: probe of 6000000.hdmi failed with error -16
+--------------xhU0vK00tG8b0ewcFl0Px8Rr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Both drivers have the same behavior: they leave the GPIO active for the
-life of the device. Let's take advantage of the new implementation, and
-drop the now-obsolete code from the HDMI controller driver.
+SGkgUGF0cmlrDQoNCkFtIDEzLjA2LjIyIHVtIDE0OjM0IHNjaHJpZWIgUGF0cmlrIEpha29i
+c3NvbjoNCj4gVGhlc2Ugbm93IG9ubHkgY29udGFpbnMgZ2VuZXJpYyBnbWEgZnVuY3Rpb25z
+IHNvIGNyZWF0ZQ0KPiBnbWFfbHZkc19jb25uZWN0b3JfaGVscGVyX2Z1bmNzIHRoYXQgYWxs
+IGNoaXBzIGNhbiB1c2UuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBQYXRyaWsgSmFrb2Jzc29u
+IDxwYXRyaWsuci5qYWtvYnNzb25AZ21haWwuY29tPg0KPiAtLS0NCj4gICBkcml2ZXJzL2dw
+dS9kcm0vZ21hNTAwL2Nkdl9pbnRlbF9sdmRzLmMgfCAxMCArLS0tLS0tLS0tDQo+ICAgZHJp
+dmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfbHZkcy5jICAgICAgIHwgMTIgKysrKysrKysrLS0t
+DQo+ICAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfbHZkcy5oICAgICAgIHwgIDQgKy0t
+LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvb2FrdHJhaWxfbHZkcy5jICB8ICAzICst
+LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2ludGVsX2x2ZHMuYyB8IDEwICst
+LS0tLS0tLS0NCj4gICA1IGZpbGVzIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDI2IGRl
+bGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAv
+Y2R2X2ludGVsX2x2ZHMuYyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2X2ludGVsX2x2
+ZHMuYw0KPiBpbmRleCBhNmY5NDU3MmJhYWYuLjJiYTYzNTUxMzQwMSAxMDA2NDQNCj4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9jZHZfaW50ZWxfbHZkcy5jDQo+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2X2ludGVsX2x2ZHMuYw0KPiBAQCAtMTExLDEzICsx
+MTEsNiBAQCBzdGF0aWMgaW50IGNkdl9pbnRlbF9sdmRzX3NldF9wcm9wZXJ0eShzdHJ1Y3Qg
+ZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLA0KPiAgIAlyZXR1cm4gMDsNCj4gICB9DQo+ICAg
+DQo+IC1zdGF0aWMgY29uc3Qgc3RydWN0IGRybV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzDQo+
+IC0JCQkJY2R2X2ludGVsX2x2ZHNfY29ubmVjdG9yX2hlbHBlcl9mdW5jcyA9IHsNCj4gLQku
+Z2V0X21vZGVzID0gZ21hX2x2ZHNfZ2V0X21vZGVzLA0KPiAtCS5tb2RlX3ZhbGlkID0gZ21h
+X2x2ZHNfbW9kZV92YWxpZCwNCj4gLQkuYmVzdF9lbmNvZGVyID0gZ21hX2Jlc3RfZW5jb2Rl
+ciwNCj4gLX07DQo+IC0NCj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9jb25uZWN0b3Jf
+ZnVuY3MgY2R2X2ludGVsX2x2ZHNfY29ubmVjdG9yX2Z1bmNzID0gew0KPiAgIAkuZHBtcyA9
+IGRybV9oZWxwZXJfY29ubmVjdG9yX2RwbXMsDQo+ICAgCS5maWxsX21vZGVzID0gZHJtX2hl
+bHBlcl9wcm9iZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzLA0KPiBAQCAtMjUzLDggKzI0Niw3
+IEBAIHZvaWQgY2R2X2ludGVsX2x2ZHNfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0K
+PiAgIAlnbWFfZW5jb2Rlci0+dHlwZSA9IElOVEVMX09VVFBVVF9MVkRTOw0KPiAgIA0KPiAg
+IAlkcm1fZW5jb2Rlcl9oZWxwZXJfYWRkKGVuY29kZXIsICZnbWFfbHZkc19oZWxwZXJfZnVu
+Y3MpOw0KPiAtCWRybV9jb25uZWN0b3JfaGVscGVyX2FkZChjb25uZWN0b3IsDQo+IC0JCQkJ
+ICZjZHZfaW50ZWxfbHZkc19jb25uZWN0b3JfaGVscGVyX2Z1bmNzKTsNCj4gKwlkcm1fY29u
+bmVjdG9yX2hlbHBlcl9hZGQoY29ubmVjdG9yLCAmZ21hX2x2ZHNfY29ubmVjdG9yX2hlbHBl
+cl9mdW5jcyk7DQo+ICAgCWNvbm5lY3Rvci0+ZGlzcGxheV9pbmZvLnN1YnBpeGVsX29yZGVy
+ID0gU3ViUGl4ZWxIb3Jpem9udGFsUkdCOw0KPiAgIAljb25uZWN0b3ItPmludGVybGFjZV9h
+bGxvd2VkID0gZmFsc2U7DQo+ICAgCWNvbm5lY3Rvci0+ZG91Ymxlc2Nhbl9hbGxvd2VkID0g
+ZmFsc2U7DQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2dtYV9sdmRz
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2dtYV9sdmRzLmMNCj4gaW5kZXggNDljMTFi
+NTMzN2NiLi4zYjQ4OTk5MTA1ZDEgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9n
+bWE1MDAvZ21hX2x2ZHMuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2dtYV9s
+dmRzLmMNCj4gQEAgLTk0LDggKzk0LDggQEAgc3RhdGljIHZvaWQgZ21hX2x2ZHNfc2V0X3Bv
+d2VyKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIGJvb2wgb24pDQo+ICAgCWdtYV9wb3dlcl9l
+bmQoZGV2KTsNCj4gICB9DQo+ICAgDQo+IC1lbnVtIGRybV9tb2RlX3N0YXR1cyBnbWFfbHZk
+c19tb2RlX3ZhbGlkKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsDQo+IC0JCQkJ
+CSBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSkNCj4gK3N0YXRpYyBlbnVtIGRybV9t
+b2RlX3N0YXR1cyBnbWFfbHZkc19tb2RlX3ZhbGlkKHN0cnVjdCBkcm1fY29ubmVjdG9yICpj
+b25uZWN0b3IsDQo+ICsJCQkJCQlzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSkNCj4g
+ICB7DQo+ICAgCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBjb25uZWN0b3ItPmRldjsNCj4g
+ICAJc3RydWN0IGRybV9wc2JfcHJpdmF0ZSAqZGV2X3ByaXYgPSB0b19kcm1fcHNiX3ByaXZh
+dGUoZGV2KTsNCj4gQEAgLTM0NSw3ICszNDUsNyBAQCBjb25zdCBzdHJ1Y3QgZHJtX2VuY29k
+ZXJfaGVscGVyX2Z1bmNzIGdtYV9sdmRzX2hlbHBlcl9mdW5jcyA9IHsNCj4gICAvKg0KPiAg
+ICAqIFJldHVybiB0aGUgbGlzdCBvZiBEREMgbW9kZXMgaWYgYXZhaWxhYmxlLCBvciB0aGUg
+QklPUyBmaXhlZCBtb2RlIG90aGVyd2lzZS4NCj4gICAgKi8NCj4gLWludCBnbWFfbHZkc19n
+ZXRfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikNCj4gK3N0YXRpYyBp
+bnQgZ21hX2x2ZHNfZ2V0X21vZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3Ip
+DQo+ICAgew0KPiAgIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gY29ubmVjdG9yLT5kZXY7
+DQo+ICAgCXN0cnVjdCBkcm1fcHNiX3ByaXZhdGUgKmRldl9wcml2ID0gdG9fZHJtX3BzYl9w
+cml2YXRlKGRldik7DQo+IEBAIC0zNjgsMyArMzY4LDkgQEAgaW50IGdtYV9sdmRzX2dldF9t
+b2RlcyhzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQ0KPiAgIAlyZXR1cm4gMDsN
+Cj4gICB9DQo+ICAgDQo+ICtjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfZnVu
+Y3MgZ21hX2x2ZHNfY29ubmVjdG9yX2hlbHBlcl9mdW5jcyA9IHsNCj4gKwkuZ2V0X21vZGVz
+ID0gZ21hX2x2ZHNfZ2V0X21vZGVzLA0KPiArCS5tb2RlX3ZhbGlkID0gZ21hX2x2ZHNfbW9k
+ZV92YWxpZCwNCj4gKwkuYmVzdF9lbmNvZGVyID0gZ21hX2Jlc3RfZW5jb2RlciwNCj4gK307
+DQoNClNhbWUgc3VnZ2VzdGlvbiBhcyBmb3IgcGF0aGMgMTMuDQoNCkJlc3QgcmVnYXJkcw0K
+VGhvbWFzDQoNCj4gKw0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9n
+bWFfbHZkcy5oIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfbHZkcy5oDQo+IGluZGV4
+IDcwYzQxNmQ4YjdhNy4uNWM3ZGEyMjQwMGZiIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vZ21hNTAwL2dtYV9sdmRzLmgNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUw
+MC9nbWFfbHZkcy5oDQo+IEBAIC0yNCw4ICsyNCw2IEBAIHN0cnVjdCBnbWFfbHZkc19wcml2
+IHsNCj4gICB9Ow0KPiAgIA0KPiAgIHUzMiBnbWFfbHZkc19nZXRfbWF4X2JhY2tsaWdodChz
+dHJ1Y3QgZHJtX2RldmljZSAqZGV2KTsNCj4gLWVudW0gZHJtX21vZGVfc3RhdHVzIGdtYV9s
+dmRzX21vZGVfdmFsaWQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwNCj4gLQkJ
+CQkJIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlKTsNCj4gICB2b2lkIGdtYV9sdmRz
+X2VuY29kZXJfZHBtcyhzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIsIGludCBtb2RlKTsN
+Cj4gICB2b2lkIGdtYV9sdmRzX3NhdmUoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rv
+cik7DQo+ICAgdm9pZCBnbWFfbHZkc19yZXN0b3JlKHN0cnVjdCBkcm1fY29ubmVjdG9yICpj
+b25uZWN0b3IpOw0KPiBAQCAtMzQsOCArMzIsOCBAQCBib29sIGdtYV9sdmRzX21vZGVfZml4
+dXAoc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyLA0KPiAgIAkJCSBzdHJ1Y3QgZHJtX2Rp
+c3BsYXlfbW9kZSAqYWRqdXN0ZWRfbW9kZSk7DQo+ICAgdm9pZCBnbWFfbHZkc19wcmVwYXJl
+KHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2Rlcik7DQo+ICAgdm9pZCBnbWFfbHZkc19jb21t
+aXQoc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyKTsNCj4gLWludCBnbWFfbHZkc19nZXRf
+bW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3Rvcik7DQo+ICAgDQo+ICAgZXh0
+ZXJuIGNvbnN0IHN0cnVjdCBkcm1fZW5jb2Rlcl9oZWxwZXJfZnVuY3MgZ21hX2x2ZHNfaGVs
+cGVyX2Z1bmNzOw0KPiArZXh0ZXJuIGNvbnN0IHN0cnVjdCBkcm1fY29ubmVjdG9yX2hlbHBl
+cl9mdW5jcyBnbWFfbHZkc19jb25uZWN0b3JfaGVscGVyX2Z1bmNzOw0KPiAgIA0KPiAgICNl
+bmRpZg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9vYWt0cmFpbF9s
+dmRzLmMgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL29ha3RyYWlsX2x2ZHMuYw0KPiBpbmRl
+eCA4NWNhYjBmNzAyOGEuLjc3MjRlYmQ3MWFhOCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2dtYTUwMC9vYWt0cmFpbF9sdmRzLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2dtYTUwMC9vYWt0cmFpbF9sdmRzLmMNCj4gQEAgLTIzMCw4ICsyMzAsNyBAQCB2b2lkIG9h
+a3RyYWlsX2x2ZHNfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiAgIAlnbWFfZW5j
+b2Rlci0+dHlwZSA9IElOVEVMX09VVFBVVF9MVkRTOw0KPiAgIA0KPiAgIAlkcm1fZW5jb2Rl
+cl9oZWxwZXJfYWRkKGVuY29kZXIsICZvYWt0cmFpbF9sdmRzX2hlbHBlcl9mdW5jcyk7DQo+
+IC0JZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfYWRkKGNvbm5lY3RvciwNCj4gLQkJCQkgJnBzYl9p
+bnRlbF9sdmRzX2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MpOw0KPiArCWRybV9jb25uZWN0b3Jf
+aGVscGVyX2FkZChjb25uZWN0b3IsICZnbWFfbHZkc19jb25uZWN0b3JfaGVscGVyX2Z1bmNz
+KTsNCj4gICAJY29ubmVjdG9yLT5kaXNwbGF5X2luZm8uc3VicGl4ZWxfb3JkZXIgPSBTdWJQ
+aXhlbEhvcml6b250YWxSR0I7DQo+ICAgCWNvbm5lY3Rvci0+aW50ZXJsYWNlX2FsbG93ZWQg
+PSBmYWxzZTsNCj4gICAJY29ubmVjdG9yLT5kb3VibGVzY2FuX2FsbG93ZWQgPSBmYWxzZTsN
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2ludGVsX2x2ZHMu
+YyBiL2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2ludGVsX2x2ZHMuYw0KPiBpbmRleCA0
+ZWYwMTUwYzZhMDMuLmYxMjllNTNmMDIzMyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2dtYTUwMC9wc2JfaW50ZWxfbHZkcy5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9n
+bWE1MDAvcHNiX2ludGVsX2x2ZHMuYw0KPiBAQCAtMjEwLDEzICsyMTAsNiBAQCBpbnQgcHNi
+X2ludGVsX2x2ZHNfc2V0X3Byb3BlcnR5KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0
+b3IsDQo+ICAgCXJldHVybiAtMTsNCj4gICB9DQo+ICAgDQo+IC1jb25zdCBzdHJ1Y3QgZHJt
+X2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MNCj4gLQkJCQlwc2JfaW50ZWxfbHZkc19jb25uZWN0
+b3JfaGVscGVyX2Z1bmNzID0gew0KPiAtCS5nZXRfbW9kZXMgPSBnbWFfbHZkc19nZXRfbW9k
+ZXMsDQo+IC0JLm1vZGVfdmFsaWQgPSBnbWFfbHZkc19tb2RlX3ZhbGlkLA0KPiAtCS5iZXN0
+X2VuY29kZXIgPSBnbWFfYmVzdF9lbmNvZGVyLA0KPiAtfTsNCj4gLQ0KPiAgIGNvbnN0IHN0
+cnVjdCBkcm1fY29ubmVjdG9yX2Z1bmNzIHBzYl9pbnRlbF9sdmRzX2Nvbm5lY3Rvcl9mdW5j
+cyA9IHsNCj4gICAJLmRwbXMgPSBkcm1faGVscGVyX2Nvbm5lY3Rvcl9kcG1zLA0KPiAgIAku
+ZmlsbF9tb2RlcyA9IGRybV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5lY3Rvcl9tb2RlcywN
+Cj4gQEAgLTI5Niw4ICsyODksNyBAQCB2b2lkIHBzYl9pbnRlbF9sdmRzX2luaXQoc3RydWN0
+IGRybV9kZXZpY2UgKmRldiwNCj4gICAJZ21hX2VuY29kZXItPnR5cGUgPSBJTlRFTF9PVVRQ
+VVRfTFZEUzsNCj4gICANCj4gICAJZHJtX2VuY29kZXJfaGVscGVyX2FkZChlbmNvZGVyLCAm
+Z21hX2x2ZHNfaGVscGVyX2Z1bmNzKTsNCj4gLQlkcm1fY29ubmVjdG9yX2hlbHBlcl9hZGQo
+Y29ubmVjdG9yLA0KPiAtCQkJCSAmcHNiX2ludGVsX2x2ZHNfY29ubmVjdG9yX2hlbHBlcl9m
+dW5jcyk7DQo+ICsJZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfYWRkKGNvbm5lY3RvciwgJmdtYV9s
+dmRzX2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MpOw0KPiAgIAljb25uZWN0b3ItPmRpc3BsYXlf
+aW5mby5zdWJwaXhlbF9vcmRlciA9IFN1YlBpeGVsSG9yaXpvbnRhbFJHQjsNCj4gICAJY29u
+bmVjdG9yLT5pbnRlcmxhY2VfYWxsb3dlZCA9IGZhbHNlOw0KPiAgIAljb25uZWN0b3ItPmRv
+dWJsZXNjYW5fYWxsb3dlZCA9IGZhbHNlOw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
+cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
+YW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhS
+QiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-Fixes: 6de79dd3a920 ("drm/bridge: display-connector: add ddc-en gpio support")
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
 
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c | 54 ++-------------------------
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h |  2 -
- 2 files changed, 4 insertions(+), 52 deletions(-)
+--------------xhU0vK00tG8b0ewcFl0Px8Rr--
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-index a8d75fd7e9f4..477cb6985b4d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-@@ -93,34 +93,10 @@ static u32 sun8i_dw_hdmi_find_possible_crtcs(struct drm_device *drm,
- 	return crtcs;
- }
- 
--static int sun8i_dw_hdmi_find_connector_pdev(struct device *dev,
--					     struct platform_device **pdev_out)
--{
--	struct platform_device *pdev;
--	struct device_node *remote;
--
--	remote = of_graph_get_remote_node(dev->of_node, 1, -1);
--	if (!remote)
--		return -ENODEV;
--
--	if (!of_device_is_compatible(remote, "hdmi-connector")) {
--		of_node_put(remote);
--		return -ENODEV;
--	}
--
--	pdev = of_find_device_by_node(remote);
--	of_node_put(remote);
--	if (!pdev)
--		return -ENODEV;
--
--	*pdev_out = pdev;
--	return 0;
--}
--
- static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 			      void *data)
- {
--	struct platform_device *pdev = to_platform_device(dev), *connector_pdev;
-+	struct platform_device *pdev = to_platform_device(dev);
- 	struct dw_hdmi_plat_data *plat_data;
- 	struct drm_device *drm = data;
- 	struct device_node *phy_node;
-@@ -167,30 +143,16 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 		return dev_err_probe(dev, PTR_ERR(hdmi->regulator),
- 				     "Couldn't get regulator\n");
- 
--	ret = sun8i_dw_hdmi_find_connector_pdev(dev, &connector_pdev);
--	if (!ret) {
--		hdmi->ddc_en = gpiod_get_optional(&connector_pdev->dev,
--						  "ddc-en", GPIOD_OUT_HIGH);
--		platform_device_put(connector_pdev);
--
--		if (IS_ERR(hdmi->ddc_en)) {
--			dev_err(dev, "Couldn't get ddc-en gpio\n");
--			return PTR_ERR(hdmi->ddc_en);
--		}
--	}
--
- 	ret = regulator_enable(hdmi->regulator);
- 	if (ret) {
- 		dev_err(dev, "Failed to enable regulator\n");
--		goto err_unref_ddc_en;
-+		return ret;
- 	}
- 
--	gpiod_set_value(hdmi->ddc_en, 1);
--
- 	ret = reset_control_deassert(hdmi->rst_ctrl);
- 	if (ret) {
- 		dev_err(dev, "Could not deassert ctrl reset control\n");
--		goto err_disable_ddc_en;
-+		goto err_disable_regulator;
- 	}
- 
- 	ret = clk_prepare_enable(hdmi->clk_tmds);
-@@ -245,12 +207,8 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 	clk_disable_unprepare(hdmi->clk_tmds);
- err_assert_ctrl_reset:
- 	reset_control_assert(hdmi->rst_ctrl);
--err_disable_ddc_en:
--	gpiod_set_value(hdmi->ddc_en, 0);
-+err_disable_regulator:
- 	regulator_disable(hdmi->regulator);
--err_unref_ddc_en:
--	if (hdmi->ddc_en)
--		gpiod_put(hdmi->ddc_en);
- 
- 	return ret;
- }
-@@ -264,11 +222,7 @@ static void sun8i_dw_hdmi_unbind(struct device *dev, struct device *master,
- 	sun8i_hdmi_phy_deinit(hdmi->phy);
- 	clk_disable_unprepare(hdmi->clk_tmds);
- 	reset_control_assert(hdmi->rst_ctrl);
--	gpiod_set_value(hdmi->ddc_en, 0);
- 	regulator_disable(hdmi->regulator);
--
--	if (hdmi->ddc_en)
--		gpiod_put(hdmi->ddc_en);
- }
- 
- static const struct component_ops sun8i_dw_hdmi_ops = {
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-index bffe1b9cd3dc..9ad09522947a 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-@@ -9,7 +9,6 @@
- #include <drm/bridge/dw_hdmi.h>
- #include <drm/drm_encoder.h>
- #include <linux/clk.h>
--#include <linux/gpio/consumer.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/reset.h>
-@@ -193,7 +192,6 @@ struct sun8i_dw_hdmi {
- 	struct regulator		*regulator;
- 	const struct sun8i_dw_hdmi_quirks *quirks;
- 	struct reset_control		*rst_ctrl;
--	struct gpio_desc		*ddc_en;
- };
- 
- extern struct platform_driver sun8i_hdmi_phy_driver;
--- 
-2.35.1
+--------------e2Cxt2NFQRAgTfX7MZfVSV2G
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKoOWoFAwAAAAAACgkQlh/E3EQov+Az
+ig//TkoZvZYIkJXd/LGb+fuDpwbS83CT0TdgLDiiDp8Wg/6RjDDSMGkE8pnYRrUdnpQboSKtpjdA
+fFOgAzHLyMO6HWBOV9EPdPcFVEM8k267sK0KgjWvecXhgAMzI8YST4Qv9QsZbxkzy80pLjsI2u5o
+8TxWXH21AoFIQhU4KfpINa3C5xpng7BhEOsdxckMWrTNPWS/h7mVfstm8zFZ6pCyMTm6tLc5RfUH
+vKHbg4FgKsw+Zdx7hetfKEEINj1nM62VgXUal8dxGRJ/25snfZnC6soxoJtufWl0VFH4jaO2JIiB
+9yU/bJ4aVTumsZBue9BAzlMfXBCVuSVzdgpKfWy9FJO5X5ZW+JM51ONxTGJNW1Fh/wmXKDkgOKq3
+Kj3T+sVedJwiIVtCZOTZ+zl0m7efUqm2L/GOwOgNr5j8WZozcqLlkiKUzF3QbBWujGRv0Cbu6V/G
+GYhSxfj4xxISTMcbtvp8fatSDRu86rCbDqEfo93huDI6PYlJ6u39j+89vNH4O4XD4e48+b3koN+h
+vGjvkJ6oijQOv2Jh4cztmOhTXc7t7raUy5cw5G9xhCT8ofbr3/dyW+Zl7db+rA5stNmsubcz5lmZ
+SYreVQ7Qu7I7oMm7p+6xhp7nXbDXoAQAEEDDZyuxGxYl8b19nyTzY+IwCOEE09zQKsAPUzlYNnIj
+El8=
+=4DmI
+-----END PGP SIGNATURE-----
+
+--------------e2Cxt2NFQRAgTfX7MZfVSV2G--
