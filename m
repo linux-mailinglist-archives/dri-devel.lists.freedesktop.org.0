@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46D154BA8C
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 21:32:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433BE54BA8E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 21:32:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07BC6112BFA;
-	Tue, 14 Jun 2022 19:32:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E991F112C01;
+	Tue, 14 Jun 2022 19:32:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDD6F112BEA;
- Tue, 14 Jun 2022 19:32:37 +0000 (UTC)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A11A112BEC;
+ Tue, 14 Jun 2022 19:32:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1655235157; x=1686771157;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=5MJ8iVYxzfn7rpMYLhsGmHvkMwIEVKS3UapIC+tPGpo=;
- b=pZvfe5pPh1/ClARIIZ0FQYU/KM/x6YgRmYIKSuy3+oR4Gu6PJZs/5Lkm
- vnYU9WFlnd0RhatLtYbAEvfWhg8r7M0yFVFplhAPUPGXFe/KJfTngHric
- hlWUdzE49nu11cjLlA/vjZWesRfSp4vMJCA7YCxCA378VLHQnJ/D0WSnB Q=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Jun 2022 12:32:37 -0700
+ t=1655235162; x=1686771162;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version;
+ bh=n5Tqu1uashEaoWkWG5L3H2xKk4T7k3QOsX4lLWw5W3Q=;
+ b=ItcLu27MXSSgmSsahsEJPq4Il0GgWmXGtZZlcc9upu/WkxL6MQs/ny+u
+ Ru0O3moIK0QIBYv624xukYKxOJBxD7i+9H0vnz/rZalYgfHmkQwAg1TVc
+ PiR9++4jzGg33eDvl0fhYQQX7IRQiPRIKSjNVrSYTu9LCfGV8wp50elG3 w=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 14 Jun 2022 12:32:41 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2022 12:32:37 -0700
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2022 12:32:42 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 14 Jun 2022 12:32:36 -0700
+ 15.2.986.22; Tue, 14 Jun 2022 12:32:41 -0700
 Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 14 Jun 2022 12:32:36 -0700
+ 15.2.986.22; Tue, 14 Jun 2022 12:32:40 -0700
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH 1/3] drm/msm/dpu: move intf and wb assignment to
- dpu_encoder_setup_display()
-Date: Tue, 14 Jun 2022 12:32:18 -0700
-Message-ID: <1655235140-16424-1-git-send-email-quic_abhinavk@quicinc.com>
+Subject: [PATCH 2/3] drm/msm/dpu: fix maxlinewidth for writeback block
+Date: Tue, 14 Jun 2022 12:32:19 -0700
+Message-ID: <1655235140-16424-2-git-send-email-quic_abhinavk@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1655235140-16424-1-git-send-email-quic_abhinavk@quicinc.com>
+References: <1655235140-16424-1-git-send-email-quic_abhinavk@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
@@ -65,66 +67,49 @@ Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-intf and wb resources are not dependent on the rm global
-state so need not be allocated during dpu_encoder_virt_atomic_mode_set().
+Writeback block for sm8250 was using the default maxlinewidth
+of 2048. But this is not right as it supports upto 4096.
 
-Move the allocation of intf and wb resources to dpu_encoder_setup_display()
-so that we can utilize the hw caps even during atomic_check() phase.
+This should have no effect on most resolutions as we are
+still limiting upto maxlinewidth of SSPP for adding the modes.
 
-Since dpu_encoder_setup_display() already has protection against
-setting invalid intf_idx and wb_idx, these checks can now
-be dropped as well.
+Fix the maxlinewidth for writeback block on sm8250.
 
-Fixes: e02a559a720f ("make changes to dpu_encoder to support virtual encoder")
+Fixes: 53324b99bd7b ("add writeback blocks to the sm8250 DPU catalog")
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 25 +++++++------------------
- 1 file changed, 7 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 3a462e327e0e..e991d4ba8a40 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1048,24 +1048,6 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
- 		phys->hw_pp = dpu_enc->hw_pp[i];
- 		phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
- 
--		if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
--			phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, phys->intf_idx);
--
--		if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
--			phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
--
--		if (!phys->hw_intf && !phys->hw_wb) {
--			DPU_ERROR_ENC(dpu_enc,
--				      "no intf or wb block assigned at idx: %d\n", i);
--			return;
--		}
--
--		if (phys->hw_intf && phys->hw_wb) {
--			DPU_ERROR_ENC(dpu_enc,
--					"invalid phys both intf and wb block at idx: %d\n", i);
--			return;
--		}
--
- 		phys->cached_mode = crtc_state->adjusted_mode;
- 		if (phys->ops.atomic_mode_set)
- 			phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
-@@ -2293,7 +2275,14 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
- 		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
- 		atomic_set(&phys->vsync_cnt, 0);
- 		atomic_set(&phys->underrun_cnt, 0);
-+
-+		if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
-+			phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, phys->intf_idx);
-+
-+		if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
-+			phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 400ebceb56bb..dd7537e32f88 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -1285,7 +1285,7 @@ static const struct dpu_intf_cfg qcm2290_intf[] = {
+  * Writeback blocks config
+  *************************************************************/
+ #define WB_BLK(_name, _id, _base, _features, _clk_ctrl, \
+-		__xin_id, vbif_id, _reg, _wb_done_bit) \
++		__xin_id, vbif_id, _reg, _max_linewidth, _wb_done_bit) \
+ 	{ \
+ 	.name = _name, .id = _id, \
+ 	.base = _base, .len = 0x2c8, \
+@@ -1295,13 +1295,13 @@ static const struct dpu_intf_cfg qcm2290_intf[] = {
+ 	.clk_ctrl = _clk_ctrl, \
+ 	.xin_id = __xin_id, \
+ 	.vbif_idx = vbif_id, \
+-	.maxlinewidth = DEFAULT_DPU_LINE_WIDTH, \
++	.maxlinewidth = _max_linewidth, \
+ 	.intr_wb_done = DPU_IRQ_IDX(_reg, _wb_done_bit) \
  	}
-+
- 	mutex_unlock(&dpu_enc->enc_lock);
  
- 	return ret;
+ static const struct dpu_wb_cfg sm8250_wb[] = {
+ 	WB_BLK("wb_2", WB_2, 0x65000, WB_SM8250_MASK, DPU_CLK_CTRL_WB2, 6,
+-			VBIF_RT, MDP_SSPP_TOP0_INTR, 4),
++			VBIF_RT, MDP_SSPP_TOP0_INTR, 4096, 4),
+ };
+ 
+ /*************************************************************
 -- 
 2.7.4
 
