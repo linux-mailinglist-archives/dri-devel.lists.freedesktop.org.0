@@ -1,55 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F98254ACE9
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 11:08:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A62654AD87
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 11:45:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA1B10FC0D;
-	Tue, 14 Jun 2022 09:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 537B110F597;
+	Tue, 14 Jun 2022 09:45:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F30B10FC0D
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 09:08:13 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id e5so4298405wma.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 02:08:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QhvvxqBDc4O6cqtxNWaREqrfN92rGnha8HhGfNJEYIY=;
- b=douVYUlsdf+Xh3MuzIfeY0X8Ce+uwGOB4VX1fszrw5WlSXQfxYVaK7H0LCFX+l06al
- G5Pt7vxmjI/oNJX86GkWkmt9jVl9oIs5040FZFsPravjzgf3NF8nQgvJXGT86lajFlGA
- a5M9bPfdwTcVtYWDnAAyvWPcyA0DlWZOO4P5g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QhvvxqBDc4O6cqtxNWaREqrfN92rGnha8HhGfNJEYIY=;
- b=et8kEDHLE7YzN234IkqMRMptJtbb5NgTyZilUoyxU6UShXLkxpsrJdbjNujdXeGbv1
- rTP7GxoJ+bFrd7cJ9d5nwN/hRay/X/r1OfVbQridnQn401L+kW9ajDOGna3LwSRkjckB
- G9WcGq9+f/yQwmVrwbdrVn835SJPn/0jt32Tigudp+3/jO4egg78eu7AI7oGRdcbn4jM
- s/DGgbbBWMO9+TDq99IYoAq/vFm9JWGFrgHIVeuO+Z5HBFK1AEBIsJk7W03nWgBvgDPL
- 4F96zgeou1ZrnBawZVCTtS4ijX0tg/8mJOjIUA+42NFImlzmhkFMAugO5e7vXgDdp6FN
- gyqw==
-X-Gm-Message-State: AOAM530R+6ocph47Wxk4Mtiqw2zqGIti6ujvRYgsC1seDX2sBDsiP/Sa
- 4qqHZtd/Ggb8nPtRgmSqK2Gt+FF7rljUNaVH4IJQ0Q==
-X-Google-Smtp-Source: ABdhPJzczygOemileGdbX/PhVogBffmdzEt2dLPD4YNk/wLgn4+GD2v0/Oo2U5JXPZWuJzgBaJNoBRQP9hjSU6+IahI=
-X-Received: by 2002:a05:600c:3cd:b0:39c:880e:dc7b with SMTP id
- z13-20020a05600c03cd00b0039c880edc7bmr2968699wmd.168.1655197691993; Tue, 14
- Jun 2022 02:08:11 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EAED10F597;
+ Tue, 14 Jun 2022 09:45:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655199941; x=1686735941;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=7Bf+GxrEygNaoZ9UaNvNVOa9olI714hFuy9KuPnaAew=;
+ b=m2IU+k47uhMvniPBI23m85DAYjsgIM6+DgnrWcdlPhJxKe7GWl2269A7
+ 8Z95gZFwyp0OABxsirWxuwpSeAoGCMb7dBgSkWSiWzfnq1gL5vU1y3fzL
+ 11dEg5onYQDD930B1IXTFidLh8+lbUKnE8NC+khA8KZwyPTT6nq9wf5Z2
+ cXdqcRcdGk934aYPqkIQXEHfSdNbPmjLfTx4ZbfhVoishHOpGF4Ga4DUE
+ afdU5AYPWheMhi3KtzqkHoVUIxWSBHxPufk2Gx1gVG2aQ1CY2TT5QJ6xC
+ 1LUC0DZ1XnHwHMnhyrESDjqKlT2MMMO3AeALgDXAF6AXINubi8fIcIUAy A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="277349430"
+X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; d="scan'208";a="277349430"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2022 02:45:40 -0700
+X-IronPort-AV: E=Sophos;i="5.91,299,1647327600"; d="scan'208";a="726736436"
+Received: from ideak-desk.fi.intel.com ([10.237.72.175])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2022 02:45:39 -0700
+From: Imre Deak <imre.deak@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/dp/mst: Read the extended DPCD capabilities during system
+ resume
+Date: Tue, 14 Jun 2022 12:45:37 +0300
+Message-Id: <20220614094537.885472-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220609181106.3695103-1-pmalani@chromium.org>
- <20220609181106.3695103-8-pmalani@chromium.org>
- <1191703c-efa5-7fe6-7dd0-e3e786b58411@collabora.com>
-In-Reply-To: <1191703c-efa5-7fe6-7dd0-e3e786b58411@collabora.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Tue, 14 Jun 2022 17:08:00 +0800
-Message-ID: <CAEXTbpfh3aKS8DZ9T0KPNLfWJ4EsLxcJpP8aLYU-iQYC1N4sRQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] drm/bridge: anx7625: Add typec_mux_set callback
- function
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,151 +54,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Tzung-Bi Shih <tzungbi@google.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Prashant Malani <pmalani@chromium.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi AngeloGioacchino,
+The WD22TB4 Thunderbolt dock at least will revert its DP_MAX_LINK_RATE
+from HBR3 to HBR2 after system suspend/resume if the DP_DP13_DPCD_REV
+registers are not read subsequently also as required.
 
+Fix this by reading DP_DP13_DPCD_REV registers as well, matching what is
+done during connector detection. While at it also fix up the same call
+in drm_dp_mst_dump_topology().
 
-On Tue, Jun 14, 2022 at 4:15 PM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 09/06/22 20:09, Prashant Malani ha scritto:
-> > From: Pin-Yen Lin <treapking@chromium.org>
-> >
-> > Add the callback function when the driver receives state
-> > changes of the Type-C port. The callback function configures the
-> > crosspoint switch of the anx7625 bridge chip, which can change the
-> > output pins of the signals according to the port state.
-> >
-> > Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
-> > Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> > ---
-> >
-> > Changes since v2:
-> > - No changes.
-> >
-> >   drivers/gpu/drm/bridge/analogix/anx7625.c | 58 +++++++++++++++++++++++
-> >   drivers/gpu/drm/bridge/analogix/anx7625.h | 13 +++++
-> >   2 files changed, 71 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > index d41a21103bd3..2c308d12fab2 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > @@ -15,6 +15,7 @@
-> >   #include <linux/regulator/consumer.h>
-> >   #include <linux/slab.h>
-> >   #include <linux/types.h>
-> > +#include <linux/usb/typec_dp.h>
-> >   #include <linux/usb/typec_mux.h>
-> >   #include <linux/workqueue.h>
-> >
-> > @@ -2582,9 +2583,66 @@ static void anx7625_runtime_disable(void *data)
-> >       pm_runtime_disable(data);
-> >   }
-> >
-> > +static void anx7625_set_crosspoint_switch(struct anx7625_data *ctx,
-> > +                                       enum typec_orientation orientation)
-> > +{
-> > +     if (orientation == TYPEC_ORIENTATION_NORMAL) {
-> > +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
-> > +                               SW_SEL1_SSRX_RX1 | SW_SEL1_DPTX0_RX2);
-> > +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
-> > +                               SW_SEL2_SSTX_TX1 | SW_SEL2_DPTX1_TX2);
-> > +     } else if (orientation == TYPEC_ORIENTATION_REVERSE) {
-> > +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
-> > +                               SW_SEL1_SSRX_RX2 | SW_SEL1_DPTX0_RX1);
-> > +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
-> > +                               SW_SEL2_SSTX_TX2 | SW_SEL2_DPTX1_TX1);
-> > +     }
-> > +}
-> > +
-> > +static void anx7625_typec_two_ports_update(struct anx7625_data *ctx)
-> > +{
-> > +     if (ctx->typec_ports[0].dp_connected && ctx->typec_ports[1].dp_connected)
-> > +             /* Both ports available, do nothing to retain the current one. */
-> > +             return;
-> > +     else if (ctx->typec_ports[0].dp_connected)
-> > +             anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_NORMAL);
-> > +     else if (ctx->typec_ports[1].dp_connected)
-> > +             anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_REVERSE);
-> > +}
-> > +
-> >   static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
-> >                                struct typec_mux_state *state)
-> >   {
-> > +     struct anx7625_port_data *data = typec_mux_get_drvdata(mux);
-> > +     struct anx7625_data *ctx = data->ctx;
-> > +     struct device *dev = &ctx->client->dev;
-> > +
-> > +     bool old_dp_connected = (ctx->typec_ports[0].dp_connected ||
-> > +                              ctx->typec_ports[1].dp_connected);
->
-> So the old connection state is "either port0 or port1 are currently connected"...
->
-> > +     bool new_dp_connected;
-> > +
-> > +     if (ctx->num_typec_switches == 1)
-> > +             return 0;
-> > +
-> > +     dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
-> > +             ctx->typec_ports[0].dp_connected, ctx->typec_ports[1].dp_connected);
-> > +
-> > +     data->dp_connected = (state->alt && state->alt->svid == USB_TYPEC_DP_SID &&
-> > +                           state->alt->mode == USB_TYPEC_DP_MODE);
-> > + > + new_dp_connected = (ctx->typec_ports[0].dp_connected ||
-> > +                         ctx->typec_ports[1].dp_connected);
->
-> ...and the new connection state is the same as the old one, because I don't see
-> anything that could ever modify it in this function's flow, until reaching this
-> assignment.
+Cc: Lyude Paul <lyude@redhat.com>
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5292
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+---
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-The typec mux driver data (`struct anx7625_port_data *data =
-typec_mux_get_drvdata(mux)`) is set to one of the
-`ctx->typec_ports[*]` in `anx7625_register_mode_switch` (see patch 6
-of this series).
+diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+index 67b3b9697da7f..18f2b6075b780 100644
+--- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+@@ -3860,9 +3860,7 @@ int drm_dp_mst_topology_mgr_resume(struct drm_dp_mst_topology_mgr *mgr,
+ 	if (!mgr->mst_primary)
+ 		goto out_fail;
+ 
+-	ret = drm_dp_dpcd_read(mgr->aux, DP_DPCD_REV, mgr->dpcd,
+-			       DP_RECEIVER_CAP_SIZE);
+-	if (ret != DP_RECEIVER_CAP_SIZE) {
++	if (drm_dp_read_dpcd_caps(mgr->aux, mgr->dpcd) < 0) {
+ 		drm_dbg_kms(mgr->dev, "dpcd read failed - undocked during suspend?\n");
+ 		goto out_fail;
+ 	}
+@@ -4911,8 +4909,7 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
+ 		u8 buf[DP_PAYLOAD_TABLE_SIZE];
+ 		int ret;
+ 
+-		ret = drm_dp_dpcd_read(mgr->aux, DP_DPCD_REV, buf, DP_RECEIVER_CAP_SIZE);
+-		if (ret) {
++		if (drm_dp_read_dpcd_caps(mgr->aux, buf) < 0) {
+ 			seq_printf(m, "dpcd read failed\n");
+ 			goto out;
+ 		}
+-- 
+2.30.2
 
-So, the `data->dp_connected = ...` assignment may change the new
-connection state.
-
-Best regards,
-Pin-yen
-
->
-> > +
-> > +     /* dp on, power on first */
-> > +     if (!old_dp_connected && new_dp_connected)
-> > +             pm_runtime_get_sync(dev);
->
-> ...so that will never happen...
->
-> > +
-> > +     anx7625_typec_two_ports_update(ctx);
-> > +
-> > +     /* dp off, power off last */
-> > +     if (old_dp_connected && !new_dp_connected)
-> > +             pm_runtime_put_sync(dev);
->
-> ...and same here.
->
-> Regards,
-> Angelo
