@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A938554A3FE
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 04:05:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7816354A400
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 04:05:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E36CC10FF5A;
-	Tue, 14 Jun 2022 02:04:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80EC810FF65;
+	Tue, 14 Jun 2022 02:05:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3EE010FF62
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 02:04:56 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD5E710FF65
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 02:05:13 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 676B4B81698;
- Tue, 14 Jun 2022 02:04:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E44BBC385A2;
- Tue, 14 Jun 2022 02:04:52 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8BAD4B8169B;
+ Tue, 14 Jun 2022 02:05:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C008C385A2;
+ Tue, 14 Jun 2022 02:05:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655172294;
- bh=osKyJ1+KTbP33abJvrFOEn7PkpMGgyBTQRpahpLYjcc=;
+ s=k20201202; t=1655172309;
+ bh=jvY6zLIFYZFwPqwJyHm4FYdTHBXHgYFw9HzPnyPYv5M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WlQdejioKkocHT8kSGA0EUYFS61PQDoo98vk1eTTiObUVnGFx+njMSsCDzeJ11/N7
- EAKrQQiAV3tM6yExkoSPAmg/+FlC2xyhyNQkYcRDRc6aRgrOOU1syObUQ7OuSC9oKk
- B6g15L/DJbzAkTT9AKdEeYh7SWjwiWjZq2fHCe8cvPP1dkuOtmW7udt1sLBnV6FOrj
- RLg3ZUqSnYn2KHdRSLOSU6ko/0xBGby+OczzJVa5Zha3n7b9EPjfa3m/5f2CHq3Lik
- XOmJ5GjvXthTItFVuU4ecTVoo22Vk8hDMqleWyHcm3XZ+GYxG1rfM7AcBx82BQrb21
- CroCZy3jZiCnw==
+ b=OUkp6L2r8oOyhPI7sfOi+3jOeWAInBxyni2x0/Ebwj1nNrKCYnvAEAYcYuVzCJNRl
+ 8elJjs9sKQxjD6OKW70GeEmA/Js9X1QyHqDMfUGOGvenkEVdU1Km909kVMvj6k492b
+ 3dsOWaHUgWUsWlr0NucT71olaWP4zClss4j4OGfYfXLf4AQm4ANYGqCRIryoOu4DGb
+ mFAvJcdEA8X920iDqQnq3vOy9RGszianebgK7SsM4cke+CGxsCI6iKIZ5ZyIYN3rhV
+ XXKEbsP39ERLgL454Xy+fTyUNenZ424zBVBamu4sfCR9UBlY1HbeJASOSaWxj3lqgs
+ uDKHu3wT/kHXw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 06/47] drm/amdkfd: Use mmget_not_zero in MMU
- notifier
-Date: Mon, 13 Jun 2022 22:03:59 -0400
-Message-Id: <20220614020441.1098348-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 15/47] drm/amdkfd: add pinned BOs to kfd_bo_list
+Date: Mon, 13 Jun 2022 22:04:08 -0400
+Message-Id: <20220614020441.1098348-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220614020441.1098348-1-sashal@kernel.org>
 References: <20220614020441.1098348-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -56,50 +55,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>, Sasha Levin <sashal@kernel.org>,
- airlied@linux.ie, Felix Kuehling <Felix.Kuehling@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ Felix Kuehling <Felix.Kuehling@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Lang Yu <Lang.Yu@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philip Yang <Philip.Yang@amd.com>
+From: Lang Yu <Lang.Yu@amd.com>
 
-[ Upstream commit fa582c6f3684ac0098a9d02ddf0ed52a02b37127 ]
+[ Upstream commit 4fac4fcf4500bce515b0f32195e7bb86aa0246c6 ]
 
-MMU notifier callback may pass in mm with mm->mm_users==0 when process
-is exiting, use mmget_no_zero to avoid accessing invalid mm in deferred
-list work after mm is gone.
+The kfd_bo_list is used to restore process BOs after
+evictions. As page tables could be destroyed during
+evictions, we should also update pinned BOs' page tables
+during restoring to make sure they are valid.
 
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
+So for pinned BOs,
+1, Validate them and update their page tables.
+2, Don't add eviction fence for them.
+
+v2:
+ - Don't handle pinned ones specially in BO validation.(Felix)
+
+Signed-off-by: Lang Yu <Lang.Yu@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
 Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index 3b8856b4cece..5979335d7afd 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -2286,6 +2286,8 @@ svm_range_cpu_invalidate_pagetables(struct mmu_interval_notifier *mni,
- 
- 	if (range->event == MMU_NOTIFY_RELEASE)
- 		return true;
-+	if (!mmget_not_zero(mni->mm))
-+		return true;
- 
- 	start = mni->interval_tree.start;
- 	last = mni->interval_tree.last;
-@@ -2312,6 +2314,7 @@ svm_range_cpu_invalidate_pagetables(struct mmu_interval_notifier *mni,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index cd89d2e46852..f4509656ea8c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -1955,9 +1955,6 @@ int amdgpu_amdkfd_gpuvm_map_gtt_bo_to_kernel(struct amdgpu_device *adev,
+ 		return -EINVAL;
  	}
  
- 	svm_range_unlock(prange);
-+	mmput(mni->mm);
+-	/* delete kgd_mem from kfd_bo_list to avoid re-validating
+-	 * this BO in BO's restoring after eviction.
+-	 */
+ 	mutex_lock(&mem->process_info->lock);
  
- 	return true;
- }
+ 	ret = amdgpu_bo_reserve(bo, true);
+@@ -1980,7 +1977,6 @@ int amdgpu_amdkfd_gpuvm_map_gtt_bo_to_kernel(struct amdgpu_device *adev,
+ 
+ 	amdgpu_amdkfd_remove_eviction_fence(
+ 		bo, mem->process_info->eviction_fence);
+-	list_del_init(&mem->validate_list.head);
+ 
+ 	if (size)
+ 		*size = amdgpu_bo_size(bo);
+@@ -2544,12 +2540,15 @@ int amdgpu_amdkfd_gpuvm_restore_process_bos(void *info, struct dma_fence **ef)
+ 	process_info->eviction_fence = new_fence;
+ 	*ef = dma_fence_get(&new_fence->base);
+ 
+-	/* Attach new eviction fence to all BOs */
++	/* Attach new eviction fence to all BOs except pinned ones */
+ 	list_for_each_entry(mem, &process_info->kfd_bo_list,
+-		validate_list.head)
++		validate_list.head) {
++		if (mem->bo->tbo.pin_count)
++			continue;
++
+ 		amdgpu_bo_fence(mem->bo,
+ 			&process_info->eviction_fence->base, true);
+-
++	}
+ 	/* Attach eviction fence to PD / PT BOs */
+ 	list_for_each_entry(peer_vm, &process_info->vm_list_head,
+ 			    vm_list_node) {
 -- 
 2.35.1
 
