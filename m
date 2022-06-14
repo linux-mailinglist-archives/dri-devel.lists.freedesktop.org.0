@@ -1,58 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC8C54B58E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 18:14:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7665F54B5CE
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 18:21:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0F6F112184;
-	Tue, 14 Jun 2022 16:14:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16D9C112791;
+	Tue, 14 Jun 2022 16:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 597A9112198
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 16:14:48 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id x5so12372767edi.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 09:14:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RuXEMInRh5OLlG1hNRf8KLhCKoE0VEKqtgXb35ooNag=;
- b=G7uye22/PSMwaNQh+8r6QuEtGEqWiRWduscwra00sE5KkUVX7Es4pEOXNI0RczJ+7v
- OtsA3Dx6t6lI7c9DgMIc0DMPoNpprH32yEYUSDk/d3L+4703tvaGYuhXoEFy3PMqi/x1
- 3PhFRNm6LOQFf4OLZYsSXEHFfzIjkm4N0DXra/hZkcWnRePby0mZ1ODuWYza309+e8Xe
- ssUX9Oq9dXw62JiQwkWn9vqlSfFn52XEqmKlYrL+WIhUfrLGy0yLapv7SSACUmmcQOqJ
- P13/FR3649k2YxK5qOIutaWRmAkA69q1oJEWVJN7+V/JiwgWenkZPQYwihv3z5l287p/
- 5iEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RuXEMInRh5OLlG1hNRf8KLhCKoE0VEKqtgXb35ooNag=;
- b=Gez45eESO6wFUdAJvW89nLhEj5acnlyJf40Hay3q+UJH1ipiTfSQeQcMs7eFUk7gk8
- FItEffyadoUbAx0oBIqgvQHPKuZji4ObBI5ACNwmSWSeFbrRbmpPysQSIQ8IizTb2g6A
- u4l4og+4PrNewEAvMZXKQu4G7c97b7y3lREryb7Cq4mJOzaFfRc+KtiB4iUVU8l6h/lI
- jrDYCGGBva//y0Amw2WtNyQdoSf4aGZJwszZl/xBnqnJV0TcRLt2LSdyyyv0LGuiySlE
- xFixAVkBBWJlprMSSOIZgILO7wiqF/Gw7WwmyeWNXfaHK7dsQwz77evoPfwxLdqZ7Wl2
- ei/A==
-X-Gm-Message-State: AOAM533nc6nsWzlu59YT/pjJZElNJU7QBJ+TyYf/UuJVuuaUrJHQIG6T
- 6E1Ne/QnMssYtverW9wtjSvcSXGeVSLkNnkLJL1oRQ==
-X-Google-Smtp-Source: AGRyM1sL/siRoi50DJ7nmtio2CvDfDZ9umPXSQVUDLF9mGttjqu7NzdJ5fwJKNy1ft5gzrQ8wZozCYwjH+HdCoQJ0Ao=
-X-Received: by 2002:a05:6402:1857:b0:42d:bcd6:3a88 with SMTP id
- v23-20020a056402185700b0042dbcd63a88mr7162887edy.6.1655223286865; Tue, 14 Jun
- 2022 09:14:46 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0F3411279E;
+ Tue, 14 Jun 2022 16:21:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655223709; x=1686759709;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=IxFj9GRXGTqdp2VxtF9DrhIr3ecVCP7jPtbFkEus/2E=;
+ b=h+XC/gaU6CPogFuJ04g2e88gWL+P0sCQ3DBHnWS6MqBT07puF0vus71a
+ zKSt7Q3ZDdeqPLlD0rGFmd8ULOWddmWYRjyQsafTqPIftsA7Knek0/muC
+ YYn9GofQkNnBWLEtZ55ZmkJFg5clzSko6wmnxXb7pevSNJl73S8ueEt55
+ 0YhmEaEB4troiXJEYdlmo0iNfc2o4eWyowpfJagrN7N5o9Hy0r0mdiTus
+ tYrnkCxpSC8gCnggXW8GqiDqGu3gQfdZunu8T8kEu48chXrtoE8PZvLnp
+ mDzRX88alMu6j92582FcGSTnmleRyFUW2YpNAMoHwaMIcfaHJm5Ne2WZR A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="259121199"
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; d="scan'208";a="259121199"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2022 09:21:48 -0700
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; d="scan'208";a="640457908"
+Received: from nncongwa-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.32.178])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2022 09:21:46 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Zhanjun Dong <zhanjun.dong@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Check ctx while waiting for
+ response
+In-Reply-To: <20220602172119.96324-1-zhanjun.dong@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220602172119.96324-1-zhanjun.dong@intel.com>
+Date: Tue, 14 Jun 2022 19:21:44 +0300
+Message-ID: <87k09jxlk7.fsf@intel.com>
 MIME-Version: 1.0
-References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-24-maxime@cerno.tech>
-In-Reply-To: <20220610092924.754942-24-maxime@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 14 Jun 2022 17:14:31 +0100
-Message-ID: <CAPY8ntC42PJ_WGM+nCU-k-7OU4DDTh32j6QoQ=AJsA4jzN-mQA@mail.gmail.com>
-Subject: Re: [PATCH 23/64] drm/vc4: dpi: Return an error if we can't enable
- our clock
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +58,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Zhanjun Dong <zhanjun.dong@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 10 Jun 2022 at 10:30, Maxime Ripard <maxime@cerno.tech> wrote:
+On Thu, 02 Jun 2022, Zhanjun Dong <zhanjun.dong@intel.com> wrote:
+> We are seeing error message of "No response for request". Some cases happened
+> while waiting for response and reset/suspend action was triggered. In this
+> case, no response is not an error, active requests will be cancelled.
 >
-> If we fail to enable the DPI clock, we just ignore the error and moves
-> forward. Let's return an error instead.
+> This patch will handle this condition and change the error message into
+> debug message.
 >
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-
+> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
 > ---
->  drivers/gpu/drm/vc4/vc4_dpi.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 21 ++++++++++++++-------
+>  1 file changed, 14 insertions(+), 7 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-> index d1eaafb43bd1..658e0aa9e2e1 100644
-> --- a/drivers/gpu/drm/vc4/vc4_dpi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-> @@ -270,6 +270,7 @@ static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
->                         DRM_ERROR("Failed to get core clock: %d\n", ret);
->                 return ret;
->         }
-> +
->         dpi->pixel_clock = devm_clk_get(dev, "pixel");
->         if (IS_ERR(dpi->pixel_clock)) {
->                 ret = PTR_ERR(dpi->pixel_clock);
-> @@ -279,8 +280,10 @@ static int vc4_dpi_bind(struct device *dev, struct device *master, void *data)
->         }
->
->         ret = clk_prepare_enable(dpi->core_clock);
-> -       if (ret)
-> +       if (ret) {
->                 DRM_ERROR("Failed to turn on core clock: %d\n", ret);
-> +               return ret;
-> +       }
->
->         drm_simple_encoder_init(drm, &dpi->encoder.base, DRM_MODE_ENCODER_DPI);
->         drm_encoder_helper_add(&dpi->encoder.base, &vc4_dpi_encoder_helper_funcs);
-> --
-> 2.36.1
->
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index f01325cd1b62..a30a388877e2 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -467,7 +467,7 @@ static int ct_write(struct intel_guc_ct *ct,
+>   * *	0 response received (status is valid)
+>   * *	-ETIMEDOUT no response within hardcoded timeout
+>   */
+> -static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+> +static int wait_for_ct_request_update(struct ct_request *req, u32 *status, struct intel_guc_ct *ct)
+>  {
+>  	int err;
+>  
+> @@ -481,12 +481,14 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+>  #define GUC_CTB_RESPONSE_TIMEOUT_SHORT_MS 10
+>  #define GUC_CTB_RESPONSE_TIMEOUT_LONG_MS 1000
+>  #define done \
+> -	(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, READ_ONCE(req->status)) == \
+> +	(!intel_guc_ct_enabled(ct) || FIELD_GET(GUC_HXG_MSG_0_ORIGIN, READ_ONCE(req->status)) == \
+>  	 GUC_HXG_ORIGIN_GUC)
+>  	err = wait_for_us(done, GUC_CTB_RESPONSE_TIMEOUT_SHORT_MS);
+>  	if (err)
+>  		err = wait_for(done, GUC_CTB_RESPONSE_TIMEOUT_LONG_MS);
+>  #undef done
+> +	if (!intel_guc_ct_enabled(ct))
+> +		err = -ECANCELED;
+>  
+>  	*status = req->status;
+>  	return err;
+> @@ -703,11 +705,15 @@ static int ct_send(struct intel_guc_ct *ct,
+>  
+>  	intel_guc_notify(ct_to_guc(ct));
+>  
+> -	err = wait_for_ct_request_update(&request, status);
+> +	err = wait_for_ct_request_update(&request, status, ct);
+>  	g2h_release_space(ct, GUC_CTB_HXG_MSG_MAX_LEN);
+>  	if (unlikely(err)) {
+> -		CT_ERROR(ct, "No response for request %#x (fence %u)\n",
+> -			 action[0], request.fence);
+> +		if (unlikely(err == ECANCELED))
+
+I think you mean -ECANCELED, not ECANCELED.
+
+Please drop the unlikely(). I no longer want to see a single unlikely()
+or likely() added anywhere without proper performance
+justification. They make the code harder to read, for no real benefit,
+and people just cargo cult copy paste them everywhere. Moreover, nested
+unlikely/likely is just silly.
+
+> +			CT_DEBUG(ct, "Request %#x (fence %u) cancelled as CTB is disabled\n",
+> +				action[0], request.fence);
+> +		else
+> +			CT_ERROR(ct, "No response for request %#x (fence %u)\n",
+> +				action[0], request.fence);
+>  		goto unlink;
+>  	}
+>  
+> @@ -771,8 +777,9 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+>  
+>  	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
+>  	if (unlikely(ret < 0)) {
+> -		CT_ERROR(ct, "Sending action %#x failed (%pe) status=%#X\n",
+> -			 action[0], ERR_PTR(ret), status);
+> +		if (likely(ret != ECANCELED))
+
+Ditto for -ECANCELED and likely().
+
+BR,
+Jani.
+
+> +			CT_ERROR(ct, "Sending action %#x failed (%pe) status=%#X\n",
+> +				action[0], ERR_PTR(ret), status);
+>  	} else if (unlikely(ret)) {
+>  		CT_DEBUG(ct, "send action %#x returned %d (%#x)\n",
+>  			 action[0], ret, ret);
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
