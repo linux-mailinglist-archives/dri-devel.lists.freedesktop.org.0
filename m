@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E36A154BD59
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 00:11:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F16254BD9B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 00:28:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1B2C1130AF;
-	Tue, 14 Jun 2022 22:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB13112858;
+	Tue, 14 Jun 2022 22:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D163E1130AE;
- Tue, 14 Jun 2022 22:11:46 +0000 (UTC)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD1111267A;
+ Tue, 14 Jun 2022 22:28:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1655244706; x=1686780706;
+ t=1655245717; x=1686781717;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=QyBtVrN988JTZi57APICOccjvVk0rIujIlei0eNvXBg=;
- b=Z7IREYwIkKka0NJDJHuzjO8Lt5Vbofc3JfKK6hrN2jCQuedUuilT7UDF
- jroWSq4X5fdOgO5Tlmn6DDEAx6W1grBtyOples6F8wg9RSf1jnB8AzkSN
- 6R9+kHgpfgxL473NkD1c50A50KvGZqy2Exr6aTTaJrALmYsGho4oQC+5g M=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 14 Jun 2022 15:11:46 -0700
+ bh=TXsGVyUodPcbLb1MebJjc7VpvV7kUIfbb97MlIz1RY0=;
+ b=h3wHJ2nKe0ygZviASv8K/oNNtoInXQ5yjLlxFS0r9ELXNm3wnaPGqpo2
+ b+440wUutS7LS73Od7t5BBxUJX5Mu1XJIFZvOqnmgUeetTfQW+drKgHgE
+ IRzABYpjzv3HO4cDNffpqf4sAQL2BFm9vz2CeBBGW0AbyWWqjmchN5UUI U=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Jun 2022 15:28:37 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2022 15:11:46 -0700
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jun 2022 15:28:36 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 14 Jun 2022 15:11:45 -0700
+ 15.2.986.22; Tue, 14 Jun 2022 15:28:36 -0700
 Received: from [10.110.74.141] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 14 Jun
- 2022 15:11:44 -0700
-Message-ID: <3481878b-95c5-d803-8b7b-c7e8c83bbcc5@quicinc.com>
-Date: Tue, 14 Jun 2022 15:11:43 -0700
+ 2022 15:28:35 -0700
+Message-ID: <5afe209a-31d8-25d3-d087-2ff85eace182@quicinc.com>
+Date: Tue, 14 Jun 2022 15:28:34 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
@@ -156,14 +156,7 @@ On 6/14/2022 2:59 PM, Stephen Boyd wrote:
 >> +
 >> +       dp_ctrl_send_phy_test_pattern(ctrl);
 > None of this code needs to be run in the normal display on case?
-
-+       ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
-+
-+       ret = dp_ctrl_enable_stream_clocks(ctrl);
-
-These two lines are also used at normal display on case (dp_ctrl_on_stream()).
-I have to copy them to here to form a stand alone dp_ctrl_on_stream_phy_test_report().
-
+>
 >> +
 >> +       return 0;
 >> +}
@@ -204,3 +197,11 @@ I have to copy them to here to form a stand alone dp_ctrl_on_stream_phy_test_rep
 >> +       dp_display_enable(dp_display, force_link_train);
 > Do we need to pass it from here? Why can't dp_display_enable() simply
 > check for 'state == ST_DISPLAY_OFF' and then force retrain the link?
+
+can we keep this as it is?
+
+it is more readable that we do need force link re-training due to 
+ST_DISPLAY_OFF at top level.
+
+Also we only need to do (state == ST_DISPLAY_OFF) checking one time.
+
