@@ -1,82 +1,145 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4092F54AFF0
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 14:10:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C4A54AFF1
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 14:10:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD7AB10F0BC;
-	Tue, 14 Jun 2022 12:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E025410F1F9;
+	Tue, 14 Jun 2022 12:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3BB10F0BC
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 12:09:58 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id A6EA05C0126;
- Tue, 14 Jun 2022 08:09:55 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Tue, 14 Jun 2022 08:09:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1655208595; x=1655294995; bh=n6cRooOMdl
- z7byix0zVR4vQAb9dLZ1ruw+3UL1WJrCY=; b=OGg0aUzvYLJriIib0YOXdOB5xC
- fBKwRCJ0/7+QrP+TneFnrvhSznFqmcedYxwhxRNIkRxxF+3U8ZkG9DEqyUlPJZWU
- ilHmvpBy2W8iRZdIa65r4uGto2/fHQsfzeyIEdEmU+2rmJCusTicaPijf50febVk
- +Mdjfza4HOdqpdumhztAPoOoOeVcUg/mu3Bs+KykUqA4T5f/yQsUetj5dApX+n9s
- ue1b52ZebY1k+ZB3/poIOz19f2VsjWJ4gyVez0F2ShIlqsj8bD46dztvApQXAuGY
- UmRE5LlXg4e0CZ+/p0H1hjadGZITDUiVkiciPLJ+wSvRo/Oh01k3vVXWe67Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1655208595; x=1655294995; bh=n6cRooOMdlz7byix0zVR4vQAb9dL
- Z1ruw+3UL1WJrCY=; b=hi1X2crBWldrLeeaf1S79TG7Me671CPPlG1yS9YVAWKX
- 8TGY7Y+lEyrP+3a5sKzdFU+OzUzACC8sbCmPfFjPGC2odr4ToTfSiUtTWb0gDil/
- JxBz1D5+7MaZdtLd5ppT/ovBWeqY8V7zy1urmafJ2Gb7Gg07IlUUzFJAcL6pHvTp
- twYNpX8hg3ZO4zrwiDwMn41ugBeiYnRHNuqCZAAXeVFCMPgk4h1qACTG5DQ/cPm5
- ERgJyNaKAtIzfxgrotHnTyGIUYgKDD5VZnrmte5ZwfhcVZj99bK2oOgp2b9uIw7Q
- nkHqSlmWBuj04czy5rsDuTyGGtTQB9Fl7w/jWvS72Q==
-X-ME-Sender: <xms:knqoYsKUOIS94zGry4wOkUQGrrZ3Z9aO6qg6a_aZN4-CGNOLB2Pnog>
- <xme:knqoYsK-i8g1ljBU3eHO0u5wh3Y8kCEK0qONiyeevWnhP7nTqtX_8YIiJxWSERq2P
- oc4VR2_f4GFBbjtCcw>
-X-ME-Received: <xmr:knqoYsvcGv_WTfB2WCRHIaNmSKeq7aQDHkPiAT_mt1JUZ_ie9Vy0CmFQUWGfcH1iyJFJO4MIEd0gDMjpEPkQnSRhzhbnxu_vdryOw-U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudduledggeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedvleffteffvdegvdfhfeevteekffetgeegffetgfeuhfdtfeehgfeileeh
- ffegffenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpsghoohhtlhhinh
- drtghomhdpkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
- rghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:knqoYpbQ1Zp44ptb6HGp55pVeDvCMyjBDMOw0e3bGES04nnc1Yx8wQ>
- <xmx:knqoYjZY_KC4frSDvX8r1rTSfbjTZyhHBkkdWjYKJ0m67bSLCs98rA>
- <xmx:knqoYlCvYOnjBYYkO1zy3Yld6OlSgyf6uHgu57i8O2UWEwqXaTqMbQ>
- <xmx:k3qoYin26YE_hwQsa65_3DM0mGHD4LbgKg_pojJZtR5p5jN1doNFBQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Jun 2022 08:09:54 -0400 (EDT)
-Date: Tue, 14 Jun 2022 14:09:52 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 02/64] drm/crtc: Introduce drmm_crtc_init_with_planes
-Message-ID: <20220614120952.b32i46qfz476mspq@houat>
-References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-3-maxime@cerno.tech>
- <d975dc1d-7573-7976-427f-e941cbfa0caf@suse.de>
- <20220614073716.zwshdcf3q5fjobuq@houat>
- <ef19ba8b-ec66-9a00-5456-b4eefbec95cd@suse.de>
- <20220614090440.dwfvsmqnsd7fo24c@houat>
- <07fca319-f6b4-e022-3291-24c3f6439a86@suse.de>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="gsmghfy7i6uzeuhy"
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4C6010F1F9
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 12:10:23 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25EBYL41030308;
+ Tue, 14 Jun 2022 12:10:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=ttL1PAtoXVny6T+jsM30InMQMYWKFB9ZRa0RQcM/Jcw=;
+ b=b1H+1j1zsvqonivW/S8vy9z3q6fEgesI7qqXPCwHAs2N2haIbCZDvX1BDBopLJIsRPE/
+ VvO9l8RYlYL4VVaUCncDfFem7EgNcrcmTwL4SsuKrI+vMNzHI8fhR9yl04+F3rpFxJ7J
+ BBtuC8wZ9slbg7RuSkV2EgPubipu2pyXZABaD26/Hc4Xj01twTvc8eTJs21TCnd2PQY7
+ 1NJZRn8pGmwINW4ZQQd7vVXXH5sjPuDxisGMg+fZlLV8fn7jVHMNdCp0NGs0D2dDG51j
+ EG56x5sbUHkmmNRM439IWhyVRrw/bimiwOVOH14AsyTasf/+9qSBoOrNuE6z6zmK3Zpc 1g== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjx9dj3h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Jun 2022 12:10:17 +0000
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 25EC5aQ2032753; Tue, 14 Jun 2022 12:10:16 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3gpqw9uej1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 14 Jun 2022 12:10:16 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bmm3ip75NRcLZbWVClGxx5Blg+UUGxkiDxcZ/boxLDFz9TuE0teGZZR2TVRP04rRbXvHjIRg099F96eBDvNxST1YeQu4VXM87z2JYg4vcmyLWuMqhL/2yULG7h+cwsidvmjYts2bJ1pND5w1dFATYNHHcUPtWliAA8meuBlraUfreeZGmZi+Hi1lVID25tgZr4Q81jbYNWpEQ7UpJO90tpY90JfEmnMAkhJO38RZJJaryz24TJsd2rWAM4FF6GstHPDppNhJEpKAA2DamN9jhywntVM4DSjkoTTRAwAKBdSzmNDmXvs9v30VZiEGd4+xNi7RdHBp1TTcIy9s+y5wdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ttL1PAtoXVny6T+jsM30InMQMYWKFB9ZRa0RQcM/Jcw=;
+ b=LKS2SOMKnmixH/NmPN0Caiszyv4MOkA4dwPdPvJNUxd4+5huPhWA7i3JCIaHnQHoRPmZ6Ra2DL0kqh9z5VhbbZrG6Gbyj8J9G0BBHQ5Bvrp/tmQgZeYb7V4LHtTkETOVis5mdLSZdLiiUnuTyveK9CZFPvjA4JoZjv2UhdzfidPPcQbLRSrzETorcO2DSF8QguXXBVs1bAxUbh2hLb33oVZq9xNMVX94k9VREC+SaJi7skPWgpsKkZhXYUZOcoKdkI28hmSY4pceID0Pno+hXJM2x7nh4nFBz9YPxTSH8vOy5JoaS8uSoYfSLzgAwDWSudJViss4/Bwo5HQKNe4iWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ttL1PAtoXVny6T+jsM30InMQMYWKFB9ZRa0RQcM/Jcw=;
+ b=ww9j/0pfBZHMFWkQYT95KLfYZFDQdGexU+mPHQ5VHynEPOgGaweNNo4a/vcczfCHBOgCNstKwhCdxwHW4iGETW82llnk3V7o8lJt8M9UV++s9JAECtirGSCaW3TWlTj41bJarO7CljLJ9OA8A/OdHTOfFM2e03INaXW4yURb/8A=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by DM5PR10MB1482.namprd10.prod.outlook.com
+ (2603:10b6:3:c::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.15; Tue, 14 Jun
+ 2022 12:10:13 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5332.020; Tue, 14 Jun 2022
+ 12:10:13 +0000
+Date: Tue, 14 Jun 2022 15:10:00 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: [PATCH] drm: fix an error code in drm_syncobj_transfer_to_timeline()
+Message-ID: <YqhG3ozn3cSazbrO@kili>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <07fca319-f6b4-e022-3291-24c3f6439a86@suse.de>
+X-Mailer: git-send-email haha only kidding
+X-ClientProxiedBy: ZR0P278CA0050.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1d::19) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: decfa9e8-8935-4200-adfa-08da4dfed62e
+X-MS-TrafficTypeDiagnostic: DM5PR10MB1482:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR10MB14824BC086CA4A30017C0A818EAA9@DM5PR10MB1482.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dhuHSaFbF3ydG43akXQQh2Aa2d8DbqW2YKB5I+rzoe710iiDHwSp1gqxeokcj9wSbdRvlYeN+7kypiqZsBiIlOBZvlaMnG0YzT2eEVXfaq3jKN0/i6AGjHgUPDdNKLbH5lpNx+FkJ6vxWirish0NDL/tCgiNLQ0o0TcaDHG4vqXpHk8dBVYmEHnv+3O3F0roP79p6d4Xr+aduVsmiCAgIHPpCEw91wlgc4nskqUAgZ9K0HhPD2Mp2jCDp71p3XUHya60B0iZDtF+wyEyudG/NHumONyjve8UcLwaQoyJ2JsNWx1uNIEbdSZhWtRaALe2BzP0SzdYiFxhX3nC1Sy/VvK0p1t7NgOpdtuJ+9hlFGh5YIbjWbnG0J89cuKkoqDTqt6t3y0ibhUzggZSvhSBxAE3GwvbEbAVEqXVDPpM5z0T3ZujPznmIL2r3PT3lCmDlb78EDrCYQa4XPb/R/fpPbyxz9lSwpwCYPEOYsj9+Mb/N30iL2w0hU4jFSfffU2TPNqDwpi0juy62xx7dL2dyIxTwkY1ZrL7bgY0soODV1EKcdpg4kuBiiL43RzAOBZvwaQDM3gh9JrLxGynQvwdx4697hH7wYtbUBFrrfyIMvWsE2ndSHo4S500E6mzyfVNdRcTiw7X8IHP+B4Zx4J+uNL3IK//0FKqTwDggmqVKaUGxzDWcFAe6YCTW8RKX4nLGblyoXLscuHZb2vyhQCiXQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(7916004)(366004)(9686003)(6512007)(52116002)(6486002)(26005)(6506007)(54906003)(6666004)(508600001)(33716001)(110136005)(38350700002)(38100700002)(186003)(86362001)(83380400001)(5660300002)(4744005)(2906002)(66946007)(66556008)(8936002)(66476007)(316002)(8676002)(44832011)(4326008);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OH3YGEjq1U4+u9fqprw2hxJ7dU3nZ8lwDW5OOwzuXhhoey1m04JqzRcZ4tK2?=
+ =?us-ascii?Q?R+B7AvOeEnj5p0nDjERNBg1+QKkb6qV0AiCwEGqG7zsos80ndssNe4Y3q3ss?=
+ =?us-ascii?Q?2Aatb8/nWqY5RfEeRcOdGqaHLeb2jD8Wy89IL4BpdlSkqMD/MDNUoU5OHWLL?=
+ =?us-ascii?Q?b6yMIefYAmXuatwGYUEC4sRyILQp+MLmVcCi3Z0hJqawuYiUn5OEi9adj9Cy?=
+ =?us-ascii?Q?A/x201B18amEMbuFrremYmsoN6faosuCtwLqGLmdZY3AfE1m4vqYYuoMICN0?=
+ =?us-ascii?Q?wbAF4tWhXo4bK72oqvtoKwpFpyCMf7sU0S19GEN+6668S0iYsJZMtKTOJIRv?=
+ =?us-ascii?Q?r4e54+FIFBnOFc6eGo0n+Dm3Xj1xJXgH9DHnjaRF0M+mqEERm1gs9Zyh4Cv+?=
+ =?us-ascii?Q?jzB6ZGKj6yAbZ7onllWvQxF88pTW5KyyaiQvZN8s28eMNlKhV/sz3cYrNhLg?=
+ =?us-ascii?Q?S5z4SFsDZFLbCUk1TS54NqZsIUlOQBwrvnDvdKBhpg4ldrrDraFctoya3rv6?=
+ =?us-ascii?Q?DQlH7ZEjBZAYFrg2GeRgjPMWn4y4mYP6n7p3uU+qG98XeakFxJFJUYrif1dO?=
+ =?us-ascii?Q?JUadTL806UWfm5icRcd2gVdN6IzzXkC1f+zGe+p5vpSrHcA5AjoAcm/Tv31y?=
+ =?us-ascii?Q?edZibqlilQ/kS82+heP8jg5BnuhkyIOzHBQEN7j8m55Nczs+oe9nf12ZwLS9?=
+ =?us-ascii?Q?d+W7a/EVzHn57zO/61ey3QDjNFOgOoiBm/u7DVJT/4F+DSQtiyL7HdE/1dV1?=
+ =?us-ascii?Q?0VArbeoDYsbVdUEg6LyzmD/+Chr6syTT7G0imjz8cY+zqXUv1cGdKqVYN+4u?=
+ =?us-ascii?Q?ENXeOWWG3os46pZ2atnrQLi4YQCBAw9RgwHVClJbk3bt/zJDBDdLjbqc2SH7?=
+ =?us-ascii?Q?ZVR6H4t1TVljz838V2YVBbesZMAnd4Zwo8H31vGXUpNZ5EqJIU1cLGixhvM/?=
+ =?us-ascii?Q?wHrzPyiKUEDeHIITHwgMZLCgd741ZCqdQGSAektYiYkiLNRMEHGL+6AwnUW0?=
+ =?us-ascii?Q?IXe35i/No8vII9IR1u/RwInuk7BkmCop5NooQQuk7tqMoTx28vJoNDKVl/R7?=
+ =?us-ascii?Q?lHwTlGF1y6bwx4lUx7riHrZcxP7U3hhK9QKH7M8V50EcAyhwuzhQ/b9QpB3I?=
+ =?us-ascii?Q?gbTCBYX7QyaoXLGmZLiwM7PZFNsFPlMatRXZJhxFJHj901l9yqSk8glrUnLl?=
+ =?us-ascii?Q?Y4dBE7B7+IxxIEkgW9B+RfdLg/wBbiknKCIjxCHsbwBsGHzPWLncKKuke72C?=
+ =?us-ascii?Q?PHPvu2bQY5QHFmR7yhpOdrlp1vae1X9pb6Pwf3rv7ZFiSHdoLZhH+haij/Do?=
+ =?us-ascii?Q?uOLmqLW4dncQp/MzTR/wPG7/+rOHJIMvslmcpJtb8zN89d1FwU9cexI0fiol?=
+ =?us-ascii?Q?nhBm0r2Pc44CvMJmBWdkvc/Zs1wIIJKQti65ow5CH89CfzoUcgEMoyK+7CTz?=
+ =?us-ascii?Q?cv+/86CR55+9z53F+k/tVi4xjBeWa3w0A2AZvCzHflaWHtuRmswSEvL4D75L?=
+ =?us-ascii?Q?NBsHPzwBVt5S9Fqk2w17zQuwcA+x5vSUsGqO2Gw5+Gk+EihzrPOPUFUJbmIw?=
+ =?us-ascii?Q?LIjqKVQr2MtII+hlKedSELFHKr4OVViOHHMMm/6wyytJnIIYOH9QAp0n5hMQ?=
+ =?us-ascii?Q?u7++OZFfJoS1faMJZ7K4T3qf6Z7zrewuaj4I3pIii81ZcXCmDhohBg4lfmPQ?=
+ =?us-ascii?Q?1TzpXIjcIAdbV+PSFzqHO58cZoNQvqHH0l8AfXRlDvgX5B6bzAfah7uqJ9Zf?=
+ =?us-ascii?Q?F7KKP80ZrPEl7gsqOYTh/16q8KF2Ftg=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: decfa9e8-8935-4200-adfa-08da4dfed62e
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2022 12:10:13.8011 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Dz1RviIf7K+EDMezsW2Stp8LYaKu+A5k2EajlMZvSAt5A6WzJjrll/QT5btOsGmH5884u6lfiAxBniJ/2lNSnZELt4noIygrcM5WMoSTSQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1482
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517, 18.0.874
+ definitions=2022-06-14_03:2022-06-13,
+ 2022-06-14 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0 adultscore=0
+ mlxlogscore=999 phishscore=0 mlxscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206140049
+X-Proofpoint-ORIG-GUID: obNwVw970Jeoz0TUeqKeSWdpZX_C2pyp
+X-Proofpoint-GUID: obNwVw970Jeoz0TUeqKeSWdpZX_C2pyp
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,181 +152,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Return -ENOMEM instead of success if dma_fence_unwrap_merge() fails.
 
---gsmghfy7i6uzeuhy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: ec8d985ff26f ("drm: use dma_fence_unwrap_merge() in drm_syncobj")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/gpu/drm/drm_syncobj.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-On Tue, Jun 14, 2022 at 01:47:28PM +0200, Thomas Zimmermann wrote:
-> Am 14.06.22 um 11:04 schrieb Maxime Ripard:
-> > On Tue, Jun 14, 2022 at 10:29:20AM +0200, Thomas Zimmermann wrote:
-> > > Am 14.06.22 um 09:37 schrieb Maxime Ripard:
-> > > > Hi Thomas,
-> > > >=20
-> > > > On Mon, Jun 13, 2022 at 01:23:54PM +0200, Thomas Zimmermann wrote:
-> > > > > Am 10.06.22 um 11:28 schrieb Maxime Ripard:
-> > > > > > The DRM-managed function to register a CRTC is
-> > > > > > drmm_crtc_alloc_with_planes(), which will allocate the underlyi=
-ng
-> > > > > > structure and initialisation the CRTC.
-> > > > > >=20
-> > > > > > However, we might want to separate the structure creation and t=
-he CRTC
-> > > > > > initialisation, for example if the structure is shared across m=
-ultiple
-> > > > > > DRM entities, for example an encoder and a connector.
-> > > > > >=20
-> > > > > > Let's create an helper to only initialise a CRTC that would be =
-passed as
-> > > > > > an argument.
-> > > > >=20
-> > > > > Before I review all of thes patches, one question. it's yet not c=
-lear to me
-> > > > > why drm_crtc_init_with_planes() wouldn't work. (I know we discuss=
-ed this on
-> > > > > IRC.)
-> > > > >=20
-> > > > > If you're calling drmm_mode_config_init(), it will clean up all t=
-he CRTC,
-> > > > > encoder connector, etc. data structures for you. For CRTC instanc=
-es in
-> > > > > kmalloced memory, wouldn't it be simpler to put the corresponding=
- kfree into
-> > > > > vc4_crtc_destroy()?
-> > > >=20
-> > > > My intent was to remove as much of the lifetime handling and
-> > > > memory-management from drivers as possible.
-> > > >=20
-> > > > My feeling is that while the solution you suggest would definitely =
-work,
-> > > > it relies on drivers authors to know about this, and make the effor=
-t to
-> > > > convert the drivers themselves. And then we would have to review th=
-at,
-> > > > which we will probably miss (collectively), because it's a bit obsc=
-ure.
-> > > >=20
-> > > > While with either the drmm_alloc_* functions, or the new functions I
-> > > > introduce there, we can just deprecate the old ones, create a TODO =
-entry
-> > > > and a coccinelle script and trust that it works properly.
-> > >=20
-> > > Thanks for explaining the motivation.
-> > >=20
-> > > I would not want to deprecate any of the existing functions, as they =
-work
-> > > for many drivers. The drmm_ functions add additional overhead that not
-> > > everyone is willing to pay.
-> >=20
-> > I'm a bit confused. drm_crtc_init_with_planes() at the moment has:
-> >=20
-> > * Note: consider using drmm_crtc_alloc_with_planes() instead of
-> > * drm_crtc_init_with_planes() to let the DRM managed resource infrastru=
-cture
-> > * take care of cleanup and deallocation.
-> >=20
-> > Just like drm_encoder_init(), drm_simple_encoder_init() and
-> > drm_universal_plane_init(), so all the functions we have a drmm_* helper
-> > for.
-> >=20
-> > And we have a TODO-list item that heavily hints at using them:
-> > https://dri.freedesktop.org/docs/drm/gpu/todo.html#object-lifetime-fixes
-> >=20
-> > So it looks like we're already well on the deprecation path?
->=20
-> AFAIU that TODO item is about replacing devm_kzalloc() with drmm_kzalloc(=
-).
-> It's not about the plain init functions, such as drm_crtc_init_with_plane=
-s()
-> or drm_universal_plane_init(). Many simple drivers allocate their
-> modesetting pipeline's components first and then build the pipeline with =
-the
-> drm_ functions. I don't think we can take that away from them.
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index bbad9e4696e7..0c2be8360525 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -874,8 +874,10 @@ static int drm_syncobj_transfer_to_timeline(struct drm_file *file_private,
+ 
+ 	fence = dma_fence_unwrap_merge(tmp);
+ 	dma_fence_put(tmp);
+-	if (!fence)
++	if (!fence) {
++		ret = -ENOMEM;
+ 		goto err_put_timeline;
++	}
+ 
+ 	chain = dma_fence_chain_alloc();
+ 	if (!chain) {
+-- 
+2.35.1
 
-Sure, that's exactly what those first patches are about? It allows to
-use a DRM managed initialization without disrupting the drivers
-structure too much?
-
-> The concern I have is that we're adding lots of helpers for all kind of
-> scenarios and end up with a lot of duplication (and fragmentation among
-> drivers).
-
-I can see two: whether you want to allocate / init, or just init?
-We're not going to have more than that.
-
-> For example, drmm_crtc_alloc_with_planes() really isn't much used
-> by anything. [1]
-
-Not that I disagree here, but it might be that it isn't the most helpful
-helper?
-
-In vc4 case, we just can't use it easily.
-
-Our CRTC driver is shared between the "regular" CRTCs in the display
-path, and another instance dedicated to the writeback connector.
-
-The shared stuff is initialized through vc4_crtc_init():
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/vc4/vc4_crtc=
-=2Ec#L1120
-
-It initializes the structure, set up the planes, etc. Basically
-everything that our CRTC controller will be doing, and would be shared
-by both cases.
-
-However, since the writeback and regular CRTC structures are different,
-we can't really make that function allocate the backing structure
-either.
-
-We could do some compiler magic to pass the total size and the offset to
-that function, just like what drmm_crtc_alloc_with_planes is doing, but
-then we would have the same issue with the writeback stuff that needs to
-initialize the encoder and connector.
-
-So we would need a drmm_encoder_init anyway.
-
-> Same for drmm_universal_plane_alloc(). [2]
->=20
-> Instead of adding new helpers, it would be better to build upon
-> drmm_crtc_alloc_with_planes(), drmm_univeral_plane_alloc(), etc.
->=20
-> For example, a good starting point would be vc4_plane_init(). It could al=
-loc
-> with drmm_univeral_plane_alloc(), which would replace devm_kzalloc() [3] =
-and
-> drm_univeral_plane_alloc() [4] in one step. From what I understand, that's
-> what your patchset wants to do. But it looks like you're effectively
-> open-coding drmm_universl_plane_alloc().
-
-Where I could use the alloc helper, I did. See the following patch that
-does exactly what you described:
-https://lore.kernel.org/dri-devel/20220610092924.754942-17-maxime@cerno.tec=
-h/
-
-> With vc4_plane_init() correctly managed, the next candidate could be
-> vc4_crtc_init(). You probably want to pull vc4_plane_init() [5] into
-> callers. to get it out of the way. If you move calls to devm_kzalloc() [6]
-> and drm_crtc_init_with_planes() [7] closer together, you can replace them
-> with drmm_crtc_alloc_with_planes().
-
-See above
-
-Maxime
-
---gsmghfy7i6uzeuhy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYqh6kAAKCRDj7w1vZxhR
-xTxiAQD7Xjr5VCBuqI9/sXjT8dkn6V2uzdtD9HPierKUD12scgEAp8JtT+VYYgJV
-0CjbEKcFAImbn5WE1nYTHU/phjFD0gY=
-=SwR6
------END PGP SIGNATURE-----
-
---gsmghfy7i6uzeuhy--
