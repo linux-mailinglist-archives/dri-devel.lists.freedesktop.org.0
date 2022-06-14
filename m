@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB28754A2DC
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 01:46:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1405B54A2FD
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 02:02:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1C2810FC66;
-	Mon, 13 Jun 2022 23:46:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE80B10FD0A;
+	Tue, 14 Jun 2022 00:02:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4D2210FC61;
- Mon, 13 Jun 2022 23:46:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655163978; x=1686699978;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=QQ3/681JT5J/o1mTI7kLjce7vfT8Qa5dbcLh8QhxPRY=;
- b=maGushBj7tfMTkeGmTK51kYsH64q2T0/h6aSe2errXQBCQ951Wn7R4r5
- LiWbr04Ip2IOn/IfaR+jqZGGi+j/8NHnNq9FxIjgbLdoNjCpo3+e3TL9u
- Np+GTLlOtlK0TDJCPKiUFA3fKagfdYZ4jGXbceoLBbFgMt3wEqJMMyacl
- WtQCm1oS6AjUHFb3UtFa962PIT5u4LFmBwd7NDVBkHHwx78gx1tzBojq2
- n8aU0kMa1jVR2k8bvE1P8uSdK+B8qcM77GJW0sTuUbXmSjtPFUoy+z5QS
- zi3bOQKUSnPOiAy9ScimX16IbHD3YQbxqhZvapOt45wbJhoocZHAkYid+ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10377"; a="267137424"
-X-IronPort-AV: E=Sophos;i="5.91,298,1647327600"; d="scan'208";a="267137424"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2022 16:46:18 -0700
-X-IronPort-AV: E=Sophos;i="5.91,298,1647327600"; d="scan'208";a="640023786"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jun 2022 16:46:17 -0700
-Date: Mon, 13 Jun 2022 16:39:47 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 3/3] drm/doc/rfc: VM_BIND uapi definition
-Message-ID: <20220613233947.GA15145@jons-linux-dev-box>
-References: <20220610070711.32407-1-niranjana.vishwanathapura@intel.com>
- <20220610070711.32407-4-niranjana.vishwanathapura@intel.com>
- <9b7c4864-18c2-5c70-009a-1c6e7843bf0d@linux.intel.com>
- <9043381e-ff63-934b-4576-132f15c2e363@intel.com>
- <20220610161420.GB376@nvishwa1-DESK>
- <b5292e01-5a1f-d339-cbb4-e565e07e4437@linux.intel.com>
- <20220613150551.GG376@nvishwa1-DESK>
- <459c327d-5796-f9e4-4442-a51714525c73@linux.intel.com>
- <20220613174956.GH376@nvishwa1-DESK>
- <5ebcd237-a6df-add2-070a-056ccb83427a@linux.intel.com>
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3E0B10FD0B
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 00:02:33 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-1011df6971aso8087879fac.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jun 2022 17:02:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+rqz24wvgwjDX6APc4suK/v1RubQejuzIiKc6b9laMY=;
+ b=e3Q29PJpOF8Aurc2EKg6QLXjSrMe3LerZYtEDhvO5ba0+gDoxPN0adEwcsuMIjf/oa
+ wgLjah/L3pGshQjhxcxhA39S7fG0T1PaGZ5aX2EPc5sS8jFQCO0tYwNh5m+FmvRwjkIx
+ sR82zIFVOROcN3/nZ47fngl/Y9qYmSkbbJIMtRHx0G+CQA20kxx3x6x9lZW5dYKEEVZW
+ KRtFnrkZY1SjIRrzptvXuHj2SXBvGpndCsNHYmhtXKkHE0vil9dSz6TLioJcRd/Jbqor
+ mlqcnRgsAmLKBhAXrRXGHo1zEIr7+B9srRdTQzg7iOa8EtZ7Cjoo9ffKUC4aSdER5NPv
+ ADQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+rqz24wvgwjDX6APc4suK/v1RubQejuzIiKc6b9laMY=;
+ b=iENgC5e0usBOnswUXj9hq3YSxWGO0mtktSbZBmiDdatO1A/G46yDBI5ccBEw7JFslE
+ UbuPDdlHHPtWKiwb4WPsC2P8UQV63QCdCGyb+kjU3lNuEhei2Kwj5i4haeAefjHkOrOC
+ sDEKnJb2A4yrjqPTAUjddcVEIIRWI2jWOqK1tLbZ9s7h809jNl+pK8vAZZ+F1C2mXNBz
+ z1nqgnb9e54FanxyCiH0MvACRPJ5yY9ApmHqZxMb22HoiHlHUeiMromW9ef3woKWB3kX
+ QN/5HJgW+xAGJb2AbTm1cUOWhtxRkNj81DKT6n2YWiElQ+lXgtWA0UZJcZqige49cMEh
+ yOPw==
+X-Gm-Message-State: AJIora9fvi3hvRnUwwvS/scCgurNcfL3HWVmff1Aa487ZWisPwjWdT5P
+ gerPT4zTIfYAufS0wQzZHT5MFwnK/E8=
+X-Google-Smtp-Source: AGRyM1sNbdqXe/EEz6wy1tmM1FDOh+oJN/51uCv0XoD21US2XK9K6S9//CCRycBQbdiDGBFxf7mHDw==
+X-Received: by 2002:a05:6870:58a3:b0:fe:109b:d9ae with SMTP id
+ be35-20020a05687058a300b000fe109bd9aemr799467oab.246.1655164953154; 
+ Mon, 13 Jun 2022 17:02:33 -0700 (PDT)
+Received: from localhost.localdomain ([2804:431:c7f5:a472:4c3:87f9:70d2:df2e])
+ by smtp.googlemail.com with ESMTPSA id
+ y23-20020a056808061700b0032b99637366sm3831232oih.25.2022.06.13.17.02.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jun 2022 17:02:32 -0700 (PDT)
+From: Igor Torrente <igormtorrente@gmail.com>
+To: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, ppaalanen@gmail.com,
+ tzimmermann@suse.de
+Subject: [PATCH v6 0/9] Add new formats support to vkms
+Date: Mon, 13 Jun 2022 21:02:17 -0300
+Message-Id: <20220614000226.93297-1-igormtorrente@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5ebcd237-a6df-add2-070a-056ccb83427a@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,286 +70,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, paulo.r.zanoni@intel.com,
- intel-gfx@lists.freedesktop.org, chris.p.wilson@intel.com,
- thomas.hellstrom@intel.com, Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Jason Ekstrand <jason@jlekstrand.net>, daniel.vetter@intel.com,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- christian.koenig@amd.com, matthew.auld@intel.com
+Cc: hamohammed.sa@gmail.com, airlied@linux.ie, leandro.ribeiro@collabora.com,
+ dri-devel@lists.freedesktop.org, tales.aparecida@gmail.com,
+ ~lkcamp/patches@lists.sr.ht, Igor Torrente <igormtorrente@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 13, 2022 at 07:09:06PM +0100, Tvrtko Ursulin wrote:
-> 
-> On 13/06/2022 18:49, Niranjana Vishwanathapura wrote:
-> > On Mon, Jun 13, 2022 at 05:22:02PM +0100, Tvrtko Ursulin wrote:
-> > > 
-> > > On 13/06/2022 16:05, Niranjana Vishwanathapura wrote:
-> > > > On Mon, Jun 13, 2022 at 09:24:18AM +0100, Tvrtko Ursulin wrote:
-> > > > > 
-> > > > > On 10/06/2022 17:14, Niranjana Vishwanathapura wrote:
-> > > > > > On Fri, Jun 10, 2022 at 05:48:39PM +0300, Lionel Landwerlin wrote:
-> > > > > > > On 10/06/2022 13:37, Tvrtko Ursulin wrote:
-> > > > > > > > 
-> > > > > > > > On 10/06/2022 08:07, Niranjana Vishwanathapura wrote:
-> > > > > > > > > VM_BIND and related uapi definitions
-> > > > > > > > > 
-> > > > > > > > > Signed-off-by: Niranjana Vishwanathapura
-> > > > > > > > > <niranjana.vishwanathapura@intel.com>
-> > > > > > > > > ---
-> > > > > > > > >   Documentation/gpu/rfc/i915_vm_bind.h | 490
-> > > > > > > > > +++++++++++++++++++++++++++
-> > > > > > > > >   1 file changed, 490 insertions(+)
-> > > > > > > > >   create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
-> > > > > > > > > 
-> > > > > > > > > diff --git
-> > > > > > > > > a/Documentation/gpu/rfc/i915_vm_bind.h
-> > > > > > > > > b/Documentation/gpu/rfc/i915_vm_bind.h
-> > > > > > > > > new file mode 100644
-> > > > > > > > > index 000000000000..9fc854969cfb
-> > > > > > > > > --- /dev/null
-> > > > > > > > > +++ b/Documentation/gpu/rfc/i915_vm_bind.h
-> > > > > > > > > @@ -0,0 +1,490 @@
-> > > > > > > > > +/* SPDX-License-Identifier: MIT */
-> > > > > > > > > +/*
-> > > > > > > > > + * Copyright © 2022 Intel Corporation
-> > > > > > > > > + */
-> > > > > > > > > +
-> > > > > > > > > +/**
-> > > > > > > > > + * DOC: I915_PARAM_HAS_VM_BIND
-> > > > > > > > > + *
-> > > > > > > > > + * VM_BIND feature availability.
-> > > > > > > > > + * See typedef drm_i915_getparam_t param.
-> > > > > > > > > + * bit[0]: If set, VM_BIND is supported, otherwise not.
-> > > > > > > > > + * bits[8-15]: VM_BIND implementation version.
-> > > > > > > > > + * version 0 will not have VM_BIND/UNBIND
-> > > > > > > > > timeline fence array support.
-> > > > > > > > > + */
-> > > > > > > > > +#define I915_PARAM_HAS_VM_BIND        57
-> > > > > > > > > +
-> > > > > > > > > +/**
-> > > > > > > > > + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
-> > > > > > > > > + *
-> > > > > > > > > + * Flag to opt-in for VM_BIND mode of binding during VM creation.
-> > > > > > > > > + * See struct drm_i915_gem_vm_control flags.
-> > > > > > > > > + *
-> > > > > > > > > + * The older execbuf2 ioctl will not
-> > > > > > > > > support VM_BIND mode of operation.
-> > > > > > > > > + * For VM_BIND mode, we have new execbuf3
-> > > > > > > > > ioctl which will not accept any
-> > > > > > > > > + * execlist (See struct
-> > > > > > > > > drm_i915_gem_execbuffer3 for more details).
-> > > > > > > > > + *
-> > > > > > > > > + */
-> > > > > > > > > +#define I915_VM_CREATE_FLAGS_USE_VM_BIND    (1 << 0)
-> > > > > > > > > +
-> > > > > > > > > +/**
-> > > > > > > > > + * DOC: I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING
-> > > > > > > > > + *
-> > > > > > > > > + * Flag to declare context as long running.
-> > > > > > > > > + * See struct drm_i915_gem_context_create_ext flags.
-> > > > > > > > > + *
-> > > > > > > > > + * Usage of dma-fence expects that they
-> > > > > > > > > complete in reasonable amount of time.
-> > > > > > > > > + * Compute on the other hand can be long
-> > > > > > > > > running. Hence it is not appropriate
-> > > > > > > > > + * for compute contexts to export request
-> > > > > > > > > completion dma-fence to user.
-> > > > > > > > > + * The dma-fence usage will be limited to
-> > > > > > > > > in-kernel consumption only.
-> > > > > > > > > + * Compute contexts need to use user/memory fence.
-> > > > > > > > > + *
-> > > > > > > > > + * So, long running contexts do not support output fences. Hence,
-> > > > > > > > > + * I915_EXEC_FENCE_SIGNAL (See
-> > > > > > > > > &drm_i915_gem_exec_fence.flags) is expected
-> > > > > > > > > + * to be not used. DRM_I915_GEM_WAIT ioctl
-> > > > > > > > > call is also not supported for
-> > > > > > > > > + * objects mapped to long running contexts.
-> > > > > > > > > + */
-> > > > > > > > > +#define I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING   (1u << 2)
-> > > > > > > > > +
-> > > > > > > > > +/* VM_BIND related ioctls */
-> > > > > > > > > +#define DRM_I915_GEM_VM_BIND        0x3d
-> > > > > > > > > +#define DRM_I915_GEM_VM_UNBIND        0x3e
-> > > > > > > > > +#define DRM_I915_GEM_EXECBUFFER3    0x3f
-> > > > > > > > > +#define DRM_I915_GEM_WAIT_USER_FENCE    0x40
-> > > > > > > > > +
-> > > > > > > > > +#define DRM_IOCTL_I915_GEM_VM_BIND
-> > > > > > > > > DRM_IOWR(DRM_COMMAND_BASE +
-> > > > > > > > > DRM_I915_GEM_VM_BIND, struct
-> > > > > > > > > drm_i915_gem_vm_bind)
-> > > > > > > > > +#define DRM_IOCTL_I915_GEM_VM_UNBIND
-> > > > > > > > > DRM_IOWR(DRM_COMMAND_BASE +
-> > > > > > > > > DRM_I915_GEM_VM_UNBIND, struct
-> > > > > > > > > drm_i915_gem_vm_bind)
-> > > > > > > > > +#define DRM_IOCTL_I915_GEM_EXECBUFFER3
-> > > > > > > > > DRM_IOWR(DRM_COMMAND_BASE +
-> > > > > > > > > DRM_I915_GEM_EXECBUFFER3, struct
-> > > > > > > > > drm_i915_gem_execbuffer3)
-> > > > > > > > > +#define DRM_IOCTL_I915_GEM_WAIT_USER_FENCE
-> > > > > > > > > DRM_IOWR(DRM_COMMAND_BASE +
-> > > > > > > > > DRM_I915_GEM_WAIT_USER_FENCE, struct
-> > > > > > > > > drm_i915_gem_wait_user_fence)
-> > > > > > > > > +
-> > > > > > > > > +/**
-> > > > > > > > > + * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
-> > > > > > > > > + *
-> > > > > > > > > + * This structure is passed to VM_BIND
-> > > > > > > > > ioctl and specifies the mapping of GPU
-> > > > > > > > > + * virtual address (VA) range to the
-> > > > > > > > > section of an object that should be bound
-> > > > > > > > > + * in the device page table of the specified address space (VM).
-> > > > > > > > > + * The VA range specified must be unique
-> > > > > > > > > (ie., not currently bound) and can
-> > > > > > > > > + * be mapped to whole object or a section
-> > > > > > > > > of the object (partial binding).
-> > > > > > > > > + * Multiple VA mappings can be created to
-> > > > > > > > > the same section of the object
-> > > > > > > > > + * (aliasing).
-> > > > > > > > > + *
-> > > > > > > > > + * The @queue_idx specifies the queue to
-> > > > > > > > > use for binding. Same queue can be
-> > > > > > > > > + * used for both VM_BIND and VM_UNBIND
-> > > > > > > > > calls. All submitted bind and unbind
-> > > > > > > > > + * operations in a queue are performed in the order of submission.
-> > > > > > > > > + *
-> > > > > > > > > + * The @start, @offset and @length should
-> > > > > > > > > be 4K page aligned. However the DG2
-> > > > > > > > > + * and XEHPSDV has 64K page size for device
-> > > > > > > > > local-memory and has compact page
-> > > > > > > > > + * table. On those platforms, for binding
-> > > > > > > > > device local-memory objects, the
-> > > > > > > > > + * @start should be 2M aligned, @offset and
-> > > > > > > > > @length should be 64K aligned.
-> > > > > > > > > + * Also, on those platforms, it is not
-> > > > > > > > > allowed to bind an device local-memory
-> > > > > > > > > + * object and a system memory object in a
-> > > > > > > > > single 2M section of VA range.
-> > > > > > > > > + */
-> > > > > > > > > +struct drm_i915_gem_vm_bind {
-> > > > > > > > > +    /** @vm_id: VM (address space) id to bind */
-> > > > > > > > > +    __u32 vm_id;
-> > > > > > > > > +
-> > > > > > > > > +    /** @queue_idx: Index of queue for binding */
-> > > > > > > > > +    __u32 queue_idx;
-> > > > > > > > 
-> > > > > > > > I have a question here to which I did not find
-> > > > > > > > an answer by browsing the old threads.
-> > > > > > > > 
-> > > > > > > > Queue index appears to be an implicit
-> > > > > > > > synchronisation mechanism, right? Operations on
-> > > > > > > > the same index are executed/complete in order of
-> > > > > > > > ioctl submission?
-> > > > > > > > 
-> > > > > > > > Do we _have_ to implement this on the kernel
-> > > > > > > > side and could just allow in/out fence and let
-> > > > > > > > userspace deal with it?
-> > > > > > > 
-> > > > > > > 
-> > > > > > > It orders operations like in a queue. Which is kind
-> > > > > > > of what happens with existing queues/engines.
-> > > > > > > 
-> > > > > > > If I understood correctly, it's going to be a
-> > > > > > > kthread + a linked list right?
-> > > > > > > 
-> > > > > > 
-> > > > > > Yes, that is correct.
-> > > > > > 
-> > > > > > > 
-> > > > > > > -Lionel
-> > > > > > > 
-> > > > > > > 
-> > > > > > > > 
-> > > > > > > > Arbitrary/on-demand number of queues will add
-> > > > > > > > the complexity on the kernel side which should
-> > > > > > > > be avoided if possible.
-> > > > > > > > 
-> > > > > > 
-> > > > > > It was discussed in the other thread. Jason prefers this over putting
-> > > > > > an artificial limit on number of queues (as user can
-> > > > > > anyway can exhaust
-> > > > > > the memory). I think complexity in the driver is manageable.
-> > > > > 
-> > > > > You'll need to create tracking structures on demand, with
-> > > > > atomic replace of last fence, ref counting and locking of
-> > > > > some sort, more or less?
-> > > > > 
-> > > > 
-> > > > We will have a workqueue, an work item and a linked list per queue.
-> > > > VM_BIND/UNBIND call will add the mapping request to the
-> > > > specified queue's
-> > > > linked list and schedule the work item on the workqueue of that queue.
-> > > > I am not sure what you mean by last fence and replacing it.
-> > > > 
-> > > > > > The other option being discussed in to have the user create those
-> > > > > > queues (like creating engine map) before hand and use that in vm_bind
-> > > > > > and vm_unbind ioctls. This puts a limit on the number of queues.
-> > > > > > But it is not clean either and not sure it is worth
-> > > > > > making the interface
-> > > > > > more complex.
-> > > > > > https://www.spinics.net/lists/dri-devel/msg350448.html
-> > > > > 
-> > > > > What about the third option of a flag to return a fence (of
-> > > > > some sort) and pass in a fence? That way userspace can
-> > > > > imagine zero or N queues with very little effort on the
-> > > > > kernel side. Was this considered?
-> > > > > 
-> > > > 
-> > > > I am not clear what fence you are talking about here and how does that
-> > > > help with the number of vm_bind queues. Can you eloborate?
-> > > 
-> > > It is actually already documented that bind/unbind will support
-> > > input and output fences - so what are these queues on top of what
-> > > userspace can already achieve by using them? Purely a convenience or
-> > > there is more to it?
-> > > 
-> > 
-> > Oh, the vm_bind queues are discussed in this thread.
-> > https://lists.freedesktop.org/archives/intel-gfx/2022-June/299217.html
-> > 
-> > Apparently Vulkan has requirement for multiple queues, each queue
-> > processing vm_bind/unbind calls in the order of submission.
-> 
-> I don't see how that answers my question so I will take the freedom to
-> repeat it. What are these queues on top of what userspace can already
-> achieve by using in-out fences? Purely a convenience or there is more to it?
-> 
-> Queue1:
-> 
-> out_fence_A = vm_bind A
-> out_fence_B = vm_bind B, in_fence=out_fence_A
-> execbuf(in_fence = out_fence_B)
-> 
-> Queue2:
-> 
-> out_fence_C = vm_bind C
-> out_fence_D = vm_bind D, in_fence=out_fence_C
-> execbuf(in_fence = out_fence_D)
-> 
-> Parallel bind:
-> out_fence_E = vm_bind E
-> out_fence_F = vm_bind F
-> merged_fence = fence_merge(out_fence_E, out_fence_F)
-> execbuf(in_fence = merged_fence)
-> 
+Summary
+=======
+This series of patches refactor some vkms components in order to introduce
+new formats to the planes and writeback connector.
 
-Let's say you do this and only 1 queue:
+Now in the blend function, the plane's pixels are converted to ARGB16161616
+and then blended together.
 
-VM_BIND_A (in_fence=fence_A)
-VM_BIND_B (in_fence=NULL)
+The CRC is calculated based on the ARGB1616161616 buffer. And if required,
+this buffer is copied/converted to the writeback buffer format.
 
-With 1 queue VM_BIND_B in blocked on fence_A, hence the need for than 1
-queue.
+And to handle the pixel conversion, new functions were added to convert
+from a specific format to ARGB16161616 (the reciprocal is also true).
 
-e.g.
- 
-VM_BIND_A (queue_id=0, in_fence=fence_A)
-VM_BIND_B (queue_id=1, in_fence=NULL)
+Tests
+=====
+This patch series was tested using the following igt tests:
+-t ".*kms_plane.*"
+-t ".*kms_writeback.*"
+-t ".*kms_cursor_crc*"
+-t ".*kms_flip.*"
 
-Now VM_BIND_B can immediately be executed regardless of fence_A status.
+New tests passing
+-------------------
+- pipe-A-cursor-size-change
+- pipe-A-cursor-alpha-transparent
 
-Matt
+Performance
+-----------
+It's running slightly faster than the current implementation.
 
-> Regards,
-> 
-> Tvrtko
+Results running the IGT[1] test
+`igt@kms_cursor_crc@pipe-a-cursor-512x512-onscreen` ten times:
+
+|                  Frametime                   |
+|:--------------------------------------------:|
+|  Implementation |  Current  |   This commit  |
+|:---------------:|:---------:|:--------------:|
+| frametime range |  9~22 ms  |     10~22 ms   |
+|     Average     |  11.4 ms  |     12.32 ms   |
+
+Memory consumption
+==================
+It consumes less memory than the current implementation in
+the common case (more detail in the commit message).
+
+| Memory consumption (output dimensions) |
+|:--------------------------------------:|
+|       Current      |     This patch    |
+|:------------------:|:-----------------:|
+|   Width * Heigth   |     2 * Width     |
+
+[1] IGT commit id: bc3f6833a12221a46659535dac06ebb312490eb4
+
+XRGB to ARGB behavior
+=====================
+During the development, I decided to always fill the alpha channel of
+the output pixel whenever the conversion from a format without an alpha
+channel to ARGB16161616 is necessary. Therefore, I ignore the value
+received from the XRGB and overwrite the value with 0xFFFF.
+
+Primary plane and CRTC size
+===========================
+This patch series reworks the blend function to accept a primary plane with
+a different size and position from CRTC.
+Because now we need to fill the background, we had a loss in
+performance with this change
+
+Alpha channel output for XRGB formats
+=====================================
+There's still an open question about which value the writeback alpha channel
+should be for XRGB formats.
+The current igt test implementation is expecting the channel to not be change.
+But it's not entirely clear if this should be the behavior followed by vkms
+(or any other driver).
+
+Open issue: https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/issues/118
+---
+
+Igor Torrente (9):
+  drm: vkms: Replace hardcoded value of `vkms_composer.map` to
+    DRM_FORMAT_MAX_PLANES
+  drm: vkms: Rename `vkms_composer` to `vkms_frame_info`
+  drm: drm_atomic_helper: Add a new helper to deal with the writeback
+    connector validation
+  drm: vkms: get the reference to `drm_framebuffer` instead if coping it
+  drm: vkms: Add fb information to `vkms_writeback_job`
+  drm: vkms: Refactor the plane composer to accept new formats
+  drm: vkms: Supports to the case where primary plane doesn't match the
+    CRTC
+  drm: vkms: Adds XRGB_16161616 and ARGB_1616161616 formats
+  drm: vkms: Add support to the RGB565 format
+
+ Documentation/gpu/vkms.rst            |   7 +-
+ drivers/gpu/drm/drm_atomic_helper.c   |  39 ++++
+ drivers/gpu/drm/vkms/Makefile         |   1 +
+ drivers/gpu/drm/vkms/vkms_composer.c  | 314 ++++++++++++--------------
+ drivers/gpu/drm/vkms/vkms_drv.h       |  39 +++-
+ drivers/gpu/drm/vkms/vkms_formats.c   | 300 ++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_formats.h   |  12 +
+ drivers/gpu/drm/vkms/vkms_plane.c     |  50 ++--
+ drivers/gpu/drm/vkms/vkms_writeback.c |  39 +++-
+ include/drm/drm_atomic_helper.h       |   3 +
+ 10 files changed, 584 insertions(+), 220 deletions(-)
+ create mode 100644 drivers/gpu/drm/vkms/vkms_formats.c
+ create mode 100644 drivers/gpu/drm/vkms/vkms_formats.h
+
+-- 
+2.30.2
+
