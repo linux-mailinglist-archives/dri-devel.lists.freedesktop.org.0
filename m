@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B5C54BD10
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 23:54:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B420854BD11
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jun 2022 23:54:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70D5510F5BC;
-	Tue, 14 Jun 2022 21:54:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF26112A52;
+	Tue, 14 Jun 2022 21:54:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E48EE10F5BC
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 21:54:38 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id 184so9663062pga.12
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 14:54:38 -0700 (PDT)
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB9AE1122CF
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 21:54:40 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ gc3-20020a17090b310300b001e33092c737so266466pjb.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 14:54:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4H4NUn2COrLp0xRa2CBlPVWg2u2KQwlrtLFJ1rLvcbY=;
- b=aPUqpJuTW2ZEhs8q222WyLL2uAmKddpR8yFqy+uAwQgI8aG3d4TujliIQh+rDF2M7j
- CF9baksp+VUo0+FVwURSragwSTKY/5p1A5mdjuLb98RN4LrqVKbnwoKIbpQja+ZEDN8a
- j0EB/NVbNwJojEqVwLhqEXG7H4veo0TiilYfQ=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=65Y41kdawwG1n+2uI4rvZLnKQNlAIFaOOfNmllqQLv8=;
+ b=EdN0uGZ3OZRMm5vATmxr2x7Q5Cqn1/DD3mCxrzY/7OzjM2t7U4pHdEYKoigjkl//R6
+ 6KHpMtFP09kwukqqwTCO+MB0yRbh6qqhSZDR3PUAKoMnDXxjd/G04PPSJ9tJa6HHQOHE
+ Fps7YmaMWDzhf+p0hG/bCMP/LfAC/qOt3cNeo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4H4NUn2COrLp0xRa2CBlPVWg2u2KQwlrtLFJ1rLvcbY=;
- b=VIi0I4DJj5by9nPWx7z0/lrjhXCPDrgjVGCcjKJ//y0ZRMtRWYoxz0f+EihzJt4yqF
- tmr3mOxGieDPZ6AdpcjmQOWHrvDwCmNWwhIbpe/Ioi0b1nmx5Sfm85dlYwqLnjfZN5qQ
- DCniDbLbqH5FzvsswNnZg0Ia/aiJ0LqQgd3GAdTygkxYkdb8777tBOhKQpfE1b0bRxGd
- O1mpLelVgBZJ4I8nQEjYRn/bYMUFL7Obta87qXPocACViFtLyOVKwaNk3uLgyxWvngbt
- XwnHSCfoN0m3c6rXWgSqLWLfLWjBf39wo3brggTJ4W4MMYsHGZAx+OFr1MSkoWGHAPRR
- P2VA==
-X-Gm-Message-State: AOAM532ar7VryUZUgeg9+H7P0JDb8NHFy8Eu48uXqUbyZW3vJFUVeSOa
- d7tSt9iOCK//g9FSy74mLNufkoxvWaFFGEHT
-X-Google-Smtp-Source: AGRyM1u/yF9eLDb7e/TJmxATeXtE5Z6AOnB/WD28MbfZxfTCpN9K62ERWgY38EUgexp8Ck6tiN1hEQ==
-X-Received: by 2002:aa7:94a6:0:b0:51b:ddb8:1fcf with SMTP id
- a6-20020aa794a6000000b0051bddb81fcfmr6288329pfl.23.1655243678378; 
- Tue, 14 Jun 2022 14:54:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=65Y41kdawwG1n+2uI4rvZLnKQNlAIFaOOfNmllqQLv8=;
+ b=rclPhQSTIP4U5XcT/j6nhLqhR9CqX8v5lwzWoNSsD2Emj4IP/NEMcSKkxY5mRLVy3O
+ G1yqOmxDNnE9Hh+w6cOXGu5/nwnGJZmF97OB98xvZjgiZciNvmbDSOYP9dFK/K/jvVxP
+ xFTqyoNXnxDxD5uv2no5Xgmf47JD7r9HbBTXH+GM2Nb6CP8TolaciAV57uQehQZzL8ma
+ PVelh440mGroBKWglPOVPfQDglym3R4/cQSyAXqEimr0sXGobQm05vmBAa/BPRuFZvTY
+ yqRP5QSGs8CCjDWMOpsm/uzQU+eSQSjBkwtOOb2+lstXeMBFLfvTFXOHtAynnj03pf36
+ j1+Q==
+X-Gm-Message-State: AJIora9Q6SvLnn/wxwGJsKm2dajrlQKwLUIdcmtKNdW9DD/k/6mHRxg5
+ bZESRELdBUA7M/2+lMEJfaYPbfohiujk9Xrp
+X-Google-Smtp-Source: AGRyM1uthElZF57fyUFL/+OiAZrcfH8RH/6cIit8YmMun/0EwOG0PbFroYO/GhXjJ2LU/4JIZrnS/w==
+X-Received: by 2002:a17:902:ec84:b0:167:6f74:ba76 with SMTP id
+ x4-20020a170902ec8400b001676f74ba76mr6121089plg.17.1655243680141; 
+ Tue, 14 Jun 2022 14:54:40 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:f355:be2d:74b7:3c7c])
  by smtp.gmail.com with ESMTPSA id
- y2-20020a17090264c200b0016641a646cbsm7668968pli.218.2022.06.14.14.54.36
+ y2-20020a17090264c200b0016641a646cbsm7668968pli.218.2022.06.14.14.54.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jun 2022 14:54:38 -0700 (PDT)
+ Tue, 14 Jun 2022 14:54:39 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 0/4] drm/dp: Introduce wait_hpd_asserted() for the DP AUX
- bus
-Date: Tue, 14 Jun 2022 14:54:14 -0700
-Message-Id: <20220614215418.910948-1-dianders@chromium.org>
+Subject: [PATCH v4 1/4] drm/dp: Add wait_hpd_asserted() callback to struct
+ drm_dp_aux
+Date: Tue, 14 Jun 2022 14:54:15 -0700
+Message-Id: <20220614145327.v4.1.Icf57bb12233a47727013c6ab69eebf803e22ebc1@changeid>
 X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
+In-Reply-To: <20220614215418.910948-1-dianders@chromium.org>
+References: <20220614215418.910948-1-dianders@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,67 +69,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Jani Nikula <jani.nikula@intel.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>, Maxime Ripard <maxime@cerno.tech>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Philip Chen <philipchen@chromium.org>,
- Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ Jani Nikula <jani.nikula@intel.com>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is the 2nd four patches from my RFC series ("drm/dp: Improvements
-for DP AUX channel") [1]. I've broken the series in two so we can make
-progress on the two halves separately.
+Sometimes it's useful for users of the DP AUX bus (like panels) to be
+able to poll HPD. Let's add a callback that allows DP AUX busses
+drivers to provide this.
 
-v2 of this series changes to add wait_hpd_asserted() instead of
-is_hpd_asserted(). This allows us to move the extra delay needed for
-ps8640 into the ps8640 driver itself.
-
-The idea for this series came up during the review process of
-Sankeerth's series trying to add eDP for Qualcomm SoCs [2].
-
-This _doesn't_ attempt to fix the Analogix driver. If this works out,
-ideally someone can post a patch up to do that.
-
-[1] https://lore.kernel.org/r/20220409023628.2104952-1-dianders@chromium.org/
-[2] https://lore.kernel.org/r/1648656179-10347-2-git-send-email-quic_sbillaka@quicinc.com/
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
 
 Changes in v4:
-- Add comment that caller powered up the panel.
 - Comments now explain that we may wait longer due to debouncing.
-- Mention in commit message debouncing vs. powering on timing.
 - Rebased to handle the fact that the stuct moved files.
-- Reorganized logic as per Dmitry's suggestion.
-
-Changes in v3:
-- Don't check "hpd_asserted" boolean when unset.
-- Handle errors from gpiod_get_value_cansleep() properly.
 
 Changes in v2:
 - Change is_hpd_asserted() to wait_hpd_asserted()
 
-Douglas Anderson (4):
-  drm/dp: Add wait_hpd_asserted() callback to struct drm_dp_aux
-  drm/panel-edp: Take advantage of wait_hpd_asserted() in struct
-    drm_dp_aux
-  drm/panel: atna33xc20: Take advantage of wait_hpd_asserted() in struct
-    drm_dp_aux
-  drm/bridge: parade-ps8640: Provide wait_hpd_asserted() in struct
-    drm_dp_aux
+ include/drm/display/drm_dp_helper.h | 30 +++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
- drivers/gpu/drm/bridge/parade-ps8640.c        | 39 +++++++++-----
- drivers/gpu/drm/panel/panel-edp.c             | 33 ++++++++----
- .../gpu/drm/panel/panel-samsung-atna33xc20.c  | 51 ++++++++++++++-----
- include/drm/display/drm_dp_helper.h           | 30 +++++++++++
- 4 files changed, 117 insertions(+), 36 deletions(-)
-
+diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+index c5f8f45511ed..db0fe9f8a612 100644
+--- a/include/drm/display/drm_dp_helper.h
++++ b/include/drm/display/drm_dp_helper.h
+@@ -389,6 +389,36 @@ struct drm_dp_aux {
+ 	ssize_t (*transfer)(struct drm_dp_aux *aux,
+ 			    struct drm_dp_aux_msg *msg);
+ 
++	/**
++	 * @wait_hpd_asserted: wait for HPD to be asserted
++	 *
++	 * This is mainly useful for eDP panels drivers to wait for an eDP
++	 * panel to finish powering on. This is an optional function.
++	 *
++	 * This function will efficiently wait for the HPD signal to be
++	 * asserted. The `wait_us` parameter that is passed in says that we
++	 * know that the HPD signal is expected to be asserted within `wait_us`
++	 * microseconds. This function could wait for longer than `wait_us` if
++	 * the logic in the DP controller has a long debouncing time. The
++	 * important thing is that if this function returns success that the
++	 * DP controller is ready to send AUX transactions.
++	 *
++	 * This function returns 0 if HPD was asserted or -ETIMEDOUT if time
++	 * expired and HPD wasn't asserted. This function should not print
++	 * timeout errors to the log.
++	 *
++	 * The semantics of this function are designed to match the
++	 * readx_poll_timeout() function. That means a `wait_us` of 0 means
++	 * to wait forever. Like readx_poll_timeout(), this function may sleep.
++	 *
++	 * NOTE: this function specifically reports the state of the HPD pin
++	 * that's associated with the DP AUX channel. This is different from
++	 * the HPD concept in much of the rest of DRM which is more about
++	 * physical presence of a display. For eDP, for instance, a display is
++	 * assumed always present even if the HPD pin is deasserted.
++	 */
++	int (*wait_hpd_asserted)(struct drm_dp_aux *aux, unsigned long wait_us);
++
+ 	/**
+ 	 * @i2c_nack_count: Counts I2C NACKs, used for DP validation.
+ 	 */
 -- 
 2.36.1.476.g0c4daa206d-goog
 
