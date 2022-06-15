@@ -2,52 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BED354C925
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 14:52:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323FA54C92B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 14:53:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2BF410E650;
-	Wed, 15 Jun 2022 12:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2785E10E653;
+	Wed, 15 Jun 2022 12:53:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6052310E63C;
- Wed, 15 Jun 2022 12:52:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655297560; x=1686833560;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=d4YTN2oJ2wEg9km7RqOmzcHYPAYIj901Sf+UmvzSgSM=;
- b=ECPB/jcMXPWjRlaW9DgxJL/CtMgboofVvdx2Xu5N8AeGlC7zP4Ym+373
- LkaIRtvYndtUBB1ezsPiwleZ862QkeHiASclv9hR5MdFZT7aVN9rTgDaO
- 54owQQJiQnykEG0WsV1nLys059zgJjWTl4GlYmRZCEu9dxsIcit6GXb9T
- oJK5lS/wtkmSZ1KP500/sljScLdB3LmDq56ZKUn0YcYR6YdgcEwC+H7Ce
- U25cEjEfltskv3ltdjnbfYlDTbPGV12ZMO7l9aQKCEoGScmRGbUmLqSWz
- WhhfqCWIzt6pDwOAOn0H8u0ng9cRYSliU/W6sgw8lbS65raCiDSRKW0nd Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="267638923"
-X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; d="scan'208";a="267638923"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2022 05:52:27 -0700
-X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; d="scan'208";a="911641796"
-Received: from nhanraha-mobl1.ger.corp.intel.com (HELO [10.213.196.47])
- ([10.213.196.47])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2022 05:52:23 -0700
-Message-ID: <fb37c48c-a7a4-2b23-e12e-7e5e194f33ce@linux.intel.com>
-Date: Wed, 15 Jun 2022 13:52:21 +0100
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3605D10E653
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 12:53:06 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id e4so13176904ljl.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 05:53:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=rZJIbtFCcqW5LZyvrtvGRTza0kOPHpDYWoVZinEr7HE=;
+ b=NrS9NRpe5o/bQ3lb903LO8dcj/qna1rKoR+6M72kCwOBfDqP12nDzar/jIizc9f0V3
+ aBW9pgDpvxUVObm8Oxr30RBfDkr3F/0MTiOuwpV2f9oCi24oSevmvHraXgxIeSebtN2L
+ 2oX+cSxSSl1S6+xEfJhHc/PNawyEzs6ZZ8DaTRH81FXrTzYQY9mJYYTyrcl6rMPvpb4r
+ 6/Pm4J/fADNJZwgH3tbG+cYkv8dx7otU3lENgl2/D3X/yFNrNdPxo7ogXduApB8F/tFI
+ hylI70/9G/vyE1jjs/Whrc/QKFhSwRYYhdl7Wo8m/IwC2hSASyc0xwIQF0y0knznX5wn
+ YTwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=rZJIbtFCcqW5LZyvrtvGRTza0kOPHpDYWoVZinEr7HE=;
+ b=exR5AsRlmNK29el9aq/QNHEZLl8HIcACAOX1JVRiAcH8WhDv904y8iEDeewBn0Xka7
+ 5YF07zbVnW1/0103smdgML/XPYu2SA2ouH+ouX+JbVQXln1HzCqhca1UO2cbJcOC+sDl
+ a+ki21bBzKbiZXDRTIIH742sySCeAJpRhClbk5WJSUywPmGGNIHN2j3PtHtwoID+IItH
+ RmzKefSFHsYqMPSu5qNJDI5O/4LCiLsc0CHtbrdvPWb70emPbzVY0JYR5BdjefUE96/w
+ 7HMWDm/mznb+xBwu6D4vg4Z2d0Hg7793sCsfRqg1iWuGmlOKag7d+f2MkHskultVPUlv
+ rvMw==
+X-Gm-Message-State: AJIora/e+28FRXjUXTMxZfqbSN9iqIp9+GGrTjpay7MGbC+/m2ak6ZJE
+ 2ehJbLKljYQbeO/NvujkgnFt5w==
+X-Google-Smtp-Source: AGRyM1s4qlj+lIrSeBVgJpZxc2lRZyIpqY/3N4nxVO3aLTpjlxU1ZGI606Bxg9SdJ9MvROUjqADQKA==
+X-Received: by 2002:a2e:934f:0:b0:24f:ea1:6232 with SMTP id
+ m15-20020a2e934f000000b0024f0ea16232mr5335649ljh.135.1655297583639; 
+ Wed, 15 Jun 2022 05:53:03 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ s14-20020a056512314e00b0047dc488aceesm1709184lfi.116.2022.06.15.05.53.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jun 2022 05:53:03 -0700 (PDT)
+Message-ID: <7282608a-314c-b8ac-e225-a7f220be81b6@linaro.org>
+Date: Wed, 15 Jun 2022 15:53:02 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v3 2/2] drm/msm: Expose client engine utilization via
- fdinfo
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20220609174213.2265938-1-robdclark@gmail.com>
- <20220609174213.2265938-2-robdclark@gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220609174213.2265938-2-robdclark@gmail.com>
+Subject: Re: [Freedreno] [PATCH v5 00/10] drm/hdcp: Pull HDCP
+ auth/exchange/check into helpers
+Content-Language: en-GB
+To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, rodrigo.vivi@intel.com
+References: <20220411204741.1074308-1-sean@poorly.run>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220411204741.1074308-1-sean@poorly.run>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,218 +76,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Chris Healy <cphealy@gmail.com>
+Cc: markyacoub@chromium.org, bjorn.andersson@linaro.org,
+ Sean Paul <seanpaul@chromium.org>, abhinavk@codeaurora.org,
+ swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 09/06/2022 18:42, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On 11/04/2022 23:47, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
 > 
-> Similar to AMD commit
-> 874442541133 ("drm/amdgpu: Add show_fdinfo() interface"), using the
-> infrastructure added in previous patches, we add basic client info
-> and GPU engine utilisation for msm.
+> Rebased set from November. Fixed a nit from Stephen in the msm patch and
+> moved hdcp registers into the trogdor dtsi file to avoid differences
+> with sc7180-based windows devices. The set is 4 patches lighter since
+> some of the changes were accepted into msm.
 > 
-> Example output:
+> I'm still waiting for Intel review of the first 7 patches. Rodrigo/Jani,
+> would you please provide your input so we can move forward with this
+> set?
 > 
-> 	# cat /proc/`pgrep glmark2`/fdinfo/6
-> 	pos:	0
-> 	flags:	02400002
-> 	mnt_id:	21
-> 	ino:	162
-> 	drm-driver:	msm
-> 	drm-client-id:	7
-> 	drm-engine-gpu:	1734371319 ns
-> 	drm-cycles-gpu:	1153645024
-> 	drm-maxfreq-gpu:	800000000 Hz
+> Thanks,
 > 
-> See also: https://patchwork.freedesktop.org/patch/468505/
+> Sean
 > 
-> v2: Add dev-maxfreq-$engine and update drm-usage-stats.rst
-> v3: spelling and compiler warning
+> Link: https://patchwork.freedesktop.org/series/94623/ #v1
+> Link: https://patchwork.freedesktop.org/series/94713/ #v2
+> Link: https://patchwork.freedesktop.org/series/94712/ #v3
+> Link: https://patchwork.freedesktop.org/series/94712/ #v4
+
+With most of the patches getting necessary acks and r-b, what would be 
+the plan to merge the series?
+
+We can take patches 1-4 (core) + 8, 10 (msm) through the msm tree, 
+leaving i915 for the next cycle. Does that sound good?
+
 > 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   Documentation/gpu/drm-usage-stats.rst | 21 +++++++++++++++++++++
->   drivers/gpu/drm/msm/msm_drv.c         | 19 ++++++++++++++++++-
->   drivers/gpu/drm/msm/msm_gpu.c         | 21 +++++++++++++++++++--
->   drivers/gpu/drm/msm/msm_gpu.h         | 19 +++++++++++++++++++
->   4 files changed, 77 insertions(+), 3 deletions(-)
+> Sean Paul (10):
+>    drm/hdcp: Add drm_hdcp_atomic_check()
+>    drm/hdcp: Avoid changing crtc state in hdcp atomic check
+>    drm/hdcp: Update property value on content type and user changes
+>    drm/hdcp: Expand HDCP helper library for enable/disable/check
+>    drm/i915/hdcp: Consolidate HDCP setup/state cache
+>    drm/i915/hdcp: Retain hdcp_capable return codes
+>    drm/i915/hdcp: Use HDCP helpers for i915
+>    dt-bindings: msm/dp: Add bindings for HDCP registers
+>    arm64: dts: qcom: sc7180: Add support for HDCP in dp-controller
+>    drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
 > 
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index 6c9f166a8d6f..92c5117368d7 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -105,6 +105,27 @@ object belong to this client, in the respective memory region.
->   Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
->   indicating kibi- or mebi-bytes.
->   
-> +- drm-cycles-<str> <uint>
-> +
-> +Engine identifier string must be the same as the one specified in the
-> +drm-engine-<str> tag and shall contain the number of busy cycles for the given
-> +engine.
-> +
-> +Values are not required to be constantly monotonic if it makes the driver
-> +implementation easier, but are required to catch up with the previously reported
-> +larger value within a reasonable period. Upon observing a value lower than what
-> +was previously read, userspace is expected to stay with that larger previous
-> +value until a monotonic update is seen.
-> +
-> +- drm-maxfreq-<str> <uint> [Hz|MHz|KHz]
+>   .../bindings/display/msm/dp-controller.yaml   |    7 +-
+>   arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |    8 +
+>   arch/arm64/boot/dts/qcom/sc7180.dtsi          |    6 +-
+>   drivers/gpu/drm/drm_hdcp.c                    | 1197 ++++++++++++++++-
+>   drivers/gpu/drm/i915/display/intel_atomic.c   |    7 +-
+>   drivers/gpu/drm/i915/display/intel_ddi.c      |   29 +-
+>   .../drm/i915/display/intel_display_debugfs.c  |   11 +-
+>   .../drm/i915/display/intel_display_types.h    |   58 +-
+>   drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |  345 ++---
+>   drivers/gpu/drm/i915/display/intel_dp_mst.c   |   17 +-
+>   drivers/gpu/drm/i915/display/intel_hdcp.c     | 1011 +++-----------
+>   drivers/gpu/drm/i915/display/intel_hdcp.h     |   36 +-
+>   drivers/gpu/drm/i915/display/intel_hdmi.c     |  256 ++--
+>   drivers/gpu/drm/msm/Makefile                  |    1 +
+>   drivers/gpu/drm/msm/dp/dp_debug.c             |   46 +-
+>   drivers/gpu/drm/msm/dp/dp_debug.h             |    6 +-
+>   drivers/gpu/drm/msm/dp/dp_display.c           |   46 +-
+>   drivers/gpu/drm/msm/dp/dp_display.h           |    5 +
+>   drivers/gpu/drm/msm/dp/dp_drm.c               |   68 +-
+>   drivers/gpu/drm/msm/dp/dp_drm.h               |    5 +
+>   drivers/gpu/drm/msm/dp/dp_hdcp.c              |  453 +++++++
+>   drivers/gpu/drm/msm/dp/dp_hdcp.h              |   27 +
+>   drivers/gpu/drm/msm/dp/dp_parser.c            |   20 +-
+>   drivers/gpu/drm/msm/dp/dp_parser.h            |    4 +
+>   drivers/gpu/drm/msm/dp/dp_reg.h               |   32 +-
+>   drivers/gpu/drm/msm/msm_atomic.c              |   15 +
+>   include/drm/drm_hdcp.h                        |  194 +++
+>   27 files changed, 2582 insertions(+), 1328 deletions(-)
+>   create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.c
+>   create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.h
+> 
 
-Kilo should be lowercase, I *think*. Simplify and only document Hz?
 
-> +
-> +Engine identifier string must be the same as the one specified in the
-> +drm-engine-<str> tag and shall contain the maximum frequency for the given
-> +engine.  Taken together with drm-cycles-<str>, this can be used to calculate
-> +percentage utilization of the engine, whereas drm-engine-<str> only reflects
-> +time active without considering what frequency the engine is operating as a
-> +percentage of it's maximum frequency.
-
-Slipped my mind to reply to v3..
-
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
-Regards,
-
-Tvrtko
-
-> +
->   ===============================
->   Driver specific implementations
->   ===============================
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 14ab9a627d8b..57a66093e671 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -948,7 +948,24 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
->   	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
->   };
->   
-> -DEFINE_DRM_GEM_FOPS(fops);
-> +static void msm_fop_show_fdinfo(struct seq_file *m, struct file *f)
-> +{
-> +	struct drm_file *file = f->private_data;
-> +	struct drm_device *dev = file->minor->dev;
-> +	struct msm_drm_private *priv = dev->dev_private;
-> +	struct drm_printer p = drm_seq_file_printer(m);
-> +
-> +	if (!priv->gpu)
-> +		return;
-> +
-> +	msm_gpu_show_fdinfo(priv->gpu, file->driver_priv, &p);
-> +}
-> +
-> +static const struct file_operations fops = {
-> +	.owner = THIS_MODULE,
-> +	DRM_GEM_FOPS,
-> +	.show_fdinfo = msm_fop_show_fdinfo,
-> +};
->   
->   static const struct drm_driver msm_driver = {
->   	.driver_features    = DRIVER_GEM |
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-> index 244511f85044..f99292eaf529 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> @@ -4,6 +4,8 @@
->    * Author: Rob Clark <robdclark@gmail.com>
->    */
->   
-> +#include "drm/drm_drv.h"
-> +
->   #include "msm_gpu.h"
->   #include "msm_gem.h"
->   #include "msm_mmu.h"
-> @@ -146,6 +148,16 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
->   	return 0;
->   }
->   
-> +void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
-> +			 struct drm_printer *p)
-> +{
-> +	drm_printf(p, "drm-driver:\t%s\n", gpu->dev->driver->name);
-> +	drm_printf(p, "drm-client-id:\t%u\n", ctx->seqno);
-> +	drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
-> +	drm_printf(p, "drm-cycles-gpu:\t%llu\n", ctx->cycles);
-> +	drm_printf(p, "drm-maxfreq-gpu:\t%u Hz\n", gpu->fast_rate);
-> +}
-> +
->   int msm_gpu_hw_init(struct msm_gpu *gpu)
->   {
->   	int ret;
-> @@ -652,7 +664,7 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
->   {
->   	int index = submit->seqno % MSM_GPU_SUBMIT_STATS_COUNT;
->   	volatile struct msm_gpu_submit_stats *stats;
-> -	u64 elapsed, clock = 0;
-> +	u64 elapsed, clock = 0, cycles;
->   	unsigned long flags;
->   
->   	stats = &ring->memptrs->stats[index];
-> @@ -660,12 +672,17 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
->   	elapsed = (stats->alwayson_end - stats->alwayson_start) * 10000;
->   	do_div(elapsed, 192);
->   
-> +	cycles = stats->cpcycles_end - stats->cpcycles_start;
-> +
->   	/* Calculate the clock frequency from the number of CP cycles */
->   	if (elapsed) {
-> -		clock = (stats->cpcycles_end - stats->cpcycles_start) * 1000;
-> +		clock = cycles * 1000;
->   		do_div(clock, elapsed);
->   	}
->   
-> +	submit->queue->ctx->elapsed_ns += elapsed;
-> +	submit->queue->ctx->cycles     += cycles;
-> +
->   	trace_msm_gpu_submit_retired(submit, elapsed, clock,
->   		stats->alwayson_start, stats->alwayson_end);
->   
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-> index 6def00883046..4911943ba53b 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.h
-> +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> @@ -361,6 +361,22 @@ struct msm_file_private {
->   	/** cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE */
->   	char *cmdline;
->   
-> +	/**
-> +	 * elapsed:
-> +	 *
-> +	 * The total (cumulative) elapsed time GPU was busy with rendering
-> +	 * from this context in ns.
-> +	 */
-> +	uint64_t elapsed_ns;
-> +
-> +	/**
-> +	 * cycles:
-> +	 *
-> +	 * The total (cumulative) GPU cycles elapsed attributed to this
-> +	 * context.
-> +	 */
-> +	uint64_t cycles;
-> +
->   	/**
->   	 * entities:
->   	 *
-> @@ -544,6 +560,9 @@ static inline void gpu_write64(struct msm_gpu *gpu, u32 lo, u32 hi, u64 val)
->   int msm_gpu_pm_suspend(struct msm_gpu *gpu);
->   int msm_gpu_pm_resume(struct msm_gpu *gpu);
->   
-> +void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
-> +			 struct drm_printer *p);
-> +
->   int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx);
->   struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
->   		u32 id);
+-- 
+With best wishes
+Dmitry
