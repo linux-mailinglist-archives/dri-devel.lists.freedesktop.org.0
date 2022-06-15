@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02B5D54CDD7
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 18:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8072A54CDDF
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 18:11:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBE74112521;
-	Wed, 15 Jun 2022 16:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A3591125B7;
+	Wed, 15 Jun 2022 16:11:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 12BF8112521
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 16:09:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8F5DC1125BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 16:11:14 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7841153B;
- Wed, 15 Jun 2022 09:09:19 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 285C6153B;
+ Wed, 15 Jun 2022 09:11:14 -0700 (PDT)
 Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
  [10.1.196.40])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DAB243F7F5;
- Wed, 15 Jun 2022 09:09:18 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5CC243F7F5;
+ Wed, 15 Jun 2022 09:11:13 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: liviu.dudau@arm.com
-Subject: [PATCH v2] drm/arm/hdlcd: Take over EFI framebuffer properly
-Date: Wed, 15 Jun 2022 17:09:15 +0100
-Message-Id: <31acd57f4aa8a4d02877026fa3a8c8d035e15a0d.1655309004.git.robin.murphy@arm.com>
+Subject: [PATCH] drm/arm/hdlcd: Simplify IRQ install/uninstall
+Date: Wed, 15 Jun 2022 17:11:09 +0100
+Message-Id: <65cf7818b23c1a8629dc851f1d058ecb8a14849e.1655309413.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.36.1.dirty
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -39,61 +39,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, javierm@redhat.com
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Arm Juno board EDK2 port has provided an EFI GOP display via HDLCD0
-for some time now, which works nicely as an early framebuffer. However,
-once the HDLCD driver probes and takes over the hardware, it should
-take over the logical framebuffer as well, otherwise the now-defunct GOP
-device hangs about and virtual console output inevitably disappears into
-the wrong place most of the time.
+Since we no longer need to conform to the structure of the various DRM
+IRQ callbacks, we can streamline the code by consolidating the piecemeal
+functions and passing around our private data structure directly. We're
+also a platform device so should never see IRQ_NOTCONNECTED either.
 
-We'll do this after binding the HDMI encoder, since that's the most
-likely thing to fail, and the EFI console is still better than nothing
-when that happens. However, the two HDLCD controllers on Juno are
-independent, and many users will still be using older firmware without
-any display support, so we'll only bother if we find that the HDLCD
-we're probing is already enabled. And if it is, then we'll also stop it,
-since otherwise the display can end up shifted if it's still scanning
-out while the rest of the registers are subsequently reconfigured.
+Furthermore we can also get rid of all the unnecesary read-modify-write
+operations, since on install we know we cleared the whole interrupt mask
+before enabling the debug IRQs, and thus on uninstall we're always
+clearing everything as well.
 
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
-
-Since I ended up adding (relatively) a lot here, I didn't want to
-second-guess Javier's opinion so left off the R-b tag from v1.
-
- drivers/gpu/drm/arm/hdlcd_drv.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/arm/hdlcd_drv.c | 62 +++++++++------------------------
+ 1 file changed, 16 insertions(+), 46 deletions(-)
 
 diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-index e89ae0ec60eb..1f1171f2f16a 100644
+index 1f1171f2f16a..7d6aa9b3b577 100644
 --- a/drivers/gpu/drm/arm/hdlcd_drv.c
 +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-@@ -21,6 +21,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
+@@ -41,8 +41,7 @@
  
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_debugfs.h>
-@@ -314,6 +315,12 @@ static int hdlcd_drm_bind(struct device *dev)
- 		goto err_vblank;
- 	}
+ static irqreturn_t hdlcd_irq(int irq, void *arg)
+ {
+-	struct drm_device *drm = arg;
+-	struct hdlcd_drm_private *hdlcd = drm->dev_private;
++	struct hdlcd_drm_private *hdlcd = arg;
+ 	unsigned long irq_status;
  
-+	/* If EFI left us running, take over from efifb/sysfb */
-+	if (hdlcd_read(hdlcd, HDLCD_REG_COMMAND)) {
-+		hdlcd_write(hdlcd, HDLCD_REG_COMMAND, 0);
-+		drm_aperture_remove_framebuffers(false, &hdlcd_driver);
-+	}
-+
- 	drm_mode_config_reset(drm);
- 	drm_kms_helper_poll_init(drm);
+ 	irq_status = hdlcd_read(hdlcd, HDLCD_REG_INT_STATUS);
+@@ -70,61 +69,32 @@ static irqreturn_t hdlcd_irq(int irq, void *arg)
+ 	return IRQ_HANDLED;
+ }
  
+-static void hdlcd_irq_preinstall(struct drm_device *drm)
+-{
+-	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+-	/* Ensure interrupts are disabled */
+-	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, 0);
+-	hdlcd_write(hdlcd, HDLCD_REG_INT_CLEAR, ~0);
+-}
+-
+-static void hdlcd_irq_postinstall(struct drm_device *drm)
+-{
+-#ifdef CONFIG_DEBUG_FS
+-	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+-	unsigned long irq_mask = hdlcd_read(hdlcd, HDLCD_REG_INT_MASK);
+-
+-	/* enable debug interrupts */
+-	irq_mask |= HDLCD_DEBUG_INT_MASK;
+-
+-	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, irq_mask);
+-#endif
+-}
+-
+-static int hdlcd_irq_install(struct drm_device *drm, int irq)
++static int hdlcd_irq_install(struct hdlcd_drm_private *hdlcd)
+ {
+ 	int ret;
+ 
+-	if (irq == IRQ_NOTCONNECTED)
+-		return -ENOTCONN;
++	/* Ensure interrupts are disabled */
++	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, 0);
++	hdlcd_write(hdlcd, HDLCD_REG_INT_CLEAR, ~0);
+ 
+-	hdlcd_irq_preinstall(drm);
+-
+-	ret = request_irq(irq, hdlcd_irq, 0, drm->driver->name, drm);
++	ret = request_irq(hdlcd->irq, hdlcd_irq, 0, "hdlcd", hdlcd);
+ 	if (ret)
+ 		return ret;
+ 
+-	hdlcd_irq_postinstall(drm);
++#ifdef CONFIG_DEBUG_FS
++	/* enable debug interrupts */
++	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, HDLCD_DEBUG_INT_MASK);
++#endif
+ 
+ 	return 0;
+ }
+ 
+-static void hdlcd_irq_uninstall(struct drm_device *drm)
++static void hdlcd_irq_uninstall(struct hdlcd_drm_private *hdlcd)
+ {
+-	struct hdlcd_drm_private *hdlcd = drm->dev_private;
+ 	/* disable all the interrupts that we might have enabled */
+-	unsigned long irq_mask = hdlcd_read(hdlcd, HDLCD_REG_INT_MASK);
++	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, 0);
+ 
+-#ifdef CONFIG_DEBUG_FS
+-	/* disable debug interrupts */
+-	irq_mask &= ~HDLCD_DEBUG_INT_MASK;
+-#endif
+-
+-	/* disable vsync interrupts */
+-	irq_mask &= ~HDLCD_INTERRUPT_VSYNC;
+-	hdlcd_write(hdlcd, HDLCD_REG_INT_MASK, irq_mask);
+-
+-	free_irq(hdlcd->irq, drm);
++	free_irq(hdlcd->irq, hdlcd);
+ }
+ 
+ static int hdlcd_load(struct drm_device *drm, unsigned long flags)
+@@ -184,7 +154,7 @@ static int hdlcd_load(struct drm_device *drm, unsigned long flags)
+ 		goto irq_fail;
+ 	hdlcd->irq = ret;
+ 
+-	ret = hdlcd_irq_install(drm, hdlcd->irq);
++	ret = hdlcd_irq_install(hdlcd);
+ 	if (ret < 0) {
+ 		DRM_ERROR("failed to install IRQ handler\n");
+ 		goto irq_fail;
+@@ -342,7 +312,7 @@ static int hdlcd_drm_bind(struct device *dev)
+ err_unload:
+ 	of_node_put(hdlcd->crtc.port);
+ 	hdlcd->crtc.port = NULL;
+-	hdlcd_irq_uninstall(drm);
++	hdlcd_irq_uninstall(hdlcd);
+ 	of_reserved_mem_device_release(drm->dev);
+ err_free:
+ 	drm_mode_config_cleanup(drm);
+@@ -364,7 +334,7 @@ static void hdlcd_drm_unbind(struct device *dev)
+ 	hdlcd->crtc.port = NULL;
+ 	pm_runtime_get_sync(dev);
+ 	drm_atomic_helper_shutdown(drm);
+-	hdlcd_irq_uninstall(drm);
++	hdlcd_irq_uninstall(hdlcd);
+ 	pm_runtime_put(dev);
+ 	if (pm_runtime_enabled(dev))
+ 		pm_runtime_disable(dev);
 -- 
 2.36.1.dirty
 
