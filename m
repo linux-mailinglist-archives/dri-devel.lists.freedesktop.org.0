@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF80854CEDD
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 18:40:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B1454CF1A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 18:56:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4261D10E991;
-	Wed, 15 Jun 2022 16:40:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E3C510E98B;
+	Wed, 15 Jun 2022 16:56:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D304C10E991;
- Wed, 15 Jun 2022 16:40:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1655311205; x=1686847205;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=zBHIP+U8nqBIDpEnV22+DW2gqZvJI6TkmqSaO/48VmM=;
- b=KR/VEA/hVZrOAuWhcYHpFyx0ZHjt2/ZfHDB9MIui2qz8P3gcCR4Mgl3l
- cnSvKSl+qoBdjAEsDloGFK/KECYlZpVEQ08bOiRVWZ7LC7e9U+PAXbUyo
- e2D+lb0bMFdOTdADCdkgX8lpgHL7Alw61ia0nHYrOa7WtnFVcV/d1Z+/A 8=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Jun 2022 09:40:05 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2022 09:40:04 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 15 Jun 2022 09:40:04 -0700
-Received: from [10.38.242.138] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 15 Jun
- 2022 09:40:02 -0700
-Message-ID: <5163b520-e859-d813-46ae-91260b6230e5@quicinc.com>
-Date: Wed, 15 Jun 2022 09:40:00 -0700
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
+ [IPv6:2001:4860:4864:20::34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D461310E927;
+ Wed, 15 Jun 2022 16:56:15 +0000 (UTC)
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-10113b4c2b5so15596521fac.6; 
+ Wed, 15 Jun 2022 09:56:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ocMgTzRkWH3eBYp2u/PAG0Fm6G35s0xKn8yvsRpMe88=;
+ b=f9YhM52ySsPsP9RkggdjlzhlY3Kl0Zt9sCMg1sPl2ipMDfCj7Apt1+HeR26+sE7a+g
+ Pd+vcOvk+nLPs7LcTOv6kyfhOmc2h1rBo8n3L9Z8TPxX3XZiVDICAlkPK5cfU77z3TRN
+ oBepdA0T/Oq2wz6XGLBbg4DhivuOWkaSv6Y1KFPebi+KVrU1RyJu35M8yZ22SPCMIGOP
+ tETIlAvLk5XgExpOhZBCvGy/CUM6DrtZczDyEVArLA8tDgf8IHi2mnT5XeN1gccR+lxY
+ FbS14v3u5iuj2I1OzaMjRWtgbgPXwaN+S0mfG6cjh7tv5fNwI0QTYOqkxj3uScPVhjpD
+ rqeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ocMgTzRkWH3eBYp2u/PAG0Fm6G35s0xKn8yvsRpMe88=;
+ b=hiIl2dfX0BnqxMv8y4dDirq57HIlfuRmNy4rIqx71kk4EDZpIX4krSaGZsnQa9EKuS
+ dxe8REzsq2ObUfjspqYlABfkAMICe2znIgS5yTJ55dex7tnlJsS6+CfmAk62XAcKkZr5
+ DGZeONpbJupzlU5kefgaS9F7teKbt4xEtdWJtrl1rBSFDZlchibrbMna6Dner02uCNZF
+ KaZDCWH0Dg+WqrDO1/2N+QlU2Z9U4THnCRMDMXZX1sJF5hc0zsZR1CaMSDrb3Wsbebxk
+ DE+yU2oRd6V6ISMvcOAL6XfmXjrOpm3+2Li0c2MQhtNw9fxf3bFsyLrWlGNey5db/yqB
+ KiZw==
+X-Gm-Message-State: AJIora+VUyX+/PVaKUr1W4RxXDuIq8iUli+dqVwPY8MMq8Xky7ahkEYW
+ kww5Z40nQMQBs/FNs68SOySps4BB8bWmkqOpbQA=
+X-Google-Smtp-Source: AGRyM1t2ME88iAIQzsGcfH0HXLVexL004pXS5sohWl/TRzf7/ndK7Zv2s3VsmqHQflAW2BGdKo6sVu6zokuo770HPuc=
+X-Received: by 2002:a05:6870:538b:b0:101:17f2:d6e with SMTP id
+ h11-20020a056870538b00b0010117f20d6emr5908958oan.200.1655312174819; Wed, 15
+ Jun 2022 09:56:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 1/3] drm/msm/dpu: move intf and wb assignment to
- dpu_encoder_setup_display()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <freedreno@lists.freedesktop.org>
-References: <1655235140-16424-1-git-send-email-quic_abhinavk@quicinc.com>
- <6ce50e83-3fbf-d97f-a4f2-0f5db389349c@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <6ce50e83-3fbf-d97f-a4f2-0f5db389349c@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220615122458.20145-1-hongao@uniontech.com>
+In-Reply-To: <20220615122458.20145-1-hongao@uniontech.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 15 Jun 2022 12:56:03 -0400
+Message-ID: <CADnq5_P-A2UeCu9oRpXYRTXdeeZNEKPst_gnfZf7g+QWrZWBdQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: Replace drm_detect_hdmi_monitor() with
+ drm_display_info.is_hdmi
+To: hongao <hongao@uniontech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,102 +64,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com
+Cc: inhui.Pan@amd.com, Dave Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jun 15, 2022 at 8:33 AM hongao <hongao@uniontech.com> wrote:
+>
+> Replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi for more
+> efficiency
+>
+> Tested on "Oland [Radeon HD 8570 / R7 240/340 OEM]" & "Caicos [R5 230]"
 
+Can you verify that drm_display_info.is_hdmi has been populated when
+all of these functions are called?
 
-On 6/15/2022 5:36 AM, Dmitry Baryshkov wrote:
-> On 14/06/2022 22:32, Abhinav Kumar wrote:
->> intf and wb resources are not dependent on the rm global
->> state so need not be allocated during dpu_encoder_virt_atomic_mode_set().
->>
->> Move the allocation of intf and wb resources to 
->> dpu_encoder_setup_display()
->> so that we can utilize the hw caps even during atomic_check() phase.
->>
->> Since dpu_encoder_setup_display() already has protection against
->> setting invalid intf_idx and wb_idx, these checks can now
->> be dropped as well.
->>
->> Fixes: e02a559a720f ("make changes to dpu_encoder to support virtual 
->> encoder")
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 25 
->> +++++++------------------
->>   1 file changed, 7 insertions(+), 18 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> index 3a462e327e0e..e991d4ba8a40 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> @@ -1048,24 +1048,6 @@ static void 
->> dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->>           phys->hw_pp = dpu_enc->hw_pp[i];
->>           phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
->> -        if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
->> -            phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, 
->> phys->intf_idx);
->> -
->> -        if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
->> -            phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
->> -
->> -        if (!phys->hw_intf && !phys->hw_wb) {
->> -            DPU_ERROR_ENC(dpu_enc,
->> -                      "no intf or wb block assigned at idx: %d\n", i);
->> -            return;
->> -        }
->> -
->> -        if (phys->hw_intf && phys->hw_wb) {
->> -            DPU_ERROR_ENC(dpu_enc,
->> -                    "invalid phys both intf and wb block at idx: 
->> %d\n", i);
->> -            return;
->> -        }
-> 
-> Please retain these checks in dpu_encoder_setup_display().
-> It checks that we really have got the intf or wb. For example one might 
-> have specified the INTF that leads to INTF_NONE interface. Or 
-> non-existing/not supported WB.
+Alex
 
-Right, so the reason I omitted that was dpu_encoder_setup_display() 
-already has these checks:
-
-https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L2273
-
-Please check lines 2273-2284.
-
-Only if all those checks succeeded we call 
-dpu_encoder_virt_add_phys_encs which increments num_phys_encs.
-
-Thats why I dropped those.
-
-Let me know if you have more questions.
-
-> 
->> -
->>           phys->cached_mode = crtc_state->adjusted_mode;
->>           if (phys->ops.atomic_mode_set)
->>               phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
->> @@ -2293,7 +2275,14 @@ static int dpu_encoder_setup_display(struct 
->> dpu_encoder_virt *dpu_enc,
->>           struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
->>           atomic_set(&phys->vsync_cnt, 0);
->>           atomic_set(&phys->underrun_cnt, 0);
->> +
->> +        if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
->> +            phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, 
->> phys->intf_idx);
->> +
->> +        if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
->> +            phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
->>       }
->> +
->>       mutex_unlock(&dpu_enc->enc_lock);
->>       return ret;
-> 
-> 
+>
+> Signed-off-by: hongao <hongao@uniontech.com>
+> ---
+>  drivers/gpu/drm/radeon/atombios_encoders.c |  6 +++---
+>  drivers/gpu/drm/radeon/radeon_connectors.c | 12 ++++++------
+>  drivers/gpu/drm/radeon/radeon_display.c    |  2 +-
+>  drivers/gpu/drm/radeon/radeon_encoders.c   |  4 ++--
+>  4 files changed, 12 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/atombios_encoders.c b/drivers/gpu/drm/radeon/atombios_encoders.c
+> index 70bd84b7ef2b..393d471ba396 100644
+> --- a/drivers/gpu/drm/radeon/atombios_encoders.c
+> +++ b/drivers/gpu/drm/radeon/atombios_encoders.c
+> @@ -714,7 +714,7 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
+>                         if (radeon_connector->use_digital &&
+>                             (radeon_connector->audio == RADEON_AUDIO_ENABLE))
+>                                 return ATOM_ENCODER_MODE_HDMI;
+> -                       else if (drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
+> +                       else if (connector->display_info.is_hdmi &&
+>                                  (radeon_connector->audio == RADEON_AUDIO_AUTO))
+>                                 return ATOM_ENCODER_MODE_HDMI;
+>                         else if (radeon_connector->use_digital)
+> @@ -733,7 +733,7 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
+>                 if (radeon_audio != 0) {
+>                         if (radeon_connector->audio == RADEON_AUDIO_ENABLE)
+>                                 return ATOM_ENCODER_MODE_HDMI;
+> -                       else if (drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
+> +                       else if (connector->display_info.is_hdmi &&
+>                                  (radeon_connector->audio == RADEON_AUDIO_AUTO))
+>                                 return ATOM_ENCODER_MODE_HDMI;
+>                         else
+> @@ -757,7 +757,7 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
+>                 } else if (radeon_audio != 0) {
+>                         if (radeon_connector->audio == RADEON_AUDIO_ENABLE)
+>                                 return ATOM_ENCODER_MODE_HDMI;
+> -                       else if (drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
+> +                       else if (connector->display_info.is_hdmi &&
+>                                  (radeon_connector->audio == RADEON_AUDIO_AUTO))
+>                                 return ATOM_ENCODER_MODE_HDMI;
+>                         else
+> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
+> index 58db79921cd3..2fbec7bdd56b 100644
+> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
+> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+> @@ -130,7 +130,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
+>         case DRM_MODE_CONNECTOR_DVII:
+>         case DRM_MODE_CONNECTOR_HDMIB:
+>                 if (radeon_connector->use_digital) {
+> -                       if (drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
+> +                       if (connector->display_info.is_hdmi) {
+>                                 if (connector->display_info.bpc)
+>                                         bpc = connector->display_info.bpc;
+>                         }
+> @@ -138,7 +138,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
+>                 break;
+>         case DRM_MODE_CONNECTOR_DVID:
+>         case DRM_MODE_CONNECTOR_HDMIA:
+> -               if (drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
+> +               if (connector->display_info.is_hdmi) {
+>                         if (connector->display_info.bpc)
+>                                 bpc = connector->display_info.bpc;
+>                 }
+> @@ -147,7 +147,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
+>                 dig_connector = radeon_connector->con_priv;
+>                 if ((dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_DISPLAYPORT) ||
+>                     (dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_eDP) ||
+> -                   drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
+> +                   connector->display_info.is_hdmi) {
+>                         if (connector->display_info.bpc)
+>                                 bpc = connector->display_info.bpc;
+>                 }
+> @@ -171,7 +171,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
+>                 break;
+>         }
+>
+> -       if (drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
+> +       if (connector->display_info.is_hdmi) {
+>                 /* hdmi deep color only implemented on DCE4+ */
+>                 if ((bpc > 8) && !ASIC_IS_DCE4(rdev)) {
+>                         DRM_DEBUG("%s: HDMI deep color %d bpc unsupported. Using 8 bpc.\n",
+> @@ -1500,7 +1500,7 @@ static enum drm_mode_status radeon_dvi_mode_valid(struct drm_connector *connecto
+>                     (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_D) ||
+>                     (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_B))
+>                         return MODE_OK;
+> -               else if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
+> +               else if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
+>                         /* HDMI 1.3+ supports max clock of 340 Mhz */
+>                         if (mode->clock > 340000)
+>                                 return MODE_CLOCK_HIGH;
+> @@ -1808,7 +1808,7 @@ static enum drm_mode_status radeon_dp_mode_valid(struct drm_connector *connector
+>                     (radeon_dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_eDP)) {
+>                         return radeon_dp_mode_valid_helper(connector, mode);
+>                 } else {
+> -                       if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
+> +                       if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
+>                                 /* HDMI 1.3+ supports max clock of 340 Mhz */
+>                                 if (mode->clock > 340000)
+>                                         return MODE_CLOCK_HIGH;
+> diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
+> index 57ff2b723c87..c7a1e3af55cf 100644
+> --- a/drivers/gpu/drm/radeon/radeon_display.c
+> +++ b/drivers/gpu/drm/radeon/radeon_display.c
+> @@ -1728,7 +1728,7 @@ bool radeon_crtc_scaling_mode_fixup(struct drm_crtc *crtc,
+>                             (!(mode->flags & DRM_MODE_FLAG_INTERLACE)) &&
+>                             ((radeon_encoder->underscan_type == UNDERSCAN_ON) ||
+>                              ((radeon_encoder->underscan_type == UNDERSCAN_AUTO) &&
+> -                             drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
+> +                             connector->display_info.is_hdmi &&
+>                               is_hdtv_mode(mode)))) {
+>                                 if (radeon_encoder->underscan_hborder != 0)
+>                                         radeon_crtc->h_border = radeon_encoder->underscan_hborder;
+> diff --git a/drivers/gpu/drm/radeon/radeon_encoders.c b/drivers/gpu/drm/radeon/radeon_encoders.c
+> index 46549d5179ee..b999464f213a 100644
+> --- a/drivers/gpu/drm/radeon/radeon_encoders.c
+> +++ b/drivers/gpu/drm/radeon/radeon_encoders.c
+> @@ -383,7 +383,7 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
+>         case DRM_MODE_CONNECTOR_HDMIB:
+>                 if (radeon_connector->use_digital) {
+>                         /* HDMI 1.3 supports up to 340 Mhz over single link */
+> -                       if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
+> +                       if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
+>                                 if (pixel_clock > 340000)
+>                                         return true;
+>                                 else
+> @@ -408,7 +408,7 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
+>                         return false;
+>                 else {
+>                         /* HDMI 1.3 supports up to 340 Mhz over single link */
+> -                       if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
+> +                       if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
+>                                 if (pixel_clock > 340000)
+>                                         return true;
+>                                 else
+> --
+> 2.20.1
+>
+>
+>
+>
