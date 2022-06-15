@@ -2,43 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D2054D4E6
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 00:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D80054D531
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 01:23:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD30810F3FD;
-	Wed, 15 Jun 2022 22:59:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEBF1113988;
+	Wed, 15 Jun 2022 23:23:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C11910F3FD
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 22:59:24 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LNgjL0Vbhz4xXj;
- Thu, 16 Jun 2022 08:59:18 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1655333959;
- bh=d5d/IXe2LkYdx5k7DNB4uYu/qhr7MqhAXwMIkq0IZr8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=S50womizPOE/MYo07uLMQcWFqsctzgwvZiWerf0osMSG5zjbC8x0h2xehY+IjdAug
- Q8ZWTFPVx7O39mZzBj+pw1UNC7GFA6lTwdb8tao4+F984YmtCrcN1vX2/OU5yccXRA
- uFE1rKlG9y0acJ20YeAbKiDea2xVfYHRgL0BL1Z+TvearBUCWZcVRC8GPng+dmntd7
- 1YfbKQmaxoCeOtv9udflSSoxCnEiFLyXXUh0/0+1fgY1ryzYFDvArpTDOhQLNHLwY/
- jNQZeGjrdhaD7Wk+xsXx8Xjq/HVwtGM63jBGHbzNCBZkhQVHNSnOAwJsyKqs4RQdR8
- 99V/4B6nRk2cg==
-Date: Thu, 16 Jun 2022 08:59:16 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: Please add another drm/msm tree to the linux-next
-Message-ID: <20220616085916.113e477b@canb.auug.org.au>
-In-Reply-To: <5dbc0159-cb33-db5b-20cc-05f3027af15e@linaro.org>
-References: <5dbc0159-cb33-db5b-20cc-05f3027af15e@linaro.org>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0AEF113986;
+ Wed, 15 Jun 2022 23:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1655335408; x=1686871408;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=lo+kFvHqy7wgcPn0SK1uyB5K0WL44i1pTzDBNOW9nuY=;
+ b=tX6S4FLSCWmaHaAkXpI4DODdHWK1p5DLu8fcaqRmswg9SRrjlVVYEGyL
+ 9eo5qRSQKmu0Qsh0CizvU7oxpu9ZTYGWwT4sQNucCLFbTTTjBqLkfFCV3
+ flLNuAaqr4rS5/qtiiQPHKTji8OVMsw5tZ5wpMHzoXI38rWBONdyTC42x I=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 15 Jun 2022 16:23:27 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2022 16:23:26 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 15 Jun 2022 16:23:26 -0700
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 15 Jun 2022 16:23:25 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH] drm/msm/dpu: set preferred mode for writeback connector
+Date: Wed, 15 Jun 2022 16:23:15 -0700
+Message-ID: <1655335395-16159-1-git-send-email-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/0Rts+dJPHVuFp7yBrsgCJ62";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,73 +57,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-next@vger.kernel.org, freedreno <freedreno@lists.freedesktop.org>,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>
+Cc: markyacoub@chromium.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/0Rts+dJPHVuFp7yBrsgCJ62
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+After [1] was merged to IGT, we use either the first supported
+mode in the list OR the preferred mode to determine the primary
+plane to use for the sub-test due to the IGT API [2].
 
-Hi Dmitry,
+Since writeback does not set any preferred mode, this was
+selecting 4k as that was the first entry in the list.
 
-On Wed, 15 Jun 2022 17:19:42 +0300 Dmitry Baryshkov <dmitry.baryshkov@linar=
-o.org> wrote:
->
-> I would appreciate if you could add
->=20
-> https://gitlab.freedesktop.org/lumag/msm.git msm-next-lumag
->=20
-> to the linux-next tree.
->=20
-> This tree is a part of drm/msm maintenance structure. As a co-maintainer =
-I collect and test display patches, while Rob concenctrates on GPU part of =
-the driver. Later during the release cycle these patchesare pulled by Rob C=
-lark directly into msm-next.
->=20
-> During last cycle Rob suggested adding this tree to the linux-next effort=
-, so that the patches receive better integration testing during the Linux d=
-evelopment cycle.
+We use maxlinewidth to add the list of supported modes for
+the writeback connector which is the right thing to do, however
+since we do not have dual-SSPP support yet for DPU, this fails
+the bandwidth check in dpu_core_perf_crtc_check().
 
-Added from today.
+Till we have dual-SSPP support, workaround this mismatch between
+the list of supported modes and maxlinewidth limited modes by
+marking 640x480 as the preferred mode for DPU writeback because
+kms_writeback tests 640x480 mode only [3].
 
-Thanks for adding your subsystem tree as a participant of linux-next.  As
-you may know, this is not a judgement of your code.  The purpose of
-linux-next is for integration testing and to lower the impact of
-conflicts between subsystems in the next merge window.=20
+[1]: https://patchwork.freedesktop.org/patch/486441/
+[2]: https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/lib/igt_kms.c#L1562
+[3]: https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/master/tests/kms_writeback.c#L68
 
-You will need to ensure that the patches/commits in your tree/series have
-been:
-     * submitted under GPL v2 (or later) and include the Contributor's
-        Signed-off-by,
-     * posted to the relevant mailing list,
-     * reviewed by you (or another maintainer of your subsystem tree),
-     * successfully unit tested, and=20
-     * destined for the current or next Linux merge window.
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Basically, this should be just what you would send to Linus (or ask him
-to fetch).  It is allowed to be rebased if you deem it necessary.
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+index 399115e4e217..104cc59d6466 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+@@ -10,9 +10,14 @@ static int dpu_wb_conn_get_modes(struct drm_connector *connector)
+ 	struct drm_device *dev = connector->dev;
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
++	int count;
+ 
+-	return drm_add_modes_noedid(connector, dpu_kms->catalog->caps->max_linewidth,
++	count = drm_add_modes_noedid(connector, dpu_kms->catalog->caps->max_linewidth,
+ 			dev->mode_config.max_height);
++
++	drm_set_preferred_mode(connector, 640, 480);
++
++	return count;
+ }
+ 
+ static const struct drm_connector_funcs dpu_wb_conn_funcs = {
+-- 
+2.7.4
 
---=20
-Cheers,
-Stephen Rothwell=20
-sfr@canb.auug.org.au
-
---Sig_/0Rts+dJPHVuFp7yBrsgCJ62
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmKqZEQACgkQAVBC80lX
-0Gy8RAf+IsCrpN0TDFAO9/3ciyLA7BYcxQ/hKmvxNaN2bLcryQB1yauyzvsDZXgU
-IK0JJ3IIj74Spo+BkUYsET41GEJdCKZ+wsz3oxhRrTHm2SuA1uV5NcScB2AMuAc5
-li4wgBFQ9+QOO+gjijsWKgpNsC51hjvmra4c1w5RmPk074XJCBzuSJQ+/aACQL3I
-706Aexc/pUvuwWgBeSW0d5ykai0t7GXSfuefJxebvZfgyBL7KFd8TUsR4RSQ5hFD
-sxc5LxZqW9+L6XRM3LSLaLJnKcnqK7pjuWrH5tqV9fM113XhN9ccJjdUtrZ0c5CW
-nFRpf2SjqtvYrK+v4wKzAIvh2eC00A==
-=NQ/0
------END PGP SIGNATURE-----
-
---Sig_/0Rts+dJPHVuFp7yBrsgCJ62--
