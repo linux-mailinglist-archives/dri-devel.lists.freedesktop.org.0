@@ -2,56 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD46654CF40
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 19:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB3954CF5B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 19:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 859AD10E50E;
-	Wed, 15 Jun 2022 17:01:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8099112429;
+	Wed, 15 Jun 2022 17:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE7B112622
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 17:01:00 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-2ef5380669cso67432817b3.9
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 10:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/r7XkSh5TUFeVMIe3mikVGP0QRjTftc0VpzQNshFaLA=;
- b=YEY/aa02EjDu6Gde1XwVcHQ2DxuVZ2OBrNiKoejQ6TtQOhFwmhY/+9cbq0+Zp16lgL
- kD0eDwPqS+oBorSD1W7GoPu2sDRE+nxUfCEwkCsccSZERq+ao/DOWBL9pvFtSCfC1EpI
- 87llx6q+yjmXGkCBE1CGNto4D1wXfUoFpyPr4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/r7XkSh5TUFeVMIe3mikVGP0QRjTftc0VpzQNshFaLA=;
- b=iQ19ihiO/TFTLpueCFB1uu2zoR7k77I0bhjDjwVB2rw9C/YMrYkDvhUnChC7J5GIRz
- 4v66Z/nILwLI32hdFzYjAW+M5uCblpKeZLeyOfu/CTEnhzJa/qAHLIfc4sEpLJ0iSn3z
- gYRvjp1qhYzA64u18TlCqLgylPOBQEYj3ql2tR2X2QwsVSYfa3HhuVvdJ+0Z73iPAZBn
- Xx3g5/GmxXtX8JqI9+cnuvpRwpzo00rmPjElgl3wpttTaZbfhk6b2OeGPogPzeacOpxb
- vo9fgRoYiaIbbvwKycrO3bI/QSTQM88atuyoEzVSF6qzvCwyWXBQTF0CfbGNXDDOnK0x
- H7cg==
-X-Gm-Message-State: AJIora8fHKMmSURb1lK7ZND4wiXt9PaNapjLr/P7QkpjeompxlDfGBMn
- cj+pBNI1R6kvSx2s/6YmuNw+uv1dDXZJyt/IAYPGIQ==
-X-Google-Smtp-Source: AGRyM1vwSIJrbZk5hnWNUg96C0Ni2qFhhTib83BhjFCpBSWqIWSHHXOiLELU1pSyNWuERIOYn4A4WUHEnANs0z8CtuA=
-X-Received: by 2002:a0d:f882:0:b0:2f4:d830:6fd with SMTP id
- i124-20020a0df882000000b002f4d83006fdmr656389ywf.387.1655312459179; Wed, 15
- Jun 2022 10:00:59 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05A0E112478;
+ Wed, 15 Jun 2022 17:05:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655312725; x=1686848725;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=1PYnn6PyVpQKqMIrBh21mNOeylsX7mB9wzgN758442Y=;
+ b=iq8vOz/e34g3DQCtxlPLO5RPc9T65qNNhtvPO35/j2BEvbD39nvoWOMt
+ sXX+uuXemdcwKbLogDorQxB8qN5Qcwl6e8IDGahhv6ydRIEwfHAk1WDCn
+ rZdidkR07ZI0+XwroTLiaV4RN8UApTc1ylugsaBBHxYx+GoS3NXGBlfka
+ AXrOZK38Pgk4zt5FvWqSDVUScmJ3HiNZig2VOH2jShPbDke8SG60GNW21
+ /zCk6EVyK8Fqxbl9XAqplgC6+/qppU7lc0nSDxZC3m7XdFzF7j5/Rd3jJ
+ mAGb4Ns4I/plPxtqEHS/crQXdPx/GfjtVycMGBpD+W3Ht67Pul7AxTxC4 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="365386924"
+X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; d="scan'208";a="365386924"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2022 10:03:16 -0700
+X-IronPort-AV: E=Sophos;i="5.91,302,1647327600"; d="scan'208";a="727500681"
+Received: from orsosgc001.jf.intel.com ([10.165.21.154])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2022 10:03:16 -0700
+Date: Wed, 15 Jun 2022 10:03:15 -0700
+From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [Intel-gfx] [PATCH 2/6] drm/i915/gt: Invalidate TLB of the OA
+ unit at TLB invalidations
+Message-ID: <20220615170315.GK48807@orsosgc001.jf.intel.com>
+References: <cover.1655306128.git.mchehab@kernel.org>
+ <653bf9815d562f02c7247c6b66b85b243f3172e7.1655306128.git.mchehab@kernel.org>
 MIME-Version: 1.0
-References: <20220609181106.3695103-1-pmalani@chromium.org>
- <20220609181106.3695103-7-pmalani@chromium.org>
- <b3b9768d-e0d0-7132-5f50-dd6aa53a68ee@collabora.com>
- <CACeCKaexczFCja_ndndb_A58yZYQ98rTtgY4vHMknENTLxBPPA@mail.gmail.com>
- <28135a2f-bf02-fd0b-e881-0ce9d68bd764@collabora.com>
-In-Reply-To: <28135a2f-bf02-fd0b-e881-0ce9d68bd764@collabora.com>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Wed, 15 Jun 2022 10:00:48 -0700
-Message-ID: <CACeCKadK0A4YD6+Nu=j9dw-dkhkj4ShkpEpSqH_bODjn8wniMg@mail.gmail.com>
-Subject: Re: [PATCH v2 6/7] drm/bridge: anx7625: Register Type-C mode switches
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <653bf9815d562f02c7247c6b66b85b243f3172e7.1655306128.git.mchehab@kernel.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,134 +59,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
- Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ mauro.chehab@linux.intel.com,
+ =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
+ Chris Wilson <chris.p.wilson@intel.com>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>,
+ stable@vger.kernel.org, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 15, 2022 at 1:45 AM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
+On Wed, Jun 15, 2022 at 04:27:36PM +0100, Mauro Carvalho Chehab wrote:
+>From: Chris Wilson <chris.p.wilson@intel.com>
 >
-> Il 14/06/22 18:57, Prashant Malani ha scritto:
-> > On Tue, Jun 14, 2022 at 1:18 AM AngeloGioacchino Del Regno
-> > <angelogioacchino.delregno@collabora.com> wrote:
-> >>
-> >> Il 09/06/22 20:09, Prashant Malani ha scritto:
-> >>> When the DT node has "switches" available, register a Type-C mode-switch
-> >>> for each listed "switch". This allows the driver to receive state
-> >>> information about what operating mode a Type-C port and its connected
-> >>> peripherals are in, as well as status information (like VDOs) related to
-> >>> that state.
-> >>>
-> >>> The callback function is currently a stub, but subsequent patches will
-> >>> implement the required functionality.
-> >>>
-> >>> Signed-off-by: Prashant Malani <pmalani@chromium.org>
-> >>> ---
-> >>>
-> >>> Changes since v2:
-> >>> - No changes.
-> >>>
-> >>>    drivers/gpu/drm/bridge/analogix/anx7625.c | 73 +++++++++++++++++++++++
-> >>>    drivers/gpu/drm/bridge/analogix/anx7625.h |  6 ++
-> >>>    2 files changed, 79 insertions(+)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> >>> index 07ed44c6b839..d41a21103bd3 100644
-> >>> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> >>> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> >>> @@ -15,6 +15,7 @@
-> >>>    #include <linux/regulator/consumer.h>
-> >>>    #include <linux/slab.h>
-> >>>    #include <linux/types.h>
-> >>> +#include <linux/usb/typec_mux.h>
-> >>>    #include <linux/workqueue.h>
-> >>>
-> >>>    #include <linux/of_gpio.h>
-> >>> @@ -2581,9 +2582,59 @@ static void anx7625_runtime_disable(void *data)
-> >>>        pm_runtime_disable(data);
-> >>>    }
-> >>>
-> >>> +static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
-> >>> +                              struct typec_mux_state *state)
-> >>> +{
-> >>> +     return 0;
-> >>> +}
-> >>> +
-> >>> +static int anx7625_register_mode_switch(struct device *dev, struct device_node *node,
-> >>> +                                     struct anx7625_data *ctx)
-> >>> +{
-> >>> +     struct anx7625_port_data *port_data;
-> >>> +     struct typec_mux_desc mux_desc = {};
-> >>> +     char name[32];
-> >>> +     u32 port_num;
-> >>> +     int ret;
-> >>> +
-> >>> +     ret = of_property_read_u32(node, "reg", &port_num);
-> >>> +     if (ret)
-> >>> +             return ret;
-> >>> +
-> >>> +     if (port_num >= ctx->num_typec_switches) {
-> >>> +             dev_err(dev, "Invalid port number specified: %d\n", port_num);
-> >>> +             return -EINVAL;
-> >>> +     }
-> >>> +
-> >>> +     port_data = &ctx->typec_ports[port_num];
-> >>> +     port_data->ctx = ctx;
-> >>> +     mux_desc.fwnode = &node->fwnode;
-> >>> +     mux_desc.drvdata = port_data;
-> >>> +     snprintf(name, sizeof(name), "%s-%u", node->name, port_num);
-> >>> +     mux_desc.name = name;
-> >>> +     mux_desc.set = anx7625_typec_mux_set;
-> >>> +
-> >>> +     port_data->typec_mux = typec_mux_register(dev, &mux_desc);
-> >>> +     if (IS_ERR(port_data->typec_mux)) {
-> >>> +             ret = PTR_ERR(port_data->typec_mux);
-> >>> +             dev_err(dev, "Mode switch register for port %d failed: %d", port_num, ret);
-> >>> +     }
-> >>
-> >> Please return 0 at the end of this function.
-> >>
-> >>          if (IS_ERR(....)) {
-> >>                  ......code......
-> >>                  return ret;
-> >>          }
-> >>
-> >>          return 0;
-> >> }
-> >
-> > May I ask why? We're not missing any return paths. I would rather we
-> > keep it as is (which has the valid return value).
-> >
+>On gen12 HW, ensure that the TLB of the OA unit is also invalidated
+>as just invalidating the TLB of an engine is not enough.
 >
-> I know that you're not missing any return paths.
+>Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")
 >
-> That's only because the proposed one is a common pattern in the kernel
-> and it's only for consistency.
+>Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+>Cc: Fei Yang <fei.yang@intel.com>
+>Cc: Andi Shyti <andi.shyti@linux.intel.com>
+>Cc: stable@vger.kernel.org
+>Acked-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+>---
+>
+>See [PATCH 0/6] at: https://lore.kernel.org/all/cover.1655306128.git.mchehab@kernel.org/
+>
+> drivers/gpu/drm/i915/gt/intel_gt.c | 10 ++++++++++
+> 1 file changed, 10 insertions(+)
+>
+>diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+>index d5ed6a6ac67c..61b7ec5118f9 100644
+>--- a/drivers/gpu/drm/i915/gt/intel_gt.c
+>+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+>@@ -10,6 +10,7 @@
+> #include "pxp/intel_pxp.h"
+>
+> #include "i915_drv.h"
+>+#include "i915_perf_oa_regs.h"
+> #include "intel_context.h"
+> #include "intel_engine_pm.h"
+> #include "intel_engine_regs.h"
+>@@ -1259,6 +1260,15 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+> 		awake |= engine->mask;
+> 	}
+>
+>+	/* Wa_2207587034:tgl,dg1,rkl,adl-s,adl-p */
+>+	if (awake &&
+>+	    (IS_TIGERLAKE(i915) ||
+>+	     IS_DG1(i915) ||
+>+	     IS_ROCKETLAKE(i915) ||
+>+	     IS_ALDERLAKE_S(i915) ||
+>+	     IS_ALDERLAKE_P(i915)))
+>+		intel_uncore_write_fw(uncore, GEN12_OA_TLB_INV_CR, 1);
+>+
 
-Thanks for the additional details. Since this isn't addressing any
-specific bug, and I
-notice varied usages of "return ret" in this file itself [1][2], I'd
-prefer keeping it as is.
+This patch can be dropped since this is being done in i915/i915_perf.c 
+-> gen12_oa_disable and is synchronized with OA use cases.
 
-[1]: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/analogix/anx7625.c#L296
-[2]: https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/bridge/analogix/anx7625.c#L436
+Regards,
+Umesh
 
+
+> 	for_each_engine_masked(engine, gt, awake, tmp) {
+> 		struct reg_and_bit rb;
 >
-> Regards,
-> Angelo
+>-- 
+>2.36.1
 >
