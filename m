@@ -1,60 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E1954CE94
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 18:24:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7C454CEA8
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 18:31:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2764F112407;
-	Wed, 15 Jun 2022 16:24:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA6EE10EA8E;
+	Wed, 15 Jun 2022 16:31:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D87410E079;
- Wed, 15 Jun 2022 16:24:25 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id h192so11835997pgc.4;
- Wed, 15 Jun 2022 09:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=py6GEyuDmZJFdYOHYjHaNYQonIUxCggLBa4xNxCVPiI=;
- b=lwp84MUy8aVK38zeHShl+5sWGRLOP7YtFKjClNzK9QETCKTdvHtTQwSV7YX7IAleTZ
- hhnASLIQAYmpoY2kT26DOKUhr2JdllSmRc/ZsxynkeE0cvqwbGz0+vHcrRo8Gi7uhX12
- ysn+n/bEjOIcuJZ3cnSbZW8ySuu9jn0j+ZUEl+6E8n+sKXzkerb14hAAvpnD8r+UxN5L
- tCi6GW08Nr/0izW5Y1Q6z7d3jsfSNXxD4RHVmKG9w1y5tRsyzZZrYEe3pPw+0E0ffeZF
- /7YEtZUUD54Et7Xnv60CWfGdNQlX9zgEHStpar6E1h725mj2spJZ9ioTck4nEZsyoiLG
- yp6Q==
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68F4610EA8E
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 16:31:15 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id f9so10897876plg.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 09:31:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YdNSDdpF28pADLYgfkDW0JNGk35ddAn9s2Wtj0NQQ2Q=;
+ b=Ra3/gzgHLMvhMwLdQQySr/AEsKgTQMBRhU6/8HG3JugrGp53TKxO0j9eEm7MGgognn
+ fx5xOfjJ6rcI23PbqmaP9MCfc/xgt5WF6pl46Cqk3RVVe5FcIjhkGzEPHOmswY03z/WK
+ 9BzK10ikXKviG0ZqWns1DxWiDTGgWkobEIeiBqHTDEklBELLFGkYqUrZJBm/KkHpLJph
+ C4wWwQe8pf3La5DBg+t6Q6pI+/RXGKnMKNRhvgLM6C2KCfQ6yrSFRY9vd4iRR5e/klWj
+ L9hV51sHMf3BoA2/pP9k8/BO1if/8OFkX+GFKKBMTs2bt3oxfMOMoWcTBw3uLAvUqn2l
+ fmXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=py6GEyuDmZJFdYOHYjHaNYQonIUxCggLBa4xNxCVPiI=;
- b=Sp6dUuIltvlcz+eMCPPLyL6t16iqpt8K6Hj2o/e5O2WB7dENcdlRETQfj+3VW6YmmQ
- OXkmuP3l/tQeos8L7dRSJqjfpzQUHn1QX4EPMFFcy3wnIJmb1FDj7nNFcz4afJL4L372
- 8TrqMHdbCqlXTXTZdop1DFTaI0TNn/U2VOQaCCmNkV55mzbLsvOvL5ZqDP5A3GJDHLDu
- 9PzyF0NOVjhWJotc++cNILXpoiU+Gn41b7Z6Kcublx9nYNOL3onwe8jBjzf+K+378DKc
- 3G4LNpVmWuBTCGMIsJYzKDMObhbBNX7RV7ZKqaQReqQc05k4dVlOfqB8qe3BPgs3cmlE
- g4RQ==
-X-Gm-Message-State: AJIora+4rhczKCOIkAroQ8F9KAwDpV9g371U5a6KlqF49qjndyxx2t2P
- 18ntBIxNYlHHGcJCqFjCWvoxMRNXp9g=
-X-Google-Smtp-Source: AGRyM1tGREJNu5awib9cAUO8GkgnbOfiIQsGUbIPOrc/TUh8iC3c1m0/3l/Ns5AH207ke8bLqFgObg==
-X-Received: by 2002:a63:824a:0:b0:406:59b2:b5b4 with SMTP id
- w71-20020a63824a000000b0040659b2b5b4mr556905pgd.190.1655310263864; 
- Wed, 15 Jun 2022 09:24:23 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
- by smtp.gmail.com with ESMTPSA id
- o22-20020a17090aac1600b001dff2fb7e39sm1995523pjq.24.2022.06.15.09.24.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jun 2022 09:24:22 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm: Fix fence rollover issue
-Date: Wed, 15 Jun 2022 09:24:35 -0700
-Message-Id: <20220615162435.3011793-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.36.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YdNSDdpF28pADLYgfkDW0JNGk35ddAn9s2Wtj0NQQ2Q=;
+ b=DIVXQ40yG5aIVDuunTgmofuPrfe83o6E8qgeWnPdOfeXTGP0ZCACxVaZbpOPTwhnfH
+ MhEFiTUq/s63ljlMFdvJIsaXTfb5y1KQvmNxj6ZvB1rjVt8SVV0Zu3TNdbOKuvbe9hUZ
+ VKFe12q15xSeNeRbzLFWkdzogQK1WNBCkzAQbsb0/9Ll4SzCEJ24kh8eJ+pQofdcaok5
+ 7oZJ6b1M8CI4utjDs6rdWybh3q4S2B3HTI325+e9Sjv4vfLPs/CjQD5otbzKFa5qlVS6
+ l5gxlCiNLkY2YhU86Gmk+a4j/Uimhzdr85qgxantwdByeTIn7S1/fTbA8pjEjWO3YFIQ
+ SBTg==
+X-Gm-Message-State: AJIora+CSt8gEI4arpEf625D4TbSDb+jmPPe5ECarrHjI4zuBUUAbAP5
+ bMqnN8e+T+lgRoTJ1ute9nOZmlgVud3bWGdt1U+7yg==
+X-Google-Smtp-Source: AGRyM1tVeSFJ9MDUV4QfDSYCsyFBWbtC+ASjHQDphSfhT/CWvCSk9MOpeXGJRW96EvLtaQncLlpGenrTxVdGQtgFTzQ=
+X-Received: by 2002:a17:902:f353:b0:167:7bc1:b1b9 with SMTP id
+ q19-20020a170902f35300b001677bc1b1b9mr192047ple.117.1655310674625; Wed, 15
+ Jun 2022 09:31:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220613150653.1310029-1-zhengbin13@huawei.com>
+In-Reply-To: <20220613150653.1310029-1-zhengbin13@huawei.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Wed, 15 Jun 2022 18:31:02 +0200
+Message-ID: <CAG3jFysx_sS2QAdh2G9xivD8OjNXRPn1H0zVq=1V4P7yi7UoOw@mail.gmail.com>
+Subject: Re: [PATCH -next] drm/bridge: it6505: Add missing CRYPTO_HASH
+ dependency
+To: Zheng Bin <zhengbin13@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,58 +63,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: jonas@kwiboo.se, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ jernej.skrabec@gmail.com, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com, gaochao49@huawei.com,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On Mon, 13 Jun 2022 at 16:54, Zheng Bin <zhengbin13@huawei.com> wrote:
+>
+> The driver uses crypto hash functions so it needs to select CRYPTO_HASH.
+> This fixes build errors:
+>
+> drivers/gpu/drm/bridge/ite-it6505.o: in function `it6505_hdcp_wait_ksv_list':
+> ite-it6505.c:(.text+0x4c26): undefined reference to `crypto_alloc_shash'
+> ite-it6505.c:(.text+0x4c6d): undefined reference to `crypto_shash_digest'
+> ite-it6505.c:(.text+0x4c7d): undefined reference to `crypto_destroy_tfm'
+> ite-it6505.c:(.text+0x4d69): undefined reference to `crypto_destroy_tfm'
+>
+> Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
+> Signed-off-by: Zheng Bin <zhengbin13@huawei.com>
+> ---
+>  drivers/gpu/drm/bridge/Kconfig | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index 8ffd601e68f9..1afe99dac0ff 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -94,6 +94,8 @@ config DRM_ITE_IT6505
+>          select DRM_KMS_HELPER
+>          select DRM_DP_HELPER
+>          select EXTCON
+> +        select CRYPTO
+> +        select CRYPTO_HASH
+>          help
+>            ITE IT6505 DisplayPort bridge chip driver.
+>
+> --
+> 2.31.1
+>
 
-And while we are at it, let's start the fence counter close to the
-rollover point so that if issues slip in, they are more obvious.
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_fence.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
-index 3df255402a33..a35a6746c7cd 100644
---- a/drivers/gpu/drm/msm/msm_fence.c
-+++ b/drivers/gpu/drm/msm/msm_fence.c
-@@ -28,6 +28,14 @@ msm_fence_context_alloc(struct drm_device *dev, volatile uint32_t *fenceptr,
- 	fctx->fenceptr = fenceptr;
- 	spin_lock_init(&fctx->spinlock);
- 
-+	/*
-+	 * Start out close to the 32b fence rollover point, so we can
-+	 * catch bugs with fence comparisons.
-+	 */
-+	fctx->last_fence = 0xffffff00;
-+	fctx->completed_fence = fctx->last_fence;
-+	*fctx->fenceptr = fctx->last_fence;
-+
- 	return fctx;
- }
- 
-@@ -46,11 +54,12 @@ bool msm_fence_completed(struct msm_fence_context *fctx, uint32_t fence)
- 		(int32_t)(*fctx->fenceptr - fence) >= 0;
- }
- 
--/* called from workqueue */
-+/* called from irq handler */
- void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)
- {
- 	spin_lock(&fctx->spinlock);
--	fctx->completed_fence = max(fence, fctx->completed_fence);
-+	if (fence_after(fence, fctx->completed_fence))
-+		fctx->completed_fence = fence;
- 	spin_unlock(&fctx->spinlock);
- }
- 
--- 
-2.36.1
-
+Applied to drm-misc-next
