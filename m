@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A0254CA08
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 15:42:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8342A54CA0D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 15:44:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D04910EBE7;
-	Wed, 15 Jun 2022 13:42:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9167910E78D;
+	Wed, 15 Jun 2022 13:44:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4B9010EBAC
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 13:42:48 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4B2D10EA27
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 13:44:12 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 46F1AB8164A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 13:42:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DD247C341C0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 13:42:43 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 74EEF61B01
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 13:44:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DA6B3C3411C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 13:44:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655300563;
- bh=V9zkBXaBxXHb1tfEPi/jz8iSy0HJyV/wDlKeZ7v14Fs=;
+ s=k20201202; t=1655300647;
+ bh=+WjEQDiocdRkSdazPGWuFt/7CPNmQkOKEin8cSEEiKU=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=md8h3OJ7bgmkCDU6G1gqSfd0IArBLaynlSqmYGTmM+bCnt0I5ZdvTtt3bBtPQtTBn
- R8nL3zduA2ZpHfHmVKeEIvz2r3vgtNYolgDDBmAS2G1opIndZsKbCZgM2/LmW0nsHL
- el/Rl5C0RFE9dkCoC81/YQLB/kDg5LVAgvUKvFhR2/ZXnaJ8WQ7QR4jfDDj5ZZnXHc
- VY/VVRd06cLXz3ulKuO23ROlF2wl+WwRys6RVauCYcMAv1inIkJe89QFEN/dHAFo0c
- 49DZrooqzIRuSYBrCO0FmNZdDSrwl4e72aTl0+G7VPq/H1UFHhBFIkSC5s1fUmVanl
- Fm9Do7iyJQCVw==
+ b=Y4HEd5xHJG8b+yjZjvgZToanFE+z3ntY+P//DMkbI5CcWnmTMRDhGUMvfxsTWfOJp
+ mmgKg2IGykeovFYdLcUWk3oa7z8vjnj9YTsg5oivv5m5sRPN4NGunQlvrc1za0mwav
+ 6LWEcdRzfBCb/u6Yk0AB9jH3WoTUzbKKvEIP93cHrJ7reQyeQTfwABwiFEzVo91igK
+ 9ZtUV90T73DdQyMMOZguPRwVPBRkU+/ewwPlVZuD9+SmJXX2cs8OUUPQxoAJas6+w5
+ GhtogUEFJNpBDIKB0/7X10w/Zl9TzBG0SGmMFc6HJ3y+4ko0+fz+373ZUXM3gZ2Jbf
+ 5Q9bwvn23r0nw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id C228ACC13B1; Wed, 15 Jun 2022 13:42:43 +0000 (UTC)
+ from userid 48) id C3AF1CC13B1; Wed, 15 Jun 2022 13:44:07 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216092] rn_vbios_smu_send_msg_with_param+0xf9/0x100 - amdgpu
-Date: Wed, 15 Jun 2022 13:42:43 +0000
+Date: Wed, 15 Jun 2022 13:44:07 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,8 +49,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-216092-2300-tbN5LTvQTc@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216092-2300-jgU6fUNFen@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216092-2300@https.bugzilla.kernel.org/>
 References: <bug-216092-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,14 +75,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216092
 
-Alex Deucher (alexdeucher@gmail.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |alexdeucher@gmail.com
-
---- Comment #2 from Alex Deucher (alexdeucher@gmail.com) ---
-Can you bisect?
+--- Comment #3 from Alex Deucher (alexdeucher@gmail.com) ---
+Does reverting c1b972a18d05d007f0ddff31db2ff50790576e92 fix the issue?
 
 --=20
 You may reply to this email to add a comment.
