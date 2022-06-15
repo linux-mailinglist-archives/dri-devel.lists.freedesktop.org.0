@@ -2,51 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C4054CC0B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 17:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D904054CC0C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 17:01:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81B7D10E0A7;
-	Wed, 15 Jun 2022 15:01:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31D7B10F084;
+	Wed, 15 Jun 2022 15:01:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA1A910EF6D
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 15:00:58 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id d14so16533339eda.12
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 08:00:58 -0700 (PDT)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1669E10F770;
+ Wed, 15 Jun 2022 15:00:59 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id f9so10680771plg.0;
+ Wed, 15 Jun 2022 08:00:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=wY3MY1JjwkRLcKpQY8rMPm6YMNF0CIsUZ7rbiw1eOdg=;
- b=XXbxhdgItP0zoIkGlEWS6CZjj1ft1Qvxup5XR35BLf8JsGJ3zfp+ni13XiO9jcfrMZ
- JIQCpSrz/b/U67zbJ64Cgcd7bxMUZMA+EI4RKM7YbGvFyhct89/yermrukBAEhqc/fTi
- N3qMt9YpaFN+mC4UueOR3J8295LUT+VietepmOZOuu41+cCcpNvP0aOfEndmiAtSH+We
- GYlSOJlSs0cU6F4P56222NftY27wSHjuco7fFC+mMLMMQxuHODqlXEeyo0MOAxOx8L5H
- uCmB0slTu3XHs6gjC5cDs9Lcqgzv56DphqZ9bJMjZgogaUM9vHwTB1/U1SusFoUj10qh
- AKAg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Fftyusq14pygoE98VFvLknKqjgDHop8Kgx2bJEg9loM=;
+ b=Dd3Vk1PDo0eKWLfXky6AqmbKiDsQNoKnePr1CSH3382YVX+2aZufcgim47ivxwg5DE
+ kDiDg+sLDTkhcTEfkvirUrkkwoJ+ppkuaGzEBuat0jMexCMf+Jx+iDGyqqRz7gu1/JVl
+ TartlMlP+t2GHtOzP4IMWy7ny70JiJ+z+iUe4YZ9GSyjIqLVo3UEWUfZe83dMJ4AmYyX
+ k5TVD4eemocFf9bWC+ljn8+B8cjvobhfXBee9TTDIZSCXc6jikLOjKbu6Q4R4gH53UtV
+ fet3ZKzxp7koEjzXrQqmm1lGxJLAGUvF24OY6Ov89HA1mF/zLkYITI7e5H8yq1BOqU4a
+ OQ4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=wY3MY1JjwkRLcKpQY8rMPm6YMNF0CIsUZ7rbiw1eOdg=;
- b=GCzhU1zlOGjqzBE7bSXQzXfet2VL7ZzTXh9T8DfWfudvZ3hvwh9/FXf0k5ziIfF+tN
- ArXuUfZbvEwWd4L875rVy+q/lUcn+KZ3XgEuZlQTSHQdZWvajU/2NT+XN7zGuFri/rlh
- S6h/F3BUsazjC0+SNmIRoQAx9B64PHwIP7NB1tIgolKrJc6PSLe/jXW3qH07d3czM3Fi
- PtDky6W3UBPTdJ7yfQ7f5Heie1Aa3bvclOuyuQVN9QzQGp7DlQ16Yv6VhFbfb0E5UwXO
- fKSj8vUl+EV93RbLupDm9AUqZo+q5efNOmQjY8DpVFBZbodDIEM/nG/4dEXCaiUvBNQ2
- ysAw==
-X-Gm-Message-State: AJIora9qC+IVacWk1gLbpb/PSHS9rhhMBxBKbGf3+E8Z4qtrVRDGMFS+
- N1V4n3TfTwUfkIrpFSzedqLT+osuzwBhwjsG+Uuxm8ALmqGTjg==
-X-Google-Smtp-Source: AGRyM1vhnx8Pvhkgd/BihrDDRTmX4NIajkrkaR2fp6YfjEvouNrnybTqh3w6W8+pVIBjVKmP8BSHdVDMeIhKYeshXOM=
-X-Received: by 2002:a05:6402:2381:b0:42d:c8fe:d7fe with SMTP id
- j1-20020a056402238100b0042dc8fed7femr198596eda.248.1655305257187; Wed, 15 Jun
- 2022 08:00:57 -0700 (PDT)
-MIME-Version: 1.0
-From: =?UTF-8?Q?Nuno_Gon=C3=A7alves?= <nunojpg@gmail.com>
-Date: Wed, 15 Jun 2022 16:00:46 +0100
-Message-ID: <CAEXMXLS9jD_gvPzZ4xBJ9wOY9sbJLDdLLpYOFk0Wt2s1RStv5w@mail.gmail.com>
-Subject: DRM FB interface does not sanitize len when mmap'ed
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Fftyusq14pygoE98VFvLknKqjgDHop8Kgx2bJEg9loM=;
+ b=IbsGmoI/Y2YXDUnZr8ctDOLFlX9P3ky7igKTulWnuEZ7jruJBFK3XiEg5Cq2GA+QzX
+ x3GFPqal4K05lyfHmZkvaUqlxYr+ZdoIgc/q5AL7h1ABsKvGWm28eDxcQwT8n1vEi949
+ 93ANcj3+FXGd/w9e2jPgsvoD/0JBRo2AvAXPT/pItjPQEhJcJJT3+V1o/Ean7tHDMxZQ
+ 7beEn2ml1vI7Ed3Dgg27DHUJZYdd9N4YUMl9H3nwdFlgP5YhT2I9I1qeDM4t4rB8dwwL
+ e5GKanZ3NiAE7/+ZZPTHahHrZdQOR+0ipn3xZ05dS9N0jjPFYnGV8cURviF8zkYky9xg
+ Ng6A==
+X-Gm-Message-State: AJIora/g2FZKcol9KoRrGKLcQQbSC9DeC1L+A+glm1ZX8KiEFt+ow+Hx
+ ydrHwiGKP2grwZ5PhXuhpL+NcxgPYm8=
+X-Google-Smtp-Source: AGRyM1t6iYGPtiNKJylInJeuhNBnTKe4fKmcXmlacbZLF5hj1JNSIvXkPggEUHpPxBOzLLO8qeRYTA==
+X-Received: by 2002:a17:90a:b284:b0:1e3:826b:d11d with SMTP id
+ c4-20020a17090ab28400b001e3826bd11dmr10881434pjr.79.1655305257874; 
+ Wed, 15 Jun 2022 08:00:57 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
+ by smtp.gmail.com with ESMTPSA id
+ z6-20020a1709027e8600b0015e8e7db067sm9485101pla.4.2022.06.15.08.00.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jun 2022 08:00:56 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH 1/2] drm/msm: Drop update_fences()
+Date: Wed, 15 Jun 2022 08:01:06 -0700
+Message-Id: <20220615150107.2969593-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.36.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,96 +67,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Steev Klimaszewski <steev@kali.org>, open list <linux-kernel@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I am crashing the kernel by doing something I believe I am allowed to do.
+From: Rob Clark <robdclark@chromium.org>
 
-Using mmap to write to /dev/fb0 as the compatibility layer for Tiny
-DRM vot,v220hf01a-t (ili9225).
+I noticed while looking at some traces, that we could miss calls to
+msm_update_fence(), as the irq could have raced with retire_submits()
+which could have already popped the last submit on a ring out of the
+queue of in-flight submits.  But walking the list of submits in the
+irq handler isn't really needed, as dma_fence_is_signaled() will dtrt.
+So lets just drop it entirely.
 
-First it happens that because of the display resolution of 220*176 the
-buffer is (16 bit) 77440 bytes, which is not a multiple of the page
-size (4096), unlike most regular resolution displays.
+Reported-by: Steev Klimaszewski <steev@kali.org>
+Fixes: 95d1deb02a9c ("drm/msm/gem: Add fenced vma unpin")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gpu.c | 22 ++--------------------
+ 1 file changed, 2 insertions(+), 20 deletions(-)
 
-When I touch the mmap'ed virtual address above base+73728 (4096*18) up to 77439:
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index e59a757578df..b61078f0cd0f 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -176,24 +176,6 @@ int msm_gpu_hw_init(struct msm_gpu *gpu)
+ 	return ret;
+ }
+ 
+-static void update_fences(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+-		uint32_t fence)
+-{
+-	struct msm_gem_submit *submit;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&ring->submit_lock, flags);
+-	list_for_each_entry(submit, &ring->submits, node) {
+-		if (fence_after(submit->seqno, fence))
+-			break;
+-
+-		msm_update_fence(submit->ring->fctx,
+-			submit->hw_fence->seqno);
+-		dma_fence_signal(submit->hw_fence);
+-	}
+-	spin_unlock_irqrestore(&ring->submit_lock, flags);
+-}
+-
+ #ifdef CONFIG_DEV_COREDUMP
+ static ssize_t msm_gpu_devcoredump_read(char *buffer, loff_t offset,
+ 		size_t count, void *data, size_t datalen)
+@@ -450,7 +432,7 @@ static void recover_worker(struct kthread_work *work)
+ 		if (ring == cur_ring)
+ 			fence++;
+ 
+-		update_fences(gpu, ring, fence);
++		msm_update_fence(ring->fctx, fence);
+ 	}
+ 
+ 	if (msm_gpu_active(gpu)) {
+@@ -753,7 +735,7 @@ void msm_gpu_retire(struct msm_gpu *gpu)
+ 	int i;
+ 
+ 	for (i = 0; i < gpu->nr_rings; i++)
+-		update_fences(gpu, gpu->rb[i], gpu->rb[i]->memptrs->fence);
++		msm_update_fence(gpu->rb[i]->fctx, gpu->rb[i]->memptrs->fence);
+ 
+ 	kthread_queue_work(gpu->worker, &gpu->retire_work);
+ 	update_sw_cntrs(gpu);
+-- 
+2.36.1
 
-auto file = open("/dev/fb0", O_RDWR);
-if (!file) throw;
-auto fbp = (char *)mmap(0, 220 * 176 * 2, PROT_READ | PROT_WRITE,
-MAP_SHARED, file, 0);
-if ((size_t)fbp <= 0) throw;
-fbp[220 * 176 * 2 - 2] = 0;
-
-I get a crash:
-
-[   14.150463] Unable to handle kernel paging request at virtual
-address ffffffc00827c000
-[   14.158640] Mem abort info:
-[   14.161626]   ESR = 0x96000007
-[   14.164969]   EC = 0x25: DABT (current EL), IL = 32 bits
-[   14.170470]   SET = 0, FnV = 0
-[   14.173735]   EA = 0, S1PTW = 0
-[   14.177047]   FSC = 0x07: level 3 translation fault
-[   14.182095] Data abort info:
-[   14.185083]   ISV = 0, ISS = 0x00000007
-[   14.189035]   CM = 0, WnR = 0
-[   14.192107] swapper pgtable: 4k pages, 39-bit VAs, pgdp=0000000000d54000
-[   14.198997] [ffffffc00827c000] pgd=1000000001501003,
-p4d=1000000001501003, pud=1000000001501003, pmd=1000000001d5c003,
-pte=0000000000000000
-[   14.211992] Internal error: Oops: 96000007 [#1] PREEMPT SMP
-[   14.217659] CPU: 0 PID: 50 Comm: kworker/0:2 Not tainted 5.18.3 #18
-[   14.224027] Hardware name: Raspberry Pi Compute Module 3 Plus Rev 1.0 (DT)
-[   14.231005] Workqueue: events drm_fb_helper_damage_work
-[   14.236333] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   14.243405] pc : __memcpy+0x15c/0x230
-[   14.247131] lr : drm_fb_helper_damage_work+0x25c/0x310
-[   14.252352] sp : ffffffc00822bd30
-[   14.255712] x29: ffffffc00822bd30 x28: 00000000000001b8 x27: ffffff80017e1d10
-[   14.262970] x26: ffffffc008267e80 x25: 00000000000000b0 x24: ffffff8002416800
-[   14.270228] x23: ffffff8001fd8080 x22: ffffff80017e1c00 x21: ffffff80017e1ccc
-[   14.277487] x20: ffffffc00827be80 x19: ffffff80017e1cd0 x18: ffffffe5d80bac08
-[   14.284745] x17: 0000000000000013 x16: 000000fe72080e00 x15: 0000000000000000
-[   14.292003] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
-[   14.299259] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
-[   14.306517] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0000000000000000
-[   14.313772] x5 : ffffffc008268038 x4 : ffffffc00827c038 x3 : ffffffc008267fc0
-[   14.321029] x2 : 0000000000000028 x1 : ffffffc00827bfc0 x0 : ffffffc008267e80
-[   14.328288] Call trace:
-[   14.330766]  __memcpy+0x15c/0x230
-[   14.334135]  process_one_work+0x1dc/0x450
-[   14.338214]  worker_thread+0x300/0x450
-[   14.342025]  kthread+0x100/0x110
-[   14.345305]  ret_from_fork+0x10/0x20
-[   14.348947] Code: a9422428 a9032c6a a9432c2a a984346c (a9c4342c)
-[   14.355132] ---[ end trace 0000000000000000 ]---
-
-By constraining the input with this small patch it works fine:
-
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -684,11 +684,13 @@ static void drm_fb_helper_damage(struct fb_info
-*info, u32 x, u32 y,
- static void drm_fb_helper_memory_range_to_clip(struct fb_info *info,
-off_t off, size_t len,
-                                               struct drm_rect *clip)
- {
-+       struct drm_fb_helper *fb_helper = info->par;
-+
-        off_t end = off + len;
-        u32 x1 = 0;
-        u32 y1 = off / info->fix.line_length;
-        u32 x2 = info->var.xres;
--       u32 y2 = DIV_ROUND_UP(end, info->fix.line_length);
-+       u32 y2 = min_t(u32, DIV_ROUND_UP(end, info->fix.line_length),
-fb_helper->fb->height);
-
-        if ((y2 - y1) == 1) {
-                /*
-
-I am sure this patch is not how it should be fixed, but I have no
-knowledge of the subsystem to fix it "at the right place".
-
-Thanks,
-Nuno
