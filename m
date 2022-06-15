@@ -1,136 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A7954C24B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 09:00:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A8154C291
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 09:22:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6DA510E600;
-	Wed, 15 Jun 2022 07:00:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4158B10ED81;
+	Wed, 15 Jun 2022 07:22:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2074.outbound.protection.outlook.com [40.107.223.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B99210E7ED
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 07:00:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ihye0I4ZuYygpUQwV7oDCWBIe5kEf58qWpHRxjFO1/7FrcXOeX6gvbct4PvvglS8J/ewpqRFbKo/BprC6t9s7dJ84BWKxzSugP+qQEZaS6PQe5vPd7Fl57uO/ZXkedXkDQfV7JHxQFcyGQUPhNV25NMJqQeyyXMte+WEj+gl/LEiW2Zwebny92wbXp9PwarJJOglfUhL/5TKfOXNxlqCsvJYIOgfSOOPuDj8tRRdNoao1sw4IbRquX8nxxIpy7Ngu0VvVD9AAwJNu3MlVIWLOr75Dj0kCgtbJQCnZt+dLPbzyn/2CfeFsWBOvfNSY792/Rt7PkW2ldCLezHh6Z/EQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=psXjCcIrTIH22OWm/gd6sn0bwAXdg8TAeH8ZFX0l4p0=;
- b=ZcdB4LWhwpKH+R1KDFWzQwq6ejBmcuFwPtH5UFCLSFoWnR53p2ImbBJg6juWUqS6h+I7v3vscnITfgM+J+MhQK1F/li2qRfXPfzguQgBd7gby6XV9ECq69insfPoIvCNQaIuZY2HhNlBDZeVi8eQursySMIb/pkW7fdAncJfrbJX3W7hikIrT62ximpOe0qd2pJ82bkFVgXbmnmDF2q0Zb3f/OEZfKFqM5foeR8w5m5TvqUSEMvy5Y0tLV8FU6yBABAqDGWcBE/MikJlrLZI21dzC70I3TyCkDnmUmzkQlX7R6SW8GtdQ1KUsbAckbL6q/dLh4OdjRvDvcwEObIqZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=psXjCcIrTIH22OWm/gd6sn0bwAXdg8TAeH8ZFX0l4p0=;
- b=RCvkl8C4DUtA+yctWbA7OI2LaGkdrLhDPPX2nbs0kKvxkCCodbwXoLV4UW/jEGLXeX+kAeIMLqpMjRYJnHCUM9gV7oepQ54zlwzWfO8VWwI6i1+VDAxETTu/FXQOiYmAoOKOV+0Rb1My2OkbZxhqZUtOpV7ZvaWDslk4dcifRq4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
- by BL0PR12MB5556.namprd12.prod.outlook.com (2603:10b6:208:1cf::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.13; Wed, 15 Jun
- 2022 07:00:46 +0000
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::a1ff:438f:aff8:ecd3]) by BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::a1ff:438f:aff8:ecd3%5]) with mapi id 15.20.5332.014; Wed, 15 Jun 2022
- 07:00:45 +0000
-Message-ID: <a027710a-13c0-bba3-7186-e0ea864d9398@amd.com>
-Date: Wed, 15 Jun 2022 09:00:39 +0200
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C627A10E819;
+ Wed, 15 Jun 2022 07:22:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655277748; x=1686813748;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=4DtiqD73SUg2l5tnadMV8W2iwv9AOHHRiIgRCUVZCW8=;
+ b=duBfp2iJg2Hnx7NWDMTy2GItiKJyqqu5QSjUhpVUz1SrlzzB9u1BFDm4
+ fefN+lE4P3skI4KtMt8FUDKmZX3VodqoPRyV8QlHrVTarOOFQNZPc6yZI
+ LCrNJlAAcld21odfUHOcyle+IVRQVx4y7EdLvIAYvPQt0TyPFa5NyQlHi
+ 0qrVYMo6smtPRahQB+RAyU0QBWjRxnudUu6h7b80+pbgNxMaQaeBFwzyp
+ evoTYZGh2eB478+555Bzn3AP69CYQnmI1ghif07Mbs1TWiyGg/pp9eJ5s
+ VVP+bZynAol8ePgbXdrqk4w6nPFM/xSEReG+RHd166LDdi21jSyB6J4o1 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10378"; a="259325069"
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; d="scan'208";a="259325069"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2022 00:22:28 -0700
+X-IronPort-AV: E=Sophos;i="5.91,300,1647327600"; d="scan'208";a="911477885"
+Received: from nhanraha-mobl1.ger.corp.intel.com (HELO [10.213.196.47])
+ ([10.213.196.47])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2022 00:22:25 -0700
+Message-ID: <79a7b37c-2403-4915-f5f5-bc2cfd3a3d49@linux.intel.com>
+Date: Wed, 15 Jun 2022 08:22:23 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [RFC PATCH 3/5] drm/amdgpu: Allow explicit sync for VM ops.
+ Thunderbird/91.10.0
+Subject: Re: [Intel-gfx] [PATCH 3/3] drm/doc/rfc: VM_BIND uapi definition
 Content-Language: en-US
-To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-References: <20220601004014.158247-1-bas@basnieuwenhuizen.nl>
- <237f28b7-258e-8b6c-f7b3-93f0db9676d3@amd.com>
- <CAP+8YyHnR=eQZMkxn=RpdzYF69y-54ri2pFrTj8DJuRTtwrDaA@mail.gmail.com>
- <7cba4b1d-724a-3c32-2546-015fa069342d@amd.com>
- <CAP+8YyEMDNR_5=uGf8BEV5DCovr-Z_ZDWS2E7-7zqSFGG7bdKg@mail.gmail.com>
- <6c7e8167-fd72-ef7f-c390-8750c61bc411@amd.com>
- <CAP+8YyGRf2XRoaw9aZhwFBryxccYTRrpSLVh8X6WG02zO5ed0A@mail.gmail.com>
- <4d30fb54-be88-7913-74f5-fa998c28f033@amd.com>
- <CAP+8YyFKOM1qztPBNGk4nzsaX7Dq8-cwg0h_GUgz6sUxBZLhEw@mail.gmail.com>
- <98c1ea95-2b1e-36dd-6706-b3667f0f5f47@amd.com>
- <CAP+8YyEWE9KCmo2pGOHMyT3fSEXskTG-tfymwQmmy7d1c9CuRQ@mail.gmail.com>
- <3b6a7d56-6c65-046d-0a51-bbe167e04322@amd.com>
- <CAP+8YyGL_WEME-1_oB_K5_K600c5kcmO0GxXBQGVQEF7aP_D7w@mail.gmail.com>
- <91e843ca-928a-7ab1-12e4-89fbba085403@amd.com>
- <CAP+8YyHqcoxVeropBpeuSRX4kNtVezi1-s3FKSic_Z_OQ8BcAg@mail.gmail.com>
- <CAP+8YyGrZ7ZE6pumdhWFdR15N+oPHLCaoAHXEF3UcvsVNe069Q@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAP+8YyGrZ7ZE6pumdhWFdR15N+oPHLCaoAHXEF3UcvsVNe069Q@mail.gmail.com>
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+References: <b5292e01-5a1f-d339-cbb4-e565e07e4437@linux.intel.com>
+ <20220613150551.GG376@nvishwa1-DESK>
+ <459c327d-5796-f9e4-4442-a51714525c73@linux.intel.com>
+ <20220613174956.GH376@nvishwa1-DESK>
+ <5ebcd237-a6df-add2-070a-056ccb83427a@linux.intel.com>
+ <20220613233947.GA15145@jons-linux-dev-box>
+ <652e76fa-d647-6267-dc6e-ba0be914415d@linux.intel.com>
+ <20220614154341.GK376@nvishwa1-DESK>
+ <ca635918-018e-db86-8ece-23f4fc4e2032@linux.intel.com>
+ <61ca0001-cf34-670e-3f06-f45a330c609a@linux.intel.com>
+ <20220614164209.GM376@nvishwa1-DESK>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220614164209.GM376@nvishwa1-DESK>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS8P250CA0006.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:330::11) To BYAPR12MB3589.namprd12.prod.outlook.com
- (2603:10b6:a03:df::29)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b1853579-d7ec-4275-1d40-08da4e9cc50d
-X-MS-TrafficTypeDiagnostic: BL0PR12MB5556:EE_
-X-Microsoft-Antispam-PRVS: <BL0PR12MB55562E1562D4945D6CAC2F1E83AD9@BL0PR12MB5556.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FLEIcZzISWDcQkyn9BaE+vkagUgIuDUIogL6S1rnZXoU3NLBqljpZS5dpSC9S7xRL7VOxx1X1fj4+ZNpUvUkybrmXyRig0wWu/0LilBqpk5GFQ7Q4jyd9BQbyvg5jHeu8peiGdR5QblThFoE5g7Yt4QdswhoC6A2fzXI2sp0hLNZV9AnMSkysNVHgztInsMObIZZqYRoHNYkENcDPri7jplxpfRJnGzjHMbuY741sCLCItGsgmcP+k3+WndUlKBZKrk+HUe/8TnPPN5hbz+b44SZjNcj1QWjfKHyvWbPCp+AiTAx++z/co7GUoUvHV8z1PjKDh2Gz/jHnRkUBEWxag4XYwO0tFbRXDw4BP263Qa7jttpDHnMu0dKR/lnwdsBPTTLTXz7ATi6jMcXPVnjOyUpDr4J0Hmg+f+yGAx/x30XxQf9/9WI5r1TG1XJI6TxaKpigqcmHwpVJpiNaKCfVUscj23B1rA6nmzjqJlh4UgGX6V9l+W3wq/dldKuqz1GKerwK7sG63Fcm6FcMLO9iZaOHu3jyVnq5NcSunMzcTDWMuj9XfWaYOP0acSueDUc3slH2aYJcHa8Z4B+9LuZiCiLtV8iWO2BElZjaoKTZzsNSj+uaUA8FSkig2r/mbVPM8ACaD8Gpdbt+Kg31Rm0YCVDoNbNrbg3yoMOXadwc2alqZwPWauRAzJWV4TvKR4eMiIQdw0fM1KbIC+k7b/Z9tx4o5uPaVVFkGiBjHByM1t7q/4OFX+87fpC/AYcY7ru
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3589.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(6512007)(26005)(5660300002)(53546011)(8676002)(316002)(66946007)(6916009)(66556008)(31686004)(54906003)(6506007)(4326008)(8936002)(86362001)(66476007)(31696002)(966005)(6666004)(6486002)(45080400002)(508600001)(2616005)(186003)(83380400001)(66574015)(2906002)(36756003)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dXhYTlIwQ3Jvc2s0Sk9kZFdzYnFSUFdrVzNVMERzZEFaSzFUL0NJd1ZqdDRU?=
- =?utf-8?B?SVRReGRXSFdkOHRPR0NxcGpGU05POHBUbkZTeDZjcmIwbUZnUHZxTWllYzFO?=
- =?utf-8?B?NmVBU2wwSXdwclNTSlEyWEJWMm44VzQ1Lys4UlEyaWxoa3VKNVh2V0pBN0xH?=
- =?utf-8?B?KzdER0ZsamtGSG9SVTRib09yVnFOZldUR2NKNGtaYUIrMDFnMXVSN2VMaWtG?=
- =?utf-8?B?ZlJGam11QnFnV3NPN2loSkRQVEJsVU54R0c2Y2M4V1c4TVRRaDJpOFZXOVZW?=
- =?utf-8?B?ajgrTHpoMjVYblhoQ2NKc2ZkNTJlU21TM1VQVEhzNmNyaGQ2ZXRDYjR0bUpT?=
- =?utf-8?B?WXpTRXlhRDZrdGJzWlFnVzdJbkNaWDgwZXoxSDhQb05CRVBscmZsaUo5Smta?=
- =?utf-8?B?TS9yYjYzZHVJL3pLSHRwN0I5T1FnS2tIL1l4Vm9IeXVTa0JEd25HVXVadDVs?=
- =?utf-8?B?ZndmWXp2QzlINldiNWpQelA3YTJna3RHc1lETG5ZWkdnaEJHcjFvbXZFWlBN?=
- =?utf-8?B?aXV1VzVrR0pwVnFXT09ld3h1VXM1OWZJOWJjeGVObVV5UTgwelRUSU5TcE5K?=
- =?utf-8?B?YkFkNlAwL0pvNkdwanhSdlRkNUdvckMzZzMyVmZOWkJmdHAyeVhicFlpaVVy?=
- =?utf-8?B?T1AxUVdValQ2L2FQWnViV2NITm1SYWMyTHloNTVsd3VIdE1JR1dOVGd6THhp?=
- =?utf-8?B?Y2dtNktoYzZqODYwMW9kM28vZzhocThuQ3ZwS1RNcklhUm9rWW53eEFaN1pl?=
- =?utf-8?B?L2VIWHpBd0pTV3ZYdDJiWjNRek1ybGh1MmNOK0RlM0o5eXRyWFpVeStZak1R?=
- =?utf-8?B?VkJ5LzFBM3NtdVFUb3J5c2JFdU9HRTNtYUJiQklwMEVCcWpFNmZtem1XZlA0?=
- =?utf-8?B?dEgzQjFMMzZHUE9YT2MzblEycEd5aG13VUphNDN1NEdvNCtneVpEK1hPSHJQ?=
- =?utf-8?B?MUkxcTFpQ2M3c3JkbVJjOVp0bzBiZTl6c05TVUJ1TnNxMnh0aGc3UVpmbjJY?=
- =?utf-8?B?NWR4RVVHTXh1TFE0eTczTGlrMDRSL29zYW4wRUJQTTNvSDMxZHhONG1JWVF4?=
- =?utf-8?B?WU1YcHE5VEVraHFEN25ON0s5RW9WMjlHMUNETlI3R2VLbnYycStnU1JZTnFh?=
- =?utf-8?B?RFJJeEtqd25PcDhTU2JlYWt2Nm1lOXUvdUVmanBtalpVZnlqdzRIdkFlUEZp?=
- =?utf-8?B?T2lVMG05ZTEyT1c3M3NkNWxiaVlBT05jVVhQUGM2djlDUG80TitoMGVXQ0VB?=
- =?utf-8?B?bTdMUXRlVS9XdFlwV2ZzMENQdVFDU2FQa3ZGaXgyMmhIaWJHNmlXZUsvaURu?=
- =?utf-8?B?Z2Jjc1BhQTVvQVM0Y255YzYvK1FzQlg0Y2ppa1p5SXVaVVhMYVVTUko3VnAv?=
- =?utf-8?B?QkdsWE5kVGhZM2pYMmNxNVpZUHorZGxobFdIQ0d3VjlCdmVmb1U2RWY5R3Ix?=
- =?utf-8?B?Mm5uS0M1bnhaalZUbWtycHNnalpIQnBWL0d6NnJVdUZUMXVDUmJ1S1plMTBN?=
- =?utf-8?B?SHR5WVQrWWpoZmhWWFE5ajhMWXpXU2VlWk5sVUE4RGpIMGJwSDU2anVrcUw3?=
- =?utf-8?B?MUNHNXlVb3FEVFVTeGYydWpJQWVEemQ2MWczY2FoOTdRWjFKbTJ1MGRNZHZj?=
- =?utf-8?B?VSs3MVI0NW9yQXdwTzlhWGdEZVgxUjRnZW9QUUJBczRNT2RuMk1XaEV2WDZH?=
- =?utf-8?B?MFFMUkxWY3ZnTWVMNC9vVEpPaGFRUjR6VXp4VXZYMjM3NUcyL0xSSWlpMEtU?=
- =?utf-8?B?cUtPbmtnWXViQ0ltUExnaFY2dHFtTC9LVHMrTGFmUEF2UXZ4Rjc0WjZpYzY0?=
- =?utf-8?B?S1d2U2xvV3MwT2EzTFZ0cVRrcFRYaG5qdHlqUHVORnVtajhRaVlRN2lzUUda?=
- =?utf-8?B?cGNtR1dheExkOTdodXgxRzRQWGFCUTg0SmNGT0tJV0lQRHVPMnB4VjgwajMx?=
- =?utf-8?B?TWhGT2VKOVZEZjhGME0remlyVHB3UUdDSXNiTXZUYlRUVkR1blNrWHFzSGxV?=
- =?utf-8?B?ZXJyM29UTTFQczhOS2NQUXRjU1Q1WTNPVEF3Skc4UnJlMjVXN3NSV2d6aWh1?=
- =?utf-8?B?ZWFXUUxqMjBGUDg0QU5aZkFweTF0K2pZNXplU3k1WDkvWmdrZ3VnMWZ1UmlQ?=
- =?utf-8?B?S2lmem82bktLVDNzVWUxbUZxMEVlNzBtaTNuWTkxblJsdzNPOG1HRnBCYTJm?=
- =?utf-8?B?U3lxSjVGRW95dlg5d2F1MldUeG1ZbGpMV3pLaEljSUwrUjRla0I2WnVKUFd3?=
- =?utf-8?B?SzlyWndHVU4zOUc0Q3o0YnFrVFI0MU1jTm40SnB0RHJYcnd1MkI2MG5LaWR4?=
- =?utf-8?B?cXY3Z0FrMVNhbXVmS0IrdDlsVFNCdzlONi84aTd2MXYvTFNxeDZEUT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1853579-d7ec-4275-1d40-08da4e9cc50d
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2022 07:00:45.6838 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: myP8IYVad470btmvW4H5sGlJSm6AJBL29ky90tP/aAaxICEGJA5716EFouZPfGii
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB5556
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,182 +70,393 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Matthew Brost <matthew.brost@intel.com>, paulo.r.zanoni@intel.com,
+ intel-gfx@lists.freedesktop.org, chris.p.wilson@intel.com,
+ thomas.hellstrom@intel.com, dri-devel@lists.freedesktop.org,
+ Jason Ekstrand <jason@jlekstrand.net>, daniel.vetter@intel.com,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>, christian.koenig@amd.com,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bas,
 
-sorry I totally missed your reply. Just tried to answer your original 
-questions.
+On 14/06/2022 17:42, Niranjana Vishwanathapura wrote:
+> On Tue, Jun 14, 2022 at 05:07:37PM +0100, Tvrtko Ursulin wrote:
+>>
+>> On 14/06/2022 17:02, Tvrtko Ursulin wrote:
+>>>
+>>> On 14/06/2022 16:43, Niranjana Vishwanathapura wrote:
+>>>> On Tue, Jun 14, 2022 at 08:16:41AM +0100, Tvrtko Ursulin wrote:
+>>>>>
+>>>>> On 14/06/2022 00:39, Matthew Brost wrote:
+>>>>>> On Mon, Jun 13, 2022 at 07:09:06PM +0100, Tvrtko Ursulin wrote:
+>>>>>>>
+>>>>>>> On 13/06/2022 18:49, Niranjana Vishwanathapura wrote:
+>>>>>>>> On Mon, Jun 13, 2022 at 05:22:02PM +0100, Tvrtko Ursulin wrote:
+>>>>>>>>>
+>>>>>>>>> On 13/06/2022 16:05, Niranjana Vishwanathapura wrote:
+>>>>>>>>>> On Mon, Jun 13, 2022 at 09:24:18AM +0100, Tvrtko Ursulin wrote:
+>>>>>>>>>>>
+>>>>>>>>>>> On 10/06/2022 17:14, Niranjana Vishwanathapura wrote:
+>>>>>>>>>>>> On Fri, Jun 10, 2022 at 05:48:39PM +0300, Lionel Landwerlin 
+>>>>>>>>>>>> wrote:
+>>>>>>>>>>>>> On 10/06/2022 13:37, Tvrtko Ursulin wrote:
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> On 10/06/2022 08:07, Niranjana Vishwanathapura wrote:
+>>>>>>>>>>>>>>> VM_BIND and related uapi definitions
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> Signed-off-by: Niranjana Vishwanathapura
+>>>>>>>>>>>>>>> <niranjana.vishwanathapura@intel.com>
+>>>>>>>>>>>>>>> ---
+>>>>>>>>>>>>>>>   Documentation/gpu/rfc/i915_vm_bind.h | 490
+>>>>>>>>>>>>>>> +++++++++++++++++++++++++++
+>>>>>>>>>>>>>>>   1 file changed, 490 insertions(+)
+>>>>>>>>>>>>>>>   create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> diff --git
+>>>>>>>>>>>>>>> a/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>>>>>>>>>>> b/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>>>>>>>>>>> new file mode 100644
+>>>>>>>>>>>>>>> index 000000000000..9fc854969cfb
+>>>>>>>>>>>>>>> --- /dev/null
+>>>>>>>>>>>>>>> +++ b/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>>>>>>>>>>> @@ -0,0 +1,490 @@
+>>>>>>>>>>>>>>> +/* SPDX-License-Identifier: MIT */
+>>>>>>>>>>>>>>> +/*
+>>>>>>>>>>>>>>> + * Copyright © 2022 Intel Corporation
+>>>>>>>>>>>>>>> + */
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +/**
+>>>>>>>>>>>>>>> + * DOC: I915_PARAM_HAS_VM_BIND
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * VM_BIND feature availability.
+>>>>>>>>>>>>>>> + * See typedef drm_i915_getparam_t param.
+>>>>>>>>>>>>>>> + * bit[0]: If set, VM_BIND is supported, otherwise not.
+>>>>>>>>>>>>>>> + * bits[8-15]: VM_BIND implementation version.
+>>>>>>>>>>>>>>> + * version 0 will not have VM_BIND/UNBIND
+>>>>>>>>>>>>>>> timeline fence array support.
+>>>>>>>>>>>>>>> + */
+>>>>>>>>>>>>>>> +#define I915_PARAM_HAS_VM_BIND        57
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +/**
+>>>>>>>>>>>>>>> + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * Flag to opt-in for VM_BIND mode of binding during VM 
+>>>>>>>>>>>>>>> creation.
+>>>>>>>>>>>>>>> + * See struct drm_i915_gem_vm_control flags.
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * The older execbuf2 ioctl will not
+>>>>>>>>>>>>>>> support VM_BIND mode of operation.
+>>>>>>>>>>>>>>> + * For VM_BIND mode, we have new execbuf3
+>>>>>>>>>>>>>>> ioctl which will not accept any
+>>>>>>>>>>>>>>> + * execlist (See struct
+>>>>>>>>>>>>>>> drm_i915_gem_execbuffer3 for more details).
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + */
+>>>>>>>>>>>>>>> +#define I915_VM_CREATE_FLAGS_USE_VM_BIND    (1 << 0)
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +/**
+>>>>>>>>>>>>>>> + * DOC: I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * Flag to declare context as long running.
+>>>>>>>>>>>>>>> + * See struct drm_i915_gem_context_create_ext flags.
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * Usage of dma-fence expects that they
+>>>>>>>>>>>>>>> complete in reasonable amount of time.
+>>>>>>>>>>>>>>> + * Compute on the other hand can be long
+>>>>>>>>>>>>>>> running. Hence it is not appropriate
+>>>>>>>>>>>>>>> + * for compute contexts to export request
+>>>>>>>>>>>>>>> completion dma-fence to user.
+>>>>>>>>>>>>>>> + * The dma-fence usage will be limited to
+>>>>>>>>>>>>>>> in-kernel consumption only.
+>>>>>>>>>>>>>>> + * Compute contexts need to use user/memory fence.
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * So, long running contexts do not support output 
+>>>>>>>>>>>>>>> fences. Hence,
+>>>>>>>>>>>>>>> + * I915_EXEC_FENCE_SIGNAL (See
+>>>>>>>>>>>>>>> &drm_i915_gem_exec_fence.flags) is expected
+>>>>>>>>>>>>>>> + * to be not used. DRM_I915_GEM_WAIT ioctl
+>>>>>>>>>>>>>>> call is also not supported for
+>>>>>>>>>>>>>>> + * objects mapped to long running contexts.
+>>>>>>>>>>>>>>> + */
+>>>>>>>>>>>>>>> +#define I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING   (1u << 2)
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +/* VM_BIND related ioctls */
+>>>>>>>>>>>>>>> +#define DRM_I915_GEM_VM_BIND        0x3d
+>>>>>>>>>>>>>>> +#define DRM_I915_GEM_VM_UNBIND        0x3e
+>>>>>>>>>>>>>>> +#define DRM_I915_GEM_EXECBUFFER3    0x3f
+>>>>>>>>>>>>>>> +#define DRM_I915_GEM_WAIT_USER_FENCE    0x40
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +#define DRM_IOCTL_I915_GEM_VM_BIND
+>>>>>>>>>>>>>>> DRM_IOWR(DRM_COMMAND_BASE +
+>>>>>>>>>>>>>>> DRM_I915_GEM_VM_BIND, struct
+>>>>>>>>>>>>>>> drm_i915_gem_vm_bind)
+>>>>>>>>>>>>>>> +#define DRM_IOCTL_I915_GEM_VM_UNBIND
+>>>>>>>>>>>>>>> DRM_IOWR(DRM_COMMAND_BASE +
+>>>>>>>>>>>>>>> DRM_I915_GEM_VM_UNBIND, struct
+>>>>>>>>>>>>>>> drm_i915_gem_vm_bind)
+>>>>>>>>>>>>>>> +#define DRM_IOCTL_I915_GEM_EXECBUFFER3
+>>>>>>>>>>>>>>> DRM_IOWR(DRM_COMMAND_BASE +
+>>>>>>>>>>>>>>> DRM_I915_GEM_EXECBUFFER3, struct
+>>>>>>>>>>>>>>> drm_i915_gem_execbuffer3)
+>>>>>>>>>>>>>>> +#define DRM_IOCTL_I915_GEM_WAIT_USER_FENCE
+>>>>>>>>>>>>>>> DRM_IOWR(DRM_COMMAND_BASE +
+>>>>>>>>>>>>>>> DRM_I915_GEM_WAIT_USER_FENCE, struct
+>>>>>>>>>>>>>>> drm_i915_gem_wait_user_fence)
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +/**
+>>>>>>>>>>>>>>> + * struct drm_i915_gem_vm_bind - VA to object mapping to 
+>>>>>>>>>>>>>>> bind.
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * This structure is passed to VM_BIND
+>>>>>>>>>>>>>>> ioctl and specifies the mapping of GPU
+>>>>>>>>>>>>>>> + * virtual address (VA) range to the
+>>>>>>>>>>>>>>> section of an object that should be bound
+>>>>>>>>>>>>>>> + * in the device page table of the specified address 
+>>>>>>>>>>>>>>> space (VM).
+>>>>>>>>>>>>>>> + * The VA range specified must be unique
+>>>>>>>>>>>>>>> (ie., not currently bound) and can
+>>>>>>>>>>>>>>> + * be mapped to whole object or a section
+>>>>>>>>>>>>>>> of the object (partial binding).
+>>>>>>>>>>>>>>> + * Multiple VA mappings can be created to
+>>>>>>>>>>>>>>> the same section of the object
+>>>>>>>>>>>>>>> + * (aliasing).
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * The @queue_idx specifies the queue to
+>>>>>>>>>>>>>>> use for binding. Same queue can be
+>>>>>>>>>>>>>>> + * used for both VM_BIND and VM_UNBIND
+>>>>>>>>>>>>>>> calls. All submitted bind and unbind
+>>>>>>>>>>>>>>> + * operations in a queue are performed in the order of 
+>>>>>>>>>>>>>>> submission.
+>>>>>>>>>>>>>>> + *
+>>>>>>>>>>>>>>> + * The @start, @offset and @length should
+>>>>>>>>>>>>>>> be 4K page aligned. However the DG2
+>>>>>>>>>>>>>>> + * and XEHPSDV has 64K page size for device
+>>>>>>>>>>>>>>> local-memory and has compact page
+>>>>>>>>>>>>>>> + * table. On those platforms, for binding
+>>>>>>>>>>>>>>> device local-memory objects, the
+>>>>>>>>>>>>>>> + * @start should be 2M aligned, @offset and
+>>>>>>>>>>>>>>> @length should be 64K aligned.
+>>>>>>>>>>>>>>> + * Also, on those platforms, it is not
+>>>>>>>>>>>>>>> allowed to bind an device local-memory
+>>>>>>>>>>>>>>> + * object and a system memory object in a
+>>>>>>>>>>>>>>> single 2M section of VA range.
+>>>>>>>>>>>>>>> + */
+>>>>>>>>>>>>>>> +struct drm_i915_gem_vm_bind {
+>>>>>>>>>>>>>>> +    /** @vm_id: VM (address space) id to bind */
+>>>>>>>>>>>>>>> +    __u32 vm_id;
+>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>> +    /** @queue_idx: Index of queue for binding */
+>>>>>>>>>>>>>>> +    __u32 queue_idx;
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> I have a question here to which I did not find
+>>>>>>>>>>>>>> an answer by browsing the old threads.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Queue index appears to be an implicit
+>>>>>>>>>>>>>> synchronisation mechanism, right? Operations on
+>>>>>>>>>>>>>> the same index are executed/complete in order of
+>>>>>>>>>>>>>> ioctl submission?
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Do we _have_ to implement this on the kernel
+>>>>>>>>>>>>>> side and could just allow in/out fence and let
+>>>>>>>>>>>>>> userspace deal with it?
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> It orders operations like in a queue. Which is kind
+>>>>>>>>>>>>> of what happens with existing queues/engines.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> If I understood correctly, it's going to be a
+>>>>>>>>>>>>> kthread + a linked list right?
+>>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>> Yes, that is correct.
+>>>>>>>>>>>>
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> -Lionel
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Arbitrary/on-demand number of queues will add
+>>>>>>>>>>>>>> the complexity on the kernel side which should
+>>>>>>>>>>>>>> be avoided if possible.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>> It was discussed in the other thread. Jason prefers this 
+>>>>>>>>>>>> over putting
+>>>>>>>>>>>> an artificial limit on number of queues (as user can
+>>>>>>>>>>>> anyway can exhaust
+>>>>>>>>>>>> the memory). I think complexity in the driver is manageable.
+>>>>>>>>>>>
+>>>>>>>>>>> You'll need to create tracking structures on demand, with
+>>>>>>>>>>> atomic replace of last fence, ref counting and locking of
+>>>>>>>>>>> some sort, more or less?
+>>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> We will have a workqueue, an work item and a linked list per 
+>>>>>>>>>> queue.
+>>>>>>>>>> VM_BIND/UNBIND call will add the mapping request to the
+>>>>>>>>>> specified queue's
+>>>>>>>>>> linked list and schedule the work item on the workqueue of 
+>>>>>>>>>> that queue.
+>>>>>>>>>> I am not sure what you mean by last fence and replacing it.
+>>>>>>>>>>
+>>>>>>>>>>>> The other option being discussed in to have the user create 
+>>>>>>>>>>>> those
+>>>>>>>>>>>> queues (like creating engine map) before hand and use that 
+>>>>>>>>>>>> in vm_bind
+>>>>>>>>>>>> and vm_unbind ioctls. This puts a limit on the number of 
+>>>>>>>>>>>> queues.
+>>>>>>>>>>>> But it is not clean either and not sure it is worth
+>>>>>>>>>>>> making the interface
+>>>>>>>>>>>> more complex.
+>>>>>>>>>>>> https://www.spinics.net/lists/dri-devel/msg350448.html
+>>>>>>>>>>>
+>>>>>>>>>>> What about the third option of a flag to return a fence (of
+>>>>>>>>>>> some sort) and pass in a fence? That way userspace can
+>>>>>>>>>>> imagine zero or N queues with very little effort on the
+>>>>>>>>>>> kernel side. Was this considered?
+>>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> I am not clear what fence you are talking about here and how 
+>>>>>>>>>> does that
+>>>>>>>>>> help with the number of vm_bind queues. Can you eloborate?
+>>>>>>>>>
+>>>>>>>>> It is actually already documented that bind/unbind will support
+>>>>>>>>> input and output fences - so what are these queues on top of what
+>>>>>>>>> userspace can already achieve by using them? Purely a 
+>>>>>>>>> convenience or
+>>>>>>>>> there is more to it?
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> Oh, the vm_bind queues are discussed in this thread.
+>>>>>>>> https://lists.freedesktop.org/archives/intel-gfx/2022-June/299217.html 
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> Apparently Vulkan has requirement for multiple queues, each queue
+>>>>>>>> processing vm_bind/unbind calls in the order of submission.
+>>>>>>>
+>>>>>>> I don't see how that answers my question so I will take the 
+>>>>>>> freedom to
+>>>>>>> repeat it. What are these queues on top of what userspace can 
+>>>>>>> already
+>>>>>>> achieve by using in-out fences? Purely a convenience or there is 
+>>>>>>> more to it?
+>>>>>>>
+>>>>>>> Queue1:
+>>>>>>>
+>>>>>>> out_fence_A = vm_bind A
+>>>>>>> out_fence_B = vm_bind B, in_fence=out_fence_A
+>>>>>>> execbuf(in_fence = out_fence_B)
+>>>>>>>
+>>>>>>> Queue2:
+>>>>>>>
+>>>>>>> out_fence_C = vm_bind C
+>>>>>>> out_fence_D = vm_bind D, in_fence=out_fence_C
+>>>>>>> execbuf(in_fence = out_fence_D)
+>>>>>>>
+>>>>>>> Parallel bind:
+>>>>>>> out_fence_E = vm_bind E
+>>>>>>> out_fence_F = vm_bind F
+>>>>>>> merged_fence = fence_merge(out_fence_E, out_fence_F)
+>>>>>>> execbuf(in_fence = merged_fence)
+>>>>>>>
+>>>>>>
+>>>>>> Let's say you do this and only 1 queue:
+>>>>>>
+>>>>>> VM_BIND_A (in_fence=fence_A)
+>>>>>> VM_BIND_B (in_fence=NULL)
+>>>>>>
+>>>>>> With 1 queue VM_BIND_B in blocked on fence_A, hence the need for 
+>>>>>> than 1
+>>>>>> queue.
+>>>>>
+>>>>> I don't follow - there isn't a concept of a queue exposed in uapi 
+>>>>> in what I have described so the above two run in parallel there, if 
+>>>>> we ignore fence_A in your example doesn't even exist before you 
+>>>>> pass it to bind A so something is not right.
+>>>>>
+>>>>>> e.g.
+>>>>>> VM_BIND_A (queue_id=0, in_fence=fence_A)
+>>>>>> VM_BIND_B (queue_id=1, in_fence=NULL)
+>>>>>>
+>>>>>> Now VM_BIND_B can immediately be executed regardless of fence_A 
+>>>>>> status.
+>>>>>
+>>>>> In my examples userspace can serialise or not as it sees fit using 
+>>>>> fences. The "parallel bind" examples two binds run in parallel. 
+>>>>> Userspace can create multiple such parallel "queues" if it wanted.
+>>>>>
+>>>>> Parallel bind 1 and 2 interleaved:
+>>>>> out_fence_A = vm_bind A
+>>>>> out_fence_B = vm_bind B
+>>>>> out_fence_C = vm_bind C
+>>>>> out_fence_D = vm_bind D
+>>>>> // all binds can run in parallel
+>>>>> merged_fence_1 = fence_merge(out_fence_A, out_fence_B)
+>>>>> merged_fence_2 = fence_merge(out_fence_C, out_fence_D)
+>>>>> execbuf(in_fence = merged_fence_1) // after A&B to finish
+>>>>> execbuf(in_fence = merged_fence_2) // after C&D finish
+>>>>>
+>>>>> There is a huge disconnect somewhere but I don't know where.
+>>>>>
+>>>>
+>>>> Note that Vulkan has requirement that VM_BIND and VM_UNBIND
+>>>> operations will also have 'in' fences associated with them
+>>>> and not just the 'out' fences (which your example above shows).
+>>>
+>>> I gave more examples earlier:
+>>>
+>>> """
+>>> Queue1:
+>>>
+>>> out_fence_A = vm_bind A
+>>> out_fence_B = vm_bind B, in_fence=out_fence_A
+>>> execbuf(in_fence = out_fence_B)
+>>> """
+>>>
+>>> Clearly I showed both in and out fence.
+>>>
+> 
+> Ok, guess I missed that.
+> 
+>>>> Yes, one of the solution discussed was not to have any queue_idx
+>>>> at all (assume single queue) and let the vm_bind/unbind operations
+>>>> submitted run and complete out of submission order. That way
+>>>> a vm_bind/unbind sumitted later will not be blocked by a vm_bind/unbind
+>>>> submitted earlier.
+>>>> But removing the ordering here comes at a cost. Having the operations
+>>>> run in submission order has some benefits. These are discussed in the
+>>>> other thread.
+>>>> https://lists.freedesktop.org/archives/intel-gfx/2022-June/299217.html
+>>>
+>>> That is some messed up deep quoting in that link. Could you please 
+>>> summarize the cost which queues in the uapi intended to avoid?
+>>>
+>>> In any case it is not just for me. A significant addition is proposed 
+>>> for the driver so there should be a clear summary of cost vs benefit 
+>>> rather than a messy thread.
+>>>
+> 
+> Say, user has a bunch of mappings to bind or unbind which must be done
+> in the submission order. If we have only one queue which runs the
+> operations out of submission order, then user has to insert in and out
+> fences for each of the operation in the bunch. But by having a in order
+> processing queues, user needs to insert 'in' fence only for the first
+> submission and 'out' fence only for the last submission in that bunch.
+> 
+> Also, having in order processing queues allows user to unbind a VA
+> mapping and re-use the same VA in a subsequent bind operation without
+> having any dependency (dependency is met by the fact that they are
+> process in the submission order).
+
+Okay so it is a convenience thing and maybe more performance efficient.
+
+Has a) the performance impact of requiring fences with every bind/unbind 
+been looked at, so we know if it is worth adding code to the driver to 
+handle queues and b) do you have the queued implementation sketched out 
+so amount of kernel code required can be judged?
 
 Regards,
-Christian.
 
-Am 15.06.22 um 02:40 schrieb Bas Nieuwenhuizen:
-> Hi Christian,
->
-> Friendly ping on the comments here. Are you okay with me re-spinning
-> the series with a fixed patch 1 or do we need further discussion on
-> the approach here?
->
-> Thanks,
-> Bas
->
-> On Mon, Jun 6, 2022 at 1:00 PM Bas Nieuwenhuizen
-> <bas@basnieuwenhuizen.nl> wrote:
->> On Mon, Jun 6, 2022 at 12:35 PM Christian König
->> <christian.koenig@amd.com> wrote:
->>> Am 06.06.22 um 12:30 schrieb Bas Nieuwenhuizen:
->>>> On Mon, Jun 6, 2022 at 12:15 PM Christian König
->>>> <christian.koenig@amd.com> wrote:
->>>>>
->>>>> Am 03.06.22 um 21:11 schrieb Bas Nieuwenhuizen:
->>>>>> On Fri, Jun 3, 2022 at 8:41 PM Christian König <christian.koenig@amd.com> wrote:
->>>>>>> Am 03.06.22 um 19:50 schrieb Bas Nieuwenhuizen:
->>>>>>>> [SNIP]
->>>>>>>>>>> Yeah, but that's exactly the bubble we try to avoid. Isn't it?
->>>>>>>>>> For this series, not really.  To clarify there are two sides for
->>>>>>>>>> getting GPU bubbles and no overlap:
->>>>>>>>>>
->>>>>>>>>> (1) VM operations implicitly wait for earlier CS submissions
->>>>>>>>>> (2) CS submissions implicitly wait for earlier VM operations
->>>>>>>>>>
->>>>>>>>>> Together, these combine to ensure that you get a (potentially small)
->>>>>>>>>> bubble any time VM work happens.
->>>>>>>>>>
->>>>>>>>>> Your series (and further ideas) tackles (2), and is a worthwhile thing
->>>>>>>>>> to do. However, while writing the userspace for this I noticed this
->>>>>>>>>> isn't enough to get rid of all our GPU bubbles. In particular when
->>>>>>>>>> doing a non-sparse map of a new BO, that tends to need to be waited on
->>>>>>>>>> for the next CS anyway for API semantics. Due to VM operations
->>>>>>>>>> happening on a single timeline that means this high priority map can
->>>>>>>>>> end up being blocked by earlier sparse maps and hence the bubble in
->>>>>>>>>> that case still exists.
->>>>>>>>>>
->>>>>>>>>> So in this series I try to tackle (1) instead. Since GPU work
->>>>>>>>>> typically lags behind CPU submissions and VM operations aren't that
->>>>>>>>>> slow, we can typically execute VM operations early enough that any
->>>>>>>>>> implicit syncs from (2) are less/no issue.
->>>>>>>>> Ok, once more since you don't seem to understand what I want to say: It
->>>>>>>>> isn't possible to fix #1 before you have fixed #2.
->>>>>>>>>
->>>>>>>>> The VM unmap operation here is a barrier which divides the CS operations
->>>>>>>>> in a before and after. This is intentional design.
->>>>>>>> Why is that barrier needed? The two barriers I got and understood and
->>>>>>>> I think we can deal with:
->>>>>>>>
->>>>>>>> 1) the VM unmap is a barrier between prior CS and later memory free.
->>>>>>>> 2) The TLB flush need to happen between a VM unmap and later CS.
->>>>>>>>
->>>>>>>> But why do we need the VM unmap to be a strict barrier between prior
->>>>>>>> CS and later CS?
->>>>>>> Exactly because of the two reasons you mentioned.
->>>>>> This is the part I'm not seeing. I get that removing #2 is a
->>>>>> nightmare, which is why I did something that doesn't violate that
->>>>>> constraint.
->>>>>>
->>>>>> Like if an explicit CS that was running before the VM operation  runs
->>>>>> till after the VM operation (and hence possibly till after the TLB
->>>>>> flush, or otherwise have the TLB flush not apply due to lack of async
->>>>>> TLB flush support), that is not an issue. It might see the state from
->>>>>> before the unmap, or after the unmap, or some intermediate state and
->>>>>> all of those would be okay.
->>>>>>
->>>>>> We still get the constraint that the TLB flush happens between the VM
->>>>>> unmap and later CS and hence the unmap is certainly visible to them.
->>>>> So you basically just want to set the sync mode in
->>>>> amdgpu_vm_update_range() to AMDGPU_SYNC_EXPLICIT even when it is an unmap?
->>>> Yes, with the caveat that I want to do that only for
->>>> DMA_RESV_USAGE_BOOKKEEP or higher (i.e. if we submit a CS with
->>>> implicit sync we get the old implicit behavior, if we submit a CS with
->>>> explicit sync we get the new explicit behavior). The rest of the
->>>> series is basically just for enabling explicit sync submissions.
->>> That part won't work at all and would cause additional synchronization
->>> problems.
->>>
->>> First of all for implicit synced CS we should use READ, not BOOKKEEP.
->>> Because BOOKKEEP would incorrectly be ignored by OpenGL importers. I've
->>> fixed that this causes memory corruption, but it is still nice to avoid.
->> Yes, what I'm saying is that on implicit sync CS submission should add
->> READ fences to the dma resv and on explicit sync CS submission should
->> add BOOKKEEP fences.
->>
->>> BOOKKEEP can only be used by VM updates themselves. So that they don't
->>> interfere with CS.
->> That is the point why we would go BOOKKEEP for explicit sync CS
->> submissions, no? Explicit submission shouldn't interfere with any
->> other CS submissions. That includes being totally ignored by GL
->> importers (if we want to have synchronization there between an
->> explicit submission and GL, userspace is expected to use Jason's
->> dmabuf fence import/export IOCTLs)
->>
->>> Then the second problem is that the VM IOCTL has absolutely no idea what
->>> the CS IOCTL would be doing. That's why we have added the EXPLICIT sync
->>> flag on the BO.
->> It doesn't need to? We just use a different sync_mode for BOOKKEEP
->> fences vs others:
->> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fpatchwork.freedesktop.org%2Fpatch%2F487887%2F%3Fseries%3D104578%26rev%3D2&amp;data=05%7C01%7Cchristian.koenig%40amd.com%7C0c76d5c34db846f2fff208da4e67ad7b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637908504442767830%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=cyfYyKR6hVpDV%2FathhSO6EnCHjNkEM6sJs%2BPLPERCEE%3D&amp;reserved=0
->>
->> (the nice thing about doing it this way is that it is independent of
->> the IOCTL, i.e. also works for the delayed mapping changes we trigger
->> on CS submit)
->>
->>> Regards,
->>> Christian.
->>>
->>>>> That should be doable, but then you don't need any of the other changes.
->>>>>
->>>>> Regards,
->>>>> Christian.
->>>>>
->>>>>>> #1 Is rather easy to fix, you just need to copy all dma_fences from the
->>>>>>> page table dma_resv object over to the BOs dma_resv object in the gem
->>>>>>> close handler. E.g. exactly what you suggested with the dma_resv_copy
->>>>>>> function.
->>>>>>>
->>>>>>> #2 is a nightmare.
->>>>>>>
->>>>>>> We can't move the TLB flush at the end of the unmap operation because on
->>>>>>> async TLB flushes are either a bit complicated (double flushes etc..) or
->>>>>>> don't even work at all because of hw bugs. So to have a reliable TLB
->>>>>>> flush we must make sure that nothing else is ongoing and that means
->>>>>>> CS->VM->CS barrier.
->>>>>>>
->>>>>>> We try very hard to circumvent that already on maps by (for example)
->>>>>>> using a completely new VMID for CS after the VM map operation.
->>>>>>>
->>>>>>> But for the unmap operation we would need some kind special dma_fence
->>>>>>> implementation which would not only wait for all existing dma_fence but
->>>>>>> also for the one added until the unmap operation is completed. Cause
->>>>>>> otherwise our operation we do at #1 would simply not catch all
->>>>>>> dma_fences which have access to the memory.
->>>>>>>
->>>>>>> That's certainly doable, but I think just using the drm_exec stuff I
->>>>>>> already came up with is easier.
->>>>>>>
->>>>>>> When we can grab locks for all the BOs involved amdgpu_vm_clear_freed()
->>>>>>> goes away and we can keep track of the unmap operations in the bo_va
->>>>>>> structure.
->>>>>>>
->>>>>>> With that done you can make the explicit sync you noted in the bo_va
->>>>>>> structure and implicit sync when the bo_va structure goes away.
->>>>>>>
->>>>>>> Then the only reason I can see why we would need a CS->VM dependency is
->>>>>>> implicit synchronization, and that's what we are trying to avoid here in
->>>>>>> the first place.
->>>>>>>
->>>>>>> Regards,
->>>>>>> Christian.
->>>>>>>
->>>>>>>>> To get rid of this barrier you must first fix the part where CS
->>>>>>>>> submissions wait for the VM operation to complete, e.g. the necessity of
->>>>>>>>> the barrier.
->>>>>>>>>
->>>>>>>>> I'm working on this for a couple of years now and I'm really running out
->>>>>>>>> of idea how to explain this restriction.
->>>>>>>>>
->>>>>>>>> Regards,
->>>>>>>>> Christian.
->>>>>>>>>
-
+Tvrtko
