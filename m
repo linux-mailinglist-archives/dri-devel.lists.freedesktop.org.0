@@ -2,42 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF5F54CCCF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 17:28:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681D654CCD4
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 17:28:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2035E112185;
-	Wed, 15 Jun 2022 15:27:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22371112254;
+	Wed, 15 Jun 2022 15:27:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E330B1121B6;
- Wed, 15 Jun 2022 15:27:47 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F8F2112241;
+ Wed, 15 Jun 2022 15:27:49 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3891661727;
+ by ams.source.kernel.org (Postfix) with ESMTPS id E8D50B81F0D;
  Wed, 15 Jun 2022 15:27:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AC96C3411E;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3672C385A2;
  Wed, 15 Jun 2022 15:27:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1655306866;
- bh=za6XXTXlSO5nrJLYy1rtvLJPylpkekf8kTgLIY5cAts=;
- h=From:To:Cc:Subject:Date:From;
- b=cARUWPwSj3OREgsOA5jp6Q6lZIrXQOTUxGJKDSiCSwiW3GZNOyb8zjF0o1L+83oWA
- O+h8HaQxKFQezSv6vLQedS41KF+H0o+YLTFl78wlbzXnHfRkF0QCKGvK8N//LROjtU
- dQb2+swSxqDdQ0d2xDqlahKFVR6TUvfk9+/6PbSb4WyvsFX3NnIxXL+H2i+x7eYJcA
- Imv01jXfonh8Xda27c5WVi0malHtrOcYWW94sA8y8piLFIJvEMsZKoH7hwESd8qQY8
- JcT6ziT2UQdBfkiNRauRdngekgfilwuqyIHzYy3NoXTq88KZjByvBzljCEs8Dw4184
- izBQuxjI8S3LA==
+ bh=nX1w5nyKD3K3Gw/ZF5PMRaXHVZxvYBa3oXkY2JHQUN0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=iyea28kx9k5ypeyLzp7cl1Ekca/aVGlkg75Bt3ZbxKPGTXSxU2vKgZ8XIjqXitRPW
+ 5H/QWhoNVlftRm8xtMxFKzTFvb3+5FAulFoYwyuq6PTJtUbITk4V2Bq82d1H8kTmB6
+ QNp00KVxH49Z2PIgW1iWNFlcNAKcgfHNvWHG0GqwEtti8EUo5zTPzIHK/ksGGLL23S
+ mohEEiyyP0AAxyro4qjdSFiw2litXaNf8u5fGvHIyVdW8Ka8CWwKiRNS10bIBNA658
+ ksgmxr6fGW3QfqzSjjT+JNh4fzUt3CaZX+qIvOZ1MfF0+4Jlvnpe45SC9fT+dgXX5t
+ IO2UvEwRD8+aQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1o1Uvm-00A4Ja-AR;
+ (envelope-from <mchehab@kernel.org>) id 1o1Uvm-00A4Jd-Cq;
  Wed, 15 Jun 2022 16:27:42 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: 
-Subject: [PATCH 0/6] Fix TLB invalidate issues with Broadwell
-Date: Wed, 15 Jun 2022 16:27:34 +0100
-Message-Id: <cover.1655306128.git.mchehab@kernel.org>
+Subject: [PATCH 1/6] drm/i915/gt: Ignore TLB invalidations on idle engines
+Date: Wed, 15 Jun 2022 16:27:35 +0100
+Message-Id: <ce7ddc900a5421e577ef446b6834ee69663c2d9a.1655306128.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <cover.1655306128.git.mchehab@kernel.org>
+References: <cover.1655306128.git.mchehab@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -63,78 +65,156 @@ Cc: Jason Ekstrand <jason@jlekstrand.net>, David Airlie <airlied@linux.ie>,
  Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
  Thomas Hellstrom <thomas.hellstrom@intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, tvrtko.ursulin@linux.intel.com,
- mauro.chehab@linux.intel.com,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, mauro.chehab@linux.intel.com,
  =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
- linux-kernel@vger.kernel.org, Bruce Chang <yu.bruce.chang@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
  John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-i915 selftest hangcheck is causing the i915 driver timeouts, as reported
-by Intel CI bot:
+From: Chris Wilson <chris.p.wilson@intel.com>
 
-	http://gfx-ci.fi.intel.com/cibuglog-ng/issuefilterassoc/24297?query_key=42a999f48fa6ecce068bc8126c069be7c31153b4
+As an extension of the current skip TLB invalidations,
+check if the device is powered down prior to any engine activity,
 
-When such test runs, the only output is:
+as, on such cases, all the TLBs were already invalidated, so an
+explicit TLB invalidation is not needed.
 
-	[   68.811639] i915: Performing live selftests with st_random_seed=0xe138eac7 st_timeout=500
-	[   68.811792] i915: Running hangcheck
-	[   68.811859] i915: Running intel_hangcheck_live_selftests/igt_hang_sanitycheck
-	[   68.816910] i915 0000:00:02.0: [drm] Cannot find any crtc or sizes
-	[   68.841597] i915: Running intel_hangcheck_live_selftests/igt_reset_nop
-	[   69.346347] igt_reset_nop: 80 resets
-	[   69.362695] i915: Running intel_hangcheck_live_selftests/igt_reset_nop_engine
-	[   69.863559] igt_reset_nop_engine(rcs0): 709 resets
-	[   70.364924] igt_reset_nop_engine(bcs0): 903 resets
-	[   70.866005] igt_reset_nop_engine(vcs0): 659 resets
-	[   71.367934] igt_reset_nop_engine(vcs1): 549 resets
-	[   71.869259] igt_reset_nop_engine(vecs0): 553 resets
-	[   71.882592] i915: Running intel_hangcheck_live_selftests/igt_reset_idle_engine
-	[   72.383554] rcs0: Completed 16605 idle resets
-	[   72.884599] bcs0: Completed 18641 idle resets
-	[   73.385592] vcs0: Completed 17517 idle resets
-	[   73.886658] vcs1: Completed 15474 idle resets
-	[   74.387600] vecs0: Completed 17983 idle resets
-	[   74.387667] i915: Running intel_hangcheck_live_selftests/igt_reset_active_engine
-	[   74.889017] rcs0: Completed 747 active resets
-	[   75.174240] intel_engine_reset(bcs0) failed, err:-110
-	[   75.174301] bcs0: Completed 525 active resets
+This becomes more significant  with GuC, as it can only do so when
+the connection to the GuC is awake.
 
-After that, the machine just silently hangs.
+Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")
 
-Bisecting the issue, the patch that introduced the regression is:
+Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+Cc: Fei Yang <fei.yang@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: stable@vger.kernel.org
+Acked-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
 
-    7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")
+See [PATCH 0/6] at: https://lore.kernel.org/all/cover.1655306128.git.mchehab@kernel.org/
 
-Reverting it fix the issues, but introduce other problems, as TLB
-won't be invalidated anymore. So, instead, let's fix the root cause.
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c | 10 +++++----
+ drivers/gpu/drm/i915/gt/intel_gt.c        | 26 +++++++++++++++++------
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h     |  3 +++
+ 3 files changed, 28 insertions(+), 11 deletions(-)
 
-It turns that the TLB flush logic ends conflicting with i915 reset,
-which is called during selftest hangcheck. So, the TLB cache should
-be serialized, but other TLB fix patches are required for this one
-to work.
-
-Tested on an Intel NUC5i7RYB with an i7-5557U Broadwell CPU.
-
-Chris Wilson (6):
-  drm/i915/gt: Ignore TLB invalidations on idle engines
-  drm/i915/gt: Invalidate TLB of the OA unit at TLB invalidations
-  drm/i915/gt: Skip TLB invalidations once wedged
-  drm/i915/gt: Only invalidate TLBs exposed to user manipulation
-  drm/i915/gt: Serialize GRDOM access between multiple engine resets
-  drm/i915/gt: Serialize TLB invalidates with GT resets
-
- drivers/gpu/drm/i915/gem/i915_gem_pages.c | 10 +++---
- drivers/gpu/drm/i915/gt/intel_gt.c        | 43 +++++++++++++++++++----
- drivers/gpu/drm/i915/gt/intel_gt_pm.h     |  3 ++
- drivers/gpu/drm/i915/gt/intel_reset.c     | 37 ++++++++++++++-----
- drivers/gpu/drm/i915/i915_vma.c           |  3 +-
- 5 files changed, 75 insertions(+), 21 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+index 97c820eee115..6835279943df 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+@@ -6,14 +6,15 @@
+ 
+ #include <drm/drm_cache.h>
+ 
++#include "gt/intel_gt.h"
++#include "gt/intel_gt_pm.h"
++
+ #include "i915_drv.h"
+ #include "i915_gem_object.h"
+ #include "i915_scatterlist.h"
+ #include "i915_gem_lmem.h"
+ #include "i915_gem_mman.h"
+ 
+-#include "gt/intel_gt.h"
+-
+ void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
+ 				 struct sg_table *pages,
+ 				 unsigned int sg_page_sizes)
+@@ -217,10 +218,11 @@ __i915_gem_object_unset_pages(struct drm_i915_gem_object *obj)
+ 
+ 	if (test_and_clear_bit(I915_BO_WAS_BOUND_BIT, &obj->flags)) {
+ 		struct drm_i915_private *i915 = to_i915(obj->base.dev);
++		struct intel_gt *gt = to_gt(i915);
+ 		intel_wakeref_t wakeref;
+ 
+-		with_intel_runtime_pm_if_active(&i915->runtime_pm, wakeref)
+-			intel_gt_invalidate_tlbs(to_gt(i915));
++		with_intel_gt_pm_if_awake(gt, wakeref)
++			intel_gt_invalidate_tlbs(gt);
+ 	}
+ 
+ 	return pages;
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index f33290358c51..d5ed6a6ac67c 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -11,6 +11,7 @@
+ 
+ #include "i915_drv.h"
+ #include "intel_context.h"
++#include "intel_engine_pm.h"
+ #include "intel_engine_regs.h"
+ #include "intel_gt.h"
+ #include "intel_gt_buffer_pool.h"
+@@ -1216,6 +1217,7 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+ 	struct drm_i915_private *i915 = gt->i915;
+ 	struct intel_uncore *uncore = gt->uncore;
+ 	struct intel_engine_cs *engine;
++	intel_engine_mask_t awake, tmp;
+ 	enum intel_engine_id id;
+ 	const i915_reg_t *regs;
+ 	unsigned int num = 0;
+@@ -1239,12 +1241,27 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+ 
+ 	GEM_TRACE("\n");
+ 
+-	assert_rpm_wakelock_held(&i915->runtime_pm);
+-
+ 	mutex_lock(&gt->tlb_invalidate_lock);
+ 	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
+ 
++	awake = 0;
+ 	for_each_engine(engine, gt, id) {
++		struct reg_and_bit rb;
++
++		if (!intel_engine_pm_is_awake(engine))
++			continue;
++
++		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
++		if (!i915_mmio_reg_offset(rb.reg))
++			continue;
++
++		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
++		awake |= engine->mask;
++	}
++
++	for_each_engine_masked(engine, gt, awake, tmp) {
++		struct reg_and_bit rb;
++
+ 		/*
+ 		 * HW architecture suggest typical invalidation time at 40us,
+ 		 * with pessimistic cases up to 100us and a recommendation to
+@@ -1252,13 +1269,8 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+ 		 */
+ 		const unsigned int timeout_us = 100;
+ 		const unsigned int timeout_ms = 4;
+-		struct reg_and_bit rb;
+ 
+ 		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
+-		if (!i915_mmio_reg_offset(rb.reg))
+-			continue;
+-
+-		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
+ 		if (__intel_wait_for_register_fw(uncore,
+ 						 rb.reg, rb.bit, 0,
+ 						 timeout_us, timeout_ms,
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+index bc898df7a48c..a334787a4939 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+@@ -55,6 +55,9 @@ static inline void intel_gt_pm_might_put(struct intel_gt *gt)
+ 	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
+ 	     intel_gt_pm_put(gt), tmp = 0)
+ 
++#define with_intel_gt_pm_if_awake(gt, wf) \
++	for (wf = intel_gt_pm_get_if_awake(gt); wf; intel_gt_pm_put_async(gt), wf = 0)
++
+ static inline int intel_gt_pm_wait_for_idle(struct intel_gt *gt)
+ {
+ 	return intel_wakeref_wait_for_idle(&gt->wakeref);
 -- 
 2.36.1
-
 
