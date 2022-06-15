@@ -1,54 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4667254CA7B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 15:58:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB33954CA82
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 15:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55F5210F197;
-	Wed, 15 Jun 2022 13:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E721110F514;
+	Wed, 15 Jun 2022 13:59:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B23D10F14E
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 13:58:00 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id DFD566601701;
- Wed, 15 Jun 2022 14:57:57 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1655301479;
- bh=FFs8T8AY3TkghM9Ue1wO41/Alt1IIwwAZGlkReIRBMA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=MufCONJCJaFd78/i7BkklmNqEafwzy0hYnARqR2ChECDqeyog4T+oxPDSqRyieQKo
- 05baBqalwxSZ9L6EhVJCHlbtZv664NpgTzpSVHwaVjoADtRJAsorkC17Gt325I87XR
- 5GDI1F5Neg6PUHdVhXAd6GO+BSiBn086Bz8weN1ZPym8jtoDctGGZ0PZOtN4yV38a4
- yyYNhH3ia3tst8Fi0Onl+a7mW2hhArWZk4T+ZT+NlwtaO4CRb89KoG9oHrpahotXgH
- E2Xw/O5EAjUIkIac/gV6Gec8gUgkU2jYJMwidYG4DSHYhLkq+m0dQBe06SyMANAeuK
- dMKpdGoXbB6qA==
-Message-ID: <77302f99-cda5-00a2-ab00-07716b0dc470@collabora.com>
-Date: Wed, 15 Jun 2022 15:57:55 +0200
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A502B10F2AC
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 13:59:09 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ f9-20020a9d2c09000000b0060bf1fa91f4so8891382otb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 06:59:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=usp.br; s=usp-google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HtsboVTHSE/bkA7u3/jbXe0vzCJv+VUAjBvhjsMRO98=;
+ b=mpSXxXmFCTMA/3nFJ4hzQIM91fTrCxP3+7WEvIzazeD7EJmSJT6aqC5BPE+KaWdGTy
+ tqHeivqZD2o8hv9xrpyCqlKYQNbIZTE9fEt4EF6lKzd9GiR2c+wVtWwFanyrL9Vs61ut
+ LlVrMrWDQ2IrERN6/GEnzd37ofFlEA27kIkJdHYcqTV94bKpEcv5aboRr7/MyVNzLRd1
+ ktqO0Pj3MDhnU6TZZhGNpLJzIerX/wtfHMZTNGeGpNODgyHpSuP+qg2k7PcATRBskFrX
+ pcfHktKZ93+5UAF+cuAMRVPHdj8PZesv4zKl4KEPct14KAfiaYYmOiuFMrC//rARPEuv
+ bZNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HtsboVTHSE/bkA7u3/jbXe0vzCJv+VUAjBvhjsMRO98=;
+ b=yDlL0g0yriKR+3u9Rc0YFLjMB+eYLhN1yxFAR3ShHohcxJ8EMUxJtsWO8zw8H6unoG
+ UJHbcUNOYstzHCs1CR1iXAN8UAVQ3Sk5u0wTU+S64Ts26D1IQh9p+SEIH4n9BuMzlg8E
+ rptb65Zxzmn6xd6O20JTwS/fFZOg4W1UnuwBiDp96IabCk/6pYPj7ZZ9nxHFmeJDvbIK
+ DVcxyouuvHk2X9IMxBs8E4XgxP+4Q1e/qTeHG4iXc4Az+rUwi6i9tzvEr4FPaAOEJ4ZY
+ RS+VmkPqXTYfYJnlxYwm35nTaIAHixXnMVi3eEw9unmQogl4f+a7D8kvoMiw7n+/2+ov
+ UFew==
+X-Gm-Message-State: AOAM530aMoC3exdzwbY29QuCzTrxLwdGTniKb+4naxoqUSncyyLvnp+/
+ 8wnLJM6zm2zBMLKMi2FjYzkVuw==
+X-Google-Smtp-Source: ABdhPJwjIm/CMZuWBN+ZybqgyeNh5zv9KD4psXkuwZd9KZ/7TwjK3tnggP/9fFvwHZRdeYQXIanA0A==
+X-Received: by 2002:a05:6830:87:b0:60c:2c2c:adaa with SMTP id
+ a7-20020a056830008700b0060c2c2cadaamr4254321oto.188.1655301548845; 
+ Wed, 15 Jun 2022 06:59:08 -0700 (PDT)
+Received: from fedora.. ([2804:14d:8084:84c6:fe26:c42d:aab9:fa8a])
+ by smtp.gmail.com with ESMTPSA id
+ u7-20020a056830248700b0060bfebb96e5sm6056928ots.35.2022.06.15.06.59.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jun 2022 06:59:08 -0700 (PDT)
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <maira.canal@usp.br>
+To: Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
+ tales.aparecida@gmail.com, mwen@igalia.com, andrealmeid@riseup.net,
+ Trevor Woerner <twoerner@gmail.com>, leandro.ribeiro@collabora.com,
+ n@nfraprado.net, Daniel Vetter <daniel@ffwll.ch>,
+ Shuah Khan <skhan@linuxfoundation.org>, David Airlie <airlied@linux.ie>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, michal.winiarski@intel.com,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ David Gow <davidgow@google.com>, Daniel Latypov <dlatypov@google.com>,
+ brendanhiggins@google.com
+Subject: [PATCH 00/10] drm: selftest: Convert to KUnit
+Date: Wed, 15 Jun 2022 10:58:14 -0300
+Message-Id: <20220615135824.15522-1-maira.canal@usp.br>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 7/7] drm/bridge: anx7625: Add typec_mux_set callback
- function
-Content-Language: en-US
-To: Prashant Malani <pmalani@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>
-References: <20220609181106.3695103-1-pmalani@chromium.org>
- <20220609181106.3695103-8-pmalani@chromium.org>
- <1191703c-efa5-7fe6-7dd0-e3e786b58411@collabora.com>
- <CAEXTbpfh3aKS8DZ9T0KPNLfWJ4EsLxcJpP8aLYU-iQYC1N4sRQ@mail.gmail.com>
- <CACeCKafeJ40y2LYsEm4Z2pRMxzM6W+VcC1F95oFqNq+xokPWUQ@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CACeCKafeJ40y2LYsEm4Z2pRMxzM6W+VcC1F95oFqNq+xokPWUQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,152 +79,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Tzung-Bi Shih <tzungbi@google.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <maira.canal@usp.br>,
+ kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 14/06/22 18:58, Prashant Malani ha scritto:
-> On Tue, Jun 14, 2022 at 2:08 AM Pin-yen Lin <treapking@chromium.org> wrote:
->>
->> Hi AngeloGioacchino,
->>
->>
->> On Tue, Jun 14, 2022 at 4:15 PM AngeloGioacchino Del Regno
->> <angelogioacchino.delregno@collabora.com> wrote:
->>>
->>> Il 09/06/22 20:09, Prashant Malani ha scritto:
->>>> From: Pin-Yen Lin <treapking@chromium.org>
->>>>
->>>> Add the callback function when the driver receives state
->>>> changes of the Type-C port. The callback function configures the
->>>> crosspoint switch of the anx7625 bridge chip, which can change the
->>>> output pins of the signals according to the port state.
->>>>
->>>> Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
->>>> Signed-off-by: Prashant Malani <pmalani@chromium.org>
->>>> ---
->>>>
->>>> Changes since v2:
->>>> - No changes.
->>>>
->>>>    drivers/gpu/drm/bridge/analogix/anx7625.c | 58 +++++++++++++++++++++++
->>>>    drivers/gpu/drm/bridge/analogix/anx7625.h | 13 +++++
->>>>    2 files changed, 71 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
->>>> index d41a21103bd3..2c308d12fab2 100644
->>>> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
->>>> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
->>>> @@ -15,6 +15,7 @@
->>>>    #include <linux/regulator/consumer.h>
->>>>    #include <linux/slab.h>
->>>>    #include <linux/types.h>
->>>> +#include <linux/usb/typec_dp.h>
->>>>    #include <linux/usb/typec_mux.h>
->>>>    #include <linux/workqueue.h>
->>>>
->>>> @@ -2582,9 +2583,66 @@ static void anx7625_runtime_disable(void *data)
->>>>        pm_runtime_disable(data);
->>>>    }
->>>>
->>>> +static void anx7625_set_crosspoint_switch(struct anx7625_data *ctx,
->>>> +                                       enum typec_orientation orientation)
->>>> +{
->>>> +     if (orientation == TYPEC_ORIENTATION_NORMAL) {
->>>> +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
->>>> +                               SW_SEL1_SSRX_RX1 | SW_SEL1_DPTX0_RX2);
->>>> +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
->>>> +                               SW_SEL2_SSTX_TX1 | SW_SEL2_DPTX1_TX2);
->>>> +     } else if (orientation == TYPEC_ORIENTATION_REVERSE) {
->>>> +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_0,
->>>> +                               SW_SEL1_SSRX_RX2 | SW_SEL1_DPTX0_RX1);
->>>> +             anx7625_reg_write(ctx, ctx->i2c.tcpc_client, TCPC_SWITCH_1,
->>>> +                               SW_SEL2_SSTX_TX2 | SW_SEL2_DPTX1_TX1);
->>>> +     }
->>>> +}
->>>> +
->>>> +static void anx7625_typec_two_ports_update(struct anx7625_data *ctx)
->>>> +{
->>>> +     if (ctx->typec_ports[0].dp_connected && ctx->typec_ports[1].dp_connected)
->>>> +             /* Both ports available, do nothing to retain the current one. */
->>>> +             return;
->>>> +     else if (ctx->typec_ports[0].dp_connected)
->>>> +             anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_NORMAL);
->>>> +     else if (ctx->typec_ports[1].dp_connected)
->>>> +             anx7625_set_crosspoint_switch(ctx, TYPEC_ORIENTATION_REVERSE);
->>>> +}
->>>> +
->>>>    static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
->>>>                                 struct typec_mux_state *state)
->>>>    {
->>>> +     struct anx7625_port_data *data = typec_mux_get_drvdata(mux);
->>>> +     struct anx7625_data *ctx = data->ctx;
->>>> +     struct device *dev = &ctx->client->dev;
->>>> +
->>>> +     bool old_dp_connected = (ctx->typec_ports[0].dp_connected ||
->>>> +                              ctx->typec_ports[1].dp_connected);
->>>
->>> So the old connection state is "either port0 or port1 are currently connected"...
->>>
->>>> +     bool new_dp_connected;
->>>> +
->>>> +     if (ctx->num_typec_switches == 1)
->>>> +             return 0;
->>>> +
->>>> +     dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
->>>> +             ctx->typec_ports[0].dp_connected, ctx->typec_ports[1].dp_connected);
->>>> +
->>>> +     data->dp_connected = (state->alt && state->alt->svid == USB_TYPEC_DP_SID &&
->>>> +                           state->alt->mode == USB_TYPEC_DP_MODE);
->>>> + > + new_dp_connected = (ctx->typec_ports[0].dp_connected ||
->>>> +                         ctx->typec_ports[1].dp_connected);
->>>
->>> ...and the new connection state is the same as the old one, because I don't see
->>> anything that could ever modify it in this function's flow, until reaching this
->>> assignment.
->>
->> The typec mux driver data (`struct anx7625_port_data *data =
->> typec_mux_get_drvdata(mux)`) is set to one of the
->> `ctx->typec_ports[*]` in `anx7625_register_mode_switch` (see patch 6
->> of this series).
->>
->> So, the `data->dp_connected = ...` assignment may change the new
->> connection state.
-> 
-> Angelo, I think your interpretation of this logic is not accurate..
-> |old_dp_connected| represents *whether* port1 or port0 has a DP
-> partner connected, not that *either* of them has it.
-> 
-> So, this logic looks OK to me.
-> 
+KUnit unifies the test structure and provides helper tools that simplify
+the development of tests. The basic use case allows running tests as regular
+processes, which makes it easier to run unit tests on a development machine
+and to integrate the tests into a CI system.
 
-Hello Prashant,
+That said, the conversion of selftests for DRM to KUnit tests is beneficial
+as it unifies the testing API by using the KUnit API.
 
-You're completely right: I've finally seen where this is happening, so yes
-we don't know, nor care at that moment, whether data->dp_connected is port0
-or port1, we assign and check 'em both again, which is actually smart.
+KUnit is beneficial for developers as it eases the process to run unit tests.
+It is possible to run the tests by using the kunit-tool on userspace with the
+following command:
 
-I'm sorry for the misunderstandment - and thank you for your reply.
+./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/tests --arch=x86_64
 
-Feel free to add my
+For CI system, it is possible to execute during the build. But, we also think
+about IGT: we are developing a patch to introduce KUnit to IGT.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+These patches were developed during a KUnit hackathon [0] last October. Now,
+we believe that both the IGT side and the Kernel side are in good shape for
+submission.
 
-Regards,
-Angelo
+If you are willing to check the output, here is the Pastebin with the output
+and execution times [1].
+
+[0] https://groups.google.com/g/kunit-dev/c/YqFR1q2uZvk/m/IbvItSfHBAAJ
+[1] https://pastebin.com/FJjLPKsC
+
+- Arthur Grillo, Isabella Basso, and Maíra Canal
+
+Arthur Grillo (2):
+  drm: selftest: refactor drm_cmdline_parser
+  drm: selftest: convert drm_mm selftest to KUnit
+
+Maíra Canal (8):
+  drm: selftest: convert drm_damage_helper selftest to KUnit
+  drm: selftest: convert drm_cmdline_parser selftest to KUnit
+  drm: selftest: convert drm_rect selftest to KUnit
+  drm: selftest: convert drm_format selftest to KUnit
+  drm: selftest: convert drm_plane_helper selftest to KUnit
+  drm: selftest: convert drm_dp_mst_helper selftest to KUnit
+  drm: selftest: convert drm_framebuffer selftest to KUnit
+  drm: selftest: convert drm_buddy selftest to KUnit
+
+ drivers/gpu/drm/Kconfig                       |   20 +-
+ drivers/gpu/drm/Makefile                      |    2 +-
+ drivers/gpu/drm/selftests/Makefile            |    8 -
+ .../gpu/drm/selftests/drm_buddy_selftests.h   |   15 -
+ .../gpu/drm/selftests/drm_cmdline_selftests.h |   68 -
+ drivers/gpu/drm/selftests/drm_mm_selftests.h  |   28 -
+ .../gpu/drm/selftests/drm_modeset_selftests.h |   40 -
+ drivers/gpu/drm/selftests/drm_selftest.c      |  109 --
+ drivers/gpu/drm/selftests/drm_selftest.h      |   41 -
+ drivers/gpu/drm/selftests/test-drm_buddy.c    |  994 --------------
+ .../drm/selftests/test-drm_cmdline_parser.c   | 1141 -----------------
+ .../drm/selftests/test-drm_damage_helper.c    |  667 ----------
+ drivers/gpu/drm/selftests/test-drm_format.c   |  280 ----
+ .../drm/selftests/test-drm_modeset_common.c   |   32 -
+ .../drm/selftests/test-drm_modeset_common.h   |   52 -
+ drivers/gpu/drm/tests/.kunitconfig            |    3 +
+ drivers/gpu/drm/tests/Kconfig                 |  130 ++
+ drivers/gpu/drm/tests/Makefile                |   10 +
+ drivers/gpu/drm/tests/test-drm_buddy.c        |  748 +++++++++++
+ .../gpu/drm/tests/test-drm_cmdline_parser.c   |  799 ++++++++++++
+ .../gpu/drm/tests/test-drm_damage_helper.c    |  633 +++++++++
+ .../test-drm_dp_mst_helper.c                  |   82 +-
+ drivers/gpu/drm/tests/test-drm_format.c       |  284 ++++
+ .../test-drm_framebuffer.c                    |   25 +-
+ .../drm/{selftests => tests}/test-drm_mm.c    | 1135 +++++++---------
+ .../test-drm_plane_helper.c                   |  101 +-
+ .../drm/{selftests => tests}/test-drm_rect.c  |  124 +-
+ 27 files changed, 3240 insertions(+), 4331 deletions(-)
+ delete mode 100644 drivers/gpu/drm/selftests/Makefile
+ delete mode 100644 drivers/gpu/drm/selftests/drm_buddy_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_cmdline_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_mm_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_modeset_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_selftest.c
+ delete mode 100644 drivers/gpu/drm/selftests/drm_selftest.h
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_buddy.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_cmdline_parser.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_damage_helper.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_format.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_modeset_common.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_modeset_common.h
+ create mode 100644 drivers/gpu/drm/tests/.kunitconfig
+ create mode 100644 drivers/gpu/drm/tests/Kconfig
+ create mode 100644 drivers/gpu/drm/tests/Makefile
+ create mode 100644 drivers/gpu/drm/tests/test-drm_buddy.c
+ create mode 100644 drivers/gpu/drm/tests/test-drm_cmdline_parser.c
+ create mode 100644 drivers/gpu/drm/tests/test-drm_damage_helper.c
+ rename drivers/gpu/drm/{selftests => tests}/test-drm_dp_mst_helper.c (73%)
+ create mode 100644 drivers/gpu/drm/tests/test-drm_format.c
+ rename drivers/gpu/drm/{selftests => tests}/test-drm_framebuffer.c (96%)
+ rename drivers/gpu/drm/{selftests => tests}/test-drm_mm.c (58%)
+ rename drivers/gpu/drm/{selftests => tests}/test-drm_plane_helper.c (62%)
+ rename drivers/gpu/drm/{selftests => tests}/test-drm_rect.c (53%)
+
+-- 
+2.36.1
+
