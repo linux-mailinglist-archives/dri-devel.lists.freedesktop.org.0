@@ -1,123 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4329D54BF84
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 03:56:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A665A54BFE4
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 04:58:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56F5410E246;
-	Wed, 15 Jun 2022 01:56:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B90A21127A3;
+	Wed, 15 Jun 2022 02:58:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2081.outbound.protection.outlook.com [40.107.21.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B252C10E246
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 01:56:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FrcB3B8JxHAA/t7AfL03k23pGOEjjgTI0L3XnxdYWatoz4g8lPmDDGSPmngtxq+V3dLyJxdjbkMN8tnNDcYfbbeQHtIUpKdypBDPVAt42NQbu1MPonHXVFiRfb1ajwJZzArsmuO+E6VbKq4IdTyQ1HlYDY8xdAVIh4v3dIAsQmUivhmHi+fkoo0YGomnqQ0jjQSfHgcD+6TVk0XcL+chqgFgd1rnFdomIIR6SsYDE6eUT8aUpfvDFw6KW5hEbY/7D3I43gtBREsrTyibf3tFEy7IGZaGUfOksqnMkaexpOtcoWat8oYjor91MvPGCMenaTgFHqQ/7t8EQPnLXVs2Og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GJhU/0hIuuKkaHHJaCcYS9AcsuT+4agfuJ4zoyShUe0=;
- b=i8+zt4inqwi+5SWV1zlSSckPHPZnL7fpHIs2Oh7XvyCtzkYmipAV5d33BKfIHwf+qLX9UIlr8NGK5K1ewaIH9gZZk+Z51Oqs7lPJIBQdNv3begUNlk3SPKeB1+iSuT9o8+gmit79GtvS6JmW7QYyq+uvdkbbYFrPkte+s2wWtToH9JY8sfk6sSHyudRDftJUZz/0qB4KwdDHVVw7KXv+btKncvMx83X5Z0cPpNQhurD+81ltoR+LAqYgcVaEzUmSS0KwrllKqmxDoMZEGXCMeQNRGsDOu554FboiesL1Bb7H7ZJ3Hm4WzaMx8ktagcazHV/RlbJOcU7kwK/Tz0IPNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GJhU/0hIuuKkaHHJaCcYS9AcsuT+4agfuJ4zoyShUe0=;
- b=bBs3H2OrxrsWyrBwos99NmB+PLD+d3Ba8CpmaPU9xIH7COEpliGHLPq10W9ZuZaMVg7u4zP3NxXH7QhPqXDUfv4VWcjIvJ2slE9Pkvb0uyStmvcLiTlncqUKBnHUugfaFHW8mcPbgMbsGFhpq5YeJOyAZi98w9RogUHao6L9kv0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM6PR04MB6280.eurprd04.prod.outlook.com (2603:10a6:20b:71::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.22; Wed, 15 Jun
- 2022 01:56:29 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::3c82:f63b:711a:502]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::3c82:f63b:711a:502%7]) with mapi id 15.20.5332.019; Wed, 15 Jun 2022
- 01:56:29 +0000
-Message-ID: <f56f29bb82be4dcb752cf392a09f8c74db6a9d49.camel@nxp.com>
-Subject: Re: [PATCH v9 05/14] dt-bindings: display: bridge: Add i.MX8qm/qxp
- display pixel link binding
-From: Liu Ying <victor.liu@nxp.com>
-To: Rob Herring <robh@kernel.org>
-Date: Wed, 15 Jun 2022 09:56:16 +0800
-In-Reply-To: <20220614201146.GA2344044-robh@kernel.org>
-References: <20220611141421.718743-1-victor.liu@nxp.com>
- <20220611141421.718743-6-victor.liu@nxp.com>
- <20220614201146.GA2344044-robh@kernel.org>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F71E1127E6
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 02:58:44 +0000 (UTC)
+X-UUID: bc846e8ad3a949549d4a55b3584c5b25-20220615
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6, REQID:48c969ea-f9ce-42a5-8d7e-419e3c7a0c34, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:b14ad71, CLOUDID:32a73ff6-e099-41ba-a32c-13b8bfe63214,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:nil,BEC:nil,COL:0
+X-UUID: bc846e8ad3a949549d4a55b3584c5b25-20220615
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 611290286; Wed, 15 Jun 2022 10:58:39 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Wed, 15 Jun 2022 10:58:37 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 15 Jun 2022 10:58:37 +0800
+Message-ID: <d5416a2f2a655f6574b17597fdc22615fe2fc22a.camel@mediatek.com>
+Subject: Re: [PATCH v11 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
+ <airlied@linux.ie>
+Date: Wed, 15 Jun 2022 10:58:37 +0800
+In-Reply-To: <20220610105522.13449-6-rex-bc.chen@mediatek.com>
+References: <20220610105522.13449-1-rex-bc.chen@mediatek.com>
+ <20220610105522.13449-6-rex-bc.chen@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR02CA0138.apcprd02.prod.outlook.com
- (2603:1096:4:188::12) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dbf527be-4078-4784-b4cd-08da4e72438b
-X-MS-TrafficTypeDiagnostic: AM6PR04MB6280:EE_
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-Microsoft-Antispam-PRVS: <AM6PR04MB62808F2F19EA42BF0C1A385D98AD9@AM6PR04MB6280.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wQ0bLN88NbiliUPGxqbikyqVyBgedOi1o862Ehl96wuTKxCwmuqeYuSmCc0jTNEQB5nmmyMzeFlb222TINgeBojz1V/Ri9SOgu5piKJzIz4iuAHcbdW5XyHX16KI5b7/W+gBD2xY28IdWowTcTCZgh4xfny1WACAWHXED4uomD9f9P9O6U5usqTwSCYAwLWJ2Yc3s0KOxE8k3E/PmKaXYj92SP276aif598jS3sb6poB7nrgckCqG1aLPe1cfT5gUkX5/3argBTtXWIuXvNxRDAjOp1qH6pS3qECWm9sOydTVFgMflPx5rF+/xrhclfztoAxnsPkWqn0RmFP6rYe6dB3RN8Zy0RQBdh/hj6RB+LxngzDgvU4J+skI7o4H5NHG5GCuqCCKX6y8JjBbHjxxNygbeTT0EynufCnj6gO6G+yoJ7S1mIxn6AIbCbk+9jDpZ5VkwXkEsb0xYnJRoFUSSmi0ViKgLivR8aTa/Xl5oxDooLmQfpJU8kYjBJ08V4bdio7xfrFO/zFglpLBWbS/XP3IzmRkcOCnlcTdB+NpI7qAPIck3BTg0FmC/QTwF3pLRa2LBkLCPMEXwyEEpirih7fa6CVLkUM5/oqumtFf9jER8hMcGxgjgdx8h5cK6Tnii1Bi556WehzPe19gXm0TPcT5N3AishvvmDuTFKI3CAkGtN6eaoCGpsSz5mleY8rbekEjME7EJjD1pWzvKXMki3CwI4b4Rmbv19pVzJoRNMO+pEHg+xqwQ2LDOEyGZ5nxlTHvCdG36L9rx2IWu1hsnWFRFlln9GWEG1PW4Ue0dDRgvlbJB8o7CJOMPQmq7qxixp+nsHU0alfvkVdIaV8xSi3Hx5BFt9y7Zu+y+usCWg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(66946007)(66556008)(8676002)(6666004)(2906002)(66476007)(4326008)(38350700002)(86362001)(6916009)(5660300002)(36756003)(7416002)(316002)(26005)(186003)(52116002)(2616005)(966005)(8936002)(83380400001)(6486002)(508600001)(38100700002)(6512007)(45080400002)(6506007)(99106002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZHV5UEJyV2MwRWxQOHZQNE5RTmN0WkhITUpVTDNzbUZmeFlhZWsvK2lhWlM1?=
- =?utf-8?B?K00wWFVmemIydm1LN2Y5aWhkOXNNR3FHL3hkcERZTmRhWC9IY3hDMjhZVlk0?=
- =?utf-8?B?cWY4MkNUWWw3VW9LZm9jTTJTbldnRkUyaDczNDlCdnhKb0NUaHdYdm1raUR1?=
- =?utf-8?B?OUpUMmFkaHRjRWI2dGczUzVJbkZNdTdENTF2azN0bXFWKzZXVXlBWjlOYW1P?=
- =?utf-8?B?ZTdLeWlrNkIxSkQ0Y3lQcjFmc3U4WkVxdlYxd0dNb3B2QWUvOGhFeHMxUGVx?=
- =?utf-8?B?dHRaQ014K0toZjZUTU5zczlyaG1WaUN3eWc3RGI2SGpBRTFrMjB0MmpCdnRJ?=
- =?utf-8?B?M3FLYzcxYVVNYmlyb2RqZ1AzeHBFbmRZSXlGTDhtcnhUSlJsT2t0MlJuT21U?=
- =?utf-8?B?RUF4TmZEdjVBU3JQaW15MkU5V2VyNmU2YkZtWUdNT2VZcmtDeFpMbDc3YThV?=
- =?utf-8?B?L3J0WEM2bFJvaWJPRU80YzBXaldiYjAxT0ZCanFXR21QK1VZZnBaOXBVUHk0?=
- =?utf-8?B?c3RtOE1JY09GYnhlRTRrUDRNOTJ2OWdvYlp2cEZ5R1VwWmJCNGVJVTBNY1RZ?=
- =?utf-8?B?R0hEQ1loc2ErR0M5S2VTUC9EMk9UT3RyWWFPcVhhMnBoNGtMVzVmZlZjTXdR?=
- =?utf-8?B?UnBSblpIZGZ3LzVaRUJ4VTFtZ2JCL2JzQUoyMjZvQ1VxM2NvTFl0Rmpud0xL?=
- =?utf-8?B?ZWhET0wxOElhUjZmK2xTVnlzV0hyTTVQNnZxWVBzQUU2dVV6b0JMREhSWXJJ?=
- =?utf-8?B?SVg2TjNrUWhjaEFYNGMyejMzMGtmR3lqK3pRSy9FQXdxUVMvcWVtYzl2cmky?=
- =?utf-8?B?dGdPK2NlVTVNdU9iT21xaHlMWW80SVNwY0pUTVUxdmZHNWhTOGUwMVpzYnhE?=
- =?utf-8?B?SlZDb1AxVlBheXNnSHE5VW56dG1zR2xXV0RaTFVyMkRabHdVVGY5UWEzZnd5?=
- =?utf-8?B?THhaaXEydldkM21sK0JGSTFDS1RWazlRcHpFT3k2Nk8vcXZCOFJvNXhFWEdu?=
- =?utf-8?B?cU1SRG9HQytja1dFa1Z0ZXNSOGdNZ2lEYWxrZDBaUmZYT3Z3a2RkakdkREgz?=
- =?utf-8?B?UmVLdm56d1JxTzcyaHVtcUNTRHZReHlaYkJkY2lTZHNRVlB4ZWZVMzdBbXJH?=
- =?utf-8?B?WG5pbzNGSmRFTCttekk4TDJ0RGF4RlBDemk2aFZDVkI3clFPeSsrUUJpUXhN?=
- =?utf-8?B?OXJNRzBvdGZMcFY2NHFkMnZxSXBZZzdwMEFQM0pqam5nQ0FhQkFBOVZFZUpE?=
- =?utf-8?B?KzZQdUorTW1RSzZtcWcxRDNBRFNGVTNaYjFsRDZXK0dEd094MVVJWVNGZ3BY?=
- =?utf-8?B?b25raDBrNExYTEprZTBmQ3F4NWR2RkdacFd5UllqbzRaWjlaOHFmck5wRmd2?=
- =?utf-8?B?eUhFNWJOYWUzVFE5NFlzTlFMbnFtcGVtUEY5N3o2QWVtRURGOCtKMlpWSHFq?=
- =?utf-8?B?RXVtYy95SzBtSGtQc2RiTE5kUkgyeUlMU25pRG9KaXIyYytUTW9CdDZYQlJa?=
- =?utf-8?B?UnkyVE4rT1FDR3lUdXY4ODhkdXdWY1hBTVNIRXF6eGFZZ243QXhRZjRNZ3lw?=
- =?utf-8?B?cFdzbm5NdFhRSjJNNFM1NFk1MzRvY2RzV0lYblN6ZVR6R3BneFNvQUVlRjcr?=
- =?utf-8?B?NXJDRmZiTkZQenhaVk56RTJ0bzdENHVvZStYalhiVkVwNDBGR1JkUEhneXNw?=
- =?utf-8?B?Y1NLQnBtVWVXMHRVUG1HaC9TOWpmcWlOdzdJNGl3OWxlTGZjNGRaV1FaOHdD?=
- =?utf-8?B?dVM4aENPWnloV0JVT0NrOUprY2FoWXZZV0NERWx5ZEgvWnpFNXBvQWVlM2F1?=
- =?utf-8?B?ODZBb0Z0ZGxCWEtCZ0dVa2N1eThPNnFqdklFYkEyUm9KL1Zpd2dQK2pnREJK?=
- =?utf-8?B?Z3ZzVHNDa3QyNGg1YTF6Tk1UZytrU2VqNzN2eW9JWGI4OUFXc2lVWURWMnBI?=
- =?utf-8?B?SGNxaDAzalRqQS9Ib1NBdUptZVN2amlLamZVSG5CSWZ1N3J3d1ZTUXBQOUVU?=
- =?utf-8?B?L2ROdGxUcWZLY1dOMGlzOG9Ed0dNNHFyR2lybXdXcUtNV1lXSS9IV2RlU1E4?=
- =?utf-8?B?K2NlaDNsZlRnQVU3eVFyVGN6aUtCNHlJd2Zqa3Awejl6UWo4b2dGTmUyTzF6?=
- =?utf-8?B?RjcvU3p4THc1WHpVQkFsTkRMcGVZTG94SEFHN2RrUTJLQ2VYMkNNcDFKQTNP?=
- =?utf-8?B?UHUvQ0tMQ1B6WkJwWTJiMkgrcER5NkRVZ0JhbXd1VDc5amF2QkNWVjVvQXda?=
- =?utf-8?B?Q3l0ZGpxK0N1aHhFaVE0eU1oQTBIR21uVUlzUndGWXF3aTNOenkyOWFjOVhF?=
- =?utf-8?B?RGxDUlRTTEtXTGc4MGFhTnorYlU4bmJBYXJLNUh6bWJ2SmtnZnNwdz09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dbf527be-4078-4784-b4cd-08da4e72438b
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2022 01:56:29.4844 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nQGhAfZBxE/Q4WHmx0NT1zzLOTYu8giQn9pLAaeZmPfNeWBwFk/QGTuug/ruH4FO77TuMzdkR+OLsp+jMdExnA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB6280
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,224 +64,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.hajda@intel.com, narmstrong@baylibre.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
- krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
- jernej.skrabec@gmail.com, marcel.ziswiler@toradex.com, linux-imx@nxp.com,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org, kernel@pengutronix.de,
- jonas@kwiboo.se, s.hauer@pengutronix.de, mchehab@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- robert.foss@linaro.org, shawnguo@kernel.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, msp@baylibre.com,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-06-14 at 14:11 -0600, Rob Herring wrote:
-> On Sat, Jun 11, 2022 at 10:14:12PM +0800, Liu Ying wrote:
-> > This patch adds bindings for i.MX8qm/qxp display pixel link.
-> > 
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > ---
-> > v8->v9:
-> > * Add 'fsl,dc-id' and 'fsl,dc-stream-id' properties. (Laurent)
+Hi, Bo-Chen:
+
+On Fri, 2022-06-10 at 18:55 +0800, Bo-Chen Chen wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
 > 
-> Why? Isn't the graph sufficient for determining the connections?
-> That's 
-> what it is for.
-
-'fsl,dc-id' determines the SCU resource IMX_SC_R_DC_{0,1} used by the
-pixel link. 'fsl,dc-stream-id' determines the SCU control codes, like
-IMX_SC_C_PXL_LINK_MST{1,2}_ADDR.
-
-The pixel combiner stands between the Display Controller(DPU) and the
-pixel link. I doubt it'll be good to go through the graph in pixel link
-driver to get DPU's output port index to set 'dc-stream-id'. 
-
-The graph doesn't tell 'dc-id' unless DPU's or pixel link's OF alias
-ids are used. It looks that people don't like the idea of using the
-pixel link's OF alias id in pixel link driver to set 'dc-id'(and 'dc-
-stream-id'), just like previous versions do.  
-
+> This patch adds a embedded displayport driver for the MediaTek mt8195
+> SoC.
 > 
-> > * Drop Rob's R-b tag.
-> > 
-> > v7->v8:
-> > * No change.
-> > 
-> > v6->v7:
-> > * No change.
-> > 
-> > v5->v6:
-> > * No change.
-> > 
-> > v4->v5:
-> > * No change.
-> > 
-> > v3->v4:
-> > * No change.
-> > 
-> > v2->v3:
-> > * Add Rob's R-b tag.
-> > 
-> > v1->v2:
-> > * Use graph schema. (Laurent)
-> > * Require all four pixel link output ports. (Laurent)
-> > * Mention pixel link is accessed via SCU firmware. (Rob)
-> > 
-> >  .../bridge/fsl,imx8qxp-pixel-link.yaml        | 144
-> > ++++++++++++++++++
-> >  1 file changed, 144 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-
-> > link.yaml
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-
-> > pixel-link.yaml
-> > b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-
-> > pixel-link.yaml
-> > new file mode 100644
-> > index 000000000000..38ecc7926fad
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-
-> > pixel-link.yaml
-> > @@ -0,0 +1,144 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: 
-> > https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fdisplay%2Fbridge%2Ffsl%2Cimx8qxp-pixel-link.yaml%23&amp;data=05%7C01%7Cvictor.liu%40nxp.com%7Cc8ba0853ca6446514fb408da4e421ec0%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637908343136669762%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=ZLdEqO84HZMwOIjyo5t%2Fy%2BlcfliLr3J5mV2akOxPU5c%3D&amp;reserved=0
-> > +$schema: 
-> > https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23&amp;data=05%7C01%7Cvictor.liu%40nxp.com%7Cc8ba0853ca6446514fb408da4e421ec0%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637908343136669762%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=yL5Xi%2BWz4aX3yniTy8Jq0EhB%2FbLz59QOaCQpxP0AmDM%3D&amp;reserved=0
-> > +
-> > +title: Freescale i.MX8qm/qxp Display Pixel Link
-> > +
-> > +maintainers:
-> > +  - Liu Ying <victor.liu@nxp.com>
-> > +
-> > +description: |
-> > +  The Freescale i.MX8qm/qxp Display Pixel Link(DPL) forms a
-> > standard
-> > +  asynchronous linkage between pixel sources(display controller or
-> > +  camera module) and pixel consumers(imaging or displays).
-> > +  It consists of two distinct functions, a pixel transfer function
-> > and a
-> > +  control interface.  Multiple pixel channels can exist per one
-> > control channel.
-> > +  This binding documentation is only for pixel links whose pixel
-> > sources are
-> > +  display controllers.
-> > +
-> > +  The i.MX8qm/qxp Display Pixel Link is accessed via System
-> > Controller Unit(SCU)
-> > +  firmware.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - fsl,imx8qm-dc-pixel-link
-> > +      - fsl,imx8qxp-dc-pixel-link
-> > +
-> > +  fsl,dc-id:
-> > +    $ref: /schemas/types.yaml#/definitions/uint8
-> > +    description: |
-> > +      u8 value representing the display controller index that the
-> > pixel link
-> > +      connects to.
-> > +
-> > +  fsl,dc-stream-id:
-> > +    $ref: /schemas/types.yaml#/definitions/uint8
-> > +    description: |
-> > +      u8 value representing the display controller stream index
-> > that the pixel
-> > +      link connects to.
-> > +    enum: [0, 1]
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: The pixel link input port node from upstream
-> > video source.
-> > +
-> > +    patternProperties:
-> > +      "^port@[1-4]$":
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: The pixel link output port node to downstream
-> > bridge.
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@1
-> > +      - port@2
-> > +      - port@3
-> > +      - port@4
-> > +
-> > +allOf:
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: fsl,imx8qxp-dc-pixel-link
-> > +    then:
-> > +      properties:
-> > +        fsl,dc-id:
-> > +          const: 0
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: fsl,imx8qm-dc-pixel-link
-> > +    then:
-> > +      properties:
-> > +        fsl,dc-id:
-> > +          enum: [0, 1]
-> > +
-> > +required:
-> > +  - compatible
-> > +  - fsl,dc-id
-> > +  - fsl,dc-stream-id
-> > +  - ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    dc0-pixel-link0 {
-> > +        compatible = "fsl,imx8qxp-dc-pixel-link";
-> > +        fsl,dc-id = /bits/ 8 <0>;
-> > +        fsl,dc-stream-id = /bits/ 8 <0>;
-> > +
-> > +        ports {
-> > +            #address-cells = <1>;
-> > +            #size-cells = <0>;
-> > +
-> > +            /* from dc0 pixel combiner channel0 */
-> > +            port@0 {
-> > +                reg = <0>;
-> > +
-> > +                dc0_pixel_link0_dc0_pixel_combiner_ch0: endpoint {
-> > +                    remote-endpoint =
-> > <&dc0_pixel_combiner_ch0_dc0_pixel_link0>;
+> It supports the MT8195, the embedded DisplayPort units. It offers
+> DisplayPort 1.4 with up to 4 lanes.
 > 
-> Isn't dc0 and link0 here the same information (if you get the port 
-> number from the remote end).
+> The driver creates a child device for the phy. The child device will
+> never exist without the parent being active. As they are sharing a
+> register range, the parent passes a regmap pointer to the child so
+> that
+> both can work with the same register range. The phy driver sets
+> device
+> data that is read by the parent to get the phy device that can be
+> used
+> to control the phy properties.
+> 
+> This driver is based on an initial version by
+> Jitao shi <jitao.shi@mediatek.com>
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> [Bo-Chen: Cleanup the drivers and modify comments from reviewers]
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
 
-The remote end is the pixel combiner's channel@0 port@1.
-Then, from the pixel combiner, we can reach DPU's output port.
+[snip]
 
-Granted that dc0 and link0 here is the same information, but it seems
-to be hard to get the 'dc-id' and 'dc-stream-id' information in the
-pixel link driver.
+> +
+> +static int mtk_dp_train_flow(struct mtk_dp *mtk_dp, u8
+> target_link_rate,
+> +			     u8 target_lane_count)
+> +{
+> +	u8 lane_adjust[2] = {};
+> +	bool pass_tps1 = false;
+> +	bool pass_tps2_3 = false;
+> +	int train_retries;
+> +	int status_control;
+> +	int iteration_count;
+> +	int ret;
+> +	u8 prev_lane_adjust;
+> +
+> +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_LINK_BW_SET,
+> target_link_rate);
+> +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_LANE_COUNT_SET,
+> +			   target_lane_count |
+> DP_LANE_COUNT_ENHANCED_FRAME_EN);
+> +
+> +	if (mtk_dp->train_info.sink_ssc)
+> +		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_DOWNSPREAD_CTRL,
+> +				   DP_SPREAD_AMP_0_5);
+> +
+> +	train_retries = 0;
+> +	status_control = 0;
+> +	iteration_count = 1;
+> +	prev_lane_adjust = 0xFF;
+> +
+> +	mtk_dp_set_lanes(mtk_dp, target_lane_count / 2);
+> +	ret = mtk_dp_phy_configure(mtk_dp, target_link_rate,
+> target_lane_count);
+> +	if (ret)
+> +		return -EINVAL;
+> +
+> +	dev_dbg(mtk_dp->dev,
+> +		"Link train target_link_rate = 0x%x, target_lane_count
+> = 0x%x\n",
+> +		target_link_rate, target_lane_count);
+> +
+> +	do {
+> +		train_retries++;
+> +		if (!mtk_dp->train_info.cable_plugged_in ||
+> +		    mtk_dp->train_info.irq_sta.hpd_disconnect) {
 
-Do you mean that we can parse the name of
-'dcX_pixel_linkY_dc0_pixel_combiner_ch0' directly to get 'X' and 'Y' in
-the pixel link driver? How??
+In mtk_dp_hpd_isr_handler(), train_info.irq_sta.hpd_disconnect would
+finally be set to false, so you need not to check it here. So remove it
+here.
+
+> +			return -ENODEV;
+> +		}
+> +
+> +		if (mtk_dp->train_state < MTK_DP_TRAIN_STATE_TRAINING)
+> +			return -EAGAIN;
+> +
+> +		if (!pass_tps1) {
+> +			ret = mtk_dp_train_tps_1(mtk_dp,
+> target_lane_count,
+> +						 &iteration_count,
+> lane_adjust,
+> +						 &status_control,
+> +						 &prev_lane_adjust);
+> +			if (!ret) {
+> +				pass_tps1 = true;
+> +				train_retries = 0;
+> +			} else if (ret == -EINVAL) {
+> +				break;
+> +			}
+> +		} else {
+> +			ret = mtk_dp_train_tps_2_3(mtk_dp,
+> target_link_rate,
+> +						   target_lane_count,
+> +						   &iteration_count,
+> +						   lane_adjust,
+> &status_control,
+> +						   &prev_lane_adjust);
+> +			if (!ret) {
+> +				pass_tps2_3 = true;
+> +				break;
+> +			} else if (ret == -EINVAL) {
+> +				break;
+> +			}
+> +		}
+> +
+> +		drm_dp_dpcd_read(&mtk_dp->aux,
+> DP_ADJUST_REQUEST_LANE0_1,
+> +				 lane_adjust, sizeof(lane_adjust));
+> +		mtk_dp_train_update_swing_pre(mtk_dp,
+> target_lane_count,
+> +					      lane_adjust);
+> +	} while (train_retries < MTK_DP_TRAIN_RETRY_LIMIT &&
+> +		 iteration_count < MTK_DP_TRAIN_MAX_ITERATIONS);
+> +
+> +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_TRAINING_PATTERN_SET,
+> +			   DP_TRAINING_PATTERN_DISABLE);
+> +	ret = mtk_dp_train_set_pattern(mtk_dp, 0);
+> +	if (ret)
+> +		return -EINVAL;
+> +
+> +	if (!pass_tps2_3)
+> +		return -ETIMEDOUT;
+> +
+> +	mtk_dp->train_info.link_rate = target_link_rate;
+> +	mtk_dp->train_info.lane_count = target_lane_count;
+> +
+> +	mtk_dp_training_set_scramble(mtk_dp, true);
+> +
+> +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_LANE_COUNT_SET,
+> +			   target_lane_count |
+> +				   DP_LANE_COUNT_ENHANCED_FRAME_EN);
+> +	mtk_dp_set_enhanced_frame_mode(mtk_dp, true);
+> +
+> +	return ret;
+> +}
+> +
+
+[snip]
+
+> +
+> +/*
+> + * We need to handle HPD signal in eDP even though eDP is a always
+> connected
+> + * device. Besides connected status, there is another feature for
+> HPD signal -
+> + * HPD pulse: it presents an IRQ from sink devices to source devices
+> (Refer to
+> + * 5.1.4 of DP1.4 spec).
+> + */
+> +static irqreturn_t mtk_dp_hpd_isr_handler(struct mtk_dp *mtk_dp)
+> +{
+> +	bool connected;
+> +	u32 irq_status = mtk_dp_swirq_get_clear(mtk_dp) |
+> +			 mtk_dp_hwirq_get_clear(mtk_dp);
+> +	struct mtk_dp_train_info *train_info = &mtk_dp->train_info;
+> +
+> +	if (irq_status & MTK_DP_HPD_INTERRUPT)
+> +		train_info->irq_sta.hpd_inerrupt = true;
+> +	if (irq_status & MTK_DP_HPD_CONNECT)
+> +		train_info->irq_sta.hpd_connect = true;
+> +	if (irq_status & MTK_DP_HPD_DISCONNECT)
+> +		train_info->irq_sta.hpd_disconnect = true;
+> +
+
+train_info->irq_sta.hpd_connect is used only in this function, so let
+hpd_connect to be local variable.
+
+> +	if (!irq_status)
+> +		return IRQ_HANDLED;
+> +
+> +	connected = mtk_dp_plug_state(mtk_dp);
+> +	if (connected || !train_info->cable_plugged_in)
+> +		train_info->irq_sta.hpd_disconnect  = false;
+> +	else if (!connected || train_info->cable_plugged_in)
+> +		train_info->irq_sta.hpd_connect = false;
+> +
+> +	if (!(train_info->irq_sta.hpd_connect ||
+> +	      train_info->irq_sta.hpd_disconnect))
+> +		return IRQ_WAKE_THREAD;
+> +
+> +	if (train_info->irq_sta.hpd_connect) {
+> +		train_info->irq_sta.hpd_connect = false;
+> +		train_info->cable_plugged_in = true;
+> +	} else {
+> +		train_info->irq_sta.hpd_disconnect = false;
+> +		train_info->cable_plugged_in = false;
+> +		mtk_dp->train_state = MTK_DP_TRAIN_STATE_TRAINING;
+> +	}
+> +	train_info->cable_state_change = true;
+> +
+> +	return IRQ_WAKE_THREAD;
+> +}
+> +
+
+[snip]
+
+> +
+> +static ssize_t mtk_dp_aux_transfer(struct drm_dp_aux *mtk_aux,
+> +				   struct drm_dp_aux_msg *msg)
+> +{
+> +	struct mtk_dp *mtk_dp;
+> +	bool is_read;
+> +	u8 request;
+> +	size_t accessed_bytes = 0;
+> +	int ret = 0;
+> +
+> +	mtk_dp = container_of(mtk_aux, struct mtk_dp, aux);
+> +
+> +	if (!mtk_dp->train_info.cable_plugged_in ||
+> +	    mtk_dp->train_info.irq_sta.hpd_disconnect) {
+
+In mtk_dp_hpd_isr_handler(), train_info.irq_sta.hpd_disconnect would
+finally be set to false, so you need not to check it here. So remove it
+here.
 
 Regards,
-Liu Ying
+CK
 
-
+> +		ret = -EAGAIN;
+> +		goto err;
+> +	}
+> +
+> +	switch (msg->request) {
+> +	case DP_AUX_I2C_MOT:
+> +	case DP_AUX_I2C_WRITE:
+> +	case DP_AUX_NATIVE_WRITE:
+> +	case DP_AUX_I2C_WRITE_STATUS_UPDATE:
+> +	case DP_AUX_I2C_WRITE_STATUS_UPDATE | DP_AUX_I2C_MOT:
+> +		request = msg->request &
+> ~DP_AUX_I2C_WRITE_STATUS_UPDATE;
+> +		is_read = false;
+> +		break;
+> +	case DP_AUX_I2C_READ:
+> +	case DP_AUX_NATIVE_READ:
+> +	case DP_AUX_I2C_READ | DP_AUX_I2C_MOT:
+> +		request = msg->request;
+> +		is_read = true;
+> +		break;
+> +	default:
+> +		drm_err(mtk_aux->drm_dev, "invalid aux cmd = %d\n",
+> +			msg->request);
+> +		ret = -EINVAL;
+> +		goto err;
+> +	}
+> +
+> +	if (msg->size == 0) {
+> +		ret = mtk_dp_aux_do_transfer(mtk_dp, is_read, request,
+> +					     msg->address +
+> accessed_bytes,
+> +					     msg->buffer +
+> accessed_bytes, 0);
+> +	} else {
+> +		while (accessed_bytes < msg->size) {
+> +			size_t to_access =
+> +				min_t(size_t, DP_AUX_MAX_PAYLOAD_BYTES,
+> +				      msg->size - accessed_bytes);
+> +
+> +			ret = mtk_dp_aux_do_transfer(mtk_dp, is_read,
+> request,
+> +						     msg->address +
+> accessed_bytes,
+> +						     msg->buffer +
+> accessed_bytes,
+> +						     to_access);
+> +
+> +			if (ret) {
+> +				drm_info(mtk_dp->drm_dev,
+> +					 "Failed to do AUX transfer:
+> %d\n", ret);
+> +				break;
+> +			}
+> +			accessed_bytes += to_access;
+> +		}
+> +	}
+> +err:
+> +	if (ret) {
+> +		msg->reply = DP_AUX_NATIVE_REPLY_NACK |
+> DP_AUX_I2C_REPLY_NACK;
+> +		return ret;
+> +	}
+> +
+> +	msg->reply = DP_AUX_NATIVE_REPLY_ACK | DP_AUX_I2C_REPLY_ACK;
+> +	return msg->size;
+> +}
+> +
 
