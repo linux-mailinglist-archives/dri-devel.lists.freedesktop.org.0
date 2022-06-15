@@ -1,60 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C9254D199
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 21:29:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A8F54D1BE
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 21:38:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5EBD112A82;
-	Wed, 15 Jun 2022 19:29:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58B2F10F79C;
+	Wed, 15 Jun 2022 19:38:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
- [IPv6:2001:4860:4864:20::30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DFBA10FAC9;
- Wed, 15 Jun 2022 19:29:04 +0000 (UTC)
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-f2a4c51c45so17787177fac.9; 
- Wed, 15 Jun 2022 12:29:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Y4NhrC9ap1cWsoDMhoc9arNxoObzeSf6cpbEcoKtqOY=;
- b=B/P70sGpq6xUOe94W78uBcFHRfunszNgH2mj+2oSKF0RN2ETvCjk9qWg0+MBR1dD7z
- HDlN0nI0BAlnrbqt0yrF6OD5MP0cjwu0t5C17naQiodA9+aVXlZLXBm9LmD4XvgFme06
- NKi+mNb1yZ0AKl7PmFo989PYS4uLU1dSDTr5a9CxvcpoOKqWNbmqWw0NwhK9oH3MTTJs
- sbj/6Lv652bL7DVtJjlPZBRnvk3aRLF/DFUIodXdRdEdTC6Qr7UnZYCReGbJP6ka7nvi
- vmPC1NEw/S/tMwl+uincKChUGO6fRGdDzFvdk5Rmwq4P/62MmPWMB/0sZBDO+GtUHqBe
- yYcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Y4NhrC9ap1cWsoDMhoc9arNxoObzeSf6cpbEcoKtqOY=;
- b=okve6U5Y76rAVTH6Whn1HLSDoMKIpFTNI7reW01Bi78hJEKzP1hH0TD3NhqMbqiGcu
- 3/wfkfxSf9jxdtsmbS7ooDLqact4AH/u/0tWrhrH9AlsmAOqyfKu3JRxZnUErm+/D2xU
- TKxG/kct8gVXJmAXTBJXM3yNwdhNSEZzy6EbLBOmjchsnMsBKd8nlRGrLmF7qCnHPCLH
- P46hoShMe2tj6NCs43YEg/8YKEJXFACX3nqXA+72znpi2/yEIFwcACgLa0DtVeV/rIGM
- V/OIBtqa8JzoA9urHFuhynLShENpPfJWOC0+UbiFPIfB2/jsgo87mYLAbwPblOtjUMss
- Sq/w==
-X-Gm-Message-State: AJIora964d9LSznwo7a4eEtlRhTICanh0OFkesjnR/CiVKo0LYwXZA22
- mMoG4EmOG9F3MyMmRKV+GVaDMfSQnPa1A+XVVGU=
-X-Google-Smtp-Source: AGRyM1sh5C6I86k34hmYg98ITPYaf2PCUY3hNVmQHMGJbMzCs6kHfAYa838vIEBejr/TrpvyKV6eZFFbyFvDSQFyMUs=
-X-Received: by 2002:a05:6870:538b:b0:101:17f2:d6e with SMTP id
- h11-20020a056870538b00b0010117f20d6emr6296051oan.200.1655321343622; Wed, 15
- Jun 2022 12:29:03 -0700 (PDT)
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6970010F79C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 19:38:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=MaORVJKokOiv4uLx1FnFMPqkLfVRdqqApsAsnHPVKkU=;
+ b=gp0iX/TobMwx+0jYKqg4yqip6VuG+pHw7YCtBzf7GkUGbR9vTt3N38kH6jnWDeiFYJ28X8TQ+C9Gi
+ E47RUsvhkW7+OGTwwqLgnVbmGtdZTaTnLZpPq1tdT/6DmzFL+50FvD1bgbKL8z+0D5MdSRjGlTPv+4
+ t6OtpkIiKgLokNdDyzBQPJJAsm9gSFLYLYIpd9qzUYQirWK0/MiHu2wItQLAxAevj/cikmAvrBoMDF
+ Au/0nubZ3JX3JhxZO8sa9sRxvrIo5ZVjYNYMXHMvlLipXb9g2jRRSxrBTQnNapPgBVgYSD9vxFgEVk
+ CfhGGWvbawqK8traSjeQxUMB+8cDzwA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=MaORVJKokOiv4uLx1FnFMPqkLfVRdqqApsAsnHPVKkU=;
+ b=LC+ZxDn2tbfPh9mmhwJTxanQWbQlDEKDpdkka/LFk0ktmR2J1bFrj/ar3DqKZ5i6MopjzgRC/j7iv
+ QH/WqNDAA==
+X-HalOne-Cookie: 6658136e901833609fc7fc2b1ebe8cadacd96117
+X-HalOne-ID: c4445ebd-ece2-11ec-be78-d0431ea8bb03
+Received: from mailproxy1.cst.dirpod4-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id c4445ebd-ece2-11ec-be78-d0431ea8bb03;
+ Wed, 15 Jun 2022 19:38:44 +0000 (UTC)
+Date: Wed, 15 Jun 2022 21:38:42 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 1/8] drm: Drop drm_edid.h from drm_crtc.h
+Message-ID: <Yqo1Qo9HlaHT8mSI@ravnborg.org>
+References: <20220613200317.11305-1-ville.syrjala@linux.intel.com>
+ <20220613200317.11305-2-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-References: <20220615160116.528c324b@canb.auug.org.au>
- <d1a48a84-6d07-e8f7-5fd8-d24a7a1cf187@infradead.org>
-In-Reply-To: <d1a48a84-6d07-e8f7-5fd8-d24a7a1cf187@infradead.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 15 Jun 2022 15:28:52 -0400
-Message-ID: <CADnq5_N6gfaPfZJAX4+poWFFruxNdFKZqzXZXosj1A55e-O1mA@mail.gmail.com>
-Subject: Re: linux-next: Tree for Jun 15
- (drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c)
-To: Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220613200317.11305-2-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,68 +60,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 15, 2022 at 3:01 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
->
->
-> On 6/14/22 23:01, Stephen Rothwell wrote:
-> > Hi all,
-> >
-> > Changes since 20220614:
-> >
->
-> on i386:
-> # CONFIG_DEBUG_FS is not set
->
->
-> ../drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In functi=
-on =E2=80=98amdgpu_dm_crtc_late_register=E2=80=99:
-> ../drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6599:2: er=
-ror: implicit declaration of function =E2=80=98crtc_debugfs_init=E2=80=99; =
-did you mean =E2=80=98amdgpu_debugfs_init=E2=80=99? [-Werror=3Dimplicit-fun=
-ction-declaration]
->   crtc_debugfs_init(crtc);
->   ^~~~~~~~~~~~~~~~~
->   amdgpu_debugfs_init
->
->
-> Full randconfig file is attached.
+Hi Ville,
 
-I tried building with your config and I can't repro this.  As Harry
-noted, that function and the whole secure display feature depend on
-debugfs.  It should never be built without CONFIG_DEBUG_FS.  See
-drivers/gpu/drm/amd/display/Kconfig:
+On Mon, Jun 13, 2022 at 11:03:10PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> drm_crtc.h has no need for drm_edid.h, so don't include it.
+> Avoids useless rebuilds of the entire universe when
+> touching drm_edid.h.
+> 
+> Quite a few placs do currently depend on drm_edid.h without
+> actually including it directly. All of those need to be fixed
+> up.
+This is a very nice reduction in implicit includes.
 
-> config DRM_AMD_SECURE_DISPLAY
->         bool "Enable secure display support"
->         default n
->         depends on DEBUG_FS
->         depends on DRM_AMD_DC_DCN
->         help
->             Choose this option if you want to
->             support secure display
->
->             This option enables the calculation
->             of crc of specific region via debugfs.
->             Cooperate with specific DMCU FW.
-
-amdgpu_dm_crtc_late_register is guarded by
-CONIG_DRM_AMD_SECURE_DISPLAY.  It's not clear to me how we could hit
-this.
-
-Alex
+> 
+> diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
+> index 204c869d9fe2..43de2ac8f27e 100644
+> --- a/drivers/gpu/drm/arm/malidp_mw.c
+> +++ b/drivers/gpu/drm/arm/malidp_mw.c
+> @@ -10,6 +10,7 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_fb_cma_helper.h>
+> +#include <drm/drm_edid.h>
+>  #include <drm/drm_fourcc.h>
+Please maintain the alphabetic order of the includes.
+This reduces the risk of conflict when we have multiple edits
+in different parallel commits.
 
 
->
-> --
-> ~Randy
+> diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
+> index 14a058a42854..4f2fd69c4a4e 100644
+> --- a/drivers/gpu/drm/imx/imx-ldb.c
+> +++ b/drivers/gpu/drm/imx/imx-ldb.c
+> @@ -22,6 +22,7 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_fb_helper.h>
+> +#include <drm/drm_edid.h>
+ditto
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_panel.h>
+> diff --git a/drivers/gpu/drm/imx/imx-tve.c b/drivers/gpu/drm/imx/imx-tve.c
+> index 2b1fdf2cbbce..9a2fa352a433 100644
+> --- a/drivers/gpu/drm/imx/imx-tve.c
+> +++ b/drivers/gpu/drm/imx/imx-tve.c
+> @@ -19,6 +19,7 @@
+>  
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_fb_helper.h>
+> +#include <drm/drm_edid.h>
+ditto
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+> diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
+> index 63ba2ad84679..5a91a5c82057 100644
+> --- a/drivers/gpu/drm/imx/parallel-display.c
+> +++ b/drivers/gpu/drm/imx/parallel-display.c
+> @@ -15,6 +15,7 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_fb_helper.h>
+> +#include <drm/drm_edid.h>
+ditto
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_panel.h>
+> diff --git a/drivers/gpu/drm/vboxvideo/vbox_mode.c b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+> index 4017b0a621fc..52eaa10712ec 100644
+> --- a/drivers/gpu/drm/vboxvideo/vbox_mode.c
+> +++ b/drivers/gpu/drm/vboxvideo/vbox_mode.c
+> @@ -16,6 +16,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_fb_helper.h>
+> +#include <drm/drm_edid.h>
+ditto
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_gem_atomic_helper.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+
+
+With the above fixed:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
