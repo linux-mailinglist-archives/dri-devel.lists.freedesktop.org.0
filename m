@@ -1,64 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD7A154C2BA
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 09:39:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FDD254C2E2
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 09:50:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1A8989AC6;
-	Wed, 15 Jun 2022 07:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3217C10EC93;
+	Wed, 15 Jun 2022 07:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D179410EF45
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 07:39:01 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 80DAA21BF5;
- Wed, 15 Jun 2022 07:39:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1655278740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10C6510EC93
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 07:50:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655279451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dN7k5Pts97lQ1NbGpxnqKsOox4NFeiyKlIZh0sRVwP8=;
- b=PNaU8RMe5mJ0M0hs9si1S9fUp9gS1JR+5Lne3mniWhgMnrCiopZ33dIzy/uh3S/TnKNdmv
- OlJkyCo5wgBmvaKHMAuKA3boodsHZE9OsYqNMZ4Npez58G+BevQsBbBZHRcpqgq377tVOs
- InwRW7oz1uO1YSbwziE/DSrkPX7aRLc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1655278740;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dN7k5Pts97lQ1NbGpxnqKsOox4NFeiyKlIZh0sRVwP8=;
- b=dpPqTQNAuW5B7wH3afuRNi4REAfpmyoiDUig1hSk0/FXqBtILRE/VPvgvKRdo15TweaDKh
- 2Xxqzj5XC+GWaACQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6552E139F3;
- Wed, 15 Jun 2022 07:39:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kSjQF5SMqWKwCgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 15 Jun 2022 07:39:00 +0000
-Message-ID: <8693a65a-6866-3ec5-d2e1-d7fd132f7dab@suse.de>
-Date: Wed, 15 Jun 2022 09:39:00 +0200
+ bh=j4CbnNSQZeqy+bdEkfeSk5gGR8/2lFLfAGt7IGwzGzc=;
+ b=O8SR7CwjixHUPsNi4MOmREoactA8Pfrvmy9cW5jYNca11tMGUpE95Pol0iooJqdkHTl3y4
+ JYCyXwe/bboqGsrl4x+JdY8/1pKxDGMZdtwD9hR1I0BDD0/oAAGxyNiW2sCA8tz0/G6akR
+ mUtyrChFxtUXzqjYwKlWYwkDcvhdgmA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-67-VEf3bZOiNEKBHV9j8nb9zw-1; Wed, 15 Jun 2022 03:50:50 -0400
+X-MC-Unique: VEf3bZOiNEKBHV9j8nb9zw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ e15-20020adfa44f000000b00219ebf65301so1591281wra.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 00:50:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=j4CbnNSQZeqy+bdEkfeSk5gGR8/2lFLfAGt7IGwzGzc=;
+ b=T5D+ETNM8kUE9L/U99Fhkds99Ijjjvh9XNElAU6i3Xn07nLKTKfZ1S6uACUYZgX+aq
+ XBAzUQKlYFL5oLYp7L8109K9+hqk+v2DzrAAu/kgeIJah/jVf4163LZzHYYanQU0ENxn
+ ZRzV/LiZ6m8oDmGSJpEAUwD32MmBbWpDFOvQpEz/aUd7lyAdznkdy9aaTex806Z33c5y
+ PDWfXg4YSbyR23BRAXzZ6R7feBncSNms+wS6avw720RyVfjtqH3YJQxvkr6MjYWIpGt+
+ O/o+YEwrOhXkuutoKwnLnxhfHLBk/8til1XlFXHrqBXpyJRhbweJLsrRp1b3ItBhab4L
+ yBnQ==
+X-Gm-Message-State: AJIora+pEVdedmYkkcNPyE5WECUtxtcMUBFfE7UWr3cMCPPWL6uKKDq4
+ yW8uOklObwxE4X6rOEFelx5KEBKiHXx/r7s3QZWFvpIQ4xlhiXNHbdXUjb4eEBE20iFs7BNsgVA
+ kx0c34pjIRH2NgKzhgID+FekZ0PNu
+X-Received: by 2002:a5d:47a4:0:b0:218:5829:dced with SMTP id
+ 4-20020a5d47a4000000b002185829dcedmr8953992wrb.56.1655279448783; 
+ Wed, 15 Jun 2022 00:50:48 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vuZl7SWs3l6Ktt9SfH1He3/YGrOPMqkYXwl2IG+5WAno5r/emEULp+a93N9r8/iO5mFs1D/w==
+X-Received: by 2002:a5d:47a4:0:b0:218:5829:dced with SMTP id
+ 4-20020a5d47a4000000b002185829dcedmr8953972wrb.56.1655279448503; 
+ Wed, 15 Jun 2022 00:50:48 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ q185-20020a1c43c2000000b0039c3056c3dfsm1711001wma.27.2022.06.15.00.50.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jun 2022 00:50:48 -0700 (PDT)
+Message-ID: <a8350570-0ed5-dc91-c4a4-76931dec0c1d@redhat.com>
+Date: Wed, 15 Jun 2022 09:50:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
 Subject: Re: [PATCH] drm/arm/hdlcd: Take over EFI framebuffer properly
-Content-Language: en-US
-To: Robin Murphy <robin.murphy@arm.com>, liviu.dudau@arm.com
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Robin Murphy <robin.murphy@arm.com>, liviu.dudau@arm.com
 References: <0f96c44b10dcd1444ad43e6027fd5c6aff34e54d.1655211704.git.robin.murphy@arm.com>
  <3d6303d4-4569-7078-76e1-0f7c46d9556c@suse.de>
  <54a8a681-3a96-22cb-846d-9e406f10bab7@arm.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <54a8a681-3a96-22cb-846d-9e406f10bab7@arm.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------m6CAjokMTg4dxOdBqynbXq0X"
+ <8693a65a-6866-3ec5-d2e1-d7fd132f7dab@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <8693a65a-6866-3ec5-d2e1-d7fd132f7dab@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,106 +91,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------m6CAjokMTg4dxOdBqynbXq0X
-Content-Type: multipart/mixed; boundary="------------7PN6KzKO8mRSni4N6KEZnE6U";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Robin Murphy <robin.murphy@arm.com>, liviu.dudau@arm.com
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
-Message-ID: <8693a65a-6866-3ec5-d2e1-d7fd132f7dab@suse.de>
-Subject: Re: [PATCH] drm/arm/hdlcd: Take over EFI framebuffer properly
-References: <0f96c44b10dcd1444ad43e6027fd5c6aff34e54d.1655211704.git.robin.murphy@arm.com>
- <3d6303d4-4569-7078-76e1-0f7c46d9556c@suse.de>
- <54a8a681-3a96-22cb-846d-9e406f10bab7@arm.com>
-In-Reply-To: <54a8a681-3a96-22cb-846d-9e406f10bab7@arm.com>
+On 6/15/22 09:39, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 14.06.22 um 23:06 schrieb Robin Murphy:
+>> On 2022-06-14 14:48, Thomas Zimmermann wrote:
+>>> Hi
+>>>
+>>> Am 14.06.22 um 15:04 schrieb Robin Murphy:
+>>>> The Arm Juno board EDK2 port has provided an EFI GOP display via HDLCD0
+>>>> for some time now, which works nicely as an early framebuffer. However,
+>>>> once the HDLCD driver probes and takes over the hardware, it should
+>>>> take over the logical framebuffer as well, otherwise the now-defunct GOP
+>>>> device hangs about and virtual console output inevitably disappears into
+>>>> the wrong place most of the time.
+>>>>
+>>>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+>>>> ---
+>>>>   drivers/gpu/drm/arm/hdlcd_drv.c | 2 ++
+>>>>   1 file changed, 2 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c 
+>>>> b/drivers/gpu/drm/arm/hdlcd_drv.c
+>>>> index af59077a5481..a5d04884658b 100644
+>>>> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
+>>>> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
+>>>> @@ -331,6 +331,8 @@ static int hdlcd_drm_bind(struct device *dev)
+>>>>           goto err_vblank;
+>>>>       }
+>>>> +    drm_fb_helper_remove_conflicting_framebuffers(NULL, "hdlcd", 
+>>>> false);
+>>>> +
+>>>
+>>> In addition to what Javier said, it appears to be too late to call 
+>>> this function. If anything her etouches hardware, you might 
+>>> accidentally interfere with the EFI-related driver. Rather call it at 
+>>> the top of ldlcd_drm_bind().
+>>
+>> OK, thanks for the info. I mostly just copied the pattern from the 
+>> simplest-looking other users (sun4i, tegra, vc4) who all seemed to call 
+>> it fairly late, and indeed naively it seemed logical not to do it *too* 
+>> early when there's more chance we might fail to bind and leave the user 
+>> with no framebuffer at all. In particular, waiting until we've bound the 
+>> HDMI encoder seems like a good idea in the case of the Juno board (which 
+>> is the only real HDLCD user), as the I2C bus often gets stuck if the 
+>> System Control Processor is having a bad day. I also don't believe 
+>> there's anything here that would affect efifb more than the fact that 
+>> once the DRM CRTC is alive we simply stop scanning out from the region 
+>> of memory that efifb is managing, but if it's considered good practice 
+>> to do this early then I can certainly make that change too.
+> We've been struggling with this a bit. If it works reliably, you're 
+> welcome to leave it where it is.
+> 
+> Historically, most drivers call this function very early. But for error 
+> recovery it would be better to do it as late as possible.  Ideally, 
+> drivers would first initialize their DRM software state, then kickout 
+> the generic driver, and finally take over hardware. But that would 
+> require a careful review of each driver. :/
+>
 
---------------7PN6KzKO8mRSni4N6KEZnE6U
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+We got bug reports on Fedora about regressions caused by the fact that some
+programs made the (wrong) assumption that /dev/dri/card0 would be the "main"
+display and just hard-coded that path.
 
-SGkNCg0KQW0gMTQuMDYuMjIgdW0gMjM6MDYgc2NocmllYiBSb2JpbiBNdXJwaHk6DQo+IE9u
-IDIwMjItMDYtMTQgMTQ6NDgsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gSGkNCj4+
-DQo+PiBBbSAxNC4wNi4yMiB1bSAxNTowNCBzY2hyaWViIFJvYmluIE11cnBoeToNCj4+PiBU
-aGUgQXJtIEp1bm8gYm9hcmQgRURLMiBwb3J0IGhhcyBwcm92aWRlZCBhbiBFRkkgR09QIGRp
-c3BsYXkgdmlhIEhETENEMA0KPj4+IGZvciBzb21lIHRpbWUgbm93LCB3aGljaCB3b3JrcyBu
-aWNlbHkgYXMgYW4gZWFybHkgZnJhbWVidWZmZXIuIEhvd2V2ZXIsDQo+Pj4gb25jZSB0aGUg
-SERMQ0QgZHJpdmVyIHByb2JlcyBhbmQgdGFrZXMgb3ZlciB0aGUgaGFyZHdhcmUsIGl0IHNo
-b3VsZA0KPj4+IHRha2Ugb3ZlciB0aGUgbG9naWNhbCBmcmFtZWJ1ZmZlciBhcyB3ZWxsLCBv
-dGhlcndpc2UgdGhlIG5vdy1kZWZ1bmN0IEdPUA0KPj4+IGRldmljZSBoYW5ncyBhYm91dCBh
-bmQgdmlydHVhbCBjb25zb2xlIG91dHB1dCBpbmV2aXRhYmx5IGRpc2FwcGVhcnMgaW50bw0K
-Pj4+IHRoZSB3cm9uZyBwbGFjZSBtb3N0IG9mIHRoZSB0aW1lLg0KPj4+DQo+Pj4gU2lnbmVk
-LW9mZi1ieTogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4NCj4+PiAtLS0N
-Cj4+PiDCoCBkcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2Rydi5jIHwgMiArKw0KPj4+IMKg
-IDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykNCj4+Pg0KPj4+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2Rydi5jIA0KPj4+IGIvZHJpdmVycy9ncHUv
-ZHJtL2FybS9oZGxjZF9kcnYuYw0KPj4+IGluZGV4IGFmNTkwNzdhNTQ4MS4uYTVkMDQ4ODQ2
-NThiIDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMN
-Cj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2hkbGNkX2Rydi5jDQo+Pj4gQEAgLTMz
-MSw2ICszMzEsOCBAQCBzdGF0aWMgaW50IGhkbGNkX2RybV9iaW5kKHN0cnVjdCBkZXZpY2Ug
-KmRldikNCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBlcnJfdmJsYW5rOw0KPj4+IMKg
-wqDCoMKgwqAgfQ0KPj4+ICvCoMKgwqAgZHJtX2ZiX2hlbHBlcl9yZW1vdmVfY29uZmxpY3Rp
-bmdfZnJhbWVidWZmZXJzKE5VTEwsICJoZGxjZCIsIA0KPj4+IGZhbHNlKTsNCj4+PiArDQo+
-Pg0KPj4gSW4gYWRkaXRpb24gdG8gd2hhdCBKYXZpZXIgc2FpZCwgaXQgYXBwZWFycyB0byBi
-ZSB0b28gbGF0ZSB0byBjYWxsIA0KPj4gdGhpcyBmdW5jdGlvbi4gSWYgYW55dGhpbmcgaGVy
-IGV0b3VjaGVzIGhhcmR3YXJlLCB5b3UgbWlnaHQgDQo+PiBhY2NpZGVudGFsbHkgaW50ZXJm
-ZXJlIHdpdGggdGhlIEVGSS1yZWxhdGVkIGRyaXZlci4gUmF0aGVyIGNhbGwgaXQgYXQgDQo+
-PiB0aGUgdG9wIG9mIGxkbGNkX2RybV9iaW5kKCkuDQo+IA0KPiBPSywgdGhhbmtzIGZvciB0
-aGUgaW5mby4gSSBtb3N0bHkganVzdCBjb3BpZWQgdGhlIHBhdHRlcm4gZnJvbSB0aGUgDQo+
-IHNpbXBsZXN0LWxvb2tpbmcgb3RoZXIgdXNlcnMgKHN1bjRpLCB0ZWdyYSwgdmM0KSB3aG8g
-YWxsIHNlZW1lZCB0byBjYWxsIA0KPiBpdCBmYWlybHkgbGF0ZSwgYW5kIGluZGVlZCBuYWl2
-ZWx5IGl0IHNlZW1lZCBsb2dpY2FsIG5vdCB0byBkbyBpdCAqdG9vKiANCj4gZWFybHkgd2hl
-biB0aGVyZSdzIG1vcmUgY2hhbmNlIHdlIG1pZ2h0IGZhaWwgdG8gYmluZCBhbmQgbGVhdmUg
-dGhlIHVzZXIgDQo+IHdpdGggbm8gZnJhbWVidWZmZXIgYXQgYWxsLiBJbiBwYXJ0aWN1bGFy
-LCB3YWl0aW5nIHVudGlsIHdlJ3ZlIGJvdW5kIHRoZSANCj4gSERNSSBlbmNvZGVyIHNlZW1z
-IGxpa2UgYSBnb29kIGlkZWEgaW4gdGhlIGNhc2Ugb2YgdGhlIEp1bm8gYm9hcmQgKHdoaWNo
-IA0KPiBpcyB0aGUgb25seSByZWFsIEhETENEIHVzZXIpLCBhcyB0aGUgSTJDIGJ1cyBvZnRl
-biBnZXRzIHN0dWNrIGlmIHRoZSANCj4gU3lzdGVtIENvbnRyb2wgUHJvY2Vzc29yIGlzIGhh
-dmluZyBhIGJhZCBkYXkuIEkgYWxzbyBkb24ndCBiZWxpZXZlIA0KPiB0aGVyZSdzIGFueXRo
-aW5nIGhlcmUgdGhhdCB3b3VsZCBhZmZlY3QgZWZpZmIgbW9yZSB0aGFuIHRoZSBmYWN0IHRo
-YXQgDQo+IG9uY2UgdGhlIERSTSBDUlRDIGlzIGFsaXZlIHdlIHNpbXBseSBzdG9wIHNjYW5u
-aW5nIG91dCBmcm9tIHRoZSByZWdpb24gDQo+IG9mIG1lbW9yeSB0aGF0IGVmaWZiIGlzIG1h
-bmFnaW5nLCBidXQgaWYgaXQncyBjb25zaWRlcmVkIGdvb2QgcHJhY3RpY2UgDQo+IHRvIGRv
-IHRoaXMgZWFybHkgdGhlbiBJIGNhbiBjZXJ0YWlubHkgbWFrZSB0aGF0IGNoYW5nZSB0b28u
-DQpXZSd2ZSBiZWVuIHN0cnVnZ2xpbmcgd2l0aCB0aGlzIGEgYml0LiBJZiBpdCB3b3JrcyBy
-ZWxpYWJseSwgeW91J3JlIA0Kd2VsY29tZSB0byBsZWF2ZSBpdCB3aGVyZSBpdCBpcy4NCg0K
-SGlzdG9yaWNhbGx5LCBtb3N0IGRyaXZlcnMgY2FsbCB0aGlzIGZ1bmN0aW9uIHZlcnkgZWFy
-bHkuIEJ1dCBmb3IgZXJyb3IgDQpyZWNvdmVyeSBpdCB3b3VsZCBiZSBiZXR0ZXIgdG8gZG8g
-aXQgYXMgbGF0ZSBhcyBwb3NzaWJsZS4gIElkZWFsbHksIA0KZHJpdmVycyB3b3VsZCBmaXJz
-dCBpbml0aWFsaXplIHRoZWlyIERSTSBzb2Z0d2FyZSBzdGF0ZSwgdGhlbiBraWNrb3V0IA0K
-dGhlIGdlbmVyaWMgZHJpdmVyLCBhbmQgZmluYWxseSB0YWtlIG92ZXIgaGFyZHdhcmUuIEJ1
-dCB0aGF0IHdvdWxkIA0KcmVxdWlyZSBhIGNhcmVmdWwgcmV2aWV3IG9mIGVhY2ggZHJpdmVy
-LiA6Lw0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBDaGVlcnMsDQo+IFJvYmlu
-Lg0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
-DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUs
-IDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0K
-R2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+But removing the conflicting framebuffers after calling devm_drm_dev_alloc()
+breaks this assumption, since the registered device will be /dev/dri/card1.
 
---------------7PN6KzKO8mRSni4N6KEZnE6U--
+All this is to say that doing it too late, even if nothing is touching the HW
+yet, could still have unexpected consequences across your graphics stack.
 
---------------m6CAjokMTg4dxOdBqynbXq0X
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+-- 
+Best regards,
 
------BEGIN PGP SIGNATURE-----
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKpjJQFAwAAAAAACgkQlh/E3EQov+DO
-RhAAj+UvBYzfP2dccMdqm1W6eGxrQxXFvUGYkaeCyy/j94fODahd9pPwzhxmNaNUUEw6hnYn3VbY
-Y1egFEw0I6yd2BCT9qX+LEnhoIt1oBFkkBVCWwpaa3/2lKbZWRSBQbOBFkfsz3M8LelzJKSLrHJV
-TYuS1xvWCVD5I1KXJmWCiSlXh0mfrcx9inHIQJZVtU4iIjAURL1EO45b0mHm15eP29UC80O+D712
-hJkDB22X0JUgxcTrlFe/TLmaDgGiPl2QEj8D1QJx82KX7pe3ZhGNulH084Utubj4dT3BA7+weHRC
-xzZONkGXZ2zcMjmvqRrF5yEYuswzn/EIqrEUiX7Ertk0UNeOrpCD1WDgUl+CXGIc+R8fBeOMa761
-Ws3YszHxryIwexajgSERlkhUufGa/cyTypRxoHsyzkaAhepnSwHo14YK4arfMY4yN6ul7ZiV+XJY
-mtOytz+r9Vz1mau+tKZzVZDcMIXudEfM/bdShCPOyc+ORC4mwrmg9d0ZOKl8xhU3llgPzb+96xut
-eGnMbanoy1ePl5wqQsoxEtaIhKXxjkKxzWeQFCui45phxUYeEaiA3nCqKxYwssECB+pBrvi9rAz0
-rdt/Gqp8TiJy/tuNNu/Sa6oCPwSL3CF3qptBNymTNpAW44J1xqp8rsf/dz13xUe2oc+tcrDIpdPt
-UGs=
-=DRSi
------END PGP SIGNATURE-----
-
---------------m6CAjokMTg4dxOdBqynbXq0X--
