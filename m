@@ -2,46 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B6354D1DC
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 21:44:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FC054D1E1
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 21:45:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37D7510E50F;
-	Wed, 15 Jun 2022 19:44:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FBE9112825;
+	Wed, 15 Jun 2022 19:45:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org
- [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9139910E50F;
- Wed, 15 Jun 2022 19:44:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=d/o5WdCpTeAaM6xLD3aXnZ6/ErJV7ziaxEi+U3WrQwE=; b=dOxybcqMn8pSrgy5H2UXrkD7Nd
- EKCijLQNCTS5VUigHRJEnIfdJSng2uhQTyswS7XOAezoBxwwHiY4L9GotkSh3/MjvVZ3Us3o8k2Vy
- kGEF6VstuRvtGOT3k0Pp4Qv3T2Y5NJ+YYLOMPcLtJcu5oqFRsfxMc/yOrAmj4gBJ9gpEYll8vvWXO
- Nf6EjBkF+2HLi/ugUXcGMU63LhnoesdswatbEyjGUAAnm3us2C/7xjZTbifvglrsabY8spFWjlqAR
- ZtWFXwDjWxM5yLvSHsslKYqtGHG+ioqTe+8hizctOs5BFiE36j6RhXBjkX3pZAGx0jyUL07FcJE56
- FEiGf29g==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1o1YwO-008D1G-0q; Wed, 15 Jun 2022 19:44:36 +0000
-Message-ID: <fb53cab1-f693-5309-e06a-0fe0fc932c2c@infradead.org>
-Date: Wed, 15 Jun 2022 12:44:30 -0700
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8514F112825
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 19:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=15FyG0ZoxrIlS9d/qUWoq8nPBuP6Rk8SkSTpazIFOGc=;
+ b=Qw+iLmhW9u/qhC+ACSzA9aBR2DEjsJkTmwjHF2vtIf8iDNL8XXHzm5ScKrjTEynjWVQGhEouBDvtx
+ dnCb5t2iXrTgkKQ3KXirU4QhVq+mQvGKfewTWehFwlpK1wf51LJLDHJJgrCnljDHW0GkSwxh5H/I2Q
+ 8OTycs1QmN8GJGIim0Wvepp/iqAupOKSVJ2sA+Itnkj7jQC1Hxa0PM+ZK3YepFtFhDszyDhIcXRpOb
+ NURMqqvnPGB73UFjgNva50GfmtchX2+HflroYf46o/C4DAiCPz0bph9DgGJffbSDHGPWF17MVq/ESU
+ +qpvdqSLekUtRNGfcBfwh8wMZPdjnGQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=15FyG0ZoxrIlS9d/qUWoq8nPBuP6Rk8SkSTpazIFOGc=;
+ b=1vsxGfQJevWdvpfQ+D2T+gAh2Bhws8+LWvo7OnIs55L+Ds4+4RDkdQSIK/RSJwnLUiZkDLBp+BXZO
+ NezqcsRCw==
+X-HalOne-Cookie: 37a893b9610b0b5019e39e21c5719d044b562344
+X-HalOne-ID: adc998a9-ece3-11ec-a6c1-d0431ea8a283
+Received: from mailproxy1.cst.dirpod3-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id adc998a9-ece3-11ec-a6c1-d0431ea8a283;
+ Wed, 15 Jun 2022 19:45:16 +0000 (UTC)
+Date: Wed, 15 Jun 2022 21:45:14 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 3/8] drm: Drop drm_blend.h from drm_crtc.h
+Message-ID: <Yqo2yo+kpcBlAVc+@ravnborg.org>
+References: <20220613200317.11305-1-ville.syrjala@linux.intel.com>
+ <20220613200317.11305-4-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: linux-next: Tree for Jun 15
- (drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c)
-Content-Language: en-US
-To: Alex Deucher <alexdeucher@gmail.com>
-References: <20220615160116.528c324b@canb.auug.org.au>
- <d1a48a84-6d07-e8f7-5fd8-d24a7a1cf187@infradead.org>
- <CADnq5_N6gfaPfZJAX4+poWFFruxNdFKZqzXZXosj1A55e-O1mA@mail.gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CADnq5_N6gfaPfZJAX4+poWFFruxNdFKZqzXZXosj1A55e-O1mA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220613200317.11305-4-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,71 +60,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Ville.
 
-
-On 6/15/22 12:28, Alex Deucher wrote:
-> On Wed, Jun 15, 2022 at 3:01 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->>
->>
->> On 6/14/22 23:01, Stephen Rothwell wrote:
->>> Hi all,
->>>
->>> Changes since 20220614:
->>>
->>
->> on i386:
->> # CONFIG_DEBUG_FS is not set
->>
->>
->> ../drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function â€˜amdgpu_dm_crtc_late_registerâ€™:
->> ../drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6599:2: error: implicit declaration of function â€˜crtc_debugfs_initâ€™; did you mean â€˜amdgpu_debugfs_initâ€™? [-Werror=implicit-function-declaration]
->>   crtc_debugfs_init(crtc);
->>   ^~~~~~~~~~~~~~~~~
->>   amdgpu_debugfs_init
->>
->>
->> Full randconfig file is attached.
+On Mon, Jun 13, 2022 at 11:03:12PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> I tried building with your config and I can't repro this.  As Harry
-> noted, that function and the whole secure display feature depend on
-> debugfs.  It should never be built without CONFIG_DEBUG_FS.  See
-> drivers/gpu/drm/amd/display/Kconfig:
-
-Did you try building with today's linux-next tree?
-(whatever is in it)
-
-I have seen this build error multiple times so it shouldn't
-be so difficult to repro it.
-
-
->> config DRM_AMD_SECURE_DISPLAY
->>         bool "Enable secure display support"
->>         default n
->>         depends on DEBUG_FS
->>         depends on DRM_AMD_DC_DCN
->>         help
->>             Choose this option if you want to
->>             support secure display
->>
->>             This option enables the calculation
->>             of crc of specific region via debugfs.
->>             Cooperate with specific DMCU FW.
+> drm_crtc.h has no need for drm_blend.h, so don't include it.
+> Avoids useless rebuilds of the entire universe when
+> touching drm_blend.h.
+s/drm_blend.h/drm_crtc.h/
 > 
-> amdgpu_dm_crtc_late_register is guarded by
-> CONIG_DRM_AMD_SECURE_DISPLAY.  It's not clear to me how we could hit
-> this.
-
-
--- 
-~Randy
+> Quite a few placs do currently depend on drm_blend.h without
+> actually including it directly. All of those need to be fixed
+> up.
+> 
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+With the commit message fixed:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
