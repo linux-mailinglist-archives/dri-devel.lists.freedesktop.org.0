@@ -2,43 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE6F54C89F
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 14:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C79F54C86D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 14:25:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A03C10E4CD;
-	Wed, 15 Jun 2022 12:33:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5529F10E40C;
+	Wed, 15 Jun 2022 12:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 439 seconds by postgrey-1.36 at gabe;
- Wed, 15 Jun 2022 12:33:42 UTC
-Received: from qq.com (smtpbg465.qq.com [59.36.132.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 013F210E4CD;
- Wed, 15 Jun 2022 12:33:42 +0000 (UTC)
-X-QQ-mid: bizesmtp66t1655295961tobfeji8
-Received: from localhost.localdomain ( [113.57.152.160])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Wed, 15 Jun 2022 20:25:54 +0800 (CST)
-X-QQ-SSF: 01400000002000D0M000000A0000000
-X-QQ-FEAT: W6nSwEQQYT+hxqlHfPaxc8+z7KqaIPzWVaNsD/EviunI59BwYzcY9hB079ysz
- X3ZZdEBmYN7YwoDsFnWOph7OQrlfbXeTb/zVa0j+I0svnN/dKdwmV78U03dingiuHN6S/Ei
- eRIkg7vfQNpKN9lV8aT/41L63LJdip52S13yqmqGV7HtBuE5tqaN2Mpb4GkDrs8h5+gcb6C
- e5xTzBDCXXFecnYaN1pepTxqCQIdHFMi7jgAub8lkrio3pMgAKuENzfhuHlviz8iyQ3ne8+
- R7TplT45LQseDwrxkn1NGMXbL1Z74yA4rhoOssePRCicZYcgV82xlvPJmMdrlG4b9b/idG5
- raCxwNNcoPNzPkHDtVqkFYx3SZYVw==
-X-QQ-GoodBg: 1
-From: hongao <hongao@uniontech.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, inhui.Pan@amd.com,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/radeon: Replace drm_detect_hdmi_monitor() with
- drm_display_info.is_hdmi
-Date: Wed, 15 Jun 2022 20:24:58 +0800
-Message-Id: <20220615122458.20145-1-hongao@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1066A10E40C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 12:25:06 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id a2so18644845lfg.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 05:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=/XSr+w94TsWPuJS7OSNV5L/UO5RzkyOGJs0L8Cgm8pI=;
+ b=YNIiePeBhBSlCbM+N7NA1Bi5YsljgHEOEPoGq1B7/1SAdkUgXFreGq6PfnzEl3wqxh
+ Kkx4FSpmTs/8BB8Wwnq0kVcc3o6VaqLI7o67MuYadcXKNuvuwcYkeQWYO2gtd3jH/iZR
+ wvGqksekdrBM71Zj549aNs+3UZ8IqBiPmAtvf7HgY/z16qtYmD8zAkmg900n2QJ8ApzN
+ git4StvRknLnDjZ3m8SRW62FJ6OeHR7o5TBfsmpw5bMm6J3QSefIIcQZNmntHKuDEPhG
+ gSWl30CICQNJF7YmDgYlYRJ9m0YvNEp90Ymt+SEad6K0gv77FQTTwpxGk8vjvqB2GTwA
+ 79rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/XSr+w94TsWPuJS7OSNV5L/UO5RzkyOGJs0L8Cgm8pI=;
+ b=VxOa1q9v50RUIPHjbneCE2IVHIpbf70tRK/GXtrW1oWA5xmwFZD3YhdFzn9SchnrYQ
+ XnF1sDrSGzhQ7MMufK+p+eorXJAhPW7LVzkeQzI+Lzy8JyEyyiv+FML2ZeQ+2RDQoyel
+ uPoh0YmvNUQAE5Qy4kGcX5q842zKvumFk8NA5AvHZujQF9n10q3mLQnfUUjgfhhmu042
+ qHln9ZDmB+yTx09qPOmqnBwXar224a2P3WeTEeoOj8HYXbzITh89w+8Wk3nX/jO8bB/r
+ xHW1Hz3PY4YB7sfcg0gFQP22e2qFex1YG8WMrkQqKLGb8Ro5RKovGQeuayQ0LOSkG/6T
+ PWWA==
+X-Gm-Message-State: AJIora8x9hljxASso4LbCk1pgqB9/3tTfrm1USiVz+Wbk1rlpj/0YXWl
+ gvvi/QH/HRmCrGYskuLyRG6+Vw==
+X-Google-Smtp-Source: AGRyM1u9YJURgXPk9UCSobnkOQ/l5kCouy20zHlxbyP4uQrLCno47jfZPehZeU6Bpo+5+Y8qTa/FKA==
+X-Received: by 2002:a05:6512:10d3:b0:479:732e:d62a with SMTP id
+ k19-20020a05651210d300b00479732ed62amr6277501lfg.319.1655295904361; 
+ Wed, 15 Jun 2022 05:25:04 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ w3-20020a05651c102300b0024f3d1dae87sm1676074ljm.15.2022.06.15.05.25.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jun 2022 05:25:03 -0700 (PDT)
+Message-ID: <0030792f-464b-307f-6991-bfc7b0badfd5@linaro.org>
+Date: Wed, 15 Jun 2022 15:25:03 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign3
-X-QQ-Bgrelay: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH] dt-bindings: msm: update maintainers list with proper id
+Content-Language: en-GB
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
+ sean@poorly.run, swboyd@chromium.org, dianders@chromium.org,
+ vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
+ bjorn.andersson@linaro.org
+References: <1654286979-11072-1-git-send-email-quic_khsieh@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1654286979-11072-1-git-send-email-quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,151 +76,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hongao <hongao@uniontech.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi for more
-efficiency
+On 03/06/2022 23:09, Kuogee Hsieh wrote:
+> Use quic id instead of codeaurora id in maintainers list
+> for display devicetree bindings.
+> 
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
-Tested on "Oland [Radeon HD 8570 / R7 240/340 OEM]" & "Caicos [R5 230]"
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Signed-off-by: hongao <hongao@uniontech.com>
----
- drivers/gpu/drm/radeon/atombios_encoders.c |  6 +++---
- drivers/gpu/drm/radeon/radeon_connectors.c | 12 ++++++------
- drivers/gpu/drm/radeon/radeon_display.c    |  2 +-
- drivers/gpu/drm/radeon/radeon_encoders.c   |  4 ++--
- 4 files changed, 12 insertions(+), 12 deletions(-)
+We can pick it through the msm/ tree, if no one objects.
 
-diff --git a/drivers/gpu/drm/radeon/atombios_encoders.c b/drivers/gpu/drm/radeon/atombios_encoders.c
-index 70bd84b7ef2b..393d471ba396 100644
---- a/drivers/gpu/drm/radeon/atombios_encoders.c
-+++ b/drivers/gpu/drm/radeon/atombios_encoders.c
-@@ -714,7 +714,7 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
- 			if (radeon_connector->use_digital &&
- 			    (radeon_connector->audio == RADEON_AUDIO_ENABLE))
- 				return ATOM_ENCODER_MODE_HDMI;
--			else if (drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
-+			else if (connector->display_info.is_hdmi &&
- 				 (radeon_connector->audio == RADEON_AUDIO_AUTO))
- 				return ATOM_ENCODER_MODE_HDMI;
- 			else if (radeon_connector->use_digital)
-@@ -733,7 +733,7 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
- 		if (radeon_audio != 0) {
- 			if (radeon_connector->audio == RADEON_AUDIO_ENABLE)
- 				return ATOM_ENCODER_MODE_HDMI;
--			else if (drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
-+			else if (connector->display_info.is_hdmi &&
- 				 (radeon_connector->audio == RADEON_AUDIO_AUTO))
- 				return ATOM_ENCODER_MODE_HDMI;
- 			else
-@@ -757,7 +757,7 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
- 		} else if (radeon_audio != 0) {
- 			if (radeon_connector->audio == RADEON_AUDIO_ENABLE)
- 				return ATOM_ENCODER_MODE_HDMI;
--			else if (drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
-+			else if (connector->display_info.is_hdmi &&
- 				 (radeon_connector->audio == RADEON_AUDIO_AUTO))
- 				return ATOM_ENCODER_MODE_HDMI;
- 			else
-diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-index 58db79921cd3..2fbec7bdd56b 100644
---- a/drivers/gpu/drm/radeon/radeon_connectors.c
-+++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-@@ -130,7 +130,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
- 	case DRM_MODE_CONNECTOR_DVII:
- 	case DRM_MODE_CONNECTOR_HDMIB:
- 		if (radeon_connector->use_digital) {
--			if (drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-+			if (connector->display_info.is_hdmi) {
- 				if (connector->display_info.bpc)
- 					bpc = connector->display_info.bpc;
- 			}
-@@ -138,7 +138,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
- 		break;
- 	case DRM_MODE_CONNECTOR_DVID:
- 	case DRM_MODE_CONNECTOR_HDMIA:
--		if (drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-+		if (connector->display_info.is_hdmi) {
- 			if (connector->display_info.bpc)
- 				bpc = connector->display_info.bpc;
- 		}
-@@ -147,7 +147,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
- 		dig_connector = radeon_connector->con_priv;
- 		if ((dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_DISPLAYPORT) ||
- 		    (dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_eDP) ||
--		    drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-+		    connector->display_info.is_hdmi) {
- 			if (connector->display_info.bpc)
- 				bpc = connector->display_info.bpc;
- 		}
-@@ -171,7 +171,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
- 		break;
- 	}
- 
--	if (drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-+	if (connector->display_info.is_hdmi) {
- 		/* hdmi deep color only implemented on DCE4+ */
- 		if ((bpc > 8) && !ASIC_IS_DCE4(rdev)) {
- 			DRM_DEBUG("%s: HDMI deep color %d bpc unsupported. Using 8 bpc.\n",
-@@ -1500,7 +1500,7 @@ static enum drm_mode_status radeon_dvi_mode_valid(struct drm_connector *connecto
- 		    (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_D) ||
- 		    (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_B))
- 			return MODE_OK;
--		else if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-+		else if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
- 			/* HDMI 1.3+ supports max clock of 340 Mhz */
- 			if (mode->clock > 340000)
- 				return MODE_CLOCK_HIGH;
-@@ -1808,7 +1808,7 @@ static enum drm_mode_status radeon_dp_mode_valid(struct drm_connector *connector
- 		    (radeon_dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_eDP)) {
- 			return radeon_dp_mode_valid_helper(connector, mode);
- 		} else {
--			if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-+			if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
- 				/* HDMI 1.3+ supports max clock of 340 Mhz */
- 				if (mode->clock > 340000)
- 					return MODE_CLOCK_HIGH;
-diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
-index 57ff2b723c87..c7a1e3af55cf 100644
---- a/drivers/gpu/drm/radeon/radeon_display.c
-+++ b/drivers/gpu/drm/radeon/radeon_display.c
-@@ -1728,7 +1728,7 @@ bool radeon_crtc_scaling_mode_fixup(struct drm_crtc *crtc,
- 			    (!(mode->flags & DRM_MODE_FLAG_INTERLACE)) &&
- 			    ((radeon_encoder->underscan_type == UNDERSCAN_ON) ||
- 			     ((radeon_encoder->underscan_type == UNDERSCAN_AUTO) &&
--			      drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
-+			      connector->display_info.is_hdmi &&
- 			      is_hdtv_mode(mode)))) {
- 				if (radeon_encoder->underscan_hborder != 0)
- 					radeon_crtc->h_border = radeon_encoder->underscan_hborder;
-diff --git a/drivers/gpu/drm/radeon/radeon_encoders.c b/drivers/gpu/drm/radeon/radeon_encoders.c
-index 46549d5179ee..b999464f213a 100644
---- a/drivers/gpu/drm/radeon/radeon_encoders.c
-+++ b/drivers/gpu/drm/radeon/radeon_encoders.c
-@@ -383,7 +383,7 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
- 	case DRM_MODE_CONNECTOR_HDMIB:
- 		if (radeon_connector->use_digital) {
- 			/* HDMI 1.3 supports up to 340 Mhz over single link */
--			if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-+			if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
- 				if (pixel_clock > 340000)
- 					return true;
- 				else
-@@ -408,7 +408,7 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
- 			return false;
- 		else {
- 			/* HDMI 1.3 supports up to 340 Mhz over single link */
--			if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-+			if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
- 				if (pixel_clock > 340000)
- 					return true;
- 				else
+> ---
+>   Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> index cd05cfd..c950710 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>   title: MSM Display Port Controller
+>   
+>   maintainers:
+> -  - Kuogee Hsieh <khsieh@codeaurora.org>
+> +  - Kuogee Hsieh <quic_khsieh@quicinc.com>
+>   
+>   description: |
+>     Device tree bindings for DisplayPort host controller for MSM targets
+
+
 -- 
-2.20.1
-
-
-
-
+With best wishes
+Dmitry
