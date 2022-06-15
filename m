@@ -1,57 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B1454CF1A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 18:56:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E41454CF3E
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 19:00:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E3C510E98B;
-	Wed, 15 Jun 2022 16:56:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFE7E112624;
+	Wed, 15 Jun 2022 17:00:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
- [IPv6:2001:4860:4864:20::34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D461310E927;
- Wed, 15 Jun 2022 16:56:15 +0000 (UTC)
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-10113b4c2b5so15596521fac.6; 
- Wed, 15 Jun 2022 09:56:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 248E6112622
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 17:00:28 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id u8so16162631wrm.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 10:00:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ocMgTzRkWH3eBYp2u/PAG0Fm6G35s0xKn8yvsRpMe88=;
- b=f9YhM52ySsPsP9RkggdjlzhlY3Kl0Zt9sCMg1sPl2ipMDfCj7Apt1+HeR26+sE7a+g
- Pd+vcOvk+nLPs7LcTOv6kyfhOmc2h1rBo8n3L9Z8TPxX3XZiVDICAlkPK5cfU77z3TRN
- oBepdA0T/Oq2wz6XGLBbg4DhivuOWkaSv6Y1KFPebi+KVrU1RyJu35M8yZ22SPCMIGOP
- tETIlAvLk5XgExpOhZBCvGy/CUM6DrtZczDyEVArLA8tDgf8IHi2mnT5XeN1gccR+lxY
- FbS14v3u5iuj2I1OzaMjRWtgbgPXwaN+S0mfG6cjh7tv5fNwI0QTYOqkxj3uScPVhjpD
- rqeA==
+ :cc:content-transfer-encoding;
+ bh=pr7/sSYVOXPdtGS1/T+T8Lqb0MTvzV5EwQqM4oOBt7M=;
+ b=RGjh36gsbSL7V2Cy2m2NjJhaQAc9PMFRxBITRzbJo0e6uQYU2PYDC5NLnQ+yGyDl+R
+ 0zS71FKcfX5hIOSm8TbBXXs4Lfr/g8YMMGK1+H7L0MHHJ4ERPJnOAiuvX9kjV/6/j5Jf
+ 680iSXj86QecnfayPEJekK0udeX/yNBxkmuLB73Bj7pk1WJkjC4f6VHX7hiLma5UpuCU
+ 3V8UHCvzboc1/yrqh8ZW3uLcljQHUwyDtBrjgE/WcQOhhxXOIOYHrY676rcuM4sVZhGn
+ M8SyyBbMOXfe2nTSiGRVqHzLG6gokbEVq5KPRFXRH/NNheY3zwpuJxDGd0jNQRIA3ntp
+ L5Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ocMgTzRkWH3eBYp2u/PAG0Fm6G35s0xKn8yvsRpMe88=;
- b=hiIl2dfX0BnqxMv8y4dDirq57HIlfuRmNy4rIqx71kk4EDZpIX4krSaGZsnQa9EKuS
- dxe8REzsq2ObUfjspqYlABfkAMICe2znIgS5yTJ55dex7tnlJsS6+CfmAk62XAcKkZr5
- DGZeONpbJupzlU5kefgaS9F7teKbt4xEtdWJtrl1rBSFDZlchibrbMna6Dner02uCNZF
- KaZDCWH0Dg+WqrDO1/2N+QlU2Z9U4THnCRMDMXZX1sJF5hc0zsZR1CaMSDrb3Wsbebxk
- DE+yU2oRd6V6ISMvcOAL6XfmXjrOpm3+2Li0c2MQhtNw9fxf3bFsyLrWlGNey5db/yqB
- KiZw==
-X-Gm-Message-State: AJIora+VUyX+/PVaKUr1W4RxXDuIq8iUli+dqVwPY8MMq8Xky7ahkEYW
- kww5Z40nQMQBs/FNs68SOySps4BB8bWmkqOpbQA=
-X-Google-Smtp-Source: AGRyM1t2ME88iAIQzsGcfH0HXLVexL004pXS5sohWl/TRzf7/ndK7Zv2s3VsmqHQflAW2BGdKo6sVu6zokuo770HPuc=
-X-Received: by 2002:a05:6870:538b:b0:101:17f2:d6e with SMTP id
- h11-20020a056870538b00b0010117f20d6emr5908958oan.200.1655312174819; Wed, 15
- Jun 2022 09:56:14 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pr7/sSYVOXPdtGS1/T+T8Lqb0MTvzV5EwQqM4oOBt7M=;
+ b=UQg+QQtKVqCfc/BO8Wc/IHcVof6ISU6WQJzX+hvq0vqJOr7g79W7aZfy9qF7naVmst
+ wBCMk6fWL0pbg2rGhj2dUFCNHaUfCEIO4jIThu+7yO70wuAM0EN61feqIhn8IRTBCcat
+ d+o/R/u21DBHhfgYjnhjLf+0xlvbO9OC4yZAYttO2bPzsx0cgr35rqyczj0CWTXx4Tns
+ gJv7Fd4V6MbGi/6OL2WKgu20pLw6y8Fh9ll7qcKar5UAGr3Gkb3eJ4jI6JGsZoT3mayb
+ CDfqbCRIFFRx7wqpOSa5MkyCT9tkXN5eHO0lVyOq1JXzmMwkeTTducWTg/SxKsz8Gciv
+ gfuQ==
+X-Gm-Message-State: AJIora+cdxqekbLeWXiQQsOiYnNM7sCeqwHv9hAfHbOshjqAE/RMrX6l
+ 2YHLBrYYloTiGOqEjV3IAaCYKyJI2dbmuhs8/HJLew==
+X-Google-Smtp-Source: AGRyM1uB0UDMl9b/896cLH/y+hwYakenLps6KtvwAg3Fh2+Uxwu1swfsOSTeK8iwAI8IasAO3ym5N1xcQXZHz/gUbP8=
+X-Received: by 2002:a05:6000:18a9:b0:218:7791:a9ad with SMTP id
+ b9-20020a05600018a900b002187791a9admr777565wri.116.1655312425754; Wed, 15 Jun
+ 2022 10:00:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220615122458.20145-1-hongao@uniontech.com>
-In-Reply-To: <20220615122458.20145-1-hongao@uniontech.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 15 Jun 2022 12:56:03 -0400
-Message-ID: <CADnq5_P-A2UeCu9oRpXYRTXdeeZNEKPst_gnfZf7g+QWrZWBdQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: Replace drm_detect_hdmi_monitor() with
- drm_display_info.is_hdmi
-To: hongao <hongao@uniontech.com>
+References: <20220531212521.1231133-1-kaleshsingh@google.com>
+ <20220531212521.1231133-3-kaleshsingh@google.com>
+ <14f85d24-a9de-9706-32f0-30be4999c71c@oracle.com>
+ <CAC_TJveDzDaYQKmuLSkGWpnuCW+gvrqdVJqq=wbzoTRjw4OoFw@mail.gmail.com>
+ <875yll1fp1.fsf@stepbren-lnx.us.oracle.com>
+ <4b79c2ea-dd1a-623d-e5b4-faa732c1a42d@gmail.com>
+ <CAC_TJvdU=bhaeJACz70JOAL34W846Bk=EmvkXL8ccfoALJdaOQ@mail.gmail.com>
+In-Reply-To: <CAC_TJvdU=bhaeJACz70JOAL34W846Bk=EmvkXL8ccfoALJdaOQ@mail.gmail.com>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Wed, 15 Jun 2022 10:00:14 -0700
+Message-ID: <CAC_TJvd6znLxqRON8DTxwsFKmDh_crQyzWmBugS7JPFrPn12Vw@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH 2/2] procfs: Add 'path' to
+ /proc/<pid>/fdinfo/
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Christoph Hellwig <hch@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,163 +72,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: inhui.Pan@amd.com, Dave Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Stephen Brennan <stephen.s.brennan@oracle.com>,
+ Paul Gortmaker <paul.gortmaker@windriver.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+ David Hildenbrand <david@redhat.com>,
+ "Cc: Android Kernel" <kernel-team@android.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Suren Baghdasaryan <surenb@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Ioannis Ilkos <ilkos@google.com>,
+ LKML <linux-kernel@vger.kernel.org>, Colin Cross <ccross@google.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 15, 2022 at 8:33 AM hongao <hongao@uniontech.com> wrote:
+On Wed, Jun 1, 2022 at 8:31 PM Kalesh Singh <kaleshsingh@google.com> wrote:
 >
-> Replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi for more
-> efficiency
+> On Wed, Jun 1, 2022 at 8:02 AM Christian K=C3=B6nig
+> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >
+> > Am 01.06.22 um 00:48 schrieb Stephen Brennan:
+> > > Kalesh Singh <kaleshsingh@google.com> writes:
+> > >> On Tue, May 31, 2022 at 3:07 PM Stephen Brennan
+> > >> <stephen.s.brennan@oracle.com> wrote:
+> > >>> On 5/31/22 14:25, Kalesh Singh wrote:
+> > >>>> In order to identify the type of memory a process has pinned throu=
+gh
+> > >>>> its open fds, add the file path to fdinfo output. This allows
+> > >>>> identifying memory types based on common prefixes. e.g. "/memfd...=
+",
+> > >>>> "/dmabuf...", "/dev/ashmem...".
+> > >>>>
+> > >>>> Access to /proc/<pid>/fdinfo is governed by PTRACE_MODE_READ_FSCRE=
+DS
+> > >>>> the same as /proc/<pid>/maps which also exposes the file path of
+> > >>>> mappings; so the security permissions for accessing path is consis=
+tent
+> > >>>> with that of /proc/<pid>/maps.
+> > >>> Hi Kalesh,
+> > >> Hi Stephen,
+> > >>
+> > >> Thanks for taking a look.
+> > >>
+> > >>> I think I see the value in the size field, but I'm curious about pa=
+th,
+> > >>> which is available via readlink /proc/<pid>/fd/<n>, since those are
+> > >>> symlinks to the file themselves.
+> > >> This could work if we are root, but the file permissions wouldn't
+> > >> allow us to do the readlink on other processes otherwise. We want to
+> > >> be able to capture the system state in production environments from
+> > >> some trusted process with ptrace read capability.
+> > > Interesting, thanks for explaining. It seems weird to have a duplicat=
+e
+> > > interface for the same information but such is life.
+> >
+> > Yeah, the size change is really straight forward but for this one I'm
+> > not 100% sure either.
 >
-> Tested on "Oland [Radeon HD 8570 / R7 240/340 OEM]" & "Caicos [R5 230]"
+> The 2 concerns I think are:
+>   1. Fun characters in the path names
+>   2. If exposing the path is appropriate to begin with.
+>
+> One way I think we can address both is to only expose the path for
+> anon inodes. Then we have well-known path formats and we don't expose
+> much about which files a process is accessing since these aren't real
+> paths.
+>
+> +       if (is_anon_inode(inode)) {
+> +               seq_puts(m, "path:\t");
+> +               seq_file_path(m, file, "\n");
+> +               seq_putc(m, '\n');
+> +       }
+>
+> Interested to hear thoughts on it.
 
-Can you verify that drm_display_info.is_hdmi has been populated when
-all of these functions are called?
+Adding Christoph,
 
-Alex
+To be able to identify types of shared memory processes pin through
+FDs in production builds, we would like to add a 'path' field to
+fdinfo of anon inodes. We could then use the common prefixes
+("/dmabuf", "/memfd", ...) to identify different types.
+
+Would appreciate any feedback from the FS perspective.
+
+Thanks,
+Kalesh
 
 >
-> Signed-off-by: hongao <hongao@uniontech.com>
-> ---
->  drivers/gpu/drm/radeon/atombios_encoders.c |  6 +++---
->  drivers/gpu/drm/radeon/radeon_connectors.c | 12 ++++++------
->  drivers/gpu/drm/radeon/radeon_display.c    |  2 +-
->  drivers/gpu/drm/radeon/radeon_encoders.c   |  4 ++--
->  4 files changed, 12 insertions(+), 12 deletions(-)
+> >
+> > Probably best to ping some core fs developer before going further with =
+it.
 >
-> diff --git a/drivers/gpu/drm/radeon/atombios_encoders.c b/drivers/gpu/drm/radeon/atombios_encoders.c
-> index 70bd84b7ef2b..393d471ba396 100644
-> --- a/drivers/gpu/drm/radeon/atombios_encoders.c
-> +++ b/drivers/gpu/drm/radeon/atombios_encoders.c
-> @@ -714,7 +714,7 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
->                         if (radeon_connector->use_digital &&
->                             (radeon_connector->audio == RADEON_AUDIO_ENABLE))
->                                 return ATOM_ENCODER_MODE_HDMI;
-> -                       else if (drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
-> +                       else if (connector->display_info.is_hdmi &&
->                                  (radeon_connector->audio == RADEON_AUDIO_AUTO))
->                                 return ATOM_ENCODER_MODE_HDMI;
->                         else if (radeon_connector->use_digital)
-> @@ -733,7 +733,7 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
->                 if (radeon_audio != 0) {
->                         if (radeon_connector->audio == RADEON_AUDIO_ENABLE)
->                                 return ATOM_ENCODER_MODE_HDMI;
-> -                       else if (drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
-> +                       else if (connector->display_info.is_hdmi &&
->                                  (radeon_connector->audio == RADEON_AUDIO_AUTO))
->                                 return ATOM_ENCODER_MODE_HDMI;
->                         else
-> @@ -757,7 +757,7 @@ atombios_get_encoder_mode(struct drm_encoder *encoder)
->                 } else if (radeon_audio != 0) {
->                         if (radeon_connector->audio == RADEON_AUDIO_ENABLE)
->                                 return ATOM_ENCODER_MODE_HDMI;
-> -                       else if (drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
-> +                       else if (connector->display_info.is_hdmi &&
->                                  (radeon_connector->audio == RADEON_AUDIO_AUTO))
->                                 return ATOM_ENCODER_MODE_HDMI;
->                         else
-> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm/radeon/radeon_connectors.c
-> index 58db79921cd3..2fbec7bdd56b 100644
-> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
-> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
-> @@ -130,7 +130,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
->         case DRM_MODE_CONNECTOR_DVII:
->         case DRM_MODE_CONNECTOR_HDMIB:
->                 if (radeon_connector->use_digital) {
-> -                       if (drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-> +                       if (connector->display_info.is_hdmi) {
->                                 if (connector->display_info.bpc)
->                                         bpc = connector->display_info.bpc;
->                         }
-> @@ -138,7 +138,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
->                 break;
->         case DRM_MODE_CONNECTOR_DVID:
->         case DRM_MODE_CONNECTOR_HDMIA:
-> -               if (drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-> +               if (connector->display_info.is_hdmi) {
->                         if (connector->display_info.bpc)
->                                 bpc = connector->display_info.bpc;
->                 }
-> @@ -147,7 +147,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
->                 dig_connector = radeon_connector->con_priv;
->                 if ((dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_DISPLAYPORT) ||
->                     (dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_eDP) ||
-> -                   drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-> +                   connector->display_info.is_hdmi) {
->                         if (connector->display_info.bpc)
->                                 bpc = connector->display_info.bpc;
->                 }
-> @@ -171,7 +171,7 @@ int radeon_get_monitor_bpc(struct drm_connector *connector)
->                 break;
->         }
+> linux-fsdevel is cc'd here. Adding Al Vrio as well. Please let me know
+> if there are other parties I should include.
 >
-> -       if (drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-> +       if (connector->display_info.is_hdmi) {
->                 /* hdmi deep color only implemented on DCE4+ */
->                 if ((bpc > 8) && !ASIC_IS_DCE4(rdev)) {
->                         DRM_DEBUG("%s: HDMI deep color %d bpc unsupported. Using 8 bpc.\n",
-> @@ -1500,7 +1500,7 @@ static enum drm_mode_status radeon_dvi_mode_valid(struct drm_connector *connecto
->                     (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_DUAL_LINK_DVI_D) ||
->                     (radeon_connector->connector_object_id == CONNECTOR_OBJECT_ID_HDMI_TYPE_B))
->                         return MODE_OK;
-> -               else if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-> +               else if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
->                         /* HDMI 1.3+ supports max clock of 340 Mhz */
->                         if (mode->clock > 340000)
->                                 return MODE_CLOCK_HIGH;
-> @@ -1808,7 +1808,7 @@ static enum drm_mode_status radeon_dp_mode_valid(struct drm_connector *connector
->                     (radeon_dig_connector->dp_sink_type == CONNECTOR_OBJECT_ID_eDP)) {
->                         return radeon_dp_mode_valid_helper(connector, mode);
->                 } else {
-> -                       if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-> +                       if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
->                                 /* HDMI 1.3+ supports max clock of 340 Mhz */
->                                 if (mode->clock > 340000)
->                                         return MODE_CLOCK_HIGH;
-> diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
-> index 57ff2b723c87..c7a1e3af55cf 100644
-> --- a/drivers/gpu/drm/radeon/radeon_display.c
-> +++ b/drivers/gpu/drm/radeon/radeon_display.c
-> @@ -1728,7 +1728,7 @@ bool radeon_crtc_scaling_mode_fixup(struct drm_crtc *crtc,
->                             (!(mode->flags & DRM_MODE_FLAG_INTERLACE)) &&
->                             ((radeon_encoder->underscan_type == UNDERSCAN_ON) ||
->                              ((radeon_encoder->underscan_type == UNDERSCAN_AUTO) &&
-> -                             drm_detect_hdmi_monitor(radeon_connector_edid(connector)) &&
-> +                             connector->display_info.is_hdmi &&
->                               is_hdtv_mode(mode)))) {
->                                 if (radeon_encoder->underscan_hborder != 0)
->                                         radeon_crtc->h_border = radeon_encoder->underscan_hborder;
-> diff --git a/drivers/gpu/drm/radeon/radeon_encoders.c b/drivers/gpu/drm/radeon/radeon_encoders.c
-> index 46549d5179ee..b999464f213a 100644
-> --- a/drivers/gpu/drm/radeon/radeon_encoders.c
-> +++ b/drivers/gpu/drm/radeon/radeon_encoders.c
-> @@ -383,7 +383,7 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
->         case DRM_MODE_CONNECTOR_HDMIB:
->                 if (radeon_connector->use_digital) {
->                         /* HDMI 1.3 supports up to 340 Mhz over single link */
-> -                       if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-> +                       if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
->                                 if (pixel_clock > 340000)
->                                         return true;
->                                 else
-> @@ -408,7 +408,7 @@ bool radeon_dig_monitor_is_duallink(struct drm_encoder *encoder,
->                         return false;
->                 else {
->                         /* HDMI 1.3 supports up to 340 Mhz over single link */
-> -                       if (ASIC_IS_DCE6(rdev) && drm_detect_hdmi_monitor(radeon_connector_edid(connector))) {
-> +                       if (ASIC_IS_DCE6(rdev) && connector->display_info.is_hdmi) {
->                                 if (pixel_clock > 340000)
->                                         return true;
->                                 else
-> --
-> 2.20.1
+> >
+> > BTW: Any preferred branch to push this upstream? If not I can take it
+> > through drm-misc-next.
 >
+> No other dependencies for this, so drm-misc-next is good.
 >
+> Thanks,
+> Kalesh
 >
->
+> >
+> > Regards,
+> > Christian.
+> >
+> > >
+> > >>> File paths can contain fun characters like newlines or colons, whic=
+h
+> > >>> could make parsing out filenames in this text file... fun. How woul=
+d your
+> > >>> userspace parsing logic handle "/home/stephen/filename\nsize:\t4096=
+"? The
+> > >>> readlink(2) API makes that easy already.
+> > >> I think since we have escaped the "\n" (seq_file_path(m, file, "\n")=
+),
+> > > I really should have read through that function before commenting,
+> > > thanks for teaching me something new :)
+> > >
+> > > Stephen
+> > >
+> > >> then user space might parse this line like:
+> > >>
+> > >> if (strncmp(line, "path:\t", 6) =3D=3D 0)
+> > >>          char* path =3D line + 6;
+> > >>
+> > >>
+> > >> Thanks,
+> > >> Kalesh
+> > >>
+> > >>> Is the goal avoiding races (e.g. file descriptor 3 is closed and re=
+opened
+> > >>> to a different path between reading fdinfo and stating the fd)?
+> > >>>
+> > >>> Stephen
+> > >>>
+> > >>>> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> > >>>> ---
+> > >>>>
+> > >>>> Changes from rfc:
+> > >>>>    - Split adding 'size' and 'path' into a separate patches, per C=
+hristian
+> > >>>>    - Fix indentation (use tabs) in documentaion, per Randy
+> > >>>>
+> > >>>>   Documentation/filesystems/proc.rst | 14 ++++++++++++--
+> > >>>>   fs/proc/fd.c                       |  4 ++++
+> > >>>>   2 files changed, 16 insertions(+), 2 deletions(-)
+> > >>>>
+> > >>>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/fi=
+lesystems/proc.rst
+> > >>>> index 779c05528e87..591f12d30d97 100644
+> > >>>> --- a/Documentation/filesystems/proc.rst
+> > >>>> +++ b/Documentation/filesystems/proc.rst
+> > >>>> @@ -1886,14 +1886,16 @@ if precise results are needed.
+> > >>>>   3.8  /proc/<pid>/fdinfo/<fd> - Information about opened file
+> > >>>>   ---------------------------------------------------------------
+> > >>>>   This file provides information associated with an opened file. T=
+he regular
+> > >>>> -files have at least five fields -- 'pos', 'flags', 'mnt_id', 'ino=
+', and 'size'.
+> > >>>> +files have at least six fields -- 'pos', 'flags', 'mnt_id', 'ino'=
+, 'size',
+> > >>>> +and 'path'.
+> > >>>>
+> > >>>>   The 'pos' represents the current offset of the opened file in de=
+cimal
+> > >>>>   form [see lseek(2) for details], 'flags' denotes the octal O_xxx=
+ mask the
+> > >>>>   file has been created with [see open(2) for details] and 'mnt_id=
+' represents
+> > >>>>   mount ID of the file system containing the opened file [see 3.5
+> > >>>>   /proc/<pid>/mountinfo for details]. 'ino' represents the inode n=
+umber of
+> > >>>> -the file, and 'size' represents the size of the file in bytes.
+> > >>>> +the file, 'size' represents the size of the file in bytes, and 'p=
+ath'
+> > >>>> +represents the file path.
+> > >>>>
+> > >>>>   A typical output is::
+> > >>>>
+> > >>>> @@ -1902,6 +1904,7 @@ A typical output is::
+> > >>>>        mnt_id: 19
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   /dev/null
+> > >>>>
+> > >>>>   All locks associated with a file descriptor are shown in its fdi=
+nfo too::
+> > >>>>
+> > >>>> @@ -1920,6 +1923,7 @@ Eventfd files
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   anon_inode:[eventfd]
+> > >>>>        eventfd-count:  5a
+> > >>>>
+> > >>>>   where 'eventfd-count' is hex value of a counter.
+> > >>>> @@ -1934,6 +1938,7 @@ Signalfd files
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   anon_inode:[signalfd]
+> > >>>>        sigmask:        0000000000000200
+> > >>>>
+> > >>>>   where 'sigmask' is hex value of the signal mask associated
+> > >>>> @@ -1949,6 +1954,7 @@ Epoll files
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   anon_inode:[eventpoll]
+> > >>>>        tfd:        5 events:       1d data: ffffffffffffffff pos:0=
+ ino:61af sdev:7
+> > >>>>
+> > >>>>   where 'tfd' is a target file descriptor number in decimal form,
+> > >>>> @@ -1968,6 +1974,7 @@ For inotify files the format is the followin=
+g::
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   anon_inode:inotify
+> > >>>>        inotify wd:3 ino:9e7e sdev:800013 mask:800afce ignored_mask=
+:0 fhandle-bytes:8 fhandle-type:1 f_handle:7e9e0000640d1b6d
+> > >>>>
+> > >>>>   where 'wd' is a watch descriptor in decimal form, i.e. a target =
+file
+> > >>>> @@ -1992,6 +1999,7 @@ For fanotify files the format is::
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   anon_inode:[fanotify]
+> > >>>>        fanotify flags:10 event-flags:0
+> > >>>>        fanotify mnt_id:12 mflags:40 mask:38 ignored_mask:40000003
+> > >>>>        fanotify ino:4f969 sdev:800013 mflags:0 mask:3b ignored_mas=
+k:40000000 fhandle-bytes:8 fhandle-type:1 f_handle:69f90400c275b5b4
+> > >>>> @@ -2018,6 +2026,7 @@ Timerfd files
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   0
+> > >>>> +     path:   anon_inode:[timerfd]
+> > >>>>        clockid: 0
+> > >>>>        ticks: 0
+> > >>>>        settime flags: 01
+> > >>>> @@ -2042,6 +2051,7 @@ DMA Buffer files
+> > >>>>        mnt_id: 9
+> > >>>>        ino:    63107
+> > >>>>        size:   32768
+> > >>>> +     path:   /dmabuf:
+> > >>>>        count:  2
+> > >>>>        exp_name:  system-heap
+> > >>>>
+> > >>>> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+> > >>>> index 464bc3f55759..8889a8ba09d4 100644
+> > >>>> --- a/fs/proc/fd.c
+> > >>>> +++ b/fs/proc/fd.c
+> > >>>> @@ -60,6 +60,10 @@ static int seq_show(struct seq_file *m, void *v=
+)
+> > >>>>        seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
+> > >>>>        seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)-=
+>i_size);
+> > >>>>
+> > >>>> +     seq_puts(m, "path:\t");
+> > >>>> +     seq_file_path(m, file, "\n");
+> > >>>> +     seq_putc(m, '\n');
+> > >>>> +
+> > >>>>        /* show_fd_locks() never deferences files so a stale value =
+is safe */
+> > >>>>        show_fd_locks(m, file, files);
+> > >>>>        if (seq_has_overflowed(m))
+> > >>> --
+> > >>> To unsubscribe from this group and stop receiving emails from it, s=
+end an email to kernel-team+unsubscribe@android.com.
+> > >>>
+> > > _______________________________________________
+> > > Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+> > > To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+> >
