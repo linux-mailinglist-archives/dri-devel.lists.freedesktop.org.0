@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9496254D460
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 00:14:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C7B54D45F
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 00:14:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7A0113912;
-	Wed, 15 Jun 2022 22:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B476B1138F2;
+	Wed, 15 Jun 2022 22:14:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5FBE1138F2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 22:14:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BAF11138F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 22:14:35 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 71F031356;
- Thu, 16 Jun 2022 00:14:31 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B9B281536;
+ Thu, 16 Jun 2022 00:14:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1655331272;
- bh=hYw/XG1wi5ZlvDQ178c/bGN3IuQNb9BadCv6ZsV1h1E=;
+ s=mail; t=1655331273;
+ bh=V7keF6pU0jUq8EnyWXp07yw1MdtBpVEvVzp0Y4GC/AM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LAlSmvf8tlZ4mhO5fsFMt9WsM/BiuSUs4ahJ07wNZmGr23eXjByCKwe7owQ2j+APh
- GL2vrtFTrhVEbGLFnaBRO/a4k6rvaYlwGkuhvJimsJh/P/w9IC2g/yTYW+UnEeoL+W
- p9eh91iukhDhwjIVHhFZEgbq9qXIiam9MnO6cKZ8=
+ b=EaVN9fgpjbexDh51WkOfQQ4XH+sGWDHzbQe92EEEQvOPIFzL184FUSSBg1eyyHycZ
+ Yh6vaFnqmpFcr/XeR5QQ8CPKvKys1iy9so+fQuCPF1L1tFUkbHUPpJDZOHlnwkpY1Q
+ bnI1pcGi68n6EUdXUKZzbMO4k/foAr4nZyfhE+bg=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: devicetree@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 5/6] ARM: dts: renesas: Use new media bus type macros
-Date: Thu, 16 Jun 2022 01:14:09 +0300
-Message-Id: <20220615221410.27459-6-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 6/6] ARM: dts: stm32: Use new media bus type macros
+Date: Thu, 16 Jun 2022 01:14:10 +0300
+Message-Id: <20220615221410.27459-7-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
 References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
@@ -64,105 +64,52 @@ macros in the DT sources.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts       | 11 +++++++----
- .../dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi     |  4 +++-
- .../dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi     |  4 +++-
- 3 files changed, 13 insertions(+), 6 deletions(-)
+ arch/arm/boot/dts/stm32429i-eval.dts  | 3 ++-
+ arch/arm/boot/dts/stm32mp157c-ev1.dts | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-index 4e58c54cde17..33ac4bd1e63b 100644
---- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-+++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-@@ -7,6 +7,9 @@
-  */
- 
- /dts-v1/;
-+
+diff --git a/arch/arm/boot/dts/stm32429i-eval.dts b/arch/arm/boot/dts/stm32429i-eval.dts
+index 0d98aca01736..5fae11e6607b 100644
+--- a/arch/arm/boot/dts/stm32429i-eval.dts
++++ b/arch/arm/boot/dts/stm32429i-eval.dts
+@@ -50,6 +50,7 @@
+ #include "stm32f429-pinctrl.dtsi"
+ #include <dt-bindings/input/input.h>
+ #include <dt-bindings/gpio/gpio.h>
 +#include <dt-bindings/media/video-interfaces.h>
-+
- #include "r8a7742-iwg21d-q7.dts"
  
  / {
-@@ -242,7 +245,7 @@ port {
- 		vin0ep: endpoint {
- 			remote-endpoint = <&cam0ep>;
+ 	model = "STMicroelectronics STM32429i-EVAL board";
+@@ -186,7 +187,7 @@ &dcmi {
+ 	port {
+ 		dcmi_0: endpoint {
+ 			remote-endpoint = <&ov2640_0>;
+-			bus-type = <5>;
++			bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
  			bus-width = <8>;
--			bus-type = <6>;
-+			bus-type = <MEDIA_BUS_TYPE_BT656>;
- 		};
- 	};
- };
-@@ -273,7 +276,7 @@ port {
- 		vin1ep: endpoint {
- 			remote-endpoint = <&cam1ep>;
- 			bus-width = <8>;
--			bus-type = <6>;
-+			bus-type = <MEDIA_BUS_TYPE_BT656>;
- 		};
- 	};
- };
-@@ -305,7 +308,7 @@ vin2ep: endpoint {
- 			remote-endpoint = <&cam2ep>;
- 			bus-width = <8>;
- 			data-shift = <8>;
--			bus-type = <6>;
-+			bus-type = <MEDIA_BUS_TYPE_BT656>;
- 		};
- 	};
- };
-@@ -335,7 +338,7 @@ port {
- 		vin3ep: endpoint {
- 			remote-endpoint = <&cam3ep>;
- 			bus-width = <8>;
--			bus-type = <6>;
-+			bus-type = <MEDIA_BUS_TYPE_BT656>;
- 		};
- 	};
- };
-diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-index 40cef0b1d1e6..c73160df619d 100644
---- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-+++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov5640-single.dtsi
-@@ -7,6 +7,8 @@
-  * Copyright (C) 2020 Renesas Electronics Corp.
-  */
- 
+ 			hsync-active = <0>;
+ 			vsync-active = <0>;
+diff --git a/arch/arm/boot/dts/stm32mp157c-ev1.dts b/arch/arm/boot/dts/stm32mp157c-ev1.dts
+index d142dd30e16b..306d41a6138f 100644
+--- a/arch/arm/boot/dts/stm32mp157c-ev1.dts
++++ b/arch/arm/boot/dts/stm32mp157c-ev1.dts
+@@ -8,6 +8,7 @@
+ #include "stm32mp157c-ed1.dts"
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/input/input.h>
 +#include <dt-bindings/media/video-interfaces.h>
-+
- #define CAM_ENABLED	1
  
- &CAM_PARENT_I2C {
-@@ -26,7 +28,7 @@ port {
- 			CAM_EP: endpoint {
- 				bus-width = <8>;
- 				data-shift = <2>;
--				bus-type = <6>;
-+				bus-type = <MEDIA_BUS_TYPE_BT656>;
- 				pclk-sample = <1>;
- 				remote-endpoint = <&VIN_EP>;
- 			};
-diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
-index f5e77f024251..a7f5cfec64b8 100644
---- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
-+++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725-single.dtsi
-@@ -7,6 +7,8 @@
-  * Copyright (C) 2020 Renesas Electronics Corp.
-  */
- 
-+#include <dt-bindings/media/video-interfaces.h>
-+
- #define CAM_ENABLED	1
- 
- &CAM_PARENT_I2C {
-@@ -21,7 +23,7 @@ ov7725@21 {
- 		port {
- 			CAM_EP: endpoint {
- 				bus-width = <8>;
--				bus-type = <6>;
-+				bus-type = <MEDIA_BUS_TYPE_BT656>;
- 				remote-endpoint = <&VIN_EP>;
- 			};
- 		};
+ / {
+ 	model = "STMicroelectronics STM32MP157C eval daughter on eval mother";
+@@ -90,7 +91,7 @@ &dcmi {
+ 	port {
+ 		dcmi_0: endpoint {
+ 			remote-endpoint = <&ov5640_0>;
+-			bus-type = <5>;
++			bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
+ 			bus-width = <8>;
+ 			hsync-active = <0>;
+ 			vsync-active = <0>;
 -- 
 Regards,
 
