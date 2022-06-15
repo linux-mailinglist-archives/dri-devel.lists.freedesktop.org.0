@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142E854CECD
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 18:35:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF80854CEDD
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 18:40:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F159C11238C;
-	Wed, 15 Jun 2022 16:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4261D10E991;
+	Wed, 15 Jun 2022 16:40:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED70D11238C;
- Wed, 15 Jun 2022 16:35:23 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- t3-20020a17090a510300b001ea87ef9a3dso2541727pjh.4; 
- Wed, 15 Jun 2022 09:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NXNiK5CoOd5h/K567StuCdpvu1byZQqmWfR+aD9BoLg=;
- b=m2hmwJKhxnLWptIU4bEaOprXB7AjROw7lct5pUQISGmydnU6CeitFPq3Qc9nBe1MQC
- PaaVmblRPW/g2e460HEqDMv1JWHDx+leQItVlqmFT92ZIOQ4mFuHkp/67ZK/on2CWJ57
- 7cHTsZBoqA/i8uP47pfHx3HmdrA3/UMF6T5VWr7Saf5m5cn6uTuD64FNpK99mmvImEJp
- Ccu3KzYFY84/TZ/XWD1T0TNUh7Ldx3ruUETmYEfqVSxkJQHNqP4xxrNI8YMsVfFxYGgb
- FUoek2jo46bd3K8MhP0Z1sx8mK3GTsyfPGDDONzkL2tdDHbiUYLQTk06jL6veFjQXxIi
- a0Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NXNiK5CoOd5h/K567StuCdpvu1byZQqmWfR+aD9BoLg=;
- b=nrahkiyXzXMxYn/pFNi+F+pxl5p3+TLv6vRXAxIjeK3f6Q65jGA32jQvaiyrnI3ZyZ
- dZ0kFeDxh2G360Zl0we82oz75fcvmew4lje93Hy8O8aVol+aqu2IfX+e9ngjN2fX0o3T
- 8h0L5XdEwa7p6nACb1PDrYjXzr1I+uECrgN0pnRDxSZxcJvtyFKz0bUDuufZ+48fNieQ
- nSg7eKvwdOac7e9fW/iMHWijJ9H4LoEUOcMHmaNXvaBkxOVvsNGAi1FOjzCwCTI6hY7t
- pRETQHsUVVZxNMjoON6G7sjgNJh3HNVjCh2zNGqCL33ZsM6AwovbeiUEP1yDuxrnD23l
- ObJw==
-X-Gm-Message-State: AJIora9fUAX85X70RiEyX1vvmzmSyTVW/XaCdCNd69+2J8qurRV93EsF
- 0+Lq+U1K/xXoKkDpEGexyLvEjCYSas0=
-X-Google-Smtp-Source: AGRyM1tLwthhtZmarB0uyNajKCWDIJw6HY2FWPaSR5DXQjf5zLnQlXHmthoGVTwOVaURRNFowOIaPw==
-X-Received: by 2002:a17:90b:2349:b0:1e3:34f9:87e8 with SMTP id
- ms9-20020a17090b234900b001e334f987e8mr11146478pjb.217.1655310922780; 
- Wed, 15 Jun 2022 09:35:22 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
- by smtp.gmail.com with ESMTPSA id
- v15-20020a63bf0f000000b003fdb97e6961sm9909464pgf.28.2022.06.15.09.35.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jun 2022 09:35:21 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm: Fix %d vs %u
-Date: Wed, 15 Jun 2022 09:35:28 -0700
-Message-Id: <20220615163532.3013035-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.36.1
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D304C10E991;
+ Wed, 15 Jun 2022 16:40:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1655311205; x=1686847205;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=zBHIP+U8nqBIDpEnV22+DW2gqZvJI6TkmqSaO/48VmM=;
+ b=KR/VEA/hVZrOAuWhcYHpFyx0ZHjt2/ZfHDB9MIui2qz8P3gcCR4Mgl3l
+ cnSvKSl+qoBdjAEsDloGFK/KECYlZpVEQ08bOiRVWZ7LC7e9U+PAXbUyo
+ e2D+lb0bMFdOTdADCdkgX8lpgHL7Alw61ia0nHYrOa7WtnFVcV/d1Z+/A 8=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Jun 2022 09:40:05 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2022 09:40:04 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 15 Jun 2022 09:40:04 -0700
+Received: from [10.38.242.138] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 15 Jun
+ 2022 09:40:02 -0700
+Message-ID: <5163b520-e859-d813-46ae-91260b6230e5@quicinc.com>
+Date: Wed, 15 Jun 2022 09:40:00 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 1/3] drm/msm/dpu: move intf and wb assignment to
+ dpu_encoder_setup_display()
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <freedreno@lists.freedesktop.org>
+References: <1655235140-16424-1-git-send-email-quic_abhinavk@quicinc.com>
+ <6ce50e83-3fbf-d97f-a4f2-0f5db389349c@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <6ce50e83-3fbf-d97f-a4f2-0f5db389349c@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,50 +67,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Emma Anholt <emma@anholt.net>,
- Jonathan Marek <jonathan@marek.ca>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
 
-In debugging fence rollover, I noticed that GPU state capture and
-devcore dumps were showing me negative fence numbers.  Let's fix that
-and some related signed vs unsigned confusion.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On 6/15/2022 5:36 AM, Dmitry Baryshkov wrote:
+> On 14/06/2022 22:32, Abhinav Kumar wrote:
+>> intf and wb resources are not dependent on the rm global
+>> state so need not be allocated during dpu_encoder_virt_atomic_mode_set().
+>>
+>> Move the allocation of intf and wb resources to 
+>> dpu_encoder_setup_display()
+>> so that we can utilize the hw caps even during atomic_check() phase.
+>>
+>> Since dpu_encoder_setup_display() already has protection against
+>> setting invalid intf_idx and wb_idx, these checks can now
+>> be dropped as well.
+>>
+>> Fixes: e02a559a720f ("make changes to dpu_encoder to support virtual 
+>> encoder")
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 25 
+>> +++++++------------------
+>>   1 file changed, 7 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> index 3a462e327e0e..e991d4ba8a40 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>> @@ -1048,24 +1048,6 @@ static void 
+>> dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>>           phys->hw_pp = dpu_enc->hw_pp[i];
+>>           phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
+>> -        if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
+>> -            phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, 
+>> phys->intf_idx);
+>> -
+>> -        if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
+>> -            phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
+>> -
+>> -        if (!phys->hw_intf && !phys->hw_wb) {
+>> -            DPU_ERROR_ENC(dpu_enc,
+>> -                      "no intf or wb block assigned at idx: %d\n", i);
+>> -            return;
+>> -        }
+>> -
+>> -        if (phys->hw_intf && phys->hw_wb) {
+>> -            DPU_ERROR_ENC(dpu_enc,
+>> -                    "invalid phys both intf and wb block at idx: 
+>> %d\n", i);
+>> -            return;
+>> -        }
+> 
+> Please retain these checks in dpu_encoder_setup_display().
+> It checks that we really have got the intf or wb. For example one might 
+> have specified the INTF that leads to INTF_NONE interface. Or 
+> non-existing/not supported WB.
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index dd044d557c7c..ce3b508b7c2b 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -790,11 +790,11 @@ void adreno_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
- 	for (i = 0; i < gpu->nr_rings; i++) {
- 		drm_printf(p, "  - id: %d\n", i);
- 		drm_printf(p, "    iova: 0x%016llx\n", state->ring[i].iova);
--		drm_printf(p, "    last-fence: %d\n", state->ring[i].seqno);
--		drm_printf(p, "    retired-fence: %d\n", state->ring[i].fence);
--		drm_printf(p, "    rptr: %d\n", state->ring[i].rptr);
--		drm_printf(p, "    wptr: %d\n", state->ring[i].wptr);
--		drm_printf(p, "    size: %d\n", MSM_GPU_RINGBUFFER_SZ);
-+		drm_printf(p, "    last-fence: %u\n", state->ring[i].seqno);
-+		drm_printf(p, "    retired-fence: %u\n", state->ring[i].fence);
-+		drm_printf(p, "    rptr: %u\n", state->ring[i].rptr);
-+		drm_printf(p, "    wptr: %u\n", state->ring[i].wptr);
-+		drm_printf(p, "    size: %u\n", MSM_GPU_RINGBUFFER_SZ);
- 
- 		adreno_show_object(p, &state->ring[i].data,
- 			state->ring[i].data_size, &state->ring[i].encoded);
--- 
-2.36.1
+Right, so the reason I omitted that was dpu_encoder_setup_display() 
+already has these checks:
 
+https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L2273
+
+Please check lines 2273-2284.
+
+Only if all those checks succeeded we call 
+dpu_encoder_virt_add_phys_encs which increments num_phys_encs.
+
+Thats why I dropped those.
+
+Let me know if you have more questions.
+
+> 
+>> -
+>>           phys->cached_mode = crtc_state->adjusted_mode;
+>>           if (phys->ops.atomic_mode_set)
+>>               phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
+>> @@ -2293,7 +2275,14 @@ static int dpu_encoder_setup_display(struct 
+>> dpu_encoder_virt *dpu_enc,
+>>           struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+>>           atomic_set(&phys->vsync_cnt, 0);
+>>           atomic_set(&phys->underrun_cnt, 0);
+>> +
+>> +        if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
+>> +            phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, 
+>> phys->intf_idx);
+>> +
+>> +        if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
+>> +            phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
+>>       }
+>> +
+>>       mutex_unlock(&dpu_enc->enc_lock);
+>>       return ret;
+> 
+> 
