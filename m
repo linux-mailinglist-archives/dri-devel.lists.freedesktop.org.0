@@ -1,79 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B892E54D280
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 22:26:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 084D354D285
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 22:28:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED719112CD6;
-	Wed, 15 Jun 2022 20:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE8E5112CFC;
+	Wed, 15 Jun 2022 20:27:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9FD7112CD6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 20:26:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655324780;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=39qDr0lg6PwcbSbD7GVVUlGZ8d9yMQMoj4VB9lhwi8A=;
- b=FSIFYEJ/S0r9xRl05aAbFYBO5BuGm2hXKpBTmP43o/jCZI+gat6SrRl9AhGiFswV7kBMzB
- tVpWl6w4v+sIDEcbUGgs+KIvNUjHEO0KjZY07ubvMN1+wCGm4PfvetJx+j7EqkTwx25nmo
- H3ev51Gv6as9PGz6lyHoKg126k5X6AE=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-410-gEUp3BGSNbW_6mV8xHx0ow-1; Wed, 15 Jun 2022 16:26:20 -0400
-X-MC-Unique: gEUp3BGSNbW_6mV8xHx0ow-1
-Received: by mail-qv1-f72.google.com with SMTP id
- d2-20020a0cf0c2000000b0046e5de39f7fso3888934qvl.21
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 13:26:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=39qDr0lg6PwcbSbD7GVVUlGZ8d9yMQMoj4VB9lhwi8A=;
- b=cnr5bZHsgc/td/pEcKEcvDOGLZWO3B5eMHdH8k3Pu3biTCYFRs+O/pKYUXJx7HByna
- 2khrWLRoc8NKK8JpGhcBbK6zAXeRb8H7pxxRhrAfkSxp48K7fYzbEBGqoRkEB5LZlphw
- SlA8tESn6V+VCvPkzQ6wfmHTF79Dhq3acS/3IuB+iI7e2zWoqWKv2K4ar7dHqtz5Dxtc
- ZTpu9LWOuRaraTXy/GewXDRrhdkSOTz4e3jqefP7iWgTwDWevPL50hdAB4pBAZiC+apV
- eI+Mj8uPmG7nFmei6htpZFBPqzDu7yT55ls+5NmIpLrbYS5TTp718ynHr0YXg9itPCyL
- /tTw==
-X-Gm-Message-State: AJIora+9lQ5hvxu+zjvmHs7ZAbIomBmfagYFXN0FryfJ2qKQNIjIAkmF
- QF5cR126wCAtiwX53Mm1HcV2gn7OZVh+TsDEijq6mDWgci5WBMsiiYJJzDoEcWXaF57zENx2w/i
- lMc23uvY8vWsUZbbzpVEZH5E+GzS3
-X-Received: by 2002:ae9:e011:0:b0:6a6:a5c6:cafe with SMTP id
- m17-20020ae9e011000000b006a6a5c6cafemr1208080qkk.717.1655324779371; 
- Wed, 15 Jun 2022 13:26:19 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u+67HCjvIcprrQcOUGJCUBW5R2J3f7knBB3E0n7AKLI135jKppbeAzrxSf+yru3pue0lGqdg==
-X-Received: by 2002:ae9:e011:0:b0:6a6:a5c6:cafe with SMTP id
- m17-20020ae9e011000000b006a6a5c6cafemr1208070qkk.717.1655324779161; 
- Wed, 15 Jun 2022 13:26:19 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- g2-20020ac80702000000b00304f79b2bcfsm112024qth.49.2022.06.15.13.26.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jun 2022 13:26:18 -0700 (PDT)
-Message-ID: <fc2412480357b6bafdc4aff91109c40cf9f15fed.camel@redhat.com>
-Subject: Re: [PATCH] drm/dp/mst: Read the extended DPCD capabilities during
- system resume
-From: Lyude Paul <lyude@redhat.com>
-To: Imre Deak <imre.deak@intel.com>, dri-devel@lists.freedesktop.org
-Date: Wed, 15 Jun 2022 16:26:17 -0400
-In-Reply-To: <20220614094537.885472-1-imre.deak@intel.com>
-References: <20220614094537.885472-1-imre.deak@intel.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C02A112CFC;
+ Wed, 15 Jun 2022 20:27:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=ZyYyezCf/BUfWvp3SS0tJHgG622dktRJVLjhG8Bed+o=; b=t6FThO6AzVoLedjjG9EdaVxiL8
+ 5ktznfR8LrGVb+WtjLEaRaSPViEyhNC143ZMJFCtlJU/zT8amLEUnucDXb5ENS3H59PTNZquZ+Fa0
+ Is9l/e4AR6SHp6qzDScX0ZF6rhkdzRYxnXopaTJJqarY/3hxC1JpEYI6HfNyUs0JZDGVaLrfDCgjL
+ Xrik5yF6YlY/KX1BghnObD0aBBV5lrK67UbASiGXgXRRIYKnDPFFhCogrUGjxL1rAXm4BfLjVqgDF
+ y5W+Dy2xB9h3n7h9dGbkBZMLsRtaePaC9ZFF3Oix9dr+tNqYL4zOzRYGsXKeZYIozG36zzYg4Jz0e
+ JleW347g==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1o1Zc6-001Ldf-Hc; Wed, 15 Jun 2022 20:27:42 +0000
+Message-ID: <3581d1bc-9442-c3e6-7fbd-c7a7a691a839@infradead.org>
+Date: Wed, 15 Jun 2022 13:27:37 -0700
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: linux-next: Tree for Jun 15
+ (drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c)
+Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>
+References: <20220615160116.528c324b@canb.auug.org.au>
+ <d1a48a84-6d07-e8f7-5fd8-d24a7a1cf187@infradead.org>
+ <CADnq5_N6gfaPfZJAX4+poWFFruxNdFKZqzXZXosj1A55e-O1mA@mail.gmail.com>
+ <fb53cab1-f693-5309-e06a-0fe0fc932c2c@infradead.org>
+ <CADnq5_Nz9cw3L6_Ab=7WQZ4_y8OTSiwZmoQup+9OjaaZPCqUqQ@mail.gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CADnq5_Nz9cw3L6_Ab=7WQZ4_y8OTSiwZmoQup+9OjaaZPCqUqQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,64 +56,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If you add a Cc: to stable@vger.kernel.org then this is:
+Hi--
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+On 6/15/22 13:13, Alex Deucher wrote:
+> On Wed, Jun 15, 2022 at 3:44 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>>
+>>
+>> On 6/15/22 12:28, Alex Deucher wrote:
+>>> On Wed, Jun 15, 2022 at 3:01 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>>>
+>>>>
+>>>>
+>>>> On 6/14/22 23:01, Stephen Rothwell wrote:
+>>>>> Hi all,
+>>>>>
+>>>>> Changes since 20220614:
+>>>>>
+>>>>
+>>>> on i386:
+>>>> # CONFIG_DEBUG_FS is not set
+>>>>
+>>>>
+>>>> ../drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function ‘amdgpu_dm_crtc_late_register’:
+>>>> ../drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6599:2: error: implicit declaration of function ‘crtc_debugfs_init’; did you mean ‘amdgpu_debugfs_init’? [-Werror=implicit-function-declaration]
+>>>>   crtc_debugfs_init(crtc);
+>>>>   ^~~~~~~~~~~~~~~~~
+>>>>   amdgpu_debugfs_init
+>>>>
+>>>>
+>>>> Full randconfig file is attached.
+>>>
+>>> I tried building with your config and I can't repro this.  As Harry
+>>> noted, that function and the whole secure display feature depend on
+>>> debugfs.  It should never be built without CONFIG_DEBUG_FS.  See
+>>> drivers/gpu/drm/amd/display/Kconfig:
+>>
+>> Did you try building with today's linux-next tree?
+>> (whatever is in it)
+>>
+>> I have seen this build error multiple times so it shouldn't
+>> be so difficult to repro it.
+>>
+>>
+>>>> config DRM_AMD_SECURE_DISPLAY
+>>>>         bool "Enable secure display support"
+>>>>         default n
+>>>>         depends on DEBUG_FS
+>>>>         depends on DRM_AMD_DC_DCN
+>>>>         help
+>>>>             Choose this option if you want to
+>>>>             support secure display
+>>>>
+>>>>             This option enables the calculation
+>>>>             of crc of specific region via debugfs.
+>>>>             Cooperate with specific DMCU FW.
+>>>
+>>> amdgpu_dm_crtc_late_register is guarded by
+>>> CONIG_DRM_AMD_SECURE_DISPLAY.  It's not clear to me how we could hit
+>>> this.
+>
 
-I assume you have the privileges to push this to drm-misc-next
+I was just about to ask what the paragraph above means.
+It was confusing to say the least.
+ 
+> I was able to repro it.  In linux-next the
+> CONFIG_DRM_AMD_SECURE_DISPLAY ifdefs in
+> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c seem to be missing.
+> I guess they were lost when the amdgpu branch was merged into
+> linux-next.  The attached patch restores the
+> CONFIG_DRM_AMD_SECURE_DISPLAY protections.
 
-On Tue, 2022-06-14 at 12:45 +0300, Imre Deak wrote:
-> The WD22TB4 Thunderbolt dock at least will revert its DP_MAX_LINK_RATE
-> from HBR3 to HBR2 after system suspend/resume if the DP_DP13_DPCD_REV
-> registers are not read subsequently also as required.
-> 
-> Fix this by reading DP_DP13_DPCD_REV registers as well, matching what is
-> done during connector detection. While at it also fix up the same call
-> in drm_dp_mst_dump_topology().
-> 
-> Cc: Lyude Paul <lyude@redhat.com>
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5292
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-> ---
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> index 67b3b9697da7f..18f2b6075b780 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -3860,9 +3860,7 @@ int drm_dp_mst_topology_mgr_resume(struct
-> drm_dp_mst_topology_mgr *mgr,
->         if (!mgr->mst_primary)
->                 goto out_fail;
->  
-> -       ret = drm_dp_dpcd_read(mgr->aux, DP_DPCD_REV, mgr->dpcd,
-> -                              DP_RECEIVER_CAP_SIZE);
-> -       if (ret != DP_RECEIVER_CAP_SIZE) {
-> +       if (drm_dp_read_dpcd_caps(mgr->aux, mgr->dpcd) < 0) {
->                 drm_dbg_kms(mgr->dev, "dpcd read failed - undocked during
-> suspend?\n");
->                 goto out_fail;
->         }
-> @@ -4911,8 +4909,7 @@ void drm_dp_mst_dump_topology(struct seq_file *m,
->                 u8 buf[DP_PAYLOAD_TABLE_SIZE];
->                 int ret;
->  
-> -               ret = drm_dp_dpcd_read(mgr->aux, DP_DPCD_REV, buf,
-> DP_RECEIVER_CAP_SIZE);
-> -               if (ret) {
-> +               if (drm_dp_read_dpcd_caps(mgr->aux, buf) < 0) {
->                         seq_printf(m, "dpcd read failed\n");
->                         goto out;
->                 }
+OK, that builds for me.
+
+Thanks.
 
 -- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+~Randy
