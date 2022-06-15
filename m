@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 035A354D103
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 20:36:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2CE54D101
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 20:36:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4230010FF0B;
-	Wed, 15 Jun 2022 18:36:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C667510F70E;
+	Wed, 15 Jun 2022 18:36:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1851 seconds by postgrey-1.36 at gabe;
- Wed, 15 Jun 2022 11:19:44 UTC
-Received: from mail-m963.mail.126.com (mail-m963.mail.126.com [123.126.96.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0BFE310E073
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 11:19:43 +0000 (UTC)
+X-Greylist: delayed 1890 seconds by postgrey-1.36 at gabe;
+ Wed, 15 Jun 2022 11:49:42 UTC
+Received: from m15111.mail.126.com (m15111.mail.126.com [220.181.15.111])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4E8C110E11B
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 11:49:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=qRBqy
- tTLZ34Rt4thGWj9lEN5JpUglvigXgFN4dG4FQ0=; b=CJv5DMjNu1qbzk88jQzZt
- wYvxeUMZXC2JlwDpysvEUok80Emg4pFK38BmU6dTwgMEzaHHwN0zu8VkeDUhYyb0
- qqez4OVvCKvg1GyYOgbd9krmTITdHL8AEZD3kf5dfay//BL+yFqdH1/OzfzW6I1Z
- hpnvAzvaDfYHFqD90IfNJM=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=QqKPV
+ BGfow1c4ZMlx0YSYTPT8kkKDZgzEU0kwf4SuA4=; b=iU8zznYKuLyz1drshpTqO
+ UeX4dBnETWilJ5oDPVg0IeQWmZAK+TVvp30JV3ZVerG0n6Zoeu5AmWPz1U9zy5pb
+ Qg3zT4bGYEhCYL9FDGlt1No38v/GeusGfJMRkDlqjwTRaDvN58dOr2r7tSni71L2
+ a+8ilkCnwIJdhU8q9+6h1M=
 Received: from localhost.localdomain (unknown [124.16.139.61])
- by smtp8 (Coremail) with SMTP id NORpCgD3mZYCualig72aFg--.47285S2;
- Wed, 15 Jun 2022 18:48:36 +0800 (CST)
-From: heliang <windhl@126.com>
+ by smtp1 (Coremail) with SMTP id C8mowAD3Jifbv6liZhOoEQ--.58335S2;
+ Wed, 15 Jun 2022 19:17:47 +0800 (CST)
+From: Liang He <windhl@126.com>
 To: ldewangan@nvidia.com, gregkh@linuxfoundation.org, jirislaby@kernel.org,
  thierry.reding@gmail.com, jonathanh@nvidia.com, p.zabel@pengutronix.de,
  sumit.semwal@linaro.org, christian.koenig@amd.com
 Subject: [PATCH] drivers: tty: serial: Add missing of_node_put() in
  serial-tegra.c
-Date: Wed, 15 Jun 2022 18:48:33 +0800
-Message-Id: <20220615104833.3963552-1-windhl@126.com>
+Date: Wed, 15 Jun 2022 19:17:47 +0800
+Message-Id: <20220615111747.3963930-1-windhl@126.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: NORpCgD3mZYCualig72aFg--.47285S2
+X-CM-TRANSID: C8mowAD3Jifbv6liZhOoEQ--.58335S2
 X-Coremail-Antispam: 1Uf129KBjvdXoWrurW3KFyUCryDCw13JFWrZrb_yoW3CFb_Ww
- nrW3s7Xr4j9FsYqanavry3ur9Ivrn8WFnYqF92qas7W345ZF4DJrZ0qrn7J3sF93yxCrW3
- GrsrWFsrAr1DXjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xREWEE7UUUUU==
+ nrW3s7Zr4j9FsYqanavry3ur9IvFn8WFnYqF92qas7W345ZF4DJrWqqrn7A3sF93y7CrW3
+ CrsrWFsrAr1DXjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRimhFDUUUUU==
 X-Originating-IP: [124.16.139.61]
-X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbiuAQhF2JVj36C6QAAsn
+X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbizhwhF18RPTCjAAAAsE
 X-Mailman-Approved-At: Wed, 15 Jun 2022 18:36:18 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,7 +64,7 @@ In tegra_uart_init(), of_find_matching_node() will return a node
 pointer with refcount incremented. We should use of_node_put()
 when it is not used anymore.
 
-Signed-off-by: heliang <windhl@126.com>
+Signed-off-by: Liang He <windhl@126.com>
 ---
  drivers/tty/serial/serial-tegra.c | 1 +
  1 file changed, 1 insertion(+)
