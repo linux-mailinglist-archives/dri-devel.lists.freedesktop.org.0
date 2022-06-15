@@ -1,42 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 772C754C688
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 12:53:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE6954C730
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 13:10:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C505510E0CF;
-	Wed, 15 Jun 2022 10:53:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B94E112315;
+	Wed, 15 Jun 2022 11:10:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D373710E0CF
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 10:53:41 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 83A83615B0;
- Wed, 15 Jun 2022 10:53:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05BCEC34115;
- Wed, 15 Jun 2022 10:53:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1655290418;
- bh=xorApPrJYjqRVSP/59nC6A1gHUam/lVIdxd8tViYqNs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XLzcAJdjue7U4UAgQgf9+RKr6LPQLQ1VcUI/upqTv1jd4xn6ffwn+7ka1a4EDGE8U
- zqx74/OmAxwHanaqgwTA7wUZlgugxFfwkQhE/i3XRtI35ar4o26wDmuNDE1Dgh11mi
- /epAMQstrnhJN4qD2PnkwxCSW90WgW64Lkp7vHmk=
-Date: Wed, 15 Jun 2022 12:53:34 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: heliang <windhl@126.com>
-Subject: Re: [PATCH] drivers: tty: serial: Add missing of_node_put() in
- serial-tegra.c
-Message-ID: <Yqm6LvDGqaRMaUHa@kroah.com>
-References: <20220615104833.3963552-1-windhl@126.com>
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 584CD112315
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 11:10:35 +0000 (UTC)
+Received: by mail-qk1-x732.google.com with SMTP id c83so8437608qke.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 04:10:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=b9ehyMccErLvnswsUCaTIrl34oqySPKiX0jSZU6Bb2M=;
+ b=XhFBEfnUAAAiNoeaPp8jwbXdQl0UO7gQ42vHajwiCKngRuo0+EtuAWphzpblMChMsD
+ RkVTK5S2gXSlD7AUPLShgjdcsQpzhv4aGO6gh1nd+2JkywFSNLBEPv16HhRjL8H3Ncxm
+ hLIbTd1JEz1g7iebq0wd6y8bcz6Wfj7MI32+7T1UB6Li37w9mX0LC6KfSb3/nsCq/Vv8
+ dVTiD15brD1+tiKNQl4ioh/q2esWTbJKztXqhYfD1EIokoBM6/kRzycSaWQeCyCFFT37
+ AyjRcvyQYCsh8qWMkluLCajMWb4IyOR/Us9TFaGLP02GGWmj8HYcpqudasPGy/jF88OS
+ cKzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=b9ehyMccErLvnswsUCaTIrl34oqySPKiX0jSZU6Bb2M=;
+ b=PM2QvM/rQ1nN2l3HdcwxrPFqFA4dwgc67B1zL1p2UiuGmg1hhpQjsHwRSjQWJlin1U
+ VZYgBGtCHjx+rBa04xBG01dCU3ScG6nno6BLASkV77T9FY49MIrq+wZfPf2LNwYC6O+r
+ xP/r0eQaZFnDtpci2aAKoNR4AyCjLu4RiS56MFg3CI3f2wdGjxOZHoJNy3pUjdPxAgOj
+ zcSp2vdCkXgIucNsTjAjnUuZA5w8w2bwu+i4i7/CrTsXOkmCgKED9MBxiFyKSShBMGBq
+ von7qHx93S47CsawflWFu7VHmKPdsoljLOSpW6+FhhpyTfY743q4P1GxD8FJUgG91lNv
+ QnQA==
+X-Gm-Message-State: AOAM5307eBD0eh6eQAv+lo8iQefl6ZNrM/d7I3GPc43YHoilM/620qmq
+ wK986atU+o25sFhSgBdbAO3v1Mj0ReGucCsIns8YHw==
+X-Google-Smtp-Source: ABdhPJwAFCuKWsMd/fvYsI+fi7dfEHmvREDN3bjZ7ZeI6PNzbJOFtpJB3OdCaG6L5u7bW4MhfRba3zINUWabfKcuTsQ=
+X-Received: by 2002:a05:620a:2a0e:b0:6a7:8346:1601 with SMTP id
+ o14-20020a05620a2a0e00b006a783461601mr7451127qkp.593.1655291434425; Wed, 15
+ Jun 2022 04:10:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220615104833.3963552-1-windhl@126.com>
+References: <20220614215418.910948-1-dianders@chromium.org>
+ <20220614145327.v4.3.I9ee239f6b95b944c8fa030f300ad222a7af9899d@changeid>
+In-Reply-To: <20220614145327.v4.3.I9ee239f6b95b944c8fa030f300ad222a7af9899d@changeid>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 15 Jun 2022 14:10:22 +0300
+Message-ID: <CAA8EJpqrEb-48ma61D5enaTR5V27q3Uyts4keAnMgCdvAjc7vQ@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] drm/panel: atna33xc20: Take advantage of
+ wait_hpd_asserted() in struct drm_dp_aux
+To: Douglas Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,23 +64,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-serial@vger.kernel.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
- linaro-mm-sig@lists.linaro.org, thierry.reding@gmail.com, ldewangan@nvidia.com,
- linux-tegra@vger.kernel.org, jirislaby@kernel.org, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 15, 2022 at 06:48:33PM +0800, heliang wrote:
-> In tegra_uart_init(), of_find_matching_node() will return a node
-> pointer with refcount incremented. We should use of_node_put()
-> when it is not used anymore.
-> 
-> Signed-off-by: heliang <windhl@126.com>
+On Wed, 15 Jun 2022 at 00:54, Douglas Anderson <dianders@chromium.org> wrote:
+>
+> Let's add support for being able to read the HPD pin even if it's
+> hooked directly to the controller. This will let us take away the
+> waiting in the AUX transfer functions of the eDP controller drivers.
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-We need a real name please, one you sign documents with.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-thanks,
+> ---
+>
+> Changes in v4:
+> - Reorganized logic as per Dmitry's suggestion.
+>
+> Changes in v3:
+> - Don't check "hpd_asserted" boolean when unset.
+> - Handle errors from gpiod_get_value_cansleep() properly.
+>
+> Changes in v2:
+> - Change is_hpd_asserted() to wait_hpd_asserted()
+>
+>  .../gpu/drm/panel/panel-samsung-atna33xc20.c  | 51 ++++++++++++++-----
+>  1 file changed, 38 insertions(+), 13 deletions(-)
+>
 
-greg k-h
+-- 
+With best wishes
+Dmitry
