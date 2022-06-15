@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A186354C8B5
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 14:38:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C2C54C8B8
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 14:39:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DBEF10E568;
-	Wed, 15 Jun 2022 12:38:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A1D810E554;
+	Wed, 15 Jun 2022 12:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 228CE10E568
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 12:38:25 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id a2so18700863lfg.5
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 05:38:25 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D54110E4CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 12:39:07 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id a15so18678450lfb.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 05:39:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Rw2dVfvPL9GGTobqrWo57cZxV8BooWeg78sTBvMCYRc=;
- b=kQS4zHJbDwNqI6+cmWZgfMiCd/E985oQ0mVhGb8D4gwpBQ8uG1uT0td8w+SXR/COUw
- 7Oe3hI1+D3PbmkJnQ2h81wdGEseYoHlG+Ir5ZEiVLrVQNA7nveQU20E12RQqX5zhR6j6
- B7U6bCEsbWP+JiO1XzrqeSDwHmbcKskVupKUw6tRFmWCBob3OM11BZ+Du6i5XJVnWpec
- CySuezgr7dPF8VokiAK5eMsWr6+9LxzreN+kyO3ZBhwGrrOSHDPROMXCqBQiDXUCKt5f
- oSacWMbaeKzpZQCImGZdErumA5yUoSufEYXD6J6gAc/HfmNh6XWQl+2VYXS8ru+qmZ79
- qx/g==
+ bh=bwvOqj3SED8Fwlxj46NmjSD6svVkqYJj6IOaVQ6JwUU=;
+ b=lrxbeWGbRftjs9+c8HTNUb4b6NIVOtN30fu/lYe1O6K63BsqBLHNAOIDFCThlmHmXu
+ pMLuhIEeElz4vk9xP18tGV2sWDdI41nAi6wUa8X0r9bURfnuLTZ7KhKHimDygx+jSdG9
+ BvF4y3UPzp3ZTxiGzIimoTrtmg66aYVju7/ok0UsPGxlMMg1tTdLpeVAUY8w1JjG6t6R
+ GvFkGn6x0GhNFfRpylUi2dmlDgg9qMk7xXN1f1lHp8pX7pXrq7yA66f0A3yqvwjIO60F
+ Ib+QsVYY9rZL2Xn4cDEBu9IzQMXozVVldtTMHlTEsTFc0yEeNMzeOuc5ylcJ60uWyC1l
+ GC4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Rw2dVfvPL9GGTobqrWo57cZxV8BooWeg78sTBvMCYRc=;
- b=kjep9Im4juQ1dEQrBUMXI++djXVNWP8ZdSBO3QitU7QvNEpjyKAYG+b7KgO/+S+8AS
- MpRTAXkFq1N1zXmQxuTBt1OxLcue3P+skFLDQvW1/eiWD8hCmGkG9ZMMTUSHxRjprcpo
- 7bJP64yr3If8co/tRTx8cnBQXYxtLSObJDMjjAIsQA0iZ+ggXIfc+cpdAwE5KoX3wB8J
- Rl4gGaLiNoYcfvVC8pcvY7gX0Es1TMK20Dj1Ha+PgOEARFE9H5WfSR2Vr1gQVBkokGPU
- JtMgLfmf3YqI/WrmcSO3IkZuX3S14Ls0PovHFyDHlZQ6ljcpekoa4rfH2l/mvE63ntsH
- n3Kg==
-X-Gm-Message-State: AJIora98TsqopT4ytGHSFpaFKIyK7fMOx54/b2JLHcT3uXBZa/KwB5lN
- Xgei9pl1T1ZZLftQWAhuzbeFUw==
-X-Google-Smtp-Source: AGRyM1shUdkm/ojyGggab68nHxnA99BayqFxMrwdGn8pwl1la/sCKkGHCl88z7CwV8NNL0VMRkvjvQ==
-X-Received: by 2002:a05:6512:3183:b0:479:3e62:2cb with SMTP id
- i3-20020a056512318300b004793e6202cbmr6155606lfe.459.1655296703503; 
- Wed, 15 Jun 2022 05:38:23 -0700 (PDT)
+ bh=bwvOqj3SED8Fwlxj46NmjSD6svVkqYJj6IOaVQ6JwUU=;
+ b=WfHxdNweiNJndryK59s609weYYJdMK8/2kAwWkDYwgnPl2XsubAgh2IZxZ5Rvyd/8e
+ vI4CgakDhkdortHTAdJCcYeXIA+sEK/Hufeo4Gs7br5of6722bQSjY/v9rUwtU65lhuw
+ XdDgkVyGYbYaM9sjePztd0KIJ9qxF/ogZQY27Hhy28OgMj13IWMdZpT8rp4q1PPL9vBD
+ mLFlkWhZV89aJlUtUneWrkWf7rVx02eIda3372BhZIVxYdcUcqi5psyqB1XZrDY24vBl
+ sp3/wO9bLRr0TmiKBpY9V5wNrn4Z8m6sT0o4BrUhiefV2/AG2mD1bCU30pnSNk1lamQc
+ z86w==
+X-Gm-Message-State: AJIora8xUksAsWj0tKksbVPJH6y0Fcb+Z3Tw/kusnWVSQBPkDqgtuxFY
+ pmgPfc574isyKf4a2/0/lWxgxQ==
+X-Google-Smtp-Source: AGRyM1t3+Hli2/Qmtg2lvWRFzOBmwnpK/OIbMqssKJWB1HMzDT4xFFRxOtCx3ooEvGu75kztpJ1Fzg==
+X-Received: by 2002:a05:6512:e93:b0:47f:3e19:4d64 with SMTP id
+ bi19-20020a0565120e9300b0047f3e194d64mr933201lfb.488.1655296745453; 
+ Wed, 15 Jun 2022 05:39:05 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- j23-20020a2e8517000000b0025561ce1275sm1679202lji.135.2022.06.15.05.38.22
+ 1-20020ac25f01000000b0047c61fcd4f2sm1786528lfq.56.2022.06.15.05.39.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jun 2022 05:38:23 -0700 (PDT)
-Message-ID: <55b328f4-f62c-14c5-b02f-614d04df48a1@linaro.org>
-Date: Wed, 15 Jun 2022 15:38:22 +0300
+ Wed, 15 Jun 2022 05:39:05 -0700 (PDT)
+Message-ID: <bfd3d8bb-2b31-16c8-3267-805ae35a480c@linaro.org>
+Date: Wed, 15 Jun 2022 15:39:04 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [PATCH 3/3] drm/msm/dpu: remove hard-coded linewidth limit for
- writeback
+Subject: Re: [PATCH 1/3] drm/msm/dpu: move intf and wb assignment to
+ dpu_encoder_setup_display()
 Content-Language: en-GB
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
 References: <1655235140-16424-1-git-send-email-quic_abhinavk@quicinc.com>
- <1655235140-16424-3-git-send-email-quic_abhinavk@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1655235140-16424-3-git-send-email-quic_abhinavk@quicinc.com>
+In-Reply-To: <1655235140-16424-1-git-send-email-quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,44 +80,71 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 14/06/2022 22:32, Abhinav Kumar wrote:
-> Remove the hard-coded limit for writeback and lets start using
-> the one from catalog instead.
+> intf and wb resources are not dependent on the rm global
+> state so need not be allocated during dpu_encoder_virt_atomic_mode_set().
 > 
-> Fixes: d7d0e73f7de3 ("introduce the dpu_encoder_phys_* for writeback")
+> Move the allocation of intf and wb resources to dpu_encoder_setup_display()
+> so that we can utilize the hw caps even during atomic_check() phase.
+> 
+> Since dpu_encoder_setup_display() already has protection against
+> setting invalid intf_idx and wb_idx, these checks can now
+> be dropped as well.
+> 
+
+I'm going to pick up the last two patches, so you'd have to resend just 
+the first one.
+
+
+> Fixes: e02a559a720f ("make changes to dpu_encoder to support virtual encoder")
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 25 +++++++------------------
+>   1 file changed, 7 insertions(+), 18 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> index 59da348ff339..fc1d4fda69b5 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> @@ -20,8 +20,6 @@
->   #include "dpu_crtc.h"
->   #include "disp/msm_disp_snapshot.h"
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 3a462e327e0e..e991d4ba8a40 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -1048,24 +1048,6 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>   		phys->hw_pp = dpu_enc->hw_pp[i];
+>   		phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
 >   
-> -#define DEFAULT_MAX_WRITEBACK_WIDTH 2048
+> -		if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
+> -			phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, phys->intf_idx);
 > -
->   #define to_dpu_encoder_phys_wb(x) \
->   	container_of(x, struct dpu_encoder_phys_wb, base)
->   
-> @@ -278,9 +276,9 @@ static int dpu_encoder_phys_wb_atomic_check(
->   		DPU_ERROR("invalid fb h=%d, mode h=%d\n", fb->height,
->   				  mode->vdisplay);
->   		return -EINVAL;
-> -	} else if (fb->width > DEFAULT_MAX_WRITEBACK_WIDTH) {
-> +	} else if (fb->width > phys_enc->hw_wb->caps->maxlinewidth) {
->   		DPU_ERROR("invalid fb w=%d, maxlinewidth=%u\n",
-> -				  fb->width, DEFAULT_MAX_WRITEBACK_WIDTH);
-> +				  fb->width, phys_enc->hw_wb->caps->maxlinewidth);
->   		return -EINVAL;
+> -		if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
+> -			phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
+> -
+> -		if (!phys->hw_intf && !phys->hw_wb) {
+> -			DPU_ERROR_ENC(dpu_enc,
+> -				      "no intf or wb block assigned at idx: %d\n", i);
+> -			return;
+> -		}
+> -
+> -		if (phys->hw_intf && phys->hw_wb) {
+> -			DPU_ERROR_ENC(dpu_enc,
+> -					"invalid phys both intf and wb block at idx: %d\n", i);
+> -			return;
+> -		}
+> -
+>   		phys->cached_mode = crtc_state->adjusted_mode;
+>   		if (phys->ops.atomic_mode_set)
+>   			phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
+> @@ -2293,7 +2275,14 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+>   		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+>   		atomic_set(&phys->vsync_cnt, 0);
+>   		atomic_set(&phys->underrun_cnt, 0);
+> +
+> +		if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
+> +			phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, phys->intf_idx);
+> +
+> +		if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
+> +			phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
 >   	}
+> +
+>   	mutex_unlock(&dpu_enc->enc_lock);
 >   
+>   	return ret;
 
 
 -- 
