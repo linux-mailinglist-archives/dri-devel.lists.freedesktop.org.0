@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BF254C949
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 14:57:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5048454C94A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 14:57:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28A5110E6A1;
-	Wed, 15 Jun 2022 12:57:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6957F10E63C;
+	Wed, 15 Jun 2022 12:57:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 779CA10E67B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 12:57:06 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id v8so2117664ljj.8
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 05:57:06 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C3EE10E67B
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 12:57:07 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id a2so18780264lfg.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 05:57:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Y3lVlj1KKNHBEo54nqDtt6bYRWwOKPlUpIBRqxeMjlg=;
- b=JgGvBPV9MF2UOBPmhw7nC7nM+kL2Zf582u1CGh9aYJpx0gFohrzbrHh1OwD9JT48Zs
- CPV04XhiIYfUplyDtw911XnlkoNINjsgB1g2Q2CfcjhNt+cczDr9sKp6vJP2oZMTLtHc
- ODneIIB7tWAPqjzD8+ZPCefYS7G7jGAYust0DtmKEb7pnX4ecJpvCP4iatAtvA7GF7ZS
- ssh/3aKeURbysmeaOJRX/5An03NPmAbfjEcXbhPKSOogzcICQClnRySJRkTCCFErq8Xd
- vR+dlfssXm3PdaIQuBaNaOTnrOb6fTtm8zMGjPoQAAjekQ6Zv/AAYWBE9UPx+DrkVvDt
- /KMQ==
+ bh=59AyhIm0oQw9qERL0mlbbIIwRpFuDUxi5K6ieHsH2Ww=;
+ b=NWPjh8OnGbqhIOvDhKj3a2bwdp6/fzFLkeMDBgILR0qJc3ySGN5Xv8BdyIl68S4eD7
+ gKwVO2nbXfm60ryYV751BgLZy4C2JtE8W5F28Ms421TO+SGsfB48t4GAXUB9XePrjRKj
+ knWq8LiIL3RxNiSHT/WgLjVN14GdQK/MRZik86maAUQawDI9qNFZShFumDNjBUbV8Avk
+ Li5DuD5hTUZBTkTBZV744nlSYxsYDWhfjWV0DR8yfbBlNOvvZ/vgPZyfC1O371nYkZD1
+ 1dT2NIixUyh3GmnWM942JajjeuRZOGIqd+Q7hN5KV19tT+j9AHBrprtmEwWHPwVFZLua
+ STBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Y3lVlj1KKNHBEo54nqDtt6bYRWwOKPlUpIBRqxeMjlg=;
- b=04j93X6tTiErFHmxN6S8yEZ7RW/NVunetdg+kr56tUGbacUs3Ba+2QGmJ8pb51ncAl
- Qb5Tva9IfjehDXj35f43OolzKI+mYv2cuZlg9g8eBqOKDmU/GUsiinDoKuAVzDY9TwHw
- 9mPncnUc/XbUECvV2qM0V46a7HbETBdiILkaRKMSdd5Bmlo/c1s2W0AswFexHQOXWBIt
- 0lqg6Wde38cx9wX0eiZxVGHYFRYd7RMd2kqpNSH83cb2/q54Z91+vnkRH5GIZ9aRQrwd
- SuXHDXK6KjjXdZk42YgSLcLsKupmawCJerKDbflHBnoaMAwX/j7lMZBQ4ZiDiQhB9CBY
- o2VQ==
-X-Gm-Message-State: AJIora/c8jsIWYNFbmyRk7JE+QYP6fjL4+vJGaAXNBXMFKzX+847g1wS
- gSB6L2vuSlbDSLcAc0VlyNKU8Q==
-X-Google-Smtp-Source: AGRyM1swLq5IAWEw0pYZnwfi64+I3HJ1EkOBvA8ctl5T7zkei9G/V1FNwfKeiJX28Emsg2SFVbFKAA==
-X-Received: by 2002:a2e:2a44:0:b0:256:abe5:275e with SMTP id
- q65-20020a2e2a44000000b00256abe5275emr5008546ljq.190.1655297824791; 
- Wed, 15 Jun 2022 05:57:04 -0700 (PDT)
+ bh=59AyhIm0oQw9qERL0mlbbIIwRpFuDUxi5K6ieHsH2Ww=;
+ b=fivyJCnV9NPsZcOSeTjR9xBlhXsWWEa7T8sfAbqACcYLW0J6KK6NEvBQTKFOIjuXpr
+ WG1TG6wt2DYQS+CIX8h5rhb3m2CsQUW84B+A8RR5k8D14MSQoktquZfE1hr6NOLg7B6p
+ oVlUgni0iGPvqR3kjXIlOwtGnVBYAIlbNpp9SSUyUaRlgY5zJQh9df9iQbH/ict3nhE9
+ Mp1lyGqeVL3sA5Tl2obfH8TH70/7gG5CXzSBKbR2gQ2m+v6jXM0htXMPpM8HzYgxOBub
+ RcYeMuAG2LBnoMrUy+3cZzXd+NSFuh9WLxuyxSZGeIgJ224cGHArsgp5f269l8dWL/K/
+ Y1Eg==
+X-Gm-Message-State: AJIora95XyX9QMUtTWhbLbKu/SSijc8TviHG+v6TuBQ/dPEJvQpbbM0o
+ HQvO8uTmh/rK+QCXo7FSuOqx8sfaqxwAQZSj
+X-Google-Smtp-Source: AGRyM1sobDSLJiTE3sKoiB3uO30zK351+bzfWrw+1uC3STytPVK143wxxDhmGZBodZj28kSgrPkOig==
+X-Received: by 2002:a05:6512:3d22:b0:479:4ac2:14e9 with SMTP id
+ d34-20020a0565123d2200b004794ac214e9mr5839068lfv.38.1655297825807; 
+ Wed, 15 Jun 2022 05:57:05 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
  u13-20020a05651220cd00b0047255d21100sm1798013lfr.47.2022.06.15.05.57.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jun 2022 05:57:04 -0700 (PDT)
+ Wed, 15 Jun 2022 05:57:05 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v3 2/3] drm/msm/dpu: fix error handling around dpu_hw_vbif_init
-Date: Wed, 15 Jun 2022 15:57:02 +0300
-Message-Id: <20220615125703.24647-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 3/3] drm/msm/dpu: drop VBIF indices
+Date: Wed, 15 Jun 2022 15:57:03 +0300
+Message-Id: <20220615125703.24647-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220615125703.24647-1-dmitry.baryshkov@linaro.org>
 References: <20220615125703.24647-1-dmitry.baryshkov@linaro.org>
@@ -75,33 +75,141 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using IS_ERR_OR_NULL() together with PTR_ERR() is a typical mistake. If
-the value is NULL, then the function will return 0 instead of a proper
-return code. Moreover dpu_hw_vbif_init() function can not return NULL.
-So, replace corresponding IS_ERR_OR_NULL() call with IS_ERR().
+We do not expect to have other VBIFs. Drop VBIF_n indices and always use
+VBIF_RT and VBIF_NRT.
 
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  4 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |  6 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c      | 36 ++++++++++++-------
+ 3 files changed, 28 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 1255d00c92cf..922725c92898 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1135,10 +1135,8 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 400ebceb56bb..f854889ea7fb 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -1330,7 +1330,7 @@ static const struct dpu_vbif_dynamic_ot_cfg msm8998_ot_rdwr_cfg[] = {
  
- 		dpu_kms->hw_vbif[vbif_idx] = dpu_hw_vbif_init(vbif_idx,
- 				dpu_kms->vbif[vbif_idx], dpu_kms->catalog);
--		if (IS_ERR_OR_NULL(dpu_kms->hw_vbif[vbif_idx])) {
-+		if (IS_ERR(dpu_kms->hw_vbif[vbif_idx])) {
- 			rc = PTR_ERR(dpu_kms->hw_vbif[vbif_idx]);
--			if (!dpu_kms->hw_vbif[vbif_idx])
--				rc = -EINVAL;
- 			DPU_ERROR("failed to init vbif %d: %d\n", vbif_idx, rc);
- 			dpu_kms->hw_vbif[vbif_idx] = NULL;
- 			goto power_error;
+ static const struct dpu_vbif_cfg msm8998_vbif[] = {
+ 	{
+-	.name = "vbif_0", .id = VBIF_0,
++	.name = "vbif_rt", .id = VBIF_RT,
+ 	.base = 0, .len = 0x1040,
+ 	.default_ot_rd_limit = 32,
+ 	.default_ot_wr_limit = 32,
+@@ -1359,7 +1359,7 @@ static const struct dpu_vbif_cfg msm8998_vbif[] = {
+ 
+ static const struct dpu_vbif_cfg sdm845_vbif[] = {
+ 	{
+-	.name = "vbif_0", .id = VBIF_0,
++	.name = "vbif_rt", .id = VBIF_RT,
+ 	.base = 0, .len = 0x1040,
+ 	.features = BIT(DPU_VBIF_QOS_REMAP),
+ 	.xin_halt_timeout = 0x4000,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+index 9f402be55fbf..d3b0ed0a9c6c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+@@ -273,11 +273,9 @@ enum dpu_wd_timer {
+ };
+ 
+ enum dpu_vbif {
+-	VBIF_0,
+-	VBIF_1,
++	VBIF_RT,
++	VBIF_NRT,
+ 	VBIF_MAX,
+-	VBIF_RT = VBIF_0,
+-	VBIF_NRT = VBIF_1
+ };
+ 
+ /**
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
+index a18fb649301c..1305e250b71e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
+@@ -19,6 +19,18 @@ static struct dpu_hw_vbif *dpu_get_vbif(struct dpu_kms *dpu_kms, enum dpu_vbif v
+ 	return NULL;
+ }
+ 
++static const char *dpu_vbif_name(enum dpu_vbif idx)
++{
++	switch (idx) {
++	case VBIF_RT:
++		return "VBIF_RT";
++	case VBIF_NRT:
++		return "VBIF_NRT";
++	default:
++		return "??";
++	}
++}
++
+ /**
+  * _dpu_vbif_wait_for_xin_halt - wait for the xin to halt
+  * @vbif:	Pointer to hardware vbif driver
+@@ -50,12 +62,12 @@ static int _dpu_vbif_wait_for_xin_halt(struct dpu_hw_vbif *vbif, u32 xin_id)
+ 
+ 	if (!status) {
+ 		rc = -ETIMEDOUT;
+-		DPU_ERROR("VBIF %d client %d not halting. TIMEDOUT.\n",
+-				vbif->idx - VBIF_0, xin_id);
++		DPU_ERROR("%s client %d not halting. TIMEDOUT.\n",
++				dpu_vbif_name(vbif->idx), xin_id);
+ 	} else {
+ 		rc = 0;
+-		DRM_DEBUG_ATOMIC("VBIF %d client %d is halted\n",
+-				vbif->idx - VBIF_0, xin_id);
++		DRM_DEBUG_ATOMIC("%s client %d is halted\n",
++				dpu_vbif_name(vbif->idx), xin_id);
+ 	}
+ 
+ 	return rc;
+@@ -95,8 +107,8 @@ static void _dpu_vbif_apply_dynamic_ot_limit(struct dpu_hw_vbif *vbif,
+ 		}
+ 	}
+ 
+-	DRM_DEBUG_ATOMIC("vbif:%d xin:%d w:%d h:%d fps:%d pps:%llu ot:%u\n",
+-			vbif->idx - VBIF_0, params->xin_id,
++	DRM_DEBUG_ATOMIC("%s xin:%d w:%d h:%d fps:%d pps:%llu ot:%u\n",
++			dpu_vbif_name(vbif->idx), params->xin_id,
+ 			params->width, params->height, params->frame_rate,
+ 			pps, *ot_lim);
+ }
+@@ -141,8 +153,8 @@ static u32 _dpu_vbif_get_ot_limit(struct dpu_hw_vbif *vbif,
+ 	}
+ 
+ exit:
+-	DRM_DEBUG_ATOMIC("vbif:%d xin:%d ot_lim:%d\n",
+-			vbif->idx - VBIF_0, params->xin_id, ot_lim);
++	DRM_DEBUG_ATOMIC("%s xin:%d ot_lim:%d\n",
++			dpu_vbif_name(vbif->idx), params->xin_id, ot_lim);
+ 	return ot_lim;
+ }
+ 
+@@ -242,8 +254,8 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
+ 	forced_on = mdp->ops.setup_clk_force_ctrl(mdp, params->clk_ctrl, true);
+ 
+ 	for (i = 0; i < qos_tbl->npriority_lvl; i++) {
+-		DRM_DEBUG_ATOMIC("vbif:%d xin:%d lvl:%d/%d\n",
+-				params->vbif_idx, params->xin_id, i,
++		DRM_DEBUG_ATOMIC("%s xin:%d lvl:%d/%d\n",
++				dpu_vbif_name(params->vbif_idx), params->xin_id, i,
+ 				qos_tbl->priority_lvl[i]);
+ 		vbif->ops.set_qos_remap(vbif, params->xin_id, i,
+ 				qos_tbl->priority_lvl[i]);
+@@ -263,8 +275,8 @@ void dpu_vbif_clear_errors(struct dpu_kms *dpu_kms)
+ 		if (vbif && vbif->ops.clear_errors) {
+ 			vbif->ops.clear_errors(vbif, &pnd, &src);
+ 			if (pnd || src) {
+-				DRM_DEBUG_KMS("VBIF %d: pnd 0x%X, src 0x%X\n",
+-					      vbif->idx - VBIF_0, pnd, src);
++				DRM_DEBUG_KMS("%s: pnd 0x%X, src 0x%X\n",
++					      dpu_vbif_name(vbif->idx), pnd, src);
+ 			}
+ 		}
+ 	}
 -- 
 2.35.1
 
