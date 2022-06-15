@@ -1,54 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A8554D193
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 21:27:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C9254D199
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 21:29:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C56BF11211F;
-	Wed, 15 Jun 2022 19:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5EBD112A82;
+	Wed, 15 Jun 2022 19:29:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
- (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A92D10E637
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 19:27:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=eQUW8Hi6c05/NnOba5U4Uk34R0WZORAUIgFaS1C3x60=;
- b=vN1t71HGkyTgvFSW4lKaqZQJ4z2pRzpi+JgLC8SXrL+kHLTTNOZxLxIWSjqEpLUGuU3IJ8/6KuPDl
- 6a8zLaVVNGziySLg3qxm778+HPJl85Bco6aV3WUzFmqIQJPXYc4y0Vlf1ERPzAulQeiEEhzt9sjy+o
- kvZkGOFdVEBUPcyzfEI++Ft6WVBvWLzPh6PpmQP5D/IWnxI0P+YfLXJadJyWmeVmvqwm0DVqYzIsws
- fhDmpxDeI0nhidfqgM5c205LelmgXA4slYLPdCeNEKbXENfLpNloIPwryvLVywA8ila8IomPRj2uR8
- gfwQ0SoOErc02Gj5pcKhrh3YqN0cRUA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=eQUW8Hi6c05/NnOba5U4Uk34R0WZORAUIgFaS1C3x60=;
- b=p2oTf9kHjrtSzdWYsTJXYmtiyBPspd0d1SyPDojiBCKdDvFlP9RVVLhgukGVyScQvhM7tWXrR1XKy
- 2ZU0dADBg==
-X-HalOne-Cookie: 29ab9cea97a1b489cc2f5b758f658d90cf105e6e
-X-HalOne-ID: 275b4e50-ece1-11ec-be78-d0431ea8bb03
-Received: from mailproxy2.cst.dirpod3-cph3.one.com
- (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
- by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 275b4e50-ece1-11ec-be78-d0431ea8bb03;
- Wed, 15 Jun 2022 19:27:11 +0000 (UTC)
-Date: Wed, 15 Jun 2022 21:27:10 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Subject: Re: [PATCH 01/19] drm/gma500: Unify *_lvds_get_max_backlight()
-Message-ID: <YqoyjsYAMO0Ol0Og@ravnborg.org>
-References: <20220613123436.15185-1-patrik.r.jakobsson@gmail.com>
- <20220613123436.15185-2-patrik.r.jakobsson@gmail.com>
- <YqdvDI59JRfsZiut@ravnborg.org>
- <CAMeQTsa1DbDQLBOEQQyNBQzf-YOJVhbQS2ikPAsVavm_JXy5Eg@mail.gmail.com>
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DFBA10FAC9;
+ Wed, 15 Jun 2022 19:29:04 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-f2a4c51c45so17787177fac.9; 
+ Wed, 15 Jun 2022 12:29:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Y4NhrC9ap1cWsoDMhoc9arNxoObzeSf6cpbEcoKtqOY=;
+ b=B/P70sGpq6xUOe94W78uBcFHRfunszNgH2mj+2oSKF0RN2ETvCjk9qWg0+MBR1dD7z
+ HDlN0nI0BAlnrbqt0yrF6OD5MP0cjwu0t5C17naQiodA9+aVXlZLXBm9LmD4XvgFme06
+ NKi+mNb1yZ0AKl7PmFo989PYS4uLU1dSDTr5a9CxvcpoOKqWNbmqWw0NwhK9oH3MTTJs
+ sbj/6Lv652bL7DVtJjlPZBRnvk3aRLF/DFUIodXdRdEdTC6Qr7UnZYCReGbJP6ka7nvi
+ vmPC1NEw/S/tMwl+uincKChUGO6fRGdDzFvdk5Rmwq4P/62MmPWMB/0sZBDO+GtUHqBe
+ yYcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Y4NhrC9ap1cWsoDMhoc9arNxoObzeSf6cpbEcoKtqOY=;
+ b=okve6U5Y76rAVTH6Whn1HLSDoMKIpFTNI7reW01Bi78hJEKzP1hH0TD3NhqMbqiGcu
+ 3/wfkfxSf9jxdtsmbS7ooDLqact4AH/u/0tWrhrH9AlsmAOqyfKu3JRxZnUErm+/D2xU
+ TKxG/kct8gVXJmAXTBJXM3yNwdhNSEZzy6EbLBOmjchsnMsBKd8nlRGrLmF7qCnHPCLH
+ P46hoShMe2tj6NCs43YEg/8YKEJXFACX3nqXA+72znpi2/yEIFwcACgLa0DtVeV/rIGM
+ V/OIBtqa8JzoA9urHFuhynLShENpPfJWOC0+UbiFPIfB2/jsgo87mYLAbwPblOtjUMss
+ Sq/w==
+X-Gm-Message-State: AJIora964d9LSznwo7a4eEtlRhTICanh0OFkesjnR/CiVKo0LYwXZA22
+ mMoG4EmOG9F3MyMmRKV+GVaDMfSQnPa1A+XVVGU=
+X-Google-Smtp-Source: AGRyM1sh5C6I86k34hmYg98ITPYaf2PCUY3hNVmQHMGJbMzCs6kHfAYa838vIEBejr/TrpvyKV6eZFFbyFvDSQFyMUs=
+X-Received: by 2002:a05:6870:538b:b0:101:17f2:d6e with SMTP id
+ h11-20020a056870538b00b0010117f20d6emr6296051oan.200.1655321343622; Wed, 15
+ Jun 2022 12:29:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMeQTsa1DbDQLBOEQQyNBQzf-YOJVhbQS2ikPAsVavm_JXy5Eg@mail.gmail.com>
+References: <20220615160116.528c324b@canb.auug.org.au>
+ <d1a48a84-6d07-e8f7-5fd8-d24a7a1cf187@infradead.org>
+In-Reply-To: <d1a48a84-6d07-e8f7-5fd8-d24a7a1cf187@infradead.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 15 Jun 2022 15:28:52 -0400
+Message-ID: <CADnq5_N6gfaPfZJAX4+poWFFruxNdFKZqzXZXosj1A55e-O1mA@mail.gmail.com>
+Subject: Re: linux-next: Tree for Jun 15
+ (drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c)
+To: Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,25 +67,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Patrik,
-
+On Wed, Jun 15, 2022 at 3:01 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+>
+>
+> On 6/14/22 23:01, Stephen Rothwell wrote:
+> > Hi all,
 > >
-> > With or without this change the patch is:
-> > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> 
-> Hi Sam,
-> Thanks for having a look.
-> 
-> I've intentionally tried to change as little as possible from the
-> version I copied so that any functional change is easy to spot and the
-> series becomes easy to review. Would it be ok if I do cleanups as a
-> followup series?
-That would be perfect!
+> > Changes since 20220614:
+> >
+>
+> on i386:
+> # CONFIG_DEBUG_FS is not set
+>
+>
+> ../drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In functi=
+on =E2=80=98amdgpu_dm_crtc_late_register=E2=80=99:
+> ../drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6599:2: er=
+ror: implicit declaration of function =E2=80=98crtc_debugfs_init=E2=80=99; =
+did you mean =E2=80=98amdgpu_debugfs_init=E2=80=99? [-Werror=3Dimplicit-fun=
+ction-declaration]
+>   crtc_debugfs_init(crtc);
+>   ^~~~~~~~~~~~~~~~~
+>   amdgpu_debugfs_init
+>
+>
+> Full randconfig file is attached.
 
-	Sam
+I tried building with your config and I can't repro this.  As Harry
+noted, that function and the whole secure display feature depend on
+debugfs.  It should never be built without CONFIG_DEBUG_FS.  See
+drivers/gpu/drm/amd/display/Kconfig:
+
+> config DRM_AMD_SECURE_DISPLAY
+>         bool "Enable secure display support"
+>         default n
+>         depends on DEBUG_FS
+>         depends on DRM_AMD_DC_DCN
+>         help
+>             Choose this option if you want to
+>             support secure display
+>
+>             This option enables the calculation
+>             of crc of specific region via debugfs.
+>             Cooperate with specific DMCU FW.
+
+amdgpu_dm_crtc_late_register is guarded by
+CONIG_DRM_AMD_SECURE_DISPLAY.  It's not clear to me how we could hit
+this.
+
+Alex
+
+
+>
+> --
+> ~Randy
