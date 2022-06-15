@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C165254CF78
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 19:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2817754CF9F
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 19:21:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 589CA112667;
-	Wed, 15 Jun 2022 17:11:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06B141126D4;
+	Wed, 15 Jun 2022 17:21:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2942D112668;
- Wed, 15 Jun 2022 17:11:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1655313102; x=1686849102;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=xGSrZCrI7kO6o/hIcmiZuTVylAEc9Kxf4F3rLbkm10I=;
- b=fSSh8yXxrx/goJWNmBJ8Mgouwh9dYBIKtvVVMfiw2CyLj4mdboGrAfoI
- Zc82Q2ZiQe0XKPd26EhmaQ6wpee2LFygjTXe2LH2M9eW+iteDvSfXJT2x
- UIi9Yg9QsMJOCF/uvax6csiCBvhWypxT/jCnrXB6Ig7TDUUkc4uLvB80L 0=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 15 Jun 2022 10:11:42 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2022 10:11:41 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 15 Jun 2022 10:11:40 -0700
-Received: from [10.38.242.138] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 15 Jun
- 2022 10:11:38 -0700
-Message-ID: <8cea184e-2593-015f-e151-3b2d18ac0630@quicinc.com>
-Date: Wed, 15 Jun 2022 10:11:36 -0700
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32D4A1126D4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 17:21:37 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ y13-20020a17090a154d00b001eaaa3b9b8dso2667300pja.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 10:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Jat6dhLeZ479iY01jqnpJJmmx4iBaVyzdt75yCacVFk=;
+ b=CTbzYX0mU8x2G9wYTMN9/+ShQbDWPSZUnKSQz3p2zDl0GSxC2zDIeyICJCqxABHmko
+ ozexhom+4LY52Rh9URh2HyhEshSaEGxvQ34y2s1se4BY2i8/P4dJIiDiLZQtC1VyxwBN
+ gtaeXosMTsknyWQbF3qa6DUok2hckCaeupNgQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Jat6dhLeZ479iY01jqnpJJmmx4iBaVyzdt75yCacVFk=;
+ b=620oWLcoDpwycVAC4fPanj3mKVte+6fXl0dNYQa5sbsCMu8SPWeIq+aWEKOo+VZ9gY
+ NvYGHuDJwvqjcx9SF8tUzESkkCKaeUbZbudXVqix99pmRQQjl6V3ytxwHOV8sOb9VQnf
+ gVYwwtcttipG/iL4l80OXlh7poPLrzXhGMgMrd3WN8CYiTJLTc8efMEb7p1ThVzxJrxT
+ fy5id7sdk65q0ARoY+3wa2MHZwAG+nMqhEptlzEuYwtNwzRpw1uYvJ+mTi6lRCctKUx7
+ +V+Gqw2L4EMQMBPLMDI1DxEns8w8LL5bTYud0S9Occu7PgwgTl5Xoqvw68Wh7Am0Fmh1
+ 33Sg==
+X-Gm-Message-State: AJIora8ti1g7OzEstxmloUbRswT3KSuJOkf37tnb5hgjZ+AKQCwWJJiS
+ VxBANFds7y8I9J29wjuyKV95VA==
+X-Google-Smtp-Source: AGRyM1v2ffJyyex2Z1SWcnGwQyabjiyjeoPNbV28pRh16ZNt3vcd1Ou9LkSTonhyJ2StUVemfyv4hg==
+X-Received: by 2002:a17:902:9307:b0:166:41a8:abc0 with SMTP id
+ bc7-20020a170902930700b0016641a8abc0mr638722plb.135.1655313696754; 
+ Wed, 15 Jun 2022 10:21:36 -0700 (PDT)
+Received: from pmalani.c.googlers.com.com
+ (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+ by smtp.gmail.com with ESMTPSA id
+ d10-20020aa7814a000000b005103abd2fdbsm10147433pfn.206.2022.06.15.10.21.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jun 2022 10:21:36 -0700 (PDT)
+From: Prashant Malani <pmalani@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH v4 0/7] usb: typec: Introduce typec-switch binding
+Date: Wed, 15 Jun 2022 17:20:16 +0000
+Message-Id: <20220615172129.1314056-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 1/3] drm/msm/dpu: move intf and wb assignment to
- dpu_encoder_setup_display()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <freedreno@lists.freedesktop.org>
-References: <1655235140-16424-1-git-send-email-quic_abhinavk@quicinc.com>
- <6ce50e83-3fbf-d97f-a4f2-0f5db389349c@linaro.org>
- <5163b520-e859-d813-46ae-91260b6230e5@quicinc.com>
- <182707ff-bff8-63f8-59ad-f727f7cfddc2@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <182707ff-bff8-63f8-59ad-f727f7cfddc2@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,135 +67,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com
+Cc: heikki.krogerus@linux.intel.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>, Jonas Karlman <jonas@kwiboo.se>,
+ swboyd@chromium.org, Pin-Yen Lin <treapking@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robert Foss <robert.foss@linaro.org>, Prashant Malani <pmalani@chromium.org>,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series introduces a binding for Type-C data lane switches. These
+control the routing and operating modes of USB Type-C data lanes based
+on the PD messaging from the Type-C port driver regarding connected
+peripherals.
 
+The first patch introduces a change to the Type-C mux class mode-switch
+matching code, while the second adds a config guard to a Type-C header.
+The next couple of patches introduce the new "typec-switch" binding as
+well as one user of it (the ANX7625 drm bridge).
 
-On 6/15/2022 10:04 AM, Dmitry Baryshkov wrote:
-> On 15/06/2022 19:40, Abhinav Kumar wrote:
->>
->>
->> On 6/15/2022 5:36 AM, Dmitry Baryshkov wrote:
->>> On 14/06/2022 22:32, Abhinav Kumar wrote:
->>>> intf and wb resources are not dependent on the rm global
->>>> state so need not be allocated during 
->>>> dpu_encoder_virt_atomic_mode_set().
->>>>
->>>> Move the allocation of intf and wb resources to 
->>>> dpu_encoder_setup_display()
->>>> so that we can utilize the hw caps even during atomic_check() phase.
->>>>
->>>> Since dpu_encoder_setup_display() already has protection against
->>>> setting invalid intf_idx and wb_idx, these checks can now
->>>> be dropped as well.
->>>>
->>>> Fixes: e02a559a720f ("make changes to dpu_encoder to support virtual 
->>>> encoder")
->>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>> ---
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 25 
->>>> +++++++------------------
->>>>   1 file changed, 7 insertions(+), 18 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>> index 3a462e327e0e..e991d4ba8a40 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>> @@ -1048,24 +1048,6 @@ static void 
->>>> dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->>>>           phys->hw_pp = dpu_enc->hw_pp[i];
->>>>           phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
->>>> -        if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
->>>> -            phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, 
->>>> phys->intf_idx);
->>>> -
->>>> -        if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
->>>> -            phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
->>>> -
->>>> -        if (!phys->hw_intf && !phys->hw_wb) {
->>>> -            DPU_ERROR_ENC(dpu_enc,
->>>> -                      "no intf or wb block assigned at idx: %d\n", i);
->>>> -            return;
->>>> -        }
->>>> -
->>>> -        if (phys->hw_intf && phys->hw_wb) {
->>>> -            DPU_ERROR_ENC(dpu_enc,
->>>> -                    "invalid phys both intf and wb block at idx: 
->>>> %d\n", i);
->>>> -            return;
->>>> -        }
->>>
->>> Please retain these checks in dpu_encoder_setup_display().
->>> It checks that we really have got the intf or wb. For example one 
->>> might have specified the INTF that leads to INTF_NONE interface. Or 
->>> non-existing/not supported WB.
->>
->> Right, so the reason I omitted that was dpu_encoder_setup_display() 
->> already has these checks:
->>
->> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L2273 
->>
->>
->> Please check lines 2273-2284.
->>
->> Only if all those checks succeeded we call 
->> dpu_encoder_virt_add_phys_encs which increments num_phys_encs.
-> 
-> As I wrote, it checks indices from phys_params, but not the acquired 
-> hardware instances.
+The remaining patches add functionality to the anx7625 driver to
+register the mode-switches, as well as program its crosspoint
+switch depending on which Type-C port has a DisplayPort (DP) peripheral
+connected to it.
 
-Right but today, both the get_intf() and get_wb() just return the 
-intf/wb corresponding to the index. So as long as the index is valid how 
-will checking hw_wb or hw_intf be different?
+v3: https://lore.kernel.org/linux-usb/20220614193558.1163205-1-pmalani@chromium.org/
 
-static inline struct dpu_hw_intf *dpu_rm_get_intf(struct dpu_rm *rm, 
-enum dpu_intf intf_idx)
-{
-     return rm->hw_intf[intf_idx - INTF_0];
-}
+Changes since v3:
+- Some more modifications to the anx7625 binding patch (4/7).
+- Picked up 1 more Reviewed-by tag.
 
-/**
-  * dpu_rm_get_wb - Return a struct dpu_hw_wb instance given it's index.
-  * @rm: DPU Resource Manager handle
-  * @wb_idx: WB index
-  */
-static inline struct dpu_hw_wb *dpu_rm_get_wb(struct dpu_rm *rm, enum 
-dpu_wb wb_idx)
-{
-     return rm->hw_wb[wb_idx - WB_0];
-}
-> 
->>
->> Thats why I dropped those.
->>
->> Let me know if you have more questions.
->>
->>>
->>>> -
->>>>           phys->cached_mode = crtc_state->adjusted_mode;
->>>>           if (phys->ops.atomic_mode_set)
->>>>               phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
->>>> @@ -2293,7 +2275,14 @@ static int dpu_encoder_setup_display(struct 
->>>> dpu_encoder_virt *dpu_enc,
->>>>           struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
->>>>           atomic_set(&phys->vsync_cnt, 0);
->>>>           atomic_set(&phys->underrun_cnt, 0);
->>>> +
->>>> +        if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
->>>> +            phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, 
->>>> phys->intf_idx);
->>>> +
->>>> +        if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
->>>> +            phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
->>>>       }
->>>> +
->>>>       mutex_unlock(&dpu_enc->enc_lock);
->>>>       return ret;
->>>
->>>
-> 
-> 
+Pin-Yen Lin (1):
+  drm/bridge: anx7625: Add typec_mux_set callback function
+
+Prashant Malani (6):
+  usb: typec: mux: Allow muxes to specify mode-switch
+  usb: typec: mux: Add CONFIG guards for functions
+  dt-bindings: usb: Add Type-C switch binding
+  dt-bindings: drm/bridge: anx7625: Add mode-switch support
+  drm/bridge: anx7625: Register number of Type C switches
+  drm/bridge: anx7625: Register Type-C mode switches
+
+ .../display/bridge/analogix,anx7625.yaml      |  64 ++++++++
+ .../devicetree/bindings/usb/typec-switch.yaml |  74 +++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.c     | 148 ++++++++++++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.h     |  20 +++
+ drivers/usb/typec/mux.c                       |   8 +-
+ include/linux/usb/typec_mux.h                 |  44 +++++-
+ 6 files changed, 350 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/typec-switch.yaml
+
+-- 
+2.36.1.476.g0c4daa206d-goog
+
