@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF4A54CA8B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 15:59:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DF854CA8D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 15:59:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39D4210F621;
-	Wed, 15 Jun 2022 13:59:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01D9E10F6AF;
+	Wed, 15 Jun 2022 13:59:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C914510F272
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 13:59:38 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id 20so19034925lfz.8
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 06:59:38 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A551D10F272
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 13:59:39 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id t25so19025203lfg.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 06:59:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+OAoX9xa8zARnq1PmieTQqq78QxHaSY9nnSC1exfJcQ=;
- b=r1Kp1EfT/IMcglR2oedl5BVnI/ZlqGaUUQgE58Fl9iORFiZTb/zZZsAcen7I1kHOTl
- QYw3sEKJS+v/n1VlBfmWZQM06pm2vuMLqv5FLkUTgBQJMRbArgpev+sCdWp4ybE7rtHG
- klrJyAnqg3NzLZjgSpldafWfOHsvlOcBEow6UEHeiohk/tPLbOEUfo6bDXIfTFHrKjRm
- 2u+oskr6HdpYrNgOsxzWuWydZDQE8uzOJmaAROURAMRAeec7FOGkoVu9JKmYJh3Da2hv
- 1ZnZXRyw6e07jJ7MzLKxyL9Zw+LrzWGU/esGaH3E5V8lJR57dZ0K6TYgm23Np1SNM5Af
- cnTw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=s7APmfDxZ9CONW1VV/1LqJYroxXkuoozEYXQ/yDdg20=;
+ b=hyUqcZekXRgexYiKGD2q8zWkKeqPJpYyK8qDciad4fo4gdkZHdrGE+QfWvb7Y+HUpy
+ Z2885KQ6v3JJr/GlZnq0czEvvj3i2lsifzcBg8P3C3vfqu/7UZykhqTfPdvm83ib2613
+ vChWIywetv8A7hbaN7FSop/gVtVhUF44skXbRM8CODxPOfPe0zueEHVd8IjbdHOjGOBJ
+ nL9CNDN2cetMUrivD1pq7v/Kc0a4KLwFSJe5OxA3XYzJ6PEqOjxjsuMRo1pvIUsMmlBW
+ zfqKo946LvQZTmNGrIFsix6LK1+OeXS2UgbiWYKU/jboeCcFlzb/R9EkNYgA8W431po/
+ 0mMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+OAoX9xa8zARnq1PmieTQqq78QxHaSY9nnSC1exfJcQ=;
- b=wUam589HHnRjqO3EHS7Eioy7CdTlCvsDlYE3z38hcKRPXT+3lphmsiLPkPF5QlpjcT
- fFK+ifIkXVRgfgV0ek+rFWt2/d7+tPCjnHQq03/iCm0QWZWi81o37d+nCHjJVewzTwLb
- kK25+tk1c9vdBtZh3ux4gWv8uzvzuk+eX6Yd8ZFYKP6jwiTdCIRXAUIn6XVNEHVCnpr9
- zAFittT3PRLJZiAAuSdM0KKiMB8no08eflLIJ3x8WTtj52oGdwiZ/cM4AriqsUPth30b
- 7orBOMAVSCCP+dM4T3PmYhjNBsRuxynhvaTNylM72PyK2ii8oJxKlXWSmVsd5va3NIDD
- mJ2Q==
-X-Gm-Message-State: AJIora+keafwff4guBf5cNLuzlRU2z6gtBtF/wFefu9NfsXYLenWQwMI
- 0m7RR0tlW99WiLJCs+SJodQWwQ==
-X-Google-Smtp-Source: AGRyM1tv84JWj8qt4J4oF52FvEm2avqnxiVT6u4wP7riAO1GYvMdFBJsLHOyiycdrlq5lWgBSQ0Cng==
-X-Received: by 2002:a05:6512:2522:b0:479:a9c:42a9 with SMTP id
- be34-20020a056512252200b004790a9c42a9mr6107700lfb.210.1655301577020; 
- Wed, 15 Jun 2022 06:59:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=s7APmfDxZ9CONW1VV/1LqJYroxXkuoozEYXQ/yDdg20=;
+ b=owPPKNh/8aVC1QEvt5suZao+jmGsCP/QcaeZuK3Da3aoXd3AgSpL1hy/poLcrRajmP
+ FPSvCnicSyeOki3/0RlUuhIOEJqBfZOTgxaIH2n0iZpsE6Uu3XJ4iAroetIa6h0DDm5z
+ IS0aLprZ9zjX6TVetPGFsoAwSSt1VnB9hBXhi4O6SCvBE/RXthR18yC2X/zg5PQIruZ6
+ zw8PsDjnuAQYerPXO1OzadEfHMHAhHJ1JAytDZI87aCkOVb+frv8RumH9GSsiP95K0eg
+ oppCpw7Cvo1he4OgKYCxMPpJGoMsKw2UiMV+pWnveAexRD8xpAxsSAvkBVCoZ4GGL+4+
+ oTOQ==
+X-Gm-Message-State: AJIora+pXdEKx8QZh4OG+app635PBNsQm5z+4Mafvmb09yR5GcFXYjpL
+ RNAcxQCVGiGu8Hthhw9v02SF9w==
+X-Google-Smtp-Source: AGRyM1u1X5RspLOTnKenLe+Uy7DLhi2ZnRQC6OJVD8m35jxqQZmL/Z+mYrb0acxUvkmsApX9De9p8w==
+X-Received: by 2002:a05:6512:b86:b0:47d:ba62:8c11 with SMTP id
+ b6-20020a0565120b8600b0047dba628c11mr6083614lfv.328.1655301578016; 
+ Wed, 15 Jun 2022 06:59:38 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- z23-20020a2e8e97000000b0025530fa4edesm1694962ljk.49.2022.06.15.06.59.36
+ z23-20020a2e8e97000000b0025530fa4edesm1694962ljk.49.2022.06.15.06.59.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jun 2022 06:59:36 -0700 (PDT)
+ Wed, 15 Jun 2022 06:59:37 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 1/5] drm/msm: less magic numbers in msm_mdss_enable
-Date: Wed, 15 Jun 2022 16:59:31 +0300
-Message-Id: <20220615135935.87381-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 2/5] drm/msm/mdss: enable optional core clock for MDP5 MDSS
+Date: Wed, 15 Jun 2022 16:59:32 +0300
+Message-Id: <20220615135935.87381-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220615135935.87381-1-dmitry.baryshkov@linaro.org>
+References: <20220615135935.87381-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,136 +75,35 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace magic register writes in msm_mdss_enable() with version that
-contains less magic and more variable names that can be traced back to
-the dpu_hw_catalog or the downstream dtsi files.
+Enable (optional) core (MDP_CLK) clock that allows accessing HW_REV
+registers during the platform init.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/msm_mdss.c | 80 ++++++++++++++++++++++++++++++----
- 1 file changed, 72 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/msm/msm_mdss.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index 0454a571adf7..b41848bfff91 100644
+index b41848bfff91..f7b4628986b8 100644
 --- a/drivers/gpu/drm/msm/msm_mdss.c
 +++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -21,6 +21,7 @@
- #define HW_REV				0x0
- #define HW_INTR_STATUS			0x0010
- 
-+#define UBWC_DEC_HW_VERSION		0x58
- #define UBWC_STATIC			0x144
- #define UBWC_CTRL_2			0x150
- #define UBWC_PREDICTION_MODE		0x154
-@@ -132,9 +133,63 @@ static int _msm_mdss_irq_domain_add(struct msm_mdss *msm_mdss)
- 	return 0;
- }
- 
-+#define UBWC_1_0 0x10000000
-+#define UBWC_2_0 0x20000000
-+#define UBWC_3_0 0x30000000
-+#define UBWC_4_0 0x40000000
-+
-+static void msm_mdss_setup_ubwc_dec_20(struct msm_mdss *msm_mdss,
-+				       u32 ubwc_static)
-+{
-+	writel_relaxed(ubwc_static, msm_mdss->mmio + UBWC_STATIC);
-+}
-+
-+static void msm_mdss_setup_ubwc_dec_30(struct msm_mdss *msm_mdss,
-+				       unsigned int ubwc_version,
-+				       u32 ubwc_swizzle,
-+				       u32 highest_bank_bit,
-+				       u32 macrotile_mode)
-+{
-+	u32 value = (ubwc_swizzle & 0x1) |
-+		    (highest_bank_bit & 0x3) << 4 |
-+		    (macrotile_mode & 0x1) << 12;
-+
-+	if (ubwc_version == UBWC_3_0)
-+		value |= BIT(10);
-+
-+	if (ubwc_version == UBWC_1_0)
-+		value |= BIT(8);
-+
-+	writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
-+}
-+
-+static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss,
-+				       unsigned int ubwc_version,
-+				       u32 ubwc_swizzle,
-+				       u32 ubwc_static,
-+				       u32 highest_bank_bit,
-+				       u32 macrotile_mode)
-+{
-+	u32 value = (ubwc_swizzle & 0x7) |
-+		    (ubwc_static & 0x1) << 3 |
-+		    (highest_bank_bit & 0x7) << 4 |
-+		    (macrotile_mode & 0x1) << 12;
-+
-+	writel_relaxed(value, msm_mdss->mmio + UBWC_STATIC);
-+
-+	if (ubwc_version == UBWC_3_0) {
-+		writel_relaxed(1, msm_mdss->mmio + UBWC_CTRL_2);
-+		writel_relaxed(0, msm_mdss->mmio + UBWC_PREDICTION_MODE);
-+	} else {
-+		writel_relaxed(2, msm_mdss->mmio + UBWC_CTRL_2);
-+		writel_relaxed(1, msm_mdss->mmio + UBWC_PREDICTION_MODE);
-+	}
-+}
-+
- static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+@@ -288,7 +288,7 @@ static int msm_mdss_reset(struct device *dev)
+ /*
+  * MDP5 MDSS uses at most three specified clocks.
+  */
+-#define MDP5_MDSS_NUM_CLOCKS 3
++#define MDP5_MDSS_NUM_CLOCKS 4
+ static int mdp5_mdss_parse_clock(struct platform_device *pdev, struct clk_bulk_data **clocks)
  {
- 	int ret;
-+	u32 hw_rev;
+ 	struct clk_bulk_data *bulk;
+@@ -305,6 +305,7 @@ static int mdp5_mdss_parse_clock(struct platform_device *pdev, struct clk_bulk_d
+ 	bulk[num_clocks++].id = "iface";
+ 	bulk[num_clocks++].id = "bus";
+ 	bulk[num_clocks++].id = "vsync";
++	bulk[num_clocks++].id = "core"; /* for hw_rev access */
  
- 	ret = clk_bulk_prepare_enable(msm_mdss->num_clocks, msm_mdss->clocks);
- 	if (ret) {
-@@ -149,26 +204,35 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
- 	if (msm_mdss->is_mdp5)
- 		return 0;
- 
-+	hw_rev = readl_relaxed(msm_mdss->mmio + HW_REV);
-+	dev_dbg(msm_mdss->dev, "HW_REV: 0x%x\n", hw_rev);
-+	dev_dbg(msm_mdss->dev, "UBWC_DEC_HW_VERSION: 0x%x\n",
-+		readl_relaxed(msm_mdss->mmio + UBWC_DEC_HW_VERSION));
-+
- 	/*
- 	 * ubwc config is part of the "mdss" region which is not accessible
- 	 * from the rest of the driver. hardcode known configurations here
-+	 *
-+	 * Decoder version can be read from the UBWC_DEC_HW_VERSION reg,
-+	 * UBWC_n and the rest of params comes from hw_catalog.
-+	 * Unforunately this driver can not access hw catalog, so we have to
-+	 * hardcode them here.
- 	 */
--	switch (readl_relaxed(msm_mdss->mmio + HW_REV)) {
-+	switch (hw_rev) {
- 	case DPU_HW_VER_500:
- 	case DPU_HW_VER_501:
--		writel_relaxed(0x420, msm_mdss->mmio + UBWC_STATIC);
-+		msm_mdss_setup_ubwc_dec_30(msm_mdss, UBWC_3_0, 0, 2, 0);
- 		break;
- 	case DPU_HW_VER_600:
--		/* TODO: 0x102e for LP_DDR4 */
--		writel_relaxed(0x103e, msm_mdss->mmio + UBWC_STATIC);
--		writel_relaxed(2, msm_mdss->mmio + UBWC_CTRL_2);
--		writel_relaxed(1, msm_mdss->mmio + UBWC_PREDICTION_MODE);
-+		/* TODO: highest_bank_bit = 2 for LP_DDR4 */
-+		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_4_0, 6, 1, 3, 1);
- 		break;
- 	case DPU_HW_VER_620:
--		writel_relaxed(0x1e, msm_mdss->mmio + UBWC_STATIC);
-+		/* UBWC_2_0 */
-+		msm_mdss_setup_ubwc_dec_20(msm_mdss, 0x1e);
- 		break;
- 	case DPU_HW_VER_720:
--		writel_relaxed(0x101e, msm_mdss->mmio + UBWC_STATIC);
-+		msm_mdss_setup_ubwc_dec_40(msm_mdss, UBWC_3_0, 6, 1, 1, 1);
- 		break;
- 	}
- 
+ 	ret = devm_clk_bulk_get_optional(&pdev->dev, num_clocks, bulk);
+ 	if (ret)
 -- 
 2.35.1
 
