@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5048454C94A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 14:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3174A54C9ED
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 15:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6957F10E63C;
-	Wed, 15 Jun 2022 12:57:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 303A810E965;
+	Wed, 15 Jun 2022 13:36:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C3EE10E67B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 12:57:07 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id a2so18780264lfg.5
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 05:57:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=59AyhIm0oQw9qERL0mlbbIIwRpFuDUxi5K6ieHsH2Ww=;
- b=NWPjh8OnGbqhIOvDhKj3a2bwdp6/fzFLkeMDBgILR0qJc3ySGN5Xv8BdyIl68S4eD7
- gKwVO2nbXfm60ryYV751BgLZy4C2JtE8W5F28Ms421TO+SGsfB48t4GAXUB9XePrjRKj
- knWq8LiIL3RxNiSHT/WgLjVN14GdQK/MRZik86maAUQawDI9qNFZShFumDNjBUbV8Avk
- Li5DuD5hTUZBTkTBZV744nlSYxsYDWhfjWV0DR8yfbBlNOvvZ/vgPZyfC1O371nYkZD1
- 1dT2NIixUyh3GmnWM942JajjeuRZOGIqd+Q7hN5KV19tT+j9AHBrprtmEwWHPwVFZLua
- STBg==
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7867A10E965
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 13:36:30 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id cn20so3774405edb.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 06:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9zWnIQisaB23D1MVkJ7LO1Hk7sla55AkBqlxsG0Kthk=;
+ b=DvQrJZOuXygLUHJr/UWGOxHJtFOET4POoEljY1Do+Nnqmr68OTk1L3WIgHJ5UVGARJ
+ Nrf/2YD5NtlIolg9/TqczLw9ELFHgikQ6bwDqUGcHrVU8r8xGembhNekxtGZAYc/ZMsm
+ w0II+sD69A1OUbKbLmBOceE/RXOy3t5uC2dYw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=59AyhIm0oQw9qERL0mlbbIIwRpFuDUxi5K6ieHsH2Ww=;
- b=fivyJCnV9NPsZcOSeTjR9xBlhXsWWEa7T8sfAbqACcYLW0J6KK6NEvBQTKFOIjuXpr
- WG1TG6wt2DYQS+CIX8h5rhb3m2CsQUW84B+A8RR5k8D14MSQoktquZfE1hr6NOLg7B6p
- oVlUgni0iGPvqR3kjXIlOwtGnVBYAIlbNpp9SSUyUaRlgY5zJQh9df9iQbH/ict3nhE9
- Mp1lyGqeVL3sA5Tl2obfH8TH70/7gG5CXzSBKbR2gQ2m+v6jXM0htXMPpM8HzYgxOBub
- RcYeMuAG2LBnoMrUy+3cZzXd+NSFuh9WLxuyxSZGeIgJ224cGHArsgp5f269l8dWL/K/
- Y1Eg==
-X-Gm-Message-State: AJIora95XyX9QMUtTWhbLbKu/SSijc8TviHG+v6TuBQ/dPEJvQpbbM0o
- HQvO8uTmh/rK+QCXo7FSuOqx8sfaqxwAQZSj
-X-Google-Smtp-Source: AGRyM1sobDSLJiTE3sKoiB3uO30zK351+bzfWrw+1uC3STytPVK143wxxDhmGZBodZj28kSgrPkOig==
-X-Received: by 2002:a05:6512:3d22:b0:479:4ac2:14e9 with SMTP id
- d34-20020a0565123d2200b004794ac214e9mr5839068lfv.38.1655297825807; 
- Wed, 15 Jun 2022 05:57:05 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- u13-20020a05651220cd00b0047255d21100sm1798013lfr.47.2022.06.15.05.57.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jun 2022 05:57:05 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v3 3/3] drm/msm/dpu: drop VBIF indices
-Date: Wed, 15 Jun 2022 15:57:03 +0300
-Message-Id: <20220615125703.24647-3-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220615125703.24647-1-dmitry.baryshkov@linaro.org>
-References: <20220615125703.24647-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9zWnIQisaB23D1MVkJ7LO1Hk7sla55AkBqlxsG0Kthk=;
+ b=AQfrBzLDw0yU1XbY7nIe82BnRljbh1xr1F+S06yjoBvgADSa6ytRZLgRmgxz5jSZcM
+ WMZkEMuucyz0fhegdsQCRVeED0BBKACuzT4GI+S+Y1DJ6mkej1aZRf5xmb3p5c+/1ZBV
+ xV7StQNXQyGE4Vpyhll6ya/J17Jw1Mvj3hshELn7hhzWUltLlhlc/OUsPKjwnS/SbIP7
+ /D7ECLCdvzoJ5QCR0D7mdYYPo25iMjcSrheS3yXyv4FJk4qBQfEyNTD4v9w8BT3NXHvb
+ dZKFlhSLh4YBajakrIwLfLww2LKQB0K8KPdoJyJxTfudtDxiUq20JaBwHqPhOAx1Zo8S
+ YS8w==
+X-Gm-Message-State: AOAM5336G+6n/xsqQj8nLdfMBCKCgSVgCvnuUCDmwaT1yA0BAplNbaHl
+ /KLayJcefa4nnjDi+hf0o1mVub5u/ktfRtLB
+X-Google-Smtp-Source: ABdhPJyD2ORcJOKncIUWBcBJncQSLqU/VBeDawJYua5lVW6TPlaz5UoSOYq0lxAAkbbOvfOG/YkeFw==
+X-Received: by 2002:aa7:c952:0:b0:434:edcc:f247 with SMTP id
+ h18-20020aa7c952000000b00434edccf247mr12828228edt.412.1655300188811; 
+ Wed, 15 Jun 2022 06:36:28 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com.
+ [209.85.221.41]) by smtp.gmail.com with ESMTPSA id
+ g18-20020aa7d1d2000000b0042deea0e961sm9260074edp.67.2022.06.15.06.36.26
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jun 2022 06:36:27 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id c21so15451828wrb.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 06:36:26 -0700 (PDT)
+X-Received: by 2002:a05:6000:1685:b0:218:45f0:5be6 with SMTP id
+ y5-20020a056000168500b0021845f05be6mr10368799wrd.301.1655300186122; Wed, 15
+ Jun 2022 06:36:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220609072722.3488207-1-hsinyi@chromium.org>
+ <CAJMQK-hg5kLUV=ZgVN5=qX=bRiBWx3O-4X9wPF6CwxpQVSuinA@mail.gmail.com>
+In-Reply-To: <CAJMQK-hg5kLUV=ZgVN5=qX=bRiBWx3O-4X9wPF6CwxpQVSuinA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 15 Jun 2022 06:36:13 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XMjSu9pJHj+2L7vrVocDkn4+VcPQ07tNKZMfj4qUYgYA@mail.gmail.com>
+Message-ID: <CAD=FV=XMjSu9pJHj+2L7vrVocDkn4+VcPQ07tNKZMfj4qUYgYA@mail.gmail.com>
+Subject: Re: [PATCH v7 0/8] Add a panel API to set orientation properly
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,147 +72,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We do not expect to have other VBIFs. Drop VBIF_n indices and always use
-VBIF_RT and VBIF_NRT.
+Hi,
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  4 +--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |  6 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c      | 36 ++++++++++++-------
- 3 files changed, 28 insertions(+), 18 deletions(-)
+On Tue, Jun 14, 2022 at 10:50 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+>
+> On Thu, Jun 9, 2022 at 3:27 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+> >
+> > Panels usually call drm_connector_set_panel_orientation(), which is
+> > later than drm/kms driver calling drm_dev_register(). This leads to a
+> > WARN()[1].
+> >
+> > The orientation property is known earlier. For example, some panels
+> > parse the property through device tree during probe.
+> >
+> > The series add a panel API drm_connector_set_orientation_from_panel()
+> > for drm/kms drivers. The drivers can call the API to set panel's
+> > orientation before drm_dev_register().
+> >
+> > Panel needs to implement .get_orientation callback to return the property.
+> >
+> > [1] https://patchwork.kernel.org/project/linux-mediatek/patch/20220530081910.3947168-2-hsinyi@chromium.org/
+> >
+> > Hsin-Yi Wang (8):
+> >   drm/panel: Add an API to allow drm to set orientation from panel
+> >   drm/panel: boe-tv101wum-nl6: Implement .get_orientation callback
+> >   drm/panel: panel-edp: Implement .get_orientation callback
+> >   drm/panel: lvds: Implement .get_orientation callback
+> >   drm/panel: panel-simple: Implement .get_orientation callback
+> >   drm/panel: ili9881c: Implement .get_orientation callback
+> >   drm/panel: elida-kd35t133: Implement .get_orientation callback
+> >   drm: Config orientation property if panel provides it
+> >
+> hi Maintainers,
+>
+> All the patches are reviewed. If there's no other comments, will this
+> series be picked? Thanks.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-index 400ebceb56bb..f854889ea7fb 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-@@ -1330,7 +1330,7 @@ static const struct dpu_vbif_dynamic_ot_cfg msm8998_ot_rdwr_cfg[] = {
- 
- static const struct dpu_vbif_cfg msm8998_vbif[] = {
- 	{
--	.name = "vbif_0", .id = VBIF_0,
-+	.name = "vbif_rt", .id = VBIF_RT,
- 	.base = 0, .len = 0x1040,
- 	.default_ot_rd_limit = 32,
- 	.default_ot_wr_limit = 32,
-@@ -1359,7 +1359,7 @@ static const struct dpu_vbif_cfg msm8998_vbif[] = {
- 
- static const struct dpu_vbif_cfg sdm845_vbif[] = {
- 	{
--	.name = "vbif_0", .id = VBIF_0,
-+	.name = "vbif_rt", .id = VBIF_RT,
- 	.base = 0, .len = 0x1040,
- 	.features = BIT(DPU_VBIF_QOS_REMAP),
- 	.xin_halt_timeout = 0x4000,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index 9f402be55fbf..d3b0ed0a9c6c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -273,11 +273,9 @@ enum dpu_wd_timer {
- };
- 
- enum dpu_vbif {
--	VBIF_0,
--	VBIF_1,
-+	VBIF_RT,
-+	VBIF_NRT,
- 	VBIF_MAX,
--	VBIF_RT = VBIF_0,
--	VBIF_NRT = VBIF_1
- };
- 
- /**
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-index a18fb649301c..1305e250b71e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-@@ -19,6 +19,18 @@ static struct dpu_hw_vbif *dpu_get_vbif(struct dpu_kms *dpu_kms, enum dpu_vbif v
- 	return NULL;
- }
- 
-+static const char *dpu_vbif_name(enum dpu_vbif idx)
-+{
-+	switch (idx) {
-+	case VBIF_RT:
-+		return "VBIF_RT";
-+	case VBIF_NRT:
-+		return "VBIF_NRT";
-+	default:
-+		return "??";
-+	}
-+}
-+
- /**
-  * _dpu_vbif_wait_for_xin_halt - wait for the xin to halt
-  * @vbif:	Pointer to hardware vbif driver
-@@ -50,12 +62,12 @@ static int _dpu_vbif_wait_for_xin_halt(struct dpu_hw_vbif *vbif, u32 xin_id)
- 
- 	if (!status) {
- 		rc = -ETIMEDOUT;
--		DPU_ERROR("VBIF %d client %d not halting. TIMEDOUT.\n",
--				vbif->idx - VBIF_0, xin_id);
-+		DPU_ERROR("%s client %d not halting. TIMEDOUT.\n",
-+				dpu_vbif_name(vbif->idx), xin_id);
- 	} else {
- 		rc = 0;
--		DRM_DEBUG_ATOMIC("VBIF %d client %d is halted\n",
--				vbif->idx - VBIF_0, xin_id);
-+		DRM_DEBUG_ATOMIC("%s client %d is halted\n",
-+				dpu_vbif_name(vbif->idx), xin_id);
- 	}
- 
- 	return rc;
-@@ -95,8 +107,8 @@ static void _dpu_vbif_apply_dynamic_ot_limit(struct dpu_hw_vbif *vbif,
- 		}
- 	}
- 
--	DRM_DEBUG_ATOMIC("vbif:%d xin:%d w:%d h:%d fps:%d pps:%llu ot:%u\n",
--			vbif->idx - VBIF_0, params->xin_id,
-+	DRM_DEBUG_ATOMIC("%s xin:%d w:%d h:%d fps:%d pps:%llu ot:%u\n",
-+			dpu_vbif_name(vbif->idx), params->xin_id,
- 			params->width, params->height, params->frame_rate,
- 			pps, *ot_lim);
- }
-@@ -141,8 +153,8 @@ static u32 _dpu_vbif_get_ot_limit(struct dpu_hw_vbif *vbif,
- 	}
- 
- exit:
--	DRM_DEBUG_ATOMIC("vbif:%d xin:%d ot_lim:%d\n",
--			vbif->idx - VBIF_0, params->xin_id, ot_lim);
-+	DRM_DEBUG_ATOMIC("%s xin:%d ot_lim:%d\n",
-+			dpu_vbif_name(vbif->idx), params->xin_id, ot_lim);
- 	return ot_lim;
- }
- 
-@@ -242,8 +254,8 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
- 	forced_on = mdp->ops.setup_clk_force_ctrl(mdp, params->clk_ctrl, true);
- 
- 	for (i = 0; i < qos_tbl->npriority_lvl; i++) {
--		DRM_DEBUG_ATOMIC("vbif:%d xin:%d lvl:%d/%d\n",
--				params->vbif_idx, params->xin_id, i,
-+		DRM_DEBUG_ATOMIC("%s xin:%d lvl:%d/%d\n",
-+				dpu_vbif_name(params->vbif_idx), params->xin_id, i,
- 				qos_tbl->priority_lvl[i]);
- 		vbif->ops.set_qos_remap(vbif, params->xin_id, i,
- 				qos_tbl->priority_lvl[i]);
-@@ -263,8 +275,8 @@ void dpu_vbif_clear_errors(struct dpu_kms *dpu_kms)
- 		if (vbif && vbif->ops.clear_errors) {
- 			vbif->ops.clear_errors(vbif, &pnd, &src);
- 			if (pnd || src) {
--				DRM_DEBUG_KMS("VBIF %d: pnd 0x%X, src 0x%X\n",
--					      vbif->idx - VBIF_0, pnd, src);
-+				DRM_DEBUG_KMS("%s: pnd 0x%X, src 0x%X\n",
-+					      dpu_vbif_name(vbif->idx), pnd, src);
- 			}
- 		}
- 	}
--- 
-2.35.1
+Unless someone beat me to it or yells, my plan was to land them to
+drm-misc-next next week. Since it touches core code I wanted to give a
+little extra time. Also at the moment patch #8 is all Chromium (all
+author and reviewers are chromium.org) at the moment so that's another
+reason to make sure it has sufficient time on the lists.
 
+-Doug
