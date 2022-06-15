@@ -1,74 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1F054D384
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 23:18:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9CAC54D392
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 23:22:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B31551132B2;
-	Wed, 15 Jun 2022 21:18:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6401132B1;
+	Wed, 15 Jun 2022 21:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67E0D1132B2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 21:18:28 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- t3-20020a17090a510300b001ea87ef9a3dso3172626pjh.4
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 14:18:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=AdSNYlarnghZLL4+EwD5Nxa+VwtZOE12n1YSRFgSAD0=;
- b=rq4HnFWbq6xo4ji9uDTZmvctRQPOMXHvVKyRxreJHg5eITcoxkEQ6nZOWfWPBms4Fl
- zKZ61g6FzYqexv/S1p1JkHv3DWL7dHqvtn0J4/fF1v9m8yX4qTbP/s6ZyY93Jlqzc2Sj
- gLyuPHqzLXNHJe0FwYjs645KMSKe6FSsJi4rbByhr4xKMEId9b3FldShsDEwNo2C8B1S
- NeODmLsRDJ+3tVZ788Hah7dyxkh0ZqqCxb33Nta7jTiNPVDRwwmKg9QcKGMKlG9Alvbf
- UoeEFLICKmbY7LfDudU4Mu1CEG6Ld7nyvMFn/dYae2vOXm5A9YFTHfIs3lAgBP4oaYtv
- Xjng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=AdSNYlarnghZLL4+EwD5Nxa+VwtZOE12n1YSRFgSAD0=;
- b=FtJug/vPieg7YaBEifQ5znYnQ8QVQIUYw2olmMAWw1oXsCEmcES4osBYXq/o/jDhA+
- YrGvkGOPeJsdaaZwys/nn6leAagvG3nNVtq+fBdxbR3WslrIvtVi4tGhod0V+fIKZGE+
- X7jU2US7QUrh+oxhiqB+RFVNYMtq0JOF5DnVbjXbGNmqiUeKGQmVRx/WoOUt241Dtvz5
- l2d5XfSVyuHRJtXPx37XcUHKCluWDR5ixjMTKQcBJjy+ygJFwG/w86pSNeshE/Fd/GzU
- WQn0oNTnNVpgQas1cbx0KhOYqO0xVCW17Hcv/UaVLgGbihEqf/2W+QoH1NqNstvFneuC
- S88g==
-X-Gm-Message-State: AJIora9g2O/j4RPqkpK1J9yFf3nk/u41MHoPG7yVtQzQckYtJZ0/zgoC
- 3WC0SvGLYcq5+VkI2U4HLIPRXQ==
-X-Google-Smtp-Source: AGRyM1tA/elZAAtrJW4sA4e2iACdIX7S4wavbn+hv4qN9/qOkHwSZUGjW/opaYx+1Ur/YEnpVMCSaQ==
-X-Received: by 2002:a17:903:230b:b0:167:5310:9eed with SMTP id
- d11-20020a170903230b00b0016753109eedmr1469945plh.46.1655327907931; 
- Wed, 15 Jun 2022 14:18:27 -0700 (PDT)
-Received: from [172.22.33.138] ([192.77.111.2])
- by smtp.gmail.com with ESMTPSA id
- x8-20020a17090a6b4800b001e2d4ef6160sm39763pjl.27.2022.06.15.14.18.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jun 2022 14:18:27 -0700 (PDT)
-Message-ID: <90bf6d4b-68bd-3508-7a28-4b45287ee4cb@linaro.org>
-Date: Wed, 15 Jun 2022 14:18:26 -0700
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DB03112EE0;
+ Wed, 15 Jun 2022 21:22:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1655328140; x=1686864140;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=Us+TkJX0tTvqGq4zJjwX8dBqFxE7vOx03uOlFZZL5xM=;
+ b=RxhuatlAe7HQwRZJAIozevPowBH4Evp+vfeF2Vqo2IOb4t5blZFQdPh9
+ ZhtOvdLNIiPuXc3JcVXiVJ5CvPx4jyQJGSVT9xV0S4mJLUN7NlrOW35UK
+ AeLa2IPtWFO/+QbbdK6Vdmn32J1x8cNdGdY1WdvtvKYuTQBJV7LERxYsJ 8=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 15 Jun 2022 14:22:19 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2022 14:22:20 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 15 Jun 2022 14:22:19 -0700
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 15 Jun 2022 14:22:18 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH v2 1/3] drm/msm/dpu: move intf and wb assignment to
+ dpu_encoder_setup_display()
+Date: Wed, 15 Jun 2022 14:22:00 -0700
+Message-ID: <1655328122-23619-1-git-send-email-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3 01/14] dt-bindings: display/msm: hdmi: split and
- convert to yaml
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220609122350.3157529-1-dmitry.baryshkov@linaro.org>
- <20220609122350.3157529-2-dmitry.baryshkov@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220609122350.3157529-2-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,33 +58,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, David Heidelberg <david@ixit.cz>,
- freedreno@lists.freedesktop.org
+Cc: markyacoub@chromium.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/06/2022 05:23, Dmitry Baryshkov wrote:
-> Convert Qualcomm HDMI binding into HDMI TX and PHY yaml bindings.
-> 
-> Changes to schema:
-> HDMI:
->  - fixed reg-names numbering to match 0..3 instead 0,1,3,4
->  - dropped qcom,tx-ddc-* from example, they were not documented
->  - make phy-names deprecated, drop it from the examples
-> 
-> PHY:
->  - moved into phy/ directory
->  - split into QMP and non-QMP PHY schemas
-> 
-> Co-developed-by: David Heidelberg <david@ixit.cz>
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+intf and wb resources are not dependent on the rm global
+state so need not be allocated during dpu_encoder_virt_atomic_mode_set().
 
+Move the allocation of intf and wb resources to dpu_encoder_setup_display()
+so that we can utilize the hw caps even during atomic_check() phase.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Since dpu_encoder_setup_display() already has protection against
+setting invalid intf_idx and wb_idx, these checks can now
+be dropped as well.
 
+changes in v2:
+	- add phys->hw_intf and phys->hw_wb checks back
 
-Best regards,
-Krzysztof
+Fixes: e02a559a720f ("make changes to dpu_encoder to support virtual encoder")
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 36 ++++++++++++++---------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 3a462e327e0e..3be73211d631 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1048,24 +1048,6 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+ 		phys->hw_pp = dpu_enc->hw_pp[i];
+ 		phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
+ 
+-		if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
+-			phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, phys->intf_idx);
+-
+-		if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
+-			phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
+-
+-		if (!phys->hw_intf && !phys->hw_wb) {
+-			DPU_ERROR_ENC(dpu_enc,
+-				      "no intf or wb block assigned at idx: %d\n", i);
+-			return;
+-		}
+-
+-		if (phys->hw_intf && phys->hw_wb) {
+-			DPU_ERROR_ENC(dpu_enc,
+-					"invalid phys both intf and wb block at idx: %d\n", i);
+-			return;
+-		}
+-
+ 		phys->cached_mode = crtc_state->adjusted_mode;
+ 		if (phys->ops.atomic_mode_set)
+ 			phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
+@@ -2293,7 +2275,25 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+ 		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+ 		atomic_set(&phys->vsync_cnt, 0);
+ 		atomic_set(&phys->underrun_cnt, 0);
++
++		if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
++			phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, phys->intf_idx);
++
++		if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
++			phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
++
++		if (!phys->hw_intf && !phys->hw_wb) {
++			DPU_ERROR_ENC(dpu_enc, "no intf or wb block assigned at idx: %d\n", i);
++			ret = -EINVAL;
++		}
++
++		if (phys->hw_intf && phys->hw_wb) {
++			DPU_ERROR_ENC(dpu_enc,
++					"invalid phys both intf and wb block at idx: %d\n", i);
++			ret = -EINVAL;
++		}
+ 	}
++
+ 	mutex_unlock(&dpu_enc->enc_lock);
+ 
+ 	return ret;
+-- 
+2.7.4
+
