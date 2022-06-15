@@ -1,74 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973A054C12C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 07:43:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC00C54C150
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 07:50:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0B7A10E505;
-	Wed, 15 Jun 2022 05:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8212A10E321;
+	Wed, 15 Jun 2022 05:50:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DD2810E121
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 05:42:58 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 5B6353200954;
- Wed, 15 Jun 2022 01:42:56 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 15 Jun 2022 01:42:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm3; t=1655271775; x=1655358175; bh=5Ktr4vYlyz0VnFc26zfV4hN2K
- qo9QoraAHP2bMY/PDg=; b=KMMKtA1s02sqAPbxvx2FdTwb9+2bAj1C9yJoal2s0
- 7d5FkAXdtRCBYl9tnhl6fWKHbrUmidXVAGFIAVMQoyHO5erHF4UIZGer/W9cBzP6
- 7n4V8oUOXpH6z34JJ18LeSNrnStvSyu2nprIx37o5MRqMrHerPE6F/Eu8cVSnVuh
- AA+zQSg9uiK2egLpDx0H1YuQIWdG+6KBA1QI9kkrhxJjvFm7tI2J2pSb6WNQrH1a
- 8K525Wo27Izo5Y/ig9EqhHf0vT7TLbqjtWNEfnj0nWhUUc+GyfxHssu9WKmazvDv
- GikcgGqcso/cBywFQcK7V/YWsjYFCXSdA7LUSgYILjC0Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1655271775; x=1655358175; bh=5Ktr4vYlyz0VnFc26zfV4hN2Kqo9QoraAHP
- 2bMY/PDg=; b=ZndezcDyHErKLOX5G6RxC/ecHQJasGa+gubBIJoi55KxX+zaw2V
- shvidQ+ga7J45jYelXWNLcNsakPJK8DA/zWDteV4kSw7DOw5QDDU8PwabIjdRKfH
- 3DRWiTEikErIma6DZbs3vzkGmQR48czsQ+3+Nx+BZcCy52bpJ+irlmPlNF3/EzUA
- FaYIUem8zmoNyHL0FK852pHOllNGPpEoRuRFKrT0ZnAjjX8QPJbVwM55qvb472nj
- v81Jh6wfiJK3wv8u70nhbO0tivPcNOfRTPJeO9YQ42leZvpyizU84YFQd+WKcZ0u
- wtFdUZ7v3fIngvTgMe7QDWinWPUFrcXjwhw==
-X-ME-Sender: <xms:X3GpYlg5uzhgxfBmFM9iNkimF1K_PYuEZjrFD9-EQodottwWxYIpCw>
- <xme:X3GpYqCWUtLDZBIFuJPraHltqW4UDd_FJcjjyNJJdMwHtdY4NzsUsD5lVYUlsj2h_
- WWKqFq_t3vIJKvG6A>
-X-ME-Received: <xmr:X3GpYlE6XlM1IADqUvb86YXVX6rw7V4zJN8vqNj4VljMYqwOuZJ9UHearuuXsQpqM2xEvZ8rVdy5WzxYNijEvwT3p8c1rhuYMt5u5xfcXIpp__1Ak6cpa4CE__b9VH_2fRSYWQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvtddgleefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
- ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
- grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
- hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:X3GpYqQGE235Da4u_CqxAhYmNPTlXjLmHN_ZOFojI7eRCmz3xIousA>
- <xmx:X3GpYizwhBwL1AHT8MlNXqT_WB8ckxYohfAAPqRC6-ZJ5WpUz2lftQ>
- <xmx:X3GpYg5n2KXNsDyZ_kNp_R-hLfHlPLfMwZMTHBSvQQ_oxjZNpY6KZA>
- <xmx:X3GpYmcYR3ebHiNAgnlRJSFNQOWQ4-CXGM8NGDzadPfMg8mY_rIMtA>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Jun 2022 01:42:55 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH] drm/sun4i: Fix crash during suspend after component bind
- failure
-Date: Wed, 15 Jun 2022 00:42:53 -0500
-Message-Id: <20220615054254.16352-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F9A710E121
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 05:50:31 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id z7so14486441edm.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jun 2022 22:50:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=e1Vf5ybmWHMCCare0qDg8SwPPoQD0QhbtYBYyxeUrq8=;
+ b=Ag1aXw2jvTVA7zj000m0mm7g4v9LClriU8HKZSHDqkV7VWJ6TW0872btwmRL8YOhHv
+ /h0UTPqYTWMypwvjlp7HFBfG74+NiYztO1x+sVfz4FEI6DuU4uxDrtoNMI9vIL7+pkLT
+ KBJyXI31qr4bl59ihqAqPeS5UGX2uWtkyAwyw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=e1Vf5ybmWHMCCare0qDg8SwPPoQD0QhbtYBYyxeUrq8=;
+ b=4fDKeBh2TEZhkI9taSTvUyNmYHF9ZmlGh0liVltQadRrWe3UBdpgSlf3E3ZuAJo7NV
+ TTPmTB5mlHDJ+/EAgdylIqMpTWlAW13vb29HFYfFqaUteGM7fR+KjsC25C8fczRL+H4K
+ X6NQ4AzEr/3MzAjIO1H0VGJb1IE/urfHY23VT4+coR7NCWihovfxPV9uP7cPP3awFAtQ
+ mWbG496sxonW1ZINCYA6+kEjMmPWrf8p8r5rciEPe33tYgZTV1ZBcxREW8KsyOPTOPlS
+ o0ZwZ2Tf0WzjsZfqXe5YOXZS8GjkdK57RkrrrgS3dCiRNQGUQgqlfdiu6B0QpboxieHc
+ iK4g==
+X-Gm-Message-State: AOAM533pfYVKI7urjdMpB9I2UtAVpc7V0vkycdlWcgzVLhkZHy6e0O0J
+ C4HCJnmdE0gcblGP2cfIcge5JET7+oVh4pbom1U0fw==
+X-Google-Smtp-Source: AGRyM1vjB0FC5P09G+rt/YLiB6xz66BihK6l+v4rWnGykvM7armSUF85EPc5KFmSMQB81oPGgjsG4xLYDPyyYAO/lq8=
+X-Received: by 2002:a05:6402:1941:b0:413:2b5f:9074 with SMTP id
+ f1-20020a056402194100b004132b5f9074mr10516814edz.414.1655272229642; Tue, 14
+ Jun 2022 22:50:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220609072722.3488207-1-hsinyi@chromium.org>
+In-Reply-To: <20220609072722.3488207-1-hsinyi@chromium.org>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Wed, 15 Jun 2022 13:50:03 +0800
+Message-ID: <CAJMQK-hg5kLUV=ZgVN5=qX=bRiBWx3O-4X9wPF6CwxpQVSuinA@mail.gmail.com>
+Subject: Re: [PATCH v7 0/8] Add a panel API to set orientation properly
+To: Hans de Goede <hdegoede@redhat.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Stephen Boyd <swboyd@chromium.org>, Douglas Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,57 +60,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, Samuel Holland <samuel@sholland.org>,
+Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the component driver fails to bind, or is unbound, the driver data
-for the top-level platform device points to a freed drm_device. If the
-system is then suspended, the driver passes this dangling pointer to
-drm_mode_config_helper_suspend(), which crashes.
+On Thu, Jun 9, 2022 at 3:27 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+>
+> Panels usually call drm_connector_set_panel_orientation(), which is
+> later than drm/kms driver calling drm_dev_register(). This leads to a
+> WARN()[1].
+>
+> The orientation property is known earlier. For example, some panels
+> parse the property through device tree during probe.
+>
+> The series add a panel API drm_connector_set_orientation_from_panel()
+> for drm/kms drivers. The drivers can call the API to set panel's
+> orientation before drm_dev_register().
+>
+> Panel needs to implement .get_orientation callback to return the property.
+>
+> [1] https://patchwork.kernel.org/project/linux-mediatek/patch/20220530081910.3947168-2-hsinyi@chromium.org/
+>
+> Hsin-Yi Wang (8):
+>   drm/panel: Add an API to allow drm to set orientation from panel
+>   drm/panel: boe-tv101wum-nl6: Implement .get_orientation callback
+>   drm/panel: panel-edp: Implement .get_orientation callback
+>   drm/panel: lvds: Implement .get_orientation callback
+>   drm/panel: panel-simple: Implement .get_orientation callback
+>   drm/panel: ili9881c: Implement .get_orientation callback
+>   drm/panel: elida-kd35t133: Implement .get_orientation callback
+>   drm: Config orientation property if panel provides it
+>
+hi Maintainers,
 
-Fix this by only setting the driver data while the platform driver holds
-a reference to the drm_device.
+All the patches are reviewed. If there's no other comments, will this
+series be picked? Thanks.
 
-Fixes: 624b4b48d9d8 ("drm: sun4i: Add support for suspending the display driver")
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
-
- drivers/gpu/drm/sun4i/sun4i_drv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index 275f7e4a03ae..8841dba989ee 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -73,7 +73,6 @@ static int sun4i_drv_bind(struct device *dev)
- 		goto free_drm;
- 	}
- 
--	dev_set_drvdata(dev, drm);
- 	drm->dev_private = drv;
- 	INIT_LIST_HEAD(&drv->frontend_list);
- 	INIT_LIST_HEAD(&drv->engine_list);
-@@ -114,6 +113,8 @@ static int sun4i_drv_bind(struct device *dev)
- 
- 	drm_fbdev_generic_setup(drm, 32);
- 
-+	dev_set_drvdata(dev, drm);
-+
- 	return 0;
- 
- finish_poll:
-@@ -130,6 +131,7 @@ static void sun4i_drv_unbind(struct device *dev)
- {
- 	struct drm_device *drm = dev_get_drvdata(dev);
- 
-+	dev_set_drvdata(dev, NULL);
- 	drm_dev_unregister(drm);
- 	drm_kms_helper_poll_fini(drm);
- 	drm_atomic_helper_shutdown(drm);
--- 
-2.35.1
-
+>  drivers/gpu/drm/bridge/panel.c                | 34 +++++++++++++++++++
+>  drivers/gpu/drm/drm_bridge_connector.c        |  8 ++++-
+>  drivers/gpu/drm/drm_connector.c               | 31 +++++++++++++++++
+>  .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 12 +++++++
+>  drivers/gpu/drm/panel/panel-edp.c             | 13 ++++++-
+>  drivers/gpu/drm/panel/panel-elida-kd35t133.c  | 12 +++++++
+>  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 12 +++++++
+>  drivers/gpu/drm/panel/panel-lvds.c            | 13 +++++++
+>  drivers/gpu/drm/panel/panel-simple.c          | 14 +++++++-
+>  include/drm/drm_bridge.h                      | 14 ++++++++
+>  include/drm/drm_connector.h                   |  4 +++
+>  include/drm/drm_panel.h                       |  9 +++++
+>  12 files changed, 173 insertions(+), 3 deletions(-)
+>
+> --
+> 2.36.1.255.ge46751e96f-goog
+>
