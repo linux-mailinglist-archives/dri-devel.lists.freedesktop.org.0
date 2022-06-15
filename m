@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F0354D45D
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 00:14:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 657A954D45E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 00:14:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FA6D113911;
-	Wed, 15 Jun 2022 22:14:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4115113910;
+	Wed, 15 Jun 2022 22:14:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1295A113910
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 22:14:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF1D1138F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jun 2022 22:14:32 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 913511354;
- Thu, 16 Jun 2022 00:14:28 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 09FED1440;
+ Thu, 16 Jun 2022 00:14:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1655331269;
- bh=WUCF7s+BlwIqIfc9hYLLfbsvWKEkAwsfGc0cNn3ceHg=;
+ s=mail; t=1655331271;
+ bh=CvmefkoiMCCllfPdCZdsUzGM5N3XWshqkLSA6CI/9hg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FL6DP2vw4qXA7p0OZFrSzijnQdCz3TkEkvQVxT/kj27iZfAsx3MmZxThRkZ2imLGD
- Fh0KfxIg91ZfqWl3n0Je4pQn00QvEhwZCmIR9yGpH4F40vwrXaX1mjaaF3adoI4Ou6
- XooP52HJg18ne/ZE9np2IJB7FVsSXlqWXpw4vUOk=
+ b=R5mbdHU0rHEAKrnJVpCCMtEc8+sg9w1HwIDAqFxJiJkWMFlCsCFV6E/UO+l8qft6U
+ sFqNk2sAo+k8CCfJWs/TnUFyI52znZimLRKRsu712Pj+e4o3VPhFQofps9R4x2YaoH
+ 6dPkCwMzbp21VlDJYXtrgTvrGhv9R/D50Vbumoy0=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: devicetree@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 3/6] ARM: dts: freescale: Use new media bus type macros
-Date: Thu, 16 Jun 2022 01:14:07 +0300
-Message-Id: <20220615221410.27459-4-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 4/6] ARM: dts: omap: Use new media bus type macros
+Date: Thu, 16 Jun 2022 01:14:08 +0300
+Message-Id: <20220615221410.27459-5-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
 References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
@@ -64,31 +64,39 @@ macros in the DT sources.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- arch/arm/boot/dts/imx6ul-14x14-evk.dtsi | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/omap3-n900.dts | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/imx6ul-14x14-evk.dtsi b/arch/arm/boot/dts/imx6ul-14x14-evk.dtsi
-index 1a18c41ce385..d98111f2100f 100644
---- a/arch/arm/boot/dts/imx6ul-14x14-evk.dtsi
-+++ b/arch/arm/boot/dts/imx6ul-14x14-evk.dtsi
-@@ -2,6 +2,8 @@
- //
- // Copyright (C) 2015 Freescale Semiconductor, Inc.
- 
+diff --git a/arch/arm/boot/dts/omap3-n900.dts b/arch/arm/boot/dts/omap3-n900.dts
+index d40c3d2c4914..9cad9d6a83e2 100644
+--- a/arch/arm/boot/dts/omap3-n900.dts
++++ b/arch/arm/boot/dts/omap3-n900.dts
+@@ -9,6 +9,7 @@
+ #include "omap34xx.dtsi"
+ #include <dt-bindings/input/input.h>
+ #include <dt-bindings/leds/common.h>
 +#include <dt-bindings/media/video-interfaces.h>
-+
- / {
- 	chosen {
- 		stdout-path = &uart1;
-@@ -170,7 +172,7 @@ &csi {
- 	port {
- 		parallel_from_ov5640: endpoint {
- 			remote-endpoint = <&ov5640_to_parallel>;
--			bus-type = <5>; /* Parallel bus */
-+			bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
- 		};
- 	};
- };
+ 
+ /*
+  * Default secure signed bootloader (Nokia X-Loader) does not enable L3 firewall
+@@ -194,7 +195,7 @@ port@1 {
+ 
+ 			csi_isp: endpoint {
+ 				remote-endpoint = <&csi_cam1>;
+-				bus-type = <3>; /* CCP2 */
++				bus-type = <MEDIA_BUS_TYPE_CCP2>;
+ 				clock-lanes = <1>;
+ 				data-lanes = <0>;
+ 				lane-polarity = <0 0>;
+@@ -835,7 +836,7 @@ cam1: camera@3e {
+ 
+ 		port {
+ 			csi_cam1: endpoint {
+-				bus-type = <3>; /* CCP2 */
++				bus-type = <MEDIA_BUS_TYPE_CCP2>;
+ 				strobe = <1>;
+ 				clock-inv = <0>;
+ 				crc = <1>;
 -- 
 Regards,
 
