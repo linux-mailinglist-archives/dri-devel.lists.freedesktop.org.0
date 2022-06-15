@@ -1,51 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F4654D2E9
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 22:52:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDBE54D31F
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jun 2022 22:56:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8988A113073;
-	Wed, 15 Jun 2022 20:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5EB1130E2;
+	Wed, 15 Jun 2022 20:56:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B4D9113053;
- Wed, 15 Jun 2022 20:52:39 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A5B59B81BEC;
- Wed, 15 Jun 2022 20:52:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACAABC3411A;
- Wed, 15 Jun 2022 20:52:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655326356;
- bh=ZGcb3PGvlAe9puTJZg4fg6hIdYh2HuJAfIX8EE3UMf4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cUqBYHjzDCCLDQo5p26m8y0p9kaave6tro87nDQfMKZUV7fkSZIrVKY4O+C59CHpZ
- ghWZbhomF5Kg15o5VcTSZ/TTru4Ct4VCihKw5XwYOlz6b8/QRY5mXK9GFZ254wvYYb
- NeUP9NcXkpxlo/wZQu08QOadA5Ro/RPwVG/Iu2drGkNr45tFhvCvoKoauwnhWFA4Nh
- e0R3YkYd3213mtYsPVkM7Ynoa3f2FZLlrrgK1Z6TtUrP4j7hByeC1Ei5DG31FkIm2+
- MgGJ2UguqqMwBRmnNmFv9/Ae71VDH7q2qN6mK52Qv3wApBWVKCwgtbJs35cAWk4rY6
- jXHJ4duDvUgzQ==
-Date: Wed, 15 Jun 2022 13:52:34 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: linux-next: Tree for Jun 15
- (drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c)
-Message-ID: <YqpGknQvigfwZU6b@dev-arch.thelio-3990X>
-References: <20220615160116.528c324b@canb.auug.org.au>
- <d1a48a84-6d07-e8f7-5fd8-d24a7a1cf187@infradead.org>
- <CADnq5_N6gfaPfZJAX4+poWFFruxNdFKZqzXZXosj1A55e-O1mA@mail.gmail.com>
- <YqpACmvbwiEcUfta@dev-arch.thelio-3990X>
- <CADnq5_OnrxUiM+aTWRLjixp=vY6adV3w4p2cfTkdS32uq_UsiQ@mail.gmail.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2059.outbound.protection.outlook.com [40.107.93.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB0B1130D7;
+ Wed, 15 Jun 2022 20:56:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eiR2s81ALXy6wX2EUaoRvpDgxn1wYglY8MCDlLI4s420+IHx+wL49SHg3uGqwgPUM/X1mN3TdObpxe1JEvnrZ7WlthZHvggS5rmH9ph7fesinLO88JHrgLPeidw//sAV4cHNI54IBTz6XE/jGe02nyl9qp/dOLdY2+F2yOvgeFhMFGB4f/d3X0l3bC5TZL938P/qs8mviF7Fz6z9we5hlzTumM5gWDxAJ7b4qrQtumBQbrcBGnKAZAZb2YX5MlNuKOYJN8DvSFm5t9cAwIAmp/zK4R4W/SmD8WCGZzmJzXyUsHYS//DPiNiBwQOLrZ8B7FmufLvTElkihBwDmh4N3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2F5E9xiXcrI3kjWeV/x6+K43Y039mVqtMFNbw/eZzzc=;
+ b=SQjF90t63vCzzSbeD7EWckkvxaH9SRkf/gi3NJORiTV6RaePydNY5Lf+YBfx+AMZNgRV32jQn0QOnweqpB8rGh3VCNFi4JPIrxlbSrZQ3DvlqAiTX5Rf3Ild6qFMGR0zGtB+DntZy/KZfndbJ6t70x0DVU7CQazYssMmIR/DmqksGnFmbOPY5SVlIvxbqZPyEhvwavbcv5S113CCbTAcbGjmFQQPDhXuHF51AxVrjwSsMp0a0/Xtu9lBg7FDxLiGaKib5wV3PYyY0mKasc7ZSqPykxMzzT86NoUiXH1+/LUbtVDOCqoVyzCuDQDFSm3bC1jz9QlEy5Y4+r21SnYbaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2F5E9xiXcrI3kjWeV/x6+K43Y039mVqtMFNbw/eZzzc=;
+ b=LJvweTpPUtsxpXXspxV32M6gXGw3Sq38WMo9l3wtBcREd86DOaYBnKJrlZkl81R1lCfAxOdUuY25+U/WqKCiLHZSUJbWq8jUfQ2tsn2WjFS/dG35XcfzEnaF0+CB93QgoOHByv2z0B58aECzqo/c1oAtyGvs39MlYD0mHqX5FQM=
+Received: from BN9PR03CA0682.namprd03.prod.outlook.com (2603:10b6:408:10e::27)
+ by PH7PR12MB5830.namprd12.prod.outlook.com (2603:10b6:510:1d5::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.13; Wed, 15 Jun
+ 2022 20:56:24 +0000
+Received: from BN8NAM11FT015.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:10e:cafe::41) by BN9PR03CA0682.outlook.office365.com
+ (2603:10b6:408:10e::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.13 via Frontend
+ Transport; Wed, 15 Jun 2022 20:56:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT015.mail.protection.outlook.com (10.13.176.90) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5332.12 via Frontend Transport; Wed, 15 Jun 2022 20:56:23 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 15 Jun
+ 2022 15:56:22 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+Subject: [pull] amdgpu drm-fixes-5.19
+Date: Wed, 15 Jun 2022 16:56:09 -0400
+Message-ID: <20220615205609.28763-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADnq5_OnrxUiM+aTWRLjixp=vY6adV3w4p2cfTkdS32uq_UsiQ@mail.gmail.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f5447717-e087-46f4-1a60-08da4f1181e2
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5830:EE_
+X-Microsoft-Antispam-PRVS: <PH7PR12MB58306BBBA43997A4452555D0F7AD9@PH7PR12MB5830.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3VVG9d/f5FioaD1FLS/8PhJaZgwNztetEid/yeDBB3m+PujgAKairI4QZjNzGOD3MZDrXgbCdnJTzkrTMy0Mbn78NCllTwbymdD9yMAaRev17AkKBjxWSlND+4hvmqcPwK0EB4RSFviS5xSMKvbxOxi3fjsptn/IoX322pq48kzD5bGddWDe/w9ag2yBjcsHKIwbmsZLChZb1SllDkcD6UOCmT4WmXURh5vsm0Cwk807SrbxWhs3cNH4dxPDFSEbR+OTp1JiWS2HUFaJ4dR6yDwCgvWXcKApLyNTD+81S9VEMk/qmFeQ0YXWaxygedxb/UynZjC4kPHL7aioWz5B959FZ24vs296qtDxYYgAyketlpGNdJo9WptdttRCRKMPomBXSOowqRfApGos7cow+ysuYSz4LGhLSZD1yufKaaJavteTgaRosMkjqUQNTWHR4OqduD1s6bTEwUzGsCCP/8Kj9SpJZ0c1uc6nvQ2YkM92rWiBTSSYyomcFj1qcym8WTwOdA/HrV/bQtRz0PmimDKk4El3c6jiUXUTn7ZeCG0L04brhZPLDqBWVAc5u2qkM1Iamm4vwPE4EIFKp/vw8qXCmIqXVBB/kVKk63BwfnnZoEZZ8zQbNrWI1krViR/+g8r+kF4SPadR2LoZ2oxI1HjocTffBfw6gKDAq5o+nG68DgNHIwfkVnDyv9bIAxMS5+bxGs8ioYksJfpNsx0lgg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(36840700001)(40470700004)(46966006)(316002)(16526019)(186003)(86362001)(110136005)(8936002)(8676002)(5660300002)(4326008)(966005)(70206006)(70586007)(2616005)(40460700003)(1076003)(83380400001)(26005)(47076005)(36860700001)(2906002)(81166007)(426003)(7696005)(36756003)(508600001)(6666004)(336012)(82310400005)(356005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2022 20:56:23.7682 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5447717-e087-46f4-1a60-08da4f1181e2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT015.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5830
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,163 +100,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Randy Dunlap <rdunlap@infradead.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 15, 2022 at 04:45:16PM -0400, Alex Deucher wrote:
-> On Wed, Jun 15, 2022 at 4:24 PM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > On Wed, Jun 15, 2022 at 03:28:52PM -0400, Alex Deucher wrote:
-> > > On Wed, Jun 15, 2022 at 3:01 PM Randy Dunlap <rdunlap@infradead.org> wrote:
-> > > >
-> > > >
-> > > >
-> > > > On 6/14/22 23:01, Stephen Rothwell wrote:
-> > > > > Hi all,
-> > > > >
-> > > > > Changes since 20220614:
-> > > > >
-> > > >
-> > > > on i386:
-> > > > # CONFIG_DEBUG_FS is not set
-> > > >
-> > > >
-> > > > ../drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function ‘amdgpu_dm_crtc_late_register’:
-> > > > ../drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6599:2: error: implicit declaration of function ‘crtc_debugfs_init’; did you mean ‘amdgpu_debugfs_init’? [-Werror=implicit-function-declaration]
-> > > >   crtc_debugfs_init(crtc);
-> > > >   ^~~~~~~~~~~~~~~~~
-> > > >   amdgpu_debugfs_init
-> > > >
-> > > >
-> > > > Full randconfig file is attached.
-> > >
-> > > I tried building with your config and I can't repro this.  As Harry
-> > > noted, that function and the whole secure display feature depend on
-> > > debugfs.  It should never be built without CONFIG_DEBUG_FS.  See
-> > > drivers/gpu/drm/amd/display/Kconfig:
-> > >
-> > > > config DRM_AMD_SECURE_DISPLAY
-> > > >         bool "Enable secure display support"
-> > > >         default n
-> > > >         depends on DEBUG_FS
-> > > >         depends on DRM_AMD_DC_DCN
-> > > >         help
-> > > >             Choose this option if you want to
-> > > >             support secure display
-> > > >
-> > > >             This option enables the calculation
-> > > >             of crc of specific region via debugfs.
-> > > >             Cooperate with specific DMCU FW.
-> > >
-> > > amdgpu_dm_crtc_late_register is guarded by
-> > > CONIG_DRM_AMD_SECURE_DISPLAY.  It's not clear to me how we could hit
-> > > this.
-> >
-> > I think the problem is that you are not looking at the right tree.
-> >
-> > The kernel test robot reported [1] [2] this error is caused by commit
-> > 4cd79f614b50 ("drm/amd/display: Move connector debugfs to drm"), which
-> > is in the drm-misc tree on the drm-misc-next branch. That change removes
-> > the #ifdef around amdgpu_dm_crtc_late_register(), meaning that
-> > crtc_debugfs_init() can be called without CONFIG_DRM_AMD_SECURE_DISPLAY
-> > and CONFIG_DEBUG_FS.
-> >
-> >   $ git show -s --format='%h ("%s")'
-> >   abf0ba5a34ea ("drm/bridge: it6505: Add missing CRYPTO_HASH dependency")
-> >
-> >   $ make -skj"$(nproc)" ARCH=x86_64 mrproper defconfig
-> >
-> >   $ scripts/config -d BLK_DEV_IO_TRACE -d DEBUG_FS -e DRM_AMDGPU
-> >
-> >   $ make -skj"$(nproc)" ARCH=x86_64 olddefconfig drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.o
-> >   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function ‘amdgpu_dm_crtc_late_register’:
-> >   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6622:9: error: implicit declaration of function ‘crtc_debugfs_init’; did you mean ‘amdgpu_debugfs_init’? [-Werror=implicit-function-declaration]
-> >    6622 |         crtc_debugfs_init(crtc);
-> >         |         ^~~~~~~~~~~~~~~~~
-> >         |         amdgpu_debugfs_init
-> >   cc1: all warnings being treated as errors
-> >
-> > Contrast that with the current top of your tree:
-> >
-> >   $ git show -s --format='%h ("%s")'
-> >   c435f61d0eb3 ("drm/amd/display: Drop unnecessary guard from DC resource")
-> >
-> >   $ make -skj"$(nproc)" ARCH=x86_64 mrproper defconfig
-> >
-> >   $ scripts/config -d BLK_DEV_IO_TRACE -d DEBUG_FS -e DRM_AMDGPU
-> >
-> >   $ make -skj"$(nproc)" ARCH=x86_64 olddefconfig drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.o
-> >
-> >   $ echo $?
-> >   0
-> >
-> > Randy's patch [3] seems like it should resolve the issue just fine but
-> > it needs to be applied to drm-misc-next, not the amdgpu tree.
-> 
-> Thanks for tracking this down.  I think something like the attached
-> patch is cleaner since the whole thing is only valid for debugfs.
+Hi Dave, Daniel,
 
-Makes sense! I tested the below patch with and without DEBUG_FS and saw
-no errors.
+Fixes for 5.19.
 
-> From b0bcacd86344998e0ca757f89c6c4cd3b6298999 Mon Sep 17 00:00:00 2001
-> From: Alex Deucher <alexander.deucher@amd.com>
-> Date: Wed, 15 Jun 2022 16:40:39 -0400
-> Subject: [PATCH] drm/amdgpu/display: fix build when CONFIG_DEBUG_FS is not set
-> 
-> amdgpu_dm_crtc_late_register is only used when CONFIG_DEBUG_FS
-> so make it dependent on that.
-> 
-> Fixes: 4cd79f614b50 ("drm/amd/display: Move connector debugfs to drm")
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
+The following changes since commit 1f192b9e8d8a5c619b33a868fb1af063af65ce5d:
 
-Tested-by: Nathan Chancellor <nathan@kernel.org> # build
+  Merge tag 'drm-misc-fixes-2022-06-09' of git://anongit.freedesktop.org/drm/drm-misc into drm-fixes (2022-06-10 13:29:22 +1000)
 
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index c9004f7e700d..33cd7a3d4ecb 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -6594,12 +6594,14 @@ dm_crtc_duplicate_state(struct drm_crtc *crtc)
->  	return &state->base;
->  }
->  
-> +#ifdef CONFIG_DEBUG_FS
->  static int amdgpu_dm_crtc_late_register(struct drm_crtc *crtc)
->  {
->  	crtc_debugfs_init(crtc);
->  
->  	return 0;
->  }
-> +#endif
->  
->  static inline int dm_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
->  {
-> @@ -6693,7 +6695,9 @@ static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
->  	.enable_vblank = dm_enable_vblank,
->  	.disable_vblank = dm_disable_vblank,
->  	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
-> +#if defined(CONFIG_DEBUG_FS)
->  	.late_register = amdgpu_dm_crtc_late_register,
-> +#endif
->  };
->  
->  static enum drm_connector_status
-> -- 
-> 2.35.3
-> 
+are available in the Git repository at:
 
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.19-2022-06-15
+
+for you to fetch changes up to 4fd17f2ac0aa4e48823ac2ede5b050fb70300bf4:
+
+  drm/amd/display: Cap OLED brightness per max frame-average luminance (2022-06-14 13:11:11 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.19-2022-06-15:
+
+amdgpu:
+- Fix regression in GTT size reporting
+- OLED backlight fix
+
+----------------------------------------------------------------
+Michel Dänzer (1):
+      drm/amdgpu: Fix GTT size reporting in amdgpu_ioctl
+
+Roman Li (1):
+      drm/amd/display: Cap OLED brightness per max frame-average luminance
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c           | 2 --
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 8 ++++----
+ 2 files changed, 4 insertions(+), 6 deletions(-)
