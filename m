@@ -1,65 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC8054DB24
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 08:57:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4FF54DB28
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 09:00:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FA2010FC88;
-	Thu, 16 Jun 2022 06:57:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58BCD10E0F2;
+	Thu, 16 Jun 2022 07:00:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1161 seconds by postgrey-1.36 at gabe;
- Thu, 16 Jun 2022 06:57:24 UTC
-Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com
- [162.62.58.216])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31F4A10FC88
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 06:57:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1655362618; bh=85KKuETUcWzKJtpChUuBAv9+zzpvhjTFeCbMbi2CSXI=;
- h=In-Reply-To:References:From:To:Cc:Subject:Date;
- b=fCumb9hwItwj5lyEUMl8M9usrTcWlUGxVO229yvIC97+2JSUooMuD6MqtLPbjV9iy
- eL0hSR0aFb/cRwtkrhk95bJkIvmb9++mzqLDCeXKT4CUCUTxYuKrbxZaChCv53WNU9
- AmbTPV7BUFtgR9l6Way0DhGBSFoScxpRZlEi9m0Y=
-X-QQ-FEAT: oHWrrGTW1dCi2Uhv/TjzETR5+gOBkNuu
-X-QQ-SSF: 00000000000000F0000000000000
-X-QQ-XMAILINFO: NNy5VkfPTUBBYxm/CY2b10LnAREOsSkoyzr2XYdYNiZZDErhh/WNMtiXL9NNd+
- TQUfYZe3Q/z6Rd9ZBKJuemZ1Uc7C9ACEguQtbxP1/2qHrU8nmqhVFeIFKOLQ77hoguZRabZKxKxEV
- axUxOBOxLuyXQWrbWtqi195Xc0Kj19uAciHTNkFYgaPh+G2G8VD7iz8WtEff4q0a+YxXbWloBjRmi
- 5a8g8jk7BjurCuIRqZmoLNkzkQPctDmu4JoKLvhLCPSa8YCjCNoIH2hm1u/RuKNsGQ60pivIMBmZ8
- M5zJd+Sj7g2BeL35S89oGXmi0n+qKKU5ysLBWPmJp830x0JNdvePvxcKKqIjmNWH1ASE+6vGfGRrW
- EN4kyObI8gRBkK5/C7o/oFw0oXONvcD80M8KELstRlgJqj+Tb7N0aqUl3qrhqArTDEuA7iCFVnuCP
- VKQWEfK4YWd0Dsdebo1tyv9Afs+hXC/bOBBrJPE8oDKhHe7tQgEYwBfu9Ao8S2eTieujENSuN04Qz
- B1fotSXvUpFdyREFqpymm6zZVeLdtgju3HQGIBHBKoDUiGQdjj85SZGwrNjV930X3FcitQF7GDhWl
- Vew1grbWPJnFF01xrfwcIbPuVM5r7XLwdg72vsaIEKDU8BC8ltPP6SSqGpvpciAZSkllnVGyJoi31
- 84PuRsRJ6AaHacCakSVAECXv38E4Kwn9JdEONDWunJZJArS2IEEN5tewZbp/JAmOGEnl9hAdoXUzA
- kQ1GmfMo5JuXKjbrXeff3g/Ff5d86naeelNDot3iODaNo+misI62sPq9AuUMEgWA0WNRlDS/qTIIh
- O8gMosqU/4FtbEOBjFFTtWY+qVsfM49qGWasYucxLZcT6/QZVAJQDoC/UsB1pgbBf/KhEC7bOqJKx
- BEH2RogXEfQFXa/xfER4A==
-X-HAS-ATTACH: no
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 116.128.80.98
-In-Reply-To: <d8a12051e71ec322f489beed252576e16802a172.camel@redhat.com>
-References: <tencent_655C23622640268A069B49A6A5ADDEECB508@qq.com>
- <d8a12051e71ec322f489beed252576e16802a172.camel@redhat.com>
-X-QQ-STYLE: 
-X-QQ-mid: webmail221t1655362618t9890312
-From: "=?gb18030?B?MTA2NDA5NDkzNQ==?=" <1064094935@qq.com>
-To: "=?gb18030?B?THl1ZGUgUGF1bA==?=" <lyude@redhat.com>,
- "=?gb18030?B?QmVuIFNrZWdncw==?=" <bskeggs@redhat.com>
-Subject: =?gb18030?B?u9i4tKO6IFtQQVRDSCA1LzVdIGRybS9ub3V2ZWF1?=
- =?gb18030?B?OiBGaXggc3BlbGxpbmcgdHlwbyBpbiBjb21tZW50?=
- =?gb18030?B?cw==?=
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="----=_NextPart_62AAD439_1235DA08_6A2ED2BF"
-Content-Transfer-Encoding: 8Bit
-Date: Thu, 16 Jun 2022 14:56:57 +0800
-X-Priority: 3
-Message-ID: <tencent_D362AE3DB129A03B459B4D23D3BED619F607@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6898810E0F2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 07:00:40 +0000 (UTC)
+X-UUID: 767d3273bba347daa58495b1f88ea684-20220616
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6, REQID:a356ef53-d17d-465a-8c45-06445cb099d1, OB:10,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:45
+X-CID-INFO: VERSION:1.1.6, REQID:a356ef53-d17d-465a-8c45-06445cb099d1, OB:10,
+ LOB
+ :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:45
+X-CID-META: VersionHash:b14ad71, CLOUDID:7219b648-4c92-421c-ad91-b806c0f58b2a,
+ C
+ OID:b96a0f64d808,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 767d3273bba347daa58495b1f88ea684-20220616
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 59940981; Thu, 16 Jun 2022 15:00:23 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Thu, 16 Jun 2022 15:00:12 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 16 Jun 2022 15:00:12 +0800
+Message-ID: <f6d8ad7cade15c2b0388d64f31bef47d73b7bec7.camel@mediatek.com>
+Subject: Re: [PATCH v11 1/1] phy: phy-mtk-dp: Add driver for DP phy
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>,
+ <chunfeng.yun@mediatek.com>, <kishon@ti.com>, <vkoul@kernel.org>,
+ <matthias.bgg@gmail.com>, <airlied@linux.ie>
+Date: Thu, 16 Jun 2022 15:00:12 +0800
+In-Reply-To: <8a87d094-1c9e-d899-6671-ebf8c80ffbe6@collabora.com>
+References: <20220613072648.11081-1-rex-bc.chen@mediatek.com>
+ <20220613072648.11081-2-rex-bc.chen@mediatek.com>
+ <8a87d094-1c9e-d899-6671-ebf8c80ffbe6@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,204 +67,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?gb18030?B?S2Fyb2wgSGVyYnN0?= <kherbst@redhat.com>,
- =?gb18030?B?RGF2aWQgQWlybGll?= <airlied@linux.ie>,
- =?gb18030?B?bm91dmVhdQ==?= <nouveau@lists.freedesktop.org>,
- =?gb18030?B?bGludXgta2VybmVs?= <linux-kernel@vger.kernel.org>,
- =?gb18030?B?ZHJpLWRldmVs?= <dri-devel@lists.freedesktop.org>,
- =?gb18030?B?cGVuZ2Z1eXVhbg==?= <pengfuyuan@kylinos.cn>,
- =?gb18030?B?azJjaQ==?= <kernel-bot@kylinos.cn>
+Cc: granquet@baylibre.com, jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, msp@baylibre.com,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-phy@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ wenst@chromium.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
+On Mon, 2022-06-13 at 12:39 +0200, AngeloGioacchino Del Regno wrote:
+> Il 13/06/22 09:26, Bo-Chen Chen ha scritto:
+> > From: Markus Schneider-Pargmann <msp@baylibre.com>
+> > 
+> > This is a new driver that supports the integrated DisplayPort phy
+> > for
+> > mediatek SoCs, especially the mt8195. The phy is integrated into
+> > the
+> > DisplayPort controller and will be created by the mtk-dp driver.
+> > This
+> > driver expects a struct regmap to be able to work on the same
+> > registers
+> > as the DisplayPort controller. It sets the device data to be the
+> > struct
+> > phy so that the DisplayPort controller can easily work with it.
+> > 
+> > The driver does not have any devicetree bindings because the
+> > datasheet
+> > does not list the controller and the phy as distinct units.
+> > 
+> > The interaction with the controller can be covered by the configure
+> > callback of the phy framework and its displayport parameters.
+> > 
+> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > [Bo-Chen: Modify reviewers' comments.]
+> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> 
+> There's no power_on()/power_off() callbacks and looks a bit weird,
+> but it's
+> also right... the only thing that's missing, IMO, is a comment in the
+> actual
+> file explaining that power for this PHY is always on when the DP
+> block is on
+> and that no PHY specific power sequence has to be carried on (being
+> managed
+> elsewhere and strongly tied to the specific DP IP).
+> 
+> Besides that,
+> 
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> 
 
-------=_NextPart_62AAD439_1235DA08_6A2ED2BF
-Content-Type: text/plain;
-	charset="gb18030"
-Content-Transfer-Encoding: base64
+Hello Angelo,
 
-SGksDQpJJ20gdmVyeSBzb3JyeSwgdGhlc2UgZml2ZSBwYXRjaGVzIGFyZSBub3QgYSBzZXJp
-ZXMsIHRoZSBvdGhlciBmb3VyIGFyZSBmcm9tIG90aGVyIGJyYW5jaGVzLiBJIG1hZGUgYSBt
-aXN0YWtlIHdoZW4gc3VibWl0dGluZyB0aGUgcGF0Y2guIENhbiB5b3UgaGVscCBtZSBwdXNo
-IHRoaXMgdG8gZHJtLW1pc2M/IE9yIEkgd2lsbCByZXN1Ym1pdCB0aGlzIHBhdGNoIGFnYWlu
-Lg0KDQoNCg0KQmVzdCByZWdhcmRzLA0KcGVuZ2Z1eXVhbg0KDQoNCg0KLS0tLS0tLS0tLS0t
-LS0tLS0tJm5ic3A71K3KvNPKvP4mbmJzcDstLS0tLS0tLS0tLS0tLS0tLS0NCreivP7Iyzog
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAiTHl1ZGUgUGF1bCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8
-bHl1ZGVAcmVkaGF0LmNvbSZndDs7DQq3osvNyrG85DombmJzcDsyMDIyxOo11MIyOMjVKNDH
-xtrB+SkgweizvzA6MjcNCsrVvP7IyzombmJzcDsiMTA2NDA5NDkzNSI8MTA2NDA5NDkzNUBx
-cS5jb20mZ3Q7OyJCZW4gU2tlZ2dzIjxic2tlZ2dzQHJlZGhhdC5jb20mZ3Q7Ow0Ks63LzTom
-bmJzcDsiS2Fyb2wgSGVyYnN0IjxraGVyYnN0QHJlZGhhdC5jb20mZ3Q7OyJEYXZpZCBBaXJs
-aWUiPGFpcmxpZWRAbGludXguaWUmZ3Q7OyJEYW5pZWwgVmV0dGVyIjxkYW5pZWxAZmZ3bGwu
-Y2gmZ3Q7OyJkcmktZGV2ZWwiPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcmZ3Q7
-OyJub3V2ZWF1Ijxub3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZyZndDs7ImxpbnV4LWtl
-cm5lbCI8bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZyZndDs7InBlbmdmdXl1YW4iPHBl
-bmdmdXl1YW5Aa3lsaW5vcy5jbiZndDs7ImsyY2kiPGtlcm5lbC1ib3RAa3lsaW5vcy5jbiZn
-dDs7DQrW98ziOiZuYnNwO1JlOiBbUEFUQ0ggNS81XSBkcm0vbm91dmVhdTogRml4IHNwZWxs
-aW5nIHR5cG8gaW4gY29tbWVudHMNCg0KDQoNClJldmlld2VkLWJ5OiBMeXVkZSBQYXVsIDxs
-eXVkZUByZWRoYXQuY29tJmd0Ow0KDQpEbyB5b3UgbmVlZCBtZSB0byBwdXNoIHRoaXMgdG8g
-ZHJtLW1pc2M/IE9yIHdpbGwgdGhpcyBiZSBwdXNoZWQgYXMgb25lIHNlcmllcz8NCg0KT24g
-RnJpLCAyMDIyLTA1LTI3IGF0IDEyOjIyICswODAwLCAxMDY0MDk0OTM1QHFxLmNvbSB3cm90
-ZToNCiZndDsgRnJvbTogcGVuZ2Z1eXVhbiA8cGVuZ2Z1eXVhbkBreWxpbm9zLmNuJmd0Ow0K
-Jmd0OyANCiZndDsgRml4IHNwZWxsaW5nIHR5cG8gaW4gY29tbWVudHMuDQomZ3Q7IA0KJmd0
-OyBSZXBvcnRlZC1ieTogazJjaSA8a2VybmVsLWJvdEBreWxpbm9zLmNuJmd0Ow0KJmd0OyBT
-aWduZWQtb2ZmLWJ5OiBwZW5nZnV5dWFuIDxwZW5nZnV5dWFuQGt5bGlub3MuY24mZ3Q7DQom
-Z3Q7IC0tLQ0KJmd0OyAmbmJzcDtkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9pbmNsdWRlL252
-aHcvZHJmLmggfCA0ICsrLS0NCiZndDsgJm5ic3A7MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0
-aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCiZndDsgDQomZ3Q7IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vbm91dmVhdS9pbmNsdWRlL252aHcvZHJmLmgNCiZndDsgYi9kcml2ZXJz
-L2dwdS9kcm0vbm91dmVhdS9pbmNsdWRlL252aHcvZHJmLmgNCiZndDsgaW5kZXggYmQwZmM0
-MTQ0NmUyLi5kNjk2OWMwZTJmMjkgMTAwNjQ0DQomZ3Q7IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9ub3V2ZWF1L2luY2x1ZGUvbnZody9kcmYuaA0KJmd0OyArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vbm91dmVhdS9pbmNsdWRlL252aHcvZHJmLmgNCiZndDsgQEAgLTE5MCw3ICsxOTAsNyBA
-QA0KJmd0OyAmbmJzcDsjZGVmaW5lIERSRl9NRF8oWCxfMSxfMixfMyxfNCxfNSxfNixfNyxf
-OCxfOSxfMTAsSU1QTCwuLi4pIElNUEwNCiZndDsgJm5ic3A7I2RlZmluZSBEUkZfTUQoQS4u
-LikgRFJGX01EXyhYLCAjI0EsIERSRl9NRF9JLCBEUkZfTURfTikoWCwgIyNBKQ0KJmd0OyAm
-bmJzcDsNCiZndDsgLS8qIEhlbHBlciBmb3IgdGVzdGluZyBhZ2FpbnN0IGZpZWxkIHZhbHVl
-IGluIGFyaWJ0cmFyeSBvYmplY3QgKi8NCiZndDsgKy8qIEhlbHBlciBmb3IgdGVzdGluZyBh
-Z2FpbnN0IGZpZWxkIHZhbHVlIGluIGFyYml0cmFyeSBvYmplY3QgKi8NCiZndDsgJm5ic3A7
-I2RlZmluZSBEUkZfVFZfTihYLGUscCxvLGQsciwmbmJzcDsNCiZndDsgZixjbXAsdikmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgXA0KJmd0OyAmbmJzcDsmbmJzcDsmbmJzcDsm
-bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtOVlZBTF9URVNUX1goRFJGX1JEX1goZSwg
-KHApLCAobyksIGQjI18jI3ImbmJzcDsmbmJzcDsgKSwgZCMjXyMjciMjXyMjZiwgY21wLA0K
-Jmd0OyAodikpDQomZ3Q7ICZuYnNwOyNkZWZpbmUNCiZndDsgRFJGX1RWX0koWCxlLHAsbyxk
-LHIsaSxmLGNtcCx2KSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBcDQomZ3Q7IEBA
-IC0xOTgsNyArMTk4LDcgQEANCiZndDsgJm5ic3A7I2RlZmluZSBEUkZfVFZfKFgsXzEsXzIs
-XzMsXzQsXzUsXzYsXzcsXzgsXzksSU1QTCwuLi4pIElNUEwNCiZndDsgJm5ic3A7I2RlZmlu
-ZSBEUkZfVFYoQS4uLikgRFJGX1RWXyhYLCAjI0EsIERSRl9UVl9JLCBEUkZfVFZfTikoWCwg
-IyNBKQ0KJmd0OyAmbmJzcDsNCiZndDsgLS8qIEhlbHBlciBmb3IgdGVzdGluZyBhZ2FpbnN0
-IGZpZWxkIGRlZmluaXRpb24gaW4gYXJpYnRyYXJ5IG9iamVjdCAqLw0KJmd0OyArLyogSGVs
-cGVyIGZvciB0ZXN0aW5nIGFnYWluc3QgZmllbGQgZGVmaW5pdGlvbiBpbiBhcmJpdHJhcnkg
-b2JqZWN0ICovDQomZ3Q7ICZuYnNwOyNkZWZpbmUgRFJGX1REX04oWCxlLHAsbyxkLHIsJm5i
-c3A7DQomZ3Q7IGYsY21wLHYpJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IFwNCiZndDsgJm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7TlZWQUxfVEVTVF9YKERS
-Rl9SRF9YKGUsIChwKSwgKG8pLCBkIyNfIyNyJm5ic3A7Jm5ic3A7ICksIGQjI18jI3IjI18j
-I2YsIGNtcCwNCiZndDsgZCMjXyMjciMjXyMjZiMjXyMjdikNCiZndDsgJm5ic3A7I2RlZmlu
-ZQ0KJmd0OyBEUkZfVERfSShYLGUscCxvLGQscixpLGYsY21wLHYpJm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7DQomZ3Q7ICZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyBcDQoNCi0tIA0KQ2hlZXJzLA0KJm5ic3A7THl1ZGUgUGF1bCAoc2hlL2hl
-cikNCiZuYnNwO1NvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQ=
+there is no power-on/off setting register for dp-phy because of the
+hardware design.
 
-------=_NextPart_62AAD439_1235DA08_6A2ED2BF
-Content-Type: text/html;
-	charset="gb18030"
-Content-Transfer-Encoding: base64
+Therefore, we power-on/off using enable/disable power domain.
+You can see the function mtk_dp_suspend/mtk_dp_resume in mtk-dp.c
+"pm_runtime_get_sync/pm_runtime_put_sync".
 
-PG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNo
-YXJzZXQ9R0IxODAzMCI+PGRpdj5IaSw8L2Rpdj48ZGl2PkknbSB2ZXJ5IHNvcnJ5LCB0aGVz
-ZSBmaXZlIHBhdGNoZXMgYXJlIG5vdCBhIHNlcmllcywgdGhlIG90aGVyIGZvdXIgYXJlIGZy
-b20gb3RoZXIgYnJhbmNoZXMuIEkgbWFkZSBhIG1pc3Rha2Ugd2hlbiBzdWJtaXR0aW5nIHRo
-ZSBwYXRjaC4gQ2FuIHlvdSBoZWxwIG1lIHB1c2ggdGhpcyB0byBkcm0tbWlzYz8gT3IgSSB3
-aWxsIHJlc3VibWl0IHRoaXMgcGF0Y2ggYWdhaW4uPGJyPjwvZGl2PjxkaXYgc3R5bGU9InBv
-c2l0aW9uOiByZWxhdGl2ZTsiPjxkaXY+PGJyPjwvZGl2PjxkaXY+QmVzdCByZWdhcmRzLDxi
-cj5wZW5nZnV5dWFuPGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXYgc3R5bGU9ImZvbnQt
-c2l6ZTogMTJweDtmb250LWZhbWlseTogQXJpYWwgTmFycm93O3BhZGRpbmc6MnB4IDAgMnB4
-IDA7Ij4tLS0tLS0tLS0tLS0tLS0tLS0mbmJzcDvUrcq808q8/iZuYnNwOy0tLS0tLS0tLS0t
-LS0tLS0tLTwvZGl2PjxkaXYgc3R5bGU9ImZvbnQtc2l6ZTogMTJweDtiYWNrZ3JvdW5kOiNl
-ZmVmZWY7cGFkZGluZzo4cHg7Ij48ZGl2PjxiPreivP7Iyzo8L2I+ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIkx5
-dWRlIFBhdWwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJmx0O2x5dWRlQHJlZGhh
-dC5jb20mZ3Q7OzwvZGl2PjxkaXY+PGI+t6LLzcqxvOQ6PC9iPiZuYnNwOzIwMjLE6jXUwjI4
-yNUo0MfG2sH5KSDB6LO/MDoyNzwvZGl2PjxkaXY+PGI+ytW8/sjLOjwvYj4mbmJzcDsiMTA2
-NDA5NDkzNSImbHQ7MTA2NDA5NDkzNUBxcS5jb20mZ3Q7OyJCZW4gU2tlZ2dzIiZsdDtic2tl
-Z2dzQHJlZGhhdC5jb20mZ3Q7Ozx3YnI+PC9kaXY+PGRpdj48Yj6zrcvNOjwvYj4mbmJzcDsi
-S2Fyb2wgSGVyYnN0IiZsdDtraGVyYnN0QHJlZGhhdC5jb20mZ3Q7OyJEYXZpZCBBaXJsaWUi
-Jmx0O2FpcmxpZWRAbGludXguaWUmZ3Q7OyJEYW5pZWwgVmV0dGVyIiZsdDtkYW5pZWxAZmZ3
-bGwuY2gmZ3Q7OyJkcmktZGV2ZWwiJmx0O2RyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcmZ3Q7OyJub3V2ZWF1IiZsdDtub3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZyZndDs7
-ImxpbnV4LWtlcm5lbCImbHQ7bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZyZndDs7InBl
-bmdmdXl1YW4iJmx0O3BlbmdmdXl1YW5Aa3lsaW5vcy5jbiZndDs7ImsyY2kiJmx0O2tlcm5l
-bC1ib3RAa3lsaW5vcy5jbiZndDs7PHdicj48L2Rpdj48ZGl2PjxiPtb3zOI6PC9iPiZuYnNw
-O1JlOiBbUEFUQ0ggNS81XSBkcm0vbm91dmVhdTogRml4IHNwZWxsaW5nIHR5cG8gaW4gY29t
-bWVudHM8L2Rpdj48L2Rpdj48ZGl2Pjxicj48L2Rpdj5SZXZpZXdlZC1ieTogTHl1ZGUgUGF1
-bCAmbHQ7bHl1ZGVAcmVkaGF0LmNvbSZndDs8YnI+PGJyPkRvIHlvdSBuZWVkIG1lIHRvIHB1
-c2ggdGhpcyB0byBkcm0tbWlzYz8gT3Igd2lsbCB0aGlzIGJlIHB1c2hlZCBhcyBvbmUgc2Vy
-aWVzPzxicj48YnI+T24gRnJpLCAyMDIyLTA1LTI3IGF0IDEyOjIyICswODAwLCAxMDY0MDk0
-OTM1QHFxLmNvbSB3cm90ZTo8YnI+Jmd0OyBGcm9tOiBwZW5nZnV5dWFuICZsdDtwZW5nZnV5
-dWFuQGt5bGlub3MuY24mZ3Q7PGJyPiZndDsgPGJyPiZndDsgRml4IHNwZWxsaW5nIHR5cG8g
-aW4gY29tbWVudHMuPGJyPiZndDsgPGJyPiZndDsgUmVwb3J0ZWQtYnk6IGsyY2kgJmx0O2tl
-cm5lbC1ib3RAa3lsaW5vcy5jbiZndDs8YnI+Jmd0OyBTaWduZWQtb2ZmLWJ5OiBwZW5nZnV5
-dWFuICZsdDtwZW5nZnV5dWFuQGt5bGlub3MuY24mZ3Q7PGJyPiZndDsgLS0tPGJyPiZndDsg
-Jm5ic3A7ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvaW5jbHVkZS9udmh3L2RyZi5oIHwgNCAr
-Ky0tPGJyPiZndDsgJm5ic3A7MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBk
-ZWxldGlvbnMoLSk8YnI+Jmd0OyA8YnI+Jmd0OyBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL25vdXZlYXUvaW5jbHVkZS9udmh3L2RyZi5oPGJyPiZndDsgYi9kcml2ZXJzL2dwdS9k
-cm0vbm91dmVhdS9pbmNsdWRlL252aHcvZHJmLmg8YnI+Jmd0OyBpbmRleCBiZDBmYzQxNDQ2
-ZTIuLmQ2OTY5YzBlMmYyOSAxMDA2NDQ8YnI+Jmd0OyAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-bm91dmVhdS9pbmNsdWRlL252aHcvZHJmLmg8YnI+Jmd0OyArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vbm91dmVhdS9pbmNsdWRlL252aHcvZHJmLmg8YnI+Jmd0OyBAQCAtMTkwLDcgKzE5MCw3
-IEBAPGJyPiZndDsgJm5ic3A7I2RlZmluZSBEUkZfTURfKFgsXzEsXzIsXzMsXzQsXzUsXzYs
-XzcsXzgsXzksXzEwLElNUEwsLi4uKSBJTVBMPGJyPiZndDsgJm5ic3A7I2RlZmluZSBEUkZf
-TUQoQS4uLikgRFJGX01EXyhYLCAjI0EsIERSRl9NRF9JLCBEUkZfTURfTikoWCwgIyNBKTxi
-cj4mZ3Q7ICZuYnNwOzxicj4mZ3Q7IC0vKiBIZWxwZXIgZm9yIHRlc3RpbmcgYWdhaW5zdCBm
-aWVsZCB2YWx1ZSBpbiBhcmlidHJhcnkgb2JqZWN0ICovPGJyPiZndDsgKy8qIEhlbHBlciBm
-b3IgdGVzdGluZyBhZ2FpbnN0IGZpZWxkIHZhbHVlIGluIGFyYml0cmFyeSBvYmplY3QgKi88
-YnI+Jmd0OyAmbmJzcDsjZGVmaW5lIERSRl9UVl9OKFgsZSxwLG8sZCxyLCZuYnNwOzxicj4m
-Z3Q7IGYsY21wLHYpJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IFw8YnI+Jmd0OyAm
-bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtOVlZBTF9U
-RVNUX1goRFJGX1JEX1goZSwgKHApLCAobyksIGQjI18jI3ImbmJzcDsmbmJzcDsgKSwgZCMj
-XyMjciMjXyMjZiwgY21wLDxicj4mZ3Q7ICh2KSk8YnI+Jmd0OyAmbmJzcDsjZGVmaW5lPGJy
-PiZndDsgRFJGX1RWX0koWCxlLHAsbyxkLHIsaSxmLGNtcCx2KSZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyBcPGJyPiZndDsgQEAgLTE5OCw3ICsxOTgsNyBAQDxicj4mZ3Q7ICZu
-YnNwOyNkZWZpbmUgRFJGX1RWXyhYLF8xLF8yLF8zLF80LF81LF82LF83LF84LF85LElNUEws
-Li4uKSBJTVBMPGJyPiZndDsgJm5ic3A7I2RlZmluZSBEUkZfVFYoQS4uLikgRFJGX1RWXyhY
-LCAjI0EsIERSRl9UVl9JLCBEUkZfVFZfTikoWCwgIyNBKTxicj4mZ3Q7ICZuYnNwOzxicj4m
-Z3Q7IC0vKiBIZWxwZXIgZm9yIHRlc3RpbmcgYWdhaW5zdCBmaWVsZCBkZWZpbml0aW9uIGlu
-IGFyaWJ0cmFyeSBvYmplY3QgKi88YnI+Jmd0OyArLyogSGVscGVyIGZvciB0ZXN0aW5nIGFn
-YWluc3QgZmllbGQgZGVmaW5pdGlvbiBpbiBhcmJpdHJhcnkgb2JqZWN0ICovPGJyPiZndDsg
-Jm5ic3A7I2RlZmluZSBEUkZfVERfTihYLGUscCxvLGQsciwmbmJzcDs8YnI+Jmd0OyBmLGNt
-cCx2KSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBcPGJyPiZndDsgJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7TlZWQUxfVEVTVF9YKERSRl9SRF9YKGUsIChw
-KSwgKG8pLCBkIyNfIyNyJm5ic3A7Jm5ic3A7ICksIGQjI18jI3IjI18jI2YsIGNtcCw8YnI+
-Jmd0OyBkIyNfIyNyIyNfIyNmIyNfIyN2KTxicj4mZ3Q7ICZuYnNwOyNkZWZpbmU8YnI+Jmd0
-OyBEUkZfVERfSShYLGUscCxvLGQscixpLGYsY21wLHYpJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7PGJyPiZndDsgJm5ic3A7Jm5ic3A7
-Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7IFw8YnI+PGJyPi0tIDxicj5DaGVlcnMsPGJyPiZuYnNwO0x5dWRlIFBhdWwgKHNo
-ZS9oZXIpPGJyPiZuYnNwO1NvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQ8YnI+PC9kaXY+
+When the power domain is disable, the phy is also diabled.
 
-
-------=_NextPart_62AAD439_1235DA08_6A2ED2BF--
+BRs,
+Bo-Chen
 
