@@ -2,83 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A14154EA6A
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 21:55:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3674954EA6C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 21:58:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9019010E54E;
-	Thu, 16 Jun 2022 19:55:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 093DF10E686;
+	Thu, 16 Jun 2022 19:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51CB710E54E
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:55:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655409333;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ys2keuyjGOnYxAsZaMh0khOvW2SYs1SLvLOIoAesU54=;
- b=RkVJxmGVAq1yoXlwgOqHamptK18+EDByLY9P2QG+OMGrB8p/IOugDNkQkHcOdZO/c8jsoS
- 13Dtimp6xcYtAjWLXNA3tJdsyupIqOgubS00ROIu4oomxx3Vc20Lc2r8H6rGOD/hJZuM06
- AnC/W0OmiUL8toskffmtkaHlfA/wlu0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-459-l0un8BbPPBWYDFLdp0LC5Q-1; Thu, 16 Jun 2022 15:55:30 -0400
-X-MC-Unique: l0un8BbPPBWYDFLdp0LC5Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- k34-20020a05600c1ca200b0039c7db490c8so1330771wms.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 12:55:29 -0700 (PDT)
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A138610E686
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:58:01 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id u99so3892664ybi.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 12:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=K5Iia3KQ3GthJU/9UXq1fy46wYkvnbGu6bM6iwpwZ/w=;
+ b=byQ6Jg3IG2wY8AJZ37MYWEiqoW5fQTlcQAXgCm+ic8DxR3EiNke3g1HmSrhoMWO6pQ
+ ylU8JKkSoX3Zjp65CWHpEZKSK/s5kn5MnD4mybxnwwpPGSRU55K6DiQAyuXKgsnZHbds
+ H47rT0kBHuABLBXJe8OrBfgRyPGSkvyygqhrw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Ys2keuyjGOnYxAsZaMh0khOvW2SYs1SLvLOIoAesU54=;
- b=8FS5TfNKixaNKGIUPvYtgkHVM5Ijek15ZG/njXFNAQibn7X1BOQCdpod/MCZEMFMDB
- jTahfv4zTBIqh27QilFUCXl1tmrUM4oLm9yql1gQUsWH/axgHQxyYoQ3gkWC24wWOkC7
- Cp/T5PjDSEgLdGtouxSPeSVz6TBpTa9xYQ2GYONGO7OjFxFrPGwUyxvV8F2cKAS1bp/p
- JYta8u3nhm1jTJ30zDoLdVdQEwcCpgZQPUS9fvmUvhPJJXVMaxPt7AWaT+HI2NesVn6q
- 5NF6dOM9XH5UPkD/Ca69yPTOjDwYoMTYO5p70nLgqxbNKi67xR8l2L17TZ1n5JWM4LFS
- cFJw==
-X-Gm-Message-State: AOAM533Moh0ice5hQ7XJsgDf/KaxOFvJ6stmdSkJJgFrlr222cWHhCJz
- Kgs5zQ7GWU6jOyk42SZWyETJoTtF0OdjEZqRUYXokbUYSr9ojMcaT4PnbNURxvbYDwV6VtCt7Pd
- zWYZDYp/Qyr6kUBEzcTM89oEZxSxE
-X-Received: by 2002:a05:600c:294a:b0:39c:4df5:f825 with SMTP id
- n10-20020a05600c294a00b0039c4df5f825mr17322080wmd.55.1655409326636; 
- Thu, 16 Jun 2022 12:55:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwR8ZU9QDRz515iHBXgPuPCog+HviQMDV3yKwqceawwks+wUtwyLzvQ0pWFkTp40mYRTIYHHg==
-X-Received: by 2002:a05:600c:294a:b0:39c:4df5:f825 with SMTP id
- n10-20020a05600c294a00b0039c4df5f825mr17322057wmd.55.1655409326396; 
- Thu, 16 Jun 2022 12:55:26 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- b17-20020a5d6351000000b0020fee88d0f2sm3262351wrw.0.2022.06.16.12.55.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jun 2022 12:55:25 -0700 (PDT)
-Message-ID: <38473dcd-0666-67b9-28bd-afa2d0ce434a@redhat.com>
-Date: Thu, 16 Jun 2022 21:55:24 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=K5Iia3KQ3GthJU/9UXq1fy46wYkvnbGu6bM6iwpwZ/w=;
+ b=XsWSj1zTqV9U34L0TKu0pijQuUy1yFSxOPkHAQcY24Z2c7z6jS5hgx+nDYkatA0gQ9
+ 4GeYEjAz1WUggbDIWhxdl9uPUPBrw6rmUDrPe976lXNJd5ktUFcEkrRGA+KdmwNj93Y8
+ 8axelGNAcQm8aB3n5zHAq/sidavz1KI/o/TuOn1Prz3DSQ6PRRjJt7fgMRDxxl7z7cV7
+ dipcjLIICtK7Y2Yqm0a72YmWKwx5ysgI9O2xMsTLRywHduniTuBVKXeaG4VP0ok7nx/H
+ m3oMcEcpQ3HgeccMMmpBoX5v5jg57DTIEyqS7TiiY7RYr5podQBUnkqB9+hXxz836/3B
+ Eaog==
+X-Gm-Message-State: AJIora+dBrTGdHldecbNWvyLXCBIoeKiZA/O3AfcA1p5hkb+umEPX4cL
+ dVNuOc2IR5iHkGpsTmTQcVtsSeTeqRRb1zgpodn4Ow==
+X-Google-Smtp-Source: AGRyM1u2G+7uuqQPl3CPuJTbWlY1cxze2DXthubUyJ6jsETYiTPwNY3gyzKzFK4Jpb7RKV1we9iMMiiLMPviipnrS50=
+X-Received: by 2002:a25:bd4c:0:b0:65d:3dca:9638 with SMTP id
+ p12-20020a25bd4c000000b0065d3dca9638mr5192725ybm.196.1655409480538; Thu, 16
+ Jun 2022 12:58:00 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v6 3/5] fbdev: Disable sysfb device registration when
- removing conflicting FBs
-To: Zack Rusin <zackr@vmware.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20220607182338.344270-1-javierm@redhat.com>
- <20220607182338.344270-4-javierm@redhat.com>
- <de83ae8cb6de7ee7c88aa2121513e91bb0a74608.camel@vmware.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <de83ae8cb6de7ee7c88aa2121513e91bb0a74608.camel@vmware.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220615172129.1314056-1-pmalani@chromium.org>
+ <20220615172129.1314056-5-pmalani@chromium.org>
+ <CAE-0n53ub30HXB325wPoMB4C3n4j_9FWnNu5AmtYgU3PBvs8mQ@mail.gmail.com>
+ <CACeCKadSCXZo3E4JZiwxFn_4CH3KDfQkk=xRrxSqCEWAgYhV6Q@mail.gmail.com>
+ <20220616193424.GA3844759-robh@kernel.org>
+In-Reply-To: <20220616193424.GA3844759-robh@kernel.org>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Thu, 16 Jun 2022 12:57:49 -0700
+Message-ID: <CACeCKaeH6qTTdG_huC4yw0xxG8TYEOtfPW3tiVNwYs=P4QVPXg@mail.gmail.com>
+Subject: Re: [PATCH v4 4/7] dt-bindings: drm/bridge: anx7625: Add mode-switch
+ support
+To: Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,69 +64,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "deller@gmx.de" <deller@gmx.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "kraxel@redhat.com" <kraxel@redhat.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "lersek@redhat.com" <lersek@redhat.com>
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Stephen Boyd <swboyd@chromium.org>,
+ Pin-Yen Lin <treapking@chromium.org>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Zack,
-
-On 6/16/22 21:29, Zack Rusin wrote:
-> On Tue, 2022-06-07 at 20:23 +0200, Javier Martinez Canillas wrote:
->> The platform devices registered by sysfb match with firmware-based DRM or
->> fbdev drivers, that are used to have early graphics using a framebuffer
->> provided by the system firmware.
->>
-
-[snip]
-
-> 
-> Hi, Javier.
-> 
-> This change broke arm64 with vmwgfx. We get a kernel oops at boot (let me know if
-> you'd like .config or just have us test something directly for you):
+On Thu, Jun 16, 2022 at 12:34 PM Rob Herring <robh@kernel.org> wrote:
 >
+> On Thu, Jun 16, 2022 at 01:54:36AM -0700, Prashant Malani wrote:
+> > On Thu, Jun 16, 2022 at 12:42 AM Stephen Boyd <swboyd@chromium.org> wrote:
+> > >
+> > > Quoting Prashant Malani (2022-06-15 10:20:20)
+> > > >
+> > > >  .../display/bridge/analogix,anx7625.yaml      | 64 +++++++++++++++++++
+> > > >  1 file changed, 64 insertions(+)
+> > >
+> > > Can this file get a link to the product brief[1]? It helps to quickly
+> > > find the block diagram.
+> >
+> > Sure, but I don't really think that should be included in this patch
+> > (or series).
+> > I'd be happy to submit a separate patch once this series is resolved.
+> >
+> > >
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > > index 35a48515836e..bc6f7644db31 100644
+> > > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > > @@ -105,6 +105,34 @@ properties:
+> > > >        - port@0
+> > > >        - port@1
+> > > >
+> > > > +  switches:
+> > > > +    type: object
+> > > > +    description: Set of switches controlling DisplayPort traffic on
+> > > > +      outgoing RX/TX lanes to Type C ports.
+> > > > +    additionalProperties: false
+> > > > +
+> > > > +    properties:
+> > > > +      '#address-cells':
+> > > > +        const: 1
+> > > > +
+> > > > +      '#size-cells':
+> > > > +        const: 0
+> > > > +
+> > > > +    patternProperties:
+> > > > +      '^switch@[01]$':
+> > > > +        $ref: /schemas/usb/typec-switch.yaml#
+> > > > +        unevaluatedProperties: false
+> > > > +
+> > > > +        properties:
+> > > > +          reg:
+> > > > +            maxItems: 1
+> > > > +
+> > > > +        required:
+> > > > +          - reg
+> > > > +
+> > > > +    required:
+> > > > +      - switch@0
+> > > > +
+> > > >  required:
+> > > >    - compatible
+> > > >    - reg
+> > > > @@ -167,5 +195,41 @@ examples:
+> > > >                      };
+> > > >                  };
+> > > >              };
+> > > > +            switches {
+> > >
+> > > Is "switches" a bus?
+> >
+> > No.
+> >
+> > >
+> > > > +                #address-cells = <1>;
+> > > > +                #size-cells = <0>;
+> > > > +                switch@0 {
+> > > > +                    compatible = "typec-switch";
+> > >
+> > > Is this compatible matched against a driver that's populated on this
+> > > "switches" bus?
+> >
+> > No. Patch 6/7 has the implementation details on how the anx driver
+> > performs the enumeration of switches.
+> >
+> > >
+> > > > +                    reg = <0>;
+> > > > +                    mode-switch;
+> > > > +
+> > > > +                    ports {
+> > > > +                        #address-cells = <1>;
+> > > > +                        #size-cells = <0>;
+> > > > +                        port@0 {
+> > > > +                            reg = <0>;
+> > > > +                            anx_typec0: endpoint {
+> > > > +                                remote-endpoint = <&typec_port0>;
+> > > > +                            };
+> > > > +                        };
+> > > > +                    };
+> > >
+> > > I was expecting to see these simply be more ports in the existing graph
+> > > binding of this device, and then have the 'mode-switch' or
+> > > 'orientation-switch' properties be at the same level as the compatible
+> > > string "analogix,anx7625". Here's the reasoning, based on looking at the
+> > > product brief and the existing binding/implementation.
+> > >
+> > > Looking at the only existing implementation of this binding upstream in
+> > > mt8183-kukui-jacuzzi.dtsi it looks like one of these typec ports is
+> > > actually the same physically as the 'anx7625_out' endpoint (reg address
+> > > of 1) that is already defined in the binding. It seems that MIPI DSI/DPI
+> > > comes in and is output through 2 lanes, SSRX2 and SSTX2 according to the
+> > > product brief[1], and that is connected to some eDP panel
+> > > ("auo,b116xw03"). Presumably that is the same as anx_typec1 in this
+> > > patch? I suspect the USB3.1 input is not connected on this board, and
+> > > thus the crosspoint switch is never used, nor the SSRX1/SSTX1 pins.
+> > >
+> > > The existing binding defines the MIPI DSI/DPI input as port0 and two of
+> > > the four lanes of output that is probably by default connected to the
+> > > "DisplayPort Transmitter" as port1 because that's how the crosspoint
+> > > switch comes out of reset. That leaves the USB3.1 input possibly needing
+> > > a port in the ports binding, and the other two lanes of output needing a
+> > > port in the ports binding to describe their connection to the downstream
+> > > device. And finally information about if the crosspoint switch needs to
+> > > be registered with the typec framework to do typec things, which can be
+> > > achieved by the presence of the 'mode-switch' property.
+> > >
+> > > On a board like kukui-jacuzzi these new properties and ports wouldn't be
+> > > specified, because what is there is already sufficient. If this chip is
+> > > connected to a usb-c-connector then I'd expect to see a connection from
+> > > the output ports in the graph binding to the connector node's ports.
+> > > There aren't any ports in the usb-c-connector binding though from what I
+> > > see.
+> > >
+> > > I believe there's also one more use case here where USB3.1 or MIPI
+> > > DSI/DPI is connected on the input side and this device is used to steer
+> > > USB3.1 or DP through the crosspoint switch to either of the two output
+> > > pairs. This last scenario means that we have to describe both output
+> > > pairs, SSRX1/SSTX1 and SSRX2/SSTX2, as different ports in the binding so
+> > > they can be connected to different usb-c-connectors if the hardware
+> > > engineer wired the output pins that way.
+> > >
+> > > TL;DR: Can we add 'mode-switch' as an optional property and two more
+> > > ports at address 2 and 3 for the USB3.1 input and the SSRX1/SSTX1 pair
+> > > respectively to the existing graph part of this binding?
+> >
+> > Sorry, but I got lost midway through the preceding explanation.
+>
+> Made sense to me.
+>
+> > The binding
+> > can always add additional ports to each "switch" to accomplish the
+> > graph connections
+> > you are alluding to (if the driver needs/uses it, which I don't think
+> > this one does at present).
+>
+> Why is the switch special? If I just look at this from a block diagram
+> perspective, I just see a list of interfaces that need to be described
+> in the graph.
 
-Yes please share your .config and I'll try to reproduce on an arm64 machine.
+Because it is specific to Type-C connectors. The anx7625.h does
+contain a cross-point
+switch which controls data lines coming from 1 (or more) Type-C
+connectors, so it seems reasonable
+to have a dedicated binding for such types of hardware sub-components,
+which helps define the graph connections
+in a more uniform manner. That's not to say:
+- this can only be used by this hardware. The typec-switch binding is
+generic enough to accommodate other hardware.
+- there is only 1 way to do this. The interfaces could be described
+using existing port OF graph bindings, but I don't
+see that as reason enough to not include a dedicated switch binding if
+it makes the overall binding more logically organized (IMO) and
+makes driver registration code mode clean.
 
-> 
->  Unable to handle kernel NULL pointer dereference at virtual address
-> 0000000000000008
->  Mem abort info:
->    ESR = 0x96000004
->    EC = 0x25: DABT (current EL), IL = 32 bits
->    SET = 0, FnV = 0
->    EA = 0, S1PTW = 0
->    FSC = 0x04: level 0 translation fault
->  Data abort info:
->    ISV = 0, ISS = 0x00000004
->    CM = 0, WnR = 0
->  user pgtable: 4k pages, 48-bit VAs, pgdp=00000001787ee000
->  [0000000000000008] pgd=0000000000000000, p4d=0000000000000000
->  Internal error: Oops: 96000004 [#1] SMP
->  Modules linked in: vmwgfx(+) e1000e(+) nvme ahci(+) xhci_pci drm_ttm_helper ttm
-> sha256_arm64 sha1_ce nvme_core xhci_pci_renesas aes_neon_bs aes_neon_blk aes>
->  CPU: 3 PID: 215 Comm: systemd-udevd Tainted: G     U            5.18.0-rc5-vmwgfx
-> #12
+>
+> > Adding extra ports to existing ports gets tricky from a mode-switch
+> > enumeration perspective (which
+> > ports should have the modes switches, which shouldn't? Do you follow
+> > the remote end points for each port
+> > and see which one is a Type C connector?
+>
+> The driver knows which port is which because the binding has to define
+> it. So you have to check 2 of them (SSRX1/SSTX1 and SSRX2/SSTX2) to find
+> usb C connectors.
 
-I'm confused, your kernel version seems to be 5.18.0-rc5 but this patch
-is only in drm-misc-next now and will land in 5.20...
+Right, but with the switch binding you no longer need to check. If
+there is a typec-switch, you know
+it is coming from a Type-C connector, so you can just register the
+switches with the Type-C framework.
 
-Did you backport it? Can you please try to reproduce with latest drm-tip ?
+>
+> > What if we add an
+> > intermediate switch device in the future?)
+> > Having a dedicated "switch" binding makes this consistent and easy
+> > (port0 will always have the end-point for the switch).
+> >
+> > While there may be more than 1 valid approach here, I believe the
+> > current one is appropriate.
+>
+> To put it simply, if you want to define a generic binding, I want to see
+> at least 2 users of it. What I really want to see is someone looking at
+> all the Type-C related bindings and h/w possibilities, not just 1
+> problem or their own h/w. IOW, a Type-C binding czar.
 
--- 
-Best regards,
+As I mentioned above, the typec-switch binding is generic enough to allow usage
+by other hardware. I can think of at least 1 example which could
+utilize this switch-binding [1], but I'd defer to the maintainer
+of that binding to adopt the changes or not.
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+[1] https://elixir.bootlin.com/linux/v5.19-rc2/source/Documentation/devicetree/bindings/usb/fcs,fsa4480.yaml
 
+Thanks,
+
+>
+> Rob
