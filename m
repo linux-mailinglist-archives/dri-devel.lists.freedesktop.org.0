@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E1554DBE2
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 09:36:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6917354DC08
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 09:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0C1C10EC9C;
-	Thu, 16 Jun 2022 07:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4215310EFC0;
+	Thu, 16 Jun 2022 07:42:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9453210E199;
- Thu, 16 Jun 2022 07:35:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655364956; x=1686900956;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=tGxxL6Ozay1esf8g8lTKwUO8uO7QkHG2DiuqpgEUeWU=;
- b=U4cdI3dHgkthyxmKLHEGph5pSFUPv+rB9ezfzUvE/4ZAt8B2aJvOD45V
- svCtvNZbSgObJohs0w5f6GbWc8Fy1NagRAbCTyQJwgZ+u89iQ2FqZGSMK
- yDxhgEj+WoVWeQfIM4lSMFJ2MjnahCFEdlz6WQQwIMRI75RnA8Qd7MAvk
- fhvHDA8hjuA1/kS7RulFyApfyqtJIau19IZoYmCdkU7NwFJQB2JdHk0AP
- a+HIITbwhXwuZTfkSoQjdYy9Uq40Bwi7f+gOFF5l+KsCEYxDwp0D/I9c0
- HXcxiROZMlmr1XZpL+/MEIWU3puvnhmGh/spfcFxE+v2k0GG87E3f5WaM Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="340844770"
-X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; d="scan'208";a="340844770"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 00:35:55 -0700
-X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; d="scan'208";a="912048645"
-Received: from mstokes1-mobl.ger.corp.intel.com (HELO [10.213.198.82])
- ([10.213.198.82])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 00:35:51 -0700
-Message-ID: <8b9ae441-a291-fe45-ceac-be8c211a4f73@linux.intel.com>
-Date: Thu, 16 Jun 2022 08:35:49 +0100
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBE9210EFC0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 07:42:02 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id q11so948459oih.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 00:42:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=K1qaur0XpbMxeFbDS5W87YOBUiUaAflQIADLDQn7Ujs=;
+ b=m8Gps9LsbxAYdtCBGKNo2enla/9DKTViETZQMmsW8myE1vng5QgQ/gHEUDoqu8pINF
+ j2znEdpDVeJjQTBmg7n+22gbjzHnPGB1tBxwont1Np8/Kmk1GuKWEEa3Af/ha8PXADZm
+ iz95PcviZ/d4/dOo3iDtd3YbIXumoCuMr4XFI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=K1qaur0XpbMxeFbDS5W87YOBUiUaAflQIADLDQn7Ujs=;
+ b=X78JVYZsAcprQCixSWKQeeFtUvRKI03ZwrzwXm/adqXkMEUyHwK2UsFLCxAY7wq53p
+ dOrNNabbepVecIP1KxfZ2vjwxWDl2E8VX4/iyg+FD7iG/86A4DUUVNfiFi87LVZsW8xn
+ tsImMaW0nMCBn/yR/4dIatAfnM3VN5UVrUzxemd+kqDHET7cGvVM7wX4xSURcLSqqBn4
+ 1usxOFTaNpvgLXTf4nDfE0Ypsr+eQ/6LfqgP/SbWcS2pMmNEiM5h+A6m93lR8svaS+xn
+ rPCOwjPNtfPBfGj9HRr9LUtMRyBGVQlw03rrcpr/QCTLzdtvB/1tIAaaHQDztl8cdvc4
+ gBMg==
+X-Gm-Message-State: AJIora92lPnn0zn01n35GNYg2hGQbVNNlTYWD4f7GCJ/r/+TQFoH+F/w
+ Lhf2yi+SkFU65G/FHjP+uDIdK0v07lshCyW7ndcAnw==
+X-Google-Smtp-Source: AGRyM1s9MtjEOO5rLMeoWiFwOBdRlYnoeT78XqlzfIUIJenUnulANnCxO4vINozshjIORVaM6OXEEOonvijl0t9yjF8=
+X-Received: by 2002:a05:6808:e87:b0:32e:4789:d2c with SMTP id
+ k7-20020a0568080e8700b0032e47890d2cmr1789833oil.193.1655365322078; Thu, 16
+ Jun 2022 00:42:02 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 16 Jun 2022 00:42:01 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 5/6] drm/i915/gt: Serialize GRDOM access between multiple
- engine resets
-Content-Language: en-US
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <cover.1655306128.git.mchehab@kernel.org>
- <5ee647f243a774927ec328bfca8212abc4957909.1655306128.git.mchehab@kernel.org>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <5ee647f243a774927ec328bfca8212abc4957909.1655306128.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220615172129.1314056-5-pmalani@chromium.org>
+References: <20220615172129.1314056-1-pmalani@chromium.org>
+ <20220615172129.1314056-5-pmalani@chromium.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 16 Jun 2022 00:42:01 -0700
+Message-ID: <CAE-0n53ub30HXB325wPoMB4C3n4j_9FWnNu5AmtYgU3PBvs8mQ@mail.gmail.com>
+Subject: Re: [PATCH v4 4/7] dt-bindings: drm/bridge: anx7625: Add mode-switch
+ support
+To: Prashant Malani <pmalani@chromium.org>, linux-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,143 +66,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Fei Yang <fei.yang@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Chris Wilson <chris.p.wilson@intel.com>, Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Andi Shyti <andi.shyti@intel.com>, intel-gfx@lists.freedesktop.org,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, mauro.chehab@linux.intel.com,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Bruce Chang <yu.bruce.chang@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>
+Cc: heikki.krogerus@linux.intel.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Pin-Yen Lin <treapking@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robert Foss <robert.foss@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Quoting Prashant Malani (2022-06-15 10:20:20)
+>
+>  .../display/bridge/analogix,anx7625.yaml      | 64 +++++++++++++++++++
+>  1 file changed, 64 insertions(+)
 
-On 15/06/2022 16:27, Mauro Carvalho Chehab wrote:
-> From: Chris Wilson <chris.p.wilson@intel.com>
-> 
-> Don't allow two engines to be reset in parallel, as they would both
-> try to select a reset bit (and send requests to common registers)
-> and wait on that register, at the same time. Serialize control of
-> the reset requests/acks using the uncore->lock, which will also ensure
-> that no other GT state changes at the same time as the actual reset.
-> 
-> Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")
+Can this file get a link to the product brief[1]? It helps to quickly
+find the block diagram.
 
-Ah okay I get it, the fixes tag was applied indiscriminately to the 
-whole series. :) It definitely does not belong in this patch.
-
-Otherwise LGTM:
-
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
-Regards,
-
-Tvrtko
-
-> Reported-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> Cc: Andi Shyti <andi.shyti@intel.com>
-> Cc: stable@vger.kernel.org
-> Acked-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
-> 
-> See [PATCH 0/6] at: https://lore.kernel.org/all/cover.1655306128.git.mchehab@kernel.org/
-> 
->   drivers/gpu/drm/i915/gt/intel_reset.c | 37 ++++++++++++++++++++-------
->   1 file changed, 28 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
-> index a5338c3fde7a..c68d36fb5bbd 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
-> @@ -300,9 +300,9 @@ static int gen6_hw_domain_reset(struct intel_gt *gt, u32 hw_domain_mask)
->   	return err;
->   }
->   
-> -static int gen6_reset_engines(struct intel_gt *gt,
-> -			      intel_engine_mask_t engine_mask,
-> -			      unsigned int retry)
-> +static int __gen6_reset_engines(struct intel_gt *gt,
-> +				intel_engine_mask_t engine_mask,
-> +				unsigned int retry)
->   {
->   	struct intel_engine_cs *engine;
->   	u32 hw_mask;
-> @@ -321,6 +321,20 @@ static int gen6_reset_engines(struct intel_gt *gt,
->   	return gen6_hw_domain_reset(gt, hw_mask);
->   }
->   
-> +static int gen6_reset_engines(struct intel_gt *gt,
-> +			      intel_engine_mask_t engine_mask,
-> +			      unsigned int retry)
-> +{
-> +	unsigned long flags;
-> +	int ret;
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> index 35a48515836e..bc6f7644db31 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> @@ -105,6 +105,34 @@ properties:
+>        - port@0
+>        - port@1
+>
+> +  switches:
+> +    type: object
+> +    description: Set of switches controlling DisplayPort traffic on
+> +      outgoing RX/TX lanes to Type C ports.
+> +    additionalProperties: false
 > +
-> +	spin_lock_irqsave(&gt->uncore->lock, flags);
-> +	ret = __gen6_reset_engines(gt, engine_mask, retry);
-> +	spin_unlock_irqrestore(&gt->uncore->lock, flags);
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
 > +
-> +	return ret;
-> +}
+> +      '#size-cells':
+> +        const: 0
 > +
->   static struct intel_engine_cs *find_sfc_paired_vecs_engine(struct intel_engine_cs *engine)
->   {
->   	int vecs_id;
-> @@ -487,9 +501,9 @@ static void gen11_unlock_sfc(struct intel_engine_cs *engine)
->   	rmw_clear_fw(uncore, sfc_lock.lock_reg, sfc_lock.lock_bit);
->   }
->   
-> -static int gen11_reset_engines(struct intel_gt *gt,
-> -			       intel_engine_mask_t engine_mask,
-> -			       unsigned int retry)
-> +static int __gen11_reset_engines(struct intel_gt *gt,
-> +				 intel_engine_mask_t engine_mask,
-> +				 unsigned int retry)
->   {
->   	struct intel_engine_cs *engine;
->   	intel_engine_mask_t tmp;
-> @@ -583,8 +597,11 @@ static int gen8_reset_engines(struct intel_gt *gt,
->   	struct intel_engine_cs *engine;
->   	const bool reset_non_ready = retry >= 1;
->   	intel_engine_mask_t tmp;
-> +	unsigned long flags;
->   	int ret;
->   
-> +	spin_lock_irqsave(&gt->uncore->lock, flags);
+> +    patternProperties:
+> +      '^switch@[01]$':
+> +        $ref: /schemas/usb/typec-switch.yaml#
+> +        unevaluatedProperties: false
 > +
->   	for_each_engine_masked(engine, gt, engine_mask, tmp) {
->   		ret = gen8_engine_reset_prepare(engine);
->   		if (ret && !reset_non_ready)
-> @@ -612,17 +629,19 @@ static int gen8_reset_engines(struct intel_gt *gt,
->   	 * This is best effort, so ignore any error from the initial reset.
->   	 */
->   	if (IS_DG2(gt->i915) && engine_mask == ALL_ENGINES)
-> -		gen11_reset_engines(gt, gt->info.engine_mask, 0);
-> +		__gen11_reset_engines(gt, gt->info.engine_mask, 0);
->   
->   	if (GRAPHICS_VER(gt->i915) >= 11)
-> -		ret = gen11_reset_engines(gt, engine_mask, retry);
-> +		ret = __gen11_reset_engines(gt, engine_mask, retry);
->   	else
-> -		ret = gen6_reset_engines(gt, engine_mask, retry);
-> +		ret = __gen6_reset_engines(gt, engine_mask, retry);
->   
->   skip_reset:
->   	for_each_engine_masked(engine, gt, engine_mask, tmp)
->   		gen8_engine_reset_cancel(engine);
->   
-> +	spin_unlock_irqrestore(&gt->uncore->lock, flags);
+> +        properties:
+> +          reg:
+> +            maxItems: 1
 > +
->   	return ret;
->   }
->   
+> +        required:
+> +          - reg
+> +
+> +    required:
+> +      - switch@0
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -167,5 +195,41 @@ examples:
+>                      };
+>                  };
+>              };
+> +            switches {
+
+Is "switches" a bus?
+
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                switch@0 {
+> +                    compatible = "typec-switch";
+
+Is this compatible matched against a driver that's populated on this
+"switches" bus?
+
+> +                    reg = <0>;
+> +                    mode-switch;
+> +
+> +                    ports {
+> +                        #address-cells = <1>;
+> +                        #size-cells = <0>;
+> +                        port@0 {
+> +                            reg = <0>;
+> +                            anx_typec0: endpoint {
+> +                                remote-endpoint = <&typec_port0>;
+> +                            };
+> +                        };
+> +                    };
+
+I was expecting to see these simply be more ports in the existing graph
+binding of this device, and then have the 'mode-switch' or
+'orientation-switch' properties be at the same level as the compatible
+string "analogix,anx7625". Here's the reasoning, based on looking at the
+product brief and the existing binding/implementation.
+
+Looking at the only existing implementation of this binding upstream in
+mt8183-kukui-jacuzzi.dtsi it looks like one of these typec ports is
+actually the same physically as the 'anx7625_out' endpoint (reg address
+of 1) that is already defined in the binding. It seems that MIPI DSI/DPI
+comes in and is output through 2 lanes, SSRX2 and SSTX2 according to the
+product brief[1], and that is connected to some eDP panel
+("auo,b116xw03"). Presumably that is the same as anx_typec1 in this
+patch? I suspect the USB3.1 input is not connected on this board, and
+thus the crosspoint switch is never used, nor the SSRX1/SSTX1 pins.
+
+The existing binding defines the MIPI DSI/DPI input as port0 and two of
+the four lanes of output that is probably by default connected to the
+"DisplayPort Transmitter" as port1 because that's how the crosspoint
+switch comes out of reset. That leaves the USB3.1 input possibly needing
+a port in the ports binding, and the other two lanes of output needing a
+port in the ports binding to describe their connection to the downstream
+device. And finally information about if the crosspoint switch needs to
+be registered with the typec framework to do typec things, which can be
+achieved by the presence of the 'mode-switch' property.
+
+On a board like kukui-jacuzzi these new properties and ports wouldn't be
+specified, because what is there is already sufficient. If this chip is
+connected to a usb-c-connector then I'd expect to see a connection from
+the output ports in the graph binding to the connector node's ports.
+There aren't any ports in the usb-c-connector binding though from what I
+see.
+
+I believe there's also one more use case here where USB3.1 or MIPI
+DSI/DPI is connected on the input side and this device is used to steer
+USB3.1 or DP through the crosspoint switch to either of the two output
+pairs. This last scenario means that we have to describe both output
+pairs, SSRX1/SSTX1 and SSRX2/SSTX2, as different ports in the binding so
+they can be connected to different usb-c-connectors if the hardware
+engineer wired the output pins that way.
+
+TL;DR: Can we add 'mode-switch' as an optional property and two more
+ports at address 2 and 3 for the USB3.1 input and the SSRX1/SSTX1 pair
+respectively to the existing graph part of this binding?
+
+> +                };
+> +                switch@1 {
+> +                    compatible = "typec-switch";
+> +                    reg = <1>;
+> +                    mode-switch;
+> +
+> +                    ports {
+> +                        #address-cells = <1>;
+> +                        #size-cells = <0>;
+> +                        port@0 {
+> +                            reg = <0>;
+> +                            anx_typec1: endpoint {
+> +                                remote-endpoint = <&typec_port1>;
+> +                            };
+> +                        };
+> +                    };
+> +                };
+> +            };
+>          };
+
+[1] https://www.analogix.com/en/system/files/AA-002291-PB-6-ANX7625_ProductBrief.pdf
