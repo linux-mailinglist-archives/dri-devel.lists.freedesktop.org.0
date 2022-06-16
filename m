@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF90754E06B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 14:01:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7A954E06D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 14:01:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D52011A4AC;
-	Thu, 16 Jun 2022 12:01:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81E2611A4B5;
+	Thu, 16 Jun 2022 12:01:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE88211A4AC;
- Thu, 16 Jun 2022 12:01:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16F6A11A4AE;
+ Thu, 16 Jun 2022 12:01:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655380890; x=1686916890;
+ t=1655380893; x=1686916893;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=KyeKOIb9ToFUz0oO+c4cuz+Em5bBHZji6YQ4o1dfiy4=;
- b=HMCBPEzT3SJNhCe7rbSrMfCGz8eIvs9jq+y2Oz21w1KBH44PyobIV6A0
- U+kuNzoEOCiDWWTCrRkPw3AuJPYLuvq0zVERezPqxzzD+yUpL9MqXXE2Q
- E43C1yF9Sl2c6mCtJSpnVKydLaNPFa4VPRae04PsAOqrH7tRm9SOIvHjc
- DHgHzhmqU0baz74wi63/KNnOwD9KUYmcRMTjLcF7+f20RHt6a571+9nRs
- nTBkWxzeHDLIQOhFmQagCBtiXS6N26+B9RdkZit9v17tjSGstr7USZjpd
- 9fhnYCYi1wD0azfmr44K+sGDRB473V4sGqkF6YYyqYJoB1PTUaJ2ETEKI Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="343189568"
-X-IronPort-AV: E=Sophos;i="5.91,305,1647327600"; d="scan'208";a="343189568"
+ bh=X69ketEy+PBI2ThrySQWbAyCa9sAMtjMWIpV7nJLeEw=;
+ b=c3/YlTfRlslA2gQ+XE4vLmgxVZWJl8Od07gVNOc30Vrgn9RKOOFaCcwH
+ Yftj0qLt1Mi8psN95w1+G3aYb1nA8oxoubxKmzDr/bvIothm0fZVm6kaD
+ nDI3oNk0XSs3JTWdjFCl6cNhQFjGRxjCIBh8rIaAVaZ0YhfTByzFP/5iq
+ v6GNV5i51whC8XmoOL2sIyzcRhdk1Dy8CDMefzoIdI5keMAPzQHWaCjkT
+ CDYqFd8qUrXVVfeSTG/I/srMwDhX4fCs5h4EMRPMHuaefyjXzvUKB8w60
+ tM4wBYi7wAfx7t/vxP7Sy12PQUyJWSBqgQnGDUjYqJC5liy88bwKae9HD g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="343189582"
+X-IronPort-AV: E=Sophos;i="5.91,305,1647327600"; d="scan'208";a="343189582"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 05:01:29 -0700
-X-IronPort-AV: E=Sophos;i="5.91,305,1647327600"; d="scan'208";a="713330880"
+ 16 Jun 2022 05:01:32 -0700
+X-IronPort-AV: E=Sophos;i="5.91,305,1647327600"; d="scan'208";a="713330894"
 Received: from srr4-3-linux-105-anshuma1.iind.intel.com ([10.223.74.179])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 05:01:26 -0700
+ 16 Jun 2022 05:01:30 -0700
 From: Anshuman Gupta <anshuman.gupta@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/9] drm/i915/dg1: OpRegion PCON DG1 MBD config support
-Date: Thu, 16 Jun 2022 17:30:59 +0530
-Message-Id: <20220616120106.24353-3-anshuman.gupta@intel.com>
+Subject: [PATCH v2 3/9] drm/i915/dg2: Add DG2_NB_MBD subplatform
+Date: Thu, 16 Jun 2022 17:31:00 +0530
+Message-Id: <20220616120106.24353-4-anshuman.gupta@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20220616120106.24353-1-anshuman.gupta@intel.com>
 References: <20220616120106.24353-1-anshuman.gupta@intel.com>
@@ -57,120 +57,163 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: tilak.tangudu@intel.com, tvrtko.ursulin@intel.com,
- Jani Nikula <jani.nikula@intel.com>, Anshuman Gupta <anshuman.gupta@intel.com>,
- jon.ewins@intel.com, badal.nilawar@intel.com, rodrigo.vivi@intel.com
+ Anshuman Gupta <anshuman.gupta@intel.com>, jon.ewins@intel.com,
+ badal.nilawar@intel.com, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DGFX cards support both Add in Card(AIC) and Mother Board Down(MBD)
-configs. MBD config requires HOST BIOS GPIO toggling support
-in order to enable/disable VRAM SR using ACPI OpRegion.
+DG2 NB SKU need to distinguish between MBD and AIC to probe
+the VRAM Self Refresh feature support. Adding those sub platform
+accordingly.
 
-i915 requires to check OpRegion PCON MBD Config bits to
-discover whether Gfx Card is MBD config before enabling
-VRSR.
-
-BSpec: 53440
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Matt Roper <matthew.d.roper@intel.com>
 Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_opregion.c | 43 +++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_opregion.h |  6 +++
- 2 files changed, 49 insertions(+)
+ drivers/gpu/drm/i915/i915_drv.h          |  3 +++
+ drivers/gpu/drm/i915/intel_device_info.c | 21 +++++++++++++++++++++
+ drivers/gpu/drm/i915/intel_device_info.h | 11 +++++++----
+ include/drm/i915_pciids.h                | 23 ++++++++++++++++-------
+ 4 files changed, 47 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
-index 11d8c5bb23ac..c8cdcde89dfc 100644
---- a/drivers/gpu/drm/i915/display/intel_opregion.c
-+++ b/drivers/gpu/drm/i915/display/intel_opregion.c
-@@ -53,6 +53,8 @@
- #define MBOX_ASLE_EXT		BIT(4)	/* Mailbox #5 */
- #define MBOX_BACKLIGHT		BIT(5)	/* Mailbox #2 (valid from v3.x) */
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index a5bc6a774c5a..f1f8699eedfd 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1007,10 +1007,13 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+ #define IS_PONTEVECCHIO(dev_priv) IS_PLATFORM(dev_priv, INTEL_PONTEVECCHIO)
  
-+#define PCON_DG1_MBD_CONFIG				BIT(9)
-+#define PCON_DG1_MBD_CONFIG_FIELD_VALID			BIT(10)
- #define PCON_DGFX_BIOS_SUPPORTS_VRSR			BIT(11)
- #define PCON_DGFX_BIOS_SUPPORTS_VRSR_FIELD_VALID	BIT(12)
- #define PCON_HEADLESS_SKU	BIT(13)
-@@ -1255,6 +1257,44 @@ void intel_opregion_unregister(struct drm_i915_private *i915)
- 	opregion->lid_state = NULL;
- }
+ #define IS_DG2_G10(dev_priv) \
++	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G10_NB_MBD) || \
+ 	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G10)
+ #define IS_DG2_G11(dev_priv) \
++	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G11_NB_MBD) || \
+ 	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G11)
+ #define IS_DG2_G12(dev_priv) \
++	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G12_NB_MBD) || \
+ 	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G12)
+ #define IS_ADLS_RPLS(dev_priv) \
+ 	IS_SUBPLATFORM(dev_priv, INTEL_ALDERLAKE_S, INTEL_SUBPLATFORM_RPL)
+diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+index f0bf23726ed8..93da555adc4e 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.c
++++ b/drivers/gpu/drm/i915/intel_device_info.c
+@@ -187,6 +187,18 @@ static const u16 subplatform_rpl_ids[] = {
+ 	INTEL_RPLP_IDS(0),
+ };
  
-+static bool intel_opregion_dg1_mbd_config(struct drm_i915_private *i915)
-+{
-+	struct intel_opregion *opregion = &i915->opregion;
++static const u16 subplatform_g10_mb_mbd_ids[] = {
++	INTEL_DG2_G10_NB_MBD_IDS(0),
++};
 +
-+	if (!IS_DG1(i915))
-+		return false;
++static const u16 subplatform_g11_mb_mbd_ids[] = {
++	INTEL_DG2_G11_NB_MBD_IDS(0),
++};
 +
-+	if (!opregion)
-+		return false;
++static const u16 subplatform_g12_mb_mbd_ids[] = {
++	INTEL_DG2_G12_NB_MBD_IDS(0),
++};
 +
-+	if (opregion->header->pcon & PCON_DG1_MBD_CONFIG_FIELD_VALID)
-+		return opregion->header->pcon & PCON_DG1_MBD_CONFIG;
-+	else
-+		return false;
-+}
-+
-+/**
-+ * intel_opregion_vram_sr_required().
-+ * @i915 i915 device priv data.
-+ *
-+ * It checks whether a DGFX card is Mother Board Down config depending
-+ * on respective discrete platform.
-+ *
-+ * Returns:
-+ * It returns a boolean whether opregion vram_sr support is required.
-+ */
-+bool
-+intel_opregion_vram_sr_required(struct drm_i915_private *i915)
-+{
-+	if (!IS_DGFX(i915))
-+		return false;
-+
-+	if (IS_DG1(i915))
-+		return intel_opregion_dg1_mbd_config(i915);
-+
-+	return false;
-+}
-+
- /**
-  * intel_opregion_bios_supports_vram_sr() get HOST BIOS VRAM Self
-  * Refresh capability support.
-@@ -1298,6 +1338,9 @@ void intel_opregion_vram_sr(struct drm_i915_private *i915, bool enable)
- 	if (!opregion)
- 		return;
+ static const u16 subplatform_g10_ids[] = {
+ 	INTEL_DG2_G10_IDS(0),
+ 	INTEL_ATS_M150_IDS(0),
+@@ -246,6 +258,15 @@ void intel_device_info_subplatform_init(struct drm_i915_private *i915)
+ 	} else if (find_devid(devid, subplatform_rpl_ids,
+ 			      ARRAY_SIZE(subplatform_rpl_ids))) {
+ 		mask = BIT(INTEL_SUBPLATFORM_RPL);
++	} else if (find_devid(devid, subplatform_g10_mb_mbd_ids,
++			      ARRAY_SIZE(subplatform_g10_mb_mbd_ids))) {
++		mask = BIT(INTEL_SUBPLATFORM_G10_NB_MBD);
++	} else if (find_devid(devid, subplatform_g11_mb_mbd_ids,
++			      ARRAY_SIZE(subplatform_g11_mb_mbd_ids))) {
++		mask = BIT(INTEL_SUBPLATFORM_G11_NB_MBD);
++	} else if (find_devid(devid, subplatform_g12_mb_mbd_ids,
++			      ARRAY_SIZE(subplatform_g12_mb_mbd_ids))) {
++		mask = BIT(INTEL_SUBPLATFORM_G12_NB_MBD);
+ 	} else if (find_devid(devid, subplatform_g10_ids,
+ 			      ARRAY_SIZE(subplatform_g10_ids))) {
+ 		mask = BIT(INTEL_SUBPLATFORM_G10);
+diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+index 08341174ee0a..c929e2d7e59c 100644
+--- a/drivers/gpu/drm/i915/intel_device_info.h
++++ b/drivers/gpu/drm/i915/intel_device_info.h
+@@ -97,7 +97,7 @@ enum intel_platform {
+  * it is fine for the same bit to be used on multiple parent platforms.
+  */
  
-+	if (!intel_opregion_vram_sr_required(i915))
-+		return;
+-#define INTEL_SUBPLATFORM_BITS (3)
++#define INTEL_SUBPLATFORM_BITS (6)
+ #define INTEL_SUBPLATFORM_MASK (BIT(INTEL_SUBPLATFORM_BITS) - 1)
+ 
+ /* HSW/BDW/SKL/KBL/CFL */
+@@ -111,9 +111,12 @@ enum intel_platform {
+ #define INTEL_SUBPLATFORM_UY	(0)
+ 
+ /* DG2 */
+-#define INTEL_SUBPLATFORM_G10	0
+-#define INTEL_SUBPLATFORM_G11	1
+-#define INTEL_SUBPLATFORM_G12	2
++#define INTEL_SUBPLATFORM_G10_NB_MBD	0
++#define INTEL_SUBPLATFORM_G11_NB_MBD	1
++#define INTEL_SUBPLATFORM_G12_NB_MBD	2
++#define INTEL_SUBPLATFORM_G10	3
++#define INTEL_SUBPLATFORM_G11	4
++#define INTEL_SUBPLATFORM_G12	5
+ 
+ /* ADL */
+ #define INTEL_SUBPLATFORM_RPL	0
+diff --git a/include/drm/i915_pciids.h b/include/drm/i915_pciids.h
+index 4585fed4e41e..198be417bb2d 100644
+--- a/include/drm/i915_pciids.h
++++ b/include/drm/i915_pciids.h
+@@ -693,32 +693,41 @@
+ 	INTEL_VGA_DEVICE(0xA7A9, info)
+ 
+ /* DG2 */
+-#define INTEL_DG2_G10_IDS(info) \
++#define INTEL_DG2_G10_NB_MBD_IDS(info) \
+ 	INTEL_VGA_DEVICE(0x5690, info), \
+ 	INTEL_VGA_DEVICE(0x5691, info), \
+-	INTEL_VGA_DEVICE(0x5692, info), \
++	INTEL_VGA_DEVICE(0x5692, info)
 +
- 	if (drm_WARN(&i915->drm, !opregion->asle, "ASLE MAILBOX3 is not available\n"))
- 		return;
- 
-diff --git a/drivers/gpu/drm/i915/display/intel_opregion.h b/drivers/gpu/drm/i915/display/intel_opregion.h
-index 73c9d81d5ee6..ad40c97f9565 100644
---- a/drivers/gpu/drm/i915/display/intel_opregion.h
-+++ b/drivers/gpu/drm/i915/display/intel_opregion.h
-@@ -77,6 +77,7 @@ int intel_opregion_get_panel_type(struct drm_i915_private *dev_priv);
- struct edid *intel_opregion_get_edid(struct intel_connector *connector);
- bool intel_opregion_bios_supports_vram_sr(struct drm_i915_private *i915);
- void intel_opregion_vram_sr(struct drm_i915_private *i915, bool enable);
-+bool intel_opregion_vram_sr_required(struct drm_i915_private *i915);
- 
- bool intel_opregion_headless_sku(struct drm_i915_private *i915);
- 
-@@ -145,6 +146,11 @@ static void intel_opregion_vram_sr(struct drm_i915_private *i915, bool enable)
- {
- }
- 
-+static bool intel_opregion_vram_sr_required(struct drm_i915_private *i915)
-+{
-+	return false;
-+}
++#define INTEL_DG2_G11_NB_MBD_IDS(info) \
++	INTEL_VGA_DEVICE(0x5693, info), \
++	INTEL_VGA_DEVICE(0x5694, info), \
++	INTEL_VGA_DEVICE(0x5695, info)
 +
- #endif /* CONFIG_ACPI */
++#define INTEL_DG2_G12_NB_MBD_IDS(info) \
++	INTEL_VGA_DEVICE(0x5696, info), \
++	INTEL_VGA_DEVICE(0x5697, info)
++
++#define INTEL_DG2_G10_IDS(info) \
+ 	INTEL_VGA_DEVICE(0x56A0, info), \
+ 	INTEL_VGA_DEVICE(0x56A1, info), \
+ 	INTEL_VGA_DEVICE(0x56A2, info)
  
- #endif
+ #define INTEL_DG2_G11_IDS(info) \
+-	INTEL_VGA_DEVICE(0x5693, info), \
+-	INTEL_VGA_DEVICE(0x5694, info), \
+-	INTEL_VGA_DEVICE(0x5695, info), \
+ 	INTEL_VGA_DEVICE(0x56A5, info), \
+ 	INTEL_VGA_DEVICE(0x56A6, info), \
+ 	INTEL_VGA_DEVICE(0x56B0, info), \
+ 	INTEL_VGA_DEVICE(0x56B1, info)
+ 
+ #define INTEL_DG2_G12_IDS(info) \
+-	INTEL_VGA_DEVICE(0x5696, info), \
+-	INTEL_VGA_DEVICE(0x5697, info), \
+ 	INTEL_VGA_DEVICE(0x56A3, info), \
+ 	INTEL_VGA_DEVICE(0x56A4, info), \
+ 	INTEL_VGA_DEVICE(0x56B2, info), \
+ 	INTEL_VGA_DEVICE(0x56B3, info)
+ 
+ #define INTEL_DG2_IDS(info) \
++	INTEL_DG2_G10_NB_MBD_IDS(info), \
++	INTEL_DG2_G11_NB_MBD_IDS(info), \
++	INTEL_DG2_G12_NB_MBD_IDS(info), \
+ 	INTEL_DG2_G10_IDS(info), \
+ 	INTEL_DG2_G11_IDS(info), \
+ 	INTEL_DG2_G12_IDS(info)
 -- 
 2.26.2
 
