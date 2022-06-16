@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2CE54E35F
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 16:28:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE9654E36A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 16:30:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C074113394;
-	Thu, 16 Jun 2022 14:28:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 071621126B1;
+	Thu, 16 Jun 2022 14:30:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C0381138B1;
- Thu, 16 Jun 2022 14:28:26 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE08610E357;
+ Thu, 16 Jun 2022 14:30:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655389706; x=1686925706;
+ t=1655389821; x=1686925821;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=HZ0/nwgilSFRfdxCWum9PEcybBk2PqNuyIc2YGAP9N4=;
- b=KCpOlIdSX9uuE5KWTMNXuM5oIN3BBA4kTUl4jUYP0bRr3C3LNF66HINz
- lR+V+Csnw38CFNNZFPj+CzjfNYHqo8EUOwguMaJHJfxXuXxpXRRTgQg41
- okZdAlbeYYBv7GUDtN/bCtP0DjjKoaApTSBeEFc0dU9EvvGygyv/2anvU
- 1cXP/CyAp5doJII6skP7k240gL1Re9JItBJYdHhjucaok7JQ9jv7EpEPX
- 9vkY2IS95phd2acRHq8qfBaHoIs1x4c4uGf+xhcIfYa6YJGCfT226j/3f
- 8MGv/NTtmIUUiNXoSIFEOs6xiIVeS4pdTGQ4zAoGeGPM71uIPv1sJIDOI g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="259113150"
-X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; d="scan'208";a="259113150"
+ bh=J6v8J5QcgSyKWcIQxsj1OTlgv6v5a7w3ry5kyZmJgDs=;
+ b=XIsuuuupBM8I0ZH7k3H8pYBsjDwklrX2jsrm+GK/WFSsqbdClRGtomXR
+ JhQ5TAyjZO7iRshnxcSbhkJKRvcosOJabcnTbuLZONPgzdcIf9R+ctWNu
+ eBUA9YDihGbj2iFpTzg8ygEYkVHyDlmez2s/803dzl0QXZ4cJYBvrBHxU
+ UFQeEHuqjP0Wx387a2jbQOFyF99JBcXOwHX93N8xPXNxfEeQEysvxsWT8
+ tGky38FRruvtExPaFh/JmuRH9dHbzBWooogxJd13tU1aI0Mmd5R8k8o7V
+ fqcvGDk2EYj0PGOyEVORKPfsICpF+8UHeXlokxWkBYe/K9vmVvR52HJ6I w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="280293034"
+X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; d="scan'208";a="280293034"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 07:28:26 -0700
-X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; d="scan'208";a="641565632"
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 07:30:19 -0700
+X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; d="scan'208";a="641566330"
 Received: from aamendol-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.33.35])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 07:28:24 -0700
+ 16 Jun 2022 07:30:18 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Anshuman Gupta <anshuman.gupta@intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v2 9/9] drm/i915/rpm: d3cold Policy
-In-Reply-To: <20220616120106.24353-10-anshuman.gupta@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 8/9] drm/i915/xehpsdv: Store lmem region
+ in gt
+In-Reply-To: <20220616120106.24353-9-anshuman.gupta@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20220616120106.24353-1-anshuman.gupta@intel.com>
- <20220616120106.24353-10-anshuman.gupta@intel.com>
-Date: Thu, 16 Jun 2022 17:28:22 +0300
-Message-ID: <871qvowum1.fsf@intel.com>
+ <20220616120106.24353-9-anshuman.gupta@intel.com>
+Date: Thu, 16 Jun 2022 17:30:15 +0300
+Message-ID: <87y1xwvfyg.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,118 +59,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rodrigo.vivi@intel.com
+Cc: Andi Shyti <andi.shyti@intel.com>, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 16 Jun 2022, Anshuman Gupta <anshuman.gupta@intel.com> wrote:
-> Add d3cold_sr_lmem_threshold modparam to choose between
-> d3cold-off zero watt and d3cold-VRAM Self Refresh.
-> i915 requires to evict the lmem objects to smem in order to
-> support d3cold-Off.
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 >
-> If gfx root port is not capable of sending PME from d3cold
-> then i915 don't need to program d3cold-off/d3cold-vram_sr
-> sequence.
+> Store a pointer to respective local memory region in intel_gt so it can be
+> used when memory local to a GT needs to be allocated.
 >
-> FIXME: Eviction of lmem objects in case of D3Cold off is wip.
->
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Andi Shyti <andi.shyti@intel.com>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
 > ---
->  drivers/gpu/drm/i915/i915_driver.c | 27 ++++++++++++++++++++++++---
->  drivers/gpu/drm/i915/i915_params.c |  4 ++++
->  drivers/gpu/drm/i915/i915_params.h |  3 ++-
->  3 files changed, 30 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/i915/gt/intel_gt.c       | 1 +
+>  drivers/gpu/drm/i915/gt/intel_gt_types.h | 3 +++
+>  2 files changed, 4 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> index fcff5f3fe05e..aef4b17efdbe 100644
-> --- a/drivers/gpu/drm/i915/i915_driver.c
-> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> @@ -1560,15 +1560,36 @@ static int i915_pm_restore(struct device *kdev)
->  static int intel_runtime_idle(struct device *kdev)
->  {
->  	struct drm_i915_private *dev_priv = kdev_to_i915(kdev);
-> +	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
-> +	u64 lmem_total = to_gt(dev_priv)->lmem->total;
-> +	u64 lmem_avail = to_gt(dev_priv)->lmem->avail;
-> +	u64 lmem_used = lmem_total - lmem_avail;
-> +	struct pci_dev *root_pdev;
->  	int ret = 1;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index f33290358c51..7a535f670ae1 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -91,6 +91,7 @@ static int intel_gt_probe_lmem(struct intel_gt *gt)
+>  	GEM_BUG_ON(!HAS_REGION(i915, id));
+>  	GEM_BUG_ON(i915->mm.regions[id]);
+>  	i915->mm.regions[id] = mem;
+> +	gt->lmem = mem;
 >  
-> -	if (!HAS_LMEM_SR(dev_priv)) {
-> -		/*TODO: Prepare for D3Cold-Off */
-> +	root_pdev = pcie_find_root_port(pdev);
-> +	if (!root_pdev)
-> +		goto out;
-> +
-> +	if (!pci_pme_capable(root_pdev, PCI_D3cold))
->  		goto out;
-> -	}
->  
->  	disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
->  
-> +	if (lmem_used < dev_priv->params.d3cold_sr_lmem_threshold  * 1024 * 1024) {
-> +		drm_dbg(&dev_priv->drm, "Prepare for D3Cold off\n");
-> +		pci_d3cold_enable(root_pdev);
-> +		/* FIXME: Eviction of lmem objects and guc reset is wip */
-> +		intel_pm_vram_sr(dev_priv, false);
-> +		enable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
-> +		goto out;
-> +	} else if (!HAS_LMEM_SR(dev_priv)) {
-> +		/* Disable D3Cold to reduce the eviction latency */
-> +		pci_d3cold_disable(root_pdev);
-> +		enable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
-> +		goto out;
-> +	}
+>  	return 0;
+>  }
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> index df708802889d..cd7744eaaeaa 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+> @@ -23,6 +23,7 @@
+>  #include "intel_gt_buffer_pool_types.h"
+>  #include "intel_hwconfig.h"
+>  #include "intel_llc_types.h"
+> +#include "intel_memory_region.h"
 
-This is *way* too low level code for such high level function. This
-needs to be abstracted better.
-
-> +
->  	ret = intel_pm_vram_sr(dev_priv, true);
->  	if (!ret)
->  		drm_dbg(&dev_priv->drm, "VRAM Self Refresh enabled\n");
-> diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
-> index 701fbc98afa0..6c6b3c372d4d 100644
-> --- a/drivers/gpu/drm/i915/i915_params.c
-> +++ b/drivers/gpu/drm/i915/i915_params.c
-> @@ -197,6 +197,10 @@ i915_param_named(enable_gvt, bool, 0400,
->  	"Enable support for Intel GVT-g graphics virtualization host support(default:false)");
->  #endif
->  
-> +i915_param_named_unsafe(d3cold_sr_lmem_threshold, int, 0400,
-> +	"Enable Vidoe RAM Self refresh when size of lmem is greater to this threshold. "
-> +	"It helps to optimize the suspend/resume latecy. (default: 300mb)");
-> +
->  #if CONFIG_DRM_I915_REQUEST_TIMEOUT
->  i915_param_named_unsafe(request_timeout_ms, uint, 0600,
->  			"Default request/fence/batch buffer expiration timeout.");
-> diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
-> index b5e7ea45d191..28f20ebaf41f 100644
-> --- a/drivers/gpu/drm/i915/i915_params.h
-> +++ b/drivers/gpu/drm/i915/i915_params.h
-> @@ -83,7 +83,8 @@ struct drm_printer;
->  	param(bool, verbose_state_checks, true, 0) \
->  	param(bool, nuclear_pageflip, false, 0400) \
->  	param(bool, enable_dp_mst, true, 0600) \
-> -	param(bool, enable_gvt, false, IS_ENABLED(CONFIG_DRM_I915_GVT) ? 0400 : 0)
-> +	param(bool, enable_gvt, false, IS_ENABLED(CONFIG_DRM_I915_GVT) ? 0400 : 0) \
-> +	param(int, d3cold_sr_lmem_threshold, 300, 0600) \
-
-What's the point of the parameter?
-
-Also, please read the comment /* leave bools at the end to not create
-holes */ above.
-
+Please never add includes in headers when a forward declaration is
+sufficient. I'm spending a lot of time trying to reduce the include
+dependencies we have.
 
 BR,
 Jani.
 
-
+>  #include "intel_reset_types.h"
+>  #include "intel_rc6_types.h"
+>  #include "intel_rps_types.h"
+> @@ -202,6 +203,8 @@ struct intel_gt {
+>  	 */
+>  	phys_addr_t phys_addr;
 >  
->  #define MEMBER(T, member, ...) T member;
->  struct i915_params {
+> +	struct intel_memory_region *lmem;
+> +
+>  	struct intel_gt_info {
+>  		unsigned int id;
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
