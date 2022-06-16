@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F9754DC56
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 09:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3D354DC5C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 09:59:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D84B710EB09;
-	Thu, 16 Jun 2022 07:59:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78CEE10FBA8;
+	Thu, 16 Jun 2022 07:59:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6161A10FA47
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 07:59:50 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id w20so988670lfa.11
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 00:59:50 -0700 (PDT)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DBCF10FBA8
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 07:59:51 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id h23so1015181lfe.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 00:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=iwGmgmKFpnWtCg/l55Syhv88dKbAgAVzY6JbHekH/bM=;
- b=R6yYKIz2gRn/9XFnfJ6HAeSMHE/8mqsxA9v30IH5IMAq0K++b1MK3dXPzv5/VpnALg
- GIn2vJuwHOhZ0glWMi1lbZyh2FuJEYLlt8u7x3w4WdP48EbLgDVqoNDjrLhozwPCPT2S
- YJKxE1Uh642O0+IJLViPp0Xdokds1+OgUrOBmOb+efaky50JigRWdsO+/EKZdB37PxD6
- 3yxoNg60N8W3YGPML9iXHRWSEfvLnsmhGKytCT4u8tOENinT4Fv4p6Hiq3tFyKmjzu3k
- 0fGxJqmUkYzb0XNvJyCqH0r+bJYLxsT/sNybTKOnjBVVUzlZe1cPR9oU9VxmcK1jxwb0
- r0cw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=pK63Gcracvx3JbDdqH695RF+R5AO+vccoaxrk2U/rT0=;
+ b=ulfzvg9gGWWYXDoIVd4DDhUq5mL/v79PzsN5xF5oXtvlndr9LBXuSMvSDXxYqusdcs
+ 0gVi8Idoz7oTS845qmfQ5AepB7lXVRMrNeM0lUk4bGPvdA4rByBJGWGpK0rS1i9gmXdV
+ JDMLDVG2BHO1Nbo59WpJh4O7loVbpnLGSbvNOYIll+IZ5Agl42wyl6GBcA/X/D7QLZYo
+ T/ZiQALG+qtImAS6Hk5FnnaJ/OMGtDmdjZP0wkBeE4T5ND9junO6+jLSCji0bW7cDIJm
+ 8CP+M+xfM6tgjZD+rIBtek25WdnHXZTjZKg1bB3XKKW6aRvlJVEPmvWR8JQu04mLtOd0
+ qpPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=iwGmgmKFpnWtCg/l55Syhv88dKbAgAVzY6JbHekH/bM=;
- b=tkjY16m1osqgCVtVLZEcZCFHYkozbVLyPd1vWkUgeGihfl7XTt0kBZeI8sgbjXCKYL
- u2pOKQPqizMXUyZH+bDapkfgmnhB5FcPUwiw1AygRoYswbk1qYpxW2ea5Ww0ujsHll6p
- CkNM2hpzFBEwqgEVb2lgUz1luV+jmwZt41EFZUioi0h6BUJCOlGLKqw/BeG2NLKtslvl
- SlyjBDo5GcN0HQxHJaFK/taYzc6OaMGi7W6tINnTfXSma7ll36bVxtpN/ZbAu8+QEv0R
- L9ifEnzXZp0aU3st5mP0z6/TGLckoAv548R9I+/nVt5JbHxi3PlYyJjrJqRnWgKoq6ZU
- wUMA==
-X-Gm-Message-State: AJIora+ezKxupEtpQfHWMwZuL3Go3fAu3SzOdLWRH6SKuZ9u3dV+IrG3
- I+o3e0o1bIg2xQ2WkPs6/l0pqQ==
-X-Google-Smtp-Source: AGRyM1t/tOw1DPACc+e68hWUohcZGC3Sd9M2XhBUf5GPvldHD1/RJ196vIyEJIWk0eUCMlIDzqTkPg==
-X-Received: by 2002:a05:6512:73:b0:479:2674:f1b6 with SMTP id
- i19-20020a056512007300b004792674f1b6mr1910376lfo.134.1655366388609; 
- Thu, 16 Jun 2022 00:59:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=pK63Gcracvx3JbDdqH695RF+R5AO+vccoaxrk2U/rT0=;
+ b=AH6Op9kyg5k/csxlHAJZxLOk6cs/4aFfXQ3QBznq8f48Anwx9ssxebitCs0BXis/rt
+ PA/c0O4HonaaTE1q5C+9P6pPPKlztsTvbOeAbdeRv9soaziuSpwTqzVzvraNLdiwfj/J
+ cuF67ixMpe52NozKkwOYTWe745+F8kG4TxoCgwUy0SU3px9Brcgb3TyOh8SnHgNj2jWM
+ D2tNzG6JRQ1D40RCGrS7N7mgtsaAC3A3c0D1xTe3OY8FEcNTP6Ty/8phRHG8S72Xv3YD
+ DAzFNwWkd5MLmuzKSt79IcXjQ09HGv80UN2QAyDY3dyPam2mbdiTa5mu7SmfEPoV9RGT
+ PTJQ==
+X-Gm-Message-State: AJIora8BsfJEPMhB4cjtuJz73JavjBSLENh4pWF0YQYYIB4b2OKBwiWa
+ Uh3I+iD37yE8bWzzmoUV/rSHug==
+X-Google-Smtp-Source: AGRyM1u0mQRtd4eiR+Efh9ifaiEjyhP2i5EJCeLCZln2lk0Zx/7+DUx1YDseK3T5FxHmGIsKOpDppQ==
+X-Received: by 2002:ac2:5e76:0:b0:478:f72e:7531 with SMTP id
+ a22-20020ac25e76000000b00478f72e7531mr1943784lfr.187.1655366389822; 
+ Thu, 16 Jun 2022 00:59:49 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- d3-20020a056512368300b00478ff020832sm136717lfs.106.2022.06.16.00.59.47
+ d3-20020a056512368300b00478ff020832sm136717lfs.106.2022.06.16.00.59.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 00:59:48 -0700 (PDT)
+ Thu, 16 Jun 2022 00:59:49 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 0/3] drm/msm/hdmi: move resource allocation to probe function
-Date: Thu, 16 Jun 2022 10:59:44 +0300
-Message-Id: <20220616075947.347888-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 1/3] drm/msm/hdmi: use devres helper for runtime PM management
+Date: Thu, 16 Jun 2022 10:59:45 +0300
+Message-Id: <20220616075947.347888-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220616075947.347888-1-dmitry.baryshkov@linaro.org>
+References: <20220616075947.347888-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,20 +75,28 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As pointed several times in the discussions, start moving resource
-allocation from component bind to the probe function. This simplifies
-boot process, as the component will not be registered until all
-resources (clocks, regulators, IRQ, etc.) are not registered.
+Use devm_pm_runtime_enable() to enable runtime PM. This way its effect
+will be reverted on device unbind/destruction.
 
-Dmitry Baryshkov (3):
-  drm/msm/hdmi: use devres helper for runtime PM management
-  drm/msm/hdmi: drop constant resource names from platform config
-  drm/msm/hdmi: move resource allocation to probe function
+Fixes: 6ed9ed484d04 ("drm/msm/hdmi: Set up runtime PM for HDMI")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/hdmi/hdmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/gpu/drm/msm/hdmi/hdmi.c | 298 ++++++++++++++------------------
- drivers/gpu/drm/msm/hdmi/hdmi.h |   3 -
- 2 files changed, 134 insertions(+), 167 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+index 6acc17e0efc1..9ff9a68b201b 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+@@ -247,7 +247,7 @@ static struct hdmi *msm_hdmi_init(struct platform_device *pdev)
+ 	if (hdmi->hpd_gpiod)
+ 		gpiod_set_consumer_name(hdmi->hpd_gpiod, "HDMI_HPD");
+ 
+-	pm_runtime_enable(&pdev->dev);
++	devm_pm_runtime_enable(&pdev->dev);
+ 
+ 	hdmi->workq = alloc_ordered_workqueue("msm_hdmi", 0);
+ 
 -- 
 2.35.1
 
