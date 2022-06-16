@@ -2,78 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22F054ED65
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 00:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE37254ED6B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 00:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59B1A11A600;
-	Thu, 16 Jun 2022 22:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C89F11A626;
+	Thu, 16 Jun 2022 22:41:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B87A11A602
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 22:38:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655419127;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0gpiqM2mypDWJgasAwwky1sMXde1m73xJMeQ2+/VVmk=;
- b=cirFFbt/1x0XTGyyPPfLQfjCESZVfpVvRuQqH89h4g/A5pUzpXTYOgbWJwp8w75fDQHsaS
- gxgTZlILgH9pEOe3cqzTS8KqHOkwiAG34V5mpFow1FDxn1tfcdrKzrkWaiXjx6+CoGRhAl
- 8kKsJls5Tg1oouTc2+JnH7rA56hAJJM=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-YG-2hWA3NUyufNsws4wn_w-1; Thu, 16 Jun 2022 18:38:44 -0400
-X-MC-Unique: YG-2hWA3NUyufNsws4wn_w-1
-Received: by mail-qk1-f198.google.com with SMTP id
- de4-20020a05620a370400b006a9711bd9f8so3113532qkb.9
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 15:38:44 -0700 (PDT)
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53A7611A627
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 22:41:16 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ q1-20020a056830018100b0060c2bfb668eso1970377ota.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 15:41:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=usp.br; s=usp-google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=AWCHew8dJ92FRAa86sjZqg/7uz35kqackjChUgkNjiw=;
+ b=Sbn07kQgTXlj8XatmfRNXAU72cQaXb8VxilvqYsKtyR3h6nwF007C4986DhNrSkO+s
+ x5OVfHmx3rGoV5XgKxT2TDvBiqTYywKNLRUPPHlr3amgPN+UCeO9vrHZmiMMRFRthmVI
+ JbtKX1fCXXSeRR/e1ecfNesPq3ruFPKsZKkL8V2LFSQWvkqSsveykkdd1YWSpsxd9sd8
+ nd9TeH5H8oVeM9sjgDlwHNcLy2C6Re7a1hmMUhFs/N8GGl3OeE1cWFJLZnTPlYJ/xHoP
+ 9ICO8nPy8CaK+XwlEWGmW0qyAZFV/c9tu/yqBdpNFnSB9PJ+4HImJ7khcWbtRRIFOy0T
+ v3Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version;
- bh=zWA3h7cornmyyHIGBXb5vUkjOuPDjN/6OG+2cZ87BYQ=;
- b=o52JSDzTaibDoYH8zwgt0fJETl8DwXvGLsJ5X8M6xVPcUMCStNM/VRpdHRfqe9GG+D
- ++OYCk3vrBRm4c7fZA6MnBc3yDdlgtPpThdche7AplvFkHpYYs25imHFvM1zmCMeDsYb
- B1vl5x6Ag2iia63RJG278VJSejXynJ30UBSlU59Y3y0OUGzm4//vxDkX9c5wvqzmC1Tk
- pbrccNvLQFJm31WBl853QnsCwimsG8FuzzAmtZC7jPf/j3AwXh442m3LTHWKSmKD/7rM
- qVh03rjm+3oUgsVfvQRCQCcmX3XrdmWRDvkDMBNiHbpSd8PRpB4pmW33ADmBpHL6YZoD
- P96A==
-X-Gm-Message-State: AJIora8d6vVJI34NMpifd40vKZEL+4ha61lC5JB8m1sXhsf4CF0jUUwm
- Kan365OrJDQuSN08m7sR9qgDL1o/iWDEqxcIMX+hfGfLNyCQ8V9fTRVoasNOHUKY6ixUhT4ow+Z
- Vp4nE8fY7n5CQpC/8I+bfq/QtNI5i
-X-Received: by 2002:ad4:596a:0:b0:46f:6491:de1 with SMTP id
- eq10-20020ad4596a000000b0046f64910de1mr216700qvb.129.1655419124099; 
- Thu, 16 Jun 2022 15:38:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tSsDKgF+2rQDW2quFPsaVyINnm9lG9snHOC3GcJglTQAcvyi71pFdERDOxGLG2YuDaqh2rog==
-X-Received: by 2002:ad4:596a:0:b0:46f:6491:de1 with SMTP id
- eq10-20020ad4596a000000b0046f64910de1mr216682qvb.129.1655419123776; 
- Thu, 16 Jun 2022 15:38:43 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- f3-20020ac84983000000b00304f98ad3c1sm2558459qtq.29.2022.06.16.15.38.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 15:38:43 -0700 (PDT)
-Message-ID: <75c1df3e27685deca79207a5cc0e3afbeeea152a.camel@redhat.com>
-Subject: Re: =?UTF-8?Q?=E5=9B=9E=E5=A4=8D=EF=BC=9A?= [PATCH 5/5]
- drm/nouveau: Fix spelling typo in comments
-From: Lyude Paul <lyude@redhat.com>
-To: 1064094935 <1064094935@qq.com>, Ben Skeggs <bskeggs@redhat.com>
-Date: Thu, 16 Jun 2022 18:38:41 -0400
-In-Reply-To: <tencent_D362AE3DB129A03B459B4D23D3BED619F607@qq.com>
-References: <tencent_655C23622640268A069B49A6A5ADDEECB508@qq.com>
- <d8a12051e71ec322f489beed252576e16802a172.camel@redhat.com>
- <tencent_D362AE3DB129A03B459B4D23D3BED619F607@qq.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=AWCHew8dJ92FRAa86sjZqg/7uz35kqackjChUgkNjiw=;
+ b=RxX9d+G6WCmsSsdHTDgmGiENBZ57qYbsKZcqDATXth2llKkAuk9i8hsuPQ5K0G/cad
+ Kzu7Gn2PTU/4MJ+wDer0Vu18W1zGjIbUaAU9eOUiWgbB1DctQSordRxGN5lPPtKlRWLM
+ n6ACOa/fumg1QID46KeQz6ibgf4c1V+posXPKyd62w2aohiLp1MzfFigfyauJBXOaSu8
+ VnvDAhobCZRolKlb+4fb9msVMRSKglNJuRJFfOTUWdcXW+b8MKgN1mpbrZZYtTaDao38
+ uyrxDWI06OgY8l98VAyiG6XdvlTHI5Wa1/GM3uovvj74OfI0KcEHfntBULHLFZKgmnI0
+ 7dYg==
+X-Gm-Message-State: AJIora/eMJ38nqqPsD5rZJoxMK8acSe3vTS/S/G99KVPuXz7xcyb/4pP
+ SLgMaO2oDef0ILvyQ/Ps9XB0Cg==
+X-Google-Smtp-Source: AGRyM1vg4mrJ0bSA38QQ60GxwD9BVX0fzA6Z6x2kYxwAP5Zg8De9eraONxzGZct4/qBV37pr7IgO+Q==
+X-Received: by 2002:a05:6830:2695:b0:60c:6e16:460f with SMTP id
+ l21-20020a056830269500b0060c6e16460fmr2899781otu.249.1655419275291; 
+ Thu, 16 Jun 2022 15:41:15 -0700 (PDT)
+Received: from ?IPV6:2804:14d:8084:84c6:fe26:c42d:aab9:fa8a?
+ ([2804:14d:8084:84c6:fe26:c42d:aab9:fa8a])
+ by smtp.gmail.com with ESMTPSA id
+ ly14-20020a056870fc8e00b000e686d13889sm1532110oab.35.2022.06.16.15.41.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Jun 2022 15:41:14 -0700 (PDT)
+Message-ID: <8b040fb2-7edd-6fd1-864e-ee04115c5b1d@usp.br>
+Date: Thu, 16 Jun 2022 19:41:05 -0300
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="=-usS5Zxmm4P6mTcZEZDP9"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC 0/3] drm/amd/display: Introduce KUnit to Display Mode Library
+Content-Language: en-US
+To: David Gow <davidgow@google.com>
+References: <20220608010709.272962-1-maira.canal@usp.br>
+ <CABVgOSmesj5MGfQrtdWCgXzm1VXRoG0fAMCbkBCAvtqediqAjQ@mail.gmail.com>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>
+In-Reply-To: <CABVgOSmesj5MGfQrtdWCgXzm1VXRoG0fAMCbkBCAvtqediqAjQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,178 +76,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>,
- nouveau <nouveau@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- pengfuyuan <pengfuyuan@kylinos.cn>, k2ci <kernel-bot@kylinos.cn>
+Cc: Harrison Chiu <harrison.chiu@amd.com>, Daniel Latypov <dlatypov@google.com>,
+ Brendan Higgins <brendanhiggins@google.com>, dri-devel@lists.freedesktop.org,
+ Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
+ Jun Lei <jun.lei@amd.com>, magalilemes00@gmail.com,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, amd-gfx@lists.freedesktop.org,
+ Leo Li <sunpeng.li@amd.com>, mwen@igalia.com,
+ Sean Paul <seanpaul@chromium.org>,
+ KUnit Development <kunit-dev@googlegroups.com>,
+ Mark Yacoub <markyacoub@chromium.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ Nicholas Choi <Nicholas.Choi@amd.com>, tales.aparecida@gmail.com,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---=-usS5Zxmm4P6mTcZEZDP9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Hi David,
 
-No problem! I just pushed the patch you sent separately (which I'm assuming is
-the patch you previously sent in a series by mistake) so it should be all set.
+Thank you for your feedback!
 
-On Thu, 2022-06-16 at 14:56 +0800, 1064094935 wrote:
-> Hi,
-> I'm very sorry, these five patches are not a series, the other four are from
-> other branches. I made a mistake when submitting the patch. Can you help me
-> push this to drm-misc? Or I will resubmit this patch again.
+On 6/16/22 11:39, David Gow wrote:
+> On Wed, Jun 8, 2022 at 9:08 AM Maíra Canal <maira.canal@usp.br> wrote:
+
+>>
+>> As kunit_test_suites() defines itself as an init_module(), it conflicts with
+>> the existing one at amdgpu_drv. So, if we use kunit_test_suites(), we won't
+>> be able to compile the tests as modules and, therefore, won't be able to use
+>> IGT to run the tests. This problem with kunit_test_suites() was already
+>> discussed in the KUnit mailing list, as can be seen in [7].
 > 
-> Best regards,
-> pengfuyuan
+> I'm not sure I fully understand why these tests need to be part of the
+> amdgpu module, though admittedly I've not played with IGT much. Would
+> it be possible to compile these tests as separate modules, which could
+> depend on amdgpu (or maybe include the DML stuff directly), and
+> therefore not have this conflict? I definitely was able to get these
+> tests working under kunit_tool (albeit as built-ins) by using
+> kunit_test_suites(). If each suite were built as a separate module (or
+> indeed, even if all the tests were in one module, with one list of
+> suites), then it should be possible to avoid the init_module()
+> conflict. That'd also make it possible to run these tests without
+> actually needing the driver to initialise, which seems like it might
+> require actual hardware(?)
+
+Initially, we tried the kunit_test_suites() approach. And it did work pretty well for the kunit_tool (although we didn't test any hardware-specific unit test). But when compiling the test as a module, we would get a linking error, pointing out multiple definitions of 'init_module'/'cleanup_module' at kunit_test_suites().
+
+At this point, we thought about a couple of options to resolve this problem:
+- Add EXPORT_SYMBOL to the functions we would test. But, this doesn't scale pretty well, because it would pollute AMDGPU code as the tests expand.
+- Take the Thunderbolt path and add the tests to the driver stack.
+
+We end up taking the Thunderbolt path as it would be more maintainable.
+
+Compiling the tests as a module is essential to make the tests run at IGT, as IGT essentially loads the module, runs it, and parses the output (a very very simplified explanation of what IGT does). IGT is a very known tool for DRI developers, so we believe that IGT support is crucial for this project.
+
+If you have any other options on how to make the module compilation viable without using the 'thunderbolt'-style, we would be glad to hear your suggestions.
+
 > 
-> ------------------ 原始邮件 ------------------
-> 发件人: "Lyude Paul" <lyude@redhat.com>;
-> 发送时间: 2022年5月28日(星期六) 凌晨0:27
-> 收件人: "1064094935"<1064094935@qq.com>;"Ben Skeggs"<bskeggs@redhat.com>;
-> 抄送: "Karol Herbst"<kherbst@redhat.com>;"David
-> Airlie"<airlied@linux.ie>;"Daniel Vetter"<daniel@ffwll.ch>;"dri-devel"<dri-
-> devel@lists.freedesktop.org>;"nouveau"<nouveau@lists.freedesktop.org>;"linux
-> -kernel"<linux-
-> kernel@vger.kernel.org>;"pengfuyuan"<pengfuyuan@kylinos.cn>;"k2ci"<kernel-
-> bot@kylinos.cn>;
-> 主题: Re: [PATCH 5/5] drm/nouveau: Fix spelling typo in comments
+> There are two other reasons the 'thunderbolt'-style technique is one
+> we want to avoid:
+> 1. It makes it much more difficult to run tests using kunit_tool and
+> KUnit-based CI tools: these tests would not run automatically, and if
+> they were built-in as-is, they'd need to be
+> 2. We're planning to improve module support to replace the
+> init_module()-based implementation of kunit_test_suites() with one
+> which won't have these conflicts, so the need for this should be
+> short-lived.
 > 
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
+> If you're curious, an early version of the improved module support can
+> be found here, though it's out-of-date enough it won't apply or work
+> as-is:
+> https://lore.kernel.org/all/101d12fc9250b7a445ff50a9e7a25cd74d0e16eb.camel@codeconstruct.com.au/
 > 
-> Do you need me to push this to drm-misc? Or will this be pushed as one
-> series?
+> Now, that's unlikely to be ready very soon, but I'd be hesitant to
+> implement too extensive a system for avoiding kunit_test_suites()
+> given at some point it should work and we'll need to migrate back to
+> it.
+
+We hope to see in the near future the improved module support from KUnit as it would make the addition of tests much more simple and clean.
+
+Could you explain more about what is missing to make this improved module support come upstream?
+
 > 
-> On Fri, 2022-05-27 at 12:22 +0800, 1064094935@qq.com wrote:
-> > From: pengfuyuan <pengfuyuan@kylinos.cn>
-> > 
-> > Fix spelling typo in comments.
-> > 
-> > Reported-by: k2ci <kernel-bot@kylinos.cn>
-> > Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
-> > ---
-> >  drivers/gpu/drm/nouveau/include/nvhw/drf.h | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/nouveau/include/nvhw/drf.h
-> > b/drivers/gpu/drm/nouveau/include/nvhw/drf.h
-> > index bd0fc41446e2..d6969c0e2f29 100644
-> > --- a/drivers/gpu/drm/nouveau/include/nvhw/drf.h
-> > +++ b/drivers/gpu/drm/nouveau/include/nvhw/drf.h
-> > @@ -190,7 +190,7 @@
-> >  #define DRF_MD_(X,_1,_2,_3,_4,_5,_6,_7,_8,_9,_10,IMPL,...) IMPL
-> >  #define DRF_MD(A...) DRF_MD_(X, ##A, DRF_MD_I, DRF_MD_N)(X, ##A)
-> >  
-> > -/* Helper for testing against field value in aribtrary object */
-> > +/* Helper for testing against field value in arbitrary object */
-> >  #define DRF_TV_N(X,e,p,o,d,r, 
-> > f,cmp,v)                                          \
-> >         NVVAL_TEST_X(DRF_RD_X(e, (p), (o), d##_##r   ), d##_##r##_##f,
-> cmp,
-> > (v))
-> >  #define
-> > DRF_TV_I(X,e,p,o,d,r,i,f,cmp,v)                                          \
-> > @@ -198,7 +198,7 @@
-> >  #define DRF_TV_(X,_1,_2,_3,_4,_5,_6,_7,_8,_9,IMPL,...) IMPL
-> >  #define DRF_TV(A...) DRF_TV_(X, ##A, DRF_TV_I, DRF_TV_N)(X, ##A)
-> >  
-> > -/* Helper for testing against field definition in aribtrary object */
-> > +/* Helper for testing against field definition in arbitrary object */
-> >  #define DRF_TD_N(X,e,p,o,d,r, 
-> > f,cmp,v)                                                          \
-> >         NVVAL_TEST_X(DRF_RD_X(e, (p), (o), d##_##r   ), d##_##r##_##f,
-> cmp,
-> > d##_##r##_##f##_##v)
-> >  #define
-> >
-> DRF_TD_I(X,e,p,o,d,r,i,f,cmp,v)                                             
-> >              \
+> At the very least, having the dependency on KUNIT=m is a very bad
+> idea: it should be possible to have tests built as modules, even if
+> KUnit itself isn't, and ideally (even if this sort-of implementation
+> is required), it _should_ be possible to have these tests be built-in
+> if all their dependencies (KUnit, amdgpu) are, which would make it
+> possible to run the tests without a userland.
 > 
 
--- 
-Cheers,
-Lyude Paul (she/her)
-Software Engineer at Red Hat
+Thank you for the suggestion! We will change the KUNIT dependency.
 
---=-usS5Zxmm4P6mTcZEZDP9
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head></head><body><div>No problem! I just pushed the patch you sent =
-separately (which I'm assuming is the patch you previously sent in a series=
- by mistake) so it should be all set.</div><div><br></div><div>On Thu, 2022=
--06-16 at 14:56 +0800, 1064094935 wrote:</div><blockquote type=3D"cite" sty=
-le=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><d=
-iv>Hi,</div><div>I'm very sorry, these five patches are not a series, the o=
-ther four are from other branches. I made a mistake when submitting the pat=
-ch. Can you help me push this to drm-misc? Or I will resubmit this patch ag=
-ain.<br></div><div style=3D"position: relative;"><div><br></div><div>Best r=
-egards,<br>pengfuyuan<br></div><div><br></div><div style=3D"font-size: 12px=
-;font-family: Arial Narrow;padding:2px 0 2px 0;">------------------&nbsp;=
-=E5=8E=9F=E5=A7=8B=E9=82=AE=E4=BB=B6&nbsp;------------------</div><div styl=
-e=3D"font-size: 12px;background:#efefef;padding:8px;"><div><b>=E5=8F=91=E4=
-=BB=B6=E4=BA=BA:</b> "Lyude Paul" &lt;lyude@redhat.com&gt;;</div><div><b>=
-=E5=8F=91=E9=80=81=E6=97=B6=E9=97=B4:</b>&nbsp;2022=E5=B9=B45=E6=9C=8828=E6=
-=97=A5(=E6=98=9F=E6=9C=9F=E5=85=AD) =E5=87=8C=E6=99=A80:27</div><div><b>=E6=
-=94=B6=E4=BB=B6=E4=BA=BA:</b>&nbsp;"1064094935"&lt;1064094935@qq.com&gt;;"B=
-en Skeggs"&lt;bskeggs@redhat.com&gt;;<wbr></div><div><b>=E6=8A=84=E9=80=81:=
-</b>&nbsp;"Karol Herbst"&lt;kherbst@redhat.com&gt;;"David Airlie"&lt;airlie=
-d@linux.ie&gt;;"Daniel Vetter"&lt;daniel@ffwll.ch&gt;;"dri-devel"&lt;dri-de=
-vel@lists.freedesktop.org&gt;;"nouveau"&lt;nouveau@lists.freedesktop.org&gt=
-;;"linux-kernel"&lt;linux-kernel@vger.kernel.org&gt;;"pengfuyuan"&lt;pengfu=
-yuan@kylinos.cn&gt;;"k2ci"&lt;kernel-bot@kylinos.cn&gt;;<wbr></div><div><b>=
-=E4=B8=BB=E9=A2=98:</b>&nbsp;Re: [PATCH 5/5] drm/nouveau: Fix spelling typo=
- in comments</div></div><div><br></div>Reviewed-by: Lyude Paul &lt;lyude@re=
-dhat.com&gt;<br><br>Do you need me to push this to drm-misc? Or will this b=
-e pushed as one series?<br><br>On Fri, 2022-05-27 at 12:22 +0800, 106409493=
-5@qq.com wrote:<br>&gt; From: pengfuyuan &lt;pengfuyuan@kylinos.cn&gt;<br>&=
-gt; <br>&gt; Fix spelling typo in comments.<br>&gt; <br>&gt; Reported-by: k=
-2ci &lt;kernel-bot@kylinos.cn&gt;<br>&gt; Signed-off-by: pengfuyuan &lt;pen=
-gfuyuan@kylinos.cn&gt;<br>&gt; ---<br>&gt; &nbsp;drivers/gpu/drm/nouveau/in=
-clude/nvhw/drf.h | 4 ++--<br>&gt; &nbsp;1 file changed, 2 insertions(+), 2 =
-deletions(-)<br>&gt; <br>&gt; diff --git a/drivers/gpu/drm/nouveau/include/=
-nvhw/drf.h<br>&gt; b/drivers/gpu/drm/nouveau/include/nvhw/drf.h<br>&gt; ind=
-ex bd0fc41446e2..d6969c0e2f29 100644<br>&gt; --- a/drivers/gpu/drm/nouveau/=
-include/nvhw/drf.h<br>&gt; +++ b/drivers/gpu/drm/nouveau/include/nvhw/drf.h=
-<br>&gt; @@ -190,7 +190,7 @@<br>&gt; &nbsp;#define DRF_MD_(X,_1,_2,_3,_4,_5=
-,_6,_7,_8,_9,_10,IMPL,...) IMPL<br>&gt; &nbsp;#define DRF_MD(A...) DRF_MD_(=
-X, ##A, DRF_MD_I, DRF_MD_N)(X, ##A)<br>&gt; &nbsp;<br>&gt; -/* Helper for t=
-esting against field value in aribtrary object */<br>&gt; +/* Helper for te=
-sting against field value in arbitrary object */<br>&gt; &nbsp;#define DRF_=
-TV_N(X,e,p,o,d,r,&nbsp;<br>&gt; f,cmp,v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>&gt; &nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NVVAL_TEST_X(DRF_RD_X(e, (p), =
-(o), d##_##r&nbsp;&nbsp; ), d##_##r##_##f, cmp,<br>&gt; (v))<br>&gt; &nbsp;=
-#define<br>&gt; DRF_TV_I(X,e,p,o,d,r,i,f,cmp,v)&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br>&=
-gt; @@ -198,7 +198,7 @@<br>&gt; &nbsp;#define DRF_TV_(X,_1,_2,_3,_4,_5,_6,_=
-7,_8,_9,IMPL,...) IMPL<br>&gt; &nbsp;#define DRF_TV(A...) DRF_TV_(X, ##A, D=
-RF_TV_I, DRF_TV_N)(X, ##A)<br>&gt; &nbsp;<br>&gt; -/* Helper for testing ag=
-ainst field definition in aribtrary object */<br>&gt; +/* Helper for testin=
-g against field definition in arbitrary object */<br>&gt; &nbsp;#define DRF=
-_TD_N(X,e,p,o,d,r,&nbsp;<br>&gt; f,cmp,v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp; \<br>&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NVVAL_TE=
-ST_X(DRF_RD_X(e, (p), (o), d##_##r&nbsp;&nbsp; ), d##_##r##_##f, cmp,<br>&g=
-t; d##_##r##_##f##_##v)<br>&gt; &nbsp;#define<br>&gt; DRF_TD_I(X,e,p,o,d,r,=
-i,f,cmp,v)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&gt; &nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \<br><br></di=
-v></blockquote><div><br></div><div><span><pre>-- <br></pre><div data-evo-pa=
-ragraph=3D"" class=3D"" style=3D"width: 78ch;" data-evo-signature-plain-tex=
-t-mode=3D"">Cheers,</div><div data-evo-paragraph=3D"" class=3D"" style=3D"w=
-idth: 78ch;"><span class=3D"Apple-tab-span" style=3D"white-space:pre">=09</=
-span>Lyude Paul (she/her)</div><div data-evo-paragraph=3D"" class=3D"" styl=
-e=3D"width: 78ch;"><span class=3D"Apple-tab-span" style=3D"white-space:pre"=
->=09</span>Software Engineer at Red Hat</div></span></div></body></html>
-
---=-usS5Zxmm4P6mTcZEZDP9--
-
+- Maíra Canal
