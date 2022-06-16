@@ -2,48 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B38B54DB42
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 09:08:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A789A54DB69
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 09:21:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79AED10E6D5;
-	Thu, 16 Jun 2022 07:08:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAD7510E886;
+	Thu, 16 Jun 2022 07:21:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com
- [162.62.57.252])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21F1710E6D5;
- Thu, 16 Jun 2022 07:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1655363318; bh=idbdNC33xevN6ZtoUUFthqlXafvy0QHgWej1vQ9pQts=;
- h=From:To:Cc:Subject:Date;
- b=H2DwyA98gB/h2nxmsbNY1f8GBbHcSA0pKn5RpSiBY3AJ7V0EeAE5BmvuZs1Vjtbb9
- 0PsVeHCPb/UGXOx3BQqrfWy7VWsauEDqxAm8vjzjeHYcFW94TyDgonbchiiARb8r68
- lXIMX2rMQLHe8u6hlejrEG6u5ay1AUIYWzwNkhrs=
-Received: from localhost.localdomain ([116.128.244.169])
- by newxmesmtplogicsvrszc9.qq.com (NewEsmtp) with SMTP
- id 2232966F; Thu, 16 Jun 2022 15:08:35 +0800
-X-QQ-mid: xmsmtpt1655363315tej6e9lnp
-Message-ID: <tencent_7B226C4A9BC2B5EEB37B70C188B5015D290A@qq.com>
-X-QQ-XMAILINFO: NyTsQ4JOu2J2ieFjiGNA/unOwey1GGAlUSLHpJXyAVRP49p7+EVtr4jRMXeISA
- gFeP5u+V4vXkw/Yt7ev958v8MQJrU4sQAvcPyDaL7CrUaWZ3g8Y9tQ2yt+fFwPBLX3XFxW7yD3DR
- z7u5+rPjJNCeDlmlemFmPlGgbud49c/Ob/x+koMOg0co5eOBEo/N2cwOslvV9JOcXeR9GlP/EVM3
- pzUSypm3QYTz6dIq9WScfChPLxH04jfCxXSldZquAfYt4HchZDsagL05scG6xiPTt0DTRBgTxdFa
- bVtU5FUlS43+j95d0qm95xNJwlCfImTUsFhU6roX1e2X60pf4hQNd89potAJfC33DbrTDOznhFoa
- Z6Z9htQBGU0FFidK0jH7HH8R73OZt4/4yoAlj2J/gvLQmQuaWfyBWAvPMVL+C30XaeHpoTQukN+L
- qK/fewHTReEWE88A3bKD4QJmK6PKM6Qa4vy+t+yf7oMSX4bpoxIhQrsx5hKUT7BYwmyxs3tQQP0m
- fdUJdhC9lrJ18zjbKDgR1gUKnmColtts9Em5YjfJuACGXNvRmufVuxeFom1KTe1ChOH/4zcDGx3R
- c+G2SjTufWdH5PvzHdgb10IhCGZ8WKP52gfq3sBZY9fAOxrdqVY+vPxb++mGqi3cs2qmWg15LD6V
- lY9HSQWg4VchAvCh1YulyW5dmPKUP0+tUuUyNOe/mGIKA0RoXeLbZfelm0hDQJPjCSvH5veSHYIt
- xZ4PjoKds4pdRouCUBiTIBx3Ws45QOYb9dxHwkhQyquW0Z1Xn98kn1ir26HrMHeypdMh6lXalg51
- +XyJ8MrtszKTwg4naqBjryK0N9rheVmMZBD/DMe/i+glsrDmyDdFv6COysmR3dVVUE0HGi4N87Fa
- a+hp+9NvLm1hewoBt2/8HULyg8xWDh+q4ioQYSEdLw
-From: 1064094935@qq.com
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH] drm/i915: Fix spelling typo in comment
-Date: Thu, 16 Jun 2022 15:08:03 +0800
-X-OQ-MSGID: <20220616070803.105901-1-1064094935@qq.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD0510E3D9;
+ Thu, 16 Jun 2022 07:21:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655364085; x=1686900085;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=1mYg0twpCDJWukAX9HNrHpjTtlZ93/AhW3DWmO6Usa8=;
+ b=FD7AoT249NIYqmd0L4+QnLWEFg3CtEjcy6a42dVTkPRo3Z/sScM0w7BC
+ P3zuy2N3IyGidiJnQBfgyn9/2g1JwsOhK1Hg1lrktJtPPAinvc8n/WCM0
+ vTVJPRHW9B8nWUWvbJTj+RBHRt1So9hNUJixma35pSy/1FQs2tl4oz6KX
+ bl5vHUvMQHQPbhaxRrMTSRGwvdmv+mxSoIc/m3KkMKmoQlWqTeOGzQCps
+ 6a+ItgX10kIxVaOBwb2eNv/xfUQb67Kxev2ORE6GR9Bd6puWdVTvveY3H
+ 0XDaviTJD1vAj7nVD2BRkM6UH567qKF8+iYRyPg+94cUicbKXWyQ8unJJ w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="259649897"
+X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; d="scan'208";a="259649897"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 00:21:24 -0700
+X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; d="scan'208";a="912044783"
+Received: from mstokes1-mobl.ger.corp.intel.com (HELO [10.213.198.82])
+ ([10.213.198.82])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 00:21:19 -0700
+Message-ID: <51e82b3b-b023-75dd-a039-e2941b426f1f@linux.intel.com>
+Date: Thu, 16 Jun 2022 08:21:17 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/6] drm/i915/gt: Ignore TLB invalidations on idle engines
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <cover.1655306128.git.mchehab@kernel.org>
+ <ce7ddc900a5421e577ef446b6834ee69663c2d9a.1655306128.git.mchehab@kernel.org>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <ce7ddc900a5421e577ef446b6834ee69663c2d9a.1655306128.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,39 +61,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, pengfuyuan <pengfuyuan@kylinos.cn>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, k2ci <kernel-bot@kylinos.cn>
+Cc: Jason Ekstrand <jason@jlekstrand.net>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Fei Yang <fei.yang@intel.com>, Matthew Brost <matthew.brost@intel.com>,
+ Chris Wilson <chris.p.wilson@intel.com>, Matthew Auld <matthew.auld@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, mauro.chehab@linux.intel.com,
+ =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: pengfuyuan <pengfuyuan@kylinos.cn>
 
-Fix spelling typo in comment.
+On 15/06/2022 16:27, Mauro Carvalho Chehab wrote:
+> From: Chris Wilson <chris.p.wilson@intel.com>
+> 
+> As an extension of the current skip TLB invalidations,
+> check if the device is powered down prior to any engine activity,
+> 
+> as, on such cases, all the TLBs were already invalidated, so an
+> explicit TLB invalidation is not needed.
+> 
+> This becomes more significant  with GuC, as it can only do so when
+> the connection to the GuC is awake.
+> 
+> Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")
 
-Reported-by: k2ci <kernel-bot@kylinos.cn>
-Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
----
- drivers/gpu/drm/i915/gem/i915_gem_tiling.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hmmm is this a fix or "an extension" as the commit text mentions both 
+options?! GuC angle does not appear relevant for upstream yet so is cc: 
+stable really required is the question.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_tiling.c b/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
-index 80ac0db1ae8c..85518b28cd72 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
-@@ -114,7 +114,7 @@ u32 i915_gem_fence_alignment(struct drm_i915_private *i915, u32 size,
- 	return i915_gem_fence_size(i915, size, tiling, stride);
- }
- 
--/* Check pitch constriants for all chips & tiling formats */
-+/* Check pitch constraints for all chips & tiling formats */
- static bool
- i915_tiling_ok(struct drm_i915_gem_object *obj,
- 	       unsigned int tiling, unsigned int stride)
--- 
-2.25.1
+Regards,
 
+Tvrtko
 
-No virus found
-		Checked by Hillstone Network AntiVirus
+> 
+> Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+> Cc: Fei Yang <fei.yang@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: stable@vger.kernel.org
+> Acked-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+> 
+> See [PATCH 0/6] at: https://lore.kernel.org/all/cover.1655306128.git.mchehab@kernel.org/
+> 
+>   drivers/gpu/drm/i915/gem/i915_gem_pages.c | 10 +++++----
+>   drivers/gpu/drm/i915/gt/intel_gt.c        | 26 +++++++++++++++++------
+>   drivers/gpu/drm/i915/gt/intel_gt_pm.h     |  3 +++
+>   3 files changed, 28 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> index 97c820eee115..6835279943df 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
+> @@ -6,14 +6,15 @@
+>   
+>   #include <drm/drm_cache.h>
+>   
+> +#include "gt/intel_gt.h"
+> +#include "gt/intel_gt_pm.h"
+> +
+>   #include "i915_drv.h"
+>   #include "i915_gem_object.h"
+>   #include "i915_scatterlist.h"
+>   #include "i915_gem_lmem.h"
+>   #include "i915_gem_mman.h"
+>   
+> -#include "gt/intel_gt.h"
+> -
+>   void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
+>   				 struct sg_table *pages,
+>   				 unsigned int sg_page_sizes)
+> @@ -217,10 +218,11 @@ __i915_gem_object_unset_pages(struct drm_i915_gem_object *obj)
+>   
+>   	if (test_and_clear_bit(I915_BO_WAS_BOUND_BIT, &obj->flags)) {
+>   		struct drm_i915_private *i915 = to_i915(obj->base.dev);
+> +		struct intel_gt *gt = to_gt(i915);
+>   		intel_wakeref_t wakeref;
+>   
+> -		with_intel_runtime_pm_if_active(&i915->runtime_pm, wakeref)
+> -			intel_gt_invalidate_tlbs(to_gt(i915));
+> +		with_intel_gt_pm_if_awake(gt, wakeref)
+> +			intel_gt_invalidate_tlbs(gt);
+>   	}
+>   
+>   	return pages;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index f33290358c51..d5ed6a6ac67c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -11,6 +11,7 @@
+>   
+>   #include "i915_drv.h"
+>   #include "intel_context.h"
+> +#include "intel_engine_pm.h"
+>   #include "intel_engine_regs.h"
+>   #include "intel_gt.h"
+>   #include "intel_gt_buffer_pool.h"
+> @@ -1216,6 +1217,7 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+>   	struct drm_i915_private *i915 = gt->i915;
+>   	struct intel_uncore *uncore = gt->uncore;
+>   	struct intel_engine_cs *engine;
+> +	intel_engine_mask_t awake, tmp;
+>   	enum intel_engine_id id;
+>   	const i915_reg_t *regs;
+>   	unsigned int num = 0;
+> @@ -1239,12 +1241,27 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+>   
+>   	GEM_TRACE("\n");
+>   
+> -	assert_rpm_wakelock_held(&i915->runtime_pm);
+> -
+>   	mutex_lock(&gt->tlb_invalidate_lock);
+>   	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
+>   
+> +	awake = 0;
+>   	for_each_engine(engine, gt, id) {
+> +		struct reg_and_bit rb;
+> +
+> +		if (!intel_engine_pm_is_awake(engine))
+> +			continue;
+> +
+> +		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
+> +		if (!i915_mmio_reg_offset(rb.reg))
+> +			continue;
+> +
+> +		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
+> +		awake |= engine->mask;
+> +	}
+> +
+> +	for_each_engine_masked(engine, gt, awake, tmp) {
+> +		struct reg_and_bit rb;
+> +
+>   		/*
+>   		 * HW architecture suggest typical invalidation time at 40us,
+>   		 * with pessimistic cases up to 100us and a recommendation to
+> @@ -1252,13 +1269,8 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+>   		 */
+>   		const unsigned int timeout_us = 100;
+>   		const unsigned int timeout_ms = 4;
+> -		struct reg_and_bit rb;
+>   
+>   		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
+> -		if (!i915_mmio_reg_offset(rb.reg))
+> -			continue;
+> -
+> -		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
+>   		if (__intel_wait_for_register_fw(uncore,
+>   						 rb.reg, rb.bit, 0,
+>   						 timeout_us, timeout_ms,
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> index bc898df7a48c..a334787a4939 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> @@ -55,6 +55,9 @@ static inline void intel_gt_pm_might_put(struct intel_gt *gt)
+>   	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
+>   	     intel_gt_pm_put(gt), tmp = 0)
+>   
+> +#define with_intel_gt_pm_if_awake(gt, wf) \
+> +	for (wf = intel_gt_pm_get_if_awake(gt); wf; intel_gt_pm_put_async(gt), wf = 0)
+> +
+>   static inline int intel_gt_pm_wait_for_idle(struct intel_gt *gt)
+>   {
+>   	return intel_wakeref_wait_for_idle(&gt->wakeref);
