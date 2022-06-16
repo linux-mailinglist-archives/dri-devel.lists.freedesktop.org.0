@@ -2,54 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068E154E87E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 19:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF79554E896
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 19:25:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A174112E76;
-	Thu, 16 Jun 2022 17:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F8BD10E11E;
+	Thu, 16 Jun 2022 17:25:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
- [209.85.166.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67CEF112E76
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 17:15:03 +0000 (UTC)
-Received: by mail-io1-f50.google.com with SMTP id c189so2148718iof.3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 10:15:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Wsz4Wv9OOV7UVprXOZZGgHXUiNROQ+LQtSUQCCdiHiY=;
- b=KWYbhPgJyjBhjy60JvIfhsW3WSyZonH6DXTsT0iAyevTWWldMFS6LbNXGjMnnDmYh/
- r1JCXRgzv1qr+hGa7fsDrndp7VMrEZnRE/1R6ERrbLvlOF67XA11KVh+Fv7Oh9+wnKZ1
- z3sZlzbZjqIlTkGMf0fvyQsCjoWAFavncuH3DOYZLa/JmkZ1uwAqQGCLp1il3sj9d0rr
- 0yLTUKkbQHlUbyXbg9tlDOmTH3W5h4+/b+cSJ0/7C8q2UMuO/67gN14YmEG0CdvMO5Gy
- Doz/Bj74XTYLKufUMOJB7+8kKOrlLeo/9Oju60RvtCu6awZ0JpLu7aXqA3GIAQ0WsUx5
- fGkQ==
-X-Gm-Message-State: AJIora8PLdK3T6YFN+XTU5Llbu7VeitkcJ+BIO8i8O8aSHsfXGpZha1P
- m9vUiVGSo+csisfCjLiV+iXlPvfE2Q==
-X-Google-Smtp-Source: AGRyM1uuYTX2p7W3F/DM+dxbOiXkzdq0efjOmqM7mjJohPWXpC/0l78Fg02V+GP1iIxVyeBgYcmVZw==
-X-Received: by 2002:a05:6638:1342:b0:331:e382:b0af with SMTP id
- u2-20020a056638134200b00331e382b0afmr3409052jad.32.1655399702631; 
- Thu, 16 Jun 2022 10:15:02 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.251])
- by smtp.gmail.com with ESMTPSA id
- i21-20020a02ca15000000b0032b3a7817b3sm1091325jak.119.2022.06.16.10.15.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 10:15:02 -0700 (PDT)
-Received: (nullmailer pid 3665201 invoked by uid 1000);
- Thu, 16 Jun 2022 17:15:00 -0000
-Date: Thu, 16 Jun 2022 11:15:00 -0600
-From: Rob Herring <robh@kernel.org>
-To: Bastian Krause <bst@pengutronix.de>
-Subject: Re: [PATCH 1/2] dt-bindings: display: simple: add Ampire
- AM-800600P5TMQW-TB8H panel
-Message-ID: <20220616171500.GA3665131-robh@kernel.org>
-References: <20220610111511.1421067-1-bst@pengutronix.de>
+Received: from 2.mo560.mail-out.ovh.net (2.mo560.mail-out.ovh.net
+ [188.165.53.149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 461E210E11E
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 17:25:11 +0000 (UTC)
+Received: from player715.ha.ovh.net (unknown [10.108.16.108])
+ by mo560.mail-out.ovh.net (Postfix) with ESMTP id 6488824FBA
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 17:25:09 +0000 (UTC)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+ (Authenticated sender: steve@sk2.org)
+ by player715.ha.ovh.net (Postfix) with ESMTPSA id 5AE862B80DA9F;
+ Thu, 16 Jun 2022 17:25:03 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R0033e926c55-2866-4034-a799-f193b4c44a42,
+ EEA695ED62D0B30D35F9F30395731DD21189161B) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+From: Stephen Kitt <steve@sk2.org>
+To: Sam Ravnborg <sam@ravnborg.org>,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/3] drm/panel: Use backlight helpers
+Date: Thu, 16 Jun 2022 19:23:12 +0200
+Message-Id: <20220616172316.1355133-1-steve@sk2.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220610111511.1421067-1-bst@pengutronix.de>
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 7454864759303931611
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddvfedguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeelgeetueejffejfeejvefhtddufeejgfetleegtddukeelieelvddvteduveejtdenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejudehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehiedt
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,20 +49,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Yannick Fertre <yannick.fertre@st.com>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- kernel@pengutronix.de, Sam Ravnborg <sam@ravnborg.org>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>, Stephen Kitt <steve@sk2.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 10 Jun 2022 13:15:10 +0200, Bastian Krause wrote:
-> Add Ampire AM-800600P5TMQW-TB8H 8" TFT LCD panel compatible string.
-> 
-> Signed-off-by: Bastian Krause <bst@pengutronix.de>
-> ---
->  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+backlight_properties.fb_blank is deprecated. The states it represents
+are handled by other properties; but instead of accessing those
+properties directly, drivers should use the helpers provided by
+backlight.h.
 
-Acked-by: Rob Herring <robh@kernel.org>
+This will ultimately allow fb_blank to be removed.
+
+Changes since v1:
+- remove the last remaining fb_blank reference in drm/panel in the
+  last patch
+- remove unnecessary parentheses
+
+Stephen Kitt (3):
+  drm/panel: Use backlight helper
+  drm/panel: panel-dsi-cm: Use backlight helpers
+  drm/panel: sony-acx565akm: Use backlight helpers
+
+ .../drm/panel/panel-asus-z00t-tm5p5-n35596.c  |  7 +----
+ drivers/gpu/drm/panel/panel-dsi-cm.c          | 29 ++++---------------
+ drivers/gpu/drm/panel/panel-sony-acx565akm.c  | 12 ++------
+ 3 files changed, 9 insertions(+), 39 deletions(-)
+
+
+base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+-- 
+2.30.2
+
