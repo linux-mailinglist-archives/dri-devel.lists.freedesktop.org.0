@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58EF54E2BB
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 15:59:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A0F54E2DD
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 16:04:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE241130D2;
-	Thu, 16 Jun 2022 13:59:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58E1A112DD8;
+	Thu, 16 Jun 2022 14:04:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44649112E98;
- Thu, 16 Jun 2022 13:59:43 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- o37-20020a05600c512500b0039c4ba4c64dso2882510wms.2; 
- Thu, 16 Jun 2022 06:59:43 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4C3311297F;
+ Thu, 16 Jun 2022 14:04:10 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ m16-20020a7bca50000000b0039c8a224c95so933378wml.2; 
+ Thu, 16 Jun 2022 07:04:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KQzR17EcSV5+QfevwFCQXoAuf0l0H9G0Mp7VxD4d3D0=;
- b=MsmS+QR6mcGQ+T2WYVLut2inRpy5LZHqrkFV1OvQcm53pFJE9OLXlNrWAf19yN2x+C
- 2VVuMJBpNYTMyECP6atwy4fXRZC4AQ0yMcVN+YsStEM/Mz+kc4NIbEPK9uUTdeywPDGm
- DAbOeqW2tKrfRYsl6A04FPsueNdMB6duZEtOZiSDaqIrdxwxgyKW0g5krpl21anBOonn
- XbeXeWXLfriA10ZvSTLd98BhnMyn9U6ErXQYmbHuEcMaaLQWgGKcZClU+3uVyDrhSjTm
- B6BwpbuwAaHc7ceSDfSXEL5Q20i4pOhArooqDHrUn7ztny/ub4gwtWPhERo2cQLACJqs
- mDZg==
+ :cc; bh=slC185Ob3bqwRbXUouHuTugpdNeQm0iZ+NbyQh6gPTc=;
+ b=BjTvft9fFPRIzJq1i2BdE+Ngl7Lnwas+O5i3jS01WgAIwobhoFJwDsfz+t5rUAkEK4
+ 8PvZYeBrFNhXVIDPC6oRttEjtOFIF2qSVsdcZAy4lwLb4ZKPfIq6ZgJxN4cDzvfoxrhv
+ Eli6czrFILNMmzqSWwheVkrEoq6D72f2Af1wSzkHCtFlioENSWN+0/qWT9V8W8VqDy3J
+ TJP8DLFHr/P0/nqeZeDXo96GEgnIreXeODLg8xijl/1UrXE8Hou0JQguVP/wB2gYxJNI
+ tHPxOb3tuGJQmQEVDdkSXrJubExIU7an2AMNUFCEXQ2HgaMSv6w/7A+7+ppDssY3r/fU
+ HMMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KQzR17EcSV5+QfevwFCQXoAuf0l0H9G0Mp7VxD4d3D0=;
- b=NCeXPhS1a2SeluAEu0j0v0vSjBvVGnmDeamgDyhD/5r2TGI5rPY02t+O+3bv5wHYr+
- N+HTr0tJ6YozwNkwyCgudFJL+o4CNOuM7m9yi9MmV3l0W1WH2PES721zicjIDneW3MyS
- V5Qbw9IHHI4BlIfb6mkRChUtY7Z/p6pb84xVmdu33vGSoyf+owAW0pm2yhFDGNOX/Y6m
- 8ahnv7W6ADFONcCPrjeyudJwouLgKvmxK1aojtAotoh4dEXos/TQ3yrm4GhteDqde/On
- 8PW7Qrbs4SFVs7nKVD/j1nXmtd1o5XCrUNYJ3SyA14fgJsdZZwYql2M24dyCDMfvVshn
- 8XwA==
-X-Gm-Message-State: AOAM532Plgg51YEvIOr5kgf+XjWvQogDeJeE+Wnc0/GKW1q/yOflctMO
- p3PsNwOCBXICk4pI8mVHwzLqw79YEwVAAg/Sw0A=
-X-Google-Smtp-Source: ABdhPJzrw7LWnDPg6iiEqHxnnMTlbMyyhG3HnOp/WZcDjH/AFzwmJ/zYQmLsxzvA5bIs/tn/yndMky70SKTbT/9lCsU=
-X-Received: by 2002:a05:600c:358c:b0:39c:97ed:baa5 with SMTP id
- p12-20020a05600c358c00b0039c97edbaa5mr15907718wmq.77.1655387981570; Thu, 16
- Jun 2022 06:59:41 -0700 (PDT)
+ bh=slC185Ob3bqwRbXUouHuTugpdNeQm0iZ+NbyQh6gPTc=;
+ b=UdehHUbBV08Z3X8szuto+KDDYc7tu5ODAxBNGDFjYyi32aptxkdjqQtKpoQWpmkxPl
+ bfNiHe0gayjLF15Yu95YtvJ64cNhlw1Y120UARwAM/Cm2S8rQLeZjdK7RZYlWw5HJOwS
+ Bxe2ilmmPDDOrFkjBEf14E8X1gVtLtBp3xH8/lVrTVugqa5rp5P4tRvE7fXBf8zmHwu0
+ st2uoc2iRy92z4Bzfyjt12mzsGfWlX9ce5ssIRC0lqEDN5/EdfNeJBHEiTM0zBiR3pwC
+ upgnGbOCz7GfXpY30rWutdbtOWunduIPeWMbSg0AzpfCXUtLtZJ9z0WVfo85yBABaZ1i
+ FZBg==
+X-Gm-Message-State: AJIora9Of/XMMYmzXcPEqh7Pu51mG4kLnT2do5VBjoZ1hfDssSiaT5Ki
+ s9Bs1Ovo8P4WWMM+FNQofDLABiT+F89in9Sm3tc=
+X-Google-Smtp-Source: AGRyM1vS5uY/KayIVVnAafrvhMLqkQv0X/+RZJiaVU0H2MFh34eE7xgk+0K7uZmYowMiafmu//6OgSqoUg5erP+u2uY=
+X-Received: by 2002:a05:600c:4f96:b0:39c:951e:66b7 with SMTP id
+ n22-20020a05600c4f9600b0039c951e66b7mr5296884wmq.84.1655388249063; Thu, 16
+ Jun 2022 07:04:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220613205032.2652374-1-robdclark@gmail.com>
- <CAE-0n51ADDijFnPwAQNwYE=62Rj4ZeQ38G7D=Xx3s5x7MRm18A@mail.gmail.com>
-In-Reply-To: <CAE-0n51ADDijFnPwAQNwYE=62Rj4ZeQ38G7D=Xx3s5x7MRm18A@mail.gmail.com>
+References: <20220615162435.3011793-1-robdclark@gmail.com>
+ <991331d8-ddda-a816-d279-fdaed90b43c1@linaro.org>
+In-Reply-To: <991331d8-ddda-a816-d279-fdaed90b43c1@linaro.org>
 From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 16 Jun 2022 06:59:46 -0700
-Message-ID: <CAF6AEGtKiv+Y+BQSKvoydEN7W629_BRJR_sMEdFqsWCDRwsSQQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/gem: Drop obj lock in msm_gem_free_object()
-To: Stephen Boyd <swboyd@chromium.org>
+Date: Thu, 16 Jun 2022 07:04:14 -0700
+Message-ID: <CAF6AEGvqoOOcNTrBEFxnROY-M8PazbaZb4zDw4gJFLC7jCR8CA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Fix fence rollover issue
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,210 +64,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sean Paul <sean@poorly.run>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 16, 2022 at 1:28 AM Stephen Boyd <swboyd@chromium.org> wrote:
+On Thu, Jun 16, 2022 at 1:27 AM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-> Quoting Rob Clark (2022-06-13 13:50:32)
-> > diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-> > index d608339c1643..432032ad4aed 100644
-> > --- a/drivers/gpu/drm/msm/msm_gem.h
-> > +++ b/drivers/gpu/drm/msm/msm_gem.h
-> > @@ -229,7 +229,19 @@ msm_gem_unlock(struct drm_gem_object *obj)
-> >  static inline bool
-> >  msm_gem_is_locked(struct drm_gem_object *obj)
-> >  {
-> > -       return dma_resv_is_locked(obj->resv);
-> > +       /*
-> > +        * Destroying the object is a special case.. msm_gem_free_object()
-> > +        * calls many things that WARN_ON if the obj lock is not held.  But
-> > +        * acquiring the obj lock in msm_gem_free_object() can cause a
-> > +        * locking order inversion between reservation_ww_class_mutex and
-> > +        * fs_reclaim.
-> > +        *
-> > +        * This deadlock is not actually possible, because no one should
-> > +        * be already holding the lock when msm_gem_free_object() is called.
-> > +        * Unfortunately lockdep is not aware of this detail.  So when the
-> > +        * refcount drops to zero, we pretend it is already locked.
-> > +        */
-> > +       return dma_resv_is_locked(obj->resv) || (kref_read(&obj->refcount) == 0);
+> On 15/06/2022 19:24, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > And while we are at it, let's start the fence counter close to the
+> > rollover point so that if issues slip in, they are more obvious.
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
 >
-> Instead of modifying this function can we push down the fact that this
-> function is being called from the free path and skip checking this
-> condition in that case? Or add some "_locked/free_path" wrappers that
-> skip the lock assertion? That would make it clearer to understand while
-> reading the code that it is locked when it is asserted to be locked, and
-> that we don't care when we're freeing because all references to the
-> object are gone.
+> Should it also have
+>
+> Fixes: fde5de6cb461 ("drm/msm: move fence code to it's own file")
+>
+> Or maybe
+>
+> Fixes: 5f3aee4ceb5b ("drm/msm: Handle fence rollover")
 
-that was my earlier attempt, and I wasn't too happy with the result.
-And then I realized if refcount==0 then by definition we aren't racing
-with anyone else ;-)
+arguably it fixes the first commit that added GPU support (and
+finishes up a couple spots that the above commit missed)
 
-> Here's a totally untested patch to show the idea. The comment about
-> pretending the lock is held can be put in msm_gem_free_object() to
-> clarify why it's OK to call the locked variants of the functions.
->
-> ---8<---
-> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> index 97d5b4d8b9b0..01f19d37bfb6 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.c
-> +++ b/drivers/gpu/drm/msm/msm_gem.c
-> @@ -346,13 +346,11 @@ static void del_vma(struct msm_gem_vma *vma)
->   * mapping.
->   */
->  static void
-> -put_iova_spaces(struct drm_gem_object *obj, bool close)
-> +put_iova_spaces_locked(struct drm_gem_object *obj, bool close)
->  {
->         struct msm_gem_object *msm_obj = to_msm_bo(obj);
->         struct msm_gem_vma *vma;
->
-> -       GEM_WARN_ON(!msm_gem_is_locked(obj));
-> -
->         list_for_each_entry(vma, &msm_obj->vmas, list) {
->                 if (vma->aspace) {
->                         msm_gem_purge_vma(vma->aspace, vma);
-> @@ -362,18 +360,28 @@ put_iova_spaces(struct drm_gem_object *obj, bool close)
->         }
->  }
->
-> -/* Called with msm_obj locked */
-> +static void put_iova_spaces(struct drm_gem_object *obj, bool close)
-> +{
-> +       GEM_WARN_ON(!msm_gem_is_locked(obj));
-> +       put_iova_spaces_locked(obj, close);
-> +}
+I guess I could use the fixes tag just to indicate how far back it
+would be reasonable to backport to stable branches.
 
-they are both _locked paths ;-)
+> Otherwise:
+>
+> Reviewed: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>
+>
+> > ---
+> >   drivers/gpu/drm/msm/msm_fence.c | 13 +++++++++++--
+> >   1 file changed, 11 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
+> > index 3df255402a33..a35a6746c7cd 100644
+> > --- a/drivers/gpu/drm/msm/msm_fence.c
+> > +++ b/drivers/gpu/drm/msm/msm_fence.c
+> > @@ -28,6 +28,14 @@ msm_fence_context_alloc(struct drm_device *dev, volatile uint32_t *fenceptr,
+> >       fctx->fenceptr = fenceptr;
+> >       spin_lock_init(&fctx->spinlock);
+> >
+> > +     /*
+> > +      * Start out close to the 32b fence rollover point, so we can
+> > +      * catch bugs with fence comparisons.
+> > +      */
+> > +     fctx->last_fence = 0xffffff00;
+> > +     fctx->completed_fence = fctx->last_fence;
+> > +     *fctx->fenceptr = fctx->last_fence;
+>
+> This looks like a debugging hack. But probably it's fine to have it, as
+> it wouldn't cause any side effects.
 
-But in general I think the parallel code paths make things more
-confusing about what is the right thing to call.  And I would like to
-put more WARN_ON(!locked()) in the gem_vma code, to make it clear that
-the obj lock is protecting things there as well.. which, with this
-approach would turn into parallel code paths multiple levels deep
+I was originally going to add a modparam or kconfig to enable this..
+but then thought, if there is a bug and thing are to go wrong, it's
+best for that to happen ASAP rather than after 200-400 days of
+uptime.. the latter case can be rather hard to reproduce bugs ;-)
+
+IIRC the kernel does something similar with jiffies to ensure the
+rollover point is hit quickly
 
 BR,
 -R
 
-> +
-> +/* Called with msm_obj locked or on the free path */
->  static void
-> -put_iova_vmas(struct drm_gem_object *obj)
-> +put_iova_vmas_locked(struct drm_gem_object *obj)
->  {
->         struct msm_gem_object *msm_obj = to_msm_bo(obj);
->         struct msm_gem_vma *vma, *tmp;
+> > +
+> >       return fctx;
+> >   }
+> >
+> > @@ -46,11 +54,12 @@ bool msm_fence_completed(struct msm_fence_context *fctx, uint32_t fence)
+> >               (int32_t)(*fctx->fenceptr - fence) >= 0;
+> >   }
+> >
+> > -/* called from workqueue */
+> > +/* called from irq handler */
+> >   void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)
+> >   {
+> >       spin_lock(&fctx->spinlock);
+> > -     fctx->completed_fence = max(fence, fctx->completed_fence);
+> > +     if (fence_after(fence, fctx->completed_fence))
+> > +             fctx->completed_fence = fence;
+> >       spin_unlock(&fctx->spinlock);
+> >   }
+> >
 >
-> -       GEM_WARN_ON(!msm_gem_is_locked(obj));
-> -
-> -       list_for_each_entry_safe(vma, tmp, &msm_obj->vmas, list) {
-> +       list_for_each_entry_safe(vma, tmp, &msm_obj->vmas, list)
->                 del_vma(vma);
-> -       }
-> +}
-> +
-> +static void
-> +put_iova_vmas(struct drm_gem_object *obj)
-> +{
-> +       GEM_WARN_ON(!msm_gem_is_locked(obj));
-> +       put_iova_vmas_locked(obj);
->  }
 >
->  static struct msm_gem_vma *get_vma_locked(struct drm_gem_object *obj,
-> @@ -795,12 +803,10 @@ void msm_gem_evict(struct drm_gem_object *obj)
->         update_inactive(msm_obj);
->  }
->
-> -void msm_gem_vunmap(struct drm_gem_object *obj)
-> +static void msm_gem_vunmap_locked(struct drm_gem_object *obj)
->  {
->         struct msm_gem_object *msm_obj = to_msm_bo(obj);
->
-> -       GEM_WARN_ON(!msm_gem_is_locked(obj));
-> -
->         if (!msm_obj->vaddr || GEM_WARN_ON(!is_vunmapable(msm_obj)))
->                 return;
->
-> @@ -808,6 +814,12 @@ void msm_gem_vunmap(struct drm_gem_object *obj)
->         msm_obj->vaddr = NULL;
->  }
->
-> +void msm_gem_vunmap(struct drm_gem_object *obj)
-> +{
-> +       GEM_WARN_ON(!msm_gem_is_locked(obj));
-> +       msm_gem_vunmap_locked(obj);
-> +}
-> +
->  void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
->  {
->         struct msm_gem_object *msm_obj = to_msm_bo(obj);
-> @@ -1021,12 +1033,11 @@ void msm_gem_free_object(struct drm_gem_object *obj)
->         list_del(&msm_obj->mm_list);
->         mutex_unlock(&priv->mm_lock);
->
-> -       msm_gem_lock(obj);
-> -
->         /* object should not be on active list: */
->         GEM_WARN_ON(is_active(msm_obj));
->
-> -       put_iova_spaces(obj, true);
-> +       put_iova_spaces_locked(obj, true);
-> +
->
->         if (obj->import_attach) {
->                 GEM_WARN_ON(msm_obj->vaddr);
-> @@ -1036,19 +1047,13 @@ void msm_gem_free_object(struct drm_gem_object *obj)
->                  */
->                 kvfree(msm_obj->pages);
->
-> -               put_iova_vmas(obj);
-> -
-> -               /* dma_buf_detach() grabs resv lock, so we need to unlock
-> -                * prior to drm_prime_gem_destroy
-> -                */
-> -               msm_gem_unlock(obj);
-> +               put_iova_vmas_locked(obj);
->
->                 drm_prime_gem_destroy(obj, msm_obj->sgt);
->         } else {
-> -               msm_gem_vunmap(obj);
-> +               msm_gem_vunmap_locked(obj);
->                 put_pages(obj);
-> -               put_iova_vmas(obj);
-> -               msm_gem_unlock(obj);
-> +               put_iova_vmas_locked(obj);
->         }
->
->         drm_gem_object_release(obj);
-> diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-> index c75d3b879a53..b2998a074de7 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.h
-> +++ b/drivers/gpu/drm/msm/msm_gem.h
-> @@ -253,7 +253,6 @@ static inline bool is_purgeable(struct
-> msm_gem_object *msm_obj)
->
->  static inline bool is_vunmapable(struct msm_gem_object *msm_obj)
->  {
-> -       GEM_WARN_ON(!msm_gem_is_locked(&msm_obj->base));
->         return (msm_obj->vmap_count == 0) && msm_obj->vaddr;
->  }
->
-> diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> index 086dacf2f26a..afff3a79e925 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> @@ -175,6 +175,7 @@ static const int vmap_shrink_limit = 15;
->  static bool
->  vmap_shrink(struct msm_gem_object *msm_obj)
->  {
-> +       GEM_WARN_ON(!msm_gem_is_locked(&msm_obj->base));
->         if (!is_vunmapable(msm_obj))
->                 return false;
+> --
+> With best wishes
+> Dmitry
