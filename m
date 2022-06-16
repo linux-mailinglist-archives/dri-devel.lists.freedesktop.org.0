@@ -1,52 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4844954DA78
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 08:23:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E611854DA7B
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 08:23:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B3A910E824;
-	Thu, 16 Jun 2022 06:23:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7E00112BCD;
+	Thu, 16 Jun 2022 06:23:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A11B510E824
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 06:23:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655360586; x=1686896586;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=C64wXT8o8e3dnYRSkDU43FZmaurq/w0MSIoJ52kgk9M=;
- b=SGPkQkX3XTI83cig+G/BLE16BN9DkkIDI/e5eKBHXcR3Vmt/Uku34EmC
- Jd8Pt7FuioYAucBcjjSB6jLuVKxa5T/+O7g93GUz1WYSn5hez9mwEazmi
- nUZrAMzwlrupG6/EelP2kgEUOj/0MAA/7FKpIygjvUva+DQj9HT5NwPsY
- QGKJe7PJtC2JrsgET/AJOgypoobyqwmS99qyBvbjW5JC2rHvBosHj2mtn
- TsEjdvEcUbJPOvRFyWb4Z09lpNWuhjbfCKsiE3R72IkDkCVZMx/4KR1uA
- xrmHvyxgAEgC7PKwmHLt6+vXHKxJBoTLANM1CxLjVJ55mdT3VYjhkAQeb g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="280211832"
-X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; d="scan'208";a="280211832"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2022 23:23:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; d="scan'208";a="727759979"
-Received: from kuha.fi.intel.com ([10.237.72.185])
- by fmsmga001.fm.intel.com with SMTP; 15 Jun 2022 23:22:58 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation);
- Thu, 16 Jun 2022 09:22:58 +0300
-Date: Thu, 16 Jun 2022 09:22:58 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Prashant Malani <pmalani@chromium.org>
-Subject: Re: [PATCH v4 2/7] usb: typec: mux: Add CONFIG guards for functions
-Message-ID: <YqrMQhb2BKtSCIdx@kuha.fi.intel.com>
-References: <20220615172129.1314056-1-pmalani@chromium.org>
- <20220615172129.1314056-3-pmalani@chromium.org>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 967F2112798;
+ Thu, 16 Jun 2022 06:23:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1655360592; x=1686896592;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=E4Yu97ZpKZVGsZyEumih7vJ5tm4aBVi17DDQTi2gTEE=;
+ b=w5BNNIf9s3I+qbkSWO/SFbPNcVKAfXLfK7xJ5fNHJO1FOdhUiZ3fBRdy
+ M7MbtD8XZykJI5+BzuqMHvgPd5lDaFaBJeC3T3mvv18G5BWNRVLXl6mOS
+ vpENzdDC7ISuBJATSeVrjGuBBbvAwK9sDwB/BInVqj3gMio8GK12Cr7us w=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 15 Jun 2022 23:23:12 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jun 2022 23:23:11 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 15 Jun 2022 23:23:11 -0700
+Received: from [10.111.175.222] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 15 Jun
+ 2022 23:23:08 -0700
+Message-ID: <62ac9e74-70d0-cbfc-fed4-18b8a30dc877@quicinc.com>
+Date: Wed, 15 Jun 2022 23:23:06 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220615172129.1314056-3-pmalani@chromium.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH 1/3] drm/msm/dpu: move intf and wb assignment
+ to dpu_encoder_setup_display()
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Stephen Boyd
+ <swboyd@chromium.org>
+References: <1655235140-16424-1-git-send-email-quic_abhinavk@quicinc.com>
+ <82b09d4d-1985-519e-3657-0d15e07ccc2f@linaro.org>
+ <5b35ee5a-ed94-1440-cdc2-909a82c3aa61@quicinc.com>
+ <CAE-0n50gNX6XP2O9FJVJB135YUGhi5e8Gqb1FAxj20YQSvumuQ@mail.gmail.com>
+ <CAA8EJpq1Td71FwBP5saYTAnS5zK28om+2C79aMPii06ui2JR+w@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpq1Td71FwBP5saYTAnS5zK28om+2C79aMPii06ui2JR+w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,127 +69,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, kernel test robot <lkp@intel.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
- Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Robert Foss <robert.foss@linaro.org>,
- =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 15, 2022 at 05:20:18PM +0000, Prashant Malani wrote:
-> There are some drivers that can use the Type C mux API, but don't have
-> to. Introduce CONFIG guards for the mux functions so that drivers can
-> include the header file and not run into compilation errors on systems
-> which don't have CONFIG_TYPEC enabled. When CONFIG_TYPEC is not enabled,
-> the Type C mux functions will be stub versions of the original calls.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> Signed-off-by: Prashant Malani <pmalani@chromium.org>
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-> ---
+On 6/15/2022 11:21 PM, Dmitry Baryshkov wrote:
+> On Thu, 16 Jun 2022 at 09:18, Stephen Boyd <swboyd@chromium.org> wrote:
+>>
+>> Quoting Abhinav Kumar (2022-06-15 22:59:25)
+>>> Hi Dmitry
+>>>
+>>> On 6/15/2022 10:55 PM, Dmitry Baryshkov wrote:
+>>>> On 14/06/2022 22:32, Abhinav Kumar wrote:
+>>>>> intf and wb resources are not dependent on the rm global
+>>>>> state so need not be allocated during dpu_encoder_virt_atomic_mode_set().
+>>>>>
+>>>>> Move the allocation of intf and wb resources to
+>>>>> dpu_encoder_setup_display()
+>>>>> so that we can utilize the hw caps even during atomic_check() phase.
+>>>>>
+>>>>> Since dpu_encoder_setup_display() already has protection against
+>>>>> setting invalid intf_idx and wb_idx, these checks can now
+>>>>> be dropped as well.
+>>>>>
+>>>>> Fixes: e02a559a720f ("make changes to dpu_encoder to support virtual
+>>>>> encoder")
+>>>>
+>>>> Please adjust the Fixes tags in all three commits. I didn't notice this
+>>>> beforehand and Stephen has complained.
+>>
+>> I think Stephen is Stephen Rothwell.
 > 
-> Changes since v3:
-> - No changes.
+> Ugh, yes. Please excuse me. My brain didn't kick in to notice the name
+> aliasing issue.
 > 
-> Changes since v2:
-> - Fix up return types for some of the stubs. Remove 1 unnecessary stub
->   in the else condition.
-> - Remove unnecessary IS_MODULE config guard.
-> - Added Reviewed-by and Tested-by tags.
+>>> Is something wrong with the tag? Format and hash looked right to me.
+>>
+>>          $ git config pretty.fixes
+>>          Fixes: %h ("%s")
+>>          $ git help fixes
+>>          'fixes' is aliased to 'show -s --pretty=fixes'
+>>          $ git fixes e02a559a720f
+>>          Fixes: e02a559a720f ("drm/msm/dpu: make changes to dpu_encoder to
+>> support virtual encoder")
+>>
+>> it's missing the drm/msm/dpu prefix.
 > 
-> Changes since v1:
-> - Added static inline to stub functions.
-> - Updated function signature of stub functions from "struct typec_mux"
->   to "struct typec_mux_dev" in accordance with updates from commit
->   713fd49b430c ("usb: typec: mux: Introduce indirection")
+> I have more or less the same setup using a longer format and using the
+> git-log instead of git-show. This way I can just do a git fixes
+> drivers/gpu/drm/msm and spot the commit in question.
 > 
->  include/linux/usb/typec_mux.h | 44 ++++++++++++++++++++++++++++++-----
->  1 file changed, 38 insertions(+), 6 deletions(-)
-> 
-> diff --git a/include/linux/usb/typec_mux.h b/include/linux/usb/typec_mux.h
-> index ee57781dcf28..9292f0e07846 100644
-> --- a/include/linux/usb/typec_mux.h
-> +++ b/include/linux/usb/typec_mux.h
-> @@ -58,17 +58,13 @@ struct typec_mux_desc {
->  	void *drvdata;
->  };
->  
-> +#if IS_ENABLED(CONFIG_TYPEC)
-> +
->  struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
->  				       const struct typec_altmode_desc *desc);
->  void typec_mux_put(struct typec_mux *mux);
->  int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state);
->  
-> -static inline struct typec_mux *
-> -typec_mux_get(struct device *dev, const struct typec_altmode_desc *desc)
-> -{
-> -	return fwnode_typec_mux_get(dev_fwnode(dev), desc);
-> -}
-> -
->  struct typec_mux_dev *
->  typec_mux_register(struct device *parent, const struct typec_mux_desc *desc);
->  void typec_mux_unregister(struct typec_mux_dev *mux);
-> @@ -76,4 +72,40 @@ void typec_mux_unregister(struct typec_mux_dev *mux);
->  void typec_mux_set_drvdata(struct typec_mux_dev *mux, void *data);
->  void *typec_mux_get_drvdata(struct typec_mux_dev *mux);
->  
-> +#else
-> +
-> +static inline struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
-> +				       const struct typec_altmode_desc *desc)
-> +{
-> +	return NULL;
-> +}
-> +
-> +static inline void typec_mux_put(struct typec_mux *mux) {}
-> +
-> +static inline int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline struct typec_mux_dev *
-> +typec_mux_register(struct device *parent, const struct typec_mux_desc *desc)
-> +{
-> +	return ERR_PTR(-EOPNOTSUPP);
-> +}
-> +static inline void typec_mux_unregister(struct typec_mux_dev *mux) {}
-> +
-> +static inline void typec_mux_set_drvdata(struct typec_mux_dev *mux, void *data) {}
-> +static inline void *typec_mux_get_drvdata(struct typec_mux_dev *mux)
-> +{
-> +	return ERR_PTR(-EOPNOTSUPP);
-> +}
-> +
-> +#endif /* CONFIG_TYPEC */
-> +
-> +static inline struct typec_mux *
-> +typec_mux_get(struct device *dev, const struct typec_altmode_desc *desc)
-> +{
-> +	return fwnode_typec_mux_get(dev_fwnode(dev), desc);
-> +}
-> +
->  #endif /* __USB_TYPEC_MUX */
-> -- 
-> 2.36.1.476.g0c4daa206d-goog
+> [pretty]
+>          fixes = %C(auto)commit %H%Creset%nFixes: %h (\"%s\")%nAuthor:
+> %aN <%aE>%nDate: %aD%nComitter-Date: %cD%n%n%w(0,4,4)%b
 
--- 
-heikki
+Thank you Stephen and Dmitry.
+
+That was a silly mistake to miss the prefix. Will fix it.
+> 
