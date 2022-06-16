@@ -2,59 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A69E54E70B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 18:27:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE62054E6A9
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 18:07:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B06211A490;
-	Thu, 16 Jun 2022 16:26:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1BA51126B4;
+	Thu, 16 Jun 2022 16:07:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
- [67.231.152.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A31A11A475
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 14:55:36 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
- by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25G8o9ff009500;
- Thu, 16 Jun 2022 09:34:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=PODMain02222019;
- bh=BgbBX9Efb8K0LJNikCHrznq2RAOzoLRPZllxMCU4hQg=;
- b=gCQdUSk/rpXWxIbHsNOWoet4j2CvQDAbvyMUKg5MV9c7BW9qmUnwOMU3XkvoWH73h0p2
- 8N11vjRf6+hCqPoBYabcE14Q/uSpf2ddYtYzdi//jC6Rr5qBRI4EorNp/N/ApSyc/Oba
- madrOdzUyt2II2A9U6Ez3i9BJsP81VvXLfeKDwskOiaR6Zq2wZN1CK7iKSu9E5y4suIr
- H6cANzf8oLPK5k72u1fg3vt/j7okmXScfrX7FZXwhFGe2/GvBBeQN1ZcVdFOg41OfBf8
- f1Ex8eA3ibrKLVYMdi9UwBzhcZxNw71JWQVHLH0KwegXNuQAHzrlmdHd9xHrRWHuEU1i AQ== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
- by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3u-13
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 16 Jun 2022 09:34:57 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 16 Jun
- 2022 15:34:37 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
- Frontend Transport; Thu, 16 Jun 2022 15:34:37 +0100
-Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id BAA5D11DA;
- Thu, 16 Jun 2022 14:34:37 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-Subject: [PATCH 96/96] ASoC: soc-component: Remove non_legacy_dai_naming flag
-Date: Thu, 16 Jun 2022 15:34:29 +0100
-Message-ID: <20220616143429.1324494-97-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
-References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
+Received: from desiato.infradead.org (desiato.infradead.org
+ [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19B971126B4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 16:07:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+ :In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Cc:Content-ID:Content-Description;
+ bh=5MkuctBul9IJAIVhV0CXjLIPtRaSpCdpARIBoblY/Jw=; b=rDJSc0v6Ad7ykTmboi4XAAGG6s
+ X9HDnVNLD4ahnoA5xIC1oj687UkhuISwDbKk6zpWBpiZxbfTj5VpCzEnEi8sM7fTDBJwEOABDBFK+
+ iCGhC+QTvW/OtvMJqQ5XE67gR5w6uKSfIBnvU7vQAaUMblnYdarjpFnffWa4pbuVTx+Vpsg3xrDBh
+ ZeesZ5jcACMCFBZZ6VM9kizF6ZOr42+REZOKmeCuA2fhvBo/ZurLDBWH+6hrqFk/ZgnHwPd/eqt64
+ PiXhArYcuMEtyj+cvO5ntwyjtX8Y5nMMi5cRTePR7Bq2/mR9XqPt8KDMcfwYRja2/t04VbYxQoE5a
+ wcbvSLaQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+ by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1o1s1A-008S5Z-Lh; Thu, 16 Jun 2022 16:06:49 +0000
+Message-ID: <fc19b80e-3492-4b1a-e7e8-20a6a8ee6cf5@infradead.org>
+Date: Thu, 16 Jun 2022 09:06:45 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 04/11] drm/r128: Fix undefined behavior due to shift
+ overflowing the constant
+Content-Language: en-US
+To: Borislav Petkov <bp@alien8.de>, LKML <linux-kernel@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Alex Deucher <alexander.deucher@amd.com>,
+ dri-devel@lists.freedesktop.org
+References: <20220405151517.29753-1-bp@alien8.de>
+ <20220405151517.29753-5-bp@alien8.de>
+ <04ff7802-c87a-2ea2-156e-c437446bc072@infradead.org>
+ <YoZAhPj0IJmE8ss8@phenom.ffwll.local>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <YoZAhPj0IJmE8ss8@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: QvTLDZlAgJ1aTgudm9s4QWmV0lZ-2fqM
-X-Proofpoint-GUID: QvTLDZlAgJ1aTgudm9s4QWmV0lZ-2fqM
-X-Proofpoint-Spam-Reason: safe
-X-Mailman-Approved-At: Thu, 16 Jun 2022 16:26:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,41 +57,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: cezary.rojewski@intel.com, kuninori.morimoto.gx@renesas.com,
- airlied@linux.ie, alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- nicolas.ferre@microchip.com, srinivas.kandagatla@linaro.org,
- peter.ujfalusi@gmail.com, linux-stm32@st-md-mailman.stormreply.com,
- jbrunet@baylibre.com, pierre-louis.bossart@linux.intel.com, krzk@kernel.org,
- linux-rockchip@lists.infradead.org, linux-imx@nxp.com,
- linux-mips@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-xtensa@linux-xtensa.org, nsaenz@kernel.org, kernel@pengutronix.de,
- linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
- patches@opensource.cirrus.com, lgirdwood@gmail.com, vkoul@kernel.org,
- jarkko.nikula@bitmer.com, shawnguo@kernel.org, daniel@zonque.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now all the users are moved over to the new legacy_dai_naming flag,
-remove the now unused old flag.
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- include/sound/soc-component.h | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-index 96c2f5fffc51e..c26ffb033777a 100644
---- a/include/sound/soc-component.h
-+++ b/include/sound/soc-component.h
-@@ -180,7 +180,6 @@ struct snd_soc_component_driver {
- 	 */
- 	unsigned int endianness:1;
- 	unsigned int legacy_dai_naming:1;
--	unsigned int non_legacy_dai_naming:1;
- 
- 	/* this component uses topology and ignore machine driver FEs */
- 	const char *ignore_machine;
+On 5/19/22 06:05, Daniel Vetter wrote:
+> On Mon, Apr 25, 2022 at 11:46:53AM -0700, Randy Dunlap wrote:
+>>
+>>
+>> On 4/5/22 08:15, Borislav Petkov wrote:
+>>> From: Borislav Petkov <bp@suse.de>
+>>>
+>>> Fix:
+>>>
+>>>   drivers/gpu/drm/r128/r128_cce.c: In function ‘r128_do_init_cce’:
+>>>   drivers/gpu/drm/r128/r128_cce.c:417:2: error: case label does not reduce to an integer constant
+>>>     case R128_PM4_64BM_64VCBM_64INDBM:
+>>>     ^~~~
+>>>   drivers/gpu/drm/r128/r128_cce.c:418:2: error: case label does not reduce to an integer constant
+>>>     case R128_PM4_64PIO_64VCPIO_64INDPIO:
+>>>     ^~~~
+>>>
+>>> See https://lore.kernel.org/r/YkwQ6%2BtIH8GQpuct@zn.tnic for the gory
+>>> details as to why it triggers with older gccs only.
+>>>
+>>> Signed-off-by: Borislav Petkov <bp@suse.de>
+>>> Cc: David Airlie <airlied@linux.ie>
+>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>> Cc: dri-devel@lists.freedesktop.org
+>>
+>> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> 
+> Pushed to drm-misc-next, thanks for patch&review.
+> -Daniel
+> 
+
+Hi,
+
+Will this be merged to mainline any time soonish?
+
+thanks.
+
+>>
+>> Thanks.
+>>
+>>> ---
+>>>  drivers/gpu/drm/r128/r128_drv.h | 4 ++--
+>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/r128/r128_drv.h b/drivers/gpu/drm/r128/r128_drv.h
+>>> index 2e1bc01aa5c9..970e192b0d51 100644
+>>> --- a/drivers/gpu/drm/r128/r128_drv.h
+>>> +++ b/drivers/gpu/drm/r128/r128_drv.h
+>>> @@ -300,8 +300,8 @@ extern long r128_compat_ioctl(struct file *filp, unsigned int cmd,
+>>>  #	define R128_PM4_64PIO_128INDBM		(5  << 28)
+>>>  #	define R128_PM4_64BM_128INDBM		(6  << 28)
+>>>  #	define R128_PM4_64PIO_64VCBM_64INDBM	(7  << 28)
+>>> -#	define R128_PM4_64BM_64VCBM_64INDBM	(8  << 28)
+>>> -#	define R128_PM4_64PIO_64VCPIO_64INDPIO	(15 << 28)
+>>> +#	define R128_PM4_64BM_64VCBM_64INDBM	(8U  << 28)
+>>> +#	define R128_PM4_64PIO_64VCPIO_64INDPIO	(15U << 28)
+>>>  #	define R128_PM4_BUFFER_CNTL_NOUPDATE	(1  << 27)
+>>>  
+>>>  #define R128_PM4_BUFFER_WM_CNTL		0x0708
+>>
+>> -- 
+>> ~Randy
+> 
+
 -- 
-2.30.2
-
+~Randy
