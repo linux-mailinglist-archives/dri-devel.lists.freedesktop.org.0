@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E10D54E711
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 18:27:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524C854E71E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 18:27:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95B3E11A577;
-	Thu, 16 Jun 2022 16:26:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2168011A4C6;
+	Thu, 16 Jun 2022 16:26:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
- [67.231.149.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94FBE11A484
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 14:58:00 +0000 (UTC)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
- by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25G4igBq030693;
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
+ [67.231.152.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D94F111A449
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 14:55:28 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+ by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25G8o9fd009500;
  Thu, 16 Jun 2022 09:34:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=gfAjeuTJgrfbbUARWAZ0uMTILKOVHkuBefDmweg4me0=;
- b=fMzn19dzOeg+tFSIrVr42zdE16j8NUAuvx+2fEFT1QANyyPVRnfMoVLR9MU31WCdJc2r
- TkKFnA5U5TM3mukyF2t4GVYJlbEdK2wEXbK5PQz0tHQkXbeNrXqwYA9q394S63dVcYww
- PeAgJiaJ8tcylkEfATAFcpd/vN8sy1S6ppE7CN+48hcdef2n5S4O1XW3ORyE4nS2atQu
- 9WvzSVEaEBC/0lCKVV2vwamIlHBfLIctU8ka5Idz41YspiDdUfs+hDSGxIHCy4Qy02T2
- tcA2Vm48tKnrybG3nie+5TmxC2cvPI/DSaeHYlimfD2vhusJZOxIhA6qj5pcRoyJhsUY 7w== 
+ bh=C9jFcjILUBruvY5FmPmFUeeMJvd0Y1YtT+zram/FiSo=;
+ b=W5Jth0HTIoyjFKA24zOJnZ4VNNJsVBCY5kmAN1OBatSpD4cbsX3eg/3feaWSh1KVOfQe
+ yKAXwWHFwV0LOJlHfxSJTe44vU6yHwqbznIVU12LpLnzYCwqsXAn8nbkL/iSMMk7sqsp
+ R59jhjr1g4ckeYyBM4lb0zmtcRNxLBDF74KRwSRN1Q3ZXkQgxNaxo1Bm7kBO/DJq+/Ui
+ Fahr0REUGrPrRfRQhu6UEpe3XxUi/zXv0EDYotr6pRbwFNcSe7jtw9QAlPatT+nEqlD9
+ zhmtlWjb4NPTYO5Dmy1MMMLjCSNFZhnmXD6rDwP3dKuB+7NLIxTsgzz6DQqW/JegnDBx uw== 
 Received: from ediex02.ad.cirrus.com ([84.19.233.68])
- by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gmrf35vuw-20
+ by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3u-11
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
  Thu, 16 Jun 2022 09:34:55 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
@@ -38,24 +38,24 @@ Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
  Frontend Transport; Thu, 16 Jun 2022 15:34:37 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 648CD11DA;
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 79AE811D3;
  Thu, 16 Jun 2022 14:34:37 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH 92/96] ASoC: sti-sas: Remove now redundant
+Subject: [PATCH 93/96] ASoC: tscs42xx: Remove now redundant
  non_legacy_dai_naming flag
-Date: Thu, 16 Jun 2022 15:34:25 +0100
-Message-ID: <20220616143429.1324494-93-ckeepax@opensource.cirrus.com>
+Date: Thu, 16 Jun 2022 15:34:26 +0100
+Message-ID: <20220616143429.1324494-94-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: vzGbU5AChYt2XCQyJib-KMztjYqj4V0s
-X-Proofpoint-ORIG-GUID: vzGbU5AChYt2XCQyJib-KMztjYqj4V0s
+X-Proofpoint-ORIG-GUID: WrhzynNDdJ61Yn2Ei9CuNKGX9BvMWZMz
+X-Proofpoint-GUID: WrhzynNDdJ61Yn2Ei9CuNKGX9BvMWZMz
 X-Proofpoint-Spam-Reason: safe
-X-Mailman-Approved-At: Thu, 16 Jun 2022 16:26:01 +0000
+X-Mailman-Approved-At: Thu, 16 Jun 2022 16:26:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,21 +89,21 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/codecs/sti-sas.c | 1 -
+ sound/soc/codecs/tscs42xx.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/codecs/sti-sas.c b/sound/soc/codecs/sti-sas.c
-index 10a6a112f4b47..f076878908eec 100644
---- a/sound/soc/codecs/sti-sas.c
-+++ b/sound/soc/codecs/sti-sas.c
-@@ -398,7 +398,6 @@ static struct snd_soc_component_driver sti_sas_driver = {
+diff --git a/sound/soc/codecs/tscs42xx.c b/sound/soc/codecs/tscs42xx.c
+index 4fb0bb01bcdc0..fa0c525189c20 100644
+--- a/sound/soc/codecs/tscs42xx.c
++++ b/sound/soc/codecs/tscs42xx.c
+@@ -1358,7 +1358,6 @@ static const struct snd_soc_component_driver soc_codec_dev_tscs42xx = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct of_device_id sti_sas_dev_match[] = {
+ static inline void init_coeff_ram_cache(struct tscs42xx *tscs42xx)
 -- 
 2.30.2
 
