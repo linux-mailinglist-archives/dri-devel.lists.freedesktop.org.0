@@ -1,46 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA7654DC23
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 09:50:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F6CD54DC26
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 09:51:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C965F10F750;
-	Thu, 16 Jun 2022 07:50:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C70D10F017;
+	Thu, 16 Jun 2022 07:51:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DAF910F017;
- Thu, 16 Jun 2022 07:50:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655365800; x=1686901800;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=E7ceC3mMhkr1LCdJ9nZCXa/6noozbWTZizQmdFBvf10=;
- b=G2TixCNC5dAVk0Gt3IsEpzBiHnDtANgcWM0b9JjQA40ypvqEPQ4J4ken
- EfwOzbn7pbzShGhfRCcXdtd3jUkeHXmA2YagPpQbKDWSPrNBgXI6VSwD3
- OyQjyxqk1CvJeOSqaQ3y0jpQJOKz7D5alV9IAMWSgfq/J7KYm240VWfpr
- Tz2tmezw4tj7sN13yOUqYa35vAIlCY5F83+624KCLtfrpVLhLZrEJfZDe
- 7pqkEra1l09lnNBsFm1YFCZfN+PysKS/N3k2CcsB4lWFAb9vqb7oCAT47
- bxW5likBmfjBtB5mBpl+AkBDvvqsgmJgtHZJ/CbPnOU9LP5vBql/+E7l9 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="259045553"
-X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; d="scan'208";a="259045553"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 00:49:59 -0700
-X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; d="scan'208";a="641421889"
-Received: from malashi-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.57.133])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 00:49:56 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 16 Jun 2022 10:49:54 +0300
-Message-ID: <8735g5xd25.fsf@intel.com>
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F94410F017
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 07:51:04 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 890245C04A4;
+ Thu, 16 Jun 2022 03:51:03 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 16 Jun 2022 03:51:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1655365863; x=1655452263; bh=avkRFOQri+
+ DCIUeMYAcXgoXa03VDvIj7+Mqpc1dZorE=; b=tPTiDQZgOpOTBNkWPIEeZ1cVHU
+ rEBZIs9kB54QbLOHfdkbmXpHgb5tCHVKkq+L0SFsg6Rv0yKI0y+3PAbC0Vb/fPMJ
+ F/RuZ/sx27XTAS3vhno2ZjGMC62OUcI3JRIzE/vAQILFsE4W/3bGiGet0nOdpZ1F
+ inyflp5AjmQ5LyaxJ0vIXsxJ3qE0OrAx8GwdkIoGopzpxRzu+4Uk4D4uTMjPPqeG
+ EpvB6fMFevTJu+RFOUaRsqwvvd58R/4W9xhVgvOGHln0e6PkQskebfXxGsMrG4S1
+ h8aRbJztk/H++1oq607cQTeJegMgPt3a72uA/tTj4uIj1+nPkuuzfYGz9fAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1655365863; x=1655452263; bh=avkRFOQri+DCIUeMYAcXgoXa03VD
+ vIj7+Mqpc1dZorE=; b=psRljeytIRyTl+ScjZLU8kIJ9pQfdTmnCb5I1dHxqdMu
+ NeiD9HWw0xK3XCyYtXufIATqua3uZXwAhhQ3FLzn1iioUsoFk+P+ZgJ7J7A1PiyN
+ nTW60PU/Fs2xvMERANtD+bbcdZexftiAoR9i1jj9M5dAcSZvTmtQQ5/ufLLnuHs6
+ PZqn3nL08qP4cFzFmaL4yRDslLWbXwIG0rxN7PXyKLVPJtfqvQHaqaKAAoo60WnP
+ i4FWoKByAuqz8u2b7w2QmN5qmVGkT3tayPMzkq106FmGpa16e8Zpux7tLmig4fYw
+ 2kny5qdSOYehInMKxAYpqtWLVFwh+Gff5ZrultoDXQ==
+X-ME-Sender: <xms:5-CqYp084miTQPbYre40GQf43Dgit3mkgcdvqJs-Oy7pCwTI3aeETA>
+ <xme:5-CqYgH5ejk39-bafGZ_5dizsV_-qUNTUC_TzzIsMKxus3DTlSABzV3n4YL0CICe_
+ hzoPufIIR5GGPTpYBg>
+X-ME-Received: <xmr:5-CqYp5DX1d7rHEyzJPiDebzTmf6zAwEvbOVUYO-on_lofDLGVMO0GjpwJGIlnBmOb7h0PN5lPZC5diUd3INrI3ZQOGUj3T7GD1zW4w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvvddguddvvdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
+ fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:5-CqYm0q22hXCfmH1D1ozvFYoK3sDjcdoPPL1x68Z9BsDbvZsFuoCQ>
+ <xmx:5-CqYsHCLmwctCX_QA8ztpyM8r6Qez7ER2y1q5z6igEBry5oDOeJnA>
+ <xmx:5-CqYn_utHs01A6ysdyg3vDtVzXa7Zfb_9pAw18CAIOScJQknRvN_Q>
+ <xmx:5-CqYqZP_gjVDOPGyZYYJdCIQSO8V1Qde33cLWNz72W7amZlkoNLjQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Jun 2022 03:51:02 -0400 (EDT)
+Date: Thu, 16 Jun 2022 09:51:01 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] drm/sun4i: Fix crash during suspend after component bind
+ failure
+Message-ID: <20220616075101.gjm4dctnyjxcmjur@houat>
+References: <20220615054254.16352-1-samuel@sholland.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="qbgetibzjtgdqpsj"
+Content-Disposition: inline
+In-Reply-To: <20220615054254.16352-1-samuel@sholland.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,67 +83,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: Ondrej Jirman <megous@megous.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-Hi Dave & Daniel -
+--qbgetibzjtgdqpsj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-drm-intel-fixes-2022-06-16:
-drm/i915 fixes for v5.19-rc3:
-- Fix page fault on error state read
-- Fix memory leaks in per-gt sysfs
-- Fix multiple fence handling
-- Remove accidental static from a local variable
+Hi,
 
-BR,
-Jani.
+On Wed, Jun 15, 2022 at 12:42:53AM -0500, Samuel Holland wrote:
+> If the component driver fails to bind, or is unbound, the driver data
+> for the top-level platform device points to a freed drm_device. If the
+> system is then suspended, the driver passes this dangling pointer to
+> drm_mode_config_helper_suspend(), which crashes.
+>=20
+> Fix this by only setting the driver data while the platform driver holds
+> a reference to the drm_device.
+>=20
+> Fixes: 624b4b48d9d8 ("drm: sun4i: Add support for suspending the display =
+driver")
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-The following changes since commit b13baccc3850ca8b8cccbf8ed9912dbaa0fdf7f3:
+Yeah, it's far from the only issue regarding structure lifetimes in the
+driver.
 
-  Linux 5.19-rc2 (2022-06-12 16:11:37 -0700)
+We should convert as much as possible to the DRM-managed functions to
+fix those.
 
-are available in the Git repository at:
+Maxime
 
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2022-06-16
+--qbgetibzjtgdqpsj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-for you to fetch changes up to 2636e008112465ca54559ac4898da5a2515e118a:
+-----BEGIN PGP SIGNATURE-----
 
-  drm/i915/uc: remove accidental static from a local variable (2022-06-13 13:53:35 +0300)
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYqrg5QAKCRDj7w1vZxhR
+xVj+AP9Lpx3pI6RrBywPXKcmxvCkRZ4QHOy5xsKfXkKI6tLETgEAkGiZ3sBXGsYY
+KLIz4RgXLbFTU7/u7uLaZcvDfMWHigU=
+=4NA8
+-----END PGP SIGNATURE-----
 
-----------------------------------------------------------------
-drm/i915 fixes for v5.19-rc3:
-- Fix page fault on error state read
-- Fix memory leaks in per-gt sysfs
-- Fix multiple fence handling
-- Remove accidental static from a local variable
-
-----------------------------------------------------------------
-Alan Previn (1):
-      drm/i915/reset: Fix error_state_read ptr + offset use
-
-Ashutosh Dixit (1):
-      drm/i915/gt: Fix memory leaks in per-gt sysfs
-
-Jani Nikula (1):
-      drm/i915/uc: remove accidental static from a local variable
-
-Nirmoy Das (1):
-      drm/i915: Individualize fences before adding to dma_resv obj
-
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c |  3 +-
- drivers/gpu/drm/i915/gt/intel_gt.c             |  1 +
- drivers/gpu/drm/i915/gt/intel_gt_sysfs.c       | 29 +++++++---------
- drivers/gpu/drm/i915/gt/intel_gt_sysfs.h       |  6 +---
- drivers/gpu/drm/i915/gt/intel_gt_types.h       |  3 ++
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c       |  2 +-
- drivers/gpu/drm/i915/i915_sysfs.c              | 17 +++++++--
- drivers/gpu/drm/i915/i915_vma.c                | 48 +++++++++++++++-----------
- 8 files changed, 62 insertions(+), 47 deletions(-)
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+--qbgetibzjtgdqpsj--
