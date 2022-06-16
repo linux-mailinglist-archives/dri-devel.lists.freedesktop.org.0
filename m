@@ -1,71 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F0854DC72
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 10:07:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2D354DC83
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 10:11:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED0B61128F5;
-	Thu, 16 Jun 2022 08:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39A6810F528;
+	Thu, 16 Jun 2022 08:11:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A555112749
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 08:07:08 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id c2so1087389lfk.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 01:07:08 -0700 (PDT)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2ABF810F528
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 08:11:10 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id c30so656970ljr.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 01:11:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/pRixx8A5NmIgzuI16/xbS/fxWasbprf5TzsyZtX/Rc=;
- b=O0SNbdpeeKwPEve6kekoUpHg0VY0BV5/OlzzAnPIcmeWqfZ46O3iwx3D2yZcEhmuZb
- pmmvn5eLND7D9sXQWd2nFnyd1VBOuAQ6g5r4f+z1yM03T9c3PLKjLDvgucOtRAlfImth
- dNk+IhW9UB+Qm2aIn3VQit/82dGZvlAi09GvHQOyGsGchU/0wfWpILjnkBLSoIcan2am
- OsRygAdYw8V4rwyOdgHVpnGihU+OuhChaUZQgA9T5/lX+ZPOUdlBCuSqqvWcqKJsxiaC
- YogBLc8YA+wAY3/32/4MtEr1agQ6iOqEnQDchAdqH6x1wUlKuFh9oEgw6krL0Tad0miZ
- ACHw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1qbg9qXXSR6emdLRiopLdhShbC9ThAqArdO/gs7MONo=;
+ b=FbDsXdOqnQj4yXB+zfSFUDL1JHL4n+irvfikBSA02l59GZ2mwhIXKeiNQjZQn+nIYw
+ xL0BbA+mbR0GqZ4gAzC0aRtlsINd+7ZyC7BYeCoG4UdpbTB/KPTu8oSYueFg//1/nNlh
+ Y4So0huPo9qi64qABkcZsIDTCdaPN7xx4eViZA9p0mV9ukYvmHrrtXdpWcC550531OmS
+ 666q6yd7z2WMon2YjT662RcJQsKo9QPtR4OLjDhr6VGTc6b9tFfBHzQTvUcl7tQ8nOx4
+ 8GRJbwObBw0CveTPqBSWVozk4vZbZWKVf7j0oyZTU8yGvxPEoB4bxzzfX0xibnD4LKyH
+ AHrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=/pRixx8A5NmIgzuI16/xbS/fxWasbprf5TzsyZtX/Rc=;
- b=zRlFrBGPQrE33vKd5RLjqeKPGi3P6NqcBHrJCGcESIvQ6krqkF++sUBFb8dXKc3S2X
- 5vTfgMM2eEEF/sALt30M3S2R6stJJP1O89A/qhOI24yVKZiNqpA5p9kMQr5HjCXlEFJo
- yBCFYrtKG9q8eAYdxDAyhW3uGd1WnrE6G4qdTM7Gs585uYjdXsXHdDoMKCW2tJU2RQEj
- aFpKcEhPQTFJuhj4mPhlIp6f5xz/PkkpmAAjzccutz5Q90NQgYVMtyml5Yx56/LDKcow
- EkBWUC2habGDkuKvqRNDFeoPoXnlAajL+oQBrJ35ZABUVmeLRZCjGIwfojQDBysgJrHl
- GIww==
-X-Gm-Message-State: AJIora9q0a5wuMDsj2jjGoqHNE3WkKbcHsJ7ToWiQVU3BlCqqoPuZ5Ay
- qzJeZFkUw6mi7V61/MI239BPfTBRZxZ41fLc
-X-Google-Smtp-Source: AGRyM1u1xELSmGKoa5EcL2ZapZwgIxY84syV2QpLs574QTwTg3SmggmDf2p8wydDHJjjK5jGJgklKA==
-X-Received: by 2002:a19:2d57:0:b0:479:732e:d8d5 with SMTP id
- t23-20020a192d57000000b00479732ed8d5mr1941662lft.131.1655366826908; 
- Thu, 16 Jun 2022 01:07:06 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- b28-20020a19645c000000b00473c87152bcsm138299lfj.127.2022.06.16.01.07.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jun 2022 01:07:06 -0700 (PDT)
-Message-ID: <92d13645-82de-18ea-f0e6-30a8de1ce3c8@linaro.org>
-Date: Thu, 16 Jun 2022 11:07:05 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 4/5] drm/msm: move KMS aspace init to the separate
- helper
-Content-Language: en-GB
-To: Stephen Boyd <swboyd@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-References: <20220505001605.1268483-1-dmitry.baryshkov@linaro.org>
- <20220505001605.1268483-5-dmitry.baryshkov@linaro.org>
- <CAE-0n53nQS=m1SsGaYavtyTgJbO_uFqp51srexY2H1rK-hz0=g@mail.gmail.com>
+ bh=1qbg9qXXSR6emdLRiopLdhShbC9ThAqArdO/gs7MONo=;
+ b=LD6KidfZg5L/ZSGjaOu1kl//CuUWCAG9dxYWjBFDFRNG+LXYKjoKwzU0MAybRGc2xe
+ BInwtWNBx0EEjxwlDWs0nkdG66uK4uUuDQjuc4hpQR460Xh1/o0srIKzNhl2AVFVtSpP
+ KICwSRVfddSmF5EG4WwNqyzVY6968QtGV+DSMtirfn3G4JrfmU/0/foMJ4XNl25mofnG
+ 5Y9IVSvlbcbvFWPKGvUxRW9hZ2Da2jqJI8mYDCUCzyyYOk7sb8ULd/yFvxp9IqM/q+HO
+ 9a7rlxa5T4ai8usVx9o1h6WDglfGCherKyNe2ptWtbsJOBIiQUkSG1yC2Q9CFrc0fXYz
+ XqnQ==
+X-Gm-Message-State: AJIora9SQTbrvYSZD1yrj9XvLknEQFm+aREhaoT7HOUi+vEcYELxIJrm
+ 3JZyV9YV3HfUDPw8oG64D8Q7Pw==
+X-Google-Smtp-Source: AGRyM1vc1pJmylzW5eHRWv3Nd6IuZfh47MF5zJutwFg1Sir9CSqf8ArnpGkS7cxI7nAwIrRYgix7Nw==
+X-Received: by 2002:a05:651c:b09:b0:25a:44fd:41f with SMTP id
+ b9-20020a05651c0b0900b0025a44fd041fmr1869162ljr.366.1655367067892; 
+ Thu, 16 Jun 2022 01:11:07 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ y29-20020a19641d000000b004790823d354sm142144lfb.26.2022.06.16.01.11.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jun 2022 01:11:07 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAE-0n53nQS=m1SsGaYavtyTgJbO_uFqp51srexY2H1rK-hz0=g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v3 0/5] drm/msm: fixes for KMS iommu handling
+Date: Thu, 16 Jun 2022 11:11:01 +0300
+Message-Id: <20220616081106.350262-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,50 +68,51 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, freedreno@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/06/2022 05:34, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2022-05-04 17:16:04)
->> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
->> index a37a3bbc04d9..98ae0036ab57 100644
->> --- a/drivers/gpu/drm/msm/msm_drv.c
->> +++ b/drivers/gpu/drm/msm/msm_drv.c
->> @@ -262,6 +263,46 @@ static int msm_drm_uninit(struct device *dev)
->>
->>   #include <linux/of_address.h>
->>
->> +struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
->> +{
-> [...]
->> +       }
->> +
->> +       aspace = msm_gem_address_space_create(mmu, "mdp_kms",
->> +               0x1000, 0x100000000 - 0x1000);
->> +       if (IS_ERR(aspace)) {
->> +               mmu->funcs->destroy(mmu);
-> 
-> 
->> +               return aspace;
->> +       }
->> +
->> +       return aspace;
-> 
-> This can be 'return aspace' one time instead of two.
+This series started from the applied and then reverted [2] patch by
+Robin Murphy [1]. After the MDSS rework [3] has landed it is now
+possible to reapply the extended version of the original patch. While we
+are at it, also rework the IOMMU init code for DPU and MDP5 drivers.
 
-Yes. I was just always in favour of explicit error returns rather than 
-falling through. I'll send v2.
+For MDP5 this moves iommu_domain_alloc() call and removes struct
+mdp5_cfg_platform remains.
 
-> 
->> +}
->> +
->>   bool msm_use_mmu(struct drm_device *dev)
->>   {
->>          struct msm_drm_private *priv = dev->dev_private;
+For DPU this allows specifying the iommus = <...> either in the DPU
+device (like all DPU devices do) or in the MDSS device (like MDP5
+devices do).
 
+Changes since v2:
+ - Merge two return statements in msm_kms_init_aspace() (requested by
+   Stephen)
+
+Changes since v1:
+ - Move aspace init to common helper
+ - Use device_iommu_mapped() rather than semi-internal
+   dev_iommu_fwspec_get() (suggested by Robin Murphy)
+
+[1] https://patchwork.freedesktop.org/patch/480707/
+[2] https://patchwork.freedesktop.org/patch/482453/
+[3] https://patchwork.freedesktop.org/series/98525/
+
+Dmitry Baryshkov (5):
+  drm/msm/dpu: check both DPU and MDSS devices for the IOMMU
+  drm/msm/mdp5: move iommu_domain_alloc() call close to its usage
+  drm/msm: Stop using iommu_present()
+  drm/msm: move KMS aspace init to the separate helper
+  drm/msm: switch msm_kms_init_aspace() to use device_iommu_mapped()
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 24 ++----------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 16 --------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.h |  6 ---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 31 +++------------
+ drivers/gpu/drm/msm/msm_drv.c            | 49 +++++++++++++++++++++++-
+ drivers/gpu/drm/msm/msm_drv.h            |  1 +
+ 6 files changed, 57 insertions(+), 70 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.35.1
+
