@@ -2,63 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE4F54E9E2
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 21:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E64954EA12
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 21:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9372F10FC1D;
-	Thu, 16 Jun 2022 19:16:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E10B89260;
+	Thu, 16 Jun 2022 19:23:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BDE510FC1D
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:16:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 028F0B825AE
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:16:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BFF51C3411C
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:16:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655406969;
- bh=cJ1Q4COpyJpul3DB0rVfK77C0lAL/aDLWirg6curdbQ=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=lwFd02Uppqvurn5EvTOycZYKb/+yfAwan6UKJ+S3V/XtnQSGP9DRdr7zcAEKqeynD
- rUaURvEUrxgmlRJzrSyg0ZzL35x8SGSBVW2/cc2J9GtyPFw14eFDdBDbMEwzknKR2T
- 5cG3xK3kHJShf8yheJW5Zcz2WMOY2nTOIgD4vlbxX9vDeWryOuRRyofXbYA4AWLplw
- Bk3cK69g5HxH2VjkqCRcBClkP87A/e+6ETBx7dJBL14yNXPruQ3/DZ9NxuplwCiapX
- sIp7cBulMllyZ4+9BH5dkbsAwgLEMGr0dMQYn4D8jrW0tgxSgy9Y1YbQXvhJK5+iQ0
- GKWn2U5u+UooQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id AC416CC13B3; Thu, 16 Jun 2022 19:16:09 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
- 390
-Date: Thu, 16 Jun 2022 19:16:09 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216119-2300-boNgmqEYd3@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
-References: <bug-216119-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from smtp.smtpout.orange.fr (smtp04.smtpout.orange.fr
+ [80.12.242.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2078411A536
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:23:30 +0000 (UTC)
+Received: from [192.168.1.18] ([90.11.190.129]) by smtp.orange.fr with ESMTPA
+ id 1v5RovI1qEhCQ1v5RofLi0; Thu, 16 Jun 2022 21:23:28 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Thu, 16 Jun 2022 21:23:28 +0200
+X-ME-IP: 90.11.190.129
+Message-ID: <29bce31d-f186-ae41-e154-e7451d185bae@wanadoo.fr>
+Date: Thu, 16 Jun 2022 21:23:25 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] drm/connector: Remove usage of the deprecated
+ ida_simple_xxx API
+Content-Language: fr
+To: Bo Liu <liubo03@inspur.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch
+References: <20220616051829.4071-1-liubo03@inspur.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20220616051829.4071-1-liubo03@inspur.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,16 +46,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
+Le 16/06/2022 à 07:18, Bo Liu a écrit :
+> Use ida_alloc_xxx()/ida_free() instead of
+> ida_simple_get()/ida_simple_remove().
+> The latter is deprecated and more verbose.
+> 
+> Signed-off-by: Bo Liu <liubo03@inspur.com>
+> ---
+>   drivers/gpu/drm/drm_connector.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 1c48d162c77e..e3484b115ae6 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -250,7 +250,7 @@ int drm_connector_init(struct drm_device *dev,
+>   	connector->funcs = funcs;
+>   
+>   	/* connector index is used with 32bit bitmasks */
+> -	ret = ida_simple_get(&config->connector_ida, 0, 32, GFP_KERNEL);
+> +	ret = ida_alloc_max(&config->connector_ida, 31, GFP_KERNEL);
+>   	if (ret < 0) {
+>   		DRM_DEBUG_KMS("Failed to allocate %s connector index: %d\n",
+>   			      drm_connector_enum_list[connector_type].name,
+> @@ -262,7 +262,7 @@ int drm_connector_init(struct drm_device *dev,
+>   
+>   	connector->connector_type = connector_type;
+>   	connector->connector_type_id =
+> -		ida_simple_get(connector_ida, 1, 0, GFP_KERNEL);
+> +		ida_alloc_min(connector_ida, 1, GFP_KERNEL);
+>   	if (connector->connector_type_id < 0) {
+>   		ret = connector->connector_type_id;
+>   		goto out_put_id;
+> @@ -322,10 +322,10 @@ int drm_connector_init(struct drm_device *dev,
+>   	connector->debugfs_entry = NULL;
+>   out_put_type_id:
+>   	if (ret)
+> -		ida_simple_remove(connector_ida, connector->connector_type_id);
+> +		ida_free(connector_ida, connector->connector_type_id);
+>   out_put_id:
+>   	if (ret)
+> -		ida_simple_remove(&config->connector_ida, connector->index);
+> +		ida_free(&config->connector_ida, connector->index);
+>   out_put:
+>   	if (ret)
+>   		drm_mode_object_unregister(dev, &connector->base);
+> @@ -479,10 +479,10 @@ void drm_connector_cleanup(struct drm_connector *connector)
+>   	list_for_each_entry_safe(mode, t, &connector->modes, head)
+>   		drm_mode_remove(connector, mode);
+>   
+> -	ida_simple_remove(&drm_connector_enum_list[connector->connector_type].ida,
+> +	ida_free(&drm_connector_enum_list[connector->connector_type].ida,
+>   			  connector->connector_type_id);
 
---- Comment #6 from Alex Deucher (alexdeucher@gmail.com) ---
-On the kernel command line in grub.
+Hi,
 
---=20
-You may reply to this email to add a comment.
+Nitpick: the code should be aligned with "&drm_connector_enum_list" now
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+>   
+> -	ida_simple_remove(&dev->mode_config.connector_ida,
+> +	ida_free(&dev->mode_config.connector_ida,
+>   			  connector->index);
+
+Same here, but I guess that it fits one one line now.
+
+>   
+>   	kfree(connector->display_info.bus_formats);
+
