@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293B554E074
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 14:02:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1566854E077
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 14:02:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39BC211A4C7;
-	Thu, 16 Jun 2022 12:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E252311A4DA;
+	Thu, 16 Jun 2022 12:02:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24AEC11A4BC;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90C9B11A4C3;
  Thu, 16 Jun 2022 12:02:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1655380924; x=1686916924;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=cdwNXAseuVTM4Y4PeKyaSTc28JONKkgJnhx1JD/8agA=;
- b=Is1hmpPKOn/IPIjacXgjYVYn2zf0Q9XLJxlYaW3v+igEJA65tYxxTBbd
- ulAUYlHEmhdO6jBV9vH864Z0uPVQ3X+MNsDmiyK3BqOST37SoVzWWttEb
- pN2Dhl8pGHVaH42nkU0wEVbmJMSWBLUzGrhToX01HOlcMjKLNVwFcNIj2
- gWPPLuRMgtPnBt0UdbcazzBir8aUawAQ6aTPkCe9N4/aizbMi0vZItJ+i
- vU6xXHMdn8ScydFFxhMhr/yNhGIQTsOT+5AqhCxoq1WIypB2NM5oMWVwW
- MgHODp9MhtpTA6PZIaibn3tBBmDyz4NGzspfEB5jNjJF1luWbnhfo5fJ3 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="343189617"
-X-IronPort-AV: E=Sophos;i="5.91,305,1647327600"; d="scan'208";a="343189617"
+ bh=n04pVspeYr1Z4PmeXjJUniNQCilqRGE2M2WlvMC4CqY=;
+ b=P9e9HrxQpEu4mc9kUoEoByAS8nEnzNppMPBmAUTSc0woWqUG+3jRIvVv
+ k4D5kwiyYPUmQvA3YoYfPyyyRsE27+QKFpkTkuGvK/ECLvIUdVazzUeze
+ PeMenqTabPVHeoSa9cuBjSY19uq2UPKKDxi5K1+Etx/GOTTBJ3+cIkePg
+ e5yxQed7w56k0eRGL6Xi6PqWG3d3ri9CDRKgVuoXeNC4lVdHM0tL03h3q
+ mDobXCAN3RwRSblFnnd/wPnqpn0w48uiNfnbCgA+Th6ilO3ilp5DV7r50
+ JAvWJM0HP/r4Ina0ggW0O64/d5y2bW64aeAI6wc3EcAN7PgnVdkUDmL3s w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="343189623"
+X-IronPort-AV: E=Sophos;i="5.91,305,1647327600"; d="scan'208";a="343189623"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 05:01:42 -0700
-X-IronPort-AV: E=Sophos;i="5.91,305,1647327600"; d="scan'208";a="713330932"
+ 16 Jun 2022 05:01:45 -0700
+X-IronPort-AV: E=Sophos;i="5.91,305,1647327600"; d="scan'208";a="713330941"
 Received: from srr4-3-linux-105-anshuma1.iind.intel.com ([10.223.74.179])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 05:01:39 -0700
+ 16 Jun 2022 05:01:42 -0700
 From: Anshuman Gupta <anshuman.gupta@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 6/9] drm/i915/dgfx: Setup VRAM SR with D3COLD
-Date: Thu, 16 Jun 2022 17:31:03 +0530
-Message-Id: <20220616120106.24353-7-anshuman.gupta@intel.com>
+Subject: [PATCH v2 7/9] drm/i915/rpm: Enable D3Cold VRAM SR Support
+Date: Thu, 16 Jun 2022 17:31:04 +0530
+Message-Id: <20220616120106.24353-8-anshuman.gupta@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20220616120106.24353-1-anshuman.gupta@intel.com>
 References: <20220616120106.24353-1-anshuman.gupta@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,204 +57,98 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: tilak.tangudu@intel.com, tvrtko.ursulin@intel.com,
- Jani Nikula <jani.nikula@intel.com>, Anshuman Gupta <anshuman.gupta@intel.com>,
- jon.ewins@intel.com, badal.nilawar@intel.com, rodrigo.vivi@intel.com
+ Anshuman Gupta <anshuman.gupta@intel.com>,
+ Chris Wilson <chris.p.wilson@intel.com>, jon.ewins@intel.com,
+ badal.nilawar@intel.com, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Setup VRAM Self Refresh with D3COLD state.
-VRAM Self Refresh will retain the context of VRAM, driver
-need to save any corresponding hardware state that needs
-to be restore on D3COLD exit, example PCI state.
+Intel Client DGFX card supports D3Cold with two option.
+D3Cold-off zero watt, D3Cold-VRAM Self Refresh.
 
-Cc: Jani Nikula <jani.nikula@intel.com>
+i915 requires to evict the lmem objects to smem in order to
+support D3Cold-Off, which increases i915 the suspend/resume
+latency. Enabling VRAM Self Refresh feature optimize the
+latency with additional power cost which required to retain
+the lmem.
+
+Adding intel_runtime_idle (runtime_idle callback) to enable
+VRAM_SR, it will be used for policy to choose
+between D3Cold-off vs D3Cold-VRAM_SR.
+
+Since we have introduced i915 runtime_idle callback.
+It need to be warranted that Runtime PM Core invokes runtime_idle
+callback when runtime usages count becomes zero. That requires
+to use pm_runtime_put instead of pm_runtime_put_autosuspend.
+
+TODO: GuC interface state save/restore.
+
 Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Chris Wilson <chris.p.wilson@intel.com>
 Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
 ---
- drivers/gpu/drm/i915/i915_driver.c |  2 ++
- drivers/gpu/drm/i915/i915_drv.h    |  7 +++++
- drivers/gpu/drm/i915/i915_reg.h    |  4 +++
- drivers/gpu/drm/i915/intel_pcode.c | 28 +++++++++++++++++++
- drivers/gpu/drm/i915/intel_pcode.h |  2 ++
- drivers/gpu/drm/i915/intel_pm.c    | 43 ++++++++++++++++++++++++++++++
- drivers/gpu/drm/i915/intel_pm.h    |  2 ++
- 7 files changed, 88 insertions(+)
+ drivers/gpu/drm/i915/i915_driver.c      | 26 +++++++++++++++++++++++++
+ drivers/gpu/drm/i915/intel_runtime_pm.c |  3 +--
+ 2 files changed, 27 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index d26dcca7e654..aa1fb15b1f11 100644
+index aa1fb15b1f11..fcff5f3fe05e 100644
 --- a/drivers/gpu/drm/i915/i915_driver.c
 +++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -649,6 +649,8 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
- 	if (ret)
- 		goto err_msi;
- 
-+	intel_pm_vram_sr_setup(dev_priv);
-+
- 	/*
- 	 * Fill the dram structure to get the system dram info. This will be
- 	 * used for memory latency calculation.
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 7983b36c1720..09f53aeda8d0 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -624,6 +624,13 @@ struct drm_i915_private {
- 	u32 bxt_phy_grc;
- 
- 	u32 suspend_count;
-+
-+	struct {
-+		/* lock to protect vram_sr flags */
-+		struct mutex lock;
-+		bool supported;
-+	} vram_sr;
-+
- 	struct i915_suspend_saved_registers regfile;
- 	struct vlv_s0ix_state *vlv_s0ix_state;
- 
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 932bd6aa4a0a..0e3dc4a8846a 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -6766,6 +6766,8 @@
- #define   DG1_PCODE_STATUS			0x7E
- #define     DG1_UNCORE_GET_INIT_STATUS		0x0
- #define     DG1_UNCORE_INIT_STATUS_COMPLETE	0x1
-+#define   DG1_PCODE_D3_VRAM_SR                  0x71
-+#define     DG1_ENABLE_SR                        0x1
- #define GEN12_PCODE_READ_SAGV_BLOCK_TIME_US	0x23
- #define   XEHPSDV_PCODE_FREQUENCY_CONFIG		0x6e	/* xehpsdv, pvc */
- /* XEHPSDV_PCODE_FREQUENCY_CONFIG sub-commands (param1) */
-@@ -6779,6 +6781,8 @@
- #define   GEN6_PCODE_FREQ_IA_RATIO_SHIFT	8
- #define   GEN6_PCODE_FREQ_RING_RATIO_SHIFT	16
- #define GEN6_PCODE_DATA1			_MMIO(0x13812C)
-+#define VRAM_CAPABILITY                         _MMIO(0x138144)
-+#define   VRAM_SUPPORTED                        REG_BIT(0)
- 
- /* IVYBRIDGE DPF */
- #define GEN7_L3CDERRST1(slice)		_MMIO(0xB008 + (slice) * 0x200) /* L3CD Error Status 1 */
-diff --git a/drivers/gpu/drm/i915/intel_pcode.c b/drivers/gpu/drm/i915/intel_pcode.c
-index a234d9b4ed14..88bd1f44cfb2 100644
---- a/drivers/gpu/drm/i915/intel_pcode.c
-+++ b/drivers/gpu/drm/i915/intel_pcode.c
-@@ -246,3 +246,31 @@ int snb_pcode_write_p(struct intel_uncore *uncore, u32 mbcmd, u32 p1, u32 p2, u3
- 
- 	return err;
- }
-+
-+/**
-+ * intel_pcode_enable_vram_sr - Enable pcode vram_sr.
-+ * @dev_priv: i915 device
-+ *
-+ * This function triggers the required pcode flow to enable vram_sr.
-+ * This function stictly need to call from rpm handlers, as i915 is
-+ * transitioning to rpm idle/suspend, it doesn't require to grab
-+ * rpm wakeref.
-+ *
-+ * Returns:
-+ * returns returned value from pcode mbox write.
-+ */
-+int intel_pcode_enable_vram_sr(struct drm_i915_private *i915)
-+{
-+	int ret = 0;
-+
-+	if (!HAS_LMEM_SR(i915))
-+		return ret;
-+
-+	ret = snb_pcode_write(&i915->uncore,
-+			      REG_FIELD_PREP(GEN6_PCODE_MB_COMMAND,
-+			      DG1_PCODE_D3_VRAM_SR) |
-+			      REG_FIELD_PREP(GEN6_PCODE_MB_PARAM1,
-+			      DG1_ENABLE_SR), 0); /* no data needed for this cmd */
-+
-+	return ret;
-+}
-diff --git a/drivers/gpu/drm/i915/intel_pcode.h b/drivers/gpu/drm/i915/intel_pcode.h
-index 8d2198e29422..295594514d49 100644
---- a/drivers/gpu/drm/i915/intel_pcode.h
-+++ b/drivers/gpu/drm/i915/intel_pcode.h
-@@ -9,6 +9,7 @@
- #include <linux/types.h>
- 
- struct intel_uncore;
-+struct drm_i915_private;
- 
- int snb_pcode_read(struct intel_uncore *uncore, u32 mbox, u32 *val, u32 *val1);
- int snb_pcode_write_timeout(struct intel_uncore *uncore, u32 mbox, u32 val,
-@@ -26,5 +27,6 @@ int intel_pcode_init(struct intel_uncore *uncore);
-  */
- int snb_pcode_read_p(struct intel_uncore *uncore, u32 mbcmd, u32 p1, u32 p2, u32 *val);
- int snb_pcode_write_p(struct intel_uncore *uncore, u32 mbcmd, u32 p1, u32 p2, u32 val);
-+int intel_pcode_enable_vram_sr(struct drm_i915_private *i915);
- 
- #endif /* _INTEL_PCODE_H */
-diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index 5a61fc3f26c1..299fbc5375a9 100644
---- a/drivers/gpu/drm/i915/intel_pm.c
-+++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -8166,6 +8166,49 @@ void intel_pm_setup(struct drm_i915_private *dev_priv)
- 	atomic_set(&dev_priv->runtime_pm.wakeref_count, 0);
+@@ -1557,6 +1557,31 @@ static int i915_pm_restore(struct device *kdev)
+ 	return i915_pm_resume(kdev);
  }
  
-+void intel_pm_vram_sr_setup(struct drm_i915_private *i915)
++static int intel_runtime_idle(struct device *kdev)
 +{
-+	if (!HAS_LMEM_SR(i915))
-+		return;
++	struct drm_i915_private *dev_priv = kdev_to_i915(kdev);
++	int ret = 1;
 +
-+	mutex_init(&i915->vram_sr.lock);
-+
-+	i915->vram_sr.supported = intel_uncore_read(&i915->uncore,
-+						    VRAM_CAPABILITY) & VRAM_SUPPORTED;
-+	if (intel_opregion_vram_sr_required(i915))
-+		i915->vram_sr.supported = i915->vram_sr.supported &&
-+						intel_opregion_bios_supports_vram_sr(i915);
-+}
-+
-+int intel_pm_vram_sr(struct drm_i915_private *i915, bool enable)
-+{
-+	int ret = 0;
-+
-+	if (!HAS_LMEM_SR(i915))
-+		return -EOPNOTSUPP;
-+
-+	mutex_lock(&i915->vram_sr.lock);
-+	if (!i915->vram_sr.supported) {
-+		drm_dbg(&i915->drm, "VRAM Self Refresh is not supported\n");
-+		ret = -EOPNOTSUPP;
-+		goto unlock;
++	if (!HAS_LMEM_SR(dev_priv)) {
++		/*TODO: Prepare for D3Cold-Off */
++		goto out;
 +	}
 +
-+	drm_dbg(&i915->drm, "VRAM Self Refresh supported\n");
-+	if (enable)
-+		ret = intel_pcode_enable_vram_sr(i915);
++	disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
 +
-+	if (ret)
-+		goto unlock;
++	ret = intel_pm_vram_sr(dev_priv, true);
++	if (!ret)
++		drm_dbg(&dev_priv->drm, "VRAM Self Refresh enabled\n");
 +
-+	intel_opregion_vram_sr(i915, enable);
++	enable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
 +
-+unlock:
-+	mutex_unlock(&i915->vram_sr.lock);
++out:
++	pm_runtime_mark_last_busy(kdev);
++	pm_runtime_autosuspend(kdev);
 +
 +	return ret;
 +}
 +
- static struct intel_global_state *intel_dbuf_duplicate_state(struct intel_global_obj *obj)
+ static int intel_runtime_suspend(struct device *kdev)
  {
- 	struct intel_dbuf_state *dbuf_state;
-diff --git a/drivers/gpu/drm/i915/intel_pm.h b/drivers/gpu/drm/i915/intel_pm.h
-index 50604cf7398c..0da85d6b9ea7 100644
---- a/drivers/gpu/drm/i915/intel_pm.h
-+++ b/drivers/gpu/drm/i915/intel_pm.h
-@@ -31,6 +31,8 @@ int ilk_wm_max_level(const struct drm_i915_private *dev_priv);
- void intel_init_pm(struct drm_i915_private *dev_priv);
- void intel_init_clock_gating_hooks(struct drm_i915_private *dev_priv);
- void intel_pm_setup(struct drm_i915_private *dev_priv);
-+void intel_pm_vram_sr_setup(struct drm_i915_private *i915);
-+int intel_pm_vram_sr(struct drm_i915_private *i915, bool enable);
- void g4x_wm_get_hw_state(struct drm_i915_private *dev_priv);
- void vlv_wm_get_hw_state(struct drm_i915_private *dev_priv);
- void ilk_wm_get_hw_state(struct drm_i915_private *dev_priv);
+ 	struct drm_i915_private *dev_priv = kdev_to_i915(kdev);
+@@ -1742,6 +1767,7 @@ const struct dev_pm_ops i915_pm_ops = {
+ 	.restore = i915_pm_restore,
+ 
+ 	/* S0ix (via runtime suspend) event handlers */
++	.runtime_idle = intel_runtime_idle,
+ 	.runtime_suspend = intel_runtime_suspend,
+ 	.runtime_resume = intel_runtime_resume,
+ };
+diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
+index 6ed5786bcd29..4dade7e8a795 100644
+--- a/drivers/gpu/drm/i915/intel_runtime_pm.c
++++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+@@ -492,8 +492,7 @@ static void __intel_runtime_pm_put(struct intel_runtime_pm *rpm,
+ 
+ 	intel_runtime_pm_release(rpm, wakelock);
+ 
+-	pm_runtime_mark_last_busy(kdev);
+-	pm_runtime_put_autosuspend(kdev);
++	pm_runtime_put(kdev);
+ }
+ 
+ /**
 -- 
 2.26.2
 
