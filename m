@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD6254E6F4
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 18:26:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7812054E74B
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 18:28:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB242113F82;
-	Thu, 16 Jun 2022 16:26:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38B1D11A5C4;
+	Thu, 16 Jun 2022 16:26:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
  [67.231.152.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79DD211A46C
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 14:55:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AB2D11A449
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 14:57:35 +0000 (UTC)
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
- by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GC0DJV015765;
- Thu, 16 Jun 2022 09:34:33 -0500
+ by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GC0DJX015765;
+ Thu, 16 Jun 2022 09:34:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=FzDSh8zY1KDxF7rJkQVN5S8yOHbt/setTYgyg3pJdkA=;
- b=WW+n3LXm4IbcCA9uCF6xcs3J0zac5kNaujrwPbxuQSlMcbQbLtXd0558rBikZ8SU51ws
- 2s7Y72rFxKL1OD0QTFwA7b3yMUa2RhUL3TNqvc29Q+7c7E/jTpqFAxcwSrilPxr7F8+e
- Q1vU3/2kHOhWdAslx/T1uK71nMFFqFk85qh7cCs5vWsMQHq28QVBTClUYGRCzfzDuCDE
- HR8eIdkKDGiE7tY/SzIvBNX3Ab9AgHKx690fEXmucp8+G1hd3C1V6husVL7Gy/IHcvpm
- aryzqujEVCtTiBdSNDJKMabYujaLFH78AX2o+hBzcGF9p472Wn4nTCfbvJBF3bxPra/e ng== 
+ bh=NITDP0/FzeUs4judT0jNQp5cBIgyRfB6xBGDNoV8sco=;
+ b=ClzRE7fBiz+GWthoVNTPsY6Fx7c1X8cRUAIgzZ/qS9WG1RR6BXUoQY5FA7DIngYuUoiJ
+ UvkNB3gdBMNIHksHNt3Phkpfr9SzcHgu4ysbvMxlRGGU+cbkgeT1b4dZl7HeyVIu2HPC
+ TorThIqOBQiSLb9VC0I7Z3tZtk+FO0fIGPDUS/tyD2jhLcRCU/mtH/6ukYWVuq4DI+s6
+ C8ADRe0WLljJiNOfEOeO2j+guVW5X/20k8sq81CpH+oTaqmNgT1vU1JzpfiJ/CdAm/uA
+ svK8DaIsOfCaIagQ7D2Cv8B5aGSbGxCn8Sl/OSnvV25h6mVJFQOqo7s73LELeZpRWEEB Uw== 
 Received: from ediex02.ad.cirrus.com ([84.19.233.68])
- by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3h-3
+ by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3h-5
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 16 Jun 2022 09:34:32 -0500
+ Thu, 16 Jun 2022 09:34:34 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
  (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 16 Jun
@@ -38,23 +38,24 @@ Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
  Frontend Transport; Thu, 16 Jun 2022 15:34:30 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 54422468;
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 692FC11D1;
  Thu, 16 Jun 2022 14:34:30 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH 05/96] ASoC: spear: Migrate to new style legacy DAI naming flag
-Date: Thu, 16 Jun 2022 15:32:58 +0100
-Message-ID: <20220616143429.1324494-6-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 06/96] ASoC: jz4740-i2c: Migrate to new style legacy DAI
+ naming flag
+Date: Thu, 16 Jun 2022 15:32:59 +0100
+Message-ID: <20220616143429.1324494-7-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: JgVujUQviHpgxqwaL04xCfEOCuXtML3x
-X-Proofpoint-GUID: JgVujUQviHpgxqwaL04xCfEOCuXtML3x
+X-Proofpoint-ORIG-GUID: iSA6Egfg7F-z7JxBynJ2xhU-srF922i2
+X-Proofpoint-GUID: iSA6Egfg7F-z7JxBynJ2xhU-srF922i2
 X-Proofpoint-Spam-Reason: safe
-X-Mailman-Approved-At: Thu, 16 Jun 2022 16:26:00 +0000
+X-Mailman-Approved-At: Thu, 16 Jun 2022 16:26:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,43 +85,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Change the legacy DAI naming flag from opting in to the new scheme
 (non_legacy_dai_naming), to opting out of it (legacy_dai_naming).
-These drivers appear to be on the CPU side of the DAI link and
+This driver appears to be on the CPU side of the DAI link and
 currently uses the legacy naming, so add the new flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/spear/spdif_in.c  | 3 ++-
- sound/soc/spear/spdif_out.c | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ sound/soc/jz4740/jz4740-i2s.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/spear/spdif_in.c b/sound/soc/spear/spdif_in.c
-index 4b68d6ee75da4..4ad8b1fc713a7 100644
---- a/sound/soc/spear/spdif_in.c
-+++ b/sound/soc/spear/spdif_in.c
-@@ -172,7 +172,8 @@ static struct snd_soc_dai_driver spdif_in_dai = {
+diff --git a/sound/soc/jz4740/jz4740-i2s.c b/sound/soc/jz4740/jz4740-i2s.c
+index 446c5e0615649..79afac0c50038 100644
+--- a/sound/soc/jz4740/jz4740-i2s.c
++++ b/sound/soc/jz4740/jz4740-i2s.c
+@@ -498,9 +498,10 @@ static const struct i2s_soc_info jz4780_i2s_soc_info = {
  };
  
- static const struct snd_soc_component_driver spdif_in_component = {
--	.name		= "spdif-in",
-+	.name			= "spdif-in",
+ static const struct snd_soc_component_driver jz4740_i2s_component = {
+-	.name		= "jz4740-i2s",
+-	.suspend	= jz4740_i2s_suspend,
+-	.resume		= jz4740_i2s_resume,
++	.name			= "jz4740-i2s",
++	.suspend		= jz4740_i2s_suspend,
++	.resume			= jz4740_i2s_resume,
 +	.legacy_dai_naming	= 1,
  };
  
- static irqreturn_t spdif_in_irq(int irq, void *arg)
-diff --git a/sound/soc/spear/spdif_out.c b/sound/soc/spear/spdif_out.c
-index 549295a6ed501..fb107c5790add 100644
---- a/sound/soc/spear/spdif_out.c
-+++ b/sound/soc/spear/spdif_out.c
-@@ -273,7 +273,8 @@ static struct snd_soc_dai_driver spdif_out_dai = {
- };
- 
- static const struct snd_soc_component_driver spdif_out_component = {
--	.name		= "spdif-out",
-+	.name			= "spdif-out",
-+	.legacy_dai_naming	= 1,
- };
- 
- static int spdif_out_probe(struct platform_device *pdev)
+ static const struct of_device_id jz4740_of_matches[] = {
 -- 
 2.30.2
 
