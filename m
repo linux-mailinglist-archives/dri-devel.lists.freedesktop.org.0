@@ -1,69 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1FA54E02B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 13:41:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C5754E068
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 14:01:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4881211A4DC;
-	Thu, 16 Jun 2022 11:41:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 285DE11A49D;
+	Thu, 16 Jun 2022 12:01:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 528 seconds by postgrey-1.36 at gabe;
- Thu, 16 Jun 2022 11:27:02 UTC
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B2E911A38A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 11:27:02 +0000 (UTC)
-Received: from hillosipuli.retiisi.eu
- (dkwl20tj04snw15cjtflt-3.rev.dnainternet.fi
- [IPv6:2001:14ba:4493:6f40:fec3:d72a:e447:8113])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: sailus)
- by meesny.iki.fi (Postfix) with ESMTPSA id 3DD3A20223;
- Thu, 16 Jun 2022 14:18:10 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
- t=1655378290;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UUep/sgKumAUsqr6plkU9Uit353tpr6e7VY52A43bZ0=;
- b=YiAxJPvvV+VFDy2XSr6BR5cdbKzD76jQII3SIj5C6MB9vm2znMEgKDIWYzacLLMmF22BCa
- 2P4Fj4GcyFRd30U/MQKTPEhLpkqnHCaHQNhkFkSDyk922sVXWm3s5eQ+0goo4GUSvksfwL
- vEOXB5MlTAnJd6t5jVutTxtM1GHdNHg=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 9E3FB634C91;
- Thu, 16 Jun 2022 14:18:09 +0300 (EEST)
-Date: Thu, 16 Jun 2022 14:18:09 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v9 00/14] Add some DRM bridge drivers support for
- i.MX8qm/qxp SoCs
-Message-ID: <YqsRcUsdZzcwqplJ@valkosipuli.retiisi.eu>
-References: <20220611141421.718743-1-victor.liu@nxp.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 990F611A49D;
+ Thu, 16 Jun 2022 12:01:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655380883; x=1686916883;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=N+yKnw2EyMNCzTaUtKSIBTQTMoGLEj64MbrkdJBDv8Q=;
+ b=i5xEAlHDNjbj5/s3GnAL1ijkUcqK1t4V+Kg8md/1WI/AkEy6bUWCf0Ag
+ UIPM0GJmXSdSeeUITtW3uvxDiDI57VP5jFtHNJ0r68mdcy9fjnp5PmCeh
+ vpuDZoM21m+VGYIuJqUEIQwWQczpD+oRcw9vFtvaMtlj+bPPbHFhDrn4j
+ S0NOpDjyLuZhUFIQdwLNiU5eVK30ElHRyckejYKEtXd0o8QLXMJNIPm15
+ QyZsV7a8M5Rh097+ED4KkDD3u+Tm7tlkKJwudbNG6S6u280PPcvIRFKrg
+ Wk1mLvdMfVprjzHdJVujUhuASmhF15eYwEMRdE+DYlvl6CYiTeoX3MPUE Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="343189531"
+X-IronPort-AV: E=Sophos;i="5.91,305,1647327600"; d="scan'208";a="343189531"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 05:01:23 -0700
+X-IronPort-AV: E=Sophos;i="5.91,305,1647327600"; d="scan'208";a="713330853"
+Received: from srr4-3-linux-105-anshuma1.iind.intel.com ([10.223.74.179])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 05:01:20 -0700
+From: Anshuman Gupta <anshuman.gupta@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/9] DG2 VRAM_SR Support
+Date: Thu, 16 Jun 2022 17:30:57 +0530
+Message-Id: <20220616120106.24353-1-anshuman.gupta@intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220611141421.718743-1-victor.liu@nxp.com>
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
- s=meesny; t=1655378290;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UUep/sgKumAUsqr6plkU9Uit353tpr6e7VY52A43bZ0=;
- b=e6Al/EFgjGfUA3ffYQXqQ+pB8jfciIVCkr/eD+HwQH6a28iLeoT9qnBnxvDrWlGDC1G4bC
- TAL1Q6kVagX5RYOxNDpFWm5GRKyYpoyH/lbRI8lnU0IaxOt0UEHvsehRrdGh2jDjrCmlbF
- dWaPE0w3Suw0AqxzNlPev6mdneTk4Fk=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1655378290; a=rsa-sha256; cv=none;
- b=Ii1gQgxWnUvB0ovIO8owoWaYk7l8CClPi05NutKtp2BooN+OCcp1h+SO8xtvKtUi3AwY6S
- JuYhzUIkO+r5g+PKmvZ96rYRNc2Rb5XPPu0FpKN5LohB6Xz3q40dZPfhsguz748iYkogqc
- KmCsgUVajSzP3ZwLBJ46j70A4siyNrM=
-X-Mailman-Approved-At: Thu, 16 Jun 2022 11:41:09 +0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,25 +55,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.hajda@intel.com, narmstrong@baylibre.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
- krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
- jernej.skrabec@gmail.com, marcel.ziswiler@toradex.com, linux-imx@nxp.com,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org, kernel@pengutronix.de,
- jonas@kwiboo.se, s.hauer@pengutronix.de, robh+dt@kernel.org,
- mchehab@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, robert.foss@linaro.org, shawnguo@kernel.org
+Cc: tilak.tangudu@intel.com, tvrtko.ursulin@intel.com,
+ Anshuman Gupta <anshuman.gupta@intel.com>, jon.ewins@intel.com,
+ badal.nilawar@intel.com, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 11, 2022 at 10:14:07PM +0800, Liu Ying wrote:
-> Patch 1/14 and 2/14 add bus formats used by pixel combiner.
+This series add DG2 D3Cold VRAM_SR support.
 
-Thanks!
+TODO: GuC Interface state save/restore on VRAM_SR entry/exit.
 
-For these:
+Anshuman Gupta (8):
+  drm/i915/dgfx: OpRegion VRAM Self Refresh Support
+  drm/i915/dg1: OpRegion PCON DG1 MBD config support
+  drm/i915/dg2: Add DG2_NB_MBD subplatform
+  drm/i915/dg2: DG2 MBD config
+  drm/i915/dgfx: Add has_lmem_sr
+  drm/i915/dgfx: Setup VRAM SR with D3COLD
+  drm/i915/rpm: Enable D3Cold VRAM SR Support
+  drm/i915/rpm: d3cold Policy
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Tvrtko Ursulin (1):
+  drm/i915/xehpsdv: Store lmem region in gt
+
+ drivers/gpu/drm/i915/display/intel_opregion.c | 107 +++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_opregion.h |  17 +++
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   1 +
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   3 +
+ drivers/gpu/drm/i915/i915_driver.c            |  49 ++++++++
+ drivers/gpu/drm/i915/i915_drv.h               |  20 ++++
+ drivers/gpu/drm/i915/i915_params.c            |   4 +
+ drivers/gpu/drm/i915/i915_params.h            |   3 +-
+ drivers/gpu/drm/i915/i915_pci.c               |   2 +
+ drivers/gpu/drm/i915/i915_reg.h               |   4 +
+ drivers/gpu/drm/i915/intel_device_info.c      |  21 ++++
+ drivers/gpu/drm/i915/intel_device_info.h      |  12 +-
+ drivers/gpu/drm/i915/intel_pcode.c            |  28 +++++
+ drivers/gpu/drm/i915/intel_pcode.h            |   2 +
+ drivers/gpu/drm/i915/intel_pm.c               |  43 +++++++
+ drivers/gpu/drm/i915/intel_pm.h               |   2 +
+ drivers/gpu/drm/i915/intel_runtime_pm.c       |   3 +-
+ include/drm/i915_pciids.h                     |  23 ++--
+ 18 files changed, 329 insertions(+), 15 deletions(-)
 
 -- 
-Sakari Ailus
+2.26.2
+
