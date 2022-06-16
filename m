@@ -2,64 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A7554ECEC
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 23:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87B754ED04
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 00:03:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADF8110ED8A;
-	Thu, 16 Jun 2022 21:57:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D04A10EDB6;
+	Thu, 16 Jun 2022 22:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0687510ED8A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 21:57:07 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CA1A761EF6
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 21:57:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3A2C1C34114
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 21:57:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655416625;
- bh=mHxvFjdweqsL0pTi0rwGYTQeGZ2IoG05fnx1thkFikA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ioiBWr/JUHj9AfqokaStul83i/djYz+b+idXDcDXUSWi1qvbBaLr1aKss3PzL8JOE
- Q8vwEFzzUEvdWncp47lYNqiO8vqjOIuIeD7CwC/W8W2GbH3IW4vmqBD0tZYebtYnsV
- Q/SViww6HTy/uA33LA803fs0/soUCH1/mnPzGuG7oAuS5i228aewlLM/MnitgxZep9
- I3UqV4bI3wSzVGn/Gbe2vlIaqfllt3TAYUOLkbOFa1AoqHnfHoWQGvioPrVpfXxO+9
- WKbvE6H/OVoZjS5UQsqBgORkrY6J11lY4T92tEQMWAmFPWxM05s/dmK4h+ZRSjNYv1
- t4U9Vwt/ciTmg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 24287CC13B3; Thu, 16 Jun 2022 21:57:04 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
- 390
-Date: Thu, 16 Jun 2022 21:57:03 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216119-2300-NhwkqwrIMT@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
-References: <bug-216119-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96F6D10EAD9;
+ Thu, 16 Jun 2022 22:03:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655416996; x=1686952996;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=tzWrPIFy4CO475j8hdpU6fmursZ4DxlLe9YB8NjSEzQ=;
+ b=KnQ3AWmt0Jbbmt3Wthyye05geJhI//xq1GU8lz/JPhSG2vLhJfHvqv+q
+ uVcDTjydmAsMt+gnDjAfudLyyY74CFYDQzk8xrGjIfGWlnbbY7iCla/8n
+ GwTBBvoAQ5ofpUJHkxGi9G1fTfuHmkUewSpcTdsNz8rJGYz+cMEzg1H2t
+ 6nBNoC9vt5Q1RPQEwU+EZ3VsJrPI50RGjTEceiXtZ58aUWkn7MEpwIyuV
+ FAmRZrZKlzUypw5JmcIEE3W0aq1ThAfueHLNAegn/F/sZFlX9xqOSF8fr
+ E+EgQdO9LnRkk3HqqZAEdaOkCL7Bx+TVvNLXsrQn4IzRp3Jl42G/RUw3C w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341016842"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341016842"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 15:03:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="583801254"
+Received: from dbstims-dev.fm.intel.com ([10.1.27.167])
+ by orsmga007.jf.intel.com with ESMTP; 16 Jun 2022 15:03:01 -0700
+From: Zhanjun Dong <zhanjun.dong@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/guc: Check for ct enabled while waiting for response
+Date: Thu, 16 Jun 2022 15:01:59 -0700
+Message-Id: <20220616220158.15778-1-zhanjun.dong@intel.com>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,31 +54,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Zhanjun Dong <zhanjun.dong@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
+We are seeing error message of "No response for request". Some cases
+happened while waiting for response and reset/suspend action was triggered.
+In this case, no response is not an error, active requests will be
+cancelled.
 
---- Comment #11 from Alex Deucher (alexdeucher@gmail.com) ---
-Does changing the the prefer_shadow hint help?  E.g., something like:
+This patch will handle this condition and change the error message into
+debug message.
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index c2bc7db85d7e..4b6bd1a5804a 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -3852,7 +3852,7 @@ static int amdgpu_dm_mode_config_init(struct
-amdgpu_device *adev)
-        adev_to_drm(adev)->mode_config.max_height =3D 16384;
+Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 24 ++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
-        adev_to_drm(adev)->mode_config.preferred_depth =3D 24;
--       adev_to_drm(adev)->mode_config.prefer_shadow =3D 1;
-+       adev_to_drm(adev)->mode_config.prefer_shadow =3D 0;
-        /* indicates support for immediate flip */
-        adev_to_drm(adev)->mode_config.async_page_flip =3D true;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+index f01325cd1b62..f07a7666b1ad 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+@@ -455,6 +455,7 @@ static int ct_write(struct intel_guc_ct *ct,
+ 
+ /**
+  * wait_for_ct_request_update - Wait for CT request state update.
++ * @ct:		pointer to CT
+  * @req:	pointer to pending request
+  * @status:	placeholder for status
+  *
+@@ -467,9 +468,10 @@ static int ct_write(struct intel_guc_ct *ct,
+  * *	0 response received (status is valid)
+  * *	-ETIMEDOUT no response within hardcoded timeout
+  */
+-static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
++static int wait_for_ct_request_update(struct intel_guc_ct *ct, struct ct_request *req, u32 *status)
+ {
+ 	int err;
++	bool ct_enabled;
+ 
+ 	/*
+ 	 * Fast commands should complete in less than 10us, so sample quickly
+@@ -481,12 +483,15 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+ #define GUC_CTB_RESPONSE_TIMEOUT_SHORT_MS 10
+ #define GUC_CTB_RESPONSE_TIMEOUT_LONG_MS 1000
+ #define done \
+-	(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, READ_ONCE(req->status)) == \
++	(!(ct_enabled = intel_guc_ct_enabled(ct)) || \
++	 FIELD_GET(GUC_HXG_MSG_0_ORIGIN, READ_ONCE(req->status)) == \
+ 	 GUC_HXG_ORIGIN_GUC)
+ 	err = wait_for_us(done, GUC_CTB_RESPONSE_TIMEOUT_SHORT_MS);
+ 	if (err)
+ 		err = wait_for(done, GUC_CTB_RESPONSE_TIMEOUT_LONG_MS);
+ #undef done
++	if (!ct_enabled)
++		err = -ECANCELED;
+ 
+ 	*status = req->status;
+ 	return err;
+@@ -703,11 +708,15 @@ static int ct_send(struct intel_guc_ct *ct,
+ 
+ 	intel_guc_notify(ct_to_guc(ct));
+ 
+-	err = wait_for_ct_request_update(&request, status);
++	err = wait_for_ct_request_update(ct, &request, status);
+ 	g2h_release_space(ct, GUC_CTB_HXG_MSG_MAX_LEN);
+ 	if (unlikely(err)) {
+-		CT_ERROR(ct, "No response for request %#x (fence %u)\n",
+-			 action[0], request.fence);
++		if (err == -ECANCELED)
++			CT_DEBUG(ct, "Request %#x (fence %u) cancelled as CTB is disabled\n",
++				 action[0], request.fence);
++		else
++			CT_ERROR(ct, "No response for request %#x (fence %u)\n",
++				 action[0], request.fence);
+ 		goto unlink;
+ 	}
+ 
+@@ -771,8 +780,9 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
+ 
+ 	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
+ 	if (unlikely(ret < 0)) {
+-		CT_ERROR(ct, "Sending action %#x failed (%pe) status=%#X\n",
+-			 action[0], ERR_PTR(ret), status);
++		if (ret != -ECANCELED)
++			CT_ERROR(ct, "Sending action %#x failed (%pe) status=%#X\n",
++				 action[0], ERR_PTR(ret), status);
+ 	} else if (unlikely(ret)) {
+ 		CT_DEBUG(ct, "send action %#x returned %d (%#x)\n",
+ 			 action[0], ret, ret);
+-- 
+2.36.0
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
