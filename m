@@ -1,47 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87B754ED04
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 00:03:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 982F454ED2D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 00:18:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D04A10EDB6;
-	Thu, 16 Jun 2022 22:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC77D10F0CA;
+	Thu, 16 Jun 2022 22:18:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96F6D10EAD9;
- Thu, 16 Jun 2022 22:03:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655416996; x=1686952996;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=tzWrPIFy4CO475j8hdpU6fmursZ4DxlLe9YB8NjSEzQ=;
- b=KnQ3AWmt0Jbbmt3Wthyye05geJhI//xq1GU8lz/JPhSG2vLhJfHvqv+q
- uVcDTjydmAsMt+gnDjAfudLyyY74CFYDQzk8xrGjIfGWlnbbY7iCla/8n
- GwTBBvoAQ5ofpUJHkxGi9G1fTfuHmkUewSpcTdsNz8rJGYz+cMEzg1H2t
- 6nBNoC9vt5Q1RPQEwU+EZ3VsJrPI50RGjTEceiXtZ58aUWkn7MEpwIyuV
- FAmRZrZKlzUypw5JmcIEE3W0aq1ThAfueHLNAegn/F/sZFlX9xqOSF8fr
- E+EgQdO9LnRkk3HqqZAEdaOkCL7Bx+TVvNLXsrQn4IzRp3Jl42G/RUw3C w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341016842"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341016842"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 15:03:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="583801254"
-Received: from dbstims-dev.fm.intel.com ([10.1.27.167])
- by orsmga007.jf.intel.com with ESMTP; 16 Jun 2022 15:03:01 -0700
-From: Zhanjun Dong <zhanjun.dong@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/i915/guc: Check for ct enabled while waiting for response
-Date: Thu, 16 Jun 2022 15:01:59 -0700
-Message-Id: <20220616220158.15778-1-zhanjun.dong@intel.com>
-X-Mailer: git-send-email 2.36.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5266210F0B7
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 22:18:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655417891;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9DWpHhljjMLBCYm+B5HqD4SLrNJSN/X7QHRnWVk9iss=;
+ b=e9zS0j//AEAuZs8NfvfGHGNOHnPBsqgn962EbFQjhxfWmd61jxwbJZ4fGIZnDCG5FU2MvX
+ 4YFDMvIsIj77eM+TGnXWqyRhzLVD+0v98WVstJdT1Qxi/72noKYArzokoZCfx7uTwyGR9W
+ offrOwc7v2rckRDarrYIs54aeM/5Vpw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-382-5S9xeJ7iPhCWWirWhWCXgg-1; Thu, 16 Jun 2022 18:18:10 -0400
+X-MC-Unique: 5S9xeJ7iPhCWWirWhWCXgg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ o2-20020a05600c510200b0039747b0216fso1762212wms.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 15:18:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9DWpHhljjMLBCYm+B5HqD4SLrNJSN/X7QHRnWVk9iss=;
+ b=uPeGuw+TV+hk2BbG3g153B2ZZFG3XCk7P0fn5hOhBqqVb9kHcrOof/+eHMsQvKyuat
+ 0dUDFPRhjkiclOBzcaf+HUfj3tiGR2xzayTdP0GwEo0SwJtExW6wrr5JLwqV7BryW9Lf
+ I1unZOa6EjJBcN5SWpQHQ0jcfoVMZ6o7sjuNmTbMaXxf+DOGdWlavjBMn8mA3Vgwi376
+ meMwL4NJX6EYg/ZpqqOxV8hwu6JClLcs2OJ3yoPMWbXZ8I7pjo1UI5a+UeXaa/6BtTsu
+ tpTezX7xmHnZJEJzoj9dPGefaKZ5TMTYu2n4bQvuP/FRAv7DdietDOxFDzTVRAJpGr56
+ YzEQ==
+X-Gm-Message-State: AJIora+qV0lVCFmCIpNUc2T4hRI0Fzigk1N4cM7RwA+H7ZP1kImMWBCb
+ V1YfrwT439DgZgEVehGJdUOJg7rRG3yNjKtU+MBUBD02EnCbmq8sl4Ntik6qS3JUgTU8h5MFJ0U
+ O3oQwKL+P/OAQujFgzogVWwAnbINO
+X-Received: by 2002:adf:e181:0:b0:213:bbe1:ba66 with SMTP id
+ az1-20020adfe181000000b00213bbe1ba66mr6215470wrb.325.1655417887926; 
+ Thu, 16 Jun 2022 15:18:07 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uO1cJJMNUcHhX2JKlWJowzj7WQI64QGyPrnUyRc32kSMp0t+NjedvVfCVD7/vwLeNG3ZUpmw==
+X-Received: by 2002:adf:e181:0:b0:213:bbe1:ba66 with SMTP id
+ az1-20020adfe181000000b00213bbe1ba66mr6215452wrb.325.1655417887629; 
+ Thu, 16 Jun 2022 15:18:07 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ l15-20020a05600c2ccf00b003974a00697esm7435615wmc.38.2022.06.16.15.18.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Jun 2022 15:18:07 -0700 (PDT)
+Message-ID: <a633d605-4cb3-2e04-1818-85892cf6f7b0@redhat.com>
+Date: Fri, 17 Jun 2022 00:18:05 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 3/5] fbdev: Disable sysfb device registration when
+ removing conflicting FBs
+To: Zack Rusin <zackr@vmware.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20220607182338.344270-1-javierm@redhat.com>
+ <20220607182338.344270-4-javierm@redhat.com>
+ <de83ae8cb6de7ee7c88aa2121513e91bb0a74608.camel@vmware.com>
+ <38473dcd-0666-67b9-28bd-afa2d0ce434a@redhat.com>
+ <603e3613b9b8ff7815b63f294510d417b5b12937.camel@vmware.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <603e3613b9b8ff7815b63f294510d417b5b12937.camel@vmware.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,95 +93,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhanjun Dong <zhanjun.dong@intel.com>
+Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "deller@gmx.de" <deller@gmx.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+ "lersek@redhat.com" <lersek@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We are seeing error message of "No response for request". Some cases
-happened while waiting for response and reset/suspend action was triggered.
-In this case, no response is not an error, active requests will be
-cancelled.
+On 6/16/22 23:03, Zack Rusin wrote:
+> On Thu, 2022-06-16 at 21:55 +0200, Javier Martinez Canillas wrote:
+>> Hello Zack,
+>>
+>> On 6/16/22 21:29, Zack Rusin wrote:
+>>> On Tue, 2022-06-07 at 20:23 +0200, Javier Martinez Canillas wrote:
+>>>> The platform devices registered by sysfb match with firmware-based DRM or
+>>>> fbdev drivers, that are used to have early graphics using a framebuffer
+>>>> provided by the system firmware.
+>>>>
+>>
+>> [snip]
+>>
+>>>
+>>> Hi, Javier.
+>>>
+>>> This change broke arm64 with vmwgfx. We get a kernel oops at boot (let me know if
+>>> you'd like .config or just have us test something directly for you):
+>>>
+>>
+>> Yes please share your .config and I'll try to reproduce on an arm64 machine.
+> 
+> Attached. It might be a little hard to reproduce unless you have an arm64 machine
+> with a dedicated gpu. You'll need a system that actually transitions from a generic
+> fb driver (e.g. efifb) to the dedicated one.
+>
 
-This patch will handle this condition and change the error message into
-debug message.
+Yes, all my testing for this was done with a rpi4 so I should be able to reproduce
+that case. I'm confused though because I tested efifb -> vc4, simplefb -> vc4 and
+simpledrm -> vc4.
+ 
+>>>
+>>>  Unable to handle kernel NULL pointer dereference at virtual address
+>>> 0000000000000008
+>>>  Mem abort info:
+>>>    ESR = 0x96000004
+>>>    EC = 0x25: DABT (current EL), IL = 32 bits
+>>>    SET = 0, FnV = 0
+>>>    EA = 0, S1PTW = 0
+>>>    FSC = 0x04: level 0 translation fault
+>>>  Data abort info:
+>>>    ISV = 0, ISS = 0x00000004
+>>>    CM = 0, WnR = 0
+>>>  user pgtable: 4k pages, 48-bit VAs, pgdp=00000001787ee000
+>>>  [0000000000000008] pgd=0000000000000000, p4d=0000000000000000
+>>>  Internal error: Oops: 96000004 [#1] SMP
+>>>  Modules linked in: vmwgfx(+) e1000e(+) nvme ahci(+) xhci_pci drm_ttm_helper ttm
+>>> sha256_arm64 sha1_ce nvme_core xhci_pci_renesas aes_neon_bs aes_neon_blk aes>
+>>>  CPU: 3 PID: 215 Comm: systemd-udevd Tainted: G     U            5.18.0-rc5-vmwgfx
+>>> #12
+>>
+>> I'm confused, your kernel version seems to be 5.18.0-rc5 but this patch
+>> is only in drm-misc-next now and will land in 5.20...
+>>
+>> Did you backport it? Can you please try to reproduce with latest drm-tip ?
+> 
+> No, this is drm-misc-next as of yesterday. drm-misc-next was still on 5.18.0-rc5
+> yesterday.
+> 
 
-Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 24 ++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+Right! I looked at the base for drm-tip but forgot that drm-misc was still on 5.18.
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-index f01325cd1b62..f07a7666b1ad 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-@@ -455,6 +455,7 @@ static int ct_write(struct intel_guc_ct *ct,
- 
- /**
-  * wait_for_ct_request_update - Wait for CT request state update.
-+ * @ct:		pointer to CT
-  * @req:	pointer to pending request
-  * @status:	placeholder for status
-  *
-@@ -467,9 +468,10 @@ static int ct_write(struct intel_guc_ct *ct,
-  * *	0 response received (status is valid)
-  * *	-ETIMEDOUT no response within hardcoded timeout
-  */
--static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
-+static int wait_for_ct_request_update(struct intel_guc_ct *ct, struct ct_request *req, u32 *status)
- {
- 	int err;
-+	bool ct_enabled;
- 
- 	/*
- 	 * Fast commands should complete in less than 10us, so sample quickly
-@@ -481,12 +483,15 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
- #define GUC_CTB_RESPONSE_TIMEOUT_SHORT_MS 10
- #define GUC_CTB_RESPONSE_TIMEOUT_LONG_MS 1000
- #define done \
--	(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, READ_ONCE(req->status)) == \
-+	(!(ct_enabled = intel_guc_ct_enabled(ct)) || \
-+	 FIELD_GET(GUC_HXG_MSG_0_ORIGIN, READ_ONCE(req->status)) == \
- 	 GUC_HXG_ORIGIN_GUC)
- 	err = wait_for_us(done, GUC_CTB_RESPONSE_TIMEOUT_SHORT_MS);
- 	if (err)
- 		err = wait_for(done, GUC_CTB_RESPONSE_TIMEOUT_LONG_MS);
- #undef done
-+	if (!ct_enabled)
-+		err = -ECANCELED;
- 
- 	*status = req->status;
- 	return err;
-@@ -703,11 +708,15 @@ static int ct_send(struct intel_guc_ct *ct,
- 
- 	intel_guc_notify(ct_to_guc(ct));
- 
--	err = wait_for_ct_request_update(&request, status);
-+	err = wait_for_ct_request_update(ct, &request, status);
- 	g2h_release_space(ct, GUC_CTB_HXG_MSG_MAX_LEN);
- 	if (unlikely(err)) {
--		CT_ERROR(ct, "No response for request %#x (fence %u)\n",
--			 action[0], request.fence);
-+		if (err == -ECANCELED)
-+			CT_DEBUG(ct, "Request %#x (fence %u) cancelled as CTB is disabled\n",
-+				 action[0], request.fence);
-+		else
-+			CT_ERROR(ct, "No response for request %#x (fence %u)\n",
-+				 action[0], request.fence);
- 		goto unlink;
- 	}
- 
-@@ -771,8 +780,9 @@ int intel_guc_ct_send(struct intel_guc_ct *ct, const u32 *action, u32 len,
- 
- 	ret = ct_send(ct, action, len, response_buf, response_buf_size, &status);
- 	if (unlikely(ret < 0)) {
--		CT_ERROR(ct, "Sending action %#x failed (%pe) status=%#X\n",
--			 action[0], ERR_PTR(ret), status);
-+		if (ret != -ECANCELED)
-+			CT_ERROR(ct, "Sending action %#x failed (%pe) status=%#X\n",
-+				 action[0], ERR_PTR(ret), status);
- 	} else if (unlikely(ret)) {
- 		CT_DEBUG(ct, "send action %#x returned %d (%#x)\n",
- 			 action[0], ret, ret);
+I'll look at this tomorrow but in the meantime, could you please look if the following
+commits on top of drm-misc-next help ?
+
+d258d00fb9c7 fbdev: efifb: Cleanup fb_info in .fb_destroy rather than .remove
+1b5853dfab7f fbdev: efifb: Fix a use-after-free due early fb_info cleanup
+
 -- 
-2.36.0
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
