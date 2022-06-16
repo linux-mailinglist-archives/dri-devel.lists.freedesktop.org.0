@@ -2,59 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57EFF54DD83
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 10:51:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2BE954DD94
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 10:52:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C164113B09;
-	Thu, 16 Jun 2022 08:51:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BDB5113B1A;
+	Thu, 16 Jun 2022 08:52:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1F08113AFF
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 08:50:59 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id be31so1167403lfb.10
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 01:50:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CtFmr9YnFXBNjwW1QqgTVpLtMjRSqbtnLnF5ahH9/9g=;
- b=pPPobIRP9kSIAIwFkE1PFoYJ9JAQlIrrZtZLq/UCm+y08DsoOCMBMPmfUJIO2Ureja
- jhOpQo0aJddInFsiZh4apdmYL/r3H9uwTwxV8m9A+0oHPHMHtzDajH/ahvEaL2t7uQES
- xDjXTNURa8l8uBtU1WF6W40cON6eHIlck2KOp38+tzuHyw5q2hN/kIjYpucSjfcC5zJX
- yNPPGhFOVkqroHMptIEujLGzSNgNIR018+A5ntGVbrWXghJjSOmJWZvkXJRLaZTlzsgn
- 30ZefOFbFPoGuRsPAuJPhLe8yJBafhuHSplZGOfyub1B5tR54x1e8dEk8YcQwNSwHAyK
- YV3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CtFmr9YnFXBNjwW1QqgTVpLtMjRSqbtnLnF5ahH9/9g=;
- b=6doqs8GA1Wjl19QDruyA17j+SkkNEejgIOhVo6ni0CeEpNUtLgKZVoG7YuPv6xJw6r
- d6VxUp+WVJuzgHhs2BRYhEV/09J5g6FKUoZW3DpGfxKvlU7pmgmVc619161chLFGaOAQ
- CbDkwzg1cMpHsdyBqxC2IT8CoJpkY4ECPjib5ZSxHbevQrbfx9wky7PCQBVQ8HRGEIDd
- qNa7JkFqTiLwZzdV5tcLbVB9MmYVyQSCklFkQy+eYh6EIni/knKClWZ1HvvPiDD9GRti
- ghX6fUe+6FCZpKzikN+GB1BgSxc4QCcfsCIUsiaQyLFYBzxezrNJ/CJFUM93zXl4KPCx
- WPag==
-X-Gm-Message-State: AJIora+4p6H9BiT9Pkx4MCgh4kW5WfxwvXNeLNcl9z+koqw3ue2+dmVO
- NotBrcx9qvUsEpWzlZWxp8EVh24iIwZDczQw
-X-Google-Smtp-Source: AGRyM1shxA9KdPhKLQQ5X/7BmpScUk3xhKPH5MFw8Wl9/GP2gf3ehMgtoiOssA+WoklvhVCJe3/dBw==
-X-Received: by 2002:a05:6512:3b99:b0:47d:c408:555f with SMTP id
- g25-20020a0565123b9900b0047dc408555fmr2083991lfv.168.1655369458000; 
- Thu, 16 Jun 2022 01:50:58 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- v18-20020ac25b12000000b0047255d21202sm149136lfn.305.2022.06.16.01.50.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 01:50:57 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH] drm/msm/hdmi: support attaching the "next" bridge
-Date: Thu, 16 Jun 2022 11:50:57 +0300
-Message-Id: <20220616085057.432353-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
+Received: from m1524.mail.126.com (m1524.mail.126.com [220.181.15.24])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7112F113B01
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 08:52:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=WfH/J
+ MKk2IaZWzy9foOuyFcibG8HjD8vi566659/mVY=; b=iVe45USAfP6Jc5fsm2JWH
+ xmNl7bIEEXXsh5egnYThYJgwsy98oHrYFG+of0nfRabJNlUrseoIBYy5zQQj61uW
+ 7doU/3RT+yDVWVJO2QeJr6/C9FV6Q9mVXqezLiCNFi9Jlgtf5OXbR4CmRLCsrX6U
+ DIHjX5ROa/R/4rrn87ls7U=
+Received: from windhl$126.com ( [124.16.139.61] ) by ajax-webmail-wmsvr24
+ (Coremail) ; Thu, 16 Jun 2022 16:52:20 +0800 (CST)
+X-Originating-IP: [124.16.139.61]
+Date: Thu, 16 Jun 2022 16:52:20 +0800 (CST)
+From: "Liang He" <windhl@126.com>
+To: "Greg KH" <gregkh@linuxfoundation.org>, 
+ "Conor.Dooley" <conor.dooley@microchip.com>
+Subject: Re:Re: [Linaro-mm-sig] Re: [PATCH] drivers: tty: serial: Add
+ missing of_node_put() in serial-tegra.c
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
+ Copyright (c) 2002-2022 www.mailtech.cn 126com
+In-Reply-To: <YqrtP2jS0Gg4pBRe@kroah.com>
+References: <20220615104833.3963552-1-windhl@126.com>
+ <Yqm6LvDGqaRMaUHa@kroah.com>
+ <CAPM=9twCiqyakgPLz0v=7-abUhzLb8ZZH7-U65PV8qtQOP7Xww@mail.gmail.com>
+ <CAKMK7uG+TeATXctJaXBgSRxpinDdtOhGa+o2CMPaPtO1QyHtJA@mail.gmail.com>
+ <YqrtP2jS0Gg4pBRe@kroah.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <5911192c.6793.1816bb6a391.Coremail.windhl@126.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: GMqowADX3ydF76pixj43AA--.11206W
+X-CM-SenderInfo: hzlqvxbo6rjloofrz/1tbi7QkiF1pEANa5mAACs6
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,74 +56,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: linux-serial@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-tegra@vger.kernel.org,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There might be a chain of bridges attached to the HDMI node
-(including but not limited to the display-connector bridge). Add support
-for attaching them right to the HDMI bridge chain.
-
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/hdmi/hdmi.c | 14 ++++++++++++++
- drivers/gpu/drm/msm/hdmi/hdmi.h |  2 ++
- 2 files changed, 16 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index cf24e68864ba..9fdb17317589 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -9,6 +9,7 @@
- #include <linux/of_gpio.h>
- 
- #include <drm/drm_bridge_connector.h>
-+#include <drm/drm_of.h>
- 
- #include <sound/hdmi-codec.h>
- #include "hdmi.h"
-@@ -133,6 +134,10 @@ static struct hdmi *msm_hdmi_init(struct platform_device *pdev)
- 	hdmi->config = config;
- 	spin_lock_init(&hdmi->reg_lock);
- 
-+	ret = drm_of_find_panel_or_bridge(pdev->dev.of_node, 1, 0, NULL, &hdmi->next_bridge);
-+	if (ret && ret != -ENODEV)
-+		goto fail;
-+
- 	hdmi->mmio = msm_ioremap(pdev, config->mmio_name);
- 	if (IS_ERR(hdmi->mmio)) {
- 		ret = PTR_ERR(hdmi->mmio);
-@@ -291,6 +296,15 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
- 		goto fail;
- 	}
- 
-+	if (hdmi->next_bridge) {
-+		ret = drm_bridge_attach(hdmi->encoder, hdmi->next_bridge, hdmi->bridge,
-+					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+		if (ret) {
-+			DRM_DEV_ERROR(dev->dev, "failed to attach next HDMI bridge: %d\n", ret);
-+			goto fail;
-+		}
-+	}
-+
- 	hdmi->connector = drm_bridge_connector_init(hdmi->dev, encoder);
- 	if (IS_ERR(hdmi->connector)) {
- 		ret = PTR_ERR(hdmi->connector);
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-index 736f348befb3..5241735438ac 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.h
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-@@ -68,6 +68,8 @@ struct hdmi {
- 	struct drm_connector *connector;
- 	struct drm_bridge *bridge;
- 
-+	struct drm_bridge *next_bridge;
-+
- 	/* the encoder we are hooked to (outside of hdmi block) */
- 	struct drm_encoder *encoder;
- 
--- 
-2.35.1
-
+CkF0IDIwMjItMDYtMTYgMTY6NDM6NDMsICJHcmVnIEtIIiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlv
+bi5vcmc+IHdyb3RlOgo+T24gV2VkLCBKdW4gMTUsIDIwMjIgYXQgMTA6MzA6NDdQTSArMDIwMCwg
+RGFuaWVsIFZldHRlciB3cm90ZToKPj4gT24gV2VkLCAxNSBKdW4gMjAyMiBhdCAyMjoyMywgRGF2
+ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPiB3cm90ZToKPj4gPgo+PiA+IE9uIFdlZCwgMTUg
+SnVuIDIwMjIgYXQgMjA6NTMsIEdyZWcgS0ggPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPiB3
+cm90ZToKPj4gPiA+Cj4+ID4gPiBPbiBXZWQsIEp1biAxNSwgMjAyMiBhdCAwNjo0ODozM1BNICsw
+ODAwLCBoZWxpYW5nIHdyb3RlOgo+PiA+ID4gPiBJbiB0ZWdyYV91YXJ0X2luaXQoKSwgb2ZfZmlu
+ZF9tYXRjaGluZ19ub2RlKCkgd2lsbCByZXR1cm4gYSBub2RlCj4+ID4gPiA+IHBvaW50ZXIgd2l0
+aCByZWZjb3VudCBpbmNyZW1lbnRlZC4gV2Ugc2hvdWxkIHVzZSBvZl9ub2RlX3B1dCgpCj4+ID4g
+PiA+IHdoZW4gaXQgaXMgbm90IHVzZWQgYW55bW9yZS4KPj4gPiA+ID4KPj4gPiA+ID4gU2lnbmVk
+LW9mZi1ieTogaGVsaWFuZyA8d2luZGhsQDEyNi5jb20+Cj4+ID4gPgo+PiA+ID4gV2UgbmVlZCBh
+IHJlYWwgbmFtZSBwbGVhc2UsIG9uZSB5b3Ugc2lnbiBkb2N1bWVudHMgd2l0aC4KPj4gPgo+PiA+
+IEhvdyBkbyB3ZSBlbmZvcmNlIHRoYXQ/IFdoYXQgaWYgV29uZywgQWRlbGUgb3IgQmV5b25jZSBz
+dWJtaXQgYSBwYXRjaD8KPj4gPgo+PiA+IFdoYXQgaGFwcGVucyBpZiB0aGF0IHBhdGNoIGdldHMg
+cmVwb3N0ZWQsIHdpdGggUy1vLWI6IEhlIExpYW5nCj4+ID4gPHdpbmRobEAxMjYuY29tPiBvciBI
+ZWwgSWFuZywgSGVsaSBBbmc/IERvIHlvdSBrbm93IGFueSBvZiB0aG9zZSBhcmUKPj4gPiByZWFs
+IG5hbWVzPyBXaGF0IGhhcHBlbnMgaWYgdGhleSBwb3N0IGEgcmVhbCBuYW1lIGluCj4+ID4gTWFu
+ZGFyaW4vVGhhaS9DeXJpbGxpYywgY2FuIHlvdSB2YWxpZGF0ZSBpdD8KPj4gPgo+PiA+IFJlYWxs
+eSB3ZSByZXF1aXJlIHlvdSBoYXZlIGFuIGlkZW50aXR5IGF0dGFjaGVkIHRvIGFuIGVtYWlsLiBJ
+ZiB0aGVyZQo+PiA+IGlzIGEgcHJvYmxlbSBpbiB0aGUgZnV0dXJlLCB3ZSdkIHByZWZlciB0aGUg
+ZW1haWwgY29udGludWVzIHRvIHdvcmsgc28KPj4gPiB0aGF0IHlvdSBhcmUgY29udGFjdGFibGUu
+IElmIHlvdSBhcmUgc3VibWl0dGluZyBhIHNtYWxsIGFtb3VudCBvZgo+PiA+IGNoYW5nZXMgaXQn
+cyBwcm9iYWJseSBuZXZlciBnb2luZyB0byBtYXR0ZXIuIElmIHlvdSBhcmUgc3VibWl0dGluZwo+
+PiA+IGxhcmdlciBib2RpZXMgb2Ygd29yayBvZiBjb3Vyc2UgaXQgd291bGQgYmUgZ29vZCB0byBo
+YXZlIGEgY29tcGFueSBvcgo+PiA+IGxhcmdlciBvcmcgYXR0YWNoZWQgdG8gdHJhY2sgdGhpbmdz
+IGRvd24gbGVnYWxseSBsYXRlciwgYnV0IGFnYWluIHRoYXQKPj4gPiBpc24ndCBhbHdheXMgcG9z
+c2libGUuCj4+ID4KPj4gPiBJIGRvbid0IHRoaW5rIGFsaWVuYXRpbmcgdGhlIG51bWVyb3VzIGRl
+dmVsb3BlcnMgd2hvIG5vIGxvbmdlciB1c2UKPj4gPiB0aGVpciBsZWdhbCBuYW1lcyBhcmUgaWRl
+bnRpZmllZCBieSBvbmUgbmFtZSwgYnV0IGhhdmVuJ3QgY2hhbmdlZAo+PiA+IHRoZWlyIGxlZ2Fs
+IG9uZSB5ZXQgcGVvcGxlIHdobyBnZXQgbWFycmllZCBhbmQgY2hhbmdlIHRoZWlyIGxlZ2FsIG5h
+bWUKPj4gPiBidXQgZG9uJ3QgY2hhbmdlIHRoZWlyIGNvbnRyaWJ1dGlvbiBuYW1lIGFuZCBJIGNv
+dWxkIHJ1biB0aGlzIHNlbnRlbmNlCj4+ID4gb24gZm9yZXZlci4KPj4gCj4+IFllYWggbGlrZSBh
+YnNvbHV0ZSBiZXN0IGNhc2UgdHJ5aW5nIHRvICJlbmZvcmNlIiB0aGlzIGp1c3QgcmVzdWx0cyBp
+bgo+PiBlbmNvdXJhZ2luZyBwZW9wbGUgdG8gY29tZSB1cCB3aXRoIGVudGlyZWx5IGZha2UgYnV0
+IEVuZ2xpc2ggbG9va2luZwo+PiBuYW1lcyBmb3IgdGhlbXNlbHZlcy4gV2hpY2ggLi4uIGp1c3Qg
+bm8uCj4KPkFncmVlLCBhZ2FpbiwgSSdkIHByZWZlciB0byB0YWtlIHJlYWwgbmFtZXMgaW4gbmF0
+aXZlIGxhbmd1YWdlcywgb3VyCj50b29scyBjYW4gaGFuZGxlIHRoYXQganVzdCBmaW5lLiAgTm8g
+bmVlZCB0byBtYWtlIHVwIGFueXRoaW5nLgo+Cj50aGFua3MsCj4KPmdyZWcgay1oCgpoaSwgR3Jl
+ZyBLLUgsIAoKSSBoYXZlIHJlc2VudCBhIG5ldyBwYXRjaCBmb3IgbXkgY29tbWl0IG9mIHRlZ3Jh
+X3VhcnRfaW5pdCgpIGJ1ZyB3aXRoIG15IHJlYWwgbmFtZSBmb3IgU29iLgoKU28gdGhlcmUgaXMg
+YW55b3RoZXIgdGhpbmcgSSBzaG91bGQgZG8/
