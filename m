@@ -1,129 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A951654EA21
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 21:30:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EF654EA30
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 21:34:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5C6B11A56A;
-	Thu, 16 Jun 2022 19:30:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4D7B112E98;
+	Thu, 16 Jun 2022 19:34:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2065.outbound.protection.outlook.com [40.107.243.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88E2511A567
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:30:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tj/Kn/m3ywOpZInEIxiIXir5jWNKsECP2ZJ92u8nQq9XOQkS0k+XMcO9mA79g/Ocw/xN/AJXicoTF2EC5X7BhFd3iDdDXMhG+pkATx1owrxUZAEZrrYJirzXW4ntsttxh2wfYEi5wIvutUN3OUcRuvUndPKYxTjvwJb1IM5kYoCfqIoo4UQWugsK0DO5gDvmkUf8qWWiW2t3lurhL2CvrJfW3NYxaIli8u9H5/Tet/Dhcj4jzQqDG62jl/MVlHQsSMl8YIyFcw3NA4Y522C7nt9Y+GQ24BFnY2/W/budRfSXI8PNL8T4eDIRuKGgHESSdk7C2q2MPDUzvuBWtgXe3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nrTS58qPqIlCyrgY084fIV6pOz4+7GJPx+6wcTC3x4s=;
- b=EyYT0a4T+wLInnN8VMgs4RKSjdXC713iKrGyzwH0BOKrgcoTbTz/PKMOzon4t3Ov8TanNPI9DVwvrgzsx+v0dyf4HOx2CI+AfqDW8Fnk9egT4qX8PCsX1ojT1aPUS0TEvh1dSiEav86hKQ7aGzJ2EUGcuDyXYEOaCmB9nXeJ9yf09yPNFO3cgqnnZvaWOAJTpTWgJY2Y3lnuhrvTZZtohivvgbR8CJmmltiA7h3No402pfq7+sPvcTVB2SBvxVMfISeXQluZbJD1WJy4NHuQaf/qYJA3iiAMTvuBeHYRmmjaUNiRpJOk47DI7RsQkERNNP0cZ6u1Qxr/STE2KaSHZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nrTS58qPqIlCyrgY084fIV6pOz4+7GJPx+6wcTC3x4s=;
- b=goTFAFfKyjIk14fPzLwVjdefMbJSWA//oW/Me5IgZflldgAL+a+HdvI6amHhgSXJJjGDrOCInde8W861NrtrhLabXvHVRaksR3mqMAp3+VufTFnCmKBARNMTpZDn6BqYv+ZUJTLv/UPRQzTc/c1bBTWleTs2MQT2jxGc8ZQuC18=
-Received: from CY4PR05MB3047.namprd05.prod.outlook.com (2603:10b6:903:f4::7)
- by BYAPR05MB6213.namprd05.prod.outlook.com (2603:10b6:a03:de::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Thu, 16 Jun
- 2022 19:29:43 +0000
-Received: from CY4PR05MB3047.namprd05.prod.outlook.com
- ([fe80::14fc:26d8:a523:ce02]) by CY4PR05MB3047.namprd05.prod.outlook.com
- ([fe80::14fc:26d8:a523:ce02%3]) with mapi id 15.20.5353.011; Thu, 16 Jun 2022
- 19:29:42 +0000
-From: Zack Rusin <zackr@vmware.com>
-To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "javierm@redhat.com" <javierm@redhat.com>
-Subject: Re: [PATCH v6 3/5] fbdev: Disable sysfb device registration when
- removing conflicting FBs
-Thread-Topic: [PATCH v6 3/5] fbdev: Disable sysfb device registration when
- removing conflicting FBs
-Thread-Index: AQHYepvEjLx5F4TpvU6kmXodMqZSca1SeaGA
-Date: Thu, 16 Jun 2022 19:29:42 +0000
-Message-ID: <de83ae8cb6de7ee7c88aa2121513e91bb0a74608.camel@vmware.com>
-References: <20220607182338.344270-1-javierm@redhat.com>
- <20220607182338.344270-4-javierm@redhat.com>
-In-Reply-To: <20220607182338.344270-4-javierm@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.1-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vmware.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 15e3ff4e-3fc9-40ec-eda5-08da4fce902c
-x-ms-traffictypediagnostic: BYAPR05MB6213:EE_
-x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
-x-microsoft-antispam-prvs: <BYAPR05MB6213F397CE22366484678B16CEAC9@BYAPR05MB6213.namprd05.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xhHCPlBWLI0GZ5iLVcwJ4mDgLKNEjwdA71RB2LE7xD0uU1/aK5UKBS8aI9loJ495K/zsdru/cmBTGrN2C7hah280GLXtII/zkg87EpuWrjzsy3dAPCD2cie89aYRHEksAY3Y8M6FAlt7jo5/8FyHhtmTDGL4VdRnrTg6YPDdfW1P6sfnzjmku6PH4QkrSruprhH94NTpQdjI7dUrhTi848O9d7bV6ouiDsIjo66YuFTyVwLIcaZDDct4PgODUWk1CGUPwiAqiPKeV2WsFfv+7HeZe2miKRPjRMC/ATmYOZ9BWLzmstfcLIiisnjcLAtoAAILrhpVc1yYm4uy+Jth3HVvIqUSFFvbOpxP2N4hy9e9pl9qpMF53o9a5CkWM9Vi16s0d+L6auLPwCZZCwukyL7fog+9YcCB1kzkSpd6HO0jxv4M+UtofLBzGDqEsLPku/ZXVugc+OtzKl7VxEazazX3Go9weiQ2Ns4+BRwfZZfg8KbWSX1UqOxpowKYBgfkB3AvfaPHpvcwlX4TejwbMtRQ+bEhPGd3HZWsmzBiUBUvowPuJRr9RXkGMnzc99Cak68PGt1+rVJrmnU6YiRWKuT78vhWCtQX8rtGWrXNfJfnBsM2W+APtzE7qeZ/d/McHbddR5wE4BAqzayr8AUsqBKQlKbU0lyORiqcXUMTh2uzup5vh6w6L9xU2xR/HCxR4AW5diNUQrNQdF4oMOx/lQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR05MB3047.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(7416002)(2906002)(66946007)(91956017)(508600001)(45080400002)(66476007)(110136005)(8936002)(6486002)(86362001)(6512007)(76116006)(5660300002)(6506007)(8676002)(64756008)(26005)(38100700002)(66556008)(66446008)(4326008)(71200400001)(316002)(54906003)(83380400001)(122000001)(38070700005)(36756003)(107886003)(186003)(2616005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Y0ZwYzZVT0V0TVUvMkpGRm1OUlhSU1FmQUNYREZLN0xhZjRjZ3gyQ2xvK0pW?=
- =?utf-8?B?QmZMU2FCOXFRYmdwbkRieUhaV2NkU2lNeHpqZmUzbGpvMkY3Mys2Qm1DU2V6?=
- =?utf-8?B?dUUrVWhvMTM5VUdTVHd0VnpYR0hua01OMnp2ZzlBZWRQTlBXNm9RTXdnZWVn?=
- =?utf-8?B?c0pBRDJjeFg1R1RTdkdoaTU2emxESzFYOFNjNjdWaVZ2VlFFVlFLdFNSUXFk?=
- =?utf-8?B?WGhYc01ibUNERjROWmllQmNoZUNxL1VBempkMDA0KzFwQnRGVVkxTmdlUkky?=
- =?utf-8?B?TnpOaHp1YkZmTVVVMThtMEhIVTJ2K0RKUGdraUdIdnJYd0l3OU5CanNVOFB2?=
- =?utf-8?B?TFBpOVBOMm1XejNTaUVNMFU0ZklQZUU1a1RjTzZLY0gzUnNIZGl0d05xYWxh?=
- =?utf-8?B?STRtQWVSTlBDSU9UK0xWTlVodVY0MjJDbThRK0p4OGRHZ3R4T1V5blhMQVBz?=
- =?utf-8?B?L2xxQ1ZCSHJIa1JtMk5MckZjcmVIZFdPcmUzM3MxdWVzRy80dlZVZVB5TDRw?=
- =?utf-8?B?ZUh5cEx6UGxHcEh2RGIrRGc0UXZWUVk4a1BTKythQTJBNFc0cFZvY2Z0TUtv?=
- =?utf-8?B?RzM0UHJOd2h5Rnp3bElwU0s1N3JrQWUxcEttaVp1L2pwaS9Ea2NwNzY5c3Q1?=
- =?utf-8?B?K3ZaRDQvbldwVHE5UHp4clYvc213VUtGQzhidHVOYXprN213OSthSVBFdzBE?=
- =?utf-8?B?ZlovMzFybzBpeHhTNTdjcldUQk5zSXd5WXA4VTBiUE1Ca2Rta3JHVmNvaS9i?=
- =?utf-8?B?VDMrcXhrMlh1TFY1aU1aMUdpSjhKUEU1ckVkUld0R1dFUGhDQkRzRWNXcy9N?=
- =?utf-8?B?Tm1lNkZJQVhnZkFYQzRxN3dsTFpCb2VKRmNkKzkzK2tTNk9PZnRNOUROSjNP?=
- =?utf-8?B?VWFERmVwczFhalJsQ05ESFZqbnpSUm5NMjNoYjdHOWpvSW1sTjhwSlR5YmpC?=
- =?utf-8?B?dGdwRmtJdlhIMFk0MDdzbGd2eCtrbDRIUFF2S0grMUwyWmdZVkt0WndqVi9t?=
- =?utf-8?B?SjBrNlk0ZldnRlQ4TUltT0hQSzEvbkxRTE9IWkJNUzJMSkZVbnpCWXdpQTRZ?=
- =?utf-8?B?YUs2K0grNy9MWExMWnp1V0o0OVE5Tmo5ZHZFaDZ6ODlnMVp2b21TSGM4ZWgr?=
- =?utf-8?B?UHJhQUVnWnNRR3ZrS0Fma2x3ZFp3L0ExanF1UW5zTUtNUldOVHFEUzZaakh3?=
- =?utf-8?B?cUYrSkZOWUVSd2w0WnZzY3MwZDZXZlRvT0xYZkQyZzUwaHAzeldlWnc5cWRE?=
- =?utf-8?B?ZTVOV201TEtqdm9DZmg0SFJycFloZGJKU1l5ZTg0akV3bDFFbFZBbWcvcEQz?=
- =?utf-8?B?UmEraXBCZVVCdG5XWWQwZGl5azRibGJBWlBHcUFDb081Q2lmaDNrMTh6S203?=
- =?utf-8?B?OVZkMzBmTUxZeW5hR1pud3Z6dldnTW1pMTVhS00yUWRGYnBTR0hJK1p6S3Rw?=
- =?utf-8?B?MDB3MzM1Y245R2FIZnVZemtCNVViZ3VkM3hxMk9ycmNtZ21FSDdTd0RXVmhs?=
- =?utf-8?B?bkt3UGdMc0RjeVJOL1R1VkVVV0ZRRnIxVVhwdGFSOWJVdVZZM2JDSlZwdzhL?=
- =?utf-8?B?WFI4U1Z4cFRzWEpiT3poak9NT050VVFDdnd6Q3lPL3NJSzRYZitrTTRIWXJM?=
- =?utf-8?B?bVFyRy9tTkZsdklEdkR4N2ZJcllmUHlBT241UDcvNDFhUHJuVzUyLzYrdmRz?=
- =?utf-8?B?T0F6NDZnSWZpRFlYZ0VDOFp6QmdJdmhVQ2JUdHRxUTY3K0dNY0lrcjFodUJt?=
- =?utf-8?B?YlIvT0M1MHV6NE9LbWZWcWN0T0ZtTktWQnZzbU9UR0NGUUFXb0k1bG1MR0V3?=
- =?utf-8?B?dTZKVTZLeFFWYTlXb0xWanVmdVNTcjdFditldVdabzA2WjkydVNkMmVMVUNh?=
- =?utf-8?B?dW0rUjNQRzdGVWxDelF2a09McVdpM09sWjVsV0VjZExHTUo1dkU0U2xkNnRO?=
- =?utf-8?B?VmY2NytNUUlYenNmcjVxMFdIVHgraWtla3pqcU50TkNRaUNjNzBDTzVwdnE2?=
- =?utf-8?B?ek8xTkZZQjRnVCtwUTZ4M0d4MWN5VkNSbEdoaFpsVW9oVzVIVTBnS1VHSk5h?=
- =?utf-8?B?d05PR3Vsb3l3bW92MEtkSUtXOW5neFExbU56bGxSemszSFNtWHBjbWk4OFU5?=
- =?utf-8?B?R3hoT2l2RXQxN2lkQzU2dkhrY05JN0hPM1U3MldtNGxmZnF0T3hDTHhsUmZa?=
- =?utf-8?B?clBncEVVYnZnVGR1aSsyaG9vOWpCeklIQVBETlNRdEhlVG5wUlNvNVN5NnZa?=
- =?utf-8?B?QmJWR3VYTERFY3VNZTBxcmRLdjlFY3h3RW9Ibk1LZmc3ZG4wSW1LY0hKL3FI?=
- =?utf-8?B?My9NckhUbVYvVzFOdlJIZW51eERwd2NBc2NmYUNhTTVJWFEwMEpEUT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E9C73EEC29767C4088A40466EB8BA93F@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+ [209.85.166.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA47112E98
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:34:28 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id n11so2499300iod.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 12:34:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=S25L3CWj8vlpCKxhB9Xc3nOC1i/DIzMtuE6udLAVvAw=;
+ b=tTIcQVkma1GJABspnfxBFHPT6LeQShW1Fto/lbxi0Ww+9vOFYkBHoielFdJQGJQ8Kv
+ Jr6Gjv6rYNZjij8kz/rs2fbAHUeQyUT/sI55vo1plQ/Xu9z2KmSve+indKGTvWGqB0+/
+ qR2BrttoIoCFSq+NiIhRRf+C/py8efv0KEiBBCekOmDnDwjZRPLMdEAyPFZoGE0A8SaQ
+ 3em0V5MSesak6+tAGOGSODoQH665q1UFj3b+5xw2E978Dcxi/dbRJhI7sCaBZ20BHQvR
+ UMYWFzR35SlvG4F1+k3uFZwlGd9bTE2/NI8DkQb7Yl+9igCui3EdZmpPYMTE9x8Rw80j
+ PpLQ==
+X-Gm-Message-State: AJIora+cx51/cHBjLJDyKQRwpiequ/a5h+wFHwseubf7ejZilqec8XzH
+ 2c7FY26f9tAl8IyiHsWA9Q==
+X-Google-Smtp-Source: AGRyM1va6r6iyrhQi4eq1CrI+Yui4VKcqrJgOWcZsH0/31J0I9HiVCiaDneHZ+Hl/LPro4MUZoKSyA==
+X-Received: by 2002:a05:6638:4705:b0:331:7c49:7048 with SMTP id
+ cs5-20020a056638470500b003317c497048mr3614855jab.182.1655408067485; 
+ Thu, 16 Jun 2022 12:34:27 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.251])
+ by smtp.gmail.com with ESMTPSA id
+ z5-20020a05660229c500b0065a47e16f4esm1584402ioq.32.2022.06.16.12.34.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jun 2022 12:34:26 -0700 (PDT)
+Received: (nullmailer pid 3867979 invoked by uid 1000);
+ Thu, 16 Jun 2022 19:34:24 -0000
+Date: Thu, 16 Jun 2022 13:34:24 -0600
+From: Rob Herring <robh@kernel.org>
+To: Prashant Malani <pmalani@chromium.org>
+Subject: Re: [PATCH v4 4/7] dt-bindings: drm/bridge: anx7625: Add mode-switch
+ support
+Message-ID: <20220616193424.GA3844759-robh@kernel.org>
+References: <20220615172129.1314056-1-pmalani@chromium.org>
+ <20220615172129.1314056-5-pmalani@chromium.org>
+ <CAE-0n53ub30HXB325wPoMB4C3n4j_9FWnNu5AmtYgU3PBvs8mQ@mail.gmail.com>
+ <CACeCKadSCXZo3E4JZiwxFn_4CH3KDfQkk=xRrxSqCEWAgYhV6Q@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR05MB3047.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15e3ff4e-3fc9-40ec-eda5-08da4fce902c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2022 19:29:42.6598 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2OMb7DEkGCZaLuc+iv3XN2Lovfe5G/OJLnpGkisRbtjsr3yepGrkEbp6wLsOlWlaa+EMmu8UhAz9t4miWBRobQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR05MB6213
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACeCKadSCXZo3E4JZiwxFn_4CH3KDfQkk=xRrxSqCEWAgYhV6Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,133 +65,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "deller@gmx.de" <deller@gmx.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "kraxel@redhat.com" <kraxel@redhat.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "lersek@redhat.com" <lersek@redhat.com>
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Stephen Boyd <swboyd@chromium.org>,
+ Pin-Yen Lin <treapking@chromium.org>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDIyLTA2LTA3IGF0IDIwOjIzICswMjAwLCBKYXZpZXIgTWFydGluZXogQ2FuaWxs
-YXMgd3JvdGU6DQo+IFRoZSBwbGF0Zm9ybSBkZXZpY2VzIHJlZ2lzdGVyZWQgYnkgc3lzZmIgbWF0
-Y2ggd2l0aCBmaXJtd2FyZS1iYXNlZCBEUk0gb3INCj4gZmJkZXYgZHJpdmVycywgdGhhdCBhcmUg
-dXNlZCB0byBoYXZlIGVhcmx5IGdyYXBoaWNzIHVzaW5nIGEgZnJhbWVidWZmZXINCj4gcHJvdmlk
-ZWQgYnkgdGhlIHN5c3RlbSBmaXJtd2FyZS4NCj4gDQo+IERSTSBvciBmYmRldiBkcml2ZXJzIGxh
-dGVyIGFyZSBwcm9iZWQgYW5kIHJlbW92ZSBhbGwgY29uZmxpY3RpbmcgZnJhbWVidWZmZXJzLA0K
-PiBsZWFkaW5nIHRvIHRoZXNlIHBsYXRmb3JtIGRldmljZXMgZm9yIGdlbmVyaWMgZHJpdmVycyB0
-byBiZSB1bnJlZ2lzdGVyZWQuDQo+IA0KPiBCdXQgdGhlIGN1cnJlbnQgc29sdXRpb24gaGFzIGEg
-cmFjZSwgc2luY2UgdGhlIHN5c2ZiX2luaXQoKSBmdW5jdGlvbiBjb3VsZA0KPiBiZSBjYWxsZWQg
-YWZ0ZXIgYSBEUk0gb3IgZmJkZXYgZHJpdmVyIGlzIHByb2JlZCBhbmQgcmVxdWVzdCB0byB1bnJl
-Z2lzdGVyDQo+IHRoZSBkZXZpY2VzIGZvciBkcml2ZXJzIHdpdGggY29uZmxpY3RpbmcgZnJhbWVi
-dWZmZXMuDQo+IA0KPiBUbyBwcmV2ZW50IHRoaXMsIGRpc2FibGUgYW55IGZ1dHVyZSBzeXNmYiBw
-bGF0Zm9ybSBkZXZpY2UgcmVnaXN0cmF0aW9uIGJ5DQo+IGNhbGxpbmcgc3lzZmJfZGlzYWJsZSgp
-LCBpZiBhIGRyaXZlciByZXF1ZXN0cyB0byByZW1vdmUgdGhlIGNvbmZsaWN0aW5nDQo+IGZyYW1l
-YnVmZmVycy4NCj4gDQo+IFN1Z2dlc3RlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRl
-ckBmZndsbC5jaD4NCj4gU2lnbmVkLW9mZi1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxq
-YXZpZXJtQHJlZGhhdC5jb20+DQo+IFJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
-dmV0dGVyQGZmd2xsLmNoPg0KPiAtLS0NCj4gDQo+IENoYW5nZXMgaW4gdjY6DQo+IC0gTW92ZSB0
-aGUgc3lzZmJfZGlzYWJsZSgpIGJlZm9yZSB0aGUgcmVtb3ZlIGNvbmZsaWN0aW5nIGZyYW1lYnVm
-ZmVycw0KPiAgIGxvb3AgKERhbmllbCBWZXR0ZXIpLg0KPiANCj4gQ2hhbmdlcyBpbiB2NToNCj4g
-LSBNb3ZlIHRoZSBzeXNmYl9kaXNhYmxlKCkgY2FsbCBhdCBjb25mbGljdGluZyBmcmFtZWJ1ZmZl
-cnMgYWdhaW4gdG8NCj4gICBhdm9pZCB0aGUgbmVlZCBvZiBhIERSSVZFUl9GSVJNV0FSRSBjYXBh
-YmlsaXR5IGZsYWcuDQo+IC0gQWRkIERhbmllbCBWZXR0ZXIncyBSZXZpZXdlZC1ieSB0YWcgYWdh
-aW4gc2luY2UgcmV2ZXJ0ZWQgdG8gdGhlIG9sZA0KPiAgIHBhdGNoIHRoYXQgaGUgYWxyZWFkeSBy
-ZXZpZXdlZCBpbiB2Mi4NCj4gDQo+IENoYW5nZXMgaW4gdjM6DQo+IC0gQ2FsbCBzeXNmYl9kaXNh
-YmxlKCkgd2hlbiBhIERSTSBkZXYgYW5kIGEgZmJkZXYgYXJlIHJlZ2lzdGVyZWQgcmF0aGVyDQo+
-ICAgdGhhbiB3aGVuIGNvbmZsaWN0aW5nIGZyYW1lYnVmZmVycyBhcmUgcmVtb3ZlZCAoVGhvbWFz
-IFppbW1lcm1hbm4pLg0KPiAtIENhbGwgc3lzZmJfZGlzYWJsZSgpIHdoZW4gYSBmYmRldiBmcmFt
-ZWJ1ZmZlciBpcyByZWdpc3RlcmVkIHJhdGhlcg0KPiAgIHRoYW4gd2hlbiBjb25mbGljdGluZyBm
-cmFtZWJ1ZmZlcnMgYXJlIHJlbW92ZWQgKFRob21hcyBaaW1tZXJtYW5uKS4NCj4gLSBEcm9wIERh
-bmllbCBWZXR0ZXIncyBSZXZpZXdlZC1ieSB0YWcgc2luY2UgcGF0Y2ggY2hhbmdlZCBhIGxvdC4N
-Cj4gDQo+IENoYW5nZXMgaW4gdjI6DQo+IC0gRXhwbGFpbiBpbiB0aGUgY29tbWl0IG1lc3NhZ2Ug
-dGhhdCBmYm1lbSBoYXMgdG8gdW5yZWdpc3RlciB0aGUgZGV2aWNlDQo+ICAgYXMgZmFsbGJhY2sg
-aWYgYSBkcml2ZXIgcmVnaXN0ZXJlZCB0aGUgZGV2aWNlIGl0c2VsZiAoRGFuaWVsIFZldHRlciku
-DQo+IC0gQWxzbyBleHBsYWluIHRoYXQgZmFsbGJhY2sgaW4gYSBjb21tZW50IGluIHRoZSBjb2Rl
-IChEYW5pZWwgVmV0dGVyKS4NCj4gLSBEb24ndCBlbmNvZGUgaW4gZmJtZW0gdGhlIGFzc3VtcHRp
-b24gdGhhdCBzeXNmYiB3aWxsIGFsd2F5cyByZWdpc3Rlcg0KPiAgIHBsYXRmb3JtIGRldmljZXMg
-KERhbmllbCBWZXR0ZXIpLg0KPiAtIEFkZCBhIEZJWE1FIGNvbW1lbnQgYWJvdXQgZHJpdmVycyBy
-ZWdpc3RlcmluZyBkZXZpY2VzIChEYW5pZWwgVmV0dGVyKS4NCj4gDQo+ICBkcml2ZXJzL3ZpZGVv
-L2ZiZGV2L2NvcmUvZmJtZW0uYyB8IDEyICsrKysrKysrKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQs
-IDEyIGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2
-L2NvcmUvZmJtZW0uYyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYm1lbS5jDQo+IGluZGV4
-IDJmZGE1OTE3YzIxMi4uZTA3MjBmZWYwZWU2IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3ZpZGVv
-L2ZiZGV2L2NvcmUvZmJtZW0uYw0KPiArKysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJt
-ZW0uYw0KPiBAQCAtMTksNiArMTksNyBAQA0KPiAgI2luY2x1ZGUgPGxpbnV4L2tlcm5lbC5oPg0K
-PiAgI2luY2x1ZGUgPGxpbnV4L21ham9yLmg+DQo+ICAjaW5jbHVkZSA8bGludXgvc2xhYi5oPg0K
-PiArI2luY2x1ZGUgPGxpbnV4L3N5c2ZiLmg+DQo+ICAjaW5jbHVkZSA8bGludXgvbW0uaD4NCj4g
-ICNpbmNsdWRlIDxsaW51eC9tbWFuLmg+DQo+ICAjaW5jbHVkZSA8bGludXgvdnQuaD4NCj4gQEAg
-LTE3NjQsNiArMTc2NSwxNyBAQCBpbnQgcmVtb3ZlX2NvbmZsaWN0aW5nX2ZyYW1lYnVmZmVycyhz
-dHJ1Y3QgYXBlcnR1cmVzX3N0cnVjdCAqYSwNCj4gIAkJZG9fZnJlZSA9IHRydWU7DQo+ICAJfQ0K
-PiAgDQo+ICsJLyoNCj4gKwkgKiBJZiBhIGRyaXZlciBhc2tlZCB0byB1bnJlZ2lzdGVyIGEgcGxh
-dGZvcm0gZGV2aWNlIHJlZ2lzdGVyZWQgYnkNCj4gKwkgKiBzeXNmYiwgdGhlbiBjYW4gYmUgYXNz
-dW1lZCB0aGF0IHRoaXMgaXMgYSBkcml2ZXIgZm9yIGEgZGlzcGxheQ0KPiArCSAqIHRoYXQgaXMg
-c2V0IHVwIGJ5IHRoZSBzeXN0ZW0gZmlybXdhcmUgYW5kIGhhcyBhIGdlbmVyaWMgZHJpdmVyLg0K
-PiArCSAqDQo+ICsJICogRHJpdmVycyBmb3IgZGV2aWNlcyB0aGF0IGRvbid0IGhhdmUgYSBnZW5l
-cmljIGRyaXZlciB3aWxsIG5ldmVyDQo+ICsJICogYXNrIGZvciB0aGlzLCBzbyBsZXQncyBhc3N1
-bWUgdGhhdCBhIHJlYWwgZHJpdmVyIGZvciB0aGUgZGlzcGxheQ0KPiArCSAqIHdhcyBhbHJlYWR5
-IHByb2JlZCBhbmQgcHJldmVudCBzeXNmYiB0byByZWdpc3RlciBkZXZpY2VzIGxhdGVyLg0KPiAr
-CSAqLw0KPiArCXN5c2ZiX2Rpc2FibGUoKTsNCj4gKw0KPiAgCW11dGV4X2xvY2soJnJlZ2lzdHJh
-dGlvbl9sb2NrKTsNCj4gIAlkb19yZW1vdmVfY29uZmxpY3RpbmdfZnJhbWVidWZmZXJzKGEsIG5h
-bWUsIHByaW1hcnkpOw0KPiAgCW11dGV4X3VubG9jaygmcmVnaXN0cmF0aW9uX2xvY2spOw0KDQpI
-aSwgSmF2aWVyLg0KDQpUaGlzIGNoYW5nZSBicm9rZSBhcm02NCB3aXRoIHZtd2dmeC4gV2UgZ2V0
-IGEga2VybmVsIG9vcHMgYXQgYm9vdCAobGV0IG1lIGtub3cgaWYNCnlvdSdkIGxpa2UgLmNvbmZp
-ZyBvciBqdXN0IGhhdmUgdXMgdGVzdCBzb21ldGhpbmcgZGlyZWN0bHkgZm9yIHlvdSk6DQoNCg0K
-IFVuYWJsZSB0byBoYW5kbGUga2VybmVsIE5VTEwgcG9pbnRlciBkZXJlZmVyZW5jZSBhdCB2aXJ0
-dWFsIGFkZHJlc3MNCjAwMDAwMDAwMDAwMDAwMDgNCiBNZW0gYWJvcnQgaW5mbzoNCiAgIEVTUiA9
-IDB4OTYwMDAwMDQNCiAgIEVDID0gMHgyNTogREFCVCAoY3VycmVudCBFTCksIElMID0gMzIgYml0
-cw0KICAgU0VUID0gMCwgRm5WID0gMA0KICAgRUEgPSAwLCBTMVBUVyA9IDANCiAgIEZTQyA9IDB4
-MDQ6IGxldmVsIDAgdHJhbnNsYXRpb24gZmF1bHQNCiBEYXRhIGFib3J0IGluZm86DQogICBJU1Yg
-PSAwLCBJU1MgPSAweDAwMDAwMDA0DQogICBDTSA9IDAsIFduUiA9IDANCiB1c2VyIHBndGFibGU6
-IDRrIHBhZ2VzLCA0OC1iaXQgVkFzLCBwZ2RwPTAwMDAwMDAxNzg3ZWUwMDANCiBbMDAwMDAwMDAw
-MDAwMDAwOF0gcGdkPTAwMDAwMDAwMDAwMDAwMDAsIHA0ZD0wMDAwMDAwMDAwMDAwMDAwDQogSW50
-ZXJuYWwgZXJyb3I6IE9vcHM6IDk2MDAwMDA0IFsjMV0gU01QDQogTW9kdWxlcyBsaW5rZWQgaW46
-IHZtd2dmeCgrKSBlMTAwMGUoKykgbnZtZSBhaGNpKCspIHhoY2lfcGNpIGRybV90dG1faGVscGVy
-IHR0bQ0Kc2hhMjU2X2FybTY0IHNoYTFfY2UgbnZtZV9jb3JlIHhoY2lfcGNpX3JlbmVzYXMgYWVz
-X25lb25fYnMgYWVzX25lb25fYmxrIGFlcz4NCiBDUFU6IDMgUElEOiAyMTUgQ29tbTogc3lzdGVt
-ZC11ZGV2ZCBUYWludGVkOiBHICAgICBVICAgICAgICAgICAgNS4xOC4wLXJjNS12bXdnZngNCiMx
-Mg0KIEhhcmR3YXJlIG5hbWU6IFZNd2FyZSwgSW5jLiBWQlNBL1ZCU0EsIEJJT1MgVkVGSSAxMi8z
-MS8yMDIwDQogcHN0YXRlOiA4MDQwMDAwNSAoTnpjdiBkYWlmICtQQU4gLVVBTyAtVENPIC1ESVQg
-LVNTQlMgQlRZUEU9LS0pDQogcGMgOiBrZXJuZnNfZmluZF9hbmRfZ2V0X25zKzB4MmMvMHg4MA0K
-IGxyIDogc3lzZnNfdW5tZXJnZV9ncm91cCsweDMwLzB4ODANCiBzcCA6IGZmZmY4MDAwMGI3OGIz
-ZjANCiB4Mjk6IGZmZmY4MDAwMGI3OGIzZjAgeDI4OiBmZmZmMDAwMGY3OTcwOTEwIHgyNzogMDAw
-MDAwMDAwMDAwMDAwMg0KIHgyNjogZmZmZjAwMDBmNzk3MDkwMCB4MjU6IGZmZmY4MDAwMGFiY2Ez
-NTggeDI0OiBmZmZmODAwMDA5MzZjZmEwDQogeDIzOiBmZmZmODAwMDBhYzhmNDU4IHgyMjogMDAw
-MDAwMDAwMDAwMDAwMCB4MjE6IGZmZmY4MDAwMDk0MzE5MzgNCiB4MjA6IGZmZmY4MDAwMDk0MzE4
-MDAgeDE5OiAwMDAwMDAwMDAwMDAwMDAwIHgxODogMDAwMDAwMDAwMDAwMDAwMA0KIHgxNzogNDI1
-NTUzMDAzMDJlNzI2NSB4MTY6IDY2NjY3NTYyNjU2ZDYxNzIgeDE1OiA0ZDAwNmQ3MjZmNjY3NDYx
-DQogeDE0OiA2YzcwM2Q0ZDQ1NTQ1MzU5IHgxMzogNTk1MzQyNTU1MzAwMzAyZSB4MTI6IDcyNjU2
-NjY2NzU2MjY1NmQNCiB4MTE6IDAwMzIzMTM3MzIzZDRkNTUgeDEwOiA0ZTUxNDU1MzAwNzI2NTY2
-IHg5IDogZmZmZjgwMDAwODVmNzQwMA0KIHg4IDogZmZmZjAwMDBmNzk3MDk4MCB4NyA6IDAwMDAw
-MDAwMDAwMDAwMDAgeDYgOiAwMDAwMDAwMDc3ZmZmZmZmDQogeDUgOiAwMDAwMDAwMDcwMDAwMDAw
-IHg0IDogZmZmZjgwMDAwYjc4YjU0OCB4MyA6IGZmZmY4MDAwMDg4YjA0MjANCiB4MiA6IDAwMDAw
-MDAwMDAwMDAwMDAgeDEgOiBmZmZmODAwMDA5NDMxOTM4IHgwIDogMDAwMDAwMDAwMDAwMDAwMA0K
-IENhbGwgdHJhY2U6DQogIGtlcm5mc19maW5kX2FuZF9nZXRfbnMrMHgyYy8weDgwDQogIHN5c2Zz
-X3VubWVyZ2VfZ3JvdXArMHgzMC8weDgwDQogIGRwbV9zeXNmc19yZW1vdmUrMHgzYy8weDE3Yw0K
-ICBkZXZpY2VfZGVsKzB4YjAvMHgzYTANCiAgcGxhdGZvcm1fZGV2aWNlX2RlbC5wYXJ0LjArMHgy
-NC8weGIwDQogIHBsYXRmb3JtX2RldmljZV91bnJlZ2lzdGVyKzB4MzAvMHg1MA0KICBzeXNmYl9k
-aXNhYmxlKzB4NGMvMHg4MA0KICByZW1vdmVfY29uZmxpY3RpbmdfZnJhbWVidWZmZXJzKzB4NDAv
-MHgxMDANCiAgcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9mcmFtZWJ1ZmZlcnMrMHgxMjgvMHgyNDAN
-CiAgZHJtX2FwZXJ0dXJlX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZnJhbWVidWZmZXJzKzB4Yjgv
-MHgxNzANCiAgdm13X3Byb2JlKzB4NTAvMHhkMzAgW3Ztd2dmeF0NCiAgbG9jYWxfcGNpX3Byb2Jl
-KzB4NGMvMHhjMA0KICBwY2lfZGV2aWNlX3Byb2JlKzB4MWU4LzB4MjMwDQogIHJlYWxseV9wcm9i
-ZSsweDE4Yy8weDNmMA0KICBfX2RyaXZlcl9wcm9iZV9kZXZpY2UrMHgxMjQvMHgxYzANCiAgZHJp
-dmVyX3Byb2JlX2RldmljZSsweDQ0LzB4MTQwDQogIF9fZHJpdmVyX2F0dGFjaCsweGUwLzB4MjM0
-DQogIGJ1c19mb3JfZWFjaF9kZXYrMHg3Yy8weGUwDQogIGRyaXZlcl9hdHRhY2grMHgzMC8weDQw
-DQogIGJ1c19hZGRfZHJpdmVyKzB4MTU4LzB4MjUwDQogIGRyaXZlcl9yZWdpc3RlcisweDg0LzB4
-MTQwDQogIF9fcGNpX3JlZ2lzdGVyX2RyaXZlcisweDUwLzB4NWMNCiAgdm13X3BjaV9kcml2ZXJf
-aW5pdCsweDQ0LzB4MTAwMCBbdm13Z2Z4XQ0KICBkb19vbmVfaW5pdGNhbGwrMHg1MC8weDI1MA0K
-ICBkb19pbml0X21vZHVsZSsweDUwLzB4MjYwDQogIGxvYWRfbW9kdWxlKzB4MjNlNC8weDI3YzAN
-CiAgX19kb19zeXNfZmluaXRfbW9kdWxlKzB4YWMvMHgxMmMNCiAgX19hcm02NF9zeXNfZmluaXRf
-bW9kdWxlKzB4MmMvMHg0MA0KICBpbnZva2Vfc3lzY2FsbCsweDc4LzB4MTAwDQogIGVsMF9zdmNf
-Y29tbW9uLmNvbnN0cHJvcC4wKzB4NTQvMHgxODQNCiAgZG9fZWwwX3N2YysweDM0LzB4OWMNCiAg
-ZWwwX3N2YysweDU0LzB4MWUwDQogIGVsMHRfNjRfc3luY19oYW5kbGVyKzB4YTQvMHgxMzANCiAg
-ZWwwdF82NF9zeW5jKzB4MWEwLzB4MWE0DQogQ29kZTogYWEwMDAzZjMgYTkwMjViZjUgYWEwMTAz
-ZjUgYWEwMjAzZjYgKGY5NDAwNDAwKQ0KIC0tLVsgZW5kIHRyYWNlIDAwMDAwMDAwMDAwMDAwMDAg
-XS0tLQ0K
+On Thu, Jun 16, 2022 at 01:54:36AM -0700, Prashant Malani wrote:
+> On Thu, Jun 16, 2022 at 12:42 AM Stephen Boyd <swboyd@chromium.org> wrote:
+> >
+> > Quoting Prashant Malani (2022-06-15 10:20:20)
+> > >
+> > >  .../display/bridge/analogix,anx7625.yaml      | 64 +++++++++++++++++++
+> > >  1 file changed, 64 insertions(+)
+> >
+> > Can this file get a link to the product brief[1]? It helps to quickly
+> > find the block diagram.
+> 
+> Sure, but I don't really think that should be included in this patch
+> (or series).
+> I'd be happy to submit a separate patch once this series is resolved.
+> 
+> >
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > index 35a48515836e..bc6f7644db31 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > @@ -105,6 +105,34 @@ properties:
+> > >        - port@0
+> > >        - port@1
+> > >
+> > > +  switches:
+> > > +    type: object
+> > > +    description: Set of switches controlling DisplayPort traffic on
+> > > +      outgoing RX/TX lanes to Type C ports.
+> > > +    additionalProperties: false
+> > > +
+> > > +    properties:
+> > > +      '#address-cells':
+> > > +        const: 1
+> > > +
+> > > +      '#size-cells':
+> > > +        const: 0
+> > > +
+> > > +    patternProperties:
+> > > +      '^switch@[01]$':
+> > > +        $ref: /schemas/usb/typec-switch.yaml#
+> > > +        unevaluatedProperties: false
+> > > +
+> > > +        properties:
+> > > +          reg:
+> > > +            maxItems: 1
+> > > +
+> > > +        required:
+> > > +          - reg
+> > > +
+> > > +    required:
+> > > +      - switch@0
+> > > +
+> > >  required:
+> > >    - compatible
+> > >    - reg
+> > > @@ -167,5 +195,41 @@ examples:
+> > >                      };
+> > >                  };
+> > >              };
+> > > +            switches {
+> >
+> > Is "switches" a bus?
+> 
+> No.
+> 
+> >
+> > > +                #address-cells = <1>;
+> > > +                #size-cells = <0>;
+> > > +                switch@0 {
+> > > +                    compatible = "typec-switch";
+> >
+> > Is this compatible matched against a driver that's populated on this
+> > "switches" bus?
+> 
+> No. Patch 6/7 has the implementation details on how the anx driver
+> performs the enumeration of switches.
+> 
+> >
+> > > +                    reg = <0>;
+> > > +                    mode-switch;
+> > > +
+> > > +                    ports {
+> > > +                        #address-cells = <1>;
+> > > +                        #size-cells = <0>;
+> > > +                        port@0 {
+> > > +                            reg = <0>;
+> > > +                            anx_typec0: endpoint {
+> > > +                                remote-endpoint = <&typec_port0>;
+> > > +                            };
+> > > +                        };
+> > > +                    };
+> >
+> > I was expecting to see these simply be more ports in the existing graph
+> > binding of this device, and then have the 'mode-switch' or
+> > 'orientation-switch' properties be at the same level as the compatible
+> > string "analogix,anx7625". Here's the reasoning, based on looking at the
+> > product brief and the existing binding/implementation.
+> >
+> > Looking at the only existing implementation of this binding upstream in
+> > mt8183-kukui-jacuzzi.dtsi it looks like one of these typec ports is
+> > actually the same physically as the 'anx7625_out' endpoint (reg address
+> > of 1) that is already defined in the binding. It seems that MIPI DSI/DPI
+> > comes in and is output through 2 lanes, SSRX2 and SSTX2 according to the
+> > product brief[1], and that is connected to some eDP panel
+> > ("auo,b116xw03"). Presumably that is the same as anx_typec1 in this
+> > patch? I suspect the USB3.1 input is not connected on this board, and
+> > thus the crosspoint switch is never used, nor the SSRX1/SSTX1 pins.
+> >
+> > The existing binding defines the MIPI DSI/DPI input as port0 and two of
+> > the four lanes of output that is probably by default connected to the
+> > "DisplayPort Transmitter" as port1 because that's how the crosspoint
+> > switch comes out of reset. That leaves the USB3.1 input possibly needing
+> > a port in the ports binding, and the other two lanes of output needing a
+> > port in the ports binding to describe their connection to the downstream
+> > device. And finally information about if the crosspoint switch needs to
+> > be registered with the typec framework to do typec things, which can be
+> > achieved by the presence of the 'mode-switch' property.
+> >
+> > On a board like kukui-jacuzzi these new properties and ports wouldn't be
+> > specified, because what is there is already sufficient. If this chip is
+> > connected to a usb-c-connector then I'd expect to see a connection from
+> > the output ports in the graph binding to the connector node's ports.
+> > There aren't any ports in the usb-c-connector binding though from what I
+> > see.
+> >
+> > I believe there's also one more use case here where USB3.1 or MIPI
+> > DSI/DPI is connected on the input side and this device is used to steer
+> > USB3.1 or DP through the crosspoint switch to either of the two output
+> > pairs. This last scenario means that we have to describe both output
+> > pairs, SSRX1/SSTX1 and SSRX2/SSTX2, as different ports in the binding so
+> > they can be connected to different usb-c-connectors if the hardware
+> > engineer wired the output pins that way.
+> >
+> > TL;DR: Can we add 'mode-switch' as an optional property and two more
+> > ports at address 2 and 3 for the USB3.1 input and the SSRX1/SSTX1 pair
+> > respectively to the existing graph part of this binding?
+> 
+> Sorry, but I got lost midway through the preceding explanation. 
+
+Made sense to me.
+
+> The binding
+> can always add additional ports to each "switch" to accomplish the
+> graph connections
+> you are alluding to (if the driver needs/uses it, which I don't think
+> this one does at present).
+
+Why is the switch special? If I just look at this from a block diagram 
+perspective, I just see a list of interfaces that need to be described 
+in the graph.
+
+> Adding extra ports to existing ports gets tricky from a mode-switch
+> enumeration perspective (which
+> ports should have the modes switches, which shouldn't? Do you follow
+> the remote end points for each port
+> and see which one is a Type C connector? 
+
+The driver knows which port is which because the binding has to define 
+it. So you have to check 2 of them (SSRX1/SSTX1 and SSRX2/SSTX2) to find 
+usb C connectors.
+
+> What if we add an
+> intermediate switch device in the future?)
+> Having a dedicated "switch" binding makes this consistent and easy
+> (port0 will always have the end-point for the switch).
+> 
+> While there may be more than 1 valid approach here, I believe the
+> current one is appropriate.
+
+To put it simply, if you want to define a generic binding, I want to see 
+at least 2 users of it. What I really want to see is someone looking at 
+all the Type-C related bindings and h/w possibilities, not just 1 
+problem or their own h/w. IOW, a Type-C binding czar.
+
+Rob
