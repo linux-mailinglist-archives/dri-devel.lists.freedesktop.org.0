@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C1A54E9E1
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 21:15:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE4F54E9E2
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 21:16:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC95610F268;
-	Thu, 16 Jun 2022 19:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9372F10FC1D;
+	Thu, 16 Jun 2022 19:16:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC6AE10F268
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:15:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BDE510FC1D
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:16:12 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6A780B825AD
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:15:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1A9FEC341C5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:15:52 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 028F0B825AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:16:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BFF51C3411C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:16:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655406952;
- bh=Kxh8u8Vy4phUCIr5roRkNfw52A516slREpy8qIsGn00=;
+ s=k20201202; t=1655406969;
+ bh=cJ1Q4COpyJpul3DB0rVfK77C0lAL/aDLWirg6curdbQ=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=EZ/tfPjd0TUuH+/CQ2DNOW3OtrOZINnOPbYYKMlDaRqJU6fng5/PSsjrWiA/IHyDF
- vhhb7clxbgtWV8UK/+bxR8DsDUhD9MjJ0JOZYxkvmhO7V/RmSrKRaPSv63TISFd18E
- ISPHPmggqIaBfHnsEGthq5men5Yte1gjue4tl5+V2z/fg3qBu1VwHpYiA98uAOWmaa
- SjFUVmDhfYObqK1oEDwaIbsoZgDTrYSuxs9uneKIXads25IIsZHlqS0cXFPhyjIqz1
- 8GAQVp22vX3hX89qNHQ4W9cS3NMGbl1pP+tIvlECTDsAcOkEcidS0Z4NQXA78xdUCV
- kMetN0S+5RYyQ==
+ b=lwFd02Uppqvurn5EvTOycZYKb/+yfAwan6UKJ+S3V/XtnQSGP9DRdr7zcAEKqeynD
+ rUaURvEUrxgmlRJzrSyg0ZzL35x8SGSBVW2/cc2J9GtyPFw14eFDdBDbMEwzknKR2T
+ 5cG3xK3kHJShf8yheJW5Zcz2WMOY2nTOIgD4vlbxX9vDeWryOuRRyofXbYA4AWLplw
+ Bk3cK69g5HxH2VjkqCRcBClkP87A/e+6ETBx7dJBL14yNXPruQ3/DZ9NxuplwCiapX
+ sIp7cBulMllyZ4+9BH5dkbsAwgLEMGr0dMQYn4D8jrW0tgxSgy9Y1YbQXvhJK5+iQ0
+ GKWn2U5u+UooQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 02D29CC13B3; Thu, 16 Jun 2022 19:15:52 +0000 (UTC)
+ from userid 48) id AC416CC13B3; Thu, 16 Jun 2022 19:16:09 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
  390
-Date: Thu, 16 Jun 2022 19:15:51 +0000
+Date: Thu, 16 Jun 2022 19:16:09 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -51,7 +51,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216119-2300-K9s7iZu3O6@https.bugzilla.kernel.org/>
+Message-ID: <bug-216119-2300-boNgmqEYd3@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
 References: <bug-216119-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,8 +76,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
 
---- Comment #5 from Alex Deucher (alexdeucher@gmail.com) ---
-Does setting amdgpu.runpm=3D0 help?
+--- Comment #6 from Alex Deucher (alexdeucher@gmail.com) ---
+On the kernel command line in grub.
 
 --=20
 You may reply to this email to add a comment.
