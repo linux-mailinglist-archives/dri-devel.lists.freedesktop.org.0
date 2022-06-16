@@ -1,35 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FF554DE58
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 11:44:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB0554DE59
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 11:45:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5BED113D1B;
-	Thu, 16 Jun 2022 09:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF61E113D7C;
+	Thu, 16 Jun 2022 09:44:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4A740113D1A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 09:44:18 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D2B8112FC
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 02:44:17 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7FFD73F7F5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 02:44:17 -0700 (PDT)
-Date: Thu, 16 Jun 2022 10:44:10 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v2] drm/arm/hdlcd: Take over EFI framebuffer properly
-Message-ID: <Yqr7aorDndZAfy/j@e110455-lin.cambridge.arm.com>
-References: <31acd57f4aa8a4d02877026fa3a8c8d035e15a0d.1655309004.git.robin.murphy@arm.com>
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18B59113D7C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 09:44:58 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id gl15so1742320ejb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 02:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mhKDWh309DCiaIkvC+yjcO+PIaX4ExpmBkvJNenQmOY=;
+ b=icUQO2AVW2z4ISKHDbAnhDIBXLqKT+UHUcDy/7AeMofpJpbJBZHvcjH2r8IV+aoNWL
+ eiY+s/LezYvaADkmzgxeafqSj3i03DXWrwSCc9LW/pkDGuj2sIyzCs8jS451XXWU2UFq
+ v3YK7ZEK3P3awPRKaWaw0me4gOCqHCjVCRlqY32O6AoeVg6JQiwqSxX2MNx/qY0aB2Qk
+ 3+AJ2D0jxZmP+THmMao5FYIY9mLYTQ08ynFGs79p3xAIh/3mI4EE4rpY37z+sYrdStuA
+ O/gXmIRC6AYtkOxxXm6882NSR+cBZmKry1cnyQ7FsSYRsMfht/HzRSFFkhFBDFNjMTUz
+ +c6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mhKDWh309DCiaIkvC+yjcO+PIaX4ExpmBkvJNenQmOY=;
+ b=oVNwsyyPFjXLW7/a8c/5fLiIb7YBeNTfSdyDsTPLs+7APm/Jz0ke6XxUEKFHJXX5/9
+ 6ScT1SKMEgm/3gCcTv7lzUIQG9MrngNcQ/h450FaoAnremj/tkerc4yzLLmDNkJzuWDO
+ corQ1X9cLUfKBedfBR6cvJENtAOdNxA3f5TBH6GC896qIlXS4FkLip2u0FRtFzf25ds6
+ tB3iFGTKujkzGVJ1AFbGy8mKd7OohdT2pWd/RVB73Sxa9v4PLHKwqejCLLqI9PGfzVeg
+ ATj16kPmQDzbZdAxKFk/ivKj2a9B9SFWmrIWnD0gMNrszKySm/RhGQ/o+LIKkVZ+pICL
+ x9rg==
+X-Gm-Message-State: AJIora+tEmdIf+xlxMmCa4mdtn5QHAkBOMFJVZpRlF6kLwLKpt+AJrto
+ g0+4TI3QchsVDfMQveXUDRQCfhMiKW9sQB/hzQd8oQ==
+X-Google-Smtp-Source: AGRyM1u0p+HcFY+QTv0+IYnKTmxsMK8SoKgxauv9LeMqak6wWDhSMeCnx3Cs7t57k/Q33vyaD+HfgtLV3SuR/F2mMIY=
+X-Received: by 2002:a17:907:7b9b:b0:71b:6f0a:c480 with SMTP id
+ ne27-20020a1709077b9b00b0071b6f0ac480mr1503888ejc.175.1655372696676; Thu, 16
+ Jun 2022 02:44:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <31acd57f4aa8a4d02877026fa3a8c8d035e15a0d.1655309004.git.robin.murphy@arm.com>
+References: <20220610092924.754942-1-maxime@cerno.tech>
+ <20220610092924.754942-18-maxime@cerno.tech>
+ <CAPY8ntCHiO7QrhOw7doE7PtzuTJEp4-u20rT_RDRBCmZ8fnQRw@mail.gmail.com>
+ <20220616094103.dubzsbf2uuny472o@houat>
+In-Reply-To: <20220616094103.dubzsbf2uuny472o@houat>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 16 Jun 2022 10:44:41 +0100
+Message-ID: <CAPY8ntAZa8bcgPyoigiO6nPtwB4iNL6YkO6yxy5z65_-BNNfXQ@mail.gmail.com>
+Subject: Re: [PATCH 17/64] drm/vc4: crtc: Move debugfs_name to crtc_data
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,96 +66,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, javierm@redhat.com
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 15, 2022 at 05:09:15PM +0100, Robin Murphy wrote:
-> The Arm Juno board EDK2 port has provided an EFI GOP display via HDLCD0
-> for some time now, which works nicely as an early framebuffer. However,
-> once the HDLCD driver probes and takes over the hardware, it should
-> take over the logical framebuffer as well, otherwise the now-defunct GOP
-> device hangs about and virtual console output inevitably disappears into
-> the wrong place most of the time.
-> 
-> We'll do this after binding the HDMI encoder, since that's the most
-> likely thing to fail, and the EFI console is still better than nothing
-> when that happens. However, the two HDLCD controllers on Juno are
-> independent, and many users will still be using older firmware without
-> any display support, so we'll only bother if we find that the HDLCD
-> we're probing is already enabled. And if it is, then we'll also stop it,
-> since otherwise the display can end up shifted if it's still scanning
-> out while the rest of the registers are subsequently reconfigured.
+On Thu, 16 Jun 2022 at 10:41, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> Hi Dave,
+>
+> On Tue, Jun 14, 2022 at 04:57:45PM +0100, Dave Stevenson wrote:
+> > On Fri, 10 Jun 2022 at 10:30, Maxime Ripard <maxime@cerno.tech> wrote:
+> > >
+> > > All the CRTCs, including the TXP, have a debugfs file and name so we can
+> > > consolidate it into vc4_crtc_data.
+> > >
+> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >
+> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >
+> > I was sort of expecting the vc4_debugfs_add_regset32 call to move to
+> > vc4_crtc_init so that it would be a common call for crtcs and txp, but
+> > that doesn't appear to happen in this set. The debugfs_name for the
+> > txp is therefore actually unused.
+>
+> As of this patch, you're right
+>
+> This is later changed by some other patch though:
+> https://lore.kernel.org/all/20220610092924.754942-60-maxime@cerno.tech/
 
-Agree on trying to figure out if the controller is enabled before taking over the
-framebuffer, but we're also making the big asssumption (currently true) that EKD2
-will only initialise one controller. If that is ever false, we should be looking into
-HDLCD_REG_FB_BASE to figure out the start of the firmware framebuffer and request
-that via drm_aperture_remove_conflicting_framebuffers(). Not a big deal at the moment
-and I think the patch can be merged as is.
+Indeed, and that cleans it all up. Perfect.
 
-What I'm interested to know more is this
-
-> since otherwise the display can end up shifted if it's still scanning
-> out while the rest of the registers are subsequently reconfigured.
-
-Now I know that probe time is not atomic and it can have some weird behaviour, but I
-was not expecting pixels to shift. Maybe it is because of clock reprogramming?
-
-> 
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-
-Acked-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Will merge this into drm-misc-next if/when there are no more comments.
-
-Best regards,
-Liviu
-
-> ---
-> 
-> Since I ended up adding (relatively) a lot here, I didn't want to
-> second-guess Javier's opinion so left off the R-b tag from v1.
-> 
->  drivers/gpu/drm/arm/hdlcd_drv.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/arm/hdlcd_drv.c b/drivers/gpu/drm/arm/hdlcd_drv.c
-> index e89ae0ec60eb..1f1171f2f16a 100644
-> --- a/drivers/gpu/drm/arm/hdlcd_drv.c
-> +++ b/drivers/gpu/drm/arm/hdlcd_drv.c
-> @@ -21,6 +21,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  
-> +#include <drm/drm_aperture.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_debugfs.h>
-> @@ -314,6 +315,12 @@ static int hdlcd_drm_bind(struct device *dev)
->  		goto err_vblank;
->  	}
->  
-> +	/* If EFI left us running, take over from efifb/sysfb */
-> +	if (hdlcd_read(hdlcd, HDLCD_REG_COMMAND)) {
-> +		hdlcd_write(hdlcd, HDLCD_REG_COMMAND, 0);
-> +		drm_aperture_remove_framebuffers(false, &hdlcd_driver);
-> +	}
-> +
->  	drm_mode_config_reset(drm);
->  	drm_kms_helper_poll_init(drm);
->  
-> -- 
-> 2.36.1.dirty
-> 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+  Dave
