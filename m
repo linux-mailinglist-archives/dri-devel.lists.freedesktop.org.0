@@ -2,70 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229F054EBDF
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 23:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B31754EC00
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 23:06:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AB5110EACA;
-	Thu, 16 Jun 2022 21:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ABFF10EB47;
+	Thu, 16 Jun 2022 21:06:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27D4510E7CC
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 21:05:37 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id a17so251794pls.6
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 14:05:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=qWeAN6wBOdgTg8JbowHd+2FzjeCfu8a+6968a4QI8WI=;
- b=N5ZFoL+aFoUS6hB954SKMlb7yCUNVwnEz5QTGbIWpo81EwQ1sMXtUJNQgQWUFXyaqj
- B3EKyPgnhgeP6Zxqc0o0AXWyPWgb2jZKHij8R6bu7VXYG/qL6Jeu3Pus4aTVrIH5N/up
- 1mVgnWLjqxO/IM/TYAske9+86aHB4TE/sPT2q6jKDvKrVbIRbqCUop88VsbKe70HL/Xn
- WD13w1gMuXTC77dfwj7AUO0e7PAT47hYpwj/3hqPUXU+ijawuZQFwT1JvD33vRGoqe5d
- JySTlKChot+aWilu0E/PsGcDvuRxR9SgKE0cOeMTOx1RDYK8f3vG2bi+O+s59MTFKM8U
- 9Wlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qWeAN6wBOdgTg8JbowHd+2FzjeCfu8a+6968a4QI8WI=;
- b=2eMVpN5I/bp8kVDhfthTxQhYh9Zu0wXxmLRo3B9taP/3i7Vnpi96CM1ZIYXbbcCW4t
- HjL+ptCWusJ6G8HOtFLPbkf7AMzxaQx2AeCeOtfOpV9YeGBxgsYk4cxaZhYOzMXC2uiD
- MXsDl0SkAJQFFaOy7KV0dK36gE+gN9wNt1A9MEdv/6EXDpwAdaEyvkCkH6owDTq7wqxf
- 1LDSjDYM3/O5wcOhkTqzGkjYmIVqVDV62KjhJVgKEM3+yx9qlk7NFht5XfMA7f63r3kc
- Zhag4bf8AF+3UwyGlAbuMqpNEXjyIs+YUXtkYI7eWSFf66IC1HPpO0UJbke7H0RhtwRm
- lbig==
-X-Gm-Message-State: AJIora/eadNXPVb7c9/giuntCcErDinln1SEGG3CXvvbV2418XEups9D
- PfVPnexbWzCn2B1Yrfa7VhnKAw==
-X-Google-Smtp-Source: AGRyM1unXZ92n4cSgCY+nW05HkVgMJnrvjv1CRQe+KwLgKR+A0HSLHUM2FUPV+vxq7K020P5WmFE0w==
-X-Received: by 2002:a17:90b:4d8a:b0:1e6:87ad:bfd3 with SMTP id
- oj10-20020a17090b4d8a00b001e687adbfd3mr7000104pjb.138.1655413536660; 
- Thu, 16 Jun 2022 14:05:36 -0700 (PDT)
-Received: from [172.22.33.138] ([192.77.111.2])
- by smtp.gmail.com with ESMTPSA id
- y5-20020a17090ad70500b001dd16b86fc0sm4249403pju.19.2022.06.16.14.05.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jun 2022 14:05:36 -0700 (PDT)
-Message-ID: <dd9b9be2-7bdf-6cb6-b8ad-d7c0a0d5b98a@linaro.org>
-Date: Thu, 16 Jun 2022 14:05:34 -0700
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C81E810E7CC;
+ Thu, 16 Jun 2022 21:06:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655413580; x=1686949580;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=WK2j77TFJ/70U37ZeB4rzHVUzdPEhxO1yxy3ztiMc/4=;
+ b=TsDrAkC3ymJtbIriuDIrXYkmzS7EnbqUNK8pXgslS8QHoH+YDxN3yHEc
+ DM6fXSZB3l6hy8lspHfD0x/hJGFXlTUYiBPkABRDlWhEx5hY1vnJdDDL9
+ 2jpbAQ8OGIzVd1jRUKYwKqe+AWIZZmeov6xmEmORzbUKeESslR4kSmT4j
+ u3blMg4fN+s3TknfwPeEW7Ze/AtWCL/iONantGko/1tP72ioyNkOX+Hmt
+ b/ED83T/ACvAv5lG/1MqCb8gKsDrVsSOkE7loKby74s1BvKHoznjr3Oht
+ E6JVw0mNKYLdG/JIlYBRa1hveYA2r66K2gmHDdKNAeXgH2/cM9pck4pLe w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="276926349"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="276926349"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 14:06:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="619027433"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+ by orsmga001.jf.intel.com with ESMTP; 16 Jun 2022 14:06:15 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1o1wgw-000OmT-UJ;
+ Thu, 16 Jun 2022 21:06:14 +0000
+Date: Fri, 17 Jun 2022 05:06:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
+ airlied@linux.ie, agross@kernel.org, dmitry.baryshkov@linaro.org,
+ bjorn.andersson@linaro.org
+Subject: Re: [PATCH v8 2/2] drm/msm/dp: clean up pixel_rate from dp_ctrl.c
+Message-ID: <202206170505.2U1jLZVk-lkp@intel.com>
+References: <1655399361-10842-3-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 02/15] dt-bindings: power: supply: Add Mediatek MT6370
- Charger
-Content-Language: en-US
-To: ChiaEn Wu <peterwu.pub@gmail.com>, jic23@kernel.org, lars@metafoo.de,
- matthias.bgg@gmail.com, lee.jones@linaro.org, daniel.thompson@linaro.org,
- jingoohan1@gmail.com, pavel@ucw.cz, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org
-References: <20220613111146.25221-1-peterwu.pub@gmail.com>
- <20220613111146.25221-3-peterwu.pub@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220613111146.25221-3-peterwu.pub@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1655399361-10842-3-git-send-email-quic_khsieh@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,104 +62,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- szunichen@gmail.com, linux-pm@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, ChiaEn Wu <chiaen_wu@richtek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-leds@vger.kernel.org
+Cc: quic_sbillaka@quicinc.com, kbuild-all@lists.01.org,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/06/2022 04:11, ChiaEn Wu wrote:
-> From: ChiaEn Wu <chiaen_wu@richtek.com>
-> 
-> Add Mediatek MT6370 Charger binding documentation.
-> 
-> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> ---
->  .../power/supply/mediatek,mt6370-charger.yaml | 60 +++++++++++++++++++
->  1 file changed, 60 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
-> new file mode 100644
-> index 000000000000..b63553ebb15b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
-> @@ -0,0 +1,60 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/power/supply/mediatek,mt6370-charger.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek MT6370 Battery Charger
-> +
-> +maintainers:
-> +  - ChiaEn Wu <chiaen_wu@richtek.com>
-> +
-> +description: |
-> +  This module is part of the MT6370 MFD device.
-> +  Provides Battery Charger, Boost for OTG devices and BC1.2 detection.
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt6370-charger
-> +
-> +  interrupts:
-> +    description: |
-> +      Specify what irqs are needed to be handled by MT6370 Charger driver. IRQ
-> +      "MT6370_IRQ_CHG_MIVR", "MT6370_IRQ_ATTACH" and "MT6370_IRQ_OVPCTRL_UVP_D"
-> +      are required.
-> +    items:
-> +      - description: BC1.2 done irq
-> +      - description: usb plug in irq
-> +      - description: mivr irq
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: attach_i
-> +      - const: uvp_d_evt
-> +      - const: mivr
-> +
-> +  io-channels:
-> +    description: |
-> +      Use ADC channel to read vbus, ibus, ibat, etc., info. Ibus ADC channel
-> +      is required.
+Hi Kuogee,
 
-Add io-channel-names and describe each item - what type of ADC it is
-expected to be.
+Thank you for the patch! Perhaps something to improve:
 
-> +    minItems: 1
-> +    maxItems: 9
-> +
-> +  usb-otg-vbus-regulator:
-> +    type: object
-> +    description: OTG boost regulator.
-> +    $ref: /schemas/regulator/regulator.yaml#
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next drm-tip/drm-tip linus/master v5.19-rc2 next-20220616]
+[cannot apply to drm-intel/for-linux-next tegra-drm/drm/tegra/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-unevaluatedProperties: false
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuogee-Hsieh/force-link-training-for-display-resolution-change/20220617-011110
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20220617/202206170505.2U1jLZVk-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/b04f0b39a03a9fc3728e9414157f9d5f0b8b2366
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kuogee-Hsieh/force-link-training-for-display-resolution-change/20220617-011110
+        git checkout b04f0b39a03a9fc3728e9414157f9d5f0b8b2366
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/drm/msm/
 
-> +
-> +    properties:
-> +      enable-gpio:
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-"gpios", so:
-enable-gpios
+All warnings (new ones prefixed by >>):
 
-> +        maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - interrupts
-> +  - interrupt-names
-> +  - io-channels
-> +
-> +additionalProperties: false
-> +
-> +...
+>> drivers/gpu/drm/msm/dp/dp_ctrl.c:1587:5: warning: no previous prototype for 'dp_ctrl_on_stream_phy_test_report' [-Wmissing-prototypes]
+    1587 | int dp_ctrl_on_stream_phy_test_report(struct dp_ctrl *dp_ctrl)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Best regards,
-Krzysztof
+vim +/dp_ctrl_on_stream_phy_test_report +1587 drivers/gpu/drm/msm/dp/dp_ctrl.c
+
+  1586	
+> 1587	int dp_ctrl_on_stream_phy_test_report(struct dp_ctrl *dp_ctrl)
+  1588	{
+  1589		int ret = 0;
+  1590		struct dp_ctrl_private *ctrl;
+  1591		unsigned long pixel_rate;
+  1592	
+  1593		ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+  1594	
+  1595		pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
+  1596		ret = dp_ctrl_enable_stream_clocks(ctrl, pixel_rate);
+  1597		if (ret) {
+  1598			DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
+  1599			return ret;
+  1600		}
+  1601	
+  1602		dp_ctrl_send_phy_test_pattern(ctrl);
+  1603	
+  1604		return 0;
+  1605	}
+  1606	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
