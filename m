@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E4554DC93
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 10:11:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A12954DCD6
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 10:27:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FBE5112934;
-	Thu, 16 Jun 2022 08:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F55010F0E0;
+	Thu, 16 Jun 2022 08:27:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E91C10F6D1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 08:11:14 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id h36so1039208lfv.9
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 01:11:14 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16CA310F0E0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 08:27:43 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id s6so1080783lfo.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 01:27:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=R/TT3SVdPUhdUl9OHtlgB8o553M+9pau4/RhWjQqxiY=;
- b=qiUUeXk7cxeJ6BSkWCmvqUcL5iptuOVmiMiNiRZKtw5Hz95e1PgW30HPeEzKBmSp2N
- yn/JlnroKZUB1hurPbIHZ2KiRq9y5d6fRvjhwFnJVW9LaHoPDwBZ+iovqovQ1mTKn/F3
- mWkhRVsv7iwNQkPPL6yWbUb6eM4ANxlmeXCQqPH0RgFA3/5dFtRzzMg/QcS8QXEio8b3
- lErsozlByvmtzOkWxH2I/nYdD5+RrmEuHKvCIh5OgDNL/bFrjMVEYoZOzReon18Vv+Sg
- y0lHpPNQxz7uSujY6sHzU17mPP9NXOeVE1WVesrHoANP6SJEjuoerxeJ5Wx+kWq65WSk
- nkSQ==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=w1e49/RT1G/0F4I3kIBtOTXnF5clM6kkXg++Aurqqkc=;
+ b=xYFGCRnII/oj+iFkmWC+35FH0emewDvo3IfGjaRBCA8h1Kbp/yJS8XhdOis3lycOwV
+ H8OUj6IV7zbwrGMrinOvVXmm9IaddDHoJPBP1jFpGjSKnHP9OeX2bDHLyjq+tlcvgo9K
+ Edj3uVAMuVH3GIJMA3w4Vp2Nxmzi1X/ah+e+k96IPlC1RMT23/4Xf44ign+k3dBOT7lT
+ m58Xxt+Cg79LBtII6cd80aLtA0b3IROUkFJ7lJ9OV0ca86waw5RsXSbk5x16vN1khPbI
+ PO0Hckd0A1mFFgHeEIo0aNHOenX4pi6uqis5W4+uBoLeSEc7q1ruqnmRXZ7B+MREjFQ4
+ BWfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=R/TT3SVdPUhdUl9OHtlgB8o553M+9pau4/RhWjQqxiY=;
- b=ZjTybwAKddpQ4bOgwYVzEi8XF9249+bPUD3EFwr/9FSkcZoC67Zwvn/Oji13xW7rTE
- RBRIm4u+o1cLUUR48WIEQ4ruFaIu1fjYcY1293xIy4Qw34svRVp+xXL161KaneaMBS7l
- nRJNav6sLfIxoE6SPd6ZjeanpQ+cU0KjS/bxEn6JV7Xs0iJ/HHFvjIj04U5EnmmlA+zW
- m9TtuJ3lAjiXoj7g7ac56APnthy5j62e3NRi3mi/JRmvFTNUe3fjch6Ue1qKolBAaOoh
- jFJhRNTDjCesfGLn7tPHwV9cF6LxI1q6JiSnzLyZXWkIhNrN58ykj+j7oI9myFqb6m4o
- bODw==
-X-Gm-Message-State: AJIora/W1spE6+k3i8pJHjrBhdx8ulWrzCHos+c+fG3731qKbwDK4HLB
- 9H5/xzv2xl3eF94He+0np644Ig==
-X-Google-Smtp-Source: AGRyM1vms3xvojLkKGSylTCS0S+TI+LfzjHCSz2KHF17sM+nqnWa75t2amiGeUH7V5gOn+gmlrXcqA==
-X-Received: by 2002:ac2:55a4:0:b0:47d:aab8:a67c with SMTP id
- y4-20020ac255a4000000b0047daab8a67cmr1920619lfg.301.1655367073851; 
- Thu, 16 Jun 2022 01:11:13 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- y29-20020a19641d000000b004790823d354sm142144lfb.26.2022.06.16.01.11.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 01:11:12 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v3 5/5] drm/msm: switch msm_kms_init_aspace() to use
- device_iommu_mapped()
-Date: Thu, 16 Jun 2022 11:11:06 +0300
-Message-Id: <20220616081106.350262-6-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220616081106.350262-1-dmitry.baryshkov@linaro.org>
-References: <20220616081106.350262-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=w1e49/RT1G/0F4I3kIBtOTXnF5clM6kkXg++Aurqqkc=;
+ b=dREmXJziciabJ0LsbBZe3jibzJ7p4hEvoil6/BV1OLPnutBratpifoBJkzL+Xh83qK
+ /Umv6rL90ACA3x1jitUJR43Yj/PUWIk86a/nq3h5SUCH62DQiKCIJmswHEUkrAKmBx/p
+ 9cSSDBpi+Ybjk8U9O2HF38nyysIele2kGKLdd40Rs6G0jGfR7VNjV9IO9QDV2oYfTsZJ
+ Fa+zxp6k7cMuVstOyqnpkZSviFS2XWSHzawd+KuwUAHwxYARfxZjzlBUfsjCMEo3dmKQ
+ 3eLRcCeOct/jnGj4mXtV5fEIPVEiKONyej52+q2ejxMAVIhF6KV+pkpj97X1HvvZKlG5
+ acpw==
+X-Gm-Message-State: AJIora/1C2Kr95VhSYtJ5MGuJDE/ITYdZFgwAWolyMl1LGYbSXVDquzq
+ mFfTCFzb5Me49aKpz2ptSMA7DA==
+X-Google-Smtp-Source: AGRyM1srcz6dxbDCtAE+GlTF+QUFod2PGyuzr4Vek1bEdN/TaKeEuW6wtSBOlLrFUu2TZD1Bl/xO5A==
+X-Received: by 2002:a05:6512:32c1:b0:479:3452:28d5 with SMTP id
+ f1-20020a05651232c100b00479345228d5mr2021882lfg.492.1655368061433; 
+ Thu, 16 Jun 2022 01:27:41 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ o7-20020a198c07000000b0047255d211e9sm142498lfd.280.2022.06.16.01.27.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Jun 2022 01:27:40 -0700 (PDT)
+Message-ID: <991331d8-ddda-a816-d279-fdaed90b43c1@linaro.org>
+Date: Thu, 16 Jun 2022 11:27:39 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] drm/msm: Fix fence rollover issue
+Content-Language: en-GB
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20220615162435.3011793-1-robdclark@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220615162435.3011793-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,58 +73,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change msm_kms_init_aspace() to use generic function
-device_iommu_mapped() instead of the fwnode-specific interface
-dev_iommu_fwspec_get(). While we are at it, stop referencing
-platform_bus_type directly and use the bus of the IOMMU device.
+On 15/06/2022 19:24, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> And while we are at it, let's start the fence counter close to the
+> rollover point so that if issues slip in, they are more obvious.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Suggested-by: Robin Murphy <robin.murphy@arm.com>
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/msm_drv.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Should it also have
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 258632d5c411..8e18eca82bc6 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -277,21 +277,21 @@ struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
- 	struct device *mdss_dev = mdp_dev->parent;
- 	struct device *iommu_dev;
- 
--	domain = iommu_domain_alloc(&platform_bus_type);
--	if (!domain) {
--		drm_info(dev, "no IOMMU, fallback to phys contig buffers for scanout\n");
--		return NULL;
--	}
--
- 	/*
- 	 * IOMMUs can be a part of MDSS device tree binding, or the
- 	 * MDP/DPU device.
- 	 */
--	if (dev_iommu_fwspec_get(mdp_dev))
-+	if (device_iommu_mapped(mdp_dev))
- 		iommu_dev = mdp_dev;
- 	else
- 		iommu_dev = mdss_dev;
- 
-+	domain = iommu_domain_alloc(iommu_dev->bus);
-+	if (!domain) {
-+		drm_info(dev, "no IOMMU, fallback to phys contig buffers for scanout\n");
-+		return NULL;
-+	}
-+
- 	mmu = msm_iommu_new(iommu_dev, domain);
- 	if (IS_ERR(mmu)) {
- 		iommu_domain_free(domain);
+Fixes: fde5de6cb461 ("drm/msm: move fence code to it's own file")
+
+Or maybe
+
+Fixes: 5f3aee4ceb5b ("drm/msm: Handle fence rollover")
+
+Otherwise:
+
+Reviewed: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+
+> ---
+>   drivers/gpu/drm/msm/msm_fence.c | 13 +++++++++++--
+>   1 file changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
+> index 3df255402a33..a35a6746c7cd 100644
+> --- a/drivers/gpu/drm/msm/msm_fence.c
+> +++ b/drivers/gpu/drm/msm/msm_fence.c
+> @@ -28,6 +28,14 @@ msm_fence_context_alloc(struct drm_device *dev, volatile uint32_t *fenceptr,
+>   	fctx->fenceptr = fenceptr;
+>   	spin_lock_init(&fctx->spinlock);
+>   
+> +	/*
+> +	 * Start out close to the 32b fence rollover point, so we can
+> +	 * catch bugs with fence comparisons.
+> +	 */
+> +	fctx->last_fence = 0xffffff00;
+> +	fctx->completed_fence = fctx->last_fence;
+> +	*fctx->fenceptr = fctx->last_fence;
+
+This looks like a debugging hack. But probably it's fine to have it, as 
+it wouldn't cause any side effects.
+
+> +
+>   	return fctx;
+>   }
+>   
+> @@ -46,11 +54,12 @@ bool msm_fence_completed(struct msm_fence_context *fctx, uint32_t fence)
+>   		(int32_t)(*fctx->fenceptr - fence) >= 0;
+>   }
+>   
+> -/* called from workqueue */
+> +/* called from irq handler */
+>   void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)
+>   {
+>   	spin_lock(&fctx->spinlock);
+> -	fctx->completed_fence = max(fence, fctx->completed_fence);
+> +	if (fence_after(fence, fctx->completed_fence))
+> +		fctx->completed_fence = fence;
+>   	spin_unlock(&fctx->spinlock);
+>   }
+>   
+
+
 -- 
-2.35.1
-
+With best wishes
+Dmitry
