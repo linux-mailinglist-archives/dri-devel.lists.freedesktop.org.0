@@ -1,68 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE37254ED6B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 00:41:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E077354ED97
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 00:49:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C89F11A626;
-	Thu, 16 Jun 2022 22:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51B7310E11F;
+	Thu, 16 Jun 2022 22:49:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53A7611A627
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 22:41:16 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- q1-20020a056830018100b0060c2bfb668eso1970377ota.8
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 15:41:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=usp.br; s=usp-google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=AWCHew8dJ92FRAa86sjZqg/7uz35kqackjChUgkNjiw=;
- b=Sbn07kQgTXlj8XatmfRNXAU72cQaXb8VxilvqYsKtyR3h6nwF007C4986DhNrSkO+s
- x5OVfHmx3rGoV5XgKxT2TDvBiqTYywKNLRUPPHlr3amgPN+UCeO9vrHZmiMMRFRthmVI
- JbtKX1fCXXSeRR/e1ecfNesPq3ruFPKsZKkL8V2LFSQWvkqSsveykkdd1YWSpsxd9sd8
- nd9TeH5H8oVeM9sjgDlwHNcLy2C6Re7a1hmMUhFs/N8GGl3OeE1cWFJLZnTPlYJ/xHoP
- 9ICO8nPy8CaK+XwlEWGmW0qyAZFV/c9tu/yqBdpNFnSB9PJ+4HImJ7khcWbtRRIFOy0T
- v3Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=AWCHew8dJ92FRAa86sjZqg/7uz35kqackjChUgkNjiw=;
- b=RxX9d+G6WCmsSsdHTDgmGiENBZ57qYbsKZcqDATXth2llKkAuk9i8hsuPQ5K0G/cad
- Kzu7Gn2PTU/4MJ+wDer0Vu18W1zGjIbUaAU9eOUiWgbB1DctQSordRxGN5lPPtKlRWLM
- n6ACOa/fumg1QID46KeQz6ibgf4c1V+posXPKyd62w2aohiLp1MzfFigfyauJBXOaSu8
- VnvDAhobCZRolKlb+4fb9msVMRSKglNJuRJFfOTUWdcXW+b8MKgN1mpbrZZYtTaDao38
- uyrxDWI06OgY8l98VAyiG6XdvlTHI5Wa1/GM3uovvj74OfI0KcEHfntBULHLFZKgmnI0
- 7dYg==
-X-Gm-Message-State: AJIora/eMJ38nqqPsD5rZJoxMK8acSe3vTS/S/G99KVPuXz7xcyb/4pP
- SLgMaO2oDef0ILvyQ/Ps9XB0Cg==
-X-Google-Smtp-Source: AGRyM1vg4mrJ0bSA38QQ60GxwD9BVX0fzA6Z6x2kYxwAP5Zg8De9eraONxzGZct4/qBV37pr7IgO+Q==
-X-Received: by 2002:a05:6830:2695:b0:60c:6e16:460f with SMTP id
- l21-20020a056830269500b0060c6e16460fmr2899781otu.249.1655419275291; 
- Thu, 16 Jun 2022 15:41:15 -0700 (PDT)
-Received: from ?IPV6:2804:14d:8084:84c6:fe26:c42d:aab9:fa8a?
- ([2804:14d:8084:84c6:fe26:c42d:aab9:fa8a])
- by smtp.gmail.com with ESMTPSA id
- ly14-20020a056870fc8e00b000e686d13889sm1532110oab.35.2022.06.16.15.41.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jun 2022 15:41:14 -0700 (PDT)
-Message-ID: <8b040fb2-7edd-6fd1-864e-ee04115c5b1d@usp.br>
-Date: Thu, 16 Jun 2022 19:41:05 -0300
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B826610E11F;
+ Thu, 16 Jun 2022 22:49:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655419759; x=1686955759;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=mxrBcqL5ryBYnia3NkIWViraipvqU+3e8yxjazTsvfU=;
+ b=P7kLQjumeN4kgxmXWWDqgVKhD9951qRi81ouAMmv24EChXHsPnGio5tb
+ DPV5XlHd7uEMkVetLTCg2XMgyQ1FYdcSlt1ZdSiBq1ws/juImt0UM98xN
+ o4gra4AMQ5AnxNqoQVqYVawlcdlYgzPxaGKvDM5jdna9BUbNpJ537jVZm
+ BTEEl0uoJD2IkGN9ibc+LCscxFn5IbBfBhB9geTvi+oy7bnP95LqzIPoZ
+ HwPtjSOaiFnY2pFbbZJcY1X+uFdOKHFhTR5+Fs9t3CzJxcA8yrxDKagnj
+ 96DcxazW51pTQyFnuCMb30TuPF7L0Doky0kG5N0vgu570r2PmcQNXA0NT w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="278165974"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="278165974"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 15:49:19 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="713537569"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 15:49:18 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] agp/intel: Rename intel-gtt symbols
+Date: Thu, 16 Jun 2022 15:49:42 -0700
+Message-Id: <20220616224943.830393-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC 0/3] drm/amd/display: Introduce KUnit to Display Mode Library
-Content-Language: en-US
-To: David Gow <davidgow@google.com>
-References: <20220608010709.272962-1-maira.canal@usp.br>
- <CABVgOSmesj5MGfQrtdWCgXzm1VXRoG0fAMCbkBCAvtqediqAjQ@mail.gmail.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>
-In-Reply-To: <CABVgOSmesj5MGfQrtdWCgXzm1VXRoG0fAMCbkBCAvtqediqAjQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,97 +53,292 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Harrison Chiu <harrison.chiu@amd.com>, Daniel Latypov <dlatypov@google.com>,
- Brendan Higgins <brendanhiggins@google.com>, dri-devel@lists.freedesktop.org,
- Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
- Jun Lei <jun.lei@amd.com>, magalilemes00@gmail.com,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Javier Martinez Canillas <javierm@redhat.com>, amd-gfx@lists.freedesktop.org,
- Leo Li <sunpeng.li@amd.com>, mwen@igalia.com,
- Sean Paul <seanpaul@chromium.org>,
- KUnit Development <kunit-dev@googlegroups.com>,
- Mark Yacoub <markyacoub@chromium.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- Nicholas Choi <Nicholas.Choi@amd.com>, tales.aparecida@gmail.com,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi David,
+Exporting the symbols like intel_gtt_* creates some confusion inside
+i915 that has symbols named similarly. In an attempt to isolate
+platforms needing intel-gtt.ko, commit 7a5c922377b4 ("drm/i915/gt: Split
+intel-gtt functions by arch") moved way too much
+inside gt/intel_gt_gmch.c, even the functions that don't callout to this
+module. Rename the symbols to make the separation clear.
 
-Thank you for your feedback!
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+ drivers/char/agp/intel-gtt.c            | 58 ++++++++++++-------------
+ drivers/gpu/drm/i915/gt/intel_gt_gmch.c | 16 +++----
+ include/drm/intel-gtt.h                 | 24 +++++-----
+ 3 files changed, 49 insertions(+), 49 deletions(-)
 
-On 6/16/22 11:39, David Gow wrote:
-> On Wed, Jun 8, 2022 at 9:08 AM Maíra Canal <maira.canal@usp.br> wrote:
+diff --git a/drivers/char/agp/intel-gtt.c b/drivers/char/agp/intel-gtt.c
+index 79a1b65527c2..fe7e2105e766 100644
+--- a/drivers/char/agp/intel-gtt.c
++++ b/drivers/char/agp/intel-gtt.c
+@@ -744,7 +744,7 @@ static void i830_write_entry(dma_addr_t addr, unsigned int entry,
+ 	writel_relaxed(addr | pte_flags, intel_private.gtt + entry);
+ }
+ 
+-bool intel_enable_gtt(void)
++bool intel_gmch_enable_gtt(void)
+ {
+ 	u8 __iomem *reg;
+ 
+@@ -787,7 +787,7 @@ bool intel_enable_gtt(void)
+ 
+ 	return true;
+ }
+-EXPORT_SYMBOL(intel_enable_gtt);
++EXPORT_SYMBOL(intel_gmch_enable_gtt);
+ 
+ static int i830_setup(void)
+ {
+@@ -821,8 +821,8 @@ static int intel_fake_agp_free_gatt_table(struct agp_bridge_data *bridge)
+ 
+ static int intel_fake_agp_configure(void)
+ {
+-	if (!intel_enable_gtt())
+-	    return -EIO;
++	if (!intel_gmch_enable_gtt())
++		return -EIO;
+ 
+ 	intel_private.clear_fake_agp = true;
+ 	agp_bridge->gart_bus_addr = intel_private.gma_bus_addr;
+@@ -844,20 +844,20 @@ static bool i830_check_flags(unsigned int flags)
+ 	return false;
+ }
+ 
+-void intel_gtt_insert_page(dma_addr_t addr,
+-			   unsigned int pg,
+-			   unsigned int flags)
++void intel_gmch_gtt_insert_page(dma_addr_t addr,
++				unsigned int pg,
++				unsigned int flags)
+ {
+ 	intel_private.driver->write_entry(addr, pg, flags);
+ 	readl(intel_private.gtt + pg);
+ 	if (intel_private.driver->chipset_flush)
+ 		intel_private.driver->chipset_flush();
+ }
+-EXPORT_SYMBOL(intel_gtt_insert_page);
++EXPORT_SYMBOL(intel_gmch_gtt_insert_page);
+ 
+-void intel_gtt_insert_sg_entries(struct sg_table *st,
+-				 unsigned int pg_start,
+-				 unsigned int flags)
++void intel_gmch_gtt_insert_sg_entries(struct sg_table *st,
++				      unsigned int pg_start,
++				      unsigned int flags)
+ {
+ 	struct scatterlist *sg;
+ 	unsigned int len, m;
+@@ -879,13 +879,13 @@ void intel_gtt_insert_sg_entries(struct sg_table *st,
+ 	if (intel_private.driver->chipset_flush)
+ 		intel_private.driver->chipset_flush();
+ }
+-EXPORT_SYMBOL(intel_gtt_insert_sg_entries);
++EXPORT_SYMBOL(intel_gmch_gtt_insert_sg_entries);
+ 
+ #if IS_ENABLED(CONFIG_AGP_INTEL)
+-static void intel_gtt_insert_pages(unsigned int first_entry,
+-				   unsigned int num_entries,
+-				   struct page **pages,
+-				   unsigned int flags)
++static void intel_gmch_gtt_insert_pages(unsigned int first_entry,
++					unsigned int num_entries,
++					struct page **pages,
++					unsigned int flags)
+ {
+ 	int i, j;
+ 
+@@ -905,7 +905,7 @@ static int intel_fake_agp_insert_entries(struct agp_memory *mem,
+ 	if (intel_private.clear_fake_agp) {
+ 		int start = intel_private.stolen_size / PAGE_SIZE;
+ 		int end = intel_private.gtt_mappable_entries;
+-		intel_gtt_clear_range(start, end - start);
++		intel_gmch_gtt_clear_range(start, end - start);
+ 		intel_private.clear_fake_agp = false;
+ 	}
+ 
+@@ -934,12 +934,12 @@ static int intel_fake_agp_insert_entries(struct agp_memory *mem,
+ 		if (ret != 0)
+ 			return ret;
+ 
+-		intel_gtt_insert_sg_entries(&st, pg_start, type);
++		intel_gmch_gtt_insert_sg_entries(&st, pg_start, type);
+ 		mem->sg_list = st.sgl;
+ 		mem->num_sg = st.nents;
+ 	} else
+-		intel_gtt_insert_pages(pg_start, mem->page_count, mem->pages,
+-				       type);
++		intel_gmch_gtt_insert_pages(pg_start, mem->page_count, mem->pages,
++					    type);
+ 
+ out:
+ 	ret = 0;
+@@ -949,7 +949,7 @@ static int intel_fake_agp_insert_entries(struct agp_memory *mem,
+ }
+ #endif
+ 
+-void intel_gtt_clear_range(unsigned int first_entry, unsigned int num_entries)
++void intel_gmch_gtt_clear_range(unsigned int first_entry, unsigned int num_entries)
+ {
+ 	unsigned int i;
+ 
+@@ -959,7 +959,7 @@ void intel_gtt_clear_range(unsigned int first_entry, unsigned int num_entries)
+ 	}
+ 	wmb();
+ }
+-EXPORT_SYMBOL(intel_gtt_clear_range);
++EXPORT_SYMBOL(intel_gmch_gtt_clear_range);
+ 
+ #if IS_ENABLED(CONFIG_AGP_INTEL)
+ static int intel_fake_agp_remove_entries(struct agp_memory *mem,
+@@ -968,7 +968,7 @@ static int intel_fake_agp_remove_entries(struct agp_memory *mem,
+ 	if (mem->page_count == 0)
+ 		return 0;
+ 
+-	intel_gtt_clear_range(pg_start, mem->page_count);
++	intel_gmch_gtt_clear_range(pg_start, mem->page_count);
+ 
+ 	if (intel_private.needs_dmar) {
+ 		intel_gtt_unmap_memory(mem->sg_list, mem->num_sg);
+@@ -1431,22 +1431,22 @@ int intel_gmch_probe(struct pci_dev *bridge_pdev, struct pci_dev *gpu_pdev,
+ }
+ EXPORT_SYMBOL(intel_gmch_probe);
+ 
+-void intel_gtt_get(u64 *gtt_total,
+-		   phys_addr_t *mappable_base,
+-		   resource_size_t *mappable_end)
++void intel_gmch_gtt_get(u64 *gtt_total,
++			phys_addr_t *mappable_base,
++			resource_size_t *mappable_end)
+ {
+ 	*gtt_total = intel_private.gtt_total_entries << PAGE_SHIFT;
+ 	*mappable_base = intel_private.gma_bus_addr;
+ 	*mappable_end = intel_private.gtt_mappable_entries << PAGE_SHIFT;
+ }
+-EXPORT_SYMBOL(intel_gtt_get);
++EXPORT_SYMBOL(intel_gmch_gtt_get);
+ 
+-void intel_gtt_chipset_flush(void)
++void intel_gmch_gtt_flush(void)
+ {
+ 	if (intel_private.driver->chipset_flush)
+ 		intel_private.driver->chipset_flush();
+ }
+-EXPORT_SYMBOL(intel_gtt_chipset_flush);
++EXPORT_SYMBOL(intel_gmch_gtt_flush);
+ 
+ void intel_gmch_remove(void)
+ {
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_gmch.c b/drivers/gpu/drm/i915/gt/intel_gt_gmch.c
+index 18e488672d1b..b1a6ff4c9377 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_gmch.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_gmch.c
+@@ -134,7 +134,7 @@ static void gen5_ggtt_insert_page(struct i915_address_space *vm,
+ 	unsigned int flags = (cache_level == I915_CACHE_NONE) ?
+ 		AGP_USER_MEMORY : AGP_USER_CACHED_MEMORY;
+ 
+-	intel_gtt_insert_page(addr, offset >> PAGE_SHIFT, flags);
++	intel_gmch_gtt_insert_page(addr, offset >> PAGE_SHIFT, flags);
+ }
+ 
+ static void gen6_ggtt_insert_page(struct i915_address_space *vm,
+@@ -175,8 +175,8 @@ static void gen5_ggtt_insert_entries(struct i915_address_space *vm,
+ 	unsigned int flags = (cache_level == I915_CACHE_NONE) ?
+ 		AGP_USER_MEMORY : AGP_USER_CACHED_MEMORY;
+ 
+-	intel_gtt_insert_sg_entries(vma_res->bi.pages, vma_res->start >> PAGE_SHIFT,
+-				    flags);
++	intel_gmch_gtt_insert_sg_entries(vma_res->bi.pages, vma_res->start >> PAGE_SHIFT,
++					 flags);
+ }
+ 
+ /*
+@@ -306,18 +306,18 @@ static void bxt_vtd_ggtt_insert_entries__BKL(struct i915_address_space *vm,
+ 
+ void intel_gt_gmch_gen5_chipset_flush(struct intel_gt *gt)
+ {
+-	intel_gtt_chipset_flush();
++	intel_gmch_gtt_flush();
+ }
+ 
+ static void gmch_ggtt_invalidate(struct i915_ggtt *ggtt)
+ {
+-	intel_gtt_chipset_flush();
++	intel_gmch_gtt_flush();
+ }
+ 
+ static void gen5_ggtt_clear_range(struct i915_address_space *vm,
+ 					 u64 start, u64 length)
+ {
+-	intel_gtt_clear_range(start >> PAGE_SHIFT, length >> PAGE_SHIFT);
++	intel_gmch_gtt_clear_range(start >> PAGE_SHIFT, length >> PAGE_SHIFT);
+ }
+ 
+ static void gen6_ggtt_clear_range(struct i915_address_space *vm,
+@@ -494,7 +494,7 @@ int intel_gt_gmch_gen5_probe(struct i915_ggtt *ggtt)
+ 		return -EIO;
+ 	}
+ 
+-	intel_gtt_get(&ggtt->vm.total, &gmadr_base, &ggtt->mappable_end);
++	intel_gmch_gtt_get(&ggtt->vm.total, &gmadr_base, &ggtt->mappable_end);
+ 
+ 	ggtt->gmadr =
+ 		(struct resource)DEFINE_RES_MEM(gmadr_base, ggtt->mappable_end);
+@@ -647,7 +647,7 @@ int intel_gt_gmch_gen8_probe(struct i915_ggtt *ggtt)
+ 
+ int intel_gt_gmch_gen5_enable_hw(struct drm_i915_private *i915)
+ {
+-	if (GRAPHICS_VER(i915) < 6 && !intel_enable_gtt())
++	if (GRAPHICS_VER(i915) < 6 && !intel_gmch_enable_gtt())
+ 		return -EIO;
+ 
+ 	return 0;
+diff --git a/include/drm/intel-gtt.h b/include/drm/intel-gtt.h
+index 67530bfef129..cb0d5b7200c7 100644
+--- a/include/drm/intel-gtt.h
++++ b/include/drm/intel-gtt.h
+@@ -10,24 +10,24 @@ struct agp_bridge_data;
+ struct pci_dev;
+ struct sg_table;
+ 
+-void intel_gtt_get(u64 *gtt_total,
+-		   phys_addr_t *mappable_base,
+-		   resource_size_t *mappable_end);
++void intel_gmch_gtt_get(u64 *gtt_total,
++			phys_addr_t *mappable_base,
++			resource_size_t *mappable_end);
+ 
+ int intel_gmch_probe(struct pci_dev *bridge_pdev, struct pci_dev *gpu_pdev,
+ 		     struct agp_bridge_data *bridge);
+ void intel_gmch_remove(void);
+ 
+-bool intel_enable_gtt(void);
++bool intel_gmch_enable_gtt(void);
+ 
+-void intel_gtt_chipset_flush(void);
+-void intel_gtt_insert_page(dma_addr_t addr,
+-			   unsigned int pg,
+-			   unsigned int flags);
+-void intel_gtt_insert_sg_entries(struct sg_table *st,
+-				 unsigned int pg_start,
+-				 unsigned int flags);
+-void intel_gtt_clear_range(unsigned int first_entry, unsigned int num_entries);
++void intel_gmch_gtt_flush(void);
++void intel_gmch_gtt_insert_page(dma_addr_t addr,
++				unsigned int pg,
++				unsigned int flags);
++void intel_gmch_gtt_insert_sg_entries(struct sg_table *st,
++				      unsigned int pg_start,
++				      unsigned int flags);
++void intel_gmch_gtt_clear_range(unsigned int first_entry, unsigned int num_entries);
+ 
+ /* Special gtt memory types */
+ #define AGP_DCACHE_MEMORY	1
+-- 
+2.36.1
 
->>
->> As kunit_test_suites() defines itself as an init_module(), it conflicts with
->> the existing one at amdgpu_drv. So, if we use kunit_test_suites(), we won't
->> be able to compile the tests as modules and, therefore, won't be able to use
->> IGT to run the tests. This problem with kunit_test_suites() was already
->> discussed in the KUnit mailing list, as can be seen in [7].
-> 
-> I'm not sure I fully understand why these tests need to be part of the
-> amdgpu module, though admittedly I've not played with IGT much. Would
-> it be possible to compile these tests as separate modules, which could
-> depend on amdgpu (or maybe include the DML stuff directly), and
-> therefore not have this conflict? I definitely was able to get these
-> tests working under kunit_tool (albeit as built-ins) by using
-> kunit_test_suites(). If each suite were built as a separate module (or
-> indeed, even if all the tests were in one module, with one list of
-> suites), then it should be possible to avoid the init_module()
-> conflict. That'd also make it possible to run these tests without
-> actually needing the driver to initialise, which seems like it might
-> require actual hardware(?)
-
-Initially, we tried the kunit_test_suites() approach. And it did work pretty well for the kunit_tool (although we didn't test any hardware-specific unit test). But when compiling the test as a module, we would get a linking error, pointing out multiple definitions of 'init_module'/'cleanup_module' at kunit_test_suites().
-
-At this point, we thought about a couple of options to resolve this problem:
-- Add EXPORT_SYMBOL to the functions we would test. But, this doesn't scale pretty well, because it would pollute AMDGPU code as the tests expand.
-- Take the Thunderbolt path and add the tests to the driver stack.
-
-We end up taking the Thunderbolt path as it would be more maintainable.
-
-Compiling the tests as a module is essential to make the tests run at IGT, as IGT essentially loads the module, runs it, and parses the output (a very very simplified explanation of what IGT does). IGT is a very known tool for DRI developers, so we believe that IGT support is crucial for this project.
-
-If you have any other options on how to make the module compilation viable without using the 'thunderbolt'-style, we would be glad to hear your suggestions.
-
-> 
-> There are two other reasons the 'thunderbolt'-style technique is one
-> we want to avoid:
-> 1. It makes it much more difficult to run tests using kunit_tool and
-> KUnit-based CI tools: these tests would not run automatically, and if
-> they were built-in as-is, they'd need to be
-> 2. We're planning to improve module support to replace the
-> init_module()-based implementation of kunit_test_suites() with one
-> which won't have these conflicts, so the need for this should be
-> short-lived.
-> 
-> If you're curious, an early version of the improved module support can
-> be found here, though it's out-of-date enough it won't apply or work
-> as-is:
-> https://lore.kernel.org/all/101d12fc9250b7a445ff50a9e7a25cd74d0e16eb.camel@codeconstruct.com.au/
-> 
-> Now, that's unlikely to be ready very soon, but I'd be hesitant to
-> implement too extensive a system for avoiding kunit_test_suites()
-> given at some point it should work and we'll need to migrate back to
-> it.
-
-We hope to see in the near future the improved module support from KUnit as it would make the addition of tests much more simple and clean.
-
-Could you explain more about what is missing to make this improved module support come upstream?
-
-> 
-> At the very least, having the dependency on KUNIT=m is a very bad
-> idea: it should be possible to have tests built as modules, even if
-> KUnit itself isn't, and ideally (even if this sort-of implementation
-> is required), it _should_ be possible to have these tests be built-in
-> if all their dependencies (KUnit, amdgpu) are, which would make it
-> possible to run the tests without a userland.
-> 
-
-Thank you for the suggestion! We will change the KUNIT dependency.
-
-- Maíra Canal
