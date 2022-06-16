@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCEFD54DB75
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 09:25:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9918054DB7A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 09:25:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCA7A10EACF;
-	Thu, 16 Jun 2022 07:25:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4718D10E565;
+	Thu, 16 Jun 2022 07:25:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 337DE10E2B8;
- Thu, 16 Jun 2022 07:25:24 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 871375C00E3;
- Thu, 16 Jun 2022 03:25:22 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 16 Jun 2022 03:25:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to; s=fm1; t=
- 1655364322; x=1655450722; bh=fo8XxAvQ50IL/ZRZfiCQ2zU+hIubPi7ODKQ
- aa23W52o=; b=BVuPieRYyT0wK75CHeyUGVy2IbZjzuzq0jaswNR7XiN6tp6tZM2
- oOmIltKFkN/+68rWeGYXOZ2aJEhEVknE6oINkg5MaPsP2RJWJULlJzaLxAbGen2S
- BhYJRHHEjknvrp0ozqZJGb8wS6yR9WyKwsAEIuwh8d6P8mhy27vARnJ5JkeZM2rY
- Lf/TpZu7h5F8GeTZXRffWbtnll9xyaJDIkdf14VH9Kxb/+B+rgSIeg2Wt8sXdzQR
- yJHFbNIRT21yYojmd4OQmOB10ulMEhHXLFEspEIwqHqB4+l4CBIK7ienSPirTF3u
- 7qUg5mDNxpUzNPfgYmEuLrFjs3tfQmO8+3Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:message-id:mime-version
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655364322; x=
- 1655450722; bh=fo8XxAvQ50IL/ZRZfiCQ2zU+hIubPi7ODKQaa23W52o=; b=Q
- CWB8V4lQlqCjk3UpfM5So7zaQz7FrMjuo2IXgUhAN5mXjlbwviUFKkf1GLfzFyyW
- tZXGnfe0ikAGbHlWKu4YOpN45qOgAgqz3vcr9bWAGPPa8bH89yQX+l3A7kjdEMhl
- lAgJiuwo69PO+TZoxNKq91lQGax6gqOjjHsaYaMZpO4ortJIa7vPZYylMv0aezT5
- LXqxz9650ANDX9x4TkbPGWuURxocxv4YlWXYqVuu0XPh05XgFFjMRrOeITu7yElN
- hohBCFDr4nPzTGcmIaD7+zYB60VeCMvAoGJHSsMmFCuyYzvikLPGAYuMzB60RyEt
- 3FOUmkuZqJYmhVtXLIphw==
-X-ME-Sender: <xms:4tqqYktfDjHDJyg_nG4F7XcC8uC2MyPDOppiPx1vJvtSjg1VV7RFTw>
- <xme:4tqqYhcR1vck3JJ-MqqoZ1OjS81bopSkwpG3yQ_9By8Papqvko4SxGJZRoq5S1Bmr
- g0K74sBfl_-ZNuU39s>
-X-ME-Received: <xmr:4tqqYvxIFIRGMi8mI_-eR6Kox8xcNCpACUI3dYIVAG0rnD-BOZm2Sy44L2fT2bt5ZeaB02wfL_VfJFjSMdowaC3QnE1PrptDDllW4zQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvvddguddujecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfggtggusehgtderredttddunecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepkeehjeeguefhtefhgfehkeehudefudfhjefgheffkedufeegudfghfekfefh
- vedvnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrh
- fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhho
- rdhtvggthh
-X-ME-Proxy: <xmx:4tqqYnPnaItk-2QQLfa5sZ2qTPfmw2PRcGfdvsxqC7b1h2MdbE2-HA>
- <xmx:4tqqYk-i4-9_0NeFcSO_RcZegzj7NMD9hqGRellbrqZWGcCrXZjtLQ>
- <xmx:4tqqYvWxeUsoUzhFBGmZGhqRNE70YOBQu_S46om84Sud-Agx41NBCQ>
- <xmx:4tqqYl1mQ2x5D0or_n4UpN8Pvvsvm_1ErnyKnAk7YhzHMBx1vFmUwA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Jun 2022 03:25:21 -0400 (EDT)
-Date: Thu, 16 Jun 2022 09:25:19 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20220616072519.qwrsefsemejefowu@houat>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 038F010E2B8;
+ Thu, 16 Jun 2022 07:25:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655364350; x=1686900350;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=laArYtF8mBOjJYoElswvAL3XNiFY/jmqVMM9+bukyLs=;
+ b=N/D9J/pRNpjfivPeL0XRUtwuRrdTUTBvGwng7+95D1hxuMMSyMFTcqHj
+ pwIStyJZr1OzPQqqIWbzLGfu1XbYofxqNhDp0mo7cC9dnjUPyxrZKOHEY
+ PU4kt0/i+6tVRnou2FTqCkjBx/PbYca+16ORrOmdg/uNEmd7bKkBOK9f2
+ 85JyWc9/7B8FSdeVpn3+dSpjuND0WYgckAXl2mbMyDjxfetZgRm9ReFe+
+ dZjd7uEQjqK9LEqUxVCL2nt9qcurlY/KODYNDmNnNljJDXXlRIH1OghnA
+ RvHkWhyNXw5/Ue+/p81eIp0g6CxvAFJ2MrS+UsAgl3PLPOWmCR3NivfF1 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="280221417"
+X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; d="scan'208";a="280221417"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 00:25:49 -0700
+X-IronPort-AV: E=Sophos;i="5.91,304,1647327600"; d="scan'208";a="912045889"
+Received: from mstokes1-mobl.ger.corp.intel.com (HELO [10.213.198.82])
+ ([10.213.198.82])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 00:25:44 -0700
+Message-ID: <fb554850-e8f2-f136-fe80-4664719f8312@linux.intel.com>
+Date: Thu, 16 Jun 2022 08:25:42 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="r5rt3225icc7b6s5"
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 3/6] drm/i915/gt: Skip TLB invalidations once wedged
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <cover.1655306128.git.mchehab@kernel.org>
+ <9d9e663ca8e97becf04e1d4c8cb8a9a1f397a5f1.1655306128.git.mchehab@kernel.org>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <9d9e663ca8e97becf04e1d4c8cb8a9a1f397a5f1.1655306128.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,71 +61,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Fei Yang <fei.yang@intel.com>, Chris Wilson <chris.p.wilson@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Dave Airlie <airlied@redhat.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, mauro.chehab@linux.intel.com,
+ =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---r5rt3225icc7b6s5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 15/06/2022 16:27, Mauro Carvalho Chehab wrote:
+> From: Chris Wilson <chris.p.wilson@intel.com>
+> 
+> Skip all further TLB invalidations once the device is wedged and
+> had been reset, as, on such cases, it can no longer process instructions
+> on the GPU and the user no longer has access to the TLB's in each engine.
+> 
+> Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")
 
-Hi Dave, Daniel,
+Are there any real problems fixed or it's just a logical thing to do? 
+Not much harm tagging it as fixes in terms of process since it is tiny 
+but, again, wanting a clear picture.
 
-Here's this week drm-misc-fixes PR
+Regards,
 
-Maxime
+Tvrtko
 
-drm-misc-fixes-2022-06-16:
-Two fixes for TTM, one for a NULL pointer dereference and one to make sure
-the buffer is pinned prior to a bulk move, and a fix for a spurious
-compiler warning.
-The following changes since commit 477277c7fd43d48ae68cbdcaa7c0f82024a87421:
-
-  drm/ast: Support multiple outputs (2022-06-09 10:27:49 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-06-16
-
-for you to fetch changes up to 0f9cd1ea10d307cad221d6693b648a8956e812b0:
-
-  drm/ttm: fix bulk move handling v2 (2022-06-14 11:15:19 +0200)
-
-----------------------------------------------------------------
-Two fixes for TTM, one for a NULL pointer dereference and one to make sure
-the buffer is pinned prior to a bulk move, and a fix for a spurious
-compiler warning.
-
-----------------------------------------------------------------
-Christian K=F6nig (2):
-      drm/ttm: fix missing NULL check in ttm_device_swapout
-      drm/ttm: fix bulk move handling v2
-
-GONG, Ruiqi (1):
-      drm/atomic: fix warning of unused variable
-
- drivers/gpu/drm/ttm/ttm_bo.c       | 22 ++++++++++------
- drivers/gpu/drm/ttm/ttm_device.c   |  6 ++++-
- drivers/gpu/drm/ttm/ttm_resource.c | 52 ++++++++++++++++++++++++++--------=
-----
- include/drm/drm_atomic.h           |  1 +
- include/drm/ttm/ttm_resource.h     |  8 +++---
- 5 files changed, 60 insertions(+), 29 deletions(-)
-
---r5rt3225icc7b6s5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYqra3wAKCRDj7w1vZxhR
-xS6zAQCpSVGSPRzaPOdSSrDYVw8B4WgqmIX2Vduj8sr0sodWQAD/dFyIoUyqkZ7S
-4+x5+SO/FKV2bOgUeBgJkfzHOKn/hgM=
-=tzWJ
------END PGP SIGNATURE-----
-
---r5rt3225icc7b6s5--
+> Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+> Cc: Fei Yang <fei.yang@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: stable@vger.kernel.org
+> Acked-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+> 
+> See [PATCH 0/6] at: https://lore.kernel.org/all/cover.1655306128.git.mchehab@kernel.org/
+> 
+>   drivers/gpu/drm/i915/gt/intel_gt.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index 61b7ec5118f9..fb4fd5273ca4 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -1226,6 +1226,9 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+>   	if (I915_SELFTEST_ONLY(gt->awake == -ENODEV))
+>   		return;
+>   
+> +	if (intel_gt_is_wedged(gt))
+> +		return;
+> +
+>   	if (GRAPHICS_VER(i915) == 12) {
+>   		regs = gen12_regs;
+>   		num = ARRAY_SIZE(gen12_regs);
