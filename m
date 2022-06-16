@@ -1,60 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DAB954DA15
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 07:59:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7B354DB6D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 09:22:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FFA811A064;
-	Thu, 16 Jun 2022 05:59:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C440C10EBFA;
+	Thu, 16 Jun 2022 07:22:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4A5611A05C;
- Thu, 16 Jun 2022 05:59:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1655359170; x=1686895170;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=fYTknwqyj1AQO6bgU6HRYVdX/mxtESWcssnOCYsVQYk=;
- b=jWlbAA0KnVmtGUEIsDsp7LGHfqWX5TeXsiyZ7vw88ldWEz2rFIuKROIu
- YgE+qnCz1PZP2vVpNkUbQCT1//JnQ5yD1Tn8tbtZ2a1yb87rGhd6NHqlR
- tYfv5k80jsZAbTGm6HbpUnSaQT2lpSI1ChkT9QBjbwIWSL8jXYlfQkQ5Q s=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 15 Jun 2022 22:59:30 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2022 22:59:29 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 15 Jun 2022 22:59:29 -0700
-Received: from [10.111.175.222] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 15 Jun
- 2022 22:59:27 -0700
-Message-ID: <5b35ee5a-ed94-1440-cdc2-909a82c3aa61@quicinc.com>
-Date: Wed, 15 Jun 2022 22:59:25 -0700
+X-Greylist: delayed 366 seconds by postgrey-1.36 at gabe;
+ Thu, 16 Jun 2022 06:48:37 UTC
+Received: from unicom145.biz-email.net (unicom145.biz-email.net
+ [210.51.26.145])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABB2410FFD0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 06:48:37 +0000 (UTC)
+Received: from ([60.208.111.195])
+ by unicom145.biz-email.net ((D)) with ASMTP (SSL) id KCG00125;
+ Thu, 16 Jun 2022 14:42:25 +0800
+Received: from localhost.localdomain (10.200.104.97) by
+ jtjnmail201601.home.langchao.com (10.100.2.1) with Microsoft SMTP Server id
+ 15.1.2308.27; Thu, 16 Jun 2022 14:42:18 +0800
+From: Bo Liu <liubo03@inspur.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>
+Subject: [PATCH] drm/connector: Remove usage of the deprecated ida_simple_xxx
+ API
+Date: Thu, 16 Jun 2022 01:18:29 -0400
+Message-ID: <20220616051829.4071-1-liubo03@inspur.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 1/3] drm/msm/dpu: move intf and wb assignment to
- dpu_encoder_setup_display()
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <freedreno@lists.freedesktop.org>
-References: <1655235140-16424-1-git-send-email-quic_abhinavk@quicinc.com>
- <82b09d4d-1985-519e-3657-0d15e07ccc2f@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <82b09d4d-1985-519e-3657-0d15e07ccc2f@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain
+X-Originating-IP: [10.200.104.97]
+tUid: 20226161442258a626e91cc77798f89a1e77992f45337
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
+X-Mailman-Approved-At: Thu, 16 Jun 2022 07:22:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,86 +50,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com
+Cc: Bo Liu <liubo03@inspur.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry
+Use ida_alloc_xxx()/ida_free() instead of
+ida_simple_get()/ida_simple_remove().
+The latter is deprecated and more verbose.
 
-On 6/15/2022 10:55 PM, Dmitry Baryshkov wrote:
-> On 14/06/2022 22:32, Abhinav Kumar wrote:
->> intf and wb resources are not dependent on the rm global
->> state so need not be allocated during dpu_encoder_virt_atomic_mode_set().
->>
->> Move the allocation of intf and wb resources to 
->> dpu_encoder_setup_display()
->> so that we can utilize the hw caps even during atomic_check() phase.
->>
->> Since dpu_encoder_setup_display() already has protection against
->> setting invalid intf_idx and wb_idx, these checks can now
->> be dropped as well.
->>
->> Fixes: e02a559a720f ("make changes to dpu_encoder to support virtual 
->> encoder")
-> 
-> Please adjust the Fixes tags in all three commits. I didn't notice this 
-> beforehand and Stephen has complained.
-> 
-Is something wrong with the tag? Format and hash looked right to me.
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 25 
->> +++++++------------------
->>   1 file changed, 7 insertions(+), 18 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> index 3a462e327e0e..e991d4ba8a40 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> @@ -1048,24 +1048,6 @@ static void 
->> dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->>           phys->hw_pp = dpu_enc->hw_pp[i];
->>           phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
->> -        if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
->> -            phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, 
->> phys->intf_idx);
->> -
->> -        if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
->> -            phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
->> -
->> -        if (!phys->hw_intf && !phys->hw_wb) {
->> -            DPU_ERROR_ENC(dpu_enc,
->> -                      "no intf or wb block assigned at idx: %d\n", i);
->> -            return;
->> -        }
->> -
->> -        if (phys->hw_intf && phys->hw_wb) {
->> -            DPU_ERROR_ENC(dpu_enc,
->> -                    "invalid phys both intf and wb block at idx: 
->> %d\n", i);
->> -            return;
->> -        }
->> -
->>           phys->cached_mode = crtc_state->adjusted_mode;
->>           if (phys->ops.atomic_mode_set)
->>               phys->ops.atomic_mode_set(phys, crtc_state, conn_state);
->> @@ -2293,7 +2275,14 @@ static int dpu_encoder_setup_display(struct 
->> dpu_encoder_virt *dpu_enc,
->>           struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
->>           atomic_set(&phys->vsync_cnt, 0);
->>           atomic_set(&phys->underrun_cnt, 0);
->> +
->> +        if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
->> +            phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, 
->> phys->intf_idx);
->> +
->> +        if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
->> +            phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
->>       }
->> +
->>       mutex_unlock(&dpu_enc->enc_lock);
->>       return ret;
-> 
-> 
+Signed-off-by: Bo Liu <liubo03@inspur.com>
+---
+ drivers/gpu/drm/drm_connector.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 1c48d162c77e..e3484b115ae6 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -250,7 +250,7 @@ int drm_connector_init(struct drm_device *dev,
+ 	connector->funcs = funcs;
+ 
+ 	/* connector index is used with 32bit bitmasks */
+-	ret = ida_simple_get(&config->connector_ida, 0, 32, GFP_KERNEL);
++	ret = ida_alloc_max(&config->connector_ida, 31, GFP_KERNEL);
+ 	if (ret < 0) {
+ 		DRM_DEBUG_KMS("Failed to allocate %s connector index: %d\n",
+ 			      drm_connector_enum_list[connector_type].name,
+@@ -262,7 +262,7 @@ int drm_connector_init(struct drm_device *dev,
+ 
+ 	connector->connector_type = connector_type;
+ 	connector->connector_type_id =
+-		ida_simple_get(connector_ida, 1, 0, GFP_KERNEL);
++		ida_alloc_min(connector_ida, 1, GFP_KERNEL);
+ 	if (connector->connector_type_id < 0) {
+ 		ret = connector->connector_type_id;
+ 		goto out_put_id;
+@@ -322,10 +322,10 @@ int drm_connector_init(struct drm_device *dev,
+ 	connector->debugfs_entry = NULL;
+ out_put_type_id:
+ 	if (ret)
+-		ida_simple_remove(connector_ida, connector->connector_type_id);
++		ida_free(connector_ida, connector->connector_type_id);
+ out_put_id:
+ 	if (ret)
+-		ida_simple_remove(&config->connector_ida, connector->index);
++		ida_free(&config->connector_ida, connector->index);
+ out_put:
+ 	if (ret)
+ 		drm_mode_object_unregister(dev, &connector->base);
+@@ -479,10 +479,10 @@ void drm_connector_cleanup(struct drm_connector *connector)
+ 	list_for_each_entry_safe(mode, t, &connector->modes, head)
+ 		drm_mode_remove(connector, mode);
+ 
+-	ida_simple_remove(&drm_connector_enum_list[connector->connector_type].ida,
++	ida_free(&drm_connector_enum_list[connector->connector_type].ida,
+ 			  connector->connector_type_id);
+ 
+-	ida_simple_remove(&dev->mode_config.connector_ida,
++	ida_free(&dev->mode_config.connector_ida,
+ 			  connector->index);
+ 
+ 	kfree(connector->display_info.bus_formats);
+-- 
+2.27.0
+
