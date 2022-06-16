@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57DC54DAF8
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 08:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC8054DB24
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 08:57:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 312F3113B50;
-	Thu, 16 Jun 2022 06:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FA2010FC88;
+	Thu, 16 Jun 2022 06:57:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A95C410FFD0;
- Thu, 16 Jun 2022 06:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1655362106; x=1686898106;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=4KdMiYTh3codmPUPGxDDQDLzw1UThiPL3Xn8Wbsvvc0=;
- b=fOLOZ4LQV28WEuQdbwzLBiAW540zy7deFiZp0HFWkRtFQFiiOWUdm4ZK
- PbqoKDL7QbU+/XC2F2uTZSjoJorqXf8XKurtrGiD+Kb91BpVILxDKEUNc
- 78Z/tZYwMxGPJiAwfgZEfB9va/7YLkVqQbqdCckJRl/m+8r27XYi/XUxK 4=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Jun 2022 23:48:26 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2022 23:48:25 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 15 Jun 2022 23:48:25 -0700
-Received: from [10.111.175.222] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 15 Jun
- 2022 23:48:21 -0700
-Message-ID: <f6f6f570-6c14-5c1d-cc8b-4c662b950364@quicinc.com>
-Date: Wed, 15 Jun 2022 23:48:16 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 2/2] drm/msm/dpu: drop enum msm_display_caps
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20220507115942.1705872-1-dmitry.baryshkov@linaro.org>
- <20220507115942.1705872-2-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220507115942.1705872-2-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-Greylist: delayed 1161 seconds by postgrey-1.36 at gabe;
+ Thu, 16 Jun 2022 06:57:24 UTC
+Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com
+ [162.62.58.216])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31F4A10FC88
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 06:57:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+ t=1655362618; bh=85KKuETUcWzKJtpChUuBAv9+zzpvhjTFeCbMbi2CSXI=;
+ h=In-Reply-To:References:From:To:Cc:Subject:Date;
+ b=fCumb9hwItwj5lyEUMl8M9usrTcWlUGxVO229yvIC97+2JSUooMuD6MqtLPbjV9iy
+ eL0hSR0aFb/cRwtkrhk95bJkIvmb9++mzqLDCeXKT4CUCUTxYuKrbxZaChCv53WNU9
+ AmbTPV7BUFtgR9l6Way0DhGBSFoScxpRZlEi9m0Y=
+X-QQ-FEAT: oHWrrGTW1dCi2Uhv/TjzETR5+gOBkNuu
+X-QQ-SSF: 00000000000000F0000000000000
+X-QQ-XMAILINFO: NNy5VkfPTUBBYxm/CY2b10LnAREOsSkoyzr2XYdYNiZZDErhh/WNMtiXL9NNd+
+ TQUfYZe3Q/z6Rd9ZBKJuemZ1Uc7C9ACEguQtbxP1/2qHrU8nmqhVFeIFKOLQ77hoguZRabZKxKxEV
+ axUxOBOxLuyXQWrbWtqi195Xc0Kj19uAciHTNkFYgaPh+G2G8VD7iz8WtEff4q0a+YxXbWloBjRmi
+ 5a8g8jk7BjurCuIRqZmoLNkzkQPctDmu4JoKLvhLCPSa8YCjCNoIH2hm1u/RuKNsGQ60pivIMBmZ8
+ M5zJd+Sj7g2BeL35S89oGXmi0n+qKKU5ysLBWPmJp830x0JNdvePvxcKKqIjmNWH1ASE+6vGfGRrW
+ EN4kyObI8gRBkK5/C7o/oFw0oXONvcD80M8KELstRlgJqj+Tb7N0aqUl3qrhqArTDEuA7iCFVnuCP
+ VKQWEfK4YWd0Dsdebo1tyv9Afs+hXC/bOBBrJPE8oDKhHe7tQgEYwBfu9Ao8S2eTieujENSuN04Qz
+ B1fotSXvUpFdyREFqpymm6zZVeLdtgju3HQGIBHBKoDUiGQdjj85SZGwrNjV930X3FcitQF7GDhWl
+ Vew1grbWPJnFF01xrfwcIbPuVM5r7XLwdg72vsaIEKDU8BC8ltPP6SSqGpvpciAZSkllnVGyJoi31
+ 84PuRsRJ6AaHacCakSVAECXv38E4Kwn9JdEONDWunJZJArS2IEEN5tewZbp/JAmOGEnl9hAdoXUzA
+ kQ1GmfMo5JuXKjbrXeff3g/Ff5d86naeelNDot3iODaNo+misI62sPq9AuUMEgWA0WNRlDS/qTIIh
+ O8gMosqU/4FtbEOBjFFTtWY+qVsfM49qGWasYucxLZcT6/QZVAJQDoC/UsB1pgbBf/KhEC7bOqJKx
+ BEH2RogXEfQFXa/xfER4A==
+X-HAS-ATTACH: no
+X-QQ-BUSINESS-ORIGIN: 2
+X-Originating-IP: 116.128.80.98
+In-Reply-To: <d8a12051e71ec322f489beed252576e16802a172.camel@redhat.com>
+References: <tencent_655C23622640268A069B49A6A5ADDEECB508@qq.com>
+ <d8a12051e71ec322f489beed252576e16802a172.camel@redhat.com>
+X-QQ-STYLE: 
+X-QQ-mid: webmail221t1655362618t9890312
+From: "=?gb18030?B?MTA2NDA5NDkzNQ==?=" <1064094935@qq.com>
+To: "=?gb18030?B?THl1ZGUgUGF1bA==?=" <lyude@redhat.com>,
+ "=?gb18030?B?QmVuIFNrZWdncw==?=" <bskeggs@redhat.com>
+Subject: =?gb18030?B?u9i4tKO6IFtQQVRDSCA1LzVdIGRybS9ub3V2ZWF1?=
+ =?gb18030?B?OiBGaXggc3BlbGxpbmcgdHlwbyBpbiBjb21tZW50?=
+ =?gb18030?B?cw==?=
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="----=_NextPart_62AAD439_1235DA08_6A2ED2BF"
+Content-Transfer-Encoding: 8Bit
+Date: Thu, 16 Jun 2022 14:56:57 +0800
+X-Priority: 3
+Message-ID: <tencent_D362AE3DB129A03B459B4D23D3BED619F607@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,184 +72,204 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: =?gb18030?B?S2Fyb2wgSGVyYnN0?= <kherbst@redhat.com>,
+ =?gb18030?B?RGF2aWQgQWlybGll?= <airlied@linux.ie>,
+ =?gb18030?B?bm91dmVhdQ==?= <nouveau@lists.freedesktop.org>,
+ =?gb18030?B?bGludXgta2VybmVs?= <linux-kernel@vger.kernel.org>,
+ =?gb18030?B?ZHJpLWRldmVs?= <dri-devel@lists.freedesktop.org>,
+ =?gb18030?B?cGVuZ2Z1eXVhbg==?= <pengfuyuan@kylinos.cn>,
+ =?gb18030?B?azJjaQ==?= <kernel-bot@kylinos.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is a multi-part message in MIME format.
+
+------=_NextPart_62AAD439_1235DA08_6A2ED2BF
+Content-Type: text/plain;
+	charset="gb18030"
+Content-Transfer-Encoding: base64
+
+SGksDQpJJ20gdmVyeSBzb3JyeSwgdGhlc2UgZml2ZSBwYXRjaGVzIGFyZSBub3QgYSBzZXJp
+ZXMsIHRoZSBvdGhlciBmb3VyIGFyZSBmcm9tIG90aGVyIGJyYW5jaGVzLiBJIG1hZGUgYSBt
+aXN0YWtlIHdoZW4gc3VibWl0dGluZyB0aGUgcGF0Y2guIENhbiB5b3UgaGVscCBtZSBwdXNo
+IHRoaXMgdG8gZHJtLW1pc2M/IE9yIEkgd2lsbCByZXN1Ym1pdCB0aGlzIHBhdGNoIGFnYWlu
+Lg0KDQoNCg0KQmVzdCByZWdhcmRzLA0KcGVuZ2Z1eXVhbg0KDQoNCg0KLS0tLS0tLS0tLS0t
+LS0tLS0tJm5ic3A71K3KvNPKvP4mbmJzcDstLS0tLS0tLS0tLS0tLS0tLS0NCreivP7Iyzog
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAiTHl1ZGUgUGF1bCIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8
+bHl1ZGVAcmVkaGF0LmNvbSZndDs7DQq3osvNyrG85DombmJzcDsyMDIyxOo11MIyOMjVKNDH
+xtrB+SkgweizvzA6MjcNCsrVvP7IyzombmJzcDsiMTA2NDA5NDkzNSI8MTA2NDA5NDkzNUBx
+cS5jb20mZ3Q7OyJCZW4gU2tlZ2dzIjxic2tlZ2dzQHJlZGhhdC5jb20mZ3Q7Ow0Ks63LzTom
+bmJzcDsiS2Fyb2wgSGVyYnN0IjxraGVyYnN0QHJlZGhhdC5jb20mZ3Q7OyJEYXZpZCBBaXJs
+aWUiPGFpcmxpZWRAbGludXguaWUmZ3Q7OyJEYW5pZWwgVmV0dGVyIjxkYW5pZWxAZmZ3bGwu
+Y2gmZ3Q7OyJkcmktZGV2ZWwiPGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcmZ3Q7
+OyJub3V2ZWF1Ijxub3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZyZndDs7ImxpbnV4LWtl
+cm5lbCI8bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZyZndDs7InBlbmdmdXl1YW4iPHBl
+bmdmdXl1YW5Aa3lsaW5vcy5jbiZndDs7ImsyY2kiPGtlcm5lbC1ib3RAa3lsaW5vcy5jbiZn
+dDs7DQrW98ziOiZuYnNwO1JlOiBbUEFUQ0ggNS81XSBkcm0vbm91dmVhdTogRml4IHNwZWxs
+aW5nIHR5cG8gaW4gY29tbWVudHMNCg0KDQoNClJldmlld2VkLWJ5OiBMeXVkZSBQYXVsIDxs
+eXVkZUByZWRoYXQuY29tJmd0Ow0KDQpEbyB5b3UgbmVlZCBtZSB0byBwdXNoIHRoaXMgdG8g
+ZHJtLW1pc2M/IE9yIHdpbGwgdGhpcyBiZSBwdXNoZWQgYXMgb25lIHNlcmllcz8NCg0KT24g
+RnJpLCAyMDIyLTA1LTI3IGF0IDEyOjIyICswODAwLCAxMDY0MDk0OTM1QHFxLmNvbSB3cm90
+ZToNCiZndDsgRnJvbTogcGVuZ2Z1eXVhbiA8cGVuZ2Z1eXVhbkBreWxpbm9zLmNuJmd0Ow0K
+Jmd0OyANCiZndDsgRml4IHNwZWxsaW5nIHR5cG8gaW4gY29tbWVudHMuDQomZ3Q7IA0KJmd0
+OyBSZXBvcnRlZC1ieTogazJjaSA8a2VybmVsLWJvdEBreWxpbm9zLmNuJmd0Ow0KJmd0OyBT
+aWduZWQtb2ZmLWJ5OiBwZW5nZnV5dWFuIDxwZW5nZnV5dWFuQGt5bGlub3MuY24mZ3Q7DQom
+Z3Q7IC0tLQ0KJmd0OyAmbmJzcDtkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9pbmNsdWRlL252
+aHcvZHJmLmggfCA0ICsrLS0NCiZndDsgJm5ic3A7MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0
+aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCiZndDsgDQomZ3Q7IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9pbmNsdWRlL252aHcvZHJmLmgNCiZndDsgYi9kcml2ZXJz
+L2dwdS9kcm0vbm91dmVhdS9pbmNsdWRlL252aHcvZHJmLmgNCiZndDsgaW5kZXggYmQwZmM0
+MTQ0NmUyLi5kNjk2OWMwZTJmMjkgMTAwNjQ0DQomZ3Q7IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9ub3V2ZWF1L2luY2x1ZGUvbnZody9kcmYuaA0KJmd0OyArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vbm91dmVhdS9pbmNsdWRlL252aHcvZHJmLmgNCiZndDsgQEAgLTE5MCw3ICsxOTAsNyBA
+QA0KJmd0OyAmbmJzcDsjZGVmaW5lIERSRl9NRF8oWCxfMSxfMixfMyxfNCxfNSxfNixfNyxf
+OCxfOSxfMTAsSU1QTCwuLi4pIElNUEwNCiZndDsgJm5ic3A7I2RlZmluZSBEUkZfTUQoQS4u
+LikgRFJGX01EXyhYLCAjI0EsIERSRl9NRF9JLCBEUkZfTURfTikoWCwgIyNBKQ0KJmd0OyAm
+bmJzcDsNCiZndDsgLS8qIEhlbHBlciBmb3IgdGVzdGluZyBhZ2FpbnN0IGZpZWxkIHZhbHVl
+IGluIGFyaWJ0cmFyeSBvYmplY3QgKi8NCiZndDsgKy8qIEhlbHBlciBmb3IgdGVzdGluZyBh
+Z2FpbnN0IGZpZWxkIHZhbHVlIGluIGFyYml0cmFyeSBvYmplY3QgKi8NCiZndDsgJm5ic3A7
+I2RlZmluZSBEUkZfVFZfTihYLGUscCxvLGQsciwmbmJzcDsNCiZndDsgZixjbXAsdikmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgXA0KJmd0OyAmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtOVlZBTF9URVNUX1goRFJGX1JEX1goZSwg
+KHApLCAobyksIGQjI18jI3ImbmJzcDsmbmJzcDsgKSwgZCMjXyMjciMjXyMjZiwgY21wLA0K
+Jmd0OyAodikpDQomZ3Q7ICZuYnNwOyNkZWZpbmUNCiZndDsgRFJGX1RWX0koWCxlLHAsbyxk
+LHIsaSxmLGNtcCx2KSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBcDQomZ3Q7IEBA
+IC0xOTgsNyArMTk4LDcgQEANCiZndDsgJm5ic3A7I2RlZmluZSBEUkZfVFZfKFgsXzEsXzIs
+XzMsXzQsXzUsXzYsXzcsXzgsXzksSU1QTCwuLi4pIElNUEwNCiZndDsgJm5ic3A7I2RlZmlu
+ZSBEUkZfVFYoQS4uLikgRFJGX1RWXyhYLCAjI0EsIERSRl9UVl9JLCBEUkZfVFZfTikoWCwg
+IyNBKQ0KJmd0OyAmbmJzcDsNCiZndDsgLS8qIEhlbHBlciBmb3IgdGVzdGluZyBhZ2FpbnN0
+IGZpZWxkIGRlZmluaXRpb24gaW4gYXJpYnRyYXJ5IG9iamVjdCAqLw0KJmd0OyArLyogSGVs
+cGVyIGZvciB0ZXN0aW5nIGFnYWluc3QgZmllbGQgZGVmaW5pdGlvbiBpbiBhcmJpdHJhcnkg
+b2JqZWN0ICovDQomZ3Q7ICZuYnNwOyNkZWZpbmUgRFJGX1REX04oWCxlLHAsbyxkLHIsJm5i
+c3A7DQomZ3Q7IGYsY21wLHYpJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IFwNCiZndDsgJm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7TlZWQUxfVEVTVF9YKERS
+Rl9SRF9YKGUsIChwKSwgKG8pLCBkIyNfIyNyJm5ic3A7Jm5ic3A7ICksIGQjI18jI3IjI18j
+I2YsIGNtcCwNCiZndDsgZCMjXyMjciMjXyMjZiMjXyMjdikNCiZndDsgJm5ic3A7I2RlZmlu
+ZQ0KJmd0OyBEUkZfVERfSShYLGUscCxvLGQscixpLGYsY21wLHYpJm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7DQomZ3Q7ICZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyBcDQoNCi0tIA0KQ2hlZXJzLA0KJm5ic3A7THl1ZGUgUGF1bCAoc2hlL2hl
+cikNCiZuYnNwO1NvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQ=
+
+------=_NextPart_62AAD439_1235DA08_6A2ED2BF
+Content-Type: text/html;
+	charset="gb18030"
+Content-Transfer-Encoding: base64
+
+PG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNo
+YXJzZXQ9R0IxODAzMCI+PGRpdj5IaSw8L2Rpdj48ZGl2PkknbSB2ZXJ5IHNvcnJ5LCB0aGVz
+ZSBmaXZlIHBhdGNoZXMgYXJlIG5vdCBhIHNlcmllcywgdGhlIG90aGVyIGZvdXIgYXJlIGZy
+b20gb3RoZXIgYnJhbmNoZXMuIEkgbWFkZSBhIG1pc3Rha2Ugd2hlbiBzdWJtaXR0aW5nIHRo
+ZSBwYXRjaC4gQ2FuIHlvdSBoZWxwIG1lIHB1c2ggdGhpcyB0byBkcm0tbWlzYz8gT3IgSSB3
+aWxsIHJlc3VibWl0IHRoaXMgcGF0Y2ggYWdhaW4uPGJyPjwvZGl2PjxkaXYgc3R5bGU9InBv
+c2l0aW9uOiByZWxhdGl2ZTsiPjxkaXY+PGJyPjwvZGl2PjxkaXY+QmVzdCByZWdhcmRzLDxi
+cj5wZW5nZnV5dWFuPGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXYgc3R5bGU9ImZvbnQt
+c2l6ZTogMTJweDtmb250LWZhbWlseTogQXJpYWwgTmFycm93O3BhZGRpbmc6MnB4IDAgMnB4
+IDA7Ij4tLS0tLS0tLS0tLS0tLS0tLS0mbmJzcDvUrcq808q8/iZuYnNwOy0tLS0tLS0tLS0t
+LS0tLS0tLTwvZGl2PjxkaXYgc3R5bGU9ImZvbnQtc2l6ZTogMTJweDtiYWNrZ3JvdW5kOiNl
+ZmVmZWY7cGFkZGluZzo4cHg7Ij48ZGl2PjxiPreivP7Iyzo8L2I+ICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIkx5
+dWRlIFBhdWwiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJmx0O2x5dWRlQHJlZGhh
+dC5jb20mZ3Q7OzwvZGl2PjxkaXY+PGI+t6LLzcqxvOQ6PC9iPiZuYnNwOzIwMjLE6jXUwjI4
+yNUo0MfG2sH5KSDB6LO/MDoyNzwvZGl2PjxkaXY+PGI+ytW8/sjLOjwvYj4mbmJzcDsiMTA2
+NDA5NDkzNSImbHQ7MTA2NDA5NDkzNUBxcS5jb20mZ3Q7OyJCZW4gU2tlZ2dzIiZsdDtic2tl
+Z2dzQHJlZGhhdC5jb20mZ3Q7Ozx3YnI+PC9kaXY+PGRpdj48Yj6zrcvNOjwvYj4mbmJzcDsi
+S2Fyb2wgSGVyYnN0IiZsdDtraGVyYnN0QHJlZGhhdC5jb20mZ3Q7OyJEYXZpZCBBaXJsaWUi
+Jmx0O2FpcmxpZWRAbGludXguaWUmZ3Q7OyJEYW5pZWwgVmV0dGVyIiZsdDtkYW5pZWxAZmZ3
+bGwuY2gmZ3Q7OyJkcmktZGV2ZWwiJmx0O2RyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcmZ3Q7OyJub3V2ZWF1IiZsdDtub3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZyZndDs7
+ImxpbnV4LWtlcm5lbCImbHQ7bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZyZndDs7InBl
+bmdmdXl1YW4iJmx0O3BlbmdmdXl1YW5Aa3lsaW5vcy5jbiZndDs7ImsyY2kiJmx0O2tlcm5l
+bC1ib3RAa3lsaW5vcy5jbiZndDs7PHdicj48L2Rpdj48ZGl2PjxiPtb3zOI6PC9iPiZuYnNw
+O1JlOiBbUEFUQ0ggNS81XSBkcm0vbm91dmVhdTogRml4IHNwZWxsaW5nIHR5cG8gaW4gY29t
+bWVudHM8L2Rpdj48L2Rpdj48ZGl2Pjxicj48L2Rpdj5SZXZpZXdlZC1ieTogTHl1ZGUgUGF1
+bCAmbHQ7bHl1ZGVAcmVkaGF0LmNvbSZndDs8YnI+PGJyPkRvIHlvdSBuZWVkIG1lIHRvIHB1
+c2ggdGhpcyB0byBkcm0tbWlzYz8gT3Igd2lsbCB0aGlzIGJlIHB1c2hlZCBhcyBvbmUgc2Vy
+aWVzPzxicj48YnI+T24gRnJpLCAyMDIyLTA1LTI3IGF0IDEyOjIyICswODAwLCAxMDY0MDk0
+OTM1QHFxLmNvbSB3cm90ZTo8YnI+Jmd0OyBGcm9tOiBwZW5nZnV5dWFuICZsdDtwZW5nZnV5
+dWFuQGt5bGlub3MuY24mZ3Q7PGJyPiZndDsgPGJyPiZndDsgRml4IHNwZWxsaW5nIHR5cG8g
+aW4gY29tbWVudHMuPGJyPiZndDsgPGJyPiZndDsgUmVwb3J0ZWQtYnk6IGsyY2kgJmx0O2tl
+cm5lbC1ib3RAa3lsaW5vcy5jbiZndDs8YnI+Jmd0OyBTaWduZWQtb2ZmLWJ5OiBwZW5nZnV5
+dWFuICZsdDtwZW5nZnV5dWFuQGt5bGlub3MuY24mZ3Q7PGJyPiZndDsgLS0tPGJyPiZndDsg
+Jm5ic3A7ZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvaW5jbHVkZS9udmh3L2RyZi5oIHwgNCAr
+Ky0tPGJyPiZndDsgJm5ic3A7MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBk
+ZWxldGlvbnMoLSk8YnI+Jmd0OyA8YnI+Jmd0OyBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL25vdXZlYXUvaW5jbHVkZS9udmh3L2RyZi5oPGJyPiZndDsgYi9kcml2ZXJzL2dwdS9k
+cm0vbm91dmVhdS9pbmNsdWRlL252aHcvZHJmLmg8YnI+Jmd0OyBpbmRleCBiZDBmYzQxNDQ2
+ZTIuLmQ2OTY5YzBlMmYyOSAxMDA2NDQ8YnI+Jmd0OyAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+bm91dmVhdS9pbmNsdWRlL252aHcvZHJmLmg8YnI+Jmd0OyArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vbm91dmVhdS9pbmNsdWRlL252aHcvZHJmLmg8YnI+Jmd0OyBAQCAtMTkwLDcgKzE5MCw3
+IEBAPGJyPiZndDsgJm5ic3A7I2RlZmluZSBEUkZfTURfKFgsXzEsXzIsXzMsXzQsXzUsXzYs
+XzcsXzgsXzksXzEwLElNUEwsLi4uKSBJTVBMPGJyPiZndDsgJm5ic3A7I2RlZmluZSBEUkZf
+TUQoQS4uLikgRFJGX01EXyhYLCAjI0EsIERSRl9NRF9JLCBEUkZfTURfTikoWCwgIyNBKTxi
+cj4mZ3Q7ICZuYnNwOzxicj4mZ3Q7IC0vKiBIZWxwZXIgZm9yIHRlc3RpbmcgYWdhaW5zdCBm
+aWVsZCB2YWx1ZSBpbiBhcmlidHJhcnkgb2JqZWN0ICovPGJyPiZndDsgKy8qIEhlbHBlciBm
+b3IgdGVzdGluZyBhZ2FpbnN0IGZpZWxkIHZhbHVlIGluIGFyYml0cmFyeSBvYmplY3QgKi88
+YnI+Jmd0OyAmbmJzcDsjZGVmaW5lIERSRl9UVl9OKFgsZSxwLG8sZCxyLCZuYnNwOzxicj4m
+Z3Q7IGYsY21wLHYpJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IFw8YnI+Jmd0OyAm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDtOVlZBTF9U
+RVNUX1goRFJGX1JEX1goZSwgKHApLCAobyksIGQjI18jI3ImbmJzcDsmbmJzcDsgKSwgZCMj
+XyMjciMjXyMjZiwgY21wLDxicj4mZ3Q7ICh2KSk8YnI+Jmd0OyAmbmJzcDsjZGVmaW5lPGJy
+PiZndDsgRFJGX1RWX0koWCxlLHAsbyxkLHIsaSxmLGNtcCx2KSZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyBcPGJyPiZndDsgQEAgLTE5OCw3ICsxOTgsNyBAQDxicj4mZ3Q7ICZu
+YnNwOyNkZWZpbmUgRFJGX1RWXyhYLF8xLF8yLF8zLF80LF81LF82LF83LF84LF85LElNUEws
+Li4uKSBJTVBMPGJyPiZndDsgJm5ic3A7I2RlZmluZSBEUkZfVFYoQS4uLikgRFJGX1RWXyhY
+LCAjI0EsIERSRl9UVl9JLCBEUkZfVFZfTikoWCwgIyNBKTxicj4mZ3Q7ICZuYnNwOzxicj4m
+Z3Q7IC0vKiBIZWxwZXIgZm9yIHRlc3RpbmcgYWdhaW5zdCBmaWVsZCBkZWZpbml0aW9uIGlu
+IGFyaWJ0cmFyeSBvYmplY3QgKi88YnI+Jmd0OyArLyogSGVscGVyIGZvciB0ZXN0aW5nIGFn
+YWluc3QgZmllbGQgZGVmaW5pdGlvbiBpbiBhcmJpdHJhcnkgb2JqZWN0ICovPGJyPiZndDsg
+Jm5ic3A7I2RlZmluZSBEUkZfVERfTihYLGUscCxvLGQsciwmbmJzcDs8YnI+Jmd0OyBmLGNt
+cCx2KSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBcPGJyPiZndDsgJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7TlZWQUxfVEVTVF9YKERSRl9SRF9YKGUsIChw
+KSwgKG8pLCBkIyNfIyNyJm5ic3A7Jm5ic3A7ICksIGQjI18jI3IjI18jI2YsIGNtcCw8YnI+
+Jmd0OyBkIyNfIyNyIyNfIyNmIyNfIyN2KTxicj4mZ3Q7ICZuYnNwOyNkZWZpbmU8YnI+Jmd0
+OyBEUkZfVERfSShYLGUscCxvLGQscixpLGYsY21wLHYpJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7PGJyPiZndDsgJm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7IFw8YnI+PGJyPi0tIDxicj5DaGVlcnMsPGJyPiZuYnNwO0x5dWRlIFBhdWwgKHNo
+ZS9oZXIpPGJyPiZuYnNwO1NvZnR3YXJlIEVuZ2luZWVyIGF0IFJlZCBIYXQ8YnI+PC9kaXY+
 
 
-On 5/7/2022 4:59 AM, Dmitry Baryshkov wrote:
-> After the commit c46f0d69039c ("drm/msm: remove unused hotplug and edid
-> macros from msm_drv.h") the msm_display_caps enum contains two bits
-> describing whether the encoder should work in video or command mode.
-> Drop the enum and replace capabilities field in struct msm_display_info
-> with boolean is_cmd_mode field.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 31 +++++++++------------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 +--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  5 +---
->   drivers/gpu/drm/msm/msm_drv.h               | 10 -------
->   4 files changed, 16 insertions(+), 34 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 07de0c0506d3..ce299b1e40a0 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -636,7 +636,7 @@ static void _dpu_encoder_update_vsync_source(struct dpu_encoder_virt *dpu_enc,
->   	}
->   
->   	if (hw_mdptop->ops.setup_vsync_source &&
-> -			disp_info->capabilities & MSM_DISPLAY_CAP_CMD_MODE) {
-> +			disp_info->is_cmd_mode) {
->   		for (i = 0; i < dpu_enc->num_phys_encs; i++)
->   			vsync_cfg.ppnumber[i] = dpu_enc->hw_pp[i]->idx;
->   
-> @@ -720,8 +720,7 @@ static int dpu_encoder_resource_control(struct drm_encoder *drm_enc,
->   	}
->   	dpu_enc = to_dpu_encoder_virt(drm_enc);
->   	priv = drm_enc->dev->dev_private;
-> -	is_vid_mode = dpu_enc->disp_info.capabilities &
-> -						MSM_DISPLAY_CAP_VID_MODE;
-> +	is_vid_mode = !dpu_enc->disp_info.is_cmd_mode;
->   
->   	/*
->   	 * when idle_pc is not supported, process only KICKOFF, STOP and MODESET
-> @@ -1604,7 +1603,7 @@ void dpu_encoder_trigger_kickoff_pending(struct drm_encoder *drm_enc)
->   
->   		/* update only for command mode primary ctl */
->   		if ((phys == dpu_enc->cur_master) &&
-> -		   (disp_info->capabilities & MSM_DISPLAY_CAP_CMD_MODE)
-> +		    disp_info->is_cmd_mode
->   		    && ctl->ops.trigger_pending)
->   			ctl->ops.trigger_pending(ctl);
->   	}
-> @@ -2141,20 +2140,19 @@ static int dpu_encoder_virt_add_phys_encs(
->   		return -EINVAL;
->   	}
->   
-> -	if (disp_info->capabilities & MSM_DISPLAY_CAP_VID_MODE) {
-> -		enc = dpu_encoder_phys_vid_init(params);
-> +
-> +	if (disp_info->intf_type == DRM_MODE_ENCODER_VIRTUAL) {
-> +		enc = dpu_encoder_phys_wb_init(params);
->   
->   		if (IS_ERR(enc)) {
-> -			DPU_ERROR_ENC(dpu_enc, "failed to init vid enc: %ld\n",
-> +			DPU_ERROR_ENC(dpu_enc, "failed to init wb enc: %ld\n",
->   				PTR_ERR(enc));
->   			return PTR_ERR(enc);
->   		}
->   
->   		dpu_enc->phys_encs[dpu_enc->num_phys_encs] = enc;
->   		++dpu_enc->num_phys_encs;
-> -	}
-> -
-> -	if (disp_info->capabilities & MSM_DISPLAY_CAP_CMD_MODE) {
-> +	} else if (disp_info->is_cmd_mode) {
->   		enc = dpu_encoder_phys_cmd_init(params);
->   
->   		if (IS_ERR(enc)) {
-> @@ -2165,14 +2163,12 @@ static int dpu_encoder_virt_add_phys_encs(
->   
->   		dpu_enc->phys_encs[dpu_enc->num_phys_encs] = enc;
->   		++dpu_enc->num_phys_encs;
-> -	}
-> -
-> -	if (disp_info->intf_type == DRM_MODE_ENCODER_VIRTUAL) {
-> -		enc = dpu_encoder_phys_wb_init(params);
-> +	} else {
-> +		enc = dpu_encoder_phys_vid_init(params);
->   
->   		if (IS_ERR(enc)) {
-> -			DPU_ERROR_ENC(dpu_enc, "failed to init wb enc: %ld\n",
-> -					PTR_ERR(enc));
-> +			DPU_ERROR_ENC(dpu_enc, "failed to init vid enc: %ld\n",
-> +				PTR_ERR(enc));
->   			return PTR_ERR(enc);
->   		}
->   
-> @@ -2232,8 +2228,7 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
->   
->   	DPU_DEBUG("dsi_info->num_of_h_tiles %d\n", disp_info->num_of_h_tiles);
->   
-> -	if ((disp_info->capabilities & MSM_DISPLAY_CAP_CMD_MODE) ||
-> -	    (disp_info->capabilities & MSM_DISPLAY_CAP_VID_MODE))
-> +	if (disp_info->intf_type != DRM_MODE_ENCODER_VIRTUAL)
->   		dpu_enc->idle_pc_supported =
->   				dpu_kms->catalog->caps->has_idle_pc;
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> index 781d41c91994..861870ac8ae7 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> @@ -21,19 +21,19 @@
->   /**
->    * struct msm_display_info - defines display properties
->    * @intf_type:          DRM_MODE_ENCODER_ type
-> - * @capabilities:       Bitmask of display flags
->    * @num_of_h_tiles:     Number of horizontal tiles in case of split interface
->    * @h_tile_instance:    Controller instance used per tile. Number of elements is
->    *                      based on num_of_h_tiles
-> + * @is_cmd_mode		Boolean to indicate if the CMD mode is requested
->    * @is_te_using_watchdog_timer:  Boolean to indicate watchdog TE is
->    *				 used instead of panel TE in cmd mode panels
->    * @dsc:		DSC configuration data for DSC-enabled displays
->    */
->   struct msm_display_info {
->   	int intf_type;
-> -	uint32_t capabilities;
->   	uint32_t num_of_h_tiles;
->   	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
-> +	bool is_cmd_mode;
->   	bool is_te_using_watchdog_timer;
->   	struct msm_display_dsc_config *dsc;
->   };
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index f89dcb903869..7a40cfa9b09e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -584,9 +584,7 @@ static int _dpu_kms_initialize_dsi(struct drm_device *dev,
->   		}
->   
->   		info.h_tile_instance[info.num_of_h_tiles++] = i;
-> -		info.capabilities = msm_dsi_is_cmd_mode(priv->dsi[i]) ?
-> -			MSM_DISPLAY_CAP_CMD_MODE :
-> -			MSM_DISPLAY_CAP_VID_MODE;
-> +		info.is_cmd_mode = msm_dsi_is_cmd_mode(priv->dsi[i]);
->   
->   		info.dsc = msm_dsi_get_dsc_config(priv->dsi[i]);
->   
-> @@ -639,7 +637,6 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
->   
->   		info.num_of_h_tiles = 1;
->   		info.h_tile_instance[0] = i;
-> -		info.capabilities = MSM_DISPLAY_CAP_VID_MODE;
->   		info.intf_type = encoder->encoder_type;
->   		rc = dpu_encoder_setup(dev, encoder, &info);
->   		if (rc) {
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index 2ba57c575e13..eb23377b6e57 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -61,16 +61,6 @@ enum msm_dp_controller {
->   #define MSM_GPU_MAX_RINGS 4
->   #define MAX_H_TILES_PER_DISPLAY 2
->   
-> -/**
-> - * enum msm_display_caps - features/capabilities supported by displays
-> - * @MSM_DISPLAY_CAP_VID_MODE:           Video or "active" mode supported
-> - * @MSM_DISPLAY_CAP_CMD_MODE:           Command mode supported
-> - */
-> -enum msm_display_caps {
-> -	MSM_DISPLAY_CAP_VID_MODE	= BIT(0),
-> -	MSM_DISPLAY_CAP_CMD_MODE	= BIT(1),
-> -};
-> -
->   /**
->    * enum msm_event_wait - type of HW events to wait for
->    * @MSM_ENC_COMMIT_DONE - wait for the driver to flush the registers to HW
+------=_NextPart_62AAD439_1235DA08_6A2ED2BF--
+
