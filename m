@@ -1,113 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12CFC54DEC3
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 12:16:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 882D854DF20
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 12:31:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6CDC89FAC;
-	Thu, 16 Jun 2022 10:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97903113FE5;
+	Thu, 16 Jun 2022 10:31:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-PSA-obe.outbound.protection.outlook.com
- (mail-psaapc01on2110.outbound.protection.outlook.com [40.107.255.110])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E816189FAC
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 10:16:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UUYV04sTr+hfEZWT/P8r41nuCRaR7WbdxygoJa/B0ujBKP81SDS5cqa3yfDwGA3XB4o9+Y0brBqH9S37epwwSoW7hpyodZeu3Ecg3Al2WyTglPVd5nK1xZinYN6gf+rvSdUQGhur38evweeylYD83Tvz7NLuvxEpc6iAUTWPuEG6Be+pEIAYJeu5zjnUi81k+KgSSzWHTT+9OJX+QoEcu5RiT8UHRKqC6iA02nVEM7rDI2W98kym8FiFsA/2bG6DorGiMYUOrugXR+sQS+JVbZ9/9g0WHMSDycrusSlbKtF5qJ1XAKjo5ScS+asGSZ0Y1a7+Ek0/tojjzLuvIuEMIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SWtoDcUCX5zzVwG/ipCoPQOc323RqHXTrsUn62oILt8=;
- b=XxL4dtghhw7pxv5jUZQ4KgB1ie1Mr8kVmtGVT52qWXGIrELAdGphbzS9FDFUGwKs3LOz3s1oFcAvMTjgdDDHw/Qm0GAQXzTgpqiyOOQkRDu+yRfo73eqKEQClvbP7mUIl+UgkrejPQgRjtLoe9cALgbLoyENzvf4ql89JwAFyFJPkihM/cr3bgjkP0VGJyXKY5CcQG482ZBNinkWhpG10g7uU21oyzKRAbW0yyo90FkFGK6X95+tJ/pl0vlZ43DpUN/Y9WJIVXdreIJC8Yx4zGXX78ZeqAleXKnudyO3MyEAUfq02mMQwzIK0FGdfz4IT7DDcBKGzFz+saCrSm+SPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SWtoDcUCX5zzVwG/ipCoPQOc323RqHXTrsUn62oILt8=;
- b=p8BH0ylXvxVSb5miotC27SB04HBR2pDx6YJ66McfxyY+BCUHdai67VjrIiu91JQTclOXSye3O39/5GQadVU3IN6PFtiasc8eUw7ldGtHXwRThNidr0lvptAoFpg84X+LCz3K7QBalm9YR6+8dfnSgBXcTOxxDQKRERwbHeek9MTUG2arrrurL9BostzizlNAntweAaM5ChGnTi8TbNXLeB+RQDh6/TbLJi7gqhOix0c/mmcwpwetw8AHEBoK//rQdI6nBRl1A5AwRMJuQTp9/VNcWrrvObCqB/B1/ZrXGX/kFzGoDOKVj3fG07mrT8xezmyUW+XVjj8bKFSaYiD2pw==
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
- by SG2PR06MB2764.apcprd06.prod.outlook.com (2603:1096:4:23::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Thu, 16 Jun
- 2022 10:16:06 +0000
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::7c42:9783:92c9:f237]) by HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::7c42:9783:92c9:f237%7]) with mapi id 15.20.5332.022; Thu, 16 Jun 2022
- 10:16:06 +0000
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: RE: [PATCH] usb: gadget: Remove unnecessary print function dev_err()
-Thread-Topic: [PATCH] usb: gadget: Remove unnecessary print function dev_err()
-Thread-Index: AQHYgWATtppy2IZglE2yH02xMWGTe61R0ViQ
-Date: Thu, 16 Jun 2022 10:16:05 +0000
-Message-ID: <HK0PR06MB320275CCAE8E424810C8907F80AC9@HK0PR06MB3202.apcprd06.prod.outlook.com>
-References: <20220616090410.128483-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20220616090410.128483-1-jiapeng.chong@linux.alibaba.com>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e2e87e38-09bf-4375-9397-08da4f81397c
-x-ms-traffictypediagnostic: SG2PR06MB2764:EE_
-x-microsoft-antispam-prvs: <SG2PR06MB276475A37EE9ADE8EA8CCFB280AC9@SG2PR06MB2764.apcprd06.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wEG0D9mb2ByLwYRQS++geUu3JulF13vKfAPkmP5tSuZgyKJ/7L/KF0dT9c7ztZqyProP10fLIN3v9pdtpWI4VNHq+7zN8KFhKNUEBFP3O+X0UiPmZSlsG/3ZMrPZrwunwHPAzjzAFFpabuRSkeMnwfEFguzy88vZXkdg1By5bQQq0S3kEl3Fxtx+wvSRYgWRRiIIRbQaNm/klvVvhuEB/I34/x+Va7RO15hmx471ljefVv+AhAauIqcf+sVrNivPIEkzBZ1bXXRsjeJ+Iza4Ur0sfGvHjuBDdFLnONIfG3bgR+uvpX+jgJJq71nWYYxyO/LK4duXyFQghZZe5ba6Ng2ruUNn2s9Xt2iEVB77yyUsLfXkKsRARLtQDV0wKFE3EMCratfZVng0Bl+6YwrdlR66cPcd8iTH7+ri05hPBqWscq0qgSzXsw6XdLxSmoAuCNgAjQTgwdFGmILqvqICYiidrpSN0f4LIXlFH++z3CKOhu608WXzHexBz/n0i2UXTxWFSAqhprMZqNyLm8o+3ZypDC5AtqUF0E+0jxyf2lG+shwV2SEW1C8F5/NQrWqsTCpvIjdd0TXRvl3N+FEZRQTSAHUwjtkPAB+Gpy4T3eB31yZT1znqgybUUlnjjLJF2LUZzBH5AZid+ID+egfAwMhFPi1hSQ3epUQdR0iwyTdPlLiKgdmYNi694Mo8xo8Nz1LL9lD3+L1JklyfQxkJ4g==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3202.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(346002)(39850400004)(366004)(136003)(396003)(186003)(41300700001)(9686003)(83380400001)(316002)(26005)(54906003)(6916009)(33656002)(7696005)(86362001)(55016003)(6506007)(66556008)(66446008)(76116006)(64756008)(66476007)(8676002)(4326008)(66946007)(71200400001)(7416002)(38100700002)(8936002)(5660300002)(2906002)(122000001)(52536014)(508600001)(38070700005)(4744005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?hRoow4H3k7kMuIKUf3yIpFUSQVN51K+JKiUDbXoaQsa8zOREUeeKF/nSPVIf?=
- =?us-ascii?Q?25jJtUNUJMYPzkGAEdTAZfNz4URv/s6APABcxClopOA91se7rS4j3G+ESU8Y?=
- =?us-ascii?Q?+rCdg+kGyXQ4nq8WIJcJTIMXQoZQY+Hi+VeUIibc1rmFWrcbGSc+mGzMcAxi?=
- =?us-ascii?Q?EkQV0ygt2JnyOlullhaGNwHJL+1z7+QBOW2ZpAwp4pd/6zjajt9gjK5vo9FM?=
- =?us-ascii?Q?UB4feRsBdxRMpSrpbrEf2yuAJ91SNIQEGUmSVRn5fqq82kTn38/xe1KlwF9i?=
- =?us-ascii?Q?E+7XUq9LQuK8PD4yg+kLEAFO7uFCcJ2gpADZ3ZbngBL+88VJpR1cUbrHxZ9S?=
- =?us-ascii?Q?AJl0h1zkceirv5QNP8DG5qZy7HORXfXQbJTJxDFlHYmK/SdGyqjN+t+FV3uM?=
- =?us-ascii?Q?+6CC5y8ZhJa5I2m+I5FVqm78lTj42nTMDydStoonvBXcsuuz2IcRiJawSyaF?=
- =?us-ascii?Q?ZIsMaP9NBvOnK2gwphpNc6JkS/tPdG4+DbCzbNUKE0KDehnxMXicWxQyO4Tp?=
- =?us-ascii?Q?3S2SzBrbZj5U0/SMV0kQrwco/PUc9jOMPSAgUznerGYXE1xJSvKT4ZOTJn6y?=
- =?us-ascii?Q?8spTn0MSimg0i/E68J4mUZ3reWcpx4bV5LqbWfr4prQV9FilSwNfcKBJF4An?=
- =?us-ascii?Q?d/0IXdkPByG1/j51DakICYHqXf+1SniK9kifK9s8B2EnIVBckVNVusZdbfm/?=
- =?us-ascii?Q?fykTMxA/rPWaoxT7quXlIXZVHe7L2wHEhOHJNJpgnY86vKJ8vkjh9AHi3wvs?=
- =?us-ascii?Q?pnOmKzVuw/IaV+9B3aamtVdoXFd7/5QY7SneT0oLD/6qSHuV5pbSQff8N4Co?=
- =?us-ascii?Q?Mrcm3KfU5baOIaTUANeGE6yF47Jg21cZ6iDBaVXAdXBPXbKTHVmffvlcyxTL?=
- =?us-ascii?Q?M3FFjPzwR8aoBakgpur5PaPHG28UVbWvsSJPYQRDxNtr5PBDMg1Agk4DTqGB?=
- =?us-ascii?Q?7l4w3K5kzR6djGqmkEO2obCUWEkFJqTCq8Kv2qr3JA6cErSAchktPzt7pN//?=
- =?us-ascii?Q?24+AtmQg+T2fnOUclClJfsXdNU3Zj6InDDzKH2wZ7BPkX2gU/3fofTIHpiGi?=
- =?us-ascii?Q?7L7cXRJnZxkB1J/mlez6TQiaURIXVxELySFxIvPRjNEs98lTFuFifO/Oshz/?=
- =?us-ascii?Q?6q58t/7C8Q/yzVb216zDD7j85Nf1zcGy+uWzSFnqTCYD4bYMFpyBfCJIspqk?=
- =?us-ascii?Q?JAIljlmmmOrO4ro1hM/V+1hx2bAOOXr3QLNylsApQEzSfPRr90hjhKJxBiF1?=
- =?us-ascii?Q?oBXb72XP+yEK3RvUMeXiY2V+qG4d0WyZgwIDtcMyP86Sw3Pjh0eXdnve76FF?=
- =?us-ascii?Q?DatZmlydGGPDiGzNYJWw2h7rCJkgLxEmJULnlNA5Gc7Z7WU4rpI6hZJdGjXN?=
- =?us-ascii?Q?fkTXEx3NxRh10A8BZgI5Fjc/OdE42me1Sba0p3CJzVcvaxXjtxjG2Ov2qUcb?=
- =?us-ascii?Q?0f+3HnMnz4SIVEBlwuMZsl3OCntGXAM8XYKGS+p35L83EwJ1LY5M5y8rh7Bg?=
- =?us-ascii?Q?uEgeumLO55Xetk84cB3g3UPsRqJi3g84rFLuAhYmrjonYYj9CfRZo3GRoRO2?=
- =?us-ascii?Q?XXOB5fEXoA5XXkHsDjd+SSOBejQNrf3jMHMKgJGwSG3ejPuHKkP9VicQgjFb?=
- =?us-ascii?Q?64XOVqULPSVndHzs2JTE94waornqaKrsHJEbBBDg5YoM9N/YsRziYJFRonco?=
- =?us-ascii?Q?qjDbChoocL4Gom7Qs+TUB/URTw6gbjYf/vEkZ3/l1bkMUrl19J7UOzr93inm?=
- =?us-ascii?Q?j3Sz6z+clw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C94A113FE5
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 10:31:40 +0000 (UTC)
+X-UUID: f86f6d208259408db24098e161addd45-20220616
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6, REQID:a9c58cc1-131c-476c-921a-9e04cf1d6f19, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:b14ad71, CLOUDID:7ec57bf6-e099-41ba-a32c-13b8bfe63214,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:nil,BEC:nil,COL:0
+X-UUID: f86f6d208259408db24098e161addd45-20220616
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 473049511; Thu, 16 Jun 2022 18:31:35 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Thu, 16 Jun 2022 18:31:34 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Thu, 16 Jun 2022 18:31:34 +0800
+Message-ID: <941ba5399e3cc9b25474d76d15d2bb5bafaa14b1.camel@mediatek.com>
+Subject: Re: [PATCH v11 02/12] drm/mediatek: dpi: move dpi limits to SoC config
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <matthias.bgg@gmail.com>,
+ <airlied@linux.ie>
+Date: Thu, 16 Jun 2022 18:31:34 +0800
+In-Reply-To: <5de2752a1d496290ea5c2c2d7840ba984b2e7e4d.camel@mediatek.com>
+References: <20220613064841.10481-1-rex-bc.chen@mediatek.com>
+ <20220613064841.10481-3-rex-bc.chen@mediatek.com>
+ <5de2752a1d496290ea5c2c2d7840ba984b2e7e4d.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2e87e38-09bf-4375-9397-08da4f81397c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2022 10:16:06.0031 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: udPFDQJgl1IULP9pVKz2uQDHjlp7uFavP9NUZ8dHHwhQTtPs3zm2ZFM2BBe31pCObHltjYu1SHzmT61PLKwnjg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB2764
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,53 +63,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "balbi@kernel.org" <balbi@kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "andrew@aj.id.au" <andrew@aj.id.au>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "joel@jms.id.au" <joel@jms.id.au>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> The print function dev_err() is redundant because platform_get_irq() alre=
-ady
-> prints an error.
->=20
-> This was found by coccicheck:
->=20
-> ./drivers/usb/gadget/udc/aspeed_udc.c:1546:2-9: line 1546 is redundant
-> because platform_get_irq() already prints an error.
->=20
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+On Tue, 2022-06-14 at 11:21 +0800, CK Hu wrote:
+> Hi, Bo-Chen:
+> 
+> On Mon, 2022-06-13 at 14:48 +0800, Bo-Chen Chen wrote:
+> > From: Guillaume Ranquet <granquet@baylibre.com>
+> > 
+> > Add flexibility by moving the dpi limits to the SoC specific
+> > config.
+> 
+> What does this 'limit' mean? Why it's different in DPI vs DP_INTF?
+> 
+> The hardware design is so weird. If the limit is fixed for DPI and
+> DP_INTF, why the hardware export register for software to assign any
+> value which may be wrong.
+> 
+> Regards,
+> CK
+> 
 
-Acked-by: Neal Liu <neal_liu@aspeedtech.com>
+Hello CK,
 
-> ---
->  drivers/usb/gadget/udc/aspeed_udc.c | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/drivers/usb/gadget/udc/aspeed_udc.c
-> b/drivers/usb/gadget/udc/aspeed_udc.c
-> index 1fc15228ff15..2c3dc80d6b8c 100644
-> --- a/drivers/usb/gadget/udc/aspeed_udc.c
-> +++ b/drivers/usb/gadget/udc/aspeed_udc.c
-> @@ -1543,7 +1543,6 @@ static int ast_udc_probe(struct platform_device
-> *pdev)
->  	/* Find interrupt and install handler */
->  	udc->irq =3D platform_get_irq(pdev, 0);
->  	if (udc->irq < 0) {
-> -		dev_err(&pdev->dev, "Failed to get interrupt\n");
->  		rc =3D udc->irq;
->  		goto err;
->  	}
-> --
-> 2.20.1.7.g153144c
+For RGB colorimetry, CTA-861 support both limited and full range data
+when receiving video with RGB color space.
+
+I will use drm_default_rgb_quant_range() to determine this and drop
+const struct mtk_dpi_yc_limit *limit;
+
+BRs,
+Bo-Chen
+> > 
+> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_dpi.c | 25 ++++++++++++++++---------
+> >  1 file changed, 16 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > index e61cd67b978f..ce8c5eefe5f1 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > @@ -125,6 +125,7 @@ struct mtk_dpi_conf {
+> >  	bool edge_sel_en;
+> >  	const u32 *output_fmts;
+> >  	u32 num_output_fmts;
+> > +	const struct mtk_dpi_yc_limit *limit;
+> >  };
+> >  
+> >  static void mtk_dpi_mask(struct mtk_dpi *dpi, u32 offset, u32 val,
+> > u32 mask)
+> > @@ -235,9 +236,10 @@ static void mtk_dpi_config_fb_size(struct
+> > mtk_dpi *dpi, u32 width, u32 height)
+> >  	mtk_dpi_mask(dpi, DPI_SIZE, height << VSIZE, VSIZE_MASK);
+> >  }
+> >  
+> > -static void mtk_dpi_config_channel_limit(struct mtk_dpi *dpi,
+> > -					 struct mtk_dpi_yc_limit
+> > *limit)
+> > +static void mtk_dpi_config_channel_limit(struct mtk_dpi *dpi)
+> >  {
+> > +	const struct mtk_dpi_yc_limit *limit = dpi->conf->limit;
+> > +
+> >  	mtk_dpi_mask(dpi, DPI_Y_LIMIT, limit->y_bottom << Y_LIMINT_BOT,
+> >  		     Y_LIMINT_BOT_MASK);
+> >  	mtk_dpi_mask(dpi, DPI_Y_LIMIT, limit->y_top << Y_LIMINT_TOP,
+> > @@ -449,7 +451,6 @@ static int mtk_dpi_power_on(struct mtk_dpi
+> > *dpi)
+> >  static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+> >  				    struct drm_display_mode *mode)
+> >  {
+> > -	struct mtk_dpi_yc_limit limit;
+> >  	struct mtk_dpi_polarities dpi_pol;
+> >  	struct mtk_dpi_sync_param hsync;
+> >  	struct mtk_dpi_sync_param vsync_lodd = { 0 };
+> > @@ -484,11 +485,6 @@ static int mtk_dpi_set_display_mode(struct
+> > mtk_dpi *dpi,
+> >  	dev_dbg(dpi->dev, "Got  PLL %lu Hz, pixel clock %lu Hz\n",
+> >  		pll_rate, vm.pixelclock);
+> >  
+> > -	limit.c_bottom = 0x0010;
+> > -	limit.c_top = 0x0FE0;
+> > -	limit.y_bottom = 0x0010;
+> > -	limit.y_top = 0x0FE0;
+> > -
+> >  	dpi_pol.ck_pol = MTK_DPI_POLARITY_FALLING;
+> >  	dpi_pol.de_pol = MTK_DPI_POLARITY_RISING;
+> >  	dpi_pol.hsync_pol = vm.flags & DISPLAY_FLAGS_HSYNC_HIGH ?
+> > @@ -536,7 +532,7 @@ static int mtk_dpi_set_display_mode(struct
+> > mtk_dpi *dpi,
+> >  	else
+> >  		mtk_dpi_config_fb_size(dpi, vm.hactive, vm.vactive);
+> >  
+> > -	mtk_dpi_config_channel_limit(dpi, &limit);
+> > +	mtk_dpi_config_channel_limit(dpi);
+> >  	mtk_dpi_config_bit_num(dpi, dpi->bit_num);
+> >  	mtk_dpi_config_channel_swap(dpi, dpi->channel_swap);
+> >  	mtk_dpi_config_yc_map(dpi, dpi->yc_map);
+> > @@ -790,12 +786,20 @@ static const u32 mt8183_output_fmts[] = {
+> >  	MEDIA_BUS_FMT_RGB888_2X12_BE,
+> >  };
+> >  
+> > +static const struct mtk_dpi_yc_limit mtk_dpi_limit = {
+> > +	.c_bottom = 0x0010,
+> > +	.c_top = 0x0FE0,
+> > +	.y_bottom = 0x0010,
+> > +	.y_top = 0x0FE0,
+> > +};
+> > +
+> >  static const struct mtk_dpi_conf mt8173_conf = {
+> >  	.cal_factor = mt8173_calculate_factor,
+> >  	.reg_h_fre_con = 0xe0,
+> >  	.max_clock_khz = 300000,
+> >  	.output_fmts = mt8173_output_fmts,
+> >  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
+> > +	.limit = &mtk_dpi_limit,
+> >  };
+> >  
+> >  static const struct mtk_dpi_conf mt2701_conf = {
+> > @@ -805,6 +809,7 @@ static const struct mtk_dpi_conf mt2701_conf =
+> > {
+> >  	.max_clock_khz = 150000,
+> >  	.output_fmts = mt8173_output_fmts,
+> >  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
+> > +	.limit = &mtk_dpi_limit,
+> >  };
+> >  
+> >  static const struct mtk_dpi_conf mt8183_conf = {
+> > @@ -813,6 +818,7 @@ static const struct mtk_dpi_conf mt8183_conf =
+> > {
+> >  	.max_clock_khz = 100000,
+> >  	.output_fmts = mt8183_output_fmts,
+> >  	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
+> > +	.limit = &mtk_dpi_limit,
+> >  };
+> >  
+> >  static const struct mtk_dpi_conf mt8192_conf = {
+> > @@ -821,6 +827,7 @@ static const struct mtk_dpi_conf mt8192_conf =
+> > {
+> >  	.max_clock_khz = 150000,
+> >  	.output_fmts = mt8183_output_fmts,
+> >  	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
+> > +	.limit = &mtk_dpi_limit,
+> >  };
+> >  
+> >  static int mtk_dpi_probe(struct platform_device *pdev)
+> 
+> 
 
