@@ -1,56 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3674954EA6C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 21:58:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2FE54EA87
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 22:07:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 093DF10E686;
-	Thu, 16 Jun 2022 19:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0465B10E479;
+	Thu, 16 Jun 2022 20:07:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
- [IPv6:2607:f8b0:4864:20::b2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A138610E686
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 19:58:01 +0000 (UTC)
-Received: by mail-yb1-xb2f.google.com with SMTP id u99so3892664ybi.11
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 12:58:01 -0700 (PDT)
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4598210E54C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 20:07:39 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id bd16so3108077oib.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 13:07:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K5Iia3KQ3GthJU/9UXq1fy46wYkvnbGu6bM6iwpwZ/w=;
- b=byQ6Jg3IG2wY8AJZ37MYWEiqoW5fQTlcQAXgCm+ic8DxR3EiNke3g1HmSrhoMWO6pQ
- ylU8JKkSoX3Zjp65CWHpEZKSK/s5kn5MnD4mybxnwwpPGSRU55K6DiQAyuXKgsnZHbds
- H47rT0kBHuABLBXJe8OrBfgRyPGSkvyygqhrw=
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=s6YjNqeFkBeitJEod+ywoglNF76LvxWXetZQio3hBl0=;
+ b=NTaM09TANSQ9YjApBo2joU0KGvGfREh02jr9HfmBLye/nzoowGhLj1X/iQkqjlvc6W
+ VuuHlG1lvdT5J1EdLIYD37uTEbPK5nsoc2SWQvuLrHU5gfzSH6o/adshSSIN7UzkjUyx
+ 1mT6ppunDhl3A5Vjkg/i3GHnqfSEZkb6yeJEY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=K5Iia3KQ3GthJU/9UXq1fy46wYkvnbGu6bM6iwpwZ/w=;
- b=XsWSj1zTqV9U34L0TKu0pijQuUy1yFSxOPkHAQcY24Z2c7z6jS5hgx+nDYkatA0gQ9
- 4GeYEjAz1WUggbDIWhxdl9uPUPBrw6rmUDrPe976lXNJd5ktUFcEkrRGA+KdmwNj93Y8
- 8axelGNAcQm8aB3n5zHAq/sidavz1KI/o/TuOn1Prz3DSQ6PRRjJt7fgMRDxxl7z7cV7
- dipcjLIICtK7Y2Yqm0a72YmWKwx5ysgI9O2xMsTLRywHduniTuBVKXeaG4VP0ok7nx/H
- m3oMcEcpQ3HgeccMMmpBoX5v5jg57DTIEyqS7TiiY7RYr5podQBUnkqB9+hXxz836/3B
- Eaog==
-X-Gm-Message-State: AJIora+dBrTGdHldecbNWvyLXCBIoeKiZA/O3AfcA1p5hkb+umEPX4cL
- dVNuOc2IR5iHkGpsTmTQcVtsSeTeqRRb1zgpodn4Ow==
-X-Google-Smtp-Source: AGRyM1u2G+7uuqQPl3CPuJTbWlY1cxze2DXthubUyJ6jsETYiTPwNY3gyzKzFK4Jpb7RKV1we9iMMiiLMPviipnrS50=
-X-Received: by 2002:a25:bd4c:0:b0:65d:3dca:9638 with SMTP id
- p12-20020a25bd4c000000b0065d3dca9638mr5192725ybm.196.1655409480538; Thu, 16
- Jun 2022 12:58:00 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=s6YjNqeFkBeitJEod+ywoglNF76LvxWXetZQio3hBl0=;
+ b=fde7/0MqEmVPpogg/cnQJBmzCV7NkaCbwoTxh0JAFI31tz1cW0wQUSrrR9EwnlIiIc
+ 8Gl82EhHccvuyr/fVyEt1dWk4hX110h9Zo38eBPHGaBR2QZ8nour3QTOwCVnVtNQpgz6
+ v8qKoRerkxKzqlejFbyi8w3rok4Dbbab+TLUR4HAVFx+tXVbrGXC49/HfHNAPAN8TiDS
+ YXGT1hA1C493N7qDfxeuhVIf94bL/aSWAyqQWyocnpj+dxRVQpjxwHOxEUeTgo5viFdb
+ yKz6U5Yzt5Ok1XjAKBn42RgGgXUyD+1VSZ/vd6/61Otb6Qm1n+vfE0ZKACsLFFKBFlJ1
+ RbhQ==
+X-Gm-Message-State: AJIora/RD22yCEKxNXBg2bb3EvNBRKFeGLBln/oP7BxB2KJDwqh05/nL
+ xQeyFNRaQCSVyFncZJkeP1qCXiylywAicqasLHhYWQ==
+X-Google-Smtp-Source: AGRyM1vE/OzRxo9t3OzpbmbBYVrPabfJBVXad89oOXTWAGuEN5A0P8WKfJlZlPkQDZQqBd6CO7j07+NCgeWUyhjdZR0=
+X-Received: by 2002:a05:6808:1703:b0:32e:851e:7f81 with SMTP id
+ bc3-20020a056808170300b0032e851e7f81mr3494471oib.63.1655410058546; Thu, 16
+ Jun 2022 13:07:38 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 16 Jun 2022 13:07:38 -0700
 MIME-Version: 1.0
-References: <20220615172129.1314056-1-pmalani@chromium.org>
- <20220615172129.1314056-5-pmalani@chromium.org>
- <CAE-0n53ub30HXB325wPoMB4C3n4j_9FWnNu5AmtYgU3PBvs8mQ@mail.gmail.com>
- <CACeCKadSCXZo3E4JZiwxFn_4CH3KDfQkk=xRrxSqCEWAgYhV6Q@mail.gmail.com>
- <20220616193424.GA3844759-robh@kernel.org>
-In-Reply-To: <20220616193424.GA3844759-robh@kernel.org>
-From: Prashant Malani <pmalani@chromium.org>
-Date: Thu, 16 Jun 2022 12:57:49 -0700
-Message-ID: <CACeCKaeH6qTTdG_huC4yw0xxG8TYEOtfPW3tiVNwYs=P4QVPXg@mail.gmail.com>
-Subject: Re: [PATCH v4 4/7] dt-bindings: drm/bridge: anx7625: Add mode-switch
- support
-To: Rob Herring <robh@kernel.org>
+In-Reply-To: <1655399361-10842-3-git-send-email-quic_khsieh@quicinc.com>
+References: <1655399361-10842-1-git-send-email-quic_khsieh@quicinc.com>
+ <1655399361-10842-3-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 16 Jun 2022 13:07:38 -0700
+Message-ID: <CAE-0n50cteV=uYRR=7LmcUB00kjHwDRoutq+sz5FoGmZqLso4Q@mail.gmail.com>
+Subject: Re: [PATCH v8 2/2] drm/msm/dp: clean up pixel_rate from dp_ctrl.c
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
+ dmitry.baryshkov@linaro.org, dri-devel@lists.freedesktop.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,230 +67,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Stephen Boyd <swboyd@chromium.org>,
- Pin-Yen Lin <treapking@chromium.org>, Maxime Ripard <maxime@cerno.tech>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 16, 2022 at 12:34 PM Rob Herring <robh@kernel.org> wrote:
+Quoting Kuogee Hsieh (2022-06-16 10:09:21)
+> dp_ctrl keep an local cache of pixel_rate which increase confusing
+> in regrading how pixel_rate being used. This patch refer pixel_rate
+> directly from dp_panel to eliminate unnecessary pixel_rate variable
+> from struct dp_ctrl.
 >
-> On Thu, Jun 16, 2022 at 01:54:36AM -0700, Prashant Malani wrote:
-> > On Thu, Jun 16, 2022 at 12:42 AM Stephen Boyd <swboyd@chromium.org> wrote:
-> > >
-> > > Quoting Prashant Malani (2022-06-15 10:20:20)
-> > > >
-> > > >  .../display/bridge/analogix,anx7625.yaml      | 64 +++++++++++++++++++
-> > > >  1 file changed, 64 insertions(+)
-> > >
-> > > Can this file get a link to the product brief[1]? It helps to quickly
-> > > find the block diagram.
-> >
-> > Sure, but I don't really think that should be included in this patch
-> > (or series).
-> > I'd be happy to submit a separate patch once this series is resolved.
-> >
-> > >
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > > index 35a48515836e..bc6f7644db31 100644
-> > > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-> > > > @@ -105,6 +105,34 @@ properties:
-> > > >        - port@0
-> > > >        - port@1
-> > > >
-> > > > +  switches:
-> > > > +    type: object
-> > > > +    description: Set of switches controlling DisplayPort traffic on
-> > > > +      outgoing RX/TX lanes to Type C ports.
-> > > > +    additionalProperties: false
-> > > > +
-> > > > +    properties:
-> > > > +      '#address-cells':
-> > > > +        const: 1
-> > > > +
-> > > > +      '#size-cells':
-> > > > +        const: 0
-> > > > +
-> > > > +    patternProperties:
-> > > > +      '^switch@[01]$':
-> > > > +        $ref: /schemas/usb/typec-switch.yaml#
-> > > > +        unevaluatedProperties: false
-> > > > +
-> > > > +        properties:
-> > > > +          reg:
-> > > > +            maxItems: 1
-> > > > +
-> > > > +        required:
-> > > > +          - reg
-> > > > +
-> > > > +    required:
-> > > > +      - switch@0
-> > > > +
-> > > >  required:
-> > > >    - compatible
-> > > >    - reg
-> > > > @@ -167,5 +195,41 @@ examples:
-> > > >                      };
-> > > >                  };
-> > > >              };
-> > > > +            switches {
-> > >
-> > > Is "switches" a bus?
-> >
-> > No.
-> >
-> > >
-> > > > +                #address-cells = <1>;
-> > > > +                #size-cells = <0>;
-> > > > +                switch@0 {
-> > > > +                    compatible = "typec-switch";
-> > >
-> > > Is this compatible matched against a driver that's populated on this
-> > > "switches" bus?
-> >
-> > No. Patch 6/7 has the implementation details on how the anx driver
-> > performs the enumeration of switches.
-> >
-> > >
-> > > > +                    reg = <0>;
-> > > > +                    mode-switch;
-> > > > +
-> > > > +                    ports {
-> > > > +                        #address-cells = <1>;
-> > > > +                        #size-cells = <0>;
-> > > > +                        port@0 {
-> > > > +                            reg = <0>;
-> > > > +                            anx_typec0: endpoint {
-> > > > +                                remote-endpoint = <&typec_port0>;
-> > > > +                            };
-> > > > +                        };
-> > > > +                    };
-> > >
-> > > I was expecting to see these simply be more ports in the existing graph
-> > > binding of this device, and then have the 'mode-switch' or
-> > > 'orientation-switch' properties be at the same level as the compatible
-> > > string "analogix,anx7625". Here's the reasoning, based on looking at the
-> > > product brief and the existing binding/implementation.
-> > >
-> > > Looking at the only existing implementation of this binding upstream in
-> > > mt8183-kukui-jacuzzi.dtsi it looks like one of these typec ports is
-> > > actually the same physically as the 'anx7625_out' endpoint (reg address
-> > > of 1) that is already defined in the binding. It seems that MIPI DSI/DPI
-> > > comes in and is output through 2 lanes, SSRX2 and SSTX2 according to the
-> > > product brief[1], and that is connected to some eDP panel
-> > > ("auo,b116xw03"). Presumably that is the same as anx_typec1 in this
-> > > patch? I suspect the USB3.1 input is not connected on this board, and
-> > > thus the crosspoint switch is never used, nor the SSRX1/SSTX1 pins.
-> > >
-> > > The existing binding defines the MIPI DSI/DPI input as port0 and two of
-> > > the four lanes of output that is probably by default connected to the
-> > > "DisplayPort Transmitter" as port1 because that's how the crosspoint
-> > > switch comes out of reset. That leaves the USB3.1 input possibly needing
-> > > a port in the ports binding, and the other two lanes of output needing a
-> > > port in the ports binding to describe their connection to the downstream
-> > > device. And finally information about if the crosspoint switch needs to
-> > > be registered with the typec framework to do typec things, which can be
-> > > achieved by the presence of the 'mode-switch' property.
-> > >
-> > > On a board like kukui-jacuzzi these new properties and ports wouldn't be
-> > > specified, because what is there is already sufficient. If this chip is
-> > > connected to a usb-c-connector then I'd expect to see a connection from
-> > > the output ports in the graph binding to the connector node's ports.
-> > > There aren't any ports in the usb-c-connector binding though from what I
-> > > see.
-> > >
-> > > I believe there's also one more use case here where USB3.1 or MIPI
-> > > DSI/DPI is connected on the input side and this device is used to steer
-> > > USB3.1 or DP through the crosspoint switch to either of the two output
-> > > pairs. This last scenario means that we have to describe both output
-> > > pairs, SSRX1/SSTX1 and SSRX2/SSTX2, as different ports in the binding so
-> > > they can be connected to different usb-c-connectors if the hardware
-> > > engineer wired the output pins that way.
-> > >
-> > > TL;DR: Can we add 'mode-switch' as an optional property and two more
-> > > ports at address 2 and 3 for the USB3.1 input and the SSRX1/SSTX1 pair
-> > > respectively to the existing graph part of this binding?
-> >
-> > Sorry, but I got lost midway through the preceding explanation.
+> Changes in v8:
+> -- add this patch to remove pixel_rate from dp_ctrl
 >
-> Made sense to me.
->
-> > The binding
-> > can always add additional ports to each "switch" to accomplish the
-> > graph connections
-> > you are alluding to (if the driver needs/uses it, which I don't think
-> > this one does at present).
->
-> Why is the switch special? If I just look at this from a block diagram
-> perspective, I just see a list of interfaces that need to be described
-> in the graph.
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
-Because it is specific to Type-C connectors. The anx7625.h does
-contain a cross-point
-switch which controls data lines coming from 1 (or more) Type-C
-connectors, so it seems reasonable
-to have a dedicated binding for such types of hardware sub-components,
-which helps define the graph connections
-in a more uniform manner. That's not to say:
-- this can only be used by this hardware. The typec-switch binding is
-generic enough to accommodate other hardware.
-- there is only 1 way to do this. The interfaces could be described
-using existing port OF graph bindings, but I don't
-see that as reason enough to not include a dedicated switch binding if
-it makes the overall binding more logically organized (IMO) and
-makes driver registration code mode clean.
+I can send a proper patch for this myself later.
 
+> ---
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c | 158 +++++++++++++++++++--------------------
+>  drivers/gpu/drm/msm/dp/dp_ctrl.h |   2 -
+>  2 files changed, 79 insertions(+), 81 deletions(-)
 >
-> > Adding extra ports to existing ports gets tricky from a mode-switch
-> > enumeration perspective (which
-> > ports should have the modes switches, which shouldn't? Do you follow
-> > the remote end points for each port
-> > and see which one is a Type C connector?
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> index 01028b5..6fddddd 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> @@ -1528,36 +1526,6 @@ static int dp_ctrl_link_maintenance(struct dp_ctrl_private *ctrl)
+>         return ret;
+>  }
 >
-> The driver knows which port is which because the binding has to define
-> it. So you have to check 2 of them (SSRX1/SSTX1 and SSRX2/SSTX2) to find
-> usb C connectors.
-
-Right, but with the switch binding you no longer need to check. If
-there is a typec-switch, you know
-it is coming from a Type-C connector, so you can just register the
-switches with the Type-C framework.
-
+> -static int dp_ctrl_process_phy_test_request(struct dp_ctrl_private *ctrl)
+> -{
+> -       int ret = 0;
+> -
+> -       if (!ctrl->link->phy_params.phy_test_pattern_sel) {
+> -               drm_dbg_dp(ctrl->drm_dev,
+> -                       "no test pattern selected by sink\n");
+> -               return ret;
+> -       }
+> -
+> -       /*
+> -        * The global reset will need DP link related clocks to be
+> -        * running. Add the global reset just before disabling the
+> -        * link clocks and core clocks.
+> -        */
+> -       ret = dp_ctrl_off(&ctrl->dp_ctrl);
+> -       if (ret) {
+> -               DRM_ERROR("failed to disable DP controller\n");
+> -               return ret;
+> -       }
+> -
+> -       ret = dp_ctrl_on_link(&ctrl->dp_ctrl);
+> -       if (!ret)
+> -               ret = dp_ctrl_on_stream_phy_test_report(&ctrl->dp_ctrl);
+> -       else
+> -               DRM_ERROR("failed to enable DP link controller\n");
+> -
+> -       return ret;
+> -}
+> -
+>  static bool dp_ctrl_send_phy_test_pattern(struct dp_ctrl_private *ctrl)
+>  {
+>         bool success = false;
+> @@ -1610,6 +1578,56 @@ static bool dp_ctrl_send_phy_test_pattern(struct dp_ctrl_private *ctrl)
+>         return success;
+>  }
 >
-> > What if we add an
-> > intermediate switch device in the future?)
-> > Having a dedicated "switch" binding makes this consistent and easy
-> > (port0 will always have the end-point for the switch).
-> >
-> > While there may be more than 1 valid approach here, I believe the
-> > current one is appropriate.
+> +int dp_ctrl_on_stream_phy_test_report(struct dp_ctrl *dp_ctrl)
+> +{
+> +       int ret = 0;
+> +       struct dp_ctrl_private *ctrl;
+> +       unsigned long pixel_rate;
+> +
+> +       ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+> +
+> +       pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
+> +       ret = dp_ctrl_enable_stream_clocks(ctrl, pixel_rate);
+> +       if (ret) {
+> +               DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
+> +               return ret;
+> +       }
+> +
+> +       dp_ctrl_send_phy_test_pattern(ctrl);
+> +
+> +       return 0;
+> +}
+> +
+> +static int dp_ctrl_process_phy_test_request(struct dp_ctrl_private *ctrl)
+> +{
+> +       int ret = 0;
+> +
+> +       if (!ctrl->link->phy_params.phy_test_pattern_sel) {
+> +               drm_dbg_dp(ctrl->drm_dev,
+> +                       "no test pattern selected by sink\n");
+> +               return ret;
+> +       }
+> +
+> +       /*
+> +        * The global reset will need DP link related clocks to be
+> +        * running. Add the global reset just before disabling the
+> +        * link clocks and core clocks.
+> +        */
+> +       ret = dp_ctrl_off(&ctrl->dp_ctrl);
+> +       if (ret) {
+> +               DRM_ERROR("failed to disable DP controller\n");
+> +               return ret;
+> +       }
+> +
+> +       ret = dp_ctrl_on_link(&ctrl->dp_ctrl);
+> +       if (!ret)
+> +               ret = dp_ctrl_on_stream_phy_test_report(&ctrl->dp_ctrl);
+> +       else
+> +               DRM_ERROR("failed to enable DP link controller\n");
+> +
+> +       return ret;
+> +}
+> +
+>  void dp_ctrl_handle_sink_request(struct dp_ctrl *dp_ctrl)
+>  {
+>         struct dp_ctrl_private *ctrl;
+
+I'd prefer these hunks to be part of a different patch. Either squashed
+into the previous patch, or after the previous patch to show that a
+forward declaration isn't necessary, but helped minimize the diff of
+that patch.
+
+> @@ -1685,6 +1703,7 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+>         u32 const phy_cts_pixel_clk_khz = 148500;
+>         u8 link_status[DP_LINK_STATUS_SIZE];
+>         unsigned int training_step;
+> +       unsigned long pixel_rate;
 >
-> To put it simply, if you want to define a generic binding, I want to see
-> at least 2 users of it. What I really want to see is someone looking at
-> all the Type-C related bindings and h/w possibilities, not just 1
-> problem or their own h/w. IOW, a Type-C binding czar.
-
-As I mentioned above, the typec-switch binding is generic enough to allow usage
-by other hardware. I can think of at least 1 example which could
-utilize this switch-binding [1], but I'd defer to the maintainer
-of that binding to adopt the changes or not.
-
-[1] https://elixir.bootlin.com/linux/v5.19-rc2/source/Documentation/devicetree/bindings/usb/fcs,fsa4480.yaml
-
-Thanks,
-
->
-> Rob
+>         if (!dp_ctrl)
+>                 return -EINVAL;
