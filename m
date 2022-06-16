@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE9654E36A
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 16:30:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2035954E375
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 16:32:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071621126B1;
-	Thu, 16 Jun 2022 14:30:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 075701138B1;
+	Thu, 16 Jun 2022 14:32:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE08610E357;
- Thu, 16 Jun 2022 14:30:20 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 471BD10E357;
+ Thu, 16 Jun 2022 14:32:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655389821; x=1686925821;
+ t=1655389944; x=1686925944;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=J6v8J5QcgSyKWcIQxsj1OTlgv6v5a7w3ry5kyZmJgDs=;
- b=XIsuuuupBM8I0ZH7k3H8pYBsjDwklrX2jsrm+GK/WFSsqbdClRGtomXR
- JhQ5TAyjZO7iRshnxcSbhkJKRvcosOJabcnTbuLZONPgzdcIf9R+ctWNu
- eBUA9YDihGbj2iFpTzg8ygEYkVHyDlmez2s/803dzl0QXZ4cJYBvrBHxU
- UFQeEHuqjP0Wx387a2jbQOFyF99JBcXOwHX93N8xPXNxfEeQEysvxsWT8
- tGky38FRruvtExPaFh/JmuRH9dHbzBWooogxJd13tU1aI0Mmd5R8k8o7V
- fqcvGDk2EYj0PGOyEVORKPfsICpF+8UHeXlokxWkBYe/K9vmVvR52HJ6I w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="280293034"
-X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; d="scan'208";a="280293034"
+ bh=DUXopvYubB3UbdCXV44+s1F+VXae50GnL7DHHVSs730=;
+ b=lQTxRlTFjsE1AAt6nl6s4hRj6h31vey0sTmQsyZl/0Dlt+/kSIWdvakE
+ mGZrdEM0Nt+1rTJHvCplW5qaRoGfQg7GnyL1pAmoooTSw2IdgvBV61qgI
+ E64kZge/QDFkHBTNV62rjiyaLiSfUscWEhv7Bd1VFiBtC0auEzYKQZZ19
+ qpbdFq+zPABQZ9MsKCk9DWIFdkHUMn2jD0yAUDXc80FUFrADfuNNwcywm
+ +VBc+SRzbsrDa6rmzHGyv7IdHrTINEpdGhS0XusvkYHrU/gWPU4bZwSco
+ r6afbxoeG2y0W30hjYfMjkPmDHGqAZrH6dlnDNL0BikRjHbd1u0G7ooM3 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="267948644"
+X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; d="scan'208";a="267948644"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 07:30:19 -0700
-X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; d="scan'208";a="641566330"
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 07:32:23 -0700
+X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; d="scan'208";a="641567291"
 Received: from aamendol-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.33.35])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 07:30:18 -0700
+ 16 Jun 2022 07:32:21 -0700
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Anshuman Gupta <anshuman.gupta@intel.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v2 8/9] drm/i915/xehpsdv: Store lmem region
- in gt
-In-Reply-To: <20220616120106.24353-9-anshuman.gupta@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 7/9] drm/i915/rpm: Enable D3Cold VRAM SR
+ Support
+In-Reply-To: <20220616120106.24353-8-anshuman.gupta@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20220616120106.24353-1-anshuman.gupta@intel.com>
- <20220616120106.24353-9-anshuman.gupta@intel.com>
-Date: Thu, 16 Jun 2022 17:30:15 +0300
-Message-ID: <87y1xwvfyg.fsf@intel.com>
+ <20220616120106.24353-8-anshuman.gupta@intel.com>
+Date: Thu, 16 Jun 2022 17:32:18 +0300
+Message-ID: <87v8t0vfv1.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,64 +59,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@intel.com>, rodrigo.vivi@intel.com
+Cc: Chris Wilson <chris.p.wilson@intel.com>, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 16 Jun 2022, Anshuman Gupta <anshuman.gupta@intel.com> wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Intel Client DGFX card supports D3Cold with two option.
+> D3Cold-off zero watt, D3Cold-VRAM Self Refresh.
 >
-> Store a pointer to respective local memory region in intel_gt so it can be
-> used when memory local to a GT needs to be allocated.
+> i915 requires to evict the lmem objects to smem in order to
+> support D3Cold-Off, which increases i915 the suspend/resume
+> latency. Enabling VRAM Self Refresh feature optimize the
+> latency with additional power cost which required to retain
+> the lmem.
 >
-> Cc: Andi Shyti <andi.shyti@intel.com>
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Adding intel_runtime_idle (runtime_idle callback) to enable
+> VRAM_SR, it will be used for policy to choose
+> between D3Cold-off vs D3Cold-VRAM_SR.
+>
+> Since we have introduced i915 runtime_idle callback.
+> It need to be warranted that Runtime PM Core invokes runtime_idle
+> callback when runtime usages count becomes zero. That requires
+> to use pm_runtime_put instead of pm_runtime_put_autosuspend.
+>
+> TODO: GuC interface state save/restore.
+>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Chris Wilson <chris.p.wilson@intel.com>
 > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/intel_gt.c       | 1 +
->  drivers/gpu/drm/i915/gt/intel_gt_types.h | 3 +++
->  2 files changed, 4 insertions(+)
+>  drivers/gpu/drm/i915/i915_driver.c      | 26 +++++++++++++++++++++++++
+>  drivers/gpu/drm/i915/intel_runtime_pm.c |  3 +--
+>  2 files changed, 27 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index f33290358c51..7a535f670ae1 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -91,6 +91,7 @@ static int intel_gt_probe_lmem(struct intel_gt *gt)
->  	GEM_BUG_ON(!HAS_REGION(i915, id));
->  	GEM_BUG_ON(i915->mm.regions[id]);
->  	i915->mm.regions[id] = mem;
-> +	gt->lmem = mem;
->  
->  	return 0;
+> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+> index aa1fb15b1f11..fcff5f3fe05e 100644
+> --- a/drivers/gpu/drm/i915/i915_driver.c
+> +++ b/drivers/gpu/drm/i915/i915_driver.c
+> @@ -1557,6 +1557,31 @@ static int i915_pm_restore(struct device *kdev)
+>  	return i915_pm_resume(kdev);
 >  }
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> index df708802889d..cd7744eaaeaa 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> @@ -23,6 +23,7 @@
->  #include "intel_gt_buffer_pool_types.h"
->  #include "intel_hwconfig.h"
->  #include "intel_llc_types.h"
-> +#include "intel_memory_region.h"
+>  
+> +static int intel_runtime_idle(struct device *kdev)
+> +{
+> +	struct drm_i915_private *dev_priv = kdev_to_i915(kdev);
+> +	int ret = 1;
+> +
+> +	if (!HAS_LMEM_SR(dev_priv)) {
+> +		/*TODO: Prepare for D3Cold-Off */
+> +		goto out;
+> +	}
+> +
+> +	disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
+> +
+> +	ret = intel_pm_vram_sr(dev_priv, true);
+> +	if (!ret)
+> +		drm_dbg(&dev_priv->drm, "VRAM Self Refresh enabled\n");
 
-Please never add includes in headers when a forward declaration is
-sufficient. I'm spending a lot of time trying to reduce the include
-dependencies we have.
+Please add the debug in the intel_pm_vram_sr() function instead.
 
 BR,
 Jani.
 
->  #include "intel_reset_types.h"
->  #include "intel_rc6_types.h"
->  #include "intel_rps_types.h"
-> @@ -202,6 +203,8 @@ struct intel_gt {
->  	 */
->  	phys_addr_t phys_addr;
->  
-> +	struct intel_memory_region *lmem;
 > +
->  	struct intel_gt_info {
->  		unsigned int id;
+> +	enable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
+> +
+> +out:
+> +	pm_runtime_mark_last_busy(kdev);
+> +	pm_runtime_autosuspend(kdev);
+> +
+> +	return ret;
+> +}
+> +
+>  static int intel_runtime_suspend(struct device *kdev)
+>  {
+>  	struct drm_i915_private *dev_priv = kdev_to_i915(kdev);
+> @@ -1742,6 +1767,7 @@ const struct dev_pm_ops i915_pm_ops = {
+>  	.restore = i915_pm_restore,
+>  
+>  	/* S0ix (via runtime suspend) event handlers */
+> +	.runtime_idle = intel_runtime_idle,
+>  	.runtime_suspend = intel_runtime_suspend,
+>  	.runtime_resume = intel_runtime_resume,
+>  };
+> diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> index 6ed5786bcd29..4dade7e8a795 100644
+> --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
+> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> @@ -492,8 +492,7 @@ static void __intel_runtime_pm_put(struct intel_runtime_pm *rpm,
+>  
+>  	intel_runtime_pm_release(rpm, wakelock);
+>  
+> -	pm_runtime_mark_last_busy(kdev);
+> -	pm_runtime_put_autosuspend(kdev);
+> +	pm_runtime_put(kdev);
+>  }
+>  
+>  /**
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
