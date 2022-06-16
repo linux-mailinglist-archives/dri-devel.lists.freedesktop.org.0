@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09FA54E50B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 16:38:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 173E554E510
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 16:39:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D53F611269F;
-	Thu, 16 Jun 2022 14:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9217113A14;
+	Thu, 16 Jun 2022 14:39:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 061FC10FCC9;
- Thu, 16 Jun 2022 14:38:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655390330; x=1686926330;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=iT+la2QoJespFYf0wbEXD4w/fjReaiB/cT6q2svFVc0=;
- b=HVIWyhQGSg7XQVCdyha3x1ztTdriAU+2QyJgDXY2zq3iAuxDXg/ek9bZ
- o5cmYSXNgJZjgX/1agPnzoYRiIxyz8TAkMYAykb4mk3QpoqdOkeiITLcu
- 8lZCUCxsbfgwBEP6iUEle8X4Nce9nlElAfmmlSOh0wI+6Kki+d932T5xq
- Id1O95fg+HSMBr5T0KAyTFPDCIG1vQ067K/oE7iYmk+Pq1Bg3HqwiCh4J
- YfffwhjG/vgIsBqt6g3CGys77jI/JPdCKKdnXtJw9bRVlxqzeWuUIY7sD
- t8Zb0dDb8fF+S925Vezyf4Dl5uaJzfJSS8lMyXpbEaZeYDNc6gbLS8tR8 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="279319590"
-X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; d="scan'208";a="279319590"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 07:38:49 -0700
-X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; d="scan'208";a="912184023"
-Received: from mstokes1-mobl.ger.corp.intel.com (HELO [10.213.198.82])
- ([10.213.198.82])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 07:38:48 -0700
-Message-ID: <8d08e607-1299-05e5-a1e7-683087b3bd27@linux.intel.com>
-Date: Thu, 16 Jun 2022 15:38:45 +0100
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 649BB112E98
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 14:39:23 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ x6-20020a1c7c06000000b003972dfca96cso984878wmc.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 07:39:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=FEM1Uf5duJRx7g0l0kd4cIvvZ1+75a2y+0Eok25cSmM=;
+ b=O+MTudmHgt+i7rtSY2PXtqsNNlchKEJZaScaV8u7BZR01lV2AQ9m/ghcMlLr8A5J2v
+ 5w0eF0QqkXCbpLEo+f6Gpg2SmHkfwSmPnA8FOxvPptdflh1h31UuSr3FE10sNbXQGM+0
+ NXGiHkrhy8L0q29QulKvfEYSSRWSV0RFSBQMVb9+JrfzWlLUGmpW+ZPo7Mahg2cKsh5/
+ 5PDJCPTFis/5GP9x5JLD5yuYaI6EISEY55YJwyNwHonQoZLXMVeDPrXlS6aq6SDbdxPZ
+ YFf/ufuwMQSEWK980FaRoZntBeu4zN2eirl71xNyHNPqO3Sm5f70stoRnYFOXH0+0jGG
+ EIrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FEM1Uf5duJRx7g0l0kd4cIvvZ1+75a2y+0Eok25cSmM=;
+ b=qaljUGTigS9u/QujwCYLfz0sXPpFpgKqzf29nZry+2YDb9O5/XGjmgZNYmUveGH7rr
+ 5/BnrXtIIyzW43GxJfgUkChb9M0t3X5xgA782R5u0+16VqTNoFfpPOs/Ys3M8hyIDYkd
+ D8r3+duDurWySSzLK9EtsbDKOc4Mi9pfjICrW3Ce//enOk4lwL2jhBeS6veNQmlVgZhJ
+ Cfn+Ta+TYsNbHaRESBYeJhJJJ+tQakuS/u8i/eGwzuNWAIyIH06wJkMAXyjiBVDcgtv/
+ xmgzsvX6bTymqJ4kpo0g6brz+s1ord5pXtUFxQgIod1I9FK/Tnc+/FLdgVs68yflYz2n
+ R1Bw==
+X-Gm-Message-State: AJIora+oU3xCyRbrWxyuAzamikK2b6zX0Mo3ssYgU74iyHHDkXlhVSAn
+ nH8X8E4oOQEiuhpkeZkroEQMrTNPWjPQeiLZTq8xhg==
+X-Google-Smtp-Source: AGRyM1sQqeAEHeE4SPnRemtsjCPjUsThJLHHPx63FK6t+loyl6xOOqwQXqPAqnrX/PYD2sT7CQMZqCp+l9LF2xGMIuQ=
+X-Received: by 2002:a1c:6a16:0:b0:39c:655a:ac2c with SMTP id
+ f22-20020a1c6a16000000b0039c655aac2cmr5492500wmc.66.1655390361741; Thu, 16
+ Jun 2022 07:39:21 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [Intel-gfx] [PATCH v2 3/9] drm/i915/dg2: Add DG2_NB_MBD
- subplatform
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20220616120106.24353-1-anshuman.gupta@intel.com>
- <20220616120106.24353-4-anshuman.gupta@intel.com>
- <784a071a-02c4-6a8a-0022-7f833841057b@linux.intel.com>
- <874k0kwv6t.fsf@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <874k0kwv6t.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220608010709.272962-1-maira.canal@usp.br>
+In-Reply-To: <20220608010709.272962-1-maira.canal@usp.br>
+From: David Gow <davidgow@google.com>
+Date: Thu, 16 Jun 2022 22:39:10 +0800
+Message-ID: <CABVgOSmesj5MGfQrtdWCgXzm1VXRoG0fAMCbkBCAvtqediqAjQ@mail.gmail.com>
+Subject: Re: [RFC 0/3] drm/amd/display: Introduce KUnit to Display Mode Library
+To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,227 +65,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rodrigo.vivi@intel.com
+Cc: Harrison Chiu <harrison.chiu@amd.com>, Daniel Latypov <dlatypov@google.com>,
+ Brendan Higgins <brendanhiggins@google.com>, dri-devel@lists.freedesktop.org,
+ Isabella Basso <isabbasso@riseup.net>, andrealmeid@riseup.net,
+ Jun Lei <jun.lei@amd.com>, magalilemes00@gmail.com,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, amd-gfx@lists.freedesktop.org,
+ Leo Li <sunpeng.li@amd.com>, mwen@igalia.com,
+ Sean Paul <seanpaul@chromium.org>,
+ KUnit Development <kunit-dev@googlegroups.com>,
+ Mark Yacoub <markyacoub@chromium.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ Nicholas Choi <Nicholas.Choi@amd.com>, tales.aparecida@gmail.com,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jun 8, 2022 at 9:08 AM Ma=C3=ADra Canal <maira.canal@usp.br> wrote:
+>
+> This RFC is a preview of the work being developed by Isabella Basso [1],
+> Ma=C3=ADra Canal [2], and Tales Lelo [3], as part of their Google Summer =
+of Code
+> projects [4], and Magali Lemes [5], as part of her capstone project.
+>
+> Our main goal is to bring unit testing to the AMDPGU driver; in particula=
+r,
+> we'll focus on the Display Mode Library (DML) for DCN2.0 and some of the =
+DCE
+> functions. The modern AMD Linux kernel graphics driver is the single larg=
+est
+> driver in the mainline Linux codebase [6]. As AMD releases new GPU models=
+,
+> the size of AMDGPU drivers is only becoming even larger.
+>
+> Assuring the drivers' quality and reliability becomes a complex task with=
+out
+> systematic testing, especially for graphic drivers - which usually involv=
+e
+> tons of complex calculations. Also, keeping bugs away becomes an increasi=
+ngly
+> hard task with the introduction of new code. Moreover, developers might w=
+ant
+> to refactor old code without fear of the introduction of new issues.
+>
+> In that sense, it is possible to argue for the benefits of implementing u=
+nit
+> testing at the AMDGPU drivers. This implementation will help developers t=
+o
+> recognize bugs before they are merged into the mainline and also makes it
+> possible for future code refactors of the AMDGPU driver.
+>
+> When analyzing the AMDGPU driver, a particular part of the driver highlig=
+hts
+> itself as a good candidate for the implementation of unit tests: the Disp=
+lay
+> Mode Library (DML), as it is focused on mathematical operations.
+>
+> For the implementation of the tests, we decided to go with the Kernel Uni=
+t
+> Testing Framework (KUnit). KUnit makes it possible to run test suites on
+> kernel boot or load the tests as a module. It reports all test case resul=
+ts
+> through a TAP (Test Anything Protocol) in the kernel log.
+>
+> Moreover, KUnit unifies the test structure and provides tools to simplify=
+ the
+> testing for developers and CI systems.
+>
+> That said, we developed a little snippet on what we intend to develop in =
+our
+> summer. We planned the basic structure on how the tests will be introduce=
+d
+> into the codebase and, on the concern of the CI systems, developed a stru=
+cture
+> where the unit tests can be introduced as modules and run on IGT (the IGT=
+ patch
+> will be introduced soon).
 
-On 16/06/2022 15:15, Jani Nikula wrote:
-> On Thu, 16 Jun 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->> On 16/06/2022 13:01, Anshuman Gupta wrote:
->>> DG2 NB SKU need to distinguish between MBD and AIC to probe
->>> the VRAM Self Refresh feature support. Adding those sub platform
->>> accordingly.
->>>
->>> Cc: Matt Roper <matthew.d.roper@intel.com>
->>> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
->>> ---
->>>    drivers/gpu/drm/i915/i915_drv.h          |  3 +++
->>>    drivers/gpu/drm/i915/intel_device_info.c | 21 +++++++++++++++++++++
->>>    drivers/gpu/drm/i915/intel_device_info.h | 11 +++++++----
->>>    include/drm/i915_pciids.h                | 23 ++++++++++++++++-------
->>>    4 files changed, 47 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
->>> index a5bc6a774c5a..f1f8699eedfd 100644
->>> --- a/drivers/gpu/drm/i915/i915_drv.h
->>> +++ b/drivers/gpu/drm/i915/i915_drv.h
->>> @@ -1007,10 +1007,13 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->>>    #define IS_PONTEVECCHIO(dev_priv) IS_PLATFORM(dev_priv, INTEL_PONTEVECCHIO)
->>>    
->>>    #define IS_DG2_G10(dev_priv) \
->>> +	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G10_NB_MBD) || \
->>>    	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G10)
->>>    #define IS_DG2_G11(dev_priv) \
->>> +	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G11_NB_MBD) || \
->>>    	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G11)
->>>    #define IS_DG2_G12(dev_priv) \
->>> +	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G12_NB_MBD) || \
->>>    	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G12)
->>>    #define IS_ADLS_RPLS(dev_priv) \
->>>    	IS_SUBPLATFORM(dev_priv, INTEL_ALDERLAKE_S, INTEL_SUBPLATFORM_RPL)
->>> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
->>> index f0bf23726ed8..93da555adc4e 100644
->>> --- a/drivers/gpu/drm/i915/intel_device_info.c
->>> +++ b/drivers/gpu/drm/i915/intel_device_info.c
->>> @@ -187,6 +187,18 @@ static const u16 subplatform_rpl_ids[] = {
->>>    	INTEL_RPLP_IDS(0),
->>>    };
->>>    
->>> +static const u16 subplatform_g10_mb_mbd_ids[] = {
->>> +	INTEL_DG2_G10_NB_MBD_IDS(0),
->>> +};
->>> +
->>> +static const u16 subplatform_g11_mb_mbd_ids[] = {
->>> +	INTEL_DG2_G11_NB_MBD_IDS(0),
->>> +};
->>> +
->>> +static const u16 subplatform_g12_mb_mbd_ids[] = {
->>> +	INTEL_DG2_G12_NB_MBD_IDS(0),
->>> +};
->>> +
->>>    static const u16 subplatform_g10_ids[] = {
->>>    	INTEL_DG2_G10_IDS(0),
->>>    	INTEL_ATS_M150_IDS(0),
->>> @@ -246,6 +258,15 @@ void intel_device_info_subplatform_init(struct drm_i915_private *i915)
->>>    	} else if (find_devid(devid, subplatform_rpl_ids,
->>>    			      ARRAY_SIZE(subplatform_rpl_ids))) {
->>>    		mask = BIT(INTEL_SUBPLATFORM_RPL);
->>> +	} else if (find_devid(devid, subplatform_g10_mb_mbd_ids,
->>> +			      ARRAY_SIZE(subplatform_g10_mb_mbd_ids))) {
->>> +		mask = BIT(INTEL_SUBPLATFORM_G10_NB_MBD);
->>> +	} else if (find_devid(devid, subplatform_g11_mb_mbd_ids,
->>> +			      ARRAY_SIZE(subplatform_g11_mb_mbd_ids))) {
->>> +		mask = BIT(INTEL_SUBPLATFORM_G11_NB_MBD);
->>> +	} else if (find_devid(devid, subplatform_g12_mb_mbd_ids,
->>> +			      ARRAY_SIZE(subplatform_g12_mb_mbd_ids))) {
->>> +		mask = BIT(INTEL_SUBPLATFORM_G12_NB_MBD);
->>>    	} else if (find_devid(devid, subplatform_g10_ids,
->>>    			      ARRAY_SIZE(subplatform_g10_ids))) {
->>>    		mask = BIT(INTEL_SUBPLATFORM_G10);
->>> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
->>> index 08341174ee0a..c929e2d7e59c 100644
->>> --- a/drivers/gpu/drm/i915/intel_device_info.h
->>> +++ b/drivers/gpu/drm/i915/intel_device_info.h
->>> @@ -97,7 +97,7 @@ enum intel_platform {
->>>     * it is fine for the same bit to be used on multiple parent platforms.
->>>     */
->>>    
->>> -#define INTEL_SUBPLATFORM_BITS (3)
->>> +#define INTEL_SUBPLATFORM_BITS (6)
->>>    #define INTEL_SUBPLATFORM_MASK (BIT(INTEL_SUBPLATFORM_BITS) - 1)
->>>    
->>>    /* HSW/BDW/SKL/KBL/CFL */
->>> @@ -111,9 +111,12 @@ enum intel_platform {
->>>    #define INTEL_SUBPLATFORM_UY	(0)
->>>    
->>>    /* DG2 */
->>> -#define INTEL_SUBPLATFORM_G10	0
->>> -#define INTEL_SUBPLATFORM_G11	1
->>> -#define INTEL_SUBPLATFORM_G12	2
->>> +#define INTEL_SUBPLATFORM_G10_NB_MBD	0
->>> +#define INTEL_SUBPLATFORM_G11_NB_MBD	1
->>> +#define INTEL_SUBPLATFORM_G12_NB_MBD	2
->>> +#define INTEL_SUBPLATFORM_G10	3
->>> +#define INTEL_SUBPLATFORM_G11	4
->>> +#define INTEL_SUBPLATFORM_G12	5
->>
->> Ugh I feel this "breaks" the subplatform idea.. feels like it is just
->> too many bits when two separate sets of information get tracked (Gxx
->> plus MBD).
-> 
-> I think they could be specified independent of each other, though. The
-> subplatform if-else ladder would have to be replaced with independent
-> ifs. You'd have the G10/G11/G12 and 1 bit separately for MBD.
-> 
-> Only the macros for PCI IDs need to be separate (MBD vs not). You'll
-> then have:
-> 
-> static const u16 subplatform_g10_ids[] = {
-> 	INTEL_DG2_G10_IDS(0),
-> 	INTEL_DG2_G10_NB_MBD_IDS(0),
-> 	INTEL_ATS_M150_IDS(0),
-> };
-> 
-> Ditto for g11 and g12, and separately:
-> 
-> static const u16 subplatform_mbd_ids[] = {
-> 	INTEL_DG2_G10_NB_MBD_IDS(0),
-> 	INTEL_DG2_G11_NB_MBD_IDS(0),
-> 	INTEL_DG2_G12_NB_MBD_IDS(0),
-> };
-> 
-> The IS_DG2_G10() etc. macros would remain unchanged. IS_DG2_MBD() would
-> only be IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_MBD).
-> 
-> Main point is, a platform could belong to multiple independent
-> subplatforms.
-> 
-> Unless I'm missing something. ;)
-> 
->> How about a separate "is_mbd" flag in runtime_info? You can split the
->> PCI IDs split as you have done, but do a search against the MBD ones and
->> set the flag.
-> 
-> What I dislike about this is that it's really not *runtime* info in any
-> sense, and it adds another way to define platform features. And we
-> already have too many.
+It's awesome to see this! It's definitely one of the more ambitious
+KUnit test projects out there, and the DML code does seem particularly
+well suited to unit-testings.
 
-I was reluctant to suggest extending usage of subplatform bits in this 
-way but it would be acceptable. My reservation/uncertainty was whether 
-MBP is a "proper" subplatform. I see it's separate PCI IDs and even 
-separate HW features, as seen in this series, but wasn't sure. Anyway, 
-your proposal works for me. Better 4 bits than 6 so as much as possible 
-remain for platform bits.
+> The way the modules are implemented might seem a little unusual for KUnit
+> developers. We need to call the KUnit init function inside the AMDGPU sta=
+ck,
+> otherwise, the test won't compile as a module. So, the solution to this
+> problem was based on the unit tests for the Thunderbolt driver, which use=
+s
+> KUnit and also tests a physical driver.
+>
+> As kunit_test_suites() defines itself as an init_module(), it conflicts w=
+ith
+> the existing one at amdgpu_drv. So, if we use kunit_test_suites(), we won=
+'t
+> be able to compile the tests as modules and, therefore, won't be able to =
+use
+> IGT to run the tests. This problem with kunit_test_suites() was already
+> discussed in the KUnit mailing list, as can be seen in [7].
 
-Regards,
+I'm not sure I fully understand why these tests need to be part of the
+amdgpu module, though admittedly I've not played with IGT much. Would
+it be possible to compile these tests as separate modules, which could
+depend on amdgpu (or maybe include the DML stuff directly), and
+therefore not have this conflict? I definitely was able to get these
+tests working under kunit_tool (albeit as built-ins) by using
+kunit_test_suites(). If each suite were built as a separate module (or
+indeed, even if all the tests were in one module, with one list of
+suites), then it should be possible to avoid the init_module()
+conflict. That'd also make it possible to run these tests without
+actually needing the driver to initialise, which seems like it might
+require actual hardware(?)
 
-Tvrtko
+There are two other reasons the 'thunderbolt'-style technique is one
+we want to avoid:
+1. It makes it much more difficult to run tests using kunit_tool and
+KUnit-based CI tools: these tests would not run automatically, and if
+they were built-in as-is, they'd need to be
+2. We're planning to improve module support to replace the
+init_module()-based implementation of kunit_test_suites() with one
+which won't have these conflicts, so the need for this should be
+short-lived.
 
-> 
-> BR,
-> Jani.
-> 
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>    
->>>    /* ADL */
->>>    #define INTEL_SUBPLATFORM_RPL	0
->>> diff --git a/include/drm/i915_pciids.h b/include/drm/i915_pciids.h
->>> index 4585fed4e41e..198be417bb2d 100644
->>> --- a/include/drm/i915_pciids.h
->>> +++ b/include/drm/i915_pciids.h
->>> @@ -693,32 +693,41 @@
->>>    	INTEL_VGA_DEVICE(0xA7A9, info)
->>>    
->>>    /* DG2 */
->>> -#define INTEL_DG2_G10_IDS(info) \
->>> +#define INTEL_DG2_G10_NB_MBD_IDS(info) \
->>>    	INTEL_VGA_DEVICE(0x5690, info), \
->>>    	INTEL_VGA_DEVICE(0x5691, info), \
->>> -	INTEL_VGA_DEVICE(0x5692, info), \
->>> +	INTEL_VGA_DEVICE(0x5692, info)
->>> +
->>> +#define INTEL_DG2_G11_NB_MBD_IDS(info) \
->>> +	INTEL_VGA_DEVICE(0x5693, info), \
->>> +	INTEL_VGA_DEVICE(0x5694, info), \
->>> +	INTEL_VGA_DEVICE(0x5695, info)
->>> +
->>> +#define INTEL_DG2_G12_NB_MBD_IDS(info) \
->>> +	INTEL_VGA_DEVICE(0x5696, info), \
->>> +	INTEL_VGA_DEVICE(0x5697, info)
->>> +
->>> +#define INTEL_DG2_G10_IDS(info) \
->>>    	INTEL_VGA_DEVICE(0x56A0, info), \
->>>    	INTEL_VGA_DEVICE(0x56A1, info), \
->>>    	INTEL_VGA_DEVICE(0x56A2, info)
->>>    
->>>    #define INTEL_DG2_G11_IDS(info) \
->>> -	INTEL_VGA_DEVICE(0x5693, info), \
->>> -	INTEL_VGA_DEVICE(0x5694, info), \
->>> -	INTEL_VGA_DEVICE(0x5695, info), \
->>>    	INTEL_VGA_DEVICE(0x56A5, info), \
->>>    	INTEL_VGA_DEVICE(0x56A6, info), \
->>>    	INTEL_VGA_DEVICE(0x56B0, info), \
->>>    	INTEL_VGA_DEVICE(0x56B1, info)
->>>    
->>>    #define INTEL_DG2_G12_IDS(info) \
->>> -	INTEL_VGA_DEVICE(0x5696, info), \
->>> -	INTEL_VGA_DEVICE(0x5697, info), \
->>>    	INTEL_VGA_DEVICE(0x56A3, info), \
->>>    	INTEL_VGA_DEVICE(0x56A4, info), \
->>>    	INTEL_VGA_DEVICE(0x56B2, info), \
->>>    	INTEL_VGA_DEVICE(0x56B3, info)
->>>    
->>>    #define INTEL_DG2_IDS(info) \
->>> +	INTEL_DG2_G10_NB_MBD_IDS(info), \
->>> +	INTEL_DG2_G11_NB_MBD_IDS(info), \
->>> +	INTEL_DG2_G12_NB_MBD_IDS(info), \
->>>    	INTEL_DG2_G10_IDS(info), \
->>>    	INTEL_DG2_G11_IDS(info), \
->>>    	INTEL_DG2_G12_IDS(info)
-> 
+If you're curious, an early version of the improved module support can
+be found here, though it's out-of-date enough it won't apply or work
+as-is:
+https://lore.kernel.org/all/101d12fc9250b7a445ff50a9e7a25cd74d0e16eb.camel@=
+codeconstruct.com.au/
+
+Now, that's unlikely to be ready very soon, but I'd be hesitant to
+implement too extensive a system for avoiding kunit_test_suites()
+given at some point it should work and we'll need to migrate back to
+it.
+
+At the very least, having the dependency on KUNIT=3Dm is a very bad
+idea: it should be possible to have tests built as modules, even if
+KUnit itself isn't, and ideally (even if this sort-of implementation
+is required), it _should_ be possible to have these tests be built-in
+if all their dependencies (KUnit, amdgpu) are, which would make it
+possible to run the tests without a userland.
+
+That being said, I've got basically no knowledge of amdgpu (or even
+drm in general), so there could be something I'm missing.
+
+>
+> The first patch configures the basic structure of the KUnit Tests, settin=
+g the
+> proper Makefile, Kconfig, and init function. It also contains a simple te=
+st
+> involving DML logging, which is the pretext for building the testing stru=
+cture.
+>
+> The second patch adds KUnit tests to bw_fixed functions. This patch repre=
+sents
+> what we intend to do on the rest of the DML modules: systematic testing o=
+f the
+> public functions of the DML, especially mathematically complicated functi=
+ons.
+> Also, it shows how simple it is to add new tests to the DML with the stru=
+cture
+> we built.
+>
+> Any feedback or ideas for the project are welcome!
+>
+Looks great to me so far: I'll try to get a more detailed review in soon.
+
+Cheers,
+-- David
+
+> [1] https://crosscat.me
+> [2] https://mairacanal.github.io
+> [3] https://tales-aparecida.github.io/
+> [4] https://summerofcode.withgoogle.com/programs/2022/organizations/xorg-=
+foundation
+> [5] https://magalilemes.github.io/
+> [6] https://www.phoronix.com/scan.php?page=3Dnews_item&px=3DAMDGPU-Closin=
+g-4-Million
+> [7] https://groups.google.com/g/kunit-dev/c/hbJbh8L37FU/m/EmszZE9qBAAJ
+>
+> - Isabella Basso, Magali Lemes, Ma=C3=ADra Canal, and Tales Lelo
+>
+> Magali Lemes (1):
+>   drm/amd/display: Introduce KUnit tests to the bw_fixed library
+>
+> Ma=C3=ADra Canal (2):
+>   drm/amd/display: Introduce KUnit to DML
+>   drm/amd/display: Move bw_fixed macros to header file
+>
+>  drivers/gpu/drm/amd/display/Kconfig           |   1 +
+>  .../gpu/drm/amd/display/amdgpu_dm/Makefile    |   5 +
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   3 +
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   3 +
+>  .../drm/amd/display/amdgpu_dm/tests/Kconfig   |  41 +++
+>  .../drm/amd/display/amdgpu_dm/tests/Makefile  |  18 +
+>  .../amdgpu_dm/tests/calcs/bw_fixed_test.c     | 322 ++++++++++++++++++
+>  .../amdgpu_dm/tests/display_mode_lib_test.c   |  83 +++++
+>  .../amd/display/amdgpu_dm/tests/dml_test.c    |  26 ++
+>  .../amd/display/amdgpu_dm/tests/dml_test.h    |  21 ++
+>  .../drm/amd/display/dc/dml/calcs/bw_fixed.c   |  14 +-
+>  drivers/gpu/drm/amd/display/dc/inc/bw_fixed.h |  14 +
+>  12 files changed, 538 insertions(+), 13 deletions(-)
+>  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/tests/Kconfig
+>  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/tests/Makefile
+>  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/tests/calcs/bw_=
+fixed_test.c
+>  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/tests/display_m=
+ode_lib_test.c
+>  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/tests/dml_test.=
+c
+>  create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/tests/dml_test.=
+h
+>
+> --
+> 2.36.1
+>
