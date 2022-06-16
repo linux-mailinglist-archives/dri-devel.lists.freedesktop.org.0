@@ -2,34 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3995354E72D
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 18:28:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807C054E721
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 18:27:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33C4E11A5A9;
-	Thu, 16 Jun 2022 16:26:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D7EF11A57C;
+	Thu, 16 Jun 2022 16:26:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1250 seconds by postgrey-1.36 at gabe;
- Thu, 16 Jun 2022 14:55:42 UTC
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
  [67.231.149.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35AF411A449
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 14:55:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC80311A46C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 14:56:03 +0000 (UTC)
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
- by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GC07C6027888;
+ by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GC07C7027888;
  Thu, 16 Jun 2022 09:34:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=7CFQF1uFAN//bgNV90FI/dawvD8nMJvY6YyL1sfuCCA=;
- b=ePnypGaimYdu2/E8otHOHksaSwEI5tFkGl6y5Fq3xzm+ht5yAmsKe9zYayduWqH2l84m
- +uSblyGRlCsz1UswsGo1JJRZIA/9cg6MImFz80nZWQQ/Rmi/houUjEOK9YPO16Twbwi7
- cgBX7LywrKgY+drQ32+vFhYGlROm0xP2UyMNV/CKGDBzpWE3bYcV0I+qg+vsUATkgh6N
- 7M27SS2klufV+yIfqrkp1Y6TOwlri2kJEX6XJS4bNKvEbVVFK5T7MsftYcvWdsmBsb+5
- rTd6ciptBkUWMy5ll2o0Th4aohIInfJTIAvFb3GNfGKQRIrrxt8A3RWBU1/H8Vk8sa5R Hw== 
+ bh=qFSgNYX1ptHx3ipGzxboQwtB9TZr5xpVdo+hP8vZjJM=;
+ b=bI93gPFnjtQOblJffv1qBNNfBAGpvM//qhi9qYzU6YkSpd59ggwddCGSOPgArh+WV07I
+ GFl+lAqmaAe/nDNGnaf/XcgjX5n9x8OIbp7K19IGdjRbrk+BDj4zUfN5IVMAc2xbDrst
+ isnMjKWzX2BMb0YKd7PMStXHIeHif2mNa+PMwkcj63S0ThxC/7SbXrnZOAgS1MeYo/Zm
+ haPlfemYW9T4SaB39lxkxsrBZiyDkXyz7tUJyngQYSGRbzvDQa9tWYrkvBPZp6GSZsbH
+ jtyE2+kC7ZgtLKRRJk6G+zwuNO16tpnGeFjIqRWfZQDqQ9TKb2EHHb4SbS6q+Ha5r6r/ 7g== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
- by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gmrf35vuu-3
+ by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gmrf35vuu-4
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
  Thu, 16 Jun 2022 09:34:34 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
@@ -40,24 +38,23 @@ Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
  Frontend Transport; Thu, 16 Jun 2022 15:34:30 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 7E197478;
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 89F00468;
  Thu, 16 Jun 2022 14:34:30 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH 07/96] ASoC: ep93xx: Migrate to new style legacy DAI naming
- flag
-Date: Thu, 16 Jun 2022 15:33:00 +0100
-Message-ID: <20220616143429.1324494-8-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 08/96] ASoC: stm32: Migrate to new style legacy DAI naming flag
+Date: Thu, 16 Jun 2022 15:33:01 +0100
+Message-ID: <20220616143429.1324494-9-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: m1riLdFR0JRu_RIVN-zzoYOQGXWc_1Al
-X-Proofpoint-ORIG-GUID: m1riLdFR0JRu_RIVN-zzoYOQGXWc_1Al
+X-Proofpoint-GUID: IbrsgpRBPrn8x9_fKU5s8xBmx29OGaCy
+X-Proofpoint-ORIG-GUID: IbrsgpRBPrn8x9_fKU5s8xBmx29OGaCy
 X-Proofpoint-Spam-Reason: safe
-X-Mailman-Approved-At: Thu, 16 Jun 2022 16:26:00 +0000
+X-Mailman-Approved-At: Thu, 16 Jun 2022 16:26:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,42 +89,60 @@ currently uses the legacy naming, so add the new flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/cirrus/ep93xx-ac97.c | 3 ++-
- sound/soc/cirrus/ep93xx-i2s.c  | 7 ++++---
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ sound/soc/stm/stm32_adfsdm.c  | 1 +
+ sound/soc/stm/stm32_i2s.c     | 1 +
+ sound/soc/stm/stm32_sai_sub.c | 1 +
+ sound/soc/stm/stm32_spdifrx.c | 1 +
+ 4 files changed, 4 insertions(+)
 
-diff --git a/sound/soc/cirrus/ep93xx-ac97.c b/sound/soc/cirrus/ep93xx-ac97.c
-index 16f9bb283b5cb..37593abe60532 100644
---- a/sound/soc/cirrus/ep93xx-ac97.c
-+++ b/sound/soc/cirrus/ep93xx-ac97.c
-@@ -355,7 +355,8 @@ static struct snd_soc_dai_driver ep93xx_ac97_dai = {
+diff --git a/sound/soc/stm/stm32_adfsdm.c b/sound/soc/stm/stm32_adfsdm.c
+index 122805160e70b..04f2912e14181 100644
+--- a/sound/soc/stm/stm32_adfsdm.c
++++ b/sound/soc/stm/stm32_adfsdm.c
+@@ -149,6 +149,7 @@ static const struct snd_soc_dai_driver stm32_adfsdm_dai = {
+ 
+ static const struct snd_soc_component_driver stm32_adfsdm_dai_component = {
+ 	.name = "stm32_dfsdm_audio",
++	.legacy_dai_naming = 1,
  };
  
- static const struct snd_soc_component_driver ep93xx_ac97_component = {
--	.name		= "ep93xx-ac97",
-+	.name			= "ep93xx-ac97",
-+	.legacy_dai_naming	= 1,
+ static void stm32_memcpy_32to16(void *dest, const void *src, size_t n)
+diff --git a/sound/soc/stm/stm32_i2s.c b/sound/soc/stm/stm32_i2s.c
+index 32d885f84a922..6aafe793eec44 100644
+--- a/sound/soc/stm/stm32_i2s.c
++++ b/sound/soc/stm/stm32_i2s.c
+@@ -978,6 +978,7 @@ static const struct snd_dmaengine_pcm_config stm32_i2s_pcm_config = {
+ 
+ static const struct snd_soc_component_driver stm32_i2s_component = {
+ 	.name = "stm32-i2s",
++	.legacy_dai_naming = 1,
  };
  
- static int ep93xx_ac97_probe(struct platform_device *pdev)
-diff --git a/sound/soc/cirrus/ep93xx-i2s.c b/sound/soc/cirrus/ep93xx-i2s.c
-index 47959794353a7..982151330c896 100644
---- a/sound/soc/cirrus/ep93xx-i2s.c
-+++ b/sound/soc/cirrus/ep93xx-i2s.c
-@@ -422,9 +422,10 @@ static struct snd_soc_dai_driver ep93xx_i2s_dai = {
+ static void stm32_i2s_dai_init(struct snd_soc_pcm_stream *stream,
+diff --git a/sound/soc/stm/stm32_sai_sub.c b/sound/soc/stm/stm32_sai_sub.c
+index 03cc6d12d18bb..eb31b49e65978 100644
+--- a/sound/soc/stm/stm32_sai_sub.c
++++ b/sound/soc/stm/stm32_sai_sub.c
+@@ -1336,6 +1336,7 @@ static const struct snd_dmaengine_pcm_config stm32_sai_pcm_config_spdif = {
+ 
+ static const struct snd_soc_component_driver stm32_component = {
+ 	.name = "stm32-sai",
++	.legacy_dai_naming = 1,
  };
  
- static const struct snd_soc_component_driver ep93xx_i2s_component = {
--	.name		= "ep93xx-i2s",
--	.suspend	= ep93xx_i2s_suspend,
--	.resume		= ep93xx_i2s_resume,
-+	.name			= "ep93xx-i2s",
-+	.suspend		= ep93xx_i2s_suspend,
-+	.resume			= ep93xx_i2s_resume,
-+	.legacy_dai_naming	= 1,
+ static const struct of_device_id stm32_sai_sub_ids[] = {
+diff --git a/sound/soc/stm/stm32_spdifrx.c b/sound/soc/stm/stm32_spdifrx.c
+index 6f7882c4fe6ad..0f71467567176 100644
+--- a/sound/soc/stm/stm32_spdifrx.c
++++ b/sound/soc/stm/stm32_spdifrx.c
+@@ -888,6 +888,7 @@ static const struct snd_pcm_hardware stm32_spdifrx_pcm_hw = {
+ 
+ static const struct snd_soc_component_driver stm32_spdifrx_component = {
+ 	.name = "stm32-spdifrx",
++	.legacy_dai_naming = 1,
  };
  
- static int ep93xx_i2s_probe(struct platform_device *pdev)
+ static const struct snd_dmaengine_pcm_config stm32_spdifrx_pcm_config = {
 -- 
 2.30.2
 
