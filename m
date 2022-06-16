@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955C854E899
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 19:25:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F2854E89A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 19:25:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71AD310E204;
-	Thu, 16 Jun 2022 17:25:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5E1C10EC37;
+	Thu, 16 Jun 2022 17:25:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 3.mo550.mail-out.ovh.net (3.mo550.mail-out.ovh.net
- [46.105.60.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA90010E204
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 17:25:38 +0000 (UTC)
-Received: from player715.ha.ovh.net (unknown [10.111.172.70])
- by mo550.mail-out.ovh.net (Postfix) with ESMTP id 2999F24C85
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 17:25:37 +0000 (UTC)
+Received: from 1.mo560.mail-out.ovh.net (1.mo560.mail-out.ovh.net
+ [46.105.63.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27E3F10E98C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 17:25:49 +0000 (UTC)
+Received: from player715.ha.ovh.net (unknown [10.109.146.240])
+ by mo560.mail-out.ovh.net (Postfix) with ESMTP id 87A002504C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 17:25:47 +0000 (UTC)
 Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
  (Authenticated sender: steve@sk2.org)
- by player715.ha.ovh.net (Postfix) with ESMTPSA id 6E97C2B80DB35;
- Thu, 16 Jun 2022 17:25:27 +0000 (UTC)
+ by player715.ha.ovh.net (Postfix) with ESMTPSA id 7183B2B80DB79;
+ Thu, 16 Jun 2022 17:25:37 +0000 (UTC)
 Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003daa04ea3-487e-4441-a761-bef3e850f424,
+ (GARM-100R003b60a427b-fa1c-499e-9478-618c9dcb0ba6,
  EEA695ED62D0B30D35F9F30395731DD21189161B) smtp.auth=steve@sk2.org
 X-OVh-ClientIp: 82.65.25.201
 From: Stephen Kitt <steve@sk2.org>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v2 2/3] drm/panel: panel-dsi-cm: Use backlight helpers
-Date: Thu, 16 Jun 2022 19:23:14 +0200
-Message-Id: <20220616172316.1355133-3-steve@sk2.org>
+Subject: [PATCH v2 3/3] drm/panel: sony-acx565akm: Use backlight helpers
+Date: Thu, 16 Jun 2022 19:23:15 +0200
+Message-Id: <20220616172316.1355133-4-steve@sk2.org>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 7462746059164321499
+X-Ovh-Tracer-Id: 7465560809102542555
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddvfedguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeelgeetueejffejfeejvefhtddufeejgfetleegtddukeelieelvddvteduveejtdenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejudehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehhedt
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedruddvfedguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeelgeetueejffejfeejvefhtddufeejgfetleegtddukeelieelvddvteduveejtdenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejudehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdfovfetjfhoshhtpehmohehiedt
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,10 +60,13 @@ backlight_properties manually, and then checking whether the backlight
 should be on at all, use backlight_get_brightness() which does all
 this and insulates this from future changes.
 
-Instead of setting the power state by manually updating fields in
-struct backlight_properties, use backlight_enable() and
-backlight_disable(). These also call backlight_update_status() so the
-separate call is no longer needed.
+Instead of manually checking the power state in struct
+backlight_properties, use backlight_is_blank().
+
+While we're at it, drop .fb_blank from the initialisation function; it
+is deprecated, and this helps make progress towards enabling its
+removal. This change makes no functional difference since
+FB_BLANK_UNBLANK is the default value.
 
 Signed-off-by: Stephen Kitt <steve@sk2.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>
@@ -72,65 +75,48 @@ Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
 ---
-Changes since v1: removed unnecessary parentheses
+Changes since v1: removed the last remaining .fb_blank reference
 ---
- drivers/gpu/drm/panel/panel-dsi-cm.c | 29 ++++++----------------------
- 1 file changed, 6 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/panel/panel-sony-acx565akm.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c b/drivers/gpu/drm/panel/panel-dsi-cm.c
-index b58cb064975f..b0213a518f9d 100644
---- a/drivers/gpu/drm/panel/panel-dsi-cm.c
-+++ b/drivers/gpu/drm/panel/panel-dsi-cm.c
-@@ -85,17 +85,10 @@ static void dsicm_bl_power(struct panel_drv_data *ddata, bool enable)
- 	else
- 		return;
- 
--	if (enable) {
--		backlight->props.fb_blank = FB_BLANK_UNBLANK;
--		backlight->props.state = ~(BL_CORE_FBBLANK | BL_CORE_SUSPENDED);
--		backlight->props.power = FB_BLANK_UNBLANK;
--	} else {
--		backlight->props.fb_blank = FB_BLANK_NORMAL;
--		backlight->props.power = FB_BLANK_POWERDOWN;
--		backlight->props.state |= BL_CORE_FBBLANK | BL_CORE_SUSPENDED;
--	}
--
--	backlight_update_status(backlight);
-+	if (enable)
-+		backlight_enable(backlight);
-+	else
-+		backlight_disable(backlight);
- }
- 
- static void hw_guard_start(struct panel_drv_data *ddata, int guard_msec)
-@@ -196,13 +189,7 @@ static int dsicm_bl_update_status(struct backlight_device *dev)
+diff --git a/drivers/gpu/drm/panel/panel-sony-acx565akm.c b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+index 0d7541a33f87..3d6a286056a0 100644
+--- a/drivers/gpu/drm/panel/panel-sony-acx565akm.c
++++ b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+@@ -298,13 +298,7 @@ static void acx565akm_set_brightness(struct acx565akm_panel *lcd, int level)
+ static int acx565akm_bl_update_status_locked(struct backlight_device *dev)
  {
- 	struct panel_drv_data *ddata = dev_get_drvdata(&dev->dev);
- 	int r = 0;
+ 	struct acx565akm_panel *lcd = dev_get_drvdata(&dev->dev);
 -	int level;
 -
 -	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
--			dev->props.power == FB_BLANK_UNBLANK)
+-	    dev->props.power == FB_BLANK_UNBLANK)
 -		level = dev->props.brightness;
 -	else
 -		level = 0;
 +	int level = backlight_get_brightness(dev);
  
- 	dev_dbg(&ddata->dsi->dev, "update brightness to %d\n", level);
+ 	acx565akm_set_brightness(lcd, level);
  
-@@ -219,11 +206,7 @@ static int dsicm_bl_update_status(struct backlight_device *dev)
+@@ -330,8 +324,7 @@ static int acx565akm_bl_get_intensity(struct backlight_device *dev)
  
- static int dsicm_bl_get_intensity(struct backlight_device *dev)
- {
+ 	mutex_lock(&lcd->mutex);
+ 
 -	if (dev->props.fb_blank == FB_BLANK_UNBLANK &&
--			dev->props.power == FB_BLANK_UNBLANK)
--		return dev->props.brightness;
--
--	return 0;
-+	return backlight_get_brightness(dev);
- }
- 
- static const struct backlight_ops dsicm_bl_ops = {
+-	    dev->props.power == FB_BLANK_UNBLANK)
++	if (!backlight_is_blank(dev))
+ 		intensity = acx565akm_get_actual_brightness(lcd);
+ 	else
+ 		intensity = 0;
+@@ -349,7 +342,6 @@ static const struct backlight_ops acx565akm_bl_ops = {
+ static int acx565akm_backlight_init(struct acx565akm_panel *lcd)
+ {
+ 	struct backlight_properties props = {
+-		.fb_blank = FB_BLANK_UNBLANK,
+ 		.power = FB_BLANK_UNBLANK,
+ 		.type = BACKLIGHT_RAW,
+ 	};
 -- 
 2.30.2
 
