@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882D854DF20
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 12:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309A254DF33
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 12:36:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97903113FE5;
-	Thu, 16 Jun 2022 10:31:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B89711A07A;
+	Thu, 16 Jun 2022 10:36:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C94A113FE5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 10:31:40 +0000 (UTC)
-X-UUID: f86f6d208259408db24098e161addd45-20220616
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3276011A07A
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 10:36:45 +0000 (UTC)
+X-UUID: f64867246d454b2ea8a3edf5c0c17e71-20220616
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:a9c58cc1-131c-476c-921a-9e04cf1d6f19, OB:0,
+X-CID-O-INFO: VERSION:1.1.6, REQID:b5e36c6b-1f88-4956-9cce-bdbd5923cc85, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:0
-X-CID-META: VersionHash:b14ad71, CLOUDID:7ec57bf6-e099-41ba-a32c-13b8bfe63214,
+X-CID-META: VersionHash:b14ad71, CLOUDID:0f47bf48-4c92-421c-ad91-b806c0f58b2a,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
  ,QS:nil,BEC:nil,COL:0
-X-UUID: f86f6d208259408db24098e161addd45-20220616
+X-UUID: f64867246d454b2ea8a3edf5c0c17e71-20220616
 Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
  mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 473049511; Thu, 16 Jun 2022 18:31:35 +0800
+ with ESMTP id 1702781592; Thu, 16 Jun 2022 18:36:38 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Thu, 16 Jun 2022 18:31:34 +0800
+ Thu, 16 Jun 2022 18:36:37 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Thu, 16 Jun 2022 18:31:34 +0800
-Message-ID: <941ba5399e3cc9b25474d76d15d2bb5bafaa14b1.camel@mediatek.com>
-Subject: Re: [PATCH v11 02/12] drm/mediatek: dpi: move dpi limits to SoC config
+ Transport; Thu, 16 Jun 2022 18:36:37 +0800
+Message-ID: <2200b1296a527340d1fa556e0f8ed929cff01c9c.camel@mediatek.com>
+Subject: Re: [PATCH v11 04/12] drm/mediatek: dpi: implement a swap_input
+ toggle in SoC config
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
  <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, <matthias.bgg@gmail.com>,
  <airlied@linux.ie>
-Date: Thu, 16 Jun 2022 18:31:34 +0800
-In-Reply-To: <5de2752a1d496290ea5c2c2d7840ba984b2e7e4d.camel@mediatek.com>
+Date: Thu, 16 Jun 2022 18:36:36 +0800
+In-Reply-To: <e431cca23add678bb39dbc75d783d239914d256a.camel@mediatek.com>
 References: <20220613064841.10481-1-rex-bc.chen@mediatek.com>
- <20220613064841.10481-3-rex-bc.chen@mediatek.com>
- <5de2752a1d496290ea5c2c2d7840ba984b2e7e4d.camel@mediatek.com>
+ <20220613064841.10481-5-rex-bc.chen@mediatek.com>
+ <e431cca23add678bb39dbc75d783d239914d256a.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -71,154 +72,116 @@ Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-06-14 at 11:21 +0800, CK Hu wrote:
+On Tue, 2022-06-14 at 13:27 +0800, CK Hu wrote:
 > Hi, Bo-Chen:
 > 
 > On Mon, 2022-06-13 at 14:48 +0800, Bo-Chen Chen wrote:
 > > From: Guillaume Ranquet <granquet@baylibre.com>
 > > 
-> > Add flexibility by moving the dpi limits to the SoC specific
-> > config.
-> 
-> What does this 'limit' mean? Why it's different in DPI vs DP_INTF?
-> 
-> The hardware design is so weird. If the limit is fixed for DPI and
-> DP_INTF, why the hardware export register for software to assign any
-> value which may be wrong.
-> 
-> Regards,
-> CK
-> 
-
-Hello CK,
-
-For RGB colorimetry, CTA-861 support both limited and full range data
-when receiving video with RGB color space.
-
-I will use drm_default_rgb_quant_range() to determine this and drop
-const struct mtk_dpi_yc_limit *limit;
-
-BRs,
-Bo-Chen
+> > The hardware design of dp_intf does not support input swap, so we
+> > add
+> > a bit of flexibility to support SoCs without swap_input support.
 > > 
 > > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > [Bo-Chen: Add modification reason in commit message.]
 > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 > > Reviewed-by: AngeloGioacchino Del Regno <
 > > angelogioacchino.delregno@collabora.com>
 > > Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
 > > ---
-> >  drivers/gpu/drm/mediatek/mtk_dpi.c | 25 ++++++++++++++++---------
-> >  1 file changed, 16 insertions(+), 9 deletions(-)
+> >  drivers/gpu/drm/mediatek/mtk_dpi.c | 14 +++++++++++---
+> >  1 file changed, 11 insertions(+), 3 deletions(-)
 > > 
 > > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
 > > b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > index e61cd67b978f..ce8c5eefe5f1 100644
+> > index 15218c1e8c11..c1438c744120 100644
 > > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
 > > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > @@ -125,6 +125,7 @@ struct mtk_dpi_conf {
-> >  	bool edge_sel_en;
+> > @@ -126,6 +126,7 @@ struct mtk_dpi_conf {
 > >  	const u32 *output_fmts;
 > >  	u32 num_output_fmts;
-> > +	const struct mtk_dpi_yc_limit *limit;
+> >  	bool is_ck_de_pol;
+> > +	bool swap_input_support;
+> >  	const struct mtk_dpi_yc_limit *limit;
 > >  };
 > >  
-> >  static void mtk_dpi_mask(struct mtk_dpi *dpi, u32 offset, u32 val,
-> > u32 mask)
-> > @@ -235,9 +236,10 @@ static void mtk_dpi_config_fb_size(struct
-> > mtk_dpi *dpi, u32 width, u32 height)
-> >  	mtk_dpi_mask(dpi, DPI_SIZE, height << VSIZE, VSIZE_MASK);
+> > @@ -378,18 +379,21 @@ static void
+> > mtk_dpi_config_color_format(struct
+> > mtk_dpi *dpi,
+> >  	    (format == MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL)) {
+> >  		mtk_dpi_config_yuv422_enable(dpi, false);
+> >  		mtk_dpi_config_csc_enable(dpi, true);
+> > -		mtk_dpi_config_swap_input(dpi, false);
+> > +		if (dpi->conf->swap_input_support)
+> > +			mtk_dpi_config_swap_input(dpi, false);
+> >  		mtk_dpi_config_channel_swap(dpi,
+> > MTK_DPI_OUT_CHANNEL_SWAP_BGR);
+> >  	} else if ((format == MTK_DPI_COLOR_FORMAT_YCBCR_422) ||
+> >  		   (format == MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL)) {
+> >  		mtk_dpi_config_yuv422_enable(dpi, true);
+> >  		mtk_dpi_config_csc_enable(dpi, true);
+> > -		mtk_dpi_config_swap_input(dpi, true);
+> > +		if (dpi->conf->swap_input_support)
+> > +			mtk_dpi_config_swap_input(dpi, true);
+> 
+> In this case, we need swap input, but hardware does not support, so
+> just skip config hardware and everything works fine? Should print any
+> error message?
+> 
+> Regards,
+> CK
+> 
+
+ok, I will add warning message for this.
+
+> >  		mtk_dpi_config_channel_swap(dpi,
+> > MTK_DPI_OUT_CHANNEL_SWAP_RGB);
+> >  	} else {
+> >  		mtk_dpi_config_yuv422_enable(dpi, false);
+> >  		mtk_dpi_config_csc_enable(dpi, false);
+> > -		mtk_dpi_config_swap_input(dpi, false);
+> > +		if (dpi->conf->swap_input_support)
+> > +			mtk_dpi_config_swap_input(dpi, false);
+> >  		mtk_dpi_config_channel_swap(dpi,
+> > MTK_DPI_OUT_CHANNEL_SWAP_RGB);
+> >  	}
 > >  }
-> >  
-> > -static void mtk_dpi_config_channel_limit(struct mtk_dpi *dpi,
-> > -					 struct mtk_dpi_yc_limit
-> > *limit)
-> > +static void mtk_dpi_config_channel_limit(struct mtk_dpi *dpi)
-> >  {
-> > +	const struct mtk_dpi_yc_limit *limit = dpi->conf->limit;
-> > +
-> >  	mtk_dpi_mask(dpi, DPI_Y_LIMIT, limit->y_bottom << Y_LIMINT_BOT,
-> >  		     Y_LIMINT_BOT_MASK);
-> >  	mtk_dpi_mask(dpi, DPI_Y_LIMIT, limit->y_top << Y_LIMINT_TOP,
-> > @@ -449,7 +451,6 @@ static int mtk_dpi_power_on(struct mtk_dpi
-> > *dpi)
-> >  static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
-> >  				    struct drm_display_mode *mode)
-> >  {
-> > -	struct mtk_dpi_yc_limit limit;
-> >  	struct mtk_dpi_polarities dpi_pol;
-> >  	struct mtk_dpi_sync_param hsync;
-> >  	struct mtk_dpi_sync_param vsync_lodd = { 0 };
-> > @@ -484,11 +485,6 @@ static int mtk_dpi_set_display_mode(struct
-> > mtk_dpi *dpi,
-> >  	dev_dbg(dpi->dev, "Got  PLL %lu Hz, pixel clock %lu Hz\n",
-> >  		pll_rate, vm.pixelclock);
-> >  
-> > -	limit.c_bottom = 0x0010;
-> > -	limit.c_top = 0x0FE0;
-> > -	limit.y_bottom = 0x0010;
-> > -	limit.y_top = 0x0FE0;
-> > -
-> >  	dpi_pol.ck_pol = MTK_DPI_POLARITY_FALLING;
-> >  	dpi_pol.de_pol = MTK_DPI_POLARITY_RISING;
-> >  	dpi_pol.hsync_pol = vm.flags & DISPLAY_FLAGS_HSYNC_HIGH ?
-> > @@ -536,7 +532,7 @@ static int mtk_dpi_set_display_mode(struct
-> > mtk_dpi *dpi,
-> >  	else
-> >  		mtk_dpi_config_fb_size(dpi, vm.hactive, vm.vactive);
-> >  
-> > -	mtk_dpi_config_channel_limit(dpi, &limit);
-> > +	mtk_dpi_config_channel_limit(dpi);
-> >  	mtk_dpi_config_bit_num(dpi, dpi->bit_num);
-> >  	mtk_dpi_config_channel_swap(dpi, dpi->channel_swap);
-> >  	mtk_dpi_config_yc_map(dpi, dpi->yc_map);
-> > @@ -790,12 +786,20 @@ static const u32 mt8183_output_fmts[] = {
-> >  	MEDIA_BUS_FMT_RGB888_2X12_BE,
-> >  };
-> >  
-> > +static const struct mtk_dpi_yc_limit mtk_dpi_limit = {
-> > +	.c_bottom = 0x0010,
-> > +	.c_top = 0x0FE0,
-> > +	.y_bottom = 0x0010,
-> > +	.y_top = 0x0FE0,
-> > +};
-> > +
-> >  static const struct mtk_dpi_conf mt8173_conf = {
-> >  	.cal_factor = mt8173_calculate_factor,
-> >  	.reg_h_fre_con = 0xe0,
-> >  	.max_clock_khz = 300000,
+> > @@ -808,6 +812,7 @@ static const struct mtk_dpi_conf mt8173_conf =
+> > {
 > >  	.output_fmts = mt8173_output_fmts,
 > >  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
-> > +	.limit = &mtk_dpi_limit,
+> >  	.is_ck_de_pol = true,
+> > +	.swap_input_support = true,
+> >  	.limit = &mtk_dpi_limit,
 > >  };
 > >  
-> >  static const struct mtk_dpi_conf mt2701_conf = {
-> > @@ -805,6 +809,7 @@ static const struct mtk_dpi_conf mt2701_conf =
+> > @@ -819,6 +824,7 @@ static const struct mtk_dpi_conf mt2701_conf =
 > > {
-> >  	.max_clock_khz = 150000,
 > >  	.output_fmts = mt8173_output_fmts,
 > >  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
-> > +	.limit = &mtk_dpi_limit,
+> >  	.is_ck_de_pol = true,
+> > +	.swap_input_support = true,
+> >  	.limit = &mtk_dpi_limit,
 > >  };
 > >  
-> >  static const struct mtk_dpi_conf mt8183_conf = {
-> > @@ -813,6 +818,7 @@ static const struct mtk_dpi_conf mt8183_conf =
+> > @@ -829,6 +835,7 @@ static const struct mtk_dpi_conf mt8183_conf =
 > > {
-> >  	.max_clock_khz = 100000,
 > >  	.output_fmts = mt8183_output_fmts,
 > >  	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-> > +	.limit = &mtk_dpi_limit,
+> >  	.is_ck_de_pol = true,
+> > +	.swap_input_support = true,
+> >  	.limit = &mtk_dpi_limit,
 > >  };
 > >  
-> >  static const struct mtk_dpi_conf mt8192_conf = {
-> > @@ -821,6 +827,7 @@ static const struct mtk_dpi_conf mt8192_conf =
+> > @@ -839,6 +846,7 @@ static const struct mtk_dpi_conf mt8192_conf =
 > > {
-> >  	.max_clock_khz = 150000,
 > >  	.output_fmts = mt8183_output_fmts,
 > >  	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-> > +	.limit = &mtk_dpi_limit,
+> >  	.is_ck_de_pol = true,
+> > +	.swap_input_support = true,
+> >  	.limit = &mtk_dpi_limit,
 > >  };
 > >  
-> >  static int mtk_dpi_probe(struct platform_device *pdev)
 > 
 > 
 
