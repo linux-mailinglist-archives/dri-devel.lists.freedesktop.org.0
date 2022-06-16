@@ -2,53 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC7954E325
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 16:16:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C4154E32E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 16:17:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBBAC10F778;
-	Thu, 16 Jun 2022 14:15:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 351C710EA6E;
+	Thu, 16 Jun 2022 14:17:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 407E010F778;
- Thu, 16 Jun 2022 14:15:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655388959; x=1686924959;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=4zmo/sbXlXzHebgkhhDGcpCjyTWUtOUQjJRXTTazel4=;
- b=Pbq72GAk5w4gbvfhmlGEfPHxdRhFKnBstSH0dwR1BJecpsGro4MgtPAD
- okeAEk9UstyCcnYESqpeJ4lL72nFS0+WkKa4FG6Z7h8yWJ4j0vT5k2G12
- fAZaeU4OQiwvSsobfpRNbe8AkkFanVSfLWjx7fv6kPb8fmI8/q1P6Uakw
- YcFcYcXEHEFm/zvyCBRqTsJxHmb/dBrucfGVx0bDpAQg9jYv+WVAL+xjJ
- K7+nR2V7e/5/qUXOb4W/sTCWc1/X4T0apwcLGrkxjLoeqflPE90OoqBRk
- uo8YkGlKTbEthWP9T9IeiLgsOPuXVDopw51h7RcaM0r/rmeFji3sCn/ik A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10379"; a="276832357"
-X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; d="scan'208";a="276832357"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 07:15:58 -0700
-X-IronPort-AV: E=Sophos;i="5.92,305,1650956400"; d="scan'208";a="641558909"
-Received: from aamendol-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.33.35])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2022 07:15:56 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Anshuman Gupta
- <anshuman.gupta@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v2 3/9] drm/i915/dg2: Add DG2_NB_MBD
- subplatform
-In-Reply-To: <784a071a-02c4-6a8a-0022-7f833841057b@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220616120106.24353-1-anshuman.gupta@intel.com>
- <20220616120106.24353-4-anshuman.gupta@intel.com>
- <784a071a-02c4-6a8a-0022-7f833841057b@linux.intel.com>
-Date: Thu, 16 Jun 2022 17:15:54 +0300
-Message-ID: <874k0kwv6t.fsf@intel.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2078.outbound.protection.outlook.com [40.107.243.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF80210EA6E
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 14:17:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M+6IjnZ6hNt8A6C6btYjbAsgaqujJ9QY5TSS44IkQzaTUDYIjeJWnmXg632YsCvGRXMPzw9HDEMDjp9nGwZCDa4yrVyqIe4T5GpRJv0G8P43fFWMqvgjG+1Ct6lhmZsJQIt98OPhmmFmzRF8qVtcB2O6s1CgxDsqYALeDHeoRj4fVm4g59KtumRS+kYQNJdR+4Hosx6EjO3uaSRZ2haW7fv50bb4DYwPOYXTT91ZTzOLvps7tw6wHLKy5YYADeOSfe7wtzDxiBTrOCaRDf5ITaUUhQJAi/tIrtsRTLNY4ePPuf/wUmMJazPJDDNTLwPNGs8oH3CAv7i3fgeBuvi9nA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lFV9vS8U1FRaLDFVrIscdACXQ2Xiy7z2scvKE2S1JXw=;
+ b=k8GnZO69ccY7SCWwUC9WoWW1m9yQp0ZEq4y0GUGqGN2LPUn1idytMjYnIezOrWfdBmNdXlwOLpuZX3VRyqi699pv81HiaWtbdncDpaJpqkulALQqOq6TurI42vtBenfBd/C5DTatuDcQfjvEAT8JxkBcnFWyUKOFhsqrwV9Da9yJQ2NtiCUBPR6U14mVSLwLdz4STilVAtTnlOyuirtbb4pwL7IPIvUTrwdF84sH8D0LJZxCFDjj0V0G7jjAmHPqsgqgG81BZopx/WeIzfMQFKDwHFGiMd8lY2bnxBStdnvkE4IzhJ6WYaTs3GCSsMmFlpGk3pEQ3+wzS8FRtYKm/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=ideasonboard.com smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lFV9vS8U1FRaLDFVrIscdACXQ2Xiy7z2scvKE2S1JXw=;
+ b=XLUJcdInEN7hp8w75yyf5AmLcIJrBAMAI2CDfbCKLYvCs9btfz5p7gCA3I7lpwE2yKZ0ywlYCLYb4A0Y3LFboVJfpdNfF4KW9UrarSo7ezRfUBiWBQbTuu6ptv7g/4MA8g7xmgFAdMm3eCJBEt/+E+i32rnYhO7RXt+MS3esEb4=
+Received: from SA9PR13CA0114.namprd13.prod.outlook.com (2603:10b6:806:24::29)
+ by DM6PR02MB5276.namprd02.prod.outlook.com (2603:10b6:5:46::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.17; Thu, 16 Jun
+ 2022 14:17:45 +0000
+Received: from SN1NAM02FT0048.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:806:24:cafe::ce) by SA9PR13CA0114.outlook.office365.com
+ (2603:10b6:806:24::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.6 via Frontend
+ Transport; Thu, 16 Jun 2022 14:17:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com; pr=C
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ SN1NAM02FT0048.mail.protection.outlook.com (10.97.4.223) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5353.14 via Frontend Transport; Thu, 16 Jun 2022 14:17:45 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Thu, 16 Jun 2022 07:17:44 -0700
+Received: from smtp.xilinx.com (172.19.127.95) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Thu, 16 Jun 2022 07:17:44 -0700
+Envelope-to: laurent.pinchart@ideasonboard.com, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org, airlied@linux.ie,
+ daniel@ffwll.ch, linux-kernel@vger.kernel.org
+Received: from [172.23.135.119] (port=58106 helo=xhdvgannava41x.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <venkateshwar.rao.gannavarapu@xilinx.com>)
+ id 1o1qJc-000507-DS; Thu, 16 Jun 2022 07:17:44 -0700
+From: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
+To: <laurent.pinchart@ideasonboard.com>, <sam@ravnborg.org>,
+ <dri-devel@lists.freedesktop.org>
+Subject: [PATCH V2 0/2] Add Xilinx DSI-Tx subsystem DRM driver
+Date: Thu, 16 Jun 2022 19:47:34 +0530
+Message-ID: <1655389056-37044-1-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
+X-Mailer: git-send-email 2.1.1
 MIME-Version: 1.0
 Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 37d0fb75-ee98-45e1-6d85-08da4fa2fbca
+X-MS-TrafficTypeDiagnostic: DM6PR02MB5276:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR02MB5276D8B832ABFDD7566C67F6B1AC9@DM6PR02MB5276.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ColoefgM7ZhimTqEVnZ6W9ZSjvi7ifr5vBqODLcNTeoPNz92V9T10+PpiH8/dAaQ9SJ+AOqaXXMRrBCY7632ZsfCxKe6nccBmQ6jVkiU00pG+UhqoBrqU/ikIlQnucMFpwJEAHnyLOWGf182BSacBOydtYlRnMbl52N3LaUSF5vJN/heetds7cnE79fwGBCEG4wxVrDwlg47nN5P4bnwrg4eX28WtyB7Z1RqEZKPlsMG5w4I82Fw5iwYxaBCCgV+n5cl66amBRnRI/BwaOWxwRJQNo50kqPkT2AElBM4mC528dI2HbMzjLbrQ9JYPaYdiuvytWcHniOqVw12RRgPrTUm/HlHi285O6YKJXqkzKYWlds8sV36JOrIM6cqkCyr+IFkb+H8UNkLb5fpewHPG36lgF3599xHc6scv0qd18b32jNlQmXU/6ouRTjB/eYopWcs6Qik+9SZpaBjsUxaqNuLlPUb1pUckMnJB06v/MIkt7+Mc8+nksfuOsrmJ4WjLs4UuTvMP5U0mSk7SHgyQ4DTXpSSpDh0du4tSl8QLi6ER48lPMpAv+qlwiadcnNMZ/zfRFQM6POtyJItm+GYHLXmhXKht8/erjvekjR085RUGBKnjhHbBIpyU+Q/0awBiU5ghbYwoITr8QnLKugH0dAizHvOzxsWo2Zb7dChI89IDnpZpDZr/DvH2g5Mqo5eA8EeBzDyQQgz1XUrTw6xqQ==
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(13230016)(4636009)(46966006)(40470700004)(36840700001)(82310400005)(107886003)(36756003)(83380400001)(70206006)(8676002)(316002)(110136005)(54906003)(2616005)(4326008)(7696005)(70586007)(508600001)(7636003)(2906002)(356005)(8936002)(6666004)(186003)(336012)(47076005)(40460700003)(426003)(5660300002)(9786002)(26005)(36860700001)(102446001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2022 14:17:45.3209 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37d0fb75-ee98-45e1-6d85-08da4fa2fbca
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0048.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5276
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,215 +109,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rodrigo.vivi@intel.com
+Cc: airlied@linux.ie, vgannava@xilinx.com,
+ Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Jun 2022, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> On 16/06/2022 13:01, Anshuman Gupta wrote:
->> DG2 NB SKU need to distinguish between MBD and AIC to probe
->> the VRAM Self Refresh feature support. Adding those sub platform
->> accordingly.
->> 
->> Cc: Matt Roper <matthew.d.roper@intel.com>
->> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
->> ---
->>   drivers/gpu/drm/i915/i915_drv.h          |  3 +++
->>   drivers/gpu/drm/i915/intel_device_info.c | 21 +++++++++++++++++++++
->>   drivers/gpu/drm/i915/intel_device_info.h | 11 +++++++----
->>   include/drm/i915_pciids.h                | 23 ++++++++++++++++-------
->>   4 files changed, 47 insertions(+), 11 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
->> index a5bc6a774c5a..f1f8699eedfd 100644
->> --- a/drivers/gpu/drm/i915/i915_drv.h
->> +++ b/drivers/gpu/drm/i915/i915_drv.h
->> @@ -1007,10 +1007,13 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
->>   #define IS_PONTEVECCHIO(dev_priv) IS_PLATFORM(dev_priv, INTEL_PONTEVECCHIO)
->>   
->>   #define IS_DG2_G10(dev_priv) \
->> +	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G10_NB_MBD) || \
->>   	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G10)
->>   #define IS_DG2_G11(dev_priv) \
->> +	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G11_NB_MBD) || \
->>   	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G11)
->>   #define IS_DG2_G12(dev_priv) \
->> +	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G12_NB_MBD) || \
->>   	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G12)
->>   #define IS_ADLS_RPLS(dev_priv) \
->>   	IS_SUBPLATFORM(dev_priv, INTEL_ALDERLAKE_S, INTEL_SUBPLATFORM_RPL)
->> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
->> index f0bf23726ed8..93da555adc4e 100644
->> --- a/drivers/gpu/drm/i915/intel_device_info.c
->> +++ b/drivers/gpu/drm/i915/intel_device_info.c
->> @@ -187,6 +187,18 @@ static const u16 subplatform_rpl_ids[] = {
->>   	INTEL_RPLP_IDS(0),
->>   };
->>   
->> +static const u16 subplatform_g10_mb_mbd_ids[] = {
->> +	INTEL_DG2_G10_NB_MBD_IDS(0),
->> +};
->> +
->> +static const u16 subplatform_g11_mb_mbd_ids[] = {
->> +	INTEL_DG2_G11_NB_MBD_IDS(0),
->> +};
->> +
->> +static const u16 subplatform_g12_mb_mbd_ids[] = {
->> +	INTEL_DG2_G12_NB_MBD_IDS(0),
->> +};
->> +
->>   static const u16 subplatform_g10_ids[] = {
->>   	INTEL_DG2_G10_IDS(0),
->>   	INTEL_ATS_M150_IDS(0),
->> @@ -246,6 +258,15 @@ void intel_device_info_subplatform_init(struct drm_i915_private *i915)
->>   	} else if (find_devid(devid, subplatform_rpl_ids,
->>   			      ARRAY_SIZE(subplatform_rpl_ids))) {
->>   		mask = BIT(INTEL_SUBPLATFORM_RPL);
->> +	} else if (find_devid(devid, subplatform_g10_mb_mbd_ids,
->> +			      ARRAY_SIZE(subplatform_g10_mb_mbd_ids))) {
->> +		mask = BIT(INTEL_SUBPLATFORM_G10_NB_MBD);
->> +	} else if (find_devid(devid, subplatform_g11_mb_mbd_ids,
->> +			      ARRAY_SIZE(subplatform_g11_mb_mbd_ids))) {
->> +		mask = BIT(INTEL_SUBPLATFORM_G11_NB_MBD);
->> +	} else if (find_devid(devid, subplatform_g12_mb_mbd_ids,
->> +			      ARRAY_SIZE(subplatform_g12_mb_mbd_ids))) {
->> +		mask = BIT(INTEL_SUBPLATFORM_G12_NB_MBD);
->>   	} else if (find_devid(devid, subplatform_g10_ids,
->>   			      ARRAY_SIZE(subplatform_g10_ids))) {
->>   		mask = BIT(INTEL_SUBPLATFORM_G10);
->> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
->> index 08341174ee0a..c929e2d7e59c 100644
->> --- a/drivers/gpu/drm/i915/intel_device_info.h
->> +++ b/drivers/gpu/drm/i915/intel_device_info.h
->> @@ -97,7 +97,7 @@ enum intel_platform {
->>    * it is fine for the same bit to be used on multiple parent platforms.
->>    */
->>   
->> -#define INTEL_SUBPLATFORM_BITS (3)
->> +#define INTEL_SUBPLATFORM_BITS (6)
->>   #define INTEL_SUBPLATFORM_MASK (BIT(INTEL_SUBPLATFORM_BITS) - 1)
->>   
->>   /* HSW/BDW/SKL/KBL/CFL */
->> @@ -111,9 +111,12 @@ enum intel_platform {
->>   #define INTEL_SUBPLATFORM_UY	(0)
->>   
->>   /* DG2 */
->> -#define INTEL_SUBPLATFORM_G10	0
->> -#define INTEL_SUBPLATFORM_G11	1
->> -#define INTEL_SUBPLATFORM_G12	2
->> +#define INTEL_SUBPLATFORM_G10_NB_MBD	0
->> +#define INTEL_SUBPLATFORM_G11_NB_MBD	1
->> +#define INTEL_SUBPLATFORM_G12_NB_MBD	2
->> +#define INTEL_SUBPLATFORM_G10	3
->> +#define INTEL_SUBPLATFORM_G11	4
->> +#define INTEL_SUBPLATFORM_G12	5
->
-> Ugh I feel this "breaks" the subplatform idea.. feels like it is just 
-> too many bits when two separate sets of information get tracked (Gxx 
-> plus MBD).
+MIPI DSI TX subsystem allows you to quickly create systems based on the
+MIPI protocol. It interfaces between the video processing subsystems and
+MIPI-based displays. An internal high-speed physical layer design, D-PHY,
+is provided to allow direct connection to display peripherals.
 
-I think they could be specified independent of each other, though. The
-subplatform if-else ladder would have to be replaced with independent
-ifs. You'd have the G10/G11/G12 and 1 bit separately for MBD.
+The subsystem consists of the following sub-blocks:
+- MIPI D-PHY
+- MIPI DSI TX Controller
+- AXI Crossbar
 
-Only the macros for PCI IDs need to be separate (MBD vs not). You'll
-then have:
+Please refer pg238 [1].
 
-static const u16 subplatform_g10_ids[] = {
-	INTEL_DG2_G10_IDS(0),
-	INTEL_DG2_G10_NB_MBD_IDS(0),
-	INTEL_ATS_M150_IDS(0),
-};
+The DSI TX Controller receives stream of image data through an input stream
+interface. At design time, this subsystem can be configured to number of lanes
+and pixel format.
 
-Ditto for g11 and g12, and separately:
+This patch series adds the dt-binding and DRM driver for Xilinx DSI-Tx soft IP.
 
-static const u16 subplatform_mbd_ids[] = {
-	INTEL_DG2_G10_NB_MBD_IDS(0),
-	INTEL_DG2_G11_NB_MBD_IDS(0),
-	INTEL_DG2_G12_NB_MBD_IDS(0),
-};
+Changes in V2:
+    - Rebased on 5.19 kernel
+    - Moved mode_set functionality to atomic_enable as its deprecrated
+    - Mask fixes
+    - Replaced panel calls with bridge API's
+    - Added mandatory atomic operations
+    - Removed unnecessary logging
+    - Added ARCH_ZYNQMP dependency in Kconfig
+    - Fixed YAML warnings
+    - Cleanup
 
-The IS_DG2_G10() etc. macros would remain unchanged. IS_DG2_MBD() would
-only be IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_MBD).
+Venkateshwar Rao Gannavarapu (2):
+  dt-bindings: display: xlnx: Add DSI 2.0 Tx subsystem documentation
+  drm: xlnx: dsi: Add Xilinx MIPI DSI-Tx subsystem driver
 
-Main point is, a platform could belong to multiple independent
-subplatforms.
-
-Unless I'm missing something. ;)
-
-> How about a separate "is_mbd" flag in runtime_info? You can split the 
-> PCI IDs split as you have done, but do a search against the MBD ones and 
-> set the flag.
-
-What I dislike about this is that it's really not *runtime* info in any
-sense, and it adds another way to define platform features. And we
-already have too many.
-
-BR,
-Jani.
-
-
->
-> Regards,
->
-> Tvrtko
->
->>   
->>   /* ADL */
->>   #define INTEL_SUBPLATFORM_RPL	0
->> diff --git a/include/drm/i915_pciids.h b/include/drm/i915_pciids.h
->> index 4585fed4e41e..198be417bb2d 100644
->> --- a/include/drm/i915_pciids.h
->> +++ b/include/drm/i915_pciids.h
->> @@ -693,32 +693,41 @@
->>   	INTEL_VGA_DEVICE(0xA7A9, info)
->>   
->>   /* DG2 */
->> -#define INTEL_DG2_G10_IDS(info) \
->> +#define INTEL_DG2_G10_NB_MBD_IDS(info) \
->>   	INTEL_VGA_DEVICE(0x5690, info), \
->>   	INTEL_VGA_DEVICE(0x5691, info), \
->> -	INTEL_VGA_DEVICE(0x5692, info), \
->> +	INTEL_VGA_DEVICE(0x5692, info)
->> +
->> +#define INTEL_DG2_G11_NB_MBD_IDS(info) \
->> +	INTEL_VGA_DEVICE(0x5693, info), \
->> +	INTEL_VGA_DEVICE(0x5694, info), \
->> +	INTEL_VGA_DEVICE(0x5695, info)
->> +
->> +#define INTEL_DG2_G12_NB_MBD_IDS(info) \
->> +	INTEL_VGA_DEVICE(0x5696, info), \
->> +	INTEL_VGA_DEVICE(0x5697, info)
->> +
->> +#define INTEL_DG2_G10_IDS(info) \
->>   	INTEL_VGA_DEVICE(0x56A0, info), \
->>   	INTEL_VGA_DEVICE(0x56A1, info), \
->>   	INTEL_VGA_DEVICE(0x56A2, info)
->>   
->>   #define INTEL_DG2_G11_IDS(info) \
->> -	INTEL_VGA_DEVICE(0x5693, info), \
->> -	INTEL_VGA_DEVICE(0x5694, info), \
->> -	INTEL_VGA_DEVICE(0x5695, info), \
->>   	INTEL_VGA_DEVICE(0x56A5, info), \
->>   	INTEL_VGA_DEVICE(0x56A6, info), \
->>   	INTEL_VGA_DEVICE(0x56B0, info), \
->>   	INTEL_VGA_DEVICE(0x56B1, info)
->>   
->>   #define INTEL_DG2_G12_IDS(info) \
->> -	INTEL_VGA_DEVICE(0x5696, info), \
->> -	INTEL_VGA_DEVICE(0x5697, info), \
->>   	INTEL_VGA_DEVICE(0x56A3, info), \
->>   	INTEL_VGA_DEVICE(0x56A4, info), \
->>   	INTEL_VGA_DEVICE(0x56B2, info), \
->>   	INTEL_VGA_DEVICE(0x56B3, info)
->>   
->>   #define INTEL_DG2_IDS(info) \
->> +	INTEL_DG2_G10_NB_MBD_IDS(info), \
->> +	INTEL_DG2_G11_NB_MBD_IDS(info), \
->> +	INTEL_DG2_G12_NB_MBD_IDS(info), \
->>   	INTEL_DG2_G10_IDS(info), \
->>   	INTEL_DG2_G11_IDS(info), \
->>   	INTEL_DG2_G12_IDS(info)
+ .../bindings/display/xlnx/xlnx,dsi-tx.yaml         | 101 +++++
+ drivers/gpu/drm/xlnx/Kconfig                       |  12 +
+ drivers/gpu/drm/xlnx/Makefile                      |   1 +
+ drivers/gpu/drm/xlnx/xlnx_dsi.c                    | 429 +++++++++++++++++++++
+ 4 files changed, 543 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/xlnx/xlnx,dsi-tx.yaml
+ create mode 100644 drivers/gpu/drm/xlnx/xlnx_dsi.c
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+1.8.3.1
+
