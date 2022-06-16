@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB57054DD81
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 10:51:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57EFF54DD83
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 10:51:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C336113B02;
-	Thu, 16 Jun 2022 08:50:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C164113B09;
+	Thu, 16 Jun 2022 08:51:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6634113B04
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 08:50:56 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id 20so1174589lfz.8
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 01:50:56 -0700 (PDT)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1F08113AFF
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 08:50:59 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id be31so1167403lfb.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 01:50:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=JCCzD7oRfJJDnx60RNCfCTBL5b1EzprlMae+XENmAMw=;
- b=nHq0xF0ZYp3tEAz+fksuTFTmTGEc0OFPXgW2/s+GNpAhBfmKPKdBYphT7TZavBVMtU
- oqp+Vd2l0loY/cKTWoVo5qJeAZeS86Ah39QqsE6KllgN6Kl2vI7xNazan1ZDoG3BHTYr
- hnwSeJDS20VsYcgtcJI3uZaj50UxyEVjj178GyfLNmn2VtTlestAKHaxMvSKYAcaY1Fc
- 5x4+nNVQnFe8zgrsv/IOxDbZEPCf2Wn1q+D7xKGgLzmBvhpZHyKg4B0APZvhBQYc/gKV
- Xb1SCahD3iYTtLUWGFE40OycZeFbB3Es1UYMEO6L1CpM3clkCfoby9q2RDaqcubLSnPn
- Wckw==
+ bh=CtFmr9YnFXBNjwW1QqgTVpLtMjRSqbtnLnF5ahH9/9g=;
+ b=pPPobIRP9kSIAIwFkE1PFoYJ9JAQlIrrZtZLq/UCm+y08DsoOCMBMPmfUJIO2Ureja
+ jhOpQo0aJddInFsiZh4apdmYL/r3H9uwTwxV8m9A+0oHPHMHtzDajH/ahvEaL2t7uQES
+ xDjXTNURa8l8uBtU1WF6W40cON6eHIlck2KOp38+tzuHyw5q2hN/kIjYpucSjfcC5zJX
+ yNPPGhFOVkqroHMptIEujLGzSNgNIR018+A5ntGVbrWXghJjSOmJWZvkXJRLaZTlzsgn
+ 30ZefOFbFPoGuRsPAuJPhLe8yJBafhuHSplZGOfyub1B5tR54x1e8dEk8YcQwNSwHAyK
+ YV3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=JCCzD7oRfJJDnx60RNCfCTBL5b1EzprlMae+XENmAMw=;
- b=qEg6TeCJOh7ARtbODQQKNwwAM6T8TscWx7WnPsQ2PJPPdDHbohm5fk83S2mUAY3qFi
- VsRQ+27ikotmMZBemzjCqI5xV5Mz6w1T+xIMOhIiePHLsYiOlfQWJlROoRrNy1WaBDET
- 67DI+AaQCiTUXKunW+lZODJAyDFFPHCHK27QcbKqvvOxLYQGclo33rqPL7O2PaFjiNI2
- ex8nql+zFATtEgsNWOWLjJU4mFl/lYT6klpara1Orn15WDtSPSwudySmFTKvN1xbdRL3
- 6ek70aE0q98NqcUlQRPOBmQUTRYWXZwm/zmU7F88fK5+I/CdkgDv+T6MoOz46/dIfITH
- y/wg==
-X-Gm-Message-State: AJIora/hJ7cq0poiUhxgQZfofuzw+FUd/Qy/+xPzJ1FtIQUceNvhIDLz
- e4RqJ4TG6PNlypWfUfoZn+XqPQ==
-X-Google-Smtp-Source: AGRyM1tpGaPfQUuy8/yW8c6Ns9ktOMIazvlJV8x2JhkS9lg7S7PSaaDBdKwrUpogNykTLJfE4MJtiQ==
-X-Received: by 2002:a05:6512:2017:b0:478:f827:67ca with SMTP id
- a23-20020a056512201700b00478f82767camr2064877lfb.10.1655369455004; 
- Thu, 16 Jun 2022 01:50:55 -0700 (PDT)
+ bh=CtFmr9YnFXBNjwW1QqgTVpLtMjRSqbtnLnF5ahH9/9g=;
+ b=6doqs8GA1Wjl19QDruyA17j+SkkNEejgIOhVo6ni0CeEpNUtLgKZVoG7YuPv6xJw6r
+ d6VxUp+WVJuzgHhs2BRYhEV/09J5g6FKUoZW3DpGfxKvlU7pmgmVc619161chLFGaOAQ
+ CbDkwzg1cMpHsdyBqxC2IT8CoJpkY4ECPjib5ZSxHbevQrbfx9wky7PCQBVQ8HRGEIDd
+ qNa7JkFqTiLwZzdV5tcLbVB9MmYVyQSCklFkQy+eYh6EIni/knKClWZ1HvvPiDD9GRti
+ ghX6fUe+6FCZpKzikN+GB1BgSxc4QCcfsCIUsiaQyLFYBzxezrNJ/CJFUM93zXl4KPCx
+ WPag==
+X-Gm-Message-State: AJIora+4p6H9BiT9Pkx4MCgh4kW5WfxwvXNeLNcl9z+koqw3ue2+dmVO
+ NotBrcx9qvUsEpWzlZWxp8EVh24iIwZDczQw
+X-Google-Smtp-Source: AGRyM1shxA9KdPhKLQQ5X/7BmpScUk3xhKPH5MFw8Wl9/GP2gf3ehMgtoiOssA+WoklvhVCJe3/dBw==
+X-Received: by 2002:a05:6512:3b99:b0:47d:c408:555f with SMTP id
+ g25-20020a0565123b9900b0047dc408555fmr2083991lfv.168.1655369458000; 
+ Thu, 16 Jun 2022 01:50:58 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- a16-20020a2e8310000000b002557115af75sm167209ljh.118.2022.06.16.01.50.54
+ v18-20020ac25b12000000b0047255d21202sm149136lfn.305.2022.06.16.01.50.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 01:50:54 -0700 (PDT)
+ Thu, 16 Jun 2022 01:50:57 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH] drm/msm/hdmi: drop empty bridge callbacks
-Date: Thu, 16 Jun 2022 11:50:54 +0300
-Message-Id: <20220616085054.432317-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH] drm/msm/hdmi: support attaching the "next" bridge
+Date: Thu, 16 Jun 2022 11:50:57 +0300
+Message-Id: <20220616085057.432353-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -73,42 +73,68 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop empty callbacks msm_hdmi_bridge_enable() and
-msm_hdmi_bridge_disable().
+There might be a chain of bridges attached to the HDMI node
+(including but not limited to the display-connector bridge). Add support
+for attaching them right to the HDMI bridge chain.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/gpu/drm/msm/hdmi/hdmi.c | 14 ++++++++++++++
+ drivers/gpu/drm/msm/hdmi/hdmi.h |  2 ++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-index 97c24010c4d1..d569f0c6cab7 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-@@ -159,14 +159,6 @@ static void msm_hdmi_bridge_pre_enable(struct drm_bridge *bridge)
- 		msm_hdmi_hdcp_on(hdmi->hdcp_ctrl);
- }
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+index cf24e68864ba..9fdb17317589 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+@@ -9,6 +9,7 @@
+ #include <linux/of_gpio.h>
  
--static void msm_hdmi_bridge_enable(struct drm_bridge *bridge)
--{
--}
--
--static void msm_hdmi_bridge_disable(struct drm_bridge *bridge)
--{
--}
--
- static void msm_hdmi_bridge_post_disable(struct drm_bridge *bridge)
- {
- 	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
-@@ -306,8 +298,6 @@ static enum drm_mode_status msm_hdmi_bridge_mode_valid(struct drm_bridge *bridge
+ #include <drm/drm_bridge_connector.h>
++#include <drm/drm_of.h>
  
- static const struct drm_bridge_funcs msm_hdmi_bridge_funcs = {
- 		.pre_enable = msm_hdmi_bridge_pre_enable,
--		.enable = msm_hdmi_bridge_enable,
--		.disable = msm_hdmi_bridge_disable,
- 		.post_disable = msm_hdmi_bridge_post_disable,
- 		.mode_set = msm_hdmi_bridge_mode_set,
- 		.mode_valid = msm_hdmi_bridge_mode_valid,
+ #include <sound/hdmi-codec.h>
+ #include "hdmi.h"
+@@ -133,6 +134,10 @@ static struct hdmi *msm_hdmi_init(struct platform_device *pdev)
+ 	hdmi->config = config;
+ 	spin_lock_init(&hdmi->reg_lock);
+ 
++	ret = drm_of_find_panel_or_bridge(pdev->dev.of_node, 1, 0, NULL, &hdmi->next_bridge);
++	if (ret && ret != -ENODEV)
++		goto fail;
++
+ 	hdmi->mmio = msm_ioremap(pdev, config->mmio_name);
+ 	if (IS_ERR(hdmi->mmio)) {
+ 		ret = PTR_ERR(hdmi->mmio);
+@@ -291,6 +296,15 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+ 		goto fail;
+ 	}
+ 
++	if (hdmi->next_bridge) {
++		ret = drm_bridge_attach(hdmi->encoder, hdmi->next_bridge, hdmi->bridge,
++					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
++		if (ret) {
++			DRM_DEV_ERROR(dev->dev, "failed to attach next HDMI bridge: %d\n", ret);
++			goto fail;
++		}
++	}
++
+ 	hdmi->connector = drm_bridge_connector_init(hdmi->dev, encoder);
+ 	if (IS_ERR(hdmi->connector)) {
+ 		ret = PTR_ERR(hdmi->connector);
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
+index 736f348befb3..5241735438ac 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.h
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
+@@ -68,6 +68,8 @@ struct hdmi {
+ 	struct drm_connector *connector;
+ 	struct drm_bridge *bridge;
+ 
++	struct drm_bridge *next_bridge;
++
+ 	/* the encoder we are hooked to (outside of hdmi block) */
+ 	struct drm_encoder *encoder;
+ 
 -- 
 2.35.1
 
