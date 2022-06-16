@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB0554DE59
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 11:45:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD6354DE62
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jun 2022 11:48:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF61E113D7C;
-	Thu, 16 Jun 2022 09:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADD51113DBD;
+	Thu, 16 Jun 2022 09:48:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18B59113D7C
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 09:44:58 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id gl15so1742320ejb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 02:44:58 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FBF3113DBD
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 09:48:13 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id z7so1384090edm.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 02:48:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mhKDWh309DCiaIkvC+yjcO+PIaX4ExpmBkvJNenQmOY=;
- b=icUQO2AVW2z4ISKHDbAnhDIBXLqKT+UHUcDy/7AeMofpJpbJBZHvcjH2r8IV+aoNWL
- eiY+s/LezYvaADkmzgxeafqSj3i03DXWrwSCc9LW/pkDGuj2sIyzCs8jS451XXWU2UFq
- v3YK7ZEK3P3awPRKaWaw0me4gOCqHCjVCRlqY32O6AoeVg6JQiwqSxX2MNx/qY0aB2Qk
- 3+AJ2D0jxZmP+THmMao5FYIY9mLYTQ08ynFGs79p3xAIh/3mI4EE4rpY37z+sYrdStuA
- O/gXmIRC6AYtkOxxXm6882NSR+cBZmKry1cnyQ7FsSYRsMfht/HzRSFFkhFBDFNjMTUz
- +c6w==
+ :cc; bh=ivwPC76/EpddR8aIRsz8R66y1gZE1lQxH18cuBuNh9w=;
+ b=IJ2ZEfa444Gxt/Z0FZZ4GxV5yN+erEsufLcKmomyhw5fUOVqzQdQAIRayiYb+Qm1Eh
+ yWb0C9Z4DfUvu9mfAkALWTkSfIlkhL8URQbQyX4zqIAQALQZ+ZkNOjNHTp0nctBRXGzs
+ smm0dQAuc/7v2WAGrIwapBT2KvBs8Uf6SRXKqp9TXwYgYVovJ1x3xu2/sKq6Kicvl27E
+ s6RLHZVpYbgh44S8H6x14rYBSph+HXSFRdfR49SS5nx2uRdHNTHeOBxga0XY/BA+T1fk
+ HyoQvjfxwcX68sONS75Y/cnOhdPnzGcz1UJXxuOsnIg5+PseWCZyYoCdjwdj7np1I3q9
+ 2d1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mhKDWh309DCiaIkvC+yjcO+PIaX4ExpmBkvJNenQmOY=;
- b=oVNwsyyPFjXLW7/a8c/5fLiIb7YBeNTfSdyDsTPLs+7APm/Jz0ke6XxUEKFHJXX5/9
- 6ScT1SKMEgm/3gCcTv7lzUIQG9MrngNcQ/h450FaoAnremj/tkerc4yzLLmDNkJzuWDO
- corQ1X9cLUfKBedfBR6cvJENtAOdNxA3f5TBH6GC896qIlXS4FkLip2u0FRtFzf25ds6
- tB3iFGTKujkzGVJ1AFbGy8mKd7OohdT2pWd/RVB73Sxa9v4PLHKwqejCLLqI9PGfzVeg
- ATj16kPmQDzbZdAxKFk/ivKj2a9B9SFWmrIWnD0gMNrszKySm/RhGQ/o+LIKkVZ+pICL
- x9rg==
-X-Gm-Message-State: AJIora+tEmdIf+xlxMmCa4mdtn5QHAkBOMFJVZpRlF6kLwLKpt+AJrto
- g0+4TI3QchsVDfMQveXUDRQCfhMiKW9sQB/hzQd8oQ==
-X-Google-Smtp-Source: AGRyM1u0p+HcFY+QTv0+IYnKTmxsMK8SoKgxauv9LeMqak6wWDhSMeCnx3Cs7t57k/Q33vyaD+HfgtLV3SuR/F2mMIY=
-X-Received: by 2002:a17:907:7b9b:b0:71b:6f0a:c480 with SMTP id
- ne27-20020a1709077b9b00b0071b6f0ac480mr1503888ejc.175.1655372696676; Thu, 16
- Jun 2022 02:44:56 -0700 (PDT)
+ bh=ivwPC76/EpddR8aIRsz8R66y1gZE1lQxH18cuBuNh9w=;
+ b=evUEsfWZK4xqfaAAu6hZyZmNB6Sk0AaMWGLa8jeS99LfeQ9l+kBGpoZmbHD3yzkBNH
+ 4OjDGsIPOoIQtvqXFkHsFmiNxUXhzJkyYQKvCeEvD6sPtSLMfHBIbaYEY5OIePJVDcSM
+ rnWCjkQteNivSEEt0g1x4Sy813mmdMUvQ1n+8edNS0wPaRVyrd1eyqEW0BEjHt+aUPxD
+ nHM5Ny5Yg/H4ph56p2DwhJoyzG7sum8VEAyzQikFbdFTwKbmWiAp7WOyESBvM/ZJwVlF
+ rM3KOoWwWrN1W7RJ97BsgVwKfijnKSlJE/dlp7ziyUr7gv6TJYPTfP/EdfjsCdktRP6z
+ 6URg==
+X-Gm-Message-State: AJIora9jZldkzD/Hs3jpLIX+9SPqnTBPDwDi/vTnyJdw7lSbiFdAfo1w
+ EIwml5rmeYyCeRvPYGunwi5k+U0DloZGc+/2eYUGEg==
+X-Google-Smtp-Source: AGRyM1t+DUrFOhYWTqYmwbszJ5vdd6m0yXDtl1WdsW5yg4WF1e9HUj1DD3qrlxHVGBJhQa1T7eHrhGb2Cf3tPKEQ2vY=
+X-Received: by 2002:a05:6402:524d:b0:42e:332:dd04 with SMTP id
+ t13-20020a056402524d00b0042e0332dd04mr5310981edd.258.1655372892115; Thu, 16
+ Jun 2022 02:48:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-18-maxime@cerno.tech>
- <CAPY8ntCHiO7QrhOw7doE7PtzuTJEp4-u20rT_RDRBCmZ8fnQRw@mail.gmail.com>
- <20220616094103.dubzsbf2uuny472o@houat>
-In-Reply-To: <20220616094103.dubzsbf2uuny472o@houat>
+ <20220610092924.754942-26-maxime@cerno.tech>
+ <CAPY8ntDemhFi3ZFfOE_9kxtmc7v8Wse0C+dz0xxLrBGvSPh12w@mail.gmail.com>
+ <20220616083835.2e7jfrlicbkgkra2@houat>
+In-Reply-To: <20220616083835.2e7jfrlicbkgkra2@houat>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 16 Jun 2022 10:44:41 +0100
-Message-ID: <CAPY8ntAZa8bcgPyoigiO6nPtwB4iNL6YkO6yxy5z65_-BNNfXQ@mail.gmail.com>
-Subject: Re: [PATCH 17/64] drm/vc4: crtc: Move debugfs_name to crtc_data
+Date: Thu, 16 Jun 2022 10:47:56 +0100
+Message-ID: <CAPY8ntCB-_o0Td41PxeZ6NC004aQ8jvNrsVfO_SFpTVENT4U8w@mail.gmail.com>
+Subject: Re: [PATCH 25/64] drm/vc4: dpi: Add action to disable the clock
 To: Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,30 +72,33 @@ Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Jun 2022 at 10:41, Maxime Ripard <maxime@cerno.tech> wrote:
+On Thu, 16 Jun 2022 at 09:38, Maxime Ripard <maxime@cerno.tech> wrote:
 >
 > Hi Dave,
 >
-> On Tue, Jun 14, 2022 at 04:57:45PM +0100, Dave Stevenson wrote:
+> On Tue, Jun 14, 2022 at 05:47:28PM +0100, Dave Stevenson wrote:
+> > Hi Maxime.
+> >
 > > On Fri, 10 Jun 2022 at 10:30, Maxime Ripard <maxime@cerno.tech> wrote:
 > > >
-> > > All the CRTCs, including the TXP, have a debugfs file and name so we can
-> > > consolidate it into vc4_crtc_data.
-> > >
-> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > Adding a device-managed action will make the error path easier, so let's
+> > > create one to disable our clock.
 > >
-> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >
-> > I was sort of expecting the vc4_debugfs_add_regset32 call to move to
-> > vc4_crtc_init so that it would be a common call for crtcs and txp, but
-> > that doesn't appear to happen in this set. The debugfs_name for the
-> > txp is therefore actually unused.
+> > The DPI block has two clocks (core and pixel), and this is only
+> > affecting one of them (the core clock).
 >
-> As of this patch, you're right
+> Thanks for the suggestion, I've amended the commit message.
 >
-> This is later changed by some other patch though:
-> https://lore.kernel.org/all/20220610092924.754942-60-maxime@cerno.tech/
+> > (I'm actually puzzling over what it's wanting to do with the core
+> > clock here as it's only enabling it rather than setting a rate. I
+> > think it may be redundant).
+>
+> Could it be that it a "bus" clock that we need it to access the
+> registers?
 
-Indeed, and that cleans it all up. Perfect.
+No idea. Normally it's the power domain that is required to access registers.
+AFAIK the core clock is never turned off, so the request for it is
+just a little odd.
+It is what it is though, so fine to leave it alone.
 
   Dave
