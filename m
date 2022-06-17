@@ -2,88 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7188E54F132
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 08:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1415454F145
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 08:56:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D907511A675;
-	Fri, 17 Jun 2022 06:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AF5311A7CD;
+	Fri, 17 Jun 2022 06:56:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB04311A675
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 06:46:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655448386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+hQ4DbL4FBpOEp/E50yBIWWCZyfpTsZUOXGgMRiUx5A=;
- b=R584zAX/QY3XaCjUI1geZKTrymAfObLI+hdicI3YfpBReA1brDXpPw3+JlOctrYQUWDv2c
- CvomGJo4i/WhTms4PZ3wmyPV/M/nmKWDhS6uQLOm26merotxknMsLGtwY4bWtodxsN/EJW
- KxhbRmDRzbXJEnZrAXpdJv41J4D9+uQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-418-O1djBx9tPv2h7nXtGnlR4A-1; Fri, 17 Jun 2022 02:46:22 -0400
-X-MC-Unique: O1djBx9tPv2h7nXtGnlR4A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k5-20020a05600c0b4500b003941ca130f9so1271277wmr.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 23:46:22 -0700 (PDT)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5AB211A7CD
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 06:56:44 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id b8so4920394edj.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 23:56:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sLhfCJ8PekgBeiM3KU80x7Qwq344wsuKnT/r+LcG2GM=;
+ b=e7KAaUnuA0HYGg2Lg9mBPj3DrKLEvfZUjQBilNBT6iFsQwiChqYLbSFMpt1CZw49hu
+ Uhh/Z4UzfmH1tgChFd4GYmJPuADEzaM36JeRF/stmNvDIRYGsPkJEfUx2gcYqjIzk+1Z
+ 4pTq/kEcbLMa+GGo+ioysby8f4NVMsOllC4QI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+hQ4DbL4FBpOEp/E50yBIWWCZyfpTsZUOXGgMRiUx5A=;
- b=7TH44LpC6VtAGURZjRvPmQkcTLt/kztCvHuAM5by7M2GPuTRUwkqSiiCziLXEnCdhR
- CMjbOwNn16hOUabOGtIeWxQ8K8R+Gn8SvI/aI7Eo5QbjonPECAml8aZNGCBjP3mkoi6Q
- k5nCdqx6qX8basCrNMjgocRgvb1VGDLOcF13xpS0T3ryYvOW1/gq5SBWZz1ahlFaqCXj
- dOp5T8Gq87NfjhEK8IqBhp/iiJZePwaUaeESJj1dwR4I8icbQQKV5m3Iv3m1tbm5LVmO
- Ww7nJ6nDzL9eGwZYLaj9H/g1yYsQ9t1GNOBj/gODA9tcR309sju8H9PCCE5jBcu1GEpz
- 4xXQ==
-X-Gm-Message-State: AJIora8MzuardeH8sNvhGZvNmgCYq4DXxoKv+tQuZ+opERgzxaabVN8b
- ODU1/mVPN0sJZ9rNv1Bp5b5ulKj+kamqRfIQgJ/sUK0d5SRtlbX7DFPZR6xff5JWTqUPOj8AZZn
- g9VV1jFTi2m4ENjy+jFrsHHqq8G81
-X-Received: by 2002:a05:600c:3489:b0:39d:b58f:6797 with SMTP id
- a9-20020a05600c348900b0039db58f6797mr8604229wmq.205.1655448381561; 
- Thu, 16 Jun 2022 23:46:21 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sQ/maUwRNsLJ+dTUUPQVEZ65LnPBk/IMQjAM9szqh0Rf1kxBOzJQNiJ8h903v4iEFev4ehFw==
-X-Received: by 2002:a05:600c:3489:b0:39d:b58f:6797 with SMTP id
- a9-20020a05600c348900b0039db58f6797mr8604207wmq.205.1655448381308; 
- Thu, 16 Jun 2022 23:46:21 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- f11-20020a05600c4e8b00b003973a3fe4fasm4787183wmq.42.2022.06.16.23.46.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Jun 2022 23:46:20 -0700 (PDT)
-Message-ID: <aa144e20-a555-5c30-4796-09713c12ab0e@redhat.com>
-Date: Fri, 17 Jun 2022 08:46:18 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sLhfCJ8PekgBeiM3KU80x7Qwq344wsuKnT/r+LcG2GM=;
+ b=HOoXU9V8QPOgBSLGjxkqlad3TCemhZOJRM5shXr+Jpla618nz9dZMwnyxTMGV3Ywu4
+ HMtWJErDsmFFwjk9r1mk3leRT+BU5mG3RihLBQnIzIshVpIWfQ1YDeunCaR1x5BcqwW0
+ Yj07mxuMYyDbIVQyDJY1RaAB+xqN7mCVAGjWLsOmfUFNRFNg6RTHuggd2mEFqdzGK48Y
+ kF5HSgC+KetyqYtqLF3riqet4RImGwc91oeQ5Ztob8XKaUODSxEfL4Z5z4U3P8WDqK0G
+ 3khpe/daw2B+cHELuAUF5vgNgDnK+zqEEQJqfq5+pPOnRIqcIz82SyM3WW42vE6GGPyx
+ XTHQ==
+X-Gm-Message-State: AJIora9VnjNm9FHBXpX1pBIB3J4KJ3OXOEMhCPGCErdKwsBUbIFVu+it
+ 2qz05fSEJq0hILE91uV/S3G9MKR1N9yfoXRL+wkKkg==
+X-Google-Smtp-Source: AGRyM1tIbRFLJsIG8ha9JMgB0N9ZCD+AhfPO/Aq8IF+A20gJm7k5xF0so9i5AD1klMG7BMMrL3Xu6QF5ZW0ApN7BiWc=
+X-Received: by 2002:a05:6402:6cc:b0:42d:bd2d:9f82 with SMTP id
+ n12-20020a05640206cc00b0042dbd2d9f82mr10669676edy.59.1655449003429; Thu, 16
+ Jun 2022 23:56:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v6 3/5] fbdev: Disable sysfb device registration when
- removing conflicting FBs
-To: Zack Rusin <zackr@vmware.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20220607182338.344270-1-javierm@redhat.com>
- <20220607182338.344270-4-javierm@redhat.com>
- <de83ae8cb6de7ee7c88aa2121513e91bb0a74608.camel@vmware.com>
- <38473dcd-0666-67b9-28bd-afa2d0ce434a@redhat.com>
- <603e3613b9b8ff7815b63f294510d417b5b12937.camel@vmware.com>
- <a633d605-4cb3-2e04-1818-85892cf6f7b0@redhat.com>
- <97565fb5-cf7f-5991-6fb3-db96fe239ee8@redhat.com>
- <711c88299ef41afd8556132b7c1dcb75ee7e6117.camel@vmware.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <711c88299ef41afd8556132b7c1dcb75ee7e6117.camel@vmware.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220617032113.18576-1-yunfei.dong@mediatek.com>
+In-Reply-To: <20220617032113.18576-1-yunfei.dong@mediatek.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Fri, 17 Jun 2022 14:56:32 +0800
+Message-ID: <CAGXv+5EZ+Mu1481gM9h0kgqO3a0xFKP8drvGv7gRp6=3NU2oKA@mail.gmail.com>
+Subject: Re: [PATCH] media: mediatek: vcodec: Fix non subdev architecture open
+ power fail
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,57 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "deller@gmx.de" <deller@gmx.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "kraxel@redhat.com" <kraxel@redhat.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "lersek@redhat.com" <lersek@redhat.com>
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, Irui Wang <irui.wang@mediatek.com>,
+ George Sun <george.sun@mediatek.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Courbot <acourbot@chromium.org>, linux-kernel@vger.kernel.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Zack,
-
-On 6/17/22 03:35, Zack Rusin wrote:
-> On Fri, 2022-06-17 at 01:21 +0200, Javier Martinez Canillas wrote:
->> On 6/17/22 00:18, Javier Martinez Canillas wrote:
->>> On 6/16/22 23:03, Zack Rusin wrote:
->>
->> [snip]
->>
->>>
->>> I'll look at this tomorrow but in the meantime, could you please look if the following
->>> commits on top of drm-misc-next help ?
->>>
->>> d258d00fb9c7 fbdev: efifb: Cleanup fb_info in .fb_destroy rather than .remove
->>> 1b5853dfab7f fbdev: efifb: Fix a use-after-free due early fb_info cleanup
->>>
->>
->> Scratch that. I see in your config now that you are not using efifb but instead
->> simpledrm: CONFIG_DRM_SIMPLEDRM=y, CONFIG_SYSFB_SIMPLEFB=y and CONFIG_DRM_VMWGFX.
->>
->> Since you mentioned efifb I misunderstood that you are using it. Anyways, as
->> said I'll investigate this tomorrow.
-> 
-> Sounds good. Let me know if you'd like me to try it without SIMPLEFB.
+On Fri, Jun 17, 2022 at 11:21 AM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
 >
+> According to subdev_bitmap bit value to open hardware power, need to
+> set subdev_bitmap value for non subdev architecture.
+>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 
-Yes, please do. Either with CONFIG_SYSFB_SIMPLEFB disabled and CONFIG_FB_EFI
-enabled (so that "efi-framebuffer" is registered and efifb probed) or with
-CONFIG_SYSFB_SIMPLEFB but CONFIG_FB_SIMPLE enabled (so "simple-framebuffer
-is used too but with simplefb instead of simpledrm).
- 
-I'm not able to reproduce, it would be useful to have another data point.
+Fixes: c05bada35f01 ("media: mtk-vcodec: Add to support multi hardware decode")
 
--- 
-Best regards,
+?
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+ChenYu
