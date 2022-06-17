@@ -2,67 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EAA55005A
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 01:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC3855006A
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 01:12:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 393F510F80C;
-	Fri, 17 Jun 2022 23:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77E0C10FA14;
+	Fri, 17 Jun 2022 23:12:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B80510F809
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 23:08:02 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id d18so6169429ljc.4
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 16:08:02 -0700 (PDT)
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 895C710FA14
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 23:12:06 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id bo5so5329736pfb.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 16:12:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=6ZYaMoRyFzzdVkOyMeMhxNNQQcfk+a73MTAQKe18VZo=;
- b=RXh3EgnMC/4kWNHclXpiSul9Dc/Ob4bXsZK6inOyualZGJ4iznqD1kHoc0adcTZZnD
- L+L6W8ndCsJGT1OORGpESaqm5/p/30VgrLRgo8zT75zpmLE5F7XhS6J6Vnid+cHtpWZG
- Hb1oX53AxFwTOw+3PJdhs+aDez8q9p095mpVq6gMzrh54J1a3hXPRx/865gRmszCMxTR
- bugoa6F+cw0baRkUNVYLM675cgALD2YVe3LgDH3tWPKytzq7YDGep3PDBcAymNicXVKZ
- Dw7aIHO+SP3NEs5GBdh3pDWDxKCxruFMN1UEEyVRn3SR4BE+CF9Y4Ednvamdvd26XIqN
- HklA==
+ bh=294ojvCzJG+QxzRogH/Uf6cGP9X/olCBo7vsCMUaWUs=;
+ b=rRMAv5j+Hd/iJN32vcBDVL12U3rDEOOrDCl0MNjeuoB8nfWV1YTHVPRQxhLQzoJgkX
+ ZJG8iKXWOMEzcoSSx4BzvL4tW/FkQYqnQyv12OpGhLHgnqsF6MA0Zv/JSKUyme4TAdC1
+ PK4UNdO1p7nq6ua9IRX7f5y8kq4TRP0rZ11wo6jCd21bxBCR0qCtS3EqGZPgSOcsLfsG
+ FG4f5UYmY07Jsv9z6xEuBtiNjJlIeAgxtaZTK9tJdqWjWANTPiGOVJybe7hvJ9oZqXL9
+ HFn/y5aQTdGOOA9aVIAvXAe7Q0YJ5X8tMP0RYR8Qd7xIDEPKM+u0LrMy9wJIkIzH20SK
+ yGQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=6ZYaMoRyFzzdVkOyMeMhxNNQQcfk+a73MTAQKe18VZo=;
- b=RtAuPokuy5JtCjpOYBFm4RV0BDPYEXOL6yMwxOnWng+7MZ4Sh7BlhILDCRblAnO7SR
- HBNF6e8T1jk+pgtDCK0H96Niy4G4hjNDVwUrviEfsRB9LnMxEKJnGN+2OpQ7yF0/5xiF
- hTQTiZxpJGKMRLtfTxH0r2Pjk+55xrLbLyJDf5xIG3Wk5Jf7+1XCbwGlTWBSVLbg4iLT
- J2HHLenvBSjXY49/7DF6ln1IVrQ3J6mWYDREDkVsHklsTPsKqvRhMAVk4l8XQgHj2EDj
- ErEo2uE18QC5X1SzrZ1zstrYuwhR3fZdeQ5niiNWnSk0D+//f5u5E7ILOwc6zWu7hZqw
- rtRA==
-X-Gm-Message-State: AJIora+tl1g1HIhNN9KWpl+jNa8xo81z4f3NYCEUTZmqOwNJsgYi3PoF
- PnoFPM4T9TH4O+gYyyxlgq59SLeLpkJem5ZF
-X-Google-Smtp-Source: AGRyM1u4px/R5mYa/q2Ih7N60pbaP0+87kXGXeIvKyOLQnhWdyhLroYYlme5OHm8OUgyfr0MVJVTgA==
-X-Received: by 2002:a2e:80d3:0:b0:255:5c62:7614 with SMTP id
- r19-20020a2e80d3000000b002555c627614mr6140247ljg.389.1655507280420; 
- Fri, 17 Jun 2022 16:08:00 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
+ bh=294ojvCzJG+QxzRogH/Uf6cGP9X/olCBo7vsCMUaWUs=;
+ b=vQKgj0glX9A0wu7n88P08vuwA739iomR7ZrWwJPV3MNNyv/U+NlWHPC9YGXFeJlh8H
+ c/rX2ESWR/GbmSI9PDJMx5Db7U/84/M70QZ/DCj9TpqNMqMT3u1okGeAy6INdguTtnPE
+ aUNOl5AQy93xyYr35OOUjkJ6P+33Mz9gahiCfjrKXi007EfEXZdKLwUFwchamLbsCYpL
+ spc4v3OJ9aVln7WQBSNzef+2Pu2euZrHDquk56//vcpROVsltMFMVOIS4+53NM54fg/x
+ A0Mw1C8TFeCIX+YLIsyiod78tCvaYpudf1s5o9cn6lYFubkpQ+dKN5s+/ELhk6blWZEg
+ oTWA==
+X-Gm-Message-State: AJIora92H5557yx/FvBNBXQ3NuKQEZKKLNG2MhpRGrSKJsLzfTktdoOi
+ wi94kgKp6mgTtuq3JQHxiya8tg==
+X-Google-Smtp-Source: AGRyM1stFAPlhmMkLY1NazO67J7oIwcpQv5+571CFcD+wsnGDHo4hdZrZyBBUSUL5SYGrTcERU92tQ==
+X-Received: by 2002:a63:4f05:0:b0:405:5463:2ea8 with SMTP id
+ d5-20020a634f05000000b0040554632ea8mr10679545pgb.94.1655507526105; 
+ Fri, 17 Jun 2022 16:12:06 -0700 (PDT)
+Received: from [172.31.235.92] ([216.9.110.6])
  by smtp.gmail.com with ESMTPSA id
- u8-20020a2e9f08000000b00255446b1726sm680292ljk.121.2022.06.17.16.07.59
+ c2-20020a639602000000b003fb098151c9sm4301292pge.64.2022.06.17.16.12.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jun 2022 16:08:00 -0700 (PDT)
-Message-ID: <bb98ca29-8752-6864-ddbd-19547fb6f73b@linaro.org>
-Date: Sat, 18 Jun 2022 02:07:58 +0300
+ Fri, 17 Jun 2022 16:12:05 -0700 (PDT)
+Message-ID: <b59237c7-fb60-35e2-66f9-668d9946bd3c@linaro.org>
+Date: Fri, 17 Jun 2022 16:12:01 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 2/3] drm/msm/dp: Remove pixel_rate from struct dp_ctrl
-Content-Language: en-GB
-To: Stephen Boyd <swboyd@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20220617204750.2347797-1-swboyd@chromium.org>
- <20220617204750.2347797-3-swboyd@chromium.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220617204750.2347797-3-swboyd@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 02/15] dt-bindings: power: supply: Add Mediatek MT6370
+ Charger
+Content-Language: en-US
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+References: <20220613111146.25221-1-peterwu.pub@gmail.com>
+ <20220613111146.25221-3-peterwu.pub@gmail.com>
+ <dd9b9be2-7bdf-6cb6-b8ad-d7c0a0d5b98a@linaro.org>
+ <CABtFH5+5Y5Tq3vO6Sg3kf98CWm9Aijv7qkdBcpm2SB0JZ1gCiA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CABtFH5+5Y5Tq3vO6Sg3kf98CWm9Aijv7qkdBcpm2SB0JZ1gCiA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,228 +77,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- patches@lists.linux.dev, freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ krzysztof.kozlowski+dt@linaro.org, linux-pm@vger.kernel.org,
+ linux-iio@vger.kernel.org, jingoohan1@gmail.com,
+ ChiaEn Wu <chiaen_wu@richtek.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, szunichen@gmail.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ pavel@ucw.cz, matthias.bgg@gmail.com, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, jic23@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/06/2022 23:47, Stephen Boyd wrote:
-> This struct member is stored to in the function that calls the function
-> which uses it. That's possible with a function argument instead of
-> storing to a struct member. Pass the pixel_rate as an argument instead
-> to simplify the code. Note that dp_ctrl_link_maintenance() was storing
-> the pixel_rate but never using it so we just remove the assignment from
-> there.
+On 17/06/2022 03:19, ChiaEn Wu wrote:
+> Hi Krzysztof,
 > 
-> Cc: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->   drivers/gpu/drm/msm/dp/dp_ctrl.c | 57 ++++++++++++++++----------------
->   drivers/gpu/drm/msm/dp/dp_ctrl.h |  1 -
->   2 files changed, 28 insertions(+), 30 deletions(-)
+> Thanks for your helpful comments! I have so some questions want to ask
+> you below.
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index bd445e683cfc..e114521af2e9 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -1336,7 +1336,7 @@ static void dp_ctrl_set_clock_rate(struct dp_ctrl_private *ctrl,
->   				name, rate);
->   }
->   
-> -static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl)
-> +static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl, unsigned long pixel_rate)
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> 於 2022年6月17日 週五 清晨5:05寫道：
+>>
+>> On 13/06/2022 04:11, ChiaEn Wu wrote:
+>>> From: ChiaEn Wu <chiaen_wu@richtek.com>
+>>>
+>>> Add Mediatek MT6370 Charger binding documentation.
+>>>
+>>> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+>>> ---
+>>>  .../power/supply/mediatek,mt6370-charger.yaml | 60 +++++++++++++++++++
+>>>  1 file changed, 60 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
+>>> new file mode 100644
+>>> index 000000000000..b63553ebb15b
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
+>>> @@ -0,0 +1,60 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/power/supply/mediatek,mt6370-charger.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Mediatek MT6370 Battery Charger
+>>> +
+>>> +maintainers:
+>>> +  - ChiaEn Wu <chiaen_wu@richtek.com>
+>>> +
+>>> +description: |
+>>> +  This module is part of the MT6370 MFD device.
+>>> +  Provides Battery Charger, Boost for OTG devices and BC1.2 detection.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    const: mediatek,mt6370-charger
+>>> +
+>>> +  interrupts:
+>>> +    description: |
+>>> +      Specify what irqs are needed to be handled by MT6370 Charger driver. IRQ
+>>> +      "MT6370_IRQ_CHG_MIVR", "MT6370_IRQ_ATTACH" and "MT6370_IRQ_OVPCTRL_UVP_D"
+>>> +      are required.
+>>> +    items:
+>>> +      - description: BC1.2 done irq
+>>> +      - description: usb plug in irq
+>>> +      - description: mivr irq
+>>> +
+>>> +  interrupt-names:
+>>> +    items:
+>>> +      - const: attach_i
+>>> +      - const: uvp_d_evt
+>>> +      - const: mivr
+>>> +
+>>> +  io-channels:
+>>> +    description: |
+>>> +      Use ADC channel to read vbus, ibus, ibat, etc., info. Ibus ADC channel
+>>> +      is required.
+>>
+>> Add io-channel-names and describe each item - what type of ADC it is
+>> expected to be.
+>>
+> 
+> I'm afraid I might not be understanding what you mean.
+> I will try to add some text in "description" and "io-channel-names", like below
+> ----------------------------------
+> io-channels:
+>   description: |
+>     Use ADC channel to read VBUS, IBUS, IBAT, etc., info. Ibus ADC channel
+>     is required. It can be seen in
+> include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
+>   minItems: 1
+>   maxItems: 9
+> 
+> io-channel-names:
+>   items:
+>     - const: vbusdiv5
+>     - const: vbusdiv2
+
+Almost. The best would be something like this:
+Documentation/devicetree/bindings/power/supply/cpcap-charger.yaml
+so also "items" with description under "io-channels". You need to skip
+maxItems in such case (keep minItems).
+
+>     - ...
+> ----------------------------------
+> Did these modifications meet your expectations?
+> 
+>>> +    minItems: 1
+>>> +    maxItems: 9
+>>> +
+>>> +  usb-otg-vbus-regulator:
+>>> +    type: object
+>>> +    description: OTG boost regulator.
+>>> +    $ref: /schemas/regulator/regulator.yaml#
+>>
+>> unevaluatedProperties: false
+> 
+> I will add this in the next patch.
+> 
+>>
+>>> +
+>>> +    properties:
+>>> +      enable-gpio:
+>>
+>> "gpios", so:
+>> enable-gpios
+> 
+> If this otg regulator only uses one GPIO Pin, do I still need to
+> change to "gpios"?
+
+Yes, because "gpios" is the preferred suffix. This is requirement for
+all such properties. enable-gpios are also documented here:
+Documentation/devicetree/bindings/gpio/gpio-consumer-common.yaml
 
 
-I think we can read pixel_rate here rather than getting it as an 
-argument. We'd need to move handling (DP_TEST_LINK_PHY_TEST_PATTERN && 
-!ctrl->panel->dp_mode.drm_mode.clock) case here from dp_ctrl_on_link().
+> If so, I will refine it along with the regulator "enable-gpio" in MFD
+> dt-binding.
 
->   {
->   	int ret = 0;
->   	struct dp_io *dp_io = &ctrl->parser->io;
-> @@ -1357,25 +1357,25 @@ static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl)
->   	if (ret)
->   		DRM_ERROR("Unable to start link clocks. ret=%d\n", ret);
->   
-> -	drm_dbg_dp(ctrl->drm_dev, "link rate=%d pixel_clk=%d\n",
-> -		ctrl->link->link_params.rate, ctrl->dp_ctrl.pixel_rate);
-> +	drm_dbg_dp(ctrl->drm_dev, "link rate=%d pixel_clk=%lu\n",
-> +		ctrl->link->link_params.rate, pixel_rate);
->   
->   	return ret;
->   }
->   
-> -static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
-> +static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl,
-> +					unsigned long pixel_rate)
->   {
-> -	int ret = 0;
-> +	int ret;
->   
-> -	dp_ctrl_set_clock_rate(ctrl, DP_STREAM_PM, "stream_pixel",
-> -					ctrl->dp_ctrl.pixel_rate * 1000);
-> +	dp_ctrl_set_clock_rate(ctrl, DP_STREAM_PM, "stream_pixel", pixel_rate * 1000);
-
-Note to myself (or to anybody doing further cleanup): store stream_pixel 
-clock into dp_ctrl_private and set it directly here. Then 
-dp_ctrl_set_clock_rate() can be removed.
-
->   
->   	ret = dp_power_clk_enable(ctrl->power, DP_STREAM_PM, true);
->   	if (ret)
->   		DRM_ERROR("Unabled to start pixel clocks. ret=%d\n", ret);
->   
-> -	drm_dbg_dp(ctrl->drm_dev, "link rate=%d pixel_clk=%d\n",
-> -			ctrl->link->link_params.rate, ctrl->dp_ctrl.pixel_rate);
-> +	drm_dbg_dp(ctrl->drm_dev, "link rate=%d pixel_clk=%lu\n",
-> +			ctrl->link->link_params.rate, pixel_rate);
->   
->   	return ret;
->   }
-> @@ -1445,7 +1445,7 @@ static bool dp_ctrl_use_fixed_nvid(struct dp_ctrl_private *ctrl)
->   	return false;
->   }
->   
-> -static int dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl)
-> +static int dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl, unsigned long pixel_rate)
->   {
->   	int ret = 0;
->   	struct dp_io *dp_io = &ctrl->parser->io;
-> @@ -1469,7 +1469,7 @@ static int dp_ctrl_reinitialize_mainlink(struct dp_ctrl_private *ctrl)
->   	/* hw recommended delay before re-enabling clocks */
->   	msleep(20);
->   
-> -	ret = dp_ctrl_enable_mainlink_clocks(ctrl);
-> +	ret = dp_ctrl_enable_mainlink_clocks(ctrl, pixel_rate);
->   	if (ret) {
->   		DRM_ERROR("Failed to enable mainlink clks. ret=%d\n", ret);
->   		return ret;
-> @@ -1517,8 +1517,6 @@ static int dp_ctrl_link_maintenance(struct dp_ctrl_private *ctrl)
->   	ctrl->link->phy_params.p_level = 0;
->   	ctrl->link->phy_params.v_level = 0;
->   
-> -	ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
-> -
->   	ret = dp_ctrl_setup_main_link(ctrl, &training_step);
->   	if (ret)
->   		goto end;
-> @@ -1588,12 +1586,12 @@ static int dp_ctrl_on_stream_phy_test_report(struct dp_ctrl *dp_ctrl)
->   {
->   	int ret;
->   	struct dp_ctrl_private *ctrl;
-> +	unsigned long pixel_rate;
->   
->   	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
->   
-> -	ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
-> -
-> -	ret = dp_ctrl_enable_stream_clocks(ctrl);
-> +	pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
-> +	ret = dp_ctrl_enable_stream_clocks(ctrl, pixel_rate);
-
-I think we can take another step forward here. Read the 
-ctrl->panel->dp_mode.drm_mode.clock from within the 
-dp_ctrl_enable_stream_clocks() function. This removes the need to pass 
-pixel_rate as an argument here.
-
->   	if (ret) {
->   		DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
->   		return ret;
-> @@ -1709,6 +1707,7 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
->   	u32 const phy_cts_pixel_clk_khz = 148500;
->   	u8 link_status[DP_LINK_STATUS_SIZE];
->   	unsigned int training_step;
-> +	unsigned long pixel_rate;
->   
->   	if (!dp_ctrl)
->   		return -EINVAL;
-> @@ -1723,25 +1722,25 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
->   		drm_dbg_dp(ctrl->drm_dev,
->   				"using phy test link parameters\n");
->   		if (!ctrl->panel->dp_mode.drm_mode.clock)
-> -			ctrl->dp_ctrl.pixel_rate = phy_cts_pixel_clk_khz;
-> +			pixel_rate = phy_cts_pixel_clk_khz;
->   	} else {
->   		ctrl->link->link_params.rate = rate;
->   		ctrl->link->link_params.num_lanes =
->   			ctrl->panel->link_info.num_lanes;
-> -		ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
-> +		pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
->   	}
->   
-> -	drm_dbg_dp(ctrl->drm_dev, "rate=%d, num_lanes=%d, pixel_rate=%d\n",
-> +	drm_dbg_dp(ctrl->drm_dev, "rate=%d, num_lanes=%d, pixel_rate=%lu\n",
->   		ctrl->link->link_params.rate, ctrl->link->link_params.num_lanes,
-> -		ctrl->dp_ctrl.pixel_rate);
-> +		pixel_rate);
->   
->   
-> -	rc = dp_ctrl_enable_mainlink_clocks(ctrl);
-> +	rc = dp_ctrl_enable_mainlink_clocks(ctrl, pixel_rate);
->   	if (rc)
->   		return rc;
->   
->   	while (--link_train_max_retries) {
-> -		rc = dp_ctrl_reinitialize_mainlink(ctrl);
-> +		rc = dp_ctrl_reinitialize_mainlink(ctrl, pixel_rate);
->   		if (rc) {
->   			DRM_ERROR("Failed to reinitialize mainlink. rc=%d\n",
->   					rc);
-> @@ -1836,6 +1835,7 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
->   	int ret = 0;
->   	bool mainlink_ready = false;
->   	struct dp_ctrl_private *ctrl;
-> +	unsigned long pixel_rate;
->   	unsigned long pixel_rate_orig;
->   
->   	if (!dp_ctrl)
-> @@ -1843,25 +1843,24 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl, bool force_link_train)
->   
->   	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
->   
-> -	ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
-> +	pixel_rate = pixel_rate_orig = ctrl->panel->dp_mode.drm_mode.clock;
->   
-> -	pixel_rate_orig = ctrl->dp_ctrl.pixel_rate;
->   	if (dp_ctrl->wide_bus_en)
-> -		ctrl->dp_ctrl.pixel_rate >>= 1;
-> +		pixel_rate >>= 1;
->   
-> -	drm_dbg_dp(ctrl->drm_dev, "rate=%d, num_lanes=%d, pixel_rate=%d\n",
-> +	drm_dbg_dp(ctrl->drm_dev, "rate=%d, num_lanes=%d, pixel_rate=%lu\n",
->   		ctrl->link->link_params.rate,
-> -		ctrl->link->link_params.num_lanes, ctrl->dp_ctrl.pixel_rate);
-> +		ctrl->link->link_params.num_lanes, pixel_rate);
->   
->   	if (!dp_power_clk_status(ctrl->power, DP_CTRL_PM)) { /* link clk is off */
-> -		ret = dp_ctrl_enable_mainlink_clocks(ctrl);
-> +		ret = dp_ctrl_enable_mainlink_clocks(ctrl, pixel_rate);
->   		if (ret) {
->   			DRM_ERROR("Failed to start link clocks. ret=%d\n", ret);
->   			goto end;
->   		}
->   	}
->   
-> -	ret = dp_ctrl_enable_stream_clocks(ctrl);
-> +	ret = dp_ctrl_enable_stream_clocks(ctrl, pixel_rate);
->   	if (ret) {
->   		DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
->   		goto end;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> index b563e2e3bfe5..9f29734af81c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> @@ -16,7 +16,6 @@
->   struct dp_ctrl {
->   	bool orientation;
->   	atomic_t aborted;
-> -	u32 pixel_rate;
->   	bool wide_bus_en;
->   };
->   
+Yes, there it should be "enable-gpios" as well.
 
 
--- 
-With best wishes
-Dmitry
+
+
+Best regards,
+Krzysztof
