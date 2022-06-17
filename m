@@ -2,70 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F8454FE4F
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 22:29:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1212254FE7D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 22:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BCF010E2E3;
-	Fri, 17 Jun 2022 20:29:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1A5210FC44;
+	Fri, 17 Jun 2022 20:47:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE2B10E110
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 20:29:50 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id i29so8530043lfp.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 13:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=W20snk6cSE70N48P0RMhJnXFzqgLSe22yxQ6mQfYe0c=;
- b=DX0iJQCBN7BFYUuCZ5S6I0VMPrwnQVjem4QEuF8tknynjGu5bC/qHybU7IbLnurCxp
- dvd7bEHZhZZGgB2ESsqdzEVeWNZA/Wjzvof3WuKAzqkqaVwT6HICbdPR6AZaG49TGVTQ
- vyK0jPvychmEQkv2NzeQQsgsw+DRM9H/uBPUrf/yTjaWIghnyYplfQkh/6GnFXaN1cvN
- LorTmqFVwNpyRXQYmhEZYUIsxZfv8iDDqZNtjhsLpdqeuzXfYkEqgckoMG6BHHsqoiM+
- tDgplbtRyd3XkuzhqmDjVhUj/aaErSwKx7ufPI7osS6dQdVtkMGkcboWSKd+Sc+qvrjb
- jwdA==
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C74DB10FC44
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 20:47:52 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id r5so4978329pgr.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 13:47:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cthRoKdZynlo7BCJhn2Mvx9FZ9+o8uogeaq20GblQQw=;
+ b=nFsBmKmNn+/h8yDv9MpPAjH4ATR3q3Bz0cTI1gh6q7RWGlJq4k9RjlPLJhAYwTAS7p
+ fH5Fgfn9tn1XPnw9u35HLDbshjkuLhEvjrdZr3iu2LgriDyOCphiKdNeMNC7ODk7XZo4
+ IhYcHQs0mlvPPg1IIzhMtZVfOcaenKJqoL5ZU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=W20snk6cSE70N48P0RMhJnXFzqgLSe22yxQ6mQfYe0c=;
- b=NWtU7MmyIgOKHsaLqwYon5uzdDytf0OWi8Ja/BWLf2rsvOsk2M90wR1VxOulAMiO/l
- LlYbzqC/uYnx480go5IruOt8pvHSP8uOztuLWFCi3kSIPTSqnbHTHyd04YhHlS1N87Dx
- zQJS4+z3l16LEgiUoR6IkkpQYZk/ebHOIvrKNOEwU8N+oClNOtDkVGFh+ofqwursBVeb
- 4+qKJkNSSunU9YUhn+CWGCcY5EdccLqq3eFHimg4aUmO9dkwGzMZVo+5xnUpl6WL3R7l
- UF+n7qJXprQafiBUhTyzy02YC+iTPtBpC7E5FRHrt9FZxXzYOnQ5IP4+ya8qQEUMwqwk
- FgxQ==
-X-Gm-Message-State: AJIora8hzyximZFYh4Y+AQm/BgvYzp+xH7NRQYLyY5e9xe30tWBhQyyV
- jgBc4OMvX0Qa1Y5gdujmebcTDg==
-X-Google-Smtp-Source: AGRyM1ua5Z8fyTHi1ZXhgSTwnaNoFg5anxheS6A36/vI+0AGDM0Xh1yxQkxdC2GCE584TGcXIFWYvg==
-X-Received: by 2002:a19:4f1e:0:b0:479:278:8d24 with SMTP id
- d30-20020a194f1e000000b0047902788d24mr6480406lfb.370.1655497788691; 
- Fri, 17 Jun 2022 13:29:48 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
+ bh=cthRoKdZynlo7BCJhn2Mvx9FZ9+o8uogeaq20GblQQw=;
+ b=QOtRnzJozSyPBxTIkDcU8GlUdHlfXMK5ZL8PZcDwPHGcr4tIY9VZXYIYunPmgfYCEg
+ A6hH4+ANQX4QJmBr9l3rM3wM61MoRA/sgNt79E58iOXsMX1jQ43YtctKYoXpRdSlbbA+
+ 3EdtM+ALBXI/j6/vV4OpBVZQfPPctiOg58oRPqoGDVlYxiJSQF5WFCPyOFB4uNE88sbE
+ DWbkuwF1tuNjAlGdKSF7xfl/U8OlI8Vt8J37Jc+NrjOlA+IShbjYjkqU2nQWmIO69rdn
+ OgdAVyV+uTak0cy6hFxCqZidig3I0y4ygCPNh284WYA0tGfEJV9nA3JnSPhrB+j8nEAX
+ UGDw==
+X-Gm-Message-State: AJIora9yk/i8q7UmNbvwcX/J2cUFa+WT/XoS4/0LCxrR0zkV2snSyMQQ
+ Ck61XSHbCFHx8pk5DvZwMS2HkA==
+X-Google-Smtp-Source: AGRyM1s2KT9lZnLB+hTEDMQKftAyY/9OYB52Ihl7t/kjRy+fLlR2MbQtggQk9rA7rcrF+PobFUc2tg==
+X-Received: by 2002:a63:6f8d:0:b0:408:c049:aaf1 with SMTP id
+ k135-20020a636f8d000000b00408c049aaf1mr10554739pgc.199.1655498872314; 
+ Fri, 17 Jun 2022 13:47:52 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:52e2:7dc8:1e20:f870])
  by smtp.gmail.com with ESMTPSA id
- d14-20020a19f24e000000b00478f3bb79d6sm752104lfk.194.2022.06.17.13.29.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jun 2022 13:29:48 -0700 (PDT)
-Message-ID: <5a86e9bf-2447-8175-4d9a-2d644c939841@linaro.org>
-Date: Fri, 17 Jun 2022 23:29:47 +0300
+ z12-20020aa79f8c000000b0052089e1b88esm4098325pfr.192.2022.06.17.13.47.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Jun 2022 13:47:51 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 0/3] drm/msm/dp: More cleanups for force link train
+Date: Fri, 17 Jun 2022 13:47:47 -0700
+Message-Id: <20220617204750.2347797-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.36.1.476.g0c4daa206d-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 2/2] drm/msm/dp: remove dp_display_en/disable prototypes
- and data argument
-Content-Language: en-GB
-To: Stephen Boyd <swboyd@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-References: <20220617194921.1098725-1-dmitry.baryshkov@linaro.org>
- <20220617194921.1098725-2-dmitry.baryshkov@linaro.org>
- <CAE-0n51vDC-a=87hbM_rvxhNNV7KNpCHy3=wH0N5VCEvdrjyuw@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAE-0n51vDC-a=87hbM_rvxhNNV7KNpCHy3=wH0N5VCEvdrjyuw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,58 +65,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org
+Cc: Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ patches@lists.linux.dev, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/06/2022 23:15, Stephen Boyd wrote:
-> Quoting Dmitry Baryshkov (2022-06-17 12:49:21)
->> Remove unused dp_display_en/disable prototypes. While we are at it,
->> remove extra 'data' argument that is unused.
->>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/dp/dp_display.c | 13 +++++--------
->>   1 file changed, 5 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->> index 1e34ac2126f6..42ceb4c5796c 100644
->> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> @@ -607,9 +607,6 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
->>          return 0;
->>   };
->>
->> -static int dp_display_enable(struct dp_display_private *dp, u32 data);
->> -static int dp_display_disable(struct dp_display_private *dp, u32 data);
->> -
-> 
-> This part looks good.
-> 
->>   static void dp_display_handle_plugged_change(struct msm_dp *dp_display,
->>                  bool plugged)
->>   {
->> @@ -856,7 +853,7 @@ static int dp_display_set_mode(struct msm_dp *dp_display,
->>          return 0;
->>   }
->>
->> -static int dp_display_enable(struct dp_display_private *dp, u32 data)
->> +static int dp_display_enable(struct dp_display_private *dp)
-> 
-> This will conflict with Kuogee's patch[1]
+These patches do a little cleanup on the v9 patch from Kuogee.
 
-Ack, missed that. I'll rebase it on top of Kuogee's patch and send v2.
+Stephen Boyd (3):
+  drm/msm/dp: Reorganize code to avoid forward declaration
+  drm/msm/dp: Remove pixel_rate from struct dp_ctrl
+  drm/msm/dp: Get rid of dp_ctrl_on_stream_phy_test_report()
 
-> 
->>   {
->>          int rc = 0;
->>          struct msm_dp *dp_display = &dp->dp_display;
-> 
-> [1] https://lore.kernel.org/r/1655411200-7255-1-git-send-email-quic_khsieh@quicinc.com
+ drivers/gpu/drm/msm/dp/dp_ctrl.c | 145 ++++++++++++++-----------------
+ drivers/gpu/drm/msm/dp/dp_ctrl.h |   1 -
+ 2 files changed, 65 insertions(+), 81 deletions(-)
 
+[1] https://lore.kernel.org/r/1655411200-7255-1-git-send-email-quic_khsieh@quicinc.com
 
+base-commit: 9639746eebb13068dc9de6f436151bd88da2b827
+prerequisite-patch-id: 2fc33a2830ec84d922023fddb585728c48a59525
 -- 
-With best wishes
-Dmitry
+https://chromeos.dev
+
