@@ -2,57 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6AD54F19A
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 09:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634A854F0EF
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 08:10:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E45B811A958;
-	Fri, 17 Jun 2022 07:12:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4183910F04B;
+	Fri, 17 Jun 2022 06:10:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
- [IPv6:2607:f8b0:4864:20::b2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13BF511ACF7
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 04:33:53 +0000 (UTC)
-Received: by mail-yb1-xb2b.google.com with SMTP id k2so5458185ybj.3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 21:33:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/edqkb4xBPzCpc0T2TUWNAfyaG4G5PuJqbK/9LhoRro=;
- b=arkJSNWz21WB2Qmaf9KHwEFksGAL6iX6LJY45znZQfda2mL3jzjpK/vYvzag/JTnVH
- 8yghXPAqOPBkx+5ii2VHiFjwchGnl67dGDXCQywso8mAYdpTmu+w1OIg6XHqfOz8Edew
- +VBRdZc1VRyz+AeDONPxr4tUCfV/c0fOUHoBEJFThLPqJHrMsoL9xRr/LjCJrC67p+ss
- kJmmWW5v8NBGt4EOuebs74WUm6K3C0OcoRs3bSvMOM52LMG9ICbwLeDB+NAj2VMQuZKd
- BTAlXsJXgG9ZdHI5z0vBfESJvPOYChIyoSDHvSBt3ZJzzcf/HBJlAzuP5IwkbpOl/hOU
- 5FYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/edqkb4xBPzCpc0T2TUWNAfyaG4G5PuJqbK/9LhoRro=;
- b=eJHZR24+hCNxm4e+/zLfshV2Iab711Phg8c+Mxtsc8USSDoP2aEOUiJ/ZN9jqeWy1o
- uAEkvrBQf7Conhzsvs8utx/6KNODkKGIt21U7dXxwbEwpQq7NHWM3Qp00mreY9L3ypH2
- FViHgnoHacVo17GZVs24SNIBTwC0JTuFuLKEGz2vlzztGWpxegUAegPY61+c0HMbAVcH
- /l6gJJZTbNZe4/o34HsPDq/SGlbrHw1XmWFd+QTOYN3Z71E2je6zjDWOG8vVTiqIypv8
- i43gOzOCKipzdIhjakZApMvZbOlG9AyHtNDiy7xTJ0ySohMtaPpGwl/iRJSNGGg4uivD
- 915A==
-X-Gm-Message-State: AJIora/KCCYuN6z/LkxmtJI9OeF3BzhJHpYpSCFrxT4FzhHuNfZT9ChI
- B8tX8GzawdhEVVvmRCqW8j1yfXudoGZNVShmypI=
-X-Google-Smtp-Source: AGRyM1uZJy/MqCyIdMyqxZhbYnMfyJU1Bjt2qzm2NNWWo1685tVtIMewkq8VAhSsToK0wrF2MNbijcKCACjOi456d3A=
-X-Received: by 2002:a5b:149:0:b0:668:3bd8:bf64 with SMTP id
- c9-20020a5b0149000000b006683bd8bf64mr8042646ybp.61.1655440431437; Thu, 16 Jun
- 2022 21:33:51 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FA4D10EBD3;
+ Fri, 17 Jun 2022 06:10:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655446218; x=1686982218;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=5XQky/KEO73dI9jLWrvixRjFNbdY373PFwQhvIc/rOs=;
+ b=j3qn+4jZSD+XP0do/XDXkBT094wv23A0acSgPhX4FJKOhSxCGQW6Ndzl
+ M3iGnE47OpDZ9ewILZRUFC6Qd6zvL3r+AnwNWjEeAJlQKLiugsAGFZ+cj
+ VrvY+Cu8MPEJo+DE/QyGd9VwAVblP5AfuwSVSWwTNRulLLZfqwMvLJwkf
+ b6k8LaNyLFIH9ON1uJGiQ3XSw3c+ZlaSMJZyaVh3oRJOd6t9LaTSrQUzB
+ fmYzallvEIC+UnKLYDbOXonGHP76+mUPyGuwTjeXjU79Yky2uxRNCLqs/
+ DD9klXRLnmMbTnt8/BwFjnuxftZonQa+Vw8Y+ym8PEeipS5vy7ku3V58u Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="259889589"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="259889589"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 23:10:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="589983612"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by fmsmga007.fm.intel.com with ESMTP; 16 Jun 2022 23:10:17 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Thu, 16 Jun 2022 23:10:17 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Thu, 16 Jun 2022 23:10:16 -0700
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
+ Thu, 16 Jun 2022 23:10:16 -0700
+From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+To: "Roper, Matthew D" <matthew.d.roper@intel.com>
+Subject: RE: [PATCH v2 3/9] drm/i915/dg2: Add DG2_NB_MBD subplatform
+Thread-Topic: [PATCH v2 3/9] drm/i915/dg2: Add DG2_NB_MBD subplatform
+Thread-Index: AQHYgXjTrMso0WaPBk+JWuds/eSZo61TMGWA///t51A=
+Date: Fri, 17 Jun 2022 06:10:16 +0000
+Message-ID: <466454a33e944bbcb8929e22d7e3ec30@intel.com>
+References: <20220616120106.24353-1-anshuman.gupta@intel.com>
+ <20220616120106.24353-4-anshuman.gupta@intel.com>
+ <YqvHCa4j8QwMNrmd@mdroper-desk1.amr.corp.intel.com>
+In-Reply-To: <YqvHCa4j8QwMNrmd@mdroper-desk1.amr.corp.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.500.17
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.1]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20220615222221.1501-1-jirivanek1@gmail.com>
- <20220615222221.1501-3-jirivanek1@gmail.com>
-In-Reply-To: <20220615222221.1501-3-jirivanek1@gmail.com>
-From: Vinay Simha B N <simhavcs@gmail.com>
-Date: Fri, 17 Jun 2022 10:03:40 +0530
-Message-ID: <CAGWqDJ6Boq5x4DofKx=US_Yx6_46JGTHuaLbEKq-uXRAz-35AA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/bridge/tc358775: Fix DSI clock division for vsync
- delay calculation
-To: Jiri Vanek <jirivanek1@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000dcddec05e19d42a6"
-X-Mailman-Approved-At: Fri, 17 Jun 2022 07:12:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,111 +78,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- open list <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: "Tangudu, Tilak" <tilak.tangudu@intel.com>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Ewins,
+ Jon" <jon.ewins@intel.com>, "Nilawar, Badal" <badal.nilawar@intel.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000dcddec05e19d42a6
-Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Vinay Simha BN <simhavcs@gmail.com>
 
-On Thu, Jun 16, 2022 at 3:55 AM Jiri Vanek <jirivanek1@gmail.com> wrote:
-
-> Use the same PCLK divide option (divide DSI clock to generate pixel clock)
-> which is set to LVDS Configuration Register (LVCFG) also for a VSync delay
-> calculation. Without this change an auxiliary variable could underflow
-> during the calculation for some dual-link LVDS panels and then calculated
-> VSync delay is wrong. This leads to a shifted picture on a panel.
->
-> Tested-by: Jiri Vanek <jirivanek1@gmail.com>
-> Signed-off-by: Jiri Vanek <jirivanek1@gmail.com>
-> ---
->  drivers/gpu/drm/bridge/tc358775.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/tc358775.c
-> b/drivers/gpu/drm/bridge/tc358775.c
-> index cd2721ab02a9..fecb8558b49a 100644
-> --- a/drivers/gpu/drm/bridge/tc358775.c
-> +++ b/drivers/gpu/drm/bridge/tc358775.c
-> @@ -430,7 +430,7 @@ static void tc_bridge_enable(struct drm_bridge *bridge)
->                 val = TC358775_VPCTRL_MSF(1);
->
->         dsiclk = mode->crtc_clock * 3 * tc->bpc / tc->num_dsi_lanes / 1000;
-> -       clkdiv = dsiclk / DIVIDE_BY_3 * tc->lvds_link;
-> +       clkdiv = dsiclk / (tc->lvds_link == DUAL_LINK ? DIVIDE_BY_6 :
-> DIVIDE_BY_3);
->         byteclk = dsiclk / 4;
->         t1 = hactive * (tc->bpc * 3 / 8) / tc->num_dsi_lanes;
->         t2 = ((100000 / clkdiv)) * (hactive + hback_porch + hsync_len +
-> hfront_porch) / 1000;
+> -----Original Message-----
+> From: Roper, Matthew D <matthew.d.roper@intel.com>
+> Sent: Friday, June 17, 2022 5:43 AM
+> To: Gupta, Anshuman <anshuman.gupta@intel.com>
+> Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Nil=
+awar,
+> Badal <badal.nilawar@intel.com>; Ewins, Jon <jon.ewins@intel.com>; Vivi,
+> Rodrigo <rodrigo.vivi@intel.com>; Ursulin, Tvrtko <tvrtko.ursulin@intel.c=
+om>;
+> Tangudu, Tilak <tilak.tangudu@intel.com>
+> Subject: Re: [PATCH v2 3/9] drm/i915/dg2: Add DG2_NB_MBD subplatform
+>=20
+> On Thu, Jun 16, 2022 at 05:31:00PM +0530, Anshuman Gupta wrote:
+> > DG2 NB SKU need to distinguish between MBD and AIC to probe the VRAM
+> > Self Refresh feature support. Adding those sub platform accordingly.
+> >
+> > Cc: Matt Roper <matthew.d.roper@intel.com>
+> > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/i915_drv.h          |  3 +++
+> >  drivers/gpu/drm/i915/intel_device_info.c | 21 +++++++++++++++++++++
+> > drivers/gpu/drm/i915/intel_device_info.h | 11 +++++++----
+> >  include/drm/i915_pciids.h                | 23 ++++++++++++++++-------
+> >  4 files changed, 47 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_drv.h
+> > b/drivers/gpu/drm/i915/i915_drv.h index a5bc6a774c5a..f1f8699eedfd
+> > 100644
+> > --- a/drivers/gpu/drm/i915/i915_drv.h
+> > +++ b/drivers/gpu/drm/i915/i915_drv.h
+> > @@ -1007,10 +1007,13 @@ IS_SUBPLATFORM(const struct drm_i915_private
+> > *i915,  #define IS_PONTEVECCHIO(dev_priv) IS_PLATFORM(dev_priv,
+> > INTEL_PONTEVECCHIO)
+> >
+> >  #define IS_DG2_G10(dev_priv) \
+> > +	IS_SUBPLATFORM(dev_priv, INTEL_DG2,
+> INTEL_SUBPLATFORM_G10_NB_MBD) ||
+> > +\
+> >  	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G10)
+> #define
+> > IS_DG2_G11(dev_priv) \
+> > +	IS_SUBPLATFORM(dev_priv, INTEL_DG2,
+> INTEL_SUBPLATFORM_G11_NB_MBD) ||
+> > +\
+> >  	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G11)
+> #define
+> > IS_DG2_G12(dev_priv) \
+> > +	IS_SUBPLATFORM(dev_priv, INTEL_DG2,
+> INTEL_SUBPLATFORM_G12_NB_MBD) ||
+> > +\
+> >  	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G12)
+> #define
+> > IS_ADLS_RPLS(dev_priv) \
+> >  	IS_SUBPLATFORM(dev_priv, INTEL_ALDERLAKE_S,
+> INTEL_SUBPLATFORM_RPL)
+> > diff --git a/drivers/gpu/drm/i915/intel_device_info.c
+> > b/drivers/gpu/drm/i915/intel_device_info.c
+> > index f0bf23726ed8..93da555adc4e 100644
+> > --- a/drivers/gpu/drm/i915/intel_device_info.c
+> > +++ b/drivers/gpu/drm/i915/intel_device_info.c
+> > @@ -187,6 +187,18 @@ static const u16 subplatform_rpl_ids[] =3D {
+> >  	INTEL_RPLP_IDS(0),
+> >  };
+> >
+> > +static const u16 subplatform_g10_mb_mbd_ids[] =3D {
+> > +	INTEL_DG2_G10_NB_MBD_IDS(0),
+> > +};
+> > +
+> > +static const u16 subplatform_g11_mb_mbd_ids[] =3D {
+> > +	INTEL_DG2_G11_NB_MBD_IDS(0),
+> > +};
+> > +
+> > +static const u16 subplatform_g12_mb_mbd_ids[] =3D {
+> > +	INTEL_DG2_G12_NB_MBD_IDS(0),
+> > +};
+>=20
+> We only need a single MBD subplatform, not three new subplatforms.
+> Unless I'm forgetting something, a single device ID can be assigned two t=
+wo
+> independent subplatforms at the same time.  So the decision about whether=
+ to
+> set the G10, G11, or G12 bit is one decision.  The decision about whether=
+ to set
+> the MBD bit is a completely separate decision that doesn't care about the
+> G10/G11/G12 stuff.
+>=20
+> > +
+> >  static const u16 subplatform_g10_ids[] =3D {
+> >  	INTEL_DG2_G10_IDS(0),
+> >  	INTEL_ATS_M150_IDS(0),
+> > @@ -246,6 +258,15 @@ void intel_device_info_subplatform_init(struct
+> drm_i915_private *i915)
+> >  	} else if (find_devid(devid, subplatform_rpl_ids,
+> >  			      ARRAY_SIZE(subplatform_rpl_ids))) {
+> >  		mask =3D BIT(INTEL_SUBPLATFORM_RPL);
+> > +	} else if (find_devid(devid, subplatform_g10_mb_mbd_ids,
+> > +			      ARRAY_SIZE(subplatform_g10_mb_mbd_ids))) {
+> > +		mask =3D BIT(INTEL_SUBPLATFORM_G10_NB_MBD);
+> > +	} else if (find_devid(devid, subplatform_g11_mb_mbd_ids,
+> > +			      ARRAY_SIZE(subplatform_g11_mb_mbd_ids))) {
+> > +		mask =3D BIT(INTEL_SUBPLATFORM_G11_NB_MBD);
+> > +	} else if (find_devid(devid, subplatform_g12_mb_mbd_ids,
+> > +			      ARRAY_SIZE(subplatform_g12_mb_mbd_ids))) {
+> > +		mask =3D BIT(INTEL_SUBPLATFORM_G12_NB_MBD);
+>=20
+> Assuming you consolidate MBD back down to just a single extra subplatform=
+,
+> the lookup and bit setting should happen in a separate 'if'
+> statement (not an 'else' block).
+>=20
+>         if (find_devid(devid, subplatform_mbd_ids,
+>                        ARRAY_SIZE(subplatform_mbd_ids)))
+>                 mask |=3D BIT(INTEL_SUBPLATFORM_MBD);
+Thanks Matt , Jani and Tvrtko for review comment,
+I will create only INTEL_SUBPLATFORM_MBD and address it.
+Regards,
+Anshuman Gupta.
+>=20
+>=20
+> Matt
+>=20
+> >  	} else if (find_devid(devid, subplatform_g10_ids,
+> >  			      ARRAY_SIZE(subplatform_g10_ids))) {
+> >  		mask =3D BIT(INTEL_SUBPLATFORM_G10);
+> > diff --git a/drivers/gpu/drm/i915/intel_device_info.h
+> > b/drivers/gpu/drm/i915/intel_device_info.h
+> > index 08341174ee0a..c929e2d7e59c 100644
+> > --- a/drivers/gpu/drm/i915/intel_device_info.h
+> > +++ b/drivers/gpu/drm/i915/intel_device_info.h
+> > @@ -97,7 +97,7 @@ enum intel_platform {
+> >   * it is fine for the same bit to be used on multiple parent platforms=
+.
+> >   */
+> >
+> > -#define INTEL_SUBPLATFORM_BITS (3)
+> > +#define INTEL_SUBPLATFORM_BITS (6)
+> >  #define INTEL_SUBPLATFORM_MASK (BIT(INTEL_SUBPLATFORM_BITS) - 1)
+> >
+> >  /* HSW/BDW/SKL/KBL/CFL */
+> > @@ -111,9 +111,12 @@ enum intel_platform {
+> >  #define INTEL_SUBPLATFORM_UY	(0)
+> >
+> >  /* DG2 */
+> > -#define INTEL_SUBPLATFORM_G10	0
+> > -#define INTEL_SUBPLATFORM_G11	1
+> > -#define INTEL_SUBPLATFORM_G12	2
+> > +#define INTEL_SUBPLATFORM_G10_NB_MBD	0
+> > +#define INTEL_SUBPLATFORM_G11_NB_MBD	1
+> > +#define INTEL_SUBPLATFORM_G12_NB_MBD	2
+> > +#define INTEL_SUBPLATFORM_G10	3
+> > +#define INTEL_SUBPLATFORM_G11	4
+> > +#define INTEL_SUBPLATFORM_G12	5
+> >
+> >  /* ADL */
+> >  #define INTEL_SUBPLATFORM_RPL	0
+> > diff --git a/include/drm/i915_pciids.h b/include/drm/i915_pciids.h
+> > index 4585fed4e41e..198be417bb2d 100644
+> > --- a/include/drm/i915_pciids.h
+> > +++ b/include/drm/i915_pciids.h
+> > @@ -693,32 +693,41 @@
+> >  	INTEL_VGA_DEVICE(0xA7A9, info)
+> >
+> >  /* DG2 */
+> > -#define INTEL_DG2_G10_IDS(info) \
+> > +#define INTEL_DG2_G10_NB_MBD_IDS(info) \
+> >  	INTEL_VGA_DEVICE(0x5690, info), \
+> >  	INTEL_VGA_DEVICE(0x5691, info), \
+> > -	INTEL_VGA_DEVICE(0x5692, info), \
+> > +	INTEL_VGA_DEVICE(0x5692, info)
+> > +
+> > +#define INTEL_DG2_G11_NB_MBD_IDS(info) \
+> > +	INTEL_VGA_DEVICE(0x5693, info), \
+> > +	INTEL_VGA_DEVICE(0x5694, info), \
+> > +	INTEL_VGA_DEVICE(0x5695, info)
+> > +
+> > +#define INTEL_DG2_G12_NB_MBD_IDS(info) \
+> > +	INTEL_VGA_DEVICE(0x5696, info), \
+> > +	INTEL_VGA_DEVICE(0x5697, info)
+> > +
+> > +#define INTEL_DG2_G10_IDS(info) \
+> >  	INTEL_VGA_DEVICE(0x56A0, info), \
+> >  	INTEL_VGA_DEVICE(0x56A1, info), \
+> >  	INTEL_VGA_DEVICE(0x56A2, info)
+> >
+> >  #define INTEL_DG2_G11_IDS(info) \
+> > -	INTEL_VGA_DEVICE(0x5693, info), \
+> > -	INTEL_VGA_DEVICE(0x5694, info), \
+> > -	INTEL_VGA_DEVICE(0x5695, info), \
+> >  	INTEL_VGA_DEVICE(0x56A5, info), \
+> >  	INTEL_VGA_DEVICE(0x56A6, info), \
+> >  	INTEL_VGA_DEVICE(0x56B0, info), \
+> >  	INTEL_VGA_DEVICE(0x56B1, info)
+> >
+> >  #define INTEL_DG2_G12_IDS(info) \
+> > -	INTEL_VGA_DEVICE(0x5696, info), \
+> > -	INTEL_VGA_DEVICE(0x5697, info), \
+> >  	INTEL_VGA_DEVICE(0x56A3, info), \
+> >  	INTEL_VGA_DEVICE(0x56A4, info), \
+> >  	INTEL_VGA_DEVICE(0x56B2, info), \
+> >  	INTEL_VGA_DEVICE(0x56B3, info)
+> >
+> >  #define INTEL_DG2_IDS(info) \
+> > +	INTEL_DG2_G10_NB_MBD_IDS(info), \
+> > +	INTEL_DG2_G11_NB_MBD_IDS(info), \
+> > +	INTEL_DG2_G12_NB_MBD_IDS(info), \
+> >  	INTEL_DG2_G10_IDS(info), \
+> >  	INTEL_DG2_G11_IDS(info), \
+> >  	INTEL_DG2_G12_IDS(info)
+> > --
+> > 2.26.2
+> >
+>=20
 > --
-> 2.30.2
->
->
-
--- 
-regards,
-vinaysimha
-
---000000000000dcddec05e19d42a6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Reviewed-by: Vinay Simha BN &lt;<a href=3D"mailto:simhavcs=
-@gmail.com">simhavcs@gmail.com</a>&gt;</div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 16, 2022 at 3:55 AM Jiri =
-Vanek &lt;<a href=3D"mailto:jirivanek1@gmail.com">jirivanek1@gmail.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Use t=
-he same PCLK divide option (divide DSI clock to generate pixel clock)<br>
-which is set to LVDS Configuration Register (LVCFG) also for a VSync delay<=
-br>
-calculation. Without this change an auxiliary variable could underflow<br>
-during the calculation for some dual-link LVDS panels and then calculated<b=
-r>
-VSync delay is wrong. This leads to a shifted picture on a panel.<br>
-<br>
-Tested-by: Jiri Vanek &lt;<a href=3D"mailto:jirivanek1@gmail.com" target=3D=
-"_blank">jirivanek1@gmail.com</a>&gt;<br>
-Signed-off-by: Jiri Vanek &lt;<a href=3D"mailto:jirivanek1@gmail.com" targe=
-t=3D"_blank">jirivanek1@gmail.com</a>&gt;<br>
----<br>
-=C2=A0drivers/gpu/drm/bridge/tc358775.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc3=
-58775.c<br>
-index cd2721ab02a9..fecb8558b49a 100644<br>
---- a/drivers/gpu/drm/bridge/tc358775.c<br>
-+++ b/drivers/gpu/drm/bridge/tc358775.c<br>
-@@ -430,7 +430,7 @@ static void tc_bridge_enable(struct drm_bridge *bridge)=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D TC358775_VP=
-CTRL_MSF(1);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dsiclk =3D mode-&gt;crtc_clock * 3 * tc-&gt;bpc=
- / tc-&gt;num_dsi_lanes / 1000;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0clkdiv =3D dsiclk / DIVIDE_BY_3 * tc-&gt;lvds_l=
-ink;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0clkdiv =3D dsiclk / (tc-&gt;lvds_link =3D=3D DU=
-AL_LINK ? DIVIDE_BY_6 : DIVIDE_BY_3);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 byteclk =3D dsiclk / 4;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 t1 =3D hactive * (tc-&gt;bpc * 3 / 8) / tc-&gt;=
-num_dsi_lanes;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 t2 =3D ((100000 / clkdiv)) * (hactive + hback_p=
-orch + hsync_len + hfront_porch) / 1000;<br>
--- <br>
-2.30.2<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">regards,<br>vinaysimha</div>
-
---000000000000dcddec05e19d42a6--
+> Matt Roper
+> Graphics Software Engineer
+> VTT-OSGC Platform Enablement
+> Intel Corporation
