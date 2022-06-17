@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1415454F145
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 08:56:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA7A54F16F
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 09:09:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AF5311A7CD;
-	Fri, 17 Jun 2022 06:56:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 578F710E41D;
+	Fri, 17 Jun 2022 07:09:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5AB211A7CD
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 06:56:44 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id b8so4920394edj.11
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 23:56:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sLhfCJ8PekgBeiM3KU80x7Qwq344wsuKnT/r+LcG2GM=;
- b=e7KAaUnuA0HYGg2Lg9mBPj3DrKLEvfZUjQBilNBT6iFsQwiChqYLbSFMpt1CZw49hu
- Uhh/Z4UzfmH1tgChFd4GYmJPuADEzaM36JeRF/stmNvDIRYGsPkJEfUx2gcYqjIzk+1Z
- 4pTq/kEcbLMa+GGo+ioysby8f4NVMsOllC4QI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sLhfCJ8PekgBeiM3KU80x7Qwq344wsuKnT/r+LcG2GM=;
- b=HOoXU9V8QPOgBSLGjxkqlad3TCemhZOJRM5shXr+Jpla618nz9dZMwnyxTMGV3Ywu4
- HMtWJErDsmFFwjk9r1mk3leRT+BU5mG3RihLBQnIzIshVpIWfQ1YDeunCaR1x5BcqwW0
- Yj07mxuMYyDbIVQyDJY1RaAB+xqN7mCVAGjWLsOmfUFNRFNg6RTHuggd2mEFqdzGK48Y
- kF5HSgC+KetyqYtqLF3riqet4RImGwc91oeQ5Ztob8XKaUODSxEfL4Z5z4U3P8WDqK0G
- 3khpe/daw2B+cHELuAUF5vgNgDnK+zqEEQJqfq5+pPOnRIqcIz82SyM3WW42vE6GGPyx
- XTHQ==
-X-Gm-Message-State: AJIora9VnjNm9FHBXpX1pBIB3J4KJ3OXOEMhCPGCErdKwsBUbIFVu+it
- 2qz05fSEJq0hILE91uV/S3G9MKR1N9yfoXRL+wkKkg==
-X-Google-Smtp-Source: AGRyM1tIbRFLJsIG8ha9JMgB0N9ZCD+AhfPO/Aq8IF+A20gJm7k5xF0so9i5AD1klMG7BMMrL3Xu6QF5ZW0ApN7BiWc=
-X-Received: by 2002:a05:6402:6cc:b0:42d:bd2d:9f82 with SMTP id
- n12-20020a05640206cc00b0042dbd2d9f82mr10669676edy.59.1655449003429; Thu, 16
- Jun 2022 23:56:43 -0700 (PDT)
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94B1B10E41D;
+ Fri, 17 Jun 2022 07:09:02 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LPVWq4mX0z4xYX;
+ Fri, 17 Jun 2022 17:08:55 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+ s=201909; t=1655449738;
+ bh=Ld8odACPKrJ92UdQKdxcty3uFHAGtCNlTBxeSo4iImI=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=hWOPSyYz1EhXPnB5ea5qGqyjtlfgMWoIuOWSEioYdQmDdVbueqFu+8c9DlYwtl3Ne
+ c/fojj2dABMv7Hg6+PQa4oSUzoHU1jm41I2YvnxfvNlDq0mFXEteHAjr4ac5Ma2oXc
+ PaLEJOHRXjhUX6FUiKgJy2rHWuFedcDAxjWXW2E7bJOvwl/YW/GIXVXti48bMxDPTz
+ vMRKMPVk6/1d+A+tECv52ihr/SYALEImvzxFlmsZNwUQHx0HUI57454/gp9T/wmgcv
+ BPFMjJoPj/FJSgnhbB5XeOan0xEY9ZlZ3pHE1hJ6JgfoAqVq819ZSK2ucQXnyrMwfi
+ 6mNDbakIlYAVA==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Lyude Paul <lyude@redhat.com>, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, Ben Skeggs <bskeggs@redhat.com>, Karol
+ Herbst <kherbst@redhat.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>
+Subject: Re: [PATCH v2] drm/nouveau/bios: Rename prom_init() and friends
+ functions
+In-Reply-To: <f548e6d03daf6c56cd011bd1a9ce46001e93590c.camel@redhat.com>
+References: <7e0612b61511ec8030e3b2dcbfaa7751781c8b91.1647684507.git.christophe.leroy@csgroup.eu>
+ <f6e72c6e6d9ae9019ad675081493372f745cbbf5.camel@redhat.com>
+ <8735ggeih2.fsf@mpe.ellerman.id.au>
+ <8c6e570f5e65e4f5abebc136d40d567e9af4f940.camel@redhat.com>
+ <f548e6d03daf6c56cd011bd1a9ce46001e93590c.camel@redhat.com>
+Date: Fri, 17 Jun 2022 17:08:51 +1000
+Message-ID: <87fsk3bwcc.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-References: <20220617032113.18576-1-yunfei.dong@mediatek.com>
-In-Reply-To: <20220617032113.18576-1-yunfei.dong@mediatek.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 17 Jun 2022 14:56:32 +0800
-Message-ID: <CAGXv+5EZ+Mu1481gM9h0kgqO3a0xFKP8drvGv7gRp6=3NU2oKA@mail.gmail.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Fix non subdev architecture open
- power fail
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,35 +58,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, Irui Wang <irui.wang@mediatek.com>,
- George Sun <george.sun@mediatek.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tiffany Lin <tiffany.lin@mediatek.com>,
- Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alexandre Courbot <acourbot@chromium.org>, linux-kernel@vger.kernel.org,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 17, 2022 at 11:21 AM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+Lyude Paul <lyude@redhat.com> writes:
+> Alright, dim's pushing it now. sorry about that!
+
+Thanks, I see it in linux-next now.
+
+cheers
+
+> On Wed, 2022-06-08 at 16:48 -0400, Lyude Paul wrote:
+>> Whoops, it totally may have. Thank you for the reminder, I will double c=
+heck
+>> and make sure this gets pushed today
+>>=20
+>> On Tue, 2022-06-07 at 23:00 +1000, Michael Ellerman wrote:
+>> > Lyude Paul <lyude@redhat.com> writes:
+>> > > Reviewed-by: Lyude Paul <lyude@redhat.com>
+>> > >=20
+>> > > Will push to drm-misc-next
+>> >=20
+>> > I don't see this patch in mainline or drm-misc-next, did it get lost?
+>> >=20
+>> > cheers
+>> >=20
+>> > > On Sat, 2022-03-19 at 11:27 +0100, Christophe Leroy wrote:
+>> > > > While working at fixing powerpc headers, I ended up with the
+>> > > > following error.
+>> > > >=20
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/no=
+uveau/nvkm/subdev/bios/shadowrom.c:48:1:
+>> > > > error:
+>> > > > conflicting types for 'prom_init'; have 'void *(struct nvkm_bios *,
+>> > > > const
+>> > > > char *)'
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0make[5]: *** [scri=
+pts/Makefile.build:288:
+>> > > > drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.o] Error 1
+>> > > >=20
+>> > > > powerpc and a few other architectures have a prom_init() global
+>> > > > function.
+>> > > > One day or another it will conflict with the one in shadowrom.c
+>> > > >=20
+>> > > > Those being static, they can easily be renamed. Do it.
+>> > > >=20
+>> > > > While at it, also rename the ops structure as 'nvbios_prom' instea=
+d of
+>> > > > 'nvbios_rom' in order to make it clear that it refers to the
+>> > > > NV_PROM device.
+>> > > >=20
+>> > > > Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+>> > > > ---
+>> > > > v2: using nvbios_prom prefix instead of nvbios_rom. Changed struct=
+ure
+>> > > > name
+>> > > > to keep things consistant.
+>> > > >=20
+>> > > > =C2=A0drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 2 +-
+>> > > > =C2=A0drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c=C2=A0 |=C2=
+=A0 2 +-
+>> > > > =C2=A0.../gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c=C2=A0=C2=A0=
+ | 14 +++++++------
+>> > > > -
+>> > > > =C2=A03 files changed, 9 insertions(+), 9 deletions(-)
+>> > > >=20
+>> > > > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
+>> > > > b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
+>> > > > index fac1bff1311b..cfa8a0c356dd 100644
+>> > > > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
+>> > > > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/priv.h
+>> > > > @@ -19,7 +19,7 @@ struct nvbios_source {
+>> > > > =C2=A0int nvbios_extend(struct nvkm_bios *, u32 length);
+>> > > > =C2=A0int nvbios_shadow(struct nvkm_bios *);
+>> > > > =C2=A0
+>> > > > -extern const struct nvbios_source nvbios_rom;
+>> > > > +extern const struct nvbios_source nvbios_prom;
+>> > > > =C2=A0extern const struct nvbios_source nvbios_ramin;
+>> > > > =C2=A0extern const struct nvbios_source nvbios_acpi_fast;
+>> > > > =C2=A0extern const struct nvbios_source nvbios_acpi_slow;
+>> > > > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+>> > > > b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+>> > > > index 4b571cc6bc70..19188683c8fc 100644
+>> > > > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+>> > > > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadow.c
+>> > > > @@ -171,7 +171,7 @@ nvbios_shadow(struct nvkm_bios *bios)
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct shadow mthd=
+s[] =3D {
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 0, &nvbios_of },
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 0, &nvbios_ramin },
+>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 0, &nvbios_rom },
+>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 0, &nvbios_prom },
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 0, &nvbios_acpi_fast },
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 4, &nvbios_acpi_slow },
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0{ 1, &nvbios_pcirom },
+>> > > > diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
+>> > > > b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
+>> > > > index ffa4b395220a..39144ceb117b 100644
+>> > > > --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
+>> > > > +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/shadowrom.c
+>> > > > @@ -25,7 +25,7 @@
+>> > > > =C2=A0#include <subdev/pci.h>
+>> > > > =C2=A0
+>> > > > =C2=A0static u32
+>> > > > -prom_read(void *data, u32 offset, u32 length, struct nvkm_bios *b=
+ios)
+>> > > > +nvbios_prom_read(void *data, u32 offset, u32 length, struct nvkm_=
+bios
+>> > > > *bios)
+>> > > > =C2=A0{
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct nvkm_device=
+ *device =3D data;
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u32 i;
+>> > > > @@ -38,14 +38,14 @@ prom_read(void *data, u32 offset, u32 length,
+>> > > > struct
+>> > > > nvkm_bios *bios)
+>> > > > =C2=A0}
+>> > > > =C2=A0
+>> > > > =C2=A0static void
+>> > > > -prom_fini(void *data)
+>> > > > +nvbios_prom_fini(void *data)
+>> > > > =C2=A0{
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct nvkm_device=
+ *device =3D data;
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0nvkm_pci_rom_shado=
+w(device->pci, true);
+>> > > > =C2=A0}
+>> > > > =C2=A0
+>> > > > =C2=A0static void *
+>> > > > -prom_init(struct nvkm_bios *bios, const char *name)
+>> > > > +nvbios_prom_init(struct nvkm_bios *bios, const char *name)
+>> > > > =C2=A0{
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct nvkm_device=
+ *device =3D bios->subdev.device;
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (device->card_t=
+ype =3D=3D NV_40 && device->chipset >=3D 0x4c)
+>> > > > @@ -55,10 +55,10 @@ prom_init(struct nvkm_bios *bios, const char
+>> > > > *name)
+>> > > > =C2=A0}
+>> > > > =C2=A0
+>> > > > =C2=A0const struct nvbios_source
+>> > > > -nvbios_rom =3D {
+>> > > > +nvbios_prom =3D {
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.name =3D "PROM",
+>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.init =3D prom_init,
+>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.fini =3D prom_fini,
+>> > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.read =3D prom_read,
+>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.init =3D nvbios_prom_i=
+nit,
+>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.fini =3D nvbios_prom_f=
+ini,
+>> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.read =3D nvbios_prom_r=
+ead,
+>> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0.rw =3D false,
+>> > > > =C2=A0};
+>> > >=20
+>> > > --=20
+>> > > Cheers,
+>> > > =C2=A0Lyude Paul (she/her)
+>> > > =C2=A0Software Engineer at Red Hat
+>> >=20
+>>=20
 >
-> According to subdev_bitmap bit value to open hardware power, need to
-> set subdev_bitmap value for non subdev architecture.
->
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-
-Fixes: c05bada35f01 ("media: mtk-vcodec: Add to support multi hardware decode")
-
-?
-
-ChenYu
+> --=20
+> Cheers,
+>  Lyude Paul (she/her)
+>  Software Engineer at Red Hat
