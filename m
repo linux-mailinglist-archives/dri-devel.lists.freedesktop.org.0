@@ -1,50 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B605054F0A4
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 07:38:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A53254F0B2
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 07:44:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0BDC11AEAF;
-	Fri, 17 Jun 2022 05:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33F3711A63B;
+	Fri, 17 Jun 2022 05:44:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40B2311AEAF
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 05:38:27 +0000 (UTC)
-X-UUID: 9c60530ada6a41a0adfc0f9e9ae758f0-20220617
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2D7211A63B
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 05:44:42 +0000 (UTC)
+X-UUID: 00b27e5b925e4066b4c04cdcbd4fcf9a-20220617
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:3d496b69-7c90-45ff-8a99-3c0b8a399582, OB:0,
+X-CID-O-INFO: VERSION:1.1.6, REQID:203689c6-47fb-4887-8da9-daca6b6e5d4b, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:b14ad71, CLOUDID:fb68db48-4c92-421c-ad91-b806c0f58b2a,
+ B:0,IP:0,URL:5,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:45
+X-CID-INFO: VERSION:1.1.6, REQID:203689c6-47fb-4887-8da9-daca6b6e5d4b, OB:0,
+ LOB:
+ 0,IP:0,URL:5,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:45
+X-CID-META: VersionHash:b14ad71, CLOUDID:2b4198f6-e099-41ba-a32c-13b8bfe63214,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 9c60530ada6a41a0adfc0f9e9ae758f0-20220617
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 621481764; Fri, 17 Jun 2022 13:38:23 +0800
+ OID:8561c84f02bb,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 00b27e5b925e4066b4c04cdcbd4fcf9a-20220617
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1576596920; Fri, 17 Jun 2022 13:44:37 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
  mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Fri, 17 Jun 2022 13:38:22 +0800
+ 15.2.792.15; Fri, 17 Jun 2022 13:44:36 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Fri, 17 Jun 2022 13:38:21 +0800
-Message-ID: <df498cc98c02a580a50ff7aa5b06cb74f502e1e4.camel@mediatek.com>
-Subject: Re: [PATCH 2/7] dt-bindings: display: mediatek: dpi: add binding
- for MT8365
+ Transport; Fri, 17 Jun 2022 13:44:36 +0800
+Message-ID: <cfd1b024a388cc2506a8f836795b50c75844c9d2.camel@mediatek.com>
+Subject: Re: [PATCH 3/7] dt-bindings: display: mediatek: add bindings for
+ MT8365 SoC
 From: CK Hu <ck.hu@mediatek.com>
 To: Fabien Parent <fparent@baylibre.com>, <matthias.bgg@gmail.com>,
  <jitao.shi@mediatek.com>, <krzysztof.kozlowski+dt@linaro.org>,
  <robh+dt@kernel.org>
-Date: Fri, 17 Jun 2022 13:38:21 +0800
-In-Reply-To: <20220530201436.902505-2-fparent@baylibre.com>
+Date: Fri, 17 Jun 2022 13:44:35 +0800
+In-Reply-To: <20220530201436.902505-3-fparent@baylibre.com>
 References: <20220530201436.902505-1-fparent@baylibre.com>
- <20220530201436.902505-2-fparent@baylibre.com>
+ <20220530201436.902505-3-fparent@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -71,115 +75,221 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi, Fabien:
 
 On Mon, 2022-05-30 at 22:14 +0200, Fabien Parent wrote:
-> DPI for MT8365 is compatible with MT8192 but requires an additional
-> clock. Modify the documentation to requires this clock only on MT8365
-> SoCs.
+> Add MT8365 binding documentation for all the display components that
+> are
+> compatible with the compatible string from other SoCs.
+
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+
 > 
 > Signed-off-by: Fabien Parent <fparent@baylibre.com>
 > ---
->  .../display/mediatek/mediatek,dpi.yaml        | 44 ++++++++++++++++-
-> --
->  1 file changed, 37 insertions(+), 7 deletions(-)
+>  .../bindings/display/mediatek/mediatek,aal.yaml |  1 +
+>  .../display/mediatek/mediatek,ccorr.yaml        |  1 +
+>  .../display/mediatek/mediatek,color.yaml        |  1 +
+>  .../display/mediatek/mediatek,dither.yaml       |  1 +
+>  .../bindings/display/mediatek/mediatek,dsi.yaml | 17 +++++++++++--
+> ----
+>  .../display/mediatek/mediatek,gamma.yaml        |  1 +
+>  .../display/mediatek/mediatek,mutex.yaml        |  1 +
+>  .../bindings/display/mediatek/mediatek,ovl.yaml |  1 +
+>  .../display/mediatek/mediatek,rdma.yaml         |  1 +
+>  9 files changed, 19 insertions(+), 6 deletions(-)
 > 
 > diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yam
 > l
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yam
 > l
-> index caf4c88708f4..c9c9f4d5ebe7 100644
+> index d4d585485e7b..d47bc72f09c0 100644
 > ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yam
 > l
 > +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yam
 > l
-> @@ -17,13 +17,18 @@ description: |
+> @@ -33,6 +33,7 @@ properties:
+>                - mediatek,mt8186-disp-aal
+>                - mediatek,mt8192-disp-aal
+>                - mediatek,mt8195-disp-aal
+> +              - mediatek,mt8365-disp-aal
+>            - const: mediatek,mt8183-disp-aal
+>  
+>    reg:
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y
+> aml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y
+> aml
+> index 63fb02014a56..fc999e614718 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y
+> aml
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y
+> aml
+> @@ -32,6 +32,7 @@ properties:
+>        - items:
+>            - enum:
+>                - mediatek,mt8186-disp-ccorr
+> +              - mediatek,mt8365-disp-ccorr
+>            - const: mediatek,mt8183-disp-ccorr
+>  
+>    reg:
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y
+> aml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y
+> aml
+> index d2f89ee7996f..9d081da433e8 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y
+> aml
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y
+> aml
+> @@ -39,6 +39,7 @@ properties:
+>                - mediatek,mt8186-disp-color
+>                - mediatek,mt8192-disp-color
+>                - mediatek,mt8195-disp-color
+> +              - mediatek,mt8365-disp-color
+>            - const: mediatek,mt8173-disp-color
+>    reg:
+>      maxItems: 1
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.
+> yaml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.
+> yaml
+> index 8ad8187c02d1..a7706cd65675 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.
+> yaml
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.
+> yaml
+> @@ -29,6 +29,7 @@ properties:
+>                - mediatek,mt8186-disp-dither
+>                - mediatek,mt8192-disp-dither
+>                - mediatek,mt8195-disp-dither
+> +              - mediatek,mt8365-disp-dither
+>            - const: mediatek,mt8183-disp-dither
+>  
+>    reg:
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
+> l
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
+> l
+> index fa5bdf28668a..d17ea215960c 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
+> l
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
+> l
+> @@ -22,12 +22,17 @@ allOf:
 >  
 >  properties:
 >    compatible:
 > -    enum:
-> -      - mediatek,mt2701-dpi
-> -      - mediatek,mt7623-dpi
-> -      - mediatek,mt8173-dpi
-> -      - mediatek,mt8183-dpi
-> -      - mediatek,mt8186-dpi
-> -      - mediatek,mt8192-dpi
+> -      - mediatek,mt2701-dsi
+> -      - mediatek,mt7623-dsi
+> -      - mediatek,mt8167-dsi
+> -      - mediatek,mt8173-dsi
+> -      - mediatek,mt8183-dsi
 > +    oneOf:
 > +      - enum:
-> +          - mediatek,mt2701-dpi
-> +          - mediatek,mt7623-dpi
-> +          - mediatek,mt8173-dpi
-> +          - mediatek,mt8183-dpi
-> +          - mediatek,mt8186-dpi
-> +          - mediatek,mt8192-dpi
+> +          - mediatek,mt2701-dsi
+> +          - mediatek,mt7623-dsi
+> +          - mediatek,mt8167-dsi
+> +          - mediatek,mt8173-dsi
+> +          - mediatek,mt8183-dsi
 > +      - items:
 > +          - enum:
-> +              - mediatek,mt8365-dpi
-> +          - const: mediatek,mt8192-dpi
+> +              - mediatek,mt8365-dsi
+> +          - const: mediatek,mt8183-dsi
 >  
 >    reg:
 >      maxItems: 1
-> @@ -32,16 +37,20 @@ properties:
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.y
+> aml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.y
+> aml
+> index a89ea0ea7542..f54859cfc97b 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.y
+> aml
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.y
+> aml
+> @@ -30,6 +30,7 @@ properties:
+>                - mediatek,mt8186-disp-gamma
+>                - mediatek,mt8192-disp-gamma
+>                - mediatek,mt8195-disp-gamma
+> +              - mediatek,mt8365-disp-gamma
+>            - const: mediatek,mt8183-disp-gamma
+>  
+>    reg:
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.y
+> aml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.y
+> aml
+> index 3fdad71210b4..f4a12dfae77b 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.y
+> aml
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.y
+> aml
+> @@ -32,6 +32,7 @@ properties:
+>        - mediatek,mt8186-disp-mutex
+>        - mediatek,mt8192-disp-mutex
+>        - mediatek,mt8195-disp-mutex
+> +      - mediatek,mt8365-disp-mutex
+>  
+>    reg:
 >      maxItems: 1
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam
+> l
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam
+> l
+> index a2a27d0ca038..20e4ca4fc915 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam
+> l
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam
+> l
+> @@ -41,6 +41,7 @@ properties:
+>        - items:
+>            - enum:
+>                - mediatek,mt8186-disp-ovl
+> +              - mediatek,mt8365-disp-ovl
+>            - const: mediatek,mt8192-disp-ovl
 >  
->    clocks:
-> +    minItems: 3
->      items:
->        - description: Pixel Clock
->        - description: Engine Clock
->        - description: DPI PLL
-> +      - description: DPI Clock
-
-Why MT8365 has this additional clock? What is the new hardware block
-(compared with other SoC) need this clock? Why this is different than
-other SoC?
-
-Is this case the same as [1]? If so, I think you should not add this
-clock.
-
-[1] 
-https://patchwork.kernel.org/project/linux-mediatek/patch/20220613064841.10481-2-rex-bc.chen@mediatek.com/
-
-Regards,
-CK
-
+>    reg:
+> diff --git
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya
+> ml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya
+> ml
+> index 0882ae86e6c4..3bc914785976 100644
+> ---
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya
+> ml
+> +++
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya
+> ml
+> @@ -40,6 +40,7 @@ properties:
+>            - enum:
+>                - mediatek,mt8186-disp-rdma
+>                - mediatek,mt8192-disp-rdma
+> +              - mediatek,mt8365-disp-rdma
+>            - const: mediatek,mt8183-disp-rdma
 >  
->    clock-names:
-> +    minItems: 3
->      items:
->        - const: pixel
->        - const: engine
->        - const: pll
-> +      - const: dpi
->  
->    pinctrl-0: true
->    pinctrl-1: true
-> @@ -71,6 +80,27 @@ required:
->  
->  additionalProperties: false
->  
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8365-dpi
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          maxItems: 4
-> +        clock-names:
-> +          maxItems: 4
-> +
-> +    else:
-> +      properties:
-> +        clocks:
-> +          maxItems: 3
-> +        clock-names:
-> +          maxItems: 3
-> +
->  examples:
->    - |
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
+>    reg:
 
