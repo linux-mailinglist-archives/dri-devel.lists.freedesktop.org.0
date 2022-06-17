@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D00354FD32
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 21:06:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7625E54FD2C
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 21:06:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEB0710F4B0;
-	Fri, 17 Jun 2022 19:05:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1D6610F447;
+	Fri, 17 Jun 2022 19:05:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41A4D10F409;
- Fri, 17 Jun 2022 19:05:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F69F10F32F;
+ Fri, 17 Jun 2022 19:05:48 +0000 (UTC)
 Received: from hermes-devbox.fritz.box (82-71-8-225.dsl.in-addr.zen.co.uk
  [82.71.8.225])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbeckett)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id D653D660188F;
- Fri, 17 Jun 2022 20:05:45 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 96C1466018AF;
+ Fri, 17 Jun 2022 20:05:46 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1655492746;
- bh=xMYv7v3aHxlEQIE2QtkE00E2gW9W0dS8yiKhilZWusw=;
+ bh=BJ87eisXj9Ppx4nwiDdWpEsHsZ0BoBn8nQEON2j1/N8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dAVY77wpcO6Bp+jrFpjoE6HElhGM5esj4asmzkFh4NMDCpZ3A74k/c0iCzIOYMZS6
- AQZfO/+hVVQ8RGW8RkNqztDa2/GE6tMo4pp/OQ6f4Nwx7uqOsh8PAe1DN+wiIeGwJf
- B2GSDYNmv82fggknXiLimmfaeIpHvicT9DlWhSsC6MKWRTggqfxPW/ZzP/bNgypdQj
- e2J8X8WlP80Xj5iTMeJ3nPeZbccdqWQfBawZpUhA7IUiq46q7j1qi5NfD4VWz75jsO
- IdrzFXcTHwkZ1WpOogrGpNNeATkqxOPal+8i0vgsMf7+J+uaQhu6G0rGxaDX2roFVh
- BsuTV32LbSpPQ==
+ b=CwhRcRKbJuopMPiRZLEn/1R8Isag4LuaoXiTIJeBSKNA68rv9FAseSLrBlWy8yp/C
+ v4yVg6d0nOSRIN0L7S7OMwMQIr8y/hdpN1quN+d/V8SRKHsL7s4mrpU6BtrnDb+PPO
+ gr6v2MgM9SkQjxzO+rlANBJPKA68bwMDmMro7/L7MRdBV5d2F5/equfr7AH6dthOkW
+ B+fN4nwgpAjcp5Doi439CZcvZjGH4QdL1rCNMFGcLbTXVPR34y2UbiQk4/LnCusShU
+ DUVsPMTDFAJJSEAcVafmQFaqfLURqt2XRgO7TjjCAfzUOYjWjL8XP78qudQi8QB+aD
+ JNi1jRZGgPU3w==
 From: Robert Beckett <bob.beckett@collabora.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Jani Nikula <jani.nikula@linux.intel.com>,
@@ -37,10 +37,9 @@ To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v6 08/10] drm/i915: allow memory region creators to alloc and
- free the region
-Date: Fri, 17 Jun 2022 19:05:14 +0000
-Message-Id: <20220617190516.2805572-9-bob.beckett@collabora.com>
+Subject: [PATCH v6 09/10] drm/i915/ttm: add buffer pin on alloc flag
+Date: Fri, 17 Jun 2022 19:05:15 +0000
+Message-Id: <20220617190516.2805572-10-bob.beckett@collabora.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220617190516.2805572-1-bob.beckett@collabora.com>
 References: <20220617190516.2805572-1-bob.beckett@collabora.com>
@@ -65,70 +64,114 @@ Cc: Robert Beckett <bob.beckett@collabora.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add callbacks for alloc and free.
-this allows region creators to allocate any extra storage they may
-require.
+For situations where allocations need to fail on alloc instead of
+delayed get_pages, add a new alloc flag to pin the ttm bo.
+This makes sure that the resource has been allocated during buffer
+creation, allowing it to fail with an error if the placement is
+exhausted.
+This allows existing fallback options for stolen backend allocation like
+create_ring_vma to work as expected.
 
 Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
 ---
- drivers/gpu/drm/i915/intel_memory_region.c | 16 +++++++++++++---
- drivers/gpu/drm/i915/intel_memory_region.h |  2 ++
- 2 files changed, 15 insertions(+), 3 deletions(-)
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  | 13 ++++++----
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 25 ++++++++++++++++++-
+ 2 files changed, 32 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
-index e38d2db1c3e3..3da07a712f90 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/intel_memory_region.c
-@@ -231,7 +231,10 @@ intel_memory_region_create(struct drm_i915_private *i915,
- 	struct intel_memory_region *mem;
- 	int err;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+index 6632ed52e919..07bc11247a3e 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+@@ -325,17 +325,20 @@ struct drm_i915_gem_object {
+  * dealing with userspace objects the CPU fault handler is free to ignore this.
+  */
+ #define I915_BO_ALLOC_GPU_ONLY	  BIT(6)
++/* object should be pinned in destination region from allocation */
++#define I915_BO_ALLOC_PINNED	  BIT(7)
+ #define I915_BO_ALLOC_FLAGS (I915_BO_ALLOC_CONTIGUOUS | \
+ 			     I915_BO_ALLOC_VOLATILE | \
+ 			     I915_BO_ALLOC_CPU_CLEAR | \
+ 			     I915_BO_ALLOC_USER | \
+ 			     I915_BO_ALLOC_PM_VOLATILE | \
+ 			     I915_BO_ALLOC_PM_EARLY | \
+-			     I915_BO_ALLOC_GPU_ONLY)
+-#define I915_BO_READONLY          BIT(7)
+-#define I915_TILING_QUIRK_BIT     8 /* unknown swizzling; do not release! */
+-#define I915_BO_PROTECTED         BIT(9)
+-#define I915_BO_WAS_BOUND_BIT     10
++			     I915_BO_ALLOC_GPU_ONLY | \
++			     I915_BO_ALLOC_PINNED)
++#define I915_BO_READONLY          BIT(8)
++#define I915_TILING_QUIRK_BIT     9 /* unknown swizzling; do not release! */
++#define I915_BO_PROTECTED         BIT(10)
++#define I915_BO_WAS_BOUND_BIT     11
+ 	/**
+ 	 * @mem_flags - Mutable placement-related flags
+ 	 *
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 27d59639177f..bb988608296d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -998,6 +998,13 @@ static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
+ {
+ 	GEM_BUG_ON(!obj->ttm.created);
  
--	mem = kzalloc(sizeof(*mem), GFP_KERNEL);
-+	if (ops->alloc)
-+		mem = ops->alloc();
-+	else
-+		mem = kzalloc(sizeof(*mem), GFP_KERNEL);
- 	if (!mem)
- 		return ERR_PTR(-ENOMEM);
- 
-@@ -265,7 +268,10 @@ intel_memory_region_create(struct drm_i915_private *i915,
- 	if (mem->ops->release)
- 		mem->ops->release(mem);
- err_free:
--	kfree(mem);
-+	if (mem->ops->free)
-+		mem->ops->free(mem);
-+	else
-+		kfree(mem);
- 	return ERR_PTR(err);
++	/* stolen objects are pinned for lifetime. Unpin before putting */
++	if (obj->flags & I915_BO_ALLOC_PINNED) {
++		ttm_bo_reserve(i915_gem_to_ttm(obj), true, false, NULL);
++		ttm_bo_unpin(i915_gem_to_ttm(obj));
++		ttm_bo_unreserve(i915_gem_to_ttm(obj));
++	}
++
+ 	ttm_bo_put(i915_gem_to_ttm(obj));
  }
  
-@@ -288,7 +294,11 @@ void intel_memory_region_destroy(struct intel_memory_region *mem)
+@@ -1193,6 +1200,9 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 		.no_wait_gpu = false,
+ 	};
+ 	enum ttm_bo_type bo_type;
++	struct ttm_place _place;
++	struct ttm_placement _placement;
++	struct ttm_placement *placement;
+ 	int ret;
  
- 	GEM_WARN_ON(!list_empty_careful(&mem->objects.list));
- 	mutex_destroy(&mem->objects.lock);
--	if (!ret)
-+	if (ret)
-+		return;
-+	if (mem->ops->free)
-+		mem->ops->free(mem);
-+	else
- 		kfree(mem);
- }
+ 	drm_gem_private_object_init(&i915->drm, &obj->base, size);
+@@ -1222,6 +1232,17 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	 */
+ 	i915_gem_object_make_unshrinkable(obj);
  
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-index 3d8378c1b447..048955b5429f 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.h
-+++ b/drivers/gpu/drm/i915/intel_memory_region.h
-@@ -61,6 +61,8 @@ struct intel_memory_region_ops {
- 			   resource_size_t size,
- 			   resource_size_t page_size,
- 			   unsigned int flags);
-+	struct intel_memory_region *(*alloc)(void);
-+	void (*free)(struct intel_memory_region *mem);
- };
++	if (obj->flags & I915_BO_ALLOC_PINNED) {
++		i915_ttm_place_from_region(mem, &_place, obj->bo_offset,
++					   obj->base.size, obj->flags);
++		_placement.num_placement = 1;
++		_placement.placement = &_place;
++		_placement.num_busy_placement = 0;
++		_placement.busy_placement = NULL;
++		placement = &_placement;
++	} else {
++		placement = &i915_sys_placement;
++	}
+ 	/*
+ 	 * If this function fails, it will call the destructor, but
+ 	 * our caller still owns the object. So no freeing in the
+@@ -1230,7 +1251,7 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	 * until successful initialization.
+ 	 */
+ 	ret = ttm_bo_init_reserved(&i915->bdev, i915_gem_to_ttm(obj), size,
+-				   bo_type, &i915_sys_placement,
++				   bo_type, placement,
+ 				   page_size >> PAGE_SHIFT,
+ 				   &ctx, NULL, NULL, i915_ttm_bo_destroy);
+ 	if (ret)
+@@ -1242,6 +1263,8 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 	i915_ttm_adjust_domains_after_move(obj);
+ 	i915_ttm_adjust_gem_after_move(obj);
+ 	obj->ttm.cache_level_override = false;
++	if (obj->flags & I915_BO_ALLOC_PINNED)
++		ttm_bo_pin(i915_gem_to_ttm(obj));
+ 	i915_gem_object_unlock(obj);
  
- struct intel_memory_region {
+ 	return 0;
 -- 
 2.25.1
 
