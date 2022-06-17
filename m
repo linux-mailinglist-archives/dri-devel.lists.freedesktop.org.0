@@ -1,60 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E0C54F469
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 11:34:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7953954F478
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 11:37:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 438A610E5F1;
-	Fri, 17 Jun 2022 09:34:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9FE510EE33;
+	Fri, 17 Jun 2022 09:37:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com
- [IPv6:2607:f8b0:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A05910E5F1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 09:34:46 +0000 (UTC)
-Received: by mail-il1-x133.google.com with SMTP id l14so2628788ilq.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 02:34:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DE+zQZQcyF759AJuVRCgUw1QrZjmmIkS9SVF/uua3CY=;
- b=TDYeLEaQ+IkQCFwsN5ZQ3F+UqxbwCBkt2zAq1tT7vFaTl9fJAuS6YerABjtHK4mOxb
- TrWcAGr6YdcXb4ALZYnuW0EpzY4enIB9a/N3rtcIPVVz4H1oggG/gQz0f3KJwQbFOZs+
- ZDCH0HPt5AB9qRpQyELl2+owWkOE4MPyxjEyB1griWQ0FRFlaxna+kw6cHUIvotV2buP
- qGa7xwHI7l3QT8uJSCUU0PAsReT6s7CYfX0V77qw7CtMyEcqx6Q0ejjLwWvhsopT7FxJ
- em13cvYi2AvF5IlY6VaJ05xly218vuCyMNqAGbLG4d8okAD+4yvBpXEn1shR0HMx1yLK
- ISlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DE+zQZQcyF759AJuVRCgUw1QrZjmmIkS9SVF/uua3CY=;
- b=wTSvaH7CHrGvDGO4jy4eGJxTjJI5Zsj62mRMAOqbCVP2ZxbtKLzo3cvqVczFtR0/Or
- uYP5NW5YYuh0yCMn4ZM1FRMziFOdGv/FFnLWBGU9TQPG+CBXPKtQaNr6tVMMTi3+LEvg
- 3RTyPf+roy9+pm77gJWt9wl47T1jrVcjv6d+K3xSHNcHcJ4HQly6KlhZkDhsaUKo3gPD
- r2siNd0anCNIjfwLxN5b44/I5PhecDEb0S+roAIhg6qSKejDAY1YSoe6JGDDnZC0XxaN
- Ao3XmVQ3fwUP4Z8dTXwMYiIl6OZ9R3y+XcsqJL0iPIW3xGiDZtlEKi6TUqdOHXEajXlY
- nnyQ==
-X-Gm-Message-State: AJIora/VjVeFBr2VFNh5yYFdoMY8F9D/BeO3WHgNcUF0RMtXBj3fQ/9e
- nqbRmyBGmmcgnK5G7JwEkX7Hy8OZIuakOMQXwyM=
-X-Google-Smtp-Source: AGRyM1ubwnEFy3CYAH9fHWaontZ0WgA5WaEtmBHPaT66gte2AsL67svPaO35GdaGEkb9HpkJB7x7C2X7WR6oIGxmrjk=
-X-Received: by 2002:a05:6e02:4a1:b0:2d3:a778:f0f1 with SMTP id
- e1-20020a056e0204a100b002d3a778f0f1mr5168320ils.212.1655458485946; Fri, 17
- Jun 2022 02:34:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220613111146.25221-1-peterwu.pub@gmail.com>
- <20220613111146.25221-16-peterwu.pub@gmail.com>
- <20220613170853.bffuwkcmflfgg4gt@ash.lan>
-In-Reply-To: <20220613170853.bffuwkcmflfgg4gt@ash.lan>
-From: ChiaEn Wu <peterwu.pub@gmail.com>
-Date: Fri, 17 Jun 2022 17:34:35 +0800
-Message-ID: <CABtFH5JKnxF5TqV=9EiAZEm4Un0npNo-GX8xLD4W5+S+pA+ysg@mail.gmail.com>
-Subject: Re: [PATCH v2 15/15] video: backlight: mt6370: Add Mediatek MT6370
- support
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F117C10EE33;
+ Fri, 17 Jun 2022 09:37:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655458620; x=1686994620;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=Ue6ykXKrR/+gYom6bOjSh5gfZS84kr8m6d+nWfd5ClY=;
+ b=Y7Ty9wO27f3SpJKtZwQ151JYZbFR6uaol5YaxS+w2W8zr8/IgLrdbDE2
+ QHLXCn+geYfQ99/HcOTZoJSF8mMSLrHLClmIUKXmMQiLZdUMEysCWLX1f
+ eFZKM2AmniZ/cgWNcWzVXYoZZxfjO1SmFDu7abFhQWCgcOLw/73EIr8vI
+ S8oPXJfmVkw/FlybM/3r6kWwJjnN2Z94xZsGi5OVlh0bm8xmwjiYm6V3K
+ aqRNGu3PjZzXi2Td4lYgPmUgeyphIAvew4JfWZPvSpiTMCQW1EEejPJBm
+ SH24ZWJ807Py09ZW+YAyjdvLDKQXrEY+L3g84RwuhbfQnAyiC++g1aVxk w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="259316738"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="259316738"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2022 02:37:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641968979"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga008.fm.intel.com with ESMTP; 17 Jun 2022 02:37:00 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Fri, 17 Jun 2022 02:36:59 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Fri, 17 Jun 2022 02:36:59 -0700
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
+ Fri, 17 Jun 2022 02:36:59 -0700
+From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [Intel-gfx] [PATCH v2 7/9] drm/i915/rpm: Enable D3Cold VRAM SR
+ Support
+Thread-Topic: [Intel-gfx] [PATCH v2 7/9] drm/i915/rpm: Enable D3Cold VRAM SR
+ Support
+Thread-Index: AQHYgXjaPmRLnHIXt0udMK0/tJgvEq1SjikAgADKP1A=
+Date: Fri, 17 Jun 2022 09:36:59 +0000
+Message-ID: <5f5cb8ab662249ec9f5454a60ca6223b@intel.com>
+References: <20220616120106.24353-1-anshuman.gupta@intel.com>
+ <20220616120106.24353-8-anshuman.gupta@intel.com> <87v8t0vfv1.fsf@intel.com>
+In-Reply-To: <87v8t0vfv1.fsf@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.500.17
+dlp-reaction: no-action
+x-originating-ip: [10.223.10.1]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,192 +81,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- krzysztof.kozlowski+dt@linaro.org, linux-pm@vger.kernel.org,
- linux-iio@vger.kernel.org, jingoohan1@gmail.com,
- ChiaEn Wu <chiaen_wu@richtek.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- szunichen@gmail.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, pavel@ucw.cz, matthias.bgg@gmail.com,
- lee.jones@linaro.org, linux-leds@vger.kernel.org, jic23@kernel.org
+Cc: "Wilson, Chris P" <chris.p.wilson@intel.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
 
-Thanks for your helpful feedback!
 
-Daniel Thompson <daniel.thompson@linaro.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=
-=8814=E6=97=A5 =E9=80=B1=E4=BA=8C =E5=87=8C=E6=99=A81:08=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> On Mon, Jun 13, 2022 at 07:11:46PM +0800, ChiaEn Wu wrote:
-> > +static int mt6370_init_backlight_properties(struct mt6370_priv *priv,
-> > +                                         struct backlight_properties *=
-props)
->
-> Most of the changes in this version looks good... but it looks the new
-> code in this function has a number of problems. See below...
->
->
-> > +{
-> > +     struct device *dev =3D priv->dev;
-> > +     u8 prop_val;
-> > +     u32 brightness;
-> > +     unsigned int mask, val;
-> > +     int ret;
+> -----Original Message-----
+> From: Jani Nikula <jani.nikula@linux.intel.com>
+> Sent: Thursday, June 16, 2022 8:02 PM
+> To: Gupta, Anshuman <anshuman.gupta@intel.com>; intel-
+> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+> Cc: Wilson, Chris P <chris.p.wilson@intel.com>; Vivi, Rodrigo
+> <rodrigo.vivi@intel.com>
+> Subject: Re: [Intel-gfx] [PATCH v2 7/9] drm/i915/rpm: Enable D3Cold VRAM =
+SR
+> Support
+>=20
+> On Thu, 16 Jun 2022, Anshuman Gupta <anshuman.gupta@intel.com> wrote:
+> > Intel Client DGFX card supports D3Cold with two option.
+> > D3Cold-off zero watt, D3Cold-VRAM Self Refresh.
+> >
+> > i915 requires to evict the lmem objects to smem in order to support
+> > D3Cold-Off, which increases i915 the suspend/resume latency. Enabling
+> > VRAM Self Refresh feature optimize the latency with additional power
+> > cost which required to retain the lmem.
+> >
+> > Adding intel_runtime_idle (runtime_idle callback) to enable VRAM_SR,
+> > it will be used for policy to choose between D3Cold-off vs
+> > D3Cold-VRAM_SR.
+> >
+> > Since we have introduced i915 runtime_idle callback.
+> > It need to be warranted that Runtime PM Core invokes runtime_idle
+> > callback when runtime usages count becomes zero. That requires to use
+> > pm_runtime_put instead of pm_runtime_put_autosuspend.
+> >
+> > TODO: GuC interface state save/restore.
+> >
+> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > Cc: Chris Wilson <chris.p.wilson@intel.com>
+> > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/i915_driver.c      | 26 +++++++++++++++++++++++++
+> >  drivers/gpu/drm/i915/intel_runtime_pm.c |  3 +--
+> >  2 files changed, 27 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_driver.c
+> > b/drivers/gpu/drm/i915/i915_driver.c
+> > index aa1fb15b1f11..fcff5f3fe05e 100644
+> > --- a/drivers/gpu/drm/i915/i915_driver.c
+> > +++ b/drivers/gpu/drm/i915/i915_driver.c
+> > @@ -1557,6 +1557,31 @@ static int i915_pm_restore(struct device *kdev)
+> >  	return i915_pm_resume(kdev);
+> >  }
+> >
+> > +static int intel_runtime_idle(struct device *kdev) {
+> > +	struct drm_i915_private *dev_priv =3D kdev_to_i915(kdev);
+> > +	int ret =3D 1;
 > > +
-> > +     /* Vendor optional properties
-> > +      * if property not exist, keep value in default.
-> > +      */
->
-> That's not the right strategy for booleans. Not existing means false
-> (e.g. flags should actively be unset).
->
-
-I am so sorry for making these mistakes...
-I will try to refine them in the right strategy in the next patch!
-
->
-> > +     if (device_property_read_bool(dev, "mediatek,bled-pwm-enable")) {
-> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_PW=
-M,
-> > +                                      MT6370_BL_PWM_EN_MASK,
-> > +                                      MT6370_BL_PWM_EN_MASK);
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
->
-> As above comment... all of the boolean properties are now being read
-> incorrectly.
->
->
+> > +	if (!HAS_LMEM_SR(dev_priv)) {
+> > +		/*TODO: Prepare for D3Cold-Off */
+> > +		goto out;
+> > +	}
 > > +
-> > +     if (device_property_read_bool(dev, "mediatek,bled-pwm-hys-enable"=
-)) {
-> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_PW=
-M,
-> > +                                      MT6370_BL_PWM_HYS_EN_MASK,
-> > +                                      MT6370_BL_PWM_HYS_EN_MASK);
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
+> > +	disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
 > > +
-> > +     ret =3D device_property_read_u8(dev, "mediatek,bled-pwm-hys-input=
--bit",
-> > +                                   &prop_val);
-> > +     if (!ret) {
-> > +             val =3D min_t(u8, prop_val, 3)
-> > +                   << (ffs(MT6370_BL_PWM_HYS_SEL_MASK) - 1);
-> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_PW=
-M,
-> > +                                      MT6370_BL_PWM_HYS_SEL_MASK, val)=
-;
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
+> > +	ret =3D intel_pm_vram_sr(dev_priv, true);
+> > +	if (!ret)
+> > +		drm_dbg(&dev_priv->drm, "VRAM Self Refresh enabled\n");
+>=20
+> Please add the debug in the intel_pm_vram_sr() function instead.
+Thanks for review comment, will fix this.
+Regards,
+Anshuman Gupta.
+>=20
+> BR,
+> Jani.
+>=20
 > > +
-> > +     ret =3D device_property_read_u8(dev, "mediatek,bled-ovp-microvolt=
-",
-> > +                                   &prop_val);
-> > +     if (!ret) {
-> > +             val =3D min_t(u8, prop_val, 3)
-> > +                   << (ffs(MT6370_BL_OVP_SEL_MASK) - 1);
->
-> This has been renamed but still seems to the using 0, 1, 2, 3 rather
-> than an actual value in microvolts.
-
-I=E2=80=99m so sorry for using the not actual value in microvolts and micro=
-amps.
-I will refine these mistakes along with DT in the next patch. Thank you!
-
->
->
-> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_BS=
-TCTRL,
-> > +                                      MT6370_BL_OVP_SEL_MASK, val);
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
+> > +	enable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
 > > +
-> > +     if (device_property_read_bool(dev, "mediatek,bled-ovp-shutdown"))=
- {
-> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_BS=
-TCTRL,
-> > +                                      MT6370_BL_OVP_EN_MASK,
-> > +                                      MT6370_BL_OVP_EN_MASK);
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
+> > +out:
+> > +	pm_runtime_mark_last_busy(kdev);
+> > +	pm_runtime_autosuspend(kdev);
 > > +
-> > +     ret =3D device_property_read_u8(dev, "mediatek,bled-ocp-microamp"=
-,
-> > +                                   &prop_val);
-> > +     if (!ret) {
-> > +             val =3D min_t(u8, prop_val, 3)
-> > +                   << (ffs(MT6370_BL_OC_SEL_MASK) - 1);
->
-> Likewise, should this be accepting a value in microamps?
->
->
-> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_BS=
-TCTRL,
-> > +                                      MT6370_BL_OC_SEL_MASK, val);
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
+> > +	return ret;
+> > +}
 > > +
-> > +     if (device_property_read_bool(dev, "mediatek,bled-ocp-shutdown"))=
- {
-> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_BS=
-TCTRL,
-> > +                                      MT6370_BL_OC_EN_MASK,
-> > +                                      MT6370_BL_OC_EN_MASK);
-> > +             if (ret)
-> > +                     return ret;
-> > +     }
-> > +
-> > +     /* Common properties */
-> > +     ret =3D device_property_read_u32(dev, "max-brightness", &brightne=
-ss);
-> > +     if (ret)
-> > +             brightness =3D MT6370_BL_MAX_BRIGHTNESS;
-> > +
-> > +     props->max_brightness =3D min_t(u32, brightness,
-> > +                                   MT6370_BL_MAX_BRIGHTNESS);
-> > +
-> > +     ret =3D device_property_read_u32(dev, "default-brightness", &brig=
-htness);
-> > +     if (ret)
-> > +             brightness =3D props->max_brightness;
-> > +
-> > +     props->brightness =3D min_t(u32, brightness, props->max_brightnes=
-s);
-> > +
-> > +
-> > +     ret =3D device_property_read_u8(dev, "mediatek,bled-channel-use",
-> > +                                   &prop_val);
-> > +     if (ret) {
-> > +             dev_err(dev, "mediatek,bled-channel-use DT property missi=
-ng\n");
-> > +             return ret;
-> > +     }
-> > +
-> > +     if (!prop_val || prop_val > MT6370_BL_MAX_CH) {
-> > +             dev_err(dev, "No channel specified (ch_val:%d)\n", prop_v=
-al);
->
-> Error string has not been updated to match condition that triggers it.
->
-
-I will refine this wrong error string in the next patch, thanks!
-
->
-> > +             return -EINVAL;
-> > +     }
->
->
-> Daniel.
-
-Best regards,
-ChiaEn Wu
+> >  static int intel_runtime_suspend(struct device *kdev)  {
+> >  	struct drm_i915_private *dev_priv =3D kdev_to_i915(kdev); @@ -1742,6
+> > +1767,7 @@ const struct dev_pm_ops i915_pm_ops =3D {
+> >  	.restore =3D i915_pm_restore,
+> >
+> >  	/* S0ix (via runtime suspend) event handlers */
+> > +	.runtime_idle =3D intel_runtime_idle,
+> >  	.runtime_suspend =3D intel_runtime_suspend,
+> >  	.runtime_resume =3D intel_runtime_resume,  }; diff --git
+> > a/drivers/gpu/drm/i915/intel_runtime_pm.c
+> > b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> > index 6ed5786bcd29..4dade7e8a795 100644
+> > --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
+> > +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> > @@ -492,8 +492,7 @@ static void __intel_runtime_pm_put(struct
+> > intel_runtime_pm *rpm,
+> >
+> >  	intel_runtime_pm_release(rpm, wakelock);
+> >
+> > -	pm_runtime_mark_last_busy(kdev);
+> > -	pm_runtime_put_autosuspend(kdev);
+> > +	pm_runtime_put(kdev);
+> >  }
+> >
+> >  /**
+>=20
+> --
+> Jani Nikula, Intel Open Source Graphics Center
