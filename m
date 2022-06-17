@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30AB154FBAB
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 18:56:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4F954FBAE
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 18:56:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA6CB10E8FC;
-	Fri, 17 Jun 2022 16:55:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54DF710EBA1;
+	Fri, 17 Jun 2022 16:56:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1A110E742;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE8D310E8FC;
  Fri, 17 Jun 2022 16:55:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655484957; x=1687020957;
+ t=1655484958; x=1687020958;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=/odMKvqdDD55/Cy89zhNptIEA7mAb5h4QUqhUspi8Sk=;
- b=CGGAGCteNOSGAZyC5r5MyPpDCgMk5LWYGo74P89d78LBWFMrdusQ0lr4
- 4Ckpxaf+fDf+eWUOQUg6AevG4Nv+/Ob3WYEyQdGmmlg9pK5eEGECa3HOw
- /s3GbSbj6NTGtuEQ/sEaoDkzePwQm1XbSnW86LNED6AwYvGrxuz6rG1ft
- k7wR6bP7/8JOdihlH4M1BQwpPpt8eBY0I/3mY5OpeH1Z11q5s8QzU796+
- Ffjbytz6/hHUDsczDtm8EtV0z3DxLvybqMfKm10al8q5bpj35jX5HHHRV
- rUVaiZ+P31aiJl+uCl5opZajeGI1uj+nBMAYC9COC9toMIJu/bmKDALs8 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="279537350"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="279537350"
+ bh=icKCrwyu7XnCIDAVlJRYS2rfOqz+DDwTZIqOlmFvpLE=;
+ b=E0xRnC7IIq7lBPRzF5flQPlUH9eBxfgBOhlK2KNJb1gbHriJytaO/bbw
+ 9xFqLP4N2yTKtpZpil7YvBs/m1s+A4BkpgIDs1zxJ/j+Ix5vV3+uxL0sg
+ F67IQqn20UjP7LMKadFlaANXdLQQjrpRFev9g9nmpceZG+XqhhPznaJaK
+ oTqLfxOdcODtmiPbGe4glBmy+V6u74zgQDEK4pcEghcy7xJhEUxl3cwC0
+ S0GldMJ1NiLxDD5/MfcdxzAo6bZuk5pxo9J9NQFqe+fOZoZ3eOj89j85I
+ 1vN35PCf2doCH/hWH1B4VdHzggpYHZ6ialqz+fVha2k30J6zyaM0Jx0I3 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="279537660"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="279537660"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 05:16:43 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="688274187"
+ 17 Jun 2022 05:33:29 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="688278720"
 Received: from ettammin-mobl1.ger.corp.intel.com (HELO [10.249.254.175])
  ([10.249.254.175])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 05:16:11 -0700
-Message-ID: <bb21b933-5ef5-8e18-a0f7-3438dfb10344@linux.intel.com>
-Date: Fri, 17 Jun 2022 14:16:08 +0200
+ 17 Jun 2022 05:33:27 -0700
+Message-ID: <7cf923bd-ae17-24fb-24de-1a53aee34630@linux.intel.com>
+Date: Fri, 17 Jun 2022 14:33:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.0
-Subject: Re: [Intel-gfx] [PATCH 04/10] drm/i915: remove intel_memory_region
- avail
+Subject: Re: [Intel-gfx] [PATCH 09/10] drm/i915: turn on small BAR support
 Content-Language: en-US
 To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
 References: <20220525184337.491763-1-matthew.auld@intel.com>
- <20220525184337.491763-5-matthew.auld@intel.com>
+ <20220525184337.491763-10-matthew.auld@intel.com>
 From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20220525184337.491763-5-matthew.auld@intel.com>
+In-Reply-To: <20220525184337.491763-10-matthew.auld@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,7 +68,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 5/25/22 20:43, Matthew Auld wrote:
-> No longer used.
+> With the uAPI in place we should now have enough in place to ensure a
+> working system on small BAR configurations.
 >
 > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
@@ -81,46 +81,43 @@ On 5/25/22 20:43, Matthew Auld wrote:
 > Cc: Kenneth Graunke <kenneth@whitecape.org>
 > Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
 > ---
->   drivers/gpu/drm/i915/intel_memory_region.c | 4 +---
->   drivers/gpu/drm/i915/intel_memory_region.h | 1 -
->   2 files changed, 1 insertion(+), 4 deletions(-)
+>   drivers/gpu/drm/i915/gt/intel_region_lmem.c | 10 ++++------
+>   1 file changed, 4 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
-> index 94ee26e99549..9a4a7fb55582 100644
-> --- a/drivers/gpu/drm/i915/intel_memory_region.c
-> +++ b/drivers/gpu/drm/i915/intel_memory_region.c
-> @@ -198,8 +198,7 @@ void intel_memory_region_debug(struct intel_memory_region *mr,
->   	if (mr->region_private)
->   		ttm_resource_manager_debug(mr->region_private, printer);
->   	else
-> -		drm_printf(printer, "total:%pa, available:%pa bytes\n",
-> -			   &mr->total, &mr->avail);
-> +		drm_printf(printer, "total:%pa bytes\n", &mr->total);
->   }
+> diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+> index e9c12e0d6f59..6c6f8cbd7321 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+> @@ -111,12 +111,6 @@ static struct intel_memory_region *setup_lmem(struct intel_gt *gt)
+>   		flat_ccs_base = intel_gt_read_register(gt, XEHPSDV_FLAT_CCS_BASE_ADDR);
+>   		flat_ccs_base = (flat_ccs_base >> XEHPSDV_CCS_BASE_SHIFT) * SZ_64K;
 >   
->   static int intel_memory_region_memtest(struct intel_memory_region *mem,
-> @@ -242,7 +241,6 @@ intel_memory_region_create(struct drm_i915_private *i915,
->   	mem->min_page_size = min_page_size;
->   	mem->ops = ops;
->   	mem->total = size;
-> -	mem->avail = mem->total;
->   	mem->type = type;
->   	mem->instance = instance;
+> -		/* FIXME: Remove this when we have small-bar enabled */
+> -		if (pci_resource_len(pdev, 2) < lmem_size) {
+> -			drm_err(&i915->drm, "System requires small-BAR support, which is currently unsupported on this kernel\n");
+> -			return ERR_PTR(-EINVAL);
+> -		}
+> -
+>   		if (GEM_WARN_ON(lmem_size < flat_ccs_base))
+>   			return ERR_PTR(-EIO);
 >   
-> diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-> index 2214f251bec3..2953ed5c3248 100644
-> --- a/drivers/gpu/drm/i915/intel_memory_region.h
-> +++ b/drivers/gpu/drm/i915/intel_memory_region.h
-> @@ -75,7 +75,6 @@ struct intel_memory_region {
->   	resource_size_t io_size;
->   	resource_size_t min_page_size;
->   	resource_size_t total;
-> -	resource_size_t avail;
+> @@ -169,6 +163,10 @@ static struct intel_memory_region *setup_lmem(struct intel_gt *gt)
+>   	drm_info(&i915->drm, "Local memory available: %pa\n",
+>   		 &lmem_size);
 >   
->   	u16 type;
->   	u16 instance;
+> +	if (io_size < lmem_size)
+> +		drm_info(&i915->drm, "Using a reduced BAR size of %lluMiB. Consider enabling the full BAR size if available in the BIOS.\n",
+> +			 (u64)io_size >> 20);
+> +
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Hmm. I wonder what BIOS uis typically call the mappable portion of VRAM. 
+I'll se if I can check that on my DG1 system. Might be that an average 
+user misinterprets "full BAR".
+
+/Thomas
 
 
 
+>   	return mem;
+>   
+>   err_region_put:
