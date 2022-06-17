@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9355454F54B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 12:24:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E48C54F552
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 12:26:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1C3E11A663;
-	Fri, 17 Jun 2022 10:24:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 762C811A717;
+	Fri, 17 Jun 2022 10:26:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37E1711A663
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 10:24:09 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id a10so2083400wmj.5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 03:24:09 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69D3111A6E5
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 10:26:26 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id o16so5170036wra.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 03:26:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=87NBtn3fIzpcWWtrcUYIvzoMaW95mCV5xGCLKQRGxCc=;
- b=Z1ubmAeXMXtINOBjiTE+TBu9JWUvjg5v9bBjTN1duRP5FrsHW7h4RltWMIuzRRcRLQ
- +sGFYgauppjoDbO0i1ub+MlOSPj5LXtafc+voS16rHLXpw7ApGdTOMyxDBslh7dXhnvg
- rBYY4e0KH1GBnw9OMJHmAr9XTEmLoqnKA6zadnaHh/EH27mejQqfHhW8iCyfaUpl3a4E
- xgHgZR/uYCCvgSjxMzYfFZxsIxw5m2dgV7Hpioq+ndyygjAGnwkK0Pla3faKJ9ZpLBvi
- gVtUJIAYD8FbF9UV3fq5+KWw1WBzA2qmjRC33JyjWeI7PuK+yoheH08GfoNj+sLYCdB6
- 2W3g==
+ bh=0V4txETkh4OC6KR1JwtAbUywtvqTqvyWUoGqYG1qTno=;
+ b=ZumNluAg2++Z6tVDPIe87wTQsIfiXqSsJ25LO5ZYLQXzGQo30okhuHmC+0m1BhS8cF
+ THMC1RadCYsEoWrS7pYTJP3Y/Z56BIZWJMZsFxVOTxL4jUKaXxzj1GnfePozGeuPWk8Q
+ ypw6O12uiujHWwRjFmA0aicIdugJ5X5UBIuJA56Ie8PhEK8VibxyMFuqV6vMOM4WQy0a
+ LzGL4p7x47uoF6uZvsEMTPsrRYoKj9EuimAnWuFsd6KEqfAn53PidrrBHhGok0UZjO8t
+ CfFkheZdsiydJgmV14hprGDRLjS8cuZIaB/v0Twz2Oep9wZk4hxulZhVW3JFvI209JKE
+ aPwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=87NBtn3fIzpcWWtrcUYIvzoMaW95mCV5xGCLKQRGxCc=;
- b=r4BgzkGycHf5holxhVSPhQJJHWFG9a0RBvuzU2ldGMEDJ0uLIT3h1LuvcKpuMUzvMh
- 9hb9XjL5uiIuIJkrPo9uCIXXICj0U/yJYeDQkC07UIk7DhugOnTXz/c64M5qxHVvnCa7
- N2dWJRsC2Ao8YSm1lD/zfe9mMl+rfsKO4oGVFKDdTs/zfTOnQLSGOVJ1PHDXoUje11gd
- +YOtEYNK3Exipf+vZdTbGKSVimQWZ0OHq7ghfi4oNF0CWYOKa1ueOa2a/wXlt9D8UW5G
- vnyR4LAbTaJ0cmbX2U5Jdm4ZQkyEcYUqCCZATG0/58buTA1byEyhsd0JISylM9rgfq0/
- c4HQ==
-X-Gm-Message-State: AJIora9pNctpsuR8AWmVpdscNOZUkaUfQK3C3EHxwZnVitdbRBlhA5fn
- /zaK0x0ufZpG04+Z93Lk7WM=
-X-Google-Smtp-Source: AGRyM1tYRcM5+4zfrt0cnFtee2FUHZMlGXpNtJjRvwNJspxR68rEySJKJQgcK+qlSQnxTlMMu5r2uA==
-X-Received: by 2002:a05:600c:1e09:b0:39c:5351:789a with SMTP id
- ay9-20020a05600c1e0900b0039c5351789amr9510011wmb.177.1655461447699; 
- Fri, 17 Jun 2022 03:24:07 -0700 (PDT)
+ bh=0V4txETkh4OC6KR1JwtAbUywtvqTqvyWUoGqYG1qTno=;
+ b=aWKIDVy5mJyD1nEbM16SqYPycaga1WbeJ8DuaDIxzV+uTIyhNIt8R1FBrv2MlKcCdk
+ QJ6QEwLHkIOw0kWHn1wq32TVs6e/+ckoAD2RK+Ldt1WKl0pXRpEezzFYUlBGFfI3UgEQ
+ W3inWpVPT0ZeotLEnVvnjrVJy8seF8K1ja1NbS91vu6+0YRXPK+uQV7ZDMGQXnHWAXoD
+ o1PsNjX5KS+ovPa+AboZGNYsjMGu9JwrjdmYIZ/H5SFPEInn8Q4b9Bf6xB+ugrdE3sVr
+ TU7TVZoMWNBQkxxUpsRRRdeILN5/WKb0WAUR37iHz0jhDmRbJm5WTe4zj0e4LOhJR1AO
+ /oNA==
+X-Gm-Message-State: AJIora9Ja1hNIXKOD6X1Y/pYfNAVPtSE7SAPlH1dqodEC3bTJ52OuROk
+ PD24tm9Qegvmm/+2YRCqNo0=
+X-Google-Smtp-Source: AGRyM1tKvTyXEe+SbTIXtoOamsvWi8005PX6vL8Exs37RRoEJILnRb2ud6H55Iyt5n6uIlvw/5zvAQ==
+X-Received: by 2002:a5d:4e47:0:b0:21a:39fd:5bb5 with SMTP id
+ r7-20020a5d4e47000000b0021a39fd5bb5mr5427556wrt.712.1655461584860; 
+ Fri, 17 Jun 2022 03:26:24 -0700 (PDT)
 Received: from [192.168.0.24] (80.174.78.229.dyn.user.ono.com. [80.174.78.229])
  by smtp.gmail.com with ESMTPSA id
- j19-20020a05600c1c1300b0039c5645c60fsm14751427wms.3.2022.06.17.03.24.06
+ i27-20020a1c541b000000b0039c5ab7167dsm8743231wmb.48.2022.06.17.03.26.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jun 2022 03:24:06 -0700 (PDT)
-Message-ID: <cca1882c-2ea7-34a3-ebed-9ea89d46f09d@gmail.com>
-Date: Fri, 17 Jun 2022 12:24:05 +0200
+ Fri, 17 Jun 2022 03:26:23 -0700 (PDT)
+Message-ID: <be6949f8-e379-6358-6c49-72632f7cd07f@gmail.com>
+Date: Fri, 17 Jun 2022 12:26:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH 3/7] dt-bindings: display: mediatek: add bindings for
- MT8365 SoC
+Subject: Re: [PATCH 4/7] soc: mediatek: mutex: add MT8365 support
 Content-Language: en-US
-To: Fabien Parent <fparent@baylibre.com>, ck.hu@mediatek.com,
+To: CK Hu <ck.hu@mediatek.com>, Fabien Parent <fparent@baylibre.com>,
  jitao.shi@mediatek.com, krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org
 References: <20220530201436.902505-1-fparent@baylibre.com>
- <20220530201436.902505-3-fparent@baylibre.com>
+ <20220530201436.902505-4-fparent@baylibre.com>
+ <e63682c60d3f3c29c941c1ff5db10903466d3d34.camel@mediatek.com>
 From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220530201436.902505-3-fparent@baylibre.com>
+In-Reply-To: <e63682c60d3f3c29c941c1ff5db10903466d3d34.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,147 +84,98 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 30/05/2022 22:14, Fabien Parent wrote:
-> Add MT8365 binding documentation for all the display components that are
-> compatible with the compatible string from other SoCs.
+On 17/06/2022 07:50, CK Hu wrote:
+> Hi, Fabien:
 > 
-> Signed-off-by: Fabien Parent <fparent@baylibre.com>
-
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
-
-> ---
->   .../bindings/display/mediatek/mediatek,aal.yaml |  1 +
->   .../display/mediatek/mediatek,ccorr.yaml        |  1 +
->   .../display/mediatek/mediatek,color.yaml        |  1 +
->   .../display/mediatek/mediatek,dither.yaml       |  1 +
->   .../bindings/display/mediatek/mediatek,dsi.yaml | 17 +++++++++++------
->   .../display/mediatek/mediatek,gamma.yaml        |  1 +
->   .../display/mediatek/mediatek,mutex.yaml        |  1 +
->   .../bindings/display/mediatek/mediatek,ovl.yaml |  1 +
->   .../display/mediatek/mediatek,rdma.yaml         |  1 +
->   9 files changed, 19 insertions(+), 6 deletions(-)
+> On Mon, 2022-05-30 at 22:14 +0200, Fabien Parent wrote:
+>> Add mutex support for MT8365 SoC.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-> index d4d585485e7b..d47bc72f09c0 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-> @@ -33,6 +33,7 @@ properties:
->                 - mediatek,mt8186-disp-aal
->                 - mediatek,mt8192-disp-aal
->                 - mediatek,mt8195-disp-aal
-> +              - mediatek,mt8365-disp-aal
->             - const: mediatek,mt8183-disp-aal
->   
->     reg:
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
-> index 63fb02014a56..fc999e614718 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
-> @@ -32,6 +32,7 @@ properties:
->         - items:
->             - enum:
->                 - mediatek,mt8186-disp-ccorr
-> +              - mediatek,mt8365-disp-ccorr
->             - const: mediatek,mt8183-disp-ccorr
->   
->     reg:
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
-> index d2f89ee7996f..9d081da433e8 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
-> @@ -39,6 +39,7 @@ properties:
->                 - mediatek,mt8186-disp-color
->                 - mediatek,mt8192-disp-color
->                 - mediatek,mt8195-disp-color
-> +              - mediatek,mt8365-disp-color
->             - const: mediatek,mt8173-disp-color
->     reg:
->       maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-> index 8ad8187c02d1..a7706cd65675 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-> @@ -29,6 +29,7 @@ properties:
->                 - mediatek,mt8186-disp-dither
->                 - mediatek,mt8192-disp-dither
->                 - mediatek,mt8195-disp-dither
-> +              - mediatek,mt8365-disp-dither
->             - const: mediatek,mt8183-disp-dither
->   
->     reg:
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
-> index fa5bdf28668a..d17ea215960c 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
-> @@ -22,12 +22,17 @@ allOf:
->   
->   properties:
->     compatible:
-> -    enum:
-> -      - mediatek,mt2701-dsi
-> -      - mediatek,mt7623-dsi
-> -      - mediatek,mt8167-dsi
-> -      - mediatek,mt8173-dsi
-> -      - mediatek,mt8183-dsi
-> +    oneOf:
-> +      - enum:
-> +          - mediatek,mt2701-dsi
-> +          - mediatek,mt7623-dsi
-> +          - mediatek,mt8167-dsi
-> +          - mediatek,mt8173-dsi
-> +          - mediatek,mt8183-dsi
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8365-dsi
-> +          - const: mediatek,mt8183-dsi
->   
->     reg:
->       maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-> index a89ea0ea7542..f54859cfc97b 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-> @@ -30,6 +30,7 @@ properties:
->                 - mediatek,mt8186-disp-gamma
->                 - mediatek,mt8192-disp-gamma
->                 - mediatek,mt8195-disp-gamma
-> +              - mediatek,mt8365-disp-gamma
->             - const: mediatek,mt8183-disp-gamma
->   
->     reg:
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml
-> index 3fdad71210b4..f4a12dfae77b 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.yaml
-> @@ -32,6 +32,7 @@ properties:
->         - mediatek,mt8186-disp-mutex
->         - mediatek,mt8192-disp-mutex
->         - mediatek,mt8195-disp-mutex
-> +      - mediatek,mt8365-disp-mutex
->   
->     reg:
->       maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-> index a2a27d0ca038..20e4ca4fc915 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-> @@ -41,6 +41,7 @@ properties:
->         - items:
->             - enum:
->                 - mediatek,mt8186-disp-ovl
-> +              - mediatek,mt8365-disp-ovl
->             - const: mediatek,mt8192-disp-ovl
->   
->     reg:
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-> index 0882ae86e6c4..3bc914785976 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-> @@ -40,6 +40,7 @@ properties:
->             - enum:
->                 - mediatek,mt8186-disp-rdma
->                 - mediatek,mt8192-disp-rdma
-> +              - mediatek,mt8365-disp-rdma
->             - const: mediatek,mt8183-disp-rdma
->   
->     reg:
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> 
+
+Applied thanks!
+
+>>
+>> Signed-off-by: Fabien Parent <fparent@baylibre.com>
+>> ---
+>>   drivers/soc/mediatek/mtk-mutex.c | 40
+>> ++++++++++++++++++++++++++++++++
+>>   1 file changed, 40 insertions(+)
+>>
+>> diff --git a/drivers/soc/mediatek/mtk-mutex.c
+>> b/drivers/soc/mediatek/mtk-mutex.c
+>> index 981d56967e7a..b8d5c4a62542 100644
+>> --- a/drivers/soc/mediatek/mtk-mutex.c
+>> +++ b/drivers/soc/mediatek/mtk-mutex.c
+>> @@ -110,6 +110,20 @@
+>>   #define MT8195_MUTEX_MOD_DISP_DP_INTF0		21
+>>   #define MT8195_MUTEX_MOD_DISP_PWM0		27
+>>   
+>> +#define MT8365_MUTEX_MOD_DISP_OVL0		7
+>> +#define MT8365_MUTEX_MOD_DISP_OVL0_2L		8
+>> +#define MT8365_MUTEX_MOD_DISP_RDMA0		9
+>> +#define MT8365_MUTEX_MOD_DISP_RDMA1		10
+>> +#define MT8365_MUTEX_MOD_DISP_WDMA0		11
+>> +#define MT8365_MUTEX_MOD_DISP_COLOR0		12
+>> +#define MT8365_MUTEX_MOD_DISP_CCORR		13
+>> +#define MT8365_MUTEX_MOD_DISP_AAL		14
+>> +#define MT8365_MUTEX_MOD_DISP_GAMMA		15
+>> +#define MT8365_MUTEX_MOD_DISP_DITHER		16
+>> +#define MT8365_MUTEX_MOD_DISP_DSI0		17
+>> +#define MT8365_MUTEX_MOD_DISP_PWM0		20
+>> +#define MT8365_MUTEX_MOD_DISP_DPI0		22
+>> +
+>>   #define MT2712_MUTEX_MOD_DISP_PWM2		10
+>>   #define MT2712_MUTEX_MOD_DISP_OVL0		11
+>>   #define MT2712_MUTEX_MOD_DISP_OVL1		12
+>> @@ -315,6 +329,22 @@ static const unsigned int
+>> mt8195_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+>>   	[DDP_COMPONENT_DP_INTF0] = MT8195_MUTEX_MOD_DISP_DP_INTF0,
+>>   };
+>>   
+>> +static const unsigned int mt8365_mutex_mod[DDP_COMPONENT_ID_MAX] = {
+>> +	[DDP_COMPONENT_AAL0] = MT8365_MUTEX_MOD_DISP_AAL,
+>> +	[DDP_COMPONENT_CCORR] = MT8365_MUTEX_MOD_DISP_CCORR,
+>> +	[DDP_COMPONENT_COLOR0] = MT8365_MUTEX_MOD_DISP_COLOR0,
+>> +	[DDP_COMPONENT_DITHER] = MT8365_MUTEX_MOD_DISP_DITHER,
+>> +	[DDP_COMPONENT_DPI0] = MT8365_MUTEX_MOD_DISP_DPI0,
+>> +	[DDP_COMPONENT_DSI0] = MT8365_MUTEX_MOD_DISP_DSI0,
+>> +	[DDP_COMPONENT_GAMMA] = MT8365_MUTEX_MOD_DISP_GAMMA,
+>> +	[DDP_COMPONENT_OVL0] = MT8365_MUTEX_MOD_DISP_OVL0,
+>> +	[DDP_COMPONENT_OVL_2L0] = MT8365_MUTEX_MOD_DISP_OVL0_2L,
+>> +	[DDP_COMPONENT_PWM0] = MT8365_MUTEX_MOD_DISP_PWM0,
+>> +	[DDP_COMPONENT_RDMA0] = MT8365_MUTEX_MOD_DISP_RDMA0,
+>> +	[DDP_COMPONENT_RDMA1] = MT8365_MUTEX_MOD_DISP_RDMA1,
+>> +	[DDP_COMPONENT_WDMA0] = MT8365_MUTEX_MOD_DISP_WDMA0,
+>> +};
+>> +
+>>   static const unsigned int mt2712_mutex_sof[DDP_MUTEX_SOF_MAX] = {
+>>   	[MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
+>>   	[MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0,
+>> @@ -423,6 +453,14 @@ static const struct mtk_mutex_data
+>> mt8195_mutex_driver_data = {
+>>   	.mutex_sof_reg = MT8183_MUTEX0_SOF0,
+>>   };
+>>   
+>> +static const struct mtk_mutex_data mt8365_mutex_driver_data = {
+>> +	.mutex_mod = mt8365_mutex_mod,
+>> +	.mutex_sof = mt8183_mutex_sof,
+>> +	.mutex_mod_reg = MT8183_MUTEX0_MOD0,
+>> +	.mutex_sof_reg = MT8183_MUTEX0_SOF0,
+>> +	.no_clk = true,
+>> +};
+>> +
+>>   struct mtk_mutex *mtk_mutex_get(struct device *dev)
+>>   {
+>>   	struct mtk_mutex_ctx *mtx = dev_get_drvdata(dev);
+>> @@ -665,6 +703,8 @@ static const struct of_device_id
+>> mutex_driver_dt_match[] = {
+>>   	  .data = &mt8192_mutex_driver_data},
+>>   	{ .compatible = "mediatek,mt8195-disp-mutex",
+>>   	  .data = &mt8195_mutex_driver_data},
+>> +	{ .compatible = "mediatek,mt8365-disp-mutex",
+>> +	  .data = &mt8365_mutex_driver_data},
+>>   	{},
+>>   };
+>>   MODULE_DEVICE_TABLE(of, mutex_driver_dt_match);
+> 
