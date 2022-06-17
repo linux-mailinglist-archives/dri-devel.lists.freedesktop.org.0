@@ -1,80 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F1954F797
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 14:29:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE1F54F7B8
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 14:41:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E20011AF83;
-	Fri, 17 Jun 2022 12:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9279311AF79;
+	Fri, 17 Jun 2022 12:41:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB3011AF40
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 12:29:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655468975;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4FB111AF79
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 12:41:03 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 422011FDD6;
+ Fri, 17 Jun 2022 12:41:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1655469662; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=dAIIq/q8RghQVhSS6ZIK4fU5ZM18LuuQ8XAZ51sXCt4=;
- b=Zhr4unRynuTXlhVFr4GxIPFwO3mLC3RCw67J66IREaJrPUVk1JCryAI3S7RvGv6XPI3ZHA
- TQ0c7Y2vsbKlkyW5t87LLP1fp+4v45K0MNUo4We4AR4Vcgf1KeevrCvN4dzikOJfVfVc+Y
- ypOqM3F16t7oL0lkLpavjEW/STfOsKY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-524-jIi2Dy53OX62Hd8ajome2w-1; Fri, 17 Jun 2022 08:29:32 -0400
-X-MC-Unique: jIi2Dy53OX62Hd8ajome2w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay28-20020a05600c1e1c00b0039c5cbe76c1so2663338wmb.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 05:29:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dAIIq/q8RghQVhSS6ZIK4fU5ZM18LuuQ8XAZ51sXCt4=;
- b=T7f+Pc5UNBZuTC+86Xs/SR5CpXBlZwlK6nvu9eV7aqGDAmvU9ixNgoAkgmOrKvV0OZ
- LEHNH3/GQM16egi1WK/3eQHN1EA/xkpKEqRLIJ4/avLNJxIKDdTA5HNswJyz7iEt8wc7
- g85V+kkopq9QZ551C//NaM2kKJX1FwnmzCm1dFYj1VJYDabmUwM4/VXzUs7RIjsUjKkM
- SykXO4nb7E3kkV2xUNSDWcL9qkR/tg3fp7pr1kJWvLwn0KwkvBIWGbF4CyEhxSV5AMQ7
- xIh3QOYcDihANLr9SLqAKSq4ADgZZlPPXnbE6/uutc5xKZ/pLJxI67jws1EUQTcGeKx6
- 5a/w==
-X-Gm-Message-State: AJIora+UNoLjKYFNeurDuDw0/drpEKVAdaNj2MQnGLFU6jEdjKqt8Jmt
- 2KAiUVAajeKSmROSZ/WLjQm6RaeNpgIxPNKhU8ioLiLvaspynM+LbS9CFxpqXQ3yAg7nrFZ84zk
- P9iFt6CRAEi0C4KXxmTO7IN/cALHv
-X-Received: by 2002:a5d:644d:0:b0:210:2f75:25f8 with SMTP id
- d13-20020a5d644d000000b002102f7525f8mr8947543wrw.394.1655468970653; 
- Fri, 17 Jun 2022 05:29:30 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sCiOLRDdkF5inpgP31fcCFconB8+5DRhPGMkFhvOx72lTtZGoaa7xGzXFazCNqqwe1+FBXgg==
-X-Received: by 2002:a5d:644d:0:b0:210:2f75:25f8 with SMTP id
- d13-20020a5d644d000000b002102f7525f8mr8947516wrw.394.1655468970283; 
- Fri, 17 Jun 2022 05:29:30 -0700 (PDT)
-Received: from [172.20.10.7] ([84.78.249.164])
- by smtp.gmail.com with ESMTPSA id
- d8-20020adfc088000000b00213ba0cab3asm4566648wrf.44.2022.06.17.05.29.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jun 2022 05:29:29 -0700 (PDT)
-Message-ID: <47b627e1-5c87-f092-3ce8-a078898d0eb2@redhat.com>
-Date: Fri, 17 Jun 2022 14:29:27 +0200
+ bh=Ek189dqx5PwrLEVmuX0DQfekfKpyS78S9s7mBl7UgNU=;
+ b=i4DVA8ZQNBnw789gLTlMpOaZuV2PEvfgEvUI/a9NX5uWErFY4gRHoDPnK/evjBzL9l1nsB
+ VxLC+wTVvThKWI4O9M3merL//Uzol1tItuEVaEyrPzFQwLfoGXVeifjF8VSbuNI5Qqouip
+ oWKGcdbTHMHfsmojkU1BNvrIxDTWm+E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1655469662;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ek189dqx5PwrLEVmuX0DQfekfKpyS78S9s7mBl7UgNU=;
+ b=KogjOexwkyUZJsz+yJ30hy5QXIn7qbUYPLh6AkJX8V6onfQyrw+q6g3v1F+T2EIhIz77V0
+ eXS58Kqzi6Jz3IBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F3F301348E;
+ Fri, 17 Jun 2022 12:41:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id dCB0Ol12rGKGAQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 17 Jun 2022 12:41:01 +0000
+Message-ID: <6f4dce03-b65a-c5cf-059f-392a06d37ec3@suse.de>
+Date: Fri, 17 Jun 2022 14:41:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
 Subject: Re: [PATCH] drm/aperture: Run fbdev removal before internal helpers
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch, airlied@linux.ie
-References: <20220617121027.30273-1-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220617121027.30273-1-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
+ airlied@linux.ie
+References: <20220617121027.30273-1-tzimmermann@suse.de>
+ <47b627e1-5c87-f092-3ce8-a078898d0eb2@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <47b627e1-5c87-f092-3ce8-a078898d0eb2@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------qiFwNSZ35RXv11cNo2ygAeUJ"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,130 +79,154 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[adding Zack and Alex to Cc list]
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------qiFwNSZ35RXv11cNo2ygAeUJ
+Content-Type: multipart/mixed; boundary="------------oc9JWRyGP30kVUDn6fWwd3tm";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
+ airlied@linux.ie
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>, Helge Deller <deller@gmx.de>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, Zack Rusin <zackr@vmware.com>,
+ Alex Williamson <alex.williamson@redhat.com>
+Message-ID: <6f4dce03-b65a-c5cf-059f-392a06d37ec3@suse.de>
+Subject: Re: [PATCH] drm/aperture: Run fbdev removal before internal helpers
+References: <20220617121027.30273-1-tzimmermann@suse.de>
+ <47b627e1-5c87-f092-3ce8-a078898d0eb2@redhat.com>
+In-Reply-To: <47b627e1-5c87-f092-3ce8-a078898d0eb2@redhat.com>
 
-Hello Thomas,
+--------------oc9JWRyGP30kVUDn6fWwd3tm
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Thanks a lot for tracking this down and figuring out the root cause!
+SGkNCg0KQW0gMTcuMDYuMjIgdW0gMTQ6Mjkgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IFthZGRpbmcgWmFjayBhbmQgQWxleCB0byBDYyBsaXN0XQ0KPiANCj4gSGVs
+bG8gVGhvbWFzLA0KPiANCj4gVGhhbmtzIGEgbG90IGZvciB0cmFja2luZyB0aGlzIGRvd24g
+YW5kIGZpZ3VyaW5nIG91dCB0aGUgcm9vdCBjYXVzZSENCj4gDQo+IE9uIDYvMTcvMjIgMTQ6
+MTAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gQWx3YXlzIHJ1biBmYmRldiByZW1v
+dmFsIGZpcnN0IHRvIHJlbW92ZSBzaW1wbGVkcm0gdmlhDQo+PiBzeXNmYl9kaXNhYmxlKCku
+IFRoaXMgY2xlYXJzIHRoZSBpbnRlcm5hbCBzdGF0ZS4gVGhlIGxhdGVyIGNhbGwNCj4+IHRv
+IGRybV9hcGVydHVyZV9kZXRhY2hfZHJpdmVycygpIHRoZW4gZG9lcyBub3RoaW5nLiBPdGhl
+cndpc2UsDQo+PiB3aXRoIGRybV9hcGVydHVyZV9kZXRhY2hfZHJpdmVycygpIHJ1bm5pbmcg
+Zmlyc3QsIHRoZSBjYWxsIHRvDQo+PiBzeXNmYl9kaXNhYmxlKCkgdXNlcyBpbmNvbnNpc3Rl
+bnQgc3RhdGUuDQo+Pg0KPj4gRXhhbXBsZSBiYWNrdHJhY2Ugc2hvdyBiZWxvdzoNCj4+DQo+
+PiBbICAgMTEuNjYzNDIyXSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4+IFsgICAxMS42NjM0MjZdIEJVRzog
+S0FTQU46IHVzZS1hZnRlci1mcmVlIGluIGRldmljZV9kZWwrMHg3OS8weDVmMA0KPj4gWyAg
+IDExLjY2MzQzNV0gUmVhZCBvZiBzaXplIDggYXQgYWRkciBmZmZmODg4MTA4MTg1MDUwIGJ5
+IHRhc2sgc3lzdGVtZC11ZGV2ZC8zMTENCj4+IFsgICAxMS42NjM0NDBdIENQVTogMCBQSUQ6
+IDMxMSBDb21tOiBzeXN0ZW1kLXVkZXZkIFRhaW50ZWQ6IEcgICAgICAgICAgICBFICAgICA1
+DQo+PiAJLjE5LjAtcmMyLTEtZGVmYXVsdCsgIzE2ODkNCj4+IFsgICAxMS42NjM0NDVdIEhh
+cmR3YXJlIG5hbWU6IEhQIFByb0xpYW50IERMMTIwIEc3LCBCSU9TIEowMSAwNC8yMS8yMDEx
+DQo+PiBbICAgMTEuNjYzNDQ3XSBDYWxsIFRyYWNlOg0KPj4gWyAgIDExLjY2MzQ0OV0gIDxU
+QVNLPg0KPj4gWyAgIDExLjY2MzQ1MV0gID8gZGV2aWNlX2RlbCsweDc5LzB4NWYwDQo+PiBb
+ICAgMTEuNjYzNDU2XSAgZHVtcF9zdGFja19sdmwrMHg1Yi8weDczDQo+PiBbICAgMTEuNjYz
+NDYyXSAgcHJpbnRfYWRkcmVzc19kZXNjcmlwdGlvbi5jb25zdHByb3AuMCsweDFmLzB4MWIw
+DQo+PiBbICAgMTEuNjYzNDY4XSAgPyBkZXZpY2VfZGVsKzB4NzkvMHg1ZjANCj4+IFsgICAx
+MS42NjM0NzFdICA/IGRldmljZV9kZWwrMHg3OS8weDVmMA0KPj4gWyAgIDExLjY2MzQ3NV0g
+IHByaW50X3JlcG9ydC5jb2xkKzB4M2MvMHgyMWMNCj4+IFsgICAxMS42NjM0ODFdICA/IGxv
+Y2tfYWNxdWlyZWQrMHg4Ny8weDFlMA0KPj4gWyAgIDExLjY2MzQ4NF0gID8gbG9ja19hY3F1
+aXJlZCsweDg3LzB4MWUwDQo+PiBbICAgMTEuNjYzNDg5XSAgPyBkZXZpY2VfZGVsKzB4Nzkv
+MHg1ZjANCj4+IFsgICAxMS42NjM0OTJdICBrYXNhbl9yZXBvcnQrMHhiZi8weGYwDQo+PiBb
+ICAgMTEuNjYzNDk4XSAgPyBkZXZpY2VfZGVsKzB4NzkvMHg1ZjANCj4+IFsgICAxMS42NjM1
+MDNdICBkZXZpY2VfZGVsKzB4NzkvMHg1ZjANCj4+IFsgICAxMS42NjM1MDldICA/IGRldmlj
+ZV9yZW1vdmVfYXR0cnMrMHgxNzAvMHgxNzANCj4+IFsgICAxMS42NjM1MTRdICA/IGxvY2tf
+aXNfaGVsZF90eXBlKzB4ZTgvMHgxNDANCj4+IFsgICAxMS42NjM1MjNdICBwbGF0Zm9ybV9k
+ZXZpY2VfZGVsLnBhcnQuMCsweDE5LzB4ZTANCj4+IFsgICAxMS42NjM1MzBdICBwbGF0Zm9y
+bV9kZXZpY2VfdW5yZWdpc3RlcisweDFjLzB4MzANCj4+IFsgICAxMS42NjM1MzVdICBzeXNm
+Yl9kaXNhYmxlKzB4MmQvMHg3MA0KPj4gWyAgIDExLjY2MzU0MF0gIHJlbW92ZV9jb25mbGlj
+dGluZ19mcmFtZWJ1ZmZlcnMrMHgxYy8weGYwDQo+PiBbICAgMTEuNjYzNTQ2XSAgcmVtb3Zl
+X2NvbmZsaWN0aW5nX3BjaV9mcmFtZWJ1ZmZlcnMrMHgxMzAvMHgxYTANCj4+IFsgICAxMS42
+NjM1NTRdICBkcm1fYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9mcmFtZWJ1ZmZl
+cnMrMHg4Ni8weGIwDQo+PiBbICAgMTEuNjYzNTYxXSAgPyBtZ2FnMjAwX3BjaV9yZW1vdmUr
+MHgzMC8weDMwIFttZ2FnMjAwXQ0KPj4gWyAgIDExLjY2MzU3OF0gIG1nYWcyMDBfcGNpX3By
+b2JlKzB4MmQvMHgxNDAgW21nYWcyMDBdDQo+Pg0KPiANCj4gTWF5YmUgaW5jbHVkZSBhIFJl
+cG9ydGVkLWJ5OiBaYWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPiA/IHNpbmNlDQo+IHRo
+aXMgc2VlbXMgdG8gYmUgdGhlIGV4YWN0IHNhbWUgaXNzdWUgdGhhdCBoZSByZXBvcnRlZCB5
+ZXN0ZXJkYXkuDQoNCkknbGwgZG8uDQoNCj4gDQo+IFBhdGNoIGxvb2tzIGdvb2QgdG8gbWUg
+YW5kIHRoaXMgc2VlbXMgdG8gYmUgdGhlIGNvcnJlY3QgZml4IElNTy4NCj4gVGhhdCB3YXkg
+d2Ugd29uJ3QgcmUtaW50cm9kdWNlIHRoZSBpc3N1ZSB0aGF0IHdhcyBmaXhlZCBieSB0aGUN
+Cj4gc3lzZmJfdW5yZWdpc3RlcigpIGZ1bmN0aW9uLCB0aGF0IGlzIHRvIHJlbW92ZSBhIHBk
+ZXYgZXZlbiBpZiB3YXNuJ3QNCj4gYm91bmQgdG8gYSBkcml2ZXIgdG8gcHJldmVudCBhIGxh
+dGUgc2ltcGxlZHJtIHJlZ2lzdHJhdGlvbiB0byBtYXRjaC4NCj4gDQo+IFJldmlld2VkLWJ5
+OiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNvbT4NCg0KVGhh
+bmtzIQ0KDQo+IA0KPiBJIHdvbmRlciB3aGF0J3MgdGhlIGJlc3Qgd2F5IHRvIGNvb3JkaW5h
+dGUgd2l0aCBBbGV4IHRvIG1lcmdlIHRoaXMNCj4gZml4IGFuZCB5b3VyIHBhdGNoIHRoYXQg
+bW92ZXMgdGhlIGFwZXJ0dXJlIGNvZGUgb3V0IG9mIERSTSwgc2luY2UNCj4gYXMgZmFyIGFz
+IEkgY2FuIHRlbGwgYm90aCBzaG91bGQgdGFyZ2V0IHRoZSB2NS4yMCByZWxlYXNlLg0KDQpJ
+ZiBub3RoaW5nIGVsc2UgY29tZXMgaW4sIEknbGwgbWVyZ2UgdGhpcyBwYXRjaCBvbiBNb25k
+YXkgYW5kIHNlbmQgQWxleCANCmFuIHVwZGF0ZWQgdmVyc2lvbiBvZiB0aGUgdmZpbyBwYXRj
+aC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4+IFNpZ25lZC1vZmYtYnk6IFRo
+b21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gRml4ZXM6IDg3M2Vi
+M2IxMTg2MCAoImZiZGV2OiBEaXNhYmxlIHN5c2ZiIGRldmljZSByZWdpc3RyYXRpb24gd2hl
+biByZW1vdmluZyBjb25mbGljdGluZyBGQnMiKQ0KPj4gQ2M6IEphdmllciBNYXJ0aW5leiBD
+YW5pbGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KPj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRh
+bmllbC52ZXR0ZXJAZmZ3bGwuY2g+DQo+PiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZm
+d2xsLmNoPg0KPj4gQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4NCj4+IENj
+OiBIZWxnZSBEZWxsZXIgPGRlbGxlckBnbXguZGU+DQo+PiBDYzogVGhvbWFzIFppbW1lcm1h
+bm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+PiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5k
+ZXIuZGV1Y2hlckBhbWQuY29tPg0KPj4gQ2M6IFpoZW4gTGVpIDx0aHVuZGVyLmxlaXpoZW5A
+aHVhd2VpLmNvbT4NCj4+IENjOiBDaGFuZ2NoZW5nIERlbmcgPGRlbmcuY2hhbmdjaGVuZ0B6
+dGUuY29tLmNuPg0KPj4gLS0tDQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fYXBlcnR1cmUu
+YyB8IDI2ICsrKysrKysrKysrKysrKy0tLS0tLS0tLS0tDQo+PiAgIDEgZmlsZSBjaGFuZ2Vk
+LCAxNSBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9hcGVydHVyZS5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9hcGVydHVyZS5jDQo+PiBpbmRleCA3NGJkNGE3NmIyNTMuLjA1OWZkNzE0MjRmNiAxMDA2
+NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXBlcnR1cmUuYw0KPj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2RybV9hcGVydHVyZS5jDQo+PiBAQCAtMzI5LDcgKzMyOSwyMCBA
+QCBpbnQgZHJtX2FwZXJ0dXJlX3JlbW92ZV9jb25mbGljdGluZ19wY2lfZnJhbWVidWZmZXJz
+KHN0cnVjdCBwY2lfZGV2ICpwZGV2LA0KPj4gICAJCQkJCQkgICAgIGNvbnN0IHN0cnVjdCBk
+cm1fZHJpdmVyICpyZXFfZHJpdmVyKQ0KPj4gICB7DQo+PiAgIAlyZXNvdXJjZV9zaXplX3Qg
+YmFzZSwgc2l6ZTsNCj4+IC0JaW50IGJhciwgcmV0ID0gMDsNCj4+ICsJaW50IGJhciwgcmV0
+Ow0KPj4gKw0KPj4gKwkvKg0KPj4gKwkgKiBXQVJOSU5HOiBBcHBhcmVudGx5IHdlIG11c3Qg
+a2ljayBmYmRldiBkcml2ZXJzIGJlZm9yZSB2Z2Fjb24sDQo+PiArCSAqIG90aGVyd2lzZSB0
+aGUgdmdhIGZiZGV2IGRyaXZlciBmYWxscyBvdmVyLg0KPj4gKwkgKi8NCj4+ICsjaWYgSVNf
+UkVBQ0hBQkxFKENPTkZJR19GQikNCj4+ICsJcmV0ID0gcmVtb3ZlX2NvbmZsaWN0aW5nX3Bj
+aV9mcmFtZWJ1ZmZlcnMocGRldiwgcmVxX2RyaXZlci0+bmFtZSk7DQo+PiArCWlmIChyZXQp
+DQo+PiArCQlyZXR1cm4gcmV0Ow0KPj4gKyNlbmRpZg0KPj4gKwlyZXQgPSB2Z2FfcmVtb3Zl
+X3ZnYWNvbihwZGV2KTsNCj4+ICsJaWYgKHJldCkNCj4+ICsJCXJldHVybiByZXQ7DQo+PiAg
+IA0KPj4gICAJZm9yIChiYXIgPSAwOyBiYXIgPCBQQ0lfU1REX05VTV9CQVJTOyArK2Jhcikg
+ew0KPj4gICAJCWlmICghKHBjaV9yZXNvdXJjZV9mbGFncyhwZGV2LCBiYXIpICYgSU9SRVNP
+VVJDRV9NRU0pKQ0KPj4gQEAgLTMzOSwxNSArMzUyLDYgQEAgaW50IGRybV9hcGVydHVyZV9y
+ZW1vdmVfY29uZmxpY3RpbmdfcGNpX2ZyYW1lYnVmZmVycyhzdHJ1Y3QgcGNpX2RldiAqcGRl
+diwNCj4+ICAgCQlkcm1fYXBlcnR1cmVfZGV0YWNoX2RyaXZlcnMoYmFzZSwgc2l6ZSk7DQo+
+PiAgIAl9DQo+PiAgIA0KPj4gLQkvKg0KPj4gLQkgKiBXQVJOSU5HOiBBcHBhcmVudGx5IHdl
+IG11c3Qga2ljayBmYmRldiBkcml2ZXJzIGJlZm9yZSB2Z2Fjb24sDQo+PiAtCSAqIG90aGVy
+d2lzZSB0aGUgdmdhIGZiZGV2IGRyaXZlciBmYWxscyBvdmVyLg0KPj4gLQkgKi8NCj4+IC0j
+aWYgSVNfUkVBQ0hBQkxFKENPTkZJR19GQikNCj4+IC0JcmV0ID0gcmVtb3ZlX2NvbmZsaWN0
+aW5nX3BjaV9mcmFtZWJ1ZmZlcnMocGRldiwgcmVxX2RyaXZlci0+bmFtZSk7DQo+PiAtI2Vu
+ZGlmDQo+PiAtCWlmIChyZXQgPT0gMCkNCj4+IC0JCXJldCA9IHZnYV9yZW1vdmVfdmdhY29u
+KHBkZXYpOw0KPj4gLQlyZXR1cm4gcmV0Ow0KPj4gKwlyZXR1cm4gMDsNCj4+ICAgfQ0KPj4g
+ICBFWFBPUlRfU1lNQk9MKGRybV9hcGVydHVyZV9yZW1vdmVfY29uZmxpY3RpbmdfcGNpX2Zy
+YW1lYnVmZmVycyk7DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBE
+cml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgN
+Ck1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwg
+QUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-On 6/17/22 14:10, Thomas Zimmermann wrote:
-> Always run fbdev removal first to remove simpledrm via
-> sysfb_disable(). This clears the internal state. The later call
-> to drm_aperture_detach_drivers() then does nothing. Otherwise,
-> with drm_aperture_detach_drivers() running first, the call to
-> sysfb_disable() uses inconsistent state.
-> 
-> Example backtrace show below:
-> 
-> [   11.663422] ==================================================================
-> [   11.663426] BUG: KASAN: use-after-free in device_del+0x79/0x5f0
-> [   11.663435] Read of size 8 at addr ffff888108185050 by task systemd-udevd/311
-> [   11.663440] CPU: 0 PID: 311 Comm: systemd-udevd Tainted: G            E     5
-> 	.19.0-rc2-1-default+ #1689
-> [   11.663445] Hardware name: HP ProLiant DL120 G7, BIOS J01 04/21/2011
-> [   11.663447] Call Trace:
-> [   11.663449]  <TASK>
-> [   11.663451]  ? device_del+0x79/0x5f0
-> [   11.663456]  dump_stack_lvl+0x5b/0x73
-> [   11.663462]  print_address_description.constprop.0+0x1f/0x1b0
-> [   11.663468]  ? device_del+0x79/0x5f0
-> [   11.663471]  ? device_del+0x79/0x5f0
-> [   11.663475]  print_report.cold+0x3c/0x21c
-> [   11.663481]  ? lock_acquired+0x87/0x1e0
-> [   11.663484]  ? lock_acquired+0x87/0x1e0
-> [   11.663489]  ? device_del+0x79/0x5f0
-> [   11.663492]  kasan_report+0xbf/0xf0
-> [   11.663498]  ? device_del+0x79/0x5f0
-> [   11.663503]  device_del+0x79/0x5f0
-> [   11.663509]  ? device_remove_attrs+0x170/0x170
-> [   11.663514]  ? lock_is_held_type+0xe8/0x140
-> [   11.663523]  platform_device_del.part.0+0x19/0xe0
-> [   11.663530]  platform_device_unregister+0x1c/0x30
-> [   11.663535]  sysfb_disable+0x2d/0x70
-> [   11.663540]  remove_conflicting_framebuffers+0x1c/0xf0
-> [   11.663546]  remove_conflicting_pci_framebuffers+0x130/0x1a0
-> [   11.663554]  drm_aperture_remove_conflicting_pci_framebuffers+0x86/0xb0
-> [   11.663561]  ? mgag200_pci_remove+0x30/0x30 [mgag200]
-> [   11.663578]  mgag200_pci_probe+0x2d/0x140 [mgag200]
-> 
+--------------oc9JWRyGP30kVUDn6fWwd3tm--
 
-Maybe include a Reported-by: Zack Rusin <zackr@vmware.com> ? since
-this seems to be the exact same issue that he reported yesterday.
+--------------qiFwNSZ35RXv11cNo2ygAeUJ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Patch looks good to me and this seems to be the correct fix IMO.
-That way we won't re-introduce the issue that was fixed by the
-sysfb_unregister() function, that is to remove a pdev even if wasn't
-bound to a driver to prevent a late simpledrm registration to match.
+-----BEGIN PGP SIGNATURE-----
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKsdl0FAwAAAAAACgkQlh/E3EQov+CL
+kxAA0LnZ4PatLnZfmRMZiwHqgKB1yJHltDZIkmhIYQiFI0kv/Llq8xMzdv12mVqKJ0kBaLsaJN4C
+pTJSjWC3md13L5Ne5E6zfWrChGAU2lZUUYWaI2vKOuvd49UNgfsGErqcnIJD4zddhk2rcrPGg5H3
+rJQ6kxkrKBMM46k7c+8OCU848xuPedbafQib7TwEQu5+i+bRRUwsCDFaPUfkiGR1Pyvjbo3LreeR
+63aqQ+B2rrIW59o4XDqR70WFbKrKqqy6bH8UMzKVdnB5EA18DIFFa6kwMqm63cb4FeHGu8m+f1SQ
+dmJn+yzFYF2vEsw0gEALemDdPQ6i/BM4xv9q+T0bYNV2ATPWQ2uqmbdWfqsutlOhiMvwZzqtjVzd
++Bcdub+0aNyBrUmChiKTPJe9hpG9swdMBff1xSCjEGUrOfs/SBBfX/RkEEhzDWnpBQeU9Jv0IzcN
+pdcbzYipFGGDIvWLkdHLT923oKeRPsWROtXK2WU/qgu665Hd1WIVsVkHFIgazk+M1iMHP0I2Yxws
+WIZ3vd6Hx/hSmHAXNxR7hv5sYD7PBsYybbHe76nBMIz3PnDssZ+66x+X5XOJ3VIMwwA5aeGhs967
+Ud2Diko5C4Z2pOHmrHaaMagbNq2c3NZVkgXHP4oNduOX1MoD0UMkI4sCpoTZFoVYh9YHJnH2+9GT
+xdI=
+=hjmd
+-----END PGP SIGNATURE-----
 
-I wonder what's the best way to coordinate with Alex to merge this
-fix and your patch that moves the aperture code out of DRM, since
-as far as I can tell both should target the v5.20 release.
-
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 873eb3b11860 ("fbdev: Disable sysfb device registration when removing conflicting FBs")
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Zhen Lei <thunder.leizhen@huawei.com>
-> Cc: Changcheng Deng <deng.changcheng@zte.com.cn>
-> ---
->  drivers/gpu/drm/drm_aperture.c | 26 +++++++++++++++-----------
->  1 file changed, 15 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_aperture.c
-> index 74bd4a76b253..059fd71424f6 100644
-> --- a/drivers/gpu/drm/drm_aperture.c
-> +++ b/drivers/gpu/drm/drm_aperture.c
-> @@ -329,7 +329,20 @@ int drm_aperture_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
->  						     const struct drm_driver *req_driver)
->  {
->  	resource_size_t base, size;
-> -	int bar, ret = 0;
-> +	int bar, ret;
-> +
-> +	/*
-> +	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
-> +	 * otherwise the vga fbdev driver falls over.
-> +	 */
-> +#if IS_REACHABLE(CONFIG_FB)
-> +	ret = remove_conflicting_pci_framebuffers(pdev, req_driver->name);
-> +	if (ret)
-> +		return ret;
-> +#endif
-> +	ret = vga_remove_vgacon(pdev);
-> +	if (ret)
-> +		return ret;
->  
->  	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
->  		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
-> @@ -339,15 +352,6 @@ int drm_aperture_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
->  		drm_aperture_detach_drivers(base, size);
->  	}
->  
-> -	/*
-> -	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
-> -	 * otherwise the vga fbdev driver falls over.
-> -	 */
-> -#if IS_REACHABLE(CONFIG_FB)
-> -	ret = remove_conflicting_pci_framebuffers(pdev, req_driver->name);
-> -#endif
-> -	if (ret == 0)
-> -		ret = vga_remove_vgacon(pdev);
-> -	return ret;
-> +	return 0;
->  }
->  EXPORT_SYMBOL(drm_aperture_remove_conflicting_pci_framebuffers);
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+--------------qiFwNSZ35RXv11cNo2ygAeUJ--
