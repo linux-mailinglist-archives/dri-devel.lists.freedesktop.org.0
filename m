@@ -1,53 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B052554F051
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 06:44:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E04F54F056
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 06:51:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 453FD11AD7D;
-	Fri, 17 Jun 2022 04:44:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F45011AEE3;
+	Fri, 17 Jun 2022 04:50:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97B8611AD7D
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 04:44:13 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A134B61DEB;
- Fri, 17 Jun 2022 04:44:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 16A9EC3411B;
- Fri, 17 Jun 2022 04:44:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655441052;
- bh=7s9DpTvHeOxDSPMsQJSfiVg3fwACOC+KfYrtWEplkAg=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=Yq/GRo2POpBsoJqWcr8cPFxIblNW2GJPEHnmxndUSjtw7KAzUscEFofBOFCXJWwak
- Ws68Lb3lRght5pC6yDpnONDx0R6QvoCZTfRn+JVYWadRyfPGIUUxICmP+vqlYkR3ip
- WL1FHI6LlArs88PJfM6Fpoy2obo5vvGs57QzG5C2IgOqNlPBZpS5XBSTsahUQiwTqs
- 63hh/vU1ASo4ae5GotPswqIjZtzaqo29yuRywFHeO2YYsZwwnijh5S9bvfr1MrNHMm
- nZgR6O0U5Jgle4QGNa8S+D5V2OUPO07RhhK6AmKueDeuMh2fHPjPq3KvnVmtmGz5j1
- Qcc7czb6b/2Qw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 03A49E6D466; Fri, 17 Jun 2022 04:44:12 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.19-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9twTA=AXfjj=eq558KLmE_TfmkoRsm6Sm5MUB0zCZ174Wg@mail.gmail.com>
-References: <CAPM=9twTA=AXfjj=eq558KLmE_TfmkoRsm6Sm5MUB0zCZ174Wg@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9twTA=AXfjj=eq558KLmE_TfmkoRsm6Sm5MUB0zCZ174Wg@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2022-06-17
-X-PR-Tracked-Commit-Id: 65cf7c02cfc7c36a3e86f3da5818dabc32c270ff
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 47700948a4abb4a5ae13ef943ff682a7f327547a
-Message-Id: <165544105200.26112.4731974293198817958.pr-tracker-bot@kernel.org>
-Date: Fri, 17 Jun 2022 04:44:12 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0149511AEE5;
+ Fri, 17 Jun 2022 04:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655441457; x=1686977457;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=LAhnRfWUPa3MF9KyyB3HIOCYp9E4fYVlcR3NiP7pKnc=;
+ b=MbelyG1IDXXJf7P6ZUlqQRLFyGdmU/qzBWmmQb14dR19mXTFULKwojzR
+ xr8RNeuxhOfmeq/BSYedZ9NbPC+1x4LKkJQ7E/SpGvefKIjEmIidT8Jps
+ xL5g6OCYK2lCmlD5EQsJr8jZD2UIGWqdWi6DCnWYKFaHS6X0IsLX7qoJu
+ uxe1Y3DcZguifjmZZUNFbtKV61Ou/6qtyJg8ro1ViSQsd2wVd5+hE6vaY
+ XvRlDoLbpq/JT8WsR+C+MEUZNBCaPHXjYIR+JT2KDqfl/7enAkR4KDRmb
+ W1dBh0j6StK7YSaumakarncMHY96tkzXDOkPW2s7GtmpDJZ3P2Mz0v9Ii A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="365771473"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="365771473"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 21:50:56 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="641880939"
+Received: from adixit-mobl1.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.141.64])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 21:50:56 -0700
+Date: Thu, 16 Jun 2022 21:50:55 -0700
+Message-ID: <87letvx58w.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Zhanjun Dong <zhanjun.dong@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Check for ct enabled while
+ waiting for response
+In-Reply-To: <20220616220158.15778-1-zhanjun.dong@intel.com>
+References: <20220616220158.15778-1-zhanjun.dong@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,22 +59,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 17 Jun 2022 14:13:41 +1000:
+On Thu, 16 Jun 2022 15:01:59 -0700, Zhanjun Dong wrote:
+>
+> We are seeing error message of "No response for request". Some cases
+> happened while waiting for response and reset/suspend action was triggered.
+> In this case, no response is not an error, active requests will be
+> cancelled.
+>
+> This patch will handle this condition and change the error message into
+> debug message.
+>
+> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c | 24 ++++++++++++++++-------
+>  1 file changed, 17 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> index f01325cd1b62..f07a7666b1ad 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
+> @@ -455,6 +455,7 @@ static int ct_write(struct intel_guc_ct *ct,
+>
+>  /**
+>   * wait_for_ct_request_update - Wait for CT request state update.
+> + * @ct:		pointer to CT
+>   * @req:	pointer to pending request
+>   * @status:	placeholder for status
+>   *
+> @@ -467,9 +468,10 @@ static int ct_write(struct intel_guc_ct *ct,
+>   * *	0 response received (status is valid)
+>   * *	-ETIMEDOUT no response within hardcoded timeout
+>   */
+> -static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+> +static int wait_for_ct_request_update(struct intel_guc_ct *ct, struct ct_request *req, u32 *status)
+>  {
+>	int err;
+> +	bool ct_enabled;
+>
+>	/*
+>	 * Fast commands should complete in less than 10us, so sample quickly
+> @@ -481,12 +483,15 @@ static int wait_for_ct_request_update(struct ct_request *req, u32 *status)
+>  #define GUC_CTB_RESPONSE_TIMEOUT_SHORT_MS 10
+>  #define GUC_CTB_RESPONSE_TIMEOUT_LONG_MS 1000
+>  #define done \
+> -	(FIELD_GET(GUC_HXG_MSG_0_ORIGIN, READ_ONCE(req->status)) == \
+> +	(!(ct_enabled = intel_guc_ct_enabled(ct)) || \
+> +	 FIELD_GET(GUC_HXG_MSG_0_ORIGIN, READ_ONCE(req->status)) == \
+>	 GUC_HXG_ORIGIN_GUC)
+>	err = wait_for_us(done, GUC_CTB_RESPONSE_TIMEOUT_SHORT_MS);
+>	if (err)
+>		err = wait_for(done, GUC_CTB_RESPONSE_TIMEOUT_LONG_MS);
+>  #undef done
+> +	if (!ct_enabled)
+> +		err = -ECANCELED;
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-06-17
+Actually here's an even simpler suggestion. We could just do:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/47700948a4abb4a5ae13ef943ff682a7f327547a
+	if (!ct_enabled)
+		CT_DEBUG(ct, "Request %#x (fence %u) cancelled as CTB is disabled\n", ...);
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+And return 0 as before. This way we won't have to make any changes in
+either ct_send() or intel_guc_ct_send(). So intel_guc_ct_enabled() just
+serves to get us out of the wait early and prevent the -ETIMEDOUT return
+(and 0 return avoids all the error messages we are trying to eliminate).
