@@ -2,50 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781D654F2CD
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 10:25:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0E754F2D4
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 10:27:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97F8410E7FD;
-	Fri, 17 Jun 2022 08:25:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA0AC10F12C;
+	Fri, 17 Jun 2022 08:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8154A10E7FD
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 08:25:38 +0000 (UTC)
-X-UUID: 57794b13054148f0b9c8bab759e9ecc9-20220617
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3859F10F12C
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 08:27:04 +0000 (UTC)
+X-UUID: 7ba1a5c9b1114ed5baac875b53b3956a-20220617
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:de822b26-532c-423c-8e03-90e40310dca6, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:45
-X-CID-INFO: VERSION:1.1.6, REQID:de822b26-532c-423c-8e03-90e40310dca6, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:45
-X-CID-META: VersionHash:b14ad71, CLOUDID:580ce348-4c92-421c-ad91-b806c0f58b2a,
+X-CID-O-INFO: VERSION:1.1.6, REQID:515ee71a-d3e2-4642-9db6-0cba937dff52, OB:20,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:45
+X-CID-INFO: VERSION:1.1.6, REQID:515ee71a-d3e2-4642-9db6-0cba937dff52, OB:20,
+ LOB
+ :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:45
+X-CID-META: VersionHash:b14ad71, CLOUDID:dfc29ff6-e099-41ba-a32c-13b8bfe63214,
  C
  OID:d65a67a1ec62,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 57794b13054148f0b9c8bab759e9ecc9-20220617
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 7ba1a5c9b1114ed5baac875b53b3956a-20220617
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
  (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1435036830; Fri, 17 Jun 2022 16:25:31 +0800
+ with ESMTP id 1664422747; Fri, 17 Jun 2022 16:26:58 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 17 Jun 2022 16:25:30 +0800
+ 15.2.792.15; Fri, 17 Jun 2022 16:26:56 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 17 Jun 2022 16:25:30 +0800
-Message-ID: <d060eab1fe9a76fe53e5f2a60cfca7b1960ff18d.camel@mediatek.com>
-Subject: Re: [PATCH v11 1/1] phy: phy-mtk-dp: Add driver for DP phy
+ Transport; Fri, 17 Jun 2022 16:26:56 +0800
+Message-ID: <9d924423c2b7ded984e2daf42a3667332dabbee2.camel@mediatek.com>
+Subject: Re: [PATCH v11 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: Vinod Koul <vkoul@kernel.org>
-Date: Fri, 17 Jun 2022 16:25:30 +0800
-In-Reply-To: <YqvPJg67Zb76lhap@matsya>
-References: <20220613072648.11081-1-rex-bc.chen@mediatek.com>
- <20220613072648.11081-2-rex-bc.chen@mediatek.com> <YqvPJg67Zb76lhap@matsya>
+To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
+ <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
+ <krzysztof.kozlowski+dt@linaro.org>, "mripard@kernel.org"
+ <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
+ <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
+Date: Fri, 17 Jun 2022 16:26:55 +0800
+In-Reply-To: <d5416a2f2a655f6574b17597fdc22615fe2fc22a.camel@mediatek.com>
+References: <20220610105522.13449-1-rex-bc.chen@mediatek.com>
+ <20220610105522.13449-6-rex-bc.chen@mediatek.com>
+ <d5416a2f2a655f6574b17597fdc22615fe2fc22a.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -63,354 +72,339 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
- airlied@linux.ie, linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kishon@ti.com,
- Project_Global_Chrome_Upstream_Group@mediatek.com, matthias.bgg@gmail.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- chunfeng.yun@mediatek.com, msp@baylibre.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "granquet@baylibre.com" <granquet@baylibre.com>,
+ Jitao Shi =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?=
+ <jitao.shi@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "msp@baylibre.com" <msp@baylibre.com>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "wenst@chromium.org" <wenst@chromium.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "angelogioacchino.delregno@collabora.com"
+ <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-06-16 at 17:47 -0700, Vinod Koul wrote:
-> On 13-06-22, 15:26, Bo-Chen Chen wrote:
+On Wed, 2022-06-15 at 10:58 +0800, CK Hu wrote:
+> Hi, Bo-Chen:
+> 
+> On Fri, 2022-06-10 at 18:55 +0800, Bo-Chen Chen wrote:
 > > From: Markus Schneider-Pargmann <msp@baylibre.com>
 > > 
-> > This is a new driver that supports the integrated DisplayPort phy
-> > for
-> > mediatek SoCs, especially the mt8195. The phy is integrated into
-> > the
-> > DisplayPort controller and will be created by the mtk-dp driver.
-> > This
-> > driver expects a struct regmap to be able to work on the same
-> > registers
-> > as the DisplayPort controller. It sets the device data to be the
-> > struct
-> > phy so that the DisplayPort controller can easily work with it.
+> > This patch adds a embedded displayport driver for the MediaTek
+> > mt8195
+> > SoC.
 > > 
-> > The driver does not have any devicetree bindings because the
-> > datasheet
-> > does not list the controller and the phy as distinct units.
+> > It supports the MT8195, the embedded DisplayPort units. It offers
+> > DisplayPort 1.4 with up to 4 lanes.
 > > 
-> > The interaction with the controller can be covered by the configure
-> > callback of the phy framework and its displayport parameters.
+> > The driver creates a child device for the phy. The child device
+> > will
+> > never exist without the parent being active. As they are sharing a
+> > register range, the parent passes a regmap pointer to the child so
+> > that
+> > both can work with the same register range. The phy driver sets
+> > device
+> > data that is read by the parent to get the phy device that can be
+> > used
+> > to control the phy properties.
+> > 
+> > This driver is based on an initial version by
+> > Jitao shi <jitao.shi@mediatek.com>
 > > 
 > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
 > > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > [Bo-Chen: Modify reviewers' comments.]
+> > [Bo-Chen: Cleanup the drivers and modify comments from reviewers]
 > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 > > ---
-> >  MAINTAINERS                       |   1 +
-> >  drivers/phy/mediatek/Kconfig      |   8 ++
-> >  drivers/phy/mediatek/Makefile     |   1 +
-> >  drivers/phy/mediatek/phy-mtk-dp.c | 202
-> > ++++++++++++++++++++++++++++++
-> >  4 files changed, 212 insertions(+)
-> >  create mode 100644 drivers/phy/mediatek/phy-mtk-dp.c
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index a6d3bd9d2a8d..f1460ee9ce83 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -6698,6 +6698,7 @@ L:	linux-mediatek@lists.infradead.org
-> > (moderated for non-subscribers)
-> >  S:	Supported
-> >  F:	Documentation/devicetree/bindings/display/mediatek/
-> >  F:	drivers/gpu/drm/mediatek/
-> > +F:	drivers/phy/mediatek/phy-mtk-dp.c
-> >  F:	drivers/phy/mediatek/phy-mtk-hdmi*
-> >  F:	drivers/phy/mediatek/phy-mtk-mipi*
-> >  
-> > diff --git a/drivers/phy/mediatek/Kconfig
-> > b/drivers/phy/mediatek/Kconfig
-> > index 55f8e6c048ab..d631525d12e1 100644
-> > --- a/drivers/phy/mediatek/Kconfig
-> > +++ b/drivers/phy/mediatek/Kconfig
-> > @@ -55,3 +55,11 @@ config PHY_MTK_MIPI_DSI
-> >  	select GENERIC_PHY
-> >  	help
-> >  	  Support MIPI DSI for Mediatek SoCs.
-> > +
-> > +config PHY_MTK_DP
-> > +	tristate "MediaTek DP-PHY Driver"
-> > +	depends on ARCH_MEDIATEK || COMPILE_TEST
-> > +	depends on OF
-> > +	select GENERIC_PHY
-> > +	help
-> > +	  Support DisplayPort PHY for MediaTek SoCs.
-> > diff --git a/drivers/phy/mediatek/Makefile
-> > b/drivers/phy/mediatek/Makefile
-> > index ace660fbed3a..4ba1e0650434 100644
-> > --- a/drivers/phy/mediatek/Makefile
-> > +++ b/drivers/phy/mediatek/Makefile
-> > @@ -3,6 +3,7 @@
-> >  # Makefile for the phy drivers.
-> >  #
-> >  
-> > +obj-$(CONFIG_PHY_MTK_DP)		+= phy-mtk-dp.o
-> >  obj-$(CONFIG_PHY_MTK_TPHY)		+= phy-mtk-tphy.o
-> >  obj-$(CONFIG_PHY_MTK_UFS)		+= phy-mtk-ufs.o
-> >  obj-$(CONFIG_PHY_MTK_XSPHY)		+= phy-mtk-xsphy.o
-> > diff --git a/drivers/phy/mediatek/phy-mtk-dp.c
-> > b/drivers/phy/mediatek/phy-mtk-dp.c
-> > new file mode 100644
-> > index 000000000000..c4d5ca1719a4
-> > --- /dev/null
-> > +++ b/drivers/phy/mediatek/phy-mtk-dp.c
-> > @@ -0,0 +1,202 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * MediaTek DisplayPort PHY driver
-> > + *
-> > + * Copyright (c) 2022 BayLibre
-> > + * Copyright (c) 2022 MediaTek
 > 
-> It should be proper name of companies (hint see other uses)
+> [snip]
+> 
+> > +
+> > +static int mtk_dp_train_flow(struct mtk_dp *mtk_dp, u8
+> > target_link_rate,
+> > +			     u8 target_lane_count)
+> > +{
+> > +	u8 lane_adjust[2] = {};
+> > +	bool pass_tps1 = false;
+> > +	bool pass_tps2_3 = false;
+> > +	int train_retries;
+> > +	int status_control;
+> > +	int iteration_count;
+> > +	int ret;
+> > +	u8 prev_lane_adjust;
+> > +
+> > +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_LINK_BW_SET,
+> > target_link_rate);
+> > +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_LANE_COUNT_SET,
+> > +			   target_lane_count |
+> > DP_LANE_COUNT_ENHANCED_FRAME_EN);
+> > +
+> > +	if (mtk_dp->train_info.sink_ssc)
+> > +		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_DOWNSPREAD_CTRL,
+> > +				   DP_SPREAD_AMP_0_5);
+> > +
+> > +	train_retries = 0;
+> > +	status_control = 0;
+> > +	iteration_count = 1;
+> > +	prev_lane_adjust = 0xFF;
+> > +
+> > +	mtk_dp_set_lanes(mtk_dp, target_lane_count / 2);
+> > +	ret = mtk_dp_phy_configure(mtk_dp, target_link_rate,
+> > target_lane_count);
+> > +	if (ret)
+> > +		return -EINVAL;
+> > +
+> > +	dev_dbg(mtk_dp->dev,
+> > +		"Link train target_link_rate = 0x%x, target_lane_count
+> > = 0x%x\n",
+> > +		target_link_rate, target_lane_count);
+> > +
+> > +	do {
+> > +		train_retries++;
+> > +		if (!mtk_dp->train_info.cable_plugged_in ||
+> > +		    mtk_dp->train_info.irq_sta.hpd_disconnect) {
+> 
+> In mtk_dp_hpd_isr_handler(), train_info.irq_sta.hpd_disconnect would
+> finally be set to false, so you need not to check it here. So remove
+> it
+> here.
 > 
 
-Hello Vinod,
+Hello CK,
 
-Thanks for review.
-I will modify like this:
- /*
-  * MediaTek DisplayPort PHY driver
-  *
-  * Copyright (c) 2022 BayLibre Inc.
-  * Copyright (c) 2022 MediaTek Inc.
-  */
-> > + */
-> > +
-> > +#include <linux/delay.h>
-> > +#include <linux/io.h>
-> > +#include <linux/mfd/syscon.h>
-> > +#include <linux/of.h>
-> > +#include <linux/phy/phy.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/regmap.h>
-> > +
-> > +#define PHY_OFFSET			0x1000
-> > +
-> > +#define MTK_DP_PHY_DIG_PLL_CTL_1	(PHY_OFFSET + 0x14)
-> > +#define TPLL_SSC_EN			BIT(3)
-> > +
-> > +#define MTK_DP_PHY_DIG_BIT_RATE		(PHY_OFFSET + 0x3C)
-> > +#define BIT_RATE_RBR			0
-> > +#define BIT_RATE_HBR			1
-> > +#define BIT_RATE_HBR2			2
-> > +#define BIT_RATE_HBR3			3
-> > +
-> > +#define MTK_DP_PHY_DIG_SW_RST		(PHY_OFFSET + 0x38)
-> > +#define DP_GLB_SW_RST_PHYD		BIT(0)
-> > +
-> > +#define MTK_DP_LANE0_DRIVING_PARAM_3		(PHY_OFFSET +
-> > 0x138)
-> > +#define MTK_DP_LANE1_DRIVING_PARAM_3		(PHY_OFFSET +
-> > 0x238)
-> > +#define MTK_DP_LANE2_DRIVING_PARAM_3		(PHY_OFFSET +
-> > 0x338)
-> > +#define MTK_DP_LANE3_DRIVING_PARAM_3		(PHY_OFFSET +
-> > 0x438)
-> > +#define XTP_LN_TX_LCTXC0_SW0_PRE0_DEFAULT	BIT(4)
-> > +#define XTP_LN_TX_LCTXC0_SW0_PRE1_DEFAULT	(BIT(10) | BIT(12))
-> > +#define XTP_LN_TX_LCTXC0_SW0_PRE2_DEFAULT	GENMASK(20, 19)
-> > +#define XTP_LN_TX_LCTXC0_SW0_PRE3_DEFAULT	GENMASK(29, 29)
-> > +#define DRIVING_PARAM_3_DEFAULT	(XTP_LN_TX_LCTXC0_SW0_PRE0_DEFA
-> > ULT | \
-> > +				 XTP_LN_TX_LCTXC0_SW0_PRE1_DEFAULT | \
-> > +				 XTP_LN_TX_LCTXC0_SW0_PRE2_DEFAULT | \
-> > +				 XTP_LN_TX_LCTXC0_SW0_PRE3_DEFAULT)
-> > +
-> > +#define XTP_LN_TX_LCTXC0_SW1_PRE0_DEFAULT	GENMASK(4, 3)
-> > +#define XTP_LN_TX_LCTXC0_SW1_PRE1_DEFAULT	GENMASK(12, 9)
-> > +#define XTP_LN_TX_LCTXC0_SW1_PRE2_DEFAULT	(BIT(18) | BIT(21))
-> > +#define XTP_LN_TX_LCTXC0_SW2_PRE0_DEFAULT	GENMASK(29, 29)
-> > +#define DRIVING_PARAM_4_DEFAULT	(XTP_LN_TX_LCTXC0_SW1_PRE0_DEFA
-> > ULT | \
-> > +				 XTP_LN_TX_LCTXC0_SW1_PRE1_DEFAULT | \
-> > +				 XTP_LN_TX_LCTXC0_SW1_PRE2_DEFAULT | \
-> > +				 XTP_LN_TX_LCTXC0_SW2_PRE0_DEFAULT)
-> > +
-> > +#define XTP_LN_TX_LCTXC0_SW2_PRE1_DEFAULT	(BIT(3) | BIT(5))
-> > +#define XTP_LN_TX_LCTXC0_SW3_PRE0_DEFAULT	GENMASK(13, 12)
-> > +#define DRIVING_PARAM_5_DEFAULT	(XTP_LN_TX_LCTXC0_SW2_PRE1_DEFA
-> > ULT | \
-> > +				 XTP_LN_TX_LCTXC0_SW3_PRE0_DEFAULT)
-> > +
-> > +#define XTP_LN_TX_LCTXCP1_SW0_PRE0_DEFAULT	0
-> > +#define XTP_LN_TX_LCTXCP1_SW0_PRE1_DEFAULT	GENMASK(10, 10)
-> > +#define XTP_LN_TX_LCTXCP1_SW0_PRE2_DEFAULT	GENMASK(19, 19)
-> > +#define XTP_LN_TX_LCTXCP1_SW0_PRE3_DEFAULT	GENMASK(28, 28)
-> > +#define DRIVING_PARAM_6_DEFAULT	(XTP_LN_TX_LCTXCP1_SW0_PRE0_DEF
-> > AULT | \
-> > +				 XTP_LN_TX_LCTXCP1_SW0_PRE1_DEFAULT | \
-> > +				 XTP_LN_TX_LCTXCP1_SW0_PRE2_DEFAULT | \
-> > +				 XTP_LN_TX_LCTXCP1_SW0_PRE3_DEFAULT)
-> > +
-> > +#define XTP_LN_TX_LCTXCP1_SW1_PRE0_DEFAULT	0
-> > +#define XTP_LN_TX_LCTXCP1_SW1_PRE1_DEFAULT	GENMASK(10, 9)
-> > +#define XTP_LN_TX_LCTXCP1_SW1_PRE2_DEFAULT	GENMASK(19, 18)
-> > +#define XTP_LN_TX_LCTXCP1_SW2_PRE0_DEFAULT	0
-> > +#define DRIVING_PARAM_7_DEFAULT	(XTP_LN_TX_LCTXCP1_SW1_PRE0_DEF
-> > AULT | \
-> > +				 XTP_LN_TX_LCTXCP1_SW1_PRE1_DEFAULT | \
-> > +				 XTP_LN_TX_LCTXCP1_SW1_PRE2_DEFAULT | \
-> > +				 XTP_LN_TX_LCTXCP1_SW2_PRE0_DEFAULT)
-> > +
-> > +#define XTP_LN_TX_LCTXCP1_SW2_PRE1_DEFAULT	GENMASK(3, 3)
-> > +#define XTP_LN_TX_LCTXCP1_SW3_PRE0_DEFAULT	0
-> > +#define DRIVING_PARAM_8_DEFAULT	(XTP_LN_TX_LCTXCP1_SW2_PRE1_DEF
-> > AULT | \
-> > +				 XTP_LN_TX_LCTXCP1_SW3_PRE0_DEFAULT)
-> > +
-> > +struct mtk_dp_phy {
-> > +	struct regmap *regs;
-> > +};
-> > +
-> > +static int mtk_dp_phy_init(struct phy *phy)
-> > +{
-> > +	struct mtk_dp_phy *dp_phy = phy_get_drvdata(phy);
-> > +	u32 driving_params[] = {
-> > +		DRIVING_PARAM_3_DEFAULT,
-> > +		DRIVING_PARAM_4_DEFAULT,
-> > +		DRIVING_PARAM_5_DEFAULT,
-> > +		DRIVING_PARAM_6_DEFAULT,
-> > +		DRIVING_PARAM_7_DEFAULT,
-> > +		DRIVING_PARAM_8_DEFAULT
-> > +	};
-> > +
-> > +	regmap_bulk_write(dp_phy->regs, MTK_DP_LANE0_DRIVING_PARAM_3,
-> > +			  driving_params, ARRAY_SIZE(driving_params));
-> > +	regmap_bulk_write(dp_phy->regs, MTK_DP_LANE1_DRIVING_PARAM_3,
-> > +			  driving_params, ARRAY_SIZE(driving_params));
-> > +	regmap_bulk_write(dp_phy->regs, MTK_DP_LANE2_DRIVING_PARAM_3,
-> > +			  driving_params, ARRAY_SIZE(driving_params));
-> > +	regmap_bulk_write(dp_phy->regs, MTK_DP_LANE3_DRIVING_PARAM_3,
-> > +			  driving_params, ARRAY_SIZE(driving_params));
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int mtk_dp_phy_configure(struct phy *phy, union
-> > phy_configure_opts *opts)
-> > +{
-> > +	struct mtk_dp_phy *dp_phy = phy_get_drvdata(phy);
-> > +	u32 val;
-> > +
-> > +	if (opts->dp.set_rate) {
-> > +		switch (opts->dp.link_rate) {
-> > +		default:
-> > +			dev_err(&phy->dev,
-> > +				"Implementation error, unknown linkrate
-> > %x\n",
-> > +				opts->dp.link_rate);
-> > +			return -EINVAL;
-> > +		case 1620:
-> > +			val = BIT_RATE_RBR;
-> > +			break;
-> > +		case 2700:
-> > +			val = BIT_RATE_HBR;
-> > +			break;
-> > +		case 5400:
-> > +			val = BIT_RATE_HBR2;
-> > +			break;
-> > +		case 8100:
-> > +			val = BIT_RATE_HBR3;
-> > +			break;
+ok, I will drop this.
+
+> > +			return -ENODEV;
 > > +		}
-> > +		regmap_write(dp_phy->regs, MTK_DP_PHY_DIG_BIT_RATE,
-> > val);
+> > +
+> > +		if (mtk_dp->train_state < MTK_DP_TRAIN_STATE_TRAINING)
+> > +			return -EAGAIN;
+> > +
+> > +		if (!pass_tps1) {
+> > +			ret = mtk_dp_train_tps_1(mtk_dp,
+> > target_lane_count,
+> > +						 &iteration_count,
+> > lane_adjust,
+> > +						 &status_control,
+> > +						 &prev_lane_adjust);
+> > +			if (!ret) {
+> > +				pass_tps1 = true;
+> > +				train_retries = 0;
+> > +			} else if (ret == -EINVAL) {
+> > +				break;
+> > +			}
+> > +		} else {
+> > +			ret = mtk_dp_train_tps_2_3(mtk_dp,
+> > target_link_rate,
+> > +						   target_lane_count,
+> > +						   &iteration_count,
+> > +						   lane_adjust,
+> > &status_control,
+> > +						   &prev_lane_adjust);
+> > +			if (!ret) {
+> > +				pass_tps2_3 = true;
+> > +				break;
+> > +			} else if (ret == -EINVAL) {
+> > +				break;
+> > +			}
+> > +		}
+> > +
+> > +		drm_dp_dpcd_read(&mtk_dp->aux,
+> > DP_ADJUST_REQUEST_LANE0_1,
+> > +				 lane_adjust, sizeof(lane_adjust));
+> > +		mtk_dp_train_update_swing_pre(mtk_dp,
+> > target_lane_count,
+> > +					      lane_adjust);
+> > +	} while (train_retries < MTK_DP_TRAIN_RETRY_LIMIT &&
+> > +		 iteration_count < MTK_DP_TRAIN_MAX_ITERATIONS);
+> > +
+> > +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_TRAINING_PATTERN_SET,
+> > +			   DP_TRAINING_PATTERN_DISABLE);
+> > +	ret = mtk_dp_train_set_pattern(mtk_dp, 0);
+> > +	if (ret)
+> > +		return -EINVAL;
+> > +
+> > +	if (!pass_tps2_3)
+> > +		return -ETIMEDOUT;
+> > +
+> > +	mtk_dp->train_info.link_rate = target_link_rate;
+> > +	mtk_dp->train_info.lane_count = target_lane_count;
+> > +
+> > +	mtk_dp_training_set_scramble(mtk_dp, true);
+> > +
+> > +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_LANE_COUNT_SET,
+> > +			   target_lane_count |
+> > +				   DP_LANE_COUNT_ENHANCED_FRAME_EN);
+> > +	mtk_dp_set_enhanced_frame_mode(mtk_dp, true);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> 
+> [snip]
+> 
+> > +
+> > +/*
+> > + * We need to handle HPD signal in eDP even though eDP is a always
+> > connected
+> > + * device. Besides connected status, there is another feature for
+> > HPD signal -
+> > + * HPD pulse: it presents an IRQ from sink devices to source
+> > devices
+> > (Refer to
+> > + * 5.1.4 of DP1.4 spec).
+> > + */
+> > +static irqreturn_t mtk_dp_hpd_isr_handler(struct mtk_dp *mtk_dp)
+> > +{
+> > +	bool connected;
+> > +	u32 irq_status = mtk_dp_swirq_get_clear(mtk_dp) |
+> > +			 mtk_dp_hwirq_get_clear(mtk_dp);
+> > +	struct mtk_dp_train_info *train_info = &mtk_dp->train_info;
+> > +
+> > +	if (irq_status & MTK_DP_HPD_INTERRUPT)
+> > +		train_info->irq_sta.hpd_inerrupt = true;
+> > +	if (irq_status & MTK_DP_HPD_CONNECT)
+> > +		train_info->irq_sta.hpd_connect = true;
+> > +	if (irq_status & MTK_DP_HPD_DISCONNECT)
+> > +		train_info->irq_sta.hpd_disconnect = true;
+> > +
+> 
+> train_info->irq_sta.hpd_connect is used only in this function, so let
+> hpd_connect to be local variable.
+> 
+
+ok
+
+> > +	if (!irq_status)
+> > +		return IRQ_HANDLED;
+> > +
+> > +	connected = mtk_dp_plug_state(mtk_dp);
+> > +	if (connected || !train_info->cable_plugged_in)
+> > +		train_info->irq_sta.hpd_disconnect  = false;
+> > +	else if (!connected || train_info->cable_plugged_in)
+> > +		train_info->irq_sta.hpd_connect = false;
+> > +
+> > +	if (!(train_info->irq_sta.hpd_connect ||
+> > +	      train_info->irq_sta.hpd_disconnect))
+> > +		return IRQ_WAKE_THREAD;
+> > +
+> > +	if (train_info->irq_sta.hpd_connect) {
+> > +		train_info->irq_sta.hpd_connect = false;
+> > +		train_info->cable_plugged_in = true;
+> > +	} else {
+> > +		train_info->irq_sta.hpd_disconnect = false;
+> > +		train_info->cable_plugged_in = false;
+> > +		mtk_dp->train_state = MTK_DP_TRAIN_STATE_TRAINING;
 > > +	}
+> > +	train_info->cable_state_change = true;
 > > +
-> > +	regmap_update_bits(dp_phy->regs, MTK_DP_PHY_DIG_PLL_CTL_1,
-> > +			   TPLL_SSC_EN, opts->dp.ssc ? TPLL_SSC_EN :
-> > 0);
-> > +
-> > +	return 0;
+> > +	return IRQ_WAKE_THREAD;
 > > +}
 > > +
-> > +static int mtk_dp_phy_reset(struct phy *phy)
-> > +{
-> > +	struct mtk_dp_phy *dp_phy = phy_get_drvdata(phy);
-> > +
-> > +	regmap_update_bits(dp_phy->regs, MTK_DP_PHY_DIG_SW_RST,
-> > +			   DP_GLB_SW_RST_PHYD, 0);
-> > +	usleep_range(50, 200);
-> > +	regmap_update_bits(dp_phy->regs, MTK_DP_PHY_DIG_SW_RST,
-> > +			   DP_GLB_SW_RST_PHYD, 1);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct phy_ops mtk_dp_phy_dev_ops = {
-> > +	.init = mtk_dp_phy_init,
-> > +	.configure = mtk_dp_phy_configure,
-> > +	.reset = mtk_dp_phy_reset,
-> > +	.owner = THIS_MODULE,
-> > +};
-> > +
-> > +static int mtk_dp_phy_probe(struct platform_device *pdev)
-> > +{
-> > +	struct device *dev = &pdev->dev;
-> > +	struct mtk_dp_phy *dp_phy;
-> > +	struct phy *phy;
-> > +	struct regmap *regs;
-> > +
-> > +	regs = *(struct regmap **)dev->platform_data;
 > 
-> why do you need this cast away from void?
+> [snip]
+> 
+> > +
+> > +static ssize_t mtk_dp_aux_transfer(struct drm_dp_aux *mtk_aux,
+> > +				   struct drm_dp_aux_msg *msg)
+> > +{
+> > +	struct mtk_dp *mtk_dp;
+> > +	bool is_read;
+> > +	u8 request;
+> > +	size_t accessed_bytes = 0;
+> > +	int ret = 0;
+> > +
+> > +	mtk_dp = container_of(mtk_aux, struct mtk_dp, aux);
+> > +
+> > +	if (!mtk_dp->train_info.cable_plugged_in ||
+> > +	    mtk_dp->train_info.irq_sta.hpd_disconnect) {
+> 
+> In mtk_dp_hpd_isr_handler(), train_info.irq_sta.hpd_disconnect would
+> finally be set to false, so you need not to check it here. So remove
+> it
+> here.
 > 
 
-When register platform data (in mtk_dp.c prober)
-we do this where "struct regmap *regs;":
-
-mtk_dp->phy_dev = platform_device_register_data(
-			dev, "mediatek-dp-phy",
-			PLATFORM_DEVID_AUTO, &mtk_dp->regs,
-			sizeof(struct regmap *));
-
-refer to [1].
-
-[1]: 
-https://lore.kernel.org/all/20220610105522.13449-6-rex-bc.chen@mediatek.com/
+ok, I will drop this
 
 BRs,
 Bo-Chen
-> > +	if (!regs)
-> > +		return dev_err_probe(dev, EINVAL,
-> > +				     "No data passed, requires struct
-> > regmap**\n");
+
+> Regards,
+> CK
+> 
+> > +		ret = -EAGAIN;
+> > +		goto err;
+> > +	}
 > > +
-> > +	dp_phy = devm_kzalloc(dev, sizeof(*dp_phy), GFP_KERNEL);
-> > +	if (!dp_phy)
-> > +		return -ENOMEM;
+> > +	switch (msg->request) {
+> > +	case DP_AUX_I2C_MOT:
+> > +	case DP_AUX_I2C_WRITE:
+> > +	case DP_AUX_NATIVE_WRITE:
+> > +	case DP_AUX_I2C_WRITE_STATUS_UPDATE:
+> > +	case DP_AUX_I2C_WRITE_STATUS_UPDATE | DP_AUX_I2C_MOT:
+> > +		request = msg->request &
+> > ~DP_AUX_I2C_WRITE_STATUS_UPDATE;
+> > +		is_read = false;
+> > +		break;
+> > +	case DP_AUX_I2C_READ:
+> > +	case DP_AUX_NATIVE_READ:
+> > +	case DP_AUX_I2C_READ | DP_AUX_I2C_MOT:
+> > +		request = msg->request;
+> > +		is_read = true;
+> > +		break;
+> > +	default:
+> > +		drm_err(mtk_aux->drm_dev, "invalid aux cmd = %d\n",
+> > +			msg->request);
+> > +		ret = -EINVAL;
+> > +		goto err;
+> > +	}
 > > +
-> > +	dp_phy->regs = regs;
-> > +	phy = devm_phy_create(dev, NULL, &mtk_dp_phy_dev_ops);
-> > +	if (IS_ERR(phy))
-> > +		return dev_err_probe(dev, PTR_ERR(phy),
-> > +				     "Failed to create DP PHY\n");
+> > +	if (msg->size == 0) {
+> > +		ret = mtk_dp_aux_do_transfer(mtk_dp, is_read, request,
+> > +					     msg->address +
+> > accessed_bytes,
+> > +					     msg->buffer +
+> > accessed_bytes, 0);
+> > +	} else {
+> > +		while (accessed_bytes < msg->size) {
+> > +			size_t to_access =
+> > +				min_t(size_t, DP_AUX_MAX_PAYLOAD_BYTES,
+> > +				      msg->size - accessed_bytes);
 > > +
-> > +	phy_set_drvdata(phy, dp_phy);
-> > +	if (!dev->of_node)
-> > +		phy_create_lookup(phy, "dp", dev_name(dev));
+> > +			ret = mtk_dp_aux_do_transfer(mtk_dp, is_read,
+> > request,
+> > +						     msg->address +
+> > accessed_bytes,
+> > +						     msg->buffer +
+> > accessed_bytes,
+> > +						     to_access);
 > > +
-> > +	return 0;
+> > +			if (ret) {
+> > +				drm_info(mtk_dp->drm_dev,
+> > +					 "Failed to do AUX transfer:
+> > %d\n", ret);
+> > +				break;
+> > +			}
+> > +			accessed_bytes += to_access;
+> > +		}
+> > +	}
+> > +err:
+> > +	if (ret) {
+> > +		msg->reply = DP_AUX_NATIVE_REPLY_NACK |
+> > DP_AUX_I2C_REPLY_NACK;
+> > +		return ret;
+> > +	}
+> > +
+> > +	msg->reply = DP_AUX_NATIVE_REPLY_ACK | DP_AUX_I2C_REPLY_ACK;
+> > +	return msg->size;
 > > +}
 > > +
-> > +struct platform_driver mtk_dp_phy_driver = {
-> > +	.probe = mtk_dp_phy_probe,
-> > +	.driver = {
-> > +		.name = "mediatek-dp-phy",
-> > +	},
-> > +};
-> > +module_platform_driver(mtk_dp_phy_driver);
-> > +
-> > +MODULE_AUTHOR("Markus Schneider-Pargmann <msp@baylibre.com>");
-> > +MODULE_DESCRIPTION("MediaTek DP PHY Driver");
-> > +MODULE_LICENSE("GPL");
-> > -- 
-> > 2.18.0
 > 
 > 
 
