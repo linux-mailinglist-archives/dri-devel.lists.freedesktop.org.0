@@ -1,64 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DEB454F12C
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 08:46:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7188E54F132
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 08:46:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6892C11A671;
-	Fri, 17 Jun 2022 06:46:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D907511A675;
+	Fri, 17 Jun 2022 06:46:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE06F11A671
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 06:46:24 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id 187so3404966pfu.9
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 23:46:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=fQNGQ/zJse2gbHWfa6pF660SRacSRW0Fy9uu/huJD4Y=;
- b=JPLW1+w8/z8WGKViSxKlFYB1DJFO5f4d4rwynmLj7wx/0qK2bG0tNVGdJOrTjCJVPW
- d0ZiMJQDidl1w4ljJIZMpCkOlhOZkW6+5BzSe4i3dZhcyh+oDngZ/gJaVlL8+QGNmUTL
- nqKpdtg55DdMsoRsLoHIj2LgXDVZ6dwdIBG8U=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB04311A675
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 06:46:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655448386;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+hQ4DbL4FBpOEp/E50yBIWWCZyfpTsZUOXGgMRiUx5A=;
+ b=R584zAX/QY3XaCjUI1geZKTrymAfObLI+hdicI3YfpBReA1brDXpPw3+JlOctrYQUWDv2c
+ CvomGJo4i/WhTms4PZ3wmyPV/M/nmKWDhS6uQLOm26merotxknMsLGtwY4bWtodxsN/EJW
+ KxhbRmDRzbXJEnZrAXpdJv41J4D9+uQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-418-O1djBx9tPv2h7nXtGnlR4A-1; Fri, 17 Jun 2022 02:46:22 -0400
+X-MC-Unique: O1djBx9tPv2h7nXtGnlR4A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k5-20020a05600c0b4500b003941ca130f9so1271277wmr.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 23:46:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=fQNGQ/zJse2gbHWfa6pF660SRacSRW0Fy9uu/huJD4Y=;
- b=0rcI2SjtCfMcpLRHrc+MZcmDv63XxDiA7cU/PtFHrXiobhn9y/kmRXpkAoBnNhOQs3
- Mgxq05M8xk2a5y8PoNX/+SRs780BFzMVbGxhWwmeeNoagGL63HMEAVqsoLcF4xI0QgI3
- 0nvdsgbViy1WLkai1OIQ4PpZ658+otfAGD/cBt/Z0xP8m+dV1cBB56dLt2aOHo9kqJhq
- cEH+aL78MtyVV/Xz2akHI36+Q6D6FWA7sCbafl4Tz6zI0P0ak3w2UmEH8cUnPXRs/kxM
- o+SCa1GQU/HyhETtvTBk5nc3IzhvpA6WaL6qirt+GT2CxkLeRkNIG/gPhFAdCvtCOPCD
- tV5g==
-X-Gm-Message-State: AJIora8zGstmAufbrIlKeykz9uFQyaepvYmQIy6mD6WllzsEIyOi4HxZ
- AFAS4rz5z4Dioi26p3aWOiYTCFEsG1chQA==
-X-Google-Smtp-Source: AGRyM1uENT2OwXii6KksNBQ4MXQhZdrl+ulN/85OXID2dCsUxVB+lOZD0za0PfnLmxj1+jHPwjAROA==
-X-Received: by 2002:a63:80c8:0:b0:405:186f:fa39 with SMTP id
- j191-20020a6380c8000000b00405186ffa39mr7960592pgd.84.1655448384322; 
- Thu, 16 Jun 2022 23:46:24 -0700 (PDT)
-Received: from google.com ([2401:fa00:1:10:e12:c024:d152:7ca])
- by smtp.gmail.com with ESMTPSA id
- fs20-20020a17090af29400b001ea75a02805sm4833237pjb.52.2022.06.16.23.46.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jun 2022 23:46:23 -0700 (PDT)
-Date: Fri, 17 Jun 2022 14:46:18 +0800
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Subject: Re: [PATCH v7, 04/15] media: mtk-vcodec: Read max resolution from
- dec_capability
-Message-ID: <YqwjOurt2DCV6snP@google.com>
-References: <20220223034008.15781-1-yunfei.dong@mediatek.com>
- <20220223034008.15781-5-yunfei.dong@mediatek.com>
- <cb7cf296bc7df7334f55cc51ef11b671572559ac.camel@ndufresne.ca>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+hQ4DbL4FBpOEp/E50yBIWWCZyfpTsZUOXGgMRiUx5A=;
+ b=7TH44LpC6VtAGURZjRvPmQkcTLt/kztCvHuAM5by7M2GPuTRUwkqSiiCziLXEnCdhR
+ CMjbOwNn16hOUabOGtIeWxQ8K8R+Gn8SvI/aI7Eo5QbjonPECAml8aZNGCBjP3mkoi6Q
+ k5nCdqx6qX8basCrNMjgocRgvb1VGDLOcF13xpS0T3ryYvOW1/gq5SBWZz1ahlFaqCXj
+ dOp5T8Gq87NfjhEK8IqBhp/iiJZePwaUaeESJj1dwR4I8icbQQKV5m3Iv3m1tbm5LVmO
+ Ww7nJ6nDzL9eGwZYLaj9H/g1yYsQ9t1GNOBj/gODA9tcR309sju8H9PCCE5jBcu1GEpz
+ 4xXQ==
+X-Gm-Message-State: AJIora8MzuardeH8sNvhGZvNmgCYq4DXxoKv+tQuZ+opERgzxaabVN8b
+ ODU1/mVPN0sJZ9rNv1Bp5b5ulKj+kamqRfIQgJ/sUK0d5SRtlbX7DFPZR6xff5JWTqUPOj8AZZn
+ g9VV1jFTi2m4ENjy+jFrsHHqq8G81
+X-Received: by 2002:a05:600c:3489:b0:39d:b58f:6797 with SMTP id
+ a9-20020a05600c348900b0039db58f6797mr8604229wmq.205.1655448381561; 
+ Thu, 16 Jun 2022 23:46:21 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sQ/maUwRNsLJ+dTUUPQVEZ65LnPBk/IMQjAM9szqh0Rf1kxBOzJQNiJ8h903v4iEFev4ehFw==
+X-Received: by 2002:a05:600c:3489:b0:39d:b58f:6797 with SMTP id
+ a9-20020a05600c348900b0039db58f6797mr8604207wmq.205.1655448381308; 
+ Thu, 16 Jun 2022 23:46:21 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ f11-20020a05600c4e8b00b003973a3fe4fasm4787183wmq.42.2022.06.16.23.46.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Jun 2022 23:46:20 -0700 (PDT)
+Message-ID: <aa144e20-a555-5c30-4796-09713c12ab0e@redhat.com>
+Date: Fri, 17 Jun 2022 08:46:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cb7cf296bc7df7334f55cc51ef11b671572559ac.camel@ndufresne.ca>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 3/5] fbdev: Disable sysfb device registration when
+ removing conflicting FBs
+To: Zack Rusin <zackr@vmware.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20220607182338.344270-1-javierm@redhat.com>
+ <20220607182338.344270-4-javierm@redhat.com>
+ <de83ae8cb6de7ee7c88aa2121513e91bb0a74608.camel@vmware.com>
+ <38473dcd-0666-67b9-28bd-afa2d0ce434a@redhat.com>
+ <603e3613b9b8ff7815b63f294510d417b5b12937.camel@vmware.com>
+ <a633d605-4cb3-2e04-1818-85892cf6f7b0@redhat.com>
+ <97565fb5-cf7f-5991-6fb3-db96fe239ee8@redhat.com>
+ <711c88299ef41afd8556132b7c1dcb75ee7e6117.camel@vmware.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <711c88299ef41afd8556132b7c1dcb75ee7e6117.camel@vmware.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,142 +96,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, Steve Cho <stevecho@chromium.org>,
- Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Tzung-Bi Shih <tzungbi@chromium.org>,
- Tiffany Lin <tiffany.lin@mediatek.com>, Tomasz Figa <tfiga@google.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- srv_heupstream@mediatek.com, Alexandre Courbot <acourbot@chromium.org>,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "deller@gmx.de" <deller@gmx.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+ "lersek@redhat.com" <lersek@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hello Zack,
 
-On Mon, Feb 28, 2022 at 04:29:15PM -0500, Nicolas Dufresne wrote:
-> Hi Yunfei,
+On 6/17/22 03:35, Zack Rusin wrote:
+> On Fri, 2022-06-17 at 01:21 +0200, Javier Martinez Canillas wrote:
+>> On 6/17/22 00:18, Javier Martinez Canillas wrote:
+>>> On 6/16/22 23:03, Zack Rusin wrote:
+>>
+>> [snip]
+>>
+>>>
+>>> I'll look at this tomorrow but in the meantime, could you please look if the following
+>>> commits on top of drm-misc-next help ?
+>>>
+>>> d258d00fb9c7 fbdev: efifb: Cleanup fb_info in .fb_destroy rather than .remove
+>>> 1b5853dfab7f fbdev: efifb: Fix a use-after-free due early fb_info cleanup
+>>>
+>>
+>> Scratch that. I see in your config now that you are not using efifb but instead
+>> simpledrm: CONFIG_DRM_SIMPLEDRM=y, CONFIG_SYSFB_SIMPLEFB=y and CONFIG_DRM_VMWGFX.
+>>
+>> Since you mentioned efifb I misunderstood that you are using it. Anyways, as
+>> said I'll investigate this tomorrow.
 > 
-> this patch does not work unless userland calls enum_framesizes, which is
-> completely optional. See comment and suggestion below.
-> 
-> Le mercredi 23 février 2022 à 11:39 +0800, Yunfei Dong a écrit :
-> > Supported max resolution for different platforms are not the same: 2K
-> > or 4K, getting it according to dec_capability.
-> > 
-> > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> > Reviewed-by: Tzung-Bi Shih<tzungbi@google.com>
-> > ---
-> >  .../platform/mtk-vcodec/mtk_vcodec_dec.c      | 29 +++++++++++--------
-> >  .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  4 +++
-> >  2 files changed, 21 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> > index 130ecef2e766..304f5afbd419 100644
-> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> > @@ -445,7 +447,7 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
-> >  		return -EINVAL;
-> >  
-> >  	q_data->fmt = fmt;
-> > -	vidioc_try_fmt(f, q_data->fmt);
-> > +	vidioc_try_fmt(ctx, f, q_data->fmt);
-> >  	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-> >  		q_data->sizeimage[0] = pix_mp->plane_fmt[0].sizeimage;
-> >  		q_data->coded_width = pix_mp->width;
-> > @@ -545,6 +547,9 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
-> >  				fsize->stepwise.min_height,
-> >  				fsize->stepwise.max_height,
-> >  				fsize->stepwise.step_height);
-> > +
-> > +		ctx->max_width = fsize->stepwise.max_width;
-> > +		ctx->max_height = fsize->stepwise.max_height;
-> 
-> The spec does not require calling enum_fmt, so changing the maximum here is
-> incorrect (and fail with GStreamer). If userland never enum the framesizes, the
-> resolution get limited to 1080p.
-> 
-> As this only depends and the OUTPUT format and the device being open()
-> (condition being dev_capability being set and OUTPUT format being known / not
-> VP8), you could initialize the cxt max inside s_fmt(OUTPUT) instead, which is a
-> mandatory call. I have tested this change to verify this:
-> 
-> 
-> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> index 044e3dfbdd8c..3e7c571526a4 100644
-> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c
-> @@ -484,6 +484,14 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
->  	if (fmt == NULL)
->  		return -EINVAL;
->  
-> +	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE &&
-> +	    !(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED) &&
-> +	    fmt->fourcc != V4L2_PIX_FMT_VP8_FRAME) {
-> +		mtk_v4l2_debug(3, "4K is enabled");
-> +		ctx->max_width = VCODEC_DEC_4K_CODED_WIDTH;
-> +		ctx->max_height = VCODEC_DEC_4K_CODED_HEIGHT;
-> +	}
-> +
->  	q_data->fmt = fmt;
->  	vidioc_try_fmt(ctx, f, q_data->fmt);
->  	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-> @@ -574,15 +582,9 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
->  
->  		fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
->  		fsize->stepwise = dec_pdata->vdec_framesizes[i].stepwise;
-> -		if (!(ctx->dev->dec_capability &
-> -				VCODEC_CAPABILITY_4K_DISABLED) &&
-> -				fsize->pixel_format != V4L2_PIX_FMT_VP8_FRAME) {
-> -			mtk_v4l2_debug(3, "4K is enabled");
-> -			fsize->stepwise.max_width =
-> -					VCODEC_DEC_4K_CODED_WIDTH;
-> -			fsize->stepwise.max_height =
-> -					VCODEC_DEC_4K_CODED_HEIGHT;
-> -		}
-> +		fsize->stepwise.max_width = ctx->max_width;
-> +		fsize->stepwise.max_height = ctx->max_height;
-> +
+> Sounds good. Let me know if you'd like me to try it without SIMPLEFB.
+>
 
-Recent testing on ChromeOS suggests this doesn't work. The spec implies
-that querying capabilities could happen before the output format is set.
-And also, supported frame sizes are detected for each given format,
-which may not be the one current set.
+Yes, please do. Either with CONFIG_SYSFB_SIMPLEFB disabled and CONFIG_FB_EFI
+enabled (so that "efi-framebuffer" is registered and efifb probed) or with
+CONFIG_SYSFB_SIMPLEFB but CONFIG_FB_SIMPLE enabled (so "simple-framebuffer
+is used too but with simplefb instead of simpledrm).
+ 
+I'm not able to reproduce, it would be useful to have another data point.
 
-So the if block above has to be reintroduced in some form. I'll take a
-look at this.
+-- 
+Best regards,
 
-
-Regards
-ChenYu
-
->  		mtk_v4l2_debug(1, "%x, %d %d %d %d %d %d",
->  				ctx->dev->dec_capability,
->  				fsize->stepwise.min_width,
-> @@ -592,8 +594,6 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
->  				fsize->stepwise.max_height,
->  				fsize->stepwise.step_height);
->  
-> -		ctx->max_width = fsize->stepwise.max_width;
-> -		ctx->max_height = fsize->stepwise.max_height;
->  		return 0;
->  	}
->  
-> 
-> 
-> >  		return 0;
-> >  	}
-> >  
-
-[...]
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
