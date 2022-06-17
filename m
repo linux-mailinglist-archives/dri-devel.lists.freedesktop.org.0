@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E373B54EF6D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 05:21:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9513554F002
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 06:13:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B47011A6B6;
-	Fri, 17 Jun 2022 03:21:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3412E11AC8A;
+	Fri, 17 Jun 2022 04:13:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8F711A688
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 03:21:24 +0000 (UTC)
-X-UUID: 98419026e2854d72bcc2f8e1b7265788-20220617
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:7bb39891-cf55-45a8-b743-f96efc8e4b7e, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:90
-X-CID-INFO: VERSION:1.1.6, REQID:7bb39891-cf55-45a8-b743-f96efc8e4b7e, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,AC
- TION:quarantine,TS:90
-X-CID-META: VersionHash:b14ad71, CLOUDID:34f692f6-e099-41ba-a32c-13b8bfe63214,
- C
- OID:9773069f2ff6,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 98419026e2854d72bcc2f8e1b7265788-20220617
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2020571003; Fri, 17 Jun 2022 11:21:18 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Fri, 17 Jun 2022 11:21:16 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Fri, 17 Jun 2022 11:21:15 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, "Hans
- Verkuil" <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH] media: mediatek: vcodec: Fix non subdev architecture open
- power fail
-Date: Fri, 17 Jun 2022 11:21:13 +0800
-Message-ID: <20220617032113.18576-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81CA411AC8A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 04:13:11 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id c13so152960eds.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jun 2022 21:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=jkcre2VBtMzxrZPMCfkOrbliJifXwznY6q+h4wI7Wog=;
+ b=ks4gT/sjz/WSG+M5zgBy04ySeXYNutXYYTK+m3oKvm+UTsWFHoZV8YN+/uk7OnvEtx
+ cWE8AppXxMsByuappwZWKZ1/yzO5k4172qqWeNux1iwTxPBLFVcXB432LsD88WrCOZWa
+ UJoWq936BeiriVTzTt2Kfj2qdZRECUzGyDuqbDMte/Pwm+2hs+zb78HDqLztmlX9LwGB
+ paddvZRoiD/fQBG5dyW3TFK6cmufzLK71Wpdjc1/ZnXoOWIDh9RmzuCS/wuOppl7IZ+Y
+ qTlQ8rBbEQmJyhdz/Y7tgs7+GddN58IZifVaMKUzvH234WJThH5eOleuQHWWy/oZQ/Rs
+ sAJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jkcre2VBtMzxrZPMCfkOrbliJifXwznY6q+h4wI7Wog=;
+ b=p2buQq5mzYo49RQ8dVJ/tClbzRE//3OKDYx023xOjBR25e2eX97SyOKqyIpdvTkYfA
+ ArwPyqOeMwTzrVOQXoXnWGqg9TRpKzS9etc2MDWdV5F/pnbAtoxLS5jVLzbySUIwgTD3
+ nAkOmptu/5upzJBh1zPWgujEE7JvjiiHaIuqlvReWanCFDmcHR0xcsIw/TXGXaIRZ9JT
+ HmRsKVpCPJxpRtEoDQ5yW6+cLUwpWeRQ3LoCdYSZOJWqR2CjQoxWZ/1DCG+HWFAF1fNl
+ UH/S2Is3sAW8iNPkHCQc0RoHYwyIhHopFVI5v3EzQqs3I+AKHPXEwL0wNIGSxydrzLuu
+ osXg==
+X-Gm-Message-State: AJIora+W9Lrau2hb7mFzxF9RLii45d64bw08PWBGdlRSKmuN3c9KrMAi
+ X2EMdy6Mhlc0Kp9tK3Xxips=
+X-Google-Smtp-Source: AGRyM1vDq6JtWJzZZ4jWmMy/sOS/uWzEGjgdqQ8zfDxc/FoUMgzm2o+2uai90JO5XUJAJJlsQ9RbCw==
+X-Received: by 2002:a05:6402:149:b0:431:7dde:9b59 with SMTP id
+ s9-20020a056402014900b004317dde9b59mr10021996edu.339.1655439188935; 
+ Thu, 16 Jun 2022 21:13:08 -0700 (PDT)
+Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net.
+ [213.161.3.76]) by smtp.gmail.com with ESMTPSA id
+ i24-20020a05640200d800b0042dcac2afc6sm2874051edu.72.2022.06.16.21.13.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jun 2022 21:13:08 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mripard@kernel.org, wens@csie.org, Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] drm/sun4i: Add DMA mask and segment size
+Date: Fri, 17 Jun 2022 06:13:06 +0200
+Message-ID: <10094862.nUPlyArG6x@jernej-laptop>
+In-Reply-To: <e4a73a0f-c725-fad2-021b-5b5ee5ead1b3@sholland.org>
+References: <20220616213240.392041-1-jernej.skrabec@gmail.com>
+ <e4a73a0f-c725-fad2-021b-5b5ee5ead1b3@sholland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,37 +70,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to subdev_bitmap bit value to open hardware power, need to
-set subdev_bitmap value for non subdev architecture.
+Dne petek, 17. junij 2022 ob 05:03:11 CEST je Samuel Holland napisal(a):
+> Hi Jernej,
+> 
+> On 6/16/22 4:32 PM, Jernej Skrabec wrote:
+> > Kernel occasionally complains that there is mismatch in segment size
+> > when trying to render HW decoded videos and rendering them directly with
+> > sun4i DRM driver.
+> > 
+> > Fix that by setting DMA mask and segment size.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> > 
+> >  drivers/gpu/drm/sun4i/sun4i_drv.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c
+> > b/drivers/gpu/drm/sun4i/sun4i_drv.c index 275f7e4a03ae..83f4e87f77f6
+> > 100644
+> > --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
+> > +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+> > @@ -7,6 +7,7 @@
+> > 
+> >   */
+> >  
+> >  #include <linux/component.h>
+> > 
+> > +#include <linux/dma-mapping.h>
+> > 
+> >  #include <linux/kfifo.h>
+> >  #include <linux/module.h>
+> >  #include <linux/of_graph.h>
+> > 
+> > @@ -367,6 +368,9 @@ static int sun4i_drv_probe(struct platform_device
+> > *pdev)> 
+> >  	INIT_KFIFO(list.fifo);
+> > 
+> > +	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+> 
+> Isn't this already the default, from of_dma_configure_id or
+> setup_pdev_dma_masks?
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 2 ++
- 1 file changed, 2 insertions(+)
+Not sure, I need to check.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-index 995e6e2fb1ab..4103d7c1b638 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-@@ -386,6 +386,8 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 			mtk_v4l2_err("Main device of_platform_populate failed.");
- 			goto err_reg_cont;
- 		}
-+	} else {
-+		set_bit(MTK_VDEC_CORE, dev->subdev_bitmap);
- 	}
- 
- 	ret = video_register_device(vfd_dec, VFL_TYPE_VIDEO, -1);
--- 
-2.18.0
+> > +	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+> 
+> This looks like a good change. In fact, I think we need a similar change in
+> some other drivers.
+
+Should be DMA_BIT_MASK(25) as in your other patch?
+
+Best regards,
+Jernej
+
+> 
+> Regards,
+> Samuel
+
+
+
 
