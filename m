@@ -2,73 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF22A55003C
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 00:58:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98B255004E
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 01:05:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A309E10F250;
-	Fri, 17 Jun 2022 22:58:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F31510F5E5;
+	Fri, 17 Jun 2022 23:05:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
- [IPv6:2001:4860:4864:20::2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB6010F250
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 22:58:26 +0000 (UTC)
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-101ab23ff3fso3520836fac.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 15:58:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=R4/YymOiBCiP7pRBgeCWzpKxz/9eOAV7dAUiqD1JUjY=;
- b=DmzTxErOVav/dRszUwcrusPd7A4R+qm8ldGcUp1+pFfVukOpDDp/X8Lk7zeQyR7C7N
- xImXAG919zVrk6W4NouIoNR52XKYKlTNJDv5oCSu+eThS2r4hi6h39rdQh7ZhTPTZlTD
- RtHGbYFuE/+GjJiA2Yre7IQnZkD7QrK0BSKtc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=R4/YymOiBCiP7pRBgeCWzpKxz/9eOAV7dAUiqD1JUjY=;
- b=AquGezgXdzsm2PWIaBkco29N/kFnWUp42ZY9ZpJEzwVpM7C8SYPPPWBfU6wwCqIv8/
- +hTK7c3huBAM0yl6QljMiHfnt6HxNm3H61iyLP37CWoa2xruzENPcKrwlGbE2aZt0LGG
- aVefkAwO0qN78EoWIqZdvmo/DMHNkiZuBIukL7LgbR7lBwQ3G2OxwKw5/C7eU7l0L5Dm
- JURA7QppfwSBO0oiNpRFo/1gWIzEOdSzgY6lBmb3kdXzY1my2iRIm8WznXkUEscOFF1h
- X5sZcjJrH2z5WHLMRER4kjXKsRdshD7vsOgGdciLgCWJHWzsxwIzjwncqs7IbjP819ZL
- phQA==
-X-Gm-Message-State: AJIora9E1HV5xmO2vAbLIxggXTO/tUQZZDmXq/gGHwSur1rH/YWKWTW5
- A39Ldv0dth4NlJKeBX7slpahEA==
-X-Google-Smtp-Source: AGRyM1sQ/n2RC2qzDChncC4XsnOlokBakgGI4B8icrGSAdLLtMfO9JEdkj6qdz7evG/85YuhvRK6Og==
-X-Received: by 2002:a05:6871:7a1:b0:101:21cb:7080 with SMTP id
- o33-20020a05687107a100b0010121cb7080mr12390808oap.216.1655506705103; 
- Fri, 17 Jun 2022 15:58:25 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1]) by smtp.gmail.com with ESMTPSA id
- w16-20020a9d5a90000000b0060603221280sm3241479oth.80.2022.06.17.15.58.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jun 2022 15:58:24 -0700 (PDT)
-Subject: Re: [PATCH 02/10] drm: selftest: refactor drm_cmdline_parser
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>,
- Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
- tales.aparecida@gmail.com, mwen@igalia.com, andrealmeid@riseup.net,
- Trevor Woerner <twoerner@gmail.com>, leandro.ribeiro@collabora.com,
- n@nfraprado.net, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, michal.winiarski@intel.com,
- Javier Martinez Canillas <javierm@redhat.com>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- David Gow <davidgow@google.com>, Daniel Latypov <dlatypov@google.com>,
- brendanhiggins@google.com
-References: <20220615135824.15522-1-maira.canal@usp.br>
- <20220615135824.15522-3-maira.canal@usp.br>
-From: Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <350cf07e-297d-0578-f139-35bf0a9c7a96@linuxfoundation.org>
-Date: Fri, 17 Jun 2022 16:58:23 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A67FB10F5E5;
+ Fri, 17 Jun 2022 23:05:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655507141; x=1687043141;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=X7DCPMJeupepCh2Wv1CGJkOG6QP0qdkHyVCX9BXyYx8=;
+ b=VZ0jeICCjK04Fp3P9S8evAPlQ8SlNvHtL6CHfFukPI3gbWx6tsM+nXth
+ wtmNqvt7wg/fVv6PVLXl2AXxFeCbzCeKBAgts2v9w4fjuFpUZUAUcAb3p
+ uof/7xy/FkWAbRkncuRWBiJPauQ2z8U/lD65T0bUnDToOL1A78n5N5IOo
+ nphlwZz3PKKPGkM1EJXhjp85c66FCCfk2fHjILpuSZ1IcNPErRPSEwKfU
+ j4SXyiGnN1PzMBwhGNW/zVOtBfUScwHFQEQnPJxo5mIIWejfIFcZ53vzv
+ nzVHRxWaTWZxQ4VnEb37sr3X4G8MEjvZKX3EqXxrPSFzCtXIzjCinBHpf A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="279637439"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="279637439"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2022 16:05:30 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="713930132"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2022 16:05:30 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 1/2] agp/intel: Rename intel-gtt symbols
+Date: Fri, 17 Jun 2022 16:05:58 -0700
+Message-Id: <20220617230559.2109427-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-In-Reply-To: <20220615135824.15522-3-maira.canal@usp.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,1027 +53,293 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arthur Grillo <arthur.grillo@usp.br>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>, kunit-dev@googlegroups.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, David Airlie <airlied@linux.ie>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/15/22 7:58 AM, Maíra Canal wrote:
-> From: Arthur Grillo <arthur.grillo@usp.br>
-> 
-> Refactor the tests by modularizing the functions to avoid code repetition.
-> 
+Exporting the symbols like intel_gtt_* creates some confusion inside
+i915 that has symbols named similarly. In an attempt to isolate
+platforms needing intel-gtt.ko, commit 7a5c922377b4 ("drm/i915/gt: Split
+intel-gtt functions by arch") moved way too much
+inside gt/intel_gt_gmch.c, even the functions that don't callout to this
+module. Rename the symbols to make the separation clear.
 
-Tell me more about the refactor and how does it help. This patch seems
-to combine refactor with some other formatting changes that aren't
-necessary and making the code not easy to read.
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+---
+ drivers/char/agp/intel-gtt.c            | 58 ++++++++++++-------------
+ drivers/gpu/drm/i915/gt/intel_gt_gmch.c | 16 +++----
+ include/drm/intel-gtt.h                 | 24 +++++-----
+ 3 files changed, 49 insertions(+), 49 deletions(-)
 
-Lot of code changes with no expalination on how and why this is being
-refactored. Are these just refractor or are there any new tests being
-added?
+diff --git a/drivers/char/agp/intel-gtt.c b/drivers/char/agp/intel-gtt.c
+index 79a1b65527c2..fe7e2105e766 100644
+--- a/drivers/char/agp/intel-gtt.c
++++ b/drivers/char/agp/intel-gtt.c
+@@ -744,7 +744,7 @@ static void i830_write_entry(dma_addr_t addr, unsigned int entry,
+ 	writel_relaxed(addr | pte_flags, intel_private.gtt + entry);
+ }
+ 
+-bool intel_enable_gtt(void)
++bool intel_gmch_enable_gtt(void)
+ {
+ 	u8 __iomem *reg;
+ 
+@@ -787,7 +787,7 @@ bool intel_enable_gtt(void)
+ 
+ 	return true;
+ }
+-EXPORT_SYMBOL(intel_enable_gtt);
++EXPORT_SYMBOL(intel_gmch_enable_gtt);
+ 
+ static int i830_setup(void)
+ {
+@@ -821,8 +821,8 @@ static int intel_fake_agp_free_gatt_table(struct agp_bridge_data *bridge)
+ 
+ static int intel_fake_agp_configure(void)
+ {
+-	if (!intel_enable_gtt())
+-	    return -EIO;
++	if (!intel_gmch_enable_gtt())
++		return -EIO;
+ 
+ 	intel_private.clear_fake_agp = true;
+ 	agp_bridge->gart_bus_addr = intel_private.gma_bus_addr;
+@@ -844,20 +844,20 @@ static bool i830_check_flags(unsigned int flags)
+ 	return false;
+ }
+ 
+-void intel_gtt_insert_page(dma_addr_t addr,
+-			   unsigned int pg,
+-			   unsigned int flags)
++void intel_gmch_gtt_insert_page(dma_addr_t addr,
++				unsigned int pg,
++				unsigned int flags)
+ {
+ 	intel_private.driver->write_entry(addr, pg, flags);
+ 	readl(intel_private.gtt + pg);
+ 	if (intel_private.driver->chipset_flush)
+ 		intel_private.driver->chipset_flush();
+ }
+-EXPORT_SYMBOL(intel_gtt_insert_page);
++EXPORT_SYMBOL(intel_gmch_gtt_insert_page);
+ 
+-void intel_gtt_insert_sg_entries(struct sg_table *st,
+-				 unsigned int pg_start,
+-				 unsigned int flags)
++void intel_gmch_gtt_insert_sg_entries(struct sg_table *st,
++				      unsigned int pg_start,
++				      unsigned int flags)
+ {
+ 	struct scatterlist *sg;
+ 	unsigned int len, m;
+@@ -879,13 +879,13 @@ void intel_gtt_insert_sg_entries(struct sg_table *st,
+ 	if (intel_private.driver->chipset_flush)
+ 		intel_private.driver->chipset_flush();
+ }
+-EXPORT_SYMBOL(intel_gtt_insert_sg_entries);
++EXPORT_SYMBOL(intel_gmch_gtt_insert_sg_entries);
+ 
+ #if IS_ENABLED(CONFIG_AGP_INTEL)
+-static void intel_gtt_insert_pages(unsigned int first_entry,
+-				   unsigned int num_entries,
+-				   struct page **pages,
+-				   unsigned int flags)
++static void intel_gmch_gtt_insert_pages(unsigned int first_entry,
++					unsigned int num_entries,
++					struct page **pages,
++					unsigned int flags)
+ {
+ 	int i, j;
+ 
+@@ -905,7 +905,7 @@ static int intel_fake_agp_insert_entries(struct agp_memory *mem,
+ 	if (intel_private.clear_fake_agp) {
+ 		int start = intel_private.stolen_size / PAGE_SIZE;
+ 		int end = intel_private.gtt_mappable_entries;
+-		intel_gtt_clear_range(start, end - start);
++		intel_gmch_gtt_clear_range(start, end - start);
+ 		intel_private.clear_fake_agp = false;
+ 	}
+ 
+@@ -934,12 +934,12 @@ static int intel_fake_agp_insert_entries(struct agp_memory *mem,
+ 		if (ret != 0)
+ 			return ret;
+ 
+-		intel_gtt_insert_sg_entries(&st, pg_start, type);
++		intel_gmch_gtt_insert_sg_entries(&st, pg_start, type);
+ 		mem->sg_list = st.sgl;
+ 		mem->num_sg = st.nents;
+ 	} else
+-		intel_gtt_insert_pages(pg_start, mem->page_count, mem->pages,
+-				       type);
++		intel_gmch_gtt_insert_pages(pg_start, mem->page_count, mem->pages,
++					    type);
+ 
+ out:
+ 	ret = 0;
+@@ -949,7 +949,7 @@ static int intel_fake_agp_insert_entries(struct agp_memory *mem,
+ }
+ #endif
+ 
+-void intel_gtt_clear_range(unsigned int first_entry, unsigned int num_entries)
++void intel_gmch_gtt_clear_range(unsigned int first_entry, unsigned int num_entries)
+ {
+ 	unsigned int i;
+ 
+@@ -959,7 +959,7 @@ void intel_gtt_clear_range(unsigned int first_entry, unsigned int num_entries)
+ 	}
+ 	wmb();
+ }
+-EXPORT_SYMBOL(intel_gtt_clear_range);
++EXPORT_SYMBOL(intel_gmch_gtt_clear_range);
+ 
+ #if IS_ENABLED(CONFIG_AGP_INTEL)
+ static int intel_fake_agp_remove_entries(struct agp_memory *mem,
+@@ -968,7 +968,7 @@ static int intel_fake_agp_remove_entries(struct agp_memory *mem,
+ 	if (mem->page_count == 0)
+ 		return 0;
+ 
+-	intel_gtt_clear_range(pg_start, mem->page_count);
++	intel_gmch_gtt_clear_range(pg_start, mem->page_count);
+ 
+ 	if (intel_private.needs_dmar) {
+ 		intel_gtt_unmap_memory(mem->sg_list, mem->num_sg);
+@@ -1431,22 +1431,22 @@ int intel_gmch_probe(struct pci_dev *bridge_pdev, struct pci_dev *gpu_pdev,
+ }
+ EXPORT_SYMBOL(intel_gmch_probe);
+ 
+-void intel_gtt_get(u64 *gtt_total,
+-		   phys_addr_t *mappable_base,
+-		   resource_size_t *mappable_end)
++void intel_gmch_gtt_get(u64 *gtt_total,
++			phys_addr_t *mappable_base,
++			resource_size_t *mappable_end)
+ {
+ 	*gtt_total = intel_private.gtt_total_entries << PAGE_SHIFT;
+ 	*mappable_base = intel_private.gma_bus_addr;
+ 	*mappable_end = intel_private.gtt_mappable_entries << PAGE_SHIFT;
+ }
+-EXPORT_SYMBOL(intel_gtt_get);
++EXPORT_SYMBOL(intel_gmch_gtt_get);
+ 
+-void intel_gtt_chipset_flush(void)
++void intel_gmch_gtt_flush(void)
+ {
+ 	if (intel_private.driver->chipset_flush)
+ 		intel_private.driver->chipset_flush();
+ }
+-EXPORT_SYMBOL(intel_gtt_chipset_flush);
++EXPORT_SYMBOL(intel_gmch_gtt_flush);
+ 
+ void intel_gmch_remove(void)
+ {
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_gmch.c b/drivers/gpu/drm/i915/gt/intel_gt_gmch.c
+index 18e488672d1b..b1a6ff4c9377 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_gmch.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_gmch.c
+@@ -134,7 +134,7 @@ static void gen5_ggtt_insert_page(struct i915_address_space *vm,
+ 	unsigned int flags = (cache_level == I915_CACHE_NONE) ?
+ 		AGP_USER_MEMORY : AGP_USER_CACHED_MEMORY;
+ 
+-	intel_gtt_insert_page(addr, offset >> PAGE_SHIFT, flags);
++	intel_gmch_gtt_insert_page(addr, offset >> PAGE_SHIFT, flags);
+ }
+ 
+ static void gen6_ggtt_insert_page(struct i915_address_space *vm,
+@@ -175,8 +175,8 @@ static void gen5_ggtt_insert_entries(struct i915_address_space *vm,
+ 	unsigned int flags = (cache_level == I915_CACHE_NONE) ?
+ 		AGP_USER_MEMORY : AGP_USER_CACHED_MEMORY;
+ 
+-	intel_gtt_insert_sg_entries(vma_res->bi.pages, vma_res->start >> PAGE_SHIFT,
+-				    flags);
++	intel_gmch_gtt_insert_sg_entries(vma_res->bi.pages, vma_res->start >> PAGE_SHIFT,
++					 flags);
+ }
+ 
+ /*
+@@ -306,18 +306,18 @@ static void bxt_vtd_ggtt_insert_entries__BKL(struct i915_address_space *vm,
+ 
+ void intel_gt_gmch_gen5_chipset_flush(struct intel_gt *gt)
+ {
+-	intel_gtt_chipset_flush();
++	intel_gmch_gtt_flush();
+ }
+ 
+ static void gmch_ggtt_invalidate(struct i915_ggtt *ggtt)
+ {
+-	intel_gtt_chipset_flush();
++	intel_gmch_gtt_flush();
+ }
+ 
+ static void gen5_ggtt_clear_range(struct i915_address_space *vm,
+ 					 u64 start, u64 length)
+ {
+-	intel_gtt_clear_range(start >> PAGE_SHIFT, length >> PAGE_SHIFT);
++	intel_gmch_gtt_clear_range(start >> PAGE_SHIFT, length >> PAGE_SHIFT);
+ }
+ 
+ static void gen6_ggtt_clear_range(struct i915_address_space *vm,
+@@ -494,7 +494,7 @@ int intel_gt_gmch_gen5_probe(struct i915_ggtt *ggtt)
+ 		return -EIO;
+ 	}
+ 
+-	intel_gtt_get(&ggtt->vm.total, &gmadr_base, &ggtt->mappable_end);
++	intel_gmch_gtt_get(&ggtt->vm.total, &gmadr_base, &ggtt->mappable_end);
+ 
+ 	ggtt->gmadr =
+ 		(struct resource)DEFINE_RES_MEM(gmadr_base, ggtt->mappable_end);
+@@ -647,7 +647,7 @@ int intel_gt_gmch_gen8_probe(struct i915_ggtt *ggtt)
+ 
+ int intel_gt_gmch_gen5_enable_hw(struct drm_i915_private *i915)
+ {
+-	if (GRAPHICS_VER(i915) < 6 && !intel_enable_gtt())
++	if (GRAPHICS_VER(i915) < 6 && !intel_gmch_enable_gtt())
+ 		return -EIO;
+ 
+ 	return 0;
+diff --git a/include/drm/intel-gtt.h b/include/drm/intel-gtt.h
+index 67530bfef129..cb0d5b7200c7 100644
+--- a/include/drm/intel-gtt.h
++++ b/include/drm/intel-gtt.h
+@@ -10,24 +10,24 @@ struct agp_bridge_data;
+ struct pci_dev;
+ struct sg_table;
+ 
+-void intel_gtt_get(u64 *gtt_total,
+-		   phys_addr_t *mappable_base,
+-		   resource_size_t *mappable_end);
++void intel_gmch_gtt_get(u64 *gtt_total,
++			phys_addr_t *mappable_base,
++			resource_size_t *mappable_end);
+ 
+ int intel_gmch_probe(struct pci_dev *bridge_pdev, struct pci_dev *gpu_pdev,
+ 		     struct agp_bridge_data *bridge);
+ void intel_gmch_remove(void);
+ 
+-bool intel_enable_gtt(void);
++bool intel_gmch_enable_gtt(void);
+ 
+-void intel_gtt_chipset_flush(void);
+-void intel_gtt_insert_page(dma_addr_t addr,
+-			   unsigned int pg,
+-			   unsigned int flags);
+-void intel_gtt_insert_sg_entries(struct sg_table *st,
+-				 unsigned int pg_start,
+-				 unsigned int flags);
+-void intel_gtt_clear_range(unsigned int first_entry, unsigned int num_entries);
++void intel_gmch_gtt_flush(void);
++void intel_gmch_gtt_insert_page(dma_addr_t addr,
++				unsigned int pg,
++				unsigned int flags);
++void intel_gmch_gtt_insert_sg_entries(struct sg_table *st,
++				      unsigned int pg_start,
++				      unsigned int flags);
++void intel_gmch_gtt_clear_range(unsigned int first_entry, unsigned int num_entries);
+ 
+ /* Special gtt memory types */
+ #define AGP_DCACHE_MEMORY	1
+-- 
+2.36.1
 
-Please don't cobine formatting changes with refactoring. Also don't
-break up the code into small chunks unless there is a good reason to
-do so.
-
-> Co-developed-by: Maíra Canal <maira.canal@usp.br>
-> Signed-off-by: Arthur Grillo <arthur.grillo@usp.br>
-> Signed-off-by: Maíra Canal <maira.canal@usp.br>
-> ---
->   .../drm/selftests/test-drm_cmdline_parser.c   | 579 +++++-------------
->   1 file changed, 156 insertions(+), 423 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/selftests/test-drm_cmdline_parser.c b/drivers/gpu/drm/selftests/test-drm_cmdline_parser.c
-> index d96cd890def6..57a229c5fc35 100644
-> --- a/drivers/gpu/drm/selftests/test-drm_cmdline_parser.c
-> +++ b/drivers/gpu/drm/selftests/test-drm_cmdline_parser.c
-> @@ -1,6 +1,8 @@
->   // SPDX-License-Identifier: GPL-2.0
->   /*
->    * Copyright (c) 2019 Bootlin
-> + * Copyright (c) 2021 Ma�ra Canal <maira.canal@usp.br>,
-> + * Copyright (c) 2021 Arthur Grillo <arthur.grillo@usp.br>
->    */
->   
->   #define pr_fmt(fmt) "drm_cmdline: " fmt
-> @@ -17,13 +19,25 @@
->   
->   static const struct drm_connector no_connector = {};
->   
-> -static int drm_cmdline_test_force_e_only(void *ignored)
-> +static int drm_cmdline_test_properties(void *ignored,
-> +		struct drm_cmdline_mode *mode, enum drm_connector_force force)
-> +{
-> +	FAIL_ON(mode->rb);
-> +	FAIL_ON(mode->cvt);
-> +	FAIL_ON(mode->interlace);
-> +	FAIL_ON(mode->margins);
-> +	FAIL_ON(mode->force != force);
-> +
-> +	return 0;
-> +}
-> +
-> +static int drm_cmdline_test_force_only(void *ignored, char *cmdline,
-> +		const struct drm_connector *connector, enum drm_connector_force force)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("e",
-> -							   &no_connector,
-> -							   &mode));
-> +	FAIL_ON(!drm_mode_parse_command_line_for_connector(cmdline,
-> +							   connector, &mode));
-
-This change for example.
-
->   	FAIL_ON(mode.specified);
->   	FAIL_ON(mode.refresh_specified);
->   	FAIL_ON(mode.bpp_specified);
-> @@ -32,95 +46,101 @@ static int drm_cmdline_test_force_e_only(void *ignored)
->   	FAIL_ON(mode.cvt);
->   	FAIL_ON(mode.interlace);
->   	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_ON);
-> +	FAIL_ON(mode.force != force);
->   
->   	return 0;
->   }
->   
-> -static int drm_cmdline_test_force_D_only_not_digital(void *ignored)
-> +static int drm_cmdline_test_freestanding(void *ignored,
-> +		struct drm_cmdline_mode *mode, char *cmdline,
-> +		const struct drm_connector *connector)
-
-These should be lined up with the first argument.
-
->   {
-> -	struct drm_cmdline_mode mode = { };
-> +	FAIL_ON(!drm_mode_parse_command_line_for_connector(cmdline,
-> +							   connector, mode));
-> +	FAIL_ON(mode->specified);
-> +	FAIL_ON(mode->refresh_specified);
-> +	FAIL_ON(mode->bpp_specified);
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("D",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(mode.specified);
-> -	FAIL_ON(mode.refresh_specified);
-> -	FAIL_ON(mode.bpp_specified);
-> +	FAIL_ON(mode->tv_margins.right != 14);
-> +	FAIL_ON(mode->tv_margins.left != 24);
-> +	FAIL_ON(mode->tv_margins.bottom != 36);
-> +	FAIL_ON(mode->tv_margins.top != 42);
->   
-
-Whst are these constants for - please add defines for them with meaningful
-names so it cna be maintained easily.
-
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_ON);
-> +	return 0;
-> +}
-> +
-> +static int drm_cmdline_test_res_init(void *ignored,
-> +		struct drm_cmdline_mode *mode, char *cmdline)
-> +{
-> +	FAIL_ON(!drm_mode_parse_command_line_for_connector(cmdline,
-> +							   &no_connector, mode));
-> +	FAIL_ON(!mode->specified);
-> +	FAIL_ON(mode->xres != 720);
-> +	FAIL_ON(mode->yres != 480);
-> +
-> +	return 0;
-> +}
-> +
-> +static int drm_cmdline_test_res_bpp_init(void *ignored,
-> +		struct drm_cmdline_mode *mode, char *cmdline)
-> +{
-> +	FAIL_ON(!drm_mode_parse_command_line_for_connector(cmdline,
-> +							   &no_connector, mode));
-> +	FAIL_ON(!mode->specified);
-> +	FAIL_ON(mode->xres != 720);
-> +	FAIL_ON(mode->yres != 480);
-> +
-> +	FAIL_ON(!mode->refresh_specified);
-> +	FAIL_ON(mode->refresh != 60);
-> +	FAIL_ON(!mode->bpp_specified);
-> +	FAIL_ON(mode->bpp != 24);
-
-Same here
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int drm_cmdline_test_force_e_only(void *ignored)
-> +{
-> +	drm_cmdline_test_force_only(ignored, "e", &no_connector, DRM_FORCE_ON);
-> +
-Get rid of the extra line.
-
-> +	return 0;
-
-Same comment here on a new routine. Let's not add new routines
-> +}
-> +
-> +static int drm_cmdline_test_force_D_only_not_digital(void *ignored)
-> +{
-> +	drm_cmdline_test_force_only(ignored, "D", &no_connector, DRM_FORCE_ON);
->   
-same here. What is the need to add a whole new routine for this.
-It you really want to make this a marco.
-
-
->   	return 0;
->   }
->   
->   static const struct drm_connector connector_hdmi = {
->   	.connector_type	= DRM_MODE_CONNECTOR_HDMIB,
-> +
->   };
->   
->   static int drm_cmdline_test_force_D_only_hdmi(void *ignored)
->   {
-> -	struct drm_cmdline_mode mode = { };
-> -
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("D",
-> -							   &connector_hdmi,
-> -							   &mode));
-> -	FAIL_ON(mode.specified);
-> -	FAIL_ON(mode.refresh_specified);
-> -	FAIL_ON(mode.bpp_specified);
-> -
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_ON_DIGITAL);
-> +	drm_cmdline_test_force_only(ignored, "D", &connector_hdmi,
-> +			DRM_FORCE_ON_DIGITAL);
->   
->   	return 0;
->   }
->   
->   static const struct drm_connector connector_dvi = {
->   	.connector_type	= DRM_MODE_CONNECTOR_DVII,
-> +
->   };
->   
->   static int drm_cmdline_test_force_D_only_dvi(void *ignored)
->   {
-> -	struct drm_cmdline_mode mode = { };
-> -
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("D",
-> -							   &connector_dvi,
-> -							   &mode));
-> -	FAIL_ON(mode.specified);
-> -	FAIL_ON(mode.refresh_specified);
-> -	FAIL_ON(mode.bpp_specified);
-> -
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_ON_DIGITAL);
-> +	drm_cmdline_test_force_only(ignored, "D", &connector_dvi,
-> +			DRM_FORCE_ON_DIGITAL);
->   
->   	return 0;
->   }
->   
->   static int drm_cmdline_test_force_d_only(void *ignored)
->   {
-> -	struct drm_cmdline_mode mode = { };
-> -
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("d",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(mode.specified);
-> -	FAIL_ON(mode.refresh_specified);
-> -	FAIL_ON(mode.bpp_specified);
-> -
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_OFF);
-> +	drm_cmdline_test_force_only(ignored, "d", &no_connector, DRM_FORCE_OFF);
->   
->   	return 0;
->   }
-> @@ -151,15 +171,9 @@ static int drm_cmdline_test_res(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480");
->   
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
->   	FAIL_ON(mode.rb);
-> @@ -219,15 +233,9 @@ static int drm_cmdline_test_res_vesa(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480M",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480M");
->   
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
->   	FAIL_ON(mode.rb);
-> @@ -243,15 +251,9 @@ static int drm_cmdline_test_res_vesa_rblank(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480MR",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480MR");
->   
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
->   	FAIL_ON(!mode.rb);
-> @@ -267,15 +269,9 @@ static int drm_cmdline_test_res_rblank(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480R",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480R");
->   
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
->   	FAIL_ON(!mode.rb);
-> @@ -291,23 +287,13 @@ static int drm_cmdline_test_res_bpp(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480-24",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480-24");
->   
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(!mode.bpp_specified);
->   	FAIL_ON(mode.bpp != 24);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> @@ -327,23 +313,13 @@ static int drm_cmdline_test_res_refresh(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480@60",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480@60");
->   
->   	FAIL_ON(!mode.refresh_specified);
->   	FAIL_ON(mode.refresh != 60);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> @@ -363,24 +339,8 @@ static int drm_cmdline_test_res_bpp_refresh(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480-24@60",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -
-> -	FAIL_ON(!mode.refresh_specified);
-> -	FAIL_ON(mode.refresh != 60);
-> -
-> -	FAIL_ON(!mode.bpp_specified);
-> -	FAIL_ON(mode.bpp != 24);
-> -
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_res_bpp_init(ignored, &mode, "720x480-24@60");
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> @@ -389,18 +349,7 @@ static int drm_cmdline_test_res_bpp_refresh_interlaced(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480-24@60i",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -
-> -	FAIL_ON(!mode.refresh_specified);
-> -	FAIL_ON(mode.refresh != 60);
-> -
-> -	FAIL_ON(!mode.bpp_specified);
-> -	FAIL_ON(mode.bpp != 24);
-> +	drm_cmdline_test_res_bpp_init(ignored, &mode, "720x480-24@60i");
->   
->   	FAIL_ON(mode.rb);
->   	FAIL_ON(mode.cvt);
-> @@ -415,18 +364,7 @@ static int drm_cmdline_test_res_bpp_refresh_margins(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480-24@60m",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -
-> -	FAIL_ON(!mode.refresh_specified);
-> -	FAIL_ON(mode.refresh != 60);
-> -
-> -	FAIL_ON(!mode.bpp_specified);
-> -	FAIL_ON(mode.bpp != 24);
-> +	drm_cmdline_test_res_bpp_init(ignored, &mode, "720x480-24@60m");
->   
->   	FAIL_ON(mode.rb);
->   	FAIL_ON(mode.cvt);
-> @@ -441,24 +379,8 @@ static int drm_cmdline_test_res_bpp_refresh_force_off(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480-24@60d",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -
-> -	FAIL_ON(!mode.refresh_specified);
-> -	FAIL_ON(mode.refresh != 60);
-> -
-> -	FAIL_ON(!mode.bpp_specified);
-> -	FAIL_ON(mode.bpp != 24);
-> -
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_OFF);
-> +	drm_cmdline_test_res_bpp_init(ignored, &mode, "720x480-24@60d");
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_OFF);
->   
->   	return 0;
->   }
-> @@ -478,24 +400,8 @@ static int drm_cmdline_test_res_bpp_refresh_force_on(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480-24@60e",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -
-> -	FAIL_ON(!mode.refresh_specified);
-> -	FAIL_ON(mode.refresh != 60);
-> -
-> -	FAIL_ON(!mode.bpp_specified);
-> -	FAIL_ON(mode.bpp != 24);
-> -
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_ON);
-> +	drm_cmdline_test_res_bpp_init(ignored, &mode, "720x480-24@60e");
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_ON);
->   
->   	return 0;
->   }
-> @@ -504,24 +410,8 @@ static int drm_cmdline_test_res_bpp_refresh_force_on_analog(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480-24@60D",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -
-> -	FAIL_ON(!mode.refresh_specified);
-> -	FAIL_ON(mode.refresh != 60);
-> -
-> -	FAIL_ON(!mode.bpp_specified);
-> -	FAIL_ON(mode.bpp != 24);
-> -
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_ON);
-> +	drm_cmdline_test_res_bpp_init(ignored, &mode, "720x480-24@60D");
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_ON);
->   
->   	return 0;
->   }
-> @@ -534,8 +424,7 @@ static int drm_cmdline_test_res_bpp_refresh_force_on_digital(void *ignored)
->   	};
->   
->   	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480-24@60D",
-> -							   &connector,
-> -							   &mode));
-> +							   &connector, &mode));
-
-Why combine the lines here - the code was just fine earlier.
-
->   	FAIL_ON(!mode.specified);
->   	FAIL_ON(mode.xres != 720);
->   	FAIL_ON(mode.yres != 480);
-> @@ -546,11 +435,7 @@ static int drm_cmdline_test_res_bpp_refresh_force_on_digital(void *ignored)
->   	FAIL_ON(!mode.bpp_specified);
->   	FAIL_ON(mode.bpp != 24);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_ON_DIGITAL);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_ON_DIGITAL);
->   
->   	return 0;
->   }
-> @@ -559,18 +444,7 @@ static int drm_cmdline_test_res_bpp_refresh_interlaced_margins_force_on(void *ig
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480-24@60ime",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -
-> -	FAIL_ON(!mode.refresh_specified);
-> -	FAIL_ON(mode.refresh != 60);
-> -
-> -	FAIL_ON(!mode.bpp_specified);
-> -	FAIL_ON(mode.bpp != 24);
-> +	drm_cmdline_test_res_bpp_init(ignored, &mode, "720x480-24@60ime");
->   
->   	FAIL_ON(mode.rb);
->   	FAIL_ON(mode.cvt);
-> @@ -585,15 +459,9 @@ static int drm_cmdline_test_res_margins_force_on(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480me",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480me");
->   
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
->   	FAIL_ON(mode.rb);
-> @@ -609,15 +477,9 @@ static int drm_cmdline_test_res_vesa_margins(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480Mm",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480Mm");
->   
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
->   	FAIL_ON(mode.rb);
-> @@ -673,10 +535,9 @@ static int drm_cmdline_test_name_bpp(void *ignored)
->   							   &no_connector,
->   							   &mode));
->   	FAIL_ON(strcmp(mode.name, "NTSC"));
-> -
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(!mode.bpp_specified);
-> +
->   	FAIL_ON(mode.bpp != 24);
->   
->   	return 0;
-> @@ -760,23 +621,13 @@ static int drm_cmdline_test_rotate_0(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480,rotate=0",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -	FAIL_ON(mode.rotation_reflection != DRM_MODE_ROTATE_0);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480,rotate=0");
->   
-> +	FAIL_ON(mode.rotation_reflection != DRM_MODE_ROTATE_0);
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> @@ -785,23 +636,13 @@ static int drm_cmdline_test_rotate_90(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480,rotate=90",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -	FAIL_ON(mode.rotation_reflection != DRM_MODE_ROTATE_90);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480,rotate=90");
->   
-> +	FAIL_ON(mode.rotation_reflection != DRM_MODE_ROTATE_90);
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> @@ -810,23 +651,13 @@ static int drm_cmdline_test_rotate_180(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480,rotate=180",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -	FAIL_ON(mode.rotation_reflection != DRM_MODE_ROTATE_180);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480,rotate=180");
->   
-> +	FAIL_ON(mode.rotation_reflection != DRM_MODE_ROTATE_180);
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> @@ -835,23 +666,13 @@ static int drm_cmdline_test_rotate_270(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480,rotate=270",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -	FAIL_ON(mode.rotation_reflection != DRM_MODE_ROTATE_270);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480,rotate=270");
->   
-> +	FAIL_ON(mode.rotation_reflection != DRM_MODE_ROTATE_270);
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> @@ -860,9 +681,8 @@ static int drm_cmdline_test_rotate_multiple(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(drm_mode_parse_command_line_for_connector("720x480,rotate=0,rotate=90",
-> -							  &no_connector,
-> -							  &mode));
-> +	FAIL_ON(drm_mode_parse_command_line_for_connector(
-> +				"720x480,rotate=0,rotate=90", &no_connector, &mode));
->   
->   	return 0;
->   }
-> @@ -871,9 +691,8 @@ static int drm_cmdline_test_rotate_invalid_val(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(drm_mode_parse_command_line_for_connector("720x480,rotate=42",
-> -							  &no_connector,
-> -							  &mode));
-> +	FAIL_ON(drm_mode_parse_command_line_for_connector(
-> +				"720x480,rotate=42", &no_connector, &mode));
->   
->   	return 0;
->   }
-> @@ -882,9 +701,8 @@ static int drm_cmdline_test_rotate_truncated(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(drm_mode_parse_command_line_for_connector("720x480,rotate=",
-> -							  &no_connector,
-> -							  &mode));
-> +	FAIL_ON(drm_mode_parse_command_line_for_connector(
-> +				"720x480,rotate=", &no_connector, &mode));
->   
->   	return 0;
->   }
-> @@ -893,23 +711,13 @@ static int drm_cmdline_test_hmirror(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480,reflect_x",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -	FAIL_ON(mode.rotation_reflection != (DRM_MODE_ROTATE_0 | DRM_MODE_REFLECT_X));
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480,reflect_x");
->   
-> +	FAIL_ON(mode.rotation_reflection != (DRM_MODE_ROTATE_0 | DRM_MODE_REFLECT_X));
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> @@ -918,23 +726,13 @@ static int drm_cmdline_test_vmirror(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480,reflect_y",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -	FAIL_ON(mode.rotation_reflection != (DRM_MODE_ROTATE_0 | DRM_MODE_REFLECT_Y));
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480,reflect_y");
->   
-> +	FAIL_ON(mode.rotation_reflection != (DRM_MODE_ROTATE_0 | DRM_MODE_REFLECT_Y));
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> @@ -943,26 +741,18 @@ static int drm_cmdline_test_margin_options(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480,margin_right=14,margin_left=24,margin_bottom=36,margin_top=42",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> +	drm_cmdline_test_res_init(ignored, &mode,
-> +			"720x480,margin_right=14,margin_left=24,margin_bottom=36,margin_top=42");
-> +
->   	FAIL_ON(mode.tv_margins.right != 14);
->   	FAIL_ON(mode.tv_margins.left != 24);
->   	FAIL_ON(mode.tv_margins.bottom != 36);
->   	FAIL_ON(mode.tv_margins.top != 42);
->   
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> @@ -971,23 +761,13 @@ static int drm_cmdline_test_multiple_options(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480,rotate=270,reflect_x",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -	FAIL_ON(mode.rotation_reflection != (DRM_MODE_ROTATE_270 | DRM_MODE_REFLECT_X));
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480,rotate=270,reflect_x");
->   
-> +	FAIL_ON(mode.rotation_reflection != (DRM_MODE_ROTATE_270 | DRM_MODE_REFLECT_X));
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(mode.bpp_specified);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> @@ -996,9 +776,8 @@ static int drm_cmdline_test_invalid_option(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(drm_mode_parse_command_line_for_connector("720x480,test=42",
-> -							  &no_connector,
-> -							  &mode));
-> +	FAIL_ON(drm_mode_parse_command_line_for_connector(
-> +				"720x480,test=42", &no_connector, &mode));
->   
->   	return 0;
->   }
-> @@ -1007,24 +786,14 @@ static int drm_cmdline_test_bpp_extra_and_option(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480-24e,rotate=180",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -	FAIL_ON(mode.rotation_reflection != DRM_MODE_ROTATE_180);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480-24e,rotate=180");
->   
-> +	FAIL_ON(mode.rotation_reflection != DRM_MODE_ROTATE_180);
->   	FAIL_ON(mode.refresh_specified);
-> -
->   	FAIL_ON(!mode.bpp_specified);
->   	FAIL_ON(mode.bpp != 24);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_ON);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_ON);
->   
->   	return 0;
->   }
-> @@ -1033,22 +802,13 @@ static int drm_cmdline_test_extra_and_option(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("720x480e,rotate=180",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(!mode.specified);
-> -	FAIL_ON(mode.xres != 720);
-> -	FAIL_ON(mode.yres != 480);
-> -	FAIL_ON(mode.rotation_reflection != DRM_MODE_ROTATE_180);
-> +	drm_cmdline_test_res_init(ignored, &mode, "720x480e,rotate=180");
->   
-> +	FAIL_ON(mode.rotation_reflection != DRM_MODE_ROTATE_180);
->   	FAIL_ON(mode.refresh_specified);
->   	FAIL_ON(mode.bpp_specified);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_ON);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_ON);
->   
->   	return 0;
->   }
-> @@ -1057,23 +817,11 @@ static int drm_cmdline_test_freestanding_options(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("margin_right=14,margin_left=24,margin_bottom=36,margin_top=42",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(mode.specified);
-> -	FAIL_ON(mode.refresh_specified);
-> -	FAIL_ON(mode.bpp_specified);
-> +	drm_cmdline_test_freestanding(ignored, &mode,
-> +			"margin_right=14,margin_left=24,margin_bottom=36,margin_top=42",
-> +			&no_connector);
->   
-> -	FAIL_ON(mode.tv_margins.right != 14);
-> -	FAIL_ON(mode.tv_margins.left != 24);
-> -	FAIL_ON(mode.tv_margins.bottom != 36);
-> -	FAIL_ON(mode.tv_margins.top != 42);
-> -
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> @@ -1082,23 +830,11 @@ static int drm_cmdline_test_freestanding_force_e_and_options(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("e,margin_right=14,margin_left=24,margin_bottom=36,margin_top=42",
-> -							   &no_connector,
-> -							   &mode));
-> -	FAIL_ON(mode.specified);
-> -	FAIL_ON(mode.refresh_specified);
-> -	FAIL_ON(mode.bpp_specified);
-> +	drm_cmdline_test_freestanding(ignored, &mode,
-> +			"e,margin_right=14,margin_left=24,margin_bottom=36,margin_top=42",
-> +			&no_connector);
->   
-> -	FAIL_ON(mode.tv_margins.right != 14);
-> -	FAIL_ON(mode.tv_margins.left != 24);
-> -	FAIL_ON(mode.tv_margins.bottom != 36);
-> -	FAIL_ON(mode.tv_margins.top != 42);
-> -
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_ON);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_ON);
->   
->   	return 0;
->   }
-> @@ -1107,20 +843,17 @@ static int drm_cmdline_test_panel_orientation(void *ignored)
->   {
->   	struct drm_cmdline_mode mode = { };
->   
-> -	FAIL_ON(!drm_mode_parse_command_line_for_connector("panel_orientation=upside_down",
-> -							   &no_connector,
-> -							   &mode));
-> +	FAIL_ON(!drm_mode_parse_command_line_for_connector(
-> +				"panel_orientation=upside_down", &no_connector, &mode));
-
-Same here about changing the format.
-
-> +
->   	FAIL_ON(mode.specified);
->   	FAIL_ON(mode.refresh_specified);
->   	FAIL_ON(mode.bpp_specified);
->   
-> +
->   	FAIL_ON(mode.panel_orientation != DRM_MODE_PANEL_ORIENTATION_BOTTOM_UP);
->   
-> -	FAIL_ON(mode.rb);
-> -	FAIL_ON(mode.cvt);
-> -	FAIL_ON(mode.interlace);
-> -	FAIL_ON(mode.margins);
-> -	FAIL_ON(mode.force != DRM_FORCE_UNSPECIFIED);
-> +	drm_cmdline_test_properties(ignored, &mode, DRM_FORCE_UNSPECIFIED);
->   
->   	return 0;
->   }
-> 
-
-thanks,
--- Shuah
