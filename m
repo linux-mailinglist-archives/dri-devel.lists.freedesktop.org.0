@@ -2,65 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A8754F7B1
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 14:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F1954F797
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 14:29:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E138910F858;
-	Fri, 17 Jun 2022 12:37:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E20011AF83;
+	Fri, 17 Jun 2022 12:29:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 539 seconds by postgrey-1.36 at gabe;
- Fri, 17 Jun 2022 12:37:45 UTC
-Received: from ste-pvt-msa2.bahnhof.se (ste-pvt-msa2.bahnhof.se
- [213.80.101.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C600310F858
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 12:37:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id ED5993F4DA;
- Fri, 17 Jun 2022 14:28:43 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -3.337
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.337 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.228,
- T_SCC_BODY_TEXT_LINE=-0.01, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Authentication-Results: ste-ftg-msa2.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2qq76ym5NGOj; Fri, 17 Jun 2022 14:28:42 +0200 (CEST)
-Received: by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 5535F3F4AA;
- Fri, 17 Jun 2022 14:28:38 +0200 (CEST)
-Authentication-Results: ste-pvt-msa2.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b="L0ExsEU6";
- dkim-atps=neutral
-Received: from [192.168.0.209] (unknown [192.198.151.53])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 43BCF36016C;
- Fri, 17 Jun 2022 14:28:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1655468917; bh=pkvt4dL4jw2qqvp5gx6kTLQqbPCJTYjQvOkaDj1Wmt8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=L0ExsEU6XAPo5//+i6mDN++zaPDkp8c5GUPHFmlnym85W/oOMtccjY8tRRPZAhFYR
- RxhyCuLkP1LQAkxYC79OV6DUnNPos0umjpxqemIqKaFo4xwjae7YTWV1PRwGq/7QTM
- IkWajWrcS0QLklZ9u+qIco1UEHQC1zsrLJeQXdos=
-Message-ID: <edf3956e-ed30-0716-c6ae-eac7aaadd7df@shipmail.org>
-Date: Fri, 17 Jun 2022 14:28:35 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABB3011AF40
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 12:29:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655468975;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dAIIq/q8RghQVhSS6ZIK4fU5ZM18LuuQ8XAZ51sXCt4=;
+ b=Zhr4unRynuTXlhVFr4GxIPFwO3mLC3RCw67J66IREaJrPUVk1JCryAI3S7RvGv6XPI3ZHA
+ TQ0c7Y2vsbKlkyW5t87LLP1fp+4v45K0MNUo4We4AR4Vcgf1KeevrCvN4dzikOJfVfVc+Y
+ ypOqM3F16t7oL0lkLpavjEW/STfOsKY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-524-jIi2Dy53OX62Hd8ajome2w-1; Fri, 17 Jun 2022 08:29:32 -0400
+X-MC-Unique: jIi2Dy53OX62Hd8ajome2w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ ay28-20020a05600c1e1c00b0039c5cbe76c1so2663338wmb.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 05:29:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dAIIq/q8RghQVhSS6ZIK4fU5ZM18LuuQ8XAZ51sXCt4=;
+ b=T7f+Pc5UNBZuTC+86Xs/SR5CpXBlZwlK6nvu9eV7aqGDAmvU9ixNgoAkgmOrKvV0OZ
+ LEHNH3/GQM16egi1WK/3eQHN1EA/xkpKEqRLIJ4/avLNJxIKDdTA5HNswJyz7iEt8wc7
+ g85V+kkopq9QZ551C//NaM2kKJX1FwnmzCm1dFYj1VJYDabmUwM4/VXzUs7RIjsUjKkM
+ SykXO4nb7E3kkV2xUNSDWcL9qkR/tg3fp7pr1kJWvLwn0KwkvBIWGbF4CyEhxSV5AMQ7
+ xIh3QOYcDihANLr9SLqAKSq4ADgZZlPPXnbE6/uutc5xKZ/pLJxI67jws1EUQTcGeKx6
+ 5a/w==
+X-Gm-Message-State: AJIora+UNoLjKYFNeurDuDw0/drpEKVAdaNj2MQnGLFU6jEdjKqt8Jmt
+ 2KAiUVAajeKSmROSZ/WLjQm6RaeNpgIxPNKhU8ioLiLvaspynM+LbS9CFxpqXQ3yAg7nrFZ84zk
+ P9iFt6CRAEi0C4KXxmTO7IN/cALHv
+X-Received: by 2002:a5d:644d:0:b0:210:2f75:25f8 with SMTP id
+ d13-20020a5d644d000000b002102f7525f8mr8947543wrw.394.1655468970653; 
+ Fri, 17 Jun 2022 05:29:30 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sCiOLRDdkF5inpgP31fcCFconB8+5DRhPGMkFhvOx72lTtZGoaa7xGzXFazCNqqwe1+FBXgg==
+X-Received: by 2002:a5d:644d:0:b0:210:2f75:25f8 with SMTP id
+ d13-20020a5d644d000000b002102f7525f8mr8947516wrw.394.1655468970283; 
+ Fri, 17 Jun 2022 05:29:30 -0700 (PDT)
+Received: from [172.20.10.7] ([84.78.249.164])
+ by smtp.gmail.com with ESMTPSA id
+ d8-20020adfc088000000b00213ba0cab3asm4566648wrf.44.2022.06.17.05.29.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jun 2022 05:29:29 -0700 (PDT)
+Message-ID: <47b627e1-5c87-f092-3ce8-a078898d0eb2@redhat.com>
+Date: Fri, 17 Jun 2022 14:29:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [Intel-gfx] [PATCH 08/10] drm/i915/uapi: disable capturing
- objects on recoverable contexts
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] drm/aperture: Run fbdev removal before internal helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch, airlied@linux.ie
+References: <20220617121027.30273-1-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220617121027.30273-1-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220525184337.491763-1-matthew.auld@intel.com>
- <20220525184337.491763-9-matthew.auld@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-In-Reply-To: <20220525184337.491763-9-matthew.auld@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,57 +87,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Kenneth Graunke <kenneth@whitecape.org>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, dri-devel@lists.freedesktop.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+[adding Zack and Alex to Cc list]
 
-On 5/25/22 20:43, Matthew Auld wrote:
-> A non-recoverable context must be used if the user wants proper error
-> capture on discrete platforms. In the future the kernel may want to blit
-> the contents of some objects when later doing the capture stage.
->
-> Testcase: igt@gem_exec_capture@capture-recoverable-discrete
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+Hello Thomas,
+
+Thanks a lot for tracking this down and figuring out the root cause!
+
+On 6/17/22 14:10, Thomas Zimmermann wrote:
+> Always run fbdev removal first to remove simpledrm via
+> sysfb_disable(). This clears the internal state. The later call
+> to drm_aperture_detach_drivers() then does nothing. Otherwise,
+> with drm_aperture_detach_drivers() running first, the call to
+> sysfb_disable() uses inconsistent state.
+> 
+> Example backtrace show below:
+> 
+> [   11.663422] ==================================================================
+> [   11.663426] BUG: KASAN: use-after-free in device_del+0x79/0x5f0
+> [   11.663435] Read of size 8 at addr ffff888108185050 by task systemd-udevd/311
+> [   11.663440] CPU: 0 PID: 311 Comm: systemd-udevd Tainted: G            E     5
+> 	.19.0-rc2-1-default+ #1689
+> [   11.663445] Hardware name: HP ProLiant DL120 G7, BIOS J01 04/21/2011
+> [   11.663447] Call Trace:
+> [   11.663449]  <TASK>
+> [   11.663451]  ? device_del+0x79/0x5f0
+> [   11.663456]  dump_stack_lvl+0x5b/0x73
+> [   11.663462]  print_address_description.constprop.0+0x1f/0x1b0
+> [   11.663468]  ? device_del+0x79/0x5f0
+> [   11.663471]  ? device_del+0x79/0x5f0
+> [   11.663475]  print_report.cold+0x3c/0x21c
+> [   11.663481]  ? lock_acquired+0x87/0x1e0
+> [   11.663484]  ? lock_acquired+0x87/0x1e0
+> [   11.663489]  ? device_del+0x79/0x5f0
+> [   11.663492]  kasan_report+0xbf/0xf0
+> [   11.663498]  ? device_del+0x79/0x5f0
+> [   11.663503]  device_del+0x79/0x5f0
+> [   11.663509]  ? device_remove_attrs+0x170/0x170
+> [   11.663514]  ? lock_is_held_type+0xe8/0x140
+> [   11.663523]  platform_device_del.part.0+0x19/0xe0
+> [   11.663530]  platform_device_unregister+0x1c/0x30
+> [   11.663535]  sysfb_disable+0x2d/0x70
+> [   11.663540]  remove_conflicting_framebuffers+0x1c/0xf0
+> [   11.663546]  remove_conflicting_pci_framebuffers+0x130/0x1a0
+> [   11.663554]  drm_aperture_remove_conflicting_pci_framebuffers+0x86/0xb0
+> [   11.663561]  ? mgag200_pci_remove+0x30/0x30 [mgag200]
+> [   11.663578]  mgag200_pci_probe+0x2d/0x140 [mgag200]
+> 
+
+Maybe include a Reported-by: Zack Rusin <zackr@vmware.com> ? since
+this seems to be the exact same issue that he reported yesterday.
+
+Patch looks good to me and this seems to be the correct fix IMO.
+That way we won't re-introduce the issue that was fixed by the
+sysfb_unregister() function, that is to remove a pdev even if wasn't
+bound to a driver to prevent a late simpledrm registration to match.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+I wonder what's the best way to coordinate with Alex to merge this
+fix and your patch that moves the aperture code out of DRM, since
+as far as I can tell both should target the v5.20 release.
+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 873eb3b11860 ("fbdev: Disable sysfb device registration when removing conflicting FBs")
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
 > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> Cc: Kenneth Graunke <kenneth@whitecape.org>
-> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Zhen Lei <thunder.leizhen@huawei.com>
+> Cc: Changcheng Deng <deng.changcheng@zte.com.cn>
 > ---
->   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 12 ++++++++++--
->   1 file changed, 10 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index b279588c0672..e27ccfa50dc3 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -1961,7 +1961,7 @@ eb_find_first_request_added(struct i915_execbuffer *eb)
->   #if IS_ENABLED(CONFIG_DRM_I915_CAPTURE_ERROR)
->   
->   /* Stage with GFP_KERNEL allocations before we enter the signaling critical path */
-> -static void eb_capture_stage(struct i915_execbuffer *eb)
-> +static int eb_capture_stage(struct i915_execbuffer *eb)
->   {
->   	const unsigned int count = eb->buffer_count;
->   	unsigned int i = count, j;
-> @@ -1974,6 +1974,10 @@ static void eb_capture_stage(struct i915_execbuffer *eb)
->   		if (!(flags & EXEC_OBJECT_CAPTURE))
->   			continue;
->   
-> +		if (i915_gem_context_is_recoverable(eb->gem_context) &&
-> +		    IS_DGFX(eb->i915))
-> +			return -EINVAL;
+>  drivers/gpu/drm/drm_aperture.c | 26 +++++++++++++++-----------
+>  1 file changed, 15 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_aperture.c
+> index 74bd4a76b253..059fd71424f6 100644
+> --- a/drivers/gpu/drm/drm_aperture.c
+> +++ b/drivers/gpu/drm/drm_aperture.c
+> @@ -329,7 +329,20 @@ int drm_aperture_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
+>  						     const struct drm_driver *req_driver)
+>  {
+>  	resource_size_t base, size;
+> -	int bar, ret = 0;
+> +	int bar, ret;
 > +
+> +	/*
+> +	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+> +	 * otherwise the vga fbdev driver falls over.
+> +	 */
+> +#if IS_REACHABLE(CONFIG_FB)
+> +	ret = remove_conflicting_pci_framebuffers(pdev, req_driver->name);
+> +	if (ret)
+> +		return ret;
+> +#endif
+> +	ret = vga_remove_vgacon(pdev);
+> +	if (ret)
+> +		return ret;
+>  
+>  	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
+>  		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+> @@ -339,15 +352,6 @@ int drm_aperture_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
+>  		drm_aperture_detach_drivers(base, size);
+>  	}
+>  
+> -	/*
+> -	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+> -	 * otherwise the vga fbdev driver falls over.
+> -	 */
+> -#if IS_REACHABLE(CONFIG_FB)
+> -	ret = remove_conflicting_pci_framebuffers(pdev, req_driver->name);
+> -#endif
+> -	if (ret == 0)
+> -		ret = vga_remove_vgacon(pdev);
+> -	return ret;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_aperture_remove_conflicting_pci_framebuffers);
 
-We should also require this for future integrated, for capture buffer 
-memory allocation purposes.
+-- 
+Best regards,
 
-Otherwise Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
