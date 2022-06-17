@@ -2,53 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24EA75500B7
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 01:25:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 853785500C7
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 01:30:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1663610EEAE;
-	Fri, 17 Jun 2022 23:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1F3510F6D2;
+	Fri, 17 Jun 2022 23:30:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
- [209.85.166.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 544F010E062
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 23:25:30 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id b138so5953669iof.13
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 16:25:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9t+RTHlMGnTIMzkuniBS/cRBo0RFDQfHVRvCE6rQ+lk=;
- b=CJCnhwXGd63OtqI6RFKGkj2pjzhgY3kvDLwizTntr6dV3Xl9NtbykFm6BIHYoF/ca4
- iyKclmo2Et0fvsjkAgB5SX+8pK1STh/qEwmJfSZJt8gPhMP5qITQxh055KytdKPzWAEa
- XuNfWjFwnt8ynMWbxVssLTZg100zfYuhssDxYW0H2L9xygh3/LchGtviQOeZaIH9GvG9
- JKySOXXtQpXmY9pU40QwVWTWKMp+TukSQkrJ9gwmV/WLn90mS5kcHR5fzUvaXUuquwyw
- fDirAmIbNoOb5iQZ2ADfB54P0XaTNZfeROusjp7ZiMXMvB68aAdKepO6/L3IOxPP/JMz
- x66g==
-X-Gm-Message-State: AJIora+OAq+BQkwYAb0tbsqofVKqLTLUFA1uO1t2kqMyPCGmy4LtCk1+
- wlzUXFmvb9mW1YNHy84z+Q==
-X-Google-Smtp-Source: AGRyM1vv8dGfZ8d6eH4xBrD0ZZY9f3vkhZfNHWKMYkfzEMy6bJj+y3ZJxm4fbfo0jwgLRRJDIs3GWg==
-X-Received: by 2002:a05:6638:481c:b0:336:2f15:70fc with SMTP id
- cp28-20020a056638481c00b003362f1570fcmr3976515jab.163.1655508329524; 
- Fri, 17 Jun 2022 16:25:29 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.251])
- by smtp.gmail.com with ESMTPSA id
- o2-20020a6bbe02000000b00669de60a268sm3128595iof.21.2022.06.17.16.25.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jun 2022 16:25:29 -0700 (PDT)
-Received: (nullmailer pid 2632617 invoked by uid 1000);
- Fri, 17 Jun 2022 23:25:28 -0000
-Date: Fri, 17 Jun 2022 17:25:28 -0600
-From: Rob Herring <robh@kernel.org>
-To: Conor Dooley <mail@conchuod.ie>
-Subject: Re: [PATCH] dt-bindings: display: delete ilitek,ili9341.txt
-Message-ID: <20220617232528.GA2628998-robh@kernel.org>
-References: <20220617213706.376730-1-mail@conchuod.ie>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4654410F5D0;
+ Fri, 17 Jun 2022 23:30:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655508624; x=1687044624;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ep7q7Ufn4sniQNQKMzFTwx/tDhkrSQ+04210RVQDnEI=;
+ b=gmGzqPU3p3sbXJuKZHKdHMmabUF8B2ohVogybp4aBrWfQYXoXB+4GRoz
+ lb3zLn6VSRbqAJJ8ikoIJ2uTSzTC78UN3ingHKGXOui5PH9SFd3Ocsab3
+ aCwnX1BnGS9ovW1ca8Var/BpERGMfg/9TPuJqeeponVg0a9vFTSq4vhgQ
+ ZRWWm8JitLNN93e8W8a7G4XpOvb4McJcGGx+1ScYZk3O16G2anYGYDVRQ
+ g3hXHvmdIZev6rcqo9Zwiqj8hvRjvyiwMcyWMBqonF3Jj90HloX1QkyDI
+ M4q5f9lwU9BAdNIoFwvTE0Fm8AaCDNLTRCBcvU3qW7yn8xhlBYJESsI1l Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="279640376"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="279640376"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2022 16:30:23 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="832231558"
+Received: from bsantana-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.209.55.135])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2022 16:30:23 -0700
+Date: Fri, 17 Jun 2022 16:30:23 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Michael Cheng <michael.cheng@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 1/1] i915/gem: drop wbinvd_on_all_cpus usage
+Message-ID: <20220617233023.6y4itjzycqjcoqfa@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20220414181923.25631-1-michael.cheng@intel.com>
+ <20220414181923.25631-2-michael.cheng@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20220617213706.376730-1-mail@conchuod.ie>
+In-Reply-To: <20220414181923.25631-2-michael.cheng@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,70 +58,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Conor Dooley <conor.dooley@microchip.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: thomas.hellstrom@linux.intel.com, intel-gfx@lists.freedesktop.org,
+ Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 17, 2022 at 10:37:07PM +0100, Conor Dooley wrote:
-> From: Conor Dooley <conor.dooley@microchip.com>
-> 
-> ilitek,ili9341.txt was replaced by ilitek,ili9341.yaml but the txt
+On Thu, Apr 14, 2022 at 11:19:23AM -0700, Michael Cheng wrote:
+>Previous concern with using drm_clflush_sg was that we don't know what the
+>sg_table is pointing to, thus the usage of wbinvd_on_all_cpus to flush
+>everything at once to avoid paranoia.
 
-panel/ilitek,ili9341.yaml
+humn... and now we know it is backed by struct pages? I'm not sure I
+follow what we didn't know before and now we do.
+
+Thomas / Matthew, could you take another look herer if it seems correct
+to you.
 
 
-> binding was not deleted. Do so.
-> 
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->  .../bindings/display/ilitek,ili9341.txt       | 27 -------------------
->  1 file changed, 27 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/ilitek,ili9341.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/display/ilitek,ili9341.txt b/Documentation/devicetree/bindings/display/ilitek,ili9341.txt
-> deleted file mode 100644
-> index 169b32e4ee4e..000000000000
-> --- a/Documentation/devicetree/bindings/display/ilitek,ili9341.txt
-> +++ /dev/null
-> @@ -1,27 +0,0 @@
-> -Ilitek ILI9341 display panels
-> -
-> -This binding is for display panels using an Ilitek ILI9341 controller in SPI
-> -mode.
-> -
-> -Required properties:
-> -- compatible:	"adafruit,yx240qv29", "ilitek,ili9341"
+thanks
+Lucas De Marchi
 
-"adafruit,yx240qv29" is not in the schema.
 
-> -- dc-gpios:	D/C pin
-> -- reset-gpios:	Reset pin
-
-Neither is this. It is in panel-common.yaml, but 'unevaluatedProperties' 
-needs to be used instead to allow it. Or add 'reset-gpios: true'.
-
-> -
-> -The node for this driver must be a child node of a SPI controller, hence
-> -all mandatory properties described in ../spi/spi-bus.txt must be specified.
-> -
-> -Optional properties:
-> -- rotation:	panel rotation in degrees counter clockwise (0,90,180,270)
-> -- backlight:	phandle of the backlight device attached to the panel
-> -
-> -Example:
-> -	display@0{
-> -		compatible = "adafruit,yx240qv29", "ilitek,ili9341";
-> -		reg = <0>;
-> -		spi-max-frequency = <32000000>;
-> -		dc-gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
-> -		reset-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;
-> -		rotation = <270>;
-> -		backlight = <&backlight>;
-> -	};
-> -- 
-> 2.36.1
-> 
-> 
+>To make i915 more architecture-neutral and be less paranoid, lets attempt to
+>use drm_clflush_sg to flush the pages for when the GPU wants to read
+>from main memory.
+>
+>Signed-off-by: Michael Cheng <michael.cheng@intel.com>
+>---
+> drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 9 ++-------
+> 1 file changed, 2 insertions(+), 7 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>index f5062d0c6333..b0a5baaebc43 100644
+>--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+>@@ -8,6 +8,7 @@
+> #include <linux/highmem.h>
+> #include <linux/dma-resv.h>
+> #include <linux/module.h>
+>+#include <drm/drm_cache.h>
+>
+> #include <asm/smp.h>
+>
+>@@ -250,16 +251,10 @@ static int i915_gem_object_get_pages_dmabuf(struct drm_i915_gem_object *obj)
+> 	 * DG1 is special here since it still snoops transactions even with
+> 	 * CACHE_NONE. This is not the case with other HAS_SNOOP platforms. We
+> 	 * might need to revisit this as we add new discrete platforms.
+>-	 *
+>-	 * XXX: Consider doing a vmap flush or something, where possible.
+>-	 * Currently we just do a heavy handed wbinvd_on_all_cpus() here since
+>-	 * the underlying sg_table might not even point to struct pages, so we
+>-	 * can't just call drm_clflush_sg or similar, like we do elsewhere in
+>-	 * the driver.
+> 	 */
+> 	if (i915_gem_object_can_bypass_llc(obj) ||
+> 	    (!HAS_LLC(i915) && !IS_DG1(i915)))
+>-		wbinvd_on_all_cpus();
+>+		drm_clflush_sg(pages);
+>
+> 	sg_page_sizes = i915_sg_dma_sizes(pages->sgl);
+> 	__i915_gem_object_set_pages(obj, pages, sg_page_sizes);
+>-- 
+>2.25.1
+>
