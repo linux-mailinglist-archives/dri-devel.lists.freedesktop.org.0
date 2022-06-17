@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E9E54FC9A
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 19:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F9E54FCB1
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 20:05:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD2010E86A;
-	Fri, 17 Jun 2022 17:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5D7510EE98;
+	Fri, 17 Jun 2022 18:05:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA1F710E87B
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 17:58:14 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id d18so5511393ljc.4
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 10:58:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=97y9FHnzeeWIkKgO06WJA0gTF/gs2nCQs4ZuQLCUQGQ=;
- b=Y4RxzPZld0xkAgJZ8JaKKwJ4wykgLQERo91KdLt1BXFZnoabFRquIfIcTSRxFcsExX
- vWZdZ1ZtjKX3dwRGkf+QvUXi46mKGKp08/ZG3iw+oqYwGUv8oofc1rcNygrco9isjuLG
- PYiM2+Z1NnXFdiSFzNg+laZ05bnz2icaUJxvpR9+tsLy2dXOUTlU+Mm0MDESI3U+npVB
- Z5gu0kh8CFxauDVYpE7rjexvQPSCvRjZr2tnwPbcs5AjtUuT2/HQyhmrUtmJUw0E7x/e
- hwX8iSla5gggdYcuovtSL8OBENxrJDxqDBl/WHL6G0nAH3LOMEVCupwMJ1xM1f3MgsSy
- /V9g==
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62A7810EE98
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 18:05:41 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id n10so10176705ejk.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 11:05:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=DlzhBdhQZGkSqbILc5kEVzWlytICniT9hnMKvWlVqZw=;
+ b=ILV3mz7sBacg0aN7ocCkv6eYBMa1pbhWugkAoneGtRKHC5/Sv28MmVE6yTZBeDrSts
+ PR3+XJkQqDMdN+EIkPbQ8myNfFBOCPTlfs4xMp4YGgZvkxxsYn1f4TElmRvu91xegeNu
+ NvqZ9goh9byggYb3MusWjevLijNjH5VdkK7FUmjPeQzzUGCIToYYXoHiVQUjxiMQwrk8
+ y2LE1k6CxPVIKp8qnOumQDOeoXDu/7P6dPjgyYAI2TfpUkJt6Sheays7mfqMANQBFBI9
+ THe0c9rWj7vV27yy3mOga5l9q6o5iNak0m751YWVBrmbT8G50fMlTF0xRKPCkuhVnRX0
+ NO+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=97y9FHnzeeWIkKgO06WJA0gTF/gs2nCQs4ZuQLCUQGQ=;
- b=zanyUeo05ZYqU7xwZOEkumRYYAhMjV5KC8sIG9OIsmlvcXBNdsqYq9lNyXbgDDETrH
- mYD6ugYcsGr59/oa2jPblDwuqPrGAC4+wDPfgQqrx8ipHbDxh/JWmHEDtU6yy2uGOGNo
- nX6gMl5gY14q9gxFsVMRMDnRWA6iJ6HsxiGRruAmNMAGZjKvyXHnXzdBTMOf29AjL1BA
- JB6dK16zlgFvhhqES0irjzCuQuujlrpvpwzOX22Aylvo5AonP5y1Zs/RfcEpe16Z2U1s
- uQp0fm5w9Ho7U2UeW0Js300U3wmyEd9/ds6AJS7XhgFMK2EFmIhXzt7gVfAm2bjYMKAi
- NhXA==
-X-Gm-Message-State: AJIora+SBC3V7/f8JLtzWIDyD12SPjtESTwRAwMVJmGlUPqSyk0V2ZHV
- sfAutQd9MfkfaWd9hCs0vWva2w==
-X-Google-Smtp-Source: AGRyM1tr5E28EjxazB6c9jBKbsNWgBfS102Co+7JJIF/zfX/fUG+4N6vDkYevs7R3YVB0zKgw2tMmQ==
-X-Received: by 2002:a2e:9810:0:b0:255:6c06:1e74 with SMTP id
- a16-20020a2e9810000000b002556c061e74mr5632276ljj.279.1655488693159; 
- Fri, 17 Jun 2022 10:58:13 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- f24-20020a19dc58000000b0047255d21181sm711403lfj.176.2022.06.17.10.58.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jun 2022 10:58:12 -0700 (PDT)
-Message-ID: <f9b111ed-e1cd-685b-9428-d042c43e53bf@linaro.org>
-Date: Fri, 17 Jun 2022 20:58:11 +0300
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DlzhBdhQZGkSqbILc5kEVzWlytICniT9hnMKvWlVqZw=;
+ b=V6W/7DzBOZRJZrVDmL3pSCjWK0M+3ovpR3vNGWP1EFatDCGzD/JNzY6ygKh+Am5Yka
+ 9OJ91lZhTTV7wRWtOhy74nPm4Cba+4VzywaKZ31QubAz7ezEumVGZkXEl0sE3+JxpV6i
+ b3IqNK1cBUPIJV0zTfNZGxzarOZ3XHvgBTsTbzIDOsk9gaSw4xKfNBkdr8tGU+81NSRJ
+ 3kDUDFeNZle8w73Ond+IvIreBrmx84PlOf4ILSUFjFiYZikR/nBi3enR1qZz5fbeyIt+
+ gwaVLCQxtqwSmsZM6+N4KSrYlgOiLkZlB/fMYnnPAOjdNpehd6CGV4QzWw3WRGJMSnkH
+ 59qw==
+X-Gm-Message-State: AJIora90sKF7QiP73iRxoMblEVs29Gc19mYSaRYEPUscl6B2hNUtDTe2
+ 5AZkLrdafoGbk567HX7NnOCpzGjgxyLZg8ZNSaE21A==
+X-Google-Smtp-Source: AGRyM1uMVrWnbWWCMTzRjwcW88cM+PF9rzfVvGectq3GOC3WJhDjyr+WhdxrfzqVtXJWcFu2xIGTUMW1CRYABq+7akE=
+X-Received: by 2002:a17:907:d25:b0:711:ea61:63aa with SMTP id
+ gn37-20020a1709070d2500b00711ea6163aamr10295837ejc.584.1655489139667; Fri, 17
+ Jun 2022 11:05:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/msm/dpu: limit wb modes based on max_mixer_width
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
-References: <1655407606-21760-1-git-send-email-quic_abhinavk@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1655407606-21760-1-git-send-email-quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220617085702.4298-1-christian.koenig@amd.com>
+In-Reply-To: <20220617085702.4298-1-christian.koenig@amd.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Fri, 17 Jun 2022 11:05:28 -0700
+Message-ID: <CABdmKX2yD_UPUVvZEX3+Bi55eTW2=NDAxWLay1fRjGu4W0W1EA@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: deprecate DMABUF_SYSFS_STATS
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,44 +64,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: markyacoub@chromium.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Greg Kroah-Hartman <gregkh@google.com>,
+ kernel-team@android.com, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/06/2022 22:26, Abhinav Kumar wrote:
-> As explained in [1], using max_linewidth to limit the modes
-> does not seem to remove 4K modes on chipsets such as
-> sm8250 where the max_linewidth actually supports 4k.
-> 
-> This would have been alright if dual SSPP support was
-> present but otherwise fails the per SSPP bandwidth check.
-> 
-> The ideal way to implement this would be to filter out
-> the modes which will exceed the bandwidth check by computing
-> it.
-> 
-> But this would be an exhaustive solution till we have
-> dual SSPP support.
-> 
-> Let's instead use max_mixer_width to limit the modes.
-> 
-> max_mixer_width still remains 2560 on sm8250 so even if
-> the max_linewidth is 4096, the only way 4k modes could have
-> been supported is to have source split enabled on the SSPP.
-> 
-> Since source split support is not enabled yet in DPU driver,
-> enforce max_mixer_width as the upper limit on the modes.
-> 
-> [1] https://patchwork.freedesktop.org/patch/489662/
-> 
-> Fixes: e67dcecda06f ("drm/msm/dpu: limit writeback modes according to max_linewidth")
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-
--- 
-With best wishes
-Dmitry
+On Fri, Jun 17, 2022 at 1:57 AM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Add a warning that this UAPI wasn't such a good idea and shouldn't be
+> used by anybody.
+>
+> That should give us a better chance to remove it at some point and
+> prevents others from running into the same issues.
+>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> ---
+>  drivers/dma-buf/Kconfig | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+> index 541efe01abc7..e4dc53a36428 100644
+> --- a/drivers/dma-buf/Kconfig
+> +++ b/drivers/dma-buf/Kconfig
+> @@ -75,7 +75,7 @@ menuconfig DMABUF_HEAPS
+>           between drivers.
+>
+>  menuconfig DMABUF_SYSFS_STATS
+> -       bool "DMA-BUF sysfs statistics"
+> +       bool "DMA-BUF sysfs statistics (DEPRECATED)"
+>         depends on DMA_SHARED_BUFFER
+>         help
+>            Choose this option to enable DMA-BUF sysfs statistics
+> @@ -85,6 +85,10 @@ menuconfig DMABUF_SYSFS_STATS
+>            statistics for the DMA-BUF with the unique inode number
+>            <inode_number>.
+>
+> +          This option is deprecated and should sooner or later be remove=
+d.
+> +          Android is the only user of this and it turned out that this r=
+esulted
+> +          in quite some performance problems.
+> +
+>  source "drivers/dma-buf/heaps/Kconfig"
+>
+>  endmenu
+> --
+> 2.25.1
+>
+Reviewed-by: T.J. Mercier <tjmercier@google.com>
