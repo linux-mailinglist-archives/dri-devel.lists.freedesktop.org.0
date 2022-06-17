@@ -1,54 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF5E54F517
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 12:15:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B6454F530
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 12:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDCD310F9CA;
-	Fri, 17 Jun 2022 10:15:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45E3E10F88D;
+	Fri, 17 Jun 2022 10:19:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7586410F9CA;
- Fri, 17 Jun 2022 10:14:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655460899; x=1686996899;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=qrUR+lKdDLwAMp0zrS1h/g2SrydR8VR+Oi7F4T+Z8PM=;
- b=j6WM55AHr5RERzQrLCNflDB37zLcWTiX5VxvGf1BqZNcNdrp2TSg0pas
- RH8Pkp4hT3TRGuhDIHvinNAEHXyB5s0AuBruL4NWQ2gLOvY/4EzoE/Tie
- wjY1DnSsdNo4QbnrUaIPiZT78yRZhqlWLetNXROGSUGE5LGDXk+mGVdN1
- UwC6yUxMngIt+uaomX6KKbPoaDLYNRhVPoBzLlXNgeA2OvloBo/83+N1u
- sDzK49k712A+9XBwxfoL4pLjTiWmdl7I+o5i5BUfak2t5kZzHktCeqgTP
- 2OCJXFMwd7pmyb7R9fPXbXUPZta5xoGfq1V8+IHprxfvqDScqo52LYhaK Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="280184786"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="280184786"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 03:12:52 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="653571582"
-Received: from aabdu11-mobl1.gar.corp.intel.com (HELO [10.213.45.96])
- ([10.213.45.96])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 03:12:33 -0700
-Message-ID: <df5a6cb4-48fc-04b8-7f5f-293e2ab54a18@intel.com>
-Date: Fri, 17 Jun 2022 11:12:26 +0100
+Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com
+ [IPv6:2607:f8b0:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D97910F88D
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 10:19:54 +0000 (UTC)
+Received: by mail-il1-x12a.google.com with SMTP id p1so2676952ilj.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 03:19:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=AkSari7bAxs5W9Thyg7DZj8au2shA+BuW6if8TWNztg=;
+ b=gmG7D5TYbIJ1rbU9KhrqGNKFkbSfmIvY3YE56PlVOk23zyp+MNWWv+wfrOtO2gxRET
+ isS0fGy2XpjDNOzyx4VHdOV1gGddPxgTnSJi2XsWIMwF2Hz3S2/Xc99IWxjWEaWzsAX1
+ WsNVb4OnB6jZl7x+yXUQRdckbNXiETO4yUbxGUO0aA4t+dxjZ9nLuF6vgVY9DGZXUk9D
+ n9cEdeb9vRqsek0klg/2l5hJvxxMj/Tyi60Nyn/3M2lpOlVGSC7aZfTxRIZM1XVL/rsn
+ 36DnLnDGYLPORH9GMIPeAkHds0FauGzFfalTmdwtMEguv9rTKwbTv4IQvYr7svsDHo3q
+ ZwHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AkSari7bAxs5W9Thyg7DZj8au2shA+BuW6if8TWNztg=;
+ b=EUbVbPM12FOMoRY+b9GpYpyp9+whjBTMDYoXGNWi+rSQN2LWD2Kri5mp9t7khFP+9S
+ GJDaWwNmnCfmCLtmGrM30AbaYIpmi+NA+kebe5RyuQcgokW/WYq05LJgayX+YZ8Cwdqz
+ ZJww9sCQ2RQHGsrlHGNZzD22tXddv7lGjOZfnyqyjhVMdLxm+A8Mnc0YUS/W9/e+l4Ou
+ h4XmCbeM0KqmGX0rFF7jN4EWzvVth8sVqHENThOLnx9scXvhgUdGRML+cMR1m9VnRrZp
+ cVV2m/ztML6jigqZRno9scpeACBujqMXgDHuPmESKqT9UrgBMTiMtWCSWEs5PJLpoc/E
+ ASBA==
+X-Gm-Message-State: AJIora94snDwVZLCDsq/VnlSi2NfUCzngY7jX42OpfF1Hlh30oNAKYnV
+ 9b/r/8SmnwrEEUhEV5zeoWZbd3WxO4poZDMYIQk=
+X-Google-Smtp-Source: AGRyM1vBig2TkzvQyr0K0aw7hKaPczT4z9o+rJHZFkgWvf1gI+BxeOefKWTGj0V9A5c6CuCCBvpmQwdXw0KzMt5didk=
+X-Received: by 2002:a05:6e02:198c:b0:2d8:e8bd:d8ff with SMTP id
+ g12-20020a056e02198c00b002d8e8bdd8ffmr470214ilf.66.1655461193630; Fri, 17 Jun
+ 2022 03:19:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/i915: Improve on suspend / resume time with VT-d
- enabled
-Content-Language: en-GB
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220405105944.336896-1-thomas.hellstrom@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220405105944.336896-1-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220613111146.25221-1-peterwu.pub@gmail.com>
+ <20220613111146.25221-3-peterwu.pub@gmail.com>
+ <dd9b9be2-7bdf-6cb6-b8ad-d7c0a0d5b98a@linaro.org>
+In-Reply-To: <dd9b9be2-7bdf-6cb6-b8ad-d7c0a0d5b98a@linaro.org>
+From: ChiaEn Wu <peterwu.pub@gmail.com>
+Date: Fri, 17 Jun 2022 18:19:42 +0800
+Message-ID: <CABtFH5+5Y5Tq3vO6Sg3kf98CWm9Aijv7qkdBcpm2SB0JZ1gCiA@mail.gmail.com>
+Subject: Re: [PATCH v2 02/15] dt-bindings: power: supply: Add Mediatek MT6370
+ Charger
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,250 +67,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ krzysztof.kozlowski+dt@linaro.org, linux-pm@vger.kernel.org,
+ linux-iio@vger.kernel.org, jingoohan1@gmail.com,
+ ChiaEn Wu <chiaen_wu@richtek.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, szunichen@gmail.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ pavel@ucw.cz, matthias.bgg@gmail.com, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, jic23@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/04/2022 11:59, Thomas Hellström wrote:
-> When DMAR / VT-d is enabled, the display engine uses overfetching,
-> presumably to deal with the increased latency. To avoid display engine
-> errors and DMAR faults, as a workaround the GGTT is populated with scatch
-> PTEs when VT-d is enabled. However starting with gen10, Write-combined
-> writing of scratch PTES is no longer possible and as a result, populating
-> the full GGTT with scratch PTEs like on resume becomes very slow as
-> uncached access is needed.
-> 
-> Therefore, on integrated GPUs utilize the fact that the PTEs are stored in
-> stolen memory which retain content across S3 suspend. Don't clear the PTEs
-> on suspend and resume. This improves on resume time with around 100 ms.
-> While 100+ms might appear like a short time it's 10% to 20% of total resume
-> time and important in some applications.
-> 
-> One notable exception is Intel Rapid Start Technology which may cause
-> stolen memory to be lost across what the OS percieves as S3 suspend.
-> If IRST is enabled or if we can't detect whether IRST is enabled, retain
-> the old workaround, clearing and re-instating PTEs.
-> 
-> As an additional measure, if we detect that the last ggtt pte was lost
-> during suspend, print a warning and re-populate the GGTT ptes
-> 
-> On discrete GPUs, the display engine scans out from LMEM which isn't
-> subject to DMAR, and presumably the workaround is therefore not needed,
-> but that needs to be verified and disabling the workaround for dGPU,
-> if possible, will be deferred to a follow-up patch.
-> 
-> v2:
-> - Rely on retained ptes to also speed up suspend and resume re-binding.
-> - Re-build GGTT ptes if Intel rst is enabled.
-> v3:
-> - Re-build GGTT ptes also if we can't detect whether Intel rst is enabled,
->    and if the guard page PTE and end of GGTT was lost.
-> 
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_ggtt.c | 56 +++++++++++++++++++++++++---
->   drivers/gpu/drm/i915/gt/intel_gtt.h  | 20 ++++++++++
->   drivers/gpu/drm/i915/i915_driver.c   | 16 ++++++++
->   3 files changed, 86 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> index 04191fe2ee34..98441b1c1b75 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> @@ -23,6 +23,13 @@
->   #include "intel_gtt.h"
->   #include "gen8_ppgtt.h"
->   
-> +static inline bool suspend_retains_ptes(struct i915_address_space *vm)
-> +{
-> +	return GRAPHICS_VER(vm->i915) >= 8 &&
-> +		!HAS_LMEM(vm->i915) &&
-> +		vm->is_ggtt;
-> +}
-> +
->   static void i915_ggtt_color_adjust(const struct drm_mm_node *node,
->   				   unsigned long color,
->   				   u64 *start,
-> @@ -116,6 +123,23 @@ static bool needs_idle_maps(struct drm_i915_private *i915)
->   	return false;
->   }
->   
-> +/*
-> + * Return the value of the last GGTT pte cast to an u64, if
-> + * the system is supposed to retain ptes across resume. 0 otherwise.
-> + */
-> +static u64 read_last_pte(struct i915_address_space *vm)
-> +{
-> +	struct i915_ggtt *ggtt = i915_vm_to_ggtt(vm);
-> +	gen8_pte_t __iomem *ptep;
-> +
-> +	if (!suspend_retains_ptes(vm))
-> +		return 0;
-> +
-> +	GEM_BUG_ON(GRAPHICS_VER(vm->i915) < 8);
-> +	ptep = (typeof(ptep))ggtt->gsm + (ggtt_total_entries(ggtt) - 1);
-> +	return readq(ptep);
-> +}
-> +
->   /**
->    * i915_ggtt_suspend_vm - Suspend the memory mappings for a GGTT or DPT VM
->    * @vm: The VM to suspend the mappings for
-> @@ -179,7 +203,10 @@ void i915_ggtt_suspend_vm(struct i915_address_space *vm)
->   		i915_gem_object_unlock(obj);
->   	}
->   
-> -	vm->clear_range(vm, 0, vm->total);
-> +	if (!suspend_retains_ptes(vm))
-> +		vm->clear_range(vm, 0, vm->total);
-> +	else
-> +		i915_vm_to_ggtt(vm)->probed_pte = read_last_pte(vm);
->   
->   	vm->skip_pte_rewrite = save_skip_rewrite;
->   
-> @@ -578,6 +605,8 @@ static int init_ggtt(struct i915_ggtt *ggtt)
->   	struct drm_mm_node *entry;
->   	int ret;
->   
-> +	ggtt->pte_lost = true;
-> +
->   	/*
->   	 * GuC requires all resources that we're sharing with it to be placed in
->   	 * non-WOPCM memory. If GuC is not present or not in use we still need a
-> @@ -1309,11 +1338,20 @@ bool i915_ggtt_resume_vm(struct i915_address_space *vm)
->   {
->   	struct i915_vma *vma;
->   	bool write_domain_objs = false;
-> +	bool retained_ptes;
->   
->   	drm_WARN_ON(&vm->i915->drm, !vm->is_ggtt && !vm->is_dpt);
->   
-> -	/* First fill our portion of the GTT with scratch pages */
-> -	vm->clear_range(vm, 0, vm->total);
-> +	/*
-> +	 * First fill our portion of the GTT with scratch pages if
-> +	 * they were not retained across suspend.
-> +	 */
-> +	retained_ptes = suspend_retains_ptes(vm) &&
-> +		!i915_vm_to_ggtt(vm)->pte_lost &&
-> +		!GEM_WARN_ON(i915_vm_to_ggtt(vm)->probed_pte != read_last_pte(vm));
-> +
-> +	if (!retained_ptes)
-> +		vm->clear_range(vm, 0, vm->total);
->   
->   	/* clflush objects bound into the GGTT and rebind them. */
->   	list_for_each_entry(vma, &vm->bound_list, vm_link) {
-> @@ -1322,9 +1360,10 @@ bool i915_ggtt_resume_vm(struct i915_address_space *vm)
->   			atomic_read(&vma->flags) & I915_VMA_BIND_MASK;
->   
->   		GEM_BUG_ON(!was_bound);
-> -		vma->ops->bind_vma(vm, NULL, vma->resource,
-> -				   obj ? obj->cache_level : 0,
-> -				   was_bound);
-> +		if (!retained_ptes)
-> +			vma->ops->bind_vma(vm, NULL, vma->resource,
-> +					   obj ? obj->cache_level : 0,
-> +					   was_bound);
->   		if (obj) { /* only used during resume => exclusive access */
->   			write_domain_objs |= fetch_and_zero(&obj->write_domain);
->   			obj->read_domains |= I915_GEM_DOMAIN_GTT;
-> @@ -1352,3 +1391,8 @@ void i915_ggtt_resume(struct i915_ggtt *ggtt)
->   
->   	intel_ggtt_restore_fences(ggtt);
->   }
-> +
-> +void i915_ggtt_mark_pte_lost(struct drm_i915_private *i915, bool val)
-> +{
-> +	to_gt(i915)->ggtt->pte_lost = val;
-> +}
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> index 4529b5e9f6e6..7561672c4f17 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-> @@ -345,6 +345,15 @@ struct i915_ggtt {
->   
->   	bool do_idle_maps;
->   
-> +	/**
-> +	 * Whether the system was recently restored from hibernate and
-> +	 * thus may have lost pte content.
-> +	 */
+Hi Krzysztof,
 
-Nit: I guess that's not really proper kernel-doc. Below also.
+Thanks for your helpful comments! I have so some questions want to ask
+you below.
 
-Anyway,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> =E6=96=BC 2022=E5=B9=
+=B46=E6=9C=8817=E6=97=A5 =E9=80=B1=E4=BA=94 =E6=B8=85=E6=99=A85:05=E5=AF=AB=
+=E9=81=93=EF=BC=9A
+>
+> On 13/06/2022 04:11, ChiaEn Wu wrote:
+> > From: ChiaEn Wu <chiaen_wu@richtek.com>
+> >
+> > Add Mediatek MT6370 Charger binding documentation.
+> >
+> > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
+> > ---
+> >  .../power/supply/mediatek,mt6370-charger.yaml | 60 +++++++++++++++++++
+> >  1 file changed, 60 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/power/supply/medi=
+atek,mt6370-charger.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/power/supply/mediatek,mt=
+6370-charger.yaml b/Documentation/devicetree/bindings/power/supply/mediatek=
+,mt6370-charger.yaml
+> > new file mode 100644
+> > index 000000000000..b63553ebb15b
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-ch=
+arger.yaml
+> > @@ -0,0 +1,60 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/power/supply/mediatek,mt6370-charge=
+r.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Mediatek MT6370 Battery Charger
+> > +
+> > +maintainers:
+> > +  - ChiaEn Wu <chiaen_wu@richtek.com>
+> > +
+> > +description: |
+> > +  This module is part of the MT6370 MFD device.
+> > +  Provides Battery Charger, Boost for OTG devices and BC1.2 detection.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: mediatek,mt6370-charger
+> > +
+> > +  interrupts:
+> > +    description: |
+> > +      Specify what irqs are needed to be handled by MT6370 Charger dri=
+ver. IRQ
+> > +      "MT6370_IRQ_CHG_MIVR", "MT6370_IRQ_ATTACH" and "MT6370_IRQ_OVPCT=
+RL_UVP_D"
+> > +      are required.
+> > +    items:
+> > +      - description: BC1.2 done irq
+> > +      - description: usb plug in irq
+> > +      - description: mivr irq
+> > +
+> > +  interrupt-names:
+> > +    items:
+> > +      - const: attach_i
+> > +      - const: uvp_d_evt
+> > +      - const: mivr
+> > +
+> > +  io-channels:
+> > +    description: |
+> > +      Use ADC channel to read vbus, ibus, ibat, etc., info. Ibus ADC c=
+hannel
+> > +      is required.
+>
+> Add io-channel-names and describe each item - what type of ADC it is
+> expected to be.
+>
 
-> +	bool pte_lost;
-> +
-> +	/** Probed pte value on suspend. Re-checked on resume. */
-> +	u64 probed_pte;
-> +
->   	int mtrr;
->   
->   	/** Bit 6 swizzling required for X tiling */
-> @@ -571,6 +580,17 @@ bool i915_ggtt_resume_vm(struct i915_address_space *vm);
->   void i915_ggtt_suspend(struct i915_ggtt *gtt);
->   void i915_ggtt_resume(struct i915_ggtt *ggtt);
->   
-> +/**
-> + * i915_ggtt_mark_pte_lost - Mark ggtt ptes as lost or clear such a marking
-> + * @i915 The device private.
-> + * @val whether the ptes should be marked as lost.
-> + *
-> + * In some cases pte content is retained across suspend, but typically lost
-> + * across hibernate. Typically they should be marked as lost on
-> + * hibernation restore and such marking cleared on suspend.
-> + */
-> +void i915_ggtt_mark_pte_lost(struct drm_i915_private *i915, bool val);
-> +
->   void
->   fill_page_dma(struct drm_i915_gem_object *p, const u64 val, unsigned int count);
->   
-> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-> index 64e6f76861f9..f50256e4c2d2 100644
-> --- a/drivers/gpu/drm/i915/i915_driver.c
-> +++ b/drivers/gpu/drm/i915/i915_driver.c
-> @@ -98,6 +98,9 @@
->   #include "intel_region_ttm.h"
->   #include "vlv_suspend.h"
->   
-> +/* Intel Rapid Start Technology ACPI device name */
-> +static const char irst_name[] = "INT3392";
-> +
->   static const struct drm_driver i915_drm_driver;
->   
->   static int i915_get_bridge_dev(struct drm_i915_private *dev_priv)
-> @@ -1425,6 +1428,8 @@ static int i915_pm_suspend(struct device *kdev)
->   		return -ENODEV;
->   	}
->   
-> +	i915_ggtt_mark_pte_lost(i915, false);
-> +
->   	if (i915->drm.switch_power_state == DRM_SWITCH_POWER_OFF)
->   		return 0;
->   
-> @@ -1477,6 +1482,14 @@ static int i915_pm_resume(struct device *kdev)
->   	if (i915->drm.switch_power_state == DRM_SWITCH_POWER_OFF)
->   		return 0;
->   
-> +	/*
-> +	 * If IRST is enabled, or if we can't detect whether it's enabled,
-> +	 * then we must assume we lost the GGTT page table entries, since
-> +	 * they are not retained if IRST decided to enter S4.
-> +	 */
-> +	if (!IS_ENABLED(CONFIG_ACPI) || acpi_dev_present(irst_name, NULL, -1))
-> +		i915_ggtt_mark_pte_lost(i915, true);
-> +
->   	return i915_drm_resume(&i915->drm);
->   }
->   
-> @@ -1536,6 +1549,9 @@ static int i915_pm_restore_early(struct device *kdev)
->   
->   static int i915_pm_restore(struct device *kdev)
->   {
-> +	struct drm_i915_private *i915 = kdev_to_i915(kdev);
-> +
-> +	i915_ggtt_mark_pte_lost(i915, true);
->   	return i915_pm_resume(kdev);
->   }
->   
+I'm afraid I might not be understanding what you mean.
+I will try to add some text in "description" and "io-channel-names", like b=
+elow
+----------------------------------
+io-channels:
+  description: |
+    Use ADC channel to read VBUS, IBUS, IBAT, etc., info. Ibus ADC channel
+    is required. It can be seen in
+include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
+  minItems: 1
+  maxItems: 9
+
+io-channel-names:
+  items:
+    - const: vbusdiv5
+    - const: vbusdiv2
+    - ...
+----------------------------------
+Did these modifications meet your expectations?
+
+> > +    minItems: 1
+> > +    maxItems: 9
+> > +
+> > +  usb-otg-vbus-regulator:
+> > +    type: object
+> > +    description: OTG boost regulator.
+> > +    $ref: /schemas/regulator/regulator.yaml#
+>
+> unevaluatedProperties: false
+
+I will add this in the next patch.
+
+>
+> > +
+> > +    properties:
+> > +      enable-gpio:
+>
+> "gpios", so:
+> enable-gpios
+
+If this otg regulator only uses one GPIO Pin, do I still need to
+change to "gpios"?
+If so, I will refine it along with the regulator "enable-gpio" in MFD
+dt-binding.
+
+>
+> > +        maxItems: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - interrupts
+> > +  - interrupt-names
+> > +  - io-channels
+> > +
+> > +additionalProperties: false
+> > +
+> > +...
+>
+>
+> Best regards,
+> Krzysztof
+
+Best regards,
+ChiaEn Wu
