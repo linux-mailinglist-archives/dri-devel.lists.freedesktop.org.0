@@ -2,128 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B59754F80D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 15:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE66F54F810
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 15:03:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1329C11ADB2;
-	Fri, 17 Jun 2022 13:01:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7C6E10F02E;
+	Fri, 17 Jun 2022 13:03:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1anam02on2061.outbound.protection.outlook.com [40.107.96.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 400E511AD59;
- Fri, 17 Jun 2022 13:01:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T7ajT80iVmNzUNa8ItRk6xhUcTrij1QwvxKdq9wdIOFsL6Z/+wi2ik6HX3SNrtS+rq6MQeuZVCOLB4C93CAP8nEhkA68z9IACLnLtT50N+IcPaq/y2Ng9QdcYQeIe75eBmYmYoY3v1zGwqv6hZsRlpI3bo/Lcx0UhTMu8XJ3QkInRXf8zF0sdD20LYdsegt17eDp/1ZILmR5RA/wYrlETCZ3zBS7j/kcJ1zd9xZMmUVROqXlRo64Vn6bZEb0nDplpRgQpt7u41z2a3R4i07u3zc0HHZn6TeVwtCpzbzuVvR5YtS9JcfQZK5L8bWcDDYaJUc3Ky//UICK+P/GQIW+Ow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DwQFZmSqGh96riDSnxPPeUMKElXZA7u0qOFd06x5ulU=;
- b=i19F5QKYxbzV7i+lEx5hhOnuuAY9GKk6kFPVP0zFb2zCk4OIR9j60wilpiKdE0L2NasY+Z1kyKjwu7aEHrYe24B/KPPlIhLK7aM/0hfK4HH4M2tGcYwJ8WgayjbjwPMkBqua0mEkWr1lOWCpeWWU13MEcz58lQFwZ517Na28vYsLJlO93nTGvB6cuogPHvxLmuiYmHqK5BwzV5puEjJMarwgFyPp7gnXwrbaiYPIDOG0qlsNKxNfNYLlElwK6+lgQ64xJkMnJCsbrndudhUZaspwUKkKucFELUjR1i2I6+ES5MNhjWoUlI+KVywgm8Bn/bwB3DS5dXAXrkeK/XGeQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DwQFZmSqGh96riDSnxPPeUMKElXZA7u0qOFd06x5ulU=;
- b=uLRmuN895+lvGHIaurhbWKk4wE2B947Abrn7kIkLdlyuVrP762UnDhHHIVdJcQe+y5d/pAoAertARZuwgI7qEEZO2sbmeKzwfI2gE15+xmIvAzt7TCBs6bpAsMOYxxepWkGBBYKg2tj6t4AOBEuHU6z217vn5pqGKpVzjw2ckUw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BYAPR12MB3158.namprd12.prod.outlook.com (2603:10b6:a03:13a::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.16; Fri, 17 Jun
- 2022 13:01:25 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731%6]) with mapi id 15.20.5353.016; Fri, 17 Jun 2022
- 13:01:25 +0000
-Message-ID: <7986913b-66a7-85b6-c563-392049e057fd@amd.com>
-Date: Fri, 17 Jun 2022 15:01:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: radeon driver warning
-Content-Language: en-US
-To: John Garry <john.garry@huawei.com>, alexander.deucher@amd.com,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <2850bbb9-a191-d723-f878-96482e7583cb@huawei.com>
- <afd3cf7b-7afd-1d86-0c24-b4b7101e4bd5@amd.com>
- <60a97869-fe1d-08cb-3241-91377d62b739@huawei.com>
- <7adf78ae-8f2d-e6bf-2054-fe61dfd4b21e@amd.com>
- <b481ffa8-451d-0a9c-e708-44047e0a8bc9@huawei.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <b481ffa8-451d-0a9c-e708-44047e0a8bc9@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9PR06CA0160.eurprd06.prod.outlook.com
- (2603:10a6:20b:45c::23) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D329710EE59
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 13:03:44 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id x38so7147845ybd.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 06:03:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen.nl; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=G0KliWss/mxrN5qYXUbhNpz5QnejjUtEtU7W5RZR5no=;
+ b=imqoFvVUwT28DJYwwjoHQVPxETCWkY/H9ZzYN2gXwuyu4izN1V+QVTQgtodFzu/UrF
+ An8KSjbbyNT832bUrdjyikmyCz31JFMUzpuPcNm9nTNdBDj0rUkp99g+o/GVnjt2RnJ0
+ C3V/V2DiwjFmML3E0/0TPz/FvQdlo9rOdv0iCOVKh4RQhYn0ejP763QrGtUblE9O+3q/
+ wnlmZ91Dg48OomfUgvSijObaiHS44qLvNRwRzEAj8oEi0C+xK4gCU/DAQp6lzUAME4vX
+ Hmd+3zI7DUvIGPIO3HuQz4egaYMrnmZ8er+AV3FIAAYQsJ8eJ/mPqmnJGNrRBpXpEAke
+ 7crw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=G0KliWss/mxrN5qYXUbhNpz5QnejjUtEtU7W5RZR5no=;
+ b=iREDbr73qwimaP+P9cwBxO/DuVK/EqudY3eOsZiucvcbqYOIAOWrNy5Jw8oMPeboRu
+ lVid0iPUzot1+7EoynJyNdwSwuXV4NJsnS2UD4e0ZfTIQ4znAwK6iRQbuxjtNTgrU642
+ HO2oYfCcWdspwvq6YAhhUoxSASlQWyPLf5F9eAIiuHjBQqChr8v7h9wNv5SRf8gGtmKX
+ kMPvTKl3jRSsew7thzyN0iNYXumCQQoTc1M87XkJ0cAGdG7EZtFbprIldgr0JqmGUBbK
+ 0OGRopE20C31vHYJBg+p2O95zeeEMWxB+pJES/7Q2b9jZQwte9N1seBqweDjgeiQeGQH
+ bBvw==
+X-Gm-Message-State: AJIora+46C28IrsdzO/k0BXUTr37gxPqEOQ4anzZ0tQ2qelqrM6AfrZi
+ nno3xPCGj/1cu83GbUmVzFFHffGhyjfVKMq4KDZ07m+sa7QgwQ==
+X-Google-Smtp-Source: AGRyM1uKos0bFstueg6PGxY0wysUds5Do5AiVk9iHaRFxnFg+FHxdLwCV646JOs/X3LgX3s6hNajFvWBTbwEtV2STiU=
+X-Received: by 2002:a25:2ccd:0:b0:668:bfc8:d69b with SMTP id
+ s196-20020a252ccd000000b00668bfc8d69bmr1808687ybs.204.1655471023883; Fri, 17
+ Jun 2022 06:03:43 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7295d4c6-688b-466e-5d5f-08da50617c72
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3158:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB3158EB63EDE39EBDD405712F83AF9@BYAPR12MB3158.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uZehyzQjfIGeEOeWXUF5m+ouQpBo1XTphmeodpsOUq4b/r074VHqaq6eoJ8+HHORKtaFeANEkcOpjm2vTIs9mF8wQ7xKFRbOug/KIaUgTaKFtK7+UUXepQkIoJc50OzEe0gPMMOIKztMy+VZIt1ZpD1/z8qqRltAwDRP5NEB13cpRBI7dSNpqCTwWE2kAejBS3pY1I42wbOAIOCH/LLhu+pQfEk2EecNoUtmDujR320sHo5F6ByZ+Bx50gXIrr3fW3I5BHIR/xBH/DdhcHbxbvJiEeeoID1c1nIhu+Y7MJhOByLy3XaRp2qV/mPJXdQJQ0dME4GThE1MfXigvcJFhjzcbmjMmJ9gnuAfy+S0YeYQTKVQXIgFBamyu1geuJlj7PKDPbSZF+PTTGOst+VzFUbWxsbSpFPh1GewqUpsOjVswz66Kpk+tZQpH9PAZnxUqF2DmbFZhrp7RytXQN0KlxK0mDYMSmQTZw33LnWrrl1qKTvhKJQXiX83pCqC0zUkTo1ivyPfBhLMUpBsfeBmAnL6IgjZJRMt0rKUJJErVA2/PpS096RQRDPHqxAvt6uYdzY/MFXuejvE6uwFfkF9+An9nAxHhVEoncV7RYnFdj2nhm++C+k1q6JXEjfIWzeaqNQIC297DNJvAERbdDQ1SenYMRYPf5TTRZHo3gIGRaDUhepDqcF+r6imuwIgRqrvpxIGV/wdEaGulK0t6710tKNrOlIGgYxTIZ5yfIV/qQoJt6UDEXrbVi8+Nm6sVgCz
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(66946007)(86362001)(8676002)(31686004)(5660300002)(7116003)(3480700007)(498600001)(6486002)(36756003)(2616005)(66556008)(4744005)(2906002)(66476007)(316002)(6512007)(53546011)(38100700002)(66574015)(8936002)(83380400001)(6666004)(6506007)(31696002)(186003)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZjhyRFc2anNhSW1pMFFOTTQvVldIdmk5dWg0QWY5U2xscE9OeXVqVVZ6WHRL?=
- =?utf-8?B?U3hZQzI0VFNPY3cvbUJvVHJDTHFOeVVJMXJCMzQyVlFXcWhSS3UwQXpaL2dy?=
- =?utf-8?B?WnFyRXRQOE9Bd29iVWVWbUdoTk45T2NHdW1vRnhRRWxMU3RhdWpTTkVXejFH?=
- =?utf-8?B?ZHM5Z0w1ZXRUSG13L0ZyNVpybTV1aTdtZFV0Z0UyVllKQmMreHI4SE9sSzJT?=
- =?utf-8?B?WmdhT0xpUHMwbmR6Q2trbitsYWhOT2crVnBmb2JQcmNGbU0xVHJ1MjZEQnZB?=
- =?utf-8?B?OUVBTkpwc1c4ck0vald0TUVidjRBTFN4Q1l4MUZCd0R6ZXlXSjFWTER0S2sy?=
- =?utf-8?B?T0FHZHBvYzZscWVEUW1EbnhYc3VsNnBvUU9XTFJYY0t2YXR5VmJNM21Ic1hq?=
- =?utf-8?B?WC8zTWszeUNJTS9BbFI1dVJKYmEyK2Q2U0h0QW1qNnJndVFhQ0FhR3Q2REFu?=
- =?utf-8?B?eVllUldIdTFVZ1F0Si9scTVBTmtzK3U1UlR2alVJTXlxU1FpME4xNUV1MUZI?=
- =?utf-8?B?WDRRK1lTNEd2RFBEbUhEUExmS0lZMUhFek5ZRHIwdDRJRFVrTGxSb1VvUmpK?=
- =?utf-8?B?U1RwTjBTQ1BzYVpsYkoyL2NXUk01OG80VUY1L01HS1ZkNnZDL2FVZWNzblF5?=
- =?utf-8?B?c1NValJYVTFzYUNwa2xxNEhGdUFUNGo3TVUwdmI5dXU0K1dEU1o5dkdHTHpy?=
- =?utf-8?B?aFY2eXBxMzdOeVZmc3RPMXRmZGxaMzRPVW80OHNiL3VJY2JjZVArNGpXdDJ3?=
- =?utf-8?B?dGdOcTdDUjRuZzZhOUorbHZxK0RoeXA3Y1E3UGh6aUNvcHZ5dWRXaFlscWVu?=
- =?utf-8?B?bUExRUdjWS9FRXhqT1J4ZXJPOWltQVVqSGs3a3luVjVaeXZobmxFbzQzUVdw?=
- =?utf-8?B?K2Vqa1JJbFJJVTdCcmRoSlZRQ3ZuZGpuaXNkWld3OFJxU2NRdVcyWkE4Vklm?=
- =?utf-8?B?QndqVFJydUVYRlJPTnJxV1pkcW1PWDA5anF0WnkyT2I0WnZoS0J1RUh2d2Yv?=
- =?utf-8?B?S0VCM3ZEZUV4akZCK2JVcWhMU3IyUzIrZm5tZEtNekxZZjJ6Nk81RWhoWVFX?=
- =?utf-8?B?NVVmenJocHZoaUxtRlRXekhlcVNMaG8wSmN3dFZzeUFsSkI5eE42S1B2Ukk3?=
- =?utf-8?B?MS9KVmF5bjZMdWk5c3RyekhyWjloSzJsSExabEp2YUFkRll6YS9nOXY0SWhx?=
- =?utf-8?B?YUNoaTJzdDZBRFNhc3lXY0N2ekI0aW93aUdLTDlLdmR2TFRmUUNoaHJRM2gz?=
- =?utf-8?B?QjdIdG0rZUlEdXJrVFphQVNmZldtNEp5UjF5dFcxRUlRVGV1ZDRscm4xZXhO?=
- =?utf-8?B?bnlWR1lkU2dNbjREUEVjaEhiMFIxS3VaNUJ1T2RtNWVpN3A3RTBKSUJMTjc2?=
- =?utf-8?B?aU1VL2xkRUlYbXUyMUJqVWNITndCS3JjalJBeEJGbWJhSlB4Z2hYZEJJMHZj?=
- =?utf-8?B?LzdGMTM0Vng3d05IZk5jNUFZYy9raDJPRFFaeWdXb2V5NDQxVHdiVVpWR2pX?=
- =?utf-8?B?Mkt5OTM5ZFZjWGs2ZGh6U3dscklPUThmbk1JVGlVQWtFOERITXJ1SElHeGlG?=
- =?utf-8?B?ZHR1MmpLOU53bkhFcktOUVp3dVp1VlF3ZS9mZ3hZOEI5a05EWm1yTHlCWjQr?=
- =?utf-8?B?YU11ZU9nZTZueTd2NDRnSmEydXZyU0dWVThnN2owNDRUajVxZHlCUHBZYmlj?=
- =?utf-8?B?eGcwanhSZy8ySW5zaUgxSFBzck1rMTFHRks1a0VmTGZxS0d1QzE0UHlpNEhP?=
- =?utf-8?B?eFNyMlpic1c4QUdiRjJXbG01alFoRERnWFNpQmFnOE5aUDNnYk5UR1djL2h6?=
- =?utf-8?B?OENGV2Y0K0k4eVlEUUVvM1VlWmVBRjNmTlBlb1QvOXNHOXpzRkJwR2l3YWFY?=
- =?utf-8?B?V0U2ZEZKQkFGWkxQdlBVYkZwYWEyUk5hemlqYmRqeWZMYnRYeVRCSy8vNVIw?=
- =?utf-8?B?NldreEpvaWwvZmE2L1lCM3lIRmlPUER0eFZzTlFDaHBuVkJ6ZktQREhxMzIr?=
- =?utf-8?B?Z0ZaV3VLV0xkdERycWhJMmVXWC9OdmR2WlI2UmJHSUlDaDdzSFNXWERuR2Rx?=
- =?utf-8?B?QUdpRlM3YmdKV3Q4aTNaT2p6dzVkQ3h1SzI4NWhtampQb3k4OExzZWhNNDgz?=
- =?utf-8?B?ZElwRWVpQmNuNm8yOE90U0tiblNZRksyOWc1RmdNYzR4UXRTaGVWRWFVNGZY?=
- =?utf-8?B?UnM3MVJBRW5GMHhuV2swYUc5SllWZlp4aHZXa2Z6VDQ1YmdsN2EzSkZtaTBw?=
- =?utf-8?B?T2VmUCtiVmNEWkE5WXF1MlJsMzNoZXg4dmo3TlkrS29MdmRoVjNqYWVMVHV0?=
- =?utf-8?B?QndaWkZHTHVGMWlYMjdNaEpVMGVubmtDRW04cUZ1eWhoblZ3a3ZOVjF1WnE1?=
- =?utf-8?Q?GirLyDSnj0CqAHNoI5YCFBGlq7e4yGWhjaIZt93W/nZc4?=
-X-MS-Exchange-AntiSpam-MessageData-1: 6+XAeMbdj5EHxg==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7295d4c6-688b-466e-5d5f-08da50617c72
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2022 13:01:25.8140 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gMvFznDxDBWYemU550LmVUVt6cUaeNeWqG1jJm/Omlhv52BodJMADK6o1xg9AWYx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3158
+References: <20220601004014.158247-1-bas@basnieuwenhuizen.nl>
+ <ea49dfd3-3c20-c330-3412-5b48481331cd@amd.com>
+ <CAP+8YyGgam6Hr40PS_Rc7Dg=S2dLJdce=87=wNt2B0yAyPEPOw@mail.gmail.com>
+ <237f28b7-258e-8b6c-f7b3-93f0db9676d3@amd.com>
+ <CAP+8YyHnR=eQZMkxn=RpdzYF69y-54ri2pFrTj8DJuRTtwrDaA@mail.gmail.com>
+ <7cba4b1d-724a-3c32-2546-015fa069342d@amd.com>
+ <CAP+8YyEMDNR_5=uGf8BEV5DCovr-Z_ZDWS2E7-7zqSFGG7bdKg@mail.gmail.com>
+ <6c7e8167-fd72-ef7f-c390-8750c61bc411@amd.com>
+ <CAP+8YyGRf2XRoaw9aZhwFBryxccYTRrpSLVh8X6WG02zO5ed0A@mail.gmail.com>
+ <4d30fb54-be88-7913-74f5-fa998c28f033@amd.com>
+ <CAP+8YyFKOM1qztPBNGk4nzsaX7Dq8-cwg0h_GUgz6sUxBZLhEw@mail.gmail.com>
+ <98c1ea95-2b1e-36dd-6706-b3667f0f5f47@amd.com>
+ <CAP+8YyEWE9KCmo2pGOHMyT3fSEXskTG-tfymwQmmy7d1c9CuRQ@mail.gmail.com>
+ <3b6a7d56-6c65-046d-0a51-bbe167e04322@amd.com>
+ <CAP+8YyGL_WEME-1_oB_K5_K600c5kcmO0GxXBQGVQEF7aP_D7w@mail.gmail.com>
+ <91e843ca-928a-7ab1-12e4-89fbba085403@amd.com>
+ <CAP+8YyHqcoxVeropBpeuSRX4kNtVezi1-s3FKSic_Z_OQ8BcAg@mail.gmail.com>
+ <1e04e766-4a5b-6825-6991-3bd542f562b5@amd.com>
+In-Reply-To: <1e04e766-4a5b-6825-6991-3bd542f562b5@amd.com>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Fri, 17 Jun 2022 15:03:52 +0200
+Message-ID: <CAP+8YyGEHUZhCCUa-3sSVmgGMrTkj=vQomPar=hTN=3-RCznOA@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/5] drm/amdgpu: Allow explicit sync for VM ops.
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,30 +82,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi John,
-
-Am 17.06.22 um 14:01 schrieb John Garry:
-> On 17/06/2022 12:57, Christian König wrote:
->>>
->>> And/Or compile out the warning when "warnings = errors"?
->>
->> That should be doable I think.
+On Wed, Jun 15, 2022 at 9:00 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> ok, if something can be done then I would appreciate it. I do much 
-> randconfig builds as part of my upstream process and anything breaking 
-> is a bit of a pain.
+> Am 06.06.22 um 13:00 schrieb Bas Nieuwenhuizen:
+> > On Mon, Jun 6, 2022 at 12:35 PM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> >> [SNIP]
+> >> That part won't work at all and would cause additional synchronization
+> >> problems.
+> >>
+> >> First of all for implicit synced CS we should use READ, not BOOKKEEP.
+> >> Because BOOKKEEP would incorrectly be ignored by OpenGL importers. I'v=
+e
+> >> fixed that this causes memory corruption, but it is still nice to avoi=
+d.
+> > Yes, what I'm saying is that on implicit sync CS submission should add
+> > READ fences to the dma resv and on explicit sync CS submission should
+> > add BOOKKEEP fences.
+>
+> No, exactly that is wrong.
+>
+> Implicit CS submissions should add WRITE fences.
+>
+> Explicit CS submissions should add READ fences.
+>
+> Only VM updates should add BOOKKEEP fences.
+>
+> >> BOOKKEEP can only be used by VM updates themselves. So that they don't
+> >> interfere with CS.
+> > That is the point why we would go BOOKKEEP for explicit sync CS
+> > submissions, no? Explicit submission shouldn't interfere with any
+> > other CS submissions. That includes being totally ignored by GL
+> > importers (if we want to have synchronization there between an
+> > explicit submission and GL, userspace is expected to use Jason's
+> > dmabuf fence import/export IOCTLs)
+>
+> No, that would break existing DMA-buf rules.
+>
+> Explicit CS submissions are still a dependency for implicit submissions.
 
-I've just double checked the code and we have already wrapped the 
-warning into "#ifndef CONFIG_COMPILE_TEST".
+This is explicitly what we don't want for explicit submissions and why
+I waited with this series until the DMA_RESV_USAGE series landed. We
+wish to opt out from implicit sync completely, and just use the IOCTLs
+Jason wrote for back-compat with windowing systems that need it.
 
-So the question is why does your random config not set CONFIG_COMPILE_TEST?
-
-Regards,
-Christian.
+If BOOKKEEP isn't for that, should we add a new USAGE?
 
 >
-> Thanks!
-
+> >
+> > Then the second problem is that the VM IOCTL has absolutely no idea wha=
+t
+> > the CS IOCTL would be doing. That's why we have added the EXPLICIT sync
+> > flag on the BO.
+> > It doesn't need to? We just use a different sync_mode for BOOKKEEP
+> > fences vs others:
+> > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpat=
+chwork.freedesktop.org%2Fpatch%2F487887%2F%3Fseries%3D104578%26rev%3D2&amp;=
+data=3D05%7C01%7Cchristian.koenig%40amd.com%7C81db0fea1c854076fc4408da47aba=
+faa%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637901099957139870%7CUnkno=
+wn%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVC=
+I6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DF72Boaesx83MD2pjGuucA1buawi205XLSsQHg5=
+EH39A%3D&amp;reserved=3D0
+>
+> No, exactly that's completely broken.
+>
+> Regards,
+> Christian.
+>
+> >
+> > (the nice thing about doing it this way is that it is independent of
+> > the IOCTL, i.e. also works for the delayed mapping changes we trigger
+> > on CS submit)
+> >
+> >> Regards,
+> >> Christian.
+> >>
+> >>>> That should be doable, but then you don't need any of the other chan=
+ges.
+> >>>>
+> >>>> Regards,
+> >>>> Christian.
+> >>>>
+> >>>>>> #1 Is rather easy to fix, you just need to copy all dma_fences fro=
+m the
+> >>>>>> page table dma_resv object over to the BOs dma_resv object in the =
+gem
+> >>>>>> close handler. E.g. exactly what you suggested with the dma_resv_c=
+opy
+> >>>>>> function.
+> >>>>>>
+> >>>>>> #2 is a nightmare.
+> >>>>>>
+> >>>>>> We can't move the TLB flush at the end of the unmap operation beca=
+use on
+> >>>>>> async TLB flushes are either a bit complicated (double flushes etc=
+..) or
+> >>>>>> don't even work at all because of hw bugs. So to have a reliable T=
+LB
+> >>>>>> flush we must make sure that nothing else is ongoing and that mean=
+s
+> >>>>>> CS->VM->CS barrier.
+> >>>>>>
+> >>>>>> We try very hard to circumvent that already on maps by (for exampl=
+e)
+> >>>>>> using a completely new VMID for CS after the VM map operation.
+> >>>>>>
+> >>>>>> But for the unmap operation we would need some kind special dma_fe=
+nce
+> >>>>>> implementation which would not only wait for all existing dma_fenc=
+e but
+> >>>>>> also for the one added until the unmap operation is completed. Cau=
+se
+> >>>>>> otherwise our operation we do at #1 would simply not catch all
+> >>>>>> dma_fences which have access to the memory.
+> >>>>>>
+> >>>>>> That's certainly doable, but I think just using the drm_exec stuff=
+ I
+> >>>>>> already came up with is easier.
+> >>>>>>
+> >>>>>> When we can grab locks for all the BOs involved amdgpu_vm_clear_fr=
+eed()
+> >>>>>> goes away and we can keep track of the unmap operations in the bo_=
+va
+> >>>>>> structure.
+> >>>>>>
+> >>>>>> With that done you can make the explicit sync you noted in the bo_=
+va
+> >>>>>> structure and implicit sync when the bo_va structure goes away.
+> >>>>>>
+> >>>>>> Then the only reason I can see why we would need a CS->VM dependen=
+cy is
+> >>>>>> implicit synchronization, and that's what we are trying to avoid h=
+ere in
+> >>>>>> the first place.
+> >>>>>>
+> >>>>>> Regards,
+> >>>>>> Christian.
+> >>>>>>
+> >>>>>>>> To get rid of this barrier you must first fix the part where CS
+> >>>>>>>> submissions wait for the VM operation to complete, e.g. the nece=
+ssity of
+> >>>>>>>> the barrier.
+> >>>>>>>>
+> >>>>>>>> I'm working on this for a couple of years now and I'm really run=
+ning out
+> >>>>>>>> of idea how to explain this restriction.
+> >>>>>>>>
+> >>>>>>>> Regards,
+> >>>>>>>> Christian.
+> >>>>>>>>
+>
