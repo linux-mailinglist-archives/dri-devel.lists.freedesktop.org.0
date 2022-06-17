@@ -2,58 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154FE54FE8A
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 22:53:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38B0D54FE99
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 23:02:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E2EF11254E;
-	Fri, 17 Jun 2022 20:53:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3CE510E13D;
+	Fri, 17 Jun 2022 21:02:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
- [IPv6:2001:4860:4864:20::2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1699F1124EB
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 20:53:08 +0000 (UTC)
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-101b0266185so2811126fac.6
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 13:53:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=pOJ0w1fx8TDvU6Wqqk+kju4f/j2XWysLUuPMKoQ93WQ=;
- b=BCibZwkwaWdmHbyckK1itupaySjS2gpljASTEwZsgmFNvWfcv7hFIh0Q6nCCPGNLjx
- /i/TFOrHBgEmtJlicNOVI2xEFcbx0/J45Y/oeZcqipsroldorlI8/h02GBcyDQ/k7b5d
- a019+LDOh4MT5bMtUHPCY/jUDuG4Zea/gCL30=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=pOJ0w1fx8TDvU6Wqqk+kju4f/j2XWysLUuPMKoQ93WQ=;
- b=5OrJcY5mk3GpDpRW4077+D7br9SekaCR9vu0TpCF42kIigPxSZLlLlll/QbN5GFhQd
- V+8j53uMxyO20dcyM3m6tn+4IXZ0Wak0G5FFQkRTegrYmWpeADiKW/8Lc5dEnl7mrrjt
- aYQz/nrOShoaITZuUf1L3V8vVpbBnGu+CMcl3bAIeuJbWc0JmvwxAXOHPQ4EBM1SWD2F
- ji092Isb+GWaXd5V9K6QJdlIHE9EkQtcTBSdKk8z4PGCxtTjLYfxmRlCVCqi7tbkufok
- YZFWih+DffyFYKskKovPTsIFomQ2s4+L+hFXQQ4NFAigvB9IjFfi4VxB8tGqykNgcncW
- v4zA==
-X-Gm-Message-State: AJIora/YacA8rGp36eHaWZ0EKAOmpcFImZXzu/t+gpVMmCb9nFPvbDF+
- 2qHOGYP4P19VxL7UBJg/3gtXYxDzxvpkkex125k4wA==
-X-Google-Smtp-Source: AGRyM1tHrKeZbF6x4Ph4v2TGhIyG5/H7CB4DpNOnp0o8Y+JdhKEu01LNai/uLjNuxsjXcEVC20rNgdoz+JZY07qm7Bc=
-X-Received: by 2002:a05:6870:b48a:b0:101:40eb:63a3 with SMTP id
- y10-20020a056870b48a00b0010140eb63a3mr6279169oap.193.1655499187407; Fri, 17
- Jun 2022 13:53:07 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 17 Jun 2022 13:53:07 -0700
-MIME-Version: 1.0
-In-Reply-To: <20220616085054.432317-1-dmitry.baryshkov@linaro.org>
-References: <20220616085054.432317-1-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Fri, 17 Jun 2022 13:53:06 -0700
-Message-ID: <CAE-0n507ro+ZDAi8eoYbXjuxeT8SB-viCbr3Fh3x9QN56UTLrQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/hdmi: drop empty bridge callbacks
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD19010E13D;
+ Fri, 17 Jun 2022 21:02:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655499744; x=1687035744;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=QFcYORIj+MbiJXFKCBmHO+AwoMGx+NNpW51jgXJmX7s=;
+ b=bVr1mVLZIx6jBMuVSntAubCGouP5Gabh1me2rvdIhuATlYuVVKx6qdzI
+ NZIEcZgQd6BHk326a5EDWGeAPcrV8m8tRpDRzMRMWupBcSQTOlQXwEB+g
+ TLDyn0gEiSR81yTn6k57l+kiEJgtukBi2cyMJXnoJl3paqw+vVTj7R4hw
+ VMapu5Pn4TOEoujjYrRgtswBDjMwyiXasb5IyDzj1VHhIXwZnzWpSvVh+
+ 6y7ve9HAadw0T+43BukT3LgGkyK/bee8H4DsHxNEWpaPYdhuGZSWSf9xG
+ 1yj6Q+7x5aACGj9sDgwAvLzEaNzWezmPNQYgb62Gsl8XG/W9ThJYgGVuO Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="365910621"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="365910621"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2022 14:02:23 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="619383939"
+Received: from adixit-mobl1.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.252.139.88])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2022 14:02:21 -0700
+Date: Fri, 17 Jun 2022 13:53:59 -0700
+Message-ID: <87h74jvwns.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Subject: Re: [PATCH] drm/i915: Add global forcewake status to drpc
+In-Reply-To: <20220617202534.30609-1-vinay.belgaumkar@intel.com>
+References: <20220617202534.30609-1-vinay.belgaumkar@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,17 +58,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-06-16 01:50:54)
-> Drop empty callbacks msm_hdmi_bridge_enable() and
-> msm_hdmi_bridge_disable().
+On Fri, 17 Jun 2022 13:25:34 -0700, Vinay Belgaumkar wrote:
 >
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+> We have seen multiple RC6 issues where it is useful to know
+> which global forcewake bits are set. Add this to the 'drpc'
+> debugfs output.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+A couple of optional nits below to look at but otherwise this is:
+
+Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+
+> +static u32 mt_fwake_status(struct intel_uncore *uncore)
+> +{
+> +	return intel_uncore_read_fw(uncore, FORCEWAKE_MT);
+> +}
+> +
+>  static int vlv_drpc(struct seq_file *m)
+>  {
+>	struct intel_gt *gt = m->private;
+>	struct intel_uncore *uncore = gt->uncore;
+> -	u32 rcctl1, pw_status;
+> +	u32 rcctl1, pw_status, mt_fwake;
+>
+> +	mt_fwake = mt_fwake_status(uncore);
+
+I would get rid of the function and just duplicate the intel_uncore_read_fw().
+
+>	pw_status = intel_uncore_read(uncore, VLV_GTLC_PW_STATUS);
+>	rcctl1 = intel_uncore_read(uncore, GEN6_RC_CONTROL);
+>
+>	seq_printf(m, "RC6 Enabled: %s\n",
+>		   str_yes_no(rcctl1 & (GEN7_RC_CTL_TO_MODE |
+>					GEN6_RC_CTL_EI_MODE(1))));
+> +	seq_printf(m, "Multi-threaded Forcewake: 0x%x\n", mt_fwake);
+
+Is "Multi-threaded Forcewake Request" (the Bspec register name) a more
+descriptive print?
+
+Same for gen6_drpc() below. Thanks!
