@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8FD954F2E7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 10:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1485754F2F9
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 10:29:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79A7310EFB7;
-	Fri, 17 Jun 2022 08:28:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D06F10FA2F;
+	Fri, 17 Jun 2022 08:29:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8CFD10EFB7
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 08:28:49 +0000 (UTC)
-X-UUID: 791e50f84bd446db9e483dfd68d4f070-20220617
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 982E510F93D
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 08:29:48 +0000 (UTC)
+X-UUID: 452b459576924b6b9aab3bdef158cc95-20220617
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:9c5904cf-60ef-4f45-a2e4-d3bf6d6f4ced, OB:0,
+X-CID-O-INFO: VERSION:1.1.6, REQID:7c1c2afb-7d86-4ada-b90c-92afd908dbe9, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:0
-X-CID-META: VersionHash:b14ad71, CLOUDID:16d79ff6-e099-41ba-a32c-13b8bfe63214,
+X-CID-META: VersionHash:b14ad71, CLOUDID:a73ce348-4c92-421c-ad91-b806c0f58b2a,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
  ,QS:nil,BEC:nil,COL:0
-X-UUID: 791e50f84bd446db9e483dfd68d4f070-20220617
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+X-UUID: 452b459576924b6b9aab3bdef158cc95-20220617
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
  mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 748113598; Fri, 17 Jun 2022 16:28:45 +0800
+ with ESMTP id 759725871; Fri, 17 Jun 2022 16:29:43 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Fri, 17 Jun 2022 16:28:44 +0800
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 17 Jun 2022 16:29:42 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 17 Jun 2022 16:28:44 +0800
-Message-ID: <4c801d6c6e9642d4f2d0b639cdd95718ea45df13.camel@mediatek.com>
+ Transport; Fri, 17 Jun 2022 16:29:42 +0800
+Message-ID: <bc7306d3edc5241c2278a8e46b9c73217b9b92e5.camel@mediatek.com>
 Subject: Re: [PATCH v11 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
  driver
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
@@ -46,11 +46,11 @@ To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
  <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
  "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
  <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
-Date: Fri, 17 Jun 2022 16:28:43 +0800
-In-Reply-To: <1cf3e33dfc10e948094f11a7ce439ced1b43f4c9.camel@mediatek.com>
+Date: Fri, 17 Jun 2022 16:29:42 +0800
+In-Reply-To: <b3d5ba22e0a88abb48261a6a97027361fc535fc6.camel@mediatek.com>
 References: <20220610105522.13449-1-rex-bc.chen@mediatek.com>
  <20220610105522.13449-6-rex-bc.chen@mediatek.com>
- <1cf3e33dfc10e948094f11a7ce439ced1b43f4c9.camel@mediatek.com>
+ <b3d5ba22e0a88abb48261a6a97027361fc535fc6.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -85,7 +85,7 @@ Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-06-15 at 13:50 +0800, CK Hu wrote:
+On Wed, 2022-06-15 at 13:53 +0800, CK Hu wrote:
 > Hi, Bo-Chen:
 > 
 > On Fri, 2022-06-10 at 18:55 +0800, Bo-Chen Chen wrote:
@@ -121,129 +121,47 @@ On Wed, 2022-06-15 at 13:50 +0800, CK Hu wrote:
 > [snip]
 > 
 > > +
-> > +static int mtk_dp_train_flow(struct mtk_dp *mtk_dp, u8
-> > target_link_rate,
-> > +			     u8 target_lane_count)
+> > +static int mtk_dp_train_set_pattern(struct mtk_dp *mtk_dp, int
+> > pattern)
 > > +{
-> > +	u8 lane_adjust[2] = {};
-> > +	bool pass_tps1 = false;
-> > +	bool pass_tps2_3 = false;
-> > +	int train_retries;
-> > +	int status_control;
-> > +	int iteration_count;
-> > +	int ret;
-> > +	u8 prev_lane_adjust;
-> > +
-> > +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_LINK_BW_SET,
-> > target_link_rate);
-> > +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_LANE_COUNT_SET,
-> > +			   target_lane_count |
-> > DP_LANE_COUNT_ENHANCED_FRAME_EN);
-> > +
-> > +	if (mtk_dp->train_info.sink_ssc)
-> > +		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_DOWNSPREAD_CTRL,
-> > +				   DP_SPREAD_AMP_0_5);
-> > +
-> > +	train_retries = 0;
-> > +	status_control = 0;
-> > +	iteration_count = 1;
-> > +	prev_lane_adjust = 0xFF;
-> > +
-> > +	mtk_dp_set_lanes(mtk_dp, target_lane_count / 2);
-> > +	ret = mtk_dp_phy_configure(mtk_dp, target_link_rate,
-> > target_lane_count);
-> > +	if (ret)
-> > +		return -EINVAL;
-> > +
-> > +	dev_dbg(mtk_dp->dev,
-> > +		"Link train target_link_rate = 0x%x, target_lane_count
-> > = 0x%x\n",
-> > +		target_link_rate, target_lane_count);
-> > +
-> > +	do {
-> > +		train_retries++;
-> > +		if (!mtk_dp->train_info.cable_plugged_in ||
-> > +		    mtk_dp->train_info.irq_sta.hpd_disconnect) {
-> > +			return -ENODEV;
-> > +		}
-> > +
-> > +		if (mtk_dp->train_state < MTK_DP_TRAIN_STATE_TRAINING)
+> > +	if (pattern < 0 || pattern > 4) {
 > 
-> This checking would never be true, so remove it.
+> The caller would pass pattern from 0 to 4, so this checking is
+> redundant. Remove it and this function would always return true, so
+> let
+> this function be void.
+> 
+> Regards,
+> CK
 > 
 
 Hello CK,
 
 ok, I will do this.
 
-> > +			return -EAGAIN;
-> > +
-> > +		if (!pass_tps1) {
-> > +			ret = mtk_dp_train_tps_1(mtk_dp,
-> > target_lane_count,
-> > +						 &iteration_count,
-> > lane_adjust,
-> > +						 &status_control,
-> > +						 &prev_lane_adjust);
-> > +			if (!ret) {
-> > +				pass_tps1 = true;
-> > +				train_retries = 0;
-> > +			} else if (ret == -EINVAL) {
-> > +				break;
-> > +			}
-> > +		} else {
-> > +			ret = mtk_dp_train_tps_2_3(mtk_dp,
-> > target_link_rate,
-> > +						   target_lane_count,
-> > +						   &iteration_count,
-> > +						   lane_adjust,
-> > &status_control,
-> > +						   &prev_lane_adjust);
-> > +			if (!ret) {
-> > +				pass_tps2_3 = true;
-> > +				break;
-> > +			} else if (ret == -EINVAL) {
-> > +				break;
-> > +			}
-> > +		}
-> > +
-> > +		drm_dp_dpcd_read(&mtk_dp->aux,
-> > DP_ADJUST_REQUEST_LANE0_1,
-> > +				 lane_adjust, sizeof(lane_adjust));
-> > +		mtk_dp_train_update_swing_pre(mtk_dp,
-> > target_lane_count,
-> > +					      lane_adjust);
-> > +	} while (train_retries < MTK_DP_TRAIN_RETRY_LIMIT &&
-> > +		 iteration_count < MTK_DP_TRAIN_MAX_ITERATIONS);
-> 
-> mtk_dp_train_tps_1() & mtk_dp_train_tps_2_3() would only be called
-> once
-> and never be called twice, so remove this loop.
-> 
-> Regards,
-> CK
-> 
-> > +
-> > +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_TRAINING_PATTERN_SET,
-> > +			   DP_TRAINING_PATTERN_DISABLE);
-> > +	ret = mtk_dp_train_set_pattern(mtk_dp, 0);
-> > +	if (ret)
+BRs,
+Bo-Chen
+> > +		drm_err(mtk_dp->drm_dev,
+> > +			"Implementation error, no such pattern %d\n",
+> > pattern);
 > > +		return -EINVAL;
+> > +	}
 > > +
-> > +	if (!pass_tps2_3)
-> > +		return -ETIMEDOUT;
+> > +	/* TPS1 */
+> > +	if (pattern == 1)
+> > +		mtk_dp_set_idle_pattern(mtk_dp, false);
 > > +
-> > +	mtk_dp->train_info.link_rate = target_link_rate;
-> > +	mtk_dp->train_info.lane_count = target_lane_count;
-> > +
-> > +	mtk_dp_training_set_scramble(mtk_dp, true);
-> > +
-> > +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_LANE_COUNT_SET,
-> > +			   target_lane_count |
-> > +				   DP_LANE_COUNT_ENHANCED_FRAME_EN);
-> > +	mtk_dp_set_enhanced_frame_mode(mtk_dp, true);
-> > +
-> > +	return ret;
+> > +	mtk_dp_update_bits(mtk_dp,
+> > +			   MTK_DP_TRANS_P0_3400,
+> > +			   pattern ?
+> > +			   BIT(pattern - 1) <<
+> > PATTERN1_EN_DP_TRANS_P0_SHIFT :
+> > +			   0,
+> > +			   PATTERN1_EN_DP_TRANS_P0_MASK |
+> > +			   PATTERN2_EN_DP_TRANS_P0_MASK |
+> > +			   PATTERN3_EN_DP_TRANS_P0_MASK |
+> > +			   PATTERN4_EN_DP_TRANS_P0_MASK);
+> > +	return 0;
 > > +}
 > 
 > 
