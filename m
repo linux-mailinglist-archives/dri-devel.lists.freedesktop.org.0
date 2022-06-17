@@ -2,62 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3522754F43E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 11:27:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E0C54F469
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 11:34:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0CCE10E425;
-	Fri, 17 Jun 2022 09:27:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 438A610E5F1;
+	Fri, 17 Jun 2022 09:34:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A378310E425
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 09:27:10 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 45A0421DA1;
- Fri, 17 Jun 2022 09:27:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1655458029; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PXUPGRF2vtO9U928yh6h6mdncryUYh9EqTFjKcSRAI4=;
- b=RpME6xlr6ru49pr/ZuVYQS1kydGPcl54oAyEccN6qgKUfpBPUcBRhZmZLxFntjxBBjTugO
- TD5rV48Kw5bCLaLtL+/7po2cNotpyxYw5UWJ6EkcWkB8ltQdqNbMBS7/cspWTL1batkqWW
- dzZ4fW/yZkPXKIBKvvml9P/FhYJayEc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1655458029;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PXUPGRF2vtO9U928yh6h6mdncryUYh9EqTFjKcSRAI4=;
- b=Mvz5JWsjhyjHSxwsDka4/eEpe1OKMCuMKTOTnqhKDBKQGUgowt7Q1rMYaz+0cwOOCaQkYn
- VGJngwYaCuBlnoAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2B02213458;
- Fri, 17 Jun 2022 09:27:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CUd+Ce1IrGLtLwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 17 Jun 2022 09:27:09 +0000
-Message-ID: <9096beed-91e2-05d3-c5a0-fee9f65d972f@suse.de>
-Date: Fri, 17 Jun 2022 11:27:08 +0200
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com
+ [IPv6:2607:f8b0:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A05910E5F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 09:34:46 +0000 (UTC)
+Received: by mail-il1-x133.google.com with SMTP id l14so2628788ilq.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 02:34:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=DE+zQZQcyF759AJuVRCgUw1QrZjmmIkS9SVF/uua3CY=;
+ b=TDYeLEaQ+IkQCFwsN5ZQ3F+UqxbwCBkt2zAq1tT7vFaTl9fJAuS6YerABjtHK4mOxb
+ TrWcAGr6YdcXb4ALZYnuW0EpzY4enIB9a/N3rtcIPVVz4H1oggG/gQz0f3KJwQbFOZs+
+ ZDCH0HPt5AB9qRpQyELl2+owWkOE4MPyxjEyB1griWQ0FRFlaxna+kw6cHUIvotV2buP
+ qGa7xwHI7l3QT8uJSCUU0PAsReT6s7CYfX0V77qw7CtMyEcqx6Q0ejjLwWvhsopT7FxJ
+ em13cvYi2AvF5IlY6VaJ05xly218vuCyMNqAGbLG4d8okAD+4yvBpXEn1shR0HMx1yLK
+ ISlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DE+zQZQcyF759AJuVRCgUw1QrZjmmIkS9SVF/uua3CY=;
+ b=wTSvaH7CHrGvDGO4jy4eGJxTjJI5Zsj62mRMAOqbCVP2ZxbtKLzo3cvqVczFtR0/Or
+ uYP5NW5YYuh0yCMn4ZM1FRMziFOdGv/FFnLWBGU9TQPG+CBXPKtQaNr6tVMMTi3+LEvg
+ 3RTyPf+roy9+pm77gJWt9wl47T1jrVcjv6d+K3xSHNcHcJ4HQly6KlhZkDhsaUKo3gPD
+ r2siNd0anCNIjfwLxN5b44/I5PhecDEb0S+roAIhg6qSKejDAY1YSoe6JGDDnZC0XxaN
+ Ao3XmVQ3fwUP4Z8dTXwMYiIl6OZ9R3y+XcsqJL0iPIW3xGiDZtlEKi6TUqdOHXEajXlY
+ nnyQ==
+X-Gm-Message-State: AJIora/VjVeFBr2VFNh5yYFdoMY8F9D/BeO3WHgNcUF0RMtXBj3fQ/9e
+ nqbRmyBGmmcgnK5G7JwEkX7Hy8OZIuakOMQXwyM=
+X-Google-Smtp-Source: AGRyM1ubwnEFy3CYAH9fHWaontZ0WgA5WaEtmBHPaT66gte2AsL67svPaO35GdaGEkb9HpkJB7x7C2X7WR6oIGxmrjk=
+X-Received: by 2002:a05:6e02:4a1:b0:2d3:a778:f0f1 with SMTP id
+ e1-20020a056e0204a100b002d3a778f0f1mr5168320ils.212.1655458485946; Fri, 17
+ Jun 2022 02:34:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: DRM FB interface does not sanitize len when mmap'ed
-Content-Language: en-US
-To: =?UTF-8?Q?Nuno_Gon=c3=a7alves?= <nunojpg@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <CAEXMXLS9jD_gvPzZ4xBJ9wOY9sbJLDdLLpYOFk0Wt2s1RStv5w@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAEXMXLS9jD_gvPzZ4xBJ9wOY9sbJLDdLLpYOFk0Wt2s1RStv5w@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------V9kMVM6HpQDJXJ4PQWGtq60S"
+References: <20220613111146.25221-1-peterwu.pub@gmail.com>
+ <20220613111146.25221-16-peterwu.pub@gmail.com>
+ <20220613170853.bffuwkcmflfgg4gt@ash.lan>
+In-Reply-To: <20220613170853.bffuwkcmflfgg4gt@ash.lan>
+From: ChiaEn Wu <peterwu.pub@gmail.com>
+Date: Fri, 17 Jun 2022 17:34:35 +0800
+Message-ID: <CABtFH5JKnxF5TqV=9EiAZEm4Un0npNo-GX8xLD4W5+S+pA+ysg@mail.gmail.com>
+Subject: Re: [PATCH v2 15/15] video: backlight: mt6370: Add Mediatek MT6370
+ support
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,215 +67,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, linux-pm@vger.kernel.org,
+ linux-iio@vger.kernel.org, jingoohan1@gmail.com,
+ ChiaEn Wu <chiaen_wu@richtek.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ szunichen@gmail.com, robh+dt@kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, pavel@ucw.cz, matthias.bgg@gmail.com,
+ lee.jones@linaro.org, linux-leds@vger.kernel.org, jic23@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------V9kMVM6HpQDJXJ4PQWGtq60S
-Content-Type: multipart/mixed; boundary="------------Tg56nJJZc5zosxV7oq09O4Vi";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Nuno_Gon=c3=a7alves?= <nunojpg@gmail.com>,
- dri-devel@lists.freedesktop.org
-Message-ID: <9096beed-91e2-05d3-c5a0-fee9f65d972f@suse.de>
-Subject: Re: DRM FB interface does not sanitize len when mmap'ed
-References: <CAEXMXLS9jD_gvPzZ4xBJ9wOY9sbJLDdLLpYOFk0Wt2s1RStv5w@mail.gmail.com>
-In-Reply-To: <CAEXMXLS9jD_gvPzZ4xBJ9wOY9sbJLDdLLpYOFk0Wt2s1RStv5w@mail.gmail.com>
+Hi Daniel,
 
---------------Tg56nJJZc5zosxV7oq09O4Vi
-Content-Type: multipart/mixed; boundary="------------eARB4BU5I8iK5jjiKgNKCY3C"
+Thanks for your helpful feedback!
 
---------------eARB4BU5I8iK5jjiKgNKCY3C
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Daniel Thompson <daniel.thompson@linaro.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=
+=8814=E6=97=A5 =E9=80=B1=E4=BA=8C =E5=87=8C=E6=99=A81:08=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+> On Mon, Jun 13, 2022 at 07:11:46PM +0800, ChiaEn Wu wrote:
+> > +static int mt6370_init_backlight_properties(struct mt6370_priv *priv,
+> > +                                         struct backlight_properties *=
+props)
+>
+> Most of the changes in this version looks good... but it looks the new
+> code in this function has a number of problems. See below...
+>
+>
+> > +{
+> > +     struct device *dev =3D priv->dev;
+> > +     u8 prop_val;
+> > +     u32 brightness;
+> > +     unsigned int mask, val;
+> > +     int ret;
+> > +
+> > +     /* Vendor optional properties
+> > +      * if property not exist, keep value in default.
+> > +      */
+>
+> That's not the right strategy for booleans. Not existing means false
+> (e.g. flags should actively be unset).
+>
 
-SGkNCg0KQW0gMTUuMDYuMjIgdW0gMTc6MDAgc2NocmllYiBOdW5vIEdvbsOnYWx2ZXM6DQo+
-IEkgYW0gY3Jhc2hpbmcgdGhlIGtlcm5lbCBieSBkb2luZyBzb21ldGhpbmcgSSBiZWxpZXZl
-IEkgYW0gYWxsb3dlZCB0byBkby4NCj4gDQo+IFVzaW5nIG1tYXAgdG8gd3JpdGUgdG8gL2Rl
-di9mYjAgYXMgdGhlIGNvbXBhdGliaWxpdHkgbGF5ZXIgZm9yIFRpbnkNCj4gRFJNIHZvdCx2
-MjIwaGYwMWEtdCAoaWxpOTIyNSkuDQo+IA0KPiBGaXJzdCBpdCBoYXBwZW5zIHRoYXQgYmVj
-YXVzZSBvZiB0aGUgZGlzcGxheSByZXNvbHV0aW9uIG9mIDIyMCoxNzYgdGhlDQo+IGJ1ZmZl
-ciBpcyAoMTYgYml0KSA3NzQ0MCBieXRlcywgd2hpY2ggaXMgbm90IGEgbXVsdGlwbGUgb2Yg
-dGhlIHBhZ2UNCj4gc2l6ZSAoNDA5NiksIHVubGlrZSBtb3N0IHJlZ3VsYXIgcmVzb2x1dGlv
-biBkaXNwbGF5cy4NCj4gDQo+IFdoZW4gSSB0b3VjaCB0aGUgbW1hcCdlZCB2aXJ0dWFsIGFk
-ZHJlc3MgYWJvdmUgYmFzZSs3MzcyOCAoNDA5NioxOCkgdXAgdG8gNzc0Mzk6DQo+IA0KPiBh
-dXRvIGZpbGUgPSBvcGVuKCIvZGV2L2ZiMCIsIE9fUkRXUik7DQo+IGlmICghZmlsZSkgdGhy
-b3c7DQo+IGF1dG8gZmJwID0gKGNoYXIgKiltbWFwKDAsIDIyMCAqIDE3NiAqIDIsIFBST1Rf
-UkVBRCB8IFBST1RfV1JJVEUsDQo+IE1BUF9TSEFSRUQsIGZpbGUsIDApOw0KPiBpZiAoKHNp
-emVfdClmYnAgPD0gMCkgdGhyb3c7DQo+IGZicFsyMjAgKiAxNzYgKiAyIC0gMl0gPSAwOw0K
-PiANCj4gSSBnZXQgYSBjcmFzaDoNCj4gDQo+IFsgICAxNC4xNTA0NjNdIFVuYWJsZSB0byBo
-YW5kbGUga2VybmVsIHBhZ2luZyByZXF1ZXN0IGF0IHZpcnR1YWwNCj4gYWRkcmVzcyBmZmZm
-ZmZjMDA4MjdjMDAwDQo+IFsgICAxNC4xNTg2NDBdIE1lbSBhYm9ydCBpbmZvOg0KPiBbICAg
-MTQuMTYxNjI2XSAgIEVTUiA9IDB4OTYwMDAwMDcNCj4gWyAgIDE0LjE2NDk2OV0gICBFQyA9
-IDB4MjU6IERBQlQgKGN1cnJlbnQgRUwpLCBJTCA9IDMyIGJpdHMNCj4gWyAgIDE0LjE3MDQ3
-MF0gICBTRVQgPSAwLCBGblYgPSAwDQo+IFsgICAxNC4xNzM3MzVdICAgRUEgPSAwLCBTMVBU
-VyA9IDANCj4gWyAgIDE0LjE3NzA0N10gICBGU0MgPSAweDA3OiBsZXZlbCAzIHRyYW5zbGF0
-aW9uIGZhdWx0DQo+IFsgICAxNC4xODIwOTVdIERhdGEgYWJvcnQgaW5mbzoNCj4gWyAgIDE0
-LjE4NTA4M10gICBJU1YgPSAwLCBJU1MgPSAweDAwMDAwMDA3DQo+IFsgICAxNC4xODkwMzVd
-ICAgQ00gPSAwLCBXblIgPSAwDQo+IFsgICAxNC4xOTIxMDddIHN3YXBwZXIgcGd0YWJsZTog
-NGsgcGFnZXMsIDM5LWJpdCBWQXMsIHBnZHA9MDAwMDAwMDAwMGQ1NDAwMA0KPiBbICAgMTQu
-MTk4OTk3XSBbZmZmZmZmYzAwODI3YzAwMF0gcGdkPTEwMDAwMDAwMDE1MDEwMDMsDQo+IHA0
-ZD0xMDAwMDAwMDAxNTAxMDAzLCBwdWQ9MTAwMDAwMDAwMTUwMTAwMywgcG1kPTEwMDAwMDAw
-MDFkNWMwMDMsDQo+IHB0ZT0wMDAwMDAwMDAwMDAwMDAwDQo+IFsgICAxNC4yMTE5OTJdIElu
-dGVybmFsIGVycm9yOiBPb3BzOiA5NjAwMDAwNyBbIzFdIFBSRUVNUFQgU01QDQo+IFsgICAx
-NC4yMTc2NTldIENQVTogMCBQSUQ6IDUwIENvbW06IGt3b3JrZXIvMDoyIE5vdCB0YWludGVk
-IDUuMTguMyAjMTgNCj4gWyAgIDE0LjIyNDAyN10gSGFyZHdhcmUgbmFtZTogUmFzcGJlcnJ5
-IFBpIENvbXB1dGUgTW9kdWxlIDMgUGx1cyBSZXYgMS4wIChEVCkNCj4gWyAgIDE0LjIzMTAw
-NV0gV29ya3F1ZXVlOiBldmVudHMgZHJtX2ZiX2hlbHBlcl9kYW1hZ2Vfd29yaw0KPiBbICAg
-MTQuMjM2MzMzXSBwc3RhdGU6IDIwMDAwMDA1IChuekN2IGRhaWYgLVBBTiAtVUFPIC1UQ08g
-LURJVCAtU1NCUyBCVFlQRT0tLSkNCj4gWyAgIDE0LjI0MzQwNV0gcGMgOiBfX21lbWNweSsw
-eDE1Yy8weDIzMA0KPiBbICAgMTQuMjQ3MTMxXSBsciA6IGRybV9mYl9oZWxwZXJfZGFtYWdl
-X3dvcmsrMHgyNWMvMHgzMTANCj4gWyAgIDE0LjI1MjM1Ml0gc3AgOiBmZmZmZmZjMDA4MjJi
-ZDMwDQo+IFsgICAxNC4yNTU3MTJdIHgyOTogZmZmZmZmYzAwODIyYmQzMCB4Mjg6IDAwMDAw
-MDAwMDAwMDAxYjggeDI3OiBmZmZmZmY4MDAxN2UxZDEwDQo+IFsgICAxNC4yNjI5NzBdIHgy
-NjogZmZmZmZmYzAwODI2N2U4MCB4MjU6IDAwMDAwMDAwMDAwMDAwYjAgeDI0OiBmZmZmZmY4
-MDAyNDE2ODAwDQo+IFsgICAxNC4yNzAyMjhdIHgyMzogZmZmZmZmODAwMWZkODA4MCB4MjI6
-IGZmZmZmZjgwMDE3ZTFjMDAgeDIxOiBmZmZmZmY4MDAxN2UxY2NjDQo+IFsgICAxNC4yNzc0
-ODddIHgyMDogZmZmZmZmYzAwODI3YmU4MCB4MTk6IGZmZmZmZjgwMDE3ZTFjZDAgeDE4OiBm
-ZmZmZmZlNWQ4MGJhYzA4DQo+IFsgICAxNC4yODQ3NDVdIHgxNzogMDAwMDAwMDAwMDAwMDAx
-MyB4MTY6IDAwMDAwMGZlNzIwODBlMDAgeDE1OiAwMDAwMDAwMDAwMDAwMDAwDQo+IFsgICAx
-NC4yOTIwMDNdIHgxNDogMDAwMDAwMDAwMDAwMDAwMCB4MTM6IDAwMDAwMDAwMDAwMDAwMDAg
-eDEyOiAwMDAwMDAwMDAwMDAwMDAwDQo+IFsgICAxNC4yOTkyNTldIHgxMTogMDAwMDAwMDAw
-MDAwMDAwMCB4MTA6IDAwMDAwMDAwMDAwMDAwMDAgeDkgOiAwMDAwMDAwMDAwMDAwMDAwDQo+
-IFsgICAxNC4zMDY1MTddIHg4IDogMDAwMDAwMDAwMDAwMDAwMCB4NyA6IDAwMDAwMDAwMDAw
-MDAwMDAgeDYgOiAwMDAwMDAwMDAwMDAwMDAwDQo+IFsgICAxNC4zMTM3NzJdIHg1IDogZmZm
-ZmZmYzAwODI2ODAzOCB4NCA6IGZmZmZmZmMwMDgyN2MwMzggeDMgOiBmZmZmZmZjMDA4MjY3
-ZmMwDQo+IFsgICAxNC4zMjEwMjldIHgyIDogMDAwMDAwMDAwMDAwMDAyOCB4MSA6IGZmZmZm
-ZmMwMDgyN2JmYzAgeDAgOiBmZmZmZmZjMDA4MjY3ZTgwDQo+IFsgICAxNC4zMjgyODhdIENh
-bGwgdHJhY2U6DQo+IFsgICAxNC4zMzA3NjZdICBfX21lbWNweSsweDE1Yy8weDIzMA0KPiBb
-ICAgMTQuMzM0MTM1XSAgcHJvY2Vzc19vbmVfd29yaysweDFkYy8weDQ1MA0KPiBbICAgMTQu
-MzM4MjE0XSAgd29ya2VyX3RocmVhZCsweDMwMC8weDQ1MA0KPiBbICAgMTQuMzQyMDI1XSAg
-a3RocmVhZCsweDEwMC8weDExMA0KPiBbICAgMTQuMzQ1MzA1XSAgcmV0X2Zyb21fZm9yaysw
-eDEwLzB4MjANCj4gWyAgIDE0LjM0ODk0N10gQ29kZTogYTk0MjI0MjggYTkwMzJjNmEgYTk0
-MzJjMmEgYTk4NDM0NmMgKGE5YzQzNDJjKQ0KPiBbICAgMTQuMzU1MTMyXSAtLS1bIGVuZCB0
-cmFjZSAwMDAwMDAwMDAwMDAwMDAwIF0tLS0NCj4gDQo+IEJ5IGNvbnN0cmFpbmluZyB0aGUg
-aW5wdXQgd2l0aCB0aGlzIHNtYWxsIHBhdGNoIGl0IHdvcmtzIGZpbmU6DQo+IA0KPiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fZmJfaGVscGVyLmMNCj4gQEAgLTY4NCwxMSArNjg0LDEzIEBAIHN0YXRpYyB2
-b2lkIGRybV9mYl9oZWxwZXJfZGFtYWdlKHN0cnVjdCBmYl9pbmZvDQo+ICppbmZvLCB1MzIg
-eCwgdTMyIHksDQo+ICAgc3RhdGljIHZvaWQgZHJtX2ZiX2hlbHBlcl9tZW1vcnlfcmFuZ2Vf
-dG9fY2xpcChzdHJ1Y3QgZmJfaW5mbyAqaW5mbywNCj4gb2ZmX3Qgb2ZmLCBzaXplX3QgbGVu
-LA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBz
-dHJ1Y3QgZHJtX3JlY3QgKmNsaXApDQo+ICAgew0KPiArICAgICAgIHN0cnVjdCBkcm1fZmJf
-aGVscGVyICpmYl9oZWxwZXIgPSBpbmZvLT5wYXI7DQo+ICsNCj4gICAgICAgICAgb2ZmX3Qg
-ZW5kID0gb2ZmICsgbGVuOw0KPiAgICAgICAgICB1MzIgeDEgPSAwOw0KPiAgICAgICAgICB1
-MzIgeTEgPSBvZmYgLyBpbmZvLT5maXgubGluZV9sZW5ndGg7DQo+ICAgICAgICAgIHUzMiB4
-MiA9IGluZm8tPnZhci54cmVzOw0KPiAtICAgICAgIHUzMiB5MiA9IERJVl9ST1VORF9VUChl
-bmQsIGluZm8tPmZpeC5saW5lX2xlbmd0aCk7DQo+ICsgICAgICAgdTMyIHkyID0gbWluX3Qo
-dTMyLCBESVZfUk9VTkRfVVAoZW5kLCBpbmZvLT5maXgubGluZV9sZW5ndGgpLA0KPiBmYl9o
-ZWxwZXItPmZiLT5oZWlnaHQpOw0KPiANCj4gICAgICAgICAgaWYgKCh5MiAtIHkxKSA9PSAx
-KSB7DQo+ICAgICAgICAgICAgICAgICAgLyoNCj4gDQo+IEkgYW0gc3VyZSB0aGlzIHBhdGNo
-IGlzIG5vdCBob3cgaXQgc2hvdWxkIGJlIGZpeGVkLCBidXQgSSBoYXZlIG5vDQo+IGtub3ds
-ZWRnZSBvZiB0aGUgc3Vic3lzdGVtIHRvIGZpeCBpdCAiYXQgdGhlIHJpZ2h0IHBsYWNlIi4N
-Cg0KVGhhbmsgeW91IHNvIG11Y2ggZm9yIHJlcG9ydGluZyB0aGlzIGJ1ZyBhbmQgaW5kaWNh
-dGluZyB0aGUgY2F1c2UuIFlvdXIgDQpmaXggaXMgYWN0dWFsbHkgcXVpdGUgY2xvc2UuIEJl
-Y2F1c2UgZWFjaCBzY2FubGluZSBpcyByYXRoZXIgc2hvcnQsIHRoZSANCmZpbmFsIHBhZ2Ug
-aGFzIGEgbG90IG9mIGVtcHR5IG1lbW9yeS4gSGVuY2UsIHRoZSBkYW1hZ2UgaGFuZGxlcg0K
-Y29tcHV0ZXMgbm9uLWV4aXN0aW5nIHNjYW5saW5lcyB0aGF0IG5lZWQgdG8gYmUgdXBkYXRl
-ZC4NCg0KQ291bGQgeW91IHBsZWFzZSB0cnkgdGhlIGF0dGFjaGVkIHBhdGNoPyBJdCdzIHNp
-bWlsYXIgdG8geW91ciBzb2x1dGlvbiwgDQpidXQgY2xvc2VyIHRvIHRoZSBvcmlnaW5hbCBp
-bnRlbnRpb24gb2YgdGhlIGNvZGUuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+
-IFRoYW5rcywNCj4gTnVubw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBE
-cml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgN
-Ck1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwg
-QUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
---------------eARB4BU5I8iK5jjiKgNKCY3C
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-drm-fb-helper-Fix-out-of-bounds-access.patch"
-Content-Disposition: attachment;
- filename="0001-drm-fb-helper-Fix-out-of-bounds-access.patch"
-Content-Transfer-Encoding: base64
+I am so sorry for making these mistakes...
+I will try to refine them in the right strategy in the next patch!
 
-RnJvbSBlMWUzYmZlN2JkNzRkNWM0Y2ZhYjE1ZTA1YTU2MDg4ZDVlZGY4MmNlIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
-c3VzZS5kZT4KRGF0ZTogRnJpLCAxNyBKdW4gMjAyMiAxMTowMTo0MSArMDIwMApTdWJqZWN0
-OiBbUEFUQ0hdIGRybS9mYi1oZWxwZXI6IEZpeCBvdXQtb2YtYm91bmRzIGFjY2VzcwpNSU1F
-LVZlcnNpb246IDEuMApDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgK
-Q29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAoKQ2xpcCBtZW1vcnkgcmFuZ2UgdG8g
-c2NyZWVuLWJ1ZmZlciBzaXplIHRvIGF2b2lkIG91dC1vZi1ib3VuZHMgYWNjZXNzCmluIGZi
-ZGV2IGRlZmVycmVkIEkvTydzIGRhbWFnZSBoYW5kbGluZy4KCkZiZGV2J3MgZGVmZXJyZWQg
-SS9PIGNhbiBvbmx5IHRyYWNrIHBhZ2VzLiBGcm9tIHRoZSByYW5nZSBvZiBwYWdlcywgdGhl
-CmRhbWFnZSBoYW5kbGVyIGNvbXB1dGVzIHRoZSBjbGlwcGluZyByZWN0YW5nbGUgZm9yIHRo
-ZSBkaXNwbGF5IHVwZGF0ZS4KSWYgdGhlIGZiZGV2IHNjcmVlbiBidWZmZXIgZW5kcyBuZWFy
-IHRoZSBiZWdpbm5pbmcgb2YgYSBwYWdlLCB0aGF0IHBhZ2UKY291bGQgY29udGFpbiBtb3Jl
-IHNjYW5saW5lcy4gVGhlIGRhbWFnZSBoYW5kbGVyIHdvdWxkIHRoZW4gdHJhY2sgdGhlc2UK
-bm9uLWV4aXN0aW5nIHNjYW5saW5lcyBhcyBkaXJ0eSBhbmQgcHJvdm9rZSBhbiBvdXQtb2Yt
-Ym91bmRzIGFjY2VzcwpkdXJpbmcgdGhlIHNjcmVlbiB1cGRhdGUuIEhlbmNlLCBjbGlwIHRo
-ZSBtYXhpbXVtIG1lbW9yeSByYW5nZSB0byB0aGUKc2l6ZSBvZiB0aGUgc2NyZWVuIGJ1ZmZl
-ci4KCldoaWxlIGF0IGl0LCByZW5hbWUgdGhlIHZhcmlhYmxlcyBtaW4vbWF4IHRvIG1pbl9v
-ZmYvbWF4X29mZiBpbgpkcm1fZmJfaGVscGVyX2RlZmVycmVkX2lvKCkuIFRoaXMgYXZvaWRz
-IGNvbmZ1c2lvbiB3aXRoIHRoZSBtYWNyb3Mgb2YKdGhlIHNhbWUgbmFtZS4KClJlcG9ydGVk
-LWJ5OiBOdW5vIEdvbsOnYWx2ZXMgPG51bm9qcGdAZ21haWwuY29tPgpTaWduZWQtb2ZmLWJ5
-OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KRml4ZXM6IDY3Yjcy
-M2Y1Yjc0MiAoImRybS9mYi1oZWxwZXI6IENhbGN1bGF0ZSBkYW1hZ2VkIGFyZWEgaW4gc2Vw
-YXJhdGUgaGVscGVyIikKQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNl
-LmRlPgpDYzogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+
-CkNjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwu
-Y29tPgpDYzogTWF4aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPgpDYzogPHN0YWJs
-ZUB2Z2VyLmtlcm5lbC5vcmc+ICMgdjUuMTgrCi0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9m
-Yl9oZWxwZXIuYyB8IDI3ICsrKysrKysrKysrKysrKysrKystLS0tLS0tLQogMSBmaWxlIGNo
-YW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-ZmJfaGVscGVyLmMKaW5kZXggNWFkMmI2YTI3NzhjLi44MTAxM2UyNzQ5MzUgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMKKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2RybV9mYl9oZWxwZXIuYwpAQCAtNjgwLDcgKzY4MCwxMSBAQCBzdGF0aWMgdm9pZCBk
-cm1fZmJfaGVscGVyX2RhbWFnZShzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgdTMyIHgsIHUzMiB5
-LAogCXNjaGVkdWxlX3dvcmsoJmhlbHBlci0+ZGFtYWdlX3dvcmspOwogfQogCi0vKiBDb252
-ZXJ0IG1lbW9yeSByZWdpb24gaW50byBhcmVhIG9mIHNjYW5saW5lcyBhbmQgcGl4ZWxzIHBl
-ciBzY2FubGluZSAqLworLyoKKyAqIENvbnZlcnQgbWVtb3J5IHJlZ2lvbiBpbnRvIGFyZWEg
-b2Ygc2NhbmxpbmVzIGFuZCBwaXhlbHMgcGVyCisgKiBzY2FubGluZS4gVGhlIHBhcmFtZXRl
-cnMgb2ZmIGFuZCBsZW4gbXVzdCBub3QgcmVhY2ggYmV5b25kCisgKiB0aGUgZnJhbWVidWZm
-ZXIuCisgKi8KIHN0YXRpYyB2b2lkIGRybV9mYl9oZWxwZXJfbWVtb3J5X3JhbmdlX3RvX2Ns
-aXAoc3RydWN0IGZiX2luZm8gKmluZm8sIG9mZl90IG9mZiwgc2l6ZV90IGxlbiwKIAkJCQkJ
-ICAgICAgIHN0cnVjdCBkcm1fcmVjdCAqY2xpcCkKIHsKQEAgLTcxNSwyMiArNzE5LDI5IEBA
-IHN0YXRpYyB2b2lkIGRybV9mYl9oZWxwZXJfbWVtb3J5X3JhbmdlX3RvX2NsaXAoc3RydWN0
-IGZiX2luZm8gKmluZm8sIG9mZl90IG9mZiwKICAqLwogdm9pZCBkcm1fZmJfaGVscGVyX2Rl
-ZmVycmVkX2lvKHN0cnVjdCBmYl9pbmZvICppbmZvLCBzdHJ1Y3QgbGlzdF9oZWFkICpwYWdl
-cmVmbGlzdCkKIHsKLQl1bnNpZ25lZCBsb25nIHN0YXJ0LCBlbmQsIG1pbiwgbWF4OworCXVu
-c2lnbmVkIGxvbmcgc3RhcnQsIGVuZCwgbWluX29mZiwgbWF4X29mZjsKIAlzdHJ1Y3QgZmJf
-ZGVmZXJyZWRfaW9fcGFnZXJlZiAqcGFnZXJlZjsKIAlzdHJ1Y3QgZHJtX3JlY3QgZGFtYWdl
-X2FyZWE7CiAKLQltaW4gPSBVTE9OR19NQVg7Ci0JbWF4ID0gMDsKKwltaW5fb2ZmID0gVUxP
-TkdfTUFYOworCW1heF9vZmYgPSAwOwogCWxpc3RfZm9yX2VhY2hfZW50cnkocGFnZXJlZiwg
-cGFnZXJlZmxpc3QsIGxpc3QpIHsKIAkJc3RhcnQgPSBwYWdlcmVmLT5vZmZzZXQ7CiAJCWVu
-ZCA9IHN0YXJ0ICsgUEFHRV9TSVpFOwotCQltaW4gPSBtaW4obWluLCBzdGFydCk7Ci0JCW1h
-eCA9IG1heChtYXgsIGVuZCk7CisJCW1pbl9vZmYgPSBtaW4obWluX29mZiwgc3RhcnQpOwor
-CQltYXhfb2ZmID0gbWF4KG1heF9vZmYsIGVuZCk7CiAJfQotCWlmIChtaW4gPj0gbWF4KQor
-CWlmIChtaW5fb2ZmID49IG1heF9vZmYpCiAJCXJldHVybjsKIAotCWRybV9mYl9oZWxwZXJf
-bWVtb3J5X3JhbmdlX3RvX2NsaXAoaW5mbywgbWluLCBtYXggLSBtaW4sICZkYW1hZ2VfYXJl
-YSk7CisJLyoKKwkgKiBBcyB3ZSBjYW4gb25seSB0cmFjayBwYWdlcywgd2UgbWlnaHQgcmVh
-Y2ggYmV5b25kIHRoZSBlbmQKKwkgKiBvZiB0aGUgc2NyZWVuIGFuZCBhY2NvdW50IGZvciBu
-b24tZXhpc3Rpbmcgc2NhbmxpbmVzLiBIZW5jZSwKKwkgKiBrZWVwIHRoZSBjb3ZlcmVkIG1l
-bW9yeSBhcmVhIHdpdGhpbiB0aGUgc2NyZWVuIGJ1ZmZlci4KKwkgKi8KKwltYXhfb2ZmID0g
-bWluKG1heF9vZmYsIGluZm8tPnNjcmVlbl9zaXplKTsKKworCWRybV9mYl9oZWxwZXJfbWVt
-b3J5X3JhbmdlX3RvX2NsaXAoaW5mbywgbWluX29mZiwgbWF4X29mZiAtIG1pbl9vZmYsICZk
-YW1hZ2VfYXJlYSk7CiAJZHJtX2ZiX2hlbHBlcl9kYW1hZ2UoaW5mbywgZGFtYWdlX2FyZWEu
-eDEsIGRhbWFnZV9hcmVhLnkxLAogCQkJICAgICBkcm1fcmVjdF93aWR0aCgmZGFtYWdlX2Fy
-ZWEpLAogCQkJICAgICBkcm1fcmVjdF9oZWlnaHQoJmRhbWFnZV9hcmVhKSk7Ci0tIAoyLjM2
-LjEKCg==
+>
+> > +     if (device_property_read_bool(dev, "mediatek,bled-pwm-enable")) {
+> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_PW=
+M,
+> > +                                      MT6370_BL_PWM_EN_MASK,
+> > +                                      MT6370_BL_PWM_EN_MASK);
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+>
+> As above comment... all of the boolean properties are now being read
+> incorrectly.
+>
+>
+> > +
+> > +     if (device_property_read_bool(dev, "mediatek,bled-pwm-hys-enable"=
+)) {
+> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_PW=
+M,
+> > +                                      MT6370_BL_PWM_HYS_EN_MASK,
+> > +                                      MT6370_BL_PWM_HYS_EN_MASK);
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     ret =3D device_property_read_u8(dev, "mediatek,bled-pwm-hys-input=
+-bit",
+> > +                                   &prop_val);
+> > +     if (!ret) {
+> > +             val =3D min_t(u8, prop_val, 3)
+> > +                   << (ffs(MT6370_BL_PWM_HYS_SEL_MASK) - 1);
+> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_PW=
+M,
+> > +                                      MT6370_BL_PWM_HYS_SEL_MASK, val)=
+;
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     ret =3D device_property_read_u8(dev, "mediatek,bled-ovp-microvolt=
+",
+> > +                                   &prop_val);
+> > +     if (!ret) {
+> > +             val =3D min_t(u8, prop_val, 3)
+> > +                   << (ffs(MT6370_BL_OVP_SEL_MASK) - 1);
+>
+> This has been renamed but still seems to the using 0, 1, 2, 3 rather
+> than an actual value in microvolts.
 
---------------eARB4BU5I8iK5jjiKgNKCY3C--
+I=E2=80=99m so sorry for using the not actual value in microvolts and micro=
+amps.
+I will refine these mistakes along with DT in the next patch. Thank you!
 
---------------Tg56nJJZc5zosxV7oq09O4Vi--
+>
+>
+> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_BS=
+TCTRL,
+> > +                                      MT6370_BL_OVP_SEL_MASK, val);
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     if (device_property_read_bool(dev, "mediatek,bled-ovp-shutdown"))=
+ {
+> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_BS=
+TCTRL,
+> > +                                      MT6370_BL_OVP_EN_MASK,
+> > +                                      MT6370_BL_OVP_EN_MASK);
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     ret =3D device_property_read_u8(dev, "mediatek,bled-ocp-microamp"=
+,
+> > +                                   &prop_val);
+> > +     if (!ret) {
+> > +             val =3D min_t(u8, prop_val, 3)
+> > +                   << (ffs(MT6370_BL_OC_SEL_MASK) - 1);
+>
+> Likewise, should this be accepting a value in microamps?
+>
+>
+> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_BS=
+TCTRL,
+> > +                                      MT6370_BL_OC_SEL_MASK, val);
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     if (device_property_read_bool(dev, "mediatek,bled-ocp-shutdown"))=
+ {
+> > +             ret =3D regmap_update_bits(priv->regmap, MT6370_REG_BL_BS=
+TCTRL,
+> > +                                      MT6370_BL_OC_EN_MASK,
+> > +                                      MT6370_BL_OC_EN_MASK);
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     /* Common properties */
+> > +     ret =3D device_property_read_u32(dev, "max-brightness", &brightne=
+ss);
+> > +     if (ret)
+> > +             brightness =3D MT6370_BL_MAX_BRIGHTNESS;
+> > +
+> > +     props->max_brightness =3D min_t(u32, brightness,
+> > +                                   MT6370_BL_MAX_BRIGHTNESS);
+> > +
+> > +     ret =3D device_property_read_u32(dev, "default-brightness", &brig=
+htness);
+> > +     if (ret)
+> > +             brightness =3D props->max_brightness;
+> > +
+> > +     props->brightness =3D min_t(u32, brightness, props->max_brightnes=
+s);
+> > +
+> > +
+> > +     ret =3D device_property_read_u8(dev, "mediatek,bled-channel-use",
+> > +                                   &prop_val);
+> > +     if (ret) {
+> > +             dev_err(dev, "mediatek,bled-channel-use DT property missi=
+ng\n");
+> > +             return ret;
+> > +     }
+> > +
+> > +     if (!prop_val || prop_val > MT6370_BL_MAX_CH) {
+> > +             dev_err(dev, "No channel specified (ch_val:%d)\n", prop_v=
+al);
+>
+> Error string has not been updated to match condition that triggers it.
+>
 
---------------V9kMVM6HpQDJXJ4PQWGtq60S
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+I will refine this wrong error string in the next patch, thanks!
 
------BEGIN PGP SIGNATURE-----
+>
+> > +             return -EINVAL;
+> > +     }
+>
+>
+> Daniel.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKsSOwFAwAAAAAACgkQlh/E3EQov+AJ
-8hAArUyO23UKiLIrtRlpEnZ+24L9m+aAy7PSHc0fNXyPEzXzR7wFdTU39IFGz37efN58XbDuhTQc
-bXIvIKYfQX0GM6YTZ2sQCP0VHUYFsm8QNMiGiXeQnlillG1Pxyphid6UlQjDR2sieFKbnJoKxAgS
-Y91FvGi9UNjRCpT2NaR29KC7yHdTUvDire1YGizPpDY1XYAxzt+Pk0ND5agN6jmshEOPtr+/4lz4
-xDpxXpjiaHu5jQnhXSBitVmTkRS2xka5m24tX/j2C33pjOoi5lq0kqJYfdZjgz0fGoVHpl8b8opk
-Lwjsem0i1faPhxBlM4a14peq6RjjHkGijQvyEMzECv2CjfROOVxm9A+AGx98etRg1RzDPzvs8VZp
-KkxbwS8t+vitPTmrKP45GqPPqick5ZBMUQyIR/oJyTVI67pReDOxKpxeRFL4vcMF+esoYPY6zPKn
-84f4H/cb+osPuF4pZ1wwXOs7S977JwWkLewIo5iqRg67rqBPUWIAzsfU7hFFhd0WVsOSJsG7J9np
-ydixXaOvXUBBv0Ud+cooezGHoSCS9wWR8jYelCb6hj9CsrZ2hDW3Jn6/Mta7KzfbMOHJiHSFh4VQ
-7tiQV1wxxorP7yTCOqEm2Kqf58h0MWggNy1pia1DYMLdAvbGsLKlS0kMCS1f2vTgl0JAN7uGdz8E
-b3M=
-=80wv
------END PGP SIGNATURE-----
-
---------------V9kMVM6HpQDJXJ4PQWGtq60S--
+Best regards,
+ChiaEn Wu
