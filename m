@@ -1,67 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1171E54F8EB
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 16:10:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95F5C54F8F4
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 16:13:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B2BC10EF78;
-	Fri, 17 Jun 2022 14:10:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F1DC11A54D;
+	Fri, 17 Jun 2022 14:13:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1AB810EBD3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 14:10:23 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id q9so5923800wrd.8
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 07:10:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=8EeHIO2f2uac1WGfWnHhOthQIjOqpWzUnb/yusYd5Eo=;
- b=fYJZ2xlJH+zGGG5d7j0jNT920bWUhQ/MSKihYcR6D0n+I/J6YBcyVwpkBY6Mut/aL7
- tRvdRoptP8aK6h5v0BBaqlL7/El87mRXZkyCPD8egLw/xjz91ek3hylRn7iS64Pj/JXT
- 9ufuuPZc5aKsjzdYfeAi54ITPeAyvrRPs06EHkntrmN90OP6JF44PpHz4TDJaLSf/G1s
- mgV4XBTQPmtIk/RYXM/qfxMmJyhkXuyXcT3rfL+EWvb0VPgdv83/UTSv6F+NcvLkJlh/
- lvwNYKaBFGalg6kfoTALdZ8JfSnDsBfCvSfka/NewJUh6qF3/GGJNo6Alw7c/2Qlybai
- Yp6A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8F7B11A52A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 14:13:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655475184;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aDMqPY+ioTCrDxKVX1xXKuzThWoqWE6ZRM86G1CbXoY=;
+ b=N5n2yVkBqkzMl27pvX5ABJuyvWrco/G5Rr+rMxglb9Y99EpSKApRQ3XEGZUvDNHuBjV6lP
+ 71yy9F1hBV1Iu8tZ7sTpTOTRjKp7tkK45N54CgDb5uL+Vs1+u1KYQBFT09FNS7mI2nN5g7
+ KJ32xvN4SVQsJ/4tN87OoisqcBSDy+g=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-339-WmQklyFpNDmjS_R5q9BdnQ-1; Fri, 17 Jun 2022 10:13:03 -0400
+X-MC-Unique: WmQklyFpNDmjS_R5q9BdnQ-1
+Received: by mail-io1-f72.google.com with SMTP id
+ n20-20020a6b7214000000b00669cae33d00so2572263ioc.17
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 07:13:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=8EeHIO2f2uac1WGfWnHhOthQIjOqpWzUnb/yusYd5Eo=;
- b=Wj7wuJpTFhy5JB2OT9ynXEP1CIx5HZBqEUp8i7+o0/L7Z17dxAvzSpmVjCOW4Pbtij
- k3ADLYS/Knfm+xwenrZw60MCoOzyHMtdGRfw6TuJwpf5ZHMSjFn/NDhVdkCRPFyq7lz6
- MOxdmrn9kgSHdTgiUKO3YW2gwjjAYY+odqJU3aAA9080OzXAWv5e3TUOKugpt/ubKaq/
- mTRa7OSLy+bMILdKyur9aJ/tjdqX9nFmSEyVjM9+X5LVKk947iwCv9UKPN82sfUM38jI
- bEiacowaw7kDpUxNHIViIVjPCMc8m0dLT+UDCksHeidCD5mqYA85cRS+yygTcXErJaTM
- vsuQ==
-X-Gm-Message-State: AJIora/Pn78nwTAhrPdgLCUXrvYKa3r0JfVEgOL3HdFAwFfBlYMHmJ5b
- 5G9NoQV8O4dmz1umCc1j/Uw=
-X-Google-Smtp-Source: AGRyM1tzF8x7/l1zBh6ZS19NjX7FANIe3zlmc83iNe5NxLwfOharnCi3Rxj8l7qi3TipgKZXD6WIAQ==
-X-Received: by 2002:a05:6000:242:b0:210:354e:c89a with SMTP id
- m2-20020a056000024200b00210354ec89amr9715076wrz.136.1655475022140; 
- Fri, 17 Jun 2022 07:10:22 -0700 (PDT)
-Received: from [192.168.0.24] (80.174.78.229.dyn.user.ono.com. [80.174.78.229])
- by smtp.gmail.com with ESMTPSA id
- r66-20020a1c2b45000000b0039c97cc82fbsm9226685wmr.15.2022.06.17.07.10.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Jun 2022 07:10:21 -0700 (PDT)
-Message-ID: <c3286fc9-06ed-d1e1-a731-94cdefdf7fab@gmail.com>
-Date: Fri, 17 Jun 2022 16:10:19 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=aDMqPY+ioTCrDxKVX1xXKuzThWoqWE6ZRM86G1CbXoY=;
+ b=edcCwv1NCxIbI3TJoXsxhavBOyQiRusbNgFCdfln3/ish2lB2nFP2lDFKyy868YTvY
+ mcnOVq/t4TvC0+4VhMAugd3Gyxj6BAEYgbFqZs06HEWZBt8nn4PshUCHw85CCPnNIzHt
+ 3x8jVHMLWZIdYOqw5ckSZiuniPDM7pvyRIv/+kvFjaVnx0se/Js8wJz97pms/Ww1CpGx
+ q/xK9rAzIqDl87zRmhLR6SNrURqsPkSfqm5PGgtVvI7uTJuDiCzhXZo+uK+lFTUBkhae
+ exbgJkpsv7j1dOTZ9yqdH1mumSUWzBz0Uv7UHhxwm7pZH+HyQl9L2BDpbUjS3p7YNnIc
+ HYIw==
+X-Gm-Message-State: AJIora8Ky1ZBweGFVikdguiGX/6AwMNIMLMPRn21PIgOQXrI591WaCJB
+ grhWRpYX89uyv64RFLByJKaY2Mg1kDjJSZog4H1E3kdJT80SeHwqB9yWalz4I7YGKSygrv3pH6Y
+ 9Hl54y0modWFADMFTGwznR7YTLbke
+X-Received: by 2002:a05:6638:24c7:b0:331:f0ae:3a17 with SMTP id
+ y7-20020a05663824c700b00331f0ae3a17mr5528080jat.238.1655475181808; 
+ Fri, 17 Jun 2022 07:13:01 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1s1VUoQaEh733+m3oZW63B1RreK4qSdMuYsAJYOfO0ynS+w4Ak7VDuN+tK9tlrlailBNj+jkA==
+X-Received: by 2002:a05:6638:24c7:b0:331:f0ae:3a17 with SMTP id
+ y7-20020a05663824c700b00331f0ae3a17mr5528066jat.238.1655475181576; 
+ Fri, 17 Jun 2022 07:13:01 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ d8-20020a056e020c0800b002d149ec2606sm2352992ile.65.2022.06.17.07.13.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Jun 2022 07:13:01 -0700 (PDT)
+Date: Fri, 17 Jun 2022 08:12:59 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/aperture: Run fbdev removal before internal helpers
+Message-ID: <20220617081259.594c1320.alex.williamson@redhat.com>
+In-Reply-To: <6f4dce03-b65a-c5cf-059f-392a06d37ec3@suse.de>
+References: <20220617121027.30273-1-tzimmermann@suse.de>
+ <47b627e1-5c87-f092-3ce8-a078898d0eb2@redhat.com>
+ <6f4dce03-b65a-c5cf-059f-392a06d37ec3@suse.de>
+Organization: Red Hat
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 2/2] arm64: dts: mt8183: Add panel rotation
-Content-Language: en-US
-To: Hsin-Yi Wang <hsinyi@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20220530113033.124072-1-hsinyi@chromium.org>
- <20220530113033.124072-2-hsinyi@chromium.org>
- <CAJMQK-jw+sgunEwgEQAw-V8DAbybZ7WVnZJ6vwOdzQ+-SX_bQg@mail.gmail.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <CAJMQK-jw+sgunEwgEQAw-V8DAbybZ7WVnZJ6vwOdzQ+-SX_bQg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,58 +85,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: airlied@linux.ie, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, Changcheng Deng <deng.changcheng@zte.com.cn>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hsin-Yi Wang,
+On Fri, 17 Jun 2022 14:41:01 +0200
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-On 06/06/2022 17:29, Hsin-Yi Wang wrote:
-> On Mon, May 30, 2022 at 7:30 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
->>
->> krane, kakadu, and kodama boards have a default panel rotation.
->>
->> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
->> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
->> Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
->> ---
+> Hi
 > 
-> Hi Matthias,
+> Am 17.06.22 um 14:29 schrieb Javier Martinez Canillas:
+> > [adding Zack and Alex to Cc list]
+> > 
+> > Hello Thomas,
+> > 
+> > Thanks a lot for tracking this down and figuring out the root cause!
+> > 
+> > On 6/17/22 14:10, Thomas Zimmermann wrote:  
+> >> Always run fbdev removal first to remove simpledrm via
+> >> sysfb_disable(). This clears the internal state. The later call
+> >> to drm_aperture_detach_drivers() then does nothing. Otherwise,
+> >> with drm_aperture_detach_drivers() running first, the call to
+> >> sysfb_disable() uses inconsistent state.
+> >>
+> >> Example backtrace show below:
+> >>
+> >> [   11.663422] ==================================================================
+> >> [   11.663426] BUG: KASAN: use-after-free in device_del+0x79/0x5f0
+> >> [   11.663435] Read of size 8 at addr ffff888108185050 by task systemd-udevd/311
+> >> [   11.663440] CPU: 0 PID: 311 Comm: systemd-udevd Tainted: G            E     5
+> >> 	.19.0-rc2-1-default+ #1689
+> >> [   11.663445] Hardware name: HP ProLiant DL120 G7, BIOS J01 04/21/2011
+> >> [   11.663447] Call Trace:
+> >> [   11.663449]  <TASK>
+> >> [   11.663451]  ? device_del+0x79/0x5f0
+> >> [   11.663456]  dump_stack_lvl+0x5b/0x73
+> >> [   11.663462]  print_address_description.constprop.0+0x1f/0x1b0
+> >> [   11.663468]  ? device_del+0x79/0x5f0
+> >> [   11.663471]  ? device_del+0x79/0x5f0
+> >> [   11.663475]  print_report.cold+0x3c/0x21c
+> >> [   11.663481]  ? lock_acquired+0x87/0x1e0
+> >> [   11.663484]  ? lock_acquired+0x87/0x1e0
+> >> [   11.663489]  ? device_del+0x79/0x5f0
+> >> [   11.663492]  kasan_report+0xbf/0xf0
+> >> [   11.663498]  ? device_del+0x79/0x5f0
+> >> [   11.663503]  device_del+0x79/0x5f0
+> >> [   11.663509]  ? device_remove_attrs+0x170/0x170
+> >> [   11.663514]  ? lock_is_held_type+0xe8/0x140
+> >> [   11.663523]  platform_device_del.part.0+0x19/0xe0
+> >> [   11.663530]  platform_device_unregister+0x1c/0x30
+> >> [   11.663535]  sysfb_disable+0x2d/0x70
+> >> [   11.663540]  remove_conflicting_framebuffers+0x1c/0xf0
+> >> [   11.663546]  remove_conflicting_pci_framebuffers+0x130/0x1a0
+> >> [   11.663554]  drm_aperture_remove_conflicting_pci_framebuffers+0x86/0xb0
+> >> [   11.663561]  ? mgag200_pci_remove+0x30/0x30 [mgag200]
+> >> [   11.663578]  mgag200_pci_probe+0x2d/0x140 [mgag200]
+> >>  
+> > 
+> > Maybe include a Reported-by: Zack Rusin <zackr@vmware.com> ? since
+> > this seems to be the exact same issue that he reported yesterday.  
 > 
-> The series ("Add a panel API to return panel orientation") might land
-> in drm-misc. With this series applied, we can add this patch to give
-> the correct default orientation for mt8183 kukui devices.
-> I didn't send this patch again with the series, since they might land
-> in different trees.
+> I'll do.
 > 
+> > 
+> > Patch looks good to me and this seems to be the correct fix IMO.
+> > That way we won't re-introduce the issue that was fixed by the
+> > sysfb_unregister() function, that is to remove a pdev even if wasn't
+> > bound to a driver to prevent a late simpledrm registration to match.
+> > 
+> > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>  
+> 
+> Thanks!
+> 
+> > 
+> > I wonder what's the best way to coordinate with Alex to merge this
+> > fix and your patch that moves the aperture code out of DRM, since
+> > as far as I can tell both should target the v5.20 release.  
+> 
+> If nothing else comes in, I'll merge this patch on Monday and send Alex 
+> an updated version of the vfio patch.
 
-I had a look on Linux next (next-20220617) and wasn't able to find the mtk_dsi.c 
-changes. What is the status of this?
+Please also publish a topic branch for the base of that patch if you're
+still looking for the non-drm aperture + vfio series to go in through my
+vfio tree.  Thanks,
 
-Regards,
-Matthias
+Alex
 
-> Thanks.
-> 
->>   arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
->> index 8d5bf73a9099..f0dd5a06629d 100644
->> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
->> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
->> @@ -276,6 +276,7 @@ panel: panel@0 {
->>                  avee-supply = <&ppvarp_lcd>;
->>                  pp1800-supply = <&pp1800_lcd>;
->>                  backlight = <&backlight_lcd0>;
->> +               rotation = <270>;
->>                  port {
->>                          panel_in: endpoint {
->>                                  remote-endpoint = <&dsi_out>;
->> --
->> 2.36.1.124.g0e6072fb45-goog
->>
