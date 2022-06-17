@@ -2,60 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1485754F2F9
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 10:29:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 196D654F396
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 10:51:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D06F10FA2F;
-	Fri, 17 Jun 2022 08:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 837D811AB4D;
+	Fri, 17 Jun 2022 08:51:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 982E510F93D
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 08:29:48 +0000 (UTC)
-X-UUID: 452b459576924b6b9aab3bdef158cc95-20220617
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:7c1c2afb-7d86-4ada-b90c-92afd908dbe9, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:b14ad71, CLOUDID:a73ce348-4c92-421c-ad91-b806c0f58b2a,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 452b459576924b6b9aab3bdef158cc95-20220617
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 759725871; Fri, 17 Jun 2022 16:29:43 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 17 Jun 2022 16:29:42 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 17 Jun 2022 16:29:42 +0800
-Message-ID: <bc7306d3edc5241c2278a8e46b9c73217b9b92e5.camel@mediatek.com>
-Subject: Re: [PATCH v11 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
- <krzysztof.kozlowski+dt@linaro.org>, "mripard@kernel.org"
- <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
- <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
-Date: Fri, 17 Jun 2022 16:29:42 +0800
-In-Reply-To: <b3d5ba22e0a88abb48261a6a97027361fc535fc6.camel@mediatek.com>
-References: <20220610105522.13449-1-rex-bc.chen@mediatek.com>
- <20220610105522.13449-6-rex-bc.chen@mediatek.com>
- <b3d5ba22e0a88abb48261a6a97027361fc535fc6.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D74D11AB4B;
+ Fri, 17 Jun 2022 08:51:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655455911; x=1686991911;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=FOmJvMUk0DRbtCgD8vcF2wcSUXZy13dsF54p5o5O2p4=;
+ b=F3qf+Y7pQ4uW+XseMBhphvNXgISC/yrrmSHruDOyeGqKElf0Nemjhwdq
+ nEQWA6bKbzwJboyCvNx98HLohAssK3KA3QAi1NltXmKFW8hPfzvK/79WR
+ DKYK33ce55p2WrB2xDKj27c9/EP/urxhc0mQ3aEjEPIDJAlFmbVJlobS/
+ sL4psxtKhi2kgaqIp5ryi5zQrZr/r3WkTPoY19e7kzqyF7/Pt+UtfVPkg
+ no0EI7oxaejW1GledH4ikzTMkykTFO/bSopx3msN42lWJwVli63eQ5zXb
+ peicTRUJ6JW+0ra51K+hx8r0OjvFN280NZza6CTEO+iou5eGRUaCeerCX g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="277031607"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="277031607"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2022 01:51:50 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="831958369"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2022 01:51:50 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] iosys-map: Add per-word read
+Date: Fri, 17 Jun 2022 01:52:03 -0700
+Message-Id: <20220617085204.1678035-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,101 +55,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "granquet@baylibre.com" <granquet@baylibre.com>,
- Jitao Shi =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?=
- <jitao.shi@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "msp@baylibre.com" <msp@baylibre.com>, Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, christian.koenig@amd.com,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-06-15 at 13:53 +0800, CK Hu wrote:
-> Hi, Bo-Chen:
-> 
-> On Fri, 2022-06-10 at 18:55 +0800, Bo-Chen Chen wrote:
-> > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> > 
-> > This patch adds a embedded displayport driver for the MediaTek
-> > mt8195
-> > SoC.
-> > 
-> > It supports the MT8195, the embedded DisplayPort units. It offers
-> > DisplayPort 1.4 with up to 4 lanes.
-> > 
-> > The driver creates a child device for the phy. The child device
-> > will
-> > never exist without the parent being active. As they are sharing a
-> > register range, the parent passes a regmap pointer to the child so
-> > that
-> > both can work with the same register range. The phy driver sets
-> > device
-> > data that is read by the parent to get the phy device that can be
-> > used
-> > to control the phy properties.
-> > 
-> > This driver is based on an initial version by
-> > Jitao shi <jitao.shi@mediatek.com>
-> > 
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > [Bo-Chen: Cleanup the drivers and modify comments from reviewers]
-> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> > ---
-> 
-> [snip]
-> 
-> > +
-> > +static int mtk_dp_train_set_pattern(struct mtk_dp *mtk_dp, int
-> > pattern)
-> > +{
-> > +	if (pattern < 0 || pattern > 4) {
-> 
-> The caller would pass pattern from 0 to 4, so this checking is
-> redundant. Remove it and this function would always return true, so
-> let
-> this function be void.
-> 
-> Regards,
-> CK
-> 
+Instead of always falling back to memcpy_fromio() for any size, prefer
+using read{b,w,l}(). When reading struct members it's common to read
+individual integer variables individually. Going through memcpy_fromio()
+for each of them poses a high penalty.
 
-Hello CK,
+Employ a similar trick as __seqprop() by using _Generic() to generate
+only the specific call based on a type-compatible variable.
 
-ok, I will do this.
+For a pariticular i915 workload producing GPU context switches,
+__get_engine_usage_record() is particularly hot since the engine usage
+is read from device local memory with dgfx, possibly multiple times
+since it's racy. Test execution time for this test shows a ~12.5%
+improvement with DG2:
 
-BRs,
-Bo-Chen
-> > +		drm_err(mtk_dp->drm_dev,
-> > +			"Implementation error, no such pattern %d\n",
-> > pattern);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/* TPS1 */
-> > +	if (pattern == 1)
-> > +		mtk_dp_set_idle_pattern(mtk_dp, false);
-> > +
-> > +	mtk_dp_update_bits(mtk_dp,
-> > +			   MTK_DP_TRANS_P0_3400,
-> > +			   pattern ?
-> > +			   BIT(pattern - 1) <<
-> > PATTERN1_EN_DP_TRANS_P0_SHIFT :
-> > +			   0,
-> > +			   PATTERN1_EN_DP_TRANS_P0_MASK |
-> > +			   PATTERN2_EN_DP_TRANS_P0_MASK |
-> > +			   PATTERN3_EN_DP_TRANS_P0_MASK |
-> > +			   PATTERN4_EN_DP_TRANS_P0_MASK);
-> > +	return 0;
-> > +}
-> 
-> 
+Before:
+	nrepeats = 1000; min = 7.63243e+06; max = 1.01817e+07;
+	median = 9.52548e+06; var = 526149;
+After:
+	nrepeats = 1000; min = 7.03402e+06; max = 8.8832e+06;
+	median = 8.33955e+06; var = 333113;
+
+Other things attempted that didn't prove very useful:
+1) Change the _Generic() on x86 to just dereference the memory address
+2) Change __get_engine_usage_record() to do just 1 read per loop,
+   comparing with the previous value read
+3) Change __get_engine_usage_record() to access the fields directly as it
+   was before the conversion to iosys-map
+
+(3) did gave a small improvement (~3%), but doesn't seem to scale well
+to other similar cases in the driver.
+
+Additional test by Chris Wilson using gem_create from igt with some
+changes to track object creation time. This happens to accidentally
+stress this code path:
+
+	Pre iosys_map conversion of engine busyness:
+	lmem0: Creating    262144 4KiB objects took 59274.2ms
+
+	Unpatched:
+	lmem0: Creating    262144 4KiB objects took 108830.2ms
+
+	With readl (this patch):
+	lmem0: Creating    262144 4KiB objects took 61348.6ms
+
+	s/readl/READ_ONCE/
+	lmem0: Creating    262144 4KiB objects took 61333.2ms
+
+So we do take a little bit more time than before the conversion, but
+that is due to other factors: bringing the READ_ONCE back would be as
+good as just doing this conversion.
+
+v2:
+- Remove default from _Generic() - callers wanting to read more
+  than u64 should use iosys_map_memcpy_from()
+- Add READ_ONCE() cases dereferencing the pointer when using system
+  memory
+
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com> # v1
+---
+ include/linux/iosys-map.h | 45 +++++++++++++++++++++++++++++++--------
+ 1 file changed, 36 insertions(+), 9 deletions(-)
+
+diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
+index 4b8406ee8bc4..f59dd00ed202 100644
+--- a/include/linux/iosys-map.h
++++ b/include/linux/iosys-map.h
+@@ -6,6 +6,7 @@
+ #ifndef __IOSYS_MAP_H__
+ #define __IOSYS_MAP_H__
+ 
++#include <linux/compiler_types.h>
+ #include <linux/io.h>
+ #include <linux/string.h>
+ 
+@@ -333,6 +334,26 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
+ 		memset(dst->vaddr + offset, value, len);
+ }
+ 
++#ifdef CONFIG_64BIT
++#define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)				\
++	u64: val_ = readq(vaddr_iomem_)
++#else
++#define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)				\
++	u64: memcpy_fromio(&(val_), vaddr_iomem__, sizeof(u64))
++#endif
++
++#define __iosys_map_rd_io(val__, vaddr_iomem__, type__) _Generic(val__,		\
++	u8: val__ = readb(vaddr_iomem__),					\
++	u16: val__ = readw(vaddr_iomem__),					\
++	u32: val__ = readl(vaddr_iomem__),					\
++	__iosys_map_rd_io_u64_case(val__, vaddr_iomem__))
++
++#define __iosys_map_rd_sys(val__, vaddr__, type__) ({				\
++	compiletime_assert(sizeof(type__) <= sizeof(u64),			\
++			   "Unsupported access size for __iosys_map_rd_sys()");	\
++	val__ = READ_ONCE(*((type__ *)vaddr__));				\
++})
++
+ /**
+  * iosys_map_rd - Read a C-type value from the iosys_map
+  *
+@@ -340,16 +361,21 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
+  * @offset__:	The offset from which to read
+  * @type__:	Type of the value being read
+  *
+- * Read a C type value from iosys_map, handling possible un-aligned accesses to
+- * the mapping.
++ * Read a C type value (u8, u16, u32 and u64) from iosys_map. For other types or
++ * if pointer may be unaligned (and problematic for the architecture supported),
++ * use iosys_map_memcpy_from().
+  *
+  * Returns:
+  * The value read from the mapping.
+  */
+-#define iosys_map_rd(map__, offset__, type__) ({			\
+-	type__ val;							\
+-	iosys_map_memcpy_from(&val, map__, offset__, sizeof(val));	\
+-	val;								\
++#define iosys_map_rd(map__, offset__, type__) ({				\
++	type__ val;								\
++	if ((map__)->is_iomem) {						\
++		__iosys_map_rd_io(val, (map__)->vaddr_iomem + (offset__), type__);\
++	} else {								\
++		__iosys_map_rd_sys(val, (map__)->vaddr + (offset__), type__);	\
++	}									\
++	val;									\
+ })
+ 
+ /**
+@@ -379,9 +405,10 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
+  *
+  * Read a value from iosys_map considering its layout is described by a C struct
+  * starting at @struct_offset__. The field offset and size is calculated and its
+- * value read handling possible un-aligned memory accesses. For example: suppose
+- * there is a @struct foo defined as below and the value ``foo.field2.inner2``
+- * needs to be read from the iosys_map:
++ * value read. If the field access would incur in un-aligned access, then either
++ * iosys_map_memcpy_from() needs to be used or the architecture must support it.
++ * For example: suppose there is a @struct foo defined as below and the value
++ * ``foo.field2.inner2`` needs to be read from the iosys_map:
+  *
+  * .. code-block:: c
+  *
+-- 
+2.36.1
 
