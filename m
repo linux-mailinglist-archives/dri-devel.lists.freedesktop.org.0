@@ -1,51 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7600F54FBC3
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 18:57:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E8A54FC3D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 19:33:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4C7A10F4A0;
-	Fri, 17 Jun 2022 16:57:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8334110E552;
+	Fri, 17 Jun 2022 17:33:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15FE210F3F3;
- Fri, 17 Jun 2022 16:57:27 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5726310E473;
+ Fri, 17 Jun 2022 17:33:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655485047; x=1687021047;
+ t=1655487214; x=1687023214;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=2m1bgtwS0biejynEJ/rL0hPZ5Kd6L18he6WCBxiL8Ig=;
- b=ME7z4MXa4HzbA/NFFg/MdUznf6WvgWrsHNJsIIwHMrveqN0vP3f2e8n6
- i/qR6ERAzEgw/qwNyumk+5fp2vF7+bKDE2lqWo6Hhh245Qkg336LgocR+
- 6kuci6McAX/8p8l623PNQWJOKMDImwpj/M8oLoq788WRJxAWQoGzl5sVV
- +Mr9CKtCFKmQEw5Nxx9jaNmcQW16DYmIyWoCL9lydQ3fVzve5VZ/kwXjo
- 0UudcHutisG+ExexuBNVPJA123xszBqwTpJNKcBxWy1UEevITOYHggTj3
- cp/Q6Jn3ef5+/9dJA5aFRkPUTqLiUCqP4dJIYh9Kc2EtCpEOalSR3b3qQ A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="304939762"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="304939762"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 08:56:35 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="728382997"
-Received: from ecastill-mobl2.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.212.204.20])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2022 08:56:34 -0700
-Date: Fri, 17 Jun 2022 08:56:34 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 1/2] iosys-map: Add per-word read
-Message-ID: <20220617155634.2p6j4xehoc5lnegl@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20220617085204.1678035-1-lucas.demarchi@intel.com>
+ mime-version:in-reply-to;
+ bh=2VC7mik9w+9dUx7rYCUaY4bTWFXVK+BGRfFpvu1g5bI=;
+ b=b0msJjZFEnBFMQZ1m+l4ECbVK5EqzK1vYMtcsDHfI8oBBpHvSuhCzbfq
+ FtTnGav9ytMsQmO6oE6ABCuN/QcxySgckRX8Y0FXv5y9WkGfZmXXFJHEl
+ NaRPmnnXxMuYjZu/rseQFsaRUuUcazgUsjR+P+A6fNQydxhcJIg1JQkil
+ 8ZVw02ponqqSqaFHSNXkdC65DV4A361FQ10zZcyBTz2i628fPfcrtp8WR
+ WjWn1nYIAhyCs2uFtPdllakckI1GPB33X4SOfZ8EAclVnR8KJ/23H9T7O
+ YYnTJH9XklN1im/AjZr/sXwPmOw6D3rvPIc41bsjaF4g2CDNBV9HgESIj w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="278282825"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="278282825"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2022 09:05:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="763288840"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+ by orsmga005.jf.intel.com with ESMTP; 17 Jun 2022 09:05:48 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1o2ETj-000Pa9-JG;
+ Fri, 17 Jun 2022 16:05:47 +0000
+Date: Sat, 18 Jun 2022 00:05:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
+ airlied@linux.ie, agross@kernel.org, dmitry.baryshkov@linaro.org,
+ bjorn.andersson@linaro.org
+Subject: Re: [PATCH v8 2/2] drm/msm/dp: clean up pixel_rate from dp_ctrl.c
+Message-ID: <202206172356.J5CB8zDf-lkp@intel.com>
+References: <1655399361-10842-3-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220617085204.1678035-1-lucas.demarchi@intel.com>
+In-Reply-To: <1655399361-10842-3-git-send-email-quic_khsieh@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,113 +62,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>, christian.koenig@amd.com,
- tzimmermann@suse.de
+Cc: quic_sbillaka@quicinc.com, kbuild-all@lists.01.org,
+ linux-arm-msm@vger.kernel.org, llvm@lists.linux.dev, quic_abhinavk@quicinc.com,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 17, 2022 at 01:52:03AM -0700, Lucas De Marchi wrote:
->Instead of always falling back to memcpy_fromio() for any size, prefer
->using read{b,w,l}(). When reading struct members it's common to read
->individual integer variables individually. Going through memcpy_fromio()
->for each of them poses a high penalty.
->
->Employ a similar trick as __seqprop() by using _Generic() to generate
->only the specific call based on a type-compatible variable.
->
->For a pariticular i915 workload producing GPU context switches,
->__get_engine_usage_record() is particularly hot since the engine usage
->is read from device local memory with dgfx, possibly multiple times
->since it's racy. Test execution time for this test shows a ~12.5%
->improvement with DG2:
->
->Before:
->	nrepeats = 1000; min = 7.63243e+06; max = 1.01817e+07;
->	median = 9.52548e+06; var = 526149;
->After:
->	nrepeats = 1000; min = 7.03402e+06; max = 8.8832e+06;
->	median = 8.33955e+06; var = 333113;
->
->Other things attempted that didn't prove very useful:
->1) Change the _Generic() on x86 to just dereference the memory address
->2) Change __get_engine_usage_record() to do just 1 read per loop,
->   comparing with the previous value read
->3) Change __get_engine_usage_record() to access the fields directly as it
->   was before the conversion to iosys-map
->
->(3) did gave a small improvement (~3%), but doesn't seem to scale well
->to other similar cases in the driver.
->
->Additional test by Chris Wilson using gem_create from igt with some
->changes to track object creation time. This happens to accidentally
->stress this code path:
->
->	Pre iosys_map conversion of engine busyness:
->	lmem0: Creating    262144 4KiB objects took 59274.2ms
->
->	Unpatched:
->	lmem0: Creating    262144 4KiB objects took 108830.2ms
->
->	With readl (this patch):
->	lmem0: Creating    262144 4KiB objects took 61348.6ms
->
->	s/readl/READ_ONCE/
->	lmem0: Creating    262144 4KiB objects took 61333.2ms
->
->So we do take a little bit more time than before the conversion, but
->that is due to other factors: bringing the READ_ONCE back would be as
->good as just doing this conversion.
->
->v2:
->- Remove default from _Generic() - callers wanting to read more
->  than u64 should use iosys_map_memcpy_from()
->- Add READ_ONCE() cases dereferencing the pointer when using system
->  memory
->
->Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->Reviewed-by: Christian König <christian.koenig@amd.com> # v1
->---
-> include/linux/iosys-map.h | 45 +++++++++++++++++++++++++++++++--------
-> 1 file changed, 36 insertions(+), 9 deletions(-)
->
->diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
->index 4b8406ee8bc4..f59dd00ed202 100644
->--- a/include/linux/iosys-map.h
->+++ b/include/linux/iosys-map.h
->@@ -6,6 +6,7 @@
-> #ifndef __IOSYS_MAP_H__
-> #define __IOSYS_MAP_H__
->
->+#include <linux/compiler_types.h>
-> #include <linux/io.h>
-> #include <linux/string.h>
->
->@@ -333,6 +334,26 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
-> 		memset(dst->vaddr + offset, value, len);
-> }
->
->+#ifdef CONFIG_64BIT
->+#define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)				\
->+	u64: val_ = readq(vaddr_iomem_)
->+#else
->+#define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)				\
->+	u64: memcpy_fromio(&(val_), vaddr_iomem__, sizeof(u64))
+Hi Kuogee,
 
-I tested io/sys and forgot again to test it for 32-bit :(. This
-should fix the build for 32-bits:
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
-index 580e14cd360c..f8bc052f8975 100644
---- a/include/linux/iosys-map.h
-+++ b/include/linux/iosys-map.h
-@@ -341,7 +341,7 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
-  	u64: writeq(val_, vaddr_iomem_)
-  #else
-  #define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)				\
--	u64: memcpy_fromio(&(val_), vaddr_iomem__, sizeof(u64))
-+	u64: memcpy_fromio(&(val_), vaddr_iomem_, sizeof(u64))
-  #define __iosys_map_wr_io_u64_case(val_, vaddr_iomem_)			\
-  	u64: memcpy_toio(vaddr_iomem_, &(val_), sizeof(u64))
-  #endif
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next]
+[cannot apply to drm-intel/for-linux-next tegra-drm/drm/tegra/for-next airlied/drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Lucas De Marchi
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuogee-Hsieh/force-link-training-for-display-resolution-change/20220617-011110
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20220617/202206172356.J5CB8zDf-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project f0e608de27b3d568000046eebf3712ab542979d6)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/b04f0b39a03a9fc3728e9414157f9d5f0b8b2366
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kuogee-Hsieh/force-link-training-for-display-resolution-change/20220617-011110
+        git checkout b04f0b39a03a9fc3728e9414157f9d5f0b8b2366
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/msm/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/msm/dp/dp_ctrl.c:1587:5: warning: no previous prototype for function 'dp_ctrl_on_stream_phy_test_report' [-Wmissing-prototypes]
+   int dp_ctrl_on_stream_phy_test_report(struct dp_ctrl *dp_ctrl)
+       ^
+   drivers/gpu/drm/msm/dp/dp_ctrl.c:1587:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int dp_ctrl_on_stream_phy_test_report(struct dp_ctrl *dp_ctrl)
+   ^
+   static 
+   1 warning generated.
+
+
+vim +/dp_ctrl_on_stream_phy_test_report +1587 drivers/gpu/drm/msm/dp/dp_ctrl.c
+
+  1586	
+> 1587	int dp_ctrl_on_stream_phy_test_report(struct dp_ctrl *dp_ctrl)
+  1588	{
+  1589		int ret = 0;
+  1590		struct dp_ctrl_private *ctrl;
+  1591		unsigned long pixel_rate;
+  1592	
+  1593		ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+  1594	
+  1595		pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
+  1596		ret = dp_ctrl_enable_stream_clocks(ctrl, pixel_rate);
+  1597		if (ret) {
+  1598			DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
+  1599			return ret;
+  1600		}
+  1601	
+  1602		dp_ctrl_send_phy_test_pattern(ctrl);
+  1603	
+  1604		return 0;
+  1605	}
+  1606	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
