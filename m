@@ -1,47 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 907D554EE50
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 02:10:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0E554EE57
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 02:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB12510FA9C;
-	Fri, 17 Jun 2022 00:10:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ADE410FB5F;
+	Fri, 17 Jun 2022 00:13:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96E2B10FA9C;
- Fri, 17 Jun 2022 00:10:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1B84161358;
- Fri, 17 Jun 2022 00:10:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B08EC34114;
- Fri, 17 Jun 2022 00:10:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655424605;
- bh=cD73xFTYbV7d8FwYS/+LxjiTrj6GgeC/IFBJ0+It07Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tsv9SdWuVyJNQeGUF1E0Nr3uDUJB7EeBVN4u0A2d1DNJmaibpJ6rwo//bI+x83hie
- aqyUD+fTDgnqYB6+kjpDVxuVMQbM5ZhBaucwIzgRmR66O2Y73qfViA6R4DUSDKG8ot
- 26pywnT/zcUitfw8JYK3Av8QaIknlH0gJhsoG3o3NGo0fh2OsXwG1K5CyBtrn0ZCoa
- yry1hDGnxYxhmOGfpf/4zKhfGF+GHYrpP9OuvTx18I7hEMr+wGmdQPKsPyZPR+hmdR
- gO8VzaiAsi/SeYo6HlyAOkvp3lJcdb51Rvn5HBnbqA7Tstf42V8uC4MJQ1rkXllg6a
- mvXY0iCAi1/Vg==
-Date: Thu, 16 Jun 2022 17:10:04 -0700
-From: Vinod Koul <vkoul@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 2/2] dt-bindings: phy: List supplies for qcom,edp-phy
-Message-ID: <YqvGXNGIzVHp7QtV@matsya>
-References: <20220425210643.2420919-1-dianders@chromium.org>
- <20220425140619.2.Iae013f0ff4599294189f3a6e91376fad137bbabf@changeid>
- <CAD=FV=Wbi=CXhPpOUJj=1PdgB8i6Lf1Sfr=T7wrQsgBx790S_w@mail.gmail.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE8B210FB7C;
+ Fri, 17 Jun 2022 00:13:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655424780; x=1686960780;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=e8TsB9XMUMBvZYzqj+0+StbCDXQ7BLYEb+01/z3Yqyo=;
+ b=nPx7HtA9IojyCZ7VoKIQo88VDw7kSZ7ibYExrlStjrF+vStrpVAP+UWf
+ Knl40cMoQURY6Wc1F/pY9bfad8Cmbsspad3XzoOpKUQHTnFM2R7pkBko1
+ wHv23SXkSjQkhX1l5QOt/RxOve8UqXi4wz59Iwnk2bTpBHFz+Hx51uQht
+ AmPb6lLpxSq8xy0JA4TtdoHfaqYV8YYARVkIkvlBwBfuONZV0vvI2vvRK
+ gsnSoM94RI1zli0TgRHOJAJ7M+UzpBpGAAPVdj94TnivOJY1+tWLL3g4N
+ v782lGZADTs/gLS5WgFxJb+HVZJfRpvoAy5B2Mz9w+PrDJh1TnW/eMUhC Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="268071661"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="268071661"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 17:13:00 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="560105786"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2022 17:12:59 -0700
+Date: Thu, 16 Jun 2022 17:12:57 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Anshuman Gupta <anshuman.gupta@intel.com>
+Subject: Re: [PATCH v2 3/9] drm/i915/dg2: Add DG2_NB_MBD subplatform
+Message-ID: <YqvHCa4j8QwMNrmd@mdroper-desk1.amr.corp.intel.com>
+References: <20220616120106.24353-1-anshuman.gupta@intel.com>
+ <20220616120106.24353-4-anshuman.gupta@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=Wbi=CXhPpOUJj=1PdgB8i6Lf1Sfr=T7wrQsgBx790S_w@mail.gmail.com>
+In-Reply-To: <20220616120106.24353-4-anshuman.gupta@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,61 +57,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Rob Clark <robdclark@chromium.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Kishon Vijay Abraham I <kishon@ti.com>, Rob Herring <robh+dt@kernel.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-phy@lists.infradead.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: tilak.tangudu@intel.com, tvrtko.ursulin@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jon.ewins@intel.com, badal.nilawar@intel.com, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16-06-22, 08:35, Doug Anderson wrote:
-> Hi,
+On Thu, Jun 16, 2022 at 05:31:00PM +0530, Anshuman Gupta wrote:
+> DG2 NB SKU need to distinguish between MBD and AIC to probe
+> the VRAM Self Refresh feature support. Adding those sub platform
+> accordingly.
 > 
-> On Mon, Apr 25, 2022 at 2:07 PM Douglas Anderson <dianders@chromium.org> wrote:
-> >
-> > We're supposed to list the supplies in the dt bindings but there are
-> > none in the eDP PHY bindings.
-> >
-> > Looking at the driver in Linux, I can see that there seem to be two
-> > relevant supplies: "vdda-phy" and "vdda-pll". Let's add those to the
-> > bindings.
-> >
-> > NOTE: from looking at the Qualcomm datasheet for sc7280, it's not
-> > immediately clear how to figure out how to fill in these supplies. The
-> > only two eDP related supplies are simply described as "power for eDP
-> > 0.9V circuits" and "power for eDP 1.2V circuits". From guessing and
-> > from comparing how a similar PHY is hooked up on other similar
-> > Qualcomm boards, I'll make the educated guess that the 1.2V supply
-> > goes to "vdda-phy" and the 0.9V supply goes to "vdda-pll" and I'll use
-> > that in the example here.
-> >
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> >
-> >  Documentation/devicetree/bindings/phy/qcom,edp-phy.yaml | 6 ++++++
-> >  1 file changed, 6 insertions(+)
+> Cc: Matt Roper <matthew.d.roper@intel.com>
+> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> ---
+>  drivers/gpu/drm/i915/i915_drv.h          |  3 +++
+>  drivers/gpu/drm/i915/intel_device_info.c | 21 +++++++++++++++++++++
+>  drivers/gpu/drm/i915/intel_device_info.h | 11 +++++++----
+>  include/drm/i915_pciids.h                | 23 ++++++++++++++++-------
+>  4 files changed, 47 insertions(+), 11 deletions(-)
 > 
-> Even though patch #1 in this series should be dropped, this patch
-> (patch #2) is still valid. Vinod: I assume this would land in your
-> tree along with the first two patches in Kuogee's series [1], which
-> are related. Please let me know if you need me to re-send or anything.
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index a5bc6a774c5a..f1f8699eedfd 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1007,10 +1007,13 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+>  #define IS_PONTEVECCHIO(dev_priv) IS_PLATFORM(dev_priv, INTEL_PONTEVECCHIO)
+>  
+>  #define IS_DG2_G10(dev_priv) \
+> +	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G10_NB_MBD) || \
+>  	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G10)
+>  #define IS_DG2_G11(dev_priv) \
+> +	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G11_NB_MBD) || \
+>  	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G11)
+>  #define IS_DG2_G12(dev_priv) \
+> +	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G12_NB_MBD) || \
+>  	IS_SUBPLATFORM(dev_priv, INTEL_DG2, INTEL_SUBPLATFORM_G12)
+>  #define IS_ADLS_RPLS(dev_priv) \
+>  	IS_SUBPLATFORM(dev_priv, INTEL_ALDERLAKE_S, INTEL_SUBPLATFORM_RPL)
+> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+> index f0bf23726ed8..93da555adc4e 100644
+> --- a/drivers/gpu/drm/i915/intel_device_info.c
+> +++ b/drivers/gpu/drm/i915/intel_device_info.c
+> @@ -187,6 +187,18 @@ static const u16 subplatform_rpl_ids[] = {
+>  	INTEL_RPLP_IDS(0),
+>  };
+>  
+> +static const u16 subplatform_g10_mb_mbd_ids[] = {
+> +	INTEL_DG2_G10_NB_MBD_IDS(0),
+> +};
+> +
+> +static const u16 subplatform_g11_mb_mbd_ids[] = {
+> +	INTEL_DG2_G11_NB_MBD_IDS(0),
+> +};
+> +
+> +static const u16 subplatform_g12_mb_mbd_ids[] = {
+> +	INTEL_DG2_G12_NB_MBD_IDS(0),
+> +};
 
-I have applied this patch, thanks
+We only need a single MBD subplatform, not three new subplatforms.
+Unless I'm forgetting something, a single device ID can be assigned two
+two independent subplatforms at the same time.  So the decision about
+whether to set the G10, G11, or G12 bit is one decision.  The decision
+about whether to set the MBD bit is a completely separate decision that
+doesn't care about the G10/G11/G12 stuff.
 
-> [1] https://lore.kernel.org/r/1653507433-22585-1-git-send-email-quic_khsieh@quicinc.com/
+> +
+>  static const u16 subplatform_g10_ids[] = {
+>  	INTEL_DG2_G10_IDS(0),
+>  	INTEL_ATS_M150_IDS(0),
+> @@ -246,6 +258,15 @@ void intel_device_info_subplatform_init(struct drm_i915_private *i915)
+>  	} else if (find_devid(devid, subplatform_rpl_ids,
+>  			      ARRAY_SIZE(subplatform_rpl_ids))) {
+>  		mask = BIT(INTEL_SUBPLATFORM_RPL);
+> +	} else if (find_devid(devid, subplatform_g10_mb_mbd_ids,
+> +			      ARRAY_SIZE(subplatform_g10_mb_mbd_ids))) {
+> +		mask = BIT(INTEL_SUBPLATFORM_G10_NB_MBD);
+> +	} else if (find_devid(devid, subplatform_g11_mb_mbd_ids,
+> +			      ARRAY_SIZE(subplatform_g11_mb_mbd_ids))) {
+> +		mask = BIT(INTEL_SUBPLATFORM_G11_NB_MBD);
+> +	} else if (find_devid(devid, subplatform_g12_mb_mbd_ids,
+> +			      ARRAY_SIZE(subplatform_g12_mb_mbd_ids))) {
+> +		mask = BIT(INTEL_SUBPLATFORM_G12_NB_MBD);
 
-This needs rebase on phy split which I have picked
+Assuming you consolidate MBD back down to just a single extra
+subplatform, the lookup and bit setting should happen in a separate 'if'
+statement (not an 'else' block).
+
+        if (find_devid(devid, subplatform_mbd_ids,
+                       ARRAY_SIZE(subplatform_mbd_ids)))
+                mask |= BIT(INTEL_SUBPLATFORM_MBD);
+
+
+Matt
+
+>  	} else if (find_devid(devid, subplatform_g10_ids,
+>  			      ARRAY_SIZE(subplatform_g10_ids))) {
+>  		mask = BIT(INTEL_SUBPLATFORM_G10);
+> diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
+> index 08341174ee0a..c929e2d7e59c 100644
+> --- a/drivers/gpu/drm/i915/intel_device_info.h
+> +++ b/drivers/gpu/drm/i915/intel_device_info.h
+> @@ -97,7 +97,7 @@ enum intel_platform {
+>   * it is fine for the same bit to be used on multiple parent platforms.
+>   */
+>  
+> -#define INTEL_SUBPLATFORM_BITS (3)
+> +#define INTEL_SUBPLATFORM_BITS (6)
+>  #define INTEL_SUBPLATFORM_MASK (BIT(INTEL_SUBPLATFORM_BITS) - 1)
+>  
+>  /* HSW/BDW/SKL/KBL/CFL */
+> @@ -111,9 +111,12 @@ enum intel_platform {
+>  #define INTEL_SUBPLATFORM_UY	(0)
+>  
+>  /* DG2 */
+> -#define INTEL_SUBPLATFORM_G10	0
+> -#define INTEL_SUBPLATFORM_G11	1
+> -#define INTEL_SUBPLATFORM_G12	2
+> +#define INTEL_SUBPLATFORM_G10_NB_MBD	0
+> +#define INTEL_SUBPLATFORM_G11_NB_MBD	1
+> +#define INTEL_SUBPLATFORM_G12_NB_MBD	2
+> +#define INTEL_SUBPLATFORM_G10	3
+> +#define INTEL_SUBPLATFORM_G11	4
+> +#define INTEL_SUBPLATFORM_G12	5
+>  
+>  /* ADL */
+>  #define INTEL_SUBPLATFORM_RPL	0
+> diff --git a/include/drm/i915_pciids.h b/include/drm/i915_pciids.h
+> index 4585fed4e41e..198be417bb2d 100644
+> --- a/include/drm/i915_pciids.h
+> +++ b/include/drm/i915_pciids.h
+> @@ -693,32 +693,41 @@
+>  	INTEL_VGA_DEVICE(0xA7A9, info)
+>  
+>  /* DG2 */
+> -#define INTEL_DG2_G10_IDS(info) \
+> +#define INTEL_DG2_G10_NB_MBD_IDS(info) \
+>  	INTEL_VGA_DEVICE(0x5690, info), \
+>  	INTEL_VGA_DEVICE(0x5691, info), \
+> -	INTEL_VGA_DEVICE(0x5692, info), \
+> +	INTEL_VGA_DEVICE(0x5692, info)
+> +
+> +#define INTEL_DG2_G11_NB_MBD_IDS(info) \
+> +	INTEL_VGA_DEVICE(0x5693, info), \
+> +	INTEL_VGA_DEVICE(0x5694, info), \
+> +	INTEL_VGA_DEVICE(0x5695, info)
+> +
+> +#define INTEL_DG2_G12_NB_MBD_IDS(info) \
+> +	INTEL_VGA_DEVICE(0x5696, info), \
+> +	INTEL_VGA_DEVICE(0x5697, info)
+> +
+> +#define INTEL_DG2_G10_IDS(info) \
+>  	INTEL_VGA_DEVICE(0x56A0, info), \
+>  	INTEL_VGA_DEVICE(0x56A1, info), \
+>  	INTEL_VGA_DEVICE(0x56A2, info)
+>  
+>  #define INTEL_DG2_G11_IDS(info) \
+> -	INTEL_VGA_DEVICE(0x5693, info), \
+> -	INTEL_VGA_DEVICE(0x5694, info), \
+> -	INTEL_VGA_DEVICE(0x5695, info), \
+>  	INTEL_VGA_DEVICE(0x56A5, info), \
+>  	INTEL_VGA_DEVICE(0x56A6, info), \
+>  	INTEL_VGA_DEVICE(0x56B0, info), \
+>  	INTEL_VGA_DEVICE(0x56B1, info)
+>  
+>  #define INTEL_DG2_G12_IDS(info) \
+> -	INTEL_VGA_DEVICE(0x5696, info), \
+> -	INTEL_VGA_DEVICE(0x5697, info), \
+>  	INTEL_VGA_DEVICE(0x56A3, info), \
+>  	INTEL_VGA_DEVICE(0x56A4, info), \
+>  	INTEL_VGA_DEVICE(0x56B2, info), \
+>  	INTEL_VGA_DEVICE(0x56B3, info)
+>  
+>  #define INTEL_DG2_IDS(info) \
+> +	INTEL_DG2_G10_NB_MBD_IDS(info), \
+> +	INTEL_DG2_G11_NB_MBD_IDS(info), \
+> +	INTEL_DG2_G12_NB_MBD_IDS(info), \
+>  	INTEL_DG2_G10_IDS(info), \
+>  	INTEL_DG2_G11_IDS(info), \
+>  	INTEL_DG2_G12_IDS(info)
+> -- 
+> 2.26.2
+> 
 
 -- 
-~Vinod
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
