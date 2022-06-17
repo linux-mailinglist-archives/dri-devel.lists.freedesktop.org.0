@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC8254FDDA
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 21:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23C9554FE2C
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 22:15:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5EA10FA26;
-	Fri, 17 Jun 2022 19:49:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C466112C53;
+	Fri, 17 Jun 2022 20:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE0EB10F747
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 19:49:25 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id i29so8407609lfp.3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 12:49:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fSnYvcOuCiamnP9Z5uioqN+dnNbuGPozK0YcZA0yw7k=;
- b=O/L/3n1L4LiDtAaNQwitcfon+MtLonwl235pPq+SHbqRU5FO/IIftavNfH4qij99f0
- H57NflJWuDwG7bl0n16yfRM6TWlPnejy4z21nIBznJgwxEMGVq1WNsGYiX99BwgJHwyN
- OScWjDH/2ZJTOUpSvtf05wR3JQdJE+Vj/IlV7O0woIFvL5MNkz0mzPO914lMpSqYXUTv
- l8Kxi1/Aygjqwyxa1iHHvQNquigUqTSm1Szq97TAWfQ79jBL2VaBQnixenHE7iCEUwGF
- ooqQJygHkb2M4H1/9CRxNQTwMwOaRtakYsls3DOWi/KgxaZ+utt7IZyvdkicDpQWrPcp
- Zqzw==
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACB4D112C41
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 20:15:23 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ 111-20020a9d0378000000b0060c2db66d44so3866852otv.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 13:15:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=x4as2ZkeTzWY1neBp0pSqFxYj7FvUKGmqCj9lFfh46Y=;
+ b=jL9i7Buk6SOOHObeThBYqPreYlCVl+OpGSR+jNZBMrSfoB1QYntFn3u6z+nJTvigce
+ VBwenMjhFopuHqns/67g6yQAunM9l/71QNfBId3EqQ2MflO/F5EKVaC7RRlQ/ADStdG5
+ 2smcG2mIm1zKF2VFUSfELh3VT3Zvt/s+Ubv68=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fSnYvcOuCiamnP9Z5uioqN+dnNbuGPozK0YcZA0yw7k=;
- b=ARqCSPT80H8Y1zXV+JAa8YdHjDRMNgXCbYOZ46kn7078s8mq8NET3IPpSEMJliOIBx
- n0yCJmPK0FzlfV77qWVl+Mc/IH+nFdZcwDNsMyYw/u5nCQWEcyTlFa/TUAL1fkyn3o+v
- xCWN6isIwLJIhQgjN2xSueCdjGwdgrNmswyJ6VcvcKl2BvQ/9nmLYuqBYUZtNZrAO53R
- c9JBctvf1WTtn78Pb3ecO9X+mDuIhQeIGsbKahIQi67R4UmPMlw16FKh00UUXFvBJdPM
- 4DY0/3LIu+SLqLvX7VY4gGUJzXUACSVofb9GjgI0HPhtgPpQfXXeGKtPPw7Inq0+RwMt
- S8ew==
-X-Gm-Message-State: AJIora8st4ooNwg9YOXMxw3Yx+urqnbZrjP/RPDHaeqVVYY/EwaVOIiR
- rqcuouCVex2Fp0MK+yx4fcaVWw==
-X-Google-Smtp-Source: AGRyM1tPjB5/2OmOaXLxaLnLZSh/Doi8HeyHN4bAnQLWHQTTzWYTZwD7MFV9tZasuL1AvlniMnRgBA==
-X-Received: by 2002:ac2:5ec8:0:b0:47d:af0b:d631 with SMTP id
- d8-20020ac25ec8000000b0047daf0bd631mr6443929lfq.170.1655495364105; 
- Fri, 17 Jun 2022 12:49:24 -0700 (PDT)
-Received: from eriador.lumag.spb.ru ([95.161.222.60])
- by smtp.gmail.com with ESMTPSA id
- p12-20020a056512328c00b0047255d211bbsm738987lfe.234.2022.06.17.12.49.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jun 2022 12:49:23 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH 2/2] drm/msm/dp: remove dp_display_en/disable prototypes and
- data argument
-Date: Fri, 17 Jun 2022 22:49:21 +0300
-Message-Id: <20220617194921.1098725-2-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220617194921.1098725-1-dmitry.baryshkov@linaro.org>
-References: <20220617194921.1098725-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=x4as2ZkeTzWY1neBp0pSqFxYj7FvUKGmqCj9lFfh46Y=;
+ b=Xod2Op0FVDMFvQTMvjqCpp1yzgqoOjoXy2A/w83IJ0V6paZO8B5fn+HcdxQ1wvt936
+ 61G6ioQCa8p6+rAUuKnkAjLcRwZ3XLniOqKvbdghurEYWUBKMhSSrS+sMgS/ho4e+AJS
+ HHqcWT9sX7uN2j/LB6nfysv4Y6i+Z9POqlj8fuYGu/kzyzaj3c+G/zSIsZpIteIV8trc
+ GTdE+kFHmJHM0YUAsxrpYg+nM8r+TZXL5H2l6iIR+6mQKKTcfXrz05fsBzZLVgWl8X1W
+ Oljp1C3tIIjcvCTaOu3ek1/eTDwT80rFCBHknQdDXNaMZW57Q7VezmYpvqY2yL1IVtky
+ pr5A==
+X-Gm-Message-State: AJIora8A1jsv13lsKn/NahrNU3MFWBZme7X1jfY+xVNww3zf8lFo6YKG
+ Jv4d5L71UqOBXIIEvyaw/oHJkGAj5cv2wF+QlBRvcA==
+X-Google-Smtp-Source: AGRyM1u4nMHweik4URlw+DCJbLUl0w+UrlWDIBvKtDehatittlrFKAJ8bL5+y6eZyKP4hA1WsTKrT7WnEl7enizsIq4=
+X-Received: by 2002:a9d:6484:0:b0:60b:eb0b:4054 with SMTP id
+ g4-20020a9d6484000000b0060beb0b4054mr4702235otl.159.1655496922910; Fri, 17
+ Jun 2022 13:15:22 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 17 Jun 2022 13:15:22 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220617194921.1098725-2-dmitry.baryshkov@linaro.org>
+References: <20220617194921.1098725-1-dmitry.baryshkov@linaro.org>
+ <20220617194921.1098725-2-dmitry.baryshkov@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Fri, 17 Jun 2022 13:15:22 -0700
+Message-ID: <CAE-0n51vDC-a=87hbM_rvxhNNV7KNpCHy3=wH0N5VCEvdrjyuw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/msm/dp: remove dp_display_en/disable prototypes
+ and data argument
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,74 +70,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove unused dp_display_en/disable prototypes. While we are at it,
-remove extra 'data' argument that is unused.
+Quoting Dmitry Baryshkov (2022-06-17 12:49:21)
+> Remove unused dp_display_en/disable prototypes. While we are at it,
+> remove extra 'data' argument that is unused.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 1e34ac2126f6..42ceb4c5796c 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -607,9 +607,6 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+>         return 0;
+>  };
+>
+> -static int dp_display_enable(struct dp_display_private *dp, u32 data);
+> -static int dp_display_disable(struct dp_display_private *dp, u32 data);
+> -
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+This part looks good.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 1e34ac2126f6..42ceb4c5796c 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -607,9 +607,6 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
- 	return 0;
- };
- 
--static int dp_display_enable(struct dp_display_private *dp, u32 data);
--static int dp_display_disable(struct dp_display_private *dp, u32 data);
--
- static void dp_display_handle_plugged_change(struct msm_dp *dp_display,
- 		bool plugged)
- {
-@@ -856,7 +853,7 @@ static int dp_display_set_mode(struct msm_dp *dp_display,
- 	return 0;
- }
- 
--static int dp_display_enable(struct dp_display_private *dp, u32 data)
-+static int dp_display_enable(struct dp_display_private *dp)
- {
- 	int rc = 0;
- 	struct msm_dp *dp_display = &dp->dp_display;
-@@ -893,7 +890,7 @@ static int dp_display_post_enable(struct msm_dp *dp_display)
- 	return 0;
- }
- 
--static int dp_display_disable(struct dp_display_private *dp, u32 data)
-+static int dp_display_disable(struct dp_display_private *dp)
- {
- 	struct msm_dp *dp_display = &dp->dp_display;
- 
-@@ -1667,12 +1664,12 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
- 	if (state == ST_DISPLAY_OFF)
- 		dp_display_host_phy_init(dp_display);
- 
--	dp_display_enable(dp_display, 0);
-+	dp_display_enable(dp_display);
- 
- 	rc = dp_display_post_enable(dp);
- 	if (rc) {
- 		DRM_ERROR("DP display post enable failed, rc=%d\n", rc);
--		dp_display_disable(dp_display, 0);
-+		dp_display_disable(dp_display);
- 	}
- 
- 	/* manual kick off plug event to train link */
-@@ -1717,7 +1714,7 @@ void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
- 		return;
- 	}
- 
--	dp_display_disable(dp_display, 0);
-+	dp_display_disable(dp_display);
- 
- 	state =  dp_display->hpd_state;
- 	if (state == ST_DISCONNECT_PENDING) {
--- 
-2.35.1
+>  static void dp_display_handle_plugged_change(struct msm_dp *dp_display,
+>                 bool plugged)
+>  {
+> @@ -856,7 +853,7 @@ static int dp_display_set_mode(struct msm_dp *dp_display,
+>         return 0;
+>  }
+>
+> -static int dp_display_enable(struct dp_display_private *dp, u32 data)
+> +static int dp_display_enable(struct dp_display_private *dp)
 
+This will conflict with Kuogee's patch[1]
+
+>  {
+>         int rc = 0;
+>         struct msm_dp *dp_display = &dp->dp_display;
+
+[1] https://lore.kernel.org/r/1655411200-7255-1-git-send-email-quic_khsieh@quicinc.com
