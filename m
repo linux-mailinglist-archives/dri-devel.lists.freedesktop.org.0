@@ -1,51 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A9F54F844
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 15:18:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5782B54F741
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jun 2022 14:10:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF2B511AFC9;
-	Fri, 17 Jun 2022 13:18:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B267311AEA8;
+	Fri, 17 Jun 2022 12:10:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3CFC11AE0D;
- Fri, 17 Jun 2022 12:01:14 +0000 (UTC)
-Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LPcwl3nVkz686k2;
- Fri, 17 Jun 2022 19:57:27 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 17 Jun 2022 14:01:12 +0200
-Received: from [10.126.175.22] (10.126.175.22) by
- lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 17 Jun 2022 13:01:12 +0100
-Message-ID: <b481ffa8-451d-0a9c-e708-44047e0a8bc9@huawei.com>
-Date: Fri, 17 Jun 2022 13:01:11 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8C211AEA6
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jun 2022 12:10:31 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 186A321D1D;
+ Fri, 17 Jun 2022 12:10:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1655467830; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=2D1ohQdszgugWZUnjjSJLwYBS2g7KQSkU6g+LHbbumk=;
+ b=oWzXFqK0bOOjiGtvP0rt0hhdZQ86UC7e1hxHqds38D64SpI8jnl7jtatmJV4OCxiClSaMh
+ 0xfRwXbKIzOJV015kEziUFz/B7XalmKpsWfufIeMhKcu/PLej4jd8d5nAErpPHNjip6sTx
+ 0VuX2ORIVfenwfPYv429/3D2h2qTj8k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1655467830;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=2D1ohQdszgugWZUnjjSJLwYBS2g7KQSkU6g+LHbbumk=;
+ b=PculpmOLADg4nEJQJYRFgDxfLuYWOm7ApX1+EhiVmL5Xdbvsxv2Uhy+R07yw0q3j8QEHyU
+ S35yPVlKjInfcQCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C8B6A1348E;
+ Fri, 17 Jun 2022 12:10:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 1rknMDVvrGIsdAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 17 Jun 2022 12:10:29 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com,
+	daniel@ffwll.ch,
+	airlied@linux.ie
+Subject: [PATCH] drm/aperture: Run fbdev removal before internal helpers
+Date: Fri, 17 Jun 2022 14:10:27 +0200
+Message-Id: <20220617121027.30273-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: radeon driver warning
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- <alexander.deucher@amd.com>, <Xinhui.Pan@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-References: <2850bbb9-a191-d723-f878-96482e7583cb@huawei.com>
- <afd3cf7b-7afd-1d86-0c24-b4b7101e4bd5@amd.com>
- <60a97869-fe1d-08cb-3241-91377d62b739@huawei.com>
- <7adf78ae-8f2d-e6bf-2054-fe61dfd4b21e@amd.com>
-From: John Garry <john.garry@huawei.com>
-In-Reply-To: <7adf78ae-8f2d-e6bf-2054-fe61dfd4b21e@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.126.175.22]
-X-ClientProxiedBy: lhreml732-chm.china.huawei.com (10.201.108.83) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Fri, 17 Jun 2022 13:17:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,35 +63,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Zhen Lei <thunder.leizhen@huawei.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/06/2022 12:57, Christian König wrote:
+Always run fbdev removal first to remove simpledrm via
+sysfb_disable(). This clears the internal state. The later call
+to drm_aperture_detach_drivers() then does nothing. Otherwise,
+with drm_aperture_detach_drivers() running first, the call to
+sysfb_disable() uses inconsistent state.
 
-Hi Christian,
+Example backtrace show below:
 
->>
->> Sure, but I don't think that it should break the build.
-> 
-> well, this doesn't break the build we already have that for years.
-> 
-> What breaks the build now is that warnings are handled as errors.
+[   11.663422] ==================================================================
+[   11.663426] BUG: KASAN: use-after-free in device_del+0x79/0x5f0
+[   11.663435] Read of size 8 at addr ffff888108185050 by task systemd-udevd/311
+[   11.663440] CPU: 0 PID: 311 Comm: systemd-udevd Tainted: G            E     5
+	.19.0-rc2-1-default+ #1689
+[   11.663445] Hardware name: HP ProLiant DL120 G7, BIOS J01 04/21/2011
+[   11.663447] Call Trace:
+[   11.663449]  <TASK>
+[   11.663451]  ? device_del+0x79/0x5f0
+[   11.663456]  dump_stack_lvl+0x5b/0x73
+[   11.663462]  print_address_description.constprop.0+0x1f/0x1b0
+[   11.663468]  ? device_del+0x79/0x5f0
+[   11.663471]  ? device_del+0x79/0x5f0
+[   11.663475]  print_report.cold+0x3c/0x21c
+[   11.663481]  ? lock_acquired+0x87/0x1e0
+[   11.663484]  ? lock_acquired+0x87/0x1e0
+[   11.663489]  ? device_del+0x79/0x5f0
+[   11.663492]  kasan_report+0xbf/0xf0
+[   11.663498]  ? device_del+0x79/0x5f0
+[   11.663503]  device_del+0x79/0x5f0
+[   11.663509]  ? device_remove_attrs+0x170/0x170
+[   11.663514]  ? lock_is_held_type+0xe8/0x140
+[   11.663523]  platform_device_del.part.0+0x19/0xe0
+[   11.663530]  platform_device_unregister+0x1c/0x30
+[   11.663535]  sysfb_disable+0x2d/0x70
+[   11.663540]  remove_conflicting_framebuffers+0x1c/0xf0
+[   11.663546]  remove_conflicting_pci_framebuffers+0x130/0x1a0
+[   11.663554]  drm_aperture_remove_conflicting_pci_framebuffers+0x86/0xb0
+[   11.663561]  ? mgag200_pci_remove+0x30/0x30 [mgag200]
+[   11.663578]  mgag200_pci_probe+0x2d/0x140 [mgag200]
 
-ok
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 873eb3b11860 ("fbdev: Disable sysfb device registration when removing conflicting FBs")
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Changcheng Deng <deng.changcheng@zte.com.cn>
+---
+ drivers/gpu/drm/drm_aperture.c | 26 +++++++++++++++-----------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
 
-> 
->>
->> Can you add a boot-time warning message instead?
-> 
-> Yes, we already have that as well.
-> 
->>
->> And/Or compile out the warning when "warnings = errors"?
-> 
-> That should be doable I think.
+diff --git a/drivers/gpu/drm/drm_aperture.c b/drivers/gpu/drm/drm_aperture.c
+index 74bd4a76b253..059fd71424f6 100644
+--- a/drivers/gpu/drm/drm_aperture.c
++++ b/drivers/gpu/drm/drm_aperture.c
+@@ -329,7 +329,20 @@ int drm_aperture_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
+ 						     const struct drm_driver *req_driver)
+ {
+ 	resource_size_t base, size;
+-	int bar, ret = 0;
++	int bar, ret;
++
++	/*
++	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
++	 * otherwise the vga fbdev driver falls over.
++	 */
++#if IS_REACHABLE(CONFIG_FB)
++	ret = remove_conflicting_pci_framebuffers(pdev, req_driver->name);
++	if (ret)
++		return ret;
++#endif
++	ret = vga_remove_vgacon(pdev);
++	if (ret)
++		return ret;
+ 
+ 	for (bar = 0; bar < PCI_STD_NUM_BARS; ++bar) {
+ 		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+@@ -339,15 +352,6 @@ int drm_aperture_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
+ 		drm_aperture_detach_drivers(base, size);
+ 	}
+ 
+-	/*
+-	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+-	 * otherwise the vga fbdev driver falls over.
+-	 */
+-#if IS_REACHABLE(CONFIG_FB)
+-	ret = remove_conflicting_pci_framebuffers(pdev, req_driver->name);
+-#endif
+-	if (ret == 0)
+-		ret = vga_remove_vgacon(pdev);
+-	return ret;
++	return 0;
+ }
+ EXPORT_SYMBOL(drm_aperture_remove_conflicting_pci_framebuffers);
+-- 
+2.36.1
 
-ok, if something can be done then I would appreciate it. I do much 
-randconfig builds as part of my upstream process and anything breaking 
-is a bit of a pain.
-
-Thanks!
