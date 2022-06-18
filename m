@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21546550481
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 14:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1423A550480
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 14:32:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2792E10E5E0;
-	Sat, 18 Jun 2022 12:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A908B10E5D9;
+	Sat, 18 Jun 2022 12:32:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99F0010E5D9
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jun 2022 12:32:09 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id w17so8782520wrg.7
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jun 2022 05:32:09 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4611910E5D9
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jun 2022 12:32:10 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id i10so5053494wrc.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jun 2022 05:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MzCNuZqg5sJhSSZ4d8it+v4YJ89K4kJOhMYbzqau3T0=;
- b=Q/DW33pApkzDugaxPE3P0mBkLxqeHFjsQF8z1VV2ne8TRKuN2bIqDfzxsSTkLEjBrA
- wpdDJgUWP+1wDHdQ9JS4O1x4Gq88lL49JAWRWB4H62ef/kDIyGqiJWklnIhvj7t3gOgQ
- m1btN41fR+l8tqU5xRyuBWhlJfRunVaRxbUCkNPjxFxCR7fgJ76b5iLyDoxgvaEFgta2
- Y7jzvGqyxY8ynrhbm2wsHOUw8jsjq4R2c+1hs16sLw8LkR/A8wnX+Rcz+CEvY4HTn+12
- wA1hi5h2lS6EglrFG2mc1iaWo2T8RWK90k4OmUe37mNSSxwVnWaTmTTERIaDVuiKnqg6
- uvGQ==
+ bh=Xc3yLaPJl3fJMhU7mLPNTXUDP5YmMspTrPH6skgYH5k=;
+ b=WWI5aigpx63NXABwWobIVtxzeWyDWABcTlqhEd7p5galGx1leb4l0QUX6DRW4V7R2/
+ 7tCNkKvAuMxDi861SOauKvR8OiOrKRFQWKbf/UOyK4ZoNWlOxvSKeVmw3Pjw/ViKSDBb
+ bJGQhxOX2sak4JARX2cUY3oHghGpdM5DQO1bngmpG9k9r1Q9YO+8El+G/rDrBCypfz88
+ jYj4Hwbu5WXw7XC7sEypXuV849AqQEAwqdgU0LsiCYfp++8WMxNxdrDQLMOhAiSs1NIp
+ AxnI+k8juFNCyik85P9Aotl91uS4CXhVavQDoNI3Z5E9qqRGU5RemiTnsiZNhX6+GfbW
+ +y3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MzCNuZqg5sJhSSZ4d8it+v4YJ89K4kJOhMYbzqau3T0=;
- b=XdJoZfPaNCTR5pr2TImQdhSQKoMumfIUDrNXwZD6JYzZUItwXhwU4VWIVCwYXxisFe
- VSRgFSqaE7YImOohQ3N1zu1dfi8joPZ5zp2QJUQ5iB3GT7zFUaq0iNZWsJhLev7I66Oi
- WyhG7HP06jw/ZydwddqgH1BnUW6iycLMWd3i7dP30Ay9rVFfuntW0OdF3pI/CRjeKlT1
- N2gq41LSIvMEcSy9mzuDffAfHezustWDn7eMKrg/snKKECZehjVnQ2ZpIWMzUuca+K0d
- dC6GHgClVrt+l1ZTkuv2IaVzQQQbJIZnqqMwhWynY/PaHAbkfYfz6OxDyILVc3GM265p
- 4BxA==
-X-Gm-Message-State: AJIora+VkAzzrZGcy5sdt27YLVyE1Dj/O6B1GEdhviDl8ZagLjSk2Ut8
- nbiXaWtrmq0WJNVGZY/vaFLneA==
-X-Google-Smtp-Source: AGRyM1sSSQqHjZc3Rjokw1+aDQhZh51cPdEwrDgxvVJw3mbh+xunRoRwhQyu4jAgaA6W5FK27IHXAg==
-X-Received: by 2002:a5d:598e:0:b0:219:ea16:5a2a with SMTP id
- n14-20020a5d598e000000b00219ea165a2amr13955140wri.343.1655555528086; 
- Sat, 18 Jun 2022 05:32:08 -0700 (PDT)
+ bh=Xc3yLaPJl3fJMhU7mLPNTXUDP5YmMspTrPH6skgYH5k=;
+ b=dw8oSAKP3r9asAOO3ozzKNFsg2nHFQJpd6cyiFIMImrcWIdOI3zYgmqdO0/L9le4zB
+ mmh7R93BqZ0haMcrj7x1o1iwmC4u6IOplKKV4DUbPh8vt4LiOg4en6ShM+vhVZf3BRC8
+ 8RWdzOzYxH8sR2yYhx8EAg9bHUFjfvhy7fS2ZGCF4/y2wC4flC4TVvYs20uMukDyv7q2
+ Q3EOfNxqVMne93jbWnQmk2ZSZUgVNVQ5FNVj6bGhR74+cxzVyHjza7LiUcva5zJfmxCt
+ QUFV56+aRVo2rl9DHdNMAe3hZ1rdr4/7PyGbAsuHH9ZMxTgZIuU+oQwg+CWQT1+TZBGH
+ KZgQ==
+X-Gm-Message-State: AJIora8f5ldXq28eP5yJSrkZjgIlxKmK8JlUUdGQcue3mzw3PNSG6PmM
+ eS2WftwHpnnD0ACeLdakdDiizg==
+X-Google-Smtp-Source: AGRyM1vjUOgV8azxYb57OQztWrqMQYhc0lprasxXMnlkIZhmfHP3nu/9sasVI2/ycyhjwJt5Z7ma0Q==
+X-Received: by 2002:a05:6000:1789:b0:219:2aa8:7159 with SMTP id
+ e9-20020a056000178900b002192aa87159mr13617696wrg.474.1655555529797; 
+ Sat, 18 Jun 2022 05:32:09 -0700 (PDT)
 Received: from henark71.. ([51.37.234.167]) by smtp.gmail.com with ESMTPSA id
- az10-20020adfe18a000000b00210396b2eaesm9292305wrb.45.2022.06.18.05.32.06
+ az10-20020adfe18a000000b00210396b2eaesm9292305wrb.45.2022.06.18.05.32.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Jun 2022 05:32:07 -0700 (PDT)
+ Sat, 18 Jun 2022 05:32:09 -0700 (PDT)
 From: Conor Dooley <mail@conchuod.ie>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -56,10 +56,10 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Mark Brown <broonie@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
  Daniel Lezcano <daniel.lezcano@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH 05/14] dt-bindings: timer: add Canaan k210 to Synopsys
- DesignWare timer
-Date: Sat, 18 Jun 2022 13:30:27 +0100
-Message-Id: <20220618123035.563070-6-mail@conchuod.ie>
+Subject: [PATCH 06/14] spi: dt-bindings: dw-apb-ssi: update spi-{r,
+ t}x-bus-width for dwc-ssi
+Date: Sat, 18 Jun 2022 13:30:28 +0100
+Message-Id: <20220618123035.563070-7-mail@conchuod.ie>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220618123035.563070-1-mail@conchuod.ie>
 References: <20220618123035.563070-1-mail@conchuod.ie>
@@ -91,78 +91,74 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-The Canaan k210 apparently has a Sysnopsys Designware timer but
-according to the documentation & devicetree it has 2 interrupts rather
-than the standard one. Add a custom compatible that supports the 2
-interrupt configuration and falls back to the standard binding (which
-is currently the one in use in the devicetree entry).
+snps,dwc-ssi-1.01a has a single user - the Canaan k210, which uses a
+width of 4 for spi-{r,t}x-bus-width. Update the binding to reflect
+this.
 
-Link: https://canaan-creative.com/wp-content/uploads/2020/03/kendryte_standalone_programming_guide_20190311144158_en.pdf #Page 58
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- .../bindings/timer/snps,dw-apb-timer.yaml     | 28 +++++++++++++++----
- 1 file changed, 22 insertions(+), 6 deletions(-)
+ .../bindings/spi/snps,dw-apb-ssi.yaml         | 48 ++++++++++++++-----
+ 1 file changed, 35 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml b/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
-index d33c9205a909..9a76acc7a66f 100644
---- a/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
-+++ b/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
-@@ -12,6 +12,9 @@ maintainers:
- properties:
-   compatible:
-     oneOf:
-+      - items:
-+          - const: canaan,k210-apb-timer
-+          - const: snps,dw-apb-timer
-       - const: snps,dw-apb-timer
-       - enum:
-           - snps,dw-apb-timer-sp
-@@ -21,9 +24,6 @@ properties:
-   reg:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
+index e25d44c218f2..f2b9e3f062cd 100644
+--- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
++++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
+@@ -135,19 +135,41 @@ properties:
+       of the designware controller, and the upper limit is also subject to
+       controller configuration.
  
--  interrupts:
--    maxItems: 1
+-patternProperties:
+-  "^.*@[0-9a-f]+$":
+-    type: object
+-    properties:
+-      reg:
+-        minimum: 0
+-        maximum: 3
 -
-   resets:
-     maxItems: 1
- 
-@@ -41,7 +41,23 @@ properties:
- 
-   clock-frequency: true
- 
--additionalProperties: false
-+unevaluatedProperties: false
-+
+-      spi-rx-bus-width:
+-        const: 1
+-
+-      spi-tx-bus-width:
+-        const: 1
 +if:
 +  properties:
 +    compatible:
 +      contains:
-+        const: canaan,k210-apb-timer
++        const: snps,dwc-ssi-1.01a
 +
 +then:
-+  properties:
-+    interrupts:
-+      maxItems: 2
++  patternProperties:
++    "^.*@[0-9a-f]+$":
++      type: object
++      properties:
++        reg:
++          minimum: 0
++          maximum: 3
++
++        spi-rx-bus-width:
++          const: 4
++
++        spi-tx-bus-width:
++          const: 4
 +
 +else:
-+  properties:
-+    interrupts:
-+      maxItems: 1
++  patternProperties:
++    "^.*@[0-9a-f]+$":
++      type: object
++      properties:
++        reg:
++          minimum: 0
++          maximum: 3
++
++        spi-rx-bus-width:
++          const: 1
++
++        spi-tx-bus-width:
++          const: 1
  
- required:
-   - compatible
-@@ -60,8 +76,8 @@ oneOf:
- examples:
-   - |
-     timer@ffe00000 {
--      compatible = "snps,dw-apb-timer";
--      interrupts = <0 170 4>;
-+      compatible = "canaan,k210-apb-timer", "snps,dw-apb-timer";
-+      interrupts = <0 170 4>, <0 170 4>;
-       reg = <0xffe00000 0x1000>;
-       clocks = <&timer_clk>, <&timer_pclk>;
-       clock-names = "timer", "pclk";
+ unevaluatedProperties: false
+ 
 -- 
 2.36.1
 
