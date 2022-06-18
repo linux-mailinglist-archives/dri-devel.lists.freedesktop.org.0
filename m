@@ -2,58 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABB15503A9
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 11:33:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E67355047B
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 14:32:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B180610E028;
-	Sat, 18 Jun 2022 09:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB92E10E5D2;
+	Sat, 18 Jun 2022 12:32:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
- [IPv6:2607:f8b0:4864:20::112b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78F7310E028;
- Sat, 18 Jun 2022 09:33:10 +0000 (UTC)
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-3176b6ed923so61223077b3.11; 
- Sat, 18 Jun 2022 02:33:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z0T2DhVRfdza3u7Hv/gMF8uaCaWYLQxsRMrZYAVQe+E=;
- b=hhOwVI2grUzcFZ0ZVRIzkXvpwrmX74i616R9TXr/QGGLafVdd6PqZPYq8cCpnbAguu
- eobuXZNnjB/K9lF43LKAw5hwh39dVDNxoRIQslaCf2rNMQrrZZpirfugII2o4q9yOtZl
- qmhJeIOfC58MR4YJg10Ph1hBVP9XOCirm4VEGWG+Bf4A/p7flbedOymFWXD8O7Gordti
- c+XD/cLUBMrsaadj8++He3td3LVG+hgJ0zQ/LSEo8aYftTQPolWNol3hNhe7db6lAMpA
- JDd8nfrVBcZ8VElsTPoFEclc4ta4nwZq4jL8bnfaUa4nuktELN+GCS6+9UA8RuMQ63dy
- Sa3A==
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB38210E5D2
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jun 2022 12:32:00 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id s1so8792794wra.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jun 2022 05:32:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cxrfrrOtT2Oa/bD+7FBstHMfLsi5+SmAhxAWzjAkyZ0=;
+ b=S2mJhG/EP2bvAoovp3+1EX915fqgCN7s5TTHRtk6gjrtEqOI/5G9b2iqkP8Hp2fPJT
+ Xv7w9JM5mIzSBmUBnG5veKqEPc/MaxIruLrav0YlVhnIQlMG/M+wTnbgpcN0tcmr+tr2
+ or89IY4gglZ6yWfGfoA+jfJEq4JsK9dvMaD2rRItnHWPYoJkG7IkTqJN1pM8cYB5TpdM
+ 9bGqfIt5FOQFRPbbNCxOn37acP1sIBQPp6tl26reXViVZmDuywOt0O5V9tWi+koaQg4c
+ DJEmvefmmDhAvEMjrhz9P1n7uaAObdu8xiUcENoorbn9u8vIjZNy1IW7RHROc+mSnsUJ
+ yKqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z0T2DhVRfdza3u7Hv/gMF8uaCaWYLQxsRMrZYAVQe+E=;
- b=YOq9xEgdquTulOdWPhPdfQ2/EAwiydAthGbUa+F62gR6Cjh8oRsldYlkZBLeOMBW/q
- J1LE4LCA3YGRtHacvhamQ1/sZ8xaK8XtcKsg4rbfuWw7jGkVXFSj2MDLUqQVZbDf9Czs
- eV5n/oTzOEYlVksdpfxXVDxFcdjNbPxIf7w9ngxxETHycV6BTvpEIEFAQcgkXB2XXvY9
- CvjLLprgRShm68X+4Ky8fvRHZsdMg1XZ1oW+RySNAYmUrfQ7EY2AIya5Kb94E9j6yM05
- qOSNFljShgrEDf5+Z4ORn8Z/mt2lgzurdY4sJlOLXIF7kRg8Sd7MzCCwIZcwDih53ZiM
- HBJA==
-X-Gm-Message-State: AJIora+E3Od+f1zTQUedb+rNjzmjdnFAtfGrTOXtHBjq1rNL/+8XFJb/
- n96eiik4s+PqgenoSNgryW+ckqQK3vues7d16ok=
-X-Google-Smtp-Source: AGRyM1vn2cH6zGfArfaosFc+y9vfluuDeE8YyIEY6QF6n7KxHF4JLzJuPADGF0ikBubxdlhb5eiyviROp85UPabBXiQ=
-X-Received: by 2002:a81:7c42:0:b0:317:7789:85aa with SMTP id
- x63-20020a817c42000000b00317778985aamr12095755ywc.93.1655544789470; Sat, 18
- Jun 2022 02:33:09 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cxrfrrOtT2Oa/bD+7FBstHMfLsi5+SmAhxAWzjAkyZ0=;
+ b=agxujZanYOCc8H3IRyuCrYM20gm+2fOhMbIrbnqXzfJADioTfu2+Dyay9BEe69Ouhc
+ trHUy9zuywvSFqghk0zIjx+eUaQsiotaBTN9UC0e0DWA91bXlc43mMBbymuTXKpYyuKc
+ MSWuaSoV9us9ys3bqLSWNm+KbLIE+Of2Q6C0v9/ZPZFWDkhXf3LmCykEj2vd+/iCthEE
+ k5HqJDQH7ponU0jgqiV3pJXwz1eUCWIeMc+LOmcCLVqJcJFREy6I8elTFjDI/M/moAqq
+ v66uWPq1VAhhoZTA8btr+qSFnJfPzBavym7k+IYFOPmEthm2eVpdku4DTnYvXsSNvRPl
+ Z65Q==
+X-Gm-Message-State: AJIora9piIjXnQJ8R3BVBiwYd2b3CjKu9wXdJlJv+YzccjhHgaotFxGN
+ QDDsqPgWYGPY5I/D8V4Mol5J4Q==
+X-Google-Smtp-Source: AGRyM1vo09vBquhwF3XuUkIoGOLL2MXJBKKEyvgcE2QTAi/5UKplOA45WdH+tRLIApC05LNQOZn4qQ==
+X-Received: by 2002:adf:fd0f:0:b0:210:32d7:4cb5 with SMTP id
+ e15-20020adffd0f000000b0021032d74cb5mr13971427wrr.565.1655555519244; 
+ Sat, 18 Jun 2022 05:31:59 -0700 (PDT)
+Received: from henark71.. ([51.37.234.167]) by smtp.gmail.com with ESMTPSA id
+ az10-20020adfe18a000000b00210396b2eaesm9292305wrb.45.2022.06.18.05.31.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 18 Jun 2022 05:31:58 -0700 (PDT)
+From: Conor Dooley <mail@conchuod.ie>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
+Subject: [PATCH 00/14] Canaan devicetree fixes
+Date: Sat, 18 Jun 2022 13:30:22 +0100
+Message-Id: <20220618123035.563070-1-mail@conchuod.ie>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220531200041.24904-1-alex.sierra@amd.com>
- <20220531200041.24904-2-alex.sierra@amd.com>
- <3ac89358-2ce0-7d0d-8b9c-8b0e5cc48945@redhat.com>
- <02ed2cb7-3ad3-8ffc-6032-04ae1853e234@amd.com>
-In-Reply-To: <02ed2cb7-3ad3-8ffc-6032-04ae1853e234@amd.com>
-From: Oded Gabbay <oded.gabbay@gmail.com>
-Date: Sat, 18 Jun 2022 12:32:42 +0300
-Message-ID: <CAFCwf11z5Q+2FPS1yPi6EwQuRqoJg_dLB-rYgtVwP-zQEdqjQQ@mail.gmail.com>
-Subject: Re: [PATCH v5 01/13] mm: add zone device coherent type memory support
-To: "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,110 +74,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- David Hildenbrand <david@redhat.com>, "Kuehling,
- Felix" <Felix.Kuehling@amd.com>, apopple@nvidia.com,
- Matthew Wilcox <willy@infradead.org>, linux-xfs@vger.kernel.org,
- linux-mm <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-ext4@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>
+Cc: linux-riscv@lists.infradead.org, Niklas Cassel <niklas.cassel@wdc.com>,
+ alsa-devel@alsa-project.org, Albert Ou <aou@eecs.berkeley.edu>,
+ devicetree@vger.kernel.org, Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ linux-kernel@vger.kernel.org, Heng Sia <jee.heng.sia@intel.com>,
+ linux-spi@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
+ Jose Abreu <joabreu@synopsys.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ dri-devel@lists.freedesktop.org, Paul Walmsley <paul.walmsley@sifive.com>,
+ dmaengine@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Dillon Min <dillon.minfei@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 17, 2022 at 8:20 PM Sierra Guiza, Alejandro (Alex)
-<alex.sierra@amd.com> wrote:
->
->
-> On 6/17/2022 4:40 AM, David Hildenbrand wrote:
-> > On 31.05.22 22:00, Alex Sierra wrote:
-> >> Device memory that is cache coherent from device and CPU point of view.
-> >> This is used on platforms that have an advanced system bus (like CAPI
-> >> or CXL). Any page of a process can be migrated to such memory. However,
-> >> no one should be allowed to pin such memory so that it can always be
-> >> evicted.
-> >>
-> >> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-> >> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> >> Reviewed-by: Alistair Popple <apopple@nvidia.com>
-> >> [hch: rebased ontop of the refcount changes,
-> >>        removed is_dev_private_or_coherent_page]
-> >> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> >> ---
-> >>   include/linux/memremap.h | 19 +++++++++++++++++++
-> >>   mm/memcontrol.c          |  7 ++++---
-> >>   mm/memory-failure.c      |  8 ++++++--
-> >>   mm/memremap.c            | 10 ++++++++++
-> >>   mm/migrate_device.c      | 16 +++++++---------
-> >>   mm/rmap.c                |  5 +++--
-> >>   6 files changed, 49 insertions(+), 16 deletions(-)
-> >>
-> >> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> >> index 8af304f6b504..9f752ebed613 100644
-> >> --- a/include/linux/memremap.h
-> >> +++ b/include/linux/memremap.h
-> >> @@ -41,6 +41,13 @@ struct vmem_altmap {
-> >>    * A more complete discussion of unaddressable memory may be found in
-> >>    * include/linux/hmm.h and Documentation/vm/hmm.rst.
-> >>    *
-> >> + * MEMORY_DEVICE_COHERENT:
-> >> + * Device memory that is cache coherent from device and CPU point of view. This
-> >> + * is used on platforms that have an advanced system bus (like CAPI or CXL). A
-> >> + * driver can hotplug the device memory using ZONE_DEVICE and with that memory
-> >> + * type. Any page of a process can be migrated to such memory. However no one
-> > Any page might not be right, I'm pretty sure. ... just thinking about special pages
-> > like vdso, shared zeropage, ... pinned pages ...
->
-> Hi David,
->
-> Yes, I think you're right. This type does not cover all special pages.
-> I need to correct that on the cover letter.
-> Pinned pages are allowed as long as they're not long term pinned.
->
-> Regards,
-> Alex Sierra
+From: Conor Dooley <conor.dooley@microchip.com>
 
-What if I want to hotplug this device's coherent memory, but I do
-*not* want the OS
-to migrate any page to it ?
-I want to fully-control what resides on this memory, as I can consider
-this memory
-"expensive". i.e. I don't have a lot of it, I want to use it for
-specific purposes and
-I don't want the OS to start using it when there is some memory pressure in
-the system.
+Hey all,
+This series should rid us of dtbs_check errors for the RISC-V Canaan k210
+based boards (well, unless you enable W=1 but that's another days work).
+I *DO NOT* have any Canaan hardware so I have not tested any of this in
+anger. I based the series on next-20220617.
 
-Oded
+For the bindings, I am never sure about which of {unevaluated,additional}
+Properties is correct to use, but the if statements in the binding didn't
+work with additional so I used unevaluated...
 
->
-> >
-> >> + * should be allowed to pin such memory so that it can always be evicted.
-> >> + *
-> >>    * MEMORY_DEVICE_FS_DAX:
-> >>    * Host memory that has similar access semantics as System RAM i.e. DMA
-> >>    * coherent and supports page pinning. In support of coordinating page
-> >> @@ -61,6 +68,7 @@ struct vmem_altmap {
-> >>   enum memory_type {
-> >>      /* 0 is reserved to catch uninitialized type fields */
-> >>      MEMORY_DEVICE_PRIVATE = 1,
-> >> +    MEMORY_DEVICE_COHERENT,
-> >>      MEMORY_DEVICE_FS_DAX,
-> >>      MEMORY_DEVICE_GENERIC,
-> >>      MEMORY_DEVICE_PCI_P2PDMA,
-> >> @@ -143,6 +151,17 @@ static inline bool folio_is_device_private(const struct folio *folio)
-> > In general, this LGTM, and it should be correct with PageAnonExclusive I think.
-> >
-> >
-> > However, where exactly is pinning forbidden?
->
-> Long-term pinning is forbidden since it would interfere with the device
-> memory manager owning the
-> device-coherent pages (e.g. evictions in TTM). However, normal pinning
-> is allowed on this device type.
->
-> Regards,
-> Alex Sierra
->
-> >
+@Mark, for your two bindings I was not sure about the properties that I
+made depend on the compatible, but I looked in tree and was not able to
+find other users to contradict what's in the Canaan devicetrees nor did
+I get that much help from their docs.
+
+@Rob, yesterday's removal of ilitek,ili9341.txt is moved to ths series
+since I was editing the dt-schema binding here anyway.
+
+Finally, @Palmer:
+This + Atul's stuff + the sifive dts watchdog patch will get us sorted
+in terms of dtbs_check errors. To make keeping it that way a little
+easier, I changed the Canaan devicetree Makefile so that it would build
+all of the devicetrees in the directory if SOC_CANAAN. Hopefully someone
+with a device can test it - but my build log *looked* fine but that's
+not exactly sufficient.
+
+Thanks,
+Conor.
+
+Conor Dooley (14):
+  dt-bindings: display: convert ilitek,ili9341.txt to dt-schema
+  dt-bindings: display: panel: allow ilitek,ili9341 in isolation
+  ASoC: dt-bindings: convert designware-i2s to dt-schema
+  dt-bindings: dma: add Canaan k210 to Synopsys DesignWare DMA
+  dt-bindings: timer: add Canaan k210 to Synopsys DesignWare timer
+  spi: dt-bindings: dw-apb-ssi: update spi-{r,t}x-bus-width for dwc-ssi
+  riscv: dts: canaan: fix the k210's memory node
+  riscv: dts: canaan: add a specific compatible for k210's dma
+  riscv: dts: canaan: add a specific compatible for k210's timers
+  riscv: dts: canaan: fix mmc node names
+  riscv: dts: canaan: fix kd233 display spi frequency
+  riscv: dts: canaan: use custom compatible for k210 i2s
+  riscv: dts: canaan: remove spi-max-frequency from controllers
+  riscv: dts: canaan: build all devicetress if SOC_CANAAN
+
+ .../bindings/display/ilitek,ili9341.txt       | 27 ------
+ .../display/panel/ilitek,ili9341.yaml         | 60 ++++++++----
+ .../bindings/dma/snps,dw-axi-dmac.yaml        | 35 +++++--
+ .../bindings/sound/designware-i2s.txt         | 35 -------
+ .../bindings/sound/snps,designware-i2s.yaml   | 93 +++++++++++++++++++
+ .../bindings/spi/snps,dw-apb-ssi.yaml         | 48 +++++++---
+ .../bindings/timer/snps,dw-apb-timer.yaml     | 28 ++++--
+ arch/riscv/boot/dts/canaan/Makefile           | 10 +-
+ arch/riscv/boot/dts/canaan/canaan_kd233.dts   |  4 +-
+ arch/riscv/boot/dts/canaan/k210.dtsi          | 25 ++---
+ .../riscv/boot/dts/canaan/sipeed_maix_bit.dts |  2 +-
+ .../boot/dts/canaan/sipeed_maix_dock.dts      |  2 +-
+ arch/riscv/boot/dts/canaan/sipeed_maix_go.dts |  2 +-
+ .../boot/dts/canaan/sipeed_maixduino.dts      |  2 +-
+ 14 files changed, 239 insertions(+), 134 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/ilitek,ili9341.txt
+ delete mode 100644 Documentation/devicetree/bindings/sound/designware-i2s.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/snps,designware-i2s.yaml
+
+
+base-commit: 07dc787be2316e243a16a33d0a9b734cd9365bd3
+-- 
+2.36.1
+
