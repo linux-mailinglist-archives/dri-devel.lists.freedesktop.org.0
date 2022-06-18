@@ -2,83 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19525506D3
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 23:37:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC22550744
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jun 2022 00:20:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6C3D10E8A3;
-	Sat, 18 Jun 2022 21:36:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84A9410F9F6;
+	Sat, 18 Jun 2022 22:20:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55F7610E8A3
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jun 2022 21:36:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655588212;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N8T/wpTfwFVsW4YYZ+EF9H0NEFSa6wtNsm+7+zS7JCo=;
- b=d/7PSUkW7KPK5Hx1NOPaf4aWApnrHTvItJiDxGLQiTtxUC9D4Lwh4NE6Ly0vit2uwDBUxB
- +jmu2Amj4+ZcT3JOtVASbD0aWiM1pO8mmKwlp1uh739NJ/6W2+wfXSEsnfIxDdEWxUjfP0
- 2V+WYPDnaie0TRBlqIgjDyZ3zjdozoA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-7_SOxoYKM5S5YvwQ5GWuuA-1; Sat, 18 Jun 2022 17:36:51 -0400
-X-MC-Unique: 7_SOxoYKM5S5YvwQ5GWuuA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- f9-20020a056402354900b0042ded146259so5727227edd.20
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jun 2022 14:36:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=N8T/wpTfwFVsW4YYZ+EF9H0NEFSa6wtNsm+7+zS7JCo=;
- b=Gn3tKYB3TWTbbsPftjPNhcXrnPAIuYdWsIC0XlqnUyghqX/aSifewr2w0DjC/+tMi2
- u44nYJRz6h0s1FX9BlGi7K/rX7ZGDnTo5asSAuGacvPf/9yangDCEshSv0SWm7HKw0q1
- WkpD7ItLmojqJodj30M8rL7Y5fpFQbR+CeZblwVE6OH1KwTMkl+bH6eubhcVmqPyy0fu
- NaeS5zUXqdtLaQLnGpkHgRnLuOD0DdSffHe9xtSmvAhxXHQDlffkGhNRzZaxTbSU/+P4
- +esfSKYborwV/ZAoh0FK439MkbJzl6AMjXB30SNRgk07xEsrQpV3X1Y89eqgbWHrRw+Z
- yJgQ==
-X-Gm-Message-State: AJIora8ApdBRluNEPaA3iVfL1D9GdXzvOHj8suIKhFXqVIeJ+Y9ZIivW
- TXVRnhoXUheEwCuGVzLiVWwUJAn7Y//zwsUTXmBLaWQjUDIzs77oVBudL7MnkROps9JfN2xNa14
- FNWUhzEBStKbvmvZlmST27tEscfrd
-X-Received: by 2002:a05:6402:3046:b0:42e:fee1:c2dd with SMTP id
- bs6-20020a056402304600b0042efee1c2ddmr20533056edb.29.1655588210286; 
- Sat, 18 Jun 2022 14:36:50 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t7Cs52CUm22UksO8lfTW8bsjliLJlYRclJIqNKKixv+475//U0NJZSbv9ZXTrEuzvNU+vOQw==
-X-Received: by 2002:a05:6402:3046:b0:42e:fee1:c2dd with SMTP id
- bs6-20020a056402304600b0042efee1c2ddmr20533028edb.29.1655588209932; 
- Sat, 18 Jun 2022 14:36:49 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
- (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
- by smtp.gmail.com with ESMTPSA id
- hf27-20020a1709072c5b00b006fee961b9e0sm3825795ejc.195.2022.06.18.14.36.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 18 Jun 2022 14:36:49 -0700 (PDT)
-Message-ID: <371f0f29-3c6e-34f9-75fd-31a9cdb8df6d@redhat.com>
-Date: Sat, 18 Jun 2022 23:36:48 +0200
+X-Greylist: delayed 384 seconds by postgrey-1.36 at gabe;
+ Sat, 18 Jun 2022 22:20:12 UTC
+Received: from condef-09.nifty.com (condef-09.nifty.com [202.248.20.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C84310F9FB;
+ Sat, 18 Jun 2022 22:20:12 +0000 (UTC)
+Received: from conssluserg-03.nifty.com ([10.126.8.82])by condef-09.nifty.com
+ with ESMTP id 25IM9pU9006240; Sun, 19 Jun 2022 07:09:51 +0900
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50]) (authenticated)
+ by conssluserg-03.nifty.com with ESMTP id 25IM9I0m004434;
+ Sun, 19 Jun 2022 07:09:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 25IM9I0m004434
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+ s=dec2015msa; t=1655590159;
+ bh=j6JPk1mHaQ5+DA5zjhwPjod5o+QCcmgN5pr8bzz2rcw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=DL+BWe7Bvglr971acdzRYfp36fqAmkSPSfTgd01ZpEjVchfYQDZDp8srCGzw0xlWX
+ ItK4yuKfKDK3q7clORHUwhDNzWAd3wqcXc+5tDPND8BSJoq5BscQCFwM3l2r6SGR46
+ rUG0WFSobzebOchG0XYvNfYBkcNA24h8G02/kHsRdeFVAQA4fZqMQeMs/51iLgZ0sr
+ e9fASdc05DZq5sYj7R+BpbwylQqVXAtoWyJuMqDl+RVqt/68gPyTOSXG9Pm5cRZ+br
+ xLUdO7Vxegng554nAm+iEu3dNpneSkFyZvILUAGhiVg4OJZfq+GBk6c42ReRZliSh3
+ kWMVakN5MiFaQ==
+X-Nifty-SrcIP: [209.85.128.50]
+Received: by mail-wm1-f50.google.com with SMTP id
+ x6-20020a1c7c06000000b003972dfca96cso3960033wmc.4; 
+ Sat, 18 Jun 2022 15:09:18 -0700 (PDT)
+X-Gm-Message-State: AJIora9RmnhyTaMfPV/97n6E7TuHAE7eO829z5j2GgYTuh6W4a3MXkO/
+ PWuMRIFzydjgim1Mu4LNnCTi/Y0CyNb8Tq1KnF8=
+X-Google-Smtp-Source: AGRyM1t9nq3U1MhJi8dOFnyZ0ZIk9zYkOQyel6bFep2DghyeRHgzA9mK8BRTGbmxBw5PEt2Hm3wVtuV5tIgnlQkqTM4=
+X-Received: by 2002:a05:600c:35c2:b0:39b:fa1f:4f38 with SMTP id
+ r2-20020a05600c35c200b0039bfa1f4f38mr16861022wmq.22.1655590157328; Sat, 18
+ Jun 2022 15:09:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: drm: panel-orientation-quirks: Add quirk for Aya Neo Next
-To: Maya Matuszczyk <maccraft123mc@gmail.com>
-References: <20220611103911.9417-1-maccraft123mc@gmail.com>
- <2573aee8-e1cd-cb62-c87f-f841a173220c@redhat.com>
- <CAO_Mup+xuh5EpniYG37qZxk_jJ9VoObWj2Muxd7JB+bC0DYTpg@mail.gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAO_Mup+xuh5EpniYG37qZxk_jJ9VoObWj2Muxd7JB+bC0DYTpg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220413161450.1854370-1-michel@daenzer.net>
+ <f425b789-5081-fa70-555f-7553d7cc5bd5@gmail.com>
+ <ca5ca8ab-9c48-8d81-2dd6-fbdfface6519@mailbox.org>
+ <abd87438-3ff4-6b62-81b4-6162d167348a@gmail.com>
+ <CADnq5_Npy02mWVMOs-TMQ9t6OLV8XFaSQFZ5iB=Y2q3OQgiQvw@mail.gmail.com>
+ <fe499d20-2667-5953-831a-d7668c5a3d18@mailbox.org>
+ <CAK7LNATdTaY6+FD4TuFgmb00=Qbx=7mmCi9onHv0zi=pdZysBQ@mail.gmail.com>
+ <8beac4f5-f7e8-31ab-bbf3-36a917979bfc@mailbox.org>
+ <c861e442-e09b-fe20-609c-05bdcb867663@mailbox.org>
+In-Reply-To: <c861e442-e09b-fe20-609c-05bdcb867663@mailbox.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 19 Jun 2022 07:08:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQgFXjiT5Js2KDNxp+ep2O7cUVYra31-qZBKTQ_SffLOQ@mail.gmail.com>
+Message-ID: <CAK7LNAQgFXjiT5Js2KDNxp+ep2O7cUVYra31-qZBKTQ_SffLOQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: Add build directory to include path
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,147 +72,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, tzimmermann@suse.de, dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Jun 15, 2022 at 5:35 PM Michel D=C3=A4nzer
+<michel.daenzer@mailbox.org> wrote:
+>
+> On 2022-04-14 18:57, Michel D=C3=A4nzer wrote:
+> > On 2022-04-14 17:04, Masahiro Yamada wrote:
+> >> On Thu, Apr 14, 2022 at 10:50 PM Michel D=C3=A4nzer
+> >> <michel.daenzer@mailbox.org> wrote:
+> >>> On 2022-04-14 15:34, Alex Deucher wrote:
+> >>>> On Thu, Apr 14, 2022 at 4:44 AM Christian K=C3=B6nig
+> >>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+> >>>>> Am 14.04.22 um 09:37 schrieb Michel D=C3=A4nzer:
+> >>>>>>
+> >>>>>>   make -C build-amd64 M=3Ddrivers/gpu/drm
+> >>
+> >>
+> >> Maybe
+> >>
+> >>         make  O=3Dbuild-arm64   drivers/gpu/drm/
+> >>
+> >> is the way you were searching for.
+> >>
+> >> It builds only drivers/gpu/drm/
+> >> in the separate directory.
+> >
+> > Indeed, that works.
+>
+> I've come to realize that this doesn't produce the actual *.ko modules th=
+ough. Is there a trick for building the modules, but only under drivers/gpu=
+/drm/ ?
+>
+>
+> --
+> Earthling Michel D=C3=A4nzer            |                  https://redhat=
+.com
+> Libre software enthusiast          |         Mesa and Xwayland developer
 
-On 6/18/22 23:08, Maya Matuszczyk wrote:
-> sob., 18 cze 2022 o 22:57 Hans de Goede <hdegoede@redhat.com> napisał(a):
->>
->> Hi Maya,
->>
->> On 6/11/22 12:39, Maccraft123 wrote:
->>> From: Maya Matuszczyk <maccraft123mc@gmail.com>
->>>
->>> The device is identified by "NEXT" in board name, however there are
->>> different versions of it, "Next Advance" and "Next Pro", that have
->>> different DMI board names.
->>> Due to a production error a batch or two have their board names prefixed
->>> by "AYANEO" and that's how we ended up with 6 different entries for
->>> what's basically one device with different hardware specifications.
->>>
->>> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
->>> ---
->>>  .../gpu/drm/drm_panel_orientation_quirks.c    | 36 +++++++++++++++++++
->>>  1 file changed, 36 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
->>> index 4e853acfd1e8..62fc7eb69341 100644
->>> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
->>> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
->>> @@ -152,6 +152,42 @@ static const struct dmi_system_id orientation_data[] = {
->>>                 DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AYA NEO 2021"),
->>>               },
->>>               .driver_data = (void *)&lcd800x1280_rightside_up,
->>> +     }, {    /* AYA NEO NEXT */
->>> +             .matches = {
->>> +               DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
->>> +               DMI_EXACT_MATCH(DMI_BOARD_NAME, "NEXT"),
->>> +             },
->>> +             .driver_data = (void *)&lcd800x1280_rightside_up,
->>> +     },
->>
->> If you change:
->>
->>                   DMI_EXACT_MATCH(DMI_BOARD_NAME, "NEXT"),
->>
->> to:
->>
->>                   DMI_MATCH(DMI_BOARD_NAME, "NEXT"),
->>
->> Then the matching code will do a substring search for "NEXT"
->> in DMI_BOARD_NAME. IOW it will do a strstr using DMI_BOARD_NAME
->> as the haystack and "NEXT" as the needle.
->>
->> And since all 6 board-names contain "NEXT", this single entry
->> will then match all 6 variants.
->>
->> So please respin this patch using just a single entry with:
->>
->>                   DMI_MATCH(DMI_BOARD_NAME, "NEXT"),
->>
-> I considered this and decided against it because if "Aya Neo Next 2" was
-> released it would likely have "NEXT 2" as DMI board name, and if it had
-> screen rotated differently this patch would rotate it in a wrong way.
 
-Hmm, I understand but I'm not sure what is the best thing to do.
-
-There also is the resolution check. So if a new "NEXT 2" is released
-then this really only is an issue if it too uses a 800x1280 screen,
-but then with its left-side-up.
-
-If it uses a normal landscape 1280x800 screen the resolution won't
-match the 800x1280 the quirk checks for so nothing happens.
-
-If it again uses a 800x1280 portrait screen in landscape mode
-with its right-side-up then the quirk matching actualy is
-a good thing.
-
-So the only bad scenario is a 800x1280 screen which is left-side-up,
-which the quirk will then turn from being on its side to being
-upside-down. The question then is though if upside-down is much
-worse then on its side, neither is really usable, so we would
-need a quirk for this screen then anyways...
-
-So I understand where you are coming from, but I see the chances
-of this becoming a problem as pretty small (and we can fix it
-when it does happen). OTOH the dmi_system_id table we are
-discussing is almost always built into the vmlinuz image.
-So growing it will cause extra disk/RAM uses for every Linux
-user out there (not just Aya Neo Next users).
-
-So IMHO going with only using 1 entry with the small risc of
-needing to revisit this later is the better solution here.
-
-Regards,
-
-Hans
+No.
+There is no way to build *.ko
+only under a specific directory.
 
 
 
-> 
-> 
->> Thanks & Regards,
->>
->> Hans
->>
->>
->>
->>  {      /* AYA NEO NEXT Advance */
->>> +             .matches = {
->>> +               DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
->>> +               DMI_EXACT_MATCH(DMI_BOARD_NAME, "NEXT Advance"),
->>> +             },
->>> +             .driver_data = (void *)&lcd800x1280_rightside_up,
->>> +     }, {    /* AYA NEO NEXT Pro */
->>> +             .matches = {
->>> +               DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
->>> +               DMI_EXACT_MATCH(DMI_BOARD_NAME, "NEXT Pro"),
->>> +             },
->>> +             .driver_data = (void *)&lcd800x1280_rightside_up,
->>> +     }, {    /* AYA NEO NEXT (Batch with different board name) */
->>> +             .matches = {
->>> +               DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
->>> +               DMI_EXACT_MATCH(DMI_BOARD_NAME, "AYANEO NEXT"),
->>> +             },
->>> +             .driver_data = (void *)&lcd800x1280_rightside_up,
->>> +     }, {    /* AYA NEO NEXT Advance (Batch with different board name) */
->>> +             .matches = {
->>> +               DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
->>> +               DMI_EXACT_MATCH(DMI_BOARD_NAME, "AYANEO NEXT Advance"),
->>> +             },
->>> +             .driver_data = (void *)&lcd800x1280_rightside_up,
->>> +     }, {    /* AYA NEO NEXT Pro (Batch with different board name) */
->>> +             .matches = {
->>> +               DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
->>> +               DMI_EXACT_MATCH(DMI_BOARD_NAME, "AYANEO NEXT Pro"),
->>> +             },
->>> +             .driver_data = (void *)&lcd800x1280_rightside_up,
->>>       }, {    /* Chuwi HiBook (CWI514) */
->>>               .matches = {
->>>                       DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
->>
-> 
 
+
+--=20
+Best Regards
+Masahiro Yamada
