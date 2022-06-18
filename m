@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AD3550482
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 14:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D06E550483
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jun 2022 14:32:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C386510E5E6;
-	Sat, 18 Jun 2022 12:32:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8358510E5E3;
+	Sat, 18 Jun 2022 12:32:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC1510E5E3
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jun 2022 12:32:12 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id g4so8781872wrh.11
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jun 2022 05:32:12 -0700 (PDT)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D20A10E5E7
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jun 2022 12:32:15 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ x6-20020a1c7c06000000b003972dfca96cso3548770wmc.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jun 2022 05:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qmSWtWUd+mMy8ZYoZTgQjYDztLIGNDdvta+tk149+dY=;
- b=dM4LDKg5XtY0Inv2LgZSsQ50IPuzGfCzEsvHlFQ/2NLIm/6++fbLLGSB9koJgwMTjp
- 07IF9XMy4P4HaeMA1yfSnaPY3CYXQ+u0Kv6ZrDa4GjATk93Wx2p5DeaQw29BenmArCiz
- I6simFjZ6ZTWhMpFS4z5vR9LZUvOOE+DqLAunuoSePBDY5dNABj/iCXgooJ7JUM1Gx2w
- oJTVRWFtg+XkkdFP3+9IwXZt69jucggKlNwGuChB7WxmXKdl5k9lj8f8ITLIpfckoFQS
- YaBPUVjvUVp7mpO9D9wZzFoEi6tceysbIOAoKo4R7lpk7QqiW4+Bkh5CqE2X/nDML5P4
- Wj6Q==
+ bh=yCkvd1rq89W/6SrEihtrV93zPOh8bp4EvU/AesUDp5c=;
+ b=aHjW5VkiLOJuMraDAkim12MSrvxYtcnkUa+6XugCv/phW+l8JDcGEqmFOjtiPLghjo
+ iDjWHIMizesLDejsxE38i+OtY7WWj3x11BBfb0BRUdXpK4pu3MkmLgAa5dvPF4Y79U7L
+ UBw2DK7UQ4hfNaYZxuStYUEYkp5i7TbAmelLvl2Ui/7w8TkzozVKIQaX5ZY57N429Zl0
+ xgWDMpxIW3ayHXhWUHqQjQuXwVBfy/ElkaLVd2hLdCEkKi4zy0N/eTrZ8OwQ4dltk65u
+ J4kCuiGGXyE3akVz8UzRk2HQ3opmwMzKwoXk0plpXwMqySPXygB+SYToa/Kb5HF8Q3nD
+ BP+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qmSWtWUd+mMy8ZYoZTgQjYDztLIGNDdvta+tk149+dY=;
- b=EoNeG/WBBaVeuqSttaBcnG3nIu/LgkLqX6R+sJH7o5+w3vlmfE3PUBK+T4BM+mKZ7v
- HfuwwiQldNZcTtHBSJH3kSeZPl7mf88WXx/j0qZDzoFF1wQTxsnrFWtppANdNE5t5DW9
- u19HqIqt3UhtGSX2b/W9W3HY932Xs0f/HWllscSPJgGSyGTQJ/GpZP0cP1adsGDYHQWE
- fliUUMEnbDGIItlLEwqRd56dwa0KApsb0qQ3DnTfLw6jRYQKQ5+EWFwqDGpr0NfXehxU
- 8HlQ7QD5G8P3Gz8RvadsoF7jzwV13HhFbctNvp1laMOxc3rMbKCUqp4reE6gd0/eRtX8
- CnCw==
-X-Gm-Message-State: AJIora+9FY1xmrKCu/J5lb0pUc2R5eEcG37ePeJ8ftcOEtUR1VKtdmHJ
- LL6Ugode6USg6hmtLnSKPyCGDg==
-X-Google-Smtp-Source: AGRyM1sfPQ5XTH8REWSlcNVbh+KVLu6pjXz8b6gchhSbSGxDuCamFh0CMH0mba5q/rzWCUN22eIJUA==
-X-Received: by 2002:a05:6000:1b03:b0:210:3372:2bd9 with SMTP id
- f3-20020a0560001b0300b0021033722bd9mr14215037wrz.704.1655555531747; 
- Sat, 18 Jun 2022 05:32:11 -0700 (PDT)
+ bh=yCkvd1rq89W/6SrEihtrV93zPOh8bp4EvU/AesUDp5c=;
+ b=06bDPoZe73YYEznzjFFKlKrI09jHcxQlepgYfcb7oz0/rZLO2NmAr7+yhINVnHBEnO
+ g2eL4XwJOTF6VyL1/2ksPYYnPjrhBm/khDJGdmUe/1N9MMZKMo9ao7U3Kg1rr85FHnB0
+ jsuykJgj0S4cQCak0l9iHe2fpJzXg1Mn9/6QkC0omUuuaJdJe3nmPVjlMzfzqo4LjDZR
+ HVVNNnuxrWeyq8X0mWiMMFVhgfmRKJugnHxvdvj8ahMee3kKcifZYpLwZh0/xTHF+Kps
+ nDBkpERTw+aHJcCiOqEqcGfH71V9qVvHrzMxptVYHnroUr1ZzWRxtmr/dJ9pczumbFoT
+ wILA==
+X-Gm-Message-State: AJIora83VE3DRX91GUM4j0f3XDfdBil9CBf6KNDwJzbIRRS54TAX+Sc4
+ S1j9mwq6gMPeu9TlkGURNFqImw==
+X-Google-Smtp-Source: AGRyM1s4BntBiZAtPtsynxF7uq+efiHJQnjp6f4ztefKsZzCsrAEC1MDiI+wsPar7tnOzz3WAfpCIg==
+X-Received: by 2002:a05:600c:1906:b0:39c:8573:f330 with SMTP id
+ j6-20020a05600c190600b0039c8573f330mr15063952wmq.5.1655555533520; 
+ Sat, 18 Jun 2022 05:32:13 -0700 (PDT)
 Received: from henark71.. ([51.37.234.167]) by smtp.gmail.com with ESMTPSA id
- az10-20020adfe18a000000b00210396b2eaesm9292305wrb.45.2022.06.18.05.32.09
+ az10-20020adfe18a000000b00210396b2eaesm9292305wrb.45.2022.06.18.05.32.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Jun 2022 05:32:11 -0700 (PDT)
+ Sat, 18 Jun 2022 05:32:12 -0700 (PDT)
 From: Conor Dooley <mail@conchuod.ie>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -56,9 +57,10 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Mark Brown <broonie@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
  Daniel Lezcano <daniel.lezcano@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH 07/14] riscv: dts: canaan: fix the k210's memory node
-Date: Sat, 18 Jun 2022 13:30:29 +0100
-Message-Id: <20220618123035.563070-8-mail@conchuod.ie>
+Subject: [PATCH 08/14] riscv: dts: canaan: add a specific compatible for
+ k210's dma
+Date: Sat, 18 Jun 2022 13:30:30 +0100
+Message-Id: <20220618123035.563070-9-mail@conchuod.ie>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220618123035.563070-1-mail@conchuod.ie>
 References: <20220618123035.563070-1-mail@conchuod.ie>
@@ -90,36 +92,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-The k210 memory node has a compatible string that does not match with
-any driver or dt-binding & has several non standard properties.
-Replace the reg names with a comment and delete the rest.
+The DMAC on the k210 has a non standard interrupt configuration, which
+leads to dtbs_check warnings:
+
+k210_generic.dtb: dma-controller@50000000: interrupts: [[27], [28], [29], [30], [31], [32]] is too long
+From schema: linux/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
+
+Update the binding to use a custom compatible to avoid the warning.
 
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
----
- arch/riscv/boot/dts/canaan/k210.dtsi | 6 ------
- 1 file changed, 6 deletions(-)
+ arch/riscv/boot/dts/canaan/k210.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/riscv/boot/dts/canaan/k210.dtsi b/arch/riscv/boot/dts/canaan/k210.dtsi
-index 44d338514761..287ea6eebe47 100644
+index 287ea6eebe47..314f6da5d7f6 100644
 --- a/arch/riscv/boot/dts/canaan/k210.dtsi
 +++ b/arch/riscv/boot/dts/canaan/k210.dtsi
-@@ -69,15 +69,9 @@ cpu1_intc: interrupt-controller {
+@@ -135,7 +135,7 @@ gpio0: gpio-controller@38001000 {
+ 		};
  
- 	sram: memory@80000000 {
- 		device_type = "memory";
--		compatible = "canaan,k210-sram";
- 		reg = <0x80000000 0x400000>,
- 		      <0x80400000 0x200000>,
- 		      <0x80600000 0x200000>;
--		reg-names = "sram0", "sram1", "aisram";
--		clocks = <&sysclk K210_CLK_SRAM0>,
--			 <&sysclk K210_CLK_SRAM1>,
--			 <&sysclk K210_CLK_AI>;
--		clock-names = "sram0", "sram1", "aisram";
- 	};
- 
- 	clocks {
+ 		dmac0: dma-controller@50000000 {
+-			compatible = "snps,axi-dma-1.01a";
++			compatible = "canaan,k210-axi-dma", "snps,axi-dma-1.01a";
+ 			reg = <0x50000000 0x1000>;
+ 			interrupts = <27>, <28>, <29>, <30>, <31>, <32>;
+ 			#dma-cells = <1>;
 -- 
 2.36.1
 
