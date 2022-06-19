@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC85550D77
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 00:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7AF8550D7B
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 00:34:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA4C4112EC6;
-	Sun, 19 Jun 2022 22:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0DDD10E3CD;
+	Sun, 19 Jun 2022 22:33:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4F3F112EC1;
- Sun, 19 Jun 2022 22:32:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6462010E3CD;
+ Sun, 19 Jun 2022 22:33:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=VMeVt5GgYN2uaIeRHzX920KYm0jgkAHAMZxXnkIML9g=; b=pgQQkfDDzmwa2hg8Z7zrwiIhkQ
- wMmfbvfFzlMe66OlOjqFDW79xCsmyWoJyhS82MDkL2zH0CYn8MoO6M8wKt5n+PcIc+nq2bTNkLdcj
- Zo5bn9/2UywUwjqugOIqMm7bwyDNwJZU+kxpuJWDm0aPyjgyK1ExtHXW08et06pnQgsudJHfChqYn
- qZvqOHE+ZYE0VU4SWgreeMnuT5rpJsmWbqiKzuH67dtaHsenAE5mRHCAmr8dDyp5bv9krE0e7jbvz
- G9UqN5M5QSpru5Dl1trqd6rPd5BpkmYQilPUpiVzEr+eX7PopgoAezZYUgUJfe52dn+zK+vCm1uN/
- 7WD0ukjQ==;
+ bh=SxhspAKE7SzQn5FJuFHB9m9JcLfDn2Aj35mp7jzgkM0=; b=DU/dQCJtGW7lm5B02H3kt4PsAS
+ cMeCaDGoEMyjfdPToEhpjb8RB1O7ZnhvOSE6rdx9La4hjwLAjnagbDTbyU0HA8RyDbmlWGBxHZqYo
+ jDI8xshR+7VOqCNNdOvUzppxu/aM46pmzKfMFrHQbF1Aov0uz1ACRHp11pTQhYme+RK8trKaz7V3m
+ KQ41BvNvOrzMKPFmaq9yfkhJ3HsxnillhToe6p6eloO4A6EwbPt0cMn+sFD1XUKjI9+wqbGbtx3/I
+ zqAq1lG2o5e34V6EW3eH8TuHB3Q3Dj8MBbwF+U/JcMlL0g+Ur4/sSb44neBHe1IE0R2/l9Pj+EksQ
+ Efq7ZEag==;
 Received: from [195.77.82.244] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1o33TC-005lHy-8P; Mon, 20 Jun 2022 00:32:39 +0200
+ id 1o33UH-005lHy-G6; Mon, 20 Jun 2022 00:33:47 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, harry.wentland@amd.com,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com
-Subject: [RFC PATCH 4/5] drm/drm_color_mgmt: add 3D LUT to color mgmt
- properties
-Date: Sun, 19 Jun 2022 21:31:03 -0100
-Message-Id: <20220619223104.667413-5-mwen@igalia.com>
+Subject: [RFC PATCH 5/5] drm/amd/display: mapping new DRM 3D LUT properties to
+ AMD hw blocks
+Date: Sun, 19 Jun 2022 21:31:04 -0100
+Message-Id: <20220619223104.667413-6-mwen@igalia.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220619223104.667413-1-mwen@igalia.com>
 References: <20220619223104.667413-1-mwen@igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,262 +61,282 @@ Cc: alex.hung@amd.com, amd-gfx@lists.freedesktop.org, nikola.cornij@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add 3D LUT for gammar correction using a 3D lookup table.  The position
-in the color correction pipeline where 3D LUT is applied depends on hw
-design, being after CTM or gamma. If just after CTM, a shaper lut must
-be set to shape the content for a non-linear space. That details should
-be handled by the driver according to its color capabilities.
+After adding 3D LUT (and shaper LUT) to DRM CRTC color management
+properties, map shaper lut and 3d lut properties to MPC blocks if DC hw
+is capable to handle 3dlut after-blending. In this case, the property
+only applies to DCN 3 family, as DCN 2 only has 3D support pre-blending
+and should be exposed by a DRM per-plane property in the future.
 
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- drivers/gpu/drm/drm_atomic_state_helper.c |  3 ++
- drivers/gpu/drm/drm_atomic_uapi.c         | 14 +++++-
- drivers/gpu/drm/drm_color_mgmt.c          | 58 +++++++++++++++++++++++
- drivers/gpu/drm/drm_fb_helper.c           |  2 +
- drivers/gpu/drm/drm_mode_config.c         | 14 ++++++
- include/drm/drm_color_mgmt.h              |  4 ++
- include/drm/drm_crtc.h                    | 12 ++++-
- include/drm/drm_mode_config.h             | 13 +++++
- 8 files changed, 117 insertions(+), 3 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   2 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   3 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 153 +++++++++++++++---
+ drivers/gpu/drm/amd/display/dc/dc_stream.h    |   4 +-
+ 4 files changed, 137 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-index cf0545bb6e00..64800bc41365 100644
---- a/drivers/gpu/drm/drm_atomic_state_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-@@ -141,6 +141,8 @@ void __drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc,
- 		drm_property_blob_get(state->ctm);
- 	if (state->shaper_lut)
- 		drm_property_blob_get(state->shaper_lut);
-+	if (state->lut3d)
-+		drm_property_blob_get(state->lut3d);
- 	if (state->gamma_lut)
- 		drm_property_blob_get(state->gamma_lut);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 06da4f2ed7ad..02ed3991a803 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -11221,7 +11221,7 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+ 			dm_old_crtc_state->dsc_force_changed == false)
+ 			continue;
  
-@@ -216,6 +218,7 @@ void __drm_atomic_helper_crtc_destroy_state(struct drm_crtc_state *state)
- 	drm_property_blob_put(state->degamma_lut);
- 	drm_property_blob_put(state->ctm);
- 	drm_property_blob_put(state->shaper_lut);
-+	drm_property_blob_put(state->lut3d);
- 	drm_property_blob_put(state->gamma_lut);
- }
- EXPORT_SYMBOL(__drm_atomic_helper_crtc_destroy_state);
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 6468f2a080bc..1896c0422f73 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -472,6 +472,14 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
- 					&replaced);
- 		state->color_mgmt_changed |= replaced;
- 		return ret;
-+	} else if (property == config->lut3d_property) {
-+		ret = drm_atomic_replace_property_blob_from_id(dev,
-+					&state->lut3d,
-+					val,
-+					-1, sizeof(struct drm_color_lut),
-+					&replaced);
-+		state->color_mgmt_changed |= replaced;
-+		return ret;
- 	} else if (property == config->gamma_lut_property) {
- 		ret = drm_atomic_replace_property_blob_from_id(dev,
- 					&state->gamma_lut,
-@@ -523,10 +531,12 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
- 		*val = (state->degamma_lut) ? state->degamma_lut->base.id : 0;
- 	else if (property == config->ctm_property)
- 		*val = (state->ctm) ? state->ctm->base.id : 0;
--	else if (property == config->gamma_lut_property)
--		*val = (state->gamma_lut) ? state->gamma_lut->base.id : 0;
- 	else if (property == config->shaper_lut_property)
- 		*val = (state->shaper_lut) ? state->shaper_lut->base.id : 0;
-+	else if (property == config->lut3d_property)
-+		*val = (state->lut3d) ? state->lut3d->base.id : 0;
-+	else if (property == config->gamma_lut_property)
-+		*val = (state->gamma_lut) ? state->gamma_lut->base.id : 0;
- 	else if (property == config->prop_out_fence_ptr)
- 		*val = 0;
- 	else if (property == crtc->scaling_filter_property)
-diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-index 4f57dc60fe03..696fe1e37801 100644
---- a/drivers/gpu/drm/drm_color_mgmt.c
-+++ b/drivers/gpu/drm/drm_color_mgmt.c
-@@ -87,6 +87,25 @@
-  *	publish the largest size, and sub-sample smaller sized LUTs
-  *	appropriately.
-  *
-+ * “LUT3D”:
-+ *	Blob property to set the 3D LUT mapping pixel data after the color
-+ *	transformation matrix and before gamma 1D lut correction. The
-+ *	data is interpreted as an array of &struct drm_color_lut elements.
-+ *	Hardware might choose not to use the full precision of the LUT
-+ *	elements.
-+ *
-+ *	Setting this to NULL (blob property value set to 0) means a the output
-+ *	color is identical to the input color. This is generally the driver
-+ *	boot-up state too. Drivers can access this blob through
-+ *	&drm_crtc_state.gamma_lut.
-+ *
-+ * “LUT3D_SIZE”:
-+ *	Unsigned range property to give the size of the 3D lookup table to be
-+ *	set on the LUT3D property (the size depends on the underlying
-+ *	hardware). If drivers support multiple LUT sizes then they should
-+ *	publish the largest size, and sub-sample smaller sized LUTs
-+ *	appropriately.
-+ *
-  * “GAMMA_LUT”:
-  *	Blob property to set the gamma lookup table (LUT) mapping pixel data
-  *	after the transformation matrix to data sent to the connector. The
-@@ -204,6 +223,45 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
- }
- EXPORT_SYMBOL(drm_crtc_enable_color_mgmt);
+-		ret = amdgpu_dm_verify_lut_sizes(new_crtc_state);
++		ret = amdgpu_dm_verify_lut_sizes(new_crtc_state, adev);
+ 		if (ret) {
+ 			DRM_DEBUG_DRIVER("amdgpu_dm_verify_lut_sizes() failed\n");
+ 			goto fail;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index 8fd1be7f2583..205503f12d87 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -721,9 +721,10 @@ void amdgpu_dm_trigger_timing_sync(struct drm_device *dev);
+ #define MAX_COLOR_LUT_ENTRIES 4096
+ /* Legacy gamm LUT users such as X doesn't like large LUT sizes */
+ #define MAX_COLOR_LEGACY_LUT_ENTRIES 256
++#define COLOR_3DLUT_ENTRIES 17
  
-+/**
-+ * drm_crtc_enable_lut3d - enable 3D LUT properties
-+ * @crtc: DRM CRTC
-+ * @shaper_lut_size: the size of shaper lut
-+ * @lut3d_size: the size of 3D lut
-+ *
-+ * This function lets the driver enable the 3D LUT color correction property
-+ * on a CRTC. This includes 3D LUT and also a shaper LUT, if set. The shaper
-+ * LUT property is only attached if its size is not 0 and 3D LUT is set, being
-+ * therefore optional.
-+ */
-+void drm_crtc_enable_lut3d(struct drm_crtc *crtc,
-+			   uint shaper_lut_size,
-+			   uint lut3d_size)
+ void amdgpu_dm_init_color_mod(void);
+-int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state);
++int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state, struct amdgpu_device *adev);
+ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc);
+ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+ 				      struct dc_plane_state *dc_plane_state);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+index 1f4a7c908587..d22396976c7a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+@@ -210,6 +210,45 @@ static void __drm_ctm_to_dc_matrix(const struct drm_color_ctm *ctm,
+ 	}
+ }
+ 
++static void __to_dc_lut3d_color(struct dc_rgb *rgb,
++				const struct drm_color_lut lut,
++				int bit_precision)
 +{
-+	struct drm_device *dev = crtc->dev;
-+	struct drm_mode_config *config = &dev->mode_config;
-+
-+	if (!lut3d_size)
-+		return;
-+
-+	drm_object_attach_property(&crtc->base,
-+				   config->lut3d_property, 0);
-+	drm_object_attach_property(&crtc->base,
-+				   config->lut3d_size_property,
-+				   lut3d_size);
-+	if (!shaper_lut_size)
-+		return;
-+
-+	drm_object_attach_property(&crtc->base,
-+				   config->shaper_lut_property, 0);
-+	drm_object_attach_property(&crtc->base,
-+				   config->shaper_lut_size_property,
-+				   lut3d_size);
++	rgb->red = drm_color_lut_extract(lut.red, 12);
++	rgb->green = drm_color_lut_extract(lut.green, 12);
++	rgb->blue  = drm_color_lut_extract(lut.blue, 12);
 +
 +}
-+EXPORT_SYMBOL(drm_crtc_enable_lut3d);
 +
++static void __drm_lut3d_to_dc_lut3d(const struct drm_color_lut *lut,
++				    struct dc_3dlut *lut3d)
++{
++        int lut3d_size = COLOR_3DLUT_ENTRIES*COLOR_3DLUT_ENTRIES*COLOR_3DLUT_ENTRIES;
++	int lutn_size = (lut3d_size - 1)/4 + 1;
++	int i;
++
++	ASSERT(lut3d && lut3d_size == MAX_COLOR_LUT_ENTRIES);
++
++	/* So far, only supports 17x17x17 3D LUT with 12-bit*/
++	lut3d->lut_3d.use_tetrahedral_9 = false;
++	lut3d->lut_3d.use_12bits = true;
++
++	for (i = 0; i < lutn_size - 1 ; i++) {
++		/* We should consider the 3dlut RGB values are distributed
++		 * along four arrays lut0-3 where the first sizes 1229 and the
++		 * other 1228. The max bit precision supported for 3dlut
++		 * channel is 12-bit, but can be 10-bit. Still need to verify
++		 * where it is setup */
++		__to_dc_lut3d_color(&lut3d->lut_3d.tetrahedral_17.lut0[i], lut[i], 12);
++		__to_dc_lut3d_color(&lut3d->lut_3d.tetrahedral_17.lut1[i], lut[i+lutn_size], 12);
++		__to_dc_lut3d_color(&lut3d->lut_3d.tetrahedral_17.lut2[i], lut[i+lutn_size*2], 12);
++		__to_dc_lut3d_color(&lut3d->lut_3d.tetrahedral_17.lut3[i], lut[i+lutn_size*3], 12);
++	}
++
++	/* lut0 goes to lutn_size == 1229 */
++	__to_dc_lut3d_color(&lut3d->lut_3d.tetrahedral_17.lut0[i], lut[i], 12);
++};
 +
  /**
-  * drm_mode_crtc_set_gamma_size - set the gamma table size
-  * @crtc: CRTC to set the gamma table size for
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index bdd33817d968..358c528c7c80 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -1069,6 +1069,8 @@ static int setcmap_atomic(struct fb_cmap *cmap, struct fb_info *info)
- 		replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
- 		replaced |= drm_property_replace_blob(&crtc_state->shaper_lut,
- 						      NULL);
-+		replaced |= drm_property_replace_blob(&crtc_state->lut3d,
-+						      NULL);
- 		replaced |= drm_property_replace_blob(&crtc_state->gamma_lut,
- 						      gamma_lut);
+  * __set_legacy_tf - Calculates the legacy transfer function
+  * @func: transfer function
+@@ -335,7 +374,20 @@ static int __set_input_tf(struct dc_transfer_func *func,
+ }
  
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index 4ba2a95b88e8..5458a7dfbe63 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -364,6 +364,20 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
- 		return -ENOMEM;
- 	dev->mode_config.shaper_lut_size_property = prop;
- 
-+	prop = drm_property_create(dev,
-+			DRM_MODE_PROP_BLOB,
-+			"LUT3D", 0);
-+	if (!prop)
-+		return -ENOMEM;
-+	dev->mode_config.lut3d_property = prop;
+ /**
+- * amdgpu_dm_verify_lut_sizes - verifies if DRM luts match the hw supported sizes
++ * amdgpu_dm_3dlut_size - get expected size according to hw color caps
++ * @lut_size: default size
++ * @adev: amdgpu device
++ *
++ * Return:
++ * lut_size if 3dlut is supported, zero otherwise
++ */
++static int amdgpu_dm_3dlut_size(int lut_size, struct amdgpu_device *adev)
++{
++	return adev->dm.dc->caps.color.mpc.num_3dluts ? lut_size : 0;
++}
 +
-+	prop = drm_property_create_range(dev,
-+			DRM_MODE_PROP_IMMUTABLE,
-+			"LUT3D_SIZE", 0, UINT_MAX);
-+	if (!prop)
-+		return -ENOMEM;
-+	dev->mode_config.lut3d_size_property = prop;
-+
- 	prop = drm_property_create(dev,
- 			DRM_MODE_PROP_BLOB,
- 			"GAMMA_LUT", 0);
-diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
-index 81c298488b0c..a4f054e0108f 100644
---- a/include/drm/drm_color_mgmt.h
-+++ b/include/drm/drm_color_mgmt.h
-@@ -59,6 +59,10 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
- 				bool has_ctm,
- 				uint gamma_lut_size);
++/**
++ * amdgpu_dm_verify_lut_sizes
+  * @crtc_state: the DRM CRTC state
+  * @adev: amdgpu device
+  *
+@@ -346,10 +398,11 @@ static int __set_input_tf(struct dc_transfer_func *func,
+  * 0 on success.
+  * -EINVAL if any lut sizes are invalid.
+  */
+-int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state)
++int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state,
++			       struct amdgpu_device *adev)
+ {
+ 	const struct drm_color_lut *lut = NULL;
+-	uint32_t size = 0;
++	uint32_t size = 0, exp_size;
  
-+void drm_crtc_enable_lut3d(struct drm_crtc *crtc,
-+			   uint shaper_lut_size,
-+			   uint lut3d_size);
-+
- int drm_mode_crtc_set_gamma_size(struct drm_crtc *crtc,
- 				 int gamma_size);
+ 	lut = __extract_blob_lut(crtc_state->degamma_lut, &size);
+ 	if (lut && size != MAX_COLOR_LUT_ENTRIES) {
+@@ -359,6 +412,24 @@ int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state)
+ 		return -EINVAL;
+ 	}
  
-diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-index a318d5feb44b..c22ffcc4d7aa 100644
---- a/include/drm/drm_crtc.h
-+++ b/include/drm/drm_crtc.h
-@@ -165,7 +165,7 @@ struct drm_crtc_state {
- 	bool zpos_changed : 1;
++	lut = __extract_blob_lut(crtc_state->shaper_lut, &size);
++	exp_size = amdgpu_dm_3dlut_size(MAX_COLOR_LUT_ENTRIES, adev);
++	if (lut && size != exp_size) {
++		DRM_DEBUG_DRIVER(
++			"Invalid Shaper LUT size. Should be %u but got %u.\n",
++			exp_size, size);
++		return -EINVAL;
++	}
++
++	lut = __extract_blob_lut(crtc_state->lut3d, &size);
++	exp_size = amdgpu_dm_3dlut_size(COLOR_3DLUT_ENTRIES, adev);
++	if (lut && size != exp_size) {
++		DRM_DEBUG_DRIVER(
++			"Invalid Gamma 3D LUT size. Should be %u but got %u.\n",
++			exp_size, size);
++		return -EINVAL;
++	}
++
+ 	lut = __extract_blob_lut(crtc_state->gamma_lut, &size);
+ 	if (lut && size != MAX_COLOR_LUT_ENTRIES &&
+ 	    size != MAX_COLOR_LEGACY_LUT_ENTRIES) {
+@@ -401,17 +472,19 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ 	struct amdgpu_device *adev = drm_to_adev(crtc->base.state->dev);
+ 	bool has_rom = adev->asic_type <= CHIP_RAVEN;
+ 	struct drm_color_ctm *ctm = NULL;
+-	const struct drm_color_lut *degamma_lut, *regamma_lut;
+-	uint32_t degamma_size, regamma_size;
+-	bool has_regamma, has_degamma;
++	const struct drm_color_lut *degamma_lut, *shaper_lut, *lut3d, *regamma_lut;
++	uint32_t degamma_size, regamma_size, shaper_size, lut3d_size;
++	bool has_regamma, has_degamma, has_lut3d, has_shaper_lut;
+ 	bool is_legacy;
+ 	int r;
+ 
+-	r = amdgpu_dm_verify_lut_sizes(&crtc->base);
++	r = amdgpu_dm_verify_lut_sizes(&crtc->base, adev);
+ 	if (r)
+ 		return r;
+ 
+ 	degamma_lut = __extract_blob_lut(crtc->base.degamma_lut, &degamma_size);
++	shaper_lut =  __extract_blob_lut(crtc->base.shaper_lut, &shaper_size);
++	lut3d = __extract_blob_lut(crtc->base.lut3d, &lut3d_size);
+ 	regamma_lut = __extract_blob_lut(crtc->base.gamma_lut, &regamma_size);
+ 
+ 	has_degamma =
+@@ -420,6 +493,12 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ 	has_regamma =
+ 		regamma_lut && !__is_lut_linear(regamma_lut, regamma_size);
+ 
++	has_shaper_lut =
++		shaper_lut && !__is_lut_linear(shaper_lut, shaper_size);
++
++	has_lut3d = shaper_lut && lut3d &&
++			    !__is_lut_linear(lut3d, lut3d_size);
++
+ 	is_legacy = regamma_size == MAX_COLOR_LEGACY_LUT_ENTRIES;
+ 
+ 	/* Reset all adjustments. */
+@@ -447,23 +526,55 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ 				    regamma_size, has_rom);
+ 		if (r)
+ 			return r;
+-	} else if (has_regamma) {
+-		/**
+-		 * If atomic regamma, CRTC RGM goes into RGM LUT. */
+-		stream->out_transfer_func->type = TF_TYPE_DISTRIBUTED_POINTS;
+-		stream->out_transfer_func->tf = TRANSFER_FUNCTION_LINEAR;
+-
+-		r = __set_output_tf(stream->out_transfer_func, regamma_lut,
+-				    regamma_size, has_rom);
+-		if (r)
+-			return r;
+ 	} else {
+-		/**
+-		 * No CRTC RGM means we can just put the block into bypass
+-		 * since we don't have any plane level adjustments using it.
++		/* If no 3D LUT, use regamma original settings that means
++		 * linear input space.
+ 		 */
+-		stream->out_transfer_func->type = TF_TYPE_BYPASS;
+ 		stream->out_transfer_func->tf = TRANSFER_FUNCTION_LINEAR;
++
++		if (has_lut3d && has_shaper_lut) {
++			/* 3D LUT always implies a shaper 1D LUT to
++			 * de-linearize and shape the content.
++			 * Q: I see func_shaper and lut3d_func is originally
++			 * const, is it expected? If so, where is the point to
++			 * update them?
++			 */
++			stream->func_shaper->type = TF_TYPE_DISTRIBUTED_POINTS;
++			stream->func_shaper->tf = TRANSFER_FUNCTION_LINEAR;
++			r = __set_output_tf(stream->func_shaper, shaper_lut,
++					    shaper_size, has_rom);
++			if (r)
++				return r;
++
++			/* Function to convert DRM 3D LUT to DC 3D LUT*/
++			 __drm_lut3d_to_dc_lut3d(lut3d, stream->lut3d_func);
++
++			/* Set different input space to gamma lut, since gamma
++			 * 1D LUT will be applied in a non-linear space after
++			 * 3D LUT. But which predefined function to select for
++			 * gamma after 3D LUT?
++			 */
++			stream->out_transfer_func->tf = TRANSFER_FUNCTION_SRGB;
++		}
++
++		if (has_regamma) {
++			/**
++			 * CRTC RGM goes into RGM LUT.
++			 */
++			stream->out_transfer_func->type = TF_TYPE_DISTRIBUTED_POINTS;
++
++			r = __set_output_tf(stream->out_transfer_func, regamma_lut,
++					    regamma_size, has_rom);
++			if (r)
++				return r;
++		} else {
++			/**
++			 * No CRTC RGM means we can just put the block into
++			 * bypass since we don't have any plane level
++			 * adjustments using it.
++		 	 */
++			stream->out_transfer_func->type = TF_TYPE_BYPASS;
++		}
+ 	}
+ 
  	/**
- 	 * @color_mgmt_changed: Color management properties have changed
--	 * (@shaper_lut, @gamma_lut, @degamma_lut or @ctm). Used by
-+	 * (@shaper_lut, @lut3d, @gamma_lut, @degamma_lut or @ctm). Used by
- 	 * the atomic helpers and drivers to steer the atomic commit control
- 	 * flow.
- 	 */
-@@ -298,6 +298,16 @@ struct drm_crtc_state {
- 	 */
- 	struct drm_property_blob *shaper_lut;
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_stream.h b/drivers/gpu/drm/amd/display/dc/dc_stream.h
+index f8f66790d09b..a7cc6ace5904 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_stream.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_stream.h
+@@ -246,8 +246,8 @@ struct dc_stream_state {
+ 	/* writeback */
+ 	unsigned int num_wb_info;
+ 	struct dc_writeback_info writeback_info[MAX_DWB_PIPES];
+-	const struct dc_transfer_func *func_shaper;
+-	const struct dc_3dlut *lut3d_func;
++	struct dc_transfer_func *func_shaper;
++	struct dc_3dlut *lut3d_func;
+ 	/* Computed state bits */
+ 	bool mode_changed : 1;
  
-+	/**
-+	 * @lut3d:
-+	 *
-+	 * 3D Lookup table for converting pixel data. Position where it takes
-+	 * place depends on hw design, after @ctm or @gamma_lut. See
-+	 * drm_crtc_enable_color_mgmt(). The blob (if not NULL) is an array of
-+	 * &struct drm_color_lut.
-+	 */
-+	struct drm_property_blob *lut3d;
-+
- 	/**
- 	 * @target_vblank:
- 	 *
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index 2df7e171add9..87280694e70d 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -812,6 +812,19 @@ struct drm_mode_config {
- 	 */
- 	struct drm_property *shaper_lut_size_property;
- 
-+	/**
-+	 * @lut3d_property: Optional CRTC property to set the 3D LUT used to
-+	 * convert colors; before or after gamma conversion depends on hw
-+	 * design. A shaper LUT can be used to delinearize content before apply
-+	 * 3D LUT correction.
-+	 */
-+	struct drm_property *lut3d_property;
-+	/**
-+	 * @lut3d_size_property: Optional CRTC property for the size of the
-+	 * 3D LUT as supported by the driver (read-only).
-+	 */
-+	struct drm_property *lut3d_size_property;
-+
- 	/**
- 	 * @gamma_lut_property: Optional CRTC property to set the LUT used to
- 	 * convert the colors, after the CTM matrix, to the gamma space of the
 -- 
 2.35.1
 
