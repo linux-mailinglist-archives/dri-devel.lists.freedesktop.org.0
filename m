@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D203550D6F
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 00:32:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42687550D72
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 00:32:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3FD112EA6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D2AC112EB5;
 	Sun, 19 Jun 2022 22:32:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1861112EA8;
- Sun, 19 Jun 2022 22:32:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2066112EAF;
+ Sun, 19 Jun 2022 22:32:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=FNpcaGqrG4M2FjccRgLzoZmtRAPdMo+nzena9XCnzNI=; b=Eq6kDYAGtv3Ufq7l/iE8su0+tn
- hwTZyKGq+9HUSLpxWk6BhA2oFJUsof7vtnAxswsc0LducjVeIuJYx6XGU2CUvxp91bxVAwtfzoAmy
- AZD2HTW2vt4yMngYs+XHLrCSk/o3Osf79Ys2kKBq+7qvmSBsMl5GvZ5svsYmXjKden+Mu9mdxLzd1
- dq4QwQrFkKZ/KIzgUnMGVs9qGjK/U0teqO33bl7Lb7Ml4NW3xcKftkWlc2HkwIlPm64zm+Qipx+wg
- S4J68lUphVgWEOU8Zmaaa06nkWKnFQzmizaI76Moh4sXCCZA71hU2ppzdcVSuBXizEu4oe4CBVAWk
- 0eCgKY6w==;
+ bh=AKCkWR1rJc7yBcTBCZvEPWBlgtap3fgWfhr76qMwAME=; b=Cju2fhs0snvQRc8ACWrsB+GhLJ
+ RDxKHquCSFL1JewgVMS+JXlcnPOJQc4mpqH4hBoBuMEYm8FukF9PeJ8Vvhz1kWtv7KbNZXENyMBE7
+ dMe4eB3K97o0wG/TU0KylCH7PfYvPh7eBJDKOWp9OctHdm1sD4Qay7yY/2Z15R7Ax5T1tFMvHyTHS
+ 2YwxuDApPOHE0INkc3wOr3IUbbsfApSLQuTjshiEhnZiwqbgoAykfCzmGBBdnt36N5fdN7Slq8/+/
+ 9IANsqXg5LG4ji1ClE23w2cnPGys43gOS8rxDLzps2rAvxWboBBlwNsVLITdKhDE6OridgEW1m9WR
+ YddoD5Qg==;
 Received: from [195.77.82.244] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1o33SW-005lHy-Tb; Mon, 20 Jun 2022 00:31:57 +0200
+ id 1o33Sh-005lHy-63; Mon, 20 Jun 2022 00:32:11 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, tzimmermann@suse.de, harry.wentland@amd.com,
  sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com
-Subject: [RFC PATCH 0/5] DRM CRTC 3D LUT interface for AMD DCN
-Date: Sun, 19 Jun 2022 21:30:59 -0100
-Message-Id: <20220619223104.667413-1-mwen@igalia.com>
+Subject: [RFC PATCH 1/5] Documentation/amdgpu_dm: Add DM color correction
+ documentation
+Date: Sun, 19 Jun 2022 21:31:00 -0100
+Message-Id: <20220619223104.667413-2-mwen@igalia.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220619223104.667413-1-mwen@igalia.com>
+References: <20220619223104.667413-1-mwen@igalia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,141 +61,311 @@ Cc: alex.hung@amd.com, amd-gfx@lists.freedesktop.org, nikola.cornij@amd.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+AMDGPU DM maps DRM color management properties (degamma, ctm and gamma)
+to DC color correction entities. Part of this mapping is already
+documented as code comments and can be converted as kernel docs.
 
-I've been working on a proposal to add 3D LUT interface to DRM CRTC
-color mgmt, that means new **after-blending** properties for color
-correction. As I'm targeting AMD display drivers, I need to map these
-new properties to AMD DC interface and I have some doubts about the 3D
-LUT programming on DCN blocks.
+Signed-off-by: Melissa Wen <mwen@igalia.com>
+---
+ .../gpu/amdgpu/display/display-manager.rst    |   9 ++
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   2 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 122 +++++++++++++-----
+ 3 files changed, 101 insertions(+), 32 deletions(-)
 
-First of all, this patchset is a working in progress and further
-discussions about the DRM interface should be done. I've examined
-previous proposal to add 3D LUT[1][2] and I understand that the main
-difference between them is regarding the property position in the DRM
-color management pipeline (between CTM and Gamma 1D or after Gamma 1D).
-On the other hand, AMD DC always considers a shaper (1D) LUT before a 3D
-LUT, used to delinearize and shape the content.  These LUTs are then
-positioned between DRM CTM and Gamma (1D).
-
-By comparing the AMD design with the other proposals, I see that it's
-possible to cover all of them by adding and combining shaper (1D) LUT
-and 3D LUT as new color mgmt properties. Moreover, it'll not limit the
-exposure of AMD color correction caps to the userspace. Therefore, my
-proposal is to add these two new properties in the DRM color mgmt
-pipeline as follows:
-
- +------------+
- |            |
- |  Degamma   |
- +-----+------+
-       |
- +-----v------+
- |            |
- |    CTM     |
- +-----+------+
-       |
-++-----v------++
-||            ||
-|| Shaper LUT ||
-++-----+------++
-       |
-++-----v------++
-||            ||
-||  3D LUT    ||
-++-----+------++
-       |
- +-----v------+
- |            |
- | Gamma (1D) |
- +------------+
-
-However, many doubts arose when I was mapping these two new properties
-to DC interface. This is why I decided to share an not-yet-completed
-implementation to get some feedback and explanation.
-
-This RFC patchset is divided in three scopes of change. The first two
-patches document the AMD DM color correction mapping. Some comments were
-rewritten as kernel doc entries. I also summarize all information
-provided in previous discussions[3] and also redid those diagrams to
-svg. All doc should be reviewed and some struct members lack
-explanation. I can add them to documentation if you can provide a
-description. Some examples that lack description so far:
-* in amdgpu_display_manager: dmub_outbox_params, dmub_aux_transfer_done, delayed_hpd_wq;
-* in dpp_color_caps: dgam_ram, dgam_rom_for_yuv;
-* in mpc_color_caps: ogam_ram.
-
-The next two patches expand DRM color mgmt interface to add shaper LUT
-and 3D LUT. Finally, the last patch focuses on mapping DRM properties to
-DC interface and these are my doubts so far:
-
-- To configure a shaper LUT, I related it to the current configuration
-  of gamma 1D. For dc_transfer_func, I should set tf according to the
-  input space, that means, LINEAR for shaper LUT after blending, right?
-  When 3D LUT is set, the input space for gamma 1D will no longer be
-  linear, so how to define the tf?  should I set tf as sRGB, BT709 or
-  what?
-
-- I see the 3dlut values being mapped to struct tetrahedral_17 as four
-  arrays lut0-4. From that I am considering tetrahedral interpolation.
-  Is there any other interpolation option? Also, as the total size of the
-  four arrays is the same of the 3D LUT size, I'm mapping DRM color lut
-  values in ascending order, starting by filling lut0 to lut4. Is it right
-  or is there another way to distribute these values across lut0-4 arrays?
-
-- I also see tetrahedral 9x9x9, that means DC supports 9x9x9 3D LUT too?
-  If so, does it depend on hw caps or it is defined by the user? Also, I
-  see 10 and 12 bits color channel precision, does it depend on hw caps or
-  it is also defined by the userspace? Any ideas on how to expose it?
-
-- Why func_shaper and lut3d_func are defined as constant on
-  dc_stream_state, while the other color properties are not? How should
-  I change them from the proposed DRM properties? should I set 3D LUT in a
-  different struct of the DC interface or a different DC pipeline stage?
-
-- In mpc3_program_3dlut(), why we are setting is_12bits_color_channel in
-  get3dlut_config(), since right after that we are changing its values
-  with this line `is_12bits_color_channel = params->use_12bits`?
-
-- In mpc3_set3dlut_ram10(), there is a suspicious comment for a shift
-  operation: `should we shift red 22bit and green 12? ask Nvenko` So, is
-  this operation stable/working as expected?
-
-Thanks in advance for clarifications,
-
-Melissa
-
-[1] https://lore.kernel.org/all/20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com/
-[2] https://github.com/vsyrjala/linux/commit/4d28e8ddf2a076f30f9e5bdc17cbb4656fe23e69
-[3] https://lore.kernel.org/amd-gfx/20220505220744.3sex7ka2ha2vcguv@mail.igalia.com/
-
-Melissa Wen (5):
-  Documentation/amdgpu_dm: Add DM color correction documentation
-  Documentation/amdgpu/display: add DC color caps info
-  drm/drm_color_mgmt: add shaper LUT to color mgmt properties
-  drm/drm_color_mgmt: add 3D LUT to color mgmt properties
-  drm/amd/display: mapping new DRM 3D LUT properties to AMD hw blocks
-
- .../amdgpu/display/dcn2_cm_drm_current.svg    | 1370 +++++++++++++++
- .../amdgpu/display/dcn3_cm_drm_current.svg    | 1528 +++++++++++++++++
- .../gpu/amdgpu/display/display-manager.rst    |   44 +
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |    2 +-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |    5 +-
- .../amd/display/amdgpu_dm/amdgpu_dm_color.c   |  265 ++-
- drivers/gpu/drm/amd/display/dc/dc.h           |   53 +-
- drivers/gpu/drm/amd/display/dc/dc_stream.h    |    4 +-
- drivers/gpu/drm/drm_atomic_state_helper.c     |    7 +
- drivers/gpu/drm/drm_atomic_uapi.c             |   20 +
- drivers/gpu/drm/drm_color_mgmt.c              |   89 +-
- drivers/gpu/drm/drm_fb_helper.c               |    5 +
- drivers/gpu/drm/drm_mode_config.c             |   28 +
- include/drm/drm_color_mgmt.h                  |    4 +
- include/drm/drm_crtc.h                        |   24 +-
- include/drm/drm_mode_config.h                 |   25 +
- 16 files changed, 3411 insertions(+), 62 deletions(-)
- create mode 100644 Documentation/gpu/amdgpu/display/dcn2_cm_drm_current.svg
- create mode 100644 Documentation/gpu/amdgpu/display/dcn3_cm_drm_current.svg
-
+diff --git a/Documentation/gpu/amdgpu/display/display-manager.rst b/Documentation/gpu/amdgpu/display/display-manager.rst
+index 7ce31f89d9a0..b1b0f11aed83 100644
+--- a/Documentation/gpu/amdgpu/display/display-manager.rst
++++ b/Documentation/gpu/amdgpu/display/display-manager.rst
+@@ -40,3 +40,12 @@ Atomic Implementation
+ 
+ .. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+    :functions: amdgpu_dm_atomic_check amdgpu_dm_atomic_commit_tail
++
++Color Management Properties
++===========================
++
++.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
++   :doc: overview
++
++.. kernel-doc:: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
++   :internal:
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index 3cc5c15303e6..8fd1be7f2583 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -242,6 +242,8 @@ struct hpd_rx_irq_offload_work {
+  * @force_timing_sync: set via debugfs. When set, indicates that all connected
+  *		       displays will be forced to synchronize.
+  * @dmcub_trace_event_en: enable dmcub trace events
++ * @num_of_edps: dumber of embedded Display Ports
++ * @disable_hpd_irq: disable Hot Plug Detect handling
+  */
+ struct amdgpu_display_manager {
+ 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+index a71177305bcd..1f4a7c908587 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+@@ -29,7 +29,9 @@
+ #include "modules/color/color_gamma.h"
+ #include "basics/conversion.h"
+ 
+-/*
++/**
++ * DOC: overview
++ *
+  * The DC interface to HW gives us the following color management blocks
+  * per pipe (surface):
+  *
+@@ -71,8 +73,8 @@
+ 
+ #define MAX_DRM_LUT_VALUE 0xFFFF
+ 
+-/*
+- * Initialize the color module.
++/**
++ * amdgpu_dm_init_color_mod - Initialize the color module.
+  *
+  * We're not using the full color module, only certain components.
+  * Only call setup functions for components that we need.
+@@ -82,7 +84,14 @@ void amdgpu_dm_init_color_mod(void)
+ 	setup_x_points_distribution();
+ }
+ 
+-/* Extracts the DRM lut and lut size from a blob. */
++/**
++ * __extract_blob_lut - Extracts the DRM lut and lut size from a blob.
++ * @blob: DRM color mgmt property blob
++ * @size: lut size
++ *
++ * Returns:
++ * DRM LUT or NULL
++ */
+ static const struct drm_color_lut *
+ __extract_blob_lut(const struct drm_property_blob *blob, uint32_t *size)
+ {
+@@ -90,13 +99,18 @@ __extract_blob_lut(const struct drm_property_blob *blob, uint32_t *size)
+ 	return blob ? (struct drm_color_lut *)blob->data : NULL;
+ }
+ 
+-/*
+- * Return true if the given lut is a linear mapping of values, i.e. it acts
+- * like a bypass LUT.
++/**
++ * __is_lut_linear - check if the given lut is a linear mapping of values
++ * @lut: given lut to check values
++ * @size: lut size
+  *
+  * It is considered linear if the lut represents:
+- * f(a) = (0xFF00/MAX_COLOR_LUT_ENTRIES-1)a; for integer a in
+- *                                           [0, MAX_COLOR_LUT_ENTRIES)
++ * f(a) = (0xFF00/MAX_COLOR_LUT_ENTRIES-1)a; for integer a in [0,
++ * MAX_COLOR_LUT_ENTRIES)
++ *
++ * Returns:
++ * True if the given lut is a linear mapping of values, i.e. it acts like a
++ * bypass LUT. Otherwise, false.
+  */
+ static bool __is_lut_linear(const struct drm_color_lut *lut, uint32_t size)
+ {
+@@ -119,9 +133,13 @@ static bool __is_lut_linear(const struct drm_color_lut *lut, uint32_t size)
+ 	return true;
+ }
+ 
+-/*
+- * Convert the drm_color_lut to dc_gamma. The conversion depends on the size
+- * of the lut - whether or not it's legacy.
++/**
++ * __drm_lut_to_dc_gamma - convert the drm_color_lut to dc_gamma.
++ * @lut: DRM lookup table for color conversion
++ * @gamma: DC gamma to set entries
++ * @is_legacy: legacy or atomic gamma
++ *
++ * The conversion depends on the size of the lut - whether or not it's legacy.
+  */
+ static void __drm_lut_to_dc_gamma(const struct drm_color_lut *lut,
+ 				  struct dc_gamma *gamma, bool is_legacy)
+@@ -154,8 +172,11 @@ static void __drm_lut_to_dc_gamma(const struct drm_color_lut *lut,
+ 	}
+ }
+ 
+-/*
+- * Converts a DRM CTM to a DC CSC float matrix.
++/**
++ * __drm_ctm_to_dc_matrix - converts a DRM CTM to a DC CSC float matrix
++ * @ctm: DRM color transformation matrix
++ * @matrix: DC CSC float matrix
++ *
+  * The matrix needs to be a 3x4 (12 entry) matrix.
+  */
+ static void __drm_ctm_to_dc_matrix(const struct drm_color_ctm *ctm,
+@@ -189,7 +210,18 @@ static void __drm_ctm_to_dc_matrix(const struct drm_color_ctm *ctm,
+ 	}
+ }
+ 
+-/* Calculates the legacy transfer function - only for sRGB input space. */
++/**
++ * __set_legacy_tf - Calculates the legacy transfer function
++ * @func: transfer function
++ * @lut: lookup table that defines the color space
++ * @lut_size: size of respective lut
++ * @has_rom: if ROM can be used for hardcoded curve
++ *
++ * Only for sRGB input space
++ *
++ * Returns:
++ * 0 in case of sucess, -ENOMEM if fails
++ */
+ static int __set_legacy_tf(struct dc_transfer_func *func,
+ 			   const struct drm_color_lut *lut, uint32_t lut_size,
+ 			   bool has_rom)
+@@ -218,7 +250,16 @@ static int __set_legacy_tf(struct dc_transfer_func *func,
+ 	return res ? 0 : -ENOMEM;
+ }
+ 
+-/* Calculates the output transfer function based on expected input space. */
++/**
++ * __set_output_tf - calculates the output transfer function based on expected input space.
++ * @func: transfer function
++ * @lut: lookup table that defines the color space
++ * @lut_size: size of respective lut
++ * @has_rom: if ROM can be used for hardcoded curve
++ *
++ * Returns:
++ * 0 in case of success. -ENOMEM if fails.
++ */
+ static int __set_output_tf(struct dc_transfer_func *func,
+ 			   const struct drm_color_lut *lut, uint32_t lut_size,
+ 			   bool has_rom)
+@@ -239,7 +280,7 @@ static int __set_output_tf(struct dc_transfer_func *func,
+ 	__drm_lut_to_dc_gamma(lut, gamma, false);
+ 
+ 	if (func->tf == TRANSFER_FUNCTION_LINEAR) {
+-		/*
++		/**
+ 		 * Color module doesn't like calculating regamma params
+ 		 * on top of a linear input. But degamma params can be used
+ 		 * instead to simulate this.
+@@ -262,7 +303,16 @@ static int __set_output_tf(struct dc_transfer_func *func,
+ 	return res ? 0 : -ENOMEM;
+ }
+ 
+-/* Caculates the input transfer function based on expected input space. */
++/**
++ * __set_input_tf - calculates the input transfer function based on expected
++ * input space.
++ * @func: transfer function
++ * @lut: lookup table that defines the color space
++ * @lut_size: size of respective lut.
++ *
++ * Returns:
++ * 0 in case of success. -ENOMEM if fails.
++ */
+ static int __set_input_tf(struct dc_transfer_func *func,
+ 			  const struct drm_color_lut *lut, uint32_t lut_size)
+ {
+@@ -285,13 +335,16 @@ static int __set_input_tf(struct dc_transfer_func *func,
+ }
+ 
+ /**
+- * amdgpu_dm_verify_lut_sizes
++ * amdgpu_dm_verify_lut_sizes - verifies if DRM luts match the hw supported sizes
+  * @crtc_state: the DRM CRTC state
++ * @adev: amdgpu device
+  *
+- * Verifies that the Degamma and Gamma LUTs attached to the |crtc_state| are of
+- * the expected size.
++ * Verifies that the Degamma and Gamma LUTs attached to the &crtc_state
++ * are of the expected size.
+  *
+- * Returns 0 on success.
++ * Returns:
++ * 0 on success.
++ * -EINVAL if any lut sizes are invalid.
+  */
+ int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state)
+ {
+@@ -327,9 +380,9 @@ int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state)
+  * of the HW blocks as long as the CRTC CTM always comes before the
+  * CRTC RGM and after the CRTC DGM.
+  *
+- * The CRTC RGM block will be placed in the RGM LUT block if it is non-linear.
+- * The CRTC DGM block will be placed in the DGM LUT block if it is non-linear.
+- * The CRTC CTM will be placed in the gamut remap block if it is non-linear.
++ * * The CRTC RGM block will be placed in the RGM LUT block if it is non-linear.
++ * * The CRTC DGM block will be placed in the DGM LUT block if it is non-linear.
++ * * The CRTC CTM will be placed in the gamut remap block if it is non-linear.
+  *
+  * The RGM block is typically more fully featured and accurate across
+  * all ASICs - DCE can't support a custom non-linear CRTC DGM.
+@@ -338,7 +391,9 @@ int amdgpu_dm_verify_lut_sizes(const struct drm_crtc_state *crtc_state)
+  * management at once we have to either restrict the usage of CRTC properties
+  * or blend adjustments together.
+  *
+- * Returns 0 on success.
++ * Returns:
++ * 0 on success.
++ * Error code if setup fails.
+  */
+ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ {
+@@ -373,7 +428,7 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ 
+ 	/* Setup regamma and degamma. */
+ 	if (is_legacy) {
+-		/*
++		/**
+ 		 * Legacy regamma forces us to use the sRGB RGM as a base.
+ 		 * This also means we can't use linear DGM since DGM needs
+ 		 * to use sRGB as a base as well, resulting in incorrect CRTC
+@@ -393,7 +448,8 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ 		if (r)
+ 			return r;
+ 	} else if (has_regamma) {
+-		/* CRTC RGM goes into RGM LUT. */
++		/**
++		 * If atomic regamma, CRTC RGM goes into RGM LUT. */
+ 		stream->out_transfer_func->type = TF_TYPE_DISTRIBUTED_POINTS;
+ 		stream->out_transfer_func->tf = TRANSFER_FUNCTION_LINEAR;
+ 
+@@ -402,7 +458,7 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ 		if (r)
+ 			return r;
+ 	} else {
+-		/*
++		/**
+ 		 * No CRTC RGM means we can just put the block into bypass
+ 		 * since we don't have any plane level adjustments using it.
+ 		 */
+@@ -410,7 +466,7 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ 		stream->out_transfer_func->tf = TRANSFER_FUNCTION_LINEAR;
+ 	}
+ 
+-	/*
++	/**
+ 	 * CRTC DGM goes into DGM LUT. It would be nice to place it
+ 	 * into the RGM since it's a more featured block but we'd
+ 	 * have to place the CTM in the OCSC in that case.
+@@ -421,7 +477,7 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+ 	if (crtc->base.ctm) {
+ 		ctm = (struct drm_color_ctm *)crtc->base.ctm->data;
+ 
+-		/*
++		/**
+ 		 * Gamut remapping must be used for gamma correction
+ 		 * since it comes before the regamma correction.
+ 		 *
+@@ -452,7 +508,9 @@ int amdgpu_dm_update_crtc_color_mgmt(struct dm_crtc_state *crtc)
+  * preparation for hardware commit. The transfer function used depends on
+  * the prepartion done on the stream for color management.
+  *
+- * Returns 0 on success.
++ * Returns:
++ * 0 on success.
++ * ENOMEM if mem allocation fails.
+  */
+ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+ 				      struct dc_plane_state *dc_plane_state)
 -- 
 2.35.1
 
