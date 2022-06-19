@@ -1,144 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BCB550C23
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jun 2022 18:42:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A461D550C0C
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jun 2022 18:22:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2841B10FDD8;
-	Sun, 19 Jun 2022 16:42:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4765610ED52;
+	Sun, 19 Jun 2022 16:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 23255 seconds by postgrey-1.36 at gabe;
- Sun, 19 Jun 2022 16:42:49 UTC
-Received: from mx0a-0039f301.pphosted.com (mx0a-0039f301.pphosted.com
- [148.163.133.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C14DD10FDD8
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jun 2022 16:42:49 +0000 (UTC)
-Received: from pps.filterd (m0174676.ppops.net [127.0.0.1])
- by mx0a-0039f301.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25J53TRs018067;
- Sun, 19 Jun 2022 10:15:10 GMT
-Received: from eur05-vi1-obe.outbound.protection.outlook.com
- (mail-vi1eur05lp2177.outbound.protection.outlook.com [104.47.17.177])
- by mx0a-0039f301.pphosted.com (PPS) with ESMTPS id 3gs6ryhvse-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 19 Jun 2022 10:15:10 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J/zMXplcHDNiIX8lvGo4dzWeCGOXD7Ngd7AJbOSTF1mvmMeRb8UbzkSOeSwA5xOIOSh7+NO06oy8RpODq6h6H6UFqTVQsyE88XWlRntieQ6p5Y7MV9dhV4hwCjVv9rnENdsjYde9BK5fJymbwY3BDIVVCflvixnFPaKv9QlsejSG9HShPcYMxwhLOwSE6XRhYYsoYWseHSZSMKnrAccLvZZwQznVJdVhwwzyk9wO6WXnTln9J5sUb6xl5FplnjVySquE9WlOKo6TzHc+35+oDxt3jm6ny5RuEHUvd0zkSs8zCTqVEq5xqYfDQfcf6VsTHxBXf5kIkhFcL5jdaYYC/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hGplq3oWsFAAVCxUacIORBzHw9VJIgU9kEPa/BQeFh0=;
- b=keU4dGhDX9/MM+WISXLck9f7/OPDUf4bhS2WXHtArRhT/qmpnNstCFXHFle3VQc+2cxtq/AE6qV7Ld4WFTbQNkwHG9xlpdUW02kBPQg7rmYGNYQI5BtiHrGWNBprC2emj3Uvnt1Z+GS01eAnVx+f+y4UmNTHj8luFSbyPWLHKCIK1fG1nGl5XcaaH/v8UL0PG2wjXxM8+d4NYoq8DYOAq/8WPucaRlUkwqWWrKoHrisdMQvZhHdXmhu6GwFJSx6sdVrXcMgYr7ZlbbSgh/vCVC7uYKdVp54WKWjztLnUpsNIPNBjTcuaiI+2f4rnS+pc1sGj7CQ9Y4kle98PuqLKDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=epam.com; dmarc=pass action=none header.from=epam.com;
- dkim=pass header.d=epam.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=epam.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hGplq3oWsFAAVCxUacIORBzHw9VJIgU9kEPa/BQeFh0=;
- b=cxGC6P3N6evx7jt4miif8GPmQOZjROHU7xfeQm1T4TdP9Ub3WynnXD6k6btX2GbBA6ErO7rOVbDsczIZ1keZBm0t2a/EVPX+psY0gbYi9ihGMFSiB85XB+wefMoviAhNu6j062FoZtemfqNNtWGtddSzPeZEbbyO+srZIb9dMjIkNqbAIPyI+VQEK3u+lNJeQQuwsd2bpeSN/5GZf8fcYMdciWw6I1GAPWNadaq2dYmYhJv7aUaKX1QTHRA9CNHIWuH1yv7Y2zlT8Z1in79RCAKgmmGQCUY95ayYvRbQEmn9f/YikJlhZZDd3uxLZiTSSsT6AgnpteZvBeBsbTeo/g==
-Received: from DU0PR03MB8292.eurprd03.prod.outlook.com (2603:10a6:10:320::10)
- by AM9PR03MB7995.eurprd03.prod.outlook.com (2603:10a6:20b:43e::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.20; Sun, 19 Jun
- 2022 10:15:06 +0000
-Received: from DU0PR03MB8292.eurprd03.prod.outlook.com
- ([fe80::b57f:9009:fba8:a795]) by DU0PR03MB8292.eurprd03.prod.outlook.com
- ([fe80::b57f:9009:fba8:a795%5]) with mapi id 15.20.5353.018; Sun, 19 Jun 2022
- 10:15:06 +0000
-From: Oleksandr Andrushchenko <Oleksandr_Andrushchenko@epam.com>
-To: Oleksandr Tyshchenko <olekstysh@gmail.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/xen: Add missing VM_DONTEXPAND flag in mmap callback
-Thread-Topic: [PATCH] drm/xen: Add missing VM_DONTEXPAND flag in mmap callback
-Thread-Index: AQHYY6v/wU3gEIzWM0yI8demCauBeq1Ww4oA
-Date: Sun, 19 Jun 2022 10:15:05 +0000
-Message-ID: <ab942c02-cc3d-b90b-ea68-d271b6b04638@epam.com>
-References: <1652104303-5098-1-git-send-email-olekstysh@gmail.com>
-In-Reply-To: <1652104303-5098-1-git-send-email-olekstysh@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b2062dc2-d2c9-4629-3170-08da51dc94ec
-x-ms-traffictypediagnostic: AM9PR03MB7995:EE_
-x-microsoft-antispam-prvs: <AM9PR03MB7995ECFCBABA0386F96DA341E7B19@AM9PR03MB7995.eurprd03.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /GJe/V2YbRJMnBT3Qh9Su8XWEfVrZ0+OWhvQwtoRtM04RmfTahWWRNpUT56+YvhFdQFZVrU70B/WfFPy8I9RHMqNWNXlNdCd8R1N69KyCbHjYzI1kVBOdwzm58OAcAuwBegKL9oA/PF9Axu9PGemm47pIjSm5tWZ4Nr70+tyy+XjbUGyZbjLpUmPtLzO8BYfNpSnsU5pAD2rP3UXAvQKWcLds9JLXSnfYgA/4XUy0dKA+ZO8IC/V306Eb8ynF/UyQ87OEKjWqOpejdZKQIX8+J8VWR0BzqeaXcLjFl8u+HVZvELDZ7BZn8vUyo2Vsl56frV0ZaTEppFCT3os7icchkt6IBqG3wufPUMHBw93o3NOz4ZoiQzu51Yf7KT+V3NkVlwNbEaoK7ZzmLG/b6xaN2wWb3UfEX6O7PchWHpEL/KrkD2sK1ApqeqVH4RmRPdTXJvCmCsL8uVQVD/M63DKupH+DPvgo+3EI+scWGpJDVMOrPdjKXzdOElsghqky86OxuU8dW6NHwZTQhBlbi3/bgyiUyjUN5OA1+1KG49qlABGUwEqMd495kffZlzL9rrQB2Kzz38127ceRFijflla9MDrIuo/F9lQCFtWOJWaZsO84/kcYMN6+ZtZf2dynDgKqhlOB3RMFpVZgG0EDzDcUq4ux5LDlwaBdf2CHapB6cWpJb2MInhHz8mQZL1reB6ZDBAXkd6B5aBJsfzRO7nsSzL1XHKIeb7o9dOKwc8igQI=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DU0PR03MB8292.eurprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(45080400002)(5660300002)(71200400001)(8936002)(122000001)(498600001)(83380400001)(6486002)(2616005)(186003)(86362001)(2906002)(6506007)(31696002)(76116006)(53546011)(6512007)(26005)(38070700005)(66556008)(8676002)(4326008)(91956017)(64756008)(66476007)(31686004)(110136005)(66446008)(316002)(38100700002)(54906003)(66946007)(36756003)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Y3g4Wm92YnkwZjkzSlBNSVJNZXhEK0cyY3RKYko1QmlEUFA1eUJQWU1EWk54?=
- =?utf-8?B?U3ErRVNXSVBUYnVJNzhVWCtTa3pIUXNVbVl6Vk94bG1xYXVqV3dZWVdwM2t5?=
- =?utf-8?B?SVVyYzc1UXhCdmdRa3Q2MndsQ1dDSkZNWmkyMEJyZHdEUEpRQlgrWi9iN1dH?=
- =?utf-8?B?bk93NGJYRnY3T2pmWUlyZ1Y1RVBLYUxOaHpEak9SYlZaUjE5R0NKQlVoYUtN?=
- =?utf-8?B?S01aakgzd0VvZGMwTU5GTmZERk5Qa09vclI4NnhLZTBQdjE0Ni9mcnZlNFJm?=
- =?utf-8?B?eGVVN0pzWGc2TE1LNHF5SFpka3JORTlHUDFWb2d2ZHc1S0RRc1ovM05GTmpi?=
- =?utf-8?B?Z1dtSDlsbzBzNlZxQUtRQUF1ZVEvakZWdkpOWnJreWNudnNFNWNtVkVxVDkz?=
- =?utf-8?B?VUg1YVo2bWlVYWxJTVJ6bkdUNUpOeUkxOGdsbDdSN1huN05nS3BTbDJYcmhj?=
- =?utf-8?B?OFkrcmdIUWdTVVJ0eHBWeXlVUkZNQ3VzQ0x6dm9mTUJrNlRaaW9SLytmN1dj?=
- =?utf-8?B?THFKRVZvOFAvN2t5NjNuM29nQTlSTE5BbzYxOUEyS1kvYnF6akdIQkx6SENz?=
- =?utf-8?B?dVphbDI0b0hwRUNRa1VBL241eWtYRkFEbUhqQi9Xa1JkcEM1blZFUE5BZnFw?=
- =?utf-8?B?ODAvd2dUZWlSUGFWUTgzOFJqZVdCOWFxRjN4dlBhM2dRN1lwNmFJTVNlMGVP?=
- =?utf-8?B?ZWJ3WldGb2gvYjN4V3NQUFduYnR5bmNYdy9yclI1Y3JEMGtDZG1SajNDakxj?=
- =?utf-8?B?ZG1jQUFJZkZMVHlVNThUdFJTNUNTb0JmdjR3bTc1eVJXVms0S2kwK2FuU055?=
- =?utf-8?B?MmF2YXlSRllJZXhieGZqeEpNSGI5c2xhVzVBOGZKdGQ3Z1RuMFgxRktyb2Zj?=
- =?utf-8?B?R2J4aWZ3aXdLNmVlUUVSNkJ6M0NsSGNpdFB3ZmxvKytFK1hXc2JNZFB4Rk14?=
- =?utf-8?B?SSsxZ2cxanJ4TThaMkVyTlBpWXJlTG53aVFGZC9QemM5ZFBCclJ6cjdYc0J1?=
- =?utf-8?B?K1lFMGdNNTF6RzZEMDZDNkVJejNWK2ZtZFVyRVdhM2Ribm9lM1MxaUtQTnlI?=
- =?utf-8?B?VDhwekxYbTVHUTlVWlF1RS9rZnlDRUdPckIyNlpEcy80ODFJd2xnQ3hzdm1w?=
- =?utf-8?B?blpaVHduL2FET2tEaE1TTkR6NTRqR2paL2p2TkJlSS9PZm4wZ1JqcFhpNzNS?=
- =?utf-8?B?Uk5ZbTl0VTZvbzV5Vk9XdVVEY3pvYkdkYUo0Yk9saVdORUtSeFJYNFhweEZX?=
- =?utf-8?B?L2REbEJybUY2UTFrS1lEaDU4aTVKejdSRGs1TEpLdUlYTGpvWjZjcTc0Y3Rz?=
- =?utf-8?B?OFlVbkdlWmhsVXMva0E0UjZRUXZYUzVWWGhPcUx0bW5aaU5JcGQvVkY4SlJO?=
- =?utf-8?B?M3lwNzdzaG9GUlpxbTZVRlN6NVFUUnc2ck1pMlhrOHA0b2REeXorOURiMW1q?=
- =?utf-8?B?L1VqWTVTNUliemZDUjVHUGFvSFZjRFBBb1JyeEhucXRPaGJ6SHllK3l4dTBk?=
- =?utf-8?B?d0VqN3NML3ZGRThEQXF3ZlhrcHZqL2w4dkdsVnBXQkhvd0xvL29DOHhqTzB4?=
- =?utf-8?B?QmI1WGQ5VWJ0eWxMWHZzRDhINXNubXo1YlJueVZuREQwT3RvemRiK0RMTis0?=
- =?utf-8?B?WDJ3Z1orbEp0bUM3TXFOMUtLc0thVkcvN2QxRDZ0ZDBpZWVsQzB5cCt6bzhU?=
- =?utf-8?B?ZTFScklNRGFJNFgxVjNZTE9hK280bHVlZzkwS1A5YUtUQjdud01teTJHNUlD?=
- =?utf-8?B?SG5VNW12am93blFwdFB4TUhMaWhxZk5DdUtUSi9BTy8wL2NPVG5vL0llRzAw?=
- =?utf-8?B?S1g2NS9JTVE3Ykt0TWVCN0lUY3kxUWVKTlNVTFczZ2x5ZG9QSW9Db1ZLSSti?=
- =?utf-8?B?ejk5Y1JKd3ViTXNER2JieFZCT1pxK2ZKMlA2Ylo0UUVCeEczOWd5bVRXdndq?=
- =?utf-8?B?WUU2clhBQ0l3ZmpHTkRoVEFPNTlJTEt1WTVkR3FnVFd5U2hRYXh4clhmMmRD?=
- =?utf-8?B?aUFiWlc2TjZWbkJIUzVpUWpqenBiQmNIWXN2RjhHNTRVSnc2R2EvQXc0VjVD?=
- =?utf-8?B?dnoxSVpyYVBTMFZYTTdWbW5hWi9uQVJnWUZLdVBBVVBtQ0hTQ0NHek83c25p?=
- =?utf-8?B?TDNTZzVZell5TWtFRjgyVU1aNTl6d1VmdlVZT3c3clpSdWlrakI1SVpYWmVI?=
- =?utf-8?B?N2NwUS9qZjdMcTk1QU1GN1hLS3pENk51cUkxUTE3T0d4cmtZK0R0d1puVWd6?=
- =?utf-8?B?REpCeU54akhwRE1UTkVMM1RLNDVwaGpSdmhwZlplR2RpWjcrMzdiY2QyUUhi?=
- =?utf-8?B?WHZnRitUSTF5Z2l2MHh6R01nM0poSXhjVDdvT1VtOGZjcHY2OHlZVC9NanZ2?=
- =?utf-8?Q?++/BeOkx4TL+PwDzAiaCNZ9/jlx/UubdyoiB2?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B17FB5A8F01724479FD5954570B95EAD@eurprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
+ [IPv6:2607:f8b0:4864:20::d2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B57310E930;
+ Sun, 19 Jun 2022 16:22:20 +0000 (UTC)
+Received: by mail-io1-xd2c.google.com with SMTP id s17so2690360iob.7;
+ Sun, 19 Jun 2022 09:22:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CMHs0PS1TFBPLNKbKLIzdp6HeUcQ1Ge+Te9ys5p3It8=;
+ b=SgikfJAKmKo1X6VV7pStkhyBBsZtzkZzzEWgWW+Rkm+o+JdmgIW7QzmfvNM1NJLBBR
+ jUAlioO70GBNpe23pPnTOOQiJ2SMf3VuniioAgJD5vxEosSBheAy2rCjt1mGnTLyZ4ko
+ PGjVUtiPWv8bnTpwP160cEfjcYsGxze58VY17yn34h8dBbofPAQPXGfecFjgfxTPRBVz
+ fosef/Qz6zD/py1qZrR8Y5zK+HK0mHWC2Z3NNEG46Y45AD9ix1ghV23cTt7sl/2dyvbo
+ PVTwmIm8G/j4Z8wMYZRb1/XYLujlAORSuh1bh4eXO0tjlVtTA3205FTkaCAV0uxcfpx4
+ XFLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CMHs0PS1TFBPLNKbKLIzdp6HeUcQ1Ge+Te9ys5p3It8=;
+ b=30Ssp325Rw3gTWUVuW8hayYGUrhHZejFEES1W1xo0LZ2kqHnf2af42ivvj13V0azWi
+ 4PGwRNijqWVncCFKdSpOY/xv3f2h5vG9S+nR3EnV9t5EkWMMd9hQCuv2YvBe+3C+BIMq
+ Esv8berklB6vTB6B6ZSNsrb2tgT5e7mxmuKTbNNAH6XssIewiaBN/8tuBwZRJ6eHb5+D
+ P58lyetQHXYaCq+5lbHyl+ZVjoMywR1mMD96TSsS5q4AdLE5UA820aQodEVnTyl9S5Sz
+ KHqoxQQAlzzgtCvK+Gj9XTQpgoZkpihq3J2429sxH/RaBjN398FVVb8vWXMgRpscb5Ny
+ PqVw==
+X-Gm-Message-State: AJIora8yxE8Tq8UDm0m+sNmkd7VkOCtVCf74wX+uBeFjYgnbpgEyPah3
+ 5kYI/2dXop5RvrX/hV4uhkVrxjCRnkK0CEzieis=
+X-Google-Smtp-Source: AGRyM1tTZVYVRLk06XMNcTKwfKDWGhutVawExdvT9JxBnyjNeoBJmXowQmrekxoWCJWlce5+4uvh4ZtFqKMLAOxDFX4=
+X-Received: by 2002:a02:aa92:0:b0:331:c856:fe69 with SMTP id
+ u18-20020a02aa92000000b00331c856fe69mr10212075jai.187.1655655739845; Sun, 19
+ Jun 2022 09:22:19 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: epam.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR03MB8292.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2062dc2-d2c9-4629-3170-08da51dc94ec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2022 10:15:05.9039 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b41b72d0-4e9f-4c26-8a69-f949f367c91d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oyBCtHlHhulv7CbXO7K3lNNw0qJypoiKb7MqSyOmvSoG7gIlP1136LDpch1cANB6sJJW0IKkPCRdq69AJ21C7vt0kG4U47AvZ7uOEUobTEg3bnCiLKdvRVb9/eNEre4p
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR03MB7995
-X-Proofpoint-GUID: Q2OCQ0eURb-9P5UTJ9uDJza2jrG6TVy-
-X-Proofpoint-ORIG-GUID: Q2OCQ0eURb-9P5UTJ9uDJza2jrG6TVy-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.64.514
- definitions=2022-06-19_09,2022-06-17_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 clxscore=1011 priorityscore=1501 mlxlogscore=918 adultscore=0
- mlxscore=0 phishscore=0 spamscore=0 suspectscore=0 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2204290000 definitions=main-2206190050
+References: <20220413161450.1854370-1-michel@daenzer.net>
+ <f425b789-5081-fa70-555f-7553d7cc5bd5@gmail.com>
+ <ca5ca8ab-9c48-8d81-2dd6-fbdfface6519@mailbox.org>
+ <abd87438-3ff4-6b62-81b4-6162d167348a@gmail.com>
+ <CADnq5_Npy02mWVMOs-TMQ9t6OLV8XFaSQFZ5iB=Y2q3OQgiQvw@mail.gmail.com>
+ <fe499d20-2667-5953-831a-d7668c5a3d18@mailbox.org>
+ <CAK7LNATdTaY6+FD4TuFgmb00=Qbx=7mmCi9onHv0zi=pdZysBQ@mail.gmail.com>
+ <8beac4f5-f7e8-31ab-bbf3-36a917979bfc@mailbox.org>
+ <c861e442-e09b-fe20-609c-05bdcb867663@mailbox.org>
+ <CAK7LNAQgFXjiT5Js2KDNxp+ep2O7cUVYra31-qZBKTQ_SffLOQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAQgFXjiT5Js2KDNxp+ep2O7cUVYra31-qZBKTQ_SffLOQ@mail.gmail.com>
+From: =?UTF-8?Q?Ernst_Sj=C3=B6strand?= <ernstp@gmail.com>
+Date: Sun, 19 Jun 2022 18:22:09 +0200
+Message-ID: <CAD=4a=W+fcuP_oVWJ1x1fPt5izEi1cT-sq7MiDCu+ps3MoJq9Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: Add build directory to include path
+To: Masahiro Yamada <masahiroy@kernel.org>
+Content-Type: multipart/alternative; boundary="0000000000003e727f05e1cf647c"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,74 +71,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Oleksandr Tyshchenko <Oleksandr_Tyshchenko@epam.com>,
- Juergen Gross <jgross@suse.com>
+Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIE9sZWtzYW5kciENCg0KT24gMDkuMDUuMjIgMTY6NTEsIE9sZWtzYW5kciBUeXNoY2hlbmtv
-IHdyb3RlOg0KPiBGcm9tOiBPbGVrc2FuZHIgVHlzaGNoZW5rbyA8b2xla3NhbmRyX3R5c2hjaGVu
-a29AZXBhbS5jb20+DQo+DQo+IFdpdGggWGVuIFBWIERpc3BsYXkgZHJpdmVyIGluIHVzZSB0aGUg
-ImV4cGVjdGVkIiBWTV9ET05URVhQQU5EIGZsYWcNCj4gaXMgbm90IHNldCAobmVpdGhlciBleHBs
-aWNpdGx5IG5vciBpbXBsaWNpdGx5KSwgc28gdGhlIGRyaXZlciBoaXRzDQo+IHRoZSBjb2RlIHBh
-dGggaW4gZHJtX2dlbV9tbWFwX29iaigpIHdoaWNoIHRyaWdnZXJzIHRoZSBXQVJOSU5HLg0KPg0K
-PiBTaWduZWQtb2ZmLWJ5OiBPbGVrc2FuZHIgVHlzaGNoZW5rbyA8b2xla3NhbmRyX3R5c2hjaGVu
-a29AZXBhbS5jb20+DQpSZXZpZXdlZC1ieTogT2xla3NhbmRyIEFuZHJ1c2hjaGVua28gPG9sZWtz
-YW5kcl9hbmRydXNoY2hlbmtvQGVwYW0uY29tPg0KDQo+IC0tLQ0KPiBUaGlzIHBhdGNoIGVsaW1p
-bmF0ZXMgYSBXQVJOSU5HIHdoaWNoIG9jY3VycyBkdXJpbmcgcnVubmluZyBhbnkgdXNlciBzcGFj
-ZQ0KPiBhcHBsaWNhdGlvbiBvdmVyIGRybSAod2VzdG9uLCBtb2RldGVzdCwgZXRjKSB1c2luZyBQ
-ViBEaXNwbGF5IGZyb250ZW5kDQo+IGluIFhlbiBndWVzdCAoaXQgd29ydGggbWVudGlvbmluZyB0
-aGUgZnJvbnRlbmQgc3RpbGwgd29ya3MgZGVzcGl0ZSB0aGUgV0FSTklORyk6DQo+DQo+IHJvb3RA
-c2FsdmF0b3IteC1oMy00eDJnLXh0LWRvbXU6fiMgbW9kZXRlc3QgLU0geGVuZHJtLWR1IC1zIDMx
-OjE5MjB4MTA4MA0KPiAoWEVOKSBjb21tb24vZ3JhbnRfdGFibGUuYzoxODgyOmQydjAgRXhwYW5k
-aW5nIGQyIGdyYW50IHRhYmxlIGZyb20gNSB0byA5IGZyYW1lcw0KPiBbICAgMzEuNTY2NzU5XSAt
-LS0tLS0tLS0tLS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0NCj4gWyAgIDMxLjU2NjgxMV0gV0FS
-TklORzogQ1BVOiAwIFBJRDogMjM1IGF0IGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmM6MTA1NSBk
-cm1fZ2VtX21tYXBfb2JqKzB4MTZjLzB4MTgwDQo+IFsgICAzMS41NjY4NjRdIE1vZHVsZXMgbGlu
-a2VkIGluOg0KPiBbICAgMzEuNTY2ODg2XSBDUFU6IDAgUElEOiAyMzUgQ29tbTogbW9kZXRlc3Qg
-Tm90IHRhaW50ZWQgNS4xOC4wLXJjNC15b2N0by1zdGFuZGFyZC0wMDAwOS1nYWJlODdkNzhiYmM5
-ICMxDQo+IFsgICAzMS41NjY5MjJdIEhhcmR3YXJlIG5hbWU6IFhFTlZNLTQuMTcgKERUKQ0KPiBb
-ICAgMzEuNTY2OTQwXSBwc3RhdGU6IDYwMDAwMDA1IChuWkN2IGRhaWYgLVBBTiAtVUFPIC1UQ08g
-LURJVCAtU1NCUyBCVFlQRT0tLSkNCj4gWyAgIDMxLjU2Njk3M10gcGMgOiBkcm1fZ2VtX21tYXBf
-b2JqKzB4MTZjLzB4MTgwDQo+IFsgICAzMS41NjcwMDFdIGxyIDogZHJtX2dlbV9tbWFwX29iaisw
-eDc4LzB4MTgwDQo+IFsgICAzMS41NjcwMjZdIHNwIDogZmZmZjgwMDAwOWQwM2JiMA0KPiBbICAg
-MzEuNTY3MDQ0XSB4Mjk6IGZmZmY4MDAwMDlkMDNiYjAgeDI4OiAwMDAwMDAwMDAwMDAwMDA4IHgy
-NzogZmZmZjAwMDFjNDJkNDNjMA0KPiBbICAgMzEuNTY3MDgwXSB4MjY6IGZmZmYwMDAxYzQyZDRj
-YzAgeDI1OiAwMDAwMDAwMDAwMDAwN2U5IHgyNDogZmZmZjAwMDFjMDEzNjAwMA0KPiBbICAgMzEu
-NTY3MTE2XSB4MjM6IGZmZmYwMDAxYzAzMTAwMDAgeDIyOiBmZmZmMDAwMWM0MDAyYjgwIHgyMTog
-MDAwMDAwMDAwMDAwMDAwMA0KPiBbICAgMzEuNTY3MTUwXSB4MjA6IGZmZmYwMDAxYzQyZDQzYzAg
-eDE5OiBmZmZmMDAwMWMwMTM3NjAwIHgxODogMDAwMDAwMDAwMDAwMDAwMQ0KPiBbICAgMzEuNTY3
-MTg2XSB4MTc6IDAwMDAwMDAwMDAwMDAwMDAgeDE2OiAwMDAwMDAwMDAwMDAwMDAwIHgxNTogMDAw
-MDAwMDAwMDAzNWM4MQ0KPiBbICAgMzEuNTY3MjIwXSB4MTQ6IDAwMDAwMDAwMDAwMDAwMDAgeDEz
-OiAwMDAwMDAwMDAwMDAwMDAwIHgxMjogMDAwMDAwMDAwMDAwMDAwMA0KPiBbICAgMzEuNTY3MjU4
-XSB4MTE6IDAwMDAwMDAwMDAxMDAwMDAgeDEwOiAwMDAwZmZmZjk1ZDY5MDAwIHg5IDogZmZmZjAw
-MDFjNDM1YWMzMA0KPiBbICAgMzEuNTY3Mjk0XSB4OCA6IGZmZmY4MDAxZjY1Y2UwMDAgeDcgOiAw
-MDAwMDAwMDAwMDAwMDAxIHg2IDogZmZmZjAwMDFjMjRkZTAwMA0KPiBbICAgMzEuNTY3MzI5XSB4
-NSA6IGZmZmY4MDAwMDlkMDNhMTAgeDQgOiAwMDAwMDAwMDAwMDAwMDkwIHgzIDogMDAwMDAwMDAx
-MDA0NjQwMA0KPiBbICAgMzEuNTY3MzY1XSB4MiA6IDAwMDAwMDAwMDAwMDA3ZTkgeDEgOiA5ZGQ4
-Y2I3YzAyYjFiZDAwIHgwIDogMDAwMDAwMDAxMDAwMDBmYg0KPiBbICAgMzEuNTY3NDAxXSBDYWxs
-IHRyYWNlOg0KPiBbICAgMzEuNTY3NDE1XSAgZHJtX2dlbV9tbWFwX29iaisweDE2Yy8weDE4MA0K
-PiBbICAgMzEuNTY3NDM5XSAgZHJtX2dlbV9tbWFwKzB4MTI4LzB4MjI4DQo+IFsgICAzMS41Njc0
-NjBdICBtbWFwX3JlZ2lvbisweDM4NC8weDVhMA0KPiBbICAgMzEuNTY3NDg0XSAgZG9fbW1hcCsw
-eDM1NC8weDRmMA0KPiBbICAgMzEuNTY3NTA1XSAgdm1fbW1hcF9wZ29mZisweGRjLzB4MTA4DQo+
-IFsgICAzMS41Njc1MjldICBrc3lzX21tYXBfcGdvZmYrMHgxYjgvMHgyMDgNCj4gWyAgIDMxLjU2
-NzU1MF0gIF9fYXJtNjRfc3lzX21tYXArMHgzMC8weDQ4DQo+IFsgICAzMS41Njc1NzZdICBpbnZv
-a2Vfc3lzY2FsbCsweDQ0LzB4MTA4DQo+IFsgICAzMS41Njc1OTldICBlbDBfc3ZjX2NvbW1vbi5j
-b25zdHByb3AuMCsweGNjLzB4ZjANCj4gWyAgIDMxLjU2NzYyOV0gIGRvX2VsMF9zdmMrMHgyNC8w
-eDg4DQo+IFsgICAzMS41Njc2NDldICBlbDBfc3ZjKzB4MmMvMHg4OA0KPiBbICAgMzEuNTY3Njg2
-XSAgZWwwdF82NF9zeW5jX2hhbmRsZXIrMHhiMC8weGI4DQo+IFsgICAzMS41Njc3MDhdICBlbDB0
-XzY0X3N5bmMrMHgxOGMvMHgxOTANCj4gWyAgIDMxLjU2NzczMV0gLS0tWyBlbmQgdHJhY2UgMDAw
-MDAwMDAwMDAwMDAwMCBdLS0tDQo+IHNldHRpbmcgbW9kZSAxOTIweDEwODAtNjAuMDBIekBYUjI0
-IG9uIGNvbm5lY3RvcnMgMzEsIGNydGMgMzQNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3hl
-bi94ZW5fZHJtX2Zyb250X2dlbS5jIHwgMiArLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L3hlbi94ZW5fZHJtX2Zyb250X2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zy
-b250X2dlbS5jDQo+IGluZGV4IDVhNWJmNGUuLmUzMTU1NGQgMTAwNjQ0DQo+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udF9nZW0uYw0KPiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0veGVuL3hlbl9kcm1fZnJvbnRfZ2VtLmMNCj4gQEAgLTcxLDcgKzcxLDcgQEAgc3RhdGljIGlu
-dCB4ZW5fZHJtX2Zyb250X2dlbV9vYmplY3RfbW1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKmdl
-bV9vYmosDQo+ICAgCSAqIHRoZSB3aG9sZSBidWZmZXIuDQo+ICAgCSAqLw0KPiAgIAl2bWEtPnZt
-X2ZsYWdzICY9IH5WTV9QRk5NQVA7DQo+IC0Jdm1hLT52bV9mbGFncyB8PSBWTV9NSVhFRE1BUDsN
-Cj4gKwl2bWEtPnZtX2ZsYWdzIHw9IFZNX01JWEVETUFQIHwgVk1fRE9OVEVYUEFORDsNCj4gICAJ
-dm1hLT52bV9wZ29mZiA9IDA7DQo+ICAgDQo+ICAgCS8qDQo=
+--0000000000003e727f05e1cf647c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Den s=C3=B6n 19 juni 2022 kl 00:20 skrev Masahiro Yamada <masahiroy@kernel.=
+org>:
+
+> On Wed, Jun 15, 2022 at 5:35 PM Michel D=C3=A4nzer
+> <michel.daenzer@mailbox.org> wrote:
+> >
+> > On 2022-04-14 18:57, Michel D=C3=A4nzer wrote:
+> > > On 2022-04-14 17:04, Masahiro Yamada wrote:
+> > >> On Thu, Apr 14, 2022 at 10:50 PM Michel D=C3=A4nzer
+> > >> <michel.daenzer@mailbox.org> wrote:
+> > >>> On 2022-04-14 15:34, Alex Deucher wrote:
+> > >>>> On Thu, Apr 14, 2022 at 4:44 AM Christian K=C3=B6nig
+> > >>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+> > >>>>> Am 14.04.22 um 09:37 schrieb Michel D=C3=A4nzer:
+> > >>>>>>
+> > >>>>>>   make -C build-amd64 M=3Ddrivers/gpu/drm
+> > >>
+> > >>
+> > >> Maybe
+> > >>
+> > >>         make  O=3Dbuild-arm64   drivers/gpu/drm/
+> > >>
+> > >> is the way you were searching for.
+> > >>
+> > >> It builds only drivers/gpu/drm/
+> > >> in the separate directory.
+> > >
+> > > Indeed, that works.
+> >
+> > I've come to realize that this doesn't produce the actual *.ko modules
+> though. Is there a trick for building the modules, but only under
+> drivers/gpu/drm/ ?
+> >
+> >
+> > --
+> > Earthling Michel D=C3=A4nzer            |                  https://redh=
+at.com
+> > Libre software enthusiast          |         Mesa and Xwayland develope=
+r
+>
+>
+> No.
+> There is no way to build *.ko
+> only under a specific directory.
+>
+
+Doesn't "make modules M=3Ddrivers/gpu/drm/" do that?
+
+--0000000000003e727f05e1cf647c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Den s=C3=B6n 19 juni 2022 kl 00:20 skrev Masahiro Yamada &=
+lt;<a href=3D"mailto:masahiroy@kernel.org">masahiroy@kernel.org</a>&gt;:<br=
+><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">On Wed, Jun 15, 2022 at 5:35 PM Michel D=C3=A4nzer<br>
+&lt;<a href=3D"mailto:michel.daenzer@mailbox.org" target=3D"_blank">michel.=
+daenzer@mailbox.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On 2022-04-14 18:57, Michel D=C3=A4nzer wrote:<br>
+&gt; &gt; On 2022-04-14 17:04, Masahiro Yamada wrote:<br>
+&gt; &gt;&gt; On Thu, Apr 14, 2022 at 10:50 PM Michel D=C3=A4nzer<br>
+&gt; &gt;&gt; &lt;<a href=3D"mailto:michel.daenzer@mailbox.org" target=3D"_=
+blank">michel.daenzer@mailbox.org</a>&gt; wrote:<br>
+&gt; &gt;&gt;&gt; On 2022-04-14 15:34, Alex Deucher wrote:<br>
+&gt; &gt;&gt;&gt;&gt; On Thu, Apr 14, 2022 at 4:44 AM Christian K=C3=B6nig<=
+br>
+&gt; &gt;&gt;&gt;&gt; &lt;<a href=3D"mailto:ckoenig.leichtzumerken@gmail.co=
+m" target=3D"_blank">ckoenig.leichtzumerken@gmail.com</a>&gt; wrote:<br>
+&gt; &gt;&gt;&gt;&gt;&gt; Am 14.04.22 um 09:37 schrieb Michel D=C3=A4nzer:<=
+br>
+&gt; &gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0make -C build-amd64 M=3Ddrivers/g=
+pu/drm<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Maybe<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0make=C2=A0 O=3Dbuild-arm64=
+=C2=A0 =C2=A0drivers/gpu/drm/<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; is the way you were searching for.<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; It builds only drivers/gpu/drm/<br>
+&gt; &gt;&gt; in the separate directory.<br>
+&gt; &gt;<br>
+&gt; &gt; Indeed, that works.<br>
+&gt;<br>
+&gt; I&#39;ve come to realize that this doesn&#39;t produce the actual *.ko=
+ modules though. Is there a trick for building the modules, but only under =
+drivers/gpu/drm/ ?<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; Earthling Michel D=C3=A4nzer=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"=
+https://redhat.com" rel=3D"noreferrer" target=3D"_blank">https://redhat.com=
+</a><br>
+&gt; Libre software enthusiast=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0Mesa and Xwayland developer<br>
+<br>
+<br>
+No.<br>
+There is no way to build *.ko<br>
+only under a specific directory.<br></blockquote><div><br></div><div style=
+=3D"font-family:arial,helvetica,sans-serif" class=3D"gmail_default">Doesn&#=
+39;t &quot;make modules M=3Ddrivers/gpu/drm/&quot; do that?</div></div></di=
+v>
+
+--0000000000003e727f05e1cf647c--
