@@ -1,84 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95902550A53
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jun 2022 13:46:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 434EB550B23
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jun 2022 16:17:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A01A10E94A;
-	Sun, 19 Jun 2022 11:46:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7451210E30B;
+	Sun, 19 Jun 2022 14:17:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01BCA10E94A
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jun 2022 11:46:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655639188;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AGhx+KJSkA3X8m8hF6CnNDDwe/d6YcrHu41h3pNbdsg=;
- b=dLKQycj6c3Q34RmgHDSzf+zHMccG/x5Pqi+0X/qma0zXNSyVAe6WYTYLoRD3blunBp+jeP
- 4M27Mt2K2YLPKx/QuH6uRC8VxMmg3vsi/JYYED500iJht/rlbA7e001Xiactgo9Abg86hO
- 9MswLKKJ51QMmA4QsXlO5+Vz6+d6ofw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-257-wMoJ6RWaODO-61RXf-Vf4g-1; Sun, 19 Jun 2022 07:46:27 -0400
-X-MC-Unique: wMoJ6RWaODO-61RXf-Vf4g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k5-20020a05600c0b4500b003941ca130f9so2376620wmr.0
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jun 2022 04:46:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=AGhx+KJSkA3X8m8hF6CnNDDwe/d6YcrHu41h3pNbdsg=;
- b=J3QdvJa8FVxtcXDeisxLrvok0UWAmvbCdVivgOjM9Sh9BLYGr/EGvjGgwDQ6K7IwTM
- SjwgHlBWAuSh9lBlNA2phZ2UPbKTMzADh3Z59PbjvYFaaknca8pJ7vVgj3CH894SN2UV
- MZAC+6fZ9fl4vNKAja02DirT+R0r1XBz4gNRBgFolx14yFPXWU0TUwIE+4UkLgmje9RJ
- yVWDP/yfELn9wT5pULG60azPi5bcrlE5toE6OR9gVfGabzqE23QkHeYgaKimyMo4z9rk
- ocpMs6VL7N5xyyE65tPLDHho1y5uNufafFappvERemewvIokv9bTyQ3WG/UyBmcWX6oV
- ZzSg==
-X-Gm-Message-State: AJIora9HyEl6yzeGh57gFkEgf+ZORIW6MZZj5/WxPnLIVyLBLM3zb8uQ
- Fuqk8kifB/j8ZC/jHPtGz8j4DZyDeh/gQUqq70JqOZh2Ife1LhymV7BQ8T+PKEfuTPi6SZfDXxW
- OCuUns+UP6fbFDMt70G75v1ZJKEIP
-X-Received: by 2002:adf:fd88:0:b0:21a:a547:38b3 with SMTP id
- d8-20020adffd88000000b0021aa54738b3mr11837145wrr.431.1655639186063; 
- Sun, 19 Jun 2022 04:46:26 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tA0kjOoP2A9a9UPTNHd18aAPgeQQmXbADdDDkoDrdbNEN7EBtMxlFH7WBKyui90LADamvjEg==
-X-Received: by 2002:adf:fd88:0:b0:21a:a547:38b3 with SMTP id
- d8-20020adffd88000000b0021aa54738b3mr11837131wrr.431.1655639185812; 
- Sun, 19 Jun 2022 04:46:25 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n8-20020a5d4208000000b00219e758ff4fsm10076208wrq.59.2022.06.19.04.46.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Jun 2022 04:46:24 -0700 (PDT)
-Message-ID: <cea478bf-ac29-dbdc-e156-5291da4f0318@redhat.com>
-Date: Sun, 19 Jun 2022 13:46:23 +0200
+X-Greylist: delayed 897 seconds by postgrey-1.36 at gabe;
+ Sun, 19 Jun 2022 14:17:15 UTC
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30C7110E30B
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jun 2022 14:17:15 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 25JE22Tl047222;
+ Sun, 19 Jun 2022 09:02:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1655647322;
+ bh=rvADblR0sOwbzM90eul+OKoXulB+aQQpqmHRrmuOhwY=;
+ h=From:To:CC:Subject:Date;
+ b=MYBdZpn/AYIeau0Nob/NVyNRFCUp5y0NQWzTeb3nuAsY6kkXxyQEz3S+BFEmtfNLW
+ ksR8pE46M4GTgLeJ+/TRjAwuhBukBfvXxPtFb/5xAaOHHhFmwpEa6Rw3VQEMkyj3EN
+ Tnlbko6r882TGhtS8atJmHaYYq71hnYuBIVw+IEo=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 25JE22lB104547
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Sun, 19 Jun 2022 09:02:02 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Sun, 19
+ Jun 2022 09:02:02 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Sun, 19 Jun 2022 09:02:02 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 25JE21d9085889;
+ Sun, 19 Jun 2022 09:02:01 -0500
+From: Rahul T R <r-ravikumar@ti.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v2] drm/bridge: cdns-dsi: Add support for J721E wrapper
+Date: Sun, 19 Jun 2022 19:31:58 +0530
+Message-ID: <20220619140158.30881-1-r-ravikumar@ti.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2] drm: panel-orientation-quirks: Add quirk for Aya Neo
- Next
-To: Maccraft123 <maccraft123mc@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20220619111952.8487-1-maccraft123mc@gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220619111952.8487-1-maccraft123mc@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,35 +61,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: mparab@cadence.com, a-bhatia1@ti.com, jonas@kwiboo.se, airlied@linux.ie,
+ tomi.valkeinen@ideasonboard.com, sjakhade@cadence.com, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, robert.foss@linaro.org,
+ andrzej.hajda@intel.com, jpawar@cadence.com, Rahul T R <r-ravikumar@ti.com>,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maya,
+Add support for wrapper settings for DSI bridge on
+j721e. Also set the DPI input to DPI0
 
-On 6/19/22 13:19, Maccraft123 wrote:
-> From: Maya Matuszczyk <maccraft123mc@gmail.com>
-> 
-> The device is identified by "NEXT" in board name, however there are
-> different versions of it, "Next Advance" and "Next Pro", that have
-> different DMI board names.
-> Due to a production error a batch or two have their board names prefixed
-> by "AYANEO", this makes it 6 different DMI board names. To save some
-> space in final kernel image DMI_MATCH is used instead of
-> DMI_EXACT_MATCH.
-> 
-> Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
-> 
+Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+---
 
-Patch looks good to me.
+Notes:
+    v2:
+    - Moved setting DPI0 to bridge_enable, since it
+      should be done after pm_runtime_get
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+ drivers/gpu/drm/bridge/Kconfig    | 10 ++++++++++
+ drivers/gpu/drm/bridge/cdns-dsi.c | 24 ++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index 8ffd601e68f9..72c4c962d752 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -26,6 +26,16 @@ config DRM_CDNS_DSI
+ 	  Support Cadence DPI to DSI bridge. This is an internal
+ 	  bridge and is meant to be directly embedded in a SoC.
+ 
++if DRM_CDNS_DSI
++
++config DRM_CDNS_DSI_J721E
++	bool "J721E Cadence DPI/DSI wrapper support"
++	default y
++	help
++	  Support J721E Cadence DPI/DSI wrapper. This wrapper adds
++	  support to select which DPI input to use for the bridge.
++endif
++
+ config DRM_CHIPONE_ICN6211
+ 	tristate "Chipone ICN6211 MIPI-DSI/RGB Converter bridge"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge/cdns-dsi.c
+index 20bece84ff8c..06043cc235cc 100644
+--- a/drivers/gpu/drm/bridge/cdns-dsi.c
++++ b/drivers/gpu/drm/bridge/cdns-dsi.c
+@@ -424,6 +424,16 @@
+ #define DSI_NULL_FRAME_OVERHEAD		6
+ #define DSI_EOT_PKT_SIZE		4
+ 
++#define DSI_WRAP_REVISION		0x0
++#define DSI_WRAP_DPI_CONTROL		0x4
++#define DSI_WRAP_DSC_CONTROL		0x8
++#define DSI_WRAP_DPI_SECURE		0xc
++#define DSI_WRAP_DSI_0_ASF_STATUS	0x10
++
++#define DSI_WRAP_DPI_0_EN		BIT(0)
++#define DSI_WRAP_DSI2_MUX_SEL		BIT(4)
++
++
+ struct cdns_dsi_output {
+ 	struct mipi_dsi_device *dev;
+ 	struct drm_panel *panel;
+@@ -453,6 +463,9 @@ struct cdns_dsi_input {
+ struct cdns_dsi {
+ 	struct mipi_dsi_host base;
+ 	void __iomem *regs;
++#ifdef CONFIG_DRM_CDNS_DSI_J721E
++	void __iomem *wrap_regs;
++#endif
+ 	struct cdns_dsi_input input;
+ 	struct cdns_dsi_output output;
+ 	unsigned int direct_cmd_fifo_depth;
+@@ -924,6 +937,11 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
+ 
+ 	tmp = readl(dsi->regs + MCTL_MAIN_EN) | IF_EN(input->id);
+ 	writel(tmp, dsi->regs + MCTL_MAIN_EN);
++
++#ifdef CONFIG_DRM_CDNS_DSI_J721E
++	/* Set DPI0 as input */
++	writel(DSI_WRAP_DPI_0_EN, dsi->wrap_regs + DSI_WRAP_DPI_CONTROL);
++#endif
+ }
+ 
+ static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
+@@ -1212,6 +1230,12 @@ static int cdns_dsi_drm_probe(struct platform_device *pdev)
+ 	if (IS_ERR(dsi->regs))
+ 		return PTR_ERR(dsi->regs);
+ 
++#ifdef CONFIG_DRM_CDNS_DSI_J721E
++	dsi->wrap_regs = devm_platform_ioremap_resource(pdev, 1);
++	if (IS_ERR(dsi->wrap_regs))
++		return PTR_ERR(dsi->wrap_regs);
++#endif
++
+ 	dsi->dsi_p_clk = devm_clk_get(&pdev->dev, "dsi_p_clk");
+ 	if (IS_ERR(dsi->dsi_p_clk))
+ 		return PTR_ERR(dsi->dsi_p_clk);
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.36.1
 
