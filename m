@@ -1,74 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B98550B2B
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Jun 2022 16:25:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 538A9550B2E
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Jun 2022 16:27:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73B0A10E04C;
-	Sun, 19 Jun 2022 14:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47FF610E13F;
+	Sun, 19 Jun 2022 14:27:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E47810E04C
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jun 2022 14:25:05 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 131E010E13F
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jun 2022 14:27:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655648704;
+ s=mimecast20190719; t=1655648827;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ekXGr6wfwJ630qszmpOLocmLKM/9kKKdXwFEn2AA3iI=;
- b=FU9oalW07ittFIPLV7tv+QIUyW+USGO7gbDWgX9kL5EalFjQufmP4tsOTQZ0HlKZh1zx+H
- Rp73eVMT70GL21rVjD9z6suQ9oMbNoL0z+XFUugmd4YKFKVa4eEiVU4lrVpb1vN9yuPO1b
- tr8X7XltLdqrX+4qVGhnDT8mXvlRtco=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xoLgRCYGtVkzjW93PvWX07m9n9Jojzja1sjm0GTmypQ=;
+ b=Xzj7JBj7YimnXd6c5yGr63zUfUaUsi1f/OeZsRlhOIrp7OzqFTpyPJL/8UEnnn4HUBooLA
+ Zoe0c1cfSalJJauYhUU4Vu1X88mOM+ksLTA2Bzg/j9FX3C4bJ9SHbO2TTOT91lDFRXFI9e
+ NcWhwIsTAmMcOXcQ3jxktij3LMjqYr0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-455-ThIOLAEaN-aecZyWaa8-pw-1; Sun, 19 Jun 2022 10:25:00 -0400
-X-MC-Unique: ThIOLAEaN-aecZyWaa8-pw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- p22-20020a05600c359600b0039c7b23a1c7so5498058wmq.2
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jun 2022 07:25:00 -0700 (PDT)
+ us-mta-596-XIh889mwPASLFJRCnyMTGw-1; Sun, 19 Jun 2022 10:27:06 -0400
+X-MC-Unique: XIh889mwPASLFJRCnyMTGw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r83-20020a1c4456000000b0039c8f5804c4so5488911wma.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jun 2022 07:27:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ekXGr6wfwJ630qszmpOLocmLKM/9kKKdXwFEn2AA3iI=;
- b=eRo6G+pzeTzju0V1bthB33tuhYESDJDCEpbHtDxdSCAwzwhab8JAc+V4kAsgGwV3jj
- FcDsw7zAvfsVuCyqJ6UUO6ipAeoqW/LIVJNLQH9xETaaLxlndCm0QGhvKY5nxPOaz4LO
- jVRPqyOsvytqHj5/tM/JS5WZ5DcGyul7J1nyyZNRPMNKRc6dy8ZWpSsLTelrjh2KikDz
- UGUheXrTTmhwgfOLji2nGQbMRsZ1RvFgC+MbAvseZuV2HlodDiKXnCNya1/ERfkLfN3N
- RPQvpNVKjcErNJzwGX7WWX91R56hi4nrphND0uTDfqkxw6lgLfP+jpWK8ImSsrT+2rBe
- KeZg==
-X-Gm-Message-State: AJIora85vmVSqb48yChle1Ham+wPVaBa9jYwDfwwL3Q09G3EuLq4TdD0
- nY8FHr5Ps7YdLSPbQ+tMy9uzJBDsCIHvrTMXRcTNH7Xi4wJm4/8yU0AqDw34x5rlFhyBmLehuej
- aS6tp3pRLl91llVJP9nOnZWr4L7/T
-X-Received: by 2002:a05:600c:1e85:b0:39c:8628:ca96 with SMTP id
- be5-20020a05600c1e8500b0039c8628ca96mr19915319wmb.176.1655648699744; 
- Sun, 19 Jun 2022 07:24:59 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uIO3SYkr/pIF3ZF8J9uPBKw13uX6xp79wy6oYAWXFvDuLb4bdEEiavSPQrTSVcYnfiw1QK2Q==
-X-Received: by 2002:a05:600c:1e85:b0:39c:8628:ca96 with SMTP id
- be5-20020a05600c1e8500b0039c8628ca96mr19915291wmb.176.1655648699439; 
- Sun, 19 Jun 2022 07:24:59 -0700 (PDT)
+ bh=xoLgRCYGtVkzjW93PvWX07m9n9Jojzja1sjm0GTmypQ=;
+ b=yyqmx3Q6qjp+7wLkznzkdzmcWz+A75Qz3wVWFWqM5QzXrgoXyjVCbIlAVda5zIa9iK
+ +OrRnhhBFth86UWg7VKQsoHL2hQ1sKs4ZA37j0EJIlKPSOAnCkc72caKmtz4MK77Vzz7
+ i2qpJICSCafdky+y55P8xiwFL/pSg1PIv4FsROVB4aHS/eoGY59oRFs138mTPQgDgvPI
+ VmtmMF5w+jn0G4V9i+Kq9H9TJuikiB+4AzDpPirxDB1WP6zabmOoIPBgak2T+9XQwd7r
+ zOq/vMVm/LRXDNwLb9yPVEvV9f998blpLl99F0xouUJiHfqKuAs3Zz/PkMRLmUAZZ8JW
+ pR/A==
+X-Gm-Message-State: AJIora/Mwe4tZbGu8n9UBEypyxYj3Bz/y7P1t/uBiJ6/PKTuqvSb/LUA
+ 87H47gDkOiYiLORbZTg05s2yTHVeLXuvBUh4L0XAshLNM8vIns+YtwAFTnsVpU9M9nOBLDw2Nmc
+ C7F5Hk5EfZmxnpVVadjYXj3L2Y/gv
+X-Received: by 2002:adf:e710:0:b0:21b:8af6:d5bc with SMTP id
+ c16-20020adfe710000000b0021b8af6d5bcmr3398574wrm.278.1655648824917; 
+ Sun, 19 Jun 2022 07:27:04 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t+As4JLV5NWMWt6DAKnOmE88ii8QUGPm1hNF6tWX65VasbcejQXyzs16QNo8EyGTHvs+0MXg==
+X-Received: by 2002:adf:e710:0:b0:21b:8af6:d5bc with SMTP id
+ c16-20020adfe710000000b0021b8af6d5bcmr3398559wrm.278.1655648824649; 
+ Sun, 19 Jun 2022 07:27:04 -0700 (PDT)
 Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- o1-20020adfeac1000000b0021b8c554196sm1640464wrn.29.2022.06.19.07.24.57
+ d9-20020a056000114900b0021b8dd05f45sm1186901wrx.55.2022.06.19.07.27.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Jun 2022 07:24:58 -0700 (PDT)
-Message-ID: <d7469398-d872-3cb3-5238-1696e4e9415b@redhat.com>
-Date: Sun, 19 Jun 2022 16:24:57 +0200
+ Sun, 19 Jun 2022 07:27:04 -0700 (PDT)
+Message-ID: <5eabd169-b8a0-fb8f-d70b-4495d3790f05@redhat.com>
+Date: Sun, 19 Jun 2022 16:27:03 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH] drm: hisilicon: depends on MMU
+Subject: Re: [DRM/hisilicon/hibmc] kernel robot reports build errors,
+ patch(es) available but not merged
+To: Randy Dunlap <rdunlap@infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+References: <9a0ed0bb-34c7-bacb-16a8-fdb158535ab2@infradead.org>
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org
-References: <20220531025557.29593-1-rdunlap@infradead.org>
- <40d294df-de91-3f36-7d70-13cad54ac34f@redhat.com>
-In-Reply-To: <40d294df-de91-3f36-7d70-13cad54ac34f@redhat.com>
+In-Reply-To: <9a0ed0bb-34c7-bacb-16a8-fdb158535ab2@infradead.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,46 +94,44 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Xinliang Liu <xinliang.liu@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
- patches@lists.linux.dev, David Airlie <airlied@linux.ie>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, Huang Rui <ray.huang@amd.com>,
- John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tian Tao <tiantao6@hisilicon.com>,
- Christian Koenig <christian.koenig@amd.com>
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, John Stultz <jstultz@google.com>,
+ Tian Tao <tiantao6@hisilicon.com>, RongrongZou <zourongrong@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/19/22 16:05, Javier Martinez Canillas wrote:
-> Hello Randy,
+Hello Randy,
+
+On 6/19/22 00:49, Randy Dunlap wrote:
 > 
-> On 5/31/22 04:55, Randy Dunlap wrote:
->> Prevent a kconfig warning when MMU is not enabled by making
->> DRM_HISI_HIBMC depend on MMU.
->>
->> WARNING: unmet direct dependencies detected for DRM_TTM
->>   Depends on [n]: HAS_IOMEM [=y] && DRM [=m] && MMU [=n]
->>   Selected by [m]:
->>   - DRM_TTM_HELPER [=m] && HAS_IOMEM [=y] && DRM [=m]
->>   - DRM_HISI_HIBMC [=m] && HAS_IOMEM [=y] && DRM [=m] && PCI [=y] && (ARM64 || COMPILE_TEST [=y])
->>
->> Fixes: 4f7f1973b0c8 ("drm/vram: fix Kconfig")
+> kernel robot reports today:
+> 
+> * riscv64-linux-ld: ttm_bo_vm.c:undefined reference to `vmf_insert_pfn_prot'
+>   https://lore.kernel.org/lkml/202206190651.smtms3Ay-lkp@intel.com/T/#u
+> 
+> * ttm_bo_vm.c:undefined reference to `vmf_insert_pfn_prot'
+>   https://lore.kernel.org/lkml/202206190523.0Ar6yQF7-lkp@intel.com/T/#u
+> 
+> 
+> and earlier:
+> 
+> * ld.lld: error: undefined symbol: vmf_insert_pfn_prot
+> https://lore.kernel.org/lkml/202203281125.Jp08egXu-lkp@intel.com/
+> 
+> * ttm_bo_vm.c:undefined reference to `vmf_insert_pfn_prot'
+> https://lore.kernel.org/lkml/202204081648.gV63Gt0t-lkp@intel.com/
+> 
+> 
+> I sent a patch for this on 2022-04-08 and again on 2022-05-30 (UTC).
+> 
+> https://lore.kernel.org/all/20220409030504.16089-1-rdunlap@infradead.org/
+> https://lore.kernel.org/all/20220531025557.29593-1-rdunlap@infradead.org/
+> 
+> Neither one has been applied or even had a comment.  :(
+> 
 
-Actually this fixes isn't the correct one AFAICT, it should probably be
-either acad3fe650a5 ("drm/hisilicon: Removed the dependency on the mmu")
-or a0f25a6bb319 ("drm/hisilicon/hibmc: Allow to be built if COMPILE_TEST
-is enabled"). And those two commits should be mentioned in the description.
-
-Maybe we can append the following two paragraphs to your commit message ?
-
-The Kconfig symbol depended on MMU but that was dropped by commit acad3fe650a5
-("drm/hisilicon: Removed the dependency on the mmu") because it already had as
-a dependency ARM64 that already selects MMU.
-
-But later, commit a0f25a6bb319 ("drm/hisilicon/hibmc: Allow to be built if
-COMPILE_TEST is enabled") allowed the driver to be built for non-ARM64 when
-the COMPILE_TEST is set but that could lead to unmet direct dependencies and
-linking errors.
-
-If you agree with the changes, I can do it before applying. Please let me know.
+Sorry that these fell into the cracks. Thanks for the patch, I think the
+change is correct but gave some comments about the Fixes: tag and commit
+description. There's no need to resend though, I can do it when pushing.
 
 -- 
 Best regards,
