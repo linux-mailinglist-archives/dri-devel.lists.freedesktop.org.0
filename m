@@ -1,50 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6135523F8
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 20:35:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEAE552406
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 20:36:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F4BF10ED12;
-	Mon, 20 Jun 2022 18:35:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35ABC10EE71;
+	Mon, 20 Jun 2022 18:36:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9798C10ED12
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 18:35:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 92183B815AA;
- Mon, 20 Jun 2022 18:35:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47C0EC3411B;
- Mon, 20 Jun 2022 18:35:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655750108;
- bh=3mSgNT10b4IjzPgWigmKhCRzl+Ti+EYL/1+uQFwMp0Y=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=YvLC0E9QtvNI2VOwXPiBN5gXjqLr5rXxoHEMOQ5sUWXijZHmHqlZZoWVN+2mGVmI5
- EP/BOzf3vOI83Nawe3EQM58nzxZAe6m0FgdZ/DpWODRGH6Cl5/dPjtx+o4oAnzLIe+
- vLUBc4kyvZpN9kK3lF4+sU0CqlKEfutvlSARgTIOtq+LXAz47jazByohylHteahUL9
- GvRGmi+FKujuIbhBWASw1vLw0pkSfwU5G6iFYlht1leiC50pXx4jiMfj9TBX8+yLXS
- aAQGL6ZkuYyzt59Xj0R0hgJ8s3YfDEkKxYFZGovzaJGKdKQKHWXfeSG+Uq/2fOKYAW
- v/wxDubWF0gSA==
-Date: Mon, 20 Jun 2022 19:35:00 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: ChiaEn Wu <peterwu.pub@gmail.com>
-Subject: Re: [PATCH v2 07/15] Documentation: ABI: testing: mt6370: Add ADC
- sysfs guideline
-Message-ID: <20220620193500.145f05b9@jic23-huawei>
-In-Reply-To: <CABtFH5+R761Tyd4yaWg-foSC4K=_aeYiVaTf37KvVH1Z4z9Jhw@mail.gmail.com>
-References: <20220613111146.25221-1-peterwu.pub@gmail.com>
- <20220613111146.25221-8-peterwu.pub@gmail.com>
- <20220618164820.2eeb8ae8@jic23-huawei>
- <CABtFH5+R761Tyd4yaWg-foSC4K=_aeYiVaTf37KvVH1Z4z9Jhw@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E7E710F275
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 18:36:45 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ g16-20020a17090a7d1000b001ea9f820449so11496045pjl.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 11:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anholt-net.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=r8NdoW5AddDmipkvsjih16CXPQjsU0eZxi3OxKkBmN8=;
+ b=H+lKfc53MfoKWbnqFT89h/mhsoe7NhhEKrckelerE5pE/432Z3iaw7F1SU5lSMGrqJ
+ FnKa6NPxdxUeaC+s00glxACfjiGk/WGnMJlbQIH6u00gpgD9cckUxtxVCnf1jyvOPQoU
+ +fOslEDBVTSL1Gy7THBQtu2BMSdTLxqQeFir4ZRti+VfxfwhPYYzcwujuor+6XA5+K6l
+ MO5/6PRdBvYtwVWe+/26N26yUtMeZgxY8fqyDx3J3uqp8zTy0Cu2L3YwStQF9WTEZpAb
+ DWpePaBt/jlMP9L50HQ27nqGppXu167xQ65N079vLwRk9Ybn982GujmmWrz52Kjfdw0x
+ 84xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=r8NdoW5AddDmipkvsjih16CXPQjsU0eZxi3OxKkBmN8=;
+ b=S9yzHPIFQlVxmGMfH6XRfRQuF/1730hElCO9O20JBXKr/b4BhtUZQu4nHtTCjcv9fg
+ BuppHk3W0xzKyOHnXwvraqbEqm1sgsZ3b5j9ArvKuY1nIVm+OyxZFX28e9wZKcyTgib2
+ FFBux2Yq4eHimkPS4jXRQAK8QIFCBAVG5FM0u6RHJPWtjZ8Sp/2XRs4FdcxvWkylHnGR
+ osHza1dERTwYS/Uclr+d2KvfWuGEH1demHbk26TSRF+/z+FXd4FbhDzI20SOoeNTDOH0
+ 3yIMGiAjow2FKjvRFpb39krabadbFKDermtedbcKpNMhoEqMMirPKw0Y+zhy7l7UR9ws
+ +RMQ==
+X-Gm-Message-State: AJIora8M+ogTjExnX2ZrroXCksPLmdHq0i1HsOOQVVkSa9QCpWwAf5pF
+ tIfOwXfn5nxIEbosnAIIarVoazGv7YhYx8HSn/s=
+X-Google-Smtp-Source: AGRyM1uQfz7pZ9DWLMJTwN2MFiyDfq/jBEgrSB5FWoXIJh1Yc8zL8k5KuFSfqFGI+JOH70LUpG/riQ==
+X-Received: by 2002:a17:902:d718:b0:168:d9df:4f1c with SMTP id
+ w24-20020a170902d71800b00168d9df4f1cmr25205344ply.41.1655750204246; 
+ Mon, 20 Jun 2022 11:36:44 -0700 (PDT)
+Received: from wildbow.anholt.net ([97.115.187.17])
+ by smtp.gmail.com with ESMTPSA id
+ ds12-20020a17090b08cc00b001e0c1044ceasm8500041pjb.43.2022.06.20.11.36.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jun 2022 11:36:43 -0700 (PDT)
+From: Emma Anholt <emma@anholt.net>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH v2 0/2] per-process page tables for qcom 8250
+Date: Mon, 20 Jun 2022 11:36:31 -0700
+Message-Id: <20220620183633.1131760-1-emma@anholt.net>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,139 +74,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- krzysztof.kozlowski+dt@linaro.org, linux-pm@vger.kernel.org,
- linux-iio@vger.kernel.org, jingoohan1@gmail.com,
- ChiaEn Wu <chiaen_wu@richtek.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, szunichen@gmail.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, linux-leds@vger.kernel.org, pavel@ucw.cz,
- matthias.bgg@gmail.com, lee.jones@linaro.org,
- linux-arm-kernel@lists.infradead.org
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Emma Anholt <emma@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 20 Jun 2022 14:00:43 +0800
-ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+This enable per-process page tables on the Qualcomm RB5 boards I'm
+setting up for Mesa CI.  Has survived a full deqp-vk run.
 
-> Hi Jonathan,
->=20
-> Thanks for your helpful comments, and I have some questions want to
-> ask you below.
->=20
-> Jonathan Cameron <jic23@kernel.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=8818=
-=E6=97=A5 =E9=80=B1=E5=85=AD =E6=99=9A=E4=B8=8A11:39=E5=AF=AB=E9=81=93=EF=
-=BC=9A
-> >
-> > On Mon, 13 Jun 2022 19:11:38 +0800
-> > ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-> > =20
-> > > From: ChiaEn Wu <chiaen_wu@richtek.com>
-> > >
-> > > Add ABI documentation for mt6370 non-standard ADC sysfs interfaces.
-> > >
-> > > Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> > > ---
-> > >  .../ABI/testing/sysfs-bus-iio-adc-mt6370      | 36 +++++++++++++++++=
-++
-> > >  1 file changed, 36 insertions(+)
-> > >  create mode 100644 Documentation/ABI/testing/sysfs-bus-iio-adc-mt6370
-> > >
-> > > diff --git a/Documentation/ABI/testing/sysfs-bus-iio-adc-mt6370 b/Doc=
-umentation/ABI/testing/sysfs-bus-iio-adc-mt6370
-> > > new file mode 100644
-> > > index 000000000000..039b3381176a
-> > > --- /dev/null
-> > > +++ b/Documentation/ABI/testing/sysfs-bus-iio-adc-mt6370
-> > > @@ -0,0 +1,36 @@
-> > > +What:                /sys/bus/iio/devices/iio:deviceX/in_voltage0_ra=
-w =20
-> >
-> > Unfortunately the kernel documentation build scripts do no support dupl=
-icating
-> > standard ABI for particular devices so as to provide more information.
-> > Hence you can't have anything in this file.
-> > =20
->=20
-> I want to confirm with you again,
-> because my ABI file duplicates with standard sysfs-bus-iio (voltage,
-> current, and temperature channels),
-> Should I just remove this ABI file and modify the code of mt6370-adc
-> to meet your expectations??
+v2: moved qcom,adreno-smmu compatible earlier
 
-yes.
+Emma Anholt (2):
+  iommu: arm-smmu-impl: Add 8250 display compatible to the client list.
+  arm64: dts: qcom: sm8250: Enable per-process page tables.
 
->=20
-> > =20
-> > > +KernelVersion:       5.18
-> > > +Contact:     chiaen_wu@richtek.com
-> > > +Description:
-> > > +             Indicated MT6370 VBUS ADC with lower accuracy(+-75mA) =
-=20
-> > Curious though, voltage with a mA accuracy range? =20
->=20
-> Yes, this description is based on the data sheet.
+ arch/arm64/boot/dts/qcom/sm8250.dtsi       | 2 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Weird :)=20
-
->=20
-> > This scale should be presented directly to userspace anyway so no need
-> > for this doc.
-> > =20
-> > > +             higher measure range(1~22V)
-> > > +             Calculating with scale returns voltage in uV =20
-> >
-> > No. All channels return in mV. That's the ABI requirement as
-> > in sysfs-bus-iio and we cannot vary if for particular drivers.  If we d=
-id
-> > no generic tooling would work. =20
->=20
-> Ok, I got it!
->=20
-> > =20
-> > > +
-> > > +What:                /sys/bus/iio/devices/iio:deviceX/in_voltage1_raw
-> > > +KernelVersion:       5.18
-> > > +Contact:     chiaen_wu@richtek.com
-> > > +Description:
-> > > +             Indicated MT6370 VBUS ADC with higher accuracy(+-30mA)
-> > > +             lower measure range(1~9.76V)
-> > > +             Calculating with scale offset returns voltage in uV
-> > > +
-> > > +What:                /sys/bus/iio/devices/iio:deviceX/in_voltage4_raw
-> > > +KernelVersion:       5.18
-> > > +Contact:     chiaen_wu@richtek.com
-> > > +Description:
-> > > +             Indicated MT6370 TS_BAT ADC
-> > > +             Calculating with scale returns voltage in uV
-> > > +
-> > > +What:                /sys/bus/iio/devices/iio:deviceX/in_voltage7_raw
-> > > +KernelVersion:       5.18
-> > > +Contact:     chiaen_wu@richtek.com
-> > > +Description:
-> > > +             Indicated MT6370 CHG_VDDP ADC
-> > > +             Calculating with scale returns voltage in mV
-> > > +
-> > > +What:                /sys/bus/iio/devices/iio:deviceX/in_temp8_raw
-> > > +KernelVersion:       5.18
-> > > +Contact:     chiaen_wu@richtek.com
-> > > +Description:
-> > > +             Indicated MT6370 IC junction temperature
-> > > +             Calculating with scale and offset returns temperature i=
-n degree =20
->=20
-> Shall I modify the scale of temperature to milli degrees in
-> mt6370-adc.c and remove this item??
-
-yes.
-
-Thanks,
-
-Jonathan
-
->=20
-> > =20
->=20
-> Best regards,
-> ChiaEn Wu
+-- 
+2.36.1
 
