@@ -2,76 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A061551C36
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 15:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12490551D77
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 16:09:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D74110E37A;
-	Mon, 20 Jun 2022 13:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4306B10E13C;
+	Mon, 20 Jun 2022 14:09:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 609F410E37A
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 13:48:27 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 4D33B3200955;
- Mon, 20 Jun 2022 09:48:26 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 20 Jun 2022 09:48:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1655732905; x=1655819305; bh=G65emyLKXE
- BG7PvJD/wJNoXQP0L1yQgCGqaAeM7XI5A=; b=1Etd0BSyzbia5YOA/dO5L4kpt/
- 38N3idpgmz0resvJn12leqbh9MI20icXWtK40HE9MIw7emrc9gQe9XPweMvvaCts
- nBq7keU5VkttSeA304fANZ6O9wj88uP47+QB9WXA7qZ6Wa12vVILq3OkwmCceU3d
- 5ybmSqirc5MsE/DW6va8Mcgrp+6UrrtqvRtEgOd6XalKsB01aud5d3IUDQeooRQM
- eZqSdi8DwcldRGCVldB/z/hAUgshnvoosRFbhTX1kOWwjv9TDrtIlsu+713z3XLh
- GshoyZU6P2a7Sh2FHrEhExp+1SGLj5T/YKCEojU95iuCCPqoTJnQ1NxIiDCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1655732905; x=1655819305; bh=G65emyLKXEBG7PvJD/wJNoXQP0L1
- yQgCGqaAeM7XI5A=; b=Rd1oDaok5wesivnhip0PZicRGYgSqDhkLOzlzkJLE6Tm
- lCwOgcIcWD01UVHN5YZwCaXzBlIL/nlEN0NV95rE0s3UT39LWT5avjuUva3VBfWF
- WLy+4eI+bGr3XF/2EiKhq2a/TnLm787xhh5/tO93SRp/Ji/iVOnzRRc89aQAeBRE
- mZH+ujEjcsFZKotN3FjPDZY18K6pYP1IZFcxUozViIZ5TUraliwl04DzTH+LJmEr
- xXt4dbhubVjuh226/zo7XlPEhHmH81GffPC3emO6oeDRXRh+85Os27JnjcZTnOFz
- c8K4CjSwTznEBfOPNH9Ip8FTfzYVN4yB1b1a6u3KSg==
-X-ME-Sender: <xms:qXqwYoSouLclXLy-1D74AQPbxK99Csfx7pTazkE_E5gnlvT5LjEaAg>
- <xme:qXqwYlx0rDr2NzQNozUnih6EpKDXYhBaZ978yqQQsjYaO7sp-fNjkC0F-AkcczL8s
- cWjRcDHNHGdgQ4lj_k>
-X-ME-Received: <xmr:qXqwYl2LKPCA8pwlIFAyakWA2Gcgcty93BJA2G7ss2KlteVuCCRfUQdOTxar6hv7rfgp5KZjbb9qWIgHueoJ47E2DZWUUdgUWBzbo_g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefuddgjedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:qXqwYsBQGBMfCnV4DJsVSAMtyT-REMm7NWloxFkthLRexietY95lSA>
- <xmx:qXqwYhimKicd2wdMs0NvxoqeJPU6zYTMVYx2teqeoIyZSDbv94RBKA>
- <xmx:qXqwYorkaG3MsBURhmbtXUUMyVZWkDMG0RMI5KSaQt93qfVzpaVvxw>
- <xmx:qXqwYmuREeSvAG3b159hfITpYZC9f5SETfn4_SYKzb6DP6FmyXD4iA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 20 Jun 2022 09:48:25 -0400 (EDT)
-Date: Mon, 20 Jun 2022 15:48:23 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 09/64] drm/simple: Introduce drmm_simple_encoder_init
-Message-ID: <20220620134823.oqjrbnlsce3erhum@houat>
-References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-10-maxime@cerno.tech>
- <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23E2110E13C;
+ Mon, 20 Jun 2022 14:09:02 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-136-92.dynamic.spd-mgts.ru
+ [109.252.136.92])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id ED33766016AA;
+ Mon, 20 Jun 2022 15:08:57 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1655734140;
+ bh=BXU+ifI6vgvX2l7WRjph+CNUKyZnpbVEdIZ7RrhtSq4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=hbKEas/qwTrQOtYjHwF1kAp5bF+lx0c/HWQwXzlCDzigXVc6ThGjLuF3ZUDyYkTwz
+ MouYrGpQnILP4PpIymmbBhVM9e1PASUWBFi+LgRwQKHtJaeCJSG55KGkiaLdAooRwx
+ r2TI5GDTa0dTQ+8tpeAHv2LUf+jVTzvilnkf5MIXXOtgLhZavAyBeA5Coc+G+31H0n
+ LqN5s7FdaPeYgtK9DeQIbTvs9nVBH3Vd5hMCs7Z3/RWoHnCkbvzEtAtefHevXEAM22
+ OU+8g1IHrfEqrNowXyflyg+A+jrXLHwPj7JmxC/fo9Iq5iwKq0KsVJdcRE82IB0+gX
+ J8VaycDtZEnTQ==
+Message-ID: <3bb3dc53-69fc-8cdb-ae37-583b9b2660a3@collabora.com>
+Date: Mon, 20 Jun 2022 17:08:54 +0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="vs6gl3s2yjatfye7"
-Content-Disposition: inline
-In-Reply-To: <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v6 17/22] drm/shmem-helper: Add generic memory shrinker
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-18-dmitry.osipenko@collabora.com>
+ <CAF6AEGt61t2truYDCxm17hqUPV-UdEdHjLs+6vmj5RPoPuVBYg@mail.gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <CAF6AEGt61t2truYDCxm17hqUPV-UdEdHjLs+6vmj5RPoPuVBYg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,63 +58,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ virtualization@lists.linux-foundation.org, linux-media@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, amd-gfx@lists.freedesktop.org,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, Qiang Yu <yuq825@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Robin Murphy <robin.murphy@arm.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 6/19/22 20:53, Rob Clark wrote:
+...
+>> +static unsigned long
+>> +drm_gem_shmem_shrinker_count_objects(struct shrinker *shrinker,
+>> +                                    struct shrink_control *sc)
+>> +{
+>> +       struct drm_gem_shmem_shrinker *gem_shrinker = to_drm_shrinker(shrinker);
+>> +       struct drm_gem_shmem_object *shmem;
+>> +       unsigned long count = 0;
+>> +
+>> +       if (!mutex_trylock(&gem_shrinker->lock))
+>> +               return 0;
+>> +
+>> +       list_for_each_entry(shmem, &gem_shrinker->lru_evictable, madv_list) {
+>> +               count += shmem->base.size;
+>> +
+>> +               if (count >= SHRINK_EMPTY)
+>> +                       break;
+>> +       }
+>> +
+>> +       mutex_unlock(&gem_shrinker->lock);
+> 
+> As I mentioned on other thread, count_objects, being approximate but
+> lockless and fast is the important thing.  Otherwise when you start
+> hitting the shrinker on many threads, you end up serializing them all,
+> even if you have no pages to return to the system at that point.
 
---vs6gl3s2yjatfye7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Daniel's point for dropping the lockless variant was that we're already
+in trouble if we're hitting shrinker too often and extra optimizations
+won't bring much benefits to us.
 
-Hi,
+Alright, I'll add back the lockless variant (or will use yours
+drm_gem_lru) in the next revision. The code difference is very small
+after all.
 
-On Mon, Jun 20, 2022 at 12:44:24PM +0200, Thomas Zimmermann wrote:
-> Am 10.06.22 um 11:28 schrieb Maxime Ripard:
-> > The DRM-managed function to register an encoder is
-> > drmm_simple_encoder_alloc() and its variants, which will allocate the
-> > underlying structure and initialisation the encoder.
-> >=20
-> > However, we might want to separate the structure creation and the encod=
-er
-> > initialisation, for example if the structure is shared across multiple =
-DRM
-> > entities, for example an encoder and a connector.
-> >=20
-> > Let's create an helper to only initialise an encoder that would be pass=
-ed
-> > as an argument.
-> >=20
->=20
-> There's nothing wrong with this patch, but I have to admit that adding
-> drm_simple_encoder_init() et al was a mistake.
+...
+>> +               /* prevent racing with the dma-buf importing/exporting */
+>> +               if (!mutex_trylock(&gem_shrinker->dev->object_name_lock)) {
+>> +                       *lock_contention |= true;
+>> +                       goto resv_unlock;
+>> +               }
+> 
+> I'm not sure this is a good idea to serialize on object_name_lock.
+> Purgeable buffers should never be shared (imported or exported).  So
+> at best you are avoiding evicting and immediately swapping back in, in
+> a rare case, at the cost of serializing multiple threads trying to
+> reclaim pages in parallel.
 
-Why do you think it was a mistake?
+The object_name_lock shouldn't cause contention in practice. But objects
+are also pinned on attachment, hence maybe this lock is indeed
+unnecessary.. I'll re-check it.
 
-> It would have been better to add an initializer macro like
->=20
-> #define DRM_STATIC_ENCODER_DEFAULT_FUNCS \
->   .destroy =3D drm_encoder_cleanup
->=20
-> It's way more flexible and similarly easy to use. Anyway...
-
-We can still have this. It would simplify this series so I could
-definitely squeeze that patch in and add a TODO item / deprecation
-notice for simple encoders if you think it's needed
-
-Maxime
-
---vs6gl3s2yjatfye7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYrB6pwAKCRDj7w1vZxhR
-xVbWAQDwgeg8BYDKVFmxna1mWhd9Ke7bRsLwQrp3zSGfWL1CDQEAvp29cgX5cDnf
-CtQA/zMrgVGbJnqfYeGFMX7P3SBOHAw=
-=8hc0
------END PGP SIGNATURE-----
-
---vs6gl3s2yjatfye7--
+-- 
+Best regards,
+Dmitry
