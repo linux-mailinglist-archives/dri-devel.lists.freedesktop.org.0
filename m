@@ -1,57 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5069D551292
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 10:22:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 550425512AA
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 10:26:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4218F10E0CB;
-	Mon, 20 Jun 2022 08:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF2E010E00A;
+	Mon, 20 Jun 2022 08:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34FE210E0CB
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 08:22:30 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 978C4660166E;
- Mon, 20 Jun 2022 09:22:27 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1655713348;
- bh=Bw8//Vr2/4Y/0JdxL5tF76a5lDkcKuJqgY+A3/ga2oc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nkDYwqvAQkgqrN1VB8RcGMCWM/y8IbVV5IMjNrJSkbf3JeM4U3lsuMtlMPqHSihGf
- LS4afm8BEm05GBgs1KoSme5dQ+/U5ll7i5/QDfai6wrtRRhKqQDKvSK2e+CJzCkT1W
- qEarsfCUI7gQ63UpHjMZsm0JI9gwPYKksjyrfXlqsQK1S+txPemzyGI1BJCRfKmFzu
- jXTHmAUoWo/HhfF/hFzsl5WeOJ0p1xeCEoaFqhTEtoJwNUETILjvCjgouu5IBySRHZ
- NR8LDI5T2dZnJ6yawv3Ek1uMm921LKw2N/RDEGk41FCkEE9AsHHhCdncqnqMg8vBGB
- yyUD7/xVGkQyg==
-Message-ID: <96322aee-6fbe-9c0c-8935-1c2d10ae60f1@collabora.com>
-Date: Mon, 20 Jun 2022 10:22:25 +0200
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDEA310E00A
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 08:26:13 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id es26so12321238edb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 01:26:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ytMUXjmaN8uHSvhOnNn2seCP4qJ7rfDpUHNy7RTqCxM=;
+ b=hd1CcsMoEubcv6jr6mmIlVzkPnefJUP8r20R0zYK/c+jUCgKI8Q3JnLWgClt35Uisy
+ 4KbHXd9q38JNpI5fY6UQgh6EaWIHQxw+4tio8Di8lZre94OlHMYRIdM/jJdTFqHVz7B3
+ bSbk0rAc/JmUZdW8yMVeBf8pChYxs09lHNpEo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ytMUXjmaN8uHSvhOnNn2seCP4qJ7rfDpUHNy7RTqCxM=;
+ b=UKGeH17MKlmdhMWA3rxYK05n3H05URfCGLeRSj3V0jv2Ugiqs60OlGkIGNJS1UyJ9I
+ DLy7zkYf4rw8iA0KRAnF/6NTLsafM8RuFiDWt9w9AIEL72/3RD4Ds9rExUGIjDslHtDy
+ KGMiIQ1h/2guQXOK6NJX/UA87FMh5E37c8gdNm6vc1ObJpJctxDoxIWZX2PLS5Ln6v0z
+ y0fwZ1BEyfQ4DAcDouzD3GmtDSsZ8/jKG+dItsOdtBjnlcPFmc0vOOSXJcG6K0OXl8Yk
+ kIEh3iHB2FTtqvYxV/LWfeKekOGAXk7Wr2QI2HwI8ZtvEqdD6gdw3O3qVYpMZ/NL4nTJ
+ ieiA==
+X-Gm-Message-State: AJIora9rbb0liXi09hgMc9lzfUM2hMQYynNP2OGi0M60faCVTd6Yxmed
+ ThFojI7NjK4lf1GeTC/hapnWWcqe7uUFsvI3AX7kqA==
+X-Google-Smtp-Source: AGRyM1sW1N2WJNAFBze0aVQVaROgZ8Ht/RO6hxNo4xmROEhN05naPzIBxPQWeqLSKYLqFDl/OC2uAiiLvkZXDWbHcKQ=
+X-Received: by 2002:aa7:c84d:0:b0:431:4226:70c9 with SMTP id
+ g13-20020aa7c84d000000b00431422670c9mr27849166edt.51.1655713572457; Mon, 20
+ Jun 2022 01:26:12 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+References: <20220620063217.9867-1-yunfei.dong@mediatek.com>
+In-Reply-To: <20220620063217.9867-1-yunfei.dong@mediatek.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 20 Jun 2022 16:26:01 +0800
+Message-ID: <CAGXv+5F8jvzz9DkM4x0MKQ_hZGpYXwQNfOEp_Gvqr__t-WDW+w@mail.gmail.com>
 Subject: Re: [PATCH, v2] media: mediatek: vcodec: Initialize decoder
  parameters after getting dec_capability
-Content-Language: en-US
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Chen-Yu Tsai
- <wenst@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tomasz Figa <tfiga@google.com>
-References: <20220620063217.9867-1-yunfei.dong@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220620063217.9867-1-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,23 +60,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, Irui Wang <irui.wang@mediatek.com>,
+ George Sun <george.sun@mediatek.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+ Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 20/06/22 08:32, Yunfei Dong ha scritto:
+On Mon, Jun 20, 2022 at 2:32 PM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+>
 > Need to get dec_capability from scp first, then initialize decoder
 > supported format and other parameters according to dec_capability value.
-> 
+>
 > Fixes: fd00d90330d1 ("media: mtk-vcodec: vdec: move stateful ops into their own file")
 > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
