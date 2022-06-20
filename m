@@ -1,53 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4278E5522E0
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 19:46:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F06E5523A4
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 20:13:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9165F10ECB9;
-	Mon, 20 Jun 2022 17:45:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F74A10F0E1;
+	Mon, 20 Jun 2022 18:13:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0737310EC72;
- Mon, 20 Jun 2022 17:45:57 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- m16-20020a7bca50000000b0039c8a224c95so6049383wml.2; 
- Mon, 20 Jun 2022 10:45:56 -0700 (PDT)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 988A210F06F
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 18:13:39 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ c130-20020a1c3588000000b0039c6fd897b4so8152783wma.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 11:13:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=IeQAYHSX50DSoga/bjO85m7RJZ5eeGCk6fh4GvV0eXA=;
- b=nLoxWDhzHZdQoJrRs9Lg/ZXFOVIW9AFUdiYl33t81H4gMMwGerK2pyR5MKO6KPkMBr
- gPuUbPTvWQ/RlhxEi5VLNxGmKs4kcTXnbhZmoLmhgFVNbKjwu7goAIQMMC13kqUL0dAN
- qJwxxxOKXgPVG5Hrm4nEMfBp/GReWDmpqdzp5URC9pDM5BhfJFP79e2pGJSTSh1QZi6T
- SNqiCXjHmWHLJXRcCJiec7FPrkjdTgBaIX+fV/XXFssHi4hzq/VAvqkLNgVmk5AJfroO
- NOhbW/UEXZ1HqillXk/AkxLRiVwUrsxERNSzZ2Vq8wqf80sqfyids/I1C6Qk5BJR961W
- xZ+g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T+Bp4C6tHNEGnt3nH/cIgRCgYn49Fk+PkAiYN+Dhmk4=;
+ b=Zejyg6E+FHLKxRKdaEVHf2AZnDX7ypJREPoEvt3q1fFl3poi2cMzNceoS2L5xfLnPb
+ Hj+R732naG47N54mKP5MQpsSSUdgqOafOLptTfNnpGpubW05/fVMDbTQV+sMTeE5+PGP
+ G1PtclC9DqxT26xSkM2/3RaxOLmFefPV37XUIQua/iSphifY21dvtzrbnCUZpiXg0N2n
+ XHXPevhVP0+l851iCLc4EkMrnfLnwki+2xj71hWiMdp2ZVSD9hEm9rzWNJpCO9T6G8hu
+ 5SHb0+fboJV+3XgJVsDIf3OWHEYhAcr8JYttvJwxKMLyTDOEH0o0B+KvQ5EYF5l9zpIf
+ 8uQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=IeQAYHSX50DSoga/bjO85m7RJZ5eeGCk6fh4GvV0eXA=;
- b=A9/fMOwozXX53Edqhr115jeX85Pi9dA8XDlJCH/pNj9JXTY/iFD0gXRssg42xCYWD2
- rTJ6qtLN8TAVntCaiV7t1funeaYlnOZ03Gq/ai3wZzPoQ6o0izGe1xR8eBG73K6O5SMR
- cI5OGfRjcQEHfcaUWaKDETm5E/JujhByuaJ4F0pDktxwGLgc/uLMx/51DNcei7H3x0G8
- oeyJgViFDvyPN4HlwjaY8+CG5btJ/dkhAKwItMvO1obqvYH34GG4WLoU/XexRU/15t2u
- /SGqz+b5Vze/6C0XfTcVcMUG1a8woCg1qfScP0CzAjrFHBvbp07iR7dQE4+dCQEDZPEH
- rAuw==
-X-Gm-Message-State: AJIora/aJcW27eDsedQYoYbw4agU6xrvehY+C6ZTkq80U/aWkqPwED19
- VZ4H3mmYoPUuhwot4U7lRfitTI4mUy2/XZVyd24=
-X-Google-Smtp-Source: AGRyM1sbZaeyZDiL8AlWQz++9TMHx0tYJRGXDq69us1pqz9Wni9YYQ5WAwzlZc9IQe7YpygXBwnIsbfU/qOwVxFe6eE=
-X-Received: by 2002:a05:600c:4f96:b0:39c:951e:66b7 with SMTP id
- n22-20020a05600c4f9600b0039c951e66b7mr26056903wmq.84.1655747155463; Mon, 20
- Jun 2022 10:45:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=T+Bp4C6tHNEGnt3nH/cIgRCgYn49Fk+PkAiYN+Dhmk4=;
+ b=F+fo3J4tLehU1j32FXVKECjefou+agfGMSuTb+2iG2oFRMBAS3SMo3ieNS5Uu98wbX
+ suk2Z7V900yUMZJjPpmH0sbVxAHkoq+CfMYaBxZlaf3PbJDQ+oXGGINFmhuw2FlzH4XS
+ jCXeIr7b7QDXM9lghgUwYXGDt2Q4L027ZtvTb5MZDstjgrPqvfRDwbYDdo+aqtuKrT23
+ 62LacTMoOHDb1eak5eA6QLQ4qf6c3DSauitUURQesaHfNvFHwDVxB3dEner+aPLZY+i5
+ 6uiUVFOodvTq62ff80Bk0FsCPOVcighvgYxvv56TEEKCoEesiqWZmin7HAjacvPBjTmm
+ Pjjg==
+X-Gm-Message-State: AJIora/qWsf7zkndqNep7xHyiAG2kuTgebZdAzH3bRF0M7PiU0cgBlhX
+ qJHUJMa9tJxXmis4I+2HsEM=
+X-Google-Smtp-Source: AGRyM1uI4F8cjHPAFAwOIFBOoZgwystK4qPSTCHz/P/WvlP3vbn23eKdbUXeK8JyCxxGaxVhOGfXAw==
+X-Received: by 2002:a7b:c389:0:b0:39c:49fe:25df with SMTP id
+ s9-20020a7bc389000000b0039c49fe25dfmr25474259wmj.164.1655748818130; 
+ Mon, 20 Jun 2022 11:13:38 -0700 (PDT)
+Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net.
+ [213.161.3.76]) by smtp.gmail.com with ESMTPSA id
+ k20-20020adfc714000000b002103aebe8absm14006977wrg.93.2022.06.20.11.13.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jun 2022 11:13:37 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org
+Subject: [PATCH v2] drm/sun4i: Add DMA mask and segment size
+Date: Mon, 20 Jun 2022 20:13:33 +0200
+Message-Id: <20220620181333.650301-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 20 Jun 2022 10:46:02 -0700
-Message-ID: <CAF6AEGvdsOF1-+WfTWyEyu33XPcvxOCU00G-dz7EF2J+fdyUHg@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-fixes-2022-06-20 for v5.19-rc4
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,138 +69,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: samuel@sholland.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Kernel occasionally complains that there is mismatch in segment size
+when trying to render HW decoded videos and rendering them directly with
+sun4i DRM driver. Following message can be observed on H6 SoC:
 
-Here are fixes for v5.19, summary below (and in tag msg)
+[  184.298308] ------------[ cut here ]------------
+[  184.298326] DMA-API: sun4i-drm display-engine: mapping sg segment longer than device claims to support [len=6144000] [max=65536]
+[  184.298364] WARNING: CPU: 1 PID: 382 at kernel/dma/debug.c:1162 debug_dma_map_sg+0x2b0/0x350
+[  184.322997] CPU: 1 PID: 382 Comm: ffmpeg Not tainted 5.19.0-rc1+ #1331
+[  184.329533] Hardware name: Tanix TX6 (DT)
+[  184.333544] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  184.340512] pc : debug_dma_map_sg+0x2b0/0x350
+[  184.344882] lr : debug_dma_map_sg+0x2b0/0x350
+[  184.349250] sp : ffff800009f33a50
+[  184.352567] x29: ffff800009f33a50 x28: 0000000000010000 x27: ffff000001b86c00
+[  184.359725] x26: ffffffffffffffff x25: ffff000005d8cc80 x24: 0000000000000000
+[  184.366879] x23: ffff80000939ab18 x22: 0000000000000001 x21: 0000000000000001
+[  184.374031] x20: 0000000000000000 x19: ffff0000018a7410 x18: ffffffffffffffff
+[  184.381186] x17: 0000000000000000 x16: 0000000000000000 x15: ffffffffffffffff
+[  184.388338] x14: 0000000000000001 x13: ffff800009534e86 x12: 6f70707573206f74
+[  184.395493] x11: 20736d69616c6320 x10: 000000000000000a x9 : 0000000000010000
+[  184.402647] x8 : ffff8000093b6d40 x7 : ffff800009f33850 x6 : 000000000000000c
+[  184.409800] x5 : ffff0000bf997940 x4 : 0000000000000000 x3 : 0000000000000027
+[  184.416953] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000003960e80
+[  184.424106] Call trace:
+[  184.426556]  debug_dma_map_sg+0x2b0/0x350
+[  184.430580]  __dma_map_sg_attrs+0xa0/0x110
+[  184.434687]  dma_map_sgtable+0x28/0x4c
+[  184.438447]  vb2_dc_dmabuf_ops_map+0x60/0xcc
+[  184.442729]  __map_dma_buf+0x2c/0xd4
+[  184.446321]  dma_buf_map_attachment+0xa0/0x130
+[  184.450777]  drm_gem_prime_import_dev+0x7c/0x18c
+[  184.455410]  drm_gem_prime_fd_to_handle+0x1b8/0x214
+[  184.460300]  drm_prime_fd_to_handle_ioctl+0x2c/0x40
+[  184.465190]  drm_ioctl_kernel+0xc4/0x174
+[  184.469123]  drm_ioctl+0x204/0x420
+[  184.472534]  __arm64_sys_ioctl+0xac/0xf0
+[  184.476474]  invoke_syscall+0x48/0x114
+[  184.480240]  el0_svc_common.constprop.0+0x44/0xec
+[  184.484956]  do_el0_svc+0x2c/0xc0
+[  184.488283]  el0_svc+0x2c/0x84
+[  184.491354]  el0t_64_sync_handler+0x11c/0x150
+[  184.495723]  el0t_64_sync+0x18c/0x190
+[  184.499397] ---[ end trace 0000000000000000 ]---
 
-The following changes since commit 24df12013853ac59c52cc726e9cbe51e38d09eda:
+Fix that by setting DMA mask and segment size.
 
-  MAINTAINERS: Add Dmitry as MSM DRM driver co-maintainer (2022-05-07
-12:02:29 -0700)
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+Changes from v1:
+- added comment
+- updated commit message with kernel report
 
-are available in the Git repository at:
+ drivers/gpu/drm/sun4i/sun4i_drv.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2022-06-20
+diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
+index 275f7e4a03ae..f135a6b3cadb 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_drv.c
++++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+@@ -7,6 +7,7 @@
+  */
+ 
+ #include <linux/component.h>
++#include <linux/dma-mapping.h>
+ #include <linux/kfifo.h>
+ #include <linux/module.h>
+ #include <linux/of_graph.h>
+@@ -367,6 +368,13 @@ static int sun4i_drv_probe(struct platform_device *pdev)
+ 
+ 	INIT_KFIFO(list.fifo);
+ 
++	/*
++	 * DE2 and DE3 cores actually supports 40-bit addresses, but
++	 * driver does not.
++	 */
++	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
++	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
++
+ 	for (i = 0;; i++) {
+ 		struct device_node *pipeline = of_parse_phandle(np,
+ 								"allwinner,pipelines",
+-- 
+2.36.1
 
-for you to fetch changes up to a6e2af64a79afa7f1b29375b5231e840a84bb845:
-
-  drm/msm/dp: force link training for display resolution change
-(2022-06-18 09:14:06 -0700)
-
-----------------------------------------------------------------
-Fixes for v5.19-rc4
-
-- Workaround for parade DSI bridge power sequencing
-- Fix for multi-planar YUV format offsets
-- Limiting WB modes to max sspp linewidth
-- Fixing the supported rotations to add 180 back for IGT
-- Fix to handle pm_runtime_get_sync() errors to avoid unclocked access
-  in the bind() path for dpu driver
-- Fix the irq_free() without request issue which was being hit frequently
-  in CI.
-- Fix to add minimum ICC vote in the msm_mdss pm_resume path to address
-  bootup splats
-- Fix to avoid dereferencing without checking in WB encoder
-- Fix to avoid crash during suspend in DP driver by ensuring interrupt
-  mask bits are updated
-- Remove unused code from dpu_encoder_virt_atomic_check()
-- Fix to remove redundant init of dsc variable
-- Fix to ensure mmap offset is initialized to avoid memory corruption
-  from unpin/evict
-- Fix double runpm disable in probe-defer path
-- VMA fenced-unpin fixes
-- Fix for WB max-width
-- Fix for rare dp resolution change issue
-
-----------------------------------------------------------------
-Abhinav Kumar (4):
-      drm/msm/dpu: limit writeback modes according to max_linewidth
-      drm/msm/dpu: add DRM_MODE_ROTATE_180 back to supported rotations
-      drm/msm/dpu: handle pm_runtime_get_sync() errors in bind path
-      drm/msm/dpu: limit wb modes based on max_mixer_width
-
-Dmitry Baryshkov (1):
-      drm/msm: don't free the IRQ if it was not requested
-
-Douglas Anderson (2):
-      drm/msm/dsi: don't powerup at modeset time for parade-ps8640
-      drm/msm/dpu: Move min BW request and full BW disable back to mdss
-
-Hangyu Hua (1):
-      drm: msm: fix possible memory leak in mdp5_crtc_cursor_set()
-
-Haowen Bai (1):
-      drm/msm/dpu: Fix pointer dereferenced before checking
-
-Jiapeng Chong (1):
-      drm/msm/dpu: Remove unused code
-
-Jonathan Marek (1):
-      drm/msm: use for_each_sgtable_sg to iterate over scatterlist
-
-Kuogee Hsieh (3):
-      drm/msm/dp: Always clear mask bits to disable interrupts at
-dp_ctrl_reset_irq_ctrl()
-      drm/msm/dp: check core_initialized before disable interrupts at
-dp_display_unbind()
-      drm/msm/dp: force link training for display resolution change
-
-Maximilian Luz (1):
-      drm/msm: Fix double pm_runtime_disable() call
-
-Miaoqian Lin (2):
-      drm/msm/a6xx: Fix refcount leak in a6xx_gpu_init
-      drm/msm/mdp4: Fix refcount leak in mdp4_modeset_init_intf
-
-Rob Clark (9):
-      drm/msm: Fix fb plane offset calculation
-      Merge tag 'msm-next-5.19-fixes' of
-https://gitlab.freedesktop.org/abhinavk/msm into msm-fixes-staging
-      Merge tag 'msm-next-5.19-fixes-06-01' of
-https://gitlab.freedesktop.org/abhinavk/msm into msm-fixes-staging
-      drm/msm: Ensure mmap offset is initialized
-      drm/msm: Switch ordering of runpm put vs devfreq_idle
-      drm/msm/gem: Separate object and vma unpin
-      drm/msm/gem: Drop early returns in close/purge vma
-      drm/msm: Drop update_fences()
-      drm/msm: Don't overwrite hw fence in hw_init
-
-Vinod Koul (1):
-      drm/msm/disp/dpu1: remove superfluous init
-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  1 +
- drivers/gpu/drm/msm/adreno/adreno_gpu.c            | 14 ++++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  3 --
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  4 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            | 12 ++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      | 13 ++++-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |  2 +
- drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c          |  4 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c                   | 42 ++++++++++++----
- drivers/gpu/drm/msm/dp/dp_ctrl.h                   |  2 +-
- drivers/gpu/drm/msm/dp/dp_display.c                | 16 +++---
- drivers/gpu/drm/msm/dsi/dsi_manager.c              | 32 +++++++++++-
- drivers/gpu/drm/msm/msm_drv.c                      |  9 +++-
- drivers/gpu/drm/msm/msm_drv.h                      |  1 +
- drivers/gpu/drm/msm/msm_fb.c                       |  2 +-
- drivers/gpu/drm/msm/msm_fence.c                    |  8 +--
- drivers/gpu/drm/msm/msm_gem.c                      |  7 ++-
- drivers/gpu/drm/msm/msm_gem.h                      | 11 +++--
- drivers/gpu/drm/msm/msm_gem_prime.c                | 15 ++++++
- drivers/gpu/drm/msm/msm_gem_submit.c               | 18 ++++---
- drivers/gpu/drm/msm/msm_gem_vma.c                  |  6 +--
- drivers/gpu/drm/msm/msm_gpu.c                      | 27 ++--------
- drivers/gpu/drm/msm/msm_iommu.c                    |  2 +-
- drivers/gpu/drm/msm/msm_kms.h                      |  1 +
- drivers/gpu/drm/msm/msm_mdss.c                     | 57 ++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_ringbuffer.c               |  2 +-
- 27 files changed, 222 insertions(+), 91 deletions(-)
