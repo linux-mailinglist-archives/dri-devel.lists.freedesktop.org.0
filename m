@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBD555185A
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 14:10:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E67551857
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 14:10:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D1D610FD02;
-	Mon, 20 Jun 2022 12:10:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1076210FCF6;
+	Mon, 20 Jun 2022 12:10:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BFF210FCF6
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A31B210FCC6
  for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 12:10:40 +0000 (UTC)
-X-UUID: d44f934b6aad4f41916f83e0f5331db5-20220620
+X-UUID: 36d483b176224720967d22559cdb918f-20220620
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:f39bda15-39a3-4443-bf15-79a654954df7, OB:0,
+X-CID-O-INFO: VERSION:1.1.6, REQID:5174b0cb-6be2-4058-8bf6-d376fb1bd036, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:-5
-X-CID-META: VersionHash:b14ad71, CLOUDID:5baf8b2d-1756-4fa3-be7f-474a6e4be921,
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:b14ad71, CLOUDID:5daf8b2d-1756-4fa3-be7f-474a6e4be921,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
  ,QS:nil,BEC:nil,COL:0
-X-UUID: d44f934b6aad4f41916f83e0f5331db5-20220620
+X-UUID: 36d483b176224720967d22559cdb918f-20220620
 Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
  mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 54684070; Mon, 20 Jun 2022 20:10:32 +0800
+ with ESMTP id 374208649; Mon, 20 Jun 2022 20:10:32 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
  mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -38,9 +38,9 @@ From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <daniel@ffwll.ch>,
  <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
  <matthias.bgg@gmail.com>, <airlied@linux.ie>
-Subject: [PATCH v12 11/14] drm/mediatek: dpi: Add tvd_clk enable/disable flow
-Date: Mon, 20 Jun 2022 20:10:25 +0800
-Message-ID: <20220620121028.29234-12-rex-bc.chen@mediatek.com>
+Subject: [PATCH v12 12/14] drm/mediatek: dpi: Add YUV422 output support
+Date: Mon, 20 Jun 2022 20:10:26 +0800
+Message-ID: <20220620121028.29234-13-rex-bc.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220620121028.29234-1-rex-bc.chen@mediatek.com>
 References: <20220620121028.29234-1-rex-bc.chen@mediatek.com>
@@ -68,53 +68,30 @@ Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We should enable/disable tvd_clk when power_on/power_off, so add this
-patch to do this.
+Dp_intf supports YUV422 as output format. In MT8195 Chrome project,
+YUV422 output format is used for 4K resolution.
 
 Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 2717b1741b7a..f83ecb154457 100644
+index f83ecb154457..fc76ccad0a82 100644
 --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -455,6 +455,7 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
- 	mtk_dpi_disable(dpi);
- 	clk_disable_unprepare(dpi->pixel_clk);
- 	clk_disable_unprepare(dpi->engine_clk);
-+	clk_disable_unprepare(dpi->tvd_clk);
+@@ -692,7 +692,10 @@ static int mtk_dpi_bridge_atomic_check(struct drm_bridge *bridge,
+ 	dpi->bit_num = MTK_DPI_OUT_BIT_NUM_8BITS;
+ 	dpi->channel_swap = MTK_DPI_OUT_CHANNEL_SWAP_RGB;
+ 	dpi->yc_map = MTK_DPI_OUT_YC_MAP_RGB;
+-	dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
++	if (out_bus_format == MEDIA_BUS_FMT_YUYV8_1X16)
++		dpi->color_format = MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL;
++	else
++		dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
+ 
+ 	return 0;
  }
- 
- static int mtk_dpi_power_on(struct mtk_dpi *dpi)
-@@ -464,10 +465,16 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
- 	if (++dpi->refcount != 1)
- 		return 0;
- 
-+	ret = clk_prepare_enable(dpi->tvd_clk);
-+	if (ret) {
-+		dev_err(dpi->dev, "Failed to enable tvd pll: %d\n", ret);
-+		goto err_refcount;
-+	}
-+
- 	ret = clk_prepare_enable(dpi->engine_clk);
- 	if (ret) {
- 		dev_err(dpi->dev, "Failed to enable engine clock: %d\n", ret);
--		goto err_refcount;
-+		goto err_engine;
- 	}
- 
- 	ret = clk_prepare_enable(dpi->pixel_clk);
-@@ -484,6 +491,8 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
- 
- err_pixel:
- 	clk_disable_unprepare(dpi->engine_clk);
-+err_engine:
-+	clk_disable_unprepare(dpi->tvd_clk);
- err_refcount:
- 	dpi->refcount--;
- 	return ret;
 -- 
 2.18.0
 
