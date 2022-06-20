@@ -2,39 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C617550F0B
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 05:46:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 185C1550F19
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 05:55:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B62C10E774;
-	Mon, 20 Jun 2022 03:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E568C10E131;
+	Mon, 20 Jun 2022 03:54:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 917A710E774
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 03:46:03 +0000 (UTC)
-X-UUID: fc1652a01c914f2cb6d935a29fea5c28-20220620
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6E1410E131
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 03:54:58 +0000 (UTC)
+X-UUID: 6946a5eecbb54812a6c7683a63617b7a-20220620
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:3f9de25c-c23a-405d-a658-84380fa17625, OB:0,
+X-CID-O-INFO: VERSION:1.1.6, REQID:11aa612c-3cfc-42ef-a077-14d8862115a3, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:b14ad71, CLOUDID:d9be253d-9948-4b2a-a784-d8a6c1086106,
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-INFO: VERSION:1.1.6, REQID:11aa612c-3cfc-42ef-a077-14d8862115a3, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:45
+X-CID-META: VersionHash:b14ad71, CLOUDID:c4fb253d-9948-4b2a-a784-d8a6c1086106,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: fc1652a01c914f2cb6d935a29fea5c28-20220620
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1087266528; Mon, 20 Jun 2022 11:45:59 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ OID:b7bcf173cd10,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 6946a5eecbb54812a6c7683a63617b7a-20220620
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 953839718; Mon, 20 Jun 2022 11:54:53 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
  mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 20 Jun 2022 11:45:56 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 20 Jun 2022 11:45:56 +0800
-Message-ID: <602191e9a61687a8ed05b216d0faad0092b05168.camel@mediatek.com>
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 20 Jun 2022 11:54:52 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Mon, 20 Jun 2022 11:54:52 +0800
+Message-ID: <597d190f72427d5d1da7a4ca46b219e2edb69693.camel@mediatek.com>
 Subject: Re: [PATCH v11 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
  driver
 From: CK Hu <ck.hu@mediatek.com>
@@ -43,7 +47,7 @@ To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
  <airlied@linux.ie>
-Date: Mon, 20 Jun 2022 11:45:56 +0800
+Date: Mon, 20 Jun 2022 11:54:52 +0800
 In-Reply-To: <20220610105522.13449-6-rex-bc.chen@mediatek.com>
 References: <20220610105522.13449-1-rex-bc.chen@mediatek.com>
  <20220610105522.13449-6-rex-bc.chen@mediatek.com>
@@ -106,51 +110,53 @@ On Fri, 2022-06-10 at 18:55 +0800, Bo-Chen Chen wrote:
 [snip]
 
 > +
-> +static void mtk_dp_poweroff(struct mtk_dp *mtk_dp)
+> +static int mtk_dp_bridge_atomic_check(struct drm_bridge *bridge,
+> +				      struct drm_bridge_state
+> *bridge_state,
+> +				      struct drm_crtc_state
+> *crtc_state,
+> +				      struct drm_connector_state
+> *conn_state)
 > +{
-> +	mutex_lock(&mtk_dp->dp_lock);
+> +	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
+> +	struct drm_crtc *crtc = conn_state->crtc;
+> +	unsigned int input_bus_format;
 > +
-> +	mtk_dp_hwirq_enable(mtk_dp, false);
-> +	mtk_dp_power_disable(mtk_dp);
-> +	phy_exit(mtk_dp->phy);
+> +	input_bus_format = bridge_state->input_bus_cfg.format;
 > +
-> +	mutex_unlock(&mtk_dp->dp_lock);
-> +}
+> +	dev_dbg(mtk_dp->dev, "input format 0x%04x, output format
+> 0x%04x\n",
+> +		bridge_state->input_bus_cfg.format,
+> +		 bridge_state->output_bus_cfg.format);
 > +
-> +static int mtk_dp_poweron(struct mtk_dp *mtk_dp)
-> +{
-> +	int ret = 0;
-> +
-> +	mutex_lock(&mtk_dp->dp_lock);
+> +	mtk_dp->input_fmt = input_bus_format;
+> +	if (mtk_dp->input_fmt == MEDIA_BUS_FMT_YUYV8_1X16)
 
-The dp_poweron/off is only called by bridge_attach/detach, and I think
-drm core would not call attach/detach concurrently, so this mutex is
-redundant. Remove it.
+input_fmt is used only in this function, so let it be local variable.
 
 Regards,
 CK
 
+> +		mtk_dp->info.format = DP_PIXELFORMAT_YUV422;
+> +	else
+> +		mtk_dp->info.format = DP_PIXELFORMAT_RGB;
 > +
-> +	ret = phy_init(mtk_dp->phy);
-> +	if (ret) {
-> +		dev_err(mtk_dp->dev, "Failed to initialize phy: %d\n",
-> ret);
-> +		goto err_phy_init;
-> +	}
-> +	ret = mtk_dp_phy_configure(mtk_dp, MTK_DP_LINKRATE_RBR, 1);
-> +	if (ret) {
-> +		dev_err(mtk_dp->dev, "Failed to configure phy: %d\n",
-> ret);
-> +		goto err_phy_config;
+> +	if (!crtc) {
+> +		drm_err(mtk_dp->drm_dev,
+> +			"Can't enable bridge as connector state doesn't
+> have a crtc\n");
+> +		return -EINVAL;
 > +	}
 > +
-> +	mtk_dp_init_port(mtk_dp);
-> +	mtk_dp_power_enable(mtk_dp);
+> +	mtk_dp_parse_drm_mode_timings(mtk_dp, &crtc_state-
+> >adjusted_mode);
+> +	if (mtk_dp_parse_capabilities(mtk_dp)) {
+> +		drm_err(mtk_dp->drm_dev,
+> +			"Can't enable bridge as nothing is plugged
+> in\n");
+> +		return -EINVAL;
+> +	}
 > +
-> +err_phy_config:
-> +	phy_exit(mtk_dp->phy);
-> +err_phy_init:
-> +	mutex_unlock(&mtk_dp->dp_lock);
-> +	return ret;
+> +	return 0;
 > +}
 
