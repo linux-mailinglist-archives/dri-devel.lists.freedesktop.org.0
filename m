@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A13552589
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 22:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D015525A1
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 22:15:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C125910EFD3;
-	Mon, 20 Jun 2022 20:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73E9C10F0A4;
+	Mon, 20 Jun 2022 20:15:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4687310F023
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 20:13:34 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id w20so18930890lfa.11
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 13:13:34 -0700 (PDT)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B85B10F0A4
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 20:15:20 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id a2so18967979lfg.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 13:15:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=vKLujDnjL4j2FkCuAr99TpLCl8UgQPLzNcwqlNOUIDA=;
- b=Pp8rU3mLd2a9SEGJdamUi1scms6E1PTjom0SnaYbo02O7+4KZrOqkcvCjIV67gGYuv
- wFb4HHFQSDJsQzcPM1myJOH77Q9NDsnNPGny4tYTUo2p/ysmi2Z2fzWQZDzWcXwwF1OK
- MF7dsyNI1wv9jKD25sfDycc5K88Bi3hQ9qUNs2Amd8p+Tvia5+ML73EhZktTfkdi/hol
- u1+yW3sJSQF9hGE/ZwrlQnsxLctK+ohp9BNIzzf4N+RKVkW2pbntRxN14W5LjknioV16
- 7KzCA2lM5R0l9+wS6KBIQgb/Ivl4GLqYRpZpNg7Sd1eiK+WLlaqnXSNr3pNQoa85Yiwe
- i0nw==
+ bh=7mAWEwAU3gEZq8Qvtb1T/fLaJhz7mNwcR+3nDyAol1c=;
+ b=Af33aLyo8HjKfrZ7Tc+1YWc476VziQp2himHkyoFWjTGLRheFt9rw1VVDTsRVSyD4q
+ XxRoWFO+bb+8qzrmoI7vKYC4yS1cKImApNAI8ZSxtWG4Wc0p82TW8D1xsoEe9iix8MYA
+ 2Z1xeFv6bW6dTAiTdkqypL+8I2FDLVrUMwkHQ0uzL66Somw4XDfS9rBbXoCl3iRWDdKW
+ 6eLR5RMhWVzaqDg5NCkSgqnPvaDR6WN5l63YX/ZhmAn3ZjsxaNkB0CKMHxj8BWGtvr3/
+ vsezFsOpTf6lmvXwAM9UBRqcheNcmMg197NxAy9gGwExF3Cv6Dp29M2CVEqMcP+qLWvF
+ 9mMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=vKLujDnjL4j2FkCuAr99TpLCl8UgQPLzNcwqlNOUIDA=;
- b=XNpxvHQIzw61W23/bacrJ2vB/bKrIDphMzRxd9OscbtXPnCtU2nBg24otHvFwA8Pma
- tOpsgaf+p2VV4keOAMlTh8tRoFK2oa0dDGvXu0KUfWdHsSO9gIzhz4NZn0Rn6H7yU6jH
- AFfc+iXK3dSwYZqVrefgTIew6PZccaaPjB2rZw2BdUGr8gUi2M+hMLwjOCAUGOsPhAPD
- h3wY7UobcitKUQHBZS0yAlsOL09rP5Q5jEREsswkLv6zxmYH3CSImhms2qDgt8DuyGXe
- 2lQcMRW9FoqubVU4fMhF6rFpkikr+hqhsLs6bL8BsY/4HltGBZBxMOOap9uJRWwMgwXz
- J32g==
-X-Gm-Message-State: AJIora+myPe8/PNhJ3n9eCC7goTZyhTCz5ER/1h0a0Ur90UH+LObRAaF
- Fp8KNyWdeiuEBS3pUAFIpdBPqg==
-X-Google-Smtp-Source: AGRyM1uqz4s0Q7zVY3nhiumly6PmorhwnXdpd/h701aYhFAZMkuuAaUtlkTvpmlTKVcbjXFnYZbWcg==
-X-Received: by 2002:a05:6512:ac4:b0:47f:7a01:c2ae with SMTP id
- n4-20020a0565120ac400b0047f7a01c2aemr812235lfu.2.1655756012473; 
- Mon, 20 Jun 2022 13:13:32 -0700 (PDT)
+ bh=7mAWEwAU3gEZq8Qvtb1T/fLaJhz7mNwcR+3nDyAol1c=;
+ b=GUYvtCI6IkYa8Jg99P/cAKoBEhuxSyDaB/MhziCqX6uLCnbs+8/cplXLWpOkfLHYDK
+ pRKW0n9bQWqw1pMXhdq2EOhM0NBMpxwLxg9sWmzldhq5oMFYow7Dlgts+VrkmHedhXLM
+ +EWPsdWLn0QYfWymJUKIV1tPOqDTJ8S4TzYkeBINh+4REavRiJKwuq7jdbety4We5wmV
+ xV/R2maXmn4JbZ7i9aCSrgGXlsxqrIviMb9xzaP9Rb7PaQNzXGd7hYyOksYXavesxWpZ
+ bN35fOZKHLeYsdyDS44C7tHghwI4clp0uQIYeap4U6xpX0jPThK56wFl61N1meNth3+D
+ IY6Q==
+X-Gm-Message-State: AJIora9bN1WvTv643/mrshuw0UkkBcA795B70+i9LGtUDJQ/NUD+EZO9
+ 0jyblWhYby7MF1Y3p4xR4oyt8FupQnd01lhl
+X-Google-Smtp-Source: AGRyM1tdY5HOm7jCkDbumUbmMeZBimWkY2nijF1Cx17PbLew7kqeN/gZY8SRY8xVzHcig7PQRCer7g==
+X-Received: by 2002:ac2:442d:0:b0:478:ed89:927f with SMTP id
+ w13-20020ac2442d000000b00478ed89927fmr15057480lfl.545.1655756118881; 
+ Mon, 20 Jun 2022 13:15:18 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- d2-20020a19f242000000b00479339c8ca7sm1882266lfk.125.2022.06.20.13.13.31
+ i24-20020a196d18000000b0047f71e4b0e5sm439334lfc.255.2022.06.20.13.15.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jun 2022 13:13:31 -0700 (PDT)
-Message-ID: <4e9089b4-f92e-0232-7439-e615293ca664@linaro.org>
-Date: Mon, 20 Jun 2022 23:13:31 +0300
+ Mon, 20 Jun 2022 13:15:18 -0700 (PDT)
+Message-ID: <3d8f5a58-0efb-af27-eb19-ee2236a942ea@linaro.org>
+Date: Mon, 20 Jun 2022 23:15:17 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v14 1/3] phy: qcom-edp: add regulator_set_load to edp phy
+Subject: Re: [PATCH v14 2/3] phy: qcom-qmp: add regulator_set_load to dp phy
 Content-Language: en-GB
 To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
  robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
  dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie,
  agross@kernel.org, bjorn.andersson@linaro.org
 References: <1655755943-28594-1-git-send-email-quic_khsieh@quicinc.com>
- <1655755943-28594-2-git-send-email-quic_khsieh@quicinc.com>
+ <1655755943-28594-3-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1655755943-28594-2-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1655755943-28594-3-git-send-email-quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,13 +85,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 20/06/2022 23:12, Kuogee Hsieh wrote:
 > This patch add regulator_set_load() before enable regulator at
-> eDP phy driver.
+> DP phy driver.
 > 
 > Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>   drivers/phy/qualcomm/phy-qcom-qmp.c | 40 ++++++++++++++++++++++++++++---------
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
+This was not rebased. There is no phy-qcom-qmp.c in phy-next.
 -- 
 With best wishes
 Dmitry
