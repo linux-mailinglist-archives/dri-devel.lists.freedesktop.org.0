@@ -1,57 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD44552487
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 21:22:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 730AC5524AB
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 21:41:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D10910E4DD;
-	Mon, 20 Jun 2022 19:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CCBA10E586;
+	Mon, 20 Jun 2022 19:41:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D030D10E4EE
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 19:22:15 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id k7so10574231plg.7
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 12:22:15 -0700 (PDT)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 336D810E4F1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 19:41:53 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id ej4so12560091edb.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 12:41:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oOBgCs1oKhLX6l+6YjA7JxDMiSGGwf3k7mwAD0yAsos=;
- b=kc/aTUcgZD/czsu+1K0bcaLwII+rWCUf5wZ5/rEMKMmca0T4gM3SJEVMJHr5JSQdFX
- Ijfxe/NxNEu2UriAJr1D9GOV9XK+qBoLoE0A/saDgeUUUlvO8IKPDZY6weONcSbnLwK4
- mpGke3ZjLN8UW8P/TeUcsz5wLMjUTdkdfP8A5lpsapBKS1aZnVq0wARbZ9uNLnHs87cr
- 0i9Mh6ZCfd6MbSqZ/uBJbizAon1HvZzr7ESR6ai4OqWb9sj190jG/S5d7EnNmw/ZOJP6
- qliUdPvmmYT2CvTiv/XppHmxd4eLenZsJeMyM/o27VgWBwUw84RmcG1VvHHX6oLCfhCP
- TNEQ==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=gOWWD+MkHTNlcYvKrVAOm7JvUVFBFo9uR5vqftGaLjk=;
+ b=W8WmVZih7quVxfKEfljPR5j340B6P5N8FAd6PThBNHnDdEz20tbqna8RfEO4buTT+o
+ PB6Mr9kZXPLoFT3zeROiP6JPq5kjGr1kp+n86NJXBdqJzLnxGIoZXUzouCDrL4xzQ1eZ
+ VHrgI/e25ZEHf9nsRhA5uwRPhhxZvjNrrcIQ7KTB3XxSlzS8GFV/Bcuh4cc3aUlnY++u
+ CruztMHrGCIKSxJcpm6y8MjAjeITOLAKNCTRD7o4HNLUcU+nG1/WqTbRdslBpZjQtXqn
+ 9O86yUBRjRuZOlZIKEDaCdO64eRYiuqQJytg5XUjqYGU9/g22VsdYw6HJ/PaU9wPLNV+
+ fBAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oOBgCs1oKhLX6l+6YjA7JxDMiSGGwf3k7mwAD0yAsos=;
- b=XmyGgCqYVMxPhgasAnBIchRc2aF2VMtBDHHLC+lIPtrZuP3aJKDfWOyEU0CxUsuYFy
- emyqRGE2uyIHX5vHpAevK7StWa/gLbegep0LrWpTfJ4pX1GEuF5FhT+i6WjQUOFsgvw8
- kC4y1DOGOqWg/jse7B4DRn/vt/ERF0uTPaKfgWARMnrrff9yqJVs9pfqMerVbgVnq77E
- U889tztQMafDvLSl7593p8WeIOeT9MNkBoyUl3EFvgnb8Zmwz/EjoSZZDW6AscjSPKW/
- 3Tq6VHJ7rcNpB/7FgI1rh9h2KEdbfod3oW0gbWV6vGDCuCCWEvGuDUN8rHs+SG6JGkUQ
- 2XZw==
-X-Gm-Message-State: AJIora/DkLoAqn29mc+BgtvRXIGZRm0VTG4qTGCv/CZ2I9AE91h3Alrt
- wCcA1NEmj43U2iBcbhXU/tw1eRuQ1VtmHMVIEHOygg==
-X-Google-Smtp-Source: AGRyM1sy1C9FMV0zpCSDUtmmHsqLSolD8o7U+F/Leb9Gs2gN2IUQE3JC9/w2aYnz7jxPghxjLhdaHpZNmUzG61SfAi0=
-X-Received: by 2002:a17:90a:cc7:b0:1ea:3993:78f9 with SMTP id
- 7-20020a17090a0cc700b001ea399378f9mr39409700pjt.179.1655752935449; Mon, 20
- Jun 2022 12:22:15 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=gOWWD+MkHTNlcYvKrVAOm7JvUVFBFo9uR5vqftGaLjk=;
+ b=zwRJ7GXmZOHaRPBDx3fHdzdV99nJ0debIMoVuCDezECUAtUwGlPc9hyOWQSW7mACeN
+ DRQc3BaSgrczbvvRr4KDpnX99LrgGpctA1wkC5fIRA6TQ6NajoW/drja2eEDumgvutGd
+ Ur/mdUziZhZK+MyANZql7OW6b34KKMH5J0qo/MVDRrIg9U2CiM6sZ3ZB3LGK5p5LRvJO
+ k1wt2t1JPocLpJYtmuXNKjpjpR68Ro4WBNDsX+BcNDMfBxPU/c7ws2V5oW4UJGDrc868
+ LRVsCHqBWpcun4WUvP7I9OU3lSDsRSgraNgb8TB6JiFdiMs9b8uil2M2sbMXpB6yn3+W
+ s0TQ==
+X-Gm-Message-State: AJIora9Sg7L5rEfqIjZf47z3GG9AUkOV1DcTXSOiT4SxGvmIzMz4G3Rf
+ IEWzZpxdO+3yQtynhkogC9aFFg==
+X-Google-Smtp-Source: AGRyM1seu3VdAGMNSioKh2kKiJeSLRPGQAbOvhltJz+6Vxq9Z5CFbQUdUf+IFg1adIHARFl/Z3j+vg==
+X-Received: by 2002:aa7:cd66:0:b0:435:74d5:2d58 with SMTP id
+ ca6-20020aa7cd66000000b0043574d52d58mr13788414edb.34.1655754111793; 
+ Mon, 20 Jun 2022 12:41:51 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch.
+ [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
+ o18-20020a056402439200b0042fbc23bfcesm11448549edc.46.2022.06.20.12.41.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Jun 2022 12:41:51 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: daniel.thompson@linaro.org, linux-kernel@vger.kernel.org,
+ lee.jones@linaro.org, jingoohan1@gmail.com, bjorn.andersson@linaro.org,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-leds@vger.kernel.org,
+ kgunda@codeaurora.org, pavel@ucw.cz, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, dri-devel@lists.freedesktop.org,
+ krzysztof.kozlowski@linaro.org
+Subject: Re: (subset) [PATCH 1/2] dt-bindings: leds: qcom-wled: fix number of
+ addresses
+Date: Mon, 20 Jun 2022 21:41:44 +0200
+Message-Id: <165575403866.144830.12885632479282358471.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220505154702.422108-1-krzysztof.kozlowski@linaro.org>
+References: <20220505154702.422108-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-References: <20220611141421.718743-1-victor.liu@nxp.com>
- <YqsRcUsdZzcwqplJ@valkosipuli.retiisi.eu>
-In-Reply-To: <YqsRcUsdZzcwqplJ@valkosipuli.retiisi.eu>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Mon, 20 Jun 2022 21:22:04 +0200
-Message-ID: <CAG3jFyv-AQU4M1JBPtcZ1gNsrDs8MSBuaOX5_VB29BtC1jmscA@mail.gmail.com>
-Subject: Re: [PATCH v9 00/14] Add some DRM bridge drivers support for
- i.MX8qm/qxp SoCs
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,26 +77,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrzej.hajda@intel.com, narmstrong@baylibre.com, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
- krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
- jernej.skrabec@gmail.com, marcel.ziswiler@toradex.com, linux-imx@nxp.com,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org, kernel@pengutronix.de,
- jonas@kwiboo.se, Liu Ying <victor.liu@nxp.com>, s.hauer@pengutronix.de,
- robh+dt@kernel.org, mchehab@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Jun 2022 at 13:18, Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
-> On Sat, Jun 11, 2022 at 10:14:07PM +0800, Liu Ying wrote:
-> > Patch 1/14 and 2/14 add bus formats used by pixel combiner.
->
-> Thanks!
->
-> For these:
->
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+On Thu, 5 May 2022 17:47:01 +0200, Krzysztof Kozlowski wrote:
+> On PM660L, PMI8994 and PMI8998, the WLED has two address spaces.  This
+> also fixes dtbs_check warnings like:
+> 
+>   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: leds@d800: reg: [[55296], [55552]] is too long
+> 
+> 
 
-Applied to drm-misc-next.
+Applied, thanks!
+
+[1/2] dt-bindings: leds: qcom-wled: fix number of addresses
+      https://git.kernel.org/krzk/linux-dt/c/ba52039325826b3f2bddd00972f3f61fbe7d9f0e
+
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
