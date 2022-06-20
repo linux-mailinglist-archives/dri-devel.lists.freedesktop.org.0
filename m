@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3D255105C
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 08:32:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA235510B0
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 08:49:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE1C10E8D5;
-	Mon, 20 Jun 2022 06:32:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF1310E7D6;
+	Mon, 20 Jun 2022 06:49:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B89A010F139
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 06:32:28 +0000 (UTC)
-X-UUID: f15ce4b0f3c14da39cf878414fed6e9d-20220620
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 782A110E7D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 06:49:55 +0000 (UTC)
+X-UUID: c299c47f328e4507b435047b71b4c7ce-20220620
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:98b3200d-0fac-4e98-879f-41fd8f547f3a, OB:0,
+X-CID-O-INFO: VERSION:1.1.6, REQID:a824e2f3-abc3-4a61-ba4f-f75105ac0024, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:90
-X-CID-INFO: VERSION:1.1.6, REQID:98b3200d-0fac-4e98-879f-41fd8f547f3a, OB:0,
+ B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:50
+X-CID-INFO: VERSION:1.1.6, REQID:a824e2f3-abc3-4a61-ba4f-f75105ac0024, OB:0,
  LOB:
- 0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,AC
- TION:quarantine,TS:90
-X-CID-META: VersionHash:b14ad71, CLOUDID:d3d7822d-1756-4fa3-be7f-474a6e4be921,
+ 0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:50
+X-CID-META: VersionHash:b14ad71, CLOUDID:87d22a3d-9948-4b2a-a784-d8a6c1086106,
  C
- OID:ee125e104d0a,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: f15ce4b0f3c14da39cf878414fed6e9d-20220620
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 169535115; Mon, 20 Jun 2022 14:32:22 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Mon, 20 Jun 2022 14:32:20 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkmbs11n1.mediatek.inc
+ OID:cb306c6fdf1b,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: c299c47f328e4507b435047b71b4c7ce-20220620
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1770909525; Mon, 20 Jun 2022 14:49:48 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Mon, 20 Jun 2022 14:49:46 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Mon, 20 Jun 2022 14:32:18 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Chen-Yu Tsai <wenst@chromium.org>, 
- Nicolas Dufresne <nicolas@ndufresne.ca>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH,
- v2] media: mediatek: vcodec: Initialize decoder parameters after
- getting dec_capability
-Date: Mon, 20 Jun 2022 14:32:17 +0800
-Message-ID: <20220620063217.9867-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+ Transport; Mon, 20 Jun 2022 14:49:46 +0800
+Message-ID: <2cedb4cc1e1a69481d5997431ac2a4b368858afb.camel@mediatek.com>
+Subject: Re: [PATCH v11 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
+ <airlied@linux.ie>
+Date: Mon, 20 Jun 2022 14:49:46 +0800
+In-Reply-To: <20220610105522.13449-6-rex-bc.chen@mediatek.com>
+References: <20220610105522.13449-1-rex-bc.chen@mediatek.com>
+ <20220610105522.13449-6-rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,56 +68,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, msp@baylibre.com,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Need to get dec_capability from scp first, then initialize decoder
-supported format and other parameters according to dec_capability value.
+Hi, Bo-Chen:
 
-Fixes: fd00d90330d1 ("media: mtk-vcodec: vdec: move stateful ops into their own file")
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Tested-by: Chen-Yu Tsai <wenst@chromium.org>
----
-compared witch v1:
-- add Fixes lables
----
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c     | 2 --
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 2 ++
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Fri, 2022-06-10 at 18:55 +0800, Bo-Chen Chen wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> This patch adds a embedded displayport driver for the MediaTek mt8195
+> SoC.
+> 
+> It supports the MT8195, the embedded DisplayPort units. It offers
+> DisplayPort 1.4 with up to 4 lanes.
+> 
+> The driver creates a child device for the phy. The child device will
+> never exist without the parent being active. As they are sharing a
+> register range, the parent passes a regmap pointer to the child so
+> that
+> both can work with the same register range. The phy driver sets
+> device
+> data that is read by the parent to get the phy device that can be
+> used
+> to control the phy properties.
+> 
+> This driver is based on an initial version by
+> Jitao shi <jitao.shi@mediatek.com>
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> [Bo-Chen: Cleanup the drivers and modify comments from reviewers]
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-index 1465ddff1c6b..41589470da32 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-@@ -112,8 +112,6 @@ void mtk_vcodec_dec_set_default_params(struct mtk_vcodec_ctx *ctx)
- {
- 	struct mtk_q_data *q_data;
- 
--	ctx->dev->vdec_pdata->init_vdec_params(ctx);
--
- 	ctx->m2m_ctx->q_lock = &ctx->dev->dev_mutex;
- 	ctx->fh.m2m_ctx = ctx->m2m_ctx;
- 	ctx->fh.ctrl_handler = &ctx->ctrl_hdl;
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-index 4103d7c1b638..99d7b15f2b9d 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
-@@ -208,6 +208,8 @@ static int fops_vcodec_open(struct file *file)
- 
- 		dev->dec_capability =
- 			mtk_vcodec_fw_get_vdec_capa(dev->fw_handler);
-+		ctx->dev->vdec_pdata->init_vdec_params(ctx);
-+
- 		mtk_v4l2_debug(0, "decoder capability %x", dev->dec_capability);
- 	}
- 
--- 
-2.25.1
+[snip]
+
+> +
+> +static int mtk_dp_probe(struct platform_device *pdev)
+> +{
+> +	struct mtk_dp *mtk_dp;
+> +	struct device *dev = &pdev->dev;
+> +	int ret;
+> +	int irq_num = 0;
+> +
+> +	mtk_dp = devm_kzalloc(dev, sizeof(*mtk_dp), GFP_KERNEL);
+> +	if (!mtk_dp)
+> +		return -ENOMEM;
+> +
+> +	mtk_dp->dev = dev;
+> +
+> +	irq_num = platform_get_irq(pdev, 0);
+> +	if (irq_num < 0)
+> +		return dev_err_probe(dev, irq_num,
+> +				     "failed to request dp irq
+> resource\n");
+> +
+> +	mtk_dp->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 
+> 1, 0);
+> +	if (IS_ERR(mtk_dp->next_bridge))
+> +		return dev_err_probe(dev, PTR_ERR(mtk_dp->next_bridge),
+> +				     "Failed to get bridge\n");
+> +
+> +	ret = mtk_dp_dt_parse(mtk_dp, pdev);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to parse dt\n");
+> +
+> +	drm_dp_aux_init(&mtk_dp->aux);
+> +	mtk_dp->aux.name = "aux_mtk_dp";
+> +	mtk_dp->aux.transfer = mtk_dp_aux_transfer;
+
+In the comment of drm_dp_aux_init(), drm_dp_aux_init() is used before
+drm_dp_aux_register(). So I think we still need to call
+drm_dp_aux_register().
+
+Regards,
+CK
+
+> +
+> +	ret = devm_request_threaded_irq(dev, irq_num, mtk_dp_hpd_event,
+> +					mtk_dp_hpd_event_thread,
+> +					IRQ_TYPE_LEVEL_HIGH,
+> dev_name(dev),
+> +					mtk_dp);
+> +	if (ret)
+> +		return dev_err_probe(dev, -EPROBE_DEFER,
+> +				     "failed to request mediatek dptx
+> irq\n");
+> +
+> +	mutex_init(&mtk_dp->dp_lock);
+> +
+> +	platform_set_drvdata(pdev, mtk_dp);
+> +
+> +	mtk_dp->phy_dev = platform_device_register_data(dev, "mediatek-
+> dp-phy",
+> +							PLATFORM_DEVID_
+> AUTO,
+> +							&mtk_dp->regs,
+> +							sizeof(struct
+> regmap *));
+> +	if (IS_ERR(mtk_dp->phy_dev))
+> +		return dev_err_probe(dev, PTR_ERR(mtk_dp->phy_dev),
+> +				     "Failed to create device mediatek-
+> dp-phy\n");
+> +
+> +	mtk_dp_get_calibration_data(mtk_dp);
+> +
+> +	mtk_dp->phy = devm_phy_get(&mtk_dp->phy_dev->dev, "dp");
+> +
+> +	if (IS_ERR(mtk_dp->phy)) {
+> +		platform_device_unregister(mtk_dp->phy_dev);
+> +		return dev_err_probe(dev, PTR_ERR(mtk_dp->phy),
+> +				     "Failed to get phy\n");
+> +	}
+> +
+> +	mtk_dp->bridge.funcs = &mtk_dp_bridge_funcs;
+> +	mtk_dp->bridge.of_node = dev->of_node;
+> +
+> +	mtk_dp->bridge.ops =
+> +		DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
+> DRM_BRIDGE_OP_HPD;
+> +	mtk_dp->bridge.type = DRM_MODE_CONNECTOR_eDP;
+> +
+> +	drm_bridge_add(&mtk_dp->bridge);
+> +
+> +	pm_runtime_enable(dev);
+> +	pm_runtime_get_sync(dev);
+> +
+> +	return 0;
+> +}
 
