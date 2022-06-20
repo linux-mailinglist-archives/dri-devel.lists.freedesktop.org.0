@@ -1,57 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B19555161E
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 12:44:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35CFF551627
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 12:44:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5B0910ECE0;
-	Mon, 20 Jun 2022 10:44:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4299210F5BD;
+	Mon, 20 Jun 2022 10:44:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECE6810ECE0;
- Mon, 20 Jun 2022 10:44:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655721849; x=1687257849;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=9iStiXgeIs3dw9StqRjFKS89VMxuLayzWKeYM6ABkig=;
- b=BeQm79QA6EYaV7skLTfKyJ+CsDXsZwi7o1kLsiqH+0MQnUIHnW2Purkc
- K1CplWbfQtH0D3tvdu4WXZfOUMDiH2el32kfESnFdp0q5xc8Q5uFmksNI
- qc72TYpc3TZ+RYqSpIy9K4y5hlxVLbu2o0B2vhazt5S3Hw9gnJ/GlfELu
- FebGT8nAA+VoHEKXgPyye5fKTgycLdqEQ6c1RcYeYS4ih3pzrj4ToBLsX
- afb9/eO7cuFFdbCsFOC1bifsl7bsCH2811M8dOseLWPHTP/fQ7nEEVZ2V
- DHeQ8Ilt5Odkx6b3OcBwwMl4CS/frrnURM55PQHCgO+exxlWEazrJ6fCb w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="279912334"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="279912334"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2022 03:44:09 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="643057547"
-Received: from malikhan-mobl1.amr.corp.intel.com (HELO [10.212.127.6])
- ([10.212.127.6])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2022 03:43:13 -0700
-Message-ID: <c153dc07-f44d-ba83-cad6-2005a497a519@linux.intel.com>
-Date: Mon, 20 Jun 2022 11:43:10 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2584C10F5BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 10:44:27 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C94EC21BF0;
+ Mon, 20 Jun 2022 10:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1655721865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0GkViuk1BaE8I71paYJAtWWHTnBPIbMEUkY5ZoP/ieU=;
+ b=YDFUzmyeM6vkYOds94YNI66xfYwEXKXoy9INcQkda13nXE9TisAu+xDSwRQgS24vLp24ur
+ dWy3+PlXFhLNNJQ5zEBFfgazkg3E2G3yuMFzKBg3osKKt6BlRoaoLGxQKlRlQJITdm6+aU
+ qnceWr49yXATa3h1sw+9U205YpsklFg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1655721865;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0GkViuk1BaE8I71paYJAtWWHTnBPIbMEUkY5ZoP/ieU=;
+ b=muWDbWhSoTiI5KaNn6HH66/HA23wWEvE5fimKLpoddofJw6c2fWdWdm7w37+iRbyX1r1iv
+ dKDz9mAtBvws68BA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A5ABE13638;
+ Mon, 20 Jun 2022 10:44:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Xn5QJ4lPsGJ1agAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 20 Jun 2022 10:44:25 +0000
+Message-ID: <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
+Date: Mon, 20 Jun 2022 12:44:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [Intel-gfx] [PATCH v2 1/3] drm/doc/rfc: VM_BIND feature design
- document
+Subject: Re: [PATCH 09/64] drm/simple: Introduce drmm_simple_encoder_init
 Content-Language: en-US
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@intel.com
-References: <20220617051445.8901-1-niranjana.vishwanathapura@intel.com>
- <20220617051445.8901-2-niranjana.vishwanathapura@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220617051445.8901-2-niranjana.vishwanathapura@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
+ <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <20220610092924.754942-1-maxime@cerno.tech>
+ <20220610092924.754942-10-maxime@cerno.tech>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220610092924.754942-10-maxime@cerno.tech>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ZQm0Q2PVKuIRCWt3MWPZ8o5T"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,306 +72,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com, thomas.hellstrom@intel.com,
- paulo.r.zanoni@intel.com, chris.p.wilson@intel.com, matthew.auld@intel.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ZQm0Q2PVKuIRCWt3MWPZ8o5T
+Content-Type: multipart/mixed; boundary="------------ZBWtcKHy34JlTtFRsCRS0Q9x";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
+ <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
+Subject: Re: [PATCH 09/64] drm/simple: Introduce drmm_simple_encoder_init
+References: <20220610092924.754942-1-maxime@cerno.tech>
+ <20220610092924.754942-10-maxime@cerno.tech>
+In-Reply-To: <20220610092924.754942-10-maxime@cerno.tech>
 
-Hi,
+--------------ZBWtcKHy34JlTtFRsCRS0Q9x
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On 17/06/2022 06:14, Niranjana Vishwanathapura wrote:
-> VM_BIND design document with description of intended use cases.
-> 
-> v2: Reduce the scope to simple Mesa use case.
+SGkNCg0KQW0gMTAuMDYuMjIgdW0gMTE6Mjggc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBU
+aGUgRFJNLW1hbmFnZWQgZnVuY3Rpb24gdG8gcmVnaXN0ZXIgYW4gZW5jb2RlciBpcw0KPiBk
+cm1tX3NpbXBsZV9lbmNvZGVyX2FsbG9jKCkgYW5kIGl0cyB2YXJpYW50cywgd2hpY2ggd2ls
+bCBhbGxvY2F0ZSB0aGUNCj4gdW5kZXJseWluZyBzdHJ1Y3R1cmUgYW5kIGluaXRpYWxpc2F0
+aW9uIHRoZSBlbmNvZGVyLg0KPiANCj4gSG93ZXZlciwgd2UgbWlnaHQgd2FudCB0byBzZXBh
+cmF0ZSB0aGUgc3RydWN0dXJlIGNyZWF0aW9uIGFuZCB0aGUgZW5jb2Rlcg0KPiBpbml0aWFs
+aXNhdGlvbiwgZm9yIGV4YW1wbGUgaWYgdGhlIHN0cnVjdHVyZSBpcyBzaGFyZWQgYWNyb3Nz
+IG11bHRpcGxlIERSTQ0KPiBlbnRpdGllcywgZm9yIGV4YW1wbGUgYW4gZW5jb2RlciBhbmQg
+YSBjb25uZWN0b3IuDQo+IA0KPiBMZXQncyBjcmVhdGUgYW4gaGVscGVyIHRvIG9ubHkgaW5p
+dGlhbGlzZSBhbiBlbmNvZGVyIHRoYXQgd291bGQgYmUgcGFzc2VkDQo+IGFzIGFuIGFyZ3Vt
+ZW50Lg0KPiANCg0KVGhlcmUncyBub3RoaW5nIHdyb25nIHdpdGggdGhpcyBwYXRjaCwgYnV0
+IEkgaGF2ZSB0byBhZG1pdCB0aGF0IGFkZGluZyANCmRybV9zaW1wbGVfZW5jb2Rlcl9pbml0
+KCkgZXQgYWwgd2FzIGEgbWlzdGFrZS4gSXQgd291bGQgaGF2ZSBiZWVuIGJldHRlciANCnRv
+IGFkZCBhbiBpbml0aWFsaXplciBtYWNybyBsaWtlDQoNCiNkZWZpbmUgRFJNX1NUQVRJQ19F
+TkNPREVSX0RFRkFVTFRfRlVOQ1MgXA0KICAgLmRlc3Ryb3kgPSBkcm1fZW5jb2Rlcl9jbGVh
+bnVwDQoNCkl0J3Mgd2F5IG1vcmUgZmxleGlibGUgYW5kIHNpbWlsYXJseSBlYXN5IHRvIHVz
+ZS4gQW55d2F5Li4uDQoNCj4gU2lnbmVkLW9mZi1ieTogTWF4aW1lIFJpcGFyZCA8bWF4aW1l
+QGNlcm5vLnRlY2g+DQoNCkFja2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
+bm5Ac3VzZS5kZT4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAtLS0NCj4gICBkcml2
+ZXJzL2dwdS9kcm0vZHJtX3NpbXBsZV9rbXNfaGVscGVyLmMgfCA0NiArKysrKysrKysrKysr
+KysrKysrKysrKy0tDQo+ICAgaW5jbHVkZS9kcm0vZHJtX3NpbXBsZV9rbXNfaGVscGVyLmgg
+ICAgIHwgIDMgKysNCj4gICAyIGZpbGVzIGNoYW5nZWQsIDQ2IGluc2VydGlvbnMoKyksIDMg
+ZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9z
+aW1wbGVfa21zX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9zaW1wbGVfa21zX2hl
+bHBlci5jDQo+IGluZGV4IDcyOTg5ZWQxYmFiYS4uODc2ODcwZGQ5OGU1IDEwMDY0NA0KPiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3NpbXBsZV9rbXNfaGVscGVyLmMNCj4gKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2RybV9zaW1wbGVfa21zX2hlbHBlci5jDQo+IEBAIC01OCw5ICs1
+OCwxMCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9lbmNvZGVyX2Z1bmNzIGRybV9zaW1w
+bGVfZW5jb2Rlcl9mdW5jc19jbGVhbnVwID0gew0KPiAgICAqIHN0b3JlZCBpbiB0aGUgZGV2
+aWNlIHN0cnVjdHVyZS4gRnJlZSB0aGUgZW5jb2RlcidzIG1lbW9yeSBhcyBwYXJ0IG9mDQo+
+ICAgICogdGhlIGRldmljZSByZWxlYXNlIGZ1bmN0aW9uLg0KPiAgICAqDQo+IC0gKiBOb3Rl
+OiBjb25zaWRlciB1c2luZyBkcm1tX3NpbXBsZV9lbmNvZGVyX2FsbG9jKCkgaW5zdGVhZCBv
+Zg0KPiAtICogZHJtX3NpbXBsZV9lbmNvZGVyX2luaXQoKSB0byBsZXQgdGhlIERSTSBtYW5h
+Z2VkIHJlc291cmNlIGluZnJhc3RydWN0dXJlDQo+IC0gKiB0YWtlIGNhcmUgb2YgY2xlYW51
+cCBhbmQgZGVhbGxvY2F0aW9uLg0KPiArICogTm90ZTogY29uc2lkZXIgdXNpbmcgZHJtbV9z
+aW1wbGVfZW5jb2Rlcl9hbGxvYygpIG9yDQo+ICsgKiBkcm1tX3NpbXBsZV9lbmNvZGVyX2lu
+aXQoKSBpbnN0ZWFkIG9mIGRybV9zaW1wbGVfZW5jb2Rlcl9pbml0KCkgdG8NCj4gKyAqIGxl
+dCB0aGUgRFJNIG1hbmFnZWQgcmVzb3VyY2UgaW5mcmFzdHJ1Y3R1cmUgdGFrZSBjYXJlIG9m
+IGNsZWFudXAgYW5kDQo+ICsgKiBkZWFsbG9jYXRpb24uDQo+ICAgICoNCj4gICAgKiBSZXR1
+cm5zOg0KPiAgICAqIFplcm8gb24gc3VjY2VzcywgZXJyb3IgY29kZSBvbiBmYWlsdXJlLg0K
+PiBAQCAtNzUsNiArNzYsNDUgQEAgaW50IGRybV9zaW1wbGVfZW5jb2Rlcl9pbml0KHN0cnVj
+dCBkcm1fZGV2aWNlICpkZXYsDQo+ICAgfQ0KPiAgIEVYUE9SVF9TWU1CT0woZHJtX3NpbXBs
+ZV9lbmNvZGVyX2luaXQpOw0KPiAgIA0KPiArc3RhdGljIHZvaWQgZHJtbV9zaW1wbGVfZW5j
+b2Rlcl9jbGVhbnVwKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKnB0cikNCj4gK3sN
+Cj4gKwlzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIgPSBwdHI7DQo+ICsNCj4gKwlkcm1f
+ZW5jb2Rlcl9jbGVhbnVwKGVuY29kZXIpOw0KPiArfQ0KPiArDQo+ICsvKioNCj4gKyAqIGRy
+bW1fc2ltcGxlX2VuY29kZXJfaW5pdCAtIEluaXRpYWxpemUgYSBwcmVhbGxvY2F0ZWQgZW5j
+b2RlciB3aXRoDQo+ICsgKiAgICAgICAgICAgICAgICAgICAgICAgICAgICBiYXNpYyBmdW5j
+dGlvbmFsaXR5Lg0KPiArICogQGRldjogZHJtIGRldmljZQ0KPiArICogQGVuY29kZXI6IHRo
+ZSBlbmNvZGVyIHRvIGluaXRpYWxpemUNCj4gKyAqIEBlbmNvZGVyX3R5cGU6IHVzZXIgdmlz
+aWJsZSB0eXBlIG9mIHRoZSBlbmNvZGVyDQo+ICsgKg0KPiArICogSW5pdGlhbGlzZXMgYSBw
+cmVhbGxvY2F0ZWQgZW5jb2RlciB0aGF0IGhhcyBubyBmdXJ0aGVyIGZ1bmN0aW9uYWxpdHku
+DQo+ICsgKiBTZXR0aW5ncyBmb3IgcG9zc2libGUgQ1JUQyBhbmQgY2xvbmVzIGFyZSBsZWZ0
+IHRvIHRoZWlyIGluaXRpYWwNCj4gKyAqIHZhbHVlcy4gVGhlIGVuY29kZXIgd2lsbCBiZSBj
+bGVhbmVkIHVwIGF1dG9tYXRpY2FsbHkgdXNpbmcgYQ0KPiArICogRFJNLW1hbmFnZWQgYWN0
+aW9uLg0KPiArICoNCj4gKyAqIFRoZSBzdHJ1Y3R1cmUgY29udGFpbmluZyB0aGUgZW5jb2Rl
+cidzIG1lbW9yeSBzaG91bGQgYmUgYWxsb2NhdGVkDQo+ICsgKiB1c2luZyBkcm1tX2t6YWxs
+b2MoKS4NCj4gKyAqDQo+ICsgKiBSZXR1cm5zOg0KPiArICogWmVybyBvbiBzdWNjZXNzLCBl
+cnJvciBjb2RlIG9uIGZhaWx1cmUuDQo+ICsgKi8NCj4gK2ludCBkcm1tX3NpbXBsZV9lbmNv
+ZGVyX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwNCj4gKwkJCSAgICAgc3RydWN0IGRy
+bV9lbmNvZGVyICplbmNvZGVyLA0KPiArCQkJICAgICBpbnQgZW5jb2Rlcl90eXBlKQ0KPiAr
+ew0KPiArCWludCByZXQ7DQo+ICsNCj4gKwlyZXQgPSBkcm1fZW5jb2Rlcl9pbml0KGRldiwg
+ZW5jb2RlciwgTlVMTCwgZW5jb2Rlcl90eXBlLCBOVUxMKTsNCj4gKwlpZiAocmV0KQ0KPiAr
+CQlyZXR1cm4gcmV0Ow0KPiArDQo+ICsJcmV0dXJuIGRybW1fYWRkX2FjdGlvbl9vcl9yZXNl
+dChkZXYsIGRybW1fc2ltcGxlX2VuY29kZXJfY2xlYW51cCwgZW5jb2Rlcik7DQo+ICt9DQo+
+ICtFWFBPUlRfU1lNQk9MKGRybW1fc2ltcGxlX2VuY29kZXJfaW5pdCk7DQo+ICsNCj4gICB2
+b2lkICpfX2RybW1fc2ltcGxlX2VuY29kZXJfYWxsb2Moc3RydWN0IGRybV9kZXZpY2UgKmRl
+diwgc2l6ZV90IHNpemUsDQo+ICAgCQkJCSAgc2l6ZV90IG9mZnNldCwgaW50IGVuY29kZXJf
+dHlwZSkNCj4gICB7DQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fc2ltcGxlX2tt
+c19oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9zaW1wbGVfa21zX2hlbHBlci5oDQo+IGlu
+ZGV4IDBiMzY0N2U2MTRkZC4uMjA0NTZmNDcxMmYwIDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRl
+L2RybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIuaA0KPiArKysgYi9pbmNsdWRlL2RybS9kcm1f
+c2ltcGxlX2ttc19oZWxwZXIuaA0KPiBAQCAtMjQxLDYgKzI0MSw5IEBAIGludCBkcm1fc2lt
+cGxlX2Rpc3BsYXlfcGlwZV9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ICAgaW50
+IGRybV9zaW1wbGVfZW5jb2Rlcl9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ICAg
+CQkJICAgIHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwNCj4gICAJCQkgICAgaW50IGVu
+Y29kZXJfdHlwZSk7DQo+ICtpbnQgZHJtbV9zaW1wbGVfZW5jb2Rlcl9pbml0KHN0cnVjdCBk
+cm1fZGV2aWNlICpkZXYsDQo+ICsJCQkgICAgIHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2Rl
+ciwNCj4gKwkJCSAgICAgaW50IGVuY29kZXJfdHlwZSk7DQo+ICAgDQo+ICAgdm9pZCAqX19k
+cm1tX3NpbXBsZV9lbmNvZGVyX2FsbG9jKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHNpemVf
+dCBzaXplLA0KPiAgIAkJCQkgIHNpemVfdCBvZmZzZXQsIGludCBlbmNvZGVyX3R5cGUpOw0K
+DQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpT
+VVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkw
+NDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2Vz
+Y2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-since I expressed interest please add me to cc when sending out.
+--------------ZBWtcKHy34JlTtFRsCRS0Q9x--
 
-How come the direction changed to simplify all of a sudden? I did not 
-spot any discussion to that effect. Was it internal talks?
+--------------ZQm0Q2PVKuIRCWt3MWPZ8o5T
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-> 
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> ---
->   Documentation/gpu/rfc/i915_vm_bind.rst | 238 +++++++++++++++++++++++++
->   Documentation/gpu/rfc/index.rst        |   4 +
->   2 files changed, 242 insertions(+)
->   create mode 100644 Documentation/gpu/rfc/i915_vm_bind.rst
-> 
-> diff --git a/Documentation/gpu/rfc/i915_vm_bind.rst b/Documentation/gpu/rfc/i915_vm_bind.rst
-> new file mode 100644
-> index 000000000000..4ab590ef11fd
-> --- /dev/null
-> +++ b/Documentation/gpu/rfc/i915_vm_bind.rst
-> @@ -0,0 +1,238 @@
-> +==========================================
-> +I915 VM_BIND feature design and use cases
-> +==========================================
-> +
-> +VM_BIND feature
-> +================
-> +DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM buffer
-> +objects (BOs) or sections of a BOs at specified GPU virtual addresses on a
-> +specified address space (VM). These mappings (also referred to as persistent
-> +mappings) will be persistent across multiple GPU submissions (execbuf calls)
-> +issued by the UMD, without user having to provide a list of all required
-> +mappings during each submission (as required by older execbuf mode).
-> +
-> +The VM_BIND/UNBIND calls allow UMDs to request a timeline fence for signaling
-> +the completion of bind/unbind operation.
-> +
-> +VM_BIND feature is advertised to user via I915_PARAM_HAS_VM_BIND.
-> +User has to opt-in for VM_BIND mode of binding for an address space (VM)
-> +during VM creation time via I915_VM_CREATE_FLAGS_USE_VM_BIND extension.
-> +
-> +Normally, vm_bind/unbind operations will get completed synchronously,
+-----BEGIN PGP SIGNATURE-----
 
-To me synchronously, at this point in the text, reads as ioctl will 
-return only when the operation is done. Rest of the paragraph however 
-disagrees (plus existence of out fence). It is not clear to me what is 
-the actual behaviour. Will it be clear to userspace developers reading 
-uapi kerneldoc? If it is async, what are the ordering rules in this version?
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKwT4kFAwAAAAAACgkQlh/E3EQov+A2
+NBAAxgl7toOFxEPabAWPuLZEBNMvQsyOOq8DKv8PrHj6dRSzggr5ngOOxrBXgESEhTP1HA8f89Qn
+9Fn3Hh8YIDW9ujUECTcGVu8MRmH4WfPO/KpQfXbA9cbi+QYOG5w8oXKJjPPqi7D0fn3s+gWlTRkN
+qXyVIy/97v2rpVgrqwMvOXZqCtmDuJolHLiknMy8U1HxYqTlJdlZWRc/qLk3yHwjjxpScAuuz4nH
+b4v3kG5lsKDgaOJ0/e4HbF6F8r6K583v42cQx9Hc0hGjQddEPQ/kF3ADg/x2XxCDTTJVUjLGsNEC
+uR4H/XS7VOCHvqTXYnSRjU1rS51/IG8uX5BHteFW6l0fZrNitjSlECXcj2qmnhQR+ulMsApBHh/D
+nP0DnrHoqmVsRTQE1ZmZJfwE0X4XkDTL+1wysh20xepaMwqnRKQClzwG50AwcdPAI0biNLyQXUk3
+QqbfWNsQeVTUk0JMVM2We2pKtxtAKXkF3Vubmsr04wdPHo504rCdRc8oxt/3X+Ib+shKODqyS38D
+T1Sb8wvG9+rsGAh35evw6lncUPD6O/O0yshdTefbp3XERMw1bvVCzXCWLLWLMhKGh8AwPJoszuHD
+hgyU+k/tm/vrTcZ8LukXPAeYgIunb2RToj1QI57Pr5On0EMZ6jibIXyTGwYoYD572k95AHRPhBFd
+Q6s=
+=+Iat
+-----END PGP SIGNATURE-----
 
-> +but if the object is being moved, the binding will happen once that the
-> +moving is complete and out fence will be signaled after binding is complete.
-> +The bind/unbind operation can get completed out of submission order.
-> +
-> +VM_BIND features include:
-> +
-> +* Multiple Virtual Address (VA) mappings can map to the same physical pages
-> +  of an object (aliasing).
-> +* VA mapping can map to a partial section of the BO (partial binding).
-> +* Support capture of persistent mappings in the dump upon GPU error.
-> +* TLB is flushed upon unbind completion. Batching of TLB flushes in some
-> +  use cases will be helpful.
-> +* Support for userptr gem objects (no special uapi is required for this).
-> +
-> +Execbuf ioctl in VM_BIND mode
-> +-------------------------------
-> +A VM in VM_BIND mode will not support older execbuf mode of binding.
-> +The execbuf ioctl handling in VM_BIND mode differs significantly from the
-> +older execbuf2 ioctl (See struct drm_i915_gem_execbuffer2).
-> +Hence, a new execbuf3 ioctl has been added to support VM_BIND mode. (See
-> +struct drm_i915_gem_execbuffer3). The execbuf3 ioctl will not accept any
-> +execlist. Hence, no support for implicit sync. It is expected that the below
-> +work will be able to support requirements of object dependency setting in all
-> +use cases:
-> +
-> +"dma-buf: Add an API for exporting sync files"
-> +(https://lwn.net/Articles/859290/)
-
-What does this mean? If execbuf3 does not know about target objects how 
-can we add a meaningful fence?
-
-> +
-> +The execbuf3 ioctl directly specifies the batch addresses instead of as
-> +object handles as in execbuf2 ioctl. The execbuf3 ioctl will also not
-> +support many of the older features like in/out/submit fences, fence array,
-> +default gem context and many more (See struct drm_i915_gem_execbuffer3).
-> +
-> +In VM_BIND mode, VA allocation is completely managed by the user instead of
-> +the i915 driver. Hence all VA assignment, eviction are not applicable in
-> +VM_BIND mode. Also, for determining object activeness, VM_BIND mode will not
-> +be using the i915_vma active reference tracking. It will instead use dma-resv
-> +object for that (See `VM_BIND dma_resv usage`_).
-> +
-> +So, a lot of existing code supporting execbuf2 ioctl, like relocations, VA
-> +evictions, vma lookup table, implicit sync, vma active reference tracking etc.,
-> +are not applicable for execbuf3 ioctl. Hence, all execbuf3 specific handling
-> +should be in a separate file and only functionalities common to these ioctls
-> +can be the shared code where possible.
-> +
-> +VM_PRIVATE objects
-> +-------------------
-> +By default, BOs can be mapped on multiple VMs and can also be dma-buf
-> +exported. Hence these BOs are referred to as Shared BOs.
-> +During each execbuf submission, the request fence must be added to the
-> +dma-resv fence list of all shared BOs mapped on the VM.
-
-Does this tie to my previous question? Design is to add each fence to 
-literally _all_ BOs mapped to a VM, on every execbuf3? If so, is that 
-definitely needed and for what use case? Mixing implicit and explicit, I 
-mean bridging implicit and explicit sync clients?
-
-Regards,
-
-Tvrtko
-
-> +
-> +VM_BIND feature introduces an optimization where user can create BO which
-> +is private to a specified VM via I915_GEM_CREATE_EXT_VM_PRIVATE flag during
-> +BO creation. Unlike Shared BOs, these VM private BOs can only be mapped on
-> +the VM they are private to and can't be dma-buf exported.
-> +All private BOs of a VM share the dma-resv object. Hence during each execbuf
-> +submission, they need only one dma-resv fence list updated. Thus, the fast
-> +path (where required mappings are already bound) submission latency is O(1)
-> +w.r.t the number of VM private BOs.
-> +
-> +VM_BIND locking hirarchy
-> +-------------------------
-> +The locking design here supports the older (execlist based) execbuf mode, the
-> +newer VM_BIND mode, the VM_BIND mode with GPU page faults and possible future
-> +system allocator support (See `Shared Virtual Memory (SVM) support`_).
-> +The older execbuf mode and the newer VM_BIND mode without page faults manages
-> +residency of backing storage using dma_fence. The VM_BIND mode with page faults
-> +and the system allocator support do not use any dma_fence at all.
-> +
-> +VM_BIND locking order is as below.
-> +
-> +1) Lock-A: A vm_bind mutex will protect vm_bind lists. This lock is taken in
-> +   vm_bind/vm_unbind ioctl calls, in the execbuf path and while releasing the
-> +   mapping.
-> +
-> +   In future, when GPU page faults are supported, we can potentially use a
-> +   rwsem instead, so that multiple page fault handlers can take the read side
-> +   lock to lookup the mapping and hence can run in parallel.
-> +   The older execbuf mode of binding do not need this lock.
-> +
-> +2) Lock-B: The object's dma-resv lock will protect i915_vma state and needs to
-> +   be held while binding/unbinding a vma in the async worker and while updating
-> +   dma-resv fence list of an object. Note that private BOs of a VM will all
-> +   share a dma-resv object.
-> +
-> +   The future system allocator support will use the HMM prescribed locking
-> +   instead.
-> +
-> +3) Lock-C: Spinlock/s to protect some of the VM's lists like the list of
-> +   invalidated vmas (due to eviction and userptr invalidation) etc.
-> +
-> +When GPU page faults are supported, the execbuf path do not take any of these
-> +locks. There we will simply smash the new batch buffer address into the ring and
-> +then tell the scheduler run that. The lock taking only happens from the page
-> +fault handler, where we take lock-A in read mode, whichever lock-B we need to
-> +find the backing storage (dma_resv lock for gem objects, and hmm/core mm for
-> +system allocator) and some additional locks (lock-D) for taking care of page
-> +table races. Page fault mode should not need to ever manipulate the vm lists,
-> +so won't ever need lock-C.
-> +
-> +VM_BIND LRU handling
-> +---------------------
-> +We need to ensure VM_BIND mapped objects are properly LRU tagged to avoid
-> +performance degradation. We will also need support for bulk LRU movement of
-> +VM_BIND objects to avoid additional latencies in execbuf path.
-> +
-> +The page table pages are similar to VM_BIND mapped objects (See
-> +`Evictable page table allocations`_) and are maintained per VM and needs to
-> +be pinned in memory when VM is made active (ie., upon an execbuf call with
-> +that VM). So, bulk LRU movement of page table pages is also needed.
-> +
-> +VM_BIND dma_resv usage
-> +-----------------------
-> +Fences needs to be added to all VM_BIND mapped objects. During each execbuf
-> +submission, they are added with DMA_RESV_USAGE_BOOKKEEP usage to prevent
-> +over sync (See enum dma_resv_usage). One can override it with either
-> +DMA_RESV_USAGE_READ or DMA_RESV_USAGE_WRITE usage during object dependency
-> +setting (either through explicit or implicit mechanism).
-> +
-> +When vm_bind is called for a non-private object while the VM is already
-> +active, the fences need to be copied from VM's shared dma-resv object
-> +(common to all private objects of the VM) to this non-private object.
-> +If this results in performance degradation, then some optimization will
-> +be needed here. This is not a problem for VM's private objects as they use
-> +shared dma-resv object which is always updated on each execbuf submission.
-> +
-> +Also, in VM_BIND mode, use dma-resv apis for determining object activeness
-> +(See dma_resv_test_signaled() and dma_resv_wait_timeout()) and do not use the
-> +older i915_vma active reference tracking which is deprecated. This should be
-> +easier to get it working with the current TTM backend.
-> +
-> +Mesa use case
-> +--------------
-> +VM_BIND can potentially reduce the CPU overhead in Mesa (both Vulkan and Iris),
-> +hence improving performance of CPU-bound applications. It also allows us to
-> +implement Vulkan's Sparse Resources. With increasing GPU hardware performance,
-> +reducing CPU overhead becomes more impactful.
-> +
-> +
-> +Other VM_BIND use cases
-> +========================
-> +
-> +Long running Compute contexts
-> +------------------------------
-> +Usage of dma-fence expects that they complete in reasonable amount of time.
-> +Compute on the other hand can be long running. Hence it is appropriate for
-> +compute to use user/memory fence (See `User/Memory Fence`_) and dma-fence usage
-> +must be limited to in-kernel consumption only.
-> +
-> +Where GPU page faults are not available, kernel driver upon buffer invalidation
-> +will initiate a suspend (preemption) of long running context, finish the
-> +invalidation, revalidate the BO and then resume the compute context. This is
-> +done by having a per-context preempt fence which is enabled when someone tries
-> +to wait on it and triggers the context preemption.
-> +
-> +User/Memory Fence
-> +~~~~~~~~~~~~~~~~~~
-> +User/Memory fence is a <address, value> pair. To signal the user fence, the
-> +specified value will be written at the specified virtual address and wakeup the
-> +waiting process. User fence can be signaled either by the GPU or kernel async
-> +worker (like upon bind completion). User can wait on a user fence with a new
-> +user fence wait ioctl.
-> +
-> +Here is some prior work on this:
-> +https://patchwork.freedesktop.org/patch/349417/
-> +
-> +Low Latency Submission
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +Allows compute UMD to directly submit GPU jobs instead of through execbuf
-> +ioctl. This is made possible by VM_BIND is not being synchronized against
-> +execbuf. VM_BIND allows bind/unbind of mappings required for the directly
-> +submitted jobs.
-> +
-> +Debugger
-> +---------
-> +With debug event interface user space process (debugger) is able to keep track
-> +of and act upon resources created by another process (debugged) and attached
-> +to GPU via vm_bind interface.
-> +
-> +GPU page faults
-> +----------------
-> +GPU page faults when supported (in future), will only be supported in the
-> +VM_BIND mode. While both the older execbuf mode and the newer VM_BIND mode of
-> +binding will require using dma-fence to ensure residency, the GPU page faults
-> +mode when supported, will not use any dma-fence as residency is purely managed
-> +by installing and removing/invalidating page table entries.
-> +
-> +Page level hints settings
-> +--------------------------
-> +VM_BIND allows any hints setting per mapping instead of per BO.
-> +Possible hints include read-only mapping, placement and atomicity.
-> +Sub-BO level placement hint will be even more relevant with
-> +upcoming GPU on-demand page fault support.
-> +
-> +Page level Cache/CLOS settings
-> +-------------------------------
-> +VM_BIND allows cache/CLOS settings per mapping instead of per BO.
-> +
-> +Evictable page table allocations
-> +---------------------------------
-> +Make pagetable allocations evictable and manage them similar to VM_BIND
-> +mapped objects. Page table pages are similar to persistent mappings of a
-> +VM (difference here are that the page table pages will not have an i915_vma
-> +structure and after swapping pages back in, parent page link needs to be
-> +updated).
-> +
-> +Shared Virtual Memory (SVM) support
-> +------------------------------------
-> +VM_BIND interface can be used to map system memory directly (without gem BO
-> +abstraction) using the HMM interface. SVM is only supported with GPU page
-> +faults enabled.
-> +
-> +VM_BIND UAPI
-> +=============
-> +
-> +.. kernel-doc:: Documentation/gpu/rfc/i915_vm_bind.h
-> diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
-> index 91e93a705230..7d10c36b268d 100644
-> --- a/Documentation/gpu/rfc/index.rst
-> +++ b/Documentation/gpu/rfc/index.rst
-> @@ -23,3 +23,7 @@ host such documentation:
->   .. toctree::
->   
->       i915_scheduler.rst
-> +
-> +.. toctree::
-> +
-> +    i915_vm_bind.rst
+--------------ZQm0Q2PVKuIRCWt3MWPZ8o5T--
