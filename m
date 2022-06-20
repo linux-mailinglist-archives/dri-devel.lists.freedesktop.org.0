@@ -1,68 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2906B55191C
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 14:40:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6C86551AAB
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 15:20:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1890D10E087;
-	Mon, 20 Jun 2022 12:40:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBE0A10E1D6;
+	Mon, 20 Jun 2022 13:20:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46A6210E087
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 12:40:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1655728843;
- bh=KrVmb1xepHJ/Pzbfeisty0gKJhBZD1PGHrbEMv3MWpE=;
- h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=OFohnXD3oQUdewpBCd88CsFYJB0h2Uy9sbJsqevrEQy6ZrLMemiMrQNpPzkTeZ12x
- kuCbjN+GS68fpEiIRY/+R26pW2Yd11cEQqI6RRw2+ThMzL8V9wklJL952Etl93ZUpr
- wNalXpekHob7C2oHjBySGMxsmxE9W/4HsywR+8u8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.174.149]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MS3mz-1oEyo41FXv-00TUH3; Mon, 20
- Jun 2022 14:40:43 +0200
-Message-ID: <e49b8686-6546-3b7f-dda3-6b4efb53d66c@gmx.de>
-Date: Mon, 20 Jun 2022 14:40:21 +0200
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0CF810E1D6
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 13:20:43 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id C52163200960;
+ Mon, 20 Jun 2022 09:20:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 20 Jun 2022 09:20:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1655731239; x=1655817639; bh=WqFDJsT4dw
+ rqi9NOeLu7kratwbSOy4+MK6WozX7kWX8=; b=3+gosPxMvUtiTsYzhyUu3hGqLR
+ f1oJ5vxvomij+GGyKJ/8062peBY6Nww+wSo1KooZyz0iilHoKgh7ZoSisnL5INtp
+ /0s6rI3gva6mY3E+N4pr4P4rdRGdii8KuK/kqNfTtgm5l2QW42YvVbrFbAacaFkD
+ ROGw4dsk6FXLYWy5cqf9yMdjh0UUH+NikAkfFCcQwsrCW8mH6WCQ1zP05GIdiyJc
+ h34kDUFH/9uKOqWzBtZLagfscXIG6VXy33Dr0rfVF7tO96HZv1f19WGk5HFY6rHE
+ Epk6HJIjCtMgg+xDtaXSgtzf21kuqTtSJxYjbe2yxxXsCQ7GYYG3BcoHJwaA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1655731239; x=1655817639; bh=WqFDJsT4dwrqi9NOeLu7kratwbSO
+ y4+MK6WozX7kWX8=; b=A0FsVW/OIfkoljEDRBgtW9Lv3naGd0aV0RsnGVyAXC2m
+ pOdVuQjCcpztQpimfQApNcTi8jpVdX/Ie5M1CpgC86t9Z1vRhnFoJ138qbrU+ipi
+ Xh2NjvHJHP8ra1RcHzPrKx1zjDpMeOyF37rjTE0OtFjNsjTwKd5Rt0f6KfMCyNvb
+ zEqOQdpzN/KvtYIuFZW7EdjPeTUWKNJbEotygoeOxIpIgp+BF0W1eirO7QbdnqIa
+ I1J76N3QlYxhYDObCQ3/3Lx/zVt4Y1P48rd5mMoDhYMrQcH1VdVg5ew8mRJAjo+z
+ j6XbUYcj+dYMKdD8LwqEzLknitaw50OJ8Pk39nDVqA==
+X-ME-Sender: <xms:JnSwYqDXBPfkc9Z8lnX5NX1wSIsATA2ElG2_FOZ5SEJOY0AHQDR_bQ>
+ <xme:JnSwYkirP1ZEzZJah1J0-mLjt4sAtmDSaeOTnZTtekZx504MU3DhINSpq-ifPdK96
+ UI2U5o24kOW86emQEo>
+X-ME-Received: <xmr:JnSwYtn1vjreryKjh1CpdC4cbHIA-pZdHSXDzSkeu2CTl1V3xDUw-RkjTX0KsqJ08FzPWfN4FO3nrb5KdNkF10emq7tnhaasNtA3WUA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefuddgieegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:JnSwYowPH6sahFFZgACTNOi0uya_ASnDQAj9BDsqasch0V6SmWhi1g>
+ <xmx:JnSwYvQqhb2yu38PGZLrwDyrbdBRJQphOeroPXxvXq2rq42g1wRqtA>
+ <xmx:JnSwYjYeIQg6FG4-Zsax1-q2Q-sswWnX0aH3acFVZ8jtim-fcuNMfA>
+ <xmx:J3SwYtPNx33fRf0xwAg5e-q1o0EZ3guGhMAUP2rIhyJ59iHaXH7GsQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 20 Jun 2022 09:20:38 -0400 (EDT)
+Date: Mon, 20 Jun 2022 15:20:35 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 13/64] drm/vc4: hvs: Protect device resources after removal
+Message-ID: <20220620132035.zearfbh6fpgzyshh@houat>
+References: <20220610092924.754942-1-maxime@cerno.tech>
+ <20220610092924.754942-14-maxime@cerno.tech>
+ <CAPY8ntDY3pCbc=zrC7Nx6fVv5CFmxXKPHdSNWGYNJo2dn32XUA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 0/2] video: fbdev: Convert from PCI to generic power
- management
-Content-Language: en-US
-To: Bjorn Helgaas <helgaas@kernel.org>, linux-fbdev@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
- "Rafael J . Wysocki" <rafael@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>
-References: <20220608180956.GA407517@bhelgaas>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220608180956.GA407517@bhelgaas>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:vj69s28dYdlp0K+pnq7qPonjf1zFbLqtRxTYLMIW3rnIz64pO0K
- GPro7+3Nk+TZXXbyqEDrpEeWKDeh1pazM91MBS6eDW/NULUOgMuFG0BrwPTOvIxgTCfJrw7
- cEO5qGh9+JrpeYB9NsDOx4Ql10Ly5RZ7Q9lWSywgjiC/0U4nVOh2MsaIe3kPxN4dnMD/R25
- JEhcKlgjDeLTMW5op8/8A==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZfI1ovxhKS4=:ICLoC3mKUmlhejdepfRPK4
- NvXiS9bgLm/qImY/psBb/kSI1M8w0FSG9t9TG/y/hSEkGOsLXP8kg3AjXEFVIZr23Gd0y+9Zm
- P4qDBwEjqjc3AJOeOMx8NU0yDJVkJ5TMju9bkmf377wPjv/6voayPgZL+Apbnr9f0262/JuVu
- raS95bjMEWP0PadIfiwDC6VPPUzhRnyt/KnXPyp7nwcAxKc6mKufp005hNlmzb4atyhjY3i42
- bIMrvqU9TR03xempBUFe3CiFz9wdKEfFwFGxWHGDWgJn+JYw282nJ4ewDZ9wXI6hdNFcYprwx
- 864h/bsxlM/cFnIflK0QnGDeuoNbuATolEe63eBP3aD/L4Dsv2oUnVx6qCX9Py+mQhf30jn/W
- 4HyDcnAU1bPGMNLO01oq7ateN+IjXpQSqOIRZDkC/xfr4A6Vg37q08CxB0rXNGMMNblCgbo6q
- VK8dij1RT4Hzpktb4GqEkE7EsPSVBWQv1V1y4Q/hLJLTmvw0UDOgJeVs0V8x7VM4mmhcNE0sO
- H+vWTXdSHvVbHPzFn4m+aUCrXPFqgyA7JlpLhddhUbTGzFVimKlwrv6/HNsESnBkvdA3Hx0RP
- 3bDTgtrhQSDmPTFr2lS/o6iTJINP0n1sZqcuDLXh2UGXcHODKFGMaDKqRNjW1ytkXNAq06fAy
- 4PHlNaqRkxtAma5WbXgQubbtRJ+57ri0vX8SxG/Fb2ydaY5CqhThi+AVh3ErPQ77rCUBHz0wD
- 7fJtvWyXkOOhRlvHjFXzEib0/INKydLkFlbU6M59i0fOAJmSP4hvrrTtURu5o3Fp3525YDnbW
- +iTzhz++W8st9zOU/LB3RnpNsw6fIZkadMmjYK7iNYWkE140SSMl2d21SSgo7KZbxM049EXD/
- mdxeXshOFOH6QZare0AMC7h2d0jIwOzPxSiWXd5zAsp3wFomsp5SLjIg5EkpMmW1lgCI/wT8n
- 8AUrDnyo6NXxIrr0HRUgQjgSI9cxBZ4Qpa05egXeakQBohdVz75IS/QvdZRuo7nswJk3sK/it
- JurjlrY3arwpEAaUy+E+OvP0TIvcIITBRax6CrmvD841dXNJvQJnMQ+YcKPZeqmK+Oi5ssuyN
- p2pAhU0OOYWC54xoyaIMG1kxIAM30kHYkbQMtBvsO20FLE1yDH0EhzNjA==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="52xhlu7abxi3u3lw"
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntDY3pCbc=zrC7Nx6fVv5CFmxXKPHdSNWGYNJo2dn32XUA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,41 +84,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/8/22 20:09, Bjorn Helgaas wrote:
-> On Wed, Jun 08, 2022 at 06:26:34PM +0200, Daniel Vetter wrote:
->> On Tue, Jun 07, 2022 at 06:11:10PM -0500, Bjorn Helgaas wrote:
->>> From: Bjorn Helgaas <bhelgaas@google.com>
->>>
->>> PCI-specific power management (pci_driver.suspend and pci_driver.resum=
-e) is
->>> deprecated.  If drivers implement power management, they should use th=
-e
->>> generic power management framework, not the PCI-specific hooks.
->>>
->>> No fbdev drivers actually implement PCI power management, but there ar=
-e a
->>> cirrusfb has some commented-out references to it and skeletonfb has
->>> examples of it.  Remove these.
->>
->> Is this holding up some cleanup on your side and so would be easier to
->> merge these through the pci tree? If so
->>
->> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>
->> for merging through your tree. Otherwise I guess Helge will get around =
-to
->> pile them up for 5.20 (or 6.0) eventually.
->
-> No particular rush and nothing depending on these.
->
-> I added your ack to my local branch and if nothing happens for a
-> while, I'll merge them via my tree.
 
-I've been on vacation, but picked them up now.
+--52xhlu7abxi3u3lw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Dave,
+
+On Tue, Jun 14, 2022 at 04:11:20PM +0100, Dave Stevenson wrote:
+> On Fri, 10 Jun 2022 at 10:30, Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > Whenever the device and driver are unbound, the main device and all the
+> > subdevices will be removed by calling their unbind() method.
+> >
+> > However, the DRM device itself will only be freed when the last user wi=
+ll
+> > have closed it.
+> >
+> > It means that there is a time window where the device and its resources
+> > aren't there anymore, but the userspace can still call into our driver.
+> >
+> > Fortunately, the DRM framework provides the drm_dev_enter() and
+> > drm_dev_exit() functions to make sure our underlying device is still th=
+ere
+> > for the section protected by those calls. Let's add them to the HVS dri=
+ver.
+>=20
+> The framework appears to rely on the remove function calling
+> drm_dev_unplug instead of drm_dev_unregister, but I haven't seen a
+> patch that makes that change in the vc4 driver.
+> Have I missed it, or is there some other route to set the unplugged
+> flag that drm_dev_enter/exit are relying on?
+
+You're right, we should have called drm_dev_unplug. I fixed it up (and
+the fallouts)
 
 Thanks!
+Maxime
 
-Helge
+--52xhlu7abxi3u3lw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYrB0IwAKCRDj7w1vZxhR
+xV/kAQDo2x49YAuwKeroAsmuMN8qo47W0TRdZAIVin5PlsqeoQD9HU9u/1HNuio6
+99CJIpCAUNSaG7DiI0JzOUijjxa3Ggo=
+=hkDJ
+-----END PGP SIGNATURE-----
+
+--52xhlu7abxi3u3lw--
