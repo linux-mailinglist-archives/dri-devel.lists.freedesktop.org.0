@@ -1,53 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46D90551AC6
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 15:35:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A061551C36
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 15:48:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 462B610F1F9;
-	Mon, 20 Jun 2022 13:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D74110E37A;
+	Mon, 20 Jun 2022 13:48:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B679910F1A7;
- Mon, 20 Jun 2022 13:35:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655732108; x=1687268108;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=lx5Y9Hs03xGzjGGSIRhuRXbuP0Fzw9qF8L77dtcsMBQ=;
- b=PjKC+XDEsDWoP3vx9Bl3c4Bt/8o97WkWbU/Mgo/MwDGoxasKw0kjc5me
- XMuMkOOgeogASrAFyGZHRoPLNxHnERPxDrIdX635OrVZbZJlugOT5vyQa
- ArBxz+gGWm7QbYUiFl+Ic+0f+0ZIRqlSe5GUvBabmB0Sm8zgjP/2ELS3f
- Pxh9Pg5SVMOC5ivepkabjajsWx/OaESHtgMjuuzvnolHltl4uL9+AQNoT
- ph4LXbAUGsZVKW7S6L77CZ+VQ5hEsumJ4fI3g3E7U7SVCkJ+VemCWQl/V
- tyAPOK1tQ09W59FxzJPlBLgRqWqo8hqzaJBUf7fwmfLZOhHs52nDnpWcn A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341578623"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341578623"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2022 06:35:08 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="591180461"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.57.219])
- ([10.252.57.219])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2022 06:33:37 -0700
-Message-ID: <f4070e64-dcb1-28aa-50ef-fb266511d071@linux.intel.com>
-Date: Mon, 20 Jun 2022 15:33:34 +0200
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 609F410E37A
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 13:48:27 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 4D33B3200955;
+ Mon, 20 Jun 2022 09:48:26 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 20 Jun 2022 09:48:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1655732905; x=1655819305; bh=G65emyLKXE
+ BG7PvJD/wJNoXQP0L1yQgCGqaAeM7XI5A=; b=1Etd0BSyzbia5YOA/dO5L4kpt/
+ 38N3idpgmz0resvJn12leqbh9MI20icXWtK40HE9MIw7emrc9gQe9XPweMvvaCts
+ nBq7keU5VkttSeA304fANZ6O9wj88uP47+QB9WXA7qZ6Wa12vVILq3OkwmCceU3d
+ 5ybmSqirc5MsE/DW6va8Mcgrp+6UrrtqvRtEgOd6XalKsB01aud5d3IUDQeooRQM
+ eZqSdi8DwcldRGCVldB/z/hAUgshnvoosRFbhTX1kOWwjv9TDrtIlsu+713z3XLh
+ GshoyZU6P2a7Sh2FHrEhExp+1SGLj5T/YKCEojU95iuCCPqoTJnQ1NxIiDCg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1655732905; x=1655819305; bh=G65emyLKXEBG7PvJD/wJNoXQP0L1
+ yQgCGqaAeM7XI5A=; b=Rd1oDaok5wesivnhip0PZicRGYgSqDhkLOzlzkJLE6Tm
+ lCwOgcIcWD01UVHN5YZwCaXzBlIL/nlEN0NV95rE0s3UT39LWT5avjuUva3VBfWF
+ WLy+4eI+bGr3XF/2EiKhq2a/TnLm787xhh5/tO93SRp/Ji/iVOnzRRc89aQAeBRE
+ mZH+ujEjcsFZKotN3FjPDZY18K6pYP1IZFcxUozViIZ5TUraliwl04DzTH+LJmEr
+ xXt4dbhubVjuh226/zo7XlPEhHmH81GffPC3emO6oeDRXRh+85Os27JnjcZTnOFz
+ c8K4CjSwTznEBfOPNH9Ip8FTfzYVN4yB1b1a6u3KSg==
+X-ME-Sender: <xms:qXqwYoSouLclXLy-1D74AQPbxK99Csfx7pTazkE_E5gnlvT5LjEaAg>
+ <xme:qXqwYlx0rDr2NzQNozUnih6EpKDXYhBaZ978yqQQsjYaO7sp-fNjkC0F-AkcczL8s
+ cWjRcDHNHGdgQ4lj_k>
+X-ME-Received: <xmr:qXqwYl2LKPCA8pwlIFAyakWA2Gcgcty93BJA2G7ss2KlteVuCCRfUQdOTxar6hv7rfgp5KZjbb9qWIgHueoJ47E2DZWUUdgUWBzbo_g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefuddgjedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:qXqwYsBQGBMfCnV4DJsVSAMtyT-REMm7NWloxFkthLRexietY95lSA>
+ <xmx:qXqwYhimKicd2wdMs0NvxoqeJPU6zYTMVYx2teqeoIyZSDbv94RBKA>
+ <xmx:qXqwYorkaG3MsBURhmbtXUUMyVZWkDMG0RMI5KSaQt93qfVzpaVvxw>
+ <xmx:qXqwYmuREeSvAG3b159hfITpYZC9f5SETfn4_SYKzb6DP6FmyXD4iA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 20 Jun 2022 09:48:25 -0400 (EDT)
+Date: Mon, 20 Jun 2022 15:48:23 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 09/64] drm/simple: Introduce drmm_simple_encoder_init
+Message-ID: <20220620134823.oqjrbnlsce3erhum@houat>
+References: <20220610092924.754942-1-maxime@cerno.tech>
+ <20220610092924.754942-10-maxime@cerno.tech>
+ <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2] drm/i915: Fix vm use-after-free in vma destruction
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220620123659.381772-1-thomas.hellstrom@linux.intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20220620123659.381772-1-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="vs6gl3s2yjatfye7"
+Content-Disposition: inline
+In-Reply-To: <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,87 +84,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Acked-by: Nirmoy Das <nirmoy.das@intel.con>
 
-On 6/20/2022 2:36 PM, Thomas Hellström wrote:
-> In vma destruction, the following race may occur:
->
-> Thread 1:	    		  Thread 2:
-> i915_vma_destroy();
->
->    ...
->    list_del_init(vma->vm_link);
->    ...
->    mutex_unlock(vma->vm->mutex);
-> 				  __i915_vm_release();
-> release_references();
->
-> And in release_reference() we dereference vma->vm to get to the
-> vm gt pointer, leading to a use-after free.
->
-> However, __i915_vm_release() grabs the vm->mutex so the vm won't be
-> destroyed before vma->vm->mutex is released, so extract the gt pointer
-> under the vm->mutex to avoid the vma->vm dereference in
-> release_references().
->
-> v2: Fix a typo in the commit message (Andi Shyti)
->
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5944
-> Fixes: e1a7ab4fca ("drm/i915: Remove the vm open count")
->
-> Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/i915_vma.c | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index 0bffb70b3c5f..04d12f278f57 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -1637,10 +1637,10 @@ static void force_unbind(struct i915_vma *vma)
->   	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
->   }
->   
-> -static void release_references(struct i915_vma *vma, bool vm_ddestroy)
-> +static void release_references(struct i915_vma *vma, struct intel_gt *gt,
-> +			       bool vm_ddestroy)
->   {
->   	struct drm_i915_gem_object *obj = vma->obj;
-> -	struct intel_gt *gt = vma->vm->gt;
->   
->   	GEM_BUG_ON(i915_vma_is_active(vma));
->   
-> @@ -1695,11 +1695,12 @@ void i915_vma_destroy_locked(struct i915_vma *vma)
->   
->   	force_unbind(vma);
->   	list_del_init(&vma->vm_link);
-> -	release_references(vma, false);
-> +	release_references(vma, vma->vm->gt, false);
->   }
->   
->   void i915_vma_destroy(struct i915_vma *vma)
->   {
-> +	struct intel_gt *gt;
->   	bool vm_ddestroy;
->   
->   	mutex_lock(&vma->vm->mutex);
-> @@ -1707,8 +1708,11 @@ void i915_vma_destroy(struct i915_vma *vma)
->   	list_del_init(&vma->vm_link);
->   	vm_ddestroy = vma->vm_ddestroy;
->   	vma->vm_ddestroy = false;
-> +
-> +	/* vma->vm may be freed when releasing vma->vm->mutex. */
-> +	gt = vma->vm->gt;
->   	mutex_unlock(&vma->vm->mutex);
-> -	release_references(vma, vm_ddestroy);
-> +	release_references(vma, gt, vm_ddestroy);
->   }
->   
->   void i915_vma_parked(struct intel_gt *gt)
+--vs6gl3s2yjatfye7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Mon, Jun 20, 2022 at 12:44:24PM +0200, Thomas Zimmermann wrote:
+> Am 10.06.22 um 11:28 schrieb Maxime Ripard:
+> > The DRM-managed function to register an encoder is
+> > drmm_simple_encoder_alloc() and its variants, which will allocate the
+> > underlying structure and initialisation the encoder.
+> >=20
+> > However, we might want to separate the structure creation and the encod=
+er
+> > initialisation, for example if the structure is shared across multiple =
+DRM
+> > entities, for example an encoder and a connector.
+> >=20
+> > Let's create an helper to only initialise an encoder that would be pass=
+ed
+> > as an argument.
+> >=20
+>=20
+> There's nothing wrong with this patch, but I have to admit that adding
+> drm_simple_encoder_init() et al was a mistake.
+
+Why do you think it was a mistake?
+
+> It would have been better to add an initializer macro like
+>=20
+> #define DRM_STATIC_ENCODER_DEFAULT_FUNCS \
+>   .destroy =3D drm_encoder_cleanup
+>=20
+> It's way more flexible and similarly easy to use. Anyway...
+
+We can still have this. It would simplify this series so I could
+definitely squeeze that patch in and add a TODO item / deprecation
+notice for simple encoders if you think it's needed
+
+Maxime
+
+--vs6gl3s2yjatfye7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYrB6pwAKCRDj7w1vZxhR
+xVbWAQDwgeg8BYDKVFmxna1mWhd9Ke7bRsLwQrp3zSGfWL1CDQEAvp29cgX5cDnf
+CtQA/zMrgVGbJnqfYeGFMX7P3SBOHAw=
+=8hc0
+-----END PGP SIGNATURE-----
+
+--vs6gl3s2yjatfye7--
