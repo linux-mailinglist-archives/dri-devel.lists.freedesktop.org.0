@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19FE1551F0B
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 16:39:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4320C551F18
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 16:40:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE13510E071;
-	Mon, 20 Jun 2022 14:39:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A9110E090;
+	Mon, 20 Jun 2022 14:40:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44E6D10E071
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 14:39:33 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id A3BB9320076F;
- Mon, 20 Jun 2022 10:39:31 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 20 Jun 2022 10:39:32 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28C4D10E090
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 14:40:49 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 1E0893200972;
+ Mon, 20 Jun 2022 10:40:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 20 Jun 2022 10:40:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1655735971; x=1655822371; bh=0DVoyn1GEo
- xg3S9g9a5wXlgHMWysIAhMxtkVHAEuIAQ=; b=eJlpA5airsBVAAuHV1nI+SRFY6
- 4nOU2vCw8CKCkAozizEgsTKTcwI2hOSKzqxYvS+508oXpJVZLt3+OtZbZgZ3FQwV
- LOnGI9hhBzB0Q2Z5NTn3wjS+CnUho2GCqXZuRlodjND/VYm1FvXyBWamDckag+Bt
- nB5wAP8n17vrS/5pD4hKyKh/RGhFbBTn7Naj/sqHDVcPcRyhkVllvLbmLxjS/QHZ
- RbQ4lJODTPtRk9UYczK/BFcDfLEh7/LM5BxvDAFpsn6okcnN49SuV86WyBwQ7Tdw
- UUK/Ogn4TGA6PgWi/lmY+w+/avjNfqgysAnPOynpxxNkhyjTfjr5u+Mf+q+A==
+ :subject:to:to; s=fm1; t=1655736047; x=1655822447; bh=Br7hHbsRje
+ Bkc5H70OKA6jOsxHRC7YWAWih4n804TUE=; b=dCoM8laz43WySryP4ROQlDYxnm
+ 8gSCxT8aPQMcXuvyjSd/F08+hGj1CQ8Wed64TZBUzStaI9j98bj7LQy/gHTBJOo4
+ MbdTR31AOW56p4+/EuVN0bdawr3XIKrQ0dlkXs9CkWRXa/En6XOLEPFky7PHNq+d
+ pFapD4EMIrmqeu14ZuZDGy5aSnSO7hLYPsybTz50VjxHj9Yp84IX8PmxDd4+SOfB
+ gMONVM/h+gGABJapvmRJo3e/eXr9/9jdslHjvx+t6xcQAzgrnxcsNbF5XpI4L3jW
+ XxMRcu8LdZQWnGuwp9hryWwafajbCSY3ZJ4oXaGsk+oiI+aKnndj/oyLDY+g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1655735971; x=1655822371; bh=0DVoyn1GEoxg3S9g9a5wXlgHMWys
- IAhMxtkVHAEuIAQ=; b=agZiuBZwP22gx9miF1FVISPyD6i/YMWP5NeqcyxYmAaa
- ZqndHjJYwxg0F1AkPcEzdA7fDUiFXAWRrOfnDJrl7UNMi0ruYCfYBobD8/bH5DdO
- vlvXiKx6+hbs+LGOMt/l/quDd1ynjiJ2uzsbEUJJ+PQLt6fDWVXrtuD4QpfEmb3r
- GGlAAyWVuaE4va65tTLBoPOGp0cPuAxIG/zndPZB25WbrcaRgU9ARNEh9Nho+1gE
- 9D+Q8Luf3dbHC/5KTPvutbhXSorotxQK8g8VUjaRwknX0WG9d9C2lq4aUhroFJzx
- qGlCCcvhAjVm796L15ALbE0ylxQ6BRfiW7usyNZzQA==
-X-ME-Sender: <xms:ooawYmkV93fy9RJj9ETPVh2GzumJDD_0I7xzmsiPyiupG-y9okUVSA>
- <xme:ooawYt2PMiTbJCeGZI62MUS1MvgfdnYghTelaJtTy1jIAToycN4WF-cTsiONMIm8n
- fi7mHP3FnXumdwIKkk>
-X-ME-Received: <xmr:ooawYkon5BPvY_iDD8eH5bYq4Jnpdj0al15BaNzg2tDoq6PgGd3lqhQCLc3de-UylpivftzienaLL4XlZBTtAi1Hhc46bv0Z10QqRGY>
+ fm2; t=1655736047; x=1655822447; bh=Br7hHbsRjeBkc5H70OKA6jOsxHRC
+ 7YWAWih4n804TUE=; b=go+B0hywNZiMW4yAjxlUGTOmUglQgaU8jRF0oln2YIeH
+ jQyNiDQd5z2nhZJtKG/OO4SwRaI6CQs0gs/3MwHU4mwOMY+ioLB2kB5I7tRDLQOv
+ p1K2FjRApUU7VzA6UQ6xdvJgSkIAkAkjJ/cBmMfISe+NRckeOgaZA6so1D0O2sdi
+ qnRCtwDV7NvwntBLDToOk03cf1aiN0jI9kQsTxTm4CGe5l29FkEF8XlQWtZ59PAY
+ MxvXcWWwbC+oMPVdwXh2nt5clXDFfK9jrX5MvawKrJ33xS8YxVzwMO0BPoRct87I
+ jvaIamjAWWXFowj3koLSUaAEbGGNJsC/8G9IRit31w==
+X-ME-Sender: <xms:74awYkyeSUSZEjKKWsNkFBD0Lw_PPtAKkocBM0005aI867JbSKHAnw>
+ <xme:74awYoTKllVZeOD6EwudZiGIfaVekvIP0cIYyZoJNmWVAC3t0utz8UbECBzFZWMp7
+ 3B7w1yfX7gdFSnJG9c>
+X-ME-Received: <xmr:74awYmUqNwyL8avnYzSG999rkfGQRTyBkPFqz4jmGzJpZCriHMMa3JZXjnYR5-ctM-Z1so2latXknxlsIu39WRt_793OjYchAE6rigg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefuddgkedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -52,28 +52,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefuddgkedtucetufdoteggod
  htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
  hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ooawYqmijByjbHRKsoDfvE2FZZ2N4OpPZKYq4NKSNblFoTYSldyCfg>
- <xmx:ooawYk3cFECJeHS2TXbWhmNJC5o5cJF96-wjdXZ6hnzgCpMBWAivMQ>
- <xmx:ooawYhuXsWTGlSPIBLk_KFGs3qoyDCFp3o2_8ZEeA0PBGhJGOQ7EAw>
- <xmx:o4awYhylTcnFP2tJTK0jzymwUDzfrNEE405_aDOFU-R84lDo6oSovw>
+X-ME-Proxy: <xmx:74awYig3k7NNU1ypgPV3G2Dv9a-dIPcrqMoUeH65lrM4dOSlw7Hqnw>
+ <xmx:74awYmAwYH6ojaqMCE4LFYCnrC1bgu5qnaPBdV7_LfhePgmLUdxD8w>
+ <xmx:74awYjJ10ZMxUu05oAyhyV0hM7GrS0TeXj7oToigVQyIGTRDEUum5A>
+ <xmx:74awYpPpHGOttSqxTI_wMV5V34ob7Q0tVKwjpV7I9Dv6VXyPHf7YfQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 20 Jun 2022 10:39:30 -0400 (EDT)
-Date: Mon, 20 Jun 2022 16:39:28 +0200
+ 20 Jun 2022 10:40:47 -0400 (EDT)
+Date: Mon, 20 Jun 2022 16:40:45 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 09/64] drm/simple: Introduce drmm_simple_encoder_init
-Message-ID: <20220620143928.zbbaltwcah3rpkqh@houat>
+Subject: Re: [PATCH 05/64] drm/connector: Mention the cleanup after
+ drm_connector_init
+Message-ID: <20220620144045.xo5pdvvwvjtnijsg@houat>
 References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-10-maxime@cerno.tech>
- <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
- <20220620134823.oqjrbnlsce3erhum@houat>
- <92f5306c-3808-b140-4845-f744df4c92fc@suse.de>
+ <20220610092924.754942-6-maxime@cerno.tech>
+ <ede82148-dc9c-2944-ced3-9f7ce9c03e93@suse.de>
+ <20220620121836.2bxmnyrfrfgvdyd2@houat>
+ <d03ad37d-d658-712e-d02e-82c5af3c2b1c@suse.de>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="bpl4zz5mvygbn5nu"
+ protocol="application/pgp-signature"; boundary="mwssabsd55f73uju"
 Content-Disposition: inline
-In-Reply-To: <92f5306c-3808-b140-4845-f744df4c92fc@suse.de>
+In-Reply-To: <d03ad37d-d658-712e-d02e-82c5af3c2b1c@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,87 +93,41 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---bpl4zz5mvygbn5nu
+--mwssabsd55f73uju
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 20, 2022 at 04:25:38PM +0200, Thomas Zimmermann wrote:
+On Mon, Jun 20, 2022 at 04:19:43PM +0200, Thomas Zimmermann wrote:
 > Hi
 >=20
-> Am 20.06.22 um 15:48 schrieb Maxime Ripard:
-> > Hi,
-> >=20
-> > On Mon, Jun 20, 2022 at 12:44:24PM +0200, Thomas Zimmermann wrote:
-> > > Am 10.06.22 um 11:28 schrieb Maxime Ripard:
-> > > > The DRM-managed function to register an encoder is
-> > > > drmm_simple_encoder_alloc() and its variants, which will allocate t=
-he
-> > > > underlying structure and initialisation the encoder.
-> > > >=20
-> > > > However, we might want to separate the structure creation and the e=
-ncoder
-> > > > initialisation, for example if the structure is shared across multi=
-ple DRM
-> > > > entities, for example an encoder and a connector.
-> > > >=20
-> > > > Let's create an helper to only initialise an encoder that would be =
-passed
-> > > > as an argument.
-> > > >=20
-> > >=20
-> > > There's nothing wrong with this patch, but I have to admit that adding
-> > > drm_simple_encoder_init() et al was a mistake.
-> >=20
-> > Why do you think it was a mistake?
+> Am 20.06.22 um 14:18 schrieb Maxime Ripard:
+> > + * At driver unload time the driver's &drm_connector_funcs.destroy hook
+> > + * should call drm_connector_unregister(), drm_connector_cleanup() and
+> > + * kfree() the connector structure.
 >=20
-> The simple-encoder stuff is an interface that no one really needs. Compar=
-ed
-> to open-coding the function, it's barely an improvement in LOCs, but noth=
-ing
-> else.
->=20
-> Back when I added drm_simple_encoder_init(), I wanted to simplify the many
-> drivers that initialized the encoder with a cleanup callback and nothing
-> else.  IIRC it was an improvement back then.  But now we already have a
-> related drmm_ helper and a drmm_alloc_ helper. If I had only added the ma=
-cro
-> back then, we could use the regular encoder helpers.
->=20
-> >=20
-> > > It would have been better to add an initializer macro like
-> > >=20
-> > > #define DRM_STATIC_ENCODER_DEFAULT_FUNCS \
-> > >    .destroy =3D drm_encoder_cleanup
-> > >=20
-> > > It's way more flexible and similarly easy to use. Anyway...
-> >=20
-> > We can still have this. It would simplify this series so I could
-> > definitely squeeze that patch in and add a TODO item / deprecation
-> > notice for simple encoders if you think it's needed
->=20
-> Not necessary. It's not super important.
+> This sentence sounds odd.
 
-The corollary is though :)
+Yeah, I was using kfree as a verb which is probably where the weirdness com=
+es from.
 
-If I understand you right, it means that you'd rather have a destroy
-callback everywhere instead of calling the _cleanup function through a
-drm-managed callback, and let drm_dev_unregister do its job?
+Would that be better:
 
-If so, it means that we shouldn't be following the drmm_.*_alloc
-functions and should drop all the new ones from this series.
+At driver unload time the driver's &drm_connector_funcs.destroy hook should=
+ call
+drm_connector_unregister() and free the connector structure.
 
 Maxime
 
---bpl4zz5mvygbn5nu
+--mwssabsd55f73uju
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYrCGoAAKCRDj7w1vZxhR
-xdIjAQDu9Wjz0rSx1yq4tzgHHR/MMC9T2zZNjVO2ba+v/qod8QEA7+LD0sQo6ZHJ
-p3vVzBHlA7yf164ZJml9+XM/Z8hg2gw=
-=Mcun
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYrCG7QAKCRDj7w1vZxhR
+xWB/AP40pkJ+l3V1QeTYlhPiCiHVhaKAqbrC5zEHKRBiOxo2hwD+NEHYaZFINjWP
+foMINxnbeoOgWsuNfeYT0iup8EkZVgE=
+=wF5p
 -----END PGP SIGNATURE-----
 
---bpl4zz5mvygbn5nu--
+--mwssabsd55f73uju--
