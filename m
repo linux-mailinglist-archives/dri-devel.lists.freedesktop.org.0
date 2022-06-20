@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479AB551AC2
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 15:32:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D90551AC6
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 15:35:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2309510F0CE;
-	Mon, 20 Jun 2022 13:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 462B610F1F9;
+	Mon, 20 Jun 2022 13:35:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6C7010F0BB
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 13:32:01 +0000 (UTC)
-X-UUID: 520776e5f83d4217a8242e71e31af414-20220620
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:3b3bc39f-2687-4e8e-b0ac-b0b02ab73b26, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:b14ad71, CLOUDID:0b2e04ea-f7af-4e69-92ee-0fd74a0c286c,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:-5,EDM:-3,IP:nil,URL:1,File:ni
- l,QS:nil,BEC:nil,COL:0
-X-UUID: 520776e5f83d4217a8242e71e31af414-20220620
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 103744204; Mon, 20 Jun 2022 21:31:55 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Mon, 20 Jun 2022 21:31:53 +0800
-Received: from mszsdhlt06 (10.16.6.206) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Mon, 20 Jun 2022 21:31:53 +0800
-Message-ID: <b4574843defba94e2abfaac29a9ab7be2555c5ec.camel@mediatek.com>
-Subject: Re: FW: [PATCH 1/7] dt-bindings: display: mediatek: dpi: add
- power-domains property
-From: xinlei.lee <xinlei.lee@mediatek.com>
-To: <fparent@baylibre.com>, <matthias.bgg@gmail.com>, <jitao.shi@mediatek.com>
-Date: Mon, 20 Jun 2022 21:32:29 +0800
-In-Reply-To: <PS1PR03MB5084CE11996065F4DD6959F9A6B09@PS1PR03MB5084.apcprd03.prod.outlook.com>
-References: <20220530201436.902505-1-fparent@baylibre.com>
- <1c53c2c73875cf565b819f67267d0e725d49f3c2.camel@mediatek.com>
- <PS1PR03MB5084CE11996065F4DD6959F9A6B09@PS1PR03MB5084.apcprd03.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B679910F1A7;
+ Mon, 20 Jun 2022 13:35:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655732108; x=1687268108;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=lx5Y9Hs03xGzjGGSIRhuRXbuP0Fzw9qF8L77dtcsMBQ=;
+ b=PjKC+XDEsDWoP3vx9Bl3c4Bt/8o97WkWbU/Mgo/MwDGoxasKw0kjc5me
+ XMuMkOOgeogASrAFyGZHRoPLNxHnERPxDrIdX635OrVZbZJlugOT5vyQa
+ ArBxz+gGWm7QbYUiFl+Ic+0f+0ZIRqlSe5GUvBabmB0Sm8zgjP/2ELS3f
+ Pxh9Pg5SVMOC5ivepkabjajsWx/OaESHtgMjuuzvnolHltl4uL9+AQNoT
+ ph4LXbAUGsZVKW7S6L77CZ+VQ5hEsumJ4fI3g3E7U7SVCkJ+VemCWQl/V
+ tyAPOK1tQ09W59FxzJPlBLgRqWqo8hqzaJBUf7fwmfLZOhHs52nDnpWcn A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="341578623"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="341578623"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2022 06:35:08 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="591180461"
+Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.57.219])
+ ([10.252.57.219])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2022 06:33:37 -0700
+Message-ID: <f4070e64-dcb1-28aa-50ef-fb266511d071@linux.intel.com>
+Date: Mon, 20 Jun 2022 15:33:34 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2] drm/i915: Fix vm use-after-free in vma destruction
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20220620123659.381772-1-thomas.hellstrom@linux.intel.com>
+From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
+In-Reply-To: <20220620123659.381772-1-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,109 +60,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- allen-kh.cheng@mediatek.com
+Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> -----Original Message-----
-> From: Linux-mediatek <linux-mediatek-bounces@lists.infradead.org> On
-> Behalf Of CK Hu
-> Sent: Friday, June 17, 2022 1:31 PM
-> To: Fabien Parent <fparent@baylibre.com>; matthias.bgg@gmail.com;
-> Jitao Shi (石记涛) <jitao.shi@mediatek.com>; 
-> krzysztof.kozlowski+dt@linaro.org; robh+dt@kernel.org
-> Cc: chunkuang.hu@kernel.org; p.zabel@pengutronix.de; airlied@linux.ie
-> ; daniel@ffwll.ch; dri-devel@lists.freedesktop.org; 
-> linux-mediatek@lists.infradead.org; devicetree@vger.kernel.org; 
-> linux-kernel@vger.kernel.org; linux-arm-kernel@lists.infradead.org
-> Subject: Re: [PATCH 1/7] dt-bindings: display: mediatek: dpi: add
-> power-domains property
-> 
-> Hi, Fabien:
-> 
-> On Mon, 2022-05-30 at 22:14 +0200, Fabien Parent wrote:
-> > DPI is part of the display / multimedia block in MediaTek SoCs,
-> > and 
-> > always have a power-domain (at least in the upstream device-trees).
-> > Add the power-domains property to the binding documentation.
-> > 
-> > Signed-off-by: Fabien Parent <fparent@baylibre.com>
-> > ---
-> >  .../devicetree/bindings/display/mediatek/mediatek,dpi.yaml  | 6
-> > ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.y
-> > am
-> > l
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.y
-> > am
-> > l
-> > index 77ee1b923991..caf4c88708f4 100644
-> > ---
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.y
-> > am
-> > l
-> > +++
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.y
-> > am
-> > l
-> > @@ -57,6 +57,9 @@ properties:
-> >        Output port node. This port should be connected to the
-> > input 
-> > port of an
-> >        attached HDMI or LVDS encoder chip.
-> >  
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> >  required:
-> >    - compatible
-> >    - reg
-> > @@ -64,6 +67,7 @@ required:
-> >    - clocks
-> >    - clock-names
-> >    - port
-> > +  - power-domains
-> >  
-> >  additionalProperties: false
-> >  
-> > @@ -71,11 +75,13 @@ examples:
-> >    - |
-> >      #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >      #include <dt-bindings/clock/mt8173-clk.h>
-> > +    #include <dt-bindings/power/mt8183-power.h>
-> 
-> Why do you include mt8183 power header file for mt8173 dpi node?
-> 
-> Regards,
-> CK
-> 
-> >  
-> >      dpi0: dpi@1401d000 {
-> >          compatible = "mediatek,mt8173-dpi";
-> >          reg = <0x1401d000 0x1000>;
-> >          interrupts = <GIC_SPI 194 IRQ_TYPE_LEVEL_LOW>;
-> > +        power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
-> >          clocks = <&mmsys CLK_MM_DPI_PIXEL>,
-> >               <&mmsys CLK_MM_DPI_ENGINE>,
-> >               <&apmixedsys CLK_APMIXED_TVDPLL>;
-> 
-> 
+Acked-by: Nirmoy Das <nirmoy.das@intel.con>
 
-Hi fparent:
-
-I think CK's suggestion, probably because you included the wrong header
-file for power.
-Because I did not find the definition of MT8173_POWER_DOMAIN_MM in the
-path of dt-bindings/power/mt8183-power.h, it was defined in dt-
-bindings/power/mt8173-power.h.
-Please discuss if you have different opinions.
-
-Best Regards!
-xinlei
-
+On 6/20/2022 2:36 PM, Thomas Hellström wrote:
+> In vma destruction, the following race may occur:
+>
+> Thread 1:	    		  Thread 2:
+> i915_vma_destroy();
+>
+>    ...
+>    list_del_init(vma->vm_link);
+>    ...
+>    mutex_unlock(vma->vm->mutex);
+> 				  __i915_vm_release();
+> release_references();
+>
+> And in release_reference() we dereference vma->vm to get to the
+> vm gt pointer, leading to a use-after free.
+>
+> However, __i915_vm_release() grabs the vm->mutex so the vm won't be
+> destroyed before vma->vm->mutex is released, so extract the gt pointer
+> under the vm->mutex to avoid the vma->vm dereference in
+> release_references().
+>
+> v2: Fix a typo in the commit message (Andi Shyti)
+>
+> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5944
+> Fixes: e1a7ab4fca ("drm/i915: Remove the vm open count")
+>
+> Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/i915_vma.c | 12 ++++++++----
+>   1 file changed, 8 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index 0bffb70b3c5f..04d12f278f57 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -1637,10 +1637,10 @@ static void force_unbind(struct i915_vma *vma)
+>   	GEM_BUG_ON(drm_mm_node_allocated(&vma->node));
+>   }
+>   
+> -static void release_references(struct i915_vma *vma, bool vm_ddestroy)
+> +static void release_references(struct i915_vma *vma, struct intel_gt *gt,
+> +			       bool vm_ddestroy)
+>   {
+>   	struct drm_i915_gem_object *obj = vma->obj;
+> -	struct intel_gt *gt = vma->vm->gt;
+>   
+>   	GEM_BUG_ON(i915_vma_is_active(vma));
+>   
+> @@ -1695,11 +1695,12 @@ void i915_vma_destroy_locked(struct i915_vma *vma)
+>   
+>   	force_unbind(vma);
+>   	list_del_init(&vma->vm_link);
+> -	release_references(vma, false);
+> +	release_references(vma, vma->vm->gt, false);
+>   }
+>   
+>   void i915_vma_destroy(struct i915_vma *vma)
+>   {
+> +	struct intel_gt *gt;
+>   	bool vm_ddestroy;
+>   
+>   	mutex_lock(&vma->vm->mutex);
+> @@ -1707,8 +1708,11 @@ void i915_vma_destroy(struct i915_vma *vma)
+>   	list_del_init(&vma->vm_link);
+>   	vm_ddestroy = vma->vm_ddestroy;
+>   	vma->vm_ddestroy = false;
+> +
+> +	/* vma->vm may be freed when releasing vma->vm->mutex. */
+> +	gt = vma->vm->gt;
+>   	mutex_unlock(&vma->vm->mutex);
+> -	release_references(vma, vm_ddestroy);
+> +	release_references(vma, gt, vm_ddestroy);
+>   }
+>   
+>   void i915_vma_parked(struct intel_gt *gt)
