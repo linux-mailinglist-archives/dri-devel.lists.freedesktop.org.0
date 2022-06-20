@@ -2,66 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6A7551F43
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 16:45:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883E655202A
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 17:18:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8A1F10E369;
-	Mon, 20 Jun 2022 14:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D89510E4C4;
+	Mon, 20 Jun 2022 15:18:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39B4D10E369
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 14:45:13 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DE11A21B7A;
- Mon, 20 Jun 2022 14:45:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1655736311; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I5vb8YtCm4jHZgxPppfPQfVCqOBnGyntx/1T0QcaKCM=;
- b=r8qwUz/o5OBdn6Gjp+V4DMxb+CfHUV0kSlEjFzjrYvAUZYSb+gZgU0JwzVn2yKIVOKamm7
- g/AbaQfEt5XoHmA4485Tw+1OwT4k2C+xqpiET7h3lo/OPf0nfTVyn3zOre2YztWKXSQNeN
- ExvStVv5ZYOIU2FiF6OEEzO2KAw1pPY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1655736311;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I5vb8YtCm4jHZgxPppfPQfVCqOBnGyntx/1T0QcaKCM=;
- b=susbldp1zw2l0e26UT3Bi0BUUr04zQSluDaR6OmyEL6ytikk3aXX/LozwbiOIDb3mURl0G
- Z+YUPcRndVUy5zDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BDFCA13638;
- Mon, 20 Jun 2022 14:45:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wfdJLfeHsGKGZwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 20 Jun 2022 14:45:11 +0000
-Message-ID: <1817bb52-268d-9ed9-b7b3-4bbb291b7925@suse.de>
-Date: Mon, 20 Jun 2022 16:45:11 +0200
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5279310E4C4;
+ Mon, 20 Jun 2022 15:18:00 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id w17so15117561wrg.7;
+ Mon, 20 Jun 2022 08:18:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HLrdK2cHg8a+WfynFvGYZTk9JjHbb/Ti/PUAmWDEXmQ=;
+ b=qK7K5LcM7dyr13i14ftD313nslG8YxjHQmfv8LjV7Tk1r8ybUhZ5AI0jn5rTqQhgmm
+ i59iso5WlVRzUdhMyAPWt7eltJkNSfRGyu0jYjEV010WarFWgUS3zKaSaYaJfYgDz//T
+ pid5V6gslaCrjWsjULnAXS530hiyltR47EnpCo8fvT4ma6uRB5F+KGSfmkgW+IZhEhRU
+ OHPH8eR5Bncckxj2xyb0u6lbCoknZypydnAtyGNuGpMe8xIqnmVyJNbKWPMhsWl15p7Z
+ MAziNE52C7w3j7WtmrVuXvwuEgzAYrB48BIKNyK7u2dralOWnRbA4it6ts7mRM3p0T0z
+ PUdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HLrdK2cHg8a+WfynFvGYZTk9JjHbb/Ti/PUAmWDEXmQ=;
+ b=kjvmacnXlJbAiEIA9eCAuxNMM+bNTaxbXxtyzb3LPjLVLsJgRZuP+A5ihWbQxnT0j8
+ RA/XpzLiSn6Eu9RN1c//Dup0uQuvys72sDi/d9ihrl4JSJ/TeD1v0Ra2GWx2K3R152n6
+ DQyIAY9bM1jMyEeGIebO45mDeLCX0ULioGkzKxjow/UZy0FiAyOCdW0n4GMbLJXQhW4z
+ F4LAPaYYTOXLEf5WajtyDvLyBlpcw5yP9L6fwl9uYrLtaDggEm5AHRGl8aK14Z23OoBu
+ +yCV+bk75T+j51lyWzRVxABDRRMs2DKBxvf4zmhoV0VwPF815Y6C4xBr5J5qPnN3sBoR
+ 8hUw==
+X-Gm-Message-State: AJIora+g3SOlKQ1lPWLU8YCdgNX0qVjnr9IFGP/yDFZ1rphFaLC5lcs6
+ Uk3lN6wEm145peZq0k3Kl2fqWYteT+xU2pc2M4w=
+X-Google-Smtp-Source: AGRyM1uYeX1HSZm/HHpeWSpFPQwaEg25u16yH1bR8gO/m6+hhlHkAUqlKQD3fntq2L6SbV4iQSzZCmeHt3/fGRnXHoE=
+X-Received: by 2002:adf:eb45:0:b0:21a:efae:4b9f with SMTP id
+ u5-20020adfeb45000000b0021aefae4b9fmr17379320wrn.585.1655738278721; Mon, 20
+ Jun 2022 08:17:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 09/64] drm/simple: Introduce drmm_simple_encoder_init
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-10-maxime@cerno.tech>
- <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
- <20220620134823.oqjrbnlsce3erhum@houat>
- <92f5306c-3808-b140-4845-f744df4c92fc@suse.de>
- <20220620143928.zbbaltwcah3rpkqh@houat>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220620143928.zbbaltwcah3rpkqh@houat>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------OmMrbFXb8BbKtEtdF4miT82l"
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-18-dmitry.osipenko@collabora.com>
+ <CAF6AEGt61t2truYDCxm17hqUPV-UdEdHjLs+6vmj5RPoPuVBYg@mail.gmail.com>
+ <3bb3dc53-69fc-8cdb-ae37-583b9b2660a3@collabora.com>
+In-Reply-To: <3bb3dc53-69fc-8cdb-ae37-583b9b2660a3@collabora.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 20 Jun 2022 08:18:04 -0700
+Message-ID: <CAF6AEGus7R_i7RMWGmbawVi62xCk5mhLTWGq2QEkcWY+XaJBAQ@mail.gmail.com>
+Subject: Re: [PATCH v6 17/22] drm/shmem-helper: Add generic memory shrinker
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,109 +65,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ virtualization@lists.linux-foundation.org, linux-media@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, amd-gfx@lists.freedesktop.org,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, Qiang Yu <yuq825@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Robin Murphy <robin.murphy@arm.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------OmMrbFXb8BbKtEtdF4miT82l
-Content-Type: multipart/mixed; boundary="------------0rdcG1k0sqnm4NdYqK7P0DdX";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Message-ID: <1817bb52-268d-9ed9-b7b3-4bbb291b7925@suse.de>
-Subject: Re: [PATCH 09/64] drm/simple: Introduce drmm_simple_encoder_init
-References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-10-maxime@cerno.tech>
- <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
- <20220620134823.oqjrbnlsce3erhum@houat>
- <92f5306c-3808-b140-4845-f744df4c92fc@suse.de>
- <20220620143928.zbbaltwcah3rpkqh@houat>
-In-Reply-To: <20220620143928.zbbaltwcah3rpkqh@houat>
+On Mon, Jun 20, 2022 at 7:09 AM Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
+>
+> On 6/19/22 20:53, Rob Clark wrote:
+> ...
+> >> +static unsigned long
+> >> +drm_gem_shmem_shrinker_count_objects(struct shrinker *shrinker,
+> >> +                                    struct shrink_control *sc)
+> >> +{
+> >> +       struct drm_gem_shmem_shrinker *gem_shrinker = to_drm_shrinker(shrinker);
+> >> +       struct drm_gem_shmem_object *shmem;
+> >> +       unsigned long count = 0;
+> >> +
+> >> +       if (!mutex_trylock(&gem_shrinker->lock))
+> >> +               return 0;
+> >> +
+> >> +       list_for_each_entry(shmem, &gem_shrinker->lru_evictable, madv_list) {
+> >> +               count += shmem->base.size;
+> >> +
+> >> +               if (count >= SHRINK_EMPTY)
+> >> +                       break;
+> >> +       }
+> >> +
+> >> +       mutex_unlock(&gem_shrinker->lock);
+> >
+> > As I mentioned on other thread, count_objects, being approximate but
+> > lockless and fast is the important thing.  Otherwise when you start
+> > hitting the shrinker on many threads, you end up serializing them all,
+> > even if you have no pages to return to the system at that point.
+>
+> Daniel's point for dropping the lockless variant was that we're already
+> in trouble if we're hitting shrinker too often and extra optimizations
+> won't bring much benefits to us.
 
---------------0rdcG1k0sqnm4NdYqK7P0DdX
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+At least with zram swap (which I highly recommend using even if you
+are not using a physical swap file/partition), swapin/out is actually
+quite fast.  And if you are leaning on zram swap to fit 8GB of chrome
+browser on a 4GB device, the shrinker gets hit quite a lot.  Lower
+spec (4GB RAM) chromebooks can be under constant memory pressure and
+can quite easily get into a situation where you are hitting the
+shrinker on many threads simultaneously.  So it is pretty important
+for all shrinkers in the system (not just drm driver) to be as
+concurrent as possible.  As long as you avoid serializing reclaim on
+all the threads, performance can still be quite good, but if you don't
+performance will fall off a cliff.
 
-SGkNCg0KQW0gMjAuMDYuMjIgdW0gMTY6Mzkgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBP
-biBNb24sIEp1biAyMCwgMjAyMiBhdCAwNDoyNTozOFBNICswMjAwLCBUaG9tYXMgWmltbWVy
-bWFubiB3cm90ZToNCj4+IEhpDQo+Pg0KPj4gQW0gMjAuMDYuMjIgdW0gMTU6NDggc2Nocmll
-YiBNYXhpbWUgUmlwYXJkOg0KPj4+IEhpLA0KPj4+DQo+Pj4gT24gTW9uLCBKdW4gMjAsIDIw
-MjIgYXQgMTI6NDQ6MjRQTSArMDIwMCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+Pj4+
-IEFtIDEwLjA2LjIyIHVtIDExOjI4IHNjaHJpZWIgTWF4aW1lIFJpcGFyZDoNCj4+Pj4+IFRo
-ZSBEUk0tbWFuYWdlZCBmdW5jdGlvbiB0byByZWdpc3RlciBhbiBlbmNvZGVyIGlzDQo+Pj4+
-PiBkcm1tX3NpbXBsZV9lbmNvZGVyX2FsbG9jKCkgYW5kIGl0cyB2YXJpYW50cywgd2hpY2gg
-d2lsbCBhbGxvY2F0ZSB0aGUNCj4+Pj4+IHVuZGVybHlpbmcgc3RydWN0dXJlIGFuZCBpbml0
-aWFsaXNhdGlvbiB0aGUgZW5jb2Rlci4NCj4+Pj4+DQo+Pj4+PiBIb3dldmVyLCB3ZSBtaWdo
-dCB3YW50IHRvIHNlcGFyYXRlIHRoZSBzdHJ1Y3R1cmUgY3JlYXRpb24gYW5kIHRoZSBlbmNv
-ZGVyDQo+Pj4+PiBpbml0aWFsaXNhdGlvbiwgZm9yIGV4YW1wbGUgaWYgdGhlIHN0cnVjdHVy
-ZSBpcyBzaGFyZWQgYWNyb3NzIG11bHRpcGxlIERSTQ0KPj4+Pj4gZW50aXRpZXMsIGZvciBl
-eGFtcGxlIGFuIGVuY29kZXIgYW5kIGEgY29ubmVjdG9yLg0KPj4+Pj4NCj4+Pj4+IExldCdz
-IGNyZWF0ZSBhbiBoZWxwZXIgdG8gb25seSBpbml0aWFsaXNlIGFuIGVuY29kZXIgdGhhdCB3
-b3VsZCBiZSBwYXNzZWQNCj4+Pj4+IGFzIGFuIGFyZ3VtZW50Lg0KPj4+Pj4NCj4+Pj4NCj4+
-Pj4gVGhlcmUncyBub3RoaW5nIHdyb25nIHdpdGggdGhpcyBwYXRjaCwgYnV0IEkgaGF2ZSB0
-byBhZG1pdCB0aGF0IGFkZGluZw0KPj4+PiBkcm1fc2ltcGxlX2VuY29kZXJfaW5pdCgpIGV0
-IGFsIHdhcyBhIG1pc3Rha2UuDQo+Pj4NCj4+PiBXaHkgZG8geW91IHRoaW5rIGl0IHdhcyBh
-IG1pc3Rha2U/DQo+Pg0KPj4gVGhlIHNpbXBsZS1lbmNvZGVyIHN0dWZmIGlzIGFuIGludGVy
-ZmFjZSB0aGF0IG5vIG9uZSByZWFsbHkgbmVlZHMuIENvbXBhcmVkDQo+PiB0byBvcGVuLWNv
-ZGluZyB0aGUgZnVuY3Rpb24sIGl0J3MgYmFyZWx5IGFuIGltcHJvdmVtZW50IGluIExPQ3Ms
-IGJ1dCBub3RoaW5nDQo+PiBlbHNlLg0KPj4NCj4+IEJhY2sgd2hlbiBJIGFkZGVkIGRybV9z
-aW1wbGVfZW5jb2Rlcl9pbml0KCksIEkgd2FudGVkIHRvIHNpbXBsaWZ5IHRoZSBtYW55DQo+
-PiBkcml2ZXJzIHRoYXQgaW5pdGlhbGl6ZWQgdGhlIGVuY29kZXIgd2l0aCBhIGNsZWFudXAg
-Y2FsbGJhY2sgYW5kIG5vdGhpbmcNCj4+IGVsc2UuICBJSVJDIGl0IHdhcyBhbiBpbXByb3Zl
-bWVudCBiYWNrIHRoZW4uICBCdXQgbm93IHdlIGFscmVhZHkgaGF2ZSBhDQo+PiByZWxhdGVk
-IGRybW1fIGhlbHBlciBhbmQgYSBkcm1tX2FsbG9jXyBoZWxwZXIuIElmIEkgaGFkIG9ubHkg
-YWRkZWQgdGhlIG1hY3JvDQo+PiBiYWNrIHRoZW4sIHdlIGNvdWxkIHVzZSB0aGUgcmVndWxh
-ciBlbmNvZGVyIGhlbHBlcnMuDQo+Pg0KPj4+DQo+Pj4+IEl0IHdvdWxkIGhhdmUgYmVlbiBi
-ZXR0ZXIgdG8gYWRkIGFuIGluaXRpYWxpemVyIG1hY3JvIGxpa2UNCj4+Pj4NCj4+Pj4gI2Rl
-ZmluZSBEUk1fU1RBVElDX0VOQ09ERVJfREVGQVVMVF9GVU5DUyBcDQo+Pj4+ICAgICAuZGVz
-dHJveSA9IGRybV9lbmNvZGVyX2NsZWFudXANCj4+Pj4NCj4+Pj4gSXQncyB3YXkgbW9yZSBm
-bGV4aWJsZSBhbmQgc2ltaWxhcmx5IGVhc3kgdG8gdXNlLiBBbnl3YXkuLi4NCj4+Pg0KPj4+
-IFdlIGNhbiBzdGlsbCBoYXZlIHRoaXMuIEl0IHdvdWxkIHNpbXBsaWZ5IHRoaXMgc2VyaWVz
-IHNvIEkgY291bGQNCj4+PiBkZWZpbml0ZWx5IHNxdWVlemUgdGhhdCBwYXRjaCBpbiBhbmQg
-YWRkIGEgVE9ETyBpdGVtIC8gZGVwcmVjYXRpb24NCj4+PiBub3RpY2UgZm9yIHNpbXBsZSBl
-bmNvZGVycyBpZiB5b3UgdGhpbmsgaXQncyBuZWVkZWQNCj4+DQo+PiBOb3QgbmVjZXNzYXJ5
-LiBJdCdzIG5vdCBzdXBlciBpbXBvcnRhbnQuDQo+IA0KPiBUaGUgY29yb2xsYXJ5IGlzIHRo
-b3VnaCA6KQ0KPiANCj4gSWYgSSB1bmRlcnN0YW5kIHlvdSByaWdodCwgaXQgbWVhbnMgdGhh
-dCB5b3UnZCByYXRoZXIgaGF2ZSBhIGRlc3Ryb3kNCj4gY2FsbGJhY2sgZXZlcnl3aGVyZSBp
-bnN0ZWFkIG9mIGNhbGxpbmcgdGhlIF9jbGVhbnVwIGZ1bmN0aW9uIHRocm91Z2ggYQ0KPiBk
-cm0tbWFuYWdlZCBjYWxsYmFjaywgYW5kIGxldCBkcm1fZGV2X3VucmVnaXN0ZXIgZG8gaXRz
-IGpvYj8NCj4gDQo+IElmIHNvLCBpdCBtZWFucyB0aGF0IHdlIHNob3VsZG4ndCBiZSBmb2xs
-b3dpbmcgdGhlIGRybW1fLipfYWxsb2MNCj4gZnVuY3Rpb25zIGFuZCBzaG91bGQgZHJvcCBh
-bGwgdGhlIG5ldyBvbmVzIGZyb20gdGhpcyBzZXJpZXMuDQoNCk5vLCBuby4gV2hhdCBJJ20g
-c2F5aW5nIGlzIHRoYXQgc2ltcGxlLWVuY29kZXIgaXMgYSBwb2ludGxlc3MgbWlkLWxheWVy
-LiANClRoZXJlJ3Mgbm90aGluZyB0aGF0IGNvdWxkbid0IGVhc2lseSBiZSBhY2hpZXZlZCB3
-aXRoIHRoZSByZWd1bGFyIA0KZW5jb2RlciBmdW5jdGlvbnMuDQoNCkJlc3QgcmVnYXJkcw0K
-VGhvbWFzDQoNCj4gDQo+IE1heGltZQ0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFw
-aGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55
-IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAz
-NjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+jfwiw, we are seeing pretty good results (iirc 40-70% increase in open
+tab counts) with the combination of eviction + multigen LRU[1] +
+sizing zram swap to be 2x physical RAM
 
---------------0rdcG1k0sqnm4NdYqK7P0DdX--
+[1] https://lwn.net/Articles/856931/
 
---------------OmMrbFXb8BbKtEtdF4miT82l
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> Alright, I'll add back the lockless variant (or will use yours
+> drm_gem_lru) in the next revision. The code difference is very small
+> after all.
+>
+> ...
+> >> +               /* prevent racing with the dma-buf importing/exporting */
+> >> +               if (!mutex_trylock(&gem_shrinker->dev->object_name_lock)) {
+> >> +                       *lock_contention |= true;
+> >> +                       goto resv_unlock;
+> >> +               }
+> >
+> > I'm not sure this is a good idea to serialize on object_name_lock.
+> > Purgeable buffers should never be shared (imported or exported).  So
+> > at best you are avoiding evicting and immediately swapping back in, in
+> > a rare case, at the cost of serializing multiple threads trying to
+> > reclaim pages in parallel.
+>
+> The object_name_lock shouldn't cause contention in practice. But objects
+> are also pinned on attachment, hence maybe this lock is indeed
+> unnecessary.. I'll re-check it.
 
------BEGIN PGP SIGNATURE-----
+I'm not worried about contention with export/import/etc, but
+contention between multiple threads hitting the shrinker in parallel.
+I guess since you are using trylock, it won't *block* the other
+threads hitting shrinker, but they'll just end up looping in
+do_shrink_slab() because they are hitting contention.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKwh/cFAwAAAAAACgkQlh/E3EQov+Cd
-vA/+JlUQGn1OrlcF7ICxX2RIg4VFEPosCeIuwcQ4V9G9U3iIghC9U53LCDtXpQhqpcwWLDgv05Kc
-T4xZGq+E2sRNplQYxcoJgVeZ4IdoPmsJqN58T/wpIrTSJ35sA1i5EoFofvzhg7EhZg43LJgZGlIc
-e8jdjcPCjUyIlPVkCto8FSkTHLPjNRZeYOMyE2hkKchd80+SdJOwJpaKf0HyOyry1DPo0nAALIBO
-odVK/0vS/SZh1ZR5jwv5Ku882d4S8BmFcW0VkTfWbS/H5y4GfWbyYwi/YBu21iIzXfjCDjLqNSO4
-BuxlHmqMCgBoAGxi7ZfjBVsC9ZPaoDh+JFmg3ppPvJ5msWK+p9DjptSjTacCStVMaf+ExmiEYzf7
-2XVRL/6iCYQsuCkZ/iwYs4Lx6ovAF6fnzEfbyVm+V3BE+zDU0gZt3Yv7yn/hcI+fOMSRuwYmtw3g
-oArZj4O5q7meiddYPfUCMCmfQRWfF6gJh4JnsMtEjSwhkQPfxCXdRwDW5mqK8dL6iFbRh1n2/GAQ
-0IsOUCT7c37LyR4QKYG5B6CTF6HvRvim+9iseWxiWj2ovLk+KdL0dxIFI7J0sOUzbgdYNGg3TBGY
-950K8KJ+rQb02J9GDvP7Wsup+btzmTE3rDy836kcLzBhR/yFGbJgySr2WGe5HpptksUT6HOOpjNh
-8qU=
-=v2HI
------END PGP SIGNATURE-----
+I'd have to do some experiments to see how it works out in practice,
+but my gut feel is that it isn't a good idea
 
---------------OmMrbFXb8BbKtEtdF4miT82l--
+BR,
+-R
+
+> --
+> Best regards,
+> Dmitry
