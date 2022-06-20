@@ -1,68 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0179055245C
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 21:04:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 934E4552471
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 21:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C6E210E191;
-	Mon, 20 Jun 2022 19:04:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5F910E275;
+	Mon, 20 Jun 2022 19:14:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E77310E105
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 19:04:13 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 26FF521A11;
- Mon, 20 Jun 2022 19:04:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1655751852; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zUOMk2cr3QT5OvJESAUuKLLVN7+C2Uyq9be+TQqocjk=;
- b=HwvKYQL10i6wa1MulVRPyt0GCWmuOm/pGnAvcmv0l9nXEFP2jtVcBXIBcrA3FlqXWui1W+
- 96VIEBeFnTCROLMH4m+llFZ1pSQFbApSLOvPaILWDdaHBxYfeNHvhBBA/ntrKkz4hOz5hI
- O3zo8HdeeY8/x8kt1VcIGErnusd9CXo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1655751852;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zUOMk2cr3QT5OvJESAUuKLLVN7+C2Uyq9be+TQqocjk=;
- b=eHNtzb0Ygb/90SYqoEvft9aFXWhUf4GJOVf6ClGiYCf3IbDMdAf/BdI9wQA4sgiGxSlrXL
- F221Q1hd3At3VXCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 09038134CA;
- Mon, 20 Jun 2022 19:04:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id PVE4AKzEsGKrWAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 20 Jun 2022 19:04:12 +0000
-Message-ID: <295ada80-6846-db1e-6e15-01e06ffe7d3d@suse.de>
-Date: Mon, 20 Jun 2022 21:04:11 +0200
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EF5B10E074
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 19:14:01 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id q140so11055261pgq.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 12:14:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NH47jZdjhWf32jVaZ0IHAkgTUTE2rJqOL45liR1vnJ8=;
+ b=zjXKFUtvnnuzsKTACuTQo4ZvMG43p2/zFihl3W84CsSIZHrkrfZMMufl4DcesBeLrm
+ QC0KMnBMZC7FnKO/rSzNw/PqB0Ucc7G9/kNv1hDG7HL9KMz2G6XMrqiaMXcK+yl+Do9F
+ l5o8zQPe80EXJT8yeWy0Kzflb3ZEQY3fJr14N+RvlnLJoMlFiaHK/NnFPOosEZxXBbzh
+ /KR9xCQkvYuom/5fGtNpvbOopEu9f8dovOesxJ6yV3MCYZsf6UScCvEXYhO8xTnhk6Kv
+ y70uHb3vS/iWNe82W3D/XFnwsLMIovTNMOTy6fKMHKpv/i57/+84YXwZnNri+3Kv057j
+ l85w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NH47jZdjhWf32jVaZ0IHAkgTUTE2rJqOL45liR1vnJ8=;
+ b=lAzBmky+XmHIB2fOWaMnRQLj3o/8u/4EBfxb2GopWaKsNhHbehRHSVhVO36kRbs80s
+ lML2FtlVDpsY7Uqp+1aAtNcXuVJgH0gFFKGfiVkW6gx04bTMPE/+y6Tb7VA+20msEDf8
+ 5RjGcLT0WosJ9VwdoqmTtYlnKTz6zicNhx9sXl+OCngg70sXpS2lNdcw9zknW3XQxxZZ
+ juOHcrdX5i3Td6O/tsO8UjrqiUe5TYQYBlC+HtP2uoAdEYubDB6ZEb4uvvVcn+hpdYpv
+ 4OjtpvBcO/76GEFLordgy9BdeWoGaQL+8q+AtCEqSR5hywdEUEoELMl+bAdE+SZ3srmo
+ T2jA==
+X-Gm-Message-State: AJIora+mwCFKdqD+zWDSC0vUtYR+j8rWiBKJp8Vm1Go6Z81YPXXE7aqb
+ E8+1d+q8JQfszI6/LIdbc1e2qtE8mpJJtcG76HQ7kA==
+X-Google-Smtp-Source: AGRyM1sDJkkBU9sTQ9zIHz2OtpUNQYwhHwEI3lfAO1pmWmTfCdmCUh6tOYRrYUXR7q+LJKZYO4K02d01yg39wvXxZWs=
+X-Received: by 2002:a63:e114:0:b0:3fd:97a1:7a5 with SMTP id
+ z20-20020a63e114000000b003fd97a107a5mr22613273pgh.178.1655752441008; Mon, 20
+ Jun 2022 12:14:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 09/64] drm/simple: Introduce drmm_simple_encoder_init
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>
-References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-10-maxime@cerno.tech>
- <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
- <20220620134823.oqjrbnlsce3erhum@houat>
- <92f5306c-3808-b140-4845-f744df4c92fc@suse.de>
- <20220620143928.zbbaltwcah3rpkqh@houat>
- <1817bb52-268d-9ed9-b7b3-4bbb291b7925@suse.de>
-In-Reply-To: <1817bb52-268d-9ed9-b7b3-4bbb291b7925@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------VNHAe7hBe0f0vD5s4ykEMp6U"
+References: <20220422084720.959271-1-xji@analogixsemi.com>
+ <20220422084720.959271-4-xji@analogixsemi.com>
+ <CAG3jFytWGSUM9mevHewdmEe-hq3JgB74s7_f0fsEQqkXr9VUHg@mail.gmail.com>
+ <CAG3jFyvEYbwkdGtiNR-6vFEXTLjcyT_viqp9qeVxFTu0PrJEVA@mail.gmail.com>
+ <CAGXv+5E1cCNWD98fMDjC38y2UztZd=PNQ+=G=wrBYfoXkswvHA@mail.gmail.com>
+ <20220425091419.GA967110@anxtwsw-Precision-3640-Tower>
+ <CAG3jFyvTim7P_y2G1Br5j3Pwz4KzvRjWgci_qQ3m_YW=3Bog8A@mail.gmail.com>
+ <CAKMK7uFHyYTnGtP+vCzo2Uan90DW-QZpPFPn5S9bQ5aPiY=qzA@mail.gmail.com>
+ <CAKMK7uHFGsPMZf2SUF4HDXo3XuOLjP3-DLfyp=gB2qpKR964Eg@mail.gmail.com>
+ <20220523031324.GA3738288@anxtwsw-Precision-3640-Tower>
+ <CAGXv+5EHghwSV+9Www9RvG74PkC7=AQuwn6sVG=cvCni-iwCyQ@mail.gmail.com>
+ <CAG3jFysJLoQ2DMYw0oOfbQM3ifBmAhNLMxjPDEt12jq8sKCcSg@mail.gmail.com>
+ <CAGXv+5EEB1-jUgUo3HGTu9JgeD46Nuu1PuwO9PYfOKeR3csBbw@mail.gmail.com>
+In-Reply-To: <CAGXv+5EEB1-jUgUo3HGTu9JgeD46Nuu1PuwO9PYfOKeR3csBbw@mail.gmail.com>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Mon, 20 Jun 2022 21:13:49 +0200
+Message-ID: <CAG3jFytBGCvLq6=qwB3xa-nnSLGzh6-fTgoSAGEeJ4p=GHY_tQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] drm/bridge: anx7625: Use DPI bus type
+To: Chen-Yu Tsai <wenst@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,117 +74,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, qwen@analogixsemi.com,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ bliang@analogixsemi.com, Xin Ji <xji@analogixsemi.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------VNHAe7hBe0f0vD5s4ykEMp6U
-Content-Type: multipart/mixed; boundary="------------M6LDco0qi6VcPddeFEg10vI4";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org
-Message-ID: <295ada80-6846-db1e-6e15-01e06ffe7d3d@suse.de>
-Subject: Re: [PATCH 09/64] drm/simple: Introduce drmm_simple_encoder_init
-References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-10-maxime@cerno.tech>
- <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
- <20220620134823.oqjrbnlsce3erhum@houat>
- <92f5306c-3808-b140-4845-f744df4c92fc@suse.de>
- <20220620143928.zbbaltwcah3rpkqh@houat>
- <1817bb52-268d-9ed9-b7b3-4bbb291b7925@suse.de>
-In-Reply-To: <1817bb52-268d-9ed9-b7b3-4bbb291b7925@suse.de>
+On Fri, 17 Jun 2022 at 12:32, Chen-Yu Tsai <wenst@chromium.org> wrote:
+>
+> Hi,
+>
+> On Mon, May 23, 2022 at 4:37 PM Robert Foss <robert.foss@linaro.org> wrote:
+> >
+> > On Mon, 23 May 2022 at 09:18, Chen-Yu Tsai <wenst@chromium.org> wrote:
+> > >
+> > > On Mon, May 23, 2022 at 11:13 AM Xin Ji <xji@analogixsemi.com> wrote:
+> > > >
+> > > > On Sat, May 21, 2022 at 06:28:42PM +0200, Daniel Vetter wrote:
+> > > > > On Sat, 21 May 2022 at 18:07, Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > >
+> > > > > > On Tue, 17 May 2022 at 18:09, Robert Foss <robert.foss@linaro.org> wrote:
+> > > > > > >
+> > > > > > > On Mon, 25 Apr 2022 at 11:14, Xin Ji <xji@analogixsemi.com> wrote:
+> > > > > > > >
+> > > > > > > > On Mon, Apr 25, 2022 at 04:24:50PM +0800, Chen-Yu Tsai wrote:
+> > > > > > > > > On Fri, Apr 22, 2022 at 10:13 PM Robert Foss <robert.foss@linaro.org> wrote:
+> > > > > > > > > >
+> > > > > > > > > > On Fri, 22 Apr 2022 at 16:01, Robert Foss <robert.foss@linaro.org> wrote:
+> > > > > > > > > > >
+> > > > > > > > > > > On Fri, 22 Apr 2022 at 10:49, Xin Ji <xji@analogixsemi.com> wrote:
+> > > > > > > > > > > >
+> > > > > > > > > > > > As V4L2_FWNODE_BUS_TYPE_PARALLEL not properly descript for DPI
+> > > > > > > > > > > > interface, this patch use new defined V4L2_FWNODE_BUS_TYPE_DPI for it.
+> > > > > > > > > > > >
+> > > > > > > > > > > > Fixes: fd0310b6fe7d ("drm/bridge: anx7625: add MIPI DPI input feature")
+> > > > > > > > > > > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > > > > > > > > > > > ---
+> > > > > > > > > > > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++----
+> > > > > > > > > > > >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > > > > > > > > > > >
+> > > > > > > > > > > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > > > > > > > > index 376da01243a3..71df977e8f53 100644
+> > > > > > > > > > > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > > > > > > > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > > > > > > > > @@ -1623,14 +1623,14 @@ static int anx7625_parse_dt(struct device *dev,
+> > > > > > > > > > > >
+> > > > > > > > > > > >         anx7625_get_swing_setting(dev, pdata);
+> > > > > > > > > > > >
+> > > > > > > > > > > > -       pdata->is_dpi = 1; /* default dpi mode */
+> > > > > > > > > > > > +       pdata->is_dpi = 0; /* default dsi mode */
+> > > > > > > > > > > >         pdata->mipi_host_node = of_graph_get_remote_node(np, 0, 0);
+> > > > > > > > > > > >         if (!pdata->mipi_host_node) {
+> > > > > > > > > > > >                 DRM_DEV_ERROR(dev, "fail to get internal panel.\n");
+> > > > > > > > > > > >                 return -ENODEV;
+> > > > > > > > > > > >         }
+> > > > > > > > > > > >
+> > > > > > > > > > > > -       bus_type = V4L2_FWNODE_BUS_TYPE_PARALLEL;
+> > > > > > > > > > > > +       bus_type = 0;
+> > > > > > > > > > > >         mipi_lanes = MAX_LANES_SUPPORT;
+> > > > > > > > > > > >         ep0 = of_graph_get_endpoint_by_regs(np, 0, 0);
+> > > > > > > > > > > >         if (ep0) {
+> > > > > > > > > > > > @@ -1640,8 +1640,8 @@ static int anx7625_parse_dt(struct device *dev,
+> > > > > > > > > > > >                 mipi_lanes = of_property_count_u32_elems(ep0, "data-lanes");
+> > > > > > > > > > > >         }
+> > > > > > > > > > > >
+> > > > > > > > > > > > -       if (bus_type == V4L2_FWNODE_BUS_TYPE_PARALLEL) /* bus type is Parallel(DSI) */
+> > > > > > > > > > > > -               pdata->is_dpi = 0;
+> > > > > > > > > > > > +       if (bus_type == V4L2_FWNODE_BUS_TYPE_DPI) /* bus type is DPI */
+> > > > > > > > > > > > +               pdata->is_dpi = 1;
+> > > > > > > > > > > >
+> > > > > > > > > > > >         pdata->mipi_lanes = mipi_lanes;
+> > > > > > > > > > > >         if (pdata->mipi_lanes > MAX_LANES_SUPPORT || pdata->mipi_lanes <= 0)
+> > > > > > > > > > >
+> > > > > > > > > > > Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> > > > > > > > > >
+> > > > > > > > > > Acked-by: Robert Foss <robert.foss@linaro.org>
+> > > > > > > > >
+> > > > > > > > > Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > > > > > > >
+> > > > > > > > > Confirmed this fixes the display on Juniper (Acer Chromebook Spin 311) on
+> > > > > > > > > mainline (next-20220422).
+> > > > > > > > >
+> > > > > > > > > Xin, in the future, please send the whole series to all recipients of
+> > > > > > > > > all patches listed by get_maintainers.pl, not just the recipients of
+> > > > > > > > > each patch. In the case of this series, they should have been sent
+> > > > > > > > > to all of the mailing lists (media, devicetree, dri-devel) so that
+> > > > > > > > > everyone has the same, full view of the patches.
+> > > > > > > > Hi ChenYu, OK, I'll send to all media, devicetree, dri-devel next time.
+> > > > > > > > Thanks,
+> > > > > > > > Xin
+> > > > > > > > >
+> > > > > > > > > ChenYu
+> > > > > > >
+> > > > > > > Applied 3/4 + 4/4 to drm-misc-next.
+> > > > > >
+> > > > > > This patch doesn't even compile. Can you pls fix this up asap? Also
+> > > > > > pls compile-test before pushing ...
+> > > > >
+> > > > > Marek says the prerequisite landed through linux-media, and that's why
+> > > > > it compilers on linux-next but not in drm-misc-next.
+> > > > >
+> > > > > Don't do that.
+> > > > >
+> > > > > Instead:
+> > > > > - merge all patches through one branch, with the foreign patches acked
+> > > > > for that merge patch
+> > > > > - wait until you can backmerge all the dependencies
+> > > > > - do a topic branch
+> > > > >
+> > > > > This probably needs to be reverted here and instead merged through
+> > > > > linux-media. Or you wait until -rc1 and then apply it to
+> > > > > drm-misc-next.
+> > > > > -Daniel
+> > > > Hi Daniel, I use git send-email to upstream patch and automatically
+> > > > generated reviewer list, so patch 1/4 and 2/4 send to linux-media, and
+> > > > these 2 patches already merged in linux-media.
+> > >
+> > > This is one of the reasons why you should always send the "full" series
+> > > to all recipients. That way people, especially maintainers, are more
+> > > likely to notice build time cross tree dependencies like this one, and
+> > > work towards a common resolution.
+> >
+> > This mistake is mine, and I think the best solution is to revert 3+4 until rc1.
+>
+> I think we can reland the patches now?
 
---------------M6LDco0qi6VcPddeFEg10vI4
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-SGkNCg0KQW0gMjAuMDYuMjIgdW0gMTY6NDUgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoN
-Cj4gSGkNCj4gDQo+IEFtIDIwLjA2LjIyIHVtIDE2OjM5IHNjaHJpZWIgTWF4aW1lIFJpcGFy
-ZDoNCj4+IE9uIE1vbiwgSnVuIDIwLCAyMDIyIGF0IDA0OjI1OjM4UE0gKzAyMDAsIFRob21h
-cyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4+IEhpDQo+Pj4NCj4+PiBBbSAyMC4wNi4yMiB1bSAx
-NTo0OCBzY2hyaWViIE1heGltZSBSaXBhcmQ6DQo+Pj4+IEhpLA0KPj4+Pg0KPj4+PiBPbiBN
-b24sIEp1biAyMCwgMjAyMiBhdCAxMjo0NDoyNFBNICswMjAwLCBUaG9tYXMgWmltbWVybWFu
-biB3cm90ZToNCj4+Pj4+IEFtIDEwLjA2LjIyIHVtIDExOjI4IHNjaHJpZWIgTWF4aW1lIFJp
-cGFyZDoNCj4+Pj4+PiBUaGUgRFJNLW1hbmFnZWQgZnVuY3Rpb24gdG8gcmVnaXN0ZXIgYW4g
-ZW5jb2RlciBpcw0KPj4+Pj4+IGRybW1fc2ltcGxlX2VuY29kZXJfYWxsb2MoKSBhbmQgaXRz
-IHZhcmlhbnRzLCB3aGljaCB3aWxsIGFsbG9jYXRlIHRoZQ0KPj4+Pj4+IHVuZGVybHlpbmcg
-c3RydWN0dXJlIGFuZCBpbml0aWFsaXNhdGlvbiB0aGUgZW5jb2Rlci4NCj4+Pj4+Pg0KPj4+
-Pj4+IEhvd2V2ZXIsIHdlIG1pZ2h0IHdhbnQgdG8gc2VwYXJhdGUgdGhlIHN0cnVjdHVyZSBj
-cmVhdGlvbiBhbmQgdGhlIA0KPj4+Pj4+IGVuY29kZXINCj4+Pj4+PiBpbml0aWFsaXNhdGlv
-biwgZm9yIGV4YW1wbGUgaWYgdGhlIHN0cnVjdHVyZSBpcyBzaGFyZWQgYWNyb3NzIA0KPj4+
-Pj4+IG11bHRpcGxlIERSTQ0KPj4+Pj4+IGVudGl0aWVzLCBmb3IgZXhhbXBsZSBhbiBlbmNv
-ZGVyIGFuZCBhIGNvbm5lY3Rvci4NCj4+Pj4+Pg0KPj4+Pj4+IExldCdzIGNyZWF0ZSBhbiBo
-ZWxwZXIgdG8gb25seSBpbml0aWFsaXNlIGFuIGVuY29kZXIgdGhhdCB3b3VsZCBiZSANCj4+
-Pj4+PiBwYXNzZWQNCj4+Pj4+PiBhcyBhbiBhcmd1bWVudC4NCj4+Pj4+Pg0KPj4+Pj4NCj4+
-Pj4+IFRoZXJlJ3Mgbm90aGluZyB3cm9uZyB3aXRoIHRoaXMgcGF0Y2gsIGJ1dCBJIGhhdmUg
-dG8gYWRtaXQgdGhhdCBhZGRpbmcNCj4+Pj4+IGRybV9zaW1wbGVfZW5jb2Rlcl9pbml0KCkg
-ZXQgYWwgd2FzIGEgbWlzdGFrZS4NCj4+Pj4NCj4+Pj4gV2h5IGRvIHlvdSB0aGluayBpdCB3
-YXMgYSBtaXN0YWtlPw0KPj4+DQo+Pj4gVGhlIHNpbXBsZS1lbmNvZGVyIHN0dWZmIGlzIGFu
-IGludGVyZmFjZSB0aGF0IG5vIG9uZSByZWFsbHkgbmVlZHMuIA0KPj4+IENvbXBhcmVkDQo+
-Pj4gdG8gb3Blbi1jb2RpbmcgdGhlIGZ1bmN0aW9uLCBpdCdzIGJhcmVseSBhbiBpbXByb3Zl
-bWVudCBpbiBMT0NzLCBidXQgDQo+Pj4gbm90aGluZw0KPj4+IGVsc2UuDQo+Pj4NCj4+PiBC
-YWNrIHdoZW4gSSBhZGRlZCBkcm1fc2ltcGxlX2VuY29kZXJfaW5pdCgpLCBJIHdhbnRlZCB0
-byBzaW1wbGlmeSB0aGUgDQo+Pj4gbWFueQ0KPj4+IGRyaXZlcnMgdGhhdCBpbml0aWFsaXpl
-ZCB0aGUgZW5jb2RlciB3aXRoIGEgY2xlYW51cCBjYWxsYmFjayBhbmQgbm90aGluZw0KPj4+
-IGVsc2UuwqAgSUlSQyBpdCB3YXMgYW4gaW1wcm92ZW1lbnQgYmFjayB0aGVuLsKgIEJ1dCBu
-b3cgd2UgYWxyZWFkeSBoYXZlIGENCj4+PiByZWxhdGVkIGRybW1fIGhlbHBlciBhbmQgYSBk
-cm1tX2FsbG9jXyBoZWxwZXIuIElmIEkgaGFkIG9ubHkgYWRkZWQgDQo+Pj4gdGhlIG1hY3Jv
-DQo+Pj4gYmFjayB0aGVuLCB3ZSBjb3VsZCB1c2UgdGhlIHJlZ3VsYXIgZW5jb2RlciBoZWxw
-ZXJzLg0KPj4+DQo+Pj4+DQo+Pj4+PiBJdCB3b3VsZCBoYXZlIGJlZW4gYmV0dGVyIHRvIGFk
-ZCBhbiBpbml0aWFsaXplciBtYWNybyBsaWtlDQo+Pj4+Pg0KPj4+Pj4gI2RlZmluZSBEUk1f
-U1RBVElDX0VOQ09ERVJfREVGQVVMVF9GVU5DUyBcDQo+Pj4+PiDCoMKgwqAgLmRlc3Ryb3kg
-PSBkcm1fZW5jb2Rlcl9jbGVhbnVwDQo+Pj4+Pg0KPj4+Pj4gSXQncyB3YXkgbW9yZSBmbGV4
-aWJsZSBhbmQgc2ltaWxhcmx5IGVhc3kgdG8gdXNlLiBBbnl3YXkuLi4NCj4+Pj4NCj4+Pj4g
-V2UgY2FuIHN0aWxsIGhhdmUgdGhpcy4gSXQgd291bGQgc2ltcGxpZnkgdGhpcyBzZXJpZXMg
-c28gSSBjb3VsZA0KPj4+PiBkZWZpbml0ZWx5IHNxdWVlemUgdGhhdCBwYXRjaCBpbiBhbmQg
-YWRkIGEgVE9ETyBpdGVtIC8gZGVwcmVjYXRpb24NCj4+Pj4gbm90aWNlIGZvciBzaW1wbGUg
-ZW5jb2RlcnMgaWYgeW91IHRoaW5rIGl0J3MgbmVlZGVkDQo+Pj4NCj4+PiBOb3QgbmVjZXNz
-YXJ5LiBJdCdzIG5vdCBzdXBlciBpbXBvcnRhbnQuDQo+Pg0KPj4gVGhlIGNvcm9sbGFyeSBp
-cyB0aG91Z2ggOikNCj4+DQo+PiBJZiBJIHVuZGVyc3RhbmQgeW91IHJpZ2h0LCBpdCBtZWFu
-cyB0aGF0IHlvdSdkIHJhdGhlciBoYXZlIGEgZGVzdHJveQ0KPj4gY2FsbGJhY2sgZXZlcnl3
-aGVyZSBpbnN0ZWFkIG9mIGNhbGxpbmcgdGhlIF9jbGVhbnVwIGZ1bmN0aW9uIHRocm91Z2gg
-YQ0KPj4gZHJtLW1hbmFnZWQgY2FsbGJhY2ssIGFuZCBsZXQgZHJtX2Rldl91bnJlZ2lzdGVy
-IGRvIGl0cyBqb2I/DQo+Pg0KPj4gSWYgc28sIGl0IG1lYW5zIHRoYXQgd2Ugc2hvdWxkbid0
-IGJlIGZvbGxvd2luZyB0aGUgZHJtbV8uKl9hbGxvYw0KPj4gZnVuY3Rpb25zIGFuZCBzaG91
-bGQgZHJvcCBhbGwgdGhlIG5ldyBvbmVzIGZyb20gdGhpcyBzZXJpZXMuDQo+IA0KPiBObywg
-bm8uIFdoYXQgSSdtIHNheWluZyBpcyB0aGF0IHNpbXBsZS1lbmNvZGVyIGlzIGEgcG9pbnRs
-ZXNzIG1pZC1sYXllci4gDQo+IFRoZXJlJ3Mgbm90aGluZyB0aGF0IGNvdWxkbid0IGVhc2ls
-eSBiZSBhY2hpZXZlZCB3aXRoIHRoZSByZWd1bGFyIA0KPiBlbmNvZGVyIGZ1bmN0aW9ucy4N
-Cg0KSSBndWVzcyB0aGF0IGlmIHlvdSB3YW50IHRvIGNoYW5nZSBzb21ldGhpbmcgaGVyZSwg
-eW91IGNvdWxkIGFkZCANCmRybW1fZW5jb2Rlcl9pbml0KCkgaW5zdGVhZCBhbmQgY29udmVy
-dCB2YzQuIFRoYXQgZnVuY3Rpb24gbWlnaHQgYmUgbW9yZSANCnVzZWZ1bCBmb3Igb3RoZXIg
-ZHJpdmVycyBpbiB0aGUgbG9uZyBydW4uDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4g
-DQo+IEJlc3QgcmVnYXJkcw0KPiBUaG9tYXMNCj4gDQo+Pg0KPj4gTWF4aW1lDQo+IA0KDQot
-LSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNF
-IFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5
-IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jD
-pGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
-
---------------M6LDco0qi6VcPddeFEg10vI4--
-
---------------VNHAe7hBe0f0vD5s4ykEMp6U
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKwxKsFAwAAAAAACgkQlh/E3EQov+AC
-ExAAgRGvK+HRYFxLaMOfjXCGrReoYf4tTMiDmjRdDX59v2J8tFpIZpK+aI/2qATaICnOl/LByiVM
-pl4upsAj3Jd6GWBMXIHaNdm7lu9t4oFw//CfVePq66NCpjj7y9FjGLDIooe/ULnXWklBqE+/crHt
-ZObrDmHKZ46If2g7A6MQN5ehWZN9T5SWm4GaAsMYef40gAvMXcAD3nklmiVWygkezLDev7m3Kibu
-nqsROytpf+Fni/SQQ+S7X5/8/UNd+HWS5eoXI1YU8ysymKqfSMpxoX9SkoyWKgv6yCNYXPTCVlHL
-EE4qrLyPsisytIFc4aug7/jxtQiDTN/0b+XRh07UIlS6/tMhc6Kn11xqwkgNBWboBaGV5Ha35UVz
-6y7uLWIfDGaB4NHaZdCpVb2MYqhki2tATw8r+sIZAsofr6YvkAYd2lqcbZWnZq2ATzhVoubV6XYv
-jSJP0vspn09T9cLh4UM2XePi69lwX1iJ8XDMfefQvs0HXikgvyCvhhr3uD/9dfn2pViSPdtPibHn
-NIvXM5SFDdJlBaZcrIIurhEHxQ5tzlCZd9Po8Zri63gI2wCQ23t47oStjJ5253TEfxqGoYwL65zp
-DTBpBrGiQb3x6WgI2q6jrv4oTO5uVJEtFdQWhl4pmx8hcpgtNbdILtZlILLoYMMamKuLjc7SED+o
-PgA=
-=yLtc
------END PGP SIGNATURE-----
-
---------------VNHAe7hBe0f0vD5s4ykEMp6U--
+Re-applied 3/4 + 4/4 to drm-misc-next.
