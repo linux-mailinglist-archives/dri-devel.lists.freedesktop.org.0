@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A33C55185D
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 14:11:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E530551853
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 14:10:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 502A410FD21;
-	Mon, 20 Jun 2022 12:10:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC64B10FCEA;
+	Mon, 20 Jun 2022 12:10:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71DDA10FCC6
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 12:10:38 +0000 (UTC)
-X-UUID: 3783de95a3bb4715880d6eecdbc7392c-20220620
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37F0D10FCC8
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 12:10:37 +0000 (UTC)
+X-UUID: 503a67cfa26c44c39aa8bcdc67875ef1-20220620
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:6622845b-e5dc-422a-8b43-10e1bde3d3d9, OB:0,
+X-CID-O-INFO: VERSION:1.1.6, REQID:b633ab92-503b-44fc-adb6-835dea68e4b1, OB:0,
  LO
- B:0,IP:0,URL:25,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:20
-X-CID-META: VersionHash:b14ad71, CLOUDID:522703ea-f7af-4e69-92ee-0fd74a0c286c,
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:25
+X-CID-META: VersionHash:b14ad71, CLOUDID:6c37333d-9948-4b2a-a784-d8a6c1086106,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 3783de95a3bb4715880d6eecdbc7392c-20220620
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:5,IP:nil,URL:0,File:nil,
+ QS:nil,BEC:nil,COL:0
+X-UUID: 503a67cfa26c44c39aa8bcdc67875ef1-20220620
 Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
  mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1635342494; Mon, 20 Jun 2022 20:10:31 +0800
+ with ESMTP id 1529064574; Mon, 20 Jun 2022 20:10:31 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
  mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 20 Jun 2022 20:10:29 +0800
+ 15.2.792.15; Mon, 20 Jun 2022 20:10:30 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Mon, 20 Jun 2022 20:10:29 +0800
+ 15.2.792.3 via Frontend Transport; Mon, 20 Jun 2022 20:10:30 +0800
 From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <daniel@ffwll.ch>,
  <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
  <matthias.bgg@gmail.com>, <airlied@linux.ie>
-Subject: [PATCH v12 01/14] dt-bindings: mediatek,dpi: Add DP_INTF compatible
-Date: Mon, 20 Jun 2022 20:10:15 +0800
-Message-ID: <20220620121028.29234-2-rex-bc.chen@mediatek.com>
+Subject: [PATCH v12 02/14] drm/mediatek: dpi: Add support for quantization
+ range
+Date: Mon, 20 Jun 2022 20:10:16 +0800
+Message-ID: <20220620121028.29234-3-rex-bc.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220620121028.29234-1-rex-bc.chen@mediatek.com>
 References: <20220620121028.29234-1-rex-bc.chen@mediatek.com>
@@ -68,69 +69,85 @@ Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Markus Schneider-Pargmann <msp@baylibre.com>
+For RGB colorimetry, CTA-861 support both limited and full range data
+when receiving video with RGB color space.
+We use drm_default_rgb_quant_range() to determine the correct setting.
 
-DP_INTF is similar to DPI but does not have the exact same feature set
-or register layouts.
-
-DP_INTF is the sink of the display pipeline that is connected to the
-DisplayPort controller and encoder unit. It takes the same clocks as
-DPI.
-
-In this patch, we also do these string replacement:
-- s/mediatek/MediaTek/ in title.
-- s/Mediatek/MediaTek/ in description.
-
-Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-[Bo-Chen: Modify reviewers' comments.]
 Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 ---
- .../bindings/display/mediatek/mediatek,dpi.yaml       | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 34 ++++++++++++++++++------------
+ 1 file changed, 21 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-index 77ee1b923991..d72f74632038 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-@@ -4,16 +4,16 @@
- $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index e61cd67b978f..21ad5623b568 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -235,16 +235,30 @@ static void mtk_dpi_config_fb_size(struct mtk_dpi *dpi, u32 width, u32 height)
+ 	mtk_dpi_mask(dpi, DPI_SIZE, height << VSIZE, VSIZE_MASK);
+ }
  
--title: mediatek DPI Controller Device Tree Bindings
-+title: MediaTek DPI and DP_INTF Controller
+-static void mtk_dpi_config_channel_limit(struct mtk_dpi *dpi,
+-					 struct mtk_dpi_yc_limit *limit)
++static void mtk_dpi_config_channel_limit(struct mtk_dpi *dpi)
+ {
+-	mtk_dpi_mask(dpi, DPI_Y_LIMIT, limit->y_bottom << Y_LIMINT_BOT,
++	struct mtk_dpi_yc_limit limit;
++
++	if (drm_default_rgb_quant_range(&dpi->mode) ==
++	    HDMI_QUANTIZATION_RANGE_LIMITED) {
++		limit.y_bottom = 0x10;
++		limit.y_top = 0xfe0;
++		limit.c_bottom = 0x10;
++		limit.c_top = 0xfe0;
++	} else {
++		limit.y_bottom = 0;
++		limit.y_top = 0xfff;
++		limit.c_bottom = 0;
++		limit.c_top = 0xfff;
++	}
++
++	mtk_dpi_mask(dpi, DPI_Y_LIMIT, limit.y_bottom << Y_LIMINT_BOT,
+ 		     Y_LIMINT_BOT_MASK);
+-	mtk_dpi_mask(dpi, DPI_Y_LIMIT, limit->y_top << Y_LIMINT_TOP,
++	mtk_dpi_mask(dpi, DPI_Y_LIMIT, limit.y_top << Y_LIMINT_TOP,
+ 		     Y_LIMINT_TOP_MASK);
+-	mtk_dpi_mask(dpi, DPI_C_LIMIT, limit->c_bottom << C_LIMIT_BOT,
++	mtk_dpi_mask(dpi, DPI_C_LIMIT, limit.c_bottom << C_LIMIT_BOT,
+ 		     C_LIMIT_BOT_MASK);
+-	mtk_dpi_mask(dpi, DPI_C_LIMIT, limit->c_top << C_LIMIT_TOP,
++	mtk_dpi_mask(dpi, DPI_C_LIMIT, limit.c_top << C_LIMIT_TOP,
+ 		     C_LIMIT_TOP_MASK);
+ }
  
- maintainers:
-   - CK Hu <ck.hu@mediatek.com>
-   - Jitao shi <jitao.shi@mediatek.com>
+@@ -449,7 +463,6 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+ 				    struct drm_display_mode *mode)
+ {
+-	struct mtk_dpi_yc_limit limit;
+ 	struct mtk_dpi_polarities dpi_pol;
+ 	struct mtk_dpi_sync_param hsync;
+ 	struct mtk_dpi_sync_param vsync_lodd = { 0 };
+@@ -484,11 +497,6 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+ 	dev_dbg(dpi->dev, "Got  PLL %lu Hz, pixel clock %lu Hz\n",
+ 		pll_rate, vm.pixelclock);
  
- description: |
--  The Mediatek DPI function block is a sink of the display subsystem and
--  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
--  output bus.
-+  The MediaTek DPI and DP_INTF function blocks are a sink of the display
-+  subsystem and provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a
-+  parallel output bus.
+-	limit.c_bottom = 0x0010;
+-	limit.c_top = 0x0FE0;
+-	limit.y_bottom = 0x0010;
+-	limit.y_top = 0x0FE0;
+-
+ 	dpi_pol.ck_pol = MTK_DPI_POLARITY_FALLING;
+ 	dpi_pol.de_pol = MTK_DPI_POLARITY_RISING;
+ 	dpi_pol.hsync_pol = vm.flags & DISPLAY_FLAGS_HSYNC_HIGH ?
+@@ -536,7 +544,7 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
+ 	else
+ 		mtk_dpi_config_fb_size(dpi, vm.hactive, vm.vactive);
  
- properties:
-   compatible:
-@@ -24,6 +24,7 @@ properties:
-       - mediatek,mt8183-dpi
-       - mediatek,mt8186-dpi
-       - mediatek,mt8192-dpi
-+      - mediatek,mt8195-dp_intf
- 
-   reg:
-     maxItems: 1
-@@ -55,7 +56,7 @@ properties:
-     $ref: /schemas/graph.yaml#/properties/port
-     description:
-       Output port node. This port should be connected to the input port of an
--      attached HDMI or LVDS encoder chip.
-+      attached HDMI, LVDS or DisplayPort encoder chip.
- 
- required:
-   - compatible
+-	mtk_dpi_config_channel_limit(dpi, &limit);
++	mtk_dpi_config_channel_limit(dpi);
+ 	mtk_dpi_config_bit_num(dpi, dpi->bit_num);
+ 	mtk_dpi_config_channel_swap(dpi, dpi->channel_swap);
+ 	mtk_dpi_config_yc_map(dpi, dpi->yc_map);
 -- 
 2.18.0
 
