@@ -2,100 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6825510FF
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 09:08:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B21551005
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 08:02:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67DD310E8C6;
-	Mon, 20 Jun 2022 07:08:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE0D91131B5;
+	Mon, 20 Jun 2022 06:02:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
- Mon, 20 Jun 2022 00:32:54 UTC
-Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A9BD10E8DA
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 00:32:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1655685173; x=1687221173;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=H0ulQrMBtA6pu622Zq7Ff/HeEgzOhbo0ZUSX4iWBZhA=;
- b=QxOD5MdsMxinKn1wF8OWjYLwFNITLHFI128CuRywSPBw8LiAe/JHdqQa
- vAkRIlnLXiuQz65xBu2C2B3VCyJ5qRBtqhGABDGm5V8Q1q1+gXJL9b+b+
- umHEnCLCd/Tn5b1A3C2E0cpsQ6OUj6xy5Y0WF9QqsUeOFl2jI08VO+l54
- kyksSPfyGJHr+44IpbFvgw3xMnsXiYOELBEn7D0iG5M0iVTSDYxjfShK9
- WYuNIdygcX4eOTqBRR8R9SFhA7xGxxz0r40zfs0200u4cLwkoRwZquJ0f
- hkMQNZXI9VOAbZapgQuHU0xF1SQzRht0M5CK/UdhfGym/YMRcNt4AGr3f w==;
-X-IronPort-AV: E=Sophos;i="5.92,306,1650902400"; d="scan'208";a="202279305"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2022 08:25:47 +0800
-IronPort-SDR: su1W6eCGr6iUAusY5rW2zeOdotjgV4qxLG1u8/es/jZHctfE5K7eFakw+i9rVrj8QNpI41vO0J
- Uj1c3lXGFAT+3YMStq3O/mbJWdTAJmapaFrDFTOzF6m0HFuo2JHk3boKvg+TbuPapc0dXXgtF4
- E+0rNNhbxdv0i3NNqD0g9Fe7/TWB+16dcMVf/1rdiLkC+j7VqrT39+CAEj4ZhVlrXEkxyMujee
- JWjZbfmy74yr1jb2UodFjmgTBJuZqXVYrgeRYF9QM5L37xv5Lb2Oy2gY1ufrIBnG3glIzrjOFT
- 4LZEhqi7Q3kryuR5FhditJYI
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jun 2022 16:48:19 -0700
-IronPort-SDR: rTPuXKDLVO5WbyjloGxQDgJnOyk4aaJQr+Jomt1Exkxi/t6S6bo7TRXyfhMpxtK+SzY5fOfMNL
- NXe5rlFYDz0K1115TalIVuuxURVjU+w8xTGfKEaYm3KFTxdkQHeaRMvmA/RduKTm7r2gjgqI/4
- LHSQIv+QV2ZPFBeSOjbbYShtkg7ADH5xDgUumtkCHSA5I7sjTlnCxPRdPGf1i2rwsf3smjfWdc
- 4OzwNPtRkvfar/5Cw5Ej5XDUbTwpmBOZkWNJ6dVdwDLkyimNL4ONliHWkRIX8f5RIlS8yg1TUl
- SMI=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jun 2022 17:25:47 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LR9RG3SM1z1SVp7
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Jun 2022 17:25:46 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :in-reply-to:organization:from:references:to:content-language
- :subject:user-agent:mime-version:date:message-id; s=dkim; t=
- 1655684745; x=1658276746; bh=H0ulQrMBtA6pu622Zq7Ff/HeEgzOhbo0ZUS
- X4iWBZhA=; b=jiZLlvSxMCZ6FyKEwxTD9KC+yR9WRhcg+KBamtfquRBI7vS8pGJ
- mBX0zoQMpTkJaMFFdVJnj3t13KHqhbLZ0wxv4yH09WD5zap1Onl7UiZRRPdtTT8q
- lRpIKFHnIHS6ATDMIB1EBmgVvIKlGPRbTBmO5z1aEaR53EnGopmn8GW5MfYpr+wV
- dW8obWKceDCrsqysJgrYGk90jld2x82pjjO7GVot8iccx/JpoOjI3x1vD3Avo5Tq
- 8Z0iZwu+SbCnAqDIHlTu4eXzBK/+zo527aefCY9ZzO+FsC511gbTaO4E5/c48io7
- 0JzIK6++acSKredsKoDjpGQoBzQrwNc1phQ==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026)
- with ESMTP id wVkaensQ7dfh for <dri-devel@lists.freedesktop.org>;
- Sun, 19 Jun 2022 17:25:45 -0700 (PDT)
-Received: from [10.225.163.87] (unknown [10.225.163.87])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LR9R75cZsz1Rvlc;
- Sun, 19 Jun 2022 17:25:39 -0700 (PDT)
-Message-ID: <891cf74c-ac0a-b380-1d5f-dd7ce5aeda9d@opensource.wdc.com>
-Date: Mon, 20 Jun 2022 09:25:38 +0900
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B1E61131B8;
+ Mon, 20 Jun 2022 06:02:10 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-31780ad7535so63329487b3.8; 
+ Sun, 19 Jun 2022 23:02:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Xe3VeJwBL8Ebq+C8acPsdxpGtpDiQ/HFobU5cBrv3WU=;
+ b=JGXEQN+I0XIHQ+X5Mcx0dO6wWlI7vTAu58RHk2tfY9oeE1RryAubJGzZLv3yuLijUw
+ gydtnS0hDUSBpq9r3SsmFRmxKwivL+qEqqG4AeasEJPgKwGUW5ncwS8hDuaBe1by6iLC
+ 4shKZoFhI0TDayMYjRURjmXduC89qZioy71wZUHaVlgavAIG9rFEBATExIyE2a7s/Lc/
+ gNmY5EcMGCyLhl0+wKhutdbW2QJ5Poc9OGfm3v+PoOows2woHUi1qoC2FO9C8S35db6d
+ p9G1eS85wqQTc2cRC0ho7twEyZvjDUtmTk7i+PE8vZwGGFv/J/4SsrlLus365LDRYX6v
+ rN2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Xe3VeJwBL8Ebq+C8acPsdxpGtpDiQ/HFobU5cBrv3WU=;
+ b=FyqSiPCL3XmQs48qco4oaDnw8DRgpF8gQQfxnbwJPQ9ukoJLGvAqDMCIvsl0B7aDf5
+ VGFgjIDTB3Sdu9lpFwGFswff1F1y5xMInpcoSIRKy0fXgBTbcMJoD9JAdsQY+8XrmdV+
+ PP8vqyhc3foHHNB9QieeUrVlqopEmrmOB/hHwN1E1IOp15jyVtKuHM4EAP665P6fG105
+ gr0+GLU/r0xsbcQHX8ajd+3v4B0PVDvzgAkOl9A955037XW+SdLs+SJfgK/cOYha55m3
+ SfUz5F2WTRuhoWg+k1quNzq47o7e78XbDFiHwjp+HoJ7UY/LXlmofzgp3JyjDNcw29zI
+ wBuw==
+X-Gm-Message-State: AJIora8CabvXBQV9e7K+nv2SoGlfzNx/W1HDDsA/nsaWdmJCYrG7xegc
+ 8atm1Ad9Brj1ySTQi//Q/qfq8bF0eszJ+eqKNe8=
+X-Google-Smtp-Source: AGRyM1tzeukUE0eoUNLmKpkTD0UfGuNi9OAgJD/BPDmnsr6lE4pkLipEhHJgaDKCB2nZwNfM9ZoCJ1FPCdi+Kl69/hM=
+X-Received: by 2002:a0d:f8c6:0:b0:2fe:ca9c:f937 with SMTP id
+ i189-20020a0df8c6000000b002feca9cf937mr25655114ywf.62.1655704929245; Sun, 19
+ Jun 2022 23:02:09 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 07/14] riscv: dts: canaan: fix the k210's memory node
-Content-Language: en-US
-To: Conor.Dooley@microchip.com, mail@conchuod.ie, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- thierry.reding@gmail.com, sam@ravnborg.org, Eugeniy.Paltsev@synopsys.com,
- vkoul@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
- fancer.lancer@gmail.com, daniel.lezcano@linaro.org, palmer@dabbelt.com,
- palmer@rivosinc.com
-References: <20220618123035.563070-1-mail@conchuod.ie>
- <20220618123035.563070-8-mail@conchuod.ie>
- <9cd60b3b-44fe-62ac-9874-80ae2223d078@opensource.wdc.com>
- <e1fbf363-d057-1000-a846-3df524801f15@microchip.com>
-From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <e1fbf363-d057-1000-a846-3df524801f15@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Mon, 20 Jun 2022 07:08:14 +0000
+References: <20220531200041.24904-1-alex.sierra@amd.com>
+ <20220531200041.24904-2-alex.sierra@amd.com>
+ <3ac89358-2ce0-7d0d-8b9c-8b0e5cc48945@redhat.com>
+ <02ed2cb7-3ad3-8ffc-6032-04ae1853e234@amd.com>
+ <CAFCwf11z5Q+2FPS1yPi6EwQuRqoJg_dLB-rYgtVwP-zQEdqjQQ@mail.gmail.com>
+ <87bkuo898d.fsf@nvdebian.thelocal>
+In-Reply-To: <87bkuo898d.fsf@nvdebian.thelocal>
+From: Oded Gabbay <oded.gabbay@gmail.com>
+Date: Mon, 20 Jun 2022 09:01:42 +0300
+Message-ID: <CAFCwf11Lru4rHJ93gkCTMqfsWZ8Hcug4z=_t7B=G07bo7zsaFw@mail.gmail.com>
+Subject: Re: [PATCH v5 01/13] mm: add zone device coherent type memory support
+To: Alistair Popple <apopple@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,73 +68,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: niklas.cassel@wdc.com, alsa-devel@alsa-project.org, aou@eecs.berkeley.edu,
- devicetree@vger.kernel.org, masahiroy@kernel.org, linux-kernel@vger.kernel.org,
- jee.heng.sia@intel.com, linux-spi@vger.kernel.org, joabreu@synopsys.com,
- geert@linux-m68k.org, dri-devel@lists.freedesktop.org,
- paul.walmsley@sifive.com, dmaengine@vger.kernel.org, tglx@linutronix.de,
- dillon.minfei@gmail.com, linux-riscv@lists.infradead.org
+Cc: "Sierra Guiza, Alejandro \(Alex\)" <alex.sierra@amd.com>,
+ rcampbell@nvidia.com,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ David Hildenbrand <david@redhat.com>, "Kuehling,
+ Felix" <Felix.Kuehling@amd.com>, Matthew Wilcox <willy@infradead.org>,
+ linux-xfs@vger.kernel.org, linux-mm <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-ext4@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/20/22 08:54, Conor.Dooley@microchip.com wrote:
-> On 20/06/2022 00:38, Damien Le Moal wrote:
->> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
->>
->> On 6/18/22 21:30, Conor Dooley wrote:
->>> From: Conor Dooley <conor.dooley@microchip.com>
->>>
->>> The k210 memory node has a compatible string that does not match with
->>> any driver or dt-binding & has several non standard properties.
->>> Replace the reg names with a comment and delete the rest.
->>>
->>> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
->>> ---
->>> ---
->>>  arch/riscv/boot/dts/canaan/k210.dtsi | 6 ------
->>>  1 file changed, 6 deletions(-)
->>>
->>> diff --git a/arch/riscv/boot/dts/canaan/k210.dtsi b/arch/riscv/boot/dts/canaan/k210.dtsi
->>> index 44d338514761..287ea6eebe47 100644
->>> --- a/arch/riscv/boot/dts/canaan/k210.dtsi
->>> +++ b/arch/riscv/boot/dts/canaan/k210.dtsi
->>> @@ -69,15 +69,9 @@ cpu1_intc: interrupt-controller {
->>>
->>>       sram: memory@80000000 {
->>>               device_type = "memory";
->>> -             compatible = "canaan,k210-sram";
->>>               reg = <0x80000000 0x400000>,
->>>                     <0x80400000 0x200000>,
->>>                     <0x80600000 0x200000>;
->>> -             reg-names = "sram0", "sram1", "aisram";
->>> -             clocks = <&sysclk K210_CLK_SRAM0>,
->>> -                      <&sysclk K210_CLK_SRAM1>,
->>> -                      <&sysclk K210_CLK_AI>;
->>> -             clock-names = "sram0", "sram1", "aisram";
->>>       };
->>
->> These are used by u-boot to setup the memory clocks and initialize the
->> aisram. Sure the kernel actually does not use this, but to be in sync with
->> u-boot DT, I would prefer keeping this as is. Right now, u-boot *and* the
->> kernel work fine with both u-boot internal DT and the kernel DT.
-> 
-> Right, but unfortunately that desire alone doesn't do anything about
-> the dtbs_check complaints.
-> 
-> I guess the alternative approach of actually documenting the compatible
-> would be more palatable?
+On Mon, Jun 20, 2022 at 3:33 AM Alistair Popple <apopple@nvidia.com> wrote:
+>
+>
+> Oded Gabbay <oded.gabbay@gmail.com> writes:
+>
+> > On Fri, Jun 17, 2022 at 8:20 PM Sierra Guiza, Alejandro (Alex)
+> > <alex.sierra@amd.com> wrote:
+> >>
+> >>
+> >> On 6/17/2022 4:40 AM, David Hildenbrand wrote:
+> >> > On 31.05.22 22:00, Alex Sierra wrote:
+> >> >> Device memory that is cache coherent from device and CPU point of view.
+> >> >> This is used on platforms that have an advanced system bus (like CAPI
+> >> >> or CXL). Any page of a process can be migrated to such memory. However,
+> >> >> no one should be allowed to pin such memory so that it can always be
+> >> >> evicted.
+> >> >>
+> >> >> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+> >> >> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+> >> >> Reviewed-by: Alistair Popple <apopple@nvidia.com>
+> >> >> [hch: rebased ontop of the refcount changes,
+> >> >>        removed is_dev_private_or_coherent_page]
+> >> >> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> >> >> ---
+> >> >>   include/linux/memremap.h | 19 +++++++++++++++++++
+> >> >>   mm/memcontrol.c          |  7 ++++---
+> >> >>   mm/memory-failure.c      |  8 ++++++--
+> >> >>   mm/memremap.c            | 10 ++++++++++
+> >> >>   mm/migrate_device.c      | 16 +++++++---------
+> >> >>   mm/rmap.c                |  5 +++--
+> >> >>   6 files changed, 49 insertions(+), 16 deletions(-)
+> >> >>
+> >> >> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+> >> >> index 8af304f6b504..9f752ebed613 100644
+> >> >> --- a/include/linux/memremap.h
+> >> >> +++ b/include/linux/memremap.h
+> >> >> @@ -41,6 +41,13 @@ struct vmem_altmap {
+> >> >>    * A more complete discussion of unaddressable memory may be found in
+> >> >>    * include/linux/hmm.h and Documentation/vm/hmm.rst.
+> >> >>    *
+> >> >> + * MEMORY_DEVICE_COHERENT:
+> >> >> + * Device memory that is cache coherent from device and CPU point of view. This
+> >> >> + * is used on platforms that have an advanced system bus (like CAPI or CXL). A
+> >> >> + * driver can hotplug the device memory using ZONE_DEVICE and with that memory
+> >> >> + * type. Any page of a process can be migrated to such memory. However no one
+> >> > Any page might not be right, I'm pretty sure. ... just thinking about special pages
+> >> > like vdso, shared zeropage, ... pinned pages ...
+> >>
+> >> Hi David,
+> >>
+> >> Yes, I think you're right. This type does not cover all special pages.
+> >> I need to correct that on the cover letter.
+> >> Pinned pages are allowed as long as they're not long term pinned.
+> >>
+> >> Regards,
+> >> Alex Sierra
+> >
+> > What if I want to hotplug this device's coherent memory, but I do
+> > *not* want the OS
+> > to migrate any page to it ?
+> > I want to fully-control what resides on this memory, as I can consider
+> > this memory
+> > "expensive". i.e. I don't have a lot of it, I want to use it for
+> > specific purposes and
+> > I don't want the OS to start using it when there is some memory pressure in
+> > the system.
+>
+> This is exactly what MEMORY_DEVICE_COHERENT is for. Device coherent
+> pages are only allocated by a device driver and exposed to user-space by
+> a driver migrating pages to them with migrate_vma. The OS can't just
+> start using them due to memory pressure for example.
+>
+>  - Alistair
+Thanks for the explanation.
 
-Yes, I think so. That would allow keeping the fields without the DTB build
-warnings.
+I guess the commit message confused me a bit, especially these two sentences:
 
-> 
-> Thanks,
-> Conor.
-> 
-> 
-> 
+"Any page of a process can be migrated to such memory. However no one should be
+allowed to pin such memory so that it can always be evicted."
 
+I read them as if the OS is free to choose which pages are migrated to
+this memory,
+and anything is eligible for migration to that memory (and that's why
+we also don't
+allow it to pin memory there).
 
--- 
-Damien Le Moal
-Western Digital Research
+If we are not allowed to pin anything there, can the device driver
+decide to disable
+any option for oversubscription of this memory area ?
+
+Let's assume the user uses this memory area for doing p2p with other
+CXL devices.
+In that case, I wouldn't want the driver/OS to migrate pages in and
+out of that memory...
+
+So either I should let the user pin those pages, or prevent him from
+doing (accidently or not)
+oversubscription in this memory area.
+
+wdyt ?
+
+>
+> > Oded
+> >
+> >>
+> >> >
+> >> >> + * should be allowed to pin such memory so that it can always be evicted.
+> >> >> + *
+> >> >>    * MEMORY_DEVICE_FS_DAX:
+> >> >>    * Host memory that has similar access semantics as System RAM i.e. DMA
+> >> >>    * coherent and supports page pinning. In support of coordinating page
+> >> >> @@ -61,6 +68,7 @@ struct vmem_altmap {
+> >> >>   enum memory_type {
+> >> >>      /* 0 is reserved to catch uninitialized type fields */
+> >> >>      MEMORY_DEVICE_PRIVATE = 1,
+> >> >> +    MEMORY_DEVICE_COHERENT,
+> >> >>      MEMORY_DEVICE_FS_DAX,
+> >> >>      MEMORY_DEVICE_GENERIC,
+> >> >>      MEMORY_DEVICE_PCI_P2PDMA,
+> >> >> @@ -143,6 +151,17 @@ static inline bool folio_is_device_private(const struct folio *folio)
+> >> > In general, this LGTM, and it should be correct with PageAnonExclusive I think.
+> >> >
+> >> >
+> >> > However, where exactly is pinning forbidden?
+> >>
+> >> Long-term pinning is forbidden since it would interfere with the device
+> >> memory manager owning the
+> >> device-coherent pages (e.g. evictions in TTM). However, normal pinning
+> >> is allowed on this device type.
+> >>
+> >> Regards,
+> >> Alex Sierra
+> >>
+> >> >
