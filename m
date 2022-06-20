@@ -1,64 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B792551503
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 11:57:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABFE4551513
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 12:02:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAEDA10E6E6;
-	Mon, 20 Jun 2022 09:57:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08CB1113104;
+	Mon, 20 Jun 2022 10:02:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1FA10E6E6
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 09:57:35 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 61A3621B88;
- Mon, 20 Jun 2022 09:57:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1655719053; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YC2JVBdJAjfx3gHaZNlOufsJUq3L01oecLEhj3AZKzM=;
- b=GsrQOLHZOxfE1DfYRYf8A+VRCc+8yCsP2UXkSC92SSl4owEs/cRU+qbNQY5XHD1M0RqrVh
- CIhLe9XFQALL89WpweWVNoRghADZ4WZxEuUvUcu9nuutsKewodVUva0860TAzTKcVif1fn
- HsL3tixx08Ap9KXJ3oNykneZmBEuAeU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1655719053;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YC2JVBdJAjfx3gHaZNlOufsJUq3L01oecLEhj3AZKzM=;
- b=/VBA3grENnhucqQ0KnA0XcV2h+ktYvtSAvhmJr94+oCvyHvhkYuWEcwhMXY9mQndjVaH28
- fhKDr0swKSa8eNDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4E44B134CA;
- Mon, 20 Jun 2022 09:57:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id fUQZEo1EsGICUwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 20 Jun 2022 09:57:33 +0000
-Message-ID: <51f23c0b-8f90-129f-7ef4-e5b8f1e5484b@suse.de>
-Date: Mon, 20 Jun 2022 11:57:32 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDFAE113104
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 10:02:17 +0000 (UTC)
+Received: from [192.168.1.111] (91-158-154-79.elisa-laajakaista.fi
+ [91.158.154.79])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 24368883;
+ Mon, 20 Jun 2022 12:02:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1655719335;
+ bh=60p2CqtNr66jvuLK0BdcB2OQbzGSe2KUrAuZHRtXCrA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=bz5j/Es+f5ML3hisYSfAifn6RTIxoh9WZW6FEDR0mCI5tqN2MJ9IP1xofsmbRbLpT
+ VjYHLIZkKEVlByPil2uF9Q0rgZ4yfQO2zdgh/BdoTWycphhicLjRS90cKKBcYdQfvZ
+ 3srldnsIg7uMfTSGqzf9tsv0dL1sJrqlq2chh2Go=
+Message-ID: <042c77d5-7db1-fa09-4be4-74dbfa85b5e2@ideasonboard.com>
+Date: Mon, 20 Jun 2022 13:02:12 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: DRM FB interface does not sanitize len when mmap'ed
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2] drm/bridge: cdns-dsi: Add support for J721E wrapper
 Content-Language: en-US
-To: =?UTF-8?Q?Nuno_Gon=c3=a7alves?= <nunojpg@gmail.com>
-References: <CAEXMXLS9jD_gvPzZ4xBJ9wOY9sbJLDdLLpYOFk0Wt2s1RStv5w@mail.gmail.com>
- <9096beed-91e2-05d3-c5a0-fee9f65d972f@suse.de>
- <CAEXMXLRGFuQE=2SNaO8HUtc93RG__AbJ+i7RzgNER9wc1zcb7Q@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAEXMXLRGFuQE=2SNaO8HUtc93RG__AbJ+i7RzgNER9wc1zcb7Q@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------VXD0zISd2Kl8M9PJgADYFdNy"
+To: Rahul T R <r-ravikumar@ti.com>, dri-devel@lists.freedesktop.org
+References: <20220619140158.30881-1-r-ravikumar@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20220619140158.30881-1-r-ravikumar@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,62 +49,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: mparab@cadence.com, a-bhatia1@ti.com, jonas@kwiboo.se, airlied@linux.ie,
+ jpawar@cadence.com, narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ jernej.skrabec@gmail.com, robert.foss@linaro.org, andrzej.hajda@intel.com,
+ sjakhade@cadence.com, laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------VXD0zISd2Kl8M9PJgADYFdNy
-Content-Type: multipart/mixed; boundary="------------uAV5ghw0HtYZAAt26V4QP05t";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Nuno_Gon=c3=a7alves?= <nunojpg@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <51f23c0b-8f90-129f-7ef4-e5b8f1e5484b@suse.de>
-Subject: Re: DRM FB interface does not sanitize len when mmap'ed
-References: <CAEXMXLS9jD_gvPzZ4xBJ9wOY9sbJLDdLLpYOFk0Wt2s1RStv5w@mail.gmail.com>
- <9096beed-91e2-05d3-c5a0-fee9f65d972f@suse.de>
- <CAEXMXLRGFuQE=2SNaO8HUtc93RG__AbJ+i7RzgNER9wc1zcb7Q@mail.gmail.com>
-In-Reply-To: <CAEXMXLRGFuQE=2SNaO8HUtc93RG__AbJ+i7RzgNER9wc1zcb7Q@mail.gmail.com>
+Hi,
 
---------------uAV5ghw0HtYZAAt26V4QP05t
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 19/06/2022 17:01, Rahul T R wrote:
+> Add support for wrapper settings for DSI bridge on
+> j721e. Also set the DPI input to DPI0
+> 
+> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+> ---
 
-SGkNCg0KQW0gMjAuMDYuMjIgdW0gMDE6MDEgc2NocmllYiBOdW5vIEdvbsOnYWx2ZXM6DQo+
-IE9uIEZyaSwgSnVuIDE3LCAyMDIyIGF0IDEwOjI3IEFNIFRob21hcyBaaW1tZXJtYW5uIDx0
-emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToNCj4+IENvdWxkIHlvdSBwbGVhc2UgdHJ5IHRo
-ZSBhdHRhY2hlZCBwYXRjaD8gSXQncyBzaW1pbGFyIHRvIHlvdXIgc29sdXRpb24sDQo+PiBi
-dXQgY2xvc2VyIHRvIHRoZSBvcmlnaW5hbCBpbnRlbnRpb24gb2YgdGhlIGNvZGUuDQo+IA0K
-PiBXb3JrcyBmaW5lLg0KPiANCj4gVGVzdGVkLWJ5OiBOdW5vIEdvbsOnYWx2ZXMgPG51bm9q
-cGdAZ21haWwuY29tPg0KDQpUaGFua3MsIEknbGwgcG9zdCB0aGUgcGF0Y2ggdG8gdGhlIGxp
-c3QuDQoNCj4gDQo+IFRoYW5rcywNCj4gTnVubw0KDQotLSANClRob21hcyBaaW1tZXJtYW5u
-DQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBH
-ZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0K
-KEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rl
-dg0K
+Nack... This wouldn't work with some other SoC using CDNS DSI.
 
---------------uAV5ghw0HtYZAAt26V4QP05t--
+See cdns-mhdp8546 for an example of a bit more generic wrapper support.
 
---------------VXD0zISd2Kl8M9PJgADYFdNy
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKwRIwFAwAAAAAACgkQlh/E3EQov+B6
-QA//YCH1eXUZY+eGepgYKFgtqd1n3EZDJUVFpNapC57OIiZFzVPzECfsdDTLtx3agE+sYPnCo2hf
-3LlF8iOZZzbyjdZipuu5IfA2X3HkFCeMK3fYEK48kbiSX7So82DtX7CrA9y7AD5ziaDzi4M/rs7w
-rHydSR71Kl6XWt1ckzVEbSsmpoqjBmfLhG3FKHsq9hZqV/VtPW7EtbGu25+qakKHHpdRBwm66qRM
-1eB81dET/RV6LuY7ynpCNyT4rDRmKz87TF908RQMOg6V+KsyqiZ6DynNjsD2zF9SFhDGqMsq3Lbu
-9OWdY3I0BhMTTmOx6D9apI53AQWTNIfQoSqKV5ZDRnxOUhpswGqzNtyKJIkaFnjfKbJ+QjJngOA0
-OYs7pmbR+cRDBJCDJqnea3qV2nejprmLhCxsI8FrH6w6U3hdch3P0vHIUbI1IkcwCLwynSMetiKZ
-CFL5ApQx7jep0sG5vLN4GvCE92sLpenPYXB18kQAX37nzi9zJ8B+nSCGeN7z2TSG6uA1TW5IHXur
-2WoZPHHrvYY+qQj7dvZqI/bA6TP6ibeZ2acVzwXXVbB0NpvxPS8AK0Z0Nehlx+N3UevHHwstUdeQ
-xyG+/eRjC+0Xc4HtWgnJ9hZQ/U6NYHR5SncbzzsENKVMKNFpPjubuHiepp8mNpkYs96iX5OniRZY
-nRQ=
-=bavd
------END PGP SIGNATURE-----
-
---------------VXD0zISd2Kl8M9PJgADYFdNy--
+  Tomi
