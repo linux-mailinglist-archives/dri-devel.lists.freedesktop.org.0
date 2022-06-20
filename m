@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9043552668
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 23:31:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 174BD55266D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 23:31:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C98B410F3AC;
-	Mon, 20 Jun 2022 21:31:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECB9710F3C3;
+	Mon, 20 Jun 2022 21:31:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 942B010F3C1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 21:30:59 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id e4so13323087ljl.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 14:30:59 -0700 (PDT)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63B8F10F3AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 21:31:00 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id d19so13295180lji.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 14:31:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KxQru/kIx5leErNgRIi5Mc3A8Y9b5o3Piq6JrqiJA0s=;
- b=EZ1nXPPuV1GZaYGgUuLvJGT/4G2RR1s53lFwbP6WGgFj+hZn23H+Uqa0lplHwdM/Ul
- 5+K0JUagQRhJiDh25t/kilqcULv4OP5bjxo7K2JJltlq98ybspbIlVhEuVRkcYxq+JdJ
- jKiiAOmyXmtjrSdMskkzX35GELK5GUtOZcRIt/sz7kMel+9GLj8WaxSoITVmCLjmIHqL
- Qc31/r7O+XHTIafPSOkf9Z3IlaJkPx6dLvUguqQKZU5W3WjuQyfg0MKk0tkt/2uqeSfC
- 6C12v3X2TZfH+0D3c/vJcMwIK6W4QjKonHbyWszaHl8CX0C/Xh/aJbmkF07ieQJ8VAkD
- jkgw==
+ bh=RHmkNxA8N58V2GQi/PzXnfoaYwDjhD9ndI1UMR5NyGs=;
+ b=dd8ohYarDQSDHQ2O/Pv4EbMMg8fL2Nj64attWTLNouejam3O6K/eHIuL/B4sn8aW4R
+ STknjvL2uNFvN8EXC8s4vqvqrXZ05dS2rBXhEDzv38E6TIZh+2yNnkTsIn80Z7EG248w
+ NKsRyb/7UqemAO7tEHJvfAbF2vYogLL2Bz8gY1yntcuOBayw7pmmAgU6gOYIrFP8/s5I
+ jUPYZasHMmYkwLbjBl2FlmrxRN2iLz4217N4V9nXWV1/XfndnTxp6XxTGPE2eYL60AC4
+ mVH1tB/+PH3OLT/ftlc1d2NS/Wzet5WOScDt7eQOvOuBhCZM5RXLPcxTewOjnnbdQ/vL
+ 2RHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KxQru/kIx5leErNgRIi5Mc3A8Y9b5o3Piq6JrqiJA0s=;
- b=wjZLiUsmRIPV90NmO/vrpI9OqWlxEjjNY0UUu8BQcW0Ci6If2+qujGxiHLf12r6aRr
- Hhs1kBKaHzIyzjLPLK2aNENs9oPpvHznihQkktqvDwz1JESIlU0asVYCC/IaPftQow8t
- /ue7aExTsqsV8vlgv8L0Z6W190eB3/HBCxfwWeKdmJoZGpvHl23KrgyEXUtF8NxVUqFi
- A6wYIIzsccb0OIydrywfzFm+wHn88xdZ5Z5+Ubfufso/6C49jO+bUTtMto0pFRhM2dWk
- K+a4ux/6MQDCk7LDb3bRsZYcRz8MEetD42Fr9fVBoAm3gDcFzwpG2ilzH8nprAhyvTI5
- UveQ==
-X-Gm-Message-State: AJIora+swYHsb4pqRp0opL8N5Mpcb0sKO2DIERITmQAMnrkgTY+ZLSFF
- LAinzpYjba84Y+CSOr98dVuZ1Q==
-X-Google-Smtp-Source: AGRyM1u2hYv1JTVs7YNby3JsLTH+xSy6HatdVbQUk7oZotvOFzILbN2z/V/7OUDT7GK0uSjXxEgKHg==
-X-Received: by 2002:a2e:87c9:0:b0:255:7e94:d93b with SMTP id
- v9-20020a2e87c9000000b002557e94d93bmr12841460ljj.396.1655760657778; 
- Mon, 20 Jun 2022 14:30:57 -0700 (PDT)
+ bh=RHmkNxA8N58V2GQi/PzXnfoaYwDjhD9ndI1UMR5NyGs=;
+ b=alueMrOFcZD3JlNeLvOqXAbdPIi8TANw009K6sHpNt8+a6XFjctFYi09/vaDHfmuER
+ nfNRnvgSphVMRQvBVUqkY0XyeQfBc2p+TVlDtWSNu/lUdPCMw6tK45rzvU4pWskq/jQH
+ Zk4dG69z/s8o8SA1hRW2+OxsISoDW6bux1fPsm6b/lnHBzw+z8W8BjHcrbNixMLivJCu
+ xIIZetLo7EL3UWZhbGe0PWwqpFBLKvVn6VBkiuqnMaNavOIiGpJZlgD+9+Cyg8yTAgiH
+ q1x7PAV5BPtNwt+CxNbdWLPvYkEYwyh+TMOyR0YDrfTMGDR1EgFkCFpeW8oHGEIWEJrZ
+ 8IBw==
+X-Gm-Message-State: AJIora/z2AYxv3WrUHFR9LA4Gg3/5ssuIWG6IaBfCvRRs3+mJKTpjx14
+ roa4piDBwKHtwZpGVaF+L4BFRg==
+X-Google-Smtp-Source: AGRyM1sDW7gYoASLhORCVOKQB6DYQOjc1q+s1lQgC9qmGwhuvv6GTFvf2yplhlV9L1+DfA1t5pPTrg==
+X-Received: by 2002:a2e:8805:0:b0:255:6e73:9a67 with SMTP id
+ x5-20020a2e8805000000b002556e739a67mr12477444ljh.426.1655760658717; 
+ Mon, 20 Jun 2022 14:30:58 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- l17-20020a2ea311000000b0025a681a7616sm838866lje.105.2022.06.20.14.30.56
+ l17-20020a2ea311000000b0025a681a7616sm838866lje.105.2022.06.20.14.30.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 14:30:57 -0700 (PDT)
+ Mon, 20 Jun 2022 14:30:58 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v1 1/4] drm/msm/mdp5: stop overriding drvdata
-Date: Tue, 21 Jun 2022 00:30:51 +0300
-Message-Id: <20220620213054.1872954-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v1 2/4] drm/msm/dpu: move resource allocation to the _probe
+ function
+Date: Tue, 21 Jun 2022 00:30:52 +0300
+Message-Id: <20220620213054.1872954-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220620213054.1872954-1-dmitry.baryshkov@linaro.org>
 References: <20220620213054.1872954-1-dmitry.baryshkov@linaro.org>
@@ -75,95 +76,106 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The rest of the code expects that master's device drvdata is the
-struct msm_drm_private instance. Do not override the mdp5's drvdata.
+To let the probe function bail early if any of the resources is
+unavailable, move resource allocattion from kms_init directly to the
+probe callback. While we are at it, replace irq_of_parse_and_map() with
+platform_get_irq().
 
-Fixes: 6874f48bb8b0 ("drm/msm: make mdp5/dpu devices master components")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 62 +++++++++++++------------
+ 1 file changed, 32 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index c668a4b27cc6..daf5b5ca7233 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -203,7 +203,7 @@ static int mdp5_set_split_display(struct msm_kms *kms,
- 							  slave_encoder);
- }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index ae13a3a5d8a5..756be04d804b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1206,31 +1206,13 @@ static int dpu_kms_init(struct drm_device *ddev)
+ 	struct device *dev = ddev->dev;
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct dpu_kms *dpu_kms;
+-	int irq;
+ 	struct dev_pm_opp *opp;
+ 	int ret = 0;
+ 	unsigned long max_freq = ULONG_MAX;
  
--static void mdp5_destroy(struct platform_device *pdev);
-+static void mdp5_destroy(struct mdp5_kms *mdp5_kms);
- 
- static void mdp5_kms_destroy(struct msm_kms *kms)
- {
-@@ -223,7 +223,7 @@ static void mdp5_kms_destroy(struct msm_kms *kms)
- 	}
- 
- 	mdp_kms_destroy(&mdp5_kms->base);
--	mdp5_destroy(mdp5_kms->pdev);
-+	mdp5_destroy(mdp5_kms);
- }
- 
- #ifdef CONFIG_DEBUG_FS
-@@ -651,9 +651,8 @@ static int mdp5_kms_init(struct drm_device *dev)
- 	return ret;
- }
- 
--static void mdp5_destroy(struct platform_device *pdev)
-+static void mdp5_destroy(struct mdp5_kms *mdp5_kms)
- {
--	struct mdp5_kms *mdp5_kms = platform_get_drvdata(pdev);
- 	int i;
- 
- 	if (mdp5_kms->ctlm)
-@@ -667,7 +666,7 @@ static void mdp5_destroy(struct platform_device *pdev)
- 		kfree(mdp5_kms->intfs[i]);
- 
- 	if (mdp5_kms->rpm_enabled)
--		pm_runtime_disable(&pdev->dev);
-+		pm_runtime_disable(&mdp5_kms->pdev->dev);
- 
- 	drm_atomic_private_obj_fini(&mdp5_kms->glob_state);
- 	drm_modeset_lock_fini(&mdp5_kms->glob_state_lock);
-@@ -816,8 +815,6 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
- 		goto fail;
- 	}
- 
--	platform_set_drvdata(pdev, mdp5_kms);
+-	dpu_kms = devm_kzalloc(&pdev->dev, sizeof(*dpu_kms), GFP_KERNEL);
++	dpu_kms = to_dpu_kms(priv->kms);
+ 	if (!dpu_kms)
+-		return -ENOMEM;
 -
- 	spin_lock_init(&mdp5_kms->resource_lock);
+-	ret = devm_pm_opp_set_clkname(dev, "core");
+-	if (ret)
+-		return ret;
+-	/* OPP table is optional */
+-	ret = devm_pm_opp_of_add_table(dev);
+-	if (ret && ret != -ENODEV) {
+-		dev_err(dev, "invalid OPP table in device tree\n");
+-		return ret;
+-	}
+-
+-	ret = devm_clk_bulk_get_all(&pdev->dev, &dpu_kms->clocks);
+-	if (ret < 0) {
+-		DPU_ERROR("failed to parse clocks, ret=%d\n", ret);
+-		return ret;
+-	}
+-	dpu_kms->num_clocks = ret;
++		return -EINVAL;
  
- 	mdp5_kms->dev = dev;
-@@ -915,7 +912,7 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
+ 	opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
+ 	if (!IS_ERR(opp))
+@@ -1249,21 +1231,41 @@ static int dpu_kms_init(struct drm_device *ddev)
+ 	pm_runtime_enable(&pdev->dev);
+ 	dpu_kms->rpm_enabled = true;
+ 
+-	priv->kms = &dpu_kms->base;
+-
+-	irq = irq_of_parse_and_map(dpu_kms->pdev->dev.of_node, 0);
+-	if (!irq) {
+-		DPU_ERROR("failed to get irq\n");
+-		return -EINVAL;
+-	}
+-	dpu_kms->base.irq = irq;
+-
  	return 0;
- fail:
- 	if (mdp5_kms)
--		mdp5_destroy(pdev);
-+		mdp5_destroy(mdp5_kms);
- 	return ret;
  }
  
-@@ -975,7 +972,8 @@ static int mdp5_dev_remove(struct platform_device *pdev)
- static __maybe_unused int mdp5_runtime_suspend(struct device *dev)
+ static int dpu_dev_probe(struct platform_device *pdev)
  {
- 	struct platform_device *pdev = to_platform_device(dev);
--	struct mdp5_kms *mdp5_kms = platform_get_drvdata(pdev);
-+	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-+	struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
+-	return msm_drv_probe(&pdev->dev, dpu_kms_init, NULL);
++	struct device *dev = &pdev->dev;
++	struct dpu_kms *dpu_kms;
++	int irq;
++	int ret = 0;
++
++	dpu_kms = devm_kzalloc(dev, sizeof(*dpu_kms), GFP_KERNEL);
++	if (!dpu_kms)
++		return -ENOMEM;
++
++	ret = devm_pm_opp_set_clkname(dev, "core");
++	if (ret)
++		return ret;
++	/* OPP table is optional */
++	ret = devm_pm_opp_of_add_table(dev);
++	if (ret && ret != -ENODEV)
++		return dev_err_probe(dev, ret, "invalid OPP table in device tree\n");
++
++	ret = devm_clk_bulk_get_all(&pdev->dev, &dpu_kms->clocks);
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "failed to parse clocks\n");
++
++	dpu_kms->num_clocks = ret;
++
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0)
++		return dev_err_probe(dev, irq, "failed to get irq\n");
++
++	dpu_kms->base.irq = irq;
++
++	return msm_drv_probe(&pdev->dev, dpu_kms_init, &dpu_kms->base);
+ }
  
- 	DBG("");
- 
-@@ -985,7 +983,8 @@ static __maybe_unused int mdp5_runtime_suspend(struct device *dev)
- static __maybe_unused int mdp5_runtime_resume(struct device *dev)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
--	struct mdp5_kms *mdp5_kms = platform_get_drvdata(pdev);
-+	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-+	struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(priv->kms));
- 
- 	DBG("");
- 
+ static int dpu_dev_remove(struct platform_device *pdev)
 -- 
 2.35.1
 
