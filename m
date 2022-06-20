@@ -1,62 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F06E5523A4
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 20:13:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 223135523AB
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 20:16:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F74A10F0E1;
-	Mon, 20 Jun 2022 18:13:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8547710ED3A;
+	Mon, 20 Jun 2022 18:16:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 988A210F06F
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 18:13:39 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- c130-20020a1c3588000000b0039c6fd897b4so8152783wma.4
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 11:13:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=T+Bp4C6tHNEGnt3nH/cIgRCgYn49Fk+PkAiYN+Dhmk4=;
- b=Zejyg6E+FHLKxRKdaEVHf2AZnDX7ypJREPoEvt3q1fFl3poi2cMzNceoS2L5xfLnPb
- Hj+R732naG47N54mKP5MQpsSSUdgqOafOLptTfNnpGpubW05/fVMDbTQV+sMTeE5+PGP
- G1PtclC9DqxT26xSkM2/3RaxOLmFefPV37XUIQua/iSphifY21dvtzrbnCUZpiXg0N2n
- XHXPevhVP0+l851iCLc4EkMrnfLnwki+2xj71hWiMdp2ZVSD9hEm9rzWNJpCO9T6G8hu
- 5SHb0+fboJV+3XgJVsDIf3OWHEYhAcr8JYttvJwxKMLyTDOEH0o0B+KvQ5EYF5l9zpIf
- 8uQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=T+Bp4C6tHNEGnt3nH/cIgRCgYn49Fk+PkAiYN+Dhmk4=;
- b=F+fo3J4tLehU1j32FXVKECjefou+agfGMSuTb+2iG2oFRMBAS3SMo3ieNS5Uu98wbX
- suk2Z7V900yUMZJjPpmH0sbVxAHkoq+CfMYaBxZlaf3PbJDQ+oXGGINFmhuw2FlzH4XS
- jCXeIr7b7QDXM9lghgUwYXGDt2Q4L027ZtvTb5MZDstjgrPqvfRDwbYDdo+aqtuKrT23
- 62LacTMoOHDb1eak5eA6QLQ4qf6c3DSauitUURQesaHfNvFHwDVxB3dEner+aPLZY+i5
- 6uiUVFOodvTq62ff80Bk0FsCPOVcighvgYxvv56TEEKCoEesiqWZmin7HAjacvPBjTmm
- Pjjg==
-X-Gm-Message-State: AJIora/qWsf7zkndqNep7xHyiAG2kuTgebZdAzH3bRF0M7PiU0cgBlhX
- qJHUJMa9tJxXmis4I+2HsEM=
-X-Google-Smtp-Source: AGRyM1uI4F8cjHPAFAwOIFBOoZgwystK4qPSTCHz/P/WvlP3vbn23eKdbUXeK8JyCxxGaxVhOGfXAw==
-X-Received: by 2002:a7b:c389:0:b0:39c:49fe:25df with SMTP id
- s9-20020a7bc389000000b0039c49fe25dfmr25474259wmj.164.1655748818130; 
- Mon, 20 Jun 2022 11:13:38 -0700 (PDT)
-Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net.
- [213.161.3.76]) by smtp.gmail.com with ESMTPSA id
- k20-20020adfc714000000b002103aebe8absm14006977wrg.93.2022.06.20.11.13.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 11:13:37 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org
-Subject: [PATCH v2] drm/sun4i: Add DMA mask and segment size
-Date: Mon, 20 Jun 2022 20:13:33 +0200
-Message-Id: <20220620181333.650301-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.36.1
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AEBF10ED3A
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 18:16:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1655748957;
+ bh=IRsReQcPvKjGuOiWZ/naJXtB5sl9AWyUBgzpYTxhbu4=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=MpChZBAWOnKxGAjsdfSCjFh/gS+GTAFDKiwYXwYJAlHPLUPaZG6FHf3igR/s9RvC0
+ JmkGFg2SzjQNrBff06GdWIu9DFQjbxDT6i9M3n5t3dgNSZTHH+rxsTE6i07afeLq0p
+ KPBapCFQaZDQpD1B14JLAelnUzGIrkOc/6PhXWx0=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.174.149]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N5VDE-1nbB703cd8-016vo0; Mon, 20
+ Jun 2022 20:15:56 +0200
+Message-ID: <4bf0f587-e03f-60bb-806d-383cdab8f67a@gmx.de>
+Date: Mon, 20 Jun 2022 20:15:32 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/4] video: fbdev: offb: Include missing
+ linux/platform_device.h
+Content-Language: en-US
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ manoj@linux.ibm.com, mrochs@linux.ibm.com, ukrishn@linux.ibm.com,
+ jejb@linux.ibm.com, martin.petersen@oracle.com, tzimmermann@suse.de
+References: <a1dfa936043eeed715e8cda7f8690fe553ba7c1a.1654966253.git.christophe.leroy@csgroup.eu>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <a1dfa936043eeed715e8cda7f8690fe553ba7c1a.1654966253.git.christophe.leroy@csgroup.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:oJ9D9uGth3QBUylu+JFhLcVTIwUeAyZlFlYU4v/OPaS0ZpMihid
+ tFsd2Tanp1YkXXsADmZD7gloGpa+E8c77bFVGDTOIbSoHVGGXqjDnhlG9X2kTmyAlcnkiUl
+ YaAKGLHLr/7Cwe1Lwdry13RBpDCqRwRDdC+6HA3J7Kwgih+MFmqOSJeeQQotfiAjelWovxP
+ NrTUJ0YmY4qRCYYTkWkIA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3vwy0K/BsAQ=:mVmzG3FTCEVF3YJX5VmLFq
+ Kbv0n9xBZ6oUg98dEQxL4XTvzFNHHEGeN3hcL6indwAgqvhjioXSbhbKWULn00ypejKFc1iXd
+ JOslbeYH6NjU8rKb0MOlREPzpm3pqldRQiGRb/oOkVvf11r6NeKbHvT5Ae49+2NT5r5gXGpRS
+ eWlFFRvp/ZrxeWFs85bNA241DQbVyAEWidEJXm9VoLHEx9iEm+G/Je3W1TvgHUJEyE9cxZ3NX
+ 3zLLLHjPv0Llp5WKUlkxtPMVqsOwMRF9lA96B0oPljvv/u0yfM7BJEoasOA+b60Wt9c6QVX37
+ QhuQNtCKZD38TlS5W3KzUCz2HqFl8hSFaZx1qpL3mjJlcqlvvc234e7nparz+irI/oyK9dcWM
+ ZetxeGVX79OIMe8HkkKVu1XZTHU0KwCdMHLgMo5XX4JflfFMifb1v1V2G+oO666w7H20jAend
+ I8p7k78nHtJNJ+7pf/3fUF28i0tNq6gzXwFVffQzK7lmML9K/dfQJJ+uL4nt4yo3ba52/awdR
+ yH8ge1cIV9TSL4D9wyXN02o1d++3z57DXeW/qZXGzve0MQyhLWLafNsa9jvpzAK85hcXwzaNl
+ ieRnoqKRsknQDnbVwPPoIALxDUhUYu0kwIZC+nsX6CiTxjRfBKeDH0/WWuUjG1JQzu2kBcJ09
+ bdiuWvYdpgDF+bute0DrVmYipy4qLrBo+1xsP5SVLeZYa4LgQvPTFbz2PfOsulplzlYxeZ4/Y
+ hlW2ILy5JIyow4X1B5T4uryx4ZAPsJuWVlsD31x6HqOLtqkc49D2nYiIaCN8yN5iO76fdtsHh
+ SuZ7lMlmo3UmIVLzhh8dy/TJvIJ91eW+jhA3hwV6fqnIpzTuuaXiNvozdUzfeSdws/2kfanWx
+ k8Rc6XE8UTjCH/8nv8IR4kBcd+W3aTJCTXY/ocolP5FuGgw/RJAuLetxI+lpCtU1es/cJmgIi
+ i/duuVuvcwrWKTHqLJNNTizAP8Cpm9VTyZlmn0C+FpT0vu3CAFMtFSshelmvdS5OKdxI/C+00
+ Gnv4LClT5oFI0QNeO8MI6jnR51W6lHXSXswDav1aKaHZwiAzNIlYuAzEsKrhho5aJ5t2IdziY
+ 62A5GzemI0vJpp5H5uncv1hbDRM7FWxSZquInJjY6wCVwRD8+5eLTsdoA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,93 +75,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: samuel@sholland.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-scsi@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kernel occasionally complains that there is mismatch in segment size
-when trying to render HW decoded videos and rendering them directly with
-sun4i DRM driver. Following message can be observed on H6 SoC:
+On 6/11/22 18:50, Christophe Leroy wrote:
+> A lot of drivers were getting platform and of headers
+> indirectly via headers like asm/pci.h or asm/prom.h
+>
+> Most of them were fixed during 5.19 cycle but a newissue was
+> introduced by commit 52b1b46c39ae ("of: Create platform devices
+> for OF framebuffers")
+>
+> Include missing platform_device.h to allow cleaning asm/pci.h
+>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 52b1b46c39ae ("of: Create platform devices for OF framebuffers")
+> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 
-[  184.298308] ------------[ cut here ]------------
-[  184.298326] DMA-API: sun4i-drm display-engine: mapping sg segment longer than device claims to support [len=6144000] [max=65536]
-[  184.298364] WARNING: CPU: 1 PID: 382 at kernel/dma/debug.c:1162 debug_dma_map_sg+0x2b0/0x350
-[  184.322997] CPU: 1 PID: 382 Comm: ffmpeg Not tainted 5.19.0-rc1+ #1331
-[  184.329533] Hardware name: Tanix TX6 (DT)
-[  184.333544] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  184.340512] pc : debug_dma_map_sg+0x2b0/0x350
-[  184.344882] lr : debug_dma_map_sg+0x2b0/0x350
-[  184.349250] sp : ffff800009f33a50
-[  184.352567] x29: ffff800009f33a50 x28: 0000000000010000 x27: ffff000001b86c00
-[  184.359725] x26: ffffffffffffffff x25: ffff000005d8cc80 x24: 0000000000000000
-[  184.366879] x23: ffff80000939ab18 x22: 0000000000000001 x21: 0000000000000001
-[  184.374031] x20: 0000000000000000 x19: ffff0000018a7410 x18: ffffffffffffffff
-[  184.381186] x17: 0000000000000000 x16: 0000000000000000 x15: ffffffffffffffff
-[  184.388338] x14: 0000000000000001 x13: ffff800009534e86 x12: 6f70707573206f74
-[  184.395493] x11: 20736d69616c6320 x10: 000000000000000a x9 : 0000000000010000
-[  184.402647] x8 : ffff8000093b6d40 x7 : ffff800009f33850 x6 : 000000000000000c
-[  184.409800] x5 : ffff0000bf997940 x4 : 0000000000000000 x3 : 0000000000000027
-[  184.416953] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000003960e80
-[  184.424106] Call trace:
-[  184.426556]  debug_dma_map_sg+0x2b0/0x350
-[  184.430580]  __dma_map_sg_attrs+0xa0/0x110
-[  184.434687]  dma_map_sgtable+0x28/0x4c
-[  184.438447]  vb2_dc_dmabuf_ops_map+0x60/0xcc
-[  184.442729]  __map_dma_buf+0x2c/0xd4
-[  184.446321]  dma_buf_map_attachment+0xa0/0x130
-[  184.450777]  drm_gem_prime_import_dev+0x7c/0x18c
-[  184.455410]  drm_gem_prime_fd_to_handle+0x1b8/0x214
-[  184.460300]  drm_prime_fd_to_handle_ioctl+0x2c/0x40
-[  184.465190]  drm_ioctl_kernel+0xc4/0x174
-[  184.469123]  drm_ioctl+0x204/0x420
-[  184.472534]  __arm64_sys_ioctl+0xac/0xf0
-[  184.476474]  invoke_syscall+0x48/0x114
-[  184.480240]  el0_svc_common.constprop.0+0x44/0xec
-[  184.484956]  do_el0_svc+0x2c/0xc0
-[  184.488283]  el0_svc+0x2c/0x84
-[  184.491354]  el0t_64_sync_handler+0x11c/0x150
-[  184.495723]  el0t_64_sync+0x18c/0x190
-[  184.499397] ---[ end trace 0000000000000000 ]---
+Acked-by: Helge Deller <deller@gmx.de>
 
-Fix that by setting DMA mask and segment size.
+I assume you take this through the linuxppc git tree?
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
-Changes from v1:
-- added comment
-- updated commit message with kernel report
+Helge
 
- drivers/gpu/drm/sun4i/sun4i_drv.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index 275f7e4a03ae..f135a6b3cadb 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include <linux/component.h>
-+#include <linux/dma-mapping.h>
- #include <linux/kfifo.h>
- #include <linux/module.h>
- #include <linux/of_graph.h>
-@@ -367,6 +368,13 @@ static int sun4i_drv_probe(struct platform_device *pdev)
- 
- 	INIT_KFIFO(list.fifo);
- 
-+	/*
-+	 * DE2 and DE3 cores actually supports 40-bit addresses, but
-+	 * driver does not.
-+	 */
-+	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-+	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-+
- 	for (i = 0;; i++) {
- 		struct device_node *pipeline = of_parse_phandle(np,
- 								"allwinner,pipelines",
--- 
-2.36.1
+> ---
+>  drivers/video/fbdev/offb.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
+> index b1acb1ebebe9..91001990e351 100644
+> --- a/drivers/video/fbdev/offb.c
+> +++ b/drivers/video/fbdev/offb.c
+> @@ -26,6 +26,7 @@
+>  #include <linux/init.h>
+>  #include <linux/ioport.h>
+>  #include <linux/pci.h>
+> +#include <linux/platform_device.h>
+>  #include <asm/io.h>
+>
+>  #ifdef CONFIG_PPC32
 
