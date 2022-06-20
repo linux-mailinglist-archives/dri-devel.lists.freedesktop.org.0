@@ -1,76 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45881551396
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 11:01:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E8255140D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 11:18:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF8C10EF8E;
-	Mon, 20 Jun 2022 09:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A4C110FA12;
+	Mon, 20 Jun 2022 09:18:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 909C210EFE2;
- Mon, 20 Jun 2022 09:01:44 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id u12so19726079eja.8;
- Mon, 20 Jun 2022 02:01:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=l4g7hgXGp9fk9Vsp0jocY6AG6WmJOc+3JNJ2BanuciM=;
- b=TWD9JAgTO9vfwROFUV3B4LYddaWoV/Z5c3wFsFnSAhqmusfzkzmcViB8t7DmOYdfhq
- 9/uReKZSqmL+YrLMloThOdgVoCXHleSAd3RF7Y/4uWJbK9URFtXJMF2BZzjRmZKLjYkR
- 3DmU79hcyBE/DtkqjrFb6t8hE8jfa9DniIDkVJ90iR7dAIpyBPFnqOjsDwyjYRVas3Zr
- CrzbTuwLKWE7P77//sr9OV6g0zKGJPaPWPoyts7Yxe60TIKpy9eql8vFxGZoqB4aMfVa
- YNB/Cvkg3u2zeVH/7aa82z2WLHC3mCJFY6VnRcWYa4SKyMnedqJo63LLReruRy3RjPRZ
- uRSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=l4g7hgXGp9fk9Vsp0jocY6AG6WmJOc+3JNJ2BanuciM=;
- b=60UOwZKw8qVAoET1kmkjqZBFlFz20ihaWh2fwQF6Vi9L6mtzZIcnFF8IVZiLYChH8c
- 7bdhjUReF/1vjtzB7hyUWxLu5/ZVrGO1u4wFkXVOaGtcoYwZNyqGrIxcTfOKBaG/ZvFP
- gkSRHkvIhknJ7423lOpqPp87B/IcB9pcjwQiPEVbnwxzJ74tMi3XCLXG2iadtYLI+5Pq
- W41Lm/pWuMIwZvZpnewe8g0Dnx1c3f/b/x3eaejG5SOJPYi9feJBPTF+VMDjIO6fNQMF
- T4U/INJZ4U7o/uZAaMaMYPjHFfAckPw0Kc0HkulnrKZJ1qtDtrYQTa6dXcs+cSeu7V15
- 9bZA==
-X-Gm-Message-State: AJIora+JLCGRK9GpP1a4vTGUuxOFeQPOv2VkiISCWYMZ158adB1ohDNw
- w29NsjW6I5luuuWuonok8ts=
-X-Google-Smtp-Source: AGRyM1shucDB2dwuk7Pk6iMYOyKMB1vSt7YLmRsI8/v/gETlfPx8uGLjzcyMK4ntehvhSlOn4OVtXQ==
-X-Received: by 2002:a17:906:7007:b0:6ff:8028:42e with SMTP id
- n7-20020a170906700700b006ff8028042emr19051012ejj.278.1655715703001; 
- Mon, 20 Jun 2022 02:01:43 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:e5a1:82b6:1eac:d3ba?
- ([2a02:908:1256:79a0:e5a1:82b6:1eac:d3ba])
- by smtp.gmail.com with ESMTPSA id
- y11-20020a17090614cb00b00712057b037fsm5500958ejc.167.2022.06.20.02.01.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jun 2022 02:01:41 -0700 (PDT)
-Message-ID: <ef1d00d4-c3de-398a-9eac-7cb7a19cc360@gmail.com>
-Date: Mon, 20 Jun 2022 11:01:40 +0200
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 511D210F997
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 09:18:11 +0000 (UTC)
+X-UUID: 254f2bbf7de94a8a91e1b2b1b7b393e1-20220620
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6, REQID:692b71f7-1279-41b2-8ee9-b245c853f055, OB:30,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:95
+X-CID-INFO: VERSION:1.1.6, REQID:692b71f7-1279-41b2-8ee9-b245c853f055, OB:30,
+ LOB
+ :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,AC
+ TION:quarantine,TS:95
+X-CID-META: VersionHash:b14ad71, CLOUDID:7587ffe9-f7af-4e69-92ee-0fd74a0c286c,
+ C
+ OID:ae722546e24d,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 254f2bbf7de94a8a91e1b2b1b7b393e1-20220620
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1425728070; Mon, 20 Jun 2022 17:18:05 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Mon, 20 Jun 2022 17:18:03 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Mon, 20 Jun 2022 17:18:03 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Subject: [PATCH v23 00/10] Add MediaTek SoC(vdosys1) support for mt8195
+Date: Mon, 20 Jun 2022 17:17:51 +0800
+Message-ID: <20220620091801.27680-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: radeon driver warning
-Content-Language: en-US
-To: John Garry <john.garry@huawei.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <2850bbb9-a191-d723-f878-96482e7583cb@huawei.com>
- <afd3cf7b-7afd-1d86-0c24-b4b7101e4bd5@amd.com>
- <60a97869-fe1d-08cb-3241-91377d62b739@huawei.com>
- <7adf78ae-8f2d-e6bf-2054-fe61dfd4b21e@amd.com>
- <b481ffa8-451d-0a9c-e708-44047e0a8bc9@huawei.com>
- <7986913b-66a7-85b6-c563-392049e057fd@amd.com>
- <a7384d7d-fb33-6753-550e-d5b773d1aefe@huawei.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <a7384d7d-fb33-6753-550e-d5b773d1aefe@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,45 +62,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Nathan Chancellor <nathan@kernel.org>, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 17.06.22 um 16:22 schrieb John Garry:
-> Hi Christian,
->
->> Am 17.06.22 um 14:01 schrieb John Garry:
->>> On 17/06/2022 12:57, Christian König wrote:
->>>>>
->>>>> And/Or compile out the warning when "warnings = errors"?
->>>>
->>>> That should be doable I think.
->>>
->>> ok, if something can be done then I would appreciate it. I do much 
->>> randconfig builds as part of my upstream process and anything 
->>> breaking is a bit of a pain.
->>
->> I've just double checked the code and we have already wrapped the 
->> warning into "#ifndef CONFIG_COMPILE_TEST".
->
-> Yes
->
->>
->> So the question is why does your random config not set 
->> CONFIG_COMPILE_TEST?
->
-> My randconfig does not have CONFIG_COMPILE_TEST set - see attached. 
-> AFAIK randconfig does not always set CONFIG_COMPILE_TEST.
+The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
 
-Mhm, we could probably change the ifdef. But a random configuration 
-which doesn't sets CONFIG_COMPILE_TEST sounds like a bug to me as well.
+Add mmsys and mutex modules support by the patches below:
 
-Going to provide a patch for changing the ifdef, but not sure when I 
-will have time for that.
+Changes in v23:
+- separate[7] mmsys/mutex and drm patches into two series
 
-Regards,
-Christian.
+Changes in v22:
+- rebase to next-20220525
+- rebase to vdosys0 series v22
+- separate dts to a new patch
 
->
-> Thanks,
-> John
+Changes in v21:
+- fix reviewer comment
+  - fix rdma and ethdr binding doc and dts
+
+Changes in v20:
+- fix reviewer comment
+  - update mmsys update bit api name
+  - add mtk_mmsys_update_bits error message if lose gce property
+  - list all mt8195 vdosys1 reset bits
+
+Changes in v19:
+- fix reviewer comment
+  - separate mt8195 mmsys component to a new patch
+  - separate mt8195 vdo0 and vdo1 routing table
+  - separate mmsys_write_reg api to a new patch and simplify write reg code
+  - separate mmsys 64 bit reset to a new patch
+  - separate mtk-mutex dp_intf1 component to a new patch
+
+Changes in v18:
+- fix reviewer comment
+  - fix rdma binding doc
+  - fix ethdr binding doc
+  - refine mmsys config cmdq support
+  - refine merge reset control flow, get reset control in probe function
+  - add ethdr reset control error handling and remove dbg log
+- rebase to vdosys0 series v20 (ref [5])
+
+Changes in v17:
+- fix reviewer comment in v16
+  - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
+  - separate mmsys config API
+  - move mdp_rdma binding yaml
+- fix ovl adaptor pm runtime get sync timing issue
+- rebase to vdosys0 series v19 (ref [5])
+- rebase to [7] for modify vblank register change
+
+Changes in v16:
+- fix reviewer comment in v 15
+  - fix mtk_drm_ddp_comp.c alignment
+  - fix vdosys0 mmsys num before adding vdosys1 patch
+
+Changes in v15:
+- fix ethdr uppercase hex number in dts
+
+Changes in v14:
+- remove MTK_MMSYS 64 bit dependency
+- add ethdr.yaml back and fix dt_schema check fail
+
+Resend v13
+- add related maintainer in maillist
+
+Changes in v13:
+- fix reviewer comment in v12
+  - fix rdma dt-binding format
+  - fix dts node naming
+- fix 32 bit build error
+  - modify 64bit dependency for mtk-mmsys
+- rebase to vdosys0 series v16. (ref [5])
+
+Changes in v12:
+- fix reviewer comment in v11
+  - modify mbox index
+  - refine dma dev for ovl_adaptor sub driver
+
+Changes in v11:
+- remove ethdr vblank spin lock
+- refine ovl_adaptor print message
+
+Changes in v10:
+- refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
+- fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+
+Changes in v9:
+- rebase on kernel-5.16-rc1
+- rebase on vdosys0 series v13. (ref [5])
+- fix ovl_adaptor sub driver is brought up unintentionally
+- fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue 
+
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
+
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
+
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
+
+Changes in v5:
+- add mmsys reset controller reference.
+
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
+
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
+
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
+    20220112114724.1953-4-tinghan.shen@mediatek.com
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    20210615173233.26682-15-tinghan.shen@mediatek.com
+[3] arm64: dts: mt8195: add gce node
+    20220126090109.32143-1-jason-jh.lin@mediatek.com
+[4] [v2] arm64: dts: mt8195: add display node for vdosys0
+    20220225021535.2655-1-jason-jh.lin@mediatek.com
+[5] Add MediaTek SoC DRM (vdosys0) support for mt8195 - v22 series
+    20220526102126.19756-1-jason-jh.lin@mediatek.com
+[6] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+    20220407075726.17771-2-yong.wu@mediatek.com
+[7] Add MediaTek SoC DRM (vdosys1) support for mt8195
+    20220526110233.20080-1-nancy.lin@mediatek.com
+
+Nancy.Lin (10):
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  soc: mediatek: add mtk-mmsys ethdr and mdp_rdma components
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+  soc: mediatek: add mtk_mmsys_update_bits API
+  soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+  soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+    vdosys1
+  soc: mediatek: mmsys: add mmsys for support 64 reset bits
+  soc: mediatek: mmsys: add reset control for MT8195 vdosys1
+  soc: mediatek: add mtk-mutex component - dp_intf1
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+
+ drivers/soc/mediatek/mt8195-mmsys.h       | 146 ++++++++++++++++++++++
+ drivers/soc/mediatek/mtk-mmsys.c          | 134 +++++++++++++++-----
+ drivers/soc/mediatek/mtk-mmsys.h          |   1 +
+ drivers/soc/mediatek/mtk-mutex.c          |  37 ++++++
+ include/dt-bindings/reset/mt8195-resets.h |  45 +++++++
+ include/linux/soc/mediatek/mtk-mmsys.h    |  25 ++++
+ 6 files changed, 356 insertions(+), 32 deletions(-)
+
+-- 
+2.18.0
 
