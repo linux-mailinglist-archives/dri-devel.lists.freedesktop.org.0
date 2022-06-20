@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0D9552BD5
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:24:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CAD6552BCE
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:24:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2488510FC75;
-	Tue, 21 Jun 2022 07:24:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B34310F896;
+	Tue, 21 Jun 2022 07:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B8CF10F717;
- Mon, 20 Jun 2022 12:00:04 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id bo5so10028179pfb.4;
- Mon, 20 Jun 2022 05:00:04 -0700 (PDT)
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 705CE10E438
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 20:56:59 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id a11so4437516ljb.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 13:56:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nWm1HuDYDniRiWG4QbCIzu8XBm9RdL4rAmU7DmwMgag=;
- b=TnIQURtTcrz69rPQXxoFw4lPoL3YiTafG5VwGyzk+3OCP83UrfYIXmTwN7UxNx95i6
- QySrwShr8gukdDKU4OlOmFyGwmdSHjOHwX7e0mIe11cWlpBVO+ER99SQtBLEOrMVncZV
- jhsmEH3K9UQetdyyI1m7Ba9uN+dSo0QryEfenw/Vc2BmFt1OeMNcOIXd9Hh/oxs/Z8/t
- D9UldAxzoDHts1avlU8ogeIZHMTSNqvD+2lGHA/lSaby28kr6uvBTfaw7zg6jzSnBXvl
- IkXbxW9rImeluyyzPWltydnA+FvIvJQf/2HIwDqNDXCaqcQmXEczVs442/Na328Kljcm
- X7Jg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=I1q6whSBjY67mrzgmnGkRh2MNzKa13E3jo+SVBhTEQg=;
+ b=XqDUXO3E0jN9GQ9iGhmoxij0PahkYfXP61nSCTKCx/fvSoFpRgDWoLiqAgCUJw1PnX
+ GdUgZ6dYoT0Uit7ykMaMR28omMbZ7gDLoi3NlWPpOtwarIrAKYFsFwlDEOerY9w8oIh9
+ rbNjhalyLNI+e+pBOTtZlMUNIOGbQPKrYkgGGE49HLjM86guD1yX+eIVXs28qYEpQbEL
+ 6u9TJxb58aw5NaSuOkvrVJyyneGqycdZCp/nKqOuDGx84SLdx3Jj79iGAZlYRrBgW6bm
+ FIeQBMEkq8FhjglPxtSJNnSUrVC7AertpkEpoopILkV/YW/Fu3kY37aS2zC50BoszzoE
+ 3eOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nWm1HuDYDniRiWG4QbCIzu8XBm9RdL4rAmU7DmwMgag=;
- b=h3XwKj5GlUAonz4Qa0h5D+6P5k0Q7Q53GhAphpcYRn/x3gEYsK353qGF12U3dBZjrP
- SJNXPNzHvYB+Z5BdF3gKntv34FLL1miZDaKGSEu2NHNZSDdI7LZzhed4dWd/khr8QVI0
- u8W5O56+CYwHZbg5FJKX/kxPFS4LhuFf11l3uav+CbigsB3jZWSQZne4DU1NR9d7glMg
- pruFeAmOU1WvBe2Vk3IBiAh4ytHtRHKkLPwIb4KEw0vh9kHsEV21WgtWreN4Irr5yQWv
- 7tfB428clmb2A55XclSMfjHVQhS6vLjcjDCpZG+PGzIvguscDsmKb6Gg7Xr2kspINtDn
- ANqA==
-X-Gm-Message-State: AJIora+90EXAXUWE9vz/3jOGVc27rzL9gSvwJL5ejnfr2ztnzTTYAWiN
- gFEadWZ31IVX4BEPvTvPxiZW5d1S+aMpkBex
-X-Google-Smtp-Source: AGRyM1sZxtJChIafkQ//v0PvExkGTbn6NttZ0yNG8QxVW/Qp2Qb6OeR0R5t3Dvq5fb2otXRJhSTbZA==
-X-Received: by 2002:aa7:814b:0:b0:525:1ada:329b with SMTP id
- d11-20020aa7814b000000b005251ada329bmr8360890pfn.34.1655726403372; 
- Mon, 20 Jun 2022 05:00:03 -0700 (PDT)
-Received: from localhost.localdomain ([43.132.141.8])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=I1q6whSBjY67mrzgmnGkRh2MNzKa13E3jo+SVBhTEQg=;
+ b=VU0kXZbhIcdXVsYB9dhCvjRPcOIrGtE7BN4YsGv1wKFCV5jAikKBjUezsb1YNJ+Gfa
+ MT7eLOCQAbzNKIMBGfBCRBcMbX+OGxYwRkwIBnCybuztW/rHX8cbXXPlqh03Mx5bX9zj
+ HHZiB78KrJTnb4CcHKU8OLuAOPxMM/16DwpHdFzyCHdurBtOyAeXOvQrERabpkADvTTb
+ E/y7KhkPpq+UsknWP1ncMTbyUmSFbD0tCMhGlk2T/L7MQLHvCc0at7cgwKZ6R9YkxRw3
+ R1V81jiWkbWG4XX9CzTdgxaaIfRIU70ghTZswRWv4JmcGAlJ3H6uC12reJd1BcV+rFuD
+ bzKA==
+X-Gm-Message-State: AJIora8iaZkaicejIXh9rcy8RSBNZlWThYlvAOIrlNYVutjwr3JA8IAR
+ Af+Vzh7GxwyOkywfio1gwLs=
+X-Google-Smtp-Source: AGRyM1to9l7DPfbxuwJzqkPzvrt6m3YRq/lqE+tbkd+LRqyrjxLhnrSzMA6Azd9ZVxOZ5l1LL1DhCQ==
+X-Received: by 2002:a05:651c:2107:b0:255:beb0:9969 with SMTP id
+ a7-20020a05651c210700b00255beb09969mr12785405ljq.157.1655758617786; 
+ Mon, 20 Jun 2022 13:56:57 -0700 (PDT)
+Received: from mobilestation ([95.79.189.214])
  by smtp.gmail.com with ESMTPSA id
- w26-20020a62c71a000000b0051bbd79fc9csm8853516pfg.57.2022.06.20.05.00.00
+ i17-20020ac25b51000000b004778632bff6sm1893799lfp.59.2022.06.20.13.56.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 05:00:03 -0700 (PDT)
-From: zys.zljxml@gmail.com
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: [PATCH v2] drm/i915/gem: add missing else
-Date: Mon, 20 Jun 2022 19:59:53 +0800
-Message-Id: <20220620115953.1875309-1-zys.zljxml@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ Mon, 20 Jun 2022 13:56:57 -0700 (PDT)
+Date: Mon, 20 Jun 2022 23:56:54 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Conor Dooley <mail@conchuod.ie>
+Subject: Re: [PATCH 06/14] spi: dt-bindings: dw-apb-ssi: update
+ spi-{r,t}x-bus-width for dwc-ssi
+Message-ID: <20220620205654.g7fyipwytbww5757@mobilestation>
+References: <20220618123035.563070-1-mail@conchuod.ie>
+ <20220618123035.563070-7-mail@conchuod.ie>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220618123035.563070-7-mail@conchuod.ie>
 X-Mailman-Approved-At: Tue, 21 Jun 2022 07:24:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,41 +72,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bob.beckett@collabora.com, thomas.hellstrom@linux.intel.com,
- katrinzhou <katrinzhou@tencent.com>, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- linux-kernel@vger.kernel.org, matthew.auld@intel.com, kernel@collabora.com
+Cc: Niklas Cassel <niklas.cassel@wdc.com>, alsa-devel@alsa-project.org,
+ David Airlie <airlied@linux.ie>, Palmer Dabbelt <palmer@rivosinc.com>,
+ linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-riscv@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Jose Abreu <joabreu@synopsys.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, devicetree@vger.kernel.org,
+ Albert Ou <aou@eecs.berkeley.edu>, Mark Brown <broonie@kernel.org>,
+ dri-devel@lists.freedesktop.org, Paul Walmsley <paul.walmsley@sifive.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Dillon Min <dillon.minfei@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Heng Sia <jee.heng.sia@intel.com>,
+ linux-spi@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ dmaengine@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: katrinzhou <katrinzhou@tencent.com>
+On Sat, Jun 18, 2022 at 01:30:28PM +0100, Conor Dooley wrote:
+> From: Conor Dooley <conor.dooley@microchip.com>
+> 
+> snps,dwc-ssi-1.01a has a single user - the Canaan k210, which uses a
+> width of 4 for spi-{r,t}x-bus-width. Update the binding to reflect
+> this.
+> 
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+>  .../bindings/spi/snps,dw-apb-ssi.yaml         | 48 ++++++++++++++-----
+>  1 file changed, 35 insertions(+), 13 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
+> index e25d44c218f2..f2b9e3f062cd 100644
+> --- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
+> +++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
+> @@ -135,19 +135,41 @@ properties:
+>        of the designware controller, and the upper limit is also subject to
+>        controller configuration.
+>  
+> -patternProperties:
+> -  "^.*@[0-9a-f]+$":
+> -    type: object
+> -    properties:
+> -      reg:
+> -        minimum: 0
+> -        maximum: 3
+> -
+> -      spi-rx-bus-width:
+> -        const: 1
+> -
+> -      spi-tx-bus-width:
+> -        const: 1
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        const: snps,dwc-ssi-1.01a
+> +
+> +then:
+> +  patternProperties:
+> +    "^.*@[0-9a-f]+$":
+> +      type: object
+> +      properties:
+> +        reg:
+> +          minimum: 0
+> +          maximum: 3
+> +
+> +        spi-rx-bus-width:
+> +          const: 4
+> +
+> +        spi-tx-bus-width:
+> +          const: 4
+> +
+> +else:
+> +  patternProperties:
+> +    "^.*@[0-9a-f]+$":
+> +      type: object
+> +      properties:
+> +        reg:
+> +          minimum: 0
+> +          maximum: 3
+> +
+> +        spi-rx-bus-width:
+> +          const: 1
+> +
+> +        spi-tx-bus-width:
+> +          const: 1
 
-Add missing else in set_proto_ctx_param() to fix coverity issue.
+You can just use a more relaxed constraint "enum: [1 2 4 8]" here
+irrespective from the compatible string. The modern DW APB SSI
+controllers of v.4.* and newer also support the enhanced SPI Modes too
+(Dual, Quad and Octal). Since the IP-core version is auto-detected at
+run-time there is no way to create a DT-schema correctly constraining
+the Rx/Tx SPI bus widths. So let's keep the
+compatible-string-independent "patternProperties" here but just extend
+the set of acceptable "spi-rx-bus-width" and "spi-tx-bus-width"
+properties values.
 
-Addresses-Coverity: ("Unused value")
-Fixes: d4433c7600f7 ("drm/i915/gem: Use the proto-context to handle create parameters (v5)")
-Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Signed-off-by: katrinzhou <katrinzhou@tencent.com>
----
-Update from v1:
-Fixed the code logic as suggested by Tvrtko Ursulin.
+Note the DW APB SSI/AHB SSI driver currently doesn't support the
+enhanced SPI modes. So I am not sure whether the multi-lines Rx/Tx SPI
+bus indeed works for Canaan K210 AHB SSI controller. AFAICS from the
+DW APB SSI v4.01a manual the Enhanced SPI mode needs to be properly
+activated by means of the corresponding CSR. So most likely the DW AHB
+SSI controllers need some specific setups too.
 
- drivers/gpu/drm/i915/gem/i915_gem_context.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+-Sergey
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index ab4c5ab28e4d..1099a383e55a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -933,7 +933,8 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
- 	case I915_CONTEXT_PARAM_PERSISTENCE:
- 		if (args->size)
- 			ret = -EINVAL;
--		ret = proto_context_set_persistence(fpriv->dev_priv, pc,
-+		else
-+			ret = proto_context_set_persistence(fpriv->dev_priv, pc,
- 						    args->value);
- 		break;
- 
--- 
-2.27.0
-
+>  
+>  unevaluatedProperties: false
+>  
+> -- 
+> 2.36.1
+> 
