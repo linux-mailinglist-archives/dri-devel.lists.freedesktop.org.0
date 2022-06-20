@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F170C551170
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 09:25:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2C0551171
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 09:25:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F07A10E298;
-	Mon, 20 Jun 2022 07:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5D5610E486;
+	Mon, 20 Jun 2022 07:25:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9EBD10E298
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 07:25:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DAF310E486
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 07:25:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655709905; x=1687245905;
+ t=1655709909; x=1687245909;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=S+x7hi2yNkWdeidWxcBSFnym6Pw1epCC2UE9VqGnbjs=;
- b=gYfw36hUYP/ESQ2k37LZ9rQQf4eLJa6MxeUB+xNoZyGUxvJI5Tf591nk
- XSemY1k+Io4zEGVyxKcVSvt2GEY87mrUVUXGEhjybEM6CUkexehxFJVVK
- igvYpQL1217nukjQ7rsi3/iaCrkJK9bc7MDiqgdLnkoEil3mB5cnU9lNW
- 7k8ZrK/zOS7wrMASGmj1uNrugjJZ1G0xnMF75gyxnEzZI2gYdZT1v4jTv
- yMSVrR535QueZ54RVjDBGmO+9dUe9otdtAUqpd0BkjCBZCRysLMcAwQb2
- M5jEGlv0s06n7cA1NYz/5/x60ysQeLFd+auSGbPlnfwEi5o4J+cSNNpdz Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="268545339"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="268545339"
+ bh=Z4Xo6ZdoUUDIxZO2KZ+KCvXOI2y6hS1HxcCiJO4WM7U=;
+ b=TxZdNapG6Q+RwlpRToY2W7mnMMqnOT6aqh3l4oX5OFRhDJ8cmvT4RzxJ
+ ajYmSnT+Db90OkUTjq/gAXrrETP3ZSkoaFZT7mvNGTT9hxkCrO2OtvPua
+ i+yYY5NIk857/wJfH71aYE4LerD7zAN/2q9ntsUGpBHKPYvTJI/8MhF1F
+ RqsHn10ZYePhImg7bsGRWhvQnXTT8BUuSthIvHP3mT+xZGd0GGzBB9vMJ
+ JlfwRI9kwiwrpblmGOQQSvWHX92IdR1h7vW8AyjokPdE0iir/xhLihQKQ
+ 2tRG5+UONDNMQ1IEVBaAUf/fy6CWR2opf5algZhBRFkYM4ZutZe9qkz7r g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="268545346"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="268545346"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2022 00:25:05 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="642986800"
+ 20 Jun 2022 00:25:09 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="642986889"
 Received: from gpetrea-mobl1.ger.corp.intel.com (HELO
  jhogande-mobl1.ger.corp.intel.com) ([10.249.41.172])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2022 00:25:02 -0700
+ 20 Jun 2022 00:25:06 -0700
 From: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/4] drm/amdgpu_dm: Rely on split out luminance calculation
- function
-Date: Mon, 20 Jun 2022 10:20:18 +0300
-Message-Id: <20220620072019.2710652-4-jouni.hogander@intel.com>
+Subject: [PATCH v2 4/4] drm/i915: Use luminance range calculated during edid
+ parsing
+Date: Mon, 20 Jun 2022 10:20:19 +0300
+Message-Id: <20220620072019.2710652-5-jouni.hogander@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220620072019.2710652-1-jouni.hogander@intel.com>
 References: <20220620072019.2710652-1-jouni.hogander@intel.com>
@@ -59,96 +59,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
- Manasi Navare <manasi.d.navare@intel.com>, Mika Kahola <mika.kahola@intel.com>,
- =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
+Cc: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, Manasi Navare <manasi.d.navare@intel.com>,
+ Mika Kahola <mika.kahola@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Luminance range calculation was split out into drm_edid.c and is now
-part of edid parsing. Rely on values calculated during edid parsing and
-use these for caps->aux_max_input_signal and caps->aux_min_input_signal.
+Instead of using fixed 0 - 512 range use luminance range calculated
+as a part of edid parsing. As a backup fall back to static 0 - 512.
 
 v2: Use values calculated during edid parsing
 
-Cc: Roman Li <roman.li@amd.com>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
 Cc: Lyude Paul <lyude@redhat.com>
 Cc: Mika Kahola <mika.kahola@intel.com>
 Cc: Jani Nikula <jani.nikula@intel.com>
 Cc: Manasi Navare <manasi.d.navare@intel.com>
 Signed-off-by: Jouni Högander <jouni.hogander@intel.com>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 35 +++----------------
- 1 file changed, 4 insertions(+), 31 deletions(-)
+ .../drm/i915/display/intel_dp_aux_backlight.c   | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 428bb041f92c..896a6b5eb2ed 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2813,15 +2813,12 @@ static struct drm_mode_config_helper_funcs amdgpu_dm_mode_config_helperfuncs = {
- 
- static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+index c92d5bb2326a..b2666bd67701 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+@@ -276,8 +276,11 @@ intel_dp_aux_hdr_disable_backlight(const struct drm_connector_state *conn_state,
+ static int
+ intel_dp_aux_hdr_setup_backlight(struct intel_connector *connector, enum pipe pipe)
  {
--	u32 max_avg, min_cll, max, min, q, r;
- 	struct amdgpu_dm_backlight_caps *caps;
- 	struct amdgpu_display_manager *dm;
- 	struct drm_connector *conn_base;
- 	struct amdgpu_device *adev;
- 	struct dc_link *link = NULL;
--	static const u8 pre_computed_values[] = {
--		50, 51, 52, 53, 55, 56, 57, 58, 59, 61, 62, 63, 65, 66, 68, 69,
--		71, 72, 74, 75, 77, 79, 81, 82, 84, 86, 88, 90, 92, 94, 96, 98};
-+	struct drm_luminance_range_info *luminance_range;
- 	int i;
+-	struct drm_i915_private *i915 = to_i915(connector->base.dev);
++	struct drm_connector *conn_base = &connector->base;
++	struct drm_i915_private *i915 = to_i915(conn_base->dev);
+ 	struct intel_panel *panel = &connector->panel;
++	struct drm_luminance_range_info *luminance_range =
++		&conn_base->display_info.luminance_range;
+ 	int ret;
  
- 	if (!aconnector || !aconnector->dc_link)
-@@ -2843,8 +2840,6 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
- 	caps = &dm->backlight_caps[i];
- 	caps->ext_caps = &aconnector->dc_link->dpcd_sink_ext_caps;
- 	caps->aux_support = false;
--	max_avg = conn_base->hdr_sink_metadata.hdmi_type1.max_fall;
--	min_cll = conn_base->hdr_sink_metadata.hdmi_type1.min_cll;
+ 	if (panel->backlight.edp.intel.sdr_uses_aux) {
+@@ -293,8 +296,16 @@ intel_dp_aux_hdr_setup_backlight(struct intel_connector *connector, enum pipe pi
+ 		}
+ 	}
  
- 	if (caps->ext_caps->bits.oled == 1 /*||
- 	    caps->ext_caps->bits.sdr_aux_backlight_control == 1 ||
-@@ -2856,31 +2851,9 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
- 	else if (amdgpu_backlight == 1)
- 		caps->aux_support = true;
+-	panel->backlight.max = 512;
+-	panel->backlight.min = 0;
++	if (!luminance_range->max_luminance) {
++		panel->backlight.max = 512;
++		panel->backlight.min = 0;
++	} else {
++		panel->backlight.max = luminance_range->max_luminance;
++		panel->backlight.min = luminance_range->min_luminance;
++	}
++
++	drm_dbg(&i915->drm, "Using range %d..%d\n", panel->backlight.min, panel->backlight.max);
++
+ 	panel->backlight.level = intel_dp_aux_hdr_get_backlight(connector, pipe);
+ 	panel->backlight.enabled = panel->backlight.level != 0;
  
--	/* From the specification (CTA-861-G), for calculating the maximum
--	 * luminance we need to use:
--	 *	Luminance = 50*2**(CV/32)
--	 * Where CV is a one-byte value.
--	 * For calculating this expression we may need float point precision;
--	 * to avoid this complexity level, we take advantage that CV is divided
--	 * by a constant. From the Euclids division algorithm, we know that CV
--	 * can be written as: CV = 32*q + r. Next, we replace CV in the
--	 * Luminance expression and get 50*(2**q)*(2**(r/32)), hence we just
--	 * need to pre-compute the value of r/32. For pre-computing the values
--	 * We just used the following Ruby line:
--	 *	(0...32).each {|cv| puts (50*2**(cv/32.0)).round}
--	 * The results of the above expressions can be verified at
--	 * pre_computed_values.
--	 */
--	q = max_avg >> 5;
--	r = max_avg % 32;
--	max = (1 << q) * pre_computed_values[r];
--
--	// min luminance: maxLum * (CV/255)^2 / 100
--	q = DIV_ROUND_CLOSEST(min_cll, 255);
--	min = max * DIV_ROUND_CLOSEST((q * q), 100);
--
--	caps->aux_max_input_signal = max;
--	caps->aux_min_input_signal = min;
-+	luminance_range = &conn_base->display_info.luminance_range;
-+	caps->aux_min_input_signal = luminance_range->min_luminance;
-+	caps->aux_max_input_signal = luminance_range->max_luminance;
- }
- 
- void amdgpu_dm_update_connector_after_detect(
 -- 
 2.25.1
 
