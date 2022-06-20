@@ -2,64 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A1D551D90
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 16:25:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19FE1551F0B
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 16:39:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E17910E1F7;
-	Mon, 20 Jun 2022 14:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE13510E071;
+	Mon, 20 Jun 2022 14:39:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33A8A10E194
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 14:25:40 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D4CF321B76;
- Mon, 20 Jun 2022 14:25:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1655735138; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/dVBdHezxTQ7D4mqTPvLhXptn4i8LCSJrKsc107CvWs=;
- b=pTF67kJcCTftyAxLRnS9JruxW4JFlUZHA0YWAeHLAoj5/gjGsgHV6NCO+Q9t5vHNUs2aDh
- cIMkKMIHQwotfFi2IkuJvsQlMp2nSZ87jS672G1zU0zBqR6GfNqxeZGa0kAG9GDl19bSBN
- eFC3W9YFriui0x8jM1ThElZhYXxwHCc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1655735138;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/dVBdHezxTQ7D4mqTPvLhXptn4i8LCSJrKsc107CvWs=;
- b=vEyrm3SCi5aq5ZwqFFfUqloVOl5G2LoL36ZrANQMSVHMO0UaVwGUTYLWaNMzqZbGlrXyku
- 6epT+w1I6ad9O2Ag==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B616A134CA;
- Mon, 20 Jun 2022 14:25:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id LNeIK2KDsGLgXgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 20 Jun 2022 14:25:38 +0000
-Message-ID: <92f5306c-3808-b140-4845-f744df4c92fc@suse.de>
-Date: Mon, 20 Jun 2022 16:25:38 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44E6D10E071
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 14:39:33 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id A3BB9320076F;
+ Mon, 20 Jun 2022 10:39:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 20 Jun 2022 10:39:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1655735971; x=1655822371; bh=0DVoyn1GEo
+ xg3S9g9a5wXlgHMWysIAhMxtkVHAEuIAQ=; b=eJlpA5airsBVAAuHV1nI+SRFY6
+ 4nOU2vCw8CKCkAozizEgsTKTcwI2hOSKzqxYvS+508oXpJVZLt3+OtZbZgZ3FQwV
+ LOnGI9hhBzB0Q2Z5NTn3wjS+CnUho2GCqXZuRlodjND/VYm1FvXyBWamDckag+Bt
+ nB5wAP8n17vrS/5pD4hKyKh/RGhFbBTn7Naj/sqHDVcPcRyhkVllvLbmLxjS/QHZ
+ RbQ4lJODTPtRk9UYczK/BFcDfLEh7/LM5BxvDAFpsn6okcnN49SuV86WyBwQ7Tdw
+ UUK/Ogn4TGA6PgWi/lmY+w+/avjNfqgysAnPOynpxxNkhyjTfjr5u+Mf+q+A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1655735971; x=1655822371; bh=0DVoyn1GEoxg3S9g9a5wXlgHMWys
+ IAhMxtkVHAEuIAQ=; b=agZiuBZwP22gx9miF1FVISPyD6i/YMWP5NeqcyxYmAaa
+ ZqndHjJYwxg0F1AkPcEzdA7fDUiFXAWRrOfnDJrl7UNMi0ruYCfYBobD8/bH5DdO
+ vlvXiKx6+hbs+LGOMt/l/quDd1ynjiJ2uzsbEUJJ+PQLt6fDWVXrtuD4QpfEmb3r
+ GGlAAyWVuaE4va65tTLBoPOGp0cPuAxIG/zndPZB25WbrcaRgU9ARNEh9Nho+1gE
+ 9D+Q8Luf3dbHC/5KTPvutbhXSorotxQK8g8VUjaRwknX0WG9d9C2lq4aUhroFJzx
+ qGlCCcvhAjVm796L15ALbE0ylxQ6BRfiW7usyNZzQA==
+X-ME-Sender: <xms:ooawYmkV93fy9RJj9ETPVh2GzumJDD_0I7xzmsiPyiupG-y9okUVSA>
+ <xme:ooawYt2PMiTbJCeGZI62MUS1MvgfdnYghTelaJtTy1jIAToycN4WF-cTsiONMIm8n
+ fi7mHP3FnXumdwIKkk>
+X-ME-Received: <xmr:ooawYkon5BPvY_iDD8eH5bYq4Jnpdj0al15BaNzg2tDoq6PgGd3lqhQCLc3de-UylpivftzienaLL4XlZBTtAi1Hhc46bv0Z10QqRGY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefuddgkedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:ooawYqmijByjbHRKsoDfvE2FZZ2N4OpPZKYq4NKSNblFoTYSldyCfg>
+ <xmx:ooawYk3cFECJeHS2TXbWhmNJC5o5cJF96-wjdXZ6hnzgCpMBWAivMQ>
+ <xmx:ooawYhuXsWTGlSPIBLk_KFGs3qoyDCFp3o2_8ZEeA0PBGhJGOQ7EAw>
+ <xmx:o4awYhylTcnFP2tJTK0jzymwUDzfrNEE405_aDOFU-R84lDo6oSovw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 20 Jun 2022 10:39:30 -0400 (EDT)
+Date: Mon, 20 Jun 2022 16:39:28 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH 09/64] drm/simple: Introduce drmm_simple_encoder_init
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
+Message-ID: <20220620143928.zbbaltwcah3rpkqh@houat>
 References: <20220610092924.754942-1-maxime@cerno.tech>
  <20220610092924.754942-10-maxime@cerno.tech>
  <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
  <20220620134823.oqjrbnlsce3erhum@houat>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220620134823.oqjrbnlsce3erhum@houat>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0Jzms13RcagS70lmoRrHsBTg"
+ <92f5306c-3808-b140-4845-f744df4c92fc@suse.de>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="bpl4zz5mvygbn5nu"
+Content-Disposition: inline
+In-Reply-To: <92f5306c-3808-b140-4845-f744df4c92fc@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,88 +91,88 @@ Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0Jzms13RcagS70lmoRrHsBTg
-Content-Type: multipart/mixed; boundary="------------3WcluQArQQlmX1ahphjgA0og";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Message-ID: <92f5306c-3808-b140-4845-f744df4c92fc@suse.de>
-Subject: Re: [PATCH 09/64] drm/simple: Introduce drmm_simple_encoder_init
-References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-10-maxime@cerno.tech>
- <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
- <20220620134823.oqjrbnlsce3erhum@houat>
-In-Reply-To: <20220620134823.oqjrbnlsce3erhum@houat>
 
---------------3WcluQArQQlmX1ahphjgA0og
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+--bpl4zz5mvygbn5nu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-SGkNCg0KQW0gMjAuMDYuMjIgdW0gMTU6NDggc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBI
-aSwNCj4gDQo+IE9uIE1vbiwgSnVuIDIwLCAyMDIyIGF0IDEyOjQ0OjI0UE0gKzAyMDAsIFRo
-b21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gQW0gMTAuMDYuMjIgdW0gMTE6Mjggc2Nocmll
-YiBNYXhpbWUgUmlwYXJkOg0KPj4+IFRoZSBEUk0tbWFuYWdlZCBmdW5jdGlvbiB0byByZWdp
-c3RlciBhbiBlbmNvZGVyIGlzDQo+Pj4gZHJtbV9zaW1wbGVfZW5jb2Rlcl9hbGxvYygpIGFu
-ZCBpdHMgdmFyaWFudHMsIHdoaWNoIHdpbGwgYWxsb2NhdGUgdGhlDQo+Pj4gdW5kZXJseWlu
-ZyBzdHJ1Y3R1cmUgYW5kIGluaXRpYWxpc2F0aW9uIHRoZSBlbmNvZGVyLg0KPj4+DQo+Pj4g
-SG93ZXZlciwgd2UgbWlnaHQgd2FudCB0byBzZXBhcmF0ZSB0aGUgc3RydWN0dXJlIGNyZWF0
-aW9uIGFuZCB0aGUgZW5jb2Rlcg0KPj4+IGluaXRpYWxpc2F0aW9uLCBmb3IgZXhhbXBsZSBp
-ZiB0aGUgc3RydWN0dXJlIGlzIHNoYXJlZCBhY3Jvc3MgbXVsdGlwbGUgRFJNDQo+Pj4gZW50
-aXRpZXMsIGZvciBleGFtcGxlIGFuIGVuY29kZXIgYW5kIGEgY29ubmVjdG9yLg0KPj4+DQo+
-Pj4gTGV0J3MgY3JlYXRlIGFuIGhlbHBlciB0byBvbmx5IGluaXRpYWxpc2UgYW4gZW5jb2Rl
-ciB0aGF0IHdvdWxkIGJlIHBhc3NlZA0KPj4+IGFzIGFuIGFyZ3VtZW50Lg0KPj4+DQo+Pg0K
-Pj4gVGhlcmUncyBub3RoaW5nIHdyb25nIHdpdGggdGhpcyBwYXRjaCwgYnV0IEkgaGF2ZSB0
-byBhZG1pdCB0aGF0IGFkZGluZw0KPj4gZHJtX3NpbXBsZV9lbmNvZGVyX2luaXQoKSBldCBh
-bCB3YXMgYSBtaXN0YWtlLg0KPiANCj4gV2h5IGRvIHlvdSB0aGluayBpdCB3YXMgYSBtaXN0
-YWtlPw0KDQpUaGUgc2ltcGxlLWVuY29kZXIgc3R1ZmYgaXMgYW4gaW50ZXJmYWNlIHRoYXQg
-bm8gb25lIHJlYWxseSBuZWVkcy4gDQpDb21wYXJlZCB0byBvcGVuLWNvZGluZyB0aGUgZnVu
-Y3Rpb24sIGl0J3MgYmFyZWx5IGFuIGltcHJvdmVtZW50IGluIA0KTE9DcywgYnV0IG5vdGhp
-bmcgZWxzZS4NCg0KQmFjayB3aGVuIEkgYWRkZWQgZHJtX3NpbXBsZV9lbmNvZGVyX2luaXQo
-KSwgSSB3YW50ZWQgdG8gc2ltcGxpZnkgdGhlIA0KbWFueSBkcml2ZXJzIHRoYXQgaW5pdGlh
-bGl6ZWQgdGhlIGVuY29kZXIgd2l0aCBhIGNsZWFudXAgY2FsbGJhY2sgYW5kIA0Kbm90aGlu
-ZyBlbHNlLiAgSUlSQyBpdCB3YXMgYW4gaW1wcm92ZW1lbnQgYmFjayB0aGVuLiAgQnV0IG5v
-dyB3ZSBhbHJlYWR5IA0KaGF2ZSBhIHJlbGF0ZWQgZHJtbV8gaGVscGVyIGFuZCBhIGRybW1f
-YWxsb2NfIGhlbHBlci4gSWYgSSBoYWQgb25seSANCmFkZGVkIHRoZSBtYWNybyBiYWNrIHRo
-ZW4sIHdlIGNvdWxkIHVzZSB0aGUgcmVndWxhciBlbmNvZGVyIGhlbHBlcnMuDQoNCj4gDQo+
-PiBJdCB3b3VsZCBoYXZlIGJlZW4gYmV0dGVyIHRvIGFkZCBhbiBpbml0aWFsaXplciBtYWNy
-byBsaWtlDQo+Pg0KPj4gI2RlZmluZSBEUk1fU1RBVElDX0VOQ09ERVJfREVGQVVMVF9GVU5D
-UyBcDQo+PiAgICAuZGVzdHJveSA9IGRybV9lbmNvZGVyX2NsZWFudXANCj4+DQo+PiBJdCdz
-IHdheSBtb3JlIGZsZXhpYmxlIGFuZCBzaW1pbGFybHkgZWFzeSB0byB1c2UuIEFueXdheS4u
-Lg0KPiANCj4gV2UgY2FuIHN0aWxsIGhhdmUgdGhpcy4gSXQgd291bGQgc2ltcGxpZnkgdGhp
-cyBzZXJpZXMgc28gSSBjb3VsZA0KPiBkZWZpbml0ZWx5IHNxdWVlemUgdGhhdCBwYXRjaCBp
-biBhbmQgYWRkIGEgVE9ETyBpdGVtIC8gZGVwcmVjYXRpb24NCj4gbm90aWNlIGZvciBzaW1w
-bGUgZW5jb2RlcnMgaWYgeW91IHRoaW5rIGl0J3MgbmVlZGVkDQoNCk5vdCBuZWNlc3Nhcnku
-IEl0J3Mgbm90IHN1cGVyIGltcG9ydGFudC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0K
-PiANCj4gTWF4aW1lDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZl
-ciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4
-ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBO
-w7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+On Mon, Jun 20, 2022 at 04:25:38PM +0200, Thomas Zimmermann wrote:
+> Hi
+>=20
+> Am 20.06.22 um 15:48 schrieb Maxime Ripard:
+> > Hi,
+> >=20
+> > On Mon, Jun 20, 2022 at 12:44:24PM +0200, Thomas Zimmermann wrote:
+> > > Am 10.06.22 um 11:28 schrieb Maxime Ripard:
+> > > > The DRM-managed function to register an encoder is
+> > > > drmm_simple_encoder_alloc() and its variants, which will allocate t=
+he
+> > > > underlying structure and initialisation the encoder.
+> > > >=20
+> > > > However, we might want to separate the structure creation and the e=
+ncoder
+> > > > initialisation, for example if the structure is shared across multi=
+ple DRM
+> > > > entities, for example an encoder and a connector.
+> > > >=20
+> > > > Let's create an helper to only initialise an encoder that would be =
+passed
+> > > > as an argument.
+> > > >=20
+> > >=20
+> > > There's nothing wrong with this patch, but I have to admit that adding
+> > > drm_simple_encoder_init() et al was a mistake.
+> >=20
+> > Why do you think it was a mistake?
+>=20
+> The simple-encoder stuff is an interface that no one really needs. Compar=
+ed
+> to open-coding the function, it's barely an improvement in LOCs, but noth=
+ing
+> else.
+>=20
+> Back when I added drm_simple_encoder_init(), I wanted to simplify the many
+> drivers that initialized the encoder with a cleanup callback and nothing
+> else.  IIRC it was an improvement back then.  But now we already have a
+> related drmm_ helper and a drmm_alloc_ helper. If I had only added the ma=
+cro
+> back then, we could use the regular encoder helpers.
+>=20
+> >=20
+> > > It would have been better to add an initializer macro like
+> > >=20
+> > > #define DRM_STATIC_ENCODER_DEFAULT_FUNCS \
+> > >    .destroy =3D drm_encoder_cleanup
+> > >=20
+> > > It's way more flexible and similarly easy to use. Anyway...
+> >=20
+> > We can still have this. It would simplify this series so I could
+> > definitely squeeze that patch in and add a TODO item / deprecation
+> > notice for simple encoders if you think it's needed
+>=20
+> Not necessary. It's not super important.
 
---------------3WcluQArQQlmX1ahphjgA0og--
+The corollary is though :)
 
---------------0Jzms13RcagS70lmoRrHsBTg
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+If I understand you right, it means that you'd rather have a destroy
+callback everywhere instead of calling the _cleanup function through a
+drm-managed callback, and let drm_dev_unregister do its job?
+
+If so, it means that we shouldn't be following the drmm_.*_alloc
+functions and should drop all the new ones from this series.
+
+Maxime
+
+--bpl4zz5mvygbn5nu
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKwg2IFAwAAAAAACgkQlh/E3EQov+AB
-DA//VpWvoqAnl3564EgdLKZkB58bGnhlsPNvfYCnkaWNCOUfajwqnjhBPmULBXG1uRdUC9jFWkf5
-g+egj2GFTiXMlBem4avNM94z49JBXPPblvNuwCt5V/RIaw0c3LvXQ6gPceFBjLnDCYhJJjLhNLe1
-AGumurw7FbQxzl/29XYyJGxv0ugegRmDoLOMJI/mn8f3XUxPxfWrkzlTlmtW5RuH/LyAh3VEdsdZ
-NkapVKUJFDzIwgy0Mihe3i7VdRJQbOO4THtj99f2eS7mCi3wrftZ4jZkWPmKYb8iSbDMutW+TVur
-KT7LwkKs6Bdi/Y1y6N7o72gIcXDnzqiM912nIaDEJ0hkZ3EYOqgGUyvGbzgraRsrbOu+RvhTxrQA
-0w8GJMY47LmFhb+f4S5YjXJGrOKAAq4/o6TiePUWD6rM6mnpAUGc0Ib403OMMRfo7thXcrd1ImPC
-X14tCOe0PH4XzT8D9ZsAO3t42jORTRmFYkfTvIkl1Fa3TZUYw4dZo8SPUWuBrUrQ7BrE1v15w9SU
-3dh6IHH6hXbbLNPgdXvgP/ucmrPv8BIq34nvbZYJvhwbrKaiyH1vE0JyMiHYxSyHb1YKmRFH2vCq
-xJb4aDl0JENMVyh0RNJ8HBXqAbX3hZ8I3XPehfliFoqvxPvISD94SBJ0o9+vqO8VZNCRsBtJysRJ
-l2s=
-=PxV1
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYrCGoAAKCRDj7w1vZxhR
+xdIjAQDu9Wjz0rSx1yq4tzgHHR/MMC9T2zZNjVO2ba+v/qod8QEA7+LD0sQo6ZHJ
+p3vVzBHlA7yf164ZJml9+XM/Z8hg2gw=
+=Mcun
 -----END PGP SIGNATURE-----
 
---------------0Jzms13RcagS70lmoRrHsBTg--
+--bpl4zz5mvygbn5nu--
