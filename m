@@ -1,61 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABA235510B0
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 08:49:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B3B551116
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 09:13:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF1310E7D6;
-	Mon, 20 Jun 2022 06:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5759A10F1AE;
+	Mon, 20 Jun 2022 07:13:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 782A110E7D6
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 06:49:55 +0000 (UTC)
-X-UUID: c299c47f328e4507b435047b71b4c7ce-20220620
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:a824e2f3-abc3-4a61-ba4f-f75105ac0024, OB:0,
- LO
- B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:50
-X-CID-INFO: VERSION:1.1.6, REQID:a824e2f3-abc3-4a61-ba4f-f75105ac0024, OB:0,
- LOB:
- 0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:50
-X-CID-META: VersionHash:b14ad71, CLOUDID:87d22a3d-9948-4b2a-a784-d8a6c1086106,
- C
- OID:cb306c6fdf1b,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: c299c47f328e4507b435047b71b4c7ce-20220620
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1770909525; Mon, 20 Jun 2022 14:49:48 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 20 Jun 2022 14:49:46 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Mon, 20 Jun 2022 14:49:46 +0800
-Message-ID: <2cedb4cc1e1a69481d5997431ac2a4b368858afb.camel@mediatek.com>
-Subject: Re: [PATCH v11 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
- <airlied@linux.ie>
-Date: Mon, 20 Jun 2022 14:49:46 +0800
-In-Reply-To: <20220610105522.13449-6-rex-bc.chen@mediatek.com>
-References: <20220610105522.13449-1-rex-bc.chen@mediatek.com>
- <20220610105522.13449-6-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1893810F1AE
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 07:13:21 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id ej4so9817368edb.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 00:13:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eZxNhueMBF9WoNcsQRrgiB02jKYBhNhqYGBvBdIMT/o=;
+ b=fy3dwtBDvc791ioyRN1572SmjL/QCaIVbg2+MyM1rCFfoafQv0OE0oBW1d4YrWIIi3
+ DIrhnywVf88jJaKxiRQGAN/hGXKMSYTj4hhcL6B1cMYP7QofkT5dyPwudtEpoWiedZkf
+ vKInpa/OhzZib4wmyfrDVCwTf9f6YX67mE25E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eZxNhueMBF9WoNcsQRrgiB02jKYBhNhqYGBvBdIMT/o=;
+ b=npn3LGeT5lnmEnnUi3LFCwC+nPkkpmA1QH+FHKEGicGAGSXPPlZSmKAC8hKX4yBAxu
+ PxJu4t8bXTM3fs37l8nRu0aKWWy7nHpWE54/C1rKEAQSy04KLlu7l5s3T/R/cb9eT5+1
+ oe9aeS90CJo67bluyMoEDpnQa9XOrOGUuATzz5RUfxnbahhMIK4geP170/hdhjiJMI7/
+ 04tC0PD7UhBX6su0WPrd7dQ3Vw40RLwzcO1wLrrMfFtrQVikLzfwFUCrMhgGtEMsmX0c
+ CEDND5tgmtFTbk7sShuHsGwa/68B59zx6V+f0U8t5uhV6LptUEYMsLYXS2U2Z0cCWLg9
+ IsxQ==
+X-Gm-Message-State: AJIora8bVpvgh4tfNob6sPQ91j1DPJhmZlNManBarp+zSQUUl9H663/Z
+ tUxRHhmwjfNRWmrpmdrmWE76VDDWhSI+Yj33e13szg==
+X-Google-Smtp-Source: AGRyM1sL5dIl8AH46jNJrBl/TTzwbPT5YrA248QQiwP24rFmBUawcT2ZGIJ6uCWt77gKUpazkmOZ3P3/igx2WCEym9c=
+X-Received: by 2002:aa7:d6c9:0:b0:435:6698:589a with SMTP id
+ x9-20020aa7d6c9000000b004356698589amr17234634edr.59.1655709199702; Mon, 20
+ Jun 2022 00:13:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+References: <20220617072521.21551-1-yunfei.dong@mediatek.com>
+In-Reply-To: <20220617072521.21551-1-yunfei.dong@mediatek.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 20 Jun 2022 15:13:08 +0800
+Message-ID: <CAGXv+5GG1rKsECDotA_RpXay1i7ido+te1=CbX0d21638=+Z2A@mail.gmail.com>
+Subject: Re: [PATCH, v2] media: mediatek: vcodec: Fix non subdev architecture
+ open power fail
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,138 +61,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- granquet@baylibre.com, jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, msp@baylibre.com,
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, Irui Wang <irui.wang@mediatek.com>,
+ George Sun <george.sun@mediatek.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
  Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+ Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Tomasz Figa <tfiga@google.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Courbot <acourbot@chromium.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
+On Fri, Jun 17, 2022 at 3:25 PM Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+>
+> According to subdev_bitmap bit value to open hardware power, need to
+> set subdev_bitmap value for non subdev architecture.
+>
+> Fixes: c05bada35f01 ("media: mtk-vcodec: Add to support multi hardware decode")
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 
-On Fri, 2022-06-10 at 18:55 +0800, Bo-Chen Chen wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> This patch adds a embedded displayport driver for the MediaTek mt8195
-> SoC.
-> 
-> It supports the MT8195, the embedded DisplayPort units. It offers
-> DisplayPort 1.4 with up to 4 lanes.
-> 
-> The driver creates a child device for the phy. The child device will
-> never exist without the parent being active. As they are sharing a
-> register range, the parent passes a regmap pointer to the child so
-> that
-> both can work with the same register range. The phy driver sets
-> device
-> data that is read by the parent to get the phy device that can be
-> used
-> to control the phy properties.
-> 
-> This driver is based on an initial version by
-> Jitao shi <jitao.shi@mediatek.com>
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> [Bo-Chen: Cleanup the drivers and modify comments from reviewers]
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> ---
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 
-[snip]
-
-> +
-> +static int mtk_dp_probe(struct platform_device *pdev)
-> +{
-> +	struct mtk_dp *mtk_dp;
-> +	struct device *dev = &pdev->dev;
-> +	int ret;
-> +	int irq_num = 0;
-> +
-> +	mtk_dp = devm_kzalloc(dev, sizeof(*mtk_dp), GFP_KERNEL);
-> +	if (!mtk_dp)
-> +		return -ENOMEM;
-> +
-> +	mtk_dp->dev = dev;
-> +
-> +	irq_num = platform_get_irq(pdev, 0);
-> +	if (irq_num < 0)
-> +		return dev_err_probe(dev, irq_num,
-> +				     "failed to request dp irq
-> resource\n");
-> +
-> +	mtk_dp->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 
-> 1, 0);
-> +	if (IS_ERR(mtk_dp->next_bridge))
-> +		return dev_err_probe(dev, PTR_ERR(mtk_dp->next_bridge),
-> +				     "Failed to get bridge\n");
-> +
-> +	ret = mtk_dp_dt_parse(mtk_dp, pdev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to parse dt\n");
-> +
-> +	drm_dp_aux_init(&mtk_dp->aux);
-> +	mtk_dp->aux.name = "aux_mtk_dp";
-> +	mtk_dp->aux.transfer = mtk_dp_aux_transfer;
-
-In the comment of drm_dp_aux_init(), drm_dp_aux_init() is used before
-drm_dp_aux_register(). So I think we still need to call
-drm_dp_aux_register().
-
-Regards,
-CK
-
-> +
-> +	ret = devm_request_threaded_irq(dev, irq_num, mtk_dp_hpd_event,
-> +					mtk_dp_hpd_event_thread,
-> +					IRQ_TYPE_LEVEL_HIGH,
-> dev_name(dev),
-> +					mtk_dp);
-> +	if (ret)
-> +		return dev_err_probe(dev, -EPROBE_DEFER,
-> +				     "failed to request mediatek dptx
-> irq\n");
-> +
-> +	mutex_init(&mtk_dp->dp_lock);
-> +
-> +	platform_set_drvdata(pdev, mtk_dp);
-> +
-> +	mtk_dp->phy_dev = platform_device_register_data(dev, "mediatek-
-> dp-phy",
-> +							PLATFORM_DEVID_
-> AUTO,
-> +							&mtk_dp->regs,
-> +							sizeof(struct
-> regmap *));
-> +	if (IS_ERR(mtk_dp->phy_dev))
-> +		return dev_err_probe(dev, PTR_ERR(mtk_dp->phy_dev),
-> +				     "Failed to create device mediatek-
-> dp-phy\n");
-> +
-> +	mtk_dp_get_calibration_data(mtk_dp);
-> +
-> +	mtk_dp->phy = devm_phy_get(&mtk_dp->phy_dev->dev, "dp");
-> +
-> +	if (IS_ERR(mtk_dp->phy)) {
-> +		platform_device_unregister(mtk_dp->phy_dev);
-> +		return dev_err_probe(dev, PTR_ERR(mtk_dp->phy),
-> +				     "Failed to get phy\n");
-> +	}
-> +
-> +	mtk_dp->bridge.funcs = &mtk_dp_bridge_funcs;
-> +	mtk_dp->bridge.of_node = dev->of_node;
-> +
-> +	mtk_dp->bridge.ops =
-> +		DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID |
-> DRM_BRIDGE_OP_HPD;
-> +	mtk_dp->bridge.type = DRM_MODE_CONNECTOR_eDP;
-> +
-> +	drm_bridge_add(&mtk_dp->bridge);
-> +
-> +	pm_runtime_enable(dev);
-> +	pm_runtime_get_sync(dev);
-> +
-> +	return 0;
-> +}
-
+on MT8183 on next-20220617. This makes the hardware operate correctly.
+Previously it kept timing out, presumably because the hardware wasn't
+properly enabled.
