@@ -1,64 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7188552BD1
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:24:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5879E552BCC
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:24:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDFFA10FC11;
-	Tue, 21 Jun 2022 07:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF21610F2BC;
+	Tue, 21 Jun 2022 07:24:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17F2D1130F0;
- Mon, 20 Jun 2022 10:02:23 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- g16-20020a17090a7d1000b001ea9f820449so10264047pjl.5; 
- Mon, 20 Jun 2022 03:02:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qsi5qTupo0kCuDpyUp9YDxiUEMfoJpT1b7YUEL135SA=;
- b=oo7k9+JPQLMEKY3tOyf6KAUgNfkZrLlYSmVWITF7Fr2t4tvkQXfngyks/qngStBwXO
- 2KuDwQZZEJQWpZDVOEjycAu2bxEWq8N2PnxoUaIm+gAycjUQ8qK446V23KAeFOx9pk1N
- MGwXnL/k6JiwNXoCJTBuob1cdVpgTd1cPM4NmxboqdVzyy+YMCT0WRGKbaw3xAFi8ROi
- pTDl7Vb7DIyknDT7WfQDEyH4rhuXYzj7lO2+pCicymiMMyUqMqqTlYXJZEhEFc/uhT8z
- 1PtDeeEovLFDCrYqnJq4g+N6tLBcn4cJAO3krkPR3D3vYbXA1wbOklEsvBkWnhr+bVL4
- AIsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qsi5qTupo0kCuDpyUp9YDxiUEMfoJpT1b7YUEL135SA=;
- b=nd1CoVZUKQDsra+TQpv1oUGYR7vzIjL6mSN4GoWgYm7/MeF1HZsXy6RkN6qihLN+BU
- 8Sk6Nqa5fVHHHrndN8LU2V+uZ43gz273vT9+oyYEC+C+8xikoYIXrPY4rbJ6/szQOJoT
- AYI60L1eO/7V6L9ojNYkhLzyRvcxbYrnWZwiSIMfO+HalBRAaLl0lPRglWIx/m00TFJB
- slPZ87UeNWxy+dpjVzvFwkZgdSdTHYPsgc6P/58xkgTWr4KV5/nn+O38xs+PAXFI+o3Q
- +Qzu6Zh/Qdv9WcNda1cy/VaNp9kSTO+dtsx+dldVg8VjNNL5p2N1+kGlGsfNgn7nTnjl
- TfQA==
-X-Gm-Message-State: AJIora+l5M07EklZSYeFO9RDDzikjeVNQmqSmxD9oM1V3PO/mgbTC4mq
- kncJio70T2DVTogswwvATgOf2sv/hDnAqjoc
-X-Google-Smtp-Source: AGRyM1u3K6M5PpPDTvfSLZ5whwluHfiPWJvWBgeCw28Fdp0FAEibLDJdV8iLozIYLO5sCfWNAOKn1A==
-X-Received: by 2002:a17:902:e8c6:b0:169:10c4:5231 with SMTP id
- v6-20020a170902e8c600b0016910c45231mr19307693plg.173.1655719342478; 
- Mon, 20 Jun 2022 03:02:22 -0700 (PDT)
-Received: from localhost.localdomain ([43.132.141.4])
- by smtp.gmail.com with ESMTPSA id
- p2-20020a63b802000000b003fcf1279c84sm8826654pge.33.2022.06.20.03.02.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Jun 2022 03:02:22 -0700 (PDT)
-From: zys.zljxml@gmail.com
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: [PATCH] drm/i915/gem: remove unused assignments
-Date: Mon, 20 Jun 2022 18:02:16 +0800
-Message-Id: <20220620100216.1791284-1-zys.zljxml@gmail.com>
-X-Mailer: git-send-email 2.27.0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19EBE11321B
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 10:11:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655719899; x=1687255899;
+ h=references:from:to:cc:subject:date:in-reply-to:
+ message-id:mime-version;
+ bh=3y8nDAKWBUlZ9K1j37HQS8U7bJfHwitl9vAtCp1vOyU=;
+ b=S/6EPJwRJ0EalvQGP13disnI/dhRsLZwiSFofSV8QdUCrR39C6h8LWbG
+ 42YFYNj3QlYHFqvqU6bK/FVH9mYZI1hyDHr0R58uI3ux+H1/j44HtaIui
+ h02pTwEe79RcVFBZ7Tp2/1zodROdCORonE9EontwwwcucfZfHR/Xmgt/Y
+ fADWP0yzjmQcFbPpdJxPrL55znZYY23JYdjNs7zXOu/9/giSeLwG22Nps
+ yE2xFsP3XJ9ax2pb+W0JKgIxADbasjlKd3vmfs/tvAsVsa60bZzL4fCAD
+ lSPWVo0lvbqVPVhUvUwcEJ7SYqD80u5rTq07Sg/Rl7BX6JZ6NmX/hPRN/ w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="366182186"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="366182186"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2022 03:11:31 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="584836507"
+Received: from gna-nuc-dev34.igk.intel.com (HELO localhost) ([10.102.80.34])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2022 03:11:27 -0700
+References: <85a6nq45uh.fsf@linux.intel.com>
+ <20220620094907.4101274-1-maciej.kwapulinski@linux.intel.com>
+ <YrBEP4P9JA60LeOB@kroah.com>
+User-agent: mu4e 1.6.10; emacs 27.2
+From: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
+Date: Mon, 20 Jun 2022 12:08:34 +0200
+In-reply-to: <YrBEP4P9JA60LeOB@kroah.com>
+Message-ID: <86czf3wsrg.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Mailman-Approved-At: Tue, 21 Jun 2022 07:24:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,37 +58,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bob.beckett@collabora.com, thomas.hellstrom@linux.intel.com,
- katrinzhou <katrinzhou@tencent.com>, linux-kernel@vger.kernel.org,
- matthew.auld@intel.com, kernel@collabora.com
+Cc: arnd@arndb.de, corbet@lwn.net, guy.zadicario@intel.com,
+ dragan.cvetic@xilinx.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ andy.shevchenko@gmail.com, derek.kiernan@xilinx.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: katrinzhou <katrinzhou@tencent.com>
 
-The variable ret is reassigned and the value EINVAL is never used.
-Thus, remove the unused assignments.
+Greg KH <gregkh@linuxfoundation.org> writes:
 
-Addresses-Coverity: ("Unused value")
-Fixes: d4433c7600f7 ("drm/i915/gem: Use the proto-context to handle create parameters (v5)")
-Signed-off-by: katrinzhou <katrinzhou@tencent.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_context.c | 2 --
- 1 file changed, 2 deletions(-)
+> On Mon, Jun 20, 2022 at 11:49:07AM +0200, maciej.kwapulinski@linux.intel.com wrote:
+>> Please share your thoughts.
+>
+> No code here to share thoughts about :(
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index ab4c5ab28e4d..d5ef5243673a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -931,8 +931,6 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
- 		break;
- 
- 	case I915_CONTEXT_PARAM_PERSISTENCE:
--		if (args->size)
--			ret = -EINVAL;
- 		ret = proto_context_set_persistence(fpriv->dev_priv, pc,
- 						    args->value);
- 		break;
--- 
-2.27.0
-
+code will be published in comming weeks to dri-devel ML
