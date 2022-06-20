@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9928055116D
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 09:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA7A55116E
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 09:25:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72BA710E188;
-	Mon, 20 Jun 2022 07:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 906E710E229;
+	Mon, 20 Jun 2022 07:24:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDE6C10E188
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 07:24:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E070410E229
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 07:24:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655709894; x=1687245894;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=xkdeQhfUcqOb+IEinqTArbn2UKsMpRu0oDIkLOH+q0k=;
- b=hXrrtxtZdrxAoenCk3EPogn3yHxD4FNZOld7/0K8sne/lR05nznmZJqF
- qVS4TYks3BMoH+N+6xzkG5AElsPhxdlKU6bImJU3jdCJliY2K6v0dyw3u
- /qRfHxwnp4EtOhCYcQCUHZ0kf49hS8j4wIpfdUzqHcRUh/nd1NsNcmQXa
- OusRghdfSLKkZXY1hr12Y9V8u05aaiXPPZOoY7obhciIrSLl6iZCLzBtR
- Zgv4pJsFXXf1wzw6GURqdkj6sQVdU0M3WZkZ5UrK3RGYvBH1YJqqEdcMJ
- s82LapMDZx6kUvSRnLUrwnVxMrKxv+7vUKM+n56X7DRExL7T/jYXUpOLZ A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="268545304"
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="268545304"
+ t=1655709897; x=1687245897;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=GKSBGkFzEo3TVBQ3cZBM13Df5pB43QFpSeCFiLRtMAY=;
+ b=fg49ZrOBXSk3T82z5+OA98WGUCxtiM8Lr81w3LNrU3r5s/7N47AlGhCM
+ J11yxarWKGBFKyxJhufZiql4+Gm8xjaorcpyWQzj5/HGtMFVam7H/bvcx
+ tZjM21k6v5/9HIQarTnntmAf1VJNP74lmuelGyaj5yTxVLfr21TrlIvwc
+ ZneWwEPa0YfNKHQVS65R4baJwJtRSuyMc02oCFPCvjRzFym98yxSuHXBJ
+ o2WcJB2khMuvwaW1uzEK9bTP/qDsfOQD26ZbRCT436UOPz5c6tFWdBPF4
+ KPeKhndsB4v8bNBqh/hSPXiPLlrOhbKFexY9pfjaL6U+Q5l8LnYFGwzRi g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10380"; a="268545317"
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="268545317"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2022 00:24:53 -0700
-X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="642986605"
+ 20 Jun 2022 00:24:57 -0700
+X-IronPort-AV: E=Sophos;i="5.92,306,1650956400"; d="scan'208";a="642986615"
 Received: from gpetrea-mobl1.ger.corp.intel.com (HELO
  jhogande-mobl1.ger.corp.intel.com) ([10.249.41.172])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2022 00:24:49 -0700
+ 20 Jun 2022 00:24:54 -0700
 From: =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/4] HDR aux backlight range calculation
-Date: Mon, 20 Jun 2022 10:20:15 +0300
-Message-Id: <20220620072019.2710652-1-jouni.hogander@intel.com>
+Subject: [PATCH v2 1/4] drm/display: Add drm_luminance_range_info
+Date: Mon, 20 Jun 2022 10:20:16 +0300
+Message-Id: <20220620072019.2710652-2-jouni.hogander@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220620072019.2710652-1-jouni.hogander@intel.com>
+References: <20220620072019.2710652-1-jouni.hogander@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
@@ -63,38 +65,61 @@ Cc: Jani Nikula <jani.nikula@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch set splits out static hdr metadata backlight range parsing
-from gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c into gpu/drm/drm-edid.c
-as a new function. This new function is then used during edid parsing
-when HDR static metadata block parsing.
-
-Calculated values are stored in a new struct drm_luminance_range
-introduced into display_info. Amdgpu_dm.c and intel_dp_aux_backlight.c
-are using this new data.
-
-v2: Calculate the range during edid parsing and store into display_info
+Add new data structure to store luminance range calculated using
+data from EDID's static hdr metadata block. Add this new struct
+as a part of drm_display_info struct.
 
 Cc: Roman Li <roman.li@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Cc: Harry Wentland <harry.wentland@amd.com>
 Cc: Lyude Paul <lyude@redhat.com>
 Cc: Mika Kahola <mika.kahola@intel.com>
 Cc: Jani Nikula <jani.nikula@intel.com>
 Cc: Manasi Navare <manasi.d.navare@intel.com>
+Signed-off-by: Jouni Högander <jouni.hogander@intel.com>
+---
+ include/drm/drm_connector.h | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-Jouni Högander (4):
-  drm/display: Add drm_luminance_range_info
-  drm: New function to get luminance range based on static hdr metadata
-  drm/amdgpu_dm: Rely on split out luminance calculation function
-  drm/i915: Use luminance range calculated during edid parsing
-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 35 ++-----------
- drivers/gpu/drm/drm_edid.c                    | 50 ++++++++++++++++++-
- .../drm/i915/display/intel_dp_aux_backlight.c | 17 +++++--
- include/drm/drm_connector.h                   | 21 ++++++++
- 4 files changed, 88 insertions(+), 35 deletions(-)
-
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 3ac4bf87f257..7d8eeac6cc68 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -322,6 +322,22 @@ struct drm_monitor_range_info {
+ 	u8 max_vfreq;
+ };
+ 
++/**
++ * struct drm_luminance_range_info - Panel's luminance range for
++ * &drm_display_info. Calculated using data in EDID
++ *
++ * This struct is used to store a luminance range supported by panel
++ * as calculated using data from EDID's static hdr metadata.
++ *
++ * @min_luminance: This is the min supported luminance value
++ *
++ * @max_luminance: This is the max supported luminance value
++ */
++struct drm_luminance_range_info {
++	u32 min_luminance;
++	u32 max_luminance;
++};
++
+ /**
+  * enum drm_privacy_screen_status - privacy screen status
+  *
+@@ -623,6 +639,11 @@ struct drm_display_info {
+ 	 */
+ 	struct drm_monitor_range_info monitor_range;
+ 
++	/**
++	 * @luminance_range: Luminance range supported by panel
++	 */
++	struct drm_luminance_range_info luminance_range;
++
+ 	/**
+ 	 * @mso_stream_count: eDP Multi-SST Operation (MSO) stream count from
+ 	 * the DisplayID VESA vendor block. 0 for conventional Single-Stream
 -- 
 2.25.1
 
