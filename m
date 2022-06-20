@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6BEB5525EE
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 22:44:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 909805525FF
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 22:54:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1555210E18D;
-	Mon, 20 Jun 2022 20:43:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE98110E035;
+	Mon, 20 Jun 2022 20:54:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A05310E18D;
- Mon, 20 Jun 2022 20:43:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1655757831; x=1687293831;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=QWdPf3Fw6TblaYp67rmjIPhp23ehbOvpB5mdAyvXXJI=;
- b=gu+BOukwz3qbKO3d9gjy7QvZQLpwvr+PECHvzXmBCcxvGkENBp2i+QOt
- jc/B9OArSWRPzJgitz7zeSIHJ0O85+SAqGbXCA0E9+LBj1hw0TaEhF+ZK
- MbJ5Nw3X0Ff4/n9or86/Kgde17qoh3zKtWle9ntUyXqB4GpyaXfQsDzwL Q=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 20 Jun 2022 13:43:50 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2022 13:43:50 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 20 Jun 2022 13:43:49 -0700
-Received: from [10.110.14.194] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 20 Jun
- 2022 13:43:48 -0700
-Message-ID: <af23976a-11dc-2503-66ea-8558fc1b3108@quicinc.com>
-Date: Mon, 20 Jun 2022 13:43:47 -0700
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5C3C10E035
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 20:54:46 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 25KKsXQZ129699;
+ Mon, 20 Jun 2022 15:54:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1655758473;
+ bh=M9i4sep0Y1ped2z1CILYYslzPFeeRvDYk+Y8YWIgRGM=;
+ h=From:To:CC:Subject:Date;
+ b=kSBLHvWbG0iV/KpV7ADRj/7N9Bh0JK6F5Z6V9gOPvWjH4aIQxGxsFdHbFNKEP71gP
+ ICDd6lDn6hFNfry0VtmODlUpr3PwACCaUdPubhdSlj9I9ibihm+42ZIkA2gsC3cUbB
+ s0aDVYJX4iRw3G4AonOSsqqhog4/0f9iUPBqIu9I=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 25KKsXof094486
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 20 Jun 2022 15:54:33 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Mon, 20
+ Jun 2022 15:54:32 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Mon, 20 Jun 2022 15:54:33 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 25KKsV6P062948;
+ Mon, 20 Jun 2022 15:54:32 -0500
+From: Rahul T R <r-ravikumar@ti.com>
+To: <dri-devel@lists.freedesktop.org>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>
+Subject: [PATCH v3 0/4] Add support for CDNS DSI J721E wrapper
+Date: Tue, 21 Jun 2022 02:23:59 +0530
+Message-ID: <20220620205403.31744-1-r-ravikumar@ti.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v13 0/3] eDP/DP Phy vdda realted function
-Content-Language: en-US
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: Vinod Koul <vkoul@kernel.org>
-References: <1653512540-21956-1-git-send-email-quic_khsieh@quicinc.com>
- <YqvEjzgSbvrOCFtq@matsya> <6f1ade9f-38b0-827c-667b-5c8018b7779a@quicinc.com>
-In-Reply-To: <6f1ade9f-38b0-827c-667b-5c8018b7779a@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,43 +60,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
- freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, dmitry.baryshkov@linaro.org,
- quic_aravindh@quicinc.com, bjorn.andersson@linaro.org, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: mparab@cadence.com, a-bhatia1@ti.com, jonas@kwiboo.se, airlied@linux.ie,
+ tomi.valkeinen@ideasonboard.com, sjakhade@cadence.com, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, vigneshr@ti.com,
+ devicetree@vger.kernel.org, robert.foss@linaro.org, andrzej.hajda@intel.com,
+ jpawar@cadence.com, lee.jones@linaro.org, Rahul T R <r-ravikumar@ti.com>,
+ laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Following series of patches adds supports for CDNS DSI
+bridge on j721e.
 
-On 6/20/2022 1:07 PM, Kuogee Hsieh wrote:
->
-> On 6/16/2022 5:02 PM, Vinod Koul wrote:
->> On 25-05-22, 14:02, Kuogee Hsieh wrote:
->>> 1) add regulator_set_load() to eDP phy
->>> 2) add regulator_set_load() to DP phy
->>> 3) remove vdda related function out of eDP/DP controller
->>>
->>> Kuogee Hsieh (3):
->>>    phy: qcom-edp: add regulator_set_load to edp phy
->>>    phy: qcom-qmp: add regulator_set_load to dp phy
->>>    drm/msm/dp: delete vdda regulator related functions from eDP/DP
->>>      controller
->>>
->>>   drivers/gpu/drm/msm/dp/dp_parser.c  | 14 ------
->>>   drivers/gpu/drm/msm/dp/dp_parser.h  |  8 ----
->>>   drivers/gpu/drm/msm/dp/dp_power.c   | 95 
->>> +------------------------------------
->>>   drivers/phy/qualcomm/phy-qcom-edp.c | 12 +++++
->>>   drivers/phy/qualcomm/phy-qcom-qmp.c | 40 ++++++++++++----
->> Please rebase this to phy-next and apply to specific qmp phy driver...
-> I will rebase to ==> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git
+v3:
+ - Convert cdns-dsi.txt binding to yaml
+ - Move the bridge under display/bridge/cadence
+ - Add new compatible to enable the wrapper module
 
-Hi Vinod,
+v2:
+ - Moved setting DPI0 to bridge_enable, since it
+   should be done after pm_runtime_get
 
-Would you please specify exactly procedures i have to do as to rebase 
-this patch series to phy=next tree.
+Rahul T R (4):
+  dt-bindings: display: bridge: Convert cdns,dsi.txt to yaml
+  drm/bridge: cdns-dsi: Move to drm/bridge/cadence
+  drm/bridge: cdns-dsi: Create a header file
+  drm/bridge: cdns-dsi: Add support for J721E wrapper
 
+ .../bindings/display/bridge/cdns,dsi.txt      | 112 ----
+ .../bindings/display/bridge/cdns,dsi.yaml     | 193 +++++++
+ drivers/gpu/drm/bridge/Kconfig                |  11 -
+ drivers/gpu/drm/bridge/Makefile               |   1 -
+ drivers/gpu/drm/bridge/cadence/Kconfig        |  21 +
+ drivers/gpu/drm/bridge/cadence/Makefile       |   3 +
+ .../{cdns-dsi.c => cadence/cdns-dsi-core.c}   | 483 ++----------------
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.h    | 471 +++++++++++++++++
+ .../gpu/drm/bridge/cadence/cdns-dsi-j721e.c   |  51 ++
+ .../gpu/drm/bridge/cadence/cdns-dsi-j721e.h   |  18 +
+ 10 files changed, 794 insertions(+), 570 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+ rename drivers/gpu/drm/bridge/{cdns-dsi.c => cadence/cdns-dsi-core.c} (65%)
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.c
+ create mode 100644 drivers/gpu/drm/bridge/cadence/cdns-dsi-j721e.h
+
+-- 
+2.36.1
 
