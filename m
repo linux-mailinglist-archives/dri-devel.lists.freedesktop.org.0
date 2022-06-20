@@ -2,51 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B313C55185E
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 14:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC3C5518A2
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 14:18:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E7D10FD31;
-	Mon, 20 Jun 2022 12:10:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E43AC10E350;
+	Mon, 20 Jun 2022 12:18:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5762C10FD21
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 12:10:40 +0000 (UTC)
-X-UUID: 149b2f7f0e0e4b7eb0e746f6d63ee9ce-20220620
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:48a02300-3528-45e5-b8ad-aa22053b6c2c, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:-5
-X-CID-META: VersionHash:b14ad71, CLOUDID:7f2703ea-f7af-4e69-92ee-0fd74a0c286c,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 149b2f7f0e0e4b7eb0e746f6d63ee9ce-20220620
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1882312587; Mon, 20 Jun 2022 20:10:32 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Mon, 20 Jun 2022 20:10:31 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Mon, 20 Jun 2022 20:10:31 +0800
-From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <daniel@ffwll.ch>,
- <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
- <matthias.bgg@gmail.com>, <airlied@linux.ie>
-Subject: [PATCH v12 14/14] drm/mediatek: dpi: Add matrix_sel helper
-Date: Mon, 20 Jun 2022 20:10:28 +0800
-Message-ID: <20220620121028.29234-15-rex-bc.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220620121028.29234-1-rex-bc.chen@mediatek.com>
-References: <20220620121028.29234-1-rex-bc.chen@mediatek.com>
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46A0A10E350
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 12:18:44 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 54EE23200942;
+ Mon, 20 Jun 2022 08:18:40 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Mon, 20 Jun 2022 08:18:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1655727519; x=1655813919; bh=Q7xkvasA+w
+ J5xscZtlKjYxsprKga64IJ5mhYR0/vSec=; b=HwwgVeHd8+s4ZSs+gDLpyMsS5r
+ CiXEvrgphRsH7s+TEMRF7kQqnfbX08hixYMXcCY5s6CWsnGKyffhFgYBrI+cg2Cn
+ 6KookU3pmiGI73lnZJOf/+5gtMEI/c91TxlMfS7LRwuONMbKLNgdYjV7OEbItMAi
+ Yob7jnePfM0hY69Z2T81HqiTyTLOJFNqwDhixJKWW5AOyqnNDKA9jdKRhXDC8s4M
+ QSxGZUJeXJrP0lB5t0ebXXsrTUOoeucSrvGqOod6ihBkiOjMzNIUGxFZw3Ay2qBl
+ hrUwEA2tbZ2eXrkWYlPw2ejxdhEuHytLA7hrSkUQ2aY3QSXD/abLcK/eF4CA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1655727519; x=1655813919; bh=Q7xkvasA+wJ5xscZtlKjYxsprKga
+ 64IJ5mhYR0/vSec=; b=axCGKMJtqopwpqsp2s9b9WTAyq9GPYvIKe9DiFnHEg3d
+ aSnX9OIHJddIPMzhrxZ8YLzHpO9o+AON5Q7M4DCU0CiVGEyCrAW2VcmLLc2S7KdV
+ OrNz/taNbBFBZ2Aegmh9YozME29oquJb26uCH/ZtLOso2tdc4skQLXqDlrNbRzKZ
+ Hoyu4DO5HSqGzNHXDVVPxHBBNIb+xGoLUO3/NBHC6KIfLwbIQtXcuQv6Qx6yGt3A
+ gR/fSxMrrLd9ols2CVi5uZtzHP2an30+l+Y5iDFp5saUxdxWZcUwb+Tf76sx60Ne
+ lw8029xyoT+ttryxBfK1x2VUyQPrYSGy4DhZEdnLuQ==
+X-ME-Sender: <xms:nmWwYizwvnI_4e4idnb-evVGpHjQZvRJ0rQeruL4_oFwUVnxsnzJKA>
+ <xme:nmWwYuTmmT-zN5VORJ5vu0OKy36if4fSX0qpVYXMeOh24JiDkpkEVuY463RszY5fe
+ 7lI7r33dmljf2ysbn0>
+X-ME-Received: <xmr:nmWwYkV_iOPWZSy_cyG0CcktEqIEAUVXJjE5bLphuBcQADxzOp2qxJxnvScLWovfSJIh9B4BfrULXsH6UzgJ2p6v0pRvLVkdiozzT7Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefuddghedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:nmWwYoia9fHQRhy1nnmzZz2Ns9Y1eZXpjKVu_Ft_CSV7a2ObB5gQRg>
+ <xmx:nmWwYkDADFCiVB9QP3so8XhzIwVCwi5KbNILq4NToRBvGA936VyzEw>
+ <xmx:nmWwYpL3DcZ_MjLaHwNOSdrhljlJqUE_O-EcbqBS8vE3IjzsxiBa_A>
+ <xmx:n2WwYnP9UpDH6Rd8TBajnKhhDXSAQfj3QzP-i3lQbwPMYMEPjjDJXg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 20 Jun 2022 08:18:38 -0400 (EDT)
+Date: Mon, 20 Jun 2022 14:18:36 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 05/64] drm/connector: Mention the cleanup after
+ drm_connector_init
+Message-ID: <20220620121836.2bxmnyrfrfgvdyd2@houat>
+References: <20220610092924.754942-1-maxime@cerno.tech>
+ <20220610092924.754942-6-maxime@cerno.tech>
+ <ede82148-dc9c-2944-ced3-9f7ce9c03e93@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="uhgy7ww3mjgx7zgh"
+Content-Disposition: inline
+In-Reply-To: <ede82148-dc9c-2944-ced3-9f7ce9c03e93@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,108 +85,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- wenst@chromium.org, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guillaume Ranquet <granquet@baylibre.com>
 
-Matrix selection is a new feature for both dpi and dpintf of MT8195.
-Add a mtk_dpi_matrix_sel() helper to update the DPI_MATRIX_SET
-register depending on the color format.
+--uhgy7ww3mjgx7zgh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dpi.c      | 29 +++++++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_dpi_regs.h |  3 +++
- 2 files changed, 32 insertions(+)
+Hi Thomas,
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 220e9b18e2cd..8a9151cb1622 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -135,6 +135,7 @@ struct mtk_dpi_conf {
- 	u32 channel_swap_shift;
- 	u32 yuv422_en_bit;
- 	u32 csc_enable_bit;
-+	bool matrx_sel_support;
- };
- 
- static void mtk_dpi_mask(struct mtk_dpi *dpi, u32 offset, u32 val, u32 mask)
-@@ -398,6 +399,31 @@ static void mtk_dpi_config_disable_edge(struct mtk_dpi *dpi)
- 		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, 0, EDGE_SEL_EN);
- }
- 
-+static void mtk_dpi_matrix_sel(struct mtk_dpi *dpi,
-+			       enum mtk_dpi_out_color_format format)
-+{
-+	u32 matrix_sel = 0;
-+
-+	if (!dpi->conf->matrx_sel_support) {
-+		dev_info(dpi->dev, "matrix_sel is not supported.\n");
-+		return;
-+	}
-+
-+	switch (format) {
-+	case MTK_DPI_COLOR_FORMAT_YCBCR_422:
-+	case MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL:
-+	case MTK_DPI_COLOR_FORMAT_YCBCR_444:
-+	case MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL:
-+	case MTK_DPI_COLOR_FORMAT_XV_YCC:
-+		if (dpi->mode.hdisplay <= 720)
-+			matrix_sel = 0x2;
-+		break;
-+	default:
-+		break;
-+	}
-+	mtk_dpi_mask(dpi, DPI_MATRIX_SET, matrix_sel, INT_MATRIX_SEL_MASK);
-+}
-+
- static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
- 					enum mtk_dpi_out_color_format format)
- {
-@@ -405,6 +431,7 @@ static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
- 	    (format == MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL)) {
- 		mtk_dpi_config_yuv422_enable(dpi, false);
- 		mtk_dpi_config_csc_enable(dpi, true);
-+		mtk_dpi_matrix_sel(dpi, format);
- 		if (dpi->conf->swap_input_support)
- 			mtk_dpi_config_swap_input(dpi, false);
- 		mtk_dpi_config_channel_swap(dpi, MTK_DPI_OUT_CHANNEL_SWAP_BGR);
-@@ -412,6 +439,7 @@ static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
- 		   (format == MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL)) {
- 		mtk_dpi_config_yuv422_enable(dpi, true);
- 		mtk_dpi_config_csc_enable(dpi, true);
-+		mtk_dpi_matrix_sel(dpi, format);
- 		if (dpi->conf->swap_input_support)
- 			mtk_dpi_config_swap_input(dpi, true);
- 		else
-@@ -951,6 +979,7 @@ static const struct mtk_dpi_conf mt8195_dpintf_conf = {
- 	.channel_swap_shift = DPINTF_CH_SWAP,
- 	.yuv422_en_bit = DPINTF_YUV422_EN,
- 	.csc_enable_bit = DPINTF_CSC_ENABLE,
-+	.matrx_sel_support = true,
- };
- 
- static int mtk_dpi_probe(struct platform_device *pdev)
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-index f7f0272dbd6a..96c117202d0d 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-@@ -230,4 +230,7 @@
- #define EDGE_SEL_EN			BIT(5)
- #define H_FRE_2N			BIT(25)
- 
-+#define DPI_MATRIX_SET		0xB4
-+#define INT_MATRIX_SEL_MASK	(0x1F << 0)
-+
- #endif /* __MTK_DPI_REGS_H */
--- 
-2.18.0
+Thanks for your review
 
+On Mon, Jun 20, 2022 at 12:21:33PM +0200, Thomas Zimmermann wrote:
+> Am 10.06.22 um 11:28 schrieb Maxime Ripard:
+> > Unlike encoders and CRTCs, the drm_connector_init() and
+> > drm_connector_init_with_ddc() don't mention how the cleanup is supposed=
+ to
+> > be done. Let's add it.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >   drivers/gpu/drm/drm_connector.c | 10 ++++++++++
+> >   1 file changed, 10 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
+ector.c
+> > index 353d83ae09d3..2a78a23836d8 100644
+> > --- a/drivers/gpu/drm/drm_connector.c
+> > +++ b/drivers/gpu/drm/drm_connector.c
+> > @@ -222,6 +222,11 @@ void drm_connector_free_work_fn(struct work_struct=
+ *work)
+> >    * Initialises a preallocated connector. Connectors should be
+> >    * subclassed as part of driver connector objects.
+> >    *
+> > + * At driver unload time the driver's &drm_connector_funcs.destroy hook
+> > + * should call drm_connector_unregister(), drm_connector_cleanup() and
+> > + * kfree() the connector structure. The connector structure should not
+>=20
+> This sounds odd. Maybe
+>=20
+> '... to release... the connector structure' ?
+
+I didn't really get what your suggestion was exactly
+
+Is it
+
+> At driver unload time the driver's &drm_connector_funcs.destroy hook
+> should call drm_connector_unregister(), drm_connector_cleanup() and
+> kfree() to release the connector structure.
+
+Or something else?
+
+Thanks!
+Maxime
+
+--uhgy7ww3mjgx7zgh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYrBlnAAKCRDj7w1vZxhR
+xcn2AP0TdK4CZ+JJ6OPRSME5xquYpgc6wbNxHbEXcJlUOv4BkwD/UfZhiOzMDdr3
+wsuKYgAQiNM/176BFtC6YvXKboR9Zww=
+=NkyQ
+-----END PGP SIGNATURE-----
+
+--uhgy7ww3mjgx7zgh--
