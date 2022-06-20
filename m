@@ -1,55 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F6795514AE
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 11:46:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3AB5514FC
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jun 2022 11:56:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BC501130D5;
-	Mon, 20 Jun 2022 09:46:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E81010E35A;
+	Mon, 20 Jun 2022 09:56:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBB931130D5
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 09:46:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655718399;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=h+FyiooQhZBqsBdqNLClriNeSQjxvhtsPzh24MgBH9Q=;
- b=BeNgllOE+aeeXkTuYnoRrW/uz5fQf4rwbUlZGoC+64Bwq0jtHMlwbsFzEPWfC3kxXwh6VT
- 3JYE9tJiMa3g0rBzuB4zDPzsZMt4Q+70KyqTC5ry/VmmlYLIhJgQzW/Vemb7br2jJY8p19
- 7t7J+n78M0STeKaucv4KWwI9hJS8dJM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-66-qZndtd-XNiKpZrqnLhYOXA-1; Mon, 20 Jun 2022 05:46:38 -0400
-X-MC-Unique: qZndtd-XNiKpZrqnLhYOXA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC5710E8FA
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 09:56:20 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 562332814436;
- Mon, 20 Jun 2022 09:46:30 +0000 (UTC)
-Received: from x1.nl (unknown [10.39.195.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E6CBB14152E1;
- Mon, 20 Jun 2022 09:46:28 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>
-Subject: [PATCH] drm/nouveau/Kconfig: Drop duplicate "select ACPI_VIDEO"
-Date: Mon, 20 Jun 2022 11:46:27 +0200
-Message-Id: <20220620094627.9730-1-hdegoede@redhat.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 266B560A75;
+ Mon, 20 Jun 2022 09:56:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6A22C3411B;
+ Mon, 20 Jun 2022 09:56:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1655718978;
+ bh=1feoivY7gwwMDCEhN+h7CXS1lJojSZFu+I+k5bzv8lY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bXSZGrRZaf5e2n8tbsdGgJIvPmuI2GM9VQK6GSLMSkonCkVFpjPmfOzhF7bNZJsHe
+ ULseOJRdk5rQbsZsEAjaJcz0mHlPE7xstzmqAyqOO+zTWh6XqMn5i8sDZr51KbHOxh
+ 2W2neMoTs2CkoRr0Zy0wBgbSASRpSf4DjQ1PI6Ts=
+Date: Mon, 20 Jun 2022 11:56:15 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: maciej.kwapulinski@linux.intel.com
+Subject: Re: [PATCH v3 00/14] Driver of Intel(R) Gaussian & Neural Accelerator
+Message-ID: <YrBEP4P9JA60LeOB@kroah.com>
+References: <85a6nq45uh.fsf@linux.intel.com>
+ <20220620094907.4101274-1-maciej.kwapulinski@linux.intel.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220620094907.4101274-1-maciej.kwapulinski@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,38 +49,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
+Cc: arnd@arndb.de, corbet@lwn.net, guy.zadicario@intel.com,
+ dragan.cvetic@xilinx.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ andy.shevchenko@gmail.com, derek.kiernan@xilinx.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Before this change nouveau's Kconfig section had 2 "select ACPI_VIDEO"
-statements:
+On Mon, Jun 20, 2022 at 11:49:07AM +0200, maciej.kwapulinski@linux.intel.com wrote:
+> Please share your thoughts.
 
-select ACPI_VIDEO if ACPI && X86 && BACKLIGHT_CLASS_DEVICE && INPUT
-select ACPI_VIDEO if ACPI && X86
-
-Drop the one with the extra conditions, if the conditions for that
-one are true then the second statement will always select ACPI_VIDEO
-already.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/nouveau/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kconfig
-index 34760164c271..03d12caf9e26 100644
---- a/drivers/gpu/drm/nouveau/Kconfig
-+++ b/drivers/gpu/drm/nouveau/Kconfig
-@@ -11,7 +11,6 @@ config DRM_NOUVEAU
- 	select DRM_TTM
- 	select DRM_TTM_HELPER
- 	select BACKLIGHT_CLASS_DEVICE if DRM_NOUVEAU_BACKLIGHT
--	select ACPI_VIDEO if ACPI && X86 && BACKLIGHT_CLASS_DEVICE && INPUT
- 	select X86_PLATFORM_DEVICES if ACPI && X86
- 	select ACPI_WMI if ACPI && X86
- 	select MXM_WMI if ACPI && X86
--- 
-2.36.0
-
+No code here to share thoughts about :(
