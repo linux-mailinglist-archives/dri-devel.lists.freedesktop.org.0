@@ -1,101 +1,103 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73CF3553D74
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 23:21:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B0E553E14
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 23:47:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C898A10F61B;
-	Tue, 21 Jun 2022 21:21:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 947031126F2;
+	Tue, 21 Jun 2022 21:47:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2082.outbound.protection.outlook.com [40.107.243.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F01010F52D;
- Tue, 21 Jun 2022 21:21:31 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2078.outbound.protection.outlook.com [40.107.93.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA4361126EC;
+ Tue, 21 Jun 2022 21:47:47 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e9tCpbDH9Fk6Kcr2QUm9x/h1nhltk5oOwp87NCOkB4ec+37hu2fAkhDseRI659gHxAOJV9aV+TsnjCyetZFsULZ4ZbPs7zLOQqZLnuvDRh7HTLYdA9mpF9IlMN0I3fELW2sW7hcM3QYi9jaF1QrutkrBdGU/fReqnCvZPxWEDUvW7tdUbwDpw82Dz6brWMpIOaDtcfZjFUfqdwQ8U/CqrxU1aHMlMsNRwOqwgIU+vVf6s1dujfhHVfYjrH69LH4y8Glr/puCYYDSIIl7TbW4g2j6HNFc95nTlI8muvi3jXIYvKKw1AUXaIjkpQJLsxg5WvdImiI4FJkNsNmvYV1ZgA==
+ b=btBQ+FZg7D7CiQZ8h+fQB8URiC+jHXQd1lnryHzdvU5TMSMh/wu5HWwBYehy74lCV0fQf/6t6uqDRHND/UQhfe99v5YnZVqdovTum7SQbY5oG8a2BIm3GJPIHLAclp7gatpmIiql1yILU6RaiTt3y1yDiOXwPtNjHqVr1MYfftountstjpyuJw90NlrpDXnzos8Da838iaVdSDCSTeMjWkrCZ9o+pSGJWil1fHn+BQaij86iz8ZpWdIF2Oy+E5+Dv1HrwJwCHkwclf9nYTJQdUxK1pTsK/y8+KyePC844ukfSzpUPBdcgjgoivhigDKWX2lMiTNbhpoG7Eics+hziA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7/csMImmXMS8W+ncO7h86h8MKt61Fpz6P3qybQ1Of5Y=;
- b=LHp3TOwaLQLRotocyO2lyaNUv3a8U/EEUXcd0MxBwEarnvLnxGHB+fp8qYz14arJd7p9SH+Y0eqF4cv9rzyxX/kZ+E5Ge3juwgmt62tTg8FRyy2eEtwlJMIdI20vG/LrkmqEik9R9mbba4pUivCyGOT2Yu03DfTNXvuOV4t7CYZi5v6wmiG5Epc2A8uoIAPh6AeZAPzEM+QoutgN2KNsPJDhW5vt43QoDESOBDrBPXY6RXfhDTJxQDf9kYmeAaCYGerbIyuyAMdhgyDOBxi7h8bP9IpGYCsyoBfcitGjmfHMmy1Zk4BHOlgwaCvRmDPzNfD2M7L5hENxWeZzhQ+LtA==
+ bh=hxnKwYiDt99Mxuh60zgFK/9jO9aD/RqDXBbLbXgB5zs=;
+ b=fiIyC/ZsrHbMlYbsXCcfT58k1t0gI/zg6+b2mAYeqewyX+2HSYAfNexLgxad0hfnFa/Mc6NehFAVmkNU9bJjsgAk2/qeoRC3dG5Mmj/3y7RBzKM4Pr5Kzu4t0HfJXDUGkvKH4e56//izEo/f5LDLs4JrxMNq5H7cjIp4g62nHyMt/KewHkBLzIXRccOGNIWp7ebG6cyAHawzH4HViVNGxikQN41AWlnXEMpA3ks8O5DkLz9COxOvls81UlE+5m6zKDf9jXN6hhOIXcSlJh2NcIr3euftML9cocdnvcUrbKnP1GtNsCuq78eXt3ljRXBEfFqxdGW49Uu+2k1vclagRA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.234) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
+ 12.22.5.235) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7/csMImmXMS8W+ncO7h86h8MKt61Fpz6P3qybQ1Of5Y=;
- b=k9BgDV1VBCYyZYTGxHu0L/9ZT3tKKc1n/m8ogiHlM4VE7MGPnw+M14DLuXQoclg1jwTlCt2ghK1UeSGomvVzDieX4TvhIi/bDKDwNbTt3Md4pmWWP4k0rmqwetQDQrA1hjuEQxaYk5K99Z1UWBWVOblGTShPrK6V5npS1Bao+zLxOAmjF/Gd3dBahA3Q46oPd284wP2YDX6geIlWR+QNdvj0rWOi5IP4gVVaMjaPkgfd3oy+/S1sLvAxZDuSd+GWZaW4uDMXbhHyq7nyrCZ6EgNId9h51DM81iOVTXhK6DHS5ZJUzxv466pq2i9AdTPVjM5SUJxD/87agxFkaWZreQ==
-Received: from MWHPR1401CA0022.namprd14.prod.outlook.com
- (2603:10b6:301:4b::32) by DM8PR12MB5414.namprd12.prod.outlook.com
- (2603:10b6:8:3e::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Tue, 21 Jun
- 2022 21:21:29 +0000
-Received: from CO1NAM11FT028.eop-nam11.prod.protection.outlook.com
- (2603:10b6:301:4b:cafe::e3) by MWHPR1401CA0022.outlook.office365.com
- (2603:10b6:301:4b::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.15 via Frontend
- Transport; Tue, 21 Jun 2022 21:21:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.234)
+ bh=hxnKwYiDt99Mxuh60zgFK/9jO9aD/RqDXBbLbXgB5zs=;
+ b=jWHCFDxNIIHbRxL7JKr5l6812c5WwVxfFWwjLI9BeRn5Qs3cq/mlMT336db8SaSZeiP0f5H32ZSPoYTZWFpqEGp8Pzk8u7j86pq8nAzdDz19eLcHrgXz9h0ub8XKR0B/fcIgjrQc10ATYLipj4L741lGfyUGFGNitqKpFdK8Gef0vR7C1bwLiFg82omYVi2PuHwx+V2F8Fun+yhPjh6C4+qE8rbcGpTn8/jk+I+YB6NQVtfzmij8pL2cixA/4uLlTBftJ7wpdtqQ6YcTzhJxlBPxTN8KTc7VcMrUOmU0XwGqfFShUi4Lvp3ckZizdBShTf4SKk1CteNavOO6Tl87og==
+Received: from BN0PR04CA0096.namprd04.prod.outlook.com (2603:10b6:408:ec::11)
+ by SN1PR12MB2352.namprd12.prod.outlook.com (2603:10b6:802:25::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.15; Tue, 21 Jun
+ 2022 21:47:45 +0000
+Received: from BN8NAM11FT029.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:ec:cafe::a8) by BN0PR04CA0096.outlook.office365.com
+ (2603:10b6:408:ec::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.17 via Frontend
+ Transport; Tue, 21 Jun 2022 21:47:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
  smtp.mailfrom=nvidia.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.234 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.234; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.234) by
- CO1NAM11FT028.mail.protection.outlook.com (10.13.175.214) with Microsoft SMTP
+ 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.235; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.235) by
+ BN8NAM11FT029.mail.protection.outlook.com (10.13.177.68) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5373.15 via Frontend Transport; Tue, 21 Jun 2022 21:21:29 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by DRHQMAIL101.nvidia.com
- (10.27.9.10) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
- Tue, 21 Jun 2022 21:21:28 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.5353.14 via Frontend Transport; Tue, 21 Jun 2022 21:47:44 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
+ Tue, 21 Jun 2022 21:47:44 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 21 Jun
- 2022 14:21:28 -0700
-Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com (10.129.68.8)
+ 2022 14:47:43 -0700
+Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com (10.129.68.10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22 via Frontend
- Transport; Tue, 21 Jun 2022 14:21:24 -0700
-Date: Tue, 21 Jun 2022 14:21:22 -0700
+ Transport; Tue, 21 Jun 2022 14:47:39 -0700
+Date: Tue, 21 Jun 2022 14:47:37 -0700
 From: Nicolin Chen <nicolinc@nvidia.com>
-To: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [RFT][PATCH v1 5/6] vfio/ccw: Add kmap_local_page() for memcpy
-Message-ID: <YrI2Ul/u6pRvt0rT@Asurada-Nvidia>
+To: Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [RFT][PATCH v1 6/6] vfio: Replace phys_pfn with phys_page for
+ vfio_pin_pages()
+Message-ID: <YrI8eYsXemPgNBa2@Asurada-Nvidia>
 References: <20220616235212.15185-1-nicolinc@nvidia.com>
- <20220616235212.15185-6-nicolinc@nvidia.com>
- <Yqw+7gM3Lz96UFdz@infradead.org> <20220620025726.GA5219@nvidia.com>
- <YrAUZ7hXy2FcZcjl@infradead.org>
+ <20220616235212.15185-7-nicolinc@nvidia.com>
+ <YqxBLbu8yPJiwK6Z@infradead.org> <20220620030046.GB5219@nvidia.com>
+ <YrAK87zjdOqUF6gB@infradead.org> <YrAVuxMEkV4Wytci@infradead.org>
+ <20220620153628.GA5502@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <YrAUZ7hXy2FcZcjl@infradead.org>
+In-Reply-To: <20220620153628.GA5502@nvidia.com>
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2232a662-aa28-4c05-38f3-08da53cc01cb
-X-MS-TrafficTypeDiagnostic: DM8PR12MB5414:EE_
-X-Microsoft-Antispam-PRVS: <DM8PR12MB54142DE1CF737009C21BE559ABB39@DM8PR12MB5414.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: cdd285c3-c2bf-4151-6dfb-08da53cfacf6
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2352:EE_
+X-Microsoft-Antispam-PRVS: <SN1PR12MB2352CCDB6F223174BA858242ABB39@SN1PR12MB2352.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ju20LiE/hVT3OWFeuo+XyUQ1uwoFM58J1GnhfAZr3Anwt2ev1iTTMiMOAdGuswyUOWoxLkImGWG4VUMC9TlqvcY4qCKej2JHYr57VAW5U4P62dJwTxcnRhj8jg+aqMxfVz6ti55ODxCS2TThuftDhWaMLnxq2Z0Gk9wuq17rnDcZyeJ0VW6jQh2Nz4DgwLLEzYRA/QYVQJuQynMHshOTpitN4m3gQenH/nzxq0HrBW4ZREM1QROPqw9TngEup0yxiHWpYEWOnbh/776lr3pifhAw6tjXm0Pes9KQC6plNfdZo1Dpzq6J8DbUHSBTqvoneXbpZYf16TrON38jmRk8tzMiHJ2S8y7t9eZPMblIR2SHthukrLGL/UuSxgmQaQ4QEUspQPSk3bJnFhJuEgQKdjfkWFvPs1E6mdy51QQqn+rxV28p3nFjSnu699ZX+PxaTbSuZ2Y6OFwx/7MesAZmuUbJns3tUYh775EmMxdD8m4s8u+ZHlIZokKyunb9nUsUBfzG1YXt1vxShjVtqE93P7n9/0/ps7xpBRZNO9F0v5xyzQC2iLduYqu9YDmAumyJq1sQdVMK2PdiZGi5f9/Ph694XgD+RnhiR/VQEo4XbylBdHvUl8cXRyH5I/1VbongYZbGmk2sPWwqUD7AobjD8L3JzHeIfquVoeheCMEASc90UULfSSvw77MBKEyT69WpgoJQSkljAXeOHKSjzonJqNM1jyO42Ugg+PilIEiy2W2ppHLhthAxUbBpYhRpsN+A
-X-Forefront-Antispam-Report: CIP:12.22.5.234; CTRY:US; LANG:en; SCL:1; SRV:;
+X-Microsoft-Antispam-Message-Info: Wszq4XMsCaMkLKfCdaRnS9oDcwZ1WPbTQXiOegtpfjqu9vCTNG9JHva4LY0Bwj9r6rAen4E8U8sfLp11ci58tLYMTq1LHFbjsFKqVcJVxkPdwo8WBaYjN5jirvm/hQ90QTRelPCwYWuOA9QABt+6m+VMy7wpq2gIQzomxkFEVNPp6GNMLRrNBHkQKz2N3fxMcZWY+3BkZmW5uIAOUoE1EnvUxBA17PuBgpdQYOuwB0USipzmPnT/XIXWKExzTUAXIs835dUHIGhERsSnsJNCrDRcvoT8Nv5AAv5Ild1D1tPBcJBBaYjlq2EKxBBDdF+WIDeRS3qk4VD2TeVxe6HwwDTje5wIcNwuJWHVh5szDvjElHNbgvOhoyBKWpkVr8RI46Id64dXPwaxQrJVI1J1385+SGAmnTuVYb3h58Cg/GgFtC4bKIGy2APCWQwuagiOZKqVJjyaJlfBFWQwiXE7ZNUX+Hrj8ArIogv1b5aLFzppbn9zcDnBMvC2h2I4jVcoaMlEUpb66qSeMl923VlwktWJeag/6nGiBPh1DBFNgdX+WCwsZUfds0bOuey2eb5YfFfofTHHgV0IbfQeiY8rEIa1OIBHnz7YerEp2oeI1OFbw0K2QHXh337FhRco5GS5OI18SPtTBpCs8NMvJnU+DRGrgQbmrIR8GLa9vNSWeg/UT9YT1bKDEzhavHrdrKxZYqbX0nOkSeSrQBDwiz4+jiQfDe0IRm9WU2P9G9Owr1kX1ee69EdZa/O7Q8A1cptp
+X-Forefront-Antispam-Report: CIP:12.22.5.235; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(396003)(346002)(136003)(39860400002)(36840700001)(40470700004)(46966006)(8676002)(478600001)(70586007)(83380400001)(70206006)(47076005)(426003)(356005)(6916009)(4326008)(82740400003)(86362001)(36860700001)(336012)(41300700001)(9686003)(54906003)(316002)(40480700001)(26005)(81166007)(186003)(2906002)(5660300002)(40460700003)(82310400005)(33716001)(55016003)(7416002)(8936002)(7406005)(36900700001);
+ SFS:(13230016)(4636009)(136003)(39860400002)(376002)(346002)(396003)(36840700001)(46966006)(40470700004)(6636002)(54906003)(70206006)(110136005)(2906002)(70586007)(7416002)(316002)(478600001)(9686003)(26005)(7406005)(5660300002)(41300700001)(8936002)(4326008)(8676002)(82740400003)(40460700003)(86362001)(81166007)(47076005)(426003)(33716001)(40480700001)(55016003)(186003)(336012)(356005)(36860700001)(82310400005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2022 21:21:29.3625 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2232a662-aa28-4c05-38f3-08da53cc01cb
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2022 21:47:44.9794 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cdd285c3-c2bf-4151-6dfb-08da53cfacf6
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.234];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.235];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT028.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT029.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5414
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2352
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,46 +114,52 @@ Cc: mjrosato@linux.ibm.com, linux-doc@vger.kernel.org, airlied@linux.ie,
  kevin.tian@intel.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, kwankhede@nvidia.com, vneethv@linux.ibm.com,
  agordeev@linux.ibm.com, linux-s390@vger.kernel.org, kvm@vger.kernel.org,
- corbet@lwn.net, pasic@linux.ibm.com, Jason Gunthorpe <jgg@nvidia.com>,
- borntraeger@linux.ibm.com, intel-gfx@lists.freedesktop.org,
- zhi.a.wang@intel.com, jjherne@linux.ibm.com, farman@linux.ibm.com,
- jchrist@linux.ibm.com, gor@linux.ibm.com, hca@linux.ibm.com,
- alex.williamson@redhat.com, freude@linux.ibm.com, rodrigo.vivi@intel.com,
- intel-gvt-dev@lists.freedesktop.org, akrowiak@linux.ibm.com,
- tvrtko.ursulin@linux.intel.com, cohuck@redhat.com, oberpar@linux.ibm.com,
- svens@linux.ibm.com
+ corbet@lwn.net, pasic@linux.ibm.com, borntraeger@linux.ibm.com,
+ intel-gfx@lists.freedesktop.org, zhi.a.wang@intel.com, jjherne@linux.ibm.com,
+ farman@linux.ibm.com, jchrist@linux.ibm.com, gor@linux.ibm.com,
+ hca@linux.ibm.com, alex.williamson@redhat.com, freude@linux.ibm.com,
+ rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
+ akrowiak@linux.ibm.com, tvrtko.ursulin@linux.intel.com, cohuck@redhat.com,
+ oberpar@linux.ibm.com, svens@linux.ibm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 19, 2022 at 11:32:07PM -0700, Christoph Hellwig wrote:
-> On Sun, Jun 19, 2022 at 11:57:26PM -0300, Jason Gunthorpe wrote:
-> > The remark about io memory is because on s390 memcpy() will crash even
-> > on ioremapped memory, you have to use the memcpy_to/fromio() which
-> > uses the special s390 io access instructions.
+On Mon, Jun 20, 2022 at 12:36:28PM -0300, Jason Gunthorpe wrote:
+> On Sun, Jun 19, 2022 at 11:37:47PM -0700, Christoph Hellwig wrote:
+> > On Sun, Jun 19, 2022 at 10:51:47PM -0700, Christoph Hellwig wrote:
+> > > On Mon, Jun 20, 2022 at 12:00:46AM -0300, Jason Gunthorpe wrote:
+> > > > On Fri, Jun 17, 2022 at 01:54:05AM -0700, Christoph Hellwig wrote:
+> > > > > There is a bunch of code an comments in the iommu type1 code that
+> > > > > suggest we can pin memory that is not page backed.  
+> > > > 
+> > > > AFAIK you can.. The whole follow_pte() mechanism allows raw PFNs to be
+> > > > loaded into the type1 maps and the pin API will happily return
+> > > > them. This happens in almost every qemu scenario because PCI MMIO BAR
+> > > > memory ends up routed down this path.
+> > > 
+> > > Indeed, my read wasn't deep enough.  Which means that we can't change
+> > > the ->pin_pages interface to return a struct pages array, as we don't
+> > > have one for those.
+> > 
+> > Actually.  gvt requires a struct page, and both s390 seem to require
+> > normal non-I/O, non-remapped kernel pointers.  So I think for the
+> > vfio_pin_pages we can assume that we only want page backed memory and
+> > remove the follow_fault_pfn case entirely.   But we'll probably have
+> > to keep it for the vfio_iommu_replay case that is not tied to
+> > emulated IOMMU drivers.
 > 
-> Yes.  The same is true for various other architectures, inluding arm64
-> under the right circumstances.
+> Right, that is my thinking - since all drivers actually need a struct
+> page we should have the API return a working struct page and have the
+> VFIO layer isolate the non-struct page stuff so it never leaks out of
+> this API.
 > 
-> > This helps because we now block io memory from ever getting into these
-> > call paths. I'm pretty sure this is a serious security bug, but would
-> > let the IBM folks remark as I don't know it all that well..
+> This nicely fixes the various problems in all the drivers if io memory
+> comes down this path.
 > 
-> Prevent as in crash when trying to convert it to a page?
-> 
-> > As for the kmap, I thought it was standard practice even if it is a
-> > non-highmem? Aren't people trying to use this for other security
-> > stuff these days?
-> 
-> Ira has been lookin into the protection keys, although they don't
-> apply to s390.  Either way I don't object to using kmap, but the
-> commit log doesn't make much sense to me.
+> It is also why doing too much surgery deeper into type 1 probably
+> isn't too worthwhile as it still needs raw pfns in its data
+> structures for iommu modes.
 
-How about the updated commit log below? Thanks.
-
-The pinned PFN list returned from vfio_pin_pages() is converted using
-page_to_pfn(), so direct access via memcpy() will crash on S390 if the
-PFN is an IO PFN, as we have to use the memcpy_to/fromio(), which uses
-the special s390 IO access instructions.
-
-As a standard practice for security purpose, add kmap_local_page() to
-block any IO memory from ever getting into this call path.
+Christoph, do you agree with Jason's remark on not doing too much
+surgery into type1 code? Or do you still want this series to change
+type1 like removing follow_fault_pfn() that you mentioned above?
