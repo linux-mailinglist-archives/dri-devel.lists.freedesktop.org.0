@@ -2,48 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207A8552C74
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDC2552C8E
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 10:05:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2B04112872;
-	Tue, 21 Jun 2022 07:56:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF59210FC28;
+	Tue, 21 Jun 2022 08:05:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A8C2112877
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 07:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655798214; x=1687334214;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=vCVXmWxUrFi6Xr9Wjm6brQnYsJGsIHmC+YmfL9+QGNE=;
- b=BWaOjZMmPN86ChMlCea71DRT57pFwgphpK7TeCsHUKhvGIzu+e1pBI0v
- JMDmNaIMWLj8qfDWpET5IlErmUMb6jwFxuYoVIo8F8qIztTmUVT/MQtNf
- QvujGwuNjElzjj876Hpu111CcinPYk65XqtcawJwVlQmorY71Slw9meUB
- j/TgJItWBZvBJPBwLcKMdGbyAJwiILnDvq/Gz8kZMCoy6gNQ2LuP5j22v
- zUSqTJuUpChVtJOKOIo/o5xRkpOqxLEtzCHuBTlpGbTj7WsJxuA3Wh9Cw
- wxXVzp/rkPnVHjqr3AXMI5X+2burpdgduF+bq1cfZfItB5xE96U4Lj32h g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="305498631"
-X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="305498631"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2022 00:56:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="585185903"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.163])
- by orsmga007.jf.intel.com with SMTP; 21 Jun 2022 00:56:49 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 21 Jun 2022 10:56:48 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/xlnx: Fix build failure due to missing include
-Date: Tue, 21 Jun 2022 10:56:48 +0300
-Message-Id: <20220621075648.7717-1-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B54110F9F9
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 08:05:17 +0000 (UTC)
+X-UUID: e0277822d01a440bb699fe1d22a5f8a0-20220621
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6, REQID:c17b9320-9d59-46d2-9efc-5410dfa22f82, OB:10,
+ L
+ OB:30,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,A
+ CTION:release,TS:45
+X-CID-INFO: VERSION:1.1.6, REQID:c17b9320-9d59-46d2-9efc-5410dfa22f82, OB:10,
+ LOB
+ :30,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-META: VersionHash:b14ad71, CLOUDID:0889a02d-1756-4fa3-be7f-474a6e4be921,
+ C
+ OID:8d11524cbd9e,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: e0277822d01a440bb699fe1d22a5f8a0-20220621
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 940616836; Tue, 21 Jun 2022 16:05:10 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Tue, 21 Jun 2022 16:05:09 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Tue, 21 Jun 2022 16:05:09 +0800
+Message-ID: <a3b133645d2f7bb333e0cdde8f5968c73a6aa72c.camel@mediatek.com>
+Subject: Re: [PATCH v11 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
+ <airlied@linux.ie>
+Date: Tue, 21 Jun 2022 16:05:08 +0800
+In-Reply-To: <20220610105522.13449-6-rex-bc.chen@mediatek.com>
+References: <20220610105522.13449-1-rex-bc.chen@mediatek.com>
+ <20220610105522.13449-6-rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,42 +68,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, msp@baylibre.com,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Hi, Bo-Chen:
 
-Dropping drm_blend.h from drm_crtc.h broke the
-xlnx driver. Make it build again by including
-drm_blend.h from the driver directly.
+On Fri, 2022-06-10 at 18:55 +0800, Bo-Chen Chen wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> This patch adds a embedded displayport driver for the MediaTek mt8195
+> SoC.
+> 
+> It supports the MT8195, the embedded DisplayPort units. It offers
+> DisplayPort 1.4 with up to 4 lanes.
+> 
+> The driver creates a child device for the phy. The child device will
+> never exist without the parent being active. As they are sharing a
+> register range, the parent passes a regmap pointer to the child so
+> that
+> both can work with the same register range. The phy driver sets
+> device
+> data that is read by the parent to get the phy device that can be
+> used
+> to control the phy properties.
+> 
+> This driver is based on an initial version by
+> Jitao shi <jitao.shi@mediatek.com>
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> [Bo-Chen: Cleanup the drivers and modify comments from reviewers]
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
 
-My .config was missing some required dependencies so
-I never build tested it :/
+[snip]
 
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Fixes: 90bb087f6674 ("drm: Drop drm_blend.h from drm_crtc.h")
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/xlnx/zynqmp_disp.c | 1 +
- 1 file changed, 1 insertion(+)
+> +
+> +static int mtk_dp_parse_capabilities(struct mtk_dp *mtk_dp)
+> +{
+> +	u8 val;
+> +	struct mtk_dp_train_info *train_info = &mtk_dp->train_info;
+> +
+> +	drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER,
+> DP_SET_POWER_D0);
+> +	usleep_range(2000, 5000);
+> +
+> +	drm_dp_read_dpcd_caps(&mtk_dp->aux, mtk_dp->rx_cap);
+> +
+> +	mtk_dp->rx_cap[DP_TRAINING_AUX_RD_INTERVAL] &=
+> DP_TRAINING_AUX_RD_MASK;
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-index 11c409cbc88e..cc32aa89cf8f 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-@@ -12,6 +12,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_atomic_uapi.h>
-+#include <drm/drm_blend.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_device.h>
- #include <drm/drm_fb_cma_helper.h>
--- 
-2.35.1
+You never use mtk_dp->rx_cap[DP_TRAINING_AUX_RD_INTERVAL], why do you
+modify it?
+
+> +
+> +	train_info->link_rate = min_t(int, mtk_dp->max_linkrate,
+> +				      mtk_dp->rx_cap[mtk_dp-
+> >max_linkrate]);
+> +	train_info->lane_count = min_t(int, mtk_dp->max_lanes,
+> +				       drm_dp_max_lane_count(mtk_dp-
+> >rx_cap));
+> +
+> +	train_info->tps3 = drm_dp_tps3_supported(mtk_dp->rx_cap);
+> +	train_info->tps4 = drm_dp_tps4_supported(mtk_dp->rx_cap);
+> +
+> +	train_info->sink_ssc = !!(mtk_dp->rx_cap[DP_MAX_DOWNSPREAD] &
+> +				  DP_MAX_DOWNSPREAD_0_5);
+> +
+
+train_info->sink_ssc = drm_dp_max_downspread(mtk_dp->rx_cap);
+
+Regards,
+CK
+
+> +	train_info->sink_ssc = false;
+> +
+> +	drm_dp_dpcd_readb(&mtk_dp->aux, DP_MSTM_CAP, &val);
+> +	if (val & DP_MST_CAP) {
+> +		/* Clear DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0 */
+> +		drm_dp_dpcd_readb(&mtk_dp->aux,
+> +				  DP_DEVICE_SERVICE_IRQ_VECTOR_ESI0,
+> &val);
+> +		if (val)
+> +			drm_dp_dpcd_writeb(&mtk_dp->aux,
+> +					   DP_DEVICE_SERVICE_IRQ_VECTOR
+> _ESI0,
+> +					   val);
+> +	}
+> +
+> +	return 0;
+> +}
 
