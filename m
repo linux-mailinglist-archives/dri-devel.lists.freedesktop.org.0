@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26868553433
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 16:09:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF86553437
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 16:09:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9BD310E65A;
-	Tue, 21 Jun 2022 14:09:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C53110E4BF;
+	Tue, 21 Jun 2022 14:09:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4E9910E61A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 14:08:58 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF57310E4BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 14:09:18 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7CD69B8180C
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 14:08:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4AEA4C341C4
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 14:08:56 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4535F61633
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 14:09:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AAA03C3411D
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 14:09:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655820536;
- bh=VQG2Cac95ZGYMbWL3WntqzH2pNy6aXlsuKPKEI5mCR8=;
+ s=k20201202; t=1655820557;
+ bh=EBn7G+9sE0CEOgz1eivS1aYHKrdUWalsWIttTX1X3uY=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=GSef77njOPt1+Rl0JAPyASqAoUwHFIsO/hS65nSdqeLlwUAOqkk4OTTfmj3wnPcPV
- iCWAquzBexwXIZf3M/rU6Rgr2DjGot4S75+NUNtd9FXZxe/jdiol89qjS6kFDSKwpH
- a4rinoivyI2AEDQbprTP1ffOJ6k8peSvGnFru0tSLf30XDGxHjRoVsH/W+vicBgjPC
- XiN9i+/c7Kgnqc2Pp/GiJZ0VnMjkIAA8k+skCtuLtVxPNthO0KnjCgkYHyENU2E8oB
- f66eiAqUPoQu2l5ozRKABigViBTsflD9YALM4JsRTTf/Vv7SKkK93YfhbPYFr8vu/F
- 3hn1g0cbTGRWQ==
+ b=PRp/CkU72GIxD4Jv9U9Nf1rmlUYJrJaJnZMpaRovZi8klteJbGdrBNptx69k65rm7
+ VyrylrYump5+dtGRbRjVsn4QFksSCv1YTssRo/BWn7TsnsSoIvLc0Fn64EZrB3ZHKq
+ CnNx/8ykP9ICtHtSPtK+eUT0gS4YadiF1zMEUJ/wYNvx+UvGj3UYMn1dg+K9YfNAPP
+ 2DuOWe4nIxmLZHcn/14axAGdHcnDoBggG7TKpN9oo9B5jTxjx/T/lbXoZozpBPw+uH
+ DXTiehO546GKAVcF1g2tmUR0OTdxOIu86GjACb8KVcWUii5O1XWGw8f7ky9fOs+7X2
+ XuXoESNyullhA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 396D0CC13B4; Tue, 21 Jun 2022 14:08:56 +0000 (UTC)
+ from userid 48) id 9898AC05FD5; Tue, 21 Jun 2022 14:09:17 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
  390
-Date: Tue, 21 Jun 2022 14:08:55 +0000
+Date: Tue, 21 Jun 2022 14:09:17 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,7 +51,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-216119-2300-BQY0Jv4bfC@https.bugzilla.kernel.org/>
+Message-ID: <bug-216119-2300-trvrNdpSgu@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
 References: <bug-216119-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,10 +76,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
 
---- Comment #15 from Alex Deucher (alexdeucher@gmail.com) ---
-Created attachment 301245
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301245&action=3Dedit
-patch 3/4
+--- Comment #16 from Alex Deucher (alexdeucher@gmail.com) ---
+Created attachment 301246
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301246&action=3Dedit
+patch 4/4
 
 --=20
 You may reply to this email to add a comment.
