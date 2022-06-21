@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83AC255355B
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 17:11:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC63553559
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 17:11:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4347810E827;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CBC910E94C;
 	Tue, 21 Jun 2022 15:11:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEE7C10E827
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 15:11:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5705610E560
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 15:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=yb5ZRXXvSv1MiO+QoygFiVs/3UGGooAnjV7C1vURjL4=; b=089q7ix7VFyc4yPydq1N6VI+B8
- 4nHdPI/mf4h525r1RrtY5SUl2VYpeJPcjCEhuc3aay5p8dLgHaQal5inGNQeXWfPOxVwf46Mavw4Q
- /ysL5EXfZq2YwT8gcDNgzE+yViN49zSoB4Tgrn9YWvWsLE8NMeHccN4O/fJA1FlX+IvyeZqprFd9S
- P0Dv1DD393IFmGEZnh/8wj+9QNYLGsDNY0EISTDZg4N30vaokDbtXYniXR+3HvEmwJAv4QguYcoih
- Ww1140KOOdzLE18qVEcDjU9W6iwieP7Z9K+91hA8eE6IP0HF7RWuhR1ABUO9MpbUl1JItRyGB94gn
- OfcFqUyw==;
+ bh=KUWhy8rPFuwEh8PDKMugA0pP7hmxBbSzVXLcTuhwxhc=; b=odCs6Tn1vgmi+IOJewB37rq/DN
+ L763XaFgoFCElHuu0N1hRSghStmYGddeyLSLamuTNVm1hJD2zL0M7HZdfwo47yuPssI4VninX0XDJ
+ xkJJSxhvKdmL0w1SHt/YCmP454myS/sPG7djATUSXiimMZ+807XbLSrFMm71KFPBP/V/+jDXMkTtZ
+ gNtgbg7KHvmayDosPyfGUhKqlkkhmV2h2C3N3WRclEj/mfxTe0TuUyF47T6SerSo4W7Dl4jJ5oI2b
+ st3RT70lPLR0ZL65l5nbByYOxMosCecdsqoboMnppaI+mBYcW45hMjbYy4F9cMcltoj3OKbzC9e7P
+ axwQpWzQ==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <cyndis@kapsi.fi>)
- id 1o3fWU-00Ea3F-JY; Tue, 21 Jun 2022 18:10:34 +0300
+ id 1o3fWU-00Ea3F-Mr; Tue, 21 Jun 2022 18:10:34 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
  will@kernel.org, robin.murphy@arm.com, robh+dt@kernel.org,
  krzysztof.kozlowski@canonical.com
-Subject: [PATCH v6 09/10] drm/tegra: Support context isolation
-Date: Tue, 21 Jun 2022 18:10:21 +0300
-Message-Id: <20220621151022.1416300-10-cyndis@kapsi.fi>
+Subject: [PATCH v6 10/10] drm/tegra: Implement stream ID related callbacks on
+ engines
+Date: Tue, 21 Jun 2022 18:10:22 +0300
+Message-Id: <20220621151022.1416300-11-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220621151022.1416300-1-cyndis@kapsi.fi>
 References: <20220621151022.1416300-1-cyndis@kapsi.fi>
@@ -65,228 +66,199 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-For engines that support context isolation, allocate a context when
-opening a channel, and set up stream ID offset and context fields
-when submitting a job.
-
-As of this commit, the stream ID offset and fallback stream ID
-are not used when context isolation is disabled. However, with
-upcoming patches that enable a full featured job opcode sequence,
-these will be necessary.
+Implement the get_streamid_offset and can_use_memory_ctx callbacks
+required for supporting context isolation. Since old firmware on VIC
+cannot support context isolation without hacks that we don't want to
+implement, check the firmware binary to see if context isolation
+should be enabled.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
 v5:
-* On supporting engines, always program stream ID offset and
-  new fallback stream ID.
-* Rename host1x_context to host1x_memory_context
+* Split into two callbacks
+* Add NVDEC support
 v4:
-* Separate error and output values in get_streamid_offset API
-* Improve error handling
-* Rename job->context to job->memory_context for clarity
+* Add locking in vic_load_firmware
+* Return -EOPNOTSUPP if context isolation is not available
+* Update for changed get_streamid_offset declaration
+* Add comment noting that vic_load_firmware is safe to call
+  without the hardware being powered on
+
+Implement context isolation related callbacks in VIC, NVDEC
 ---
- drivers/gpu/drm/tegra/drm.h    |  3 +++
- drivers/gpu/drm/tegra/submit.c | 48 +++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/tegra/uapi.c   | 43 ++++++++++++++++++++++++++++--
- 3 files changed, 91 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tegra/drm.h   |  8 +++++
+ drivers/gpu/drm/tegra/nvdec.c |  9 +++++
+ drivers/gpu/drm/tegra/vic.c   | 67 ++++++++++++++++++++++++++++++-----
+ 3 files changed, 76 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
-index fc0a19554eac..2acc8f2948ad 100644
+index 2acc8f2948ad..845e60f144c7 100644
 --- a/drivers/gpu/drm/tegra/drm.h
 +++ b/drivers/gpu/drm/tegra/drm.h
-@@ -80,6 +80,7 @@ struct tegra_drm_context {
+@@ -100,6 +100,14 @@ int tegra_drm_submit(struct tegra_drm_context *context,
+ 		     struct drm_tegra_submit *args, struct drm_device *drm,
+ 		     struct drm_file *file);
  
- 	/* Only used by new UAPI. */
- 	struct xarray mappings;
-+	struct host1x_memory_context *memory_context;
- };
- 
- struct tegra_drm_client_ops {
-@@ -91,6 +92,8 @@ struct tegra_drm_client_ops {
- 	int (*submit)(struct tegra_drm_context *context,
- 		      struct drm_tegra_submit *args, struct drm_device *drm,
- 		      struct drm_file *file);
-+	int (*get_streamid_offset)(struct tegra_drm_client *client, u32 *offset);
-+	int (*can_use_memory_ctx)(struct tegra_drm_client *client, bool *supported);
- };
- 
- int tegra_drm_submit(struct tegra_drm_context *context,
-diff --git a/drivers/gpu/drm/tegra/submit.c b/drivers/gpu/drm/tegra/submit.c
-index 6d6dd8c35475..b24738bdf3df 100644
---- a/drivers/gpu/drm/tegra/submit.c
-+++ b/drivers/gpu/drm/tegra/submit.c
-@@ -498,6 +498,9 @@ static void release_job(struct host1x_job *job)
- 	struct tegra_drm_submit_data *job_data = job->user_data;
- 	u32 i;
- 
-+	if (job->memory_context)
-+		host1x_memory_context_put(job->memory_context);
++static inline int
++tegra_drm_get_streamid_offset_thi(struct tegra_drm_client *client, u32 *offset)
++{
++	*offset = 0x30;
 +
- 	for (i = 0; i < job_data->num_used_mappings; i++)
- 		tegra_drm_mapping_put(job_data->used_mappings[i].mapping);
- 
-@@ -588,11 +591,51 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
- 		goto put_job;
- 	}
- 
-+	if (context->client->ops->get_streamid_offset) {
-+		err = context->client->ops->get_streamid_offset(
-+			context->client, &job->engine_streamid_offset);
-+		if (err) {
-+			SUBMIT_ERR(context, "failed to get streamid offset: %d", err);
-+			goto unpin_job;
-+		}
-+	}
++	return 0;
++}
 +
-+	if (context->memory_context && context->client->ops->can_use_memory_ctx) {
-+		bool supported;
-+
-+		err = context->client->ops->can_use_memory_ctx(context->client, &supported);
-+		if (err) {
-+			SUBMIT_ERR(context, "failed to detect if engine can use memory context: %d", err);
-+			goto unpin_job;
-+		}
-+
-+		if (supported) {
-+			job->memory_context = context->memory_context;
-+			host1x_memory_context_get(job->memory_context);
-+		}
-+	} else if (context->client->ops->get_streamid_offset) {
-+#ifdef CONFIG_IOMMU_API
-+		struct iommu_fwspec *spec;
-+
-+		/*
-+		 * Job submission will need to temporarily change stream ID,
-+		 * so need to tell it what to change it back to.
-+		 */
-+		spec = dev_iommu_fwspec_get(context->client->base.dev);
-+		if (spec && spec->num_ids > 0)
-+			job->engine_fallback_streamid = spec->ids[0] & 0xffff;
-+		else
-+			job->engine_fallback_streamid = 0x7f;
-+#else
-+		job->engine_fallback_streamid = 0x7f;
-+#endif
-+	}
-+
- 	/* Boot engine. */
- 	err = pm_runtime_resume_and_get(context->client->base.dev);
- 	if (err < 0) {
- 		SUBMIT_ERR(context, "could not power up engine: %d", err);
--		goto unpin_job;
-+		goto put_memory_context;
- 	}
- 
- 	job->user_data = job_data;
-@@ -627,6 +670,9 @@ int tegra_drm_ioctl_channel_submit(struct drm_device *drm, void *data,
- 
- 	goto put_job;
- 
-+put_memory_context:
-+	if (job->memory_context)
-+		host1x_memory_context_put(job->memory_context);
- unpin_job:
- 	host1x_job_unpin(job);
- put_job:
-diff --git a/drivers/gpu/drm/tegra/uapi.c b/drivers/gpu/drm/tegra/uapi.c
-index 9ab9179d2026..a98239cb0e29 100644
---- a/drivers/gpu/drm/tegra/uapi.c
-+++ b/drivers/gpu/drm/tegra/uapi.c
-@@ -33,6 +33,9 @@ static void tegra_drm_channel_context_close(struct tegra_drm_context *context)
- 	struct tegra_drm_mapping *mapping;
- 	unsigned long id;
- 
-+	if (context->memory_context)
-+		host1x_memory_context_put(context->memory_context);
-+
- 	xa_for_each(&context->mappings, id, mapping)
- 		tegra_drm_mapping_put(mapping);
- 
-@@ -72,6 +75,7 @@ static struct tegra_drm_client *tegra_drm_find_client(struct tegra_drm *tegra, u
- 
- int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_file *file)
- {
-+	struct host1x *host = tegra_drm_to_host1x(drm->dev_private);
- 	struct tegra_drm_file *fpriv = file->driver_priv;
- 	struct tegra_drm *tegra = drm->dev_private;
- 	struct drm_tegra_channel_open *args = data;
-@@ -102,10 +106,36 @@ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_
- 		}
- 	}
- 
-+	/* Only allocate context if the engine supports context isolation. */
-+	if (device_iommu_mapped(client->base.dev) && client->ops->can_use_memory_ctx) {
-+		bool supported;
-+
-+		err = client->ops->can_use_memory_ctx(client, &supported);
-+		if (err)
-+			goto put_channel;
-+
-+		if (supported)
-+			context->memory_context = host1x_memory_context_alloc(
-+				host, get_task_pid(current, PIDTYPE_TGID));
-+
-+		if (IS_ERR(context->memory_context)) {
-+			if (PTR_ERR(context->memory_context) != -EOPNOTSUPP) {
-+				err = PTR_ERR(context->memory_context);
-+				goto put_channel;
-+			} else {
-+				/*
-+				 * OK, HW does not support contexts or contexts
-+				 * are disabled.
-+				 */
-+				context->memory_context = NULL;
-+			}
-+		}
-+	}
-+
- 	err = xa_alloc(&fpriv->contexts, &args->context, context, XA_LIMIT(1, U32_MAX),
- 		       GFP_KERNEL);
- 	if (err < 0)
--		goto put_channel;
-+		goto put_memctx;
- 
- 	context->client = client;
- 	xa_init_flags(&context->mappings, XA_FLAGS_ALLOC1);
-@@ -118,6 +148,9 @@ int tegra_drm_ioctl_channel_open(struct drm_device *drm, void *data, struct drm_
- 
- 	return 0;
- 
-+put_memctx:
-+	if (context->memory_context)
-+		host1x_memory_context_put(context->memory_context);
- put_channel:
+ struct tegra_drm_client {
+ 	struct host1x_client base;
+ 	struct list_head list;
+diff --git a/drivers/gpu/drm/tegra/nvdec.c b/drivers/gpu/drm/tegra/nvdec.c
+index 386f9b2e78c4..a84f61709679 100644
+--- a/drivers/gpu/drm/tegra/nvdec.c
++++ b/drivers/gpu/drm/tegra/nvdec.c
+@@ -306,10 +306,19 @@ static void nvdec_close_channel(struct tegra_drm_context *context)
  	host1x_channel_put(context->channel);
- free:
-@@ -156,6 +189,7 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
- 	struct tegra_drm_mapping *mapping;
- 	struct tegra_drm_context *context;
- 	enum dma_data_direction direction;
-+	struct device *mapping_dev;
- 	int err = 0;
+ }
  
- 	if (args->flags & ~DRM_TEGRA_CHANNEL_MAP_READ_WRITE)
-@@ -177,6 +211,11 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
- 
- 	kref_init(&mapping->ref);
- 
-+	if (context->memory_context)
-+		mapping_dev = &context->memory_context->dev;
-+	else
-+		mapping_dev = context->client->base.dev;
++static int nvdec_can_use_memory_ctx(struct tegra_drm_client *client, bool *supported)
++{
++	*supported = true;
 +
- 	mapping->bo = tegra_gem_lookup(file, args->handle);
- 	if (!mapping->bo) {
- 		err = -EINVAL;
-@@ -201,7 +240,7 @@ int tegra_drm_ioctl_channel_map(struct drm_device *drm, void *data, struct drm_f
- 		goto put_gem;
++	return 0;
++}
++
+ static const struct tegra_drm_client_ops nvdec_ops = {
+ 	.open_channel = nvdec_open_channel,
+ 	.close_channel = nvdec_close_channel,
+ 	.submit = tegra_drm_submit,
++	.get_streamid_offset = tegra_drm_get_streamid_offset_thi,
++	.can_use_memory_ctx = nvdec_can_use_memory_ctx,
+ };
+ 
+ #define NVIDIA_TEGRA_210_NVDEC_FIRMWARE "nvidia/tegra210/nvdec.bin"
+diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
+index f56f5921a8c2..c5526bda88d6 100644
+--- a/drivers/gpu/drm/tegra/vic.c
++++ b/drivers/gpu/drm/tegra/vic.c
+@@ -38,6 +38,8 @@ struct vic {
+ 	struct clk *clk;
+ 	struct reset_control *rst;
+ 
++	bool can_use_context;
++
+ 	/* Platform configuration */
+ 	const struct vic_config *config;
+ };
+@@ -229,28 +231,38 @@ static int vic_load_firmware(struct vic *vic)
+ {
+ 	struct host1x_client *client = &vic->client.base;
+ 	struct tegra_drm *tegra = vic->client.drm;
++	static DEFINE_MUTEX(lock);
++	u32 fce_bin_data_offset;
+ 	dma_addr_t iova;
+ 	size_t size;
+ 	void *virt;
+ 	int err;
+ 
+-	if (vic->falcon.firmware.virt)
+-		return 0;
++	mutex_lock(&lock);
++
++	if (vic->falcon.firmware.virt) {
++		err = 0;
++		goto unlock;
++	}
+ 
+ 	err = falcon_read_firmware(&vic->falcon, vic->config->firmware);
+ 	if (err < 0)
+-		return err;
++		goto unlock;
+ 
+ 	size = vic->falcon.firmware.size;
+ 
+ 	if (!client->group) {
+ 		virt = dma_alloc_coherent(vic->dev, size, &iova, GFP_KERNEL);
+-		if (!virt)
+-			return -ENOMEM;
++		if (!virt) {
++			err = -ENOMEM;
++			goto unlock;
++		}
+ 	} else {
+ 		virt = tegra_drm_alloc(tegra, size, &iova);
+-		if (IS_ERR(virt))
+-			return PTR_ERR(virt);
++		if (IS_ERR(virt)) {
++			err = PTR_ERR(virt);
++			goto unlock;
++		}
  	}
  
--	mapping->map = host1x_bo_pin(context->client->base.dev, mapping->bo, direction, NULL);
-+	mapping->map = host1x_bo_pin(mapping_dev, mapping->bo, direction, NULL);
- 	if (IS_ERR(mapping->map)) {
- 		err = PTR_ERR(mapping->map);
- 		goto put_gem;
+ 	vic->falcon.firmware.virt = virt;
+@@ -277,7 +289,28 @@ static int vic_load_firmware(struct vic *vic)
+ 		vic->falcon.firmware.phys = phys;
+ 	}
+ 
+-	return 0;
++	/*
++	 * Check if firmware is new enough to not require mapping firmware
++	 * to data buffer domains.
++	 */
++	fce_bin_data_offset = *(u32 *)(virt + VIC_UCODE_FCE_DATA_OFFSET);
++
++	if (!vic->config->supports_sid) {
++		vic->can_use_context = false;
++	} else if (fce_bin_data_offset != 0x0 && fce_bin_data_offset != 0xa5a5a5a5) {
++		/*
++		 * Firmware will access FCE through STREAMID0, so context
++		 * isolation cannot be used.
++		 */
++		vic->can_use_context = false;
++		dev_warn_once(vic->dev, "context isolation disabled due to old firmware\n");
++	} else {
++		vic->can_use_context = true;
++	}
++
++unlock:
++	mutex_unlock(&lock);
++	return err;
+ 
+ cleanup:
+ 	if (!client->group)
+@@ -285,6 +318,7 @@ static int vic_load_firmware(struct vic *vic)
+ 	else
+ 		tegra_drm_free(tegra, size, virt, iova);
+ 
++	mutex_unlock(&lock);
+ 	return err;
+ }
+ 
+@@ -358,10 +392,27 @@ static void vic_close_channel(struct tegra_drm_context *context)
+ 	host1x_channel_put(context->channel);
+ }
+ 
++static int vic_can_use_memory_ctx(struct tegra_drm_client *client, bool *supported)
++{
++	struct vic *vic = to_vic(client);
++	int err;
++
++	/* This doesn't access HW so it's safe to call without powering up. */
++	err = vic_load_firmware(vic);
++	if (err < 0)
++		return err;
++
++	*supported = vic->can_use_context;
++
++	return 0;
++}
++
+ static const struct tegra_drm_client_ops vic_ops = {
+ 	.open_channel = vic_open_channel,
+ 	.close_channel = vic_close_channel,
+ 	.submit = tegra_drm_submit,
++	.get_streamid_offset = tegra_drm_get_streamid_offset_thi,
++	.can_use_memory_ctx = vic_can_use_memory_ctx,
+ };
+ 
+ #define NVIDIA_TEGRA_124_VIC_FIRMWARE "nvidia/tegra124/vic03_ucode.bin"
 -- 
 2.36.1
 
