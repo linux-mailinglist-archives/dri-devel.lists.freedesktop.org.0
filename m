@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6364554268
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 07:52:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0BB554274
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 07:53:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DAF211388A;
-	Wed, 22 Jun 2022 05:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB51113897;
+	Wed, 22 Jun 2022 05:52:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbg.qq.com (smtpbg139.qq.com [175.27.65.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09B4810E27D
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 18:54:30 +0000 (UTC)
-X-QQ-mid: bizesmtp82t1655837655tbb8zg4g
+Received: from smtpbg.qq.com (smtpbg136.qq.com [106.55.201.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86F6610FC76
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 18:55:58 +0000 (UTC)
+X-QQ-mid: bizesmtp81t1655837745tf77ccv4
 Received: from ubuntu.localdomain ( [106.117.99.68])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Wed, 22 Jun 2022 02:54:11 +0800 (CST)
+ id ; Wed, 22 Jun 2022 02:55:40 +0800 (CST)
 X-QQ-SSF: 01000000008000B0B000B00A0000000
-X-QQ-FEAT: e00egQTBacTlcDxwIZzv4cwiUY0YAZ5kptuyvGlLEHWQoXnT7viwCQeLnJBsD
- aCN96z90YuCSZ31/ZQsyYPNbZWAxLGT0d2iCvT20BTkHS1JA0E2DXKE3jB3tGm2drgSZISY
- Spf5wgKE2mL34i4Xkkwbkrjn1vyI9+PegpUGjy4cAamRlmmagAhBa2olMotGHtVILIZzwXn
- WY/y8nnWjzL2ZxqdIhwpgdptfgFTgIGY2GoBbTbbKkXMnU3z9RKrh0jVpWFzz1ufzmtqbQR
- 92dYz0J/hhkMH+o3Dq/e4WtIQNNYCQAKE+gZjvG6ERpW13hxk2nRgMOo/9VLgRXZxKnmYb9
- +De5bvlNROZyY+MBq4=
+X-QQ-FEAT: OgQh5dxRN5wbavA1GfzuufKZqLUg4wAI9+JIV47vYKEuw9sHuek563x2EmWfR
+ kUKQViagBIljkrsybiRSNkrMi6wkuyggXAxdkvDVJtwanDJJ8c8QRNHn2z1Ot0T9EvTHnPW
+ M2UkZD8DJRDIA9R830uknoMgoCkgyQfYIXib8KN8Y43WCgQVDTgKM4pzuDn1YettdaXVutc
+ 0K/I0zkp+PKvgPqGjTXeEYgQhN7TwPhP3D910qO+BIQ9NKmMm4f/gSIGFAPwVp4FHM5WCPD
+ DAtYyuHoD86E9umdDIYD668uz5v8lsQSQe7vZUuQ9d/ssCeeueTkIRukdpENqNDc6HfONnM
+ kjmHDaXMESyv6oqCY0=
 X-QQ-GoodBg: 0
 From: Jiang Jian <jiangjian@cdjrlc.com>
 To: deller@gmx.de
 Subject: [PATCH] video: fbdev: omap: Remove duplicate 'the' in two places.
-Date: Wed, 22 Jun 2022 02:54:09 +0800
-Message-Id: <20220621185409.4859-1-jiangjian@cdjrlc.com>
+Date: Wed, 22 Jun 2022 02:55:38 +0800
+Message-Id: <20220621185538.6072-1-jiangjian@cdjrlc.com>
 X-Mailer: git-send-email 2.17.1
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam6
+Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam7
 X-Mailman-Approved-At: Wed, 22 Jun 2022 05:52:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,8 +45,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, arnd@arndb.de, b.zolnierkie@samsung.com,
- tony@atomide.com, jmkrzyszt@gmail.com, linux-kernel@vger.kernel.org,
+Cc: linux-fbdev@vger.kernel.org, arnd@arndb.de, tony@atomide.com,
+ jmkrzyszt@gmail.com, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, jiangjian@cdjrlc.com,
  linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -78,5 +78,4 @@ index c90eb8ca58af..66aff6cd1df0 100644
  	 */
 -- 
 2.17.1
-
 
