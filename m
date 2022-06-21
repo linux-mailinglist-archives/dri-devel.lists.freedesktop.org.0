@@ -2,78 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057FA553B23
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 22:08:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B646553B25
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 22:10:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 346F61121E2;
-	Tue, 21 Jun 2022 20:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0673310EB2C;
+	Tue, 21 Jun 2022 20:10:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 477221121E2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 20:08:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655842106;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RmXNSrWNq48zXd1EQ3l1n2Chs8rdLQeClhksCt61t+0=;
- b=EP1M4HFfI1nIME+s+sKRoSIpKd2x0FEggh/41PkEebK0Qlv+PkZc8b4yhyVTwvqz+Lnym3
- QUchFBF22vg6nJ50qv2UbpnMwUQnU2FRcJXNCA5IobfeTN+0xb4adJV80lotMwye9fs2NI
- BRVbSc00BlGgDl7jDN3fu7KGulUHF9U=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-478-fubawTQ4PP2p0PHyBro-4A-1; Tue, 21 Jun 2022 16:08:25 -0400
-X-MC-Unique: fubawTQ4PP2p0PHyBro-4A-1
-Received: by mail-qk1-f199.google.com with SMTP id
- m15-20020a05620a290f00b006a74cf760b2so17549698qkp.20
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 13:08:25 -0700 (PDT)
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D833510EB89
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 20:10:02 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-101e1a33fe3so9575618fac.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 13:10:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=usp.br; s=usp-google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=s6LYQb1RnyOah+Vf4u3lUiqXdFXBvfMKhbfFyaK0xHU=;
+ b=jB4V6Sxm/RLqUFXdLONSddQ8wIDeEJQkEFsUz+QPH8+oaNv+yg90dAH1VHVnQ8i6hI
+ 2lsHuKH4XmXExYZhNtG1DT1nohD8z6KdtMxTEI7O/CMtWP9/KDihM7FGAbwqbOqR+MvY
+ XQDhPV+BW97Er/5quLx5ZNFsKYuR0GW/SqduRU7b4rH1eNUBk9ju53rOKpDzxlIXd9yF
+ Ax6Gu3iSgWb56t++EOLdofveMck/HJRa9WJYUYtq4n42+22GdK94WCUHUuBnnJFvUNla
+ LwT4xtpTTPNwuOUTpOJrkCa7INXws+VfpytWSQo7xagB+DrrZPg+1XOslp3b/eT407TW
+ FunQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=RmXNSrWNq48zXd1EQ3l1n2Chs8rdLQeClhksCt61t+0=;
- b=TmAP0HaGyz/M5BcR2pvkCVT/hOMZO3sxOcDUv2EwyliqtTmu0luaWKg6RN704nrumF
- M+Vr/DKzPofo8H4kPIiqRJUHqF0Fb9EpUeLVgnFnO0myggBW15M8xSho4RE3X4xbJXHK
- C34hCdIF2t0IwxjuxQey6BwPZmFL228odcoaxRtK0joXSvME6tQ+xQglVvCFgY64dNPG
- 1MD8gOsUdQyG4T6Fpb/tVrs85zu5DBRMGI4MStEFpCDg7Hdv8OY4+4GAgYwvXvtgL8Gx
- oBlOQqK4Pks32bAqoU6Yt2+nTsNdtqTQSPWTfyKQek2Qhru/5EJalZpZqii4HrsWBw/S
- xFmw==
-X-Gm-Message-State: AJIora+MYgY3RMIuIzOXLonmM8j2+bA7jDwIO2YS7RTMnJJXUIoeDCY+
- Xyb4AB7yIB9PZC2tqkhEQ3OqU9hHmgzzPFQkoPCTH47X/gc9XqMF/kaYOBA0KYFh38SHLTauOYk
- pDcYX20L5lpnhn6PrwZ67poC14i0Q
-X-Received: by 2002:a0c:fa03:0:b0:470:3e83:4300 with SMTP id
- q3-20020a0cfa03000000b004703e834300mr11742011qvn.55.1655842104524; 
- Tue, 21 Jun 2022 13:08:24 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t6OBIQbAgLyiI6McC42p6i5g7xpjiCMJyH10ALqOFoCzbeFE2xp865KOfy+OQhYDbb8Qi0Og==
-X-Received: by 2002:a0c:fa03:0:b0:470:3e83:4300 with SMTP id
- q3-20020a0cfa03000000b004703e834300mr11741983qvn.55.1655842104191; 
- Tue, 21 Jun 2022 13:08:24 -0700 (PDT)
-Received: from [192.168.8.138] ([141.154.49.182])
+ bh=s6LYQb1RnyOah+Vf4u3lUiqXdFXBvfMKhbfFyaK0xHU=;
+ b=WKB7vwwKGw0CFkusbX9C2atjPCxktojoE5CbDnBdCx+LvHcIprIf0hWdDfWa3VPhoh
+ QTkTa2Pv+kioMK7tbujvuLiFqXQxeadkAvkuOUhEVxAYOln4ClEyIK3RODeWtIj1+FEl
+ CGV4NJUSr6jlpxy/C+gzEAQxDjZUv15HQUOKwn4zkc16myuG4PnhktevwtbSdyp1IV2i
+ OA7DHRpaztMD+4gKHsALw5Ar2fOFNSew7Z7HP8b08p+mM6KtIGdwuP2YmGnioZI2EMJL
+ /WV3rDlMaotZHxbJj8MZwpYJCC42e+TbFJzmYejnPL8tSeXt6FPVVRdT5kocfs6ijbnU
+ 0vPw==
+X-Gm-Message-State: AJIora9TkXPytHgngSydMmrL07hviZC67NLSOZ/R9cPHIJVwLcq4bGjz
+ iGekvqDCSZVLrLodGCo0Y5W7IQ==
+X-Google-Smtp-Source: AGRyM1uicnSWZyT3v8OKH+0e43MESlWzj/5bQ9ArcRQ7M0A8PfHYAOGuromGspV1CFK8oo+b5LndDA==
+X-Received: by 2002:a05:6870:339a:b0:f2:d065:be1f with SMTP id
+ w26-20020a056870339a00b000f2d065be1fmr15712219oae.69.1655842201550; 
+ Tue, 21 Jun 2022 13:10:01 -0700 (PDT)
+Received: from fedora.. ([2804:14d:8084:84c6:fe26:c42d:aab9:fa8a])
  by smtp.gmail.com with ESMTPSA id
- i14-20020a05620a404e00b006a69d7f390csm16072005qko.103.2022.06.21.13.08.23
+ o206-20020acad7d7000000b0032b7a0c5da1sm9759771oig.27.2022.06.21.13.09.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 13:08:23 -0700 (PDT)
-Message-ID: <58bc64d81295092de0a9cab9c16dfae5600fc821.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/Kconfig: Drop duplicate "select ACPI_VIDEO"
-From: Lyude Paul <lyude@redhat.com>
-To: Hans de Goede <hdegoede@redhat.com>, Ben Skeggs <bskeggs@redhat.com>, 
- Karol Herbst <kherbst@redhat.com>
-Date: Tue, 21 Jun 2022 16:08:22 -0400
-In-Reply-To: <20220620094627.9730-1-hdegoede@redhat.com>
-References: <20220620094627.9730-1-hdegoede@redhat.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ Tue, 21 Jun 2022 13:10:01 -0700 (PDT)
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <maira.canal@usp.br>
+To: Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
+ tales.aparecida@gmail.com, mwen@igalia.com, andrealmeid@riseup.net,
+ siqueirajordao@riseup.net, Trevor Woerner <twoerner@gmail.com>,
+ leandro.ribeiro@collabora.com, n@nfraprado.net,
+ Daniel Vetter <daniel@ffwll.ch>, Shuah Khan <skhan@linuxfoundation.org>,
+ David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, michal.winiarski@intel.com,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ David Gow <davidgow@google.com>, Daniel Latypov <dlatypov@google.com>,
+ brendanhiggins@google.com
+Subject: [PATCH v2 0/9] drm: selftest: Convert to KUnit
+Date: Tue, 21 Jun 2022 17:09:17 -0300
+Message-Id: <20220621200926.257002-1-maira.canal@usp.br>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,46 +79,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <maira.canal@usp.br>,
+ dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+Hi everyone,
 
-Also, you have my permission to push this to drm-misc-next.
+Here is the v2 of the conversion of DRM selftests to KUnit. Some style changes
+were made to align to the drm_format_helper series [1] and the documentation [2],
+as renaming the kunit_suite and the test cases to use underscores as suggested,
+changing the filenames and using a generic symbol to group all tests at the
+config menu.
 
-On Mon, 2022-06-20 at 11:46 +0200, Hans de Goede wrote:
-> Before this change nouveau's Kconfig section had 2 "select ACPI_VIDEO"
-> statements:
-> 
-> select ACPI_VIDEO if ACPI && X86 && BACKLIGHT_CLASS_DEVICE && INPUT
-> select ACPI_VIDEO if ACPI && X86
-> 
-> Drop the one with the extra conditions, if the conditions for that
-> one are true then the second statement will always select ACPI_VIDEO
-> already.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/Kconfig
-> b/drivers/gpu/drm/nouveau/Kconfig
-> index 34760164c271..03d12caf9e26 100644
-> --- a/drivers/gpu/drm/nouveau/Kconfig
-> +++ b/drivers/gpu/drm/nouveau/Kconfig
-> @@ -11,7 +11,6 @@ config DRM_NOUVEAU
->         select DRM_TTM
->         select DRM_TTM_HELPER
->         select BACKLIGHT_CLASS_DEVICE if DRM_NOUVEAU_BACKLIGHT
-> -       select ACPI_VIDEO if ACPI && X86 && BACKLIGHT_CLASS_DEVICE && INPUT
->         select X86_PLATFORM_DEVICES if ACPI && X86
->         select ACPI_WMI if ACPI && X86
->         select MXM_WMI if ACPI && X86
+Moreover, in the previous version of the series, the drm_cmdline_parser tests
+were broken into multiple test functions. As pointed out by Shuan Khan, it made
+the tests harder to comprehend. So, the refactoring was dropped and
+straightforward conversion of the tests was made without any functional changes.
+
+Thanks for your attention and any feedback is welcomed!
+
+Best Regards,
+- Maíra Canal
+
+v1 -> v2: https://lore.kernel.org/dri-devel/20220615135824.15522-1-maira.canal@usp.br/T/
+
+- The suites no longer end in _tests (David Gow).
+- Remove the TODO entry involving the conversion of selftests to KUnit (Javier Martinez Canillas).
+- Change the filenames to match the documentation: use *_test.c (Javier Martinez Canillas).
+- Add MODULE_LICENSE to all tests (kernel test robot).
+- Make use of a generic symbol to group all tests - DRM_KUNIT_TEST (Javier Martinez Canillas).
+- Add .kunitconfig on the first patch (it was on the second patch of the series).
+- Straightforward conversion of the drm_cmdline_parser tests without functional changes (Shuah Khan)
+- Add David's Tested-by tags
+
+[1] https://lore.kernel.org/dri-devel/20220620160640.3790-1-jose.exposito89@gmail.com/T/
+[2] https://www.kernel.org/doc/html/latest/dev-tools/kunit/style.html
+
+Arthur Grillo (1):
+  drm: selftest: convert drm_mm selftest to KUnit
+
+Maíra Canal (8):
+  drm: selftest: convert drm_damage_helper selftest to KUnit
+  drm: selftest: convert drm_cmdline_parser selftest to KUnit
+  drm: selftest: convert drm_rect selftest to KUnit
+  drm: selftest: convert drm_format selftest to KUnit
+  drm: selftest: convert drm_plane_helper selftest to KUnit
+  drm: selftest: convert drm_dp_mst_helper selftest to KUnit
+  drm: selftest: convert drm_framebuffer selftest to KUnit
+  drm: selftest: convert drm_buddy selftest to KUnit
+
+ Documentation/gpu/todo.rst                    |   11 -
+ drivers/gpu/drm/Kconfig                       |   15 +-
+ drivers/gpu/drm/Makefile                      |    2 +-
+ drivers/gpu/drm/selftests/Makefile            |    8 -
+ .../gpu/drm/selftests/drm_buddy_selftests.h   |   15 -
+ .../gpu/drm/selftests/drm_cmdline_selftests.h |   68 -
+ drivers/gpu/drm/selftests/drm_mm_selftests.h  |   28 -
+ .../gpu/drm/selftests/drm_modeset_selftests.h |   40 -
+ drivers/gpu/drm/selftests/drm_selftest.c      |  109 --
+ drivers/gpu/drm/selftests/drm_selftest.h      |   41 -
+ drivers/gpu/drm/selftests/test-drm_buddy.c    |  994 --------------
+ .../drm/selftests/test-drm_cmdline_parser.c   | 1141 -----------------
+ .../drm/selftests/test-drm_damage_helper.c    |  667 ----------
+ drivers/gpu/drm/selftests/test-drm_format.c   |  280 ----
+ .../drm/selftests/test-drm_modeset_common.c   |   32 -
+ .../drm/selftests/test-drm_modeset_common.h   |   52 -
+ drivers/gpu/drm/tests/.kunitconfig            |    3 +
+ drivers/gpu/drm/tests/Makefile                |    6 +
+ drivers/gpu/drm/tests/drm_buddy_test.c        |  748 +++++++++++
+ .../gpu/drm/tests/drm_cmdline_parser_test.c   | 1078 ++++++++++++++++
+ .../gpu/drm/tests/drm_damage_helper_test.c    |  633 +++++++++
+ .../drm_dp_mst_helper_test.c}                 |   84 +-
+ drivers/gpu/drm/tests/drm_format_test.c       |  284 ++++
+ .../drm_framebuffer_test.c}                   |   25 +-
+ .../test-drm_mm.c => tests/drm_mm_test.c}     | 1135 +++++++---------
+ .../drm_plane_helper_test.c}                  |  103 +-
+ .../test-drm_rect.c => tests/drm_rect_test.c} |  124 +-
+ 27 files changed, 3395 insertions(+), 4331 deletions(-)
+ delete mode 100644 drivers/gpu/drm/selftests/Makefile
+ delete mode 100644 drivers/gpu/drm/selftests/drm_buddy_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_cmdline_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_mm_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_modeset_selftests.h
+ delete mode 100644 drivers/gpu/drm/selftests/drm_selftest.c
+ delete mode 100644 drivers/gpu/drm/selftests/drm_selftest.h
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_buddy.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_cmdline_parser.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_damage_helper.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_format.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_modeset_common.c
+ delete mode 100644 drivers/gpu/drm/selftests/test-drm_modeset_common.h
+ create mode 100644 drivers/gpu/drm/tests/.kunitconfig
+ create mode 100644 drivers/gpu/drm/tests/Makefile
+ create mode 100644 drivers/gpu/drm/tests/drm_buddy_test.c
+ create mode 100644 drivers/gpu/drm/tests/drm_cmdline_parser_test.c
+ create mode 100644 drivers/gpu/drm/tests/drm_damage_helper_test.c
+ rename drivers/gpu/drm/{selftests/test-drm_dp_mst_helper.c => tests/drm_dp_mst_helper_test.c} (73%)
+ create mode 100644 drivers/gpu/drm/tests/drm_format_test.c
+ rename drivers/gpu/drm/{selftests/test-drm_framebuffer.c => tests/drm_framebuffer_test.c} (96%)
+ rename drivers/gpu/drm/{selftests/test-drm_mm.c => tests/drm_mm_test.c} (58%)
+ rename drivers/gpu/drm/{selftests/test-drm_plane_helper.c => tests/drm_plane_helper_test.c} (62%)
+ rename drivers/gpu/drm/{selftests/test-drm_rect.c => tests/drm_rect_test.c} (53%)
 
 -- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+2.36.1
 
