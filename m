@@ -1,64 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF89A553E93
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 00:33:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8CF553EEF
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 01:30:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9012B10EAD9;
-	Tue, 21 Jun 2022 22:33:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6949D10E876;
+	Tue, 21 Jun 2022 23:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2D0710EB19
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 22:33:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 0ED4DCE1C1D
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 22:33:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 52DADC341C7
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 22:33:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655850820;
- bh=rPn6jHWt3aaxcS51lV49DKPRxDI5pBHRAtK0uxKe/q8=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=j+ieu6Zlc+jE9NUMdU3fLf4FlN9hB9JeC49s0sC3l3rnifvOVbt479J6thltGAJFl
- yjqWsQh/wEdQ32ck3aC6VEMQr7uq6NXFuNJsFLBACQuThGP9Cmql9LFzjx3S97KPdY
- AFo/biDBH0G9Yfj4NIvVe5+ytsy0QWuxNsFCuYgxAuaI4nJvCAzvThaeXgLuipNzKI
- TnJoh6bERV4fEfdfe/cDfkzj67kFYv37twy+Z9Fa9N0uhi9qSwYCji/FjaOoyDwjhQ
- hNRmLwqJSvds+A8oLx+vZJG9evClpXLxCBCcRnHlDfX0QXqd5VPkUn2XIcl+eGN2oa
- VEv3uPdmRFr0Q==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 3AB94C05FD2; Tue, 21 Jun 2022 22:33:40 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
- 390
-Date: Tue, 21 Jun 2022 22:33:39 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: h.judt@gmx.at
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216119-2300-Ua5PtwXfiH@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
-References: <bug-216119-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9BBB10E5B1;
+ Tue, 21 Jun 2022 23:30:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655854224; x=1687390224;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Rg+fiQFTNv8qeXLh+5fmbZ9euLxIOTmHQjtqCcDbU+4=;
+ b=XAI+zr+vbAB5O2xH+5aOWJjOGL2OsbGwByT4XFy4AdIldSm9itkN9xFE
+ JPADmA2ni/5WUfNoG0sOH63Nc9ptyYLR9rgZPZpMZLQNX0xs9zCZksbG1
+ yR2CMNIu0q+VuZuTvHKvJ2Pr9N0rUSGunGCm/YQ8Xho2rtbD5B2st5pGa
+ /15N9nSxFqdcN+KwmsAyNkXRUpEjYT3XN4hHlJuSXCDAc/bxNCvnhnl3d
+ fA5DScZza4IJ7kRA/XIN2JB/o4VrG694q6MltSlVEhF6O9gyoOLhFaQ07
+ 2a8W786aqFmtsVORmMl1FdWorgFNOQDGS+mdUHenkhY/R/AW7HFpBWALN Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="263298305"
+X-IronPort-AV: E=Sophos;i="5.92,210,1650956400"; d="scan'208";a="263298305"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2022 16:30:24 -0700
+X-IronPort-AV: E=Sophos;i="5.92,210,1650956400"; d="scan'208";a="690186160"
+Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2022 16:30:23 -0700
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/guc: ADL-N should use the same GuC FW as ADL-S
+Date: Tue, 21 Jun 2022 16:30:05 -0700
+Message-Id: <20220621233005.3952293-1-daniele.ceraolospurio@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,17 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, Tejas Upadhyay <tejas.upadhyay@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
+The only difference between the ADL S and P GuC FWs is the HWConfig
+support. ADL-N does not support HWConfig, so we should use the same
+binary as ADL-S, otherwise the GuC might attempt to fetch a config
+table that does not exist. ADL-N is internally identified as an ADL-P,
+so we need to special-case it in the FW selection code.
 
---- Comment #17 from Harald Judt (h.judt@gmx.at) ---
-Yes, this patch set seems to work fine. Reporting two successful
-hibernate/resume cycles with them applied to 5.18.5.
+Fixes: 7e28d0b26759 ("drm/i915/adl-n: Enable ADL-N platform")
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>
+Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+index d2c5c9367cc4..ef2d10184ee2 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+@@ -162,6 +162,15 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
+ 	u8 rev = INTEL_REVID(i915);
+ 	int i;
+ 
++	/*
++	 * The only difference between the ADL GuC FWs is the HWConfig support.
++	 * ADL-N does not support HWConfig, so we should use the same binary as
++	 * ADL-S, otherwise the GuC might attempt to fetch a config table that
++	 * does not exist.
++	 */
++	if (IS_ADLP_N(i915))
++		p = INTEL_ALDERLAKE_S;
++
+ 	GEM_BUG_ON(uc_fw->type >= ARRAY_SIZE(blobs_all));
+ 	fw_blobs = blobs_all[uc_fw->type].blobs;
+ 	fw_count = blobs_all[uc_fw->type].count;
+-- 
+2.25.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
