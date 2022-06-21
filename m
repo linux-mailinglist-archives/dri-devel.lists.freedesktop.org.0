@@ -2,53 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54815552A92
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 07:46:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6657F552A95
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 07:47:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25A9F1120BD;
-	Tue, 21 Jun 2022 05:46:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 408941121F0;
+	Tue, 21 Jun 2022 05:47:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D49271120BD
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 05:46:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655790399; x=1687326399;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=YxvCBKrRx6mL5klkb6nN/GJ5DVrelsQq+eq8YLIY1Nw=;
- b=JF+KgjR3zefUp3+Pz28tMtTnK//Plsy2ai8ADsoRVr3+0Gg1S8311GIf
- 3YuiPDIJErGVhiD7SwFeGEjTAugoS+5Fbu0nbRLwkbCVbtcvoHOdl0ZnJ
- sCIs8IkdpFmoc0Qv4F4HMqSwJk3bBnoTvT16ywAiofCUDMreJ0upTfszc
- zAsI/RuZh2w0yKIX53G+Ldl6SVYMcIvYt/cmFo6OhVA1fRfMeWag7RXTF
- A4ASWDv/DEIenxBR7ZkPpqV3Agfv2pLQdH4u3B07Usy1bhOkl0oBvDiOw
- yHL4x1UWGuHWlbFcZEmnqARrp+icMU11Gu69DeP8hgENsiF7bvQdYAa7U Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="268753079"
-X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="268753079"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2022 22:46:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="689774917"
-Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 20 Jun 2022 22:46:36 -0700
-Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1o3Wii-000YQp-AV;
- Tue, 21 Jun 2022 05:46:36 +0000
-Date: Tue, 21 Jun 2022 13:46:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
- robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/1] drm/panfrost: Add support for devcoredump
-Message-ID: <202206211320.GPk3Mfi3-lkp@intel.com>
-References: <20220621023204.94179-2-adrian.larumbe@collabora.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79FF911219D
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 05:47:54 +0000 (UTC)
+X-UUID: f18cbc3e1fbe43c7bcb3a87397293eab-20220621
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6, REQID:c012ab04-bc46-424e-87ea-77325f782ab4, OB:10,
+ L
+ OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,A
+ CTION:release,TS:45
+X-CID-INFO: VERSION:1.1.6, REQID:c012ab04-bc46-424e-87ea-77325f782ab4, OB:10,
+ LOB
+ :10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:45
+X-CID-META: VersionHash:b14ad71, CLOUDID:bfab13ea-f7af-4e69-92ee-0fd74a0c286c,
+ C
+ OID:97c85fc92e71,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: f18cbc3e1fbe43c7bcb3a87397293eab-20220621
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 730324855; Tue, 21 Jun 2022 13:47:48 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Tue, 21 Jun 2022 13:47:44 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Tue, 21 Jun 2022 13:47:44 +0800
+Message-ID: <9b7e78729878115768f61929feac8fc9ed6b4f29.camel@mediatek.com>
+Subject: Re: [PATCH v12 11/14] drm/mediatek: dpi: Add tvd_clk enable/disable
+ flow
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <matthias.bgg@gmail.com>,
+ <airlied@linux.ie>
+Date: Tue, 21 Jun 2022 13:47:44 +0800
+In-Reply-To: <e8ec7c5f8a750a1748b482b040c6efafc1149401.camel@mediatek.com>
+References: <20220620121028.29234-1-rex-bc.chen@mediatek.com>
+ <20220620121028.29234-12-rex-bc.chen@mediatek.com>
+ <218de671054a2c02d47a0bb4a31a0b07d24d7eee.camel@mediatek.com>
+ <7bffe5226a80474f150ef67e36d2b75ea8e8a9d8.camel@mediatek.com>
+ <6af179e2995ce2f4f2e7c72f10516afb0c1604a3.camel@mediatek.com>
+ <4a873de158868368818c00fbfee1a03f620ad8c9.camel@mediatek.com>
+ <e8ec7c5f8a750a1748b482b040c6efafc1149401.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220621023204.94179-2-adrian.larumbe@collabora.com>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,112 +72,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: adrian.larumbe@collabora.com, kbuild-all@lists.01.org
+Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi "Adrián,
+On Tue, 2022-06-21 at 12:08 +0800, CK Hu wrote:
+> Hi, Rex:
+> 
+> On Tue, 2022-06-21 at 11:50 +0800, Rex-BC Chen wrote:
+> > On Tue, 2022-06-21 at 11:45 +0800, CK Hu wrote:
+> > > On Tue, 2022-06-21 at 11:11 +0800, Rex-BC Chen wrote:
+> > > > On Tue, 2022-06-21 at 10:55 +0800, CK Hu wrote:
+> > > > > Hi, Bo-Chen:
+> > > > > 
+> > > > > On Mon, 2022-06-20 at 20:10 +0800, Bo-Chen Chen wrote:
+> > > > > > We should enable/disable tvd_clk when power_on/power_off,
+> > > > > > so
+> > > > > > add
+> > > > > > this
+> > > > > > patch to do this.
+> > > > > 
+> > > > > Without this patch, what would happen?
+> > > > > It seems this patch is redundant for these SoCs:
+> > > > > 
+> > > > > static const struct of_device_id mtk_dpi_of_ids[] = {
+> > > > > 	{ .compatible = "mediatek,mt2701-dpi",
+> > > > > 	  .data = &mt2701_conf,
+> > > > > 	},
+> > > > > 	{ .compatible = "mediatek,mt8173-dpi",
+> > > > > 	  .data = &mt8173_conf,
+> > > > > 	},
+> > > > > 	{ .compatible = "mediatek,mt8183-dpi",
+> > > > > 	  .data = &mt8183_conf,
+> > > > > 	},
+> > > > > 	{ .compatible = "mediatek,mt8192-dpi",
+> > > > > 	  .data = &mt8192_conf,
+> > > > > 	},
+> > > > > 	{ },
+> > > > > };
+> > > > > 
+> > > > > Regards,
+> > > > > CK
+> > > > > 
+> > > > 
+> > > > Hello CK,
+> > > > 
+> > > > IMO, this is a bug fix patch. From the usage of clock, if we
+> > > > want
+> > > > to
+> > > > use it, we should enable it . Therefore, I think we should add
+> > > > this
+> > > > and
+> > > > I will add a fix tag for this patch.
+> > > 
+> > > I think mt8173 chromebook use this driver for HDMI output. So
+> > > mt8173
+> > > chromebook HDMI could not work normally?
+> > > 
+> > > Regards,
+> > > CK
+> > > 
+> > 
+> > Hmm..
+> > I am not sure about this. But without this patch, dpi is also
+> > working
+> > in mt8183/mt8192. It may be related to the ccf driver. But anyway,
+> > I
+> > think we should do this whether ccf driver helps us to enable this
+> > clock.
+> 
+> OK. So, could you help to fix the bug in ccf? If HDMI is disabled but
+> ccf still turn on this clock, the power would be wasted.
+> 
+> Regards,
+> CK
+> 
 
-Thank you for the patch! Perhaps something to improve:
+I am also testing if we don't have this patch and it also "works"
+(dpintf is working fine).
+do you think we need this patch or just drop this?
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on linus/master v5.19-rc2 next-20220617]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+For the ccf driver, I am not familiar to ccf and also not a expert of
+ccf.
+It just a guest for this. I am not sure whether it's a "bug" or just a.
+And I think it's not the purpose of this series. If there is any issue,
+I think we will fix it in the future.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/devcoredump-support-for-Panfrost-GPU-driver/20220621-103431
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220621/202206211320.GPk3Mfi3-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/297bd4948ab1f4eeb78389d57adc1edc819cb6f2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Adri-n-Larumbe/devcoredump-support-for-Panfrost-GPU-driver/20220621-103431
-        git checkout 297bd4948ab1f4eeb78389d57adc1edc819cb6f2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/panfrost/
+BRs,
+Bo-Chen
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+> > 
+> > BRs,
+> > Bo-Chen
+> > 
+> > > > 
+> > > > BRs,
+> > > > Bo-Chen
+> > > > > 
+> > > > > > 
+> > > > > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > > > > > ---
+> > > > > >  drivers/gpu/drm/mediatek/mtk_dpi.c | 11 ++++++++++-
+> > > > > >  1 file changed, 10 insertions(+), 1 deletion(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > > > > > b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > > > > > index 2717b1741b7a..f83ecb154457 100644
+> > > > > > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > > > > > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > > > > > @@ -455,6 +455,7 @@ static void mtk_dpi_power_off(struct
+> > > > > > mtk_dpi
+> > > > > > *dpi)
+> > > > > >  	mtk_dpi_disable(dpi);
+> > > > > >  	clk_disable_unprepare(dpi->pixel_clk);
+> > > > > >  	clk_disable_unprepare(dpi->engine_clk);
+> > > > > > +	clk_disable_unprepare(dpi->tvd_clk);
+> > > > > >  }
+> > > > > >  
+> > > > > >  static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+> > > > > > @@ -464,10 +465,16 @@ static int mtk_dpi_power_on(struct
+> > > > > > mtk_dpi
+> > > > > > *dpi)
+> > > > > >  	if (++dpi->refcount != 1)
+> > > > > >  		return 0;
+> > > > > >  
+> > > > > > +	ret = clk_prepare_enable(dpi->tvd_clk);
+> > > > > > +	if (ret) {
+> > > > > > +		dev_err(dpi->dev, "Failed to enable tvd pll:
+> > > > > > %d\n",
+> > > > > > ret);
+> > > > > > +		goto err_refcount;
+> > > > > > +	}
+> > > > > > +
+> > > > > >  	ret = clk_prepare_enable(dpi->engine_clk);
+> > > > > >  	if (ret) {
+> > > > > >  		dev_err(dpi->dev, "Failed to enable engine
+> > > > > > clock:
+> > > > > > %d\n", ret);
+> > > > > > -		goto err_refcount;
+> > > > > > +		goto err_engine;
+> > > > > >  	}
+> > > > > >  
+> > > > > >  	ret = clk_prepare_enable(dpi->pixel_clk);
+> > > > > > @@ -484,6 +491,8 @@ static int mtk_dpi_power_on(struct
+> > > > > > mtk_dpi
+> > > > > > *dpi)
+> > > > > >  
+> > > > > >  err_pixel:
+> > > > > >  	clk_disable_unprepare(dpi->engine_clk);
+> > > > > > +err_engine:
+> > > > > > +	clk_disable_unprepare(dpi->tvd_clk);
+> > > > > >  err_refcount:
+> > > > > >  	dpi->refcount--;
+> > > > > >  	return ret;
+> > > > > 
+> > > > > 
+> > > > 
+> > > > 
+> > > 
+> > > 
+> > 
+> > 
+> 
+> 
 
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/panfrost/panfrost_dump.c: In function 'panfrost_core_dump':
-   drivers/gpu/drm/panfrost/panfrost_dump.c:115:20: error: 'struct panfrost_job' has no member named 'file_priv'
-     115 |         as_nr = job->file_priv->mmu->as;
-         |                    ^~
-   In file included from include/linux/byteorder/big_endian.h:5,
-                    from arch/arc/include/uapi/asm/byteorder.h:14,
-                    from include/asm-generic/bitops/le.h:6,
-                    from arch/arc/include/asm/bitops.h:192,
-                    from include/linux/bitops.h:33,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/arc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time64.h:5,
-                    from include/linux/restart_block.h:10,
-                    from include/linux/thread_info.h:14,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/rcupdate.h:27,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from drivers/gpu/drm/panfrost/panfrost_dump.c:5:
->> include/uapi/linux/byteorder/big_endian.h:32:26: warning: conversion from 'long long unsigned int' to '__le32' {aka 'unsigned int'} changes value from '72057594037927936' to '0' [-Woverflow]
-      32 | #define __cpu_to_le64(x) ((__force __le64)__swab64((x)))
-         |                          ^
-   include/linux/byteorder/generic.h:86:21: note: in expansion of macro '__cpu_to_le64'
-      86 | #define cpu_to_le64 __cpu_to_le64
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/panfrost/panfrost_dump.c:225:41: note: in expansion of macro 'cpu_to_le64'
-     225 |                 iter.hdr->bomap.valid = cpu_to_le64(1);
-         |                                         ^~~~~~~~~~~
-
-
-vim +32 include/uapi/linux/byteorder/big_endian.h
-
-5921e6f8809b16 David Howells 2012-10-13  15  
-5921e6f8809b16 David Howells 2012-10-13  16  #define __constant_htonl(x) ((__force __be32)(__u32)(x))
-5921e6f8809b16 David Howells 2012-10-13  17  #define __constant_ntohl(x) ((__force __u32)(__be32)(x))
-5921e6f8809b16 David Howells 2012-10-13  18  #define __constant_htons(x) ((__force __be16)(__u16)(x))
-5921e6f8809b16 David Howells 2012-10-13  19  #define __constant_ntohs(x) ((__force __u16)(__be16)(x))
-5921e6f8809b16 David Howells 2012-10-13  20  #define __constant_cpu_to_le64(x) ((__force __le64)___constant_swab64((x)))
-5921e6f8809b16 David Howells 2012-10-13  21  #define __constant_le64_to_cpu(x) ___constant_swab64((__force __u64)(__le64)(x))
-5921e6f8809b16 David Howells 2012-10-13  22  #define __constant_cpu_to_le32(x) ((__force __le32)___constant_swab32((x)))
-5921e6f8809b16 David Howells 2012-10-13  23  #define __constant_le32_to_cpu(x) ___constant_swab32((__force __u32)(__le32)(x))
-5921e6f8809b16 David Howells 2012-10-13  24  #define __constant_cpu_to_le16(x) ((__force __le16)___constant_swab16((x)))
-5921e6f8809b16 David Howells 2012-10-13  25  #define __constant_le16_to_cpu(x) ___constant_swab16((__force __u16)(__le16)(x))
-5921e6f8809b16 David Howells 2012-10-13  26  #define __constant_cpu_to_be64(x) ((__force __be64)(__u64)(x))
-5921e6f8809b16 David Howells 2012-10-13  27  #define __constant_be64_to_cpu(x) ((__force __u64)(__be64)(x))
-5921e6f8809b16 David Howells 2012-10-13  28  #define __constant_cpu_to_be32(x) ((__force __be32)(__u32)(x))
-5921e6f8809b16 David Howells 2012-10-13  29  #define __constant_be32_to_cpu(x) ((__force __u32)(__be32)(x))
-5921e6f8809b16 David Howells 2012-10-13  30  #define __constant_cpu_to_be16(x) ((__force __be16)(__u16)(x))
-5921e6f8809b16 David Howells 2012-10-13  31  #define __constant_be16_to_cpu(x) ((__force __u16)(__be16)(x))
-5921e6f8809b16 David Howells 2012-10-13 @32  #define __cpu_to_le64(x) ((__force __le64)__swab64((x)))
-5921e6f8809b16 David Howells 2012-10-13  33  #define __le64_to_cpu(x) __swab64((__force __u64)(__le64)(x))
-5921e6f8809b16 David Howells 2012-10-13  34  #define __cpu_to_le32(x) ((__force __le32)__swab32((x)))
-5921e6f8809b16 David Howells 2012-10-13  35  #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-5921e6f8809b16 David Howells 2012-10-13  36  #define __cpu_to_le16(x) ((__force __le16)__swab16((x)))
-5921e6f8809b16 David Howells 2012-10-13  37  #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-5921e6f8809b16 David Howells 2012-10-13  38  #define __cpu_to_be64(x) ((__force __be64)(__u64)(x))
-5921e6f8809b16 David Howells 2012-10-13  39  #define __be64_to_cpu(x) ((__force __u64)(__be64)(x))
-5921e6f8809b16 David Howells 2012-10-13  40  #define __cpu_to_be32(x) ((__force __be32)(__u32)(x))
-5921e6f8809b16 David Howells 2012-10-13  41  #define __be32_to_cpu(x) ((__force __u32)(__be32)(x))
-5921e6f8809b16 David Howells 2012-10-13  42  #define __cpu_to_be16(x) ((__force __be16)(__u16)(x))
-5921e6f8809b16 David Howells 2012-10-13  43  #define __be16_to_cpu(x) ((__force __u16)(__be16)(x))
-5921e6f8809b16 David Howells 2012-10-13  44  
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
