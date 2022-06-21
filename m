@@ -1,64 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D399552A11
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 06:08:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2605552A54
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 06:38:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED0EA112693;
-	Tue, 21 Jun 2022 04:08:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7C8810F84D;
+	Tue, 21 Jun 2022 04:38:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52B33112691
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 04:08:20 +0000 (UTC)
-X-UUID: 0220861514dc4317b4c3844f9614faf5-20220621
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:57d9eafa-a58b-4749-a2fb-b984fb888fe2, OB:10,
- L
- OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,A
- CTION:release,TS:45
-X-CID-INFO: VERSION:1.1.6, REQID:57d9eafa-a58b-4749-a2fb-b984fb888fe2, OB:10,
- LOB
- :10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:45
-X-CID-META: VersionHash:b14ad71, CLOUDID:3df3992d-1756-4fa3-be7f-474a6e4be921,
- C
- OID:de8a5d5f857e,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 0220861514dc4317b4c3844f9614faf5-20220621
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1381626784; Tue, 21 Jun 2022 12:08:13 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Tue, 21 Jun 2022 12:08:11 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Tue, 21 Jun 2022 12:08:11 +0800
-Message-ID: <e8ec7c5f8a750a1748b482b040c6efafc1149401.camel@mediatek.com>
-Subject: Re: [PATCH v12 11/14] drm/mediatek: dpi: Add tvd_clk enable/disable
- flow
-From: CK Hu <ck.hu@mediatek.com>
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <matthias.bgg@gmail.com>,
- <airlied@linux.ie>
-Date: Tue, 21 Jun 2022 12:08:11 +0800
-In-Reply-To: <4a873de158868368818c00fbfee1a03f620ad8c9.camel@mediatek.com>
-References: <20220620121028.29234-1-rex-bc.chen@mediatek.com>
- <20220620121028.29234-12-rex-bc.chen@mediatek.com>
- <218de671054a2c02d47a0bb4a31a0b07d24d7eee.camel@mediatek.com>
- <7bffe5226a80474f150ef67e36d2b75ea8e8a9d8.camel@mediatek.com>
- <6af179e2995ce2f4f2e7c72f10516afb0c1604a3.camel@mediatek.com>
- <4a873de158868368818c00fbfee1a03f620ad8c9.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8413C10F84D
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 04:38:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655786320; x=1687322320;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=wxRDMNaSdD/o6Y8ae4DltMvFeXD/i5ZhZHiA8fnXnDI=;
+ b=hUHH+WBhNyzNe4kE30Ld1abIYvl5jnmCFGFHfi16/ZSc9HDTDZ1kgSex
+ 1t9r1048okioZERsLVzR0kn4OJprcQSn+cHSBcZK1XVEgsWmzmc8ZWhww
+ lGG5+/9qzTmhh9RidEKqP0lrFFSx6QeeyaeK+ZQ56EyT8DqmOXVRaBObs
+ gBl3mHDEd27OF+JkGpPnHhyK6gHGaG3R41BAW3fS4SBFE1FHSl/+g0q+B
+ GJ1pbo3Nr90/pzVADQrTWIjiJ2QovuRu+R0InYbKQLn4rv/ml199pNnGy
+ G1vVWQV847q30Equ+aN3rkE3uA2oMn9DqH8hxki4YlA8sIvsBcWNaxHlw g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="305462560"
+X-IronPort-AV: E=Sophos;i="5.92,207,1650956400"; d="scan'208";a="305462560"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2022 21:38:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,207,1650956400"; d="scan'208";a="764320018"
+Received: from lkp-server01.sh.intel.com (HELO 60dabacc1df6) ([10.239.97.150])
+ by orsmga005.jf.intel.com with ESMTP; 20 Jun 2022 21:38:33 -0700
+Received: from kbuild by 60dabacc1df6 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1o3Veq-000YIP-Vw;
+ Tue, 21 Jun 2022 04:38:32 +0000
+Date: Tue, 21 Jun 2022 12:37:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cai Huoqing <cai.huoqing@linux.dev>
+Subject: Re: [PATCH] drm: Make drm_buddy a part of drm module
+Message-ID: <202206211156.FjsteJJC-lkp@intel.com>
+References: <20220621015151.11129-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220621015151.11129-1-cai.huoqing@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,150 +58,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: kbuild-all@lists.01.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Rex:
+Hi Cai,
 
-On Tue, 2022-06-21 at 11:50 +0800, Rex-BC Chen wrote:
-> On Tue, 2022-06-21 at 11:45 +0800, CK Hu wrote:
-> > On Tue, 2022-06-21 at 11:11 +0800, Rex-BC Chen wrote:
-> > > On Tue, 2022-06-21 at 10:55 +0800, CK Hu wrote:
-> > > > Hi, Bo-Chen:
-> > > > 
-> > > > On Mon, 2022-06-20 at 20:10 +0800, Bo-Chen Chen wrote:
-> > > > > We should enable/disable tvd_clk when power_on/power_off, so
-> > > > > add
-> > > > > this
-> > > > > patch to do this.
-> > > > 
-> > > > Without this patch, what would happen?
-> > > > It seems this patch is redundant for these SoCs:
-> > > > 
-> > > > static const struct of_device_id mtk_dpi_of_ids[] = {
-> > > > 	{ .compatible = "mediatek,mt2701-dpi",
-> > > > 	  .data = &mt2701_conf,
-> > > > 	},
-> > > > 	{ .compatible = "mediatek,mt8173-dpi",
-> > > > 	  .data = &mt8173_conf,
-> > > > 	},
-> > > > 	{ .compatible = "mediatek,mt8183-dpi",
-> > > > 	  .data = &mt8183_conf,
-> > > > 	},
-> > > > 	{ .compatible = "mediatek,mt8192-dpi",
-> > > > 	  .data = &mt8192_conf,
-> > > > 	},
-> > > > 	{ },
-> > > > };
-> > > > 
-> > > > Regards,
-> > > > CK
-> > > > 
-> > > 
-> > > Hello CK,
-> > > 
-> > > IMO, this is a bug fix patch. From the usage of clock, if we want
-> > > to
-> > > use it, we should enable it . Therefore, I think we should add
-> > > this
-> > > and
-> > > I will add a fix tag for this patch.
-> > 
-> > I think mt8173 chromebook use this driver for HDMI output. So
-> > mt8173
-> > chromebook HDMI could not work normally?
-> > 
-> > Regards,
-> > CK
-> > 
-> 
-> Hmm..
-> I am not sure about this. But without this patch, dpi is also working
-> in mt8183/mt8192. It may be related to the ccf driver. But anyway, I
-> think we should do this whether ccf driver helps us to enable this
-> clock.
+I love your patch! Yet something to improve:
 
-OK. So, could you help to fix the bug in ccf? If HDMI is disabled but
-ccf still turn on this clock, the power would be wasted.
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on linus/master v5.19-rc2 next-20220617]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Regards,
-CK
+url:    https://github.com/intel-lab-lkp/linux/commits/Cai-Huoqing/drm-Make-drm_buddy-a-part-of-drm-module/20220621-095417
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: microblaze-buildonly-randconfig-r003-20220620 (https://download.01.org/0day-ci/archive/20220621/202206211156.FjsteJJC-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/517d5f44c861a5173eaa9a06efebe2ce2a6601a1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Cai-Huoqing/drm-Make-drm_buddy-a-part-of-drm-module/20220621-095417
+        git checkout 517d5f44c861a5173eaa9a06efebe2ce2a6601a1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash
 
-> 
-> BRs,
-> Bo-Chen
-> 
-> > > 
-> > > BRs,
-> > > Bo-Chen
-> > > > 
-> > > > > 
-> > > > > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/mediatek/mtk_dpi.c | 11 ++++++++++-
-> > > > >  1 file changed, 10 insertions(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > > > > b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > > > > index 2717b1741b7a..f83ecb154457 100644
-> > > > > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > > > > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > > > > @@ -455,6 +455,7 @@ static void mtk_dpi_power_off(struct
-> > > > > mtk_dpi
-> > > > > *dpi)
-> > > > >  	mtk_dpi_disable(dpi);
-> > > > >  	clk_disable_unprepare(dpi->pixel_clk);
-> > > > >  	clk_disable_unprepare(dpi->engine_clk);
-> > > > > +	clk_disable_unprepare(dpi->tvd_clk);
-> > > > >  }
-> > > > >  
-> > > > >  static int mtk_dpi_power_on(struct mtk_dpi *dpi)
-> > > > > @@ -464,10 +465,16 @@ static int mtk_dpi_power_on(struct
-> > > > > mtk_dpi
-> > > > > *dpi)
-> > > > >  	if (++dpi->refcount != 1)
-> > > > >  		return 0;
-> > > > >  
-> > > > > +	ret = clk_prepare_enable(dpi->tvd_clk);
-> > > > > +	if (ret) {
-> > > > > +		dev_err(dpi->dev, "Failed to enable tvd pll:
-> > > > > %d\n",
-> > > > > ret);
-> > > > > +		goto err_refcount;
-> > > > > +	}
-> > > > > +
-> > > > >  	ret = clk_prepare_enable(dpi->engine_clk);
-> > > > >  	if (ret) {
-> > > > >  		dev_err(dpi->dev, "Failed to enable engine
-> > > > > clock:
-> > > > > %d\n", ret);
-> > > > > -		goto err_refcount;
-> > > > > +		goto err_engine;
-> > > > >  	}
-> > > > >  
-> > > > >  	ret = clk_prepare_enable(dpi->pixel_clk);
-> > > > > @@ -484,6 +491,8 @@ static int mtk_dpi_power_on(struct
-> > > > > mtk_dpi
-> > > > > *dpi)
-> > > > >  
-> > > > >  err_pixel:
-> > > > >  	clk_disable_unprepare(dpi->engine_clk);
-> > > > > +err_engine:
-> > > > > +	clk_disable_unprepare(dpi->tvd_clk);
-> > > > >  err_refcount:
-> > > > >  	dpi->refcount--;
-> > > > >  	return ret;
-> > > > 
-> > > > 
-> > > 
-> > > 
-> > 
-> > 
-> 
-> 
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
+All errors (new ones prefixed by >>):
+
+   microblaze-linux-ld: drivers/gpu/drm/drm_buddy.o: in function `drm_buddy_block_print':
+   drivers/gpu/drm/drm_buddy.c:731: undefined reference to `drm_printf'
+   microblaze-linux-ld: drivers/gpu/drm/drm_buddy.o: in function `drm_buddy_print':
+   drivers/gpu/drm/drm_buddy.c:745: undefined reference to `drm_printf'
+>> microblaze-linux-ld: drivers/gpu/drm/drm_buddy.c:757: undefined reference to `drm_printf'
+   microblaze-linux-ld: drivers/gpu/drm/drm_buddy.c:763: undefined reference to `drm_printf'
+   microblaze-linux-ld: drivers/gpu/drm/drm_buddy.c:765: undefined reference to `drm_printf'
+   microblaze-linux-ld: drivers/gpu/drm/drm_buddy.o:drivers/gpu/drm/drm_buddy.c:761: more undefined references to `drm_printf' follow
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
