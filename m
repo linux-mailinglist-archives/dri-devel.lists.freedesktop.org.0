@@ -2,51 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2456C552C51
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:48:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207A8552C74
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:57:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E831112800;
-	Tue, 21 Jun 2022 07:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2B04112872;
+	Tue, 21 Jun 2022 07:56:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91E3E112800;
- Tue, 21 Jun 2022 07:48:21 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A8C2112877
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 07:56:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655797701; x=1687333701;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=1o3EYbTpbgd5QipYqiu/4GXWQ1ks5o+4O3O/+SFVrXk=;
- b=JTZSBUCJ7aDV/kh3bGgG7/gE7AbsHcPvUhpE5Lpc3auCQ4S884p21/Nd
- DUma+WphhS56GQ2YNuk4EpzTGDP3JDAIsz9LvcpdSr6eIdfICJCrRiPRK
- EXuHgGDmuAuvFW53ta+m0ki4qI6TOPEGphjps47F0R/YtwkST5lFsdA2Q
- lAKOzeiez1OCsPCcc6EKoUKFGYXy3/uTSHOmV6RnKb98zrQmcaeOma+TF
- C6o0dxndD5fzHdcAqumJEKVEw+jKKLHBQVTJr5HDjbUrJjrkuis3eiaHK
- HNxCEvPpWEyGFsA/R9Gs9XQjHhFvY+3BV72knEtH2r7g933TBsl7A42vT A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="278825074"
-X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="278825074"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2022 00:48:21 -0700
+ t=1655798214; x=1687334214;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=vCVXmWxUrFi6Xr9Wjm6brQnYsJGsIHmC+YmfL9+QGNE=;
+ b=BWaOjZMmPN86ChMlCea71DRT57pFwgphpK7TeCsHUKhvGIzu+e1pBI0v
+ JMDmNaIMWLj8qfDWpET5IlErmUMb6jwFxuYoVIo8F8qIztTmUVT/MQtNf
+ QvujGwuNjElzjj876Hpu111CcinPYk65XqtcawJwVlQmorY71Slw9meUB
+ j/TgJItWBZvBJPBwLcKMdGbyAJwiILnDvq/Gz8kZMCoy6gNQ2LuP5j22v
+ zUSqTJuUpChVtJOKOIo/o5xRkpOqxLEtzCHuBTlpGbTj7WsJxuA3Wh9Cw
+ wxXVzp/rkPnVHjqr3AXMI5X+2burpdgduF+bq1cfZfItB5xE96U4Lj32h g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="305498631"
+X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="305498631"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2022 00:56:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="729727279"
+X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="585185903"
 Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.163])
- by fmsmga001.fm.intel.com with SMTP; 21 Jun 2022 00:48:18 -0700
+ by orsmga007.jf.intel.com with SMTP; 21 Jun 2022 00:56:49 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 21 Jun 2022 10:48:17 +0300
-Date: Tue, 21 Jun 2022 10:48:17 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <YrF3wfumVi3q3bFj@intel.com>
-References: <20220621123656.7a479ad9@canb.auug.org.au>
+ Tue, 21 Jun 2022 10:56:48 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/xlnx: Fix build failure due to missing include
+Date: Tue, 21 Jun 2022 10:56:48 +0300
+Message-Id: <20220621075648.7717-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220621123656.7a479ad9@canb.auug.org.au>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,40 +56,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hyun Kwon <hyun.kwon@xilinx.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 21, 2022 at 12:36:56PM +1000, Stephen Rothwell wrote:
-> Hi all,
-> 
-> After merging the drm-misc tree, today's linux-next build (x86_64
-> allmodconfig) failed like this:
-> 
-> drivers/gpu/drm/xlnx/zynqmp_disp.c: In function 'zynqmp_disp_create_planes':
-> drivers/gpu/drm/xlnx/zynqmp_disp.c:1260:17: error: implicit declaration of function 'drm_plane_create_zpos_immutable_property'; did you mean 'drm_plane_create_scaling_filter_property'? [-Werror=implicit-function-declaration]
->  1260 |                 drm_plane_create_zpos_immutable_property(&layer->plane, i);
->       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       |                 drm_plane_create_scaling_filter_property
-> drivers/gpu/drm/xlnx/zynqmp_disp.c:1262:25: error: implicit declaration of function 'drm_plane_create_alpha_property'; did you mean 'drm_plane_create_color_properties'? [-Werror=implicit-function-declaration]
->  1262 |                         drm_plane_create_alpha_property(&layer->plane);
->       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       |                         drm_plane_create_color_properties
-> cc1: all warnings being treated as errors
-> 
-> Presumably caused by one of the commits that dropped includes from
-> drm-ctrc.h.
-> 
-> I have used the drm-misc tree from next-20220620 for today.
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Sorry about that. Looks like my .config was missing some
-dependencies of the zynqmp driver so it wasn't getting built.
-I'll cook up a fix.
+Dropping drm_blend.h from drm_crtc.h broke the
+xlnx driver. Make it build again by including
+drm_blend.h from the driver directly.
 
+My .config was missing some required dependencies so
+I never build tested it :/
+
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Fixes: 90bb087f6674 ("drm: Drop drm_blend.h from drm_crtc.h")
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ drivers/gpu/drm/xlnx/zynqmp_disp.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+index 11c409cbc88e..cc32aa89cf8f 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+@@ -12,6 +12,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_atomic_uapi.h>
++#include <drm/drm_blend.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_device.h>
+ #include <drm/drm_fb_cma_helper.h>
 -- 
-Ville Syrj�l�
-Intel
+2.35.1
+
