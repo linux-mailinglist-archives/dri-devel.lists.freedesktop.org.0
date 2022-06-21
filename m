@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E7A554277
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 07:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F1755426B
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 07:53:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 503C0113899;
-	Wed, 22 Jun 2022 05:53:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9A9611388C;
+	Wed, 22 Jun 2022 05:52:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpbg.qq.com (smtpbg139.qq.com [175.27.65.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCEB910E26B
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 13:34:53 +0000 (UTC)
-X-QQ-mid: bizesmtp82t1655818482t4lelr4u
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F4410E944
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 13:40:31 +0000 (UTC)
+X-QQ-mid: bizesmtp65t1655818767tu45ejch
 Received: from ubuntu.localdomain ( [106.117.99.68])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 21 Jun 2022 21:34:37 +0800 (CST)
-X-QQ-SSF: 0100000000700050B000D00A0000000
-X-QQ-FEAT: xoS364mEyr1O7d4xyo1etuat7DIRMKm12/lCtpnC6qIif68t8nBxJY9ZY0STk
- aCyrhNuGMgYXDparfZoJuQ8uDc1fRY/EfzT/bF1r+YwjyQ3a2uB8NaB05pVwtNaxYlvfv//
- 7dvJk1QTs0S1HUe/b4a35ZsfECag7K0z5MaNcrgykUjt1BrvA1qpMh0Ah56LlZZSBenHPRC
- bjKuzCJl1sZpG0o4wDlIK3ryt54M7HbVAZPyYJxtt4UESyhWT+mTnQQQHbTR9+6tWIk9rzE
- nUsJfM/qnjuFYHX2rDtvcJWkt6GE6IR04hq+FB8b5x3HnegcrA1rXb1obNyp1SIO6E2QvSk
- /BzCRf1lNt7q/sT7Nbrs2XjoA/7Sw==
+ id ; Tue, 21 Jun 2022 21:39:22 +0800 (CST)
+X-QQ-SSF: 0100000000700060B000D00A0000000
+X-QQ-FEAT: FXvDfBZI5O6DgV0I3s0IakLWZaVbIOeZptt8jkiqdC1X/yUp5ELNdn8Vvimqw
+ kdqB7vxeV000srLFqPrzmvpRv3xMNGqY/WTZykt2a5+hrZU2ouG6aJY0FwkNxIcz91BpQfG
+ VqR06qnanaOXzeMMt3XsO3ofR/u0v1o+Xuvjmy/MwCxeN2KgF90IWZySikkpVqMJ8bHPXsH
+ NRdlOMeNA03XnMjqUcn+s0TupNOs31NxK4wghTnvYQSVuCs/aZAMQLbyUfXO3/oIHKhjpYk
+ JiuqbONKtHaOpWVxC5aL0UXAns7l7YBvcX5cguXNa3+mnNVAM1JO3eagNC3l7urNzzhZOa9
+ rm3F+l7prWovBsId6MgNgmymtknZw==
 X-QQ-GoodBg: 0
 From: Jiang Jian <jiangjian@cdjrlc.com>
 To: airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH] drm/i915: i915_irq - drop unexpected word "the" in the
- comments
-Date: Tue, 21 Jun 2022 21:34:35 +0800
-Message-Id: <20220621133435.5924-1-jiangjian@cdjrlc.com>
+Subject: [PATCH] drm/nouveau/mmu: drop unexpected word "the" in the comments
+Date: Tue, 21 Jun 2022 21:39:20 +0800
+Message-Id: <20220621133920.8112-1-jiangjian@cdjrlc.com>
 X-Mailer: git-send-email 2.17.1
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam6
@@ -47,38 +46,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
+Cc: kherbst@redhat.com, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jiang Jian <jiangjian@cdjrlc.com>, rodrigo.vivi@intel.com
+ Julia.Lawall@inria.fr, jiangjian@cdjrlc.com, bskeggs@redhat.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 there is an unexpected word "the" in the comments that need to be dropped
 
-file: drivers/gpu/drm/i915/i915_irq.c
-line 68
- * interrupt originated from the the GPU so interrupts from a device which
+file: drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
+line: 1051
+ * have the the deepest nesting of page tables.
 changed to
- * interrupt originated from the GPU so interrupts from a device which
+ * have the deepest nesting of page tables.
 
 Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
 ---
- drivers/gpu/drm/i915/i915_irq.c | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-index 73cebc6aa650..783a6ca41a61 100644
---- a/drivers/gpu/drm/i915/i915_irq.c
-+++ b/drivers/gpu/drm/i915/i915_irq.c
-@@ -65,7 +65,7 @@
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
+index ca74775834dd..ae793f400ba1 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.c
+@@ -1048,7 +1048,7 @@ nvkm_vmm_ctor(const struct nvkm_vmm_func *func, struct nvkm_mmu *mmu,
+ 	__mutex_init(&vmm->mutex, "&vmm->mutex", key ? key : &_key);
  
- /*
-  * Interrupt statistic for PMU. Increments the counter only if the
-- * interrupt originated from the the GPU so interrupts from a device which
-+ * interrupt originated from the GPU so interrupts from a device which
-  * shares the interrupt line are not accounted.
-  */
- static inline void pmu_irq_stats(struct drm_i915_private *i915,
+ 	/* Locate the smallest page size supported by the backend, it will
+-	 * have the the deepest nesting of page tables.
++	 * have the deepest nesting of page tables.
+ 	 */
+ 	while (page[1].shift)
+ 		page++;
 -- 
 2.17.1
 
