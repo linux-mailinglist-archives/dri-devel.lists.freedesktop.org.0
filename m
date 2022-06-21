@@ -2,36 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 468CB553261
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 14:44:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C51265532A4
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 14:58:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62F6511243D;
-	Tue, 21 Jun 2022 12:44:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E572D112595;
+	Tue, 21 Jun 2022 12:58:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6997311243B
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 12:44:51 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09B6E165C;
- Tue, 21 Jun 2022 05:44:51 -0700 (PDT)
-Received: from [10.57.85.30] (unknown [10.57.85.30])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0EAD03F534;
- Tue, 21 Jun 2022 05:44:48 -0700 (PDT)
-Message-ID: <45ef3221-8f27-0ae7-8cd9-48575812d797@arm.com>
-Date: Tue, 21 Jun 2022 13:44:44 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A129112595
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 12:58:35 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6800B104;
+ Tue, 21 Jun 2022 14:58:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1655816312;
+ bh=QeBzIO+U3oKdldlfZMcuLeVK7EiSrArkPksFp8cBSkM=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=OO5/5+9Yhc4qSTux6Py6LT4Iy9hqrC9FAcbdk89g+PfRJ9mfNx/9LXQfiVqPfMl6B
+ l/HtiR7/BVJjXnB3PuCTdJ9rho2pL2COKVqdaXTmuizWOt9m7IN1wjsDio7LVg3ePB
+ sCpnfC6Tove2EPl7XyJUAFnmnCL1okn8xaSvBPgs=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2] drm/sun4i: Add DMA mask and segment size
-Content-Language: en-GB
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
- wens@csie.org
-References: <20220620181333.650301-1-jernej.skrabec@gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20220620181333.650301-1-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220616170821.1348169-1-steve@sk2.org>
+References: <20220616170821.1348169-1-steve@sk2.org>
+Subject: Re: [PATCH v2] drm: shmobile: Use backlight helper
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Stephen Kitt <steve@sk2.org>
+Date: Tue, 21 Jun 2022 13:58:29 +0100
+Message-ID: <165581630958.18145.12909267841116831017@Monstersaurus>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,98 +48,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: samuel@sholland.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: Stephen Kitt <steve@sk2.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-06-20 19:13, Jernej Skrabec wrote:
-> Kernel occasionally complains that there is mismatch in segment size
-> when trying to render HW decoded videos and rendering them directly with
-> sun4i DRM driver. Following message can be observed on H6 SoC:
-> 
-> [  184.298308] ------------[ cut here ]------------
-> [  184.298326] DMA-API: sun4i-drm display-engine: mapping sg segment longer than device claims to support [len=6144000] [max=65536]
-> [  184.298364] WARNING: CPU: 1 PID: 382 at kernel/dma/debug.c:1162 debug_dma_map_sg+0x2b0/0x350
-> [  184.322997] CPU: 1 PID: 382 Comm: ffmpeg Not tainted 5.19.0-rc1+ #1331
-> [  184.329533] Hardware name: Tanix TX6 (DT)
-> [  184.333544] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [  184.340512] pc : debug_dma_map_sg+0x2b0/0x350
-> [  184.344882] lr : debug_dma_map_sg+0x2b0/0x350
-> [  184.349250] sp : ffff800009f33a50
-> [  184.352567] x29: ffff800009f33a50 x28: 0000000000010000 x27: ffff000001b86c00
-> [  184.359725] x26: ffffffffffffffff x25: ffff000005d8cc80 x24: 0000000000000000
-> [  184.366879] x23: ffff80000939ab18 x22: 0000000000000001 x21: 0000000000000001
-> [  184.374031] x20: 0000000000000000 x19: ffff0000018a7410 x18: ffffffffffffffff
-> [  184.381186] x17: 0000000000000000 x16: 0000000000000000 x15: ffffffffffffffff
-> [  184.388338] x14: 0000000000000001 x13: ffff800009534e86 x12: 6f70707573206f74
-> [  184.395493] x11: 20736d69616c6320 x10: 000000000000000a x9 : 0000000000010000
-> [  184.402647] x8 : ffff8000093b6d40 x7 : ffff800009f33850 x6 : 000000000000000c
-> [  184.409800] x5 : ffff0000bf997940 x4 : 0000000000000000 x3 : 0000000000000027
-> [  184.416953] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000003960e80
-> [  184.424106] Call trace:
-> [  184.426556]  debug_dma_map_sg+0x2b0/0x350
-> [  184.430580]  __dma_map_sg_attrs+0xa0/0x110
-> [  184.434687]  dma_map_sgtable+0x28/0x4c
-> [  184.438447]  vb2_dc_dmabuf_ops_map+0x60/0xcc
-> [  184.442729]  __map_dma_buf+0x2c/0xd4
-> [  184.446321]  dma_buf_map_attachment+0xa0/0x130
-> [  184.450777]  drm_gem_prime_import_dev+0x7c/0x18c
-> [  184.455410]  drm_gem_prime_fd_to_handle+0x1b8/0x214
-> [  184.460300]  drm_prime_fd_to_handle_ioctl+0x2c/0x40
-> [  184.465190]  drm_ioctl_kernel+0xc4/0x174
-> [  184.469123]  drm_ioctl+0x204/0x420
-> [  184.472534]  __arm64_sys_ioctl+0xac/0xf0
-> [  184.476474]  invoke_syscall+0x48/0x114
-> [  184.480240]  el0_svc_common.constprop.0+0x44/0xec
-> [  184.484956]  do_el0_svc+0x2c/0xc0
-> [  184.488283]  el0_svc+0x2c/0x84
-> [  184.491354]  el0t_64_sync_handler+0x11c/0x150
-> [  184.495723]  el0t_64_sync+0x18c/0x190
-> [  184.499397] ---[ end trace 0000000000000000 ]---
-> 
-> Fix that by setting DMA mask and segment size.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Quoting Stephen Kitt (2022-06-16 18:08:21)
+> This started with work on the removal of backlight_properties'
+> deprecated fb_blank field, much of which can be taken care of by using
+> helper functions provided by backlight.h instead of directly accessing
+> fields in backlight_properties. This patch series doesn't involve
+> fb_blank, but it still seems useful to use helper functions where
+> appropriate.
+>=20
+> Instead of retrieving the backlight brightness in struct
+> backlight_properties manually, and then checking whether the backlight
+> should be on at all, use backlight_get_brightness() which does all
+> this and insulates this from future changes.
+>=20
+> Signed-off-by: Stephen Kitt <steve@sk2.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+
+Hi Stephen,
+
+This looks reasonable to me too.
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
 > ---
-> Changes from v1:
-> - added comment
-> - updated commit message with kernel report
-> 
->   drivers/gpu/drm/sun4i/sun4i_drv.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-> index 275f7e4a03ae..f135a6b3cadb 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-> @@ -7,6 +7,7 @@
->    */
->   
->   #include <linux/component.h>
-> +#include <linux/dma-mapping.h>
->   #include <linux/kfifo.h>
->   #include <linux/module.h>
->   #include <linux/of_graph.h>
-> @@ -367,6 +368,13 @@ static int sun4i_drv_probe(struct platform_device *pdev)
->   
->   	INIT_KFIFO(list.fifo);
->   
-> +	/*
-> +	 * DE2 and DE3 cores actually supports 40-bit addresses, but
-> +	 * driver does not.
-> +	 */
-> +	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-> +	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-
-Nit: this one is a number, not a bitmask, so UINT_MAX would be more 
-appropriate semantically.
-
-Thanks,
-Robin.
-
-> +
->   	for (i = 0;; i++) {
->   		struct device_node *pipeline = of_parse_phandle(np,
->   								"allwinner,pipelines",
+> Changes since v1: clarified commit message, this doesn't touch fb_blank
+> ---
+>  drivers/gpu/drm/shmobile/shmob_drm_backlight.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c b/drivers/gpu=
+/drm/shmobile/shmob_drm_backlight.c
+> index f6628a5ee95f..794573badfe8 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
+> @@ -18,11 +18,7 @@ static int shmob_drm_backlight_update(struct backlight=
+_device *bdev)
+>         struct shmob_drm_connector *scon =3D bl_get_data(bdev);
+>         struct shmob_drm_device *sdev =3D scon->connector.dev->dev_privat=
+e;
+>         const struct shmob_drm_backlight_data *bdata =3D &sdev->pdata->ba=
+cklight;
+> -       int brightness =3D bdev->props.brightness;
+> -
+> -       if (bdev->props.power !=3D FB_BLANK_UNBLANK ||
+> -           bdev->props.state & BL_CORE_SUSPENDED)
+> -               brightness =3D 0;
+> +       int brightness =3D backlight_get_brightness(bdev);
+> =20
+>         return bdata->set_brightness(brightness);
+>  }
+>=20
+> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+> --=20
+> 2.30.2
+>
