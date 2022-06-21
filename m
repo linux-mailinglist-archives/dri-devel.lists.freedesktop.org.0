@@ -1,69 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E72F552BA6
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:19:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9F0552BAE
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:21:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5082210F00B;
-	Tue, 21 Jun 2022 07:19:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13C4A10FC63;
+	Tue, 21 Jun 2022 07:21:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C31B10E077;
- Tue, 21 Jun 2022 07:19:23 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id cf14so8320743edb.8;
- Tue, 21 Jun 2022 00:19:23 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 192DF10FC63;
+ Tue, 21 Jun 2022 07:21:14 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id fu3so25522130ejc.7;
+ Tue, 21 Jun 2022 00:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=vUa/+0360889XNMZ8LlW5kuG26dnpqfJwGYvdJBavqs=;
- b=cMuB5ojyHH8kx1cLSXnl4ewOn1xk1mZKayMkfKw7+xHFrVNL+5J0wJogaK8nOpiRDe
- 7WyiUFuQJT9nNWDUzf9bjsEzTm5YGtwO7zZ4NWYg0SG61Tz3cSlT7PZwwKs6QdJvzmUn
- IE0gD20JLrhW5/OPIZ/J56nPum34536kwQN07kHHzrf9H5zdRhbY3tGlxyd2s9L6zajA
- QK4IhCG28tnVpuxECkwf+x9HnuKoaSSBt1FkCA7wA024uFUdAqac+/cPekL0NEhUNhAa
- MERRESMUolbDbi53yWr9HpDoAYoXCNiB4JFiUC8Kqjz7081wuUT2NSCkw/uFEGO+z47+
- e8kw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=I49iaT9479MLDi3TYueSZinlKruIKCVXqSN6hfWZ6x4=;
+ b=gpAE1+YcSfcBdfh7BwfrIoGbRZBggiIKzxdzevy+uY0mwZ38SqW5C24UGUW26VY4UQ
+ WP1S+RpCG/FKyBZUka5u2+CPPXZJ3KWRf8OHVm/eGamVrfkx0pZ8k/r1dCJiI/Y9tWmz
+ 1oQm+ijCrgg6t5IQfVcRYcG0EZ0onOIYztGApiM1tQeP5guXwyXfw38Q2H/4ynJnW2mS
+ 3D4OkdRnQ+BJI/MKwgR+djuQCWPssy+Hrsm09S+yer0zBBwLofZ5OECr99J3AzlS+crQ
+ 9DHd3RGJuWdVl8yX4ILXR2mG3nU1o6BthJk/4T+xZCQa/Ujz8QiKP9A6AoGoZqirNj/t
+ B4/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=vUa/+0360889XNMZ8LlW5kuG26dnpqfJwGYvdJBavqs=;
- b=z0DQodwi9v6n9699i9FXKYOfai+InjDkiRHkR4y+EiQyLrIm2daB4kPvdUMgfYwbvg
- LJrAcMVGujeQ8r2Lza6o6XYAcswApKK5GcebTO/87xhOHvkS2FElipgGJxPOSVd/Q+kx
- tkWpb2y6iEP0E+wyxHCNY3tZ1lDJ8m1pCfJPLW5pPQ9lG97UCJpI4huZQ84Mja0bcB1E
- oUJVJVAWc/e/Hz5oQ22NXIhUYIVHuJZgrIYY46YU1O6DS8p27hO9n0BU83Maj77fsrCr
- yyx3dEBZiTtspES5SYNuW1VThzg8ZGJOVC1e3VA96lAvvbWcZ2IY04eQKFT/wC/i+tvX
- bYVQ==
-X-Gm-Message-State: AJIora80fVEwE+NsFsMo64pq63k3u6XTfxYAxO4lELsxKHFyUmm9uN6H
- q+MtQz8B8Ecj92xtrWGa5w8oGglbSxM=
-X-Google-Smtp-Source: AGRyM1vqhAL1nzlQW4ayUY9i9bTRHPjx4r/Zw6P7qwKJgKSqansnIr9Cdr3Xafewhel/DCcTPnbS3w==
-X-Received: by 2002:a05:6402:358b:b0:435:828a:a403 with SMTP id
- y11-20020a056402358b00b00435828aa403mr9352379edc.117.1655795961606; 
- Tue, 21 Jun 2022 00:19:21 -0700 (PDT)
-Received: from [192.168.178.21] (p57b0bd9f.dip0.t-ipconnect.de.
- [87.176.189.159]) by smtp.gmail.com with ESMTPSA id
- ku22-20020a170907789600b006f3ef214dd2sm6985163ejc.56.2022.06.21.00.19.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jun 2022 00:19:21 -0700 (PDT)
-Message-ID: <2c70d0c4-a326-6497-54b2-51bc2b93b9d6@gmail.com>
-Date: Tue, 21 Jun 2022 09:19:19 +0200
+ bh=I49iaT9479MLDi3TYueSZinlKruIKCVXqSN6hfWZ6x4=;
+ b=fCfGF/qoBcBSYjOzbdiE+Ll5BYmw42vOjghRv9K8LD9jy5WXVgJ1xp4iKqme3b8lfS
+ SN1HbPBV7h8Zt7eKHQMC+M14z9Wce8bgZyL8zJDS0m2F6sz+pIJQZt6BFAatRADIWdsD
+ OtQgKzyjijaN37dywz3fhY/Yft7AeRHjC7GNoKbrSHApPCesBvoxY9Ta2ONw/ZGVqoIJ
+ Ij2Xuheb9KI9QD2E4B1XojoMrpliNyG2Kb9/oh1RKctC7qBmT747nAA4jY7FFRz/Apzl
+ 5Z9zJ8WXHVfvqx9OC21mZXXZIaD5F3GG2LceBu0SZGooDbKw7KSpI0Tluj/oEJ47+7LT
+ tjAg==
+X-Gm-Message-State: AJIora+joOHYbtWTGrCJAWQ536132L3APFYAOllkEE1oQD+tiGCNtXQd
+ /GJte2wLicIab2z9R8NlgDI=
+X-Google-Smtp-Source: AGRyM1vduCB6Dl0uXtQ/uJ/zcFkNMY0AX9tE24LM9PyHr98TUnsUGHKRZg4/lze+IGydS4QD7MJIWw==
+X-Received: by 2002:a17:906:6a28:b0:711:d032:caa4 with SMTP id
+ qw40-20020a1709066a2800b00711d032caa4mr23990285ejc.80.1655796072583; 
+ Tue, 21 Jun 2022 00:21:12 -0700 (PDT)
+Received: from localhost.localdomain.info
+ (62-178-82-229.cable.dynamic.surfer.at. [62.178.82.229])
+ by smtp.gmail.com with ESMTPSA id
+ p1-20020a17090653c100b00722e771007fsm50711ejo.37.2022.06.21.00.21.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jun 2022 00:21:11 -0700 (PDT)
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/4] Add support for GPU load values
+Date: Tue, 21 Jun 2022 09:20:46 +0200
+Message-Id: <20220621072050.76229-1-christian.gmeiner@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/5] drm/amdgpu: Fix possible refcount leak for release of
- external_hw_fence
-Content-Language: en-US
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20220620220302.86389-1-andrey.grodzovsky@amd.com>
- <20220620220302.86389-2-andrey.grodzovsky@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20220620220302.86389-2-andrey.grodzovsky@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,63 +68,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jingwen.chen2@amd.com, Christian.Koenig@amd.com, monk.liu@amd.com,
- yiqing.yao@amd.com
+Cc: David Airlie <airlied@linux.ie>,
+ "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
+ <etnaviv@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR VIVANTE GPU IP" <dri-devel@lists.freedesktop.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 21.06.22 um 00:02 schrieb Andrey Grodzovsky:
-> Problem:
-> In amdgpu_job_submit_direct - The refcount should drop by 2
-> but it drops only by 1.
->
-> amdgpu_ib_sched->emit -> refcount 1 from first fence init
-> dma_fence_get -> refcount 2
-> dme_fence_put -> refcount 1
->
-> Fix:
-> Add put for external_hw_fence in amdgpu_job_free/free_cb
+This patch series add support for loadavg values for GPU
+sub-components. I am adding a SMA algorithm as I was not
+really sure if EWMA would be a good fit for this use case.
 
-Well what is the external_hw_fence good for in this construct?
+Changes v2:
+ - Addressed feedback from Lucas
 
->
-> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> index 10aa073600d4..58568fdde2d0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> @@ -152,8 +152,10 @@ static void amdgpu_job_free_cb(struct drm_sched_job *s_job)
->       /* only put the hw fence if has embedded fence */
->   	if (job->hw_fence.ops != NULL)
->   		dma_fence_put(&job->hw_fence);
-> -	else
-> +	else {
+Christian Gmeiner (4):
+  drm/etnaviv: add simple moving average (SMA)
+  drm/etnaviv: add loadavg accounting
+  drm/etnaviv: show loadavg in debugfs
+  drm/etnaviv: export loadavg via perfmon
 
-When one side of the if uses {} the other side should use {} as well, 
-e.g. use } else { here.
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c     | 14 ++++
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c     | 76 +++++++++++++++++++++-
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.h     | 37 +++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_perfmon.c | 79 +++++++++++++++++++++++
+ drivers/gpu/drm/etnaviv/etnaviv_sma.h     | 53 +++++++++++++++
+ 5 files changed, 257 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_sma.h
 
-Christian.
-
-> +		dma_fence_put(job->external_hw_fence);
->   		kfree(job);
-> +	}
->   }
->   
->   void amdgpu_job_free(struct amdgpu_job *job)
-> @@ -165,8 +167,10 @@ void amdgpu_job_free(struct amdgpu_job *job)
->   	/* only put the hw fence if has embedded fence */
->   	if (job->hw_fence.ops != NULL)
->   		dma_fence_put(&job->hw_fence);
-> -	else
-> +	else {
-> +		dma_fence_put(job->external_hw_fence);
->   		kfree(job);
-> +	}
->   }
->   
->   int amdgpu_job_submit(struct amdgpu_job *job, struct drm_sched_entity *entity,
+-- 
+2.36.1
 
