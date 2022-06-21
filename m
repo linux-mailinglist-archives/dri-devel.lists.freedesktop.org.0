@@ -1,55 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59977552962
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 04:32:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1E655296D
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 04:37:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE2C10FFE4;
-	Tue, 21 Jun 2022 02:32:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4C9111232D;
+	Tue, 21 Jun 2022 02:37:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0C4410FFDB
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 02:32:34 +0000 (UTC)
-X-UUID: 68298a8f28e34f449bb361ea833a7259-20220621
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:11b838f5-70b9-4394-b195-3bab6b75a599, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:b14ad71, CLOUDID:7f15972d-1756-4fa3-be7f-474a6e4be921,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 68298a8f28e34f449bb361ea833a7259-20220621
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 690866153; Tue, 21 Jun 2022 10:32:31 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 21 Jun 2022 10:32:30 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 21 Jun 2022 10:32:30 +0800
-Message-ID: <0862532b568f7e13b89b6537928efd518a2971a3.camel@mediatek.com>
-Subject: Re: [PATCH v12 10/14] drm/mediatek: dpi: Add dpintf support
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <matthias.bgg@gmail.com>,
- <airlied@linux.ie>
-Date: Tue, 21 Jun 2022 10:32:30 +0800
-In-Reply-To: <20220620121028.29234-11-rex-bc.chen@mediatek.com>
-References: <20220620121028.29234-1-rex-bc.chen@mediatek.com>
- <20220620121028.29234-11-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38E8D11232D;
+ Tue, 21 Jun 2022 02:37:16 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LRrJR2N9Fz4xXj;
+ Tue, 21 Jun 2022 12:37:10 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1655779032;
+ bh=E2bt6Hqtp6F5DJLwZ0iF2cXMIpskMQ1W7uOyDJJZhrs=;
+ h=Date:From:To:Cc:Subject:From;
+ b=qLwfmR/5EaWCtqQfwoLOR69le/bV0Civ+NfNfAKOAZulNmdf1AoBr3AEng6tr1LNb
+ +cvvXGlqU/mCp0+7AHyH1+seV2dI/SnaBk8oNmNZl0z1BYXwXyR2+ka47S60fKQrql
+ nbblfV5IuQKpNc1KrXa8gZjIOSsM+IxxG4roQ4b6Hb7gDacGN8qqLC0FMsgWRy71uB
+ 6r7nmYloBTfItf8rCvmRtyntRVt7HWvCZ8Qu7uyAeXGRw2hxzx3BBCqf4E3HF2e+Vu
+ qkczqAg9R3fdzfAZnx4/udrqhokHp74UtsOjvBT68qL74SkfElcQV0aBIf45vuTW+9
+ 1+7/PYbKDD0wA==
+Date: Tue, 21 Jun 2022 12:36:56 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20220621123656.7a479ad9@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: multipart/signed; boundary="Sig_/gVQErqL6wYsDqhSe=SaTGRP";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,156 +50,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
+--Sig_/gVQErqL6wYsDqhSe=SaTGRP
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2022-06-20 at 20:10 +0800, Bo-Chen Chen wrote:
-> From: Guillaume Ranquet <granquet@baylibre.com>
-> 
-> dpintf is the displayport interface hardware unit. This unit is
-> similar
-> to dpi and can reuse most of the code.
-> 
-> This patch adds support for mt8195-dpintf to this dpi driver. Main
-> differences are:
->  - 4 pixels for one round for dp_intf while dpi is 1 pixel for one
-> round.
->    Therefore, pixel clock and timing parameter should be divided by 4
-> for
->    dp_intf.
->  - Some features/functional components are not available for dpintf
->    which are now excluded from code execution once is_dpintf is set.
->    The main difference is some parts of hardware design between
-> dp_intf
->    and dpi.
->  - Some register contents differ slightly between the two components.
-> To
->    work around this I added register bits/masks with a DPINTF_ prefix
->    and use them where different.
-> 
-> Based on a separate driver for dpintf created by
-> Jitao shi <jitao.shi@mediatek.com>.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> [Bo-Chen: Modify reviewers' comments.]
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dpi.c          | 65
-> +++++++++++++++++++--
->  drivers/gpu/drm/mediatek/mtk_dpi_regs.h     | 13 +++++
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  4 ++
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 +
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  3 +
->  5 files changed, 82 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> index e186870ba3bc..2717b1741b7a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -126,6 +126,7 @@ struct mtk_dpi_conf {
->  	const u32 *output_fmts;
->  	u32 num_output_fmts;
->  	bool is_ck_de_pol;
-> +	bool is_dpintf;
->  	bool swap_input_support;
->  	/* Mask used for HWIDTH, HPORCH, VSYNC_WIDTH and VSYNC_PORCH
-> (no shift) */
->  	u32 dimension_mask;
-> @@ -513,6 +514,14 @@ static int mtk_dpi_set_display_mode(struct
-> mtk_dpi *dpi,
->  	pll_rate = clk_get_rate(dpi->tvd_clk);
->  
->  	vm.pixelclock = pll_rate / factor;
-> +
-> +	/*
-> +	 * For dp_intf, we need to divide clock by 4 because it's
-> +	 * 4 pixels for one round while dpi is 1 pixel for one round.
-> +	 */
-> +	if (dpi->conf->is_dpintf)
-> +		vm.pixelclock /= 4;
+Hi all,
 
-I this this should define dpi->conf->round_pixels rather than dpi-
->conf->is_dpintf.
+After merging the drm-misc tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
 
-> +
->  	if ((dpi->output_fmt == MEDIA_BUS_FMT_RGB888_2X12_LE) ||
->  	    (dpi->output_fmt == MEDIA_BUS_FMT_RGB888_2X12_BE))
->  		clk_set_rate(dpi->pixel_clk, vm.pixelclock * 2);
-> @@ -534,6 +543,17 @@ static int mtk_dpi_set_display_mode(struct
-> mtk_dpi *dpi,
->  	hsync.sync_width = vm.hsync_len;
->  	hsync.back_porch = vm.hback_porch;
->  	hsync.front_porch = vm.hfront_porch;
-> +
-> +	/*
-> +	 * For dp_intf, we need to divide everything by 4 because it's
-> +	 * 4 pixels for one round while dpi is 1 pixel for one round.
-> +	 */
-> +	if (dpi->conf->is_dpintf) {
-> +		hsync.sync_width = vm.hsync_len / 4;
-> +		hsync.back_porch = vm.hback_porch / 4;
-> +		hsync.front_porch = vm.hfront_porch / 4;
-> +	}
+drivers/gpu/drm/xlnx/zynqmp_disp.c: In function 'zynqmp_disp_create_planes':
+drivers/gpu/drm/xlnx/zynqmp_disp.c:1260:17: error: implicit declaration of =
+function 'drm_plane_create_zpos_immutable_property'; did you mean 'drm_plan=
+e_create_scaling_filter_property'? [-Werror=3Dimplicit-function-declaration]
+ 1260 |                 drm_plane_create_zpos_immutable_property(&layer->pl=
+ane, i);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                 drm_plane_create_scaling_filter_property
+drivers/gpu/drm/xlnx/zynqmp_disp.c:1262:25: error: implicit declaration of =
+function 'drm_plane_create_alpha_property'; did you mean 'drm_plane_create_=
+color_properties'? [-Werror=3Dimplicit-function-declaration]
+ 1262 |                         drm_plane_create_alpha_property(&layer->pla=
+ne);
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                         drm_plane_create_color_properties
+cc1: all warnings being treated as errors
 
-Ditto.
+Presumably caused by one of the commits that dropped includes from
+drm-ctrc.h.
 
-> +
->  	hsync.shift_half_line = false;
->  	vsync_lodd.sync_width = vm.vsync_len;
->  	vsync_lodd.back_porch = vm.vback_porch;
-> @@ -575,11 +595,16 @@ static int mtk_dpi_set_display_mode(struct
-> mtk_dpi *dpi,
->  	mtk_dpi_config_channel_limit(dpi);
->  	mtk_dpi_config_bit_num(dpi, dpi->bit_num);
->  	mtk_dpi_config_channel_swap(dpi, dpi->channel_swap);
-> -	mtk_dpi_config_yc_map(dpi, dpi->yc_map);
->  	mtk_dpi_config_color_format(dpi, dpi->color_format);
-> -	mtk_dpi_config_2n_h_fre(dpi);
-> -	mtk_dpi_dual_edge(dpi);
-> -	mtk_dpi_config_disable_edge(dpi);
-> +	if (dpi->conf->is_dpintf) {
+I have used the drm-misc tree from next-20220620 for today.
 
-Separate this to an independent patch and give a better config name
-rather than dpi->conf->is_dpintf.
+--=20
+Cheers,
+Stephen Rothwell
 
-> +		mtk_dpi_mask(dpi, DPI_CON, DPINTF_INPUT_2P_EN,
-> +			     DPINTF_INPUT_2P_EN);
-> +	} else {
-> +		mtk_dpi_config_yc_map(dpi, dpi->yc_map);
-> +		mtk_dpi_config_2n_h_fre(dpi);
-> +		mtk_dpi_dual_edge(dpi);
-> +		mtk_dpi_config_disable_edge(dpi);
-> +	}
->  	mtk_dpi_sw_reset(dpi, false);
->  
->  	return 0;
-> @@ -817,6 +842,16 @@ static unsigned int mt8183_calculate_factor(int
-> clock)
->  		return 2;
->  }
->  
+--Sig_/gVQErqL6wYsDqhSe=SaTGRP
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-[snip]
+-----BEGIN PGP SIGNATURE-----
 
->  
->  #define EDGE_SEL_EN			BIT(5)
->  #define H_FRE_2N			BIT(25)
-> +
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmKxLsgACgkQAVBC80lX
+0GxVBwgAmClKyEbVOckxAjfBs5vNr2SJFtdNCTsAESyYKFo6OehLESFMGM4PYowd
+1qIVF0LV4+ei7tqzU7v78DqJeYPyhhP378ZKVUPVePyFTCeCl0XoF++mseQPhsSL
+vVVrK0fPvn7IQYnZ2D3xDd6x3EdWgTb4c6Pzgws5FfttFs6kywz2ovX5M0a5/SIP
+nN4Y0Hgss3Yuz4N+hBiIBLFwQ7rbe7mgGOYXZGFLqqHtcHX0kbyDEtK5AIYU38P0
+JuxtMGFceec+eur+VpKMuBt3ZcCeTseOTatwQaqQJV31w42+MqIaXfsq42XHAoii
+x864eJ112U9CjGfohugEwax5baZcbQ==
+=UKNF
+-----END PGP SIGNATURE-----
 
-This seems not related to dpintf support.
-
-Regards,
-CK
-
->  #endif /* __MTK_DPI_REGS_H */
-> 
-
+--Sig_/gVQErqL6wYsDqhSe=SaTGRP--
