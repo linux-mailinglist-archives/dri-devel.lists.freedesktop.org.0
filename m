@@ -1,39 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E48552AEC
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 08:20:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C675C552B0B
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 08:36:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CBBC10FA51;
-	Tue, 21 Jun 2022 06:20:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87E7E10F6B5;
+	Tue, 21 Jun 2022 06:36:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA2F710FA51
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 06:20:39 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59295104;
- Tue, 21 Jun 2022 08:20:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1655792437;
- bh=QxqGI8u7Mcjy3hAKsyC9Lq9xMXJUcfr/8cXBFAGKrXQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Um0skpAxHmGTSW5KKa9z6qFSD447639lNm8xsuDGUtCDvnxWVWxm4oydnlFJ9PVwb
- 0tOOgMIePz4s/oh+Lo48RnSPA9Qz2j/6XjVucwtIBS/vnloeur3715E9IPgyvg72fP
- P0BZRSU9B5A4FAHOP5VlpBrO2tj5O7FBOl7Ks6co=
-Date: Tue, 21 Jun 2022 09:20:21 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stephen Kitt <steve@sk2.org>
-Subject: Re: [PATCH v2] drm: shmobile: Use backlight helper
-Message-ID: <YrFjJa6aLSK5P3lY@pendragon.ideasonboard.com>
-References: <20220616170821.1348169-1-steve@sk2.org>
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com
+ [IPv6:2607:f8b0:4864:20::f2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9836510F6B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 06:36:52 +0000 (UTC)
+Received: by mail-qv1-xf2b.google.com with SMTP id o43so19010644qvo.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 23:36:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SdYAf0CG4PNu6HaL1R4YWUXvsANAVZ1d3Ff5jO+XX/o=;
+ b=BgyjGi8Kll/nY9iMWbO+yX4P1KrWvK2SXIDlYEwzzNSs2Gy4JRRpX+YPBUur1kpzRn
+ 3XW7G/g68fFsPqXFA7XVxjAB2MXJ2moX3X3aZZEPvhkowJzhH6+YXq0G9gsWd4UlYZaf
+ CAkWw3n4EhMQRpMvBGudJ5WvQLDAsGveqxwAOub+NgVo8KdytiMHEwdTAT0tFATTD5OW
+ bOe0d3H8KzFO0kuPZvFsvBwoBZmcBgiHoFHlcJQ/pAVvfK6P0S3UK14MtbPF9NBjQA7E
+ ziX3SrmL6z/YyBZc6xRAiYZC6CGCYjup/bXqMIFudKjVfdpUbCxjxCE+qvpH7VeqesWY
+ Q07A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SdYAf0CG4PNu6HaL1R4YWUXvsANAVZ1d3Ff5jO+XX/o=;
+ b=jO1XiD5b2PgApwoH5Yb+sD55ZFbuHdsxkszZWz5Coaw6appL/MHdOT2imdnys9FZvC
+ LzdERFUzGpbQ2GXG1eqOV9mbdy2f1AGcWAQUFd+w1GUjkF7QSyv9W7KyFoVPPqR9sQuk
+ qExjOZsKHYqXD2qNSX1i7UQdcF2Ica354UzzhEU8xzT5YLqZVTfzZUyMCAdJX9EYtOyH
+ guXeM9MJYpTbeECNjxLsEptE1o4vPMqTLm0SwiTj1CojFliFXvvRV3xGGoioJpCDC/rG
+ VXMdJtVU4vX7Pxa+eS/hw5EELdbKm/ZpQcgZSTkIOZ7m7KDFHjQK4aTqZ6FQ5bKYdRWb
+ hPvQ==
+X-Gm-Message-State: AJIora/rRSjVFLpRIZYy3lZY2FcBTdUTTPZNyiDMHAKN3VeaQVKHMZcv
+ GNDY/kl9spp6e8Zo2KEC8qs3coo7wK8kTtK+Vg8udQ==
+X-Google-Smtp-Source: AGRyM1sgvs4T1KdbFI2Xrz2PHWL1lxqs/p7pJoPRU/K6IcKDHFKXdMSnBsogQ4/oyuZ68tf23uUtkph1CYn1/AxiHZs=
+X-Received: by 2002:ad4:5b81:0:b0:465:ded8:780 with SMTP id
+ 1-20020ad45b81000000b00465ded80780mr21900114qvp.119.1655793411659; Mon, 20
+ Jun 2022 23:36:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220616170821.1348169-1-steve@sk2.org>
+References: <20220621005033.274-1-quic_jesszhan@quicinc.com>
+ <20220621005033.274-4-quic_jesszhan@quicinc.com>
+In-Reply-To: <20220621005033.274-4-quic_jesszhan@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 21 Jun 2022 09:36:40 +0300
+Message-ID: <CAA8EJpop8=4_2xGrNt0fL4qGjYQK9+0VuQ8nq=OOXVJF7aoauQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] drm/msm/dpu: Add interface support for CRC debugfs
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,65 +63,296 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen,
-
-Thank you for the patch.
-
-On Thu, Jun 16, 2022 at 07:08:21PM +0200, Stephen Kitt wrote:
-> This started with work on the removal of backlight_properties'
-> deprecated fb_blank field, much of which can be taken care of by using
-> helper functions provided by backlight.h instead of directly accessing
-> fields in backlight_properties. This patch series doesn't involve
-> fb_blank, but it still seems useful to use helper functions where
-> appropriate.
-> 
-> Instead of retrieving the backlight brightness in struct
-> backlight_properties manually, and then checking whether the backlight
-> should be on at all, use backlight_get_brightness() which does all
-> this and insulates this from future changes.
-> 
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+On Tue, 21 Jun 2022 at 03:50, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
+>
+> Add support for writing CRC values for the interface block to
+> the debugfs by calling the necessary MISR setup/collect methods.
+>
+> Changes since V1:
+> - Set values_cnt to only include phys with backing hw_intf
+> - Loop over all drm_encs connected to crtc
+>
+> Changes since V2:
+> - Remove vblank.h inclusion
+> - Change `pos + i` to `pos + entries`
+> - Initialize values_cnt to 0 for encoder
+> - Change DPU_CRTC_CRC_SOURCE_INTF to DPU_CRTC_CRC_SOURCE_ENCODER (and
+>   "intf" to "enc")
+> - Change dpu_encoder_get_num_phys to dpu_encoder_get_num_hw_intfs
+> - Add checks for setup_misr and collect_misr in
+>   dpu_encoder_get_num_hw_intfs
+>
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
-> Changes since v1: clarified commit message, this doesn't touch fb_blank
-> ---
->  drivers/gpu/drm/shmobile/shmob_drm_backlight.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-> index f6628a5ee95f..794573badfe8 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-> @@ -18,11 +18,7 @@ static int shmob_drm_backlight_update(struct backlight_device *bdev)
->  	struct shmob_drm_connector *scon = bl_get_data(bdev);
->  	struct shmob_drm_device *sdev = scon->connector.dev->dev_private;
->  	const struct shmob_drm_backlight_data *bdata = &sdev->pdata->backlight;
-> -	int brightness = bdev->props.brightness;
-> -
-> -	if (bdev->props.power != FB_BLANK_UNBLANK ||
-> -	    bdev->props.state & BL_CORE_SUSPENDED)
-> -		brightness = 0;
-> +	int brightness = backlight_get_brightness(bdev);
->  
->  	return bdata->set_brightness(brightness);
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 50 +++++++++++++++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h    |  3 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 64 +++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 22 +++++++
+>  4 files changed, 138 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 69a1257d3b6d..b4e8a4432796 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -79,6 +79,8 @@ static enum dpu_crtc_crc_source dpu_crtc_parse_crc_source(const char *src_name)
+>         if (!strcmp(src_name, "auto") ||
+>             !strcmp(src_name, "lm"))
+>                 return DPU_CRTC_CRC_SOURCE_LAYER_MIXER;
+> +       if (!strcmp(src_name, "enc"))
+
+"encoder" unless you have any strong reason (like being compatible
+with other platforms).
+
+> +               return DPU_CRTC_CRC_SOURCE_ENCODER;
+>
+>         return DPU_CRTC_CRC_SOURCE_INVALID;
 >  }
-> 
-> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+> @@ -94,8 +96,16 @@ static int dpu_crtc_verify_crc_source(struct drm_crtc *crtc,
+>                 return -EINVAL;
+>         }
+>
+> -       if (source == DPU_CRTC_CRC_SOURCE_LAYER_MIXER)
+> +       if (source == DPU_CRTC_CRC_SOURCE_LAYER_MIXER) {
+>                 *values_cnt = crtc_state->num_mixers;
+> +       } else if (source == DPU_CRTC_CRC_SOURCE_ENCODER) {
+> +               struct drm_encoder *drm_enc;
+> +
+> +               *values_cnt = 0;
+> +
+> +               drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc->state->encoder_mask)
+> +                       *values_cnt += dpu_encoder_get_num_hw_intfs(drm_enc);
+> +       }
+>
+>         return 0;
+>  }
+> @@ -116,6 +126,14 @@ static void dpu_crtc_setup_lm_misr(struct dpu_crtc_state *crtc_state)
+>         }
+>  }
+>
+> +static void dpu_crtc_setup_encoder_misr(struct drm_crtc *crtc)
+> +{
+> +       struct drm_encoder *drm_enc;
+> +
+> +       drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc->state->encoder_mask)
+> +               dpu_encoder_setup_misr(drm_enc);
+> +}
+> +
+>  static int dpu_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+>  {
+>         enum dpu_crtc_crc_source source = dpu_crtc_parse_crc_source(src_name);
+> @@ -164,6 +182,8 @@ static int dpu_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+>
+>         if (source == DPU_CRTC_CRC_SOURCE_LAYER_MIXER)
+>                 dpu_crtc_setup_lm_misr(crtc_state);
+> +       else if (source == DPU_CRTC_CRC_SOURCE_ENCODER)
+> +               dpu_crtc_setup_encoder_misr(crtc);
+>         else
+>                 ret = -EINVAL;
+>
+> @@ -212,6 +232,28 @@ static int dpu_crtc_get_lm_crc(struct drm_crtc *crtc,
+>                         drm_crtc_accurate_vblank_count(crtc), crcs);
+>  }
+>
+> +static int dpu_crtc_get_encoder_crc(struct drm_crtc *crtc, u32 *crcs)
+> +{
+> +       struct drm_encoder *drm_enc;
+> +       int rc, pos = 0;
+> +
+
+Extra empty line.
+
+> +
+> +       drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc->state->encoder_mask) {
+> +               rc = dpu_encoder_get_crc(drm_enc, crcs, pos);
+> +               if (rc < 0) {
+> +                       if (rc != -ENODATA)
+> +                               DRM_DEBUG_DRIVER("MISR read failed\n");
+> +
+> +                       return rc;
+> +               }
+> +
+> +               pos += rc;
+> +       }
+> +
+> +       return drm_crtc_add_crc_entry(crtc, true,
+> +                       drm_crtc_accurate_vblank_count(crtc), crcs);
+> +}
+> +
+>  static int dpu_crtc_get_crc(struct drm_crtc *crtc)
+>  {
+>         struct dpu_crtc_state *crtc_state = to_dpu_crtc_state(crtc->state);
+> @@ -226,6 +268,12 @@ static int dpu_crtc_get_crc(struct drm_crtc *crtc)
+>         if (crtc_state->crc_source == DPU_CRTC_CRC_SOURCE_LAYER_MIXER) {
+>                 BUILD_BUG_ON(ARRAY_SIZE(crcs) < ARRAY_SIZE(crtc_state->mixers));
+>                 return dpu_crtc_get_lm_crc(crtc, crtc_state, crcs);
+> +       } else if (crtc_state->crc_source == DPU_CRTC_CRC_SOURCE_ENCODER) {
+> +               if (ARRAY_SIZE(crcs) < INTF_MAX)
+> +                       DPU_ERROR("crcs array of size %ld less than %d\n",
+> +                                       ARRAY_SIZE(crcs), INTF_MAX);
+
+Ok. With the crcs array being local you don't have to preallocate it
+here and pass it as an argument.
+Just declare it in the dpu_crtc_get_encoder_crc(). Then you can
+allocate it as `u32 crcs[INTF_MAX]` and remove the check.
+
+> +
+> +               return dpu_crtc_get_encoder_crc(crtc, crcs);
+>         }
+>
+>         return 0;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> index aa897ec28ad3..b49cf8ae126f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> @@ -1,5 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+>   * Copyright (c) 2015-2021 The Linux Foundation. All rights reserved.
+>   * Copyright (C) 2013 Red Hat
+>   * Author: Rob Clark <robdclark@gmail.com>
+> @@ -78,11 +79,13 @@ struct dpu_crtc_smmu_state_data {
+>   * enum dpu_crtc_crc_source: CRC source
+>   * @DPU_CRTC_CRC_SOURCE_NONE: no source set
+>   * @DPU_CRTC_CRC_SOURCE_LAYER_MIXER: CRC in layer mixer
+> + * @DPU_CRTC_CRC_SOURCE_ENCODER: CRC in encoder
+>   * @DPU_CRTC_CRC_SOURCE_INVALID: Invalid source
+>   */
+>  enum dpu_crtc_crc_source {
+>         DPU_CRTC_CRC_SOURCE_NONE = 0,
+>         DPU_CRTC_CRC_SOURCE_LAYER_MIXER,
+> +       DPU_CRTC_CRC_SOURCE_ENCODER,
+>         DPU_CRTC_CRC_SOURCE_MAX,
+>         DPU_CRTC_CRC_SOURCE_INVALID = -1
+>  };
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 52516eb20cb8..a8f841180383 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -225,6 +225,70 @@ bool dpu_encoder_is_widebus_enabled(const struct drm_encoder *drm_enc)
+>         return dpu_enc->wide_bus_en;
+>  }
+>
+> +int dpu_encoder_get_num_hw_intfs(const struct drm_encoder *drm_enc)
+
+dpu_encoder_get_crc_values_cnt(), please.
+
+> +{
+> +       struct dpu_encoder_virt *dpu_enc;
+> +       int i, num_intf = 0;
+> +
+> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
+> +
+> +       for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+> +               struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+> +
+> +               if (phys->hw_intf && phys->hw_intf->ops.setup_misr
+> +                               && phys->hw_intf->ops.collect_misr)
+> +                       num_intf++;
+> +       }
+> +
+> +       return num_intf;
+> +}
+> +
+> +void dpu_encoder_setup_misr(const struct drm_encoder *drm_enc)
+> +{
+> +       struct dpu_encoder_virt *dpu_enc;
+> +
+> +       int i;
+> +
+> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
+> +
+> +       for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+> +               struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+> +
+> +               if (!phys->hw_intf || !phys->hw_intf->ops.setup_misr)
+> +                       continue;
+> +
+> +               phys->hw_intf->ops.setup_misr(phys->hw_intf, true, 1);
+> +       }
+> +}
+> +
+> +int dpu_encoder_get_crc(const struct drm_encoder *drm_enc, u32 *crcs, int pos)
+> +{
+> +       struct dpu_encoder_virt *dpu_enc;
+> +
+> +       int i, rc = 0, entries_added = 0;
+> +
+> +       if (!drm_enc->crtc) {
+> +               DRM_ERROR("no crtc found for encoder %d\n", drm_enc->index);
+> +               return -EINVAL;
+> +       }
+> +
+> +       dpu_enc = to_dpu_encoder_virt(drm_enc);
+> +
+> +       for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+> +               struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+> +
+> +               if (!phys->hw_intf || !phys->hw_intf->ops.collect_misr)
+> +                       continue;
+> +
+> +               rc = phys->hw_intf->ops.collect_misr(phys->hw_intf, &crcs[pos + entries_added]);
+> +               if (rc)
+> +                       return rc;
+> +               entries_added++;
+> +       }
+> +
+> +       return entries_added;
+> +}
+> +
+>  static void _dpu_encoder_setup_dither(struct dpu_hw_pingpong *hw_pp, unsigned bpc)
+>  {
+>         struct dpu_hw_dither_cfg dither_cfg = { 0 };
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> index 781d41c91994..749e0144d2de 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> @@ -1,5 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+>   * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+>   * Copyright (C) 2013 Red Hat
+>   * Author: Rob Clark <robdclark@gmail.com>
+> @@ -174,6 +175,27 @@ int dpu_encoder_get_vsync_count(struct drm_encoder *drm_enc);
+>
+>  bool dpu_encoder_is_widebus_enabled(const struct drm_encoder *drm_enc);
+>
+> +/**
+> + * dpu_encoder_get_num_hw_intfs - get number of physical encoders contained
+> + *     in virtual encoder
+> + * @drm_enc:    Pointer to previously created drm encoder structure
+> + * Returns:     Number of physical encoders for given drm encoder
+> + */
+> +int dpu_encoder_get_num_hw_intfs(const struct drm_encoder *drm_enc);
+> +
+> +/**
+> + * dpu_encoder_setup_misr - enable misr calculations
+> + * @drm_enc:    Pointer to previously created drm encoder structure
+> + */
+> +void dpu_encoder_setup_misr(const struct drm_encoder *drm_encoder);
+> +
+> +/**
+> + * dpu_encoder_get_crc - get the crc value from interface blocks
+> + * @drm_enc:    Pointer to previously created drm encoder structure
+> + * Returns:     0 on success, error otherwise
+> + */
+> +int dpu_encoder_get_crc(const struct drm_encoder *drm_enc, u32 *crcs, int pos);
+> +
+>  /**
+>   * dpu_encoder_use_dsc_merge - returns true if the encoder uses DSC merge topology.
+>   * @drm_enc:    Pointer to previously created drm encoder structure
+> --
+> 2.35.1
+>
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+With best wishes
+Dmitry
