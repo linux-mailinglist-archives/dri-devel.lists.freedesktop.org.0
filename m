@@ -2,82 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F68955288C
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 02:16:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE92552894
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 02:18:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06D96896A3;
-	Tue, 21 Jun 2022 00:16:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC8810EC1E;
+	Tue, 21 Jun 2022 00:18:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85C80896A3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 00:15:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655770558;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=am4ljrsE7Ufjfmqsop2MzHsqSlEXrA5rSRIM1yT2FYE=;
- b=P5dRtsSKvV3QKbbOdEXRRj7ZY4MqanQrTt19Kdz7fCwkp/Xfa2FZdSX39CLp3blWQkHW3d
- 7KY+FW18aC6fDGOA32qw5O1iep3JWnx0YZ8wdS3Fj4/vAqkTRsJNnuDPKMPmw7aI/Gq+Gt
- V2CVktJp25Zw/rUIIP/SJX0H/dqG4lM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-497-lwqOtcfxNmKn_C9kyZ8oyw-1; Mon, 20 Jun 2022 20:15:57 -0400
-X-MC-Unique: lwqOtcfxNmKn_C9kyZ8oyw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- u18-20020adfb212000000b0021855847651so2813191wra.6
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 17:15:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=am4ljrsE7Ufjfmqsop2MzHsqSlEXrA5rSRIM1yT2FYE=;
- b=rFNv46SRsjrHrub5RQFD0ll41mX5dxzNUU5FG5inW5XxA8f73UbiOUFbwHOX89ULOE
- J2EhWWSbL0b0nTuFJVSiwocliNWAPx3cfTwGMX8QJ/SrJoJrCHCqIhO7GNOLlubMSDtW
- ogOdYKeqj4ye0z3u+W5aU5RjlWiZJVQm7kt5RYlnO6gvjdfArEg0I41oPItUB4r26p02
- OW17wIw46/2EO0HoS0qdE+itJgGknYA+588pCDErgNPwGhKbAKY3wMOofmsIeTtvUwS/
- DNBvoN824RXROSFtbA8emLz2Xb9uXAe8+eS5gHeUGx7u3rAuln4hizhqr67WioHGgwC7
- U/6A==
-X-Gm-Message-State: AOAM531qkYxWNQObJ7Q+sEb/MBPTvHTDk7M6UVpJdgaoEOLhlVLbsQ3m
- 6e82MJuqnsszXYFxP3aSxwM2/F90ckQN+vc0NHbXW4pGqS14ixgwuFuw1eQ+YruD11EDIF3MSvw
- yL8ATQ5zltasUarTHLdrtimf1NByB
-X-Received: by 2002:a05:600c:3b05:b0:397:54ce:896 with SMTP id
- m5-20020a05600c3b0500b0039754ce0896mr37343016wms.3.1655770556334; 
- Mon, 20 Jun 2022 17:15:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxuF9L1be7ni3J1YmYNIb9c4ZabGtFSUgGjCv0tSabp2R2QRhWX6wNq50I5/oKWe6fZHu9qDw==
-X-Received: by 2002:a05:600c:3b05:b0:397:54ce:896 with SMTP id
- m5-20020a05600c3b0500b0039754ce0896mr37343003wms.3.1655770556103; 
- Mon, 20 Jun 2022 17:15:56 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- e13-20020adfe7cd000000b0021b89181863sm7340790wrn.41.2022.06.20.17.15.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jun 2022 17:15:55 -0700 (PDT)
-Message-ID: <e6306933-45c4-f38a-bae1-3ad149d67e1b@redhat.com>
-Date: Tue, 21 Jun 2022 02:15:54 +0200
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B066310E82D;
+ Tue, 21 Jun 2022 00:18:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1655770680; x=1687306680;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=9CM761RPUf3H+9foG8Vhn4+yZioOjyJpb6+jXL+c35s=;
+ b=D7mhEj3JI1NCcucIszdog25fucY1XB30p00KD7yhl6GUZPrYFdEZhLLY
+ FVAyBCSD6sOwMhNmoqo/6uZ9NVH8mNuMxd2LlxhR8CpJUD8PwbqjUO+uU
+ OxdFXg9iySJj3ozfCR2yQ9NY41qcyMBU7Xk1xygttMIKnTeRrzP/6PBw9 8=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 20 Jun 2022 17:18:00 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2022 17:17:59 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 20 Jun 2022 17:17:59 -0700
+Received: from [10.111.166.89] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 20 Jun
+ 2022 17:17:57 -0700
+Message-ID: <392c678d-0047-89e0-3400-67aef22076e3@quicinc.com>
+Date: Mon, 20 Jun 2022 17:17:54 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 2/2] vfio/pci: Remove console drivers
-To: Alex Williamson <alex.williamson@redhat.com>, corbet@lwn.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de, gregkh@linuxfoundation.org
-References: <165541020563.1955826.16350888595945658159.stgit@omen>
- <165541193265.1955826.8778757616438743090.stgit@omen>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <165541193265.1955826.8778757616438743090.stgit@omen>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v1 4/4] drm/msm/dpu: move struct dpu_hw_blk definition to
+ dpu_hw_utils.h
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220601161349.1517667-1-dmitry.baryshkov@linaro.org>
+ <20220601161349.1517667-5-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220601161349.1517667-5-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,33 +67,204 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Gerd Hoffmann <kraxel@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Alex,
 
-On 6/16/22 22:38, Alex Williamson wrote:
-> Console drivers can create conflicts with PCI resources resulting in
-> userspace getting mmap failures to memory BARs.  This is especially
-> evident when trying to re-use the system primary console for userspace
-> drivers.  Use the aperture helpers to remove these conflicts.
+
+On 6/1/2022 9:13 AM, Dmitry Baryshkov wrote:
+> There is little point in having a separate header just for a single
+> opaque struct definition. Drop it now and move the struct to the
+> dpu_hw_util.h header.
 > 
-> Reported-by: Laszlo Ersek <lersek@redhat.com>
-> Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
-
-Patch looks good to me. 
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h      |  1 -
+>   .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  1 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h    | 25 -------------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    |  1 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h   |  2 --
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h   |  1 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h     |  1 -
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h    |  1 -
+>   .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   |  1 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |  1 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h    |  1 -
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h   |  7 ++++++
+>   12 files changed, 7 insertions(+), 36 deletions(-)
+>   delete mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> index b8785c394fcc..da64b0f639a9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> @@ -12,7 +12,6 @@
+>   #include <drm/drm_crtc.h>
+>   #include "dpu_kms.h"
+>   #include "dpu_core_perf.h"
+> -#include "dpu_hw_blk.h"
+>   
+>   #define DPU_CRTC_NAME_SIZE	12
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> index 53bb4639c8e9..1db6b75cd1f6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+> @@ -12,7 +12,6 @@
+>   #include "dpu_hw_top.h"
+>   #include "dpu_hw_wb.h"
+>   #include "dpu_hw_lm.h"
+> -#include "dpu_hw_blk.h"
+>   #include "dpu_hw_merge3d.h"
+>   #include "dpu_hw_interrupts.h"
+>   #include "dpu_core_irq.h"
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h
+> deleted file mode 100644
+> index 52e92f37eda4..000000000000
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.h
+> +++ /dev/null
+> @@ -1,25 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0-only */
+> -/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+> - */
+> -
+> -#ifndef _DPU_HW_BLK_H
+> -#define _DPU_HW_BLK_H
+> -
+> -#include <linux/types.h>
+> -#include <linux/list.h>
+> -
+> -struct dpu_hw_blk;
+> -
+> -
+> -/**
+> - * struct dpu_hw_blk - definition of hardware block object
+> - * @list: list of hardware blocks
+> - * @type: hardware block type
+> - * @id: instance id
+> - * @refcount: reference/usage count
+> - */
+> -struct dpu_hw_blk {
+> -	/* opaque */
+> -};
+> -
+> -#endif /*_DPU_HW_BLK_H */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> index 5755307089b5..7d9ad6a3f9f6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
+> @@ -10,7 +10,6 @@
+>   #include "dpu_hw_util.h"
+>   #include "dpu_hw_catalog.h"
+>   #include "dpu_hw_sspp.h"
+> -#include "dpu_hw_blk.h"
+>   
+>   /**
+>    * dpu_ctl_mode_sel: Interface mode selection
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
+> index 7fa189cfcb06..05ecfdfac93b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.h
+> @@ -5,8 +5,6 @@
+>   #ifndef _DPU_HW_DSPP_H
+>   #define _DPU_HW_DSPP_H
+>   
+> -#include "dpu_hw_blk.h"
+> -
+>   struct dpu_hw_dspp;
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> index 7b2d96ac61e8..c262430e4dbd 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+> @@ -8,7 +8,6 @@
+>   #include "dpu_hw_catalog.h"
+>   #include "dpu_hw_mdss.h"
+>   #include "dpu_hw_util.h"
+> -#include "dpu_hw_blk.h"
+>   
+>   struct dpu_hw_intf;
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h
+> index d8052fb2d5da..652ddfdedec3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h
+> @@ -8,7 +8,6 @@
+>   
+>   #include "dpu_hw_mdss.h"
+>   #include "dpu_hw_util.h"
+> -#include "dpu_hw_blk.h"
+>   
+>   struct dpu_hw_mixer;
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h
+> index 870bdb14613e..81fd1d5f718e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.h
+> @@ -8,7 +8,6 @@
+>   #include "dpu_hw_catalog.h"
+>   #include "dpu_hw_mdss.h"
+>   #include "dpu_hw_util.h"
+> -#include "dpu_hw_blk.h"
+>   
+>   struct dpu_hw_merge_3d;
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+> index 12758468d9ca..c00223441d99 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h
+> @@ -8,7 +8,6 @@
+>   #include "dpu_hw_catalog.h"
+>   #include "dpu_hw_mdss.h"
+>   #include "dpu_hw_util.h"
+> -#include "dpu_hw_blk.h"
+>   
+>   #define DITHER_MATRIX_SZ 16
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> index 7f7338fcddeb..78b1bc9e004f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> @@ -8,7 +8,6 @@
+>   #include "dpu_hw_catalog.h"
+>   #include "dpu_hw_mdss.h"
+>   #include "dpu_hw_util.h"
+> -#include "dpu_hw_blk.h"
+>   #include "dpu_formats.h"
+>   
+>   struct dpu_hw_pipe;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+> index 3aa10c89ca1b..a1a9e44bed36 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.h
+> @@ -8,7 +8,6 @@
+>   #include "dpu_hw_catalog.h"
+>   #include "dpu_hw_mdss.h"
+>   #include "dpu_hw_util.h"
+> -#include "dpu_hw_blk.h"
+>   
+>   struct dpu_hw_mdp;
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> index d5338701fc2b..49d89d706200 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> @@ -25,6 +25,13 @@ struct dpu_hw_blk_reg_map {
+>   	u32 log_mask;
+>   };
+>   
+> +/**
+> + * struct dpu_hw_blk - opaque hardware block object
+> + */
+> +struct dpu_hw_blk {
+> +	/* opaque */
+> +};
+> +
+>   /**
+>    * struct dpu_hw_scaler3_de_cfg : QSEEDv3 detail enhancer configuration
+>    * @enable:         detail enhancer enable/disable
