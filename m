@@ -2,100 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7C4553C48
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 23:01:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2493553D48
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 23:12:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FA0710E579;
-	Tue, 21 Jun 2022 21:01:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B102F10EAFA;
+	Tue, 21 Jun 2022 21:12:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2082.outbound.protection.outlook.com [40.107.92.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 676FF10E5B1;
- Tue, 21 Jun 2022 21:01:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ef1525KvLIIbHFEXwI/9MPL89SOYsDlSXs7p+QTJe5KOTDOEEENmgkC6JN6xKfd3DoHIYKu2L0QuY1k2d5lSSmf00l0wvuPhBrX2eeHGCwYTT5bAcebFOzAPyo1WvRZQTrjQRkS1bFnKolLUwzTkXq6woBGb1QIFPVmLer+TVpC802XgS5CMXr4cHfoInjXKr1+EQrII30FqkH+WgNpqiXru4m/3NT+6tfYZ7i78Ea1a49RAIt9euLtD3AfNybVXPt5BCwEwsRnlBK7F+OwjDYHugv4aBDN4fNsDc8HsowOgVBQjwF0TKa9v+LXzM4p28W1kGgoqoSyHWA546z3Yog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vUIF2uGYWjV8j5sOP5LZIAOG0iYID6apJ5elt83pzd4=;
- b=A7TyVQlOHoNACKhAQhR9Bxc6KFNeqjXz9iuUFMNlWeR83XuC4Y2gcidmQpcWVTlNI/J5Fab0j2jCDgIzEzqaQkHt3SEnFvbIMujRemkTzj/kb4/4pXKg04pGbcUWlJIEdHVVbjxXT3lYpDgHJtMk5xRouvtcLKyIEa1g6BwoNlf2Ylipl+dg3nDOP+zzW/H5qFO1UKDa0oF/sIZ0ehsaQkJnf/0tdQj0MFp1e9xHVcZyp9FZ4TXX97piUTYrnobzWn0Y7ZQQWLUKXlP5wWCzEb5HJ7J99aVlRnlmTbmwWAI2H8HXoIGY5ZNAV4Mnylb7PJpiMbvvIsmuY9d1v6l3KQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.236) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vUIF2uGYWjV8j5sOP5LZIAOG0iYID6apJ5elt83pzd4=;
- b=brHZSc4iipxBnLoq4noQxYIjaD+6h4EGFgb31mFP7l6S/UA7maRJXQEEogFiWGVjWZT6I4y5VQjNShRCmFgZgCu7OcVmmHbdIIpb8EHtkbO/U2q7/1KtJuMt0N6V1xqwSbvPCKsMlPOVoTTqlKcvLlfKGTi5bcfra86RzNQjEVig6kkkEfaTa/bQV/BiAPqsWNrFSAxPMr1Pv+8Q9qONoW5DbVaFwKKCmSbGkevWCGTYnTwmpelkSy8tRgghMRiYB5BYfyAeVYV6NGPVh0va9kgX8eYjPcUDBbogWXIlFexK6+8X1uW2yMmkWb+/oO31uF7gAUHazFm37iCRVoOXwA==
-Received: from DS7P222CA0015.NAMP222.PROD.OUTLOOK.COM (2603:10b6:8:2e::27) by
- CH2PR12MB4940.namprd12.prod.outlook.com (2603:10b6:610:65::10) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5353.15; Tue, 21 Jun 2022 21:01:24 +0000
-Received: from DM6NAM11FT068.eop-nam11.prod.protection.outlook.com
- (2603:10b6:8:2e:cafe::2a) by DS7P222CA0015.outlook.office365.com
- (2603:10b6:8:2e::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.15 via Frontend
- Transport; Tue, 21 Jun 2022 21:01:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.236; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.236) by
- DM6NAM11FT068.mail.protection.outlook.com (10.13.173.67) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5353.14 via Frontend Transport; Tue, 21 Jun 2022 21:01:22 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by DRHQMAIL109.nvidia.com
- (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.32;
- Tue, 21 Jun 2022 21:01:14 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 21 Jun
- 2022 14:01:13 -0700
-Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com (10.129.68.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22 via Frontend
- Transport; Tue, 21 Jun 2022 14:01:10 -0700
-Date: Tue, 21 Jun 2022 14:01:08 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Harald Freudenberger <freude@linux.ibm.com>
-Subject: Re: [RFT][PATCH v1 1/6] vfio/ap: Pass in physical address of ind to
- ap_aqic()
-Message-ID: <YrIxlLjXS0GiEpYg@Asurada-Nvidia>
-References: <20220616235212.15185-1-nicolinc@nvidia.com>
- <20220616235212.15185-2-nicolinc@nvidia.com>
- <fd564e6270a4bfcd9249559a797365ae@linux.ibm.com>
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4998810EAF1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 21:12:26 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id t1so26673872ybd.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 14:12:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0sx9mCt7ugcCul7YmAFz+wOWvzn0YCkRrYodgyvLA20=;
+ b=jJLcV4chSkoxoph0SxMvMEEtpXLscNJzrhZaEHO3ZPc7SbpH/zvDKOiacYWqha9wxj
+ DO7jw0cqqT3DV5bQSLGtU5a9z6gAx2WcRSGhSMTNItAm+gIhGX/Z0ZytqEyIRY8+z2KA
+ wVxV7TcVmKDv/2YKQiNeaADNAJIuInAo74XsY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0sx9mCt7ugcCul7YmAFz+wOWvzn0YCkRrYodgyvLA20=;
+ b=d6xpZrG2bdPzDhl5iOthrX6r1BDXcuBCDZm6Gzn44URdKGotzP4OppzFwl28CEL5mn
+ tPcCqSlG/PgNQpDro8uMBXcGs/DX4j0TXWjOD0AP6w6pfDawTMdUX0Bvf00RpYNrf3eV
+ 7hh1gwg8VKjjLWbBWl1sVsCSp/OqsEJNpjgoeAd67BlZ33kIjUAWc/RofuVOJL60odYc
+ JnEenBkgc/feM38eaJUl65LB+E/FHG69njVPih0K7gBRAv9L37GQ0IEZquIHuio3KZ2k
+ JSlNl0OoQ47oCH7On03XOekaTruiKev6yp7FaVEEZQC8baERzU7+aBTLlk1vstZ25IXR
+ gtGw==
+X-Gm-Message-State: AJIora9dYIkTSGgmnAQy4tmjUTwzWRzye4XHem+2W0tW9+qysHT6p1mP
+ lf5hyAwdPgqG589/516HzmdxyYGrcH5t30huQAIR3w==
+X-Google-Smtp-Source: AGRyM1t+DFUzS0wvZf5giwOBI/iXtOif2fd5MijWJHsJfzfG0w42jihhLkAOXFsXvEb8fVJDIYNV5qGIHiM0JlDwnXY=
+X-Received: by 2002:a25:9d89:0:b0:669:31d4:7cd9 with SMTP id
+ v9-20020a259d89000000b0066931d47cd9mr158778ybp.294.1655845945358; Tue, 21 Jun
+ 2022 14:12:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <fd564e6270a4bfcd9249559a797365ae@linux.ibm.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 75d236fb-eb13-4993-cf5b-08da53c9326e
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4940:EE_
-X-Microsoft-Antispam-PRVS: <CH2PR12MB49407990A318F120856014A4ABB39@CH2PR12MB4940.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 04odEqA/RIkDlmpf/vRd/TJwXT4qGDzWPGJ2PtjwpfyQRKZNa7NqGJe5ShktE10UZXbnbIcwAFACJ+gmiQpiYdoqXuuyDeDmSpYUNwThHE9S46RaEMsd9HDbg8QqLaneus2w7QZGkJU+VFQowNSKsjIPSwvSBbPZ3NorDoG0fOqa6XDgZyBgp8yNYhl0VrgmhX2uXMJ6U/CqswgsrIAEk2aJnryF2p7bMwCJc6crAckbWwzS5uvXUewXml1GIyfCebOQQ0+yDsP2Zb1zIOqjddY5yGIgfB+riwmApP3XjeVY6lNt9qqrZ9Jgiu7L7TlU/xMVA251JQk02oHtLqOd0Tf3SjXZ5Z7xtJtWEoYh9rsctSHtmu2JY9xGLVjUmz7aQqtY+p3lq992ZEG7HYDoedczG4r0EvwQxHUqWnv7iDe4oafvGNPbHToid99k3kzq6LlQBIJJTpb/rEdsMtPJhFv8eFOD8O6u6BiR+dBSheUNI9OqrZZJnqSbRh4YYeFd6/sQ6YTCMOY2U9gJSw61NRhPgxjAIf1SwO9C4Qggoo5AMJ3VB09lfQln2xyeDmNODMoGgBZgPARIzdNm06KLGsKHpI3lkmFMjvRqzd3xScz3lNVeaXlIhogoSn6HFO81xE7pbQxqsZQa8TJ2qdrl168phb1Z5ceFur5RgDVBgtSIieOhI11v+rPu+VlFs3l5tk/ZBLAJi/3nBBis5oTyd/eb11kwB9enPp2pWwQRqYsYEgTITglRQPkCBZF5FnzF
-X-Forefront-Antispam-Report: CIP:12.22.5.236; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:InfoNoRecords; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(396003)(136003)(39860400002)(346002)(46966006)(40470700004)(36840700001)(356005)(81166007)(86362001)(41300700001)(26005)(82740400003)(426003)(478600001)(316002)(54906003)(70206006)(70586007)(6916009)(186003)(9686003)(4744005)(8936002)(53546011)(5660300002)(33716001)(8676002)(7406005)(4326008)(2906002)(55016003)(7416002)(336012)(40480700001)(82310400005)(36860700001)(40460700003)(47076005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2022 21:01:22.4751 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75d236fb-eb13-4993-cf5b-08da53c9326e
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[12.22.5.236];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT068.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4940
+References: <20220615172129.1314056-1-pmalani@chromium.org>
+ <20220615172129.1314056-5-pmalani@chromium.org>
+ <CAE-0n53ub30HXB325wPoMB4C3n4j_9FWnNu5AmtYgU3PBvs8mQ@mail.gmail.com>
+ <CACeCKadSCXZo3E4JZiwxFn_4CH3KDfQkk=xRrxSqCEWAgYhV6Q@mail.gmail.com>
+ <20220616193424.GA3844759-robh@kernel.org>
+ <CACeCKaeH6qTTdG_huC4yw0xxG8TYEOtfPW3tiVNwYs=P4QVPXg@mail.gmail.com>
+In-Reply-To: <CACeCKaeH6qTTdG_huC4yw0xxG8TYEOtfPW3tiVNwYs=P4QVPXg@mail.gmail.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Tue, 21 Jun 2022 14:12:14 -0700
+Message-ID: <CACeCKad=gm0zU47hmEZwninETycv0pB5fYv0J_c0_fv2cBr3hw@mail.gmail.com>
+Subject: Re: [PATCH v4 4/7] dt-bindings: drm/bridge: anx7625: Add mode-switch
+ support
+To: Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,34 +65,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mjrosato@linux.ibm.com, linux-doc@vger.kernel.org, airlied@linux.ie,
- kevin.tian@intel.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kwankhede@nvidia.com, vneethv@linux.ibm.com,
- agordeev@linux.ibm.com, linux-s390@vger.kernel.org, kvm@vger.kernel.org,
- corbet@lwn.net, pasic@linux.ibm.com, jgg@nvidia.com, borntraeger@linux.ibm.com,
- intel-gfx@lists.freedesktop.org, zhi.a.wang@intel.com, akrowiak@linux.ibm.com,
- farman@linux.ibm.com, jchrist@linux.ibm.com, gor@linux.ibm.com,
- hca@linux.ibm.com, alex.williamson@redhat.com, rodrigo.vivi@intel.com,
- intel-gvt-dev@lists.freedesktop.org, jjherne@linux.ibm.com,
- tvrtko.ursulin@linux.intel.com, cohuck@redhat.com, oberpar@linux.ibm.com,
- svens@linux.ibm.com
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Stephen Boyd <swboyd@chromium.org>,
+ Pin-Yen Lin <treapking@chromium.org>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 20, 2022 at 12:00:53PM +0200, Harald Freudenberger wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> On 2022-06-17 01:52, Nicolin Chen wrote:
-> > The ap_aqic() is called by vfio_ap_irq_enable() where it passes in a
-> > virt value that's casted from a physical address "h_nib". Inside the
-> > ap_aqic(), it does virt_to_phys() again.
-> > 
-> > Since ap_aqic() needs a physical address, let's just pass in a pa of
-> > ind directly. So change the "ind" to "pa_ind".
-> > 
-> > Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+On Thu, Jun 16, 2022 at 12:57 PM Prashant Malani <pmalani@chromium.org> wrote:
+>
+> On Thu, Jun 16, 2022 at 12:34 PM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Thu, Jun 16, 2022 at 01:54:36AM -0700, Prashant Malani wrote:
+> > > On Thu, Jun 16, 2022 at 12:42 AM Stephen Boyd <swboyd@chromium.org> wrote:
+> > > >
+> > > > Quoting Prashant Malani (2022-06-15 10:20:20)
+> > > > >
+> > > > >  .../display/bridge/analogix,anx7625.yaml      | 64 +++++++++++++++++++
+> > > > >  1 file changed, 64 insertions(+)
+> > > >
+> > > > Can this file get a link to the product brief[1]? It helps to quickly
+> > > > find the block diagram.
+> > >
+> > > Sure, but I don't really think that should be included in this patch
+> > > (or series).
+> > > I'd be happy to submit a separate patch once this series is resolved.
+> > >
+> > > >
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > > > index 35a48515836e..bc6f7644db31 100644
+> > > > > --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > > > +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> > > > > @@ -105,6 +105,34 @@ properties:
+> > > > >        - port@0
+> > > > >        - port@1
+> > > > >
+> > > > > +  switches:
+> > > > > +    type: object
+> > > > > +    description: Set of switches controlling DisplayPort traffic on
+> > > > > +      outgoing RX/TX lanes to Type C ports.
+> > > > > +    additionalProperties: false
+> > > > > +
+> > > > > +    properties:
+> > > > > +      '#address-cells':
+> > > > > +        const: 1
+> > > > > +
+> > > > > +      '#size-cells':
+> > > > > +        const: 0
+> > > > > +
+> > > > > +    patternProperties:
+> > > > > +      '^switch@[01]$':
+> > > > > +        $ref: /schemas/usb/typec-switch.yaml#
+> > > > > +        unevaluatedProperties: false
+> > > > > +
+> > > > > +        properties:
+> > > > > +          reg:
+> > > > > +            maxItems: 1
+> > > > > +
+> > > > > +        required:
+> > > > > +          - reg
+> > > > > +
+> > > > > +    required:
+> > > > > +      - switch@0
+> > > > > +
+> > > > >  required:
+> > > > >    - compatible
+> > > > >    - reg
+> > > > > @@ -167,5 +195,41 @@ examples:
+> > > > >                      };
+> > > > >                  };
+> > > > >              };
+> > > > > +            switches {
+> > > >
+> > > > Is "switches" a bus?
+> > >
+> > > No.
+> > >
+> > > >
+> > > > > +                #address-cells = <1>;
+> > > > > +                #size-cells = <0>;
+> > > > > +                switch@0 {
+> > > > > +                    compatible = "typec-switch";
+> > > >
+> > > > Is this compatible matched against a driver that's populated on this
+> > > > "switches" bus?
+> > >
+> > > No. Patch 6/7 has the implementation details on how the anx driver
+> > > performs the enumeration of switches.
+> > >
+> > > >
+> > > > > +                    reg = <0>;
+> > > > > +                    mode-switch;
+> > > > > +
+> > > > > +                    ports {
+> > > > > +                        #address-cells = <1>;
+> > > > > +                        #size-cells = <0>;
+> > > > > +                        port@0 {
+> > > > > +                            reg = <0>;
+> > > > > +                            anx_typec0: endpoint {
+> > > > > +                                remote-endpoint = <&typec_port0>;
+> > > > > +                            };
+> > > > > +                        };
+> > > > > +                    };
+> > > >
+> > > > I was expecting to see these simply be more ports in the existing graph
+> > > > binding of this device, and then have the 'mode-switch' or
+> > > > 'orientation-switch' properties be at the same level as the compatible
+> > > > string "analogix,anx7625". Here's the reasoning, based on looking at the
+> > > > product brief and the existing binding/implementation.
+> > > >
+> > > > Looking at the only existing implementation of this binding upstream in
+> > > > mt8183-kukui-jacuzzi.dtsi it looks like one of these typec ports is
+> > > > actually the same physically as the 'anx7625_out' endpoint (reg address
+> > > > of 1) that is already defined in the binding. It seems that MIPI DSI/DPI
+> > > > comes in and is output through 2 lanes, SSRX2 and SSTX2 according to the
+> > > > product brief[1], and that is connected to some eDP panel
+> > > > ("auo,b116xw03"). Presumably that is the same as anx_typec1 in this
+> > > > patch? I suspect the USB3.1 input is not connected on this board, and
+> > > > thus the crosspoint switch is never used, nor the SSRX1/SSTX1 pins.
+> > > >
+> > > > The existing binding defines the MIPI DSI/DPI input as port0 and two of
+> > > > the four lanes of output that is probably by default connected to the
+> > > > "DisplayPort Transmitter" as port1 because that's how the crosspoint
+> > > > switch comes out of reset. That leaves the USB3.1 input possibly needing
+> > > > a port in the ports binding, and the other two lanes of output needing a
+> > > > port in the ports binding to describe their connection to the downstream
+> > > > device. And finally information about if the crosspoint switch needs to
+> > > > be registered with the typec framework to do typec things, which can be
+> > > > achieved by the presence of the 'mode-switch' property.
+> > > >
+> > > > On a board like kukui-jacuzzi these new properties and ports wouldn't be
+> > > > specified, because what is there is already sufficient. If this chip is
+> > > > connected to a usb-c-connector then I'd expect to see a connection from
+> > > > the output ports in the graph binding to the connector node's ports.
+> > > > There aren't any ports in the usb-c-connector binding though from what I
+> > > > see.
+> > > >
+> > > > I believe there's also one more use case here where USB3.1 or MIPI
+> > > > DSI/DPI is connected on the input side and this device is used to steer
+> > > > USB3.1 or DP through the crosspoint switch to either of the two output
+> > > > pairs. This last scenario means that we have to describe both output
+> > > > pairs, SSRX1/SSTX1 and SSRX2/SSTX2, as different ports in the binding so
+> > > > they can be connected to different usb-c-connectors if the hardware
+> > > > engineer wired the output pins that way.
+> > > >
+> > > > TL;DR: Can we add 'mode-switch' as an optional property and two more
+> > > > ports at address 2 and 3 for the USB3.1 input and the SSRX1/SSTX1 pair
+> > > > respectively to the existing graph part of this binding?
+> > >
+> > > Sorry, but I got lost midway through the preceding explanation.
+> >
+> > Made sense to me.
+> >
+> > > The binding
+> > > can always add additional ports to each "switch" to accomplish the
+> > > graph connections
+> > > you are alluding to (if the driver needs/uses it, which I don't think
+> > > this one does at present).
+> >
+> > Why is the switch special? If I just look at this from a block diagram
+> > perspective, I just see a list of interfaces that need to be described
+> > in the graph.
+>
+> Because it is specific to Type-C connectors. The anx7625.h does
+> contain a cross-point
+> switch which controls data lines coming from 1 (or more) Type-C
+> connectors, so it seems reasonable
+> to have a dedicated binding for such types of hardware sub-components,
+> which helps define the graph connections
+> in a more uniform manner. That's not to say:
+> - this can only be used by this hardware. The typec-switch binding is
+> generic enough to accommodate other hardware.
+> - there is only 1 way to do this. The interfaces could be described
+> using existing port OF graph bindings, but I don't
+> see that as reason enough to not include a dedicated switch binding if
+> it makes the overall binding more logically organized (IMO) and
+> makes driver registration code mode clean.
+>
+> >
+> > > Adding extra ports to existing ports gets tricky from a mode-switch
+> > > enumeration perspective (which
+> > > ports should have the modes switches, which shouldn't? Do you follow
+> > > the remote end points for each port
+> > > and see which one is a Type C connector?
+> >
+> > The driver knows which port is which because the binding has to define
+> > it. So you have to check 2 of them (SSRX1/SSTX1 and SSRX2/SSTX2) to find
+> > usb C connectors.
+>
+> Right, but with the switch binding you no longer need to check. If
+> there is a typec-switch, you know
+> it is coming from a Type-C connector, so you can just register the
+> switches with the Type-C framework.
+>
+> >
+> > > What if we add an
+> > > intermediate switch device in the future?)
+> > > Having a dedicated "switch" binding makes this consistent and easy
+> > > (port0 will always have the end-point for the switch).
+> > >
+> > > While there may be more than 1 valid approach here, I believe the
+> > > current one is appropriate.
+> >
+> > To put it simply, if you want to define a generic binding, I want to see
+> > at least 2 users of it.
 
-> Add my Reviewed-By: Harald Freudenberger <freude@linux.ibm.com>
+Pin-Yen and I will work on adding another user for the binding to v5 of
+this patch series.
 
-Will do. Thanks!
+Best regards,
+
+- Prashant
