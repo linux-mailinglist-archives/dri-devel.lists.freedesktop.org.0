@@ -2,82 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA39552880
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 02:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873E7552886
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 02:14:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E72E810E649;
-	Tue, 21 Jun 2022 00:14:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5887710E75F;
+	Tue, 21 Jun 2022 00:14:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D850110E4B8
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 00:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655770471;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YVrVeKPAQSI4AB4vZ7MyOJPPx0q5Q+PSH+24GSNfDdk=;
- b=AuB9LtRBzVHe4ONsU+OjiLEooVfZeGqG/wdPilMPon9xPjaAKs5fVmrZi5oFqdTY4VmbUQ
- B+HEDKpdhkm9/tez23xN4X3Ene3ctDs9qfuvFkM0RA6BLzJqybJoTAllJBXulgXDqBEtam
- O7zi5NO1q7Vzjp9Pmma4vEKUqSFXbus=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-179-O-UvsTuyNHa6WDaakvaDgw-1; Mon, 20 Jun 2022 20:14:30 -0400
-X-MC-Unique: O-UvsTuyNHa6WDaakvaDgw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- p22-20020a05600c359600b0039c7b23a1c7so7614495wmq.2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jun 2022 17:14:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YVrVeKPAQSI4AB4vZ7MyOJPPx0q5Q+PSH+24GSNfDdk=;
- b=VNWia6TadK+e+RY1THWy6Er7kvbGH6+/05s0RCuVHIdHTYBvv1AGWDMT+6tCo18/1h
- NXr3oqjpDZ1pKDoI5LN+JCG5c4OpyQJhFcGsot+WvqcG/8ONhcLN2yHrYBHeAFLDB1/H
- VaC++boOZ2OpWFzB/uDvm+5BiQ2x4pqoge98m7rG9LGbmAkMTZA6AZ7BC/UnHN6+x/r9
- IBm1eHBqFnVg282E5eQNUSP2px/+XTLWc0y73YTUzm5ggdZkFH9lzEZF22JnHm3nRVll
- SYZgVuZ/iV4QBT+zKURMgG/moTgRQsEQbHDuobefoT6PYeLU1RXgerI8Gah16crn2Gos
- sAPQ==
-X-Gm-Message-State: AOAM530S0oRqcnmPjb8QHSqtj1fiLbtzCMwqg2zLwzbyJdvShrQZ7PsS
- v5YYcs9g3T0GJmpaxGxEBY1BshgvoJBjkLxJK2Jn40ghhBllXxFIAcHnlN/siQ8n1bfJz5DL1ty
- n8oLFbm1OhrqwYri5HaBzasgT+Upm
-X-Received: by 2002:a1c:7318:0:b0:39c:7ab9:934c with SMTP id
- d24-20020a1c7318000000b0039c7ab9934cmr37918729wmb.200.1655770469030; 
- Mon, 20 Jun 2022 17:14:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+niHvOlBzhdAVy81+ewTZLfHJj94jM8s0LNLjY3ov8z2Zpwsyks99Njqzq1zWmToWQYxOWg==
-X-Received: by 2002:a1c:7318:0:b0:39c:7ab9:934c with SMTP id
- d24-20020a1c7318000000b0039c7ab9934cmr37918708wmb.200.1655770468669; 
- Mon, 20 Jun 2022 17:14:28 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- y16-20020a5d6150000000b0021b932de5d6sm2877092wrt.39.2022.06.20.17.14.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jun 2022 17:14:28 -0700 (PDT)
-Message-ID: <e1fd76ae-a865-889f-b4f0-878c00837368@redhat.com>
-Date: Tue, 21 Jun 2022 02:14:21 +0200
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A933910E503;
+ Tue, 21 Jun 2022 00:14:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1655770491; x=1687306491;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=VSa0/uVjec05dowPfNkSKt+TqCSi3Jk9QyVcijG+jiE=;
+ b=RLqci5hz6tVl1rArqK2br4C4YjMsHycEj4ZzlxQNhXL9wD4c9LhtJbG+
+ mtoxNnkSEAovtsqTApj6NtKyE1kTM28QNdTqv0J7Wz78xi49doYBBStQD
+ zlW3s5hGLnbzwOZFeAHM/p2UiYujWmD6G2a4kky4Gl+nd5goILVVKb0/5 Q=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 20 Jun 2022 17:14:51 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2022 17:14:51 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 20 Jun 2022 17:14:50 -0700
+Received: from [10.111.166.89] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 20 Jun
+ 2022 17:14:48 -0700
+Message-ID: <0a6d7174-a238-c1df-ba71-6b451061e4fe@quicinc.com>
+Date: Mon, 20 Jun 2022 17:14:46 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 1/2] drm: Implement DRM aperture helpers under video/
-To: Alex Williamson <alex.williamson@redhat.com>, corbet@lwn.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, deller@gmx.de, gregkh@linuxfoundation.org
-References: <165541020563.1955826.16350888595945658159.stgit@omen>
- <165541192621.1955826.6848784198896919390.stgit@omen>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <165541192621.1955826.6848784198896919390.stgit@omen>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v1 3/4] drm/msm/dpu: merge base_off with blk_off in struct
+ dpu_hw_blk_reg_map
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20220601161349.1517667-1-dmitry.baryshkov@linaro.org>
+ <20220601161349.1517667-4-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220601161349.1517667-4-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,280 +66,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/16/22 22:38, Alex Williamson wrote:
-> From: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> Implement DRM's aperture helpers under video/ for sharing with other
-> sub-systems. Remove DRM-isms from the interface. The helpers track
-> the ownership of framebuffer apertures and provide hand-over from
-> firmware, such as EFI and VESA, to native graphics drivers.
-> 
-> Other subsystems, such as fbdev and vfio, also have to maintain ownership
-> of framebuffer apertures. Moving DRM's aperture helpers to a more public
-> location allows all subsystems to interact with each other and share a
-> common implementation.
-> 
-> The aperture helpers are selected by the various firmware drivers within
-> DRM and fbdev, and the VGA text-console driver.
->
 
-Thanks a lot for working on this.
- 
-> The original DRM interface is kept in place for use by DRM drivers.
+
+On 6/1/2022 9:13 AM, Dmitry Baryshkov wrote:
+> There is little point in keeping a separate MDP address and block offset
+> in this struct. Merge them to form a new blk_addr field used for all
+> register access.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
-
-[...]
-
-> diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
-> index 427a993c7f57..c69b45f8c427 100644
-> --- a/drivers/video/Kconfig
-> +++ b/drivers/video/Kconfig
-> @@ -5,6 +5,12 @@
->  
->  menu "Graphics support"
->  
-> +config APERTURE_HELPERS
-> +	bool
-> +	help
-> +	  Support tracking and hand-over of aperture ownership. Required
-> +	  for firmware graphics drivers.
-> +
-
-Maybe "graphics drivers using a firmware-provided framebuffer" is more clear?
-
-[...]
-
-> +++ b/drivers/video/aperture.c
-> @@ -0,0 +1,340 @@
-> +// SPDX-License-Identifier: MIT
-> +
-> +#include <linux/aperture.h>
-> +#include <linux/device.h>
-> +#include <linux/fb.h> /* for old fbdev helpers */
-> +#include <linux/list.h>
-> +#include <linux/mutex.h>
-> +#include <linux/pci.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +#include <linux/types.h>
-> +#include <linux/vgaarb.h>
-> +
-> +/**
-> + * DOC: overview
-> + *
-> + * A graphics device might be supported by different drivers, but only one
-> + * driver can be active at any given time. Many systems load a generic
-> + * graphics drivers, such as EFI-GOP or VESA, early during the boot process.
-> + * During later boot stages, they replace the generic driver with a dedicated,
-> + * hardware-specific driver. To take over the device the dedicated driver
-> + * first has to remove the generic driver. Aperture functions manage
-> + * ownership of framebuffer memory and hand-over between drivers.
-> + *
-> + * Graphics drivers should call remove_conflicting_devices()
-> + * at the top of their probe function. The function removes any generic
-> + * driver that is currently associated with the given framebuffer memory.
-> + * If the framebuffer is located at PCI BAR 0, the rsp code looks as in the
-
-s/rsp/respective 
-
-> + * example given below. The cod assumes a DRM driver.
-> + *
-
-s/cod/code
-
-> + * .. code-block:: c
-> + *
-> + *	static const struct drm_driver example_driver = {
-> + *		.name = "exampledrm",
-> + *		...
-> + *	};
-> + *
-> + *	static int remove_conflicting_framebuffers(struct pci_dev *pdev)
-> + *	{
-> + *		bool primary = false;
-> + *		resource_size_t base, size;
-> + *		int ret;
-> + *
-> + *		base = pci_resource_start(pdev, 0);
-> + *		size = pci_resource_len(pdev, 0);
-> + *	#ifdef CONFIG_X86
-> + *		primary = pdev->resource[PCI_ROM_RESOURCE].flags & IORESOURCE_ROM_SHADOW;
-> + *	#endif
-
-This example seems to be copied from drivers/gpu/drm/ast/ast_drv.c and I
-don't see any other driver that has its framebuffer located in PCI BAR 0
-or at least having a similar code.
-
-So I wonder if we really want to have this example for such a corner case ? 
-
-Also, remove_conflicting_pci_framebuffers() seems to already at least check
-for the IORESOURCE_ROM_SHADOW flag so it would be better to grow that and
-support this special case of PCI BAR 0 (maybe adding another param that is
-passed through remove_conflicting_pci_devices() ?
-
-In any case, it seems to me that it is something that ast shouldn't really
-have to open code it and instead the helpers should be fixed to cover that
-case for drivers not to care. I would really not add the snippet in the doc.
-
-Since we are talking about remove_conflicting_devices() here, a better code
-example could be for a platform device instead of a PCI device, like this:
-
-*	static const struct platform_driver example_driver = {
-*		.name = "example",
-*		...
-*	};
-*
-*	static int probe(struct platform_device *pdev)
-*	{
-*		struct resource *mem;
-*		resource_size_t base, size;
-*
-*		mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-*		if (!mem)
-*			return -EINVAL;
-*		base = mem->start;
-*		size = resource_size(mem);
-*
-*		ret = remove_conflicting_devices(base, size, false, &example_driver->name);
-*		if (ret)
-*			return ret;
-*
-*		// ... and initialize the hardware.
-*		...
-*
-*		return 0;
-*	}
-
-> + *	static int probe(struct pci_dev *pdev)
-> + *	{
-> + *		int ret;
-> + *
-> + *		// Remove any generic drivers...
-> + *		ret = remove_conflicting_framebuffers(pdev);
-
-And here we can just use remove_conflicting_pci_devices(pdev) without the
-unnecessary level of indirection. It makes the example more clear IMO and
-it could be moved as an example for the remove_conflicting_pci_devices().
-
-Another option is to have here an example for platform devices instead of
-a PCI device (and move this example when talking about remove
-
-[...]
-
-> + * PCI device drivers can also call remove_conflicting_pci_devices() and let the
-> + * function detect the apertures automatically. Device drivers without knowledge of
-> + * the framebuffer's location shall call remove_all_conflicting_devices(),
-> + * which removes all known devices.
-> + *
-
-Can we get all the public aperture functions be in the aperture namespace? i.e:
-aperture_remove_conflicting_devices(), aperture_remove_all_conflicting_devices()
-and so on. That makes easier to grep, ftrace and also read the drivers' code.
-
-> + * Drivers that are susceptible to being removed by other drivers, such as
-> + * generic EFI or VESA drivers, have to register themselves as owners of their
-> + * framebuffer apertures. Ownership of the framebuffer memory is achieved
-> + * by calling devm_acquire_aperture_of_platform_device(). On success, the driver
-
-AFAICT the aperture infrastructure only allows to remove platform devices, even
-when it can check if the requested I/O resource overlaps with a PCI BAR range,
-so maybe all functions also should use _platform_device() as suffix instead of
-just _device() ? Or maybe the _platform is just verbose but I think that the
-functions should be named consistently and only use either _device or _platform.
-
-[...]
-
-> + *	static int acquire_framebuffers(struct drm_device *dev, struct platform_device *pdev)
-> + *	{
-> + *		resource_size_t base, size;
-> + *
-
-This example is missing a struct resource *mem declaration.
-
-> + * The generic driver is now subject to forced removal by other drivers. This
-> + * only works for platform drivers that support hot unplugging.
-> + * When a driver calls remove_conflicting_devices() et al
-> + * for the registered framebuffer range, the aperture helpers call
-> + * platform_device_unregister() and the generic driver unloads itself. It
-> + * may not access the device's registers, framebuffer memory, ROM, etc
-> + * afterwards.
-> + */
-> +
-> +struct dev_aperture {
-> +	struct device *dev;
-
-And here we could just use a struct platform_device *pdev since currently we
-only support platform devices. It seems to me that this is a DRM-ism that we
-are carrying since for DRM drivers made sense to use struct device.
-
-Doing that would also allow get rid of indirections like the need of both a
-devm_acquire_aperture_of_platform_device() and devm_aperture_acquire() just
-to do a &pdev->dev.
-
-And also some to_platform_device() in drm_aperture_detach_firmware() and
-detach_platform_device().
-
-If we ever support non-platform devices then we can refactor it, but I don't
-think that is worth to complicate just in case we ever support struct device.
-
-> +	resource_size_t base;
-> +	resource_size_t size;
-> +	struct list_head lh;
-> +	void (*detach)(struct device *dev);
-
-Same here, just	void (*detach)(struct platform_device *pdev) if you agree with
-that I mentioned above.
-
-> +};
-> +
-> +static LIST_HEAD(apertures);
-> +static DEFINE_MUTEX(apertures_lock);
-> +
-> +static bool overlap(resource_size_t base1, resource_size_t end1,
-> +		    resource_size_t base2, resource_size_t end2)
-> +{
-> +	return (base1 < end2) && (end1 > base2);
-> +}
-
-There's a resource_overlaps() helper in include/linux/ioport.h, I wonder if it
-could just be used, maybe declaring and filling a struct resource just to call
-that helper. Later as an optimization a resource_range_overlap() or something
-could be proposed for include/linux/ioport.h.
-
-Also, I noticed that resource_overlaps() uses <= and >= but this helper uses
-< and >. It seems there's an off-by-one error here but maybe I'm wrong on this.
-
-[...]
-
-> +static void detach_platform_device(struct device *dev)
-> +{
-> +	struct platform_device *pdev = to_platform_device(dev);
-> +
-> +	/*
-> +	 * Remove the device from the device hierarchy. This is the right thing
-> +	 * to do for firmware-based DRM drivers, such as EFI, VESA or VGA. After
-> +	 * the new driver takes over the hardware, the firmware device's state
-> +	 * will be lost.
-> +	 *
-> +	 * For non-platform devices, a new callback would be required.
-> +	 *
-
-I wonder if we ever are going to need this. AFAICT the problem only happens for
-platform devices. Or do you envision a case when some a bus could need this and
-the aperture unregister the device instead of the Linux kernel device model ?
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c        | 3 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c        | 3 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c       | 3 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 3 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c       | 3 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c         | 3 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c    | 3 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   | 5 ++---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c       | 3 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c        | 3 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c       | 6 +++---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h       | 7 +++----
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c       | 3 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c         | 3 +--
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c           | 2 +-
+>   15 files changed, 20 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> index 1120ff408dae..e12b7fa48a7b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+> @@ -58,8 +58,7 @@ static const struct dpu_ctl_cfg *_ctl_offset(enum dpu_ctl ctl,
+>   
+>   	for (i = 0; i < m->ctl_count; i++) {
+>   		if (ctl == m->ctl[i].id) {
+> -			b->base_off = addr;
+> -			b->blk_off = m->ctl[i].base;
+> +			b->blk_addr = addr + m->ctl[i].base;
+>   			b->log_mask = DPU_DBG_MASK_CTL;
+>   			return &m->ctl[i];
+>   		}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> index dfe6e4c11917..411689ae6382 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> @@ -166,8 +166,7 @@ static struct dpu_dsc_cfg *_dsc_offset(enum dpu_dsc dsc,
+>   
+>   	for (i = 0; i < m->dsc_count; i++) {
+>   		if (dsc == m->dsc[i].id) {
+> -			b->base_off = addr;
+> -			b->blk_off = m->dsc[i].base;
+> +			b->blk_addr = addr + m->dsc[i].base;
+>   			b->log_mask = DPU_DBG_MASK_DSC;
+>   			return &m->dsc[i];
+>   		}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+> index 8196ae47dea8..8ab5ace34a2d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+> @@ -80,8 +80,7 @@ static const struct dpu_dspp_cfg *_dspp_offset(enum dpu_dspp dspp,
+>   
+>   	for (i = 0; i < m->dspp_count; i++) {
+>   		if (dspp == m->dspp[i].id) {
+> -			b->base_off = addr;
+> -			b->blk_off = m->dspp[i].base;
+> +			b->blk_addr = addr + m->dspp[i].base;
+>   			b->log_mask = DPU_DBG_MASK_DSPP;
+>   			return &m->dspp[i];
+>   		}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> index d83503ea2419..cf1b6d84c18a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+> @@ -401,8 +401,7 @@ u32 dpu_core_irq_read(struct dpu_kms *dpu_kms, int irq_idx)
+>   static void __intr_offset(const struct dpu_mdss_cfg *m,
+>   		void __iomem *addr, struct dpu_hw_blk_reg_map *hw)
+>   {
+> -	hw->base_off = addr;
+> -	hw->blk_off = m->mdp[0].base;
+> +	hw->blk_addr = addr + m->mdp[0].base;
+>   }
+>   
+>   struct dpu_hw_intr *dpu_hw_intr_init(void __iomem *addr,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> index c7eb314f1d7a..d8aff0f459f8 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+> @@ -77,8 +77,7 @@ static const struct dpu_intf_cfg *_intf_offset(enum dpu_intf intf,
+>   	for (i = 0; i < m->intf_count; i++) {
+>   		if ((intf == m->intf[i].id) &&
+>   		(m->intf[i].type != INTF_NONE)) {
+> -			b->base_off = addr;
+> -			b->blk_off = m->intf[i].base;
+> +			b->blk_addr = addr + m->intf[i].base;
+>   			b->log_mask = DPU_DBG_MASK_INTF;
+>   			return &m->intf[i];
+>   		}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> index 87a4a5869b9b..75d55fd65f19 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
+> @@ -43,8 +43,7 @@ static const struct dpu_lm_cfg *_lm_offset(enum dpu_lm mixer,
+>   
+>   	for (i = 0; i < m->mixer_count; i++) {
+>   		if (mixer == m->mixer[i].id) {
+> -			b->base_off = addr;
+> -			b->blk_off = m->mixer[i].base;
+> +			b->blk_addr = addr + m->mixer[i].base;
+>   			b->log_mask = DPU_DBG_MASK_LM;
+>   			return &m->mixer[i];
+>   		}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
+> index 538691f7bf66..def0a87fdba5 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c
+> @@ -23,8 +23,7 @@ static const struct dpu_merge_3d_cfg *_merge_3d_offset(enum dpu_merge_3d idx,
+>   
+>   	for (i = 0; i < m->merge_3d_count; i++) {
+>   		if (idx == m->merge_3d[i].id) {
+> -			b->base_off = addr;
+> -			b->blk_off = m->merge_3d[i].base;
+> +			b->blk_addr = addr + m->merge_3d[i].base;
+>   			b->log_mask = DPU_DBG_MASK_PINGPONG;
+>   			return &m->merge_3d[i];
+>   		}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> index 0aa63636bc9a..0fcad9760b6f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> @@ -51,8 +51,7 @@ static const struct dpu_pingpong_cfg *_pingpong_offset(enum dpu_pingpong pp,
+>   
+>   	for (i = 0; i < m->pingpong_count; i++) {
+>   		if (pp == m->pingpong[i].id) {
+> -			b->base_off = addr;
+> -			b->blk_off = m->pingpong[i].base;
+> +			b->blk_addr = addr + m->pingpong[i].base;
+>   			b->log_mask = DPU_DBG_MASK_PINGPONG;
+>   			return &m->pingpong[i];
+>   		}
+> @@ -156,7 +155,7 @@ static int dpu_hw_pp_poll_timeout_wr_ptr(struct dpu_hw_pingpong *pp,
+>   		return -EINVAL;
+>   
+>   	c = &pp->hw;
+> -	rc = readl_poll_timeout(c->base_off + c->blk_off + PP_LINE_COUNT,
+> +	rc = readl_poll_timeout(c->blk_addr + PP_LINE_COUNT,
+>   			val, (val & 0xffff) >= 1, 10, timeout_us);
+>   
+>   	return rc;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> index 876ae8faa8e5..102c21bb4192 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+> @@ -769,8 +769,7 @@ static const struct dpu_sspp_cfg *_sspp_offset(enum dpu_sspp sspp,
+>   	if ((sspp < SSPP_MAX) && catalog && addr && b) {
+>   		for (i = 0; i < catalog->sspp_count; i++) {
+>   			if (sspp == catalog->sspp[i].id) {
+> -				b->base_off = addr;
+> -				b->blk_off = catalog->sspp[i].base;
+> +				b->blk_addr = addr + catalog->sspp[i].base;
+>   				b->log_mask = DPU_DBG_MASK_SSPP;
+>   				return &catalog->sspp[i];
+>   			}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+> index 843cb607d411..c3110a25a30d 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c
+> @@ -285,8 +285,7 @@ static const struct dpu_mdp_cfg *_top_offset(enum dpu_mdp mdp,
+>   
+>   	for (i = 0; i < m->mdp_count; i++) {
+>   		if (mdp == m->mdp[i].id) {
+> -			b->base_off = addr;
+> -			b->blk_off = m->mdp[i].base;
+> +			b->blk_addr = addr + m->mdp[i].base;
+>   			b->log_mask = DPU_DBG_MASK_TOP;
+>   			return &m->mdp[i];
+>   		}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+> index 512316f25a51..b2104001d2aa 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+> @@ -80,13 +80,13 @@ void dpu_reg_write(struct dpu_hw_blk_reg_map *c,
+>   	/* don't need to mutex protect this */
+>   	if (c->log_mask & dpu_hw_util_log_mask)
+>   		DPU_DEBUG_DRIVER("[%s:0x%X] <= 0x%X\n",
+> -				name, c->blk_off + reg_off, val);
+> -	writel_relaxed(val, c->base_off + c->blk_off + reg_off);
+> +				name, reg_off, val);
+> +	writel_relaxed(val, c->blk_addr + reg_off);
+>   }
+>   
+>   int dpu_reg_read(struct dpu_hw_blk_reg_map *c, u32 reg_off)
+>   {
+> -	return readl_relaxed(c->base_off + c->blk_off + reg_off);
+> +	return readl_relaxed(c->blk_addr + reg_off);
+>   }
+>   
+>   u32 *dpu_hw_util_get_log_mask_ptr(void)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> index b745ef4ac16f..d5338701fc2b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> @@ -17,12 +17,11 @@
+>    * This is the common struct maintained by each sub block
+>    * for mapping the register offsets in this block to the
+>    * absoulute IO address
+> - * @base_off:     mdp register mapped offset
+> - * @blk_off:      pipe offset relative to mdss offset
+> + * @blk_addr:     hw block register mapped address
+> + * @log_mask:     log mask for this block
+>    */
+>   struct dpu_hw_blk_reg_map {
+> -	void __iomem *base_off;
+> -	u32 blk_off;
+> +	void __iomem *blk_addr;
+>   	u32 log_mask;
+>   };
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
+> index 41ca4b179f1a..16c56e240706 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_vbif.c
+> @@ -220,8 +220,7 @@ static const struct dpu_vbif_cfg *_top_offset(enum dpu_vbif vbif,
+>   
+>   	for (i = 0; i < m->vbif_count; i++) {
+>   		if (vbif == m->vbif[i].id) {
+> -			b->base_off = addr;
+> -			b->blk_off = m->vbif[i].base;
+> +			b->blk_addr = addr + m->vbif[i].base;
+>   			b->log_mask = DPU_DBG_MASK_VBIF;
+>   			return &m->vbif[i];
+>   		}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> index 12f32cd3075e..2d28afdf860e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> @@ -60,8 +60,7 @@ static const struct dpu_wb_cfg *_wb_offset(enum dpu_wb wb,
+>   
+>   	for (i = 0; i < m->wb_count; i++) {
+>   		if (wb == m->wb[i].id) {
+> -			b->base_off = addr;
+> -			b->blk_off = m->wb[i].base;
+> +			b->blk_addr = addr + m->wb[i].base;
+>   			return &m->wb[i];
+>   		}
+>   	}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index a3bfc0fe72a8..a526345abc69 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -951,7 +951,7 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
+>   				dpu_kms->mmio + cat->wb[i].base, "wb_%d", i);
+>   
+>   	msm_disp_snapshot_add_block(disp_state, cat->mdp[0].len,
+> -			dpu_kms->mmio + top->hw.blk_off, "top");
+> +			dpu_kms->mmio + cat->mdp[0].base, "top");
+>   
+>   	pm_runtime_put_sync(&dpu_kms->pdev->dev);
+>   }
