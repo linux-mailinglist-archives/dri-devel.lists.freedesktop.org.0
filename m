@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8055531B0
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 14:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BFB25531B1
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 14:12:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B714B10E565;
-	Tue, 21 Jun 2022 12:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F0CC10E419;
+	Tue, 21 Jun 2022 12:11:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7614510E54A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 12:11:52 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 961AC10E54A
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 12:11:57 +0000 (UTC)
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6EAB166017A0;
- Tue, 21 Jun 2022 13:11:50 +0100 (BST)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 68146660174F;
+ Tue, 21 Jun 2022 13:11:55 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1655813511;
- bh=3DNZncrYFTRRbUO04o6Ge6N5kK8kJIUMsdhLMMKQi+4=;
+ s=mail; t=1655813516;
+ bh=eoqC+ap4P2hb2zlxPni+x1COpwjVm+TE+Yg1s60B24o=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lafu2kFH4eYbRD042lfKr6WjPY9d7n5gsArkZVhHroikIBxBjeglJNt3unTNUTWDd
- ocncTNUaP7weV5RCq7rWmSBlOw9uSw7Sdz8PHpsnfgUJMSPZPNfZtoCwV7ttbCAMQv
- R3lVliXvnCZvdStXdTxpVS5cuBZYbHAFOE2GITuwOwMfWDsjIgnNC+5KQxER1vWKDm
- nn9j1+K7Qc+sG4KyKy1fu4go62OMLWEbL7kH/Eybs5ZK57J5i5UwOj/K57OlRS7Hwg
- +gIVxd7ZQPzcOx+Icd6RC9e4uEua/Z6+f7WJHG+48AtPmK96Nj6CsQ/X++ikufnylO
- OfL/AfdBi4XQA==
-Message-ID: <f590a525-2ae8-ef78-6c47-dce91e4e7f7e@collabora.com>
-Date: Tue, 21 Jun 2022 14:11:47 +0200
+ b=UuLs3CyL4DP3wA3w/BLytMrh3d+ohdDT7bB541UNpQ/xTyw0GngZf1uy4FRYbx6fT
+ ZJmlaEREL65aQTK0IVMVzCojsQQuihyF2LvjhUNWXpX1t/W6Uuo1PMODXKuhKk9op+
+ nZCKlbJWHMc/z4nUgk7yke1eCMl2t/ODiUuyh+HoB5oi8sxcoFxbhQj2yn2B8Ojh5H
+ YJ4h0OUfHHrMH0xWLpeNoKhMYc+vt4Tn0s3cGw2w8VLZxKKY+nSrHDgy03vDbWCT/Z
+ GjcwZw6T8r/pSwKzNPQHo1w/pgEpmkKoGys2G3lhGWGndd3QitxDUFDKr6nnNveQou
+ B1MraZh3CPq0A==
+Message-ID: <7e4ce7cc-365c-82ad-3517-f54e18589a74@collabora.com>
+Date: Tue, 21 Jun 2022 14:11:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v13 02/14] drm/mediatek: dpi: Add kernel document for
- struct mtk_dpi_conf
+Subject: Re: [PATCH v13 01/14] dt-bindings: mediatek,dpi: Add DP_INTF
+ compatible
 Content-Language: en-US
 To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, chunkuang.hu@kernel.org,
  p.zabel@pengutronix.de, daniel@ffwll.ch, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com, airlied@linux.ie
 References: <20220621113732.11595-1-rex-bc.chen@mediatek.com>
- <20220621113732.11595-3-rex-bc.chen@mediatek.com>
+ <20220621113732.11595-2-rex-bc.chen@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220621113732.11595-3-rex-bc.chen@mediatek.com>
+In-Reply-To: <20220621113732.11595-2-rex-bc.chen@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,10 +67,22 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 21/06/22 13:37, Bo-Chen Chen ha scritto:
-> This driver will support dp_intf and there are many configs between dpi
-> and dp_intf. Therefore, we will add many configs in "struct mtk_dpi_conf".
-> To let this structure more readable, we add this kernel doc.
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
 > 
+> DP_INTF is similar to DPI but does not have the exact same feature set
+> or register layouts.
+> 
+> DP_INTF is the sink of the display pipeline that is connected to the
+> DisplayPort controller and encoder unit. It takes the same clocks as
+> DPI.
+> 
+> In this patch, we also do these string replacement:
+> - s/mediatek/MediaTek/ in title.
+> - s/Mediatek/MediaTek/ in description.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> [Bo-Chen: Modify reviewers' comments.]
 > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
