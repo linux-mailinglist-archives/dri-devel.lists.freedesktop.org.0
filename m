@@ -2,62 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F91D552B7A
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E72F552BA6
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:19:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADDC010FF06;
-	Tue, 21 Jun 2022 07:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5082210F00B;
+	Tue, 21 Jun 2022 07:19:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com
- [209.85.160.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03DAA10FDEE
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 07:09:41 +0000 (UTC)
-Received: by mail-oa1-f41.google.com with SMTP id
- 586e51a60fabf-fe023ab520so17236806fac.10
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 00:09:40 -0700 (PDT)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C31B10E077;
+ Tue, 21 Jun 2022 07:19:23 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id cf14so8320743edb.8;
+ Tue, 21 Jun 2022 00:19:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=vUa/+0360889XNMZ8LlW5kuG26dnpqfJwGYvdJBavqs=;
+ b=cMuB5ojyHH8kx1cLSXnl4ewOn1xk1mZKayMkfKw7+xHFrVNL+5J0wJogaK8nOpiRDe
+ 7WyiUFuQJT9nNWDUzf9bjsEzTm5YGtwO7zZ4NWYg0SG61Tz3cSlT7PZwwKs6QdJvzmUn
+ IE0gD20JLrhW5/OPIZ/J56nPum34536kwQN07kHHzrf9H5zdRhbY3tGlxyd2s9L6zajA
+ QK4IhCG28tnVpuxECkwf+x9HnuKoaSSBt1FkCA7wA024uFUdAqac+/cPekL0NEhUNhAa
+ MERRESMUolbDbi53yWr9HpDoAYoXCNiB4JFiUC8Kqjz7081wuUT2NSCkw/uFEGO+z47+
+ e8kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4ezwPnqEAb9XxkVE6EHdU5akaM6B3QfniuvIAXM1ujs=;
- b=Zqk/6TEo4OCK6iXQpMW0KLFDZpGNGNKWTpAPHpsUkZSQiau3mmKGABguIhRI3x938b
- heektjv2/gYTq/vC/f5cRlH3QtIs7fr4iRvdOYM9FgeJJhHswFZCV+z1ePtYBNOdMNbS
- A88Vn2bI5FnDA2Vc3dGFD1FB8v5X57L5/jR7MLLmF+pxOu6apEojkL53+BaM6NCJf1FP
- 5fN9gStRV/2pL3iJnlpSL3hRdiUmSdtWIZXHL+mZWkJBKPp8AnkVfvem77UY3+31OPb6
- c2twynmabAyz09IkooRT3TI/0p3frgsgchEJEK9C7RjJedBJbr5W7HtRzrQA1Ga6BoGK
- k23g==
-X-Gm-Message-State: AJIora9yGF3FqVcJuhBEqVz6S28c9+z0nhVFABIbkRtYSHatcOS2mfQo
- TqvMLUh5wTQmrTyfLop18RHyCLOS+IvtLg==
-X-Google-Smtp-Source: AGRyM1u7JDdksxaGv271LvQGuvRGyYvB8odCJ/I4Bm54X3qWzVhAD6BB9IH97/7BbrY2Q0Xi0eLkXw==
-X-Received: by 2002:a05:6870:5809:b0:101:ce10:b267 with SMTP id
- r9-20020a056870580900b00101ce10b267mr7413580oap.83.1655795378952; 
- Tue, 21 Jun 2022 00:09:38 -0700 (PDT)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com.
- [209.85.210.52]) by smtp.gmail.com with ESMTPSA id
- q4-20020a9d57c4000000b0060b85231c4esm8775725oti.67.2022.06.21.00.09.38
- for <dri-devel@lists.freedesktop.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vUa/+0360889XNMZ8LlW5kuG26dnpqfJwGYvdJBavqs=;
+ b=z0DQodwi9v6n9699i9FXKYOfai+InjDkiRHkR4y+EiQyLrIm2daB4kPvdUMgfYwbvg
+ LJrAcMVGujeQ8r2Lza6o6XYAcswApKK5GcebTO/87xhOHvkS2FElipgGJxPOSVd/Q+kx
+ tkWpb2y6iEP0E+wyxHCNY3tZ1lDJ8m1pCfJPLW5pPQ9lG97UCJpI4huZQ84Mja0bcB1E
+ oUJVJVAWc/e/Hz5oQ22NXIhUYIVHuJZgrIYY46YU1O6DS8p27hO9n0BU83Maj77fsrCr
+ yyx3dEBZiTtspES5SYNuW1VThzg8ZGJOVC1e3VA96lAvvbWcZ2IY04eQKFT/wC/i+tvX
+ bYVQ==
+X-Gm-Message-State: AJIora80fVEwE+NsFsMo64pq63k3u6XTfxYAxO4lELsxKHFyUmm9uN6H
+ q+MtQz8B8Ecj92xtrWGa5w8oGglbSxM=
+X-Google-Smtp-Source: AGRyM1vqhAL1nzlQW4ayUY9i9bTRHPjx4r/Zw6P7qwKJgKSqansnIr9Cdr3Xafewhel/DCcTPnbS3w==
+X-Received: by 2002:a05:6402:358b:b0:435:828a:a403 with SMTP id
+ y11-20020a056402358b00b00435828aa403mr9352379edc.117.1655795961606; 
+ Tue, 21 Jun 2022 00:19:21 -0700 (PDT)
+Received: from [192.168.178.21] (p57b0bd9f.dip0.t-ipconnect.de.
+ [87.176.189.159]) by smtp.gmail.com with ESMTPSA id
+ ku22-20020a170907789600b006f3ef214dd2sm6985163ejc.56.2022.06.21.00.19.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jun 2022 00:09:38 -0700 (PDT)
-Received: by mail-ot1-f52.google.com with SMTP id
- a21-20020a9d4715000000b0060bfaac6899so10013099otf.12
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 00:09:38 -0700 (PDT)
-X-Received: by 2002:a05:6902:a:b0:65c:b38e:6d9f with SMTP id
- l10-20020a056902000a00b0065cb38e6d9fmr30754158ybh.36.1655795017074; Tue, 21
- Jun 2022 00:03:37 -0700 (PDT)
+ Tue, 21 Jun 2022 00:19:21 -0700 (PDT)
+Message-ID: <2c70d0c4-a326-6497-54b2-51bc2b93b9d6@gmail.com>
+Date: Tue, 21 Jun 2022 09:19:19 +0200
 MIME-Version: 1.0
-References: <20220618123035.563070-1-mail@conchuod.ie>
- <20220618123035.563070-7-mail@conchuod.ie>
- <20220620205654.g7fyipwytbww5757@mobilestation>
-In-Reply-To: <20220620205654.g7fyipwytbww5757@mobilestation>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 21 Jun 2022 09:03:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWDcnAxjxdwpnbfUiDUoo=RGvQm537-EboAmaQTmxpY-g@mail.gmail.com>
-Message-ID: <CAMuHMdWDcnAxjxdwpnbfUiDUoo=RGvQm537-EboAmaQTmxpY-g@mail.gmail.com>
-Subject: Re: [PATCH 06/14] spi: dt-bindings: dw-apb-ssi: update
- spi-{r,t}x-bus-width for dwc-ssi
-To: Serge Semin <fancer.lancer@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/5] drm/amdgpu: Fix possible refcount leak for release of
+ external_hw_fence
+Content-Language: en-US
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20220620220302.86389-1-andrey.grodzovsky@amd.com>
+ <20220620220302.86389-2-andrey.grodzovsky@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20220620220302.86389-2-andrey.grodzovsky@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,129 +76,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- David Airlie <airlied@linux.ie>, Palmer Dabbelt <palmer@rivosinc.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Conor Dooley <conor.dooley@microchip.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-riscv <linux-riscv@lists.infradead.org>, Sam Ravnborg <sam@ravnborg.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Jose Abreu <joabreu@synopsys.com>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
- Mark Brown <broonie@kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Conor Dooley <mail@conchuod.ie>,
- Thomas Gleixner <tglx@linutronix.de>, Dillon Min <dillon.minfei@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Heng Sia <jee.heng.sia@intel.com>,
- linux-spi <linux-spi@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- dmaengine <dmaengine@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>
+Cc: jingwen.chen2@amd.com, Christian.Koenig@amd.com, monk.liu@amd.com,
+ yiqing.yao@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Serge,
-
-On Mon, Jun 20, 2022 at 10:56 PM Serge Semin <fancer.lancer@gmail.com> wrote:
-> On Sat, Jun 18, 2022 at 01:30:28PM +0100, Conor Dooley wrote:
-> > From: Conor Dooley <conor.dooley@microchip.com>
-> >
-> > snps,dwc-ssi-1.01a has a single user - the Canaan k210, which uses a
-> > width of 4 for spi-{r,t}x-bus-width. Update the binding to reflect
-> > this.
-> >
-> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> > ---
-> >  .../bindings/spi/snps,dw-apb-ssi.yaml         | 48 ++++++++++++++-----
-> >  1 file changed, 35 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> > index e25d44c218f2..f2b9e3f062cd 100644
-> > --- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> > +++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> > @@ -135,19 +135,41 @@ properties:
-> >        of the designware controller, and the upper limit is also subject to
-> >        controller configuration.
-> >
-> > -patternProperties:
-> > -  "^.*@[0-9a-f]+$":
-> > -    type: object
-> > -    properties:
-> > -      reg:
-> > -        minimum: 0
-> > -        maximum: 3
-> > -
-> > -      spi-rx-bus-width:
-> > -        const: 1
-> > -
-> > -      spi-tx-bus-width:
-> > -        const: 1
-> > +if:
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        const: snps,dwc-ssi-1.01a
-> > +
-> > +then:
-> > +  patternProperties:
-> > +    "^.*@[0-9a-f]+$":
-> > +      type: object
-> > +      properties:
-> > +        reg:
-> > +          minimum: 0
-> > +          maximum: 3
-> > +
-> > +        spi-rx-bus-width:
-> > +          const: 4
-> > +
-> > +        spi-tx-bus-width:
-> > +          const: 4
-> > +
-> > +else:
-> > +  patternProperties:
-> > +    "^.*@[0-9a-f]+$":
-> > +      type: object
-> > +      properties:
-> > +        reg:
-> > +          minimum: 0
-> > +          maximum: 3
-> > +
-> > +        spi-rx-bus-width:
-> > +          const: 1
-> > +
-> > +        spi-tx-bus-width:
-> > +          const: 1
+Am 21.06.22 um 00:02 schrieb Andrey Grodzovsky:
+> Problem:
+> In amdgpu_job_submit_direct - The refcount should drop by 2
+> but it drops only by 1.
 >
-> You can just use a more relaxed constraint "enum: [1 2 4 8]" here
-> irrespective from the compatible string. The modern DW APB SSI
-> controllers of v.4.* and newer also support the enhanced SPI Modes too
-> (Dual, Quad and Octal). Since the IP-core version is auto-detected at
-> run-time there is no way to create a DT-schema correctly constraining
-> the Rx/Tx SPI bus widths. So let's keep the
-> compatible-string-independent "patternProperties" here but just extend
-> the set of acceptable "spi-rx-bus-width" and "spi-tx-bus-width"
-> properties values.
+> amdgpu_ib_sched->emit -> refcount 1 from first fence init
+> dma_fence_get -> refcount 2
+> dme_fence_put -> refcount 1
 >
-> Note the DW APB SSI/AHB SSI driver currently doesn't support the
-> enhanced SPI modes. So I am not sure whether the multi-lines Rx/Tx SPI
-> bus indeed works for Canaan K210 AHB SSI controller. AFAICS from the
-> DW APB SSI v4.01a manual the Enhanced SPI mode needs to be properly
-> activated by means of the corresponding CSR. So most likely the DW AHB
-> SSI controllers need some specific setups too.
+> Fix:
+> Add put for external_hw_fence in amdgpu_job_free/free_cb
 
-That doesn't matter here, as DT describes hardware, not software
-limitations.
+Well what is the external_hw_fence good for in this construct?
 
-Gr{oetje,eeting}s,
+>
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> index 10aa073600d4..58568fdde2d0 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> @@ -152,8 +152,10 @@ static void amdgpu_job_free_cb(struct drm_sched_job *s_job)
+>       /* only put the hw fence if has embedded fence */
+>   	if (job->hw_fence.ops != NULL)
+>   		dma_fence_put(&job->hw_fence);
+> -	else
+> +	else {
 
-                        Geert
+When one side of the if uses {} the other side should use {} as well, 
+e.g. use } else { here.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Christian.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +		dma_fence_put(job->external_hw_fence);
+>   		kfree(job);
+> +	}
+>   }
+>   
+>   void amdgpu_job_free(struct amdgpu_job *job)
+> @@ -165,8 +167,10 @@ void amdgpu_job_free(struct amdgpu_job *job)
+>   	/* only put the hw fence if has embedded fence */
+>   	if (job->hw_fence.ops != NULL)
+>   		dma_fence_put(&job->hw_fence);
+> -	else
+> +	else {
+> +		dma_fence_put(job->external_hw_fence);
+>   		kfree(job);
+> +	}
+>   }
+>   
+>   int amdgpu_job_submit(struct amdgpu_job *job, struct drm_sched_entity *entity,
+
