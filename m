@@ -2,69 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C331553674
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 17:42:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6FF7553695
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 17:47:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28BA410E18E;
-	Tue, 21 Jun 2022 15:42:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E25510E310;
+	Tue, 21 Jun 2022 15:47:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD52410E18E
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 15:42:37 +0000 (UTC)
-Received: by mail-qk1-x735.google.com with SMTP id 15so10394736qki.6
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 08:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :content-transfer-encoding:user-agent:mime-version;
- bh=j+TmZokpENwEZtYw+9zpADRR+ouuJfl5CqudgyGGVMI=;
- b=rYLR4rn00kFhjq3jMMRY7EV3DBXR7qIPak/L8qbBz7KbspyXsDYwanSNawW1tKwOFH
- ewJrprj9XAeaMHMnCVlg1mhbGk8X6etye45/t42emj4n96CBFUyK5gOLOtftDOcdpZMh
- 908EbU0jMLl63DlEFVUzOjzrIiEDup69vNvC3BVREh9cTbfasxeL2JzuFMVynhfUHn98
- SGF8a9JKO8Pf8V6BWlSMg2+9tMhrZdQC/G3V+w+lJ0Ok91h8ogWI0K7twjgTqZVkmTxE
- 6XVNDuCjL70HX8cR/4q2TUO+k8WZac1WO63xDQo9PTA6W60gd87FacoEKmclkA3dwS9D
- TH+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:content-transfer-encoding:user-agent:mime-version;
- bh=j+TmZokpENwEZtYw+9zpADRR+ouuJfl5CqudgyGGVMI=;
- b=KOHwhrI9AlzUe3EvwXcmv7xGxcLX1naYKTO6H9N7WQSk+J4+0ewkSaeXnYRrcRTzT4
- gX9+JiLqdn9slpqhB2bDWTyTo85+g0WtBAdw/FO3QD4E9VDxTUFVvsiF/PZeZsG/ak/k
- kM0nLdYORyfphIM9N1AhrowRE0+WS0qm8uDlVWYlbOPIgpBON94fZk/k0FLw+44Vxp3z
- cB610ZKqDFkbuWZN8QlN3eARMAWZ0V1fYaPw1au9mT8jTENNLMTQfbc6qEi3xI4L0ut4
- OAXXUcl1IFXzNtvjt8kEYcRsS89Yy0kSkbyo4TxwRtDcEdM36jtIB4h4AiPgDMeGDJRm
- FSmw==
-X-Gm-Message-State: AJIora+xcz1KT/FUWcR5cJv67CfK+gBhP8CI8XfWiE3+4WXSOvQHAKuP
- xoacY/rt4UNy2+CtZ5MYfsJdEw==
-X-Google-Smtp-Source: AGRyM1vE+SSLFEkr3ihfgV0r8gtNBCmLkJBjCPAUN5aHdi7vF4C6XWO85PiLvuKGcwPkdcTuFdcspg==
-X-Received: by 2002:a05:620a:280d:b0:67d:2480:fdea with SMTP id
- f13-20020a05620a280d00b0067d2480fdeamr20435321qkp.157.1655826156800; 
- Tue, 21 Jun 2022 08:42:36 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net.
- [192.222.136.102]) by smtp.gmail.com with ESMTPSA id
- w10-20020a05620a424a00b006a79d8c8198sm14389324qko.135.2022.06.21.08.42.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 08:42:36 -0700 (PDT)
-Message-ID: <2aabc41c8432d09b7ceeb8e67144a639d3d86c72.camel@ndufresne.ca>
-Subject: Re: DMA-buf and uncached system memory
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- "Andy.Hsieh" <andy.hsieh@mediatek.com>, linux-media
- <linux-media@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, lkml <linux-kernel@vger.kernel.org>
-Date: Tue, 21 Jun 2022 11:42:35 -0400
-In-Reply-To: <39f7f41a-af8d-4700-37da-9401455afb98@amd.com>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
- <cdb508e49eb1439f4e4c327d2a6738f219e04bf8.camel@ndufresne.ca>
- <5822b325-766e-ce3c-50eb-d7f54f14fd0b@mediatek.com>
- <39f7f41a-af8d-4700-37da-9401455afb98@amd.com>
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com
+ (mail-eopbgr30041.outbound.protection.outlook.com [40.107.3.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14F9E10E310
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 15:47:31 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bdhvIIHiNHKBMLMv/4RTgwZPl0qtFT1WH8FTY2PzfiViiymF/EKg20FzJokVC7Um9sTVJKygjipxerARjh1lV+PEMhnuHSP2aScLEbCf9mcRbSKkWtlDkGQQPWkfbEka271Faw4oqtAOOfsna5zCGA4UC/FN4gyw2jjX+b5x3khRBdkIT3FCGaceIPUatJBfi2m6mDvfqwcchInN/G8G4iCZGQqD/VpYVb+kfhb0oUPRQC/ILpswy02FqTY6nM9pF8BALSO4i1vEigyAr4HNOlJScfBlg3xlLXGd3hdwU8yS34ir3no7P1sVQZaRve5VFveUhrM/toCgjU4/9tD5jQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gljavoVvE3n64SrouUkr1Y+2pC912lEs+myUeDiOXiA=;
+ b=gvZhgkYkZe3+pAcjv8lW0CGAEiOmBvQnA6gDjjCXdMqWdcZc7Ew4PfjE2omcuKbOLRd9Deunff0H72kNCOl0KiGWrBdvlhK2uQWN+0SOuUCc5klW/k8PShbgKjBoIwWGSSOTK/DWTp39m6vvwuB3D6MAblJCRsmtQNkWJa3/2x1ScI6pkmar5FACmfVdP6XshZxqdpqaB2BvyX9ZAbgWxOJO+MTt4YFDWxl38l1Jx6bdRhBFlBkoGoe0jo/TJFVfcIMiHw9qwO4QAzUmRrnhZ35r0MTuoBNmR2XMaOT4xOiwm/i9wAhwcf+DKm/HQrcnEWiBzF/ZFAtMk6hTmIZKsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gljavoVvE3n64SrouUkr1Y+2pC912lEs+myUeDiOXiA=;
+ b=p4wMGI85SAsrn0JYyUbpJApuT2D/5/u2QtYF2Y59B1+VL4kkd1o8QnlVk9WyOZpCdwPrEBDoGVvtBGkxTFou6r0i4UcCIzEoGC9oDaqZYqhy9cUeGXPa/dSyGhFZf0ZpHC1ol+SrG7nVALrD2tEQgf1dREYo18dpn4ETAMMn9SE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
+ by DB7PR04MB4906.eurprd04.prod.outlook.com (2603:10a6:10:21::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.22; Tue, 21 Jun
+ 2022 15:47:27 +0000
+Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::3c82:f63b:711a:502]) by AM7PR04MB7046.eurprd04.prod.outlook.com
+ ([fe80::3c82:f63b:711a:502%6]) with mapi id 15.20.5353.022; Tue, 21 Jun 2022
+ 15:47:27 +0000
+Message-ID: <88f11e5c4704bd8510c2c6a171536484a2232f82.camel@nxp.com>
+Subject: Re: [PATCH] drm/bridge: imx: i.MX8 bridge drivers should depend on
+ ARCH_MXC
+From: Liu Ying <victor.liu@nxp.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <narmstrong@baylibre.com>, Robert
+ Foss <robert.foss@linaro.org>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>,  Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team
+ <linux-imx@nxp.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Marek
+ Vasut <marex@denx.de>
+Date: Tue, 21 Jun 2022 23:47:16 +0800
+In-Reply-To: <43645c9b5cd657664c1340d40133f2116c8cef43.1655818025.git.geert+renesas@glider.be>
+References: <43645c9b5cd657664c1340d40133f2116c8cef43.1655818025.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR02CA0046.apcprd02.prod.outlook.com
+ (2603:1096:3:18::34) To AM7PR04MB7046.eurprd04.prod.outlook.com
+ (2603:10a6:20b:113::22)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7fc050d4-e736-46bf-a914-08da539d57ce
+X-MS-TrafficTypeDiagnostic: DB7PR04MB4906:EE_
+X-Microsoft-Antispam-PRVS: <DB7PR04MB490682A7B8D8919845197ED898B39@DB7PR04MB4906.eurprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: y8oo4hQ3X0IllcrguF3vqIR5AaODNM0CCUP12J0V+PqObXWhyqi5FCzcURapiaRca0hLVgRXnBIOZOsDhAjP5EgD7m7HASIt0h1vmMYNuROT+Fs3oJ/mEV35KXH9LYEiocvDfknQ248B40oFDmsAYr2HwY3mQ+Rhl/lV+J2FqmAT1/lj2p4hEI5lHgFVr4v1SepgSFZRnHvFco6QaogIg07wTwVh3lAYDywsEl6Gjc+zgdj78DVys7W1pn1ubWqRQtzySEcfe0JhqURgY7QXuFDGGxHfdjRBlHPZeVD209xebwPY7YMU54/7XIfRue8yzZXCWJjEQ4OMHNyz/5mpAmQscSxlgYLyo+DIs3UdrpXIt5DJdck1+tHESdg7uRD85SfY6bdL/IaRptKowhOAXbFtbyFxfGEC3yIc0i/3D+ufUZm76pFF/b7X0ScTSjhTi5oCbKnotOCYuAgQ14hREgsPX07mmoqlVHs5qvEolVQFH5jKOtd8ZibfsI+96KomkhgCDHvPVG+AeT1zr1FPKUbJz/Rmp9frgPGHyrbvExhrxNz8Ytee4KEXb67jkTw5+0P483huysWrmA5HpX8lRwFuYzKLr0dXqPXagxln4zeTrJ7b//kwNERwpGoZo2D9+h3A6vnPG1wpIGH8lmFRyi+iQQwk91EvulMCBrR5ognSVxDe8xcNVOtsHq23s2Qp76UZXeL1UheEGdjT7DY3OWimBvU0wSdWsxodLWB0WMwInnbizs772t6M7qWezVMq
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(346002)(366004)(39860400002)(136003)(396003)(8676002)(66946007)(921005)(4326008)(66476007)(316002)(6486002)(478600001)(86362001)(66556008)(186003)(26005)(38100700002)(38350700002)(52116002)(6512007)(41300700001)(6506007)(5660300002)(8936002)(36756003)(7416002)(2616005)(2906002)(110136005)(6666004)(99106002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d09tMzU2b0hWdEJITjV3RmZSNDRrdEVEdnBlb20zNmJSL0JOQ0FXWVl6Tklj?=
+ =?utf-8?B?azVnWXo3WnRRWGV1WjRXWEtBaTRrUlpjQy9Ia29Obkc1NEdzK1Q0cnhsUDd2?=
+ =?utf-8?B?Yk5kUjEzMU9KNGdWWUMxVVJWY2d0YXVidTJkYkwvc0pTVk5JWTZhM0I5Rytu?=
+ =?utf-8?B?ZVBsaWVHcGpTRkV6NVZjK0ZRMWpjYjA1QlZaNDh2YXh3MThGT0dNbVJJNmNQ?=
+ =?utf-8?B?TUR0NVBGUERVSEFTcjl1dDBoMDRUU3U2SCs4bGZRV2tucGtra2ZXbHpBcmpW?=
+ =?utf-8?B?MkJUeFJHQjFTYjY5RjRrTStCaE1aVzlxU3RPWjVheDErdno0NGc4aU51a1Fy?=
+ =?utf-8?B?enlBOFFtOG8wby9tSzNCWjg3V1lQS2RFbzhFVXNVa0pSeVFVSVRpeU1PRzdG?=
+ =?utf-8?B?bytxeTBCc1NKdWI5WmE3bjhtSHpzRzZ2WE1LM1dzOW9qVk42V3NWdU5KT3BS?=
+ =?utf-8?B?V1c1YnFKZDl2ZVJQYnJTdmRIeFprNnA0emd0QnlZWVNxT1UwQUhrTG5xU2tx?=
+ =?utf-8?B?cld1ZmtpTDVWTzFnaFgvK0tGRnNWaGFtMStUM2I1YUVPa1Z5S3NtZzJOSldQ?=
+ =?utf-8?B?MjRwRWxvU2l6SEtsWit4UzZNQ0tNRndXMW1jQk9ubFBMb3lTbTA2UUMyNFhW?=
+ =?utf-8?B?TW4yOU8yYjJDNWswZjVYYkNReitYM25VN0tPalZZMFBRdkhQR2pnenFRR1Vi?=
+ =?utf-8?B?NGRscEtCRWl6MDVyMkdWNWQ2Q2s4ZkdSc3hpdVd6azk0NlEvdWhraEozQnpr?=
+ =?utf-8?B?RzUyR25xVGg5WFRTSVJvMnF6K2pmYy94NVJqZmhUWmxvaTNaMk9iVElZZ2RS?=
+ =?utf-8?B?MUxFRElXRlZjSEFKOXE0aVp2RU5TaFgweks4UnRCS0RZTEdHYUFzV0d1YytB?=
+ =?utf-8?B?Vnlnc3JsUUorM2xSU2djTHdBSTlyT0ZyYmNUZVlpY2dsZVlGTU9TdTJqVVhJ?=
+ =?utf-8?B?R3MrVHZOV1lWaDJCN2YvUFdGb3Y1L2sweFJPZDROa0NNcUYxRGxJdXZDVEdM?=
+ =?utf-8?B?eTFlaTFWRWo3WjNzOWZPckZDUFJqZjZ2cktHTUtEaWYyUlVMK1dYZ1oxTFI1?=
+ =?utf-8?B?anBpYXJDaHNVNFc2ZUtKOGo2TEw5MHdnbWpvcUprV0QzRVVLZ0RHVFFxdStV?=
+ =?utf-8?B?WVRUUUhrVHc0VDZVdTJMczFRbjJnK1k3MlEwU3pGNnM2enN4cHhDTncwb1Jp?=
+ =?utf-8?B?c25HOHV3MFNjbnRVdGRiWWhmQ3NUVjk2VXR1Z3RLZTRkcVUzNzlWa3JJVGpB?=
+ =?utf-8?B?anVZSUtodE1NeEYyWVVJbmlINVFRS2JUOGhUQWFqbklwckxZNXFxTHlFcFg2?=
+ =?utf-8?B?VFhtRVpyMXpyRkhJWGRPTkorN29zTjY1TEZGNUVjd25meElkanhMdmllN05M?=
+ =?utf-8?B?dnFhUy8zMDBzclIrQnVRaGtFemNzMnlURVZ5Mzl1dXNJamgwTGNTbFViZEF2?=
+ =?utf-8?B?bHliUUNxZ1M2NmVyMThwWHlLUnJNZGMrNHhucUdjVWNkV3FYZUxoTG1IbVJ1?=
+ =?utf-8?B?ZFhISi9ORXp4bkFuSGloQlRlSzBCZHY2Snk0eVBIWThLWkpVODNIZVRHK0VO?=
+ =?utf-8?B?dHE4OGRKMFR1U2piWUh5MmhVS2pFZGlPMWZlQko2RS82T0FPQlJyajd6cGNi?=
+ =?utf-8?B?dmVaU0NUMnRkY0EyTkcyeXVqUXFMMk9SL1FVMFFWcFMwTGR5cHVLSHZUcHBa?=
+ =?utf-8?B?NG40NXQ4OVBkQTF5QVlVaW1NeDMxcm51SDFpQzlDKzd3REUweUFIZlpWSjMv?=
+ =?utf-8?B?a1lPTEdCdjlGTFRTOEdSU2RSWUU4dzAvZGNQa0ltZmhkRTZVbFJkUSs5a0Jw?=
+ =?utf-8?B?RW1WMlhheS9uQjA4clEzbHRCM292NkZjN2Y4WWthSDVqNzBXUmpiQVRJVGxv?=
+ =?utf-8?B?RWtUQzUwM1FqYkVweW1kbGx3NHZpV28xNTYrWDBQUlZkTWJPME9PNVhnRjR2?=
+ =?utf-8?B?Q21sZ3A4OUtjTTEwWVRiMC9NQS9DcDhpNXNLeG9QU1R3UkdpVnVCV0o2MGpz?=
+ =?utf-8?B?NCttWkpPV21vRWhXcEMvNmw5Wmp6bzlxNHdlU0ZCSW8vVkpGVm1EcHN4eGF6?=
+ =?utf-8?B?UWwydXFBVWZWVm50Lzl2SFZzRjFabkIxR25LZC82V0FvVjk4YlhBWFY5aDVB?=
+ =?utf-8?B?NnhYd2RwVjVNbUFzOXB2OXhRZ1p4WDZzdGxxaGZkM3ltTFU0VXRmbGJpZE1l?=
+ =?utf-8?B?QTZTQ2ZiZlB2QmZudHRIVFI2MjhqY0hER0pQWi8vQTJIVzIrS0liaEVXT0F4?=
+ =?utf-8?B?QzNwQUxzTmkyYXZ3OHhKeVYrNitKSmcvUmMvYTRzaDJRUG96VUhKL2MxeTR6?=
+ =?utf-8?B?SkliT1JGTExESXJEcDR2Vm1ocnZqaU8wMDVTcElHZkNydHVUTHQ1UT09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fc050d4-e736-46bf-a914-08da539d57ce
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2022 15:47:27.6978 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OQVIhC2LYwfZpyAnk/GKY+PDA8iywH1R0j9LArkv1VtWUh59A31D5c2E3p12UNHlwDdQ3VHBGg4Yuiy80Th41A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4906
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,165 +136,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, "Sharma,
- Shashank" <Shashank.Sharma@amd.com>
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian and Andy,
+On Tue, 2022-06-21 at 15:30 +0200, Geert Uytterhoeven wrote:
+> The various Freescale i.MX8MP display bridges are only present on
+> Freescale i.MX8 SoCs.  Hence add a dependency on ARCH_MXC, to prevent
+> asking the user about these drivers when configuring a kernel without
+> i.MX SoC support.
 
-Le mardi 21 juin 2022 =C3=A0 12:34 +0200, Christian K=C3=B6nig a =C3=A9crit=
-=C2=A0:
-> =C2=A0Hi Andy,
-> =C2=A0
-> =C2=A0Am 21.06.22 um 12:17 schrieb Andy.Hsieh:
-> =C2=A0
-> > On 2/16/21 4:39 AM, Nicolas Dufresne wrote:
-> > > Le lundi 15 f=C3=A9vrier 2021 =C3=A0 09:58 +0100, Christian K=C3=B6ni=
-g a =C3=A9crit=C2=A0:
-> > > > Hi guys,
-> > > >=20
-> > > > we are currently working an Freesync and direct scan out from syste=
-m=20
-> > > > memory on AMD APUs in A+A laptops.
-> > > >=20
-> > > > On problem we stumbled over is that our display hardware needs to s=
-can=20
-> > > > out from uncached system memory and we currently don't have a way t=
-o=20
-> > > > communicate that through DMA-buf.
-> > > >=20
-> > > > For our specific use case at hand we are going to implement somethi=
-ng=20
-> > > > driver specific, but the question is should we have something more=
-=20
-> > > > generic for this?
-> > >=20
-> > > Hopefully I'm getting this right, but this makes me think of a long
-> > > standing
-> > > issue I've met with Intel DRM and UVC driver. If I let the UVC driver
-> > > allocate
-> > > the buffer, and import the resulting DMABuf (cacheable memory written=
- with
-> > > a cpu
-> > > copy in the kernel) into DRM, we can see cache artifact being display=
-ed.
-> > > While
-> > > if I use the DRM driver memory (dumb buffer in that case) it's clean
-> > > because
-> > > there is a driver specific solution to that.
-> > >=20
-> > > There is no obvious way for userspace application to know what's is
-> > > right/wrong
-> > > way and in fact it feels like the kernel could solve this somehow wit=
-hout
-> > > having
-> > > to inform userspace (perhaps).
-> > >=20
-> > > >=20
-> > > > After all the system memory access pattern is a PCIe extension and =
-as=20
-> > > > such something generic.
-> > > >=20
-> > > > Regards,
-> > > > Christian.
-> > >=20
-> > >=20
-> >=20
-> > Hi All,
-> >=20
-> > We also encountered the UVC cache issue on ARMv8 CPU in Mediatek SoC wh=
-en
-> > using UVC dmabuf-export and feeding the dmabuf to the DRM display by th=
-e
-> > following GStreamer command:
-> >=20
-> > # gst-launch-1.0 v4l2src device=3D/dev/video0 io-mode=3Ddmabuf ! kmssin=
-k
-> >=20
-> > UVC driver uses videobuf2-vmalloc to allocate buffers and is able to ex=
-port
-> > them as dmabuf. But UVC uses memcpy() to fill the frame buffer by CPU
-> > without
-> > flushing the cache. So if the display hardware directly uses the buffer=
-, the
-> > image shown on the screen will be dirty.
-> >=20
-> > Here are some experiments:
-> >=20
-> > 1. By doing some memory operations (e.g. devmem) when streaming the UVC=
-,
-> > =C2=A0=C2=A0=C2=A0the issue is mitigated. I guess the cache is swapped =
-rapidly.
-> > 2. By replacing the memcpy() with memcpy_flushcache() in the UVC driver=
-,
-> > =C2=A0=C2=A0=C2=A0the issue disappears.
-> > 3. By adding .finish callback in videobuf2-vmalloc.c to flush the cache
-> > =C2=A0=C2=A0=C2=A0before returning the buffer, the issue disappears.
-> >=20
-> > It seems to lack a cache flush stage in either UVC or Display. We may a=
-lso
-> > need communication between the producer and consumer. Then, they can de=
-cide
-> > who is responsible for the flushing to avoid flushing cache uncondition=
-ally
-> > leading to the performance impact.
-> =C2=A0
-> =C2=A0Well, that's not what this mail thread was all about.
-> =C2=A0
-> =C2=A0The issue you are facing is that somebody is forgetting to flush ca=
-ches, but
-> the issue discussed in this thread here is that we have hardware which
-> bypasses caches altogether.
-> =C2=A0
-> =C2=A0As far as I can see in your case UVC just allocates normal cached s=
-ystem
-> memory through videobuf2-vmalloc() and it is perfectly valid to fill that
-> using memcpy().
-> =C2=A0
-> =C2=A0If some hardware then accesses those buffers bypassing CPU caches t=
-hen it is
-> the responsibility of the importing driver and/or DMA subsystem to flush =
-the
-> caches accordingly.
+s/i.MX8MP/i.MX8/
 
-I've tracked this down to videobuf2-vmalloc.c failing to look for coherency
-during "attach()". It is also missing begin_/end access implementation for =
-the
-case it get attached to a non-coherent device. Seems fixable though, but "I=
-'m
-far from an expert", but more some random person reading code and comments.
+For now, only i.MX8qm and i.MX8qxp display bridge drivers are in
+bridge/imx directory, no i.MX8MP display bridge driver.
 
-regards,
-Nicolas
+With this fixed:
+Reviewed-by: Liu Ying <victor.liu@nxp.com>
 
-> =C2=A0
-> =C2=A0Regards,
-> =C2=A0Christian.
-> =C2=A0
-> =C2=A0
-> >=20
-> > Regards,
-> > Andy Hsieh
-> >=20
-> > ************* MEDIATEK Confidentiality Notice ********************
-> > The information contained in this e-mail message (including any=20
-> > attachments) may be confidential, proprietary, privileged, or otherwise
-> > exempt from disclosure under applicable laws. It is intended to be=20
-> > conveyed only to the designated recipient(s). Any use, dissemination,=
-=20
-> > distribution, printing, retaining or copying of this e-mail (including =
-its=20
-> > attachments) by unintended recipient(s) is strictly prohibited and may=
-=20
-> > be unlawful. If you are not an intended recipient of this e-mail, or be=
-lieve
-> > that you have received this e-mail in error, please notify the sender=
-=20
-> > immediately (by replying to this e-mail), delete any and all copies of=
-=20
-> > this e-mail (including any attachments) from your system, and do not
-> > disclose the content of this e-mail to any other person. Thank you!
-> =C2=A0
-> =C2=A0
+> 
+> Fixes: e60c4354840b2fe8 ("drm/bridge: imx: Add LDB support for
+> i.MX8qm")
+> Fixes: 3818715f62b42b5c ("drm/bridge: imx: Add LDB support for
+> i.MX8qxp")
+> Fixes: 96988a526c97cfbe ("drm/bridge: imx: Add i.MX8qxp pixel link to
+> DPI support")
+> Fixes: 1ec17c26bc06289d ("drm/bridge: imx: Add i.MX8qm/qxp display
+> pixel link support")
+> Fixes: 93e163a9e0392aca ("drm/bridge: imx: Add i.MX8qm/qxp pixel
+> combiner support")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Probably the remaining i.MX bridge drivers in
+> drivers/gpu/drm/bridge/Kconfig (e.g. DRM_FSL_LDB) should be moved
+> here,
+> too?
+
+DRM_FSL_LDB is for i.MX8MP LVDS Display Bridge(LDB).
+Here is a kinda appropriate directory for that driver I think, though
+the filename fsl-ldb.c is perhaps a bit too generic(we have imx8qm-ldb-
+driver.c and imx8qxp-ldb-driver.c). 
+
+No other bridge drivers can be moved here, AFAICS.
+
+Thanks,
+Liu Ying 
+
+> ---
+>  drivers/gpu/drm/bridge/imx/Kconfig | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig
+> b/drivers/gpu/drm/bridge/imx/Kconfig
+> index 212a7b0e64fd8b5a..608f47f41bcd1c81 100644
+> --- a/drivers/gpu/drm/bridge/imx/Kconfig
+> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+> @@ -1,3 +1,5 @@
+> +if ARCH_MXC || COMPILE_TEST
+> +
+>  config DRM_IMX8QM_LDB
+>  	tristate "Freescale i.MX8QM LVDS display bridge"
+>  	depends on OF
+> @@ -41,3 +43,5 @@ config DRM_IMX8QXP_PIXEL_LINK_TO_DPI
+>  	help
+>  	  Choose this to enable pixel link to display pixel
+> interface(PXL2DPI)
+>  	  found in Freescale i.MX8qxp processor.
+> +
+> +endif # ARCH_MXC || COMPILE_TEST
 
