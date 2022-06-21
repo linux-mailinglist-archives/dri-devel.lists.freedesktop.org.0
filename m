@@ -2,55 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72166552918
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 03:44:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADAC55292B
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 03:58:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D362210F399;
-	Tue, 21 Jun 2022 01:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D69AC10EE41;
+	Tue, 21 Jun 2022 01:58:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D99D910F399
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 01:44:16 +0000 (UTC)
-X-UUID: 61d68c7894884a72bc7e99e559836608-20220621
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:ff38315d-9a15-4ac3-8ac2-ee06f8f4d028, OB:0,
- LO
- B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:5
-X-CID-META: VersionHash:b14ad71, CLOUDID:0778952d-1756-4fa3-be7f-474a6e4be921,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 61d68c7894884a72bc7e99e559836608-20220621
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1530686825; Tue, 21 Jun 2022 09:44:09 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Tue, 21 Jun 2022 09:44:08 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Tue, 21 Jun 2022 09:44:08 +0800
-Message-ID: <20029878ce6b7bcf9922277cee27e9fc27412907.camel@mediatek.com>
-Subject: Re: [PATCH v12 04/14] drm/mediatek: dpi: implement a swap_input
- toggle in SoC config
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <matthias.bgg@gmail.com>,
- <airlied@linux.ie>
-Date: Tue, 21 Jun 2022 09:44:08 +0800
-In-Reply-To: <20220620121028.29234-5-rex-bc.chen@mediatek.com>
-References: <20220620121028.29234-1-rex-bc.chen@mediatek.com>
- <20220620121028.29234-5-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+X-Greylist: delayed 384 seconds by postgrey-1.36 at gabe;
+ Tue, 21 Jun 2022 01:58:49 UTC
+Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B30910FD14
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 01:58:49 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1655776341;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=K1+H2v0Dcy5bcSfjbkDccu2ORW87weu+sEwK39E3Vlk=;
+ b=ivrUZstejSf/I9HRVWtAIeQvqmdrX3LWfbTyH4Lqykkaa5zxKwQr7kDwuMAR2J542l6Omx
+ ZhHxTdF2b/sUqPDyZPHGU3bVgX9rowrRntCKpKDaLiexGXnbB1hJb+oWB4ppiS6unYdg2W
+ fYuntfhTPtar7BMhHUHvawpE2Anw+oE=
+From: Cai Huoqing <cai.huoqing@linux.dev>
+To: cai.huoqing@linux.dev
+Subject: [PATCH] drm: Make drm_buddy a part of drm module
+Date: Tue, 21 Jun 2022 09:51:50 +0800
+Message-Id: <20220621015151.11129-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,114 +46,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
+The drm_buddy is just a software allocator, so don't need to create
+a module for this small part.
+If drm_buddy is included in drm module, then only need to insmod drm.ko
 
-On Mon, 2022-06-20 at 20:10 +0800, Bo-Chen Chen wrote:
-> From: Guillaume Ranquet <granquet@baylibre.com>
-> 
-> The hardware design of dp_intf does not support input swap, so we add
-> a bit of flexibility to support SoCs without swap_input support.
-> We also add a warning message if the hardware is not supported and it
-> needs to swap input.
+Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
+---
+ drivers/gpu/drm/Kconfig     |  2 +-
+ drivers/gpu/drm/Makefile    |  1 +
+ drivers/gpu/drm/drm_buddy.c |  7 ++-----
+ drivers/gpu/drm/drm_drv.c   | 10 ++++++++++
+ include/drm/drm_buddy.h     |  3 +++
+ 5 files changed, 17 insertions(+), 6 deletions(-)
 
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-
-> 
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> [Bo-Chen: Add modification reason in commit message.]
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dpi.c | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> index c88d64889402..5aab3029c54d 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -126,6 +126,7 @@ struct mtk_dpi_conf {
->  	const u32 *output_fmts;
->  	u32 num_output_fmts;
->  	bool is_ck_de_pol;
-> +	bool swap_input_support;
->  };
->  
->  static void mtk_dpi_mask(struct mtk_dpi *dpi, u32 offset, u32 val,
-> u32 mask)
-> @@ -390,18 +391,24 @@ static void mtk_dpi_config_color_format(struct
-> mtk_dpi *dpi,
->  	    (format == MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL)) {
->  		mtk_dpi_config_yuv422_enable(dpi, false);
->  		mtk_dpi_config_csc_enable(dpi, true);
-> -		mtk_dpi_config_swap_input(dpi, false);
-> +		if (dpi->conf->swap_input_support)
-> +			mtk_dpi_config_swap_input(dpi, false);
->  		mtk_dpi_config_channel_swap(dpi,
-> MTK_DPI_OUT_CHANNEL_SWAP_BGR);
->  	} else if ((format == MTK_DPI_COLOR_FORMAT_YCBCR_422) ||
->  		   (format == MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL)) {
->  		mtk_dpi_config_yuv422_enable(dpi, true);
->  		mtk_dpi_config_csc_enable(dpi, true);
-> -		mtk_dpi_config_swap_input(dpi, true);
-> +		if (dpi->conf->swap_input_support)
-> +			mtk_dpi_config_swap_input(dpi, true);
-> +		else
-> +			dev_warn(dpi->dev,
-> +				 "Failed to swap input, hw is not
-> supported.\n");
->  		mtk_dpi_config_channel_swap(dpi,
-> MTK_DPI_OUT_CHANNEL_SWAP_RGB);
->  	} else {
->  		mtk_dpi_config_yuv422_enable(dpi, false);
->  		mtk_dpi_config_csc_enable(dpi, false);
-> -		mtk_dpi_config_swap_input(dpi, false);
-> +		if (dpi->conf->swap_input_support)
-> +			mtk_dpi_config_swap_input(dpi, false);
->  		mtk_dpi_config_channel_swap(dpi,
-> MTK_DPI_OUT_CHANNEL_SWAP_RGB);
->  	}
->  }
-> @@ -813,6 +820,7 @@ static const struct mtk_dpi_conf mt8173_conf = {
->  	.output_fmts = mt8173_output_fmts,
->  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
->  	.is_ck_de_pol = true,
-> +	.swap_input_support = true,
->  };
->  
->  static const struct mtk_dpi_conf mt2701_conf = {
-> @@ -823,6 +831,7 @@ static const struct mtk_dpi_conf mt2701_conf = {
->  	.output_fmts = mt8173_output_fmts,
->  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
->  	.is_ck_de_pol = true,
-> +	.swap_input_support = true,
->  };
->  
->  static const struct mtk_dpi_conf mt8183_conf = {
-> @@ -832,6 +841,7 @@ static const struct mtk_dpi_conf mt8183_conf = {
->  	.output_fmts = mt8183_output_fmts,
->  	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
->  	.is_ck_de_pol = true,
-> +	.swap_input_support = true,
->  };
->  
->  static const struct mtk_dpi_conf mt8192_conf = {
-> @@ -841,6 +851,7 @@ static const struct mtk_dpi_conf mt8192_conf = {
->  	.output_fmts = mt8183_output_fmts,
->  	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
->  	.is_ck_de_pol = true,
-> +	.swap_input_support = true,
->  };
->  
->  static int mtk_dpi_probe(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 22e7fa48d693..6c18b34f25d3 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -180,7 +180,7 @@ config DRM_TTM
+ 	  uses it.
+ 
+ config DRM_BUDDY
+-	tristate
++	bool
+ 	depends on DRM
+ 	help
+ 	  A page based buddy allocator
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 13ef240b3d2b..75737ccb5fc0 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -29,6 +29,7 @@ drm-$(CONFIG_PCI) += drm_pci.o
+ drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
+ drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
+ drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o drm_privacy_screen_x86.o
++drm-$(CONFIG_DRM_BUDDY) += drm_buddy.o
+ obj-$(CONFIG_DRM)	+= drm.o
+ 
+ obj-$(CONFIG_DRM_NOMODESET) += drm_nomodeset.o
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index 11bb59399471..9262811b39ac 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -767,12 +767,12 @@ void drm_buddy_print(struct drm_buddy *mm, struct drm_printer *p)
+ }
+ EXPORT_SYMBOL(drm_buddy_print);
+ 
+-static void drm_buddy_module_exit(void)
++void drm_buddy_slb_blk_put(void)
+ {
+ 	kmem_cache_destroy(slab_blocks);
+ }
+ 
+-static int __init drm_buddy_module_init(void)
++int __init drm_buddy_slb_blk_get(void)
+ {
+ 	slab_blocks = KMEM_CACHE(drm_buddy_block, 0);
+ 	if (!slab_blocks)
+@@ -781,8 +781,5 @@ static int __init drm_buddy_module_init(void)
+ 	return 0;
+ }
+ 
+-module_init(drm_buddy_module_init);
+-module_exit(drm_buddy_module_exit);
+-
+ MODULE_DESCRIPTION("DRM Buddy Allocator");
+ MODULE_LICENSE("Dual MIT/GPL");
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 8214a0b1ab7f..2b5d6a8b5572 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -44,6 +44,7 @@
+ #include <drm/drm_mode_object.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_privacy_screen_machine.h>
++#include <drm/drm_buddy.h>
+ 
+ #include "drm_crtc_internal.h"
+ #include "drm_internal.h"
+@@ -1034,6 +1035,9 @@ static const struct file_operations drm_stub_fops = {
+ static void drm_core_exit(void)
+ {
+ 	drm_privacy_screen_lookup_exit();
++#if IS_ENABLED(CONFIG_DRM_BUDDY)
++	drm_buddy_slb_blk_put();
++#endif
+ 	unregister_chrdev(DRM_MAJOR, "drm");
+ 	debugfs_remove(drm_debugfs_root);
+ 	drm_sysfs_destroy();
+@@ -1061,6 +1065,12 @@ static int __init drm_core_init(void)
+ 	if (ret < 0)
+ 		goto error;
+ 
++#if IS_ENABLED(CONFIG_DRM_BUDDY)
++	ret = drm_buddy_slb_blk_get();
++	if (!ret)
++		goto error;
++#endif
++
+ 	drm_privacy_screen_lookup_init();
+ 
+ 	drm_core_init_complete = true;
+diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+index 572077ff8ae7..6f648175243c 100644
+--- a/include/drm/drm_buddy.h
++++ b/include/drm/drm_buddy.h
+@@ -156,4 +156,7 @@ void drm_buddy_block_print(struct drm_buddy *mm,
+ 			   struct drm_buddy_block *block,
+ 			   struct drm_printer *p);
+ 
++int __init drm_buddy_slb_blk_get(void);
++void drm_buddy_slb_blk_put(void);
++
+ #endif
+-- 
+2.25.1
 
