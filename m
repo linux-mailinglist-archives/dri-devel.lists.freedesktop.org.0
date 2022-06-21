@@ -2,65 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76DF2552BBB
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:21:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C52A552BBC
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:21:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D59C112719;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33E1311270C;
 	Tue, 21 Jun 2022 07:21:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2AC71126F2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 07:21:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1655796085; x=1687332085;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=8xCN16NMVCes5zqwvpgL1iTjCDl7GFfUFwJVxx6Wuk0=;
- b=cXuWxhyFIHVnQqH7EP1vH/BJT2DqtrWQKRlLQRUHbuBpWVWLl2ti1Zcc
- MgEMdSDNdoDRF200+Rfbz23a4WG974HISfL+hmN7z4JYmxnJmtIR8crwW
- iA8CtrdUmv8av6F2ifehpZG+Eaofi87Ffs2UAVs4hnRRX5VQ0K4jgi1db
- tgtcl6CTC/Ffkdwh3Hs0gyKHNnnYtf7nTfg9Jbt2vDPVK+49l4iTvJf9o
- WL5UGGrVcV7WtXzS74u8FLcE2qKetq64Mh84utf7vajSjT9PUGHvpVeaJ
- eQkW9/o3VkSwpAntMpjo1GJ/htESyZn1uoQNK/mrpHTbSw8XwhvLL2WTN w==;
-X-IronPort-AV: E=Sophos;i="5.92,209,1650924000"; d="scan'208";a="24565786"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 21 Jun 2022 09:21:22 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Tue, 21 Jun 2022 09:21:22 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Tue, 21 Jun 2022 09:21:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1655796082; x=1687332082;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=8xCN16NMVCes5zqwvpgL1iTjCDl7GFfUFwJVxx6Wuk0=;
- b=O6ph/phtBx6MZOjv5ZSlXoP1uptZT5jL01zS2fFWrj9yBw0sseP/c12P
- bjFPitm1jONSx9BoCigJdBPe2pkpYiT1yLK+Rs4r/6zyPRrqoRdP9Nn70
- fwT3fYvKTSpdQQF5ky4RVSzoeHWaVWLKlA7/gAJnDcmsSB4P2yp1/j8HO
- dXnQum/YiHYt5j8D+AgXGeJz8u3JrwBE0pliCoX27bKjSb+uJlNPLN0gQ
- e7mNbS5lCNXmMS2+ts7+5ALlYtAYsXiGw39CosMIdFwTetJznjLwJSEtM
- ItTCmDYfaM37DOz54FhnAaRf9zhHAeFQGN8nh7fgcs2PDKvAGSquXvNon g==;
-X-IronPort-AV: E=Sophos;i="5.92,209,1650924000"; d="scan'208";a="24565785"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 21 Jun 2022 09:21:22 +0200
-Received: from steina-w.tq-net.de (unknown [10.123.49.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id E0411280056;
- Tue, 21 Jun 2022 09:21:21 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/1] drm/panel: panel-simple: Add dev_err_probe if backlight
- could not be found
-Date: Tue, 21 Jun 2022 09:21:18 +0200
-Message-Id: <20220621072118.513346-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C04601126C9;
+ Tue, 21 Jun 2022 07:21:24 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id h23so25487718ejj.12;
+ Tue, 21 Jun 2022 00:21:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=EIp8WFtlC6D8eHvoW3+kRmQcmtWDBEDOQ4OlVigNAJM=;
+ b=g4tmaC6dFWmXTR8r2wdVCKE5qbi7hpODoYlsjJ6PN5YdqYfhN+DT5tmfy+5uldJo4N
+ UMy9NnxU5gf1FIEL4b5QM2tzBDhISfoQaozdq1HfDpCfRyLnJUdD/gNlq242BqYCvsvC
+ Z1LT04Q8wTNgybQEI0qLwf9K3T2spqAnjNjCdMYru7u5vDR80RS0AJBjAIpKuD7ROmqL
+ /rK1bVZE6V1dKhFr1o3Cu4jfJR/y8r72dGr3f8GscBF6u7fOJZsy9OJgUy8uA7mm8a0E
+ deTLxlLgRmu84VC43MNiGRfUK8Xs+fYPpyi2iD8EFjTF+UIJyVywYiDMb211Uxh6EOLC
+ zjog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=EIp8WFtlC6D8eHvoW3+kRmQcmtWDBEDOQ4OlVigNAJM=;
+ b=VAYeqsIef/3p+j4VkMOEP1S3GjtnuzqtlJn/YHPm+ZHabpKByMEAzQuc275Ny8cP24
+ jmH7VoSATWTfoMA/CAIbzBEBdcCgBeDT58ZHBpWZVSqxF8uVPamTDov7AaR5Yz2uYPWc
+ 7XCsTG6/+Bdd5+7JFa6lKKc64b4eIv/Wkn3WII7ELI9JVaaDzM9X+ePuid1PTTYabP+l
+ gEEkdtDCE37hXBJ5eM5pCcpGqtm92Db91agQQ7rjL8kk7pyxI4sp+zNS6F4dV3u1cQkr
+ Ha0HinqzpOyMcpqyNVdEoe384Z/4MrJEaRb0BgjN96VN9DKZMdE/43d0bvMGeCFWRaEb
+ gsuQ==
+X-Gm-Message-State: AJIora+v2dGEcqDMGkIkyR1lI53lzBS/Dbyay5JU7DJ+Yq8eWHQWyTRA
+ xaNIE2HU3cEGqUVhDsyS5RZ6ebIjfhI=
+X-Google-Smtp-Source: AGRyM1sZzFGcgfzMYzzrJ1W9ZNF2wHMFHNvIKi2VZlr8HVlwNUAG19JEL1n/0/LUbVicxyvAHbvTqw==
+X-Received: by 2002:a17:906:b048:b0:6fe:be4a:3ecf with SMTP id
+ bj8-20020a170906b04800b006febe4a3ecfmr24672195ejb.104.1655796083111; 
+ Tue, 21 Jun 2022 00:21:23 -0700 (PDT)
+Received: from [192.168.178.21] (p57b0bd9f.dip0.t-ipconnect.de.
+ [87.176.189.159]) by smtp.gmail.com with ESMTPSA id
+ b17-20020a1709063cb100b00722bc0aa9e3sm3007448ejh.162.2022.06.21.00.21.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Jun 2022 00:21:22 -0700 (PDT)
+Message-ID: <f4058d23-6290-a6df-0288-40fe6a86076e@gmail.com>
+Date: Tue, 21 Jun 2022 09:21:21 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 2/5] drm/amdgpu: Add put fence in
+ amdgpu_fence_driver_clear_job_fences
+Content-Language: en-US
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20220620220302.86389-1-andrey.grodzovsky@amd.com>
+ <20220620220302.86389-3-andrey.grodzovsky@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20220620220302.86389-3-andrey.grodzovsky@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,42 +76,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org
+Cc: jingwen.chen2@amd.com, Christian.Koenig@amd.com, monk.liu@amd.com,
+ yiqing.yao@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the backlight node is not enabled, this (silently) returns with
--EPROBE_DEFER. /sys/kernel/debug/devices_deferred also shows nothing
-helpful:
-$ cat /sys/kernel/debug/devices_deferred
-display
+Am 21.06.22 um 00:02 schrieb Andrey Grodzovsky:
+> This function should drop the fence refcount when it extracts the
+> fence from the fence array, just as it's done in amdgpu_fence_process.
+>
+> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
 
-With this patch, there is a helpful hint:
-$ cat /sys/kernel/debug/devices_deferred
-display panel-simple: Could not find backlight
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 4a2e580a2f7b..8fb1c563c96a 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -663,8 +663,10 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 	drm_panel_init(&panel->base, dev, &panel_simple_funcs, connector_type);
- 
- 	err = drm_panel_of_backlight(&panel->base);
--	if (err)
-+	if (err) {
-+		dev_err_probe(dev, err, "Could not find backlight\n");
- 		goto disable_pm_runtime;
-+	}
- 
- 	drm_panel_add(&panel->base);
- 
--- 
-2.25.1
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> index 957437a5558c..a9ae3beaa1d3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
+> @@ -595,8 +595,10 @@ void amdgpu_fence_driver_clear_job_fences(struct amdgpu_ring *ring)
+>   	for (i = 0; i <= ring->fence_drv.num_fences_mask; i++) {
+>   		ptr = &ring->fence_drv.fences[i];
+>   		old = rcu_dereference_protected(*ptr, 1);
+> -		if (old && old->ops == &amdgpu_job_fence_ops)
+> +		if (old && old->ops == &amdgpu_job_fence_ops) {
+>   			RCU_INIT_POINTER(*ptr, NULL);
+> +			dma_fence_put(old);
+> +		}
+>   	}
+>   }
+>   
 
