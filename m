@@ -2,72 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B50553508
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 16:56:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD9855354F
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 17:11:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B36C810E3A2;
-	Tue, 21 Jun 2022 14:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C961510E770;
+	Tue, 21 Jun 2022 15:10:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C59DF10E3A2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 14:56:17 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id b142so10287655qkg.2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 07:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :content-transfer-encoding:user-agent:mime-version;
- bh=GTf+1EpY6JStEJhVUzLt7wdTH2UAsJxs2Qprj1UXr8w=;
- b=vzCf01wDrq7d7rl2ww+xXP/xbzvTXUf7qGcXWkAS20xRyPJo4WOKyH2icegwtTRSZu
- SBqVqHiy2HzcDo4FeW6zhO9sDootDofeU17TpiBvnZurxOBwgIVwNe2ms8dhl3AX4VFj
- rX89ugpOOGC+1M/wdoqN/lLR8U4xCAGTm/yc68HucT18R8vtCDVs2dMMdx9kWStmu3Ny
- 8+03HOZNgV01X7mF0E3HAgd9fGWNB5+sswmMcUeThZ/Z6lod5AuH5rc52pOxhRKzTWBA
- jix9trd26PxfXVEBdHNDv6Ew0By+m42Z1HKms0IVIeTI6b0bkzUEPmSKkJ4Kx85VNS5e
- NGsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:content-transfer-encoding:user-agent:mime-version;
- bh=GTf+1EpY6JStEJhVUzLt7wdTH2UAsJxs2Qprj1UXr8w=;
- b=FWe4IoEDz1qcxTE9fj5BtcknR0CuXJJ/vXj0c8YfOq/SvDUWmgsz03f52OQYu7V5TI
- 9+7tJuLJbyph7XQAgXT0p/9mbXHGPKZRbWCxjXYKhPmj+GDqHj7Gh74KOo+phEJVgTZ1
- cLWNh5dMkdQZ8pp5gpK7dPoyEL3ncYkDWmxCNs9m/NAdXWZlezRGs51j//GZ/hPGhJFV
- ASpZ/l6OhlaISkUpajc4+cUfTiTdSoNDlpcdyJ7yajCr8H5niZxscSlKqIT3krhDFuAc
- dzlwWvjLFd+jX+M8c6k/ay9jh5UD4kMaPjS1kVYz8K9JVxeCblm6MYJLQprgVNJ/2Reu
- 12zA==
-X-Gm-Message-State: AJIora/ZtZ2nhUSojRL/GgbP91+bWBokrrN63klmUysoYNRXcErDkvg0
- 3ZHF41Ql0igbaFfjqC+Us2A5Pw==
-X-Google-Smtp-Source: AGRyM1sCdWg/g7b5u7199UKjl1f4c99tdgJSVyehh3v1/71400rY80K2fHyGPWzZKjxGptVxhwdmUQ==
-X-Received: by 2002:a37:4549:0:b0:69f:556c:4e38 with SMTP id
- s70-20020a374549000000b0069f556c4e38mr20038724qka.202.1655823376859; 
- Tue, 21 Jun 2022 07:56:16 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net.
- [192.222.136.102]) by smtp.gmail.com with ESMTPSA id
- o12-20020a05620a2a0c00b006a726b03ad1sm15028164qkp.52.2022.06.21.07.56.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 07:56:16 -0700 (PDT)
-Message-ID: <32c3750a59eb6a4f8371a9b3349d4c285c809922.camel@ndufresne.ca>
-Subject: Re: [PATCH v4, 0/3] add h264 decoder driver for mt8186
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, Tiffany Lin
- <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Tomasz
- Figa <tfiga@google.com>
-Date: Tue, 21 Jun 2022 10:56:14 -0400
-In-Reply-To: <2ebaa25205d651b2f6a62e3a02c0ccab5199a165.camel@mediatek.com>
-References: <20220512034620.30500-1-yunfei.dong@mediatek.com>
- <edbb4605c9e30329d2f5a4ff738571acb6b91f1f.camel@ndufresne.ca>
- <2ebaa25205d651b2f6a62e3a02c0ccab5199a165.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C28510E5AA
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 15:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=w6BHQOo4OjAquUzPRJDN9FxN7UMmI2Re8yXkiTY0n9Y=; b=vShT5f5p/4U8Kva9zXvglxMYUx
+ 67Tf8dcUoxD1cP49t3NK3BoXWpsG1Fekg6tLmHRKAg2Mlwi5ad/w4jtCvWhGmJyMnHZ4TxHCYfYhO
+ 6Q4rpqg7wW5PxWFbPJ7GmlxRbqJ3D9VRmlRUnBnUePJgNEIvIrzgv8khKtXjiO6GiYxKdFIZvrzRf
+ WWvcdpWLtKL4he4W4cgN6cbI4XCEW7XtR/LgXNuejtsLX4h5oWPorPpejkabcartfPF9fSzc19/Qn
+ yr7U1+hPi8V63X5FjvecXURL0IZh23Tbol3+bS0NI0K/JHiia1qWwDcKQYC/B7hSTg8ECvGJ2CHDq
+ B5DJN29Q==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
+ helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <cyndis@kapsi.fi>)
+ id 1o3fWT-00Ea3F-F8; Tue, 21 Jun 2022 18:10:33 +0300
+From: Mikko Perttunen <cyndis@kapsi.fi>
+To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
+ will@kernel.org, robin.murphy@arm.com, robh+dt@kernel.org,
+ krzysztof.kozlowski@canonical.com
+Subject: [PATCH v6 00/10] Host1x context isolation support
+Date: Tue, 21 Jun 2022 18:10:12 +0300
+Message-Id: <20220621151022.1416300-1-cyndis@kapsi.fi>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,89 +54,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le mercredi 15 juin 2022 =C3=A0 19:37 +0800, yunfei.dong@mediatek.com a =C3=
-=A9crit=C2=A0:
-> Hi Nicolas,
->=20
-> Thanks for your comments.
-> On Mon, 2022-06-13 at 16:10 -0400, Nicolas Dufresne wrote:
-> > >=20
->=20
-> > Le jeudi 12 mai 2022 =C3=A0 11:46 +0800, Yunfei Dong a =C3=A9crit :
-> > > Firstly, add mt8186 compatible and private data, then add document
-> > > for
-> > > compatible "mediatek,mt8186-vcodec-dec". For mt8186 is single core
-> > > architecture, need to add new interface for h264 hardware decoder.
-> >=20
-> > Would be nice to take the habit of sharing fluster score for this new
-> > HW, I
-> > would expect no less then what the numbers you'd get from running
-> > over MT8195 or
-> > 92, remains nice to demonstrate that this was tested and document any
-> > oops along
-> > the way.
-> For we don't setup mt8186 fluster test environment. So not to run
-> fluster in mt8186. According to our plan, we will do fluster test for
-> every project begin from mt8188.
->=20
-> When I'm free, we continue to setup the fluster test environment for
-> mt8186.
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-I may be able to help here then if needed. Just let me know. Meanwhile, it =
-seems
-a bit early to consider merging these patches as they seems to lack the lev=
-el of
-testing we'd normally expect for non-staging driver changes.
+-------------
+Merging notes
+-------------
 
-regards,
-Nicolas
+The changes to DT bindings should be applied on top of Thierry's patch
+'dt-bindings: display: tegra: Convert to json-schema'.
 
->=20
-> Thanks,
-> Yunfei Dong
-> > > Patche 1 add mt8186 compatible and private data.
-> > > Patche 2 add mt8186 compatible document.
-> > > Patche 3 add h264 single core driver.
-> > > ---
-> > > This patch depends on "support for MT8192 decoder"[1]
-> > >=20
-> > > [1] =20
-> > > https://patchwork.kernel.org/project/linux-mediatek/cover/20220512021=
-950.29087-1-yunfei.dong@mediatek.com/
-> > > ---
-> > > changed with v3:
-> > > - fix __iomem not reasonable, align share memory to dram.
-> > > changed with v2:
-> > > - fix sparse and smatch check fail for patch 3
-> > > changed with v1:
-> > > - rebase driver to the latest media_stage.
-> > > ---
-> > > Yunfei Dong (3):
-> > >   dt-bindings: media: mediatek: vcodec: Adds decoder dt-bindings
-> > > for
-> > >     mt8186
-> > >   media: mediatek: vcodec: Support MT8186
-> > >   media: mediatek: vcodec: add h264 decoder driver for mt8186
-> > >=20
-> > >  .../media/mediatek,vcodec-subdev-decoder.yaml |   4 +-
-> > >  .../platform/mediatek/vcodec/mtk_vcodec_dec.h |   1 +
-> > >  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |   4 +
-> > >  .../vcodec/mtk_vcodec_dec_stateless.c         |  19 ++
-> > >  .../vcodec/vdec/vdec_h264_req_multi_if.c      | 177
-> > > +++++++++++++++++-
-> > >  5 files changed, 203 insertions(+), 2 deletions(-)
-> > >=20
-> >=20
-> >=20
->=20
+The change to the arm-smmu driver should be omitted if Robin Murphy's
+IOMMU bus cleanup series is merged.
+
+***
+New in v6:
+
+Rebased on 5.19-rc3 (-next is too broken)
+Added patch to fix TRANSCFG offset on NVDEC.
+***
+
+***
+New in v5:
+
+Rebased
+Renamed host1x_context to host1x_memory_context
+Small change in DRM side client driver ops to reduce churn with some
+  upcoming changes
+Add NVDEC support
+
+***
+
+***
+New in v4:
+
+Addressed review comments. See individual patches.
+***
+
+***
+New in v3:
+
+Added device tree bindings for new property.
+***
+
+***
+New in v2:
+
+Added support for Tegra194
+Use standard iommu-map property instead of custom mechanism
+***
+
+This series adds support for Host1x 'context isolation'. Since
+when programming engines through Host1x, userspace can program in
+any addresses it wants, we need some way to isolate the engines'
+memory spaces. Traditionally this has either been done imperfectly
+with a single shared IOMMU domain, or by copying and verifying the
+programming command stream at submit time (Host1x firewall).
+
+Since Tegra186 there is a privileged (only usable by kernel)
+Host1x opcode that allows setting the stream ID sent by the engine
+to the SMMU. So, by allocating a number of context banks and stream
+IDs for this purpose, and using this opcode at the beginning of
+each job, we can implement isolation. Due to the limited number of
+context banks only each process gets its own context, and not
+each channel.
+
+This feature also allows sharing engines among multiple VMs when
+used with Host1x's hardware virtualization support - up to 8 VMs
+can be configured with a subset of allowed stream IDs, enforced
+at hardware level.
+
+To implement this, this series adds a new host1x context bus, which
+will contain the 'struct device's corresponding to each context
+bank / stream ID, changes to device tree and SMMU code to allow
+registering the devices and using the bus, as well as the Host1x
+stream ID programming code and support in TegraDRM.
+
+Thanks,
+Mikko
+
+Mikko Perttunen (9):
+  iommu/arm-smmu: Attach to host1x context device bus
+  dt-bindings: host1x: Add iommu-map property
+  gpu: host1x: Add context device management code
+  gpu: host1x: Program context stream ID on submission
+  arm64: tegra: Add Host1x context stream IDs on Tegra186+
+  drm/tegra: falcon: Set DMACTX field on DMA transactions
+  drm/tegra: nvdec: Fix TRANSCFG register offset
+  drm/tegra: Support context isolation
+  drm/tegra: Implement stream ID related callbacks on engines
+
+Thierry Reding (1):
+  dt-bindings: display: tegra: Convert to json-schema
+
+ .../display/tegra/nvidia,tegra114-mipi.txt    |  41 --
+ .../display/tegra/nvidia,tegra114-mipi.yaml   |  74 ++
+ .../display/tegra/nvidia,tegra124-dpaux.yaml  | 149 ++++
+ .../display/tegra/nvidia,tegra124-sor.yaml    | 206 ++++++
+ .../display/tegra/nvidia,tegra124-vic.yaml    |  71 ++
+ .../display/tegra/nvidia,tegra186-dc.yaml     |  85 +++
+ .../tegra/nvidia,tegra186-display.yaml        | 310 ++++++++
+ .../tegra/nvidia,tegra186-dsi-padctl.yaml     |  45 ++
+ .../display/tegra/nvidia,tegra20-dc.yaml      | 181 +++++
+ .../display/tegra/nvidia,tegra20-dsi.yaml     | 159 +++++
+ .../display/tegra/nvidia,tegra20-epp.yaml     |  70 ++
+ .../display/tegra/nvidia,tegra20-gr2d.yaml    |  73 ++
+ .../display/tegra/nvidia,tegra20-gr3d.yaml    | 214 ++++++
+ .../display/tegra/nvidia,tegra20-hdmi.yaml    | 126 ++++
+ .../display/tegra/nvidia,tegra20-host1x.txt   | 675 ------------------
+ .../display/tegra/nvidia,tegra20-host1x.yaml  | 352 +++++++++
+ .../display/tegra/nvidia,tegra20-isp.yaml     |  67 ++
+ .../display/tegra/nvidia,tegra20-mpe.yaml     |  73 ++
+ .../display/tegra/nvidia,tegra20-tvo.yaml     |  58 ++
+ .../display/tegra/nvidia,tegra20-vi.yaml      | 163 +++++
+ .../display/tegra/nvidia,tegra210-csi.yaml    |  52 ++
+ .../pinctrl/nvidia,tegra124-dpaux-padctl.txt  |  59 --
+ arch/arm64/boot/dts/nvidia/tegra186.dtsi      |  11 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  11 +
+ drivers/gpu/drm/tegra/drm.h                   |  11 +
+ drivers/gpu/drm/tegra/falcon.c                |   8 +
+ drivers/gpu/drm/tegra/falcon.h                |   1 +
+ drivers/gpu/drm/tegra/nvdec.c                 |  13 +-
+ drivers/gpu/drm/tegra/submit.c                |  48 +-
+ drivers/gpu/drm/tegra/uapi.c                  |  43 +-
+ drivers/gpu/drm/tegra/vic.c                   |  67 +-
+ drivers/gpu/host1x/Makefile                   |   1 +
+ drivers/gpu/host1x/context.c                  | 160 +++++
+ drivers/gpu/host1x/context.h                  |  27 +
+ drivers/gpu/host1x/dev.c                      |  12 +-
+ drivers/gpu/host1x/dev.h                      |   2 +
+ drivers/gpu/host1x/hw/channel_hw.c            |  52 +-
+ drivers/gpu/host1x/hw/host1x06_hardware.h     |  10 +
+ drivers/gpu/host1x/hw/host1x07_hardware.h     |  10 +
+ drivers/iommu/arm/arm-smmu/arm-smmu.c         |  13 +
+ include/linux/host1x.h                        |  26 +
+ 41 files changed, 3037 insertions(+), 792 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.txt
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dsi-padctl.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-isp.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-tvo.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
+ delete mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra124-dpaux-padctl.txt
+ create mode 100644 drivers/gpu/host1x/context.c
+ create mode 100644 drivers/gpu/host1x/context.h
+
+-- 
+2.36.1
 
