@@ -1,37 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6AA755426E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 07:53:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2E7554275
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 07:53:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D605113891;
-	Wed, 22 Jun 2022 05:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08B4E113896;
+	Wed, 22 Jun 2022 05:53:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbg.qq.com (smtpbg136.qq.com [106.55.201.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31ACE10E4C8
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 13:06:31 +0000 (UTC)
-X-QQ-mid: bizesmtp82t1655816536tegru2l3
+X-Greylist: delayed 451 seconds by postgrey-1.36 at gabe;
+ Tue, 21 Jun 2022 13:14:40 UTC
+Received: from smtpbg.qq.com (smtpbg139.qq.com [175.27.65.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5367010F7B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 13:14:40 +0000 (UTC)
+X-QQ-mid: bizesmtp84t1655816757tz4bwr7w
 Received: from ubuntu.localdomain ( [106.117.99.68])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 21 Jun 2022 21:02:12 +0800 (CST)
+ id ; Tue, 21 Jun 2022 21:05:52 +0800 (CST)
 X-QQ-SSF: 0100000000700050B000B00A0000000
-X-QQ-FEAT: xoS364mEyr2lrJLrObarZ620j5HzhnGsAxRGEt30W2QTeCOW0f4X+LfQXscqK
- f+JJxJBcSHehUERB7aUQzczaJeG7LmUbUFgTpMcKsMVMrCxL5IhHfe6ZPBqsE6XX8hVdcHV
- FnfkxIFR4nADKqxvescYikqkjJr6ebnWk6+DIdvBvwkkqWfBHh3qD+fTVPpdTVLsf8in2nW
- plK8W1V85hYCxJVz82AsbN6FPd4gtDuLrcN7SjwBPIhBJY4CfsWczOBSUxxaiqXe/gwtQjr
- VSVmAB6Ryd+50MmnCLH+Ncpu1C8eYRMQdQ3aoxcQJ+DNfKO2R9gCCQV2Wi/uOg3y/K2BWc1
- 9+g/dhGfs2e63I6GxDz3aq1Y0eg3A==
+X-QQ-FEAT: ZHWZeLXy+8cVkqGqk70IZEdYsDCNTtFptYtfnC7SwFGnX0MxFWBt02UT3ufnU
+ S4xgDrTaijqexc3isqvp40esGxJpnEYT4rbvzUE9h21iUo1hR8zPDGPCrDlc1Y+zl7UoYtp
+ P2iS9NfE+3E+r6w2EmfH4mvQfRWuVtx28Jxd+digEdJHBsOrPhqkBLmX4ggARqun+r9XRnK
+ G4nQoOoS1s79t5ehFcVkRx1NJOU9EJLxludL0wARFfKNcD+W2Gtfzw8VG0Zoi1WtVe58Vga
+ MIJv2MeN0JI2o+CUsA7wyCmAMhm1N5W1vwMHpYzsV+ivoHqeRdi/zVJUJ2AihIazIQlRZQL
+ QYpBIY3ETg3CcGdarwUJtB/+Cxy2g==
 X-QQ-GoodBg: 0
 From: Jiang Jian <jiangjian@cdjrlc.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
-Subject: [PATCH] drm/prime: drop unexpected word "the" in the comments
-Date: Tue, 21 Jun 2022 21:02:10 +0800
-Message-Id: <20220621130210.125461-1-jiangjian@cdjrlc.com>
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/vc4: drop unexpected word "the" in the comments
+Date: Tue, 21 Jun 2022 21:05:50 +0800
+Message-Id: <20220621130550.126915-1-jiangjian@cdjrlc.com>
 X-Mailer: git-send-email 2.17.1
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam7
+Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam6
 X-Mailman-Approved-At: Wed, 22 Jun 2022 05:52:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,37 +48,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Jiang Jian <jiangjian@cdjrlc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, Jiang Jian <jiangjian@cdjrlc.com>,
+ emma@anholt.net, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 there is an unexpected word "the" in the comments that need to be dropped
 
-file: drivers/gpu/drm/drm_prime.c
-line: 842
-* of the the buffer described by the provided sg_table.
+file: drivers/gpu/drm/vc4/vc4_regs.h
+line: 267
+/* Set when the the downstream tries to read from the display FIFO
 changed to
-* of the buffer described by the provided sg_table.
+/* Set when the downstream tries to read from the display FIFO
 
 Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
 ---
- drivers/gpu/drm/drm_prime.c | 2 +-
+ drivers/gpu/drm/vc4/vc4_regs.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index e3f09f18110c..a3f180653b8b 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -839,7 +839,7 @@ EXPORT_SYMBOL(drm_prime_pages_to_sg);
-  * @sgt: sg_table describing the buffer to check
-  *
-  * This helper calculates the contiguous size in the DMA address space
-- * of the the buffer described by the provided sg_table.
-+ * of the buffer described by the provided sg_table.
-  *
-  * This is useful for implementing
-  * &drm_gem_object_funcs.gem_prime_import_sg_table.
+diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
+index a2b5cbbbc1b0..f0290fad991d 100644
+--- a/drivers/gpu/drm/vc4/vc4_regs.h
++++ b/drivers/gpu/drm/vc4/vc4_regs.h
+@@ -264,7 +264,7 @@
+  * output line.
+  */
+ # define SCALER_DISPSTAT_ESLINE(x)		BIT(10 + ((x) * 8))
+-/* Set when the the downstream tries to read from the display FIFO
++/* Set when the downstream tries to read from the display FIFO
+  * while it's empty.
+  */
+ # define SCALER_DISPSTAT_EUFLOW(x)		BIT(9 + ((x) * 8))
 -- 
 2.17.1
 
