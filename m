@@ -1,66 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2B0554265
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 07:52:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0FED554278
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 07:53:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3240113547;
-	Wed, 22 Jun 2022 05:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE20C1138A1;
+	Wed, 22 Jun 2022 05:53:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DE0A10F08E
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 09:32:37 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id t25so21345689lfg.7
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 02:32:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=KVxqgQkmpuz9sfivRrmvLlkvyXCsZ/UVRlJX8Kn06s0=;
- b=baOjPn3HMnQGhZj1nBS+hjUUnJUJ+Qaef24QVnmcEHRl7vEXdUjo5QRsBfEgNpCnf1
- Jm2mGhGNtiWo638Mh2HKumHhvcYmxsqdqaKFiIY93JNSLRKOtYQlJpKBnZGURLayjob+
- /MB/FkKHC8pVilIrHz6/2s03W4EKJQLZphbVT9pgnKGGgCYWlbAKxlSPmKCXeDMSOGEz
- k4bqKGBybgmOLqK4EsPHVpmL5fxyLVBFK/CNU2l5aGa83kOmEMKiC50ivmJ883ZTIT77
- lTZMo0A50VvPHdVjC+D1Xe9WkvlxRXsvrK+2mvS5A9BpF2X8NlUaokkHL1Dw0Q1ZNI3b
- GQTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KVxqgQkmpuz9sfivRrmvLlkvyXCsZ/UVRlJX8Kn06s0=;
- b=fo+CHRv3h4EPsIY4vTpZClFz5JjDsXf2keppoiNoQuc+rNP9tmS2H+nlxYQedBBRof
- oxrmFo/PKQi25eX8bgjAT88TD84tCHtCFauyjvATpoqgUNRK6q8KTKkeCjjpck2+Jvxg
- JfPArLBh5EfUQ5rt5s+DnIr4S4/Fd9OkOkDkzIBKSpnhratZazVlXUpVCgs34NS+vFVR
- qKtU1Mfk/nEgvuAEkb7BgFMESmfy2CHOVERwZFkwykNCjlQrIQp60zkg1IgmzXYtUgG/
- k7vKN/F5iVU/Qvsfcy6be5q96KTCnQU3r0nFuRwLlbxx91Jiu3ZUKSLJq5iICdvvL98z
- xWHg==
-X-Gm-Message-State: AJIora/l0P+0z6UncwiUGg5A8k/8CtS7g/r6OzeWJk162EmjS3xjlnLo
- jQV3S/ivlDt2xSJhVPiqVYg=
-X-Google-Smtp-Source: AGRyM1tUHbN/43UfLBdEExbn+1p4lZ6hBmumkDYlyBIRa9Zw3iDqI9SetAAfAkHiF5XrbJVvOtVraA==
-X-Received: by 2002:a05:6512:2808:b0:47f:51c4:1dea with SMTP id
- cf8-20020a056512280800b0047f51c41deamr12102421lfb.390.1655803954972; 
- Tue, 21 Jun 2022 02:32:34 -0700 (PDT)
-Received: from mobilestation ([95.79.189.214])
- by smtp.gmail.com with ESMTPSA id
- h21-20020a19ca55000000b00477a287438csm916926lfj.2.2022.06.21.02.32.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 02:32:34 -0700 (PDT)
-Date: Tue, 21 Jun 2022 12:32:31 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 06/14] spi: dt-bindings: dw-apb-ssi: update
- spi-{r,t}x-bus-width for dwc-ssi
-Message-ID: <20220621093231.tytrh6fimzfxgzm2@mobilestation>
-References: <20220618123035.563070-1-mail@conchuod.ie>
- <20220618123035.563070-7-mail@conchuod.ie>
- <20220620205654.g7fyipwytbww5757@mobilestation>
- <CAMuHMdWDcnAxjxdwpnbfUiDUoo=RGvQm537-EboAmaQTmxpY-g@mail.gmail.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1F6610F600
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 10:17:32 +0000 (UTC)
+X-UUID: 98a2ee017f9c482d9d4cc596945a49e1-20220621
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:Subject;
+ bh=QwIo9q9yyQiPjroEGrls5IOK00c38J3bEIvOimlBRZI=; 
+ b=Bm/Yf/ZtJVaE1uq7CH9Ki4Z5MsvWT32h+LEOlistZFtoyTqZPvfQV4StiwBGXf9lPDWyBt+NFn/syHRFqTvbYMUVJ1gfUvgm6tVtg6zm8SKHpQFjEgbB6ZdwF3Zoz5l9xXOLLP6sfuqmZwKd6eZrNfoHQ5ajui1Db9oAbJU/3cI=;
+X-CID-UNFAMILIAR: 1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6, REQID:9466fbfa-0b6f-4205-95a1-984dae6fa5bb, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:54,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:54
+X-CID-INFO: VERSION:1.1.6, REQID:9466fbfa-0b6f-4205-95a1-984dae6fa5bb, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:54,FILE:0,RULE:Release_HamU,ACTI
+ ON:release,TS:54
+X-CID-META: VersionHash:b14ad71, CLOUDID:83ada42d-1756-4fa3-be7f-474a6e4be921,
+ C
+ OID:1d61e2ea6dc8,Recheck:0,SF:28|16|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 98a2ee017f9c482d9d4cc596945a49e1-20220621
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <andy.hsieh@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 945237138; Tue, 21 Jun 2022 18:17:26 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 21 Jun 2022 18:17:25 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 21 Jun 2022 18:17:25 +0800
+Subject: Re: DMA-buf and uncached system memory
+To: Nicolas Dufresne <nicolas@ndufresne.ca>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+ <christian.koenig@amd.com>, linux-media <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, lkml <linux-kernel@vger.kernel.org>
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+ <cdb508e49eb1439f4e4c327d2a6738f219e04bf8.camel@ndufresne.ca>
+From: Andy.Hsieh <andy.hsieh@mediatek.com>
+Message-ID: <5822b325-766e-ce3c-50eb-d7f54f14fd0b@mediatek.com>
+Date: Tue, 21 Jun 2022 18:17:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWDcnAxjxdwpnbfUiDUoo=RGvQm537-EboAmaQTmxpY-g@mail.gmail.com>
+In-Reply-To: <cdb508e49eb1439f4e4c327d2a6738f219e04bf8.camel@ndufresne.ca>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_009_1114104928.894808417"
 X-Mailman-Approved-At: Wed, 22 Jun 2022 05:52:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,87 +75,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- David Airlie <airlied@linux.ie>, Palmer Dabbelt <palmer@rivosinc.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Conor Dooley <conor.dooley@microchip.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-riscv <linux-riscv@lists.infradead.org>, Sam Ravnborg <sam@ravnborg.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Jose Abreu <joabreu@synopsys.com>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
- Mark Brown <broonie@kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Conor Dooley <mail@conchuod.ie>,
- Thomas Gleixner <tglx@linutronix.de>, Dillon Min <dillon.minfei@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Heng Sia <jee.heng.sia@intel.com>,
- linux-spi <linux-spi@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- dmaengine <dmaengine@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, "Sharma,
+ Shashank" <Shashank.Sharma@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert
+--__=_Part_Boundary_009_1114104928.894808417
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, Jun 21, 2022 at 09:03:25AM +0200, Geert Uytterhoeven wrote:
-> Hi Serge,
-> 
-> On Mon, Jun 20, 2022 at 10:56 PM Serge Semin <fancer.lancer@gmail.com> wrote:
-> > On Sat, Jun 18, 2022 at 01:30:28PM +0100, Conor Dooley wrote:
-> > > From: Conor Dooley <conor.dooley@microchip.com>
-> > >
+PHByZT4NCk9uJiMzMjsyLzE2LzIxJiMzMjs0OjM5JiMzMjtBTSwmIzMyO05pY29sYXMmIzMyO0R1
+ZnJlc25lJiMzMjt3cm90ZToNCiZndDsmIzMyO0xlJiMzMjtsdW5kaSYjMzI7MTUmIzMyO2YmIzIz
+Mzt2cmllciYjMzI7MjAyMSYjMzI7JiMyMjQ7JiMzMjswOTo1OCYjMzI7KzAxMDAsJiMzMjtDaHJp
+c3RpYW4mIzMyO0smIzI0NjtuaWcmIzMyO2EmIzMyOyYjMjMzO2NyaXQmIzE2MDs6DQomZ3Q7Jmd0
+OyYjMzI7SGkmIzMyO2d1eXMsDQomZ3Q7Jmd0Ow0KJmd0OyZndDsmIzMyO3dlJiMzMjthcmUmIzMy
+O2N1cnJlbnRseSYjMzI7d29ya2luZyYjMzI7YW4mIzMyO0ZyZWVzeW5jJiMzMjthbmQmIzMyO2Rp
+cmVjdCYjMzI7c2NhbiYjMzI7b3V0JiMzMjtmcm9tJiMzMjtzeXN0ZW0mIzMyOw0KJmd0OyZndDsm
+IzMyO21lbW9yeSYjMzI7b24mIzMyO0FNRCYjMzI7QVBVcyYjMzI7aW4mIzMyO0ErQSYjMzI7bGFw
+dG9wcy4NCiZndDsmZ3Q7DQomZ3Q7Jmd0OyYjMzI7T24mIzMyO3Byb2JsZW0mIzMyO3dlJiMzMjtz
+dHVtYmxlZCYjMzI7b3ZlciYjMzI7aXMmIzMyO3RoYXQmIzMyO291ciYjMzI7ZGlzcGxheSYjMzI7
+aGFyZHdhcmUmIzMyO25lZWRzJiMzMjt0byYjMzI7c2NhbiYjMzI7DQomZ3Q7Jmd0OyYjMzI7b3V0
+JiMzMjtmcm9tJiMzMjt1bmNhY2hlZCYjMzI7c3lzdGVtJiMzMjttZW1vcnkmIzMyO2FuZCYjMzI7
+d2UmIzMyO2N1cnJlbnRseSYjMzI7ZG9uJiMzOTt0JiMzMjtoYXZlJiMzMjthJiMzMjt3YXkmIzMy
+O3RvJiMzMjsNCiZndDsmZ3Q7JiMzMjtjb21tdW5pY2F0ZSYjMzI7dGhhdCYjMzI7dGhyb3VnaCYj
+MzI7RE1BLWJ1Zi4NCiZndDsmZ3Q7DQomZ3Q7Jmd0OyYjMzI7Rm9yJiMzMjtvdXImIzMyO3NwZWNp
+ZmljJiMzMjt1c2UmIzMyO2Nhc2UmIzMyO2F0JiMzMjtoYW5kJiMzMjt3ZSYjMzI7YXJlJiMzMjtn
+b2luZyYjMzI7dG8mIzMyO2ltcGxlbWVudCYjMzI7c29tZXRoaW5nJiMzMjsNCiZndDsmZ3Q7JiMz
+Mjtkcml2ZXImIzMyO3NwZWNpZmljLCYjMzI7YnV0JiMzMjt0aGUmIzMyO3F1ZXN0aW9uJiMzMjtp
+cyYjMzI7c2hvdWxkJiMzMjt3ZSYjMzI7aGF2ZSYjMzI7c29tZXRoaW5nJiMzMjttb3JlJiMzMjsN
+CiZndDsmZ3Q7JiMzMjtnZW5lcmljJiMzMjtmb3ImIzMyO3RoaXMmIzYzOw0KJmd0OyYjMzI7DQom
+Z3Q7JiMzMjtIb3BlZnVsbHkmIzMyO0kmIzM5O20mIzMyO2dldHRpbmcmIzMyO3RoaXMmIzMyO3Jp
+Z2h0LCYjMzI7YnV0JiMzMjt0aGlzJiMzMjttYWtlcyYjMzI7bWUmIzMyO3RoaW5rJiMzMjtvZiYj
+MzI7YSYjMzI7bG9uZyYjMzI7c3RhbmRpbmcNCiZndDsmIzMyO2lzc3VlJiMzMjtJJiMzOTt2ZSYj
+MzI7bWV0JiMzMjt3aXRoJiMzMjtJbnRlbCYjMzI7RFJNJiMzMjthbmQmIzMyO1VWQyYjMzI7ZHJp
+dmVyLiYjMzI7SWYmIzMyO0kmIzMyO2xldCYjMzI7dGhlJiMzMjtVVkMmIzMyO2RyaXZlciYjMzI7
+YWxsb2NhdGUNCiZndDsmIzMyO3RoZSYjMzI7YnVmZmVyLCYjMzI7YW5kJiMzMjtpbXBvcnQmIzMy
+O3RoZSYjMzI7cmVzdWx0aW5nJiMzMjtETUFCdWYmIzMyOyhjYWNoZWFibGUmIzMyO21lbW9yeSYj
+MzI7d3JpdHRlbiYjMzI7d2l0aCYjMzI7YSYjMzI7Y3B1DQomZ3Q7JiMzMjtjb3B5JiMzMjtpbiYj
+MzI7dGhlJiMzMjtrZXJuZWwpJiMzMjtpbnRvJiMzMjtEUk0sJiMzMjt3ZSYjMzI7Y2FuJiMzMjtz
+ZWUmIzMyO2NhY2hlJiMzMjthcnRpZmFjdCYjMzI7YmVpbmcmIzMyO2Rpc3BsYXllZC4mIzMyO1do
+aWxlDQomZ3Q7JiMzMjtpZiYjMzI7SSYjMzI7dXNlJiMzMjt0aGUmIzMyO0RSTSYjMzI7ZHJpdmVy
+JiMzMjttZW1vcnkmIzMyOyhkdW1iJiMzMjtidWZmZXImIzMyO2luJiMzMjt0aGF0JiMzMjtjYXNl
+KSYjMzI7aXQmIzM5O3MmIzMyO2NsZWFuJiMzMjtiZWNhdXNlDQomZ3Q7JiMzMjt0aGVyZSYjMzI7
+aXMmIzMyO2EmIzMyO2RyaXZlciYjMzI7c3BlY2lmaWMmIzMyO3NvbHV0aW9uJiMzMjt0byYjMzI7
+dGhhdC4NCiZndDsmIzMyOw0KJmd0OyYjMzI7VGhlcmUmIzMyO2lzJiMzMjtubyYjMzI7b2J2aW91
+cyYjMzI7d2F5JiMzMjtmb3ImIzMyO3VzZXJzcGFjZSYjMzI7YXBwbGljYXRpb24mIzMyO3RvJiMz
+Mjtrbm93JiMzMjt3aGF0JiMzOTtzJiMzMjtpcyYjMzI7cmlnaHQvd3JvbmcNCiZndDsmIzMyO3dh
+eSYjMzI7YW5kJiMzMjtpbiYjMzI7ZmFjdCYjMzI7aXQmIzMyO2ZlZWxzJiMzMjtsaWtlJiMzMjt0
+aGUmIzMyO2tlcm5lbCYjMzI7Y291bGQmIzMyO3NvbHZlJiMzMjt0aGlzJiMzMjtzb21laG93JiMz
+Mjt3aXRob3V0JiMzMjtoYXZpbmcNCiZndDsmIzMyO3RvJiMzMjtpbmZvcm0mIzMyO3VzZXJzcGFj
+ZSYjMzI7KHBlcmhhcHMpLg0KJmd0OyYjMzI7DQomZ3Q7Jmd0Ow0KJmd0OyZndDsmIzMyO0FmdGVy
+JiMzMjthbGwmIzMyO3RoZSYjMzI7c3lzdGVtJiMzMjttZW1vcnkmIzMyO2FjY2VzcyYjMzI7cGF0
+dGVybiYjMzI7aXMmIzMyO2EmIzMyO1BDSWUmIzMyO2V4dGVuc2lvbiYjMzI7YW5kJiMzMjthcyYj
+MzI7DQomZ3Q7Jmd0OyYjMzI7c3VjaCYjMzI7c29tZXRoaW5nJiMzMjtnZW5lcmljLg0KJmd0OyZn
+dDsNCiZndDsmZ3Q7JiMzMjtSZWdhcmRzLA0KJmd0OyZndDsmIzMyO0NocmlzdGlhbi4NCiZndDsm
+IzMyOw0KJmd0OyYjMzI7DQoNCkhpJiMzMjtBbGwsDQoNCldlJiMzMjthbHNvJiMzMjtlbmNvdW50
+ZXJlZCYjMzI7dGhlJiMzMjtVVkMmIzMyO2NhY2hlJiMzMjtpc3N1ZSYjMzI7b24mIzMyO0FSTXY4
+JiMzMjtDUFUmIzMyO2luJiMzMjtNZWRpYXRlayYjMzI7U29DJiMzMjt3aGVuDQp1c2luZyYjMzI7
+VVZDJiMzMjtkbWFidWYtZXhwb3J0JiMzMjthbmQmIzMyO2ZlZWRpbmcmIzMyO3RoZSYjMzI7ZG1h
+YnVmJiMzMjt0byYjMzI7dGhlJiMzMjtEUk0mIzMyO2Rpc3BsYXkmIzMyO2J5JiMzMjt0aGUNCmZv
+bGxvd2luZyYjMzI7R1N0cmVhbWVyJiMzMjtjb21tYW5kOg0KDQojJiMzMjtnc3QtbGF1bmNoLTEu
+MCYjMzI7djRsMnNyYyYjMzI7ZGV2aWNlPS9kZXYvdmlkZW8wJiMzMjtpby1tb2RlPWRtYWJ1ZiYj
+MzI7ISYjMzI7a21zc2luaw0KDQpVVkMmIzMyO2RyaXZlciYjMzI7dXNlcyYjMzI7dmlkZW9idWYy
+LXZtYWxsb2MmIzMyO3RvJiMzMjthbGxvY2F0ZSYjMzI7YnVmZmVycyYjMzI7YW5kJiMzMjtpcyYj
+MzI7YWJsZSYjMzI7dG8mIzMyO2V4cG9ydA0KdGhlbSYjMzI7YXMmIzMyO2RtYWJ1Zi4mIzMyO0J1
+dCYjMzI7VVZDJiMzMjt1c2VzJiMzMjttZW1jcHkoKSYjMzI7dG8mIzMyO2ZpbGwmIzMyO3RoZSYj
+MzI7ZnJhbWUmIzMyO2J1ZmZlciYjMzI7YnkmIzMyO0NQVSYjMzI7d2l0aG91dA0KZmx1c2hpbmcm
+IzMyO3RoZSYjMzI7Y2FjaGUuJiMzMjtTbyYjMzI7aWYmIzMyO3RoZSYjMzI7ZGlzcGxheSYjMzI7
+aGFyZHdhcmUmIzMyO2RpcmVjdGx5JiMzMjt1c2VzJiMzMjt0aGUmIzMyO2J1ZmZlciwmIzMyO3Ro
+ZQ0KaW1hZ2UmIzMyO3Nob3duJiMzMjtvbiYjMzI7dGhlJiMzMjtzY3JlZW4mIzMyO3dpbGwmIzMy
+O2JlJiMzMjtkaXJ0eS4NCg0KSGVyZSYjMzI7YXJlJiMzMjtzb21lJiMzMjtleHBlcmltZW50czoN
+Cg0KMS4mIzMyO0J5JiMzMjtkb2luZyYjMzI7c29tZSYjMzI7bWVtb3J5JiMzMjtvcGVyYXRpb25z
+JiMzMjsoZS5nLiYjMzI7ZGV2bWVtKSYjMzI7d2hlbiYjMzI7c3RyZWFtaW5nJiMzMjt0aGUmIzMy
+O1VWQywNCiYjMzI7JiMzMjsmIzMyO3RoZSYjMzI7aXNzdWUmIzMyO2lzJiMzMjttaXRpZ2F0ZWQu
+JiMzMjtJJiMzMjtndWVzcyYjMzI7dGhlJiMzMjtjYWNoZSYjMzI7aXMmIzMyO3N3YXBwZWQmIzMy
+O3JhcGlkbHkuDQoyLiYjMzI7QnkmIzMyO3JlcGxhY2luZyYjMzI7dGhlJiMzMjttZW1jcHkoKSYj
+MzI7d2l0aCYjMzI7bWVtY3B5X2ZsdXNoY2FjaGUoKSYjMzI7aW4mIzMyO3RoZSYjMzI7VVZDJiMz
+Mjtkcml2ZXIsDQomIzMyOyYjMzI7JiMzMjt0aGUmIzMyO2lzc3VlJiMzMjtkaXNhcHBlYXJzLg0K
+My4mIzMyO0J5JiMzMjthZGRpbmcmIzMyOy5maW5pc2gmIzMyO2NhbGxiYWNrJiMzMjtpbiYjMzI7
+dmlkZW9idWYyLXZtYWxsb2MuYyYjMzI7dG8mIzMyO2ZsdXNoJiMzMjt0aGUmIzMyO2NhY2hlDQom
+IzMyOyYjMzI7JiMzMjtiZWZvcmUmIzMyO3JldHVybmluZyYjMzI7dGhlJiMzMjtidWZmZXIsJiMz
+Mjt0aGUmIzMyO2lzc3VlJiMzMjtkaXNhcHBlYXJzLg0KDQpJdCYjMzI7c2VlbXMmIzMyO3RvJiMz
+MjtsYWNrJiMzMjthJiMzMjtjYWNoZSYjMzI7Zmx1c2gmIzMyO3N0YWdlJiMzMjtpbiYjMzI7ZWl0
+aGVyJiMzMjtVVkMmIzMyO29yJiMzMjtEaXNwbGF5LiYjMzI7V2UmIzMyO21heSYjMzI7YWxzbw0K
+bmVlZCYjMzI7Y29tbXVuaWNhdGlvbiYjMzI7YmV0d2VlbiYjMzI7dGhlJiMzMjtwcm9kdWNlciYj
+MzI7YW5kJiMzMjtjb25zdW1lci4mIzMyO1RoZW4sJiMzMjt0aGV5JiMzMjtjYW4mIzMyO2RlY2lk
+ZQ0Kd2hvJiMzMjtpcyYjMzI7cmVzcG9uc2libGUmIzMyO2ZvciYjMzI7dGhlJiMzMjtmbHVzaGlu
+ZyYjMzI7dG8mIzMyO2F2b2lkJiMzMjtmbHVzaGluZyYjMzI7Y2FjaGUmIzMyO3VuY29uZGl0aW9u
+YWxseQ0KbGVhZGluZyYjMzI7dG8mIzMyO3RoZSYjMzI7cGVyZm9ybWFuY2UmIzMyO2ltcGFjdC4N
+Cg0KUmVnYXJkcywNCkFuZHkmIzMyO0hzaWVoDQoNCjwvcHJlPjwhLS10eXBlOnRleHQtLT48IS0t
+ey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90aWNlICoq
+KioqKioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1t
+YWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVu
+dGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20g
+ZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0K
+Y29udmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRp
+c3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9yIGNvcHlp
+bmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRl
+bmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5s
+YXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFp
+bCwgb3IgYmVsaWV2ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwgaW4gZXJy
+b3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0ZWx5IChieSByZXBseWluZyB0
+byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMgb2YgDQp0aGlzIGUtbWFp
+bCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5b3VyIHN5c3RlbSwgYW5kIGRvIG5v
+dA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8gYW55IG90aGVyIHBlcnNv
+bi4gVGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
 
-[...]
+--__=_Part_Boundary_009_1114104928.894808417
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> > > +
-> > > +        spi-rx-bus-width:
-> > > +          const: 1
-> > > +
-> > > +        spi-tx-bus-width:
-> > > +          const: 1
-> >
-> > You can just use a more relaxed constraint "enum: [1 2 4 8]" here
-> > irrespective from the compatible string. The modern DW APB SSI
-> > controllers of v.4.* and newer also support the enhanced SPI Modes too
-> > (Dual, Quad and Octal). Since the IP-core version is auto-detected at
-> > run-time there is no way to create a DT-schema correctly constraining
-> > the Rx/Tx SPI bus widths. So let's keep the
-> > compatible-string-independent "patternProperties" here but just extend
-> > the set of acceptable "spi-rx-bus-width" and "spi-tx-bus-width"
-> > properties values.
-> >
+T24gMi8xNi8yMSA0OjM5IEFNLCBOaWNvbGFzIER1ZnJlc25lIHdyb3RlOg0KPiBMZSBsdW5kaSAx
+NSBmw6l2cmllciAyMDIxIMOgIDA5OjU4ICswMTAwLCBDaHJpc3RpYW4gS8O2bmlnIGEgw6ljcml0
+wqA6DQo+PiBIaSBndXlzLA0KPj4NCj4+IHdlIGFyZSBjdXJyZW50bHkgd29ya2luZyBhbiBGcmVl
+c3luYyBhbmQgZGlyZWN0IHNjYW4gb3V0IGZyb20gc3lzdGVtIA0KPj4gbWVtb3J5IG9uIEFNRCBB
+UFVzIGluIEErQSBsYXB0b3BzLg0KPj4NCj4+IE9uIHByb2JsZW0gd2Ugc3R1bWJsZWQgb3ZlciBp
+cyB0aGF0IG91ciBkaXNwbGF5IGhhcmR3YXJlIG5lZWRzIHRvIHNjYW4gDQo+PiBvdXQgZnJvbSB1
+bmNhY2hlZCBzeXN0ZW0gbWVtb3J5IGFuZCB3ZSBjdXJyZW50bHkgZG9uJ3QgaGF2ZSBhIHdheSB0
+byANCj4+IGNvbW11bmljYXRlIHRoYXQgdGhyb3VnaCBETUEtYnVmLg0KPj4NCj4+IEZvciBvdXIg
+c3BlY2lmaWMgdXNlIGNhc2UgYXQgaGFuZCB3ZSBhcmUgZ29pbmcgdG8gaW1wbGVtZW50IHNvbWV0
+aGluZyANCj4+IGRyaXZlciBzcGVjaWZpYywgYnV0IHRoZSBxdWVzdGlvbiBpcyBzaG91bGQgd2Ug
+aGF2ZSBzb21ldGhpbmcgbW9yZSANCj4+IGdlbmVyaWMgZm9yIHRoaXM/DQo+IA0KPiBIb3BlZnVs
+bHkgSSdtIGdldHRpbmcgdGhpcyByaWdodCwgYnV0IHRoaXMgbWFrZXMgbWUgdGhpbmsgb2YgYSBs
+b25nIHN0YW5kaW5nDQo+IGlzc3VlIEkndmUgbWV0IHdpdGggSW50ZWwgRFJNIGFuZCBVVkMgZHJp
+dmVyLiBJZiBJIGxldCB0aGUgVVZDIGRyaXZlciBhbGxvY2F0ZQ0KPiB0aGUgYnVmZmVyLCBhbmQg
+aW1wb3J0IHRoZSByZXN1bHRpbmcgRE1BQnVmIChjYWNoZWFibGUgbWVtb3J5IHdyaXR0ZW4gd2l0
+aCBhIGNwdQ0KPiBjb3B5IGluIHRoZSBrZXJuZWwpIGludG8gRFJNLCB3ZSBjYW4gc2VlIGNhY2hl
+IGFydGlmYWN0IGJlaW5nIGRpc3BsYXllZC4gV2hpbGUNCj4gaWYgSSB1c2UgdGhlIERSTSBkcml2
+ZXIgbWVtb3J5IChkdW1iIGJ1ZmZlciBpbiB0aGF0IGNhc2UpIGl0J3MgY2xlYW4gYmVjYXVzZQ0K
+PiB0aGVyZSBpcyBhIGRyaXZlciBzcGVjaWZpYyBzb2x1dGlvbiB0byB0aGF0Lg0KPiANCj4gVGhl
+cmUgaXMgbm8gb2J2aW91cyB3YXkgZm9yIHVzZXJzcGFjZSBhcHBsaWNhdGlvbiB0byBrbm93IHdo
+YXQncyBpcyByaWdodC93cm9uZw0KPiB3YXkgYW5kIGluIGZhY3QgaXQgZmVlbHMgbGlrZSB0aGUg
+a2VybmVsIGNvdWxkIHNvbHZlIHRoaXMgc29tZWhvdyB3aXRob3V0IGhhdmluZw0KPiB0byBpbmZv
+cm0gdXNlcnNwYWNlIChwZXJoYXBzKS4NCj4gDQo+Pg0KPj4gQWZ0ZXIgYWxsIHRoZSBzeXN0ZW0g
+bWVtb3J5IGFjY2VzcyBwYXR0ZXJuIGlzIGEgUENJZSBleHRlbnNpb24gYW5kIGFzIA0KPj4gc3Vj
+aCBzb21ldGhpbmcgZ2VuZXJpYy4NCj4+DQo+PiBSZWdhcmRzLA0KPj4gQ2hyaXN0aWFuLg0KPiAN
+Cj4gDQoNCkhpIEFsbCwNCg0KV2UgYWxzbyBlbmNvdW50ZXJlZCB0aGUgVVZDIGNhY2hlIGlzc3Vl
+IG9uIEFSTXY4IENQVSBpbiBNZWRpYXRlayBTb0Mgd2hlbg0KdXNpbmcgVVZDIGRtYWJ1Zi1leHBv
+cnQgYW5kIGZlZWRpbmcgdGhlIGRtYWJ1ZiB0byB0aGUgRFJNIGRpc3BsYXkgYnkgdGhlDQpmb2xs
+b3dpbmcgR1N0cmVhbWVyIGNvbW1hbmQ6DQoNCiMgZ3N0LWxhdW5jaC0xLjAgdjRsMnNyYyBkZXZp
+Y2U9L2Rldi92aWRlbzAgaW8tbW9kZT1kbWFidWYgISBrbXNzaW5rDQoNClVWQyBkcml2ZXIgdXNl
+cyB2aWRlb2J1ZjItdm1hbGxvYyB0byBhbGxvY2F0ZSBidWZmZXJzIGFuZCBpcyBhYmxlIHRvIGV4
+cG9ydA0KdGhlbSBhcyBkbWFidWYuIEJ1dCBVVkMgdXNlcyBtZW1jcHkoKSB0byBmaWxsIHRoZSBm
+cmFtZSBidWZmZXIgYnkgQ1BVIHdpdGhvdXQNCmZsdXNoaW5nIHRoZSBjYWNoZS4gU28gaWYgdGhl
+IGRpc3BsYXkgaGFyZHdhcmUgZGlyZWN0bHkgdXNlcyB0aGUgYnVmZmVyLCB0aGUNCmltYWdlIHNo
+b3duIG9uIHRoZSBzY3JlZW4gd2lsbCBiZSBkaXJ0eS4NCg0KSGVyZSBhcmUgc29tZSBleHBlcmlt
+ZW50czoNCg0KMS4gQnkgZG9pbmcgc29tZSBtZW1vcnkgb3BlcmF0aW9ucyAoZS5nLiBkZXZtZW0p
+IHdoZW4gc3RyZWFtaW5nIHRoZSBVVkMsDQogICB0aGUgaXNzdWUgaXMgbWl0aWdhdGVkLiBJIGd1
+ZXNzIHRoZSBjYWNoZSBpcyBzd2FwcGVkIHJhcGlkbHkuDQoyLiBCeSByZXBsYWNpbmcgdGhlIG1l
+bWNweSgpIHdpdGggbWVtY3B5X2ZsdXNoY2FjaGUoKSBpbiB0aGUgVVZDIGRyaXZlciwNCiAgIHRo
+ZSBpc3N1ZSBkaXNhcHBlYXJzLg0KMy4gQnkgYWRkaW5nIC5maW5pc2ggY2FsbGJhY2sgaW4gdmlk
+ZW9idWYyLXZtYWxsb2MuYyB0byBmbHVzaCB0aGUgY2FjaGUNCiAgIGJlZm9yZSByZXR1cm5pbmcg
+dGhlIGJ1ZmZlciwgdGhlIGlzc3VlIGRpc2FwcGVhcnMuDQoNCkl0IHNlZW1zIHRvIGxhY2sgYSBj
+YWNoZSBmbHVzaCBzdGFnZSBpbiBlaXRoZXIgVVZDIG9yIERpc3BsYXkuIFdlIG1heSBhbHNvDQpu
+ZWVkIGNvbW11bmljYXRpb24gYmV0d2VlbiB0aGUgcHJvZHVjZXIgYW5kIGNvbnN1bWVyLiBUaGVu
+LCB0aGV5IGNhbiBkZWNpZGUNCndobyBpcyByZXNwb25zaWJsZSBmb3IgdGhlIGZsdXNoaW5nIHRv
+IGF2b2lkIGZsdXNoaW5nIGNhY2hlIHVuY29uZGl0aW9uYWxseQ0KbGVhZGluZyB0byB0aGUgcGVy
+Zm9ybWFuY2UgaW1wYWN0Lg0KDQpSZWdhcmRzLA0KQW5keSBIc2llaA0K
 
-> > Note the DW APB SSI/AHB SSI driver currently doesn't support the
-> > enhanced SPI modes. So I am not sure whether the multi-lines Rx/Tx SPI
-> > bus indeed works for Canaan K210 AHB SSI controller. AFAICS from the
-> > DW APB SSI v4.01a manual the Enhanced SPI mode needs to be properly
-> > activated by means of the corresponding CSR. So most likely the DW AHB
-> > SSI controllers need some specific setups too.
-> 
-> That doesn't matter here, as DT describes hardware, not software
-> limitations.
+--__=_Part_Boundary_009_1114104928.894808417--
 
-Can't argue with that.) My note regarding the current DW APB SSI
-driver was mainly addressed for the Canaan K210 users, since
-should the SoC-based board really have the Quad Tx/Rx SPI bus
-most likely the interface won't work with the full bandwidth.
-So it is a good reason to perform the platform research and if
-possible alter the driver accordingly.
-
--Sergey
-
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
