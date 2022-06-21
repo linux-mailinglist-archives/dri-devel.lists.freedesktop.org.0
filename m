@@ -1,48 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71AF55304E
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 12:58:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3434955305B
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 13:01:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2BF5112120;
-	Tue, 21 Jun 2022 10:58:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB6B111201E;
+	Tue, 21 Jun 2022 11:01:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEDC5112120;
- Tue, 21 Jun 2022 10:58:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1655809125; x=1687345125;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=m6EajMgBB+kQe2Y6cp8McOQ/aNlgO0ZhP50u9W1BvIA=;
- b=pd8YLWkhhCzuueZYieyqRYf2LBOZfb9ivdUobtkt6BDlvqT19clsnKR/
- box8Nv+1PfzeU5aPIk+Srr7fNcYe8VYLlv6EUsyfx9oUw+60H3/P9Wv2S
- dWSPOpzWmDzULiZC14MbWBQf6ofjUBbXnjqET2tc76B7y57sgj7fLiEeK Q=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 21 Jun 2022 03:58:44 -0700
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 21 Jun 2022 03:53:43 -0700
-X-QCInternal: smtphost
-Received: from vpolimer-linux.qualcomm.com ([10.204.67.235])
- by ironmsg01-blr.qualcomm.com with ESMTP; 21 Jun 2022 16:23:31 +0530
-Received: by vpolimer-linux.qualcomm.com (Postfix, from userid 463814)
- id BDAB03D5E; Tue, 21 Jun 2022 16:23:30 +0530 (IST)
-From: Vinod Polimera <quic_vpolimer@quicinc.com>
-To: y@qualcomm.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: [v3 5/5] drm/msm/disp/dpu1: add PSR support for eDP interface in dpu
- driver
-Date: Tue, 21 Jun 2022 16:23:20 +0530
-Message-Id: <1655808800-3996-6-git-send-email-quic_vpolimer@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1655808800-3996-1-git-send-email-quic_vpolimer@quicinc.com>
-References: <y>
- <1655808800-3996-1-git-send-email-quic_vpolimer@quicinc.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB00A11201E
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 11:01:10 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6A2DC218D6;
+ Tue, 21 Jun 2022 11:01:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1655809269; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=spBrzoSkvq15DEMtBlvMu2SLKNcBSntl2+RpTFfjYhM=;
+ b=UUIoANSQ5tpF0fsAxLS/S9TLy2jg4JAVuEHKSkYsuH2R+qA3PEBXHfYM++OW+N4uA8C3iO
+ Un7uWrEpcERuHboVNfluQMeAZb5ptdJQlyA4d/wR2dpynhBsTRfCZnQ6BTXbtaxfNY47uF
+ cuDw0SWzDfSo8l8X0yfAUxOP1jMYGzU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1655809269;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=spBrzoSkvq15DEMtBlvMu2SLKNcBSntl2+RpTFfjYhM=;
+ b=2+xKBiZ735LtBiZySej8dFM5shXTC8OYX3XrH0pZgVo5LhMCcxAg8JHeVYokI6Sw/Nj8Lx
+ sUENP2Olf1zrJRCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2FCB413A88;
+ Tue, 21 Jun 2022 11:01:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id yaPICvWksWILWgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 21 Jun 2022 11:01:09 +0000
+Message-ID: <e8b082ab-c3d5-b0cb-0d63-b4100b116b21@suse.de>
+Date: Tue, 21 Jun 2022 13:01:08 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] drm/aperture: Run fbdev removal before internal helpers
+Content-Language: en-US
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20220617121027.30273-1-tzimmermann@suse.de>
+ <47b627e1-5c87-f092-3ce8-a078898d0eb2@redhat.com>
+ <6f4dce03-b65a-c5cf-059f-392a06d37ec3@suse.de>
+ <20220617081259.594c1320.alex.williamson@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220617081259.594c1320.alex.williamson@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------WQaExk9do07E8GNN3B212yn9"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,185 +72,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
- linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org, swboyd@chromium.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>
+Cc: airlied@linux.ie, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, Changcheng Deng <deng.changcheng@zte.com.cn>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable PSR on eDP interface using drm self-refresh librabry.
-This patch uses a trigger from self-refresh library to enter/exit
-into PSR, when there are no updates from framework.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------WQaExk9do07E8GNN3B212yn9
+Content-Type: multipart/mixed; boundary="------------JJ3mxSP67EUjbVS30Ok0ngPV";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
+ Helge Deller <deller@gmx.de>, Alex Deucher <alexander.deucher@amd.com>,
+ Zhen Lei <thunder.leizhen@huawei.com>,
+ Changcheng Deng <deng.changcheng@zte.com.cn>, Zack Rusin <zackr@vmware.com>
+Message-ID: <e8b082ab-c3d5-b0cb-0d63-b4100b116b21@suse.de>
+Subject: Re: [PATCH] drm/aperture: Run fbdev removal before internal helpers
+References: <20220617121027.30273-1-tzimmermann@suse.de>
+ <47b627e1-5c87-f092-3ce8-a078898d0eb2@redhat.com>
+ <6f4dce03-b65a-c5cf-059f-392a06d37ec3@suse.de>
+ <20220617081259.594c1320.alex.williamson@redhat.com>
+In-Reply-To: <20220617081259.594c1320.alex.williamson@redhat.com>
 
-Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 36 ++++++++++++++++++++++++-----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 20 +++++++++++++++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  2 +-
- 3 files changed, 50 insertions(+), 8 deletions(-)
+--------------JJ3mxSP67EUjbVS30Ok0ngPV
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index b56f777..c6e4f03 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -18,6 +18,7 @@
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_rect.h>
- #include <drm/drm_vblank.h>
-+#include <drm/drm_self_refresh_helper.h>
- 
- #include "dpu_kms.h"
- #include "dpu_hw_lm.h"
-@@ -955,24 +956,39 @@ static void dpu_crtc_disable(struct drm_crtc *crtc,
- 									      crtc);
- 	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
- 	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc->state);
--	struct drm_encoder *encoder;
-+	struct drm_encoder *encoder = NULL;
- 	unsigned long flags;
- 	bool release_bandwidth = false;
- 
- 	DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
- 
-+	if (old_crtc_state->self_refresh_active) {
-+		drm_for_each_encoder_mask(encoder, crtc->dev,
-+					old_crtc_state->encoder_mask) {
-+			dpu_encoder_assign_crtc(encoder, NULL);
-+		}
-+		return;
-+	}
-+
- 	/* Disable/save vblank irq handling */
- 	drm_crtc_vblank_off(crtc);
- 
- 	drm_for_each_encoder_mask(encoder, crtc->dev,
- 				  old_crtc_state->encoder_mask) {
--		/* in video mode, we hold an extra bandwidth reference
-+		/*
-+		 * in video mode, we hold an extra bandwidth reference
- 		 * as we cannot drop bandwidth at frame-done if any
- 		 * crtc is being used in video mode.
- 		 */
- 		if (dpu_encoder_get_intf_mode(encoder) == INTF_MODE_VIDEO)
- 			release_bandwidth = true;
--		dpu_encoder_assign_crtc(encoder, NULL);
-+		/*
-+		 * If disable is triggered during psr active(e.g: screen dim in PSR),
-+		 * we will need encoder->crtc connection to process the device sleep &
-+		 * preserve it during psr sequence.
-+		 */
-+		if (!crtc->state->self_refresh_active)
-+			dpu_encoder_assign_crtc(encoder, NULL);
- 	}
- 
- 	/* wait for frame_event_done completion */
-@@ -1020,7 +1036,9 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
- 	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
- 	struct drm_encoder *encoder;
- 	bool request_bandwidth = false;
-+	struct drm_crtc_state *old_crtc_state;
- 
-+	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
- 	pm_runtime_get_sync(crtc->dev->dev);
- 
- 	DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
-@@ -1042,8 +1060,9 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
- 	trace_dpu_crtc_enable(DRMID(crtc), true, dpu_crtc);
- 	dpu_crtc->enabled = true;
- 
--	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
--		dpu_encoder_assign_crtc(encoder, crtc);
-+	if (!old_crtc_state->self_refresh_active)
-+		drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state->encoder_mask)
-+			dpu_encoder_assign_crtc(encoder, crtc);
- 
- 	/* Enable/restore vblank irq handling */
- 	drm_crtc_vblank_on(crtc);
-@@ -1525,7 +1544,7 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
- {
- 	struct drm_crtc *crtc = NULL;
- 	struct dpu_crtc *dpu_crtc = NULL;
--	int i;
-+	int i, ret;
- 
- 	dpu_crtc = kzalloc(sizeof(*dpu_crtc), GFP_KERNEL);
- 	if (!dpu_crtc)
-@@ -1562,6 +1581,11 @@ struct drm_crtc *dpu_crtc_init(struct drm_device *dev, struct drm_plane *plane,
- 	/* initialize event handling */
- 	spin_lock_init(&dpu_crtc->event_lock);
- 
-+	ret = drm_self_refresh_helper_init(crtc);
-+	if (ret)
-+		DPU_ERROR("Failed to initialize %s with self-refresh helpers %d\n",
-+			crtc->name, ret);
-+
- 	DRM_DEBUG_KMS("%s: successfully initialized crtc\n", dpu_crtc->name);
- 	return crtc;
- }
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index cc2809b..234e95d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -225,6 +225,11 @@ bool dpu_encoder_is_widebus_enabled(const struct drm_encoder *drm_enc)
- 	return dpu_enc->wide_bus_en;
- }
- 
-+static inline bool is_self_refresh_active(const struct drm_crtc_state *state)
-+{
-+	return (state && state->self_refresh_active);
-+}
-+
- static void _dpu_encoder_setup_dither(struct dpu_hw_pingpong *hw_pp, unsigned bpc)
- {
- 	struct dpu_hw_dither_cfg dither_cfg = { 0 };
-@@ -592,7 +597,8 @@ static int dpu_encoder_virt_atomic_check(
- 		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
- 			dpu_rm_release(global_state, drm_enc);
- 
--			if (!crtc_state->active_changed || crtc_state->active)
-+			if (!crtc_state->active_changed || crtc_state->active ||
-+					crtc_state->self_refresh_active)
- 				ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
- 						drm_enc, crtc_state, topology);
- 		}
-@@ -1171,11 +1177,23 @@ static void dpu_encoder_virt_atomic_disable(struct drm_encoder *drm_enc,
- 					struct drm_atomic_state *state)
- {
- 	struct dpu_encoder_virt *dpu_enc = NULL;
-+	struct drm_crtc *crtc;
-+	struct drm_crtc_state *old_state;
- 	int i = 0;
- 
- 	dpu_enc = to_dpu_encoder_virt(drm_enc);
- 	DPU_DEBUG_ENC(dpu_enc, "\n");
- 
-+	crtc = dpu_enc->crtc;
-+	old_state = drm_atomic_get_old_crtc_state(state, crtc);
-+
-+	/*
-+	 * The encoder disabled already occurred when self refresh mode
-+	 * was set earlier, in the old_state for the corresponding crtc.
-+	 */
-+	if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && is_self_refresh_active(old_state))
-+		return;
-+
- 	mutex_lock(&dpu_enc->enc_lock);
- 	dpu_enc->enabled = false;
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index bce4764..cc0a674 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -507,7 +507,7 @@ static void dpu_kms_wait_for_commit_done(struct msm_kms *kms,
- 		return;
- 	}
- 
--	if (!crtc->state->active) {
-+	if (!drm_atomic_crtc_effectively_active(crtc->state)) {
- 		DPU_DEBUG("[crtc:%d] not active\n", crtc->base.id);
- 		return;
- 	}
--- 
-2.7.4
+SGkNCg0KQW0gMTcuMDYuMjIgdW0gMTY6MTIgc2NocmllYiBBbGV4IFdpbGxpYW1zb246DQo+
+IE9uIEZyaSwgMTcgSnVuIDIwMjIgMTQ6NDE6MDEgKzAyMDANCj4gVGhvbWFzIFppbW1lcm1h
+bm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+IHdyb3RlOg0KPiANCj4+IEhpDQo+Pg0KPj4gQW0g
+MTcuMDYuMjIgdW0gMTQ6Mjkgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXM6DQo+
+Pj4gW2FkZGluZyBaYWNrIGFuZCBBbGV4IHRvIENjIGxpc3RdDQo+Pj4NCj4+PiBIZWxsbyBU
+aG9tYXMsDQo+Pj4NCj4+PiBUaGFua3MgYSBsb3QgZm9yIHRyYWNraW5nIHRoaXMgZG93biBh
+bmQgZmlndXJpbmcgb3V0IHRoZSByb290IGNhdXNlIQ0KPj4+DQo+Pj4gT24gNi8xNy8yMiAx
+NDoxMCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+Pj4+IEFsd2F5cyBydW4gZmJkZXYg
+cmVtb3ZhbCBmaXJzdCB0byByZW1vdmUgc2ltcGxlZHJtIHZpYQ0KPj4+PiBzeXNmYl9kaXNh
+YmxlKCkuIFRoaXMgY2xlYXJzIHRoZSBpbnRlcm5hbCBzdGF0ZS4gVGhlIGxhdGVyIGNhbGwN
+Cj4+Pj4gdG8gZHJtX2FwZXJ0dXJlX2RldGFjaF9kcml2ZXJzKCkgdGhlbiBkb2VzIG5vdGhp
+bmcuIE90aGVyd2lzZSwNCj4+Pj4gd2l0aCBkcm1fYXBlcnR1cmVfZGV0YWNoX2RyaXZlcnMo
+KSBydW5uaW5nIGZpcnN0LCB0aGUgY2FsbCB0bw0KPj4+PiBzeXNmYl9kaXNhYmxlKCkgdXNl
+cyBpbmNvbnNpc3RlbnQgc3RhdGUuDQo+Pj4+DQo+Pj4+IEV4YW1wbGUgYmFja3RyYWNlIHNo
+b3cgYmVsb3c6DQo+Pj4+DQo+Pj4+IFsgICAxMS42NjM0MjJdID09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPj4+
+PiBbICAgMTEuNjYzNDI2XSBCVUc6IEtBU0FOOiB1c2UtYWZ0ZXItZnJlZSBpbiBkZXZpY2Vf
+ZGVsKzB4NzkvMHg1ZjANCj4+Pj4gWyAgIDExLjY2MzQzNV0gUmVhZCBvZiBzaXplIDggYXQg
+YWRkciBmZmZmODg4MTA4MTg1MDUwIGJ5IHRhc2sgc3lzdGVtZC11ZGV2ZC8zMTENCj4+Pj4g
+WyAgIDExLjY2MzQ0MF0gQ1BVOiAwIFBJRDogMzExIENvbW06IHN5c3RlbWQtdWRldmQgVGFp
+bnRlZDogRyAgICAgICAgICAgIEUgICAgIDUNCj4+Pj4gCS4xOS4wLXJjMi0xLWRlZmF1bHQr
+ICMxNjg5DQo+Pj4+IFsgICAxMS42NjM0NDVdIEhhcmR3YXJlIG5hbWU6IEhQIFByb0xpYW50
+IERMMTIwIEc3LCBCSU9TIEowMSAwNC8yMS8yMDExDQo+Pj4+IFsgICAxMS42NjM0NDddIENh
+bGwgVHJhY2U6DQo+Pj4+IFsgICAxMS42NjM0NDldICA8VEFTSz4NCj4+Pj4gWyAgIDExLjY2
+MzQ1MV0gID8gZGV2aWNlX2RlbCsweDc5LzB4NWYwDQo+Pj4+IFsgICAxMS42NjM0NTZdICBk
+dW1wX3N0YWNrX2x2bCsweDViLzB4NzMNCj4+Pj4gWyAgIDExLjY2MzQ2Ml0gIHByaW50X2Fk
+ZHJlc3NfZGVzY3JpcHRpb24uY29uc3Rwcm9wLjArMHgxZi8weDFiMA0KPj4+PiBbICAgMTEu
+NjYzNDY4XSAgPyBkZXZpY2VfZGVsKzB4NzkvMHg1ZjANCj4+Pj4gWyAgIDExLjY2MzQ3MV0g
+ID8gZGV2aWNlX2RlbCsweDc5LzB4NWYwDQo+Pj4+IFsgICAxMS42NjM0NzVdICBwcmludF9y
+ZXBvcnQuY29sZCsweDNjLzB4MjFjDQo+Pj4+IFsgICAxMS42NjM0ODFdICA/IGxvY2tfYWNx
+dWlyZWQrMHg4Ny8weDFlMA0KPj4+PiBbICAgMTEuNjYzNDg0XSAgPyBsb2NrX2FjcXVpcmVk
+KzB4ODcvMHgxZTANCj4+Pj4gWyAgIDExLjY2MzQ4OV0gID8gZGV2aWNlX2RlbCsweDc5LzB4
+NWYwDQo+Pj4+IFsgICAxMS42NjM0OTJdICBrYXNhbl9yZXBvcnQrMHhiZi8weGYwDQo+Pj4+
+IFsgICAxMS42NjM0OThdICA/IGRldmljZV9kZWwrMHg3OS8weDVmMA0KPj4+PiBbICAgMTEu
+NjYzNTAzXSAgZGV2aWNlX2RlbCsweDc5LzB4NWYwDQo+Pj4+IFsgICAxMS42NjM1MDldICA/
+IGRldmljZV9yZW1vdmVfYXR0cnMrMHgxNzAvMHgxNzANCj4+Pj4gWyAgIDExLjY2MzUxNF0g
+ID8gbG9ja19pc19oZWxkX3R5cGUrMHhlOC8weDE0MA0KPj4+PiBbICAgMTEuNjYzNTIzXSAg
+cGxhdGZvcm1fZGV2aWNlX2RlbC5wYXJ0LjArMHgxOS8weGUwDQo+Pj4+IFsgICAxMS42NjM1
+MzBdICBwbGF0Zm9ybV9kZXZpY2VfdW5yZWdpc3RlcisweDFjLzB4MzANCj4+Pj4gWyAgIDEx
+LjY2MzUzNV0gIHN5c2ZiX2Rpc2FibGUrMHgyZC8weDcwDQo+Pj4+IFsgICAxMS42NjM1NDBd
+ICByZW1vdmVfY29uZmxpY3RpbmdfZnJhbWVidWZmZXJzKzB4MWMvMHhmMA0KPj4+PiBbICAg
+MTEuNjYzNTQ2XSAgcmVtb3ZlX2NvbmZsaWN0aW5nX3BjaV9mcmFtZWJ1ZmZlcnMrMHgxMzAv
+MHgxYTANCj4+Pj4gWyAgIDExLjY2MzU1NF0gIGRybV9hcGVydHVyZV9yZW1vdmVfY29uZmxp
+Y3RpbmdfcGNpX2ZyYW1lYnVmZmVycysweDg2LzB4YjANCj4+Pj4gWyAgIDExLjY2MzU2MV0g
+ID8gbWdhZzIwMF9wY2lfcmVtb3ZlKzB4MzAvMHgzMCBbbWdhZzIwMF0NCj4+Pj4gWyAgIDEx
+LjY2MzU3OF0gIG1nYWcyMDBfcGNpX3Byb2JlKzB4MmQvMHgxNDAgW21nYWcyMDBdDQo+Pj4+
+ICAgDQo+Pj4NCj4+PiBNYXliZSBpbmNsdWRlIGEgUmVwb3J0ZWQtYnk6IFphY2sgUnVzaW4g
+PHphY2tyQHZtd2FyZS5jb20+ID8gc2luY2UNCj4+PiB0aGlzIHNlZW1zIHRvIGJlIHRoZSBl
+eGFjdCBzYW1lIGlzc3VlIHRoYXQgaGUgcmVwb3J0ZWQgeWVzdGVyZGF5Lg0KPj4NCj4+IEkn
+bGwgZG8uDQo+Pg0KPj4+DQo+Pj4gUGF0Y2ggbG9va3MgZ29vZCB0byBtZSBhbmQgdGhpcyBz
+ZWVtcyB0byBiZSB0aGUgY29ycmVjdCBmaXggSU1PLg0KPj4+IFRoYXQgd2F5IHdlIHdvbid0
+IHJlLWludHJvZHVjZSB0aGUgaXNzdWUgdGhhdCB3YXMgZml4ZWQgYnkgdGhlDQo+Pj4gc3lz
+ZmJfdW5yZWdpc3RlcigpIGZ1bmN0aW9uLCB0aGF0IGlzIHRvIHJlbW92ZSBhIHBkZXYgZXZl
+biBpZiB3YXNuJ3QNCj4+PiBib3VuZCB0byBhIGRyaXZlciB0byBwcmV2ZW50IGEgbGF0ZSBz
+aW1wbGVkcm0gcmVnaXN0cmF0aW9uIHRvIG1hdGNoLg0KPj4+DQo+Pj4gUmV2aWV3ZWQtYnk6
+IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyA8amF2aWVybUByZWRoYXQuY29tPg0KPj4NCj4+
+IFRoYW5rcyENCj4+DQo+Pj4NCj4+PiBJIHdvbmRlciB3aGF0J3MgdGhlIGJlc3Qgd2F5IHRv
+IGNvb3JkaW5hdGUgd2l0aCBBbGV4IHRvIG1lcmdlIHRoaXMNCj4+PiBmaXggYW5kIHlvdXIg
+cGF0Y2ggdGhhdCBtb3ZlcyB0aGUgYXBlcnR1cmUgY29kZSBvdXQgb2YgRFJNLCBzaW5jZQ0K
+Pj4+IGFzIGZhciBhcyBJIGNhbiB0ZWxsIGJvdGggc2hvdWxkIHRhcmdldCB0aGUgdjUuMjAg
+cmVsZWFzZS4NCj4+DQo+PiBJZiBub3RoaW5nIGVsc2UgY29tZXMgaW4sIEknbGwgbWVyZ2Ug
+dGhpcyBwYXRjaCBvbiBNb25kYXkgYW5kIHNlbmQgQWxleA0KPj4gYW4gdXBkYXRlZCB2ZXJz
+aW9uIG9mIHRoZSB2ZmlvIHBhdGNoLg0KPiANCj4gUGxlYXNlIGFsc28gcHVibGlzaCBhIHRv
+cGljIGJyYW5jaCBmb3IgdGhlIGJhc2Ugb2YgdGhhdCBwYXRjaCBpZiB5b3UncmUNCj4gc3Rp
+bGwgbG9va2luZyBmb3IgdGhlIG5vbi1kcm0gYXBlcnR1cmUgKyB2ZmlvIHNlcmllcyB0byBn
+byBpbiB0aHJvdWdoIG15DQo+IHZmaW8gdHJlZS4gIFRoYW5rcywNCg0KSSBoYXZlIG1lcmdl
+IHRoZSBhcGVydHVyZSBmaXgsIGJ1dCB0aGUgdmZpbyB0aGluZyBpcyBnZXR0aW5nIA0KY29t
+cGxpY2F0ZWQuIENhbiB3ZSBtZXJnZSB5b3VyIHZmaW8gcGF0Y2hlcyB0aHJvdWdoIGRybS1t
+aXNjLW5leHQ/IEFzIA0KdGhlIHZmaW8tc2lkZSBvZiB0aGUgY2hhbmdlIGFscmVhZHkgZ290
+IGFuIHItYiBmcm9tIEphdmllciwgaXQgc2hvdWxkIA0Kc2hvdyB1cCBpbiB2NS4yMCB0aGVu
+Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBBbGV4DQo+IA0KDQotLSANClRo
+b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
+YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
+YmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bD
+vGhyZXI6IEl2byBUb3Rldg0K
 
+--------------JJ3mxSP67EUjbVS30Ok0ngPV--
+
+--------------WQaExk9do07E8GNN3B212yn9
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmKxpPQFAwAAAAAACgkQlh/E3EQov+B3
+LxAAwHj7wlMXNfmbA3geTxs+1DqdJk3+YG8MvPASM0l3X5WZjBDvsA8dwLM98seUIJftJiBw1tdy
+bJG0+LzFW3cFdDar6Yqbq++ykFiB3SZf+jR/z/eC47CJokHl2J0C3oUDlpEE5XG2VyDmOV/KNNlA
+MhaR9xh2h3QWCnFxfOaH3XVlMhWQ7mDmHgEqMJzFG3h+vaRa2w5xJDXhasf4NqaaZ0lJd5aKB9AM
+vMYcI0JDzFnTBnt1vEn323Hi+RnzXXR8ODbiVHOI9iEKzkNbb0nxftoRGp4FmVL0Y2RbJKJdSrqe
+q7OhY+Tf/LTkN3WU6/hppbVze6XJSZGWG0wDtmk22NrRBWdwV6rMPfYi9ybQZsRKRu1QBTebfHbI
+6S76be2nh5wAEavflBexFEUonYSOm47LxWe51Yvfehs9jKO2UH1heZTDvCuoAU4xo0KhxubbJRpO
+tqdThclAJKnHdlbReUGnd4DwPjj1JweLRVN5bedh12b6tscuaLYi4s81hsU7XE+u1/xMoSB3XKyH
+Nn4nqwplqLF5DPCdmBdX0wqo6Crlu0AFFmYK1HXgkGnt3VzW5eufPohC4n2+lsCE5hOy91iyChxq
+ldMmnGY50LXkSAyzBcYDdJhyzgnlont/s315gUWNgFS//I3x5UN0VfE+5vFG4zbTP3OsnbfvgpU2
+o08=
+=i6w1
+-----END PGP SIGNATURE-----
+
+--------------WQaExk9do07E8GNN3B212yn9--
