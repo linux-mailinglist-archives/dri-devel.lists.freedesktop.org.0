@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970A9552BCB
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD9C552AB3
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 08:02:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A6A010F22F;
-	Tue, 21 Jun 2022 07:24:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EECC7112741;
+	Tue, 21 Jun 2022 06:02:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
- [IPv6:2001:4860:4864:20::33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8223112346;
- Tue, 21 Jun 2022 02:27:02 +0000 (UTC)
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-101e1a33fe3so6496842fac.11; 
- Mon, 20 Jun 2022 19:27:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y+H1yHRewfJ4TeRG+Yh5+qo4qD6sH1lCnmTiIvv7tW0=;
- b=YyMolUb7ycdPjzRVy7pn12nfKpgJZLRONkCxbxidaLJd+PRKgP27CLmQVbYuBM+yx2
- wb4CXQr1x9X2F3ICjltUjg/CBS1Klyu+TqSnHyIqNI/uoiogIdLyiveU9rb2tl5oAlIK
- PdE4ClbtKV1JLYOxhY+VFQL1gFuuHihE3kmlBEEEjrPVZrA+eNP4x/v7Fiu7BHetlAv2
- L3uhVWKK3LlZ808xO9sHxzGrpeJbFwpwy3d0c5uNqzXbPBUgn5CIUe9DPvlXtwmCY1t6
- QzmNI5sYUK+K+J0BWXdpWUdOeIeemze4Vfv9JyB/bxPeZ8PzZWRoaMdbsnUDugtZczIO
- L5ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=y+H1yHRewfJ4TeRG+Yh5+qo4qD6sH1lCnmTiIvv7tW0=;
- b=fkFVFOGDZus8JHZlXTDEPWotrE/T3E6A/IRlr2d1KiMbAzAK22M6ZSY34nkMNcI8pd
- 6RpSYDSH00FHL0tHmDhpqm83tfA6Qz0Qc55eiLcClDGMM2Bt40MqIaqcteFzKDHKyrt0
- iUNStVMx4cfypr9vFE7K1Zcy37tkzSRFgv+S5pnqTCuSCs2oxHEH3ZO75rNdJTzU7vGH
- SvlPbb9RuE+qCkIUm+P3VAROuDgRLCOTZqrmSVpnIBhKIIiBY4hWngz4XnlLruynjANc
- NMsTb+TuLZnOgp+mUidEfeJrSfO4SDnsmlGjCPQIiIVVDSw24vuD17oCk0EtS50e/FpH
- a/TA==
-X-Gm-Message-State: AJIora8el15FRmiMdqfsACEmerKiJ6nWKodQB6EXIwR9ZyIjjV2XnR82
- vS9Ze9wKhk1sEvqXC6DNCfsEfYkeC+ZRBRxptIc=
-X-Google-Smtp-Source: AGRyM1t9kYo9o6DosEPpQPNwOSkcM6g15Kxfltr5dCVQzIi38dGqVpWj4IuRrNzrmQGdtQ+lJx2gNUynP8rXFjLYsVI=
-X-Received: by 2002:a05:6870:4393:b0:101:aef4:703d with SMTP id
- r19-20020a056870439300b00101aef4703dmr10018636oah.69.1655778421926; Mon, 20
- Jun 2022 19:27:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220620100216.1791284-1-zys.zljxml@gmail.com>
- <7a2028c6-8ed6-1fc4-3abf-b13f7254cdee@linux.intel.com>
-In-Reply-To: <7a2028c6-8ed6-1fc4-3abf-b13f7254cdee@linux.intel.com>
-From: Katrin Jo <zys.zljxml@gmail.com>
-Date: Tue, 21 Jun 2022 10:26:51 +0800
-Message-ID: <CAOaDN_T_ZVCfhmbqd1AJnt3vhTuxnGhKsxG2fjjF8-u4wXOBcg@mail.gmail.com>
-Subject: Re: [PATCH] drm/i915/gem: remove unused assignments
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17FAB112741
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 06:02:34 +0000 (UTC)
+X-UUID: d13e0d2bb95c46bdb5565224bbad7c1a-20220621
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6, REQID:46f7eb74-bb30-45b8-a74b-01ebac6c9d2d, OB:10,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:45
+X-CID-INFO: VERSION:1.1.6, REQID:46f7eb74-bb30-45b8-a74b-01ebac6c9d2d, OB:10,
+ LOB
+ :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:45
+X-CID-META: VersionHash:b14ad71, CLOUDID:8e1014ea-f7af-4e69-92ee-0fd74a0c286c,
+ C
+ OID:128492dad9fc,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: d13e0d2bb95c46bdb5565224bbad7c1a-20220621
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 410090368; Tue, 21 Jun 2022 14:02:31 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Tue, 21 Jun 2022 14:02:30 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Tue, 21 Jun 2022 14:02:30 +0800
+Message-ID: <0d35d7b6e0677b6eb1118c5a180229bfbdc77e7b.camel@mediatek.com>
+Subject: Re: [PATCH v12 13/14] drm/mediatek: dpi: Only enable dpi after the
+ bridge is enabled
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <matthias.bgg@gmail.com>,
+ <airlied@linux.ie>
+Date: Tue, 21 Jun 2022 14:02:30 +0800
+In-Reply-To: <f8915cb4af91375dc9d7fc9c51f04863dd3e97dd.camel@mediatek.com>
+References: <20220620121028.29234-1-rex-bc.chen@mediatek.com>
+ <20220620121028.29234-14-rex-bc.chen@mediatek.com>
+ <f8915cb4af91375dc9d7fc9c51f04863dd3e97dd.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Tue, 21 Jun 2022 07:24:08 +0000
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,64 +68,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: bob.beckett@collabora.com, thomas.hellstrom@linux.intel.com,
- katrinzhou <katrinzhou@tencent.com>, airlied@linux.ie,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com, kernel@collabora.com,
- matthew.auld@intel.com
+Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 20, 2022 at 6:19 PM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 20/06/2022 11:02, zys.zljxml@gmail.com wrote:
-> > From: katrinzhou <katrinzhou@tencent.com>
-> >
-> > The variable ret is reassigned and the value EINVAL is never used.
-> > Thus, remove the unused assignments.
-> >
-> > Addresses-Coverity: ("Unused value")
-> > Fixes: d4433c7600f7 ("drm/i915/gem: Use the proto-context to handle create parameters (v5)")
-> > Signed-off-by: katrinzhou <katrinzhou@tencent.com>
-> > ---
-> >   drivers/gpu/drm/i915/gem/i915_gem_context.c | 2 --
-> >   1 file changed, 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > index ab4c5ab28e4d..d5ef5243673a 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> > @@ -931,8 +931,6 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
-> >               break;
-> >
-> >       case I915_CONTEXT_PARAM_PERSISTENCE:
-> > -             if (args->size)
-> > -                     ret = -EINVAL;
-> >               ret = proto_context_set_persistence(fpriv->dev_priv, pc,
-> >                                                   args->value);
->
-> AFAICT fix should end up with code like this:
->
-> if (args->size)
->         ret = -EINVAL;
-> else
->         ret = proto_context_set_persistence(...)
-> break;
->
->
-> Alternatively move args->size checking into
-> proto_context_set_persistence to align with set_persistence().
->
+On Tue, 2022-06-21 at 11:18 +0800, CK Hu wrote:
+> Hi, Bo-Chen:
+> 
+> On Mon, 2022-06-20 at 20:10 +0800, Bo-Chen Chen wrote:
+> > From: Guillaume Ranquet <granquet@baylibre.com>
+> > 
+> > Enabling the dpi too early causes glitches on screen.
+> > 
+> > Move the call to mtk_dpi_enable() at the end of the bridge_enable
+> > callback to ensure everything is setup properly before enabling
+> > dpi.
+> > 
+> > Fixes: f89c696e7f63 ("drm/mediatek: mtk_dpi: Convert to bridge
+> > driver")
+> 
+> I think this problem happen in the first patch [1].
+> 
+> [1] 
+> 
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/commit/drivers/gpu/drm/mediatek/mtk_dpi.c?h=mediatek-drm-next&id=9e629c17aa8d7a75b8c1d99ed42892cd8ba7cdc4
+> 
 > Regards,
->
-> Tvrtko
->
-> >               break;
+> CK
+> 
 
-Thanks for reviewing! I sent the V2 patch, modified according to your
-suggestion.
+ok, I will fix this.
 
-Best Regards,
-Katrin
+BRs,
+Bo-Chen
+
+> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_dpi.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > index fc76ccad0a82..220e9b18e2cd 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > @@ -486,7 +486,6 @@ static int mtk_dpi_power_on(struct mtk_dpi
+> > *dpi)
+> >  	if (dpi->pinctrl && dpi->pins_dpi)
+> >  		pinctrl_select_state(dpi->pinctrl, dpi->pins_dpi);
+> >  
+> > -	mtk_dpi_enable(dpi);
+> >  	return 0;
+> >  
+> >  err_pixel:
+> > @@ -731,6 +730,7 @@ static void mtk_dpi_bridge_enable(struct
+> > drm_bridge *bridge)
+> >  
+> >  	mtk_dpi_power_on(dpi);
+> >  	mtk_dpi_set_display_mode(dpi, &dpi->mode);
+> > +	mtk_dpi_enable(dpi);
+> >  }
+> >  
+> >  static enum drm_mode_status
+> 
+> 
+
