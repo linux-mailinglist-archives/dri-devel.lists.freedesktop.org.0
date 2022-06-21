@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BEE552BDD
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:25:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C8A552BE5
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 09:26:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D4AD10FDD7;
-	Tue, 21 Jun 2022 07:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B581112464;
+	Tue, 21 Jun 2022 07:26:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E37610FDD7;
- Tue, 21 Jun 2022 07:25:16 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id c13so13636280eds.10;
- Tue, 21 Jun 2022 00:25:16 -0700 (PDT)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A28E3112380;
+ Tue, 21 Jun 2022 07:26:54 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id cw10so1810944ejb.3;
+ Tue, 21 Jun 2022 00:26:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=2S7w5ZPCedGE766t3ia7UJGUwyc737bpIP2qRPiGFBI=;
- b=S+99Sfx2YnIZtF1gzAF1s/j3LkHJtQOV6XKDxfMmghUYGMygD+g9Cx3w/mzrgHu35y
- 76YQbbVHddVBN2F4RXL8TJWBZUPPh1OvYyT2vBREARU9KmnlBcvZG0Hez89GTM0mB6UG
- Pye2Ou3XUcu6G2uD+gtuMt6LSDudFXDOEWEZlOROkgjR2PENC3Eoo/NVY8lKD/am68BZ
- tSCHlqufz/20NVZur9Xv+Ls0rmkYz5VXIdSPhM8Ta/rJGP22+o4/O0SK5kEF0L5Ft0LD
- wRmG8Lq8lOkTtzLvjZ20AltUrBxpPaMOAylugVEORI2tzK03cmEwvAelZObgg7EYeUNA
- Z57Q==
+ bh=J/FXHf63jaZ4CP1Ip+M+iIXOar4uXhS4dHznXju5cys=;
+ b=pafHcelc2F0jE3wEBa11Kuw/lhX4WkbQcdTl2zOO9wMpiG3h85diqzoIBdBg/ijB0q
+ q61Y3NgPfJW/AcGNO/HctyIPVDDwxvLDjzU/OYcFKG7WsoJETEW6+yyw0fNLlw0uN7iu
+ DC8lkAdwtF6aU9FxRRAVdb2Awj+FVSuywsDTKbLheEDz0HZG0p3o2T7iTaxYBxg5ljub
+ 6V5JEvH/6bwJrwF5wXx5kTR08WALZGpI/E535pGaCQYmmmMkJTRKSaEX63EUqnKW3UWJ
+ xb/kgQsRnB0CTVqw3MD8thB+zdERXBfDFzXw171rRqqWbRMdIMM50enewJFEWimWWwYy
+ 522Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=2S7w5ZPCedGE766t3ia7UJGUwyc737bpIP2qRPiGFBI=;
- b=l7lhAeRaE0965Yl0JD2PRloBU1/oYSUT6pmi16UE5vWs/ityNWmlT1JnW2Nc4IQ9qN
- lIsgowIQCbhIJ9rEN0kLWq9G7QLOS5Dnxj3k6aLcZAi/OxIIYXDAvHAl4K2uxm/ZjGMy
- t9BIlxnKFt6G5y50X26JH0aJu2V1uBUyicW4H8eAAXJ09Z4UWOAB5X2Nxq95ZZDW1AH8
- hdjaVHtGcAh0liN+HFzgyyQrLEV3TmWyFPn8Zr2efj1Sg02Z3prGK/BzJppiup+Nu+dD
- 5DmvQf95dPTCWbMyC2qv7cFMSyr/UXdAha4qkJmzVyAsgxOTdu5dOXCshyJpX6GIBg72
- NDHA==
-X-Gm-Message-State: AJIora/AAzC7aSXA1yNDxHlq4z+2GOt8B71GUPdyZPtg/NOvgRMHDPo7
- Ma7TaKZiEGCx2TxCW2cyD6w=
-X-Google-Smtp-Source: AGRyM1tGn8ZAzOylB9bMWKZUS9BylRNu16ewDugb3aPlEWBMWOqtYyR1CHpEDbl9o4msjugs4JE9yg==
-X-Received: by 2002:a05:6402:3886:b0:435:643a:b7ae with SMTP id
- fd6-20020a056402388600b00435643ab7aemr23611360edb.4.1655796314737; 
- Tue, 21 Jun 2022 00:25:14 -0700 (PDT)
+ bh=J/FXHf63jaZ4CP1Ip+M+iIXOar4uXhS4dHznXju5cys=;
+ b=8RM80y0kc4o8r4e+41qYU8Lg2aRW7v6o0Fg0e17df4DgiaoZKHsNCQwKVQm8A6jf7q
+ ZoAF2BNTXnTaUVDgM03/2N3QZm+ExzSNOPE7Jisv2nmb/Uy6qMH3JUWnydSWGBEx9hLV
+ 6vyCyUfiJridlUPmP7099QipoRU7zmzpHB2cDBzxyaon4Y6V5ZjmQd1VpFQ4b643jeDD
+ 0qeJK7x5QNfrX7vmbT5JCeDxJ4xO6dmoJdpPPmm62pdV4b2DlJ+EJI0rN4A46Dy1H0hA
+ BPtgmEQYYZgv0IF4YsB3rycjAu2iqp8Omqus9WbBbGMYH5bmMR3PbQFLjwxYZDp3FuHV
+ aAgw==
+X-Gm-Message-State: AJIora8G/EH2L/3MkXb363lk4xcPoeRTMKd41kIFfEYaE0ieOiBLJZQn
+ 5D239Subh/7/avXx+3A9HeieMD6oM/M=
+X-Google-Smtp-Source: AGRyM1t83WODsOfl8GXay999NQG2aZGHeIPBi9h77m/6pLb9Fl3171B2scXfUENiDPkk7CH4KIvvxg==
+X-Received: by 2002:a17:906:194b:b0:710:967d:ba18 with SMTP id
+ b11-20020a170906194b00b00710967dba18mr23919874eje.705.1655796413176; 
+ Tue, 21 Jun 2022 00:26:53 -0700 (PDT)
 Received: from [192.168.178.21] (p57b0bd9f.dip0.t-ipconnect.de.
  [87.176.189.159]) by smtp.gmail.com with ESMTPSA id
- d4-20020a170906304400b00711eea3fa9bsm6971564ejd.42.2022.06.21.00.25.13
+ r18-20020a1709061bb200b006f3ef214daesm7088807ejg.20.2022.06.21.00.26.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jun 2022 00:25:14 -0700 (PDT)
-Message-ID: <5b6b623b-9a6b-a615-d7ea-af436f1b4d92@gmail.com>
-Date: Tue, 21 Jun 2022 09:25:13 +0200
+ Tue, 21 Jun 2022 00:26:52 -0700 (PDT)
+Message-ID: <46e20645-27ee-eb7e-6539-5f6b18192886@gmail.com>
+Date: Tue, 21 Jun 2022 09:26:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 3/5] drm/amdgpu: Prevent race between late signaled fences
- and GPU reset.
+Subject: Re: [PATCH 4/5] drm/sched: Partial revert of 'drm/sched: Keep
+ s_fence->parent pointer'
 Content-Language: en-US
 To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 References: <20220620220302.86389-1-andrey.grodzovsky@amd.com>
- <20220620220302.86389-4-andrey.grodzovsky@amd.com>
+ <20220620220302.86389-5-andrey.grodzovsky@amd.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20220620220302.86389-4-andrey.grodzovsky@amd.com>
+In-Reply-To: <20220620220302.86389-5-andrey.grodzovsky@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,105 +83,98 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Am 21.06.22 um 00:03 schrieb Andrey Grodzovsky:
 > Problem:
-> After we start handling timed out jobs we assume there fences won't be
-> signaled but we cannot be sure and sometimes they fire late. We need
-> to prevent concurrent accesses to fence array from
-> amdgpu_fence_driver_clear_job_fences during GPU reset and amdgpu_fence_process
-> from a late EOP interrupt.
+> This patch caused negative refcount as described in [1] because
+> for that case parent fence did not signal by the time of drm_sched_stop and hence
+> kept in pending list the assumption was they will not signal and
+> so fence was put to account for the s_fence->parent refcount but for
+> amdgpu which has embedded HW fence (always same parent fence)
+> drm_sched_fence_release_scheduled was always called and would
+> still drop the count for parent fence once more. For jobs that
+> never signaled this imbalance was masked by refcount bug in
+> amdgpu_fence_driver_clear_job_fences that would not drop
+> refcount on the fences that were removed from fence drive
+> fences array (against prevois insertion into the array in
+> get in amdgpu_fence_emit).
 >
 > Fix:
-> Before accessing fence array in GPU disable EOP interrupt and flush
-> all pending interrupt handlers for amdgpu device's interrupt line.
-
+> Revert this patch and by setting s_job->s_fence->parent to NULL
+> as before prevent the extra refcount drop in amdgpu when
+> drm_sched_fence_release_scheduled is called on job release.
+>
+> Also - align behaviour in drm_sched_resubmit_jobs_ext with that of
+> drm_sched_main when submitting jobs - take a refcount for the
+> new parent fence pointer and drop refcount for original kref_init
+> for new HW fence creation (or fake new HW fence in amdgpu - see next patch).
+>
+> [1] - https://lore.kernel.org/all/731b7ff1-3cc9-e314-df2a-7c51b76d4db0@amd.com/t/#r00c728fcc069b1276642c325bfa9d82bf8fa21a3
 >
 > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> Tested-by: Yiqing Yao <yiqing.yao@amd.com>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  4 ++++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c  | 26 ++++++++++++++++++++++
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   |  1 +
->   3 files changed, 31 insertions(+)
+>   drivers/gpu/drm/scheduler/sched_main.c | 16 +++++++++++++---
+>   1 file changed, 13 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index 2b92281dd0c1..c99541685804 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -4605,6 +4605,8 @@ int amdgpu_device_pre_asic_reset(struct amdgpu_device *adev,
->   		amdgpu_virt_fini_data_exchange(adev);
->   	}
->   
-> +	amdgpu_fence_driver_isr_toggle(adev, true);
-> +
->   	/* block all schedulers and reset given job's ring */
->   	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
->   		struct amdgpu_ring *ring = adev->rings[i];
-> @@ -4620,6 +4622,8 @@ int amdgpu_device_pre_asic_reset(struct amdgpu_device *adev,
->   		amdgpu_fence_driver_force_completion(ring);
->   	}
->   
-> +	amdgpu_fence_driver_isr_toggle(adev, false);
-> +
->   	if (job && job->vm)
->   		drm_sched_increase_karma(&job->base);
->   
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> index a9ae3beaa1d3..d6d54ba4c185 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> @@ -532,6 +532,32 @@ void amdgpu_fence_driver_hw_fini(struct amdgpu_device *adev)
->   	}
->   }
->   
-> +void amdgpu_fence_driver_isr_toggle(struct amdgpu_device *adev, bool stop)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < AMDGPU_MAX_RINGS; i++) {
-> +		struct amdgpu_ring *ring = adev->rings[i];
-> +
-> +		if (!ring || !ring->fence_drv.initialized || !ring->fence_drv.irq_src)
-> +			continue;
-> +
-> +		if (stop)
-> +			amdgpu_irq_put(adev, ring->fence_drv.irq_src,
-> +					       ring->fence_drv.irq_type);
-> +		else
-> +			amdgpu_irq_get(adev, ring->fence_drv.irq_src,
-> +					ring->fence_drv.irq_type);
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index b81fceb0b8a2..b38394f5694f 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -419,6 +419,11 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+>   		if (s_job->s_fence->parent &&
+>   		    dma_fence_remove_callback(s_job->s_fence->parent,
+>   					      &s_job->cb)) {
+> +			/* Revert drm/sched: Keep s_fence->parent pointer, no
+> +			 * need anymore for amdgpu and creates only troubles
+> +			 */
 
-That won't work like this. This increments/decrements the reference 
-count for the IRQ, but doesn't guarantee in any way that they are 
-stopped/started.
+Please no amdgpu specific comments in common code.
 
-> +	}
-> +
-> +	/* TODO Only waits for irq handlers on other CPUs, maybe local_irq_save
-> +	 * local_irq_local_irq_restore are needed here for local interrupts ?
-> +	 *
-> +	 */
+Apart from that looks like a step into the right direction to me.
 
-Well that comment made me smile. Think for a moment what the local CPU 
-would be doing if an interrupt would run :)
-
-Cheers,
+Regards,
 Christian.
 
-> +	if (stop)
-> +		synchronize_irq(adev->irq.irq);
-> +}
-> +
->   void amdgpu_fence_driver_sw_fini(struct amdgpu_device *adev)
->   {
->   	unsigned int i, j;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> index 7d89a52091c0..82c178a9033a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> @@ -143,6 +143,7 @@ signed long amdgpu_fence_wait_polling(struct amdgpu_ring *ring,
->   				      uint32_t wait_seq,
->   				      signed long timeout);
->   unsigned amdgpu_fence_count_emitted(struct amdgpu_ring *ring);
-> +void amdgpu_fence_driver_isr_toggle(struct amdgpu_device *adev, bool stop);
+> +			dma_fence_put(s_job->s_fence->parent);
+> +			s_job->s_fence->parent = NULL;
+>   			atomic_dec(&sched->hw_rq_count);
+>   		} else {
+>   			/*
+> @@ -548,7 +553,6 @@ void drm_sched_resubmit_jobs_ext(struct drm_gpu_scheduler *sched, int max)
+>   		if (found_guilty && s_job->s_fence->scheduled.context == guilty_context)
+>   			dma_fence_set_error(&s_fence->finished, -ECANCELED);
 >   
->   /*
->    * Rings.
+> -		dma_fence_put(s_job->s_fence->parent);
+>   		fence = sched->ops->run_job(s_job);
+>   		i++;
+>   
+> @@ -558,7 +562,11 @@ void drm_sched_resubmit_jobs_ext(struct drm_gpu_scheduler *sched, int max)
+>   
+>   			s_job->s_fence->parent = NULL;
+>   		} else {
+> -			s_job->s_fence->parent = fence;
+> +
+> +			s_job->s_fence->parent = dma_fence_get(fence);
+> +
+> +			/* Drop for orignal kref_init */
+> +			dma_fence_put(fence);
+>   		}
+>   	}
+>   }
+> @@ -952,6 +960,9 @@ static int drm_sched_main(void *param)
+>   
+>   		if (!IS_ERR_OR_NULL(fence)) {
+>   			s_fence->parent = dma_fence_get(fence);
+> +			/* Drop for original kref_init of the fence */
+> +			dma_fence_put(fence);
+> +
+>   			r = dma_fence_add_callback(fence, &sched_job->cb,
+>   						   drm_sched_job_done_cb);
+>   			if (r == -ENOENT)
+> @@ -959,7 +970,6 @@ static int drm_sched_main(void *param)
+>   			else if (r)
+>   				DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n",
+>   					  r);
+> -			dma_fence_put(fence);
+>   		} else {
+>   			if (IS_ERR(fence))
+>   				dma_fence_set_error(&s_fence->finished, PTR_ERR(fence));
 
