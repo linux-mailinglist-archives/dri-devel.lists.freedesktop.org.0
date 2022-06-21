@@ -1,68 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20A515539A4
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 20:40:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 068DB5539A7
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 20:41:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EABD10E6CE;
-	Tue, 21 Jun 2022 18:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8A4510FFED;
+	Tue, 21 Jun 2022 18:41:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD9E510E6CE
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 18:40:06 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id w20so23803574lfa.11
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 11:40:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=uDyittP64vQtB3M07CJp4QeN+56SAqdK1J0XQGpRBNo=;
- b=fpcGPwaFqceX/cmFvUoJ5QF+vl0m5i9zqNt5QSuFTn+JjvEO+6alOPrbo19Jrl2zyV
- 0+guPaVkW6yUcY9p7gw6o23WlqsmcEsVxMDwiU848Mshx01t24FI4QrpSf8ii6F9G1Dd
- 5oJICdaCNpeFqaAXjtnZpwif2QeQm83p3uKl9S8qatOQZHk+LTSa5MR2N9kob6boDHYU
- YfXybzBaE/x+VTTjnlg4ShuD8hYBI92rGGRySxLtjzFVEw4PuF6wWKph74VOGVwy16wF
- QqWA75CvOZ0uFIJnefwC+cTQzIkYjDyQqLrLUsd1n83o1wPZYkUe7pDTa7M4XKWTIGba
- wnVg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E91710FFA3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 18:41:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655836908;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xbaomduX/6iNsgWJel4fsuoeUQrFoZwPYLYGvtGYPdA=;
+ b=LiX6N0NEW+gnub7+dghBBC4J07+vq6hBKMxs/6mNS+Ip16qOmXACLa0tDoKleyK7LQw5kK
+ +fhqJypRnr8/AhNs6+Jfjfwr9Y8e371r29qfgXbe+14SOTbAv9ihpuv/MyIjo8xWrkAfoz
+ hgnMZofgC4dZPZlAg8kxnhEpEeIuFco=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-594-tOeVHPbUOfqzb-3mLV-M8Q-1; Tue, 21 Jun 2022 14:41:47 -0400
+X-MC-Unique: tOeVHPbUOfqzb-3mLV-M8Q-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ kj4-20020a056214528400b0044399a9bb4cso15120493qvb.15
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 11:41:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=uDyittP64vQtB3M07CJp4QeN+56SAqdK1J0XQGpRBNo=;
- b=TIXZtaj/fcmeBSLOv9HREJQ+k+CpLyycADHgtKbrTeSMF2Bs3Abqq3T9vX359nPF7j
- ekGs1V5Yq9qeLy+dh8X66foms5z6rAWIN/zFqF5g1w5gOyjfVWSq3qiSKsj988uSRfVO
- GYUZ5cg3Ecw9VQEV4qoBLcFiTz3/jnnI9UyweyLEn82nvBAZditNp2juousGvRgqXF3C
- Xro522WmitAOujMVaBZmy0jjTQjArz9GBa4RaKSjmh3KIP++ggOpHc8C0m8akHNqj+sn
- nWMN9BOpZmTT59jwtNvqmkh4IuWPWVXhipE50BePSF0ObZ+o9rLpE+hXcD1AFpp6MwqC
- Ehmg==
-X-Gm-Message-State: AJIora9k42eCbX/Wk2pS/mX0GDFAJG0Gxfvg3ADrdUSwfZkyD/W1YbRh
- Ey8WwjXz8F7LJmphbZVqlB5zcg==
-X-Google-Smtp-Source: AGRyM1uhpfmmJNlYBdq65hirTMs/vSoZDLblmci38dLR13tm6bWLAc5IouVaSgnfb/4mTHqgIb03JA==
-X-Received: by 2002:a05:6512:515:b0:479:11a0:8132 with SMTP id
- o21-20020a056512051500b0047911a08132mr17892802lfb.344.1655836805207; 
- Tue, 21 Jun 2022 11:40:05 -0700 (PDT)
-Received: from [192.168.43.7] ([188.162.64.230])
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version;
+ bh=abJX6T0xADcItKdVlKQUgYBGgMLNVaj04UIgxU1/y1Q=;
+ b=ASUXlRCZDUKV5AK8f0woV7jAuCZ6uj7Lp84j1S5q+grRJM/kZiYFyFwgoRwFTdVMej
+ fcaIb+WZnsUt1oyTmDZ6639/kx6F0WLB2LrTb1pNFotln4FSovWqVmQ4zVJziB7YL7ud
+ qbQuZUnNmFRJ9JihqPPmac6P8IJlUQYRsbropXy/E3Gj46WGMlHBRnrbfnmNU1vvPdDL
+ 2D588XVnXMQzjZ3cLfKU2IGAUXqWQeRa7kkVzeVLPuIKM/JYgNWIAdd2HzAC7hpjdnl+
+ S1t2d5mc+plJSYzkRzVN4ZbGaa2XYJhsAgCXQ1kwFuxylyRQLz4qV36fazKo6jSwLujs
+ t5sQ==
+X-Gm-Message-State: AJIora965Dft/Z1j8HrnH2D4QTaMo82Dm3TgQCjJQQ9jcNhGvCQbE4aQ
+ WxIIsu5oBhYmQq5WGlNWl7GE0E6IubSi6T6ssGBlgmystU8SCcVDd5O2nSWJsVEL5iJ+c3JJViv
+ iaC+yTpkbFGMmoO7TDagHJpiAf87P
+X-Received: by 2002:a05:620a:ccf:b0:6a7:3f06:7382 with SMTP id
+ b15-20020a05620a0ccf00b006a73f067382mr20369575qkj.510.1655836906460; 
+ Tue, 21 Jun 2022 11:41:46 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tQtyzjeNUiEFaALb2+Pwnqzsqj/fE7B7hiW0p1G1YAsvHkK2gNLGtLJRnX+jR03duNRE64Kw==
+X-Received: by 2002:a05:620a:ccf:b0:6a7:3f06:7382 with SMTP id
+ b15-20020a05620a0ccf00b006a73f067382mr20369561qkj.510.1655836906184; 
+ Tue, 21 Jun 2022 11:41:46 -0700 (PDT)
+Received: from [192.168.8.138] ([141.154.49.182])
  by smtp.gmail.com with ESMTPSA id
- g2-20020ac24d82000000b0047dc46b466esm2262741lfe.85.2022.06.21.11.40.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Jun 2022 11:40:04 -0700 (PDT)
-Message-ID: <33a9a76a-5f6e-b790-17d4-62869a04529d@linaro.org>
-Date: Tue, 21 Jun 2022 21:40:02 +0300
+ br6-20020a05620a460600b006a6d3fa430csm14344112qkb.58.2022.06.21.11.41.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jun 2022 11:41:45 -0700 (PDT)
+Message-ID: <0c7bcd24e85c8c5d3238ea2ebcb224b71b0da737.camel@redhat.com>
+Subject: Re: [PATCH] drm/display: drop unexpected word "the" in the comments
+From: Lyude Paul <lyude@redhat.com>
+To: =?UTF-8?Q?=E8=92=8B=E5=81=A5?= <jiangjian@cdjrlc.com>, airlied
+ <airlied@linux.ie>, daniel <daniel@ffwll.ch>
+Date: Tue, 21 Jun 2022 14:41:44 -0400
+In-Reply-To: <tencent_3192E0C14CE9003635C66293@qq.com>
+References: <20220621131440.1512-1-jiangjian@cdjrlc.com>
+ <4e772a9219177f548378ecac62e03be6c9928ead.camel@redhat.com>
+ <026999e88cabd9bd4923e3c14271a94f5d264fa3.camel@redhat.com>
+ <tencent_3192E0C14CE9003635C66293@qq.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [v3 0/5] Add PSR support for eDP
-Content-Language: en-GB
-To: Vinod Polimera <quic_vpolimer@quicinc.com>, y@qualcomm.com,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <y> <1655808800-3996-1-git-send-email-quic_vpolimer@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1655808800-3996-1-git-send-email-quic_vpolimer@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="=-DyBv0vGJOwHTrwq7boM4"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,72 +87,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
- linux-kernel@vger.kernel.org, swboyd@chromium.org
+Cc: "jani.nikula" <jani.nikula@intel.com>, dianders <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, tzimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Please fix your mailer. You've got the following headers, which clearly 
-confuse the threading:
+--=-DyBv0vGJOwHTrwq7boM4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-In-Reply-To: <y>
-References: <y>
+You can send it by adding email addresses to git send-email with the "--to
+foo@bar.net" argument. If it doesn't come up on patchwork the second try don't
+worry about it, I'll look and see if I can workaround it. TBH I'm not entirely
+sure why it didn't show up in the first place
 
-Also the y@qualcomm.com address (present in To:) rejects incoming mail.
-
-
-On 21/06/2022 13:53, Vinod Polimera wrote:
-> Changes in v2:
->    - Use dp bridge to set psr entry/exit instead of dpu_enocder.
->    - Don't modify whitespaces.
->    - Set self refresh aware from atomic_check.
->    - Set self refresh aware only if psr is supported.
->    - Provide a stub for msm_dp_display_set_psr.
->    - Move dp functions to bridge code.
+On Wed, 2022-06-22 at 02:38 +0800, 蒋健 wrote:
+> I need resubmit a new patch,  how can i make sure dri-devel@  is
+> explicitly？I got to:list by the script
+>  name of get_maintainer.pl.
+> Pls help me…
 > 
-> Changes in v3:
->    - Change callback names to reflect atomic interfaces.
->    - Move bridge callback change to separate patch as suggested by Dmitry.
->    - Remove psr function declaration from msm_drv.h.
->    - Set self_refresh_aware flag only if psr is supported.
->    - Modify the variable names to simpler form.
->    - Define bit fields for PSR settings.
->    - Add comments explaining the steps to enter/exit psr.
->    - Change DRM_INFO to drm_dbg_db.
 > 
-> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+> 发自我的企业微信 
 > 
-> Vinod Polimera (5):
->    drm/msm/dp: Add basic PSR support for eDP
->    drm/bridge: use atomic enable/disable callbacks for panel bridge
->      functions
->    drm/bridge: add psr support during panel bridge enable & disable
->      sequence
->    drm/msm/disp/dpu1: use atomic enable/disable callbacks for encoder
->      functions
->    drm/msm/disp/dpu1: add PSR support for eDP interface in dpu driver
+> ----------Reply to Message----------
+> On Wed,Jun 22,2022 2:07 AM Lyude Paul <lyude@redhat.com> wrote:
+> Actually I hate to ask but could you resend this and the other patch that yo
+> u
+> sent and make sure that dri-devel@ is explicitly in the to: list? For some
+> reason these patches don't seem to be coming up on patchwork
 > 
->   drivers/gpu/drm/bridge/panel.c              | 110 ++++++++++++++++--
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  36 +++++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  30 ++++-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |   2 +-
->   drivers/gpu/drm/msm/dp/dp_catalog.c         |  81 ++++++++++++++
->   drivers/gpu/drm/msm/dp/dp_catalog.h         |   4 +
->   drivers/gpu/drm/msm/dp/dp_ctrl.c            |  76 ++++++++++++-
->   drivers/gpu/drm/msm/dp/dp_ctrl.h            |   3 +
->   drivers/gpu/drm/msm/dp/dp_display.c         |  14 +++
->   drivers/gpu/drm/msm/dp/dp_display.h         |   2 +
->   drivers/gpu/drm/msm/dp/dp_drm.c             | 166 +++++++++++++++++++++++++++-
->   drivers/gpu/drm/msm/dp/dp_link.c            |  36 ++++++
->   drivers/gpu/drm/msm/dp/dp_panel.c           |  22 ++++
->   drivers/gpu/drm/msm/dp/dp_panel.h           |   6 +
->   drivers/gpu/drm/msm/dp/dp_reg.h             |  27 +++++
->   15 files changed, 591 insertions(+), 24 deletions(-)
+> On Tue, 2022-06-21 at 13:54 -0400, Lyude Paul wrote:
+> > Reviewed-by: Lyude Paul <lyude@redhat.com>
+> > 
+> > Will push to the appropriate branch in a moment
+> > 
+> > On Tue, 2022-06-21 at 21:14 +0800, Jiang Jian wrote:
+> > > there is an unexpected word "the" in the comments that need to be droppe
+> d
+> > > 
+> > > file: drivers/gpu/drm/display/drm_dp_helper.c
+> > > line: 1600
+> > >   * Doesn't account the the "MOT" bit, and instead assumes each
+> > > changed to
+> > >   * Doesn't account the "MOT" bit, and instead assumes each
+> > > 
+> > > Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
+> > > ---
+> > >  drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c
+> > > b/drivers/gpu/drm/display/drm_dp_helper.c
+> > > index e7c22c2ca90c..499f75768523 100644
+> > > --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> > > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> > > @@ -1597,7 +1597,7 @@ static int drm_dp_aux_reply_duration(const struct
+> > > drm_dp_aux_msg *msg)
+> > >   * Calculate the length of the i2c transfer in usec, assuming
+> > >   * the i2c bus speed is as specified. Gives the the "worst"
+> > >   * case estimate, ie. successful while as long as possible.
+> > > - * Doesn't account the the "MOT" bit, and instead assumes each
+> > > + * Doesn't account the "MOT" bit, and instead assumes each
+> > >   * message includes a START, ADDRESS and STOP. Neither does it
+> > >   * account for additional random variables such as clock stretching.
+> > >   */
+> > 
 > 
-
+> -- 
+> Cheers,
+>  Lyude Paul (she/her)
+>  Software Engineer at Red Hat
+> 
 
 -- 
-With best wishes
-Dmitry
+Cheers,
+Lyude Paul (she/her)
+Software Engineer at Red Hat
+
+--=-DyBv0vGJOwHTrwq7boM4
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body><div>You can send it by adding email addresses to =
+git send-email with the "--to <a href=3D"mailto:foo@bar.net">foo@bar.net</a=
+>" argument. If it doesn't come up on patchwork the second try don't worry =
+about it, I'll look and see if I can workaround it. TBH I'm not entirely su=
+re why it didn't show up in the first place</div><div><br></div><div>On Wed=
+, 2022-06-22 at 02:38 +0800, =E8=92=8B=E5=81=A5 wrote:</div><blockquote typ=
+e=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;paddin=
+g-left:1ex"><div style=3D"min-height:22px;">I need resubmit a new patch, &n=
+bsp;how can i make sure dri-devel@ &nbsp;is explicitly=EF=BC=9FI got to:lis=
+t by the script</div><div style=3D"min-height:22px;">&nbsp;name of get_main=
+tainer.pl.</div><div style=3D"min-height:22px;">Pls help me=E2=80=A6</div><=
+div id=3D"QQMailSignature" class=3D"mail-footer" aria-hidden=3D"true"><hr s=
+tyle=3D"margin: 0 0 10px 0;border: 0;border-bottom:1px solid #E6E8EB;height=
+:0;line-height:0;font-size:0;padding: 20px 0 0 0;width: 40px;"><div style=
+=3D"color:black;"><span><a contenteditable=3D"false" href=3D"https://work.w=
+eixin.qq.com/wework_admin/user/h5/qqmail_user_card/vc725f487c45791b9d" styl=
+e=3D"text-decoration: none;color: #267EF0;">=E5=8F=91=E8=87=AA=E6=88=91=E7=
+=9A=84=E4=BC=81=E4=B8=9A=E5=BE=AE=E4=BF=A1</a>&nbsp;</span></div></div><div=
+><br></div><div id=3D"original-content"><div class=3D"mailplugin_quote"><di=
+v class=3D"mailplugin_quote_type" style=3D"height: 0px; color: rgba(0, 0, 0=
+, 0); display: none;">----------Reply to Message----------</div><div class=
+=3D"mailplugin_quote_header" style=3D"color: rgba(11, 17, 26, 0.6); font-fa=
+mily: PingFang SC; font-style: normal; font-weight: normal; font-size: 14px=
+; line-height: 150%;">On Wed,Jun 22,2022 2:07 AM Lyude Paul &lt;lyude@redha=
+t.com&gt; wrote:</div><div class=3D"mailplugin_quote_split" style=3D"border=
+-left: 3px solid #EAEAEA; padding-left: 9.5px; margin-top: 12px;"> Actually=
+&nbsp;I&nbsp;hate&nbsp;to&nbsp;ask&nbsp;but&nbsp;could&nbsp;you&nbsp;resend=
+&nbsp;this&nbsp;and&nbsp;the&nbsp;other&nbsp;patch&nbsp;that&nbsp;you<br>se=
+nt&nbsp;and&nbsp;make&nbsp;sure&nbsp;that&nbsp;dri-devel@&nbsp;is&nbsp;expl=
+icitly&nbsp;in&nbsp;the&nbsp;to:&nbsp;list?&nbsp;For&nbsp;some<br>reason&nb=
+sp;these&nbsp;patches&nbsp;don't&nbsp;seem&nbsp;to&nbsp;be&nbsp;coming&nbsp=
+;up&nbsp;on&nbsp;patchwork<br><br>On&nbsp;Tue,&nbsp;2022-06-21&nbsp;at&nbsp=
+;13:54&nbsp;-0400,&nbsp;Lyude&nbsp;Paul&nbsp;wrote:<br>&gt;&nbsp;Reviewed-b=
+y:&nbsp;Lyude&nbsp;Paul&nbsp;&lt;lyude@redhat.com&gt;<br>&gt;&nbsp;<br>&gt;=
+&nbsp;Will&nbsp;push&nbsp;to&nbsp;the&nbsp;appropriate&nbsp;branch&nbsp;in&=
+nbsp;a&nbsp;moment<br>&gt;&nbsp;<br>&gt;&nbsp;On&nbsp;Tue,&nbsp;2022-06-21&=
+nbsp;at&nbsp;21:14&nbsp;+0800,&nbsp;Jiang&nbsp;Jian&nbsp;wrote:<br>&gt;&nbs=
+p;&gt;&nbsp;there&nbsp;is&nbsp;an&nbsp;unexpected&nbsp;word&nbsp;"the"&nbsp=
+;in&nbsp;the&nbsp;comments&nbsp;that&nbsp;need&nbsp;to&nbsp;be&nbsp;dropped=
+<br>&gt;&nbsp;&gt;&nbsp;<br>&gt;&nbsp;&gt;&nbsp;file:&nbsp;drivers/gpu/drm/=
+display/drm_dp_helper.c<br>&gt;&nbsp;&gt;&nbsp;line:&nbsp;1600<br>&gt;&nbsp=
+;&gt;&nbsp;&nbsp;&nbsp;*&nbsp;Doesn't&nbsp;account&nbsp;the&nbsp;the&nbsp;"=
+MOT"&nbsp;bit,&nbsp;and&nbsp;instead&nbsp;assumes&nbsp;each<br>&gt;&nbsp;&g=
+t;&nbsp;changed&nbsp;to<br>&gt;&nbsp;&gt;&nbsp;&nbsp;&nbsp;*&nbsp;Doesn't&n=
+bsp;account&nbsp;the&nbsp;"MOT"&nbsp;bit,&nbsp;and&nbsp;instead&nbsp;assume=
+s&nbsp;each<br>&gt;&nbsp;&gt;&nbsp;<br>&gt;&nbsp;&gt;&nbsp;Signed-off-by:&n=
+bsp;Jiang&nbsp;Jian&nbsp;&lt;jiangjian@cdjrlc.com&gt;<br>&gt;&nbsp;&gt;&nbs=
+p;---<br>&gt;&nbsp;&gt;&nbsp;&nbsp;drivers/gpu/drm/display/drm_dp_helper.c&=
+nbsp;|&nbsp;2&nbsp;+-<br>&gt;&nbsp;&gt;&nbsp;&nbsp;1&nbsp;file&nbsp;changed=
+,&nbsp;1&nbsp;insertion(+),&nbsp;1&nbsp;deletion(-)<br>&gt;&nbsp;&gt;&nbsp;=
+<br>&gt;&nbsp;&gt;&nbsp;diff&nbsp;--git&nbsp;a/drivers/gpu/drm/display/drm_=
+dp_helper.c<br>&gt;&nbsp;&gt;&nbsp;b/drivers/gpu/drm/display/drm_dp_helper.=
+c<br>&gt;&nbsp;&gt;&nbsp;index&nbsp;e7c22c2ca90c..499f75768523&nbsp;100644<=
+br>&gt;&nbsp;&gt;&nbsp;---&nbsp;a/drivers/gpu/drm/display/drm_dp_helper.c<b=
+r>&gt;&nbsp;&gt;&nbsp;+++&nbsp;b/drivers/gpu/drm/display/drm_dp_helper.c<br=
+>&gt;&nbsp;&gt;&nbsp;@@&nbsp;-1597,7&nbsp;+1597,7&nbsp;@@&nbsp;static&nbsp;=
+int&nbsp;drm_dp_aux_reply_duration(const&nbsp;struct<br>&gt;&nbsp;&gt;&nbsp=
+;drm_dp_aux_msg&nbsp;*msg)<br>&gt;&nbsp;&gt;&nbsp;&nbsp;&nbsp;*&nbsp;Calcul=
+ate&nbsp;the&nbsp;length&nbsp;of&nbsp;the&nbsp;i2c&nbsp;transfer&nbsp;in&nb=
+sp;usec,&nbsp;assuming<br>&gt;&nbsp;&gt;&nbsp;&nbsp;&nbsp;*&nbsp;the&nbsp;i=
+2c&nbsp;bus&nbsp;speed&nbsp;is&nbsp;as&nbsp;specified.&nbsp;Gives&nbsp;the&=
+nbsp;the&nbsp;"worst"<br>&gt;&nbsp;&gt;&nbsp;&nbsp;&nbsp;*&nbsp;case&nbsp;e=
+stimate,&nbsp;ie.&nbsp;successful&nbsp;while&nbsp;as&nbsp;long&nbsp;as&nbsp=
+;possible.<br>&gt;&nbsp;&gt;&nbsp;-&nbsp;*&nbsp;Doesn't&nbsp;account&nbsp;t=
+he&nbsp;the&nbsp;"MOT"&nbsp;bit,&nbsp;and&nbsp;instead&nbsp;assumes&nbsp;ea=
+ch<br>&gt;&nbsp;&gt;&nbsp;+&nbsp;*&nbsp;Doesn't&nbsp;account&nbsp;the&nbsp;=
+"MOT"&nbsp;bit,&nbsp;and&nbsp;instead&nbsp;assumes&nbsp;each<br>&gt;&nbsp;&=
+gt;&nbsp;&nbsp;&nbsp;*&nbsp;message&nbsp;includes&nbsp;a&nbsp;START,&nbsp;A=
+DDRESS&nbsp;and&nbsp;STOP.&nbsp;Neither&nbsp;does&nbsp;it<br>&gt;&nbsp;&gt;=
+&nbsp;&nbsp;&nbsp;*&nbsp;account&nbsp;for&nbsp;additional&nbsp;random&nbsp;=
+variables&nbsp;such&nbsp;as&nbsp;clock&nbsp;stretching.<br>&gt;&nbsp;&gt;&n=
+bsp;&nbsp;&nbsp;*/<br>&gt;&nbsp;<br><br>--&nbsp;<br>Cheers,<br>&nbsp;Lyude&=
+nbsp;Paul&nbsp;(she/her)<br>&nbsp;Software&nbsp;Engineer&nbsp;at&nbsp;Red&n=
+bsp;Hat<br><br></div></div></div></blockquote><div><br></div><div><span><pr=
+e>-- <br></pre><div data-evo-paragraph=3D"" class=3D"" style=3D"width: 78ch=
+;" data-evo-signature-plain-text-mode=3D"">Cheers,</div><div data-evo-parag=
+raph=3D"" class=3D"" style=3D"width: 78ch;"><span class=3D"Apple-tab-span" =
+style=3D"white-space:pre">=09</span>Lyude Paul (she/her)</div><div data-evo=
+-paragraph=3D"" class=3D"" style=3D"width: 78ch;"><span class=3D"Apple-tab-=
+span" style=3D"white-space:pre">=09</span>Software Engineer at Red Hat</div=
+></span></div></body></html>
+
+--=-DyBv0vGJOwHTrwq7boM4--
+
