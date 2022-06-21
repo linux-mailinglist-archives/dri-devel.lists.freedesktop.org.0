@@ -2,64 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D186A55322C
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 14:36:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 468CB553261
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 14:44:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03B061122BB;
-	Tue, 21 Jun 2022 12:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62F6511243D;
+	Tue, 21 Jun 2022 12:44:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 858251122BB
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 12:36:45 +0000 (UTC)
-X-UUID: 3d23542066bb47bd896da04832323de9-20220621
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:2b65926c-2a54-459f-84f5-4a15c4badc6e, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:45
-X-CID-INFO: VERSION:1.1.6, REQID:2b65926c-2a54-459f-84f5-4a15c4badc6e, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:45
-X-CID-META: VersionHash:b14ad71, CLOUDID:3a9f1338-5e4b-44d7-80b2-bb618cb09d29,
- C
- OID:52f5ece34a56,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 3d23542066bb47bd896da04832323de9-20220621
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1555816553; Tue, 21 Jun 2022 20:36:39 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Tue, 21 Jun 2022 20:36:37 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Tue, 21 Jun 2022 20:36:37 +0800
-Message-ID: <b609f8db2a2ae9f5c9e3b6bc60498115bb054990.camel@mediatek.com>
-Subject: Re: [PATCH v11 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, "chunkuang.hu@kernel.org"
- <chunkuang.hu@kernel.org>, "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, 
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
- <krzysztof.kozlowski+dt@linaro.org>, "mripard@kernel.org"
- <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "deller@gmx.de"
- <deller@gmx.de>, "airlied@linux.ie" <airlied@linux.ie>
-Date: Tue, 21 Jun 2022 20:36:37 +0800
-In-Reply-To: <597d190f72427d5d1da7a4ca46b219e2edb69693.camel@mediatek.com>
-References: <20220610105522.13449-1-rex-bc.chen@mediatek.com>
- <20220610105522.13449-6-rex-bc.chen@mediatek.com>
- <597d190f72427d5d1da7a4ca46b219e2edb69693.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6997311243B
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 12:44:51 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09B6E165C;
+ Tue, 21 Jun 2022 05:44:51 -0700 (PDT)
+Received: from [10.57.85.30] (unknown [10.57.85.30])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0EAD03F534;
+ Tue, 21 Jun 2022 05:44:48 -0700 (PDT)
+Message-ID: <45ef3221-8f27-0ae7-8cd9-48575812d797@arm.com>
+Date: Tue, 21 Jun 2022 13:44:44 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2] drm/sun4i: Add DMA mask and segment size
+Content-Language: en-GB
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
+ wens@csie.org
+References: <20220620181333.650301-1-jernej.skrabec@gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220620181333.650301-1-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,115 +44,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "granquet@baylibre.com" <granquet@baylibre.com>,
- Jitao Shi =?UTF-8?Q?=28=E7=9F=B3=E8=AE=B0=E6=B6=9B=29?=
- <jitao.shi@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "msp@baylibre.com" <msp@baylibre.com>, Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "wenst@chromium.org" <wenst@chromium.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: samuel@sholland.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2022-06-20 at 11:54 +0800, CK Hu wrote:
-> Hi, Rex:
+On 2022-06-20 19:13, Jernej Skrabec wrote:
+> Kernel occasionally complains that there is mismatch in segment size
+> when trying to render HW decoded videos and rendering them directly with
+> sun4i DRM driver. Following message can be observed on H6 SoC:
 > 
-> On Fri, 2022-06-10 at 18:55 +0800, Bo-Chen Chen wrote:
-> > From: Markus Schneider-Pargmann <msp@baylibre.com>
-> > 
-> > This patch adds a embedded displayport driver for the MediaTek
-> > mt8195
-> > SoC.
-> > 
-> > It supports the MT8195, the embedded DisplayPort units. It offers
-> > DisplayPort 1.4 with up to 4 lanes.
-> > 
-> > The driver creates a child device for the phy. The child device
-> > will
-> > never exist without the parent being active. As they are sharing a
-> > register range, the parent passes a regmap pointer to the child so
-> > that
-> > both can work with the same register range. The phy driver sets
-> > device
-> > data that is read by the parent to get the phy device that can be
-> > used
-> > to control the phy properties.
-> > 
-> > This driver is based on an initial version by
-> > Jitao shi <jitao.shi@mediatek.com>
-> > 
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> > [Bo-Chen: Cleanup the drivers and modify comments from reviewers]
-> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> > ---
+> [  184.298308] ------------[ cut here ]------------
+> [  184.298326] DMA-API: sun4i-drm display-engine: mapping sg segment longer than device claims to support [len=6144000] [max=65536]
+> [  184.298364] WARNING: CPU: 1 PID: 382 at kernel/dma/debug.c:1162 debug_dma_map_sg+0x2b0/0x350
+> [  184.322997] CPU: 1 PID: 382 Comm: ffmpeg Not tainted 5.19.0-rc1+ #1331
+> [  184.329533] Hardware name: Tanix TX6 (DT)
+> [  184.333544] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [  184.340512] pc : debug_dma_map_sg+0x2b0/0x350
+> [  184.344882] lr : debug_dma_map_sg+0x2b0/0x350
+> [  184.349250] sp : ffff800009f33a50
+> [  184.352567] x29: ffff800009f33a50 x28: 0000000000010000 x27: ffff000001b86c00
+> [  184.359725] x26: ffffffffffffffff x25: ffff000005d8cc80 x24: 0000000000000000
+> [  184.366879] x23: ffff80000939ab18 x22: 0000000000000001 x21: 0000000000000001
+> [  184.374031] x20: 0000000000000000 x19: ffff0000018a7410 x18: ffffffffffffffff
+> [  184.381186] x17: 0000000000000000 x16: 0000000000000000 x15: ffffffffffffffff
+> [  184.388338] x14: 0000000000000001 x13: ffff800009534e86 x12: 6f70707573206f74
+> [  184.395493] x11: 20736d69616c6320 x10: 000000000000000a x9 : 0000000000010000
+> [  184.402647] x8 : ffff8000093b6d40 x7 : ffff800009f33850 x6 : 000000000000000c
+> [  184.409800] x5 : ffff0000bf997940 x4 : 0000000000000000 x3 : 0000000000000027
+> [  184.416953] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000003960e80
+> [  184.424106] Call trace:
+> [  184.426556]  debug_dma_map_sg+0x2b0/0x350
+> [  184.430580]  __dma_map_sg_attrs+0xa0/0x110
+> [  184.434687]  dma_map_sgtable+0x28/0x4c
+> [  184.438447]  vb2_dc_dmabuf_ops_map+0x60/0xcc
+> [  184.442729]  __map_dma_buf+0x2c/0xd4
+> [  184.446321]  dma_buf_map_attachment+0xa0/0x130
+> [  184.450777]  drm_gem_prime_import_dev+0x7c/0x18c
+> [  184.455410]  drm_gem_prime_fd_to_handle+0x1b8/0x214
+> [  184.460300]  drm_prime_fd_to_handle_ioctl+0x2c/0x40
+> [  184.465190]  drm_ioctl_kernel+0xc4/0x174
+> [  184.469123]  drm_ioctl+0x204/0x420
+> [  184.472534]  __arm64_sys_ioctl+0xac/0xf0
+> [  184.476474]  invoke_syscall+0x48/0x114
+> [  184.480240]  el0_svc_common.constprop.0+0x44/0xec
+> [  184.484956]  do_el0_svc+0x2c/0xc0
+> [  184.488283]  el0_svc+0x2c/0x84
+> [  184.491354]  el0t_64_sync_handler+0x11c/0x150
+> [  184.495723]  el0t_64_sync+0x18c/0x190
+> [  184.499397] ---[ end trace 0000000000000000 ]---
 > 
-> [snip]
+> Fix that by setting DMA mask and segment size.
 > 
-> > +
-> > +static int mtk_dp_bridge_atomic_check(struct drm_bridge *bridge,
-> > +				      struct drm_bridge_state
-> > *bridge_state,
-> > +				      struct drm_crtc_state
-> > *crtc_state,
-> > +				      struct drm_connector_state
-> > *conn_state)
-> > +{
-> > +	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
-> > +	struct drm_crtc *crtc = conn_state->crtc;
-> > +	unsigned int input_bus_format;
-> > +
-> > +	input_bus_format = bridge_state->input_bus_cfg.format;
-> > +
-> > +	dev_dbg(mtk_dp->dev, "input format 0x%04x, output format
-> > 0x%04x\n",
-> > +		bridge_state->input_bus_cfg.format,
-> > +		 bridge_state->output_bus_cfg.format);
-> > +
-> > +	mtk_dp->input_fmt = input_bus_format;
-> > +	if (mtk_dp->input_fmt == MEDIA_BUS_FMT_YUYV8_1X16)
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+> Changes from v1:
+> - added comment
+> - updated commit message with kernel report
 > 
-> input_fmt is used only in this function, so let it be local variable.
+>   drivers/gpu/drm/sun4i/sun4i_drv.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 > 
-> Regards,
-> CK
-> 
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
+> index 275f7e4a03ae..f135a6b3cadb 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+> @@ -7,6 +7,7 @@
+>    */
+>   
+>   #include <linux/component.h>
+> +#include <linux/dma-mapping.h>
+>   #include <linux/kfifo.h>
+>   #include <linux/module.h>
+>   #include <linux/of_graph.h>
+> @@ -367,6 +368,13 @@ static int sun4i_drv_probe(struct platform_device *pdev)
+>   
+>   	INIT_KFIFO(list.fifo);
+>   
+> +	/*
+> +	 * DE2 and DE3 cores actually supports 40-bit addresses, but
+> +	 * driver does not.
+> +	 */
+> +	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+> +	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
 
-ok, I will do this.
+Nit: this one is a number, not a bitmask, so UINT_MAX would be more 
+appropriate semantically.
 
-BRs,
-Bo-Chen
+Thanks,
+Robin.
 
-> > +		mtk_dp->info.format = DP_PIXELFORMAT_YUV422;
-> > +	else
-> > +		mtk_dp->info.format = DP_PIXELFORMAT_RGB;
-> > +
-> > +	if (!crtc) {
-> > +		drm_err(mtk_dp->drm_dev,
-> > +			"Can't enable bridge as connector state doesn't
-> > have a crtc\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	mtk_dp_parse_drm_mode_timings(mtk_dp, &crtc_state-
-> > > adjusted_mode);
-> > 
-> > +	if (mtk_dp_parse_capabilities(mtk_dp)) {
-> > +		drm_err(mtk_dp->drm_dev,
-> > +			"Can't enable bridge as nothing is plugged
-> > in\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> 
-> 
-
+> +
+>   	for (i = 0;; i++) {
+>   		struct device_node *pipeline = of_parse_phandle(np,
+>   								"allwinner,pipelines",
