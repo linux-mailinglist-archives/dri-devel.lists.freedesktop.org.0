@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331B555426C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 07:53:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F6155426A
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 07:53:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51719112465;
-	Wed, 22 Jun 2022 05:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CA89113888;
+	Wed, 22 Jun 2022 05:52:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbg.qq.com (smtpbg136.qq.com [106.55.201.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9B8E10E279
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 13:52:58 +0000 (UTC)
-X-QQ-mid: bizesmtp67t1655819506trl0s0j1
+Received: from smtpbg.qq.com (smtpbg138.qq.com [106.55.201.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D73E010E0F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 14:04:14 +0000 (UTC)
+X-QQ-mid: bizesmtp87t1655820118t1d9qvzk
 Received: from ubuntu.localdomain ( [106.117.99.68])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 21 Jun 2022 21:51:42 +0800 (CST)
+ id ; Tue, 21 Jun 2022 22:01:54 +0800 (CST)
 X-QQ-SSF: 0100000000700060B000D00A0000000
-X-QQ-FEAT: wW02ejDrK1/ZlAO8EkXaEOVfFmvXqewCEGzogin1XrM0pJSkAuwU8347Hou52
- wQ1/NhiC9ypi0H7JWkWQ7ma8RbtxYRM+Yo+8KnBPlMWLz1Kw9uGc9Ud+wTzNDF4Skoyicfa
- flG1qYiZzlwWDVLOKrtpyfMbU5z8Jl2o4xkyBFa+kob5+SrEjq7SMvSTAGYJV4zUK/UKASA
- aXlG6gA5CM7emAdrv/8PA7BQReTYUs+DT22Ywj5aBMQh9e3+E4Y0E+yW+IJ+CpFLJ4W3I9n
- RAKyy8zRdmnyHERN7/MG4zZSGjj1rrqG0vCsfIFPpoQ0h0R7I0DD+las4na5/uaurfP6qTh
- VdrkVbyhYmytG13BuNa7lZmb4PXPkhuaW5CSYN7
+X-QQ-FEAT: ZHWZeLXy+8fquXre98dmHnwnqcZlbbq/MHyNm4/DjXuN4jYRiDxUhXrUdiM3b
+ 8XyattiSZBYFtSCxlDD7uc2MfIlVKyEPgiWZDh3kWO2fqSo2eHjd6uu7u4Yn1Cs6+Ez53+t
+ 0u2svRNIgS3TwD5XKzFPSK/Ygv0BjubJRT7TqIvVlps0InNjNcIdQeUUcazhs5B91bEMCiq
+ PRRk5hx1YXtGWlRbm3/lglTJTvD237apRk2PRfD8DShDF3Tr2nuXwpAH05lv9/ryOP3DVaF
+ MyQtxcO936M1ZSule0xThBORc+cYqheUk2/1DzVxJvcQxrHethzeCI7f9/hYLJpXYyz7stZ
+ BoMC4VEjYsuhbRa8cfLUI2z440TjnLnMRPmeH1j
 X-QQ-GoodBg: 0
 From: Jiang Jian <jiangjian@cdjrlc.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] GPU: drm: drop unexpected word "the" in the comments
-Date: Tue, 21 Jun 2022 21:51:40 +0800
-Message-Id: <20220621135140.12200-1-jiangjian@cdjrlc.com>
+To: linus.walleij@linaro.org,
+	thierry.reding@gmail.com
+Subject: [PATCH] drm/panel: nt35510: Remove duplicate 'the' in two places.
+Date: Tue, 21 Jun 2022 22:01:51 +0800
+Message-Id: <20220621140151.14404-1-jiangjian@cdjrlc.com>
 X-Mailer: git-send-email 2.17.1
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam7
+Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam10
 X-Mailman-Approved-At: Wed, 22 Jun 2022 05:52:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,37 +46,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiang Jian <jiangjian@cdjrlc.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jiang Jian <jiangjian@cdjrlc.com>,
+ sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-there is an unexpected word "the" in the comments that need to be dropped
-
-file: drivers/gpu/drm/drm_ioctl.c
-line: 86
-*    means the the unique name for the master node just opening is _not_ filled
+file: ./drivers/gpu/drm/panel/panel-novatek-nt35510.c
+line: 193,214,253
+* amplification for the the step-up circuit:
 changed to
-*    means the unique name for the master node just opening is _not_ filled
+* amplification for the step-up circuit:
 
 Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
 ---
- drivers/gpu/drm/drm_ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-novatek-nt35510.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 51fcf1298023..8faad23dc1d8 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -83,7 +83,7 @@
-  *
-  * 1. Directly call VERSION to get the version and to match against the driver
-  *    name returned by that ioctl. Note that SET_VERSION is not called, which
-- *    means the the unique name for the master node just opening is _not_ filled
-+ *    means the unique name for the master node just opening is _not_ filled
-  *    out. This despite that with current drm device nodes are always bound to
-  *    one device, and can't be runtime assigned like with drm 1.0.
-  * 2. Match driver name. If it mismatches, proceed to the next device node.
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35510.c b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+index 873cbd38e6d3..40ea41b0a5dd 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt35510.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt35510.c
+@@ -190,7 +190,7 @@ struct nt35510_config {
+ 	 * 6 = Hsync x 2
+ 	 * 7 = Hsync x 4
+ 	 * bits 4..6 in the upper nibble controls BTP, the boosting
+-	 * amplification for the the step-up circuit:
++	 * amplification for the step-up circuit:
+ 	 * 0 = Disable
+ 	 * 1 = 1.5 x VDDB
+ 	 * 2 = 1.66 x VDDB
+@@ -211,7 +211,7 @@ struct nt35510_config {
+ 	 * bits 0..2 in the lower nibble controls NCK, the booster clock
+ 	 * frequency, the values are the same as for PCK in @bt1ctr.
+ 	 * bits 4..5 in the upper nibble controls BTN, the boosting
+-	 * amplification for the the step-up circuit.
++	 * amplification for the step-up circuit.
+ 	 * 0 = Disable
+ 	 * 1 = -1.5 x VDDB
+ 	 * 2 = -2 x VDDB
+@@ -250,7 +250,7 @@ struct nt35510_config {
+ 	 * bits 0..2 in the lower nibble controls LCK, the booster clock
+ 	 * frequency, the values are the same as for PCK in @bt1ctr.
+ 	 * bits 4..5 in the upper nibble controls BTL, the boosting
+-	 * amplification for the the step-up circuit.
++	 * amplification for the step-up circuit.
+ 	 * 0 = AVEE + VCL
+ 	 * 1 = AVEE - AVDD
+ 	 * 2 = AVEE + VCL - AVDD
 -- 
 2.17.1
 
