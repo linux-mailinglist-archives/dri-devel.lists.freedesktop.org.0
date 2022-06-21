@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0BB554274
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 07:53:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F249B554271
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 07:53:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB51113897;
-	Wed, 22 Jun 2022 05:52:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0500511388F;
+	Wed, 22 Jun 2022 05:52:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbg.qq.com (smtpbg136.qq.com [106.55.201.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86F6610FC76
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 18:55:58 +0000 (UTC)
-X-QQ-mid: bizesmtp81t1655837745tf77ccv4
+Received: from smtpbg.qq.com (smtpbg139.qq.com [175.27.65.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9547B10EA5F
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 19:01:16 +0000 (UTC)
+X-QQ-mid: bizesmtp66t1655838063t28cg980
 Received: from ubuntu.localdomain ( [106.117.99.68])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Wed, 22 Jun 2022 02:55:40 +0800 (CST)
-X-QQ-SSF: 01000000008000B0B000B00A0000000
-X-QQ-FEAT: OgQh5dxRN5wbavA1GfzuufKZqLUg4wAI9+JIV47vYKEuw9sHuek563x2EmWfR
- kUKQViagBIljkrsybiRSNkrMi6wkuyggXAxdkvDVJtwanDJJ8c8QRNHn2z1Ot0T9EvTHnPW
- M2UkZD8DJRDIA9R830uknoMgoCkgyQfYIXib8KN8Y43WCgQVDTgKM4pzuDn1YettdaXVutc
- 0K/I0zkp+PKvgPqGjTXeEYgQhN7TwPhP3D910qO+BIQ9NKmMm4f/gSIGFAPwVp4FHM5WCPD
- DAtYyuHoD86E9umdDIYD668uz5v8lsQSQe7vZUuQ9d/ssCeeueTkIRukdpENqNDc6HfONnM
- kjmHDaXMESyv6oqCY0=
+ id ; Wed, 22 Jun 2022 03:00:56 +0800 (CST)
+X-QQ-SSF: 01000000008000B0B000C00A0000000
+X-QQ-FEAT: fcnEXZ5FDbA9IfQiCumHta+FxrRtAgbjRWF7PNKU8+4xahNTDtdShJDxpXn+h
+ kz7LFi0XtaHqHw83RutJRjaOcZWsJoRUdaWctV5adW/Kjb/waDmxc21r95zII7QTyBOBjhh
+ CeeUvfjSGJQaALLbXM9ko0Rgb2KnJJG2cNQOXB/JliFZO+WcngzXt5eQumIcO3DyrKDfU/U
+ mq/0+Tjx+RFRV2iMAzCJ6v6lhO5xlpvBkaEON4P7eJDbPm45SwV7tIPD34FUxejTvZ+XkHE
+ HmPMUEfnhqyGZRUvpCBbEw0ovMGbntKHcwLPbx5oeZ3cewNoxjkWF39ztMPwGVBMXSd+szi
+ ftPB9WdFX/kGjGgueM=
 X-QQ-GoodBg: 0
 From: Jiang Jian <jiangjian@cdjrlc.com>
-To: deller@gmx.de
-Subject: [PATCH] video: fbdev: omap: Remove duplicate 'the' in two places.
-Date: Wed, 22 Jun 2022 02:55:38 +0800
-Message-Id: <20220621185538.6072-1-jiangjian@cdjrlc.com>
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/display: Remove duplicate 'the' in two places.
+Date: Wed, 22 Jun 2022 03:00:55 +0800
+Message-Id: <20220621190055.8323-1-jiangjian@cdjrlc.com>
 X-Mailer: git-send-email 2.17.1
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam7
+Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam6
 X-Mailman-Approved-At: Wed, 22 Jun 2022 05:52:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,37 +46,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, arnd@arndb.de, tony@atomide.com,
- jmkrzyszt@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jiangjian@cdjrlc.com,
- linux-omap@vger.kernel.org
+Cc: jani.nikula@intel.com, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jiang Jian <jiangjian@cdjrlc.com>, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-file: drivers/video/fbdev/omap/sossi.c
-line: 362
-     * We set explicitly the the bus_pick_count as well, although
+there is an unexpected word "the" in the comments that need to be dropped
+file: drivers/gpu/drm/display/drm_dp_helper.c
+line: 1600
+  * Doesn't account the the "MOT" bit, and instead assumes each
 changed to
-     * We set explicitly the bus_pick_count as well, although
+  * Doesn't account the "MOT" bit, and instead assumes eac
 
 Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
 ---
- drivers/video/fbdev/omap/sossi.c | 2 +-
+ drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/omap/sossi.c b/drivers/video/fbdev/omap/sossi.c
-index c90eb8ca58af..66aff6cd1df0 100644
---- a/drivers/video/fbdev/omap/sossi.c
-+++ b/drivers/video/fbdev/omap/sossi.c
-@@ -359,7 +359,7 @@ static void sossi_set_bits_per_cycle(int bpc)
- 	int bus_pick_count, bus_pick_width;
- 
- 	/*
--	 * We set explicitly the the bus_pick_count as well, although
-+	 * We set explicitly the bus_pick_count as well, although
- 	 * with remapping/reordering disabled it will be calculated by HW
- 	 * as (32 / bus_pick_width).
- 	 */
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index e7c22c2ca90c..499f75768523 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -1597,7 +1597,7 @@ static int drm_dp_aux_reply_duration(const struct drm_dp_aux_msg *msg)
+  * Calculate the length of the i2c transfer in usec, assuming
+  * the i2c bus speed is as specified. Gives the the "worst"
+  * case estimate, ie. successful while as long as possible.
+- * Doesn't account the the "MOT" bit, and instead assumes each
++ * Doesn't account the "MOT" bit, and instead assumes each
+  * message includes a START, ADDRESS and STOP. Neither does it
+  * account for additional random variables such as clock stretching.
+  */
 -- 
 2.17.1
 
