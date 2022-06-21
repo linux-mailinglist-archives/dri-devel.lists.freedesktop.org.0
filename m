@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51265532A4
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 14:58:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFCF5532D8
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 15:04:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E572D112595;
-	Tue, 21 Jun 2022 12:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5F8B10E269;
+	Tue, 21 Jun 2022 13:03:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A129112595
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 12:58:35 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6800B104;
- Tue, 21 Jun 2022 14:58:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1655816312;
- bh=QeBzIO+U3oKdldlfZMcuLeVK7EiSrArkPksFp8cBSkM=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=OO5/5+9Yhc4qSTux6Py6LT4Iy9hqrC9FAcbdk89g+PfRJ9mfNx/9LXQfiVqPfMl6B
- l/HtiR7/BVJjXnB3PuCTdJ9rho2pL2COKVqdaXTmuizWOt9m7IN1wjsDio7LVg3ePB
- sCpnfC6Tove2EPl7XyJUAFnmnCL1okn8xaSvBPgs=
-Content-Type: text/plain; charset="utf-8"
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA36510E269
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 13:03:56 +0000 (UTC)
+Received: from maud (unknown [184.175.41.107])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: alyssa)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E70BA6601742;
+ Tue, 21 Jun 2022 14:03:53 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1655816635;
+ bh=nIHT4mBUlZmHgcK1doTX5bMDgyD+VTIKWvJ8XOeSd5Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fesPicQytzz5TWJGEUD8k/CtabTVruwGTH3lT/ihqO6URxZUBrwPO48tugYsLiEKt
+ Iz8fIDo8xa0GZb5Y+fv1FGcU75YdPv6v0yJgqvExklfSZ5Uw/YRqxYyxy0pmIpZ97L
+ JDOqUC1zbY6A18JV1x1WRh4cV1k8iwNR88M4tW0G+ocEXWuO2C/0TZWTCjMKZYag6h
+ EUK7ns/G34sNcDF+bkvPYKMd1DIw+IUS4ySsKvatV4fQ+/qXkLewdNF7xSoVZ+6YPH
+ obVubffVmgWcKjxtjiG4CWfaHrFAOtjUTG1AtiOzIim3XrkoE+DBneVKOTZgH0620r
+ n8O4jSHqJ1B4Q==
+Date: Tue, 21 Jun 2022 09:03:47 -0400
+From: Alyssa Rosenzweig <alyssa@collabora.com>
+To: Adri??n Larumbe <adrian.larumbe@collabora.com>
+Subject: Re: [PATCH v2 1/1] drm/panfrost: Add support for devcoredump
+Message-ID: <YrHBs+u9gAbOAAxT@maud>
+References: <20220621023204.94179-1-adrian.larumbe@collabora.com>
+ <20220621023204.94179-2-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220616170821.1348169-1-steve@sk2.org>
-References: <20220616170821.1348169-1-steve@sk2.org>
-Subject: Re: [PATCH v2] drm: shmobile: Use backlight helper
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Stephen Kitt <steve@sk2.org>
-Date: Tue, 21 Jun 2022 13:58:29 +0100
-Message-ID: <165581630958.18145.12909267841116831017@Monstersaurus>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220621023204.94179-2-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,68 +52,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Kitt <steve@sk2.org>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
+ tomeu.vizoso@collabora.com, steven.price@arm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Stephen Kitt (2022-06-16 18:08:21)
-> This started with work on the removal of backlight_properties'
-> deprecated fb_blank field, much of which can be taken care of by using
-> helper functions provided by backlight.h instead of directly accessing
-> fields in backlight_properties. This patch series doesn't involve
-> fb_blank, but it still seems useful to use helper functions where
-> appropriate.
->=20
-> Instead of retrieving the backlight brightness in struct
-> backlight_properties manually, and then checking whether the backlight
-> should be on at all, use backlight_get_brightness() which does all
-> this and insulates this from future changes.
->=20
-> Signed-off-by: Stephen Kitt <steve@sk2.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Hi Adrian,
 
+Great work on the devcoredump support! This is really cool to see coming
+along, thank you! I've left a few notes below:
 
-Hi Stephen,
+> +		if (panfrost_dump_registers[i] >= JS_HEAD_LO(0) &&
+> +		    panfrost_dump_registers[i] <= JS_CONFIG_NEXT(0))
+> +			js_as_offset = slot * 0x80;
+> +		else if (panfrost_dump_registers[i] >= AS_TRANSTAB_LO(0) &&
+> +			 panfrost_dump_registers[i] <= AS_STATUS(0))
+> +			js_as_offset = ((as_nr) << 6);
 
-This looks reasonable to me too.
+I'm not a fan of the magic numbers. Do you think it makes sense to add
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+	#define JS_SLOT_STRIDE 0x80
+	#define MMU_AS_SHIFT 0x6
 
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
-> Changes since v1: clarified commit message, this doesn't touch fb_blank
-> ---
->  drivers/gpu/drm/shmobile/shmob_drm_backlight.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c b/drivers/gpu=
-/drm/shmobile/shmob_drm_backlight.c
-> index f6628a5ee95f..794573badfe8 100644
-> --- a/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-> +++ b/drivers/gpu/drm/shmobile/shmob_drm_backlight.c
-> @@ -18,11 +18,7 @@ static int shmob_drm_backlight_update(struct backlight=
-_device *bdev)
->         struct shmob_drm_connector *scon =3D bl_get_data(bdev);
->         struct shmob_drm_device *sdev =3D scon->connector.dev->dev_privat=
-e;
->         const struct shmob_drm_backlight_data *bdata =3D &sdev->pdata->ba=
-cklight;
-> -       int brightness =3D bdev->props.brightness;
-> -
-> -       if (bdev->props.power !=3D FB_BLANK_UNBLANK ||
-> -           bdev->props.state & BL_CORE_SUSPENDED)
-> -               brightness =3D 0;
-> +       int brightness =3D backlight_get_brightness(bdev);
-> =20
->         return bdata->set_brightness(brightness);
->  }
->=20
-> base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
-> --=20
-> 2.30.2
->
+in the appropriate places in panfrost_regs.h, reexpress the existing
+#defines in terms of those
+
+	#define JS_HEAD_LO(n) (JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x00)
+	...
+	#define JS_FLUSH_ID_NEXT(n) (JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x70)
+	...
+	#define MM_AS(as) (0x2400 + ((as) << MMU_AS_SHIFT)
+
+and then use those here?
+
+Also, drop the parans around (as_nr), this isn't a macro.
+
+> +	/* Add in the active buffer objects */
+> +	for (i = 0; i < job->bo_count; i++) {
+> +		dbo = job->bos[i];
+> +		file_size += dbo->size;
+> +		n_bomap_pages += dbo->size >> PAGE_SHIFT;
+> +		n_obj++;
+> +	}
+
+Strictly, I don't think this is right -- what happens if the CPU is
+configured to use 16K or 64K pages? -- however, that mistake is pretty
+well entrenched in panfrost.ko right now and it doesn't seem to bother
+anyone (non-4K pages on arm64 are pretty rare outside of fruit
+computers).
+
+That said, out-of-context there looks like an alignment question. Could
+we add an assert for that, documenting the invariant:
+
+	WARN_ON(!IS_ALIGNED(dbo->size, PAGE_SIZE));
+
+> +	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
+> +			__GFP_NORETRY);
+> +	if (!iter.start) {
+> +		dev_warn(pfdev->dev, "failed to allocate devcoredump file\n");
+> +		return;
+> +	}
+> ...
+> +	memset(iter.hdr, 0, iter.data - iter.start);
+
+Why are we using __GFP_NOWARN and __GFP_NORETRY? Why not plain vmalloc?
+
+Also, why vmalloc instead of vzalloc? (Or adding __GFP_ZERO to the list
+of __vmalloc flags if __GFP_NOWARN/__GFP_NORETRY are really needed?) Are
+there relevant performance or security considerations?
+
+> +/* Definitions for coredump decoding in user space */
+> +#define PANFROSTDUMP_VERSION_1 1
+
+I'm not a fan of an enum that just represents a number. Using the
+numbers directly means we can compare them in a natural way. Also, using
+a major/minor split like Steven suggested can help with semantic
+versioning.
+
+Cheers,
+Alyssa
