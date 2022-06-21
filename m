@@ -1,55 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589F3552D12
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 10:35:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC89552D2F
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 10:39:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E60810FDFB;
-	Tue, 21 Jun 2022 08:35:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE94210E00C;
+	Tue, 21 Jun 2022 08:38:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCBE010FD7C;
- Tue, 21 Jun 2022 08:35:20 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8F2710E00C;
+ Tue, 21 Jun 2022 08:38:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655800520; x=1687336520;
+ t=1655800735; x=1687336735;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=tcH44qHr+yr3cKmPbdiBkct6pDloeVDM35jKpmd8j/g=;
- b=Fdou1Ft1YHDMUCA4g103pLRPIc3qF1asagdkDPS4YeyT4gS/MHIy15t3
- /tSQ36oMBWu2MGW9lRALXJW45ezUCDkRHxy6a3j7IbFtpbkbiIgiHlSUX
- aK05CcWaXAZTSQy+y6/HLpiLgkrCseUGJ7txkLWKu8shdBqUx47kdQ27E
- SNzCFQ1/dMvh7PPsV7rVsWvM7OjICdIzx1j7yVW8/ExtZCoKXq+TIqYEd
- Tt39YD0OxJedTIFfr4r0SOAsoU+KEbG8vSon2LhMxACC4N1Z//XUBVSDY
- 6ml7NtqrNdypkVToSd+2CHnsPn16urOg+XxUhKjpA5GbZmEHIOwS6orSW A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="344056546"
-X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="344056546"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2022 01:35:20 -0700
-X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="614665520"
-Received: from lapolka-mobl.amr.corp.intel.com (HELO [10.209.139.96])
- ([10.209.139.96])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2022 01:35:18 -0700
-Message-ID: <2a2c9a7a-bc0e-ad2a-4b82-b4801b5c6373@linux.intel.com>
-Date: Tue, 21 Jun 2022 09:35:16 +0100
+ bh=VBTXa9/FMwHuJlYOTBjaeQy8a9a5URwXVDsvhFoAUN4=;
+ b=fJV/78EezAPkd+iTLr3wR7E0ee3Cg84G1B5mnV1v2OLx8l+tOwF+DPFI
+ IvIN1kzJ4sDK3TG1WpxvHcLMYYSqXDN4OjVRjD4wLRbnbE71h5AdLfLIz
+ tAtaWRzruSyovE/205O0ywfXtlNi+JeJcjwBaueLQa3r1DQ28nqiPe3P9
+ JZPker5CDor+V460+h/qeCfJzSegCj2unO1to8s47XT8sBgNQlDrGRIMi
+ e3LOIRNDBzCxV6YrtzvksjfPgxV7ZX3RcydOiMFKkHiytFnr6sSso6af2
+ GF64Ch+a2qsYPSJB0MOZog5PW4+drE52qpF+D85V6uP2Lhsp/qkvyxkGe g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="277614203"
+X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="277614203"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2022 01:38:53 -0700
+X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="676902266"
+Received: from jasonmor-mobl1.ger.corp.intel.com (HELO [10.213.200.10])
+ ([10.213.200.10])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2022 01:38:51 -0700
+Message-ID: <d63ce1b2-cd44-665b-2b42-19dea4cc6f1c@intel.com>
+Date: Tue, 21 Jun 2022 09:38:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [Intel-gfx] [PATCH v2 1/3] drm/doc/rfc: VM_BIND feature design
- document
-Content-Language: en-US
-To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-References: <20220617051445.8901-1-niranjana.vishwanathapura@intel.com>
- <20220617051445.8901-2-niranjana.vishwanathapura@intel.com>
- <c153dc07-f44d-ba83-cad6-2005a497a519@linux.intel.com>
- <20220620162944.GW376@nvishwa1-DESK>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220620162944.GW376@nvishwa1-DESK>
+ Firefox/91.0 Thunderbird/91.10.0
+Subject: Re: [Intel-gfx] [PATCH 09/10] drm/i915: turn on small BAR support
+Content-Language: en-GB
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220525184337.491763-1-matthew.auld@intel.com>
+ <20220525184337.491763-10-matthew.auld@intel.com>
+ <7cf923bd-ae17-24fb-24de-1a53aee34630@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <7cf923bd-ae17-24fb-24de-1a53aee34630@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,449 +62,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paulo.r.zanoni@intel.com, intel-gfx@lists.freedesktop.org,
- chris.p.wilson@intel.com, thomas.hellstrom@intel.com,
- dri-devel@lists.freedesktop.org, daniel.vetter@intel.com,
- christian.koenig@amd.com, matthew.auld@intel.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Kenneth Graunke <kenneth@whitecape.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 20/06/2022 17:29, Niranjana Vishwanathapura wrote:
-> On Mon, Jun 20, 2022 at 11:43:10AM +0100, Tvrtko Ursulin wrote:
->>
->> Hi,
->>
->> On 17/06/2022 06:14, Niranjana Vishwanathapura wrote:
->>> VM_BIND design document with description of intended use cases.
->>>
->>> v2: Reduce the scope to simple Mesa use case.
->>
->> since I expressed interest please add me to cc when sending out.
->>
+On 17/06/2022 13:33, Thomas Hellström wrote:
 > 
-> Hi Tvrtko,
-> I did include you in the cc list with git send-email, but looks like 
-> some patches
-> in this series has the full cc list, but some don't (you are on cc list 
-> of this
-> patch though). I am not sure why.
-
-Odd, I'm not on CC on the (only for me) copy I found in the mailing list.
-
->> How come the direction changed to simplify all of a sudden? I did not 
->> spot any discussion to that effect. Was it internal talks?
+> On 5/25/22 20:43, Matthew Auld wrote:
+>> With the uAPI in place we should now have enough in place to ensure a
+>> working system on small BAR configurations.
 >>
+>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Cc: Jordan Justen <jordan.l.justen@intel.com>
+>> Cc: Kenneth Graunke <kenneth@whitecape.org>
+>> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gt/intel_region_lmem.c | 10 ++++------
+>>   1 file changed, 4 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c 
+>> b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+>> index e9c12e0d6f59..6c6f8cbd7321 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+>> @@ -111,12 +111,6 @@ static struct intel_memory_region 
+>> *setup_lmem(struct intel_gt *gt)
+>>           flat_ccs_base = intel_gt_read_register(gt, 
+>> XEHPSDV_FLAT_CCS_BASE_ADDR);
+>>           flat_ccs_base = (flat_ccs_base >> XEHPSDV_CCS_BASE_SHIFT) * 
+>> SZ_64K;
+>> -        /* FIXME: Remove this when we have small-bar enabled */
+>> -        if (pci_resource_len(pdev, 2) < lmem_size) {
+>> -            drm_err(&i915->drm, "System requires small-BAR support, 
+>> which is currently unsupported on this kernel\n");
+>> -            return ERR_PTR(-EINVAL);
+>> -        }
+>> -
+>>           if (GEM_WARN_ON(lmem_size < flat_ccs_base))
+>>               return ERR_PTR(-EIO);
+>> @@ -169,6 +163,10 @@ static struct intel_memory_region 
+>> *setup_lmem(struct intel_gt *gt)
+>>       drm_info(&i915->drm, "Local memory available: %pa\n",
+>>            &lmem_size);
+>> +    if (io_size < lmem_size)
+>> +        drm_info(&i915->drm, "Using a reduced BAR size of %lluMiB. 
+>> Consider enabling the full BAR size if available in the BIOS.\n",
+>> +             (u64)io_size >> 20);
+>> +
 > 
-> Yah, some of us had offline discussion involving the Mesa team.
-> I did update the thread (previous version of this patch series) about that.
-> Plan was to align our roadmap to focus on the deliverables at this point
-> without further complicating the uapi.
->>>
->>> Signed-off-by: Niranjana Vishwanathapura 
->>> <niranjana.vishwanathapura@intel.com>
->>> ---
->>>  Documentation/gpu/rfc/i915_vm_bind.rst | 238 +++++++++++++++++++++++++
->>>  Documentation/gpu/rfc/index.rst        |   4 +
->>>  2 files changed, 242 insertions(+)
->>>  create mode 100644 Documentation/gpu/rfc/i915_vm_bind.rst
->>>
->>> diff --git a/Documentation/gpu/rfc/i915_vm_bind.rst 
->>> b/Documentation/gpu/rfc/i915_vm_bind.rst
->>> new file mode 100644
->>> index 000000000000..4ab590ef11fd
->>> --- /dev/null
->>> +++ b/Documentation/gpu/rfc/i915_vm_bind.rst
->>> @@ -0,0 +1,238 @@
->>> +==========================================
->>> +I915 VM_BIND feature design and use cases
->>> +==========================================
->>> +
->>> +VM_BIND feature
->>> +================
->>> +DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM buffer
->>> +objects (BOs) or sections of a BOs at specified GPU virtual 
->>> addresses on a
->>> +specified address space (VM). These mappings (also referred to as 
->>> persistent
->>> +mappings) will be persistent across multiple GPU submissions 
->>> (execbuf calls)
->>> +issued by the UMD, without user having to provide a list of all 
->>> required
->>> +mappings during each submission (as required by older execbuf mode).
->>> +
->>> +The VM_BIND/UNBIND calls allow UMDs to request a timeline fence for 
->>> signaling
->>> +the completion of bind/unbind operation.
->>> +
->>> +VM_BIND feature is advertised to user via I915_PARAM_HAS_VM_BIND.
->>> +User has to opt-in for VM_BIND mode of binding for an address space 
->>> (VM)
->>> +during VM creation time via I915_VM_CREATE_FLAGS_USE_VM_BIND extension.
->>> +
->>> +Normally, vm_bind/unbind operations will get completed synchronously,
->>
->> To me synchronously, at this point in the text, reads as ioctl will 
->> return only when the operation is done. Rest of the paragraph however 
->> disagrees (plus existence of out fence). It is not clear to me what is 
->> the actual behaviour. Will it be clear to userspace developers reading 
->> uapi kerneldoc? If it is async, what are the ordering rules in this 
->> version?
->>
+> Hmm. I wonder what BIOS uis typically call the mappable portion of VRAM. 
+> I'll se if I can check that on my DG1 system. Might be that an average 
+> user misinterprets "full BAR".
+
+"PCI Subsystem settings" -> "Above 4G memory [enabled/disabled]"
+
+Sample size of one though.
+
+Maybe s/full BAR size/full memory size/ ?
+
 > 
-> Yah, here I am simply stating the i915_vma_pin_ww() behavior which mostly
-> does the binding synchronously unless there is a moving fence associated
-> with the object in which case, binding will complete later once that fence
-> is signaled (hence the out fence).
-
-So from userspace point of view it is fully asynchronous and out of 
-order? I'd suggest spelling that out in the uapi kerneldoc.
-
->>> +but if the object is being moved, the binding will happen once that the
->>> +moving is complete and out fence will be signaled after binding is 
->>> complete.
->>> +The bind/unbind operation can get completed out of submission order.
->>> +
->>> +VM_BIND features include:
->>> +
->>> +* Multiple Virtual Address (VA) mappings can map to the same 
->>> physical pages
->>> +  of an object (aliasing).
->>> +* VA mapping can map to a partial section of the BO (partial binding).
->>> +* Support capture of persistent mappings in the dump upon GPU error.
->>> +* TLB is flushed upon unbind completion. Batching of TLB flushes in 
->>> some
->>> +  use cases will be helpful.
->>> +* Support for userptr gem objects (no special uapi is required for 
->>> this).
->>> +
->>> +Execbuf ioctl in VM_BIND mode
->>> +-------------------------------
->>> +A VM in VM_BIND mode will not support older execbuf mode of binding.
->>> +The execbuf ioctl handling in VM_BIND mode differs significantly 
->>> from the
->>> +older execbuf2 ioctl (See struct drm_i915_gem_execbuffer2).
->>> +Hence, a new execbuf3 ioctl has been added to support VM_BIND mode. 
->>> (See
->>> +struct drm_i915_gem_execbuffer3). The execbuf3 ioctl will not accept 
->>> any
->>> +execlist. Hence, no support for implicit sync. It is expected that 
->>> the below
->>> +work will be able to support requirements of object dependency 
->>> setting in all
->>> +use cases:
->>> +
->>> +"dma-buf: Add an API for exporting sync files"
->>> +(https://lwn.net/Articles/859290/)
->>
->> What does this mean? If execbuf3 does not know about target objects 
->> how can we add a meaningful fence?
->>
+> /Thomas
 > 
-> Execbuf3 does know about the target objects. It is all the objects
-> bound to that VM via vm_bind call.
 > 
->>> +
->>> +The execbuf3 ioctl directly specifies the batch addresses instead of as
->>> +object handles as in execbuf2 ioctl. The execbuf3 ioctl will also not
->>> +support many of the older features like in/out/submit fences, fence 
->>> array,
->>> +default gem context and many more (See struct 
->>> drm_i915_gem_execbuffer3).
->>> +
->>> +In VM_BIND mode, VA allocation is completely managed by the user 
->>> instead of
->>> +the i915 driver. Hence all VA assignment, eviction are not 
->>> applicable in
->>> +VM_BIND mode. Also, for determining object activeness, VM_BIND mode 
->>> will not
->>> +be using the i915_vma active reference tracking. It will instead use 
->>> dma-resv
->>> +object for that (See `VM_BIND dma_resv usage`_).
->>> +
->>> +So, a lot of existing code supporting execbuf2 ioctl, like 
->>> relocations, VA
->>> +evictions, vma lookup table, implicit sync, vma active reference 
->>> tracking etc.,
->>> +are not applicable for execbuf3 ioctl. Hence, all execbuf3 specific 
->>> handling
->>> +should be in a separate file and only functionalities common to 
->>> these ioctls
->>> +can be the shared code where possible.
->>> +
->>> +VM_PRIVATE objects
->>> +-------------------
->>> +By default, BOs can be mapped on multiple VMs and can also be dma-buf
->>> +exported. Hence these BOs are referred to as Shared BOs.
->>> +During each execbuf submission, the request fence must be added to the
->>> +dma-resv fence list of all shared BOs mapped on the VM.
->>
->> Does this tie to my previous question? Design is to add each fence to 
->> literally _all_ BOs mapped to a VM, on every execbuf3? If so, is that 
->> definitely needed and for what use case? Mixing implicit and explicit, 
->> I mean bridging implicit and explicit sync clients?
->>
 > 
-> Yes. It is similar to how legacy execbuf2 does. ie., add request fence
-> to all of the target BOs. Only difference is in execbuf2 case, target
-> objects are the objects in execlist, whereas in execbuf2, it is all
-> the BOs mapped to that VM via vm_bind call. It is needed as UMD says
-> that it is needed by vm_bind'ing the BO before the execbuf3 call.
-
-Sorry I did not understand why it is needed, the last sentence that is, 
-what did that suppose to mean?
-
-Regards,
-
-Tvrtko
-
-> Niranjana
-> 
->> Regards,
->>
->> Tvrtko
->>
->>> +
->>> +VM_BIND feature introduces an optimization where user can create BO 
->>> which
->>> +is private to a specified VM via I915_GEM_CREATE_EXT_VM_PRIVATE flag 
->>> during
->>> +BO creation. Unlike Shared BOs, these VM private BOs can only be 
->>> mapped on
->>> +the VM they are private to and can't be dma-buf exported.
->>> +All private BOs of a VM share the dma-resv object. Hence during each 
->>> execbuf
->>> +submission, they need only one dma-resv fence list updated. Thus, 
->>> the fast
->>> +path (where required mappings are already bound) submission latency 
->>> is O(1)
->>> +w.r.t the number of VM private BOs.
->>> +
->>> +VM_BIND locking hirarchy
->>> +-------------------------
->>> +The locking design here supports the older (execlist based) execbuf 
->>> mode, the
->>> +newer VM_BIND mode, the VM_BIND mode with GPU page faults and 
->>> possible future
->>> +system allocator support (See `Shared Virtual Memory (SVM) support`_).
->>> +The older execbuf mode and the newer VM_BIND mode without page 
->>> faults manages
->>> +residency of backing storage using dma_fence. The VM_BIND mode with 
->>> page faults
->>> +and the system allocator support do not use any dma_fence at all.
->>> +
->>> +VM_BIND locking order is as below.
->>> +
->>> +1) Lock-A: A vm_bind mutex will protect vm_bind lists. This lock is 
->>> taken in
->>> +   vm_bind/vm_unbind ioctl calls, in the execbuf path and while 
->>> releasing the
->>> +   mapping.
->>> +
->>> +   In future, when GPU page faults are supported, we can potentially 
->>> use a
->>> +   rwsem instead, so that multiple page fault handlers can take the 
->>> read side
->>> +   lock to lookup the mapping and hence can run in parallel.
->>> +   The older execbuf mode of binding do not need this lock.
->>> +
->>> +2) Lock-B: The object's dma-resv lock will protect i915_vma state 
->>> and needs to
->>> +   be held while binding/unbinding a vma in the async worker and 
->>> while updating
->>> +   dma-resv fence list of an object. Note that private BOs of a VM 
->>> will all
->>> +   share a dma-resv object.
->>> +
->>> +   The future system allocator support will use the HMM prescribed 
->>> locking
->>> +   instead.
->>> +
->>> +3) Lock-C: Spinlock/s to protect some of the VM's lists like the 
->>> list of
->>> +   invalidated vmas (due to eviction and userptr invalidation) etc.
->>> +
->>> +When GPU page faults are supported, the execbuf path do not take any 
->>> of these
->>> +locks. There we will simply smash the new batch buffer address into 
->>> the ring and
->>> +then tell the scheduler run that. The lock taking only happens from 
->>> the page
->>> +fault handler, where we take lock-A in read mode, whichever lock-B 
->>> we need to
->>> +find the backing storage (dma_resv lock for gem objects, and 
->>> hmm/core mm for
->>> +system allocator) and some additional locks (lock-D) for taking care 
->>> of page
->>> +table races. Page fault mode should not need to ever manipulate the 
->>> vm lists,
->>> +so won't ever need lock-C.
->>> +
->>> +VM_BIND LRU handling
->>> +---------------------
->>> +We need to ensure VM_BIND mapped objects are properly LRU tagged to 
->>> avoid
->>> +performance degradation. We will also need support for bulk LRU 
->>> movement of
->>> +VM_BIND objects to avoid additional latencies in execbuf path.
->>> +
->>> +The page table pages are similar to VM_BIND mapped objects (See
->>> +`Evictable page table allocations`_) and are maintained per VM and 
->>> needs to
->>> +be pinned in memory when VM is made active (ie., upon an execbuf 
->>> call with
->>> +that VM). So, bulk LRU movement of page table pages is also needed.
->>> +
->>> +VM_BIND dma_resv usage
->>> +-----------------------
->>> +Fences needs to be added to all VM_BIND mapped objects. During each 
->>> execbuf
->>> +submission, they are added with DMA_RESV_USAGE_BOOKKEEP usage to 
->>> prevent
->>> +over sync (See enum dma_resv_usage). One can override it with either
->>> +DMA_RESV_USAGE_READ or DMA_RESV_USAGE_WRITE usage during object 
->>> dependency
->>> +setting (either through explicit or implicit mechanism).
->>> +
->>> +When vm_bind is called for a non-private object while the VM is already
->>> +active, the fences need to be copied from VM's shared dma-resv object
->>> +(common to all private objects of the VM) to this non-private object.
->>> +If this results in performance degradation, then some optimization will
->>> +be needed here. This is not a problem for VM's private objects as 
->>> they use
->>> +shared dma-resv object which is always updated on each execbuf 
->>> submission.
->>> +
->>> +Also, in VM_BIND mode, use dma-resv apis for determining object 
->>> activeness
->>> +(See dma_resv_test_signaled() and dma_resv_wait_timeout()) and do 
->>> not use the
->>> +older i915_vma active reference tracking which is deprecated. This 
->>> should be
->>> +easier to get it working with the current TTM backend.
->>> +
->>> +Mesa use case
->>> +--------------
->>> +VM_BIND can potentially reduce the CPU overhead in Mesa (both Vulkan 
->>> and Iris),
->>> +hence improving performance of CPU-bound applications. It also 
->>> allows us to
->>> +implement Vulkan's Sparse Resources. With increasing GPU hardware 
->>> performance,
->>> +reducing CPU overhead becomes more impactful.
->>> +
->>> +
->>> +Other VM_BIND use cases
->>> +========================
->>> +
->>> +Long running Compute contexts
->>> +------------------------------
->>> +Usage of dma-fence expects that they complete in reasonable amount 
->>> of time.
->>> +Compute on the other hand can be long running. Hence it is 
->>> appropriate for
->>> +compute to use user/memory fence (See `User/Memory Fence`_) and 
->>> dma-fence usage
->>> +must be limited to in-kernel consumption only.
->>> +
->>> +Where GPU page faults are not available, kernel driver upon buffer 
->>> invalidation
->>> +will initiate a suspend (preemption) of long running context, finish 
->>> the
->>> +invalidation, revalidate the BO and then resume the compute context. 
->>> This is
->>> +done by having a per-context preempt fence which is enabled when 
->>> someone tries
->>> +to wait on it and triggers the context preemption.
->>> +
->>> +User/Memory Fence
->>> +~~~~~~~~~~~~~~~~~~
->>> +User/Memory fence is a <address, value> pair. To signal the user 
->>> fence, the
->>> +specified value will be written at the specified virtual address and 
->>> wakeup the
->>> +waiting process. User fence can be signaled either by the GPU or 
->>> kernel async
->>> +worker (like upon bind completion). User can wait on a user fence 
->>> with a new
->>> +user fence wait ioctl.
->>> +
->>> +Here is some prior work on this:
->>> +https://patchwork.freedesktop.org/patch/349417/
->>> +
->>> +Low Latency Submission
->>> +~~~~~~~~~~~~~~~~~~~~~~~
->>> +Allows compute UMD to directly submit GPU jobs instead of through 
->>> execbuf
->>> +ioctl. This is made possible by VM_BIND is not being synchronized 
->>> against
->>> +execbuf. VM_BIND allows bind/unbind of mappings required for the 
->>> directly
->>> +submitted jobs.
->>> +
->>> +Debugger
->>> +---------
->>> +With debug event interface user space process (debugger) is able to 
->>> keep track
->>> +of and act upon resources created by another process (debugged) and 
->>> attached
->>> +to GPU via vm_bind interface.
->>> +
->>> +GPU page faults
->>> +----------------
->>> +GPU page faults when supported (in future), will only be supported 
->>> in the
->>> +VM_BIND mode. While both the older execbuf mode and the newer 
->>> VM_BIND mode of
->>> +binding will require using dma-fence to ensure residency, the GPU 
->>> page faults
->>> +mode when supported, will not use any dma-fence as residency is 
->>> purely managed
->>> +by installing and removing/invalidating page table entries.
->>> +
->>> +Page level hints settings
->>> +--------------------------
->>> +VM_BIND allows any hints setting per mapping instead of per BO.
->>> +Possible hints include read-only mapping, placement and atomicity.
->>> +Sub-BO level placement hint will be even more relevant with
->>> +upcoming GPU on-demand page fault support.
->>> +
->>> +Page level Cache/CLOS settings
->>> +-------------------------------
->>> +VM_BIND allows cache/CLOS settings per mapping instead of per BO.
->>> +
->>> +Evictable page table allocations
->>> +---------------------------------
->>> +Make pagetable allocations evictable and manage them similar to VM_BIND
->>> +mapped objects. Page table pages are similar to persistent mappings 
->>> of a
->>> +VM (difference here are that the page table pages will not have an 
->>> i915_vma
->>> +structure and after swapping pages back in, parent page link needs 
->>> to be
->>> +updated).
->>> +
->>> +Shared Virtual Memory (SVM) support
->>> +------------------------------------
->>> +VM_BIND interface can be used to map system memory directly (without 
->>> gem BO
->>> +abstraction) using the HMM interface. SVM is only supported with GPU 
->>> page
->>> +faults enabled.
->>> +
->>> +VM_BIND UAPI
->>> +=============
->>> +
->>> +.. kernel-doc:: Documentation/gpu/rfc/i915_vm_bind.h
->>> diff --git a/Documentation/gpu/rfc/index.rst 
->>> b/Documentation/gpu/rfc/index.rst
->>> index 91e93a705230..7d10c36b268d 100644
->>> --- a/Documentation/gpu/rfc/index.rst
->>> +++ b/Documentation/gpu/rfc/index.rst
->>> @@ -23,3 +23,7 @@ host such documentation:
->>>  .. toctree::
->>>      i915_scheduler.rst
->>> +
->>> +.. toctree::
->>> +
->>> +    i915_vm_bind.rst
+>>       return mem;
+>>   err_region_put:
