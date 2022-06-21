@@ -1,55 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC66552AC0
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 08:05:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B13552ACC
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 08:12:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C859112746;
-	Tue, 21 Jun 2022 06:05:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88D6911237A;
+	Tue, 21 Jun 2022 06:12:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0161112746
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 06:05:43 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 25L65SXf121737;
- Tue, 21 Jun 2022 01:05:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1655791528;
- bh=Ap0E3scOD56YBw0wixxDNJ51SA2kU8j9amKsGfVLewc=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=N2GAXK6+v4JCbCskex3KsAVG3xV023TmieBob3Z1wGAGB6SCbjA+LW+1r5+MSB+TL
- 55vcCGid2z3fsC7E8mzFPd8eBr40n2+lZfu+vl2ZF3ccf3BKmnq2GipGfEFDi67oRh
- NbNACo5kCAk7U2G3weMPsopwh/IiFYK7StLp86pY=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 25L65SkV121374
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 21 Jun 2022 01:05:28 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 21
- Jun 2022 01:05:28 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Tue, 21 Jun 2022 01:05:28 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 25L65RZM067872;
- Tue, 21 Jun 2022 01:05:27 -0500
-Date: Tue, 21 Jun 2022 11:35:26 +0530
-From: Rahul T R <r-ravikumar@ti.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v2] drm/bridge: cdns-dsi: Add support for J721E wrapper
-Message-ID: <20220621060525.kvm5wojt6kmfqhqv@uda0490373>
-References: <20220619140158.30881-1-r-ravikumar@ti.com>
- <042c77d5-7db1-fa09-4be4-74dbfa85b5e2@ideasonboard.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECAC411237A
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 06:12:25 +0000 (UTC)
+X-UUID: 0b15bc29da43456e9e4f6ebc04174aa8-20220621
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6, REQID:de535e08-fa36-49bb-b16d-50d77a4fc694, OB:0,
+ LO
+ B:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:45
+X-CID-INFO: VERSION:1.1.6, REQID:de535e08-fa36-49bb-b16d-50d77a4fc694, OB:0,
+ LOB:
+ 10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:45
+X-CID-META: VersionHash:b14ad71, CLOUDID:196c0938-5e4b-44d7-80b2-bb618cb09d29,
+ C
+ OID:8dec583d3fd7,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 0b15bc29da43456e9e4f6ebc04174aa8-20220621
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 827093855; Tue, 21 Jun 2022 14:12:20 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Tue, 21 Jun 2022 14:12:19 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Tue, 21 Jun 2022 14:12:19 +0800
+Message-ID: <2133b865e57d1576671c2c6e685c7c09b1717fcf.camel@mediatek.com>
+Subject: Re: [PATCH v11 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
+ driver
+From: CK Hu <ck.hu@mediatek.com>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
+ <airlied@linux.ie>
+Date: Tue, 21 Jun 2022 14:12:19 +0800
+In-Reply-To: <20220610105522.13449-6-rex-bc.chen@mediatek.com>
+References: <20220610105522.13449-1-rex-bc.chen@mediatek.com>
+ <20220610105522.13449-6-rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <042c77d5-7db1-fa09-4be4-74dbfa85b5e2@ideasonboard.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,34 +68,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mparab@cadence.com, a-bhatia1@ti.com, jonas@kwiboo.se, airlied@linux.ie,
- jpawar@cadence.com, dri-devel@lists.freedesktop.org, narmstrong@baylibre.com,
- linux-kernel@vger.kernel.org, robert.foss@linaro.org, jernej.skrabec@gmail.com,
- andrzej.hajda@intel.com, sjakhade@cadence.com,
- laurent.pinchart@ideasonboard.com
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ granquet@baylibre.com, jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, msp@baylibre.com,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13:02-20220620, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 19/06/2022 17:01, Rahul T R wrote:
-> > Add support for wrapper settings for DSI bridge on
-> > j721e. Also set the DPI input to DPI0
-> > 
-> > Signed-off-by: Rahul T R <r-ravikumar@ti.com>
-> > ---
-> 
-> Nack... This wouldn't work with some other SoC using CDNS DSI.
-> 
-> See cdns-mhdp8546 for an example of a bit more generic wrapper support.
-> 
->  Tomi
+Hi, Bo-Chen:
 
-Thanks Tomi,
+On Fri, 2022-06-10 at 18:55 +0800, Bo-Chen Chen wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> This patch adds a embedded displayport driver for the MediaTek mt8195
+> SoC.
+> 
+> It supports the MT8195, the embedded DisplayPort units. It offers
+> DisplayPort 1.4 with up to 4 lanes.
+> 
+> The driver creates a child device for the phy. The child device will
+> never exist without the parent being active. As they are sharing a
+> register range, the parent passes a regmap pointer to the child so
+> that
+> both can work with the same register range. The phy driver sets
+> device
+> data that is read by the parent to get the phy device that can be
+> used
+> to control the phy properties.
+> 
+> This driver is based on an initial version by
+> Jitao shi <jitao.shi@mediatek.com>
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> [Bo-Chen: Cleanup the drivers and modify comments from reviewers]
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
 
-I have sent a respin with making changes similar to cdns-mhdp8546
-please review
+[snip]
 
-Regards
-Rahul T R
+> +
+> +#define MTK_DP_ENC0_P0_3130			(ENC0_OFFSET + 0x130)
+
+This is useless in this patch, so remove it.
+If this is used in later patch, add this back in that patch.
+
+> +#define MTK_DP_ENC0_P0_3138			(ENC0_OFFSET + 0x138)
+
+Ditto.
+
+Regards,
+CK
+
+> +#define MTK_DP_ENC0_P0_3154			(ENC0_OFFSET + 0x154)
+> +#define PGEN_HTOTAL_DP_ENC0_P0_MASK		GENMASK(13, 0)
+> +#define MTK_DP_ENC0_P0_3158			(ENC0_OFFSET + 0x158)
+> 
+
