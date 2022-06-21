@@ -1,48 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546D9553019
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 12:47:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2949553000
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 12:46:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE0610FE3F;
-	Tue, 21 Jun 2022 10:47:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5BE510E132;
+	Tue, 21 Jun 2022 10:46:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A19910FDF9;
- Tue, 21 Jun 2022 10:47:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655808422; x=1687344422;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=bY2x4Zz2O+LBM0US9V2QcIb64Gqi8kU1ncs8pLllAVk=;
- b=HkAJ/vj9w6qqhjoUBPKJ7Vr1yxLrjhFbYYO+v9JgzeRaoWrc3NV6da7L
- iwjOPeXVE2Yr2Tz/ca2SCOnzPFo51U807Btywqs/GZsjefO0Ue17r5vx/
- C5tSCYa5yXuSoYD+slbnKms+JDQkeDbymedKylzkAc136mNToxhVeh9J0
- i33YVohheJa6eEp0plGFyDs6UTOC/bFo6zJfEThl/xeKEnmlCGemle0fq
- YuPz0YtW7rm3ME8XslAnIJ/KJXzncpL2Pc3ZbSK6xcGQEMLi1zAlWt3S1
- RlZtwCukkxtEUHj1S8lz49p4Cy/dwv/DCJTI/jnhGw0hooIGhB/R3QIiU A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10384"; a="263121970"
-X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="263121970"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2022 03:47:02 -0700
-X-IronPort-AV: E=Sophos;i="5.92,209,1650956400"; d="scan'208";a="562327156"
-Received: from jasonmor-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.213.200.10])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2022 03:47:01 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 12/12] HAX: force small BAR on dg2
-Date: Tue, 21 Jun 2022 11:44:34 +0100
-Message-Id: <20220621104434.190962-13-matthew.auld@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96CFB10E132
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 10:46:20 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 44ED4219C0;
+ Tue, 21 Jun 2022 10:46:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1655808379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6FfuXEmjHU8y3K9CTtaOWpoCAU4urbqfwPztFLOi9f8=;
+ b=cO0ux2YRzycKieUgSsIgrEGU3Fv6u0Eqo3ekg4lGozJUjE50dWfQiEkkmFhIiKemhK49Zt
+ y9rNUfeUJ8u0LTSLYPmtA4FNHKqZ7yB/BgF4tT2WV4Y0QfCZ4vCmy79xwFP7yImJKTcBro
+ xqM6jNRw3feALy3UNGSAZnVMg+ooP7Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1655808379;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6FfuXEmjHU8y3K9CTtaOWpoCAU4urbqfwPztFLOi9f8=;
+ b=wDuk9IYxk4RIhOCF07CixbP2p13rGWGizdhjsdGOQQrBkXQhQ0+zn7z6gdjOsMQzIA2H3l
+ zgsYQHZMn/3KXMDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 10A3C13A88;
+ Tue, 21 Jun 2022 10:46:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id /fcTA3uhsWIiUgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 21 Jun 2022 10:46:19 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, javierm@redhat.com
+Subject: [PATCH] drm/fb-helper: Fix out-of-bounds access
+Date: Tue, 21 Jun 2022 12:46:17 +0200
+Message-Id: <20220621104617.8817-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220621104434.190962-1-matthew.auld@intel.com>
-References: <20220621104434.190962-1-matthew.auld@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,33 +65,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Nuno=20Gon=C3=A7alves?= <nunojpg@gmail.com>,
+ stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just for CI.
+Clip memory range to screen-buffer size to avoid out-of-bounds access
+in fbdev deferred I/O's damage handling.
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Fbdev's deferred I/O can only track pages. From the range of pages, the
+damage handler computes the clipping rectangle for the display update.
+If the fbdev screen buffer ends near the beginning of a page, that page
+could contain more scanlines. The damage handler would then track these
+non-existing scanlines as dirty and provoke an out-of-bounds access
+during the screen update. Hence, clip the maximum memory range to the
+size of the screen buffer.
+
+While at it, rename the variables min/max to min_off/max_off in
+drm_fb_helper_deferred_io(). This avoids confusion with the macros of
+the same name.
+
+Reported-by: Nuno Gonçalves <nunojpg@gmail.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Tested-by: Nuno Gonçalves <nunojpg@gmail.com>
+Fixes: 67b723f5b742 ("drm/fb-helper: Calculate damaged area in separate helper")
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: <stable@vger.kernel.org> # v5.18+
 ---
- drivers/gpu/drm/i915/gt/intel_region_lmem.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/drm_fb_helper.c | 27 +++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-index 82c3d2d0f0e0..62c3f8185852 100644
---- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-+++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
-@@ -138,6 +138,11 @@ static struct intel_memory_region *setup_lmem(struct intel_gt *gt)
- 	if (!io_size)
- 		return ERR_PTR(-EIO);
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 5ad2b6a2778c..1705e8d345ab 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -680,7 +680,11 @@ static void drm_fb_helper_damage(struct fb_info *info, u32 x, u32 y,
+ 	schedule_work(&helper->damage_work);
+ }
  
-+	if (io_size == lmem_size) {
-+		drm_info(&i915->drm, "NOTE!! Forcing small BAR for testing\n");
-+		io_size = SZ_256M;
-+	}
+-/* Convert memory region into area of scanlines and pixels per scanline */
++/*
++ * Convert memory region into area of scanlines and pixels per
++ * scanline. The parameters off and len must not reach beyond
++ * the end of the framebuffer.
++ */
+ static void drm_fb_helper_memory_range_to_clip(struct fb_info *info, off_t off, size_t len,
+ 					       struct drm_rect *clip)
+ {
+@@ -715,22 +719,29 @@ static void drm_fb_helper_memory_range_to_clip(struct fb_info *info, off_t off,
+  */
+ void drm_fb_helper_deferred_io(struct fb_info *info, struct list_head *pagereflist)
+ {
+-	unsigned long start, end, min, max;
++	unsigned long start, end, min_off, max_off;
+ 	struct fb_deferred_io_pageref *pageref;
+ 	struct drm_rect damage_area;
+ 
+-	min = ULONG_MAX;
+-	max = 0;
++	min_off = ULONG_MAX;
++	max_off = 0;
+ 	list_for_each_entry(pageref, pagereflist, list) {
+ 		start = pageref->offset;
+ 		end = start + PAGE_SIZE;
+-		min = min(min, start);
+-		max = max(max, end);
++		min_off = min(min_off, start);
++		max_off = max(max_off, end);
+ 	}
+-	if (min >= max)
++	if (min_off >= max_off)
+ 		return;
+ 
+-	drm_fb_helper_memory_range_to_clip(info, min, max - min, &damage_area);
++	/*
++	 * As we can only track pages, we might reach beyond the end
++	 * of the screen and account for non-existing scanlines. Hence,
++	 * keep the covered memory area within the screen buffer.
++	 */
++	max_off = min(max_off, info->screen_size);
 +
- 	min_page_size = HAS_64K_PAGES(i915) ? I915_GTT_PAGE_SIZE_64K :
- 						I915_GTT_PAGE_SIZE_4K;
- 	mem = intel_memory_region_create(i915,
++	drm_fb_helper_memory_range_to_clip(info, min_off, max_off - min_off, &damage_area);
+ 	drm_fb_helper_damage(info, damage_area.x1, damage_area.y1,
+ 			     drm_rect_width(&damage_area),
+ 			     drm_rect_height(&damage_area));
 -- 
 2.36.1
 
