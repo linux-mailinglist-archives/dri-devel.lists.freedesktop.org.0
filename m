@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD9855354F
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 17:11:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E23DD553556
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 17:11:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C961510E770;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 902FE10E560;
 	Tue, 21 Jun 2022 15:10:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C28510E5AA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E20D10E560
  for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 15:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=w6BHQOo4OjAquUzPRJDN9FxN7UMmI2Re8yXkiTY0n9Y=; b=vShT5f5p/4U8Kva9zXvglxMYUx
- 67Tf8dcUoxD1cP49t3NK3BoXWpsG1Fekg6tLmHRKAg2Mlwi5ad/w4jtCvWhGmJyMnHZ4TxHCYfYhO
- 6Q4rpqg7wW5PxWFbPJ7GmlxRbqJ3D9VRmlRUnBnUePJgNEIvIrzgv8khKtXjiO6GiYxKdFIZvrzRf
- WWvcdpWLtKL4he4W4cgN6cbI4XCEW7XtR/LgXNuejtsLX4h5oWPorPpejkabcartfPF9fSzc19/Qn
- yr7U1+hPi8V63X5FjvecXURL0IZh23Tbol3+bS0NI0K/JHiia1qWwDcKQYC/B7hSTg8ECvGJ2CHDq
- B5DJN29Q==;
+ bh=tEnOk0m5EknjIwP5Wi5D0MEtwLqTocqed5XbSC4LxPw=; b=LwXMf7kCx1x5kbVqzdYdMTq38K
+ f+cCCGgkMs3+BHcjuFfUe8OUdDVazudyC9arQ/xcBQOI43kSYZStulXJdpyEI9fg8EDHtaZM6PThV
+ KXVQC/bofdmiJZKIntRayin8L0K8j4ZQ0Co+BdgkGV18mr+PfExFqsqroI3lzcnWY9yLWMaqnXtkf
+ nm8IpLWvukhQQLWftyEvFxPH/aaCiYR5c/6/hcFgfGGD3V8iP5wsq0PpzjAaa9Qjo92ZZ5NmLaflA
+ KXsWz48v2qqxXWEyU4D1oO3ti6ZPGEHBbzI46Wkqh3IR+dDBMBJ2I9yDcmac/7xEJNkLmWQrnuqSh
+ IV2oXPuA==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <cyndis@kapsi.fi>)
- id 1o3fWT-00Ea3F-F8; Tue, 21 Jun 2022 18:10:33 +0300
+ id 1o3fWT-00Ea3F-Ib; Tue, 21 Jun 2022 18:10:33 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
  will@kernel.org, robin.murphy@arm.com, robh+dt@kernel.org,
  krzysztof.kozlowski@canonical.com
-Subject: [PATCH v6 00/10] Host1x context isolation support
-Date: Tue, 21 Jun 2022 18:10:12 +0300
-Message-Id: <20220621151022.1416300-1-cyndis@kapsi.fi>
+Subject: [PATCH v6 01/10] iommu/arm-smmu: Attach to host1x context device bus
+Date: Tue, 21 Jun 2022 18:10:13 +0300
+Message-Id: <20220621151022.1416300-2-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220621151022.1416300-1-cyndis@kapsi.fi>
+References: <20220621151022.1416300-1-cyndis@kapsi.fi>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 91.158.25.70
@@ -63,163 +65,50 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
--------------
-Merging notes
--------------
+Set itself as the IOMMU for the host1x context device bus, containing
+"dummy" devices used for Host1x context isolation.
 
-The changes to DT bindings should be applied on top of Thierry's patch
-'dt-bindings: display: tegra: Convert to json-schema'.
+Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+---
+This patch should only be applied if Robin Murphy's IOMMU bus
+refactoring series doesn't get merged in time.
+---
+ drivers/iommu/arm/arm-smmu/arm-smmu.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-The change to the arm-smmu driver should be omitted if Robin Murphy's
-IOMMU bus cleanup series is merged.
-
-***
-New in v6:
-
-Rebased on 5.19-rc3 (-next is too broken)
-Added patch to fix TRANSCFG offset on NVDEC.
-***
-
-***
-New in v5:
-
-Rebased
-Renamed host1x_context to host1x_memory_context
-Small change in DRM side client driver ops to reduce churn with some
-  upcoming changes
-Add NVDEC support
-
-***
-
-***
-New in v4:
-
-Addressed review comments. See individual patches.
-***
-
-***
-New in v3:
-
-Added device tree bindings for new property.
-***
-
-***
-New in v2:
-
-Added support for Tegra194
-Use standard iommu-map property instead of custom mechanism
-***
-
-This series adds support for Host1x 'context isolation'. Since
-when programming engines through Host1x, userspace can program in
-any addresses it wants, we need some way to isolate the engines'
-memory spaces. Traditionally this has either been done imperfectly
-with a single shared IOMMU domain, or by copying and verifying the
-programming command stream at submit time (Host1x firewall).
-
-Since Tegra186 there is a privileged (only usable by kernel)
-Host1x opcode that allows setting the stream ID sent by the engine
-to the SMMU. So, by allocating a number of context banks and stream
-IDs for this purpose, and using this opcode at the beginning of
-each job, we can implement isolation. Due to the limited number of
-context banks only each process gets its own context, and not
-each channel.
-
-This feature also allows sharing engines among multiple VMs when
-used with Host1x's hardware virtualization support - up to 8 VMs
-can be configured with a subset of allowed stream IDs, enforced
-at hardware level.
-
-To implement this, this series adds a new host1x context bus, which
-will contain the 'struct device's corresponding to each context
-bank / stream ID, changes to device tree and SMMU code to allow
-registering the devices and using the bus, as well as the Host1x
-stream ID programming code and support in TegraDRM.
-
-Thanks,
-Mikko
-
-Mikko Perttunen (9):
-  iommu/arm-smmu: Attach to host1x context device bus
-  dt-bindings: host1x: Add iommu-map property
-  gpu: host1x: Add context device management code
-  gpu: host1x: Program context stream ID on submission
-  arm64: tegra: Add Host1x context stream IDs on Tegra186+
-  drm/tegra: falcon: Set DMACTX field on DMA transactions
-  drm/tegra: nvdec: Fix TRANSCFG register offset
-  drm/tegra: Support context isolation
-  drm/tegra: Implement stream ID related callbacks on engines
-
-Thierry Reding (1):
-  dt-bindings: display: tegra: Convert to json-schema
-
- .../display/tegra/nvidia,tegra114-mipi.txt    |  41 --
- .../display/tegra/nvidia,tegra114-mipi.yaml   |  74 ++
- .../display/tegra/nvidia,tegra124-dpaux.yaml  | 149 ++++
- .../display/tegra/nvidia,tegra124-sor.yaml    | 206 ++++++
- .../display/tegra/nvidia,tegra124-vic.yaml    |  71 ++
- .../display/tegra/nvidia,tegra186-dc.yaml     |  85 +++
- .../tegra/nvidia,tegra186-display.yaml        | 310 ++++++++
- .../tegra/nvidia,tegra186-dsi-padctl.yaml     |  45 ++
- .../display/tegra/nvidia,tegra20-dc.yaml      | 181 +++++
- .../display/tegra/nvidia,tegra20-dsi.yaml     | 159 +++++
- .../display/tegra/nvidia,tegra20-epp.yaml     |  70 ++
- .../display/tegra/nvidia,tegra20-gr2d.yaml    |  73 ++
- .../display/tegra/nvidia,tegra20-gr3d.yaml    | 214 ++++++
- .../display/tegra/nvidia,tegra20-hdmi.yaml    | 126 ++++
- .../display/tegra/nvidia,tegra20-host1x.txt   | 675 ------------------
- .../display/tegra/nvidia,tegra20-host1x.yaml  | 352 +++++++++
- .../display/tegra/nvidia,tegra20-isp.yaml     |  67 ++
- .../display/tegra/nvidia,tegra20-mpe.yaml     |  73 ++
- .../display/tegra/nvidia,tegra20-tvo.yaml     |  58 ++
- .../display/tegra/nvidia,tegra20-vi.yaml      | 163 +++++
- .../display/tegra/nvidia,tegra210-csi.yaml    |  52 ++
- .../pinctrl/nvidia,tegra124-dpaux-padctl.txt  |  59 --
- arch/arm64/boot/dts/nvidia/tegra186.dtsi      |  11 +
- arch/arm64/boot/dts/nvidia/tegra194.dtsi      |  11 +
- drivers/gpu/drm/tegra/drm.h                   |  11 +
- drivers/gpu/drm/tegra/falcon.c                |   8 +
- drivers/gpu/drm/tegra/falcon.h                |   1 +
- drivers/gpu/drm/tegra/nvdec.c                 |  13 +-
- drivers/gpu/drm/tegra/submit.c                |  48 +-
- drivers/gpu/drm/tegra/uapi.c                  |  43 +-
- drivers/gpu/drm/tegra/vic.c                   |  67 +-
- drivers/gpu/host1x/Makefile                   |   1 +
- drivers/gpu/host1x/context.c                  | 160 +++++
- drivers/gpu/host1x/context.h                  |  27 +
- drivers/gpu/host1x/dev.c                      |  12 +-
- drivers/gpu/host1x/dev.h                      |   2 +
- drivers/gpu/host1x/hw/channel_hw.c            |  52 +-
- drivers/gpu/host1x/hw/host1x06_hardware.h     |  10 +
- drivers/gpu/host1x/hw/host1x07_hardware.h     |  10 +
- drivers/iommu/arm/arm-smmu/arm-smmu.c         |  13 +
- include/linux/host1x.h                        |  26 +
- 41 files changed, 3037 insertions(+), 792 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.txt
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-dpaux.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-display.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dsi-padctl.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dc.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-epp.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr2d.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-gr3d.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-isp.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-mpe.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-tvo.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
- create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
- delete mode 100644 Documentation/devicetree/bindings/pinctrl/nvidia,tegra124-dpaux-padctl.txt
- create mode 100644 drivers/gpu/host1x/context.c
- create mode 100644 drivers/gpu/host1x/context.h
-
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+index 2ed3594f384e..74c4357f850b 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+@@ -39,6 +39,7 @@
+ 
+ #include <linux/amba/bus.h>
+ #include <linux/fsl/mc.h>
++#include <linux/host1x_context_bus.h>
+ 
+ #include "arm-smmu.h"
+ 
+@@ -2056,8 +2057,20 @@ static int arm_smmu_bus_init(struct iommu_ops *ops)
+ 			goto err_reset_pci_ops;
+ 	}
+ #endif
++#ifdef CONFIG_TEGRA_HOST1X_CONTEXT_BUS
++	if (!iommu_present(&host1x_context_device_bus_type)) {
++		err = bus_set_iommu(&host1x_context_device_bus_type, ops);
++		if (err)
++			goto err_reset_fsl_mc_ops;
++	}
++#endif
++
+ 	return 0;
+ 
++err_reset_fsl_mc_ops: __maybe_unused;
++#ifdef CONFIG_FSL_MC_BUS
++	bus_set_iommu(&fsl_mc_bus_type, NULL);
++#endif
+ err_reset_pci_ops: __maybe_unused;
+ #ifdef CONFIG_PCI
+ 	bus_set_iommu(&pci_bus_type, NULL);
 -- 
 2.36.1
 
