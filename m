@@ -1,80 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE74E553960
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 20:07:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44CC655396E
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jun 2022 20:16:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4238710EC4D;
-	Tue, 21 Jun 2022 18:07:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6810A10E798;
+	Tue, 21 Jun 2022 18:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69DAF10EC4D
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 18:07:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655834858;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5cG3kia8odkjBcTZLKuQl7AOybzGyl/9gRLK0isGMAI=;
- b=YvqTVHdi1b4mwzjtFzNnN4CUDujiGHcaqnE1xCqdv55evRMQ0LmzhxMQpoIzNL1ghouNHL
- pVsZYbjfsMBrkK7H2wvRVALP3HS0whhwSY18dtlaeJTT8EzdPLbK263EYM/5AsFrEGQUkH
- d0fnZmUIxdDDeE465eVBrsx+Ts1+s+8=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-u1XvewXyOJ2x3y5UE5q7Yw-1; Tue, 21 Jun 2022 14:07:37 -0400
-X-MC-Unique: u1XvewXyOJ2x3y5UE5q7Yw-1
-Received: by mail-qv1-f70.google.com with SMTP id
- lx15-20020a0562145f0f00b0047052731d81so2507113qvb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 11:07:37 -0700 (PDT)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A29F10EF65
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 18:16:04 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ m16-20020a7bca50000000b0039c8a224c95so7683561wml.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 11:16:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=apT0ANeqWm9+pTrO0iJp5VV6HKv4djCO1v/acmOTfvY=;
+ b=hZdZgaOVVwP88XsbsOuXHWqYWNO3vi/CPma1pPt2mdtVBbrxU8v0OjThEwgFsS8Y88
+ RDXq4pC4pVwbdtAWQjFCA7i85PR2yFDuiJhp+M4NWQbuoDvA9p+sf0DsSETdyVy3rmm3
+ 8yDIfFmHHzpFoeZHFVfoZ3/NCCZPQnz+OTLNI/sKUqzExRGLltZkw6PGjUOc3w8KGwty
+ aE99kVNJDW7lHm/sCq4YUofpGmtVHOhsH2/pj/6mrUyyum5NOOdyfDam0f1o+LaJ60Cp
+ m21ltz8RI0TSaCrwZreyeiVsHBBFZ4Q7xBxF++IcjJetO4bdwb1Dgm8Bp7EMvOZVWO+V
+ ufzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=5cG3kia8odkjBcTZLKuQl7AOybzGyl/9gRLK0isGMAI=;
- b=VyuStax4ZvHmErwCBT82KrTHKYVtEfhozrgjllqYW4icmFBztsBqgHIzsYTEJdne/p
- evEfYwepPeXhHlkSpNAa0ZphxynoSKfXlcom5Slb2FVuwxWoCkMhtLyMtZIDwPqjtT/I
- uPTYXtPpRTSFjdDR0m0epW4h8Ecu5vcpt4Q8hYh6hilx7UH21oW6Yr0UuQSF7r6VTBR9
- fB2nFHFg/rivkKU/lKHbTOS4eryzT0Hut/UH9XCCc8XQ+PGe2aVPkU46Pqi1sfLdmtNW
- HJiIQvaCgwpN6x9SgObH3j/tboDPH2sZkd/m2kccTm5ENvq4COlP0HT7RQRqzgiFthbd
- Cwcg==
-X-Gm-Message-State: AJIora9jIzU3K3LsyIE2utUh5giDqp0eFWR2cQI7wlROYM3bBOzVd2qo
- rKE1yAYiswbFtUcn6nBy4O79vc0+7cAH/cWSkJcN4htuY7WjgrWe6nz5veMC33T2pgfFU5ORBC3
- v8bNMSu5NQh1bSip6Cg8RuH/izdFj
-X-Received: by 2002:a05:6214:27cc:b0:46b:bc28:7d4f with SMTP id
- ge12-20020a05621427cc00b0046bbc287d4fmr24583818qvb.80.1655834856806; 
- Tue, 21 Jun 2022 11:07:36 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sJh6CMMcPe8ZNnL91aAC2G9gWqasAgfRD8kaUJj366io2XkPR2slZLQWFlSpnAemSm8lZ2OA==
-X-Received: by 2002:a05:6214:27cc:b0:46b:bc28:7d4f with SMTP id
- ge12-20020a05621427cc00b0046bbc287d4fmr24583794qvb.80.1655834856463; 
- Tue, 21 Jun 2022 11:07:36 -0700 (PDT)
-Received: from [192.168.8.138] ([141.154.49.182])
- by smtp.gmail.com with ESMTPSA id
- u7-20020a05622a198700b002f90a33c78csm13488992qtc.67.2022.06.21.11.07.35
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=apT0ANeqWm9+pTrO0iJp5VV6HKv4djCO1v/acmOTfvY=;
+ b=3/eXagvo+p7rR8hGqUUQkTB4CW7CnJC4NywxiHsJF9h7SCEm2ShMPqrXTDGF12RcJe
+ lKffwUx3pg3phTIuI/9BddoQJCBUNKGB6YF7wPzzHYH44Go1PWv1AryR4MNe5XEUQd6d
+ vRurFtJKe1oua+D5qo9ZfPT1Q+qBwryrAB27aotVLN4Auli3NHa50cog+aQV/JOoApqP
+ JO+mO7i+dHF/jfjGIG08emcmKufvd4v8saPeuUQ+hjnsKgEaKb+pA6GOAXe7IWcMMcp5
+ TJBSK8oCHY+yjFr7ef1FY4cofKPG7D7Y1rC9keZ/SAcQvRFal+uQ7xHuM34YfuAmgRkd
+ 07dg==
+X-Gm-Message-State: AJIora+RLo1LQMXssbeKjtZ8TI+RyveW8S89zgRuk+94sfliL2CYoiAa
+ Pw4pmL9nKDFHxPcVh2GrQhs=
+X-Google-Smtp-Source: AGRyM1v2x8XQjMkHBy22K+zRqshHQGdU3odTKCt3cgCbAs2n1G0K+OjjEtYRm9ugKZrBBh8mKn0+Kw==
+X-Received: by 2002:a05:600c:a07:b0:39e:da6e:fc49 with SMTP id
+ z7-20020a05600c0a0700b0039eda6efc49mr29346749wmp.143.1655835362839; 
+ Tue, 21 Jun 2022 11:16:02 -0700 (PDT)
+Received: from elementary ([94.73.36.128]) by smtp.gmail.com with ESMTPSA id
+ b18-20020a056000055200b0021a38089e99sm16670822wrf.57.2022.06.21.11.16.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jun 2022 11:07:35 -0700 (PDT)
-Message-ID: <026999e88cabd9bd4923e3c14271a94f5d264fa3.camel@redhat.com>
-Subject: Re: [PATCH] drm/display: drop unexpected word "the" in the comments
-From: Lyude Paul <lyude@redhat.com>
-To: Jiang Jian <jiangjian@cdjrlc.com>, airlied@linux.ie, daniel@ffwll.ch
-Date: Tue, 21 Jun 2022 14:07:34 -0400
-In-Reply-To: <4e772a9219177f548378ecac62e03be6c9928ead.camel@redhat.com>
-References: <20220621131440.1512-1-jiangjian@cdjrlc.com>
- <4e772a9219177f548378ecac62e03be6c9928ead.camel@redhat.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ Tue, 21 Jun 2022 11:16:02 -0700 (PDT)
+Date: Tue, 21 Jun 2022 20:15:59 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: David Gow <davidgow@google.com>
+Subject: Re: [PATCH v4 3/3] drm/doc: Add KUnit documentation
+Message-ID: <20220621181559.GB3209@elementary>
+References: <20220620160640.3790-1-jose.exposito89@gmail.com>
+ <20220620160640.3790-4-jose.exposito89@gmail.com>
+ <CABVgOS=nmio08_==bOhXK1qLBoGVBO9=7A9srcp6PBUS06CTqA@mail.gmail.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABVgOS=nmio08_==bOhXK1qLBoGVBO9=7A9srcp6PBUS06CTqA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,53 +73,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ magalilemes00@gmail.com, David Airlie <airlied@linux.ie>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
+ Daniel Latypov <dlatypov@google.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, tales.aparecida@gmail.com,
+ Isabella Basso <isabbasso@riseup.net>,
+ KUnit Development <kunit-dev@googlegroups.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Actually I hate to ask but could you resend this and the other patch that you
-sent and make sure that dri-devel@ is explicitly in the to: list? For some
-reason these patches don't seem to be coming up on patchwork
+Hi David,
 
-On Tue, 2022-06-21 at 13:54 -0400, Lyude Paul wrote:
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-> 
-> Will push to the appropriate branch in a moment
-> 
-> On Tue, 2022-06-21 at 21:14 +0800, Jiang Jian wrote:
-> > there is an unexpected word "the" in the comments that need to be dropped
-> > 
-> > file: drivers/gpu/drm/display/drm_dp_helper.c
-> > line: 1600
-> >   * Doesn't account the the "MOT" bit, and instead assumes each
-> > changed to
-> >   * Doesn't account the "MOT" bit, and instead assumes each
-> > 
-> > Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
+On Tue, Jun 21, 2022 at 05:38:38PM +0800, David Gow wrote:
+> On Tue, Jun 21, 2022 at 12:06 AM Jos� Exp�sito
+> <jose.exposito89@gmail.com> wrote:
+> >
+> > Explain how to run the KUnit tests present in the DRM subsystem and
+> > clarify why the UML-only options were not added to the configuration
+> > file present in drivers/gpu/drm/.kunitconfig [1] [2].
+> >
+> > [1] https://lore.kernel.org/dri-devel/CABVgOSn8i=LO5p7830h2XU1Jgg0KrN0qTnxkOMhf1oTgxjaKKw@mail.gmail.com/
+> > [2] https://lore.kernel.org/dri-devel/CAGS_qxqpiCim_sy1LDK7PLwVgWf-LKW+uNFTGM=T7ydk-dYcEw@mail.gmail.com/
+> >
+> > Reviewed-by: Maxime Ripard <maxime@cerno.tech>
+> > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Signed-off-by: Jos� Exp�sito <jose.exposito89@gmail.com>
 > > ---
-> >  drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c
-> > b/drivers/gpu/drm/display/drm_dp_helper.c
-> > index e7c22c2ca90c..499f75768523 100644
-> > --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> > @@ -1597,7 +1597,7 @@ static int drm_dp_aux_reply_duration(const struct
-> > drm_dp_aux_msg *msg)
-> >   * Calculate the length of the i2c transfer in usec, assuming
-> >   * the i2c bus speed is as specified. Gives the the "worst"
-> >   * case estimate, ie. successful while as long as possible.
-> > - * Doesn't account the the "MOT" bit, and instead assumes each
-> > + * Doesn't account the "MOT" bit, and instead assumes each
-> >   * message includes a START, ADDRESS and STOP. Neither does it
-> >   * account for additional random variables such as clock stretching.
-> >   */
 > 
+> This looks good (and doesn't seem to introduce any 'make htmldocs'
+> build issues on my machine).
+> 
+> You could also mention that using --arch=x86_64 (or similar) instead
+> of the UML options is another, equally viable option for running the
+> tests. That'd make it more obvious how to run on different
+> architectures: UML, while a good default, is quite different to other
+> architectures in not having any PCI support out-of-the-box.
+> 
+> (Maybe we should make the --arch=um default config include these
+> options? Or have um-pci as another architecture. We did decide not to
+> bother with SMP and x86, though...)
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Javier suggested the same:
+https://lore.kernel.org/dri-devel/20220614180952.GA7067@elementary/
+
+I prefer to keep the docs as simple as possible and link the KUnit
+docs for more information. However, you both have way more experience 
+than me and agree on the topic, so I'll be happy to include it in v5
+if you think it is a good idea.
+ 
+> Regardless, this is
+> Reviewed-by: David Gow <davidgow@google.com>
+
+Thanks for reviewing and building the docs, appreciate it.
+Jose
+
+> Cheers,
+> -- David
+
 
