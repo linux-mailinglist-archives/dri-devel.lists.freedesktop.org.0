@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB9A75545D1
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 13:38:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DDF05545D2
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 13:38:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13D93112661;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 769041125D4;
 	Wed, 22 Jun 2022 11:38:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD40911260C
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 11:37:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11CF1112614
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 11:37:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=pGQX1JKxanPmqedEue8d2htEoS8AyrUnifwuz1TiUYY=; b=yZHHvO2gAsgUTeABTWjkXK6I86
- uL+FGvQ8hCleHf04RcwKn7ew5zDDjJmRCs9J5/TI86enbi60883jwpFqmqBqgU2TYJ87OmG3t2Bqp
- roIC5dtquTKQ8EKdLQZ0zNXcuyHrTDZg7pCNkj7D8PI16GOA2uQva+Qb5VRGNay/cGm+gxxJxD3Lx
- dF0emDMIES3Nrdf/5IByChBhvP8xv1s6NKz6YRvVOgKXJ324RiNMmZK+cInTd3JI0fJCgn/lq+RKy
- mxV9V/LtTKek37spbZDN8qxONg+BXxEi3BTkVZDhRCz5kLIxpiDXmZufS5QgVLirs3c3ewbPYqQeZ
- WPYE2lXQ==;
+ bh=n5fftUEvkFxqEj5rq74Mb5X3DmU+ng2FZSz30Wp76JY=; b=RzyK1+BusDAc55RQOghHuS07Nu
+ 5PpLu8Juu1OK292BjpLuADIO359VRqiUa6bwNHJmDlpyBVS0d9wiKqPpnDdhE4E91QyTjgrQuXpzS
+ uFPbJxFdIbEX1sWP0L3VA2lnO6wKweQpEJCSmnlRm32t4CXAldiOqUCeq/mNikL5pcERE7PE7J1M2
+ YrQM7aKV+tzuLcXD6ygK0w+GUGdDRsLzrKndHe5CbpQs374qeSzYoaT1k4wu4dMjqkBfHWXBZmmSE
+ eNJK7fSkVu/CHaF2oJbHCI8mQBVxN9dtiVrdQX/V3lYNDassERwnwZgcMXWKJ8XUEz9sqLoI0foZ1
+ n+Ov1OXA==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <cyndis@kapsi.fi>)
- id 1o3yg4-0001Xl-9t; Wed, 22 Jun 2022 14:37:43 +0300
+ id 1o3yg4-0001Xl-CJ; Wed, 22 Jun 2022 14:37:43 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, digetx@gmail.com
-Subject: [PATCH v2 12/13] gpu: host1x: Use RESTART_W to skip timed out jobs on
- Tegra186+
-Date: Wed, 22 Jun 2022 14:37:32 +0300
-Message-Id: <20220622113733.1710471-13-cyndis@kapsi.fi>
+Subject: [PATCH v2 13/13] drm/tegra: vic: Add Tegra234 support
+Date: Wed, 22 Jun 2022 14:37:33 +0300
+Message-Id: <20220622113733.1710471-14-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220622113733.1710471-1-cyndis@kapsi.fi>
 References: <20220622113733.1710471-1-cyndis@kapsi.fi>
@@ -64,47 +63,59 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-When MLOCK enforcement is enabled, the 0-word write currently done
-is rejected by the hardware outside of an MLOCK region. As such,
-on these chips, which also have the newer, more convenient RESTART_W
-opcode, use that instead to skip over the timed out job.
+Add Tegra234 support for VIC. It is backwards compatible with
+Tegra194.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/host1x/cdma.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/tegra/drm.c |  1 +
+ drivers/gpu/drm/tegra/vic.c | 12 ++++++++++++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/drivers/gpu/host1x/cdma.c b/drivers/gpu/host1x/cdma.c
-index 765e5aa64eb6..bb1f3c746be4 100644
---- a/drivers/gpu/host1x/cdma.c
-+++ b/drivers/gpu/host1x/cdma.c
-@@ -457,9 +457,24 @@ void host1x_cdma_update_sync_queue(struct host1x_cdma *cdma,
- 				 * to offset 0xbad. This does nothing but
- 				 * has a easily detected signature in debug
- 				 * traces.
-+				 *
-+				 * On systems with MLOCK enforcement enabled,
-+				 * the above 0 word writes would fall foul of
-+				 * the enforcement. As such, in the first slot
-+				 * put a RESTART_W opcode to the beginning
-+				 * of the next job. We don't use this for older
-+				 * chips since those only support the RESTART
-+				 * opcode with inconvenient alignment requirements.
- 				 */
--				mapped[2*slot+0] = 0x1bad0000;
--				mapped[2*slot+1] = 0x1bad0000;
-+				if (i == 0 && host1x->info->has_wide_gather) {
-+					unsigned int next_job = (job->first_get/8 + job->num_slots)
-+						% HOST1X_PUSHBUFFER_SLOTS;
-+					mapped[2*slot+0] = (0xd << 28) | (next_job * 2);
-+					mapped[2*slot+1] = 0x0;
-+				} else {
-+					mapped[2*slot+0] = 0x1bad0000;
-+					mapped[2*slot+1] = 0x1bad0000;
-+				}
- 			}
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index 9464f522e257..426ffeb51f72 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -1380,6 +1380,7 @@ static const struct of_device_id host1x_drm_subdevs[] = {
+ 	{ .compatible = "nvidia,tegra194-sor", },
+ 	{ .compatible = "nvidia,tegra194-vic", },
+ 	{ .compatible = "nvidia,tegra194-nvdec", },
++	{ .compatible = "nvidia,tegra234-vic", },
+ 	{ /* sentinel */ }
+ };
  
- 			job->cancelled = true;
+diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
+index c5526bda88d6..c1734f823d04 100644
+--- a/drivers/gpu/drm/tegra/vic.c
++++ b/drivers/gpu/drm/tegra/vic.c
+@@ -447,11 +447,20 @@ static const struct vic_config vic_t194_config = {
+ 	.supports_sid = true,
+ };
+ 
++#define NVIDIA_TEGRA_234_VIC_FIRMWARE "nvidia/tegra234/vic.bin"
++
++static const struct vic_config vic_t234_config = {
++	.firmware = NVIDIA_TEGRA_234_VIC_FIRMWARE,
++	.version = 0x23,
++	.supports_sid = true,
++};
++
+ static const struct of_device_id tegra_vic_of_match[] = {
+ 	{ .compatible = "nvidia,tegra124-vic", .data = &vic_t124_config },
+ 	{ .compatible = "nvidia,tegra210-vic", .data = &vic_t210_config },
+ 	{ .compatible = "nvidia,tegra186-vic", .data = &vic_t186_config },
+ 	{ .compatible = "nvidia,tegra194-vic", .data = &vic_t194_config },
++	{ .compatible = "nvidia,tegra234-vic", .data = &vic_t234_config },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, tegra_vic_of_match);
+@@ -590,3 +599,6 @@ MODULE_FIRMWARE(NVIDIA_TEGRA_186_VIC_FIRMWARE);
+ #if IS_ENABLED(CONFIG_ARCH_TEGRA_194_SOC)
+ MODULE_FIRMWARE(NVIDIA_TEGRA_194_VIC_FIRMWARE);
+ #endif
++#if IS_ENABLED(CONFIG_ARCH_TEGRA_234_SOC)
++MODULE_FIRMWARE(NVIDIA_TEGRA_234_VIC_FIRMWARE);
++#endif
 -- 
 2.36.1
 
