@@ -2,72 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175B0554D57
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04842554D58
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:35:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C34611339E;
-	Wed, 22 Jun 2022 14:35:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0591133A2;
+	Wed, 22 Jun 2022 14:35:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF3C11339E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:34:57 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 0D3D032009B9;
- Wed, 22 Jun 2022 10:34:55 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18CE21133A1
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:35:00 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id E256A32009B9;
+ Wed, 22 Jun 2022 10:34:58 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 22 Jun 2022 10:34:56 -0400
+ by compute5.internal (MEProxy); Wed, 22 Jun 2022 10:34:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655908495; x=1655994895; bh=q4
- O3Q1xmO1Cl7CkgKWzjoPOfjWOscweqd7XlBYbMwUM=; b=SNwGCTobKBXTUzhR31
- 5xUMdAyQUcCQSaDUqc6fiWEX/eFVEQv2FFphbPXUpbKSOWiBbzwTeP2TmIRmjisA
- uPgYzvhydZLeZtLd4c447nhZjQb88KkcnlkeP7UUeuhVo/Olh2K7czLD/xxWz7UV
- WhLJZe115vZGUSNe6vNops5p0KVI0T3k4yNI4Q2MmuSjuVo93y/K0Kjs5FaZN3gq
- B/V4PFQU16EVe0LS1nRkJhUKPwoh7cSWqaUvoCAv6tYxy29YvsMrlem8C3wHijHC
- AdFjrDaFNIYUKuORzTLwT1Aq7PyjwPb7m3ix9VjLUr8DKlLw3uU6OImt841jVUkC
- jUTA==
+ :subject:subject:to:to; s=fm1; t=1655908498; x=1655994898; bh=f/
+ +jdXtZfqZAbj7YVJjemah/vwRNbw9TyYh7IM+6eUM=; b=aNxYYQy0BMpcmjbgl2
+ uYcmbBjn24khqCoYveYeudWT4YVAcwR47EJxX4WRdzoI6YuFik1EaD+wQe+jLM/F
+ zsx82hLMxeLTFrdURat7P0ElWU/I4O/ASB+Aw+D9UAJFs7chBqC882k/vsd4LGoj
+ 3Ve1FnSHlADB9syYJLvPKlg+j2amV5MoCqPD+CUu2n5/NaegA2of2aTRW76gSHhN
+ buj7Oo6Q5y3a9jBSkXOfClWW8f81o2bLMq5V2fIh5evWAd63wDqCfErBUTw9V+AK
+ BlH51owia/3BRVaXAIPXpILpBWLlD9iI0HgBq+NkfSpSoqkxCjROYjHj01M4ursD
+ QZHg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655908495; x=1655994895; bh=q4O3Q1xmO1Cl7
- CkgKWzjoPOfjWOscweqd7XlBYbMwUM=; b=qFl/99sq9ktou+tA60cu6jT1IhEqI
- D5aKvt8Ebt7dI2mIlY8TZ5CegjWWFMGQy8W/5JUim//5pbwzqNYjFj3ZJxW8ikmx
- V78/ZiLb+R4wj2xFFDRcEnU3czMFbF83sg5taoTD9am9ulee0OhWFQq3Wn5cbZhc
- PPdeBff5Zy5AL7DQ4zi9YNoPvQyV/Hx2Q764PZVeyG81tESxHaJsEg+gwZoTSnAM
- fmZabDNeEvkmCz+wg553GydHuEGS3RbrVJs73uby/zoJ+ebfaB58MmTjgL4rRpc5
- Xvd4KYgTPReyLFbp2/cWIA92O7j3oKG/hgh1/eFpEneF8YkBo+BItT9og==
-X-ME-Sender: <xms:jyizYiZKWTcVgipPj8PoHWOnXOkafrXqYybsOG_i_KIzK83yO5gN8Q>
- <xme:jyizYlbSoGCVIKqqHzw4uDu6JeY15JZydKbT0FTpbg1lWoo-k1OnPb1L2z9J1cXpf
- YmhxissB0o_thOipcc>
-X-ME-Received: <xmr:jyizYs8qGxSFRxgj9z59j6oofZo3Q_lZdNgMKaGGViFzaaCVF_RxZNE7b72nPVZIxH-2Yiq0slFjnSwTgZEMjuec16UaqBQq_w99tOA>
+ :x-sasl-enc; s=fm2; t=1655908498; x=1655994898; bh=f/+jdXtZfqZAb
+ j7YVJjemah/vwRNbw9TyYh7IM+6eUM=; b=eYEAElGzf0iIpz6FGIXEqxcCr+5G6
+ 0y16zYhZW6goglEN7SvESync/MCmMS8xn11XU1bsLUZeBvxFj1Y166Gx8senjipm
+ eZXJ9XxvdQ3ECXszdrYABWQLCce4ZD+vsJsttmQVjAOoTnwXY/FrUgWX4y8EkzD8
+ PyQTJEHaPFrbvvB6aEtg+uPObVtKl4X5rpKbq+HSpMaQ+tWdvV2CfwNWG/j++VtG
+ 6ahYHNYzvnQdJw+OibviKyOk7/enINWDnHmP9jFecSNcmKFqFRgxZbtSS8Q+jZ5c
+ XBdS4Zab4i4FXz6r/o9F2LlliF64riM1CGGN2zMgoVPqQ+a4duyrwgsDA==
+X-ME-Sender: <xms:kiizYhgOTJkmegDoYQLDAOXPxUVUFZmfz7Bi8ii4XDfh7qyTE5YCLQ>
+ <xme:kiizYmCsIbC_2Acw5oig89ruIo5nST57mCe9G9SN9ugO8-X2Ip8xF8KAFWstplmEu
+ FpX7rPQIb47IaGQRUg>
+X-ME-Received: <xmr:kiizYhH9FF-5NQQXL4sVfkpUbRd4RKomUhs2cbQvpPSfTCc7SS74ukRbRzIRRt9QSpL8KxzLQpwsm2cutrLTZ_CTXeFJ4QyV2LQzd3U>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefhedgjeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedutdenucfrrghrrghmpehmrghilhhfrhhomh
+ vdejhfenucevlhhushhtvghrufhiiigvpeduvdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:jyizYkqgvjVKQBN0Fj3xmZpF2nB8UXd91KhAhbwRR18b6ax1zzg2nQ>
- <xmx:jyizYtp_qFLkYCMfeGbvmLbwJtuYTcGLqyKEBjHVYocAIZwUFBWYcw>
- <xmx:jyizYiToev672ghPNL00YFnajW0P_BP-y2LmFWYjvHA7F_7rn1QisA>
- <xmx:jyizYunQRWnOzGPiHq-PzE3pHxteEJpTUvmK3XvqCNc0wmEJQdIOzg>
+X-ME-Proxy: <xmx:kiizYmRy3KVIpyiBm044kKy-WbUnF500ii7qjkoPnMcFB2Y_kHH47Q>
+ <xmx:kiizYuxQFhaHrPE_dekT0fmm-OcAZkWfeRX4b-Q5pUZy4Kvb16i4PA>
+ <xmx:kiizYs4Yqzacv-ijh42-RMaNd5Df4G769rOoeDJjPRcVustBVO-2Qg>
+ <xmx:kiizYouvXCzPZ0NRXJM0ip4ycyIe4JYj-_5j9Bv45EpbBF8AXTo9fw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jun 2022 10:34:55 -0400 (EDT)
+ 22 Jun 2022 10:34:57 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 51/68] drm/vc4: txp: Remove call to
- drm_connector_unregister()
-Date: Wed, 22 Jun 2022 16:31:52 +0200
-Message-Id: <20220622143209.600298-52-maxime@cerno.tech>
+Subject: [PATCH v2 52/68] drm/vc4: txp: Protect device resources
+Date: Wed, 22 Jun 2022 16:31:53 +0200
+Message-Id: <20220622143209.600298-53-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220622143209.600298-1-maxime@cerno.tech>
 References: <20220622143209.600298-1-maxime@cerno.tech>
@@ -89,46 +88,110 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_connector_unregister() is only to be used for connectors that have been
-registered through drm_connector_register() after drm_dev_register() has
-been called. This is our case here so let's remove the call.
+Our current code now mixes some resources whose lifetime are tied to the
+device (clocks, IO mappings, etc.) and some that are tied to the DRM device
+(encoder, bridge).
+
+The device one will be freed at unbind time, but the DRM one will only be
+freed when the last user of the DRM device closes its file handle.
+
+So we end up with a time window during which we can call the encoder hooks,
+but we don't have access to the underlying resources and device.
+
+Let's protect all those sections with drm_dev_enter() and drm_dev_exit() so
+that we bail out if we are during that window.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_txp.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/vc4/vc4_txp.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 93576b2d9ba6..0976d29adc7f 100644
+index 0976d29adc7f..0748e3f6d40f 100644
 --- a/drivers/gpu/drm/vc4/vc4_txp.c
 +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -335,16 +335,10 @@ vc4_txp_connector_detect(struct drm_connector *connector, bool force)
- 	return connector_status_connected;
- }
+@@ -15,6 +15,7 @@
  
--static void vc4_txp_connector_destroy(struct drm_connector *connector)
--{
--	drm_connector_unregister(connector);
--	drm_connector_cleanup(connector);
--}
--
- static const struct drm_connector_funcs vc4_txp_connector_funcs = {
- 	.detect = vc4_txp_connector_detect,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
--	.destroy = vc4_txp_connector_destroy,
-+	.destroy = drm_connector_cleanup,
- 	.reset = drm_atomic_helper_connector_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-@@ -531,7 +525,7 @@ static void vc4_txp_unbind(struct device *dev, struct device *master,
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_drv.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_fb_cma_helper.h>
+ #include <drm/drm_fourcc.h>
+@@ -274,6 +275,7 @@ static int vc4_txp_connector_atomic_check(struct drm_connector *conn,
+ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
+ 					struct drm_atomic_state *state)
  {
- 	struct vc4_txp *txp = dev_get_drvdata(dev);
++	struct drm_device *drm = conn->dev;
+ 	struct drm_connector_state *conn_state = drm_atomic_get_new_connector_state(state,
+ 										    conn);
+ 	struct vc4_txp *txp = connector_to_vc4_txp(conn);
+@@ -281,6 +283,7 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
+ 	struct drm_display_mode *mode;
+ 	struct drm_framebuffer *fb;
+ 	u32 ctrl;
++	int idx;
+ 	int i;
  
--	vc4_txp_connector_destroy(&txp->connector.base);
-+	drm_connector_cleanup(&txp->connector.base);
+ 	if (WARN_ON(!conn_state->writeback_job))
+@@ -310,6 +313,9 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
+ 		 */
+ 		ctrl |= TXP_ALPHA_INVERT;
+ 
++	if (!drm_dev_enter(drm, &idx))
++		return;
++
+ 	gem = drm_fb_cma_get_gem_obj(fb, 0);
+ 	TXP_WRITE(TXP_DST_PTR, gem->paddr + fb->offsets[0]);
+ 	TXP_WRITE(TXP_DST_PITCH, fb->pitches[0]);
+@@ -320,6 +326,8 @@ static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
+ 	TXP_WRITE(TXP_DST_CTRL, ctrl);
+ 
+ 	drm_writeback_queue_job(&txp->connector, conn_state);
++
++	drm_dev_exit(idx);
  }
  
- static const struct component_ops vc4_txp_ops = {
+ static const struct drm_connector_helper_funcs vc4_txp_connector_helper_funcs = {
+@@ -346,7 +354,12 @@ static const struct drm_connector_funcs vc4_txp_connector_funcs = {
+ 
+ static void vc4_txp_encoder_disable(struct drm_encoder *encoder)
+ {
++	struct drm_device *drm = encoder->dev;
+ 	struct vc4_txp *txp = encoder_to_vc4_txp(encoder);
++	int idx;
++
++	if (!drm_dev_enter(drm, &idx))
++		return;
+ 
+ 	if (TXP_READ(TXP_DST_CTRL) & TXP_BUSY) {
+ 		unsigned long timeout = jiffies + msecs_to_jiffies(1000);
+@@ -361,6 +374,8 @@ static void vc4_txp_encoder_disable(struct drm_encoder *encoder)
+ 	}
+ 
+ 	TXP_WRITE(TXP_DST_CTRL, TXP_POWERDOWN);
++
++	drm_dev_exit(idx);
+ }
+ 
+ static const struct drm_encoder_helper_funcs vc4_txp_encoder_helper_funcs = {
+@@ -444,6 +459,16 @@ static irqreturn_t vc4_txp_interrupt(int irq, void *data)
+ 	struct vc4_txp *txp = data;
+ 	struct vc4_crtc *vc4_crtc = &txp->base;
+ 
++	/*
++	 * We don't need to protect the register access using
++	 * drm_dev_enter() there because the interrupt handler lifetime
++	 * is tied to the device itself, and not to the DRM device.
++	 *
++	 * So when the device will be gone, one of the first thing we
++	 * will be doing will be to unregister the interrupt handler,
++	 * and then unregister the DRM device. drm_dev_enter() would
++	 * thus always succeed if we are here.
++	 */
+ 	TXP_WRITE(TXP_DST_CTRL, TXP_READ(TXP_DST_CTRL) & ~TXP_EI);
+ 	vc4_crtc_handle_vblank(vc4_crtc);
+ 	drm_writeback_signal_completion(&txp->connector, 0);
 -- 
 2.36.1
 
