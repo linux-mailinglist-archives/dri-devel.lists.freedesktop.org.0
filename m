@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C217B55457A
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 12:59:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9B855457C
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 12:59:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D94F10E425;
-	Wed, 22 Jun 2022 10:59:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 726D010E6DE;
+	Wed, 22 Jun 2022 10:59:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2D4D10E425;
- Wed, 22 Jun 2022 10:59:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 347F010E6DE;
+ Wed, 22 Jun 2022 10:59:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655895577; x=1687431577;
+ t=1655895580; x=1687431580;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bbB51acTGPOWA7xvjKqLHwKkMncyJceYVR8Xxzw/U/4=;
- b=IJMzCmnNCvZh4uQFKg9qzL5RVnsx5kkMktbtGIjz+n1QYfZGUCWnNtrv
- xCMjpD1tfD+7bWUaKlgDGGRQA8zcUmXNwrIVjH1/HXSLzW/A/In86oYMW
- HJr0z92v4FiwmWcdsz/p65j0g2jExMBGfrmQFPHmnfQs79gN7VA9gXxG9
- NYcIyCpWb6EFme2jYuBZ1VWTAj7pFu2hHKVomiY4cf04uyKsQrCnx9C8Q
- cbC44Tmj+G2nArDZz58BHsq7vP5/cUfYx9StbllZO7OHEsvBptR7vjZWr
- HIv6mxar3DfaKZAzqehZRzTExhCNfG51n8FbJ3AmChl7UQSG4I0/yWkMU g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="263420348"
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="263420348"
+ bh=VgBffwn+76T+e+a/Oss/WvpC3Qtc/8jnlhYMnf3aJCM=;
+ b=j8pcFSlRiCISrBrGoIyE8rIYXzvA0kIKbcLc/62f4ugH/rIZilYc9K7e
+ 3fMONVhZzsdxDFFJjfWOkbFMkhU0PK3R5RH9GU1fTlyjL9lZ8OrPwgebg
+ rJA0BgP7lAlV+CgGuuSXqNI0mM3unuqmPOT8klIkxQGb6FdN4KSfn9/au
+ yTkLtn2xGdViUvq9mWf7DBTVawblBkbpH7d+DRZ1+2JUv/f+KOk+4Vupz
+ IpiHCHknBt1k9uE+qBoUNxQkGUtf0YZAJbtJoSPq51RflGIPaYRvQLGYL
+ UU95sxKDZJbTmo7OPGB6Fjq6+DPQZnOWLar+GFlbVY8nHkZwL9Tvlw0mE A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="263420357"
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="263420357"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 03:59:36 -0700
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="592136705"
+ 22 Jun 2022 03:59:39 -0700
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="592136757"
 Received: from snowacki-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.59.111])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 03:59:34 -0700
+ 22 Jun 2022 03:59:38 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 01/13] drm/edid: move drm_connector_update_edid_property()
- to drm_edid.c
-Date: Wed, 22 Jun 2022 13:59:15 +0300
-Message-Id: <205b3b8905375506dc9f508fe18652c226cc6a50.1655895388.git.jani.nikula@intel.com>
+Subject: [PATCH v3 02/13] drm/edid: convert
+ drm_connector_update_edid_property() to struct drm_edid
+Date: Wed, 22 Jun 2022 13:59:16 +0300
+Message-Id: <32d64f6e47ac761b003711ab5f13c2a9edebfed6.1655895388.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1655895388.git.jani.nikula@intel.com>
 References: <cover.1655895388.git.jani.nikula@intel.com>
@@ -62,25 +62,44 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function needs access to drm_edid.c internals more than
-drm_connector.c. We can make drm_reset_display_info(),
-drm_add_display_info() and drm_update_tile_info() static. There will be
-more benefits with follow-up struct drm_edid refactoring.
+Make drm_connector_update_edid_property() a thin wrapper around a struct
+drm_edid based version of the same.
+
+This lets us remove the legacy drm_update_tile_info() and
+drm_add_display_info() functions altogether.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_connector.c     | 74 -------------------------
- drivers/gpu/drm/drm_crtc_internal.h |  3 -
- drivers/gpu/drm/drm_edid.c          | 86 +++++++++++++++++++++++++++--
- 3 files changed, 81 insertions(+), 82 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 81 ++++++++++++++++----------------------
+ 1 file changed, 35 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 28ea0f8196b9..2b9a8972eff1 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2078,80 +2078,6 @@ int drm_connector_set_tile_property(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 36bf7b0fe8d9..62967db78139 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -6042,14 +6042,6 @@ static u32 update_display_info(struct drm_connector *connector,
+ 	return quirks;
  }
- EXPORT_SYMBOL(drm_connector_set_tile_property);
+ 
+-static u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid)
+-{
+-	struct drm_edid drm_edid;
+-
+-	return update_display_info(connector,
+-				   drm_edid_legacy_init(&drm_edid, edid));
+-}
+-
+ static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_device *dev,
+ 							    struct displayid_detailed_timings_1 *timings,
+ 							    bool type_7)
+@@ -6206,38 +6198,19 @@ static int drm_edid_connector_update(struct drm_connector *connector,
+ 	return num_modes;
+ }
+ 
+-static void drm_update_tile_info(struct drm_connector *connector,
+-				 const struct edid *edid);
++static void _drm_update_tile_info(struct drm_connector *connector,
++				  const struct drm_edid *drm_edid);
  
 -/**
 - * drm_connector_update_edid_property - update the edid property of a connector
@@ -98,107 +117,62 @@ index 28ea0f8196b9..2b9a8972eff1 100644
 - */
 -int drm_connector_update_edid_property(struct drm_connector *connector,
 -				       const struct edid *edid)
--{
--	struct drm_device *dev = connector->dev;
++static int _drm_connector_update_edid_property(struct drm_connector *connector,
++					       const struct drm_edid *drm_edid)
+ {
+ 	struct drm_device *dev = connector->dev;
 -	size_t size = 0;
--	int ret;
+ 	int ret;
 -	const struct edid *old_edid;
--
--	/* ignore requests to set edid when overridden */
--	if (connector->override_edid)
--		return 0;
--
+ 
+ 	/* ignore requests to set edid when overridden */
+ 	if (connector->override_edid)
+ 		return 0;
+ 
 -	if (edid)
 -		size = EDID_LENGTH * (1 + edid->extensions);
 -
--	/* Set the display info, using edid if available, otherwise
--	 * resetting the values to defaults. This duplicates the work
--	 * done in drm_add_edid_modes, but that function is not
--	 * consistently called before this one in all drivers and the
--	 * computation is cheap enough that it seems better to
--	 * duplicate it rather than attempt to ensure some arbitrary
--	 * ordering of calls.
--	 */
+ 	/*
+ 	 * Set the display info, using edid if available, otherwise resetting
+ 	 * the values to defaults. This duplicates the work done in
+@@ -6246,17 +6219,18 @@ int drm_connector_update_edid_property(struct drm_connector *connector,
+ 	 * that it seems better to duplicate it rather than attempt to ensure
+ 	 * some arbitrary ordering of calls.
+ 	 */
 -	if (edid)
 -		drm_add_display_info(connector, edid);
--	else
--		drm_reset_display_info(connector);
--
++	if (drm_edid)
++		update_display_info(connector, drm_edid);
+ 	else
+ 		drm_reset_display_info(connector);
+ 
 -	drm_update_tile_info(connector, edid);
--
--	if (connector->edid_blob_ptr) {
++	_drm_update_tile_info(connector, drm_edid);
+ 
+ 	if (connector->edid_blob_ptr) {
 -		old_edid = (const struct edid *)connector->edid_blob_ptr->data;
--		if (old_edid) {
++		const struct edid *old_edid = connector->edid_blob_ptr->data;
++
+ 		if (old_edid) {
 -			if (!drm_edid_are_equal(edid, old_edid)) {
--				DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Edid was changed.\n",
--					      connector->base.id, connector->name);
--
--				connector->epoch_counter += 1;
--				DRM_DEBUG_KMS("Updating change counter to %llu\n",
--					      connector->epoch_counter);
--			}
--		}
--	}
--
--	drm_object_property_set_value(&connector->base,
--				      dev->mode_config.non_desktop_property,
--				      connector->display_info.non_desktop);
--
--	ret = drm_property_replace_global_blob(dev,
--					       &connector->edid_blob_ptr,
++			if (!drm_edid_are_equal(drm_edid ? drm_edid->edid : NULL, old_edid)) {
+ 				DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Edid was changed.\n",
+ 					      connector->base.id, connector->name);
+ 
+@@ -6273,14 +6247,37 @@ int drm_connector_update_edid_property(struct drm_connector *connector,
+ 
+ 	ret = drm_property_replace_global_blob(dev,
+ 					       &connector->edid_blob_ptr,
 -					       size,
 -					       edid,
--					       &connector->base,
--					       dev->mode_config.edid_property);
--	if (ret)
--		return ret;
--	return drm_connector_set_tile_property(connector);
--}
--EXPORT_SYMBOL(drm_connector_update_edid_property);
--
- /**
-  * drm_connector_set_link_status_property - Set link status property of a connector
-  * @connector: drm connector
-diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
-index 63279e984342..aecab5308bae 100644
---- a/drivers/gpu/drm/drm_crtc_internal.h
-+++ b/drivers/gpu/drm/drm_crtc_internal.h
-@@ -286,6 +286,3 @@ int drm_mode_page_flip_ioctl(struct drm_device *dev,
- 
- /* drm_edid.c */
- void drm_mode_fixup_1366x768(struct drm_display_mode *mode);
--void drm_reset_display_info(struct drm_connector *connector);
--u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid);
--void drm_update_tile_info(struct drm_connector *connector, const struct edid *edid);
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 2bdaf1e34a9d..36bf7b0fe8d9 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -5928,8 +5928,7 @@ static void drm_update_mso(struct drm_connector *connector,
- /* A connector has no EDID information, so we've got no EDID to compute quirks from. Reset
-  * all of the values which would have been set from EDID
-  */
--void
--drm_reset_display_info(struct drm_connector *connector)
-+static void drm_reset_display_info(struct drm_connector *connector)
- {
- 	struct drm_display_info *info = &connector->display_info;
- 
-@@ -6043,7 +6042,7 @@ static u32 update_display_info(struct drm_connector *connector,
- 	return quirks;
++					       drm_edid ? drm_edid->size : 0,
++					       drm_edid ? drm_edid->edid : NULL,
+ 					       &connector->base,
+ 					       dev->mode_config.edid_property);
+ 	if (ret)
+ 		return ret;
+ 	return drm_connector_set_tile_property(connector);
  }
- 
--u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid)
-+static u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid)
- {
- 	struct drm_edid drm_edid;
- 
-@@ -6207,6 +6206,83 @@ static int drm_edid_connector_update(struct drm_connector *connector,
- 	return num_modes;
- }
- 
-+static void drm_update_tile_info(struct drm_connector *connector,
-+				 const struct edid *edid);
 +
 +/**
 + * drm_connector_update_edid_property - update the edid property of a connector
@@ -217,77 +191,26 @@ index 2bdaf1e34a9d..36bf7b0fe8d9 100644
 +int drm_connector_update_edid_property(struct drm_connector *connector,
 +				       const struct edid *edid)
 +{
-+	struct drm_device *dev = connector->dev;
-+	size_t size = 0;
-+	int ret;
-+	const struct edid *old_edid;
++	struct drm_edid drm_edid;
 +
-+	/* ignore requests to set edid when overridden */
-+	if (connector->override_edid)
-+		return 0;
-+
-+	if (edid)
-+		size = EDID_LENGTH * (1 + edid->extensions);
-+
-+	/*
-+	 * Set the display info, using edid if available, otherwise resetting
-+	 * the values to defaults. This duplicates the work done in
-+	 * drm_add_edid_modes, but that function is not consistently called
-+	 * before this one in all drivers and the computation is cheap enough
-+	 * that it seems better to duplicate it rather than attempt to ensure
-+	 * some arbitrary ordering of calls.
-+	 */
-+	if (edid)
-+		drm_add_display_info(connector, edid);
-+	else
-+		drm_reset_display_info(connector);
-+
-+	drm_update_tile_info(connector, edid);
-+
-+	if (connector->edid_blob_ptr) {
-+		old_edid = (const struct edid *)connector->edid_blob_ptr->data;
-+		if (old_edid) {
-+			if (!drm_edid_are_equal(edid, old_edid)) {
-+				DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Edid was changed.\n",
-+					      connector->base.id, connector->name);
-+
-+				connector->epoch_counter += 1;
-+				DRM_DEBUG_KMS("Updating change counter to %llu\n",
-+					      connector->epoch_counter);
-+			}
-+		}
-+	}
-+
-+	drm_object_property_set_value(&connector->base,
-+				      dev->mode_config.non_desktop_property,
-+				      connector->display_info.non_desktop);
-+
-+	ret = drm_property_replace_global_blob(dev,
-+					       &connector->edid_blob_ptr,
-+					       size,
-+					       edid,
-+					       &connector->base,
-+					       dev->mode_config.edid_property);
-+	if (ret)
-+		return ret;
-+	return drm_connector_set_tile_property(connector);
++	return _drm_connector_update_edid_property(connector,
++						   drm_edid_legacy_init(&drm_edid, edid));
 +}
-+EXPORT_SYMBOL(drm_connector_update_edid_property);
-+
+ EXPORT_SYMBOL(drm_connector_update_edid_property);
+ 
  /**
-  * drm_add_edid_modes - add modes from EDID data, if available
-  * @connector: connector we're probing
-@@ -6645,8 +6721,8 @@ static void _drm_update_tile_info(struct drm_connector *connector,
+@@ -6720,11 +6717,3 @@ static void _drm_update_tile_info(struct drm_connector *connector,
+ 		connector->tile_group = NULL;
  	}
  }
- 
--void drm_update_tile_info(struct drm_connector *connector,
--			  const struct edid *edid)
-+static void drm_update_tile_info(struct drm_connector *connector,
-+				 const struct edid *edid)
- {
- 	struct drm_edid drm_edid;
- 
+-
+-static void drm_update_tile_info(struct drm_connector *connector,
+-				 const struct edid *edid)
+-{
+-	struct drm_edid drm_edid;
+-
+-	_drm_update_tile_info(connector, drm_edid_legacy_init(&drm_edid, edid));
+-}
 -- 
 2.30.2
 
