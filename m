@@ -1,50 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E044B554DFF
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:54:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF969554E0C
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:58:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 077F110E042;
-	Wed, 22 Jun 2022 14:54:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5705112B72;
+	Wed, 22 Jun 2022 14:58:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90ED210E042
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:54:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655909692; x=1687445692;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=xt08plImEShN1KM7O5cvlqdeoqoYtPaOL7SS4ddkGaM=;
- b=CgTXZiwWdfRXfIv+lPboONH9bvatsvqSTMSYOAefPQ+39H7H9fsEZhMq
- Oze2NDwVCf2GKlHQ6aU1sqJYgXyyXacm5SLa852bhfJ50nsCQI2BYLo1h
- tvGZgwfAVxKQ7i8fSW2twxm2dxnms6sx/AwnYaElYavzM06AMTqDCLQqO
- YNbC+IXo2Jz/CeBLT6XnrxX/pr0CPNe98PLn07uTuGLmqZYvTGqmVUlBk
- zO55kkadMh4LaVHfVx9upv8GQFJuZFKlb3+i0lgYqF/mjsDkaB8x1Llc4
- BMC0hb0+kZx1F7QOgd+PYEoTSiyuF66XdVucr6IISy9/h3iSq/0EVmUZV g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="281167758"
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="281167758"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 07:54:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="834149115"
-Received: from lkp-server02.sh.intel.com (HELO a67cc04a5eeb) ([10.239.97.151])
- by fmsmga006.fm.intel.com with ESMTP; 22 Jun 2022 07:54:50 -0700
-Received: from kbuild by a67cc04a5eeb with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1o41kn-0001O4-NR;
- Wed, 22 Jun 2022 14:54:49 +0000
-Date: Wed, 22 Jun 2022 22:53:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: [drm-misc:drm-misc-next 1/4]
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:58:17: error: implicit
- declaration of function 'drm_add_modes_noedid'
-Message-ID: <202206222209.bTdAT1Bp-lkp@intel.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE6911297B
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:58:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1655909892;
+ bh=hy17MPdYaTPp9vfv9BzJ5mgUyjp12V+lcyXvWohnLZk=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=UJGlf43jXqj+j7syujC2ExZyhOGEIPRYSiSwGdO4R17YXd7ZevyTZH48d7OoPUqUH
+ a0m8g4Baa9M2br+3YA3f63odk8D94lXpnZbY7lHrgWURXXewbsHjt2O3P+lQctdFzk
+ MYB/Tv7BAPRUdbK+W9mnlaPzLcBF/3mfFxhdCric=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.169.253]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MVeMA-1oDxSK1IPM-00RVFp; Wed, 22
+ Jun 2022 16:58:12 +0200
+Message-ID: <53fd08a9-bba6-f7e1-b784-b516584dcba5@gmx.de>
+Date: Wed, 22 Jun 2022 16:57:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] video: fbdev: omap: Remove duplicate 'the' in two places.
+Content-Language: en-US
+To: Jiang Jian <jiangjian@cdjrlc.com>
+References: <20220621185409.4859-1-jiangjian@cdjrlc.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20220621185409.4859-1-jiangjian@cdjrlc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:nmpmUOzNmmXaWadmNItunHxr8MwLqoztD+nCbGdutNjGhnZb28s
+ u4n/v9KKHQE5KGEcB9htWc/0vrXiwKoW3eT8gY6eWX7nCrzxhqW44mU/FqYcFQpIv1db/qv
+ ljPW9a7D8IUExa/OxqGAAsP1r/ZcHH+mirT/fit01kaJb5E23cNYCLox+lno4/TZqQcH8nY
+ X5ILenVJXYbiFzF/r7Fgw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tE39K9TAzlg=:gtH+UmqB2AZehJar0m1Wlp
+ h4EJdf8/vFXiBjqq4wcFRCh3aWC/GJ6Ys2rmg2d5t53acuGcvJsxxPRPnRZVLapMnM/NzW6dE
+ EJJCcot9lRxnERTgj6feE+4/n5ydgMt3iE/ACh6O0tLhSJArQZRqg7WkGbA7lAo8EN+p04b+S
+ VscGwhzfI55lZIkEhIFDkEvHmeaJn9PGKRDHcI014xxg6UnOAy8ow3DYynq7huvr8vHt6thCl
+ qLoTZHShMyfn+XtcIQqvK/ZtoWKG74m2v0CpeNUOseO8T4tooGUinKbk28wX0yqfBLI1e0AIF
+ QqmFWAr66Dvyi/tHD8HndRqET2eRB0sqnC4EfqJGqn2oOQlinsgxFeqc2z6G5vDYN5voNxug9
+ vjGRo5X3yvf6cFwYZlMPkMMZ/JaFNK6uuAC0hjcpo3R+RsshCUvEEMuXX1w+IQ5PVhMKQdTb1
+ 5taaql3qluYImzewjuGJIyO2WCG5UEHeDTTAaohpWh+0p3Zv1i6AtCIMnWuXmqv1EItJlQA8d
+ 4pJb0fsy/e3/CIE5aGqaJrOasRay/g9AW/yPSeVFJwgLtHebV58uBDt8J0aV2LNkkEb6sx3B9
+ jBaG+hZiB9/BJrY1sJWrg0vwxXCHRfY7LnKfhYJ0z0YlbsnO3FNZJdMoeRwNiRVVftSw3WL8/
+ 9GDwE42Rd1vQYLGtLzk6bDxobsPlrYg6k1VPYodHo8NEm4PveNvEls5yQ9e6ijf5+zDqPNyaH
+ VF2aL7OQB7U8pB7N9kTdSyPklICvwORKds4Lx0pv9nFOejhgsaEkZxQ8sGdcwi4dW+AO/i6tg
+ hlFaRxTdeoTTlR3UsLiVuA+Zl2/B6GMVCwgpIfw9puEOjtigkdyq9Rue2w9FVwfoeDPnMNq1z
+ XaNvXU1qUPp6dpEphGmwgffJd8NNjfOpF6k/ppeRtEWYgzYF7cebRiV0lLpicMm9Ix/KL8wPm
+ tij+7XLTdXNp1moSCC9T/j1un5OxfTn6W6UujyNGspjDw3TksCyYscoj7geEZnzDoZIgGsZ7P
+ ecpRVjroNcfLyxO0aVyhgTb36R1oGDKlnI2eBL1gJ+0wqsqyYnGN05zwf2WM6PIAfPr77GVGM
+ sojRsJIapzB4fMrfR/QMF/1BwJDC4jP7Cfom89PEYuKRo3DJy9aWKdBuw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,63 +70,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, arnd@arndb.de, b.zolnierkie@samsung.com,
+ tony@atomide.com, jmkrzyszt@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   62a4ddcb79e073465f21c5cf84d80a2f22820c39
-commit: 255490f9150da7c6dabe468f3a877b92fd0f02c1 [1/4] drm: Drop drm_edid.h from drm_crtc.h
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220622/202206222209.bTdAT1Bp-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=1 build):
-        git remote add drm-misc git://anongit.freedesktop.org/drm/drm-misc
-        git fetch --no-tags drm-misc drm-misc-next
-        git checkout 255490f9150da7c6dabe468f3a877b92fd0f02c1
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+On 6/21/22 20:54, Jiang Jian wrote:
+> file: drivers/video/fbdev/omap/sossi.c
+> line: 362
+>      * We set explicitly the the bus_pick_count as well, although
+> changed to
+>      * We set explicitly the bus_pick_count as well, although
+>
+> Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Both patches applied.
 
-All errors (new ones prefixed by >>):
+Thanks!
+Helge
 
-   drivers/gpu/drm/hyperv/hyperv_drm_modeset.c: In function 'hyperv_connector_get_modes':
->> drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:58:17: error: implicit declaration of function 'drm_add_modes_noedid' [-Werror=implicit-function-declaration]
-      58 |         count = drm_add_modes_noedid(connector,
-         |                 ^~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:61:9: error: implicit declaration of function 'drm_set_preferred_mode'; did you mean 'drm_mm_reserve_node'? [-Werror=implicit-function-declaration]
-      61 |         drm_set_preferred_mode(connector, hv->preferred_width,
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-         |         drm_mm_reserve_node
-   cc1: some warnings being treated as errors
+> ---
+>  drivers/video/fbdev/omap/sossi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/video/fbdev/omap/sossi.c b/drivers/video/fbdev/omap=
+/sossi.c
+> index c90eb8ca58af..66aff6cd1df0 100644
+> --- a/drivers/video/fbdev/omap/sossi.c
+> +++ b/drivers/video/fbdev/omap/sossi.c
+> @@ -359,7 +359,7 @@ static void sossi_set_bits_per_cycle(int bpc)
+>  	int bus_pick_count, bus_pick_width;
+>
+>  	/*
+> -	 * We set explicitly the the bus_pick_count as well, although
+> +	 * We set explicitly the bus_pick_count as well, although
+>  	 * with remapping/reordering disabled it will be calculated by HW
+>  	 * as (32 / bus_pick_width).
+>  	 */
 
-
-vim +/drm_add_modes_noedid +58 drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-
-76c56a5affeba1 Deepak Rawat 2021-05-27  52  
-76c56a5affeba1 Deepak Rawat 2021-05-27  53  static int hyperv_connector_get_modes(struct drm_connector *connector)
-76c56a5affeba1 Deepak Rawat 2021-05-27  54  {
-76c56a5affeba1 Deepak Rawat 2021-05-27  55  	struct hyperv_drm_device *hv = to_hv(connector->dev);
-76c56a5affeba1 Deepak Rawat 2021-05-27  56  	int count;
-76c56a5affeba1 Deepak Rawat 2021-05-27  57  
-76c56a5affeba1 Deepak Rawat 2021-05-27 @58  	count = drm_add_modes_noedid(connector,
-76c56a5affeba1 Deepak Rawat 2021-05-27  59  				     connector->dev->mode_config.max_width,
-76c56a5affeba1 Deepak Rawat 2021-05-27  60  				     connector->dev->mode_config.max_height);
-76c56a5affeba1 Deepak Rawat 2021-05-27 @61  	drm_set_preferred_mode(connector, hv->preferred_width,
-76c56a5affeba1 Deepak Rawat 2021-05-27  62  			       hv->preferred_height);
-76c56a5affeba1 Deepak Rawat 2021-05-27  63  
-76c56a5affeba1 Deepak Rawat 2021-05-27  64  	return count;
-76c56a5affeba1 Deepak Rawat 2021-05-27  65  }
-76c56a5affeba1 Deepak Rawat 2021-05-27  66  
-
-:::::: The code at line 58 was first introduced by commit
-:::::: 76c56a5affeba1e163b66b9d8cc192e6154466f0 drm/hyperv: Add DRM driver for hyperv synthetic video device
-
-:::::: TO: Deepak Rawat <drawat.floss@gmail.com>
-:::::: CC: Deepak Rawat <drawat.floss@gmail.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
