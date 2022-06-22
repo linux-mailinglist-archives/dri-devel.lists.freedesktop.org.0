@@ -2,44 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18007553FD9
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 03:05:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC419553FF2
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 03:16:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 413C011333C;
-	Wed, 22 Jun 2022 01:05:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4D681133DA;
+	Wed, 22 Jun 2022 01:16:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB9211333C;
- Wed, 22 Jun 2022 01:05:10 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LSQCh4vQ6z4xD9;
- Wed, 22 Jun 2022 11:05:03 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1655859905;
- bh=6Wjb0uO4MuZpIMApUk52dwtBGgeFbM2Wn3vL3VkInMk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=K4x4mDjyHAgW06UifO5sAwvGITMG+N5vHm9eapfJCnV0Q2Cse7+0Cgv2bkw1YngDG
- 4lhjcoiyxLS7d1T+Sb2E15JjTULRore1GNToOao3D7cVkPQJcldCyALyEl/k00cJAD
- jdqft7z1mfNeZSbVtEqWbw28JOhaSIapN4fw80m5xzNcjiVcKmLJNIQJES2+aWXeXb
- LYBYvjnfTVN4UZ2U+alVbBROs2h+yVthVj+p+ldAZ+eur9eiZCaD447O6K2u+7JR4x
- qaqE+CnTNeX5nec2cFapr4O1+NdAzwnT4VRF/oCGLDM+edMRXxkazYI9vi4MXBMkHX
- LAEWU31MtO/Dg==
-Date: Wed, 22 Jun 2022 11:04:51 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20220622110451.27c68263@canb.auug.org.au>
-In-Reply-To: <YrF3wfumVi3q3bFj@intel.com>
-References: <20220621123656.7a479ad9@canb.auug.org.au>
- <YrF3wfumVi3q3bFj@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4021133D9;
+ Wed, 22 Jun 2022 01:16:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655860611; x=1687396611;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=XTLv+URxZVT7PiwF16d8kb+if/J8DyO7sD1d161olXc=;
+ b=VFPIM+OQa2ZnjrTYlfUPPrHAesOpMHI9P1jq+3epnwf4bEALG6RQB4yr
+ i3cOz0vDNwty4w3KTd+Deh9t+TidFs35S9/jhR8a3PttE3TXFL/PAAfWn
+ i6Vo9NxfL65QcYa5M1DfSORSYANAIPJH+4Sv+8S+iOHJH2TnZNPArwS5q
+ i1qz9sg8CtHaWW5uBNrZJivtW03vvvmKeHHzJKj0omu++dY91vjR54O+s
+ BoH/f/Wm4EInn2ESco/W14qW7BaXQfho7/OT1jq05tQ4FSoV+CCTo4II/
+ VoQ3NHrb4OFHGoBQXsCTWzhivYBdo6XMbBhQ7qQEyHL15c+2q+q/W0Jpd g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="263314710"
+X-IronPort-AV: E=Sophos;i="5.92,211,1650956400"; d="scan'208";a="263314710"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2022 18:16:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,211,1650956400"; d="scan'208";a="677275929"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by FMSMGA003.fm.intel.com with ESMTP; 21 Jun 2022 18:16:50 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Tue, 21 Jun 2022 18:16:49 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Tue, 21 Jun 2022 18:16:49 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Tue, 21 Jun 2022 18:16:49 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.171)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Tue, 21 Jun 2022 18:16:48 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bzABG3J+7BEuaTFeCvIjN4+lfSk3enucounl8nWoJCflS+1XfB5m/yNbSljvwHqXjVGydWhP0Kkf21on6qySQD64XzQiXAMxERjKZFJ0DgReHSkLiZfG9qU3hxSR1A1NCu/A8ZsreGGYD2srGO3A02niQXjAqZNgQd1sA3DSBOP1+Xq6kiPQGsYbBQ7oQIhDckaNosvFr1z6d2R9Gi6gZQZ855bidoS0urfiARryncam5eMJfsnN7zePCKrOpP27VpRzoAXL+0Rvk4HO3T/iigH5NlTBZ/mPgiUzoxJ2SnjdlSxszHHz1n2bGQTr/8iuQ+YbCpaJoK8Y9NnIe48hLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NYRZc1PlwhHNGvkqKRFgJvaqmQ8Ai8zi7hB9W5HrMEU=;
+ b=LpgcycW6ZTfw3wHbE4+PYz/R4EEL0lG6qW1OIrJGndetMVBg4szb0dow8IMC87WOpREIL8ow9AObi3O8YriYCRUYQ0g2iZrt7A7DbdqKb2GhFLYubf9rVsKUOpfhJbXJ0uAvqLDr+n1vK39ylidZcYr4I4vAKD8W4rNeIAa9E1snPtTWe/gNVmnzVJ7HQz6A5gvfR/GFN47aUhq9F4rYRmk/eadvJm0oIp3bhInU7GRbfiW3fqY6I1ZZhVrZacD1TIKcGGXMCbSmwioJUV2DMoe8xR+aksJdagXy9Z2tQK3pw1sll0M9+mpZTKyEo+3oUmIrEvN5Gvea4BS0eEHUYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ DM5PR1101MB2091.namprd11.prod.outlook.com (2603:10b6:4:57::20) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5353.16; Wed, 22 Jun 2022 01:16:47 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::468:a5f:1b4f:8d7d]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::468:a5f:1b4f:8d7d%7]) with mapi id 15.20.5353.022; Wed, 22 Jun 2022
+ 01:16:47 +0000
+Message-ID: <6ce1e11e-4128-10b5-f5bb-6054d3a68e2e@intel.com>
+Date: Tue, 21 Jun 2022 18:16:44 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: ADL-N should use the same GuC
+ FW as ADL-S
+Content-Language: en-US
+To: Matt Roper <matthew.d.roper@intel.com>
+References: <20220621233005.3952293-1-daniele.ceraolospurio@intel.com>
+ <YrJjefR67IzdYrwJ@mdroper-desk1.amr.corp.intel.com>
+From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
+In-Reply-To: <YrJjefR67IzdYrwJ@mdroper-desk1.amr.corp.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0175.namprd03.prod.outlook.com
+ (2603:10b6:a03:338::30) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/DaBt2U5eE6eb97Ubf0U=Ci3";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7a1333fb-51c2-41b8-508a-08da53ece06d
+X-MS-TrafficTypeDiagnostic: DM5PR1101MB2091:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <DM5PR1101MB2091E8AC04AB4F1927FD2A37F4B29@DM5PR1101MB2091.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: q/FiNbtJ+qtj+S2xnqzlbBqE/U4FE1Tu+PJb4tl+kE5nmJlzLPx8OEKu0pSJfH1uY2MUvV/EYAF1HBU110INeAGtgPrMvvKqSQ6nrqH/ZiSH/tLszd1nMlka5N5SOAWM7C2XQBID3CV5paD4Zyw1w1gAdpNybmx4Ib+5cFWlKrG89LhrTZbwGqou1tKoEDMe2obKRihreSgJaiFiy612ONukAt7On0MlHZ1Aoi+uGM9Czlx6AMFPGqqTzOQR9IY7iaTj2RFHZSxesDPu9FLW6mqqOnTcfMqkPpBs2LgWcH5z0KieUBxK1foG8o0Z8Ow2TUhPd2I0sitIgJi4RTXp51FuUJcBCNdrxJptUpQO0lmcr89uzMTCE5vLfl56eqCCUTvCSPuzBQlvkXWSfQvTWZmkEfq9xjVg/fFxexEUvXRYX0ZMRqYkLbqNlF8hZHKzRl1KJ6qQWbec/9IK1OQxYiOaEgvPvCk0aXpu/MbPw+Vpjp6MN0c/Ou09qHYOMb6+G9vUVaI/JyC5o4ELyWhCDWtq78oRaEkEjuMzcSGqxd0GI9TKGmHGSTYMfMzILrAKZhaJY1lsw3xyen+kAkGUyaOrK5q21pnJLeBkCwDTpMjT6l2x5gWIjFjJjSgnbwUpVohe9fDH7aKledts9eCb2MGZO3aPplfpZc8SVuBjsSdmosnjLIfKfBsgpw2xajH+v/+gapd10M7wxx+Zl4TO8Ly9JZwGmhZD/RdZCqLz8fI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(366004)(376002)(346002)(39860400002)(396003)(136003)(53546011)(26005)(2616005)(31696002)(82960400001)(41300700001)(6506007)(6512007)(66556008)(6666004)(186003)(38100700002)(31686004)(8676002)(66946007)(36756003)(6862004)(66476007)(86362001)(2906002)(5660300002)(6486002)(316002)(4326008)(37006003)(478600001)(8936002)(54906003)(450100002)(6636002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Uy81OTR3Rm53ZlVrUnFMS1RxL1lZVHplaUpmKy9CRE5CeWtOYXYrRGtlek1y?=
+ =?utf-8?B?d3BaWWxZVno1Q0U0bjhhRnFlUnplN09pbXkzTFdyU0RtSzRJdjQySEc5UXRE?=
+ =?utf-8?B?NG9sODBMWFlYb0tlWnZCZXJHM2Z5QUVZZnljb1lQbzZBYm5RMUxvcXFZSFdD?=
+ =?utf-8?B?aFlEbVJDMzlPZkpJcmEvOElmdnVtZXlZdkV6N1NDSVZvYzFHVEtuK3JsQWhy?=
+ =?utf-8?B?cWFOQVdNZUZJSDltYnkwcndTNnFXMGVVRkZoTDcvcG5xZ1lEMCs1bFJpeWpy?=
+ =?utf-8?B?SHo1b3NsY3d0WlhIWkkySFV3d1Q0UERZaGhyUXdGN2pnYlgxdHR1a2M2RTV5?=
+ =?utf-8?B?OTRzL04wWXJDNlZlbUVtN0NBZ3ZTZDBVU2RVZjl4SnVaSlp5QjVFc1lRdHpY?=
+ =?utf-8?B?ZE1HSXIrVFpQT1RGZitjRDhZanVFQXFNeGlzcFJ3SHF4VFFhVjNSLzdqMXpv?=
+ =?utf-8?B?U3BWblM1MTMzY000NzM4VFpJSGFuVGh5SjFvNzkrK1dCMmFiUFEyWThEYW12?=
+ =?utf-8?B?Y0hySDVDcEowMGQ3SFdJQjI4aGNtN2FqME9oRjU1aEZZc1pmNGtPVytma0xy?=
+ =?utf-8?B?N2l6RW5JMytzUzJPTzMwR3FJUzFlU3NKTEFyc3VuQjN5a1BiYXBCU05HQzgw?=
+ =?utf-8?B?RnJ4RXJsYm1kQURwd0Q2alEvQXVxdkhWc0diVEZnV0Jrb0s4dEVNbW1KSFJn?=
+ =?utf-8?B?UEQ4SlMvNDIzMzVONVRaSzQweGhJLzVTUTRSMkcxNHRUR0tDOFVDOWdPQWth?=
+ =?utf-8?B?K0dwQy9NM3BVNUN3cGNQbWc1MGJMUUZHa05MdVowQWZmbGtEaVUrbU1mVDFm?=
+ =?utf-8?B?cFFZY1ZSNkFXOXRsa0xrQmhGTUJNWGppRHloSENxVHNTYVJkby9ZOHpNMlda?=
+ =?utf-8?B?Mi9XN1M2bTRwaHA4ajZLbEoxMjVIUzIvSWdtRndiZVZudEQwdTBOeis3UnNH?=
+ =?utf-8?B?cHV2ejBINGQxTkEyeldaN2JhbWQ4NGZxNkUzVzFDd0VvK3JrSjFwY3oxV2Z5?=
+ =?utf-8?B?QXQ5U2dJSjd0SVVPM2thUGRrUldwdnJNMzl2T284SXFUVElwYXFmbmM0RXFY?=
+ =?utf-8?B?b0ExUUZaaDRZOXQ3NFVGU2JOaXNGMHBxQk5jSDJHWWowaUlabjJuaDVpcFF2?=
+ =?utf-8?B?ZSswcG8wQW91ZlVSMFJ6UGJYZStIRUhyQ0dGTUh1VlgxamdJbks4Y1ZhNjNV?=
+ =?utf-8?B?enJjWWNUV0Q2RjNPc3RUUWg5bmxsdkFIQWJTYVcwbDR2VStlVGtYVG5VKzNs?=
+ =?utf-8?B?MGZRY0xlMHRSM3JjYTNqOFA0THM2a05tQjYrSlBkdXRudWZMWEk3WWFHTHY3?=
+ =?utf-8?B?MUNoSTdYTnZWVWFubzBkenFROUdjRUFLMkk5cFB6dUx2UE02YVZpMHQ1S3N3?=
+ =?utf-8?B?QzZOcjBFaG1MZEt2clV0WWRjVGxXcUNhZXdlTUI3Tm1LeFFZWlV1OEtKWGNP?=
+ =?utf-8?B?QnJDZm1lQjBaRmdPaDNUbko2Q0lNcUF1eGtDQjVJZG1DSXQ3RGZPNk5zM1oy?=
+ =?utf-8?B?NVRvN3FwM3RtYkFOdEpEZll3cDNERjY1MGZpUi84MjZqTGdSSDJhcE1obXli?=
+ =?utf-8?B?R0F5eHlheTVYK2lNQmg0cGgvTUZNOVc3VTJ5YVJmSUd6UHgxMnFaTnorV2oz?=
+ =?utf-8?B?VEF2UHNKaXNzSGUvUEVOSWo3L1RJeEsxRHVweEhRZzdBSEpUZDExMjloRkVP?=
+ =?utf-8?B?V216bUU4M29yZ1Vhd1lrb0FSVDh3N0lKcEdDM1dacFFuUjBOQ2hOZ1k5SXFE?=
+ =?utf-8?B?aEdTR0orbUtZMVVkSHAyTWJvVWZTM2hXMjB2dllHMkt4c2UxNUZjK3pvVkxp?=
+ =?utf-8?B?bnM2aE1ucG1BQllUUFB0NW1zYjdub1BjMzRpOVFTVGxBZVhBYUlldDFveXNK?=
+ =?utf-8?B?aFU2L3l6eEx3WGJodFJRTkF1Qm52ekRGUzdqWCtBSEk2WGxHbG41aytFUG5L?=
+ =?utf-8?B?UFZsa1plNVZuZEtGTDltL0FoUjkxRyt2ZWVVY0dldlhaa3hhdXF6V2dMbGFa?=
+ =?utf-8?B?TjhUNVY4N1ZBbnovODQ3Rm1VTmd1Vm9GK29qMEorWlZQNVJ4d1hQTkMxRlB6?=
+ =?utf-8?B?MVhxeXlteVdOaTRCM2llK0tQV1FRYTJaZDVxZkd5bVJXUnFSczBKV3hjM1Yz?=
+ =?utf-8?B?amxJV3A1cUZBUDVSRWFQZFRXaVl1N1RPUTI5K2w4V0dLak1SYnZXNy9CQU9O?=
+ =?utf-8?B?K1E1S1pzN3BDLzFTOW0yeEF2Q05XeWZvRXUva0Yva1l2UWpiTHMxU0pSRXlh?=
+ =?utf-8?B?OU9XYnZaNkxGUm1LbCtjOVcyb3ZOSXJ2QjJiejBIYjY4emNFV3dkblZFbmRB?=
+ =?utf-8?B?VVhvZ2NXajJqUTV6Q1puRUxucThrMmlaQk5OVm9UeHpoTUJ4NWtqdWJUNDQ4?=
+ =?utf-8?Q?UVvziQNE+kYwRR4hOcsIeTiUG1mco/FYdHOHd?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a1333fb-51c2-41b8-508a-08da53ece06d
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2022 01:16:47.0712 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ncXnsUaWNN680BDXXU7+TqPNAlVJBKifZNN+T+4yuRlA212nCKjc37cENNy9NJCBpikB9tpJtqs15AVbqqvGICr3CJdn3JNCrfp3wj1h3r4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2091
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,325 +164,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>
+Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ Tejas Upadhyay <tejas.upadhyay@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/DaBt2U5eE6eb97Ubf0U=Ci3
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi all,
 
-On Tue, 21 Jun 2022 10:48:17 +0300 Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@l=
-inux.intel.com> wrote:
+On 6/21/2022 5:34 PM, Matt Roper wrote:
+> On Tue, Jun 21, 2022 at 04:30:05PM -0700, Daniele Ceraolo Spurio wrote:
+>> The only difference between the ADL S and P GuC FWs is the HWConfig
+>> support. ADL-N does not support HWConfig, so we should use the same
+>> binary as ADL-S, otherwise the GuC might attempt to fetch a config
+>> table that does not exist. ADL-N is internally identified as an ADL-P,
+>> so we need to special-case it in the FW selection code.
+>>
+>> Fixes: 7e28d0b26759 ("drm/i915/adl-n: Enable ADL-N platform")
+>> Cc: John Harrison <John.C.Harrison@Intel.com>
+>> Cc: Tejas Upadhyay <tejas.upadhyay@intel.com>
+>> Cc: Anusha Srivatsa <anusha.srivatsa@intel.com>
+>> Cc: Jani Nikula <jani.nikula@intel.com>
+>> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Would the config table still get used somehow even though we return
+> false for ADL-N in has_table()?
+
+On platforms that support the config table, the GuC does always try to 
+fetch and decode the table during the firmware init stage, even if we 
+don't query it later due to has_table() being false.
+
+Daniele
+
 >
-> On Tue, Jun 21, 2022 at 12:36:56PM +1000, Stephen Rothwell wrote:
-> >=20
-> > After merging the drm-misc tree, today's linux-next build (x86_64
-> > allmodconfig) failed like this:
-> >=20
-> > drivers/gpu/drm/xlnx/zynqmp_disp.c: In function 'zynqmp_disp_create_pla=
-nes':
-> > drivers/gpu/drm/xlnx/zynqmp_disp.c:1260:17: error: implicit declaration=
- of function 'drm_plane_create_zpos_immutable_property'; did you mean 'drm_=
-plane_create_scaling_filter_property'? [-Werror=3Dimplicit-function-declara=
-tion]
-> >  1260 |                 drm_plane_create_zpos_immutable_property(&layer=
-->plane, i);
-> >       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >       |                 drm_plane_create_scaling_filter_property
-> > drivers/gpu/drm/xlnx/zynqmp_disp.c:1262:25: error: implicit declaration=
- of function 'drm_plane_create_alpha_property'; did you mean 'drm_plane_cre=
-ate_color_properties'? [-Werror=3Dimplicit-function-declaration]
-> >  1262 |                         drm_plane_create_alpha_property(&layer-=
->plane);
-> >       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >       |                         drm_plane_create_color_properties
-> > cc1: all warnings being treated as errors
-> >=20
-> > Presumably caused by one of the commits that dropped includes from
-> > drm-ctrc.h.
-> >=20
-> > I have used the drm-misc tree from next-20220620 for today. =20
->=20
-> Sorry about that. Looks like my .config was missing some
-> dependencies of the zynqmp driver so it wasn't getting built.
-> I'll cook up a fix.
+> Even if it couldn't be used, this change makes the behavior more clear
+> and explicit.
+>
+> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+>
+>> ---
+>>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>> index d2c5c9367cc4..ef2d10184ee2 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+>> @@ -162,6 +162,15 @@ __uc_fw_auto_select(struct drm_i915_private *i915, struct intel_uc_fw *uc_fw)
+>>   	u8 rev = INTEL_REVID(i915);
+>>   	int i;
+>>   
+>> +	/*
+>> +	 * The only difference between the ADL GuC FWs is the HWConfig support.
+>> +	 * ADL-N does not support HWConfig, so we should use the same binary as
+>> +	 * ADL-S, otherwise the GuC might attempt to fetch a config table that
+>> +	 * does not exist.
+>> +	 */
+>> +	if (IS_ADLP_N(i915))
+>> +		p = INTEL_ALDERLAKE_S;
+>> +
+>>   	GEM_BUG_ON(uc_fw->type >= ARRAY_SIZE(blobs_all));
+>>   	fw_blobs = blobs_all[uc_fw->type].blobs;
+>>   	fw_count = blobs_all[uc_fw->type].count;
+>> -- 
+>> 2.25.1
+>>
 
-And today, I get these:
-
-In file included from include/linux/list.h:5,
-                 from include/linux/preempt.h:11,
-                 from include/linux/spinlock.h:55,
-                 from include/linux/mmzone.h:8,
-                 from include/linux/gfp.h:6,
-                 from include/linux/mm.h:7,
-                 from include/linux/hyperv.h:17,
-                 from drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:6:
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c: In function 'hyperv_blit_to_vr=
-am_rect':
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:25:48: error: invalid use of un=
-defined type 'struct drm_framebuffer'
-   25 |         struct hyperv_drm_device *hv =3D to_hv(fb->dev);
-      |                                                ^~
-include/linux/container_of.h:18:33: note: in definition of macro 'container=
-_of'
-   18 |         void *__mptr =3D (void *)(ptr);                            =
-       \
-      |                                 ^~~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:25:40: note: in expansion of ma=
-cro 'to_hv'
-   25 |         struct hyperv_drm_device *hv =3D to_hv(fb->dev);
-      |                                        ^~~~~
-In file included from include/linux/bits.h:22,
-                 from include/linux/ratelimit_types.h:5,
-                 from include/linux/printk.h:9,
-                 from include/asm-generic/bug.h:22,
-                 from arch/x86/include/asm/bug.h:87,
-                 from include/linux/bug.h:5,
-                 from include/linux/mmdebug.h:5,
-                 from include/linux/mm.h:6,
-                 from include/linux/hyperv.h:17,
-                 from drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:6:
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:25:48: error: invalid use of un=
-defined type 'struct drm_framebuffer'
-   25 |         struct hyperv_drm_device *hv =3D to_hv(fb->dev);
-      |                                                ^~
-include/linux/build_bug.h:78:56: note: in definition of macro '__static_ass=
-ert'
-   78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-      |                                                        ^~~~
-include/linux/container_of.h:19:9: note: in expansion of macro 'static_asse=
-rt'
-   19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||  =
-     \
-      |         ^~~~~~~~~~~~~
-include/linux/container_of.h:19:23: note: in expansion of macro '__same_typ=
-e'
-   19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||  =
-     \
-      |                       ^~~~~~~~~~~
-drivers/gpu/drm/hyperv/hyperv_drm.h:40:21: note: in expansion of macro 'con=
-tainer_of'
-   40 | #define to_hv(_dev) container_of(_dev, struct hyperv_drm_device, de=
-v)
-      |                     ^~~~~~~~~~~~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:25:40: note: in expansion of ma=
-cro 'to_hv'
-   25 |         struct hyperv_drm_device *hv =3D to_hv(fb->dev);
-      |                                        ^~~~~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:25:48: error: invalid use of un=
-defined type 'struct drm_framebuffer'
-   25 |         struct hyperv_drm_device *hv =3D to_hv(fb->dev);
-      |                                                ^~
-include/linux/build_bug.h:78:56: note: in definition of macro '__static_ass=
-ert'
-   78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-      |                                                        ^~~~
-include/linux/container_of.h:19:9: note: in expansion of macro 'static_asse=
-rt'
-   19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||  =
-     \
-      |         ^~~~~~~~~~~~~
-include/linux/container_of.h:20:23: note: in expansion of macro '__same_typ=
-e'
-   20 |                       __same_type(*(ptr), void),                   =
-     \
-      |                       ^~~~~~~~~~~
-drivers/gpu/drm/hyperv/hyperv_drm.h:40:21: note: in expansion of macro 'con=
-tainer_of'
-   40 | #define to_hv(_dev) container_of(_dev, struct hyperv_drm_device, de=
-v)
-      |                     ^~~~~~~~~~~~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:25:40: note: in expansion of ma=
-cro 'to_hv'
-   25 |         struct hyperv_drm_device *hv =3D to_hv(fb->dev);
-      |                                        ^~~~~
-include/linux/compiler_types.h:293:27: error: expression in static assertio=
-n is not an integer
-  293 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), t=
-ypeof(b))
-      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-include/linux/build_bug.h:78:56: note: in definition of macro '__static_ass=
-ert'
-   78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-      |                                                        ^~~~
-include/linux/container_of.h:19:9: note: in expansion of macro 'static_asse=
-rt'
-   19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||  =
-     \
-      |         ^~~~~~~~~~~~~
-include/linux/container_of.h:19:23: note: in expansion of macro '__same_typ=
-e'
-   19 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||  =
-     \
-      |                       ^~~~~~~~~~~
-drivers/gpu/drm/hyperv/hyperv_drm.h:40:21: note: in expansion of macro 'con=
-tainer_of'
-   40 | #define to_hv(_dev) container_of(_dev, struct hyperv_drm_device, de=
-v)
-      |                     ^~~~~~~~~~~~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:25:40: note: in expansion of ma=
-cro 'to_hv'
-   25 |         struct hyperv_drm_device *hv =3D to_hv(fb->dev);
-      |                                        ^~~~~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:33:37: error: invalid use of un=
-defined type 'struct drm_framebuffer'
-   33 |         dst +=3D drm_fb_clip_offset(fb->pitches[0], fb->format, rec=
-t);
-      |                                     ^~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:33:53: error: invalid use of un=
-defined type 'struct drm_framebuffer'
-   33 |         dst +=3D drm_fb_clip_offset(fb->pitches[0], fb->format, rec=
-t);
-      |                                                     ^~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:34:35: error: invalid use of un=
-defined type 'struct drm_framebuffer'
-   34 |         drm_fb_memcpy_toio(dst, fb->pitches[0], vmap, fb, rect);
-      |                                   ^~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c: In function 'hyperv_blit_to_vr=
-am_fullscreen':
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:46:25: error: invalid use of un=
-defined type 'struct drm_framebuffer'
-   46 |                 .x2 =3D fb->width,
-      |                         ^~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:48:25: error: invalid use of un=
-defined type 'struct drm_framebuffer'
-   48 |                 .y2 =3D fb->height,
-      |                         ^~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c: In function 'hyperv_connector_=
-get_modes':
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:58:17: error: implicit declarat=
-ion of function 'drm_add_modes_noedid' [-Werror=3Dimplicit-function-declara=
-tion]
-   58 |         count =3D drm_add_modes_noedid(connector,
-      |                 ^~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:61:9: error: implicit declarati=
-on of function 'drm_set_preferred_mode'; did you mean 'drm_mm_reserve_node'=
-? [-Werror=3Dimplicit-function-declaration]
-   61 |         drm_set_preferred_mode(connector, hv->preferred_width,
-      |         ^~~~~~~~~~~~~~~~~~~~~~
-      |         drm_mm_reserve_node
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c: In function 'hyperv_check_size=
-':
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:93:27: error: invalid use of un=
-defined type 'struct drm_framebuffer'
-   93 |                 pitch =3D fb->pitches[0];
-      |                           ^~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c: In function 'hyperv_pipe_enabl=
-e':
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:112:48: error: invalid use of u=
-ndefined type 'struct drm_framebuffer'
-  112 |                                 plane_state->fb->pitches[0]);
-      |                                                ^~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c: In function 'hyperv_pipe_check=
-':
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:123:15: error: invalid use of u=
-ndefined type 'struct drm_framebuffer'
-  123 |         if (fb->format->format !=3D DRM_FORMAT_XRGB8888)
-      |               ^~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:126:15: error: invalid use of u=
-ndefined type 'struct drm_framebuffer'
-  126 |         if (fb->pitches[0] * fb->height > hv->fb_size) {
-      |               ^~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:126:32: error: invalid use of u=
-ndefined type 'struct drm_framebuffer'
-  126 |         if (fb->pitches[0] * fb->height > hv->fb_size) {
-      |                                ^~
-In file included from include/linux/device.h:15,
-                 from include/linux/hyperv.h:23,
-                 from drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:6:
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:128:42: error: invalid use of u=
-ndefined type 'struct drm_framebuffer'
-  128 |                         current->comm, fb->width, fb->height, fb->p=
-itches[0], hv->fb_size);
-      |                                          ^~
-include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk=
-_index_wrap'
-  110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                  =
-     \
-      |                                     ^~~~~~~~~~~
-include/drm/drm_print.h:425:9: note: in expansion of macro 'dev_err'
-  425 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-      |         ^~~~
-include/drm/drm_print.h:438:9: note: in expansion of macro '__drm_printk'
-  438 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-      |         ^~~~~~~~~~~~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:127:17: note: in expansion of m=
-acro 'drm_err'
-  127 |                 drm_err(&hv->dev, "fb size requested by %s for %dX%=
-d (pitch %d) greater than %ld\n",
-      |                 ^~~~~~~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:128:53: error: invalid use of u=
-ndefined type 'struct drm_framebuffer'
-  128 |                         current->comm, fb->width, fb->height, fb->p=
-itches[0], hv->fb_size);
-      |                                                     ^~
-include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk=
-_index_wrap'
-  110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                  =
-     \
-      |                                     ^~~~~~~~~~~
-include/drm/drm_print.h:425:9: note: in expansion of macro 'dev_err'
-  425 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-      |         ^~~~
-include/drm/drm_print.h:438:9: note: in expansion of macro '__drm_printk'
-  438 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-      |         ^~~~~~~~~~~~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:127:17: note: in expansion of m=
-acro 'drm_err'
-  127 |                 drm_err(&hv->dev, "fb size requested by %s for %dX%=
-d (pitch %d) greater than %ld\n",
-      |                 ^~~~~~~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:128:65: error: invalid use of u=
-ndefined type 'struct drm_framebuffer'
-  128 |                         current->comm, fb->width, fb->height, fb->p=
-itches[0], hv->fb_size);
-      |                                                                 ^~
-include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk=
-_index_wrap'
-  110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                  =
-     \
-      |                                     ^~~~~~~~~~~
-include/drm/drm_print.h:425:9: note: in expansion of macro 'dev_err'
-  425 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-      |         ^~~~
-include/drm/drm_print.h:438:9: note: in expansion of macro '__drm_printk'
-  438 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-      |         ^~~~~~~~~~~~
-drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:127:17: note: in expansion of m=
-acro 'drm_err'
-  127 |                 drm_err(&hv->dev, "fb size requested by %s for %dX%=
-d (pitch %d) greater than %ld\n",
-      |                 ^~~~~~~
-cc1: all warnings being treated as errors
-
-Please do some allmodconfig builds.
-
-I have used the drm-misc tree from next-20220620 again for today.
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/DaBt2U5eE6eb97Ubf0U=Ci3
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmKyarMACgkQAVBC80lX
-0Gx1IAgAi0+rRfrP+pQqJVFqdO7+LV4fuhNO5+znr5R1NADfACsREQ7zne4U802p
-n/cholc1NOJA3OQPQf4bK+9qTLOH0gu3vQOyfKKcZ870Tt+gjtYgm396jIt5mYT4
-DRgo2gfNdsFnanJoNEth8Czz9Qr6bYn+WCDrRnDGtWmML7oP3A9AgQFNPIbtv294
-eHnkBI8lB6GkUl2VnEKVDb8y/GyaKu9SAuZ1oPZ53pHfB8ft6aZ7ibrREPF+vVWA
-e07x/iMK55m15+InEVWsVtdbxFJyCiL/z2es169i2HJSgxvSygVKQ5r7Zywz84MY
-Xsrn5m+Tt5YhnLBJQ5FqMi3e1xQvzQ==
-=KInL
------END PGP SIGNATURE-----
-
---Sig_/DaBt2U5eE6eb97Ubf0U=Ci3--
