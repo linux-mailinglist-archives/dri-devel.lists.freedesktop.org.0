@@ -2,40 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DEF556E4E
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 00:08:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA45556EB3
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 00:56:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF6A01122B3;
-	Wed, 22 Jun 2022 22:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D72011346F;
+	Wed, 22 Jun 2022 22:56:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D261F1122BD
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 22:08:45 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2B65DD;
- Thu, 23 Jun 2022 00:08:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1655935724;
- bh=pV2fUDhuwvuTPz1TqzqTYLjHf7HrzBVnRvB0umXA/UA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LnsoSBk2+O19Vb05jKg4rh0wbvbW4I4QjNl7eHXXIBwlgibqEjVvp+IbMJ4cZvqa+
- jdg1NojwYD3d1oIkFQfEqNISLWWboGlNLo9ubAVcTWsH0QV28w/41vzttCBXikLkkX
- Vad0nSgH9ly9bbn6qRALD9X1f2kORsCZ4qPtJWgQ=
-Date: Thu, 23 Jun 2022 01:08:27 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
-Subject: Re: [PATCH V2 2/2] drm: xlnx: dsi: Add Xilinx MIPI DSI-Tx subsystem
- driver
-Message-ID: <YrOS24oFGiRGKW+B@pendragon.ideasonboard.com>
-References: <1655389056-37044-1-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
- <1655389056-37044-3-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2084.outbound.protection.outlook.com [40.107.223.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 158D6113471;
+ Wed, 22 Jun 2022 22:56:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dcF8Zjo7dNmVPeYwVU7EFxaNhPJwydwl9aSWX5tLPzbl5uEY+hrSDx4vjoxh+I1OLphZCnrhJuQryv0Z23J4RaWWK6ZnxacxK96VdBb0tQdiGt0/iD80c3l/Y9EiEPAcqzTEngLyUGeZx3DyhI6K55+sNuWUeUBDcJtlpt30gpK45OXgg4bdNWon/sPoztAMHKxwBnJQB7pk1JRxzLzVZsHwvlYSo36Gr/0wAgnAR45lKNmLqzu72qViiANIihQruG5Jqou7mtCmphwe3JSIvqSDr9ThfUSLNLFnjOKhyWwSAgTD4Igjq+Y5CrQT5p7sASfaUlJpZWFvqiM+xWtZyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rK/RqTN6ketK+Z9m4Xj3pVSYGZ6HN6zch7ONEIQ2iDk=;
+ b=Z2gNHtV/oMJINqXWro9HpyoQVxj0OIZ46sZleM4X7U5d+KjA0bBnSQ/IEG5KHif0yaGG5BCFc1He59EhLR/YqNjASFwOB8sWxgo33wWxoXNLAQOCEXmdFSmJSrVdIlgxFFVeA9OYXUdUsCHKpWvNoyGbTYBZuB+6quJ8lyMAd0Exeq0BwUeedlRF6nHTvO7V9yHd3IFEDvmMy1rrgpao3voJ//uMbm5sJ6Pp1yJg/buMDjTF7J/SmOnrZpOlQoCk3xWOphPZG+suGwev17cep0jsotr5vYpRFY/wL9++9JgH/DThai3uOrK6ga/HNdkTnnTS+eQK6YdmodttKhtUYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rK/RqTN6ketK+Z9m4Xj3pVSYGZ6HN6zch7ONEIQ2iDk=;
+ b=HI+EP77NDDdLdowxKLeZbbwectuJ0KqsLUALRsnE/eLr+ZcjeIcnd964mCta4Hz1AoeU9si/azvSG1efKtx17qHB/sR7trpwltmPjkuObA0VYqF6GtNz/TLt1sQGcHhYRdyldr8877BaK3mdk5Q4Be53EbfI075dxJALCI3Kq/I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB2941.namprd12.prod.outlook.com (2603:10b6:208:a9::12)
+ by BN8PR12MB3219.namprd12.prod.outlook.com (2603:10b6:408:9b::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.18; Wed, 22 Jun
+ 2022 22:55:59 +0000
+Received: from MN2PR12MB2941.namprd12.prod.outlook.com
+ ([fe80::85a:3075:1744:8317]) by MN2PR12MB2941.namprd12.prod.outlook.com
+ ([fe80::85a:3075:1744:8317%7]) with mapi id 15.20.5353.020; Wed, 22 Jun 2022
+ 22:55:59 +0000
+Message-ID: <4b49a331-06f7-e875-ed97-c6af7377e629@amd.com>
+Date: Wed, 22 Jun 2022 18:55:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [RFC 0/3] drm/amd/display: Introduce KUnit to Display Mode Library
+Content-Language: en-US
+To: David Gow <davidgow@google.com>, =?UTF-8?Q?Ma=c3=adra_Canal?=
+ <maira.canal@usp.br>, Daniel Latypov <dlatypov@google.com>,
+ tales.aparecida@gmail.com, andrealmeid@riseup.net, mwen@igalia.com,
+ magalilemes00@gmail.com, Isabella Basso <isabbasso@riseup.net>,
+ Harry Wentland <harry.wentland@amd.com>
+References: <20220608010709.272962-1-maira.canal@usp.br>
+ <CABVgOSmesj5MGfQrtdWCgXzm1VXRoG0fAMCbkBCAvtqediqAjQ@mail.gmail.com>
+ <8b040fb2-7edd-6fd1-864e-ee04115c5b1d@usp.br>
+ <CABVgOSmyUC11fwpsH8Y6a_8hCKphyyZj2uYT+dhuRfHT2uonmA@mail.gmail.com>
+ <44745ed7-18ad-ad7c-fef5-2f0f71d289d1@usp.br>
+ <CABVgOSk8grWzD2AR3KLOK_CioDu=vy_gOgpofTvp+8PvZSaoRg@mail.gmail.com>
+From: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
+In-Reply-To: <CABVgOSk8grWzD2AR3KLOK_CioDu=vy_gOgpofTvp+8PvZSaoRg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH0PR04CA0100.namprd04.prod.outlook.com
+ (2603:10b6:610:75::15) To MN2PR12MB2941.namprd12.prod.outlook.com
+ (2603:10b6:208:a9::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1655389056-37044-3-git-send-email-venkateshwar.rao.gannavarapu@xilinx.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ac3ef837-91db-4099-5108-08da54a25f4b
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3219:EE_
+X-Microsoft-Antispam-PRVS: <BN8PR12MB32195956764422826860022D98B29@BN8PR12MB3219.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cPzpy9yBo2plBBoyYA/SIh5+T3eRrMc2oUyVwyp0UjXtygOCVv0i5Z53jCDOf73QyqIVIswptPbMuoDlEp8tBLpuzDbRyiM6jLdZym1fcancj+sebL+omrXXybujTW8Bf+wTAcX1hQgF3qZlt7i2+S1LFyiozTdgecyZxB437/2GB06g068T7FDm+Fe4qUtf0rRUo4uVfvpUVI0ugWXUcT5M1/nfyPsj+W33O0fgBvIhCWaDuAiTqsHqkwCt3Rymj/o1fYC3hXxBIymk/IcjUNTPjqjACr3K4/Go4i4zpQ9gRT9q5oAUEwomCrmKCg6MH5lmETXCYZiQ5piUR9vuLtzy8sFjEzBfb10z7gi4YHSELV4u6iFKp+N1+qOq0kAnj469pPelJanABWJDxipv1WnsFrc62Ofi600t8D3f+b8kwuO5D/8CqGQjPHXLqZlIKr34dkh7ZcvVYBE1fnYSQ2RPveovJ7OUJlNAr2d7x4g8OmyxsA69lH0vfsUyH1MswmFi43SXtSoArN7zr/svtqCIY4LPsZ9zuZEH/x7PigXosA8g3odaffpCqtB/7Obb0jbYoGs3ph0aENrb9ZFTM43gJd3HLi//1cwSWCkxZv/XBUn3rmzetGq4XBVBd6RRXv7zYdOkWLYQYMjeRZ1Rzu0xGYR01fshs3kBz/eFipkw2OUFAOAZGQ3pJeEvi2duwNnc9NgSRh8R4hP0V+p6SJ/MOfAjkNamPump/nIPw8tNggXKZmsr8jWYQl/GPDKW/encccvn/SRafxlcRaofD1m7wpein1VFXid/dz3BhETsdfVSiY5bNsrwOXq0bQjvX3M2xC2JhWzpUcZvfK88G1638Spe1BnS14BsPWsQjps=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB2941.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39860400002)(396003)(366004)(376002)(136003)(346002)(7416002)(66946007)(8936002)(66476007)(4326008)(2906002)(8676002)(6486002)(41300700001)(5660300002)(2616005)(6666004)(66556008)(36756003)(6636002)(110136005)(31686004)(6506007)(478600001)(316002)(26005)(53546011)(86362001)(6512007)(83380400001)(31696002)(38100700002)(186003)(66574015)(966005)(54906003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YjIrSGQzQ1ZFOHpFVWoyTEhlUXJVNnllV1kzRGFiR2EzOFd6YVM5R2xrL213?=
+ =?utf-8?B?VFkrQlE5T2s3OHYvTVpYdDNxOVdFc1ZUQVphOGVIM3UrWHVLMXBPdjhGaHVV?=
+ =?utf-8?B?TU96dnBseTU5a05DeTNVZTNjblRjNU5hZnNPMFkxTmR0NEVUZnc4YjZpYVhi?=
+ =?utf-8?B?Y21QUklMS0Jna01lNGluZWJ4SkVOTkNsakI2RjB2a3Q4cUVYNXM3RCtoTDdR?=
+ =?utf-8?B?VlJXZzRnL1h5TTQ4UXcyZUYvMFBsUWFxdFdjSm10dGZPMldGamRZeHVJeG5w?=
+ =?utf-8?B?ZSt4T0ZISm95eDRaRXJ0RWRrRXlyanlrSUFuVGZwVVRJbUwwS1RqNyt6L1Ur?=
+ =?utf-8?B?N0lGZ1JRUFlHdWRXOEI5bFpWVzFITnlBcjNtN0lPb2JMRndqQXQwZ1AvR05E?=
+ =?utf-8?B?S3g5em1TQmYrbkdaQ2tveHVZU1NUbUhJbVdsRnFQcThEODdrK3NwRldrVXZM?=
+ =?utf-8?B?U2QxQ2I5aFdGQ3F0bzdqR2RGU0tZU3J6d2xxVWNWc3p0Sncvb3VZaW9ETUZx?=
+ =?utf-8?B?akoyRFNrckkxbjNaelpLSDd0dW5uM1c2bXBLNWVLQitwVlJVTnM1Y1NlbzJk?=
+ =?utf-8?B?NTVKaTc4UnBWaGJiaHliRU1vRVVtc2NXZ3o1a2JUcVVQTTI4Wlc0Ny8ya200?=
+ =?utf-8?B?WDhlaHdGQnlWdWhDZm0vdWlGR1IrOVNqN2U4MWRMeEcwaGlhNHlqZ2hMNGI5?=
+ =?utf-8?B?SXpFazREWStHK3NyMmZXTzFvWVdwbGwxdW1qUzZaR1JOOE4xeVpMYWg5bVNH?=
+ =?utf-8?B?S3BxVzkzV3IwdHUvMXdjRTJaaHJPTXVyZHplc1pYZ2MvcElpR3ZSZUpVQ2Jh?=
+ =?utf-8?B?N3NwTFY0UElwd3dkcHRGTUg0a29obTJ1MndKbDNvcGVoTERoallJaTQ4ZWhQ?=
+ =?utf-8?B?Z2VpU3ZNZFE1ZzNhbnhCTGcvRkJVMTBrcjMvYldOR0JiaHNGNzk3WWphQ1BT?=
+ =?utf-8?B?VjJqMlRra1B1V25DblJzS2hMZG9UTlB0T0Y2a0NvTmVqeWY4UStMRFZDTi9t?=
+ =?utf-8?B?OXpxRkZvUGhTQlpNR0w0aU91ZDJMNnZLRk1XUW9wdlMrbW8wQnF4aTFJU1lU?=
+ =?utf-8?B?NStSbHdWckxMdko2N2VWRWxnb29iMlp1b1ZLUWZZVHZ5VUtGWjcwOGh3bjFX?=
+ =?utf-8?B?SDdMbEIwa3d3d2Y1Q3NrZTJQc2lpdVpRVmV2YVNwN3htak9NSTVlZG5CbFZQ?=
+ =?utf-8?B?LzB1OWRFWCtkMFQrZVBMOVZoc3VZT1R1TXhWb2ZvU3Y1RHgyUXVWUWprdWFr?=
+ =?utf-8?B?YUF1eDVqdTlQMGF1cmN5RlJWUkpjWm5TdktjbFdmQldHcW1leDhHWldCTk5D?=
+ =?utf-8?B?UTZTVnJMdUorUFFrWGNIS3dSempwc0t2QVZEUzRXM1ptdE9lc2VRMkRLK2VY?=
+ =?utf-8?B?Um1YTmtKMkI5Z3c0b1hzaXJFdDFTakVWckhNUlJDQm9xT0ZkRVZwVVBxMDhZ?=
+ =?utf-8?B?UW00TStna1V5Q1FxZDQ2OHVsNVdqNUFRRzVTcGtJU2JSSTFWOUhnaEdVbTFX?=
+ =?utf-8?B?WFRHWjNLZEdlSDFoZnp0VTUwd3pvOGhMc0wydEVITFdHL3h0enM0a1VLK0tQ?=
+ =?utf-8?B?clNnM3FML0JHRlpCMnV0QXRkR0NXRXpUVWpxNFJRZ1F6K0Nxa0JXeDVVRzF0?=
+ =?utf-8?B?QWR6R3pIT2lseWNUTUwxbEYvUWt4R1RpaHVxbFV6bVhNZ3lJMkdYU3VXempl?=
+ =?utf-8?B?Mjh4NUFBS1VzekxRM3Jzc0RFK01IcTNQampJNjE3MWhQQ015SFlVRi94V05N?=
+ =?utf-8?B?WEUvVE5PWEJjUGFKaWFLdDN0SGVMOURzMysrUTV4aVdlWEkyaXlLWGZ0R1E2?=
+ =?utf-8?B?a1B6aVBYeWhxdUYvQzBVSVlUWkxlN05VZEI1MWpzc0s3U0owNWttcWFXRUsv?=
+ =?utf-8?B?ZHMyTW01eXl2VUtEeFZjbjZJVTEyT2U5T1ZqaGhoMERITEhVbll2QmJjaHcx?=
+ =?utf-8?B?VWx3U09RajBmdW1sV0d5UVAvQ3ZmUjJwVGhxQXBEOTM2MmZCdVpHNEJGUDdt?=
+ =?utf-8?B?dFBXUHM3R1hhcXI4aCtuaTNROU5yRENPU005UC85QkkyWlJpQm90cnF6cERD?=
+ =?utf-8?B?ZnFhNTFDUWw3dVdnMDFlbFMwNlpBYld1UXhpUVpjanVIaEdLeS9KK0tSQy9W?=
+ =?utf-8?B?anI5NVNFeGRzWGZ0ZEVYeHV2SElEeGtFR2N4azR5Q1ZmV2VYY2dCUkVZZGNL?=
+ =?utf-8?B?dWNwUXU0bXBkOGRMbE5FZE83T1UvdGc4UndOeFhvaFp3eXRleGRRelYrOGk0?=
+ =?utf-8?B?OTlVRjhSOVdNZjdXTDhHM0Qyd29kZVdNZzVuY1RHdXpYRkUwbmxZeWFrMEtZ?=
+ =?utf-8?B?bUV2UjlZd3ExdnNGNU9zR3QvcU85eHIrQVBwTm1TbDRkL3NZMFYvQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac3ef837-91db-4099-5108-08da54a25f4b
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2941.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2022 22:55:58.8271 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tDQiv87uxuu6XjetxUiFG5lx0UZF33gv7Dm/C7P2S0J3/PoIg195gSrYr5WuadjPPefUvrfVkMFeiOkPHNo0fA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3219
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,576 +137,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, vgannava@xilinx.com, sam@ravnborg.org
+Cc: Harrison Chiu <harrison.chiu@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Mark Yacoub <markyacoub@chromium.org>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, amd-gfx@lists.freedesktop.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
+ Nicholas Choi <Nicholas.Choi@amd.com>, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Sean Paul <seanpaul@chromium.org>,
+ Jun Lei <jun.lei@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ KUnit Development <kunit-dev@googlegroups.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi GVRao,
+Hi,
 
-Thank you for the patch.
+First of all, thanks a lot for exploring the introduction of kunit 
+inside amdgpu.
 
-On Thu, Jun 16, 2022 at 07:47:36PM +0530, Venkateshwar Rao Gannavarapu wrote:
-> The Xilinx MIPI DSI Tx Subsystem soft IP is used to display video
-> data from AXI-4 stream interface.
+See my inline comments
+
+On 2022-06-18 05:08, David Gow wrote:
+> On Sat, Jun 18, 2022 at 4:24 AM Maíra Canal <maira.canal@usp.br> wrote:
+>>
+>> On 6/17/22 04:55, David Gow wrote:
+>>> On Fri, Jun 17, 2022 at 6:41 AM Maíra Canal <maira.canal@usp.br> wrote:
+>>>>
+>>>> Hi David,
+>>>>
+>>>> Thank you for your feedback!
+>>>>
+>>>> On 6/16/22 11:39, David Gow wrote:
+>>>>> On Wed, Jun 8, 2022 at 9:08 AM Maíra Canal <maira.canal@usp.br> wrote:
+>>>>
+>>>>>>
+>>>>>> As kunit_test_suites() defines itself as an init_module(), it conflicts with
+>>>>>> the existing one at amdgpu_drv. So, if we use kunit_test_suites(), we won't
+>>>>>> be able to compile the tests as modules and, therefore, won't be able to use
+>>>>>> IGT to run the tests. This problem with kunit_test_suites() was already
+>>>>>> discussed in the KUnit mailing list, as can be seen in [7].
+>>>>>
+>>>>> I'm not sure I fully understand why these tests need to be part of the
+>>>>> amdgpu module, though admittedly I've not played with IGT much. Would
+>>>>> it be possible to compile these tests as separate modules, which could
+>>>>> depend on amdgpu (or maybe include the DML stuff directly), and
+>>>>> therefore not have this conflict? I definitely was able to get these
+>>>>> tests working under kunit_tool (albeit as built-ins) by using
+>>>>> kunit_test_suites(). If each suite were built as a separate module (or
+>>>>> indeed, even if all the tests were in one module, with one list of
+>>>>> suites), then it should be possible to avoid the init_module()
+>>>>> conflict. That'd also make it possible to run these tests without
+>>>>> actually needing the driver to initialise, which seems like it might
+>>>>> require actual hardware(?)
+
+In the Display code for amdgpu, we heavily rely on IGT for automated 
+tests. We have some internal CI where we run a large set of IGT tests 
+per patch, and I'm sure many other DRM developers also use IGT. In this 
+sense, if we can have an interface inside IGT that can easily run those 
+kunit tests, we can enable kunit tests in our CI pipeline almost for free :)
+
+We already have a prototype for this sort of integration at:
+
+https://patchwork.freedesktop.org/series/105294/
+
+>>>> Initially, we tried the kunit_test_suites() approach. And it did work pretty well for the kunit_tool (although we didn't test any hardware-specific unit test). But when compiling the test as a module, we would get a linking error, pointing out multiple definitions of 'init_module'/'cleanup_module' at kunit_test_suites().
+>>>>
+>>>> At this point, we thought about a couple of options to resolve this problem:
+>>>> - Add EXPORT_SYMBOL to the functions we would test. But, this doesn't scale pretty well, because it would pollute AMDGPU code as the tests expand.
+>>>> - Take the Thunderbolt path and add the tests to the driver stack.
+>>>>
+>>>> We end up taking the Thunderbolt path as it would be more maintainable.
+>>>>
+>>>> Compiling the tests as a module is essential to make the tests run at IGT, as IGT essentially loads the module, runs it, and parses the output (a very very simplified explanation of what IGT does). IGT is a very known tool for DRI developers, so we believe that IGT support is crucial for this project.
+>>>>
+>>>> If you have any other options on how to make the module compilation viable without using the 'thunderbolt'-style, we would be glad to hear your suggestions.
+>>>
+>>> As you point out, there are really two separate problems with
+>>> splitting the tests out totally:
+>>> - It's ugly and pollutes the symbol namespace to have EXPORT_SYMBOL()
+>>> everywhere.
+>>> - It's impossible to have multiple init_module() "calls" in the same module.
+>>>
+>>> The first of these is, I think, the harder to solve generally. (There
+>>> are some ways to mitigate the namespace pollution part of it by either
+>>> hiding the EXPORT_SYMBOL() directives behind #ifdef CONFIG_KUNIT or
+>>> similar, or by using symbol namespaces:
+>>> https://www.kernel.org/doc/html/latest/core-api/symbol-namespaces.html
+>>> -- or both -- but they don't solve the issue entirely.)
+>>>
+>>> That being said, it's as much a matter of taste as anything, so if
+>>> keeping things in the amdgpu module works well, don't let me stop you.
+>>> Either way should work, and have their own advantages and
+>>> disadvantages.
+
+I want to avoid making changes inside the dc code [1] (or keep it 
+minimal) for enabling kunit. Aligned with the IGT comment, I'm more 
+inclined to a solution where we treat the kunit tests for DML as a 
+module. However, I'm not sure yet if it is possible to have something 
+like that...
+
+Does it make things easier if we have a single module that handles the 
+dml-kunit interface, and we can control which test to invoke via kernel 
+parameter?
+
+1. 
+https://gitlab.freedesktop.org/agd5f/linux/-/tree/amd-staging-drm-next/drivers/gpu/drm/amd/display/dc
+
+>>> The latter is just a quirk of the current KUnit implementation of
+>>> kunit_test_suites(). This multiple-definition issue will go away in
+>>> the not-too-distant future.
+>>>
+>>> So my suggestion here would be to make sure any changes you make to
+>>> work around the issue with multiple init_module definitions are easy
+>>> to remove. I suspect you could probably significantly simplify the
+>>> whole dml_test.{c,h} bit to just directly export the kunit_suites and
+>>> maybe throw them all in one array to pass to
+>>> __kunit_test_suites_init(). Then, when the improved modules work
+>>> lands, they could be deleted entirely and replaced with one or more
+>>> calls to kunit_test_suite().
+>>>
+>>>>>
+>>>>> There are two other reasons the 'thunderbolt'-style technique is one
+>>>>> we want to avoid:
+>>>>> 1. It makes it much more difficult to run tests using kunit_tool and
+>>>>> KUnit-based CI tools: these tests would not run automatically, and if
+>>>>> they were built-in as-is, they'd need to be
+>>>>> 2. We're planning to improve module support to replace the
+>>>>> init_module()-based implementation of kunit_test_suites() with one
+>>>>> which won't have these conflicts, so the need for this should be
+>>>>> short-lived.
+>>>>>
+>>>>> If you're curious, an early version of the improved module support can
+>>>>> be found here, though it's out-of-date enough it won't apply or work
+>>>>> as-is:
+>>>>> https://lore.kernel.org/all/101d12fc9250b7a445ff50a9e7a25cd74d0e16eb.camel@codeconstruct.com.au/
+>>>>>
+>>>>> Now, that's unlikely to be ready very soon, but I'd be hesitant to
+>>>>> implement too extensive a system for avoiding kunit_test_suites()
+>>>>> given at some point it should work and we'll need to migrate back to
+>>>>> it.
+>>>>
+>>>> We hope to see in the near future the improved module support from KUnit as it would make the addition of tests much more simple and clean.
+>>>>
+>>>> Could you explain more about what is missing to make this improved module support come upstream?
+>>>>
+>>>
+>>> Mostly just time and some other priorities. We've taken another look
+>>> at it over the last couple of days, and will try to accelerate getting
+>>> it in within the next couple of kernel releases. (Hopefully sooner
+>>> rather than later.)
+>> Is there anything we can do to make this move faster? As it is our great
+>> interest to make this work in KUnit, maybe I, Isabella, Tales, or Magali
+>> can start work on this feature. We don´t have much knowledge of the
+>> inner workings of KUnit, but if you point out a path, we can try to work
+>> on this task.
+>>
+>> Maybe, could we work in the same way as Jeremy?
 > 
-> It supports upto 4 lanes, optional register interface for the DPHY
-> and multiple RGB color formats.
-> This is a MIPI-DSI host driver and provides DSI bus for panels.
-> This driver also helps to communicate with its panel using panel
-> framework.
+> Daniel and I have quickly tidied up and finished the various
+> in-progress bits of this and sent it out here:
+> https://lore.kernel.org/linux-kselftest/20220618090310.1174932-1-davidgow@google.com/T/
 > 
-> Signed-off-by: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
-> ---
->  drivers/gpu/drm/xlnx/Kconfig    |  12 ++
->  drivers/gpu/drm/xlnx/Makefile   |   1 +
->  drivers/gpu/drm/xlnx/xlnx_dsi.c | 429 ++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 442 insertions(+)
->  create mode 100644 drivers/gpu/drm/xlnx/xlnx_dsi.c
+> You should be able to apply that series and then just use
+> kunit_test_suites(), which will no-longer conflict with module_init
+> functions.
 > 
-> diff --git a/drivers/gpu/drm/xlnx/Kconfig b/drivers/gpu/drm/xlnx/Kconfig
-> index f9cf93c..a75bd76 100644
-> --- a/drivers/gpu/drm/xlnx/Kconfig
-> +++ b/drivers/gpu/drm/xlnx/Kconfig
-> @@ -1,3 +1,15 @@
-> +config DRM_XLNX_DSI
-> +	tristate "Xilinx DRM DSI Subsystem Driver"
-> +	depends on ARCH_ZYNQMP || COMPILE_TEST
-> +	depends on DRM && OF
-> +	select DRM_KMS_HELPER
-> +	select DRM_MIPI_DSI
-> +	select DRM_PANEL_BRIDGE
+> The most useful thing you could do is to test and/or review it --
+> there's almost certainly something I'll have missed.
 
-You can drop DRM_PANEL_BRIDGE, the driver doesn't need it.
+Nice!
 
-> +	help
-> +	  DRM bridge driver for Xilinx programmable DSI subsystem controller.
-> +	  choose this option if you hava a Xilinx MIPI-DSI Tx subsytem in
+Maira/Magali/Isabela/Tales,
 
-s/choose/Choose/
+Maybe for the next version, we can use the above patches even if they 
+are not in amd-staging-drm-next yet.
 
-> +	  video pipeline.
-> +
->  config DRM_ZYNQMP_DPSUB
->  	tristate "ZynqMP DisplayPort Controller Driver"
->  	depends on ARCH_ZYNQMP || COMPILE_TEST
-> diff --git a/drivers/gpu/drm/xlnx/Makefile b/drivers/gpu/drm/xlnx/Makefile
-> index 51c24b7..f90849b 100644
-> --- a/drivers/gpu/drm/xlnx/Makefile
-> +++ b/drivers/gpu/drm/xlnx/Makefile
-> @@ -1,2 +1,3 @@
-> +obj-$(CONFIG_DRM_XLNX_DSI) += xlnx_dsi.o
->  zynqmp-dpsub-y := zynqmp_disp.o zynqmp_dpsub.o zynqmp_dp.o
->  obj-$(CONFIG_DRM_ZYNQMP_DPSUB) += zynqmp-dpsub.o
-> diff --git a/drivers/gpu/drm/xlnx/xlnx_dsi.c b/drivers/gpu/drm/xlnx/xlnx_dsi.c
-> new file mode 100644
-> index 0000000..39d8947
-> --- /dev/null
-> +++ b/drivers/gpu/drm/xlnx/xlnx_dsi.c
-> @@ -0,0 +1,429 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Xilinx FPGA MIPI DSI Tx Controller driver.
-> + *
-> + * Copyright (C) 2022 Xilinx, Inc.
-> + *
-> + * Author: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/module.h>
-> +#include <linux/of_device.h>
+Thanks
+Siqueira
 
-I'd add at least platform_device.h to avoid depending on indirect
-inclusion of headers.
+> Cheers,
+> -- David
 
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_modes.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_panel.h>
-
-Not needed.
-
-> +#include <drm/drm_print.h>
-> +
-> +/* DSI Tx IP registers */
-> +#define XDSI_CCR			0x00
-> +#define XDSI_CCR_COREENB		BIT(0)
-> +#define XDSI_CCR_SOFTRST		BIT(1)
-> +#define XDSI_CCR_CRREADY		BIT(2)
-> +#define XDSI_CCR_CMDMODE		BIT(3)
-> +#define XDSI_CCR_DFIFORST		BIT(4)
-> +#define XDSI_CCR_CMDFIFORST		BIT(5)
-> +#define XDSI_PCR			0x04
-> +#define XDSI_PCR_LANES_MASK		3
-> +#define XDSI_PCR_VIDEOMODE(x)		(((x) & 0x3) << 3)
-> +#define XDSI_PCR_VIDEOMODE_MASK	GENMASK(4, 3)
-> +#define XDSI_PCR_VIDEOMODE_SHIFT	3
-> +#define XDSI_PCR_BLLPTYPE(x)		((x) << 5)
-> +#define XDSI_PCR_BLLPMODE(x)		((x) << 6)
-> +#define XDSI_PCR_PIXELFORMAT_MASK	GENMASK(12, 11)
-> +#define XDSI_PCR_PIXELFORMAT_SHIFT	11
-> +#define XDSI_PCR_EOTPENABLE(x)		((x) << 13)
-> +#define XDSI_GIER			0x20
-> +#define XDSI_ISR			0x24
-> +#define XDSI_IER			0x28
-> +#define XDSI_STR			0x2C
-> +#define XDSI_STR_RDY_SHPKT		BIT(6)
-> +#define XDSI_STR_RDY_LNGPKT		BIT(7)
-> +#define XDSI_STR_DFIFO_FULL		BIT(8)
-> +#define XDSI_STR_DFIFO_EMPTY		BIT(9)
-> +#define XDSI_STR_WAITFR_DATA		BIT(10)
-> +#define XDSI_STR_CMD_EXE_PGS		BIT(11)
-> +#define XDSI_STR_CCMD_PROC		BIT(12)
-> +#define XDSI_CMD			0x30
-> +#define XDSI_CMD_QUEUE_PACKET(x)	((x) & GENMASK(23, 0))
-> +#define XDSI_DFR			0x34
-> +#define XDSI_TIME1			0x50
-> +#define XDSI_TIME1_BLLP_BURST(x)	((x) & GENMASK(15, 0))
-> +#define XDSI_TIME1_HSA(x)		(((x) & GENMASK(15, 0)) << 16)
-> +#define XDSI_TIME2			0x54
-> +#define XDSI_TIME2_VACT(x)		((x) & GENMASK(15, 0))
-> +#define XDSI_TIME2_HACT(x)		(((x) & GENMASK(15, 0)) << 16)
-> +#define XDSI_HACT_MULTIPLIER		GENMASK(1, 0)
-> +#define XDSI_TIME3			0x58
-> +#define XDSI_TIME3_HFP(x)		((x) & GENMASK(15, 0))
-> +#define XDSI_TIME3_HBP(x)		(((x) & GENMASK(15, 0)) << 16)
-> +#define XDSI_TIME4			0x5c
-> +#define XDSI_TIME4_VFP(x)		((x) & GENMASK(7, 0))
-> +#define XDSI_TIME4_VBP(x)		(((x) & GENMASK(7, 0)) << 8)
-> +#define XDSI_TIME4_VSA(x)		(((x) & GENMASK(7, 0)) << 16)
-> +#define XDSI_NUM_DATA_T		4
-> +
-> +/**
-> + * struct xlnx_dsi - Xilinx DSI-TX core
-> + * @bridge: DRM bridge structure
-> + * @dsi_host: DSI host device
-> + * @next_bridge: bridge structure
-> + * @dev: device structure
-> + * @clks: clock source structure
-> + * @iomem: Base address of DSI subsystem
-> + * @mode_flags: DSI operation mode related flags
-> + * @lanes: number of active data lanes supported by DSI controller
-> + * @mul_factor: multiplication factor for HACT timing
-> + * @format: pixel format for video mode of DSI controller
-> + * @device_found: Flag to indicate device presence
-> + */
-> +struct xlnx_dsi {
-> +	struct drm_bridge bridge;
-> +	struct mipi_dsi_host dsi_host;
-> +	struct drm_bridge *next_bridge;
-> +	struct device *dev;
-> +	struct clk_bulk_data *clks;
-> +	void __iomem *iomem;
-> +	unsigned long mode_flags;
-> +	u32 lanes;
-> +	u32 mul_factor;
-> +	enum mipi_dsi_pixel_format format;
-> +	bool device_found;
-> +};
-> +
-> +static const struct clk_bulk_data xdsi_clks[] = {
-> +	{ .id = "s_axis_aclk" },
-> +	{ .id = "dphy_clk_200M" },
-> +};
-> +
-> +static inline struct xlnx_dsi *host_to_dsi(struct mipi_dsi_host *host)
-> +{
-> +	return container_of(host, struct xlnx_dsi, dsi_host);
-> +}
-> +
-> +static inline struct xlnx_dsi *bridge_to_dsi(struct drm_bridge *bridge)
-> +{
-> +	return container_of(bridge, struct xlnx_dsi, bridge);
-> +}
-> +
-> +static inline void xlnx_dsi_write(struct xlnx_dsi *dsi, int offset, u32 val)
-> +{
-> +	writel(val, dsi->iomem + offset);
-> +}
-> +
-> +static inline u32 xlnx_dsi_read(struct xlnx_dsi *dsi, int offset)
-> +{
-> +	return readl(dsi->iomem + offset);
-> +}
-> +
-> +static int xlnx_dsi_host_attach(struct mipi_dsi_host *host,
-> +				struct mipi_dsi_device *device)
-> +{
-> +	struct xlnx_dsi *dsi = host_to_dsi(host);
-> +	struct device *dev = host->dev;
-> +
-> +	dsi->mode_flags = device->mode_flags;
-> +
-> +	if (dsi->lanes != device->lanes) {
-> +		dev_err(dsi->dev, "Mismatch of lanes. panel = %d, DSI = %d\n",
-
-It's not necessarily a panel. You can write
-
-		dev_err(dsi->dev, "Mismatch of lanes, host: %u != device: %u\n",
-			dsi->lanes, device->lanes);
-
-> +			device->lanes, dsi->lanes);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (dsi->format != device->format) {
-> +		dev_err(dsi->dev, "Mismatch of format. panel = %d, DSI = %d\n",
-> +			device->format, dsi->format);
-
-Same here.
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (!dsi->device_found) {
-> +		dsi->next_bridge = devm_drm_of_get_bridge(dev,
-
-As dev is the same as dsi->dev, I'd use dev->dsi here and drop the local
-variable.
-
-> +							  dev->of_node, 0, 0);
-> +		if (IS_ERR(dsi->next_bridge))
-> +			return PTR_ERR(dsi->next_bridge);
-> +		drm_bridge_add(&dsi->bridge);
-> +		dsi->device_found = true;
-
-I don't think the device_found flag mechanism is right. You remove the
-bridge in xlnx_dsi_host_detach(), so it should be added back here,
-shouldn't it ?
-
-The next question would then be what to do with the next bridge acquired
-with devm_drm_of_get_bridge(). It looks like we have a lifetime
-management issue here, and I don't think it's fair to ask you to fix the
-bridge/panel core to get this driver merged, so I'm fine keeping this
-for now even if it's incorrect. I'd like feedback from others though.
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int xlnx_dsi_host_detach(struct mipi_dsi_host *host,
-> +				struct mipi_dsi_device *device)
-> +{
-> +	struct xlnx_dsi *dsi = host_to_dsi(host);
-> +
-> +	drm_bridge_remove(&dsi->bridge);
-> +	return 0;
-> +}
-> +
-> +static const struct mipi_dsi_host_ops xlnx_dsi_ops = {
-> +	.attach = xlnx_dsi_host_attach,
-> +	.detach	= xlnx_dsi_host_detach,
-> +};
-> +
-> +static void
-> +xlnx_dsi_bridge_disable(struct drm_bridge *bridge,
-> +			struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct xlnx_dsi *dsi = bridge_to_dsi(bridge);
-> +	u32 reg = xlnx_dsi_read(dsi, XDSI_CCR);
-> +
-> +	reg &= ~XDSI_CCR_COREENB;
-> +	xlnx_dsi_write(dsi, XDSI_CCR, reg);
-> +}
-> +
-> +static void
-> +xlnx_dsi_bridge_enable(struct drm_bridge *bridge,
-> +		       struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct xlnx_dsi *dsi = bridge_to_dsi(bridge);
-> +	struct drm_atomic_state *state = old_bridge_state->base.state;
-> +	struct drm_connector *connector;
-> +	struct drm_crtc *crtc;
-> +	const struct drm_crtc_state *crtc_state;
-> +	const struct drm_display_mode *mode;
-> +	u32 reg, video_mode;
-> +
-> +	connector = drm_atomic_get_new_connector_for_encoder(state,
-> +							     bridge->encoder);
-> +	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
-> +	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-> +	mode = &crtc_state->adjusted_mode;
-> +
-> +	reg = xlnx_dsi_read(dsi, XDSI_PCR);
-> +	video_mode = (reg & XDSI_PCR_VIDEOMODE_MASK) >> XDSI_PCR_VIDEOMODE_SHIFT;
-> +
-> +	if (!video_mode && (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)) {
-> +		reg = XDSI_TIME1_HSA(mode->hsync_end -
-> +				     mode->hsync_start);
-
-This holds on a single line.
-
-> +		xlnx_dsi_write(dsi, XDSI_TIME1, reg);
-> +	}
-> +
-> +	reg = XDSI_TIME4_VFP(mode->vsync_start - mode->vdisplay) |
-> +		XDSI_TIME4_VBP(mode->vtotal - mode->vsync_end) |
-> +		XDSI_TIME4_VSA(mode->vsync_end - mode->vsync_start);
-> +	xlnx_dsi_write(dsi, XDSI_TIME4, reg);
-> +
-> +	reg = XDSI_TIME3_HFP(mode->hsync_start - mode->hdisplay) |
-> +		XDSI_TIME3_HBP(mode->htotal - mode->hsync_end);
-> +	xlnx_dsi_write(dsi, XDSI_TIME3, reg);
-> +
-> +	reg = XDSI_TIME2_HACT(mode->hdisplay * dsi->mul_factor / 100) |
-> +		XDSI_TIME2_VACT(mode->vdisplay);
-> +	xlnx_dsi_write(dsi->iomem, XDSI_TIME2, reg);
-> +
-> +	xlnx_dsi_write(dsi, XDSI_PCR, XDSI_PCR_VIDEOMODE(BIT(0)));
-> +
-> +	/* Enable Core */
-> +	reg = xlnx_dsi_read(dsi, XDSI_CCR);
-> +	reg |= XDSI_CCR_COREENB;
-> +	xlnx_dsi_write(dsi, XDSI_CCR, reg);
-> +}
-> +
-> +#define MAX_INPUT_SEL_FORMATS   3
-> +static u32
-> +*xlnx_dsi_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> +					   struct drm_bridge_state *bridge_state,
-> +					   struct drm_crtc_state *crtc_state,
-> +					   struct drm_connector_state *conn_state,
-> +					   u32 output_fmt,
-> +					   unsigned int *num_input_fmts)
-> +{
-> +	u32 *input_fmts;
-> +	unsigned int i = 0;
-> +
-> +	*num_input_fmts = 0;
-> +	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts), GFP_KERNEL);
-> +	if (!input_fmts)
-> +		return NULL;
-> +
-> +	switch (output_fmt) {
-> +	case MEDIA_BUS_FMT_FIXED:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB666_1X18:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB666_1X18;
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB565_1X16:
-> +		input_fmts[i++] = MEDIA_BUS_FMT_RGB565_1X16;
-> +		break;
-> +	default: /* define */
-> +	}
-
-As the cases are mutually exclusive, i will always be equal to 1. You
-can drop the MAX_INPUT_SEL_FORMATS macro, the i variable, allocate a
-single entry for input_fmts, and set inputs_fmts[0].
-
-> +
-> +	*num_input_fmts = i;
-> +	if (*num_input_fmts == 0) {
-> +		kfree(input_fmts);
-> +		input_fmts = NULL;
-> +	}
-> +
-> +	return input_fmts;
-> +}
-> +
-> +static int xlnx_dsi_bridge_attach(struct drm_bridge *bridge,
-> +				  enum drm_bridge_attach_flags flags)
-> +{
-> +	struct xlnx_dsi *dsi = bridge_to_dsi(bridge);
-> +
-> +	if (!dsi->next_bridge)
-
-Can this ever happen ?
-
-> +		return 0;
-> +
-> +	/* Attach the next bridge */
-> +	return drm_bridge_attach(bridge->encoder, dsi->next_bridge, bridge,
-> +				 flags);
-> +}
-> +
-> +static void xlnx_dsi_bridge_detach(struct drm_bridge *bridge)
-> +{
-> +	struct xlnx_dsi *dsi = bridge_to_dsi(bridge);
-> +
-> +	drm_of_panel_bridge_remove(dsi->dev->of_node, 1, 0);
-
-This doesn't look right. Is it a leftover ? You should instead call
-drm_bridge_detach() on the next bridge.
-
-> +}
-> +
-> +static enum drm_mode_status
-> +xlnx_dsi_bridge_mode_valid(struct drm_bridge *bridge,
-> +			   const struct drm_display_info *info,
-> +			   const struct drm_display_mode *mode)
-> +{
-> +	if ((mode->hdisplay & XDSI_HACT_MULTIPLIER) != 0)
-> +		return MODE_BAD_WIDTH;
-> +
-> +	return MODE_OK;
-> +}
-> +
-> +static const struct drm_bridge_funcs xlnx_dsi_bridge_funcs = {
-> +	.atomic_duplicate_state		= drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state		= drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset			= drm_atomic_helper_bridge_reset,
-> +	.atomic_disable                 = xlnx_dsi_bridge_disable,
-> +	.atomic_enable			= xlnx_dsi_bridge_enable,
-> +	.atomic_get_input_bus_fmts      = xlnx_dsi_bridge_atomic_get_input_bus_fmts,
-> +	.attach				= xlnx_dsi_bridge_attach,
-> +	.detach				= xlnx_dsi_bridge_detach,
-> +	.mode_valid			= xlnx_dsi_bridge_mode_valid,
-> +};
-> +
-> +static int xlnx_dsi_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct resource *res;
-> +	struct xlnx_dsi *dsi;
-> +	int ret;
-> +	const int xdsi_mul_fact[XDSI_NUM_DATA_T] = {300, 225, 225, 200};
-
-static const, and you can move it as the first variable of the function.
-
-> +	u32 reg;
-> +
-> +	dsi = devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
-> +	if (!dsi)
-> +		return -ENOMEM;
-> +
-> +	dsi->dev = dev;
-> +	dsi->clks = devm_kmemdup(dev, xdsi_clks, sizeof(xdsi_clks),
-> +				 GFP_KERNEL);
-> +	if (!dsi->clks)
-> +		return -ENOMEM;
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	dsi->iomem = devm_ioremap_resource(dev, res);
-> +	if (IS_ERR(dsi->iomem))
-> +		return PTR_ERR(dsi->iomem);
-> +
-> +	ret = devm_clk_bulk_get(dev, ARRAY_SIZE(xdsi_clks), dsi->clks);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = clk_bulk_prepare_enable(ARRAY_SIZE(xdsi_clks), dsi->clks);
-> +	if (ret)
-> +		return ret;
-
-Shouldn't this be done in the .atomic_enable() handler instead, possible
-through runtime PM ?
-
-> +
-> +	platform_set_drvdata(pdev, dsi);
-> +	dsi->dsi_host.ops = &xlnx_dsi_ops;
-> +	dsi->dsi_host.dev = dev;
-> +
-> +	ret = mipi_dsi_host_register(&dsi->dsi_host);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to register MIPI host: %d\n", ret);
-> +		goto err_clk_put;
-> +	}
-> +
-> +	dsi->bridge.driver_private = dsi;
-> +	dsi->bridge.funcs = &xlnx_dsi_bridge_funcs;
-> +	dsi->bridge.of_node = pdev->dev.of_node;
-> +
-> +	reg = xlnx_dsi_read(dsi, XDSI_PCR);
-> +	dsi->lanes = reg & XDSI_PCR_LANES_MASK;
-> +	dsi->format = (reg & XDSI_PCR_PIXELFORMAT_MASK) >>
-> +		XDSI_PCR_PIXELFORMAT_SHIFT;
-
-OK, you'll need to enable clocks for this too, so runtime PM could be a
-good option.
-
-> +
-> +	if (dsi->lanes > 4 || dsi->lanes < 1) {
-> +		dev_err(dsi->dev, "%d invalid lanes\n",	dsi->lanes);
-
-dsi->lanes is unsigned, so %u.
-
-> +		return -EINVAL;
-
-This leaves the clocks enabled.
-
-> +	}
-> +
-> +	if (dsi->format > MIPI_DSI_FMT_RGB565) {
-> +		dev_err(dsi->dev, "Invalid xlnx,dsi-data-type string\n");
-
-This is read from a register, not parsed from DT, so the message isn't
-valid.
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	/*
-> +	 * Used as a multiplication factor for HACT based on used
-> +	 * DSI data type.
-> +	 *
-> +	 * e.g. for RGB666_L datatype and 1920x1080 resolution,
-> +	 * the Hact (WC) would be as follows -
-> +	 * 1920 pixels * 18 bits per pixel / 8 bits per byte
-> +	 * = 1920 pixels * 2.25 bytes per pixel = 4320 bytes.
-> +	 *
-> +	 * Data Type - Multiplication factor
-> +	 * RGB888    - 3
-> +	 * RGB666_L  - 2.25
-> +-	 * RGB666_P  - 2.25
-> +	 * RGB565    - 2
-> +	 *
-> +	 * Since the multiplication factor is a floating number,
-> +	 * a 100x multiplication factor is used.
-> +	 */
-> +	dsi->mul_factor = xdsi_mul_fact[dsi->format];
-> +
-> +	dev_dbg(dsi->dev, "DSI controller num lanes = %d\n", dsi->lanes);
-> +	dev_dbg(dsi->dev, "DSI controller format = %d\n", dsi->format);
-
-You could combine both messages into a single one.
-
-Are you missing a return 0 here ?
-
-> +
-> +err_clk_put:
-> +	clk_bulk_disable_unprepare(ARRAY_SIZE(xdsi_clks), dsi->clks);
-> +
-> +	return ret;
-> +}
-> +
-> +static int xlnx_dsi_remove(struct platform_device *pdev)
-> +{
-> +	struct xlnx_dsi *dsi = platform_get_drvdata(pdev);
-> +
-> +	mipi_dsi_host_unregister(&dsi->dsi_host);
-> +	clk_bulk_disable_unprepare(ARRAY_SIZE(xdsi_clks), dsi->clks);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id xlnx_dsi_of_match[] = {
-> +	{ .compatible = "xlnx,dsi-tx-v2.0"},
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, xlnx_dsi_of_match);
-> +
-> +static struct platform_driver dsi_driver = {
-> +	.probe = xlnx_dsi_probe,
-> +	.remove = xlnx_dsi_remove,
-> +	.driver = {
-> +		.name = "xlnx-dsi",
-> +		.of_match_table = xlnx_dsi_of_match,
-> +	},
-> +};
-> +
-> +module_platform_driver(dsi_driver);
-> +
-> +MODULE_AUTHOR("Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>");
-> +MODULE_DESCRIPTION("Xilinx MIPI DSI host controller driver");
-> +MODULE_LICENSE("GPL");
-
--- 
-Regards,
-
-Laurent Pinchart
