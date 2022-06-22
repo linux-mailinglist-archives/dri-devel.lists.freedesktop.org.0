@@ -1,69 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A421E55530D
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 20:14:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 276ED55534D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 20:34:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF8B710E1B6;
-	Wed, 22 Jun 2022 18:14:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC35D10E34E;
+	Wed, 22 Jun 2022 18:34:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
- [IPv6:2a00:1450:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9B8A10E1B6
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 18:14:10 +0000 (UTC)
-Received: by mail-lj1-x232.google.com with SMTP id o23so13237054ljg.13
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 11:14:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=tOaTUPPd6PdnEExOp4k5WWfYtYj0K5ouhfpsiU0MJ+w=;
- b=lMSz4dBNNkjwUgQVLw2XHuk6MaRJIayQLYaVfK4Jg5y35/dTMC79+wGsynebGHJPzu
- oEke8IHC9DqEek694z88Vsyk9VHBG+98m0tvqwI6Gv47nFn7SaHIi8fIMqyZei/q7i9j
- AbJBhCa8grNO6PMrhiSwdzC9AwDyUnhf8NbfvnKAo9XXUTs9MgsIpu5QHq2KPFWhjQJt
- AdgoTxsY/5ooIOCtlABRvN19t8xjZwvlfqE1QDNAND/moluseFEqnsmhOJbTFZ0BGD5g
- fBSCyKEgKo+avosEChFcl4zGwUtdyxowcDOPMKyiCrUhNOE8XRFAM60zzgB2Hwo4mOpK
- ePzQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD4B210E34E
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 18:34:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655922866;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=omiNqvORIjG9NgssZYHaS4WVLfu2J9JUn3+DxvoKIzU=;
+ b=Q5sq590dsTNPSZNWrMzWbDiEO3hVSGbsGLb3ZB4HdrdNu3agWK5/1yjpH06Ba1kqUEmM3S
+ CJTYxzG6fuj8Kc8b46h/UaWnSu4+mAT9rL4tqqQRf930W5Dcx+T1a6HXUhvCmYtBV9bH0m
+ CXsLXpLpVVyBbWQzQ+X0HkeX2YaaVqg=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-179-y0AzmFD4Noai00BTzuIOYQ-1; Wed, 22 Jun 2022 14:34:22 -0400
+X-MC-Unique: y0AzmFD4Noai00BTzuIOYQ-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ lx15-20020a0562145f0f00b0047052731d81so5500916qvb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 11:34:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=tOaTUPPd6PdnEExOp4k5WWfYtYj0K5ouhfpsiU0MJ+w=;
- b=xILKSS2x8ZmucXggqXrNp+m99qDh5uJ13zkh9qKBXYY88oXslMidJhrk4E1jQI8H5W
- SbQeCzho+Js3MGvWvb3Q9wB1Ud/9Pz08oEuBECJQZPze3MRi5YoaBAgpv7jnY0sDbhSt
- QA5KlbuRTVh0VA4nDnSoXIBNYnMXIHXgMhdUHahWl5Npjs9mV3a3zgMDPQun96eIYvKo
- UPGuIXEYvAWbJfoXsUr2O4NJp9sSBBJOYxunEppCk0vjMDK5QPmwUhXxl6hAzps2rTji
- jNrhdyySLXvfqmlJyx+UQkNI1/21TnRNj9Yj9RSZ98QWfoVnfQn5D7WjaAJWtIbNVqNJ
- pKMg==
-X-Gm-Message-State: AJIora9VLsqyzHT3hq2K0GOJCDmxY/zaMHjMz4LUjeKhajOU3BmongF2
- YDfXHgBgUqN9vgLDNffsc2EHVg==
-X-Google-Smtp-Source: AGRyM1sDZSQ9wOQc+S8b6FOus1k4rbB5EVldDN3tKv3CSF+uyrl2CuvZ7MLOW3KGU6zXdS6vurt5qw==
-X-Received: by 2002:a2e:a16f:0:b0:25a:7527:95ce with SMTP id
- u15-20020a2ea16f000000b0025a752795cemr2622679ljl.305.1655921649232; 
- Wed, 22 Jun 2022 11:14:09 -0700 (PDT)
-Received: from [192.168.1.212] ([37.153.55.125])
+ bh=omiNqvORIjG9NgssZYHaS4WVLfu2J9JUn3+DxvoKIzU=;
+ b=Di5qJha5gmU9V+NHUkr9r1hqeB+foq7S/OGrFRByH6OSPADK1PPCZKJ8jiArV7dWs0
+ HN/K37GSrTHyGVbB3zOXtMTnTBFol9BUCVCwwQOanrzt9dG73u2qdfgkGsp7CPyjvSPG
+ +CuJkBeJMhD4GsuISdoe9olsvPy/oNygzNUqEkSNDtd2qCd4cs+Tv6GJjg6fN9os5qCY
+ tNYp64JJjaeN20sWoH1M8ZirTIwWDBWRgPEYZbJ5TrkA3Y2NKYk49+xGbD0R0zriCl7o
+ 0MFGtRPN4+eZtn4pI23Q/L6AhDTtYlsk0jwWRd3fIYFn5iE6iqE0lXViI2/sgPLgVPth
+ tozw==
+X-Gm-Message-State: AJIora998m6UBD3LGReADTD5EPp3FW2//xDGJYpigVjLiP/yBBIiGlg5
+ PmlciYeJLs/0vsJjXlKb/EE0+h8kZ9s9iKKuu2lKUODAp+6ms1leTesmhQffcmix+uAwn0FVjqX
+ pSXMq2uYAOQ15ysvnpQAszYAeA4W+
+X-Received: by 2002:a05:620a:f89:b0:6ae:d418:f478 with SMTP id
+ b9-20020a05620a0f8900b006aed418f478mr3456648qkn.344.1655922861775; 
+ Wed, 22 Jun 2022 11:34:21 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sLdOpvVvGa9rukdo6gfWMtRMEU54NEu1QoSLfKHFZABy3SvdCJ7y4K3NMewQy37mKcWf65Jw==
+X-Received: by 2002:a05:620a:f89:b0:6ae:d418:f478 with SMTP id
+ b9-20020a05620a0f8900b006aed418f478mr3456630qkn.344.1655922861472; 
+ Wed, 22 Jun 2022 11:34:21 -0700 (PDT)
+Received: from [192.168.8.138] ([141.154.49.182])
  by smtp.gmail.com with ESMTPSA id
- u1-20020a199201000000b0047255d210dbsm2641802lfd.10.2022.06.22.11.14.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jun 2022 11:14:08 -0700 (PDT)
-Message-ID: <fb4310fd-61b1-08ab-c1fb-ed530684a390@linaro.org>
-Date: Wed, 22 Jun 2022 21:14:07 +0300
+ r8-20020a05622a034800b00304e4bbc369sm15355256qtw.10.2022.06.22.11.34.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jun 2022 11:34:20 -0700 (PDT)
+Message-ID: <8a6048576c440f1653121bb7be8583e9fee0c79a.camel@redhat.com>
+Subject: Re: [PATCH] drm/ast: Fix black screen when getting out of suspend
+From: Lyude Paul <lyude@redhat.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org, 
+ tzimmermann@suse.de, kuohsiang_chou@aspeedtech.com
+Date: Wed, 22 Jun 2022 14:34:19 -0400
+In-Reply-To: <20220622124815.356035-1-jfalempe@redhat.com>
+References: <20220622124815.356035-1-jfalempe@redhat.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/msm/dp: reset drm_dev to NULL at dp_display_unbind()
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
- sean@poorly.run, swboyd@chromium.org, dianders@chromium.org,
- vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie, agross@kernel.org,
- bjorn.andersson@linaro.org
-References: <1655916845-31760-1-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1655916845-31760-1-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,80 +87,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: michel@daenzer.net, hungju_huang@aspeedtech.com,
+ Venkat Tadikonda <venkateswara.rao@intel.com>, charles_kuan@aspeedtech.com,
+ luke_chen@aspeedtech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/06/2022 19:54, Kuogee Hsieh wrote:
-> During msm initialize phase, dp_display_unbind() will be called to undo
-> initializations had been done by dp_display_bind() previously if there is
-> error happen at msm_drm_bind. Under this kind of circumstance, drm_device
-> may not be populated completed which causes system crash at drm_dev_dbg().
-> This patch reset drm_dev to NULL so that following drm_dev_dbg() will not
-> refer to any internal fields of drm_device to prevent system from crashing.
-> Below are panic stack trace,
-> 
-> [   53.584904] Unable to handle kernel paging request at virtual address 0000000070018001
-> .
-> [   53.702212] Hardware name: Qualcomm Technologies, Inc. sc7280 CRD platform (rev5+) (DT)
-> [   53.710445] pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [   53.717596] pc : string_nocheck+0x1c/0x64
-> [   53.721738] lr : string+0x54/0x60
-> [   53.725162] sp : ffffffc013d6b650
-> [   53.728590] pmr_save: 000000e0
-> [   53.731743] x29: ffffffc013d6b650 x28: 0000000000000002 x27: 0000000000ffffff
-> [   53.739083] x26: ffffffc013d6b710 x25: ffffffd07a066ae0 x24: ffffffd07a419f97
-> [   53.746420] x23: ffffffd07a419f99 x22: ffffff81fef360d4 x21: ffffff81fef364d4
-> [   53.753760] x20: ffffffc013d6b6f8 x19: ffffffd07a06683c x18: 0000000000000000
-> [   53.761093] x17: 4020386678302f30 x16: 00000000000000b0 x15: ffffffd0797523c8
-> [   53.768429] x14: 0000000000000004 x13: ffff0000ffffff00 x12: ffffffd07a066b2c
-> [   53.775780] x11: 0000000000000000 x10: 000000000000013c x9 : 0000000000000000
-> [   53.783117] x8 : ffffff81fef364d4 x7 : 0000000000000000 x6 : 0000000000000000
-> [   53.790445] x5 : 0000000000000000 x4 : ffff0a00ffffff04 x3 : ffff0a00ffffff04
-> [   53.797783] x2 : 0000000070018001 x1 : ffffffffffffffff x0 : ffffff81fef360d4
-> [   53.805136] Call trace:
-> [   53.807667]  string_nocheck+0x1c/0x64
-> [   53.811439]  string+0x54/0x60
-> [   53.814498]  vsnprintf+0x374/0x53c
-> [   53.818009]  pointer+0x3dc/0x40c
-> [   53.821340]  vsnprintf+0x398/0x53c
-> [   53.824854]  vscnprintf+0x3c/0x88
-> [   53.828274]  __trace_array_vprintk+0xcc/0x2d4
-> [   53.832768]  trace_array_printk+0x8c/0xb4
-> [   53.836900]  drm_trace_printf+0x74/0x9c
-> [   53.840875]  drm_dev_dbg+0xfc/0x1b8
-> [   53.844480]  dp_pm_suspend+0x70/0xf8
-> [   53.848164]  dpm_run_callback+0x60/0x1a0
-> [   53.852222]  __device_suspend+0x304/0x3f4
-> [   53.856363]  dpm_suspend+0xf8/0x3a8
-> [   53.859959]  dpm_suspend_start+0x8c/0xc0
-> 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Some small nitpicks:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Wed, 2022-06-22 at 14:48 +0200, Jocelyn Falempe wrote:
+> With an AST2600, the screen is garbage when going out of suspend.
+> This is because color settings are lost, and not restored on resume.
+> Force the color settings on DPMS_ON, to make sure the settings are correct.
+> 
+> I didn't write this code, it comes from the out-of-tree aspeed driver v1.13
+> https://www.aspeedtech.com/support_driver/
+> 
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> Tested-by: Venkat Tadikonda <venkateswara.rao@intel.com>
+
+Should have a Cc: to stable imho, `dim` can do this for you:
+
+https://drm.pages.freedesktop.org/maintainer-tools/dim.html
 
 > ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 2 ++
->   1 file changed, 2 insertions(+)
+>  drivers/gpu/drm/ast/ast_mode.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 2b72639..02fff70 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -316,6 +316,8 @@ static void dp_display_unbind(struct device *dev, struct device *master,
->   
->   	dp_power_client_deinit(dp->power);
->   	dp_aux_unregister(dp->aux);
-> +	dp->drm_dev = NULL;
-> +	dp->aux->drm_dev = NULL;
->   	priv->dp[dp->id] = NULL;
->   }
->   
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 3eb9afecd9d4..cdddcb5c4439 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -990,6 +990,9 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int
+> mode)
+>  {
+>         struct ast_private *ast = to_ast_private(crtc->dev);
+>         u8 ch = AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF;
+> +       struct ast_crtc_state *ast_state;
+> +       const struct drm_format_info *format;
+> +       struct ast_vbios_mode_info *vbios_mode_info;
+>  
+>         /* TODO: Maybe control display signal generation with
+>          *       Sync Enable (bit CR17.7).
+> @@ -1007,6 +1010,16 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int
+> mode)
+>                         ast_dp_set_on_off(crtc->dev, 1);
+>                 }
+>  
+> +               ast_state = to_ast_crtc_state(crtc->state);
+> +               format = ast_state->format;
+> +
+> +               if (format){
 
+Should be a space between ')' and '{'.
+
+With that fixed, this is: Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+> +                       vbios_mode_info = &ast_state->vbios_mode_info;
+> +
+> +                       ast_set_color_reg(ast, format);
+> +                       ast_set_vbios_color_reg(ast, format,
+> vbios_mode_info);
+> +               }
+> +
+>                 ast_crtc_load_lut(ast, crtc);
+>                 break;
+>         case DRM_MODE_DPMS_STANDBY:
 
 -- 
-With best wishes
-Dmitry
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
