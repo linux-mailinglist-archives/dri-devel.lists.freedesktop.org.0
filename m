@@ -2,46 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED48554D7F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:36:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8906554D89
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:37:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1017A1133BB;
-	Wed, 22 Jun 2022 14:36:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2BC1133CE;
+	Wed, 22 Jun 2022 14:37:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B0B91133BB
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:36:33 +0000 (UTC)
-Received: from sobremesa.fritz.box (82-69-11-11.dsl.in-addr.zen.co.uk
- [82.69.11.11])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: alarumbe)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 0D0B266016E4;
- Wed, 22 Jun 2022 15:36:32 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1655908592;
- bh=eT2MWPZIWMs+n57PUJga+wHC+BQ395SSGqbys+swcIM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NlGggWQ+7pHc7TChyS3tdcUs+F4aEhwH+vXi8Kh/sHE2lFvMMllEDY6OdmYDfUuvF
- AHeSsHUi5oaTT0wo0HDRBSWs4I4zaN4hwbIM6ZG2efVQCjFCq5d5IaKIKFcmTjzunj
- ZiLeCiTmoCVVkBSVYrD2b6HHKYZsvPTCBeBeeqg7Iicl00jtlxnUb/94AHtfYnN5Wg
- tw68sNXx7pSf8PTKZvl30YqnjeLxkd8eDjvjxWbdMDmb4zjLan0AUbqjtG0ZO4XIOm
- ngqBpkKbPQ8bnjjcF1QZtizwnA3ViqNozA6/UueV9Lv1in27BEAPUQug3wkAPZmQjL
- h178if33FE6xg==
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: robh@kernel.org, tomeu.vizoso@collabora.com, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 2/2] drm/panfrost: Add support for devcoredump
-Date: Wed, 22 Jun 2022 15:36:16 +0100
-Message-Id: <20220622143616.1265405-3-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220622143616.1265405-1-adrian.larumbe@collabora.com>
-References: <20220622143616.1265405-1-adrian.larumbe@collabora.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E1D41133CE;
+ Wed, 22 Jun 2022 14:37:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655908647; x=1687444647;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=3xBKrcDYK7hwkP7MoaXIe0icKVqL+21LUMt1cSvDf6A=;
+ b=DlI4O2HB0vPoAWIC8ur2TpFn+SQbgBHGqkgvciYxYkfbEdvT0x2wUWQv
+ Np+Lo62N0+bAMtbS0y5OUsvYJmVnwc7gojbcUPeB8vKYPk9nmbxhPx8eL
+ CgB67RMMPfQ6l2DACcewut5/uYGFjn7uvqDL+Gpsm3SBVpDomtadCmXDQ
+ tEKc5S1P4zZQffSTMOATkSuawKSkKdDbXGjhftrgJcstQV173zhfLQvWm
+ MLHOfv3nV4Oy3FP9S1Ji+Z1B2RiyUOugVjFP2DrCdogH+xkwDx+OidNNf
+ llqEqnnMRbrqhN61Z0MXAJsYOWIM2YwWIxSu2k/WssOOitmv4Zyp5T57z Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="344423547"
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="344423547"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2022 07:37:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="677578152"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.163])
+ by FMSMGA003.fm.intel.com with SMTP; 22 Jun 2022 07:37:24 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 22 Jun 2022 17:37:23 +0300
+Date: Wed, 22 Jun 2022 17:37:23 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v3 01/13] drm/edid: move
+ drm_connector_update_edid_property() to drm_edid.c
+Message-ID: <YrMpIzEcgDYsvMtN@intel.com>
+References: <cover.1655895388.git.jani.nikula@intel.com>
+ <205b3b8905375506dc9f508fe18652c226cc6a50.1655895388.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <205b3b8905375506dc9f508fe18652c226cc6a50.1655895388.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,404 +61,243 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: adrian.larumbe@collabora.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the event of a job timeout, debug dump information will be written into
-/sys/class/devcoredump.
+On Wed, Jun 22, 2022 at 01:59:15PM +0300, Jani Nikula wrote:
+> The function needs access to drm_edid.c internals more than
+> drm_connector.c. We can make drm_reset_display_info(),
+> drm_add_display_info() and drm_update_tile_info() static. There will be
+> more benefits with follow-up struct drm_edid refactoring.
+> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Inspired by etnaviv's similar feature.
+Reviewed-by: Ville Syrj‰l‰ <ville.syrjala@linux.intel.com>
 
-Signed-off-by: Adri√°n Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panfrost/Kconfig         |   1 +
- drivers/gpu/drm/panfrost/Makefile        |   3 +-
- drivers/gpu/drm/panfrost/panfrost_dump.c | 249 +++++++++++++++++++++++
- drivers/gpu/drm/panfrost/panfrost_dump.h |  12 ++
- drivers/gpu/drm/panfrost/panfrost_job.c  |   3 +
- include/uapi/drm/panfrost_drm.h          |  47 +++++
- 6 files changed, 314 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.c
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.h
+> ---
+>  drivers/gpu/drm/drm_connector.c     | 74 -------------------------
+>  drivers/gpu/drm/drm_crtc_internal.h |  3 -
+>  drivers/gpu/drm/drm_edid.c          | 86 +++++++++++++++++++++++++++--
+>  3 files changed, 81 insertions(+), 82 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 28ea0f8196b9..2b9a8972eff1 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -2078,80 +2078,6 @@ int drm_connector_set_tile_property(struct drm_connector *connector)
+>  }
+>  EXPORT_SYMBOL(drm_connector_set_tile_property);
+>  
+> -/**
+> - * drm_connector_update_edid_property - update the edid property of a connector
+> - * @connector: drm connector
+> - * @edid: new value of the edid property
+> - *
+> - * This function creates a new blob modeset object and assigns its id to the
+> - * connector's edid property.
+> - * Since we also parse tile information from EDID's displayID block, we also
+> - * set the connector's tile property here. See drm_connector_set_tile_property()
+> - * for more details.
+> - *
+> - * Returns:
+> - * Zero on success, negative errno on failure.
+> - */
+> -int drm_connector_update_edid_property(struct drm_connector *connector,
+> -				       const struct edid *edid)
+> -{
+> -	struct drm_device *dev = connector->dev;
+> -	size_t size = 0;
+> -	int ret;
+> -	const struct edid *old_edid;
+> -
+> -	/* ignore requests to set edid when overridden */
+> -	if (connector->override_edid)
+> -		return 0;
+> -
+> -	if (edid)
+> -		size = EDID_LENGTH * (1 + edid->extensions);
+> -
+> -	/* Set the display info, using edid if available, otherwise
+> -	 * resetting the values to defaults. This duplicates the work
+> -	 * done in drm_add_edid_modes, but that function is not
+> -	 * consistently called before this one in all drivers and the
+> -	 * computation is cheap enough that it seems better to
+> -	 * duplicate it rather than attempt to ensure some arbitrary
+> -	 * ordering of calls.
+> -	 */
+> -	if (edid)
+> -		drm_add_display_info(connector, edid);
+> -	else
+> -		drm_reset_display_info(connector);
+> -
+> -	drm_update_tile_info(connector, edid);
+> -
+> -	if (connector->edid_blob_ptr) {
+> -		old_edid = (const struct edid *)connector->edid_blob_ptr->data;
+> -		if (old_edid) {
+> -			if (!drm_edid_are_equal(edid, old_edid)) {
+> -				DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Edid was changed.\n",
+> -					      connector->base.id, connector->name);
+> -
+> -				connector->epoch_counter += 1;
+> -				DRM_DEBUG_KMS("Updating change counter to %llu\n",
+> -					      connector->epoch_counter);
+> -			}
+> -		}
+> -	}
+> -
+> -	drm_object_property_set_value(&connector->base,
+> -				      dev->mode_config.non_desktop_property,
+> -				      connector->display_info.non_desktop);
+> -
+> -	ret = drm_property_replace_global_blob(dev,
+> -					       &connector->edid_blob_ptr,
+> -					       size,
+> -					       edid,
+> -					       &connector->base,
+> -					       dev->mode_config.edid_property);
+> -	if (ret)
+> -		return ret;
+> -	return drm_connector_set_tile_property(connector);
+> -}
+> -EXPORT_SYMBOL(drm_connector_update_edid_property);
+> -
+>  /**
+>   * drm_connector_set_link_status_property - Set link status property of a connector
+>   * @connector: drm connector
+> diff --git a/drivers/gpu/drm/drm_crtc_internal.h b/drivers/gpu/drm/drm_crtc_internal.h
+> index 63279e984342..aecab5308bae 100644
+> --- a/drivers/gpu/drm/drm_crtc_internal.h
+> +++ b/drivers/gpu/drm/drm_crtc_internal.h
+> @@ -286,6 +286,3 @@ int drm_mode_page_flip_ioctl(struct drm_device *dev,
+>  
+>  /* drm_edid.c */
+>  void drm_mode_fixup_1366x768(struct drm_display_mode *mode);
+> -void drm_reset_display_info(struct drm_connector *connector);
+> -u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid);
+> -void drm_update_tile_info(struct drm_connector *connector, const struct edid *edid);
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 2bdaf1e34a9d..36bf7b0fe8d9 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -5928,8 +5928,7 @@ static void drm_update_mso(struct drm_connector *connector,
+>  /* A connector has no EDID information, so we've got no EDID to compute quirks from. Reset
+>   * all of the values which would have been set from EDID
+>   */
+> -void
+> -drm_reset_display_info(struct drm_connector *connector)
+> +static void drm_reset_display_info(struct drm_connector *connector)
+>  {
+>  	struct drm_display_info *info = &connector->display_info;
+>  
+> @@ -6043,7 +6042,7 @@ static u32 update_display_info(struct drm_connector *connector,
+>  	return quirks;
+>  }
+>  
+> -u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid)
+> +static u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edid)
+>  {
+>  	struct drm_edid drm_edid;
+>  
+> @@ -6207,6 +6206,83 @@ static int drm_edid_connector_update(struct drm_connector *connector,
+>  	return num_modes;
+>  }
+>  
+> +static void drm_update_tile_info(struct drm_connector *connector,
+> +				 const struct edid *edid);
+> +
+> +/**
+> + * drm_connector_update_edid_property - update the edid property of a connector
+> + * @connector: drm connector
+> + * @edid: new value of the edid property
+> + *
+> + * This function creates a new blob modeset object and assigns its id to the
+> + * connector's edid property.
+> + * Since we also parse tile information from EDID's displayID block, we also
+> + * set the connector's tile property here. See drm_connector_set_tile_property()
+> + * for more details.
+> + *
+> + * Returns:
+> + * Zero on success, negative errno on failure.
+> + */
+> +int drm_connector_update_edid_property(struct drm_connector *connector,
+> +				       const struct edid *edid)
+> +{
+> +	struct drm_device *dev = connector->dev;
+> +	size_t size = 0;
+> +	int ret;
+> +	const struct edid *old_edid;
+> +
+> +	/* ignore requests to set edid when overridden */
+> +	if (connector->override_edid)
+> +		return 0;
+> +
+> +	if (edid)
+> +		size = EDID_LENGTH * (1 + edid->extensions);
+> +
+> +	/*
+> +	 * Set the display info, using edid if available, otherwise resetting
+> +	 * the values to defaults. This duplicates the work done in
+> +	 * drm_add_edid_modes, but that function is not consistently called
+> +	 * before this one in all drivers and the computation is cheap enough
+> +	 * that it seems better to duplicate it rather than attempt to ensure
+> +	 * some arbitrary ordering of calls.
+> +	 */
+> +	if (edid)
+> +		drm_add_display_info(connector, edid);
+> +	else
+> +		drm_reset_display_info(connector);
+> +
+> +	drm_update_tile_info(connector, edid);
+> +
+> +	if (connector->edid_blob_ptr) {
+> +		old_edid = (const struct edid *)connector->edid_blob_ptr->data;
+> +		if (old_edid) {
+> +			if (!drm_edid_are_equal(edid, old_edid)) {
+> +				DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Edid was changed.\n",
+> +					      connector->base.id, connector->name);
+> +
+> +				connector->epoch_counter += 1;
+> +				DRM_DEBUG_KMS("Updating change counter to %llu\n",
+> +					      connector->epoch_counter);
+> +			}
+> +		}
+> +	}
+> +
+> +	drm_object_property_set_value(&connector->base,
+> +				      dev->mode_config.non_desktop_property,
+> +				      connector->display_info.non_desktop);
+> +
+> +	ret = drm_property_replace_global_blob(dev,
+> +					       &connector->edid_blob_ptr,
+> +					       size,
+> +					       edid,
+> +					       &connector->base,
+> +					       dev->mode_config.edid_property);
+> +	if (ret)
+> +		return ret;
+> +	return drm_connector_set_tile_property(connector);
+> +}
+> +EXPORT_SYMBOL(drm_connector_update_edid_property);
+> +
+>  /**
+>   * drm_add_edid_modes - add modes from EDID data, if available
+>   * @connector: connector we're probing
+> @@ -6645,8 +6721,8 @@ static void _drm_update_tile_info(struct drm_connector *connector,
+>  	}
+>  }
+>  
+> -void drm_update_tile_info(struct drm_connector *connector,
+> -			  const struct edid *edid)
+> +static void drm_update_tile_info(struct drm_connector *connector,
+> +				 const struct edid *edid)
+>  {
+>  	struct drm_edid drm_edid;
+>  
+> -- 
+> 2.30.2
 
-diff --git a/drivers/gpu/drm/panfrost/Kconfig b/drivers/gpu/drm/panfrost/Kconfig
-index 86cdc0ce79e6..079600328be1 100644
---- a/drivers/gpu/drm/panfrost/Kconfig
-+++ b/drivers/gpu/drm/panfrost/Kconfig
-@@ -11,6 +11,7 @@ config DRM_PANFROST
- 	select DRM_GEM_SHMEM_HELPER
- 	select PM_DEVFREQ
- 	select DEVFREQ_GOV_SIMPLE_ONDEMAND
-+	select WANT_DEV_COREDUMP
- 	help
- 	  DRM driver for ARM Mali Midgard (T6xx, T7xx, T8xx) and
- 	  Bifrost (G3x, G5x, G7x) GPUs.
-diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-index b71935862417..7da2b3f02ed9 100644
---- a/drivers/gpu/drm/panfrost/Makefile
-+++ b/drivers/gpu/drm/panfrost/Makefile
-@@ -9,6 +9,7 @@ panfrost-y := \
- 	panfrost_gpu.o \
- 	panfrost_job.o \
- 	panfrost_mmu.o \
--	panfrost_perfcnt.o
-+	panfrost_perfcnt.o \
-+	panfrost_dump.o
- 
- obj-$(CONFIG_DRM_PANFROST) += panfrost.o
-diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.c b/drivers/gpu/drm/panfrost/panfrost_dump.c
-new file mode 100644
-index 000000000000..a710ed7bcefa
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_dump.c
-@@ -0,0 +1,249 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright 2021 Collabora ltd. */
-+
-+#include <linux/err.h>
-+#include <linux/device.h>
-+#include <linux/devcoredump.h>
-+#include <linux/moduleparam.h>
-+#include <linux/iosys-map.h>
-+#include <drm/panfrost_drm.h>
-+#include <drm/drm_device.h>
-+
-+#include "panfrost_job.h"
-+#include "panfrost_gem.h"
-+#include "panfrost_regs.h"
-+#include "panfrost_dump.h"
-+#include "panfrost_device.h"
-+
-+static bool panfrost_dump_core = true;
-+module_param_named(dump_core, panfrost_dump_core, bool, 0600);
-+
-+struct panfrost_dump_iterator {
-+	void *start;
-+	struct panfrost_dump_object_header *hdr;
-+	void *data;
-+};
-+
-+static const unsigned short panfrost_dump_registers[] = {
-+	SHADER_READY_LO,
-+	SHADER_READY_HI,
-+	TILER_READY_LO,
-+	TILER_READY_HI,
-+	L2_READY_LO,
-+	L2_READY_HI,
-+	JOB_INT_MASK,
-+	JOB_INT_STAT,
-+	JS_HEAD_LO(0),
-+	JS_HEAD_HI(0),
-+	JS_TAIL_LO(0),
-+	JS_TAIL_HI(0),
-+	JS_AFFINITY_LO(0),
-+	JS_AFFINITY_HI(0),
-+	JS_CONFIG(0),
-+	JS_STATUS(0),
-+	JS_HEAD_NEXT_LO(0),
-+	JS_HEAD_NEXT_HI(0),
-+	JS_AFFINITY_NEXT_LO(0),
-+	JS_AFFINITY_NEXT_HI(0),
-+	JS_CONFIG_NEXT(0),
-+	MMU_INT_MASK,
-+	MMU_INT_STAT,
-+	AS_TRANSTAB_LO(0),
-+	AS_TRANSTAB_HI(0),
-+	AS_MEMATTR_LO(0),
-+	AS_MEMATTR_HI(0),
-+	AS_FAULTSTATUS(0),
-+	AS_FAULTADDRESS_LO(0),
-+	AS_FAULTADDRESS_HI(0),
-+	AS_STATUS(0),
-+};
-+
-+static void panfrost_core_dump_header(struct panfrost_dump_iterator *iter,
-+	u32 type, void *data_end)
-+{
-+	struct panfrost_dump_object_header *hdr = iter->hdr;
-+
-+	hdr->magic = cpu_to_le32(PANFROSTDUMP_MAGIC);
-+	hdr->type = cpu_to_le32(type);
-+	hdr->file_offset = cpu_to_le32(iter->data - iter->start);
-+	hdr->file_size = cpu_to_le32(data_end - iter->data);
-+
-+	iter->hdr++;
-+	iter->data += le32_to_cpu(hdr->file_size);
-+}
-+
-+static void
-+panfrost_core_dump_registers(struct panfrost_dump_iterator *iter,
-+			     struct panfrost_device *pfdev,
-+			     u32 as_nr, int slot)
-+{
-+	struct panfrost_dump_registers *dumpreg = iter->data;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(panfrost_dump_registers); i++, dumpreg++) {
-+		unsigned int js_as_offset = 0;
-+		unsigned int reg;
-+
-+		if (panfrost_dump_registers[i] >= JS_HEAD_LO(0) &&
-+		    panfrost_dump_registers[i] <= JS_CONFIG_NEXT(0))
-+			js_as_offset = slot * JS_SLOT_STRIDE;
-+		else if (panfrost_dump_registers[i] >= AS_TRANSTAB_LO(0) &&
-+			 panfrost_dump_registers[i] <= AS_STATUS(0))
-+			js_as_offset = (as_nr << MMU_AS_SHIFT);
-+
-+		reg = panfrost_dump_registers[i] + js_as_offset;
-+
-+		dumpreg->reg = cpu_to_le32(reg);
-+		dumpreg->value = cpu_to_le32(gpu_read(pfdev, reg));
-+	}
-+
-+	panfrost_core_dump_header(iter, PANFROSTDUMP_BUF_REG, dumpreg);
-+}
-+
-+void panfrost_core_dump(struct panfrost_job *job)
-+{
-+	struct panfrost_device *pfdev = job->pfdev;
-+	struct panfrost_dump_iterator iter;
-+	struct drm_gem_object *dbo;
-+	unsigned int n_obj, n_bomap_pages;
-+	__le64 *bomap, *bomap_start;
-+	size_t file_size;
-+	u32 as_nr;
-+	int slot;
-+	int ret, i;
-+
-+	as_nr = job->mmu->as;
-+	slot = panfrost_job_get_slot(job);
-+
-+	/* Only catch the first event, or when manually re-armed */
-+	if (!panfrost_dump_core)
-+		return;
-+	panfrost_dump_core = false;
-+
-+	/* At least, we dump registers and end marker */
-+	n_obj = 2;
-+	n_bomap_pages = 0;
-+	file_size = ARRAY_SIZE(panfrost_dump_registers) *
-+			sizeof(struct panfrost_dump_registers);
-+
-+	/* Add in the active buffer objects */
-+	for (i = 0; i < job->bo_count; i++) {
-+		/*
-+		 * Even though the CPU could be configured to use 16K or 64K pages, this
-+		 * is a very unusual situation for most kernel setups on SoCs that have
-+		 * a Panfrost device. Also many places across the driver make the somewhat
-+		 * arbitrary assumption that Panfrost's MMU page size is the same as the CPU's,
-+		 * so let's have a sanity check to ensure that's always the case
-+		 */
-+		WARN_ON(!IS_ALIGNED(dbo->size, PAGE_SIZE));
-+
-+		dbo = job->bos[i];
-+		file_size += dbo->size;
-+		n_bomap_pages += dbo->size >> PAGE_SHIFT;
-+		n_obj++;
-+	}
-+
-+	/* If we have any buffer objects, add a bomap object */
-+	if (n_bomap_pages) {
-+		file_size += n_bomap_pages * sizeof(*bomap);
-+		n_obj++;
-+	}
-+
-+	/* Add the size of the headers */
-+	file_size += sizeof(*iter.hdr) * n_obj;
-+
-+	/*
-+	 * Allocate the file in vmalloc memory, it's likely to be big.
-+	 * The reason behind these GFP flags is that we don't want to trigger the
-+	 * OOM killer in the event that not enough memory could be found for our
-+	 * dump file. We also don't want the allocator to do any error reporting,
-+	 * as the right behaviour is failing gracefully if a big enough buffer
-+	 * could not be allocated.
-+	 */
-+	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
-+			__GFP_NORETRY);
-+	if (!iter.start) {
-+		dev_warn(pfdev->dev, "failed to allocate devcoredump file\n");
-+		return;
-+	}
-+
-+	/* Point the data member after the headers */
-+	iter.hdr = iter.start;
-+	iter.data = &iter.hdr[n_obj];
-+
-+	memset(iter.hdr, 0, iter.data - iter.start);
-+
-+	/*
-+	 * For now, we write the job identifier in the register dump header,
-+	 * so that we can decode the entire dump later with pandecode
-+	 */
-+	iter.hdr->reghdr.jc = cpu_to_le64(job->jc);
-+	iter.hdr->reghdr.major = cpu_to_le32(PANFROSTDUMP_MAJOR);
-+	iter.hdr->reghdr.minor = cpu_to_le32(PANFROSTDUMP_MINOR);
-+	iter.hdr->reghdr.gpu_id = cpu_to_le32(pfdev->features.id);
-+	iter.hdr->reghdr.nbos = cpu_to_le64(job->bo_count);
-+
-+	panfrost_core_dump_registers(&iter, pfdev, as_nr, slot);
-+
-+	/* Reserve space for the bomap */
-+	if (job->bo_count) {
-+		bomap_start = bomap = iter.data;
-+		memset(bomap, 0, sizeof(*bomap) * n_bomap_pages);
-+		panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BOMAP,
-+					  bomap + n_bomap_pages);
-+	}
-+
-+	for (i = 0; i < job->bo_count; i++) {
-+		struct iosys_map map;
-+		struct panfrost_gem_mapping *mapping;
-+		struct panfrost_gem_object *bo;
-+		struct sg_page_iter page_iter;
-+		void *vaddr;
-+
-+		bo = to_panfrost_bo(job->bos[i]);
-+		mapping = job->mappings[i];
-+
-+		if (!bo->base.sgt) {
-+			dev_err(pfdev->dev, "Panfrost Dump: BO has no sgt, cannot dump\n");
-+			iter.hdr->bomap.valid = 0;
-+			goto dump_header;
-+		}
-+
-+		ret = drm_gem_shmem_vmap(&bo->base, &map);
-+		if (ret) {
-+			dev_err(pfdev->dev, "Panfrost Dump: couldn't map Buffer Object\n");
-+			iter.hdr->bomap.valid = 0;
-+			goto dump_header;
-+		}
-+
-+		WARN_ON(!mapping->active);
-+
-+		iter.hdr->bomap.data[0] = cpu_to_le32((bomap - bomap_start));
-+
-+		for_each_sgtable_page(bo->base.sgt, &page_iter, 0) {
-+			struct page *page = sg_page_iter_page(&page_iter);
-+
-+			if (!IS_ERR(page)) {
-+				*bomap++ = cpu_to_le64(page_to_phys(page));
-+			} else {
-+				dev_err(pfdev->dev, "Panfrost Dump: wrong page\n");
-+				*bomap++ = ~cpu_to_le64(0);
-+			}
-+		}
-+
-+		iter.hdr->bomap.iova = cpu_to_le64(mapping->mmnode.start << PAGE_SHIFT);
-+
-+		vaddr = map.vaddr;
-+		memcpy(iter.data, vaddr, bo->base.base.size);
-+
-+		drm_gem_shmem_vunmap(&bo->base, &map);
-+
-+		iter.hdr->bomap.valid = cpu_to_le64(1);
-+
-+dump_header:	panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BO, iter.data +
-+					  bo->base.base.size);
-+	}
-+	panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_TRAILER, iter.data);
-+
-+	dev_coredumpv(pfdev->dev, iter.start, iter.data - iter.start, GFP_KERNEL);
-+}
-diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.h b/drivers/gpu/drm/panfrost/panfrost_dump.h
-new file mode 100644
-index 000000000000..7d9bcefa5346
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_dump.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright 2021 Collabora ltd.
-+ */
-+
-+#ifndef PANFROST_DUMP_H
-+#define PANFROST_DUMP_H
-+
-+struct panfrost_job;
-+void panfrost_core_dump(struct panfrost_job *job);
-+
-+#endif
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 7c4208476fbd..dbc597ab46fb 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -20,6 +20,7 @@
- #include "panfrost_regs.h"
- #include "panfrost_gpu.h"
- #include "panfrost_mmu.h"
-+#include "panfrost_dump.h"
- 
- #define JOB_TIMEOUT_MS 500
- 
-@@ -727,6 +728,8 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
- 		job_read(pfdev, JS_TAIL_LO(js)),
- 		sched_job);
- 
-+	panfrost_core_dump(job);
-+
- 	atomic_set(&pfdev->reset.pending, 1);
- 	panfrost_reset(pfdev, sched_job);
- 
-diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-index 9e40277d8185..eac87310b348 100644
---- a/include/uapi/drm/panfrost_drm.h
-+++ b/include/uapi/drm/panfrost_drm.h
-@@ -224,6 +224,53 @@ struct drm_panfrost_madvise {
- 	__u32 retained;       /* out, whether backing store still exists */
- };
- 
-+/* Definitions for coredump decoding in user space */
-+#define PANFROSTDUMP_MAJOR 1
-+#define PANFROSTDUMP_MINOR 0
-+
-+#define PANFROSTDUMP_MAGIC 0x464E4150 /* PANF */
-+
-+#define PANFROSTDUMP_BUF_REG 0
-+#define PANFROSTDUMP_BUF_BOMAP (PANFROSTDUMP_BUF_REG + 1)
-+#define PANFROSTDUMP_BUF_BO (PANFROSTDUMP_BUF_BOMAP + 1)
-+#define PANFROSTDUMP_BUF_TRAILER (PANFROSTDUMP_BUF_BO + 1)
-+
-+struct panfrost_dump_object_header {
-+	__le32 magic;
-+	__le32 type;
-+	__le32 file_size;
-+	__le32 file_offset;
-+
-+	union {
-+		struct pan_reg_hdr {
-+			__le64 jc;
-+			__le32 gpu_id;
-+			__le32 major;
-+			__le32 minor;
-+			__le64 nbos;
-+		} reghdr;
-+
-+		struct pan_bomap_hdr {
-+			__le32 valid;
-+			__le64 iova;
-+			__le32 data[2];
-+		} bomap;
-+
-+		/*
-+		 * Force same size in case we want to expand the header
-+		 * with new fields and also keep it 512-byte aligned
-+		 */
-+
-+		__le32 sizer[496];
-+	};
-+};
-+
-+/* Registers object, an array of these */
-+struct panfrost_dump_registers {
-+	__le32 reg;
-+	__le32 value;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
 -- 
-2.36.1
-
+Ville Syrj‰l‰
+Intel
