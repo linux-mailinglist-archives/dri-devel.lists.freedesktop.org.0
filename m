@@ -2,52 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E737B554303
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 08:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7413555430D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 09:02:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00216113B12;
-	Wed, 22 Jun 2022 06:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67CF5113B48;
+	Wed, 22 Jun 2022 07:02:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53BA2113B12;
- Wed, 22 Jun 2022 06:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655880789; x=1687416789;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=ABLekP1DeJgDEsR/LSwop4OZSr2BAo0sZd/g3m629qA=;
- b=jlwr/PO1toXzJjzNVWRYJXuBxgaHFXjyfB53TZI1Kt5BvC9KvmQzpoFh
- GD8fDp1wYlDzQYZ99Jr12zrmd4LyK5BOb20InCVa+Jphi13xJcar68HLC
- Q+J1S5hqMylAAwobA75BXMUG8AVPtOJz/j+2A5CeGr/5UtrbHFYUs4RV7
- CKJJ1K5U86CEOtx5a7qQRS+n82aeR2l/sCJuC8W2mwgAFxOcOg/OLTjQu
- X/xQ89ydGz7yuZ5KTWw2Qj9MqNKSsvXvJSbWaVn8XKgqalsA1r36PzbM6
- jQYn7q+lr0VYgQTOJ7GwFb/YAhz9JsebS3IsM0X8SAN1PpHrY5dD+hCtZ A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="269052338"
-X-IronPort-AV: E=Sophos;i="5.92,211,1650956400"; d="scan'208";a="269052338"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2022 23:53:08 -0700
-X-IronPort-AV: E=Sophos;i="5.92,211,1650956400"; d="scan'208";a="615039874"
-Received: from ebrazil-mobl1.amr.corp.intel.com (HELO [10.213.200.60])
- ([10.213.200.60])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2022 23:53:06 -0700
-Message-ID: <529b043a-e6af-cd1c-c6b8-a7778c2799d0@linux.intel.com>
-Date: Wed, 22 Jun 2022 07:53:05 +0100
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBDDB113B48
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 07:02:16 +0000 (UTC)
+Date: Wed, 22 Jun 2022 07:02:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1655881334; x=1656140534;
+ bh=hW6aQpyvrQi+nVh0DL4cohSiWMLpTMwE3tnnUD5pEHc=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
+ Feedback-ID:Message-ID;
+ b=zPgSvVxQLJVZ8kUbeSjT6fZZhN8tgkMspF9xTC+0xN8i36hhESoEA4bqRfwNOX28+
+ BGxiOXxyum7Bdjlwev8aNvA4rE/AGCQzzddCaEEhJedkeWqKTlfgcjyD+xjALkcFKE
+ MxDXPq2hnLQwUXwtbZCO6kwciR+3jKj/zoTVH9Z26oR4id73wnnfwoZvMfAVqgjgqp
+ qsQFRr7W5uBSjNtrHu9ci/BxZejVKXgQKrLUESfGoTE6fs0kZ1WhP8130XcYr6jtg9
+ v6nUPedlQ9mlsFk37PbD42VtAp4/rtRrhCq1EksZ3+J6bJ5zU1l2IHguHXP4PcBXFE
+ h/3P+Wl7zBi/A==
+To: Carlos Llamas <cmllamas@google.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm/fourcc: fix integer type usage in uapi header
+Message-ID: <uvR86emMYmXwy4OxDiY5OlpRs9UIoEce59p_VukwHwNa368FpqXYVtN7tqccW6WzG5Vz08ycVdxXonbMczsohHw8O8Dx7WdJv8pnrYb9V34=@emersion.fr>
+In-Reply-To: <20220621203921.3594920-1-cmllamas@google.com>
+References: <20220621203921.3594920-1-cmllamas@google.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/i915: Fix spelling typo in comment
-Content-Language: en-US
-To: 1064094935@qq.com, Jani Nikula <jani.nikula@linux.intel.com>
-References: <tencent_7B226C4A9BC2B5EEB37B70C188B5015D290A@qq.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <tencent_7B226C4A9BC2B5EEB37B70C188B5015D290A@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,40 +47,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, pengfuyuan <pengfuyuan@kylinos.cn>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, k2ci <kernel-bot@kylinos.cn>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: David Airlie <airlied@linux.ie>, Masahiro Yamada <masahiroy@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tuesday, June 21st, 2022 at 22:39, Carlos Llamas <cmllamas@google.com> w=
+rote:
 
-On 16/06/2022 08:08, 1064094935@qq.com wrote:
-> From: pengfuyuan <pengfuyuan@kylinos.cn>
-> 
-> Fix spelling typo in comment.
-> 
-> Reported-by: k2ci <kernel-bot@kylinos.cn>
-> Signed-off-by: pengfuyuan <pengfuyuan@kylinos.cn>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_tiling.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_tiling.c b/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
-> index 80ac0db1ae8c..85518b28cd72 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_tiling.c
-> @@ -114,7 +114,7 @@ u32 i915_gem_fence_alignment(struct drm_i915_private *i915, u32 size,
->   	return i915_gem_fence_size(i915, size, tiling, stride);
+> Kernel uapi headers are supposed to use __[us]{8,16,32,64} types defined
+> by <linux/types.h> as opposed to 'uint32_t' and similar. See [1] for the
+> relevant discussion about this topic. In this particular case, the usage
+> of 'uint64_t' escaped headers_check as these macros are not being called
+> here. However, the following program triggers a compilation error:
+>
+>   #include <drm/drm_fourcc.h>
+>
+>   int main()
+>   {
+>   =09unsigned long x =3D AMD_FMT_MOD_CLEAR(RB);
+>   =09return 0;
 >   }
->   
-> -/* Check pitch constriants for all chips & tiling formats */
-> +/* Check pitch constraints for all chips & tiling formats */
->   static bool
->   i915_tiling_ok(struct drm_i915_gem_object *obj,
->   	       unsigned int tiling, unsigned int stride)
+>
+> gcc error:
+>   drm.c:5:27: error: =E2=80=98uint64_t=E2=80=99 undeclared (first use in =
+this function)
+>       5 |         unsigned long x =3D AMD_FMT_MOD_CLEAR(RB);
+>         |                           ^~~~~~~~~~~~~~~~~
+>
+> This patch changes AMD_FMT_MOD_{SET,CLEAR} macros to use the correct
+> integer types, which fixes the above issue.
+>
+>   [1] https://lkml.org/lkml/2019/6/5/18
+>
+> Fixes: 8ba16d599374 ("drm/fourcc: Add AMD DRM modifiers.")
+> Signed-off-by: Carlos Llamas <cmllamas@google.com>
 
-Merged to drm-intel-gt-next - thanks for the patch!
+Reviewed-by: Simon Ser <contact@emersion.fr>
 
-Regards,
+Cc'ing Bas as well
 
-Tvrtko
+> ---
+>  include/uapi/drm/drm_fourcc.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.=
+h
+> index f1972154a594..0980678d502d 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -1444,11 +1444,11 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 m=
+odifier)
+>  #define AMD_FMT_MOD_PIPE_MASK 0x7
+>
+>  #define AMD_FMT_MOD_SET(field, value) \
+> -=09((uint64_t)(value) << AMD_FMT_MOD_##field##_SHIFT)
+> +=09((__u64)(value) << AMD_FMT_MOD_##field##_SHIFT)
+>  #define AMD_FMT_MOD_GET(field, value) \
+>  =09(((value) >> AMD_FMT_MOD_##field##_SHIFT) & AMD_FMT_MOD_##field##_MAS=
+K)
+>  #define AMD_FMT_MOD_CLEAR(field) \
+> -=09(~((uint64_t)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIF=
+T))
+> +=09(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
+>
+>  #if defined(__cplusplus)
+>  }
+> --
+> 2.37.0.rc0.104.g0611611a94-goog
