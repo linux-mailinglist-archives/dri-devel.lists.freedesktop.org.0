@@ -1,59 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F0555455F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 12:50:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D03A3554579
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 12:59:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35FBC10E37B;
-	Wed, 22 Jun 2022 10:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 506E510E2D3;
+	Wed, 22 Jun 2022 10:59:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE9110E37B;
- Wed, 22 Jun 2022 10:50:10 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF8010E28A;
+ Wed, 22 Jun 2022 10:59:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655895010; x=1687431010;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=+q3LyYRSG8Prlp1Z2KGKSmSZST1o9tVZI3vEN0EE3rk=;
- b=OmcosJ/iJ3IYZX0zR1S4qQcF8lpzV2/BIoZw6wfUFnZ75db1L/hMfEZw
- 71VOPs/omocqfNl4srBjwmFyJRBoq0UA+kcANJggRr1jZFENbW+OI+nZ2
- b08DZAALHfQbbfE13TN0qIjfqgcqVm+gchd5rn886RAE0KgZ7K66fZM4Y
- O/sLIkZP2RDhnJSK2hYdRROWSWvKhBUjzLgXdGePtLHHjZOtQzpLhgWQW
- OWQOw40z7hO6r81W5MjATgjxhZFV1+gkIgh+EU3QFjWALc74A9UoEH6cl
- LBPv/PVE4zJadB9YkVZxUICG1s0XlrW3QjwXdsjVNbCgajapRnFvsyuqH w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="269103712"
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="269103712"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 03:50:09 -0700
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="690440303"
-Received: from wterliko-mobl.ger.corp.intel.com (HELO [10.249.254.201])
- ([10.249.254.201])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 03:50:06 -0700
-Message-ID: <453f12ce-e982-0d53-37e4-7e72f1538838@linux.intel.com>
-Date: Wed, 22 Jun 2022 12:50:04 +0200
+ t=1655895572; x=1687431572;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=SzYN+kAE+DsZmW9JOYI+WVexHRndxk6sDVBSaOXCziE=;
+ b=ekSdaSHAoRn6U6KmHnaPB/x3z7pm2ygR04pNsuZEErSX/SW8BnEjfLK1
+ t9/Z3ojukgIPIcpZru2YjSMIPklKb8QCWG9wa/jgX1yqISGAfWLNvNFAX
+ t1B6tSQzznRqf9kHvpZ0oe6z58Rm9oy0c7Fdks4Fgp5OeOZF/CnJOZeff
+ 2L9u28bCWiyBZDuQNb3j6MsQwzo1MDAmjIBJQPwerWEW1t01yXeMYLGvP
+ jJ+XW3vFC0wG25UWbuyQI32v9JApNOcEqOss8OremUDZABHebrmkZeCr3
+ bg6bfGC+CLFSCXLu8cSs4NAsS3vDT34TpQqcUEOo+Ew7hpjvOeR2AMzaa g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="260816616"
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="260816616"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2022 03:59:31 -0700
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="644144101"
+Received: from snowacki-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.59.111])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2022 03:59:30 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 00/13] drm/edid: expand on struct drm_edid usage
+Date: Wed, 22 Jun 2022 13:59:14 +0300
+Message-Id: <cover.1655895388.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v8 03/10] drm/i915/ttm: only trust snooping for dgfx when
- deciding default cache_level
-Content-Language: en-US
-To: Robert Beckett <bob.beckett@collabora.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20220621200058.3536182-1-bob.beckett@collabora.com>
- <20220621200058.3536182-4-bob.beckett@collabora.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20220621200058.3536182-4-bob.beckett@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,43 +56,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Matthew Auld <matthew.auld@intel.com>,
- linux-kernel@vger.kernel.org
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+v3 of [1], addressing review comments. I'm adding some code movement and
+refactoring in the beginning to reuse code between
+drm_connector_update_edid_property() and drm_edid_connector_update()
+which was a concern Ville raised [2].
 
-On 6/21/22 22:00, Robert Beckett wrote:
-> By default i915_ttm_cache_level() decides I915_CACHE_LLC if HAS_SNOOP.
-> This is divergent from existing backends code which only considers
-> HAS_LLC.
-> Testing shows that trusting snooping on gen5- is unreliable and bsw via
-> ggtt mappings, so limit DGFX for now and maintain previous behaviour.
-Yeah, IIRC Matthew mentioned that HAS_SNOOP() can be overridden in 
-various ways, but not on DGFX, (at least not for DG1). So this looks 
-correct to me.
->
-> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+BR,
+Jani.
 
 
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> index 4c1de0b4a10f..40249fa28a7a 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> @@ -46,7 +46,9 @@ static enum i915_cache_level
->   i915_ttm_cache_level(struct drm_i915_private *i915, struct ttm_resource *res,
->   		     struct ttm_tt *ttm)
->   {
-> -	return ((HAS_LLC(i915) || HAS_SNOOP(i915)) &&
-> +	bool can_snoop = HAS_SNOOP(i915) && IS_DGFX(i915);
-> +
-> +	return ((HAS_LLC(i915) || can_snoop) &&
->   		!i915_ttm_gtt_binds_lmem(res) &&
->   		ttm->caching == ttm_cached) ? I915_CACHE_LLC :
->   		I915_CACHE_NONE;
+[1] https://patchwork.freedesktop.org/series/104309/
+[2] https://lore.kernel.org/r/YqOYOjtsboqHOgvv@intel.com
+
+Jani Nikula (13):
+  drm/edid: move drm_connector_update_edid_property() to drm_edid.c
+  drm/edid: convert drm_connector_update_edid_property() to struct
+    drm_edid
+  drm/edid: clean up connector update error handling and debug logging
+  drm/edid: abstract debugfs override EDID set/reset
+  drm/edid: add drm_edid_connector_update()
+  drm/probe-helper: add drm_connector_helper_get_modes()
+  drm/edid: add drm_edid_raw() to access the raw EDID data
+  drm/i915/edid: convert DP, HDMI and LVDS to drm_edid
+  drm/i915/bios: convert intel_bios_init_panel() to drm_edid
+  drm/edid: do invalid block filtering in-place
+  drm/edid: add HF-EEODB support to EDID read and allocation
+  drm/edid: take HF-EEODB extension count into account
+  drm/todo: add entry for converting the subsystem to struct drm_edid
+
+ Documentation/gpu/todo.rst                    |  25 ++
+ drivers/gpu/drm/drm_connector.c               |  74 ----
+ drivers/gpu/drm/drm_crtc_internal.h           |   5 +-
+ drivers/gpu/drm/drm_debugfs.c                 |  21 +-
+ drivers/gpu/drm/drm_edid.c                    | 376 +++++++++++++++---
+ drivers/gpu/drm/drm_probe_helper.c            |  34 ++
+ drivers/gpu/drm/i915/display/intel_bios.c     |  19 +-
+ drivers/gpu/drm/i915/display/intel_bios.h     |   4 +-
+ .../gpu/drm/i915/display/intel_connector.c    |   4 +-
+ .../drm/i915/display/intel_display_types.h    |   4 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       |  77 ++--
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  26 +-
+ drivers/gpu/drm/i915/display/intel_lvds.c     |  37 +-
+ include/drm/drm_connector.h                   |   6 +-
+ include/drm/drm_edid.h                        |   3 +
+ include/drm/drm_probe_helper.h                |   1 +
+ 16 files changed, 499 insertions(+), 217 deletions(-)
+
+-- 
+2.30.2
+
