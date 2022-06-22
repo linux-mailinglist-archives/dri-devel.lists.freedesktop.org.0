@@ -2,69 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C623554CF7
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BBF554D14
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:32:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85E5610FCBF;
-	Wed, 22 Jun 2022 14:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C981610F199;
+	Wed, 22 Jun 2022 14:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A05010FCBF
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:28:16 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id o9so14933761edt.12
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 07:28:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=KF2rN6or5HKqUuQgEplVYVKSFo8eqgnFjZPNJQPN7DY=;
- b=wHtAo5TFotLBbcElJtBbyRlvW3Fh6/jVwjWcRSfL74sxvd7rCWnn9WKriUvEaGefY9
- NAoYhzEoSrAAXIVCQ8ubyBS5nW8rY/NzPQQOygi1LLqnhZ9YfrThXn4yeqxAcS/btKXE
- iTOpWZvsCeW+Il067F706l+8m99tSltHYDpniSuZNIRE2orW1WZCAHFD2C3RvhUAZ7I2
- 88hhfHDMeN0ORI+QmtZ+EyUM2kr5gguenwyxas9XZrNfWGhKxaJBHQT0/WWU1WhJPQ5a
- nHXis3h+j4Gbh4Ste8bEmc5JRPP7xqX5Uss0t6wJtjksbQI/eBQoLoFnPYaLBrO9gx0K
- 2XLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KF2rN6or5HKqUuQgEplVYVKSFo8eqgnFjZPNJQPN7DY=;
- b=gqtkjIlnfj/f7KpGmxvFFGjbJXJtFnHQYEZaRszC8nJXEjl0pnn/VBshPzs5Qizfhf
- 0xXuJ4fZDKxJsFxiQhU13000sR0560irBUFGVW9NQcuhpV11SRSQHGS36KW8CAtvG1FY
- SwlH8QSDZch3fj1YpE+d0dbFABEobeR3e+jExUE7C2Z1yPookwdPh1Be0ECDtuvDSq7Q
- 9D9RBSjkDIvRinPd77PI3Q3ErJM1Cl7bIMVS3nnnXkTVNgszWpjcquo/WJF73cDkm8lo
- ZseIR4vJqrNqT71t74K1/LPTd3Z+z1ZWCOXq3G3JA2uRWUreIVZ6Ymac1J8cXU3wu2sA
- qG0A==
-X-Gm-Message-State: AJIora8dfHDIP6sKuAru/heAxz2B1OsUqhPy8vcpyA0+b/gc4DnGGTvL
- KSLDL2dR90KBd5SglUln1FHIUQ==
-X-Google-Smtp-Source: AGRyM1v26ha318CN8KJM3KWSrdhQTfAp/GKOeRT0mkhtPFB53FRQRyFwPmVys9k8fqLFOlUe6dJ4xg==
-X-Received: by 2002:aa7:c542:0:b0:435:75e:8a7b with SMTP id
- s2-20020aa7c542000000b00435075e8a7bmr4498560edr.108.1655908094665; 
- Wed, 22 Jun 2022 07:28:14 -0700 (PDT)
-Received: from [192.168.0.225] (xdsl-188-155-176-92.adslplus.ch.
- [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- g36-20020a056402322400b004357f88fcdcsm8130733eda.11.2022.06.22.07.28.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jun 2022 07:28:14 -0700 (PDT)
-Message-ID: <767ffc9d-bc36-c627-8245-e46a46e6974d@linaro.org>
-Date: Wed, 22 Jun 2022 16:28:13 +0200
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33EAC10EFD0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:32:17 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 356F73200094;
+ Wed, 22 Jun 2022 10:32:14 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 22 Jun 2022 10:32:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1655908333; x=1655994733; bh=aSrFxp0cHx
+ Q5KZLDx3rVc6+WIRPQGd5CqvFDoUDMS7Q=; b=dU5iuQm8ERRpMPF9FupLDPV77x
+ rU2KvhSIjwuNpZCgbCaAo9ueZpnYJ8XzMawCJw5vNno9LA7+PgSmp4T/wN/PF5Fp
+ RF6rZiT1ppF2TXp7XIpEshOR33MGQRa1tV2Vv5+L05NuXyROONsxA372X8RXJK5Q
+ EpPKMmgZJ8wzZGIINo7j9/HSebGgJX4qL8tCtH2LLtVbVp8khzpsR1pqH6yrQeg0
+ iGM35xpgJdaDEANLTCW22zrXU+APqPc0h+Jdn23q2EAI9Oma/8Qn6qm0kYCKn+OV
+ G993o4ks+PqV8ziXNUhA9A+fB4I8666tGZbje2375OJ7a1LaFWoJmcnRAjzQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1655908333; x=1655994733; bh=aSrFxp0cHxQ5K
+ ZLDx3rVc6+WIRPQGd5CqvFDoUDMS7Q=; b=td92D+V0Oo7vSW4zPXUOyjgIIHZI2
+ dxvsXLFz3ZVrBxCxSNdbGvno3exa1CY84ir+A4/Qij0i+SkY21BqOratmfwcMXhJ
+ LowYd1Mm581JYDHyx7Dm/+OngQNI3AcXhqJwiwXcZ7N4HoF/kJSJX94XbbZtjwwh
+ 3RL+oCi8aKrd8htWAVpKPNbW12itOA+wqnMEhk8UcFscnLOxuc6EgZSNdOBYTFWF
+ 8Z8G79A/3coc6MBdaG7pBfMSE0RXoLFC22r20DJkY3ucXgnSsnP45Z982Rqt7WMJ
+ 1CR/nNCI51KJJ2BFm8hWhqS0vyscHQjJGuT/+xCeRBrsmxJXi8k9tGcWg==
+X-ME-Sender: <xms:7SezYuKhhcqruNx0rz0rI7MLbozgf_-jeYJMJ_gNgXMdZ1LO-KqFhA>
+ <xme:7SezYmIVpcqbbfbaZfqiePzfMp0LgFS6L0aAP5oVVUu_gvCAGws_Mi-goMKFfg5Xp
+ dZEmvp1n8H63l3qStc>
+X-ME-Received: <xmr:7SezYut-OEPHiwZZKAJ3oZnI9VFEcS7Xp2RADzKnzGyICp2cOTsvZjp0KcmHRnlMT48TDhS7T9mNTIwEp4Zz5EPlG9Zg4fZDjcxZT4w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefhedgjeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofgtggfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepledvtdegkeegtdejvdejvdejleeifeegfeevueegvddvleevieeghffhtdet
+ geffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:7SezYjaYnHBl7LZlMEbLK0LX8dLrHA96Nb4bsJm38c4M2r8gVPTyAw>
+ <xmx:7SezYlYXeQUCgqS9_UbQZ4yBl6p7UJePbwdjZncpSVMeLmZ_LDz9CA>
+ <xmx:7SezYvDPtLeqpFgUfosloU5i-BZHRmLrzqX0-kOxszGZ9jcOBiT9gg>
+ <xmx:7SezYkWqWcg3JzkAJcAHLo88_-O1nsTeohjL7ou-1UCY0sMrxyRzvw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Jun 2022 10:32:12 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: [PATCH v2 00/68] drm/vc4: Fix hotplug for vc4
+Date: Wed, 22 Jun 2022 16:31:01 +0200
+Message-Id: <20220622143209.600298-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.36.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 01/13] dt-bindings: Add bindings for Tegra234 Host1x
- and VIC
-Content-Language: en-US
-To: Mikko Perttunen <cyndis@kapsi.fi>, thierry.reding@gmail.com,
- jonathanh@nvidia.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- digetx@gmail.com
-References: <20220622113733.1710471-1-cyndis@kapsi.fi>
- <20220622113733.1710471-2-cyndis@kapsi.fi>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220622113733.1710471-2-cyndis@kapsi.fi>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,225 +82,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/06/2022 13:37, Mikko Perttunen wrote:
-> From: Mikko Perttunen <mperttunen@nvidia.com>
-> 
-> Update VIC and Host1x bindings for changes in Tegra234.
-> 
-> Namely,
-> - New compatible strings
-> - Sharded syncpoint interrupts
-> - Optional reset.
-> 
-> Also, fix the order of descriptions for VM/hypervisor
-> register apertures -- while the reg-names specification
-> was correct, the descriptions for these were switched.
-> 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> ---
-> v2:
-> * Add back 'required' for resets/reset-names on older SoCs
-> * Simplified reg descriptions
-> * Updated commit message
-> ---
->  .../display/tegra/nvidia,tegra124-vic.yaml    |   1 +
->  .../display/tegra/nvidia,tegra20-host1x.yaml  | 110 +++++++++++++++---
->  2 files changed, 95 insertions(+), 16 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml
-> index 37bb5ddc1963..7200095ef19e 100644
-> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml
-> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-vic.yaml
-> @@ -21,6 +21,7 @@ properties:
->            - nvidia,tegra210-vic
->            - nvidia,tegra186-vic
->            - nvidia,tegra194-vic
-> +          - nvidia,tegra234-vic
->  
->        - items:
->            - const: nvidia,tegra132-vic
-> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-> index 0adeb03b9e3a..5fe25e0a8d48 100644
-> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-> @@ -24,6 +24,7 @@ properties:
->            - nvidia,tegra210-host1x
->            - nvidia,tegra186-host1x
->            - nvidia,tegra194-host1x
-> +          - nvidia,tegra234-host1x
->  
->        - items:
->            - const: nvidia,tegra132-host1x
-> @@ -31,23 +32,19 @@ properties:
->  
->    reg:
->      minItems: 1
-> -    maxItems: 2
-> +    maxItems: 3
->  
->    reg-names:
->      minItems: 1
-> -    maxItems: 2
-> +    maxItems: 3
->  
->    interrupts:
-> -    items:
-> -      - description: host1x syncpoint interrupt
-> -      - description: host1x general interrupt
->      minItems: 1
-> +    maxItems: 9
->  
->    interrupt-names:
-> -    items:
-> -      - const: syncpt
-> -      - const: host1x
->      minItems: 1
-> +    maxItems: 9
->  
->    '#address-cells':
->      description: The number of cells used to represent physical base addresses
-> @@ -110,13 +107,35 @@ required:
->    - reg
->    - clocks
->    - clock-names
-> -  - resets
-> -  - reset-names
->  
->  additionalProperties:
->    type: object
->  
->  allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - nvidia,tegra20-host1x
-> +              - nvidia,tegra30-host1x
-> +              - nvidia,tegra114-host1x
-> +              - nvidia,tegra124-host1x
-> +              - nvidia,tegra210-host1x
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          items:
-> +            - description: host1x syncpoint interrupt
-> +            - description: host1x general interrupt
-> +
-> +        interrupt-names:
-> +          items:
-> +            - const: syncpt
-> +            - const: host1x
-> +      required:
-> +        - resets
-> +        - reset-names
->    - if:
->        properties:
->          compatible:
-> @@ -133,10 +152,8 @@ allOf:
->  
->          reg:
->            items:
-> -            - description: physical base address and length of the register
-> -                region assigned to the VM
-> -            - description: physical base address and length of the register
-> -                region used by the hypervisor
-> +            - description: region used by the hypervisor
-> +            - description: region assigned to the virtual machine
->  
->          resets:
->            maxItems: 1
-> @@ -144,6 +161,67 @@ allOf:
->          reset-names:
->            maxItems: 1
->  
-> +        interrupts:
-> +          items:
-> +            - description: host1x syncpoint interrupt
-> +            - description: host1x general interrupt
-> +
-> +        interrupt-names:
-> +          items:
-> +            - const: syncpt
-> +            - const: host1x
-> +
-> +        iommu-map:
-> +          description: Specification of stream IDs available for memory context device
-> +            use. Should be a mapping of IDs 0..n to IOMMU entries corresponding to
-> +            usable stream IDs.
-> +
-> +      required:
-> +        - reg-names
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - nvidia,tegra234-host1x
-> +    then:
-> +      properties:
-> +        reg-names:
-> +          items:
-> +            - const: common
-> +            - const: hypervisor
-> +            - const: vm
-> +
-> +        reg:
-> +          items:
-> +            - description: region used by host1x server
-> +            - description: region used by the hypervisor
-> +            - description: region assigned to the virtual machine
-> +
-> +        interrupts:
-> +          items:
-> +            - description: host1x syncpoint interrupt 0
-> +            - description: host1x syncpoint interrupt 1
-> +            - description: host1x syncpoint interrupt 2
-> +            - description: host1x syncpoint interrupt 3
-> +            - description: host1x syncpoint interrupt 4
-> +            - description: host1x syncpoint interrupt 5
-> +            - description: host1x syncpoint interrupt 6
-> +            - description: host1x syncpoint interrupt 7
-> +            - description: host1x general interrupt
-> +
-> +        interrupt-names:
-> +          items:
-> +            - const: syncpt0
-> +            - const: syncpt1
-> +            - const: syncpt2
-> +            - const: syncpt3
-> +            - const: syncpt4
-> +            - const: syncpt5
-> +            - const: syncpt6
-> +            - const: syncpt7
-> +            - const: host1x
-> +
->          iommu-map:
->            description: Specification of stream IDs available for memory context device
->              use. Should be a mapping of IDs 0..n to IOMMU entries corresponding to
-> @@ -160,8 +238,8 @@ examples:
->      host1x@50000000 {
->          compatible = "nvidia,tegra20-host1x";
->          reg = <0x50000000 0x00024000>;
-> -        interrupts = <0 65 0x04   /* mpcore syncpt */
-> -                      0 67 0x04>; /* mpcore general */
-> +        interrupts = <0 65 0x04>, /* mpcore syncpt */
-> +                     <0 67 0x04>; /* mpcore general */
+Hi,
 
-Split this part to separate patch.
+Here is a series that address multiple issues when trying to unbind/rebind
+vc4-related devices to their drivers.
 
-Rest looks good but because of dependency cannot be tested by automation.
+Most of these issues involve either use-after-free, improper resource
+liberation or similar.
 
->          interrupt-names = "syncpt", "host1x";
->          clocks = <&tegra_car TEGRA20_CLK_HOST1X>;
->          clock-names = "host1x";
+It has been tested on the Pi3 and Pi4, with X and glxgears running and KASAN
+enabled to properly validate our memory accesses.
 
+Pi3 isn't functional after a rebind though, with vblank timeouts occuring. I'm
+not quite sure why at this point, but at least the kernel doesn't completely
+crash now.
 
-Best regards,
-Krzysztof
+Let me know what you think,
+Maxime
+
+---
+
+Changes from v1:
+  - Rebased on top on next-20220622
+  - Consolidated the new drmm init helpers with their alloc counterparts
+  - Dropped the drmm writeback and simple encoder helpers
+  - Clarified the documentation of drm_connector_unregister
+  - Removed the drm_connector_unregister usage
+  - Fixed a vblank timeout when unbinding
+  - Renamed the kref functions in vc4_dsi
+  - Collected the tags
+
+Maxime Ripard (68):
+  drm/mipi-dsi: Detach devices when removing the host
+  drm/crtc: Introduce drmm_crtc_init_with_planes
+  drm/encoder: Introduce drmm_encoder_init
+  drm/connector: Reorder headers
+  drm/connector: Mention the cleanup after drm_connector_init
+  drm/connector: Clarify when drm_connector_unregister is needed
+  drm/connector: Introduce drmm_connector_init
+  drm/connector: Introduce drmm_connector_init_with_ddc
+  drm/bridge: panel: Introduce drmm_panel_bridge_add
+  drm/bridge: panel: Introduce drmm_of_get_bridge
+  drm/vc4: drv: Call component_unbind_all()
+  drm/vc4: drv: Use drm_dev_unplug
+  drm/vc4: crtc: Create vblank reporting function
+  drm/vc4: hvs: Protect device resources after removal
+  drm/vc4: hvs: Remove planes currently allocated before taking down
+  drm/vc4: plane: Take possible_crtcs as an argument
+  drm/vc4: crtc: Remove manual plane removal on error
+  drm/vc4: plane: Switch to drmm_universal_plane_alloc()
+  drm/vc4: crtc: Move debugfs_name to crtc_data
+  drm/vc4: crtc: Switch to drmm_kzalloc
+  drm/vc4: crtc: Switch to DRM-managed CRTC initialization
+  drm/vc4: dpi: Remove vc4_dev dpi pointer
+  drm/vc4: dpi: Embed DRM structures into the private structure
+  drm/vc4: dpi: Switch to drmm_kzalloc
+  drm/vc4: dpi: Return an error if we can't enable our clock
+  drm/vc4: dpi: Remove unnecessary drm_of_panel_bridge_remove call
+  drm/vc4: dpi: Add action to disable the clock
+  drm/vc4: dpi: Switch to DRM-managed encoder initialization
+  drm/vc4: dpi: Switch to drmm_of_get_bridge
+  drm/vc4: dpi: Protect device resources
+  drm/vc4: dsi: Embed DRM structures into the private structure
+  drm/vc4: dsi: Switch to DRM-managed encoder initialization
+  drm/vc4: dsi: Switch to drmm_of_get_bridge
+  drm/vc4: dsi: Fix the driver structure lifetime
+  drm/vc4: dsi: Switch to devm_pm_runtime_enable
+  drm/vc4: hdmi: Switch to drmm_kzalloc
+  drm/vc4: hdmi: Remove call to drm_connector_unregister()
+  drm/vc4: hdmi: Switch to DRM-managed encoder initialization
+  drm/vc4: hdmi: Switch to DRM-managed connector initialization
+  drm/vc4: hdmi: Switch to device-managed ALSA initialization
+  drm/vc4: hdmi: Switch to device-managed CEC initialization
+  drm/vc4: hdmi: Use a device-managed action for DDC
+  drm/vc4: hdmi: Switch to DRM-managed kfree to build regsets
+  drm/vc4: hdmi: Use devm to register hotplug interrupts
+  drm/vc4: hdmi: Move audio structure offset checks
+  drm/vc4: hdmi: Protect device resources after removal
+  drm/vc4: hdmi: Switch to devm_pm_runtime_enable
+  drm/vc4: txp: Remove vc4_dev txp pointer
+  drm/vc4: txp: Remove duplicate regset
+  drm/vc4: txp: Switch to drmm_kzalloc
+  drm/vc4: txp: Remove call to drm_connector_unregister()
+  drm/vc4: txp: Protect device resources
+  drm/vc4: vec: Remove vc4_dev vec pointer
+  drm/vc4: vec: Embed DRM structures into the private structure
+  drm/vc4: vec: Switch to drmm_kzalloc
+  drm/vc4: vec: Remove call to drm_connector_unregister()
+  drm/vc4: vec: Switch to DRM-managed encoder initialization
+  drm/vc4: vec: Switch to DRM-managed connector initialization
+  drm/vc4: vec: Protect device resources after removal
+  drm/vc4: vec: Switch to devm_pm_runtime_enable
+  drm/vc4: debugfs: Protect device resources
+  drm/vc4: debugfs: Return an error on failure
+  drm/vc4: debugfs: Simplify debugfs registration
+  drm/vc4: Switch to drmm_mutex_init
+  drm/vc4: perfmon: Add missing mutex_destroy
+  drm/vc4: v3d: Stop disabling interrupts
+  drm/vc4: v3d: Rework the runtime_pm setup
+  drm/vc4: v3d: Switch to devm_pm_runtime_enable
+
+ drivers/gpu/drm/bridge/panel.c    |  74 ++++
+ drivers/gpu/drm/drm_connector.c   | 196 +++++++--
+ drivers/gpu/drm/drm_crtc.c        |  75 +++-
+ drivers/gpu/drm/drm_encoder.c     |  57 ++-
+ drivers/gpu/drm/drm_mipi_dsi.c    |   1 +
+ drivers/gpu/drm/vc4/vc4_bo.c      |  33 +-
+ drivers/gpu/drm/vc4/vc4_crtc.c    |  90 ++--
+ drivers/gpu/drm/vc4/vc4_debugfs.c |  71 ++--
+ drivers/gpu/drm/vc4/vc4_dpi.c     | 131 +++---
+ drivers/gpu/drm/vc4/vc4_drv.c     |  21 +-
+ drivers/gpu/drm/vc4/vc4_drv.h     |  47 ++-
+ drivers/gpu/drm/vc4/vc4_dsi.c     | 133 ++++--
+ drivers/gpu/drm/vc4/vc4_gem.c     |  10 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c    | 659 ++++++++++++++++++++++--------
+ drivers/gpu/drm/vc4/vc4_hdmi.h    |   3 +-
+ drivers/gpu/drm/vc4/vc4_hvs.c     | 138 ++++++-
+ drivers/gpu/drm/vc4/vc4_irq.c     |   2 +-
+ drivers/gpu/drm/vc4/vc4_perfmon.c |   1 +
+ drivers/gpu/drm/vc4/vc4_plane.c   |  36 +-
+ drivers/gpu/drm/vc4/vc4_txp.c     |  55 ++-
+ drivers/gpu/drm/vc4/vc4_v3d.c     |  65 ++-
+ drivers/gpu/drm/vc4/vc4_vec.c     | 216 +++++-----
+ include/drm/drm_bridge.h          |   4 +
+ include/drm/drm_connector.h       |   9 +
+ include/drm/drm_crtc.h            |   6 +
+ include/drm/drm_encoder.h         |   5 +
+ 26 files changed, 1514 insertions(+), 624 deletions(-)
+
+-- 
+2.36.1
+
