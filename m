@@ -1,58 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E9C5545E3
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 13:56:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B6D25545E8
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 13:57:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44E66112B97;
-	Wed, 22 Jun 2022 11:56:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F93C112BC6;
+	Wed, 22 Jun 2022 11:57:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3B1B112B8F;
- Wed, 22 Jun 2022 11:56:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655898971; x=1687434971;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=1jiO41cw5EB9KwYflgSuTIcwKXiyLAI7JCG04Edl/BM=;
- b=QB1JZ7yyrKR86c6Vd2wG0lO15Nv8KQgk52gwk7bPLUY2PUMlBJw5SCD/
- jzP+bIUiqniCC8tb0XctKX6+SoC2PuZFxQ0fIorI/IvCExu7g5MWZ6rDS
- w0Nvi0oFMhoiIL0uylr27dq7MJvMCWIL/wAL7y2boZMGedeW0gq0hOf1x
- cNcJ6Ucn9lMpkPN39yBGo1xv3NMrKmwag3GToYZtelfg73rnTGoNMpwgo
- bRY2DH1UAmIdeqpeDlB6BvQw9X1RhMjvci1+PuzUaUjxBaxUpyUy4uZrp
- JZnlURXOk2ODeVJSDXuEXNCYLjbvcG9ag00Xwa2rhZ6s3tw48mQo/cosk w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="269116412"
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="269116412"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 04:56:03 -0700
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="690464617"
-Received: from wterliko-mobl.ger.corp.intel.com (HELO [10.249.254.201])
- ([10.249.254.201])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 04:56:00 -0700
-Message-ID: <a2a439f677254260c3c4dd6369b8b478d3581889.camel@linux.intel.com>
-Subject: Re: [PATCH v8 08/10] drm/i915: allow memory region creators to
- alloc and free the region
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Robert Beckett <bob.beckett@collabora.com>, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, Jani
- Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 22 Jun 2022 13:55:58 +0200
-In-Reply-To: <20220621200058.3536182-9-bob.beckett@collabora.com>
-References: <20220621200058.3536182-1-bob.beckett@collabora.com>
- <20220621200058.3536182-9-bob.beckett@collabora.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-5.fc34) 
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8DC7112BC6
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 11:57:40 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 959DC5C0378;
+ Wed, 22 Jun 2022 07:57:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 22 Jun 2022 07:57:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1655899059; x=1655985459; bh=EDZINAL0dh
+ ot/5O6dbWbEFDkXIECpYf2fk3aenKmV6k=; b=bSvUVjyTHbR5vn/+n2sdvpDCjD
+ H29wGGKn+fs4zjKtmiErj9NRDgi0x7lP/cVQo6OgsVzG0hV6GMjJ0TvdvA7y0mdG
+ j792Fo1YnHyFNIfXUAZe5LGcjxHOdCvSi8+n3MYewqGC5nLTK0vRbsIv6jy6p71r
+ QlZ+zVPVObId12j3Je0zfH8JY598ZSuzVgnJuL4vpAUmckPXYM3yAZkeUP2rz1vR
+ Qwg5E0c9Ar2G1SFCGS9RuQLok3dBkO10WQKYNDidGKKiDYWyVY0uFO75SjMP5htr
+ wnNJAZswW5HizI8VkZr+UtUMmRpZGPvYGNO+dwVwCwkqBOa9K/AW1QSjzeFQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1655899059; x=1655985459; bh=EDZINAL0dhot/5O6dbWbEFDkXIEC
+ pYf2fk3aenKmV6k=; b=MHerYSMF1AmZB/bD9DOu7ptexDtjiOveuP0WJQ1c395L
+ 7KvnNcYokIJN9u6GAUg7XMHREBf5mr5QhWwe/vwocshnyvga31cnEDhpFeRiUape
+ y/DFvI11vBBZK4wGo0CMyPIqJa1G/qZOac4E4iNtcYCLN8PxFeerl+2nhorU5iy8
+ pe3bwub8C+ramWsinv3PNTSQoo+rCdchTeKrHLJc/u4FF83rsgxGSTQTzvQ+7ljE
+ gJJE8rG8BzOGphE8dA3hXb2QsWXyuNHm0aHtQ2M+49Wd+7IR6xPmN0GOnpQ2fPJB
+ bNLgWwuKmvjwhHvBgJNcc1Lh24UXduXEDpQ6rROkrQ==
+X-ME-Sender: <xms:swOzYhi8okQfdJdzUW-FBJgFRxi3grHENjCwAGw3Lo_QApcvjwPnBw>
+ <xme:swOzYmDCXeyoW8ULkeXopUO5DKfxvanJmaLrBUQNqdzlwqkizF098dz5tjuPJD6Km
+ BQmEfn5gPtFZJv2t9U>
+X-ME-Received: <xmr:swOzYhFbbkjsRuP0QWb6312eJKijSUnTR7kE04BUfNoGkUZnj56yb0seIXhGdGhrupymlGtEL4CMvkoz2YGJ3ZwBZDdhCbxzcwoBW7M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefhedggeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:swOzYmR4XfO87KjovWHMYW2kNkhaxL-EO0EZa-bXKJuhOsDKUrH1lQ>
+ <xmx:swOzYuzeaYnLwFoHWwoEo79mXNxA13juS4omoKUf68Bscivck7RxOA>
+ <xmx:swOzYs6O0ko4WNy3ctmwVpsCj5eMdkJtly1zkwH44Et6QzoxhzOyGw>
+ <xmx:swOzYtkpHhwPaRCY_how9p1IWXUCDaMqL_i37flYYfEo-bVFe_hCBw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Jun 2022 07:57:38 -0400 (EDT)
+Date: Wed, 22 Jun 2022 13:57:36 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/hyperv-drm: Include framebuffer and EDID headers
+Message-ID: <20220622115736.yr7wjqvwpxvl2scf@houat>
+References: <20220622083413.12573-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="bmfhgomxypr4cpai"
+Content-Disposition: inline
+In-Reply-To: <20220622083413.12573-1-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,94 +82,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Matthew Auld <matthew.auld@intel.com>,
- linux-kernel@vger.kernel.org
+Cc: linux-hyperv@vger.kernel.org, airlied@linux.ie, drawat.floss@gmail.com,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bob,
 
-On Tue, 2022-06-21 at 20:00 +0000, Robert Beckett wrote:
-> add callbacks for alloc and free.
-> this allows region creators to allocate any extra storage they may
-> require.
-> 
-> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+--bmfhgomxypr4cpai
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think the correct solution here would be to, similar to ttm, export
-an alloc_reserved() or alloc_locked() interface, that simply skips the
-unlock at bo alloc time.
+On Wed, Jun 22, 2022 at 10:34:13AM +0200, Thomas Zimmermann wrote:
+> Fix a number of compile errors by including the correct header
+> files. Examples are shown below.
+>=20
+>   ../drivers/gpu/drm/hyperv/hyperv_drm_modeset.c: In function 'hyperv_bli=
+t_to_vram_rect':
+>   ../drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:25:48: error: invalid us=
+e of undefined type 'struct drm_framebuffer'
+>    25 |         struct hyperv_drm_device *hv =3D to_hv(fb->dev);
+>       |                                                ^~
+>=20
+>   ../drivers/gpu/drm/hyperv/hyperv_drm_modeset.c: In function 'hyperv_con=
+nector_get_modes':
+>   ../drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:59:17: error: implicit d=
+eclaration of function 'drm_add_modes_noedid' [-Werror=3Dimplicit-function-=
+declaration]
+>    59 |         count =3D drm_add_modes_noedid(connector,
+>       |                 ^~~~~~~~~~~~~~~~~~~~
+>=20
+>   ../drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:62:9: error: implicit de=
+claration of function 'drm_set_preferred_mode'; did you mean 'drm_mm_reserv=
+e_node'? [-Werror=3Dimplicit-function-declaration]
+>    62 |         drm_set_preferred_mode(connector, hv->preferred_width,
+>       |         ^~~~~~~~~~~~~~~~~~~~~~
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic vid=
+eo device")
+> Cc: Deepak Rawat <drawat.floss@gmail.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: linux-hyperv@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v5.14+
 
-Then the stolen alloc wrapper could simply pin as/if needed under the
-lock.
+Acked-by: Maxime Ripard <maxime@cerno.tech>
 
-/Thomas
+Maxime
 
+--bmfhgomxypr4cpai
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-> ---
->  drivers/gpu/drm/i915/intel_memory_region.c | 16 +++++++++++++---
->  drivers/gpu/drm/i915/intel_memory_region.h |  2 ++
->  2 files changed, 15 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/intel_memory_region.c
-> b/drivers/gpu/drm/i915/intel_memory_region.c
-> index e38d2db1c3e3..3da07a712f90 100644
-> --- a/drivers/gpu/drm/i915/intel_memory_region.c
-> +++ b/drivers/gpu/drm/i915/intel_memory_region.c
-> @@ -231,7 +231,10 @@ intel_memory_region_create(struct
-> drm_i915_private *i915,
->         struct intel_memory_region *mem;
->         int err;
->  
-> -       mem = kzalloc(sizeof(*mem), GFP_KERNEL);
-> +       if (ops->alloc)
-> +               mem = ops->alloc();
-> +       else
-> +               mem = kzalloc(sizeof(*mem), GFP_KERNEL);
->         if (!mem)
->                 return ERR_PTR(-ENOMEM);
->  
-> @@ -265,7 +268,10 @@ intel_memory_region_create(struct
-> drm_i915_private *i915,
->         if (mem->ops->release)
->                 mem->ops->release(mem);
->  err_free:
-> -       kfree(mem);
-> +       if (mem->ops->free)
-> +               mem->ops->free(mem);
-> +       else
-> +               kfree(mem);
->         return ERR_PTR(err);
->  }
->  
-> @@ -288,7 +294,11 @@ void intel_memory_region_destroy(struct
-> intel_memory_region *mem)
->  
->         GEM_WARN_ON(!list_empty_careful(&mem->objects.list));
->         mutex_destroy(&mem->objects.lock);
-> -       if (!ret)
-> +       if (ret)
-> +               return;
-> +       if (mem->ops->free)
-> +               mem->ops->free(mem);
-> +       else
->                 kfree(mem);
->  }
->  
-> diff --git a/drivers/gpu/drm/i915/intel_memory_region.h
-> b/drivers/gpu/drm/i915/intel_memory_region.h
-> index 3d8378c1b447..048955b5429f 100644
-> --- a/drivers/gpu/drm/i915/intel_memory_region.h
-> +++ b/drivers/gpu/drm/i915/intel_memory_region.h
-> @@ -61,6 +61,8 @@ struct intel_memory_region_ops {
->                            resource_size_t size,
->                            resource_size_t page_size,
->                            unsigned int flags);
-> +       struct intel_memory_region *(*alloc)(void);
-> +       void (*free)(struct intel_memory_region *mem);
->  };
->  
->  struct intel_memory_region {
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYrMDsAAKCRDj7w1vZxhR
+xVKHAP4+fghoYl/e6tA6tIITV3ihFjhSsVHXohssoD9H/fngoQEA3Cvk0TKKwmlg
+zNItzz6F6hBwWuO4+XuRUDPZh0ACuQw=
+=wMzT
+-----END PGP SIGNATURE-----
 
-
+--bmfhgomxypr4cpai--
