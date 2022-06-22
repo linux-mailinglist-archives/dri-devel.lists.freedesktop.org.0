@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDF05545D2
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 13:38:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 881275545DF
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 13:50:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 769041125D4;
-	Wed, 22 Jun 2022 11:38:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1719911297A;
+	Wed, 22 Jun 2022 11:50:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11CF1112614
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 11:37:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=n5fftUEvkFxqEj5rq74Mb5X3DmU+ng2FZSz30Wp76JY=; b=RzyK1+BusDAc55RQOghHuS07Nu
- 5PpLu8Juu1OK292BjpLuADIO359VRqiUa6bwNHJmDlpyBVS0d9wiKqPpnDdhE4E91QyTjgrQuXpzS
- uFPbJxFdIbEX1sWP0L3VA2lnO6wKweQpEJCSmnlRm32t4CXAldiOqUCeq/mNikL5pcERE7PE7J1M2
- YrQM7aKV+tzuLcXD6ygK0w+GUGdDRsLzrKndHe5CbpQs374qeSzYoaT1k4wu4dMjqkBfHWXBZmmSE
- eNJK7fSkVu/CHaF2oJbHCI8mQBVxN9dtiVrdQX/V3lYNDassERwnwZgcMXWKJ8XUEz9sqLoI0foZ1
- n+Ov1OXA==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <cyndis@kapsi.fi>)
- id 1o3yg4-0001Xl-CJ; Wed, 22 Jun 2022 14:37:43 +0300
-From: Mikko Perttunen <cyndis@kapsi.fi>
-To: thierry.reding@gmail.com, jonathanh@nvidia.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, digetx@gmail.com
-Subject: [PATCH v2 13/13] drm/tegra: vic: Add Tegra234 support
-Date: Wed, 22 Jun 2022 14:37:33 +0300
-Message-Id: <20220622113733.1710471-14-cyndis@kapsi.fi>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220622113733.1710471-1-cyndis@kapsi.fi>
-References: <20220622113733.1710471-1-cyndis@kapsi.fi>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5CFA112970;
+ Wed, 22 Jun 2022 11:50:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655898622; x=1687434622;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=7DCJZo179ZL8Q7T4eOOlLWWxLxY1K5Hitxze+FvLZhA=;
+ b=VYCb+21W4QzZoiFR1btfoCFvScWbVl7i/3vx9hyzZcoCRmd7yQyjbiy6
+ BN9MbsZXg0qdBRQDKdI+1fKMH22pPvaEYz9stQk/NZ5EFd+f5DmGa4B58
+ LgSAYhl0LJIlLnlqqt9reUFNn3janspnRZGtwX157lcwtQ5GqHNEXI36h
+ A92GRrA1G9tgR4P2olKs0QUfsyg9q5KdU6QwdhUb90kb2YgmWa8+tRufQ
+ NrzAajUybauG45mAYM33NPwaEcuheUcbOiSJU+0AV437R5bTUdBlaPdZh
+ iiZKQZd10+0Yk9FtTGBAiN4mpBbByfR5NefN2mEOmdsP7PvgBtvTB8f85 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="344385528"
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="344385528"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2022 04:50:22 -0700
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="914640176"
+Received: from snowacki-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.59.111])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2022 04:50:18 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Wed, 22 Jun 2022 14:50:16 +0300
+Message-ID: <87a6a4syrr.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,67 +55,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Add Tegra234 support for VIC. It is backwards compatible with
-Tegra194.
+Hi Dave & Daniel -
 
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
----
- drivers/gpu/drm/tegra/drm.c |  1 +
- drivers/gpu/drm/tegra/vic.c | 12 ++++++++++++
- 2 files changed, 13 insertions(+)
+drm-intel-fixes-2022-06-22:
+drm/i915 fixes for v5.19-rc4:
+- Revert low voltage SKU check removal to fix display issues
+- Apply PLL DCO fraction workaround for ADL-S
+- Don't show engine classes not present in client fdinfo
 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 9464f522e257..426ffeb51f72 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -1380,6 +1380,7 @@ static const struct of_device_id host1x_drm_subdevs[] = {
- 	{ .compatible = "nvidia,tegra194-sor", },
- 	{ .compatible = "nvidia,tegra194-vic", },
- 	{ .compatible = "nvidia,tegra194-nvdec", },
-+	{ .compatible = "nvidia,tegra234-vic", },
- 	{ /* sentinel */ }
- };
- 
-diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index c5526bda88d6..c1734f823d04 100644
---- a/drivers/gpu/drm/tegra/vic.c
-+++ b/drivers/gpu/drm/tegra/vic.c
-@@ -447,11 +447,20 @@ static const struct vic_config vic_t194_config = {
- 	.supports_sid = true,
- };
- 
-+#define NVIDIA_TEGRA_234_VIC_FIRMWARE "nvidia/tegra234/vic.bin"
-+
-+static const struct vic_config vic_t234_config = {
-+	.firmware = NVIDIA_TEGRA_234_VIC_FIRMWARE,
-+	.version = 0x23,
-+	.supports_sid = true,
-+};
-+
- static const struct of_device_id tegra_vic_of_match[] = {
- 	{ .compatible = "nvidia,tegra124-vic", .data = &vic_t124_config },
- 	{ .compatible = "nvidia,tegra210-vic", .data = &vic_t210_config },
- 	{ .compatible = "nvidia,tegra186-vic", .data = &vic_t186_config },
- 	{ .compatible = "nvidia,tegra194-vic", .data = &vic_t194_config },
-+	{ .compatible = "nvidia,tegra234-vic", .data = &vic_t234_config },
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, tegra_vic_of_match);
-@@ -590,3 +599,6 @@ MODULE_FIRMWARE(NVIDIA_TEGRA_186_VIC_FIRMWARE);
- #if IS_ENABLED(CONFIG_ARCH_TEGRA_194_SOC)
- MODULE_FIRMWARE(NVIDIA_TEGRA_194_VIC_FIRMWARE);
- #endif
-+#if IS_ENABLED(CONFIG_ARCH_TEGRA_234_SOC)
-+MODULE_FIRMWARE(NVIDIA_TEGRA_234_VIC_FIRMWARE);
-+#endif
--- 
-2.36.1
+BR,
+Jani.
 
+The following changes since commit a111daf0c53ae91e71fd2bfe7497862d14132e3e:
+
+  Linux 5.19-rc3 (2022-06-19 15:06:47 -0500)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2022-06-=
+22
+
+for you to fetch changes up to c7b28f52f406bc89d15ca0ccbc47994f979f2fcd:
+
+  drm/i915/display: Re-add check for low voltage sku for max dp source rate=
+ (2022-06-20 19:39:00 +0300)
+
+----------------------------------------------------------------
+drm/i915 fixes for v5.19-rc4:
+- Revert low voltage SKU check removal to fix display issues
+- Apply PLL DCO fraction workaround for ADL-S
+- Don't show engine classes not present in client fdinfo
+
+----------------------------------------------------------------
+Jason A. Donenfeld (1):
+      drm/i915/display: Re-add check for low voltage sku for max dp source =
+rate
+
+Tvrtko Ursulin (1):
+      drm/i915/fdinfo: Don't show engine classes not present
+
+Ville Syrj=C3=A4l=C3=A4 (1):
+      drm/i915: Implement w/a 22010492432 for adl-s
+
+ drivers/gpu/drm/i915/display/intel_dp.c       | 32 +++++++++++++++++++++++=
++---
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c |  4 ++--
+ drivers/gpu/drm/i915/i915_drm_client.c        |  5 +++--
+ 3 files changed, 34 insertions(+), 7 deletions(-)
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
