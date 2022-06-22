@@ -1,70 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A145552ED
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 20:03:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D84665552F3
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 20:06:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDC571133D7;
-	Wed, 22 Jun 2022 18:03:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B951133EF;
+	Wed, 22 Jun 2022 18:06:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDCC01133D7
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 18:03:30 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id g4so16718187lfv.9
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 11:03:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ZTlj82E6kifi0yQhK+5fXqesjcyWHjDoPKb8Xh0tWaM=;
- b=YPs9zoXTZdCCgy6mwDaLLCe3YJ1nDLJYlFsLY0uB/WaPNWnUwxUBc+MtDtbsjeKocu
- LMvnIlwFtpMsYsE8ZyHPS4PaLaP4HcMROBXckCicyevRV/cByI0U04OV77xamBr9ZugX
- 1vt1KR0NBizorFEvz6iPuh1BN6LmBC8qw97dqTbfg35KqhJCHB/BNpFz376kCDaeXsai
- Txdp5bTI2FUlSimWgJ0MPsncJig43DS0TwRrnTbQaLWqRLPQP09fSwCEpKNJI/7E30mm
- 7L4+BEtYtm0MJ9ZJctR9TOLEinkeOnw1EU4gbPLbv4XCDftefTceaV2Tk7JOrppz9ByX
- fY0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ZTlj82E6kifi0yQhK+5fXqesjcyWHjDoPKb8Xh0tWaM=;
- b=fPzB7xKYbBVCLB3B5R4x/h19v3+I7sIJ7xzHIwtC7JdigD+4T9HNR2UAP/uUFPXEKq
- kIcSLd5dAfjz62CDLxhh8JnCjPhzJkp378VjxIQ2Lye4D7+9FGh6GPqfA/kHZ9BRU36y
- gMrHjz8uHXnWWD43H2K2v59YHH23cBavmyT0TUTyOawX9D5yzYl2lg2pNOOxvGi8nlx6
- y1bB/k2sqny2EgPQs1ubB3/dKukq0qdPeLndHarKg7WfK3JhAR7a8tjnhrpcjtRqDSF+
- puiKRjg9G/4fMUKkt1/gG1DyS42kCnB/DN51FHN3cqcIPntmggIWzJWwqAnuMCqKfpNu
- trcg==
-X-Gm-Message-State: AJIora8+vAKlZfUdVYCtuqIPETZ4Jhej8WBjGAyYqek8fIBWgDMZDoKA
- 6/59wNOVYIGB5HqY0gQzArFywg==
-X-Google-Smtp-Source: AGRyM1um1hIN5A8SQyQ5l8LM5tA3p+87QUOIBbIhZVlEqLdUp6eNRJ1nKpR+IJ+6NHWSX/0tvLXbjg==
-X-Received: by 2002:a05:6512:16aa:b0:479:7df:cb68 with SMTP id
- bu42-20020a05651216aa00b0047907dfcb68mr2742433lfb.666.1655921009223; 
- Wed, 22 Jun 2022 11:03:29 -0700 (PDT)
-Received: from [192.168.1.212] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- k6-20020ac257c6000000b004785b66a9a4sm1810904lfo.126.2022.06.22.11.03.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jun 2022 11:03:28 -0700 (PDT)
-Message-ID: <8b751eb3-2e19-0e03-4c94-b26b3badd397@linaro.org>
-Date: Wed, 22 Jun 2022 21:03:27 +0300
+Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7CA81133EF
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 18:06:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=kT70bLwV3eerIZRZu8GNd2l3kNe+D8ldwCNPK/JSqZE=;
+ b=DmNdXpI2D5gMLGiKZWeqYNjrGydutxvLmx2SPgFWSDlDMUOyF4hjJ6nYCbee0Fw2BZ0WWxlruFLLf
+ SZieIna0HNbfzlazhAt0uYLERye/YQ1a6XQvJr4mZEZHmoBbaDzd4EfSyYVRZrZv8E02OseU/EVMME
+ BeIFj08nsOLdLqn/vu4krnyEw8i0JN1kqzh2MGT0xQDMdjC1CsbmAmMxEUfyPKUfH1m8gcEuzdwLmp
+ v+hVf7b4vWCpHPZVjWfrcveB2JbYj1aXh9ELcMh7j3xqz5/Rq6Z8mbJIlH97XrHlhYj+0D0G/n8vjS
+ EjWAQog2p53uXWLXSo1zaBpC+eqHsXQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=kT70bLwV3eerIZRZu8GNd2l3kNe+D8ldwCNPK/JSqZE=;
+ b=ro1H5sdz07lnt1oVszv9sPINX82JXU79agWASyhLQOMlNmUuKqaCbsdQk3U3eXi2YbGh5s7XxEFzb
+ cQjK1lzBg==
+X-HalOne-Cookie: efd099001e789d9190e6949885216096f06c3631
+X-HalOne-ID: 0aae65b3-f256-11ec-a915-d0431ea8a290
+Received: from mailproxy1.cst.dirpod3-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 0aae65b3-f256-11ec-a915-d0431ea8a290;
+ Wed, 22 Jun 2022 18:06:30 +0000 (UTC)
+Date: Wed, 22 Jun 2022 20:06:28 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Kevin Brace <kevinbrace@gmx.com>
+Subject: Re: How do I gather up new code to be converted as patches?
+Message-ID: <YrNaJBiAEKaoreGw@ravnborg.org>
+References: <trinity-356e941b-2ee3-4974-944b-5495ba4d00b8-1655918337996@3c-app-mailcom-bs16>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v15 0/3] eDP/DP Phy vdda realted function
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
- robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
- dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie,
- agross@kernel.org, bjorn.andersson@linaro.org,
- Kishon Vijay Abraham I <kishon@ti.com>
-References: <1655830891-19025-1-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1655830891-19025-1-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <trinity-356e941b-2ee3-4974-944b-5495ba4d00b8-1655918337996@3c-app-mailcom-bs16>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,37 +58,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/06/2022 20:01, Kuogee Hsieh wrote:
-> 0) rebase on https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git tree
-> 1) add regulator_set_load() to eDP phy
-> 2) add regulator_set_load() to DP phy
-> 3) remove vdda related function out of eDP/DP controller
+Hi Kevin,
+
+On Wed, Jun 22, 2022 at 07:18:58PM +0200, Kevin Brace wrote:
+> Hi,
 > 
-> Kuogee Hsieh (3):
->    phy: qcom-edp: add regulator_set_load to edp phy
->    phy: qcom-qmp: add regulator_set_load to dp phy
->    drm/msm/dp: delete vdda regulator related functions from eDP/DP
->      controller
+> How to I use git to gather up new code to be converted to patches?
+> Specifically, I have 20+ new files in one location (drivers/gpu/drm/via)
+> and a small change to DRM main make file (drivers/gpu/drm/Makefile).
 
-Kishon, Vinod, how do we proceed with merging these patches?
+One simple way to do this is to start with a clean tree, and then add
+files step by step.
+20+ files in one patch is too much to review, so decide for a
+reasonable split between the files.
 
-> 
->   drivers/gpu/drm/msm/dp/dp_parser.c        | 14 -----
->   drivers/gpu/drm/msm/dp/dp_parser.h        |  8 ---
->   drivers/gpu/drm/msm/dp/dp_power.c         | 95 +------------------------------
->   drivers/phy/qualcomm/phy-qcom-edp.c       | 12 ++++
->   drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 43 ++++++++++----
->   5 files changed, 47 insertions(+), 125 deletions(-)
-> 
+Maybe something like (as inspiration find your own split):
+0) Documentation - or add this in you cover letter. Enough info to give
+the reader a rough understanding of the HW and the driver structure.
+1) Driver files
+2) Util files
+3) Files for the memory handling
+4) Files for irq handling
+5) HW specific files
+6) A the final patch - the Kconfig, and Makefile adjustments.
 
+It is important that the final patch is final as you would otherwise
+break the build.
 
--- 
-With best wishes
-Dmitry
+I look forward to see the patches!
+
+	Sam
