@@ -1,75 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6D25545E8
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 13:57:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70EC85545EF
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 14:06:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F93C112BC6;
-	Wed, 22 Jun 2022 11:57:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAEBB112EC5;
+	Wed, 22 Jun 2022 12:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8DC7112BC6
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 11:57:40 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 959DC5C0378;
- Wed, 22 Jun 2022 07:57:39 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 22 Jun 2022 07:57:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1655899059; x=1655985459; bh=EDZINAL0dh
- ot/5O6dbWbEFDkXIECpYf2fk3aenKmV6k=; b=bSvUVjyTHbR5vn/+n2sdvpDCjD
- H29wGGKn+fs4zjKtmiErj9NRDgi0x7lP/cVQo6OgsVzG0hV6GMjJ0TvdvA7y0mdG
- j792Fo1YnHyFNIfXUAZe5LGcjxHOdCvSi8+n3MYewqGC5nLTK0vRbsIv6jy6p71r
- QlZ+zVPVObId12j3Je0zfH8JY598ZSuzVgnJuL4vpAUmckPXYM3yAZkeUP2rz1vR
- Qwg5E0c9Ar2G1SFCGS9RuQLok3dBkO10WQKYNDidGKKiDYWyVY0uFO75SjMP5htr
- wnNJAZswW5HizI8VkZr+UtUMmRpZGPvYGNO+dwVwCwkqBOa9K/AW1QSjzeFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1655899059; x=1655985459; bh=EDZINAL0dhot/5O6dbWbEFDkXIEC
- pYf2fk3aenKmV6k=; b=MHerYSMF1AmZB/bD9DOu7ptexDtjiOveuP0WJQ1c395L
- 7KvnNcYokIJN9u6GAUg7XMHREBf5mr5QhWwe/vwocshnyvga31cnEDhpFeRiUape
- y/DFvI11vBBZK4wGo0CMyPIqJa1G/qZOac4E4iNtcYCLN8PxFeerl+2nhorU5iy8
- pe3bwub8C+ramWsinv3PNTSQoo+rCdchTeKrHLJc/u4FF83rsgxGSTQTzvQ+7ljE
- gJJE8rG8BzOGphE8dA3hXb2QsWXyuNHm0aHtQ2M+49Wd+7IR6xPmN0GOnpQ2fPJB
- bNLgWwuKmvjwhHvBgJNcc1Lh24UXduXEDpQ6rROkrQ==
-X-ME-Sender: <xms:swOzYhi8okQfdJdzUW-FBJgFRxi3grHENjCwAGw3Lo_QApcvjwPnBw>
- <xme:swOzYmDCXeyoW8ULkeXopUO5DKfxvanJmaLrBUQNqdzlwqkizF098dz5tjuPJD6Km
- BQmEfn5gPtFZJv2t9U>
-X-ME-Received: <xmr:swOzYhFbbkjsRuP0QWb6312eJKijSUnTR7kE04BUfNoGkUZnj56yb0seIXhGdGhrupymlGtEL4CMvkoz2YGJ3ZwBZDdhCbxzcwoBW7M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefhedggeeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:swOzYmR4XfO87KjovWHMYW2kNkhaxL-EO0EZa-bXKJuhOsDKUrH1lQ>
- <xmx:swOzYuzeaYnLwFoHWwoEo79mXNxA13juS4omoKUf68Bscivck7RxOA>
- <xmx:swOzYs6O0ko4WNy3ctmwVpsCj5eMdkJtly1zkwH44Et6QzoxhzOyGw>
- <xmx:swOzYtkpHhwPaRCY_how9p1IWXUCDaMqL_i37flYYfEo-bVFe_hCBw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jun 2022 07:57:38 -0400 (EDT)
-Date: Wed, 22 Jun 2022 13:57:36 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/hyperv-drm: Include framebuffer and EDID headers
-Message-ID: <20220622115736.yr7wjqvwpxvl2scf@houat>
-References: <20220622083413.12573-1-tzimmermann@suse.de>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AEC8112EC5
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:06:33 +0000 (UTC)
+Received: from maud (unknown [184.175.41.107])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: alyssa)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 67D4D6601792;
+ Wed, 22 Jun 2022 13:06:28 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1655899591;
+ bh=8cKG2HLPA2oaAIYX0UotUfvLxK0B48XnUANfcsC0LWY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cJm0580ydroa59n49GclTqIPG1V66lDoS0On8k9dGULedu0QWYyZN7YvMeXfqBURc
+ wtCzM9ZGkfNRtCXJ2ouKFMVJQr7/fGNlaPUR3VjAB2Z24noDGuZ8Bdw5S4fVc7fcMI
+ /EmO11AmRX85U5bO2V18LZZ3UoNhDWSNi3CLxZj10TV62ZTENJhdB+Xm98yu24lQh2
+ SheH+WVe70aT+XjMahzsIEhMyMa4gtC3JVWlLj4LMMbCush+h3DX/migoPX+tYXVoW
+ SkkSof5NMEVV3ep1LhgcXOkjahKwjAf83BpBsUKzU7fI4MLm8l2TZ3fP0BEEmYQDXs
+ PrFgfYbM4AmiQ==
+Date: Wed, 22 Jun 2022 08:06:23 -0400
+From: Alyssa Rosenzweig <alyssa@collabora.com>
+To: "Chen, Rong A" <rong.a.chen@intel.com>
+Subject: Re: [kbuild-all] Re: [PATCH v2 1/1] drm/panfrost: Add support for
+ devcoredump
+Message-ID: <YrMFv/SJ57poqMXW@maud>
+References: <20220621023204.94179-2-adrian.larumbe@collabora.com>
+ <202206211114.PJcD2pJh-lkp@intel.com> <YrHWhmNVJnIJ1iaT@maud>
+ <f51c03dc-e01b-566b-b634-24c821110208@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="bmfhgomxypr4cpai"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220622083413.12573-1-tzimmermann@suse.de>
+In-Reply-To: <f51c03dc-e01b-566b-b634-24c821110208@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,66 +54,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, airlied@linux.ie, drawat.floss@gmail.com,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org
+Cc: kbuild-all@lists.01.org, kernel test robot <lkp@intel.com>,
+ tomeu.vizoso@collabora.com, Adri?n Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Rong Chen,
 
---bmfhgomxypr4cpai
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sorry for the noise -- I think that was meant for Adrian!
 
-On Wed, Jun 22, 2022 at 10:34:13AM +0200, Thomas Zimmermann wrote:
-> Fix a number of compile errors by including the correct header
-> files. Examples are shown below.
->=20
->   ../drivers/gpu/drm/hyperv/hyperv_drm_modeset.c: In function 'hyperv_bli=
-t_to_vram_rect':
->   ../drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:25:48: error: invalid us=
-e of undefined type 'struct drm_framebuffer'
->    25 |         struct hyperv_drm_device *hv =3D to_hv(fb->dev);
->       |                                                ^~
->=20
->   ../drivers/gpu/drm/hyperv/hyperv_drm_modeset.c: In function 'hyperv_con=
-nector_get_modes':
->   ../drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:59:17: error: implicit d=
-eclaration of function 'drm_add_modes_noedid' [-Werror=3Dimplicit-function-=
-declaration]
->    59 |         count =3D drm_add_modes_noedid(connector,
->       |                 ^~~~~~~~~~~~~~~~~~~~
->=20
->   ../drivers/gpu/drm/hyperv/hyperv_drm_modeset.c:62:9: error: implicit de=
-claration of function 'drm_set_preferred_mode'; did you mean 'drm_mm_reserv=
-e_node'? [-Werror=3Dimplicit-function-declaration]
->    62 |         drm_set_preferred_mode(connector, hv->preferred_width,
->       |         ^~~~~~~~~~~~~~~~~~~~~~
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic vid=
-eo device")
-> Cc: Deepak Rawat <drawat.floss@gmail.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: linux-hyperv@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v5.14+
+Apologies,
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
+Alyssa
 
-Maxime
-
---bmfhgomxypr4cpai
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYrMDsAAKCRDj7w1vZxhR
-xVKHAP4+fghoYl/e6tA6tIITV3ihFjhSsVHXohssoD9H/fngoQEA3Cvk0TKKwmlg
-zNItzz6F6hBwWuO4+XuRUDPZh0ACuQw=
-=wMzT
------END PGP SIGNATURE-----
-
---bmfhgomxypr4cpai--
+On Wed, Jun 22, 2022 at 10:30:00AM +0800, Chen, Rong A wrote:
+> 
+> 
+> On 6/21/2022 10:32 PM, Alyssa Rosenzweig wrote:
+> > >     drivers/gpu/drm/panfrost/panfrost_dump.c: In function 'panfrost_core_dump':
+> > > > > drivers/gpu/drm/panfrost/panfrost_dump.c:115:20: error: 'struct panfrost_job' has no member named 'file_priv'
+> > >       115 |         as_nr = job->file_priv->mmu->as;
+> > >           |                    ^~
+> > 
+> > FWIW -- this is due to recent changes in panfrost, you should rebase on
+> > the latest drm-misc-next which is where the patch will be applied
+> > anyway.
+> 
+> Hi Alyssa,
+> 
+> Thanks for your help, we'll try drm-misc-next next time.
+> 
+> Best Regards,
+> Rong Chen
