@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DE9555395
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 20:51:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D79BD55539A
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 20:51:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D59C10E28D;
-	Wed, 22 Jun 2022 18:51:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A9810E933;
+	Wed, 22 Jun 2022 18:51:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02FC810E754;
- Wed, 22 Jun 2022 18:51:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CFAF10E28D;
+ Wed, 22 Jun 2022 18:51:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1655923869; x=1687459869;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JKIheOMhFoYIWhmktu2LDqJYV3ER3fMLpii65xDgqao=;
- b=OBqO35iLpgr0e975GS5cv7lawqXYRl3KKobUxconpV5myCCk47zknIMB
- p8gG9KUSzq27IDUlrESj/pm6UEmuRrSmlDL26h5f5goKTDDrDp78oddMx
- BNqmF+o5UFUATenbZQGdhj1c13BF9SfXhJltFk9JvK36ZARCg4ZRuXFKE
- zbiz7xH7o4XwVy2UCr2oweCkmAUhD9oOE/Fwgg0nnJoDt+F37yy26zjTW
- Ght30rx/b0wEHQjyRSZHkvyL9MLLL5TTwV5zfqi7doCQxcBUTTcCW2Jet
- XHRzYaSflrb1P3FcDRSLoQTZIH0O9aqGkcHYVz2e4ewI0u64hKGG9bZFr g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="269236651"
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="269236651"
+ bh=sNqColGT3BnrgdGEf3l/+EAQ8sERtG4S+64JAYaIRJU=;
+ b=elj/xID4umYizvInRT6whJO3qIWmIA3vVjynRIXTuYhZH1diw67Zlzhr
+ MO0o88PK8IIv1uOhp2HwQd93nGijzVavEmOoYEIQeyYnlQ+bVUh58/IPy
+ jSq4QxPb3IZH1JlzHFUu8FPvKOiBAquOgdrZRu114tHnEUEUOG2+q218a
+ B4la2WmXS/HMp0SbNPkXcx9VMMGKsL2lP23zHxc7p4Bt34o40FVD2zN6p
+ r9XQjD4cxEZSnvF+K63EitAlli288I3H0JfU6pmKNHxznPqlU8CmCcH9i
+ tZ/xLIj/eJUK/Ws653h79mLw6CTomgOySgWp+cPaE8HbEr7jdkf/nJJfk Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="269236652"
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="269236652"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Jun 2022 11:51:08 -0700
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="644344784"
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="644344787"
 Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
  22 Jun 2022 11:51:07 -0700
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 1/3] drm/doc/rfc: VM_BIND feature design document
-Date: Wed, 22 Jun 2022 11:50:45 -0700
-Message-Id: <20220622185047.3763-2-niranjana.vishwanathapura@intel.com>
+Subject: [PATCH v3 2/3] drm/i915: Update i915 uapi documentation
+Date: Wed, 22 Jun 2022 11:50:46 -0700
+Message-Id: <20220622185047.3763-3-niranjana.vishwanathapura@intel.com>
 X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 In-Reply-To: <20220622185047.3763-1-niranjana.vishwanathapura@intel.com>
 References: <20220622185047.3763-1-niranjana.vishwanathapura@intel.com>
@@ -64,283 +64,364 @@ Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VM_BIND design document with description of intended use cases.
-
-v2: Reduce the scope to simple Mesa use case.
-v3: Expand documentation on dma-resv usage, TLB flushing and
-    execbuf3.
-v4: Remove vm_bind tlb flush request support.
+Add some missing i915 upai documentation which the new
+i915 VM_BIND feature documentation will be refer to.
 
 Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- Documentation/gpu/rfc/i915_vm_bind.rst | 245 +++++++++++++++++++++++++
- Documentation/gpu/rfc/index.rst        |   4 +
- 2 files changed, 249 insertions(+)
- create mode 100644 Documentation/gpu/rfc/i915_vm_bind.rst
+ include/uapi/drm/i915_drm.h | 205 ++++++++++++++++++++++++++++--------
+ 1 file changed, 160 insertions(+), 45 deletions(-)
 
-diff --git a/Documentation/gpu/rfc/i915_vm_bind.rst b/Documentation/gpu/rfc/i915_vm_bind.rst
-new file mode 100644
-index 000000000000..9b6bd1e8f660
---- /dev/null
-+++ b/Documentation/gpu/rfc/i915_vm_bind.rst
-@@ -0,0 +1,245 @@
-+==========================================
-+I915 VM_BIND feature design and use cases
-+==========================================
-+
-+VM_BIND feature
-+================
-+DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM buffer
-+objects (BOs) or sections of a BOs at specified GPU virtual addresses on a
-+specified address space (VM). These mappings (also referred to as persistent
-+mappings) will be persistent across multiple GPU submissions (execbuf calls)
-+issued by the UMD, without user having to provide a list of all required
-+mappings during each submission (as required by older execbuf mode).
-+
-+The VM_BIND/UNBIND calls allow UMDs to request a timeline fence for signaling
-+the completion of bind/unbind operation.
-+
-+VM_BIND feature is advertised to user via I915_PARAM_HAS_VM_BIND.
-+User has to opt-in for VM_BIND mode of binding for an address space (VM)
-+during VM creation time via I915_VM_CREATE_FLAGS_USE_VM_BIND extension.
-+
-+The bind/unbind operation can get completed asynchronously and out of
-+submission order. The out fence when specified will be signaled upon
-+completion of bind/unbind operation.
-+
-+VM_BIND features include:
-+
-+* Multiple Virtual Address (VA) mappings can map to the same physical pages
-+  of an object (aliasing).
-+* VA mapping can map to a partial section of the BO (partial binding).
-+* Support capture of persistent mappings in the dump upon GPU error.
-+* TLB is flushed upon unbind completion.
-+* Support for userptr gem objects (no special uapi is required for this).
-+
-+TLB flushing
-+-------------
-+TLB is flushed upon unbind completion. If platforms support selective TLB
-+invalidation, only the required range is flushed. Otherwise, whole TLB is
-+flushed and batching the flushes might be useful here.
-+
-+Execbuf ioctl in VM_BIND mode
-+-------------------------------
-+A VM in VM_BIND mode will not support older execbuf mode of binding.
-+The execbuf ioctl handling in VM_BIND mode differs significantly from the
-+older execbuf2 ioctl (See struct drm_i915_gem_execbuffer2).
-+Hence, a new execbuf3 ioctl has been added to support VM_BIND mode. (See
-+struct drm_i915_gem_execbuffer3). The execbuf3 ioctl will not accept any
-+execlist. Hence, no support for implicit sync. It is expected that the below
-+work will be able to support requirements of object dependency setting in all
-+use cases:
-+
-+"dma-buf: Add an API for exporting sync files"
-+(https://lwn.net/Articles/859290/)
-+
-+The new execbuf3 ioctl only works in VM_BIND mode and the VM_BIND mode only
-+works with execbuf3 ioctl for submission. All BOs mapped on that VM (through
-+VM_BIND call) at the time of execbuf3 call are deemed required for that
-+submission.
-+
-+The execbuf3 ioctl directly specifies the batch addresses instead of as
-+object handles as in execbuf2 ioctl. The execbuf3 ioctl will also not
-+support many of the older features like in/out/submit fences, fence array,
-+default gem context and many more (See struct drm_i915_gem_execbuffer3).
-+
-+In VM_BIND mode, VA allocation is completely managed by the user instead of
-+the i915 driver. Hence all VA assignment, eviction are not applicable in
-+VM_BIND mode. Also, for determining object activeness, VM_BIND mode will not
-+be using the i915_vma active reference tracking. It will instead use dma-resv
-+object for that (See `VM_BIND dma_resv usage`_).
-+
-+So, a lot of existing code supporting execbuf2 ioctl, like relocations, VA
-+evictions, vma lookup table, implicit sync, vma active reference tracking etc.,
-+are not applicable for execbuf3 ioctl. Hence, all execbuf3 specific handling
-+should be in a separate file and only functionalities common to these ioctls
-+can be the shared code where possible.
-+
-+VM_PRIVATE objects
-+-------------------
-+By default, BOs can be mapped on multiple VMs and can also be dma-buf
-+exported. Hence these BOs are referred to as Shared BOs.
-+During each execbuf submission, the request fence must be added to the
-+dma-resv fence list of all shared BOs mapped on the VM.
-+
-+VM_BIND feature introduces an optimization where user can create BO which
-+is private to a specified VM via I915_GEM_CREATE_EXT_VM_PRIVATE flag during
-+BO creation. Unlike Shared BOs, these VM private BOs can only be mapped on
-+the VM they are private to and can't be dma-buf exported.
-+All private BOs of a VM share the dma-resv object. Hence during each execbuf
-+submission, they need only one dma-resv fence list updated. Thus, the fast
-+path (where required mappings are already bound) submission latency is O(1)
-+w.r.t the number of VM private BOs.
-+
-+VM_BIND locking hirarchy
-+-------------------------
-+The locking design here supports the older (execlist based) execbuf mode, the
-+newer VM_BIND mode, the VM_BIND mode with GPU page faults and possible future
-+system allocator support (See `Shared Virtual Memory (SVM) support`_).
-+The older execbuf mode and the newer VM_BIND mode without page faults manages
-+residency of backing storage using dma_fence. The VM_BIND mode with page faults
-+and the system allocator support do not use any dma_fence at all.
-+
-+VM_BIND locking order is as below.
-+
-+1) Lock-A: A vm_bind mutex will protect vm_bind lists. This lock is taken in
-+   vm_bind/vm_unbind ioctl calls, in the execbuf path and while releasing the
-+   mapping.
-+
-+   In future, when GPU page faults are supported, we can potentially use a
-+   rwsem instead, so that multiple page fault handlers can take the read side
-+   lock to lookup the mapping and hence can run in parallel.
-+   The older execbuf mode of binding do not need this lock.
-+
-+2) Lock-B: The object's dma-resv lock will protect i915_vma state and needs to
-+   be held while binding/unbinding a vma in the async worker and while updating
-+   dma-resv fence list of an object. Note that private BOs of a VM will all
-+   share a dma-resv object.
-+
-+   The future system allocator support will use the HMM prescribed locking
-+   instead.
-+
-+3) Lock-C: Spinlock/s to protect some of the VM's lists like the list of
-+   invalidated vmas (due to eviction and userptr invalidation) etc.
-+
-+When GPU page faults are supported, the execbuf path do not take any of these
-+locks. There we will simply smash the new batch buffer address into the ring and
-+then tell the scheduler run that. The lock taking only happens from the page
-+fault handler, where we take lock-A in read mode, whichever lock-B we need to
-+find the backing storage (dma_resv lock for gem objects, and hmm/core mm for
-+system allocator) and some additional locks (lock-D) for taking care of page
-+table races. Page fault mode should not need to ever manipulate the vm lists,
-+so won't ever need lock-C.
-+
-+VM_BIND LRU handling
-+---------------------
-+We need to ensure VM_BIND mapped objects are properly LRU tagged to avoid
-+performance degradation. We will also need support for bulk LRU movement of
-+VM_BIND objects to avoid additional latencies in execbuf path.
-+
-+The page table pages are similar to VM_BIND mapped objects (See
-+`Evictable page table allocations`_) and are maintained per VM and needs to
-+be pinned in memory when VM is made active (ie., upon an execbuf call with
-+that VM). So, bulk LRU movement of page table pages is also needed.
-+
-+VM_BIND dma_resv usage
-+-----------------------
-+Fences needs to be added to all VM_BIND mapped objects. During each execbuf
-+submission, they are added with DMA_RESV_USAGE_BOOKKEEP usage to prevent
-+over sync (See enum dma_resv_usage). One can override it with either
-+DMA_RESV_USAGE_READ or DMA_RESV_USAGE_WRITE usage during explicit object
-+dependency setting.
-+
-+Note that DRM_I915_GEM_WAIT and DRM_I915_GEM_BUSY ioctls do not check for
-+DMA_RESV_USAGE_BOOKKEEP usage and hence should not be used for end of batch
-+check. Instead, the execbuf3 out fence should be used for end of batch check
-+(See struct drm_i915_gem_execbuffer3).
-+
-+Also, in VM_BIND mode, use dma-resv apis for determining object activeness
-+(See dma_resv_test_signaled() and dma_resv_wait_timeout()) and do not use the
-+older i915_vma active reference tracking which is deprecated. This should be
-+easier to get it working with the current TTM backend.
-+
-+Mesa use case
-+--------------
-+VM_BIND can potentially reduce the CPU overhead in Mesa (both Vulkan and Iris),
-+hence improving performance of CPU-bound applications. It also allows us to
-+implement Vulkan's Sparse Resources. With increasing GPU hardware performance,
-+reducing CPU overhead becomes more impactful.
-+
-+
-+Other VM_BIND use cases
-+========================
-+
-+Long running Compute contexts
-+------------------------------
-+Usage of dma-fence expects that they complete in reasonable amount of time.
-+Compute on the other hand can be long running. Hence it is appropriate for
-+compute to use user/memory fence (See `User/Memory Fence`_) and dma-fence usage
-+must be limited to in-kernel consumption only.
-+
-+Where GPU page faults are not available, kernel driver upon buffer invalidation
-+will initiate a suspend (preemption) of long running context, finish the
-+invalidation, revalidate the BO and then resume the compute context. This is
-+done by having a per-context preempt fence which is enabled when someone tries
-+to wait on it and triggers the context preemption.
-+
-+User/Memory Fence
-+~~~~~~~~~~~~~~~~~~
-+User/Memory fence is a <address, value> pair. To signal the user fence, the
-+specified value will be written at the specified virtual address and wakeup the
-+waiting process. User fence can be signaled either by the GPU or kernel async
-+worker (like upon bind completion). User can wait on a user fence with a new
-+user fence wait ioctl.
-+
-+Here is some prior work on this:
-+https://patchwork.freedesktop.org/patch/349417/
-+
-+Low Latency Submission
-+~~~~~~~~~~~~~~~~~~~~~~~
-+Allows compute UMD to directly submit GPU jobs instead of through execbuf
-+ioctl. This is made possible by VM_BIND is not being synchronized against
-+execbuf. VM_BIND allows bind/unbind of mappings required for the directly
-+submitted jobs.
-+
-+Debugger
-+---------
-+With debug event interface user space process (debugger) is able to keep track
-+of and act upon resources created by another process (debugged) and attached
-+to GPU via vm_bind interface.
-+
-+GPU page faults
-+----------------
-+GPU page faults when supported (in future), will only be supported in the
-+VM_BIND mode. While both the older execbuf mode and the newer VM_BIND mode of
-+binding will require using dma-fence to ensure residency, the GPU page faults
-+mode when supported, will not use any dma-fence as residency is purely managed
-+by installing and removing/invalidating page table entries.
-+
-+Page level hints settings
-+--------------------------
-+VM_BIND allows any hints setting per mapping instead of per BO.
-+Possible hints include read-only mapping, placement and atomicity.
-+Sub-BO level placement hint will be even more relevant with
-+upcoming GPU on-demand page fault support.
-+
-+Page level Cache/CLOS settings
-+-------------------------------
-+VM_BIND allows cache/CLOS settings per mapping instead of per BO.
-+
-+Evictable page table allocations
-+---------------------------------
-+Make pagetable allocations evictable and manage them similar to VM_BIND
-+mapped objects. Page table pages are similar to persistent mappings of a
-+VM (difference here are that the page table pages will not have an i915_vma
-+structure and after swapping pages back in, parent page link needs to be
-+updated).
-+
-+Shared Virtual Memory (SVM) support
-+------------------------------------
-+VM_BIND interface can be used to map system memory directly (without gem BO
-+abstraction) using the HMM interface. SVM is only supported with GPU page
-+faults enabled.
-+
-+VM_BIND UAPI
-+=============
-+
-+.. kernel-doc:: Documentation/gpu/rfc/i915_vm_bind.h
-diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
-index 91e93a705230..7d10c36b268d 100644
---- a/Documentation/gpu/rfc/index.rst
-+++ b/Documentation/gpu/rfc/index.rst
-@@ -23,3 +23,7 @@ host such documentation:
- .. toctree::
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index de49b68b4fc8..f5ce34d447b1 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -751,14 +751,27 @@ typedef struct drm_i915_irq_wait {
  
-     i915_scheduler.rst
+ /* Must be kept compact -- no holes and well documented */
+ 
+-typedef struct drm_i915_getparam {
++/**
++ * struct drm_i915_getparam - Driver parameter query structure.
++ */
++struct drm_i915_getparam {
++	/** @param: Driver parameter to query. */
+ 	__s32 param;
+-	/*
 +
-+.. toctree::
++	/**
++	 * @value: Address of memory where queried value should be put.
++	 *
+ 	 * WARNING: Using pointers instead of fixed-size u64 means we need to write
+ 	 * compat32 code. Don't repeat this mistake.
+ 	 */
+ 	int __user *value;
+-} drm_i915_getparam_t;
++};
 +
-+    i915_vm_bind.rst
++/**
++ * typedef drm_i915_getparam_t - Driver parameter query structure.
++ * See struct drm_i915_getparam.
++ */
++typedef struct drm_i915_getparam drm_i915_getparam_t;
+ 
+ /* Ioctl to set kernel params:
+  */
+@@ -1239,76 +1252,119 @@ struct drm_i915_gem_exec_object2 {
+ 	__u64 rsvd2;
+ };
+ 
++/**
++ * struct drm_i915_gem_exec_fence - An input or output fence for the execbuf
++ * ioctl.
++ *
++ * The request will wait for input fence to signal before submission.
++ *
++ * The returned output fence will be signaled after the completion of the
++ * request.
++ */
+ struct drm_i915_gem_exec_fence {
+-	/**
+-	 * User's handle for a drm_syncobj to wait on or signal.
+-	 */
++	/** @handle: User's handle for a drm_syncobj to wait on or signal. */
+ 	__u32 handle;
+ 
++	/**
++	 * @flags: Supported flags are:
++	 *
++	 * I915_EXEC_FENCE_WAIT:
++	 * Wait for the input fence before request submission.
++	 *
++	 * I915_EXEC_FENCE_SIGNAL:
++	 * Return request completion fence as output
++	 */
++	__u32 flags;
+ #define I915_EXEC_FENCE_WAIT            (1<<0)
+ #define I915_EXEC_FENCE_SIGNAL          (1<<1)
+ #define __I915_EXEC_FENCE_UNKNOWN_FLAGS (-(I915_EXEC_FENCE_SIGNAL << 1))
+-	__u32 flags;
+ };
+ 
+-/*
+- * See drm_i915_gem_execbuffer_ext_timeline_fences.
+- */
+-#define DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES 0
+-
+-/*
++/**
++ * struct drm_i915_gem_execbuffer_ext_timeline_fences - Timeline fences
++ * for execbuf ioctl.
++ *
+  * This structure describes an array of drm_syncobj and associated points for
+  * timeline variants of drm_syncobj. It is invalid to append this structure to
+  * the execbuf if I915_EXEC_FENCE_ARRAY is set.
+  */
+ struct drm_i915_gem_execbuffer_ext_timeline_fences {
++#define DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES 0
++	/** @base: Extension link. See struct i915_user_extension. */
+ 	struct i915_user_extension base;
+ 
+ 	/**
+-	 * Number of element in the handles_ptr & value_ptr arrays.
++	 * @fence_count: Number of elements in the @handles_ptr & @value_ptr
++	 * arrays.
+ 	 */
+ 	__u64 fence_count;
+ 
+ 	/**
+-	 * Pointer to an array of struct drm_i915_gem_exec_fence of length
+-	 * fence_count.
++	 * @handles_ptr: Pointer to an array of struct drm_i915_gem_exec_fence
++	 * of length @fence_count.
+ 	 */
+ 	__u64 handles_ptr;
+ 
+ 	/**
+-	 * Pointer to an array of u64 values of length fence_count. Values
+-	 * must be 0 for a binary drm_syncobj. A Value of 0 for a timeline
+-	 * drm_syncobj is invalid as it turns a drm_syncobj into a binary one.
++	 * @values_ptr: Pointer to an array of u64 values of length
++	 * @fence_count.
++	 * Values must be 0 for a binary drm_syncobj. A Value of 0 for a
++	 * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
++	 * binary one.
+ 	 */
+ 	__u64 values_ptr;
+ };
+ 
++/**
++ * struct drm_i915_gem_execbuffer2 - Structure for DRM_I915_GEM_EXECBUFFER2
++ * ioctl.
++ */
+ struct drm_i915_gem_execbuffer2 {
+-	/**
+-	 * List of gem_exec_object2 structs
+-	 */
++	/** @buffers_ptr: Pointer to a list of gem_exec_object2 structs */
+ 	__u64 buffers_ptr;
++
++	/** @buffer_count: Number of elements in @buffers_ptr array */
+ 	__u32 buffer_count;
+ 
+-	/** Offset in the batchbuffer to start execution from. */
++	/**
++	 * @batch_start_offset: Offset in the batchbuffer to start execution
++	 * from.
++	 */
+ 	__u32 batch_start_offset;
+-	/** Bytes used in batchbuffer from batch_start_offset */
++
++	/**
++	 * @batch_len: Length in bytes of the batch buffer, starting from the
++	 * @batch_start_offset. If 0, length is assumed to be the batch buffer
++	 * object size.
++	 */
+ 	__u32 batch_len;
++
++	/** @DR1: deprecated */
+ 	__u32 DR1;
++
++	/** @DR4: deprecated */
+ 	__u32 DR4;
++
++	/** @num_cliprects: See @cliprects_ptr */
+ 	__u32 num_cliprects;
++
+ 	/**
+-	 * This is a struct drm_clip_rect *cliprects if I915_EXEC_FENCE_ARRAY
+-	 * & I915_EXEC_USE_EXTENSIONS are not set.
++	 * @cliprects_ptr: Kernel clipping was a DRI1 misfeature.
++	 *
++	 * It is invalid to use this field if I915_EXEC_FENCE_ARRAY or
++	 * I915_EXEC_USE_EXTENSIONS flags are not set.
+ 	 *
+ 	 * If I915_EXEC_FENCE_ARRAY is set, then this is a pointer to an array
+-	 * of struct drm_i915_gem_exec_fence and num_cliprects is the length
+-	 * of the array.
++	 * of &drm_i915_gem_exec_fence and @num_cliprects is the length of the
++	 * array.
+ 	 *
+ 	 * If I915_EXEC_USE_EXTENSIONS is set, then this is a pointer to a
+-	 * single struct i915_user_extension and num_cliprects is 0.
++	 * single &i915_user_extension and num_cliprects is 0.
+ 	 */
+ 	__u64 cliprects_ptr;
++
++	/** @flags: Execbuf flags */
++	__u64 flags;
+ #define I915_EXEC_RING_MASK              (0x3f)
+ #define I915_EXEC_DEFAULT                (0<<0)
+ #define I915_EXEC_RENDER                 (1<<0)
+@@ -1326,10 +1382,6 @@ struct drm_i915_gem_execbuffer2 {
+ #define I915_EXEC_CONSTANTS_REL_GENERAL (0<<6) /* default */
+ #define I915_EXEC_CONSTANTS_ABSOLUTE 	(1<<6)
+ #define I915_EXEC_CONSTANTS_REL_SURFACE (2<<6) /* gen4/5 only */
+-	__u64 flags;
+-	__u64 rsvd1; /* now used for context info */
+-	__u64 rsvd2;
+-};
+ 
+ /** Resets the SO write offset registers for transform feedback on gen7. */
+ #define I915_EXEC_GEN7_SOL_RESET	(1<<8)
+@@ -1432,9 +1484,23 @@ struct drm_i915_gem_execbuffer2 {
+  * drm_i915_gem_execbuffer_ext enum.
+  */
+ #define I915_EXEC_USE_EXTENSIONS	(1 << 21)
+-
+ #define __I915_EXEC_UNKNOWN_FLAGS (-(I915_EXEC_USE_EXTENSIONS << 1))
+ 
++	/** @rsvd1: Context id */
++	__u64 rsvd1;
++
++	/**
++	 * @rsvd2: in and out sync_file file descriptors.
++	 *
++	 * When I915_EXEC_FENCE_IN or I915_EXEC_FENCE_SUBMIT flag is set, the
++	 * lower 32 bits of this field will have the in sync_file fd (input).
++	 *
++	 * When I915_EXEC_FENCE_OUT flag is set, the upper 32 bits of this
++	 * field will have the out sync_file fd (output).
++	 */
++	__u64 rsvd2;
++};
++
+ #define I915_EXEC_CONTEXT_ID_MASK	(0xffffffff)
+ #define i915_execbuffer2_set_context_id(eb2, context) \
+ 	(eb2).rsvd1 = context & I915_EXEC_CONTEXT_ID_MASK
+@@ -1814,19 +1880,58 @@ struct drm_i915_gem_context_create {
+ 	__u32 pad;
+ };
+ 
++/**
++ * struct drm_i915_gem_context_create_ext - Structure for creating contexts.
++ */
+ struct drm_i915_gem_context_create_ext {
+-	__u32 ctx_id; /* output: id of new context*/
++	/** @ctx_id: Id of the created context (output) */
++	__u32 ctx_id;
++
++	/**
++	 * @flags: Supported flags are:
++	 *
++	 * I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS:
++	 *
++	 * Extensions may be appended to this structure and driver must check
++	 * for those. See @extensions.
++	 *
++	 * I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE
++	 *
++	 * Created context will have single timeline.
++	 */
+ 	__u32 flags;
+ #define I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS	(1u << 0)
+ #define I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE	(1u << 1)
+ #define I915_CONTEXT_CREATE_FLAGS_UNKNOWN \
+ 	(-(I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE << 1))
++
++	/**
++	 * @extensions: Zero-terminated chain of extensions.
++	 * 
++	 * I915_CONTEXT_CREATE_EXT_SETPARAM:
++	 * Context parameter to set or query during context creation.
++	 * See struct drm_i915_gem_context_create_ext_setparam.
++	 * 
++	 * I915_CONTEXT_CREATE_EXT_CLONE:
++	 * This extension has been removed. On the off chance someone somewhere
++	 * has attempted to use it, never re-use this extension number.
++	 */
+ 	__u64 extensions;
++#define I915_CONTEXT_CREATE_EXT_SETPARAM 0
++#define I915_CONTEXT_CREATE_EXT_CLONE 1
+ };
+ 
++/**
++ * struct drm_i915_gem_context_param - Context parameter to set or query.
++ */
+ struct drm_i915_gem_context_param {
++	/** @ctx_id: Context id */
+ 	__u32 ctx_id;
++
++	/** @size: Size of the parameter @value
+ 	__u32 size;
++
++	/** @param: Parameter to set or query */
+ 	__u64 param;
+ #define I915_CONTEXT_PARAM_BAN_PERIOD	0x1
+ /* I915_CONTEXT_PARAM_NO_ZEROMAP has been removed.  On the off chance
+@@ -1973,6 +2078,7 @@ struct drm_i915_gem_context_param {
+ #define I915_CONTEXT_PARAM_PROTECTED_CONTENT    0xd
+ /* Must be kept compact -- no holes and well documented */
+ 
++	/** @value: Context parameter value to be set or queried */
+ 	__u64 value;
+ };
+ 
+@@ -2371,23 +2477,29 @@ struct i915_context_param_engines {
+ 	struct i915_engine_class_instance engines[N__]; \
+ } __attribute__((packed)) name__
+ 
++/**
++ * struct drm_i915_gem_context_create_ext_setparam - Context parameter
++ * to set or query during context creation.
++ */
+ struct drm_i915_gem_context_create_ext_setparam {
+-#define I915_CONTEXT_CREATE_EXT_SETPARAM 0
++	/** @base: Extension link. See struct i915_user_extension. */
+ 	struct i915_user_extension base;
++
++	/**
++	 * @param: Context parameter to set or query.
++	 * See struct drm_i915_gem_context_param.
++	 */
+ 	struct drm_i915_gem_context_param param;
+ };
+ 
+-/* This API has been removed.  On the off chance someone somewhere has
+- * attempted to use it, never re-use this extension number.
+- */
+-#define I915_CONTEXT_CREATE_EXT_CLONE 1
+-
+ struct drm_i915_gem_context_destroy {
+ 	__u32 ctx_id;
+ 	__u32 pad;
+ };
+ 
+-/*
++/**
++ * struct drm_i915_gem_vm_control - Structure to create or destroy VM.
++ *
+  * DRM_I915_GEM_VM_CREATE -
+  *
+  * Create a new virtual memory address space (ppGTT) for use within a context
+@@ -2397,20 +2509,23 @@ struct drm_i915_gem_context_destroy {
+  * The id of new VM (bound to the fd) for use with I915_CONTEXT_PARAM_VM is
+  * returned in the outparam @id.
+  *
+- * No flags are defined, with all bits reserved and must be zero.
+- *
+  * An extension chain maybe provided, starting with @extensions, and terminated
+  * by the @next_extension being 0. Currently, no extensions are defined.
+  *
+  * DRM_I915_GEM_VM_DESTROY -
+  *
+- * Destroys a previously created VM id, specified in @id.
++ * Destroys a previously created VM id, specified in @vm_id.
+  *
+  * No extensions or flags are allowed currently, and so must be zero.
+  */
+ struct drm_i915_gem_vm_control {
++	/** @extensions: Zero-terminated chain of extensions. */
+ 	__u64 extensions;
++
++	/** @flags: reserved for future usage, currently MBZ */
+ 	__u32 flags;
++
++	/** @vm_id: Id of the VM created or to be destroyed */
+ 	__u32 vm_id;
+ };
+ 
 -- 
 2.21.0.rc0.32.g243a4c7e27
 
