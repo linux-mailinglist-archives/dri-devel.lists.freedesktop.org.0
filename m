@@ -1,53 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72837554CCD
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:23:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AD2554CCE
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:24:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D150112512;
-	Wed, 22 Jun 2022 14:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF75D10FD0E;
+	Wed, 22 Jun 2022 14:23:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CBF6112421;
- Wed, 22 Jun 2022 14:23:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655907809; x=1687443809;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=h8xhzYA9+h2CmjIZTJtikagEFDSumfTJ4HTfpvBZBkc=;
- b=kz1dkjUh+2Cgi4G2H1P7PG0qB0iY44hQNlBv7VhSTbszpGu5VQlfJ2AS
- 0fzCUh6htJ7o/hvPR+rDARIpdlEjqB26gAaADruJbBJJdn3O0VAhlPVR+
- EgxWOo2xOOOnjY8pDxM7ql9W0jzng/WQSqi/8BtxY3NSZ7H0qLkcQYB4U
- PM1KLV+XWQ5QATC2gt6vaJh1Slt+0TkEmvUNvC10zfAN2nofBIzZ4KJjQ
- WUEEQSMo/HPVnUJpGywnxqM6XbT1AGf50/r2N1On8hWduSJwwjDX1ain+
- lqC5U73WmQxxuQT+smwoV35G/FinDouC2vcZ067XBNQdQ18XnhwC0oXz8 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="280475035"
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="280475035"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 07:23:26 -0700
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="730368377"
-Received: from gperry-mobl.ger.corp.intel.com (HELO [10.249.254.144])
- ([10.249.254.144])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 07:23:23 -0700
-Message-ID: <a7cedbd6ca56034712768b37a169202e3912adeb.camel@linux.intel.com>
-Subject: Re: [PATCH v2 09/12] drm/i915/selftests: ensure we reserve a fence
- slot
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Wed, 22 Jun 2022 16:23:21 +0200
-In-Reply-To: <20220621104434.190962-10-matthew.auld@intel.com>
-References: <20220621104434.190962-1-matthew.auld@intel.com>
- <20220621104434.190962-10-matthew.auld@intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-5.fc34) 
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E36910FD0E
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:23:56 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id z7so24124494edm.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 07:23:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ASFP5IP9NFXmeexPLRW7qWJpEpGv0lKpIUxpCQWgUGg=;
+ b=XdOLqhNxL7lmkLKULp9Ztpbq+zF0iuuPKXJVOBPylr6Blak5hUecuSf5XJBQVWuSnv
+ RVs0AQSC+RepxEmPKVkauvYKAH/mqWMBcDW33/NJ8uMCbKLnbCbbzwvHSqWaZoTbBL8W
+ bzRxiDHY3fz0B0rTVUfZ92iwn4bfCZehABZI7kyUnm3yEgPGrVwt+zwMvg66IegAnlln
+ SjKXLjNMEjBU0WQC2KQwB/t/nrKm40Pa7WgUjDQSaJfLKR3fy/LCIerQ2aEGkNo21q5/
+ wGI4MW+Hotjd3W4iOAp2DNe6+7KDtiLFTRnks10ZzTlloBt2anznfpv9512OEIR71G0z
+ pXlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ASFP5IP9NFXmeexPLRW7qWJpEpGv0lKpIUxpCQWgUGg=;
+ b=Emc5UN+kDv8kEMTRrwi0k2iwxbUGg0T/NpwQgdZ3mdF/Rmh8bydgSVLTa/EeZceZyq
+ pVE7jOkwN4WBlCbNqf9VUSZH/jMuQnbK/IVmpLnpb7qV8JGFVJq2ryYCde+Qoi4mPwer
+ JdFLvkhfzXYOxLKE+EDwn4vbhsppO3cWs5tyGIlpz1aX4Ip+THukM9ZwyrZm01zoqTLb
+ NHniNmg4GwBkUibk+Fq5buwFaHU9h9ozdnAWdbmjUAjfUllqPMryEJLjrPSd6hSRv2GS
+ kBWq+6iTC1Zpqx5zmiLRVxRnIOk9mM8ZocBxHTRBWGlQoHXuyntdLR0ietTeBOmdLDjI
+ tgXw==
+X-Gm-Message-State: AJIora8OUg7F1reH+YOAXHgxWBiqcEAXj2HwtnTmQYRDrrBAu+6SYsXR
+ adVQ8EddXiixqlM/ar26ulWEeg==
+X-Google-Smtp-Source: AGRyM1seX4ZkksCXeRPMkaLKK5W0HwS2FvD9c/bqAUsr+AUyprpmhST58KhyYKsR0XgOay0M5lAMhA==
+X-Received: by 2002:a05:6402:d0a:b0:421:10e6:2ecc with SMTP id
+ eb10-20020a0564020d0a00b0042110e62eccmr4430327edb.329.1655907834622; 
+ Wed, 22 Jun 2022 07:23:54 -0700 (PDT)
+Received: from [192.168.0.225] (xdsl-188-155-176-92.adslplus.ch.
+ [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
+ v18-20020a170906293200b006f3ef214e20sm9337863ejd.134.2022.06.22.07.23.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Jun 2022 07:23:54 -0700 (PDT)
+Message-ID: <b6a8e40d-ca4d-a688-988d-6800150d4e68@linaro.org>
+Date: Wed, 22 Jun 2022 16:23:53 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 02/13] dt-bindings: Add headers for Host1x and VIC on
+ Tegra234
+Content-Language: en-US
+To: Mikko Perttunen <cyndis@kapsi.fi>, thierry.reding@gmail.com,
+ jonathanh@nvidia.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ digetx@gmail.com
+References: <20220622113733.1710471-1-cyndis@kapsi.fi>
+ <20220622113733.1710471-3-cyndis@kapsi.fi>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220622113733.1710471-3-cyndis@kapsi.fi>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,57 +77,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- Kenneth Graunke <kenneth@whitecape.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-06-21 at 11:44 +0100, Matthew Auld wrote:
-> We should always be explicit and allocate a fence slot before adding
-> a
-> new fence.
+On 22/06/2022 13:37, Mikko Perttunen wrote:
+> From: Mikko Perttunen <mperttunen@nvidia.com>
 > 
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Jordan Justen <jordan.l.justen@intel.com>
-> Cc: Kenneth Graunke <kenneth@whitecape.org>
-> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
-
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
+> Add clock, memory controller, powergate and reset dt-binding headers
+> for Host1x and VIC on Tegra234.
+> 
+> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 > ---
->  drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  include/dt-bindings/clock/tegra234-clock.h     | 4 ++++
+>  include/dt-bindings/memory/tegra234-mc.h       | 5 +++++
+>  include/dt-bindings/power/tegra234-powergate.h | 1 +
+>  include/dt-bindings/reset/tegra234-reset.h     | 1 +
+>  4 files changed, 11 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> index 5bc93a1ce3e3..7c95b6768610 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-> @@ -1221,8 +1221,10 @@ static int __igt_mmap_migrate(struct
-> intel_memory_region **placements,
->                                           expand32(POISON_INUSE),
-> &rq);
->         i915_gem_object_unpin_pages(obj);
->         if (rq) {
-> -               dma_resv_add_fence(obj->base.resv, &rq->fence,
-> -                                  DMA_RESV_USAGE_KERNEL);
-> +               err = dma_resv_reserve_fences(obj->base.resv, 1);
-> +               if (!err)
-> +                       dma_resv_add_fence(obj->base.resv, &rq-
-> >fence,
-> +                                          DMA_RESV_USAGE_KERNEL);
->                 i915_request_put(rq);
->         }
->         i915_gem_object_unlock(obj);
+
+It's not the fault of this patch but in the past you started encoding
+some register offsets or values in the bindings. That's not what
+bindings headers are for. Store here hardware-independent IDs or
+nothing. For new Tegra SoCs I might start pushing this back...
+
+Anyway, it's not this patch which introduced it, so:
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 
+Best regards,
+Krzysztof
