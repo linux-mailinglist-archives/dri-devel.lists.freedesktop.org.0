@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21CC554396
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 09:30:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F34C554399
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 09:37:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7574113BA8;
-	Wed, 22 Jun 2022 07:29:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6031A113BE4;
+	Wed, 22 Jun 2022 07:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
  [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92DB6113BA2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 07:29:55 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id F15865C00F7;
- Wed, 22 Jun 2022 03:29:54 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 22 Jun 2022 03:29:54 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50A1E113BE4
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 07:37:16 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id B090A5C0085;
+ Wed, 22 Jun 2022 03:37:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 22 Jun 2022 03:37:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1655882994; x=
- 1655969394; bh=FbbDHGfykC29vpo8q1S1GdxTzi9rhuenaGAuTzE9OM8=; b=A
- r3ZAlKsZM2ih/FXS6EZgPWz3r9eI7r1DQQJD+9VpksiUG5KXeIU0M9VHLYMMfCAM
- OOEeg8Bcx0FsnupA362KQmfdxUSveIjo+5cagjx94PQHKH5+ySU+FA7PsTRtiSQc
- sEnUEJ77jRrjkvT8Q/3pq1tdKletutqzegWgerImbDszMWdI7viQM2H9mUQd2zWa
- sKRum2tf3y/42guXwYqRaiDaXP55goBVX4x6+RuW/xWhZRvAgwhv6iSsXfBS/Npi
- h1Fjbv+29qjBVFWimvGiCLFd8YMYY36ZR6S6RacH6b74whQ7XIAv7B0fWjiy+dls
- pwwbAzupdUMLbc47CFGaQ==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1655883435; x=
+ 1655969835; bh=DjPbEtlaojvueI+OxOc4rnXCnJdk9FjW5sV0Sm2bRuI=; b=h
+ z4aD+1gq5FSAQCBqgkOSr2/zV5D1OBCNzxJvYg2TPP/xkLwFJ/zrf00xMkTbp7H3
+ j44ieXA4zHWzVokd951d5rROoa/Ja8p3L58VnrFncGCf2EAkcbfFfCWyOeKYrAF+
+ WZ8RzDhamLqLENmY+XFRHkdO74fKoSvYokN2KO5wRbFw5LDNlhcSGT3F/hl/eDIZ
+ jQJJ3ZzbtrVBZxTMggL20O/aYyR4wUG0LONmp25CFFEBiUxe7wlA6Did2RXFnHEq
+ HM1PHoNRFFdfwreagoybNYAw4mz6NeeSFK6yxYc2gyHXSQEWdwBEyByrvi8Ar1LV
+ LMGMAxBqTk2NzJQq3GAtw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655882994; x=
- 1655969394; bh=FbbDHGfykC29vpo8q1S1GdxTzi9rhuenaGAuTzE9OM8=; b=u
- s008JLqRZuUV3eDndqAHVE2WFSZskVm6nf3be4izr9DOlpdP7xVUonWUWjKSU0c1
- 2fz3ErFEIyuFXo2uwWpMIShHwDwiyotAbyli1I7izW7v4R9U0LO97pN93Zoe2zOo
- rSoPGfLHmIU9+760a36h6wfR4jAFdeapxBpKMwcsrpwm7vkXrMHcnApcKTUzPwaF
- CpdDHU1+UxbIhTT2KOaCwsHoGtQUTwtQYsKBb6PDpf6C/uN7v5r5xvJK5fukC8yR
- 5qgDcpyiihueD5f/dgaPyEIy3kDc+uTvkNNZSehx0iQYgBHN/PK17beHJZsIzjjG
- FkIE2bfO+Ci0nCaCKwoUg==
-X-ME-Sender: <xms:8sSyYosVRlGhEXWXSE_MesvGdgae4IuQLb_NlbRLOXGDVh48FCgY7w>
- <xme:8sSyYlcqTEBQZW1yRoyzd9YIuoT93azMf1l0nOdb-TdYMRyoFpp-auhwaog5Ne_Xd
- p_wN0Oo6e2i3gEoVvM>
-X-ME-Received: <xmr:8sSyYjyJDEAIpeq0scNehnJEUfbyXElt2ZoFgwMObgKePqrqmTA0lF4TfWodhSxn3cYkqFQyuTOJGbAd02jyD6YVUH0REWQ5PwSXds0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefgedguddvudcutefuodetggdotefrod
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655883435; x=
+ 1655969835; bh=DjPbEtlaojvueI+OxOc4rnXCnJdk9FjW5sV0Sm2bRuI=; b=k
+ QdcKKVPyz8ou8e5mNwhn8A+951SIzBtvgtPUn8oWlb9hb9VfKzBYjJvq1vc1sDpB
+ 47F2+XSf2qAL5e7a5/T1cIj74vuNC20CLhYpq3WD0ulUC0cZBFfk+xlaHQCmpu6J
+ RpaOHVZVxRbrqBw9oRsYJi/aeVLqbU8ZPq01hFTPoKOyayitvGFuEEgvghcrmHbM
+ knuh9T0aRtsQhgSxrGKajHrJ7mEi1uTVZnOE+r3GRZ755/tRPJ1sKoBGT12rscnN
+ /VxVZNqqTPFaW/nkhfCzFnQ+6szbOt8oq8xnapZDqGoJgDNw7YWiZmbvZwmQyAZ5
+ lA5BXM6nEKX/fsL0c7hXQ==
+X-ME-Sender: <xms:q8ayYs61KqqyndKpSOWojOQaNSPJMKg72FPjWS2vcQrxP2ijg0_Mxg>
+ <xme:q8ayYt6YZFkS2pFO-zpZPsvtUKfVHDk1CGntzAU02hH3NXRTkA_Nat09EB8Nl0j0f
+ LBV3VPEbcy-aMt9tS4>
+X-ME-Received: <xmr:q8ayYrfiNNnSz_UVIyCPP3aQzIkK8sFet433pMEL8ZcdmtXltTnMKmGwkXskgiOHPdQEQoHPnkn6xCE_NRTOm68GmDsTH40gz58RKOQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefgedguddvfecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhggtgfgse
  htkeertdertdejnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgv
  segtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepueeigefghfffffeifeehud
  eiuedvteegueefffevgfetvdffheehkeffvedufeeinecuvehluhhsthgvrhfuihiivgep
  tdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:8sSyYrPC1VhCmpIZrmIaYtn0FEDi2_ZvrD4TuuThg2ZmjGDTb9xhiA>
- <xmx:8sSyYo98ONPuhilwKpLY9t6kL3270I1dDuJhSGIUxHyn3L6Q8USMsA>
- <xmx:8sSyYjUfsAVdTc-03NgK5M9_LbJFjDcB5-wUH3EhTqfFMx50QPU3YQ>
- <xmx:8sSyYlP4gK2wUsy5f-wzDzmewKuTXAsecIhVrhdWXBSMSqwXEo6UHw>
+X-ME-Proxy: <xmx:q8ayYhJezPaytnnaSsws_MIuCJ6b0UubwSnUUdusVKsgAqjbJeLn0g>
+ <xmx:q8ayYgL-Y0Ljbf509Ib7KxY-Aev5GnOuqT0dyZotr3_SgtzugyBtrA>
+ <xmx:q8ayYiyPh4G44EfgAICrwIOACm19GA5SKq8nvP1M6gzEa60TVkMqGg>
+ <xmx:q8ayYo8qCdcWBX7ODJZxh3O5kmG4IQTdcuY_iTUFnXB9XvWnyHUWVA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jun 2022 03:29:54 -0400 (EDT)
+ 22 Jun 2022 03:37:15 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-To: maarten.lankhorst@linux.intel.com, airlied@linux.ie, jiangjian@cdjrlc.com,
- tzimmermann@suse.de, daniel@ffwll.ch, mripard@kernel.org
-Subject: Re: (subset) [PATCH] GPU: drm: drop unexpected word "the" in the
- comments
-Date: Wed, 22 Jun 2022 09:29:44 +0200
-Message-Id: <165588297922.13818.8703754618322133004.b4-ty@cerno.tech>
+To: dri-devel@lists.freedesktop.org, airlied@linux.ie, mripard@kernel.org,
+ linux-kernel@vger.kernel.org, daniel@ffwll.ch, farooqui_saud@hotmail.com,
+ emma@anholt.net
+Subject: Re: (subset) [PATCH] drm/vc4: hdmi: Fixed possible integer overflow
+Date: Wed, 22 Jun 2022 09:37:12 +0200
+Message-Id: <165588343010.17134.11173109971081825342.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220621135140.12200-1-jiangjian@cdjrlc.com>
-References: <20220621135140.12200-1-jiangjian@cdjrlc.com>
+In-Reply-To: <PA4P189MB1421E63C0FF3EBF234A80AB38BA79@PA4P189MB1421.EURP189.PROD.OUTLOOK.COM>
+References: <PA4P189MB1421E63C0FF3EBF234A80AB38BA79@PA4P189MB1421.EURP189.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -85,23 +85,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 21 Jun 2022 21:51:40 +0800, Jiang Jian wrote:
-> there is an unexpected word "the" in the comments that need to be dropped
+On Thu, 9 Jun 2022 23:50:31 +0500, Saud Farooqui wrote:
+> Multiplying ints and saving it in unsigned long long
+> could lead to integer overflow before being type casted to
+> unsigned long long.
 > 
-> file: drivers/gpu/drm/drm_ioctl.c
-> line: 86
-> *    means the the unique name for the master node just opening is _not_ filled
-> changed to
-> *    means the unique name for the master node just opening is _not_ filled
+> Addresses-Coverity:  1505113: Unintentional integer overflow.
+> 
 > 
 > [...]
 
-Applied to drm/drm-misc (drm-misc-next).
+Applied to drm/drm-misc (drm-misc-fixes).
 
 Thanks!
 Maxime
