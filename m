@@ -1,47 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F398554C00
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:01:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFFA4554C07
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:01:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC1D210E9A4;
-	Wed, 22 Jun 2022 14:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB05510FE40;
+	Wed, 22 Jun 2022 14:01:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE6510E9A4
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:01:02 +0000 (UTC)
-Received: from localhost (82-69-11-11.dsl.in-addr.zen.co.uk [82.69.11.11])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F26BE10FE40
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:01:37 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: alarumbe)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id DAF8066016CC;
- Wed, 22 Jun 2022 15:01:00 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1655906461;
- bh=a+Yf8EwljCTGnG2qBMj2nXrtv/z2tTqkczBVhMesITY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=n417a7QzkW3gWUXbfjYGZPzKeXoyc6mpmEjDmJU6Ku56IcfQze7qrlQZTmzZLgSLa
- XfW5U4Y+VnLxmnzrASVibQMzySoFdnGayLs0k+4AWfvkmXl6AXOjSuHNmz+XVROpRn
- QZrPSa9WlgoIq1WfAegOgSThzQAw/SgKmSLj8L5J7Llt2pXs0E7wD2dihtvqpWIepz
- rP1CevO1ZFfB0sI7qunYCqdBO6hpZpiyypFt31wamyk6Zj7BFRoFfo5sQoUBuX2HLN
- MKd+3R9TvC8PaQDTeReBJ5rDzSaHqvzwEmnSW291MjJx/Tawi/f2f9bpA3uEvi5qvx
- QSSNIM/uN1JHA==
-Date: Wed, 22 Jun 2022 15:00:58 +0100
-From: Adri??n Larumbe <adrian.larumbe@collabora.com>
-To: Alyssa Rosenzweig <alyssa@collabora.com>
-Subject: Re: [PATCH v3 1/1] drm/panfrost: Add support for devcoredump
-Message-ID: <20220622140058.3oykas4zfxprmv56@sobremesa>
-References: <20220622015420.1130814-1-adrian.larumbe@collabora.com>
- <20220622015420.1130814-2-adrian.larumbe@collabora.com>
- <YrMIXvPaUz5EbT5X@maud>
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 83EF221C18;
+ Wed, 22 Jun 2022 14:01:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1655906496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=YUedw22uTonupl5S/QuQDfVjYG8TUjcgcNCTZyOGnGE=;
+ b=ZJpLVCcp3pQ+pNJiwsh0FsMhcXDcJWNOu73JOqO+um4z3crgtaMcEtIAETajwojd6MS48H
+ DqWAILnUWNje2m+SZqpwueDpfbR0JpKrzoETnksDa3zcGXWnvuCHEZC93NJkDUjJ5NbunZ
+ FT9lCISK233TJHx2C9L4aSvv2Gqn/YM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1655906496;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=YUedw22uTonupl5S/QuQDfVjYG8TUjcgcNCTZyOGnGE=;
+ b=esfq23hcixQZ1wWVeJjTN87GXtpefgt1iutwZJocxJ22QJRRUWVHEaxVFoqKHRbTmi7vex
+ 8e3F+6Sw5P0EpgAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 34A2B134A9;
+ Wed, 22 Jun 2022 14:01:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id eezhC8Ags2IVRwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 22 Jun 2022 14:01:36 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: alex.williamson@redhat.com, corbet@lwn.net,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
+ daniel@ffwll.ch, deller@gmx.de, gregkh@linuxfoundation.org,
+ javierm@redhat.com, lersek@redhat.com, kraxel@redhat.com
+Subject: [PATCH v3 0/3] Improve vfio-pci primary GPU assignment behavior
+Date: Wed, 22 Jun 2022 16:01:31 +0200
+Message-Id: <20220622140134.12763-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YrMIXvPaUz5EbT5X@maud>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,59 +64,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
- tomeu.vizoso@collabora.com, steven.price@arm.com
+Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22.06.2022 08:17, Alyssa Rosenzweig wrote:
->> +			js_as_offset = slot * 0x80;
->
->JS_SLOT_STRIDE
+(I'm taking over this patchset from Alex, [1] as we agreed that it should
+go through the drm-misc tree.)
 
-Sorry about this blunder.
+When assigning a primary graphics device to VM through vfio-pci device
+assignment, users often prevent binding of the native PCI graphics
+driver to avoid device initialization conflicts, however firmware
+console drivers may still be attached to the device which can often be
+cumbersome to manually unbind or exclude via cmdline options.
 
->> +	slot = panfrost_job_get_slot(job);
->> +	slot = slot ? slot : 0;
->
->`slot = slot ? slot : 0` is a no-op. Delete the line.
+This series proposes to move the DRM aperture helpers out to
+drivers/video/ to make it more accessible to drivers like vfio-pci,
+which have neither dependencies on DRM code nor a struct drm_driver
+to present to existing interfaces.  vfio-pci can then trivially call
+into the aperture helpers to remove conflicting drivers, rather than
+open coding it ourselves as was proposed with a new symbol export in
+v1 of this series. [2]
 
-I think what I meant here was 'slot = (slot >= 0) ? slot : 0;' but for some
-reason I blundered again. The point of this was ensuring the slot value wouldn't
-end up wrapping about the maximum unsigned integer value when using it as an
-array offset, in the off-chance that panfrost_job_get_slot() ever returned a
-negative value.
+v3:
+	* add aperture_ prefix to all interfaces (Javier)
+	* improved documentation (Javier)
+	* update MAINTAINERS [3] and add aperture helpers
 
-In v4 I've instead rewritten this as a sanity check:
+[1] https://lore.kernel.org/all/165541020563.1955826.16350888595945658159.stgit@omen/
+[2] https://lore.kernel.org/all/165453797543.3592816.6381793341352595461.stgit@omen/
+[3] https://lore.kernel.org/all/20220518183006.14548-2-tzimmermann@suse.de/
 
-WARN_ON(slot < 0);
+Alex Williamson (1):
+  vfio/pci: Remove console drivers
 
-Although perhaps in the future panfrost_job_get_slot should return an unsigned
-integer instead?
+Thomas Zimmermann (2):
+  MAINTAINERS: Broaden scope of simpledrm entry
+  drm: Implement DRM aperture helpers under video/
 
->> +			if (!IS_ERR(page))
->> +				*bomap++ = cpu_to_le64(page_to_phys(page));
->> +			else {
->> +				dev_err(pfdev->dev, "Panfrost Dump: wrong page\n");
->> +				*bomap++ = ~cpu_to_le64(0);
->> +			}
->> +		}
->
->Nit: because you have { braces } around half the if, please add
->{ braces } around the other half for consistency.
+ Documentation/driver-api/aperture.rst |  13 +
+ Documentation/driver-api/index.rst    |   1 +
+ MAINTAINERS                           |   6 +-
+ drivers/gpu/drm/drm_aperture.c        | 178 +------------
+ drivers/gpu/drm/tiny/Kconfig          |   1 +
+ drivers/vfio/pci/vfio_pci_core.c      |   5 +
+ drivers/video/Kconfig                 |   6 +
+ drivers/video/Makefile                |   2 +
+ drivers/video/aperture.c              | 351 ++++++++++++++++++++++++++
+ drivers/video/console/Kconfig         |   1 +
+ drivers/video/fbdev/Kconfig           |   7 +-
+ include/linux/aperture.h              |  56 ++++
+ 12 files changed, 456 insertions(+), 171 deletions(-)
+ create mode 100644 Documentation/driver-api/aperture.rst
+ create mode 100644 drivers/video/aperture.c
+ create mode 100644 include/linux/aperture.h
 
-I thought checkpatch.pl would complain about braces wrapping a single if
-statement, but apparently it's fine with it in this case.
 
->---
->
->As a general note, I'd appreciate breaking out the panfrost_regs.h
->changes into a separate patch, as they are a logically separate clean
->up to make room for this patch. Thanks.
-
-Done in v4.
-
-Cheers,
-Adrian
-
+base-commit: 7025c1f111b7a057243de45bd56c14b906242a53
+-- 
+2.36.1
 
