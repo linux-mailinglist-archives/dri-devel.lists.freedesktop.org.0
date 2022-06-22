@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82A4554EBC
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 17:09:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0D0554EC3
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 17:11:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF1411345A;
-	Wed, 22 Jun 2022 15:09:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49DA911347B;
+	Wed, 22 Jun 2022 15:11:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C340E11345A
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 15:09:44 +0000 (UTC)
-Received: from maud (206-47-13-26.static.dsl.ncf.ca [206.47.13.26])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: alyssa)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id EAE7566016F7;
- Wed, 22 Jun 2022 16:09:41 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1655910583;
- bh=Q+3+yNszO0OBB0GgMX+E/ByD6saz6W2OeMs3qY8OPLA=;
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F4C811347B
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 15:11:23 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3C4D8B81F2C;
+ Wed, 22 Jun 2022 15:11:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70E5BC34114;
+ Wed, 22 Jun 2022 15:11:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1655910681;
+ bh=85kAYdDSM1kdzcUsEkD4BEv1Jp3ZVjaLheAWsW8yx+U=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=b4hBjpFnUy35Qcq4A0QTvlGBokJ5eqeLvu3nzKd+YWitWVuyURSlR2T5d7OjswBjL
- WmVS6Ary0xwy1DO8EEr8YutsTVvFkGgnp33x+GSaeaexGNtuKsLOadZOHKexSyNK8e
- 2yElUspyWZqn8VUjP3DVGYo5vF0YirUnMalJJ8P4QrcPw6rEIWYQLSQ5H59gDbmafP
- SKG2VhuksbhxrolOU9Ss9MvqoqfP4croTOlQB7ovFDGxSUWURqtPP9UCPeMeGbd5I3
- NYZyNq497cE/B9w1m7VVHhg9rN4/tOB+GBj4zlvo0xk9IDgIf2f85wMsbs4xPWl178
- BEXLYE853bz0w==
-Date: Wed, 22 Jun 2022 11:09:36 -0400
-From: Alyssa Rosenzweig <alyssa@collabora.com>
-To: Adri??n Larumbe <adrian.larumbe@collabora.com>
-Subject: Re: [PATCH v4 1/2] drm/panfrost: Add specific register offset macros
- for JS and MMU AS
-Message-ID: <YrMwsFCWOXeLUM7w@maud>
-References: <20220622143616.1265405-1-adrian.larumbe@collabora.com>
- <20220622143616.1265405-2-adrian.larumbe@collabora.com>
+ b=Mkqi5YRlRB1xY9CLLZ3Zqqn/IxYC0/iNiDBFGMIqg/Pa1tW2zRU4VQmHJHQlM1Y9V
+ OOCfYTNT+rSKEGS8CU+6OBdgj1cXU5Ci8fV5GcAjgugELU+LRwOERTQhPWa4pwQlOk
+ 97qTIqt103r7FlTA2nh9vozltw6hbAQ6jNwCMSO8=
+Date: Wed, 22 Jun 2022 17:11:17 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v4 0/7] usb: typec: Introduce typec-switch binding
+Message-ID: <YrMxFeMc0tk/K1qL@kroah.com>
+References: <20220615172129.1314056-1-pmalani@chromium.org>
+ <CACeCKaetgayTS+yX0cuNiK7j6Yqd4o2ziX6nCoGTt64A3jFT=g@mail.gmail.com>
+ <YrHE9KrF0HG9rVi/@kroah.com>
+ <8f0501c5-84f2-10f1-ae06-4b3936c50b12@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220622143616.1265405-2-adrian.larumbe@collabora.com>
+In-Reply-To: <8f0501c5-84f2-10f1-ae06-4b3936c50b12@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,83 +52,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
- tomeu.vizoso@collabora.com, steven.price@arm.com
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, swboyd@chromium.org,
+ Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>,
+ =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+On Wed, Jun 22, 2022 at 04:53:40PM +0200, Krzysztof Kozlowski wrote:
+> On 21/06/2022 15:17, Greg Kroah-Hartman wrote:
+> > On Wed, Jun 15, 2022 at 11:13:33AM -0700, Prashant Malani wrote:
+> >> I should add:
+> >>
+> >> Series submission suggestions (of course, open to better suggestions too):
+> >> - Patches 1-3 can go through the USB repo.
+> > 
+> > I will take patches 1 and 2 now.
+> > 
+> > seems the others need reworks or acks from the DT people.
+> 
+> I just gave for patch 3 and before for 4, so you can grab these as well.
 
-On Wed, Jun 22, 2022 at 03:36:15PM +0100, Adri??n Larumbe wrote:
-> Each Panfrost job has its own job slot and MMU address space set of
-> registers, which are selected with a job-specific index.
-> 
-> Turn the shift and stride used for selection of the right register set base
-> into a define rather than using magic numbers.
-> 
-> Signed-off-by: Adri??n Larumbe <adrian.larumbe@collabora.com>
-> ---
->  drivers/gpu/drm/panfrost/panfrost_regs.h | 39 +++++++++++++-----------
->  1 file changed, 21 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> index accb4fa3adb8..1ddc6c4c5e1c 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
-> @@ -225,24 +225,26 @@
->  #define JOB_INT_MASK_ERR(j)		BIT((j) + 16)
->  #define JOB_INT_MASK_DONE(j)		BIT(j)
->  
-> +#define JS_SLOT_STRIDE			0x80
-> +
->  #define JS_BASE				0x1800
-> -#define JS_HEAD_LO(n)			(JS_BASE + ((n) * 0x80) + 0x00)
-> -#define JS_HEAD_HI(n)			(JS_BASE + ((n) * 0x80) + 0x04)
-> -#define JS_TAIL_LO(n)			(JS_BASE + ((n) * 0x80) + 0x08)
-> -#define JS_TAIL_HI(n)			(JS_BASE + ((n) * 0x80) + 0x0c)
-> -#define JS_AFFINITY_LO(n)		(JS_BASE + ((n) * 0x80) + 0x10)
-> -#define JS_AFFINITY_HI(n)		(JS_BASE + ((n) * 0x80) + 0x14)
-> -#define JS_CONFIG(n)			(JS_BASE + ((n) * 0x80) + 0x18)
-> -#define JS_XAFFINITY(n)			(JS_BASE + ((n) * 0x80) + 0x1c)
-> -#define JS_COMMAND(n)			(JS_BASE + ((n) * 0x80) + 0x20)
-> -#define JS_STATUS(n)			(JS_BASE + ((n) * 0x80) + 0x24)
-> -#define JS_HEAD_NEXT_LO(n)		(JS_BASE + ((n) * 0x80) + 0x40)
-> -#define JS_HEAD_NEXT_HI(n)		(JS_BASE + ((n) * 0x80) + 0x44)
-> -#define JS_AFFINITY_NEXT_LO(n)		(JS_BASE + ((n) * 0x80) + 0x50)
-> -#define JS_AFFINITY_NEXT_HI(n)		(JS_BASE + ((n) * 0x80) + 0x54)
-> -#define JS_CONFIG_NEXT(n)		(JS_BASE + ((n) * 0x80) + 0x58)
-> -#define JS_COMMAND_NEXT(n)		(JS_BASE + ((n) * 0x80) + 0x60)
-> -#define JS_FLUSH_ID_NEXT(n)		(JS_BASE + ((n) * 0x80) + 0x70)
-> +#define JS_HEAD_LO(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x00)
-> +#define JS_HEAD_HI(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x04)
-> +#define JS_TAIL_LO(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x08)
-> +#define JS_TAIL_HI(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x0c)
-> +#define JS_AFFINITY_LO(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x10)
-> +#define JS_AFFINITY_HI(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x14)
-> +#define JS_CONFIG(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x18)
-> +#define JS_XAFFINITY(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x1c)
-> +#define JS_COMMAND(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x20)
-> +#define JS_STATUS(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x24)
-> +#define JS_HEAD_NEXT_LO(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x40)
-> +#define JS_HEAD_NEXT_HI(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x44)
-> +#define JS_AFFINITY_NEXT_LO(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x50)
-> +#define JS_AFFINITY_NEXT_HI(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x54)
-> +#define JS_CONFIG_NEXT(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x58)
-> +#define JS_COMMAND_NEXT(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x60)
-> +#define JS_FLUSH_ID_NEXT(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x70)
->  
->  /* Possible values of JS_CONFIG and JS_CONFIG_NEXT registers */
->  #define JS_CONFIG_START_FLUSH_CLEAN		BIT(8)
-> @@ -281,7 +283,8 @@
->  #define AS_COMMAND_FLUSH_MEM		0x05	/* Wait for memory accesses to complete, flush all the L1s cache then
->  						   flush all L2 caches then issue a flush region command to all MMUs */
->  
-> -#define MMU_AS(as)			(0x2400 + ((as) << 6))
-> +#define MMU_AS_SHIFT			0x06
-> +#define MMU_AS(as)			(0x2400 + ((as) << MMU_AS_SHIFT))
->  
->  #define AS_TRANSTAB_LO(as)		(MMU_AS(as) + 0x00) /* (RW) Translation Table Base Address for address space n, low word */
->  #define AS_TRANSTAB_HI(as)		(MMU_AS(as) + 0x04) /* (RW) Translation Table Base Address for address space n, high word */
-> -- 
-> 2.36.1
-> 
+They are gone from my queue, a resend with that ack would be good so
+that I can pick it up easier.
+
+thanks,
+
+gre gk-h
