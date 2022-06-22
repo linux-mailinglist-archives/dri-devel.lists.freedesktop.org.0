@@ -2,53 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034F2554EAA
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 17:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C82A4554EBC
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 17:09:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 517CC11341E;
-	Wed, 22 Jun 2022 15:06:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF1411345A;
+	Wed, 22 Jun 2022 15:09:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36E461120C1;
- Wed, 22 Jun 2022 15:06:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655910402; x=1687446402;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=rZ4PzsdHgYOZkU27YlfxeAHtdwjQou8Pe+igv+FJXMk=;
- b=S3LCPUmEh63lTCWWQyuHV/t/A0Q2dgCyphI6nvwOf6G3jYKO0L29TEfP
- WYHln8XLRs9bEYLdPjbO8YDVdUBKGJew0GFVtLfZVSJbWiTe5OH3rj8Tl
- gqw/ddeRr9VRgKz2fObpLPNrcy7wJXYyZprGJqp7lwOLiJiTmfS9bE3fi
- dICAuFB7Tn6Eik6HGlKOf1TSjabqjDVLOVDM+1/d9XAEM11tcDwLIDcvF
- xgYzX+M2PFLbyhwBxZDtyNzafS8O+O24db20Jd83+tr2qDv9J+hRu6K+Y
- UtpL+uqUGS9IynQ3rkRcbmNe3EQQvS5A+PmGFO+fP9z4/gD55GNmSMnLJ Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="269162289"
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="269162289"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 08:05:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="677595354"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.163])
- by FMSMGA003.fm.intel.com with SMTP; 22 Jun 2022 08:05:37 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 22 Jun 2022 18:05:37 +0300
-Date: Wed, 22 Jun 2022 18:05:37 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v3 08/13] drm/i915/edid: convert DP, HDMI and LVDS to
- drm_edid
-Message-ID: <YrMvwZZ/gKKf9sKK@intel.com>
-References: <cover.1655895388.git.jani.nikula@intel.com>
- <944e7c45ca5a59f421926e94e6b12abccff78f92.1655895388.git.jani.nikula@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C340E11345A
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 15:09:44 +0000 (UTC)
+Received: from maud (206-47-13-26.static.dsl.ncf.ca [206.47.13.26])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: alyssa)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id EAE7566016F7;
+ Wed, 22 Jun 2022 16:09:41 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1655910583;
+ bh=Q+3+yNszO0OBB0GgMX+E/ByD6saz6W2OeMs3qY8OPLA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=b4hBjpFnUy35Qcq4A0QTvlGBokJ5eqeLvu3nzKd+YWitWVuyURSlR2T5d7OjswBjL
+ WmVS6Ary0xwy1DO8EEr8YutsTVvFkGgnp33x+GSaeaexGNtuKsLOadZOHKexSyNK8e
+ 2yElUspyWZqn8VUjP3DVGYo5vF0YirUnMalJJ8P4QrcPw6rEIWYQLSQ5H59gDbmafP
+ SKG2VhuksbhxrolOU9Ss9MvqoqfP4croTOlQB7ovFDGxSUWURqtPP9UCPeMeGbd5I3
+ NYZyNq497cE/B9w1m7VVHhg9rN4/tOB+GBj4zlvo0xk9IDgIf2f85wMsbs4xPWl178
+ BEXLYE853bz0w==
+Date: Wed, 22 Jun 2022 11:09:36 -0400
+From: Alyssa Rosenzweig <alyssa@collabora.com>
+To: Adri??n Larumbe <adrian.larumbe@collabora.com>
+Subject: Re: [PATCH v4 1/2] drm/panfrost: Add specific register offset macros
+ for JS and MMU AS
+Message-ID: <YrMwsFCWOXeLUM7w@maud>
+References: <20220622143616.1265405-1-adrian.larumbe@collabora.com>
+ <20220622143616.1265405-2-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <944e7c45ca5a59f421926e94e6b12abccff78f92.1655895388.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <20220622143616.1265405-2-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,63 +53,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, alyssa.rosenzweig@collabora.com,
+ tomeu.vizoso@collabora.com, steven.price@arm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 22, 2022 at 01:59:22PM +0300, Jani Nikula wrote:
-> @@ -948,27 +948,30 @@ void intel_lvds_init(struct drm_i915_private *dev_priv)
->  	 * preferred mode is the right one.
->  	 */
->  	mutex_lock(&dev->mode_config.mutex);
-> -	if (vga_switcheroo_handler_flags() & VGA_SWITCHEROO_CAN_SWITCH_DDC)
-> +	if (vga_switcheroo_handler_flags() & VGA_SWITCHEROO_CAN_SWITCH_DDC) {
-> +		const struct edid *edid;
+Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+
+On Wed, Jun 22, 2022 at 03:36:15PM +0100, Adri??n Larumbe wrote:
+> Each Panfrost job has its own job slot and MMU address space set of
+> registers, which are selected with a job-specific index.
+> 
+> Turn the shift and stride used for selection of the right register set base
+> into a define rather than using magic numbers.
+> 
+> Signed-off-by: Adri??n Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_regs.h | 39 +++++++++++++-----------
+>  1 file changed, 21 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_regs.h b/drivers/gpu/drm/panfrost/panfrost_regs.h
+> index accb4fa3adb8..1ddc6c4c5e1c 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_regs.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_regs.h
+> @@ -225,24 +225,26 @@
+>  #define JOB_INT_MASK_ERR(j)		BIT((j) + 16)
+>  #define JOB_INT_MASK_DONE(j)		BIT(j)
+>  
+> +#define JS_SLOT_STRIDE			0x80
 > +
-> +		/* FIXME: Make drm_get_edid_switcheroo() return drm_edid */
->  		edid = drm_get_edid_switcheroo(connector,
-> -				    intel_gmbus_get_adapter(dev_priv, pin));
-> -	else
-> -		edid = drm_get_edid(connector,
-> -				    intel_gmbus_get_adapter(dev_priv, pin));
-> -	if (edid) {
-> -		if (drm_add_edid_modes(connector, edid)) {
-> -			drm_connector_update_edid_property(connector,
-> -								edid);
-> -		} else {
-> -			kfree(edid);
-> -			edid = ERR_PTR(-EINVAL);
-> +					       intel_gmbus_get_adapter(dev_priv, pin));
-> +		if (edid)
-> +			drm_edid = drm_edid_alloc(edid, (edid->extensions + 1) * EDID_LENGTH);
-
-This one still seems to leak.
-
-> +	} else {
-> +		drm_edid = drm_edid_read_ddc(connector,
-> +					     intel_gmbus_get_adapter(dev_priv, pin));
-> +	}
-> +	if (drm_edid) {
-> +		if (!drm_edid_connector_update(connector, drm_edid)) {
-> +			drm_edid_free(drm_edid);
-> +			drm_edid = ERR_PTR(-EINVAL);
->  		}
->  	} else {
-> -		edid = ERR_PTR(-ENOENT);
-> +		drm_edid = ERR_PTR(-ENOENT);
->  	}
-> -	intel_connector->edid = edid;
-> +	intel_connector->edid = drm_edid;
+>  #define JS_BASE				0x1800
+> -#define JS_HEAD_LO(n)			(JS_BASE + ((n) * 0x80) + 0x00)
+> -#define JS_HEAD_HI(n)			(JS_BASE + ((n) * 0x80) + 0x04)
+> -#define JS_TAIL_LO(n)			(JS_BASE + ((n) * 0x80) + 0x08)
+> -#define JS_TAIL_HI(n)			(JS_BASE + ((n) * 0x80) + 0x0c)
+> -#define JS_AFFINITY_LO(n)		(JS_BASE + ((n) * 0x80) + 0x10)
+> -#define JS_AFFINITY_HI(n)		(JS_BASE + ((n) * 0x80) + 0x14)
+> -#define JS_CONFIG(n)			(JS_BASE + ((n) * 0x80) + 0x18)
+> -#define JS_XAFFINITY(n)			(JS_BASE + ((n) * 0x80) + 0x1c)
+> -#define JS_COMMAND(n)			(JS_BASE + ((n) * 0x80) + 0x20)
+> -#define JS_STATUS(n)			(JS_BASE + ((n) * 0x80) + 0x24)
+> -#define JS_HEAD_NEXT_LO(n)		(JS_BASE + ((n) * 0x80) + 0x40)
+> -#define JS_HEAD_NEXT_HI(n)		(JS_BASE + ((n) * 0x80) + 0x44)
+> -#define JS_AFFINITY_NEXT_LO(n)		(JS_BASE + ((n) * 0x80) + 0x50)
+> -#define JS_AFFINITY_NEXT_HI(n)		(JS_BASE + ((n) * 0x80) + 0x54)
+> -#define JS_CONFIG_NEXT(n)		(JS_BASE + ((n) * 0x80) + 0x58)
+> -#define JS_COMMAND_NEXT(n)		(JS_BASE + ((n) * 0x80) + 0x60)
+> -#define JS_FLUSH_ID_NEXT(n)		(JS_BASE + ((n) * 0x80) + 0x70)
+> +#define JS_HEAD_LO(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x00)
+> +#define JS_HEAD_HI(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x04)
+> +#define JS_TAIL_LO(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x08)
+> +#define JS_TAIL_HI(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x0c)
+> +#define JS_AFFINITY_LO(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x10)
+> +#define JS_AFFINITY_HI(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x14)
+> +#define JS_CONFIG(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x18)
+> +#define JS_XAFFINITY(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x1c)
+> +#define JS_COMMAND(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x20)
+> +#define JS_STATUS(n)			(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x24)
+> +#define JS_HEAD_NEXT_LO(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x40)
+> +#define JS_HEAD_NEXT_HI(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x44)
+> +#define JS_AFFINITY_NEXT_LO(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x50)
+> +#define JS_AFFINITY_NEXT_HI(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x54)
+> +#define JS_CONFIG_NEXT(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x58)
+> +#define JS_COMMAND_NEXT(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x60)
+> +#define JS_FLUSH_ID_NEXT(n)		(JS_BASE + ((n) * JS_SLOT_STRIDE) + 0x70)
 >  
->  	intel_bios_init_panel(dev_priv, &intel_connector->panel, NULL,
-> -			      IS_ERR(edid) ? NULL : edid);
-> +			      IS_ERR_OR_NULL(drm_edid) ? NULL : drm_edid_raw(drm_edid));
+>  /* Possible values of JS_CONFIG and JS_CONFIG_NEXT registers */
+>  #define JS_CONFIG_START_FLUSH_CLEAN		BIT(8)
+> @@ -281,7 +283,8 @@
+>  #define AS_COMMAND_FLUSH_MEM		0x05	/* Wait for memory accesses to complete, flush all the L1s cache then
+>  						   flush all L2 caches then issue a flush region command to all MMUs */
 >  
->  	/* Try EDID first */
->  	intel_panel_add_edid_fixed_modes(intel_connector,
+> -#define MMU_AS(as)			(0x2400 + ((as) << 6))
+> +#define MMU_AS_SHIFT			0x06
+> +#define MMU_AS(as)			(0x2400 + ((as) << MMU_AS_SHIFT))
+>  
+>  #define AS_TRANSTAB_LO(as)		(MMU_AS(as) + 0x00) /* (RW) Translation Table Base Address for address space n, low word */
+>  #define AS_TRANSTAB_HI(as)		(MMU_AS(as) + 0x04) /* (RW) Translation Table Base Address for address space n, high word */
 > -- 
-> 2.30.2
-
--- 
-Ville Syrjälä
-Intel
+> 2.36.1
+> 
