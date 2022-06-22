@@ -1,61 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FEB5552C9
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 19:48:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4697B5552A8
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 19:42:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A123C10E636;
-	Wed, 22 Jun 2022 17:48:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C2CD10E0A3;
+	Wed, 22 Jun 2022 17:42:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B38D10E636
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 17:48:30 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id w24so8265652pjg.5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 10:48:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=INtMn1T8YiMhzQt2Th4wtcU0KbijPUKMnT6GFbUU1es=;
- b=iMepv6cEm1kKrueKz6F8JmBrKe29Bg85av9Djx9b2MBTrbDc+JfTwOd23NQ0BJeQQq
- 37fpA2gDzLO8DXBdJ7A/uB8Xuvc4+KcZ7fS8DOsSgvAElBeVOGA5tMu6YLkOQDWz3BpQ
- kizqT+2a2uqLFbJqLLOcqRR8PeNirsLEMS434=
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3E6910E2C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 17:42:00 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id j21so15922624lfe.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 10:42:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Md1LFFMVf3qzgQl06XYv2bG2aVcmSQ0Imz09zcqF9fE=;
+ b=BKHdplf9Z9UYjFpu0usV1HiUVRkZrmz6azNJU7EC0MviAcfmO/rMhk1qqtXUmZJ5IL
+ hdjnrvu84pvYn8IVuFvN1f4Br15iQ7froaX8gqPoFdJDxRn39/uc+pt0KXQRc8y1FrBg
+ 7EYrgyuwW8eOEro4h+ZrqssVv+yMUnSl+U3TCAOvcTUWCU6PSfwFGIYzyi7iTHrPtu6t
+ qrjTm1Tsh/UsLuBTseWzt9aDUuks/Uc0JnM87Dyj8KP4mtTPfMSI6m5c4AV94mb0BAJt
+ xCeq/L2uxpIE785DkcbrummXJZ/HiWvDS0uc47Bs/8zviuoh9zGldNWQclHF1KwDInbN
+ 6MyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=INtMn1T8YiMhzQt2Th4wtcU0KbijPUKMnT6GFbUU1es=;
- b=YKblkImGcGdmYlI0Bzh4/f3a3XEDhP2Y1Z9QPGrEgNUdMpDJ53wOR3cjVKCeRgQgIH
- Crcgq7RPkoKCTdzgWFMxkP1eonwgnIQBrptMo2yiZxlwCfVC6jHK8Hc/0hhvlXUSPzSp
- OmhXJdaybiyvDWfniohnry/mkFqpwyf02vPAWHiNBI/sqV9l/JSqg/qIOBoIBCUPP0pQ
- Kqr7hB0XQ3kG1+rAzDV2gKQbw2cCGlH+1Z6FYkbzT/ijEa3qc5BxjDsoXqI+QR2J1vQH
- bMsOElnXs4HSbDsETeYFfJhOsvv4gxEHSHKBJlF1XO9bdN2XjMX2R1YcsTj5RaUMaftS
- 1f/g==
-X-Gm-Message-State: AJIora+O+xRsQFUHJTwPjzZ8JSzOxtcx5vvixa+r85umaCaXgoR9w+UR
- 8ueAB0SJwPFhofY4h7rB9o9Ihw==
-X-Google-Smtp-Source: AGRyM1uOMxnpSmvwdwqtw/1opcMtIJbxFZWf2fsabN2cbcr6zK0lX2+IO4vplGkVs7xRBGrXcbNLOA==
-X-Received: by 2002:a17:903:41c7:b0:16a:2dcf:c4a0 with SMTP id
- u7-20020a17090341c700b0016a2dcfc4a0mr13200643ple.83.1655920110049; 
- Wed, 22 Jun 2022 10:48:30 -0700 (PDT)
-Received: from pmalani.c.googlers.com.com
- (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Md1LFFMVf3qzgQl06XYv2bG2aVcmSQ0Imz09zcqF9fE=;
+ b=CXM0CSkmEmwKTfq9mFz5y43d0Atd9QpbEwtU+v4nuefOe5yXQBRAvsuhJDEDu25pgR
+ xkIEsQanistQ0HYDVK4RtoYXJPSuVGMoGnh72bo4DEnZ0fz28x0weZzcPSJjCZXr6pli
+ zYY1woQCC+7YohJkoEx8gyKvf1qaS29aCOsZK43gUYyutqRmsX6p2T0eU5hGxyyrLq6k
+ NBmvfuVX9KR8I+4F+SLIRVpgZzj9ef8YY1LUEZJPKVYLZ+Zhj6ZpW/hXaeo6hZugyN2J
+ Op2l4J1NU2/LQMiHcc0cVe1+s1HmFzEvdP3LA5Oo3lcM7CK16f2QyuAJah0wO+WAtuYL
+ shkQ==
+X-Gm-Message-State: AJIora8r+aT3xXvIUj58S+3e6rrofiLj8bZpbaGIgL/uIrzxIq8fUGSg
+ JzJfwM9awE4n+7Cla541Bx9AOg==
+X-Google-Smtp-Source: AGRyM1t7MP6/Z+Yz4nicI0Mu0cth9yPiwZA7MruELCF+kKK//sFOF/JfUauGdWLSIkbgxgAVQEmhvw==
+X-Received: by 2002:ac2:5cc6:0:b0:47f:7a4b:9db8 with SMTP id
+ f6-20020ac25cc6000000b0047f7a4b9db8mr2803564lfq.592.1655919719106; 
+ Wed, 22 Jun 2022 10:41:59 -0700 (PDT)
+Received: from [192.168.1.212] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- l17-20020a17090b079100b001ece55aec38sm35470pjz.30.2022.06.22.10.48.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jun 2022 10:48:29 -0700 (PDT)
-From: Prashant Malani <pmalani@chromium.org>
-To: linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v5 9/9] drm/bridge: it6505: Add typec_mux_set callback function
-Date: Wed, 22 Jun 2022 17:34:38 +0000
-Message-Id: <20220622173605.1168416-10-pmalani@chromium.org>
-X-Mailer: git-send-email 2.37.0.rc0.104.g0611611a94-goog
-In-Reply-To: <20220622173605.1168416-1-pmalani@chromium.org>
-References: <20220622173605.1168416-1-pmalani@chromium.org>
+ l3-20020a2e99c3000000b0025574e803fasm2511387ljj.18.2022.06.22.10.41.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Jun 2022 10:41:58 -0700 (PDT)
+Message-ID: <8394943c-8d51-df67-1603-6f37ac26a730@linaro.org>
+Date: Wed, 22 Jun 2022 20:41:57 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] drm/msm/dpu: Increment vsync_cnt before waking up
+ userspace
+Content-Language: en-GB
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20220622023855.2970913-1-swboyd@chromium.org>
+ <b133b67f-0d99-af6b-94a5-d5ff4b5752f1@quicinc.com>
+ <CAF6AEGuL0+3162jGb2YLsYoW-fmNsARuKcvE-+d5hRkCiicp4g@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <CAF6AEGuL0+3162jGb2YLsYoW-fmNsARuKcvE-+d5hRkCiicp4g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,128 +76,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
- <nfraprado@collabora.com>, Jonas Karlman <jonas@kwiboo.se>,
- Allen Chen <allen.chen@ite.com.tw>, swboyd@chromium.org,
- Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Robert Foss <robert.foss@linaro.org>, Prashant Malani <pmalani@chromium.org>,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Cc: Sean Paul <sean@poorly.run>, patches@lists.linux.dev,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mark Yacoub <markyacoub@chromium.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Pin-Yen Lin <treapking@chromium.org>
+On 22/06/2022 20:33, Rob Clark wrote:
+> On Wed, Jun 22, 2022 at 10:24 AM Abhinav Kumar
+> <quic_abhinavk@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 6/21/2022 7:38 PM, Stephen Boyd wrote:
+>>> The 'vsync_cnt' is used to count the number of frames for a crtc.
+>>> Unfortunately, we increment the count after waking up userspace via
+>>> dpu_crtc_vblank_callback() calling drm_crtc_handle_vblank().
+>>> drm_crtc_handle_vblank() wakes up userspace processes that have called
+>>> drm_wait_vblank_ioctl(), and if that ioctl is expecting the count to
+>>> increase it won't.
+>>>
+>>> Increment the count before calling into the drm APIs so that we don't
+>>> have to worry about ordering the increment with anything else in drm.
+>>> This fixes a software video decode test that fails to see frame counts
+>>> increase on Trogdor boards.
+>>>
+>>> Cc: Mark Yacoub <markyacoub@chromium.org>
+>>> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>> Fixes: 885455d6bf82 ("drm/msm: Change dpu_crtc_get_vblank_counter to use vsync count.")
+>>> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+>>
+>> This is right, we should increment before drm_crtc_handle_vblank() as
+>> that will query the vblank counter. This also matches what we do
+>> downstream, hence
+>>
+>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>
+>> One small nit though, shouldnt the fixes tag be
+>>
+>> 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+> 
+> *Kinda*.. but the sw vblank counter wasn't used for reporting frame nr
+> to userspace until 885455d6bf82.  You could possibly list both,
+> perhaps, but 885455d6bf82 is the important one for folks backporting
+> to stable kernels to be aware of
 
-Add the callback function when the driver receives state changes of the
-Type-C ports. The callback function configures the lane_swap state and
-ends up updating the lane swap registers of it6505 bridge chip.
+I'd agree, the original Fixes tag seems good to me.
 
-Signed-off-by: Pin-Yen Lin <treapking@chromium.org>
-Signed-off-by: Prashant Malani <pmalani@chromium.org>
----
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-v5 is the first version for this patch.
 
- drivers/gpu/drm/bridge/ite-it6505.c | 58 +++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
-
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index cb1dd4cbd33b..87b9bd742b52 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -17,6 +17,7 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/types.h>
-+#include <linux/usb/typec_dp.h>
- #include <linux/usb/typec_mux.h>
- #include <linux/wait.h>
- 
-@@ -404,6 +405,7 @@ struct debugfs_entries {
- };
- 
- struct it6505_port_data {
-+	bool dp_connected;
- 	struct typec_mux_dev *typec_mux;
- 	struct it6505 *it6505;
- };
-@@ -3237,9 +3239,65 @@ static void it6505_shutdown(struct i2c_client *client)
- 		it6505_lane_off(it6505);
- }
- 
-+static void it6505_typec_ports_update(struct it6505 *it6505)
-+{
-+	usleep_range(3000, 4000);
-+
-+	if (it6505->typec_ports[0].dp_connected && it6505->typec_ports[1].dp_connected)
-+		/* Both ports available, do nothing to retain the current one. */
-+		return;
-+	else if (it6505->typec_ports[0].dp_connected)
-+		it6505->lane_swap = false;
-+	else if (it6505->typec_ports[1].dp_connected)
-+		it6505->lane_swap = true;
-+
-+	usleep_range(3000, 4000);
-+}
-+
- static int it6505_typec_mux_set(struct typec_mux_dev *mux,
- 				struct typec_mux_state *state)
- {
-+	struct it6505_port_data *data = typec_mux_get_drvdata(mux);
-+	struct it6505 *it6505 = data->it6505;
-+	struct device *dev = &it6505->client->dev;
-+	bool old_dp_connected, new_dp_connected;
-+
-+	if (it6505->num_typec_switches == 1)
-+		return 0;
-+
-+	mutex_lock(&it6505->extcon_lock);
-+
-+	old_dp_connected = it6505->typec_ports[0].dp_connected ||
-+			   it6505->typec_ports[1].dp_connected;
-+
-+	dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
-+		it6505->typec_ports[0].dp_connected, it6505->typec_ports[1].dp_connected);
-+
-+	data->dp_connected = (state->alt && state->alt->svid == USB_TYPEC_DP_SID &&
-+			      state->alt->mode == USB_TYPEC_DP_MODE);
-+
-+	new_dp_connected = it6505->typec_ports[0].dp_connected ||
-+			   it6505->typec_ports[1].dp_connected;
-+
-+	if (it6505->enable_drv_hold) {
-+		dev_dbg(dev, "enable driver hold");
-+		goto unlock;
-+	}
-+
-+	it6505_typec_ports_update(it6505);
-+
-+	if (!old_dp_connected && new_dp_connected)
-+		pm_runtime_get_sync(dev);
-+
-+	if (old_dp_connected && !new_dp_connected) {
-+		pm_runtime_put_sync(dev);
-+		if (it6505->bridge.dev)
-+			drm_helper_hpd_irq_event(it6505->bridge.dev);
-+		memset(it6505->dpcd, 0, sizeof(it6505->dpcd));
-+	}
-+
-+unlock:
-+	mutex_unlock(&it6505->extcon_lock);
- 	return 0;
- }
- 
 -- 
-2.37.0.rc0.104.g0611611a94-goog
-
+With best wishes
+Dmitry
