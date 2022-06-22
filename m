@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36309555276
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 19:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84D4555280
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 19:36:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 205DA1136BA;
-	Wed, 22 Jun 2022 17:33:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7294E10E21E;
+	Wed, 22 Jun 2022 17:36:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77DAF1136BA;
- Wed, 22 Jun 2022 17:33:47 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id o8so24439799wro.3;
- Wed, 22 Jun 2022 10:33:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bpaCjOapTAdRzLf+qPNGfdtVaNsXQvV0h/9qPiGYMOA=;
- b=ffkFg2lbSb3JovwNfGx8zubU8Dwr+HwSn1U+ippQGAK0MbFuUCFwMj6Q3zcjkVBMJX
- r06VQt8A5L7uBOALduThYx4AbJnjfy/uAvteehzEHk8XIS7JpWonwdwFDL+Pf91iF6FC
- lamNLMveY3aEeIXPeYL9cG3rYD2eb7DABBe4kG/H3Daa53Hg0KM6JkxXkHtiKQzqw4km
- IGReMEivIQV7k7sLscKNP858QT8xEhag4zRzqzl9R/lNA6wYBjS7fcfTIR48kRHzd2sW
- nz+ES14mNwxbUONGki81ysA8iLmMbqVDmy75WyzbjwMLziYaBRLe235vOWsU3gH4nn2m
- 8b/A==
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBFEC10E21E
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 17:36:20 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id 184so16697160pga.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 10:36:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EGSWfwuV6kDT1fwM+T4JAkD27EMrpSWAszwgosFVQVw=;
+ b=grWObt6Okfs3RafY2b0NVKjFrBhkE6C1/0vcWncE04tJrdoQojz3GOVtF8Mi2x1HRW
+ QkTbr6Qt7h5qJ8e/vypQSZl7HMB3jQbVCaxyGsro8g9N18Ao7HQs3SZy4ndhrH5S8Xx1
+ mP0WgDsVLIt/JclEEcE6snj1DLR5W92U6w6Qg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bpaCjOapTAdRzLf+qPNGfdtVaNsXQvV0h/9qPiGYMOA=;
- b=tMjC41PkPPxg6JZ7T8Nb29PfRDEm8lv//kWiQXbQ8LBEL2rXAFr5RRcHrN1BEcn2c5
- OIjOB5oq4OAx+d2QEURPzkLx/320pZy1ri2KUK6PRpWIUh4C3PLa06KZbv+5ga7QTB9v
- BhHJCwphK8iVB9jCYMoJRH0DfLAcz0eJCPLe4lKRYjBff4x72AQqisSGQ5k6piEWlaDE
- pcBGdWkOFh5fcssTrNhEmI0OQSDbYTJ1fe5m3inoJ6bMFAxIRrBAiHejUU6LUsgRZZ71
- OFLthp0IOvuGkJKUx51ngQxSPL8Da2oP71nX8RT2swfz/AQauhD4lldM/szaFkrxmGX+
- AJzw==
-X-Gm-Message-State: AJIora+WCnOnFJZbqWOajKOZwjt+safSwJ+BYnKoRrB7l7UaBPS66EZT
- BA5xG45YT8cSds3Z4nV+f43EaDYuuEZoV9LE+6w=
-X-Google-Smtp-Source: AGRyM1uz4RIBAAr9I6m/BSWmy5hlU/Uode9MHQ3l9QxEYbOAEn1AyvqKX6/1vBCiFE69RkoEkU2Z+yxukKJ7svgM5ls=
-X-Received: by 2002:adf:eb45:0:b0:21a:efae:4b9f with SMTP id
- u5-20020adfeb45000000b0021aefae4b9fmr4447308wrn.585.1655919225863; Wed, 22
- Jun 2022 10:33:45 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EGSWfwuV6kDT1fwM+T4JAkD27EMrpSWAszwgosFVQVw=;
+ b=fd5eo/hqo/fox6i9ITOTPTEujmBCVzBSKQp94ZuQH7CmR9/BJ0VMhDMZeYY3WMKmHO
+ +mvRY3lPsovYs6d02j9hJRxsXDjTNnCekWZb+XfHqbgBbeugRMbjVhy+qqFE2J1bOz79
+ x2SpMfeBYX56U0wUYmAumx8gtwVfoz59aA8CHxCqFlR4W7HDt8GI3gBYuIoPbwnhsHEO
+ gYt7QJhXKzURkausg2YIqrDuorf7vvBKgTj5oOyhXw+7e/5hrTum1Mm8bb0kNtubj2iy
+ W9GeZ8sf/xEBqSJT97imqT5kpyPTZMm1y63L2JZtzO9PXpxxzhp7Se2FQFao/wIqbzxE
+ fHFg==
+X-Gm-Message-State: AJIora8grvyaof8Fta8IVw5GXdt9hplbC9GCCL+kApL4MuaJ+PdCIN82
+ thyToG+YBqVMqTAfDIoS4IkPkQ==
+X-Google-Smtp-Source: AGRyM1sB1+bTIxsIF22HqeLedT3vzGfH5CbBlkgMvEj61XWLvZw7HZSjL+m1aKkDdcE5g72JbC97/A==
+X-Received: by 2002:a63:4a4e:0:b0:401:baa6:d695 with SMTP id
+ j14-20020a634a4e000000b00401baa6d695mr3975223pgl.259.1655919380268; 
+ Wed, 22 Jun 2022 10:36:20 -0700 (PDT)
+Received: from pmalani.c.googlers.com.com
+ (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+ by smtp.gmail.com with ESMTPSA id
+ l17-20020a17090b079100b001ece55aec38sm35470pjz.30.2022.06.22.10.36.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jun 2022 10:36:19 -0700 (PDT)
+From: Prashant Malani <pmalani@chromium.org>
+To: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH v5 0/9] usb: typec: Introduce typec-switch binding
+Date: Wed, 22 Jun 2022 17:34:29 +0000
+Message-Id: <20220622173605.1168416-1-pmalani@chromium.org>
+X-Mailer: git-send-email 2.37.0.rc0.104.g0611611a94-goog
 MIME-Version: 1.0
-References: <20220622023855.2970913-1-swboyd@chromium.org>
- <b133b67f-0d99-af6b-94a5-d5ff4b5752f1@quicinc.com>
-In-Reply-To: <b133b67f-0d99-af6b-94a5-d5ff4b5752f1@quicinc.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 22 Jun 2022 10:33:33 -0700
-Message-ID: <CAF6AEGuL0+3162jGb2YLsYoW-fmNsARuKcvE-+d5hRkCiicp4g@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: Increment vsync_cnt before waking up
- userspace
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,82 +66,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>, patches@lists.linux.dev,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mark Yacoub <markyacoub@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <sean@poorly.run>
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Allen Chen <allen.chen@ite.com.tw>, swboyd@chromium.org,
+ Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robert Foss <robert.foss@linaro.org>, Prashant Malani <pmalani@chromium.org>,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 22, 2022 at 10:24 AM Abhinav Kumar
-<quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 6/21/2022 7:38 PM, Stephen Boyd wrote:
-> > The 'vsync_cnt' is used to count the number of frames for a crtc.
-> > Unfortunately, we increment the count after waking up userspace via
-> > dpu_crtc_vblank_callback() calling drm_crtc_handle_vblank().
-> > drm_crtc_handle_vblank() wakes up userspace processes that have called
-> > drm_wait_vblank_ioctl(), and if that ioctl is expecting the count to
-> > increase it won't.
-> >
-> > Increment the count before calling into the drm APIs so that we don't
-> > have to worry about ordering the increment with anything else in drm.
-> > This fixes a software video decode test that fails to see frame counts
-> > increase on Trogdor boards.
-> >
-> > Cc: Mark Yacoub <markyacoub@chromium.org>
-> > Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > Fixes: 885455d6bf82 ("drm/msm: Change dpu_crtc_get_vblank_counter to use vsync count.")
-> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
->
-> This is right, we should increment before drm_crtc_handle_vblank() as
-> that will query the vblank counter. This also matches what we do
-> downstream, hence
->
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->
-> One small nit though, shouldnt the fixes tag be
->
-> 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+This series introduces a binding for Type-C data lane switches. These
+control the routing and operating modes of USB Type-C data lanes based
+on the PD messaging from the Type-C port driver regarding connected
+peripherals.
 
-*Kinda*.. but the sw vblank counter wasn't used for reporting frame nr
-to userspace until 885455d6bf82.  You could possibly list both,
-perhaps, but 885455d6bf82 is the important one for folks backporting
-to stable kernels to be aware of
+The first 2 patches introduce the new "typec-switch" binding as
+well as one user of it (the ANX7625 drm bridge).
 
-BR,
--R
+Patches 3-5 add functionality to the anx7625 driver to
+register the mode-switches, as well as program its crosspoint
+switch depending on which Type-C port has a DisplayPort (DP) peripheral
+connected to it.
 
->
-> This code has been this way since that commit itself.
->
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > index 3a462e327e0e..a1b8c4592943 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > @@ -1251,12 +1251,13 @@ static void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
-> >       DPU_ATRACE_BEGIN("encoder_vblank_callback");
-> >       dpu_enc = to_dpu_encoder_virt(drm_enc);
-> >
-> > +     atomic_inc(&phy_enc->vsync_cnt);
-> > +
-> >       spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
-> >       if (dpu_enc->crtc)
-> >               dpu_crtc_vblank_callback(dpu_enc->crtc);
-> >       spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
-> >
-> > -     atomic_inc(&phy_enc->vsync_cnt);
-> >       DPU_ATRACE_END("encoder_vblank_callback");
-> >   }
-> >
-> >
-> > base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+Patch 6-9 add similar bindings update and Type-C switch support to the
+it6505 driver.
+
+v4:
+https://lore.kernel.org/linux-usb/20220615172129.1314056-8-pmalani@chromium.org/
+
+Changes in v5:
+- Rebased on usb-next, so removed Patch v4 1/7 and Patch v4 2/7 from
+  this version (v5) since they are already in usb-next.
+- Added newer Reviewed-by tags.
+- Added new patches (6-9) in this version for a 2nd example (it6505)
+  of a binding of the user.
+
+Patch submission suggestions:
+Option 1:
+- Bindings patches 1/9 and 2/9 can go through the USB repo (since they are
+  already reviewed from v4 [1]).
+- Bindings patch 6/9 can go through the USB repo, and the remaining patches
+  (3-5,7-9) can go through the DRM repo.
+  <or>
+- Patches 3-9 can all go through the DRM repo.
+
+Option 2:
+- All patches (1-9) go through the USB repo.
+
+(My apologies if I've made this confusing, and I appreciate any
+suggestions for better submission strategy).
+
+[1]: https://lore.kernel.org/linux-usb/YrMxFeMc0tk%2FK1qL@kroah.com/
+
+Pin-Yen Lin (5):
+  drm/bridge: anx7625: Add typec_mux_set callback function
+  dt/bindings: drm/bridge: it6505: Add mode-switch support
+  drm/bridge: it6505: Register number of Type C switches
+  drm/bridge: it6505: Register Type-C mode switches
+  drm/bridge: it6505: Add typec_mux_set callback function
+
+Prashant Malani (4):
+  dt-bindings: usb: Add Type-C switch binding
+  dt-bindings: drm/bridge: anx7625: Add mode-switch support
+  drm/bridge: anx7625: Register number of Type C switches
+  drm/bridge: anx7625: Register Type-C mode switches
+
+ .../display/bridge/analogix,anx7625.yaml      |  64 +++++++
+ .../bindings/display/bridge/ite,it6505.yaml   |  97 +++++++++-
+ .../devicetree/bindings/usb/typec-switch.yaml |  74 ++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.c     | 148 +++++++++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.h     |  20 ++
+ drivers/gpu/drm/bridge/ite-it6505.c           | 171 +++++++++++++++++-
+ 6 files changed, 569 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/typec-switch.yaml
+
+-- 
+2.37.0.rc0.104.g0611611a94-goog
+
