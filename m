@@ -1,16 +1,16 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF355545CF
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 13:38:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C62265545CB
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 13:37:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8410112614;
-	Wed, 22 Jun 2022 11:37:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 892CA11261C;
+	Wed, 22 Jun 2022 11:37:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96CC5112614
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 884A01125FF
  for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 11:37:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -18,24 +18,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=bFaoYKE+rc6SnVof0cEgO4N8K0rH2w7eaPwkAQ3ydaQ=; b=axJQtSdD2xYCiPAH2DdgxqIGWZ
- tfUqO6JSYGcf5IFigxTlRSYvEbYGGEwc5Ki7MVCAmOjqef6S13tAPGJT4fymk0oergkMcbUNY1J4P
- 1iGl7RvGcoFHf55+n9LZc7wbeIP95IsPiD0sb8oEOfFzly8EKOqRVXv6W1JxAbReVAkRbJ4yoepf0
- 9kYLICcMqkpM8eEoUo2dpyS6Qcaf6HHNSwTCClX03XSRcBtcYOr8oepYsEcPBTX5zXZXKdLsAnabd
- cCMsoEbe9R6K9PczBw7yICpVDhwJhzgDL+IYa4/O/4qZasZEKsaXExEsSFRRh97fmpkMZNMW/ddst
- U8LvWE0w==;
+ bh=8VhFQH5Q1ygwgbFioaFYlr73TBFA4fN7hoa82H2H+kA=; b=IVe/I5PeKxnbUCBTm/SfRqe5SC
+ Z9g3RgoNHOXx0aylvdv4wdEt8RxvGq3zqViF+yFNAqYgcnkdwT3rYkNj9g5CuqR+wlJ7pztv4Neac
+ KUOSB+JBrrp8RPKt/tS8h2tet/JJ4M5buqg0xUc9RusHSBVnIpX7EL5eKYpyJAlJtJNasZyx4qb7J
+ F61PJy9dgOp+R9CMkubCfLztE1LioU+/hNbfqQkPVxhS7sivE5gcj3YeYboVKJT0kZW0mkTb+q8uL
+ nuvza5JQCzHAD/TWM6iZokua6vLPvQQVZYUfVZqV/oLucy0tD/DTdTLVONRFZdL8r7zjn7FKF+znN
+ 41aNAOcA==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <cyndis@kapsi.fi>)
- id 1o3yg3-0001Xl-Dt; Wed, 22 Jun 2022 14:37:42 +0300
+ id 1o3yg3-0001Xl-G9; Wed, 22 Jun 2022 14:37:42 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, robh+dt@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, digetx@gmail.com
-Subject: [PATCH v2 02/13] dt-bindings: Add headers for Host1x and VIC on
- Tegra234
-Date: Wed, 22 Jun 2022 14:37:22 +0300
-Message-Id: <20220622113733.1710471-3-cyndis@kapsi.fi>
+Subject: [PATCH v2 03/13] arm64: tegra: Add Host1x and VIC on Tegra234
+Date: Wed, 22 Jun 2022 14:37:23 +0300
+Message-Id: <20220622113733.1710471-4-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220622113733.1710471-1-cyndis@kapsi.fi>
 References: <20220622113733.1710471-1-cyndis@kapsi.fi>
@@ -64,92 +63,70 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Add clock, memory controller, powergate and reset dt-binding headers
-for Host1x and VIC on Tegra234.
+Add device tree nodes for Host1x and VIC on Tegra234.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- include/dt-bindings/clock/tegra234-clock.h     | 4 ++++
- include/dt-bindings/memory/tegra234-mc.h       | 5 +++++
- include/dt-bindings/power/tegra234-powergate.h | 1 +
- include/dt-bindings/reset/tegra234-reset.h     | 1 +
- 4 files changed, 11 insertions(+)
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi | 46 ++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/include/dt-bindings/clock/tegra234-clock.h b/include/dt-bindings/clock/tegra234-clock.h
-index bd4c3086a2da..6e4e5cc75631 100644
---- a/include/dt-bindings/clock/tegra234-clock.h
-+++ b/include/dt-bindings/clock/tegra234-clock.h
-@@ -38,6 +38,8 @@
-  * throughput and memory controller power.
-  */
- #define TEGRA234_CLK_EMC			31U
-+/** @brief output of mux controlled by CLK_RST_CONTROLLER_CLK_SOURCE_HOST1X */
-+#define TEGRA234_CLK_HOST1X                     46U
- /** @brief output of gate CLK_ENB_FUSE */
- #define TEGRA234_CLK_FUSE			40U
- /** @brief output of mux controlled by CLK_RST_CONTROLLER_CLK_SOURCE_I2C1 */
-@@ -132,6 +134,8 @@
- #define TEGRA234_CLK_UARTA			155U
- /** @brief output of gate CLK_ENB_PEX1_CORE_6 */
- #define TEGRA234_CLK_PEX1_C6_CORE		161U
-+/** @brief output of mux controlled by CLK_RST_CONTROLLER_CLK_SOURCE_VIC */
-+#define TEGRA234_CLK_VIC                        167U
- /** @brief output of gate CLK_ENB_PEX2_CORE_7 */
- #define TEGRA234_CLK_PEX2_C7_CORE		171U
- /** @brief output of gate CLK_ENB_PEX2_CORE_8 */
-diff --git a/include/dt-bindings/memory/tegra234-mc.h b/include/dt-bindings/memory/tegra234-mc.h
-index e3b0e9da295d..73fdd18523a9 100644
---- a/include/dt-bindings/memory/tegra234-mc.h
-+++ b/include/dt-bindings/memory/tegra234-mc.h
-@@ -26,6 +26,8 @@
- #define TEGRA234_SID_PCIE8	0x09
- #define TEGRA234_SID_PCIE10	0x0b
- #define TEGRA234_SID_BPMP	0x10
-+#define TEGRA234_SID_HOST1X	0x27
-+#define TEGRA234_SID_VIC	0x34
+diff --git a/arch/arm64/boot/dts/nvidia/tegra234.dtsi b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+index cb3af539e477..cae68e59580c 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra234.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra234.dtsi
+@@ -454,6 +454,52 @@ misc@100000 {
+ 			status = "okay";
+ 		};
  
- /*
-  * memory client IDs
-@@ -33,6 +35,7 @@
- 
- /* High-definition audio (HDA) read clients */
- #define TEGRA234_MEMORY_CLIENT_HDAR 0x15
-+#define TEGRA234_MEMORY_CLIENT_HOST1XDMAR 0x16
- /* PCIE6 read clients */
- #define TEGRA234_MEMORY_CLIENT_PCIE6AR 0x28
- /* PCIE6 write clients */
-@@ -65,6 +68,8 @@
- #define TEGRA234_MEMORY_CLIENT_SDMMCRAB 0x63
- /* sdmmcd memory write client */
- #define TEGRA234_MEMORY_CLIENT_SDMMCWAB 0x67
-+#define TEGRA234_MEMORY_CLIENT_VICSRD 0x6c
-+#define TEGRA234_MEMORY_CLIENT_VICSWR 0x6d
- /* BPMP read client */
- #define TEGRA234_MEMORY_CLIENT_BPMPR 0x93
- /* BPMP write client */
-diff --git a/include/dt-bindings/power/tegra234-powergate.h b/include/dt-bindings/power/tegra234-powergate.h
-index f610eee9bce8..c3f7e380d2c6 100644
---- a/include/dt-bindings/power/tegra234-powergate.h
-+++ b/include/dt-bindings/power/tegra234-powergate.h
-@@ -18,5 +18,6 @@
- #define TEGRA234_POWER_DOMAIN_MGBEA	17U
- #define TEGRA234_POWER_DOMAIN_MGBEB	18U
- #define TEGRA234_POWER_DOMAIN_MGBEC	19U
-+#define TEGRA234_POWER_DOMAIN_VIC       29U
- 
- #endif
-diff --git a/include/dt-bindings/reset/tegra234-reset.h b/include/dt-bindings/reset/tegra234-reset.h
-index 547ca3b60caa..1971400bf360 100644
---- a/include/dt-bindings/reset/tegra234-reset.h
-+++ b/include/dt-bindings/reset/tegra234-reset.h
-@@ -44,6 +44,7 @@
- #define TEGRA234_RESET_QSPI1			77U
- #define TEGRA234_RESET_SDMMC4			85U
- #define TEGRA234_RESET_UARTA			100U
-+#define TEGRA234_RESET_VIC                      113U
- #define TEGRA234_RESET_PEX0_CORE_0		116U
- #define TEGRA234_RESET_PEX0_CORE_1		117U
- #define TEGRA234_RESET_PEX0_CORE_2		118U
++		host1x@13e00000 {
++			compatible = "nvidia,tegra234-host1x";
++			reg = <0x13e00000 0x10000>,
++			      <0x13e10000 0x10000>,
++			      <0x13e40000 0x10000>;
++			reg-names = "common", "hypervisor", "vm";
++			interrupts = <GIC_SPI 448 IRQ_TYPE_LEVEL_HIGH>,
++			             <GIC_SPI 449 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 450 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 451 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 452 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 453 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 455 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 263 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "syncpt0", "syncpt1", "syncpt2", "syncpt3", "syncpt4",
++			                  "syncpt5", "syncpt6", "syncpt7", "host1x";
++			clocks = <&bpmp TEGRA234_CLK_HOST1X>;
++			clock-names = "host1x";
++
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			ranges = <0x15000000 0x15000000 0x01000000>;
++			interconnects = <&mc TEGRA234_MEMORY_CLIENT_HOST1XDMAR &emc>;
++			interconnect-names = "dma-mem";
++			iommus = <&smmu_niso1 TEGRA234_SID_HOST1X>;
++
++			vic@15340000 {
++				compatible = "nvidia,tegra234-vic";
++				reg = <0x15340000 0x00040000>;
++				interrupts = <GIC_SPI 206 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&bpmp TEGRA234_CLK_VIC>;
++				clock-names = "vic";
++				resets = <&bpmp TEGRA234_RESET_VIC>;
++				reset-names = "vic";
++
++				power-domains = <&bpmp TEGRA234_POWER_DOMAIN_VIC>;
++				interconnects = <&mc TEGRA234_MEMORY_CLIENT_VICSRD &emc>,
++						<&mc TEGRA234_MEMORY_CLIENT_VICSWR &emc>;
++				interconnect-names = "dma-mem", "write";
++				iommus = <&smmu_niso1 TEGRA234_SID_VIC>;
++				dma-coherent;
++			};
++		};
++
+ 		gpio: gpio@2200000 {
+ 			compatible = "nvidia,tegra234-gpio";
+ 			reg-names = "security", "gpio";
 -- 
 2.36.1
 
