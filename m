@@ -1,61 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43268554C09
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:01:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55168554C49
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:11:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07FA910FE62;
-	Wed, 22 Jun 2022 14:01:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5922112399;
+	Wed, 22 Jun 2022 14:11:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0BC210FE40
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:01:38 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 99CEA1FD05;
- Wed, 22 Jun 2022 14:01:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1655906497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nNqejIK4XkB/g6M1yCpdVMg3lyKunZ50J756bTwwnb4=;
- b=latYMzbpEH+tp6J2mRBhpyrz5+GCu85gL3h1OlrTM2vHUkkOMGv0cv5d7k3L2z11yvijoI
- pbOnSa3eZhTgcrxdFpc6Kw+2ov8RCT7S9/lQ9SNLOwQI8o+p8mPkTUGdBeaENqkAxO99QN
- 8gAqZHRSBbI0SZ424InEkwp5PbGcU3E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1655906497;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nNqejIK4XkB/g6M1yCpdVMg3lyKunZ50J756bTwwnb4=;
- b=BmXV7YgRO9SIg/rRI4fK6Gex9oJZ6fFx426Q5WoROO/nKthZMOyCyjhWvMD5M1jP2gWZCd
- nYGSnTrwMGfiJTBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4AA7713AC7;
- Wed, 22 Jun 2022 14:01:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EOhfEcEgs2IVRwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 22 Jun 2022 14:01:37 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: alex.williamson@redhat.com, corbet@lwn.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, deller@gmx.de, gregkh@linuxfoundation.org,
- javierm@redhat.com, lersek@redhat.com, kraxel@redhat.com
-Subject: [PATCH v3 3/3] vfio/pci: Remove console drivers
-Date: Wed, 22 Jun 2022 16:01:34 +0200
-Message-Id: <20220622140134.12763-4-tzimmermann@suse.de>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85D25112399;
+ Wed, 22 Jun 2022 14:11:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655907084; x=1687443084;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=gbUlw16UDUqVSxjjdEPkbkxixvGFHLKs3gJCdC/gq0s=;
+ b=bivVSyH29eKuoeozAdYh3pLzrdKVBjWBzab9SV+Fjy9Ff19PtCB43grW
+ 6hyqbWWJczq+ciVX5eLpzhfSRChm1n01Fa+YliQvIvH8wpZXeb6hRlLmM
+ 6BDgnZdnR7Kr4EkBpheFS0hxcdIfBwmrSadNSdM/q0JYCnqEJwVLflQdu
+ 8Gw9gP3QJTmcV2vzrbp9spn1eClxaaNvetrG4R3lBdEP+llkoItsL3DCb
+ qN6M7K5yDaPeKrxiKd6eJ3IjIWmJtINsCL/WGnQRVTrIBlwyiiNBHlZqG
+ xsGnC1AnfidbjxwgP5yvciqTgiH8pak4s7S9aMLY5GJeHqApUh6zaYbqE g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="305878371"
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="305878371"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2022 07:11:23 -0700
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="834130504"
+Received: from conormag-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.213.201.124])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2022 07:11:22 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/selftests: Increase timeout for live_parallel_switch
+Date: Wed, 22 Jun 2022 15:11:04 +0100
+Message-Id: <20220622141104.334432-1-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220622140134.12763-1-tzimmermann@suse.de>
-References: <20220622140134.12763-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,54 +54,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Akeem G Abodunrin <akeem.g.abodunrin@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Williamson <alex.williamson@redhat.com>
+From: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
 
-Console drivers can create conflicts with PCI resources resulting in
-userspace getting mmap failures to memory BARs.  This is especially
-evident when trying to re-use the system primary console for userspace
-drivers.  Use the aperture helpers to remove these conflicts.
+With GuC submission, it takes a little bit longer switching contexts
+among all available engines simultaneously, when running
+live_parallel_switch subtest. Increase the timeout.
 
-v3:
-	* call aperture_remove_conflicting_pci_devices()
-
-Reported-by: Laszlo Ersek <lersek@redhat.com>
-Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Tested-by: Laszlo Ersek <lersek@redhat.com>
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5885
+Signed-off-by: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/vfio/pci/vfio_pci_core.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-index a0d69ddaf90d..756d049bd9cf 100644
---- a/drivers/vfio/pci/vfio_pci_core.c
-+++ b/drivers/vfio/pci/vfio_pci_core.c
-@@ -10,6 +10,7 @@
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+index 93a67422ca3b..c6ad67b90e8a 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+@@ -212,7 +212,7 @@ static int __live_parallel_switch1(void *data)
  
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- 
-+#include <linux/aperture.h>
- #include <linux/device.h>
- #include <linux/eventfd.h>
- #include <linux/file.h>
-@@ -1793,6 +1794,10 @@ static int vfio_pci_vga_init(struct vfio_pci_core_device *vdev)
- 	if (!vfio_pci_is_vga(pdev))
- 		return 0;
- 
-+	ret = aperture_remove_conflicting_pci_devices(pdev, vdev->vdev.ops->name);
-+	if (ret)
-+		return ret;
-+
- 	ret = vga_client_register(pdev, vfio_pci_set_decode);
- 	if (ret)
- 		return ret;
+ 			i915_request_add(rq);
+ 		}
+-		if (i915_request_wait(rq, 0, HZ / 5) < 0)
++		if (i915_request_wait(rq, 0, HZ) < 0)
+ 			err = -ETIME;
+ 		i915_request_put(rq);
+ 		if (err)
 -- 
 2.36.1
 
