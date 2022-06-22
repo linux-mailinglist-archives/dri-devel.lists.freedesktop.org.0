@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2C6554D35
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F8B554D3A
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FC59113381;
-	Wed, 22 Jun 2022 14:33:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 973C610EDDD;
+	Wed, 22 Jun 2022 14:33:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0AEC113361
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:33:46 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 5552732009A4;
- Wed, 22 Jun 2022 10:33:45 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 22 Jun 2022 10:33:46 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFB5D897EF
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:33:50 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 6A95732009B3;
+ Wed, 22 Jun 2022 10:33:49 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Wed, 22 Jun 2022 10:33:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655908424; x=1655994824; bh=pt
- Y884X9stCzuHfsQAgbBUlFBjo77Ri9uMAoH3kYwZw=; b=SywJPKpuax6yboWS4M
- /cxWBZqrNdQ7+fOWhL2g/3tV9HFfdHZ01DdkA9i7jXCeJGZfadf3HInLGOELYWO0
- jBBDkCyIsn6DEMoUylelaMJ4khZMLXLKTYphjpHVXLsuPicE8i0wFequDn5HBYnp
- F/OR1toHqh2W8w1MwPwyqBg20WJ32qn970w/kBJkLD3wfH8W9TuX0GUfsepDam2H
- W7kgsdbRwgQLFd6crJx/T2inKwUl+90XsDxnZr2qVhOOE0YNh12AsK5wDXx5xSvG
- QQyiBVzVuvHAmy+cvQEo4HAO7V40BSMRi/h5nmXbq0NEJ3pikYyCYFP3yxdQ8v0l
- dhuQ==
+ :subject:subject:to:to; s=fm1; t=1655908427; x=1655994827; bh=xa
+ 3P1sv4afwrplIobQZs4hDs96mkWHKCSQG2cYIVVFM=; b=uO5fgz4mTN33sZ7OwT
+ ikRU691gcXi9QaB3LsGUFD5v47vQd7q8YH5L2foGJ4M/1en++110sXuRIcAJ2fuj
+ BaUV76RDWWswPPTICqElPiqusiHE/JWGDDE5lXurzm43a7MG5zUdpgYq/7JiyQWt
+ mAetj0mMXMbdR/zBTRK97mNgDVJJiIojJ237xUS1Al/X1hZ18CJO2Ryt6O3RjKZF
+ JgQTnDMCF8NTf3jaYDIoZVavZwi5V72cjJkyLK+osqijSFrzGYITNb+9C0OM0y2x
+ 0lZg0nHBLE91pC5XjgkOzMhfoTTK0JLwRdY1Eg/HO81I0Xc2guv8lBAQ9Xo+1gMU
+ 3Wdw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655908424; x=1655994824; bh=ptY884X9stCzu
- HfsQAgbBUlFBjo77Ri9uMAoH3kYwZw=; b=l8FLbxdIpiEXvq/Q+oNzJ6+3YAKXx
- NlAZwCBmns+0dtXGQlxkiCJGIGZgh8US+a8aY4ve1v/AR9xnh5pC00gyvEoq0Di2
- ZE9VImFs43FjO3ih1x6hplUbEgACadobSPdIIbTdzSduQEj3thlbwXOWWXNUZZ10
- 5h0SW5fcnqYeSiZ0jB1C4mzE+Xeyvs5bqpE6b2anCss5aF3eJSoJFYk7no+R3TA2
- 0MmOG3m9nztNKTNiFMuf9iQrAFOKsgeYYmEJdiwMShTWxc5bZC4B4OE6BOrVeVbV
- GQHwnblmxsCwU4fLflb/0ZwMeoAvGmq86NzqeWsIk/LTYtzvQczZhY+Gw==
-X-ME-Sender: <xms:SCizYoAowXjMSY93u-niOZ0e8UtSAZBzQ6egkUN-18unAXsEoy2Ztg>
- <xme:SCizYqhal5LJngXjx398aKEqunTLkrX0UsOX5e3fKUazRuXpotu_3Io856Ebbi-hm
- fqywHp48WVGvFbQPgY>
-X-ME-Received: <xmr:SCizYrnhJKDqZm01sFtI5LGIIUhSs3VYk4EZWxtALJeUdDSMnxIr_vDKEwaSmKbvNCBdCMpE7Qv-56few0Kkvfe2D-1U5Eo0RUV5d3E>
+ :x-sasl-enc; s=fm2; t=1655908427; x=1655994827; bh=xa3P1sv4afwrp
+ lIobQZs4hDs96mkWHKCSQG2cYIVVFM=; b=QxQebAsSukC72UW58tkaNUK8Yhr0/
+ qvikLhONPGUfozbz632ahad/qKyANeaD9QF30gF0JB+QnbPWveY8/UomGC0NNle4
+ qMgnkBDo2RozoksbU5WijlPvnHCINS40mGFLy7IrfJeb0gXoqDj1IXIGRDC0rGFO
+ 5ptP4wCF0lzr3UF+aDaN3D1onVNvOJ+2bDmb6Iij10aH9zAutAgovW3R5hBuGq+c
+ ZVNOGrDDQyEIpFhV/xurSMdpVF60jzpe2Hwf6DcUxbtE4u/W27tv8n8YhVXAbf+0
+ T6ajKuo3+t+wNvsS7EMKqI5dE/+EqXk8/+CF0n4sKSJWIqKxbrtZGWj3A==
+X-ME-Sender: <xms:SyizYgQvD28XWWfPoBsEdq0aDr1tOWMdEfEltCTkIm-OFh7wBBWkrQ>
+ <xme:SyizYty4WgUOJZDsGMCjDeQhiCVErlvVATB6UqqR9Lu9DWnOFJqwIWeoU3qa0-aiB
+ Q7P76vGlC4AVwIvu5E>
+X-ME-Received: <xmr:SyizYt215vNRetmblM2doZjEQs1-qDe3qolc5NMlEUxKbHBKkmFkKppwS_uqpYxMrtlJZp0iheWwtaaymskj_1HF0ZvW4iRRb4Ooq5Y>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefhedgjeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpefgieekvdevffekueejffdtjefgkeekjedvvedtjeekvdetleeigfeludej
- keffgeenucffohhmrghinhepsggrshgvrdguvghvnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:SCizYuy97xuid-0ZJCB3xi-KYPndxpalMV_dFSAGzhLVe3LgxcKLHw>
- <xmx:SCizYtSpiUMzGhiD96b8P8bQKgThdCqBfJbACON76GGBtLGebDXnbA>
- <xmx:SCizYpZjiFgKXeAOB1lSDRDoyfuJsfNxObUAZXjtJkPVPJ4GmE5Mrw>
- <xmx:SCizYmKLakgOnfiNv7OrM223xLuSe8NQDBj0pV2PbXuMYfn7WBI9Xg>
+ htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
+ vdejhfenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:SyizYkBpP7OqpXpcbcsatC6a1bu4ttZR09_PYAMu0O_0z5eRk0Fz3w>
+ <xmx:SyizYpgU0w04LDFzfjFgyQS64rtkKQj7-TgTWIYrNt5eN7dbvT5sgw>
+ <xmx:SyizYgrxZtQVOwmVcSyBjwkLozRt-yfqwFamEU3LH1VUQM5KSe5P3w>
+ <xmx:SyizYnaWPtQOn4TiMyJOpfUGfbhs7kViMJlrKT08-yEmY3JbNV5q_w>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jun 2022 10:33:44 -0400 (EDT)
+ 22 Jun 2022 10:33:47 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 29/68] drm/vc4: dpi: Switch to drmm_of_get_bridge
-Date: Wed, 22 Jun 2022 16:31:30 +0200
-Message-Id: <20220622143209.600298-30-maxime@cerno.tech>
+Subject: [PATCH v2 30/68] drm/vc4: dpi: Protect device resources
+Date: Wed, 22 Jun 2022 16:31:31 +0200
+Message-Id: <20220622143209.600298-31-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220622143209.600298-1-maxime@cerno.tech>
 References: <20220622143209.600298-1-maxime@cerno.tech>
@@ -89,39 +89,81 @@ Cc: dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current code uses a device-managed function to retrieve the next bridge
-downstream.
+Our current code now mixes some resources whose lifetime are tied to the
+device (clocks, IO mappings, etc.) and some that are tied to the DRM device
+(encoder, bridge).
 
-However, that means that it will be removed at unbind time, where the DRM
-device is still very much live and might still have some applications that
-still have it open.
+The device one will be freed at unbind time, but the DRM one will only be
+freed when the last user of the DRM device closes its file handle.
 
-Switch to a DRM-managed variant to clean everything up once the DRM device
-has been last closed.
+So we end up with a time window during which we can call the encoder hooks,
+but we don't have access to the underlying resources and device.
+
+Let's protect all those sections with drm_dev_enter() and drm_dev_exit() so
+that we bail out if we are during that window.
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_dpi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_dpi.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index 233bc5d3b02f..71bb51e1d703 100644
+index 71bb51e1d703..75b4ea3ab7e3 100644
 --- a/drivers/gpu/drm/vc4/vc4_dpi.c
 +++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -220,10 +220,11 @@ static const struct of_device_id vc4_dpi_dt_match[] = {
-  */
- static int vc4_dpi_init_bridge(struct vc4_dpi *dpi)
- {
-+	struct drm_device *drm = dpi->encoder.base.dev;
- 	struct device *dev = &dpi->pdev->dev;
- 	struct drm_bridge *bridge;
+@@ -13,6 +13,7 @@
  
--	bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-+	bridge = drmm_of_get_bridge(drm, dev->of_node, 0, 0);
- 	if (IS_ERR(bridge)) {
- 		/* If nothing was connected in the DT, that's not an
- 		 * error.
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_drv.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+@@ -111,9 +112,16 @@ static const struct debugfs_reg32 dpi_regs[] = {
+ 
+ static void vc4_dpi_encoder_disable(struct drm_encoder *encoder)
+ {
++	struct drm_device *dev = encoder->dev;
+ 	struct vc4_dpi *dpi = to_vc4_dpi(encoder);
++	int idx;
++
++	if (!drm_dev_enter(dev, &idx))
++		return;
+ 
+ 	clk_disable_unprepare(dpi->pixel_clock);
++
++	drm_dev_exit(idx);
+ }
+ 
+ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
+@@ -124,6 +132,7 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
+ 	struct drm_connector_list_iter conn_iter;
+ 	struct drm_connector *connector = NULL, *connector_scan;
+ 	u32 dpi_c = DPI_ENABLE | DPI_OUTPUT_ENABLE_MODE;
++	int idx;
+ 	int ret;
+ 
+ 	/* Look up the connector attached to DPI so we can get the
+@@ -184,6 +193,9 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
+ 	else if (!(mode->flags & DRM_MODE_FLAG_PVSYNC))
+ 		dpi_c |= DPI_VSYNC_DISABLE;
+ 
++	if (!drm_dev_enter(dev, &idx))
++		return;
++
+ 	DPI_WRITE(DPI_C, dpi_c);
+ 
+ 	ret = clk_set_rate(dpi->pixel_clock, mode->clock * 1000);
+@@ -193,6 +205,8 @@ static void vc4_dpi_encoder_enable(struct drm_encoder *encoder)
+ 	ret = clk_prepare_enable(dpi->pixel_clock);
+ 	if (ret)
+ 		DRM_ERROR("Failed to set clock rate: %d\n", ret);
++
++	drm_dev_exit(idx);
+ }
+ 
+ static enum drm_mode_status vc4_dpi_encoder_mode_valid(struct drm_encoder *encoder,
 -- 
 2.36.1
 
