@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C7145544C5
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 11:06:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B05CF5544C6
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 11:09:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ABA310E1F2;
-	Wed, 22 Jun 2022 09:06:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E24A910E241;
+	Wed, 22 Jun 2022 09:09:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
- [209.85.219.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4FE410E1F2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 09:06:48 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id y14so18903170qvs.10
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 02:06:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ct+WoF/8EA0gYLIVTa+7U23fzJ0aSx4jkfEHvfFCTRE=;
- b=IZDdVM1P9lfAL5oWAA3vkgVY6R53JhfziG9ItVVv/St4t7d2VDkRwwg3gMXQZHKOLo
- 0f63IeCJo0btvNhUWNDulHwjiGck98WQ3Nq45XewNn9571FYQBDq3PLkdyYmjZ0dchbS
- o/yz+RBo4hz2Jed9q8BRdTf04TXIt3YZIJLNXZI3jSVgxDAAun0phGyr3SgBXDkbvvyL
- nycRxIGJHItKcbTRH3Q07n8U6mqI65HsvdZGpAy4K5lMkvQ8ULAx3SdhyMARA69aPbGF
- Vs5avEaNV/IdqaR73sqQsTQp3wpvzydkXyBvR7XFqYDgQoajfVuMM8GgKZquM5Xxyhht
- 8xag==
-X-Gm-Message-State: AJIora+PqM+fBYJfPC9Id+HT4fpRHgHG/jwQJsQvOi+xYEI+5QAwTKBf
- 8EM1JHmsS72kaR/jxcbeUYoGeaUuv/Qfxw==
-X-Google-Smtp-Source: AGRyM1v4yD2x8Z0U3d8zlkWReUZYiuGu9lDJnsF14UYvVKmD2aAu5tfRx/iJimP4bHzlfaUakY9ZQQ==
-X-Received: by 2002:ad4:5bef:0:b0:470:536a:d350 with SMTP id
- k15-20020ad45bef000000b00470536ad350mr5725232qvc.49.1655888807751; 
- Wed, 22 Jun 2022 02:06:47 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
- [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
- p6-20020a37bf06000000b006a6a4b43c01sm15219361qkf.38.2022.06.22.02.06.46
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jun 2022 02:06:46 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id p69so17377073ybc.5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 02:06:46 -0700 (PDT)
-X-Received: by 2002:a05:6902:1141:b0:669:3f2a:c6bb with SMTP id
- p1-20020a056902114100b006693f2ac6bbmr2581553ybu.365.1655888806340; Wed, 22
- Jun 2022 02:06:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <43645c9b5cd657664c1340d40133f2116c8cef43.1655818025.git.geert+renesas@glider.be>
- <88f11e5c4704bd8510c2c6a171536484a2232f82.camel@nxp.com>
-In-Reply-To: <88f11e5c4704bd8510c2c6a171536484a2232f82.camel@nxp.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 22 Jun 2022 11:06:35 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUAh+m-tuAem0qENGEnuTw9LB_nBO3SXbVAMW8wbBtqiQ@mail.gmail.com>
-Message-ID: <CAMuHMdUAh+m-tuAem0qENGEnuTw9LB_nBO3SXbVAMW8wbBtqiQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: imx: i.MX8 bridge drivers should depend on
- ARCH_MXC
-To: Liu Ying <victor.liu@nxp.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A4B510E241
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 09:09:07 +0000 (UTC)
+X-UUID: abef69317a0946c881519c61ee345515-20220622
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6, REQID:b7d31dec-646d-454a-8017-b02839f392ef, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:b14ad71, CLOUDID:efe2bd2d-1756-4fa3-be7f-474a6e4be921,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
+ ,QS:nil,BEC:nil,COL:0
+X-UUID: abef69317a0946c881519c61ee345515-20220622
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 17422979; Wed, 22 Jun 2022 17:09:01 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 22 Jun 2022 17:09:00 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 22 Jun 2022 17:08:59 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
+ Transport; Wed, 22 Jun 2022 17:08:59 +0800
+Message-ID: <3246fb94ec05a43b7017849198d949ce8c8636a7.camel@mediatek.com>
+Subject: Re: [PATCH v13 12/14] drm/mediatek: dpi: add config to control
+ setting of direct connection to pins
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <daniel@ffwll.ch>,
+ <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <matthias.bgg@gmail.com>, <airlied@linux.ie>
+Date: Wed, 22 Jun 2022 17:08:59 +0800
+In-Reply-To: <55c98626-9b95-7721-94cf-8c471580a53b@collabora.com>
+References: <20220621113732.11595-1-rex-bc.chen@mediatek.com>
+ <20220621113732.11595-13-rex-bc.chen@mediatek.com>
+ <55c98626-9b95-7721-94cf-8c471580a53b@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,50 +67,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Sascha Hauer <s.hauer@pengutronix.de>, Jonas Karlman <jonas@kwiboo.se>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Shawn Guo <shawnguo@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- NXP Linux Team <linux-imx@nxp.com>
+Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu,
+On Tue, 2022-06-21 at 14:11 +0200, AngeloGioacchino Del Regno wrote:
+> Il 21/06/22 13:37, Bo-Chen Chen ha scritto:
+> > MediaTek dpi supports direct connection to pins while dp_intf does
+> > not
+> > support. Therefore, add a config "support_direct_pin" to control
+> > this.
+> > 
+> > Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> > ---
+> >   drivers/gpu/drm/mediatek/mtk_dpi.c | 17 +++++++++++++----
+> >   1 file changed, 13 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > index 438bf3bc5e4a..ef7f828a4b1e 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > @@ -129,6 +129,8 @@ struct mtk_dpi_yc_limit {
+> >    * @is_ck_de_pol: Support CK/DE polarity.
+> >    * @swap_input_support: Support input swap function.
+> >    * @color_fmt_trans_support: Enable color format transfer.
+> > + * @support_direct_pin: Dpi can directly connect pins, and enable
+> > this config
+> > + *			to do this.
+> 
+> @support_direct_pin: IP supports direct connection to pins
+> 
+> or
+> 
+> @support_direct_pin: IP has direct connection to DP pins
+> 
+> or
+> 
+> @support_direct_pin: IP connects directly to DP pins
+> 
+> pick one, after which:
+> 
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> 
+> 
 
-On Tue, Jun 21, 2022 at 5:47 PM Liu Ying <victor.liu@nxp.com> wrote:
-> On Tue, 2022-06-21 at 15:30 +0200, Geert Uytterhoeven wrote:
-> > The various Freescale i.MX8MP display bridges are only present on
-> > Freescale i.MX8 SoCs.  Hence add a dependency on ARCH_MXC, to prevent
-> > asking the user about these drivers when configuring a kernel without
-> > i.MX SoC support.
->
-> s/i.MX8MP/i.MX8/
+Hello Angelo,
 
-Oops. Fixed.
+this is not connect to "DP" pin. This setting is for dpi to connect to
+panel directly and there is no such usecase for dp_intf.
 
-> For now, only i.MX8qm and i.MX8qxp display bridge drivers are in
-> bridge/imx directory, no i.MX8MP display bridge driver.
->
-> With this fixed:
-> Reviewed-by: Liu Ying <victor.liu@nxp.com>
+Therefore, I will use "@support_direct_pin: IP supports direct
+connection to pins".
 
-Thanks!
+Thanks
 
-Gr{oetje,eeting}s,
+BRs,
+Bo-Chen
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
