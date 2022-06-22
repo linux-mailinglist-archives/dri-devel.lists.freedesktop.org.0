@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE06554A60
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 14:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51ED6554A81
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 15:09:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3740310E385;
-	Wed, 22 Jun 2022 12:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCD8910EAD8;
+	Wed, 22 Jun 2022 13:08:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE5C10E385
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:56:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 77D49619FA
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:56:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3ADE4C341C7
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:56:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655902600;
- bh=2Jod6vcJ5qzSfP8dUFeVxqic2811F/zoYt7Kv4StLmA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=LQdAalVzi1ELpdU/z8Qh0+OURwNITwgwUUxKdLa4Bo+Dy2AdopVUbpdmcONS3Mr8f
- dcfP500qbOULPUOQhb5iaW0dixWcX1Vyxn+DZ9OR0n09SlNcvkjHmCwfuYK3AfCAf2
- m7cBmpuqrM7XtDx+BypDKWqfR2HhpUidNFKY5rrUVP7mpeSfh6eV9QcNWLuapAlICL
- h3pZANcIbTiLEFPYNCtegYs9heKKs8SPpWozgRfIzUUnJ4+YYdJMY8QNm/DG3LqwdC
- exig5akLGGTQLIqVgN/1GB4Ta6CNu38pftfGPHZocvDTQYedbtpRRL+ue54gCihd8d
- rBQqF6KENdGHg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 2A20CCC13B4; Wed, 22 Jun 2022 12:56:40 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Wed, 22 Jun 2022 12:56:38 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: martin.von.wittich@iserv.eu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201957-2300-jhhV2qOrbk@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7267810ECC6
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 13:08:37 +0000 (UTC)
+X-UUID: e2ad9e07fd09428cab1875d2471c504b-20220622
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.6, REQID:c93cede1-0efa-449a-a8de-4ab799a4202e, OB:10,
+ L
+ OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,A
+ CTION:release,TS:95
+X-CID-INFO: VERSION:1.1.6, REQID:c93cede1-0efa-449a-a8de-4ab799a4202e, OB:10,
+ LOB
+ :10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,A
+ CTION:quarantine,TS:95
+X-CID-META: VersionHash:b14ad71, CLOUDID:4ddd2e38-5e4b-44d7-80b2-bb618cb09d29,
+ C
+ OID:38c5312ec497,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:0,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: e2ad9e07fd09428cab1875d2471c504b-20220622
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 459992215; Wed, 22 Jun 2022 21:08:29 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Wed, 22 Jun 2022 21:08:27 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Wed, 22 Jun 2022 21:08:27 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
+ Zabel" <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, "AngeloGioacchino
+ Del Regno" <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Subject: [PATCH v24 00/10] Add MediaTek SoC(vdosys1) support for mt8195
+Date: Wed, 22 Jun 2022 21:08:14 +0800
+Message-ID: <20220622130824.29143-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,56 +62,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Nathan
+ Chancellor <nathan@kernel.org>, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
+The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
 
---- Comment #74 from Martin von Wittich (martin.von.wittich@iserv.eu) ---
-> Did you try with the latest Linux Kernel? I had a lot of gpu lockups like=
- this. Also try these kernel parameters : "amdgpu.ppfeaturemask=3D0xffffbff=
-b  amdgpu.noretry=3D0 amdgpu.lockup_timeout=3D0 amdgpu.gpu_recovery=3D1 amd=
-gpu.audio=3D0 amdgpu.deep_color=3D1 amd_iommu=3Don iommu=3Dpt"" ( you might=
- also try with amdgpu.ppfeaturemask=3D0xfffd7fff or amdgpu.ppfeaturemask=3D=
-0xffffffff )
+Add mmsys and mutex modules support by the patches below:
 
-I can confirm that at least on the current Ubuntu linux-image-oem-20.04d
-kernel, these options do not resolve the issue:
+Changes in v24:
+- fix reviewer comment
+  - refine mtk_mmsys_reset_update func
+- rebase to next-20220622
 
-```
-martin@martin ~ % uname -a
-Linux martin 5.14.0-1042-oem #47-Ubuntu SMP Fri Jun 3 18:17:11 UTC 2022 x86=
-_64
-x86_64 x86_64 GNU/Linux
-martin@martin ~ % cat /proc/cmdline=20
-BOOT_IMAGE=3D/vmlinuz-5.14.0-1042-oem
-root=3DUUID=3D1bd000ac-1487-4457-be1a-5ea901ded9e9 ro
-amdgpu.ppfeaturemask=3D0xffffbffb amdgpu.noretry=3D0 amdgpu.lockup_timeout=
-=3D0
-amdgpu.gpu_recovery=3D1 amdgpu.audio=3D0 amdgpu.deep_color=3D1 amd_iommu=3D=
-on iommu=3Dpt
-quiet
-martin@martin ~ % dmesg -T | grep 'ring gfx timeout'
-[Mi Jun 22 14:48:07 2022] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring g=
-fx
-timeout, signaled seq=3D1820983, emitted seq=3D1820985
-[Mi Jun 22 14:48:18 2022] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring g=
-fx
-timeout, signaled seq=3D1820987, emitted seq=3D1820990
-```
+Changes in v23:
+- separate[7] mmsys/mutex and drm patches into two series
 
-I had enabled these options on 2022-06-20 14:14 UTC+2, this is the first cr=
-ash
-I've encountered since then.
+Changes in v22:
+- rebase to next-20220525
+- rebase to vdosys0 series v22
+- separate dts to a new patch
 
-I have no idea how to build the latest kernel and therefore haven't tested =
-that
-yet.
+Changes in v21:
+- fix reviewer comment
+  - fix rdma and ethdr binding doc and dts
 
-I'll now revert back to amdgpu.dpm=3D0.
+Changes in v20:
+- fix reviewer comment
+  - update mmsys update bit api name
+  - add mtk_mmsys_update_bits error message if lose gce property
+  - list all mt8195 vdosys1 reset bits
 
---=20
-You may reply to this email to add a comment.
+Changes in v19:
+- fix reviewer comment
+  - separate mt8195 mmsys component to a new patch
+  - separate mt8195 vdo0 and vdo1 routing table
+  - separate mmsys_write_reg api to a new patch and simplify write reg code
+  - separate mmsys 64 bit reset to a new patch
+  - separate mtk-mutex dp_intf1 component to a new patch
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Changes in v18:
+- fix reviewer comment
+  - fix rdma binding doc
+  - fix ethdr binding doc
+  - refine mmsys config cmdq support
+  - refine merge reset control flow, get reset control in probe function
+  - add ethdr reset control error handling and remove dbg log
+- rebase to vdosys0 series v20 (ref [5])
+
+Changes in v17:
+- fix reviewer comment in v16
+  - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
+  - separate mmsys config API
+  - move mdp_rdma binding yaml
+- fix ovl adaptor pm runtime get sync timing issue
+- rebase to vdosys0 series v19 (ref [5])
+- rebase to [7] for modify vblank register change
+
+Changes in v16:
+- fix reviewer comment in v 15
+  - fix mtk_drm_ddp_comp.c alignment
+  - fix vdosys0 mmsys num before adding vdosys1 patch
+
+Changes in v15:
+- fix ethdr uppercase hex number in dts
+
+Changes in v14:
+- remove MTK_MMSYS 64 bit dependency
+- add ethdr.yaml back and fix dt_schema check fail
+
+Resend v13
+- add related maintainer in maillist
+
+Changes in v13:
+- fix reviewer comment in v12
+  - fix rdma dt-binding format
+  - fix dts node naming
+- fix 32 bit build error
+  - modify 64bit dependency for mtk-mmsys
+- rebase to vdosys0 series v16. (ref [5])
+
+Changes in v12:
+- fix reviewer comment in v11
+  - modify mbox index
+  - refine dma dev for ovl_adaptor sub driver
+
+Changes in v11:
+- remove ethdr vblank spin lock
+- refine ovl_adaptor print message
+
+Changes in v10:
+- refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
+- fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+
+Changes in v9:
+- rebase on kernel-5.16-rc1
+- rebase on vdosys0 series v13. (ref [5])
+- fix ovl_adaptor sub driver is brought up unintentionally
+- fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue 
+
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
+
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
+
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
+
+Changes in v5:
+- add mmsys reset controller reference.
+
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
+
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
+
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
+    20220112114724.1953-4-tinghan.shen@mediatek.com
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    20210615173233.26682-15-tinghan.shen@mediatek.com
+[3] arm64: dts: mt8195: add gce node
+    20220126090109.32143-1-jason-jh.lin@mediatek.com
+[4] [v2] arm64: dts: mt8195: add display node for vdosys0
+    20220225021535.2655-1-jason-jh.lin@mediatek.com
+[5] Add MediaTek SoC DRM (vdosys0) support for mt8195 - v22 series
+    20220526102126.19756-1-jason-jh.lin@mediatek.com
+[6] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+    20220407075726.17771-2-yong.wu@mediatek.com
+[7] Add MediaTek SoC DRM (vdosys1) support for mt8195
+    20220526110233.20080-1-nancy.lin@mediatek.com
+
+Nancy.Lin (10):
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  soc: mediatek: add mtk-mmsys ethdr and mdp_rdma components
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+  soc: mediatek: add mtk_mmsys_update_bits API
+  soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+  soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+    vdosys1
+  soc: mediatek: mmsys: add mmsys for support 64 reset bits
+  soc: mediatek: mmsys: add reset control for MT8195 vdosys1
+  soc: mediatek: add mtk-mutex component - dp_intf1
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+
+ drivers/soc/mediatek/mt8195-mmsys.h       | 146 ++++++++++++++++++++++
+ drivers/soc/mediatek/mtk-mmsys.c          | 134 +++++++++++++++-----
+ drivers/soc/mediatek/mtk-mmsys.h          |   1 +
+ drivers/soc/mediatek/mtk-mutex.c          |  37 ++++++
+ include/dt-bindings/reset/mt8195-resets.h |  45 +++++++
+ include/linux/soc/mediatek/mtk-mmsys.h    |  25 ++++
+ 6 files changed, 354 insertions(+), 34 deletions(-)
+
+-- 
+2.18.0
+
