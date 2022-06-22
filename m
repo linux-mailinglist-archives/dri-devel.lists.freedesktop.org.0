@@ -1,82 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08E2A554A1E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 14:37:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F276554A50
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 14:48:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 764E011336F;
-	Wed, 22 Jun 2022 12:37:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54B3D1133C3;
+	Wed, 22 Jun 2022 12:48:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF67B11336F
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:36:59 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 360C732002D8;
- Wed, 22 Jun 2022 08:36:56 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 22 Jun 2022 08:36:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1655901415; x=1655987815; bh=/EyEhmHPvl
- fIGUHyns9Z0JfMJBToq3cW9JR1a2Pk53Q=; b=ek0y5Uxs9/UekEqbtMT3fIwfWh
- BbJsI86ouGcae6/ESRfqF32KcyafNfnmqTLdzHxKtSGAQBUeIj5pm5k35T+IzXgG
- 7vt7+U06s7Jfx5z9YaLnW8i9587ymtSGnDA4Pw2IeuY+SdpdHOWNgDZWCDwNag0k
- 2Cq7S/mwmHVdRw58ZBn9+oC/G49t+aVk61M+1nVZBcBlMw7TVAUPZMrgSYXxse70
- vB64bYR3vUobjMJsXWfTkwueW6znOTLRfv54fc3N6vjSg+xUeKH+jxCJ0nhMjYPG
- BccEEPICgWJ3sdnZtN4sl3Fi8eAeutOznJKsI8zI2CflK0bOwFZiwO6pvZBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; t=1655901415; x=1655987815; bh=/EyEhmHPvlfIGUHyns9Z0JfMJBTo
- q3cW9JR1a2Pk53Q=; b=Mc8BCPqBXBglKe/dwsRdQMr9ozTJ3ctp1L6xsT8qHSrs
- Y/iw/FixaIH7panshVZcQUPUMN0/j8o1Y4T57FMt9J6QCIZNBH7EacykaJZBdyjT
- oMlFgTB0BHc++CABBcJNu5NRjeYHyj21Xh5sUmd0Crl0slRl3ruBtOzDhcmt6z1k
- NYHsm6LWKFGo4gLkegqMkWT++PFx1BBWoz2PXcA0FWePDxFaS9LspWKeoh8W/JwM
- wCtW9IJHr3RSoUKAdtu9i0jrIwUqjuvFKgrAFim1Ba2HYIdRawZ95wVJcKZrjXq1
- DXDfB5SCX96C1L5iSHeD/T1xox7qLGDKtPnqWKXFQg==
-X-ME-Sender: <xms:5wyzYjbmeoFup3Tx9pLKKWktASQ2Pz2qZsL7WaaCN17pKUEl4COUhw>
- <xme:5wyzYial5uE1UZo7GIEoIkmfMarOZ4xIvdC9PrfQOFejSd_2-NHyxuqTMIdLpa4Ab
- sbhQak9_5hL-rOkVuo>
-X-ME-Received: <xmr:5wyzYl_N_JFfAoNVvh00Hv7KiGPdAnr4HJmCHcnl-WIUXiXRSe5Jd2hrXYbTa9duNydyBBpqK5lADrVVbpMQC4j4v1c72yoFRLbgfX8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefhedgheegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
- ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:5wyzYpo3nkO8GJB2mi629vEZA1hC5raIpC9AJkTlBDygA4A0kodDHg>
- <xmx:5wyzYurMjfq2AeERDAsCY0L3MaGPVKauRvkzXvAKOCxRb4jqHssOdg>
- <xmx:5wyzYvQXGWmM_ljsfKZqxZCb59vf516X_bvC2kvIUlGbLP49GxB9Yw>
- <xmx:5wyzYl3NKQ9M0cU_CYMHuIlS4GaXEH53qI_qD_nycOLrvKPRExWaeg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jun 2022 08:36:54 -0400 (EDT)
-Date: Wed, 22 Jun 2022 14:36:52 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 09/64] drm/simple: Introduce drmm_simple_encoder_init
-Message-ID: <20220622123652.4d6nvaj453szyd4m@houat>
-References: <20220610092924.754942-1-maxime@cerno.tech>
- <20220610092924.754942-10-maxime@cerno.tech>
- <657a856a-53d6-a35d-e591-9f53d7c3941f@suse.de>
- <20220620134823.oqjrbnlsce3erhum@houat>
- <92f5306c-3808-b140-4845-f744df4c92fc@suse.de>
- <20220620143928.zbbaltwcah3rpkqh@houat>
- <1817bb52-268d-9ed9-b7b3-4bbb291b7925@suse.de>
- <295ada80-6846-db1e-6e15-01e06ffe7d3d@suse.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE0C51133C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:48:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655902126;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=q+Okm3W/B1ztawvjbkX7iXMIR7gv9KEFIMROaA/iF24=;
+ b=PDZ5zOVrQVP5rJhZoP3XmA8NC2R2Jnf3iRALw1gJXX3aglNXGPPseosAZ7MrP31P1tbdCr
+ VcROdHw6lq99ojAMkaJy9E0NGFttBsrhItSToIAH0m0KAKF7ePbl58/lPAEz1s0EfVajcS
+ njVh5KETUnsUltxSJaEhRMsYrqFDqcs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-573-hys263sHOHKuUxRM0eiVSg-1; Wed, 22 Jun 2022 08:48:43 -0400
+X-MC-Unique: hys263sHOHKuUxRM0eiVSg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E0B3101AA45;
+ Wed, 22 Jun 2022 12:48:43 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.194.244])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 28ED740334D;
+ Wed, 22 Jun 2022 12:48:41 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ kuohsiang_chou@aspeedtech.com
+Subject: [PATCH] drm/ast: Fix black screen when getting out of suspend
+Date: Wed, 22 Jun 2022 14:48:15 +0200
+Message-Id: <20220622124815.356035-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="qazgxj7g6jl5klyt"
-Content-Disposition: inline
-In-Reply-To: <295ada80-6846-db1e-6e15-01e06ffe7d3d@suse.de>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,116 +62,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>,
+ Venkat Tadikonda <venkateswara.rao@intel.com>, hungju_huang@aspeedtech.com,
+ michel@daenzer.net, charles_kuan@aspeedtech.com, luke_chen@aspeedtech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+With an AST2600, the screen is garbage when going out of suspend.
+This is because color settings are lost, and not restored on resume.
+Force the color settings on DPMS_ON, to make sure the settings are correct.
 
---qazgxj7g6jl5klyt
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I didn't write this code, it comes from the out-of-tree aspeed driver v1.13
+https://www.aspeedtech.com/support_driver/
 
-On Mon, Jun 20, 2022 at 09:04:11PM +0200, Thomas Zimmermann wrote:
-> Hi
->=20
-> Am 20.06.22 um 16:45 schrieb Thomas Zimmermann:
-> > Hi
-> >=20
-> > Am 20.06.22 um 16:39 schrieb Maxime Ripard:
-> > > On Mon, Jun 20, 2022 at 04:25:38PM +0200, Thomas Zimmermann wrote:
-> > > > Hi
-> > > >=20
-> > > > Am 20.06.22 um 15:48 schrieb Maxime Ripard:
-> > > > > Hi,
-> > > > >=20
-> > > > > On Mon, Jun 20, 2022 at 12:44:24PM +0200, Thomas Zimmermann wrote:
-> > > > > > Am 10.06.22 um 11:28 schrieb Maxime Ripard:
-> > > > > > > The DRM-managed function to register an encoder is
-> > > > > > > drmm_simple_encoder_alloc() and its variants, which will allo=
-cate the
-> > > > > > > underlying structure and initialisation the encoder.
-> > > > > > >=20
-> > > > > > > However, we might want to separate the structure
-> > > > > > > creation and the encoder
-> > > > > > > initialisation, for example if the structure is
-> > > > > > > shared across multiple DRM
-> > > > > > > entities, for example an encoder and a connector.
-> > > > > > >=20
-> > > > > > > Let's create an helper to only initialise an encoder
-> > > > > > > that would be passed
-> > > > > > > as an argument.
-> > > > > > >=20
-> > > > > >=20
-> > > > > > There's nothing wrong with this patch, but I have to admit that=
- adding
-> > > > > > drm_simple_encoder_init() et al was a mistake.
-> > > > >=20
-> > > > > Why do you think it was a mistake?
-> > > >=20
-> > > > The simple-encoder stuff is an interface that no one really
-> > > > needs. Compared
-> > > > to open-coding the function, it's barely an improvement in LOCs,
-> > > > but nothing
-> > > > else.
-> > > >=20
-> > > > Back when I added drm_simple_encoder_init(), I wanted to
-> > > > simplify the many
-> > > > drivers that initialized the encoder with a cleanup callback and no=
-thing
-> > > > else.=A0 IIRC it was an improvement back then.=A0 But now we alread=
-y have a
-> > > > related drmm_ helper and a drmm_alloc_ helper. If I had only
-> > > > added the macro
-> > > > back then, we could use the regular encoder helpers.
-> > > >=20
-> > > > >=20
-> > > > > > It would have been better to add an initializer macro like
-> > > > > >=20
-> > > > > > #define DRM_STATIC_ENCODER_DEFAULT_FUNCS \
-> > > > > > =A0=A0=A0 .destroy =3D drm_encoder_cleanup
-> > > > > >=20
-> > > > > > It's way more flexible and similarly easy to use. Anyway...
-> > > > >=20
-> > > > > We can still have this. It would simplify this series so I could
-> > > > > definitely squeeze that patch in and add a TODO item / deprecation
-> > > > > notice for simple encoders if you think it's needed
-> > > >=20
-> > > > Not necessary. It's not super important.
-> > >=20
-> > > The corollary is though :)
-> > >=20
-> > > If I understand you right, it means that you'd rather have a destroy
-> > > callback everywhere instead of calling the _cleanup function through a
-> > > drm-managed callback, and let drm_dev_unregister do its job?
-> > >=20
-> > > If so, it means that we shouldn't be following the drmm_.*_alloc
-> > > functions and should drop all the new ones from this series.
-> >=20
-> > No, no. What I'm saying is that simple-encoder is a pointless mid-layer.
-> > There's nothing that couldn't easily be achieved with the regular
-> > encoder functions.
->=20
-> I guess that if you want to change something here, you could add
-> drmm_encoder_init() instead and convert vc4. That function might be more
-> useful for other drivers in the long run.
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+Tested-by: Venkat Tadikonda <venkateswara.rao@intel.com>
+---
+ drivers/gpu/drm/ast/ast_mode.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-I already had that patch in the series. I've dropped this one and
-converted everyone to a !simple encoder.
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 3eb9afecd9d4..cdddcb5c4439 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -990,6 +990,9 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
+ {
+ 	struct ast_private *ast = to_ast_private(crtc->dev);
+ 	u8 ch = AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF;
++	struct ast_crtc_state *ast_state;
++	const struct drm_format_info *format;
++	struct ast_vbios_mode_info *vbios_mode_info;
+ 
+ 	/* TODO: Maybe control display signal generation with
+ 	 *       Sync Enable (bit CR17.7).
+@@ -1007,6 +1010,16 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
+ 			ast_dp_set_on_off(crtc->dev, 1);
+ 		}
+ 
++		ast_state = to_ast_crtc_state(crtc->state);
++		format = ast_state->format;
++
++		if (format){
++			vbios_mode_info = &ast_state->vbios_mode_info;
++
++			ast_set_color_reg(ast, format);
++			ast_set_vbios_color_reg(ast, format, vbios_mode_info);
++		}
++
+ 		ast_crtc_load_lut(ast, crtc);
+ 		break;
+ 	case DRM_MODE_DPMS_STANDBY:
+-- 
+2.36.1
 
-Thanks!
-maxime
-
---qazgxj7g6jl5klyt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYrMM5AAKCRDj7w1vZxhR
-xVuuAP4sSRGkjZUXl37xiYS/twZ/TuavlM/01iZq4Pd3xHjOwwD8C+fgR1k0uNWJ
-LKY1p+BgNU9EAykIDpNfBBnNo310eQw=
-=Ni8I
------END PGP SIGNATURE-----
-
---qazgxj7g6jl5klyt--
