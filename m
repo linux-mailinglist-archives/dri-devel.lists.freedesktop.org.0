@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA62554D21
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:32:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE46554D22
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:32:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F56D1125AE;
-	Wed, 22 Jun 2022 14:32:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC06112716;
+	Wed, 22 Jun 2022 14:32:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D18EE1125AE
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:32:48 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id A4F983200942;
- Wed, 22 Jun 2022 10:32:47 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24E30112716
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:32:52 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id D0CC83200979;
+ Wed, 22 Jun 2022 10:32:50 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 22 Jun 2022 10:32:48 -0400
+ by compute4.internal (MEProxy); Wed, 22 Jun 2022 10:32:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655908367; x=1655994767; bh=KA
- ZPd6m+Avy8ONd+AxBEcQuBxV6COH+fIHp80L8Be5w=; b=IdT4Fb8SW5eY5wqpS9
- J6HYtj+ZgKKC5vz6JzRpNELPnTR+PE/uPQiM1Vbgkz9L4Jt7jUqvq+DTdH6I75Cq
- Z2NO2ih9uMzNboOSXdD1vCY+4rw7YtOf4Cg/0SsFOUWrKU0PyYgcvgVBNp1s0y8u
- gj3d7CNo0L3Mz/RyKg9+zZoWBhC/TGquFQI/GEATrZA0UapxHa3OxVdm/IUh29zB
- fl62TPpX+A21Hr7MXs4DJAvB2dbyqK2FMd6QL7Skb96SE23zynNiN+Y4TPMs240J
- tkfrL2mHrOl8VjfSI/3m+E2s68gfBo+ZJ9xcIjb4AcHOwpeYz/ItXnuCSXNO/dLj
- 60HQ==
+ :subject:subject:to:to; s=fm1; t=1655908370; x=1655994770; bh=hX
+ MDZJiEHNa7xI4oC8nE6TSYG0uKDhp4JLDs8W/u5bg=; b=1+olxdTkqVegAwy+gt
+ OpwW2GJ0uFv3fL9FL394pb3YXCg2+Qn1EHT78rPY4LdFc2CGbz3z8tKimOpFQ2yF
+ EGt5CznOob1GI7cYQlPcQDFhQD7OWIYUa48fbizi9MZQ6Bw5th5NmM7Np+Q/+0w4
+ yGvCXLwX7IGK7LQNxyFqalLmGfCJjygO1PekAe2bJA5YXlq7V9u8TsZ3BnpbIGPY
+ /tkQMhD2DCAkoo703ckkMzoiXQbq4/ih1zInH0dl3D9WGr2OjwIoVC13TzV3vuNC
+ IgnA658RYCWX7husVsJWUB7eauRYk1E4wkafreHdnkIMfOWEutPmRHsPJT47HXfX
+ Eq5g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655908367; x=1655994767; bh=KAZPd6m+Avy8O
- Nd+AxBEcQuBxV6COH+fIHp80L8Be5w=; b=gokOcI0OQJcIUidMRQbmXxii3wY79
- hSXT233MbG8joElZhsmbwXx/pHYxQzcdjlhCZvzpLCRudUy0VUJSIcEPYSk7FVQS
- hfZmE3fOsJdMNlD6ZhlyCwoy77XPUwFCOp85hchb2DYSYYSAqbRUoyXAbHFj9aVJ
- bmQ4I8NIyWKaOP9VOB7NnsMkxU11hIvtE5V7NvdgNhhU/MxY83VWShoJBIye06UA
- M3tpxs1SwllKMQDb8nhknM9rDGr8sKjIHRKKNHpbkGs5BsypnG+StF6D74dFYbxV
- pP8n8NFuV64BEe3H2qhtrm3xfmka9+tf6IzeQJhZB//KSe5X1iAH3YTqg==
-X-ME-Sender: <xms:DyizYozm9ibxscYWPSOqxdxybKaQ6AyUCXojbfW0P2FNvBeU0catKQ>
- <xme:DyizYsQNSKN2zpwtXP2y8d3a_FcRcRHI-HG-NbsZiSNFr2KXpvdQDEK_5UHZhb8DW
- zI7HunT7Nqv2Up89Qg>
-X-ME-Received: <xmr:DyizYqVMHOJ5Uhfxw3kuWIr0in190pSPzDlMFRTRpCIFBWJjoMfghEDq_xjkAdYUMX0s2rsrOpB0UzCwjj-5BFm0mhIIWDj-mbzVbOA>
+ :x-sasl-enc; s=fm2; t=1655908370; x=1655994770; bh=hXMDZJiEHNa7x
+ I4oC8nE6TSYG0uKDhp4JLDs8W/u5bg=; b=WvoNi9kcgS67bAB29odqiGfGQSpRs
+ xHcZ0X06/Fz+WvpGmLvKYnVdaedoiNHxahsUJy6dX4pKceue0mLXhUhcEK5dbF/3
+ el+7WKrhkCiPTRlJAbSi+jncviKlVGOwA4l8pzkOfPmEIJjwvHf0NEPaL+JjvasD
+ CWBpLp7JYUOLWdo5FVQcIXrqdPkLAgdzIs48LKlmBrwvRbzWJrJC26ipTWr5MsYh
+ m6VmbqUxNiIIuVM3h6Fv2RwBjy9xSzKJY5QF20CUr7p1NTygklNYYink27azj/kF
+ 27UZxCorRKNQSmiwWz3EPtmshUYmalKdcCOVF1mSla02GEStQdw+dRCcQ==
+X-ME-Sender: <xms:EiizYnefKZturd245DawE_00t_OZfu-Axbs4FhdpLcBydEXETVG_0w>
+ <xme:EiizYtPrp_FmOitSr1jZMI0sCwIAzxftMFAZ7H4K1_jpfFLdcy5V5LO5O3qP5YgN5
+ MNub1ofJyan7SJbpUs>
+X-ME-Received: <xmr:EiizYghTQxoiOhbQ6LLn3wV2kyZ4t1sPopmBH5yZi7VyHpmrqGpSjCC5A-UGvGL8U-SqmCQnQlNo9OYaP3UzyPfTc9EAm0QfgUkqLjo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefhedgjeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:DyizYmhM6LWCbdP2rSWK2TW1NqT0C3OHwHnc-aFQ8-au7SdYouC9QQ>
- <xmx:DyizYqC8sQQY2wZ7iiNlFp57eo7FtDzLRTqJduXLPfRO1wO1DJtdog>
- <xmx:DyizYnKsi9OY7Kcf9LrB0VfYxebyIxmoSR59ujtkn99Nhi14vPApMw>
- <xmx:DyizYt8qy_k8fLkLAxP0M17NrgFAONkLwrCS8AVlsASld2GHRspf7w>
+X-ME-Proxy: <xmx:EiizYo_2hmuyC0JB_a_aehY9PTeDP3A7L88jKK971oE79Y49QTUG-A>
+ <xmx:EiizYjs5E5R0W2Y5j6kWHL6l7pwHNQJxiYepyF7x0xmvZFIzTbIWrg>
+ <xmx:EiizYnH85L4AUnuwa8pHUSbpEIojBES3RGBcDmBIf0DzO5TQvcCs5g>
+ <xmx:EiizYpXSCG6EzchwvvMzJmnrvEcEkCyOuGdX6HZyWxanToMJvaZ7VQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jun 2022 10:32:46 -0400 (EDT)
+ 22 Jun 2022 10:32:49 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 10/68] drm/bridge: panel: Introduce drmm_of_get_bridge
-Date: Wed, 22 Jun 2022 16:31:11 +0200
-Message-Id: <20220622143209.600298-11-maxime@cerno.tech>
+Subject: [PATCH v2 11/68] drm/vc4: drv: Call component_unbind_all()
+Date: Wed, 22 Jun 2022 16:31:12 +0200
+Message-Id: <20220622143209.600298-12-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220622143209.600298-1-maxime@cerno.tech>
 References: <20220622143209.600298-1-maxime@cerno.tech>
@@ -84,78 +84,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unlike what can be found for other DRM entities, we don't have a
-DRM-managed function equivalent to devm_drm_of_get_bridge().
+While we were using the component framework to deal with all the DRM
+subdevices, we were not calling component_unbind_all().
 
-Let's create it.
+This leads to none of the subdevices freeing up their resources as part of
+their unbind() or device managed hooks.
 
+Fixes: c8b75bca92cb ("drm/vc4: Add KMS support for Raspberry Pi.")
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/bridge/panel.c | 35 ++++++++++++++++++++++++++++++++++
- include/drm/drm_bridge.h       |  2 ++
- 2 files changed, 37 insertions(+)
+ drivers/gpu/drm/vc4/vc4_drv.c | 14 ++++++++++++--
+ drivers/gpu/drm/vc4/vc4_drv.h |  1 +
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index 07d720aa38c6..0bf824ca1f25 100644
---- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -425,4 +425,39 @@ struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
- 	return bridge;
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 0f0f0263e744..90575171824d 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -267,6 +267,13 @@ static void vc4_match_add_drivers(struct device *dev,
+ 	}
  }
- EXPORT_SYMBOL(devm_drm_of_get_bridge);
-+
-+/**
-+ * drmm_of_get_bridge - Return next bridge in the chain
-+ * @dev: device to tie the bridge lifetime to
-+ * @np: device tree node containing encoder output ports
-+ * @port: port in the device tree node
-+ * @endpoint: endpoint in the device tree node
-+ *
-+ * Given a DT node's port and endpoint number, finds the connected node
-+ * and returns the associated bridge if any, or creates and returns a
-+ * drm panel bridge instance if a panel is connected.
-+ *
-+ * Returns a pointer to the bridge if successful, or an error pointer
-+ * otherwise.
-+ */
-+struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
-+					  struct device_node *np,
-+					  u32 port, u32 endpoint)
+ 
++static void vc4_component_unbind_all(void *ptr)
 +{
-+	struct drm_bridge *bridge;
-+	struct drm_panel *panel;
-+	int ret;
++	struct vc4_dev *vc4 = ptr;
 +
-+	ret = drm_of_find_panel_or_bridge(np, port, endpoint,
-+					  &panel, &bridge);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	if (panel)
-+		bridge = drmm_panel_bridge_add(drm, panel);
-+
-+	return bridge;
++	component_unbind_all(vc4->dev, &vc4->base);
 +}
-+EXPORT_SYMBOL(drmm_of_get_bridge);
 +
- #endif
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 8100a15dd9c2..ddb92e745b2e 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -935,6 +935,8 @@ struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge);
- #if defined(CONFIG_OF) && defined(CONFIG_DRM_PANEL_BRIDGE)
- struct drm_bridge *devm_drm_of_get_bridge(struct device *dev, struct device_node *node,
- 					  u32 port, u32 endpoint);
-+struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm, struct device_node *node,
-+					  u32 port, u32 endpoint);
- #else
- static inline struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
- 							struct device_node *node,
+ static int vc4_drm_bind(struct device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+@@ -291,6 +298,7 @@ static int vc4_drm_bind(struct device *dev)
+ 	if (IS_ERR(vc4))
+ 		return PTR_ERR(vc4);
+ 	vc4->is_vc5 = is_vc5;
++	vc4->dev = dev;
+ 
+ 	drm = &vc4->base;
+ 	platform_set_drvdata(pdev, drm);
+@@ -341,6 +349,10 @@ static int vc4_drm_bind(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = devm_add_action_or_reset(dev, vc4_component_unbind_all, vc4);
++	if (ret)
++		return ret;
++
+ 	ret = vc4_plane_create_additional_planes(drm);
+ 	if (ret)
+ 		goto unbind_all;
+@@ -361,8 +373,6 @@ static int vc4_drm_bind(struct device *dev)
+ 	return 0;
+ 
+ unbind_all:
+-	component_unbind_all(dev, drm);
+-
+ 	return ret;
+ }
+ 
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 93fd55b9e99e..c48a73914200 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -75,6 +75,7 @@ struct vc4_perfmon {
+ 
+ struct vc4_dev {
+ 	struct drm_device base;
++	struct device *dev;
+ 
+ 	bool is_vc5;
+ 
 -- 
 2.36.1
 
