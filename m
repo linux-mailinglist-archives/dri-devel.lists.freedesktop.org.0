@@ -2,54 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F276554A50
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 14:48:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE06554A60
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 14:56:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54B3D1133C3;
-	Wed, 22 Jun 2022 12:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3740310E385;
+	Wed, 22 Jun 2022 12:56:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE0C51133C3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:48:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655902126;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=q+Okm3W/B1ztawvjbkX7iXMIR7gv9KEFIMROaA/iF24=;
- b=PDZ5zOVrQVP5rJhZoP3XmA8NC2R2Jnf3iRALw1gJXX3aglNXGPPseosAZ7MrP31P1tbdCr
- VcROdHw6lq99ojAMkaJy9E0NGFttBsrhItSToIAH0m0KAKF7ePbl58/lPAEz1s0EfVajcS
- njVh5KETUnsUltxSJaEhRMsYrqFDqcs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-573-hys263sHOHKuUxRM0eiVSg-1; Wed, 22 Jun 2022 08:48:43 -0400
-X-MC-Unique: hys263sHOHKuUxRM0eiVSg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EE5C10E385
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:56:44 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E0B3101AA45;
- Wed, 22 Jun 2022 12:48:43 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.194.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 28ED740334D;
- Wed, 22 Jun 2022 12:48:41 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
- kuohsiang_chou@aspeedtech.com
-Subject: [PATCH] drm/ast: Fix black screen when getting out of suspend
-Date: Wed, 22 Jun 2022 14:48:15 +0200
-Message-Id: <20220622124815.356035-1-jfalempe@redhat.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 77D49619FA
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:56:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3ADE4C341C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:56:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1655902600;
+ bh=2Jod6vcJ5qzSfP8dUFeVxqic2811F/zoYt7Kv4StLmA=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=LQdAalVzi1ELpdU/z8Qh0+OURwNITwgwUUxKdLa4Bo+Dy2AdopVUbpdmcONS3Mr8f
+ dcfP500qbOULPUOQhb5iaW0dixWcX1Vyxn+DZ9OR0n09SlNcvkjHmCwfuYK3AfCAf2
+ m7cBmpuqrM7XtDx+BypDKWqfR2HhpUidNFKY5rrUVP7mpeSfh6eV9QcNWLuapAlICL
+ h3pZANcIbTiLEFPYNCtegYs9heKKs8SPpWozgRfIzUUnJ4+YYdJMY8QNm/DG3LqwdC
+ exig5akLGGTQLIqVgN/1GB4Ta6CNu38pftfGPHZocvDTQYedbtpRRL+ue54gCihd8d
+ rBQqF6KENdGHg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 2A20CCC13B4; Wed, 22 Jun 2022 12:56:40 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Wed, 22 Jun 2022 12:56:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: martin.von.wittich@iserv.eu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-201957-2300-jhhV2qOrbk@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,56 +71,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- Venkat Tadikonda <venkateswara.rao@intel.com>, hungju_huang@aspeedtech.com,
- michel@daenzer.net, charles_kuan@aspeedtech.com, luke_chen@aspeedtech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With an AST2600, the screen is garbage when going out of suspend.
-This is because color settings are lost, and not restored on resume.
-Force the color settings on DPMS_ON, to make sure the settings are correct.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
 
-I didn't write this code, it comes from the out-of-tree aspeed driver v1.13
-https://www.aspeedtech.com/support_driver/
+--- Comment #74 from Martin von Wittich (martin.von.wittich@iserv.eu) ---
+> Did you try with the latest Linux Kernel? I had a lot of gpu lockups like=
+ this. Also try these kernel parameters : "amdgpu.ppfeaturemask=3D0xffffbff=
+b  amdgpu.noretry=3D0 amdgpu.lockup_timeout=3D0 amdgpu.gpu_recovery=3D1 amd=
+gpu.audio=3D0 amdgpu.deep_color=3D1 amd_iommu=3Don iommu=3Dpt"" ( you might=
+ also try with amdgpu.ppfeaturemask=3D0xfffd7fff or amdgpu.ppfeaturemask=3D=
+0xffffffff )
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-Tested-by: Venkat Tadikonda <venkateswara.rao@intel.com>
----
- drivers/gpu/drm/ast/ast_mode.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+I can confirm that at least on the current Ubuntu linux-image-oem-20.04d
+kernel, these options do not resolve the issue:
 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 3eb9afecd9d4..cdddcb5c4439 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -990,6 +990,9 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
- {
- 	struct ast_private *ast = to_ast_private(crtc->dev);
- 	u8 ch = AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF;
-+	struct ast_crtc_state *ast_state;
-+	const struct drm_format_info *format;
-+	struct ast_vbios_mode_info *vbios_mode_info;
- 
- 	/* TODO: Maybe control display signal generation with
- 	 *       Sync Enable (bit CR17.7).
-@@ -1007,6 +1010,16 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int mode)
- 			ast_dp_set_on_off(crtc->dev, 1);
- 		}
- 
-+		ast_state = to_ast_crtc_state(crtc->state);
-+		format = ast_state->format;
-+
-+		if (format){
-+			vbios_mode_info = &ast_state->vbios_mode_info;
-+
-+			ast_set_color_reg(ast, format);
-+			ast_set_vbios_color_reg(ast, format, vbios_mode_info);
-+		}
-+
- 		ast_crtc_load_lut(ast, crtc);
- 		break;
- 	case DRM_MODE_DPMS_STANDBY:
--- 
-2.36.1
+```
+martin@martin ~ % uname -a
+Linux martin 5.14.0-1042-oem #47-Ubuntu SMP Fri Jun 3 18:17:11 UTC 2022 x86=
+_64
+x86_64 x86_64 GNU/Linux
+martin@martin ~ % cat /proc/cmdline=20
+BOOT_IMAGE=3D/vmlinuz-5.14.0-1042-oem
+root=3DUUID=3D1bd000ac-1487-4457-be1a-5ea901ded9e9 ro
+amdgpu.ppfeaturemask=3D0xffffbffb amdgpu.noretry=3D0 amdgpu.lockup_timeout=
+=3D0
+amdgpu.gpu_recovery=3D1 amdgpu.audio=3D0 amdgpu.deep_color=3D1 amd_iommu=3D=
+on iommu=3Dpt
+quiet
+martin@martin ~ % dmesg -T | grep 'ring gfx timeout'
+[Mi Jun 22 14:48:07 2022] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring g=
+fx
+timeout, signaled seq=3D1820983, emitted seq=3D1820985
+[Mi Jun 22 14:48:18 2022] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring g=
+fx
+timeout, signaled seq=3D1820987, emitted seq=3D1820990
+```
 
+I had enabled these options on 2022-06-20 14:14 UTC+2, this is the first cr=
+ash
+I've encountered since then.
+
+I have no idea how to build the latest kernel and therefore haven't tested =
+that
+yet.
+
+I'll now revert back to amdgpu.dpm=3D0.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
