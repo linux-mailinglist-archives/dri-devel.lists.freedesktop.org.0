@@ -2,57 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952F8555521
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 21:57:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579AF555533
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 22:06:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 395AA10EAC4;
-	Wed, 22 Jun 2022 19:57:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACD5310E4A3;
+	Wed, 22 Jun 2022 20:06:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4FF910E9F7;
- Wed, 22 Jun 2022 19:57:10 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id lw20so14177898ejb.4;
- Wed, 22 Jun 2022 12:57:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=slE6QwbnINJ0ZcWZz3laYskRpRPR2ipykOosFL0pR0o=;
- b=YYf+IUOxoYVxwl0izENWWJhLNhN2sNvcPvcJ2zhqQvXVvwRGnnhh/774Ks2hghWwIy
- 1bPq5iVDUNy4oBUztVM+U3f18WumXwhNk7yY6AeEym1+1OBPyHZDzJ9PgsRvAGcrXBBr
- 4lTQW9JAGl9oYmdzYsZjOvhHvkkuT6UhI5uHAzj8SD10Oj+WNTM9iIAfbEMSPOik7Z1E
- RSPlJ54rXrTtnIR9yp1JBgzIGk8zcUWGVJmDgENJyKVKKGCIr89j7RbhjgkCZnwWqE+a
- rLpkk5+WgB8KD4qVxFr6i9nYO+eiGFKALkYrA7RH9UpScqWt5844lOnnt0AisTUIC231
- OaYw==
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61D0710E4B7
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 20:06:04 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-101e1a33fe3so13654202fac.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 13:06:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=PdIR578qkfbKEcvQNXC0L2iYidYBiONlxgchRJAPFVg=;
+ b=CWfpOsAP3+yAGVgEg7CaAGl7nTfhoFTeMo6tQpVxiVQcz+025TJlBQirRqTIKqM1+C
+ awM/prI+3VNBTa4Hkd5qPpoaT7E/YfE25xzSpPRlw9JxiNRNa4uxk2qh9W25tGTj93UI
+ AbRim75fKPiT3V43uX5d1ITQwVxlPHL2LuPuQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=slE6QwbnINJ0ZcWZz3laYskRpRPR2ipykOosFL0pR0o=;
- b=d06VGnvQtSRv5ZocJctcwIhInLvJN/pbP5iqCPDkzxmDmoSnrGOCcpOaq7lqYwU9yh
- KUzfCCnPrB+9pf/FT1qxcWsQUuU/ff6EtoGtPYZ43w68N9TZQaTjEnMhFprsx5vuuD1m
- K42XAhjWguU7NLLxi00mB3XbFSqGNSjfClcelDFl4wKKUBPg1lllL2sudH+hfBMwJz5K
- yAMHgZStC0LAFlDjQ/gGXFFnbp9v5MIzCOPaeMJS615FqO+/VerJ2DDl7mCiLgI3ssjL
- TYwH7ykP14j1nqHCag5SEevelh3DaDAlX3Q6M2u3cOR41OLHPkKA7SmKmmFNJ7ecVWxY
- krbQ==
-X-Gm-Message-State: AJIora/A09OFDal2VEjHiI9OppQ0YUMqbheRI1WKh5bnY1sl89hLsT/e
- 8yL9kZqTsF9tqFIgI3SFHzpa+mbIMs3JWypR5k1e1KGA
-X-Google-Smtp-Source: AGRyM1uwy+Mr50fckBcaC+6aVeyKtD50+E4NJqMCV5tteiPnaVdqyRlMu6L+dpz/X3JAT8hbg6IFCeyq4zGg8mAjGJ8=
-X-Received: by 2002:a17:906:5253:b0:711:ee52:764e with SMTP id
- y19-20020a170906525300b00711ee52764emr4658042ejm.171.1655927829176; Wed, 22
- Jun 2022 12:57:09 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=PdIR578qkfbKEcvQNXC0L2iYidYBiONlxgchRJAPFVg=;
+ b=t4ZHvPxehzEmWLbLB0DTCBzi7FUkixd4Q3yFRL9bIJnTmGeRPAh9wiqqjk2L2BWQzj
+ Xq7TUsod9w3fHSaCRxFNwk10e2bh7dlsC5QEe4VMlFQZLKYj+CxJ8x6iwpVMxt7JMITz
+ 6EiMPuqE5jgIWy3lc1oLSePWF76f0//Ty+tH41xf0h78/vOWHDtRRx2AtT8pCiA1B3SN
+ rsz0A0G41efyW+ZHu3OUzqiHdisvgwD41V0jGGF6dutaLtC9ZoH0DpNYzSVHtMlj8sI1
+ v6NRVMOXgTp3CQTGv88y/y7FaxQ2fdYIX2nAXk0ssj15qNUTbcgJPev8Yf2rYNa8QT/y
+ BGlA==
+X-Gm-Message-State: AJIora9Dn62Kx2DG4UEaIPg+x8ylLLPeKfwXEq9DLHSUtWyS3vvQaivL
+ oXJKK5eACxA4Y+XfxLocA2/I47ijfuO2QUPuHDiQ6g==
+X-Google-Smtp-Source: AGRyM1t44NdWATjICNmPxtuR1+UpcCvkiOmc6pskgeLN9hxebiN1yqBMmXk2WwhGES/Sa+F/HtJydS6rBvsU8+Ut28Y=
+X-Received: by 2002:a05:6870:b381:b0:fe:2004:b3b5 with SMTP id
+ w1-20020a056870b38100b000fe2004b3b5mr54701oap.63.1655928363679; Wed, 22 Jun
+ 2022 13:06:03 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 22 Jun 2022 16:06:03 -0400
 MIME-Version: 1.0
-References: <CADnq5_O-TFZrkpVLExDGwXKWV5wfXnhhxvJ+761cLCizk2Qq4A@mail.gmail.com>
- <0e29cf45-d713-60d0-8184-e74c3ca0f091@suse.de>
-In-Reply-To: <0e29cf45-d713-60d0-8184-e74c3ca0f091@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 22 Jun 2022 15:56:57 -0400
-Message-ID: <CADnq5_PNY8go_ZsL9-StH_deZfF8kat2F-NDDY_cS8kQe7CcrQ@mail.gmail.com>
-Subject: Re: Using generic fbdev helpers breaks hibernation
-To: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <1655927731-22396-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1655927731-22396-1-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 22 Jun 2022 16:06:03 -0400
+Message-ID: <CAE-0n51jSuSyuw7RQqco6nEhhJHND5_9e4kNggJDnQAq8CoPug@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/dp: reset drm_dev to NULL at
+ dp_display_unbind()
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
+ dmitry.baryshkov@linaro.org, robdclark@gmail.com, sean@poorly.run, 
+ vkoul@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,52 +68,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Quan, Evan" <Evan.Quan@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks Thomas.  I think this got me on the right track.
+Quoting Kuogee Hsieh (2022-06-22 12:55:31)
+> During msm initialize phase, dp_display_unbind() will be called to undo
+> initializations had been done by dp_display_bind() previously if there is
+> error happen at msm_drm_bind. Under this kind of circumstance, drm_device
+> may not be populated completed which causes system crash at drm_dev_dbg().
+> This patch reset drm_dev to NULL so that following drm_dev_dbg() will not
+> refer to any internal fields of drm_device to prevent system from crashing.
+> Below are panic stack trace,
+>
+> [   53.584904] Unable to handle kernel paging request at virtual address 0000000070018001
+> .
+> [   53.702212] Hardware name: Qualcomm Technologies, Inc. sc7280 CRD platform (rev5+) (DT)
+> [   53.710445] pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [   53.717596] pc : string_nocheck+0x1c/0x64
+> [   53.721738] lr : string+0x54/0x60
+> [   53.725162] sp : ffffffc013d6b650
+> [   53.728590] pmr_save: 000000e0
+> [   53.731743] x29: ffffffc013d6b650 x28: 0000000000000002 x27: 0000000000ffffff
+> [   53.739083] x26: ffffffc013d6b710 x25: ffffffd07a066ae0 x24: ffffffd07a419f97
+> [   53.746420] x23: ffffffd07a419f99 x22: ffffff81fef360d4 x21: ffffff81fef364d4
+> [   53.753760] x20: ffffffc013d6b6f8 x19: ffffffd07a06683c x18: 0000000000000000
+> [   53.761093] x17: 4020386678302f30 x16: 00000000000000b0 x15: ffffffd0797523c8
+> [   53.768429] x14: 0000000000000004 x13: ffff0000ffffff00 x12: ffffffd07a066b2c
+> [   53.775780] x11: 0000000000000000 x10: 000000000000013c x9 : 0000000000000000
+> [   53.783117] x8 : ffffff81fef364d4 x7 : 0000000000000000 x6 : 0000000000000000
+> [   53.790445] x5 : 0000000000000000 x4 : ffff0a00ffffff04 x3 : ffff0a00ffffff04
+> [   53.797783] x2 : 0000000070018001 x1 : ffffffffffffffff x0 : ffffff81fef360d4
+> [   53.805136] Call trace:
+> [   53.807667]  string_nocheck+0x1c/0x64
+> [   53.811439]  string+0x54/0x60
+> [   53.814498]  vsnprintf+0x374/0x53c
+> [   53.818009]  pointer+0x3dc/0x40c
+> [   53.821340]  vsnprintf+0x398/0x53c
+> [   53.824854]  vscnprintf+0x3c/0x88
+> [   53.828274]  __trace_array_vprintk+0xcc/0x2d4
+> [   53.832768]  trace_array_printk+0x8c/0xb4
+> [   53.836900]  drm_trace_printf+0x74/0x9c
+> [   53.840875]  drm_dev_dbg+0xfc/0x1b8
+> [   53.844480]  dp_pm_suspend+0x70/0xf8
+> [   53.848164]  dpm_run_callback+0x60/0x1a0
+> [   53.852222]  __device_suspend+0x304/0x3f4
+> [   53.856363]  dpm_suspend+0xf8/0x3a8
+> [   53.859959]  dpm_suspend_start+0x8c/0xc0
+>
+> Fixes: a65c95ff88f2 ("drm/msm/dp: stop event kernel thread when DP unbind")
 
-Alex
+Commit doesn't exist. I guess it's
 
-On Tue, Jun 21, 2022 at 6:25 AM Thomas Zimmermann <tzimmermann@suse.de> wro=
-te:
->
-> Hi
->
-> Am 21.06.22 um 00:02 schrieb Alex Deucher:
-> > Maybe someone more familiar with the generic drm fbdev helpers can
-> > help me understand why they don't work with hibernation, at least with
-> > AMD GPUs.  We converted amdgpu to use the generic helpers instead of
-> > rolling our own in this patch[1], but it seems to have broken
-> > hibernation[2].  amdgpu has always set mode_config.prefer_shadow =3D 1,
-> > but that seems to be the cause of the hibernation breakage with the
-> > generic helpers.  I've been staring at the code for a while now but I
-> > can't see why this fails.  Any pointers?
->
-> I don't the actual reason, but when I tried to convert radeon to generic
-> fbdev emulation, I had to modify the fbdev code a bit. I don't see how
-> this would apply to amdgpu, but you can find the patchset attached. See
-> patches 1 and 2.
->
-> Best regards
-> Thomas
->
-> >
-> > Thanks,
-> >
-> > Alex
-> >
-> > [1] - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D087451f372bf76d971184caa258807b7c35aac8f
-> > [2] - https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
->
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+Fixes: 570d3e5d28db ("drm/msm/dp: stop event kernel thread when DP unbind")
