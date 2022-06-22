@@ -1,42 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA77D5544BD
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 10:52:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E59C5544C0
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 11:00:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DCFB10E1E9;
-	Wed, 22 Jun 2022 08:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43BD810E6F8;
+	Wed, 22 Jun 2022 09:00:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC74910E1E9
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 08:52:09 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1o3w5l-00019i-PF; Wed, 22 Jun 2022 10:52:05 +0200
-Message-ID: <ee89fef24afc2b740aa126d734cd382d3d3f9c92.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/etnaviv: print offender task information on
- hangcheck recovery
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
- linux-kernel@vger.kernel.org
-Date: Wed, 22 Jun 2022 10:52:04 +0200
-In-Reply-To: <20220603123706.678320-1-christian.gmeiner@gmail.com>
-References: <20220603123706.678320-1-christian.gmeiner@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFE5610E67B;
+ Wed, 22 Jun 2022 09:00:47 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id z11so16767360edp.9;
+ Wed, 22 Jun 2022 02:00:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ZSrjBcq+xVI2Tq2esk3UlZQ9meYAvS1lMgIesO1n3Z8=;
+ b=h8RKlG1rHkT6jZCHsUrhUFfzY4Pis4FbgxrGEHFwUuOKk0e3Sc6Nx+s/Myahxn8Wyk
+ +5iBK+At5Byvi8Gjh2uAalMETu/PNaJ+HCOpAyRcosbtvizkEB7kMPH7e4oQk7h/dLWX
+ JG84AK+JpBO1c1gcxtfbZMtOqyPQGdXFJ+TFuZTj7F0sDM+IOReR2fTxyF/LjuXaQDdk
+ wWlF7la/mV0SgKO79fRu+1DgOs9z5n5oRH8qylNfAIyKpfZFg/9zXibsYXB9OYUFLJOt
+ /wvFugnqyqt8/+H61hMNP0WWDn7h8ngRB6bNpaH5SIzWrFvMk2tOOwSRLkVWhKZS7CWO
+ JwTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ZSrjBcq+xVI2Tq2esk3UlZQ9meYAvS1lMgIesO1n3Z8=;
+ b=2VdUm2yrES7Aw6R829BSz1ZAr8+fVOQSdGCInMfel7ssomc4l4bkMghT4/RHkjngXx
+ pS3u9CK102oum77XRIjHHwdnI4gHgdOhl4hUdb9k9XHzsjYQCgpqyJ7n7ahieFN7LqBG
+ 4mePQFWoJ3/yXnwCKNgaly07WPDVcnnmODEkqXkmiDPjEaFZvfmpqOTaZUW4jmkK3U2x
+ E+fPAl1IKu+T6gu9B1sLBxLe8LMEt2TsKBVTRhLCPC4+42ZNYapClp10+s9J7rIjQaJm
+ rjPQMI8IZ2AdkwMcitvrXx5SpFZgBohiSSznRtAs0LMv5l2IJh/ee9LJZGSEflTgz5N2
+ bcKA==
+X-Gm-Message-State: AJIora9kIaCPHp5h67A9XY+dSGhv79II2OKp2VXF0ZvauPtMfDY4pBCV
+ b9px20D5Ih3PT3/2kbMum6laWMUw0m4=
+X-Google-Smtp-Source: AGRyM1tVmfBwM0QGdTXeAI/S1FlEkd/b07/w6cfcwBUG+h/Z6TC6wjIz4uwS4PJTZM+NU5zC5jC9vg==
+X-Received: by 2002:a05:6402:3713:b0:435:539e:a939 with SMTP id
+ ek19-20020a056402371300b00435539ea939mr2860095edb.160.1655888446307; 
+ Wed, 22 Jun 2022 02:00:46 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1256:79a0:8f77:c83:6a3d:ee86?
+ ([2a02:908:1256:79a0:8f77:c83:6a3d:ee86])
+ by smtp.gmail.com with ESMTPSA id
+ l11-20020a170906078b00b00722f069fd40sm650870ejc.159.2022.06.22.02.00.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Jun 2022 02:00:45 -0700 (PDT)
+Message-ID: <6d1acd76-dee8-29fd-dde3-bf51161792de@gmail.com>
+Date: Wed, 22 Jun 2022 11:00:44 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/5] drm/amdgpu: Fix possible refcount leak for release of
+ external_hw_fence
+Content-Language: en-US
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20220620220302.86389-1-andrey.grodzovsky@amd.com>
+ <20220620220302.86389-2-andrey.grodzovsky@amd.com>
+ <2c70d0c4-a326-6497-54b2-51bc2b93b9d6@gmail.com>
+ <91aba934-32f0-b1b9-b882-979ca02a1920@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <91aba934-32f0-b1b9-b882-979ca02a1920@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,138 +79,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "moderated list:DRM DRIVERS FOR VIVANTE
- GPU IP" <etnaviv@lists.freedesktop.org>, "open list:DRM DRIVERS FOR VIVANTE
- GPU IP" <dri-devel@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: jingwen.chen2@amd.com, Christian.Koenig@amd.com, monk.liu@amd.com,
+ yiqing.yao@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+Am 21.06.22 um 21:34 schrieb Andrey Grodzovsky:
+> On 2022-06-21 03:19, Christian König wrote:
+>
+>> Am 21.06.22 um 00:02 schrieb Andrey Grodzovsky:
+>>> Problem:
+>>> In amdgpu_job_submit_direct - The refcount should drop by 2
+>>> but it drops only by 1.
+>>>
+>>> amdgpu_ib_sched->emit -> refcount 1 from first fence init
+>>> dma_fence_get -> refcount 2
+>>> dme_fence_put -> refcount 1
+>>>
+>>> Fix:
+>>> Add put for external_hw_fence in amdgpu_job_free/free_cb
+>>
+>> Well what is the external_hw_fence good for in this construct?
+>
+>
+> As far as I understand for direct submissions you don't want to pass a 
+> job
+> pointer to ib_schedule and so u can't use the embedded fence for this 
+> case.
 
-Am Freitag, dem 03.06.2022 um 14:37 +0200 schrieb Christian Gmeiner:
-> Track the pid per submit, so we can print the name and cmdline of
-> the task which submitted the batch that caused the gpu to hang.
-> 
-I really like the idea. I think the pid handling could be integrated
-into the scheduler, so we don't have to carry it on each submit, but
-not requesting any changes right now. I'm leaning toward taking this
-patch as-is and doing the scheduler integration as a second step.
+Can you please look a bit deeper into this, we now have a couple of 
+fields in the job structure which have no obvious use.
+
+I think we could pass a job structure to ib_schedule even for direct 
+submit now.
 
 Regards,
-Lucas
+Christian.
 
-> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  1 +
->  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  6 ++++++
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 18 +++++++++++++++++-
->  drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  2 +-
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c      |  2 +-
->  5 files changed, 26 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> index 63688e6e4580..baa81cbf701a 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> @@ -96,6 +96,7 @@ struct etnaviv_gem_submit {
->  	int out_fence_id;
->  	struct list_head node; /* GPU active submit list */
->  	struct etnaviv_cmdbuf cmdbuf;
-> +	struct pid *pid;       /* submitting process */
->  	bool runtime_resumed;
->  	u32 exec_state;
->  	u32 flags;
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> index 1ac916b24891..1491159d0d20 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> @@ -399,6 +399,9 @@ static void submit_cleanup(struct kref *kref)
->  		mutex_unlock(&submit->gpu->fence_lock);
->  		dma_fence_put(submit->out_fence);
->  	}
-> +
-> +	put_pid(submit->pid);
-> +
->  	kfree(submit->pmrs);
->  	kfree(submit);
->  }
-> @@ -422,6 +425,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
->  	struct sync_file *sync_file = NULL;
->  	struct ww_acquire_ctx ticket;
->  	int out_fence_fd = -1;
-> +	struct pid *pid = get_pid(task_pid(current));
->  	void *stream;
->  	int ret;
->  
-> @@ -519,6 +523,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
->  		goto err_submit_ww_acquire;
->  	}
->  
-> +	submit->pid = pid;
-> +
->  	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &submit->cmdbuf,
->  				  ALIGN(args->stream_size, 8) + 8);
->  	if (ret)
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> index 37018bc55810..7d9bf4673e2d 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-> @@ -1045,12 +1045,28 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
->  }
->  #endif
->  
-> -void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
-> +void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit)
->  {
-> +	struct etnaviv_gpu *gpu = submit->gpu;
-> +	char *comm = NULL, *cmd = NULL;
-> +	struct task_struct *task;
->  	unsigned int i;
->  
->  	dev_err(gpu->dev, "recover hung GPU!\n");
->  
-> +	task = get_pid_task(submit->pid, PIDTYPE_PID);
-> +	if (task) {
-> +		comm = kstrdup(task->comm, GFP_KERNEL);
-> +		cmd = kstrdup_quotable_cmdline(task, GFP_KERNEL);
-> +		put_task_struct(task);
-> +	}
-> +
-> +	if (comm && cmd)
-> +		dev_err(gpu->dev, "offending task: %s (%s)\n", comm, cmd);
-> +
-> +	kfree(cmd);
-> +	kfree(comm);
-> +
->  	if (pm_runtime_get_sync(gpu->dev) < 0)
->  		goto pm_put;
->  
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> index 85eddd492774..b3a0941d56fd 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-> @@ -168,7 +168,7 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu);
->  int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m);
->  #endif
->  
-> -void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu);
-> +void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit);
->  void etnaviv_gpu_retire(struct etnaviv_gpu *gpu);
->  int etnaviv_gpu_wait_fence_interruptible(struct etnaviv_gpu *gpu,
->  	u32 fence, struct drm_etnaviv_timespec *timeout);
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> index 72e2553fbc98..d29f467eee13 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -67,7 +67,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
->  
->  	/* get the GPU back into the init state */
->  	etnaviv_core_dump(submit);
-> -	etnaviv_gpu_recover_hang(gpu);
-> +	etnaviv_gpu_recover_hang(submit);
->  
->  	drm_sched_resubmit_jobs(&gpu->sched);
->  
-
+>
+> Andrey
+>
+>
+>>
+>>>
+>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 8 ++++++--
+>>>   1 file changed, 6 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c 
+>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> index 10aa073600d4..58568fdde2d0 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>> @@ -152,8 +152,10 @@ static void amdgpu_job_free_cb(struct 
+>>> drm_sched_job *s_job)
+>>>       /* only put the hw fence if has embedded fence */
+>>>       if (job->hw_fence.ops != NULL)
+>>>           dma_fence_put(&job->hw_fence);
+>>> -    else
+>>> +    else {
+>>
+>> When one side of the if uses {} the other side should use {} as well, 
+>> e.g. use } else { here.
+>>
+>> Christian.
+>>
+>>> + dma_fence_put(job->external_hw_fence);
+>>>           kfree(job);
+>>> +    }
+>>>   }
+>>>     void amdgpu_job_free(struct amdgpu_job *job)
+>>> @@ -165,8 +167,10 @@ void amdgpu_job_free(struct amdgpu_job *job)
+>>>       /* only put the hw fence if has embedded fence */
+>>>       if (job->hw_fence.ops != NULL)
+>>>           dma_fence_put(&job->hw_fence);
+>>> -    else
+>>> +    else {
+>>> +        dma_fence_put(job->external_hw_fence);
+>>>           kfree(job);
+>>> +    }
+>>>   }
+>>>     int amdgpu_job_submit(struct amdgpu_job *job, struct 
+>>> drm_sched_entity *entity,
+>>
 
