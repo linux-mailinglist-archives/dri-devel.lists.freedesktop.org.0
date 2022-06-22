@@ -2,52 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C471255438C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 09:24:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13607554390
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 09:25:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 833F11138BF;
-	Wed, 22 Jun 2022 07:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B31C113B60;
+	Wed, 22 Jun 2022 07:24:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A92E113B5E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 07:24:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655882682; x=1687418682;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=NgoHLyZGRgMPgNFB7tpululSiyLjykD0PpFVx9n2Or0=;
- b=QgUftnS9QXVRkS1+5REL+XuB+6tf/aG0tEqGHYwE3oUx2Ww1OXB/Lqnv
- cUFtBsbpDWSB23LDKyjVfoPzf1m5jN3/BzIAV1xnTpv7aseUBoh7Jddn/
- dsIW/DPwBPqIXnPHrRME4Lk2bwLPuUf/7lYDr08gPumPo5+6Iw6qmHyr9
- CE00KFyw3fypDznoo8DpNhbw/hJ4Rlowy4MHJBoJUjKgoDY/3vWOkzdD7
- jkqhExFhvfzgD+cnplDgdXbJXKPnZXh4FwBV+zDaDwaG9s58+NyUTp9XS
- yga4nTRa4z71EiMZoJKuJOED774gBzbjIR55gi+Rvf/3v1afKuUOm3Poh A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10385"; a="279108869"
-X-IronPort-AV: E=Sophos;i="5.92,211,1650956400"; d="scan'208";a="279108869"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 00:24:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,211,1650956400"; d="scan'208";a="562834083"
-Received: from lkp-server02.sh.intel.com (HELO a67cc04a5eeb) ([10.239.97.151])
- by orsmga006.jf.intel.com with ESMTP; 22 Jun 2022 00:24:37 -0700
-Received: from kbuild by a67cc04a5eeb with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1o3uj7-0000zN-5j;
- Wed, 22 Jun 2022 07:24:37 +0000
-Date: Wed, 22 Jun 2022 15:24:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mikko Perttunen <cyndis@kapsi.fi>, thierry.reding@gmail.com,
- jonathanh@nvidia.com, joro@8bytes.org, will@kernel.org,
- robin.murphy@arm.com, robh+dt@kernel.org, krzysztof.kozlowski@canonical.com
-Subject: Re: [PATCH v6 04/10] gpu: host1x: Add context device management code
-Message-ID: <202206221557.laES8yNQ-lkp@intel.com>
-References: <20220621151022.1416300-5-cyndis@kapsi.fi>
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58946113B5E
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 07:24:57 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id d19so18243478lji.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 00:24:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=YoxQ8bxKC0+9JiwXWf9XJ6/TU9qeci3gtMH9RdtmUOM=;
+ b=FVZppPq+HgRatwdw9mBhIyBcCuKYUO7KIg3b6WyzTtn+ieiK8qj+2cBHNMpm800a2U
+ SEw7Klt8bH3yx2pmX/BSp14akymYv4+pjfBJfk95Lojo3KD/vLL1QpRJ7bawo/okeOuc
+ HmVl6T87jKVCEdIyvTNTGl4wqdEgJsco7NxmDtpihocUGddJ1z9Z/HwJQLsrMYKqX1Ge
+ saeBBv6O30zdfGt+Dd+YXYjsJrvT4/7fbtSFwGFrcPWGc9LVhjc8Zm4EtGcetyMdJ4Ge
+ VOGV00WKkCRLVUExu3eXS4B257gR1+LxMorxZWsse67I3eByQH1lMR+j3WU4vf/jhpma
+ mDjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YoxQ8bxKC0+9JiwXWf9XJ6/TU9qeci3gtMH9RdtmUOM=;
+ b=ZKg3y0eLsQCNODUU7fvI4pfxp2OaI+lCSApAleEZGDPjnOMT0QTK+zGHr2vZBdfSeY
+ BloVtSBCdy59JtZtRRr78GZeYEaD/tqIjAbpDD/NquKtlBsUcoG94JHLXFK74nkNuWAw
+ DS9ecnaRLUwXNiDj+amHsvPytV9I6s54OA17TXXFh9/Dr9ZbOfxqJUrHnQnjBi83CgAB
+ s5ncWoC8DZhTmRtV8tndWKA3GEHZ9vpOUR+gQv4tRW0vDVW7V0TDXD/AtKmfmNFMFgFM
+ CtRE/5MAKE5zZFC+jNLS6wjdYC7WBKgEZ7Hf1Pdm2x3xR2/JePBLYkIjPTkBmkuDugbM
+ FLMg==
+X-Gm-Message-State: AJIora+cUNAd9KTrFp+Vf9rv3P55vRrLQrIBryCMxox4DTzvC7H2Ti46
+ ARO48MmTNnth35nbOOC+uryZKA==
+X-Google-Smtp-Source: AGRyM1tJbMHkXYq5UeLE2gCpcSsVO14ibqDJLnV2+fNPbMOaQD6RYhO/nsbxzZgK41uH0WPuqTjCBg==
+X-Received: by 2002:a2e:8e94:0:b0:25a:83fd:eeec with SMTP id
+ z20-20020a2e8e94000000b0025a83fdeeecmr1087524ljk.493.1655882695577; 
+ Wed, 22 Jun 2022 00:24:55 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ u9-20020a199209000000b0047da6e495b1sm2449615lfd.4.2022.06.22.00.24.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Jun 2022 00:24:55 -0700 (PDT)
+Message-ID: <48d83380-edb1-ad61-3878-5fa3ac3e5169@linaro.org>
+Date: Wed, 22 Jun 2022 10:24:54 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220621151022.1416300-5-cyndis@kapsi.fi>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 2/3] drm/msm/dp: Remove pixel_rate from struct dp_ctrl
+Content-Language: en-GB
+To: Stephen Boyd <swboyd@chromium.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>
+References: <20220617204750.2347797-1-swboyd@chromium.org>
+ <20220617204750.2347797-3-swboyd@chromium.org>
+ <bb98ca29-8752-6864-ddbd-19547fb6f73b@linaro.org>
+ <CAE-0n51_zysbkktVEfhvXtGqpADTWcaPBAX7A7rD1FV+vcK3Uw@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <CAE-0n51_zysbkktVEfhvXtGqpADTWcaPBAX7A7rD1FV+vcK3Uw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,135 +77,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>, iommu@lists.linux-foundation.org,
- linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ patches@lists.linux.dev, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mikko,
+On 22/06/2022 05:59, Stephen Boyd wrote:
+> Quoting Dmitry Baryshkov (2022-06-17 16:07:58)
+>> On 17/06/2022 23:47, Stephen Boyd wrote:
+>>> This struct member is stored to in the function that calls the function
+>>> which uses it. That's possible with a function argument instead of
+>>> storing to a struct member. Pass the pixel_rate as an argument instead
+>>> to simplify the code. Note that dp_ctrl_link_maintenance() was storing
+>>> the pixel_rate but never using it so we just remove the assignment from
+>>> there.
+>>>
+>>> Cc: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>>> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+>>> ---
+>>>    drivers/gpu/drm/msm/dp/dp_ctrl.c | 57 ++++++++++++++++----------------
+>>>    drivers/gpu/drm/msm/dp/dp_ctrl.h |  1 -
+>>>    2 files changed, 28 insertions(+), 30 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>> index bd445e683cfc..e114521af2e9 100644
+>>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>>> @@ -1336,7 +1336,7 @@ static void dp_ctrl_set_clock_rate(struct dp_ctrl_private *ctrl,
+>>>                                name, rate);
+>>>    }
+>>>
+>>> -static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl)
+>>> +static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl, unsigned long pixel_rate)
+>>
+>>
+>> I think we can read pixel_rate here rather than getting it as an
+>> argument. We'd need to move handling (DP_TEST_LINK_PHY_TEST_PATTERN &&
+>> !ctrl->panel->dp_mode.drm_mode.clock) case here from dp_ctrl_on_link().
+> 
+> This is also called from dp_ctrl_on_stream() and
+> dp_ctrl_reinitialize_mainlink(). In the dp_ctrl_on_stream() case we may
+> divide the pixel_rate by 2 with widebus. We could move the
+> dp_ctrl_on_link() code here, but then we also need to move widebus, and
+> then I'm not sure which pixel rate to use.
+> 
+> It looks like the test code doesn't care about widebus? And similarly,
+> we may run the pixel clk faster until we get a modeset and then divide
+> it for widebus.
 
-Thank you for the patch! Yet something to improve:
+Good question. I'll let Kuogee or somebody else from Qualcomm to comment 
+on test code vs widebus vs pixel rate, as I don't know these details.
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on tegra/for-next linus/master v5.19-rc3]
-[cannot apply to tegra-drm/drm/tegra/for-next next-20220621]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+I'm not sure if we should halve the pixel clock in 
+dp_ctrl_on_stream_phy_test_report() or not if the widebus is supported.
+ From the current code I'd assume that we have to do this. Let's raise 
+this question in the corresponding patch discussion.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mikko-Perttunen/Host1x-context-isolation-support/20220621-231339
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: arm64-randconfig-r021-20220622 (https://download.01.org/0day-ci/archive/20220622/202206221557.laES8yNQ-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 8b8d126598ce7bd5243da7f94f69fa1104288bee)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/2501beeae7469b805f9f624049fd56643cf6e18e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mikko-Perttunen/Host1x-context-isolation-support/20220621-231339
-        git checkout 2501beeae7469b805f9f624049fd56643cf6e18e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/host1x/
+> Is that why you're suggesting to check
+> !ctrl->panel->dp_mode.drm_mode.clock? I hesitate because it isn't a
+> direct conversion, instead it checks some other stashed struct member.
+> 
+> I'll also note that dp_ctrl_enable_mainlink_clocks() doesn't really use
+> this argument except to print the value in drm_dbg_dp(). Maybe we should
+> simply remove it from here instead?
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Yes, do it please.
 
-All errors (new ones prefixed by >>):
+> 
+>>> @@ -1588,12 +1586,12 @@ static int dp_ctrl_on_stream_phy_test_report(struct dp_ctrl *dp_ctrl)
+>>>    {
+>>>        int ret;
+>>>        struct dp_ctrl_private *ctrl;
+>>> +     unsigned long pixel_rate;
+>>>
+>>>        ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+>>>
+>>> -     ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
+>>> -
+>>> -     ret = dp_ctrl_enable_stream_clocks(ctrl);
+>>> +     pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
+>>> +     ret = dp_ctrl_enable_stream_clocks(ctrl, pixel_rate);
+>>
+>> I think we can take another step forward here. Read the
+>> ctrl->panel->dp_mode.drm_mode.clock from within the
+>> dp_ctrl_enable_stream_clocks() function. This removes the need to pass
+>> pixel_rate as an argument here.
+> 
+> This is also affected by widebus and if the function is called from
+> dp_ctrl_on_stream() or dp_ctrl_on_stream_phy_test_report(). Maybe it
+> would be better to inline dp_ctrl_enable_stream_clocks() to the
+> callsites? That would probably simplify things because the function is
+> mostly a wrapper around a couple functions.
 
->> drivers/gpu/host1x/context.c:80:28: error: no member named 'ids' in 'struct iommu_fwspec'
-                   ctx->stream_id = fwspec->ids[0] & 0xffff;
-                                    ~~~~~~  ^
-   1 error generated.
+Yes, this sounds good. Then we can drop the drm_dbg_dp from it (as it 
+nearly duplicates the data that was just printed.
 
-
-vim +80 drivers/gpu/host1x/context.c
-
-    15	
-    16	int host1x_memory_context_list_init(struct host1x *host1x)
-    17	{
-    18		struct host1x_memory_context_list *cdl = &host1x->context_list;
-    19		struct device_node *node = host1x->dev->of_node;
-    20		struct host1x_memory_context *ctx;
-    21		unsigned int i;
-    22		int err;
-    23	
-    24		cdl->devs = NULL;
-    25		cdl->len = 0;
-    26		mutex_init(&cdl->lock);
-    27	
-    28		err = of_property_count_u32_elems(node, "iommu-map");
-    29		if (err < 0)
-    30			return 0;
-    31	
-    32		cdl->devs = kcalloc(err, sizeof(*cdl->devs), GFP_KERNEL);
-    33		if (!cdl->devs)
-    34			return -ENOMEM;
-    35		cdl->len = err / 4;
-    36	
-    37		for (i = 0; i < cdl->len; i++) {
-    38			struct iommu_fwspec *fwspec;
-    39	
-    40			ctx = &cdl->devs[i];
-    41	
-    42			ctx->host = host1x;
-    43	
-    44			device_initialize(&ctx->dev);
-    45	
-    46			/*
-    47			 * Due to an issue with T194 NVENC, only 38 bits can be used.
-    48			 * Anyway, 256GiB of IOVA ought to be enough for anyone.
-    49			 */
-    50			ctx->dma_mask = DMA_BIT_MASK(38);
-    51			ctx->dev.dma_mask = &ctx->dma_mask;
-    52			ctx->dev.coherent_dma_mask = ctx->dma_mask;
-    53			dev_set_name(&ctx->dev, "host1x-ctx.%d", i);
-    54			ctx->dev.bus = &host1x_context_device_bus_type;
-    55			ctx->dev.parent = host1x->dev;
-    56	
-    57			dma_set_max_seg_size(&ctx->dev, UINT_MAX);
-    58	
-    59			err = device_add(&ctx->dev);
-    60			if (err) {
-    61				dev_err(host1x->dev, "could not add context device %d: %d\n", i, err);
-    62				goto del_devices;
-    63			}
-    64	
-    65			err = of_dma_configure_id(&ctx->dev, node, true, &i);
-    66			if (err) {
-    67				dev_err(host1x->dev, "IOMMU configuration failed for context device %d: %d\n",
-    68					i, err);
-    69				device_del(&ctx->dev);
-    70				goto del_devices;
-    71			}
-    72	
-    73			fwspec = dev_iommu_fwspec_get(&ctx->dev);
-    74			if (!fwspec) {
-    75				dev_err(host1x->dev, "Context device %d has no IOMMU!\n", i);
-    76				device_del(&ctx->dev);
-    77				goto del_devices;
-    78			}
-    79	
-  > 80			ctx->stream_id = fwspec->ids[0] & 0xffff;
-    81		}
-    82	
-    83		return 0;
-    84	
-    85	del_devices:
-    86		while (i--)
-    87			device_del(&cdl->devs[i].dev);
-    88	
-    89		kfree(cdl->devs);
-    90		cdl->len = 0;
-    91	
-    92		return err;
-    93	}
-    94	
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+With best wishes
+Dmitry
