@@ -2,65 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199F75554A4
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 21:39:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B090F5554F1
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 21:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0683810E4CC;
-	Wed, 22 Jun 2022 19:39:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4285810E32E;
+	Wed, 22 Jun 2022 19:47:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
- [IPv6:2607:f8b0:4864:20::f35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4A1E10E4CC
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 19:39:38 +0000 (UTC)
-Received: by mail-qv1-xf35.google.com with SMTP id 59so3999728qvb.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:39:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :content-transfer-encoding:user-agent:mime-version;
- bh=o69t0ilR7Hk+fBWUIkW0byFF7csFuoYUt8x0EJzEGT0=;
- b=zDwj7Z7XJsqKoyOUeeRZPzgUJAK7nqOO//vwa87996d/w2rMccrCEIAd4XiRHF4jv1
- M83CN02Ox+LGfiTQ/XnTX8sy8YqoxO/JrfceWUj8TR/A0WQwkxsHArGPUv0xlkynIMUs
- b2CTm7xWBa3Vt5BxAZhaVtlwN4XyVTTwU+5kV5lpfCaXzOMR2M37RA+CIYOK08SvH/e3
- 5+VHzpcPVBkvKlQDqeS4gO+iH0OhKxzzw/wkm6RkwWmaTYfeT26+pgz9CI75e45VbkDx
- xskF6MIoPzqVZRKI8xdDLED3re7VDozsmHdplmPbev3ZKGYfVqL4mD/1ahLeAi5ObmMh
- qymg==
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 100D810E2F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 19:47:17 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-101d2e81bceso14987734fac.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:47:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=P5X0i3YLR+vH/xCKeSIiyUzkgZgxeJh3Gr3zEWyGWZw=;
+ b=eEevZBp5hzAVO7OVafpFcG7EK/jyT2qs+fcQnakr40EPZB5gEKRLfLtb6iT4RXMmbx
+ 6itUVdVsCCEnkiujkl3V2MIuXLMOUIaAvjvmT06nYQ07dX1mO4XoDvkKcTdu5rnm0Gcg
+ 233mkWVIGvdB7XGJZfOVDuqaRuirMlFKKjPzQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:content-transfer-encoding:user-agent:mime-version;
- bh=o69t0ilR7Hk+fBWUIkW0byFF7csFuoYUt8x0EJzEGT0=;
- b=NbOxnkBhc4w4wnmLdSbrx2GP97mi+vAVVpiQJCuSmadPvaXwCeLEBnHgSFBo47BrM/
- Sinw8cnEW7W2ZAH2u6N8Qj532+6jMZwI6v4rn4xmERbvfrUFYkTtCnmdYRyGrzLuwXJX
- 61TNo9fUS76zQFZTo+fxDeHIH7GSh8SR69MA71o92Aqevlvr16DFVYZDfIVN4QHKENfU
- /nQ66S5PnCFIKTjQPvX7YkbCV7oYO7h/lMhH4dTUW/Na2koDWzI0vtUoIF/lJL2swM+p
- gC1sPeTyOHUK7tSkHzfOKbHiGPT+Jzs+klg3V/gIsHjfr6FQh9OmoURM5egLabCG4t5p
- fOOg==
-X-Gm-Message-State: AJIora8GOX4Jx0s5ytT+Am3+zQyaYY06BSZIzXJELTW6vDM8ZyUECcl4
- S5T3xBXq3jG5k+hrT47ueykwKQ==
-X-Google-Smtp-Source: AGRyM1uBNURSl9Hk7+t9B98Zy80s9b7OW6cZ2Z/yFvCb5MY0v2TudFXnIjFB6e3Ii3PTZHJaY+JeLg==
-X-Received: by 2002:a05:622a:292:b0:305:e2b7:bfa8 with SMTP id
- z18-20020a05622a029200b00305e2b7bfa8mr4668617qtw.243.1655926777927; 
- Wed, 22 Jun 2022 12:39:37 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net.
- [192.222.136.102]) by smtp.gmail.com with ESMTPSA id
- m22-20020a05620a291600b006a370031c3esm17833638qkp.106.2022.06.22.12.39.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jun 2022 12:39:37 -0700 (PDT)
-Message-ID: <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
-Subject: Re: DMA-buf and uncached system memory
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Daniel Vetter <daniel@ffwll.ch>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>
-Date: Wed, 22 Jun 2022 15:39:36 -0400
-In-Reply-To: <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
- <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=P5X0i3YLR+vH/xCKeSIiyUzkgZgxeJh3Gr3zEWyGWZw=;
+ b=RmP09l1SW/b353E27RGmIHJ88hRF/h7ItwbW0pSiJa4Z58j4QyfFcATPoyvZT8gL3C
+ CNWzrajd0+pjYhd2wLs+k/DUwz7XAbb4h0Ejb0L/5SpFczljYBRFkGxA4HwUf8SDcJfG
+ xDDKMj+5Yt6AnL4VB4n49HrnNiakrE6XbDw+T/TfT023LIxplRoag2mr2mI1wtis7EYp
+ 8zZqukFHjaioSLHGchsjxkMMxFtZYCgXdIjc387hFoe750TOyqw8PqCcdAOq56V9HFmI
+ OQoAaEFq2ZIY4+rJvKLTZ7ZiIT8lLJBJN9Kta1hYfYx0PkaWvxLlD2dkxaj5AGNWXKqY
+ teOw==
+X-Gm-Message-State: AJIora8TM1wd6bMr7Az8E35grPSgTUz2KMvkdYcbRP+mBzKXZeIOhskX
+ zXOkqSC9ochKOf0afQVWuUukRFgivHwOzFgVwGYR3Q==
+X-Google-Smtp-Source: AGRyM1vZGszeqoU+XZtNEjQiK9wIw0YFJSaflA/w5PO2Z8WdsymdanQ/ymyF27U0fMlIl/UySOprRauZcbmkCjlv4IU=
+X-Received: by 2002:a05:6870:b381:b0:fe:2004:b3b5 with SMTP id
+ w1-20020a056870b38100b000fe2004b3b5mr8306oap.63.1655927236348; Wed, 22 Jun
+ 2022 12:47:16 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 22 Jun 2022 15:47:15 -0400
 MIME-Version: 1.0
+In-Reply-To: <1655916845-31760-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1655916845-31760-1-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 22 Jun 2022 15:47:15 -0400
+Message-ID: <CAE-0n52+DSD4Ub5MDD4bBdfHPG-mQzkQjGdB0PwqiRRmWF0HMQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: reset drm_dev to NULL at dp_display_unbind()
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
+ dmitry.baryshkov@linaro.org, robdclark@gmail.com, sean@poorly.run, 
+ vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,55 +67,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media <linux-media@vger.kernel.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le mardi 16 f=C3=A9vrier 2021 =C3=A0 10:25 +0100, Daniel Vetter a =C3=A9cri=
-t=C2=A0:
-> So I think if AMD also guarantees to drop clean cachelines just do the
-> same thing we do right now for intel integrated + discrete amd, but in
-> reserve. It's fragile, but it does work.
+Quoting Kuogee Hsieh (2022-06-22 09:54:05)
+> During msm initialize phase, dp_display_unbind() will be called to undo
+> initializations had been done by dp_display_bind() previously if there is
+> error happen at msm_drm_bind. Under this kind of circumstance, drm_device
+> may not be populated completed which causes system crash at drm_dev_dbg().
+> This patch reset drm_dev to NULL so that following drm_dev_dbg() will not
+> refer to any internal fields of drm_device to prevent system from crashing.
+> Below are panic stack trace,
+>
+> [   53.584904] Unable to handle kernel paging request at virtual address 0000000070018001
+> .
+> [   53.702212] Hardware name: Qualcomm Technologies, Inc. sc7280 CRD platform (rev5+) (DT)
+> [   53.710445] pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [   53.717596] pc : string_nocheck+0x1c/0x64
+> [   53.721738] lr : string+0x54/0x60
+> [   53.725162] sp : ffffffc013d6b650
+> [   53.728590] pmr_save: 000000e0
+> [   53.731743] x29: ffffffc013d6b650 x28: 0000000000000002 x27: 0000000000ffffff
+> [   53.739083] x26: ffffffc013d6b710 x25: ffffffd07a066ae0 x24: ffffffd07a419f97
+> [   53.746420] x23: ffffffd07a419f99 x22: ffffff81fef360d4 x21: ffffff81fef364d4
+> [   53.753760] x20: ffffffc013d6b6f8 x19: ffffffd07a06683c x18: 0000000000000000
+> [   53.761093] x17: 4020386678302f30 x16: 00000000000000b0 x15: ffffffd0797523c8
+> [   53.768429] x14: 0000000000000004 x13: ffff0000ffffff00 x12: ffffffd07a066b2c
+> [   53.775780] x11: 0000000000000000 x10: 000000000000013c x9 : 0000000000000000
+> [   53.783117] x8 : ffffff81fef364d4 x7 : 0000000000000000 x6 : 0000000000000000
+> [   53.790445] x5 : 0000000000000000 x4 : ffff0a00ffffff04 x3 : ffff0a00ffffff04
+> [   53.797783] x2 : 0000000070018001 x1 : ffffffffffffffff x0 : ffffff81fef360d4
+> [   53.805136] Call trace:
+> [   53.807667]  string_nocheck+0x1c/0x64
+> [   53.811439]  string+0x54/0x60
+> [   53.814498]  vsnprintf+0x374/0x53c
+> [   53.818009]  pointer+0x3dc/0x40c
+> [   53.821340]  vsnprintf+0x398/0x53c
+> [   53.824854]  vscnprintf+0x3c/0x88
+> [   53.828274]  __trace_array_vprintk+0xcc/0x2d4
+> [   53.832768]  trace_array_printk+0x8c/0xb4
+> [   53.836900]  drm_trace_printf+0x74/0x9c
+> [   53.840875]  drm_dev_dbg+0xfc/0x1b8
+> [   53.844480]  dp_pm_suspend+0x70/0xf8
+> [   53.848164]  dpm_run_callback+0x60/0x1a0
+> [   53.852222]  __device_suspend+0x304/0x3f4
+> [   53.856363]  dpm_suspend+0xf8/0x3a8
+> [   53.859959]  dpm_suspend_start+0x8c/0xc0
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
 
-Sorry to disrupt, but if you pass V4L2 vmalloc data to Intel display driver=
-, you
-also get nice dirt on the screen. If you have a UVC webcam that produces a =
-pixel
-format compatible with your display, you can reproduce the issue quite easi=
-ly
-with:
+Any fixes tag?
 
-  gst-launch-1.0 v4l2src device=3D/dev/video0 ! kmssink
-
-p.s. some frame-rate are less likely to exhibit the issue, make sure you cr=
-eate
-movement to see it.
-
-The only solution I could think of (not implemented) was to detect in the
-attach() call what the importers can do (with dev->coherent_dma_mask if I
-recall), and otherwise flush the cache immediately and start flushing the c=
-ache
-from now on signalling it for DQBUF (in vb2 workqueue or dqbuf ioctl, I don=
-'t
-have an idea yet). I bet this idea is inapplicable to were you have fences,=
- we
-don't have that in v4l2.
-
-This idea was hinted by Robert Becket (now in CC), but perhaps I picked it =
-up
-wrong, explaining it wrong, etc. I'm no expert, just noticed there wasn't r=
-eally
-a good plan for that, so one needs to make one up. I'm not aware oh an impo=
-rter
-could know how the memory was allocated by the exporter, and worst, how an
-importer could figure-out that the export is going to produce buffer with h=
-ot
-CPU cache (UVC driver does memcpy from USB chunks of variable size to produ=
-ce a
-fixed size image).
-
-Nicolas
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
