@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E00555179
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 18:45:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8772B5551C1
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 18:54:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 860DB1136E1;
-	Wed, 22 Jun 2022 16:45:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19DE410E137;
+	Wed, 22 Jun 2022 16:54:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
- (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C3211136E8
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 16:45:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=YZfT4wGMjS+w5JXzSrGh2Gc/p6tagSC8EnQnAKHsf80=;
- b=cTxh/EHWZuKNyai48Gk4qAXfvcYbdE8WeUPLyCUlmxLMqzCnpLe+7XVZU+M/B0MyAdhCmt92N7Z58
- nZCqJiyQhP03z2ip51yEi6e/ZGMUQ0mhshZuFegbbfMIMlHRG8u/NZw2K5YqfuwNDKlVYl3GWCsu/W
- 0R47YMREWTflVmo9VmImUBIc1X3xiweHUGbwzgrxKmopq+Yaasm0wfSMyiiYeIEHMXTFYEKJU/Z7Xi
- GK4uhNbJ6iLcIOYEysxCUShklcIsC8SqQe/NCI5RhabX9CboBqigP+80zJj7figWd4zhEZ+f/0srjn
- 7JeZ0k3SWRcXz/Y5DTchsYrX6VeOBoQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=YZfT4wGMjS+w5JXzSrGh2Gc/p6tagSC8EnQnAKHsf80=;
- b=sFcrJiKz0QZz9E/j2x+4XsYIySigZOqck7RHRvg4QPYF+glSsPPgB69CQgTRHXi/tYfmn8WwiB5Yx
- 9kMZMZ2AQ==
-X-HalOne-Cookie: 65a49dd9f9931d16ca2994feca41cbb9a675061d
-X-HalOne-ID: afd11c86-f24a-11ec-a915-d0431ea8a290
-Received: from mailproxy2.cst.dirpod4-cph3.one.com
- (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
- by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id afd11c86-f24a-11ec-a915-d0431ea8a290;
- Wed, 22 Jun 2022 16:45:13 +0000 (UTC)
-Date: Wed, 22 Jun 2022 18:45:11 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v1 0/9] drm/bridge: ps8640 and ti-sn65dsi86 updates
-Message-ID: <YrNHF4F/Kj/MlbAK@ravnborg.org>
-References: <20220206154405.1243333-1-sam@ravnborg.org>
- <YgAc11fkN9m7QoEc@ravnborg.org>
- <165589244641.1149771.3796337289343458935@Monstersaurus>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F98411370B;
+ Wed, 22 Jun 2022 16:54:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1655916855; x=1687452855;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=Mkvb6JV3WucgqjS4lQ47IhKgB1nOOh2VtgzcVyQdrB8=;
+ b=Hu2wpLNF2R1Zn9iDi15j6Hz64syuspCnW9BkVg7HhiTUk1m1QzCtcvoF
+ N7W7FpRNlzUqu6GEKAHU4ehFG7AJI5z4GEr9pbTzbA3LkEUGoRW2UXgRx
+ 0cTYAVs0+2xuRj1YLR4uqUxwuYL0TzGI5NIZAKicQjGMCsRAeR0/I1oOd 8=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 22 Jun 2022 09:54:15 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2022 09:54:14 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 22 Jun 2022 09:54:14 -0700
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 22 Jun 2022 09:54:13 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@linux.ie>, <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH] drm/msm/dp: reset drm_dev to NULL at dp_display_unbind()
+Date: Wed, 22 Jun 2022 09:54:05 -0700
+Message-ID: <1655916845-31760-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <165589244641.1149771.3796337289343458935@Monstersaurus>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,39 +60,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Philip Chen <philipchen@chromium.org>,
- Jitao Shi <jitao.shi@mediatek.com>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, Robert Foss <robert.foss@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kieran,
+During msm initialize phase, dp_display_unbind() will be called to undo
+initializations had been done by dp_display_bind() previously if there is
+error happen at msm_drm_bind. Under this kind of circumstance, drm_device
+may not be populated completed which causes system crash at drm_dev_dbg().
+This patch reset drm_dev to NULL so that following drm_dev_dbg() will not
+refer to any internal fields of drm_device to prevent system from crashing.
+Below are panic stack trace,
 
-On Wed, Jun 22, 2022 at 11:07:26AM +0100, Kieran Bingham wrote:
-> Hi Sam,
-> 
-> Quoting Sam Ravnborg (2022-02-06 19:09:11)
-> > > 
-> > > The code builds - but needs testing.
-> > 
-> > Hrmff, no it does not build. The fixes was by accident not included.
-> > Will wait a bit for feedback before posting a v2.
-> > 
-> >         Sam
-> 
-> Do you have any plan to send a v2 on this series?
-> 
-> I have built up a series to extend the ti-sn65dsi86 which is now based
-> on this. (which means I'll have an implied Tested-by: tag for these as
-> well).
+[   53.584904] Unable to handle kernel paging request at virtual address 0000000070018001
+.
+[   53.702212] Hardware name: Qualcomm Technologies, Inc. sc7280 CRD platform (rev5+) (DT)
+[   53.710445] pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   53.717596] pc : string_nocheck+0x1c/0x64
+[   53.721738] lr : string+0x54/0x60
+[   53.725162] sp : ffffffc013d6b650
+[   53.728590] pmr_save: 000000e0
+[   53.731743] x29: ffffffc013d6b650 x28: 0000000000000002 x27: 0000000000ffffff
+[   53.739083] x26: ffffffc013d6b710 x25: ffffffd07a066ae0 x24: ffffffd07a419f97
+[   53.746420] x23: ffffffd07a419f99 x22: ffffff81fef360d4 x21: ffffff81fef364d4
+[   53.753760] x20: ffffffc013d6b6f8 x19: ffffffd07a06683c x18: 0000000000000000
+[   53.761093] x17: 4020386678302f30 x16: 00000000000000b0 x15: ffffffd0797523c8
+[   53.768429] x14: 0000000000000004 x13: ffff0000ffffff00 x12: ffffffd07a066b2c
+[   53.775780] x11: 0000000000000000 x10: 000000000000013c x9 : 0000000000000000
+[   53.783117] x8 : ffffff81fef364d4 x7 : 0000000000000000 x6 : 0000000000000000
+[   53.790445] x5 : 0000000000000000 x4 : ffff0a00ffffff04 x3 : ffff0a00ffffff04
+[   53.797783] x2 : 0000000070018001 x1 : ffffffffffffffff x0 : ffffff81fef360d4
+[   53.805136] Call trace:
+[   53.807667]  string_nocheck+0x1c/0x64
+[   53.811439]  string+0x54/0x60
+[   53.814498]  vsnprintf+0x374/0x53c
+[   53.818009]  pointer+0x3dc/0x40c
+[   53.821340]  vsnprintf+0x398/0x53c
+[   53.824854]  vscnprintf+0x3c/0x88
+[   53.828274]  __trace_array_vprintk+0xcc/0x2d4
+[   53.832768]  trace_array_printk+0x8c/0xb4
+[   53.836900]  drm_trace_printf+0x74/0x9c
+[   53.840875]  drm_dev_dbg+0xfc/0x1b8
+[   53.844480]  dp_pm_suspend+0x70/0xf8
+[   53.848164]  dpm_run_callback+0x60/0x1a0
+[   53.852222]  __device_suspend+0x304/0x3f4
+[   53.856363]  dpm_suspend+0xf8/0x3a8
+[   53.859959]  dpm_suspend_start+0x8c/0xc0
 
-That is too good not to do something about it. I will give it a spin
-this weekend - I do not have time until then.
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-	Sam
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 2b72639..02fff70 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -316,6 +316,8 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+ 
+ 	dp_power_client_deinit(dp->power);
+ 	dp_aux_unregister(dp->aux);
++	dp->drm_dev = NULL;
++	dp->aux->drm_dev = NULL;
+ 	priv->dp[dp->id] = NULL;
+ }
+ 
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
