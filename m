@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F58B55408F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 04:32:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26307554099
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 04:39:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 141E810E1E5;
-	Wed, 22 Jun 2022 02:32:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A76F410E8F4;
+	Wed, 22 Jun 2022 02:38:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB1310E1E5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 02:32:21 +0000 (UTC)
-X-UUID: 47ec2e72a6094c4284d6e95c42f7a1f0-20220622
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:50bf1460-bb55-4385-8336-6a96b99c6943, OB:0,
- LO
- B:0,IP:0,URL:25,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:70
-X-CID-INFO: VERSION:1.1.6, REQID:50bf1460-bb55-4385-8336-6a96b99c6943, OB:0,
- LOB:
- 0,IP:0,URL:25,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Spam_GS981B3D,AC
- TION:quarantine,TS:70
-X-CID-META: VersionHash:b14ad71, CLOUDID:337429ea-f7af-4e69-92ee-0fd74a0c286c,
- C
- OID:7f036f2b718d,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 47ec2e72a6094c4284d6e95c42f7a1f0-20220622
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1016340308; Wed, 22 Jun 2022 10:32:14 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Wed, 22 Jun 2022 10:32:14 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Wed, 22 Jun 2022 10:32:14 +0800
-Message-ID: <efd33799d1b7da447113c6edd6cf7409b05e3f3d.camel@mediatek.com>
-Subject: Re: [PATCH v13 01/14] dt-bindings: mediatek,dpi: Add DP_INTF
- compatible
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <matthias.bgg@gmail.com>,
- <airlied@linux.ie>
-Date: Wed, 22 Jun 2022 10:32:14 +0800
-In-Reply-To: <20220621113732.11595-2-rex-bc.chen@mediatek.com>
-References: <20220621113732.11595-1-rex-bc.chen@mediatek.com>
- <20220621113732.11595-2-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EEA710E51D
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 02:38:58 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id bo5so14802857pfb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jun 2022 19:38:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UGahv1UkYohRmUNftmGc3sECtNNFfGUIAgRvhZC4Bt0=;
+ b=LbibEVgq4fVFIL0WpewGwGOEOv3kwfMm6PPFMGEzbGHk5MR6p2sYNX+2rsWvIsywgd
+ SijJOw4KdqcFv0Ol6DRWsR3bvMNoBwIOwiUbN4rbyBIjCYUjWug/pGMEvpgnLUsViItD
+ YyY62B53YGy2BVv+KApxb0zd+k7ptMSesM6Fs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UGahv1UkYohRmUNftmGc3sECtNNFfGUIAgRvhZC4Bt0=;
+ b=uP+l//X3wLNBKt1LyvGkmezgktsyGBrrkJHWOYIFwWQiv+dnQ2FqFHJgbD9SXQUFvd
+ kjBbpZcOgivOpzMcOraa+uRXg+zALuzFT4h7MpGxCbhmbyIYumbeX3oOTB+GzMhF/LHY
+ pfXwgC9QaqziDZYNeRdZ97A4hmHCSjjFBMZ27G3bEqu0y15AK3x8INgRO883W4lfsToa
+ geWw/BRSbgKqcSoaXVeuyP9tzjsJqocr+Ojs8gq6NJwcV/+eZl/12clcijGvvqqynqQf
+ UkhuOm9drigUxEIYqjNnzJIOqV1mE8N//8kYxOm/M1TXU6qd3GtXpFwKbTy13uV02ptH
+ KmfA==
+X-Gm-Message-State: AJIora9/MlqMUJmbjKCCXKKjt5rnBKB/XQXLJEdGLCwbNoYV+Qm+6+JR
+ j5S4gTZd4I8/UXW4WOKnphYXJA==
+X-Google-Smtp-Source: AGRyM1u8Xz3E9eBHmOq7oDjE6oJp+zYRzprNRNlxNeOfnsMRr5u7zy3v4JTXzcxNxNrSnPUsPftsjQ==
+X-Received: by 2002:aa7:83d0:0:b0:50c:eb2b:8e8a with SMTP id
+ j16-20020aa783d0000000b0050ceb2b8e8amr32998039pfn.31.1655865537928; 
+ Tue, 21 Jun 2022 19:38:57 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:cfc4:cd7f:b2c:a07e])
+ by smtp.gmail.com with ESMTPSA id
+ b143-20020a621b95000000b0052536c695c0sm2487026pfb.170.2022.06.21.19.38.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jun 2022 19:38:57 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH] drm/msm/dpu: Increment vsync_cnt before waking up userspace
+Date: Tue, 21 Jun 2022 19:38:55 -0700
+Message-Id: <20220622023855.2970913-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.37.0.rc0.104.g0611611a94-goog
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,102 +65,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
+Cc: Sean Paul <sean@poorly.run>, Mark Yacoub <markyacoub@chromium.org>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+ patches@lists.linux.dev, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
+The 'vsync_cnt' is used to count the number of frames for a crtc.
+Unfortunately, we increment the count after waking up userspace via
+dpu_crtc_vblank_callback() calling drm_crtc_handle_vblank().
+drm_crtc_handle_vblank() wakes up userspace processes that have called
+drm_wait_vblank_ioctl(), and if that ioctl is expecting the count to
+increase it won't.
 
-On Tue, 2022-06-21 at 19:37 +0800, Bo-Chen Chen wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> DP_INTF is similar to DPI but does not have the exact same feature
-> set
-> or register layouts.
-> 
-> DP_INTF is the sink of the display pipeline that is connected to the
-> DisplayPort controller and encoder unit. It takes the same clocks as
-> DPI.
-> 
-> In this patch, we also do these string replacement:
-> - s/mediatek/MediaTek/ in title.
-> - s/Mediatek/MediaTek/ in description.
+Increment the count before calling into the drm APIs so that we don't
+have to worry about ordering the increment with anything else in drm.
+This fixes a software video decode test that fails to see frame counts
+increase on Trogdor boards.
 
-I would like one patch do one thing. The patch title is "Add DP_INTF
-compatible" so it would not imply refining the case of "MediaTek". So
-separate this to an independent patch.
+Cc: Mark Yacoub <markyacoub@chromium.org>
+Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
+Fixes: 885455d6bf82 ("drm/msm: Change dpu_crtc_get_vblank_counter to use vsync count.")
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Regards,
-CK
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 3a462e327e0e..a1b8c4592943 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1251,12 +1251,13 @@ static void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
+ 	DPU_ATRACE_BEGIN("encoder_vblank_callback");
+ 	dpu_enc = to_dpu_encoder_virt(drm_enc);
+ 
++	atomic_inc(&phy_enc->vsync_cnt);
++
+ 	spin_lock_irqsave(&dpu_enc->enc_spinlock, lock_flags);
+ 	if (dpu_enc->crtc)
+ 		dpu_crtc_vblank_callback(dpu_enc->crtc);
+ 	spin_unlock_irqrestore(&dpu_enc->enc_spinlock, lock_flags);
+ 
+-	atomic_inc(&phy_enc->vsync_cnt);
+ 	DPU_ATRACE_END("encoder_vblank_callback");
+ }
+ 
 
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> [Bo-Chen: Modify reviewers' comments.]
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> ---
->  .../bindings/display/mediatek/mediatek,dpi.yaml       | 11 ++++++---
-> --
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
-> l
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
-> l
-> index 77ee1b923991..5bb23e97cf33 100644
-> ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
-> l
-> +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
-> l
-> @@ -4,16 +4,16 @@
->  $id: 
-> http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: mediatek DPI Controller Device Tree Bindings
-> +title: MediaTek DPI and DP_INTF Controller
->  
->  maintainers:
->    - CK Hu <ck.hu@mediatek.com>
->    - Jitao shi <jitao.shi@mediatek.com>
->  
->  description: |
-> -  The Mediatek DPI function block is a sink of the display subsystem
-> and
-> -  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a
-> parallel
-> -  output bus.
-> +  The MediaTek DPI and DP_INTF function blocks are a sink of the
-> display
-> +  subsystem and provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422
-> pixel data on a
-> +  parallel output bus.
->  
->  properties:
->    compatible:
-> @@ -24,6 +24,7 @@ properties:
->        - mediatek,mt8183-dpi
->        - mediatek,mt8186-dpi
->        - mediatek,mt8192-dpi
-> +      - mediatek,mt8195-dp-intf
->  
->    reg:
->      maxItems: 1
-> @@ -55,7 +56,7 @@ properties:
->      $ref: /schemas/graph.yaml#/properties/port
->      description:
->        Output port node. This port should be connected to the input
-> port of an
-> -      attached HDMI or LVDS encoder chip.
-> +      attached HDMI, LVDS or DisplayPort encoder chip.
->  
->  required:
->    - compatible
+base-commit: f2906aa863381afb0015a9eb7fefad885d4e5a56
+-- 
+https://chromeos.dev
 
