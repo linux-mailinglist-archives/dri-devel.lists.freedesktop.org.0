@@ -1,76 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CCA5544C2
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 11:05:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7145544C5
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 11:06:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F98210E1BC;
-	Wed, 22 Jun 2022 09:05:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ABA310E1F2;
+	Wed, 22 Jun 2022 09:06:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD8F10E1BC
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 09:05:26 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id cf14so13179533edb.8
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 02:05:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=tDbYyeBEwGX8YAg3QUDWRyeGWxjD+ob964twAa4kWvc=;
- b=T6Q7g41xrVHPb5/EXilFpXnlYnOVv3yYpEH50JccewrUSviM3mUvqSgrfQec6jzuqT
- QmQdgEHQoQtM3w3cRWuR8gHZuyMVz1xG9IQ1DZXBbpE3NnJfGw6KQRe+9ykOFhRswK6M
- WbtxG+U8RSROCzFeDazB2Mk4clWtOONEjq9ibBGxWUlMd+cuhKKXMSyCX2OITLa1ijML
- PQMi7TwwJUSH+y8kAkMuSEplLoNrc9nGSJv5FvEGair385YnjpNarug0s1vlujT1imSJ
- Ei83AzV++scBxJeAngyCdhPMSARVu7b2t58ECG5jso144HxibALj490wuFwQkU+XwL7T
- AbKQ==
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+ [209.85.219.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4FE410E1F2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 09:06:48 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id y14so18903170qvs.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 02:06:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=tDbYyeBEwGX8YAg3QUDWRyeGWxjD+ob964twAa4kWvc=;
- b=tBAbVtPO1UOL2L8BKSnubLGeTWjLEHezzHDxlhP7BMOAgCJ+aABgtiJp8PY39htQ1r
- RJKx4afRLSQtzURmyjMIfX+fQk4D+sqOrrS6yN8yAX19RB+1BLUCRJSelczLBOQdcfbB
- gaq5lg4DTzR4rAhgXA7rMAf5jxXGpepq/fBwzomogTqDTSBHdYB9vC0JbojEW4ch2b0M
- i5SbZdFiT/aYzAaxo0nf2b0uOo5B0o0Cp8nsZvHRZe/65y2Yxqiqpl0zPh9qnRxMHQOD
- quBjq5j8MqNtlDFZSxLOO+TZUnDCP35Zl2ny5GXYE+w1KUOIgfSM+2MOiDewJ2zHtNeQ
- s9gQ==
-X-Gm-Message-State: AJIora+Me5UZbwzs6o5uE7jddKQUhGSt117Lw3I018v/293fzMkYmqM8
- euh5LT9DnrigAArdX4WMm3A=
-X-Google-Smtp-Source: AGRyM1sGjrBd+ZyLKbv9JrMmQVEw2WQSCnULGkU8C+b5nzWE2vH4+sK2Wwrmw/CVvFKBmg3vAZpouA==
-X-Received: by 2002:a05:6402:350f:b0:42f:68f9:ae5 with SMTP id
- b15-20020a056402350f00b0042f68f90ae5mr2954373edd.36.1655888725078; 
- Wed, 22 Jun 2022 02:05:25 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:8f77:c83:6a3d:ee86?
- ([2a02:908:1256:79a0:8f77:c83:6a3d:ee86])
- by smtp.gmail.com with ESMTPSA id
- c19-20020aa7c753000000b004357063bf60sm9952412eds.41.2022.06.22.02.05.24
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ct+WoF/8EA0gYLIVTa+7U23fzJ0aSx4jkfEHvfFCTRE=;
+ b=IZDdVM1P9lfAL5oWAA3vkgVY6R53JhfziG9ItVVv/St4t7d2VDkRwwg3gMXQZHKOLo
+ 0f63IeCJo0btvNhUWNDulHwjiGck98WQ3Nq45XewNn9571FYQBDq3PLkdyYmjZ0dchbS
+ o/yz+RBo4hz2Jed9q8BRdTf04TXIt3YZIJLNXZI3jSVgxDAAun0phGyr3SgBXDkbvvyL
+ nycRxIGJHItKcbTRH3Q07n8U6mqI65HsvdZGpAy4K5lMkvQ8ULAx3SdhyMARA69aPbGF
+ Vs5avEaNV/IdqaR73sqQsTQp3wpvzydkXyBvR7XFqYDgQoajfVuMM8GgKZquM5Xxyhht
+ 8xag==
+X-Gm-Message-State: AJIora+PqM+fBYJfPC9Id+HT4fpRHgHG/jwQJsQvOi+xYEI+5QAwTKBf
+ 8EM1JHmsS72kaR/jxcbeUYoGeaUuv/Qfxw==
+X-Google-Smtp-Source: AGRyM1v4yD2x8Z0U3d8zlkWReUZYiuGu9lDJnsF14UYvVKmD2aAu5tfRx/iJimP4bHzlfaUakY9ZQQ==
+X-Received: by 2002:ad4:5bef:0:b0:470:536a:d350 with SMTP id
+ k15-20020ad45bef000000b00470536ad350mr5725232qvc.49.1655888807751; 
+ Wed, 22 Jun 2022 02:06:47 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
+ [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
+ p6-20020a37bf06000000b006a6a4b43c01sm15219361qkf.38.2022.06.22.02.06.46
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jun 2022 02:05:24 -0700 (PDT)
-Message-ID: <82500226-3ac5-c62c-ac5b-363ee184dbbc@gmail.com>
-Date: Wed, 22 Jun 2022 11:05:23 +0200
+ Wed, 22 Jun 2022 02:06:46 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id p69so17377073ybc.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 02:06:46 -0700 (PDT)
+X-Received: by 2002:a05:6902:1141:b0:669:3f2a:c6bb with SMTP id
+ p1-20020a056902114100b006693f2ac6bbmr2581553ybu.365.1655888806340; Wed, 22
+ Jun 2022 02:06:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [Linaro-mm-sig] Re: DMA-buf and uncached system memory
-Content-Language: en-US
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Andy.Hsieh" <andy.hsieh@mediatek.com>,
- linux-media <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
- lkml <linux-kernel@vger.kernel.org>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
- <cdb508e49eb1439f4e4c327d2a6738f219e04bf8.camel@ndufresne.ca>
- <5822b325-766e-ce3c-50eb-d7f54f14fd0b@mediatek.com>
- <39f7f41a-af8d-4700-37da-9401455afb98@amd.com>
- <2aabc41c8432d09b7ceeb8e67144a639d3d86c72.camel@ndufresne.ca>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <2aabc41c8432d09b7ceeb8e67144a639d3d86c72.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <43645c9b5cd657664c1340d40133f2116c8cef43.1655818025.git.geert+renesas@glider.be>
+ <88f11e5c4704bd8510c2c6a171536484a2232f82.camel@nxp.com>
+In-Reply-To: <88f11e5c4704bd8510c2c6a171536484a2232f82.camel@nxp.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 22 Jun 2022 11:06:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUAh+m-tuAem0qENGEnuTw9LB_nBO3SXbVAMW8wbBtqiQ@mail.gmail.com>
+Message-ID: <CAMuHMdUAh+m-tuAem0qENGEnuTw9LB_nBO3SXbVAMW8wbBtqiQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: imx: i.MX8 bridge drivers should depend on
+ ARCH_MXC
+To: Liu Ying <victor.liu@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,141 +67,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, "Sharma,
- Shashank" <Shashank.Sharma@amd.com>
+Cc: Marek Vasut <marex@denx.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 21.06.22 um 17:42 schrieb Nicolas Dufresne:
-> Hi Christian and Andy,
+Hi Liu,
+
+On Tue, Jun 21, 2022 at 5:47 PM Liu Ying <victor.liu@nxp.com> wrote:
+> On Tue, 2022-06-21 at 15:30 +0200, Geert Uytterhoeven wrote:
+> > The various Freescale i.MX8MP display bridges are only present on
+> > Freescale i.MX8 SoCs.  Hence add a dependency on ARCH_MXC, to prevent
+> > asking the user about these drivers when configuring a kernel without
+> > i.MX SoC support.
 >
-> Le mardi 21 juin 2022 à 12:34 +0200, Christian König a écrit :
->>   Hi Andy,
->>   
->>   Am 21.06.22 um 12:17 schrieb Andy.Hsieh:
->>   
->>> On 2/16/21 4:39 AM, Nicolas Dufresne wrote:
->>>> Le lundi 15 février 2021 à 09:58 +0100, Christian König a écrit :
->>>>> Hi guys,
->>>>>
->>>>> we are currently working an Freesync and direct scan out from system
->>>>> memory on AMD APUs in A+A laptops.
->>>>>
->>>>> On problem we stumbled over is that our display hardware needs to scan
->>>>> out from uncached system memory and we currently don't have a way to
->>>>> communicate that through DMA-buf.
->>>>>
->>>>> For our specific use case at hand we are going to implement something
->>>>> driver specific, but the question is should we have something more
->>>>> generic for this?
->>>> Hopefully I'm getting this right, but this makes me think of a long
->>>> standing
->>>> issue I've met with Intel DRM and UVC driver. If I let the UVC driver
->>>> allocate
->>>> the buffer, and import the resulting DMABuf (cacheable memory written with
->>>> a cpu
->>>> copy in the kernel) into DRM, we can see cache artifact being displayed.
->>>> While
->>>> if I use the DRM driver memory (dumb buffer in that case) it's clean
->>>> because
->>>> there is a driver specific solution to that.
->>>>
->>>> There is no obvious way for userspace application to know what's is
->>>> right/wrong
->>>> way and in fact it feels like the kernel could solve this somehow without
->>>> having
->>>> to inform userspace (perhaps).
->>>>
->>>>> After all the system memory access pattern is a PCIe extension and as
->>>>> such something generic.
->>>>>
->>>>> Regards,
->>>>> Christian.
->>>>
->>> Hi All,
->>>
->>> We also encountered the UVC cache issue on ARMv8 CPU in Mediatek SoC when
->>> using UVC dmabuf-export and feeding the dmabuf to the DRM display by the
->>> following GStreamer command:
->>>
->>> # gst-launch-1.0 v4l2src device=/dev/video0 io-mode=dmabuf ! kmssink
->>>
->>> UVC driver uses videobuf2-vmalloc to allocate buffers and is able to export
->>> them as dmabuf. But UVC uses memcpy() to fill the frame buffer by CPU
->>> without
->>> flushing the cache. So if the display hardware directly uses the buffer, the
->>> image shown on the screen will be dirty.
->>>
->>> Here are some experiments:
->>>
->>> 1. By doing some memory operations (e.g. devmem) when streaming the UVC,
->>>     the issue is mitigated. I guess the cache is swapped rapidly.
->>> 2. By replacing the memcpy() with memcpy_flushcache() in the UVC driver,
->>>     the issue disappears.
->>> 3. By adding .finish callback in videobuf2-vmalloc.c to flush the cache
->>>     before returning the buffer, the issue disappears.
->>>
->>> It seems to lack a cache flush stage in either UVC or Display. We may also
->>> need communication between the producer and consumer. Then, they can decide
->>> who is responsible for the flushing to avoid flushing cache unconditionally
->>> leading to the performance impact.
->>   
->>   Well, that's not what this mail thread was all about.
->>   
->>   The issue you are facing is that somebody is forgetting to flush caches, but
->> the issue discussed in this thread here is that we have hardware which
->> bypasses caches altogether.
->>   
->>   As far as I can see in your case UVC just allocates normal cached system
->> memory through videobuf2-vmalloc() and it is perfectly valid to fill that
->> using memcpy().
->>   
->>   If some hardware then accesses those buffers bypassing CPU caches then it is
->> the responsibility of the importing driver and/or DMA subsystem to flush the
->> caches accordingly.
-> I've tracked this down to videobuf2-vmalloc.c failing to look for coherency
-> during "attach()". It is also missing begin_/end access implementation for the
-> case it get attached to a non-coherent device. Seems fixable though, but "I'm
-> far from an expert", but more some random person reading code and comments.
+> s/i.MX8MP/i.MX8/
 
-Well that is perfectly expected behavior, videobuf2-vmalloc return 
-normal cached system memory.
+Oops. Fixed.
 
-So it doesn't care for the coherency of the buffer.
-
-What should happen instead is that the display device needs to make sure 
-that it can coherently access the data and that's not the case here.
-
-Regards,
-Christian.
-
+> For now, only i.MX8qm and i.MX8qxp display bridge drivers are in
+> bridge/imx directory, no i.MX8MP display bridge driver.
 >
-> regards,
-> Nicolas
->
->>   
->>   Regards,
->>   Christian.
->>   
->>   
->>> Regards,
->>> Andy Hsieh
->>>
->>> ************* MEDIATEK Confidentiality Notice ********************
->>> The information contained in this e-mail message (including any
->>> attachments) may be confidential, proprietary, privileged, or otherwise
->>> exempt from disclosure under applicable laws. It is intended to be
->>> conveyed only to the designated recipient(s). Any use, dissemination,
->>> distribution, printing, retaining or copying of this e-mail (including its
->>> attachments) by unintended recipient(s) is strictly prohibited and may
->>> be unlawful. If you are not an intended recipient of this e-mail, or believe
->>> that you have received this e-mail in error, please notify the sender
->>> immediately (by replying to this e-mail), delete any and all copies of
->>> this e-mail (including any attachments) from your system, and do not
->>> disclose the content of this e-mail to any other person. Thank you!
->>   
->>   
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+> With this fixed:
+> Reviewed-by: Liu Ying <victor.liu@nxp.com>
 
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
