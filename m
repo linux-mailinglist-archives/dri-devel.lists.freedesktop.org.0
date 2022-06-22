@@ -1,80 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276ED55534D
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 20:34:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4573155535B
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 20:38:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC35D10E34E;
-	Wed, 22 Jun 2022 18:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6162710E3A6;
+	Wed, 22 Jun 2022 18:38:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD4B210E34E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 18:34:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655922866;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=omiNqvORIjG9NgssZYHaS4WVLfu2J9JUn3+DxvoKIzU=;
- b=Q5sq590dsTNPSZNWrMzWbDiEO3hVSGbsGLb3ZB4HdrdNu3agWK5/1yjpH06Ba1kqUEmM3S
- CJTYxzG6fuj8Kc8b46h/UaWnSu4+mAT9rL4tqqQRf930W5Dcx+T1a6HXUhvCmYtBV9bH0m
- CXsLXpLpVVyBbWQzQ+X0HkeX2YaaVqg=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-179-y0AzmFD4Noai00BTzuIOYQ-1; Wed, 22 Jun 2022 14:34:22 -0400
-X-MC-Unique: y0AzmFD4Noai00BTzuIOYQ-1
-Received: by mail-qv1-f71.google.com with SMTP id
- lx15-20020a0562145f0f00b0047052731d81so5500916qvb.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 11:34:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=omiNqvORIjG9NgssZYHaS4WVLfu2J9JUn3+DxvoKIzU=;
- b=Di5qJha5gmU9V+NHUkr9r1hqeB+foq7S/OGrFRByH6OSPADK1PPCZKJ8jiArV7dWs0
- HN/K37GSrTHyGVbB3zOXtMTnTBFol9BUCVCwwQOanrzt9dG73u2qdfgkGsp7CPyjvSPG
- +CuJkBeJMhD4GsuISdoe9olsvPy/oNygzNUqEkSNDtd2qCd4cs+Tv6GJjg6fN9os5qCY
- tNYp64JJjaeN20sWoH1M8ZirTIwWDBWRgPEYZbJ5TrkA3Y2NKYk49+xGbD0R0zriCl7o
- 0MFGtRPN4+eZtn4pI23Q/L6AhDTtYlsk0jwWRd3fIYFn5iE6iqE0lXViI2/sgPLgVPth
- tozw==
-X-Gm-Message-State: AJIora998m6UBD3LGReADTD5EPp3FW2//xDGJYpigVjLiP/yBBIiGlg5
- PmlciYeJLs/0vsJjXlKb/EE0+h8kZ9s9iKKuu2lKUODAp+6ms1leTesmhQffcmix+uAwn0FVjqX
- pSXMq2uYAOQ15ysvnpQAszYAeA4W+
-X-Received: by 2002:a05:620a:f89:b0:6ae:d418:f478 with SMTP id
- b9-20020a05620a0f8900b006aed418f478mr3456648qkn.344.1655922861775; 
- Wed, 22 Jun 2022 11:34:21 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sLdOpvVvGa9rukdo6gfWMtRMEU54NEu1QoSLfKHFZABy3SvdCJ7y4K3NMewQy37mKcWf65Jw==
-X-Received: by 2002:a05:620a:f89:b0:6ae:d418:f478 with SMTP id
- b9-20020a05620a0f8900b006aed418f478mr3456630qkn.344.1655922861472; 
- Wed, 22 Jun 2022 11:34:21 -0700 (PDT)
-Received: from [192.168.8.138] ([141.154.49.182])
- by smtp.gmail.com with ESMTPSA id
- r8-20020a05622a034800b00304e4bbc369sm15355256qtw.10.2022.06.22.11.34.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jun 2022 11:34:20 -0700 (PDT)
-Message-ID: <8a6048576c440f1653121bb7be8583e9fee0c79a.camel@redhat.com>
-Subject: Re: [PATCH] drm/ast: Fix black screen when getting out of suspend
-From: Lyude Paul <lyude@redhat.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org, 
- tzimmermann@suse.de, kuohsiang_chou@aspeedtech.com
-Date: Wed, 22 Jun 2022 14:34:19 -0400
-In-Reply-To: <20220622124815.356035-1-jfalempe@redhat.com>
-References: <20220622124815.356035-1-jfalempe@redhat.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7055910E3A6
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 18:37:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655923079; x=1687459079;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=lQOlUxYNuQVcl+FmODxwBbN5EVVDPtYIogkxmeyIqIo=;
+ b=I6gDQYEhTP5hQ57NdiI4i7nVkrPIwcXmA9c0Bkv+vfaHJWl5bjnkkUV3
+ 4q3rA2prtT03iHgbO8ixsirHKO6aflcXNhHkaNSAoXNtxK2Llox6bkBKQ
+ dI+wsoRv7bX+vWDQuU0aQNUtFpToR2V4WeCm2HK37MPlyc0MuKq6hYbt6
+ ACTG3wWNOpoIUdGv7OPgjBAyGxhaXi9b8t3QPSEg4A5CUjYHwi4e5qJVC
+ UnAcb1XXjVejBUFR+wUuqXhmQEE86sG4xAVQHXUexZ3uhhjBVM+ZhdyX8
+ m4sqhZ6+KRWF6WJIazzG/vEyn07ydLvA7oSu1J7qeDwgTHaKk+CRu8poE w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="305967671"
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="305967671"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Jun 2022 11:37:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="538587717"
+Received: from lkp-server02.sh.intel.com (HELO a67cc04a5eeb) ([10.239.97.151])
+ by orsmga003.jf.intel.com with ESMTP; 22 Jun 2022 11:37:56 -0700
+Received: from kbuild by a67cc04a5eeb with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1o45Ei-0001ZA-6K;
+ Wed, 22 Jun 2022 18:37:56 +0000
+Date: Thu, 23 Jun 2022 02:37:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <maxime@cerno.tech>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: Re: [PATCH v2 02/68] drm/crtc: Introduce drmm_crtc_init_with_planes
+Message-ID: <202206230238.D3tMKlmQ-lkp@intel.com>
+References: <20220622143209.600298-3-maxime@cerno.tech>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220622143209.600298-3-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,75 +61,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net, hungju_huang@aspeedtech.com,
- Venkat Tadikonda <venkateswara.rao@intel.com>, charles_kuan@aspeedtech.com,
- luke_chen@aspeedtech.com
+Cc: kbuild-all@lists.01.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some small nitpicks:
+Hi Maxime,
 
-On Wed, 2022-06-22 at 14:48 +0200, Jocelyn Falempe wrote:
-> With an AST2600, the screen is garbage when going out of suspend.
-> This is because color settings are lost, and not restored on resume.
-> Force the color settings on DPMS_ON, to make sure the settings are correct.
-> 
-> I didn't write this code, it comes from the out-of-tree aspeed driver v1.13
-> https://www.aspeedtech.com/support_driver/
-> 
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> Tested-by: Venkat Tadikonda <venkateswara.rao@intel.com>
+I love your patch! Perhaps something to improve:
 
-Should have a Cc: to stable imho, `dim` can do this for you:
+[auto build test WARNING on next-20220622]
+[also build test WARNING on v5.19-rc3]
+[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next drm-tip/drm-tip linus/master anholt/for-next v5.19-rc3 v5.19-rc2 v5.19-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-https://drm.pages.freedesktop.org/maintainer-tools/dim.html
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-vc4-Fix-hotplug-for-vc4/20220622-223842
+base:    ac0ba5454ca85162c08dc429fef1999e077ca976
+config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20220623/202206230238.D3tMKlmQ-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/46edccc8b6046ecee2de71b23c941dc23514f522
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Maxime-Ripard/drm-vc4-Fix-hotplug-for-vc4/20220622-223842
+        git checkout 46edccc8b6046ecee2de71b23c941dc23514f522
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/
 
-> ---
->  drivers/gpu/drm/ast/ast_mode.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 3eb9afecd9d4..cdddcb5c4439 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -990,6 +990,9 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int
-> mode)
->  {
->         struct ast_private *ast = to_ast_private(crtc->dev);
->         u8 ch = AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF;
-> +       struct ast_crtc_state *ast_state;
-> +       const struct drm_format_info *format;
-> +       struct ast_vbios_mode_info *vbios_mode_info;
->  
->         /* TODO: Maybe control display signal generation with
->          *       Sync Enable (bit CR17.7).
-> @@ -1007,6 +1010,16 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int
-> mode)
->                         ast_dp_set_on_off(crtc->dev, 1);
->                 }
->  
-> +               ast_state = to_ast_crtc_state(crtc->state);
-> +               format = ast_state->format;
-> +
-> +               if (format){
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Should be a space between ')' and '{'.
+All warnings (new ones prefixed by >>):
 
-With that fixed, this is: Reviewed-by: Lyude Paul <lyude@redhat.com>
+   drivers/gpu/drm/drm_crtc.c: In function 'drmm_crtc_init_with_planes':
+>> drivers/gpu/drm/drm_crtc.c:421:43: warning: function 'drmm_crtc_init_with_planes' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     421 |                                           name, ap);
+         |                                           ^~~~
 
-> +                       vbios_mode_info = &ast_state->vbios_mode_info;
-> +
-> +                       ast_set_color_reg(ast, format);
-> +                       ast_set_vbios_color_reg(ast, format,
-> vbios_mode_info);
-> +               }
-> +
->                 ast_crtc_load_lut(ast, crtc);
->                 break;
->         case DRM_MODE_DPMS_STANDBY:
+
+vim +421 drivers/gpu/drm/drm_crtc.c
+
+   379	
+   380	/**
+   381	 * drmm_crtc_init_with_planes - Initialise a new CRTC object with
+   382	 *    specified primary and cursor planes.
+   383	 * @dev: DRM device
+   384	 * @crtc: CRTC object to init
+   385	 * @primary: Primary plane for CRTC
+   386	 * @cursor: Cursor plane for CRTC
+   387	 * @funcs: callbacks for the new CRTC
+   388	 * @name: printf style format string for the CRTC name, or NULL for default name
+   389	 *
+   390	 * Inits a new object created as base part of a driver crtc object. Drivers
+   391	 * should use this function instead of drm_crtc_init(), which is only provided
+   392	 * for backwards compatibility with drivers which do not yet support universal
+   393	 * planes). For really simple hardware which has only 1 plane look at
+   394	 * drm_simple_display_pipe_init() instead.
+   395	 *
+   396	 * Cleanup is automatically handled through registering
+   397	 * drmm_crtc_cleanup() with drmm_add_action(). The crtc structure should
+   398	 * be allocated with drmm_kzalloc().
+   399	 *
+   400	 * The @drm_crtc_funcs.destroy hook must be NULL.
+   401	 *
+   402	 * The @primary and @cursor planes are only relevant for legacy uAPI, see
+   403	 * &drm_crtc.primary and &drm_crtc.cursor.
+   404	 *
+   405	 * Returns:
+   406	 * Zero on success, error code on failure.
+   407	 */
+   408	int drmm_crtc_init_with_planes(struct drm_device *dev, struct drm_crtc *crtc,
+   409				       struct drm_plane *primary,
+   410				       struct drm_plane *cursor,
+   411				       const struct drm_crtc_funcs *funcs,
+   412				       const char *name, ...)
+   413	{
+   414		va_list ap;
+   415		int ret;
+   416	
+   417		WARN_ON(funcs && funcs->destroy);
+   418	
+   419		va_start(ap, name);
+   420		ret = __drm_crtc_init_with_planes(dev, crtc, primary, cursor, funcs,
+ > 421						  name, ap);
+   422		va_end(ap);
+   423		if (ret)
+   424			return ret;
+   425	
+   426		ret = drmm_add_action_or_reset(dev, drmm_crtc_init_with_planes_cleanup,
+   427					       crtc);
+   428		if (ret)
+   429			return ret;
+   430	
+   431		return 0;
+   432	}
+   433	EXPORT_SYMBOL(drmm_crtc_init_with_planes);
+   434	
 
 -- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
