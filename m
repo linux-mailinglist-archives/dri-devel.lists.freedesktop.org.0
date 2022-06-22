@@ -1,71 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D475544A9
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 10:35:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA77D5544BD
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 10:52:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A24E10F434;
-	Wed, 22 Jun 2022 08:35:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DCFB10E1E9;
+	Wed, 22 Jun 2022 08:52:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0626110F434
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 08:35:51 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id eq6so15504016edb.6
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 01:35:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=LKVKNIti1LcRpv/jEhLMMKWh1ADREH2xijbZTCW6Xr4=;
- b=HTdEvAVx/Nof1YbJwQLyXd8dTkR/+m7SXUfhIdnvWqSKFFHyN4/nJbLZN7l3HUb/VL
- ejdoskCUL3HevZhUZLkymtquwxhwS0Yyk39d1zwHTft+vMf/6ece6uy7Z576XCZHwjYp
- gh+L1ynkZnUwloRiWvrQNH8vxZ5jeLFClRX1/m13hbqYB9RRh0PNgKJPNTNd5aHJ58iW
- NR51sWkbop9/ITHUdhlwLAMIjsnnEKDu1CXoCaNShIrzMmRdGlnwERlp0cTsgoMro4Lb
- 2Q8QzCWCz2XGC/23fXWJrfKQHQpQcvBqVB+4FZAIG+OXNYDWUoh9bR0T7xC8FwWr7OaK
- htYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LKVKNIti1LcRpv/jEhLMMKWh1ADREH2xijbZTCW6Xr4=;
- b=1t6n9XwNy5mGnGY7qbRU1pbXJWI8zZoCb/2/4hkYQR31Ubs80xbLZLM/gbrU1z8AzZ
- Qs3Kj9ZYuiCwzqzo252bzNXru0IL10x8+EJ4tC584gRyUuSvAPcqkuZz3ccP2OvzkZmB
- cf/7PNcdjN5O3aqKiw3iCMDTjGoT64G9GzJzp8Ku+22XjaQ6RsqltE2wDd+ejWHG4A/r
- EIOpcR3Q3yAFJhwaLI2cyq9Z8GNl4qm61F+czhdqjxxoNRreaMatH+1Yg60QEHbPcrWR
- /PSeBXUSrSML/v0+6s0PM9NLCz3jDeOKRTFaYLc2A/uuequwj/F8VoDoTxa7CycLRv2y
- LnRw==
-X-Gm-Message-State: AJIora/g4aFYhCXLu/0tmMZMgVI52IGO5PWDzIEwKLCPhSHKWe8d/e0Q
- p7ZLIRsdCOnq6gO5uPhioY7bOw==
-X-Google-Smtp-Source: AGRyM1ubdfO8px4g4kpPHR6o6PIPxQqkUkvACkcd7VlHI+hBIgv/8yaZr8ORCW2o1aIa03m0jnMdpQ==
-X-Received: by 2002:a05:6402:358b:b0:435:828a:a403 with SMTP id
- y11-20020a056402358b00b00435828aa403mr2788497edc.117.1655886949582; 
- Wed, 22 Jun 2022 01:35:49 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch.
- [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- ku10-20020a170907788a00b00722e603c39asm1979733ejc.31.2022.06.22.01.35.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jun 2022 01:35:48 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: kgunda@codeaurora.org, devicetree@vger.kernel.org, robh+dt@kernel.org,
- linux-arm-msm@vger.kernel.org, pavel@ucw.cz,
- dri-devel@lists.freedesktop.org, daniel.thompson@linaro.org,
- krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
- linux-kernel@vger.kernel.org, agross@kernel.org,
- bjorn.andersson@linaro.org, krzysztof.kozlowski@linaro.org,
- jingoohan1@gmail.com, linux-leds@vger.kernel.org
-Subject: Re: (subset) [PATCH 2/2] arm64: dts: qcom: correct SPMI WLED register
- range encoding
-Date: Wed, 22 Jun 2022 10:35:35 +0200
-Message-Id: <165588692597.15720.6527539957529378086.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220505154702.422108-2-krzysztof.kozlowski@linaro.org>
-References: <20220505154702.422108-1-krzysztof.kozlowski@linaro.org>
- <20220505154702.422108-2-krzysztof.kozlowski@linaro.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC74910E1E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 08:52:09 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1o3w5l-00019i-PF; Wed, 22 Jun 2022 10:52:05 +0200
+Message-ID: <ee89fef24afc2b740aa126d734cd382d3d3f9c92.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/etnaviv: print offender task information on
+ hangcheck recovery
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ linux-kernel@vger.kernel.org
+Date: Wed, 22 Jun 2022 10:52:04 +0200
+In-Reply-To: <20220603123706.678320-1-christian.gmeiner@gmail.com>
+References: <20220603123706.678320-1-christian.gmeiner@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,20 +49,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, "moderated list:DRM DRIVERS FOR VIVANTE
+ GPU IP" <etnaviv@lists.freedesktop.org>, "open list:DRM DRIVERS FOR VIVANTE
+ GPU IP" <dri-devel@lists.freedesktop.org>,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 5 May 2022 17:47:02 +0200, Krzysztof Kozlowski wrote:
-> On PM660L, PMI8994 and PMI8998, the WLED has two address spaces and with
-> size-cells=0, they should be encoded as two separate items.
+Hi Christian,
+
+Am Freitag, dem 03.06.2022 um 14:37 +0200 schrieb Christian Gmeiner:
+> Track the pid per submit, so we can print the name and cmdline of
+> the task which submitted the batch that caused the gpu to hang.
 > 
+I really like the idea. I think the pid handling could be integrated
+into the scheduler, so we don't have to carry it on each submit, but
+not requesting any changes right now. I'm leaning toward taking this
+patch as-is and doing the scheduler integration as a second step.
+
+Regards,
+Lucas
+
+> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  1 +
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c |  6 ++++++
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c        | 18 +++++++++++++++++-
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.h        |  2 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_sched.c      |  2 +-
+>  5 files changed, 26 insertions(+), 3 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> index 63688e6e4580..baa81cbf701a 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> @@ -96,6 +96,7 @@ struct etnaviv_gem_submit {
+>  	int out_fence_id;
+>  	struct list_head node; /* GPU active submit list */
+>  	struct etnaviv_cmdbuf cmdbuf;
+> +	struct pid *pid;       /* submitting process */
+>  	bool runtime_resumed;
+>  	u32 exec_state;
+>  	u32 flags;
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> index 1ac916b24891..1491159d0d20 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> @@ -399,6 +399,9 @@ static void submit_cleanup(struct kref *kref)
+>  		mutex_unlock(&submit->gpu->fence_lock);
+>  		dma_fence_put(submit->out_fence);
+>  	}
+> +
+> +	put_pid(submit->pid);
+> +
+>  	kfree(submit->pmrs);
+>  	kfree(submit);
+>  }
+> @@ -422,6 +425,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+>  	struct sync_file *sync_file = NULL;
+>  	struct ww_acquire_ctx ticket;
+>  	int out_fence_fd = -1;
+> +	struct pid *pid = get_pid(task_pid(current));
+>  	void *stream;
+>  	int ret;
+>  
+> @@ -519,6 +523,8 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+>  		goto err_submit_ww_acquire;
+>  	}
+>  
+> +	submit->pid = pid;
+> +
+>  	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &submit->cmdbuf,
+>  				  ALIGN(args->stream_size, 8) + 8);
+>  	if (ret)
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index 37018bc55810..7d9bf4673e2d 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -1045,12 +1045,28 @@ int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m)
+>  }
+>  #endif
+>  
+> -void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu)
+> +void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit)
+>  {
+> +	struct etnaviv_gpu *gpu = submit->gpu;
+> +	char *comm = NULL, *cmd = NULL;
+> +	struct task_struct *task;
+>  	unsigned int i;
+>  
+>  	dev_err(gpu->dev, "recover hung GPU!\n");
+>  
+> +	task = get_pid_task(submit->pid, PIDTYPE_PID);
+> +	if (task) {
+> +		comm = kstrdup(task->comm, GFP_KERNEL);
+> +		cmd = kstrdup_quotable_cmdline(task, GFP_KERNEL);
+> +		put_task_struct(task);
+> +	}
+> +
+> +	if (comm && cmd)
+> +		dev_err(gpu->dev, "offending task: %s (%s)\n", comm, cmd);
+> +
+> +	kfree(cmd);
+> +	kfree(comm);
+> +
+>  	if (pm_runtime_get_sync(gpu->dev) < 0)
+>  		goto pm_put;
+>  
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> index 85eddd492774..b3a0941d56fd 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
+> @@ -168,7 +168,7 @@ bool etnaviv_fill_identity_from_hwdb(struct etnaviv_gpu *gpu);
+>  int etnaviv_gpu_debugfs(struct etnaviv_gpu *gpu, struct seq_file *m);
+>  #endif
+>  
+> -void etnaviv_gpu_recover_hang(struct etnaviv_gpu *gpu);
+> +void etnaviv_gpu_recover_hang(struct etnaviv_gem_submit *submit);
+>  void etnaviv_gpu_retire(struct etnaviv_gpu *gpu);
+>  int etnaviv_gpu_wait_fence_interruptible(struct etnaviv_gpu *gpu,
+>  	u32 fence, struct drm_etnaviv_timespec *timeout);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> index 72e2553fbc98..d29f467eee13 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -67,7 +67,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+>  
+>  	/* get the GPU back into the init state */
+>  	etnaviv_core_dump(submit);
+> -	etnaviv_gpu_recover_hang(gpu);
+> +	etnaviv_gpu_recover_hang(submit);
+>  
+>  	drm_sched_resubmit_jobs(&gpu->sched);
+>  
 
-Applied, thanks!
 
-[2/2] arm64: dts: qcom: correct SPMI WLED register range encoding
-      https://git.kernel.org/krzk/linux/c/2559f68b5991be168785a16a53f582862cf0063c
-
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
