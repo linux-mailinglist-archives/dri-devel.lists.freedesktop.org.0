@@ -1,73 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFFE5552E7
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 19:58:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A145552ED
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 20:03:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F049D10E59C;
-	Wed, 22 Jun 2022 17:58:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDC571133D7;
+	Wed, 22 Jun 2022 18:03:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1637F10E9A3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 17:58:24 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id o23so13184237ljg.13
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 10:58:23 -0700 (PDT)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDCC01133D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 18:03:30 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id g4so16718187lfv.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 11:03:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=RijPorxrzLa0urbw6f5tLG+MBIywxSnLbJeg+24hYzA=;
- b=H0VPSCsehGXRYxTHzMXRWxGfbmO+IP0LFhFmRmwcDgdae3jk2wjq7FiRgKRv1gUPQM
- 7mR0hRGMvUOpdgF3Z4XpJoVP9nrtlr+QfMN3sLbcE8uKbscpuY+aTwN/u3FB0RmNDa3J
- U3el3BPUyFaeOvneYMa/UOcnN4lalmBdXVyyLtnsR6vwkdsuwuO2/AZ1btm/Kwg/G0hW
- I7KmOaggNgtnvDPNQKsh9kgOYs2u57711q3X9A5MJeK+aS1aiSPvDzTOtkXDKgtzfWfu
- XxT2/WGyoT/94NmWdS0LaUsUWNuG0UzfNiYVn5obq8o8yTnClnT1iYT91S2JZsfyRihQ
- fDiw==
+ bh=ZTlj82E6kifi0yQhK+5fXqesjcyWHjDoPKb8Xh0tWaM=;
+ b=YPs9zoXTZdCCgy6mwDaLLCe3YJ1nDLJYlFsLY0uB/WaPNWnUwxUBc+MtDtbsjeKocu
+ LMvnIlwFtpMsYsE8ZyHPS4PaLaP4HcMROBXckCicyevRV/cByI0U04OV77xamBr9ZugX
+ 1vt1KR0NBizorFEvz6iPuh1BN6LmBC8qw97dqTbfg35KqhJCHB/BNpFz376kCDaeXsai
+ Txdp5bTI2FUlSimWgJ0MPsncJig43DS0TwRrnTbQaLWqRLPQP09fSwCEpKNJI/7E30mm
+ 7L4+BEtYtm0MJ9ZJctR9TOLEinkeOnw1EU4gbPLbv4XCDftefTceaV2Tk7JOrppz9ByX
+ fY0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=RijPorxrzLa0urbw6f5tLG+MBIywxSnLbJeg+24hYzA=;
- b=tqrQ6XZh8tChLQ60L7ZDffPmBQIEtJy/yBLBGjCmCvMngFAPKK7viGECB55i1FOflh
- g+uqPV7Ugwyi+0IJWJRzB1/OqRfEVF0UB+C2Z5z2wBTZIdH03no9kt8TDnpDwIZUy8+b
- Nk27lBm/S6BoBh+xf3m1N8jj7ZHc+WIgnw4vs9jaKoP0mMoI0EkhQN1+ZdoU6L68hvDC
- uZMw+wDIGDXVhDzyEdmDK0Au3aaCcm/TSU9cr0QRdq7eoA6UYPB6AWYdIX4Cqf1jWrzR
- 0L7gNekqHvJkOtD5n4wS4awAwtF5Z4kEDVmmDZX/ms7Fg3UIsTqnbPWN15WXLUmWm1dI
- xI5A==
-X-Gm-Message-State: AJIora/AQIokfoOYXasdjNQfoazQNdX/yBol/aGYCFZL6h3yr7etgoH/
- 5Asg32d5jnZo3Kw42Sj4+r58/g==
-X-Google-Smtp-Source: AGRyM1sDD/L+lVpsF7kORweCZVDNiYMB+PqxH/Cw0lFPdDBWV98bhtSFtWCX+n4AQJXc48Ve+fm6TA==
-X-Received: by 2002:a05:651c:54c:b0:25a:621e:5cf2 with SMTP id
- q12-20020a05651c054c00b0025a621e5cf2mr2560846ljp.87.1655920702407; 
- Wed, 22 Jun 2022 10:58:22 -0700 (PDT)
+ bh=ZTlj82E6kifi0yQhK+5fXqesjcyWHjDoPKb8Xh0tWaM=;
+ b=fPzB7xKYbBVCLB3B5R4x/h19v3+I7sIJ7xzHIwtC7JdigD+4T9HNR2UAP/uUFPXEKq
+ kIcSLd5dAfjz62CDLxhh8JnCjPhzJkp378VjxIQ2Lye4D7+9FGh6GPqfA/kHZ9BRU36y
+ gMrHjz8uHXnWWD43H2K2v59YHH23cBavmyT0TUTyOawX9D5yzYl2lg2pNOOxvGi8nlx6
+ y1bB/k2sqny2EgPQs1ubB3/dKukq0qdPeLndHarKg7WfK3JhAR7a8tjnhrpcjtRqDSF+
+ puiKRjg9G/4fMUKkt1/gG1DyS42kCnB/DN51FHN3cqcIPntmggIWzJWwqAnuMCqKfpNu
+ trcg==
+X-Gm-Message-State: AJIora8+vAKlZfUdVYCtuqIPETZ4Jhej8WBjGAyYqek8fIBWgDMZDoKA
+ 6/59wNOVYIGB5HqY0gQzArFywg==
+X-Google-Smtp-Source: AGRyM1um1hIN5A8SQyQ5l8LM5tA3p+87QUOIBbIhZVlEqLdUp6eNRJ1nKpR+IJ+6NHWSX/0tvLXbjg==
+X-Received: by 2002:a05:6512:16aa:b0:479:7df:cb68 with SMTP id
+ bu42-20020a05651216aa00b0047907dfcb68mr2742433lfb.666.1655921009223; 
+ Wed, 22 Jun 2022 11:03:29 -0700 (PDT)
 Received: from [192.168.1.212] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- v11-20020a05651203ab00b0047f9fa2925csm99202lfp.234.2022.06.22.10.58.21
+ k6-20020ac257c6000000b004785b66a9a4sm1810904lfo.126.2022.06.22.11.03.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jun 2022 10:58:21 -0700 (PDT)
-Message-ID: <6cc5767f-7961-3410-8693-40dde2348c12@linaro.org>
-Date: Wed, 22 Jun 2022 20:58:21 +0300
+ Wed, 22 Jun 2022 11:03:28 -0700 (PDT)
+Message-ID: <8b751eb3-2e19-0e03-4c94-b26b3badd397@linaro.org>
+Date: Wed, 22 Jun 2022 21:03:27 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 2/3] drm/msm/dp: Remove pixel_rate from struct dp_ctrl
+Subject: Re: [PATCH v15 0/3] eDP/DP Phy vdda realted function
 Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, Stephen Boyd
- <swboyd@chromium.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Clark <robdclark@gmail.com>
-References: <20220617204750.2347797-1-swboyd@chromium.org>
- <20220617204750.2347797-3-swboyd@chromium.org>
- <bb98ca29-8752-6864-ddbd-19547fb6f73b@linaro.org>
- <CAE-0n51_zysbkktVEfhvXtGqpADTWcaPBAX7A7rD1FV+vcK3Uw@mail.gmail.com>
- <48d83380-edb1-ad61-3878-5fa3ac3e5169@linaro.org>
- <d77d2989-7270-d1ec-fda6-7001ea337f5b@quicinc.com>
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ robdclark@gmail.com, sean@poorly.run, swboyd@chromium.org,
+ dianders@chromium.org, vkoul@kernel.org, daniel@ffwll.ch, airlied@linux.ie,
+ agross@kernel.org, bjorn.andersson@linaro.org,
+ Kishon Vijay Abraham I <kishon@ti.com>
+References: <1655830891-19025-1-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <d77d2989-7270-d1ec-fda6-7001ea337f5b@quicinc.com>
+In-Reply-To: <1655830891-19025-1-git-send-email-quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,80 +77,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/06/2022 18:22, Kuogee Hsieh wrote:
+On 21/06/2022 20:01, Kuogee Hsieh wrote:
+> 0) rebase on https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git tree
+> 1) add regulator_set_load() to eDP phy
+> 2) add regulator_set_load() to DP phy
+> 3) remove vdda related function out of eDP/DP controller
 > 
-> On 6/22/2022 12:24 AM, Dmitry Baryshkov wrote:
->> On 22/06/2022 05:59, Stephen Boyd wrote:
->>> Quoting Dmitry Baryshkov (2022-06-17 16:07:58)
->>>> On 17/06/2022 23:47, Stephen Boyd wrote:
->>>>> This struct member is stored to in the function that calls the 
->>>>> function
->>>>> which uses it. That's possible with a function argument instead of
->>>>> storing to a struct member. Pass the pixel_rate as an argument instead
->>>>> to simplify the code. Note that dp_ctrl_link_maintenance() was storing
->>>>> the pixel_rate but never using it so we just remove the assignment 
->>>>> from
->>>>> there.
->>>>>
->>>>> Cc: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>>>> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
->>>>> ---
->>>>>    drivers/gpu/drm/msm/dp/dp_ctrl.c | 57 
->>>>> ++++++++++++++++----------------
->>>>>    drivers/gpu/drm/msm/dp/dp_ctrl.h |  1 -
->>>>>    2 files changed, 28 insertions(+), 30 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
->>>>> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->>>>> index bd445e683cfc..e114521af2e9 100644
->>>>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
->>>>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
->>>>> @@ -1336,7 +1336,7 @@ static void dp_ctrl_set_clock_rate(struct 
->>>>> dp_ctrl_private *ctrl,
->>>>>                                name, rate);
->>>>>    }
->>>>>
->>>>> -static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private 
->>>>> *ctrl)
->>>>> +static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private 
->>>>> *ctrl, unsigned long pixel_rate)
->>>>
->>>>
->>>> I think we can read pixel_rate here rather than getting it as an
->>>> argument. We'd need to move handling (DP_TEST_LINK_PHY_TEST_PATTERN &&
->>>> !ctrl->panel->dp_mode.drm_mode.clock) case here from dp_ctrl_on_link().
->>>
->>> This is also called from dp_ctrl_on_stream() and
->>> dp_ctrl_reinitialize_mainlink(). In the dp_ctrl_on_stream() case we may
->>> divide the pixel_rate by 2 with widebus. We could move the
->>> dp_ctrl_on_link() code here, but then we also need to move widebus, and
->>> then I'm not sure which pixel rate to use.
->>>
->>> It looks like the test code doesn't care about widebus? And similarly,
->>> we may run the pixel clk faster until we get a modeset and then divide
->>> it for widebus.
->>
->> Good question. I'll let Kuogee or somebody else from Qualcomm to 
->> comment on test code vs widebus vs pixel rate, as I don't know these 
->> details.
->>
->> I'm not sure if we should halve the pixel clock in 
->> dp_ctrl_on_stream_phy_test_report() or not if the widebus is supported.
->> From the current code I'd assume that we have to do this. Let's raise 
->> this question in the corresponding patch discussion.
->>
-> yes, phy test does not care pixel clock rate.
+> Kuogee Hsieh (3):
+>    phy: qcom-edp: add regulator_set_load to edp phy
+>    phy: qcom-qmp: add regulator_set_load to dp phy
+>    drm/msm/dp: delete vdda regulator related functions from eDP/DP
+>      controller
 
-So, is it 'does not care' or 'set to mode clock'?
+Kishon, Vinod, how do we proceed with merging these patches?
 
-In other words, can we unify both functions by always accounting for the 
-wide_bus_en value?
+> 
+>   drivers/gpu/drm/msm/dp/dp_parser.c        | 14 -----
+>   drivers/gpu/drm/msm/dp/dp_parser.h        |  8 ---
+>   drivers/gpu/drm/msm/dp/dp_power.c         | 95 +------------------------------
+>   drivers/phy/qualcomm/phy-qcom-edp.c       | 12 ++++
+>   drivers/phy/qualcomm/phy-qcom-qmp-combo.c | 43 ++++++++++----
+>   5 files changed, 47 insertions(+), 125 deletions(-)
+> 
 
 
 -- 
