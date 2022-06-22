@@ -1,42 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B010554516
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 12:07:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 035A6554551
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 12:36:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 133F610EB19;
-	Wed, 22 Jun 2022 10:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E2E810E361;
+	Wed, 22 Jun 2022 10:36:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9195110EB19
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 10:07:30 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 80C09DD;
- Wed, 22 Jun 2022 12:07:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1655892448;
- bh=SShWCIAIQnm3ZxuhfT4U72sk+2A6HsNKjsc9pU7lln8=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=QTPnSe0HPLQLpjSj0ikUaNtho6PwjjZQyrZl09Pq8nSYysI2lDqjGPT2jVHA42Ujd
- 6Hi0jwpoGnpWpfvZfMAAVrv+O3jh6D/lhr95mMoTSm6EWKJ80SkfoEOMZ1WC00EDin
- cqsk3DV21FELPUtBrM28GKlqAsRR/gD6Dz9jnK/Q=
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB16010E361
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 10:36:49 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id z19so6425634edb.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 03:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=YFwi1vxkzrvgsqoCKPo5AQXebahZiMS5qtbuazVoioY=;
+ b=C60jruRIr3l7H20jbT6Re8q4TAOBzwgoJniFeCwP9jUCkCeFfZSyKWDXzuiR3+WsFk
+ iug9mCtL5f/362puhR37XxfXjPTn+feFC8tv5f+bUCGxDr5RecoUaz5WL/iKgw40h3f5
+ nRLlZkcl+Cgcr2kX9I7VZkqGcpVV39vi0d4feUx7Mg7xkPeRevq2RrFsFeI4kgEh2RbO
+ 1N8lkUgvGsbvP6nJ0yewhGBY+YbTQLHkQCH0wrxztTUCL3jR2tFJCgJ4iW4RmvFKBM5x
+ 9Wx0qhacGBBsF/oQxleSmTbsTojFMMwK1Y3Znaa7mITTI9ctZr+bJEAD7fH9uR2Py1m/
+ LCwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YFwi1vxkzrvgsqoCKPo5AQXebahZiMS5qtbuazVoioY=;
+ b=mkNjPH8F1c6XW1NWZRSgtbvN6qxiLiXRNfgzNBRA91QwntDU5mJE6jqC7ysZOZW8Oq
+ AOJCegCWBYQVTDryNffuYxIf7wnQDjgC9Bkb3fs2vMyiYzOrDjUaS+XwUDveBOfMqgF2
+ Q4+gRS2IZ9bRwx0QJxUcKAVayR3a6RAh3HLH/p2R/RMV6nRiQLcTqzi+4TvQovyAS8k0
+ uTiHJy59NzrPRCe1os/ajj/bCl+eCs5t4KDM00mVykDG92WbXHBZBtPo60OHQQ+CuJxL
+ KvCsuQCQcgAwHLfcNSMzf13X+Jhabob6S2Z6NLtJGh41X4s+Ap5MPnLYp7wok+Yvx5mW
+ oxCQ==
+X-Gm-Message-State: AJIora8ihIUYm+z7+kodO6WD3BBX7u6LVvrYYqGI3hFrRvmhaDd3ffQA
+ VNBUC/7ApMWljZdOO6FinuTsXLRFrNmZRxytvRI=
+X-Google-Smtp-Source: AGRyM1tnnFr1LC7h/zRLo+HkB47D6IcosyajAFO4R/Wl+PPHAqyQruG56xeyLIJB7dGNj2Z8gyVtab2tS/XsOjguV9k=
+X-Received: by 2002:a05:6402:5002:b0:435:1ff1:99ee with SMTP id
+ p2-20020a056402500200b004351ff199eemr3312157eda.230.1655894208315; Wed, 22
+ Jun 2022 03:36:48 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220314141643.22184-1-u.kleine-koenig@pengutronix.de>
+ <20220314141643.22184-2-u.kleine-koenig@pengutronix.de>
+ <d6b890c8-bfb5-cfa5-c6d8-ee245701c077@nvidia.com>
+ <20220621204914.byokkrxiznvod7vq@pengutronix.de>
+In-Reply-To: <20220621204914.byokkrxiznvod7vq@pengutronix.de>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 22 Jun 2022 12:36:11 +0200
+Message-ID: <CAHp75VcBEpLo+pYy+RG3O2BbePJbGEQ89jxi-oG1W6=+2hgXrQ@mail.gmail.com>
+Subject: Re: [PATCH v8 01/16] clk: generalize devm_clk_get() a bit
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YgAc11fkN9m7QoEc@ravnborg.org>
-References: <20220206154405.1243333-1-sam@ravnborg.org>
- <YgAc11fkN9m7QoEc@ravnborg.org>
-Subject: Re: [PATCH v1 0/9] drm/bridge: ps8640 and ti-sn65dsi86 updates
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-To: Douglas Anderson <dianders@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-Date: Wed, 22 Jun 2022 11:07:26 +0100
-Message-ID: <165589244641.1149771.3796337289343458935@Monstersaurus>
-User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,32 +67,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Philip Chen <philipchen@chromium.org>,
- Jitao Shi <jitao.shi@mediatek.com>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Alexandru Ardelean <aardelean@deviqon.com>,
+ Tomislav Denis <tomislav.denis@avl.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
+ Paul Cercueil <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ linux-i2c <linux-i2c@vger.kernel.org>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ Oleksij Rempel <linux@rempel-privat.de>, Lee Jones <lee.jones@linaro.org>,
+ linux-clk <linux-clk@vger.kernel.org>, Jerome Brunet <jbrunet@baylibre.com>,
+ "open list:REAL TIME CLOCK \(RTC\) SUBSYSTEM" <linux-rtc@vger.kernel.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ =?UTF-8?Q?Andr=C3=A9_Gustavo_Nakagomi_Lopez?= <andregnl@usp.br>,
+ Kevin Hilman <khilman@baylibre.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Russell King <linux@armlinux.org.uk>, Jon Hunter <jonathanh@nvidia.com>,
+ linux-iio <linux-iio@vger.kernel.org>, Andy Gross <agross@kernel.org>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Cai Huoqing <caihuoqing@baidu.com>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Guenter Roeck <linux@roeck-us.net>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-pwm@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+ Michal Simek <michal.simek@xilinx.com>,
+ LINUXWATCHDOG <linux-watchdog@vger.kernel.org>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ linux-spi <linux-spi@vger.kernel.org>,
+ Anand Ashok Dumbre <anand.ashok.dumbre@xilinx.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Patrice Chotard <patrice.chotard@foss.st.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ linux-amlogic <linux-amlogic@lists.infradead.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Sascha Hauer <kernel@pengutronix.de>,
+ Lars Povlsen <lars.povlsen@microchip.com>, linux-hwmon@vger.kernel.org,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Keguang Zhang <keguang.zhang@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dmaengine <dmaengine@vger.kernel.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
+ Vinod Koul <vkoul@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Amireddy Mallikarjuna reddy <mallikarjunax.reddy@linux.intel.com>,
+ linux-crypto <linux-crypto@vger.kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Steen Hegelund <Steen.Hegelund@microchip.com>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
+On Tue, Jun 21, 2022 at 11:01 PM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+> On Tue, Jun 21, 2022 at 08:57:00PM +0100, Jon Hunter wrote:
 
-Quoting Sam Ravnborg (2022-02-06 19:09:11)
-> >=20
-> > The code builds - but needs testing.
->=20
-> Hrmff, no it does not build. The fixes was by accident not included.
-> Will wait a bit for feedback before posting a v2.
->=20
->         Sam
+...
 
-Do you have any plan to send a v2 on this series?
+> (Pro tipp: The commit in next has a Link: footer. If you follow the
+> link, you find the thread that was actually applied (i.e. v9) and where
+> the fix is also contained.)
 
-I have built up a series to extend the ti-sn65dsi86 which is now based
-on this. (which means I'll have an implied Tested-by: tag for these as
-well).
+Even easier, you may take a message-id from the Link and supply to `b4`:
 
---
-Kieran
+  b4 mbox ${message-id}
+  mutt -f ${message-id}.mbx # or whatever MUA that handles mboxes
+
+
+Dunno if `b4` has capability to parse Link instead of message-id.
+
+--=20
+With Best Regards,
+Andy Shevchenko
