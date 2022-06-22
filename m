@@ -2,53 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D865554A3
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 21:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199F75554A4
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 21:39:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6167C10E22C;
-	Wed, 22 Jun 2022 19:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0683810E4CC;
+	Wed, 22 Jun 2022 19:39:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ADB810E22C
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 19:39:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1655926742; x=1687462742;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=pu20s3sIn3/nhHVpC5gqrpOTcRolyORnxbj2UpioySA=;
- b=Zbo2Mo+kVVilhc6hWRfkbd09qcxCdVYnhxlsWf7unz9iNe7Betq21gtU
- +4NpY16cgUxsDfoA+hzfYLt74vqtd4oncxg+cmhXlDJ/sGOG8s7xRShA6
- GdEkcaNc/mRWE4vOwhLGtlUCDQAEW//nWzhwkU59c6dNTPBbzgJRWnKey
- mk+YdY8yAFPXJPJnCKu+rfoF+2cp4sF3KwB17HRtkamZMnTbTEpQ8vfW4
- HirWvPreaHI86HVqW/f/U9UZXCcI+apZK2bjHYCqnbNeaZtRDD9dNlcFD
- iyFNjFvi0rEDqL5rLAQkuzWPkFk2HD9VL+5BdqNV0vR8j25T2Gzg9Ntpu w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="278076084"
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="278076084"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jun 2022 12:39:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,212,1650956400"; d="scan'208";a="677717242"
-Received: from lkp-server02.sh.intel.com (HELO a67cc04a5eeb) ([10.239.97.151])
- by FMSMGA003.fm.intel.com with ESMTP; 22 Jun 2022 12:38:58 -0700
-Received: from kbuild by a67cc04a5eeb with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1o46Bm-0001cL-0z;
- Wed, 22 Jun 2022 19:38:58 +0000
-Date: Thu, 23 Jun 2022 03:38:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <maxime@cerno.tech>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: Re: [PATCH v2 03/68] drm/encoder: Introduce drmm_encoder_init
-Message-ID: <202206230352.n3jM0UCD-lkp@intel.com>
-References: <20220622143209.600298-4-maxime@cerno.tech>
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
+ [IPv6:2607:f8b0:4864:20::f35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4A1E10E4CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 19:39:38 +0000 (UTC)
+Received: by mail-qv1-xf35.google.com with SMTP id 59so3999728qvb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 12:39:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :content-transfer-encoding:user-agent:mime-version;
+ bh=o69t0ilR7Hk+fBWUIkW0byFF7csFuoYUt8x0EJzEGT0=;
+ b=zDwj7Z7XJsqKoyOUeeRZPzgUJAK7nqOO//vwa87996d/w2rMccrCEIAd4XiRHF4jv1
+ M83CN02Ox+LGfiTQ/XnTX8sy8YqoxO/JrfceWUj8TR/A0WQwkxsHArGPUv0xlkynIMUs
+ b2CTm7xWBa3Vt5BxAZhaVtlwN4XyVTTwU+5kV5lpfCaXzOMR2M37RA+CIYOK08SvH/e3
+ 5+VHzpcPVBkvKlQDqeS4gO+iH0OhKxzzw/wkm6RkwWmaTYfeT26+pgz9CI75e45VbkDx
+ xskF6MIoPzqVZRKI8xdDLED3re7VDozsmHdplmPbev3ZKGYfVqL4mD/1ahLeAi5ObmMh
+ qymg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:content-transfer-encoding:user-agent:mime-version;
+ bh=o69t0ilR7Hk+fBWUIkW0byFF7csFuoYUt8x0EJzEGT0=;
+ b=NbOxnkBhc4w4wnmLdSbrx2GP97mi+vAVVpiQJCuSmadPvaXwCeLEBnHgSFBo47BrM/
+ Sinw8cnEW7W2ZAH2u6N8Qj532+6jMZwI6v4rn4xmERbvfrUFYkTtCnmdYRyGrzLuwXJX
+ 61TNo9fUS76zQFZTo+fxDeHIH7GSh8SR69MA71o92Aqevlvr16DFVYZDfIVN4QHKENfU
+ /nQ66S5PnCFIKTjQPvX7YkbCV7oYO7h/lMhH4dTUW/Na2koDWzI0vtUoIF/lJL2swM+p
+ gC1sPeTyOHUK7tSkHzfOKbHiGPT+Jzs+klg3V/gIsHjfr6FQh9OmoURM5egLabCG4t5p
+ fOOg==
+X-Gm-Message-State: AJIora8GOX4Jx0s5ytT+Am3+zQyaYY06BSZIzXJELTW6vDM8ZyUECcl4
+ S5T3xBXq3jG5k+hrT47ueykwKQ==
+X-Google-Smtp-Source: AGRyM1uBNURSl9Hk7+t9B98Zy80s9b7OW6cZ2Z/yFvCb5MY0v2TudFXnIjFB6e3Ii3PTZHJaY+JeLg==
+X-Received: by 2002:a05:622a:292:b0:305:e2b7:bfa8 with SMTP id
+ z18-20020a05622a029200b00305e2b7bfa8mr4668617qtw.243.1655926777927; 
+ Wed, 22 Jun 2022 12:39:37 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net.
+ [192.222.136.102]) by smtp.gmail.com with ESMTPSA id
+ m22-20020a05620a291600b006a370031c3esm17833638qkp.106.2022.06.22.12.39.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jun 2022 12:39:37 -0700 (PDT)
+Message-ID: <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
+Subject: Re: DMA-buf and uncached system memory
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Daniel Vetter <daniel@ffwll.ch>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>
+Date: Wed, 22 Jun 2022 15:39:36 -0400
+In-Reply-To: <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+ <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220622143209.600298-4-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,93 +73,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, dri-devel@lists.freedesktop.org
+Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Le mardi 16 f=C3=A9vrier 2021 =C3=A0 10:25 +0100, Daniel Vetter a =C3=A9cri=
+t=C2=A0:
+> So I think if AMD also guarantees to drop clean cachelines just do the
+> same thing we do right now for intel integrated + discrete amd, but in
+> reserve. It's fragile, but it does work.
 
-I love your patch! Perhaps something to improve:
+Sorry to disrupt, but if you pass V4L2 vmalloc data to Intel display driver=
+, you
+also get nice dirt on the screen. If you have a UVC webcam that produces a =
+pixel
+format compatible with your display, you can reproduce the issue quite easi=
+ly
+with:
 
-[auto build test WARNING on next-20220622]
-[also build test WARNING on v5.19-rc3]
-[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next drm-tip/drm-tip linus/master anholt/for-next v5.19-rc3 v5.19-rc2 v5.19-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+  gst-launch-1.0 v4l2src device=3D/dev/video0 ! kmssink
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-vc4-Fix-hotplug-for-vc4/20220622-223842
-base:    ac0ba5454ca85162c08dc429fef1999e077ca976
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20220623/202206230352.n3jM0UCD-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/241f292ab7ccd70b2f6259d1155de8d1bfdd5c9c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Maxime-Ripard/drm-vc4-Fix-hotplug-for-vc4/20220622-223842
-        git checkout 241f292ab7ccd70b2f6259d1155de8d1bfdd5c9c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/
+p.s. some frame-rate are less likely to exhibit the issue, make sure you cr=
+eate
+movement to see it.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+The only solution I could think of (not implemented) was to detect in the
+attach() call what the importers can do (with dev->coherent_dma_mask if I
+recall), and otherwise flush the cache immediately and start flushing the c=
+ache
+from now on signalling it for DQBUF (in vb2 workqueue or dqbuf ioctl, I don=
+'t
+have an idea yet). I bet this idea is inapplicable to were you have fences,=
+ we
+don't have that in v4l2.
 
-All warnings (new ones prefixed by >>):
+This idea was hinted by Robert Becket (now in CC), but perhaps I picked it =
+up
+wrong, explaining it wrong, etc. I'm no expert, just noticed there wasn't r=
+eally
+a good plan for that, so one needs to make one up. I'm not aware oh an impo=
+rter
+could know how the memory was allocated by the exporter, and worst, how an
+importer could figure-out that the export is going to produce buffer with h=
+ot
+CPU cache (UVC driver does memcpy from USB chunks of variable size to produ=
+ce a
+fixed size image).
 
-   drivers/gpu/drm/drm_encoder.c: In function 'drmm_encoder_init':
->> drivers/gpu/drm/drm_encoder.c:269:9: warning: function 'drmm_encoder_init' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     269 |         ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
-         |         ^~~
-
-
-vim +269 drivers/gpu/drm/drm_encoder.c
-
-   239	
-   240	/**
-   241	 * drmm_encoder_init - Initialize a preallocated encoder
-   242	 * @dev: drm device
-   243	 * @encoder: the encoder to init
-   244	 * @funcs: callbacks for this encoder (optional)
-   245	 * @encoder_type: user visible type of the encoder
-   246	 * @name: printf style format string for the encoder name, or NULL for default name
-   247	 *
-   248	 * Initializes a preallocated encoder. Encoder should be subclassed as
-   249	 * part of driver encoder objects. Cleanup is automatically handled
-   250	 * through registering drm_encoder_cleanup() with drmm_add_action(). The
-   251	 * encoder structure should be allocated with drmm_kzalloc().
-   252	 *
-   253	 * The @drm_encoder_funcs.destroy hook must be NULL.
-   254	 *
-   255	 * Returns:
-   256	 * Zero on success, error code on failure.
-   257	 */
-   258	int drmm_encoder_init(struct drm_device *dev, struct drm_encoder *encoder,
-   259			      const struct drm_encoder_funcs *funcs,
-   260			      int encoder_type, const char *name, ...)
-   261	{
-   262		va_list ap;
-   263		int ret;
-   264	
-   265		if (WARN_ON(funcs && funcs->destroy))
-   266			return -EINVAL;
-   267	
-   268		va_start(ap, name);
- > 269		ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
-   270		va_end(ap);
-   271		if (ret)
-   272			return ret;
-   273	
-   274		ret = drmm_add_action_or_reset(dev, drmm_encoder_alloc_release, encoder);
-   275		if (ret)
-   276			return ret;
-   277	
-   278		return 0;
-   279	}
-   280	EXPORT_SYMBOL(drmm_encoder_init);
-   281	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Nicolas
