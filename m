@@ -1,73 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E424554D26
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:33:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA16554D27
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jun 2022 16:33:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B1D6112B28;
-	Wed, 22 Jun 2022 14:33:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C3FE112B32;
+	Wed, 22 Jun 2022 14:33:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD4A112ABB
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:33:03 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 54C445C01B4;
- Wed, 22 Jun 2022 10:33:02 -0400 (EDT)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8FFB112B32
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 14:33:05 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id A1B313200990;
+ Wed, 22 Jun 2022 10:33:04 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 22 Jun 2022 10:33:02 -0400
+ by compute1.internal (MEProxy); Wed, 22 Jun 2022 10:33:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1655908382; x=1655994782; bh=o6
- wojDOOXdNMvwGiW/9LHw40yuT8AENJXrQofeEHl4U=; b=k2Xzf13vHXYy5Ya5o0
- 1eAezxPYe2UuYLSbq1xDKwtqZGRQxL9AHVjDbP1xAkvxxOeACXUGt7LhSU1fCh0u
- bjSK6KX+XeGJXcz2kJy4/qMef2E04AC1DQb/zFd1l2iozYDt+8ElhZrdVIxef0Up
- CV8LbJVzIrLJausQeAzcwp19WbzTE9IG3zL5+ReAqtvNpep6Wvj13uS7GS7IPiKr
- OnegoJKychQf2Y7AhnvOMIGqzT3cFpuHBuKT243HUltqC+rKfAAOrN3ons/rJBCL
- kJSc4FCaWD2inqxXvBsMBM2XvRdToy7x3u1XE+rjY4mQHpEPP10KQHwpF8CR62Qn
- r6vw==
+ :subject:subject:to:to; s=fm1; t=1655908384; x=1655994784; bh=84
+ QsY/cqJc/K2oyYWolF3usFMRYYW9uxRW/PRd2Liyk=; b=1OqTbN/FZKjE8H4+kr
+ HXsyVoZAi0XACGGs+bslnk93sqztDtkHdaSstHybTiO/k6126ElpGE14439srmBd
+ Se5EJ4eThA0haYt3PsDkV+f4bj7rokUw7dBrFM3o5bneeZ7w3iN5A61wrXTybRMP
+ q8+ZFADx3T7EWMSZWCUpdqCtOVyYkAYtljngZcj8Ey8KMruYLIwSLwWrWkR6l1BX
+ dW0ckp85Mn4dDwC+IICFj6FPQnkUsNKIZnTviZcBT4K/A76it3PMGLLIoGvsXduB
+ EcHNB5jk1iEnbuKJlKhjirmP78x5MVMybG2fkXg+VUGD64F3p0WEGloD6phi2fCR
+ NibQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1655908382; x=1655994782; bh=o6wojDOOXdNMv
- wGiW/9LHw40yuT8AENJXrQofeEHl4U=; b=E3lcsLmqefEXR3npUxaw0p0uv4oi1
- JUGIVg6h+bKe6tOF5vF1xE4kAFuiQpc9aYIhRd//xL1K/85yE7fxBU163Ijgfv6C
- jeX1txyaZGRVMWe52ObpjkrAkW4a38DhABii8jniPqbYewQ69VG5dUgsVq0olL/X
- g0yQtwKd1YF1hwO3syq1M7MqI/ah7zwdtEy2wYoluObCh8Y8fsOuxz7nCYmky5Bc
- 7hEYo9kEJduXfofdxSZu4FL86a7N4pefnzKZGO/k+6WSiSo2Vfb7pRh7UvKkKhWB
- ArIdTN1JJ9eqwEAESj4BiNduQ7zIQUKVpzIadNCV+rUut4uxJqazv/cTA==
-X-ME-Sender: <xms:HiizYq9XuA0Si5NZff_0-zCPVCVuogCwy4svl4DuV9VecbP_UCQIDg>
- <xme:HiizYqurjlUu3KicZ9WSR8gRzHLr5jtBdFZnKjclW_apqK79b7bz-j10tPUSEjh-k
- t9vugioRZhcitdWQLQ>
-X-ME-Received: <xmr:HiizYgAS_x7Mv4kQJaPUfidPrkx8zUDwUoAui_b4aPEBLVOlUuP9SpXLCq9veMW2xd_2XKI7eqSp-bVsTypqNt7K4-Qg4n8niXDrZjA>
+ :x-sasl-enc; s=fm2; t=1655908384; x=1655994784; bh=84QsY/cqJc/K2
+ oyYWolF3usFMRYYW9uxRW/PRd2Liyk=; b=faT7clZRbldCRh5gxXv2iKi+RKpu7
+ wGQhNtwJ6rg2GnllwbvYlyqxaPjJR24T4AZe58faEKpO9mBPHfQcuEPTvnKzTC0j
+ Yry3Hrcjn544sQ07GC32Fhq652s+jAJHaIjVeS8G9dB+Cu0W/b4GFucFopR7Fidg
+ /CUCHMq8yh5EVd5k/LefZrxDaoCHn2vxauyBhMEBDgIuXn/RwrEUdi698yJRujyc
+ pEC6m5lYK9XdaTtTUfXEqXewsbxE+0jw4y9Nr6SVJBFdLM34jUmj2ZPWLT4FA5YN
+ dRgLHhfR3wm6IvISPmtgU7XBEkWN3pRcaInKAIXTw1taJ9fDWKjPbNTHQ==
+X-ME-Sender: <xms:HyizYvtuEKBXxwtt3MvtVBkgoaxY5R490_FqTkVlBi1NwqxeA83vEg>
+ <xme:HyizYgffDiyKFFsvxVqDLiuNsuiOxWx0K2M1UiJD_N7GOxIXWmzhw75RcEa5Isus0
+ K-6MBLm_bp_MKYf4Vk>
+X-ME-Received: <xmr:HyizYiyYicJStb0oU4SbaHGLoU8lSNGQCJqh2LSj0fNQ7WJgTpvNaUF2TUWZeoLBiigzV0CHoPkyjr7k3mtaS0kLMuKDElQrmP9mRTE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefhedgjeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:HiizYicWqjlBiCosInifgJaye_oaayJwGpvcDfs2-4oiplXV-iomAQ>
- <xmx:HiizYvM8iteOQi9BdNxV2otL8jPXaHYivs2tqbUuxCwpoBF-isqpcA>
- <xmx:HiizYsnhiGMW7dO7NTu9GMfYsMTAxCjasGZ6WhPe2NTkT6NkHH8pKg>
- <xmx:HiizYq1erZWdCJakdS2mSTp03xy9mMTZiEZ8o-mIv24hpiAP9UYN3A>
+X-ME-Proxy: <xmx:ICizYuO-wCgfHfxhHYDTpc5RbQWil2vyWbGC79kZkEx-nQrLGVYHxQ>
+ <xmx:ICizYv_8GJVo_QYCZ-viCPHU-GNo8A1CsFSmTKCU-S-GKDECYkIkBw>
+ <xmx:ICizYuVu68xt_xw4_6tgFraLGas5tASWfg0R6KZGI29_On7My7hKHw>
+ <xmx:ICizYqlqPMsmhP5GH-OLSsBkY0CSF_XUcNP8_znXgMNbovfZpim1cA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jun 2022 10:33:01 -0400 (EDT)
+ 22 Jun 2022 10:33:03 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v2 15/68] drm/vc4: hvs: Remove planes currently allocated
- before taking down
-Date: Wed, 22 Jun 2022 16:31:16 +0200
-Message-Id: <20220622143209.600298-16-maxime@cerno.tech>
+Subject: [PATCH v2 16/68] drm/vc4: plane: Take possible_crtcs as an argument
+Date: Wed, 22 Jun 2022 16:31:17 +0200
+Message-Id: <20220622143209.600298-17-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220622143209.600298-1-maxime@cerno.tech>
 References: <20220622143209.600298-1-maxime@cerno.tech>
@@ -90,43 +89,99 @@ Cc: dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the HVS driver is unbound, a lot of memory allocations in the LBM and
-DLIST RAM are still assigned to planes that are still allocated.
+vc4_plane_init() currently initialises the plane with no possible CRTCs,
+and will expect the caller to set it up by itself.
 
-Thus, we hit a warning when calling drm_mm_takedown() since the memory pool
-is not completely free of allocations.
-
-Let's free all the currently live entries before calling drm_mm_takedown().
+Let's change that logic a bit to follow the syntax of
+drm_universal_plane_init() and pass the possible CRTCs bitmask as an
+argument to the function instead.
 
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hvs.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/vc4/vc4_crtc.c  |  2 +-
+ drivers/gpu/drm/vc4/vc4_drv.h   |  3 ++-
+ drivers/gpu/drm/vc4/vc4_plane.c | 15 +++++++--------
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index c02243bcb61f..1994136a377e 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -831,11 +831,18 @@ static void vc4_hvs_unbind(struct device *dev, struct device *master,
- 	struct drm_device *drm = dev_get_drvdata(master);
- 	struct vc4_dev *vc4 = to_vc4_dev(drm);
- 	struct vc4_hvs *hvs = vc4->hvs;
-+	struct drm_mm_node *node, *next;
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index 49ff0506e551..32c0dd6a7348 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -1239,7 +1239,7 @@ int vc4_crtc_init(struct drm_device *drm, struct vc4_crtc *vc4_crtc,
+ 	 * requirement of the plane configuration, and reject ones
+ 	 * that will take too much.
+ 	 */
+-	primary_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_PRIMARY);
++	primary_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_PRIMARY, 0);
+ 	if (IS_ERR(primary_plane)) {
+ 		dev_err(drm->dev, "failed to construct primary plane\n");
+ 		return PTR_ERR(primary_plane);
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index da52d1e0c7b5..91983fbd4d83 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -959,7 +959,8 @@ int vc4_kms_load(struct drm_device *dev);
  
- 	if (drm_mm_node_allocated(&vc4->hvs->mitchell_netravali_filter))
- 		drm_mm_remove_node(&vc4->hvs->mitchell_netravali_filter);
+ /* vc4_plane.c */
+ struct drm_plane *vc4_plane_init(struct drm_device *dev,
+-				 enum drm_plane_type type);
++				 enum drm_plane_type type,
++				 uint32_t possible_crtcs);
+ int vc4_plane_create_additional_planes(struct drm_device *dev);
+ u32 vc4_plane_write_dlist(struct drm_plane *plane, u32 __iomem *dlist);
+ u32 vc4_plane_dlist_size(const struct drm_plane_state *state);
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+index 1e866dc00ac3..bc1f1c4172e7 100644
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -1462,7 +1462,8 @@ static const struct drm_plane_funcs vc4_plane_funcs = {
+ };
  
-+	drm_mm_for_each_node_safe(node, next, &vc4->hvs->dlist_mm)
-+		drm_mm_remove_node(node);
-+
- 	drm_mm_takedown(&vc4->hvs->dlist_mm);
-+
-+	drm_mm_for_each_node_safe(node, next, &vc4->hvs->lbm_mm)
-+		drm_mm_remove_node(node);
- 	drm_mm_takedown(&vc4->hvs->lbm_mm);
+ struct drm_plane *vc4_plane_init(struct drm_device *dev,
+-				 enum drm_plane_type type)
++				 enum drm_plane_type type,
++				 uint32_t possible_crtcs)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct drm_plane *plane = NULL;
+@@ -1493,7 +1494,7 @@ struct drm_plane *vc4_plane_init(struct drm_device *dev,
+ 	}
  
- 	clk_disable_unprepare(hvs->core_clk);
+ 	plane = &vc4_plane->base;
+-	ret = drm_universal_plane_init(dev, plane, 0,
++	ret = drm_universal_plane_init(dev, plane, possible_crtcs,
+ 				       &vc4_plane_funcs,
+ 				       formats, num_formats,
+ 				       modifiers, type, NULL);
+@@ -1541,13 +1542,11 @@ int vc4_plane_create_additional_planes(struct drm_device *drm)
+ 	 */
+ 	for (i = 0; i < 16; i++) {
+ 		struct drm_plane *plane =
+-			vc4_plane_init(drm, DRM_PLANE_TYPE_OVERLAY);
++			vc4_plane_init(drm, DRM_PLANE_TYPE_OVERLAY,
++				       GENMASK(drm->mode_config.num_crtc - 1, 0));
+ 
+ 		if (IS_ERR(plane))
+ 			continue;
+-
+-		plane->possible_crtcs =
+-			GENMASK(drm->mode_config.num_crtc - 1, 0);
+ 	}
+ 
+ 	drm_for_each_crtc(crtc, drm) {
+@@ -1555,9 +1554,9 @@ int vc4_plane_create_additional_planes(struct drm_device *drm)
+ 		 * since we overlay planes on the CRTC in the order they were
+ 		 * initialized.
+ 		 */
+-		cursor_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_CURSOR);
++		cursor_plane = vc4_plane_init(drm, DRM_PLANE_TYPE_CURSOR,
++					      drm_crtc_mask(crtc));
+ 		if (!IS_ERR(cursor_plane)) {
+-			cursor_plane->possible_crtcs = drm_crtc_mask(crtc);
+ 			crtc->cursor = cursor_plane;
+ 		}
+ 	}
 -- 
 2.36.1
 
