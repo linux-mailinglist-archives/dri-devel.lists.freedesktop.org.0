@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529B455929E
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:01:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D02559296
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:01:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A34DA112137;
-	Fri, 24 Jun 2022 06:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 720D811215A;
+	Fri, 24 Jun 2022 06:01:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
- [67.231.152.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 902F610E26D
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:17 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
- by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N5mxl4032604;
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
+ [67.231.149.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5D510F672
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:24 +0000 (UTC)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+ by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBNlqc015665;
  Thu, 23 Jun 2022 07:52:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=Jgy4HYvWutWIwNsNORzLVRecig1c5kbslPS86+xHyEg=;
- b=n+qqWoyXdXY65SVgeNlJnKgfGMejP0S4N78AMb/x2SW6BmBRT4Umzh2xY+O54an2IQUG
- m0ym2b6m2NOyupahPyaaqdhTiz16CMheYgej6xek0fMBwv3DVMgtXbPHdAcoQYFs7QM1
- xb9YcqCEQm7UBg+diYESy7vuIB8g5PNsaCk1XiCFjIyAYxMJASLnUR6zcgxew/Mdmilk
- mj4gyB/rJkrrYEuwHaiz5Lpx4x4/8rE0Tmp/4WrIJcBv6zbEltVonXYOmaEVSUYWVagJ
- U53GMhXVu9dCyDssSOEezh0TdkM4RwEFIii8vYTYbwBWKVGEjZsdVqIFHn7e9+WuQJTF Iw== 
+ bh=ZbauxbsNGm9xAny7IOFo1jE6ACKMKJr4mljuYL9lUZI=;
+ b=MPOwFXqDN8U9oWJdwNA8OUN36n09Lwt7sCkNUOXrxAZEsn1kLXd8EWGvHR94XHJRWJ2+
+ wUTXVn2epUkeGplkeA8tOMY58rJssAY04gDxp8tIIBnEZ0gtnYWSQmmux7y8Gva5IZ9P
+ gWra0YGJHEyl19vGXXuUhQOHzy64bH3dFQR4O0BoKGeQAQms4QuWsLkmBEbOHukSalEB
+ Iq12/pnW7/zGJW2PHEe7nlC8N5LTf6V3pU6ZAH3hUQdAV2XMqma/PmAAK9Xol5PoMGOr
+ rneYRbpms0AQtiA5y9nhpjGYlLQ2uWpioPh8vdcy+oQ7F+S/dzyXizGpuxu7cvayMOCR SA== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
- by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvu-3
+ by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4j-9
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
  Thu, 23 Jun 2022 07:52:59 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
@@ -38,22 +38,22 @@ Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
  Frontend Transport; Thu, 23 Jun 2022 13:52:52 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 23FFF475;
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 52A0711D3;
  Thu, 23 Jun 2022 12:52:52 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH v2 16/96] ASoC: meson: Migrate to new style legacy DAI naming
+Subject: [PATCH v2 18/96] ASoC: amd: Migrate to new style legacy DAI naming
  flag
-Date: Thu, 23 Jun 2022 13:51:30 +0100
-Message-ID: <20220623125250.2355471-17-ckeepax@opensource.cirrus.com>
+Date: Thu, 23 Jun 2022 13:51:32 +0100
+Message-ID: <20220623125250.2355471-19-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: z9PBb0_fYXFUlvKuDJY_TgGeHKkBuxuU
-X-Proofpoint-ORIG-GUID: z9PBb0_fYXFUlvKuDJY_TgGeHKkBuxuU
+X-Proofpoint-GUID: IA-ECFlg29Sq85BFJIbLgooa5MDsQMWw
+X-Proofpoint-ORIG-GUID: IA-ECFlg29Sq85BFJIbLgooa5MDsQMWw
 X-Proofpoint-Spam-Reason: safe
 X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,108 +90,113 @@ currently uses the legacy naming, so add the new flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/meson/axg-frddr.c    | 3 +++
- sound/soc/meson/axg-pdm.c      | 4 +++-
- sound/soc/meson/axg-spdifin.c  | 1 +
- sound/soc/meson/axg-spdifout.c | 1 +
- sound/soc/meson/axg-toddr.c    | 3 +++
- 5 files changed, 11 insertions(+), 1 deletion(-)
+ sound/soc/amd/acp/acp-platform.c     | 15 ++++++++-------
+ sound/soc/amd/raven/acp3x-i2s.c      |  3 ++-
+ sound/soc/amd/renoir/acp3x-pdm-dma.c | 13 +++++++------
+ sound/soc/amd/vangogh/acp5x-i2s.c    |  1 +
+ sound/soc/amd/yc/acp6x-pdm-dma.c     | 13 +++++++------
+ 5 files changed, 25 insertions(+), 20 deletions(-)
 
-diff --git a/sound/soc/meson/axg-frddr.c b/sound/soc/meson/axg-frddr.c
-index 37f4bb3469b5c..61f9d417fd608 100644
---- a/sound/soc/meson/axg-frddr.c
-+++ b/sound/soc/meson/axg-frddr.c
-@@ -161,6 +161,7 @@ static const struct snd_soc_component_driver axg_frddr_component_drv = {
- 	.hw_free		= axg_fifo_pcm_hw_free,
- 	.pointer		= axg_fifo_pcm_pointer,
- 	.trigger		= axg_fifo_pcm_trigger,
+diff --git a/sound/soc/amd/acp/acp-platform.c b/sound/soc/amd/acp/acp-platform.c
+index 65a809e2c29ff..3c4fd8b805891 100644
+--- a/sound/soc/amd/acp/acp-platform.c
++++ b/sound/soc/amd/acp/acp-platform.c
+@@ -267,13 +267,14 @@ static int acp_dma_close(struct snd_soc_component *component,
+ }
+ 
+ static const struct snd_soc_component_driver acp_pcm_component = {
+-	.name		= DRV_NAME,
+-	.open		= acp_dma_open,
+-	.close		= acp_dma_close,
+-	.hw_params	= acp_dma_hw_params,
+-	.pointer	= acp_dma_pointer,
+-	.mmap		= acp_dma_mmap,
+-	.pcm_construct	= acp_dma_new,
++	.name			= DRV_NAME,
++	.open			= acp_dma_open,
++	.close			= acp_dma_close,
++	.hw_params		= acp_dma_hw_params,
++	.pointer		= acp_dma_pointer,
++	.mmap			= acp_dma_mmap,
++	.pcm_construct		= acp_dma_new,
 +	.legacy_dai_naming	= 1,
  };
  
- static const struct axg_fifo_match_data axg_frddr_match_data = {
-@@ -286,6 +287,7 @@ static const struct snd_soc_component_driver g12a_frddr_component_drv = {
- 	.hw_free		= axg_fifo_pcm_hw_free,
- 	.pointer		= axg_fifo_pcm_pointer,
- 	.trigger		= axg_fifo_pcm_trigger,
+ int acp_platform_register(struct device *dev)
+diff --git a/sound/soc/amd/raven/acp3x-i2s.c b/sound/soc/amd/raven/acp3x-i2s.c
+index de6f70d7ef364..aa38cef1776da 100644
+--- a/sound/soc/amd/raven/acp3x-i2s.c
++++ b/sound/soc/amd/raven/acp3x-i2s.c
+@@ -257,7 +257,8 @@ static const struct snd_soc_dai_ops acp3x_i2s_dai_ops = {
+ };
+ 
+ static const struct snd_soc_component_driver acp3x_dai_component = {
+-	.name           = DRV_NAME,
++	.name			= DRV_NAME,
 +	.legacy_dai_naming	= 1,
  };
  
- static const struct axg_fifo_match_data g12a_frddr_match_data = {
-@@ -356,6 +358,7 @@ static const struct snd_soc_component_driver sm1_frddr_component_drv = {
- 	.hw_free		= axg_fifo_pcm_hw_free,
- 	.pointer		= axg_fifo_pcm_pointer,
- 	.trigger		= axg_fifo_pcm_trigger,
+ static struct snd_soc_dai_driver acp3x_i2s_dai = {
+diff --git a/sound/soc/amd/renoir/acp3x-pdm-dma.c b/sound/soc/amd/renoir/acp3x-pdm-dma.c
+index 8c42345ee41e9..7203c6488df0e 100644
+--- a/sound/soc/amd/renoir/acp3x-pdm-dma.c
++++ b/sound/soc/amd/renoir/acp3x-pdm-dma.c
+@@ -363,12 +363,13 @@ static struct snd_soc_dai_driver acp_pdm_dai_driver = {
+ };
+ 
+ static const struct snd_soc_component_driver acp_pdm_component = {
+-	.name		= DRV_NAME,
+-	.open		= acp_pdm_dma_open,
+-	.close		= acp_pdm_dma_close,
+-	.hw_params	= acp_pdm_dma_hw_params,
+-	.pointer	= acp_pdm_dma_pointer,
+-	.pcm_construct	= acp_pdm_dma_new,
++	.name			= DRV_NAME,
++	.open			= acp_pdm_dma_open,
++	.close			= acp_pdm_dma_close,
++	.hw_params		= acp_pdm_dma_hw_params,
++	.pointer		= acp_pdm_dma_pointer,
++	.pcm_construct		= acp_pdm_dma_new,
 +	.legacy_dai_naming	= 1,
  };
  
- static const struct axg_fifo_match_data sm1_frddr_match_data = {
-diff --git a/sound/soc/meson/axg-pdm.c b/sound/soc/meson/axg-pdm.c
-index 672e43a9729dc..88ac58272f95b 100644
---- a/sound/soc/meson/axg-pdm.c
-+++ b/sound/soc/meson/axg-pdm.c
-@@ -457,7 +457,9 @@ static struct snd_soc_dai_driver axg_pdm_dai_drv = {
- 	.remove		= axg_pdm_dai_remove,
- };
+ static int acp_pdm_audio_probe(struct platform_device *pdev)
+diff --git a/sound/soc/amd/vangogh/acp5x-i2s.c b/sound/soc/amd/vangogh/acp5x-i2s.c
+index 72c8c68e59336..773e96f1b4dd6 100644
+--- a/sound/soc/amd/vangogh/acp5x-i2s.c
++++ b/sound/soc/amd/vangogh/acp5x-i2s.c
+@@ -345,6 +345,7 @@ static const struct snd_soc_dai_ops acp5x_i2s_dai_ops = {
  
--static const struct snd_soc_component_driver axg_pdm_component_drv = {};
-+static const struct snd_soc_component_driver axg_pdm_component_drv = {
+ static const struct snd_soc_component_driver acp5x_dai_component = {
+ 	.name = "acp5x-i2s",
 +	.legacy_dai_naming = 1,
-+};
+ };
  
- static const struct regmap_config axg_pdm_regmap_cfg = {
- 	.reg_bits	= 32,
-diff --git a/sound/soc/meson/axg-spdifin.c b/sound/soc/meson/axg-spdifin.c
-index 4ba44e0d65d9f..e2cc4c4be7586 100644
---- a/sound/soc/meson/axg-spdifin.c
-+++ b/sound/soc/meson/axg-spdifin.c
-@@ -390,6 +390,7 @@ static const struct snd_kcontrol_new axg_spdifin_controls[] = {
- static const struct snd_soc_component_driver axg_spdifin_component_drv = {
- 	.controls		= axg_spdifin_controls,
- 	.num_controls		= ARRAY_SIZE(axg_spdifin_controls),
+ static struct snd_soc_dai_driver acp5x_i2s_dai = {
+diff --git a/sound/soc/amd/yc/acp6x-pdm-dma.c b/sound/soc/amd/yc/acp6x-pdm-dma.c
+index 7e66393e41535..acecd6a4ec4b1 100644
+--- a/sound/soc/amd/yc/acp6x-pdm-dma.c
++++ b/sound/soc/amd/yc/acp6x-pdm-dma.c
+@@ -335,12 +335,13 @@ static struct snd_soc_dai_driver acp6x_pdm_dai_driver = {
+ };
+ 
+ static const struct snd_soc_component_driver acp6x_pdm_component = {
+-	.name		= DRV_NAME,
+-	.open		= acp6x_pdm_dma_open,
+-	.close		= acp6x_pdm_dma_close,
+-	.hw_params	= acp6x_pdm_dma_hw_params,
+-	.pointer	= acp6x_pdm_dma_pointer,
+-	.pcm_construct	= acp6x_pdm_dma_new,
++	.name			= DRV_NAME,
++	.open			= acp6x_pdm_dma_open,
++	.close			= acp6x_pdm_dma_close,
++	.hw_params		= acp6x_pdm_dma_hw_params,
++	.pointer		= acp6x_pdm_dma_pointer,
++	.pcm_construct		= acp6x_pdm_dma_new,
 +	.legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config axg_spdifin_regmap_cfg = {
-diff --git a/sound/soc/meson/axg-spdifout.c b/sound/soc/meson/axg-spdifout.c
-index 3960d082e1436..e8a12f15f3b4a 100644
---- a/sound/soc/meson/axg-spdifout.c
-+++ b/sound/soc/meson/axg-spdifout.c
-@@ -383,6 +383,7 @@ static const struct snd_soc_component_driver axg_spdifout_component_drv = {
- 	.dapm_routes		= axg_spdifout_dapm_routes,
- 	.num_dapm_routes	= ARRAY_SIZE(axg_spdifout_dapm_routes),
- 	.set_bias_level		= axg_spdifout_set_bias_level,
-+	.legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config axg_spdifout_regmap_cfg = {
-diff --git a/sound/soc/meson/axg-toddr.c b/sound/soc/meson/axg-toddr.c
-index d6adf7edea41f..e9208e74e9659 100644
---- a/sound/soc/meson/axg-toddr.c
-+++ b/sound/soc/meson/axg-toddr.c
-@@ -182,6 +182,7 @@ static const struct snd_soc_component_driver axg_toddr_component_drv = {
- 	.hw_free		= axg_fifo_pcm_hw_free,
- 	.pointer		= axg_fifo_pcm_pointer,
- 	.trigger		= axg_fifo_pcm_trigger,
-+	.legacy_dai_naming	= 1,
- };
- 
- static const struct axg_fifo_match_data axg_toddr_match_data = {
-@@ -242,6 +243,7 @@ static const struct snd_soc_component_driver g12a_toddr_component_drv = {
- 	.hw_free		= axg_fifo_pcm_hw_free,
- 	.pointer		= axg_fifo_pcm_pointer,
- 	.trigger		= axg_fifo_pcm_trigger,
-+	.legacy_dai_naming	= 1,
- };
- 
- static const struct axg_fifo_match_data g12a_toddr_match_data = {
-@@ -312,6 +314,7 @@ static const struct snd_soc_component_driver sm1_toddr_component_drv = {
- 	.hw_free		= axg_fifo_pcm_hw_free,
- 	.pointer		= axg_fifo_pcm_pointer,
- 	.trigger		= axg_fifo_pcm_trigger,
-+	.legacy_dai_naming	= 1,
- };
- 
- static const struct axg_fifo_match_data sm1_toddr_match_data = {
+ static int acp6x_pdm_audio_probe(struct platform_device *pdev)
 -- 
 2.30.2
 
