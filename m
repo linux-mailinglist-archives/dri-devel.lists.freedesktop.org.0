@@ -2,121 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F94855756A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 10:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C40B8557572
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 10:27:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CDDF11A22C;
-	Thu, 23 Jun 2022 08:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A019F11A237;
+	Thu, 23 Jun 2022 08:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam07on2080.outbound.protection.outlook.com [40.107.212.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD4F511A232
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 08:26:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Oe5K6WiRbg/2usFqvO3cxKGtFuf3bNmhTMpXBoUQomDeXJFs8DyfpFCdfC3F5hFQO3lpGJd7WbWKiSPL1zJtCtCRP6UEx88XTGR/XSSMXlo0FfXSO2X73UXWhcynlOuOiiRbTImJF6tUzSxSrykYAAvrQTYr9j+R7pmXEiwSIkW3M6+/J/kaIsRwyY0tyY9F3rWGlNGfqSj5Hia+I9bXwye1mFnpW9XxwXhmaACgOVvMbOz1Xa1OxA6aJAShq7idODLPrxCAwLMNyHPKH2B8IfDR6tYM26Z9SyjS+FZmp0gqZScqCE+41TTHKTJCZc5edr9UuYasbBqvb0ZS7/LbEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1cDbVoyuIkUexteR48Ue/tGMML8XocbS4FmnCEbt44o=;
- b=DCfQLrEUK7u362FlQKv/vAX1K+EY84Ve6uhf7PYX2j8Wdb+7HXH40t8fsz/esJG3ciBBLP7WAt/CyVp1fYTgmV8L42x8YwOsY1dwgrPfGAGwiNae67UhNlhCcLXCww2ufyukLjWKIJPvrvWhYcJEIeNMqsr/hNdmxOAQqJX1IGtm6RDC4OZrU4CBEgmP2k1fU6v0jDIqS7RJaTuMqoRkDqYBbc4BsVKp3D5vSQVcnyrkFim7z+tFhFeqnYVuFA9aZr9lkWjfgC4znbv2BPqcbFooZcA+cX6sZo9hh8puB9sKb0NXQuLcuFqrHRuq2uz8AwVXn/ItvVN/WjMvlWFCHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1cDbVoyuIkUexteR48Ue/tGMML8XocbS4FmnCEbt44o=;
- b=tq1YOZkLkEmP8/VPmjcdNyfJtyNb6WlxJbWgC3jNhAKhtTrLyZNNpfuuG4z5gUv26NY3SKPh/L+rJsrPmWxSw4l8hcZv9zBF6p+takjiu6Qbm6J67UQqyCoB5XnxQ8d/q8WVrCtMtXP8tmzXyOcLM0yJa4hyiQSKqGeYqG22aCE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BY5PR12MB4324.namprd12.prod.outlook.com (2603:10b6:a03:209::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.15; Thu, 23 Jun
- 2022 08:26:54 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731%6]) with mapi id 15.20.5373.015; Thu, 23 Jun 2022
- 08:26:53 +0000
-Message-ID: <dbf87831-1b14-d18f-f8ca-b5fe1f850190@amd.com>
-Date: Thu, 23 Jun 2022 10:26:45 +0200
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A37011A233;
+ Thu, 23 Jun 2022 08:27:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655972847; x=1687508847;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=MHX4k3xNRPPqaMWb4Z2fngaAksbg05pF5LXBKOnC0rk=;
+ b=NqAa6G2G57oPob+dKeViC2wxgzI1y+VEy0e63dKUD3z5QuukVw6bhN5X
+ fDfgcRm0bj/VeZMF3LrAXrxuRXcTFnpNLj3is9JKKFeHV4BaLD1sirrf/
+ JaqZfFQH3ot5/2Vc3lewUKwPbgofVF2ZfT4L7ktv1PfJm3lrSvc+nS1Da
+ 3CO9ik/CPK+4JCxf47mSnycRsxir6kJmmvIm1dMzZVtv9RU2k3KtWi4jG
+ H9QmcMuh/tAT3Ty4g9T33Vaki90919FPDGDeuZv4dXKiJKBAxjeSmaXoe
+ IgobdU+mQjYTX3u6lv6JWYZ98a/mFHHFpHbqJ/1MTS4elfDqkhHyc8JE9 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="261091728"
+X-IronPort-AV: E=Sophos;i="5.92,215,1650956400"; d="scan'208";a="261091728"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2022 01:27:26 -0700
+X-IronPort-AV: E=Sophos;i="5.92,215,1650956400"; d="scan'208";a="615498568"
+Received: from bo3zhang-mobl.amr.corp.intel.com (HELO [10.212.47.148])
+ ([10.212.47.148])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2022 01:27:24 -0700
+Message-ID: <e6ed0d2f-ee2a-2219-c2cc-49efc32f0560@linux.intel.com>
+Date: Thu, 23 Jun 2022 09:27:22 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: DMA-buf and uncached system memory
+ Thunderbird/91.10.0
+Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/doc/rfc: VM_BIND uapi definition
 Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- linux-media <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
- lkml <linux-kernel@vger.kernel.org>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
- <58e11013-01ab-8a2c-732e-860ae83a3df6@suse.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <58e11013-01ab-8a2c-732e-860ae83a3df6@suse.de>
+To: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+References: <20220622035650.29256-1-niranjana.vishwanathapura@intel.com>
+ <20220622035650.29256-4-niranjana.vishwanathapura@intel.com>
+ <6ac2f495-8ead-4824-f9af-1c03fb3770c4@linux.intel.com>
+ <20220622151229.GY376@nvishwa1-DESK>
+ <b347fb63-5200-9f5c-b0d6-ca51b7a064f9@linux.intel.com>
+ <20220622164445.GZ376@nvishwa1-DESK>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220622164445.GZ376@nvishwa1-DESK>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9P250CA0013.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:532::24) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 15ee4006-c820-4c1c-2062-08da54f220db
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4324:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR12MB43246384C2D210DF740F06DD83B59@BY5PR12MB4324.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ara8IX/8BnF3Y+c2F46BwRmWhvPry9NdTBJFgHFSrGvCs0cjyRKx9bRY7hsWXyj5YtzUEtiiZlZ0WG8Lpb/aw+oNteYYQwApiiA5ZhzuSEsqtQSru0pdNxEptMqJ+sWVAqp88cgEAeRkTInidcHf+AcqwlUjnyxobTIcZ1e+rl7ErRnsW3rriIW8897m9VMx/kpdf70oHUrmwVUDufX3clLcSoixSr5Jg28GbQKHMegJk2+A/6hb9eoKidBPdAzU8JjCYC/hPbkU7LxhGbp9DakjEijQuMY5PtcQDqhWZYMYSvozQDqiLQ5upy8NC+t7thhjWTnq4fq5Omwd2zZpBxCetpX74teXCJNYoQtiM80BVMsCkjz4krZBiI1tE9x62kwora2nT6uLA7nj2kvRi4AxJp9dbbWrsTk6H95AvRMV58CbsBerFl+veB6QLI3BkkEMR8BHiRatNQD+K9FLqtCiJOsaybhse2a+WPeelVgmSZdCTOu7G6Y1wjz0SVyy1uWvrUvFJvgMXaLXIkCPZ2OFeNp7rBKNY3ISr82Pdx5HmjcFcB7m5RRaNB0EstbNda9GW1snvG9O2rkwZXVVd/5q2wExTZx+usL8hnb8cgmiIjmXHNeDIs+ptPXU0I63BAPLDcb/rCcxdrbiTTW46+ePsQJbDNtnvfCM8BtT7CHCNCraMz+tnBd4g9TiGsnPrvkqWpEmnYOsMrAol5u/hpUZhTdkoNAaoahZNMWJTJY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(376002)(346002)(366004)(396003)(39860400002)(66476007)(66556008)(478600001)(966005)(6486002)(86362001)(66946007)(31696002)(36756003)(6512007)(41300700001)(66574015)(38100700002)(6506007)(31686004)(6666004)(26005)(2616005)(110136005)(186003)(2906002)(8676002)(4326008)(5660300002)(8936002)(83380400001)(316002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Sm1BK1hNWFdvQ1JoU0JkQ2VldTcrdmZMbWowMVh2UnZnWUx3MlBGWHAwN2sx?=
- =?utf-8?B?UkpGTkdlbHdpRnI4aXVXRnN6Y2hqT1FQendNbk1mN3RaY0NIQW9MRVlpdzNQ?=
- =?utf-8?B?b3ZXMklHNUliZTZLUUxqakNHc1BLZk5WWjlheDQyRkFxL1RUNVJMUURPdjMw?=
- =?utf-8?B?ZEZ2UkxtMTZkYkVtcGJKNlN6U1h5M3VENmtoMjV3cVI4aWt5czhnNy9TMldO?=
- =?utf-8?B?RVhoOWx4MFdQVFUyOEZ3a2QyWEZEZlRRMFI3Z2dPL29KUGlKWlN2YlYrcWpK?=
- =?utf-8?B?SUdhQWd3SDNSV1B2RnVZVUVXT1RncjBHZlQyTmYyMXlzakwrczg1L2R1TzV5?=
- =?utf-8?B?dFZMMTVYVUF3QndnM1ZuSHlkM0UwZnFveHZ6b3d0Q3REOFc2dm9FM1VZTnUw?=
- =?utf-8?B?OHNPOWJqVENSbzVWUWhwVlIySFU4anhjOU41Nm5hL1ZUMjYzelFUOEppenZj?=
- =?utf-8?B?TEkxenZEelNKZUtqei8vR25sNGN0QWlJV2UvQ1VBRTZpc2NCVjd4RjNCUjRz?=
- =?utf-8?B?a2VZcHdKNUhuTGVhUDQrL1NENmRZWFp6UWFheFNOQjZ1WmdsaGN1QVlRMlJ0?=
- =?utf-8?B?alYxLzMrNUJ4ZVlBSmdPMXFVNE0yOTEwQmJBaXAvUmk5amU2SDB2MkoxazZN?=
- =?utf-8?B?cm1vWVR1S2tUSTJRZlovU2JsNnJnSUxSdVNnRmp3dmpKVzFPc3JiMmdDV1lP?=
- =?utf-8?B?ZVVzVDNMQng0TVQwOHBvNWtXKzhvUHVleEhBOVQ4QXl3a2tNazN4QW5hamZy?=
- =?utf-8?B?T01pRlQ0a29yOVViak1aUEZVOFhOaTlBTm9SYVkwa0kwbFFvVFJyNFZ5SEVh?=
- =?utf-8?B?VkNjOStKRWsycmpZMXgxUFc2ZlNHaVFOOFJwZ3pmVEdmZWhtVUFzdlVZc2NH?=
- =?utf-8?B?MkNQbytPWFNGYTFpVGJ6ZzRPRlVsalcxZ1NTSDdEMVUvTnR3b0pkS1ZFZ0th?=
- =?utf-8?B?N2tGekNKZlpZQk9FRFBKSXZuU1UxM3F6NjhQZFgxazV3b1BpU1VlSUVUQXJv?=
- =?utf-8?B?bWowT2hCZE5RZ0pFdzhLejh5a3l4a05mSytWcElrdjRyTUVGL0JJWHFVU1VV?=
- =?utf-8?B?VXFFVDFjTFh0cllxdy9DV0llQnQwUFdPVXRWUkJLRXR2TnZGNGFOcjdJV2xz?=
- =?utf-8?B?clFtNTkzSjFzVXR1Q3dCYTVXWVdqNUhsSkJYRVh0bmRrWXRBOFMwM1A5OGY1?=
- =?utf-8?B?cWZPQ2gyMU9pdnJqSmhkbW1ubWtnWThmY0tic3RuOEZKaXRWSVFpZVZtVFBz?=
- =?utf-8?B?V0tma2dOdlpETkUraytOdEpNelZwTDNJdEk0azdQVEFOcnNPYk40RmRHdVFO?=
- =?utf-8?B?Qk0yK2pjUDVyVk83T3BPeWZNTVpZaHp4QWxDVmRxdjBJUWV1K016ZEFmUzJB?=
- =?utf-8?B?OVpzVWt0dWtjNlN0dkdEWDRER1oxOUVwOFBYaTZISlo1QmJjWng2YnpZZnI1?=
- =?utf-8?B?TVN4ZHhJVFI5cUJsUm5tcXVKLzBKMVBncmdxbXVpaFNNbHNDTDBCd0FCb1lT?=
- =?utf-8?B?cWF2ZXI2OXZ5SXZmWWVwQ3VsSzVxN0FUVUhoaCsxVFV2NVlhVUtJNVpYNkda?=
- =?utf-8?B?RVlrZ0JmclNRakhocWlZd1J0Tm45TVlvdytPVkJLQ2gzbTlreWlYRDl4L2ZL?=
- =?utf-8?B?eXJZamdZOVd3VVVZeW1kU3ZZTHQwMEZtY0pHazIzZGFTdGlscUV4RjVYaEVC?=
- =?utf-8?B?a0pyelNjVmRIcUU4SW5Db2M0Y0hrLzhEK3NwWHNQVzhwbkdKaEFzQ212R2pE?=
- =?utf-8?B?N3ZHQVl6M1RhWnFsN0kxQkcrWkZZUWRTQnFLNTdBMFl3VGJMUnJOT1FraHZI?=
- =?utf-8?B?d0tEVGRpVnFhRktvb3RpZlR2bkd2WlFsbGxWVDR2TXdQc2N1Tm1HNStRUjAw?=
- =?utf-8?B?cEQ2Mkg2VWQwSW1wOTc2ODU1TDh6NzNJVnd2a2pHc2FrZE91N3NIczVuR2ho?=
- =?utf-8?B?MXR3dFdROTEzSGIxSVpKbmYyc3h2Y1laOWJHNUpSSnU0bmc2OHV6Wmc5aHFE?=
- =?utf-8?B?ajFnckFkaHpibjBOUG1qbWFNSzBxRm8zckQ4OHByTy90RVYrRU44UjN2SEI2?=
- =?utf-8?B?Q2swaEJMWG9waWhhdHptUlBwcitzVXlLMGkvTEJMbHVabUZuMVNSSXpRNjFy?=
- =?utf-8?Q?6P5q4V4xlHrWdFce8V048TVik?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15ee4006-c820-4c1c-2062-08da54f220db
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 08:26:53.8584 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: if1ZZH0+hvF6aVMQowp64KHct8ahuNDKIGwa6vncbedG5xYsWobEqKrD7/Nf7TIL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4324
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,50 +65,368 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>
+Cc: paulo.r.zanoni@intel.com, intel-gfx@lists.freedesktop.org,
+ chris.p.wilson@intel.com, thomas.hellstrom@intel.com,
+ dri-devel@lists.freedesktop.org, daniel.vetter@intel.com,
+ christian.koenig@amd.com, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 23.06.22 um 10:13 schrieb Thomas Zimmermann:
-> Hi Christian
->
-> Am 15.02.21 um 09:58 schrieb Christian König:
->> Hi guys,
->>
->> we are currently working an Freesync and direct scan out from system 
->> memory on AMD APUs in A+A laptops.
->>
->> On problem we stumbled over is that our display hardware needs to 
->> scan out from uncached system memory and we currently don't have a 
->> way to communicate that through DMA-buf.
->>
->> For our specific use case at hand we are going to implement something 
->> driver specific, but the question is should we have something more 
->> generic for this?
->
-> I had a patchset here that extends iosys-map (former dma-buf-map) with 
-> caching information. I'll post a copy.
 
-Oh, nice. But why on iosys-map? We need that per DMA-buf.
-
-Thanks,
-Christian.
-
->
-> Sorry for being late to reply.
->
-> Best regards
-> Thomas
->
+On 22/06/2022 17:44, Niranjana Vishwanathapura wrote:
+> On Wed, Jun 22, 2022 at 04:57:17PM +0100, Tvrtko Ursulin wrote:
 >>
->> After all the system memory access pattern is a PCIe extension and as 
->> such something generic.
+>> On 22/06/2022 16:12, Niranjana Vishwanathapura wrote:
+>>> On Wed, Jun 22, 2022 at 09:10:07AM +0100, Tvrtko Ursulin wrote:
+>>>>
+>>>> On 22/06/2022 04:56, Niranjana Vishwanathapura wrote:
+>>>>> VM_BIND and related uapi definitions
+>>>>>
+>>>>> v2: Reduce the scope to simple Mesa use case.
+>>>>> v3: Expand VM_UNBIND documentation and add
+>>>>>     I915_GEM_VM_BIND/UNBIND_FENCE_VALID
+>>>>>     and I915_GEM_VM_BIND_TLB_FLUSH flags.
+>>>>>
+>>>>> Signed-off-by: Niranjana Vishwanathapura 
+>>>>> <niranjana.vishwanathapura@intel.com>
+>>>>> ---
+>>>>>  Documentation/gpu/rfc/i915_vm_bind.h | 243 
+>>>>> +++++++++++++++++++++++++++
+>>>>>  1 file changed, 243 insertions(+)
+>>>>>  create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
+>>>>>
+>>>>> diff --git a/Documentation/gpu/rfc/i915_vm_bind.h 
+>>>>> b/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>> new file mode 100644
+>>>>> index 000000000000..fa23b2d7ec6f
+>>>>> --- /dev/null
+>>>>> +++ b/Documentation/gpu/rfc/i915_vm_bind.h
+>>>>> @@ -0,0 +1,243 @@
+>>>>> +/* SPDX-License-Identifier: MIT */
+>>>>> +/*
+>>>>> + * Copyright © 2022 Intel Corporation
+>>>>> + */
+>>>>> +
+>>>>> +/**
+>>>>> + * DOC: I915_PARAM_HAS_VM_BIND
+>>>>> + *
+>>>>> + * VM_BIND feature availability.
+>>>>> + * See typedef drm_i915_getparam_t param.
+>>>>> + */
+>>>>> +#define I915_PARAM_HAS_VM_BIND        57
+>>>>> +
+>>>>> +/**
+>>>>> + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
+>>>>> + *
+>>>>> + * Flag to opt-in for VM_BIND mode of binding during VM creation.
+>>>>> + * See struct drm_i915_gem_vm_control flags.
+>>>>> + *
+>>>>> + * The older execbuf2 ioctl will not support VM_BIND mode of 
+>>>>> operation.
+>>>>> + * For VM_BIND mode, we have new execbuf3 ioctl which will not 
+>>>>> accept any
+>>>>> + * execlist (See struct drm_i915_gem_execbuffer3 for more details).
+>>>>> + *
+>>>>> + */
+>>>>> +#define I915_VM_CREATE_FLAGS_USE_VM_BIND    (1 << 0)
+>>>>> +
+>>>>> +/* VM_BIND related ioctls */
+>>>>> +#define DRM_I915_GEM_VM_BIND        0x3d
+>>>>> +#define DRM_I915_GEM_VM_UNBIND        0x3e
+>>>>> +#define DRM_I915_GEM_EXECBUFFER3    0x3f
+>>>>> +
+>>>>> +#define DRM_IOCTL_I915_GEM_VM_BIND DRM_IOWR(DRM_COMMAND_BASE + 
+>>>>> DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
+>>>>> +#define DRM_IOCTL_I915_GEM_VM_UNBIND DRM_IOWR(DRM_COMMAND_BASE + 
+>>>>> DRM_I915_GEM_VM_UNBIND, struct drm_i915_gem_vm_bind)
+>>>>> +#define DRM_IOCTL_I915_GEM_EXECBUFFER3 DRM_IOWR(DRM_COMMAND_BASE + 
+>>>>> DRM_I915_GEM_EXECBUFFER3, struct drm_i915_gem_execbuffer3)
+>>>>> +
+>>>>> +/**
+>>>>> + * struct drm_i915_gem_vm_bind_fence - Bind/unbind completion 
+>>>>> notification.
+>>>>> + *
+>>>>> + * A timeline out fence for vm_bind/unbind completion notification.
+>>>>> + */
+>>>>> +struct drm_i915_gem_vm_bind_fence {
+>>>>> +    /** @handle: User's handle for a drm_syncobj to signal. */
+>>>>> +    __u32 handle;
+>>>>> +
+>>>>> +    /** @rsvd: Reserved, MBZ */
+>>>>> +    __u32 rsvd;
+>>>>> +
+>>>>> +    /**
+>>>>> +     * @value: A point in the timeline.
+>>>>> +     * Value must be 0 for a binary drm_syncobj. A Value of 0 for a
+>>>>> +     * timeline drm_syncobj is invalid as it turns a drm_syncobj 
+>>>>> into a
+>>>>> +     * binary one.
+>>>>> +     */
+>>>>> +    __u64 value;
+>>>>> +};
+>>>>> +
+>>>>> +/**
+>>>>> + * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
+>>>>> + *
+>>>>> + * This structure is passed to VM_BIND ioctl and specifies the 
+>>>>> mapping of GPU
+>>>>> + * virtual address (VA) range to the section of an object that 
+>>>>> should be bound
+>>>>> + * in the device page table of the specified address space (VM).
+>>>>> + * The VA range specified must be unique (ie., not currently 
+>>>>> bound) and can
+>>>>> + * be mapped to whole object or a section of the object (partial 
+>>>>> binding).
+>>>>> + * Multiple VA mappings can be created to the same section of the 
+>>>>> object
+>>>>> + * (aliasing).
+>>>>> + *
+>>>>> + * The @start, @offset and @length should be 4K page aligned. 
+>>>>> However the DG2
+>>>>> + * and XEHPSDV has 64K page size for device local-memory and has 
+>>>>> compact page
+>>>>> + * table. On those platforms, for binding device local-memory 
+>>>>> objects, the
+>>>>> + * @start should be 2M aligned, @offset and @length should be 64K 
+>>>>> aligned.
+>>>>
+>>>> Should some error codes be documented and has the ability to 
+>>>> programmatically probe the alignment restrictions been considered?
+>>>>
+>>>
+>>> Currently what we have internally is that -EINVAL is returned if the 
+>>> sart, offset
+>>> and length are not aligned. If the specified mapping already exits, 
+>>> we return
+>>> -EEXIST. If there are conflicts in the VA range and VA range can't be 
+>>> reserved,
+>>> then -ENOSPC is returned. I can add this documentation here. But I am 
+>>> worried
+>>> that there will be more suggestions/feedback about error codes while 
+>>> reviewing
+>>> the code patch series, and we have to revisit it again.
 >>
->> Regards,
->> Christian.
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
+>> I'd still suggest documenting those three. It makes sense to explain 
+>> to userspace what behaviour they will see if they get it wrong.
+>>
+> 
+> Ok.
+> 
+>>>>> + * Also, on those platforms, it is not allowed to bind an device 
+>>>>> local-memory
+>>>>> + * object and a system memory object in a single 2M section of VA 
+>>>>> range.
+>>>>
+>>>> Text should be clear whether "not allowed" means there will be an 
+>>>> error returned, or it will appear to work but bad things will happen.
+>>>>
+>>>
+>>> Yah, error returned, will fix.
+>>>
+>>>>> + */
+>>>>> +struct drm_i915_gem_vm_bind {
+>>>>> +    /** @vm_id: VM (address space) id to bind */
+>>>>> +    __u32 vm_id;
+>>>>> +
+>>>>> +    /** @handle: Object handle */
+>>>>> +    __u32 handle;
+>>>>> +
+>>>>> +    /** @start: Virtual Address start to bind */
+>>>>> +    __u64 start;
+>>>>> +
+>>>>> +    /** @offset: Offset in object to bind */
+>>>>> +    __u64 offset;
+>>>>> +
+>>>>> +    /** @length: Length of mapping to bind */
+>>>>> +    __u64 length;
+>>>>> +
+>>>>> +    /**
+>>>>> +     * @flags: Supported flags are:
+>>>>> +     *
+>>>>> +     * I915_GEM_VM_BIND_FENCE_VALID:
+>>>>> +     * @fence is valid, needs bind completion notification.
+>>>>> +     *
+>>>>> +     * I915_GEM_VM_BIND_READONLY:
+>>>>> +     * Mapping is read-only.
+>>>>> +     *
+>>>>> +     * I915_GEM_VM_BIND_CAPTURE:
+>>>>> +     * Capture this mapping in the dump upon GPU error.
+>>>>> +     *
+>>>>> +     * I915_GEM_VM_BIND_TLB_FLUSH:
+>>>>> +     * Flush the TLB for the specified range after bind completion.
+>>>>> +     */
+>>>>> +    __u64 flags;
+>>>>> +#define I915_GEM_VM_BIND_FENCE_VALID    (1 << 0)
+>>>>> +#define I915_GEM_VM_BIND_READONLY    (1 << 1)
+>>>>> +#define I915_GEM_VM_BIND_CAPTURE    (1 << 2)
+>>>>> +#define I915_GEM_VM_BIND_TLB_FLUSH    (1 << 2)
+>>>>
+>>>> What is the use case for allowing any random user to play with 
+>>>> (global) TLB flushing?
+>>>>
+>>>
+>>> I heard it from Daniel on intel-gfx, apparently it is a Mesa 
+>>> requirement.
+>>
+>> Okay I think that one needs clarifying.
+>>
+> 
+> After chatting with Jason, I think we can remove it for now and
+> we can revisit it later if Mesa thinks it is required.
 
+IRC or some other thread?
+
+>>>>> +
+>>>>> +    /** @fence: Timeline fence for bind completion signaling */
+>>>>> +    struct drm_i915_gem_vm_bind_fence fence;
+>>>>
+>>>> As agreed the other day - please document in the main kerneldoc 
+>>>> section that all (un)binds are executed asynchronously and out of 
+>>>> order.
+>>>>
+>>>
+>>> I have added it in the latest revision of .rst file.
+>>
+>> Right, but I'd say to mention it in the uapi docs.
+>>
+> 
+> Ok
+> 
+>>>>> +
+>>>>> +    /** @extensions: 0-terminated chain of extensions */
+>>>>> +    __u64 extensions;
+>>>>> +};
+>>>>> +
+>>>>> +/**
+>>>>> + * struct drm_i915_gem_vm_unbind - VA to object mapping to unbind.
+>>>>> + *
+>>>>> + * This structure is passed to VM_UNBIND ioctl and specifies the 
+>>>>> GPU virtual
+>>>>> + * address (VA) range that should be unbound from the device page 
+>>>>> table of the
+>>>>> + * specified address space (VM). The specified VA range must match 
+>>>>> one of the
+>>>>> + * mappings created with the VM_BIND ioctl. TLB is flushed upon 
+>>>>> unbind
+>>>>> + * completion. The unbind operation will force unbind the specified
+>>>>
+>>>> Do we want to provide TLB flushing guarantees here and why? (As 
+>>>> opposed to leaving them for implementation details.) If there is no 
+>>>> implied order in either binds/unbinds, or between the two 
+>>>> intermixed, then what is the point of guaranteeing a TLB flush on 
+>>>> unbind completion?
+>>>>
+>>>
+>>> I think we ensure that tlb is flushed before signaling the out fence
+>>> of vm_unbind call, then user ensure corretness by staging submissions
+>>> or vm_bind calls after vm_unbind out fence signaling.
+>>
+>> I don't see why is this required. Driver does not need to flush 
+>> immediately on unbind for correctness/security and neither for the 
+>> uapi contract. If there is no subsequent usage/bind then the flush is 
+>> pointless. And if the user re-binds to same VA range, against an 
+>> active VM, then perhaps the expectations need to be defined. Is this 
+>> supported or user error or what.
+>>
+> 
+> After a vm_unbind, UMD can re-bind to same VA range against an active VM.
+> Though I am not sue with Mesa usecase if that new mapping is required for
+> running GPU job or it will be for the next submission. But ensuring the
+> tlb flush upon unbind, KMD can ensure correctness.
+
+Isn't that their problem? If they re-bind for submitting _new_ work then 
+they get the flush as part of batch buffer pre-amble.
+
+> Note that on platforms with selective TLB invalidation, it is not
+> as expensive as flushing the whole TLB. On platforms without selective
+> tlb invalidation, we can put some optimization later as mentioned
+> in the .rst file.
+> 
+> Also note that UMDs can vm_unbind a mapping while VM is active.
+> By flushing the tlb, we ensure there is no inadvertent access to
+> mapping that no longer exists. I can add this to documentation.
+
+This one would surely be their problem. Kernel only needs to flush when 
+it decides to re-use the backing store.
+
+To be clear, overall I have reservations about offering strong 
+guarantees about the TLB flushing behaviour at the level of these two 
+ioctls. If we don't need to offer them it would be good to not do it, 
+otherwise we limit ourselves on the implementation side and more 
+importantly add a global performance hit where majority of userspace do 
+not need this guarantee to start with.
+
+I only don't fully remember how is that compute use case supposed to 
+work where new work keeps getting submitted against a running batch. Am 
+I missing something there?
+
+>>>> range from
+>>>>> + * device page table without waiting for any GPU job to complete. 
+>>>>> It is UMDs
+>>>>> + * responsibility to ensure the mapping is no longer in use before 
+>>>>> calling
+>>>>> + * VM_UNBIND.
+>>>>> + *
+>>>>> + * The @start and @length musy specify a unique mapping bound with 
+>>>>> VM_BIND
+>>>>> + * ioctl.
+>>>>> + */
+>>>>> +struct drm_i915_gem_vm_unbind {
+>>>>> +    /** @vm_id: VM (address space) id to bind */
+>>>>> +    __u32 vm_id;
+>>>>> +
+>>>>> +    /** @rsvd: Reserved, MBZ */
+>>>>> +    __u32 rsvd;
+>>>>> +
+>>>>> +    /** @start: Virtual Address start to unbind */
+>>>>> +    __u64 start;
+>>>>> +
+>>>>> +    /** @length: Length of mapping to unbind */
+>>>>> +    __u64 length;
+>>>>> +
+>>>>> +    /**
+>>>>> +     * @flags: Supported flags are:
+>>>>> +     *
+>>>>> +     * I915_GEM_VM_UNBIND_FENCE_VALID:
+>>>>> +     * @fence is valid, needs unbind completion notification.
+>>>>> +     */
+>>>>> +    __u64 flags;
+>>>>> +#define I915_GEM_VM_UNBIND_FENCE_VALID    (1 << 0)
+>>>>> +
+>>>>> +    /** @fence: Timeline fence for unbind completion signaling */
+>>>>> +    struct drm_i915_gem_vm_bind_fence fence;
+>>>>
+>>>> I am not sure the simplified ioctl story is super coherent. If 
+>>>> everything is now fully async and out of order, but the input fence 
+>>>> has been dropped, then how is userspace supposed to handle the 
+>>>> address space? It will have to wait (in userspace) for unbinds to 
+>>>> complete before submitting subsequent binds which use the same VA 
+>>>> range.
+>>>>
+>>>
+>>> Yah and Mesa appararently will be having the support to handle it.
+>>>
+>>>> Maybe that's passable, but then the fact execbuf3 has no input fence 
+>>>> suggests a userspace wait between it and binds. And I am pretty sure 
+>>>> historically those were always quite bad for performance.
+>>>>
+>>>
+>>> execbuf3 has the input fence through timline fence array support.
+>>
+>> I think I confused the field in execbuf3 for for the output fence.. So 
+>> that part is fine, async binds chained with input fence to execbuf3. 
+>> Fire and forget for userspace.
+>>
+>> Although I then don't understand why execbuf3 wouldn't support an 
+>> output fence? What mechanism is userspace supposed to use for that? 
+>> Export a fence from batch buffer BO? That would be an extra ioctl so 
+>> if we can avoid it why not?
+>>
+> 
+> execbuf3 supports out fence as well through timeline fence array.
+
+Ah okay, I am uninformed in this topic, sorry.
+
+Regards,
+
+Tvrtko
