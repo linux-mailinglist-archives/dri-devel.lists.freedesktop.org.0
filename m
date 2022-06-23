@@ -2,71 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE06E5570FC
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 04:18:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC18C557135
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 04:55:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 339EF10E658;
-	Thu, 23 Jun 2022 02:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3287113757;
+	Thu, 23 Jun 2022 02:55:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D228F10E658;
- Thu, 23 Jun 2022 02:18:39 +0000 (UTC)
-Received: by mail-pj1-x1041.google.com with SMTP id
- g10-20020a17090a708a00b001ea8aadd42bso1223411pjk.0; 
- Wed, 22 Jun 2022 19:18:39 -0700 (PDT)
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42829113757
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 02:55:08 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id m14so16987385plg.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jun 2022 19:55:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=8ktKbr7uBGDRIVppttuunEQkJn1Tz5nrNAaC4on+v0g=;
- b=PZy1DCFm6VpQWMaVejGZNjuXi4UybX5QZT64O/psnQdBhPkjjm48qJ7dPLqMPWDBQd
- lCPHJ2ZagZYPSMb4tCRN95tBV163wrNzlIRgtF5zO0Zkxomcc9DA48gDBYr8MJm3I5k7
- vaDUsv2VR8jpun/P8LdR/apzQTZ8MU3ewo+hW8/JIMXZSw7wuT7wU1E6IvXUmiBvsCtR
- u5aAorWCcFj3lc+I8qa2GU5Orecw1CbB0oShX4mboKDgwM1Nya9yk2xxyZ8/31pHAqKi
- h/iN/GEqhK9ZxZfowmvHCuXOK1bMp1iXDQErigcbp++0H1G4vV+klEjBQOFAlIAbNM5o
- 8T7Q==
+ bh=OaXOvKIb2IXOCvwDea71lPRpJNnoFZ+3gnAGlvTkOvQ=;
+ b=Qo/ALMK5LlOSLHYWAJCZb42Y6mAbMWIvkFbKlARVvkwfE8T22/KnaUV+/f28eLvgdD
+ oHZxXTGvaWVGEIWXl1iYYn2bCpA60sbnydmlou3XPVs12L9J4Dyx0UfW1X0mGttX8OVb
+ F97umf2lof7IaAYVbOm0A+bU60yW7BvlgHo0ZeJZxgBvfcZSbUnAn27tv687+i5r3hzj
+ MglJIu/4+27jlkoHtBOXH0PmdAcNyfTx3E7NfzEAAoEiyqGJRGbEkb3SSRx3UWbjGQ2m
+ WqdBkX8e1Fgtwphz+KRxlTI01ix8ljAXYcVwzyGl2l5oMidHAok6izop9RIIpltl/Fti
+ +Mug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=8ktKbr7uBGDRIVppttuunEQkJn1Tz5nrNAaC4on+v0g=;
- b=s1DeFUFMHPuOKayN4gfPI8rF/0145gA0za74Mge6FWzDnvhb40otXanuaWC1gjUJwT
- 12pigXp3ZO2sHDuEZyu+GIQ3ADOKDlR3O2vkrRwLEtXhJnDQqdrOtBI10aF0OtRPR9V/
- 45M2pQn2MY8vyUZDoA62/AGdfqvtE/nl76wU1UOlL4uOlye1FS8ItLoxzucTNWFmBOL2
- 3C1FqM7r3eTYj+WBD4bf3Ym9YV8t/Dec9YHQc0GgbiIDLuaeq6hf/qZikFD0rjdHDMI2
- BRQfuMfDJS0sO7J/c8JhhmDviW6hVIs8LhJgEA+O44uQX+ZEA5rPj2A/j8N1iyLEG35a
- XAKg==
-X-Gm-Message-State: AJIora853mLipPquthK2z8TsDbW2o/UysZXepVgr+pXoLKGYoN/n6Rcs
- uO6XBcSv+di9E0MAqIrLWLY=
-X-Google-Smtp-Source: AGRyM1sQThxRbXyIFTiEzJVpV6QhVBvyJ0zMT9vUlv3siu/xzAiDGYHLugyfHAmo3rWLsrZDWAfk7Q==
-X-Received: by 2002:a17:902:ce85:b0:16a:4637:c4da with SMTP id
- f5-20020a170902ce8500b0016a4637c4damr7061580plg.82.1655950719413; 
- Wed, 22 Jun 2022 19:18:39 -0700 (PDT)
+ bh=OaXOvKIb2IXOCvwDea71lPRpJNnoFZ+3gnAGlvTkOvQ=;
+ b=WKvxAC9UR+iliRUFA4j+HWtp2wXNUaHiDwGO0VunVWaxxzQWV2DDIfiQ7JcUfrmFyZ
+ +BSo9BZnXPZWSoR61sHMnTUDkE2zTWTwMEB0GTRfBUR9Frjk1a7noJ/LABJQ9Fm2xPLU
+ N8BZFQdCrV7IsqorJnSQPkwcDFJgKKTQfcNv8jmQPT5EippVVbXCIk4n1YeFvozuOytJ
+ OxKxpLjfFqSNyDrKVGGVW9W10TJUP317FiBHyDxcoBCdDZE9ClkkGZn4YxFIxClg4YQi
+ hfQ3nJT5VWadMbrYwwZ8l8ZqbMn3+gqBtMtcSb2WshgJBJQ4WEenEom+BDXZrSHLFZ/t
+ Wliw==
+X-Gm-Message-State: AJIora+xUKM+gQtO/VFRDQGXAcrkGXRX58tshQQpoYbYy92jiXK0qlCe
+ 89c9H2WnEl85T/XM9MbSELA=
+X-Google-Smtp-Source: AGRyM1uuz9WGaHHbPpAhRvvNzyQ4Mk1eduo6TKMJ8t0sHlCtF+RPkesfCLaytxxk2RJEPoX2aqmimw==
+X-Received: by 2002:a17:902:930c:b0:167:8960:2c39 with SMTP id
+ bc12-20020a170902930c00b0016789602c39mr37161491plb.33.1655952907791; 
+ Wed, 22 Jun 2022 19:55:07 -0700 (PDT)
 Received: from [192.168.50.247] ([103.84.139.165])
  by smtp.gmail.com with ESMTPSA id
- y2-20020a170902ed4200b0016a09da5541sm10859253plb.135.2022.06.22.19.18.35
+ w10-20020a170902a70a00b001624b1e1a7bsm1598943plq.250.2022.06.22.19.55.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Jun 2022 19:18:38 -0700 (PDT)
-Message-ID: <2c51aa6e-1947-a4b2-c9af-f8c12b6a1985@gmail.com>
-Date: Thu, 23 Jun 2022 10:18:34 +0800
+ Wed, 22 Jun 2022 19:55:06 -0700 (PDT)
+Message-ID: <fe6fe929-578e-5828-7886-3fe69b9d3a6a@gmail.com>
+Date: Thu, 23 Jun 2022 10:55:01 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH] drm: i915: fix a possible refcount leak in
- intel_dp_add_mst_connector()
+Subject: Re: [PATCH] drm: bridge: sii8620: fix possible off-by-one
 Content-Language: en-US
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
- daniel@ffwll.ch, ville.syrjala@linux.intel.com, jose.souza@intel.com,
- Bhawanpreet.Lakha@amd.com, matthew.d.roper@intel.com, heying24@huawei.com,
- anshuman.gupta@intel.com, james.ausmus@intel.com
-References: <20220516071922.22955-1-hbh25y@gmail.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, narmstrong@baylibre.com,
+ robert.foss@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
+ architt@codeaurora.org
+References: <20220518065856.18936-1-hbh25y@gmail.com>
+ <dc52f807-f4bc-13d6-7b9e-81b4fe94a6e0@intel.com>
 From: Hangyu Hua <hbh25y@gmail.com>
-In-Reply-To: <20220516071922.22955-1-hbh25y@gmail.com>
+In-Reply-To: <dc52f807-f4bc-13d6-7b9e-81b4fe94a6e0@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,33 +77,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022/5/16 15:19, Hangyu Hua wrote:
-> If drm_connector_init fails, intel_connector_free will be called to take
-> care of proper free. So it is necessary to drop the refcount of port
-> before intel_connector_free.
+On 2022/5/18 15:57, Andrzej Hajda wrote:
 > 
-> Fixes: 091a4f91942a ("drm/i915: Handle drm-layer errors in intel_dp_add_mst_connector")
-> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
-> ---
->   drivers/gpu/drm/i915/display/intel_dp_mst.c | 1 +
->   1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> index e30e698aa684..f7d46ea3afb9 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -841,6 +841,7 @@ static struct drm_connector *intel_dp_add_mst_connector(struct drm_dp_mst_topolo
->   	ret = drm_connector_init(dev, connector, &intel_dp_mst_connector_funcs,
->   				 DRM_MODE_CONNECTOR_DisplayPort);
->   	if (ret) {
-> +		drm_dp_mst_put_port_malloc(port);
->   		intel_connector_free(intel_connector);
->   		return NULL;
->   	}
+> On 18.05.2022 08:58, Hangyu Hua wrote:
+>> The next call to sii8620_burst_get_tx_buf will result in off-by-one
+>> When ctx->burst.tx_count + size == ARRAY_SIZE(ctx->burst.tx_buf). The 
+>> same
+>> thing happens in sii8620_burst_get_rx_buf.
+>>
+>> This patch also change tx_count and tx_buf to rx_count and rx_buf in
+>> sii8620_burst_get_rx_buf. It is unreasonable to check tx_buf's size and
+>> use rx_buf.
+>>
+>> Fixes: e19e9c692f81 ("drm/bridge/sii8620: add support for burst eMSC 
+>> transmissions")
+>> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> 
+> Regards
+> Andrzej
+>> ---
+>>   drivers/gpu/drm/bridge/sil-sii8620.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/sil-sii8620.c 
+>> b/drivers/gpu/drm/bridge/sil-sii8620.c
+>> index ec7745c31da0..ab0bce4a988c 100644
+>> --- a/drivers/gpu/drm/bridge/sil-sii8620.c
+>> +++ b/drivers/gpu/drm/bridge/sil-sii8620.c
+>> @@ -605,7 +605,7 @@ static void *sii8620_burst_get_tx_buf(struct 
+>> sii8620 *ctx, int len)
+>>       u8 *buf = &ctx->burst.tx_buf[ctx->burst.tx_count];
+>>       int size = len + 2;
+>> -    if (ctx->burst.tx_count + size > ARRAY_SIZE(ctx->burst.tx_buf)) {
+>> +    if (ctx->burst.tx_count + size >= ARRAY_SIZE(ctx->burst.tx_buf)) {
+>>           dev_err(ctx->dev, "TX-BLK buffer exhausted\n");
+>>           ctx->error = -EINVAL;
+>>           return NULL;
+>> @@ -622,7 +622,7 @@ static u8 *sii8620_burst_get_rx_buf(struct sii8620 
+>> *ctx, int len)
+>>       u8 *buf = &ctx->burst.rx_buf[ctx->burst.rx_count];
+>>       int size = len + 1;
+>> -    if (ctx->burst.tx_count + size > ARRAY_SIZE(ctx->burst.tx_buf)) {
+>> +    if (ctx->burst.rx_count + size >= ARRAY_SIZE(ctx->burst.rx_buf)) {
+>>           dev_err(ctx->dev, "RX-BLK buffer exhausted\n");
+>>           ctx->error = -EINVAL;
+>>           return NULL;
+> 
 
-Gentel ping.
+Hi guys,
+
+Another patches for this module that I submitted at the same time as
+this one have been merged. Is this patch forgotten to merge?
+
+Thanks,
+Hangyu
