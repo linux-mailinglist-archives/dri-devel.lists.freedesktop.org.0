@@ -1,133 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF70055791A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 13:54:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0BE557927
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 13:57:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AADD410EF0F;
-	Thu, 23 Jun 2022 11:54:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 197AF10F0B4;
+	Thu, 23 Jun 2022 11:57:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2045.outbound.protection.outlook.com [40.107.92.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07B2C10EEBF
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 11:54:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PbkWH6lFf/f5lNHaEVsFN3WTqx1eOgb9rD5IPob3qJcLuK4sDijEPaH5FvM8hNFfQS28dwTeEci3Qsqifrq6lO0ovEf9IQ83jRNyUZfdb+9/W00CBZJkc4CD5vYs7k8D+dwzgjAt6cg1iXl83me5RPBktbRl6KNdVDNx74qq5Nq25zUfnhYj05+XT65VUxeMnCqw5WSlbHcy9vMDHWnSETDj43aPAKGR8ldmg4p4IZU+zgtp+vxWidGBVTpVdbqSxZGD2/hReGd5tG2Yulqxf+Q6lBaUg6QhgghfwXPN+W3kE4iP3F4Ji7BvD4jadVtRJujKJVPWGX6tTL25fEcyjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7fgCymumiqq0uJ3fFkFKiyAC51RQGxnkh41SJ7fkFqY=;
- b=P6MQNBJjw7XW9zTjrtYhXZ0OXNcuAgFS4flhq57rIagptG3QBF57cYhq/tqZBM+4XiqYmTiEqfnsGha3VOTs2Oi5kp7CLpuFARcump3toMC701hCqxR5SDnMhV5p8ux416ltGTsG97DLRdIsSMkFFkSh5ehNEgN1OaqRSgy4kMfBmxacM4RHch3K7Vpcp0Y+KkXNGrgHjmMIvvyYcaUkgMn48lDP3HnBSjSxkX1A2wH21YtzHwrIa5jkwwpQx1Jh1UvoRat9fZ8QYJQ9zn5FDwgRZIt1tc8iS1rD7GsHyCCBBckMcIgCRjGaa8M+K+IcF/SZr/56Frp2fUKpSIzdsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7fgCymumiqq0uJ3fFkFKiyAC51RQGxnkh41SJ7fkFqY=;
- b=ZoIjBurMkU64ksb0VW9+Mr7kvbHg6PItGi6tjvjaP0y8Skh0fhW6YdTPKyyvgW32wPVj2uu7a5k7m2G+yWIITOB933oYq5dbZk9yeJuhd/wXaGYkGiQQUNYzM+h2pl6Wcy08uVWlkiO6OQsw/pPmYTTm+Iv7YncuL/aHtyYGUR4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by IA1PR12MB6481.namprd12.prod.outlook.com (2603:10b6:208:3aa::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.17; Thu, 23 Jun
- 2022 11:54:34 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731%6]) with mapi id 15.20.5373.015; Thu, 23 Jun 2022
- 11:54:34 +0000
-Message-ID: <34a1efd9-5447-848b-c08c-de75b48e997e@amd.com>
-Date: Thu, 23 Jun 2022 13:54:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: DMA-buf and uncached system memory
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, Pekka Paalanen <ppaalanen@gmail.com>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
- <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
- <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
- <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
- <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
- <20220623101326.18beeab3@eldfell>
- <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
- <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
- <adc626ec-ff5a-5c06-44ce-09111be450cd@amd.com>
- <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
- <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
- <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
- <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com>
- <708e27755317a7650ca08ba2e4c14691ac0d6ba2.camel@pengutronix.de>
- <6287f5f8-d9af-e03d-a2c8-ea8ddcbdc0d8@amd.com>
- <f3c32cdd2ab4e76546c549b0cebba8e1d19d1cb0.camel@pengutronix.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <f3c32cdd2ab4e76546c549b0cebba8e1d19d1cb0.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS9PR04CA0171.eurprd04.prod.outlook.com
- (2603:10a6:20b:530::11) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3528C10F0B4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 11:57:05 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id c205so12166099pfc.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 04:57:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UZWfJ752kc+t8aGqGoGN9WPNVsXJx7j2Dc8hIIKuA2o=;
+ b=EActnLdjvvqGDkCaG32pGPOvrmd1nCjsfo5yX4TTPwuTGPZKpuQygWidoC99NoH/jw
+ pfgKEcKWWpWiHpP8nKEZ7MoHv3m90UAOkFUfJhEWhUAtpTdIZYd715FJWKpr/HJeDiJl
+ v38El1CTBosDzlSUC9bdEYPW/j7FghOZfNYuskJxm4HCsLaGR0A2eOQkf1Uw7irJYVZL
+ OJCblUTbEZ5YlBffx8Y8WAueJzJs5u0oDpOCD1dx0JoLjTmJwZI2TOY79XZllG0orT1F
+ t0DP14l+A+P4XRh2k6+nPHOGvtTb0lImxwtuqe0NMK1q9Tb+/L5b7qxp0Ib8l4JSfATK
+ 2FAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UZWfJ752kc+t8aGqGoGN9WPNVsXJx7j2Dc8hIIKuA2o=;
+ b=wOkAqsm8ZYVSiMFiH0Uluic+XdRpiKg9Rmp0ZN984gmV8o+yvsZrje2vAiPFN394ub
+ PHsY2S6za4qc7y0/PTPa77tLA+5nxtdM+3Ksp7OukUimGLNqG+tl8yTnffGGgQOD6FNa
+ D9OIpnUfF018YoD1e6PRhh1X2g0W0XMv41tJkpwKErHXrLg8HFahkqhthzuUAOq8/8V2
+ 3yiEFVaApeyqkxzHrUE8prK4WGO3GUM+dmCdGB89zJeBTLf8HuyyaBUv2V1E38ubs4pA
+ ViDoNA3ORzLrZE2tzGJk8EZjcGM4SuSSRrAgghWvbkrf8teRf4Up0y/G5ELuC/kG70ZB
+ +ORA==
+X-Gm-Message-State: AJIora957zIW+B9VtRi2yp94POUZdHRlb9SKcL1PUui28k0HSa5ml3bE
+ 9p1esBgXKx6KTJmbnR/My1k=
+X-Google-Smtp-Source: AGRyM1ubs8VpG0o6KlXH9gFHqx1a6+yUNsZFsQkNW63tTM/owYhRGBwj7yyyc48Zb53DaP/LopKrfw==
+X-Received: by 2002:a63:3507:0:b0:40c:fc09:b293 with SMTP id
+ c7-20020a633507000000b0040cfc09b293mr7479467pga.454.1655985424688; 
+ Thu, 23 Jun 2022 04:57:04 -0700 (PDT)
+Received: from RD-3580-24288.rt.l (111-71-94-93.emome-ip.hinet.net.
+ [111.71.94.93]) by smtp.gmail.com with ESMTPSA id
+ t6-20020a63b246000000b003fbfe88be17sm15016516pgo.24.2022.06.23.04.56.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jun 2022 04:57:04 -0700 (PDT)
+From: ChiaEn Wu <peterwu.pub@gmail.com>
+To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
+ gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
+ lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
+ heikki.krogerus@linux.intel.com, deller@gmx.de
+Subject: [PATCH v3 00/14] Add Mediatek MT6370 PMIC support
+Date: Thu, 23 Jun 2022 19:56:17 +0800
+Message-Id: <20220623115631.22209-1-peterwu.pub@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dea20d8f-bc2f-46fc-d300-08da550f2415
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6481:EE_
-X-Microsoft-Antispam-PRVS: <IA1PR12MB6481CDB7F878ED6299F3845D83B59@IA1PR12MB6481.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KSoedSG+TV+BzYyLYh/IBUX3k3IRJ+Du2XnIVwAp5yVDvOA7fuJC7wYk0NRhPIqa2lHwD+ELwUZ1SzlGBd1anK3Vm91ATc/jKTjk/iVXUa4nP5WE14PWlW92u77hQz0JskdBtwJj9UDT0Nb4OQMMJOiZ9AboodS80wmDQRte7YQsjVhKw76iOlRzawxuEyTU3S0TpUppXUiftEBPcMKg7V7aPriWvv6dzSUnRi32jiICm3XFfTTDoQxsRMll9BzqT3j7IiyKKyYnojDLh9DDpOUS4pb0S08rKkjg96KcWrPD0bG+czLyyzE0V+5Mlyk7xSE2NzzoeV+JWNohcanVmhEGAgmctsViIU2MWG1aqwJyZUPtyNLRb7wcGiDNdf9vjNwDEnHtKmusmxeSrBjf6jfX/1GSjcPwtKFOC3HarcIRtCucypLYR/pnwQJzOL/hROhlQfuWB3spxNFfQytBkn+ax4r8E2W8bJ9+a1dXciT6Ig4ZYIITd3mHOliVcmifCk68SdTiEUjGKEEyjJExJ+MYwdGe37VTTA+z72zS/fXY6xHoXM6DSA3GRdVt2YwfLvS3o4WzJL3XnxzbkA7usOyu67R1rXKjsYw1fGkHv7DyOBKPW5RV/AIH7Od5yK5Gf2SB6X23w8R/JrRamW7ghDWsbgQscPjgLr3E413+4FSgDHrFd8t/hO/AzptdI6+vK3W5G30hccno95NVvUxWwe/CqhsRlVxYSp8Wi0JEhBLzjYJkEoFXnIOnzARWAKfcTAgtvVeeCGLmnkyxgmtluCP96vMIlrfKdqWU/ZcC7H0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(136003)(376002)(396003)(39860400002)(346002)(316002)(54906003)(5660300002)(4326008)(8936002)(478600001)(6486002)(110136005)(86362001)(66556008)(2616005)(8676002)(83380400001)(36756003)(6666004)(66476007)(31686004)(31696002)(6506007)(66946007)(38100700002)(26005)(41300700001)(6512007)(186003)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T2ZsaUZYYlRTVlZ0M2c3ZHRTd3RaZDVUaUdJNkM5WmhTQ0E2c3NueC9oQzVr?=
- =?utf-8?B?VmZLcitxUXMrd29IZEVWOE05cndmNERZUG9ya2RWRVdvZkRxQ0F4a0M0T2w1?=
- =?utf-8?B?N2hueWtydmZxM2U0eEwvQnJkSXUzODRyc1FaT1hEYmtISUpvdkF1ZGZ5dEF0?=
- =?utf-8?B?cTY4ZmlVc1YrLzQ3U0ZjdVJvc3RQYlhsYzduTlRnVkdHZmhLMUhUeTM3U2U0?=
- =?utf-8?B?R2dpM2hUa00xeUNvTjFpNzZBR001emsrTjNMRVV5dWEzSEF0TkVMMEZnUitq?=
- =?utf-8?B?ZFU3eWE4NnJkUU9ucVRtdWVJdVE1b1A0eWx4d1ErNnh1VXQ2YW12dGxuS0pk?=
- =?utf-8?B?Z2tKUDNuZzFtcUNuU3pTNDBZQXd3WTkyZDh4WTlWbjdSK1dvYkpWTXlVWVpH?=
- =?utf-8?B?SWhYVWZHREtHa3ovRXBFNFBlOVExRlpmb0Z0OFdIM3QrYjhqYW1uMU9WcVdj?=
- =?utf-8?B?VUVlamY5aCtVNkFINXFYZ3JXazFtYThsK09CR3ZUZVk2SkFlS2VCcC9uckdr?=
- =?utf-8?B?bTdYWm9CcE1qdnhQNVRORDN6aTVld1RydDc5eVc3YXRJcUM5SUJoRUJWaGpk?=
- =?utf-8?B?MytZdVV1NUtLdlEwL1VmamtlRzFrWU5kSTNDUzlQMVgzL2QybGVZU252ampR?=
- =?utf-8?B?blcyemJKSC9EZWU2QWhMSUJvZW04WGFBd0VHUVJXVHY4TW1qOFZEajlWRHdW?=
- =?utf-8?B?U1ZIR0RMOW1JaG1uOFdaZjhVWGNLSDFUNjFHSVlzTnE4TnJIdnVraUFJTUNW?=
- =?utf-8?B?N3BMZWhXcGtlT29rN3Q4cy9KR2JiMUJyc1VIQzA0L2F2UFdHT1NhTVJLRzBo?=
- =?utf-8?B?R2w4c0ZMUnhSdGJZQU1nMkdDUU1pRFFUUzV3SW9UMUdKTTdHY1Y5Y2tXNk1m?=
- =?utf-8?B?NVM0a0pQaWI4ZTRZMVFjN1k2MUFuUDg0ZWRvZ3RCSjdaNEdZVVVra2toeUpN?=
- =?utf-8?B?M3hTNFdIUVZlcUxTSUd6aDEyYXZvUUZiNnNhWkNRaVp0cGhDRWw2Tk9LSGF5?=
- =?utf-8?B?bnFybmMzeDVTK1FLNGtLRG9SdTRYaHlqSTJrV0x6VGE2cVRscnpkTWV3Rmph?=
- =?utf-8?B?VkV3Q0x6VDYvK3A2aTE4RXJhcW9qR095R080enBhS0h4VHhxckxiV291UFJq?=
- =?utf-8?B?NGZmaWR1ek0zeFMvQ3JzSlRFVUVnRzhRbldLTklqaTk3NXFyNS9zVDl2NU9Z?=
- =?utf-8?B?TkN4WXppUmV6MTQxbm1KQUsyU3VZUVptNnY3MkxzT3pMNmJ2STltTlZOYzFu?=
- =?utf-8?B?UHRFWmZIaTJ4aTUyM0hMRzd1N29NOUlSazFHZUpHUngvQ3RXWWRWemxRWG8r?=
- =?utf-8?B?UkxOTXJtci9aYy94eEdGcnVGd1NjbUtiZzhTa2U3R29CMnVTRXJ5SXd0S213?=
- =?utf-8?B?U1pNdThySHArVzZ5RTRmdGdadmUrcSsvVU9ZUXBFWEYzTUlQanM1UUpjNUNy?=
- =?utf-8?B?UVY1T3Q3YTNHcDErYzZPalhyTjUwR0dVS01tVEdSY0NiZjBSL1VPMkNSWFha?=
- =?utf-8?B?UElJNWJLdVBzRHZ3ellEbDhQa285c0MwcXFaZ3FwaHlKY2lLeStteHc2dUp5?=
- =?utf-8?B?S1FuNzFtYlR6azJEZWxVckR4UG15bnRRRmVTNU1ZdFFNN0M2UWhmVlFRUFJq?=
- =?utf-8?B?UHc1d2dKZC9FNnByMW9Ic3dkdk85UDNBYjJ6a09jQll3R3RLdm9BSFB4Nm92?=
- =?utf-8?B?a29VL2lNMVlxL3FaajZKRytMTFZubzNWNFZOQjNEWWs0R3NjTWliajdJeTV0?=
- =?utf-8?B?dEtMbDRzY3IrZEZOL0RSUEVNOXBRYVU3Z3pOUU92REduMk9QenE0aFdyakJy?=
- =?utf-8?B?K1dzaEc1UTR4TmJuYjJ1ZFRwbTUvdTZ1ajZRbTl6Q2gvL1prNGxrMkNqRG5N?=
- =?utf-8?B?b1pia1NGR1Y0SXZMSWJGNFVBNUpDYVRLRnJzS2pBM0hzVHhCRzNPS0NtSzZM?=
- =?utf-8?B?RVBQa2VrcVRkMG4xNDVQb3YvQUh2azg3aUFBbmNRU3ZWZWEzd2YyWkY5cFVh?=
- =?utf-8?B?UUhIY2h3S3ZpdU9VN1JpNStRZmozcTVvZ3p2OVJCODN1aGF6LzlXL2FYQkRu?=
- =?utf-8?B?Q3pHdGlZTXlxUld3TWp4ZXg2SzVWbmk1cDhGNk5tbnEySzFmbDdvK1ZGazNV?=
- =?utf-8?Q?97MZu7KRt6Ari6TJJDm0Bvra4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dea20d8f-bc2f-46fc-d300-08da550f2415
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 11:54:34.6501 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PsBz0Ezlce3jNYhNwD9flk6VYMOSxOnEFllZXrskL9jayc19mgYNBQ4oKCbMv5CF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6481
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,94 +73,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, linaro-mm-sig@lists.linaro.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media <linux-media@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ szunichen@gmail.com, alice_chen@richtek.com, linux-pm@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ cy_huang@richtek.com, chiaen_wu@richtek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-leds@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 23.06.22 um 13:29 schrieb Lucas Stach:
-> [SNIP]
->> Well then the existing DMA-buf framework is not what you want to use for
->> this.
->>
-> Sorry, but this is just ignoring reality. You try to flag 8+ years of
-> DMA-buf usage on non-coherent arches as "you shouldn't do this". At
-> this point there are probably a lot more users (drivers) of DMA-buf in
-> the kernel for devices, which are used on non-coherent arches, than
-> there are on coherent arches.
+From: ChiaEn Wu <chiaen_wu@richtek.com>
 
-Well, it's my reality that people come up with bug reports about that 
-and we have been pushing back on this with the explanation "Hey this is 
-not supported" as long as I can think about it.
+This patch series add Mediatek MT6370 PMIC support. The MT6370 is a
+highly-integrated smart power management IC, which includes a single
+cell Li-Ion/Li-Polymer switching battery charger, a USB
+Type-C & Power Delivery (PD) controller, dual Flash LED current sources,
+a RGB LED driver, a backlight WLED driver, a display bias driver and a
+general LDO for portable devices.
 
-I mean I even had somebody from ARM which told me that this is not going 
-to work with our GPUs on a specific SoC. That there are ARM internal use 
-cases which just seem to work because all the devices are non-coherent 
-is completely new to me.
+Among with this we took some changes and refined the device tree files to
+comply with DT specifications.
 
-I'm as much surprised as you are about this lack of agreement about such 
-fundamental stuff.
+Thank you,
+ChiaEn Wu
 
->>> Non-coherent without explicit domain transfer points is just not going
->>> to work. So why can't we solve the issue for DMA-buf in the same way as
->>> the DMA API already solved it years ago: by adding the equivalent of
->>> the dma_sync calls that do cache maintenance when necessary? On x86 (or
->>> any system where things are mostly coherent) you could still no-op them
->>> for the common case and only trigger cache cleaning if the importer
->>> explicitly says that is going to do a non-snooping access.
->> Because DMA-buf is a framework for buffer sharing between cache coherent
->> devices which don't signal transitions.
->>
->> We intentionally didn't implemented any of the dma_sync_* functions
->> because that would break the intended use case.
->>
-> Non coherent access, including your non-snoop scanout, and no domain
-> transition signal just doesn't go together when you want to solve
-> things in a generic way.
+---
+Changes in v3:
+- Remove ADC ABI file, which is added in v2 Patch 7
+- In patch 02/14:
+	- Add items and remove maxItems of io-channels
+	- Add io-channel-names and describe each item
+	- Add "unevaluatedProperties: false" in "usb-otg-vbus-regulator"
+	- Rename "enable-gpio" to "enable-gpios" in "usb-otg-vbus-regulator"
+- In patch 03/14:
+	- Use leds-class-multicolor.yaml instead of common.yaml.
+	- Split multi-led and led node.
+	- Add subdevice "led" in "multi-led".
+- In patch 04/14:
+	- Remove the description of enum.
+- In patch 05/14:
+	- Rename "mediatek,bled-pwm-hys-input-threshold-steps" to
+	  "mediatek,bled-pwm-hys-input-th-steps"
+	- Refine "bled-pwm-hys-input-th-steps", "bled-ovp-microvolt",
+	  "bled-ocp-microamp" enum values
+- In patch 06/14:
+	- Use " in entire patchset
+	- Refine ADC description
+	- Rename "enable-gpio" to "enable-gpios" in "regualtor"
+	- Change "/schemas/" to "../" in every reference of all MT6370 modules 
+- In patch 07/14:
+	- Refine Kconfig help text
+	- Refine error message of unknown vendor ID in
+	  mt6370_check_vendor_info()
+	- Refine return value handling of mt6370_regmap_read()
+	- Refine all probe error by using dev_err_probe()
+	- Refine "bank_idx" and "bank_addr" in mt6370_regmap_read() and
+	  mt6370_regmap_write()
+	- Add "#define VENID*" and drop the comments in
+	  mt6370_check_vendor_info()
+	- Drop "MFD" in MODULE_DESCRIPTION()
+- In patch 09/14:
+	- Refine Kconfig help text
+- In patch 10/14:
+	- Refine Kconfig help text
+	- Refine all channel value in read_scale()
+		a. current: uA --> mA
+		b. voltage: uV --> mV
+		c. temperature: degrees Celsius --> milli degrees Celsius
+	- Add "default:" condition of switch statement in read_scale() and read_raw()
+	- Add error message for reading ADC register failed
+	- Add the comment for adc_lock
+	- Add <linux/mod_devicetable.h> header file for struct of_device_id
+	- Replace "adc" text with "ADC" in all of the error messages
+- In patch 12/14:
+	- Refine the grammer of the Kconfig.
+	- Change reg mode to the const current mode.
+- In patch 14/14:
+	- Refine bool properties parsing (pwm-enable, ovp-shutdown, ocp-shutdown) in DT
+	  parsing function
+	- Refine u32 and u8 properties parsing (pwm-hys-input-th-steps, ovp-microvolt,
+	  ocp-microamp), from using register value to using actual value
+	- Refine error string of "channle-use" parsing failed
+	- Refine Kconfig help text
 
-Yeah, that's the stuff I totally agree on.
 
-See we absolutely do have the requirement of implementing coherent 
-access without domain transitions for Vulkan and OpenGL+extensions.
+Changes in v2:
+- In patch 01/15:
+	- Add "unevaluatedProperties: false".
+	- Delete "DT bindings".
+	- Refine the description to fit in 80 columns.
+	- Skip the connector description.
+- In patch 02/15:
+	- Refine items description of interrupt-name
+	- Rename "usb-otg-vbus" to "usb-otg-vbus-regulator"
+	- Add constraint properties for ADC
+- In patch 03/15:
+	- Skip not useful description of "^(multi-)?led@[0-3]$"
+	  and reg.
+	- Due to the dependency, remove the mention of mfd
+	  document directory.
+	- Delete Soft-start property. In design aspect, we think
+	  soft-restart should always be enabled, our new chip
+	  has deleted the related setting register , also, we don’t
+	  allow user adjust this parameter in this chip.
+	- Refine the commit message.
+- In patch 04/15:
+	- Skip not useful description of "^led@[0-1]$" and reg.
+	- Add apace after '#'.
+	- Refine the commit message.
+- In patch 05/15:
+	- Remove "binding documentation" in subject title
+	- Refine description of mt6370 backlight binding
+	  document
+	- Refine properties name(bled-pwm-hys-input-bit,
+	  bled-ovp-microvolt, bled-ocp-microamp) and their
+	  description
+- In patch 06/15:
+	- Refine ADC and Regulator descriptions
+	- Refine include header usage in example
+	- Refine node name to generic node name("pmic@34")
+	- Refine led example indentation
+	- Refine license of mediatek,mt6370_adc.h
+	- Rename the dts example from IRQ define to number.
+	- Remove mediatek,mt6370.h
+- In patch 07/15:
+	- Add ABI documentation for mt6370 non-standard ADC
+	  sysfs interfaces.
+- In patch 08/15:
+	- Add all IRQ define into mt6370.c.
+	- Refine include header usage
+- In patch 09/15:
+	- No changes.
+- In patch 10/15:
+	- Use 'gpiod_get_from_of_node' to replace
+	  'fwnode_gpiod_get_index'.
+- In patch 11/15:
+	- Refine Kconfig mt6370 help text
+	- Refine mask&shift to FIELD_PREP()
+	- Refine mutex lock name ("lock" -> "adc_lock")
+	- Refine mt6370_adc_read_scale()
+	- Refine mt6370_adc_read_offset()
+	- Refine mt6370_channel_labels[] by using enum to index
+	  chan spec
+	- Refine MT6370_ADC_CHAN()
+	- Refine indio_dev->name
+	- Remove useless include header files
+- In patch 12/15:
+	- Refine mt6370_chg_otg_rdesc.of_match
+	  ("mt6370,otg-vbus" -> "usb-otg-vbus-regulator") to match
+	  DT binding
+- In patch 13/15:
+	- Refine Kconfig description.
+	- Remove include "linux/of.h" and use
+	  "linux/mod_devicetable.h".
+	- Place a comma for the last element of the const
+	  unsigned int array.
+	- Add a comment line for the mutex 'lock'.
+	- In probe function, use 'dev_err_probe' in some
+	  judgement to reduce the LOC.
+	- Refine include header usage.
+	  BIT/GENMASK -> linux/bits.h
+	  FIELD_GET -> linux/bitfield.h
+- In patch 14/15:
+	- Add blank line.
+	- Replace container_of() with to_mt6370_led() .
+	- Refine description of ramping.
+	- Refine the mt6370_init_common_properties function.
+	- Refine the probe return.
+- In patch 15/15:
+	- Refine MT6370 help text in Kconfig
+	- Refine DT Parse function
+	- Remove useless enum
+	- Add comment for 6372 backward compatible in
+	  bl_update_status() and
+	  check_vendor_info()
+	- Using dev_err_probe(); insteads dev_err()&return; in
+	  the probe()
 
-When we now have to introduce domain transitions to get non coherent 
-access working we are essentially splitting all the drivers into 
-coherent and non-coherent ones.
+Alice Chen (2):
+  dt-bindings: leds: Add Mediatek MT6370 flashlight
+  leds: flashlight: mt6370: Add Mediatek MT6370 flashlight support
 
-That doesn't sounds like it would improve interop.
+ChiYuan Huang (8):
+  dt-bindings: usb: Add Mediatek MT6370 TCPC
+  dt-bindings: leds: mt6370: Add Mediatek mt6370 current sink type LED
+    indicator
+  dt-bindings: backlight: Add Mediatek MT6370 backlight
+  dt-bindings: mfd: Add Mediatek MT6370
+  mfd: mt6370: Add Mediatek MT6370 support
+  usb: typec: tcpci_mt6370: Add Mediatek MT6370 tcpci driver
+  regulator: mt6370: Add mt6370 DisplayBias and VibLDO support
+  leds: mt6370: Add Mediatek MT6370 current sink type LED Indicator
+    support
 
-> Remember that in a fully (not only IO) coherent system the CPU isn't
-> the only agent that may cache the content you are trying to access
-> here. The dirty cacheline could reasonably still be sitting in a GPU or
-> VPU cache, so you need some way to clean those cachelines, which isn't
-> a magic "importer knows how to call CPU cache clean instructions".
+ChiaEn Wu (4):
+  dt-bindings: power: supply: Add Mediatek MT6370 Charger
+  iio: adc: mt6370: Add Mediatek MT6370 support
+  power: supply: mt6370: Add Mediatek MT6370 charger driver
+  video: backlight: mt6370: Add Mediatek MT6370 support
 
-IIRC we do already have/had a SYNC_IOCTL for cases like this, but (I 
-need to double check as well, that's way to long ago) this was kicked 
-out because of the requirements above.
+ .../leds/backlight/mediatek,mt6370-backlight.yaml  |   92 ++
+ .../bindings/leds/mediatek,mt6370-flashlight.yaml  |   41 +
+ .../bindings/leds/mediatek,mt6370-indicator.yaml   |   77 ++
+ .../devicetree/bindings/mfd/mediatek,mt6370.yaml   |  280 +++++
+ .../power/supply/mediatek,mt6370-charger.yaml      |   87 ++
+ .../bindings/usb/mediatek,mt6370-tcpc.yaml         |   36 +
+ drivers/iio/adc/Kconfig                            |    9 +
+ drivers/iio/adc/Makefile                           |    1 +
+ drivers/iio/adc/mt6370-adc.c                       |  275 +++++
+ drivers/leds/Kconfig                               |   11 +
+ drivers/leds/Makefile                              |    1 +
+ drivers/leds/flash/Kconfig                         |    9 +
+ drivers/leds/flash/Makefile                        |    1 +
+ drivers/leds/flash/leds-mt6370-flash.c             |  657 ++++++++++++
+ drivers/leds/leds-mt6370.c                         |  989 +++++++++++++++++
+ drivers/mfd/Kconfig                                |   13 +
+ drivers/mfd/Makefile                               |    1 +
+ drivers/mfd/mt6370.c                               |  358 +++++++
+ drivers/power/supply/Kconfig                       |   11 +
+ drivers/power/supply/Makefile                      |    1 +
+ drivers/power/supply/mt6370-charger.c              | 1132 ++++++++++++++++++++
+ drivers/regulator/Kconfig                          |    8 +
+ drivers/regulator/Makefile                         |    1 +
+ drivers/regulator/mt6370-regulator.c               |  388 +++++++
+ drivers/usb/typec/tcpm/Kconfig                     |    8 +
+ drivers/usb/typec/tcpm/Makefile                    |    1 +
+ drivers/usb/typec/tcpm/tcpci_mt6370.c              |  212 ++++
+ drivers/video/backlight/Kconfig                    |    9 +
+ drivers/video/backlight/Makefile                   |    1 +
+ drivers/video/backlight/mt6370-backlight.c         |  346 ++++++
+ include/dt-bindings/iio/adc/mediatek,mt6370_adc.h  |   18 +
+ 31 files changed, 5074 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/mediatek,mt6370-backlight.yaml
+ create mode 100644 Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml
+ create mode 100644 Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6370.yaml
+ create mode 100644 Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
+ create mode 100644 Documentation/devicetree/bindings/usb/mediatek,mt6370-tcpc.yaml
+ create mode 100644 drivers/iio/adc/mt6370-adc.c
+ create mode 100644 drivers/leds/flash/leds-mt6370-flash.c
+ create mode 100644 drivers/leds/leds-mt6370.c
+ create mode 100644 drivers/mfd/mt6370.c
+ create mode 100644 drivers/power/supply/mt6370-charger.c
+ create mode 100644 drivers/regulator/mt6370-regulator.c
+ create mode 100644 drivers/usb/typec/tcpm/tcpci_mt6370.c
+ create mode 100644 drivers/video/backlight/mt6370-backlight.c
+ create mode 100644 include/dt-bindings/iio/adc/mediatek,mt6370_adc.h
 
->> You can of course use DMA-buf in an incoherent environment, but then you
->> can't expect that this works all the time.
->>
->> This is documented behavior and so far we have bluntly rejected any of
->> the complains that it doesn't work on most ARM SoCs and I don't really
->> see a way to do this differently.
-> Can you point me to that part of the documentation? A quick grep for
-> "coherent" didn't immediately turn something up within the DMA-buf
-> dirs.
-
-Search for "cache coherency management". It's quite a while ago, but I 
-do remember helping to review that stuff.
-
-Regards,
-Christian.
-
->
-> Regards,
-> Lucas
->
+-- 
+2.7.4
 
