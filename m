@@ -1,52 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3782F55891C
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 21:37:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CA45558905
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 21:35:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 342E310E088;
-	Thu, 23 Jun 2022 19:37:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 836E510E16D;
+	Thu, 23 Jun 2022 19:35:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org
- [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06F2A10E088
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 19:37:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=9CGM3MAz5VIB06lBzNjGngOQOoE0/I7wEi8Zke9gm+w=; b=eQsA4dsC7zy0gZGxnWzQsATNue
- 4RNWA+fhmA3erPfzk5dxeMQCaD5Lf11f9oQOKkk8CzdloSz0KwOEP+HRM4wMgGPP8ofcZCZ2qDmwT
- xfiupW9UG4h8v6ZC3HM8LRHIplQ2b0UahGQFsyNwJUOONvAmQaW+GT7DlYixlYzdJoIae9dvTqpeU
- gy/FAvkyHsCJjzMv7Un5R+xfx0R5N1LCz8GpdTxJ5A4fM7tBl8UkLYkl8Zu3L9BNeakPSWLUWDFoM
- lRie2OS7t8onKtNzBXKfM4zQiHwHss/qcyL+N+8jD2XviMbsj2Yz1eEDOSE48nGWdf9/GLVllbreJ
- XSnwtsig==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1o4SWU-00Bssw-NX; Thu, 23 Jun 2022 19:30:38 +0000
-Message-ID: <bcc5b395-7fd8-f1a0-1b9f-62c9948287af@infradead.org>
-Date: Thu, 23 Jun 2022 12:29:27 -0700
+X-Greylist: delayed 304 seconds by postgrey-1.36 at gabe;
+ Thu, 23 Jun 2022 19:35:00 UTC
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E68C210E16D
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 19:35:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1656012899;
+ bh=NLr4QQItGZZpC1mnHq3DuBmIXV4dBUG1F6ixYh6SwcE=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=PifycxSBXH+fi+iZS1bFuJFuwns9/zH0m/OMvCUgeZOMe0hwm7MjOXKUm+eqK+o+T
+ mni4fa5rNbTeLJiojGIO9WbtqOT+38BWSum+BHe9vpd1f4BXo4inBDl3jMypXX9Fe1
+ Vvry7E4ksdbPKS+hCScQU0tv3Z1NSsfI4vw9isSU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [174.250.50.2] ([174.250.50.2]) by web-mail.gmx.net
+ (3c-app-mailcom-bs02.server.lan [172.19.170.129]) (via HTTP); Thu, 23 Jun
+ 2022 21:29:54 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3 12/14] leds: mt6370: Add Mediatek MT6370 current sink
- type LED Indicator support
-Content-Language: en-US
-To: ChiaEn Wu <peterwu.pub@gmail.com>, lee.jones@linaro.org,
- daniel.thompson@linaro.org, jingoohan1@gmail.com, pavel@ucw.cz,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- matthias.bgg@gmail.com, sre@kernel.org, chunfeng.yun@mediatek.com,
- gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
- lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
- heikki.krogerus@linux.intel.com, deller@gmx.de
-References: <20220623115631.22209-1-peterwu.pub@gmail.com>
- <20220623115631.22209-13-peterwu.pub@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220623115631.22209-13-peterwu.pub@gmail.com>
+Message-ID: <trinity-32be87d2-7993-495f-8970-62f4b01b86c1-1656012594269@3c-app-mailcom-bs02>
+From: Kevin Brace <kevinbrace@gmx.com>
+To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Subject: Re: How do I gather up new code to be converted as patches?
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Thu, 23 Jun 2022 21:29:54 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <CAOCk7Npgc+OvvjfdiRORsGo5hB52vTevgLBO=ozREBR9krhuFw@mail.gmail.com>
+References: <trinity-356e941b-2ee3-4974-944b-5495ba4d00b8-1655918337996@3c-app-mailcom-bs16>
+ <CAOCk7Npgc+OvvjfdiRORsGo5hB52vTevgLBO=ozREBR9krhuFw@mail.gmail.com>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:XXYN+kynGkAK6JjC99ZcZv9gAbF/hyzU2LhDZ0axFYli+0/buwdcpy67XH99A2lIxwbrN
+ QspKI0xBxUVuwA690eSArff3woLiw3dXIL23bDcluG/ig9rrPRTw7I8fjMVHkOgVmuHvx93ixqmW
+ /flJCr1icSdprp3L3+Ou89Vys+kEU5KJfBW1xLADQSr0ipb8971APHBUw1CwiB/X5VYi/wfIYVVt
+ mY13EwsqVwLoubW9CdEkfatV+omKvabyYfflZn2d10IQBZpU947+jwvyOEWdLNnKQq/3J9A9+QR6
+ VI=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Gl8Sz0xJuFc=:O5/3EoR4K9qRkk6cFrQyXJ
+ tYlolqM0Dy+sTsDorGGoCywYFSNF8TksshP2agx5PVlao6UnTl+olwuLcsrn+z51hkWY9wxWj
+ K+bImzNPYjagS9KS3Gkyti66+smUdAJ4UsgJURi3lmSpwSfaeGgl2Noyu8lZNjMgK6jmRLuH8
+ 3OgwOW5WIjb6tDyn8u7pj6nebNTXkmq9pG7Yc7SLZEQ9Yi6kH7YREoqcn822Kp2ZO1ESDvXhW
+ l3J1+8OakRrKYNRADN0itb2dFIV8blTfkELCgluPNMXbHTxF7/f35YnCfHaDQy/095pR4oyV1
+ yOx2InvJa4X9lcEKCphQmRAGhdHSd4oCRNxOnrtN/fnff+koEBiwngrZAJbjes+wpWxwzi8s5
+ GkLCanxJoa4flHAJXGxoIFdf6I1M0epkoWSC1ZW9+L6V8cBRUvX1Q6w0qwqBA25LHLoT4utss
+ yae+VsmW0EOl/4I1m0rmZvS0V1T93RSOcz1f/4oCzzqtQ4Co0ui3l57jqby0bLy3PrUvtOH8T
+ kEkb9Xhh3TsSFzwMTxmm/ttLiDBpjTAU7LDQ8GLiOleTnbloClHU16tiAJWxd0hgUEiCLVtrN
+ NFQjjsSTgayMQgQV1HHDrdJBtT1glapzK4tL3PseozbDiO0xl8dggjvuQ9SwqNTDTUWHr42OE
+ gs0UXw9oxOj+gKZ9YVoKv3FQNde7/q+oKA1gXXfAFuMvBtkEdxkD9MwhhBEmTj69uAGTvASf3
+ NyWE/Wcin/vkCL9gDXYWeUAX6vex+Vjm2Z0bZrQLNvyNW2ixYcd3Btg8HZQk94eDjGl88nG69
+ kzMYoJQ
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,40 +71,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- szunichen@gmail.com, alice_chen@richtek.com, linux-pm@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- cy_huang@richtek.com, chiaen_wu@richtek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-leds@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jeffrey,
+
+I did not point to the repository I actively maintain, but since I was abl=
+e to do so since 2017, I think I have figured out all of what I consider "=
+basic" ways of using git to maintain and keep up with the upstream DRM cod=
+e.
+
+https://cgit.freedesktop.org/openchrome/drm-openchrome/
+
+It is just that I am now at a point of posting code on dri-devel mailing l=
+ist for the first code review, but I just suddenly realized that git does =
+not appear to have a convenient way to do this.
+What I am trying to do is to post the code on dri-devel like the previous =
+OpenChrome developer, James Simmons, did in 2013.
+
+https://lists.freedesktop.org/archives/dri-devel/2013-June/039594.html
+
+Regards,
+
+Kevin Brace
+Brace Computer Laboratory blog
+https://bracecomputerlab.com
 
 
-On 6/23/22 04:56, ChiaEn Wu wrote:
-> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-> index a49979f..a8c58c3 100644
-> --- a/drivers/leds/Kconfig
-> +++ b/drivers/leds/Kconfig
-> @@ -244,6 +244,17 @@ config LEDS_MT6323
->  	  This option enables support for on-chip LED drivers found on
->  	  Mediatek MT6323 PMIC.
->  
-> +config LEDS_MT6370_RGB
-> +	tristate "LED Support for Mediatek MT6370 PMIC"
-> +	depends on LEDS_CLASS
-> +	depends on MFD_MT6370
-> +	select LINEAR_RANGE
-> +	help
-> +	  Say Y here to enable support for MT6370_RGB LED device.
-> +	  In MT6370, there are four channel current-sink LED drivers that
-> +	  support hardware pattern for const current, PWM, and breath mode.
-
-Spell out "constant" (if that is what "const" means here). ?
-
-> +	  Isink4 channel can also be used as a CHG_VIN power good indicator.
-
--- 
-~Randy
+> Sent: Wednesday, June 22, 2022 at 12:33 PM
+> From: "Jeffrey Hugo" <jeffrey.l.hugo@gmail.com>
+> To: "Kevin Brace" <kevinbrace@gmx.com>
+> Cc: "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
+> Subject: Re: How do I gather up new code to be converted as patches?
+>
+> Generating a patch is "git format-patch".  This command operates on
+> commits in your local tree.  So you need to commit your changes to
+> your local tree.  The command for that is "git commit", and it works
+> on staged changes.  To stage changes, you need to "git add" them.
+> "git status" can help you visualize unstaged and staged changes.
+>
+> So, if I had a change in foo.txt, I would likely use "git status" to
+> view that unstaged change.  Then I can stage it using "git add
+> foo.txt".  "git status" will then show that it is staged.  Finally, I
+> will do "git commit", which will ask for a commit text, and commit the
+> change to the tree.  I can then verify that the change is committed
+> using "git log".
+>
+> Does that help you out, or did I misunderstand your situation?
+>
+> -Jeff
+>
+> On Wed, Jun 22, 2022 at 11:19 AM Kevin Brace <kevinbrace@gmx.com> wrote:
+> >
+> > Hi,
+> >
+> > I spent about 2 days trying to figure this out, but I guess not a lot =
+of people do this, so I was not able to find a good example somewhere on t=
+he Internet.
+> > How to I use git to gather up new code to be converted to patches?
+> > Specifically, I have 20+ new files in one location (drivers/gpu/drm/vi=
+a) and a small change to DRM main make file (drivers/gpu/drm/Makefile).
+> > If someone can tell me how to do this, I will post the work on dri-dev=
+el.
+> >
+> > Regards,
+> >
+> > Kevin Brace
+> > Brace Computer Laboratory blog
+> > https://bracecomputerlab.com
+>
