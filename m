@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82EA05592DF
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:04:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 783D95592C9
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:03:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36212112429;
-	Fri, 24 Jun 2022 06:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE3E112325;
+	Fri, 24 Jun 2022 06:02:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
  [67.231.149.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3CA310E5D9
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DADC10E5DC
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:17 +0000 (UTC)
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
- by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NAKUt3006859;
- Thu, 23 Jun 2022 07:53:02 -0500
+ by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBNlqh015665;
+ Thu, 23 Jun 2022 07:53:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=5SS4T7VeSvIj1FC5R5zWoo7UcAx6bgPzaWWgtGA6/yE=;
- b=jn6uN96B1wivnuU+Tk3zcTu3AT7F6/5AAOM1nFjPeYYlLgeayYMpYHeo073ySXZVTPVn
- 0NfSPBx2sHy6I/DZGQmcOLQmEn5lJp58D4o0OrhDsQSrPD1VxPXxUxf7luQcQbFMwFqb
- ICg9yn6rD+/wyVbVLa+4JkUSK3y5w8lDnBJtZEbJdjXlN11xQ+/7o7oH53y4uSjzzYFp
- L9mvEbL+0aJr8DL2j3rYvUWCI1jc44rowHg6bfn1/WhgaPEWGbN969F9W2/bCFdcMN6d
- Jf1gp6LONWik/yJAV+coErIPlCpiXwloN/whhF1npwVe3lNVQYrwkXXNbYOmNcXv3c3c OA== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
- by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4u-2
+ bh=lUR098xjWteEbH1+FUtUPo6I+j1bPK4ArKFxC7siG8M=;
+ b=V92mHpBxj1U/wYnPVgsO3LRKurl9Jm2I/m9HXLnmI0H7uz61m3DoLPesHfznSBDfLtHK
+ P9QdIfasUx/i2RuT76alsan39yDuSzG+d4BT/Wkg405l9EF7F4j/Kcwhnx9X3kDl3TTT
+ n8yPxJASPpeVjUrrzqxXuXXg/7HDXsCE6Z146b+1urkTu0Yuzk34pyf1oyg5vaIUs4xQ
+ Ok0/MUqsbjBRDRUSUE/83V/Ov9i2gONqxlKg/TtXgpstisB5bev+fUXzklHCDn9ZHHXP
+ bu0e0CZ1H0219eTYXNH9F37UII5gBY2Ozy6da4p9hEtHcDPUl+9CBsiqQe6WSTdywGNW KA== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+ by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4j-14
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 23 Jun 2022 07:53:02 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 23 Jun 2022 07:53:03 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
  2022 13:52:54 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
  Frontend Transport; Thu, 23 Jun 2022 13:52:54 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id F1B7911D3;
- Thu, 23 Jun 2022 12:52:53 +0000 (UTC)
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 133F311D1;
+ Thu, 23 Jun 2022 12:52:54 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH v2 36/96] ASoC: fsl: Remove now redundant
+Subject: [PATCH v2 37/96] ASoC: meson: Remove now redundant
  non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:51:50 +0100
-Message-ID: <20220623125250.2355471-37-ckeepax@opensource.cirrus.com>
+Date: Thu, 23 Jun 2022 13:51:51 +0100
+Message-ID: <20220623125250.2355471-38-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: 8l4owaLREXHc23kLDcPMpfygNeuavSCn
-X-Proofpoint-ORIG-GUID: 8l4owaLREXHc23kLDcPMpfygNeuavSCn
+X-Proofpoint-GUID: SzNCzuptw7eEZGl2I-h7iUv05DZ7N-SU
+X-Proofpoint-ORIG-GUID: SzNCzuptw7eEZGl2I-h7iUv05DZ7N-SU
 X-Proofpoint-Spam-Reason: safe
 X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,21 +89,81 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/fsl/fsl_mqs.c | 1 -
- 1 file changed, 1 deletion(-)
+ sound/soc/meson/aiu-acodec-ctrl.c | 1 -
+ sound/soc/meson/aiu-codec-ctrl.c  | 1 -
+ sound/soc/meson/g12a-toacodec.c   | 2 --
+ sound/soc/meson/g12a-tohdmitx.c   | 1 -
+ sound/soc/meson/t9015.c           | 1 -
+ 5 files changed, 6 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_mqs.c b/sound/soc/fsl/fsl_mqs.c
-index bb25c58e335fb..c1e2f671191b5 100644
---- a/sound/soc/fsl/fsl_mqs.c
-+++ b/sound/soc/fsl/fsl_mqs.c
-@@ -155,7 +155,6 @@ static void fsl_mqs_shutdown(struct snd_pcm_substream *substream,
- 
- static const struct snd_soc_component_driver soc_codec_fsl_mqs = {
- 	.idle_bias_on = 1,
+diff --git a/sound/soc/meson/aiu-acodec-ctrl.c b/sound/soc/meson/aiu-acodec-ctrl.c
+index 3776b073a3dbb..d0f0ada5f4bce 100644
+--- a/sound/soc/meson/aiu-acodec-ctrl.c
++++ b/sound/soc/meson/aiu-acodec-ctrl.c
+@@ -192,7 +192,6 @@ static const struct snd_soc_component_driver aiu_acodec_ctrl_component = {
+ 	.num_dapm_routes	= ARRAY_SIZE(aiu_acodec_ctrl_routes),
+ 	.of_xlate_dai_name	= aiu_acodec_of_xlate_dai_name,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_prefix		= "acodec",
+ #endif
+diff --git a/sound/soc/meson/aiu-codec-ctrl.c b/sound/soc/meson/aiu-codec-ctrl.c
+index 286ac4983d40c..84c10956c2414 100644
+--- a/sound/soc/meson/aiu-codec-ctrl.c
++++ b/sound/soc/meson/aiu-codec-ctrl.c
+@@ -139,7 +139,6 @@ static const struct snd_soc_component_driver aiu_hdmi_ctrl_component = {
+ 	.num_dapm_routes	= ARRAY_SIZE(aiu_hdmi_ctrl_routes),
+ 	.of_xlate_dai_name	= aiu_hdmi_of_xlate_dai_name,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_prefix		= "hdmi",
+ #endif
+diff --git a/sound/soc/meson/g12a-toacodec.c b/sound/soc/meson/g12a-toacodec.c
+index 1dfee1396843c..ddc667956cf5e 100644
+--- a/sound/soc/meson/g12a-toacodec.c
++++ b/sound/soc/meson/g12a-toacodec.c
+@@ -242,7 +242,6 @@ static const struct snd_soc_component_driver g12a_toacodec_component_drv = {
+ 	.dapm_routes		= g12a_toacodec_routes,
+ 	.num_dapm_routes	= ARRAY_SIZE(g12a_toacodec_routes),
+ 	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct snd_soc_dai_ops fsl_mqs_dai_ops = {
+ static const struct snd_soc_component_driver sm1_toacodec_component_drv = {
+@@ -254,7 +253,6 @@ static const struct snd_soc_component_driver sm1_toacodec_component_drv = {
+ 	.dapm_routes		= g12a_toacodec_routes,
+ 	.num_dapm_routes	= ARRAY_SIZE(g12a_toacodec_routes),
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static const struct regmap_config g12a_toacodec_regmap_cfg = {
+diff --git a/sound/soc/meson/g12a-tohdmitx.c b/sound/soc/meson/g12a-tohdmitx.c
+index 6c99052feafd8..579a04ad4d197 100644
+--- a/sound/soc/meson/g12a-tohdmitx.c
++++ b/sound/soc/meson/g12a-tohdmitx.c
+@@ -226,7 +226,6 @@ static const struct snd_soc_component_driver g12a_tohdmitx_component_drv = {
+ 	.dapm_routes		= g12a_tohdmitx_routes,
+ 	.num_dapm_routes	= ARRAY_SIZE(g12a_tohdmitx_routes),
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static const struct regmap_config g12a_tohdmitx_regmap_cfg = {
+diff --git a/sound/soc/meson/t9015.c b/sound/soc/meson/t9015.c
+index a9b8c4e77d405..9c6b4dac68932 100644
+--- a/sound/soc/meson/t9015.c
++++ b/sound/soc/meson/t9015.c
+@@ -234,7 +234,6 @@ static const struct snd_soc_component_driver t9015_codec_driver = {
+ 	.num_dapm_routes	= ARRAY_SIZE(t9015_dapm_routes),
+ 	.suspend_bias_off	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static const struct regmap_config t9015_regmap_config = {
 -- 
 2.30.2
 
