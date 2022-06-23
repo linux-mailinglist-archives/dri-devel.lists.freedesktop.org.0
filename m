@@ -2,70 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A572557CFE
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 15:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2C4557D30
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 15:43:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 325CC10E10D;
-	Thu, 23 Jun 2022 13:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10CBE112B96;
+	Thu, 23 Jun 2022 13:43:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8228D10E10D
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 13:29:49 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id pk21so17971281ejb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 06:29:49 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DCB5112B96
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 13:43:21 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id g18so2212762wrb.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 06:43:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ePFuz9gjvneLUbo3iN6/MzxTmZntguROUvpcqfx6Iwo=;
- b=kilEQhJrekBj3tVAycBQpE9BNm+Hip30HCPN/XSCTP2U3wbVhI+hKk23MdWIJ3Dypl
- qffhEEQuVyFUbz5J/1MdRBYKZboWhtStOI0k9d4Aup1BGLOrMrpYY+seBOosUnKwLsVL
- MR8LYhAjJ7oxOGmAxEiBhJVdCYG5Px8Hk5taqdBpD4drG+ZVVNZdVDHoKm/h/QUZCtRE
- S/rsZcWp/qiddxN66KL5ZRoB7s5KVyCOidfIT7Tj2vaZ3puYEijJfvMh3qbsM5C2CTmU
- wm6I50k0AELikWo0VYYaG0KVFje/4tZd3tKtvxfUODluU2IRXxgw5OElq49HM1lYwZfp
- tMQg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=eRK+unsPW70xNn5MF8+19eCG7D3AK/lgynWxuPdsIyE=;
+ b=KC804tV7q8m5lKxx02VfQNPyCFRxbLo+UN5MqQqk1P+QbuQa4VcB2DrqvkkpPc4wLh
+ s8YD9o2Eiw8erHMZ6g3Ia7a0hyCPKQt3dQhrWjxY7MVQ+N+R6b5WlLXKQYsrlnRxHzog
+ E2sf54tTcmTN6YbXT+A5UHQ5N/d1dBEzbXYSl58xn/DSXDKRHGikl18c1Dewu5+tmqAo
+ JWR2R+BecqmGJdKOoqPajDcTtrvcsivMLPCP1TsgqwJCt60ewBhMWun7q+A0t7wb6Fa5
+ u7SPQBBJb5LqETPHZT7BjI6j+0AwxO054RkyMDT9jgCAOSDplPJobh2EkUOEu7PwvTVI
+ nrzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ePFuz9gjvneLUbo3iN6/MzxTmZntguROUvpcqfx6Iwo=;
- b=CLsJSTPHsBuvu8ZgEWUx0L1MwnmiNB05FmEMJfxav2vkp4/f4DdCkZrTY5Oj/Xfco+
- zkBBnCwYyKnx023D1kZlk1zQ8xvQPMvvmGwJKzqHBZiaSoALCvMJVjG1LnRRyNFJwhTN
- c1iHLkGpKeMD6LtqcFEvXgo1skhAlzGhETMBuOkVC922qwdTyZZ5/HsdJ+88yLTLH1FG
- GY5u1q0S6AuH4WFJ9upqFBXl8lYvf/WlhmiWMMBkpojcUSlz4pVgrnPFFUJmA2UFVSEb
- RdfCybAqyVEkoe6M6nvVwKI4SWMYvteftGbHhd0U5pckpo78MqLUxpqds8EDtX9D62F6
- ZYEg==
-X-Gm-Message-State: AJIora+CjjEK99NBni5bX+Me6S9QMiKMK2psDoIkpNkhX2+C/WtF7xQM
- LeO0Gw6naqZzGZAPMz1idw/Uag==
-X-Google-Smtp-Source: AGRyM1vKuGTywgyEw2jM3zmPBBBXUc+7mwZ7taGR4hWf4ZepG7VJH9Yci4kWlWodvrYiVNk2KnX7tA==
-X-Received: by 2002:a17:907:e93:b0:722:e082:2787 with SMTP id
- ho19-20020a1709070e9300b00722e0822787mr8647094ejc.618.1655990988030; 
- Thu, 23 Jun 2022 06:29:48 -0700 (PDT)
-Received: from [192.168.0.230] (xdsl-188-155-176-92.adslplus.ch.
- [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
- ff10-20020a1709069c0a00b006fec69696a0sm10604906ejc.220.2022.06.23.06.29.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jun 2022 06:29:47 -0700 (PDT)
-Message-ID: <ddfae1cc-ec28-3433-8c3c-24f63a1ad0a8@linaro.org>
-Date: Thu, 23 Jun 2022 15:29:46 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eRK+unsPW70xNn5MF8+19eCG7D3AK/lgynWxuPdsIyE=;
+ b=g8OmdSnkqy9qsKz78Hl8aPEJudsGec9sEdW958AsNTgYBNFWY6uyWeCeT8DDemlRAm
+ bSVT/AwXeqtQKZ/GB9TPgISEC3+4cjJqOs17qKNf/6J/Am0+fRex0oyAAksDnYkjb3TF
+ iMOcYrvRfmgFxwpJYeG+MSYc/NhHcDmrz1jhaELwW4ZP0g0/n4bj5IDKojYR4NjU4cnD
+ 4Qytp1TryoD5u9QXCBrPwL4pD1Adnm6QHXw61lxlXCCvMTHLM7q+oyiJhAGxT3t8PWSx
+ He+Ytf3ebOd93OcqVbMpy3VipNh7TtJlMHwv4RMfWEnysJ+wdi2OiBJn+zKjcLiXNh4h
+ KWXA==
+X-Gm-Message-State: AJIora96a5CCiVului6zaPVflii/aR3/9+XdPuC+ojDsl5W7hFlWjWnj
+ 5PGNOqSluyRVcGLxVS7ypBin4Q==
+X-Google-Smtp-Source: AGRyM1vjF4PN7klzy0olb9rrzdVMRPfVzufgs3EKRfc33dNmi33WjI/0td30uX34aWiNQWi+iEa1Yg==
+X-Received: by 2002:a05:6000:10b:b0:21b:88ca:9abf with SMTP id
+ o11-20020a056000010b00b0021b88ca9abfmr8191539wrx.694.1655991799771; 
+ Thu, 23 Jun 2022 06:43:19 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ p129-20020a1c2987000000b003974cb37a94sm3313906wmp.22.2022.06.23.06.43.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jun 2022 06:43:18 -0700 (PDT)
+Date: Thu, 23 Jun 2022 14:43:16 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+Subject: Re: [PATCH v3 14/14] video: backlight: mt6370: Add Mediatek MT6370
+ support
+Message-ID: <20220623134316.rg3adyobz3hkgflt@maple.lan>
+References: <20220623115631.22209-1-peterwu.pub@gmail.com>
+ <20220623115631.22209-15-peterwu.pub@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 1/2] dt-bindings: display: ti,am65x-dss: Add am625 dss
- compatible
-Content-Language: en-US
-To: Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, Rob Herring <robh+dt@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220623103504.26866-1-a-bhatia1@ti.com>
- <20220623103504.26866-2-a-bhatia1@ti.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220623103504.26866-2-a-bhatia1@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220623115631.22209-15-peterwu.pub@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,43 +71,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Rahul T R <r-ravikumar@ti.com>
+Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
+ krzysztof.kozlowski+dt@linaro.org, alice_chen@richtek.com,
+ linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lgirdwood@gmail.com, cy_huang@richtek.com, pavel@ucw.cz, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, deller@gmx.de, robh+dt@kernel.org,
+ chunfeng.yun@mediatek.com, linux@roeck-us.net, devicetree@vger.kernel.org,
+ linux-pm@vger.kernel.org, szunichen@gmail.com, broonie@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, jingoohan1@gmail.com,
+ linux-usb@vger.kernel.org, sre@kernel.org, linux-kernel@vger.kernel.org,
+ chiaen_wu@richtek.com, gregkh@linuxfoundation.org, jic23@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/06/2022 12:35, Aradhya Bhatia wrote:
-> Add ti,am625-dss compatible string.
-> The DSS IP on TI's AM625 SoC is an update from the DSS on TI's AM65X
-> SoC. The former has an additional OLDI TX to enable a 2K resolution on
-> OLDI displays or enable 2 duplicated displayw with a smaller resolution.
-
-s/displayw/displays/
-
+On Thu, Jun 23, 2022 at 07:56:31PM +0800, ChiaEn Wu wrote:
+> From: ChiaEn Wu <chiaen_wu@richtek.com>
 > 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> Reviewed-by: Rahul T R <r-ravikumar@ti.com>
-> ---
->  .../devicetree/bindings/display/ti/ti,am65x-dss.yaml          | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> Add Mediatek MT6370 Backlight support.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> index 5c7d2cbc4aac..0fc77674eb50 100644
-> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> @@ -19,7 +19,9 @@ description: |
->  
->  properties:
->    compatible:
-> -    const: ti,am65x-dss
-> +    enum:
-> +      - ti,am65x-dss
-> +      - ti,am625-dss
+> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
 
-Alphabetical order? Avoids conflicts...
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index a003e02..7cd823d 100644
+> <snip>
+> +static int mt6370_init_backlight_properties(struct mt6370_priv *priv,
+> +					    struct backlight_properties *props)
+> +{
+> +	struct device *dev = priv->dev;
+> +	u8 prop_val;
+> +	u32 brightness, ovp_uV, ocp_uA;
+> +	unsigned int mask, val;
+> +	int ret;
+> +
+> +	/* Vendor optional properties */
+> +	val = 0;
+> +	if (device_property_read_bool(dev, "mediatek,bled-pwm-enable"))
+> +		val |= MT6370_BL_PWM_EN_MASK;
+> +
+> +	if (device_property_read_bool(dev, "mediatek,bled-pwm-hys-enable"))
+> +		val |= MT6370_BL_PWM_HYS_EN_MASK;
+> +
+> +	ret = device_property_read_u8(dev,
+> +				      "mediatek,bled-pwm-hys-input-th-steps",
+> +				      &prop_val);
+> +	if (!ret) {
+> +		prop_val = clamp_val(prop_val,
+> +				     MT6370_BL_PWM_HYS_TH_MIN_STEP,
+> +				     MT6370_BL_PWM_HYS_TH_MAX_STEP);
+> +		/*
+> +		 * prop_val =  1      -->  1 steps --> 0x00
+> +		 * prop_val =  2 ~  4 -->  4 steps --> 0x01
+> +		 * prop_val =  5 ~ 16 --> 16 steps --> 0x10
+> +		 * prop_val = 17 ~ 64 --> 64 steps --> 0x11
 
-Best regards,
-Krzysztof
+                                                      ^^^^^
+These numbers are binary, not hex, right? If so, the comments
+should be 0b00 to 0b03 .
+
+
+> +		 */
+> +		prop_val = (ilog2(roundup_pow_of_two(prop_val)) + 1) >> 1;
+> +		val |= prop_val << (ffs(MT6370_BL_PWM_HYS_SEL_MASK) - 1);
+> +	}
+> +
+> +	ret = regmap_update_bits(priv->regmap, MT6370_REG_BL_PWM,
+> +				 val, val);
+> +	if (ret)
+> +		return ret;
+
+Overall, I like this approach! Easy to read and understand.
+
+
+> <snip>
+> +static int mt6370_bl_probe(struct platform_device *pdev)
+> +{
+> +	struct mt6370_priv *priv;
+> +	struct backlight_properties props = {
+> +		.type = BACKLIGHT_RAW,
+> +		.scale = BACKLIGHT_SCALE_LINEAR,
+
+Sorry, I missed this before but the KConfig comment says that the
+backlight can support both linear and exponential curves.
+
+Is there a good reason to default to linear?
+
+
+Daniel.
+> 
