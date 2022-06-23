@@ -1,39 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B145557A36
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 14:23:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFA95557A80
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 14:41:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D0F71121D2;
-	Thu, 23 Jun 2022 12:23:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEDAA10E4D2;
+	Thu, 23 Jun 2022 12:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 22E1410FE56
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:23:15 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0526612FC;
- Thu, 23 Jun 2022 05:23:15 -0700 (PDT)
-Received: from [10.1.36.28] (e122027.cambridge.arm.com [10.1.36.28])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AC3783F93E;
- Thu, 23 Jun 2022 05:23:13 -0700 (PDT)
-Message-ID: <4bbca7ec-4b0b-a1c4-983a-5093bcf45e09@arm.com>
-Date: Thu, 23 Jun 2022 13:23:12 +0100
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC09510E295
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:41:22 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ p6-20020a05600c1d8600b003a035657950so443080wms.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 05:41:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=YKuhlfeie/APuzN1zX50F9wlajDVarix+gW9JqPWiT0=;
+ b=UMP6RCyZP4CD6hOpGQbkX9Cj3bPk1ibYJbn4nsdNdndZTqQfI3/vZ8bIRLgJSIms8u
+ CPePjkJfaFGkLpAH9WY7iFv9pbNYvYe5jqqSz8sj+2Qf4GfYVFiKObOiaJ7J+qH1bGvP
+ VbLXbFzeDNL3kV5xpFgi8EPl9utzHo/yeUTmYj0EJVSqHBEOLi9N+dZTEkBtSiT1ZYoV
+ E4fQE+A+R2BHBwNPUeWkzfyaoJLLBH+EMoSWnr4Qer7+DC8yHJI0iUtL7cob5S1ocket
+ H2qCHNsne4oMOwFRLI9UMKSLvjNlpdi8dU2fdlh1bFht6a2RH8lnI13E785t9rZnNwvq
+ L5OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YKuhlfeie/APuzN1zX50F9wlajDVarix+gW9JqPWiT0=;
+ b=UjWsvc3+BgrpPTyD72MLPbHj4DiGpbh3SM3jKNKtSKTjACzsJWJXhsYnupEMFShg/F
+ rNo+D8MREAmTLR9Zr2D/Sgg5F1QJYJrop4pPU8BTvNY0odR2VSCYiUt1zH97Ibd2BynG
+ QUDkKHUiDTI4BvUxuE+sXmMcrDtRTYiUO+Z6FpbbbjRfFNiTs7Wl30ICsrwH/iV7epfe
+ kbnA1em4YcxOJMRV1nm6kddqLhZOkcxsb5OtM0UvbWPczPU24qukrWqT5SORGWsm4ADx
+ AjAb59o+yx68msKI95vT8GeTesHBniZentfUSXRYQ2rT/XB7WFC76BJ6kuayGtQ/ow0+
+ I02g==
+X-Gm-Message-State: AJIora99OERmEQc/CKpvqUJioxxJ8FE0wmvTWYXiCHoU87ewS7k1JzFF
+ mxVKjUfZP1ekyQbXpNJHcW7DrA==
+X-Google-Smtp-Source: AGRyM1sX86vrrjVPPP1yUcwx/sZIRbQprpzXl44FYJKuAjsvw6TD5Ua2hBw6xE35bd62RibFYqBp1g==
+X-Received: by 2002:a05:600c:2c46:b0:39c:55a0:9533 with SMTP id
+ r6-20020a05600c2c4600b0039c55a09533mr4015082wmg.104.1655988081094; 
+ Thu, 23 Jun 2022 05:41:21 -0700 (PDT)
+Received: from [192.168.149.129] ([80.233.63.220])
+ by smtp.gmail.com with ESMTPSA id
+ n1-20020a5d4201000000b0021a36955493sm23104159wrq.74.2022.06.23.05.41.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jun 2022 05:41:20 -0700 (PDT)
+Message-ID: <4a76c7aa-62e8-385c-15a0-9992ec566de5@conchuod.ie>
+Date: Thu, 23 Jun 2022 13:41:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH v4 2/2] drm/panfrost: Add support for devcoredump
-Content-Language: en-GB
-To: =?UTF-8?Q?Adri=c3=a1n_Larumbe?= <adrian.larumbe@collabora.com>,
- robh@kernel.org, tomeu.vizoso@collabora.com,
- alyssa.rosenzweig@collabora.com, dri-devel@lists.freedesktop.org
-References: <20220622143616.1265405-1-adrian.larumbe@collabora.com>
- <20220622143616.1265405-3-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20220622143616.1265405-3-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 06/14] spi: dt-bindings: dw-apb-ssi: update
+ spi-{r,t}x-bus-width for dwc-ssi
+Content-Language: en-US
+To: Serge Semin <fancer.lancer@gmail.com>, Conor.Dooley@microchip.com
+References: <20220618123035.563070-1-mail@conchuod.ie>
+ <20220618123035.563070-7-mail@conchuod.ie>
+ <20220620205654.g7fyipwytbww5757@mobilestation>
+ <61b0fb86-078d-0262-b142-df2984ce0f97@microchip.com>
+ <9a1fcb40-9267-d8e6-b3b6-3b03fd789822@opensource.wdc.com>
+ <a2d85598-76d1-c9dc-d50d-e5aa815997cf@conchuod.ie>
+ <c272728f-f610-77df-bd9b-c9fee6b727f8@opensource.wdc.com>
+ <bd2547f8-e069-60a2-a223-9f694457636d@microchip.com>
+ <20220623102502.jiksqr3m6y733haq@mobilestation>
+From: Conor Dooley <mail@conchuod.ie>
+In-Reply-To: <20220623102502.jiksqr3m6y733haq@mobilestation>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,424 +83,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: niklas.cassel@wdc.com, alsa-devel@alsa-project.org, airlied@linux.ie,
+ palmer@rivosinc.com, linux-kernel@vger.kernel.org, thierry.reding@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, linux-riscv@lists.infradead.org,
+ sam@ravnborg.org, damien.lemoal@opensource.wdc.com, daniel.lezcano@linaro.org,
+ joabreu@synopsys.com, geert@linux-m68k.org, Eugeniy.Paltsev@synopsys.com,
+ devicetree@vger.kernel.org, aou@eecs.berkeley.edu, robh+dt@kernel.org,
+ dri-devel@lists.freedesktop.org, paul.walmsley@sifive.com, tglx@linutronix.de,
+ dillon.minfei@gmail.com, lgirdwood@gmail.com, jee.heng.sia@intel.com,
+ linux-spi@vger.kernel.org, vkoul@kernel.org, broonie@kernel.org,
+ palmer@dabbelt.com, dmaengine@vger.kernel.org, masahiroy@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/06/2022 15:36, Adrián Larumbe wrote:
-> In the event of a job timeout, debug dump information will be written into
-> /sys/class/devcoredump.
+
+
+On 23/06/2022 11:25, Serge Semin wrote:
+> On Tue, Jun 21, 2022 at 04:06:21PM +0000, Conor.Dooley@microchip.com wrote:
+>> On 21/06/2022 00:17, Damien Le Moal wrote:
+>>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+>>>
+>>> On 6/21/22 07:49, Conor Dooley wrote:
+>>>>
+>> ---8<---
+>>>>>>
+>>>>>> hmm, well I'll leave that up to people that have Canaan hardware!
+>>>>>
+>>>>> I will test this series.
+>>>>>
+>>>>
+>>>> Cool, thanks.
+>>>> I'll try to get a respin out tomorrow w/ the memory node "unfixed".
+>>>
+>>> OK. I will test that then :)
+>>
+>> Since the memory node hit that dt-schema snag, I have not sent a v2.
+>> Going to be AFK for a few days, so I dropped the memory node change,
+>> changed the spi binding & put the series on:
+>> git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/ canaan
+>>
 > 
-> Inspired by etnaviv's similar feature.
+>> If you get a chance to look at it great, if not I'll send a v2 once
+>> the memory node is figured out.
 > 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> commit 84df6ca0f277 ("spi: dt-bindings: dw-apb-ssi: update
+> spi-{r,t}x-bus-width") looks good to me. Feel free to add my ack tag
+> to v2 of that patch.
 
-Looks pretty good, a few comments below.
-
-> ---
->  drivers/gpu/drm/panfrost/Kconfig         |   1 +
->  drivers/gpu/drm/panfrost/Makefile        |   3 +-
->  drivers/gpu/drm/panfrost/panfrost_dump.c | 249 +++++++++++++++++++++++
->  drivers/gpu/drm/panfrost/panfrost_dump.h |  12 ++
->  drivers/gpu/drm/panfrost/panfrost_job.c  |   3 +
->  include/uapi/drm/panfrost_drm.h          |  47 +++++
->  6 files changed, 314 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.c
->  create mode 100644 drivers/gpu/drm/panfrost/panfrost_dump.h
-> 
-> diff --git a/drivers/gpu/drm/panfrost/Kconfig b/drivers/gpu/drm/panfrost/Kconfig
-> index 86cdc0ce79e6..079600328be1 100644
-> --- a/drivers/gpu/drm/panfrost/Kconfig
-> +++ b/drivers/gpu/drm/panfrost/Kconfig
-> @@ -11,6 +11,7 @@ config DRM_PANFROST
->  	select DRM_GEM_SHMEM_HELPER
->  	select PM_DEVFREQ
->  	select DEVFREQ_GOV_SIMPLE_ONDEMAND
-> +	select WANT_DEV_COREDUMP
->  	help
->  	  DRM driver for ARM Mali Midgard (T6xx, T7xx, T8xx) and
->  	  Bifrost (G3x, G5x, G7x) GPUs.
-> diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-> index b71935862417..7da2b3f02ed9 100644
-> --- a/drivers/gpu/drm/panfrost/Makefile
-> +++ b/drivers/gpu/drm/panfrost/Makefile
-> @@ -9,6 +9,7 @@ panfrost-y := \
->  	panfrost_gpu.o \
->  	panfrost_job.o \
->  	panfrost_mmu.o \
-> -	panfrost_perfcnt.o
-> +	panfrost_perfcnt.o \
-> +	panfrost_dump.o
->  
->  obj-$(CONFIG_DRM_PANFROST) += panfrost.o
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.c b/drivers/gpu/drm/panfrost/panfrost_dump.c
-> new file mode 100644
-> index 000000000000..a710ed7bcefa
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panfrost/panfrost_dump.c
-> @@ -0,0 +1,249 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright 2021 Collabora ltd. */
-> +
-> +#include <linux/err.h>
-> +#include <linux/device.h>
-> +#include <linux/devcoredump.h>
-> +#include <linux/moduleparam.h>
-> +#include <linux/iosys-map.h>
-> +#include <drm/panfrost_drm.h>
-> +#include <drm/drm_device.h>
-> +
-> +#include "panfrost_job.h"
-> +#include "panfrost_gem.h"
-> +#include "panfrost_regs.h"
-> +#include "panfrost_dump.h"
-> +#include "panfrost_device.h"
-> +
-> +static bool panfrost_dump_core = true;
-> +module_param_named(dump_core, panfrost_dump_core, bool, 0600);
-> +
-> +struct panfrost_dump_iterator {
-> +	void *start;
-> +	struct panfrost_dump_object_header *hdr;
-> +	void *data;
-> +};
-> +
-> +static const unsigned short panfrost_dump_registers[] = {
-> +	SHADER_READY_LO,
-> +	SHADER_READY_HI,
-> +	TILER_READY_LO,
-> +	TILER_READY_HI,
-> +	L2_READY_LO,
-> +	L2_READY_HI,
-> +	JOB_INT_MASK,
-> +	JOB_INT_STAT,
-> +	JS_HEAD_LO(0),
-> +	JS_HEAD_HI(0),
-> +	JS_TAIL_LO(0),
-> +	JS_TAIL_HI(0),
-> +	JS_AFFINITY_LO(0),
-> +	JS_AFFINITY_HI(0),
-> +	JS_CONFIG(0),
-> +	JS_STATUS(0),
-> +	JS_HEAD_NEXT_LO(0),
-> +	JS_HEAD_NEXT_HI(0),
-> +	JS_AFFINITY_NEXT_LO(0),
-> +	JS_AFFINITY_NEXT_HI(0),
-> +	JS_CONFIG_NEXT(0),
-> +	MMU_INT_MASK,
-> +	MMU_INT_STAT,
-> +	AS_TRANSTAB_LO(0),
-> +	AS_TRANSTAB_HI(0),
-> +	AS_MEMATTR_LO(0),
-> +	AS_MEMATTR_HI(0),
-> +	AS_FAULTSTATUS(0),
-> +	AS_FAULTADDRESS_LO(0),
-> +	AS_FAULTADDRESS_HI(0),
-> +	AS_STATUS(0),
-> +};
-> +
-> +static void panfrost_core_dump_header(struct panfrost_dump_iterator *iter,
-> +	u32 type, void *data_end)
-> +{
-> +	struct panfrost_dump_object_header *hdr = iter->hdr;
-> +
-> +	hdr->magic = cpu_to_le32(PANFROSTDUMP_MAGIC);
-> +	hdr->type = cpu_to_le32(type);
-> +	hdr->file_offset = cpu_to_le32(iter->data - iter->start);
-> +	hdr->file_size = cpu_to_le32(data_end - iter->data);
-> +
-> +	iter->hdr++;
-> +	iter->data += le32_to_cpu(hdr->file_size);
-> +}
-> +
-> +static void
-> +panfrost_core_dump_registers(struct panfrost_dump_iterator *iter,
-> +			     struct panfrost_device *pfdev,
-> +			     u32 as_nr, int slot)
-> +{
-> +	struct panfrost_dump_registers *dumpreg = iter->data;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(panfrost_dump_registers); i++, dumpreg++) {
-> +		unsigned int js_as_offset = 0;
-> +		unsigned int reg;
-> +
-> +		if (panfrost_dump_registers[i] >= JS_HEAD_LO(0) &&
-> +		    panfrost_dump_registers[i] <= JS_CONFIG_NEXT(0))
-
-It would be good to use something more generic than specific registers
-in case the list of registers is ever changed. We have JS_BASE already
-which would work for the lower end. We seem to be missing the equivalent
-MMU_BASE #define currently. The upper end is base+stride, so for JS we have:
-
-	if (panfrost_dump_registers[i] >= JS_BASE &&
-	    panfrost_dump_registers[i] < JS_BASE + JS_SLOT_STRIDE)
-
-> +			js_as_offset = slot * JS_SLOT_STRIDE;
-> +		else if (panfrost_dump_registers[i] >= AS_TRANSTAB_LO(0) &&
-> +			 panfrost_dump_registers[i] <= AS_STATUS(0))
-> +			js_as_offset = (as_nr << MMU_AS_SHIFT);
-> +
-> +		reg = panfrost_dump_registers[i] + js_as_offset;
-> +
-> +		dumpreg->reg = cpu_to_le32(reg);
-> +		dumpreg->value = cpu_to_le32(gpu_read(pfdev, reg));
-> +	}
-> +
-> +	panfrost_core_dump_header(iter, PANFROSTDUMP_BUF_REG, dumpreg);
-> +}
-> +
-> +void panfrost_core_dump(struct panfrost_job *job)
-> +{
-> +	struct panfrost_device *pfdev = job->pfdev;
-> +	struct panfrost_dump_iterator iter;
-> +	struct drm_gem_object *dbo;
-> +	unsigned int n_obj, n_bomap_pages;
-> +	__le64 *bomap, *bomap_start;
-> +	size_t file_size;
-> +	u32 as_nr;
-> +	int slot;
-> +	int ret, i;
-> +
-> +	as_nr = job->mmu->as;
-> +	slot = panfrost_job_get_slot(job);
-> +
-> +	/* Only catch the first event, or when manually re-armed */
-> +	if (!panfrost_dump_core)
-> +		return;
-> +	panfrost_dump_core = false;
-> +
-> +	/* At least, we dump registers and end marker */
-> +	n_obj = 2;
-> +	n_bomap_pages = 0;
-> +	file_size = ARRAY_SIZE(panfrost_dump_registers) *
-> +			sizeof(struct panfrost_dump_registers);
-> +
-> +	/* Add in the active buffer objects */
-> +	for (i = 0; i < job->bo_count; i++) {
-> +		/*
-> +		 * Even though the CPU could be configured to use 16K or 64K pages, this
-> +		 * is a very unusual situation for most kernel setups on SoCs that have
-> +		 * a Panfrost device. Also many places across the driver make the somewhat
-> +		 * arbitrary assumption that Panfrost's MMU page size is the same as the CPU's,
-> +		 * so let's have a sanity check to ensure that's always the case
-> +		 */
-> +		WARN_ON(!IS_ALIGNED(dbo->size, PAGE_SIZE));
-
-This warn needs to go after the assignment below - I just spent a few
-minutes tracking down why I was getting a NULL pointer dereference.
-Sadly my GCC doesn't seem to be able to warn about this uninitialised use :(
-
-> +
-> +		dbo = job->bos[i];
-> +		file_size += dbo->size;
-> +		n_bomap_pages += dbo->size >> PAGE_SHIFT;
-> +		n_obj++;
-> +	}
-> +
-> +	/* If we have any buffer objects, add a bomap object */
-> +	if (n_bomap_pages) {
-> +		file_size += n_bomap_pages * sizeof(*bomap);
-> +		n_obj++;
-> +	}
-> +
-> +	/* Add the size of the headers */
-> +	file_size += sizeof(*iter.hdr) * n_obj;
-> +
-> +	/*
-> +	 * Allocate the file in vmalloc memory, it's likely to be big.
-> +	 * The reason behind these GFP flags is that we don't want to trigger the
-> +	 * OOM killer in the event that not enough memory could be found for our
-> +	 * dump file. We also don't want the allocator to do any error reporting,
-> +	 * as the right behaviour is failing gracefully if a big enough buffer
-> +	 * could not be allocated.
-> +	 */
-> +	iter.start = __vmalloc(file_size, GFP_KERNEL | __GFP_NOWARN |
-> +			__GFP_NORETRY);
-> +	if (!iter.start) {
-> +		dev_warn(pfdev->dev, "failed to allocate devcoredump file\n");
-> +		return;
-> +	}
-> +
-> +	/* Point the data member after the headers */
-> +	iter.hdr = iter.start;
-> +	iter.data = &iter.hdr[n_obj];
-> +
-> +	memset(iter.hdr, 0, iter.data - iter.start);
-> +
-> +	/*
-> +	 * For now, we write the job identifier in the register dump header,
-> +	 * so that we can decode the entire dump later with pandecode
-> +	 */
-> +	iter.hdr->reghdr.jc = cpu_to_le64(job->jc);
-> +	iter.hdr->reghdr.major = cpu_to_le32(PANFROSTDUMP_MAJOR);
-> +	iter.hdr->reghdr.minor = cpu_to_le32(PANFROSTDUMP_MINOR);
-> +	iter.hdr->reghdr.gpu_id = cpu_to_le32(pfdev->features.id);
-> +	iter.hdr->reghdr.nbos = cpu_to_le64(job->bo_count);
-> +
-> +	panfrost_core_dump_registers(&iter, pfdev, as_nr, slot);
-> +
-> +	/* Reserve space for the bomap */
-> +	if (job->bo_count) {
-> +		bomap_start = bomap = iter.data;
-> +		memset(bomap, 0, sizeof(*bomap) * n_bomap_pages);
-> +		panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BOMAP,
-> +					  bomap + n_bomap_pages);
-> +	}
-> +
-> +	for (i = 0; i < job->bo_count; i++) {
-> +		struct iosys_map map;
-> +		struct panfrost_gem_mapping *mapping;
-> +		struct panfrost_gem_object *bo;
-> +		struct sg_page_iter page_iter;
-> +		void *vaddr;
-> +
-> +		bo = to_panfrost_bo(job->bos[i]);
-> +		mapping = job->mappings[i];
-> +
-> +		if (!bo->base.sgt) {
-> +			dev_err(pfdev->dev, "Panfrost Dump: BO has no sgt, cannot dump\n");
-> +			iter.hdr->bomap.valid = 0;
-> +			goto dump_header;
-> +		}
-> +
-> +		ret = drm_gem_shmem_vmap(&bo->base, &map);
-> +		if (ret) {
-> +			dev_err(pfdev->dev, "Panfrost Dump: couldn't map Buffer Object\n");
-> +			iter.hdr->bomap.valid = 0;
-> +			goto dump_header;
-> +		}
-> +
-> +		WARN_ON(!mapping->active);
-> +
-> +		iter.hdr->bomap.data[0] = cpu_to_le32((bomap - bomap_start));
-> +
-> +		for_each_sgtable_page(bo->base.sgt, &page_iter, 0) {
-> +			struct page *page = sg_page_iter_page(&page_iter);
-> +
-> +			if (!IS_ERR(page)) {
-> +				*bomap++ = cpu_to_le64(page_to_phys(page));
-> +			} else {
-> +				dev_err(pfdev->dev, "Panfrost Dump: wrong page\n");
-> +				*bomap++ = ~cpu_to_le64(0);
-> +			}
-> +		}
-> +
-> +		iter.hdr->bomap.iova = cpu_to_le64(mapping->mmnode.start << PAGE_SHIFT);
-> +
-> +		vaddr = map.vaddr;
-> +		memcpy(iter.data, vaddr, bo->base.base.size);
-> +
-> +		drm_gem_shmem_vunmap(&bo->base, &map);
-> +
-> +		iter.hdr->bomap.valid = cpu_to_le64(1);
-
-'valid' is only 32 bit so this should be cpu_to_le32(1).
-
-Steve
-
-> +
-> +dump_header:	panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_BO, iter.data +
-> +					  bo->base.base.size);
-> +	}
-> +	panfrost_core_dump_header(&iter, PANFROSTDUMP_BUF_TRAILER, iter.data);
-> +
-> +	dev_coredumpv(pfdev->dev, iter.start, iter.data - iter.start, GFP_KERNEL);
-> +}
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_dump.h b/drivers/gpu/drm/panfrost/panfrost_dump.h
-> new file mode 100644
-> index 000000000000..7d9bcefa5346
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panfrost/panfrost_dump.h
-> @@ -0,0 +1,12 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright 2021 Collabora ltd.
-> + */
-> +
-> +#ifndef PANFROST_DUMP_H
-> +#define PANFROST_DUMP_H
-> +
-> +struct panfrost_job;
-> +void panfrost_core_dump(struct panfrost_job *job);
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 7c4208476fbd..dbc597ab46fb 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -20,6 +20,7 @@
->  #include "panfrost_regs.h"
->  #include "panfrost_gpu.h"
->  #include "panfrost_mmu.h"
-> +#include "panfrost_dump.h"
->  
->  #define JOB_TIMEOUT_MS 500
->  
-> @@ -727,6 +728,8 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
->  		job_read(pfdev, JS_TAIL_LO(js)),
->  		sched_job);
->  
-> +	panfrost_core_dump(job);
-> +
->  	atomic_set(&pfdev->reset.pending, 1);
->  	panfrost_reset(pfdev, sched_job);
->  
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index 9e40277d8185..eac87310b348 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -224,6 +224,53 @@ struct drm_panfrost_madvise {
->  	__u32 retained;       /* out, whether backing store still exists */
->  };
->  
-> +/* Definitions for coredump decoding in user space */
-> +#define PANFROSTDUMP_MAJOR 1
-> +#define PANFROSTDUMP_MINOR 0
-> +
-> +#define PANFROSTDUMP_MAGIC 0x464E4150 /* PANF */
-> +
-> +#define PANFROSTDUMP_BUF_REG 0
-> +#define PANFROSTDUMP_BUF_BOMAP (PANFROSTDUMP_BUF_REG + 1)
-> +#define PANFROSTDUMP_BUF_BO (PANFROSTDUMP_BUF_BOMAP + 1)
-> +#define PANFROSTDUMP_BUF_TRAILER (PANFROSTDUMP_BUF_BO + 1)
-> +
-> +struct panfrost_dump_object_header {
-> +	__le32 magic;
-> +	__le32 type;
-> +	__le32 file_size;
-> +	__le32 file_offset;
-> +
-> +	union {
-> +		struct pan_reg_hdr {
-> +			__le64 jc;
-> +			__le32 gpu_id;
-> +			__le32 major;
-> +			__le32 minor;
-> +			__le64 nbos;
-> +		} reghdr;
-> +
-> +		struct pan_bomap_hdr {
-> +			__le32 valid;
-> +			__le64 iova;
-> +			__le32 data[2];
-> +		} bomap;
-> +
-> +		/*
-> +		 * Force same size in case we want to expand the header
-> +		 * with new fields and also keep it 512-byte aligned
-> +		 */
-> +
-> +		__le32 sizer[496];
-> +	};
-> +};
-> +
-> +/* Registers object, an array of these */
-> +struct panfrost_dump_registers {
-> +	__le32 reg;
-> +	__le32 value;
-> +};
-> +
->  #if defined(__cplusplus)
->  }
->  #endif
-
+Sure, thanks!
