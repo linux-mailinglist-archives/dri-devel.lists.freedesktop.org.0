@@ -1,63 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB7455775A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 12:04:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7AF557771
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 12:09:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E1F610ED49;
-	Thu, 23 Jun 2022 10:04:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E21910E045;
+	Thu, 23 Jun 2022 10:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61F2D10ED49
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 10:04:16 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id ABB6F61E29
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 10:04:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 20B03C385A2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 10:04:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655978653;
- bh=p+EudBSIp4Bw20P5zuVNhMjGL/qv8H7uxGnAwfUvhTU=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Jk4AIsv6YXZREQT26QlKauQNP3nIe5ML6S0bJGdW1sK7LpV1Uqmcocw5AAdQEHexs
- iYQH2a8ajPZZKgfZFU19IfgcW+uU19PGMo7Tk1EdEct5Rd7PVZCOrRtmjhQaptCGbK
- SFG7LDr7PacpLs1kuRpB96sgghxkt179hy3WTr8B0zRyHUUXuvuin6tv9qziZ7iFK1
- aY9jQZimhZDwULC24NRwHg7KF0KqQ+mzCpAJZWLHZ8AQPylspjNWbFqn2xE14UMc53
- U0yD8vvEp+1TW1zoG+z5CP7AFHmUI9SAmkiPFSyP8pbhZCcAYBlt6xpbgnSmV637sB
- YNozBvHJ/xOUQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 00F34C05FF5; Thu, 23 Jun 2022 10:04:12 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Thu, 23 Jun 2022 10:04:04 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: s48gs.w@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201957-2300-EKBl5z0i3A@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from smtpbg.qq.com (smtpbg138.qq.com [106.55.201.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DACB710E733
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 10:08:54 +0000 (UTC)
+X-QQ-mid: bizesmtp87t1655978798t8sle0bp
+Received: from ubuntu.localdomain ( [106.117.99.68])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Thu, 23 Jun 2022 18:06:34 +0800 (CST)
+X-QQ-SSF: 01000000008000B0C000B00A0000000
+X-QQ-FEAT: ZHWZeLXy+8eUD0dPq5rRcARw3pLgA6H09Lxnt1o2JBg/eohDc8FS3FblIESZR
+ qS8NiowP/Lmo8sxgVOHBKFAiKqahVpcbmQb12cB+A6xMB3DhP55L+uGwcKo25/sbKK907Bc
+ zQYsYSIrdrffT6uX3Bw5EipEEfkSkbUfjn4Q7scKlf214gGAerW053TITGK7nhIGhZdaCzk
+ kfe1XsJ518N5tjtis4k3dq/l4bxzo4SSjMsuRk2df6e6kK9ctEBtbNsqyno9K3aQT4PvKSv
+ Rlkb3+mCyx8zB1ZXcAmtUfB7U5xeoiu6ol8n5Xq/y9dmE0HPqt7mDiE9ujVta3KrbfXeYWw
+ IeywhgjrwmTO30twNhTcWAiztvlRg==
+X-QQ-GoodBg: 0
+From: Jiang Jian <jiangjian@cdjrlc.com>
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] gpu: drm: selftests: drop unexpected word 'for' in comments
+Date: Thu, 23 Jun 2022 18:06:32 +0800
+Message-Id: <20220623100632.27056-1-jiangjian@cdjrlc.com>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,85 +45,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: javierm@redhat.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, jiangjian@cdjrlc.com, alexander.deucher@amd.com,
+ jose.exposito89@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
+there is an unexpected word 'for' in the comments that need to be dropped
 
---- Comment #75 from Danil (s48gs.w@gmail.com) ---
-> Did you try with the latest Linux Kernel? I had a lot of gpu lockups like
-> this. Also try these kernel parameters : "amdgpu.ppfeaturemask=3D0xffffbf=
-fb=20
-> amdgpu.noretry=3D0 amdgpu.lockup_timeout=3D0 amdgpu.gpu_recovery=3D1
-> amdgpu.audio=3D0 amdgpu.deep_color=3D1 amd_iommu=3Don iommu=3Dpt"" ( you =
-might also
-> try with amdgpu.ppfeaturemask=3D0xfffd7fff or amdgpu.ppfeaturemask=3D0xff=
-ffffff )
+file - ./drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+line - 3
 
-I tried.
+* Test cases for for the DRM DP MST helpers
 
-my kernel:
-"Linux 5.17.4-1-default #1 SMP PREEMPT Wed Apr 20 07:43:03 UTC 2022 (75e996=
-1)
-x86_64 x86_64 x86_64 GNU/Linux"
+changed to:
 
-(this video linked above - were not able to freeze integrated AMD GPU for m=
-e, I
-mean before I tested with no kernel parameters)
+* Test cases for the DRM DP MST helpers
 
-Result is surprising - no crash/freeze for 4+ hours already, I did launch l=
-ots
-of apps that were reason of freeze for me before.=20
+Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
+---
+ drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-As I described above - https://bugzilla.kernel.org/show_bug.cgi?id=3D201957=
-#c68
-for me this freeze happening only when I used OpenGL/Vulkan and video on
-background(everything on integrated GPU), and how it was looking from user
-experience - when bug triggered(randomly) everything just slowly become low=
-er
-and lower FPS, apps that was working on 60fps on fullscreen drop to 5 FPS, =
-and
-video also drop to 5-10fps (UI still was responsible)... and freeze in next=
- few
-mins/seconds.
+diff --git a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+index 967c52150b67..4caa9be900ac 100644
+--- a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
++++ b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * Test cases for for the DRM DP MST helpers
++ * Test cases for the DRM DP MST helpers
+  */
+ 
+ #define PREFIX_STR "[drm_dp_mst_helper]"
+-- 
+2.17.1
 
-Full kernel boot option now: "splash=3Dsilent quiet
-amdgpu.ppfeaturemask=3D0xffffbffb amdgpu.noretry=3D0 amdgpu.lockup_timeout=
-=3D0
-amdgpu.gpu_recovery=3D1 amdgpu.audio=3D0 amdgpu.deep_color=3D1 amd_iommu=3D=
-on iommu=3Dpt
-"
-
-Now, after boot with these options, I see:
-
-Just after boot everything working (OpenGL/Vulkan acceleration by integrated
-GPU) with expected performance.
-
-After trying to "trigger bug" (opening multiple OpenGL apps with Vulkan and
-WebGL and playing many videos) - OpenGL and Vulkan drops FPS to 20(constant=
- for
-single triangle in fullscreen), WebGL2 does not work anymore in webbrowser(=
-even
-after browser restart), but Video - still playing with 60 fps with no lag, =
-and
-system UI also does not lag.
-
-So GPU graphics acceleration just drop to very low performance mode look li=
-ke,
-but everything else works fine. (also launching graphic apps(native only) u=
-sing
-Nvidia GPU works with 60fps as expected).
-
-Interesting - since FPS droped 20 I can no longer launch "anything" in Wine
-(any version include Proton) (after boot it was working), I launched few ap=
-ps
-after boot and check them when GPU FPS drops wine always crash with:
-"wine: Unhandled page fault on execute access to 00007F894E200460 at address
-00007F894E200460 (thread 0070), starting debugger..."
-(not being able to use Wine is a big disadvantage)
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
