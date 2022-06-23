@@ -1,61 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE74E5592FD
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:04:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3995592E6
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:04:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D506112740;
-	Fri, 24 Jun 2022 06:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5681112506;
+	Fri, 24 Jun 2022 06:02:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
- [67.231.149.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51F4110E5D7
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:28 +0000 (UTC)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
- by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NAKUtJ006859;
- Thu, 23 Jun 2022 07:53:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=PODMain02222019;
- bh=BgbBX9Efb8K0LJNikCHrznq2RAOzoLRPZllxMCU4hQg=;
- b=BlSXO39AK6ILlrMGhditR/qvxvAwY1jMLgZ0oQIUcRy2EMQB0Kp7rUM8XGWn88LqGtTa
- PZRH18Key0WntsJs3vZcCHbOvT4x0RcEi1W7OqmcnQTV+y2QZoKJx+PwwuH63H7JyvZd
- 0EWp/duQ0UF0mXlLqm24AyhoQnTKEKSNTq+ofEfY+3LDviMhvjeUOciUfR0TX2+DkwVW
- MuBa3NqryCLshfuxNZH7VFlp8g1R9duzcaL6gAii2V3ORRcrxPYfXkUBowqIaXbH8ZIE
- XEyuJmcKAbEajkuvGtsSSirzDPkeNMJfPJ86f+GocycR10QTqaGGUKa2NdKZQ/ccQfPp 9w== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
- by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4u-17
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 23 Jun 2022 07:53:15 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
- 2022 13:52:59 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
- Frontend Transport; Thu, 23 Jun 2022 13:52:59 +0100
-Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 53DC811D1;
- Thu, 23 Jun 2022 12:52:59 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-Subject: [PATCH v2 96/96] ASoC: soc-component: Remove non_legacy_dai_naming
- flag
-Date: Thu, 23 Jun 2022 13:52:50 +0100
-Message-ID: <20220623125250.2355471-97-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
-References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
+ [IPv6:2607:f8b0:4864:20::f35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1102310E1FD
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 13:17:03 +0000 (UTC)
+Received: by mail-qv1-xf35.google.com with SMTP id o43so29831767qvo.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 06:17:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=24+UZDm+bboxj7ZmXKARXy52D/6fP2+29qM9adAHJQ4=;
+ b=J2q2PpDWZT/XG3kN+Z0MZyGzkZ1IoQg9qGfmPigxNXhO33ieQ/7lU/jHGk6LrR+5ev
+ 0NPd6cZ+hp3lmjeBc/XTklO3zfgt2v5H1VAQoYDcTUwHrEgpaenjvXcR0GsH0piLkA52
+ p8Uy3PRzyQgj/cX8Zeiv+khK0zP4s4BPwjN6PgmH00wqKn2rQCus1mTQ32QoOSOvu4jZ
+ dUgRIJ+1cZmtwdkXWjvGzYnVqyK9NmTSYqOB9l3gAMxqkZem/7Gv2w/2g0sMiO7zl67D
+ 6S6ylcqaVaBmjkDnJYEjtVCisEVeNO9zA26KRkH6E8fmeqd+ryvZqdIIQ1cflpUGlx56
+ TeDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=24+UZDm+bboxj7ZmXKARXy52D/6fP2+29qM9adAHJQ4=;
+ b=MyDozES41EuJt1nppnPhGAaGTsleSoGVqOLacm8ZUGnHMyeeCFdL5KbFV5yUuWahsY
+ ujN69aJ0u5hVPdLTHVw/tYhg6LE3q+0D7Mv7ptbtI88Qez52RGm/K/G1+bxfaULa/KqX
+ JxCq0MqJyxZauxwGDY3X9l+ue7bmrbc9udmjXpzJyd3u5xt3WQqSzAlR7DgGMwPkiefE
+ tfPs87NlDBOVK2BksowwWT2gqSNLRnep9NPL1e0hhzoeeg7NCeiKR1HvT7Gg3IrOkKL5
+ YEjGZr9EwqOueT7yYceNkgPMfPJDTPI7bdBA0vXdhSP9NoWEeB6XdVSP6+apXkktXZGR
+ nS4Q==
+X-Gm-Message-State: AJIora9DUKEtbHSU05KcCMFchWDEjOxQ+D/2/mTXaKYIO3X3h6Q6BMbD
+ 16p+ESa302wsRwDKEGoZOrA=
+X-Google-Smtp-Source: AGRyM1txIMaEVLgdPcHWGOvqHfkJqRf4fC0njW+U8dzkSZ9CnGAFNz+qzQMCuEb729NqDeTnCZBqjg==
+X-Received: by 2002:a05:622a:60c:b0:307:c887:2253 with SMTP id
+ z12-20020a05622a060c00b00307c8872253mr8011201qta.216.1655990221818; 
+ Thu, 23 Jun 2022 06:17:01 -0700 (PDT)
+Received: from spruce (c-71-206-142-238.hsd1.va.comcast.net. [71.206.142.238])
+ by smtp.gmail.com with ESMTPSA id
+ f10-20020a05620a280a00b006a77940be22sm18717176qkp.95.2022.06.23.06.17.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jun 2022 06:17:01 -0700 (PDT)
+Date: Thu, 23 Jun 2022 09:16:59 -0400
+From: Joe Simmons-Talbott <joetalbott@gmail.com>
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+Subject: Re: [PATCH v3 05/14] dt-bindings: backlight: Add Mediatek MT6370
+ backlight
+Message-ID: <YrRny9TPqMUW7Yr/@spruce>
+References: <20220623115631.22209-1-peterwu.pub@gmail.com>
+ <20220623115631.22209-6-peterwu.pub@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: fUGTb7dJJMOmVmNkY5DMbA2EPSxXxxUM
-X-Proofpoint-ORIG-GUID: fUGTb7dJJMOmVmNkY5DMbA2EPSxXxxUM
-X-Proofpoint-Spam-Reason: safe
-X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:35 +0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220623115631.22209-6-peterwu.pub@gmail.com>
+X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +72,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: cezary.rojewski@intel.com, kuninori.morimoto.gx@renesas.com,
- airlied@linux.ie, alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- nicolas.ferre@microchip.com, srinivas.kandagatla@linaro.org,
- peter.ujfalusi@gmail.com, linux-stm32@st-md-mailman.stormreply.com,
- jbrunet@baylibre.com, pierre-louis.bossart@linux.intel.com, krzk@kernel.org,
- frattaroli.nicolas@gmail.com, linux-rockchip@lists.infradead.org,
- linux-imx@nxp.com, linux-mips@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-xtensa@linux-xtensa.org, nsaenz@kernel.org, kernel@pengutronix.de,
- linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
- patches@opensource.cirrus.com, lgirdwood@gmail.com, vkoul@kernel.org,
- jarkko.nikula@bitmer.com, shawnguo@kernel.org, daniel@zonque.org
+Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
+ krzysztof.kozlowski+dt@linaro.org, alice_chen@richtek.com,
+ linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lgirdwood@gmail.com, cy_huang@richtek.com, pavel@ucw.cz, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, daniel.thompson@linaro.org, deller@gmx.de,
+ robh+dt@kernel.org, chunfeng.yun@mediatek.com, linux@roeck-us.net,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org, szunichen@gmail.com,
+ broonie@kernel.org, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, jingoohan1@gmail.com,
+ linux-usb@vger.kernel.org, sre@kernel.org, linux-kernel@vger.kernel.org,
+ chiaen_wu@richtek.com, gregkh@linuxfoundation.org, jic23@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now all the users are moved over to the new legacy_dai_naming flag,
-remove the now unused old flag.
+On Thu, Jun 23, 2022 at 07:56:22PM +0800, ChiaEn Wu wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> Add mt6370 backlight binding documentation.
+> 
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+> 
+> v3
+> - Rename "mediatek,bled-pwm-hys-input-threshold-steps" to
+>   "mediatek,bled-pwm-hys-input-th-steps"
+> - Refine "bled-pwm-hys-input-th-steps", "bled-ovp-microvolt",
+>   "bled-ocp-microamp" enum values
+> ---
+>  .../leds/backlight/mediatek,mt6370-backlight.yaml  | 92 ++++++++++++++++++++++
+>  1 file changed, 92 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/mediatek,mt6370-backlight.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/mediatek,mt6370-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/mediatek,mt6370-backlight.yaml
+> new file mode 100644
+> index 0000000..26563ae
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/mediatek,mt6370-backlight.yaml
+> @@ -0,0 +1,92 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/mediatek,mt6370-backlight.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek MT6370 Backlight
+> +
+> +maintainers:
+> +  - ChiaEn Wu <chiaen_wu@richtek.com>
+> +
+> +description: |
+> +  This module is part of the MT6370 MFD device.
+> +  The MT6370 Backlight WLED driver supports up to a 29V output voltage for
+> +  4 channels of 8 series WLEDs. Each channel supports up to 30mA of current
+> +  capability with 2048 current steps (11 bits) in exponential or linear
+> +  mapping curves.
+> +
+> +allOf:
+> +  - $ref: common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt6370-backlight
+> +
+> +  default-brightness:
+> +    minimum: 0
+> +    maximum: 2048
+> +
+> +  max-brightness:
+> +    minimum: 0
+> +    maximum: 2048
+> +
+> +  enable-gpios:
+> +    description: External backlight 'enable' pin
+> +    maxItems: 1
+> +
+> +  mediatek,bled-pwm-enable:
+> +    description: |
+> +      Enable external PWM input for backlight dimming
+> +    type: boolean
+> +
+> +  mediatek,bled-pwm-hys-enable:
+> +    description: |
+> +      Enable the backlight input-hysteresis for PWM mode
+> +    type: boolean
+> +
+> +  mediatek,bled-pwm-hys-input-th-steps:
+> +    $ref: /schemas/types.yaml#/definitions/uint8
+> +    enum: [1, 4, 16, 64]
+> +    description: |
+> +      The selection of the upper and lower bounds threshold of backlight
+> +      PWM resolution. If we choose selection 64, the variation of PWM
+> +      resolution needs over than 64 steps.
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- include/sound/soc-component.h | 1 -
- 1 file changed, 1 deletion(-)
+more than?
 
-diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-index 96c2f5fffc51e..c26ffb033777a 100644
---- a/include/sound/soc-component.h
-+++ b/include/sound/soc-component.h
-@@ -180,7 +180,6 @@ struct snd_soc_component_driver {
- 	 */
- 	unsigned int endianness:1;
- 	unsigned int legacy_dai_naming:1;
--	unsigned int non_legacy_dai_naming:1;
- 
- 	/* this component uses topology and ignore machine driver FEs */
- 	const char *ignore_machine;
--- 
-2.30.2
+Thanks,
+Joe
 
+> +
+> +  mediatek,bled-ovp-shutdown:
+> +    description: |
+> +      Enable the backlight shutdown when OVP level triggered
+> +    type: boolean
+> +
+> +  mediatek,bled-ovp-microvolt:
+> +    enum: [17000000, 21000000, 25000000, 29000000]
+> +    description: |
+> +      Backlight OVP level selection.
+> +
+> +  mediatek,bled-ocp-shutdown:
+> +    description: |
+> +      Enable the backlight shutdown when OCP level triggerred.
+> +    type: boolean
+> +
+> +  mediatek,bled-ocp-microamp:
+> +    enum: [900000, 1200000, 1500000, 1800000]
+> +    description: |
+> +      Backlight OC level selection.
+> +
+> +  mediatek,bled-channel-use:
+> +    $ref: /schemas/types.yaml#/definitions/uint8
+> +    description: |
+> +      Backlight LED channel to be used.
+> +      Each bit mapping to:
+> +        - 0: CH4
+> +        - 1: CH3
+> +        - 2: CH2
+> +        - 3: CH1
+> +    minimum: 1
+> +    maximum: 15
+> +
+> +required:
+> +  - compatible
+> +  - mediatek,bled-channel-use
+> +
+> +additionalProperties: false
+> -- 
+> 2.7.4
+> 
