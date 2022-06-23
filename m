@@ -1,63 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC8B5578E2
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 13:44:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 512925578EF
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 13:46:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67C2C10E28F;
-	Thu, 23 Jun 2022 11:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 348E210F081;
+	Thu, 23 Jun 2022 11:46:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7474610E28F
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 11:44:11 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C6DBD613E9
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 11:44:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CBEA4C341EB
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 11:44:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1655984649;
- bh=4RVgPncXQAj2cvmqnqooa20dt9QrKcCgiYDG7mHep9I=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=V3L2Oke87IPYPMje5EML6ejKsC/8DRtSfZbBWWNWoRO55WCeKxZIVPaSAvK9T3uYQ
- Wl8G0Qea/yUSUb9uObEp4ytQ8q8JuyF0sZwEOwCg8XPxvEMU023QhKI+C5Ny9fKBsB
- 1WSc8EJKTCAWzrmyL7/U23R2IQqKesTbdrjVZ16PLq5FEEHuIUXBbX+NUAWfYdBepi
- WQpwOyerJGkmMgFG0YCMYzWG3faK5YCBlCMkrWe1HhKqFCSfqtP4f4uvXI/eH2URYl
- HW+ksGmjyNyRfXqyAYI/lhJocgMqqlEC3eeuGMW7XUek6zVeBbx5DI9airkWCVBKCb
- p9YVrhms1t2kQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id BCB97CAC6E2; Thu, 23 Jun 2022 11:44:09 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201957] amdgpu: ring gfx timeout
-Date: Thu, 23 Jun 2022 11:44:07 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: s48gs.w@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201957-2300-Z9nrb5Pxdz@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
-References: <bug-201957-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33D6410F081
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 11:46:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1655984767;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hdQi1c24mB3XUDrKywszMP2JKpGIGWN6yx+00DzK72M=;
+ b=NFi9WQEVtYBWalKj3oOPj3t7pZVHlfoX1r9essSXxa8r7lvR90BKqddE/2hB7I5h6mPYJT
+ t9qP+O+dBK48+/JMhmq7w9pr4Vr1rKnELOCm/NcWmQlXAXECgAd6BwmyTGENzG6HGTx59L
+ P/ZWSgR+E06iPtJ9tvx8WYMSnLemFdY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-278-XhA0rk4SMaiovFyOdQXx1g-1; Thu, 23 Jun 2022 07:46:06 -0400
+X-MC-Unique: XhA0rk4SMaiovFyOdQXx1g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ t20-20020a1c7714000000b003a032360873so666125wmi.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 04:46:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hdQi1c24mB3XUDrKywszMP2JKpGIGWN6yx+00DzK72M=;
+ b=THjvcw9FFVidofrpZlbJNzuQxgiC1xtPfV05ZfTyHbIC/FKy44bYPmXalo2R5jKwZz
+ DoreCuuCJERObaYQqODkZ4EkXiIJngz4gt1oBmSCj46QgJYz9FFwBlJKhY+1Bx3eYtXQ
+ JKy3d3en9a6z4QQOhC4NnQqE9P8bZW/jfuiF5Ooba7hUJAvNpU6EKlQkhwBrOdTGfV/k
+ kbKZ+E2dM8gianuWVn3nA1uNh/5IsCFTJA3wyatcgXVxvad0isqeKEknGlKLa79jv3YC
+ p1z8BcPX220xxmPxhmDZchoskyY2fhsmFxGh2XQrlvzYaeuzOKFR9v2nO+hAW6lyR3VR
+ EAIQ==
+X-Gm-Message-State: AJIora+RGy777CRTmMjz3g1fzHZXwFgsGMYIkJKXXRTX78xnzrMAQdIU
+ NCbyQ8y4EtjG/M/U9XJt8gQu9oi45G/M0V5ZdRAoGJmP1KDfWEAERwDeMSzL4vkHQ2hqjKM4s9M
+ ZeJ0RWPN7rJnAXRolUHk94SSHf5zE
+X-Received: by 2002:a05:600c:354c:b0:39c:7e86:6ff5 with SMTP id
+ i12-20020a05600c354c00b0039c7e866ff5mr3743061wmq.145.1655984765078; 
+ Thu, 23 Jun 2022 04:46:05 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tmlypA3wXJ/OMrd3CCC7DB/S0rwBNZ56WvPLaFTf4u20Ij8VSMNCPKoxS1IiNb6nf2qXJPqw==
+X-Received: by 2002:a05:600c:354c:b0:39c:7e86:6ff5 with SMTP id
+ i12-20020a05600c354c00b0039c7e866ff5mr3743044wmq.145.1655984764878; 
+ Thu, 23 Jun 2022 04:46:04 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ n1-20020a5d6b81000000b0021b9416fa13sm11392839wrx.90.2022.06.23.04.46.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jun 2022 04:46:04 -0700 (PDT)
+Message-ID: <0767f7c7-13fe-3209-50a7-61c1a46a1149@redhat.com>
+Date: Thu, 23 Jun 2022 13:46:03 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH resend] drm: panel-orientation-quirks: Add quirk for the
+ Lenovo Yoga Tablet 2 830
+To: Hans de Goede <hdegoede@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20220623112710.15693-1-hdegoede@redhat.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220623112710.15693-1-hdegoede@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,17 +90,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D201957
+Hello Hans,
 
---- Comment #78 from Danil (s48gs.w@gmail.com) ---
-(I did small mistake in my file organizing, creating nvidia_icd.json with
-listed above content is enough to fix Wine for me, everything works now)
+On 6/23/22 13:27, Hans de Goede wrote:
+> The Lenovo Yoga Tablet 2 830F / 830L use a panel which has been mounted
+> 90 degrees rotated. Add a quirk for this.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
 
---=20
-You may reply to this email to add a comment.
+The patch looks good to me.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
