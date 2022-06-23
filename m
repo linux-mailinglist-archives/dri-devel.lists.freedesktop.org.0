@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D1255592C7
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:03:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 240F45592BC
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:03:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D879B1122AE;
-	Fri, 24 Jun 2022 06:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C40D112201;
+	Fri, 24 Jun 2022 06:02:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
  [67.231.152.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD42410E2A1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:54:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3ADD10E3FB
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:54:16 +0000 (UTC)
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
- by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBvlrB011978;
- Thu, 23 Jun 2022 07:52:56 -0500
+ by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N5mxl2032604;
+ Thu, 23 Jun 2022 07:52:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=8Jk9hCbOsuYwm0RYQaJwiZ5tuQRLpnFj2YNVDn9mPS8=;
- b=ZlKISOSd0aU6kpUJEuTl5VPzpA35D6xmjUEqHY6eymuduuCI0CIJfJcGFdgAhoRSmpcc
- 7pRKTYfPGDo9a0AVq0Wfep7+xvIvhqkaodjxZpoguHq+JLRsJLoYk2Y0rMLRsxP/u8gg
- wkXBTFsSZET+HXNY786tWLZW09W2g4GNx3b6QCn3b7ObIar7mPdZKu2NGH7udgAU9bjk
- Z8WOyGJQyH7LTqJ9Qsoh5Dro9dpyhhmm84cJHmvffcb+s+tvFfkgrMmQ2J2Svwo2ooe0
- QXj0lzsDZ29fLJecV00w7iZ/cAXAeHgcmPcrM/rv+PJ0wjjVW5NODcKAl4GG7NLs3rab 3g== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
- by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvp-6
+ bh=2TN13SaBviXFLG5SogVSnAtaPuCmUdh8Cf5QqA62gzA=;
+ b=EOTlOnH8pctgJTry5VCna9k3q3MRmr/xXoM4xAxgv2lpwAj0GRqpu1sgv8an3p76nPGH
+ mInGBCUVEi9k4uCS4i8oFHI19rG6LJnHRmw+KNNMSlgEJGmcn1nZ0SWTxDv8p6IUfB4I
+ TRwXQmjHKo0K/1x1SYKJelmlrty4ifrNTTJ5O/JEeYjux9KxOO8ZSP1gqayGRlnEjGb0
+ +HxLT3fO6H0Ximlt+ggLmdImRkEQN5gpntfeocijtL1MwPU5Yukq1SrykhT5KOkIkBZ9
+ 5aQr5UKMfHn+e9xI069MAnMSnJtALJnXy7gDwcoEjrbNqfJRzJ/bIyyN9T9mdZiWSulw IA== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+ by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 23 Jun 2022 07:52:55 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 23 Jun 2022 07:52:57 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
  2022 13:52:51 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
  Frontend Transport; Thu, 23 Jun 2022 13:52:51 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 93FAE475;
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id A0B1A478;
  Thu, 23 Jun 2022 12:52:51 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH v2 10/96] ASoC: sh: Migrate to new style legacy DAI naming flag
-Date: Thu, 23 Jun 2022 13:51:24 +0100
-Message-ID: <20220623125250.2355471-11-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 11/96] ASoC: tegra: Migrate to new style legacy DAI naming
+ flag
+Date: Thu, 23 Jun 2022 13:51:25 +0100
+Message-ID: <20220623125250.2355471-12-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: O_5n4ZiN7VIqKmZ3Nm0eqpWkhLP5Ce19
-X-Proofpoint-ORIG-GUID: O_5n4ZiN7VIqKmZ3Nm0eqpWkhLP5Ce19
+X-Proofpoint-GUID: l3ItothFqpLn9VhF4Abg4vb-bkIOqzIE
+X-Proofpoint-ORIG-GUID: l3ItothFqpLn9VhF4Abg4vb-bkIOqzIE
 X-Proofpoint-Spam-Reason: safe
 X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,110 +90,66 @@ currently uses the legacy naming, so add the new flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/sh/hac.c       |  3 ++-
- sound/soc/sh/rcar/core.c | 11 ++++++-----
- sound/soc/sh/rz-ssi.c    |  9 +++++----
- sound/soc/sh/siu_pcm.c   | 17 +++++++++--------
- sound/soc/sh/ssi.c       |  3 ++-
- 5 files changed, 24 insertions(+), 19 deletions(-)
+ sound/soc/tegra/tegra20_ac97.c  | 3 ++-
+ sound/soc/tegra/tegra20_i2s.c   | 3 ++-
+ sound/soc/tegra/tegra20_spdif.c | 1 +
+ sound/soc/tegra/tegra30_i2s.c   | 3 ++-
+ 4 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/sh/hac.c b/sound/soc/sh/hac.c
-index 475fc984f8c51..46d145cbaf297 100644
---- a/sound/soc/sh/hac.c
-+++ b/sound/soc/sh/hac.c
-@@ -307,7 +307,8 @@ static struct snd_soc_dai_driver sh4_hac_dai[] = {
+diff --git a/sound/soc/tegra/tegra20_ac97.c b/sound/soc/tegra/tegra20_ac97.c
+index c454a34c15c4c..e17375c6cddb9 100644
+--- a/sound/soc/tegra/tegra20_ac97.c
++++ b/sound/soc/tegra/tegra20_ac97.c
+@@ -239,7 +239,8 @@ static struct snd_soc_dai_driver tegra20_ac97_dai = {
  };
  
- static const struct snd_soc_component_driver sh4_hac_component = {
--	.name		= "sh4-hac",
-+	.name			= "sh4-hac",
-+	.legacy_dai_naming	= 1,
- };
- 
- static int hac_soc_platform_probe(struct platform_device *pdev)
-diff --git a/sound/soc/sh/rcar/core.c b/sound/soc/sh/rcar/core.c
-index a4180dc5a59ba..4973f94a21446 100644
---- a/sound/soc/sh/rcar/core.c
-+++ b/sound/soc/sh/rcar/core.c
-@@ -1813,11 +1813,12 @@ int rsnd_kctrl_new(struct rsnd_mod *mod,
-  *		snd_soc_component
-  */
- static const struct snd_soc_component_driver rsnd_soc_component = {
--	.name		= "rsnd",
--	.probe		= rsnd_debugfs_probe,
--	.hw_params	= rsnd_hw_params,
--	.hw_free	= rsnd_hw_free,
--	.pointer	= rsnd_pointer,
-+	.name			= "rsnd",
-+	.probe			= rsnd_debugfs_probe,
-+	.hw_params		= rsnd_hw_params,
-+	.hw_free		= rsnd_hw_free,
-+	.pointer		= rsnd_pointer,
-+	.legacy_dai_naming	= 1,
- };
- 
- static int rsnd_rdai_continuance_probe(struct rsnd_priv *priv,
-diff --git a/sound/soc/sh/rz-ssi.c b/sound/soc/sh/rz-ssi.c
-index beaf1a8d6da10..0d0594a0e4f6c 100644
---- a/sound/soc/sh/rz-ssi.c
-+++ b/sound/soc/sh/rz-ssi.c
-@@ -906,10 +906,11 @@ static struct snd_soc_dai_driver rz_ssi_soc_dai[] = {
- };
- 
- static const struct snd_soc_component_driver rz_ssi_soc_component = {
--	.name		= "rz-ssi",
--	.open		= rz_ssi_pcm_open,
--	.pointer	= rz_ssi_pcm_pointer,
--	.pcm_construct	= rz_ssi_pcm_new,
-+	.name			= "rz-ssi",
-+	.open			= rz_ssi_pcm_open,
-+	.pointer		= rz_ssi_pcm_pointer,
-+	.pcm_construct		= rz_ssi_pcm_new,
-+	.legacy_dai_naming	= 1,
- };
- 
- static int rz_ssi_probe(struct platform_device *pdev)
-diff --git a/sound/soc/sh/siu_pcm.c b/sound/soc/sh/siu_pcm.c
-index 0a8a3c314a73d..f15ff36e79345 100644
---- a/sound/soc/sh/siu_pcm.c
-+++ b/sound/soc/sh/siu_pcm.c
-@@ -540,13 +540,14 @@ static void siu_pcm_free(struct snd_soc_component *component,
- }
- 
- const struct snd_soc_component_driver siu_component = {
+ static const struct snd_soc_component_driver tegra20_ac97_component = {
 -	.name		= DRV_NAME,
--	.open		= siu_pcm_open,
--	.close		= siu_pcm_close,
--	.prepare	= siu_pcm_prepare,
--	.trigger	= siu_pcm_trigger,
--	.pointer	= siu_pcm_pointer_dma,
--	.pcm_construct	= siu_pcm_new,
--	.pcm_destruct	= siu_pcm_free,
 +	.name			= DRV_NAME,
-+	.open			= siu_pcm_open,
-+	.close			= siu_pcm_close,
-+	.prepare		= siu_pcm_prepare,
-+	.trigger		= siu_pcm_trigger,
-+	.pointer		= siu_pcm_pointer_dma,
-+	.pcm_construct		= siu_pcm_new,
-+	.pcm_destruct		= siu_pcm_free,
-+	.legacy_dai_naming	= 1,
- };
- EXPORT_SYMBOL_GPL(siu_component);
-diff --git a/sound/soc/sh/ssi.c b/sound/soc/sh/ssi.c
-index bf7a3c69920a6..96cf523c22734 100644
---- a/sound/soc/sh/ssi.c
-+++ b/sound/soc/sh/ssi.c
-@@ -377,7 +377,8 @@ static struct snd_soc_dai_driver sh4_ssi_dai[] = {
- };
- 
- static const struct snd_soc_component_driver sh4_ssi_component = {
--	.name		= "sh4-ssi",
-+	.name			= "sh4-ssi",
 +	.legacy_dai_naming	= 1,
  };
  
- static int sh4_soc_dai_probe(struct platform_device *pdev)
+ static bool tegra20_ac97_wr_rd_reg(struct device *dev, unsigned int reg)
+diff --git a/sound/soc/tegra/tegra20_i2s.c b/sound/soc/tegra/tegra20_i2s.c
+index 2e1a726602f02..fff0cd6588f56 100644
+--- a/sound/soc/tegra/tegra20_i2s.c
++++ b/sound/soc/tegra/tegra20_i2s.c
+@@ -338,7 +338,8 @@ static const struct snd_soc_dai_driver tegra20_i2s_dai_template = {
+ };
+ 
+ static const struct snd_soc_component_driver tegra20_i2s_component = {
+-	.name		= DRV_NAME,
++	.name			= DRV_NAME,
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static bool tegra20_i2s_wr_rd_reg(struct device *dev, unsigned int reg)
+diff --git a/sound/soc/tegra/tegra20_spdif.c b/sound/soc/tegra/tegra20_spdif.c
+index 64c2f304f2542..ca7b222e07d05 100644
+--- a/sound/soc/tegra/tegra20_spdif.c
++++ b/sound/soc/tegra/tegra20_spdif.c
+@@ -264,6 +264,7 @@ static struct snd_soc_dai_driver tegra20_spdif_dai = {
+ 
+ static const struct snd_soc_component_driver tegra20_spdif_component = {
+ 	.name = "tegra20-spdif",
++	.legacy_dai_naming = 1,
+ };
+ 
+ static bool tegra20_spdif_wr_rd_reg(struct device *dev, unsigned int reg)
+diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
+index 3aa157c82ae23..10cd37096fb33 100644
+--- a/sound/soc/tegra/tegra30_i2s.c
++++ b/sound/soc/tegra/tegra30_i2s.c
+@@ -331,7 +331,8 @@ static const struct snd_soc_dai_driver tegra30_i2s_dai_template = {
+ };
+ 
+ static const struct snd_soc_component_driver tegra30_i2s_component = {
+-	.name		= DRV_NAME,
++	.name			= DRV_NAME,
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static bool tegra30_i2s_wr_rd_reg(struct device *dev, unsigned int reg)
 -- 
 2.30.2
 
