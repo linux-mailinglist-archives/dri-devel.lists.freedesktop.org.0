@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3201C5592E0
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:04:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC565592E5
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:04:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB5221123EE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65DB6112206;
 	Fri, 24 Jun 2022 06:02:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
  [67.231.152.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FB4E112821
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B713310E26D
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:29 +0000 (UTC)
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
- by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N5mxlK032604;
- Thu, 23 Jun 2022 07:53:12 -0500
+ by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N5mxlJ032604;
+ Thu, 23 Jun 2022 07:53:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=QP+ZBUYAIdt6LRCHim/xoQUoHPNHrMxphXy99QAQmFo=;
- b=qJUErP65voIUtcTO4xtmk3U40tPY6FwTHyGWSpNHToHXGk8rB+2DMdbeYYxTkpiUul54
- d8o1ucKTy5ix9OaOWPrxxQ9Qn4D3/bM1K8SkxiKE9Dk0e42Ltd53E76rlkQS1QDKzDNF
- IA++2cj/7ItyYQmss/PbCTZxLgYNrmOFFK0J68/2xw/BeEVXdN+JdjJYyD3O/vDSlyNa
- uKvp9luiwoXV6iA4mz/Fc6yxHpy0uR9wYnbM286Sek5ZE6ToJLSCJJPK2ecT0Yxj7XML
- +ZzWKFc4tZ6FAkNXvxW5xP0tuFuo6mBEnd/0tY6xJvJV/hqonSeZrKOd68wbUg0eUp5B RQ== 
+ bh=sFY4wRr8WulvDnwK7W8ChZOFLV2DaNEc42qtRtmconE=;
+ b=Xg8fwml1tmddtrzKEsagzjwrYtoQLpnPZgIYRPTbM+Ma2mNH2bSM1WfHcncKMPVTLAqw
+ amttbft5Wagoy532G0ihpgXQE8svDA2ROvdEpSIIu5Aa0Frg+qp2F1EnvLp1z4lWbRbx
+ vW2W3N3//t7aK9QE5ntc8MbTXtFc441ZejrqVwLjql02t8g1+uq6lb9zqQ5ZDXjVrpHR
+ 6L9VZI/MxY9DIQoGzGsXLNppEIsgnYM7alHAmCoZIDWVsXJIQan/6gn5Wpm9D8QxaGnr
+ nSaWlZ91LsAXyW+gUSufndzNcnbQIbO5enQZ0Y9EdCNMgGSZwl7W/uMToL+ya2DtF8iU Wg== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
- by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvu-19
+ by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvu-18
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 23 Jun 2022 07:53:12 -0500
+ Thu, 23 Jun 2022 07:53:11 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
@@ -38,22 +38,22 @@ Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
  Frontend Transport; Thu, 23 Jun 2022 13:52:58 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id F111B11D1;
- Thu, 23 Jun 2022 12:52:57 +0000 (UTC)
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 11F1911D4;
+ Thu, 23 Jun 2022 12:52:58 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH v2 81/96] ASoC: Intel: avs: Remove now redundant
+Subject: [PATCH v2 82/96] ASoC: isabelle: Remove now redundant
  non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:52:35 +0100
-Message-ID: <20220623125250.2355471-82-ckeepax@opensource.cirrus.com>
+Date: Thu, 23 Jun 2022 13:52:36 +0100
+Message-ID: <20220623125250.2355471-83-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: wP7WrUXuLRCuSLsi-QeDc0DOxbcs5dpd
-X-Proofpoint-ORIG-GUID: wP7WrUXuLRCuSLsi-QeDc0DOxbcs5dpd
+X-Proofpoint-GUID: JNOqKJfPAmBhwjs7rUnTxW4_oYEj_CLr
+X-Proofpoint-ORIG-GUID: JNOqKJfPAmBhwjs7rUnTxW4_oYEj_CLr
 X-Proofpoint-Spam-Reason: safe
 X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,29 +89,21 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/intel/avs/pcm.c | 2 --
- 1 file changed, 2 deletions(-)
+ sound/soc/codecs/isabelle.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
-index 668f533578a69..f21b0cdd32063 100644
---- a/sound/soc/intel/avs/pcm.c
-+++ b/sound/soc/intel/avs/pcm.c
-@@ -846,7 +846,6 @@ static const struct snd_soc_component_driver avs_component_driver = {
- 	.pcm_construct		= avs_component_construct,
- 	.module_get_upon_open	= 1, /* increment refcount when a pcm is opened */
- 	.topology_name_prefix	= "intel/avs",
--	.non_legacy_dai_naming	= true,
+diff --git a/sound/soc/codecs/isabelle.c b/sound/soc/codecs/isabelle.c
+index 39be31e1282e7..50105d72b2b74 100644
+--- a/sound/soc/codecs/isabelle.c
++++ b/sound/soc/codecs/isabelle.c
+@@ -1095,7 +1095,6 @@ static const struct snd_soc_component_driver soc_component_dev_isabelle = {
+ 	.num_dapm_routes	= ARRAY_SIZE(isabelle_intercon),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- static int avs_soc_component_register(struct device *dev, const char *name,
-@@ -1172,7 +1171,6 @@ static const struct snd_soc_component_driver avs_hda_component_driver = {
- 	.remove_order		= SND_SOC_COMP_ORDER_EARLY,
- 	.module_get_upon_open	= 1,
- 	.topology_name_prefix	= "intel/avs",
--	.non_legacy_dai_naming	= true,
- };
- 
- int avs_hda_platform_register(struct avs_dev *adev, const char *name)
+ static const struct regmap_config isabelle_regmap_config = {
 -- 
 2.30.2
 
