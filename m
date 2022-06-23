@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD0D558B9A
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 01:14:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A139558BA3
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 01:17:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 336E210E03C;
-	Thu, 23 Jun 2022 23:14:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AEAE10E180;
+	Thu, 23 Jun 2022 23:17:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
- [IPv6:2001:4860:4864:20::2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3E9610E03C
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 23:14:47 +0000 (UTC)
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-fb6b4da1dfso1488361fac.4
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 16:14:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=u2JKqHVyLSRZBXOkaIltewzMrD4pEO849tuySbHDpwc=;
- b=ThCoMRZVlzD3JZVM5bQQPX5vhiupuoW4v/3wdvco6scQqVAZitzrddJfdkyplTyehS
- JZ9k9G7cKpXJ/MFoQT6dYLK4JpoYjT15t00LJpVSVZybSphePavVdLh80M5BW8KApsg2
- IFawMA9OkxkM3dk/SZcOeeDwiYToFJUww13y4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=u2JKqHVyLSRZBXOkaIltewzMrD4pEO849tuySbHDpwc=;
- b=icURwp8p0tnz9HJCV8T7UspjMaKhSmi1Pz/NreN6vK4YDhmoqLECsxi9t/O/he8Gsu
- h6Zq49oDtLRrbknBXftE0tWymMU4MA6aABCSHKWq7IALSyBiel7lACtavEVdFaNQsJ8s
- +w40W/8MDv1vTxCSbFapwBqzOMGF0+esfxOzP8ltZvSYxUWh8aPrC5we9VcGRcYjvgyn
- QOZORaaSzvqgR/fFYsDxuhiRtJi7SKZRBDEj9P4sMDWaAcX9B1Ms6xeABWCxghX0zGve
- D8rMa15mLn4wqw/aMETG6sglU5ZRGv0iw8PZwAyazvRWRYGMIyhY9M6nzBtxi81POJps
- 1/NQ==
-X-Gm-Message-State: AJIora9QfjG3sVM8CVD0V0yCY1vBR71Y5DAqMfcpZ0p6I+JFf/Ws9G/K
- US5sX3cm1gJ47jL9UK1fx6IhF8cBo/UsmnNSAb66OA==
-X-Google-Smtp-Source: AGRyM1vGcj9wdhnXfYcW15SE2elwZofl+K6gam8C4ktPrjNMjEUlSOW18Z8GsUBiy0N2iC9aY8GH6El/ZS/RoeZfOmI=
-X-Received: by 2002:a05:6870:b627:b0:102:f25:a460 with SMTP id
- cm39-20020a056870b62700b001020f25a460mr227480oab.193.1656026086919; Thu, 23
- Jun 2022 16:14:46 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 23 Jun 2022 16:14:46 -0700
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FDDE10E180
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 23:17:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1656026260;
+ bh=kxiF+PhI5BK0kM4EMFGRBKuRUyAAMYK8/HtbkzUDZ9k=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=B/ubuehzPm08VTKda4DIxHOf641WHqAe39SCFfLfa0/D0KXvR14/pvtsNYaJ8SobL
+ VG8u+h1KCUDn7PqmxMey4dbjbHATfSX4hzKlZ5yLuXHCsR0gWB37B9Vj32v1iAbs6f
+ 67r7DbD/WCSrWx/h1PN7X/ic7QcGUnOwMVDuOyBc=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [174.250.50.2] ([174.250.50.2]) by web-mail.gmx.net
+ (3c-app-mailcom-bs15.server.lan [172.19.170.183]) (via HTTP); Fri, 24 Jun
+ 2022 01:17:40 +0200
 MIME-Version: 1.0
-In-Reply-To: <CACeCKac4eL9++QwbDBKrVTpUzhes=WczqZfh+cFiVgoO4py4MQ@mail.gmail.com>
-References: <20220622173605.1168416-1-pmalani@chromium.org>
- <20220622173605.1168416-2-pmalani@chromium.org>
- <CAE-0n51kcr3VGdR2Kf8j1JaBbLcCmWo9GYhhvkUQ4+jn2iEKLg@mail.gmail.com>
- <CACeCKac4eL9++QwbDBKrVTpUzhes=WczqZfh+cFiVgoO4py4MQ@mail.gmail.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Thu, 23 Jun 2022 16:14:46 -0700
-Message-ID: <CAE-0n51E1TLMRNWnqiV-jU_qg15BF4D6A+0G1y1SRTu1zNs2Dg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/9] dt-bindings: usb: Add Type-C switch binding
-To: Prashant Malani <pmalani@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <trinity-de86d66e-c2f7-4643-8a47-4771e9751cfd-1656026260387@3c-app-mailcom-bs15>
+From: Kevin Brace <kevinbrace@gmx.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: How do I gather up new code to be converted as patches?
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 24 Jun 2022 01:17:40 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <YrNaJBiAEKaoreGw@ravnborg.org>
+References: <trinity-356e941b-2ee3-4974-944b-5495ba4d00b8-1655918337996@3c-app-mailcom-bs16>
+ <YrNaJBiAEKaoreGw@ravnborg.org>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:nYqdUijjjTSxOMOvuwxVc9FDDXaG6glpOw+WGUHCyJ5/XJY/etrpMElWjq+BnB1/o40uC
+ ulQlFz5DsnEWEyOSl1HcQzjqLD3dMDplsmCxPsB2HKjadbSHJT14ZglrRKp5gHdGNxtvqhXHcMDK
+ v2oV0JW7vDERFa7biZ0iHkK7qDDLfsJnU6r4xoEAq36KvYlrFGbL5CN8OVxdp4oEuYuI2wzFzKf9
+ G9B2DlOeTz6rffIl15ls94wIAcZONpy6b+jeCcC56qdI/joH3R39ad2gZjsIsTsBsR/JgenYZ5mv
+ ho=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kbNokIZl6MQ=:FwHbKHbQ4D8kZp0POFGbzs
+ YZMuxMVC4XEDIdWuxK2JGU7jFB38kzba32nzOFYzvtAhgcWmjT+dOnkcp5ozR/+6HtLhj9V9Q
+ WUC60fR18WQ9wJE6nKkQBvDfWfCh9qqWfo13yfwPDAaz7MiB6vMHKUsnrrhKZF/O0gtdDfGo8
+ hbw0eSTmpuHLvRnq489YDha+jeTVLGSZvrThXAhJ47j0vFViKGrEssUD9Xp+I1OYI4AH8LfjL
+ 0e3nj5d3sLy1c+G1L9+mTuOjRaSq+zkwIOEzIy1mdaX3Hz9XlQ7NBU/vdqXvLeTjykVAXRN1T
+ 052aDghVSWmZQYdxCFzucMVU3sd96ANQEErSon+SiaoXy+73cklv+QEaMLKE1nY74C6rBrBm0
+ ehTBcijYcdcsJ7WiVHF+WlncldbcO4D3bHFB2IrUEYv6QYC06Yq1HjSl0CL8L5HAkm9C9MAK6
+ 9GmTjdCVUGtVhoINzxGovNWlq2ORANZOaOh/jFGyjdS4H/gv0S8oeNoCmX2kyIHHjDJFyoE2u
+ kbE90WBxuYOg+qTWeHzM6Styc+FU7wXXrvF/qq88n6kM1lT9KZcXD17LeSejSZ+Px+F96vldB
+ ZHSZ3rDmOQL6FNecKBeUoEDVjvUvgSjcLuFBYvIgQxCEDtCktFmFq18EelFdDajdqbQS/WyBi
+ pYZeBudrkVj7TRP1uZ/iPaBYn8I6clJu+CBeGi50ZKNjiQ9Qi8fTPGStt0rbAcyEYscbDLjzO
+ P98vYfcs3vN3Im6kAJQgzEiApZYfcz/z+klIO7eRI+8NxGBBcfXGkJBG5gRogGW+wYv4hlXzy
+ JZZ2CeZ
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,151 +69,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Prashant Malani (2022-06-23 12:08:21)
-> On Thu, Jun 23, 2022 at 11:30 AM Stephen Boyd <swboyd@chromium.org> wrote:
+Hi Sam,
+
+Okay, I think what you proposed works out for me, although adding 20+ file=
+s, one by one, is a pain.
+I wish there is a way to automate this.
+FWIW, this is how I did it.
+
+________
+1) Create a new branch from the current one just for sending the patches
+
+$ git branch Code_Review_1
+
+2) Switch to the new branch
+
+$ git checkout Code_Review_1
+
+3) Copy original drivers/gpu/drm/via/ contents (i.e., *.c, *.h, Kconfig, a=
+nd Makefile) and include/uapi/drm/via_drm.h
+4) Delete drivers/gpu/drm/via/ contents and include/uapi/drm/via_drm.h
+5) Delete from DRM core make file (Makefile) located at drivers/gpu/drm/ i=
+ts OpenChrome DRM build switch
+
+. . .
+obj-$(CONFIG_DRM_OPENCHROME) +=3Dvia/
+. . .
+
+6) Commit the change (Note: this commit will not be posted as a patch)
+
+$ git commit -as
+
+7) Move back the preserved files to drivers/gpu/drm/via/ (i.e., *.c, *.h, =
+Kconfig, Makefile) and include/uapi/drm/ (i.e., via_drm.h)
+8) Add and commit *.h located at drivers/gpu/drm/via/ one file at a time
+
+$ git add drivers/gpu/drm/via/("Name of the file").h
+$ git commit -as
+
+9) Add and commit *.c located at drivers/gpu/drm/via/ one file at a time
+
+$ git add drivers/gpu/drm/via/("Name of the file").c
+$ git commit -as
+
+10) Add and commit via_drm.h located at include/uapi/drm/
+
+$ git add include/uapi/drm/via_drm.h
+$ git commit -as
+
+11) Commit Kconfig located at drivers/gpu/drm/via/
+
+$ git add drivers/gpu/drm/via/Kconfig
+$ git commit -as
+
+12) Commit Makefile located at drivers/gpu/drm/via/
+
+$ git add drivers/gpu/drm/via/Makefile
+$ git commit -as
+
+13) Add back to DRM core make file (Makefile) located at drivers/gpu/drm/ =
+the OpenChrome DRM build switch
+
+. . .
+obj-$(CONFIG_DRM_OPENCHROME) +=3Dvia/
+. . .
+
+14) Commit the change
+
+$ git commit -as
+
+15) Generate the commits as patches
+
+$ git format-patch -28
+
+The (-28) may be adjusted to match the number of relevant commits.
+It is basically derived from,
+
+- 26 files under drivers/gpu/drm/via/
+- 1 file under include/uapi/drm/
+- 1 commit to change Makefile located at drivers/gpu/drm/
+
+The first commit that deletes the relevant files should not be included in=
+ the patch being generated here.
+________
+
+I wish there is a easier, more automated way of doing this, but at least t=
+his is the best I can do for now.
+I will likely e-mail the mailing list the code in patch form shortly.
+
+Regards,
+
+Kevin Brace
+Brace Computer Laboratory blog
+https://bracecomputerlab.com
+
+
+> Sent: Wednesday, June 22, 2022 at 1:06 PM
+> From: "Sam Ravnborg" <sam@ravnborg.org>
+> To: "Kevin Brace" <kevinbrace@gmx.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Subject: Re: How do I gather up new code to be converted as patches?
+>
+> Hi Kevin,
+>
+> On Wed, Jun 22, 2022 at 07:18:58PM +0200, Kevin Brace wrote:
+> > Hi,
 > >
-> > Quoting Prashant Malani (2022-06-22 10:34:30)
-> > > diff --git a/Documentation/devicetree/bindings/usb/typec-switch.yaml b/Documentation/devicetree/bindings/usb/typec-switch.yaml
-> > > new file mode 100644
-> > > index 000000000000..78b0190c8543
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/usb/typec-switch.yaml
-> > > @@ -0,0 +1,74 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-[...]
-> > > +  ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +    description: OF graph binding modelling data lines to the Type-C switch.
-> > > +
-> > > +    properties:
-> > > +      port@0:
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +        description: Link between the switch and a Type-C connector.
-> >
-> > Is there an update to the usb-c-connector binding to accept this port
-> > connection?
+> > How to I use git to gather up new code to be converted to patches?
+> > Specifically, I have 20+ new files in one location (drivers/gpu/drm/vi=
+a)
+> > and a small change to DRM main make file (drivers/gpu/drm/Makefile).
 >
-> Not at this time. I don't think we should enforce that either.
-> (Type-C data-lines could theoretically be routed through intermediate
-> hardware like retimers/repeaters)
-
-I'm mostly wondering if having such a connection to the usb-c-connector,
-or even through some retimer/repeater, would be sufficient to detect how
-many type-c ports are connected to the device. If the type-c pin
-assignments only support two or four lanes for DP then it seems like we
-should describe the two lanes or four lanes as one graph endpoint
-"output" and then have some 'data-lanes' property in case the DP lanes
-are flipped while being sent to the retimer or usb-c-connector. This
-would of course depend on the capability of the device, i.e. if it can
-remap DP lanes or only has 2 lanes of DP, etc.
-
-> > > +  - |
-> > > +    drm-bridge {
-> > > +        usb-switch {
-> > > +            compatible = "typec-switch";
-> >
-> > I still don't understand the subnode design here. usb-switch as a
-> > container node indicates to me that this is a bus, but in earlier rounds
-> > of this series it was stated this isn't a bus.
+> One simple way to do this is to start with a clean tree, and then add
+> files step by step.
+> 20+ files in one patch is too much to review, so decide for a
+> reasonable split between the files.
 >
-> I am not aware of this as a requirement. Can you please point me to the
-> documentation that states this needs to be the case?
-
-I'm not aware of any documentation for the dos and don'ts here. Are
-there any examples in the bindings directory that split up a device into
-subnodes that isn't in bindings/mfd? I just know from experience that
-any time I try to make a child node of an existing node that I'm
-supposed to be describing a bus, unless I'm adding some sort of
-exception node like a graph binding or an opp table. Typically a node
-corresponds 1:1 with a device in the kernel. I'll defer to Rob for any
-citations.
-
+> Maybe something like (as inspiration find your own split):
+> 0) Documentation - or add this in you cover letter. Enough info to give
+> the reader a rough understanding of the HW and the driver structure.
+> 1) Driver files
+> 2) Util files
+> 3) Files for the memory handling
+> 4) Files for irq handling
+> 5) HW specific files
+> 6) A the final patch - the Kconfig, and Makefile adjustments.
 >
-> > Why doesn't it work to
-> > merge everything inside usb-switch directly into the drm-bridge node?
+> It is important that the final patch is final as you would otherwise
+> break the build.
 >
-> I attempted to explain the rationale in the previous version [1], but
-> using a dedicated sub-node means the driver doesn't haven't to
-> inspect individual ports to determine which of them need switches
-> registered for them. If it sees a `typec-switch`, it registers a
-> mode-switch and/or orientation-switch. IMO it simplifies the hardware
-> device binding too.
-
-How is that any harder than hard-coding that detail into the driver
-about which port and endpoint is possibly connected to the
-usb-c-connector (or retimer)? All of that logic could be behind some API
-that registers a typec-switch based on a graph port number that's passed
-in, ala drm_of_find_panel_or_bridge()'s design.
-
-Coming from a DT writer's perspective, I just want to go through the
-list of output pins in the datasheet and match them up to the ports
-binding for this device. If it's a pure DP bridge, where USB hardware
-isn't an input or an output like the ITE chip, then I don't want to have
-to describe a port graph binding for the case when it's connected to a
-dp-connector (see dp-connector.yaml) in the top-level node and then have
-to make an entirely different subnode for the usb-c-connector case with
-a whole other set of graph ports.
-
-How would I even know which two differential pairs correspond to port0
-or port1 in this binding in the ITE case? Ideally we make the graph
-binding more strict for devices by enforcing that their graph ports
-exist. Otherwise we're not fully describing the connections between
-devices and our dtb checkers are going to let things through where the
-driver most likely will fail because it can't figure out what to do,
-e.g. display DP on 4 lanes or play some DP lane rerouting games to act
-as a mux.
-
+> I look forward to see the patches!
 >
-> It also maps with the internal block diagram for these hardware
-> components (for ex. the anx7625 crosspoint switch is a separate
-> sub-block within anx7625).
-
-We don't make DT bindings for sub-components like this very often. It
-would make more sense to me to have a subnode if a typec switch was some
-sort of off the shelf hard macro that the hardware engineer placed down
-inside the IC that they delivered. Then we could have a completely
-generic driver that binds to the generic binding that knows how to drive
-the hardware, because it's an unchangeable hard macro with a well
-defined programming interface.
-
+> 	Sam
 >
-> [1] https://lore.kernel.org/linux-usb/CACeCKaeH6qTTdG_huC4yw0xxG8TYEOtfPW3tiVNwYs=P4QVPXg@mail.gmail.com/
-
-I looked at the fsa4480 driver and the device has a publicly available
-datasheet[2]. That device is designed for "audio accessory mode" but I
-guess it's being used to simply mux SBU lines? There isn't an upstream
-user of the binding so far, but it also doesn't look like a complete
-binding. I'd expect to see DN_L/R as a graph output connected to the
-usb-c-connector and probably have a usb2.0 input port and a 'sound-dai'
-property to represent the input audio path.
-
-Finally, simply connecting to the typec controller node isn't sufficient
-because a typec controller can be controlling many usb-c-connectors so I
-don't see how the graph binding would be able to figure out how many
-usb-c-connectors are connected to a mux like device, unless we took the
-approach of this patch. Is that why you're proposing this binding? To
-avoid describing a graph binding in the usb-c-connector and effectively
-"pushing" the port count up to the mux?
-
-[2] https://www.onsemi.com/pdf/datasheet/fsa4480-d.pdf
