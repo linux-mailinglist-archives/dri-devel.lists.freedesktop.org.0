@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFE95592AC
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:02:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3F95592C4
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:03:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 019FC112130;
-	Fri, 24 Jun 2022 06:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C72491121B1;
+	Fri, 24 Jun 2022 06:02:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
- [67.231.149.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5BD410E5F9
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:20 +0000 (UTC)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
- by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NAKUt5006859;
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
+ [67.231.152.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB2A710E5D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:14 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+ by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBvlrL011978;
  Thu, 23 Jun 2022 07:53:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=IRJFhcj+htr8j8A51xKsCTuIkZGBefkGMm7EkX0r/Yg=;
- b=X6AHZDHUi32P1Pya6Lf1nAVxQ+D0bLSdsb2TUYAKQaV2WlfJM0mL/72+xON73WjMbgfW
- VNbKkYlfPdxT9a7PIfsWU8FYvxDTaSJLz+7lWEhHQLs8htjseGZowWoTovb27zsu1mFO
- 4rxJ8dOEGlgsiEcFrPvMHYCYiSRPBCTTWuudj7uqSZWFMgZL9P8SXUTgWVZrD1+F9NQy
- YIVoTalhQivUOZuBeJhgqsauiC0m45hrZ5bMOulhlmJTnwHjNWSl3/xZGsRLDkndWKDN
- rPicPIUIzt7n3QmYJPRDYwj2MgVigHTssYgadopFNECm9keAMxVB7AvBGFsfdiyPonMV ug== 
+ bh=UJuHWsEpHcokhmwrN5fDMiRU1wxk1Rq6SwDqBfahFe8=;
+ b=LcIPOo//2Ff+YXGPI1i10MIx+1/Hh2A9aYddVpxSDBUVmrXcvtL/mr/CfsvReLFBXn1W
+ zqTjRSPsvG4vrgIfImp8i2IM7zEvEAf6Rjk32kmJvm2YHpG6qR68db1wcC23tGmgukS3
+ PiFr7OBYXGDkXtObpdf77o+CJPuApGTdDzCo8mwdL10U2cxyqN0IqvZCmBd2D0egs1u7
+ K1ayZmhG5TFB2J8Cy/feahT+C+ZzixPEJzwH0nYufS9sxaZksA7Qg3w1iwWU9sc3Ixw3
+ Thvq7DMFWavexI+JyBj/ufLvEP1Kwo9Ks65kOQ2OkoimHkDxyhjh3n9uk/q+UA4iwpO3 PQ== 
 Received: from ediex02.ad.cirrus.com ([84.19.233.68])
- by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4u-4
+ by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvp-16
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 23 Jun 2022 07:53:03 -0500
+ Thu, 23 Jun 2022 07:53:04 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
  (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
@@ -38,22 +38,22 @@ Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
  Frontend Transport; Thu, 23 Jun 2022 13:52:54 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 9CB7711D1;
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id B636311D3;
  Thu, 23 Jun 2022 12:52:54 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH v2 44/96] ASoC: topology: KUnit: Remove now redundant
+Subject: [PATCH v2 45/96] ASoC: uniphier: Remove now redundant
  non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:51:58 +0100
-Message-ID: <20220623125250.2355471-45-ckeepax@opensource.cirrus.com>
+Date: Thu, 23 Jun 2022 13:51:59 +0100
+Message-ID: <20220623125250.2355471-46-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: GtvL_AZVvXuE77-O9X0l-x3NYt0RlWyb
-X-Proofpoint-ORIG-GUID: GtvL_AZVvXuE77-O9X0l-x3NYt0RlWyb
+X-Proofpoint-GUID: Mm_9uIY9dVSR-Uz1ghvJGZo2V1vDRHNw
+X-Proofpoint-ORIG-GUID: Mm_9uIY9dVSR-Uz1ghvJGZo2V1vDRHNw
 X-Proofpoint-Spam-Reason: safe
 X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,37 +89,21 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/soc-topology-test.c | 3 ---
- 1 file changed, 3 deletions(-)
+ sound/soc/uniphier/evea.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/soc-topology-test.c b/sound/soc/soc-topology-test.c
-index 225d743559741..3acd42a288d6c 100644
---- a/sound/soc/soc-topology-test.c
-+++ b/sound/soc/soc-topology-test.c
-@@ -104,7 +104,6 @@ static const struct snd_soc_component_driver test_component = {
- 	.name = "sound-soc-topology-test",
- 	.probe = d_probe,
- 	.remove = d_remove,
--	.non_legacy_dai_naming = 1,
+diff --git a/sound/soc/uniphier/evea.c b/sound/soc/uniphier/evea.c
+index 96343d19a1e0f..42403ae8e31b2 100644
+--- a/sound/soc/uniphier/evea.c
++++ b/sound/soc/uniphier/evea.c
+@@ -397,7 +397,6 @@ static struct snd_soc_component_driver soc_codec_evea = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- /* ===== TOPOLOGY TEMPLATES ================================================= */
-@@ -238,7 +237,6 @@ static int d_probe_null_comp(struct snd_soc_component *component)
- static const struct snd_soc_component_driver test_component_null_comp = {
- 	.name = "sound-soc-topology-test",
- 	.probe = d_probe_null_comp,
--	.non_legacy_dai_naming = 1,
- };
- 
- static void snd_soc_tplg_test_load_with_null_comp(struct kunit *test)
-@@ -344,7 +342,6 @@ static int d_probe_null_fw(struct snd_soc_component *component)
- static const struct snd_soc_component_driver test_component_null_fw = {
- 	.name = "sound-soc-topology-test",
- 	.probe = d_probe_null_fw,
--	.non_legacy_dai_naming = 1,
- };
- 
- static void snd_soc_tplg_test_load_with_null_fw(struct kunit *test)
+ static struct snd_soc_dai_driver soc_dai_evea[] = {
 -- 
 2.30.2
 
