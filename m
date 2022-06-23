@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 287C1557950
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 13:58:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA39557951
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 13:58:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F423D10F623;
-	Thu, 23 Jun 2022 11:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E5AC10F6D5;
+	Thu, 23 Jun 2022 11:58:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70BFE10F623
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 11:58:00 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id 68so13498638pgb.10
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 04:58:00 -0700 (PDT)
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB7610F6D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 11:58:06 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id d17so9925459pfq.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 04:58:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oioMX87ktK/RqUr7ZaT6eLp6MRtIdbKZ8zVhx3WgdzA=;
- b=SuJkM+K6oOkl+VW7BXbB2Cd4fje2to1DoONWB5rkIrRmYiWv9sMW9k8Dy1Xh81N3kM
- cF7eXKTKY60/c08Udqgq4jHe414uiE9nl+u5z7IoTrf9O3qGXXUwEguvwnaywlZSnl7N
- ErcYKvVvPv0AZpDo1bwEdAWG8POtC9OaqbFjqfku2fZoK1zMrT70uqf1FF2rseWbsbzQ
- g5N4cFg4PINGSRRTJGv/hVUrcDT+rsneUre913GlvwnvJ3XKR0BszJnGCw8McA5+4lt9
- jtRbQfatAVvb9JZ0fnzjux5D6+GtdQ3DaxWhaM2L9PIE+QGmkeYAWmaiP6+4H23WJFvm
- tIiA==
+ bh=twoX90vjNZ5TJVryjZwIV5usboeuJvKudWY5Eq7pX2s=;
+ b=Yu7r2PkQT35giInU8omF0mxG27zUw+oY0/yY1UNdyqA0McCyZswDO6SuiqyhMqw8jp
+ LsiKgOUPrRM4OuJPWb73hTBZo759/H+evuq/oJq7pqcYhXPyoEW3LWsiXRhxZPGus9kD
+ 6uBjIadWhcRvel96bTc/0Okm3yjffom4UT2gZGH+5H6+w1OL90ON2mY2f6RgMrdXPegb
+ sm+IyDIsRkLdqAQ6+Bu931eNbnvxAU2wmXK8neVanNagsEiMfOzBctQ5cTZIOCUXYpdt
+ Hsg4YkqnGrM1shtQnIdBIfCDZ+KU8j/1oQKRGkgJz6Nb0uVDxrwkMy5jsXgMN0M6lqVN
+ sgpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oioMX87ktK/RqUr7ZaT6eLp6MRtIdbKZ8zVhx3WgdzA=;
- b=iyFXirtPMTLBvEoTQLIr/xjiKrmzB7RuHqoq9oI9ICZXcTKLF04emU6tvc4WKY+hRe
- 6mgeJoWqtrHqB+85wcLeX9OhJbO+4DuSdCfDxwnkqEwNu0h6iE6eOVBdgZXz3Y2x90es
- Vg5TH8NK4ZtrViF0V+KD0Xs/Jf7pEB6IzJGG1UyPw6X7NSq5VOtV3c3vEmg0uBu3g/E4
- xIgDcHunX+iAXXIawTHMVmwIjoY0srR5yeN/HAGouRus6CBS1cuVQB8i0k/tZypIxEkU
- DDoMv1LgxaEFEGWhMfmFTqRk9NOlN0jZAR1PsKs+6MqFgKGSlhSshs7DUQJfNzKrkwDn
- 1XSg==
-X-Gm-Message-State: AJIora8qlTyjsm3Ws0erPyHoZ9iiPjuhxlr7rTPalhNmnGC1q3+iyxxx
- EeZXzG19dDZFZw/U9U3vZh8=
-X-Google-Smtp-Source: AGRyM1sB/xcUINi2sdn81Sl5uxJHv2hz52zRIYWFPvzR++L3PLn6gW6RGWUS6ln58BJRgo7coCRuGg==
-X-Received: by 2002:a63:3444:0:b0:40c:f416:3dfd with SMTP id
- b65-20020a633444000000b0040cf4163dfdmr7172015pga.614.1655985480019; 
- Thu, 23 Jun 2022 04:58:00 -0700 (PDT)
+ bh=twoX90vjNZ5TJVryjZwIV5usboeuJvKudWY5Eq7pX2s=;
+ b=saLT5Cs8cR8hiyVsYRhbkGP5JdcQw748iVV3Rf/pocjZ9fnJ/jPClnL+GE++tnGsZm
+ QnbaK4lbu5nOiwiQeBN4fMALxq8eRvUXvfzNNA6wU+HNIwB/ThAg0ayfMi50C/F9DU+3
+ r5GYv1HCc8o4SyBYoC/kPnmjidR0Fo14VXtcTWIjiremUexbKn8ziJAM2sK9/U5quqfU
+ i6iTTXRJrB5m8l9xuSj7deX9RQG378Msj58cIo4An1pGl0xIlTYxZ/0Tuppq7uDyUVl5
+ sKUJDn+cXPUBaB9gGN0g0nVTms3K2JqlB0wL90TnRwOTK7cDLFkqrHRQ3ie7wg6K2D2/
+ RNMg==
+X-Gm-Message-State: AJIora+Pj2uDNX/VIN+0HdxT+ZeM4F8HmWQS+m3jhRXA5ijeCMoBagB6
+ gHAkJR4xU8DlhZ25KO6uh4M=
+X-Google-Smtp-Source: AGRyM1sDJESM2kA9i+aKrOwizpVH5nHvPIj+9yIwNXqrO5I8a0DrRwgjsOWNA89htMIvZYHMUO16Bw==
+X-Received: by 2002:a63:5248:0:b0:402:de14:ab74 with SMTP id
+ s8-20020a635248000000b00402de14ab74mr7336620pgl.18.1655985485965; 
+ Thu, 23 Jun 2022 04:58:05 -0700 (PDT)
 Received: from RD-3580-24288.rt.l (111-71-94-93.emome-ip.hinet.net.
  [111.71.94.93]) by smtp.gmail.com with ESMTPSA id
- t6-20020a63b246000000b003fbfe88be17sm15016516pgo.24.2022.06.23.04.57.54
+ t6-20020a63b246000000b003fbfe88be17sm15016516pgo.24.2022.06.23.04.58.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jun 2022 04:57:59 -0700 (PDT)
+ Thu, 23 Jun 2022 04:58:05 -0700 (PDT)
 From: ChiaEn Wu <peterwu.pub@gmail.com>
 To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -54,10 +54,9 @@ To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
  lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
  heikki.krogerus@linux.intel.com, deller@gmx.de
-Subject: [PATCH v3 09/14] regulator: mt6370: Add mt6370 DisplayBias and VibLDO
- support
-Date: Thu, 23 Jun 2022 19:56:26 +0800
-Message-Id: <20220623115631.22209-10-peterwu.pub@gmail.com>
+Subject: [PATCH v3 10/14] iio: adc: mt6370: Add Mediatek MT6370 support
+Date: Thu, 23 Jun 2022 19:56:27 +0800
+Message-Id: <20220623115631.22209-11-peterwu.pub@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220623115631.22209-1-peterwu.pub@gmail.com>
 References: <20220623115631.22209-1-peterwu.pub@gmail.com>
@@ -85,446 +84,343 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: ChiYuan Huang <cy_huang@richtek.com>
+From: ChiaEn Wu <chiaen_wu@richtek.com>
 
-Add mt6370 DisplayBias and VibLDO support.
+Add Mediatek MT6370 ADC support.
 
-Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
 ---
 
 v3
 - Refine Kconfig help text
+- Refine all channel value in read_scale()
+	a. current: uA --> mA
+	b. voltage: uV --> mV
+	c. temperature: degrees Celsius --> milli degrees Celsius
+- Add "default:" condition of switch statement in read_scale() and read_raw()
+- Add error message for reading ADC register failed
+- Add the comment for adc_lock
+- Add <linux/mod_devicetable.h> header file for struct of_device_id
+- Replace "adc" text with "ADC" in all of the error messages
 ---
- drivers/regulator/Kconfig            |   8 +
- drivers/regulator/Makefile           |   1 +
- drivers/regulator/mt6370-regulator.c | 388 +++++++++++++++++++++++++++++++++++
- 3 files changed, 397 insertions(+)
- create mode 100644 drivers/regulator/mt6370-regulator.c
+ drivers/iio/adc/Kconfig      |   9 ++
+ drivers/iio/adc/Makefile     |   1 +
+ drivers/iio/adc/mt6370-adc.c | 275 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 285 insertions(+)
+ create mode 100644 drivers/iio/adc/mt6370-adc.c
 
-diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index cbe0f96..736f654a 100644
---- a/drivers/regulator/Kconfig
-+++ b/drivers/regulator/Kconfig
-@@ -804,6 +804,14 @@ config REGULATOR_MT6360
- 	  2-channel buck with Thermal Shutdown and Overload Protection
- 	  6-channel High PSRR and Low Dropout LDO.
+diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+index 48ace74..c36b640 100644
+--- a/drivers/iio/adc/Kconfig
++++ b/drivers/iio/adc/Kconfig
+@@ -737,6 +737,15 @@ config MEDIATEK_MT6360_ADC
+ 	  is used in smartphones and tablets and supports a 11 channel
+ 	  general purpose ADC.
  
-+config REGULATOR_MT6370
-+	tristate "MT6370 SubPMIC Regulator"
++config MEDIATEK_MT6370_ADC
++	tristate "Mediatek MT6370 ADC driver"
 +	depends on MFD_MT6370
 +	help
-+	  Say Y here to enable MT6370 regulator support.
-+	  This driver supports the control for DisplayBias voltages and one
-+	  general purpose LDO which is commonly used to drive the vibrator.
++	  Say yes here to enable Mediatek MT6370 ADC support.
 +
- config REGULATOR_MT6380
- 	tristate "MediaTek MT6380 PMIC"
- 	depends on MTK_PMIC_WRAP
-diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index 8d3ee8b..f1cbff2 100644
---- a/drivers/regulator/Makefile
-+++ b/drivers/regulator/Makefile
-@@ -97,6 +97,7 @@ obj-$(CONFIG_REGULATOR_MT6323)	+= mt6323-regulator.o
- obj-$(CONFIG_REGULATOR_MT6358)	+= mt6358-regulator.o
- obj-$(CONFIG_REGULATOR_MT6359)	+= mt6359-regulator.o
- obj-$(CONFIG_REGULATOR_MT6360) += mt6360-regulator.o
-+obj-$(CONFIG_REGULATOR_MT6370) += mt6370-regulator.o
- obj-$(CONFIG_REGULATOR_MT6380)	+= mt6380-regulator.o
- obj-$(CONFIG_REGULATOR_MT6397)	+= mt6397-regulator.o
- obj-$(CONFIG_REGULATOR_MTK_DVFSRC) += mtk-dvfsrc-regulator.o
-diff --git a/drivers/regulator/mt6370-regulator.c b/drivers/regulator/mt6370-regulator.c
++	  This ADC driver provides 9 channels for system monitoring (charger
++	  current, voltage, and temperature).
++
+ config MEDIATEK_MT6577_AUXADC
+ 	tristate "MediaTek AUXADC driver"
+ 	depends on ARCH_MEDIATEK || COMPILE_TEST
+diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
+index 39d806f..0ce285c 100644
+--- a/drivers/iio/adc/Makefile
++++ b/drivers/iio/adc/Makefile
+@@ -68,6 +68,7 @@ obj-$(CONFIG_MCP320X) += mcp320x.o
+ obj-$(CONFIG_MCP3422) += mcp3422.o
+ obj-$(CONFIG_MCP3911) += mcp3911.o
+ obj-$(CONFIG_MEDIATEK_MT6360_ADC) += mt6360-adc.o
++obj-$(CONFIG_MEDIATEK_MT6370_ADC) += mt6370-adc.o
+ obj-$(CONFIG_MEDIATEK_MT6577_AUXADC) += mt6577_auxadc.o
+ obj-$(CONFIG_MEN_Z188_ADC) += men_z188_adc.o
+ obj-$(CONFIG_MESON_SARADC) += meson_saradc.o
+diff --git a/drivers/iio/adc/mt6370-adc.c b/drivers/iio/adc/mt6370-adc.c
 new file mode 100644
-index 0000000..bc356b4
+index 0000000..ed7f1b3
 --- /dev/null
-+++ b/drivers/regulator/mt6370-regulator.c
-@@ -0,0 +1,388 @@
-+// SPDX-License-Identifier: GPL-2.0+
++++ b/drivers/iio/adc/mt6370-adc.c
+@@ -0,0 +1,275 @@
++// SPDX-License-Identifier: GPL-2.0
 +
++#include <dt-bindings/iio/adc/mediatek,mt6370_adc.h>
 +#include <linux/bits.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/interrupt.h>
++#include <linux/bitfield.h>
++#include <linux/iio/iio.h>
 +#include <linux/kernel.h>
 +#include <linux/module.h>
-+#include <linux/of.h>
++#include <linux/mod_devicetable.h>
++#include <linux/mutex.h>
 +#include <linux/platform_device.h>
 +#include <linux/regmap.h>
-+#include <linux/regulator/driver.h>
-+#include <linux/regulator/machine.h>
 +
-+enum {
-+	MT6370_IDX_DSVBOOST = 0,
-+	MT6370_IDX_DSVPOS,
-+	MT6370_IDX_DSVNEG,
-+	MT6370_IDX_VIBLDO,
-+	MT6370_MAX_IDX
-+};
++#define MT6370_REG_CHG_CTRL3		0x113 /* AICR */
++#define MT6370_REG_CHG_CTRL7		0x117 /* ICHG */
++#define MT6370_REG_CHG_ADC		0x121
++#define MT6370_REG_ADC_DATA_H		0x14C
 +
-+#define MT6370_REG_LDO_CFG	0x180
-+#define MT6370_REG_LDO_VOUT	0x181
-+#define MT6370_REG_DB_CTRL1	0x1B0
-+#define MT6370_REG_DB_CTRL2	0x1B1
-+#define MT6370_REG_DB_VBST	0x1B2
-+#define MT6370_REG_DB_VPOS	0x1B3
-+#define MT6370_REG_DB_VNEG	0x1B4
-+#define MT6370_REG_LDO_STAT	0x1DC
-+#define MT6370_REG_DB_STAT	0x1DF
++#define MT6370_ADC_START_MASK		BIT(0)
++#define MT6370_ADC_IN_SEL_MASK		GENMASK(7, 4)
++#define MT6370_AICR_ICHG_MASK		GENMASK(7, 2)
 +
-+#define MT6370_LDOOMS_MASK	BIT(7)
-+#define MT6370_LDOEN_MASK	BIT(7)
-+#define MT6370_LDOVOUT_MASK	GENMASK(3, 0)
-+#define MT6370_DBPERD_MASK	(BIT(7) | BIT(4))
-+#define MT6370_DBEXTEN_MASK	BIT(0)
-+#define MT6370_DBVPOSEN_MASK	BIT(6)
-+#define MT6370_DBVPOSDISG_MASK	BIT(5)
-+#define MT6370_DBVNEGEN_MASK	BIT(3)
-+#define MT6370_DBVNEGDISG_MASK	BIT(2)
-+#define MT6370_DBALLON_MASK	(MT6370_DBVPOSEN_MASK | MT6370_DBVNEGEN_MASK)
-+#define MT6370_DBSLEW_MASK	GENMASK(7, 6)
-+#define MT6370_DBVOUT_MASK	GENMASK(5, 0)
-+#define MT6370_LDOOC_EVT_MASK	BIT(7)
-+#define MT6370_POSSCP_EVT_MASK	BIT(7)
-+#define MT6370_NEGSCP_EVT_MASK	BIT(6)
-+#define MT6370_BSTOCP_EVT_MASK	BIT(5)
-+#define MT6370_POSOCP_EVT_MASK	BIT(4)
-+#define MT6370_NEGOCP_EVT_MASK	BIT(3)
++#define MT6370_AICR_400MA		0x6
++#define MT6370_ICHG_500MA		0x4
++#define MT6370_ICHG_900MA		0x8
 +
-+#define MT6370_LDO_MINUV	1600000
-+#define MT6370_LDO_STPUV	200000
-+#define MT6370_LDO_N_VOLT	13
-+#define MT6370_DBVBOOST_MINUV	4000000
-+#define MT6370_DBVBOOST_STPUV	50000
-+#define MT6370_DBVBOOST_N_VOLT	45
-+#define MT6370_DBVOUT_MINUV	4000000
-+#define MT6370_DBVOUT_STPUV	50000
-+#define MT6370_DBVOUT_N_VOLT	41
++#define ADC_CONV_TIME_US		35000
++#define ADC_CONV_POLLING_TIME		1000
 +
-+struct mt6370_priv {
++struct mt6370_adc_data {
 +	struct device *dev;
 +	struct regmap *regmap;
-+	struct regulator_dev *rdev[MT6370_MAX_IDX];
-+	bool use_external_ctrl;
++	/*
++	 * This mutex lock is for preventing the different ADC channels
++	 * from being read at the same time.
++	 */
++	struct mutex adc_lock;
 +};
 +
-+static const unsigned int mt6370_vpos_ramp_tbl[] = { 8540, 5840, 4830, 3000 };
-+static const unsigned int mt6370_vneg_ramp_tbl[] = { 10090, 6310, 5050, 3150 };
-+
-+static int mt6370_get_error_flags(struct regulator_dev *rdev,
-+				  unsigned int *flags)
++static int mt6370_adc_read_channel(struct mt6370_adc_data *priv, int chan,
++				   unsigned long addr, int *val)
 +{
-+	struct regmap *regmap = rdev_get_regmap(rdev);
-+	unsigned int stat_reg, stat, rpt_flags = 0;
-+	int rid = rdev_get_id(rdev), ret;
-+
-+	if (rid == MT6370_IDX_VIBLDO)
-+		stat_reg = MT6370_REG_LDO_STAT;
-+	else
-+		stat_reg = MT6370_REG_DB_STAT;
-+
-+	ret = regmap_read(regmap, stat_reg, &stat);
-+	if (ret)
-+		return ret;
-+
-+	switch (rid) {
-+	case MT6370_IDX_DSVBOOST:
-+		if (stat & MT6370_BSTOCP_EVT_MASK)
-+			rpt_flags |= REGULATOR_ERROR_OVER_CURRENT;
-+		break;
-+	case MT6370_IDX_DSVPOS:
-+		if (stat & MT6370_POSSCP_EVT_MASK)
-+			rpt_flags |= REGULATOR_ERROR_UNDER_VOLTAGE;
-+
-+		if (stat & MT6370_POSOCP_EVT_MASK)
-+			rpt_flags |= REGULATOR_ERROR_OVER_CURRENT;
-+		break;
-+	case MT6370_IDX_DSVNEG:
-+		if (stat & MT6370_NEGSCP_EVT_MASK)
-+			rpt_flags |= REGULATOR_ERROR_UNDER_VOLTAGE;
-+
-+		if (stat & MT6370_NEGOCP_EVT_MASK)
-+			rpt_flags |= REGULATOR_ERROR_OVER_CURRENT;
-+		break;
-+	default:
-+		if (stat & MT6370_LDOOC_EVT_MASK)
-+			rpt_flags |= REGULATOR_ERROR_OVER_CURRENT;
-+		break;
-+	}
-+
-+	*flags = rpt_flags;
-+	return 0;
-+}
-+
-+static const struct regulator_ops mt6370_dbvboost_ops = {
-+	.get_voltage_sel = regulator_get_voltage_sel_regmap,
-+	.set_voltage_sel = regulator_set_voltage_sel_regmap,
-+	.list_voltage = regulator_list_voltage_linear,
-+	.get_bypass = regulator_get_bypass_regmap,
-+	.set_bypass = regulator_set_bypass_regmap,
-+	.get_error_flags = mt6370_get_error_flags,
-+};
-+
-+static const struct regulator_ops mt6370_dbvout_ops = {
-+	.get_voltage_sel = regulator_get_voltage_sel_regmap,
-+	.set_voltage_sel = regulator_set_voltage_sel_regmap,
-+	.list_voltage = regulator_list_voltage_linear,
-+	.is_enabled = regulator_is_enabled_regmap,
-+	.enable = regulator_enable_regmap,
-+	.disable = regulator_disable_regmap,
-+	.set_active_discharge = regulator_set_active_discharge_regmap,
-+	.set_ramp_delay = regulator_set_ramp_delay_regmap,
-+	.get_error_flags = mt6370_get_error_flags,
-+};
-+
-+static const struct regulator_ops mt6370_ldo_ops = {
-+	.get_voltage_sel = regulator_get_voltage_sel_regmap,
-+	.set_voltage_sel = regulator_set_voltage_sel_regmap,
-+	.list_voltage = regulator_list_voltage_linear,
-+	.is_enabled = regulator_is_enabled_regmap,
-+	.enable = regulator_enable_regmap,
-+	.disable = regulator_disable_regmap,
-+	.set_active_discharge = regulator_set_active_discharge_regmap,
-+	.get_error_flags = mt6370_get_error_flags,
-+};
-+
-+static int mt6370_of_parse_cb(struct device_node *np,
-+			      const struct regulator_desc *desc,
-+			      struct regulator_config *config)
-+{
-+	struct mt6370_priv *priv = config->driver_data;
-+	struct gpio_desc *enable_gpio;
++	__be16 be_val;
++	unsigned int reg_val;
 +	int ret;
 +
-+	enable_gpio = gpiod_get_from_of_node(np, "enable", 0, GPIOD_OUT_HIGH |
-+					     GPIOD_FLAGS_BIT_NONEXCLUSIVE,
-+					     desc->name);
-+	if (IS_ERR(enable_gpio)) {
-+		config->ena_gpiod = NULL;
-+		return 0;
++	mutex_lock(&priv->adc_lock);
++
++	reg_val = MT6370_ADC_START_MASK |
++		  FIELD_PREP(MT6370_ADC_IN_SEL_MASK, addr);
++	ret = regmap_write(priv->regmap, MT6370_REG_CHG_ADC, reg_val);
++	if (ret)
++		goto adc_unlock;
++
++	msleep(ADC_CONV_TIME_US / 1000);
++
++	ret = regmap_read_poll_timeout(priv->regmap,
++				       MT6370_REG_CHG_ADC, reg_val,
++				       !(reg_val & MT6370_ADC_START_MASK),
++				       ADC_CONV_POLLING_TIME,
++				       ADC_CONV_TIME_US * 3);
++	if (ret) {
++		if (ret == -ETIMEDOUT)
++			dev_err(priv->dev, "Failed to wait ADC conversion\n");
++		else
++			dev_err(priv->dev,
++				"Failed to read ADC register (%d)\n", ret);
++
++		goto adc_unlock;
 +	}
 +
-+	/*
-+	 * RG control by default
-+	 * Only if all are using external pin, change all by external control
-+	 */
-+	if (priv->use_external_ctrl) {
-+		ret = regmap_update_bits(priv->regmap, MT6370_REG_DB_CTRL1,
-+					 MT6370_DBEXTEN_MASK,
-+					 MT6370_DBEXTEN_MASK);
++	ret = regmap_raw_read(priv->regmap, MT6370_REG_ADC_DATA_H,
++			      &be_val, sizeof(be_val));
++	if (ret)
++		goto adc_unlock;
++
++	*val = be16_to_cpu(be_val);
++	ret = IIO_VAL_INT;
++
++adc_unlock:
++	mutex_unlock(&priv->adc_lock);
++
++	return ret;
++}
++
++static int mt6370_adc_read_scale(struct mt6370_adc_data *priv,
++				 int chan, int *val1, int *val2)
++{
++	unsigned int reg_val;
++	int ret;
++
++	switch (chan) {
++	case MT6370_CHAN_VBAT:
++	case MT6370_CHAN_VSYS:
++	case MT6370_CHAN_CHG_VDDP:
++		*val1 = 5;
++		return IIO_VAL_INT;
++	case MT6370_CHAN_IBUS:
++		ret = regmap_read(priv->regmap, MT6370_REG_CHG_CTRL3, &reg_val);
 +		if (ret)
 +			return ret;
-+	}
 +
-+	config->ena_gpiod = enable_gpio;
-+	priv->use_external_ctrl = true;
-+	return 0;
++		reg_val = FIELD_GET(MT6370_AICR_ICHG_MASK, reg_val);
++		if (reg_val < MT6370_AICR_400MA)
++			*val1 = 3350;
++		else
++			*val1 = 5000;
++
++		*val2 = 100;
++
++		return IIO_VAL_FRACTIONAL;
++	case MT6370_CHAN_IBAT:
++		ret = regmap_read(priv->regmap, MT6370_REG_CHG_CTRL7, &reg_val);
++		if (ret)
++			return ret;
++
++		reg_val = FIELD_GET(MT6370_AICR_ICHG_MASK, reg_val);
++		if (reg_val < MT6370_ICHG_500MA)
++			*val1 = 2375;
++		else if (reg_val >= MT6370_ICHG_500MA &&
++			 reg_val < MT6370_ICHG_900MA)
++			*val1 = 2680;
++		else
++			*val1 = 5000;
++
++		*val2 = 100;
++
++		return IIO_VAL_FRACTIONAL;
++	case MT6370_CHAN_VBUSDIV5:
++		*val1 = 25;
++		return IIO_VAL_INT;
++	case MT6370_CHAN_VBUSDIV2:
++		*val1 = 50;
++		return IIO_VAL_INT;
++	case MT6370_CHAN_TS_BAT:
++		*val1 = 25;
++		*val2 = 10000;
++		return IIO_VAL_FRACTIONAL;
++	case MT6370_CHAN_TEMP_JC:
++		*val1 = 2000;
++		return IIO_VAL_FRACTIONAL;
++	default:
++		return -EINVAL;
++	}
 +}
 +
-+static const struct regulator_desc mt6370_regulator_descs[] = {
-+	{
-+		.name = "mt6370-dsv-vbst",
-+		.of_match = of_match_ptr("dsvbst"),
-+		.regulators_node = of_match_ptr("regulators"),
-+		.id = MT6370_IDX_DSVBOOST,
-+		.type = REGULATOR_VOLTAGE,
-+		.owner = THIS_MODULE,
-+		.ops = &mt6370_dbvboost_ops,
-+		.min_uV = MT6370_DBVBOOST_MINUV,
-+		.uV_step = MT6370_DBVBOOST_STPUV,
-+		.n_voltages = MT6370_DBVBOOST_N_VOLT,
-+		.vsel_reg = MT6370_REG_DB_VBST,
-+		.vsel_mask = MT6370_DBVOUT_MASK,
-+		.bypass_reg = MT6370_REG_DB_CTRL1,
-+		.bypass_mask = MT6370_DBPERD_MASK,
-+		.bypass_val_on = MT6370_DBPERD_MASK,
-+	},
-+	{
-+		.name = "mt6370-dsv-vpos",
-+		.of_match = of_match_ptr("dsvpos"),
-+		.regulators_node = of_match_ptr("regulators"),
-+		.id = MT6370_IDX_DSVPOS,
-+		.type = REGULATOR_VOLTAGE,
-+		.owner = THIS_MODULE,
-+		.of_parse_cb = mt6370_of_parse_cb,
-+		.ops = &mt6370_dbvout_ops,
-+		.min_uV = MT6370_DBVOUT_MINUV,
-+		.uV_step = MT6370_DBVOUT_STPUV,
-+		.n_voltages = MT6370_DBVOUT_N_VOLT,
-+		.vsel_reg = MT6370_REG_DB_VPOS,
-+		.vsel_mask = MT6370_DBVOUT_MASK,
-+		.enable_reg = MT6370_REG_DB_CTRL2,
-+		.enable_mask = MT6370_DBVPOSEN_MASK,
-+		.ramp_reg = MT6370_REG_DB_VPOS,
-+		.ramp_mask = MT6370_DBSLEW_MASK,
-+		.ramp_delay_table = mt6370_vpos_ramp_tbl,
-+		.n_ramp_values = ARRAY_SIZE(mt6370_vpos_ramp_tbl),
-+		.active_discharge_reg = MT6370_REG_DB_CTRL2,
-+		.active_discharge_mask = MT6370_DBVPOSDISG_MASK,
-+		.active_discharge_on = MT6370_DBVPOSDISG_MASK,
-+	},
-+	{
-+		.name = "mt6370-dsv-vneg",
-+		.of_match = of_match_ptr("dsvneg"),
-+		.regulators_node = of_match_ptr("regulators"),
-+		.id = MT6370_IDX_DSVNEG,
-+		.type = REGULATOR_VOLTAGE,
-+		.owner = THIS_MODULE,
-+		.of_parse_cb = mt6370_of_parse_cb,
-+		.ops = &mt6370_dbvout_ops,
-+		.min_uV = MT6370_DBVOUT_MINUV,
-+		.uV_step = MT6370_DBVOUT_STPUV,
-+		.n_voltages = MT6370_DBVOUT_N_VOLT,
-+		.vsel_reg = MT6370_REG_DB_VNEG,
-+		.vsel_mask = MT6370_DBVOUT_MASK,
-+		.enable_reg = MT6370_REG_DB_CTRL2,
-+		.enable_mask = MT6370_DBVNEGEN_MASK,
-+		.ramp_reg = MT6370_REG_DB_VNEG,
-+		.ramp_mask = MT6370_DBSLEW_MASK,
-+		.ramp_delay_table = mt6370_vneg_ramp_tbl,
-+		.n_ramp_values = ARRAY_SIZE(mt6370_vneg_ramp_tbl),
-+		.active_discharge_reg = MT6370_REG_DB_CTRL2,
-+		.active_discharge_mask = MT6370_DBVNEGDISG_MASK,
-+		.active_discharge_on = MT6370_DBVNEGDISG_MASK,
-+	},
-+	{
-+		.name = "mt6370-vib-ldo",
-+		.of_match = of_match_ptr("vibldo"),
-+		.regulators_node = of_match_ptr("regulators"),
-+		.id = MT6370_IDX_VIBLDO,
-+		.type = REGULATOR_VOLTAGE,
-+		.owner = THIS_MODULE,
-+		.ops = &mt6370_ldo_ops,
-+		.min_uV = MT6370_LDO_MINUV,
-+		.uV_step = MT6370_LDO_STPUV,
-+		.n_voltages = MT6370_LDO_N_VOLT,
-+		.vsel_reg = MT6370_REG_LDO_VOUT,
-+		.vsel_mask = MT6370_LDOVOUT_MASK,
-+		.enable_reg = MT6370_REG_LDO_VOUT,
-+		.enable_mask = MT6370_LDOEN_MASK,
-+		.active_discharge_reg = MT6370_REG_LDO_CFG,
-+		.active_discharge_mask = MT6370_LDOOMS_MASK,
-+		.active_discharge_on = MT6370_LDOOMS_MASK,
++static int mt6370_adc_read_offset(struct mt6370_adc_data *priv,
++				  int chan, int *val)
++{
++	*val = -20;
++
++	return IIO_VAL_INT;
++}
++
++static int mt6370_adc_read_raw(struct iio_dev *iio_dev,
++			       const struct iio_chan_spec *chan,
++			       int *val, int *val2, long mask)
++{
++	struct mt6370_adc_data *priv = iio_priv(iio_dev);
++
++	switch (mask) {
++	case IIO_CHAN_INFO_RAW:
++		return mt6370_adc_read_channel(priv, chan->channel,
++					       chan->address, val);
++	case IIO_CHAN_INFO_SCALE:
++		return mt6370_adc_read_scale(priv, chan->channel, val, val2);
++	case IIO_CHAN_INFO_OFFSET:
++		return mt6370_adc_read_offset(priv, chan->channel, val);
++	default:
++		return -EINVAL;
 +	}
++}
++
++static const char * const mt6370_channel_labels[MT6370_CHAN_MAX] = {
++	[MT6370_CHAN_VBUSDIV5] = "vbusdiv5",
++	[MT6370_CHAN_VBUSDIV2] = "vbusdiv2",
++	[MT6370_CHAN_VSYS] = "vsys",
++	[MT6370_CHAN_VBAT] = "vbat",
++	[MT6370_CHAN_TS_BAT] = "ts_bat",
++	[MT6370_CHAN_IBUS] = "ibus",
++	[MT6370_CHAN_IBAT] = "ibat",
++	[MT6370_CHAN_CHG_VDDP] = "chg_vddp",
++	[MT6370_CHAN_TEMP_JC] = "temp_jc",
 +};
 +
-+static irqreturn_t mt6370_scp_handler(int irq, void *data)
++static int mt6370_adc_read_label(struct iio_dev *iio_dev,
++				 struct iio_chan_spec const *chan, char *label)
 +{
-+	struct regulator_dev *rdev = data;
-+
-+	regulator_notifier_call_chain(rdev, REGULATOR_EVENT_UNDER_VOLTAGE,
-+				      NULL);
-+	return IRQ_HANDLED;
++	return snprintf(label, PAGE_SIZE, "%s\n",
++			mt6370_channel_labels[chan->channel]);
 +}
 +
-+static irqreturn_t mt6370_ocp_handler(int irq, void *data)
-+{
-+	struct regulator_dev *rdev = data;
++static const struct iio_info mt6370_adc_iio_info = {
++	.read_raw = mt6370_adc_read_raw,
++	.read_label = mt6370_adc_read_label,
++};
 +
-+	regulator_notifier_call_chain(rdev, REGULATOR_EVENT_OVER_CURRENT, NULL);
-+	return IRQ_HANDLED;
++#define MT6370_ADC_CHAN(_idx, _type, _addr, _extra_info) {	\
++	.type = _type,						\
++	.channel = MT6370_CHAN_##_idx,				\
++	.address = _addr,					\
++	.scan_index = MT6370_CHAN_##_idx,			\
++	.indexed = 1,						\
++	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |		\
++			      BIT(IIO_CHAN_INFO_SCALE) |	\
++			      _extra_info			\
 +}
 +
-+static int mt6370_regulator_irq_register(struct mt6370_priv *priv)
++static const struct iio_chan_spec mt6370_adc_channels[] = {
++	MT6370_ADC_CHAN(VBUSDIV5, IIO_VOLTAGE, 1, 0),
++	MT6370_ADC_CHAN(VBUSDIV2, IIO_VOLTAGE, 2, 0),
++	MT6370_ADC_CHAN(VSYS, IIO_VOLTAGE, 3, 0),
++	MT6370_ADC_CHAN(VBAT, IIO_VOLTAGE, 4, 0),
++	MT6370_ADC_CHAN(TS_BAT, IIO_VOLTAGE, 6, 0),
++	MT6370_ADC_CHAN(IBUS, IIO_CURRENT, 8, 0),
++	MT6370_ADC_CHAN(IBAT, IIO_CURRENT, 9, 0),
++	MT6370_ADC_CHAN(CHG_VDDP, IIO_VOLTAGE, 11, 0),
++	MT6370_ADC_CHAN(TEMP_JC, IIO_TEMP, 12, BIT(IIO_CHAN_INFO_OFFSET)),
++};
++
++static int mt6370_adc_probe(struct platform_device *pdev)
 +{
-+	struct platform_device *pdev = to_platform_device(priv->dev);
-+	static const struct {
-+		const char *name;
-+		int rid;
-+		irq_handler_t handler;
-+	} mt6370_irqs[] = {
-+		{ "db_vpos_scp", MT6370_IDX_DSVPOS, mt6370_scp_handler },
-+		{ "db_vneg_scp", MT6370_IDX_DSVNEG, mt6370_scp_handler },
-+		{ "db_vbst_ocp", MT6370_IDX_DSVBOOST, mt6370_ocp_handler },
-+		{ "db_vpos_ocp", MT6370_IDX_DSVPOS,  mt6370_ocp_handler },
-+		{ "db_vneg_ocp", MT6370_IDX_DSVNEG, mt6370_ocp_handler },
-+		{ "ldo_oc", MT6370_IDX_VIBLDO, mt6370_ocp_handler }
-+	};
-+	struct regulator_dev *rdev;
-+	int i, irq, ret;
-+
-+	for (i = 0; i < ARRAY_SIZE(mt6370_irqs); i++) {
-+		irq = platform_get_irq_byname(pdev, mt6370_irqs[i].name);
-+
-+		rdev = priv->rdev[mt6370_irqs[i].rid];
-+
-+		ret = devm_request_threaded_irq(priv->dev, irq, NULL,
-+						mt6370_irqs[i].handler, 0,
-+						mt6370_irqs[i].name, rdev);
-+		if (ret) {
-+			dev_err(priv->dev,
-+				"Failed to register (%d) interrupt\n", i);
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int mt6370_regualtor_register(struct mt6370_priv *priv)
-+{
-+	struct regulator_dev *rdev;
-+	struct regulator_config cfg = {};
-+	struct device *parent = priv->dev->parent;
-+	int i;
-+
-+	cfg.dev = parent;
-+	cfg.driver_data = priv;
-+
-+	for (i = 0; i < MT6370_MAX_IDX; i++) {
-+		rdev = devm_regulator_register(priv->dev,
-+					       mt6370_regulator_descs + i,
-+					       &cfg);
-+		if (IS_ERR(rdev)) {
-+			dev_err(priv->dev,
-+				"Failed to register (%d) regulator\n", i);
-+			return PTR_ERR(rdev);
-+		}
-+
-+		priv->rdev[i] = rdev;
-+	}
-+
-+	return 0;
-+}
-+
-+static int mt6370_regulator_probe(struct platform_device *pdev)
-+{
-+	struct mt6370_priv *priv;
 +	int ret;
++	struct mt6370_adc_data *priv;
++	struct regmap *regmap;
++	struct iio_dev *indio_dev;
 +
-+	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->dev = &pdev->dev;
-+
-+	priv->regmap = dev_get_regmap(pdev->dev.parent, NULL);
-+	if (!priv->regmap) {
-+		dev_err(&pdev->dev, "Failed to init regmap\n");
++	regmap = dev_get_regmap(pdev->dev.parent, NULL);
++	if (!regmap) {
++		dev_err(&pdev->dev, "Failed to get regmap\n");
 +		return -ENODEV;
 +	}
 +
-+	ret = mt6370_regualtor_register(priv);
-+	if (ret)
-+		return ret;
++	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*priv));
++	if (!indio_dev)
++		return -ENOMEM;
 +
-+	return mt6370_regulator_irq_register(priv);
++	priv = iio_priv(indio_dev);
++	priv->dev = &pdev->dev;
++	priv->regmap = regmap;
++	mutex_init(&priv->adc_lock);
++
++	ret = regmap_write(priv->regmap, MT6370_REG_CHG_ADC, 0);
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to reset ADC\n");
++		return ret;
++	}
++
++	indio_dev->name = "mt6370-adc";
++	indio_dev->info = &mt6370_adc_iio_info;
++	indio_dev->modes = INDIO_DIRECT_MODE;
++	indio_dev->channels = mt6370_adc_channels;
++	indio_dev->num_channels = ARRAY_SIZE(mt6370_adc_channels);
++
++	return devm_iio_device_register(&pdev->dev, indio_dev);
 +}
 +
-+static const struct platform_device_id mt6370_devid_table[] = {
-+	{ "mt6370-regulator", 0},
++static const struct of_device_id mt6370_adc_of_id[] = {
++	{ .compatible = "mediatek,mt6370-adc", },
 +	{}
 +};
-+MODULE_DEVICE_TABLE(platform, mt6370_devid_table);
++MODULE_DEVICE_TABLE(of, mt6370_adc_of_id);
 +
-+static struct platform_driver mt6370_regulator_driver = {
++static struct platform_driver mt6370_adc_driver = {
 +	.driver = {
-+		.name = "mt6370-regulator",
++		.name = "mt6370-adc",
++		.of_match_table = mt6370_adc_of_id,
 +	},
-+	.id_table = mt6370_devid_table,
-+	.probe = mt6370_regulator_probe,
++	.probe = mt6370_adc_probe,
 +};
-+module_platform_driver(mt6370_regulator_driver);
++module_platform_driver(mt6370_adc_driver);
 +
-+MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
-+MODULE_DESCRIPTION("Mediatek MT6370 Regulator Driver");
++MODULE_AUTHOR("ChiaEn Wu <chiaen_wu@richtek.com>");
++MODULE_DESCRIPTION("MT6370 ADC Drvier");
 +MODULE_LICENSE("GPL v2");
 -- 
 2.7.4
