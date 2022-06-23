@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E16D5592A6
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:02:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 192165592A5
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:02:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2CC0112128;
-	Fri, 24 Jun 2022 06:01:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B33511215F;
+	Fri, 24 Jun 2022 06:01:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
- [67.231.149.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1D1210E5E0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:18 +0000 (UTC)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
- by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBNlqi015665;
- Thu, 23 Jun 2022 07:53:04 -0500
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
+ [67.231.152.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B4E110E5DB
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:17 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+ by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N5mxlB032604;
+ Thu, 23 Jun 2022 07:53:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=Moe+iDLBBrEDDxnDYh3XwjhpqoMM9y00x+UEeU8HbSI=;
- b=nzDzD0M4+oBoB04zS3kTEyNWmfUPwrllM6NPXCURXxqnZPVrKRnNM+1jC4reaatLVL6/
- eaomOFc8OgQ2rokIOM0wG2hgPs6+RYsLQPb2oV8sD/PkdNHr1IQzFA6f8R0GaPfDEQeZ
- VidDMiKaPsXwSbSfpdwcp4/AiYqrRsXGc4lHJQVZWlPU5Rmpe7H/hVR96x/x697vhA42
- iYKSSgo81x3ysKhIVLvEbah/ud74YD4LgwsCmVxVtNxxJJdR1cfYrk715n/4EDxd4zAC
- DUSBAQ0jTicDQZK4NsJC8HM7nRljzfttU8VuIy62/4TkTAunWA8txK3sORmBQ8vXANg1 6g== 
+ bh=Hb1BJgs7ggQEBvQnvEt4VwE69+B1LapMjioM9qfBP6M=;
+ b=HGHzcpeTXH7+P8hQzzwhOglX8iutqWzmgbDhU+laKB2O9sRiXjq9TCYtvrk85HQ8AZjO
+ 9lYy1SJo0lamTHLgtVGQUCcIPyvTfUgZuu+Bc4wMPrnqZ2Lj5OJXI5p9HfvO2GqwcIIJ
+ 0qOD47z5WbWyYFQMuvOpsfkUCpBq46KAUoRbVOWf1nxGtt0zZ/BCFohl53YujbBirpbr
+ tk0QvlYMoc+KfkqLXXzWK+4JKz+k8qWt6hi1+QEp3imke9MG/ydG1mLnDhiueHI24mCT
+ KEjy6+eL1KsrdtQI6QYt1Qg1B25JaHrp2wssLsc/xvG1jJDAZu6Ae0IhAt8Rw5iemjJX nA== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
- by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4j-15
+ by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvu-10
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 23 Jun 2022 07:53:04 -0500
+ Thu, 23 Jun 2022 07:53:05 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
- 2022 13:52:54 +0100
+ 2022 13:52:55 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
- Frontend Transport; Thu, 23 Jun 2022 13:52:54 +0100
+ Frontend Transport; Thu, 23 Jun 2022 13:52:55 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 87A0F11DA;
- Thu, 23 Jun 2022 12:52:54 +0000 (UTC)
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 0D89611DA;
+ Thu, 23 Jun 2022 12:52:55 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH v2 43/96] ASoC: test-component: Remove now redundant
+Subject: [PATCH v2 48/96] ASoC: alc*: Remove now redundant
  non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:51:57 +0100
-Message-ID: <20220623125250.2355471-44-ckeepax@opensource.cirrus.com>
+Date: Thu, 23 Jun 2022 13:52:02 +0100
+Message-ID: <20220623125250.2355471-49-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: C7mfGE8ZI4r9XF-oXseaPgPSXaUVL4js
-X-Proofpoint-ORIG-GUID: C7mfGE8ZI4r9XF-oXseaPgPSXaUVL4js
+X-Proofpoint-GUID: bPrFlyQjN-mqvtJQ0K5eB64xEDoIwY0u
+X-Proofpoint-ORIG-GUID: bPrFlyQjN-mqvtJQ0K5eB64xEDoIwY0u
 X-Proofpoint-Spam-Reason: safe
 X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,21 +89,34 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/generic/test-component.c | 1 -
- 1 file changed, 1 deletion(-)
+ sound/soc/codecs/alc5623.c | 1 -
+ sound/soc/codecs/alc5632.c | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/sound/soc/generic/test-component.c b/sound/soc/generic/test-component.c
-index e2a009bc69af2..98c8990596a88 100644
---- a/sound/soc/generic/test-component.c
-+++ b/sound/soc/generic/test-component.c
-@@ -569,7 +569,6 @@ static int test_driver_probe(struct platform_device *pdev)
- 		cdriv->name			= "test_codec";
- 		cdriv->idle_bias_on		= 1;
- 		cdriv->endianness		= 1;
--		cdriv->non_legacy_dai_naming	= 1;
- 	}
+diff --git a/sound/soc/codecs/alc5623.c b/sound/soc/codecs/alc5623.c
+index 8e6235d2c5445..9ef01b1dd2941 100644
+--- a/sound/soc/codecs/alc5623.c
++++ b/sound/soc/codecs/alc5623.c
+@@ -956,7 +956,6 @@ static const struct snd_soc_component_driver soc_component_device_alc5623 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
  
- 	cdriv->open		= test_component_open;
+ static const struct regmap_config alc5623_regmap = {
+diff --git a/sound/soc/codecs/alc5632.c b/sound/soc/codecs/alc5632.c
+index 641bdfddae160..a770704a4e170 100644
+--- a/sound/soc/codecs/alc5632.c
++++ b/sound/soc/codecs/alc5632.c
+@@ -1078,7 +1078,6 @@ static const struct snd_soc_component_driver soc_component_device_alc5632 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static const struct regmap_config alc5632_regmap = {
 -- 
 2.30.2
 
