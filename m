@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7586B557933
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 13:57:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87858557935
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 13:57:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A83410F45E;
-	Thu, 23 Jun 2022 11:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCBC10F406;
+	Thu, 23 Jun 2022 11:57:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C552E10F4FE
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 11:57:23 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id c205so12166099pfc.7
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 04:57:23 -0700 (PDT)
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12B6910F406
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 11:57:30 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ p3-20020a17090a428300b001ec865eb4a2so2336003pjg.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 04:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M5oBLDeH2TFPPE1qW+095x6ar1U98gaW60A2FSoyamQ=;
- b=PcxhtUBnyPDnzbGcjPOH22wXUg64coBDrbIKm55BA3uBCZt/v0IKz/meTcap2SGjfB
- OAcyzRkqDFgj4gT5v9h8X67lB1yjdI9ZAyixj1KSxpOIjrnSZ1e1c9ZzXQxo9DrgvgLa
- EPp1YijsJXMTxKlaJO2mkfyWZfyydkymswth5pdzC1bR2GVbnonCWv5RlGypNuNly0pT
- 9dZotbzBxyhN/3Q81oUMzbBRJ+w2n8GyXCz4SQJRfnCREQ8qXmvhiTCOt4UzrPhNIqtT
- hjCEfw3BwBKpMvGZGDhfyXBpK6vYDap9fFAbWjHb1Kq1q2Pl5jVEGRtxPnCy5gwo61/O
- BxGA==
+ bh=I7HWR+XrxeM7/sjAiAZKDHqat2vkGa8jaXAxlWVZnC0=;
+ b=V+78teS62SASXdOfx7TZewVrd1ivQP7w33yLDNP9CtG8d7wYoepRejnElm/F1Aotlx
+ FWfyPFiSR6EIRJzroGdrNhSCHlZ+bwiIM8Qi2dA2Hl/cDVUQ3smD7bghNfZht3mFKpN/
+ PacdhwHAvzWrg9uFXN/BjJks6N0Ry3wWXbEiPvnOxQUZ3mzg+OIxHy6mBsvNkCpAEfNd
+ 83nmGJSbFzkNXraC7YiDrSpfdhENH+XWFqtuYf3eqxmi4V4sALj2HI9qjv79m0wlYqEG
+ KINu1F9SLWcflzZSj5Ctw0vewxGzAEgP37r56U/SVQ93rPsO+Hy6yMIDDeHwWw2gnhuV
+ cOpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M5oBLDeH2TFPPE1qW+095x6ar1U98gaW60A2FSoyamQ=;
- b=z+a4IZcwq5ulDkUALHjzyEMb/xD5SkKdGT6s8XKBckPifpMp7p4cUJ1Bae0bSEDP6a
- FcEjMhUb16X+LB+4e7wA3/nWezaKDfHNUWmJEc4A8kAN1Gh7ynXu9daPHnUsKtULWim7
- hwwz03cUVUycHZ4zOXch6gDobPd/v0ZRqcOABNeY058o0l28UzW0BE7yXQDyP8KHtUpF
- WSG1i3iWalD6X2yTx3MNZYfeNW3W7Dtm/Ew6wsvCBFy85nB0Tn9yZbkV4xDmim8WMZua
- M6HP7Lfl7O/1h75AWAzAfWV2OwPD2wQq10Ghm+72wxIxX05hAQCNY0TRmsDAf1xVcnps
- p5LA==
-X-Gm-Message-State: AJIora+pSYM5VW27qvvQU+uLNdg3fbNVycs2nfKHfCnBKuQQs0SMWHbq
- vE3WmtkrifSS1DW5rY1faf8=
-X-Google-Smtp-Source: AGRyM1v2dS8GCsHCr6bAYJn0dJ8H5c9Q7wS9pSlJJ8PZKZKq3RJ5NeGGUM/SZNXaholm+I9PvXwMjw==
-X-Received: by 2002:a05:6a00:22ce:b0:51c:15ac:3977 with SMTP id
- f14-20020a056a0022ce00b0051c15ac3977mr40443294pfj.3.1655985443535; 
- Thu, 23 Jun 2022 04:57:23 -0700 (PDT)
+ bh=I7HWR+XrxeM7/sjAiAZKDHqat2vkGa8jaXAxlWVZnC0=;
+ b=LSy61njqwYg2Pw0DgI1nNo5fBKvJc7BSkdrG879tlrzYfuuOoDjcrirWBhDB30cIR1
+ 11DNIOYyn/FASeK8KMeyew6q0EefaYkke7/VEFElPZAVP5Pcaq0CE9mxd7xNQuZ+usD2
+ 8J4SG7pHRPpiVhDy7OGvycDrAkFi9WAyrB3bUAp8Oa3zWveFFZNhyYl2niDlhffa/qRu
+ wqRbgdM66GBUCaJRHnEl4T1GHxDvWxMubE7wGMKtOsbveJPhoHnCCrsJMr0DEu/2CWda
+ Q/MI059YDJjG2Cg6aFxPKtNmuyLo0z36VnLDmG+QFqWZdGFsdF8yrexzCQnZbXbR3tfd
+ 5YxQ==
+X-Gm-Message-State: AJIora/kP63WRxJ/TqWeubOnbhsdBfz1US4NwVjz7+/rYO5V2KqV5LX4
+ tBQuUsiCOBs5QiRDiJaLJ97kvAUzAvo=
+X-Google-Smtp-Source: AGRyM1uxQ7dI2z4dyCllfu8yMXjcF4cxOxSDFWef/L9zfYb81WNkJaw0YO3RFllbFfTRoD4s7yXzBQ==
+X-Received: by 2002:a17:90a:66c1:b0:1e8:43ae:f7c0 with SMTP id
+ z1-20020a17090a66c100b001e843aef7c0mr3621574pjl.245.1655985449724; 
+ Thu, 23 Jun 2022 04:57:29 -0700 (PDT)
 Received: from RD-3580-24288.rt.l (111-71-94-93.emome-ip.hinet.net.
  [111.71.94.93]) by smtp.gmail.com with ESMTPSA id
- t6-20020a63b246000000b003fbfe88be17sm15016516pgo.24.2022.06.23.04.57.17
+ t6-20020a63b246000000b003fbfe88be17sm15016516pgo.24.2022.06.23.04.57.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jun 2022 04:57:23 -0700 (PDT)
+ Thu, 23 Jun 2022 04:57:29 -0700 (PDT)
 From: ChiaEn Wu <peterwu.pub@gmail.com>
 To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -54,10 +55,9 @@ To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
  lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
  heikki.krogerus@linux.intel.com, deller@gmx.de
-Subject: [PATCH v3 03/14] dt-bindings: leds: mt6370: Add Mediatek mt6370
- current sink type LED indicator
-Date: Thu, 23 Jun 2022 19:56:20 +0800
-Message-Id: <20220623115631.22209-4-peterwu.pub@gmail.com>
+Subject: [PATCH v3 04/14] dt-bindings: leds: Add Mediatek MT6370 flashlight
+Date: Thu, 23 Jun 2022 19:56:21 +0800
+Message-Id: <20220623115631.22209-5-peterwu.pub@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220623115631.22209-1-peterwu.pub@gmail.com>
 References: <20220623115631.22209-1-peterwu.pub@gmail.com>
@@ -85,49 +85,44 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: ChiYuan Huang <cy_huang@richtek.com>
+From: Alice Chen <alice_chen@richtek.com>
 
-Add Mediatek mt6370 current sink type LED indicator binding documentation.
+Add Mediatek MT6370 flashlight binding documentation.
 
-Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+Signed-off-by: Alice Chen <alice_chen@richtek.com>
 ---
 
 v3
-- Use leds-class-multicolor.yaml instead of common.yaml.
-- Split multi-led and led node.
-- Add subdevice "led" in "multi-led".
+- Remove the description of enum.
 ---
- .../bindings/leds/mediatek,mt6370-indicator.yaml   | 77 ++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
+ .../bindings/leds/mediatek,mt6370-flashlight.yaml  | 41 ++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml
 
-diff --git a/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml b/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
+diff --git a/Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml b/Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml
 new file mode 100644
-index 0000000..45030f3
+index 0000000..e9d02ed
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/mediatek,mt6370-indicator.yaml
-@@ -0,0 +1,77 @@
++++ b/Documentation/devicetree/bindings/leds/mediatek,mt6370-flashlight.yaml
+@@ -0,0 +1,41 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/leds/mediatek,mt6370-indicator.yaml#
++$id: http://devicetree.org/schemas/leds/mediatek,mt6370-flashlight.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: LED driver for MT6370 PMIC from MediaTek Integrated.
++title: Flash LED driver for MT6370 PMIC from MediaTek Integrated.
 +
 +maintainers:
 +  - Alice Chen <alice_chen@richtek.com>
 +
 +description: |
 +  This module is part of the MT6370 MFD device.
-+  Add MT6370 LED driver include 4-channel RGB LED support Register/PWM/Breath Mode
-+
-+allOf:
-+  - $ref: leds-class-multicolor.yaml#
++  Add MT6370 flash LED driver include 2-channel flash LED support Torch/Strobe Mode.
 +
 +properties:
 +  compatible:
-+    const: mediatek,mt6370-indicator
++    const: mediatek,mt6370-flashlight
 +
 +  "#address-cells":
 +    const: 1
@@ -136,47 +131,14 @@ index 0000000..45030f3
 +    const: 0
 +
 +patternProperties:
-+  "^multi-led@[0-3]$":
-+    type: object
-+
-+    properties:
-+      reg:
-+        enum: [0, 1, 2, 3]
-+
-+      "#address-cells":
-+        const: 1
-+
-+      "#size-cells":
-+        const: 0
-+
-+    patternProperties:
-+      "^led@[0-2]$":
-+        type: object
-+        $ref: common.yaml#
-+        unevaluatedProperties: false
-+
-+        required:
-+          - reg
-+          - color
-+
-+    required:
-+      - reg
-+      - color
-+      - "#address-cells"
-+      - "#size-cells"
-+
-+  "^led@[0-3]$":
++  "^led@[0-1]$":
 +    type: object
 +    $ref: common.yaml#
 +    unevaluatedProperties: false
 +
 +    properties:
 +      reg:
-+        enum: [0, 1, 2, 3]
-+
-+    required:
-+      - reg
-+      - color
++        enum: [0, 1]
 +
 +required:
 +  - compatible
