@@ -1,44 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0670C5576CD
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 11:39:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC3E5576A6
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 11:33:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D08D1123D2;
-	Thu, 23 Jun 2022 09:39:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08E2A11A018;
+	Thu, 23 Jun 2022 09:33:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 430 seconds by postgrey-1.36 at gabe;
- Thu, 23 Jun 2022 09:39:26 UTC
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 357811123D2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 09:39:26 +0000 (UTC)
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 23 Jun 2022 17:32:12 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 25N9W7mn009951;
- Thu, 23 Jun 2022 17:32:07 +0800 (GMT-8)
- (envelope-from allen.chen@ite.com.tw)
-Received: from VirtualBox.internal.ite.com.tw (192.168.70.46) by
- CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.14; Thu, 23 Jun 2022 17:32:07 +0800
-From: allen <allen.chen@ite.com.tw>
-To: 
-Subject: [PATCH] drm/bridge: add it6505 driver read config from dt property
-Date: Thu, 23 Jun 2022 17:31:54 +0800
-Message-ID: <20220623093154.52701-1-allen.chen@ite.com.tw>
-X-Mailer: git-send-email 2.25.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0199911A018
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 09:33:36 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1o4JDQ-00062c-Ax; Thu, 23 Jun 2022 11:33:32 +0200
+Message-ID: <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
+Subject: Re: DMA-buf and uncached system memory
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Pekka
+ Paalanen <ppaalanen@gmail.com>
+Date: Thu, 23 Jun 2022 11:33:30 +0200
+In-Reply-To: <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+ <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
+ <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
+ <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
+ <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
+ <20220623101326.18beeab3@eldfell>
+ <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
+ <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
+ <adc626ec-ff5a-5c06-44ce-09111be450cd@amd.com>
+ <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
+ <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.70.46]
-X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
- CSBMAIL1.internal.ite.com.tw (192.168.65.58)
-X-TM-SNTS-SMTP: 532277101033EC0C5799347BF5418EF1C05372C83BD9777B75A722A680D091252002:8
-X-MAIL: mse.ite.com.tw 25N9W7mn009951
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,108 +58,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>, Kenneth Hung <Kenneth.Hung@ite.com.tw>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
- Allen Chen <allen.chen@ite.com.tw>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Allen-kh Cheng <allen-kh.cheng@mediatek.corp-partner.google.com>,
- open list <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Pin-yen Lin <treapking@chromium.org>,
- Hermes Wu <Hermes.Wu@ite.com.tw>, "moderated list:ARM/Mediatek SoC
- support" <linux-mediatek@lists.infradead.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Pin-yen Lin <treapking@google.com>
+Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, linaro-mm-sig@lists.linaro.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: allen chen <allen.chen@ite.com.tw>
+Am Donnerstag, dem 23.06.2022 um 11:09 +0200 schrieb Christian König:
+> Am 23.06.22 um 10:58 schrieb Lucas Stach:
+> > Am Donnerstag, dem 23.06.2022 um 10:14 +0200 schrieb Christian König:
+> > > Am 23.06.22 um 10:04 schrieb Lucas Stach:
+> > > > Am Donnerstag, dem 23.06.2022 um 09:26 +0200 schrieb Christian König:
+> > > > > Am 23.06.22 um 09:13 schrieb Pekka Paalanen:
+> > > > > > On Thu, 23 Jun 2022 08:59:41 +0200
+> > > > > > Christian König <christian.koenig@amd.com> wrote:
+> > > > > > 
+> > > > > > > The exporter isn't doing anything wrong here. DMA-buf are supposed to be
+> > > > > > > CPU cached and can also be cache hot.
+> > > > > > Hi,
+> > > > > > 
+> > > > > > what is that statement based on?
+> > > > > On the design documentation of DMA-buf and the actual driver
+> > > > > implementations.
+> > > > > 
+> > > > > Coherency and snooping of the CPU cache is mandatory for devices and
+> > > > > root complexes in the PCI specification. Incoherent access is just an
+> > > > > extension.
+> > > > > 
+> > > > > We inherited that by basing DMA-buf on the Linux kernel DMA-API which in
+> > > > > turn is largely based on the PCI specification.
+> > > > > 
+> > > > > > Were the (mandatory for CPU access) cpu_access_begin/end functions &
+> > > > > > ioctls not supposed to ensure that CPU cache is up-to-date / CPU cache
+> > > > > > is fully flushed out?
+> > > > > No, those functions are to inform the exporter that the importer has
+> > > > > started and finished accessing the buffer using the CPU.
+> > > > > 
+> > > > > There is no signaling in the other direction. In other words the
+> > > > > exporter doesn't inform the importer about CPU accesses because it is
+> > > > > the owner of the buffer.
+> > > > > 
+> > > > > It's the responsibility of the importer to make sure that it can
+> > > > > actually access the data in the buffer. If it can't guarantee that the
+> > > > > importer shouldn't import the buffer in the first place.
+> > > > This is not really correct. DMA-buf inherited the the map/unmap part
+> > > > from the DMA API, which on cache coherent architecture is mostly a no-
+> > > > op or ties into the IOMMU implementation to set up the pagetables for
+> > > > the translation. On non cache coherent architectures this is the point
+> > > > where any any necessary cache maintenance happens. DRM breaks this
+> > > > model by caching the DMA-buf mapping for performance reasons.
+> > > That's not only because of performance reasons, but also because of
+> > > correctness.
+> > > 
+> > > At least the Vulkan API and a bunch of OpenGL extensions make it
+> > > mandatory for the buffer to be cache coherent. The kernel is simply not
+> > > informed about domain transfers.
+> > > 
+> > > For example you can just do a CPU copy to a ring buffer and the
+> > > expectation is that an already running shader sees that.
+> > Yes, that one is not really an issue as you know that at buffer
+> > creation time and can make sure to map those buffers uncached on non
+> > coherent arches. If there are no explicit domain transfer points non
+> > coherent must bite the bullet and bypass the CPU caches, running
+> > performance into the ground.
+> 
+> Yes, exactly that was what this mail thread was about. But this case is 
+> currently not supported by DMA-buf.
+> 
+> In other words, cache coherency is currently mandatory for everybody 
+> involved.
+> 
+> > > > In the DMA API keeping things mapped is also a valid use-case, but then
+> > > > you need to do explicit domain transfers via the dma_sync_* family,
+> > > > which DMA-buf has not inherited. Again those sync are no-ops on cache
+> > > > coherent architectures, but do any necessary cache maintenance on non
+> > > > coherent arches.
+> > > Correct, yes. Coherency is mandatory for DMA-buf, you can't use
+> > > dma_sync_* on it when you are the importer.
+> > > 
+> > > The exporter could of course make use of that because he is the owner of
+> > > the buffer.
+> > In the example given here with UVC video, you don't know that the
+> > buffer will be exported and needs to be coherent without
+> > synchronization points, due to the mapping cache at the DRM side. So
+> > V4L2 naturally allocates the buffers from CPU cached memory. If the
+> > expectation is that those buffers are device coherent without relying
+> > on the map/unmap_attachment calls, then V4L2 needs to always
+> > synchronize caches on DQBUF when the  buffer is allocated from CPU
+> > cached memory and a single DMA-buf attachment exists. And while writing
+> > this I realize that this is probably exactly what V4L2 should do...
+> 
+> No, the expectation is that the importer can deal with whatever the 
+> exporter provides.
+> 
+> If the importer can't access the DMA-buf coherently it's his job to 
+> handle that gracefully.
 
-add read max-lane and max-pixel-clock from dt property
+How does the importer know that the memory behind the DMA-buf is in CPU
+cached memory?
 
-Signed-off-by: Allen-kh Cheng <allen-kh.cheng@mediatek.corp-partner.google.com>
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 35 ++++++++++++++++++++++++++---
- 1 file changed, 32 insertions(+), 3 deletions(-)
+If you now tell me that an importer always needs to assume this and
+reject the import if it can't do snooping, then any DMA-buf usage on
+most ARM SoCs is currently invalid usage. On most of the multimedia
+targeted ARM SoCs being unable to snoop the cache is the norm, not an
+exception.
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 4b673c4792d77..c9121d4635a52 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -436,6 +436,8 @@ struct it6505 {
- 	bool powered;
- 	bool hpd_state;
- 	u32 afe_setting;
-+	u32 max_dpi_pixel_clock;
-+	u32 max_lane_count;
- 	enum hdcp_state hdcp_status;
- 	struct delayed_work hdcp_work;
- 	struct work_struct hdcp_wait_ksv_list;
-@@ -1466,7 +1468,8 @@ static void it6505_parse_link_capabilities(struct it6505 *it6505)
- 	it6505->lane_count = link->num_lanes;
- 	DRM_DEV_DEBUG_DRIVER(dev, "Sink support %d lanes training",
- 			     it6505->lane_count);
--	it6505->lane_count = min_t(int, it6505->lane_count, MAX_LANE_COUNT);
-+	it6505->lane_count = min_t(int, it6505->lane_count,
-+				   it6505->max_lane_count);
- 
- 	it6505->branch_device = drm_dp_is_branch(it6505->dpcd);
- 	DRM_DEV_DEBUG_DRIVER(dev, "Sink %sbranch device",
-@@ -2895,7 +2898,7 @@ it6505_bridge_mode_valid(struct drm_bridge *bridge,
- 	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
- 		return MODE_NO_INTERLACE;
- 
--	if (mode->clock > DPI_PIXEL_CLK_MAX)
-+	if (mode->clock > it6505->max_dpi_pixel_clock)
- 		return MODE_CLOCK_HIGH;
- 
- 	it6505->video_info.clock = mode->clock;
-@@ -3057,6 +3060,8 @@ static void it6505_parse_dt(struct it6505 *it6505)
- {
- 	struct device *dev = &it6505->client->dev;
- 	u32 *afe_setting = &it6505->afe_setting;
-+	u32 *max_lane_count = &it6505->max_lane_count;
-+	u32 *max_dpi_pixel_clock = &it6505->max_dpi_pixel_clock;
- 
- 	it6505->lane_swap_disabled =
- 		device_property_read_bool(dev, "no-laneswap");
-@@ -3072,7 +3077,31 @@ static void it6505_parse_dt(struct it6505 *it6505)
- 	} else {
- 		*afe_setting = 0;
- 	}
--	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %d", *afe_setting);
-+
-+	if (device_property_read_u32(dev, "max-lane-count",
-+				     max_lane_count) == 0) {
-+		if (*max_lane_count > 4 || *max_lane_count == 3) {
-+			dev_err(dev, "max lane count error, use default");
-+			*max_lane_count = MAX_LANE_COUNT;
-+		}
-+	} else {
-+		*max_lane_count = MAX_LANE_COUNT;
-+	}
-+
-+	if (device_property_read_u32(dev, "max-dpi-pixel-clock",
-+				     max_dpi_pixel_clock) == 0) {
-+		if (*max_dpi_pixel_clock > 297000) {
-+			dev_err(dev, "max pixel clock error, use default");
-+			*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
-+		}
-+	} else {
-+		*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
-+	}
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %u, max_lane_count: %u",
-+			     it6505->afe_setting, it6505->max_lane_count);
-+	DRM_DEV_DEBUG_DRIVER(dev, "using max_dpi_pixel_clock: %u kHz",
-+			     it6505->max_dpi_pixel_clock);
- }
- 
- static ssize_t receive_timing_debugfs_show(struct file *file, char __user *buf,
--- 
-2.25.1
+> 
+> See for example on AMD/Intel hardware most of the engines can perfectly 
+> deal with cache coherent memory accesses. Only the display engines can't.
+> 
+> So on import time we can't even say if the access can be coherent and 
+> snoop the CPU cache or not because we don't know how the imported 
+> DMA-buf will be used later on.
+> 
+So for those mixed use cases, wouldn't it help to have something
+similar to the dma_sync in the DMA-buf API, so your scanout usage can
+tell the exporter that it's going to do non-snoop access and any dirty
+cache lines must be cleaned? Signaling this to the exporter would allow
+to skip the cache maintenance if the buffer is in CPU uncached memory,
+which again is a default case for the ARM SoC world.
+
+Regards,
+Lucas
 
