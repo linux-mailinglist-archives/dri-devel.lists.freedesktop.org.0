@@ -1,57 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E735580F5
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 18:54:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C5B558171
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 19:00:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE8D10E4AE;
-	Thu, 23 Jun 2022 16:54:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C79D810E25F;
+	Thu, 23 Jun 2022 17:00:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98BCE10E4AE;
- Thu, 23 Jun 2022 16:54:45 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id t5so9846198eje.1;
- Thu, 23 Jun 2022 09:54:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=F8Xq43bbRjEKacSTo4BPL6Cozz0OrPL8PFpBY9tp/cI=;
- b=Rg/Gf3YdC0aE2ENWZRvbMZezUfPTW0Pu8ZU8TA8MoB5WsvY7nduewZ/lR0FSC3jhSC
- hHKxGp6WXZdmDwKiYqn4iRQump5POT9c5CCRW5XFWfjVFbvSNCKohfT9cGOAcMY7YJ96
- 3tIRpSenqKoF2h8dBP1em1U7YYZW+yUj2BhO4a7z6cfFKA1oN/wcYsHYxmK4qwLZPkIy
- i+nMuwbSrdje5IVl2Y/LjIjW9X8cogkM1cSMN8xo/ZZ89p2ZUUdK+i0l49NaXdW/kHLC
- kadnvoyknhHn/uG+Kt0VailtxX5kmEwvuIffeXS1K82fQpWecJamF79/EaitERy3cuKu
- 5ZPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=F8Xq43bbRjEKacSTo4BPL6Cozz0OrPL8PFpBY9tp/cI=;
- b=yIHX6asRMEfm2KYrYvgd0nbNkYfpQ3EZdXZ2bU7MEX5sFYhMCRx7Jthp0ljAsLWzXF
- s7ki/YnkZv24v8WTMwaOZSBsFvDeY44qX6ddHP33W4c/ZMSF5BXBbAMQ6VvhPzy8noC4
- X0c0oJ6UNEcKVTLXHYKWKxu+zJoI1vvmaZNd8fylex3vZunAaQWIgBLdS0Q1T61wfPLB
- 3I18VtrQxHgletXqs9rEVytmTvVMKR3HKZ5Ak81z0lvmomtwxn3IZbR5iENrEuFML04B
- lDHsV59/pNINrXmVq5YcGXngzqHJZ9GcTH7sD29iZNr8lI1kWw3JXr8oJaInr/RFyA6l
- gL3Q==
-X-Gm-Message-State: AJIora9tjiMUxw3kGYJoQBLvL1Wf2tqXe5+0M8oEiC8Y1QlHVbtWdBQY
- P8oJ3JbkWm1VVPkrFaI/SUr+skhW3cCsCRa8wv8=
-X-Google-Smtp-Source: AGRyM1smtBLHykyN2J24gb4EAWkLDqyTjcF41lu/jXG57L7NlyfkxJnfLMfq84io+slBSvnBNrMIAlyRbwovs+v+YZM=
-X-Received: by 2002:a17:906:c041:b0:718:c984:d9ee with SMTP id
- bm1-20020a170906c04100b00718c984d9eemr9543450ejb.722.1656003284142; Thu, 23
- Jun 2022 09:54:44 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BD1A10E134;
+ Thu, 23 Jun 2022 17:00:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656003650; x=1687539650;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=J9s/LpFILeLPTlseYxUrJteIVRlhiZdWHoHvHoBnIYU=;
+ b=lro7qkdeGo3BFuiX4LytnMZ8C9e3/vrt1S+Re5Te5IvtIGNmIUZQg+Ce
+ s3U5TVZjgK9lc+2aSC7oT/ztIQHKkTYL9UXjbiM+XYKZsDrZQJ0uXRhPd
+ RftWyIFbLxFzhyWzDoRwrPeH2Kcdy3mAlX6erVl/gR4Mu8+YZvUAcrADI
+ MfCC6d9oQ1Sf/QvSRxDbpcxx5sCq+KDxkHbo3z2WBgQJJSUuxXJdmeIBs
+ 3TW2QgWT84yxMNuxEypeesTKEELEh6hU8JPgo+l+ysHeZd6OE8qi4cfv3
+ KPnUd9951nmCQcUIszwdk9v0mcLwjCTujLQ2DpdlqRhT83kpR3xA8WqmA A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10387"; a="261209487"
+X-IronPort-AV: E=Sophos;i="5.92,216,1650956400"; d="scan'208";a="261209487"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2022 10:00:20 -0700
+X-IronPort-AV: E=Sophos;i="5.92,216,1650956400"; d="scan'208";a="834723685"
+Received: from anefedov-mobl.ccr.corp.intel.com (HELO localhost)
+ ([10.252.38.20])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2022 10:00:15 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jiang Jian <jiangjian@cdjrlc.com>, airlied@linux.ie, daniel@ffwll.ch
+Subject: Re: [PATCH] GPU: drm: i915: drop unexpected word 'for' in comments
+In-Reply-To: <20220623101113.28470-1-jiangjian@cdjrlc.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220623101113.28470-1-jiangjian@cdjrlc.com>
+Date: Thu, 23 Jun 2022 20:00:11 +0300
+Message-ID: <871qvfnwmc.fsf@intel.com>
 MIME-Version: 1.0
-References: <20220623153001.3136739-1-nathan@kernel.org>
- <03448497-30c9-7655-ae6a-a66a1f649828@amd.com>
-In-Reply-To: <03448497-30c9-7655-ae6a-a66a1f649828@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 23 Jun 2022 12:54:32 -0400
-Message-ID: <CADnq5_M8E1x4dDRmFd=Y7Zmz=5DbS9ADGnmiDiP20rdHpKBJxA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix indentation in
- dcn32_get_vco_frequency_from_reg()
-To: Leo <sunpeng.li@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,62 +56,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, patches@lists.linux.dev,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: tvrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jiang Jian <jiangjian@cdjrlc.com>, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Thu, 23 Jun 2022, Jiang Jian <jiangjian@cdjrlc.com> wrote:
+> there is an unexpected word 'for' in the comments that need to be dropped
 
-Alex
+While it's also unexpected, it's really *duplicated* word.
 
-On Thu, Jun 23, 2022 at 12:26 PM Leo <sunpeng.li@amd.com> wrote:
+> file - drivers/gpu/drm/i915/i915_reg.h
+> line - 2537
 >
+>  * Please check the detailed lore in the commit message for for experimental
 >
+> changed to:
 >
-> On 2022-06-23 11:30, Nathan Chancellor wrote:
-> > Clang warns:
-> >
-> >   drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c:549:4: warning: misleading indentation; statement is not part of the previous 'else' [-Wmisleading-indentation]
-> >                           pll_req = dc_fixpt_from_int(pll_req_reg & clk_mgr->clk_mgr_mask->FbMult_int);
-> >                           ^
-> >   drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c:542:3: note: previous statement is here
-> >                   else
-> >                   ^
-> >   1 warning generated.
-> >
-> > Indent this statement to the left, as it was clearly intended to be
-> > called unconditionally, which will fix the warning.
-> >
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1655
-> > Fixes: 3e838f7ccf64 ("drm/amd/display: Get VCO frequency from registers")
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+>  * Please check the detailed lore in the commit message for experimental
 >
-> Just hit this myself, thanks for the fix!
-> Reviewed-by: Leo Li <sunpeng.li@amd.com>
+
+The above is just duplication of the patch itself, and completely
+unnecessary.
+
+The patch subject prefix should be something like "drm/i915:" or
+"drm/i915/reg:".
+
+Pro-tip for figuring out good guesses of what the subject prefix should
+be:
+
+$ git log --since={5-year} --no-merges --pretty=format:%s -- drivers/gpu/drm/i915/i915_reg.h | sed 's/:.*//' | sort | uniq -c | sort -rn | head
+    312 drm/i915
+    113 drm/i915/icl
+     57 drm/i915/tgl
+     26 drm/i915/cnl
+     25 drm/i915/display
+     22 drm/i915/dg2
+     16 drm/i915/psr
+     14 drm/i915/gt
+     14 drm/i915/adl_p
+     12 drm/i915/dg1
+
+The patch itself is fine, but I'm nitpicking on the commit message
+because I've seen lots of patches like this, with the same kind of stuff
+in the commit messages.
+
+BR,
+Jani.
+
+
+> Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
+> ---
+>  drivers/gpu/drm/i915/i915_reg.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> > ---
-> >  drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
-> > index 113f93b3d3b2..4e8059f20007 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.c
-> > @@ -546,7 +546,7 @@ static uint32_t dcn32_get_vco_frequency_from_reg(struct clk_mgr_internal *clk_mg
-> >                * this works because the int part is on the right edge of the register
-> >                * and the frac part is on the left edge
-> >                */
-> > -                     pll_req = dc_fixpt_from_int(pll_req_reg & clk_mgr->clk_mgr_mask->FbMult_int);
-> > +             pll_req = dc_fixpt_from_int(pll_req_reg & clk_mgr->clk_mgr_mask->FbMult_int);
-> >               pll_req.value |= pll_req_reg & clk_mgr->clk_mgr_mask->FbMult_frac;
-> >
-> >               /* multiply by REFCLK period */
-> >
-> > base-commit: fdf249c70a36e2daa7ddf1252cf3b71faed87abc
->
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> index 616164fa2e32..738c020396af 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -2534,7 +2534,7 @@
+>   * HDMI/DP bits are g4x+
+>   *
+>   * WARNING: Bspec for hpd status bits on gen4 seems to be completely confused.
+> - * Please check the detailed lore in the commit message for for experimental
+> + * Please check the detailed lore in the commit message for experimental
+>   * evidence.
+>   */
+>  /* Bspec says GM45 should match G4X/VLV/CHV, but reality disagrees */
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
