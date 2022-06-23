@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514975592BB
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:03:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A32E75592AE
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:02:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E0E1121DF;
-	Fri, 24 Jun 2022 06:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5A671121C7;
+	Fri, 24 Jun 2022 06:02:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
- [67.231.152.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6295910E3FB
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:54:18 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
- by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N5mxl5032604;
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
+ [67.231.149.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8104B10E5DC
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:12 +0000 (UTC)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+ by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBNlqd015665;
  Thu, 23 Jun 2022 07:53:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=AuKuyKNZw717+uoDrwMCyNmlv5xTJLfHOsVukkcHHpE=;
- b=W+LaDxnv14c8zIsYPusa6c9IUWcrINdcjCY+pPB0AyyG+yOSLPzGK34Dgq3prJFEe6xr
- 6kR8olAHi5hyYSNWNPSbHWeEX08y1PEzNU9/bqGwwr/fXM5ZO+qkR/DBDoEiGpNkSJnY
- bu2+5XNqk5Eexfhj4ddDJRNTVM/Oss/z+UcN3X9ttXJ/pJjxZ28aLoERCQ9KVg9BwG0p
- Ay20qdVYYNps48Njzy+zWb8sTQQZrBhFRVIuTari15QwwIedBOWfcqFQ9SNCA/ojGbjs
- mQEKzVEf5Y6WY/n7zxvzYGqAdSZ6+BkJfzgfqHTTy4090XNtwrwbVlzcIOqh9VcVsgFP Qw== 
+ bh=ZCITtJ1KUhO3m0hQgxKHALQnZSotGGuUuKGm6KuVmmc=;
+ b=HZsw3lXE4bHk6wg9RtDkrEwudbBsroBhvZQ6syOT1mSDXvLCZsJm2uICraft12P0JInS
+ apyN6NyAnd32ms99eg2IM+mgzawGT0a8Vp26CJLCmqJbk1E+tRJpcRG5p9Pf59NrEXjf
+ kcJ/Wf15Bv7VtAzoHL12+47nTdXnTc4TToQJ7H6CA1Vbzda00+JwTDZGvDH+n1WjgksZ
+ jMGy0emMkTQs5dXevrPZozXN3BEFjmkMWa32Fs2D3FI8TCLz1frqmKn+Ea7Mf6I5IoHP
+ eHkIvK5XzXs1+8a9e1tdhrGESfzYdHFAQ+AbgBDAxFtIbUVmU5uHarzSH7PKPxjCgnRq rg== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
- by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvu-4
+ by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4j-10
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
  Thu, 23 Jun 2022 07:53:00 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
@@ -38,22 +38,22 @@ Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
  Frontend Transport; Thu, 23 Jun 2022 13:52:52 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 731A5478;
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 88E0C11D1;
  Thu, 23 Jun 2022 12:52:52 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH v2 19/96] ASoC: atmel: Migrate to new style legacy DAI naming
+Subject: [PATCH v2 20/96] ASoC: fsl: Migrate to new style legacy DAI naming
  flag
-Date: Thu, 23 Jun 2022 13:51:33 +0100
-Message-ID: <20220623125250.2355471-20-ckeepax@opensource.cirrus.com>
+Date: Thu, 23 Jun 2022 13:51:34 +0100
+Message-ID: <20220623125250.2355471-21-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: JaOp-eWTelpFoXPzdX5b_I_n5tMj72dk
-X-Proofpoint-ORIG-GUID: JaOp-eWTelpFoXPzdX5b_I_n5tMj72dk
+X-Proofpoint-GUID: h9WaDBf4KuGByK_NZWi6uS9FRCjWftDR
+X-Proofpoint-ORIG-GUID: h9WaDBf4KuGByK_NZWi6uS9FRCjWftDR
 X-Proofpoint-Spam-Reason: safe
 X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,126 +90,145 @@ currently uses the legacy naming, so add the new flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/atmel/atmel-classd.c  | 1 +
- sound/soc/atmel/atmel-i2s.c     | 3 ++-
- sound/soc/atmel/atmel-pdmic.c   | 1 +
- sound/soc/atmel/atmel_ssc_dai.c | 7 ++++---
- sound/soc/atmel/mchp-i2s-mcc.c  | 3 ++-
- sound/soc/atmel/mchp-pdmc.c     | 1 +
- sound/soc/atmel/mchp-spdifrx.c  | 3 ++-
- sound/soc/atmel/mchp-spdiftx.c  | 3 ++-
- 8 files changed, 15 insertions(+), 7 deletions(-)
+ sound/soc/fsl/fsl_aud2htx.c     | 3 ++-
+ sound/soc/fsl/fsl_easrc.c       | 7 ++++---
+ sound/soc/fsl/fsl_esai.c        | 3 ++-
+ sound/soc/fsl/fsl_rpmsg.c       | 3 ++-
+ sound/soc/fsl/fsl_sai.c         | 3 ++-
+ sound/soc/fsl/fsl_spdif.c       | 3 ++-
+ sound/soc/fsl/fsl_ssi.c         | 1 +
+ sound/soc/fsl/fsl_xcvr.c        | 3 ++-
+ sound/soc/fsl/mpc5200_psc_i2s.c | 3 ++-
+ 9 files changed, 19 insertions(+), 10 deletions(-)
 
-diff --git a/sound/soc/atmel/atmel-classd.c b/sound/soc/atmel/atmel-classd.c
-index 74b7b2611aa70..87d6d6ed026b3 100644
---- a/sound/soc/atmel/atmel-classd.c
-+++ b/sound/soc/atmel/atmel-classd.c
-@@ -458,6 +458,7 @@ static const struct snd_soc_component_driver atmel_classd_cpu_dai_component = {
- 	.num_controls		= ARRAY_SIZE(atmel_classd_snd_controls),
- 	.idle_bias_on		= 1,
- 	.use_pmdown_time	= 1,
+diff --git a/sound/soc/fsl/fsl_aud2htx.c b/sound/soc/fsl/fsl_aud2htx.c
+index 422922146f2a5..873295f59ad7b 100644
+--- a/sound/soc/fsl/fsl_aud2htx.c
++++ b/sound/soc/fsl/fsl_aud2htx.c
+@@ -103,7 +103,8 @@ static struct snd_soc_dai_driver fsl_aud2htx_dai = {
+ };
+ 
+ static const struct snd_soc_component_driver fsl_aud2htx_component = {
+-	.name	= "fsl-aud2htx",
++	.name			= "fsl-aud2htx",
 +	.legacy_dai_naming	= 1,
  };
  
- /* ASoC sound card */
-diff --git a/sound/soc/atmel/atmel-i2s.c b/sound/soc/atmel/atmel-i2s.c
-index ba56d6ac7e571..425d66edbf867 100644
---- a/sound/soc/atmel/atmel-i2s.c
-+++ b/sound/soc/atmel/atmel-i2s.c
-@@ -564,7 +564,8 @@ static struct snd_soc_dai_driver atmel_i2s_dai = {
+ static const struct reg_default fsl_aud2htx_reg_defaults[] = {
+diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
+index be14f84796cb4..ea96b0fb6b202 100644
+--- a/sound/soc/fsl/fsl_easrc.c
++++ b/sound/soc/fsl/fsl_easrc.c
+@@ -1572,9 +1572,10 @@ static struct snd_soc_dai_driver fsl_easrc_dai = {
  };
  
- static const struct snd_soc_component_driver atmel_i2s_component = {
--	.name	= "atmel-i2s",
-+	.name			= "atmel-i2s",
+ static const struct snd_soc_component_driver fsl_easrc_component = {
+-	.name		= "fsl-easrc-dai",
+-	.controls       = fsl_easrc_snd_controls,
+-	.num_controls   = ARRAY_SIZE(fsl_easrc_snd_controls),
++	.name			= "fsl-easrc-dai",
++	.controls		= fsl_easrc_snd_controls,
++	.num_controls		= ARRAY_SIZE(fsl_easrc_snd_controls),
 +	.legacy_dai_naming	= 1,
  };
  
- static int atmel_i2s_sama5d2_mck_init(struct atmel_i2s_dev *dev,
-diff --git a/sound/soc/atmel/atmel-pdmic.c b/sound/soc/atmel/atmel-pdmic.c
-index ea34efac2fff5..77ff12baead5b 100644
---- a/sound/soc/atmel/atmel-pdmic.c
-+++ b/sound/soc/atmel/atmel-pdmic.c
-@@ -481,6 +481,7 @@ static const struct snd_soc_component_driver atmel_pdmic_cpu_dai_component = {
- 	.num_controls		= ARRAY_SIZE(atmel_pdmic_snd_controls),
- 	.idle_bias_on		= 1,
- 	.use_pmdown_time	= 1,
+ static const struct reg_default fsl_easrc_reg_defaults[] = {
+diff --git a/sound/soc/fsl/fsl_esai.c b/sound/soc/fsl/fsl_esai.c
+index 75f7807df29af..5c21fc490fce1 100644
+--- a/sound/soc/fsl/fsl_esai.c
++++ b/sound/soc/fsl/fsl_esai.c
+@@ -824,7 +824,8 @@ static struct snd_soc_dai_driver fsl_esai_dai = {
+ };
+ 
+ static const struct snd_soc_component_driver fsl_esai_component = {
+-	.name		= "fsl-esai",
++	.name			= "fsl-esai",
 +	.legacy_dai_naming	= 1,
  };
  
- /* ASoC sound card */
-diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
-index c92905e343e7e..8aae0beadcfe4 100644
---- a/sound/soc/atmel/atmel_ssc_dai.c
-+++ b/sound/soc/atmel/atmel_ssc_dai.c
-@@ -858,9 +858,10 @@ static struct snd_soc_dai_driver atmel_ssc_dai = {
+ static const struct reg_default fsl_esai_reg_defaults[] = {
+diff --git a/sound/soc/fsl/fsl_rpmsg.c b/sound/soc/fsl/fsl_rpmsg.c
+index 19fd312508839..bf94838bdbefe 100644
+--- a/sound/soc/fsl/fsl_rpmsg.c
++++ b/sound/soc/fsl/fsl_rpmsg.c
+@@ -135,7 +135,8 @@ static struct snd_soc_dai_driver fsl_rpmsg_dai = {
  };
  
- static const struct snd_soc_component_driver atmel_ssc_component = {
--	.name		= "atmel-ssc",
--	.suspend	= atmel_ssc_suspend,
--	.resume		= atmel_ssc_resume,
-+	.name			= "atmel-ssc",
-+	.suspend		= atmel_ssc_suspend,
-+	.resume			= atmel_ssc_resume,
+ static const struct snd_soc_component_driver fsl_component = {
+-	.name           = "fsl-rpmsg",
++	.name			= "fsl-rpmsg",
 +	.legacy_dai_naming	= 1,
  };
  
- static int asoc_ssc_init(struct device *dev)
-diff --git a/sound/soc/atmel/mchp-i2s-mcc.c b/sound/soc/atmel/mchp-i2s-mcc.c
-index 269eab56b6dd9..6dfb96c576ff3 100644
---- a/sound/soc/atmel/mchp-i2s-mcc.c
-+++ b/sound/soc/atmel/mchp-i2s-mcc.c
-@@ -928,7 +928,8 @@ static struct snd_soc_dai_driver mchp_i2s_mcc_dai = {
+ static const struct fsl_rpmsg_soc_data imx7ulp_data = {
+diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
+index 4f5bd9597c746..68b5b488deebd 100644
+--- a/sound/soc/fsl/fsl_sai.c
++++ b/sound/soc/fsl/fsl_sai.c
+@@ -767,7 +767,8 @@ static struct snd_soc_dai_driver fsl_sai_dai_template = {
  };
  
- static const struct snd_soc_component_driver mchp_i2s_mcc_component = {
--	.name	= "mchp-i2s-mcc",
-+	.name			= "mchp-i2s-mcc",
+ static const struct snd_soc_component_driver fsl_component = {
+-	.name           = "fsl-sai",
++	.name			= "fsl-sai",
 +	.legacy_dai_naming	= 1,
  };
  
- #ifdef CONFIG_OF
-diff --git a/sound/soc/atmel/mchp-pdmc.c b/sound/soc/atmel/mchp-pdmc.c
-index b9f6370594482..aba7c5cde62c6 100644
---- a/sound/soc/atmel/mchp-pdmc.c
-+++ b/sound/soc/atmel/mchp-pdmc.c
-@@ -423,6 +423,7 @@ static const struct snd_soc_component_driver mchp_pdmc_dai_component = {
- 	.num_controls = ARRAY_SIZE(mchp_pdmc_snd_controls),
- 	.open = &mchp_pdmc_open,
- 	.close = &mchp_pdmc_close,
+ static struct reg_default fsl_sai_reg_defaults_ofs0[] = {
+diff --git a/sound/soc/fsl/fsl_spdif.c b/sound/soc/fsl/fsl_spdif.c
+index 42d11aca38a10..0504431792cf9 100644
+--- a/sound/soc/fsl/fsl_spdif.c
++++ b/sound/soc/fsl/fsl_spdif.c
+@@ -1237,7 +1237,8 @@ static struct snd_soc_dai_driver fsl_spdif_dai = {
+ };
+ 
+ static const struct snd_soc_component_driver fsl_spdif_component = {
+-	.name		= "fsl-spdif",
++	.name			= "fsl-spdif",
++	.legacy_dai_naming	= 1,
+ };
+ 
+ /* FSL SPDIF REGMAP */
+diff --git a/sound/soc/fsl/fsl_ssi.c b/sound/soc/fsl/fsl_ssi.c
+index 7dd0c48cd9ae4..c9e0e31d5b34d 100644
+--- a/sound/soc/fsl/fsl_ssi.c
++++ b/sound/soc/fsl/fsl_ssi.c
+@@ -1182,6 +1182,7 @@ static struct snd_soc_dai_driver fsl_ssi_dai_template = {
+ 
+ static const struct snd_soc_component_driver fsl_ssi_component = {
+ 	.name = "fsl-ssi",
 +	.legacy_dai_naming = 1,
  };
  
- static const unsigned int mchp_pdmc_1mic[] = {1};
-diff --git a/sound/soc/atmel/mchp-spdifrx.c b/sound/soc/atmel/mchp-spdifrx.c
-index 5fc968483f2c8..0d37b78b94a09 100644
---- a/sound/soc/atmel/mchp-spdifrx.c
-+++ b/sound/soc/atmel/mchp-spdifrx.c
-@@ -846,7 +846,8 @@ static struct snd_soc_dai_driver mchp_spdifrx_dai = {
+ static struct snd_soc_dai_driver fsl_ssi_ac97_dai = {
+diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
+index 55e640cba87d0..c043efe4548d1 100644
+--- a/sound/soc/fsl/fsl_xcvr.c
++++ b/sound/soc/fsl/fsl_xcvr.c
+@@ -911,7 +911,8 @@ static struct snd_soc_dai_driver fsl_xcvr_dai = {
  };
  
- static const struct snd_soc_component_driver mchp_spdifrx_component = {
--	.name		= "mchp-spdifrx",
-+	.name			= "mchp-spdifrx",
+ static const struct snd_soc_component_driver fsl_xcvr_comp = {
+-	.name = "fsl-xcvr-dai",
++	.name			= "fsl-xcvr-dai",
 +	.legacy_dai_naming	= 1,
  };
  
- static const struct of_device_id mchp_spdifrx_dt_ids[] = {
-diff --git a/sound/soc/atmel/mchp-spdiftx.c b/sound/soc/atmel/mchp-spdiftx.c
-index d243800464352..78d5bcf0819a3 100644
---- a/sound/soc/atmel/mchp-spdiftx.c
-+++ b/sound/soc/atmel/mchp-spdiftx.c
-@@ -753,7 +753,8 @@ static struct snd_soc_dai_driver mchp_spdiftx_dai = {
- };
+ static const struct reg_default fsl_xcvr_reg_defaults[] = {
+diff --git a/sound/soc/fsl/mpc5200_psc_i2s.c b/sound/soc/fsl/mpc5200_psc_i2s.c
+index 3149d59ae968d..73f3e61f208a7 100644
+--- a/sound/soc/fsl/mpc5200_psc_i2s.c
++++ b/sound/soc/fsl/mpc5200_psc_i2s.c
+@@ -148,7 +148,8 @@ static struct snd_soc_dai_driver psc_i2s_dai[] = {{
+ } };
  
- static const struct snd_soc_component_driver mchp_spdiftx_component = {
--	.name		= "mchp-spdiftx",
-+	.name			= "mchp-spdiftx",
+ static const struct snd_soc_component_driver psc_i2s_component = {
+-	.name		= "mpc5200-i2s",
++	.name			= "mpc5200-i2s",
 +	.legacy_dai_naming	= 1,
  };
  
- static const struct of_device_id mchp_spdiftx_dt_ids[] = {
+ /* ---------------------------------------------------------------------
 -- 
 2.30.2
 
