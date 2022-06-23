@@ -1,82 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F6BB5574A0
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 09:57:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1A05574D3
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 10:05:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F1FB11A0A8;
-	Thu, 23 Jun 2022 07:57:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9535113C59;
+	Thu, 23 Jun 2022 08:04:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6096811A0A8
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 07:57:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655971044;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dvZy/50T4UgEKe2nIlW9cYFKkogyYzn4qAw+8C8pOWI=;
- b=B48aPPrNNTIT/XNBSXsOdbCLt4vJZcDpD7tKXzRn/28CPtJwk27kM5NEkueI2QQIj4eKlp
- s+HAbOtPRpBFxxR1+qXXyJgwBzwyJxF85oaZ2DRrMPxpm/m/MPDjy+ghFL4UONJQiahMT8
- AZdxRP8j/6piXbd18v8RRDO3cnaM7tg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515-p38Z-liEMFyYrPWwskOV6Q-1; Thu, 23 Jun 2022 03:57:22 -0400
-X-MC-Unique: p38Z-liEMFyYrPWwskOV6Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k5-20020a05600c0b4500b003941ca130f9so6620378wmr.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 00:57:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dvZy/50T4UgEKe2nIlW9cYFKkogyYzn4qAw+8C8pOWI=;
- b=3hTz8vMoQQsWWiGaR4N2Tk9uEo2AVc7QVPah5r2fGQvl9DEPWHfJpzVOiYTLC8hN+o
- K3txek2ut8WWuJtcswLGD+CwbMxR2+x6abdDd0wSyIjkUs7vdOMQdOkkLLVQnhVQUTOJ
- LsuGh6U1PMcfQZGTI4lJLlcZOB82Xni8R7gaTaizcWgSFxrKbWTDg94FonO4Rx3bXDPA
- OvILuRTjTApZObS3wXEZqppNn2NpUej1XWSabQ/BstlqdjyGcrK2H5JeLvmz2Jn/tZSp
- ACv33oSw0vdK+Mr6rf0TBeWNMgYS/RLMhvG9l8ayv4j7jZSoh4OcqgCSa5LUsimI9czE
- Gm2A==
-X-Gm-Message-State: AJIora/iO6t8Mjhim7D3va84IBD71DPjIdKhPPi1N/LBWve4G0UJ0Z2X
- MpggZ1lOmNf1NzxH3hcx7ptpDAXJZzpFy5b5YMG1N/cXgaEq2VRIWzeCbSl3381H6316XwrUGOM
- vOJR0fjw6g8YNR4kSRCCtN+IiAP0e
-X-Received: by 2002:adf:d1c6:0:b0:218:4fc3:a805 with SMTP id
- b6-20020adfd1c6000000b002184fc3a805mr6717240wrd.228.1655971041108; 
- Thu, 23 Jun 2022 00:57:21 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v2M7uaEAm4QL8OrSDKAtIrbQ51v3N9GqBcLPy6U4Up2VsFsxxXrxwWzU0EAxlTLgLRx/Anuw==
-X-Received: by 2002:adf:d1c6:0:b0:218:4fc3:a805 with SMTP id
- b6-20020adfd1c6000000b002184fc3a805mr6717223wrd.228.1655971040875; 
- Thu, 23 Jun 2022 00:57:20 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n40-20020a05600c3ba800b0039c7c4a542csm2309254wms.47.2022.06.23.00.57.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jun 2022 00:57:20 -0700 (PDT)
-Message-ID: <12f3bfc9-e7eb-0570-adfd-0ad0e39df91d@redhat.com>
-Date: Thu, 23 Jun 2022 09:57:19 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 460F1113C3E
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 08:04:56 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1o4Hpc-00035t-7h; Thu, 23 Jun 2022 10:04:52 +0200
+Message-ID: <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
+Subject: Re: DMA-buf and uncached system memory
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Pekka
+ Paalanen <ppaalanen@gmail.com>
+Date: Thu, 23 Jun 2022 10:04:49 +0200
+In-Reply-To: <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+ <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
+ <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
+ <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
+ <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
+ <20220623101326.18beeab3@eldfell>
+ <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/fb-helper: Fix out-of-bounds access
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch
-References: <20220621104617.8817-1-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220621104617.8817-1-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,48 +54,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Nuno_Gon=c3=a7alves?= <nunojpg@gmail.com>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, linaro-mm-sig@lists.linaro.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
-
-On 6/21/22 12:46, Thomas Zimmermann wrote:
-> Clip memory range to screen-buffer size to avoid out-of-bounds access
-> in fbdev deferred I/O's damage handling.
+Am Donnerstag, dem 23.06.2022 um 09:26 +0200 schrieb Christian König:
+> Am 23.06.22 um 09:13 schrieb Pekka Paalanen:
+> > On Thu, 23 Jun 2022 08:59:41 +0200
+> > Christian König <christian.koenig@amd.com> wrote:
+> > 
+> > > The exporter isn't doing anything wrong here. DMA-buf are supposed to be
+> > > CPU cached and can also be cache hot.
+> > Hi,
+> > 
+> > what is that statement based on?
 > 
-> Fbdev's deferred I/O can only track pages. From the range of pages, the
-> damage handler computes the clipping rectangle for the display update.
-> If the fbdev screen buffer ends near the beginning of a page, that page
-> could contain more scanlines. The damage handler would then track these
-> non-existing scanlines as dirty and provoke an out-of-bounds access
-> during the screen update. Hence, clip the maximum memory range to the
-> size of the screen buffer.
+> On the design documentation of DMA-buf and the actual driver 
+> implementations.
 > 
-> While at it, rename the variables min/max to min_off/max_off in
-> drm_fb_helper_deferred_io(). This avoids confusion with the macros of
-> the same name.
+> Coherency and snooping of the CPU cache is mandatory for devices and 
+> root complexes in the PCI specification. Incoherent access is just an 
+> extension.
 > 
-> Reported-by: Nuno Gonçalves <nunojpg@gmail.com>
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Tested-by: Nuno Gonçalves <nunojpg@gmail.com>
-> Fixes: 67b723f5b742 ("drm/fb-helper: Calculate damaged area in separate helper")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: <stable@vger.kernel.org> # v5.18+
-> ---
+> We inherited that by basing DMA-buf on the Linux kernel DMA-API which in 
+> turn is largely based on the PCI specification.
+> 
+> > Were the (mandatory for CPU access) cpu_access_begin/end functions &
+> > ioctls not supposed to ensure that CPU cache is up-to-date / CPU cache
+> > is fully flushed out?
+> 
+> No, those functions are to inform the exporter that the importer has 
+> started and finished accessing the buffer using the CPU.
+> 
+> There is no signaling in the other direction. In other words the 
+> exporter doesn't inform the importer about CPU accesses because it is 
+> the owner of the buffer.
+> 
+> It's the responsibility of the importer to make sure that it can 
+> actually access the data in the buffer. If it can't guarantee that the 
+> importer shouldn't import the buffer in the first place.
 
-This makes sense to me.
+This is not really correct. DMA-buf inherited the the map/unmap part
+from the DMA API, which on cache coherent architecture is mostly a no-
+op or ties into the IOMMU implementation to set up the pagetables for
+the translation. On non cache coherent architectures this is the point
+where any any necessary cache maintenance happens. DRM breaks this
+model by caching the DMA-buf mapping for performance reasons.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+In the DMA API keeping things mapped is also a valid use-case, but then
+you need to do explicit domain transfers via the dma_sync_* family,
+which DMA-buf has not inherited. Again those sync are no-ops on cache
+coherent architectures, but do any necessary cache maintenance on non
+coherent arches.
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Regards,
+Lucas
 
