@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9125592FF
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40A95592EB
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:04:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A822F112615;
-	Fri, 24 Jun 2022 06:03:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 500A1112260;
+	Fri, 24 Jun 2022 06:02:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
- [67.231.149.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A46F10FA26
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:24 +0000 (UTC)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
- by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NAKUt6006859;
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
+ [67.231.152.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C87510E5E0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:19 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+ by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBvlrM011978;
  Thu, 23 Jun 2022 07:53:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=dUxxZ4yDTMkaufibeeycQHK/CLz3N70DLkPSTZOUSSI=;
- b=MIRx9pjtG5TdiUU3IET63IKViso5x909aYgg7DCr+swfpiGDCavhcBywAJLbbe6OYr07
- 9wyfuvS173BKrtnH4c0KH6o1XjBa+oCgjdpHaLkHMJ3r6A8Ll1liBC+Q7L5ijY8lnZz5
- STev8PU0TlIAZOxxrVEASwzuUKaw9IGWhIufutbqQBuWzrXRmWIGQfZRiCd0TYIsXnKV
- lqyGkTVFdKfWjPaknA4eAcubfb9qK9W7yzwkn5G3e9KGgDWoUVZStxQL544bntqNOPdX
- pK4ohFJTHueVqGtCZRYeq2Ra6dYhsbqaUmZYi8gnVWNKRotcRYp52YwxBP/sLnpMTunb Xw== 
+ bh=/9B3Tv4x1R+WiyZZkgmE6X35871tNRl0teorevLnTSs=;
+ b=nwfHcMkRaJARE75hfPCpExYvki9wShlIy05jrU9nPtv/totqPNEq4oL4cVXkobxQr/OV
+ 5BnuO1e9KG85AJrMFweU6I5Xt1xx5pr3+u8VMbVxu3QZ2tQ9z/fkShts3NKBll1jHboG
+ KvTlejLRB8IEiB5WEjrYhDsW+j2ykRNjvdu6UvgGJLXxg0M1GICTL5LF4c4G1NfkltNG
+ dcu6hlStzUcYUYsiZXW0ckycDCE9eM4dz3fZU4kRSXE05qHR9YXMj9SMhmRHNyM3Ppxm
+ RbbHVq+eLGPZ5vTbg7jsYxexvckL9wZyQ8vXCu/YEFLcvAJdZ68gDf99hwoEu/KM4nYq wg== 
 Received: from ediex02.ad.cirrus.com ([84.19.233.68])
- by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4u-5
+ by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvp-17
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 23 Jun 2022 07:53:04 -0500
+ Thu, 23 Jun 2022 07:53:05 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
  (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
@@ -38,22 +38,22 @@ Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
  Frontend Transport; Thu, 23 Jun 2022 13:52:55 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id EB54011D3;
- Thu, 23 Jun 2022 12:52:54 +0000 (UTC)
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 2405311D3;
+ Thu, 23 Jun 2022 12:52:55 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH v2 47/96] ASoC: ak*: Remove now redundant
+Subject: [PATCH v2 49/96] ASoC: cs*: Remove now redundant
  non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:52:01 +0100
-Message-ID: <20220623125250.2355471-48-ckeepax@opensource.cirrus.com>
+Date: Thu, 23 Jun 2022 13:52:03 +0100
+Message-ID: <20220623125250.2355471-50-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: yhocI9fY_9yTWOFp6cJEZ5XQk0yCQbo3
-X-Proofpoint-ORIG-GUID: yhocI9fY_9yTWOFp6cJEZ5XQk0yCQbo3
+X-Proofpoint-GUID: 0rLPDDbV6tR66bkSPf8IPzzNU8ZWDRS2
+X-Proofpoint-ORIG-GUID: 0rLPDDbV6tR66bkSPf8IPzzNU8ZWDRS2
 X-Proofpoint-Spam-Reason: safe
 X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,180 +89,333 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/codecs/ak4104.c | 1 -
- sound/soc/codecs/ak4118.c | 1 -
- sound/soc/codecs/ak4375.c | 1 -
- sound/soc/codecs/ak4458.c | 2 --
- sound/soc/codecs/ak4535.c | 1 -
- sound/soc/codecs/ak4554.c | 1 -
- sound/soc/codecs/ak4613.c | 1 -
- sound/soc/codecs/ak4641.c | 1 -
- sound/soc/codecs/ak4642.c | 1 -
- sound/soc/codecs/ak4671.c | 1 -
- sound/soc/codecs/ak5386.c | 1 -
- sound/soc/codecs/ak5558.c | 2 --
- 12 files changed, 14 deletions(-)
+ sound/soc/codecs/cs35l32.c | 1 -
+ sound/soc/codecs/cs35l33.c | 1 -
+ sound/soc/codecs/cs35l34.c | 1 -
+ sound/soc/codecs/cs35l35.c | 1 -
+ sound/soc/codecs/cs35l36.c | 1 -
+ sound/soc/codecs/cs4234.c  | 1 -
+ sound/soc/codecs/cs4265.c  | 1 -
+ sound/soc/codecs/cs4270.c  | 1 -
+ sound/soc/codecs/cs4271.c  | 1 -
+ sound/soc/codecs/cs42l42.c | 1 -
+ sound/soc/codecs/cs42l51.c | 1 -
+ sound/soc/codecs/cs42l52.c | 1 -
+ sound/soc/codecs/cs42l56.c | 1 -
+ sound/soc/codecs/cs42l73.c | 1 -
+ sound/soc/codecs/cs42xx8.c | 1 -
+ sound/soc/codecs/cs43130.c | 1 -
+ sound/soc/codecs/cs4341.c  | 1 -
+ sound/soc/codecs/cs4349.c  | 1 -
+ sound/soc/codecs/cs47l15.c | 1 -
+ sound/soc/codecs/cs47l24.c | 1 -
+ sound/soc/codecs/cs47l35.c | 1 -
+ sound/soc/codecs/cs47l85.c | 1 -
+ sound/soc/codecs/cs47l90.c | 1 -
+ sound/soc/codecs/cs47l92.c | 1 -
+ sound/soc/codecs/cs53l30.c | 1 -
+ 25 files changed, 25 deletions(-)
 
-diff --git a/sound/soc/codecs/ak4104.c b/sound/soc/codecs/ak4104.c
-index dc4747c77a7a1..ce99f30b4613a 100644
---- a/sound/soc/codecs/ak4104.c
-+++ b/sound/soc/codecs/ak4104.c
-@@ -248,7 +248,6 @@ static const struct snd_soc_component_driver soc_component_device_ak4104 = {
+diff --git a/sound/soc/codecs/cs35l32.c b/sound/soc/codecs/cs35l32.c
+index badfc55bc5fa0..8ff6f66be86fa 100644
+--- a/sound/soc/codecs/cs35l32.c
++++ b/sound/soc/codecs/cs35l32.c
+@@ -236,7 +236,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs35l32 = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config ak4104_regmap = {
-diff --git a/sound/soc/codecs/ak4118.c b/sound/soc/codecs/ak4118.c
-index 5c4a78c16733b..b6d9a10bdccdc 100644
---- a/sound/soc/codecs/ak4118.c
-+++ b/sound/soc/codecs/ak4118.c
-@@ -342,7 +342,6 @@ static const struct snd_soc_component_driver soc_component_drv_ak4118 = {
+ /* Current and threshold powerup sequence Pg37 in datasheet */
+diff --git a/sound/soc/codecs/cs35l33.c b/sound/soc/codecs/cs35l33.c
+index 47dc0f6d90a2a..082025fa0370c 100644
+--- a/sound/soc/codecs/cs35l33.c
++++ b/sound/soc/codecs/cs35l33.c
+@@ -840,7 +840,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs35l33 = {
+ 	.num_dapm_routes	= ARRAY_SIZE(cs35l33_audio_map),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static const struct regmap_config cs35l33_regmap = {
+diff --git a/sound/soc/codecs/cs35l34.c b/sound/soc/codecs/cs35l34.c
+index 50d509a060713..472ac982779be 100644
+--- a/sound/soc/codecs/cs35l34.c
++++ b/sound/soc/codecs/cs35l34.c
+@@ -787,7 +787,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs35l34 = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config ak4118_regmap = {
-diff --git a/sound/soc/codecs/ak4375.c b/sound/soc/codecs/ak4375.c
-index 9a7b662016b9e..1ed004ba7cd23 100644
---- a/sound/soc/codecs/ak4375.c
-+++ b/sound/soc/codecs/ak4375.c
-@@ -473,7 +473,6 @@ static const struct snd_soc_component_driver soc_codec_dev_ak4375 = {
+ static struct regmap_config cs35l34_regmap = {
+diff --git a/sound/soc/codecs/cs35l35.c b/sound/soc/codecs/cs35l35.c
+index 6b70afb70a674..714a759dca21b 100644
+--- a/sound/soc/codecs/cs35l35.c
++++ b/sound/soc/codecs/cs35l35.c
+@@ -1087,7 +1087,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs35l35 = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config ak4375_regmap = {
-diff --git a/sound/soc/codecs/ak4458.c b/sound/soc/codecs/ak4458.c
-index baa9ff5d0ce50..ea33cc83c86c2 100644
---- a/sound/soc/codecs/ak4458.c
-+++ b/sound/soc/codecs/ak4458.c
-@@ -725,7 +725,6 @@ static const struct snd_soc_component_driver soc_codec_dev_ak4458 = {
+ static struct regmap_config cs35l35_regmap = {
+diff --git a/sound/soc/codecs/cs35l36.c b/sound/soc/codecs/cs35l36.c
+index dfe85dc2cd20f..4dc13e6f4874c 100644
+--- a/sound/soc/codecs/cs35l36.c
++++ b/sound/soc/codecs/cs35l36.c
+@@ -1300,7 +1300,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs35l36 = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct snd_soc_component_driver soc_codec_dev_ak4497 = {
-@@ -740,7 +739,6 @@ static const struct snd_soc_component_driver soc_codec_dev_ak4497 = {
+ static struct regmap_config cs35l36_regmap = {
+diff --git a/sound/soc/codecs/cs4234.c b/sound/soc/codecs/cs4234.c
+index 881c5ba70c0ed..b49a3cf21ebe2 100644
+--- a/sound/soc/codecs/cs4234.c
++++ b/sound/soc/codecs/cs4234.c
+@@ -660,7 +660,6 @@ static const struct snd_soc_component_driver soc_component_cs4234 = {
+ 	.controls		= cs4234_snd_controls,
+ 	.num_controls		= ARRAY_SIZE(cs4234_snd_controls),
+ 	.set_bias_level		= cs4234_set_bias_level,
+-	.non_legacy_dai_naming	= 1,
+ 	.idle_bias_on		= 1,
+ 	.suspend_bias_off	= 1,
+ 	.endianness		= 1,
+diff --git a/sound/soc/codecs/cs4265.c b/sound/soc/codecs/cs4265.c
+index 86bfa8d5ec787..76c19802d5fe1 100644
+--- a/sound/soc/codecs/cs4265.c
++++ b/sound/soc/codecs/cs4265.c
+@@ -553,7 +553,6 @@ static const struct snd_soc_component_driver soc_component_cs4265 = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config ak4458_regmap = {
-diff --git a/sound/soc/codecs/ak4535.c b/sound/soc/codecs/ak4535.c
-index cc803e730c6ec..8c8c93eea7048 100644
---- a/sound/soc/codecs/ak4535.c
-+++ b/sound/soc/codecs/ak4535.c
-@@ -402,7 +402,6 @@ static const struct snd_soc_component_driver soc_component_dev_ak4535 = {
+ static const struct regmap_config cs4265_regmap = {
+diff --git a/sound/soc/codecs/cs4270.c b/sound/soc/codecs/cs4270.c
+index 97d26b9e8f7fe..ba67e43edf351 100644
+--- a/sound/soc/codecs/cs4270.c
++++ b/sound/soc/codecs/cs4270.c
+@@ -619,7 +619,6 @@ static const struct snd_soc_component_driver soc_component_device_cs4270 = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static int ak4535_i2c_probe(struct i2c_client *i2c)
-diff --git a/sound/soc/codecs/ak4554.c b/sound/soc/codecs/ak4554.c
-index 8e60e2b56ad6d..b9607de5a1912 100644
---- a/sound/soc/codecs/ak4554.c
-+++ b/sound/soc/codecs/ak4554.c
-@@ -67,7 +67,6 @@ static const struct snd_soc_component_driver soc_component_dev_ak4554 = {
+ /*
+diff --git a/sound/soc/codecs/cs4271.c b/sound/soc/codecs/cs4271.c
+index 7663f89ac6a24..2021cf4426061 100644
+--- a/sound/soc/codecs/cs4271.c
++++ b/sound/soc/codecs/cs4271.c
+@@ -642,7 +642,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs4271 = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static int ak4554_soc_probe(struct platform_device *pdev)
-diff --git a/sound/soc/codecs/ak4613.c b/sound/soc/codecs/ak4613.c
-index d29d5e0db168e..f75c19ef35511 100644
---- a/sound/soc/codecs/ak4613.c
-+++ b/sound/soc/codecs/ak4613.c
-@@ -827,7 +827,6 @@ static const struct snd_soc_component_driver soc_component_dev_ak4613 = {
- 	.num_dapm_routes	= ARRAY_SIZE(ak4613_intercon),
+ static int cs4271_common_probe(struct device *dev,
+diff --git a/sound/soc/codecs/cs42l42.c b/sound/soc/codecs/cs42l42.c
+index 6ca74c0d46eaa..d545a593a2516 100644
+--- a/sound/soc/codecs/cs42l42.c
++++ b/sound/soc/codecs/cs42l42.c
+@@ -581,7 +581,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs42l42 = {
+ 	.num_controls		= ARRAY_SIZE(cs42l42_snd_controls),
  	.idle_bias_on		= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static void ak4613_parse_of(struct ak4613_priv *priv,
-diff --git a/sound/soc/codecs/ak4641.c b/sound/soc/codecs/ak4641.c
-index d8d9cc712d679..88851e94b0452 100644
---- a/sound/soc/codecs/ak4641.c
-+++ b/sound/soc/codecs/ak4641.c
-@@ -535,7 +535,6 @@ static const struct snd_soc_component_driver soc_component_dev_ak4641 = {
- 	.idle_bias_on		= 1,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config ak4641_regmap = {
-diff --git a/sound/soc/codecs/ak4642.c b/sound/soc/codecs/ak4642.c
-index 3c20ff5595eb4..914d5b1969f8c 100644
---- a/sound/soc/codecs/ak4642.c
-+++ b/sound/soc/codecs/ak4642.c
-@@ -559,7 +559,6 @@ static const struct snd_soc_component_driver soc_component_dev_ak4642 = {
- 	.num_dapm_routes	= ARRAY_SIZE(ak4642_intercon),
- 	.idle_bias_on		= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config ak4642_regmap = {
-diff --git a/sound/soc/codecs/ak4671.c b/sound/soc/codecs/ak4671.c
-index 60edcbe560141..cd76765f8cc08 100644
---- a/sound/soc/codecs/ak4671.c
-+++ b/sound/soc/codecs/ak4671.c
-@@ -616,7 +616,6 @@ static const struct snd_soc_component_driver soc_component_dev_ak4671 = {
+ /* Switch to SCLK. Atomic delay after the write to allow the switch to complete. */
+diff --git a/sound/soc/codecs/cs42l51.c b/sound/soc/codecs/cs42l51.c
+index 0e933181b5dbb..51721edd8f53c 100644
+--- a/sound/soc/codecs/cs42l51.c
++++ b/sound/soc/codecs/cs42l51.c
+@@ -600,7 +600,6 @@ static const struct snd_soc_component_driver soc_component_device_cs42l51 = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config ak4671_regmap = {
-diff --git a/sound/soc/codecs/ak5386.c b/sound/soc/codecs/ak5386.c
-index c76bfff246028..0c5e00679c7d8 100644
---- a/sound/soc/codecs/ak5386.c
-+++ b/sound/soc/codecs/ak5386.c
-@@ -77,7 +77,6 @@ static const struct snd_soc_component_driver soc_component_ak5386 = {
+ static bool cs42l51_writeable_reg(struct device *dev, unsigned int reg)
+diff --git a/sound/soc/codecs/cs42l52.c b/sound/soc/codecs/cs42l52.c
+index 10e696406a71b..90bf535fc5a52 100644
+--- a/sound/soc/codecs/cs42l52.c
++++ b/sound/soc/codecs/cs42l52.c
+@@ -1061,7 +1061,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs42l52 = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static int ak5386_set_dai_fmt(struct snd_soc_dai *codec_dai,
-diff --git a/sound/soc/codecs/ak5558.c b/sound/soc/codecs/ak5558.c
-index c94cfde3e4a86..887d2c04d647a 100644
---- a/sound/soc/codecs/ak5558.c
-+++ b/sound/soc/codecs/ak5558.c
-@@ -393,7 +393,6 @@ static const struct snd_soc_component_driver soc_codec_dev_ak5558 = {
+ /* Current and threshold powerup sequence Pg37 */
+diff --git a/sound/soc/codecs/cs42l56.c b/sound/soc/codecs/cs42l56.c
+index 510c94265b1f0..03e2540a0ba12 100644
+--- a/sound/soc/codecs/cs42l56.c
++++ b/sound/soc/codecs/cs42l56.c
+@@ -1114,7 +1114,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs42l56 = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct snd_soc_component_driver soc_codec_dev_ak5552 = {
-@@ -408,7 +407,6 @@ static const struct snd_soc_component_driver soc_codec_dev_ak5552 = {
+ static const struct regmap_config cs42l56_regmap = {
+diff --git a/sound/soc/codecs/cs42l73.c b/sound/soc/codecs/cs42l73.c
+index 5a9166289f366..0a146319755a6 100644
+--- a/sound/soc/codecs/cs42l73.c
++++ b/sound/soc/codecs/cs42l73.c
+@@ -1256,7 +1256,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs42l73 = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config ak5558_regmap = {
+ static const struct regmap_config cs42l73_regmap = {
+diff --git a/sound/soc/codecs/cs42xx8.c b/sound/soc/codecs/cs42xx8.c
+index 5d6ef660f851f..d14eb2f6e1dd4 100644
+--- a/sound/soc/codecs/cs42xx8.c
++++ b/sound/soc/codecs/cs42xx8.c
+@@ -497,7 +497,6 @@ static const struct snd_soc_component_driver cs42xx8_driver = {
+ 	.num_dapm_routes	= ARRAY_SIZE(cs42xx8_dapm_routes),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ const struct cs42xx8_driver_data cs42448_data = {
+diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
+index a2bce0f9f247b..ca4d47cc9c915 100644
+--- a/sound/soc/codecs/cs43130.c
++++ b/sound/soc/codecs/cs43130.c
+@@ -2345,7 +2345,6 @@ static struct snd_soc_component_driver soc_component_dev_cs43130 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static const struct regmap_config cs43130_regmap = {
+diff --git a/sound/soc/codecs/cs4341.c b/sound/soc/codecs/cs4341.c
+index 8ac043f1aae01..ac1696034846d 100644
+--- a/sound/soc/codecs/cs4341.c
++++ b/sound/soc/codecs/cs4341.c
+@@ -202,7 +202,6 @@ static const struct snd_soc_component_driver soc_component_cs4341 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static const struct of_device_id __maybe_unused cs4341_dt_ids[] = {
+diff --git a/sound/soc/codecs/cs4349.c b/sound/soc/codecs/cs4349.c
+index 7069e9b548576..f7c5c2fd43046 100644
+--- a/sound/soc/codecs/cs4349.c
++++ b/sound/soc/codecs/cs4349.c
+@@ -260,7 +260,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs4349 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static const struct regmap_config cs4349_regmap = {
+diff --git a/sound/soc/codecs/cs47l15.c b/sound/soc/codecs/cs47l15.c
+index 391fd7da331fd..0193173b86376 100644
+--- a/sound/soc/codecs/cs47l15.c
++++ b/sound/soc/codecs/cs47l15.c
+@@ -1353,7 +1353,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs47l15 = {
+ 	.num_dapm_routes	= ARRAY_SIZE(cs47l15_dapm_routes),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static int cs47l15_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/cs47l24.c b/sound/soc/codecs/cs47l24.c
+index 6356f81aafc56..f9a2b865d7176 100644
+--- a/sound/soc/codecs/cs47l24.c
++++ b/sound/soc/codecs/cs47l24.c
+@@ -1203,7 +1203,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs47l24 = {
+ 	.num_dapm_routes	= ARRAY_SIZE(cs47l24_dapm_routes),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static int cs47l24_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/cs47l35.c b/sound/soc/codecs/cs47l35.c
+index db2f844b8b17f..c1032d6c9143f 100644
+--- a/sound/soc/codecs/cs47l35.c
++++ b/sound/soc/codecs/cs47l35.c
+@@ -1638,7 +1638,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs47l35 = {
+ 	.num_dapm_routes	= ARRAY_SIZE(cs47l35_dapm_routes),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static int cs47l35_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/cs47l85.c b/sound/soc/codecs/cs47l85.c
+index d4fedc5ad516e..215d8211aa59b 100644
+--- a/sound/soc/codecs/cs47l85.c
++++ b/sound/soc/codecs/cs47l85.c
+@@ -2582,7 +2582,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs47l85 = {
+ 	.num_dapm_routes	= ARRAY_SIZE(cs47l85_dapm_routes),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static int cs47l85_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/cs47l90.c b/sound/soc/codecs/cs47l90.c
+index 5aec937a24629..1ad6526c78717 100644
+--- a/sound/soc/codecs/cs47l90.c
++++ b/sound/soc/codecs/cs47l90.c
+@@ -2497,7 +2497,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs47l90 = {
+ 	.num_dapm_routes	= ARRAY_SIZE(cs47l90_dapm_routes),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static int cs47l90_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/cs47l92.c b/sound/soc/codecs/cs47l92.c
+index a1b8dcdb9f7b7..59da34b480a87 100644
+--- a/sound/soc/codecs/cs47l92.c
++++ b/sound/soc/codecs/cs47l92.c
+@@ -1958,7 +1958,6 @@ static const struct snd_soc_component_driver soc_component_dev_cs47l92 = {
+ 	.num_dapm_routes	= ARRAY_SIZE(cs47l92_dapm_routes),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static int cs47l92_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/cs53l30.c b/sound/soc/codecs/cs53l30.c
+index 360ca2ffd5069..8796d8e84b7a2 100644
+--- a/sound/soc/codecs/cs53l30.c
++++ b/sound/soc/codecs/cs53l30.c
+@@ -899,7 +899,6 @@ static const struct snd_soc_component_driver cs53l30_driver = {
+ 	.num_dapm_routes	= ARRAY_SIZE(cs53l30_dapm_routes),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static struct regmap_config cs53l30_regmap = {
 -- 
 2.30.2
 
