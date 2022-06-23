@@ -2,82 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C3F55753E
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 10:21:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C3A557545
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 10:22:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 893C611A1A7;
-	Thu, 23 Jun 2022 08:21:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 626AD11A1BC;
+	Thu, 23 Jun 2022 08:22:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76B4B11A19D
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 08:21:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655972513;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U9xp6k+/ssztG/3ADbjTV9uJ3unEg15AWLMEKoDssNs=;
- b=GW7KliUSv/XHD68MaVVBoc3ZOh281YYHkH+iMp8CQ5Bbvvk8GhsGAVQ87Ur7k/4Mw1E7GJ
- KxLlcB/f/0yYevSVJp4Moapv94g+62s2YdQYMp4e6A55yBvKRpgmppFraiWz/bn5oNwd/5
- YdYewc2SZMRQjnPsmhHzF6EHh3GWnLI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-vCMQZs1qOCyux8n8-4Wb9Q-1; Thu, 23 Jun 2022 04:21:52 -0400
-X-MC-Unique: vCMQZs1qOCyux8n8-4Wb9Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- l17-20020a05600c4f1100b0039c860db521so1058644wmq.5
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 01:21:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=U9xp6k+/ssztG/3ADbjTV9uJ3unEg15AWLMEKoDssNs=;
- b=w/hVYGrTOzW1N3HYv/5+b0FFM9GbhDpGpKQiwbZoy0bMi2LfHirzfhMd53q1BrvsmB
- Pd2j1m266rcs9DUX+3pkUGM5ZKJUxUeepLTl0vExt+Rj3mBRsabXMnUsskqC4CHfZgxW
- 6sNS2nJ8dlOlg03aCjwd681NK5uIYOv7xbGiZRUS483/eLYYwtFwpCjLK/5rvgKUeRnp
- QHDm4cygE2QWb1vjvA9C9PVT/idrwvUsSLMZzj3FvTPGgrqYXMKk9TMOrHvQyDE4+nM0
- VnjL4LQq/mmwWSwJg2FhCBlaLOv4MmDi4CiOExXkTYSqscK19Njsz/z3RNemGIEBZ8ZH
- Y4fw==
-X-Gm-Message-State: AJIora+OXExvBEN1pSi+KMalMd/mOsDMNgH/RRp0sP6H6Vh2ocDgTkG6
- CeprZYPnbmnegmAfkO3X2/FYxV35Nx9MR9MHUW2pTV0VljRmlz9Ebso4/nB/z2mnDSD60HRrLBh
- zioqJT54xTjMCcrgvVlAU8VaKVY65
-X-Received: by 2002:a05:6000:1ac8:b0:21b:9239:8f28 with SMTP id
- i8-20020a0560001ac800b0021b92398f28mr7009954wry.517.1655972510834; 
- Thu, 23 Jun 2022 01:21:50 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t5SZVQyWk+TEFu2PRx6KERnUD0CLeC/LvIflxyl+704vIzs3fjEjczxWI4stRQpX2hBnuPsA==
-X-Received: by 2002:a05:6000:1ac8:b0:21b:9239:8f28 with SMTP id
- i8-20020a0560001ac800b0021b92398f28mr7009942wry.517.1655972510628; 
- Thu, 23 Jun 2022 01:21:50 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
- ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
- by smtp.gmail.com with ESMTPSA id
- t9-20020adfeb89000000b002103bd9c5acsm21694267wrn.105.2022.06.23.01.21.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jun 2022 01:21:50 -0700 (PDT)
-Message-ID: <9db1d8fd-1778-0811-ec70-ad5bb8de00a6@redhat.com>
-Date: Thu, 23 Jun 2022 10:21:49 +0200
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA0611A1BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 08:22:38 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 25N8MNBp044453;
+ Thu, 23 Jun 2022 03:22:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1655972543;
+ bh=I3Kzpe4Zao+JGFPeNsw2PKGMWnjaFeLczTJXnIkQ3CM=;
+ h=Date:From:To:CC:Subject:References:In-Reply-To;
+ b=kg9nHwl5LlPcfmdLQ7nc4WvIgEw0Vtjc0SfgQTh12+xs1a3mR2CpcL1v4TpMDaBXF
+ e9Z3O51z9Ojw0s/2clRJuCUvg6lifPrmg1vCX+n2pOMKpuVtxv60La4TV4P2ZGCLlF
+ FtwMHu4PzW/owIv+eutma/E+NaZipn4kG4p+OzDg=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 25N8MN91129679
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 23 Jun 2022 03:22:23 -0500
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 23
+ Jun 2022 03:22:23 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Thu, 23 Jun 2022 03:22:23 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 25N8MMS5004868;
+ Thu, 23 Jun 2022 03:22:23 -0500
+Date: Thu, 23 Jun 2022 13:52:21 +0530
+From: Rahul T R <r-ravikumar@ti.com>
+To: Aradhya Bhatia <a-bhatia1@ti.com>
+Subject: Re: [PATCH 2/2] drm/tidss: Add support for AM625 DSS
+Message-ID: <20220623082220.wpnnzkzjmkcni3o6@uda0490373>
+References: <20220620123217.25809-1-a-bhatia1@ti.com>
+ <20220620123217.25809-3-a-bhatia1@ti.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/ast: Fix black screen when getting out of suspend
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, kuohsiang_chou@aspeedtech.com
-References: <20220622124815.356035-1-jfalempe@redhat.com>
- <8a6048576c440f1653121bb7be8583e9fee0c79a.camel@redhat.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <8a6048576c440f1653121bb7be8583e9fee0c79a.camel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20220620123217.25809-3-a-bhatia1@ti.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,78 +62,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net, hungju_huang@aspeedtech.com,
- Venkat Tadikonda <venkateswara.rao@intel.com>, charles_kuan@aspeedtech.com,
- luke_chen@aspeedtech.com
+Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
+ David Airlie <airlied@linux.ie>, Linux Kernel <linux-kernel@vger.kernel.org>,
+ DRI Devel List <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/06/2022 20:34, Lyude Paul wrote:
-> Some small nitpicks:
-> 
-> On Wed, 2022-06-22 at 14:48 +0200, Jocelyn Falempe wrote:
->> With an AST2600, the screen is garbage when going out of suspend.
->> This is because color settings are lost, and not restored on resume.
->> Force the color settings on DPMS_ON, to make sure the settings are correct.
->>
->> I didn't write this code, it comes from the out-of-tree aspeed driver v1.13
->> https://www.aspeedtech.com/support_driver/
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> Tested-by: Venkat Tadikonda <venkateswara.rao@intel.com>
-> 
-> Should have a Cc: to stable imho, `dim` can do this for you:
-> 
-> https://drm.pages.freedesktop.org/maintainer-tools/dim.html
+Hi Aradhya,
 
-Sure I will add cc to stable for the v2
+On 18:02-20220620, Aradhya Bhatia wrote:
+> Add support for the DSS IP on TI's new AM625 soc in the tidss driver.
 > 
->> ---
->>   drivers/gpu/drm/ast/ast_mode.c | 13 +++++++++++++
->>   1 file changed, 13 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
->> index 3eb9afecd9d4..cdddcb5c4439 100644
->> --- a/drivers/gpu/drm/ast/ast_mode.c
->> +++ b/drivers/gpu/drm/ast/ast_mode.c
->> @@ -990,6 +990,9 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int
->> mode)
->>   {
->>          struct ast_private *ast = to_ast_private(crtc->dev);
->>          u8 ch = AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF;
->> +       struct ast_crtc_state *ast_state;
->> +       const struct drm_format_info *format;
->> +       struct ast_vbios_mode_info *vbios_mode_info;
->>   
->>          /* TODO: Maybe control display signal generation with
->>           *       Sync Enable (bit CR17.7).
->> @@ -1007,6 +1010,16 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int
->> mode)
->>                          ast_dp_set_on_off(crtc->dev, 1);
->>                  }
->>   
->> +               ast_state = to_ast_crtc_state(crtc->state);
->> +               format = ast_state->format;
->> +
->> +               if (format){
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> ---
+>  drivers/gpu/drm/tidss/tidss_dispc.c | 83 ++++++++++++++++++++++++++++-
+>  drivers/gpu/drm/tidss/tidss_dispc.h |  2 +
+>  drivers/gpu/drm/tidss/tidss_drv.c   |  1 +
+>  3 files changed, 85 insertions(+), 1 deletion(-)
 > 
-> Should be a space between ')' and '{'.
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index dae47853b728..511d1f1d46fc 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -272,6 +272,82 @@ const struct dispc_features dispc_j721e_feats = {
+>  	.vid_order = { 1, 3, 0, 2 },
+>  };
+>  
+> +static const u16 tidss_am62x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+> +	[DSS_REVISION_OFF] =			0x4,
+> +	[DSS_SYSCONFIG_OFF] =			0x8,
+> +	[DSS_SYSSTATUS_OFF] =			0x20,
+> +	[DISPC_IRQ_EOI_OFF] =			0x24,
+> +	[DISPC_IRQSTATUS_RAW_OFF] =		0x28,
+> +	[DISPC_IRQSTATUS_OFF] =			0x2c,
+> +	[DISPC_IRQENABLE_SET_OFF] =		0x30,
+> +	[DISPC_IRQENABLE_CLR_OFF] =		0x40,
+> +	[DISPC_VID_IRQENABLE_OFF] =		0x44,
+> +	[DISPC_VID_IRQSTATUS_OFF] =		0x58,
+> +	[DISPC_VP_IRQENABLE_OFF] =		0x70,
+> +	[DISPC_VP_IRQSTATUS_OFF] =		0x7c,
+> +
+> +	[WB_IRQENABLE_OFF] =			0x88,
+> +	[WB_IRQSTATUS_OFF] =			0x8c,
+> +
+> +	[DISPC_GLOBAL_MFLAG_ATTRIBUTE_OFF] =	0x90,
+> +	[DISPC_GLOBAL_OUTPUT_ENABLE_OFF] =	0x94,
+> +	[DISPC_GLOBAL_BUFFER_OFF] =		0x98,
+> +	[DSS_CBA_CFG_OFF] =			0x9c,
+> +	[DISPC_DBG_CONTROL_OFF] =		0xa0,
+> +	[DISPC_DBG_STATUS_OFF] =		0xa4,
+> +	[DISPC_CLKGATING_DISABLE_OFF] =		0xa8,
+> +	[DISPC_SECURE_DISABLE_OFF] =		0xac,
+> +};
+> +
 
-looks like I forget to run checkpatch.pl on it before sending :(
+register offsets are exactly same as
+am65x, same can be reused here
 
-I'll wait a bit for other comments, and sent a v2 with cc for stable.
-> 
-> With that fixed, this is: Reviewed-by: Lyude Paul <lyude@redhat.com>
-> 
->> +                       vbios_mode_info = &ast_state->vbios_mode_info;
->> +
->> +                       ast_set_color_reg(ast, format);
->> +                       ast_set_vbios_color_reg(ast, format,
->> vbios_mode_info);
->> +               }
->> +
->>                  ast_crtc_load_lut(ast, crtc);
->>                  break;
->>          case DRM_MODE_DPMS_STANDBY:
-> 
+with that
+Reviewed-by: Rahul T R <r-ravikumar@ti.com>
 
+Regards
+Rahul T R
+> +const struct dispc_features dispc_am625_feats = {
+> +	.max_pclk_khz = {
+> +		[DISPC_VP_DPI] = 165000,
+> +		[DISPC_VP_OLDI] = 165000,
+> +	},
+> +
+> +	.scaling = {
+> +		.in_width_max_5tap_rgb = 1280,
+> +		.in_width_max_3tap_rgb = 2560,
+> +		.in_width_max_5tap_yuv = 2560,
+> +		.in_width_max_3tap_yuv = 4096,
+> +		.upscale_limit = 16,
+> +		.downscale_limit_5tap = 4,
+> +		.downscale_limit_3tap = 2,
+> +		/*
+> +		 * The max supported pixel inc value is 255. The value
+> +		 * of pixel inc is calculated like this: 1+(xinc-1)*bpp.
+> +		 * The maximum bpp of all formats supported by the HW
+> +		 * is 8. So the maximum supported xinc value is 32,
+> +		 * because 1+(32-1)*8 < 255 < 1+(33-1)*4.
+> +		 */
+> +		.xinc_max = 32,
+> +	},
+> +
+> +	.subrev = DISPC_AM625,
+> +
+> +	.common = "common",
+> +	.common_regs = tidss_am62x_common_regs,
+> +
+> +	.num_vps = 2,
+> +	.vp_name = { "vp1", "vp2" },
+> +	.ovr_name = { "ovr1", "ovr2" },
+> +	.vpclk_name =  { "vp1", "vp2" },
+> +	.vp_bus_type = { DISPC_VP_OLDI, DISPC_VP_DPI },
+> +
+> +	.vp_feat = { .color = {
+> +			.has_ctm = true,
+> +			.gamma_size = 256,
+> +			.gamma_type = TIDSS_GAMMA_8BIT,
+> +		},
+> +	},
+> +
+> +	.num_planes = 2,
+> +	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
+> +	.vid_name = { "vid", "vidl1" },
+> +	.vid_lite = { false, true, },
+> +	.vid_order = { 1, 0 },
+> +};
+> +
+>  static const u16 *dispc_common_regmap;
+>  
+>  struct dss_vp_data {
+> @@ -775,6 +851,7 @@ dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc)
+>  		return dispc_k2g_read_and_clear_irqstatus(dispc);
+>  	case DISPC_AM65X:
+>  	case DISPC_J721E:
+> +	case DISPC_AM625:
+>  		return dispc_k3_read_and_clear_irqstatus(dispc);
+>  	default:
+>  		WARN_ON(1);
+> @@ -790,6 +867,7 @@ void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
+>  		break;
+>  	case DISPC_AM65X:
+>  	case DISPC_J721E:
+> +	case DISPC_AM625:
+>  		dispc_k3_set_irqenable(dispc, mask);
+>  		break;
+>  	default:
+> @@ -1279,6 +1357,7 @@ void dispc_ovr_set_plane(struct dispc_device *dispc, u32 hw_plane,
+>  					x, y, layer);
+>  		break;
+>  	case DISPC_AM65X:
+> +	case DISPC_AM625:
+>  		dispc_am65x_ovr_set_plane(dispc, hw_plane, hw_videoport,
+>  					  x, y, layer);
+>  		break;
+> @@ -2202,6 +2281,7 @@ static void dispc_plane_init(struct dispc_device *dispc)
+>  		break;
+>  	case DISPC_AM65X:
+>  	case DISPC_J721E:
+> +	case DISPC_AM625:
+>  		dispc_k3_plane_init(dispc);
+>  		break;
+>  	default:
+> @@ -2307,6 +2387,7 @@ static void dispc_vp_write_gamma_table(struct dispc_device *dispc,
+>  		dispc_k2g_vp_write_gamma_table(dispc, hw_videoport);
+>  		break;
+>  	case DISPC_AM65X:
+> +	case DISPC_AM625:
+>  		dispc_am65x_vp_write_gamma_table(dispc, hw_videoport);
+>  		break;
+>  	case DISPC_J721E:
+> @@ -2580,7 +2661,7 @@ int dispc_runtime_resume(struct dispc_device *dispc)
+>  		REG_GET(dispc, DSS_SYSSTATUS, 2, 2),
+>  		REG_GET(dispc, DSS_SYSSTATUS, 3, 3));
+>  
+> -	if (dispc->feat->subrev == DISPC_AM65X)
+> +	if (dispc->feat->subrev == DISPC_AM65X || dispc->feat->subrev == DISPC_AM625)
+>  		dev_dbg(dispc->dev, "OLDI RESETDONE %d,%d,%d\n",
+>  			REG_GET(dispc, DSS_SYSSTATUS, 5, 5),
+>  			REG_GET(dispc, DSS_SYSSTATUS, 6, 6),
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+> index e49432f0abf5..a28005dafdc9 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+> @@ -61,6 +61,7 @@ enum dispc_dss_subrevision {
+>  	DISPC_K2G,
+>  	DISPC_AM65X,
+>  	DISPC_J721E,
+> +	DISPC_AM625,
+>  };
+>  
+>  struct dispc_features {
+> @@ -88,6 +89,7 @@ struct dispc_features {
+>  extern const struct dispc_features dispc_k2g_feats;
+>  extern const struct dispc_features dispc_am65x_feats;
+>  extern const struct dispc_features dispc_j721e_feats;
+> +extern const struct dispc_features dispc_am625_feats;
+>  
+>  void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask);
+>  dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc);
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
+> index 04cfff89ee51..326059e99696 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.c
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
+> @@ -235,6 +235,7 @@ static const struct of_device_id tidss_of_table[] = {
+>  	{ .compatible = "ti,k2g-dss", .data = &dispc_k2g_feats, },
+>  	{ .compatible = "ti,am65x-dss", .data = &dispc_am65x_feats, },
+>  	{ .compatible = "ti,j721e-dss", .data = &dispc_j721e_feats, },
+> +	{ .compatible = "ti,am625-dss", .data = &dispc_am625_feats, },
+>  	{ }
+>  };
+>  
+> -- 
+> 2.36.1
+> 
