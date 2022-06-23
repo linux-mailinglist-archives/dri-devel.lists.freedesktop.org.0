@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D125592A4
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:02:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E16D5592A6
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:02:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7141D112197;
-	Fri, 24 Jun 2022 06:01:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2CC0112128;
+	Fri, 24 Jun 2022 06:01:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com
- [67.231.152.168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F50310E3FB
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:13 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
- by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBvlrJ011978;
- Thu, 23 Jun 2022 07:53:03 -0500
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
+ [67.231.149.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1D1210E5E0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:18 +0000 (UTC)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+ by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBNlqi015665;
+ Thu, 23 Jun 2022 07:53:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=tlTfDDpAddy4OPcZxsIlei/7Fh8yufBurTEFJp8EGOs=;
- b=nhRJb9fbgJ3cqpgQzDX6d6eOobIbdJj/9x1q9n8AW9o9Sr2JAvfMSSexcj1mJtKswkje
- Um3CMtXYYpUFNIwp5/tA6/ZQnF2/EZAo3cTXZGWvgpYBfpOQIItvz0JbcX8+UAOZlbr8
- +MCP3IjgBRfa6lh7rZuLayadfPUEg8V4sv78uw5EHpHay0asm9XLpK92Lb2F5xOtFJL3
- W1AziX6/GJrnWzjpTscR6S6XWr/8PprAhpbUK7jBhp87bFnkVBhNZR5SNWssd8XqpZsH
- HpSSJDtlhLu3dp5decxG6TNVMxxahSA5++RGN8H1pOD5D7Ts8Y65bDqRnM6sNsTwDJ08 Qw== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
- by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvp-14
+ bh=Moe+iDLBBrEDDxnDYh3XwjhpqoMM9y00x+UEeU8HbSI=;
+ b=nzDzD0M4+oBoB04zS3kTEyNWmfUPwrllM6NPXCURXxqnZPVrKRnNM+1jC4reaatLVL6/
+ eaomOFc8OgQ2rokIOM0wG2hgPs6+RYsLQPb2oV8sD/PkdNHr1IQzFA6f8R0GaPfDEQeZ
+ VidDMiKaPsXwSbSfpdwcp4/AiYqrRsXGc4lHJQVZWlPU5Rmpe7H/hVR96x/x697vhA42
+ iYKSSgo81x3ysKhIVLvEbah/ud74YD4LgwsCmVxVtNxxJJdR1cfYrk715n/4EDxd4zAC
+ DUSBAQ0jTicDQZK4NsJC8HM7nRljzfttU8VuIy62/4TkTAunWA8txK3sORmBQ8vXANg1 6g== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+ by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4j-15
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 23 Jun 2022 07:53:02 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 23 Jun 2022 07:53:04 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
  2022 13:52:54 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
  Frontend Transport; Thu, 23 Jun 2022 13:52:54 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 3AD2D11D3;
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 87A0F11DA;
  Thu, 23 Jun 2022 12:52:54 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH v2 39/96] ASoC: samsung: Remove now redundant
+Subject: [PATCH v2 43/96] ASoC: test-component: Remove now redundant
  non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:51:53 +0100
-Message-ID: <20220623125250.2355471-40-ckeepax@opensource.cirrus.com>
+Date: Thu, 23 Jun 2022 13:51:57 +0100
+Message-ID: <20220623125250.2355471-44-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: fSwlugdKKwJJTfUU3bZPMdNGgal-8PBA
-X-Proofpoint-ORIG-GUID: fSwlugdKKwJJTfUU3bZPMdNGgal-8PBA
+X-Proofpoint-GUID: C7mfGE8ZI4r9XF-oXseaPgPSXaUVL4js
+X-Proofpoint-ORIG-GUID: C7mfGE8ZI4r9XF-oXseaPgPSXaUVL4js
 X-Proofpoint-Spam-Reason: safe
 X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,21 +89,21 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/samsung/aries_wm8994.c | 1 -
+ sound/soc/generic/test-component.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/samsung/aries_wm8994.c b/sound/soc/samsung/aries_wm8994.c
-index edee02d7f100a..e7d52d27132ea 100644
---- a/sound/soc/samsung/aries_wm8994.c
-+++ b/sound/soc/samsung/aries_wm8994.c
-@@ -432,7 +432,6 @@ static const struct snd_soc_component_driver aries_component = {
- 	.idle_bias_on		= 1,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
+diff --git a/sound/soc/generic/test-component.c b/sound/soc/generic/test-component.c
+index e2a009bc69af2..98c8990596a88 100644
+--- a/sound/soc/generic/test-component.c
++++ b/sound/soc/generic/test-component.c
+@@ -569,7 +569,6 @@ static int test_driver_probe(struct platform_device *pdev)
+ 		cdriv->name			= "test_codec";
+ 		cdriv->idle_bias_on		= 1;
+ 		cdriv->endianness		= 1;
+-		cdriv->non_legacy_dai_naming	= 1;
+ 	}
  
- static struct snd_soc_dai_driver aries_ext_dai[] = {
+ 	cdriv->open		= test_component_open;
 -- 
 2.30.2
 
