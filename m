@@ -1,65 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D9985573A2
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 09:13:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5495573E2
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 09:26:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E20BB113BC2;
-	Thu, 23 Jun 2022 07:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32C02113C51;
+	Thu, 23 Jun 2022 07:26:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A827113BCE
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 07:13:38 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id i18so18140989lfu.8
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 00:13:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=HKFgy2ePSsWBd5WuvWRCAAgtGzNsGiovMzKJw9WuAWA=;
- b=YHqD16i1gy7q5AU1NQ3/V1N310bWjVPrieL93A3boF19PSadG6dWxkVlfmG842U47g
- 74r/2zMgBXhaCoa8PyF27NUbb49451lSdYuvYHjO1SH4Z7CLaEO7qbFB8v5IYhWSq3in
- KAlV+lxQcrfa+6sMhYT/L1EEvAMQgiFeRS4Ppis5ftyOo2GJrVhQLlSIG4NkPzHWUcP0
- n5aIft2UUuStF45XBP1WPOoleMZ3qWKjk3iqQKtHYN7iDfelqf+/GRsPE5atiyleDAH6
- FLhnCHEU0i85+0ALhH3ZHYriyxt0/Wh58BDqsU/4rm1kv/x79LyFg0fQpqcCnbxFvr39
- M9HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=HKFgy2ePSsWBd5WuvWRCAAgtGzNsGiovMzKJw9WuAWA=;
- b=FEGym+5Q21tNPH87FCvW1eKPqs0jtt7msagFu5DnzJIjtP8qk+z0buM5nfT7fGhdnz
- 9rAMIUgDyan0YwFlQAF+wnEzL4cby22SmJ99Orq4Gb4sGMcGjKZJv41d5xz/redbMnkN
- /XMbpf9t/4TvvL3eWyAB9efi/1RNj/iAwSKZNeqju65NnTMs6/AmT3Mfp9Qwke44YfPF
- Fee2xOWcG1mNMUeEoP1SWaY4y+osbpft/sTX3wcDX57GuMh0Pwh/J94DreHQNCIf1g2I
- 7imlSVbttANMJRfqihkMKLvD0l605CZA+AX3u4w9lN7C2/u4l+u1qdrtf+cWYnKnAXCl
- 2xEg==
-X-Gm-Message-State: AJIora/7L0E+6bKmljDEdtplxOTK7nXNLz4Lh/xvyxy9R1IyzciDGTYi
- 1sNJyHLo5X1utfidTBLEuvg=
-X-Google-Smtp-Source: AGRyM1tQKqOwQskRGxDVvZp5ecHNyZRyMLFkiEcuNVszS7TJ5maJeX2lgHeXtpbyA72kS7dUtzTlrQ==
-X-Received: by 2002:a05:6512:3f15:b0:477:ce24:4e1f with SMTP id
- y21-20020a0565123f1500b00477ce244e1fmr4473530lfa.355.1655968416440; 
- Thu, 23 Jun 2022 00:13:36 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- q20-20020a2eb4b4000000b0025a6a8bdcc7sm1655874ljm.1.2022.06.23.00.13.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jun 2022 00:13:36 -0700 (PDT)
-Date: Thu, 23 Jun 2022 10:13:26 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2075.outbound.protection.outlook.com [40.107.94.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 720FB113C50
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 07:26:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LbE173cYM+qZsLaMLMbxfo4hfe2yAoQbtxvDpMQfkhtry91YhImYyD3ZmKeIKXqBMK8Tpd+hqh0ZcBc9/YUWWPHg95jntpg+S+MXXp67Fo45rHgZWSl7sJDaQzDJx3eEtr0eSmQZpGzTZ6EKfgn/9vNrytxnpM7IyisDG+c5nyO14oflKOneSDGdrO7F2Gl4C5/QKmBqJe8aKsDjo3JekXsow35nimKBR8h2JWlPBvEATVcXTQDLon3nTFOlY7IU1f0e1CdGCeYs04nnjxzbjvRinWAV8ZK+RW6VxZ1wLHmuj12au+O7MqL052QbqfF0VbTYZ0k1I8Fn+YoyAwT0pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Tf1jyA/8RtYQD5q1EWnuBulPu1HoSDEiFDnmFJzzFPU=;
+ b=CMEtsXuIJFUQRecKrZf+18yhm9yuah1zi5oFB8q063bfE1Qlg1mwNzZd0hBYk/BL5eGHVu0z2FlRU63KaZC96FucxYS5z+okbuhucEHmaENfF6hHpf7FFgWm4UvWaHD1BmaUMlbNeC27u2U0vXS5Zgck6946C+QMpfJmAyNmM9wE/A4r2rlZlyVyYr+WbOioI9a1z8DeR75lC97Vhv0xMQp4WGKj0fsmOdT0rP31FHgEm2NGq0+bUxlpMzWXi04iHqh+5lBI9AzjLmEEWnXIkDRp3SNoZahGxJJpcy5GTWwry1l32T1lFjLFPWFC6SzADuC70lzWzbItBoRZtzMpOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Tf1jyA/8RtYQD5q1EWnuBulPu1HoSDEiFDnmFJzzFPU=;
+ b=Rjm+R+eMl6REX8vAKIS3tR4RB3NnExyr0OAYA3ylx2GC8bMrLTYvmpFEaYXnhS9rypLCSF7hjkCdAr+ONq/OsGxHv8Cw6iN0n0wj/nGbWUx6NVLlp/npUGZ1+tHu8XgXny8WYMr/lQITADqqtmsjEGdGot7IS+NQqf+LCKUdyGw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DM5PR12MB1147.namprd12.prod.outlook.com (2603:10b6:3:79::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.15; Thu, 23 Jun
+ 2022 07:26:20 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e0fd:45cf:c701:2731]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e0fd:45cf:c701:2731%6]) with mapi id 15.20.5373.015; Thu, 23 Jun 2022
+ 07:26:20 +0000
+Message-ID: <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
+Date: Thu, 23 Jun 2022 09:26:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
 Subject: Re: DMA-buf and uncached system memory
-Message-ID: <20220623101326.18beeab3@eldfell>
-In-Reply-To: <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
+Content-Language: en-US
+To: Pekka Paalanen <ppaalanen@gmail.com>
 References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
  <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
  <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
  <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
  <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20220623101326.18beeab3@eldfell>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220623101326.18beeab3@eldfell>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM5PR0201CA0005.eurprd02.prod.outlook.com
+ (2603:10a6:203:3d::15) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/QmOTkLNi2kJF4_bkXoJdUR3";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 754263c8-a544-4651-d9d9-08da54e9ab37
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1147:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1147A10B5E5744445F22CF9C83B59@DM5PR12MB1147.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: F75Ve+l/1tri36U6WXuFkLHmPpRuUHKkXHXZKP61vgCHOkht8g58PWNZt91wZRhBeINEspvPtVYarvS6fK6zmteHJPKQhaHUu+BFlOjO0S54sXJqZzypbjBmKDl5cbi+CWXqH+Nlie8QhvQk3hkGx02JAOv03cm/xu9QxOt0GbMlN+zLpQ2q/Qq7xZ6abShaMCk5CkNmeod+O4UrWaUEWQmhiomRkPXBPhlYAiPEyEnGO5zukRxfbSD6KeX9yN91uM8VXlguLZ6sKAStzo4NlOj3GTPOz4prFHTKjk3FnlyLe6RkdgsHEIYf1NUk74b6arRyqJV+byDYmOrjg5uvP3/UYeE7zmIao9e/uJ2+l+StzAbvMuYMyLGBmui8E1hRv/ePhS0op3KLM760c2Xsrcyeq65rsok6zpgKDmtdqdYjG5AI+fNNMzfZCef8Os3qu5qY9sFJvfAOUFaIAnrtdAGYs6w2Z/yHoWGizhXabftXdTgTcZEfl/0/f/J0eq3/Q59zY3QDcCjtTd9Pe0ZXwUdMNJbQsc7GyOQgWJ2bi9PKxWxKfz+Y4uz+ITEqDZOiGzDgyQxZzjq17nWFr1hOoWIhXyC9DT/WS3zIWYuM1nTpKzwO0TuOoR6KqaWp9HPqeX/m9VLAMCZMA3veDGiNH0KinLd1/gj5dK6tGMSaHhqoDljLu58duWgYsqLrpoHfB879JkyHjAdmEw9tgmxranpP5UGE1KTWvD+S/kbbL2OECgf2lq+ltCHgbFNvLpzdD20lKQSRmXQAFjkahknhH9csNgi0Y1ZrFIMoIbyWpY4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(396003)(39860400002)(346002)(376002)(366004)(136003)(4326008)(8936002)(66574015)(66476007)(8676002)(86362001)(6666004)(6506007)(66556008)(6512007)(66946007)(31686004)(186003)(6916009)(83380400001)(2616005)(54906003)(5660300002)(36756003)(41300700001)(31696002)(38100700002)(26005)(316002)(6486002)(478600001)(2906002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T09NNHZ3MW04WE9LR2E4bWFiWUxpZmxLL05hbmp1bVUrMmdvaWhBYVZkK3JG?=
+ =?utf-8?B?RlpEL3plTmZ2MWtRRkJQSXE0ZTduZERwd3VpU2lhTkk5VERJN0xLNEhFSlIw?=
+ =?utf-8?B?Z09oUUJCWWxyQVBIZllqelovLzgrNE5kSFVieThhWThSdCtHTlFWNFV4ZUw4?=
+ =?utf-8?B?WnhlY0d0UHllWkxBaEw2S09HMm5zbkN6WEMvVkNqVFJhM1lMcGtLVXpPTjN1?=
+ =?utf-8?B?OUpIZ0hIUXJTenZQNkxqanJuSUIrejVuTVZwL2RGVU1KZldzYVY0bGsrdFR4?=
+ =?utf-8?B?K3VIVFRNMnFJTXNGUzA5RDc5M3Aya0NWYzNOUGpBdVIzQklhbVdIYXRGeWNQ?=
+ =?utf-8?B?TEYwV0E2UU54YVdod3JyRldBM25SRklSNDhIMFlaMVpqMDczUjZmLzVxTTk0?=
+ =?utf-8?B?SCtkekNtVFJKejdTdDhUWlFCRzBLUEtCb3BnbzgrRlh6VDBhYWpuT3UzdW40?=
+ =?utf-8?B?YXcxdU1DZkY4WisyNXF1REt1R005TWkvV01WWmFMNGFpMms3ckVsczA5dmpJ?=
+ =?utf-8?B?SHRxaEZvNlMvU3J1UThOZkxYNmU0ckx6RkR3YnMxTklMcWoxajNicmJTR2NN?=
+ =?utf-8?B?VWVJNWNTaEZ4ZFdsT2N2ZXB0Y1lwQXlkZTMva2dJQ2dNMHBjc2pqM3JvZFlQ?=
+ =?utf-8?B?V3Z6OUxUWE0wZW1qcVIvNEg3bU5qaGRUYjF1bzRtVmYwbGtJNG04YkExOGYz?=
+ =?utf-8?B?V2ZwWWt1VTh4VU9BbzBQR09DZXRBaFRCNzZzcHIxWUhSeDRtQUx4K1JjRURa?=
+ =?utf-8?B?ckhHWUFQREl2U2xVaGcyRUNZMDRYV1pUaTBoK2FtdnpiRHpBWG1nenl1endR?=
+ =?utf-8?B?TWZ5QlRxMjcvMnN2Vjl3ek1tQlE5SmN3Q1ZDbHV4ZXY3OUgya1lZampiY1dF?=
+ =?utf-8?B?NnR5R0I3RGRITnlTZVIzaHh1WUlRUnpuN0lMMnV0L1VOUGVhSnk5VHpmdGNo?=
+ =?utf-8?B?MWNqWEYzRnhVRExHSjh0WFM5SkM0VGttMTIwanpwWWxkSklSYytuRG5UbGh0?=
+ =?utf-8?B?dlJta01TS0Q4eE84UlYvbnRxblUxQTFZaVVTTm5JeXVxM0JveTNNTzRIYUVR?=
+ =?utf-8?B?ODVFOHNCUURXcUN3eklFOFFNWitlRFhVSTc3ZEZwczdXcTdFZUx3UTIxcCtW?=
+ =?utf-8?B?M2JKM1dJNGJDNGdUTjRnbUNTV1FZUjVhSzQ2THYvelk1cWtUSm1UeHhxN3Zt?=
+ =?utf-8?B?cndwZmVERWkvMTBDOUlCSVFKU1FFOXIwQTdOeUxnOUw1aGVkWTY0UmpmQloz?=
+ =?utf-8?B?YUt0WGV1RWpPZlFLT0IyV3BVZm1OWjlJaUgrVHJCSGc0VWh4a3JGeGJwZ3Ru?=
+ =?utf-8?B?Y1R5NVJDa0ZPdEY0UnRKeE40T2Z6MDVqT0JSdzZTaFpOMXpFUkIxVXJuRGNy?=
+ =?utf-8?B?b1Y0a1B0VlRIMGNncDQ5bE9QVmtVb0JRM0pmNkFOR2Eycm1BY293MWZFakxX?=
+ =?utf-8?B?TUZ3MERpN2FFMlAwM2Vncnh0ZHlxTEQxTDc3YWR3R2NKOVNLUlhCQnArNGNm?=
+ =?utf-8?B?clQyUVFZY01zMi93d2hDYXRiaEFWUkRpeVh6UGU2VWIyWXpPV2JmYVlBVjY1?=
+ =?utf-8?B?ZlNxM2lYeC80b09kMC9neEIxVUpKZ3N1ME0rY2h4bFZ4b3E3UFUrT0JubFZ5?=
+ =?utf-8?B?SDBnTUh4a0M4cTFGeDRMdmtza3ViYTVDL09ObTMyb0NPUUpqS2gvNUxybFIy?=
+ =?utf-8?B?cnVFeDFENHN3ZnNRbmVkMmxrdkJzZTJ2RDdxWWJsczFxWjVKVGxjSmptTW9o?=
+ =?utf-8?B?a3E0eml4dGlZL1dGNFoxSkJGOU5Bd3VrQnlQMVQvSjNUd3Bzd0d2R0pYTWVs?=
+ =?utf-8?B?aEMxa2t3bFpubEJPVWJrZUJncTBPbE1NbFJvRHh2V0Q0WjZSdnpPUk1HSGVV?=
+ =?utf-8?B?RVhXOG5HTmlYTWpOQi9XNnBTN0tOSk5UQmdWYlI0VW01b3dPMDFwZ0cvcVBk?=
+ =?utf-8?B?RFFSVzdrczNVREhBQWRrcTNQdU1rcWFldmpQOThuYUxmcEtvQStuU2g4Q0V0?=
+ =?utf-8?B?NlhLUk9oSDRCR0UvZkV3eWc5dHgzNEtXejc5eEVrbGw1WkdKKy9adEorUkUr?=
+ =?utf-8?B?UEJCcXhnbFRCRENkODkzdExJWnZJWXc0TU82MHh5STR6YnJ1dkQvZ2ZxdGkz?=
+ =?utf-8?Q?C5+ctV6PmTbYBvaubuDvbc/hw?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 754263c8-a544-4651-d9d9-08da54e9ab37
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2022 07:26:20.4898 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AieHjsVjyjMkJG2ZFxkfn0/eQNqI0XMWwtCrtXTy1oW6p547iiH0jT8GbwK4Pffs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,48 +139,46 @@ Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/QmOTkLNi2kJF4_bkXoJdUR3
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Am 23.06.22 um 09:13 schrieb Pekka Paalanen:
+> On Thu, 23 Jun 2022 08:59:41 +0200
+> Christian König <christian.koenig@amd.com> wrote:
+>
+>> The exporter isn't doing anything wrong here. DMA-buf are supposed to be
+>> CPU cached and can also be cache hot.
+> Hi,
+>
+> what is that statement based on?
 
-On Thu, 23 Jun 2022 08:59:41 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+On the design documentation of DMA-buf and the actual driver 
+implementations.
 
-> The exporter isn't doing anything wrong here. DMA-buf are supposed to be=
-=20
-> CPU cached and can also be cache hot.
+Coherency and snooping of the CPU cache is mandatory for devices and 
+root complexes in the PCI specification. Incoherent access is just an 
+extension.
 
-Hi,
+We inherited that by basing DMA-buf on the Linux kernel DMA-API which in 
+turn is largely based on the PCI specification.
 
-what is that statement based on?
+> Were the (mandatory for CPU access) cpu_access_begin/end functions &
+> ioctls not supposed to ensure that CPU cache is up-to-date / CPU cache
+> is fully flushed out?
 
-Were the (mandatory for CPU access) cpu_access_begin/end functions &
-ioctls not supposed to ensure that CPU cache is up-to-date / CPU cache
-is fully flushed out?
+No, those functions are to inform the exporter that the importer has 
+started and finished accessing the buffer using the CPU.
 
+There is no signaling in the other direction. In other words the 
+exporter doesn't inform the importer about CPU accesses because it is 
+the owner of the buffer.
 
-Thanks,
-pq
+It's the responsibility of the importer to make sure that it can 
+actually access the data in the buffer. If it can't guarantee that the 
+importer shouldn't import the buffer in the first place.
 
---Sig_/QmOTkLNi2kJF4_bkXoJdUR3
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Regards,
+Christian.
 
------BEGIN PGP SIGNATURE-----
+>
+>
+> Thanks,
+> pq
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmK0EpYACgkQI1/ltBGq
-qqcw7w//QVXYLoKhIBnGN34yEmHzycIRr1pys6yOt0O61O+o3mO+5B9sUxkiNZT7
-AOtn1CRxJMBYC0sTSWhi6TZyN6MP0GW80CMGtCLmLCb8T19U7CBsBflVtc8e0aM8
-GXiSbIW3BJEt2pXAUa+jVDeI7TyVjw6it6k21PVv6EV/iIR84BYuGZIBbOwRi/UU
-A3aNvFyTfhbi5fHwZJxgkv6SLsRBgTkHnyAVOcJ90FJgz1mHYONcsZKGp6q77tAt
-r9+jBo+5HWfPZSzAAcJg9tIGr77VNjq0YX/jj4R7MWd5Sb2EPFR0df3mXvIIQNR+
-7LqslvdNaaQkfh23bcGXvtbOgceboy+DUj/rPvC0eHQnGUop/hTJySw9p6n7QU3Z
-q8ubKBzmWllcwNhwnb/aun23LBuBh4Nx5RI+oxg8Bwz4uvMg9WK0cjGm+AInFLTU
-+GmmjUw2NK7jLF13Iu8n+5Z2SsxjAojoIsKQSkdH1buFdEcQNp2lzZH8RjIAkOGC
-4D5AQMl0t891tH0XXRWxC3HOGi1RdfS1NzgG/mrG41NLdCG/bq79xsP56cFVUceb
-ACGl3uxrxlabcFxEiP9peR8ebtEnRn0ZCRcpd02RgIgsM7+jzuuOZ8EdBGBK+fVz
-fuz2KKG0X7sQT/03x7Zbi0VQWf8SAR1C9JBkiJsLjvOkFBZV4Gc=
-=WrtI
------END PGP SIGNATURE-----
-
---Sig_/QmOTkLNi2kJF4_bkXoJdUR3--
