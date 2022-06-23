@@ -1,74 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA95557A80
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 14:41:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11699557A86
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 14:41:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEDAA10E4D2;
-	Thu, 23 Jun 2022 12:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C922D10E4D5;
+	Thu, 23 Jun 2022 12:41:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC09510E295
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:41:22 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- p6-20020a05600c1d8600b003a035657950so443080wms.4
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 05:41:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=YKuhlfeie/APuzN1zX50F9wlajDVarix+gW9JqPWiT0=;
- b=UMP6RCyZP4CD6hOpGQbkX9Cj3bPk1ibYJbn4nsdNdndZTqQfI3/vZ8bIRLgJSIms8u
- CPePjkJfaFGkLpAH9WY7iFv9pbNYvYe5jqqSz8sj+2Qf4GfYVFiKObOiaJ7J+qH1bGvP
- VbLXbFzeDNL3kV5xpFgi8EPl9utzHo/yeUTmYj0EJVSqHBEOLi9N+dZTEkBtSiT1ZYoV
- E4fQE+A+R2BHBwNPUeWkzfyaoJLLBH+EMoSWnr4Qer7+DC8yHJI0iUtL7cob5S1ocket
- H2qCHNsne4oMOwFRLI9UMKSLvjNlpdi8dU2fdlh1bFht6a2RH8lnI13E785t9rZnNwvq
- L5OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YKuhlfeie/APuzN1zX50F9wlajDVarix+gW9JqPWiT0=;
- b=UjWsvc3+BgrpPTyD72MLPbHj4DiGpbh3SM3jKNKtSKTjACzsJWJXhsYnupEMFShg/F
- rNo+D8MREAmTLR9Zr2D/Sgg5F1QJYJrop4pPU8BTvNY0odR2VSCYiUt1zH97Ibd2BynG
- QUDkKHUiDTI4BvUxuE+sXmMcrDtRTYiUO+Z6FpbbbjRfFNiTs7Wl30ICsrwH/iV7epfe
- kbnA1em4YcxOJMRV1nm6kddqLhZOkcxsb5OtM0UvbWPczPU24qukrWqT5SORGWsm4ADx
- AjAb59o+yx68msKI95vT8GeTesHBniZentfUSXRYQ2rT/XB7WFC76BJ6kuayGtQ/ow0+
- I02g==
-X-Gm-Message-State: AJIora99OERmEQc/CKpvqUJioxxJ8FE0wmvTWYXiCHoU87ewS7k1JzFF
- mxVKjUfZP1ekyQbXpNJHcW7DrA==
-X-Google-Smtp-Source: AGRyM1sX86vrrjVPPP1yUcwx/sZIRbQprpzXl44FYJKuAjsvw6TD5Ua2hBw6xE35bd62RibFYqBp1g==
-X-Received: by 2002:a05:600c:2c46:b0:39c:55a0:9533 with SMTP id
- r6-20020a05600c2c4600b0039c55a09533mr4015082wmg.104.1655988081094; 
- Thu, 23 Jun 2022 05:41:21 -0700 (PDT)
-Received: from [192.168.149.129] ([80.233.63.220])
- by smtp.gmail.com with ESMTPSA id
- n1-20020a5d4201000000b0021a36955493sm23104159wrq.74.2022.06.23.05.41.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jun 2022 05:41:20 -0700 (PDT)
-Message-ID: <4a76c7aa-62e8-385c-15a0-9992ec566de5@conchuod.ie>
-Date: Thu, 23 Jun 2022 13:41:15 +0100
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76B5C10E2A1;
+ Thu, 23 Jun 2022 12:41:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655988095; x=1687524095;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=VWzSbdROyvJm1bdHtCrZV3I6oXerAkRCM6dICVytbfU=;
+ b=AF+CIUSbd56V77agGqbTQzj9t18uggzXLdS501PusEA6A05qPMDXKAxY
+ DQJneYMI/oLS+c+Gio8JJiQMwrWL8ua21ovUZsNMJzN0F9b7rGl9mESEG
+ t46iByGcXcxN7j8W9wpYdGTZc3MURSXmYulxPW5ILLh3iIjwnlhD/LD+F
+ 71mZy/Kd/bvtJ5muTYScira1T3Rfkg9VTqCkNnRUu0u6Wvsij1dS1ouaJ
+ zEEt7Sg9SAxvzHvWyzb8VXaRiprwpxqf43H/Yt7blmD2bpVaTn0qDr8Z4
+ 57dNaoAqoXnf9c9QYepcaJZigmu/XOBlFgukl959Cqr3/yx4Zy3Y1fY5q g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="280754077"
+X-IronPort-AV: E=Sophos;i="5.92,216,1650956400"; d="scan'208";a="280754077"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2022 05:41:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,216,1650956400"; d="scan'208";a="644720054"
+Received: from linux.intel.com ([10.54.29.200])
+ by fmsmga008.fm.intel.com with ESMTP; 23 Jun 2022 05:41:34 -0700
+Received: from [10.249.130.158] (unknown [10.249.130.158])
+ by linux.intel.com (Postfix) with ESMTP id F27B35808AB;
+ Thu, 23 Jun 2022 05:41:31 -0700 (PDT)
+Message-ID: <9ed6180a-70e3-311b-f530-8de10b8ac663@intel.com>
+Date: Thu, 23 Jun 2022 15:41:30 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 06/14] spi: dt-bindings: dw-apb-ssi: update
- spi-{r,t}x-bus-width for dwc-ssi
+Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/doc/rfc: VM_BIND uapi definition
 Content-Language: en-US
-To: Serge Semin <fancer.lancer@gmail.com>, Conor.Dooley@microchip.com
-References: <20220618123035.563070-1-mail@conchuod.ie>
- <20220618123035.563070-7-mail@conchuod.ie>
- <20220620205654.g7fyipwytbww5757@mobilestation>
- <61b0fb86-078d-0262-b142-df2984ce0f97@microchip.com>
- <9a1fcb40-9267-d8e6-b3b6-3b03fd789822@opensource.wdc.com>
- <a2d85598-76d1-c9dc-d50d-e5aa815997cf@conchuod.ie>
- <c272728f-f610-77df-bd9b-c9fee6b727f8@opensource.wdc.com>
- <bd2547f8-e069-60a2-a223-9f694457636d@microchip.com>
- <20220623102502.jiksqr3m6y733haq@mobilestation>
-From: Conor Dooley <mail@conchuod.ie>
-In-Reply-To: <20220623102502.jiksqr3m6y733haq@mobilestation>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+References: <20220622035650.29256-1-niranjana.vishwanathapura@intel.com>
+ <20220622035650.29256-4-niranjana.vishwanathapura@intel.com>
+ <6ac2f495-8ead-4824-f9af-1c03fb3770c4@linux.intel.com>
+ <20220622151229.GY376@nvishwa1-DESK>
+ <b347fb63-5200-9f5c-b0d6-ca51b7a064f9@linux.intel.com>
+ <20220622164445.GZ376@nvishwa1-DESK>
+ <e6ed0d2f-ee2a-2219-c2cc-49efc32f0560@linux.intel.com>
+ <1874e47b-4337-5ac6-ebea-fca21ea1ba4c@intel.com>
+ <6d70cde9-f856-540a-b1d4-0325596b0c88@linux.intel.com>
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+In-Reply-To: <6d70cde9-f856-540a-b1d4-0325596b0c88@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,51 +70,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: niklas.cassel@wdc.com, alsa-devel@alsa-project.org, airlied@linux.ie,
- palmer@rivosinc.com, linux-kernel@vger.kernel.org, thierry.reding@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, linux-riscv@lists.infradead.org,
- sam@ravnborg.org, damien.lemoal@opensource.wdc.com, daniel.lezcano@linaro.org,
- joabreu@synopsys.com, geert@linux-m68k.org, Eugeniy.Paltsev@synopsys.com,
- devicetree@vger.kernel.org, aou@eecs.berkeley.edu, robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org, paul.walmsley@sifive.com, tglx@linutronix.de,
- dillon.minfei@gmail.com, lgirdwood@gmail.com, jee.heng.sia@intel.com,
- linux-spi@vger.kernel.org, vkoul@kernel.org, broonie@kernel.org,
- palmer@dabbelt.com, dmaengine@vger.kernel.org, masahiroy@kernel.org
+Cc: paulo.r.zanoni@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, thomas.hellstrom@intel.com,
+ chris.p.wilson@intel.com, daniel.vetter@intel.com, christian.koenig@amd.com,
+ matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 23/06/2022 11:25, Serge Semin wrote:
-> On Tue, Jun 21, 2022 at 04:06:21PM +0000, Conor.Dooley@microchip.com wrote:
->> On 21/06/2022 00:17, Damien Le Moal wrote:
->>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
->>>
->>> On 6/21/22 07:49, Conor Dooley wrote:
+On 23/06/2022 14:05, Tvrtko Ursulin wrote:
+>
+> On 23/06/2022 09:57, Lionel Landwerlin wrote:
+>> On 23/06/2022 11:27, Tvrtko Ursulin wrote:
 >>>>
->> ---8<---
->>>>>>
->>>>>> hmm, well I'll leave that up to people that have Canaan hardware!
->>>>>
->>>>> I will test this series.
->>>>>
->>>>
->>>> Cool, thanks.
->>>> I'll try to get a respin out tomorrow w/ the memory node "unfixed".
+>>>> After a vm_unbind, UMD can re-bind to same VA range against an 
+>>>> active VM.
+>>>> Though I am not sue with Mesa usecase if that new mapping is 
+>>>> required for
+>>>> running GPU job or it will be for the next submission. But ensuring 
+>>>> the
+>>>> tlb flush upon unbind, KMD can ensure correctness.
 >>>
->>> OK. I will test that then :)
+>>> Isn't that their problem? If they re-bind for submitting _new_ work 
+>>> then they get the flush as part of batch buffer pre-amble. 
 >>
->> Since the memory node hit that dt-schema snag, I have not sent a v2.
->> Going to be AFK for a few days, so I dropped the memory node change,
->> changed the spi binding & put the series on:
->> git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/ canaan
+>> In the non sparse case, if a VA range is unbound, it is invalid to 
+>> use that range for anything until it has been rebound by something else.
 >>
-> 
->> If you get a chance to look at it great, if not I'll send a v2 once
->> the memory node is figured out.
-> 
-> commit 84df6ca0f277 ("spi: dt-bindings: dw-apb-ssi: update
-> spi-{r,t}x-bus-width") looks good to me. Feel free to add my ack tag
-> to v2 of that patch.
+>> We'll take the fence provided by vm_bind and put it as a wait fence 
+>> on the next execbuffer.
+>>
+>> It might be safer in case of memory over fetching?
+>>
+>>
+>> TLB flush will have to happen at some point right?
+>>
+>> What's the alternative to do it in unbind?
+>
+> Currently TLB flush happens from the ring before every BB_START and 
+> also when i915 returns the backing store pages to the system.
+>
+> For the former, I haven't seen any mention that for execbuf3 there are 
+> plans to stop doing it? Anyway, as long as this is kept and sequence 
+> of bind[1..N]+execbuf is safe and correctly sees all the preceding binds.
+> Hence about the alternative to doing it in unbind - first I think lets 
+> state the problem that is trying to solve.
+>
+> For instance is it just for the compute "append work to the running 
+> batch" use case? I honestly don't remember how was that supposed to 
+> work so maybe the tlb flush on bind was supposed to deal with that 
+> scenario?
+>
+> Or you see a problem even for Mesa with the current model?
+>
+> Regards,
+>
+> Tvrtko
 
-Sure, thanks!
+
+As far as I can tell, all the binds should have completed before execbuf 
+starts if you follow the vulkan sparse binding rules.
+
+For non-sparse, the UMD will take care of it.
+
+I think we're fine.
+
+
+-Lionel
+
+
