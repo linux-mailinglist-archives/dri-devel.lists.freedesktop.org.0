@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79BE355794F
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 13:57:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 287C1557950
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 13:58:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69C1410F61E;
-	Thu, 23 Jun 2022 11:57:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F423D10F623;
+	Thu, 23 Jun 2022 11:58:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33FC410F61E
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 11:57:54 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id d129so18928505pgc.9
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 04:57:54 -0700 (PDT)
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70BFE10F623
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 11:58:00 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id 68so13498638pgb.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 04:58:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yzRNyfOcDlBYsGH9WE+VtsIxKTnRH7pWZh/Ki9A0uhs=;
- b=o9F3hktTlv/IzP4q0mAOyrTBHTJNaoQcBpUiui/DMPFlveEhC+YqA1kFRYG8rxTpM+
- fHm6/d9WU5Mad+guyS8mL1alwqn7xigq7b8yEOY1/N3AHDazuiJxAN9MRW5qECJP8yeb
- 3r5xllG3SQeLtNsGglGn5gMMuUgt4bdG1r3dZoMi4vkLpeK3e/+QX1YdpuIRmt9Mt6Dp
- T1Ia+EGdxO4OE0NDJwSdfzoPquRdpBpUq92UHuxKWBI9BSctl2LLeJYuZr2TZZr72fGM
- +QPVYWgmVbc0/HcplXy9LL1xOoQSNGAEk+WJXFyUichxhqNvDi6u18kQLw6OJPaYTKHi
- szAw==
+ bh=oioMX87ktK/RqUr7ZaT6eLp6MRtIdbKZ8zVhx3WgdzA=;
+ b=SuJkM+K6oOkl+VW7BXbB2Cd4fje2to1DoONWB5rkIrRmYiWv9sMW9k8Dy1Xh81N3kM
+ cF7eXKTKY60/c08Udqgq4jHe414uiE9nl+u5z7IoTrf9O3qGXXUwEguvwnaywlZSnl7N
+ ErcYKvVvPv0AZpDo1bwEdAWG8POtC9OaqbFjqfku2fZoK1zMrT70uqf1FF2rseWbsbzQ
+ g5N4cFg4PINGSRRTJGv/hVUrcDT+rsneUre913GlvwnvJ3XKR0BszJnGCw8McA5+4lt9
+ jtRbQfatAVvb9JZ0fnzjux5D6+GtdQ3DaxWhaM2L9PIE+QGmkeYAWmaiP6+4H23WJFvm
+ tIiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yzRNyfOcDlBYsGH9WE+VtsIxKTnRH7pWZh/Ki9A0uhs=;
- b=n4LLa8drQovPJyHrp6DtorkdEmPcPncjVeyrArApC/U+WlxYPj3w9lxFkY2ntoZ5sB
- JnE2rBJNi65zGjs1WKFwY0JuSKPWtNn/t0EDoBG8Fco70T6u7e/wLIUr4KjW0gFKyZdx
- Hli5W1fcio+vKv5Rx9lMfk8kzOs7zfKWwyMHw0UtjZuyFAW4J5MUFfSm4o9Uhbt9j1vm
- ujYZ36dJoaD63Ba0CMBLicTjGMiWvIdB/L3sxJYia5ux0kEmB1LYs+wuOj01jFpHnsad
- k0jL2xlq46ONUX1jG9DLo6aSzclmaTt87PCoybu+072aCXL8AlUUu0MTpeu2Uuzh7uKO
- 5r8g==
-X-Gm-Message-State: AJIora/XiCHEzWzIPaDoV5ooJ9g6Q0s3/5kg39m8XLEWfLiMDari0V+o
- 9ioZU3OmecAerqEqv7FQwnY=
-X-Google-Smtp-Source: AGRyM1urvvaZFXAYdjQLL4WLjFzqNMxB+I+VEqUvUh/A1O2kn+1jk2IYSfGkVpmViqSR/gs2fYXhow==
-X-Received: by 2002:a62:4e45:0:b0:525:3b6c:25b7 with SMTP id
- c66-20020a624e45000000b005253b6c25b7mr12249444pfb.75.1655985473800; 
- Thu, 23 Jun 2022 04:57:53 -0700 (PDT)
+ bh=oioMX87ktK/RqUr7ZaT6eLp6MRtIdbKZ8zVhx3WgdzA=;
+ b=iyFXirtPMTLBvEoTQLIr/xjiKrmzB7RuHqoq9oI9ICZXcTKLF04emU6tvc4WKY+hRe
+ 6mgeJoWqtrHqB+85wcLeX9OhJbO+4DuSdCfDxwnkqEwNu0h6iE6eOVBdgZXz3Y2x90es
+ Vg5TH8NK4ZtrViF0V+KD0Xs/Jf7pEB6IzJGG1UyPw6X7NSq5VOtV3c3vEmg0uBu3g/E4
+ xIgDcHunX+iAXXIawTHMVmwIjoY0srR5yeN/HAGouRus6CBS1cuVQB8i0k/tZypIxEkU
+ DDoMv1LgxaEFEGWhMfmFTqRk9NOlN0jZAR1PsKs+6MqFgKGSlhSshs7DUQJfNzKrkwDn
+ 1XSg==
+X-Gm-Message-State: AJIora8qlTyjsm3Ws0erPyHoZ9iiPjuhxlr7rTPalhNmnGC1q3+iyxxx
+ EeZXzG19dDZFZw/U9U3vZh8=
+X-Google-Smtp-Source: AGRyM1sB/xcUINi2sdn81Sl5uxJHv2hz52zRIYWFPvzR++L3PLn6gW6RGWUS6ln58BJRgo7coCRuGg==
+X-Received: by 2002:a63:3444:0:b0:40c:f416:3dfd with SMTP id
+ b65-20020a633444000000b0040cf4163dfdmr7172015pga.614.1655985480019; 
+ Thu, 23 Jun 2022 04:58:00 -0700 (PDT)
 Received: from RD-3580-24288.rt.l (111-71-94-93.emome-ip.hinet.net.
  [111.71.94.93]) by smtp.gmail.com with ESMTPSA id
- t6-20020a63b246000000b003fbfe88be17sm15016516pgo.24.2022.06.23.04.57.48
+ t6-20020a63b246000000b003fbfe88be17sm15016516pgo.24.2022.06.23.04.57.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jun 2022 04:57:53 -0700 (PDT)
+ Thu, 23 Jun 2022 04:57:59 -0700 (PDT)
 From: ChiaEn Wu <peterwu.pub@gmail.com>
 To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -54,10 +54,10 @@ To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
  lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
  heikki.krogerus@linux.intel.com, deller@gmx.de
-Subject: [PATCH v3 08/14] usb: typec: tcpci_mt6370: Add Mediatek MT6370 tcpci
- driver
-Date: Thu, 23 Jun 2022 19:56:25 +0800
-Message-Id: <20220623115631.22209-9-peterwu.pub@gmail.com>
+Subject: [PATCH v3 09/14] regulator: mt6370: Add mt6370 DisplayBias and VibLDO
+ support
+Date: Thu, 23 Jun 2022 19:56:26 +0800
+Message-Id: <20220623115631.22209-10-peterwu.pub@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220623115631.22209-1-peterwu.pub@gmail.com>
 References: <20220623115631.22209-1-peterwu.pub@gmail.com>
@@ -87,175 +87,404 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: ChiYuan Huang <cy_huang@richtek.com>
 
-Add chip level mt6370 tcpci driver.
+Add mt6370 DisplayBias and VibLDO support.
 
 Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
 ---
- drivers/usb/typec/tcpm/Kconfig        |   8 ++
- drivers/usb/typec/tcpm/Makefile       |   1 +
- drivers/usb/typec/tcpm/tcpci_mt6370.c | 212 ++++++++++++++++++++++++++++++++++
- 3 files changed, 221 insertions(+)
- create mode 100644 drivers/usb/typec/tcpm/tcpci_mt6370.c
 
-diff --git a/drivers/usb/typec/tcpm/Kconfig b/drivers/usb/typec/tcpm/Kconfig
-index 557f392..f4b7363 100644
---- a/drivers/usb/typec/tcpm/Kconfig
-+++ b/drivers/usb/typec/tcpm/Kconfig
-@@ -35,6 +35,14 @@ config TYPEC_MT6360
- 	  USB Type-C. It works with Type-C Port Controller Manager
- 	  to provide USB PD and USB Type-C functionalities.
+v3
+- Refine Kconfig help text
+---
+ drivers/regulator/Kconfig            |   8 +
+ drivers/regulator/Makefile           |   1 +
+ drivers/regulator/mt6370-regulator.c | 388 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 397 insertions(+)
+ create mode 100644 drivers/regulator/mt6370-regulator.c
+
+diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
+index cbe0f96..736f654a 100644
+--- a/drivers/regulator/Kconfig
++++ b/drivers/regulator/Kconfig
+@@ -804,6 +804,14 @@ config REGULATOR_MT6360
+ 	  2-channel buck with Thermal Shutdown and Overload Protection
+ 	  6-channel High PSRR and Low Dropout LDO.
  
-+config TYPEC_TCPCI_MT6370
-+	tristate "Mediatek MT6370 Type-C driver"
++config REGULATOR_MT6370
++	tristate "MT6370 SubPMIC Regulator"
 +	depends on MFD_MT6370
 +	help
-+	  Mediatek MT6370 is a multi-functional IC that includes
-+	  USB Type-C. It works with Type-C Port Controller Manager
-+	  to provide USB PD and USB Type-C functionalities.
++	  Say Y here to enable MT6370 regulator support.
++	  This driver supports the control for DisplayBias voltages and one
++	  general purpose LDO which is commonly used to drive the vibrator.
 +
- config TYPEC_TCPCI_MAXIM
- 	tristate "Maxim TCPCI based Type-C chip driver"
- 	help
-diff --git a/drivers/usb/typec/tcpm/Makefile b/drivers/usb/typec/tcpm/Makefile
-index 7d499f3..906d9dc 100644
---- a/drivers/usb/typec/tcpm/Makefile
-+++ b/drivers/usb/typec/tcpm/Makefile
-@@ -6,4 +6,5 @@ typec_wcove-y				:= wcove.o
- obj-$(CONFIG_TYPEC_TCPCI)		+= tcpci.o
- obj-$(CONFIG_TYPEC_RT1711H)		+= tcpci_rt1711h.o
- obj-$(CONFIG_TYPEC_MT6360)		+= tcpci_mt6360.o
-+obj-$(CONFIG_TYPEC_TCPCI_MT6370)	+= tcpci_mt6370.o
- obj-$(CONFIG_TYPEC_TCPCI_MAXIM)		+= tcpci_maxim.o
-diff --git a/drivers/usb/typec/tcpm/tcpci_mt6370.c b/drivers/usb/typec/tcpm/tcpci_mt6370.c
+ config REGULATOR_MT6380
+ 	tristate "MediaTek MT6380 PMIC"
+ 	depends on MTK_PMIC_WRAP
+diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
+index 8d3ee8b..f1cbff2 100644
+--- a/drivers/regulator/Makefile
++++ b/drivers/regulator/Makefile
+@@ -97,6 +97,7 @@ obj-$(CONFIG_REGULATOR_MT6323)	+= mt6323-regulator.o
+ obj-$(CONFIG_REGULATOR_MT6358)	+= mt6358-regulator.o
+ obj-$(CONFIG_REGULATOR_MT6359)	+= mt6359-regulator.o
+ obj-$(CONFIG_REGULATOR_MT6360) += mt6360-regulator.o
++obj-$(CONFIG_REGULATOR_MT6370) += mt6370-regulator.o
+ obj-$(CONFIG_REGULATOR_MT6380)	+= mt6380-regulator.o
+ obj-$(CONFIG_REGULATOR_MT6397)	+= mt6397-regulator.o
+ obj-$(CONFIG_REGULATOR_MTK_DVFSRC) += mtk-dvfsrc-regulator.o
+diff --git a/drivers/regulator/mt6370-regulator.c b/drivers/regulator/mt6370-regulator.c
 new file mode 100644
-index 0000000..ce7f5e0
+index 0000000..bc356b4
 --- /dev/null
-+++ b/drivers/usb/typec/tcpm/tcpci_mt6370.c
-@@ -0,0 +1,212 @@
++++ b/drivers/regulator/mt6370-regulator.c
+@@ -0,0 +1,388 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +
 +#include <linux/bits.h>
++#include <linux/gpio/consumer.h>
 +#include <linux/interrupt.h>
 +#include <linux/kernel.h>
 +#include <linux/module.h>
 +#include <linux/of.h>
 +#include <linux/platform_device.h>
-+#include <linux/pm_wakeup.h>
-+#include <linux/pm_wakeirq.h>
 +#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/usb/tcpm.h>
-+#include "tcpci.h"
++#include <linux/regulator/driver.h>
++#include <linux/regulator/machine.h>
 +
-+#define MT6370_REG_SYSCTRL8	0x9B
++enum {
++	MT6370_IDX_DSVBOOST = 0,
++	MT6370_IDX_DSVPOS,
++	MT6370_IDX_DSVNEG,
++	MT6370_IDX_VIBLDO,
++	MT6370_MAX_IDX
++};
 +
-+#define MT6370_AUTOIDLE_MASK	BIT(3)
++#define MT6370_REG_LDO_CFG	0x180
++#define MT6370_REG_LDO_VOUT	0x181
++#define MT6370_REG_DB_CTRL1	0x1B0
++#define MT6370_REG_DB_CTRL2	0x1B1
++#define MT6370_REG_DB_VBST	0x1B2
++#define MT6370_REG_DB_VPOS	0x1B3
++#define MT6370_REG_DB_VNEG	0x1B4
++#define MT6370_REG_LDO_STAT	0x1DC
++#define MT6370_REG_DB_STAT	0x1DF
 +
-+#define MT6370_VENDOR_ID	0x29CF
-+#define MT6370_TCPC_DID_A	0x2170
++#define MT6370_LDOOMS_MASK	BIT(7)
++#define MT6370_LDOEN_MASK	BIT(7)
++#define MT6370_LDOVOUT_MASK	GENMASK(3, 0)
++#define MT6370_DBPERD_MASK	(BIT(7) | BIT(4))
++#define MT6370_DBEXTEN_MASK	BIT(0)
++#define MT6370_DBVPOSEN_MASK	BIT(6)
++#define MT6370_DBVPOSDISG_MASK	BIT(5)
++#define MT6370_DBVNEGEN_MASK	BIT(3)
++#define MT6370_DBVNEGDISG_MASK	BIT(2)
++#define MT6370_DBALLON_MASK	(MT6370_DBVPOSEN_MASK | MT6370_DBVNEGEN_MASK)
++#define MT6370_DBSLEW_MASK	GENMASK(7, 6)
++#define MT6370_DBVOUT_MASK	GENMASK(5, 0)
++#define MT6370_LDOOC_EVT_MASK	BIT(7)
++#define MT6370_POSSCP_EVT_MASK	BIT(7)
++#define MT6370_NEGSCP_EVT_MASK	BIT(6)
++#define MT6370_BSTOCP_EVT_MASK	BIT(5)
++#define MT6370_POSOCP_EVT_MASK	BIT(4)
++#define MT6370_NEGOCP_EVT_MASK	BIT(3)
++
++#define MT6370_LDO_MINUV	1600000
++#define MT6370_LDO_STPUV	200000
++#define MT6370_LDO_N_VOLT	13
++#define MT6370_DBVBOOST_MINUV	4000000
++#define MT6370_DBVBOOST_STPUV	50000
++#define MT6370_DBVBOOST_N_VOLT	45
++#define MT6370_DBVOUT_MINUV	4000000
++#define MT6370_DBVOUT_STPUV	50000
++#define MT6370_DBVOUT_N_VOLT	41
 +
 +struct mt6370_priv {
 +	struct device *dev;
-+	struct regulator *vbus;
-+	struct tcpci *tcpci;
-+	struct tcpci_data tcpci_data;
-+	int irq;
++	struct regmap *regmap;
++	struct regulator_dev *rdev[MT6370_MAX_IDX];
++	bool use_external_ctrl;
 +};
 +
-+static const struct reg_sequence mt6370_reg_init[] = {
-+	REG_SEQ(0xA0, 0x1, 1000),
-+	REG_SEQ(0x81, 0x38, 0),
-+	REG_SEQ(0x82, 0x82, 0),
-+	REG_SEQ(0xBA, 0xFC, 0),
-+	REG_SEQ(0xBB, 0x50, 0),
-+	REG_SEQ(0x9E, 0x8F, 0),
-+	REG_SEQ(0xA1, 0x5, 0),
-+	REG_SEQ(0xA2, 0x4, 0),
-+	REG_SEQ(0xA3, 0x4A, 0),
-+	REG_SEQ(0xA4, 0x01, 0),
-+	REG_SEQ(0x95, 0x01, 0),
-+	REG_SEQ(0x80, 0x71, 0),
-+	REG_SEQ(0x9B, 0x3A, 1000)
-+};
++static const unsigned int mt6370_vpos_ramp_tbl[] = { 8540, 5840, 4830, 3000 };
++static const unsigned int mt6370_vneg_ramp_tbl[] = { 10090, 6310, 5050, 3150 };
 +
-+static int mt6370_tcpc_init(struct tcpci *tcpci, struct tcpci_data *data)
++static int mt6370_get_error_flags(struct regulator_dev *rdev,
++				  unsigned int *flags)
 +{
-+	u16 did;
++	struct regmap *regmap = rdev_get_regmap(rdev);
++	unsigned int stat_reg, stat, rpt_flags = 0;
++	int rid = rdev_get_id(rdev), ret;
++
++	if (rid == MT6370_IDX_VIBLDO)
++		stat_reg = MT6370_REG_LDO_STAT;
++	else
++		stat_reg = MT6370_REG_DB_STAT;
++
++	ret = regmap_read(regmap, stat_reg, &stat);
++	if (ret)
++		return ret;
++
++	switch (rid) {
++	case MT6370_IDX_DSVBOOST:
++		if (stat & MT6370_BSTOCP_EVT_MASK)
++			rpt_flags |= REGULATOR_ERROR_OVER_CURRENT;
++		break;
++	case MT6370_IDX_DSVPOS:
++		if (stat & MT6370_POSSCP_EVT_MASK)
++			rpt_flags |= REGULATOR_ERROR_UNDER_VOLTAGE;
++
++		if (stat & MT6370_POSOCP_EVT_MASK)
++			rpt_flags |= REGULATOR_ERROR_OVER_CURRENT;
++		break;
++	case MT6370_IDX_DSVNEG:
++		if (stat & MT6370_NEGSCP_EVT_MASK)
++			rpt_flags |= REGULATOR_ERROR_UNDER_VOLTAGE;
++
++		if (stat & MT6370_NEGOCP_EVT_MASK)
++			rpt_flags |= REGULATOR_ERROR_OVER_CURRENT;
++		break;
++	default:
++		if (stat & MT6370_LDOOC_EVT_MASK)
++			rpt_flags |= REGULATOR_ERROR_OVER_CURRENT;
++		break;
++	}
++
++	*flags = rpt_flags;
++	return 0;
++}
++
++static const struct regulator_ops mt6370_dbvboost_ops = {
++	.get_voltage_sel = regulator_get_voltage_sel_regmap,
++	.set_voltage_sel = regulator_set_voltage_sel_regmap,
++	.list_voltage = regulator_list_voltage_linear,
++	.get_bypass = regulator_get_bypass_regmap,
++	.set_bypass = regulator_set_bypass_regmap,
++	.get_error_flags = mt6370_get_error_flags,
++};
++
++static const struct regulator_ops mt6370_dbvout_ops = {
++	.get_voltage_sel = regulator_get_voltage_sel_regmap,
++	.set_voltage_sel = regulator_set_voltage_sel_regmap,
++	.list_voltage = regulator_list_voltage_linear,
++	.is_enabled = regulator_is_enabled_regmap,
++	.enable = regulator_enable_regmap,
++	.disable = regulator_disable_regmap,
++	.set_active_discharge = regulator_set_active_discharge_regmap,
++	.set_ramp_delay = regulator_set_ramp_delay_regmap,
++	.get_error_flags = mt6370_get_error_flags,
++};
++
++static const struct regulator_ops mt6370_ldo_ops = {
++	.get_voltage_sel = regulator_get_voltage_sel_regmap,
++	.set_voltage_sel = regulator_set_voltage_sel_regmap,
++	.list_voltage = regulator_list_voltage_linear,
++	.is_enabled = regulator_is_enabled_regmap,
++	.enable = regulator_enable_regmap,
++	.disable = regulator_disable_regmap,
++	.set_active_discharge = regulator_set_active_discharge_regmap,
++	.get_error_flags = mt6370_get_error_flags,
++};
++
++static int mt6370_of_parse_cb(struct device_node *np,
++			      const struct regulator_desc *desc,
++			      struct regulator_config *config)
++{
++	struct mt6370_priv *priv = config->driver_data;
++	struct gpio_desc *enable_gpio;
 +	int ret;
 +
-+	ret = regmap_register_patch(data->regmap, mt6370_reg_init,
-+				    ARRAY_SIZE(mt6370_reg_init));
-+	if (ret)
-+		return ret;
++	enable_gpio = gpiod_get_from_of_node(np, "enable", 0, GPIOD_OUT_HIGH |
++					     GPIOD_FLAGS_BIT_NONEXCLUSIVE,
++					     desc->name);
++	if (IS_ERR(enable_gpio)) {
++		config->ena_gpiod = NULL;
++		return 0;
++	}
 +
-+	ret = regmap_raw_read(data->regmap, TCPC_BCD_DEV, &did, sizeof(u16));
-+	if (ret)
-+		return ret;
-+
-+	if (did == MT6370_TCPC_DID_A) {
-+		ret = regmap_write(data->regmap, TCPC_FAULT_CTRL, 0x80);
++	/*
++	 * RG control by default
++	 * Only if all are using external pin, change all by external control
++	 */
++	if (priv->use_external_ctrl) {
++		ret = regmap_update_bits(priv->regmap, MT6370_REG_DB_CTRL1,
++					 MT6370_DBEXTEN_MASK,
++					 MT6370_DBEXTEN_MASK);
 +		if (ret)
 +			return ret;
 +	}
 +
++	config->ena_gpiod = enable_gpio;
++	priv->use_external_ctrl = true;
 +	return 0;
 +}
 +
-+static int mt6370_tcpc_set_vconn(struct tcpci *tcpci, struct tcpci_data *data,
-+				 bool enable)
++static const struct regulator_desc mt6370_regulator_descs[] = {
++	{
++		.name = "mt6370-dsv-vbst",
++		.of_match = of_match_ptr("dsvbst"),
++		.regulators_node = of_match_ptr("regulators"),
++		.id = MT6370_IDX_DSVBOOST,
++		.type = REGULATOR_VOLTAGE,
++		.owner = THIS_MODULE,
++		.ops = &mt6370_dbvboost_ops,
++		.min_uV = MT6370_DBVBOOST_MINUV,
++		.uV_step = MT6370_DBVBOOST_STPUV,
++		.n_voltages = MT6370_DBVBOOST_N_VOLT,
++		.vsel_reg = MT6370_REG_DB_VBST,
++		.vsel_mask = MT6370_DBVOUT_MASK,
++		.bypass_reg = MT6370_REG_DB_CTRL1,
++		.bypass_mask = MT6370_DBPERD_MASK,
++		.bypass_val_on = MT6370_DBPERD_MASK,
++	},
++	{
++		.name = "mt6370-dsv-vpos",
++		.of_match = of_match_ptr("dsvpos"),
++		.regulators_node = of_match_ptr("regulators"),
++		.id = MT6370_IDX_DSVPOS,
++		.type = REGULATOR_VOLTAGE,
++		.owner = THIS_MODULE,
++		.of_parse_cb = mt6370_of_parse_cb,
++		.ops = &mt6370_dbvout_ops,
++		.min_uV = MT6370_DBVOUT_MINUV,
++		.uV_step = MT6370_DBVOUT_STPUV,
++		.n_voltages = MT6370_DBVOUT_N_VOLT,
++		.vsel_reg = MT6370_REG_DB_VPOS,
++		.vsel_mask = MT6370_DBVOUT_MASK,
++		.enable_reg = MT6370_REG_DB_CTRL2,
++		.enable_mask = MT6370_DBVPOSEN_MASK,
++		.ramp_reg = MT6370_REG_DB_VPOS,
++		.ramp_mask = MT6370_DBSLEW_MASK,
++		.ramp_delay_table = mt6370_vpos_ramp_tbl,
++		.n_ramp_values = ARRAY_SIZE(mt6370_vpos_ramp_tbl),
++		.active_discharge_reg = MT6370_REG_DB_CTRL2,
++		.active_discharge_mask = MT6370_DBVPOSDISG_MASK,
++		.active_discharge_on = MT6370_DBVPOSDISG_MASK,
++	},
++	{
++		.name = "mt6370-dsv-vneg",
++		.of_match = of_match_ptr("dsvneg"),
++		.regulators_node = of_match_ptr("regulators"),
++		.id = MT6370_IDX_DSVNEG,
++		.type = REGULATOR_VOLTAGE,
++		.owner = THIS_MODULE,
++		.of_parse_cb = mt6370_of_parse_cb,
++		.ops = &mt6370_dbvout_ops,
++		.min_uV = MT6370_DBVOUT_MINUV,
++		.uV_step = MT6370_DBVOUT_STPUV,
++		.n_voltages = MT6370_DBVOUT_N_VOLT,
++		.vsel_reg = MT6370_REG_DB_VNEG,
++		.vsel_mask = MT6370_DBVOUT_MASK,
++		.enable_reg = MT6370_REG_DB_CTRL2,
++		.enable_mask = MT6370_DBVNEGEN_MASK,
++		.ramp_reg = MT6370_REG_DB_VNEG,
++		.ramp_mask = MT6370_DBSLEW_MASK,
++		.ramp_delay_table = mt6370_vneg_ramp_tbl,
++		.n_ramp_values = ARRAY_SIZE(mt6370_vneg_ramp_tbl),
++		.active_discharge_reg = MT6370_REG_DB_CTRL2,
++		.active_discharge_mask = MT6370_DBVNEGDISG_MASK,
++		.active_discharge_on = MT6370_DBVNEGDISG_MASK,
++	},
++	{
++		.name = "mt6370-vib-ldo",
++		.of_match = of_match_ptr("vibldo"),
++		.regulators_node = of_match_ptr("regulators"),
++		.id = MT6370_IDX_VIBLDO,
++		.type = REGULATOR_VOLTAGE,
++		.owner = THIS_MODULE,
++		.ops = &mt6370_ldo_ops,
++		.min_uV = MT6370_LDO_MINUV,
++		.uV_step = MT6370_LDO_STPUV,
++		.n_voltages = MT6370_LDO_N_VOLT,
++		.vsel_reg = MT6370_REG_LDO_VOUT,
++		.vsel_mask = MT6370_LDOVOUT_MASK,
++		.enable_reg = MT6370_REG_LDO_VOUT,
++		.enable_mask = MT6370_LDOEN_MASK,
++		.active_discharge_reg = MT6370_REG_LDO_CFG,
++		.active_discharge_mask = MT6370_LDOOMS_MASK,
++		.active_discharge_on = MT6370_LDOOMS_MASK,
++	}
++};
++
++static irqreturn_t mt6370_scp_handler(int irq, void *data)
 +{
-+	return regmap_update_bits(data->regmap, MT6370_REG_SYSCTRL8,
-+				  MT6370_AUTOIDLE_MASK,
-+				  !enable ? MT6370_AUTOIDLE_MASK : 0);
++	struct regulator_dev *rdev = data;
++
++	regulator_notifier_call_chain(rdev, REGULATOR_EVENT_UNDER_VOLTAGE,
++				      NULL);
++	return IRQ_HANDLED;
 +}
 +
-+static int mt6370_tcpc_set_vbus(struct tcpci *tcpci, struct tcpci_data *data,
-+				bool source, bool sink)
++static irqreturn_t mt6370_ocp_handler(int irq, void *data)
 +{
-+	struct mt6370_priv *priv = container_of(data, struct mt6370_priv,
-+						tcpci_data);
-+	int ret;
++	struct regulator_dev *rdev = data;
 +
-+	ret = regulator_is_enabled(priv->vbus);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ret && !source)
-+		ret = regulator_disable(priv->vbus);
-+	else if (!ret && source)
-+		ret = regulator_enable(priv->vbus);
-+	else
-+		ret = 0;
-+
-+	return ret;
++	regulator_notifier_call_chain(rdev, REGULATOR_EVENT_OVER_CURRENT, NULL);
++	return IRQ_HANDLED;
 +}
 +
-+static irqreturn_t mt6370_irq_handler(int irq, void *dev_id)
++static int mt6370_regulator_irq_register(struct mt6370_priv *priv)
 +{
-+	struct mt6370_priv *priv = dev_id;
++	struct platform_device *pdev = to_platform_device(priv->dev);
++	static const struct {
++		const char *name;
++		int rid;
++		irq_handler_t handler;
++	} mt6370_irqs[] = {
++		{ "db_vpos_scp", MT6370_IDX_DSVPOS, mt6370_scp_handler },
++		{ "db_vneg_scp", MT6370_IDX_DSVNEG, mt6370_scp_handler },
++		{ "db_vbst_ocp", MT6370_IDX_DSVBOOST, mt6370_ocp_handler },
++		{ "db_vpos_ocp", MT6370_IDX_DSVPOS,  mt6370_ocp_handler },
++		{ "db_vneg_ocp", MT6370_IDX_DSVNEG, mt6370_ocp_handler },
++		{ "ldo_oc", MT6370_IDX_VIBLDO, mt6370_ocp_handler }
++	};
++	struct regulator_dev *rdev;
++	int i, irq, ret;
 +
-+	return tcpci_irq(priv->tcpci);
-+}
++	for (i = 0; i < ARRAY_SIZE(mt6370_irqs); i++) {
++		irq = platform_get_irq_byname(pdev, mt6370_irqs[i].name);
 +
-+static int mt6370_check_vendor_info(struct mt6370_priv *priv)
-+{
-+	struct regmap *regmap = priv->tcpci_data.regmap;
-+	u16 vid;
-+	int ret;
++		rdev = priv->rdev[mt6370_irqs[i].rid];
 +
-+	ret = regmap_raw_read(regmap, TCPC_VENDOR_ID, &vid, sizeof(u16));
-+	if (ret)
-+		return ret;
-+
-+	if (vid != MT6370_VENDOR_ID) {
-+		dev_err(priv->dev, "Vendor ID not correct 0x%02x\n", vid);
-+		return -ENODEV;
++		ret = devm_request_threaded_irq(priv->dev, irq, NULL,
++						mt6370_irqs[i].handler, 0,
++						mt6370_irqs[i].name, rdev);
++		if (ret) {
++			dev_err(priv->dev,
++				"Failed to register (%d) interrupt\n", i);
++			return ret;
++		}
 +	}
 +
 +	return 0;
 +}
 +
-+static int mt6370_tcpc_probe(struct platform_device *pdev)
++static int mt6370_regualtor_register(struct mt6370_priv *priv)
++{
++	struct regulator_dev *rdev;
++	struct regulator_config cfg = {};
++	struct device *parent = priv->dev->parent;
++	int i;
++
++	cfg.dev = parent;
++	cfg.driver_data = priv;
++
++	for (i = 0; i < MT6370_MAX_IDX; i++) {
++		rdev = devm_regulator_register(priv->dev,
++					       mt6370_regulator_descs + i,
++					       &cfg);
++		if (IS_ERR(rdev)) {
++			dev_err(priv->dev,
++				"Failed to register (%d) regulator\n", i);
++			return PTR_ERR(rdev);
++		}
++
++		priv->rdev[i] = rdev;
++	}
++
++	return 0;
++}
++
++static int mt6370_regulator_probe(struct platform_device *pdev)
 +{
 +	struct mt6370_priv *priv;
 +	int ret;
@@ -265,84 +494,37 @@ index 0000000..ce7f5e0
 +		return -ENOMEM;
 +
 +	priv->dev = &pdev->dev;
-+	platform_set_drvdata(pdev, priv);
 +
-+	priv->tcpci_data.regmap = dev_get_regmap(pdev->dev.parent, NULL);
-+	if (!priv->tcpci_data.regmap) {
++	priv->regmap = dev_get_regmap(pdev->dev.parent, NULL);
++	if (!priv->regmap) {
 +		dev_err(&pdev->dev, "Failed to init regmap\n");
 +		return -ENODEV;
 +	}
 +
-+	ret = mt6370_check_vendor_info(priv);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to check vendor info (%d)\n", ret);
++	ret = mt6370_regualtor_register(priv);
++	if (ret)
 +		return ret;
-+	}
 +
-+	priv->irq = platform_get_irq(pdev, 0);
-+	if (priv->irq < 0) {
-+		dev_err(&pdev->dev, "Failed to get TCPC irq (%d)\n", priv->irq);
-+		return priv->irq;
-+	}
-+
-+	/* Assign TCPCI feature and ops */
-+	priv->tcpci_data.auto_discharge_disconnect = 1;
-+	priv->tcpci_data.init = mt6370_tcpc_init;
-+	priv->tcpci_data.set_vconn = mt6370_tcpc_set_vconn;
-+
-+	priv->vbus = devm_regulator_get_optional(&pdev->dev, "vbus");
-+	if (!IS_ERR(priv->vbus))
-+		priv->tcpci_data.set_vbus = mt6370_tcpc_set_vbus;
-+
-+	priv->tcpci = tcpci_register_port(&pdev->dev, &priv->tcpci_data);
-+	if (IS_ERR(priv->tcpci)) {
-+		dev_err(&pdev->dev, "Failed to register tcpci port\n");
-+		return PTR_ERR(priv->tcpci);
-+	}
-+
-+	ret = devm_request_threaded_irq(&pdev->dev, priv->irq, NULL,
-+					mt6370_irq_handler, IRQF_ONESHOT,
-+					dev_name(&pdev->dev), priv);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to allocate irq (%d)\n", ret);
-+		tcpci_unregister_port(priv->tcpci);
-+		return ret;
-+	}
-+
-+	device_init_wakeup(&pdev->dev, true);
-+	dev_pm_set_wake_irq(&pdev->dev, priv->irq);
-+	return 0;
++	return mt6370_regulator_irq_register(priv);
 +}
 +
-+static int mt6370_tcpc_remove(struct platform_device *pdev)
-+{
-+	struct mt6370_priv *priv = platform_get_drvdata(pdev);
-+
-+	disable_irq(priv->irq);
-+	tcpci_unregister_port(priv->tcpci);
-+	dev_pm_clear_wake_irq(&pdev->dev);
-+	device_init_wakeup(&pdev->dev, false);
-+	return 0;
-+}
-+
-+static const struct of_device_id mt6370_tcpc_devid_table[] = {
-+	{ .compatible = "mediatek,mt6370-tcpc", },
++static const struct platform_device_id mt6370_devid_table[] = {
++	{ "mt6370-regulator", 0},
 +	{}
 +};
-+MODULE_DEVICE_TABLE(of, mt6370_tcpc_devid_table);
++MODULE_DEVICE_TABLE(platform, mt6370_devid_table);
 +
-+static struct platform_driver mt6370_tcpc_driver = {
++static struct platform_driver mt6370_regulator_driver = {
 +	.driver = {
-+		.name = "mt6370-tcpc",
-+		.of_match_table = mt6370_tcpc_devid_table,
++		.name = "mt6370-regulator",
 +	},
-+	.probe = mt6370_tcpc_probe,
-+	.remove = mt6370_tcpc_remove,
++	.id_table = mt6370_devid_table,
++	.probe = mt6370_regulator_probe,
 +};
-+module_platform_driver(mt6370_tcpc_driver);
++module_platform_driver(mt6370_regulator_driver);
 +
 +MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
-+MODULE_DESCRIPTION("MT6370 USB Type-C Port Controller Interface Driver");
++MODULE_DESCRIPTION("Mediatek MT6370 Regulator Driver");
 +MODULE_LICENSE("GPL v2");
 -- 
 2.7.4
