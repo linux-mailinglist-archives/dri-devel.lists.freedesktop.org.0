@@ -1,54 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687C055803F
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 18:51:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EAC65580AB
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 18:53:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4547810E3B6;
-	Thu, 23 Jun 2022 16:51:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41A1B10E47F;
+	Thu, 23 Jun 2022 16:53:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02DE210E3B6;
- Thu, 23 Jun 2022 16:51:17 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id cf14so19640781edb.8;
- Thu, 23 Jun 2022 09:51:17 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C470F10E45D;
+ Thu, 23 Jun 2022 16:53:10 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id cw10so18609890ejb.3;
+ Thu, 23 Jun 2022 09:53:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZOox6HqgRBUv7icqURUJML9abJah70/U25bI8X8Eyc0=;
- b=kfqCOp4uGyXjRICRfEG2lcRUgea96b9kksgdi1ldi2t1fN0InFIsPiqt4nqCLdfD/p
- 5BV+fuCzoVB2zfwoFAGFjymKkjfwyhmh+MmXr42ycq8dvVwWI2VXrr0EOxscM6UOmfUt
- uI/j4WGJ5wfuNByUoQrhC++RY6pXGjOgLYLNpkXoMwfbWnWuirJq0TdYdVd8FCV35/VG
- TwNAf8QZLaY3zIsBXsuJhAhs63Z/R3uwUYTtxAxLcYTV50pGABiUgGnf0cjW8ynvhaWG
- tWY+f99eYGIoXq+TBANdoWe0YoEKdd9IaE870Jpwbx4CmYDD0jzZloR8qNw2Ki+A0ef5
- HPig==
+ :cc; bh=dB/YUbV33gsASlwt43eLvtTGgD7GHgvcm51jFsSmolg=;
+ b=OLTlxLjQoiKVo4r81x0/z/I7oucCUFZni1cb0k5NlrcBRvxKWxjqv9rTthbcj93dOg
+ eba4VzI94/Fy0biC52sVeAeRaY6XNZPGlAdBXPVC30RP2SqMUFR7huF1rGoq5ERK28u1
+ jED+gu01s/HrlMFrbgoZP+gPNRwmpU0+V9d50RqLdhncoLtz32NP7+g6+hia3lTtQBNJ
+ ZajluoYSjGZb3B9f8pBh0/p6kMnzNn0rRW+/AD9yd/+a7qNEtYNotgXb5Sh3w5Grj2gm
+ UlH5g/aqt5DEJkVEyN4nT5zfOxm53uWJT9qJ5JETF+P9Zbvq+j7gfgd3NnEDicxXH9fI
+ 9brA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZOox6HqgRBUv7icqURUJML9abJah70/U25bI8X8Eyc0=;
- b=7rXa+2IplGyLoHX1TkPhhsCjGDEkojnksWg6E6OTgOwBMK9ZSMS8NIzHQqxKwEucVh
- vqgJLZCcNv2TAo/emsjrceWcUi6dTWkyPC9Rng8fUNbGC0qf9SEroARdVuYQ4IcFrJta
- mj1fTJ+PBdqf/TnYqMEVeUlOXJiTd5iHHivp2+MameoDYIZycxmEKVzWMEjbMgF0e1O+
- AwXX6NWQi/cVJTc9J2i/N2tm5r5mp38iy+75SlPeKKFQSpS8fh4Ge2fphWt+0KtDkvD+
- +Za6DfCGb/SSVZedlusbD/V0nJn/Hq+JnT0LwiwY9QA0dua8FeGcCbeCaPpH809pXj12
- yvbg==
-X-Gm-Message-State: AJIora/VIwQIvHpycMFnEEsyh8IqkKIA5wzxbi+SsnogpRBb0Yq95vuJ
- 1FNl/JKbUye/Q9hxS8wlN6D/EyiDA4CuA5wl0iu+HOsE
-X-Google-Smtp-Source: AGRyM1seSiLtqCIe8T9UCrc/sPscS+2NaSYNj41ONsIdzNTTytILIW4ECo/OCFVlLa6XL8bIlCV+qiVNMuLc7ZT3Ttw=
-X-Received: by 2002:a05:6402:50ce:b0:435:9249:dfe9 with SMTP id
- h14-20020a05640250ce00b004359249dfe9mr12079163edb.310.1656003076595; Thu, 23
- Jun 2022 09:51:16 -0700 (PDT)
+ bh=dB/YUbV33gsASlwt43eLvtTGgD7GHgvcm51jFsSmolg=;
+ b=k86G48rCP6KDq60qbu4YoBU390YbbzW1+ieh2r3GfArbNGfR9yk3YWmrrGSAWoKiBR
+ tj0NUc9hu1Y8wu4Iscwi7SQGRO4bwPQzbsRKUtAFn7ygGBCG7kc54ng03XQszrIcAVuS
+ TxrnfE48nvSXGpNKPlqfVUam65zEG2+kr50CAcDM3UDvauT/1ohSJ7D7Q1OB2Lj5E+Db
+ mpgJLPLp+S54JYaIoLv+iQ94RFsuDbBY5FsU56hZqiWo8TxKNen+VnLZBeZqcWDdwV6N
+ Q1xjsTjgKc90r8p52vTixJhXueiBOMR3XjlOJXAoCaCHKXN+zgn7qjd1bBxrpGnc4Fcp
+ sLgg==
+X-Gm-Message-State: AJIora939sFCJ4PgGbPzbMe85c/OMA8eZs1TY8l4TVskIhFsHsD+/6qY
+ An9OM3mYC6eunNNAsZ51gQEjTyadVcEXJdjueHE=
+X-Google-Smtp-Source: AGRyM1v7UCi/dybJ7a8Hu2QcGEODPFGhdz3he6dGZwqW7M53CtDeoODvjoD1bZCwhJ+OPsCkP81b3cYZrPNQEbnMpX4=
+X-Received: by 2002:a17:906:5253:b0:711:ee52:764e with SMTP id
+ y19-20020a170906525300b00711ee52764emr8998144ejm.171.1656003189377; Thu, 23
+ Jun 2022 09:53:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220623101448.30188-1-jiangjian@cdjrlc.com>
-In-Reply-To: <20220623101448.30188-1-jiangjian@cdjrlc.com>
+References: <20220623080946.19116-1-colin.i.king@gmail.com>
+ <d3218391-de1f-d64d-bda7-0042473e9833@amd.com>
+In-Reply-To: <d3218391-de1f-d64d-bda7-0042473e9833@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 23 Jun 2022 12:51:04 -0400
-Message-ID: <CADnq5_P1VQo71hENT-RZUXY1T_+46bwPzRQ+OED-mTwRG52gnA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: drop unexpected word 'for' in comments
-To: Jiang Jian <jiangjian@cdjrlc.com>
+Date: Thu, 23 Jun 2022 12:52:57 -0400
+Message-ID: <CADnq5_MiZvJdR43Ook1F359CtfSUq+aBWvOOfyv+1EKLGwK9ug@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amdgpu/display: Fix spelling mistake
+ "supporing" -> "supporting"
+To: Harry Wentland <harry.wentland@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,13 +64,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Yang, Philip" <Philip.Yang@amd.com>, Dave Airlie <airlied@linux.ie>,
- "Kuehling, Felix" <Felix.Kuehling@amd.com>, xinhui pan <Xinhui.Pan@amd.com>,
+Cc: Leo Li <sunpeng.li@amd.com>, kernel-janitors@vger.kernel.org,
+ xinhui pan <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Colin Ian King <colin.i.king@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -76,37 +79,34 @@ Applied.  Thanks!
 
 Alex
 
-On Thu, Jun 23, 2022 at 6:15 AM Jiang Jian <jiangjian@cdjrlc.com> wrote:
+On Thu, Jun 23, 2022 at 10:20 AM Harry Wentland <harry.wentland@amd.com> wrote:
 >
-> there is an unexpected word 'for' in the comments that need to be dropped
 >
-> file - drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c
-> line - 245
 >
->  * position and also advance the position for for Vega10
+> On 2022-06-23 04:09, Colin Ian King wrote:
+> > There is a spelling mistake in a dml_print message. Fix it.
+> >
+> > Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 >
-> changed to:
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 >
->  * position and also advance the position for Vega10
+> Harry
 >
-> Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c
-> index 3df146579ad9..1d5af50331e4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ih.c
-> @@ -242,7 +242,7 @@ int amdgpu_ih_process(struct amdgpu_device *adev, struct amdgpu_ih_ring *ih)
->   * @entry: IV entry
->   *
->   * Decodes the interrupt vector at the current rptr
-> - * position and also advance the position for for Vega10
-> + * position and also advance the position for Vega10
->   * and later GPUs.
->   */
->  void amdgpu_ih_decode_iv_helper(struct amdgpu_device *adev,
-> --
-> 2.17.1
+> > ---
+> >  drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
+> > index 7f144adb1e36..7d536c2f4477 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/display_mode_vba_32.c
+> > @@ -1098,7 +1098,7 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerforman
+> >                               if (mode_lib->vba.ImmediateFlipRequirement[k] != dm_immediate_flip_not_required && v->ImmediateFlipSupportedForPipe[k] == false) {
+> >                                       v->ImmediateFlipSupported = false;
+> >  #ifdef __DML_VBA_DEBUG__
+> > -                                     dml_print("DML::%s: Pipe %0d not supporing iflip\n", __func__, k);
+> > +                                     dml_print("DML::%s: Pipe %0d not supporting iflip\n", __func__, k);
+> >  #endif
+> >                               }
+> >                       }
 >
