@@ -1,84 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D278557815
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 12:46:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC49557857
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jun 2022 13:04:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC2710E0E3;
-	Thu, 23 Jun 2022 10:46:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C9E710E2B5;
+	Thu, 23 Jun 2022 11:04:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A9EB10E111
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 10:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1655981184;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Wvp4c8ma6q+0nmczjb+eMGTpk4qCAW2Qq2qJF/kNVDA=;
- b=abDuqiyP34St/9sJ9iAQl2kPDkH51DkMyX9vCEzjnBi2btJowRxs2geV+vY3/oBfg9FVh/
- 2UJLCk0lQBPoPq8iH+zD3ax/9QCTxqSEGfyX7pdY1jut3hSU8ibQMmwDhIvB/6wdT1avAR
- P/Tk6tWjIbMw/qZ/57+mbcQcRzU32NI=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-sQeAlINFPBm6kcgpBcd8WQ-1; Thu, 23 Jun 2022 06:46:23 -0400
-X-MC-Unique: sQeAlINFPBm6kcgpBcd8WQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- y4-20020aa7ccc4000000b0042df06d83bcso15473983edt.22
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 03:46:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Wvp4c8ma6q+0nmczjb+eMGTpk4qCAW2Qq2qJF/kNVDA=;
- b=v7ihofAp1KdyQ4VKZRV2kFF10CYqJlrmZEkGzZ1/ejFQos2AC8gPkjIAj2ZIkol8RL
- gD+guwlGJc6reDkqg26lnaLUBjE/F/7Qr5npmpAyTTmOBWuX8YFbg6iJ8EXKcly2pvr7
- HC6Y70aOGq4a6HYmgNXrAi0a9aCra5m6c5e7Ay42++eyji2L+m78kDl7+K3N3Emw58VG
- Oc7AIY5nzep9gSU8wVkRDJ+b8cSsbKKYz1MZmhn5s2e7ZyXbTOP02dZwcdC28hvwP+Im
- D66PsnlfNOk/w/q9g9dZAVC3COIhtM8dLAtAUAKqjUbssUQXGrenh2rlVJWphTZPrssv
- Bx/Q==
-X-Gm-Message-State: AJIora/6gVRYFs+8ApLrufog1++vCQ3amfxcjo7iiDRJyCUNB3HoMWNq
- V4CiiHFJGuulqwLUjpvRJNnYTW1tEqeZLeBtQPBXUBdTYffKbqrHc4Icbxb7Sg1Vtk+woik1sDD
- vKib0LqBm0nAoeAzplN7hejSaLo8L
-X-Received: by 2002:a05:6402:21a:b0:431:5c52:82bb with SMTP id
- t26-20020a056402021a00b004315c5282bbmr10109198edv.70.1655981182347; 
- Thu, 23 Jun 2022 03:46:22 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tjt++oOvFx/5E7Gp7jK8UO2JpIA50Cx1YCtKCpEKeOTZijLz0SEbeKL+o3STwwczsrWERh3Q==
-X-Received: by 2002:a05:6402:21a:b0:431:5c52:82bb with SMTP id
- t26-20020a056402021a00b004315c5282bbmr10109165edv.70.1655981182073; 
- Thu, 23 Jun 2022 03:46:22 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81?
- (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
- by smtp.gmail.com with ESMTPSA id
- la12-20020a170907780c00b007081282cbd8sm10468360ejc.76.2022.06.23.03.46.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jun 2022 03:46:21 -0700 (PDT)
-Message-ID: <3591bbb1-8f11-cb00-742a-da0f9c12deb3@redhat.com>
-Date: Thu, 23 Jun 2022 12:46:20 +0200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 185CE10E2B5;
+ Thu, 23 Jun 2022 11:04:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1655982282; x=1687518282;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=uvRiXn0RqPUIUKiZwsBd2d49wVVCGlUjadwpX0J+dbo=;
+ b=PTg5kmxvz10PFSQIqdtbyzXA7zfliRJX7z7mAPWvvYlaQSByAfBEpj9O
+ f9yg/5QRXT9IP4m61dzHZtnil7S+brRu76ZuH//zOb3cCdkI4tU7L2S2h
+ nZ+zua6oNz5HGBGqfc7NnkfeUZOqmnfNoJs8F4nN+MiOj5xsvIkpGHlX3
+ Mp1TRCcuRxYwJ6l5mFeTqrzKu3nn2awCuE7RsmPHwIRP7/syFot9NcZUv
+ BfNE+xLCTK9Rcs7qaqkCl/EpQERl6CO0aLEedqJi4mE4rzB6YyKJPnDc+
+ uLdD3bUkVLj1S2EZWahFHzlrhIHgNWCUIfHTBSKnS1yoDymvmFLbhIL86 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="278238672"
+X-IronPort-AV: E=Sophos;i="5.92,215,1650956400"; d="scan'208";a="278238672"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2022 04:04:41 -0700
+X-IronPort-AV: E=Sophos;i="5.92,215,1650956400"; d="scan'208";a="644684867"
+Received: from hazegrou-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.216.121])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2022 04:04:35 -0700
+Date: Thu, 23 Jun 2022 13:04:32 +0200
+From: Andi Shyti <andi.shyti@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH 1/6] drm/i915/gt: Ignore TLB invalidations on idle engines
+Message-ID: <YrRIwEXMvlXlXBX2@intel.intel>
+References: <cover.1655306128.git.mchehab@kernel.org>
+ <ce7ddc900a5421e577ef446b6834ee69663c2d9a.1655306128.git.mchehab@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] drm/nouveau/Kconfig: Drop duplicate "select ACPI_VIDEO"
-To: Lyude Paul <lyude@redhat.com>, Ben Skeggs <bskeggs@redhat.com>,
- Karol Herbst <kherbst@redhat.com>
-References: <20220620094627.9730-1-hdegoede@redhat.com>
- <58bc64d81295092de0a9cab9c16dfae5600fc821.camel@redhat.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <58bc64d81295092de0a9cab9c16dfae5600fc821.camel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ce7ddc900a5421e577ef446b6834ee69663c2d9a.1655306128.git.mchehab@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,53 +58,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Jason Ekstrand <jason@jlekstrand.net>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Fei Yang <fei.yang@intel.com>, Matthew Brost <matthew.brost@intel.com>,
+ Chris Wilson <chris.p.wilson@intel.com>, Matthew Auld <matthew.auld@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Dave Airlie <airlied@redhat.com>,
+ Thomas =?iso-8859-15?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, mauro.chehab@linux.intel.com,
+ =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ John Harrison <John.C.Harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lyude,
+Hi Mauro,
 
-On 6/21/22 22:08, Lyude Paul wrote:
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
+On Wed, Jun 15, 2022 at 04:27:35PM +0100, Mauro Carvalho Chehab wrote:
+> From: Chris Wilson <chris.p.wilson@intel.com>
 > 
-> Also, you have my permission to push this to drm-misc-next.
-
-Thanks, I've pushed this to drm-misc-next now.
-
-Regards,
-
-Hans
-
-
+> As an extension of the current skip TLB invalidations,
+> check if the device is powered down prior to any engine activity,
 > 
-> On Mon, 2022-06-20 at 11:46 +0200, Hans de Goede wrote:
->> Before this change nouveau's Kconfig section had 2 "select ACPI_VIDEO"
->> statements:
->>
->> select ACPI_VIDEO if ACPI && X86 && BACKLIGHT_CLASS_DEVICE && INPUT
->> select ACPI_VIDEO if ACPI && X86
->>
->> Drop the one with the extra conditions, if the conditions for that
->> one are true then the second statement will always select ACPI_VIDEO
->> already.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  drivers/gpu/drm/nouveau/Kconfig | 1 -
->>  1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/nouveau/Kconfig
->> b/drivers/gpu/drm/nouveau/Kconfig
->> index 34760164c271..03d12caf9e26 100644
->> --- a/drivers/gpu/drm/nouveau/Kconfig
->> +++ b/drivers/gpu/drm/nouveau/Kconfig
->> @@ -11,7 +11,6 @@ config DRM_NOUVEAU
->>         select DRM_TTM
->>         select DRM_TTM_HELPER
->>         select BACKLIGHT_CLASS_DEVICE if DRM_NOUVEAU_BACKLIGHT
->> -       select ACPI_VIDEO if ACPI && X86 && BACKLIGHT_CLASS_DEVICE && INPUT
->>         select X86_PLATFORM_DEVICES if ACPI && X86
->>         select ACPI_WMI if ACPI && X86
->>         select MXM_WMI if ACPI && X86
+> as, on such cases, all the TLBs were already invalidated, so an
+> explicit TLB invalidation is not needed.
 > 
+> This becomes more significant  with GuC, as it can only do so when
+> the connection to the GuC is awake.
+> 
+> Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")
+> 
+> Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+> Cc: Fei Yang <fei.yang@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: stable@vger.kernel.org
+> Acked-by: Thomas Hellstr�m <thomas.hellstrom@linux.intel.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+
+Andi
