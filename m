@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573C25592B7
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:02:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE74E5592FD
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:04:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21A641121AC;
-	Fri, 24 Jun 2022 06:02:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D506112740;
+	Fri, 24 Jun 2022 06:02:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com
  [67.231.149.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B302910E26D
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:54:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51F4110E5D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 12:53:28 +0000 (UTC)
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
- by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N6FQei013924;
- Thu, 23 Jun 2022 07:53:19 -0500
+ by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NAKUtJ006859;
+ Thu, 23 Jun 2022 07:53:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=/YrLbsib8Yh5fzo7Etvf2etgY4zhhSJ7yMT4UFg+Ibo=;
- b=AZ066CSWBpyF8xfRacDfhhkBDz51cq+pdUyK2y0s79hZrlj/GCkv6TNn9zu8ha2b3BAy
- zDapJV9IskFefEfI7YSl57TdEn72UKdytGiF5uFObomv1PR7En8QoR0FIjDgif4LBTeZ
- 70BflmNNGVNuVxYtzYJYrYXdWDKuQsziea9Aiz67Sml4p4bFpUwSrqjNVu+OczzRwVFb
- f4RWeFAbtUOeNkHj3LOhAeN5vhIHbBjuhqba5w6zZaD7CjTvor1zDoVx4Y3nv5Ps6ogi
- 3kzDdEO6SCv1beSoqWv2rq5gzcgXr+xr6+Y76hE18ylvI/X7uq4V1PZ0uzAteaO9XXEc xA== 
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
- by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4x-20
+ bh=BgbBX9Efb8K0LJNikCHrznq2RAOzoLRPZllxMCU4hQg=;
+ b=BlSXO39AK6ILlrMGhditR/qvxvAwY1jMLgZ0oQIUcRy2EMQB0Kp7rUM8XGWn88LqGtTa
+ PZRH18Key0WntsJs3vZcCHbOvT4x0RcEi1W7OqmcnQTV+y2QZoKJx+PwwuH63H7JyvZd
+ 0EWp/duQ0UF0mXlLqm24AyhoQnTKEKSNTq+ofEfY+3LDviMhvjeUOciUfR0TX2+DkwVW
+ MuBa3NqryCLshfuxNZH7VFlp8g1R9duzcaL6gAii2V3ORRcrxPYfXkUBowqIaXbH8ZIE
+ XEyuJmcKAbEajkuvGtsSSirzDPkeNMJfPJ86f+GocycR10QTqaGGUKa2NdKZQ/ccQfPp 9w== 
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+ by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4u-17
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 23 Jun 2022 07:53:19 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 23 Jun 2022 07:53:15 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
  2022 13:52:59 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via
  Frontend Transport; Thu, 23 Jun 2022 13:52:59 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
- by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 3B6F211D4;
+ by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 53DC811D1;
  Thu, 23 Jun 2022 12:52:59 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
-Subject: [PATCH v2 95/96] ASoC: zl38060: Remove now redundant
- non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:52:49 +0100
-Message-ID: <20220623125250.2355471-96-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 96/96] ASoC: soc-component: Remove non_legacy_dai_naming
+ flag
+Date: Thu, 23 Jun 2022 13:52:50 +0100
+Message-ID: <20220623125250.2355471-97-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: 0VaHRuKWj1VUe2Hz7TpzGCef3HcYfQcc
-X-Proofpoint-ORIG-GUID: 0VaHRuKWj1VUe2Hz7TpzGCef3HcYfQcc
+X-Proofpoint-GUID: fUGTb7dJJMOmVmNkY5DMbA2EPSxXxxUM
+X-Proofpoint-ORIG-GUID: fUGTb7dJJMOmVmNkY5DMbA2EPSxXxxUM
 X-Proofpoint-Spam-Reason: safe
-X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:36 +0000
+X-Mailman-Approved-At: Fri, 24 Jun 2022 06:01:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,27 +83,26 @@ Cc: cezary.rojewski@intel.com, kuninori.morimoto.gx@renesas.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ASoC core has now been changed to default to the non-legacy DAI
-naming, as such drivers using the new scheme no longer need to specify
-the non_legacy_dai_naming flag.
+Now all the users are moved over to the new legacy_dai_naming flag,
+remove the now unused old flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/codecs/zl38060.c | 1 -
+ include/sound/soc-component.h | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/codecs/zl38060.c b/sound/soc/codecs/zl38060.c
-index 6cae0fb08093b..c3d0a2a7c36f2 100644
---- a/sound/soc/codecs/zl38060.c
-+++ b/sound/soc/codecs/zl38060.c
-@@ -385,7 +385,6 @@ static const struct snd_soc_component_driver zl38_component_dev = {
- 	.dapm_routes		= zl38_dapm_routes,
- 	.num_dapm_routes	= ARRAY_SIZE(zl38_dapm_routes),
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
+diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
+index 96c2f5fffc51e..c26ffb033777a 100644
+--- a/include/sound/soc-component.h
++++ b/include/sound/soc-component.h
+@@ -180,7 +180,6 @@ struct snd_soc_component_driver {
+ 	 */
+ 	unsigned int endianness:1;
+ 	unsigned int legacy_dai_naming:1;
+-	unsigned int non_legacy_dai_naming:1;
  
- static void chip_gpio_set(struct gpio_chip *c, unsigned int offset, int val)
+ 	/* this component uses topology and ignore machine driver FEs */
+ 	const char *ignore_machine;
 -- 
 2.30.2
 
