@@ -1,65 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EF455A3C8
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 23:40:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 286B355A3CF
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 23:41:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F92E10F532;
-	Fri, 24 Jun 2022 21:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE1510F53B;
+	Fri, 24 Jun 2022 21:41:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 879F010F533
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 21:40:46 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- c130-20020a1c3588000000b0039c6fd897b4so3983833wma.4
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 14:40:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=pAi+LBlnWgN+7WSmLJo2WV06guKY5eDIqB1brGNF8fY=;
- b=ERzNl0Xn85NBB/9KQY4CMjlPL1u45Vsa3j+pSm5A94ItaEsbginyT4+X7ykx6R5hgN
- P9Zd4Qbo/S/EtrFfjl6QPc84qsHlIs7dbTdSaPVNOeJ1/d9k2o9vW+qpjwdRQwzOAG4+
- g7bRBEJkv2nQrsjAyHWYj1cpg68ItH4p7FPVo=
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 912F110F53B
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 21:41:47 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id h187so4419730ybg.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 14:41:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KwSe0AE8xuDdVckfxEZwgd9uzlK0jUKIVPL9Zhmd0sI=;
+ b=mL3aqN0eV5wBA2kBnVNdsoRFGISINp70UscX6zh991Or58FaeCh+btRRuil/JCyD3i
+ ysYJDXVEsBhPiHN5dGK6iWgSZrwpYIL7zt4rhKsgMT/mPH7+cXWlmb1WQ7DOlgwgu/1Y
+ d7CAhVUlfuNPAFjEKg++NG+xn6IJvVE9Z+BNU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=pAi+LBlnWgN+7WSmLJo2WV06guKY5eDIqB1brGNF8fY=;
- b=wcIfGs1blP0MhiuUYXXRZr7U2Ln25LEcFTIlV/dkhhK9WAhAycaZVHZkT/2MdiLMIB
- QD3RkIgbpCsu8/snKglP/e1+nLCBUalXEQjZzu923/gdDkU28MJuGeb5c09fXO40tZqj
- jV7yOB35/POwAfcOXL2h+biRrG7X4rYHavpKXYJa7cJxo1s7DJz83HCl5f+P69t2saIf
- 6KTXYgqbIChCQplFfPjnB33yvmkDRMWGwqgF5hCJyMGDbUKXsrXn4acfbz4Cc0uXYigY
- 74w1m/0t8o7sVfXJ8KltEferDxqqqxgDKj3OlRoosxYhCkE1TIW+rfzQ0x7M7avQA4xK
- IXPQ==
-X-Gm-Message-State: AJIora9ELVhEZIDYU+zWxVA3A7AXrHDZLa9J0ga5NGXjLfty+CzNnz3r
- BW29dNsZOBiK2L11SFvyX4DnZA==
-X-Google-Smtp-Source: AGRyM1ubkjcCX6iz+H1S3cOzTW1yORhyHnJKczSbWOvZCJ4x5yQ6LEdFkR6qEWr4iiMocv7tDNgsqQ==
-X-Received: by 2002:a05:600c:1553:b0:39c:8873:e241 with SMTP id
- f19-20020a05600c155300b0039c8873e241mr6158612wmg.9.1656106844965; 
- Fri, 24 Jun 2022 14:40:44 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- k22-20020a05600c0b5600b003a02cbf862esm4105351wmr.13.2022.06.24.14.40.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jun 2022 14:40:44 -0700 (PDT)
-Date: Fri, 24 Jun 2022 23:40:42 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Melissa Wen <mwen@igalia.com>
-Subject: Re: [RFC PATCH 4/5] drm/drm_color_mgmt: add 3D LUT to color mgmt
- properties
-Message-ID: <YrYvWuYNImfopN5n@phenom.ffwll.local>
-References: <20220619223104.667413-1-mwen@igalia.com>
- <20220619223104.667413-5-mwen@igalia.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KwSe0AE8xuDdVckfxEZwgd9uzlK0jUKIVPL9Zhmd0sI=;
+ b=Aca+vqKdtC/SJTXXD20IUe9M65VSSfcFxLodWIyngOQdSYPU6W1tGRkEURJ16l+hYf
+ afrBRSvpT3976y++Wd8ifLmVqHLUaweW3mAJ3dM6lcW1Zdv5WHeyKZ7gDBVbdp6lV0U5
+ 4ubC01pxJtVKNMcXI+5j5jZ5nHeMnw/5sGWhz9QJqVyNdsP06Vn1aYtNsCpDSyTCFYRM
+ yWTq/IaUuhsaXW15hWhX7xExB6zLH/tWJ1xdk1RUKnK52HEzWoNgVPrnEuFdH+Z3tmVm
+ lWUrdNbQMdJlHavqMTZscEbkmkIpX3tj9PswseG+bTO9sMtCCUJZ+3GXy88Bn84tdXWB
+ IyXw==
+X-Gm-Message-State: AJIora+5PTGAotHR6ZqVhzhrhzRbArLAmHXxb1lEYL+czcnosmHxv667
+ 0OWULCDRYiInv4+SM8/Yn+LI4vmoRJai26AYQkcwKA==
+X-Google-Smtp-Source: AGRyM1vXDzzrmcLhRzAlxrs+doDmJtuMt4h47FzgwPHxLyPsjKEcC4k0v9we/8WmGpGfyR8DVoE1utP3NYSaxg3X5EY=
+X-Received: by 2002:a5b:8d1:0:b0:668:c6ca:7571 with SMTP id
+ w17-20020a5b08d1000000b00668c6ca7571mr1226544ybq.445.1656106906728; Fri, 24
+ Jun 2022 14:41:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220619223104.667413-5-mwen@igalia.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20220622173605.1168416-1-pmalani@chromium.org>
+ <20220622173605.1168416-2-pmalani@chromium.org>
+ <CAE-0n51kcr3VGdR2Kf8j1JaBbLcCmWo9GYhhvkUQ4+jn2iEKLg@mail.gmail.com>
+ <CACeCKac4eL9++QwbDBKrVTpUzhes=WczqZfh+cFiVgoO4py4MQ@mail.gmail.com>
+ <CAE-0n51E1TLMRNWnqiV-jU_qg15BF4D6A+0G1y1SRTu1zNs2Dg@mail.gmail.com>
+ <CACeCKacGZFY-_yn1R33OVcsdG47oqNTGBA43L5hrH2zyhK=cRw@mail.gmail.com>
+ <CAE-0n53i90ZUFSmrR=ScXtMdn_bWPY49WWTf9LXbxu_udGgP9w@mail.gmail.com>
+ <CACeCKaffqb6v7TFji2u00VSQ=DGvRe-gcxMnAEbZCC1qtDZF6A@mail.gmail.com>
+ <CAE-0n51AYqr4wcD-JaVaTYjFgxCj+iX+xAYKCrZCqGHE2XEUgA@mail.gmail.com>
+In-Reply-To: <CAE-0n51AYqr4wcD-JaVaTYjFgxCj+iX+xAYKCrZCqGHE2XEUgA@mail.gmail.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Fri, 24 Jun 2022 14:41:36 -0700
+Message-ID: <CACeCKad_vB+cHzwkBrvi90u7mBmJbk=YuecOwsp1xexYUiq-_A@mail.gmail.com>
+Subject: Re: [PATCH v5 1/9] dt-bindings: usb: Add Type-C switch binding
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,285 +67,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, airlied@linux.ie, Rodrigo.Siqueira@amd.com,
- dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
- nicholas.kazlauskas@amd.com, bhawanpreet.lakha@amd.com, sunpeng.li@amd.com,
- alex.hung@amd.com, amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- seanpaul@chromium.org, nikola.cornij@amd.com, christian.koenig@amd.com,
- sungjoon.kim@amd.com
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 19, 2022 at 09:31:03PM -0100, Melissa Wen wrote:
-> Add 3D LUT for gammar correction using a 3D lookup table.  The position
-> in the color correction pipeline where 3D LUT is applied depends on hw
-> design, being after CTM or gamma. If just after CTM, a shaper lut must
-> be set to shape the content for a non-linear space. That details should
-> be handled by the driver according to its color capabilities.
-> 
-> Signed-off-by: Melissa Wen <mwen@igalia.com>
+On Fri, Jun 24, 2022 at 12:50 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Prashant Malani (2022-06-23 19:48:04)
+> > On Thu, Jun 23, 2022 at 7:13 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> > >
+> > > Quoting Prashant Malani (2022-06-23 17:35:38)
+> > > > On Thu, Jun 23, 2022 at 4:14 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> > > > >
+> > > > > I'm not aware of any documentation for the dos and don'ts here. Are
+> > > > > there any examples in the bindings directory that split up a device into
+> > > > > subnodes that isn't in bindings/mfd?
+> > > >
+> > > > usb-c-connector [3] and its users is an example.
+> > >
+> > > What are the subnodes? The graph ports? That is not what I meant.
+> >
+> > cros-ec-typec [4] uses subnodes of usb-c-connector. Chrome OS DTs
+> > use the ports from the included usb-c-connector to switching hardware.
+>
+> Ok, got it. usb-c-connector nodes are children of the typec controller
+> (in this case cros-ec-typec) because otherwise we would need to make a
+> phandle link from the usb-c-connector node(s) under the root node / to
+> the typec controller. The phandle link may need to be done in both
+> directions, so it makes more sense to put the usb-c-connector nodes
+> underneath the typec controller to express the direct relationship
+> between the typec controller and the usb-c-connectors.
+>
+> Furthermore, the usb-c-connector is not integrated as part of the EC in
+> the same package. There is a discrete part placed on the board that
+> corresponds to the usb-c-connector and that is separate from the EC. The
+> connectors are in essence only controllable through the EC because
+> that's the typec controller.
 
-I think our color correction pipeline is at a complexity where a DOT graph
-that shows how it all works together is justified. So including color
-conversion from planes (like yuv->rgb), plane blending and then the color
-pipeline here. Maybe in the plane composition section, with the color
-conversion pipeline docs linking to that?
--Daniel
+From the perspective of the AP, the `usb-c-connector` *is* an integrated part of
+the Chrome EC; there is no alternative way to control it except
+through the Chrome EC.
+So the above example reinforces the usage model for typec-switch (which is
+also an "integrated" component).
 
-> ---
->  drivers/gpu/drm/drm_atomic_state_helper.c |  3 ++
->  drivers/gpu/drm/drm_atomic_uapi.c         | 14 +++++-
->  drivers/gpu/drm/drm_color_mgmt.c          | 58 +++++++++++++++++++++++
->  drivers/gpu/drm/drm_fb_helper.c           |  2 +
->  drivers/gpu/drm/drm_mode_config.c         | 14 ++++++
->  include/drm/drm_color_mgmt.h              |  4 ++
->  include/drm/drm_crtc.h                    | 12 ++++-
->  include/drm/drm_mode_config.h             | 13 +++++
->  8 files changed, 117 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> index cf0545bb6e00..64800bc41365 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> @@ -141,6 +141,8 @@ void __drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc,
->  		drm_property_blob_get(state->ctm);
->  	if (state->shaper_lut)
->  		drm_property_blob_get(state->shaper_lut);
-> +	if (state->lut3d)
-> +		drm_property_blob_get(state->lut3d);
->  	if (state->gamma_lut)
->  		drm_property_blob_get(state->gamma_lut);
->  
-> @@ -216,6 +218,7 @@ void __drm_atomic_helper_crtc_destroy_state(struct drm_crtc_state *state)
->  	drm_property_blob_put(state->degamma_lut);
->  	drm_property_blob_put(state->ctm);
->  	drm_property_blob_put(state->shaper_lut);
-> +	drm_property_blob_put(state->lut3d);
->  	drm_property_blob_put(state->gamma_lut);
->  }
->  EXPORT_SYMBOL(__drm_atomic_helper_crtc_destroy_state);
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index 6468f2a080bc..1896c0422f73 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -472,6 +472,14 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
->  					&replaced);
->  		state->color_mgmt_changed |= replaced;
->  		return ret;
-> +	} else if (property == config->lut3d_property) {
-> +		ret = drm_atomic_replace_property_blob_from_id(dev,
-> +					&state->lut3d,
-> +					val,
-> +					-1, sizeof(struct drm_color_lut),
-> +					&replaced);
-> +		state->color_mgmt_changed |= replaced;
-> +		return ret;
->  	} else if (property == config->gamma_lut_property) {
->  		ret = drm_atomic_replace_property_blob_from_id(dev,
->  					&state->gamma_lut,
-> @@ -523,10 +531,12 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
->  		*val = (state->degamma_lut) ? state->degamma_lut->base.id : 0;
->  	else if (property == config->ctm_property)
->  		*val = (state->ctm) ? state->ctm->base.id : 0;
-> -	else if (property == config->gamma_lut_property)
-> -		*val = (state->gamma_lut) ? state->gamma_lut->base.id : 0;
->  	else if (property == config->shaper_lut_property)
->  		*val = (state->shaper_lut) ? state->shaper_lut->base.id : 0;
-> +	else if (property == config->lut3d_property)
-> +		*val = (state->lut3d) ? state->lut3d->base.id : 0;
-> +	else if (property == config->gamma_lut_property)
-> +		*val = (state->gamma_lut) ? state->gamma_lut->base.id : 0;
->  	else if (property == config->prop_out_fence_ptr)
->  		*val = 0;
->  	else if (property == crtc->scaling_filter_property)
-> diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-> index 4f57dc60fe03..696fe1e37801 100644
-> --- a/drivers/gpu/drm/drm_color_mgmt.c
-> +++ b/drivers/gpu/drm/drm_color_mgmt.c
-> @@ -87,6 +87,25 @@
->   *	publish the largest size, and sub-sample smaller sized LUTs
->   *	appropriately.
->   *
-> + * “LUT3D”:
-> + *	Blob property to set the 3D LUT mapping pixel data after the color
-> + *	transformation matrix and before gamma 1D lut correction. The
-> + *	data is interpreted as an array of &struct drm_color_lut elements.
-> + *	Hardware might choose not to use the full precision of the LUT
-> + *	elements.
-> + *
-> + *	Setting this to NULL (blob property value set to 0) means a the output
-> + *	color is identical to the input color. This is generally the driver
-> + *	boot-up state too. Drivers can access this blob through
-> + *	&drm_crtc_state.gamma_lut.
-> + *
-> + * “LUT3D_SIZE”:
-> + *	Unsigned range property to give the size of the 3D lookup table to be
-> + *	set on the LUT3D property (the size depends on the underlying
-> + *	hardware). If drivers support multiple LUT sizes then they should
-> + *	publish the largest size, and sub-sample smaller sized LUTs
-> + *	appropriately.
-> + *
->   * “GAMMA_LUT”:
->   *	Blob property to set the gamma lookup table (LUT) mapping pixel data
->   *	after the transformation matrix to data sent to the connector. The
-> @@ -204,6 +223,45 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
->  }
->  EXPORT_SYMBOL(drm_crtc_enable_color_mgmt);
->  
-> +/**
-> + * drm_crtc_enable_lut3d - enable 3D LUT properties
-> + * @crtc: DRM CRTC
-> + * @shaper_lut_size: the size of shaper lut
-> + * @lut3d_size: the size of 3D lut
-> + *
-> + * This function lets the driver enable the 3D LUT color correction property
-> + * on a CRTC. This includes 3D LUT and also a shaper LUT, if set. The shaper
-> + * LUT property is only attached if its size is not 0 and 3D LUT is set, being
-> + * therefore optional.
-> + */
-> +void drm_crtc_enable_lut3d(struct drm_crtc *crtc,
-> +			   uint shaper_lut_size,
-> +			   uint lut3d_size)
-> +{
-> +	struct drm_device *dev = crtc->dev;
-> +	struct drm_mode_config *config = &dev->mode_config;
-> +
-> +	if (!lut3d_size)
-> +		return;
-> +
-> +	drm_object_attach_property(&crtc->base,
-> +				   config->lut3d_property, 0);
-> +	drm_object_attach_property(&crtc->base,
-> +				   config->lut3d_size_property,
-> +				   lut3d_size);
-> +	if (!shaper_lut_size)
-> +		return;
-> +
-> +	drm_object_attach_property(&crtc->base,
-> +				   config->shaper_lut_property, 0);
-> +	drm_object_attach_property(&crtc->base,
-> +				   config->shaper_lut_size_property,
-> +				   lut3d_size);
-> +
-> +}
-> +EXPORT_SYMBOL(drm_crtc_enable_lut3d);
-> +
-> +
->  /**
->   * drm_mode_crtc_set_gamma_size - set the gamma table size
->   * @crtc: CRTC to set the gamma table size for
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index bdd33817d968..358c528c7c80 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -1069,6 +1069,8 @@ static int setcmap_atomic(struct fb_cmap *cmap, struct fb_info *info)
->  		replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
->  		replaced |= drm_property_replace_blob(&crtc_state->shaper_lut,
->  						      NULL);
-> +		replaced |= drm_property_replace_blob(&crtc_state->lut3d,
-> +						      NULL);
->  		replaced |= drm_property_replace_blob(&crtc_state->gamma_lut,
->  						      gamma_lut);
->  
-> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-> index 4ba2a95b88e8..5458a7dfbe63 100644
-> --- a/drivers/gpu/drm/drm_mode_config.c
-> +++ b/drivers/gpu/drm/drm_mode_config.c
-> @@ -364,6 +364,20 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
->  		return -ENOMEM;
->  	dev->mode_config.shaper_lut_size_property = prop;
->  
-> +	prop = drm_property_create(dev,
-> +			DRM_MODE_PROP_BLOB,
-> +			"LUT3D", 0);
-> +	if (!prop)
-> +		return -ENOMEM;
-> +	dev->mode_config.lut3d_property = prop;
-> +
-> +	prop = drm_property_create_range(dev,
-> +			DRM_MODE_PROP_IMMUTABLE,
-> +			"LUT3D_SIZE", 0, UINT_MAX);
-> +	if (!prop)
-> +		return -ENOMEM;
-> +	dev->mode_config.lut3d_size_property = prop;
-> +
->  	prop = drm_property_create(dev,
->  			DRM_MODE_PROP_BLOB,
->  			"GAMMA_LUT", 0);
-> diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
-> index 81c298488b0c..a4f054e0108f 100644
-> --- a/include/drm/drm_color_mgmt.h
-> +++ b/include/drm/drm_color_mgmt.h
-> @@ -59,6 +59,10 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
->  				bool has_ctm,
->  				uint gamma_lut_size);
->  
-> +void drm_crtc_enable_lut3d(struct drm_crtc *crtc,
-> +			   uint shaper_lut_size,
-> +			   uint lut3d_size);
-> +
->  int drm_mode_crtc_set_gamma_size(struct drm_crtc *crtc,
->  				 int gamma_size);
->  
-> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> index a318d5feb44b..c22ffcc4d7aa 100644
-> --- a/include/drm/drm_crtc.h
-> +++ b/include/drm/drm_crtc.h
-> @@ -165,7 +165,7 @@ struct drm_crtc_state {
->  	bool zpos_changed : 1;
->  	/**
->  	 * @color_mgmt_changed: Color management properties have changed
-> -	 * (@shaper_lut, @gamma_lut, @degamma_lut or @ctm). Used by
-> +	 * (@shaper_lut, @lut3d, @gamma_lut, @degamma_lut or @ctm). Used by
->  	 * the atomic helpers and drivers to steer the atomic commit control
->  	 * flow.
->  	 */
-> @@ -298,6 +298,16 @@ struct drm_crtc_state {
->  	 */
->  	struct drm_property_blob *shaper_lut;
->  
-> +	/**
-> +	 * @lut3d:
-> +	 *
-> +	 * 3D Lookup table for converting pixel data. Position where it takes
-> +	 * place depends on hw design, after @ctm or @gamma_lut. See
-> +	 * drm_crtc_enable_color_mgmt(). The blob (if not NULL) is an array of
-> +	 * &struct drm_color_lut.
-> +	 */
-> +	struct drm_property_blob *lut3d;
-> +
->  	/**
->  	 * @target_vblank:
->  	 *
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index 2df7e171add9..87280694e70d 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -812,6 +812,19 @@ struct drm_mode_config {
->  	 */
->  	struct drm_property *shaper_lut_size_property;
->  
-> +	/**
-> +	 * @lut3d_property: Optional CRTC property to set the 3D LUT used to
-> +	 * convert colors; before or after gamma conversion depends on hw
-> +	 * design. A shaper LUT can be used to delinearize content before apply
-> +	 * 3D LUT correction.
-> +	 */
-> +	struct drm_property *lut3d_property;
-> +	/**
-> +	 * @lut3d_size_property: Optional CRTC property for the size of the
-> +	 * 3D LUT as supported by the driver (read-only).
-> +	 */
-> +	struct drm_property *lut3d_size_property;
-> +
->  	/**
->  	 * @gamma_lut_property: Optional CRTC property to set the LUT used to
->  	 * convert the colors, after the CTM matrix, to the gamma space of the
-> -- 
-> 2.35.1
-> 
+> It's similar to how we place i2c devices as
+> child nodes of the i2c controller.
+>
+> >
+> > > I meant splitting up a device functionality, like type-c and display
+> > > bridge, into subnodes. Composition of devices through DT bindings isn't
+> > > how it's done. Instead, we dump all the different functionality into the
+> > > same node. For example, look at the number of bindings that have both
+> > > #clock-cells and #reset-cells, when those are distinct frameworks in the
+> > > kernel and also different properties. We don't make subnodes to contain
+> > > the different functionality of a device.
+> > >
+> > > And in this case I still don't see the point to making a subnode.
+> >
+> > I've already provided my best effort at explaining the rationale.
+> >
+> > > The
+> > > API can simply setup a type-c switch based on a graph binding for the
+> > > toplevel node, e.g. the drm-bridge, and the driver can tell the API
+> > > which port+endpoint to use to search the graph for the usb-c-connector
+> > > to associate with the switch.
+> >
+> > OK, drm-bridge uses that approach. This is another approach. I didn't fully
+> > understand why we *have* to follow what drm-bridge is doing.
+> >
+> > > We don't need to connect the graph within
+> > > the drm-bridge node to the graph within the typec-switch node to do
+> > > that. That's an internal detail of the drm-bridge that we don't expose
+> > > to DT, because the driver knows the detail.
+> >
+> > I still don't understand why we can't do that. These devices have actual
+> > hardware blocks that represent the Type-C switch functionality.
+> >
+>
+> We don't break up device functionality for an IC into different subnodes
+> with different compatibles. Similarly, we don't describe internal
+> connection details of device nodes. The device driver that binds to the
+> compatible should know the details of the internal block diagram of the
+> part.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I don't completely agree with the above. There
+is scope for middle-ground where some details can be codified into
+DT bindings, and the driver can have the flexibility to be able to handle them.
+But this now devolves into an ideological debate which I don't want
+to get involved in, so I will restrict my responses on this subject.
+
+> The DT binding should describe the external connections of the
+> part and have properties that inform the driver about how the part was
+> integrated into the system (e.g. mode-switch). The unwritten DT mantra
+> is "less is more".
+>
+> We could definitely make many subnodes and add properties for everything
+> inside an IC so that the DT describes the complete block diagram of the
+> part, but at that point the driver is a shell of its former self.
+
+That is a pathological/extreme argument which is not the case here,
+we're just adding 1 sub-node because it's a sub-component that interfaces
+with a kernel framework (Type-C class etc). The driver should be able to deal
+with varying hardware configurations for the device and I don't believe that
+makes it a "shell of its former self" any more than hard-coding port
+details in the driver.
+
+> The driver will spend time parsing properties to learn details that are
+
+This parsing only occurs 1 once at probe, so I don't consider it much
+of an overhead. The alternative suggested leads to the driver using time
+looking up OF ports (with the port number). I fail to see how either is
+noticeably more efficient than the other, especially on modern systems.
+
+> entirely unchanging for the lifetime of the device (e.g. that the device
+> has typec switch capabilities); things that should be hard-coded in the
+> driver.
+>
+> Of course, if the device is integrated into the system and doesn't need
+> to perform typec switching, then we want a property to tell the driver
+> that this device is integrated in a way that the typec switch is not
+> needed/used. Basically the driver should key that functionality off of
+> the presence of the 'mode-switch' or 'orientation-switch' property
+> instead of off the presence of a typec-switch subnode.
+>
+> > > >
+> > > > >
+> > > > > How would I even know which two differential pairs correspond to port0
+> > > > > or port1 in this binding in the ITE case?
+> > > >
+> > > > Why do we need to know that? It doesn't affect this or the other
+> > > > driver or hardware's
+> > > > functioning in a perceivable way.
+> > >
+> > > If the device registers allow control of the DP lane to physical pin
+> > > mapping, so that DP lane0 and DP lane1 can be swapped logically, then
+> > > we'll want to know which DP lanes we need to swap by writing some lane
+> > > remapping register in the device. Sometimes for routing purposes devices
+> > > support this lane remapping feature so the PCB can route the lines
+> > > directly to the connector instead of going in circles and destroying the
+> > > signal integrity.
+> >
+> > Then add more end-points to port@1 (for each differential pair
+> > you want to describe) of the usb-c-connector and route them
+> > to the typec-switch accordingly.
+> > FWIW I'm not aware of h/w *that supports DP alt mode* that uses the
+> > functionality
+> > you're referring to.
+> >
+>
+> The Qualcomm QMP usb+dp phy supports lane remapping.
+
+Ok great. So we can follow the method described above for specifying these
+differential pairs if required. That is not related to this patch
+series (although it is compatible
+with it).
+
+>
+> > >
+> > > >
+> > > > > Is that why you're proposing this binding? To
+> > > > > avoid describing a graph binding in the usb-c-connector and effectively
+> > > > > "pushing" the port count up to the mux?
+> > > >
+> > > > No, that is not the intention behind this series. The
+> > > > 'usb-c-connector' still needs the
+> > > > graph binding to the `typec-switch`. SBU, HS and SS lanes might have different
+> > > > muxes altogether (usb-c-connect has separate ports for SBU, HS and SS lanes)
+> > >
+> > > If the usb-c-connector still needs a graph binding to the typec-switch
+> > > then why isn't that part of this series?
+> >
+> > That's not what I meant (what I meant earlier is the intention is not
+> > what you stated).
+> > I simply meant that the usb-c-connectors ports should be connected to
+> > the typec-switch
+> > ports. There isn't any binding update required for this.
+> >
+>
+> Ok. Got it.
+
+This really is a limited binding change that helps describe connections
+between Type-C components, helps these components integrate with
+the kernel Type-C framework, and consolidates the associated properties.
+I believe it works for most current use cases in the upstream kernel.
+
+I'm happy to discuss more theoretical use cases further, but
+respectfully, I prefer to do
+so off-list.
+
+If the maintainer is OK with it (Krzysztof has reviewed it, but I
+don't want to presume
+what the protocol is for patches in this subsystem), and we've
+provided 2 users as asked for
+in v4 [5], then I request its consideration for submission.
+If the maintainers have further concerns, we'd be happy to address them.
+
+Best regards,
+
+-Prashant
+
+[5] https://lore.kernel.org/linux-usb/20220616193424.GA3844759-robh@kernel.org/
