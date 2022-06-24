@@ -1,43 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA07D559CAC
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 16:53:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A74559CB5
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 16:59:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8876510E055;
-	Fri, 24 Jun 2022 14:53:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A52AC10E315;
+	Fri, 24 Jun 2022 14:59:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::222])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7698010E055
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 14:53:27 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 9F61640005;
- Fri, 24 Jun 2022 14:53:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1656082405;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pAemQfjjYRBuV4ZECqviQkxC7RDhzNksVvHX3//IOIo=;
- b=byJwxursTDwGnbVb2yaSOn/bl03S717FoHbKPGhnJXe/MD8lrJ7oP2xq2qaFz8KHS//i/V
- kRUXn4D+YLzK7VMR8ipLjDiW9sMaskefcucLgjweyxoxXLbWevj+B8i0KDXo6HhgVVAhKv
- u3ugxsE1BC14e9A7OdMIlrktLs7V2ABC5fzjSYUCZXIL1CfyjMF8aJdysPE4d66yKvJkpw
- vkwUJ4Tet23YXTU3PLOuAf0B9pBk8QmG6I/dXwC58sVGzFvDxSJ1XxTO/YT8BAsNDBAA8Q
- m8fGM8DOurRkA1lLbaSIybBP6mluxhFE2Bs121itZMY0tWLeK6He8N48JTVdrg==
-Date: Fri, 24 Jun 2022 16:53:25 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [bug report] drm: Add support for the LogiCVC display controller
-Message-ID: <YrXP5Q16k/X0EVEI@aptenodytes>
-References: <Yqh6ErANSTEJpfvl@kili>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1EB10E1B2;
+ Fri, 24 Jun 2022 14:59:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656082786; x=1687618786;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=5xniwbF8DMvTb1aIy0uvrxlO5paofnZ9T1QZ+yA/7IM=;
+ b=KIUhyoFOvULryNnvYTdYGamLKetACCKe1fkwS9aFeckVBAvIS35Cx5yz
+ n8NIJGlOxe5RJ21TXxuiHvXNlPoQdSqVT9tI5ubrfBKJtCL85DL+krq57
+ CQxDiTc8aks5ufHtUlOeiprU+W8IvxLTT9TCeLv/0O/5HrdW1S6PRYQMd
+ A+7j1NjmWhI5inYsUvTqgS32LYCSmK7yqzRtyjgE9wyqevXd9lpZhD0zS
+ MdR3NpKKjPdTUKPosFqF8a+xIPYPay4X1YNjxvPQrLSRcTKi4iuo69WzU
+ EpaXaJnAueHpVgdOMaxR/Fz2hpa54xY+NZMGR67yIStEZHDKJZAUc7dSt A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10388"; a="260831313"
+X-IronPort-AV: E=Sophos;i="5.92,218,1650956400"; d="scan'208";a="260831313"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 07:59:45 -0700
+X-IronPort-AV: E=Sophos;i="5.92,218,1650956400"; d="scan'208";a="656672661"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 07:59:45 -0700
+Date: Fri, 24 Jun 2022 07:59:26 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH v5 3/3] drm/doc/rfc: VM_BIND uapi definition
+Message-ID: <20220624145925.GE376@nvishwa1-DESK>
+References: <20220624053208.23723-1-niranjana.vishwanathapura@intel.com>
+ <20220624053208.23723-4-niranjana.vishwanathapura@intel.com>
+ <e6291691-d792-7ba5-5676-fe79b9c96c1e@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LYGhbjtQFHG68ekF"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
-In-Reply-To: <Yqh6ErANSTEJpfvl@kili>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e6291691-d792-7ba5-5676-fe79b9c96c1e@linux.intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,176 +59,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: paulo.r.zanoni@intel.com, intel-gfx@lists.freedesktop.org,
+ chris.p.wilson@intel.com, thomas.hellstrom@intel.com,
+ dri-devel@lists.freedesktop.org, daniel.vetter@intel.com,
+ christian.koenig@amd.com, matthew.auld@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jun 24, 2022 at 09:11:35AM +0100, Tvrtko Ursulin wrote:
+>
+>On 24/06/2022 06:32, Niranjana Vishwanathapura wrote:
+>>VM_BIND and related uapi definitions
+>>
+>>v2: Reduce the scope to simple Mesa use case.
+>>v3: Expand VM_UNBIND documentation and add
+>>     I915_GEM_VM_BIND/UNBIND_FENCE_VALID
+>>     and I915_GEM_VM_BIND_TLB_FLUSH flags.
+>>v4: Remove I915_GEM_VM_BIND_TLB_FLUSH flag and add additional
+>>     documentation for vm_bind/unbind.
+>>v5: Remove TLB flush requirement on VM_UNBIND.
+>>     Add version support to stage implementation.
+>
+>Mostly LGTM with one final question.
+>
+>Would an extension to execbuf3 saying "async wait on any ongoing 
+>bind/unbind activity on this vm"? Would such an easy "fire and forget" 
+>mechanism be useful to userspace? Or are separate "queues" the minimal 
+>useful thing?
 
---LYGhbjtQFHG68ekF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+UMDs can easily do this with timeline fence array which execbuf3 supports.
+I think adding any new mechanism for the same is not required here.
 
-Hello Dan,
+Niranjana
 
-On Tue 14 Jun 22, 15:07, Dan Carpenter wrote:
-> Hello Paul Kocialkowski,
->=20
-> The patch efeeaefe9be5: "drm: Add support for the LogiCVC display
-> controller" from May 20, 2022, leads to the following Smatch static
-> checker warning:
->=20
-> 	drivers/gpu/drm/logicvc/logicvc_layer.c:320 logicvc_layer_buffer_find_se=
-tup()
-> 	warn: impossible condition '(hoffset > (((((1))) << (16)) - 1)) =3D> (0-=
-u16max > u16max)'
->=20
-> drivers/gpu/drm/logicvc/logicvc_layer.c
->     258 int logicvc_layer_buffer_find_setup(struct logicvc_drm *logicvc,
->     259                                     struct logicvc_layer *layer,
->     260                                     struct drm_plane_state *state,
->     261                                     struct logicvc_layer_buffer_s=
-etup *setup)
->     262 {
->     263         struct drm_device *drm_dev =3D &logicvc->drm_dev;
->     264         struct drm_framebuffer *fb =3D state->fb;
->     265         /* All the supported formats have a single data plane. */
->     266         u32 layer_bytespp =3D fb->format->cpp[0];
->     267         u32 layer_stride =3D layer_bytespp * logicvc->config.row_=
-stride;
->     268         u32 base_offset =3D layer->config.base_offset * layer_str=
-ide;
->     269         u32 buffer_offset =3D layer->config.buffer_offset * layer=
-_stride;
->     270         u8 buffer_sel =3D 0;
->     271         u16 voffset =3D 0;
->     272         u16 hoffset =3D 0;
->     273         phys_addr_t fb_addr;
->     274         u32 fb_offset;
->     275         u32 gap;
->     276=20
->     277         if (!logicvc->reserved_mem_base) {
->     278                 drm_err(drm_dev, "No reserved memory base was reg=
-istered!\n");
->     279                 return -ENOMEM;
->     280         }
->     281=20
->     282         fb_addr =3D drm_fb_cma_get_gem_addr(fb, state, 0);
->     283         if (fb_addr < logicvc->reserved_mem_base) {
->     284                 drm_err(drm_dev,
->     285                         "Framebuffer memory below reserved memory=
- base!\n");
->     286                 return -EINVAL;
->     287         }
->     288=20
->     289         fb_offset =3D (u32) (fb_addr - logicvc->reserved_mem_base=
-);
->     290=20
->     291         if (fb_offset < base_offset) {
->     292                 drm_err(drm_dev,
->     293                         "Framebuffer offset below layer base offs=
-et!\n");
->     294                 return -EINVAL;
->     295         }
->     296=20
->     297         gap =3D fb_offset - base_offset;
->     298=20
->     299         /* Use the possible video buffers selection. */
->     300         if (gap && buffer_offset) {
->     301                 buffer_sel =3D gap / buffer_offset;
->     302                 if (buffer_sel > LOGICVC_BUFFER_SEL_MAX)
->     303                         buffer_sel =3D LOGICVC_BUFFER_SEL_MAX;
->     304=20
->     305                 gap -=3D buffer_sel * buffer_offset;
->     306         }
->     307=20
->     308         /* Use the vertical offset. */
->     309         if (gap && layer_stride && logicvc->config.layers_configu=
-rable) {
->     310                 voffset =3D gap / layer_stride;
->     311                 if (voffset > LOGICVC_LAYER_VOFFSET_MAX)
->     312                         voffset =3D LOGICVC_LAYER_VOFFSET_MAX;
->     313=20
->     314                 gap -=3D voffset * layer_stride;
->     315         }
->     316=20
->     317         /* Use the horizontal offset. */
->     318         if (gap && layer_bytespp && logicvc->config.layers_config=
-urable) {
->     319                 hoffset =3D gap / layer_bytespp;
->=20
-> Can "gap / layer_bytespp" ever be more than USHRT_MAX?  Because if so
-> that won't fit into "hoffset"
-
-Well there is nothing that really restricts the size of the gap, so yes this
-could happen. At this stage the gap should have been reduced already but we
-never really know.
-
-Would it make sense to add a check that gap / layer_bytespp <=3D USHRT_MAX
-in that if statement?
-
-Thanks for the catch.
-
-Paul
-
-> --> 320                 if (hoffset > LOGICVC_DIMENSIONS_MAX)
->     321                         hoffset =3D LOGICVC_DIMENSIONS_MAX;
->     322=20
->     323                 gap -=3D hoffset * layer_bytespp;
->     324         }
->     325=20
->     326         if (gap) {
->     327                 drm_err(drm_dev,
->     328                         "Unable to find layer %d buffer setup for=
- 0x%x byte gap\n",
->     329                         layer->index, fb_offset - base_offset);
->     330                 return -EINVAL;
->     331         }
->     332=20
->     333         drm_dbg_kms(drm_dev, "Found layer %d buffer setup for 0x%=
-x byte gap:\n",
->     334                     layer->index, fb_offset - base_offset);
->     335=20
->     336         drm_dbg_kms(drm_dev, "- buffer_sel =3D 0x%x chunks of 0x%=
-x bytes\n",
->     337                     buffer_sel, buffer_offset);
->     338         drm_dbg_kms(drm_dev, "- voffset =3D 0x%x chunks of 0x%x b=
-ytes\n", voffset,
->     339                     layer_stride);
->     340         drm_dbg_kms(drm_dev, "- hoffset =3D 0x%x chunks of 0x%x b=
-ytes\n", hoffset,
->     341                     layer_bytespp);
->     342=20
->     343         if (setup) {
->     344                 setup->buffer_sel =3D buffer_sel;
->     345                 setup->voffset =3D voffset;
->     346                 setup->hoffset =3D hoffset;
->     347         }
->     348=20
->     349         return 0;
->     350 }
->=20
-> regards,
-> dan carpenter
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---LYGhbjtQFHG68ekF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK1z+UACgkQ3cLmz3+f
-v9EBtwf/Yd2zxaRR05zhNJJfhKNlHA2DTCgTf5Pjv+1eGiUYIMzMaNYCKVGN6ArQ
-l94ubI0GWTVhB+hXT4FHrR+MxTLJb3Ho3e01zVoOQihS/xTQ5tEhtVIrAqQ2xidT
-mKNQ54FyJ+C4uE0XdIT2f5NA42MZGukaDNX7DODzs9i7DIsElrjqoOS8nNzQCY5l
-71mxM8XWLHDutncOtmK3/0GOdhdU6Uuw+ADhVmcuap10tdnwwju2oauJ+ojfcVAf
-zojaIcnxILulXZA55EacQMylGqXgqzMNrkESpE11mQnBRdY4bz7yYLSW4+5aP6Rm
-3yPniSj46q/bIeoPI2d2LycMTzDRkA==
-=Vaat
------END PGP SIGNATURE-----
-
---LYGhbjtQFHG68ekF--
+>
+>Regards,
+>
+>Tvrtko
+>
+>>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>>---
+>>  Documentation/gpu/rfc/i915_vm_bind.h | 256 +++++++++++++++++++++++++++
+>>  1 file changed, 256 insertions(+)
+>>  create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
+>>
+>>diff --git a/Documentation/gpu/rfc/i915_vm_bind.h b/Documentation/gpu/rfc/i915_vm_bind.h
+>>new file mode 100644
+>>index 000000000000..8af6c035ccf4
+>>--- /dev/null
+>>+++ b/Documentation/gpu/rfc/i915_vm_bind.h
+>>@@ -0,0 +1,256 @@
+>>+/* SPDX-License-Identifier: MIT */
+>>+/*
+>>+ * Copyright © 2022 Intel Corporation
+>>+ */
+>>+
+>>+/**
+>>+ * DOC: I915_PARAM_HAS_VM_BIND
+>>+ *
+>>+ * VM_BIND feature availability.
+>>+ * See typedef drm_i915_getparam_t param.
+>>+ * bit[0]: If set, VM_BIND is supported, otherwise not.
+>>+ * bits[8-15]: VM_BIND implementation version.
+>>+ * Version 0 requires in VM_UNBIND call, UMDs to specify the exact mapping
+>>+ * created previously with the VM_BIND call. i.e., i915 will not support
+>>+ * splitting/merging of the mappings created with VM_BIND call (See
+>>+ * struct drm_i915_gem_vm_bind and struct drm_i915_gem_vm_unbind).
+>>+ */
+>>+#define I915_PARAM_HAS_VM_BIND		57
+>>+
+>>+/**
+>>+ * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
+>>+ *
+>>+ * Flag to opt-in for VM_BIND mode of binding during VM creation.
+>>+ * See struct drm_i915_gem_vm_control flags.
+>>+ *
+>>+ * The older execbuf2 ioctl will not support VM_BIND mode of operation.
+>>+ * For VM_BIND mode, we have new execbuf3 ioctl which will not accept any
+>>+ * execlist (See struct drm_i915_gem_execbuffer3 for more details).
+>>+ *
+>>+ */
+>>+#define I915_VM_CREATE_FLAGS_USE_VM_BIND	(1 << 0)
+>>+
+>>+/* VM_BIND related ioctls */
+>>+#define DRM_I915_GEM_VM_BIND		0x3d
+>>+#define DRM_I915_GEM_VM_UNBIND		0x3e
+>>+#define DRM_I915_GEM_EXECBUFFER3	0x3f
+>>+
+>>+#define DRM_IOCTL_I915_GEM_VM_BIND		DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
+>>+#define DRM_IOCTL_I915_GEM_VM_UNBIND		DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_UNBIND, struct drm_i915_gem_vm_bind)
+>>+#define DRM_IOCTL_I915_GEM_EXECBUFFER3		DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_EXECBUFFER3, struct drm_i915_gem_execbuffer3)
+>>+
+>>+/**
+>>+ * struct drm_i915_gem_vm_bind_fence - Bind/unbind completion notification.
+>>+ *
+>>+ * A timeline out fence for vm_bind/unbind completion notification.
+>>+ */
+>>+struct drm_i915_gem_vm_bind_fence {
+>>+	/** @handle: User's handle for a drm_syncobj to signal. */
+>>+	__u32 handle;
+>>+
+>>+	/** @rsvd: Reserved, MBZ */
+>>+	__u32 rsvd;
+>>+
+>>+	/**
+>>+	 * @value: A point in the timeline.
+>>+	 * Value must be 0 for a binary drm_syncobj. A Value of 0 for a
+>>+	 * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
+>>+	 * binary one.
+>>+	 */
+>>+	__u64 value;
+>>+};
+>>+
+>>+/**
+>>+ * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
+>>+ *
+>>+ * This structure is passed to VM_BIND ioctl and specifies the mapping of GPU
+>>+ * virtual address (VA) range to the section of an object that should be bound
+>>+ * in the device page table of the specified address space (VM).
+>>+ * The VA range specified must be unique (ie., not currently bound) and can
+>>+ * be mapped to whole object or a section of the object (partial binding).
+>>+ * Multiple VA mappings can be created to the same section of the object
+>>+ * (aliasing).
+>>+ *
+>>+ * The @start, @offset and @length should be 4K page aligned. However the DG2
+>>+ * and XEHPSDV has 64K page size for device local-memory and has compact page
+>>+ * table. On those platforms, for binding device local-memory objects, the
+>>+ * @start should be 2M aligned, @offset and @length should be 64K aligned.
+>>+ * Also, on those platforms, error -ENOSPC will be returned if user tries to
+>>+ * bind a device local-memory object and a system memory object in a single 2M
+>>+ * section of VA range.
+>>+ *
+>>+ * Error code -EINVAL will be returned if @start, @offset and @length are not
+>>+ * properly aligned. Error code of -ENOSPC will be returned if the VA range
+>>+ * specified can't be reserved.
+>>+ *
+>>+ * The bind operation can get completed asynchronously and out of submission
+>>+ * order. When I915_GEM_VM_BIND_FENCE_VALID flag is set, the @fence will be
+>>+ * signaled upon completion of bind operation.
+>>+ */
+>>+struct drm_i915_gem_vm_bind {
+>>+	/** @vm_id: VM (address space) id to bind */
+>>+	__u32 vm_id;
+>>+
+>>+	/** @handle: Object handle */
+>>+	__u32 handle;
+>>+
+>>+	/** @start: Virtual Address start to bind */
+>>+	__u64 start;
+>>+
+>>+	/** @offset: Offset in object to bind */
+>>+	__u64 offset;
+>>+
+>>+	/** @length: Length of mapping to bind */
+>>+	__u64 length;
+>>+
+>>+	/**
+>>+	 * @flags: Supported flags are:
+>>+	 *
+>>+	 * I915_GEM_VM_BIND_FENCE_VALID:
+>>+	 * @fence is valid, needs bind completion notification.
+>>+	 *
+>>+	 * I915_GEM_VM_BIND_READONLY:
+>>+	 * Mapping is read-only.
+>>+	 *
+>>+	 * I915_GEM_VM_BIND_CAPTURE:
+>>+	 * Capture this mapping in the dump upon GPU error.
+>>+	 */
+>>+	__u64 flags;
+>>+#define I915_GEM_VM_BIND_FENCE_VALID	(1 << 0)
+>>+#define I915_GEM_VM_BIND_READONLY	(1 << 1)
+>>+#define I915_GEM_VM_BIND_CAPTURE	(1 << 2)
+>>+
+>>+	/** @fence: Timeline fence for bind completion signaling */
+>>+	struct drm_i915_gem_vm_bind_fence fence;
+>>+
+>>+	/** @extensions: 0-terminated chain of extensions */
+>>+	__u64 extensions;
+>>+};
+>>+
+>>+/**
+>>+ * struct drm_i915_gem_vm_unbind - VA to object mapping to unbind.
+>>+ *
+>>+ * This structure is passed to VM_UNBIND ioctl and specifies the GPU virtual
+>>+ * address (VA) range that should be unbound from the device page table of the
+>>+ * specified address space (VM). VM_UNBIND will force unbind the specified
+>>+ * range from device page table without waiting for any GPU job to complete.
+>>+ * It is UMDs responsibility to ensure the mapping is no longer in use before
+>>+ * calling VM_UNBIND.
+>>+ *
+>>+ * If the specified mapping is not found, the ioctl will simply return without
+>>+ * any error.
+>>+ *
+>>+ * The unbind operation can get completed asynchronously and out of submission
+>>+ * order. When I915_GEM_VM_UNBIND_FENCE_VALID flag is set, the @fence will be
+>>+ * signaled upon completion of unbind operation.
+>>+ */
+>>+struct drm_i915_gem_vm_unbind {
+>>+	/** @vm_id: VM (address space) id to bind */
+>>+	__u32 vm_id;
+>>+
+>>+	/** @rsvd: Reserved, MBZ */
+>>+	__u32 rsvd;
+>>+
+>>+	/** @start: Virtual Address start to unbind */
+>>+	__u64 start;
+>>+
+>>+	/** @length: Length of mapping to unbind */
+>>+	__u64 length;
+>>+
+>>+	/**
+>>+	 * @flags: Supported flags are:
+>>+	 *
+>>+	 * I915_GEM_VM_UNBIND_FENCE_VALID:
+>>+	 * @fence is valid, needs unbind completion notification.
+>>+	 */
+>>+	__u64 flags;
+>>+#define I915_GEM_VM_UNBIND_FENCE_VALID	(1 << 0)
+>>+
+>>+	/** @fence: Timeline fence for unbind completion signaling */
+>>+	struct drm_i915_gem_vm_bind_fence fence;
+>>+
+>>+	/** @extensions: 0-terminated chain of extensions */
+>>+	__u64 extensions;
+>>+};
+>>+
+>>+/**
+>>+ * struct drm_i915_gem_execbuffer3 - Structure for DRM_I915_GEM_EXECBUFFER3
+>>+ * ioctl.
+>>+ *
+>>+ * DRM_I915_GEM_EXECBUFFER3 ioctl only works in VM_BIND mode and VM_BIND mode
+>>+ * only works with this ioctl for submission.
+>>+ * See I915_VM_CREATE_FLAGS_USE_VM_BIND.
+>>+ */
+>>+struct drm_i915_gem_execbuffer3 {
+>>+	/**
+>>+	 * @ctx_id: Context id
+>>+	 *
+>>+	 * Only contexts with user engine map are allowed.
+>>+	 */
+>>+	__u32 ctx_id;
+>>+
+>>+	/**
+>>+	 * @engine_idx: Engine index
+>>+	 *
+>>+	 * An index in the user engine map of the context specified by @ctx_id.
+>>+	 */
+>>+	__u32 engine_idx;
+>>+
+>>+	/** @rsvd1: Reserved, MBZ */
+>>+	__u32 rsvd1;
+>>+
+>>+	/**
+>>+	 * @batch_count: Number of batches in @batch_address array.
+>>+	 *
+>>+	 * 0 is invalid. For parallel submission, it should be equal to the
+>>+	 * number of (parallel) engines involved in that submission.
+>>+	 */
+>>+	__u32 batch_count;
+>>+
+>>+	/**
+>>+	 * @batch_address: Array of batch gpu virtual addresses.
+>>+	 *
+>>+	 * If @batch_count is 1, then it is the gpu virtual address of the
+>>+	 * batch buffer. If @batch_count > 1, then it is a pointer to an array
+>>+	 * of batch buffer gpu virtual addresses.
+>>+	 */
+>>+	__u64 batch_address;
+>>+
+>>+	/**
+>>+	 * @flags: Supported flags are:
+>>+	 *
+>>+	 * I915_EXEC3_SECURE:
+>>+	 * Request a privileged ("secure") batch buffer/s.
+>>+	 * It is only available for DRM_ROOT_ONLY | DRM_MASTER processes.
+>>+	 */
+>>+	__u64 flags;
+>>+#define I915_EXEC3_SECURE	(1<<0)
+>>+
+>>+	/** @rsvd2: Reserved, MBZ */
+>>+	__u64 rsvd2;
+>>+
+>>+	/**
+>>+	 * @extensions: Zero-terminated chain of extensions.
+>>+	 *
+>>+	 * DRM_I915_GEM_EXECBUFFER3_EXT_TIMELINE_FENCES:
+>>+	 * It has same format as DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES.
+>>+	 * See struct drm_i915_gem_execbuffer_ext_timeline_fences.
+>>+	 */
+>>+	__u64 extensions;
+>>+#define DRM_I915_GEM_EXECBUFFER3_EXT_TIMELINE_FENCES	0
+>>+};
+>>+
+>>+/**
+>>+ * struct drm_i915_gem_create_ext_vm_private - Extension to make the object
+>>+ * private to the specified VM.
+>>+ *
+>>+ * See struct drm_i915_gem_create_ext.
+>>+ */
+>>+struct drm_i915_gem_create_ext_vm_private {
+>>+#define I915_GEM_CREATE_EXT_VM_PRIVATE		2
+>>+	/** @base: Extension link. See struct i915_user_extension. */
+>>+	struct i915_user_extension base;
+>>+
+>>+	/** @vm_id: Id of the VM to which the object is private */
+>>+	__u32 vm_id;
+>>+};
