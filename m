@@ -2,63 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EB0655A21A
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 21:51:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7123555A21D
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 21:55:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F34B10EB57;
-	Fri, 24 Jun 2022 19:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E645910EC7D;
+	Fri, 24 Jun 2022 19:55:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 091F610EB57
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 19:51:24 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id F0F0D62263
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 19:51:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5BD82C3411C
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 19:51:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656100281;
- bh=R6xck1XVRqjzBBPbP1hGlzeLPCehMMvMHTRheIhooTc=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=E8amzj9/ODyyuQyUoBxsd6fPQL0ZJfN/SUCUrxKNmivL4ZEyQZs6MRKCNKPVTtIdi
- jU7KWoJHZoybK7tJBJmBtix3I91J95yLR+erEZ7MZUghtWQ3ebM7+2gyKIpRMzuoRX
- Ax7TsistMzy4/X2JK3GqTEj/CUEUeWdpa64x8IlT8dNH3dt3gZR6Jpd1vrTIwUuSE9
- 6Msn4e9rUmPyFeh277cMchefxsUh9ADzY+YlM80m/9Iwm8itdohX2tJCVQqwtJgglk
- Y783nd8YdPNV4bMUSBIXq7fbAWubUVtTfBecfN/0hhyYjtepKJ9gNVwARqZ5XdCnL/
- jjbC3MBTl8Upg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 4759CC05FD5; Fri, 24 Jun 2022 19:51:21 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
- 390
-Date: Fri, 24 Jun 2022 19:51:21 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: h.judt@gmx.at
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216119-2300-O8HZKgxfuC@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
-References: <bug-216119-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43C3D10EC7D
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 19:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=fFH1rzKaL0Dkml2PgMJpcpxYa5SvbbT/XBFKaTsmoVU=;
+ b=dPM4baGFWJmCklVsVLd0z5ixiMe2DRlWPNC33CUDEEKs0pxhCaeE3CCvvrneNRw/gJcZhOuKcqSN2
+ ryYt0P6tEtP1kA54BOpnXrrqQ/6qZjUH9GitW6R8UP/m58RqBKy1VCbvWSBUvaUmxFNxcBiRV/gxFl
+ CJdpzywrEi2zUMrralMaZcaFsTTGtG+P1rGUZj8RvUPubBDgX5J3W3InkutBsnt0AapGmUxkKELuX0
+ 1Nx3nU8I5gyMvPsO5I8g2K12bCZtV7BfYPekc84stklfTti+2xEgvNL9ApKo9V+DkxlG1uRVohFiWY
+ 0snFH9olmcU6NdfcGkP1kvA8mG1R+Sg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=fFH1rzKaL0Dkml2PgMJpcpxYa5SvbbT/XBFKaTsmoVU=;
+ b=y85KJl9BjWr/xQ3YZSqrhbQ76R+7Sc7S8wBlUvVHrqxHyS1IU0M82Nb3gTv13NJWwV4LzY1AaGxtj
+ HuJSUiJBQ==
+X-HalOne-Cookie: 298b65dc2eaecc3462e00c4ae0f5020d4b3cb813
+X-HalOne-ID: 870a78e6-f3f7-11ec-a916-d0431ea8a290
+Received: from mailproxy2.cst.dirpod3-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 870a78e6-f3f7-11ec-a916-d0431ea8a290;
+ Fri, 24 Jun 2022 19:54:59 +0000 (UTC)
+Date: Fri, 24 Jun 2022 21:54:57 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Bastian Krause <bst@pengutronix.de>
+Subject: Re: [PATCH 2/2] drm/panel: simple: add AM-800600P5TMQW-TB8H
+Message-ID: <YrYWkdqZG1sazr2N@ravnborg.org>
+References: <20220610111511.1421067-1-bst@pengutronix.de>
+ <20220610111511.1421067-2-bst@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220610111511.1421067-2-bst@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,32 +59,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Yannick Fertre <yannick.fertre@st.com>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
+Hi Bastian,
 
---- Comment #20 from Harald Judt (h.judt@gmx.at) ---
-One thing that I have noticed: Since these changes, the kernel seems to swi=
-tch
-to text mode when hibernating. Before that I think it remained (frozen) on =
-the
-X screen.
+On Fri, Jun 10, 2022 at 01:15:11PM +0200, Bastian Krause wrote:
+> Add support for the Ampire AM-800600P5TMQW-TB8H 800x600 panel. Data
+> sheet is currently not publicly available, unfortunately.
+> 
+> Signed-off-by: Bastian Krause <bst@pengutronix.de>
 
-Here are the results:
-- 1+4: screen black, display suspend led, keyboard comes online again but no
-ssh. can sysreq to reboot.
-- 2+4: screen black first, comes back after some time, restores screen with
-hibernation snapshotting progress visible (not those of resume), continues =
-to
-resume (resuming progress visible), but then screen goes black again in dpms
-on, ssh available. was able to compile kernel and reboot via ssh.
-- 3+4: does not compile. unknown fb struct or so. because of that, i tried
-2+3+4 since 2+4 compiled fine and worked fine mostly.
-- 2+3+4 works as good as 1+2+3+4. seems patch 1 is not necessary.
+Applied to drm-misc (drm-misc-next).
+When applying I fixed up the compatible to match the binding.
+You may need to fix your DT files if they used the old compatible.
+The one from the binding had a dash like similar panels, so that is
+the one I picked.
+See below for the fix-up.
 
---=20
-You may reply to this email to add a comment.
+	Sam
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 33 ++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 4a2e580a2f7b7..3a61873dd887c 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -778,6 +778,36 @@ static const struct panel_desc ampire_am800480r3tmqwa1h = {
+>  	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
+>  };
+>  
+> +static const struct display_timing ampire_am800600p5tmqw_tb8h_timing = {
+> +	.pixelclock = { 34500000, 39600000, 50400000 },
+> +	.hactive = { 800, 800, 800 },
+> +	.hfront_porch = { 12, 112, 312 },
+> +	.hback_porch = { 87, 87, 48 },
+> +	.hsync_len = { 1, 1, 40 },
+> +	.vactive = { 600, 600, 600 },
+> +	.vfront_porch = { 1, 21, 61 },
+> +	.vback_porch = { 38, 38, 19 },
+> +	.vsync_len = { 1, 1, 20 },
+> +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
+> +		DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE |
+> +		DISPLAY_FLAGS_SYNC_POSEDGE,
+> +};
+> +
+> +static const struct panel_desc ampire_am800600p5tmqwtb8h = {
+> +	.timings = &ampire_am800600p5tmqw_tb8h_timing,
+> +	.num_timings = 1,
+> +	.bpc = 6,
+> +	.size = {
+> +		.width = 162,
+> +		.height = 122,
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
+> +		DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
+> +		DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE,
+> +	.connector_type = DRM_MODE_CONNECTOR_DPI,
+> +};
+> +
+>  static const struct display_timing santek_st0700i5y_rbslw_f_timing = {
+>  	.pixelclock = { 26400000, 33300000, 46800000 },
+>  	.hactive = { 800, 800, 800 },
+> @@ -3754,6 +3784,9 @@ static const struct of_device_id platform_of_match[] = {
+>  	}, {
+>  		.compatible = "ampire,am800480r3tmqwa1h",
+>  		.data = &ampire_am800480r3tmqwa1h,
+> +	}, {
+> +		.compatible = "ampire,am800600p5tmqwtb8h",
+was changed to
+> +		.compatible = "ampire,am800600p5tmqw-tb8h",
+> +		.data = &ampire_am800600p5tmqwtb8h,
+>  	}, {
+>  		.compatible = "arm,rtsm-display",
+>  		.data = &arm_rtsm,
+> -- 
+> 2.30.2
+> 
