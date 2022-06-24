@@ -2,52 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46076559D25
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 17:20:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF8C559D3B
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 17:25:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 751D910E099;
-	Fri, 24 Jun 2022 15:20:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A39F110E250;
+	Fri, 24 Jun 2022 15:25:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
- (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB2610E0AB
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 15:20:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=7C9om+I+NrguXJkyfDjb3usH2nDZbeYzg3Ij5DWZ8PE=;
- b=enkPuvVq9cxeak4xvbnLzPDtpwYYeLlQY+XCO9nkEHva9i0GHJmTYBtQvRdkfzbo8qX/TcFHMKSrh
- DxVVnB5eq+K9y3klNx9LBU5ho8yjqCW29X2UsTM644sxM0+eoeuYulYZbwgrV/6TT3iveTIRpWH3TT
- GVbkg8BuPncEAOR4dU7Ac/XmzlVlICv4riTUTBGAkq36XgIcBLCV+tUwIm3U+tKM2sloQ5RNMYj1A7
- 8Eg7JPPIpylbUKZVtsTLqrdj/m8RtgoSG6AIGQKRhUEYjbm6GdRvlVIGVOWrS8Z6izO10eeDTH0lj3
- z0ndmK0zK4ZpzCCOyzg1vG3XIdI+s0w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=7C9om+I+NrguXJkyfDjb3usH2nDZbeYzg3Ij5DWZ8PE=;
- b=2kLU4Ts7UAvd1RJBZ9aDOh7pa1IwpwCGgT4QufeEpjpKKIhJKCPZMDbu9IoyplI2gEP31l0qbVfyy
- D59UN+OAg==
-X-HalOne-Cookie: 9f7a75cd0428a0af88a75a96aa819a7f9526c1bb
-X-HalOne-ID: 1e02ca40-f3d1-11ec-be7c-d0431ea8bb03
-Received: from mailproxy3.cst.dirpod3-cph3.one.com
- (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
- by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 1e02ca40-f3d1-11ec-be7c-d0431ea8bb03;
- Fri, 24 Jun 2022 15:20:02 +0000 (UTC)
-Date: Fri, 24 Jun 2022 17:20:00 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH v5 2/2] drm: lcdif: Add support for i.MX8MP LCDIF variant
-Message-ID: <YrXWIP3dRLc/ArOK@ravnborg.org>
-References: <20220613213124.617021-1-marex@denx.de>
- <20220613213124.617021-2-marex@denx.de>
- <7b3850665f7fd699ff7d0a013e5652159d4b5055.camel@pengutronix.de>
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7456D10E27C
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 15:25:05 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPSA id 597A2200008;
+ Fri, 24 Jun 2022 15:25:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1656084303;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1ah9Guq9sVOhK1akYWfj2KUeC+akdxxVJl9dp1GDBNU=;
+ b=POAhcEkE3xV6/f+A6z8Cq1fjuGW0jefiDXthAcHa7mlr1lxHd7f0mTSfEcP1yqWE9fUZ8g
+ W2oppdYGeBLX7UyBih7u7BfR/mm4P+cvlFRMOtf5v8gNi2MM0tjnHrG8E7CyCXxwg1diFf
+ Hjci6jHEEFQuObl6q52c18rzPOuwWu2fBqsx3nmyyilDw/zs1ppvElTis9rvqDrNPnOXal
+ sCRlRdYA+odbYCtFUxfyKuzBcZ33Z2OEo8eALIKmJlxjB5nAR2p+RbMo2VXhbG2SMeS3EA
+ Z51zrbWxIpjc/7ez9hcmEZVhxklWIL4Las4YzCDLfIM+Dp+RYOofLtfq4zMyIg==
+Date: Fri, 24 Jun 2022 17:25:02 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH] drm: logicvc: Fix uninitialized variable in probe
+Message-ID: <YrXXTtOdAMex4UFc@aptenodytes>
+References: <Yqh6OfSiPFuVrGo4@kili>
+ <YrXLrVUIavGWC4sx@aptenodytes>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="VYlOOEfoKFRFhdQ2"
 Content-Disposition: inline
-In-Reply-To: <7b3850665f7fd699ff7d0a013e5652159d4b5055.camel@pengutronix.de>
+In-Reply-To: <YrXLrVUIavGWC4sx@aptenodytes>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,36 +51,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>, robert.foss@linaro.org,
- Martyn Welch <martyn.welch@collabora.com>, dri-devel@lists.freedesktop.org,
- Robby Cai <robby.cai@nxp.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > +
-> > +static int lcdif_rpm_resume(struct device *dev)
-> > +{
-> > +	struct drm_device *drm = dev_get_drvdata(dev);
-> > +	struct lcdif_drm_private *lcdif = drm->dev_private;
-> > +
-> > +	/* These clock supply the Control Bus, APB, APBH Ctrl Registers */
-> > +	clk_prepare_enable(lcdif->clk_axi);
-> > +	/* These clock supply the System Bus, AXI, Write Path, LFIFO */
-> > +	clk_prepare_enable(lcdif->clk_disp_axi);
-> > +	/* These clock supply the DISPLAY CLOCK Domain */
-> > +	clk_prepare_enable(lcdif->clk);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> 
-> To avoid unused function warnings, suspend and resume should be under
-> #ifdef CONFIG_PM_SLEEP
 
-If SET_RUNTIME_PM_OPS is used then it is good practice to annotate the
-functions __maybe_unused and no #ifdef - then they see build coverage also
-without PM_SLEEP but they are discarded so do not consume memory if not used.
+--VYlOOEfoKFRFhdQ2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	Sam
+Hi,
+
+On Fri 24 Jun 22, 16:35, Paul Kocialkowski wrote:
+> Hi Dan,
+>=20
+> On Tue 14 Jun 22, 15:08, Dan Carpenter wrote:
+> > The "regmap" is supposed to be initialized to NULL but it's used
+> > without being initialized.
+> >=20
+> > Fixes: efeeaefe9be5 ("drm: Add support for the LogiCVC display controll=
+er")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+>=20
+> Nice catch, thanks a lot!
+>=20
+> Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Pushed to drm-misc-next, thanks!
+
+Paul
+
+> Cheers,
+>=20
+> Paul
+>=20
+> > ---
+> >  drivers/gpu/drm/logicvc/logicvc_drm.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/logicvc/logicvc_drm.c b/drivers/gpu/drm/lo=
+gicvc/logicvc_drm.c
+> > index df1805cf0f95..0b983a33f9ff 100644
+> > --- a/drivers/gpu/drm/logicvc/logicvc_drm.c
+> > +++ b/drivers/gpu/drm/logicvc/logicvc_drm.c
+> > @@ -298,7 +298,7 @@ static int logicvc_drm_probe(struct platform_device=
+ *pdev)
+> >  	struct logicvc_drm *logicvc;
+> >  	struct device *dev =3D &pdev->dev;
+> >  	struct drm_device *drm_dev;
+> > -	struct regmap *regmap;
+> > +	struct regmap *regmap =3D NULL;
+> >  	struct resource res;
+> >  	void __iomem *base;
+> >  	int irq;
+> > --=20
+> > 2.35.1
+> >=20
+>=20
+> --=20
+> Paul Kocialkowski, Bootlin
+> Embedded Linux and kernel engineering
+> https://bootlin.com
+
+
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--VYlOOEfoKFRFhdQ2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK1104ACgkQ3cLmz3+f
+v9Hm4Qf9HercPXzmBZcqVWxopvsJO0efqPoHeCi5DfSFDYMjwGt6WH8yKImLlB94
+OlKAyLlEgWez+QstD6x1GH6iCB60J6IFc1XN+ITXYgvcOc0CCbC8KpyqhsBTjnRM
+zOBLz2k7sPZY6ctO+KviLM12W/I61z92CUvqSHxt3hai18LMSreGwjJFSBBLJ+Oo
+R91iQbd0y5LdV6+0ch/W0zwumkVWGxdUUVg1BeGEGWBftAU6ic+89k+H360v3OWh
+WBg+mFtw8HCrs2Kd59q5UQb9otGd5hI4oVzcThYt7d1jOUi2boyVE18nYA9+C267
+3fggYFkJ6yeCrUrNK5bxqfAtMTgFtg==
+=LAzp
+-----END PGP SIGNATURE-----
+
+--VYlOOEfoKFRFhdQ2--
