@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D40C55A29F
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 22:28:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED90E55A2B3
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 22:33:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 467C410F26C;
-	Fri, 24 Jun 2022 20:28:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B591110F31E;
+	Fri, 24 Jun 2022 20:33:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A03F10F26C
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 20:28:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93A7E10F2DA
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 20:33:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656102532;
- bh=5B2DG+yoDk7eNL27AETxkQEHSlS9ljT6DPSAkzlfqEA=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=dmwAui4N5C9RPu+pjJ19PTAPoxRoApPdSZCzB6RLhAVVo0SVQ1ZbrCOaWbQuAXWEz
- c4H45r8EASdtACBhXBNWTfJcF92mGdg3oC6/gWJ2v+tDCeAVY6rjv+pDMvlVITR8sx
- XNMpp7zeHKxJOG35Nhh5IYMuJuo5HeahhfGN8lOo=
+ s=badeba3b8450; t=1656102797;
+ bh=RauvbjralAhedQxMyQAvoPaL4iQcHmvh7l0ySXEbhE8=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=ht5gpJTKFtfNimJxG/E4rSzaoHIqiCET9i+KWpXqhZ+Ko+CNnII8xQGDe5opyUvVy
+ fYfmA9X25PpJDOH3YH25TkZQ1bxoeoDKkFJ6snZl+P4YuNmP+ZgTaDhB8ISbHSNHlH
+ ZZCHGcknDLJVPXySEup9Wf95Qm6SO/i5eKoL3dGk=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([174.250.50.5]) by mail.gmx.net
+Received: from localhost.localdomain ([174.250.50.2]) by mail.gmx.net
  (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1N1Obh-1ngasd2LF5-012sdd; Fri, 24 Jun 2022 22:28:52 +0200
+ 1MUGi9-1oDSiu3I95-00RMJB; Fri, 24 Jun 2022 22:33:17 +0200
 From: Kevin Brace <kevinbrace@gmx.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 19/28] drm/via: Add via_pll.c
-Date: Fri, 24 Jun 2022 15:26:24 -0500
-Message-Id: <20220624202633.3978-20-kevinbrace@gmx.com>
+Subject: [PATCH 20/28] drm/via: Add via_pm.c
+Date: Fri, 24 Jun 2022 15:32:51 -0500
+Message-Id: <20220624203259.4051-1-kevinbrace@gmx.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220624202633.3978-1-kevinbrace@gmx.com>
-References: <20220624202633.3978-1-kevinbrace@gmx.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ps5HuaIKPRJ97+vC2OKYXPbnTqJbCuI1yVGsbdbfk+NLPaB3hb9
- cI7N6mCchlmr9fjLcHtnyzIX9bjHDE1ulWTqPFdh0KCOI1fDjApJpoOeEJFodegqJ+YMTRU
- RHHCAlYEC8eaOAjFsb92Ylwp+d3zAm6/13Ls9BkDbbdHul6JEVUOJncdLV9DkqpVE+B+Ceq
- oV7gsvaLG7VrBagp6UqxQ==
+X-Provags-ID: V03:K1:OsLoPjVsztA23hzi46Z9DqTAclNnKc94IP5lo9/1CoBlVcxOoW0
+ 4IrbqKHM0WYLMQRaajPxRKwhWl/j11dGVIsATLFE4+7jaKfYFQBcFbf0H9Sa6zVzcgaej+U
+ YeCnfqOxbcPr+GIyI0VoBZfn8XDm4KM4ikDfmxbMuaO15Zh119efRVpZ93ZYo8xVyTY+SpW
+ cIEns9h61YDBRYvT7XVvw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vNxIPjLRB4E=:IQ9ktHFWP7QqR6Zch1f2EV
- 4E4F25UPBz4xfS1Ya8Ykl+IyKqBqutfM+TVoToeuoLS9Y3qC3TrnBzFuakyoiyn6cZenAZFhO
- fveWU0QC+KEwLh6C14HIwP9hYQzTSPewz34D3x2phc0Bkn7sW83Nr7LZUCXNLtvqAFtIrBhzy
- rCWruxwqZJQSOLcu0xkEgUEUoY8rxBrLMlp8H+m/JR8mCqSt+ALln38Nnmydy9khU80dBtNyi
- z09ljf+husAZr/SOJzMAL+vSCXHgE9KSxR7+WK+aRW3UUML8gSMfRjiTO4F6aSVNbukhsc93s
- H9WLmWnK3EIXET6teie0TOyUPbOgU5+Vff7BMTmMe96oyp3HmLunWQs8Zm3ifEaBo1RrKmwN6
- wV3YCjr+Ai/fyX+s01cQbW0ygi1cnp+6T11TKwB8PRThS9bd3hrT57xd5akvPX4rMRwU0EqVk
- X+6Vkc8l6R74WuHcvDYSZ/3JZtxdSMCZ/aFoCHIV8cVP+eWQIDnHUsUwIEjLLxAnmy0Ebfo9V
- 3oAalQnlTpTulZsmHeobAEevR963FOhUF58ahru/UI7hBNgwuFhdkDGGdNiyCpBHPskZCPefq
- n2JWwjc2mjAei5ouQmTMdk98RA63/ww87j/+kiKsba01dCEj/S5CI71YmueSFH4i8/dQWPD6o
- PQg50QfsJ4FaOH5lBJtGmIxKVd7Bu9zkskAVuOBJc9NQIsAlZEacYy8JSPkX+sHK18xkol5aE
- +w3cAxNfV2che1LXVxPgPmhpwBaD57ZqSVuxnbuiCXoVe2dlskUWqnkMT6lr+omlqmus1UPu0
- U74lOkmj/eI3xXeZuSSs8TQ4ssf/uwUpD25Pc44UMbDhOWRrPj8umwH5VmS8qPUGjmNGkxAVY
- qrYXqeiQofbBF281RxGx+SWKsTsY4bpiKTqknulaw3LW5A2raOnJuNQcLoMjnDoqA0R4OSpio
- rRFXw1dS0m+bjEXoHkh0Plc9vw/re7jy7oIyKkcTRzB/o29gEGQG+DrjjwcS0SNwnLxBZGsF8
- M0aFwEZkP3kPTzFcNbPNYPQni4yv+jbQB61f+WIpsCgq2DylV18FiQaA5xjQ7IBUTqNiYEU2B
- QYOXOvPBcN9L/tlP/6TsLqbfyr/mCeJUmhshfDaTFf06qZElJJ3ypAyjg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Kr0UdFG0BqU=:w9OHx/CwHwOHS28Z+U0G4C
+ o4oX5dSrZFVULkNVoe9P86udc8PamoRBYDdMng4OqwPnSXXLezmQneL++/qfL208TuxZrdVJh
+ q6UTEQLV+l73YyhD2REyZq6jlw8UBZSEMSs+/I8Ad+dh6oqlscqgE+O1EeMY8AdrULXYfcugt
+ 58XlZondEC5Oll7IrHX0x+7cn9ssH5erR/+q8Jzj8VytgduI5XVAAn1NmikncsVcywDJxokRN
+ td+hBCDoisMw7/FX0l+wPRUAl3ZctR7BK42Pr9YUbayaNz9n/jiX7Cx+KDB1S596WNoffEAv3
+ vzL0v2KXQkzerEQlRA5FGkeUq0Ws47cs8aqXcdBbc6ad48kYpT36c/zPTxjXXiIRJuGr+XDiU
+ il9+xX/qXxSt2Q1t0jUdkg3KSlun24FoD7GiT3YoaOB94xMQ4/tvm974IBV6jQCidtJowEt6r
+ OBD4Nixo1S1YXoTDt2NqEt6g8yaxtprHxX2Q8bzWHk98ZFv/M+Zg6lwct+3WTuD7Q56CF3L+I
+ 0VKTE+OX56KPDnnrcll4YOH4rrsfcULxupYJrPdY302YMnt6CGJ6M/XtaUWjx7TKkh9LQqLud
+ tHycm4PyPBFlCe3utfZ0so/Ro5SqKwJXAbkNpVO5m8C+8yam1pecmu3B4bM/DrIjYyxb16acy
+ AbCZJlP8ZgPvYVzO9CdQXZEMjPRmpPn90adiZlx+FVekIuPZ6kyqfkC2fk7xQ1msbGJUemqcU
+ L+9Q3TUJy/sJ2yTDNM45aaRU7v/Vf3BmFRcPdHO//VVt2ajXLN0JVZaHqCVRnD5vKmTaETJDR
+ h8nuxczLulLK1uanFiRmlm0t9yxpOvAov5XOk6LCk2EcnkwJBeVS8Rl+LkHCsE+NWlEeScavT
+ PBeidFtvAUkXP0gkkxX1FpjcH4S0wku4UYXC3dHImS1QN4j+1G1Yxt1AE9kYc3OsJs2y998lp
+ 1aZe9yx4ytUuEWuvC9FFPJyrD8DHAzM+3C0Ac1ulrK8dq4TQ1ucXnDAFdainm0bPKjF/yvRCH
+ I2ADOxzES7ODqsWyFD0e2Z4wi9IZ0Oww/Rah/nUP5JskMnBoSSUw6CIqcfyUyO8AAM91KzyxV
+ M6Xf37SSdDyN/WmJgi/hOMbri1rFtUA7X47sMxcr1Gcqo2B5NmM9X9Seg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,20 +74,18 @@ From: Kevin Brace <kevinbrace@bracecomputerlab.com>
 
 Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
 =2D--
- drivers/gpu/drm/via/via_pll.c | 263 ++++++++++++++++++++++++++++++++++
- 1 file changed, 263 insertions(+)
- create mode 100644 drivers/gpu/drm/via/via_pll.c
+ drivers/gpu/drm/via/via_pm.c | 187 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 187 insertions(+)
+ create mode 100644 drivers/gpu/drm/via/via_pm.c
 
-diff --git a/drivers/gpu/drm/via/via_pll.c b/drivers/gpu/drm/via/via_pll.c
+diff --git a/drivers/gpu/drm/via/via_pm.c b/drivers/gpu/drm/via/via_pm.c
 new file mode 100644
-index 000000000000..ec61d044504d
+index 000000000000..9b80886ab06a
 =2D-- /dev/null
-+++ b/drivers/gpu/drm/via/via_pll.c
-@@ -0,0 +1,263 @@
++++ b/drivers/gpu/drm/via/via_pm.c
+@@ -0,0 +1,187 @@
 +/*
-+ * Copyright 2012 James Simmons. All Rights Reserved.
-+ * Copyright 1998-2009 VIA Technologies, Inc. All Rights Reserved.
-+ * Copyright 2001-2009 S3 Graphics, Inc. All Rights Reserved.
++ * Copyright =C2=A9 2017-2020 Kevin Brace.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining =
 a
@@ -120,245 +117,169 @@ OTHER
 + * DEALINGS IN THE SOFTWARE.
 + *
 + * Author(s):
-+ * James Simmons <jsimmons@infradead.org>
++ * Kevin Brace <kevinbrace@bracecomputerlab.com>
 + */
 +
-+#include <linux/delay.h>
++
++#include <linux/console.h>
 +#include <linux/pci.h>
-+#include <linux/pci_ids.h>
 +
 +#include "via_drv.h"
 +
 +
-+#define CSR_VCO_UP	600000000
-+#define CSR_VCO_DOWN	300000000
-+
-+#define PLL_DTZ_DEFAULT		(BIT(0) | BIT(1))
-+
-+#define VIA_CLK_REFERENCE	14318180
-+
-+struct pll_mrn_value {
-+	u32 pll_m;
-+	u32 pll_r;
-+	u32 pll_n;
-+	u32 diff_clk;
-+	u32 pll_fout;
-+};
-+
-+/*
-+ * This function first gets the best frequency M, R, N value
-+ * to program the PLL according to the supplied frequence
-+ * passed in. After we get the MRN values the results are
-+ * formatted to fit properly into the PLL clock registers.
-+ *
-+ * PLL registers M, R, N value
-+ * [31:16]  DM[7:0]
-+ * [15:8 ]  DR[2:0]
-+ * [7 :0 ]  DN[6:0]
-+ */
-+u32 via_get_clk_value(struct drm_device *dev, u32 freq)
++int via_dev_pm_ops_suspend(struct device *dev)
 +{
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	u32 best_pll_n =3D 2, best_pll_r =3D 0, best_pll_m =3D 2, best_clk_diff =
-=3D freq;
-+	u32 pll_fout, pll_fvco, pll_mrn =3D 0;
-+	u32 pll_n, pll_r, pll_m, clk_diff;
-+	struct pll_mrn_value pll_tmp[5] =3D {
-+		{ 0, 0, 0, 0, 0 },
-+		{ 0, 0, 0, 0, 0 },
-+		{ 0, 0, 0, 0, 0 },
-+		{ 0, 0, 0, 0, 0 },
-+		{ 0, 0, 0, 0, 0 } };
-+	int count;
++	struct pci_dev *pdev =3D to_pci_dev(dev);
++	struct drm_device *drm_dev =3D pci_get_drvdata(pdev);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(drm_dev);
++	int ret =3D 0;
 +
-+	if ((pdev->device !=3D PCI_DEVICE_ID_VIA_CLE266) &&
-+		(pdev->device !=3D PCI_DEVICE_ID_VIA_KM400)) {
-+		/* DN[6:0] */
-+		for (pll_n =3D 2; pll_n < 6; pll_n++) {
-+			/* DR[2:0] */
-+			for (pll_r =3D 0; pll_r < 6; pll_r++) {
-+				/* DM[9:0] */
-+				for (pll_m =3D 2; pll_m < 512; pll_m++) {
-+					/* first divide pll_n then multiply
-+					 * pll_m. We have to reduce pll_m
-+					 * to 512 to get rid of the overflow */
-+					pll_fvco =3D (VIA_CLK_REFERENCE / pll_n) * pll_m;
-+					if ((pll_fvco >=3D CSR_VCO_DOWN) && (pll_fvco <=3D CSR_VCO_UP)) {
-+						pll_fout =3D pll_fvco >> pll_r;
-+						if (pll_fout < freq)
-+							clk_diff =3D freq - pll_fout;
-+						else
-+							clk_diff =3D pll_fout - freq;
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+						/* if frequency (which is the PLL we want
-+						 * to set) > 150MHz, the MRN value we
-+						 * write in register must < frequency, and
-+						 * get MRN value whose M is the largeset */
-+						if (freq >=3D 150000000) {
-+							if ((clk_diff <=3D pll_tmp[0].diff_clk) || pll_tmp[0].pll_fout =3D=
-=3D 0) {
-+								for (count =3D ARRAY_SIZE(pll_tmp) - 1; count >=3D 1; count--)
-+									pll_tmp[count] =3D pll_tmp[count - 1];
++	console_lock();
 +
-+								pll_tmp[0].pll_m =3D pll_m;
-+								pll_tmp[0].pll_r =3D pll_r;
-+								pll_tmp[0].pll_n =3D pll_n;
-+								pll_tmp[0].diff_clk =3D clk_diff;
-+								pll_tmp[0].pll_fout =3D pll_fout;
-+							}
-+						}
++	/*
++	 * Frame Buffer Size Control register (SR14) and GTI registers
++	 * (SR66 through SR6F) need to be saved and restored upon standby
++	 * resume or can lead to a display corruption issue. These registers
++	 * are only available on VX800, VX855, and VX900 chipsets. This bug
++	 * was observed on VIA Embedded EPIA-M830 mainboard.
++	 */
++	if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_VT1122) ||
++		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_VX875) ||
++		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_VX900_VGA)) {
++		dev_priv->saved_sr14 =3D vga_rseq(VGABASE, 0x14);
 +
-+						if (clk_diff < best_clk_diff) {
-+							best_clk_diff =3D clk_diff;
-+							best_pll_m =3D pll_m;
-+							best_pll_n =3D pll_n;
-+							best_pll_r =3D pll_r;
-+						}
-+					} /* if pll_fvco in VCO range */
-+				} /* for PLL M */
-+			} /* for PLL R */
-+		} /* for PLL N */
-+
-+		/* if frequency(which is the PLL we want to set) > 150MHz,
-+		 * the MRN value we write in register must < frequency,
-+		 * and get MRN value whose M is the largeset */
-+		if (freq > 150000000) {
-+			best_pll_m =3D pll_tmp[0].pll_m;
-+			best_pll_r =3D pll_tmp[0].pll_r;
-+			best_pll_n =3D pll_tmp[0].pll_n;
-+		}
-+	/* UniChrome IGP (CLE266, KM400(A), KN400, and P4M800 chipsets)
-+	 * requires a different formula for calculating the PLL parameters.
-+	 * The code was borrowed from OpenChrome DDX device driver UMS
-+	 * (User Mode Setting) section, but was modified to not use float type
-+	 * variables. */
-+	} else {
-+		for (pll_r =3D 0; pll_r < 4; ++pll_r) {
-+			for (pll_n =3D (pll_r =3D=3D 0) ? 2 : 1; pll_n <=3D 7; ++pll_n) {
-+				for (pll_m =3D 1; pll_m <=3D 127; ++pll_m) {
-+					pll_fout =3D VIA_CLK_REFERENCE * pll_m;
-+					pll_fout /=3D (pll_n << pll_r);
-+					if (pll_fout < freq)
-+						clk_diff =3D freq - pll_fout;
-+					else
-+						clk_diff =3D pll_fout - freq;
-+
-+					if (clk_diff < best_clk_diff) {
-+						best_clk_diff =3D clk_diff;
-+						best_pll_m =3D pll_m & 0x7F;
-+						best_pll_n =3D pll_n & 0x1F;
-+						best_pll_r =3D pll_r & 0x03;
-+					}
-+				}
-+			}
-+		}
++		dev_priv->saved_sr66 =3D vga_rseq(VGABASE, 0x66);
++		dev_priv->saved_sr67 =3D vga_rseq(VGABASE, 0x67);
++		dev_priv->saved_sr68 =3D vga_rseq(VGABASE, 0x68);
++		dev_priv->saved_sr69 =3D vga_rseq(VGABASE, 0x69);
++		dev_priv->saved_sr6a =3D vga_rseq(VGABASE, 0x6a);
++		dev_priv->saved_sr6b =3D vga_rseq(VGABASE, 0x6b);
++		dev_priv->saved_sr6c =3D vga_rseq(VGABASE, 0x6c);
++		dev_priv->saved_sr6d =3D vga_rseq(VGABASE, 0x6d);
++		dev_priv->saved_sr6e =3D vga_rseq(VGABASE, 0x6e);
++		dev_priv->saved_sr6f =3D vga_rseq(VGABASE, 0x6f);
 +	}
 +
-+	switch (pdev->device) {
-+	case PCI_DEVICE_ID_VIA_CLE266:
-+	case PCI_DEVICE_ID_VIA_KM400:
-+		/* Clock Synthesizer Value 0[7:6]: DR[1:0]
-+		 * Clock Synthesizer Value 0[5:0]: DN[5:0] */
-+		pll_mrn =3D ((best_pll_r & 0x3) << 14 |
-+				(best_pll_n & 0x1F) << 8);
-+		/* Clock Synthesizer Value 1[6:0]: DM[6:0] */
-+		pll_mrn |=3D (best_pll_m & 0x7F);
-+		break;
-+	case PCI_DEVICE_ID_VIA_VX875:
-+	case PCI_DEVICE_ID_VIA_VX900_VGA:
-+		/* Clock Synthesizer Value 0 : DM[7:0] */
-+		pll_mrn =3D (best_pll_m & 0xFF) << 16;
-+		/* Clock Synthesizer Value 1[1:0] : DM[9:8]
-+		 * Clock Synthesizer Value 1[4:2] : DR[2:0]
-+		 * Clock Synthesizer Value 1[7] : DTZ[0] */
-+		pll_mrn |=3D (((PLL_DTZ_DEFAULT & 0x1) << 7) |
-+				((best_pll_r & 0x7) << 2) |
-+				(((best_pll_m) >> 8) & 0x3)) << 8;
-+		/* Clock Synthesizer Value 2[6:0] : DN[6:0]
-+		 * Clock Synthesizer Value 2[7] : DTZ[1] */
-+		pll_mrn |=3D (((PLL_DTZ_DEFAULT >> 1) & 0x1) << 7) |
-+				((best_pll_n) & 0x7F);
-+		break;
-+	default:
-+		/* Clock Synthesizer Value 0 : DM[7:0] */
-+		pll_mrn =3D ((best_pll_m - 2) & 0xFF) << 16;
-+		/* Clock Synthesizer Value 1[1:0] : DM[9:8]
-+		 * Clock Synthesizer Value 1[4:2] : DR[2:0]
-+		 * Clock Synthesizer Value 1[7] : DTZ[0] */
-+		pll_mrn |=3D (((PLL_DTZ_DEFAULT & 0x1) << 7) |
-+				((best_pll_r & 0x7) << 2) |
-+				(((best_pll_m - 2) >> 8) & 0x3)) << 8;
-+		/* Clock Synthesizer Value 2[6:0] : DN[6:0]
-+		 * Clock Synthesizer Value 2[7] : DTZ[1] */
-+		pll_mrn |=3D (((PLL_DTZ_DEFAULT >> 1) & 0x1) << 7) |
-+				((best_pll_n - 2) & 0x7F);
-+		break;
++	/*
++	 * 3X5.3B through 3X5.3F are scratch pad registers.
++	 * They are important for FP detection.
++	 * Their values need to be saved because they get lost
++	 * when resuming from standby.
++	 */
++	dev_priv->saved_cr3b =3D vga_rcrt(VGABASE, 0x3b);
++	dev_priv->saved_cr3c =3D vga_rcrt(VGABASE, 0x3c);
++	dev_priv->saved_cr3d =3D vga_rcrt(VGABASE, 0x3d);
++	dev_priv->saved_cr3e =3D vga_rcrt(VGABASE, 0x3e);
++	dev_priv->saved_cr3f =3D vga_rcrt(VGABASE, 0x3f);
++
++	console_unlock();
++
++	ret =3D drm_mode_config_helper_suspend(drm_dev);
++	if (ret) {
++		DRM_ERROR("Failed to prepare for suspend.\n");
++		goto exit;
 +	}
-+	return pll_mrn;
++
++	pci_save_state(pdev);
++	pci_disable_device(pdev);
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
 +}
 +
-+/* Set VCLK */
-+void via_set_vclock(struct drm_crtc *crtc, u32 clk)
++int via_dev_pm_ops_resume(struct device *dev)
 +{
-+	struct via_crtc *iga =3D container_of(crtc, struct via_crtc, base);
-+	struct drm_device *dev =3D crtc->dev;
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	unsigned long max_loop =3D 50, i =3D 0;
++	struct pci_dev *pdev =3D to_pci_dev(dev);
++	struct drm_device *drm_dev =3D pci_get_drvdata(pdev);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(drm_dev);
++	void __iomem *regs =3D ioport_map(0x3c0, 100);
++	u8 val;
++	int ret =3D 0;
 +
-+	if (!iga->index) {
-+		/* IGA1 HW Reset Enable */
-+		svga_wcrt_mask(VGABASE, 0x17, 0x00, BIT(7));
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+		/* set clk */
-+		if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266) ||
-+			(pdev->device =3D=3D PCI_DEVICE_ID_VIA_KM400)) {
-+			vga_wseq(VGABASE, 0x46, (clk & 0xFF00) >> 8);	/* rshift + divisor */
-+			vga_wseq(VGABASE, 0x47, (clk & 0x00FF));	/* multiplier */
-+		} else {
-+			vga_wseq(VGABASE, 0x44, (clk & 0xFF0000) >> 16);
-+			vga_wseq(VGABASE, 0x45, (clk & 0x00FF00) >> 8);
-+			vga_wseq(VGABASE, 0x46, (clk & 0x0000FF));
-+		}
-+		/* Fire */
-+		svga_wmisc_mask(VGABASE, BIT(3) | BIT(2), BIT(3) | BIT(2));
-+
-+		/* reset pll */
-+		svga_wseq_mask(VGABASE, 0x40, 0x02, 0x02);
-+		svga_wseq_mask(VGABASE, 0x40, 0x00, 0x02);
-+
-+		/* exit hw reset */
-+		while ((vga_rseq(VGABASE, 0x3C) & BIT(3)) =3D=3D 0 && i++ < max_loop)
-+			udelay(20);
-+
-+		/* IGA1 HW Reset Disable */
-+		svga_wcrt_mask(VGABASE, 0x17, BIT(7), BIT(7));
-+	} else {
-+		/* IGA2 HW Reset Enable */
-+		svga_wcrt_mask(VGABASE, 0x6A, 0x00, BIT(6));
-+
-+		/* set clk */
-+		if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266) ||
-+			(pdev->device =3D=3D PCI_DEVICE_ID_VIA_KM400)) {
-+			vga_wseq(VGABASE, 0x44, (clk & 0xFF00) >> 8);
-+			vga_wseq(VGABASE, 0x45, (clk & 0x00FF));
-+		} else {
-+			vga_wseq(VGABASE, 0x4A, (clk & 0xFF0000) >> 16);
-+			vga_wseq(VGABASE, 0x4B, (clk & 0x00FF00) >> 8);
-+			vga_wseq(VGABASE, 0x4C, (clk & 0x0000FF));
-+		}
-+
-+		/* reset pll */
-+		svga_wseq_mask(VGABASE, 0x40, 0x04, 0x04);
-+		svga_wseq_mask(VGABASE, 0x40, 0x00, 0x04);
-+
-+		/* exit hw reset */
-+		while ((vga_rseq(VGABASE, 0x3C) & BIT(2)) =3D=3D 0 && i++ < max_loop)
-+			udelay(20);
-+
-+		/* IGA2 HW Reset Disble, CR6A[6] =3D 1 */
-+		svga_wcrt_mask(VGABASE, 0x6A, BIT(6), BIT(6));
++	if (pci_enable_device(pdev)) {
++		DRM_ERROR("Failed to initialize a PCI "
++				"after resume.\n");
++		ret =3D -EIO;
++		goto exit;
 +	}
++
++	console_lock();
++
++	val =3D ioread8(regs + 0x03);
++	iowrite8(val | 0x1, regs + 0x03);
++	val =3D ioread8(regs + 0x0C);
++	iowrite8(val | 0x1, regs + 0x02);
++
++	/*
++	 * Unlock Extended IO Space.
++	 */
++	iowrite8(0x10, regs + 0x04);
++	iowrite8(0x01, regs + 0x05);
++
++	/*
++	 * Unlock CRTC register protect.
++	 */
++	iowrite8(0x47, regs + 0x14);
++
++	/*
++	 * Enable MMIO.
++	 */
++	iowrite8(0x1a, regs + 0x04);
++	val =3D ioread8(regs + 0x05);
++	iowrite8(val | 0x38, regs + 0x05);
++
++	/*
++	 * Frame Buffer Size Control register (SR14) and GTI registers
++	 * (SR66 through SR6F) need to be saved and restored upon standby
++	 * resume or can lead to a display corruption issue. These registers
++	 * are only available on VX800, VX855, and VX900 chipsets. This bug
++	 * was observed on VIA Embedded EPIA-M830 mainboard.
++	 */
++	if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_VT1122) ||
++		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_VX875) ||
++		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_VX900_VGA)) {
++		vga_wseq(VGABASE, 0x14, dev_priv->saved_sr14);
++
++		vga_wseq(VGABASE, 0x66, dev_priv->saved_sr66);
++		vga_wseq(VGABASE, 0x67, dev_priv->saved_sr67);
++		vga_wseq(VGABASE, 0x68, dev_priv->saved_sr68);
++		vga_wseq(VGABASE, 0x69, dev_priv->saved_sr69);
++		vga_wseq(VGABASE, 0x6a, dev_priv->saved_sr6a);
++		vga_wseq(VGABASE, 0x6b, dev_priv->saved_sr6b);
++		vga_wseq(VGABASE, 0x6c, dev_priv->saved_sr6c);
++		vga_wseq(VGABASE, 0x6d, dev_priv->saved_sr6d);
++		vga_wseq(VGABASE, 0x6e, dev_priv->saved_sr6e);
++		vga_wseq(VGABASE, 0x6f, dev_priv->saved_sr6f);
++	}
++
++	/*
++	 * 3X5.3B through 3X5.3F are scratch pad registers.
++	 * They are important for FP detection.
++	 * Their values need to be restored because they are undefined
++	 * after resuming from standby.
++	 */
++	vga_wcrt(VGABASE, 0x3b, dev_priv->saved_cr3b);
++	vga_wcrt(VGABASE, 0x3c, dev_priv->saved_cr3c);
++	vga_wcrt(VGABASE, 0x3d, dev_priv->saved_cr3d);
++	vga_wcrt(VGABASE, 0x3e, dev_priv->saved_cr3e);
++	vga_wcrt(VGABASE, 0x3f, dev_priv->saved_cr3f);
++
++	console_unlock();
++
++	ret =3D drm_mode_config_helper_resume(drm_dev);
++	if (ret) {
++		DRM_ERROR("Failed to perform a modeset "
++				"after resume.\n");
++		goto exit;
++	}
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
 +}
 =2D-
 2.35.1
