@@ -1,49 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F50559F2C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 19:15:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C16E4559F2F
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 19:15:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 752A010E4AC;
-	Fri, 24 Jun 2022 17:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCE7410E817;
+	Fri, 24 Jun 2022 17:15:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DFEF10E372;
- Fri, 24 Jun 2022 17:15:27 +0000 (UTC)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6137D10E372;
+ Fri, 24 Jun 2022 17:15:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1656090927; x=1687626927;
+ t=1656090928; x=1687626928;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=1no4VHAGF1U1GUsWuXmPq+Xyz6dJE8ewgEUyCmjoW4U=;
- b=nsAW5nQI2PuSTbIWbsNm/DqHnS8AM9NdNZJG+Cbm1mh6ipPe4KMHwK39
- F5a4fYrAw/H1ZDrCuFMmYkELGkU2e8QeTxX4LtPuahv3Sg4K/mYmc5fsa
- U3ckMRCiVGZMP4m1HmIO7zklZ4Rp2b1sxhSQNkPg5+X19zqLznwQKBAr3 o=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 24 Jun 2022 10:15:26 -0700
+ bh=NddpGk/hbDeyIsIAOJl8eVnfk95qc1EZrjqf8uaTXws=;
+ b=Gt027N5ryn7AFUP0kVmtF/Tl+N7ozyN6hpC7Q/u9RlHvoM+QkzHwpIFN
+ MxfZyXs8n5yYjBOwf37w7bYoVSxaiMDB17Kg1wd2kplcxnrViWxN6hr4X
+ W/KLBYWwLfLqvGoQwzgUEut8uqvM6SVMOoQY204YwRe5m7FFco9M6FyeW 0=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 24 Jun 2022 10:15:28 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2022 10:15:25 -0700
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 10:15:27 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 24 Jun 2022 10:15:25 -0700
+ 15.2.986.22; Fri, 24 Jun 2022 10:15:26 -0700
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 24 Jun 2022 10:15:24 -0700
+ 15.2.986.22; Fri, 24 Jun 2022 10:15:26 -0700
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
  <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
  <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
  <bjorn.andersson@linaro.org>
-Subject: [PATCH v1 1/3] drm/msm/dp: move struc of msm_display_info to msm_drv.h
-Date: Fri, 24 Jun 2022 10:15:10 -0700
-Message-ID: <1656090912-18074-2-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v1 2/3] drm/msm/dp: decoupling dp->id out of dp controller_id
+ at scxxxx_dp_cfg table
+Date: Fri, 24 Jun 2022 10:15:11 -0700
+Message-ID: <1656090912-18074-3-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1656090912-18074-1-git-send-email-quic_khsieh@quicinc.com>
 References: <1656090912-18074-1-git-send-email-quic_khsieh@quicinc.com>
@@ -71,88 +73,162 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With current implementation, communication between interface driver and
-upper mdss encoder layer are implemented through function calls. This
-increase code complexity. Since struct msm_display_info contains msm
-generic display information, it can be expended to contains more useful
-information, such as widebus and dcs, in future to serve as communication
-channel purpose between interface driver and upper mdss encoder layer so
-that existing function calls can be eliminated.
-This patch more struct msm_display_info to msm_drv.h to be visible by
-whole msm scope.
+Current the index (dp->id) of DP descriptor table (scxxxx_dp_cfg[]) are tightly
+coupled with DP controller_id. This means DP use controller id 0 must be placed
+at first entry of DP descriptor table (scxxxx_dp_cfg[]). Otherwise the internal
+INTF will mismatch controller_id. This will cause controller kickoff wrong
+interface timing engine and cause dpu_encoder_phys_vid_wait_for_commit_done
+vblank timeout error.
+
+This patch add controller_id field into struct msm_dp_desc to break the tightly
+coupled relationship between index (dp->id) of DP descriptor table with DP
+controller_id.
 
 Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 20 --------------------
- drivers/gpu/drm/msm/msm_drv.h               | 19 +++++++++++++++++++
- 2 files changed, 19 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 16 ++++++++++------
+ drivers/gpu/drm/msm/dp/dp_display.c     | 30 +++++++++++++++++++++++-------
+ drivers/gpu/drm/msm/msm_drv.h           |  2 ++
+ 3 files changed, 35 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index 781d41c..6b604c5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -19,26 +19,6 @@
- #define IDLE_TIMEOUT	(66 - 16/2)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 2b9d931..8feeb89 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -615,7 +615,7 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
+ 					    struct dpu_kms *dpu_kms)
+ {
+ 	struct drm_encoder *encoder = NULL;
+-	struct msm_display_info info;
++	struct msm_display_info *info;
+ 	int rc;
+ 	int i;
  
- /**
-- * struct msm_display_info - defines display properties
-- * @intf_type:          DRM_MODE_ENCODER_ type
-- * @capabilities:       Bitmask of display flags
-- * @num_of_h_tiles:     Number of horizontal tiles in case of split interface
-- * @h_tile_instance:    Controller instance used per tile. Number of elements is
-- *                      based on num_of_h_tiles
-- * @is_te_using_watchdog_timer:  Boolean to indicate watchdog TE is
-- *				 used instead of panel TE in cmd mode panels
-- * @dsc:		DSC configuration data for DSC-enabled displays
-- */
--struct msm_display_info {
--	int intf_type;
--	uint32_t capabilities;
--	uint32_t num_of_h_tiles;
--	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
--	bool is_te_using_watchdog_timer;
--	struct msm_display_dsc_config *dsc;
--};
--
--/**
-  * dpu_encoder_assign_crtc - Link the encoder to the crtc it's assigned to
-  * @encoder:	encoder pointer
-  * @crtc:	crtc pointer
+@@ -637,11 +637,15 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
+ 			return rc;
+ 		}
+ 
+-		info.num_of_h_tiles = 1;
+-		info.h_tile_instance[0] = i;
+-		info.capabilities = MSM_DISPLAY_CAP_VID_MODE;
+-		info.intf_type = encoder->encoder_type;
+-		rc = dpu_encoder_setup(dev, encoder, &info);
++		info = &priv->info[i];
++		info->intf_type = encoder->encoder_type;
++		/*
++		 * info->capabilities, info->num_of_h_tiles and
++		 * info->h_tile_instance are populated at
++		 * dp_display_bind()
++		 */
++
++		rc = dpu_encoder_setup(dev, encoder, info);
+ 		if (rc) {
+ 			DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
+ 				  encoder->base.id, rc);
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index da5c03a..a87a9d8 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -77,6 +77,7 @@ struct dp_display_private {
+ 	int irq;
+ 
+ 	unsigned int id;
++	unsigned int controller_id;
+ 
+ 	/* state variables */
+ 	bool core_initialized;
+@@ -123,6 +124,7 @@ struct dp_display_private {
+ struct msm_dp_desc {
+ 	phys_addr_t io_start;
+ 	unsigned int connector_type;
++	unsigned int controller_id;
+ 	bool wide_bus_en;
+ };
+ 
+@@ -133,31 +135,38 @@ struct msm_dp_config {
+ 
+ static const struct msm_dp_config sc7180_dp_cfg = {
+ 	.descs = (const struct msm_dp_desc[]) {
+-		[MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
++		{ .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort,
++		.controller_id = MSM_DP_CONTROLLER_0 },
+ 	},
+ 	.num_descs = 1,
+ };
+ 
+ static const struct msm_dp_config sc7280_dp_cfg = {
+ 	.descs = (const struct msm_dp_desc[]) {
+-		[MSM_DP_CONTROLLER_0] =	{ .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_en = true },
+-		[MSM_DP_CONTROLLER_1] =	{ .io_start = 0x0aea0000, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
++		{ .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort,
++		.controller_id = MSM_DP_CONTROLLER_0, .wide_bus_en = true },
++		{ .io_start = 0x0aea0000, .connector_type = DRM_MODE_CONNECTOR_eDP, 
++		.controller_id = MSM_DP_CONTROLLER_1, .wide_bus_en = true },
+ 	},
+ 	.num_descs = 2,
+ };
+ 
+ static const struct msm_dp_config sc8180x_dp_cfg = {
+ 	.descs = (const struct msm_dp_desc[]) {
+-		[MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+-		[MSM_DP_CONTROLLER_1] = { .io_start = 0x0ae98000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+-		[MSM_DP_CONTROLLER_2] = { .io_start = 0x0ae9a000, .connector_type = DRM_MODE_CONNECTOR_eDP },
++		{.io_start = 0x0ae9a000, .connector_type = DRM_MODE_CONNECTOR_eDP,
++		.controller_id = MSM_DP_CONTROLLER_2 },
++		{ .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort,
++		.controller_id = MSM_DP_CONTROLLER_0 },
++		{ .io_start = 0x0ae98000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort,
++		.controller_id = MSM_DP_CONTROLLER_1 },
+ 	},
+ 	.num_descs = 3,
+ };
+ 
+ static const struct msm_dp_config sm8350_dp_cfg = {
+ 	.descs = (const struct msm_dp_desc[]) {
+-		[MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
++		{ .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort,
++		.controller_id = MSM_DP_CONTROLLER_0 },
+ 	},
+ 	.num_descs = 1,
+ };
+@@ -260,10 +269,16 @@ static int dp_display_bind(struct device *dev, struct device *master,
+ 	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+ 	struct msm_drm_private *priv = dev_get_drvdata(master);
+ 	struct drm_device *drm = priv->dev;
++	struct msm_display_info *info;
+ 
+ 	dp->dp_display.drm_dev = drm;
+ 	priv->dp[dp->id] = &dp->dp_display;
+ 
++	info = &priv->info[dp->id];
++	info->num_of_h_tiles = 1;
++	info->h_tile_instance[0] = dp->controller_id;
++	info->capabilities = MSM_DISPLAY_CAP_VID_MODE;
++	
+ 	rc = dp->parser->parse(dp->parser);
+ 	if (rc) {
+ 		DRM_ERROR("device tree parsing failed\n");
+@@ -1308,6 +1323,7 @@ static int dp_display_probe(struct platform_device *pdev)
+ 	dp->pdev = pdev;
+ 	dp->name = "drm_dp";
+ 	dp->dp_display.connector_type = desc->connector_type;
++	dp->controller_id =  desc->controller_id;
+ 	dp->wide_bus_en = desc->wide_bus_en;
+ 	dp->dp_display.is_edp =
+ 		(dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP);
 diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index fdbaad5..f9c263b 100644
+index f9c263b..71ab699 100644
 --- a/drivers/gpu/drm/msm/msm_drv.h
 +++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -106,11 +106,30 @@ struct msm_drm_thread {
- 	struct kthread_worker *worker;
- };
+@@ -150,6 +150,8 @@ struct msm_drm_private {
  
-+<<<<<<< HEAD
- /* DSC config */
- struct msm_display_dsc_config {
- 	struct drm_dsc_config *drm;
- };
+ 	struct msm_dp *dp[MSM_DP_CONTROLLER_COUNT];
  
-+/**
-+ * struct msm_display_info - defines display properties
-+ * @intf_type:          DRM_MODE_ENCODER_ type
-+ * @capabilities:       Bitmask of display flags
-+ * @num_of_h_tiles:     Number of horizontal tiles in case of split interface
-+ * @h_tile_instance:    Controller instance used per tile. Number of elements is
-+ *                      based on num_of_h_tiles
-+ * @is_te_using_watchdog_timer:  Boolean to indicate watchdog TE is
-+ *				 used instead of panel TE in cmd mode panels
-+ */
-+struct msm_display_info {
-+	int intf_type;
-+	uint32_t capabilities;
-+	uint32_t num_of_h_tiles;
-+	uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
-+	bool is_te_using_watchdog_timer;
-+};
++	struct msm_display_info info[MSM_DP_CONTROLLER_COUNT];
 +
- struct msm_drm_private {
+ 	/* when we have more than one 'msm_gpu' these need to be an array: */
+ 	struct msm_gpu *gpu;
  
- 	struct drm_device *dev;
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
