@@ -2,50 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93E1559EE9
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 18:57:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795A1559F28
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 19:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F090110E11F;
-	Fri, 24 Jun 2022 16:57:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E52D710E401;
+	Fri, 24 Jun 2022 17:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94A2F10E11F
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 16:57:19 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A9BCCB82AC4;
- Fri, 24 Jun 2022 16:57:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4FC6C34114;
- Fri, 24 Jun 2022 16:57:12 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="XSh+wrt2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1656089831;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x7w4F5vDUanD3cyNwRJTK3WbQC/Ff5DbSn/gTkZD/AQ=;
- b=XSh+wrt2Wy33yrqdt71DjblsNKZBNh2GqO0KR/aWNKpt9hoQma7w72rteUjxL2XsK5tTaA
- MXnKXS1hNTEnn/PmxCBlewQ/CobLshUQtutsesvzTnt4deWSt1D2TzI5JD/2Qq+zMwWD5m
- SB9sI/zLrFniFHvP67qrVeWtmKAQLfg=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 3165afbf
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Fri, 24 Jun 2022 16:57:11 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
- Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org
-Subject: [PATCH 5/6] dma-buf: remove useless FMODE_LSEEK flag
-Date: Fri, 24 Jun 2022 18:56:30 +0200
-Message-Id: <20220624165631.2124632-6-Jason@zx2c4.com>
-In-Reply-To: <20220624165631.2124632-1-Jason@zx2c4.com>
-References: <20220624165631.2124632-1-Jason@zx2c4.com>
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FB3210E3C8;
+ Fri, 24 Jun 2022 17:15:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1656090922; x=1687626922;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=YFyE9v9DgjKjrPKvOoPb8aTO5Jj84oJ4uXSwYDcL05c=;
+ b=WcH91+CmiFyQNCpjTFidDWFy18HAmv67F1alvJkgH1f4DyofjfZ31V+M
+ h3HvFx4CNsjo2kK3U1v35mLjw9Ylte1pdBu7sT9g1E8LRcvyNcmR9/Vm6
+ 8xEUrMZgl38hKDftlZZsT9UQKdBOa9NP0mfapNl16e7Wnt70SCkRrJ3U9 Q=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 24 Jun 2022 10:15:22 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 10:15:21 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 24 Jun 2022 10:15:21 -0700
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 24 Jun 2022 10:15:20 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <dianders@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v1 0/3] fix primary corruption issue
+Date: Fri, 24 Jun 2022 10:15:09 -0700
+Message-ID: <1656090912-18074-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,35 +62,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is already on by default.
+fix primary corruption :
+1) move struc of msm_display_info to msm_drv.h
+2) decoupling dp->id out of dp controller_id at scxxxx_dp_cfg table
+3) place edp at head of drm bridge chain to fix screen corruption
 
-Suggested-by: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- drivers/dma-buf/dma-buf.c | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 32f55640890c..3f08e0b960ec 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -549,7 +549,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 		goto err_dmabuf;
- 	}
- 
--	file->f_mode |= FMODE_LSEEK;
- 	dmabuf->file = file;
- 
- 	mutex_init(&dmabuf->lock);
+Kuogee Hsieh (3):
+  drm/msm/dp: move struc of msm_display_info to msm_drv.h
+  drm/msm/dp: decoupling dp->id out of dp controller_id at scxxxx_dp_cfg
+    table
+  drm/msm/dp: place edp at head of drm bridge chain to fix screen
+    corruption
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 20 -------------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 16 +++++++++------
+ drivers/gpu/drm/msm/dp/dp_display.c         | 30 ++++++++++++++++++++++-------
+ drivers/gpu/drm/msm/msm_drv.h               | 21 ++++++++++++++++++++
+ 4 files changed, 54 insertions(+), 33 deletions(-)
+
 -- 
-2.35.1
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
