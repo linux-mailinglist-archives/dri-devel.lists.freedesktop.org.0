@@ -1,44 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 349E8559D3F
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 17:26:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0313559D84
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 17:43:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5546B10E3A4;
-	Fri, 24 Jun 2022 15:26:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5421910E251;
+	Fri, 24 Jun 2022 15:43:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5AC210E3A4
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 15:26:47 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 6894C1C000A;
- Fri, 24 Jun 2022 15:26:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1656084405;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cOBna43ZB0lJCDekpVEqf7GVrwOErW7lnHWKCAFoDIg=;
- b=VIeBbMouu4FRIkCnML49qgRcF+vMECewXOrt2LsveUbMwYzLoZV83L0rJtnBz1noP2j03E
- IBxv5QWf0a4wVWi990MihCbQvPsjeLNwONphIbUivuA4IW4mlLiGMc+tJJi1kYOj7EjynR
- 3VdI+xTP7u0Pz10bcayLH6mo0edU+NJwkHcfGku0Eyik8FZRIp2k81i+/ee7H4CS49UXzx
- Z4dOBD7G+mjJuBlKza7OVSaQ2v+AMu9j3BKJjxSh7jHhkOxL/3JBZJKgBq3Ijs9x+Pp+U/
- BpdQ1+QutoMfiAdcyKDvLc3usPeHUkBgIKyvkdI77hpr3+X8NIgvRpE21SYyuw==
-Date: Fri, 24 Jun 2022 17:26:44 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH] drm: fix device_node_continue.cocci warnings (fwd)
-Message-ID: <YrXXtIYHk2o5ZS9G@aptenodytes>
-References: <alpine.DEB.2.22.394.2206121300120.3447@hadrien>
- <YrXTY77HjvNnuc1B@aptenodytes>
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A50510E251
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 15:43:34 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id u12so5482818eja.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 08:43:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=xOyaMS6jTo3CVc3dXMGLLaIKejspuR/lyhY3Gbozvck=;
+ b=eSPMRb7Hf/zd4geaeAmyaoanm4R/jmP6HWLQaRYGOI1puZPnxFqq+JhAz/Gs7+cak6
+ bwj8kYHHEuxYQdNSTzs/GkyzVTkdxZ65Z4OgID8J609urrNk+PtDmYmpW+sdaGxOx17D
+ JhtY1l1YWDv8kTgSv7GIDwSgGJB7G/NB+j99QkbPDBx+Ow9BKhGNFfBim/JE58Hxloqr
+ MDpd84z+h4NCuT9ykIKAq6w5K+hoIuy1gCQ9eRPc6e8lUAeW3egDw1l8+poZcgDjjTGZ
+ 22P5AjnODGOO6hT0XhBBkJRpzgnxclrL4/21fczuO9odzhDp091UwMmZBsU9rQLrGvBA
+ MioA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=xOyaMS6jTo3CVc3dXMGLLaIKejspuR/lyhY3Gbozvck=;
+ b=uGirO2DNM5n7EAxHB2uQpFVJxQKBlB0sAr5+dy91xSyf5uPAfLFW6r1VWe4whbKuye
+ QIMrUadpfjhxssL0RO9eYUOeVL4tpiJedAeXTGnNqCXvA8x9MY1uZUOuw5f3TgCcrdfb
+ lU9ZtebUnJx6Zq34Q5/XO4rrqbV8i/P4ki72xSUVbh2PlxbNQMgJM3MDfyR9wBKqjLqG
+ qxbn2fk/8rYXFnx+UgZLU5yRie/yndx/GfK8HQfkh84u72AZGm+7TM6dEi2/GO5T1bra
+ L9qMpzlfx6C1XTx9tihR+XFqbCmoxOLPrKgqJIeuFxVBlu3Mfu9/r2l+KPap8sjJ+MEF
+ JqEw==
+X-Gm-Message-State: AJIora9XM/Tvc+2hHdwT/KyOdzYjjh2OqaRQDHtr/uzEALhH4SCAn6dQ
+ AlBWndqmaiYnJn2miLJEsYyVQA==
+X-Google-Smtp-Source: AGRyM1uU8WGXrocmvkPib9phSOmKZ86jSknDjqjGMNFTBgCy4FSTh+vhMTA0H1fCwG7O2VV3ATVKuA==
+X-Received: by 2002:a17:907:72d2:b0:722:f9c8:c3fa with SMTP id
+ du18-20020a17090772d200b00722f9c8c3famr11379944ejc.608.1656085412800; 
+ Fri, 24 Jun 2022 08:43:32 -0700 (PDT)
+Received: from [192.168.0.237] (xdsl-188-155-176-92.adslplus.ch.
+ [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
+ l2-20020a170906078200b006fe89cafc42sm1318873ejc.172.2022.06.24.08.43.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Jun 2022 08:43:32 -0700 (PDT)
+Message-ID: <7768c848-e91d-12d2-d960-196b47778e85@linaro.org>
+Date: Fri, 24 Jun 2022 17:43:30 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="j8s6M7Kf9VxwIgM8"
-Content-Disposition: inline
-In-Reply-To: <YrXTY77HjvNnuc1B@aptenodytes>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3 1/4] dt-bindings: display: bridge: Convert cdns, dsi.txt
+ to yaml
+Content-Language: en-US
+To: Rahul T R <r-ravikumar@ti.com>, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+References: <20220620205403.31744-1-r-ravikumar@ti.com>
+ <20220620205403.31744-2-r-ravikumar@ti.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220620205403.31744-2-r-ravikumar@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,118 +76,359 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, lkp@intel.com, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- dri-devel@lists.freedesktop.org
+Cc: mparab@cadence.com, a-bhatia1@ti.com, jonas@kwiboo.se, airlied@linux.ie,
+ tomi.valkeinen@ideasonboard.com, sjakhade@cadence.com, narmstrong@baylibre.com,
+ linux-kernel@vger.kernel.org, jernej.skrabec@gmail.com, vigneshr@ti.com,
+ devicetree@vger.kernel.org, robert.foss@linaro.org, andrzej.hajda@intel.com,
+ jpawar@cadence.com, lee.jones@linaro.org, laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 20/06/2022 22:54, Rahul T R wrote:
+> Convert cdns,dsi.txt binding to yaml format
+> 
+> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+> ---
+>  .../bindings/display/bridge/cdns,dsi.txt      | 112 ----------
+>  .../bindings/display/bridge/cdns,dsi.yaml     | 193 ++++++++++++++++++
+>  2 files changed, 193 insertions(+), 112 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
+> deleted file mode 100644
+> index 525a4bfd8634..000000000000
+> --- a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.txt
+> +++ /dev/null
+> @@ -1,112 +0,0 @@
+> -Cadence DSI bridge
+> -==================
+> -
+> -The Cadence DSI bridge is a DPI to DSI bridge supporting up to 4 DSI lanes.
+> -
+> -Required properties:
+> -- compatible: should be set to "cdns,dsi".
+> -- reg: physical base address and length of the controller's registers.
+> -- interrupts: interrupt line connected to the DSI bridge.
+> -- clocks: DSI bridge clocks.
+> -- clock-names: must contain "dsi_p_clk" and "dsi_sys_clk".
+> -- phys: phandle link to the MIPI D-PHY controller.
+> -- phy-names: must contain "dphy".
+> -- #address-cells: must be set to 1.
+> -- #size-cells: must be set to 0.
+> -
+> -Optional properties:
+> -- resets: DSI reset lines.
+> -- reset-names: can contain "dsi_p_rst".
+> -
+> -Required subnodes:
+> -- ports: Ports as described in Documentation/devicetree/bindings/graph.txt.
+> -  2 ports are available:
+> -  * port 0: this port is only needed if some of your DSI devices are
+> -	    controlled through  an external bus like I2C or SPI. Can have at
+> -	    most 4 endpoints. The endpoint number is directly encoding the
+> -	    DSI virtual channel used by this device.
+> -  * port 1: represents the DPI input.
+> -  Other ports will be added later to support the new kind of inputs.
+> -
+> -- one subnode per DSI device connected on the DSI bus. Each DSI device should
+> -  contain a reg property encoding its virtual channel.
+> -
+> -Example:
+> -	dsi0: dsi@fd0c0000 {
+> -		compatible = "cdns,dsi";
+> -		reg = <0x0 0xfd0c0000 0x0 0x1000>;
+> -		clocks = <&pclk>, <&sysclk>;
+> -		clock-names = "dsi_p_clk", "dsi_sys_clk";
+> -		interrupts = <1>;
+> -		phys = <&dphy0>;
+> -		phy-names = "dphy";
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -
+> -		ports {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -
+> -			port@1 {
+> -				reg = <1>;
+> -				dsi0_dpi_input: endpoint {
+> -					remote-endpoint = <&xxx_dpi_output>;
+> -				};
+> -			};
+> -		};
+> -
+> -		panel: dsi-dev@0 {
+> -			compatible = "<vendor,panel>";
+> -			reg = <0>;
+> -		};
+> -	};
+> -
+> -or
+> -
+> -	dsi0: dsi@fd0c0000 {
+> -		compatible = "cdns,dsi";
+> -		reg = <0x0 0xfd0c0000 0x0 0x1000>;
+> -		clocks = <&pclk>, <&sysclk>;
+> -		clock-names = "dsi_p_clk", "dsi_sys_clk";
+> -		interrupts = <1>;
+> -		phys = <&dphy1>;
+> -		phy-names = "dphy";
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -
+> -		ports {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -
+> -			port@0 {
+> -				reg = <0>;
+> -				#address-cells = <1>;
+> -				#size-cells = <0>;
+> -
+> -				dsi0_output: endpoint@0 {
+> -					reg = <0>;
+> -					remote-endpoint = <&dsi_panel_input>;
+> -				};
+> -			};
+> -
+> -			port@1 {
+> -				reg = <1>;
+> -				dsi0_dpi_input: endpoint {
+> -					remote-endpoint = <&xxx_dpi_output>;
+> -				};
+> -			};
+> -		};
+> -	};
+> -
+> -	i2c@xxx {
+> -		panel: panel@59 {
+> -			compatible = "<vendor,panel>";
+> -			reg = <0x59>;
+> -
+> -			port {
+> -				dsi_panel_input: endpoint {
+> -					remote-endpoint = <&dsi0_output>;
+> -				};
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+> new file mode 100644
+> index 000000000000..3da47c01dca8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,dsi.yaml
+> @@ -0,0 +1,193 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/cdns,dsi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Cadence DSI bridge
+> +
+> +maintainers:
+> +  - Boris Brezillon <boris.brezillon@bootlin.com>
+> +
+> +description: |
+> +   CDNS DSI is a bridge device which converts DPI to DSI
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - cdns,dsi
+> +      - ti,j721e-dsi
 
---j8s6M7Kf9VxwIgM8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It wasn't here before, so this is not a conversion. Split adding new
+compatibles and features from actual conversion.
 
-Hi,
+> +
+> +  reg:
+> +    minItems: 1
+> +    items:
+> +      - description:
+> +          Register block for controller's registers.
+> +      - description:
+> +          Register block for wrapper settings registers in case of TI J7 SoCs.
 
-On Fri 24 Jun 22, 17:08, Paul Kocialkowski wrote:
-> Hi Julia,
->=20
-> On Sun 12 Jun 22, 13:02, Julia Lawall wrote:
-> > The of_node_put does not seem to be needed.  Note that there is none at
-> > the preceeding continues.
->=20
-> That looks like a correct fix, thanks!
+This needs allOf with if:then:else constraining number of items per variant.
 
-Pushed to drm-misc-next, thanks!
+> +
+> +  clocks:
+> +    items:
+> +      - description: PSM clock, used by the IP
+> +      - description: sys clock, used by the IP
+> +
+> +  clock-names:
+> +    items:
+> +      - const: dsi_p_clk
+> +      - const: dsi_sys_clk
+> +
+> +  phys:
+> +    minItems: 1
 
-Paul
+instead maxItems: 1
 
-> > julia
-> >=20
-> > ---------- Forwarded message ----------
-> > Date: Sat, 11 Jun 2022 06:02:45 +0800
-> > From: kernel test robot <lkp@intel.com>
-> > To: kbuild@lists.01.org
-> > Cc: lkp@intel.com, Julia Lawall <julia.lawall@lip6.fr>
-> > Subject: [PATCH] drm: fix device_node_continue.cocci warnings
-> >=20
-> > CC: kbuild-all@lists.01.org
-> > BCC: lkp@intel.com
-> > CC: Linux Memory Management List <linux-mm@kvack.org>
-> > TO: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > CC: Maxime Ripard <mripard@kernel.org>
-> > CC: David Airlie <airlied@linux.ie>
-> > CC: Daniel Vetter <daniel@ffwll.ch>
-> > CC: dri-devel@lists.freedesktop.org
-> > CC: linux-kernel@vger.kernel.org
-> >=20
-> > From: kernel test robot <lkp@intel.com>
-> >=20
-> > drivers/gpu/drm/logicvc/logicvc_layer.c:616:2-13: ERROR: probable doubl=
-e put.
-> >=20
-> >  Device node iterators put the previous value of the index variable, so=
- an
-> >  explicit put causes a double put.
-> >=20
-> > Generated by: scripts/coccinelle/iterators/device_node_continue.cocci
-> >=20
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Signed-off-by: kernel test robot <lkp@intel.com>
-> > ---
-> >=20
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
-=2Egit master
-> > head:   6d0c806803170f120f8cb97b321de7bd89d3a791
-> > commit: efeeaefe9be56e8ae5e5b4e9ff6d2275ec977ec5 [2027/2566] drm: Add s=
-upport for the LogiCVC display controller
-> > :::::: branch date: 17 hours ago
-> > :::::: commit date: 31 hours ago
-> >=20
-> > Please take the patch only if it's a positive warning. Thanks!
-> >=20
-> >  drivers/gpu/drm/logicvc/logicvc_layer.c |    2 --
-> >  1 file changed, 2 deletions(-)
-> >=20
-> > --- a/drivers/gpu/drm/logicvc/logicvc_layer.c
-> > +++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
-> > @@ -612,8 +612,6 @@ int logicvc_layers_init(struct logicvc_d
-> >  		ret =3D logicvc_layer_init(logicvc, layer_node, index);
-> >  		if (ret)
-> >  			goto error;
-> > -
-> > -		of_node_put(layer_node);
-> >  	}
-> >=20
-> >  	of_node_put(layers_node);
->=20
-> --=20
-> Paul Kocialkowski, Bootlin
-> Embedded Linux and kernel engineering
-> https://bootlin.com
+> +    description: phandle link to the MIPI D-PHY controller.
+> +
+> +  phy-names:
+> +    const: dphy
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    minItems: 1
+
+instead maxItems: 1
+
+> +    description: PHY reset.
+> +
+> +  reset-names:
+> +    const: dsi_p_rst
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+
+additionalProperties: false
+
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port representing the DSI output. It can have
+> +          most 4 endpoints. The endpoint number is directly encoding
+> +          the DSI virtual channel used by this device.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Input port representing the DP bridge input.
+> +
+> +    required:
+> +      - port@1
+> +
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - phys
+> +  - phy-names
+> +  - ports
+> +
+> +allOf:
+> +  - $ref: ../dsi-controller.yaml#
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    dsi@fd0c0000 {
+> +        compatible = "cdns,dsi";
+> +        reg = <0x0 0xfd0c0000 0x0 0x1000>;
+> +        clocks = <&pclk>, <&sysclk>;
+> +        clock-names = "dsi_p_clk", "dsi_sys_clk";
+> +        interrupts = <1>;
+> +        phys = <&dphy0>;
+> +        phy-names = "dphy";
+> +
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +                endpoint {
+> +                    remote-endpoint = <&xxx_dpi_output>;
+> +                };
+> +            };
+> +        };
+> +
+> +        panel@0 {
+> +            compatible = "panasonic,vvx10f034n00";
+> +            reg = <0>;
+> +            power-supply = <&vcc_lcd_reg>;
+> +        };
+> +    };
+> +
+> +  - |
+> +    dsi@fd0c0000 {
+> +        compatible = "cdns,dsi";
+> +        reg = <0x0 0xfd0c0000 0x0 0x1000>;
+> +        clocks = <&pclk>, <&sysclk>;
+> +        clock-names = "dsi_p_clk", "dsi_sys_clk";
+> +        interrupts = <1>;
+> +        phys = <&dphy1>;
+> +        phy-names = "dphy";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                dsi0_output: endpoint@0 {
+> +                    reg = <0>;
+> +                    remote-endpoint = <&dsi_panel_input>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +                endpoint {
+> +                    remote-endpoint = <&xxx_dpi_output>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        bridge@2d {
+> +            compatible = "ti,sn65dsi86";
+> +            reg = <0x2d>;
+> +
+> +            vpll-supply = <&src_pp1800_s4a>;
+> +            vccio-supply = <&src_pp1800_s4a>;
+> +            vcca-supply = <&src_pp1200_l2a>;
+> +            vcc-supply = <&src_pp1200_l2a>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +                    dsi_panel_input: endpoint {
+> +                        remote-endpoint = <&dsi0_output>;
+> +                    };
+> +                };
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +                    endpoint {
+> +                        remote-endpoint = <&panel_in_edp>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
 
 
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---j8s6M7Kf9VxwIgM8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK117MACgkQ3cLmz3+f
-v9GFUwf/az5hyKfcTdyQcgK2Hh4Cjqq2ZHdkl8bUbiYalB83GruGXqXVrp5DZ2+v
-sIg19Ssgv1GMiTAvVZuT8EqHpZPcoPQceVKyFp4S7EmBmxctiyTq7/3FBGZPf8i3
-FO2hGK3lbgfL0ur+sUuPugzW8/iUWg2AsWuuzGvEJaTtZmOURPSgJrdgrQrCJK4Q
-AO4PGOvd8lqC/yqFokvr/XFFnOpm3qF2jdOUJpQ0/n3heMLYHnGmY5XC7VD2LmNf
-wAVKcakylgPhpDTrbx//lZ6Q1SW/UiWsnexGIIjvBRd4tU+j07A6eQqPx+f1UmsA
-9VVviBqMk2ytHuOAOHBjNx+34d/S4Q==
-=0QdG
------END PGP SIGNATURE-----
-
---j8s6M7Kf9VxwIgM8--
+Best regards,
+Krzysztof
