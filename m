@@ -1,59 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F5955A4C4
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 01:25:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0FF155A4D9
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 01:31:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 036D110EA10;
-	Fri, 24 Jun 2022 23:25:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C66FD10E3D2;
+	Fri, 24 Jun 2022 23:31:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9313110E403
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 23:25:16 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id p21so2978267qki.7
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 16:25:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FpOasnc+MpC6k8YV2n5CgA0BI1oTbTynNjCcV+ZfHRs=;
- b=NHb6sx16M7MktkZ3Jo61dJAtykBLRQ7L90BYWPv2UYfd7gTYH2Imv7sGo8sVPuwlCd
- 3MzSMUw6RsrSdaH9kaWcFR/nhX3HUHTrofuDUv3N9XBWRtkmXMs74x9X1h6D7hUvEloQ
- xZqSxQLB41Sd3P5nsLa3wY60AtTBzwR9xksRX1rO+ijLlptnUAkOt4a4dbPrFdO6ZUOI
- eJf7OJQp9wYcRSj39MRpVP+exzOBiqETNrSMynq1cLm60ZfW39poLkgFd/c4XlEzX92Z
- urgI7E+FNaezix5BisyfzLdTRLV6DWggT8YDLErAQ+32QXk6815I9uprKrMtEBtLDi3/
- v7IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FpOasnc+MpC6k8YV2n5CgA0BI1oTbTynNjCcV+ZfHRs=;
- b=qKOtCkuTVeGRvoMadvpcf31etsPOHwQJkz57AgbD6HRaCHXN1SOC7Yxi/l4z7Ne43Q
- 9Ah5fN7sJP9iSmHQMzyprEhQZPDOUOTLBPD3BHZ14yqd+ESvubrk1O7UiLF0PcjR9esl
- TYrlquhgNOg0RdNg9Vg1IaWTuOPxxV9HzNEhOqnI6ovQIKHvnVwhMAMOZrRCE95m5rV0
- nVEt7b9R2IMUqbqLHgiJMTgYLphkwRjt3tckFCtGDSqposotUdNoWLikzwQh08S82nqh
- qNy7PKx8+EP2MN7qO2PiYLzzgr9kGNyApyuS0GfzShD3LgB62bVPFzr1sACmUZ/5z4oM
- xozQ==
-X-Gm-Message-State: AJIora+uKeNZFyAkClz9rly23tn9rAoWtBNOGHxYXtSQKYEkTvirdXSB
- 9CQ5WYPVct2gDPJykSgnESHOIN/UAuV9LVkOLMImVg==
-X-Google-Smtp-Source: AGRyM1uO6ak+ggMtjMmbHyuZ535rKKAdH4kKHL57dRRG0x0TBx5SohM1ORVa07kNl56sasfydWaRzHmOt05i/wBTFkY=
-X-Received: by 2002:a05:620a:31a0:b0:6a7:549f:a788 with SMTP id
- bi32-20020a05620a31a000b006a7549fa788mr1285171qkb.203.1656113115648; Fri, 24
- Jun 2022 16:25:15 -0700 (PDT)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F403E10EAC1;
+ Fri, 24 Jun 2022 23:31:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1656113463; x=1687649463;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=t6N1OFmumKaMBQGcfxIzZ6KTThBwsauO4zIl/cRMsMs=;
+ b=Tw1XTddRITqcZ7etuOXvyYcVmBadi+sE+vuQxm6Dx0jry+w5H4uSwiKo
+ LpaIeYqMoD77SCdDGOsmJ5bqaBfsorpRcB7itWbB3rEqZBUaqA/B9JuiV
+ 2VOjKYcO3FIo+o0WGaLkV7yfBe8/kfdJJgBtrV+ahRyx51cPH1eCg/rjd o=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 24 Jun 2022 16:31:02 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 16:31:01 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 24 Jun 2022 16:31:01 -0700
+Received: from [10.110.58.84] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 24 Jun
+ 2022 16:30:59 -0700
+Message-ID: <0ff3d6a3-dc5c-7c77-f8a1-6c4f6c1a3215@quicinc.com>
+Date: Fri, 24 Jun 2022 16:30:59 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v1 2/3] drm/msm/dp: decoupling dp->id out of dp
+ controller_id at scxxxx_dp_cfg table
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dianders@chromium.org>, <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>, <sean@poorly.run>,
+ <vkoul@kernel.org>
 References: <1656090912-18074-1-git-send-email-quic_khsieh@quicinc.com>
  <1656090912-18074-3-git-send-email-quic_khsieh@quicinc.com>
  <CAE-0n52RW+UFJ=hqMWjwR8qvEbww7QjzPW1nhL3Atd97QXAnYw@mail.gmail.com>
  <007ea4c9-9701-f4ab-3278-5d36bf2018c4@quicinc.com>
-In-Reply-To: <007ea4c9-9701-f4ab-3278-5d36bf2018c4@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 25 Jun 2022 02:25:04 +0300
-Message-ID: <CAA8EJprd_kkqU4GZ_p2cZbALCBDE-uFHsnPHXRnra0jZsY_bnA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] drm/msm/dp: decoupling dp->id out of dp
- controller_id at scxxxx_dp_cfg table
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CAE-0n53kNCK0ajHfY2WQr5HEQZtZSBLnhfbTuZwaUNEOZhsKPg@mail.gmail.com>
+ <fa7f8bf1-33cd-5515-0143-6596df2bd740@quicinc.com>
+ <CAE-0n51g-EVsC-i9=sJV-ySa8VnE+yT7cg=b-TNMi9+3uBiOVA@mail.gmail.com>
+ <326912ff-9771-0711-366d-79acd436908b@quicinc.com>
+ <CAE-0n51qrdrFtSr0vRwgYkMgSZfnzQuinaUROQsp30QoDchWQA@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n51qrdrFtSr0vRwgYkMgSZfnzQuinaUROQsp30QoDchWQA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,78 +77,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com,
- airlied@linux.ie, freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, quic_aravindh@quicinc.com,
- Stephen Boyd <swboyd@chromium.org>, sean@poorly.run,
- linux-kernel@vger.kernel.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 25 Jun 2022 at 00:17, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->
->
-> On 6/24/2022 1:00 PM, Stephen Boyd wrote:
-> > Quoting Kuogee Hsieh (2022-06-24 10:15:11)
-> >> Current the index (dp->id) of DP descriptor table (scxxxx_dp_cfg[]) are tightly
-> >> coupled with DP controller_id. This means DP use controller id 0 must be placed
-> >> at first entry of DP descriptor table (scxxxx_dp_cfg[]). Otherwise the internal
-> >> INTF will mismatch controller_id. This will cause controller kickoff wrong
-> >> interface timing engine and cause dpu_encoder_phys_vid_wait_for_commit_done
-> >> vblank timeout error.
-> >>
-> >> This patch add controller_id field into struct msm_dp_desc to break the tightly
-> >> coupled relationship between index (dp->id) of DP descriptor table with DP
-> >> controller_id.
-> > Please no. This reverts the intention of commit bb3de286d992
-> > ("drm/msm/dp: Support up to 3 DP controllers")
-> >
-> >      A new enum is introduced to document the connection between the
-> >      instances referenced in the dpu_intf_cfg array and the controllers in
-> >      the DP driver and sc7180 is updated.
-> >
-> > It sounds like the intent of that commit failed to make a strong enough
-> > connection. Now it needs to match the INTF number as well? I can't
-> > really figure out what is actually wrong, because this patch undoes that
-> > intentional tight coupling. Is the next patch the important part that
-> > flips the order of the two interfaces?
->
-> The commit bb3de286d992have two problems,
->
-> 1)  The below sc7280_dp_cfg will not work, if eDP use
-> MSM_DP_CONTROLLER_2 instead of  MSM_DP_CONTROLLER_1
->
-> since it have num_descs =2 but eDP is at index 2 (CONTROLLER_2) which
-> never be reached.
->
-> static const struct msm_dp_config sc7280_dp_cfg = {
->          .descs = (const struct msm_dp_desc[]) {
->                  [MSM_DP_CONTROLLER_2] = { .io_start = 0x0aea0000,
-> .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
->                  [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000,
-> .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_en = true },
->          },
->          .num_descs = 2,
 
-Please change num_descs to 3. Or better eliminate it completely and
-iterate up to MSM_DP_CONTROLLER_MAX, checking whether the entry
-contains real values or is just a zero sentinel entry.
+On 6/24/2022 4:12 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-06-24 15:53:45)
+>> MSM_DP_CONTROLLER_1 need to match to the index = 1 of sc7280_dp_cfg[] <== This is correct
+>>
+>> The problem is sc7280_dp_cfg[] have two entries since eDP place at index
+>> of MSM_DP_CONTROLLER_1.
+>>
+>> but .num_desc = 1  <== this said only have one entry at sc7280_dp_cfg[]
+>> table. Therefore eDP will never be found at for loop  at
+>> _dpu_kms_initialize_displayport().
+>>
+> Yes, but what else does the MSM_DP_CONTROLLER_1 need to match? Because
+> the intention of the previous commit was to make it so the order of
+> sc7280_dp_cfg couldn't be messed up and not match the
+> MSM_DP_CONTROLLER_1 value that lives in sc7280_intf[].
 
-> };
+
+at  _dpu_kms_initialize_displayport()
+
+> -		info.h_tile_instance[0] = i; <== assign i to become dp controller id, "i" is index of scxxxx_dp_cfg[]
+
+This what I mean MSM_DP_CONTROLLER_1 need to match to index = 1 of 
+scxxxx_dp_cfg[].
+
+it it is not match, then MSM_DP_CONTROLLER_1 with match to different INTF.
+
+
 >
-> 2)  DP always has index of 0 (dp->id = 0) and the first one to call
-> msm_dp_modeset_init(). This make DP always place at head of bridge chain.
->
-> At next patch eDP must be placed at head of bridge chain to fix eDP
-> corruption issue. This is the purpose of this patch. I will revise the
-> commit text.
-
-This text doesn't make sense to me. The dp->id has nothing to do with
-the bridge chains. Each dp entry is a head of the corresponding bridge
-chain. DP with dp->id = 0 and eDP with dp->id = whatever will be parts
-of different encoder -> bridges -> connector chains.
-
--- 
-With best wishes
-Dmitry
+>> Sorry, my mistake. it is not in drm_bridge_add.
+>>
+>> It should be in dpu_encoder_init() of _dpu_kms_initialize_displayport().
+>>
+>> can you make below changes (patch) to _dpu_kms_initialize_displayport().
+>>
+> Yes, I've made that change to try to understand the problem. I still
+> don't understand, sadly. Does flipping the order of iteration through
+> 'priv->dp' somehow mean that the crtc that is assigned to the eDP
+> connector is left unchanged? Whereas without registering the eDP encoder
+> first means we have to change the crtc for the eDP encoder and that
+> can't be done atomically?
