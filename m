@@ -2,53 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFB9559363
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:27:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B5D5593C3
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:54:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E93711276A;
-	Fri, 24 Jun 2022 06:27:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45A8110FBCD;
+	Fri, 24 Jun 2022 06:54:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A30611276A
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 06:27:33 +0000 (UTC)
-X-UUID: 8824da07aa8942d999eb73bdc559154c-20220624
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:d30ee0bf-137a-4859-ba81-1e6c9efb47b6, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:90
-X-CID-INFO: VERSION:1.1.6, REQID:d30ee0bf-137a-4859-ba81-1e6c9efb47b6, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,AC
- TION:quarantine,TS:90
-X-CID-META: VersionHash:b14ad71, CLOUDID:e7b066ea-f7af-4e69-92ee-0fd74a0c286c,
- C
- OID:f8bbf43e7f14,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 8824da07aa8942d999eb73bdc559154c-20220624
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 889303238; Fri, 24 Jun 2022 14:27:28 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Fri, 24 Jun 2022 14:27:26 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Fri, 24 Jun 2022 14:27:26 +0800
-From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>,
- <chunfeng.yun@mediatek.com>, <kishon@ti.com>, <vkoul@kernel.org>,
- <matthias.bgg@gmail.com>, <airlied@linux.ie>
-Subject: [PATCH v12 1/1] phy: phy-mtk-dp: Add driver for DP phy
-Date: Fri, 24 Jun 2022 14:27:25 +0800
-Message-ID: <20220624062725.4095-1-rex-bc.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2084.outbound.protection.outlook.com [40.107.94.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F68C10FBCD
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 06:54:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LWjsPq60ME0rI9Ky/3qp6s1Hq3SFgfCBgmdnJGqG6FNWkK5mdPXI+2qzcOm1e3UMlnHM5NYCh54LWvFxTE2RZWwocBMbtPrmGGgudnVyAzIdgrTDgjkTC0/kFNgLpWBBQRMhDqN/MReUepKszskKibo8PhgYBHiVl1HVMYt+cu+hW6CUCv3JQeXkxg/JDl67TCbnnJvP416I+sxze9gYkaIewVQohz3H9qkesX4hI4JYrjTMtNcEWTKcQt/nUfNdCrqEohwtHeAuTckelY03nexqCEtvTLwR4rP3M5Byx9OYiwn8SFLG6RfBs3eLJ6Rcq3OU+UGPX0FhqeKRj4g31w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AiEc9QWWV+Zo8Ktg3d2841fkJMztwMW+MqxM5/4vjEs=;
+ b=YoSdgsCyJK0099RIshLWpm20aYQUiPGCiDgbstSaafAT7oID+CPMPaBFS2cP+HZwp93c4+FFmU55p4O4SVGTcM7kB6Wf74qP7AlLuIdDAqW6aRkk32a2hr2jl+MN9CCzXprsjLZ0KrGrbYBjNEd5imIyFKiVSjQY6v6Cpe5xydw7erQn/Ly7nhZA4Mi3NXKKyrbUpK5IMg1eqar12I6bWY3dO8bOtR1t6cSdo72E9Zpr9mWF3ZaliIworU6q/f2IjBlG85P8AiG+Jlhy5WtyiQEs2e9rzy5bpPDd9l1ekOu/Wextv9j3tmagCoBnqIltrONPqZJHimQnhE+8W3Dzeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AiEc9QWWV+Zo8Ktg3d2841fkJMztwMW+MqxM5/4vjEs=;
+ b=XscHDrX/stVh4Tz0bGqYcP9FWWC/sAmRGiMUscLq8et4rAt/FBQBR4FpItwEIGwXowk6FymCN2rNxm9fNee0U+lYvV1TW4GKQvIup69R4rJCkYJbR7FZBl1Akd0U4I+yCBTJ1RMhCoueKRcVMJSLpMN++1qFWyW/Je+pqK/ETIc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CH0PR12MB5235.namprd12.prod.outlook.com (2603:10b6:610:d2::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.15; Fri, 24 Jun
+ 2022 06:54:24 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e0fd:45cf:c701:2731]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e0fd:45cf:c701:2731%6]) with mapi id 15.20.5373.015; Fri, 24 Jun 2022
+ 06:54:24 +0000
+Message-ID: <a3d783b4-4d38-c5c1-12d1-80496c1138c0@amd.com>
+Date: Fri, 24 Jun 2022 08:54:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: DMA-buf and uncached system memory
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>, Pekka Paalanen <ppaalanen@gmail.com>
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+ <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
+ <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
+ <20220623101326.18beeab3@eldfell>
+ <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
+ <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
+ <adc626ec-ff5a-5c06-44ce-09111be450cd@amd.com>
+ <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
+ <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
+ <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
+ <05814ddb-4f3e-99d8-025a-c31db7b2c46b@amd.com>
+ <708e27755317a7650ca08ba2e4c14691ac0d6ba2.camel@pengutronix.de>
+ <6287f5f8-d9af-e03d-a2c8-ea8ddcbdc0d8@amd.com>
+ <f3c32cdd2ab4e76546c549b0cebba8e1d19d1cb0.camel@pengutronix.de>
+ <34a1efd9-5447-848b-c08c-de75b48e997e@amd.com>
+ <3c088a9a511762f7868b10dbe431942d3724917a.camel@pengutronix.de>
+ <4ea37684-5dda-94e4-a544-74d3812e8d9d@amd.com>
+ <0edd288595cb53768822c3d9dc18b8506e07a244.camel@pengutronix.de>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <0edd288595cb53768822c3d9dc18b8506e07a244.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM6P195CA0054.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:209:87::31) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b503f5c4-2572-4f63-632a-08da55ae5f82
+X-MS-TrafficTypeDiagnostic: CH0PR12MB5235:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xhiLnC8rsVo0E93oRRJI3lWkBQklqZ7Vyw0aOP4vbu+jO1fh721RkKps2DinoFIyfidcOCdQNL0nYS4j1cY45ySuzR9KXc1+XyVg0u3Ja9rV4cTBCybDgnZ8MRI0RIJfMcr1Esl3g658wjEuUiMO+OR7S3rHbbvENdyGyoOhu4jQpx4dG3DFZVC9uotZ2RMo59JR2K4zrkV9Rb99jIcWl848oMNVLRzJuFankGlLvTct1vubnkicaoh8bJHP2ex3XZVCmRPjsHytG0kWStqzK//3urg5H1q2w+S+SBKbDrkXVMFOiOjuIk7DRCxJ139HfbbctcJW85IcA8o2QQW4CcqSxoIvr7YjUh64Aot18KcV7N6mBhLlmT33QBnQn63SHlfVKXpOMayIslo6X/FZoOe7xilPV4itzTzNDaQ16g44vFz23F9JP1JpzS5aABlvZVcIydlmhkNB7BioXboiPQ7QcrdEo1MyCk6JzLxupbjwNIROa7MtDQTs0iGAlRen6uMeyRJVdNGRm1qH+ExRlNrXENjRZzRmevawzBZlqFTqeIJto84VVryemJ0+RRD9nyK7P4pGMxW23xvGZRKfwxiqbL6skijasAGrcu5VBZb6xF6S4d/NvvMQyqYAvbqLy0lLv2OhLnzzUxswQy2hb6eX8z4cN8qodB3BowElmJAC6tfg/Rr+/RimsB/trrkkuKCgs/UiEZuqPkSL4sXY1lSe8GFeTQNTQSHkum/sky0MbrzSyVsfBHkTeeh5tmQbrcMhhvoUGkHAP8f32iXO1LHnOiEGv3ZkA1aFLIVtqwumeE/23uM88TG/JIJqjrdS/WeJqVVSC/EyXM1TgLkhCA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(396003)(136003)(39860400002)(376002)(366004)(346002)(2906002)(38100700002)(6666004)(41300700001)(6512007)(86362001)(31696002)(26005)(2616005)(6486002)(8936002)(478600001)(6506007)(5660300002)(83380400001)(66574015)(186003)(66476007)(66556008)(4326008)(31686004)(36756003)(8676002)(316002)(66946007)(110136005)(54906003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VHJzOHVmUlRWT0Ivb0ZDVkZsU3BDYUhYeS84OUY5K0UzZzVNdHNYRlBRM2Fa?=
+ =?utf-8?B?Y1R0TUJzZWtSb1VWd3R2SUs1ZXMwSnY2aGRFQkcrdnEyWEpGQ283QTM1VW1D?=
+ =?utf-8?B?SHZuY2R3WFNJTTUxL244WU9HRUtxUjZDR0dIaVNiYmZDNitvTlo2RXROTytx?=
+ =?utf-8?B?RklSTzIydzBTNGU3dlNjcDk4akh1cU1FbnJzTWtHYmN4M0h5aTZTNTlpUHZo?=
+ =?utf-8?B?SHVuOWhYQkVyc28yZ3BvNTNtT2dubjJaeTVhbEJiWGVpZVRVTVBPMGwzRllv?=
+ =?utf-8?B?UHBLR1NBMVZUWGhrYnpJb0NsSXJnYytjTmtPZEF2VXlQMEI0aHE3WGFuTVQr?=
+ =?utf-8?B?V2tpV1dxUFJlYkVDYWVtbFFqY2RiRTQ4UVlYSXA4UjNwNnVHSFFNcVpLOW5t?=
+ =?utf-8?B?bmRQZFJKMC9IanVIcXNvdWlrMTB0enVPTEk0Q2c0cTh6Q0o5ZXVuaUNkdmxN?=
+ =?utf-8?B?d3F1UlpvMGJqQXhlOWN0S21NV0w3V3FwS3JsWXh1TEErc2twNXZWbDBUWlJK?=
+ =?utf-8?B?YnpvSlYwRFo0cU1pVXZERkk4Q3RlZ244ZnRrWUFOZ3d4MmRWMVdCVXduWGJO?=
+ =?utf-8?B?WmFLWkVKaEtXYnk0UnRKMUE2bDN3SDdJN1VWbmNjck9WMEVaL2I1OVBXTGZR?=
+ =?utf-8?B?M2xEcjZVYkxZNisrUWpmSmZ5WW1LakRaempwdktValhJRDhFbCtwZnBUajYr?=
+ =?utf-8?B?c2o3VkxsUHgrZmlqV1N1eDcwM0NyNHpBcXpKK21HQ1pKRWI3RTdDcUtKa090?=
+ =?utf-8?B?SzdnT2tsamE5Z2I4WkYzUWdoRUpVYVp5RGZzeGFQVEN0ZDJEL0RqTWdxTHp2?=
+ =?utf-8?B?Smdwb1dwKzlaT1ZNNUh2QmFNM2NMVThURHVIZENsNE5lMHlabjBPRkpLNnpM?=
+ =?utf-8?B?ZG5hOEZCN0ZqSGJYeVlsUlJJSHIwMHVseEplemtraXJvUFg2REhxV2RGVkpv?=
+ =?utf-8?B?Tnh1NVFRV3d1VzZmblRva3ArUHE0ZTgxNHAwV2RkQWNUVWVFUExSKzJFbmRT?=
+ =?utf-8?B?UHA1RmhMTWYveHdldmoxVnBIb3ZicHpCZ1ZMbTU2aE1oVUVLTEIxMFlhRGVo?=
+ =?utf-8?B?ZjVMdlFhUjhFUHB2Umg1dDcxcGZMYUtMQ01rcWJQSkZuUy9GcWlhN3pkWGNl?=
+ =?utf-8?B?VkxXOGVuR1lnVXFoKzhzQk9FSFM2SGRwUDFOZmFvM0VhNElTdEhlTFhjRExn?=
+ =?utf-8?B?eWFER0xFYWh6UU52RC9mTVlPWkY0SWswRVJaUTFSZVNYMUQ4SmtOeWJSTm9H?=
+ =?utf-8?B?Q1NPcjFKeFpOS2s1eWVZYXZ4dzFPRytUUVVpTml5elZ5NUxzUzBTbjNPM05E?=
+ =?utf-8?B?RTdZRVVTRGRPVElabHhGTUlNQVpIb045d0tSZm0ySUdXTTRmc2IvUi9wNGZE?=
+ =?utf-8?B?eURHeXdNLzRINnJacTJQOTFleXFmOGwzSDRXdVc2Sjg4RGQ1V09NZkR1cDNT?=
+ =?utf-8?B?VURWY2hXR0cyRW5MNlNUUzVyM1lLWWNUSkh0a0VJR3Zxc3o2V0xtcHg3aXJX?=
+ =?utf-8?B?d1AwUENkTVJDSGl1a2lxUVlTL1RINXhEdTFZSndwTFo1QW1Ednh2UStrbG9m?=
+ =?utf-8?B?RVhmMTVNN2lZWGYyb1ByU3lxWk1mUXozV1J0TldPYkg5SVpPcHhTSWVNMVQ4?=
+ =?utf-8?B?blhIU2RIVTdOSHE2UHlZdzdRTHo3d0hJMGQ5S1MyejRYZmxNYzJubzU5NmRS?=
+ =?utf-8?B?RmRmVzlEN1NGcVdmdk51TzFrOGtNV0llazVKL0lFdm8ydE92ZTBZNnBITXkv?=
+ =?utf-8?B?QzJKcktPbXpLK2NjVFNpMmFKSlNVSmtEZ2JnMUhWVm94WlFvQlhvdlNhWUgx?=
+ =?utf-8?B?Z05nUnN6RThOZzBuYTNybElTTWtaLzNpUmxhUmtQaGk0SjhPak5BYTd1c1M3?=
+ =?utf-8?B?Sm12SjFtbDZPTUFtWlVLMk1YdE5xL2VIeFBWd1pVS0FQVUEvVXh6aldWb3lj?=
+ =?utf-8?B?VTFuRzhBaDQ3Q3FwenM4VkRqbjAvQVg1RnVEQTV6YkEyalNCR2k3VDc3S1Y2?=
+ =?utf-8?B?ei8waUNnSTFIREhXN1pQVnNUN0FJbDV2SUIwY1lyS1dJd3FON3EvZytLZjBP?=
+ =?utf-8?B?VmFFN0NFcEJ1UlJjSjNMUnl4dkkrYmNZQ1psUWoyL2h1cXlwcS80RDQwYmg4?=
+ =?utf-8?Q?kIE4uvY0Ft/uBED5Pt8o+FWqp?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b503f5c4-2572-4f63-632a-08da55ae5f82
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2022 06:54:24.3428 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pGhxm7reYlqte/1x4rnbwN2ioeTFi4T1dVJzASD2o+m/ElU7hMXWEK2gVZDxtneQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5235
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,305 +141,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: granquet@baylibre.com, jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, msp@baylibre.com,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-phy@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, linaro-mm-sig@lists.linaro.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Markus Schneider-Pargmann <msp@baylibre.com>
+Am 23.06.22 um 17:26 schrieb Lucas Stach:
+> Am Donnerstag, dem 23.06.2022 um 14:52 +0200 schrieb Christian König:
+>> Am 23.06.22 um 14:14 schrieb Lucas Stach:
+>>> Am Donnerstag, dem 23.06.2022 um 13:54 +0200 schrieb Christian König:
+>>>> Am 23.06.22 um 13:29 schrieb Lucas Stach:
+>>>> [SNIP]
+>>>> I mean I even had somebody from ARM which told me that this is not going
+>>>> to work with our GPUs on a specific SoC. That there are ARM internal use
+>>>> cases which just seem to work because all the devices are non-coherent
+>>>> is completely new to me.
+>>>>
+>>> Yes, trying to hook up a peripheral that assumes cache snooping in some
+>>> design details to a non coherent SoC may end up exploding in various
+>>> ways. On the other hand you can work around most of those assumptions
+>>> by marking the memory as uncached to the CPU, which may tank
+>>> performance, but will work from a correctness PoV.
+>> Yeah, and exactly that's what I meant with "DMA-buf is not the framework
+>> for this".
+>>
+>> See we do support using uncached/not snooped memory in DMA-buf, but only
+>> for the exporter side.
+>>
+>> For example the AMD and Intel GPUs have a per buffer flag for this.
+>>
+>> The importer on the other hand needs to be able to handle whatever the
+>> exporter provides.
+>>
+> I fail to construct a case where you want the Vulkan/GL "no domain
+> transition" coherent semantic without the allocator knowing about this.
+> If you need this and the system is non-snooping, surely the allocator
+> will choose uncached memory.
 
-This is a new driver that supports the integrated DisplayPort phy for
-mediatek SoCs, especially the mt8195. The phy is integrated into the
-DisplayPort controller and will be created by the mtk-dp driver. This
-driver expects a struct regmap to be able to work on the same registers
-as the DisplayPort controller. It sets the device data to be the struct
-phy so that the DisplayPort controller can easily work with it.
+No it won't. The allocator in the exporter is independent of the importer.
 
-The driver does not have any devicetree bindings because the datasheet
-does not list the controller and the phy as distinct units.
+That is an important and intentional design decision, cause otherwise 
+you wouldn't have exporters/importers in the first place and rather a 
+centralized allocation pool like what dma-heap implements.
 
-The interaction with the controller can be covered by the configure
-callback of the phy framework and its displayport parameters.
+See the purpose of DMA-buf is to expose the buffers in the way the 
+exporter wants to expose them. So when the exporting driver wants to 
+allocate normal cached system memory then that is perfectly fine and 
+completely fits into this design.
 
-Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-[Bo-Chen: Modify reviewers' comments.]
-Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-----
-This series display port phy drivers and separated from [1] which is
-original from Guillaume.
-The display port driver is [2].
+Otherwise we would need to adjust all exporters to the importers, which 
+is potentially not even possible.
 
-Changes for v12:
-1. Add copyright strings in phy-mtk-dp.c.
+> I agree that you absolutely need to fail the usage when someone imports
+> a CPU cached buffer and then tries to use it as GL coherent on a non-
+> snooping system. That simply will not work.
 
-Changes for v11:
-1. Fix register definition.
+Exactly that, yes. That's what the attach callback is good for.
 
-[1]:https://lore.kernel.org/all/20220523104758.29531-1-granquet@baylibre.com/
-[2]:https://lore.kernel.org/all/20220610105522.13449-1-rex-bc.chen@mediatek.com/
-----
----
- MAINTAINERS                       |   1 +
- drivers/phy/mediatek/Kconfig      |   8 ++
- drivers/phy/mediatek/Makefile     |   1 +
- drivers/phy/mediatek/phy-mtk-dp.c | 202 ++++++++++++++++++++++++++++++
- 4 files changed, 212 insertions(+)
- create mode 100644 drivers/phy/mediatek/phy-mtk-dp.c
+See we already have tons of cases where buffers can't be shared because 
+they wasn't initially allocated in a way the importer can deal with 
+them. But that's perfectly ok and intentional.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6cc825857722..5965b8cfa199 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6719,6 +6719,7 @@ L:	linux-mediatek@lists.infradead.org (moderated for non-subscribers)
- S:	Supported
- F:	Documentation/devicetree/bindings/display/mediatek/
- F:	drivers/gpu/drm/mediatek/
-+F:	drivers/phy/mediatek/phy-mtk-dp.c
- F:	drivers/phy/mediatek/phy-mtk-hdmi*
- F:	drivers/phy/mediatek/phy-mtk-mipi*
- 
-diff --git a/drivers/phy/mediatek/Kconfig b/drivers/phy/mediatek/Kconfig
-index 55f8e6c048ab..d631525d12e1 100644
---- a/drivers/phy/mediatek/Kconfig
-+++ b/drivers/phy/mediatek/Kconfig
-@@ -55,3 +55,11 @@ config PHY_MTK_MIPI_DSI
- 	select GENERIC_PHY
- 	help
- 	  Support MIPI DSI for Mediatek SoCs.
-+
-+config PHY_MTK_DP
-+	tristate "MediaTek DP-PHY Driver"
-+	depends on ARCH_MEDIATEK || COMPILE_TEST
-+	depends on OF
-+	select GENERIC_PHY
-+	help
-+	  Support DisplayPort PHY for MediaTek SoCs.
-diff --git a/drivers/phy/mediatek/Makefile b/drivers/phy/mediatek/Makefile
-index ace660fbed3a..4ba1e0650434 100644
---- a/drivers/phy/mediatek/Makefile
-+++ b/drivers/phy/mediatek/Makefile
-@@ -3,6 +3,7 @@
- # Makefile for the phy drivers.
- #
- 
-+obj-$(CONFIG_PHY_MTK_DP)		+= phy-mtk-dp.o
- obj-$(CONFIG_PHY_MTK_TPHY)		+= phy-mtk-tphy.o
- obj-$(CONFIG_PHY_MTK_UFS)		+= phy-mtk-ufs.o
- obj-$(CONFIG_PHY_MTK_XSPHY)		+= phy-mtk-xsphy.o
-diff --git a/drivers/phy/mediatek/phy-mtk-dp.c b/drivers/phy/mediatek/phy-mtk-dp.c
-new file mode 100644
-index 000000000000..715bd2336c17
---- /dev/null
-+++ b/drivers/phy/mediatek/phy-mtk-dp.c
-@@ -0,0 +1,202 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * MediaTek DisplayPort PHY driver
-+ *
-+ * Copyright (c) 2022, BayLibre Inc.
-+ * Copyright (c) 2022, MediaTek Inc.
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/io.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/of.h>
-+#include <linux/phy/phy.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+#define PHY_OFFSET			0x1000
-+
-+#define MTK_DP_PHY_DIG_PLL_CTL_1	(PHY_OFFSET + 0x14)
-+#define TPLL_SSC_EN			BIT(3)
-+
-+#define MTK_DP_PHY_DIG_BIT_RATE		(PHY_OFFSET + 0x3C)
-+#define BIT_RATE_RBR			0
-+#define BIT_RATE_HBR			1
-+#define BIT_RATE_HBR2			2
-+#define BIT_RATE_HBR3			3
-+
-+#define MTK_DP_PHY_DIG_SW_RST		(PHY_OFFSET + 0x38)
-+#define DP_GLB_SW_RST_PHYD		BIT(0)
-+
-+#define MTK_DP_LANE0_DRIVING_PARAM_3		(PHY_OFFSET + 0x138)
-+#define MTK_DP_LANE1_DRIVING_PARAM_3		(PHY_OFFSET + 0x238)
-+#define MTK_DP_LANE2_DRIVING_PARAM_3		(PHY_OFFSET + 0x338)
-+#define MTK_DP_LANE3_DRIVING_PARAM_3		(PHY_OFFSET + 0x438)
-+#define XTP_LN_TX_LCTXC0_SW0_PRE0_DEFAULT	BIT(4)
-+#define XTP_LN_TX_LCTXC0_SW0_PRE1_DEFAULT	(BIT(10) | BIT(12))
-+#define XTP_LN_TX_LCTXC0_SW0_PRE2_DEFAULT	GENMASK(20, 19)
-+#define XTP_LN_TX_LCTXC0_SW0_PRE3_DEFAULT	GENMASK(29, 29)
-+#define DRIVING_PARAM_3_DEFAULT	(XTP_LN_TX_LCTXC0_SW0_PRE0_DEFAULT | \
-+				 XTP_LN_TX_LCTXC0_SW0_PRE1_DEFAULT | \
-+				 XTP_LN_TX_LCTXC0_SW0_PRE2_DEFAULT | \
-+				 XTP_LN_TX_LCTXC0_SW0_PRE3_DEFAULT)
-+
-+#define XTP_LN_TX_LCTXC0_SW1_PRE0_DEFAULT	GENMASK(4, 3)
-+#define XTP_LN_TX_LCTXC0_SW1_PRE1_DEFAULT	GENMASK(12, 9)
-+#define XTP_LN_TX_LCTXC0_SW1_PRE2_DEFAULT	(BIT(18) | BIT(21))
-+#define XTP_LN_TX_LCTXC0_SW2_PRE0_DEFAULT	GENMASK(29, 29)
-+#define DRIVING_PARAM_4_DEFAULT	(XTP_LN_TX_LCTXC0_SW1_PRE0_DEFAULT | \
-+				 XTP_LN_TX_LCTXC0_SW1_PRE1_DEFAULT | \
-+				 XTP_LN_TX_LCTXC0_SW1_PRE2_DEFAULT | \
-+				 XTP_LN_TX_LCTXC0_SW2_PRE0_DEFAULT)
-+
-+#define XTP_LN_TX_LCTXC0_SW2_PRE1_DEFAULT	(BIT(3) | BIT(5))
-+#define XTP_LN_TX_LCTXC0_SW3_PRE0_DEFAULT	GENMASK(13, 12)
-+#define DRIVING_PARAM_5_DEFAULT	(XTP_LN_TX_LCTXC0_SW2_PRE1_DEFAULT | \
-+				 XTP_LN_TX_LCTXC0_SW3_PRE0_DEFAULT)
-+
-+#define XTP_LN_TX_LCTXCP1_SW0_PRE0_DEFAULT	0
-+#define XTP_LN_TX_LCTXCP1_SW0_PRE1_DEFAULT	GENMASK(10, 10)
-+#define XTP_LN_TX_LCTXCP1_SW0_PRE2_DEFAULT	GENMASK(19, 19)
-+#define XTP_LN_TX_LCTXCP1_SW0_PRE3_DEFAULT	GENMASK(28, 28)
-+#define DRIVING_PARAM_6_DEFAULT	(XTP_LN_TX_LCTXCP1_SW0_PRE0_DEFAULT | \
-+				 XTP_LN_TX_LCTXCP1_SW0_PRE1_DEFAULT | \
-+				 XTP_LN_TX_LCTXCP1_SW0_PRE2_DEFAULT | \
-+				 XTP_LN_TX_LCTXCP1_SW0_PRE3_DEFAULT)
-+
-+#define XTP_LN_TX_LCTXCP1_SW1_PRE0_DEFAULT	0
-+#define XTP_LN_TX_LCTXCP1_SW1_PRE1_DEFAULT	GENMASK(10, 9)
-+#define XTP_LN_TX_LCTXCP1_SW1_PRE2_DEFAULT	GENMASK(19, 18)
-+#define XTP_LN_TX_LCTXCP1_SW2_PRE0_DEFAULT	0
-+#define DRIVING_PARAM_7_DEFAULT	(XTP_LN_TX_LCTXCP1_SW1_PRE0_DEFAULT | \
-+				 XTP_LN_TX_LCTXCP1_SW1_PRE1_DEFAULT | \
-+				 XTP_LN_TX_LCTXCP1_SW1_PRE2_DEFAULT | \
-+				 XTP_LN_TX_LCTXCP1_SW2_PRE0_DEFAULT)
-+
-+#define XTP_LN_TX_LCTXCP1_SW2_PRE1_DEFAULT	GENMASK(3, 3)
-+#define XTP_LN_TX_LCTXCP1_SW3_PRE0_DEFAULT	0
-+#define DRIVING_PARAM_8_DEFAULT	(XTP_LN_TX_LCTXCP1_SW2_PRE1_DEFAULT | \
-+				 XTP_LN_TX_LCTXCP1_SW3_PRE0_DEFAULT)
-+
-+struct mtk_dp_phy {
-+	struct regmap *regs;
-+};
-+
-+static int mtk_dp_phy_init(struct phy *phy)
-+{
-+	struct mtk_dp_phy *dp_phy = phy_get_drvdata(phy);
-+	u32 driving_params[] = {
-+		DRIVING_PARAM_3_DEFAULT,
-+		DRIVING_PARAM_4_DEFAULT,
-+		DRIVING_PARAM_5_DEFAULT,
-+		DRIVING_PARAM_6_DEFAULT,
-+		DRIVING_PARAM_7_DEFAULT,
-+		DRIVING_PARAM_8_DEFAULT
-+	};
-+
-+	regmap_bulk_write(dp_phy->regs, MTK_DP_LANE0_DRIVING_PARAM_3,
-+			  driving_params, ARRAY_SIZE(driving_params));
-+	regmap_bulk_write(dp_phy->regs, MTK_DP_LANE1_DRIVING_PARAM_3,
-+			  driving_params, ARRAY_SIZE(driving_params));
-+	regmap_bulk_write(dp_phy->regs, MTK_DP_LANE2_DRIVING_PARAM_3,
-+			  driving_params, ARRAY_SIZE(driving_params));
-+	regmap_bulk_write(dp_phy->regs, MTK_DP_LANE3_DRIVING_PARAM_3,
-+			  driving_params, ARRAY_SIZE(driving_params));
-+
-+	return 0;
-+}
-+
-+static int mtk_dp_phy_configure(struct phy *phy, union phy_configure_opts *opts)
-+{
-+	struct mtk_dp_phy *dp_phy = phy_get_drvdata(phy);
-+	u32 val;
-+
-+	if (opts->dp.set_rate) {
-+		switch (opts->dp.link_rate) {
-+		default:
-+			dev_err(&phy->dev,
-+				"Implementation error, unknown linkrate %x\n",
-+				opts->dp.link_rate);
-+			return -EINVAL;
-+		case 1620:
-+			val = BIT_RATE_RBR;
-+			break;
-+		case 2700:
-+			val = BIT_RATE_HBR;
-+			break;
-+		case 5400:
-+			val = BIT_RATE_HBR2;
-+			break;
-+		case 8100:
-+			val = BIT_RATE_HBR3;
-+			break;
-+		}
-+		regmap_write(dp_phy->regs, MTK_DP_PHY_DIG_BIT_RATE, val);
-+	}
-+
-+	regmap_update_bits(dp_phy->regs, MTK_DP_PHY_DIG_PLL_CTL_1,
-+			   TPLL_SSC_EN, opts->dp.ssc ? TPLL_SSC_EN : 0);
-+
-+	return 0;
-+}
-+
-+static int mtk_dp_phy_reset(struct phy *phy)
-+{
-+	struct mtk_dp_phy *dp_phy = phy_get_drvdata(phy);
-+
-+	regmap_update_bits(dp_phy->regs, MTK_DP_PHY_DIG_SW_RST,
-+			   DP_GLB_SW_RST_PHYD, 0);
-+	usleep_range(50, 200);
-+	regmap_update_bits(dp_phy->regs, MTK_DP_PHY_DIG_SW_RST,
-+			   DP_GLB_SW_RST_PHYD, 1);
-+
-+	return 0;
-+}
-+
-+static const struct phy_ops mtk_dp_phy_dev_ops = {
-+	.init = mtk_dp_phy_init,
-+	.configure = mtk_dp_phy_configure,
-+	.reset = mtk_dp_phy_reset,
-+	.owner = THIS_MODULE,
-+};
-+
-+static int mtk_dp_phy_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct mtk_dp_phy *dp_phy;
-+	struct phy *phy;
-+	struct regmap *regs;
-+
-+	regs = *(struct regmap **)dev->platform_data;
-+	if (!regs)
-+		return dev_err_probe(dev, EINVAL,
-+				     "No data passed, requires struct regmap**\n");
-+
-+	dp_phy = devm_kzalloc(dev, sizeof(*dp_phy), GFP_KERNEL);
-+	if (!dp_phy)
-+		return -ENOMEM;
-+
-+	dp_phy->regs = regs;
-+	phy = devm_phy_create(dev, NULL, &mtk_dp_phy_dev_ops);
-+	if (IS_ERR(phy))
-+		return dev_err_probe(dev, PTR_ERR(phy),
-+				     "Failed to create DP PHY\n");
-+
-+	phy_set_drvdata(phy, dp_phy);
-+	if (!dev->of_node)
-+		phy_create_lookup(phy, "dp", dev_name(dev));
-+
-+	return 0;
-+}
-+
-+struct platform_driver mtk_dp_phy_driver = {
-+	.probe = mtk_dp_phy_probe,
-+	.driver = {
-+		.name = "mediatek-dp-phy",
-+	},
-+};
-+module_platform_driver(mtk_dp_phy_driver);
-+
-+MODULE_AUTHOR("Markus Schneider-Pargmann <msp@baylibre.com>");
-+MODULE_DESCRIPTION("MediaTek DP PHY Driver");
-+MODULE_LICENSE("GPL");
--- 
-2.18.0
+For example just take a configuration where a dedicated GPU clones the 
+display with an integrated GPU. The dedicated GPU needs the image in 
+local memory for scanout which is usually not accessible to the 
+integrated GPU.
+
+So either attaching the DMA-buf or creating the KMS framebuffer config 
+will fail and we are running into the fallback path which involves an 
+extra copy. And that is perfectly fine and intentional since this 
+configuration is not supported by the hardware.
+
+>>>> [SNIP]
+>>>>>> You can of course use DMA-buf in an incoherent environment, but then you
+>>>>>> can't expect that this works all the time.
+>>>>>>
+>>>>>> This is documented behavior and so far we have bluntly rejected any of
+>>>>>> the complains that it doesn't work on most ARM SoCs and I don't really
+>>>>>> see a way to do this differently.
+>>>>> Can you point me to that part of the documentation? A quick grep for
+>>>>> "coherent" didn't immediately turn something up within the DMA-buf
+>>>>> dirs.
+>>>> Search for "cache coherency management". It's quite a while ago, but I
+>>>> do remember helping to review that stuff.
+>>>>
+>>> That only turns up the lines in DMA_BUF_IOCTL_SYNC doc, which are
+>>> saying the exact opposite of the DMA-buf is always coherent.
+>> Sounds like I'm not making clear what I want to say here: For the
+>> exporter using cache coherent memory is optional, for the importer it isn't.
+>>
+>> For the exporter it is perfectly valid to use kmalloc, get_free_page
+>> etc... on his buffers as long as it uses the DMA API to give the
+>> importer access to it.
+>>
+> And here is where our line of thought diverges: the DMA API allows
+> snooping and non-snooping devices to work together just fine, as it has
+> explicit domain transitions, which are no-ops if both devices are
+> snooping, but will do the necessary cache maintenance when one of them
+> is non-snooping but the memory is CPU cached.
+>
+> I don't see why DMA-buf should be any different here. Yes, you can not
+> support the "no domain transition" sharing when the memory is CPU
+> cached and one of the devices in non-snooping, but you can support 99%
+> of real use-cases like the non-snooped scanout or the UVC video import.
+
+Well I didn't say we couldn't do it that way. What I'm saying that it 
+was intentionally decided against it.
+
+We could re-iterate that decision, but this would mean that all existing 
+exporters would now need to provide additional functionality.
+
+>> The importer on the other hand needs to be able to deal with that. When
+>> this is not the case then the importer somehow needs to work around that.
+>>
+> Why? The importer maps the dma-buf via dma_buf_map_attachment, which in
+> most cases triggers a map via the DMA API on the exporter side. This
+> map via the DMA API will already do the right thing in terms of cache
+> management, it's just that we explicitly disable it via
+> DMA_ATTR_SKIP_CPU_SYNC in DRM because we know that the mapping will be
+> cached, which violates the DMA API explicit domain transition anyway.
+
+Why doesn't the importer simply calls dma_sync_sg_for_device() as 
+necessary? See the importer does already know when it needs to access 
+the buffer and as far as I can see has all the necessary variable to do 
+the sync.
+
+The exporter on the other hand doesn't know that. So we would need to 
+transport this information.
+
+Another fundamental problem is that the DMA API isn't designed for 
+device to device transitions. In other words you have CPU->device and 
+device->CPU transition, but not device->device. As far as I can see the 
+DMA API should already have the necessary information if things like 
+cache flushes are necessary or not.
+
+>> Either by flushing the CPU caches or by rejecting using the imported
+>> buffer for this specific use case (like AMD and Intel drivers should be
+>> doing).
+>>
+>> If the Intel or ARM display drivers need non-cached memory and don't
+>> reject buffer where they don't know this then that's certainly a bug in
+>> those drivers.
+> It's not just display drivers, video codec accelerators and most GPUs
+> in this space are also non-snooping. In the ARM SoC world everyone just
+> assumes you are non-snooping, which is why things work for most cases
+> and only a handful like the UVC video import is broken.
+
+That is really interesting to know, but I still think that DMA-buf was 
+absolutely not designed for this use case.
+
+ From the point of view the primary reason for this was laptops with 
+both dedicated and integrated GPUs, webcams etc...
+
+That you have a huge number of ARM specific devices which can interop 
+with themselves, but not with devices outside of their domain is not 
+something foreseen here.
+
+Regards,
+Christian.
+
+>> Otherwise we would need to change all DMA-buf exporters to use a special
+>> function for allocation non-coherent memory and that is certainly not
+>> going to fly.
+>>
+>>> I also don't see why you think that both world views are so totally
+>>> different. We could just require explicit domain transitions for non-
+>>> snoop access, which would probably solve your scanout issue and would
+>>> not be a problem for most ARM systems, where we could no-op this if the
+>>> buffer is already in uncached memory and at the same time keep the "x86
+>>> assumes cached + snooped access by default" semantics.
+>> Well the key point is we intentionally rejected that design previously
+>> because it created all kind of trouble as well.
+>>
+> I would really like to know what issues popped up there. Moving the
+> dma-buf attachment to work more like a buffer used with the DMA API
+> seems like a good thing to me.
+>
+>> For this limited use case of doing a domain transition right before
+>> scanout it might make sense, but that's just one use case.
+>>
+> The only case I see that we still couldn't support with a change in
+> that direction is the GL coherent access to a imported buffer that has
+> been allocated from CPU cached memory on a system with non-snooping
+> agents. Which to me sounds like a pretty niche use-case, but I would be
+> happy to be proven wrong.
+>
+> Regards,
+> Lucas
+>
 
