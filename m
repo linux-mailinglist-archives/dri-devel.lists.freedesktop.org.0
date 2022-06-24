@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8922655A2C2
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 22:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D85A55A2B8
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 22:33:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFD2C10F4B1;
-	Fri, 24 Jun 2022 20:34:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 534AC10F3AF;
+	Fri, 24 Jun 2022 20:33:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 534AE10F4A3
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 20:33:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656102828;
- bh=V2xe2KtFpB6jOdX2vJyRfR+KJA1UbLKtVcy/P8XKi4U=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=PPd6cp2nkershK4Vb+2OJ7w6Qj4HHTyX37qCyNQZxV8RQt+lhJook9docU83Y6sN9
- oN0FvvIOhyKqv+XmdSXgVTs+GLcPtlOIpDdb7BYsoRF5pdcLykJmgyszHr2xESOBGP
- +9KvzGTNY2miUGKLQoebmA8H4HW0AObuYXfRbHlM=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([174.250.50.2]) by mail.gmx.net
- (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1Mplc7-1nJxJv0JUj-00q91v; Fri, 24 Jun 2022 22:33:48 +0200
-From: Kevin Brace <kevinbrace@gmx.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 28/28] drm/via: Modify DRM main Makefile to be able to build
- OpenChrome DRM
-Date: Fri, 24 Jun 2022 15:32:59 -0500
-Message-Id: <20220624203259.4051-9-kevinbrace@gmx.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220624203259.4051-1-kevinbrace@gmx.com>
-References: <20220624203259.4051-1-kevinbrace@gmx.com>
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB34A10F3AF
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 20:33:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=9rV7rmTUfpzPtlwowSz9p1z60VIIot0KQLA/WiXxBeA=;
+ b=pHDkNdVf6STnjKUshSXvwCtLkvy1okgANpIqFeyr0zbeNDGVDqwZZ36iVmusEI3YbZMTKMU1gzpj3
+ uIdecYgYU9bchEiyS3HNMg60xKyiVavfRz0ZXcg9s3ZEh1Xbq1/NZ4I8INTbnxi3kj7LSQLbHP3DyL
+ +QJHmCddqNg+8LbSxxon87ukMKgIWdX7acJMiWjfqkCFYa4zN44Z9cKs7dZldps79g9u9R+b3D6dt7
+ DWzCRl+FRz+1s/j77tVGMge7uwSKBhPb2KBd/d/3PxGg77+dbH89WQKaLK8GqIcNA5R5wk9V2/3pmn
+ exhoG3U7vPepuW9l1Rl4broKKNqxMag==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=9rV7rmTUfpzPtlwowSz9p1z60VIIot0KQLA/WiXxBeA=;
+ b=WiJlVYaxeG1eVJ9QOAGe9bPNIpKx+3kKMa7EHEO8XjkvwvJOOk8h8v8gmOEXVv4NgbR7Cn/Jr4D27
+ jVTs+9XCA==
+X-HalOne-Cookie: d3783bc8887fa11d3fbd817fdcbe0ed542c9b62f
+X-HalOne-ID: e9d1b734-f3fc-11ec-8233-d0431ea8bb10
+Received: from mailproxy4.cst.dirpod4-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id e9d1b734-f3fc-11ec-8233-d0431ea8bb10;
+ Fri, 24 Jun 2022 20:33:32 +0000 (UTC)
+Date: Fri, 24 Jun 2022 22:33:30 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: Re: [PATCH v2] drm: bridge: adv7511: Add check for
+ mipi_dsi_driver_register
+Message-ID: <YrYfmqJbRmGWh0qw@ravnborg.org>
+References: <20220602103401.2980938-1-jiasheng@iscas.ac.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:sWZlAN4rbZpoWIqVY8WaftFPmqwfgiIrOJnJyp/kWiA/hM8U/56
- bJHBKX7TmrElvNSPat+jJptlkE0bQSv7yQQqY7GN5NWqPqZRdeEtZZxo9PsK+EH0upo/qny
- bT1Lpkh7RxkZq+lxfAfm0seiAAQrlAh3Q+BiFen2YH5mJsrrAkG+VHM0dL/wOqBbRnXCK/I
- Z9hGt3bBCF56rD66DKznw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4aHivdHx9lk=:WdJE44LSLOOOi/mQwmJjqC
- 8YPsbo1xT/c88WWjYVf2PQvzBA4EBJT9V0BrDk4m37GrroFtfSu4NoFO/ahQepiNBxKe1fb8w
- oL51ekr2wF3y+EdwSoel/UqBdOUjvI6HPoSqpsuP88TApfAE4lj5KqnvaeVuHmDHc9Ew/FkuC
- EfNNNuKoTlOV7bLutFNfr3EhSG26fIeSwPa9AgCwUn+mZ9uCdbWj5vtuTEU9qsv778AhBSgTW
- UUcrUmrX5HEtYsKsmnL06hBZSTfLcYj/ydVuvRl3z7Dq1zKq3JVeCQGgY1trKYLoJd1NisxDL
- zCKDu0qOUTY0kgWR5LKyFFFy7EafCPP/C6B3RAgrFrpVEO1Y0NYYNhlNnD/e7Zc6UfhAixrJA
- +jlB0MjGk7uc+TpNy4yIZ9F2yhPVe3nBeJR1OZ8yXmBkU1sDAyuSROy8I5IjgLGZmd3gdy2hB
- PHZYgZ6ADVo8wnojologz/z4edQCiA/OIFOG+DrsZHUZpDTjrde7GZ7BjEM0K/03BXJEpz0qI
- 4FcxnXniUUAi12/6jbH2Xa8cW931NUdccx/zyyG+0gC/F58bLnjRmg7uEsMHH8svLojI9966/
- LgxaOGOA8H/x1zb4+/xUzUSMJfT3yyRqhePadlF7FtUOFUUy+jzsq1pxsJouSKrIgaXjOVsbT
- IsgqlsQ6FhElG1tpjU76oAJTUN+K/i7pvpkGoFZ1mYzf+o4os2vxpFDnwiHKQHOasenfR1cDR
- vGajyUZj8Z4zsZhTSHny+1cbbFgJkaylGomlcspwjxNS9yKbO8hzr6/9BrDnJQ7+dpYy68fuK
- umJHlV10s2CJ4gEl6KrHbyAe5kFBS9HziFLIaPkIYoWApkIikNC1Ttrr6uNt00PjmMna9iKH6
- ow+MlulCcrtUiRANO/Hzoe7LabwzF6n3NRE+EzbPOwFnw3zV4oJeNsoSy1drf36GpxdAs2akH
- PvCK+dYMQouzFYFllVNw4FKl2vt7+qzjkOUfrOBEZHX5zbE0HyKXvjaFosdd6eHXijREhm7YB
- BGFQvHEv0en2MQ+cmyX5DKPkpQiGcBvvMoJuQkIovB+ztCa7sqXFmY6DKwmx1Mn/qe2plZS6d
- T4ADHCRo2YCNTg9BikXRIaeqj+truEllpnbVpTVVKHB6rQCpnVa9zIvPA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220602103401.2980938-1-jiasheng@iscas.ac.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,29 +59,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>
+Cc: jernej.skrabec@gmail.com, maxime@cerno.tech, narmstrong@baylibre.com,
+ airlied@linux.ie, robert.foss@linaro.org, jonas@kwiboo.se,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
+ alsi@bang-olufsen.dk, biju.das.jz@bp.renesas.com, jagan@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kevin Brace <kevinbrace@bracecomputerlab.com>
+On Thu, Jun 02, 2022 at 06:34:01PM +0800, Jiasheng Jiang wrote:
+> As mipi_dsi_driver_register could return error if fails,
+> it should be better to check the return value and return error
+> if fails.
+> Moreover, if i2c_add_driver fails,  mipi_dsi_driver_register
+> should be reverted.
+> 
+> Fixes: 1e4d58cd7f88 ("drm/bridge: adv7533: Create a MIPI DSI device")
+> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 
-Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
-=2D--
- drivers/gpu/drm/Makefile | 1 +
- 1 file changed, 1 insertion(+)
+Thanks, added to drm-misc (added to drm-misc-next as this did not look
+like something that required fast forward to mainline).
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index e6d0daca9bc2..72c6db91ee61 100644
-=2D-- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -97,6 +97,7 @@ obj-$(CONFIG_DRM_VC4)  +=3D vc4/
- obj-$(CONFIG_DRM_SIS)   +=3D sis/
- obj-$(CONFIG_DRM_SAVAGE)+=3D savage/
- obj-$(CONFIG_DRM_VMWGFX)+=3D vmwgfx/
-+obj-$(CONFIG_DRM_OPENCHROME) +=3Dvia/
- obj-$(CONFIG_DRM_VGEM)	+=3D vgem/
- obj-$(CONFIG_DRM_VKMS)	+=3D vkms/
- obj-$(CONFIG_DRM_NOUVEAU) +=3Dnouveau/
-=2D-
-2.35.1
-
+	Sam
