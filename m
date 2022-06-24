@@ -1,70 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E95955A2C3
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 22:34:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C34F555A2D3
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 22:36:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 312A910F4B9;
-	Fri, 24 Jun 2022 20:34:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9817610F4BB;
+	Fri, 24 Jun 2022 20:36:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4922710F4B9
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 20:34:15 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id fi2so6927349ejb.9
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 13:34:15 -0700 (PDT)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7322D10F4BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 20:36:44 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id cw10so6997111ejb.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 13:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=O02FH6+L5nNzRKcHGJtpg3Iq/GHSe7hIcdLe672U+do=;
- b=VN4S8bFkS9I0nerxa6a8LrEJXyvXCi4MnJYdVQ+qhgjPQ0EOOvsKUjt0TYXt922hZ5
- GB5V2vBcoCrhMOdCq5TZ3xgml0Eg1cQRjy8EK2BkuC3UQ4beqCxtgCvjuQDcK+vEueip
- FYxdO2f9FyTWgE2s6dEwgfbhQKN34M2tzi0lk=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=2ZlRpEdtEVnBuC7aEnd7d6UXgiUoHLzki+QPk6nXlJo=;
+ b=grPNnukEJPKIcNnJemOGDgxKea/T9pmQbUrVjX1fkdNW4DFFEep8GNYhuqPwoNbYjY
+ XI+N5u6z+zW4ITmghCISZyzSC3ay1C1KDFluTGPgXVRWPyq/0p5zTh43/1KWbFJRI5zo
+ gi6FaaNeRjLvD+bffmfq5EeP2MPq426xKwcM8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=O02FH6+L5nNzRKcHGJtpg3Iq/GHSe7hIcdLe672U+do=;
- b=dc4R7esTdPaaTzsnH9EGgPRz/5YP0wk2afSbKUWQJeWWC5ntEEI/Rpjv9XYckWxfau
- /HDe5b8Fiq1GOauPpE4lEzInv/QXI4IgtQPfQnciUuC2LLUy0OffAMBAadVbU5BinkQw
- AXpvrmn/4H46zD8p/BuFpLMih+nxJdbgg3nO2wA5pPt3eYdxkYLP3SVEHVcQYPp9BaKq
- 0BvLOHmPsEyTVSJZ6sovjgb3Vkd4IHI60Yd4NZqk/Bptph5PAIbSQTPNpWat/FkPcJ52
- lJyL5lePTl4hWk65SWDbVE60v62aDwa2HlwSakidQozm4E3UQop2pqCj0G3j8FJIWoQk
- u89A==
-X-Gm-Message-State: AJIora+JBwG0RvTzFTtJVZ83mkl0+No3h3wO64ob5OlQV517OFMNY/sP
- 2PCEYR6QrwU487VN3th4pi9YdA==
-X-Google-Smtp-Source: AGRyM1sO4zC7JGeChYiGHRXIYx/lbAJzJ6rEZDtUXTiZo/WlGXwSnKliAEEsqXDEPVZNeKDIPhly3A==
-X-Received: by 2002:a17:907:8a0e:b0:726:3467:b018 with SMTP id
- sc14-20020a1709078a0e00b007263467b018mr815298ejc.552.1656102853698; 
- Fri, 24 Jun 2022 13:34:13 -0700 (PDT)
+ bh=2ZlRpEdtEVnBuC7aEnd7d6UXgiUoHLzki+QPk6nXlJo=;
+ b=RmqeylgMRRyMZRcdqrk2cvb+WRFOopgIN07u3nNYjP164aQOvAip5ajJsODkB+QOyo
+ 4MhqObb/Z8FMiwOBSclSb8CGIMzHhoyjkF/aMxdMNUQe68hnx/zfueV9nADrqWqT0Yjy
+ b4agJ0D7klVYrw5dDnfQOwwoa5SrWnraEWADpVpyqdK3Ydxphp/wI3NZbouAonNWZDUv
+ oICgEoSDFxmrFoqd2VY8kNnq7E2TjroSd4tMHWuO6/7+q6dvEU795QP6gOEBlDhTO6Fj
+ 2VIXgejaH9uTKNWPfQFAk7tZneTdg4J4vJdLyC/YqDgqu8k7Vv8sOzAKqtfHu9ahhyHv
+ BSXw==
+X-Gm-Message-State: AJIora/kk2mjd2pU6mUrXMF9SIDohi7xzT+9tmsASkhV+b0PAKfVDL9E
+ XXTWYZMalPsw51sR4hIZkArb+w==
+X-Google-Smtp-Source: AGRyM1u+bgpkqRd7Tf8NAE0sJHQ4Pm531P9FvYf/RkXKzWMPcEol6g8iSVT+enOuzr6oKZn0svlQ7g==
+X-Received: by 2002:a17:906:9c82:b0:6df:baa2:9f75 with SMTP id
+ fj2-20020a1709069c8200b006dfbaa29f75mr833410ejc.762.1656103002903; 
+ Fri, 24 Jun 2022 13:36:42 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- f8-20020a056402150800b0043578cf97d0sm2758900edw.23.2022.06.24.13.34.12
+ jl18-20020a17090775d200b006fec8e8eff6sm1661323ejc.176.2022.06.24.13.36.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jun 2022 13:34:13 -0700 (PDT)
-Date: Fri, 24 Jun 2022 22:34:11 +0200
+ Fri, 24 Jun 2022 13:36:42 -0700 (PDT)
+Date: Fri, 24 Jun 2022 22:36:40 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [RFC PATCH 3/5] drm/amdgpu: Allow explicit sync for VM ops.
-Message-ID: <YrYfw6T4MGvifIco@phenom.ffwll.local>
-References: <CAP+8YyFKOM1qztPBNGk4nzsaX7Dq8-cwg0h_GUgz6sUxBZLhEw@mail.gmail.com>
- <98c1ea95-2b1e-36dd-6706-b3667f0f5f47@amd.com>
- <CAP+8YyEWE9KCmo2pGOHMyT3fSEXskTG-tfymwQmmy7d1c9CuRQ@mail.gmail.com>
- <3b6a7d56-6c65-046d-0a51-bbe167e04322@amd.com>
- <CAP+8YyGL_WEME-1_oB_K5_K600c5kcmO0GxXBQGVQEF7aP_D7w@mail.gmail.com>
- <91e843ca-928a-7ab1-12e4-89fbba085403@amd.com>
- <CAP+8YyHqcoxVeropBpeuSRX4kNtVezi1-s3FKSic_Z_OQ8BcAg@mail.gmail.com>
- <1e04e766-4a5b-6825-6991-3bd542f562b5@amd.com>
- <CAP+8YyGEHUZhCCUa-3sSVmgGMrTkj=vQomPar=hTN=3-RCznOA@mail.gmail.com>
- <71cc9552-4bf6-4941-e903-2ea62a22a2e9@amd.com>
+To: John Stultz <jstultz@google.com>
+Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
+Message-ID: <YrYgWCTtZqfvCt5D@phenom.ffwll.local>
+Mail-Followup-To: John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Christian Brauner <brauner@kernel.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <john.stultz@linaro.org>, Shuah Khan <shuah@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>,
+ Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+ Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, kernel-team@android.com,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kselftest@vger.kernel.org
+References: <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
+ <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+ <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
+ <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
+ <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
+ <YodHjYlMx1XGtM2+@slm.duckdns.org>
+ <CABdmKX2Ok023rN1drQgXVZLKUO_DVYrzmEamCgMMu6BPO67yhQ@mail.gmail.com>
+ <CABdmKX0WV8VWgeafVGJ++nJ4xsJD7Wpz=3KX=BW1du=huttfvw@mail.gmail.com>
+ <YrYbwu0iIAJJGXVg@phenom.ffwll.local>
+ <CANDhNCqGjaq-SFvWwkqnEFj4tJcRqCYupZ03wLyCexqTH5MqMg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <71cc9552-4bf6-4941-e903-2ea62a22a2e9@amd.com>
+In-Reply-To: <CANDhNCqGjaq-SFvWwkqnEFj4tJcRqCYupZ03wLyCexqTH5MqMg@mail.gmail.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,94 +104,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Carlos Llamas <cmllamas@google.com>, dri-devel@lists.freedesktop.org,
+ Zefan Li <lizefan.x@bytedance.com>, Kalesh Singh <kaleshsingh@google.com>,
+ Joel Fernandes <joel@joelfernandes.org>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Kenny.Ho@amd.com,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Laura Abbott <labbott@redhat.com>,
+ kernel-team@android.com, linux-media@vger.kernel.org,
+ Todd Kjos <tkjos@android.com>, linaro-mm-sig@lists.linaro.org,
+ Hridya Valsaraju <hridya@google.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>, Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Digging out of a hole, apologies to everyone.
-
-On Fri, Jun 17, 2022 at 03:08:00PM +0200, Christian König wrote:
-> Am 17.06.22 um 15:03 schrieb Bas Nieuwenhuizen:
-> > [SNIP]
-> > > > > BOOKKEEP can only be used by VM updates themselves. So that they don't
-> > > > > interfere with CS.
-> > > > That is the point why we would go BOOKKEEP for explicit sync CS
-> > > > submissions, no? Explicit submission shouldn't interfere with any
-> > > > other CS submissions. That includes being totally ignored by GL
-> > > > importers (if we want to have synchronization there between an
-> > > > explicit submission and GL, userspace is expected to use Jason's
-> > > > dmabuf fence import/export IOCTLs)
-> > > No, that would break existing DMA-buf rules.
-> > > 
-> > > Explicit CS submissions are still a dependency for implicit submissions.
-> > This is explicitly what we don't want for explicit submissions and why
-> > I waited with this series until the DMA_RESV_USAGE series landed. We
-> > wish to opt out from implicit sync completely, and just use the IOCTLs
-> > Jason wrote for back-compat with windowing systems that need it.
-> > 
-> > If BOOKKEEP isn't for that, should we add a new USAGE?
+On Fri, Jun 24, 2022 at 01:32:45PM -0700, John Stultz wrote:
+> On Fri, Jun 24, 2022 at 1:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Wed, Jun 15, 2022 at 10:31:21AM -0700, T.J. Mercier wrote:
+> > > On Fri, May 20, 2022 at 9:25 AM T.J. Mercier <tjmercier@google.com> wrote:
+> > > >
+> > > > On Fri, May 20, 2022 at 12:47 AM Tejun Heo <tj@kernel.org> wrote:
+> > > > >
+> > > > > Hello,
+> > > > >
+> > > > > On Tue, May 17, 2022 at 04:30:29PM -0700, T.J. Mercier wrote:
+> > > > > > Thanks for your suggestion. This almost works. "dmabuf" as a key could
+> > > > > > work, but I'd actually like to account for each heap. Since heaps can
+> > > > > > be dynamically added, I can't accommodate every potential heap name by
+> > > > > > hardcoding registrations in the misc controller.
+> > > > >
+> > > > > On its own, that's a pretty weak reason to be adding a separate gpu
+> > > > > controller especially given that it doesn't really seem to be one with
+> > > > > proper abstractions for gpu resources. We don't want to keep adding random
+> > > > > keys to misc controller but can definitely add limited flexibility. What
+> > > > > kind of keys do you need?
+> > > > >
+> > > > Well the dmabuf-from-heaps component of this is the initial use case.
+> > > > I was envisioning we'd have additional keys as discussed here:
+> > > > https://lore.kernel.org/lkml/20220328035951.1817417-1-tjmercier@google.com/T/#m82e5fe9d8674bb60160701e52dae4356fea2ddfa
+> > > > So we'd end up with a well-defined core set of keys like "system", and
+> > > > then drivers would be free to use their own keys for their own unique
+> > > > purposes which could be complementary or orthogonal to the core set.
+> > > > Yesterday I was talking with someone who is interested in limiting gpu
+> > > > cores and bus IDs in addition to gpu memory. How to define core keys
+> > > > is the part where it looks like there's trouble.
+> > > >
+> > > > For my use case it would be sufficient to have current and maximum
+> > > > values for an arbitrary number of keys - one per heap. So the only
+> > > > part missing from the misc controller (for my use case) is the ability
+> > > > to register a new key at runtime as heaps are added. Instead of
+> > > > keeping track of resources with enum misc_res_type, requesting a
+> > > > resource handle/ID from the misc controller at runtime is what I think
+> > > > would be required instead.
+> > > >
+> > > Quick update: I'm going to make an attempt to modify the misc
+> > > controller to support a limited amount of dynamic resource
+> > > registration/tracking in place of the new controller in this series.
+> > >
+> > > Thanks everyone for the feedback.
+> >
+> > Somehow I missed this entire chain here.
+> >
+> > I'm not a fan, because I'm kinda hoping we could finally unify gpu memory
+> > account. Atm everyone just adds their one-off solution in a random corner:
+> > - total tracking in misc cgroup controller
+> > - dma-buf sysfs files (except apparently too slow so it'll get deleted
+> >   again)
+> > - random other stuff on open device files os OOM killer can see it
+> >
+> > This doesn't look good.
 > 
-> BOOKKEEP is exactly for that, but as discussed with Daniel that's not what
-> we want in the kernel.
+> But I also think one could see it as "gpu memory" is the drm subsystem
+> doing the same thing (in that it's artificially narrow to gpus). It
+> seems we need something to account for buffers allocated by drivers,
+> no matter which subsystem it was in (drm, v4l2, or networking or
+> whatever).
 
-Not sure which Daniel you talked to, but this wasn't me.
+This is what the gpucg was. It wasn't called the dmabuf cg because we want
+to account also memory of other types (e.g. drm gem buffer objects which
+aren't exported), and I guess people didn't dare call it an xpu.
 
-> When you mix implicit with explicit synchronization (OpenGL with RADV for
-> example) it should be mandatory for the OpenGL to wait for any RADV
-> submission before issuing an operation.
-> 
-> What you want to do is intentionally not supported.
-
-vk is very intentional in it's rejecting of any implicit sync. Which means
-when you share a buffer with gl, even in _that_ case there must be no sync
-automatically, or your implementation is kinda shit. Instead anyone
-sharing a buffer with vk and using it in gl must take care of sync by
-importing the timeline syncobj to gl, that's why all these extensions got
-added.
-
-This leaves libva in the cold, but hey libva didn't even get around to
-adding the full set of modifier extensions so I can't really get myself to
-care.
-
-So summary this means:
-
-- a CS/execbuf for vk should _only_ set BOOKKEEPING fences (except ofc if
-  there's memory management moves in the preparation, which use KERNEL
-  fences and then become additional dependencies for the job)
-
-- because vk memory model is that always everything currently bound can be
-  used this means you set BOOKKEEPING on absolutely everything. The
-  current clever trick amdgpu has with shared buffers is also not really
-  the right thing.
-
-- implicit sync is only controlled through the new import/export ioctl on
-  the dma-buf
-
-- if you set any READ/WRITE fences anywhere else, you have potential
-  oversync compared to what the vk spec would want
-
-- userspace gets to keep absolutely all the pieces here. Which is not an
-  issue, because userspace is totally allowed to fill a buffer with
-  garbage and hand that to the compositor already, so there's nothing new
-  going wrong here.
-
-- ideally (definitely required for vk sparse) when you unbind or rebind
-  then the BOOKKEEPING fences for the vm/ctx get for the old buffers get
-  simply replaced by the pte clearing and tlb flushing fences (like amdkfd
-  does for compute, vk really just wants to look like compute in
-  everything). In practice, especially with partial and multiple mappings
-  of the same underlying bo involved, this might be too expensive to
-  accurately track since you can only do the replacement trick when the
-  last mapping is gone. It might be worth it for private bo though, dunno.
-
-For amdgpu the current special owner checks mostly allow you to get the
-semantics vulkan wants. But it breaks down when you have cross-device or
-cross-process sharing.
-
-We should probably also document this in the kerneldoc for the BOOKKEEPING
-usage that this is the fence type that vulkan cs should use in all
-drivers, otherwise this will become an endless mess of driver specific
-hacks (i.e. the world we currently live in).
+But this was absolutely for a lot more than just "gpu drivers in drm".
+Better names welcome.
 -Daniel
 -- 
 Daniel Vetter
