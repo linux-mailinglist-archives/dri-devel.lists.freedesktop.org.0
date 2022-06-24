@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF8C559D3B
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 17:25:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24412559D3C
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 17:25:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A39F110E250;
-	Fri, 24 Jun 2022 15:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AED510E271;
+	Fri, 24 Jun 2022 15:25:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7456D10E27C
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 15:25:05 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D9F510E271
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 15:25:20 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 597A2200008;
- Fri, 24 Jun 2022 15:25:03 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPSA id 5678C60009;
+ Fri, 24 Jun 2022 15:25:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1656084303;
+ t=1656084319;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1ah9Guq9sVOhK1akYWfj2KUeC+akdxxVJl9dp1GDBNU=;
- b=POAhcEkE3xV6/f+A6z8Cq1fjuGW0jefiDXthAcHa7mlr1lxHd7f0mTSfEcP1yqWE9fUZ8g
- W2oppdYGeBLX7UyBih7u7BfR/mm4P+cvlFRMOtf5v8gNi2MM0tjnHrG8E7CyCXxwg1diFf
- Hjci6jHEEFQuObl6q52c18rzPOuwWu2fBqsx3nmyyilDw/zs1ppvElTis9rvqDrNPnOXal
- sCRlRdYA+odbYCtFUxfyKuzBcZ33Z2OEo8eALIKmJlxjB5nAR2p+RbMo2VXhbG2SMeS3EA
- Z51zrbWxIpjc/7ez9hcmEZVhxklWIL4Las4YzCDLfIM+Dp+RYOofLtfq4zMyIg==
-Date: Fri, 24 Jun 2022 17:25:02 +0200
+ bh=1pMABWa+zPPRVl6Qi+pNlU6l2qR6DVXwHDlmIuzYR44=;
+ b=LA48ZxjsstYTAjAZMCMwewt9RZ8ZZDOk5Nf7+zYeRInkCwnj7fecKJIvaXxrMAMKPeEXzi
+ OhDxil1VNRC4Yv9gAgI/h7yBYCa+bFQfEeUGO/eK46fWDXF0UMfmA0u4f1rV84KjklPk1L
+ ql9E87oAFZP/1bP0avpca9LJVv8g3TxwKn/HLqpkMgm4hQkkuslVnxvEEBY/nTryaBNKbu
+ UHQv1HJWV6FFehUxhPs5I5nCcAonUj+t4aMDLh6AL6aCMSXPxLL3DNR8QYpSTiGIVYE/ks
+ mKUWauhxCazZz2rPlLajG217RMwyu76/cWM37wyEfl1y/MLeh6XfWSab9c/GNQ==
+Date: Fri, 24 Jun 2022 17:25:17 +0200
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH] drm: logicvc: Fix uninitialized variable in probe
-Message-ID: <YrXXTtOdAMex4UFc@aptenodytes>
-References: <Yqh6OfSiPFuVrGo4@kili>
- <YrXLrVUIavGWC4sx@aptenodytes>
+Subject: Re: [PATCH] drm: logicvc: fix error code in logicvc_layer_init()
+Message-ID: <YrXXXZm+APaC5Yft@aptenodytes>
+References: <Yqh6VdNiDvJYMOQ+@kili>
+ <YrXLx8AXRObZEbVi@aptenodytes>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VYlOOEfoKFRFhdQ2"
+ protocol="application/pgp-signature"; boundary="UOxW2upOTegRg8lv"
 Content-Disposition: inline
-In-Reply-To: <YrXLrVUIavGWC4sx@aptenodytes>
+In-Reply-To: <YrXLx8AXRObZEbVi@aptenodytes>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,13 +51,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---VYlOOEfoKFRFhdQ2
+--UOxW2upOTegRg8lv
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -65,17 +65,17 @@ Content-Transfer-Encoding: quoted-printable
 Hi,
 
 On Fri 24 Jun 22, 16:35, Paul Kocialkowski wrote:
-> Hi Dan,
+> Hi,
 >=20
 > On Tue 14 Jun 22, 15:08, Dan Carpenter wrote:
-> > The "regmap" is supposed to be initialized to NULL but it's used
-> > without being initialized.
+> > Return -EINVAL if logicvc_layer_formats_lookup() fails.  Don't return
+> > success.
 > >=20
 > > Fixes: efeeaefe9be5 ("drm: Add support for the LogiCVC display controll=
 er")
 > > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 >=20
-> Nice catch, thanks a lot!
+> Thanks for the fix!
 >=20
 > Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
@@ -83,29 +83,24 @@ Pushed to drm-misc-next, thanks!
 
 Paul
 
-> Cheers,
->=20
-> Paul
->=20
 > > ---
-> >  drivers/gpu/drm/logicvc/logicvc_drm.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  drivers/gpu/drm/logicvc/logicvc_layer.c | 1 +
+> >  1 file changed, 1 insertion(+)
 > >=20
-> > diff --git a/drivers/gpu/drm/logicvc/logicvc_drm.c b/drivers/gpu/drm/lo=
-gicvc/logicvc_drm.c
-> > index df1805cf0f95..0b983a33f9ff 100644
-> > --- a/drivers/gpu/drm/logicvc/logicvc_drm.c
-> > +++ b/drivers/gpu/drm/logicvc/logicvc_drm.c
-> > @@ -298,7 +298,7 @@ static int logicvc_drm_probe(struct platform_device=
- *pdev)
-> >  	struct logicvc_drm *logicvc;
-> >  	struct device *dev =3D &pdev->dev;
-> >  	struct drm_device *drm_dev;
-> > -	struct regmap *regmap;
-> > +	struct regmap *regmap =3D NULL;
-> >  	struct resource res;
-> >  	void __iomem *base;
-> >  	int irq;
+> > diff --git a/drivers/gpu/drm/logicvc/logicvc_layer.c b/drivers/gpu/drm/=
+logicvc/logicvc_layer.c
+> > index bae1c7f99569..9c94b67afbed 100644
+> > --- a/drivers/gpu/drm/logicvc/logicvc_layer.c
+> > +++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
+> > @@ -489,6 +489,7 @@ static int logicvc_layer_init(struct logicvc_drm *l=
+ogicvc,
+> >  	if (!formats) {
+> >  		drm_err(drm_dev, "Failed to lookup formats for layer #%d\n",
+> >  			index);
+> > +		ret =3D -EINVAL;
+> >  		goto error;
+> >  	}
+> > =20
 > > --=20
 > > 2.35.1
 > >=20
@@ -122,19 +117,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---VYlOOEfoKFRFhdQ2
+--UOxW2upOTegRg8lv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK1104ACgkQ3cLmz3+f
-v9Hm4Qf9HercPXzmBZcqVWxopvsJO0efqPoHeCi5DfSFDYMjwGt6WH8yKImLlB94
-OlKAyLlEgWez+QstD6x1GH6iCB60J6IFc1XN+ITXYgvcOc0CCbC8KpyqhsBTjnRM
-zOBLz2k7sPZY6ctO+KviLM12W/I61z92CUvqSHxt3hai18LMSreGwjJFSBBLJ+Oo
-R91iQbd0y5LdV6+0ch/W0zwumkVWGxdUUVg1BeGEGWBftAU6ic+89k+H360v3OWh
-WBg+mFtw8HCrs2Kd59q5UQb9otGd5hI4oVzcThYt7d1jOUi2boyVE18nYA9+C267
-3fggYFkJ6yeCrUrNK5bxqfAtMTgFtg==
-=LAzp
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK1110ACgkQ3cLmz3+f
+v9HQVAf+KQfb6VYY4dJshF7ABbAzIWcSlYgRSQFtE3ivJCNiNUPESDUIh2LknAdb
+Tk/VAg1x/yeCO/vKAyGflvKH3Fke1HagmN7aN3mfJZG5My4cZ9dX5m5jweYYK4H3
+/+HCZpUhjd2ohTkCoe/LOxFdMH5MvpYK4Da76rgX94dO3XrVf4DjQDvtSOaZ95Q8
+0Qaf60pMmFY8ZfTXXXCbuENUt6Yk+snuAaGOYwxdUIcWB1nmzxhC9TaVKc6Xe4iM
+5bCE//xCo7yTeAVAtaTKHeZNG6vLHi7tbvDxFDexHm8KcTxc0K5i7KRjlnKQiYSM
+V/Ooiqnxjoewxv5camQeENU+q4l3fA==
+=v5by
 -----END PGP SIGNATURE-----
 
---VYlOOEfoKFRFhdQ2--
+--UOxW2upOTegRg8lv--
