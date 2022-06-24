@@ -1,42 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C87A55965C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 11:22:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 861C35596BC
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 11:34:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5840510E064;
-	Fri, 24 Jun 2022 09:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31F8C10E3C3;
+	Fri, 24 Jun 2022 09:34:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1C2C10E4AC
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 09:22:44 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1o4fWT-0001bX-2p; Fri, 24 Jun 2022 11:22:41 +0200
-Message-ID: <1a694037c631c298c6952cdf4bf54fcc6d2f08e9.camel@pengutronix.de>
-Subject: Re: [PATCH v2 1/4] drm/etnaviv: add simple moving average (SMA)
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
- linux-kernel@vger.kernel.org
-Date: Fri, 24 Jun 2022 11:22:39 +0200
-In-Reply-To: <20220621072050.76229-2-christian.gmeiner@gmail.com>
-References: <20220621072050.76229-1-christian.gmeiner@gmail.com>
- <20220621072050.76229-2-christian.gmeiner@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com
+ [IPv6:2607:f8b0:4864:20::d2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04C6110E15E
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 09:34:50 +0000 (UTC)
+Received: by mail-io1-xd2a.google.com with SMTP id a10so2099491ioe.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 02:34:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=MP9RQT0mw2gx9xecm41XDjO0xQp/A9AAK0cYbd+v7PM=;
+ b=XOSjJie8EVvJ68P8cDkEuXXdIP7YNykFHD5ucaFHa23sPTgdW5s+vEyYglwP5ITADf
+ de6ih0EGdaikqxaCCoMYFOazeMTR+HJ2Od3FO0aVrMGZ9Ao0YQc3IGKpdK1KsldTwlvh
+ mNgixo6yDK8vv6W4zP9rFZEgeSROQH0wRlhznnuez0r+LK3zlRzbpSDq8zkiXpRGsUdD
+ wlBFXBP+v/yudkNVKvRuUvTnfyVEt9q4H+CcHi3K0tEYuY/us9b2jbsRIceZSdwT323h
+ bCW6ZtoKL/DDgyl9mBYWdF/TeTYV9OJiSRhfvnTTdEl5HuLFgATDlbAUJ79bLaqNIqyo
+ pjrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=MP9RQT0mw2gx9xecm41XDjO0xQp/A9AAK0cYbd+v7PM=;
+ b=fFnLVZlUaTqQzQ7DX+zKctYhVQuq61XkdI+JN1cvmPGEtFvpfYedymc5dePrULwfgu
+ kzw+VIGpuFgegWz5YTtJ7/fFXxgUrdNWwiZPrt/Y+3bhZXQCZS1+eC/Y64gNDXkMEe3Q
+ QYeThfDTpRdcDSmqA2mF9b0U6SzWaydza+4lxtS40IPlSq31BtdS0i/CNnlWQT9NSg/Q
+ zuMSV+O7HL3MCJNWAIed3ihP5GkHp9xVbsGqWCkvu3P59NhL54u94Bv3rnbX35VW8BIM
+ QF0Qgkj+SOkJCC7XFtEvFEEXCjox7ERIO2Y2MBc08O3o+CHy0Q7eFYmVJi0R3zDGZXnr
+ QSpw==
+X-Gm-Message-State: AJIora/GtC7LJdlt7bzKXl0wkxdPpwnJqxpIalR2NMgFyLOfWK+MbLZX
+ 72p4m/eX5jXd1uswUjmGBpWbVPe/QIvBLiSu8yw=
+X-Google-Smtp-Source: AGRyM1uasjCkCSVNNk3dqGVMtMHhWuLiOU+3vPo8KNEsy3IZCmdFQUJiWYJTC/E8bQMesuaOX1oy1FkolQJLbHcM1Io=
+X-Received: by 2002:a05:6638:348d:b0:331:d8f0:fd9d with SMTP id
+ t13-20020a056638348d00b00331d8f0fd9dmr7928714jal.165.1656063287244; Fri, 24
+ Jun 2022 02:34:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20220623115631.22209-1-peterwu.pub@gmail.com>
+ <20220623115631.22209-6-peterwu.pub@gmail.com>
+ <YrRny9TPqMUW7Yr/@spruce>
+In-Reply-To: <YrRny9TPqMUW7Yr/@spruce>
+From: ChiaEn Wu <peterwu.pub@gmail.com>
+Date: Fri, 24 Jun 2022 17:34:36 +0800
+Message-ID: <CABtFH5JdPHfvGi+tG+EKh_-XH0YxWHR3o=LsPAdW38e8fFoBeg@mail.gmail.com>
+Subject: Re: [PATCH v3 05/14] dt-bindings: backlight: Add Mediatek MT6370
+ backlight
+To: Joe Simmons-Talbott <joetalbott@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,91 +67,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "moderated list:DRM DRIVERS FOR VIVANTE
- GPU IP" <etnaviv@lists.freedesktop.org>, "open list:DRM DRIVERS FOR VIVANTE
- GPU IP" <dri-devel@lists.freedesktop.org>,
- Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com,
+ krzysztof.kozlowski+dt@linaro.org, Alice Chen <alice_chen@richtek.com>,
+ linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lgirdwood@gmail.com, ChiYuan Huang <cy_huang@richtek.com>, pavel@ucw.cz,
+ Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org,
+ Daniel Thompson <daniel.thompson@linaro.org>, deller@gmx.de,
+ robh+dt@kernel.org, chunfeng.yun@mediatek.com, linux@roeck-us.net,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org, szunichen@gmail.com,
+ broonie@kernel.org, linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, jingoohan1@gmail.com,
+ linux-usb@vger.kernel.org, sre@kernel.org, linux-kernel@vger.kernel.org,
+ ChiaEn Wu <chiaen_wu@richtek.com>, gregkh@linuxfoundation.org,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+Hi Joe,
 
-Am Dienstag, dem 21.06.2022 um 09:20 +0200 schrieb Christian Gmeiner:
-> This adds a SMA algorithm inspired by Exponentially weighted moving
-> average (EWMA) algorithm found in the kernel.
-> 
-Still not sure about this one. I _feel_ that a simple moving average
-over a period of one second does not do a good job of reflecting the
-real GPU load for a bursty workload, where EWMA might be better suited.
-But then I also don't have a real informed opinion to offer on this.
+Joe Simmons-Talbott <joetalbott@gmail.com> =E6=96=BC 2022=E5=B9=B46=E6=9C=
+=8823=E6=97=A5 =E9=80=B1=E5=9B=9B =E6=99=9A=E4=B8=8A9:17=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+> On Thu, Jun 23, 2022 at 07:56:22PM +0800, ChiaEn Wu wrote:
+> > From: ChiYuan Huang <cy_huang@richtek.com>
+> >
+> > Add mt6370 backlight binding documentation.
+> >
+> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> > ---
+> >
+> > v3
+> > - Rename "mediatek,bled-pwm-hys-input-threshold-steps" to
+> >   "mediatek,bled-pwm-hys-input-th-steps"
+> > - Refine "bled-pwm-hys-input-th-steps", "bled-ovp-microvolt",
+> >   "bled-ocp-microamp" enum values
+> > ---
+> >  .../leds/backlight/mediatek,mt6370-backlight.yaml  | 92 ++++++++++++++=
+++++++++
+> >  1 file changed, 92 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/leds/backlight/me=
+diatek,mt6370-backlight.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/leds/backlight/mediatek,=
+mt6370-backlight.yaml b/Documentation/devicetree/bindings/leds/backlight/me=
+diatek,mt6370-backlight.yaml
+> > new file mode 100644
+> > index 0000000..26563ae
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/leds/backlight/mediatek,mt6370-=
+backlight.yaml
+> > @@ -0,0 +1,92 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/leds/backlight/mediatek,mt6370-back=
+light.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Mediatek MT6370 Backlight
+> > +
+> > +maintainers:
+> > +  - ChiaEn Wu <chiaen_wu@richtek.com>
+> > +
+> > +description: |
+> > +  This module is part of the MT6370 MFD device.
+> > +  The MT6370 Backlight WLED driver supports up to a 29V output voltage=
+ for
+> > +  4 channels of 8 series WLEDs. Each channel supports up to 30mA of cu=
+rrent
+> > +  capability with 2048 current steps (11 bits) in exponential or linea=
+r
+> > +  mapping curves.
+> > +
+> > +allOf:
+> > +  - $ref: common.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: mediatek,mt6370-backlight
+> > +
+> > +  default-brightness:
+> > +    minimum: 0
+> > +    maximum: 2048
+> > +
+> > +  max-brightness:
+> > +    minimum: 0
+> > +    maximum: 2048
+> > +
+> > +  enable-gpios:
+> > +    description: External backlight 'enable' pin
+> > +    maxItems: 1
+> > +
+> > +  mediatek,bled-pwm-enable:
+> > +    description: |
+> > +      Enable external PWM input for backlight dimming
+> > +    type: boolean
+> > +
+> > +  mediatek,bled-pwm-hys-enable:
+> > +    description: |
+> > +      Enable the backlight input-hysteresis for PWM mode
+> > +    type: boolean
+> > +
+> > +  mediatek,bled-pwm-hys-input-th-steps:
+> > +    $ref: /schemas/types.yaml#/definitions/uint8
+> > +    enum: [1, 4, 16, 64]
+> > +    description: |
+> > +      The selection of the upper and lower bounds threshold of backlig=
+ht
+> > +      PWM resolution. If we choose selection 64, the variation of PWM
+> > +      resolution needs over than 64 steps.
+>
+> more than?
+>
+> Thanks,
+> Joe
+>
 
-Regards,
-Lucas
+Thanks for your helpful comments!
+I will revise this in the next patch. Thanks!
 
-> Signed-off-by: Christian Gmeiner <christian.gmeiner@gmail.com>
-> ---
->  drivers/gpu/drm/etnaviv/etnaviv_sma.h | 53 +++++++++++++++++++++++++++
->  1 file changed, 53 insertions(+)
->  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_sma.h
-> 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sma.h b/drivers/gpu/drm/etnaviv/etnaviv_sma.h
-> new file mode 100644
-> index 000000000000..81564d5cbdc3
-> --- /dev/null
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sma.h
-> @@ -0,0 +1,53 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2020 Etnaviv Project
-> + */
-> +
-> +#ifndef __ETNAVIV_SMA_H__
-> +#define __ETNAVIV_SMA_H__
-> +
-> +#include <linux/bug.h>
-> +#include <linux/compiler.h>
-> +
-> +/*
-> + * Simple moving average (SMA)
-> + *
-> + * This implements a fixed-size SMA algorithm.
-> + *
-> + * The first argument to the macro is the name that will be used
-> + * for the struct and helper functions.
-> + *
-> + * The second argument, the samples, expresses how many samples are
-> + * used for the SMA algorithm.
-> + */
-> +
-> +#define DECLARE_SMA(name, _samples) \
-> +    struct sma_##name { \
-> +        unsigned long pos; \
-> +        unsigned long sum; \
-> +        unsigned long samples[_samples]; \
-> +    }; \
-> +    static inline void sma_##name##_init(struct sma_##name *s) \
-> +    { \
-> +        BUILD_BUG_ON(!__builtin_constant_p(_samples));	\
-> +        memset(s, 0, sizeof(struct sma_##name)); \
-> +    } \
-> +    static inline unsigned long sma_##name##_read(struct sma_##name *s) \
-> +    { \
-> +        BUILD_BUG_ON(!__builtin_constant_p(_samples));	\
-> +        return s->sum / _samples; \
-> +    } \
-> +    static inline void sma_##name##_add(struct sma_##name *s, unsigned long val) \
-> +    { \
-> +        unsigned long pos = READ_ONCE(s->pos); \
-> +        unsigned long sum = READ_ONCE(s->sum); \
-> +        unsigned long sample = READ_ONCE(s->samples[pos]); \
-> +      \
-> +        BUILD_BUG_ON(!__builtin_constant_p(_samples));	\
-> +      \
-> +       WRITE_ONCE(s->sum, sum - sample + val); \
-> +       WRITE_ONCE(s->samples[pos], val); \
-> +       WRITE_ONCE(s->pos, pos + 1 == _samples ? 0 : pos + 1); \
-> +    }
-> +
-> +#endif /* __ETNAVIV_SMA_H__ */
+> > +
+> > +  mediatek,bled-ovp-shutdown:
+> > +    description: |
+> > +      Enable the backlight shutdown when OVP level triggered
+> > +    type: boolean
+> > +
+> > +  mediatek,bled-ovp-microvolt:
+> > +    enum: [17000000, 21000000, 25000000, 29000000]
+> > +    description: |
+> > +      Backlight OVP level selection.
+> > +
+> > +  mediatek,bled-ocp-shutdown:
+> > +    description: |
+> > +      Enable the backlight shutdown when OCP level triggerred.
+> > +    type: boolean
+> > +
+> > +  mediatek,bled-ocp-microamp:
+> > +    enum: [900000, 1200000, 1500000, 1800000]
+> > +    description: |
+> > +      Backlight OC level selection.
+> > +
+> > +  mediatek,bled-channel-use:
+> > +    $ref: /schemas/types.yaml#/definitions/uint8
+> > +    description: |
+> > +      Backlight LED channel to be used.
+> > +      Each bit mapping to:
+> > +        - 0: CH4
+> > +        - 1: CH3
+> > +        - 2: CH2
+> > +        - 3: CH1
+> > +    minimum: 1
+> > +    maximum: 15
+> > +
+> > +required:
+> > +  - compatible
+> > +  - mediatek,bled-channel-use
+> > +
+> > +additionalProperties: false
+> > --
+> > 2.7.4
+> >
 
-
+Best regards,
+ChiaEn Wu
