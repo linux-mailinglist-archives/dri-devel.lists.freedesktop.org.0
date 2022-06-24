@@ -2,73 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D12559570
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 10:30:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48CD559579
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 10:32:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C1B8112C99;
-	Fri, 24 Jun 2022 08:30:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 401A2112CBA;
+	Fri, 24 Jun 2022 08:32:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C9E4112C99
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 08:30:02 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id z13so3160197lfj.13
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 01:30:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=vhHLGCtSFBmyTfpIq8EGMclBh6vP5ng22bVrKNLVB7U=;
- b=YxzICFaUI5YpE/x/tv9UJzxb8gkbdJ7J4TOXMBqYrDns5wF4Y7Udzf2XXNmTMSUqaK
- dNa9S8hSe5rIDyHc6zGtVR1NwAPvrLiQXsCH7pFV6yWkEF9nfTA/GZUb2XybWzQiMTZo
- h7gNLBJgNFHUM7XjYwT1Ars2SVUZVt0CjFQH0LazrPrUXpw9sI0QExU3BtRXgfHeQ6vY
- qUt9NZs69JQAMPizsExjbQBarCYG3ugwSkQYC15QPcn7slvYp3H7zcR31l78niQ26MPM
- mgdJVdGzg390spTO0HB8/ke+IIf2UJCJGBH3cfUkCbaJSdFzKagmKu03DmVBL3p/9fTy
- 8clQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=vhHLGCtSFBmyTfpIq8EGMclBh6vP5ng22bVrKNLVB7U=;
- b=QuJeGlb/7z9BYqEoajizY47iEtGyzDQG9jnS48sdyx8sPSVei3uLR2162sYTGlnjoo
- 2wMXsWtosEhXI7xIkWv5twLZsYGZgkZ+/3wJSkQoIle5kIEOuNtWBRSYnhIAkOo9Fj/S
- gYRxFIUVyJF/zGO5VyihHMlTc6MJAFXnWfKoP9pTsuTQCeeKrq+TmjZFVvtNwvxdH/62
- f11u5oZ2uEjtTN1iV4KyhMWe9/nWjl/6aY6BuQevOvv4b2ZUZW7a0Ln3m6goo2DVZb+d
- dVAOvX6W3iVTaDTcidlKWk8VgCrQZ5AMCiQJ7VCY8gUkuLnHFYaWHgsqCpg521bXXgHQ
- gqeg==
-X-Gm-Message-State: AJIora+3x1dqPF5InKylOVJV6h7ieGyS7neC+gPvyxIA4OvZqfLKHrAq
- OgcsNfmzef20Qbl/+SfvzSY=
-X-Google-Smtp-Source: AGRyM1v9WYYuU0mBUEqOos3s+YPYbE9rehK49zADd4tUbZ1ZMFZa88G7vdlJynmS8fl+cY/I2Cqivg==
-X-Received: by 2002:ac2:548d:0:b0:47f:b55a:6f60 with SMTP id
- t13-20020ac2548d000000b0047fb55a6f60mr1598551lfk.627.1656059400359; 
- Fri, 24 Jun 2022 01:30:00 -0700 (PDT)
-Received: from smtpclient.apple (31-178-127-80.dynamic.chello.pl.
- [31.178.127.80]) by smtp.gmail.com with ESMTPSA id
- d18-20020a056512369200b0047916805548sm256568lfs.242.2022.06.24.01.29.57
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 24 Jun 2022 01:29:57 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH v11 20/24] arm64: dts: rockchip: enable vop2 and hdmi tx
- on rock-3a
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <9567EECF-A154-4FE1-A03C-5ED080409030@gmail.com>
-Date: Fri, 24 Jun 2022 10:29:55 +0200
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <190C3FD3-0185-4A99-B10E-A5790047D993@gmail.com>
-References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
- <20220422072841.2206452-21-s.hauer@pengutronix.de>
- <A86359EC-5291-41BD-966E-EB7890644731@gmail.com>
- <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
- <0E6FE020-C95E-47CF-A9D6-AC3F2B2D334F@gmail.com>
- <CAMdYzYobfJ7WGN+UQ7t5e1Zy9knjfHLse8KzrGrHPfeMkkG0gw@mail.gmail.com>
- <9F2D8CFF-1EAE-4586-9EE9-82A9D67840BB@gmail.com>
- <CAMdYzYrz7DRj7F9hGaAPaTSiZkQ4eMNujAp8uPuE9geL6kAz4g@mail.gmail.com>
- <9567EECF-A154-4FE1-A03C-5ED080409030@gmail.com>
-To: Sascha Hauer <s.hauer@pengutronix.de>,
- Peter Geis <pgwipeout@gmail.com>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB4FD112CB5;
+ Fri, 24 Jun 2022 08:32:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656059530; x=1687595530;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=WunH/GL2HkxFEFwyyoLIK3zQHPDrYrHNLEqmjkJSQjc=;
+ b=nXvHieJ3woDNvtkTYQTNgbVRFC8NlIa8EXS71Q23DHYGQQNEUmd7jgH2
+ ma19zUtG+grbvwy+N4xxQser9yYD1qbonxgkNl/11TXLU4TobYaf5kEuW
+ 0/g35V3lxXBDILRHZFN0zzEpmajUTOkfNewm6WBaOqw2RYjs6mZJ4toYf
+ H+FIPoC4O7jdkdlZ5C/YsqyjGw3E7jxSYOVGCRJ7Tm/Aj42GObf3Ex1tt
+ B9cZduMv3q+0LyOAyIj0EqXsIcNTRWAB5iKLo93YuzWETSdO3a49YIMvu
+ x/CZQFfz9L8MlRbk3pCJaeMHzwBkeQRKayOlNiVLTi+q52FNy4sP0DjAH A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10387"; a="260770906"
+X-IronPort-AV: E=Sophos;i="5.92,218,1650956400"; d="scan'208";a="260770906"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 01:32:10 -0700
+X-IronPort-AV: E=Sophos;i="5.92,218,1650956400"; d="scan'208";a="915595800"
+Received: from acamigob-mobl.amr.corp.intel.com (HELO [10.212.103.132])
+ ([10.212.103.132])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 01:32:08 -0700
+Message-ID: <1d36da1a-9224-5750-d103-60e7cdfdf8df@linux.intel.com>
+Date: Fri, 24 Jun 2022 09:32:06 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/doc/rfc: VM_BIND uapi definition
+Content-Language: en-US
+To: "Zeng, Oak" <oak.zeng@intel.com>,
+ "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>,
+ "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>
+References: <20220622035650.29256-1-niranjana.vishwanathapura@intel.com>
+ <20220622035650.29256-4-niranjana.vishwanathapura@intel.com>
+ <6ac2f495-8ead-4824-f9af-1c03fb3770c4@linux.intel.com>
+ <20220622151229.GY376@nvishwa1-DESK>
+ <b347fb63-5200-9f5c-b0d6-ca51b7a064f9@linux.intel.com>
+ <20220622164445.GZ376@nvishwa1-DESK>
+ <e6ed0d2f-ee2a-2219-c2cc-49efc32f0560@linux.intel.com>
+ <1874e47b-4337-5ac6-ebea-fca21ea1ba4c@intel.com>
+ <6d70cde9-f856-540a-b1d4-0325596b0c88@linux.intel.com>
+ <BN6PR11MB1633C90D1B2E40359F1F168F92B59@BN6PR11MB1633.namprd11.prod.outlook.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <BN6PR11MB1633C90D1B2E40359F1F168F92B59@BN6PR11MB1633.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,109 +71,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- kernel test robot <lkp@intel.com>
+Cc: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Wilson,
+ Chris P" <chris.p.wilson@intel.com>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>, "Auld,
+ Matthew" <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 23/06/2022 22:05, Zeng, Oak wrote:
+>> -----Original Message-----
+>> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Tvrtko
+>> Ursulin
+>> Sent: June 23, 2022 7:06 AM
+>> To: Landwerlin, Lionel G <lionel.g.landwerlin@intel.com>; Vishwanathapura,
+>> Niranjana <niranjana.vishwanathapura@intel.com>
+>> Cc: Zanoni, Paulo R <paulo.r.zanoni@intel.com>; intel-gfx@lists.freedesktop.org;
+>> dri-devel@lists.freedesktop.org; Hellstrom, Thomas <thomas.hellstrom@intel.com>;
+>> Wilson, Chris P <chris.p.wilson@intel.com>; Vetter, Daniel
+>> <daniel.vetter@intel.com>; christian.koenig@amd.com; Auld, Matthew
+>> <matthew.auld@intel.com>
+>> Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/doc/rfc: VM_BIND uapi definition
+>>
+>>
+>> On 23/06/2022 09:57, Lionel Landwerlin wrote:
+>>> On 23/06/2022 11:27, Tvrtko Ursulin wrote:
+>>>>>
+>>>>> After a vm_unbind, UMD can re-bind to same VA range against an active
+>>>>> VM.
+>>>>> Though I am not sue with Mesa usecase if that new mapping is required
+>>>>> for
+>>>>> running GPU job or it will be for the next submission. But ensuring the
+>>>>> tlb flush upon unbind, KMD can ensure correctness.
+>>>>
+>>>> Isn't that their problem? If they re-bind for submitting _new_ work
+>>>> then they get the flush as part of batch buffer pre-amble.
+>>>
+>>> In the non sparse case, if a VA range is unbound, it is invalid to use
+>>> that range for anything until it has been rebound by something else.
+>>>
+>>> We'll take the fence provided by vm_bind and put it as a wait fence on
+>>> the next execbuffer.
+>>>
+>>> It might be safer in case of memory over fetching?
+>>>
+>>>
+>>> TLB flush will have to happen at some point right?
+>>>
+>>> What's the alternative to do it in unbind?
+>>
+>> Currently TLB flush happens from the ring before every BB_START and also
+>> when i915 returns the backing store pages to the system.
+> 
+> 
+> Can you explain more why tlb flush when i915 retire the backing storage? I never figured that out when I looked at the codes. As I understand it, tlb caches the gpu page tables which map a va to a pa. So it is straight forward to me that we perform a tlb flush when we change the page table (either at vm bind time or unbind time. Better at unbind time for performance reason).
 
-> Wiadomo=C5=9B=C4=87 napisana przez Piotr Oniszczuk =
-<piotr.oniszczuk@gmail.com> w dniu 14.05.2022, o godz. 15:58:
->=20
->=20
->=20
->> Wiadomo=C5=9B=C4=87 napisana przez Peter Geis <pgwipeout@gmail.com> w =
-dniu 09.05.2022, o godz. 18:00:
->>=20
->> If you want to confirm the hardware is configured correctly you can
->> remove the cec pin from the hdmi node and set up a cec-gpio node.
->> =
-https://elixir.bootlin.com/linux/v5.18-rc5/source/Documentation/devicetree=
-/bindings/media/cec-gpio.txt
->=20
-> Peter, Sascha
->=20
-> I configured cec-gpio and can confirm: with gpio cec works on my =
-rock3-a board v1.31.
->=20
-> So summarising my tests:
->=20
->                                        rock3-a v1.1   rock3-a v1.31   =
-rock3-b
->=20
-> radxa debian:                               ok             ok          =
-      ok
->=20
-> other ppl mainline 5.18:               ok             n/t              =
-  n/t
->=20
-> me with mainline 5.18:                 n/t            nok              =
-ok
->=20
-> me with mainline 5.18 gpio-cec:  n/t             ok                n/t
->=20
-> Non-working combination is: rock3-a v1.31 hw on mainline 5.18.=20
-> For me it looks like there is bug in case when rk3568 using cec on =
-hdmitxm1_cec line.
-> (The same binaries working ok on my rock3-b where cec is on =
-hdmitxm0_cec line. It also works on Peter's rock3a v1.1 - which also =
-uses hdmitxm0_cec line).
->=20
-> It looks like upper cec driver can talk to lower driver (dw-hdmi?) but =
-nothing is received from lower driver, as my app says:
-> CECAdapter: CEC device can't poll TV: TV does not respond to CEC polls
->=20
-> btw: I verified with oscilloscope connected to hdmitxm1_cec line: =
-starting cec-compliance -v -T shows expected series of 0V pulses on =
-hdmitxm1_cec line....
->=20
->=20
+I don't know what performs better - someone can measure the two 
+approaches? Certainly on platforms where we only have global TLB 
+flushing the cost is quite high so my thinking was to allow i915 to 
+control when it will be done and not guarantee it in the uapi if it 
+isn't needed for security reasons.
 
-Sascha, Peter
+> But it is rather tricky to me to flush tlb when we retire a backing storage. I don't see how backing storage can be connected to page table. Let's say user unbind va1 from pa1, then bind va1 to pa2. Then retire pa1. Submit shader code using va1. If we don't tlb flush after unbind va1, the new shader code which is supposed to use pa2 will still use pa1 due to the stale entries in tlb, right? The point is, tlb cached is tagged with virtual address, not physical address. so after we unbind va1 from pa1, regardless we retire pa1 or not, va1 can be bound to another pa2.
 
-I returned to trying to find why hdmi-cec is not working on rock3-a =
-v1.31 hw.
+When you say "retire pa1" I will assume you meant release backing 
+storage for pa1. At this point i915 currently does do the TLB flush and 
+that ensures no PTE can point to pa1.
 
-I'm on vop2 v11 on 5.18 mainline.
-=20
-Current findings:
+This approach deals with security of the system as a whole. Client may 
+still cause rendering corruption or a GPU hang for itself but that 
+should be completely isolated. (This is the part where you say 
+"regardless if we retire pa1 or not" I think.)
 
-(1) the same sw. stack/binaries works on rock-3b (where cec uses =
-hdmitx_m0 instead of hdmitx_m1 I/O line);
+But I think those are advanced use cases where userspace wants to 
+manipulate PTEs while something is running on the GPU in parallel. AFAIK 
+limited to compute "infinite batch" so my thinking is to avoid adding a 
+performance penalty to the common case. Especially on platforms which 
+only have global flush.
 
-(2) gpio-cec however works no problem on rock3-a;
+But.. to circle back on the measuring angle. Until someone invests time 
+and effort to benchmark the two approaches (flush on unbind vs flush on 
+backing store release) we don't really know. All I know is the perf hit 
+with the current solution was significant, AFAIR up to teen digits on 
+some games. And considering the flushes were driven only by the shrinker 
+activity, my thinking was they would be less frequent than the unbinds, 
+therefore have the potential for a smaller perf hit.
 
-(3) monitoring cec messages with v4-utils 'cec-follower -s' shows exact =
-the same events in non-working rock3-a and working rock3-b
-(tested by issue configure cec by 'cec-ctl -d /dev/cec0 =
---phys-addr=3D1.0.0.0 --playback' command)
+Regards,
 
---> i'm interpreting this as confirmation that low level phy layer =
-receives ok cec data from connected device on non-working rock3-a;
-
-(4) debug sysfs for cec shows "has CEC follower (in passthrough mode)" =
-for working rock-3b and there is NO "has CEC follower" debug message in =
-failing rock3-a.
-
-For me It looks like low-level hdmi-cec works ok on failing rock3-a - =
-but upper layers (in hdmi vop2?) are not registering (or failing to =
-register) cec-follower filehandle. This happens just when hdmitx I/O in =
-DT is changed from hdmitx_m0 to hdmutx_m1. A bit strange - but all my =
-tests consistently confirming this observation....
-
-I'm too weak in kernel cec internals - so maybe you have any pointers =
-how to further debug/investigate this issue?
-
-
-
-BTW: i'm not alone with cec issue on rock3a v1.31 - already 2 other =
-users contacted me with the same issue...
-
-
+Tvrtko
