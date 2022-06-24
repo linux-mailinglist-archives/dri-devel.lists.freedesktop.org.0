@@ -1,61 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E692559407
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 09:20:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2AEF559450
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 09:44:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1573111293F;
-	Fri, 24 Jun 2022 07:20:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C272F10FAA4;
+	Fri, 24 Jun 2022 07:44:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
- [IPv6:2607:f8b0:4864:20::d33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD0411293E
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 07:20:36 +0000 (UTC)
-Received: by mail-io1-xd33.google.com with SMTP id s17so1843387iob.7
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 00:20:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=T3cWuiVsBA+DxTai60AWhDn/fRpeEo8zydPZYQwQBPs=;
- b=INkRDWkgz7QnDYd6PfjGcOd+HtbGBuFAFVtHSry5oK+uSexxmKolSWc9+ahE6Bsyiy
- zARECUtXVj9Yxu3ivS1I4Ikbz9sEucWs/6ZUfMDlGUc1ip2twYgPIYULdbUypI86mIzl
- mgKyYU2J5DhoBlb4HK7R3TEsu+SHK4XuGA+Sy+iylrc+8UWz0NCSlrofWvh89/4vykAo
- bPzchCxSebnIj7stqgMYl19bvM4RMlQ20oNFDZeXuyIbbF87V3BWpZnr0GOf16WkU7KM
- cHqCSrIR2+2R/9pWLaP9povhX5tYXh1/3O3+jKfQ8vWGEl2U54uG0vtizyP5hjPfZERr
- EwTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=T3cWuiVsBA+DxTai60AWhDn/fRpeEo8zydPZYQwQBPs=;
- b=X/jkN5L15eOZbJAQY/8MkBfRrfSKtSVTqAOOMemVkRUAzLoaJXEo8cUQpWme8QSUVD
- JxwHlrebHsQ0t3u2+sU8MRYO1jEqP69cHeUPHphO3KOETnqkXaqb6AAPEo9dJsUv/yMt
- toc7axHRA3JraXUuzbDyeNjWMurzZ2/LTfbYnz0zsoemdNFejVa8xIGFi7r0fUN2HzmK
- RuJ16tik8wfblIJmd2AzKAUI99jCjhRR+yxz8kcDzN09yZ3hyQAxJ7nZdCIpbOloYiHT
- GbebonYKnj+abh7tnOxs7le0vLJPN5QzcsO9rlMoCd8QhejkZoSG/K4MT0OafWzvaFGf
- koTA==
-X-Gm-Message-State: AJIora9sZhnY7joyYT3ycj3T/KWo446kX8s9rxbhi/I7oPI8ku+mKjzb
- EJSobitaX6Yo1RpW2TaNOwyOw8fBygrfHeB2XrU=
-X-Google-Smtp-Source: AGRyM1v7K77xAmtUTEcEzoILdxRbEp2wv1joH1sI9ISqx+ur3eoSMLzrP7D8toJkzHB0bsYtmy7vVz+n8Z+nifA3RX0=
-X-Received: by 2002:a05:6638:430e:b0:332:586:5182 with SMTP id
- bt14-20020a056638430e00b0033205865182mr7357424jab.225.1656055236048; Fri, 24
- Jun 2022 00:20:36 -0700 (PDT)
+X-Greylist: delayed 1248 seconds by postgrey-1.36 at gabe;
+ Fri, 24 Jun 2022 07:44:18 UTC
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A856910F592
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 07:44:18 +0000 (UTC)
+Received: from p508fdadf.dip0.t-ipconnect.de ([80.143.218.223]
+ helo=phil.localnet) by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1o4df4-00074z-Ip; Fri, 24 Jun 2022 09:23:26 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Brian Norris <briannorris@chromium.org>,
+ Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH] drm/rockchip: vop: Don't crash for invalid
+ duplicate_state()
+Date: Fri, 24 Jun 2022 09:23:24 +0200
+Message-ID: <4196825.8hzESeGDPO@phil>
+In-Reply-To: <CAD=FV=Wsp6GA=L4GsEVjMqazgtw4qG40gtLq1HT++5e9eRrvTw@mail.gmail.com>
+References: <20220617172623.1.I62db228170b1559ada60b8d3e1637e1688424926@changeid>
+ <CAD=FV=Wsp6GA=L4GsEVjMqazgtw4qG40gtLq1HT++5e9eRrvTw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220623115631.22209-1-peterwu.pub@gmail.com>
- <20220623115631.22209-13-peterwu.pub@gmail.com>
- <CACRpkdZatfOFmeGXepTrjAk1or4W6KNUEaXnP+srRebfM=52AA@mail.gmail.com>
- <CACRpkdbzZqerE_2PeGMUWRbtjK=9P8V763cj83ZqjP4n6AVHAg@mail.gmail.com>
-In-Reply-To: <CACRpkdbzZqerE_2PeGMUWRbtjK=9P8V763cj83ZqjP4n6AVHAg@mail.gmail.com>
-From: szuni chen <szunichen@gmail.com>
-Date: Fri, 24 Jun 2022 15:20:24 +0800
-Message-ID: <CA+hk2fZEG0TxMGhGJY21w=MmXgKsH5mYCYynQV1jbhpOCyf3qg@mail.gmail.com>
-Subject: Re: [PATCH v3 12/14] leds: mt6370: Add Mediatek MT6370 current sink
- type LED Indicator support
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,69 +44,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
- Heikki" <heikki.krogerus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
- alice_chen@richtek.com, linux-iio <linux-iio@vger.kernel.org>,
+Cc: David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, ChiYuan Huang <cy_huang@richtek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Guenter Roeck <linux@roeck-us.net>,
- devicetree <devicetree@vger.kernel.org>, Linux PM <linux-pm@vger.kernel.org>,
- chiaen_wu@richtek.com, Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, ChiaEn Wu <peterwu.pub@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Cameron <jic23@kernel.org>
+ LKML <linux-kernel@vger.kernel.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Sean Paul <seanpaul@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
-
-Thank you for the comment.
-
-Linus Walleij <linus.walleij@linaro.org> =E6=96=BC 2022=E5=B9=B46=E6=9C=882=
-4=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=882:25=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> On Fri, Jun 24, 2022 at 8:23 AM Linus Walleij <linus.walleij@linaro.org> =
-wrote:
-> > Thanks for your patch!
+Am Freitag, 24. Juni 2022, 01:44:52 CEST schrieb Doug Anderson:
+> Hi,
+> 
+> On Fri, Jun 17, 2022 at 5:27 PM Brian Norris <briannorris@chromium.org> wrote:
 > >
-> > On Thu, Jun 23, 2022 at 1:58 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote=
-:
+> > It's possible for users to try to duplicate the CRTC state even when the
+> > state doesn't exist. drm_atomic_helper_crtc_duplicate_state() (and other
+> > users of __drm_atomic_helper_crtc_duplicate_state()) already guard this
+> > with a WARN_ON() instead of crashing, so let's do that here too.
 > >
-> > > From: ChiYuan Huang <cy_huang@richtek.com>
-> > >
-> > > Add Mediatek MT6370 current sink type LED Indicator driver.
-> > >
-> > > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > (...)
-> > >  drivers/leds/Kconfig       |  11 +
-> > >  drivers/leds/Makefile      |   1 +
-> > >  drivers/leds/leds-mt6370.c | 989 +++++++++++++++++++++++++++++++++++=
-++++++++++
+> > Signed-off-by: Brian Norris <briannorris@chromium.org>
+> > ---
 > >
-> > There is a drivers/leds/flash subdirectory these days, put the driver
-> > in that directory instead.
->
-> Sorry I'm commenting on the wrong patch.
->
-> I meant this one. Move that into drivers/leds/flash
->  drivers/leds/flash/leds-mt6370-flash.c             |  657 ++++++++++++
+> >  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> 
+> I'm not an expert in this area, but it makes sense to me to match
+> drm_atomic_helper_crtc_duplicate_state() in this way. Thus:
+> 
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> 
+> I would tend to assume that this would be landed in drm-misc by Heiko
+> if he's good with it. After several weeks of silence, however, I'll
+> commit it myself.
 
-In next version, I'll use "leds: flash: ......" instead of "leds:
-flashlight: ......" in subject.
-May I confirm that the driver has already in the drivers/leds/flash,
-so I don=E2=80=99t have to move it in next version?
+I do tend to batch up drm-misc patches, as that is always a different
+workflow but I'll pick that up :-)
+
+The interesting question would be, do we want some fixes tag for it?
 
 
-Sincerely,
-Alice Chen
+Heiko
+
+
