@@ -1,59 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E0E558C1E
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 02:09:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B18D558C48
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 02:35:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D793D10F17C;
-	Fri, 24 Jun 2022 00:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B653A10ED42;
+	Fri, 24 Jun 2022 00:35:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0E7710E862
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 00:09:48 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- l9-20020a056830268900b006054381dd35so714488otu.4
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 17:09:48 -0700 (PDT)
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
+ [IPv6:2607:f8b0:4864:20::112c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3721A10EC70
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 00:35:50 +0000 (UTC)
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-2ef5380669cso9968867b3.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 17:35:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=tNICjC0mqZ74g4NWx01ZNVZ2tkGnF23qOG9pMURoZhI=;
- b=keigWUEC4et/ph4vYev3R+C43rBbm6avYfx1ICG8YUlMjI17zFbQ2NqdKaLjP20MgD
- 03TUpRIu3LgOXZ1LnijQy9VU1OpjjuxDho5zFrbATU/RB9F/5S2AJ9Z0bf26Xo+1ooT0
- XGnZvujpKw3kMWwkNxBRfcYiO47Af/Ydzdzyk=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GqKdT3dVONdSuBBoFT9llbrHAF11LL5zs6qAaSJnw/w=;
+ b=DOmwfh+l4paHrVi598zFcpncVKvD5cZolVFHUmhU26dHkCf9RHDN8mtTksrI35yPEE
+ qxEW2ZwVpBpoFQU83FVzKz+tGYTszD/1Ha7gD07Fi3zZirZUHcpKnY9+PQhJr670nc1t
+ R8H4Xk3YKrwNYBnptLsWAdnsNZe15MyMmJo6c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=tNICjC0mqZ74g4NWx01ZNVZ2tkGnF23qOG9pMURoZhI=;
- b=RC3MCxchKMmJwxGtpCKpeVEVzVuGfusaDLeStg5PdvgeyX4GqDziC6OK8tvj1bXj0z
- F/YkWP4XQbHIxNVGNb8RAMLCZNZz7CzsdRTV3P9FLpGv8Bb6jtawm+az8Qqavq1H/XjL
- FSSjVvmYNRPGsGR3WIvC6KmZGyQH7lBh83Rc8UOH6fh+7CigAvCiQ/9D24WZTVPTQ2Le
- K3Wfd2A9zabjkDO1vgoxUNLnk6EB/yyaEs5CgGmopKu5Fjj3U3WoMWHzY6GOzg154yms
- ka3GRu+5dUfNXuF2DH32bGzCTqkGLxku+Jy/3V9M3LPFhxCdOgSdw2oT52uhZgSUb8L1
- pTig==
-X-Gm-Message-State: AJIora+cieQl+3yqAyh/92StAa6bOKSD1WPOwRTTu/xQIDm6MCFe+Lmq
- yFm800Rsy/X9/trvXPZ39ZSFFMCYKepBIhxAxj5a0Q==
-X-Google-Smtp-Source: AGRyM1toYtnlSvt/KriWql1qkmbYZ0fd3ZbL7W+3GyjF+TFTpfJIy6lNOXNS1wd+UjrciaaVGHz2lZIw6TxPwoIv6+Y=
-X-Received: by 2002:a9d:729b:0:b0:60c:21bd:97c0 with SMTP id
- t27-20020a9d729b000000b0060c21bd97c0mr4954986otj.77.1656029388070; Thu, 23
- Jun 2022 17:09:48 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 23 Jun 2022 17:09:47 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GqKdT3dVONdSuBBoFT9llbrHAF11LL5zs6qAaSJnw/w=;
+ b=N63ygfDUu+MFt4eh7scm2UvHCA2x8IC3ROqizUf7fv+lINtCTDBDcXAPi7EnX8ol98
+ Stcs4VTIP0KCZYjcKaZswfW6WrqZf/H2IaNRUNtBeaLAaGOwXAScFKcK/b+wIWNZZRWS
+ q3wCm3h+rPsJxU/SF9Sh344jgKVeNh5AFTKV4rGf5desfTnYCeWJmom6T8mw0gSAvcgk
+ aW9S7xdfnfxxWkjXWB5JLPg1Y7D8VQe/MNofxAwZPxQCxGy+Mii93ne4ZX98ZAr1VlPa
+ WsQum/eqRBX8r40GnfmxwGVRQYbfh2nq18mI3MFhWMbvjt6h1JZbPGNkanKnzVTdQif6
+ pv/Q==
+X-Gm-Message-State: AJIora9A21feWT1B9ilSwCJtR8DiZo73zRwRhe5rdBiBLQxQ5htnP1xm
+ uVlJcmHHHUhiYsSIxmRismB1x0WAhpuzAyj9Hd8AYA==
+X-Google-Smtp-Source: AGRyM1uBKQD9wjAYkjimPhXgCBaHo8gzQ1Bc+eCZtFeFu3Q7JuDMn9jAp8dPvxrvC65xWxpjdYbs6bBm/flmffvN0yw=
+X-Received: by 2002:a81:38c2:0:b0:314:2ef4:4958 with SMTP id
+ f185-20020a8138c2000000b003142ef44958mr13528889ywa.432.1656030949187; Thu, 23
+ Jun 2022 17:35:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1656027256-6552-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1656027256-6552-1-git-send-email-quic_khsieh@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Thu, 23 Jun 2022 17:09:47 -0700
-Message-ID: <CAE-0n534jvnjX5TShZw7CB9Cu9F7yowhwUosNkJE8t_R4xHYOw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: no dp_hpd_unplug_handle() required for eDP
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
- bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
- dmitry.baryshkov@linaro.org, robdclark@gmail.com, sean@poorly.run, 
- vkoul@kernel.org
+References: <20220622173605.1168416-1-pmalani@chromium.org>
+ <20220622173605.1168416-2-pmalani@chromium.org>
+ <CAE-0n51kcr3VGdR2Kf8j1JaBbLcCmWo9GYhhvkUQ4+jn2iEKLg@mail.gmail.com>
+ <CACeCKac4eL9++QwbDBKrVTpUzhes=WczqZfh+cFiVgoO4py4MQ@mail.gmail.com>
+ <CAE-0n51E1TLMRNWnqiV-jU_qg15BF4D6A+0G1y1SRTu1zNs2Dg@mail.gmail.com>
+In-Reply-To: <CAE-0n51E1TLMRNWnqiV-jU_qg15BF4D6A+0G1y1SRTu1zNs2Dg@mail.gmail.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Thu, 23 Jun 2022 17:35:38 -0700
+Message-ID: <CACeCKacGZFY-_yn1R33OVcsdG47oqNTGBA43L5hrH2zyhK=cRw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/9] dt-bindings: usb: Add Type-C switch binding
+To: Stephen Boyd <swboyd@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,59 +64,202 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-06-23 16:34:16)
-> eDP implementation does not reuried to support hpd signal. Therefore
+On Thu, Jun 23, 2022 at 4:14 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Prashant Malani (2022-06-23 12:08:21)
+> > On Thu, Jun 23, 2022 at 11:30 AM Stephen Boyd <swboyd@chromium.org> wrote:
+> > >
+> > > Quoting Prashant Malani (2022-06-22 10:34:30)
+> > > > diff --git a/Documentation/devicetree/bindings/usb/typec-switch.yaml b/Documentation/devicetree/bindings/usb/typec-switch.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..78b0190c8543
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/usb/typec-switch.yaml
+> > > > @@ -0,0 +1,74 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> [...]
+> > > > +  ports:
+> > > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > > +    description: OF graph binding modelling data lines to the Type-C switch.
+> > > > +
+> > > > +    properties:
+> > > > +      port@0:
+> > > > +        $ref: /schemas/graph.yaml#/properties/port
+> > > > +        description: Link between the switch and a Type-C connector.
+> > >
+> > > Is there an update to the usb-c-connector binding to accept this port
+> > > connection?
+> >
+> > Not at this time. I don't think we should enforce that either.
+> > (Type-C data-lines could theoretically be routed through intermediate
+> > hardware like retimers/repeaters)
+>
+> I'm mostly wondering if having such a connection to the usb-c-connector,
+> or even through some retimer/repeater, would be sufficient to detect how
+> many type-c ports are connected to the device. If the type-c pin
+> assignments only support two or four lanes for DP then it seems like we
+> should describe the two lanes or four lanes as one graph endpoint
+> "output" and then have some 'data-lanes' property in case the DP lanes
+> are flipped while being sent to the retimer or usb-c-connector. This
+> would of course depend on the capability of the device, i.e. if it can
+> remap DP lanes or only has 2 lanes of DP, etc.
+>
+> > > > +  - |
+> > > > +    drm-bridge {
+> > > > +        usb-switch {
+> > > > +            compatible = "typec-switch";
+> > >
+> > > I still don't understand the subnode design here. usb-switch as a
+> > > container node indicates to me that this is a bus, but in earlier rounds
+> > > of this series it was stated this isn't a bus.
+> >
+> > I am not aware of this as a requirement. Can you please point me to the
+> > documentation that states this needs to be the case?
+>
+> I'm not aware of any documentation for the dos and don'ts here. Are
+> there any examples in the bindings directory that split up a device into
+> subnodes that isn't in bindings/mfd?
 
-s/reuried/require/
+usb-c-connector [3] and its users is an example.
 
-> it only has either ST_DISPLAY_OFF or ST_CONNECTED state during normal
-> operation. This patch remove unnecessary dp_hpd_unplug_handle() for
-> eDP but still keep dp_hpd_plug_handle() to support eDP to either
-> booting up or resume from ST_DISCONNECTED state.
+>  I just know from experience that
+> any time I try to make a child node of an existing node that I'm
+> supposed to be describing a bus, unless I'm adding some sort of
+> exception node like a graph binding or an opp table. Typically a node
+> corresponds 1:1 with a device in the kernel. I'll defer to Rob for any
+> citations.
+>
+> >
+> > > Why doesn't it work to
+> > > merge everything inside usb-switch directly into the drm-bridge node?
+> >
+> > I attempted to explain the rationale in the previous version [1], but
+> > using a dedicated sub-node means the driver doesn't haven't to
+> > inspect individual ports to determine which of them need switches
+> > registered for them. If it sees a `typec-switch`, it registers a
+> > mode-switch and/or orientation-switch. IMO it simplifies the hardware
+> > device binding too.
+>
+> How is that any harder than hard-coding that detail into the driver
+> about which port and endpoint is possibly connected to the
+> usb-c-connector (or retimer)? All of that logic could be behind some API
+> that registers a typec-switch based on a graph port number that's passed
+> in, ala drm_of_find_panel_or_bridge()'s design.
 
-I take it that making this change also fixes a glitch seen on the eDP
-panel when a second modeset happens? Can you add that detail to the
-commit text? The way it reads makes it sound like this is purely a
-cleanup patch, but then there's a Fixes tag so it must be a bug fix or
-worthy optimization, neither of which is described.
+If each driver has to do it (and the port specifics vary for each driver),
+it becomes an avoidable overhead for each of them.
+I prefer hard-coding such details if avoidable. I suppose both approaches
+require modifications to the binding and the driver code.
 
 >
-> Fixes: 391c96ff0555 ("drm/msm/dp: Support only IRQ_HPD and REPLUG interrupts for eDP")
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index da5c03a..ef9794e 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1666,7 +1666,7 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
->                 return;
->         }
->
-> -       if (dp->is_edp)
-> +       if (dp->is_edp && dp_display->hpd_state == ST_DISCONNECTED)
->                 dp_hpd_plug_handle(dp_display, 0);
->
->         mutex_lock(&dp_display->event_mutex);
-> @@ -1737,9 +1737,6 @@ void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
->
->         dp_display = container_of(dp, struct dp_display_private, dp_display);
->
-> -       if (dp->is_edp)
-> -               dp_hpd_unplug_handle(dp_display, 0);
+> Coming from a DT writer's perspective, I just want to go through the
+> list of output pins in the datasheet and match them up to the ports
+> binding for this device. If it's a pure DP bridge, where USB hardware
+> isn't an input or an output like the ITE chip, then I don't want to have
+> to describe a port graph binding for the case when it's connected to a
+> dp-connector (see dp-connector.yaml) in the top-level node and then have
+> to make an entirely different subnode for the usb-c-connector case with
+> a whole other set of graph ports.
 
-dp_hpd_unplug_handle() has a !edp check, and from what I can tell after
-this patch that condition will always trigger? But then I wonder why we
-aren't masking the irqs for hpd when the eDP display is disabled.
-Shouldn't we at least be doing that so that we don't get spurious hpd
-irqs when the eDP display is off or on the path to suspend where I
-suspect the power may be removed from the panel?
+This approach still allows for that, if the driver has any use for it
+(AFAICT these drivers don't).
+Iff that driver uses it, one can (optionally) route their output
+(top-level) ports through the
+"typec-switch" sub-node (and onwards as required).
+If it's being used in a "pure-DP" configuration, the "typec-switch" just
+goes away (the top level ports can be routed as desired by the driver).
+(Again, I must reiterate that neither this driver or the anx driver
+utilizes this)
+
+>
+> How would I even know which two differential pairs correspond to port0
+> or port1 in this binding in the ITE case?
+
+Why do we need to know that? It doesn't affect this or the other
+driver or hardware's
+functioning in a perceivable way.
+
+> Ideally we make the graph
+> binding more strict for devices by enforcing that their graph ports
+> exist. Otherwise we're not fully describing the connections between
+> devices and our dtb checkers are going to let things through where the
+> driver most likely will fail because it can't figure out what to do,
+> e.g. display DP on 4 lanes or play some DP lane rerouting games to act
+> as a mux.
+
+How is the current binding enforcing this? The typec-switch binding
+as a first step ensures that the DT is connecting the hardware(anx,ite
+etc) to something
+that at least "claims" to be a Type-C switch.
+
+>
+> >
+> > It also maps with the internal block diagram for these hardware
+> > components (for ex. the anx7625 crosspoint switch is a separate
+> > sub-block within anx7625).
+>
+> We don't make DT bindings for sub-components like this very often. It
+> would make more sense to me to have a subnode if a typec switch was some
+> sort of off the shelf hard macro that the hardware engineer placed down
+> inside the IC that they delivered. Then we could have a completely
+> generic driver that binds to the generic binding that knows how to drive
+> the hardware, because it's an unchangeable hard macro with a well
+> defined programming interface.
+>
+> >
+> > [1] https://lore.kernel.org/linux-usb/CACeCKaeH6qTTdG_huC4yw0xxG8TYEOtfPW3tiVNwYs=P4QVPXg@mail.gmail.com/
+>
+> I looked at the fsa4480 driver and the device has a publicly available
+> datasheet[2]. That device is designed for "audio accessory mode" but I
+> guess it's being used to simply mux SBU lines? There isn't an upstream
+> user of the binding so far, but it also doesn't look like a complete
+> binding. I'd expect to see DN_L/R as a graph output connected to the
+> usb-c-connector and probably have a usb2.0 input port and a 'sound-dai'
+> property to represent the input audio path.
+>
+> Finally, simply connecting to the typec controller node isn't sufficient
+> because a typec controller can be controlling many usb-c-connectors so I
+> don't see how the graph binding would be able to figure out how many
+> usb-c-connectors are connected to a mux like device, unless we took the
+> approach of this patch.
+
+It can follow the endpoint of the typec-switch port (the port parent
+of the remote
+end-point would be a 'usb-c-connector'). That is if the graph binding
+(I'm assuming you mean the switch device here) wants to figure this
+out in the first place.
+
+> Is that why you're proposing this binding? To
+> avoid describing a graph binding in the usb-c-connector and effectively
+> "pushing" the port count up to the mux?
+
+No, that is not the intention behind this series. The
+'usb-c-connector' still needs the
+graph binding to the `typec-switch`. SBU, HS and SS lanes might have different
+muxes altogether (usb-c-connect has separate ports for SBU, HS and SS lanes)
+
+>
+> [2] https://www.onsemi.com/pdf/datasheet/fsa4480-d.pdf
+
+[3] https://elixir.bootlin.com/linux/latest/source/Documentation/devicetree/bindings/connector/usb-connector.yaml#L23
