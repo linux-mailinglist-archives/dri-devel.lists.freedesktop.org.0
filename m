@@ -2,85 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA29455A364
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 23:18:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A680B55A362
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 23:17:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB6F910EDD4;
-	Fri, 24 Jun 2022 21:18:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DCB610ED38;
+	Fri, 24 Jun 2022 21:17:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 516EB10EDD4
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 21:18:02 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id g26so7136529ejb.5
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 14:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kOvhoEpSE/InAZniXEti7vxsLeyf1a5ZFLlDrYfEPAA=;
- b=M1hPxnJUFy/KS9mddV1ZPCrOTUCJOFrbdOpyi7j0ftrXkyhBEEnYliwfUMRIJpc302
- UerGSaJuJ0U+ZQOOBbu9YnTTWBPqzn6BGm20kcHK021zUKyUQcLbeROv76yKvkCA4wL5
- TKPV/NeXPSFred9jnh+TebuOPhqPca6DgiiGGp4t7notg/0HrutadjdFHCaRzrR60/SS
- kEf+UPdtfuMWWyAGy3sWvPgk2BDAIWToAkVEoiSpYe94Nv1jd3nvOoAgAb/ln/G4XSiC
- GAFPYKei8IcLsfKWZvc/9gQfNai9RmMKWnJqWlZq+QZRlzREX3RhLKN999kWcpZY7b77
- 80Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kOvhoEpSE/InAZniXEti7vxsLeyf1a5ZFLlDrYfEPAA=;
- b=froD0YCNEeiIu9NhgM6muojMD8C1p/Ogx+gJAtMh/sGC4/jSXzLYqePMTIj/54sxvX
- hFU8y3xz+Z7jkKymJKjX6RrZWrxNEw5IklsziSMpsKHgrVosFrsRzp12plVMNJQuSNQl
- YnUmltft3X3MpL+vZiqao6GJw2URBJuj/B35o3pKOdrictOofKYrCJgOx10k0IXp46jn
- fjeE6lmRiqK46w+JOsk77YbHuCf0zQIUY2VE7/Ig3m39nLGLr0+BLzWgFbtd1fSarZHJ
- sAh0kms7TYlcDoOHf/Tk0YBJiE7NZlWUsJWnkFmXAGNLcWfyZdMd9tDZWmPapH8GOU/Z
- aIyQ==
-X-Gm-Message-State: AJIora9Y5daiiCz63noQAMHwFf8Ta2gqfk6eyginCjRfKlKO7X48MUsH
- I32hg9mdyumh9QSeusbw/Tvn6ywWZA8fiRGDVc6+qQ==
-X-Google-Smtp-Source: AGRyM1sSg7LIinwzTB+qnSxgsQphAXAb9tAoVzunteBdzvrsgIwf9MXdDqBKLlkpEVBLtUpHvFPPJdLDYUqh2lPKgqo=
-X-Received: by 2002:a17:907:d25:b0:711:ea61:63aa with SMTP id
- gn37-20020a1709070d2500b00711ea6163aamr992776ejc.584.1656105480525; Fri, 24
- Jun 2022 14:18:00 -0700 (PDT)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB7510ED38;
+ Fri, 24 Jun 2022 21:17:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1656105475; x=1687641475;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=oXy5HhC7O8BQutw+O6SMcz5I+YvGlUPqUb8wDFujtUU=;
+ b=B7eCJeJTY43MI2R88XdI7XWvptWyTY1TlGWBqx4/eyYZzBVewfywKGPC
+ c5bz3F1VMNBWuE7D4g6YHs9SavtU6nvuRjgFVuf8e1BUGd3S1VdPKoJHg
+ +/MPBD5ufPSuLzNs6xwOlqyq5ladR+YK179k6H3zVaKsEL+cYiC/UPvkH E=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 24 Jun 2022 14:17:54 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 14:17:53 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 24 Jun 2022 14:17:52 -0700
+Received: from [10.110.58.84] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 24 Jun
+ 2022 14:17:51 -0700
+Message-ID: <007ea4c9-9701-f4ab-3278-5d36bf2018c4@quicinc.com>
+Date: Fri, 24 Jun 2022 14:17:50 -0700
 MIME-Version: 1.0
-References: <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
- <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
- <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
- <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
- <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
- <YodHjYlMx1XGtM2+@slm.duckdns.org>
- <CABdmKX2Ok023rN1drQgXVZLKUO_DVYrzmEamCgMMu6BPO67yhQ@mail.gmail.com>
- <CABdmKX0WV8VWgeafVGJ++nJ4xsJD7Wpz=3KX=BW1du=huttfvw@mail.gmail.com>
- <YrYbwu0iIAJJGXVg@phenom.ffwll.local>
- <CANDhNCqGjaq-SFvWwkqnEFj4tJcRqCYupZ03wLyCexqTH5MqMg@mail.gmail.com>
- <YrYgWCTtZqfvCt5D@phenom.ffwll.local>
-In-Reply-To: <YrYgWCTtZqfvCt5D@phenom.ffwll.local>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Fri, 24 Jun 2022 14:17:49 -0700
-Message-ID: <CABdmKX0bJDLwK7JEDGVb=KHtoVbZgnXYr8UE5eUpLYuAyiWwyw@mail.gmail.com>
-Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
-To: John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Tejun Heo <tj@kernel.org>, 
- Nicolas Dufresne <nicolas@ndufresne.ca>, Zefan Li <lizefan.x@bytedance.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
- Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
- Joel Fernandes <joel@joelfernandes.org>, Christian Brauner <brauner@kernel.org>,
- Hridya Valsaraju <hridya@google.com>, Suren Baghdasaryan <surenb@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Liam Mark <lmark@codeaurora.org>, 
- Laura Abbott <labbott@redhat.com>, Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <john.stultz@linaro.org>, Shuah Khan <shuah@kernel.org>, 
- Carlos Llamas <cmllamas@google.com>, Kalesh Singh <kaleshsingh@google.com>,
- Kenny.Ho@amd.com, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, kernel-team@android.com, 
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v1 2/3] drm/msm/dp: decoupling dp->id out of dp
+ controller_id at scxxxx_dp_cfg table
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dianders@chromium.org>, <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>, <sean@poorly.run>,
+ <vkoul@kernel.org>
+References: <1656090912-18074-1-git-send-email-quic_khsieh@quicinc.com>
+ <1656090912-18074-3-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n52RW+UFJ=hqMWjwR8qvEbww7QjzPW1nhL3Atd97QXAnYw@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n52RW+UFJ=hqMWjwR8qvEbww7QjzPW1nhL3Atd97QXAnYw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,108 +70,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 24, 2022 at 1:36 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Fri, Jun 24, 2022 at 01:32:45PM -0700, John Stultz wrote:
-> > On Fri, Jun 24, 2022 at 1:17 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Wed, Jun 15, 2022 at 10:31:21AM -0700, T.J. Mercier wrote:
-> > > > On Fri, May 20, 2022 at 9:25 AM T.J. Mercier <tjmercier@google.com> wrote:
-> > > > >
-> > > > > On Fri, May 20, 2022 at 12:47 AM Tejun Heo <tj@kernel.org> wrote:
-> > > > > >
-> > > > > > Hello,
-> > > > > >
-> > > > > > On Tue, May 17, 2022 at 04:30:29PM -0700, T.J. Mercier wrote:
-> > > > > > > Thanks for your suggestion. This almost works. "dmabuf" as a key could
-> > > > > > > work, but I'd actually like to account for each heap. Since heaps can
-> > > > > > > be dynamically added, I can't accommodate every potential heap name by
-> > > > > > > hardcoding registrations in the misc controller.
-> > > > > >
-> > > > > > On its own, that's a pretty weak reason to be adding a separate gpu
-> > > > > > controller especially given that it doesn't really seem to be one with
-> > > > > > proper abstractions for gpu resources. We don't want to keep adding random
-> > > > > > keys to misc controller but can definitely add limited flexibility. What
-> > > > > > kind of keys do you need?
-> > > > > >
-> > > > > Well the dmabuf-from-heaps component of this is the initial use case.
-> > > > > I was envisioning we'd have additional keys as discussed here:
-> > > > > https://lore.kernel.org/lkml/20220328035951.1817417-1-tjmercier@google.com/T/#m82e5fe9d8674bb60160701e52dae4356fea2ddfa
-> > > > > So we'd end up with a well-defined core set of keys like "system", and
-> > > > > then drivers would be free to use their own keys for their own unique
-> > > > > purposes which could be complementary or orthogonal to the core set.
-> > > > > Yesterday I was talking with someone who is interested in limiting gpu
-> > > > > cores and bus IDs in addition to gpu memory. How to define core keys
-> > > > > is the part where it looks like there's trouble.
-> > > > >
-> > > > > For my use case it would be sufficient to have current and maximum
-> > > > > values for an arbitrary number of keys - one per heap. So the only
-> > > > > part missing from the misc controller (for my use case) is the ability
-> > > > > to register a new key at runtime as heaps are added. Instead of
-> > > > > keeping track of resources with enum misc_res_type, requesting a
-> > > > > resource handle/ID from the misc controller at runtime is what I think
-> > > > > would be required instead.
-> > > > >
-> > > > Quick update: I'm going to make an attempt to modify the misc
-> > > > controller to support a limited amount of dynamic resource
-> > > > registration/tracking in place of the new controller in this series.
-> > > >
-> > > > Thanks everyone for the feedback.
-> > >
-> > > Somehow I missed this entire chain here.
-> > >
-> > > I'm not a fan, because I'm kinda hoping we could finally unify gpu memory
-> > > account. Atm everyone just adds their one-off solution in a random corner:
-> > > - total tracking in misc cgroup controller
-> > > - dma-buf sysfs files (except apparently too slow so it'll get deleted
-> > >   again)
-> > > - random other stuff on open device files os OOM killer can see it
-> > >
-> > > This doesn't look good.
-> >
-> > But I also think one could see it as "gpu memory" is the drm subsystem
-> > doing the same thing (in that it's artificially narrow to gpus). It
-> > seems we need something to account for buffers allocated by drivers,
-> > no matter which subsystem it was in (drm, v4l2, or networking or
-> > whatever).
->
-> This is what the gpucg was. It wasn't called the dmabuf cg because we want
-> to account also memory of other types (e.g. drm gem buffer objects which
-> aren't exported), and I guess people didn't dare call it an xpu.
->
-> But this was absolutely for a lot more than just "gpu drivers in drm".
-> Better names welcome.
-> -Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
 
-From an API perspective the two approaches (misc vs GPU) seem similar
-to me. Someone comes up with a name of a resource they want to track,
-and it's added as a key in a cgroup interface file as drivers register
-and perform accounting on that resource. Considering just the naming,
-what do you see as the appeal of a controller named GPU/XPU vs one
-named Misc? Folks seem to have assumptions about the type of resources
-a "GPU" controller should be tracking, and potentially also how
-different resources are grouped under a single resource name. So is
-your thought that non-graphics related accounting of the same sort
-should be using a differently named controller, even if that
-controller could have the same implementation?
+On 6/24/2022 1:00 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-06-24 10:15:11)
+>> Current the index (dp->id) of DP descriptor table (scxxxx_dp_cfg[]) are tightly
+>> coupled with DP controller_id. This means DP use controller id 0 must be placed
+>> at first entry of DP descriptor table (scxxxx_dp_cfg[]). Otherwise the internal
+>> INTF will mismatch controller_id. This will cause controller kickoff wrong
+>> interface timing engine and cause dpu_encoder_phys_vid_wait_for_commit_done
+>> vblank timeout error.
+>>
+>> This patch add controller_id field into struct msm_dp_desc to break the tightly
+>> coupled relationship between index (dp->id) of DP descriptor table with DP
+>> controller_id.
+> Please no. This reverts the intention of commit bb3de286d992
+> ("drm/msm/dp: Support up to 3 DP controllers")
+>
+>      A new enum is introduced to document the connection between the
+>      instances referenced in the dpu_intf_cfg array and the controllers in
+>      the DP driver and sc7180 is updated.
+>
+> It sounds like the intent of that commit failed to make a strong enough
+> connection. Now it needs to match the INTF number as well? I can't
+> really figure out what is actually wrong, because this patch undoes that
+> intentional tight coupling. Is the next patch the important part that
+> flips the order of the two interfaces?
 
-My thought is that the resource names should be as specific as
-possible to allow fine-grained accounting, and leave any grouping of
-resources to userspace. We can do that under any controller. If you'd
-like to see a separate controller for graphics related stuff... well
-that's what I was aiming for with the GPU cgroup controller. It's just
-that dmabufs from heaps are the first use-case wired up.
+The commit bb3de286d992have two problems,
 
-I haven't put much time into the misc controller effort yet, and I'd
-still be happy to see the GPU controller accepted if we can agree
-about how it'd be used going forward. Daniel, I think you're in a
-great position to comment about this. :) If there's a place where the
-implementation is missing the mark, then let's change it. Are the
-controller and resource naming the only issues?
+1)  The below sc7280_dp_cfg will not work, if eDP use 
+MSM_DP_CONTROLLER_2 instead of  MSM_DP_CONTROLLER_1
+
+since it have num_descs =2 but eDP is at index 2 (CONTROLLER_2) which 
+never be reached.
+
+static const struct msm_dp_config sc7280_dp_cfg = {
+         .descs = (const struct msm_dp_desc[]) {
+                 [MSM_DP_CONTROLLER_2] = { .io_start = 0x0aea0000, 
+.connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
+                 [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, 
+.connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_en = true },
+         },
+         .num_descs = 2,
+};
+
+2)  DP always has index of 0 (dp->id = 0) and the first one to call 
+msm_dp_modeset_init(). This make DP always place at head of bridge chain.
+
+At next patch eDP must be placed at head of bridge chain to fix eDP 
+corruption issue. This is the purpose of this patch. I will revise the 
+commit text.
+
+
