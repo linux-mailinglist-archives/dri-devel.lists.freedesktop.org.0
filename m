@@ -1,113 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97C6D55A472
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 00:42:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AEE755A482
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 00:53:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E43810F6C8;
-	Fri, 24 Jun 2022 22:42:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4175188420;
+	Fri, 24 Jun 2022 22:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2043.outbound.protection.outlook.com [40.107.94.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FFDA10F6C4;
- Fri, 24 Jun 2022 22:42:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CWH9kZFDRZNVrAy6Olb6IemiEth04hNMhUD0Be87S7Tx9Y3oqQ4D+WJsf6cLhzc4CnQXGC7FwsfKHgnDxfX40AVi+2bw5+NkBgagttMtX0nr5wuB5EOPURBDsdR6Le870NgCifCaAR4+Mdfr9q6d5/R9Im2u3m+dARrB+8Omg0SA+C+NEbf5vq6JhTps46vmtxJg/MK8C+H1ir2+P2E4/m2ja6cvZxhFQ6fajBTBLzOAhHL8BOkF6fkFSjZNiQpsOrI1qu7qMj2OSPOPcVfqyZ+/DFL0FWjwXUvbAsQD47hVXG83Jom80aNKB1PR3qb7+vucd3Ea7SAVEneBhWLDFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WMIWfcVCPcPY7eyamtxYEi2QuYTPSHZ15Hi2O2J0Mk8=;
- b=U7u9TFKxg65mWnG/qcx/GO5FAfuZ2MSOSO9PxJ/s0swWAk3UpMlUtho/FBF5rded+e87f+0qi6T8sCOLXtgVpXhiQc4I/80AezioB0tn7x8xIG6o3c4x+a2KA8ynZ4CmkOfOOtvIqqka/HdbUiEeMxaD7v9SMquhAOE/SJg2x9POtrX53bczKsOgcpTLaG3e64OYz01EhL0+I6Rtq+iOMK/Liw0fycFEG9s7CLvugAIhu/Po9zA+y2kaACF9i9No18BtN1sLcjQYytUGiCW6wtmDok8VaxiiB8g1N7FCXudJdiAGHMINKqGekCc7dPCAJ/I6kESciwsgjNfU0dL/uw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WMIWfcVCPcPY7eyamtxYEi2QuYTPSHZ15Hi2O2J0Mk8=;
- b=rPsEMYen+HjCyrndhf3UJ9kPTQLZxwhVta/GqMcZmrwi8QzPa+H8XoTdnFhZP2rHrJlzkcl2VysR/PuLxPcuPk/1b9RnY2aVs6cPpgLVEge3DpHTXV1iR/AE9tFj5QA05Gd8OqdFaR7/KLudVA89OiTazCGrpC9uxhSJBFCob9I3Q98WJK6uqejjRVM5H2yCtUPKOC89PVYAdIm29mO0/j4ELSeb9T6w55EP/FHAleAazGAhGIGqUSD3c1usXFHrtE2JSwCLrCOMFePpTsRkYjbhyMuT+5J9CW8kNIFvX/5vaKfkqCkQx2cgbbiu/QFr5VbRCd7R79cSAGw2IRAlxg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by CH2PR12MB4277.namprd12.prod.outlook.com (2603:10b6:610:ae::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17; Fri, 24 Jun
- 2022 22:42:47 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ac35:7c4b:3282:abfb]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ac35:7c4b:3282:abfb%3]) with mapi id 15.20.5373.016; Fri, 24 Jun 2022
- 22:42:47 +0000
-Date: Fri, 24 Jun 2022 19:42:45 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Subject: Re: [RFT][PATCH v1 5/6] vfio/ccw: Add kmap_local_page() for memcpy
-Message-ID: <20220624224245.GC4147@nvidia.com>
-References: <20220616235212.15185-1-nicolinc@nvidia.com>
- <20220616235212.15185-6-nicolinc@nvidia.com>
- <Yqw+7gM3Lz96UFdz@infradead.org> <20220620025726.GA5219@nvidia.com>
- <YrAUZ7hXy2FcZcjl@infradead.org> <YrI2Ul/u6pRvt0rT@Asurada-Nvidia>
- <20220624135615.GO4147@nvidia.com>
- <YrYO/KAa2bqmxEIu@Asurada-Nvidia>
- <20220624193042.GB4147@nvidia.com>
- <YrYayPvA7XlCZLQ2@Asurada-Nvidia>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YrYayPvA7XlCZLQ2@Asurada-Nvidia>
-X-ClientProxiedBy: BL0PR0102CA0063.prod.exchangelabs.com
- (2603:10b6:208:25::40) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92FD2897F3;
+ Fri, 24 Jun 2022 22:53:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1656111229; x=1687647229;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=TZOMCG67drrunYm+DJzfXcI4dQeWRX6/LkhF4yBxQWQ=;
+ b=pDtoOYJZpR+g0IJDqU61ZiAMKqDo9pdV61bTFuQTzJIGks9sAxq2vS4t
+ 4sWm6xajI+gzc/mEuAvYqBQJxr4JwX94UUWdwYvtJt0bQn6D8zzbwAzzq
+ dZf5/A7SIxf3pLs1+o86He6w5MbTL0E2APQu/agwZbHdZ4v7lMiRbg2Z7 o=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 24 Jun 2022 15:53:48 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 15:53:47 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 24 Jun 2022 15:53:47 -0700
+Received: from [10.110.58.84] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 24 Jun
+ 2022 15:53:45 -0700
+Message-ID: <326912ff-9771-0711-366d-79acd436908b@quicinc.com>
+Date: Fri, 24 Jun 2022 15:53:45 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bc6949e5-adb7-42a7-2849-08da5632dc84
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4277:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: r1x/gn3AwOcF7Yr29cD6d6WjnEs4ILExmWlMwoMDDSqzzfDuBlEKgrxN2de0eVulZhAgO84m689l7V9gqCiSbw5Cqh8nhOzGkLMzAYqd29VeQJzBMmaVDyXMz1tlcu+8/3Mz/CN1QQSdfJTjYsNBKSxWFu2JKl0FdaJj8YR+Lh1TuyPBl33T4ko3HJVB5bW9NFkFj0Hi5ZZp3rDsintwGF40OBYzvLamwNZdKIoPcbUgVz85a3giDFQVNChgTUyXrHlCBRlCyGGJGWWZgtPTD1+2EQd68ntvll/wa/2RQNGqog7NUX9nY9RaEICffUT4PY+1vkfsdiE7QQ4tUNZNbQiAO0E8eQ8lHWg2DTMbatNp2xGC5Ldi0DBtP8Vfu0Wabf0ZiWpwbSUPd51CB2lbLuiiDJ2EsFWPG3PCiUV/KL+VSl16D3TAUG3Sp+PQLdf3vMAyf7/kKOHpXXTdP36/hKhxcy/JGRhKHL28aIbIy/NU3uprnsdxFXaNB4X5c3VwHIJ2jpNs625gDUhjA0qdQU1K7Vph4bi0SDkmBpuKcDyBPlJA7sQ88vPb/EMehRDpgdNhaaeAnhOn3DWNq2i/2JTaySl5ch6SWjaA6xVNo+rYYSZqCctCbCJbx0Ze3SFta3do4qHPHk+cJFcqFBKeYu5oBiY5SbfD1la/QoWHZMqQ/KdOJjLHjQ1cbJkcthQ7iiA8xhHAMTQ3keA8btuP6bRoabkFFZkjvN1o1B0sewClY73G4rhToOB8Rz1eqGWH
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(376002)(39860400002)(346002)(366004)(136003)(6506007)(6512007)(478600001)(8676002)(186003)(41300700001)(6486002)(83380400001)(2616005)(38100700002)(26005)(7416002)(1076003)(2906002)(7406005)(36756003)(5660300002)(86362001)(6862004)(8936002)(33656002)(6636002)(316002)(37006003)(66476007)(66556008)(4326008)(66946007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Nm+gR6serET8WEH6FfubHaBjyr7D4+qBeJIWyjLRDsbMItGk4WJm6c3/rj9O?=
- =?us-ascii?Q?hUgOVjVfBHGWLAwM8o+1HxACdGKr2z7plBNrURaJfH3xUq/CnoQXaiWYWjsy?=
- =?us-ascii?Q?1cn8vEww0c4t7cNJN9fhv3JF5A9nKhnvGUDAPWdkX1xF/1AUd/QHQDA5X/Oc?=
- =?us-ascii?Q?LPd1mSHmHLEOvu9ng1n/e1l68bDkPNpt82ixxLCF1zmBefewk11jIBa9gBKK?=
- =?us-ascii?Q?vzgLOEO2DN6CDIrVe5gf2UoDYdWxn1X2Mvn47ZW5sZkAB68DaYVZ/kTIpL7/?=
- =?us-ascii?Q?Duy1jG5oVqhzhLoQqq5k5Bz+3C1LxHwmAFOX0e+bs2vZXHATwuzz8EgsPjBL?=
- =?us-ascii?Q?4bE2GUoNHQRLGK8ymV+7oTX41YZ00GWNH36FYaiqs1le9PeU32OHZroYpfJO?=
- =?us-ascii?Q?NHfdkqFzRU3F2wFslcTXqIJRYEk7vGIl1emrJ5qGy3qRCtQnA50RjqzxPFjB?=
- =?us-ascii?Q?NTKX+BHM4J/YNb4ilM/aZBdulPNzF9Vf5p4j98qbAtgmHRvxeFpMmK7tHtnv?=
- =?us-ascii?Q?sxfwY85LA9WHx58XOEzY1pdddVyFnvyx7mFxZsErNjb6zD9s4RJIuqNxdiK8?=
- =?us-ascii?Q?0xbzspyjWC9jEWrPayAc16sOoaM9qkftXDhXrjDoA2ZENBrLKxLieukg9koS?=
- =?us-ascii?Q?Zj4gRX9lDWVzPMwt2D5DygAl9Ta2SHIewABaDHoYxnLf0SWGwcnl/qfiGeeB?=
- =?us-ascii?Q?U18CkBn4NmxYfU03wPhyWdjti9FDVvKCrVpGxX9P4hJ2LXPY7f0GSTbrIlI5?=
- =?us-ascii?Q?lVoQpctiNVg3x7efsK6/XzlGTqb3L7hTnt4t0UerGqIx5638MVqSd0nm4Zls?=
- =?us-ascii?Q?S4QNHG2a2BJuUMfWV8W6lDFWe/0ZFEkljPwBi+saV5rftxAMmf5keP2uot7e?=
- =?us-ascii?Q?Q6VdwVQl36u7tcSw10FpbbtYk8yotBR763UBLRvgUjeIopzlIb8qGNzW0bkV?=
- =?us-ascii?Q?KvuDCWPVgxLFHVw8g5zxIdoZargY8CByYckIzwaeOrNwLOnQZJiJPxZRcPtb?=
- =?us-ascii?Q?8FDwjwa/IAsj54Pkk2g82DBZLuuN0GAeMNm355iuAI3AAr8SVypxL+u9Ih1I?=
- =?us-ascii?Q?MhL7Gu4O7KDRB17xSlY70RNdqaN4HXwqisIhVxGjxolhwAVRInft597ZHstk?=
- =?us-ascii?Q?/hnm6wgglutx/y0kf1phscmo05bhvNE+K3lOmxuzYz2K2f34rszsaLZw9x3q?=
- =?us-ascii?Q?vGRzv38bklxs4z+3IOuirj4cuhNHcJSN6TCN4/eJp/BxB+ArTvj7QVzHhyLq?=
- =?us-ascii?Q?ey3pfdnOAe1TUBHU+Gy6+wvPwvU+h5f2iuq539PEzaig0GOXT8yxljQOsVya?=
- =?us-ascii?Q?ei+U7O+Q+xz2FFzfbyZNk7F7LLGvdyAkAcSWAkTqy9h7/WwrSc61EQwapDVN?=
- =?us-ascii?Q?WK9ELnYR0uwgdHVLeS1NABDJPFuO1FC6rh/LMVVXzQVOtUXhrapVic6qcfB7?=
- =?us-ascii?Q?kG8d33UUhoVh20O0K45WUJCOJhUL4LeaFhzOBuxTNApmVeAQuxmqCZxvQUjf?=
- =?us-ascii?Q?v6+BTeiJg9qfLzh6LlsSL83sd+tr++hEqUJeQAJj7bM6Ekh3WTC3kdfF4rV/?=
- =?us-ascii?Q?VoFJw4o72HkGxz3dGxqPoNIXSAFE6novdZ9EmtN7?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc6949e5-adb7-42a7-2849-08da5632dc84
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2022 22:42:47.6691 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QOqirtq65UgX9LCdtBk8ZDcVwG+ghOtySzzGBzLd99rXsmwZM7AFK5fv/uoCl6O0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4277
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v1 2/3] drm/msm/dp: decoupling dp->id out of dp
+ controller_id at scxxxx_dp_cfg table
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dianders@chromium.org>, <dmitry.baryshkov@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>, <sean@poorly.run>,
+ <vkoul@kernel.org>
+References: <1656090912-18074-1-git-send-email-quic_khsieh@quicinc.com>
+ <1656090912-18074-3-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n52RW+UFJ=hqMWjwR8qvEbww7QjzPW1nhL3Atd97QXAnYw@mail.gmail.com>
+ <007ea4c9-9701-f4ab-3278-5d36bf2018c4@quicinc.com>
+ <CAE-0n53kNCK0ajHfY2WQr5HEQZtZSBLnhfbTuZwaUNEOZhsKPg@mail.gmail.com>
+ <fa7f8bf1-33cd-5515-0143-6596df2bd740@quicinc.com>
+ <CAE-0n51g-EVsC-i9=sJV-ySa8VnE+yT7cg=b-TNMi9+3uBiOVA@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n51g-EVsC-i9=sJV-ySa8VnE+yT7cg=b-TNMi9+3uBiOVA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,48 +74,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mjrosato@linux.ibm.com, linux-doc@vger.kernel.org, airlied@linux.ie,
- kevin.tian@intel.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kwankhede@nvidia.com, vneethv@linux.ibm.com,
- agordeev@linux.ibm.com, pasic@linux.ibm.com, kvm@vger.kernel.org,
- corbet@lwn.net, Christoph Hellwig <hch@infradead.org>,
- borntraeger@linux.ibm.com, intel-gfx@lists.freedesktop.org,
- zhi.a.wang@intel.com, jjherne@linux.ibm.com, farman@linux.ibm.com,
- jchrist@linux.ibm.com, gor@linux.ibm.com, linux-s390@vger.kernel.org,
- hca@linux.ibm.com, alex.williamson@redhat.com, freude@linux.ibm.com,
- rodrigo.vivi@intel.com, intel-gvt-dev@lists.freedesktop.org,
- akrowiak@linux.ibm.com, tvrtko.ursulin@linux.intel.com, cohuck@redhat.com,
- oberpar@linux.ibm.com, svens@linux.ibm.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 24, 2022 at 01:12:56PM -0700, Nicolin Chen wrote:
 
-> > The kmap_local_page() arose because the code doing memcpy had to be
-> > updated to go from a struct page to a void * for use with memcpy and
-> > the kmap_local_page() is the correct API to use for that.
-> > 
-> > The existing code which casts a pfn to a void * is improper.
-> 
-> Yes.
-> 
-> If I understand everything correctly:
-> 
-> A PFN is not secure enough to promise that the memory is not IO. And
-> direct access via memcpy() that only handles CPU memory will crash on
-> S390 if the PFN is an IO PFN, as we have to use the memcpy_to/fromio()
-> that uses the special S390 IO access instructions. On the other hand,
-> a "struct page *" is always a CPU coherent thing that fits memcpy().
-> 
-> Also, casting a PFN to "void *" for memcpy() is not an proper practice,
-> kmap_local_page() is the correct API to call here, though S390 doesn't
-> use highmem, which means kmap_local_page() is a NOP.
-> 
-> There's a following patch changing the vfio_pin_pages() API to return
-> a list of "struct page *" instead of PFNs. It will block any IO memory
-> from ever getting into this call path, for such a security purpose. In
-> this patch, add kmap_local_page() to prepare for that.
+On 6/24/2022 3:19 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-06-24 14:49:57)
+>> On 6/24/2022 2:40 PM, Stephen Boyd wrote:
+>>> Quoting Kuogee Hsieh (2022-06-24 14:17:50)
+>>>> On 6/24/2022 1:00 PM, Stephen Boyd wrote:
+>>>>> Quoting Kuogee Hsieh (2022-06-24 10:15:11)
+>>>>>> Current the index (dp->id) of DP descriptor table (scxxxx_dp_cfg[]) are tightly
+>>>>>> coupled with DP controller_id. This means DP use controller id 0 must be placed
+>>>>>> at first entry of DP descriptor table (scxxxx_dp_cfg[]). Otherwise the internal
+>>>>>> INTF will mismatch controller_id. This will cause controller kickoff wrong
+>>>>>> interface timing engine and cause dpu_encoder_phys_vid_wait_for_commit_done
+>>>>>> vblank timeout error.
+>>>>>>
+>>>>>> This patch add controller_id field into struct msm_dp_desc to break the tightly
+>>>>>> coupled relationship between index (dp->id) of DP descriptor table with DP
+>>>>>> controller_id.
+>>>>> Please no. This reverts the intention of commit bb3de286d992
+>>>>> ("drm/msm/dp: Support up to 3 DP controllers")
+>>>>>
+>>>>>        A new enum is introduced to document the connection between the
+>>>>>        instances referenced in the dpu_intf_cfg array and the controllers in
+>>>>>        the DP driver and sc7180 is updated.
+>>>>>
+>>>>> It sounds like the intent of that commit failed to make a strong enough
+>>>>> connection. Now it needs to match the INTF number as well? I can't
+>>>>> really figure out what is actually wrong, because this patch undoes that
+>>>>> intentional tight coupling. Is the next patch the important part that
+>>>>> flips the order of the two interfaces?
+>>>> The commit bb3de286d992have two problems,
+>>>>
+>>>> 1)  The below sc7280_dp_cfg will not work, if eDP use
+>>>> MSM_DP_CONTROLLER_2 instead of  MSM_DP_CONTROLLER_1
+>>> Why would we use three indices for an soc that only has two indices
+>>> possible? This is not a real problem?
+>> I do not what will happen at future, it may have more dp controller use
+>> late.
+>>
+>> at current soc, below table has only one eDP will not work either.
+>>
+>> static const struct msm_dp_config sc7280_dp_cfg = {
+>>            .descs = (const struct msm_dp_desc[]) {
+>>                    [MSM_DP_CONTROLLER_1] = { .io_start = 0x0aea0000,
+>> .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
+>>
+>>            .num_descs = 1,
+> So the MSM_DP_CONTROLLER_* number needs to match what exactly?MSM
 
-Yes, basically
+MSM_DP_CONTROLLER_1 need to match to the index = 1 of sc7280_dp_cfg[] <== This is correct
 
-Jason
+The problem is sc7280_dp_cfg[] have two entries since eDP place at index 
+of MSM_DP_CONTROLLER_1.
+
+but .num_desc = 1  <== this said only have one entry at sc7280_dp_cfg[] 
+table. Therefore eDP will never be found at for loop  at 
+_dpu_kms_initialize_displayport().
+
+
+>
+>>>> since it have num_descs =2 but eDP is at index 2 (CONTROLLER_2) which
+>>>> never be reached.
+>>>>
+>>>> static const struct msm_dp_config sc7280_dp_cfg = {
+>>>>            .descs = (const struct msm_dp_desc[]) {
+>>>>                    [MSM_DP_CONTROLLER_2] = { .io_start = 0x0aea0000,
+>>>> .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
+>>>>                    [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000,
+>>>> .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_en = true },
+>>>>            },
+>>>>            .num_descs = 2,
+>>>> };
+>>>>
+>>>> 2)  DP always has index of 0 (dp->id = 0) and the first one to call
+>>>> msm_dp_modeset_init(). This make DP always place at head of bridge chain.
+>>> What does this mean? Are you talking about the list of bridges in drm
+>>> core, i.e. 'bridge_list'?
+>> yes,
+> I changed the drm_bridge_add() API and that doesn't make any difference.
+> The corruption is still seen. That would imply it is not the order of
+> the list of bridges.
+
+Sorry, my mistake. it is not in drm_bridge_add.
+
+It should be in dpu_encoder_init() of _dpu_kms_initialize_displayport().
+
+can you make below changes (patch) to _dpu_kms_initialize_displayport().
+
+kuogee: go backward for dp modeset_init
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
+b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 3a4da0d..b271a4b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -611,9 +611,15 @@ static int _dpu_kms_initialize_displayport(struct 
+drm_device *dev,
+         struct drm_encoder *encoder = NULL;
+         struct msm_display_info info;
+         int rc;
+-       int i;
++       int i,num;
++
++       num = ARRAY_SIZE(priv->dp);
+
++#ifdef XXXX
+         for (i = 0; i < ARRAY_SIZE(priv->dp); i++) {
++#else
++       for (i = num - 1; i >= 0 ; i--) {
++#endif
+                 if (!priv->dp[i])
+                         continue;
+
+
+>
+> ---8<---
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index e275b4ca344b..e3518101b65e 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -165,7 +165,7 @@ void drm_bridge_add(struct drm_bridge *bridge)
+>   	mutex_init(&bridge->hpd_mutex);
+>
+>   	mutex_lock(&bridge_lock);
+> -	list_add_tail(&bridge->list, &bridge_list);
+> +	list_add(&bridge->list, &bridge_list);
+>   	mutex_unlock(&bridge_lock);
+>   }
+>   EXPORT_SYMBOL(drm_bridge_add);
+>
+>>>> At next patch eDP must be placed at head of bridge chain to fix eDP
+>>>> corruption issue. This is the purpose of this patch. I will revise the
+>>>> commit text.
+>>>>
+>>> Wouldn't that be "broken" again if we decided to change drm_bridge_add()
+>>> to add to the list head instead of list tail? Or if somehow
+>>> msm_dp_modeset_init() was called in a different order so that the DP
+>>> bridge was added before the eDP bridge?
+>> we have no control of drm_bridge_add().
+>>
+>> Since drm perform screen update following bridge chain sequentially, we
+>> have to make sure primary always update first.
+>>
