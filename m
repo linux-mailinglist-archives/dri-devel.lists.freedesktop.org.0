@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A2455A51A
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 01:53:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DDB355A51F
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 01:56:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B9C310F5D7;
-	Fri, 24 Jun 2022 23:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99BF810E989;
+	Fri, 24 Jun 2022 23:56:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E450610F5D7
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 23:53:47 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id b125so2964541qkg.11
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 16:53:47 -0700 (PDT)
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com
+ [IPv6:2607:f8b0:4864:20::f31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9706210E78C
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 23:56:46 +0000 (UTC)
+Received: by mail-qv1-xf31.google.com with SMTP id cs6so6834300qvb.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 16:56:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XWbRuL2HNJOazJRDZ8Yz9uaYitC4uPW931tvugnImWs=;
- b=OMISmZTnPSyJ2Zmlprhg32lCJnHsse7hunOaQZu+IvIUb1JqifQ8/cVFphlQf6U1I5
- s4lLnkgPy6GCPqoTsRc38Ek7n/CZs0um1eNVdC12bLEMEahmryIhhQjecpXv/H1miJib
- 2oeTjESwobonRtBvptbyFmqVPMEA+eE7tDV8CMWIKfpiR8bNm0NAc+oIkppKCXQpWKOE
- BXJPPjElweEe+KUkC174tN+rPS54PuS+mBCih3c1hS2xH5LS5v4GPJjcNjMlCiHPCNNd
- Hd8vHuPbA0/Ws6k943RaB75NmTs799P4g3AseYGngL8KMbPsS/VnqKJhRcfyR37ZYKbx
- 1j1Q==
+ :cc; bh=bDqcC2b/5E2itIbFrgVYQxn7bAcfIKhqscuNTJZx+CA=;
+ b=a9mE97C3QaiYWUG64qjCNkOPtCdN8jzRl8JZKYxOyZz0b9y7+MwI4XGSm8ixBsGDby
+ Zm7jjSZvM2QrhKZq92yMle23dgXLeYmtjTrwEJ+waWnXxfw2gkQ0GyQ7p7euwPtI+IKn
+ XZsNd51AbT/HULq4mYTapVRZUjcKTTFDcCXmtsI2xI2kkjsLPLwTvukcyXptdqAYNAQ6
+ 8c8OmPSWTJkyHqxxSzHjmSmIi9BHTabogvlsKcvSYAUCGgIy+pkkHGUd3kcCnOXZFrYM
+ UhU0vJ22TWqt/iMR41h20ztEia6xsn7CsGS5DJUKuxZPAaxn0lQIDEsD9dZw8maW//aG
+ Rh1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XWbRuL2HNJOazJRDZ8Yz9uaYitC4uPW931tvugnImWs=;
- b=2Rm4RK6NrrL2ziJwe8vs+5PdlZvOCKjxVYce/daPfB14gNKUwKF00xnKaNBMVaahoh
- ebJGJxI3hbFTE+ozwjQAMKWguKVkERR16NVxH4UiLtZgR8TuFj4UBEh1QSaLGlIeHW2u
- mNCC12TBBWGKBUjMFtmVAmH9UAAHFgMZ97yuMKtTEzgLB0JDWkD3GCSiVMlKOLjRVcX/
- Dl1Cg2JIwV7RvSlAuRnIGsZLedmd4JBLrQ9ODxYkR2NwKnNZGkdl2jDmjN/dk2NzaPeR
- XcpNvPoRQmub1ZniO6L9odiLGhdCexV8Z586red2Fmn0gk8rILrZmEw9sCspxhT7LaPe
- RZPg==
-X-Gm-Message-State: AJIora9BBPzlx4xJ6wHE/GlhOOAmJOVOZOTPWwerJ3+em8klCpIBO5d3
- Y8IG6gg1qKpsPku0CeeFsYzB1QXisXl2WrxaVkSYMQ==
-X-Google-Smtp-Source: AGRyM1sssDPYLQQkqtjhG0C1nm2ma0r4GcjmmJkpT053S48MTsShoxEygLh6xlx3b4oYiFps99tJYYPjpkLME85zmwY=
-X-Received: by 2002:a05:620a:2a0e:b0:6a7:8346:1601 with SMTP id
- o14-20020a05620a2a0e00b006a783461601mr1333795qkp.593.1656114827059; Fri, 24
- Jun 2022 16:53:47 -0700 (PDT)
+ bh=bDqcC2b/5E2itIbFrgVYQxn7bAcfIKhqscuNTJZx+CA=;
+ b=6HSHQGoEwXzYyCBo9M0rJjkjnNfJnCDuRH+9PRqWqEFAjwU/2V1TbA3GMDyU0vGIui
+ RRKSSffN+sczea5KL4kaWcYV/3KQDD9W/DVVU+8OK49oCr7cMGthbalfU1gi5SgyMljr
+ 8tRFwsPrLYf6eOKgOzOuH/Ru1CQfoCtEzuKhW6gg+ouoVN4GY6TNzdSoXQ1D5z0M33lE
+ BJBYoqOGnN/BW/1nPeMANMMeJbnZZh0y8JBNjlvxMW15wHyhvurIVF8UD4Eh7p3wShKt
+ eK2auhDBVylXUSD9iRKUjHx5dVHkMDrTRzGucwmbS1+yMMfv34ZEYUiC4HQOYal1fqcH
+ SXag==
+X-Gm-Message-State: AJIora+dKGgslWIonVzV1/kB6d/9CS/KIrytwvdboMdve9pwAAuj6vYD
+ Gg+qU44+Ml5lDtrjoAPvaShxpMZCA9PJvsNGyQXOyw==
+X-Google-Smtp-Source: AGRyM1tBPqtZTmiqo/rFRTDaEkcl5dCeMpdanVuGujU7QBwRNzyiHPfJ4k4LbCShiUJN+35Huj4wIXG1XxVN+LcSKn8=
+X-Received: by 2002:a05:622a:34a:b0:304:f25a:ecf0 with SMTP id
+ r10-20020a05622a034a00b00304f25aecf0mr1448087qtw.62.1656115005671; Fri, 24
+ Jun 2022 16:56:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <1656090912-18074-1-git-send-email-quic_khsieh@quicinc.com>
- <1656090912-18074-3-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n52RW+UFJ=hqMWjwR8qvEbww7QjzPW1nhL3Atd97QXAnYw@mail.gmail.com>
- <007ea4c9-9701-f4ab-3278-5d36bf2018c4@quicinc.com>
- <CAE-0n53kNCK0ajHfY2WQr5HEQZtZSBLnhfbTuZwaUNEOZhsKPg@mail.gmail.com>
- <fa7f8bf1-33cd-5515-0143-6596df2bd740@quicinc.com>
- <CAE-0n51g-EVsC-i9=sJV-ySa8VnE+yT7cg=b-TNMi9+3uBiOVA@mail.gmail.com>
- <326912ff-9771-0711-366d-79acd436908b@quicinc.com>
- <CAE-0n51qrdrFtSr0vRwgYkMgSZfnzQuinaUROQsp30QoDchWQA@mail.gmail.com>
- <0ff3d6a3-dc5c-7c77-f8a1-6c4f6c1a3215@quicinc.com>
- <CAE-0n515hMKqQ+Vj1Sg54PpwkbWMYJ77QN+y+KZNBWymjhpWKw@mail.gmail.com>
-In-Reply-To: <CAE-0n515hMKqQ+Vj1Sg54PpwkbWMYJ77QN+y+KZNBWymjhpWKw@mail.gmail.com>
+ <1656090912-18074-4-git-send-email-quic_khsieh@quicinc.com>
+In-Reply-To: <1656090912-18074-4-git-send-email-quic_khsieh@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 25 Jun 2022 02:53:36 +0300
-Message-ID: <CAA8EJpoD-CJ1mgzef0tA4R=BJUdbSPErXG1fvugAd+5UhWiobA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] drm/msm/dp: decoupling dp->id out of dp
- controller_id at scxxxx_dp_cfg table
-To: Stephen Boyd <swboyd@chromium.org>
+Date: Sat, 25 Jun 2022 02:56:34 +0300
+Message-ID: <CAA8EJpoppiw=vxkw9vvsn0mYmgYjU-WCd3w_pRyd-7PNneRv1A@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] drm/msm/dp: place edp at head of drm bridge chain
+ to fix screen corruption
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,52 +64,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com,
- airlied@linux.ie, freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, quic_aravindh@quicinc.com,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
+Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ dianders@chromium.org, vkoul@kernel.org, agross@kernel.org,
+ bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+ quic_aravindh@quicinc.com, swboyd@chromium.org, sean@poorly.run,
  linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 25 Jun 2022 at 02:45, Stephen Boyd <swboyd@chromium.org> wrote:
+On Fri, 24 Jun 2022 at 20:15, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
 >
-> Quoting Kuogee Hsieh (2022-06-24 16:30:59)
-> >
-> > On 6/24/2022 4:12 PM, Stephen Boyd wrote:
-> > > Quoting Kuogee Hsieh (2022-06-24 15:53:45)
-> > >> MSM_DP_CONTROLLER_1 need to match to the index = 1 of sc7280_dp_cfg[] <== This is correct
-> > >>
-> > >> The problem is sc7280_dp_cfg[] have two entries since eDP place at index
-> > >> of MSM_DP_CONTROLLER_1.
-> > >>
-> > >> but .num_desc = 1  <== this said only have one entry at sc7280_dp_cfg[]
-> > >> table. Therefore eDP will never be found at for loop  at
-> > >> _dpu_kms_initialize_displayport().
-> > >>
-> > > Yes, but what else does the MSM_DP_CONTROLLER_1 need to match? Because
-> > > the intention of the previous commit was to make it so the order of
-> > > sc7280_dp_cfg couldn't be messed up and not match the
-> > > MSM_DP_CONTROLLER_1 value that lives in sc7280_intf[].
-> >
-> >
-> > at  _dpu_kms_initialize_displayport()
-> >
-> > > -             info.h_tile_instance[0] = i; <== assign i to become dp controller id, "i" is index of scxxxx_dp_cfg[]
-> >
-> > This what I mean MSM_DP_CONTROLLER_1 need to match to index = 1 of
-> > scxxxx_dp_cfg[].
-> >
-> > it it is not match, then MSM_DP_CONTROLLER_1 with match to different INTF.
+> The msm_dp_modeset_init() is used to attach DP driver to drm bridge chain.
+> msm_dp_modeset_init() is executed in the order of index (dp->id) of DP
+> descriptor table.
 >
-> I thought we matched the INTF instance by searching through
-> sc7280_intf[] for a matching MSM_DP_CONTROLLER_1 and then returning that
-> INTF number. See dpu_encoder_get_intf() and the caller.
+> Currently, DP is placed at first entry (dp->id = 0) of descriptor table
+> and eDP is placed at secondary entry (dp->id = 1 ) of descriptor table.
+> This means DP will be placed at head of bridge chain and eDP will be
+> placed right after DP at bridge chain.
 
-You both are correct here. We are searching through the _intf[] array
-for the corresponding controller_id. And yes, the controller_ids are
-being passed through the h_tile_instance[] array.
+No, the dp->ids do not have anything to do with the bridge chains.
+
+> Drm screen update is happen sequentially in the order from head to tail
+> of bridge chain. Therefore external DP display will have screen updated
+> happen before primary eDP display if external DP display presented.
+> This is wrong screen update order and cause one frame time screen
+> corruption happen at primary display during external DP plugged in.
+>
+> This patch place eDP at first entry (dp->id = 0) of descriptor table and
+> place DP at secondary entry (dp->id = 1) to have primary eDP locate at
+> head of bridge chain. This correct screen update order and eliminated
+> the one frame time screen corruption happen d at primary display.
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index a87a9d8..2755ff3 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -143,10 +143,10 @@ static const struct msm_dp_config sc7180_dp_cfg = {
+>
+>  static const struct msm_dp_config sc7280_dp_cfg = {
+>         .descs = (const struct msm_dp_desc[]) {
+> -               { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort,
+> -               .controller_id = MSM_DP_CONTROLLER_0, .wide_bus_en = true },
+>                 { .io_start = 0x0aea0000, .connector_type = DRM_MODE_CONNECTOR_eDP,
+>                 .controller_id = MSM_DP_CONTROLLER_1, .wide_bus_en = true },
+> +               { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort,
+> +               .controller_id = MSM_DP_CONTROLLER_0, .wide_bus_en = true },
+
+If the correctness of DP display depends on the order of entries in
+the dp_desc table, something is terribly wrong in the driver. Please
+fix that rather than working around it by shuffling the entries in the
+array.
+
+>         },
+>         .num_descs = 2,
+>  };
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+>
+
 
 -- 
 With best wishes
