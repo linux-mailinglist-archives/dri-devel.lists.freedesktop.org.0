@@ -1,45 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1733855972A
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 11:59:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C86C55597A8
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 12:19:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34A6710E43C;
-	Fri, 24 Jun 2022 09:59:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BE3C10E35F;
+	Fri, 24 Jun 2022 10:19:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0E710E378;
- Fri, 24 Jun 2022 09:59:12 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 29BB821A74;
- Fri, 24 Jun 2022 09:59:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1656064751; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YRx5MsPC3bOKBussEAACbRbCrT13pUlZg+D3y9hzeFQ=;
- b=k1jLteFpvAGft+ORFG/tzqlURXKLRNicj7+oUgUIuX8osjH4+RjNVm62/jfqHf/FKhN7zD
- JkM1/iDo+UtWtCT89LSvKZPXJRE/SPVqpxUdXuUhXgeFakRbgDUpIRPPRwwC/o9HRxOK/+
- gqzcjpY9QSRIzgUY++eA0/TlwRk7dss=
-Received: from suse.cz (unknown [10.100.201.86])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by relay2.suse.de (Postfix) with ESMTPS id D56122C1E2;
- Fri, 24 Jun 2022 09:59:10 +0000 (UTC)
-Date: Fri, 24 Jun 2022 11:59:10 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [RFC] Per file OOM-badness / RSS once more
-Message-ID: <YrWK7pwZP3K2vbye@dhcp22.suse.cz>
-References: <20220624080444.7619-1-christian.koenig@amd.com>
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
+ [IPv6:2607:f8b0:4864:20::d2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 742EC10E35F
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 10:19:47 +0000 (UTC)
+Received: by mail-io1-xd2e.google.com with SMTP id h85so2226142iof.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 03:19:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=RgSnFxwGzpmjm+p7ZnjxYjteXl5sPOJEGrU4Scgygt8=;
+ b=Ksbgww2SpxbTKSeTwjSi+p9D7IjbSHXpPB6L2alhOT0rPaZ3Jdcwu4C8kKWHxpZsNs
+ pDZuW0yEoNBO0Hch6e/i/MyP8cEMrpcp0cPmroROelXTAnV/iMJJ35xzaUxnSQ80bmAt
+ FltIIv4lxmVG83sudMnDJngHdXAPymOVnnH0oSIsuglA6T+ThlE9cu/QXsyrD1halwkq
+ 4K3YpgtFmjOQS4dXGRT42MgvZSQwT5yZfxY8tb0iUMGjYycTBPfNix0kpEQLPHOYAs/N
+ BZkwaH866WD1HBeagt9fSRhQwdsNkEWRuT2z/k8aQQco4QLvUdvBC6kIAJI/qCmJqBhj
+ IgeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RgSnFxwGzpmjm+p7ZnjxYjteXl5sPOJEGrU4Scgygt8=;
+ b=MubTgeMkEmr7pO59eVabgBJZRC2/jd3JOUtLMg4kvtrxGZMatnzevkgZgm3j+eJSdl
+ mQV3oQmsofVY61S33vjiAq4DL6V5UGFSv/Mmxp/uB3EZLReqYXxCJz4dYsa8x2dFYt5n
+ riUnZv8G+t1P0xaRqIHT74wYMK5xK7hVkwbrD+83bfPiTq+kVPtOY/uwkug3ewzvtzOm
+ VwYDnt4Vfegu5HwjSys9/TBbTnen+DtcPa8iWOBxfoo1QG4olrHl//l6r/U8Ej5Tl3UN
+ AfxxdJs++EAdPXyMy7qF4HwnGSCPmu31e6Vs4tfgTu3YsQ9xrQ2CvmtOLY/dNl5c0Ob/
+ 91iw==
+X-Gm-Message-State: AJIora948amOCqnPtX9GVWwm41RNtfj4W8OfMRZ78fyr0RdAUIro5JDW
+ V/GgC6xaoRS+fMjbYH0VCIwGecHzoHvgSnIPJmM=
+X-Google-Smtp-Source: AGRyM1vutyoXzSan9RSfWSnID47w2e/WTQN3pASpI53PVkOjX+Rz7wJCkOQl3pTTKmSWx4A4FnD/sHVFYCZM+YdWIVo=
+X-Received: by 2002:a5e:990f:0:b0:673:4f01:3a2a with SMTP id
+ t15-20020a5e990f000000b006734f013a2amr4553113ioj.76.1656065986866; Fri, 24
+ Jun 2022 03:19:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220624080444.7619-1-christian.koenig@amd.com>
+References: <20220623115631.22209-1-peterwu.pub@gmail.com>
+ <20220623115631.22209-8-peterwu.pub@gmail.com>
+ <CAHp75Vd95sEQz8y4ZcviUKaC9ic27yitR+VCwkfb38MTTe0mkg@mail.gmail.com>
+In-Reply-To: <CAHp75Vd95sEQz8y4ZcviUKaC9ic27yitR+VCwkfb38MTTe0mkg@mail.gmail.com>
+From: ChiaEn Wu <peterwu.pub@gmail.com>
+Date: Fri, 24 Jun 2022 18:19:35 +0800
+Message-ID: <CABtFH5K_vB5Rmo+2zAJ8PuMeMvC9x-yhDL93ByOLD+gc2maQYg@mail.gmail.com>
+Subject: Re: [PATCH v3 07/14] mfd: mt6370: Add Mediatek MT6370 support
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,72 +66,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-mm@kvack.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-media@vger.kernel.org
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ChiaEn Wu <chiaen_wu@richtek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri 24-06-22 10:04:30, Christian König wrote:
-> Hello everyone,
-> 
-> To summarize the issue I'm trying to address here: Processes can allocate
-> resources through a file descriptor without being held responsible for it.
-> 
-> I'm not explaining all the details again. See here for a more deeply
-> description of the problem: https://lwn.net/ml/linux-kernel/20220531100007.174649-1-christian.koenig@amd.com/
-> 
-> With this iteration I'm trying to address a bunch of the comments Michal Hocko
-> (thanks a lot for that) gave as well as giving some new ideas.
-> 
-> Changes made so far:
-> 1. Renamed the callback into file_rss(). This is at least a start to better
->    describe what this is all about. I've been going back and forth over the
->    naming here, if you have any better idea please speak up.
-> 
-> 2. Cleanups, e.g. now providing a helper function in the fs layer to sum up
->    all the pages allocated by the files in a file descriptor table.
-> 
-> 3. Using the actual number of allocated pages for the shmem implementation
->    instead of just the size. I also tried to ignore shmem files which are part
->    of tmpfs, cause that has a separate accounting/limitation approach.
+Hi Andy,
 
-OK, this is better than the original approach there are still holes
-there though I am afraid. I am not sure your i_count hack is correct
-but that would be mostly an implementation detail.  The scheme will
-over-account memory mapped files (including memfd).  How much that
-matters will really differ.
+Thanks for your helpful comments! We have some questions below.
 
-For the global OOM situations it is very likely that there will be
-barely any disk based page cache as it would be reclaimed by the time
-the oom killer is invoked. So this should be OK. Swap backed page cache
-(shmem and its users) is more tricky. It is swap bound and processes
-which map it will get "charged" in the form of swap entries while those
-which rely on read/write will just escape from the sight of the oom
-killer no matter how much memory they own via their shmem backed fd.
-This sounds rather serious to me and I hope I haven't missed anything
-subtle here that would keep those pages somehow visible. Anyway
-something to very carefully document.
+Andy Shevchenko <andy.shevchenko@gmail.com> =E6=96=BC 2022=E5=B9=B46=E6=9C=
+=8824=E6=97=A5 =E9=80=B1=E4=BA=94 =E5=87=8C=E6=99=A82:01=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+> On Thu, Jun 23, 2022 at 1:59 PM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
+> >
+> > From: ChiYuan Huang <cy_huang@richtek.com>
+> >
+> > Add Mediatek MT6370 MFD support.
+>
+> ...
+>
+> > +config MFD_MT6370
+> > +       tristate "Mediatek MT6370 SubPMIC"
+> > +       select MFD_CORE
+> > +       select REGMAP_I2C
+> > +       select REGMAP_IRQ
+> > +       depends on I2C
+> > +       help
+> > +         Say Y here to enable MT6370 SubPMIC functional support.
+> > +         It consists of a single cell battery charger with ADC monitor=
+ing, RGB
+> > +         LEDs, dual channel flashlight, WLED backlight driver, display=
+ bias
+> > +         voltage supply, one general purpose LDO, and the USB Type-C &=
+ PD
+> > +         controller complies with the latest USB Type-C and PD standar=
+ds.
+>
+> What will be the module name in case it's chosen to be built as a module?
 
-For the memcg OOM this gets even more tricky. Files can be shared among
-tasks accross memcgs. Something that is not really straightforward from
-the userspace POV because this is not strictly deterministic as
-first-one-first-charged logic is applied so a lot might depend on timing.
-This could also easily mean that a large part of the in memory state of
-the file is outside of the reclaim and therefore OOM scope of the memcg
-which is hitting the hard limit. This could result in tasks being killed
-just because they (co)operate on a large file outside of their memcg
-domain. To be honest I am not sure how big of a problem this would be in
-practice and the existing behavior has its own cons so to me it sounds
-like changing one set of deficiency with other.
+OK, we will add related text in the next patch! Thanks!
 
-As we have discussed previously, there is unlikely a great solution but
-you a) need to document most prominent downsides so that people can at
-least see this is understood and documented behavior and b) think of the
-runaway situation wrt non mapped shmems memtioned above and see whether
-there is something we can do about that.
--- 
-Michal Hocko
-SUSE Labs
+>
+> ...
+>
+> >  obj-$(CONFIG_INTEL_SOC_PMIC_BXTWC)  +=3D intel_soc_pmic_bxtwc.o
+> >  obj-$(CONFIG_INTEL_SOC_PMIC_CHTWC)     +=3D intel_soc_pmic_chtwc.o
+> >  obj-$(CONFIG_INTEL_SOC_PMIC_CHTDC_TI)  +=3D intel_soc_pmic_chtdc_ti.o
+> >  obj-$(CONFIG_MFD_MT6360)       +=3D mt6360-core.o
+> > +obj-$(CONFIG_MFD_MT6370)       +=3D mt6370.o
+> >  mt6397-objs                    :=3D mt6397-core.o mt6397-irq.o mt6358-=
+irq.o
+> >  obj-$(CONFIG_MFD_MT6397)       +=3D mt6397.o
+> >  obj-$(CONFIG_INTEL_SOC_PMIC_MRFLD)     +=3D intel_soc_pmic_mrfld.o
+>
+> This whole bunch of drivers is in the wrong place in Makefile.
+>
+> https://lore.kernel.org/all/20220616182524.7956-2-andriy.shevchenko@linux=
+.intel.com/
+>
+
+hmm... So shall we need to cherry-pick your this patch first,
+then modify the Makefile before the next submission??
+
+> ...
+>
+> > +#define MT6370_REG_MAXADDR     0x1FF
+>
+> Wondering if (BIT(10) - 1) gives a better hint on how hardware limits
+> this (so it will be clear it's 10-bit address).
+
+well... This "0x1FF" is just a virtual mapping value to map the max
+address of the PMU bank(0x1XX).
+So, I feel its means is different from using (BIT(10) - 1) here.
+
+>
+> ...
+>
+> > +static int mt6370_check_vendor_info(struct mt6370_info *info)
+> > +{
+> > +       unsigned int devinfo;
+> > +       int ret;
+> > +
+> > +       ret =3D regmap_read(info->regmap, MT6370_REG_DEV_INFO, &devinfo=
+);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       switch (FIELD_GET(MT6370_VENID_MASK, devinfo)) {
+> > +       case MT6370_VENID_RT5081:
+> > +       case MT6370_VENID_RT5081A:
+> > +       case MT6370_VENID_MT6370:
+> > +       case MT6370_VENID_MT6371:
+> > +       case MT6370_VENID_MT6372P:
+> > +       case MT6370_VENID_MT6372CP:
+>
+> return 0;
+>
+> > +               break;
+> > +       default:
+> > +               dev_err(info->dev, "Unknown Vendor ID 0x%02x\n", devinf=
+o);
+> > +               return -ENODEV;
+> > +       }
+> > +
+> > +       return 0;
+>
+> ...and drop these two lines?
+
+OK! We will refine it in the next patch!
+
+>
+> > +}
+>
+> ...
+>
+> > +       bank_idx =3D *(u8 *)reg_buf;
+> > +       bank_addr =3D *(u8 *)(reg_buf + 1);
+>
+> Why not
+>
+>   const u8 *u8_buf =3D reg_buf;
+>
+>   bank_idx =3D u8_buf[0];
+>   bank_addr =3D u8_buf[1];
+>
+> ?
+
+We will refine it in the next patch! Thanks!
+
+>
+> ...
+>
+> > +       if (ret < 0)
+> > +               return ret;
+> > +       else if (ret !=3D val_size)
+>
+> Redundant 'else'.
+
+I'm not quite sure what you mean, so I made the following changes first.
+------------------------------------
+       if (ret < 0)
+              return ret;
+       if (ret !=3D val_size)
+              return -EIO;
+------------------------------------
+I don't know if it meets your expectations??
+
+>
+> > +               return -EIO;
+>
+> ...
+>
+> > +       bank_idx =3D *(u8 *)data;
+> > +       bank_addr =3D *(u8 *)(data + 1);
+>
+> As per above.
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+
+Best regards,
+ChiaEn Wu
