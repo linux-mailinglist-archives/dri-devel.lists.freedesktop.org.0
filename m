@@ -2,55 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47805559289
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 07:55:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2E255928F
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 08:00:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD35A10FF81;
-	Fri, 24 Jun 2022 05:55:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1949E1120F1;
+	Fri, 24 Jun 2022 06:00:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1632A10FF81
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 05:55:51 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id lw20so2559559ejb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 22:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=ez1VrommP2Qk5ZxjhOr9MjaCYHC2kUPrG3Ztqlyf9f8=;
- b=RU8+IA6ajxvlsi2yZP/JStVZvRskiVyWObqhaz9OHyoEF5WuhJtPRhgrAP7Qkubeje
- qNrrwSStpZSqJQOdkDFu8fA1WJfbLqGw+Qa4sjAaftLP4oY2H/NiAL//lzIeK8UVYTOC
- 3bJvBBjBOx2KIJqjCOdUCerDTG2i/1EEzcaVAfLBW8TYcu+MYk8mbyhBRhPAJtSp/fT+
- 9oV9rojORXEel0lWRgOD/8+qxU8LQYWVs1f/lTB3cV8tozohXhA5TLc+7GveUAoKxsfX
- eOQP3JexIo2tELye7LzJ2BHTV0XDytcgd/4dBhCl1tJRTgQ5tqzNqax6ZbjXSMGiKaXh
- QoRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
- :content-transfer-encoding;
- bh=ez1VrommP2Qk5ZxjhOr9MjaCYHC2kUPrG3Ztqlyf9f8=;
- b=1UfJOjLOZOSe/aisGwa5Agl5VnQrVIpVYrt1+JNa2NuoHMRJUULeNGpn+ZkjLlaMfJ
- Z6/aL5NIeMTnrDoKHIkPWDcrjL+cfGM19FMjNKIXX8NYAULvMslggKXGHrDngrmKSclx
- hfamgQmGwlGoGjOjYm5a+QWVbKWxv26xRWd7tKv01h5cVCtZYMsd5xruNlU6zuLPcwtn
- R26gKbNJNW7Ql2KLOxEE6chSFNsKAQ6myY22JNcWFJ6mCb1puDjwVlae7VU9wuzPIapw
- fdAnCLnwpc5PavWLAdwR2Zh9fojb/00/5m6H3tZ03k87k4DUPjMr/ECW/NVCZUaaHQAj
- WRQA==
-X-Gm-Message-State: AJIora8/w8Jk12ZTr+wW479MKMtxQSA9De5TvrBbMGZjvZRijnjBCTKl
- Zt4fQgABNlxSfyRETImTrRzAFjK0MkVn2tDNl1U=
-X-Google-Smtp-Source: AGRyM1s9DWSgaaYjKV+ygtUtnyY/xvFVCHDOUJFrF/waPpf+TM39GrCQw57lguYBQp0THNQ39GTLePccCVp24Pr7CKY=
-X-Received: by 2002:a17:907:969f:b0:722:d37b:c82d with SMTP id
- hd31-20020a170907969f00b00722d37bc82dmr11784829ejc.770.1656050149326; Thu, 23
- Jun 2022 22:55:49 -0700 (PDT)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC6DD1120F1;
+ Fri, 24 Jun 2022 06:00:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bI7gq2cmDaBPHH+29DACBXhsWBeZqlrFW0NutLLovUFV2L0xsHgLduwxHh3Pau5Cn0boLCgh+Z/4/tESFU4IO4dmrIuKTxF18sHS4kJl7fEWhwaZdaen10rIt/aE1z4xuG4PNO4bAYKhgQ2TsOfK/Nby6xyTBpPni0Sw6mXZ2XCzVaqliiBi+oU0i99dqSosDAU/NOfe5H7h6jdOCsbGeP4zyOb+AyaMwDEFkcnuDYkRxn9dmfrSlGMnFcbqH/MJAeSLBhSMT2yy9KmK8rhWE0Yzos9mjvQPL3wHEufisW1P7UyEF6SL6s4hRzc5y+DdNpQmnj08Jf5v43/S0v0rvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KZv45GtECUsigLxwSfpXgWVCoJHOGHE/p9CYHJBnCL0=;
+ b=dRjT9yE8R9eM33w/N70TABp2DuCF19Dm2de6xtrPHWVP3+7DkNWBG31LM6jV1ees/rDX2Tw78Mj6UjRGej/M1CPm8pzTFOjKQLrnnbiTnaIGr6Aq6LevEUFvZ7GJRUYMcKEWhPvENV4m64I/rLHGpWNZbBc9xYJJnv862znUv3FI0IkOMXh1sVUHEzOD+aBk0N49S1Tpl2OWUkcq1S4/I8nKIp9wNGzQ0yFDiUbmpeGm8h7qtqigGJQ+FizsvFtCpkyJOonn8EHJUBPdDmFmtzBbTKIoBZdYnhbtJYpRqJn3sYLl4ruGl2iX4dCQSIm0pOFqpXbFRO4sAMrHdmb/uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KZv45GtECUsigLxwSfpXgWVCoJHOGHE/p9CYHJBnCL0=;
+ b=fQGU/Fg76hdbKRBW5UNMyqZqkAr70YsHPIkyGgXA6YQ813ZuzNjkBnLyKr24rolP6EhsvxgpKrbTOny9M34q9ixfUD4uMBr1HYWvFPPk9YNlUKGCWYYeZRF5F7ucxlumlns1wbz0hFKuiL0NbJjzMmtM0KtEjJ/5j4uCYu74fmc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MWHPR12MB1471.namprd12.prod.outlook.com (2603:10b6:301:e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.15; Fri, 24 Jun
+ 2022 06:00:16 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e0fd:45cf:c701:2731]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::e0fd:45cf:c701:2731%6]) with mapi id 15.20.5373.015; Fri, 24 Jun 2022
+ 06:00:16 +0000
+Message-ID: <71c0edc4-7bc9-4658-72cb-3d6e1f53b17c@amd.com>
+Date: Fri, 24 Jun 2022 08:00:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/5] drm/amdgpu: Fix possible refcount leak for release of
+ external_hw_fence
+Content-Language: en-US
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+References: <20220620220302.86389-1-andrey.grodzovsky@amd.com>
+ <20220620220302.86389-2-andrey.grodzovsky@amd.com>
+ <2c70d0c4-a326-6497-54b2-51bc2b93b9d6@gmail.com>
+ <91aba934-32f0-b1b9-b882-979ca02a1920@amd.com>
+ <6d1acd76-dee8-29fd-dde3-bf51161792de@gmail.com>
+ <445f2db4-5496-4003-c5fa-3605aef2c33d@amd.com>
+ <16353a69-64e1-2f1c-8859-8000ac6266ce@gmail.com>
+ <32e06ffd-a551-a05b-7993-1b6901455a21@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <32e06ffd-a551-a05b-7993-1b6901455a21@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0019.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::6) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 24 Jun 2022 15:55:38 +1000
-Message-ID: <CAPM=9tyLoZOkc56K2auFtdjhuUxP=Xwj41evB053YZrHyQNSxg@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.19-rc4
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8990505c-fe07-471c-84e0-08da55a6cf47
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1471:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ijSpfTaa4xFAVrK+dab6qv8usGsfre6rpFFR78g3B7EaRRSfM+c59qin8TBKGp9qOqYEu5VCIeBqTJGM1TUwtFImbi7xG38fNzjNl2RipqmyMXPa0m812zNBS6/4Z09Ixwa1yOZGq4pwPcrmplGDhX6ayJFsxoOft1CZ6rgq05/TdOwXv24sfEzB0Z+dIKqBXwGy3tmuGnFxCLdh69+TP9S6D4RknX7B74LF8zvS0mgaEgpfnc7FOsyVEUHUJKggZ9pe3v1fuJ4m7gIudCxENGLiShKzqmLqSBcD/sU+OA/kJyYpaDNVzTMSDETLCxDSn1E2HlAEKptEf7VDLipmkv1Xh4xMRvWGNe67emi9+M5tXKYKlR8CsXV8i4w9TT3LjN5XV0vqa57CPscyJWn3GnfpXs98Z2F8ITnb89dYEN8Kg8DYPpY+jvkMQDGtzZGJ9fSRGgTbAPi574TvWTzaNfUppOZqRC4t0i/fx2aJriNmNwToqAwLctr9SeTs1WgQCBw0M3kzp3Vdhld4cHqMp4NKnSRRKBgejTDPCjtNpGI2f/2xF3zaxH0/wDt4ZEBaSa8K7d2+/ZIRjEd/HWos7xoEvqrcmqdgpanVEGy1kqOl4bHQp086KnNWAXg0aEXYpSBvZbuH5ruW+jWx9J/C/0lWtXfLkh4mGwb+12z0dCnGyj4B7ai7+ridp7WPegJ4HC4f+ZIHh1cM+5h2/euMeocDs/hVnpSJz8V4wVDxPWXOSo9H7zWmNjJ/rnVAAS9/NxEzpCjy96l/aX0YJZZ7Q9vGD5f1qrhrByjMDkSZAgEtwpCp8ZM+C91sXxgN+lm3tHkJ6p3SgIYRV9/QFh5EHw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39860400002)(346002)(396003)(376002)(366004)(136003)(186003)(86362001)(66574015)(2906002)(36756003)(4326008)(83380400001)(316002)(31696002)(110136005)(66476007)(31686004)(66556008)(5660300002)(41300700001)(26005)(66946007)(6486002)(6506007)(8676002)(6666004)(2616005)(8936002)(478600001)(6512007)(38100700002)(53546011)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M3Z3c01aalltcTVBdnZybzdtQ2tvVmdNWkZISm53ZEJsSG45VC9HSXdZTTJG?=
+ =?utf-8?B?WEttT25tNldWTEtub2w2RktBSGFhclYyWlZlVS9ERkJOWFZmZkQ3aVN5MTVp?=
+ =?utf-8?B?YThUdzB6NnFJMlhPRE9VK3J1Y0xTTkhWQVRwYmw3TXRMejFTNzdlYTArUTBw?=
+ =?utf-8?B?a2hhOFlucStZeERzM2xtdmx5djBRTGJQSlZ4eFkzOVhKUStaaGJUcllxNDAy?=
+ =?utf-8?B?Y05hTkJ3bWVqWFVJQ0dqdUM1dEczZCtFY0x0Y1FkcVFKVTR0cTBaeWt0QjRl?=
+ =?utf-8?B?bW5zYW5qWXc3dldubHh5eU5WUHBiWDEyc05MYVkvR0R1QW81amRlR20rL1Jj?=
+ =?utf-8?B?WGdNZDN4Y1JnbUtVSWg5NllPY2UvemwvYUlvSi9zL1Fod1BWSDFDbUtZOUcr?=
+ =?utf-8?B?aU9DRFdXdzJwTVVteUxnN0M3SVNwdS9aTjB5VzNNQWpTS2l6cTBaa2s1T1ZQ?=
+ =?utf-8?B?RG8vL1U5TFp4UGlVUnFYdnVkZzdobG4zZzNXbk1Wc2xzaHhzQmRzVkN4SVN2?=
+ =?utf-8?B?cEQyUW14N3F3amN0bkZGVnB1SkxIWlF0a1l1cm9qSFdNN01XakZ0bjRzMmpk?=
+ =?utf-8?B?b1FxcnJkSkRKd1Q1WFhGaExRWDZ2YVkxNC9OanozVGpoTEVKNjgxL0trdy9M?=
+ =?utf-8?B?Q09DLzNJSzEyVGpHbzdWdlZOL0I3WHhCek1YcUNjRFFVS1oyUGFDTGNOdVVm?=
+ =?utf-8?B?V2JhaFRaeHcySkVGM3lOakVSM29QeXNuWlVIRldtYndySDc4dlBtemlwYUFa?=
+ =?utf-8?B?c1dGSDhYN2ZTcUQ2U0ZpTmFuSXQ2VUs4VXBONEo0WVZ4T0g1eWZ1S2hpengx?=
+ =?utf-8?B?MnRPck5yQ0M3WDJzMThFdjNLOVpqYTk0TitiTUNuVHRwTDAwMTRCeFFUMkF4?=
+ =?utf-8?B?WWl0OXFUUlN4aWhaME9DSXlRM0ZEUzgwNUh2NVBFL2c3WmNReUg3cHNiQmc5?=
+ =?utf-8?B?U2VXdldjQlNXZlpSTkZ6QWJZK1NFT2daZmNNZWl0N3JmQmZtb0w4N0FISFJZ?=
+ =?utf-8?B?ZUF4SHlDTXlmRk12a0Q4OTd5MHJhQ2I3TGd1dU15M0c4ZVA3R2lpYWM2Q2Yx?=
+ =?utf-8?B?TG1QdDdheXlpN3V0dzI2TG9rMnVlbDZYVHJOaXc4bVRFTTVkTDU5RW1NcFI0?=
+ =?utf-8?B?Rm9DT3lPQXpLempXVUdhcnRuSkhHMkREZVNvb2s0TERVaHMwRU9jWk1OV2Fx?=
+ =?utf-8?B?YVJ4NUZKaWJDV3BTZHd6MDVsdG9oS2lmK1NPK1hRdGYwYVI1ZkFMeC9YOHEx?=
+ =?utf-8?B?SnhqZllkcFBlQzBnUUE4VTJYQ2FlUjNRbWtzMWZoNGRGWkNDekFuOGdBMElq?=
+ =?utf-8?B?TGxkWTNaNDJiUHZnTmtmeTBPaVA1V0tQRVc5UXYzbHhXcEZoMFI1VElsR1Y5?=
+ =?utf-8?B?dmdMeDFkbncwdkoxSjBzZG9KdWV0Mi9EUEhpbGJQZS9sazRKRllqMVRBMkhH?=
+ =?utf-8?B?ZVFUaG40OWkrTHQ5TW9BOWNGTCt2dlBJSzZuSkxrYjJaVEN1N05HRlRadFZz?=
+ =?utf-8?B?ZTR3ZnpKMmhLbEdqbENxRWpmTkwya3EwYjRLbExoTWFGWTcrakR4R1lZU2JI?=
+ =?utf-8?B?WkhyNTJDeElQRmZnVnRpNUd4SkNNZjhyVTQvZy9EaWNibzlzU1pyVE5mRWNX?=
+ =?utf-8?B?cHB3Rm5PcTVmam8vKzBxTzR3LzlLcVYwQ1NySFJoY2FQbHhrdS8zTytwQ1py?=
+ =?utf-8?B?Q1AyVUx3MFJEOTRxeE1kL0lvUloxUzM5RFJPVHNZQXoyWDVwSVlvWlJrY0Ix?=
+ =?utf-8?B?Q0NNcjh6dXl1S2FsM1VCS00vZ3Z6NTVpUS9OejRRZFFpWUxTUkJEZlhRbDlN?=
+ =?utf-8?B?ODdpakFnRnRzUkFhT2hWS2U1K3pyUFhWUUVrNEZSSlROSS83QkY2VGZiYmdl?=
+ =?utf-8?B?WXpkT1REc1F5dnNWQXo3cFJjb3ljaGpaeUxlZmVnbndJUXBjTU05WDhOTnZr?=
+ =?utf-8?B?QkptYjVDSlYrTTNZWkZDTlJsVkxmOHVqMHZGR1h1eFRwNVUyZW9jNXBwYy9n?=
+ =?utf-8?B?S0h2RGNGUVgvaXlVSFYwNWtycFQxZXpmS3NFQldKSEVEcjRldU81SUZVQ1Bz?=
+ =?utf-8?B?dUJ0MnNCRlI4UFdZMzJzREdGM0pNaURjMktVd2hXUFg3MlJDVlhjSy9RSGts?=
+ =?utf-8?Q?+QHmC4y3OEcifv2boOAoHUCQ7?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8990505c-fe07-471c-84e0-08da55a6cf47
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2022 06:00:15.8880 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HUJnqHJ3D0NGiFeaAK2k2CQpT9Rt0NK5a9hHmQLWtSbtVXBtFDoduNv+H+qeiaVf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1471
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,285 +134,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: jingwen.chen2@amd.com, monk.liu@amd.com, yiqing.yao@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Am 23.06.22 um 23:18 schrieb Andrey Grodzovsky:
+>
+> On 2022-06-22 11:04, Christian König wrote:
+>> Am 22.06.22 um 17:01 schrieb Andrey Grodzovsky:
+>>>
+>>> On 2022-06-22 05:00, Christian König wrote:
+>>>> Am 21.06.22 um 21:34 schrieb Andrey Grodzovsky:
+>>>>> On 2022-06-21 03:19, Christian König wrote:
+>>>>>
+>>>>>> Am 21.06.22 um 00:02 schrieb Andrey Grodzovsky:
+>>>>>>> Problem:
+>>>>>>> In amdgpu_job_submit_direct - The refcount should drop by 2
+>>>>>>> but it drops only by 1.
+>>>>>>>
+>>>>>>> amdgpu_ib_sched->emit -> refcount 1 from first fence init
+>>>>>>> dma_fence_get -> refcount 2
+>>>>>>> dme_fence_put -> refcount 1
+>>>>>>>
+>>>>>>> Fix:
+>>>>>>> Add put for external_hw_fence in amdgpu_job_free/free_cb
+>>>>>>
+>>>>>> Well what is the external_hw_fence good for in this construct?
+>>>>>
+>>>>>
+>>>>> As far as I understand for direct submissions you don't want to 
+>>>>> pass a job
+>>>>> pointer to ib_schedule and so u can't use the embedded fence for 
+>>>>> this case.
+>>>>
+>>>> Can you please look a bit deeper into this, we now have a couple of 
+>>>> fields in the job structure which have no obvious use.
+>>>>
+>>>> I think we could pass a job structure to ib_schedule even for 
+>>>> direct submit now.
+>>>
+>>>
+>>> Are you sure  ? I see a lot of activities in amdgpu_ib_schedule 
+>>> depend on presence of  vm and fence_ctx which are set if the job 
+>>> pointer argument != NULL, might this have a negative impact on 
+>>> direct submit ?
+>>
+>> Not 100% sure, but we did tons of workarounds because we didn't had a 
+>> job pointer for direct submit.
+>>
+>> But this was before we embedded the IBs at the end of the job.
+>>
+>> It's quite likely that this should be possible now, it's just that 
+>> somebody needs to double check.
+>>
+>> Christian.
+>
+>
+> Looking more i see stuff like amdgpu_vm_flush and 
+> amdgpu_ring_emit_cntxcntl, emit_frame_cntl that are conditioned on job 
+> argument, doesn't look to me like this is relevant to direct submit ?
 
-Fixes for this week, bit larger than normal, but I think the last
-couple have been quieter, and it's only rc4. There are a lot of small
-msm fixes, and a slightly larger set of vc4 fixes. The vc4 fixes clean
-up a lot of crashes around the rPI4 hardware differences from earlier
-ones, and problems in the page flip and modeset code which assumed
-earlier hw, so I thought it would be okay to keep them in.
+I think that those could and maybe even should be cleaned up.
 
-Otherwise, it's a few amdgpu, i915, sun4i and a panel quirk.
+>
+> I also noticed that direct submit passes back the created fence to 
+> it's caller while freeing the job immediately, Using embedded job here 
+> will increase the time the job object will hang around the memory
+> without any use as long as it's fence is referenced. Job object is 
+> much larger then a single fence.
 
-Let me know if there are any issues. Just a headsup as well myself and
-danvet will be out the week 4th-10th July so you might not get an rc6
-round, rc5 next week should be fine.
+Ah! Yes, you are right! That was the fundamental problem we ran into: 
+When we submit the IB tests during GPU reset we can't allocate any memory!
+
+Ok, that needs further investigation. Please go ahead with your plan to 
+fix this first and then clean it up later on.
 
 Regards,
-Dave.
+Christian.
 
-drm-fixes-2022-06-24:
-drm fixes for 5.19-rc4
+>
+> Andrey
+>
+>
+>>
+>>>
+>>> Andrey
+>>>
+>>>
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>>
+>>>>> Andrey
+>>>>>
+>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>>>>>> ---
+>>>>>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 8 ++++++--
+>>>>>>>   1 file changed, 6 insertions(+), 2 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c 
+>>>>>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>>>>>> index 10aa073600d4..58568fdde2d0 100644
+>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>>>>>> @@ -152,8 +152,10 @@ static void amdgpu_job_free_cb(struct 
+>>>>>>> drm_sched_job *s_job)
+>>>>>>>       /* only put the hw fence if has embedded fence */
+>>>>>>>       if (job->hw_fence.ops != NULL)
+>>>>>>>           dma_fence_put(&job->hw_fence);
+>>>>>>> -    else
+>>>>>>> +    else {
+>>>>>>
+>>>>>> When one side of the if uses {} the other side should use {} as 
+>>>>>> well, e.g. use } else { here.
+>>>>>>
+>>>>>> Christian.
+>>>>>>
+>>>>>>> + dma_fence_put(job->external_hw_fence);
+>>>>>>>           kfree(job);
+>>>>>>> +    }
+>>>>>>>   }
+>>>>>>>     void amdgpu_job_free(struct amdgpu_job *job)
+>>>>>>> @@ -165,8 +167,10 @@ void amdgpu_job_free(struct amdgpu_job *job)
+>>>>>>>       /* only put the hw fence if has embedded fence */
+>>>>>>>       if (job->hw_fence.ops != NULL)
+>>>>>>>           dma_fence_put(&job->hw_fence);
+>>>>>>> -    else
+>>>>>>> +    else {
+>>>>>>> +        dma_fence_put(job->external_hw_fence);
+>>>>>>>           kfree(job);
+>>>>>>> +    }
+>>>>>>>   }
+>>>>>>>     int amdgpu_job_submit(struct amdgpu_job *job, struct 
+>>>>>>> drm_sched_entity *entity,
+>>>>>>
+>>>>
+>>
 
-amdgpu:
-- Adjust GTT size logic
-- eDP fix for RMB
-- DCN 3.15 fix
-- DP training fix
-- Color encoding fix for DCN2+
-
-sun4i:
-- multiple suspend fixes
-
-vc4:
-- rework driver split for rpi4,
-  fixes multiple crashers.
-
-panel:
-- quirk for Aya Neo Next
-
-i915:
-- Revert low voltage SKU check removal to fix display issues
-- Apply PLL DCO fraction workaround for ADL-S
-- Don't show engine classes not present in client fdinfo
-
-msm:
-- Workaround for parade DSI bridge power sequencing
-- Fix for multi-planar YUV format offsets
-- Limiting WB modes to max sspp linewidth
-- Fixing the supported rotations to add 180 back for IGT
-- Fix to handle pm_runtime_get_sync() errors to avoid unclocked access
-  in the bind() path for dpu driver
-- Fix the irq_free() without request issue which was a being hit frequently
-  in CI.
-- Fix to add minimum ICC vote in the msm_mdss pm_resume path to address
-  bootup splats
-- Fix to avoid dereferencing without checking in WB encoder
-- Fix to avoid crash during suspend in DP driver by ensuring interrupt
-  mask bits are updated
-- Remove unused code from dpu_encoder_virt_atomic_check()
-- Fix to remove redundant init of dsc variable
-- Fix to ensure mmap offset is initialized to avoid memory corruption
-  from unpin/evict
-- Fix double runpm disable in probe-defer path
-- VMA fenced-unpin fixes
-- Fix for WB max-width
-- Fix for rare dp resolution change issue
-The following changes since commit a111daf0c53ae91e71fd2bfe7497862d14132e3e=
-:
-
-  Linux 5.19-rc3 (2022-06-19 15:06:47 -0500)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-06-24
-
-for you to fetch changes up to 1e9124df8be0a43e4e9a10c5d1140d6ca8e50132:
-
-  Merge tag 'drm-msm-fixes-2022-06-20' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes (2022-06-24
-10:11:27 +1000)
-
-----------------------------------------------------------------
-drm fixes for 5.19-rc4
-
-amdgpu:
-- Adjust GTT size logic
-- eDP fix for RMB
-- DCN 3.15 fix
-- DP training fix
-- Color encoding fix for DCN2+
-
-sun4i:
-- multiple suspend fixes
-
-vc4:
-- rework driver split for rpi4,
-  fixes multiple crashers.
-
-panel:
-- quirk for Aya Neo Next
-
-i915:
-- Revert low voltage SKU check removal to fix display issues
-- Apply PLL DCO fraction workaround for ADL-S
-- Don't show engine classes not present in client fdinfo
-
-msm:
-- Workaround for parade DSI bridge power sequencing
-- Fix for multi-planar YUV format offsets
-- Limiting WB modes to max sspp linewidth
-- Fixing the supported rotations to add 180 back for IGT
-- Fix to handle pm_runtime_get_sync() errors to avoid unclocked access
-  in the bind() path for dpu driver
-- Fix the irq_free() without request issue which was a being hit frequently
-  in CI.
-- Fix to add minimum ICC vote in the msm_mdss pm_resume path to address
-  bootup splats
-- Fix to avoid dereferencing without checking in WB encoder
-- Fix to avoid crash during suspend in DP driver by ensuring interrupt
-  mask bits are updated
-- Remove unused code from dpu_encoder_virt_atomic_check()
-- Fix to remove redundant init of dsc variable
-- Fix to ensure mmap offset is initialized to avoid memory corruption
-  from unpin/evict
-- Fix double runpm disable in probe-defer path
-- VMA fenced-unpin fixes
-- Fix for WB max-width
-- Fix for rare dp resolution change issue
-
-----------------------------------------------------------------
-Abhinav Kumar (1):
-      drm/msm/dpu: limit wb modes based on max_mixer_width
-
-Alex Deucher (1):
-      drm/amdgpu: Adjust logic around GTT size (v3)
-
-Dan Carpenter (1):
-      drm/vc4: fix error code in vc4_check_tex_size()
-
-Dave Airlie (4):
-      Merge tag 'amd-drm-fixes-5.19-2022-06-22' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2022-06-23' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
-      Merge tag 'drm-intel-fixes-2022-06-22' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
-      Merge tag 'drm-msm-fixes-2022-06-20' of
-https://gitlab.freedesktop.org/drm/msm into drm-fixes
-
-George Shen (1):
-      drm/amd/display: Fix typo in override_lane_settings
-
-Jason A. Donenfeld (1):
-      drm/i915/display: Re-add check for low voltage sku for max dp source =
-rate
-
-Jernej Skrabec (1):
-      drm/sun4i: Add DMA mask and segment size
-
-Jonathan Marek (1):
-      drm/msm: use for_each_sgtable_sg to iterate over scatterlist
-
-Joshua Ashton (1):
-      amd/display/dc: Fix COLOR_ENCODING and COLOR_RANGE doing nothing
-for DCN20+
-
-Kuogee Hsieh (2):
-      drm/msm/dp: check core_initialized before disable interrupts at
-dp_display_unbind()
-      drm/msm/dp: force link training for display resolution change
-
-Mario Limonciello (1):
-      drm/amd: Revert "drm/amd/display: keep eDP Vdd on when eDP
-stream is already enabled"
-
-Maxime Ripard (14):
-      drm/vc4: plane: Prevent async update if we don't have a dlist
-      drm/vc4: Consolidate Hardware Revision Check
-      drm/vc4: bo: Rename vc4_dumb_create
-      drm/vc4: bo: Split out Dumb buffers fixup
-      drm/vc4: drv: Register a different driver on BCM2711
-      drm/vc4: kms: Register a different drm_mode_config_funcs on BCM2711
-      drm/vc4: plane: Register a different drm_plane_helper_funcs on BCM271=
-1
-      drm/vc4: drv: Skip BO Backend Initialization on BCM2711
-      drm/vc4: crtc: Use an union to store the page flip callback
-      drm/vc4: crtc: Move the BO handling out of common page-flip callback
-      drm/vc4: crtc: Move the BO Handling out of Common Page-Flip Handler
-      drm/vc4: crtc: Don't call into BO Handling on Async Page-Flips on BCM=
-2711
-      drm/vc4: crtc: Fix out of order frames during asynchronous page flips
-      drm/vc4: Warn if some v3d code is run on BCM2711
-
-Maximilian Luz (1):
-      drm/msm: Fix double pm_runtime_disable() call
-
-Maya Matuszczyk (1):
-      drm: panel-orientation-quirks: Add quirk for Aya Neo Next
-
-Miaoqian Lin (1):
-      drm/msm/mdp4: Fix refcount leak in mdp4_modeset_init_intf
-
-Qingqing Zhuo (1):
-      drm/amd/display: Fix DC warning at driver load
-
-Rob Clark (7):
-      Merge tag 'msm-next-5.19-fixes-06-01' of
-https://gitlab.freedesktop.org/abhinavk/msm into msm-fixes-staging
-      drm/msm: Ensure mmap offset is initialized
-      drm/msm: Switch ordering of runpm put vs devfreq_idle
-      drm/msm/gem: Separate object and vma unpin
-      drm/msm/gem: Drop early returns in close/purge vma
-      drm/msm: Drop update_fences()
-      drm/msm: Don't overwrite hw fence in hw_init
-
-Samuel Holland (2):
-      drm/sun4i: dw-hdmi: Fix ddc-en GPIO consumer conflict
-      drm/sun4i: Fix crash during suspend after component bind failure
-
-Saud Farooqui (2):
-      drm/vc4: hdmi: Fixed possible integer overflow
-      drm/sun4i: Return if frontend is not present
-
-Tvrtko Ursulin (1):
-      drm/i915/fdinfo: Don't show engine classes not present
-
-Ville Syrj=C3=A4l=C3=A4 (1):
-      drm/i915: Implement w/a 22010492432 for adl-s
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  20 ++-
- .../amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c |   2 +-
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |   2 +-
- .../amd/display/dc/dce110/dce110_hw_sequencer.c    |  24 +--
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dpp.c   |   3 +
- drivers/gpu/drm/amd/display/dc/dcn201/dcn201_dpp.c |   3 +
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c   |   3 +
- drivers/gpu/drm/drm_panel_orientation_quirks.c     |   6 +
- drivers/gpu/drm/i915/display/intel_dp.c            |  32 +++-
- drivers/gpu/drm/i915/display/intel_dpll_mgr.c      |   4 +-
- drivers/gpu/drm/i915/i915_drm_client.c             |   5 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  14 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      |   9 +-
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |   2 +
- drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  33 +++-
- drivers/gpu/drm/msm/dp/dp_ctrl.h                   |   2 +-
- drivers/gpu/drm/msm/dp/dp_display.c                |  16 +-
- drivers/gpu/drm/msm/msm_drv.c                      |   2 +-
- drivers/gpu/drm/msm/msm_drv.h                      |   1 +
- drivers/gpu/drm/msm/msm_fence.c                    |   8 +-
- drivers/gpu/drm/msm/msm_gem.c                      |   7 +-
- drivers/gpu/drm/msm/msm_gem.h                      |  11 +-
- drivers/gpu/drm/msm/msm_gem_prime.c                |  15 ++
- drivers/gpu/drm/msm/msm_gem_submit.c               |  18 +-
- drivers/gpu/drm/msm/msm_gem_vma.c                  |   6 +-
- drivers/gpu/drm/msm/msm_gpu.c                      |  27 +--
- drivers/gpu/drm/msm/msm_iommu.c                    |   2 +-
- drivers/gpu/drm/msm/msm_ringbuffer.c               |   2 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c                  |  12 +-
- drivers/gpu/drm/sun4i/sun4i_layer.c                |   2 +-
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c              |  54 +-----
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h              |   2 -
- drivers/gpu/drm/vc4/vc4_bo.c                       |  62 ++++++-
- drivers/gpu/drm/vc4/vc4_crtc.c                     | 196 +++++++++++++++--=
-----
- drivers/gpu/drm/vc4/vc4_drv.c                      |  97 ++++++++--
- drivers/gpu/drm/vc4/vc4_drv.h                      |  19 +-
- drivers/gpu/drm/vc4/vc4_gem.c                      |  40 +++++
- drivers/gpu/drm/vc4/vc4_hdmi.c                     |   2 +-
- drivers/gpu/drm/vc4/vc4_hvs.c                      |  18 +-
- drivers/gpu/drm/vc4/vc4_irq.c                      |  16 ++
- drivers/gpu/drm/vc4/vc4_kms.c                      |  24 ++-
- drivers/gpu/drm/vc4/vc4_perfmon.c                  |  47 ++++-
- drivers/gpu/drm/vc4/vc4_plane.c                    |  29 ++-
- drivers/gpu/drm/vc4/vc4_render_cl.c                |   4 +
- drivers/gpu/drm/vc4/vc4_v3d.c                      |  15 ++
- drivers/gpu/drm/vc4/vc4_validate.c                 |  16 ++
- drivers/gpu/drm/vc4/vc4_validate_shaders.c         |   4 +
- 47 files changed, 670 insertions(+), 268 deletions(-)
