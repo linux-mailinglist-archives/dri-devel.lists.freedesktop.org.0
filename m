@@ -2,71 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B43455A335
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 23:02:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D18655A33A
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 23:03:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAF3710E55D;
-	Fri, 24 Jun 2022 21:02:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8075310E861;
+	Fri, 24 Jun 2022 21:03:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 226D010E55D
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 21:02:03 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- l2-20020a05600c4f0200b0039c55c50482so3980550wmq.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 14:02:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=bICz+32b/h7DCqXAyJl28t1XjDFQujGZ0o38fT2EYFg=;
- b=JUjukhU6pk5h5dOSVHG43IEe28r72tdMsgbz7yI57KJCgLvJi1RSeL2EImY4NkneSy
- yOvGtUWtyFsKRfXLexdbafWe9ND6SJwNUGlauCeTn4Mhp5a3wpNQIP80folGoYT/hj7z
- NPvMHc5X/Wwnsk+h6KXdu525l424wIhH2AU1o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=bICz+32b/h7DCqXAyJl28t1XjDFQujGZ0o38fT2EYFg=;
- b=CqXXuaq2W3XCDxd1lnNMBU+GbUdWeZzHTqHYbdyS6f/YcBDQIAhlqF8QTiplQca526
- 4k0oGrNrRWlY3fC4WRAHR5//y2zcxqmV5aTEuiCf2Fq7Qib17tCL4Mmkr6r6eKAHtato
- Dw/OtA1Bmw7zGh6U3NRoijxipaYmYZXFopuC46CyTM7UPhNeQI3RoN5VLN6hjeAbR6aM
- EZ8ACXEORLn+vZ+leq8vGqdagoW8knS+DkOV37Az8Yqpx/YF4B0a/QPfzmamplF26V5h
- k6vIFNyqAt/UmJuszP1hfT3UaU4J2p/vyYCKzojzr1DSTE4wtfPKRCnVjDzxTGYmx9PC
- jtng==
-X-Gm-Message-State: AJIora9eVOGWE9xqYTRBmCOQ7uyqBu+8n75GZLvVlEQb/oFOiT4GSf7X
- uQYfFjtjJA79ySPTW1IuMUMdVA==
-X-Google-Smtp-Source: AGRyM1vxZuIG5ij+m0wtySp6Re7xAcWpIozIYKGYnfhWR+ZlCjWYodHNUrrSWGuxJPqHoIHvyjDzAA==
-X-Received: by 2002:a05:600c:286:b0:3a0:30f8:8a43 with SMTP id
- 6-20020a05600c028600b003a030f88a43mr1062338wmk.90.1656104521682; 
- Fri, 24 Jun 2022 14:02:01 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- y10-20020a1c4b0a000000b0039c587342d8sm8225190wma.3.2022.06.24.14.02.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jun 2022 14:02:00 -0700 (PDT)
-Date: Fri, 24 Jun 2022 23:01:59 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v3 3/3] drm/doc: Add KUnit documentation
-Message-ID: <YrYmR+aCdO3ldORB@phenom.ffwll.local>
-Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
- =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
- davidgow@google.com, dlatypov@google.com, tzimmermann@suse.de,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@linux.ie, jani.nikula@linux.intel.com,
- dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
- linux-kernel@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>
-References: <20220613171738.111013-1-jose.exposito89@gmail.com>
- <20220613171738.111013-4-jose.exposito89@gmail.com>
- <c50e5c87-3198-08b7-1e32-d0959af1f296@redhat.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5E7710E861;
+ Fri, 24 Jun 2022 21:03:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656104629; x=1687640629;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=RzmUk0vu2qDrlUK63NeU8p0lK5abrpxk4sPGwtjpsN0=;
+ b=nNJD0bI+EY+CVCEnT39P1LufSfpIZPCZPekVyRvJOBKJFGUk345+w9jQ
+ gdQkb4+kOhRjcKLTy6tuKJCbWNYw8DG8+eCImt2mAjYJ6hKiFVkS3n6PC
+ a/6gLE+e9RYfxlFliWwNeOBb1Z+xKmLB3C9W8tvUTvi6IaTPCXVJlqRSb
+ 1uWMTcvMPq9gixaAC3zwUwq+S7O0DrWT/99TCi0z7M2GUpNbvylzxFnkf
+ kGNAePkydse0O5/JVR/ZWlgSM2W6MNtI4wWUQC7M9wklp8pt6KDlyHLAU
+ 7qjfKjGFgHRBrYA7Js//q6VbbVP1CuwdYeujZgRIBP4GIeSzsLmhFsSmq Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10388"; a="367411041"
+X-IronPort-AV: E=Sophos;i="5.92,220,1650956400"; d="scan'208";a="367411041"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 14:03:49 -0700
+X-IronPort-AV: E=Sophos;i="5.92,220,1650956400"; d="scan'208";a="593387295"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 14:03:49 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/i915: Correct duplicated/misplaced GT register
+ definitions
+Date: Fri, 24 Jun 2022 14:03:27 -0700
+Message-Id: <20220624210328.308630-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c50e5c87-3198-08b7-1e32-d0959af1f296@redhat.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,76 +54,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, davidgow@google.com,
- Maxime Ripard <maxime@cerno.tech>, airlied@linux.ie, dlatypov@google.com,
- linux-kernel@vger.kernel.org, tzimmermann@suse.de,
- =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
- kunit-dev@googlegroups.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 14, 2022 at 02:58:29PM +0200, Javier Martinez Canillas wrote:
-> Hello José,
-> 
-> On 6/13/22 19:17, José Expósito wrote:
-> 
-> [snip]
-> 
-> > +KUnit (Kernel unit testing framework) provides a common framework for unit tests
-> > +within the Linux kernel.
-> > +
-> 
-> I think that it will be useful to have a reference to the KUnit kernel doc here,
-> something like the following:
-> 
-> `KUnit <https://docs.kernel.org/dev-tools/kunit/index.html>`_ (Kernel Unit...
-> 
-> > +This section covers the specifics for the DRM subsystem. For general information
-> > +about KUnit, please refer to Documentation/dev-tools/kunit/start.rst.
-> > +
-> > +How to run the tests?
-> > +~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +In order to facilitate running the test suite, a configuration file is present
-> > +in ``drivers/gpu/drm/kunit/.kunitconfig``. It can be used by ``kunit.py`` as
-> > +follows:
-> > +
-> > +.. code-block:: bash
-> > +
-> > +	$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/kunit \
-> > +		--kconfig_add CONFIG_VIRTIO_UML=y \
-> > +		--kconfig_add CONFIG_UML_PCI_OVER_VIRTIO=y
-> > +
-> > +.. note::
-> > +	The configuration included in ``.kunitconfig`` should be as generic as
-> > +	possible.
-> > +	``CONFIG_VIRTIO_UML`` and ``CONFIG_UML_PCI_OVER_VIRTIO`` are not
-> > +	included in it because they are only required for User Mode Linux.
-> > +
-> > +
-> 
-> Maybe also add something like this ?
-> 
-> For example, the following command can be used to run the test for x86_64:
-> 
-> 	$ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/gpu/drm/kunit \
-> 		--arch=x86_64
-> 
-> Regardless, the patch looks good to me:
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+XEHPSDV_FLAT_CCS_BASE_ADDR, GEN8_L3_LRA_1_GPGPU, and MMCD_MISC_CTRL were
+duplicated between i915_reg.h and intel_gt_regs.h.  These are all GT
+registers, so we should drop the copy from i915_reg.h.
 
-Hey so since you have a bunch of patches merged into drm already but seem
-to lack drm-misc commit rights to push these yourself I think it's time to
-get those:
+XEHPSDV_TILE0_ADDR_RANGE was defined in i915_reg.h, but really belongs
+in intel_gt_regs.h.  Move it.
 
-https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#drm-misc
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c |  1 +
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h    |  3 +++
+ drivers/gpu/drm/i915/i915_reg.h            | 17 -----------------
+ 3 files changed, 4 insertions(+), 17 deletions(-)
 
-And I guess Javier can help you with any questions you might have and make
-sure the request gets through by poking folks on #dri-devel irc?
-
-Cheers, Daniel
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index fa54823d1219..e63de9c06596 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -14,6 +14,7 @@
+ #include "gem/i915_gem_region.h"
+ #include "gt/intel_gt.h"
+ #include "gt/intel_gt_mcr.h"
++#include "gt/intel_gt_regs.h"
+ #include "gt/intel_region_lmem.h"
+ #include "i915_drv.h"
+ #include "i915_gem_stolen.h"
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index 07ef111947b8..61815b6e87de 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -324,6 +324,9 @@
+ 
+ #define GEN12_PAT_INDEX(index)			_MMIO(0x4800 + (index) * 4)
+ 
++#define XEHPSDV_TILE0_ADDR_RANGE		_MMIO(0x4900)
++#define   XEHPSDV_TILE_LMEM_RANGE_SHIFT		8
++
+ #define XEHPSDV_FLAT_CCS_BASE_ADDR		_MMIO(0x4910)
+ #define   XEHPSDV_CCS_BASE_SHIFT		8
+ 
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 932bd6aa4a0a..cf5e16abf6c7 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -8345,23 +8345,6 @@ enum skl_power_gate {
+ #define   SGGI_DIS			REG_BIT(15)
+ #define   SGR_DIS			REG_BIT(13)
+ 
+-#define XEHPSDV_TILE0_ADDR_RANGE	_MMIO(0x4900)
+-#define   XEHPSDV_TILE_LMEM_RANGE_SHIFT  8
+-
+-#define XEHPSDV_FLAT_CCS_BASE_ADDR	_MMIO(0x4910)
+-#define   XEHPSDV_CCS_BASE_SHIFT	8
+-
+-/* gamt regs */
+-#define GEN8_L3_LRA_1_GPGPU _MMIO(0x4dd4)
+-#define   GEN8_L3_LRA_1_GPGPU_DEFAULT_VALUE_BDW  0x67F1427F /* max/min for LRA1/2 */
+-#define   GEN8_L3_LRA_1_GPGPU_DEFAULT_VALUE_CHV  0x5FF101FF /* max/min for LRA1/2 */
+-#define   GEN9_L3_LRA_1_GPGPU_DEFAULT_VALUE_SKL  0x67F1427F /*    "        " */
+-#define   GEN9_L3_LRA_1_GPGPU_DEFAULT_VALUE_BXT  0x5FF101FF /*    "        " */
+-
+-#define MMCD_MISC_CTRL		_MMIO(0x4ddc) /* skl+ */
+-#define  MMCD_PCLA		(1 << 31)
+-#define  MMCD_HOTSPOT_EN	(1 << 27)
+-
+ #define _ICL_PHY_MISC_A		0x64C00
+ #define _ICL_PHY_MISC_B		0x64C04
+ #define _DG2_PHY_MISC_TC1	0x64C14 /* TC1="PHY E" but offset as if "PHY F" */
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.36.1
+
