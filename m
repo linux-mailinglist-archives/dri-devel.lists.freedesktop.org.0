@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6346E55A1EA
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 21:36:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5701555A1ED
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 21:37:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A356910F1E7;
-	Fri, 24 Jun 2022 19:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7951510F20E;
+	Fri, 24 Jun 2022 19:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
- (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E84FA10F1E7
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 19:36:01 +0000 (UTC)
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC7F210F20E
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 19:37:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=NR+rVfPaKcwJC95HfuPGnx2NsOqea9V4VqvFvqFBnBg=;
- b=ZzY1rw1rBBZkbdbui9aaUX/x0KzQpCeGZmG8katPMT/D2ib0Nqf+mLbPGUbanH2vViCqxkiG3w/Js
- pglYitIOHro9Lx9QBo9ut502W2o/qlwP0jsJ678zaj3gkt2rx6Izvo7Nzm2Tweg28Z+Aa4GMX37ucE
- fYsw8E2eKTnN6RqvU8fZCTpvADZEkkFW3E/MZ66eY6QAQ1Rkm6tXoWwGyLl27jrSUw7VAqhdtFB357
- pBfggmIG7i9gIfdg0yIsurTaeHYMyhZmN5+mMyzxyl38cq1luIH9ckmVzMz0i0jbKvGODMWDOJwTAp
- mySQzKsCn46hpt2LvfH4AZ7xSu+eA7A==
+ bh=qqS6tMVWu0wHA8hLpr0yiEiWQ69Yua84ecNgLZiXe/s=;
+ b=TTRUsw9zczug7S+iS0OQDfdh7f47dSDAPJhPlgzpwnYrsm1Pledmm5CmKLmkzDhr+RJo+SgnUuBNK
+ V9jVjQ3qmwwxzxqRj2CA69NPjbHVg4+DP6V4+WV24tip9wJVfcjKQHxv8cJ4Hbe9yR2oemAlW+acz5
+ dtBGHqEP3/QeXvuygZewn7a2Lbr8HaYOEv7aRvlTbnXwwR3SV5jV/gNWOWDxQIT3rSgHuS0ksCiLIM
+ qZ130BIOFkKVCWXJ0PiRtagsKpwe7bWy/hATARM+UicArcShKt27YZWlJla6ULQXLQH6m+VMyghtb5
+ s4bROb97npqB/C9kRbHqoNJ1tJZGdiA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=NR+rVfPaKcwJC95HfuPGnx2NsOqea9V4VqvFvqFBnBg=;
- b=FCZegqjzcDpEVqGSDdEChCMzFBRT4gbuTfsEOERwj+uMRryJKT0eqMBqnbvkgC4XYMygXPZeS6Jnn
- p10Gj6wDw==
-X-HalOne-Cookie: c55c53cf29716556bad13e443f85f4cc77676190
-X-HalOne-ID: e01212d8-f3f4-11ec-a916-d0431ea8a290
-Received: from mailproxy3.cst.dirpod4-cph3.one.com
+ bh=qqS6tMVWu0wHA8hLpr0yiEiWQ69Yua84ecNgLZiXe/s=;
+ b=u/IYSHolyWSXQd/S7P5NcgpicAfoBvu9K86QWTTprbKnZkU6nz23dG9oI0VAL2bvHdQcEDCw9RKTO
+ iVpfSimCQ==
+X-HalOne-Cookie: 8e35d1b101e1b0cccc18e7e1a9e4165ba3e0e37e
+X-HalOne-ID: 154b2a12-f3f5-11ec-8233-d0431ea8bb10
+Received: from mailproxy2.cst.dirpod4-cph3.one.com
  (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
- by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id e01212d8-f3f4-11ec-a916-d0431ea8a290;
- Fri, 24 Jun 2022 19:36:00 +0000 (UTC)
-Date: Fri, 24 Jun 2022 21:35:58 +0200
+ by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 154b2a12-f3f5-11ec-8233-d0431ea8bb10;
+ Fri, 24 Jun 2022 19:37:29 +0000 (UTC)
+Date: Fri, 24 Jun 2022 21:37:27 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH 1/1] drm/panel: panel-simple: Add dev_err_probe if
- backlight could not be found
-Message-ID: <YrYSHqoHBUOZ7p8k@ravnborg.org>
-References: <20220621072118.513346-1-alexander.stein@ew.tq-group.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH] drm/ssd130x: Use new regmap bulk write support to drop
+ custom bus
+Message-ID: <YrYSd5x1JKJJeklJ@ravnborg.org>
+References: <20220618174338.2253021-1-javierm@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220621072118.513346-1-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20220618174338.2253021-1-javierm@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,23 +59,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 21, 2022 at 09:21:18AM +0200, Alexander Stein wrote:
-> If the backlight node is not enabled, this (silently) returns with
-> -EPROBE_DEFER. /sys/kernel/debug/devices_deferred also shows nothing
-> helpful:
-> $ cat /sys/kernel/debug/devices_deferred
-> display
+Hi Javier,
+
+On Sat, Jun 18, 2022 at 07:43:38PM +0200, Javier Martinez Canillas wrote:
+> Data writes for the ssd130x 4-wire SPI protocol need special handling, due
+> the Data/Command control (D/C) pin having to be toggled prior to the write.
 > 
-> With this patch, there is a helpful hint:
-> $ cat /sys/kernel/debug/devices_deferred
-> display panel-simple: Could not find backlight
+> The regmap API only allowed drivers to provide .reg_{read,write} callbacks
+> to do per register read/write, but didn't provide a way for drivers to do
+> the same for bulk read/writes.
 > 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-Thanks, applied to drm-misc (drm-misc-next)
+> For this reason, a custom regmap bus was used by the driver just to define
+> a bulk write callback that implements the D/C pin toggling. But the regmap
+> API has been extended to support defining bulk read/write handlers, so the
+> custom regmap bus is not needed anymore and could just be dropped.
+> 
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Patch looks good, but obviously needs the dependencies sorted out.
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
 	Sam
