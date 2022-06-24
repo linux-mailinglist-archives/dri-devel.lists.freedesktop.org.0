@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E49B559D3E
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 17:26:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 349E8559D3F
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 17:26:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 681C510E33A;
-	Fri, 24 Jun 2022 15:26:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5546B10E3A4;
+	Fri, 24 Jun 2022 15:26:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F48810E2A6
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 15:26:24 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5AC210E3A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 15:26:47 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 0D88920000F;
- Fri, 24 Jun 2022 15:26:22 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPSA id 6894C1C000A;
+ Fri, 24 Jun 2022 15:26:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1656084383;
+ t=1656084405;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=YqccQuVHkgnWh0eSwnz88UjG/HFD+0dcCnvV17bKt1w=;
- b=d3Rlh0cI+2GQ6bVcd1+bteHr0yYZ75JcUAtKo6t1Swu8K6t/tr4IZNrLa2CAk/9/lPFPj3
- z+T17m+7qVUGkwX3H+q/GCTeEvgiUqQpi8sW0nDy4xMOs3s9cKLR3JY+2g16DPT8uSu+b+
- lhLQw7CMfKzo7V+L8ScgRQBsS/YYBusqLsLpHOlDxL3C/3tqIA2DNna5W8CViewSL9F/L1
- U4b7Xh+6AYo3gax2OlTJABVe0kZGo/s1uYLSyF0PVGSE8MDvoLgWSyjaZ4kwUjkbFSPgl5
- UP92RV/BtKWe+rSL/nITrM6Us3pTGr0dt2/6TiPT4oQNaoCUL3raQt37jv6wAQ==
-Date: Fri, 24 Jun 2022 17:26:21 +0200
+ bh=cOBna43ZB0lJCDekpVEqf7GVrwOErW7lnHWKCAFoDIg=;
+ b=VIeBbMouu4FRIkCnML49qgRcF+vMECewXOrt2LsveUbMwYzLoZV83L0rJtnBz1noP2j03E
+ IBxv5QWf0a4wVWi990MihCbQvPsjeLNwONphIbUivuA4IW4mlLiGMc+tJJi1kYOj7EjynR
+ 3VdI+xTP7u0Pz10bcayLH6mo0edU+NJwkHcfGku0Eyik8FZRIp2k81i+/ee7H4CS49UXzx
+ Z4dOBD7G+mjJuBlKza7OVSaQ2v+AMu9j3BKJjxSh7jHhkOxL/3JBZJKgBq3Ijs9x+Pp+U/
+ BpdQ1+QutoMfiAdcyKDvLc3usPeHUkBgIKyvkdI77hpr3+X8NIgvRpE21SYyuw==
+Date: Fri, 24 Jun 2022 17:26:44 +0200
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Yang Li <yang.lee@linux.alibaba.com>
-Subject: Re: [PATCH -next] drm: Remove unnecessary print function dev_err()
-Message-ID: <YrXXnfFLrYFXInvJ@aptenodytes>
-References: <20220613012658.85814-1-yang.lee@linux.alibaba.com>
- <YrXRplhnlUZ2KV3V@aptenodytes>
+To: Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH] drm: fix device_node_continue.cocci warnings (fwd)
+Message-ID: <YrXXtIYHk2o5ZS9G@aptenodytes>
+References: <alpine.DEB.2.22.394.2206121300120.3447@hadrien>
+ <YrXTY77HjvNnuc1B@aptenodytes>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="j1BiNMI1wuOdzFcL"
+ protocol="application/pgp-signature"; boundary="j8s6M7Kf9VxwIgM8"
 Content-Disposition: inline
-In-Reply-To: <YrXRplhnlUZ2KV3V@aptenodytes>
+In-Reply-To: <YrXTY77HjvNnuc1B@aptenodytes>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,62 +51,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Abaci Robot <abaci@linux.alibaba.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: kbuild-all@lists.01.org, lkp@intel.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---j1BiNMI1wuOdzFcL
+--j8s6M7Kf9VxwIgM8
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Fri 24 Jun 22, 17:00, Paul Kocialkowski wrote:
-> Hi Yang,
+On Fri 24 Jun 22, 17:08, Paul Kocialkowski wrote:
+> Hi Julia,
 >=20
-> On Mon 13 Jun 22, 09:26, Yang Li wrote:
-> > The print function dev_err() is redundant because platform_get_irq()
-> > already prints an error.
-> >=20
-> > Eliminate the follow coccicheck warning:
-> > ./drivers/gpu/drm/logicvc/logicvc_drm.c:352:2-9: line 352 is redundant
-> > because platform_get_irq() already prints an error
-> >=20
-> > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> > Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+> On Sun 12 Jun 22, 13:02, Julia Lawall wrote:
+> > The of_node_put does not seem to be needed.  Note that there is none at
+> > the preceeding continues.
 >=20
-> Thanks for the patch!
->=20
-> Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> That looks like a correct fix, thanks!
 
 Pushed to drm-misc-next, thanks!
 
 Paul
 
+> > julia
+> >=20
+> > ---------- Forwarded message ----------
+> > Date: Sat, 11 Jun 2022 06:02:45 +0800
+> > From: kernel test robot <lkp@intel.com>
+> > To: kbuild@lists.01.org
+> > Cc: lkp@intel.com, Julia Lawall <julia.lawall@lip6.fr>
+> > Subject: [PATCH] drm: fix device_node_continue.cocci warnings
+> >=20
+> > CC: kbuild-all@lists.01.org
+> > BCC: lkp@intel.com
+> > CC: Linux Memory Management List <linux-mm@kvack.org>
+> > TO: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > CC: Maxime Ripard <mripard@kernel.org>
+> > CC: David Airlie <airlied@linux.ie>
+> > CC: Daniel Vetter <daniel@ffwll.ch>
+> > CC: dri-devel@lists.freedesktop.org
+> > CC: linux-kernel@vger.kernel.org
+> >=20
+> > From: kernel test robot <lkp@intel.com>
+> >=20
+> > drivers/gpu/drm/logicvc/logicvc_layer.c:616:2-13: ERROR: probable doubl=
+e put.
+> >=20
+> >  Device node iterators put the previous value of the index variable, so=
+ an
+> >  explicit put causes a double put.
+> >=20
+> > Generated by: scripts/coccinelle/iterators/device_node_continue.cocci
+> >=20
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Signed-off-by: kernel test robot <lkp@intel.com>
 > > ---
-> >  drivers/gpu/drm/logicvc/logicvc_drm.c | 1 -
-> >  1 file changed, 1 deletion(-)
 > >=20
-> > diff --git a/drivers/gpu/drm/logicvc/logicvc_drm.c b/drivers/gpu/drm/lo=
-gicvc/logicvc_drm.c
-> > index df1805cf0f95..437b3011ae1e 100644
-> > --- a/drivers/gpu/drm/logicvc/logicvc_drm.c
-> > +++ b/drivers/gpu/drm/logicvc/logicvc_drm.c
-> > @@ -349,7 +349,6 @@ static int logicvc_drm_probe(struct platform_device=
- *pdev)
-> > =20
-> >  	irq =3D platform_get_irq(pdev, 0);
-> >  	if (irq < 0) {
-> > -		dev_err(dev, "Failed to get IRQ\n");
-> >  		ret =3D -ENODEV;
-> >  		goto error_reserved_mem;
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+=2Egit master
+> > head:   6d0c806803170f120f8cb97b321de7bd89d3a791
+> > commit: efeeaefe9be56e8ae5e5b4e9ff6d2275ec977ec5 [2027/2566] drm: Add s=
+upport for the LogiCVC display controller
+> > :::::: branch date: 17 hours ago
+> > :::::: commit date: 31 hours ago
+> >=20
+> > Please take the patch only if it's a positive warning. Thanks!
+> >=20
+> >  drivers/gpu/drm/logicvc/logicvc_layer.c |    2 --
+> >  1 file changed, 2 deletions(-)
+> >=20
+> > --- a/drivers/gpu/drm/logicvc/logicvc_layer.c
+> > +++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
+> > @@ -612,8 +612,6 @@ int logicvc_layers_init(struct logicvc_d
+> >  		ret =3D logicvc_layer_init(logicvc, layer_node, index);
+> >  		if (ret)
+> >  			goto error;
+> > -
+> > -		of_node_put(layer_node);
 > >  	}
-> > --=20
-> > 2.20.1.7.g153144c
 > >=20
+> >  	of_node_put(layers_node);
 >=20
 > --=20
 > Paul Kocialkowski, Bootlin
@@ -120,19 +150,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---j1BiNMI1wuOdzFcL
+--j8s6M7Kf9VxwIgM8
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEyBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK1150ACgkQ3cLmz3+f
-v9FYQQf3XfVBAjvqS/RDgAVJLtAli6neGvkwnOPb6qRfD97qH1SAUsOHmE0arjmr
-gRLKR9SPSTTf+1w78Uyp8su3XXvlOqJ/axvc2ZnrHdrPan0Bwa3vRI60mlQPtI+a
-7JedVfCH5c2vXyHnO+vKYNI7s1kZYj+pbHMU6jKqlYNE8VHlarWtwVzsEVNBNab5
-Ykn2juFT5BDr3PLlp3bYOpYl1SPuBCgHpTjgK+w98crusO080x79niQ71WOdWlt2
-iaRf1cTQbmo2m9tNV3w0e2hKSDbZa5gjeUqeC8fJubR3pKj7p36YsU8sYnK6PCkD
-BHOGlJl3S3Y+i4qLnNOG6GMDd6kX
-=OYMV
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK117MACgkQ3cLmz3+f
+v9GFUwf/az5hyKfcTdyQcgK2Hh4Cjqq2ZHdkl8bUbiYalB83GruGXqXVrp5DZ2+v
+sIg19Ssgv1GMiTAvVZuT8EqHpZPcoPQceVKyFp4S7EmBmxctiyTq7/3FBGZPf8i3
+FO2hGK3lbgfL0ur+sUuPugzW8/iUWg2AsWuuzGvEJaTtZmOURPSgJrdgrQrCJK4Q
+AO4PGOvd8lqC/yqFokvr/XFFnOpm3qF2jdOUJpQ0/n3heMLYHnGmY5XC7VD2LmNf
+wAVKcakylgPhpDTrbx//lZ6Q1SW/UiWsnexGIIjvBRd4tU+j07A6eQqPx+f1UmsA
+9VVviBqMk2ytHuOAOHBjNx+34d/S4Q==
+=0QdG
 -----END PGP SIGNATURE-----
 
---j1BiNMI1wuOdzFcL--
+--j8s6M7Kf9VxwIgM8--
