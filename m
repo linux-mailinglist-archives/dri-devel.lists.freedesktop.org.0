@@ -2,50 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633AD55A279
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 22:20:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E9D55A284
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 22:22:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBCEE10F043;
-	Fri, 24 Jun 2022 20:20:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0331010F229;
+	Fri, 24 Jun 2022 20:21:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40F9710EFB3;
- Fri, 24 Jun 2022 20:20:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656102027; x=1687638027;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=5yir5qsDWmJvpcLu8qopoQ2H2wrhCorETTzmzNRdNeU=;
- b=DfBSv5hImO05Cr0wbpMO6B2WHyt3SgHDsjYSl8D2J0crrNgFcCrw8NKr
- Ztfe//KKx8DB15UnvzjoXgXN31q8dJP1y2ZnWotprzZ7qkZYAwk2nAbKA
- 92BSbGZKyjoLQ/s9pEm9v5rWxvFo2EEgXzMDJJf9i2EAag1ne+FbztCQ4
- 1Z4Fw1sFfoZWog/mKLY3uwiJQuSnoE97d50+6H7D6db8yeN/4iTS3oIQA
- UXOtEo48VTfZC8Fh7BX0LRILO1NubvO0lE4z/P/et3fkEENtU2u8WD3kK
- A2b7Gf2fPgChPi4yIZI+NqlmagiRSglUilQ8m6vfkSsWKYBoTFTDC7gUO w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10388"; a="278629607"
-X-IronPort-AV: E=Sophos;i="5.92,220,1650956400"; d="scan'208";a="278629607"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2022 13:20:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,220,1650956400"; d="scan'208";a="589124453"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
- by orsmga002.jf.intel.com with ESMTP; 24 Jun 2022 13:20:23 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1o4pmw-0004ff-Tx;
- Fri, 24 Jun 2022 20:20:22 +0000
-Date: Sat, 25 Jun 2022 04:20:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 2f9cb3d3bd73fc2225d66aa8fcffb632ed3eb235
-Message-ID: <62b61c74.3Kp+9QDweGyj9KVR%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE33210F229
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 20:21:56 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id h23so6846969ejj.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 13:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=aI/Wm30z63oEYhq+jLGxZI/tPMnn/tbFlzZ2xbhv+F4=;
+ b=DSfCIl93ErkZQTmodLqWf6MxjRIpF1ZnQis6V2AmfYLHN/rGtlxKfpfQusYdU3/UoQ
+ cGZ9t8NGw8N1UESLaZQtt9KE8BCcJRvCrZjHW4cY3x/vspkpF+H+OZ9YyYSAm/sR4To9
+ S80AKWsZyDrPVwQDWYceohfI1JDJJuzPD7o2I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=aI/Wm30z63oEYhq+jLGxZI/tPMnn/tbFlzZ2xbhv+F4=;
+ b=oNIyhA0DK9rK+umYOb4uLosIZZRjDFJe+rRL4MWSqZKQ9OHoBabqBGkCltjxvoyFHD
+ xNQ6PV1fbWFqIeRKrob3vrVO8LM76AxhgPQDge8w0Vpcj3S9yQD7ifoUpxBpb8cmronX
+ PBsXbeUYSfMl7DzQdAJJaRzgePJ9LoZX7cXEcwBvoIpx00zqcRZ6X5Gb2qpDf/G91Rcp
+ KIPOUX2s+/3DNLa8KEotKv9GoFDn6MzBPHMGl8EbLGuepx59vgAXAGRFn6BdCMaf+8Ai
+ Dvya+h88iHVizvmiCRWqpMpH3jQQAoNcGgQccHm/93Z0qe6Xa9q84ARaHkyFY25zznbG
+ zlcw==
+X-Gm-Message-State: AJIora8u44qVNKE3TQ2/t6dSRMQqCnOyP6rb/e1dp/NOK508Cr+R/7i9
+ Wh346XwZYJbrahlaAKnGW6MGpS3Hr3f2nw==
+X-Google-Smtp-Source: AGRyM1vMLazEoSIRdqrX8zCM+3y9xklBh+nj+P3ouSsHUhI81GOe3I6uIj9foVrhcJrq+L6LjvY0lQ==
+X-Received: by 2002:a17:906:72d1:b0:722:e714:e9ff with SMTP id
+ m17-20020a17090672d100b00722e714e9ffmr758067ejl.748.1656102115311; 
+ Fri, 24 Jun 2022 13:21:55 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ y22-20020a170906559600b00722e7919835sm1623844ejp.111.2022.06.24.13.21.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jun 2022 13:21:54 -0700 (PDT)
+Date: Fri, 24 Jun 2022 22:21:52 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v6 17/22] drm/shmem-helper: Add generic memory shrinker
+Message-ID: <YrYc4IUHJWSbC6AX@phenom.ffwll.local>
+Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org,
+ Dmitry Osipenko <digetx@gmail.com>, linux-tegra@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ kernel@collabora.com
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-18-dmitry.osipenko@collabora.com>
+ <CAF6AEGt61t2truYDCxm17hqUPV-UdEdHjLs+6vmj5RPoPuVBYg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGt61t2truYDCxm17hqUPV-UdEdHjLs+6vmj5RPoPuVBYg@mail.gmail.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,219 +105,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: netdev@vger.kernel.org, linux-staging@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-perf-users@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>, ntb@lists.linux.dev,
- amd-gfx@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ virtualization@lists.linux-foundation.org, linux-media@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, amd-gfx@lists.freedesktop.org,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, Qiang Yu <yuq825@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Robin Murphy <robin.murphy@arm.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 2f9cb3d3bd73fc2225d66aa8fcffb632ed3eb235  Add linux-next specific files for 20220624
+On Sun, Jun 19, 2022 at 10:53:03AM -0700, Rob Clark wrote:
+> On Thu, May 26, 2022 at 4:55 PM Dmitry Osipenko
+> <dmitry.osipenko@collabora.com> wrote:
+> > +       mutex_unlock(&gem_shrinker->lock);
+> 
+> As I mentioned on other thread, count_objects, being approximate but
+> lockless and fast is the important thing.  Otherwise when you start
+> hitting the shrinker on many threads, you end up serializing them all,
+> even if you have no pages to return to the system at that point.
 
-Error/Warning reports:
+Yeah agreed, seems like I was wrong here :-) Atomic counter or something
+would also be in link the the lru_list stuff.
 
-https://lore.kernel.org/llvm/202206221813.Dn1s6uuh-lkp@intel.com
+It would be to record this in the kerneldoc for the shrinker structure
+though, to make sure this is all understood.
 
-Error/Warning: (recently discovered and may have been fixed)
+> > +               /* prevent racing with the dma-buf importing/exporting */
+> > +               if (!mutex_trylock(&gem_shrinker->dev->object_name_lock)) {
+> > +                       *lock_contention |= true;
+> > +                       goto resv_unlock;
+> > +               }
+> 
+> I'm not sure this is a good idea to serialize on object_name_lock.
+> Purgeable buffers should never be shared (imported or exported).  So
+> at best you are avoiding evicting and immediately swapping back in, in
+> a rare case, at the cost of serializing multiple threads trying to
+> reclaim pages in parallel.
 
-arch/powerpc/kernel/interrupt.c:542:55: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
-arch/powerpc/kernel/interrupt.c:542:55: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:1025:33: warning: variable 'pre_connection_type' set but not used [-Wunused-but-set-variable]
-drivers/ntb/test/ntb_perf.c:1145: undefined reference to `__umoddi3'
-drivers/pci/endpoint/functions/pci-epf-vntb.c:975:5: warning: no previous prototype for function 'pci_read' [-Wmissing-prototypes]
-drivers/pci/endpoint/functions/pci-epf-vntb.c:984:5: warning: no previous prototype for function 'pci_write' [-Wmissing-prototypes]
-include/linux/fs.h:1656: warning: expecting prototype for i_gid_into_mnt(). Prototype was for i_gid_into_vfsgid() instead
-
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/net/pcs/pcs-xpcs.c:1031: undefined reference to `phylink_mii_c22_pcs_decode_state'
-drivers/net/pcs/pcs-xpcs.c:832: undefined reference to `phylink_mii_c22_pcs_encode_advertisement'
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- arc-randconfig-m031-20220624
-|   |-- drivers-gpu-drm-vc4-vc4_perfmon.c-vc4_perfmon_get()-warn:variable-dereferenced-before-check-perfmon-(see-line-)
-|   `-- drivers-gpu-drm-vc4-vc4_perfmon.c-vc4_perfmon_get_values_ioctl()-warn:variable-dereferenced-before-check-perfmon-(see-line-)
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- arm64-buildonly-randconfig-r004-20220624
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|-- i386-allnoconfig
-|   `-- include-linux-fs.h:warning:expecting-prototype-for-i_gid_into_mnt().-Prototype-was-for-i_gid_into_vfsgid()-instead
-|-- i386-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|   |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|   `-- ntb_perf.c:(.text):undefined-reference-to-__umoddi3
-|-- i386-randconfig-a001
-|   `-- ntb_perf.c:(.text):undefined-reference-to-__umoddi3
-|-- i386-randconfig-a005
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- i386-randconfig-m021
-|   `-- arch-x86-events-core.c-init_hw_perf_events()-warn:missing-error-code-err
-|-- ia64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- m68k-allmodconfig
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- m68k-allyesconfig
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- microblaze-randconfig-r006-20220624
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|   `-- drivers-ntb-test-ntb_perf.c:undefined-reference-to-__umoddi3
-|-- mips-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- nios2-randconfig-r016-20220624
-|   |-- drivers-net-pcs-pcs-xpcs.c:undefined-reference-to-phylink_mii_c22_pcs_decode_state
-|   `-- drivers-net-pcs-pcs-xpcs.c:undefined-reference-to-phylink_mii_c22_pcs_encode_advertisement
-|-- powerpc-allmodconfig
-|   |-- ERROR:__umoddi3-drivers-ntb-test-ntb_perf.ko-undefined
-|   |-- arch-powerpc-kernel-interrupt.c:warning:suggest-braces-around-empty-body-in-an-if-statement
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- powerpc-allnoconfig
-|   `-- arch-powerpc-kernel-interrupt.c:error:suggest-braces-around-empty-body-in-an-if-statement
-|-- powerpc-asp8347_defconfig
-|   `-- arch-powerpc-kernel-interrupt.c:error:suggest-braces-around-empty-body-in-an-if-statement
-|-- powerpc-mpc834x_mds_defconfig
-|   `-- arch-powerpc-kernel-interrupt.c:error:suggest-braces-around-empty-body-in-an-if-statement
-|-- powerpc-randconfig-r002-20220624
-|   `-- arch-powerpc-kernel-interrupt.c:warning:suggest-braces-around-empty-body-in-an-if-statement
-|-- powerpc-randconfig-r032-20220624
-|   `-- arch-powerpc-kernel-interrupt.c:warning:suggest-braces-around-empty-body-in-an-if-statement
-|-- sh-allmodconfig
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- sparc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- sparc-randconfig-r011-20220624
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|-- x86_64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-|   `-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-|-- x86_64-randconfig-a002
-|   |-- pcs-xpcs.c:(.text):undefined-reference-to-phylink_mii_c22_pcs_decode_state
-|   `-- pcs-xpcs.c:(.text):undefined-reference-to-phylink_mii_c22_pcs_encode_advertisement
-`-- xtensa-allyesconfig
-    |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-core-dc_link.c:warning:variable-pre_connection_type-set-but-not-used
-    |-- drivers-staging-rtl8723bs-hal-hal_btcoex.c:warning:variable-pHalData-set-but-not-used
-    `-- ntb_perf.c:(.text):undefined-reference-to-__umoddi3
-
-clang_recent_errors
-|-- hexagon-randconfig-r001-20220624
-|   `-- drivers-ufs-host-tc-dwc-g210-pltfrm.c:warning:unused-variable-tc_dwc_g210_pltfm_match
-`-- x86_64-allyesconfig
-    |-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-function-pci_read
-    `-- drivers-pci-endpoint-functions-pci-epf-vntb.c:warning:no-previous-prototype-for-function-pci_write
-
-elapsed time: 728m
-
-configs tested: 84
-configs skipped: 3
-
-gcc tested configs:
-arm                                 defconfig
-arm                              allyesconfig
-arm64                            allyesconfig
-powerpc                     asp8347_defconfig
-mips                           ip32_defconfig
-s390                          debug_defconfig
-sparc                            allyesconfig
-openrisc                  or1klitex_defconfig
-sh                                  defconfig
-m68k                          multi_defconfig
-sh                      rts7751r2d1_defconfig
-xtensa                       common_defconfig
-microblaze                          defconfig
-arm                          iop32x_defconfig
-arm                        realview_defconfig
-arm                        keystone_defconfig
-m68k                         apollo_defconfig
-parisc64                            defconfig
-arm                       aspeed_g5_defconfig
-powerpc                 mpc834x_mds_defconfig
-riscv                             allnoconfig
-riscv                    nommu_k210_defconfig
-i386                   debian-10.3-kselftests
-riscv                          rv32_defconfig
-riscv                    nommu_virt_defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-sh                               allmodconfig
-powerpc                           allnoconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                             allmodconfig
-i386                                defconfig
-i386                             allyesconfig
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a014
-i386                          randconfig-a012
-i386                          randconfig-a016
-x86_64                        randconfig-a004
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-arc                  randconfig-r043-20220624
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                          rhel-8.3-func
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
-x86_64                           rhel-8.3-syz
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                           allyesconfig
-
-clang tested configs:
-arm                                 defconfig
-powerpc                     ksi8560_defconfig
-powerpc                       ebony_defconfig
-powerpc                     kilauea_defconfig
-powerpc                     kmeter1_defconfig
-x86_64                           allyesconfig
-arm                           omap1_defconfig
-arm                         s3c2410_defconfig
-powerpc                      walnut_defconfig
-mips                   sb1250_swarm_defconfig
-powerpc                      pmac32_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a014
-x86_64                        randconfig-a012
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-hexagon              randconfig-r045-20220624
-riscv                randconfig-r042-20220624
-hexagon              randconfig-r041-20220624
-s390                 randconfig-r044-20220624
-
+Yeah this sounds really bad. Plus this is a per-device lock, and doing
+those with trylock means the shrinker will fail to find shrinkable memory
+way too often. We need to engineer this out somehow.
+-Daniel
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
