@@ -1,62 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C343355A4B8
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 01:14:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F5955A4C4
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 01:25:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3CE710E025;
-	Fri, 24 Jun 2022 23:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 036D110EA10;
+	Fri, 24 Jun 2022 23:25:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA16A10F249
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 23:14:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656112492;
- bh=MvGqALxG1kFhKgl304fYJFsRnp9l3J45w+uRN4EBJFE=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=YrYQMzlKPG8y4QL8388uGsTsNd4htfJ2tWp7Kzgb9QZydPo9QMSO6gf+aCG3uptGv
- 7FUHgd5JeXBZzmXPaeD7GJO7lTmpixfvgbQEVCJIJBYk+ynItPXYlbS+sI3DlP2vpS
- eWt8zmOTrzfMdtBMyYwK3WmfC/PNUCI4Be5ZJWJE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [174.250.50.4] ([174.250.50.4]) by web-mail.gmx.net
- (3c-app-mailcom-bs04.server.lan [172.19.170.170]) (via HTTP); Sat, 25 Jun
- 2022 01:14:51 +0200
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
+ [IPv6:2607:f8b0:4864:20::72c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9313110E403
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 23:25:16 +0000 (UTC)
+Received: by mail-qk1-x72c.google.com with SMTP id p21so2978267qki.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 16:25:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FpOasnc+MpC6k8YV2n5CgA0BI1oTbTynNjCcV+ZfHRs=;
+ b=NHb6sx16M7MktkZ3Jo61dJAtykBLRQ7L90BYWPv2UYfd7gTYH2Imv7sGo8sVPuwlCd
+ 3MzSMUw6RsrSdaH9kaWcFR/nhX3HUHTrofuDUv3N9XBWRtkmXMs74x9X1h6D7hUvEloQ
+ xZqSxQLB41Sd3P5nsLa3wY60AtTBzwR9xksRX1rO+ijLlptnUAkOt4a4dbPrFdO6ZUOI
+ eJf7OJQp9wYcRSj39MRpVP+exzOBiqETNrSMynq1cLm60ZfW39poLkgFd/c4XlEzX92Z
+ urgI7E+FNaezix5BisyfzLdTRLV6DWggT8YDLErAQ+32QXk6815I9uprKrMtEBtLDi3/
+ v7IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FpOasnc+MpC6k8YV2n5CgA0BI1oTbTynNjCcV+ZfHRs=;
+ b=qKOtCkuTVeGRvoMadvpcf31etsPOHwQJkz57AgbD6HRaCHXN1SOC7Yxi/l4z7Ne43Q
+ 9Ah5fN7sJP9iSmHQMzyprEhQZPDOUOTLBPD3BHZ14yqd+ESvubrk1O7UiLF0PcjR9esl
+ TYrlquhgNOg0RdNg9Vg1IaWTuOPxxV9HzNEhOqnI6ovQIKHvnVwhMAMOZrRCE95m5rV0
+ nVEt7b9R2IMUqbqLHgiJMTgYLphkwRjt3tckFCtGDSqposotUdNoWLikzwQh08S82nqh
+ qNy7PKx8+EP2MN7qO2PiYLzzgr9kGNyApyuS0GfzShD3LgB62bVPFzr1sACmUZ/5z4oM
+ xozQ==
+X-Gm-Message-State: AJIora+uKeNZFyAkClz9rly23tn9rAoWtBNOGHxYXtSQKYEkTvirdXSB
+ 9CQ5WYPVct2gDPJykSgnESHOIN/UAuV9LVkOLMImVg==
+X-Google-Smtp-Source: AGRyM1uO6ak+ggMtjMmbHyuZ535rKKAdH4kKHL57dRRG0x0TBx5SohM1ORVa07kNl56sasfydWaRzHmOt05i/wBTFkY=
+X-Received: by 2002:a05:620a:31a0:b0:6a7:549f:a788 with SMTP id
+ bi32-20020a05620a31a000b006a7549fa788mr1285171qkb.203.1656113115648; Fri, 24
+ Jun 2022 16:25:15 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <trinity-420aefe5-fd55-43aa-a57e-41fede46d128-1656112491917@3c-app-mailcom-bs04>
-From: Kevin Brace <kevinbrace@gmx.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 00/28] OpenChrome DRM for Linux 5.20
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 25 Jun 2022 01:14:51 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <YrYpjmgwuLQyVF1i@ravnborg.org>
-References: <20220624202633.3978-1-kevinbrace@gmx.com>
- <YrYpjmgwuLQyVF1i@ravnborg.org>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:j89bm4lkimqdkLk7Ya0Gq9Nw5akrs+vApXJ6v2Cvn6wvHbfIn7GQVyqEHCDDIN4nXIuTf
- 2b1cYaN3vtSjEkEzvzqhbGXAMlROOz103pxxYf38o54gAQqyUYk5Q5DVXoOQDWSWa8jjsefVsgtp
- RC+1Nbhf7UMsbmOmJY2OH/YsSrUdK0foJfMvGZLfX7an1rF0UAqskXzeJCFLAnGifh4L/WXCNONQ
- 3vyF4mTr0RQdFLtV0jAvE2PPNFe8BJ88tnZQX+Rup1iBPKY8X2eGqPBF3tF509kGDnKrNg6+gJQK
- DQ=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:62WUj3m+8Ts=:ikdOUhBokVZECelonfGjOK
- WrgGpLbKMCJmMGyqCdwnGr/sqPVYwdfn5TQaELuMt/M03Ig9XYToxl85mSZLNzEStS4Z/lNN2
- 6xu9dzqQXTpNIVsQa4kNX33Kqmir1m/n2FrNzGURGzOCqxZC1ADm8dm5442NhpEU2WuQi6irk
- kkXsbk6AK8clRAlz19BZTM4PeJ5kLA/eZW/fnL/P+T2L0VbvWUsLTucV0RzmxDL5JQNxm6Xs1
- MwT78N7siVopWrETDyS8phbo8/PvF2UCLNyKYJVrOia/JEDperMrrFbgGB26y85gOb2LnuXRp
- L4YOTcaaEVZmlS8lMwYlNpkcLlqNj/TZQ4wvViwXBEuuHUBwHH4qH3N2H+gvXokzI6CRoFkxq
- ao4w6e5jSC63fPEaV3eRxe7lH+cVtB6g5CXezhp/g+xUolyYSRltyLDYozOd5sQq3xpHBLWKm
- zY5H3V40/h+Q6uPzJK/vWTalpK3E6ZDIUz14vrtuZM4ki/B1znmMJF+WKdEpi97YQ2Toz+zwy
- 576WcX+NSIqtvMlRVmiJKYZA6HiZ/CXwdOeytyB9X3dRUpKt+7RD/Fz0ldaqHLQnHveK9TTKU
- Em1jUCFxaeSXkSOWqHFHshvwytmvb/hNjesfmiKhpDHx/MEuYMZyicrzDv13ZxPAhB5md0kU2
- CF5Kzm+qLBy41kTzfWyfVPb876ylKkAqIhFU/0HW/gGkw2oWTd3hKEuEmhhIB6PV9uowjwb+l
- FsghB5VlGQEIbqXsj7QKw3bYNTRhk+5I6Q3mBCaOzRZElbTR7xzMoRD6xQsJwnz8hzKy9IF9V
- yUD/9Hy
-Content-Transfer-Encoding: quoted-printable
+References: <1656090912-18074-1-git-send-email-quic_khsieh@quicinc.com>
+ <1656090912-18074-3-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n52RW+UFJ=hqMWjwR8qvEbww7QjzPW1nhL3Atd97QXAnYw@mail.gmail.com>
+ <007ea4c9-9701-f4ab-3278-5d36bf2018c4@quicinc.com>
+In-Reply-To: <007ea4c9-9701-f4ab-3278-5d36bf2018c4@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 25 Jun 2022 02:25:04 +0300
+Message-ID: <CAA8EJprd_kkqU4GZ_p2cZbALCBDE-uFHsnPHXRnra0jZsY_bnA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] drm/msm/dp: decoupling dp->id out of dp
+ controller_id at scxxxx_dp_cfg table
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,51 +66,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com,
+ airlied@linux.ie, freedreno@lists.freedesktop.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, quic_aravindh@quicinc.com,
+ Stephen Boyd <swboyd@chromium.org>, sean@poorly.run,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sam,
-
-Oh, sorry that I assumed drivers/gpu/drm/via/ is completely cleared out.
-The problem is, I used drm-openchrome repository (customized drm-next bran=
-ch for OpenChrome DRM development) to generate the patches.
-I happened not to have the original DRM maintainers version installed on m=
-y regular development system.
-As of now, I am downloading it onto my development system.
-I will have a few patches to supplement the patches I posted ready in abou=
-t 2 hours per your suggestion.
-
-Regards,
-
-Kevin Brace
-Brace Computer Laboratory blog
-https://bracecomputerlab.com
-
-
-> Sent: Friday, June 24, 2022 at 4:15 PM
-> From: "Sam Ravnborg" <sam@ravnborg.org>
-> To: "Kevin Brace" <kevinbrace@gmx.com>
-> Cc: dri-devel@lists.freedesktop.org, "Kevin Brace" <kevinbrace@bracecomp=
-uterlab.com>
-> Subject: Re: [PATCH 00/28] OpenChrome DRM for Linux 5.20
+On Sat, 25 Jun 2022 at 00:17, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
 >
-> Hi Kevin,
 >
-> On Fri, Jun 24, 2022 at 03:26:05PM -0500, Kevin Brace wrote:
-> > From: Kevin Brace <kevinbrace@bracecomputerlab.com>
+> On 6/24/2022 1:00 PM, Stephen Boyd wrote:
+> > Quoting Kuogee Hsieh (2022-06-24 10:15:11)
+> >> Current the index (dp->id) of DP descriptor table (scxxxx_dp_cfg[]) are tightly
+> >> coupled with DP controller_id. This means DP use controller id 0 must be placed
+> >> at first entry of DP descriptor table (scxxxx_dp_cfg[]). Otherwise the internal
+> >> INTF will mismatch controller_id. This will cause controller kickoff wrong
+> >> interface timing engine and cause dpu_encoder_phys_vid_wait_for_commit_done
+> >> vblank timeout error.
+> >>
+> >> This patch add controller_id field into struct msm_dp_desc to break the tightly
+> >> coupled relationship between index (dp->id) of DP descriptor table with DP
+> >> controller_id.
+> > Please no. This reverts the intention of commit bb3de286d992
+> > ("drm/msm/dp: Support up to 3 DP controllers")
 > >
-> > Hi Dave and Daniel,
+> >      A new enum is introduced to document the connection between the
+> >      instances referenced in the dpu_intf_cfg array and the controllers in
+> >      the DP driver and sc7180 is updated.
 > >
-> > This is my first attempt (this is not a RFC posting) in trying to get
-> > OpenChrome DRM pulled in for Linux 5.20.
+> > It sounds like the intent of that commit failed to make a strong enough
+> > connection. Now it needs to match the INTF number as well? I can't
+> > really figure out what is actually wrong, because this patch undoes that
+> > intentional tight coupling. Is the next patch the important part that
+> > flips the order of the two interfaces?
 >
-> I tried to apply the patches one-by-one but they fail as they assume all
-> old via files are gone. Please fix v2 so all patches apply clean to the
-> chosen base.
+> The commit bb3de286d992have two problems,
 >
-> There is no need for a respin now, give people a bit time to look at the
-> patches first. At least unless someone else needs it.
+> 1)  The below sc7280_dp_cfg will not work, if eDP use
+> MSM_DP_CONTROLLER_2 instead of  MSM_DP_CONTROLLER_1
 >
-> 	Sam
+> since it have num_descs =2 but eDP is at index 2 (CONTROLLER_2) which
+> never be reached.
 >
+> static const struct msm_dp_config sc7280_dp_cfg = {
+>          .descs = (const struct msm_dp_desc[]) {
+>                  [MSM_DP_CONTROLLER_2] = { .io_start = 0x0aea0000,
+> .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
+>                  [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000,
+> .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_en = true },
+>          },
+>          .num_descs = 2,
+
+Please change num_descs to 3. Or better eliminate it completely and
+iterate up to MSM_DP_CONTROLLER_MAX, checking whether the entry
+contains real values or is just a zero sentinel entry.
+
+> };
+>
+> 2)  DP always has index of 0 (dp->id = 0) and the first one to call
+> msm_dp_modeset_init(). This make DP always place at head of bridge chain.
+>
+> At next patch eDP must be placed at head of bridge chain to fix eDP
+> corruption issue. This is the purpose of this patch. I will revise the
+> commit text.
+
+This text doesn't make sense to me. The dp->id has nothing to do with
+the bridge chains. Each dp entry is a head of the corresponding bridge
+chain. DP with dp->id = 0 and eDP with dp->id = whatever will be parts
+of different encoder -> bridges -> connector chains.
+
+-- 
+With best wishes
+Dmitry
