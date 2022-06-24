@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88030559F36
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 19:25:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B08D559F4B
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 19:26:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA09010E232;
-	Fri, 24 Jun 2022 17:25:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7818410EA19;
+	Fri, 24 Jun 2022 17:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
- (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1763210E232
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 17:25:08 +0000 (UTC)
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF2CE10EA19
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 17:26:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=YImQrOCjpI1Pf4sniYSIQE78QxCL87Zrr2ZodYXVNnY=;
- b=fWqRVZB/Piz7vR6GT/pFrKYPjNsODm6Lt5B5pbB2athdA4enwZe3cwndBcrnJ57M6ATcujp0kKW2S
- F6fM7giyCy9Eh1wtt9/qJRhGx2q7M8tLUenHtxp2qOh/9dtEarCJJcJCpYgFrHU3kLAUqx6xlAk2hW
- 70PpcGcRobBymntLPaACuMV0fd5rBXAsNsmR3OMe5ki6m1TsvkwaAPK8HgZfdjLmdpC6brj1laBfET
- IqcPFOkzGb1JR0K7XH4FVH5btEvWwMgBg2tNiNr8kWwTgCqfciZjWE6pHIncd9tFNOaIoAD22KMoN+
- RfT6/ejTF77vupkcDkBHddZGHkF8W7w==
+ bh=kKMlyigldhqIKPtpc/HTqH04jpVCEZ2Uj0a4oEjScvQ=;
+ b=dIA3UtO+bXXsFoKsMM0zNGq/QbMHWhMKuOUXmdH/rpWNjFyzQ1vjr2mVb5N4luMF5COD6CTVfL4ns
+ XGIBNrsFu/MMsa4mT8ZA4r3qDWOphUd/pohvpRRqf4e04OEqMQI7SHeLwQ8XALQiZbEAl7xUMJSs66
+ w5zFIwoMAonePdbtTee1VWU1YIkgHnQy5H79bw6+gBKPApudhvfaM9wIplEAu0BGXD+oVwDJHlV1lj
+ FzHWi6ahSNz+XXvWUHP9jw/UCEhRtUFgp2Qi3/RPrOqTfRElYgnPqLF4aLqppmilZCYXtpUKweuysA
+ YXhcgzSbpjGFbTwPCcfyQfO1yg+aUUw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
  d=ravnborg.org; s=ed1;
  h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
  from:date:from;
- bh=YImQrOCjpI1Pf4sniYSIQE78QxCL87Zrr2ZodYXVNnY=;
- b=0aamlKaxWOlroxmiYOuL5/s5MGru3Ba31/MhPmFhmYdTmN8Rn2J7h0+f9Zgt2oxQkHzfCsZIhEUVg
- 8SIHF1ECA==
-X-HalOne-Cookie: 96a8abf5ab4b9e66dba2a4c7a0ea66e15d8eb3a2
-X-HalOne-ID: 9728a25b-f3e2-11ec-a916-d0431ea8a290
-Received: from mailproxy4.cst.dirpod4-cph3.one.com
+ bh=kKMlyigldhqIKPtpc/HTqH04jpVCEZ2Uj0a4oEjScvQ=;
+ b=pLODzhr0ICxTTRSGGUxLlQi1uSu5F7stxjTe16GEavcTvW1IQRWBpn+FmDm9BS24Wy30B/Vui9P6a
+ ZziOKxODw==
+X-HalOne-Cookie: ac4d69d102f6ad701fef4aaa0f761458036f703e
+X-HalOne-ID: bd268857-f3e2-11ec-be7c-d0431ea8bb03
+Received: from mailproxy3.cst.dirpod4-cph3.one.com
  (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
- by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 9728a25b-f3e2-11ec-a916-d0431ea8a290;
- Fri, 24 Jun 2022 17:25:06 +0000 (UTC)
-Date: Fri, 24 Jun 2022 19:25:05 +0200
+ by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id bd268857-f3e2-11ec-be7c-d0431ea8bb03;
+ Fri, 24 Jun 2022 17:26:10 +0000 (UTC)
+Date: Fri, 24 Jun 2022 19:26:08 +0200
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: Re: [PATCH] drm/ingenic: Use resource_size function on resource object
-Message-ID: <YrXzccaCsBpPHTYw@ravnborg.org>
-References: <20220624013159.88646-1-jiapeng.chong@linux.alibaba.com>
+To: Philip Oberfichtner <pro@denx.de>
+Subject: Re: [RESEND v5 1/2] dt-bindings: display: simple: Add DataImage
+ FG1001L0DSSWMG01 compatible string
+Message-ID: <YrXzsK9JE8At8WL/@ravnborg.org>
+References: <20220623112257.4178461-1-pro@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220624013159.88646-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20220623112257.4178461-1-pro@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,19 +59,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: paul@crapouillou.net, airlied@linux.ie, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ matthias.winker@de.bosch.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jiapeng,
+Hi Philip,
 
-On Fri, Jun 24, 2022 at 09:31:59AM +0800, Jiapeng Chong wrote:
-> This was found by coccicheck:
+On Thu, Jun 23, 2022 at 01:22:56PM +0200, Philip Oberfichtner wrote:
+> Add DataImage FG1001L0DSSWMG01 10.1" 1280x800 TFT LCD panel compatible
+> string.
 > 
-> ./drivers/gpu/drm/ingenic/ingenic-drm-drv.c:1149:35-38: WARNING: Suspicious code. resource_size is maybe missing with res.
-> 
-Nice one, now I have to go back and fix my code as well.
+> Signed-off-by: Philip Oberfichtner <pro@denx.de>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Both patches applied to drm-misc (drm-misc-next)
+
+	Sam
