@@ -1,39 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC1555A15D
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 21:05:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC7B55A16C
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 21:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4F9010E685;
-	Fri, 24 Jun 2022 19:05:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A84810E4AD;
+	Fri, 24 Jun 2022 19:21:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 313 seconds by postgrey-1.36 at gabe;
- Fri, 24 Jun 2022 19:05:31 UTC
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CEF610E685
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 19:05:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1656097215; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=THNfze9JEECbMTbkniNl4WxsrwffazR6yHW49pczds4=;
- b=K941P0DpIoJDcsyNQjtu54obkjlHXfjLrCJBJoMhBy8bzMbVZkEcE5OXtUNtK5CFnOQVkC
- 6PUACCO5JqQSInC01JnI685UZIAKzhA5KZvrb3V5xUdLntYxsH1Uu/73nVZ7r6AM66/277
- 4NZVnmpuPNbMaBbBZIo99FOznMgIXUY=
-Date: Fri, 24 Jun 2022 20:00:05 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] drm/ingenic: Use resource_size function on resource object
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Message-Id: <5SWZDR.5KODQDXQB5142@crapouillou.net>
-In-Reply-To: <20220624013159.88646-1-jiapeng.chong@linux.alibaba.com>
-References: <20220624013159.88646-1-jiapeng.chong@linux.alibaba.com>
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99A1C10E7D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 19:21:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=vXLKoqK/rHhAwUvzyC5mmSWvQu6UM2h+wo+BaSp548I=;
+ b=tm38uwoaSMSJNMUvGRur9rJ0Z00imE8H2am13QSZ+o4AiIEHSYdSihNIqWxykJTIqg7xi/IwyuHoN
+ /7lL0vGKqRajr+ocFPPVUc3p67apgf5+KmGMZn8EFwlwA4POpz3N9qZOLekgmstrC/ddVpCuJgsxP2
+ kv7ALAg3NHjsgrkVeMBUuZvDi8CBYw4cSxFqU8dXDyznt7hi4kc4VDHHT9mLndaxEHnCYPgGb4Pk6t
+ VicoFBnIhfMlF+aE/Fe9y07TcNWLJdNR4Vimr2Gid0Ow9sZNOKzFWV9sK/4vqQPuqKITnrU/j8cFej
+ hDSplyceX8hcBpP6Whz74zLeZVGPvTA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=vXLKoqK/rHhAwUvzyC5mmSWvQu6UM2h+wo+BaSp548I=;
+ b=YdGbOeEP64dONVYEKH6W0GzV4c4auh0E/ihNRMesDyNBkDCgOHMYB3Gi3SY/hl+jnOEkWlUcERxRp
+ hVg/CVYCg==
+X-HalOne-Cookie: d38b4eda7381997d81ac0c7cf90c171ee506e8c8
+X-HalOne-ID: cc54b654-f3f2-11ec-a6c4-d0431ea8a283
+Received: from mailproxy2.cst.dirpod4-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id cc54b654-f3f2-11ec-a6c4-d0431ea8a283;
+ Fri, 24 Jun 2022 19:21:08 +0000 (UTC)
+Date: Fri, 24 Jun 2022 21:21:06 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2 04/68] drm/connector: Reorder headers
+Message-ID: <YrYOotdDalSPV/3r@ravnborg.org>
+References: <20220622143209.600298-1-maxime@cerno.tech>
+ <20220622143209.600298-5-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220622143209.600298-5-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,56 +59,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-Le ven., juin 24 2022 at 09:31:59 +0800, Jiapeng Chong=20
-<jiapeng.chong@linux.alibaba.com> a =E9crit :
-> This was found by coccicheck:
->=20
-> ./drivers/gpu/drm/ingenic/ingenic-drm-drv.c:1149:35-38: WARNING:=20
-> Suspicious code. resource_size is maybe missing with res.
->=20
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+On Wed, Jun 22, 2022 at 04:31:05PM +0200, Maxime Ripard wrote:
+> Unlike most of the other files in DRM, and Linux in general, the headers in
+> drm_connector.c aren't sorted alphabetically. Let's fix that.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
-> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index 2c559885347a..5514b163999f 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -1146,7 +1146,7 @@ static int ingenic_drm_bind(struct device *dev,=20
-> bool has_components)
->  	}
->=20
->  	regmap_config =3D ingenic_drm_regmap_config;
-> -	regmap_config.max_register =3D res->end - res->start;
-> +	regmap_config.max_register =3D resource_size(res);
-
-These two are not equivalent. resource_size() is (res->end - res->start=20
-+ 1).
-
-If the memory resource has a size of 0x10 bytes, then using=20
-resource_size() will set .max_register =3D=3D 0x10, which is invalid, as it=
-=20
-is already outside the memory resource.
-
-Cheers,
--Paul
-
-
->  	priv->map =3D devm_regmap_init_mmio(dev, base,
->  					  &regmap_config);
->  	if (IS_ERR(priv->map)) {
-> --
-> 2.20.1.7.g153144c
->=20
-
-
+>  drivers/gpu/drm/drm_connector.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 1c48d162c77e..353d83ae09d3 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -22,14 +22,14 @@
+>  
+>  #include <drm/drm_auth.h>
+>  #include <drm/drm_connector.h>
+> +#include <drm/drm_drv.h>
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_encoder.h>
+> -#include <drm/drm_utils.h>
+> -#include <drm/drm_print.h>
+> -#include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+> +#include <drm/drm_print.h>
+>  #include <drm/drm_privacy_screen_consumer.h>
+>  #include <drm/drm_sysfs.h>
+> +#include <drm/drm_utils.h>
+>  
+>  #include <linux/uaccess.h>
+>  
+> -- 
+> 2.36.1
