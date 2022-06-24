@@ -2,70 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4493655A25D
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 22:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981CA55A270
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 22:17:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82F3710EDA5;
-	Fri, 24 Jun 2022 20:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3CCE10EFAC;
+	Fri, 24 Jun 2022 20:17:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5BE10EDA5
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 20:13:32 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id g26so6856211ejb.5
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 13:13:32 -0700 (PDT)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29A1610E843
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 20:17:11 +0000 (UTC)
+Received: by mail-ej1-x62e.google.com with SMTP id q6so6801061eji.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 13:17:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=ZDlqgf14zeOe/H6KdqMqyUaKiEwdFOQWmVC6blo0CJY=;
- b=dWEF+ZHzCmMX3vcid8rxsyHe6NbxfY6excwXrVhOubtLlgnEWZT/dpXietutVee1Fj
- 2f/uIx02gGRTvTkl8pSE5tlyzd5bJEJoaLMuorMexDf/awqadeFajEtUxRRT+F12z6hU
- GLx17PMC/lwy7o+XF53FIg5bKhHEwWQ+j6LZI=
+ :mime-version:content-disposition:in-reply-to;
+ bh=A7KsArznjDszXEtjfLGnA6REJfLUYfQ3Oszk2m5SudA=;
+ b=DysS05ypy7Dj7deDljGrAOAbGl2Xyt4/z99Z0sAnWou95elElB1LSY5/Ts4Ksh/mXP
+ DLv6fOZpbapyMhr7MkdZvU+yZ2/QnFZ1mpgFnWqAY41HyRd5w3WAVUbpmAQFwqme6Ilf
+ NCYlIIWT8tJDBPd7kF3JbEbHU58J7PTZbpGK0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=ZDlqgf14zeOe/H6KdqMqyUaKiEwdFOQWmVC6blo0CJY=;
- b=njVA1VjOHT/QVT1zvhBcdbL3Ki3WHy4s6HnqT4cGzbHTRAYohOEpRg6LI5s5CzOdrV
- kS8gSvtGnS8lrlFEzwTKHlmst3iACeMEu3TfzbFGhh/KXhmOVb6kMOd5zMGv0MNuI1Se
- /qLc66j5f21EMOK+ZwKd1HSSIpyJrvSsVykc15vPGefSydYaEWXtZjCaXeirdksNZP5M
- bTR3YuBvQH5uhiXci1a66cvvzpApH8ZeTvRDULDnfKr833S3KFoqoGLLZqjw/e+hSQZQ
- 3pbApOIU3R+lnUdCS9kTNSfVhnfZUxv+S7Ow3X4Xhx/Ij8E53xlJYgaQuWzNgHqbjovE
- UsHg==
-X-Gm-Message-State: AJIora+te+ka7yr7yVqyal+mqnXDkQuLtryCGySA16aEfvHBgEP+r/dE
- nFll6mASkC3HaQ7yTvMvveJUQA==
-X-Google-Smtp-Source: AGRyM1s8V47qxFEGAmWUTGvk4SXZ8+mjeCDjMS6oi3XRVTuZn4mdegCcH3FOFHRRUr8odugvbzEEGw==
-X-Received: by 2002:a17:907:1694:b0:716:14a4:fba with SMTP id
- hc20-20020a170907169400b0071614a40fbamr791128ejc.290.1656101611140; 
- Fri, 24 Jun 2022 13:13:31 -0700 (PDT)
+ :in-reply-to;
+ bh=A7KsArznjDszXEtjfLGnA6REJfLUYfQ3Oszk2m5SudA=;
+ b=NmRdIESIkPkhGluFEVJ5kXvYDa3SpAC975lahbpcdaokStuMtH2Eq+ASX/A+QAJgTv
+ tQNJjuh5DSQn4OnLtdptI7vMfu8ICHJOEI2E9nwKXPdS//cEhZxEKPyGZodiaBV71yst
+ YBxOo7P8iR0fYOfz+fqVqxZ5BmNEgZ9wd+moc6vnHxLqw7S5AyMYBBsmXZt+7f14S6uu
+ BC+NRScoi7I0GprMcT1JyPdh0AZ8+Tn+GqdBFF4xebksWAEEzXrmInOFQOlx+rRh6gCk
+ xYmcFhnoLIiH0ps+1I61qhglxNQMt8B3Mlo+RVtrT731QvJSzv79b3NyJNdyncfrRtuL
+ htug==
+X-Gm-Message-State: AJIora9Argor43xFFMZVwVmfu0xg/NdA+QttGZqh7xv/gjlSF5O9PC6o
+ C+COanoApdEkk6+4bhGGlgxknA==
+X-Google-Smtp-Source: AGRyM1tbrhSpLiAB9dqU6edRxuLbyecMJr7L30I5wUrP26zUyqvNNkEwbuedAAWD5HRC48ej/oEHbg==
+X-Received: by 2002:a17:907:7d88:b0:726:2adb:2073 with SMTP id
+ oz8-20020a1709077d8800b007262adb2073mr778546ejc.466.1656101829623; 
+ Fri, 24 Jun 2022 13:17:09 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- bg6-20020a170906a04600b00722e31fcf42sm1622964ejb.184.2022.06.24.13.13.30
+ w20-20020aa7dcd4000000b0042dc882c823sm2642667edu.70.2022.06.24.13.17.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jun 2022 13:13:30 -0700 (PDT)
-Date: Fri, 24 Jun 2022 22:13:28 +0200
+ Fri, 24 Jun 2022 13:17:08 -0700 (PDT)
+Date: Fri, 24 Jun 2022 22:17:06 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 04/11] drm/r128: Fix undefined behavior due to shift
- overflowing the constant
-Message-ID: <YrYa6DIWbUaABFMp@phenom.ffwll.local>
-Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
- Borislav Petkov <bp@alien8.de>, LKML <linux-kernel@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- Alex Deucher <alexander.deucher@amd.com>,
- dri-devel@lists.freedesktop.org
-References: <20220405151517.29753-1-bp@alien8.de>
- <20220405151517.29753-5-bp@alien8.de>
- <04ff7802-c87a-2ea2-156e-c437446bc072@infradead.org>
- <YoZAhPj0IJmE8ss8@phenom.ffwll.local>
- <fc19b80e-3492-4b1a-e7e8-20a6a8ee6cf5@infradead.org>
+To: "T.J. Mercier" <tjmercier@google.com>
+Subject: Re: [PATCH v7 0/6] Proposal for a GPU cgroup controller
+Message-ID: <YrYbwu0iIAJJGXVg@phenom.ffwll.local>
+Mail-Followup-To: "T.J. Mercier" <tjmercier@google.com>,
+ Tejun Heo <tj@kernel.org>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Christian Brauner <brauner@kernel.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@redhat.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <john.stultz@linaro.org>, Shuah Khan <shuah@kernel.org>,
+ John Stultz <jstultz@google.com>,
+ Carlos Llamas <cmllamas@google.com>,
+ Kalesh Singh <kaleshsingh@google.com>, Kenny.Ho@amd.com,
+ Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, kernel-team@android.com,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kselftest@vger.kernel.org
+References: <20220510235653.933868-1-tjmercier@google.com>
+ <3365cd1d750e84fedc8e75d646a77ffd85619d35.camel@ndufresne.ca>
+ <CABdmKX3ZV6-u-oLvW_wWavAMBfrsZ=C_rCgK_Uz4VjxcRvRFew@mail.gmail.com>
+ <81026ef07c1ce20f8673b75b17bab79a2b39c548.camel@ndufresne.ca>
+ <CABdmKX2LxZ6zZR=fhXfnuWCB2BR+gzDd1-t1DD2A2XP24wvuGQ@mail.gmail.com>
+ <Yn6DpUsoSz1/15Kc@slm.duckdns.org>
+ <CABdmKX1xvm87WMEDkMc9Aye46E4zv1-scenwgaRxHesrOCsaYg@mail.gmail.com>
+ <YodHjYlMx1XGtM2+@slm.duckdns.org>
+ <CABdmKX2Ok023rN1drQgXVZLKUO_DVYrzmEamCgMMu6BPO67yhQ@mail.gmail.com>
+ <CABdmKX0WV8VWgeafVGJ++nJ4xsJD7Wpz=3KX=BW1du=huttfvw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fc19b80e-3492-4b1a-e7e8-20a6a8ee6cf5@infradead.org>
+In-Reply-To: <CABdmKX0WV8VWgeafVGJ++nJ4xsJD7Wpz=3KX=BW1du=huttfvw@mail.gmail.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,88 +104,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Alex Deucher <alexander.deucher@amd.com>,
- Borislav Petkov <bp@alien8.de>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org
+Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ Carlos Llamas <cmllamas@google.com>, dri-devel@lists.freedesktop.org,
+ John Stultz <jstultz@google.com>, Zefan Li <lizefan.x@bytedance.com>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kenny.Ho@amd.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Laura Abbott <labbott@redhat.com>,
+ kernel-team@android.com, linux-media@vger.kernel.org,
+ Todd Kjos <tkjos@android.com>, linaro-mm-sig@lists.linaro.org,
+ Hridya Valsaraju <hridya@google.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 16, 2022 at 09:06:45AM -0700, Randy Dunlap wrote:
+On Wed, Jun 15, 2022 at 10:31:21AM -0700, T.J. Mercier wrote:
+> On Fri, May 20, 2022 at 9:25 AM T.J. Mercier <tjmercier@google.com> wrote:
+> >
+> > On Fri, May 20, 2022 at 12:47 AM Tejun Heo <tj@kernel.org> wrote:
+> > >
+> > > Hello,
+> > >
+> > > On Tue, May 17, 2022 at 04:30:29PM -0700, T.J. Mercier wrote:
+> > > > Thanks for your suggestion. This almost works. "dmabuf" as a key could
+> > > > work, but I'd actually like to account for each heap. Since heaps can
+> > > > be dynamically added, I can't accommodate every potential heap name by
+> > > > hardcoding registrations in the misc controller.
+> > >
+> > > On its own, that's a pretty weak reason to be adding a separate gpu
+> > > controller especially given that it doesn't really seem to be one with
+> > > proper abstractions for gpu resources. We don't want to keep adding random
+> > > keys to misc controller but can definitely add limited flexibility. What
+> > > kind of keys do you need?
+> > >
+> > Well the dmabuf-from-heaps component of this is the initial use case.
+> > I was envisioning we'd have additional keys as discussed here:
+> > https://lore.kernel.org/lkml/20220328035951.1817417-1-tjmercier@google.com/T/#m82e5fe9d8674bb60160701e52dae4356fea2ddfa
+> > So we'd end up with a well-defined core set of keys like "system", and
+> > then drivers would be free to use their own keys for their own unique
+> > purposes which could be complementary or orthogonal to the core set.
+> > Yesterday I was talking with someone who is interested in limiting gpu
+> > cores and bus IDs in addition to gpu memory. How to define core keys
+> > is the part where it looks like there's trouble.
+> >
+> > For my use case it would be sufficient to have current and maximum
+> > values for an arbitrary number of keys - one per heap. So the only
+> > part missing from the misc controller (for my use case) is the ability
+> > to register a new key at runtime as heaps are added. Instead of
+> > keeping track of resources with enum misc_res_type, requesting a
+> > resource handle/ID from the misc controller at runtime is what I think
+> > would be required instead.
+> >
+> Quick update: I'm going to make an attempt to modify the misc
+> controller to support a limited amount of dynamic resource
+> registration/tracking in place of the new controller in this series.
 > 
-> 
-> On 5/19/22 06:05, Daniel Vetter wrote:
-> > On Mon, Apr 25, 2022 at 11:46:53AM -0700, Randy Dunlap wrote:
-> >>
-> >>
-> >> On 4/5/22 08:15, Borislav Petkov wrote:
-> >>> From: Borislav Petkov <bp@suse.de>
-> >>>
-> >>> Fix:
-> >>>
-> >>>   drivers/gpu/drm/r128/r128_cce.c: In function ‘r128_do_init_cce’:
-> >>>   drivers/gpu/drm/r128/r128_cce.c:417:2: error: case label does not reduce to an integer constant
-> >>>     case R128_PM4_64BM_64VCBM_64INDBM:
-> >>>     ^~~~
-> >>>   drivers/gpu/drm/r128/r128_cce.c:418:2: error: case label does not reduce to an integer constant
-> >>>     case R128_PM4_64PIO_64VCPIO_64INDPIO:
-> >>>     ^~~~
-> >>>
-> >>> See https://lore.kernel.org/r/YkwQ6%2BtIH8GQpuct@zn.tnic for the gory
-> >>> details as to why it triggers with older gccs only.
-> >>>
-> >>> Signed-off-by: Borislav Petkov <bp@suse.de>
-> >>> Cc: David Airlie <airlied@linux.ie>
-> >>> Cc: Daniel Vetter <daniel@ffwll.ch>
-> >>> Cc: Alex Deucher <alexander.deucher@amd.com>
-> >>> Cc: dri-devel@lists.freedesktop.org
-> >>
-> >> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> > 
-> > Pushed to drm-misc-next, thanks for patch&review.
-> > -Daniel
-> > 
-> 
-> Hi,
-> 
-> Will this be merged to mainline any time soonish?
+> Thanks everyone for the feedback.
 
-It missed the merge window by a hair, so it's in linux-next and will get
-into the next one.
+Somehow I missed this entire chain here.
+
+I'm not a fan, because I'm kinda hoping we could finally unify gpu memory
+account. Atm everyone just adds their one-off solution in a random corner:
+- total tracking in misc cgroup controller
+- dma-buf sysfs files (except apparently too slow so it'll get deleted
+  again)
+- random other stuff on open device files os OOM killer can see it
+
+This doesn't look good.
 -Daniel
-
-> 
-> thanks.
-> 
-> >>
-> >> Thanks.
-> >>
-> >>> ---
-> >>>  drivers/gpu/drm/r128/r128_drv.h | 4 ++--
-> >>>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/r128/r128_drv.h b/drivers/gpu/drm/r128/r128_drv.h
-> >>> index 2e1bc01aa5c9..970e192b0d51 100644
-> >>> --- a/drivers/gpu/drm/r128/r128_drv.h
-> >>> +++ b/drivers/gpu/drm/r128/r128_drv.h
-> >>> @@ -300,8 +300,8 @@ extern long r128_compat_ioctl(struct file *filp, unsigned int cmd,
-> >>>  #	define R128_PM4_64PIO_128INDBM		(5  << 28)
-> >>>  #	define R128_PM4_64BM_128INDBM		(6  << 28)
-> >>>  #	define R128_PM4_64PIO_64VCBM_64INDBM	(7  << 28)
-> >>> -#	define R128_PM4_64BM_64VCBM_64INDBM	(8  << 28)
-> >>> -#	define R128_PM4_64PIO_64VCPIO_64INDPIO	(15 << 28)
-> >>> +#	define R128_PM4_64BM_64VCBM_64INDBM	(8U  << 28)
-> >>> +#	define R128_PM4_64PIO_64VCPIO_64INDPIO	(15U << 28)
-> >>>  #	define R128_PM4_BUFFER_CNTL_NOUPDATE	(1  << 27)
-> >>>  
-> >>>  #define R128_PM4_BUFFER_WM_CNTL		0x0708
-> >>
-> >> -- 
-> >> ~Randy
-> > 
-> 
-> -- 
-> ~Randy
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
