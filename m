@@ -2,50 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD9655927B
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 07:45:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47805559289
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 07:55:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D453810FD00;
-	Fri, 24 Jun 2022 05:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD35A10FF81;
+	Fri, 24 Jun 2022 05:55:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B796810FD03;
- Fri, 24 Jun 2022 05:45:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656049530; x=1687585530;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=vzZAwMnJkMgSZR6YniyehTCPENjjZyMaPQzQlN9JUbk=;
- b=deueFcwjBLSfbDbfruqj48QZ0GTVlQ+xD98W+LP2Oh+jEuykZ1ID1zsX
- ouahTr6nP+8Ksp5XLmUsgm/Wjy/nys2d7L144ueAgXCGbl3teX936rly1
- anL/69BinFkOLima1rjJLOKBu3EF0NZVANFvvdvo7oEb5apQlbZp4d24T
- PPUukGDlqHtunp5tJZbHQ02TMWQWw5OzbJYSYiBuXFDjG96G9ZwomNzgh
- +zC3azNV4E316Uy+zZ3ZA8/7BkFqVmg5E4K03A6AdOadAXvkVaCOrOnPe
- A8SYNlC3YOqczNGBCS2XKJ+T1CRmVnA0hNLocL8lOfqNayQZCeQRdyNdH g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10387"; a="278476869"
-X-IronPort-AV: E=Sophos;i="5.92,218,1650956400"; d="scan'208";a="278476869"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2022 22:45:30 -0700
-X-IronPort-AV: E=Sophos;i="5.92,218,1650956400"; d="scan'208";a="563739492"
-Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jun 2022 22:45:29 -0700
-Date: Thu, 23 Jun 2022 22:45:11 -0700
-From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v5 3/3] drm/doc/rfc: VM_BIND uapi definition
-Message-ID: <20220624054509.GD376@nvishwa1-DESK>
-References: <20220624053208.23723-1-niranjana.vishwanathapura@intel.com>
- <20220624053208.23723-4-niranjana.vishwanathapura@intel.com>
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1632A10FF81
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 05:55:51 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id lw20so2559559ejb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 22:55:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=ez1VrommP2Qk5ZxjhOr9MjaCYHC2kUPrG3Ztqlyf9f8=;
+ b=RU8+IA6ajxvlsi2yZP/JStVZvRskiVyWObqhaz9OHyoEF5WuhJtPRhgrAP7Qkubeje
+ qNrrwSStpZSqJQOdkDFu8fA1WJfbLqGw+Qa4sjAaftLP4oY2H/NiAL//lzIeK8UVYTOC
+ 3bJvBBjBOx2KIJqjCOdUCerDTG2i/1EEzcaVAfLBW8TYcu+MYk8mbyhBRhPAJtSp/fT+
+ 9oV9rojORXEel0lWRgOD/8+qxU8LQYWVs1f/lTB3cV8tozohXhA5TLc+7GveUAoKxsfX
+ eOQP3JexIo2tELye7LzJ2BHTV0XDytcgd/4dBhCl1tJRTgQ5tqzNqax6ZbjXSMGiKaXh
+ QoRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=ez1VrommP2Qk5ZxjhOr9MjaCYHC2kUPrG3Ztqlyf9f8=;
+ b=1UfJOjLOZOSe/aisGwa5Agl5VnQrVIpVYrt1+JNa2NuoHMRJUULeNGpn+ZkjLlaMfJ
+ Z6/aL5NIeMTnrDoKHIkPWDcrjL+cfGM19FMjNKIXX8NYAULvMslggKXGHrDngrmKSclx
+ hfamgQmGwlGoGjOjYm5a+QWVbKWxv26xRWd7tKv01h5cVCtZYMsd5xruNlU6zuLPcwtn
+ R26gKbNJNW7Ql2KLOxEE6chSFNsKAQ6myY22JNcWFJ6mCb1puDjwVlae7VU9wuzPIapw
+ fdAnCLnwpc5PavWLAdwR2Zh9fojb/00/5m6H3tZ03k87k4DUPjMr/ECW/NVCZUaaHQAj
+ WRQA==
+X-Gm-Message-State: AJIora8/w8Jk12ZTr+wW479MKMtxQSA9De5TvrBbMGZjvZRijnjBCTKl
+ Zt4fQgABNlxSfyRETImTrRzAFjK0MkVn2tDNl1U=
+X-Google-Smtp-Source: AGRyM1s9DWSgaaYjKV+ygtUtnyY/xvFVCHDOUJFrF/waPpf+TM39GrCQw57lguYBQp0THNQ39GTLePccCVp24Pr7CKY=
+X-Received: by 2002:a17:907:969f:b0:722:d37b:c82d with SMTP id
+ hd31-20020a170907969f00b00722d37bc82dmr11784829ejc.770.1656050149326; Thu, 23
+ Jun 2022 22:55:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220624053208.23723-4-niranjana.vishwanathapura@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 24 Jun 2022 15:55:38 +1000
+Message-ID: <CAPM=9tyLoZOkc56K2auFtdjhuUxP=Xwj41evB053YZrHyQNSxg@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.19-rc4
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,312 +63,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
- chris.p.wilson@intel.com, thomas.hellstrom@intel.com, oak.zeng@intel.com,
- lionel.g.landwerlin@intel.com, jason@jlekstrand.net, daniel.vetter@intel.com,
- christian.koenig@amd.com, matthew.auld@intel.com
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 23, 2022 at 10:32:08PM -0700, Niranjana Vishwanathapura wrote:
->VM_BIND and related uapi definitions
->
->v2: Reduce the scope to simple Mesa use case.
->v3: Expand VM_UNBIND documentation and add
->    I915_GEM_VM_BIND/UNBIND_FENCE_VALID
->    and I915_GEM_VM_BIND_TLB_FLUSH flags.
->v4: Remove I915_GEM_VM_BIND_TLB_FLUSH flag and add additional
->    documentation for vm_bind/unbind.
->v5: Remove TLB flush requirement on VM_UNBIND.
->    Add version support to stage implementation.
->
->Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
->---
-> Documentation/gpu/rfc/i915_vm_bind.h | 256 +++++++++++++++++++++++++++
-> 1 file changed, 256 insertions(+)
-> create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
->
->diff --git a/Documentation/gpu/rfc/i915_vm_bind.h b/Documentation/gpu/rfc/i915_vm_bind.h
->new file mode 100644
->index 000000000000..8af6c035ccf4
->--- /dev/null
->+++ b/Documentation/gpu/rfc/i915_vm_bind.h
->@@ -0,0 +1,256 @@
->+/* SPDX-License-Identifier: MIT */
->+/*
->+ * Copyright © 2022 Intel Corporation
->+ */
->+
->+/**
->+ * DOC: I915_PARAM_HAS_VM_BIND
->+ *
->+ * VM_BIND feature availability.
->+ * See typedef drm_i915_getparam_t param.
->+ * bit[0]: If set, VM_BIND is supported, otherwise not.
->+ * bits[8-15]: VM_BIND implementation version.
->+ * Version 0 requires in VM_UNBIND call, UMDs to specify the exact mapping
->+ * created previously with the VM_BIND call. i.e., i915 will not support
->+ * splitting/merging of the mappings created with VM_BIND call (See
->+ * struct drm_i915_gem_vm_bind and struct drm_i915_gem_vm_unbind).
->+ */
->+#define I915_PARAM_HAS_VM_BIND		57
->+
->+/**
->+ * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
->+ *
->+ * Flag to opt-in for VM_BIND mode of binding during VM creation.
->+ * See struct drm_i915_gem_vm_control flags.
->+ *
->+ * The older execbuf2 ioctl will not support VM_BIND mode of operation.
->+ * For VM_BIND mode, we have new execbuf3 ioctl which will not accept any
->+ * execlist (See struct drm_i915_gem_execbuffer3 for more details).
->+ *
->+ */
->+#define I915_VM_CREATE_FLAGS_USE_VM_BIND	(1 << 0)
->+
->+/* VM_BIND related ioctls */
->+#define DRM_I915_GEM_VM_BIND		0x3d
->+#define DRM_I915_GEM_VM_UNBIND		0x3e
->+#define DRM_I915_GEM_EXECBUFFER3	0x3f
->+
->+#define DRM_IOCTL_I915_GEM_VM_BIND		DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
->+#define DRM_IOCTL_I915_GEM_VM_UNBIND		DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_UNBIND, struct drm_i915_gem_vm_bind)
->+#define DRM_IOCTL_I915_GEM_EXECBUFFER3		DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_EXECBUFFER3, struct drm_i915_gem_execbuffer3)
->+
->+/**
->+ * struct drm_i915_gem_vm_bind_fence - Bind/unbind completion notification.
->+ *
->+ * A timeline out fence for vm_bind/unbind completion notification.
->+ */
->+struct drm_i915_gem_vm_bind_fence {
->+	/** @handle: User's handle for a drm_syncobj to signal. */
->+	__u32 handle;
->+
->+	/** @rsvd: Reserved, MBZ */
->+	__u32 rsvd;
->+
->+	/**
->+	 * @value: A point in the timeline.
->+	 * Value must be 0 for a binary drm_syncobj. A Value of 0 for a
->+	 * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
->+	 * binary one.
->+	 */
->+	__u64 value;
->+};
->+
->+/**
->+ * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
->+ *
->+ * This structure is passed to VM_BIND ioctl and specifies the mapping of GPU
->+ * virtual address (VA) range to the section of an object that should be bound
->+ * in the device page table of the specified address space (VM).
->+ * The VA range specified must be unique (ie., not currently bound) and can
->+ * be mapped to whole object or a section of the object (partial binding).
->+ * Multiple VA mappings can be created to the same section of the object
->+ * (aliasing).
->+ *
->+ * The @start, @offset and @length should be 4K page aligned. However the DG2
->+ * and XEHPSDV has 64K page size for device local-memory and has compact page
->+ * table. On those platforms, for binding device local-memory objects, the
->+ * @start should be 2M aligned, @offset and @length should be 64K aligned.
->+ * Also, on those platforms, error -ENOSPC will be returned if user tries to
->+ * bind a device local-memory object and a system memory object in a single 2M
->+ * section of VA range.
->+ *
->+ * Error code -EINVAL will be returned if @start, @offset and @length are not
->+ * properly aligned. Error code of -ENOSPC will be returned if the VA range
->+ * specified can't be reserved.
->+ *
->+ * The bind operation can get completed asynchronously and out of submission
->+ * order. When I915_GEM_VM_BIND_FENCE_VALID flag is set, the @fence will be
->+ * signaled upon completion of bind operation.
->+ */
->+struct drm_i915_gem_vm_bind {
->+	/** @vm_id: VM (address space) id to bind */
->+	__u32 vm_id;
->+
->+	/** @handle: Object handle */
->+	__u32 handle;
->+
->+	/** @start: Virtual Address start to bind */
->+	__u64 start;
->+
->+	/** @offset: Offset in object to bind */
->+	__u64 offset;
->+
->+	/** @length: Length of mapping to bind */
->+	__u64 length;
->+
->+	/**
->+	 * @flags: Supported flags are:
->+	 *
->+	 * I915_GEM_VM_BIND_FENCE_VALID:
->+	 * @fence is valid, needs bind completion notification.
->+	 *
->+	 * I915_GEM_VM_BIND_READONLY:
->+	 * Mapping is read-only.
->+	 *
->+	 * I915_GEM_VM_BIND_CAPTURE:
->+	 * Capture this mapping in the dump upon GPU error.
->+	 */
->+	__u64 flags;
->+#define I915_GEM_VM_BIND_FENCE_VALID	(1 << 0)
->+#define I915_GEM_VM_BIND_READONLY	(1 << 1)
->+#define I915_GEM_VM_BIND_CAPTURE	(1 << 2)
->+
->+	/** @fence: Timeline fence for bind completion signaling */
->+	struct drm_i915_gem_vm_bind_fence fence;
->+
->+	/** @extensions: 0-terminated chain of extensions */
->+	__u64 extensions;
->+};
->+
->+/**
->+ * struct drm_i915_gem_vm_unbind - VA to object mapping to unbind.
->+ *
->+ * This structure is passed to VM_UNBIND ioctl and specifies the GPU virtual
->+ * address (VA) range that should be unbound from the device page table of the
->+ * specified address space (VM). VM_UNBIND will force unbind the specified
->+ * range from device page table without waiting for any GPU job to complete.
->+ * It is UMDs responsibility to ensure the mapping is no longer in use before
->+ * calling VM_UNBIND.
->+ *
->+ * If the specified mapping is not found, the ioctl will simply return without
->+ * any error.
->+ *
->+ * The unbind operation can get completed asynchronously and out of submission
->+ * order. When I915_GEM_VM_UNBIND_FENCE_VALID flag is set, the @fence will be
->+ * signaled upon completion of unbind operation.
->+ */
->+struct drm_i915_gem_vm_unbind {
->+	/** @vm_id: VM (address space) id to bind */
->+	__u32 vm_id;
->+
->+	/** @rsvd: Reserved, MBZ */
->+	__u32 rsvd;
->+
->+	/** @start: Virtual Address start to unbind */
->+	__u64 start;
->+
->+	/** @length: Length of mapping to unbind */
->+	__u64 length;
->+
->+	/**
->+	 * @flags: Supported flags are:
->+	 *
->+	 * I915_GEM_VM_UNBIND_FENCE_VALID:
->+	 * @fence is valid, needs unbind completion notification.
->+	 */
->+	__u64 flags;
->+#define I915_GEM_VM_UNBIND_FENCE_VALID	(1 << 0)
->+
->+	/** @fence: Timeline fence for unbind completion signaling */
->+	struct drm_i915_gem_vm_bind_fence fence;
->+
->+	/** @extensions: 0-terminated chain of extensions */
->+	__u64 extensions;
->+};
->+
->+/**
->+ * struct drm_i915_gem_execbuffer3 - Structure for DRM_I915_GEM_EXECBUFFER3
->+ * ioctl.
->+ *
->+ * DRM_I915_GEM_EXECBUFFER3 ioctl only works in VM_BIND mode and VM_BIND mode
->+ * only works with this ioctl for submission.
->+ * See I915_VM_CREATE_FLAGS_USE_VM_BIND.
->+ */
->+struct drm_i915_gem_execbuffer3 {
->+	/**
->+	 * @ctx_id: Context id
->+	 *
->+	 * Only contexts with user engine map are allowed.
->+	 */
->+	__u32 ctx_id;
->+
->+	/**
->+	 * @engine_idx: Engine index
->+	 *
->+	 * An index in the user engine map of the context specified by @ctx_id.
->+	 */
->+	__u32 engine_idx;
->+
->+	/** @rsvd1: Reserved, MBZ */
->+	__u32 rsvd1;
->+
->+	/**
->+	 * @batch_count: Number of batches in @batch_address array.
->+	 *
->+	 * 0 is invalid. For parallel submission, it should be equal to the
->+	 * number of (parallel) engines involved in that submission.
->+	 */
->+	__u32 batch_count;
->+
->+	/**
->+	 * @batch_address: Array of batch gpu virtual addresses.
->+	 *
->+	 * If @batch_count is 1, then it is the gpu virtual address of the
->+	 * batch buffer. If @batch_count > 1, then it is a pointer to an array
->+	 * of batch buffer gpu virtual addresses.
->+	 */
->+	__u64 batch_address;
->+
->+	/**
->+	 * @flags: Supported flags are:
->+	 *
->+	 * I915_EXEC3_SECURE:
->+	 * Request a privileged ("secure") batch buffer/s.
->+	 * It is only available for DRM_ROOT_ONLY | DRM_MASTER processes.
->+	 */
->+	__u64 flags;
->+#define I915_EXEC3_SECURE	(1<<0)
->+
->+	/** @rsvd2: Reserved, MBZ */
->+	__u64 rsvd2;
->+
->+	/**
->+	 * @extensions: Zero-terminated chain of extensions.
->+	 *
->+	 * DRM_I915_GEM_EXECBUFFER3_EXT_TIMELINE_FENCES:
->+	 * It has same format as DRM_I915_GEM_EXECBUFFER_EXT_TIMELINE_FENCES.
->+	 * See struct drm_i915_gem_execbuffer_ext_timeline_fences.
+Hi Linus,
 
-Here we are using drm_i915_gem_execbuffer_ext_timeline_fences (same as
-execbuf2), which has separate handles_ptr and values_ptr arrays. This is
-probably because this extension uses the same drm_i915_gem_exec_fence
-which is defined for older fence_array (cliprects_ptr) support.
+Fixes for this week, bit larger than normal, but I think the last
+couple have been quieter, and it's only rc4. There are a lot of small
+msm fixes, and a slightly larger set of vc4 fixes. The vc4 fixes clean
+up a lot of crashes around the rPI4 hardware differences from earlier
+ones, and problems in the page flip and modeset code which assumed
+earlier hw, so I thought it would be okay to keep them in.
 
-For execbuf3, we can get rid of separate values_ptr array and include it
-in the same structure as handle (similar to drm_i915_gem_vm_bind_fence).
-In fact, we can use drm_i915_gem_vm_bind_fence as execbuf3 timeline fence
-array element as well (convert to rsvd to flags for FENCE_WAIT/FENCE_SIGNAL).
-I think this is better option here.
+Otherwise, it's a few amdgpu, i915, sun4i and a panel quirk.
 
-But this means, for execbuf3 we can't share the timeline fence array handling
-code with execbuf2.
+Let me know if there are any issues. Just a headsup as well myself and
+danvet will be out the week 4th-10th July so you might not get an rc6
+round, rc5 next week should be fine.
 
-What do you guys suggest?
+Regards,
+Dave.
 
-Niranjana
+drm-fixes-2022-06-24:
+drm fixes for 5.19-rc4
 
->+	 */
->+	__u64 extensions;
->+#define DRM_I915_GEM_EXECBUFFER3_EXT_TIMELINE_FENCES	0
->+};
->+
->+/**
->+ * struct drm_i915_gem_create_ext_vm_private - Extension to make the object
->+ * private to the specified VM.
->+ *
->+ * See struct drm_i915_gem_create_ext.
->+ */
->+struct drm_i915_gem_create_ext_vm_private {
->+#define I915_GEM_CREATE_EXT_VM_PRIVATE		2
->+	/** @base: Extension link. See struct i915_user_extension. */
->+	struct i915_user_extension base;
->+
->+	/** @vm_id: Id of the VM to which the object is private */
->+	__u32 vm_id;
->+};
->-- 
->2.21.0.rc0.32.g243a4c7e27
->
+amdgpu:
+- Adjust GTT size logic
+- eDP fix for RMB
+- DCN 3.15 fix
+- DP training fix
+- Color encoding fix for DCN2+
+
+sun4i:
+- multiple suspend fixes
+
+vc4:
+- rework driver split for rpi4,
+  fixes multiple crashers.
+
+panel:
+- quirk for Aya Neo Next
+
+i915:
+- Revert low voltage SKU check removal to fix display issues
+- Apply PLL DCO fraction workaround for ADL-S
+- Don't show engine classes not present in client fdinfo
+
+msm:
+- Workaround for parade DSI bridge power sequencing
+- Fix for multi-planar YUV format offsets
+- Limiting WB modes to max sspp linewidth
+- Fixing the supported rotations to add 180 back for IGT
+- Fix to handle pm_runtime_get_sync() errors to avoid unclocked access
+  in the bind() path for dpu driver
+- Fix the irq_free() without request issue which was a being hit frequently
+  in CI.
+- Fix to add minimum ICC vote in the msm_mdss pm_resume path to address
+  bootup splats
+- Fix to avoid dereferencing without checking in WB encoder
+- Fix to avoid crash during suspend in DP driver by ensuring interrupt
+  mask bits are updated
+- Remove unused code from dpu_encoder_virt_atomic_check()
+- Fix to remove redundant init of dsc variable
+- Fix to ensure mmap offset is initialized to avoid memory corruption
+  from unpin/evict
+- Fix double runpm disable in probe-defer path
+- VMA fenced-unpin fixes
+- Fix for WB max-width
+- Fix for rare dp resolution change issue
+The following changes since commit a111daf0c53ae91e71fd2bfe7497862d14132e3e=
+:
+
+  Linux 5.19-rc3 (2022-06-19 15:06:47 -0500)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-06-24
+
+for you to fetch changes up to 1e9124df8be0a43e4e9a10c5d1140d6ca8e50132:
+
+  Merge tag 'drm-msm-fixes-2022-06-20' of
+https://gitlab.freedesktop.org/drm/msm into drm-fixes (2022-06-24
+10:11:27 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.19-rc4
+
+amdgpu:
+- Adjust GTT size logic
+- eDP fix for RMB
+- DCN 3.15 fix
+- DP training fix
+- Color encoding fix for DCN2+
+
+sun4i:
+- multiple suspend fixes
+
+vc4:
+- rework driver split for rpi4,
+  fixes multiple crashers.
+
+panel:
+- quirk for Aya Neo Next
+
+i915:
+- Revert low voltage SKU check removal to fix display issues
+- Apply PLL DCO fraction workaround for ADL-S
+- Don't show engine classes not present in client fdinfo
+
+msm:
+- Workaround for parade DSI bridge power sequencing
+- Fix for multi-planar YUV format offsets
+- Limiting WB modes to max sspp linewidth
+- Fixing the supported rotations to add 180 back for IGT
+- Fix to handle pm_runtime_get_sync() errors to avoid unclocked access
+  in the bind() path for dpu driver
+- Fix the irq_free() without request issue which was a being hit frequently
+  in CI.
+- Fix to add minimum ICC vote in the msm_mdss pm_resume path to address
+  bootup splats
+- Fix to avoid dereferencing without checking in WB encoder
+- Fix to avoid crash during suspend in DP driver by ensuring interrupt
+  mask bits are updated
+- Remove unused code from dpu_encoder_virt_atomic_check()
+- Fix to remove redundant init of dsc variable
+- Fix to ensure mmap offset is initialized to avoid memory corruption
+  from unpin/evict
+- Fix double runpm disable in probe-defer path
+- VMA fenced-unpin fixes
+- Fix for WB max-width
+- Fix for rare dp resolution change issue
+
+----------------------------------------------------------------
+Abhinav Kumar (1):
+      drm/msm/dpu: limit wb modes based on max_mixer_width
+
+Alex Deucher (1):
+      drm/amdgpu: Adjust logic around GTT size (v3)
+
+Dan Carpenter (1):
+      drm/vc4: fix error code in vc4_check_tex_size()
+
+Dave Airlie (4):
+      Merge tag 'amd-drm-fixes-5.19-2022-06-22' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'drm-misc-fixes-2022-06-23' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2022-06-22' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'drm-msm-fixes-2022-06-20' of
+https://gitlab.freedesktop.org/drm/msm into drm-fixes
+
+George Shen (1):
+      drm/amd/display: Fix typo in override_lane_settings
+
+Jason A. Donenfeld (1):
+      drm/i915/display: Re-add check for low voltage sku for max dp source =
+rate
+
+Jernej Skrabec (1):
+      drm/sun4i: Add DMA mask and segment size
+
+Jonathan Marek (1):
+      drm/msm: use for_each_sgtable_sg to iterate over scatterlist
+
+Joshua Ashton (1):
+      amd/display/dc: Fix COLOR_ENCODING and COLOR_RANGE doing nothing
+for DCN20+
+
+Kuogee Hsieh (2):
+      drm/msm/dp: check core_initialized before disable interrupts at
+dp_display_unbind()
+      drm/msm/dp: force link training for display resolution change
+
+Mario Limonciello (1):
+      drm/amd: Revert "drm/amd/display: keep eDP Vdd on when eDP
+stream is already enabled"
+
+Maxime Ripard (14):
+      drm/vc4: plane: Prevent async update if we don't have a dlist
+      drm/vc4: Consolidate Hardware Revision Check
+      drm/vc4: bo: Rename vc4_dumb_create
+      drm/vc4: bo: Split out Dumb buffers fixup
+      drm/vc4: drv: Register a different driver on BCM2711
+      drm/vc4: kms: Register a different drm_mode_config_funcs on BCM2711
+      drm/vc4: plane: Register a different drm_plane_helper_funcs on BCM271=
+1
+      drm/vc4: drv: Skip BO Backend Initialization on BCM2711
+      drm/vc4: crtc: Use an union to store the page flip callback
+      drm/vc4: crtc: Move the BO handling out of common page-flip callback
+      drm/vc4: crtc: Move the BO Handling out of Common Page-Flip Handler
+      drm/vc4: crtc: Don't call into BO Handling on Async Page-Flips on BCM=
+2711
+      drm/vc4: crtc: Fix out of order frames during asynchronous page flips
+      drm/vc4: Warn if some v3d code is run on BCM2711
+
+Maximilian Luz (1):
+      drm/msm: Fix double pm_runtime_disable() call
+
+Maya Matuszczyk (1):
+      drm: panel-orientation-quirks: Add quirk for Aya Neo Next
+
+Miaoqian Lin (1):
+      drm/msm/mdp4: Fix refcount leak in mdp4_modeset_init_intf
+
+Qingqing Zhuo (1):
+      drm/amd/display: Fix DC warning at driver load
+
+Rob Clark (7):
+      Merge tag 'msm-next-5.19-fixes-06-01' of
+https://gitlab.freedesktop.org/abhinavk/msm into msm-fixes-staging
+      drm/msm: Ensure mmap offset is initialized
+      drm/msm: Switch ordering of runpm put vs devfreq_idle
+      drm/msm/gem: Separate object and vma unpin
+      drm/msm/gem: Drop early returns in close/purge vma
+      drm/msm: Drop update_fences()
+      drm/msm: Don't overwrite hw fence in hw_init
+
+Samuel Holland (2):
+      drm/sun4i: dw-hdmi: Fix ddc-en GPIO consumer conflict
+      drm/sun4i: Fix crash during suspend after component bind failure
+
+Saud Farooqui (2):
+      drm/vc4: hdmi: Fixed possible integer overflow
+      drm/sun4i: Return if frontend is not present
+
+Tvrtko Ursulin (1):
+      drm/i915/fdinfo: Don't show engine classes not present
+
+Ville Syrj=C3=A4l=C3=A4 (1):
+      drm/i915: Implement w/a 22010492432 for adl-s
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  20 ++-
+ .../amd/display/dc/clk_mgr/dcn315/dcn315_clk_mgr.c |   2 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |   2 +-
+ .../amd/display/dc/dce110/dce110_hw_sequencer.c    |  24 +--
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dpp.c   |   3 +
+ drivers/gpu/drm/amd/display/dc/dcn201/dcn201_dpp.c |   3 +
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_dpp.c   |   3 +
+ drivers/gpu/drm/drm_panel_orientation_quirks.c     |   6 +
+ drivers/gpu/drm/i915/display/intel_dp.c            |  32 +++-
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c      |   4 +-
+ drivers/gpu/drm/i915/i915_drm_client.c             |   5 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      |   9 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           |   2 +
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  33 +++-
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |   2 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |  16 +-
+ drivers/gpu/drm/msm/msm_drv.c                      |   2 +-
+ drivers/gpu/drm/msm/msm_drv.h                      |   1 +
+ drivers/gpu/drm/msm/msm_fence.c                    |   8 +-
+ drivers/gpu/drm/msm/msm_gem.c                      |   7 +-
+ drivers/gpu/drm/msm/msm_gem.h                      |  11 +-
+ drivers/gpu/drm/msm/msm_gem_prime.c                |  15 ++
+ drivers/gpu/drm/msm/msm_gem_submit.c               |  18 +-
+ drivers/gpu/drm/msm/msm_gem_vma.c                  |   6 +-
+ drivers/gpu/drm/msm/msm_gpu.c                      |  27 +--
+ drivers/gpu/drm/msm/msm_iommu.c                    |   2 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c               |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c                  |  12 +-
+ drivers/gpu/drm/sun4i/sun4i_layer.c                |   2 +-
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c              |  54 +-----
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h              |   2 -
+ drivers/gpu/drm/vc4/vc4_bo.c                       |  62 ++++++-
+ drivers/gpu/drm/vc4/vc4_crtc.c                     | 196 +++++++++++++++--=
+----
+ drivers/gpu/drm/vc4/vc4_drv.c                      |  97 ++++++++--
+ drivers/gpu/drm/vc4/vc4_drv.h                      |  19 +-
+ drivers/gpu/drm/vc4/vc4_gem.c                      |  40 +++++
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |   2 +-
+ drivers/gpu/drm/vc4/vc4_hvs.c                      |  18 +-
+ drivers/gpu/drm/vc4/vc4_irq.c                      |  16 ++
+ drivers/gpu/drm/vc4/vc4_kms.c                      |  24 ++-
+ drivers/gpu/drm/vc4/vc4_perfmon.c                  |  47 ++++-
+ drivers/gpu/drm/vc4/vc4_plane.c                    |  29 ++-
+ drivers/gpu/drm/vc4/vc4_render_cl.c                |   4 +
+ drivers/gpu/drm/vc4/vc4_v3d.c                      |  15 ++
+ drivers/gpu/drm/vc4/vc4_validate.c                 |  16 ++
+ drivers/gpu/drm/vc4/vc4_validate_shaders.c         |   4 +
+ 47 files changed, 670 insertions(+), 268 deletions(-)
