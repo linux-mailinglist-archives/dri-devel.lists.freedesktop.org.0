@@ -1,65 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFD9F558BD7
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 01:45:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E0E558C1E
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 02:09:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50AAC10E71D;
-	Thu, 23 Jun 2022 23:45:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D793D10F17C;
+	Fri, 24 Jun 2022 00:09:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 685DE10E51F
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 23:45:08 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id o9so1098379edt.12
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 16:45:08 -0700 (PDT)
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0E7710E862
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 00:09:48 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ l9-20020a056830268900b006054381dd35so714488otu.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 17:09:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4ikmHtD58shD6bwBLVpbuZjlxH1kCE1s2bn5lg6TI84=;
- b=Idb+m4MmDg0qMd2DH6fEfYzuuttvLSeFBYJHLxEIpsJQi14s4A53HQuCSN5EPUcDlu
- cHZr8bJG8h/PTgfMQpO0HbbedR/xKjdcHTojqasgMK1W7NG1vLAyJp2ONOWhpxRkyeua
- SwHT1Aus7rtxzv/TDgM3Hsx5fXimanh7yIQWU=
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=tNICjC0mqZ74g4NWx01ZNVZ2tkGnF23qOG9pMURoZhI=;
+ b=keigWUEC4et/ph4vYev3R+C43rBbm6avYfx1ICG8YUlMjI17zFbQ2NqdKaLjP20MgD
+ 03TUpRIu3LgOXZ1LnijQy9VU1OpjjuxDho5zFrbATU/RB9F/5S2AJ9Z0bf26Xo+1ooT0
+ XGnZvujpKw3kMWwkNxBRfcYiO47Af/Ydzdzyk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4ikmHtD58shD6bwBLVpbuZjlxH1kCE1s2bn5lg6TI84=;
- b=OUFzb6LusjWB9aPrKasUg0ipNIRNMTdcnb9tPmIysGkn9OudUsHl4/3rvNFXAOqk7A
- dm9rCMVpCL7wpCxnaQH+r1jypKcE+ZNggQ4UodgkwQMtCr38D+M66zrncGw1te0SC19M
- WgeeYelGklGd1MEmtBVXdvgnU5DUzlOUhk4QD/9Ba6iTQv8Zk0l3IwagpqDqezKWnQ1G
- 6sXBiEthdfWA1JJME7ijIEi4IKFr//0KoE2DaL0tcy0tWqq5zltHaTN6TdrTXqKn5mKO
- CPNuLalfzl1zBmsMY7Ysu8YKgoguIpQQ5HEHfCwkdGpbeIQAmA3sU6nAXl+t6hoWziPk
- Xouw==
-X-Gm-Message-State: AJIora/v37iaEmi041uA6WRnm1xeqVbc60c4/X21grcHgf006GfmzDH6
- Z91CJtj8w96TnL9fis2X/3/F6rKH0GGtCrai
-X-Google-Smtp-Source: AGRyM1uWp5X2mjJvgzzdAcDuK193onVHNo65HlAafGgyyerDzMW9mbtYyMLzy92g1XyngMvWLFqh4A==
-X-Received: by 2002:aa7:cd8a:0:b0:435:dde0:c91 with SMTP id
- x10-20020aa7cd8a000000b00435dde00c91mr3613945edv.220.1656027906744; 
- Thu, 23 Jun 2022 16:45:06 -0700 (PDT)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com.
- [209.85.128.44]) by smtp.gmail.com with ESMTPSA id
- s27-20020a170906355b00b00702d8b37a03sm234954eja.17.2022.06.23.16.45.05
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jun 2022 16:45:06 -0700 (PDT)
-Received: by mail-wm1-f44.google.com with SMTP id
- h14-20020a1ccc0e000000b0039eff745c53so563451wmb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jun 2022 16:45:05 -0700 (PDT)
-X-Received: by 2002:a05:600c:22d9:b0:39c:4b1b:5f99 with SMTP id
- 25-20020a05600c22d900b0039c4b1b5f99mr469227wmg.151.1656027905540; Thu, 23 Jun
- 2022 16:45:05 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=tNICjC0mqZ74g4NWx01ZNVZ2tkGnF23qOG9pMURoZhI=;
+ b=RC3MCxchKMmJwxGtpCKpeVEVzVuGfusaDLeStg5PdvgeyX4GqDziC6OK8tvj1bXj0z
+ F/YkWP4XQbHIxNVGNb8RAMLCZNZz7CzsdRTV3P9FLpGv8Bb6jtawm+az8Qqavq1H/XjL
+ FSSjVvmYNRPGsGR3WIvC6KmZGyQH7lBh83Rc8UOH6fh+7CigAvCiQ/9D24WZTVPTQ2Le
+ K3Wfd2A9zabjkDO1vgoxUNLnk6EB/yyaEs5CgGmopKu5Fjj3U3WoMWHzY6GOzg154yms
+ ka3GRu+5dUfNXuF2DH32bGzCTqkGLxku+Jy/3V9M3LPFhxCdOgSdw2oT52uhZgSUb8L1
+ pTig==
+X-Gm-Message-State: AJIora+cieQl+3yqAyh/92StAa6bOKSD1WPOwRTTu/xQIDm6MCFe+Lmq
+ yFm800Rsy/X9/trvXPZ39ZSFFMCYKepBIhxAxj5a0Q==
+X-Google-Smtp-Source: AGRyM1toYtnlSvt/KriWql1qkmbYZ0fd3ZbL7W+3GyjF+TFTpfJIy6lNOXNS1wd+UjrciaaVGHz2lZIw6TxPwoIv6+Y=
+X-Received: by 2002:a9d:729b:0:b0:60c:21bd:97c0 with SMTP id
+ t27-20020a9d729b000000b0060c21bd97c0mr4954986otj.77.1656029388070; Thu, 23
+ Jun 2022 17:09:48 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 23 Jun 2022 17:09:47 -0700
 MIME-Version: 1.0
-References: <20220617172623.1.I62db228170b1559ada60b8d3e1637e1688424926@changeid>
-In-Reply-To: <20220617172623.1.I62db228170b1559ada60b8d3e1637e1688424926@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 23 Jun 2022 16:44:52 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Wsp6GA=L4GsEVjMqazgtw4qG40gtLq1HT++5e9eRrvTw@mail.gmail.com>
-Message-ID: <CAD=FV=Wsp6GA=L4GsEVjMqazgtw4qG40gtLq1HT++5e9eRrvTw@mail.gmail.com>
-Subject: Re: [PATCH] drm/rockchip: vop: Don't crash for invalid
- duplicate_state()
-To: Brian Norris <briannorris@chromium.org>
+In-Reply-To: <1656027256-6552-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1656027256-6552-1-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Thu, 23 Jun 2022 17:09:47 -0700
+Message-ID: <CAE-0n534jvnjX5TShZw7CB9Cu9F7yowhwUosNkJE8t_R4xHYOw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: no dp_hpd_unplug_handle() required for eDP
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dianders@chromium.org, 
+ dmitry.baryshkov@linaro.org, robdclark@gmail.com, sean@poorly.run, 
+ vkoul@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,35 +67,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sandy Huang <hjc@rock-chips.com>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Sean Paul <seanpaul@chromium.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Quoting Kuogee Hsieh (2022-06-23 16:34:16)
+> eDP implementation does not reuried to support hpd signal. Therefore
 
-On Fri, Jun 17, 2022 at 5:27 PM Brian Norris <briannorris@chromium.org> wrote:
+s/reuried/require/
+
+> it only has either ST_DISPLAY_OFF or ST_CONNECTED state during normal
+> operation. This patch remove unnecessary dp_hpd_unplug_handle() for
+> eDP but still keep dp_hpd_plug_handle() to support eDP to either
+> booting up or resume from ST_DISCONNECTED state.
+
+I take it that making this change also fixes a glitch seen on the eDP
+panel when a second modeset happens? Can you add that detail to the
+commit text? The way it reads makes it sound like this is purely a
+cleanup patch, but then there's a Fixes tag so it must be a bug fix or
+worthy optimization, neither of which is described.
+
 >
-> It's possible for users to try to duplicate the CRTC state even when the
-> state doesn't exist. drm_atomic_helper_crtc_duplicate_state() (and other
-> users of __drm_atomic_helper_crtc_duplicate_state()) already guard this
-> with a WARN_ON() instead of crashing, so let's do that here too.
->
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
+> Fixes: 391c96ff0555 ("drm/msm/dp: Support only IRQ_HPD and REPLUG interrupts for eDP")
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 >
->  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 3 +++
->  1 file changed, 3 insertions(+)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index da5c03a..ef9794e 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -1666,7 +1666,7 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
+>                 return;
+>         }
+>
+> -       if (dp->is_edp)
+> +       if (dp->is_edp && dp_display->hpd_state == ST_DISCONNECTED)
+>                 dp_hpd_plug_handle(dp_display, 0);
+>
+>         mutex_lock(&dp_display->event_mutex);
+> @@ -1737,9 +1737,6 @@ void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
+>
+>         dp_display = container_of(dp, struct dp_display_private, dp_display);
+>
+> -       if (dp->is_edp)
+> -               dp_hpd_unplug_handle(dp_display, 0);
 
-I'm not an expert in this area, but it makes sense to me to match
-drm_atomic_helper_crtc_duplicate_state() in this way. Thus:
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-I would tend to assume that this would be landed in drm-misc by Heiko
-if he's good with it. After several weeks of silence, however, I'll
-commit it myself.
-
--Doug
+dp_hpd_unplug_handle() has a !edp check, and from what I can tell after
+this patch that condition will always trigger? But then I wonder why we
+aren't masking the irqs for hpd when the eDP display is disabled.
+Shouldn't we at least be doing that so that we don't get spurious hpd
+irqs when the eDP display is off or on the path to suspend where I
+suspect the power may be removed from the panel?
