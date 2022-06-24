@@ -1,43 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DF9559CFF
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 17:08:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46076559D25
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 17:20:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EFDF10E416;
-	Fri, 24 Jun 2022 15:08:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 751D910E099;
+	Fri, 24 Jun 2022 15:20:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29ED910E416
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 15:08:25 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 5DD7D200008;
- Fri, 24 Jun 2022 15:08:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1656083301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Z6NSlrVRFRynl/P9uRgQINLcwfmlxyYneaSXB7ysLYI=;
- b=Il3PR66ADF+iXcu0f6Y9QZbVVK0mLk607IPrgZ3yxISVfVlAZyhsbsHWmHgao2qboQBjgC
- RbZwc0uDuaXiw+OiZwtEEQZpuN6jxg6IkYbuLAsoSiHqEy5cmZYQOMwniCui7B/Sc9fVTW
- 7h30PPUZby1ko42o3pwI7JOTTNL5Mbj4ikyANydgmg5cWmvBFHVE2q+hd1I3dRoUQcZmDy
- lmV4Nxo78cL1GimRz4SCg2lDUAbUIBQ7x0U5zdt/SYNF7shGypnS//QufV/IZsYfriZ1dO
- iTx2RD3NK5w0dIPDkOZ2tubNnHvLdi69LSRdinq8Nb8sZw3tbX2bp1VysKS8sw==
-Date: Fri, 24 Jun 2022 17:08:19 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH] drm: fix device_node_continue.cocci warnings (fwd)
-Message-ID: <YrXTY77HjvNnuc1B@aptenodytes>
-References: <alpine.DEB.2.22.394.2206121300120.3447@hadrien>
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB2610E0AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 15:20:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=7C9om+I+NrguXJkyfDjb3usH2nDZbeYzg3Ij5DWZ8PE=;
+ b=enkPuvVq9cxeak4xvbnLzPDtpwYYeLlQY+XCO9nkEHva9i0GHJmTYBtQvRdkfzbo8qX/TcFHMKSrh
+ DxVVnB5eq+K9y3klNx9LBU5ho8yjqCW29X2UsTM644sxM0+eoeuYulYZbwgrV/6TT3iveTIRpWH3TT
+ GVbkg8BuPncEAOR4dU7Ac/XmzlVlICv4riTUTBGAkq36XgIcBLCV+tUwIm3U+tKM2sloQ5RNMYj1A7
+ 8Eg7JPPIpylbUKZVtsTLqrdj/m8RtgoSG6AIGQKRhUEYjbm6GdRvlVIGVOWrS8Z6izO10eeDTH0lj3
+ z0ndmK0zK4ZpzCCOyzg1vG3XIdI+s0w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=7C9om+I+NrguXJkyfDjb3usH2nDZbeYzg3Ij5DWZ8PE=;
+ b=2kLU4Ts7UAvd1RJBZ9aDOh7pa1IwpwCGgT4QufeEpjpKKIhJKCPZMDbu9IoyplI2gEP31l0qbVfyy
+ D59UN+OAg==
+X-HalOne-Cookie: 9f7a75cd0428a0af88a75a96aa819a7f9526c1bb
+X-HalOne-ID: 1e02ca40-f3d1-11ec-be7c-d0431ea8bb03
+Received: from mailproxy3.cst.dirpod3-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 1e02ca40-f3d1-11ec-be7c-d0431ea8bb03;
+ Fri, 24 Jun 2022 15:20:02 +0000 (UTC)
+Date: Fri, 24 Jun 2022 17:20:00 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH v5 2/2] drm: lcdif: Add support for i.MX8MP LCDIF variant
+Message-ID: <YrXWIP3dRLc/ArOK@ravnborg.org>
+References: <20220613213124.617021-1-marex@denx.de>
+ <20220613213124.617021-2-marex@denx.de>
+ <7b3850665f7fd699ff7d0a013e5652159d4b5055.camel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wLn5nGH9z1X1MW5b"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2206121300120.3447@hadrien>
+In-Reply-To: <7b3850665f7fd699ff7d0a013e5652159d4b5055.camel@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,105 +60,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, lkp@intel.com, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>, robert.foss@linaro.org,
+ Martyn Welch <martyn.welch@collabora.com>, dri-devel@lists.freedesktop.org,
+ Robby Cai <robby.cai@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+> > +
+> > +static int lcdif_rpm_resume(struct device *dev)
+> > +{
+> > +	struct drm_device *drm = dev_get_drvdata(dev);
+> > +	struct lcdif_drm_private *lcdif = drm->dev_private;
+> > +
+> > +	/* These clock supply the Control Bus, APB, APBH Ctrl Registers */
+> > +	clk_prepare_enable(lcdif->clk_axi);
+> > +	/* These clock supply the System Bus, AXI, Write Path, LFIFO */
+> > +	clk_prepare_enable(lcdif->clk_disp_axi);
+> > +	/* These clock supply the DISPLAY CLOCK Domain */
+> > +	clk_prepare_enable(lcdif->clk);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> 
+> To avoid unused function warnings, suspend and resume should be under
+> #ifdef CONFIG_PM_SLEEP
 
---wLn5nGH9z1X1MW5b
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If SET_RUNTIME_PM_OPS is used then it is good practice to annotate the
+functions __maybe_unused and no #ifdef - then they see build coverage also
+without PM_SLEEP but they are discarded so do not consume memory if not used.
 
-Hi Julia,
-
-On Sun 12 Jun 22, 13:02, Julia Lawall wrote:
-> The of_node_put does not seem to be needed.  Note that there is none at
-> the preceeding continues.
-
-That looks like a correct fix, thanks!
-
-Paul
-=20
-> julia
->=20
-> ---------- Forwarded message ----------
-> Date: Sat, 11 Jun 2022 06:02:45 +0800
-> From: kernel test robot <lkp@intel.com>
-> To: kbuild@lists.01.org
-> Cc: lkp@intel.com, Julia Lawall <julia.lawall@lip6.fr>
-> Subject: [PATCH] drm: fix device_node_continue.cocci warnings
->=20
-> CC: kbuild-all@lists.01.org
-> BCC: lkp@intel.com
-> CC: Linux Memory Management List <linux-mm@kvack.org>
-> TO: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> CC: Maxime Ripard <mripard@kernel.org>
-> CC: David Airlie <airlied@linux.ie>
-> CC: Daniel Vetter <daniel@ffwll.ch>
-> CC: dri-devel@lists.freedesktop.org
-> CC: linux-kernel@vger.kernel.org
->=20
-> From: kernel test robot <lkp@intel.com>
->=20
-> drivers/gpu/drm/logicvc/logicvc_layer.c:616:2-13: ERROR: probable double =
-put.
->=20
->  Device node iterators put the previous value of the index variable, so an
->  explicit put causes a double put.
->=20
-> Generated by: scripts/coccinelle/iterators/device_node_continue.cocci
->=20
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: kernel test robot <lkp@intel.com>
-> ---
->=20
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   6d0c806803170f120f8cb97b321de7bd89d3a791
-> commit: efeeaefe9be56e8ae5e5b4e9ff6d2275ec977ec5 [2027/2566] drm: Add sup=
-port for the LogiCVC display controller
-> :::::: branch date: 17 hours ago
-> :::::: commit date: 31 hours ago
->=20
-> Please take the patch only if it's a positive warning. Thanks!
->=20
->  drivers/gpu/drm/logicvc/logicvc_layer.c |    2 --
->  1 file changed, 2 deletions(-)
->=20
-> --- a/drivers/gpu/drm/logicvc/logicvc_layer.c
-> +++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
-> @@ -612,8 +612,6 @@ int logicvc_layers_init(struct logicvc_d
->  		ret =3D logicvc_layer_init(logicvc, layer_node, index);
->  		if (ret)
->  			goto error;
-> -
-> -		of_node_put(layer_node);
->  	}
->=20
->  	of_node_put(layers_node);
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---wLn5nGH9z1X1MW5b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK102MACgkQ3cLmz3+f
-v9H80wf+IWSsArK5aJYsP0w7K00FEbqtnEBvifJqcDGhGEgugYMyCDYVJI6Y29Qn
-EKexL7vlrZUIrHSz/XUXnucgUplWrIt1cr4l1IWSdypaYqONSIdnmVPGOxebhjTs
-UCJf7WtnFPLSndVLOhGvPa03MXG3c4LrZnLWMl+jWLHBEWeycRAFcIVV69veKb8e
-Cxm8OIh9SnqgXxv51JWJ3Gs+M38/vuCdWiaoSHqteHpa2b+8a6XeCgmoUgPhDLqk
-zdkNgSyomugvg/wBv0HsypWzO40/xb2c7bJ1qEV5oTxUCfkSeTH0MAHa8FD8jgN1
-0m5Ua77B7Yw0sZt09WkP+M/njhyHIw==
-=IADY
------END PGP SIGNATURE-----
-
---wLn5nGH9z1X1MW5b--
+	Sam
