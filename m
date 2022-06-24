@@ -1,63 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDED55A3ED
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 23:50:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 987BE55A3F2
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 23:51:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EB0F10F1C4;
-	Fri, 24 Jun 2022 21:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9457510F544;
+	Fri, 24 Jun 2022 21:51:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D49E110F1C4
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 21:50:09 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id v14so4790121wra.5
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 14:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ifhz7JKl3t26887q2ZrIQf1CUYIRNThSHGf/5kqiQlo=;
- b=It5SrDMEj3GijQEOxS5EBCZlTJJJXwd/H1aziNv3aOLA79384H5yJgS5MTYIzovjtM
- ZL3cCS21Weo0OvEeJEUEfuER0o456t55EKL7iSBJ4lCWJepoIifMgzPkiKYdHjAzDPYs
- GZgK9++I/zQAXCkx4ZZtxNRgtnNL9RuMJ3iu8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ifhz7JKl3t26887q2ZrIQf1CUYIRNThSHGf/5kqiQlo=;
- b=sfD5i9vycUXaUNJPOwRftpv6Mj18MS9CX3k6LmUM0eYhgV5avUPKF1xblk7/tS/nzG
- PKCrZ7tJAU6fFauFMctJWyKq2Z7P2QKuquppi/iKPOtMEO6WtIqtKWW1KuMS5D6e0lhL
- 5mV2RF/f4T/smrqTvcp67yKAoYeQ6QhPiB/Vo0SgF6ACX/0o8CtHqO7eFRkL3iwyLP4+
- 9+gEu43EXKZIYIwCfYVNJ6TVbLTPB8WtBvxqRbURlaDM+J5yR62CA2RGoP7GDHOg8y8O
- VecZTdQaW174pyE+9Bf87Q1UHOUj2znLtsWzj1QMo7N7SuIrAlb3xLNCeRQN4uVZVO3P
- wZ2A==
-X-Gm-Message-State: AJIora8pauzrIdueOKK4N9Dh/ngRKUpuGPi6BtwyT0UuQjxVuF84lgGr
- vr3+UOsRQ+tS3Ya2CpX/GGWBfQ5ASHe0ng==
-X-Google-Smtp-Source: AGRyM1sTE7Y3Zcx7/Kokk/aae8/BkOmQkSQblRAVCmJnoz9OzLyPBSqbtlrGaJ6FbgPQI6ARbrymdA==
-X-Received: by 2002:a5d:4b04:0:b0:21b:8640:273f with SMTP id
- v4-20020a5d4b04000000b0021b8640273fmr1041385wrq.195.1656107408294; 
- Fri, 24 Jun 2022 14:50:08 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- d11-20020a5d4f8b000000b0020c7ec0fdf4sm3875791wru.117.2022.06.24.14.50.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jun 2022 14:50:07 -0700 (PDT)
-Date: Fri, 24 Jun 2022 23:50:06 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] drm/fourcc: Add formats for packed YUV 4:4:4 AVUY and
- XVUY permutations
-Message-ID: <YrYxjrkQQtVwP8gD@phenom.ffwll.local>
-References: <20220616185210.22018-1-laurent.pinchart@ideasonboard.com>
- <YrYpvmInnq5Muahz@phenom.ffwll.local>
- <YrYukw1Z/RjWk/Zv@pendragon.ideasonboard.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F173110F53A;
+ Fri, 24 Jun 2022 21:51:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1656107461; x=1687643461;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=DnqbCmHRY/2v5TO3pWgmp/RU/G1NVE+z0cxe4bh3zbY=;
+ b=oy0wxFacBY95XQi9iEGLo3Gy+tmHQzwkEHcZ8pp9UkyDiSD/maKPOCM9
+ IHNgUsqVaYfuVZxbnTQ/lpHFLpWFmzc9y5ZFzVHWSiP7fF33nfxGEdZDc
+ 7Pb6RkAdLNu95gc/5ZWqzJOWfb5VIRUMxjxNQBnmM7KN6D06LDuyNh57p k=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 24 Jun 2022 14:51:00 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 14:51:00 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 24 Jun 2022 14:50:59 -0700
+Received: from [10.110.58.84] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 24 Jun
+ 2022 14:50:58 -0700
+Message-ID: <0632e72a-3bd2-6320-4a00-6d3cf7d40513@quicinc.com>
+Date: Fri, 24 Jun 2022 14:50:57 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YrYukw1Z/RjWk/Zv@pendragon.ideasonboard.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v1 1/3] drm/msm/dp: move struc of msm_display_info to
+ msm_drv.h
+Content-Language: en-US
+To: Doug Anderson <dianders@chromium.org>
+References: <1656090912-18074-1-git-send-email-quic_khsieh@quicinc.com>
+ <1656090912-18074-2-git-send-email-quic_khsieh@quicinc.com>
+ <CAD=FV=XD0Nb8GiaqEM52rEkUeVjuo46hBv9YUizdDu9zOH6QfA@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAD=FV=XD0Nb8GiaqEM52rEkUeVjuo46hBv9YUizdDu9zOH6QfA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,79 +67,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ David Airlie <airlied@linux.ie>, freedreno <freedreno@lists.freedesktop.org>,
+ Vinod Koul <vkoul@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>, Bjorn
+ Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
+ LKML <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 25, 2022 at 12:37:23AM +0300, Laurent Pinchart wrote:
-> Hi Daniel,
-> 
-> On Fri, Jun 24, 2022 at 11:16:46PM +0200, Daniel Vetter wrote:
-> > On Thu, Jun 16, 2022 at 09:52:10PM +0300, Laurent Pinchart wrote:
-> > > Add FourCCs for two missing permutations of the packed YUV 4:4:4 color
-> > 
-> > For a second I thought this 4:4:4 is the bit packing, but it's the 444
-> > sampling rate thing.
-> > 
-> > Man formats are confusing.
-> 
-> :-)
-> 
-> > > components, namely AVUY and XVUY.
-> > > 
-> > > These formats are needed by the NXP i.MX8 ISI. While the ISI is
-> > > supported by a V4L2 device (corresponding formats have been submitted to
-> > > V4L2), it is handled in userspace by libcamera, which uses DRM FourCCs
-> > > for pixel formats.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  include/uapi/drm/drm_fourcc.h | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > > 
-> > > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> > > index f1972154a594..399d950c53e3 100644
-> > > --- a/include/uapi/drm/drm_fourcc.h
-> > > +++ b/include/uapi/drm/drm_fourcc.h
-> > > @@ -205,7 +205,9 @@ extern "C" {
-> > 
-> > I build script to make sure we don't accidentally assign duplicated codes
-> > would be nice, this is pain to check.
-> 
-> Do you mean something like
-> 
-> cat include/uapi/drm/drm_fourcc.h | \
-> 	grep '#define DRM_FORMAT_.*fourcc_code' | \
-> 	sed 's/.*fourcc_code(\([^)]*\)).*/\1/' | \
-> 	sort | \
-> 	uniq -c | \
-> 	grep -qv '^ \+1 ' && echo "Duplicate 4CC !!"
-> 
-> ?
-> 
-> Where could this live ?
 
-Can we stuff it into Kbuild as a check?
--Daniel
+On 6/24/2022 2:40 PM, Doug Anderson wrote:
+> Hi,
+>
+> On Fri, Jun 24, 2022 at 10:15 AM Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>> With current implementation, communication between interface driver and
+>> upper mdss encoder layer are implemented through function calls. This
+>> increase code complexity. Since struct msm_display_info contains msm
+>> generic display information, it can be expended to contains more useful
+>> information, such as widebus and dcs, in future to serve as communication
+>> channel purpose between interface driver and upper mdss encoder layer so
+>> that existing function calls can be eliminated.
+>> This patch more struct msm_display_info to msm_drv.h to be visible by
+>> whole msm scope.
+>>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h | 20 --------------------
+>>   drivers/gpu/drm/msm/msm_drv.h               | 19 +++++++++++++++++++
+>>   2 files changed, 19 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> index 781d41c..6b604c5 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> @@ -19,26 +19,6 @@
+>>   #define IDLE_TIMEOUT   (66 - 16/2)
+>>
+>>   /**
+>> - * struct msm_display_info - defines display properties
+>> - * @intf_type:          DRM_MODE_ENCODER_ type
+>> - * @capabilities:       Bitmask of display flags
+>> - * @num_of_h_tiles:     Number of horizontal tiles in case of split interface
+>> - * @h_tile_instance:    Controller instance used per tile. Number of elements is
+>> - *                      based on num_of_h_tiles
+>> - * @is_te_using_watchdog_timer:  Boolean to indicate watchdog TE is
+>> - *                              used instead of panel TE in cmd mode panels
+>> - * @dsc:               DSC configuration data for DSC-enabled displays
+>> - */
+>> -struct msm_display_info {
+>> -       int intf_type;
+>> -       uint32_t capabilities;
+>> -       uint32_t num_of_h_tiles;
+>> -       uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
+>> -       bool is_te_using_watchdog_timer;
+>> -       struct msm_display_dsc_config *dsc;
+> So in the structure you're "moving" there's this member called "dsc".
+>
+>
+>> -};
+>> -
+>> -/**
+>>    * dpu_encoder_assign_crtc - Link the encoder to the crtc it's assigned to
+>>    * @encoder:   encoder pointer
+>>    * @crtc:      crtc pointer
+>> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+>> index fdbaad5..f9c263b 100644
+>> --- a/drivers/gpu/drm/msm/msm_drv.h
+>> +++ b/drivers/gpu/drm/msm/msm_drv.h
+>> @@ -106,11 +106,30 @@ struct msm_drm_thread {
+>>          struct kthread_worker *worker;
+>>   };
+>>
+>> +<<<<<<< HEAD
+> The above doesn't look like valid C to me.
+>
+>
+>>   /* DSC config */
+>>   struct msm_display_dsc_config {
+>>          struct drm_dsc_config *drm;
+>>   };
+>>
+>> +/**
+>> + * struct msm_display_info - defines display properties
+>> + * @intf_type:          DRM_MODE_ENCODER_ type
+>> + * @capabilities:       Bitmask of display flags
+>> + * @num_of_h_tiles:     Number of horizontal tiles in case of split interface
+>> + * @h_tile_instance:    Controller instance used per tile. Number of elements is
+>> + *                      based on num_of_h_tiles
+>> + * @is_te_using_watchdog_timer:  Boolean to indicate watchdog TE is
+>> + *                              used instead of panel TE in cmd mode panels
+>> + */
+>> +struct msm_display_info {
+>> +       int intf_type;
+>> +       uint32_t capabilities;
+>> +       uint32_t num_of_h_tiles;
+>> +       uint32_t h_tile_instance[MAX_H_TILES_PER_DISPLAY];
+>> +       bool is_te_using_watchdog_timer;
+> ...but then when you "move" the structure to its new location, which
+> should be a noop, then <poof> the "dsc" variable vanishes (along with
+> the kernel doc description of it before the structure).
 
-> 
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > 
-> > >  #define DRM_FORMAT_VYUY		fourcc_code('V', 'Y', 'U', 'Y') /* [31:0] Y1:Cb0:Y0:Cr0 8:8:8:8 little endian */
-> > >  
-> > >  #define DRM_FORMAT_AYUV		fourcc_code('A', 'Y', 'U', 'V') /* [31:0] A:Y:Cb:Cr 8:8:8:8 little endian */
-> > > +#define DRM_FORMAT_AVUY8888	fourcc_code('A', 'V', 'U', 'Y') /* [31:0] A:Cr:Cb:Y 8:8:8:8 little endian */
-> > >  #define DRM_FORMAT_XYUV8888	fourcc_code('X', 'Y', 'U', 'V') /* [31:0] X:Y:Cb:Cr 8:8:8:8 little endian */
-> > > +#define DRM_FORMAT_XVUY8888	fourcc_code('X', 'V', 'U', 'Y') /* [31:0] X:Cr:Cb:Y 8:8:8:8 little endian */
-> > >  #define DRM_FORMAT_VUY888	fourcc_code('V', 'U', '2', '4') /* [23:0] Cr:Cb:Y 8:8:8 little endian */
-> > >  #define DRM_FORMAT_VUY101010	fourcc_code('V', 'U', '3', '0') /* Y followed by U then V, 10:10:10. Non-linear modifier only */
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+Sorry, i did not resolve the conflicts correctly  when i cherry-pick 
+them to msm-next tree.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Will fix them.
+
+> -Doug
