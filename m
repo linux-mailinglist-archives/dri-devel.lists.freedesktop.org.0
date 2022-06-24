@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DCA6559CA6
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 16:47:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA07D559CAC
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jun 2022 16:53:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D474F10E9F2;
-	Fri, 24 Jun 2022 14:47:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8876510E055;
+	Fri, 24 Jun 2022 14:53:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB6F610E9F2
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 14:47:46 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::222])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7698010E055
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jun 2022 14:53:27 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 49D69FF804;
- Fri, 24 Jun 2022 14:47:43 +0000 (UTC)
+ by mail.gandi.net (Postfix) with ESMTPSA id 9F61640005;
+ Fri, 24 Jun 2022 14:53:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1656082064;
+ t=1656082405;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/5lwqCmDfgarZpH/+DYuV1w1W6dB+x06YFC1AxqeVeQ=;
- b=ImWs1iP8fokVxeUbt87bRF+OpaoNKFG4ZCK343vscEwvalHP0g+xEN51LoEhVAZ1PTSFvO
- VQdbjHIXr4M98i9fhYcm18+jJrK1a9u6zcguc82LsgnF6udGbo846xG1Rr1vRuqt4/O1ID
- U3hKwYisqZBvXktP4Ke+CoorBdJWLtfE3ZOZMsoBxR3GspQwcWjTBbomyBiOak8ZTKFg50
- G2FoZP3xuqVYC6EydseE6elbSZDzS4wj79gSto5V3JwGB1xMVUeaS5vKalp5wqqfe68ye9
- 19qXIDdilD21diuZFQhc8pO+N6FiVvMpAGk3lyLGGLiQxouDDA64I0kf+va60w==
-Date: Fri, 24 Jun 2022 16:47:43 +0200
+ bh=pAemQfjjYRBuV4ZECqviQkxC7RDhzNksVvHX3//IOIo=;
+ b=byJwxursTDwGnbVb2yaSOn/bl03S717FoHbKPGhnJXe/MD8lrJ7oP2xq2qaFz8KHS//i/V
+ kRUXn4D+YLzK7VMR8ipLjDiW9sMaskefcucLgjweyxoxXLbWevj+B8i0KDXo6HhgVVAhKv
+ u3ugxsE1BC14e9A7OdMIlrktLs7V2ABC5fzjSYUCZXIL1CfyjMF8aJdysPE4d66yKvJkpw
+ vkwUJ4Tet23YXTU3PLOuAf0B9pBk8QmG6I/dXwC58sVGzFvDxSJ1XxTO/YT8BAsNDBAA8Q
+ m8fGM8DOurRkA1lLbaSIybBP6mluxhFE2Bs121itZMY0tWLeK6He8N48JTVdrg==
+Date: Fri, 24 Jun 2022 16:53:25 +0200
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Yang Yingliang <yangyingliang@huawei.com>
-Subject: Re: [PATCH -next] drm/logicvc: Fix error return code in
- logicvc_layer_init()
-Message-ID: <YrXOjxxhRbC/cgCA@aptenodytes>
-References: <20220623140507.626062-1-yangyingliang@huawei.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [bug report] drm: Add support for the LogiCVC display controller
+Message-ID: <YrXP5Q16k/X0EVEI@aptenodytes>
+References: <Yqh6ErANSTEJpfvl@kili>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HhRDR0/yj0N7IbgY"
+ protocol="application/pgp-signature"; boundary="LYGhbjtQFHG68ekF"
 Content-Disposition: inline
-In-Reply-To: <20220623140507.626062-1-yangyingliang@huawei.com>
+In-Reply-To: <Yqh6ErANSTEJpfvl@kili>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,74 +50,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---HhRDR0/yj0N7IbgY
+--LYGhbjtQFHG68ekF
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Yang,
+Hello Dan,
 
-On Thu 23 Jun 22, 22:05, Yang Yingliang wrote:
-> Fix error return code when logicvc_layer_formats_lookup() fails.
+On Tue 14 Jun 22, 15:07, Dan Carpenter wrote:
+> Hello Paul Kocialkowski,
 >=20
-> Fixes: efeeaefe9be5 ("drm: Add support for the LogiCVC display controller=
-")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> The patch efeeaefe9be5: "drm: Add support for the LogiCVC display
+> controller" from May 20, 2022, leads to the following Smatch static
+> checker warning:
+>=20
+> 	drivers/gpu/drm/logicvc/logicvc_layer.c:320 logicvc_layer_buffer_find_se=
+tup()
+> 	warn: impossible condition '(hoffset > (((((1))) << (16)) - 1)) =3D> (0-=
+u16max > u16max)'
+>=20
+> drivers/gpu/drm/logicvc/logicvc_layer.c
+>     258 int logicvc_layer_buffer_find_setup(struct logicvc_drm *logicvc,
+>     259                                     struct logicvc_layer *layer,
+>     260                                     struct drm_plane_state *state,
+>     261                                     struct logicvc_layer_buffer_s=
+etup *setup)
+>     262 {
+>     263         struct drm_device *drm_dev =3D &logicvc->drm_dev;
+>     264         struct drm_framebuffer *fb =3D state->fb;
+>     265         /* All the supported formats have a single data plane. */
+>     266         u32 layer_bytespp =3D fb->format->cpp[0];
+>     267         u32 layer_stride =3D layer_bytespp * logicvc->config.row_=
+stride;
+>     268         u32 base_offset =3D layer->config.base_offset * layer_str=
+ide;
+>     269         u32 buffer_offset =3D layer->config.buffer_offset * layer=
+_stride;
+>     270         u8 buffer_sel =3D 0;
+>     271         u16 voffset =3D 0;
+>     272         u16 hoffset =3D 0;
+>     273         phys_addr_t fb_addr;
+>     274         u32 fb_offset;
+>     275         u32 gap;
+>     276=20
+>     277         if (!logicvc->reserved_mem_base) {
+>     278                 drm_err(drm_dev, "No reserved memory base was reg=
+istered!\n");
+>     279                 return -ENOMEM;
+>     280         }
+>     281=20
+>     282         fb_addr =3D drm_fb_cma_get_gem_addr(fb, state, 0);
+>     283         if (fb_addr < logicvc->reserved_mem_base) {
+>     284                 drm_err(drm_dev,
+>     285                         "Framebuffer memory below reserved memory=
+ base!\n");
+>     286                 return -EINVAL;
+>     287         }
+>     288=20
+>     289         fb_offset =3D (u32) (fb_addr - logicvc->reserved_mem_base=
+);
+>     290=20
+>     291         if (fb_offset < base_offset) {
+>     292                 drm_err(drm_dev,
+>     293                         "Framebuffer offset below layer base offs=
+et!\n");
+>     294                 return -EINVAL;
+>     295         }
+>     296=20
+>     297         gap =3D fb_offset - base_offset;
+>     298=20
+>     299         /* Use the possible video buffers selection. */
+>     300         if (gap && buffer_offset) {
+>     301                 buffer_sel =3D gap / buffer_offset;
+>     302                 if (buffer_sel > LOGICVC_BUFFER_SEL_MAX)
+>     303                         buffer_sel =3D LOGICVC_BUFFER_SEL_MAX;
+>     304=20
+>     305                 gap -=3D buffer_sel * buffer_offset;
+>     306         }
+>     307=20
+>     308         /* Use the vertical offset. */
+>     309         if (gap && layer_stride && logicvc->config.layers_configu=
+rable) {
+>     310                 voffset =3D gap / layer_stride;
+>     311                 if (voffset > LOGICVC_LAYER_VOFFSET_MAX)
+>     312                         voffset =3D LOGICVC_LAYER_VOFFSET_MAX;
+>     313=20
+>     314                 gap -=3D voffset * layer_stride;
+>     315         }
+>     316=20
+>     317         /* Use the horizontal offset. */
+>     318         if (gap && layer_bytespp && logicvc->config.layers_config=
+urable) {
+>     319                 hoffset =3D gap / layer_bytespp;
+>=20
+> Can "gap / layer_bytespp" ever be more than USHRT_MAX?  Because if so
+> that won't fit into "hoffset"
 
-Good catch! Yet Dan submitted a similar fix earlier, which is already
-on its way to the tree.
+Well there is nothing that really restricts the size of the gap, so yes this
+could happen. At this stage the gap should have been reduced already but we
+never really know.
 
-Thanks!
+Would it make sense to add a check that gap / layer_bytespp <=3D USHRT_MAX
+in that if statement?
+
+Thanks for the catch.
 
 Paul
 
-> ---
->  drivers/gpu/drm/logicvc/logicvc_layer.c | 1 +
->  1 file changed, 1 insertion(+)
+> --> 320                 if (hoffset > LOGICVC_DIMENSIONS_MAX)
+>     321                         hoffset =3D LOGICVC_DIMENSIONS_MAX;
+>     322=20
+>     323                 gap -=3D hoffset * layer_bytespp;
+>     324         }
+>     325=20
+>     326         if (gap) {
+>     327                 drm_err(drm_dev,
+>     328                         "Unable to find layer %d buffer setup for=
+ 0x%x byte gap\n",
+>     329                         layer->index, fb_offset - base_offset);
+>     330                 return -EINVAL;
+>     331         }
+>     332=20
+>     333         drm_dbg_kms(drm_dev, "Found layer %d buffer setup for 0x%=
+x byte gap:\n",
+>     334                     layer->index, fb_offset - base_offset);
+>     335=20
+>     336         drm_dbg_kms(drm_dev, "- buffer_sel =3D 0x%x chunks of 0x%=
+x bytes\n",
+>     337                     buffer_sel, buffer_offset);
+>     338         drm_dbg_kms(drm_dev, "- voffset =3D 0x%x chunks of 0x%x b=
+ytes\n", voffset,
+>     339                     layer_stride);
+>     340         drm_dbg_kms(drm_dev, "- hoffset =3D 0x%x chunks of 0x%x b=
+ytes\n", hoffset,
+>     341                     layer_bytespp);
+>     342=20
+>     343         if (setup) {
+>     344                 setup->buffer_sel =3D buffer_sel;
+>     345                 setup->voffset =3D voffset;
+>     346                 setup->hoffset =3D hoffset;
+>     347         }
+>     348=20
+>     349         return 0;
+>     350 }
 >=20
-> diff --git a/drivers/gpu/drm/logicvc/logicvc_layer.c b/drivers/gpu/drm/lo=
-gicvc/logicvc_layer.c
-> index fbebe966f93a..54b5931d879f 100644
-> --- a/drivers/gpu/drm/logicvc/logicvc_layer.c
-> +++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
-> @@ -489,6 +489,7 @@ static int logicvc_layer_init(struct logicvc_drm *log=
-icvc,
-> =20
->  	formats =3D logicvc_layer_formats_lookup(layer);
->  	if (!formats) {
-> +		ret =3D -EINVAL;
->  		drm_err(drm_dev, "Failed to lookup formats for layer #%d\n",
->  			index);
->  		goto error;
-> --=20
-> 2.25.1
->=20
+> regards,
+> dan carpenter
 
 --=20
 Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---HhRDR0/yj0N7IbgY
+--LYGhbjtQFHG68ekF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK1zo8ACgkQ3cLmz3+f
-v9Hauwf/Sr5lfkjLYZPyt+DqT+dWh/4eDCQP939k7QgLZ1fRsHbgu8HE3n48p6qy
-yhYLpb4/hhL7F3W7dtYEPgbM9OmDts34GycSqQFjnkH18BhMbKTV9p+ZnVeFtALb
-CzYGK6gkBekzIlqmyOeOF9MdigEQJMA57WvbdTHvUCZWGaQX+HGqFbm8hRUX60To
-+uK0ByhM94zYW3/m9R6dzf8ysr4kCJIr33VhH7hf6/ORk3Rr9H2+z86C/4V6/NIs
-zzCzlUHem9ff5UoqghlCqm/543eHSFO5LsRQ0UA86OW/kbmYL1QLYHT4KC60OPZb
-9eriFOQwlKbTSnU81IxK5tkZ6LUnZA==
-=J0ua
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK1z+UACgkQ3cLmz3+f
+v9EBtwf/Yd2zxaRR05zhNJJfhKNlHA2DTCgTf5Pjv+1eGiUYIMzMaNYCKVGN6ArQ
+l94ubI0GWTVhB+hXT4FHrR+MxTLJb3Ho3e01zVoOQihS/xTQ5tEhtVIrAqQ2xidT
+mKNQ54FyJ+C4uE0XdIT2f5NA42MZGukaDNX7DODzs9i7DIsElrjqoOS8nNzQCY5l
+71mxM8XWLHDutncOtmK3/0GOdhdU6Uuw+ADhVmcuap10tdnwwju2oauJ+ojfcVAf
+zojaIcnxILulXZA55EacQMylGqXgqzMNrkESpE11mQnBRdY4bz7yYLSW4+5aP6Rm
+3yPniSj46q/bIeoPI2d2LycMTzDRkA==
+=Vaat
 -----END PGP SIGNATURE-----
 
---HhRDR0/yj0N7IbgY--
+--LYGhbjtQFHG68ekF--
