@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D2655A9E7
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 14:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D9B55A9E6
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 14:25:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DFDA10E5AD;
-	Sat, 25 Jun 2022 12:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECD2010E311;
+	Sat, 25 Jun 2022 12:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E34110E608
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3C6112066
  for <dri-devel@lists.freedesktop.org>; Sat, 25 Jun 2022 12:25:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656159903;
- bh=Wnq6p+d4InGf1wEYwUrelD14sX0XHJhP1IW1KPsYRwM=;
+ s=badeba3b8450; t=1656159904;
+ bh=XzWlqKg0tZRmkyyhAvOskP/AntTF8gQ4y3i07JTitN0=;
  h=X-UI-Sender-Class:From:To:Subject:Date:In-Reply-To:References;
- b=NW+j1aQ75KqxlsNCALZWLBxL7zNmtgc+mY1V44/K+/cQOWJ6Jy6oz2EgEL/dATLEa
- 0Udp9WMfkHNlHosICwsbsyiz47RtOmhbQ4snGAUx2iVLTowEYi3j1ym/amT5G+WRRN
- 71wW/PCAtYi9x5hOixGUViFjWNzpDmzd9TFTsrIg=
+ b=Wr7PGcBvGrftl27TdTYgD4sB1GXS4scvf+MKOVNTny3VJP0xPekV3HiEmKec73DOV
+ 9Lo+3M8ABdGrds+AohjfpeuNyixW+hNhxVmbTa+JS0zgOJ0UNcu6GuIN43EW7GLjBV
+ 4ADJOk0ByrfAaPNFZyxqVCx6IfT5BAv3htk7G4Qc=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100.fritz.box ([92.116.162.44]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mof5H-1nKxSY34un-00p6vw; Sat, 25
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MnakR-1nM4za3cCz-00ja5s; Sat, 25
  Jun 2022 14:25:03 +0200
 From: Helge Deller <deller@gmx.de>
 To: linux-fbdev@vger.kernel.org, daniel.vetter@ffwll.ch,
  dri-devel@lists.freedesktop.org, deller@gmx.de
-Subject: [PATCH v2 3/4] fbmem: Fix input parameter checks for user-provided
- screen resolution changes
-Date: Sat, 25 Jun 2022 14:25:01 +0200
-Message-Id: <20220625122502.68095-4-deller@gmx.de>
+Subject: [PATCH v2 4/4] fbmem: Catch possible driver bugs regarding too small
+ virtual screen size
+Date: Sat, 25 Jun 2022 14:25:02 +0200
+Message-Id: <20220625122502.68095-5-deller@gmx.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220625122502.68095-1-deller@gmx.de>
 References: <20220625122502.68095-1-deller@gmx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+NXCwtedkW7UnMcnTWz1RmraG/kMiUP51rYZeRfjHHYTKNIllcY
- tR9MyUPFfObHshIYx+rJsAHWBxu2zn/htbNhONqaEWB+kO5uWAt+V/Bt009BhAoo0O3sH+g
- 9jNhRmDLMHpvTR+EpE/+FwXeJkpxhOlu2e4Jw/EFOv4fuQI5esj5XBLEtPNy4Ko9/P3d0RI
- 7YAmVqq7A1PlB8iGlETXg==
+X-Provags-ID: V03:K1:W8cNngBMUBHHJUV7dXjFa42WjdXUhH2wea0EeF11rpP1tPAtcrj
+ Vy4tmjTNURbq+eTLhYSJ3RbTSUqWcUOiJh6tMT8hIxIdAt+3g0UBYjPfsRHg+/1Jfvt6uSz
+ tkKkaHPi3xNpb4hamxPTSKlGbLRmYfthkj0i72290nt7jfNHaTATIMH4bWHxHhjVPpEvCEP
+ AKwv6u3Wv3lMQkKJHJsMA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/gZfrfcIOvY=:ZDyG0rsg7xLKq+3LE1ET1v
- g/npmexOg0aO4vA1bQ30/uXTM2NsxFl8XjzOsbFR91yih2y38v2qYzH841v4ubU7i4vW6C7eu
- 7igWul+LTZ9CrtFEBfnyRTN7UxSLu7Ng0gT7C7tNxaXGkokiWD3O2Drh0Ai33FdwDOgAoTf1b
- d49WxvCswQrw07dJKXXkel+quTfHL1buafx924X8QGEVY4dhU7X+Lvm+Prer/ocO3CRYHQthS
- 0D6RYsqe8350TbkOKiNNGrUucB9KGl3xn9Eyw8ENmleEx8JjSh9so5N/iRVCyE9w6UAmPsz4l
- n+MQ5ycbrFNZ97WuEMlNU+5puHMOXHSONb/xecFRle/s0fJ7q9k7+97gkbZgLMTNvDwhop4Er
- 1L8VafK8+9ztUYOvZ7zqu6jjwO1qMbdQAfdg7pW90/ZAVDcjCmBF/SOxKCA9kUFJCzCHqByg1
- qt3Xv1wqg5kqo1vW/J9Qeb/CAjiIN1O9q192myBAKGiL1Pue+uHtk26I/SElzPAESsq41TzZo
- nDDn9MWtaBlPwzjJDIbD6e6bTzaHbTS01ml9LGWOSV5oLXY5Z0sANkP/LJJyPqqO6q0f5Xm11
- a2hkb6imZk9u1Y8SULRZvIUfMeX8BwwTzXFUdUld1vt1u0iewEHShjqs+M8UMwxb83xbQtRs+
- 2fIivXkHZTdM7U5oaMABMYzqsz4reLPa0WAj3NAsx+1RAHPGuoUAu3OcXXPNl6Kokuek8ice+
- gB5AUfB0OedvSyH+8YtQkqonGZ9NKSD6X1CGlveLVkhIgF641MfBjgZP5TSZhKAn4g6Q0sh04
- Q7ZWmviWeTrSft+CTYFK4iBdVqTgcy2AId7ZgLbByyRrRTrf9Mbw0HLczyqiOJ0EQ3Ny7Zwn9
- h/L6Fp3op99L66yXfpLYXxzV7JJ/fhNRizAzT5z/WcoA2i5epcfqrgWJxPhDF4qRMZkID+Qe8
- qeJrbnejnR0+ZwLX2oVExEr6XUbfAWm/VI/WqDRqROkL73a/0rLpw5K8VBzkIhnLsWS1C5gJE
- t+KEYu6SVHOAYHwydK2boXzj4vMQXaOS3KicDAv//9BJCV1TbgTYDHF8u4JOzEp9IkBRiMoqW
- yz5jx9XgE5X97kFqsM5/DCvX7Ch/t3GSMtVZui6Jn0uJ3EyMkzvwkuv0w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:j0Cb/1I6yu4=:kKTYRcbYUs3HdoMx5WWEa9
+ PWTco1Zyie4e+8SCPHs7CfcbBKjiYeXfSiyuRZwqzSUXYBPKn+P4XMedgrbVbzx5sifvqZ4qT
+ zs0guonrV/KGovkhFUlEP+ztrTYlqQODHsLqHImFx/151dDjauIpWizL471bVqUeLW/SnlZh6
+ RuFIatAIRoMkKxGEoKICfNV/EUL0P8MEQ7TNDQ1G+dojcBmxUSbWSQFUz+cx0u4ia2DPQRiiW
+ 02I+/vZZCqmMUkb9i1ueAIY9LjARrAdSwTdyb4W6M8uCtg4CaIQfjtcXV8lx39lez1I2lYq08
+ C+KEnB+yk9tUVJ/FSn1ajoVXeJnXswos/BY+mjBdE3CBiZmPjb75NLbYWSu/0XeTiAz2tv8vS
+ xm6l28aj0WyDSIhMcb+d6n6pWCq73CwATDnpq+FUS+X+8IJLSuRxSK5skIB3Dz3bIzRT7Q0sA
+ /nlsd7a0XHhFOYglzzQ8fO7aRHftjDojl8HOKNFpyd99YGibUdYbogYkGejd7P/6PHaglxyCd
+ g6N4AARSvp6lDOdH8nZTf1vkmhjU6SDeq2E2g+Mq4oNH02GzeBGyXXg1TbVZG1cNds54xoTtg
+ J9P5HAOgSi5HQbP86inBoEfhHWhAP38R9uKHcroXAc63W1EdM8cPn7dN04WWyfR+P6yfE2yPX
+ 0qdDK1FS+KcLlVeznK0LkpnzFltXUSz6E8tsMnLTQcbUCIXM3XX1vmE2q5mti26kn6u4oyL/n
+ 5OaB4zD97mr7GuzJoWQAKSac/7cn6NFxaxAxMd0QMs+YyQxI8nNd1LwZD5bV7zYLjzbEFPrRe
+ YHFffqT+1AxFrNWYeRXPpVO0lH8W/NTTUSdJPye5nUpyQY245VXYCmT7HIH07U7STPeJS6NJf
+ dE4LdiB74KhARZVo9Nv1LIC7P8/MNV0QcZcNIFfEVzM7QNKpu/A5/xsJbURiWfjZqRY7Fl/1G
+ h2+wn+frd5qJIaDnJDC/yGTljlPtPfKWT+LYqqyrNMsu6k8lIaF2EAFtn7Xt6yJ+ITK4TSd8Q
+ 8V7RzQzK2is6145W5N7eA7Opk0Tab0mVS83NXmLep6rrHxHYqs99X4SdRURfnqUbfzSfpcM6S
+ F5MV6LrRZH1GiVa9O/njI+G76d03bIV+fwNLv4ha9TZTusRXjlP2TwmCQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,42 +72,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enhance the checks in the FBIOPUT_VSCREENINFO ioctl handler to verify
-the user-provided new screen size for:
-
-a) virtual screen size >=3D physical screen size, and
-
-b) new screen size is bigger than currently configured console font size.
-
-Return -EINVAL on invalid input.
+Make sure that we catch, report and fix up fbdev and drm graphic drivers w=
+hich
+got the virtual screen resolution smaller than the physical screen resolut=
+ion.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 Cc: stable@vger.kernel.org # v5.4+
 =2D--
- drivers/video/fbdev/core/fbmem.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/video/fbdev/core/fbmem.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/f=
 bmem.c
-index afa2863670f3..50fb66b954d6 100644
+index 50fb66b954d6..6d262e341023 100644
 =2D-- a/drivers/video/fbdev/core/fbmem.c
 +++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1106,7 +1106,13 @@ static long do_fb_ioctl(struct fb_info *info, unsig=
-ned int cmd,
- 			return -EFAULT;
- 		console_lock();
- 		lock_fb_info(info);
--		ret =3D fb_set_var(info, &var);
-+		if (var.xres_virtual < var.xres ||
-+		    var.yres_virtual < var.yres)
-+			ret =3D -EINVAL;
-+		if (!ret)
-+			ret =3D fbcon_modechange_possible(info, &var);
-+		if (!ret)
-+			ret =3D fb_set_var(info, &var);
- 		if (!ret)
- 			fbcon_update_vcs(info, var.activate & FB_ACTIVATE_ALL);
- 		unlock_fb_info(info);
+@@ -1006,6 +1006,12 @@ fb_set_var(struct fb_info *info, struct fb_var_scre=
+eninfo *var)
+ 	if (var->xres < 8 || var->yres < 8)
+ 		return -EINVAL;
+
++	/* make sure virtual resolution >=3D physical resolution */
++	if (WARN_ON(var->xres_virtual < var->xres))
++		var->xres_virtual =3D var->xres;
++	if (WARN_ON(var->yres_virtual < var->yres))
++		var->yres_virtual =3D var->yres;
++
+ 	/* Too huge resolution causes multiplication overflow. */
+ 	if (check_mul_overflow(var->xres, var->yres, &unused) ||
+ 	    check_mul_overflow(var->xres_virtual, var->yres_virtual, &unused))
 =2D-
 2.35.3
 
