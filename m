@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6038655AD14
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jun 2022 00:55:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C4255AD19
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jun 2022 00:55:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D467010E97A;
-	Sat, 25 Jun 2022 22:55:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8358010EBFF;
+	Sat, 25 Jun 2022 22:55:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4CB10E97A;
- Sat, 25 Jun 2022 22:55:17 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- 73-20020a17090a0fcf00b001eaee69f600so6043495pjz.1; 
- Sat, 25 Jun 2022 15:55:17 -0700 (PDT)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5572210E7A4;
+ Sat, 25 Jun 2022 22:55:20 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ b12-20020a17090a6acc00b001ec2b181c98so8929254pjm.4; 
+ Sat, 25 Jun 2022 15:55:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mxFT+vmlgH8OMaHZf0MGM1sQcdQOD7qQazzf52IZIdo=;
- b=SrSp3snXs0pK5mdm23qDw9AEOirWroW+OI7UXjNb32EksivAx79AdLoB5oK0MkDDjR
- YbjthKdN+bYDvOC0ds1PUimv+YinYSVg5F5CYdOElJl+/SuxTzoJ9//7y2YAWIhCAiYo
- x6X9yQcbAP7deozdGdurCRza18wqBxQso10Fub8cyR1txrvbkjr7/H7qODDPyDMqYsEM
- InEBuyaU+Fz2XZrnuBshy+raVq51J16T56l0VYkCXMKKN0uv5al3kIgGYXXGveFVMnwA
- YMV3j4AswqGKsOxyeIo1oMLoL6Ztn7HYvnkrg46GQw5nOiAVPh9xT2lECwS7qVQ4ZduD
- UFXw==
+ bh=4TbOfcqFkaHon89dsPDId7NNakdXJT5mDYYEM5ZbQu4=;
+ b=OtlXdIyCatO6hpkm68NAcRAAkLob4BqDXO2VG+gqvKveiJRLF2weU9Qlo345JB2koH
+ wZ754wNLdLlnBld88Ud+MZ09X6ILvBBDS6Tsvit2AhF0ymXs8h71ayrHvaAsBlDpuyxd
+ 1uALrZclRfRKV0ECe/WesAG+7HK+zetifiDB02KTm7DRrAqsTf6f9suPqaLg4ctCuGLR
+ vgm4s+RHGq/H6kKrvZzt5XOvilqUBmqRrVY/NqbsNtLoJEYtlr6YQ5LRpvxQ/QiFgSar
+ 7VTfiVhE4g9dxb7GagTDT1HynHPx6oOEbJq6qyw6zn6EhtmcdZZBPenkwew3YwffhVCW
+ 9GdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mxFT+vmlgH8OMaHZf0MGM1sQcdQOD7qQazzf52IZIdo=;
- b=V/3IgNixQpYkRYhfq+WqubVGNqifSpJHObu3vwpfThkfxhpn6W4NgaecRI6VyScLHY
- Asi/nG79K7ep6InbNeLfghJCexAviF0UMo7jYLHtGNAfR2QFfRFnrns72vnHyiLLsKBz
- EfFOJ/1HiRJHTchOLUiDTIOt1lWr9UYXpL8oeRPe2j2MlJDYDTZla10rjE/5Oih2RjcW
- AG+89OSjGDruQu0w4bMkl7+RnYnDPkg0jBPfbBn04CzncbdGNrv26G9SyPg87PkjRAQy
- mPxlJkHZatQqP7Q2l5M3z25+uo8lj0QxQIp8Zp9du4vQEmQtK8cFest0mTgPD4luxwCx
- 0n9Q==
-X-Gm-Message-State: AJIora9o7BBRNVXUB7MoDqY7Gh2Zk1pqnTF1ECkxxkR/bVqkHxk7d7ZX
- pVqwFXhc4KBCp+1fuAy6Ii5oBSmoz5g=
-X-Google-Smtp-Source: AGRyM1uKXZy+zqzm5xAuTM9oZrssykuV7f/ZFNRCHd/yi6B1VGx7yRW2GbsY3C+0S7YzScee+WKgaQ==
-X-Received: by 2002:a17:90b:4c4c:b0:1ed:41ec:599d with SMTP id
- np12-20020a17090b4c4c00b001ed41ec599dmr4801210pjb.202.1656197716188; 
- Sat, 25 Jun 2022 15:55:16 -0700 (PDT)
+ bh=4TbOfcqFkaHon89dsPDId7NNakdXJT5mDYYEM5ZbQu4=;
+ b=pY9Z8r3QgtTApMnzkgvR9b2BwGIRqfzOKMyPB9uye0juncUGZnL3b9ZFClniGAoEbM
+ WeZAHxYMr4goAp+ScSSFKuN5sjXBIW6sju1TLXtLSljhR0C2+KGlLRmfjTDT5lTxohfK
+ MytTiXmx3/m0BJ3cx64ju6Nhgi+e5CgDD+ZeZaaoRLhZe5c18wOPqgiYXztdjIL1C8Av
+ LHZMuL/gzm6AfdDNsNWYWQhY6iNW6DS0zCJOmslxqyOa6ddSQZ9YR4Lz4eE3hYhSlEx2
+ Jc7zGw6zmqPMgIou2FPjps6OBMCu30OXYrU+xgHpKWMsuXDoAlVcODqfqXXuaqPXWWY3
+ d7cA==
+X-Gm-Message-State: AJIora8oOfkgwF4r+pMWxO9hBM8/xioWntp05xgsn3wgyusxU7NTvvej
+ jVTMSAPsPdcmLkQaqh7WHjg6Ihnob6U=
+X-Google-Smtp-Source: AGRyM1uf6rORMtCQCRHJkiXjJZLzVLkeznHqyt6UGg+Lo81Wba1/QNXRY5pAiUWaRrQRJzFSghWYFQ==
+X-Received: by 2002:a17:902:7582:b0:16a:307a:5965 with SMTP id
+ j2-20020a170902758200b0016a307a5965mr6356726pll.159.1656197719209; 
+ Sat, 25 Jun 2022 15:55:19 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
  by smtp.gmail.com with ESMTPSA id
- s144-20020a632c96000000b003c265b7d4f6sm4022256pgs.44.2022.06.25.15.55.14
+ bh2-20020a056a02020200b0040d2aea1643sm3962619pgb.29.2022.06.25.15.55.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Jun 2022 15:55:15 -0700 (PDT)
+ Sat, 25 Jun 2022 15:55:18 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 07/15] drm/msm/gem: Rename update_inactive
-Date: Sat, 25 Jun 2022 15:54:42 -0700
-Message-Id: <20220625225454.81039-8-robdclark@gmail.com>
+Subject: [PATCH 08/15] drm/msm/gem: Rename to pin/unpin_pages
+Date: Sat, 25 Jun 2022 15:54:43 -0700
+Message-Id: <20220625225454.81039-9-robdclark@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220625225454.81039-1-robdclark@gmail.com>
 References: <20220625225454.81039-1-robdclark@gmail.com>
@@ -80,116 +80,99 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Really what this is doing is updating various LRU lists.
+Since that is what these fxns actually do.. they are getting *pinned*
+pages (as opposed to cases where we need pages, but don't need them
+pinned, like CPU mappings).
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c       | 18 +++++++++++++-----
+ drivers/gpu/drm/msm/msm_gem.h       |  4 ++--
+ drivers/gpu/drm/msm/msm_gem_prime.c |  4 ++--
+ 3 files changed, 17 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index b55d252aef17..97467364dc0a 100644
+index 97467364dc0a..3da64c7f65a2 100644
 --- a/drivers/gpu/drm/msm/msm_gem.c
 +++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -19,7 +19,7 @@
- #include "msm_gpu.h"
- #include "msm_mmu.h"
+@@ -177,30 +177,38 @@ static void put_pages(struct drm_gem_object *obj)
+ 	}
+ }
  
--static void update_inactive(struct msm_gem_object *msm_obj);
-+static void update_lru(struct drm_gem_object *obj);
- 
- static dma_addr_t physaddr(struct drm_gem_object *obj)
+-struct page **msm_gem_get_pages(struct drm_gem_object *obj)
++static struct page **msm_gem_pin_pages_locked(struct drm_gem_object *obj)
  {
-@@ -132,7 +132,7 @@ static struct page **get_pages(struct drm_gem_object *obj)
- 		if (msm_obj->flags & MSM_BO_WC)
- 			sync_for_device(msm_obj);
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	struct page **p;
  
--		update_inactive(msm_obj);
-+		update_lru(obj);
+-	msm_gem_lock(obj);
++	GEM_WARN_ON(!msm_gem_is_locked(obj));
+ 
+ 	if (GEM_WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED)) {
+-		msm_gem_unlock(obj);
+ 		return ERR_PTR(-EBUSY);
  	}
  
- 	return msm_obj->pages;
-@@ -193,7 +193,7 @@ struct page **msm_gem_get_pages(struct drm_gem_object *obj)
- 
+ 	p = get_pages(obj);
+-
  	if (!IS_ERR(p)) {
  		msm_obj->pin_count++;
--		update_inactive(msm_obj);
-+		update_lru(obj);
+ 		update_lru(obj);
  	}
  
++	return p;
++}
++
++struct page **msm_gem_pin_pages(struct drm_gem_object *obj)
++{
++	struct page **p;
++
++	msm_gem_lock(obj);
++	p = msm_gem_pin_pages_locked(obj);
  	msm_gem_unlock(obj);
-@@ -207,7 +207,7 @@ void msm_gem_put_pages(struct drm_gem_object *obj)
- 	msm_gem_lock(obj);
- 	msm_obj->pin_count--;
- 	GEM_WARN_ON(msm_obj->pin_count < 0);
--	update_inactive(msm_obj);
-+	update_lru(obj);
- 	msm_gem_unlock(obj);
++
+ 	return p;
  }
  
-@@ -449,7 +449,7 @@ void msm_gem_unpin_locked(struct drm_gem_object *obj)
- 	msm_obj->pin_count--;
- 	GEM_WARN_ON(msm_obj->pin_count < 0);
- 
--	update_inactive(msm_obj);
-+	update_lru(obj);
- }
- 
- struct msm_gem_vma *msm_gem_get_vma_locked(struct drm_gem_object *obj,
-@@ -658,7 +658,7 @@ static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
- 			goto fail;
- 		}
- 
--		update_inactive(msm_obj);
-+		update_lru(obj);
- 	}
- 
- 	return msm_obj->vaddr;
-@@ -730,7 +730,7 @@ int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv)
- 	 * between inactive lists
- 	 */
- 	if (msm_obj->active_count == 0)
--		update_inactive(msm_obj);
-+		update_lru(obj);
- 
- 	msm_gem_unlock(obj);
- 
-@@ -757,7 +757,7 @@ void msm_gem_purge(struct drm_gem_object *obj)
- 	put_iova_vmas(obj);
- 
- 	msm_obj->madv = __MSM_MADV_PURGED;
--	update_inactive(msm_obj);
-+	update_lru(obj);
- 
- 	drm_gem_free_mmap_offset(obj);
- 
-@@ -792,7 +792,7 @@ void msm_gem_evict(struct drm_gem_object *obj)
- 
- 	put_pages(obj);
- 
--	update_inactive(msm_obj);
-+	update_lru(obj);
- }
- 
- void msm_gem_vunmap(struct drm_gem_object *obj)
-@@ -835,13 +835,14 @@ void msm_gem_active_put(struct drm_gem_object *obj)
- 	GEM_WARN_ON(!msm_gem_is_locked(obj));
- 
- 	if (--msm_obj->active_count == 0) {
--		update_inactive(msm_obj);
-+		update_lru(obj);
- 	}
- }
- 
--static void update_inactive(struct msm_gem_object *msm_obj)
-+static void update_lru(struct drm_gem_object *obj)
+-void msm_gem_put_pages(struct drm_gem_object *obj)
++void msm_gem_unpin_pages(struct drm_gem_object *obj)
  {
--	struct msm_drm_private *priv = msm_obj->base.dev->dev_private;
-+	struct msm_drm_private *priv = obj->dev->dev_private;
-+	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
  
- 	GEM_WARN_ON(!msm_gem_is_locked(&msm_obj->base));
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 0ab0dc4f8c25..6fe521ccda45 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -159,8 +159,8 @@ int msm_gem_get_and_pin_iova(struct drm_gem_object *obj,
+ 		struct msm_gem_address_space *aspace, uint64_t *iova);
+ void msm_gem_unpin_iova(struct drm_gem_object *obj,
+ 		struct msm_gem_address_space *aspace);
+-struct page **msm_gem_get_pages(struct drm_gem_object *obj);
+-void msm_gem_put_pages(struct drm_gem_object *obj);
++struct page **msm_gem_pin_pages(struct drm_gem_object *obj);
++void msm_gem_unpin_pages(struct drm_gem_object *obj);
+ int msm_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 		struct drm_mode_create_dumb *args);
+ int msm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c b/drivers/gpu/drm/msm/msm_gem_prime.c
+index dcc8a573bc76..c1d91863df05 100644
+--- a/drivers/gpu/drm/msm/msm_gem_prime.c
++++ b/drivers/gpu/drm/msm/msm_gem_prime.c
+@@ -63,12 +63,12 @@ struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
+ int msm_gem_prime_pin(struct drm_gem_object *obj)
+ {
+ 	if (!obj->import_attach)
+-		msm_gem_get_pages(obj);
++		msm_gem_pin_pages(obj);
+ 	return 0;
+ }
  
+ void msm_gem_prime_unpin(struct drm_gem_object *obj)
+ {
+ 	if (!obj->import_attach)
+-		msm_gem_put_pages(obj);
++		msm_gem_unpin_pages(obj);
+ }
 -- 
 2.36.1
 
