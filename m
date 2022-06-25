@@ -2,57 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F6E55A5A3
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 02:54:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 963DB55A5AF
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 03:03:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1DB010E5EF;
-	Sat, 25 Jun 2022 00:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C353E10E885;
+	Sat, 25 Jun 2022 01:02:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B743C10E5EF
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jun 2022 00:54:26 +0000 (UTC)
-X-UUID: 780357f6997c455fb5477ca2b5b98988-20220625
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:de213be8-96b4-4f51-8d3f-3c2a1c709920, OB:0,
- LO
- B:0,IP:0,URL:25,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:70
-X-CID-INFO: VERSION:1.1.6, REQID:de213be8-96b4-4f51-8d3f-3c2a1c709920, OB:0,
- LOB:
- 0,IP:0,URL:25,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Spam_GS981B3D,AC
- TION:quarantine,TS:70
-X-CID-META: VersionHash:b14ad71, CLOUDID:99a476ea-f7af-4e69-92ee-0fd74a0c286c,
- C
- OID:4ca74c2c1c80,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 780357f6997c455fb5477ca2b5b98988-20220625
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <miles.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1674105141; Sat, 25 Jun 2022 08:54:19 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Sat, 25 Jun 2022 08:54:18 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 25 Jun 2022 08:54:18 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Sat, 25 Jun 2022 08:54:18 +0800
-From: Miles Chen <miles.chen@mediatek.com>
-To: <peterwu.pub@gmail.com>
-Subject: Re: [PATCH v3 02/14] dt-bindings: power: supply: Add Mediatek MT6370
- Charger
-Date: Sat, 25 Jun 2022 08:54:18 +0800
-Message-ID: <20220625005418.7565-1-miles.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220623115631.22209-3-peterwu.pub@gmail.com>
-References: <20220623115631.22209-3-peterwu.pub@gmail.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9143710ED77;
+ Sat, 25 Jun 2022 01:02:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1656118974; x=1687654974;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=l0LIQI6rlrrEf732xfWRzYfIPTbHKtBwlsXUTxcqAJw=;
+ b=Tu0rmKEhmrY04mhFNmNDjYwPjTDu2aY2TVNeUySPQ4SUFMOonBqAkj4x
+ kdHdQVKNNmWZLQ0pEY3JioHQ5pCbree2XNJ+J+wAm0qZhtihomNEQZPNU
+ SREJgy5MHRiiTWeXRVKa3VPtVHC0XdDNSdTzki/pmJ61olTG5QWPC8CRy o=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 24 Jun 2022 18:02:54 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 18:02:53 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 24 Jun 2022 18:02:53 -0700
+Received: from [10.110.58.84] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 24 Jun
+ 2022 18:02:52 -0700
+Message-ID: <1a2e7574-8f78-d48e-a189-020ffcd39f60@quicinc.com>
+Date: Fri, 24 Jun 2022 18:02:50 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v1 2/3] drm/msm/dp: decoupling dp->id out of dp
+ controller_id at scxxxx_dp_cfg table
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <1656090912-18074-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n53kNCK0ajHfY2WQr5HEQZtZSBLnhfbTuZwaUNEOZhsKPg@mail.gmail.com>
+ <fa7f8bf1-33cd-5515-0143-6596df2bd740@quicinc.com>
+ <CAE-0n51g-EVsC-i9=sJV-ySa8VnE+yT7cg=b-TNMi9+3uBiOVA@mail.gmail.com>
+ <326912ff-9771-0711-366d-79acd436908b@quicinc.com>
+ <CAE-0n51qrdrFtSr0vRwgYkMgSZfnzQuinaUROQsp30QoDchWQA@mail.gmail.com>
+ <0ff3d6a3-dc5c-7c77-f8a1-6c4f6c1a3215@quicinc.com>
+ <CAE-0n515hMKqQ+Vj1Sg54PpwkbWMYJ77QN+y+KZNBWymjhpWKw@mail.gmail.com>
+ <66ff4642-f268-f5b0-7e28-b196368c508a@quicinc.com>
+ <5cf094cf-343a-82d7-91c4-1284683f9748@quicinc.com>
+ <CAA8EJprqq=vxXT2DmEWii_Ajx2UbkHRexPTT58xFcWkBa_D5hA@mail.gmail.com>
+ <26263c16-8cbc-ccca-6081-7eba14635d73@quicinc.com>
+ <CAA8EJpqEoXXA=eKGHRGuQ3VOHnmEShY8u_SMZ6WFWORCFhFcrw@mail.gmail.com>
+ <8445f93a-00f0-64af-5650-07f2bc487742@quicinc.com>
+ <CAA8EJpqB2KPyvFehK9WRGgiVnqvD24cz5BcHsw8a5PQ2Vs1oKA@mail.gmail.com>
+ <CAA8EJppZdyutyNBG+OFinickQoDxg0i4GwbaNQubo_LSRWNh4w@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAA8EJppZdyutyNBG+OFinickQoDxg0i4GwbaNQubo_LSRWNh4w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,140 +80,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, heikki.krogerus@linux.intel.com, pavel@ucw.cz,
- alice_chen@richtek.com, linux-iio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, lgirdwood@gmail.com, cy_huang@richtek.com,
- krzysztof.kozlowski+dt@linaro.org, lee.jones@linaro.org,
- linux-leds@vger.kernel.org, daniel.thompson@linaro.org, deller@gmx.de,
- robh+dt@kernel.org, chunfeng.yun@mediatek.com, linux@roeck-us.net,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org, szunichen@gmail.com,
- broonie@kernel.org, linux-mediatek@lists.infradead.org, sre@kernel.org,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
- gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, chiaen_wu@richtek.com, jingoohan1@gmail.com,
- jic23@kernel.org
+Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, dianders@chromium.org,
+ airlied@linux.ie, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, agross@kernel.org, linux-arm-msm@vger.kernel.org,
+ quic_aravindh@quicinc.com, Stephen Boyd <swboyd@chromium.org>, sean@poorly.run,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi ChiaEn,
 
-> Add Mediatek MT6370 Charger binding documentation.
+On 6/24/2022 5:46 PM, Dmitry Baryshkov wrote:
+> On Sat, 25 Jun 2022 at 03:28, Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+>> On Sat, 25 Jun 2022 at 03:23, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>>> On 6/24/2022 5:21 PM, Dmitry Baryshkov wrote:
+>>>> On Sat, 25 Jun 2022 at 03:19, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>>>>> How can I have eDP call dpu_encoder_init() before DP calls with
+>>>>> _dpu_kms_initialize_displayport()?
+>>>> Why do you want to do it? They are two different encoders.
+>>> eDP is primary display which in normal case should be bring up first if
+>>> DP is also presented.
+>> I do not like the concept of primary display. It is the user, who must
+>> decide which display is primary to him. I have seen people using just
+>> external monitors and ignoring built-in eDP completely.from
 
-s/Mediatek/MediaTek/
+>> Also, why does the bring up order matters here? What do you gain by
+>> bringing up eDP before the DP?
+> I should probably rephrase my question to be more clear. How does
+> changing the order of DP vs eDP bringup help you 'to fix screen
+> corruption'.
 
-Would you mind fix that for the series?
+it did fix the primary display correction issue if edp go first and i do 
+not know the root cause yet.
 
-cheers,
-Miles
+We are still investigating it.
 
-> 
-> Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
-> ---
-> 
-> v3
-> - Add items and remove maxItems of io-channels
-> - Add io-channel-names and describe each item
-> - Add "unevaluatedProperties: false" in "usb-otg-vbus-regulator"
-> - Rename "enable-gpio" to "enable-gpios" in "usb-otg-vbus-regulator"
-> ---
->  .../power/supply/mediatek,mt6370-charger.yaml      | 87 ++++++++++++++++++++++
->  1 file changed, 87 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
-> new file mode 100644
-> index 0000000..f138db6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/power/supply/mediatek,mt6370-charger.yaml
-> @@ -0,0 +1,87 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/power/supply/mediatek,mt6370-charger.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek MT6370 Battery Charger
-> +
-> +maintainers:
-> +  - ChiaEn Wu <chiaen_wu@richtek.com>
-> +
-> +description: |
-> +  This module is part of the MT6370 MFD device.
-> +  Provides Battery Charger, Boost for OTG devices and BC1.2 detection.
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt6370-charger
-> +
-> +  interrupts:
-> +    description: |
-> +      Specify what irqs are needed to be handled by MT6370 Charger driver. IRQ
-> +      "MT6370_IRQ_CHG_MIVR", "MT6370_IRQ_ATTACH" and "MT6370_IRQ_OVPCTRL_UVP_D"
-> +      are required.
-> +    items:
-> +      - description: BC1.2 done irq
-> +      - description: usb plug in irq
-> +      - description: mivr irq
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: attach_i
-> +      - const: uvp_d_evt
-> +      - const: mivr
-> +
-> +  io-channels:
-> +    description: |
-> +      Use ADC channel to read VBUS, IBUS, IBAT, etc., info.
-> +    minItems: 1
-> +    items:
-> +      - description: |
-> +          VBUS voltage with lower accuracy (+-75mV) but higher measure
-> +          range (1~22V)
-> +      - description: |
-> +          VBUS voltage with higher accuracy (+-30mV) but lower measure
-> +          range (1~9.76V)
-> +      - description: the main system input voltage
-> +      - description: battery voltage
-> +      - description: battery temperature-sense input voltage
-> +      - description: IBUS current (required)
-> +      - description: battery current
-> +      - description: |
-> +          regulated output voltage to supply for the PWM low-side gate driver
-> +          and the bootstrap capacitor
-> +      - description: IC junction temperature
-> +
-> +  io-channel-names:
-> +    items:
-> +      - const: vbusdiv5
-> +      - const: vbusdiv2
-> +      - const: vsys
-> +      - const: vbat
-> +      - const: ts_bat
-> +      - const: ibus
-> +      - const: ibat
-> +      - const: chg_vddp
-> +      - const: temp_jc
-> +
-> +  usb-otg-vbus-regulator:
-> +    type: object
-> +    description: OTG boost regulator.
-> +    unevaluatedProperties: false
-> +    $ref: /schemas/regulator/regulator.yaml#
-> +
-> +    properties:
-> +      enable-gpios:
-> +        maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - interrupts
-> +  - interrupt-names
-> +  - io-channels
-> +
-> +additionalProperties: false
-> +
-> +...
-> -- 
-> 2.7.4
-> 
-> 
+However I do think currently msm_dp_config sc7280_dp_cfg has issues need 
+be addressed.
+
+
+
+>
