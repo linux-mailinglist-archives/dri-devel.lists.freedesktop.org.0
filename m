@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC57A55AD27
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jun 2022 00:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2E055AD1C
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jun 2022 00:55:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0124E10EE6C;
-	Sat, 25 Jun 2022 22:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE0B810ED12;
+	Sat, 25 Jun 2022 22:55:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85E3010ECC7;
- Sat, 25 Jun 2022 22:55:25 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id l6so5083287plg.11;
- Sat, 25 Jun 2022 15:55:25 -0700 (PDT)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C99710ED0F;
+ Sat, 25 Jun 2022 22:55:28 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ b12-20020a17090a6acc00b001ec2b181c98so8929254pjm.4; 
+ Sat, 25 Jun 2022 15:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0Nc8381KvCAKtcJgWAO7GB/O/Xk1BB4fgkOydTh0/AI=;
- b=jF9u9ecwrNMztGK/9kvvUUaM0xUZsYQ/Yi81m0vOkZKDQ1ZUzcqIK1YWeVrrUjBaad
- zmqxbOznpCndArMv3k97HOf7gHd/swNFBO+rUym8byek0fL6MLBtTdL6cYPo+6wNNqwV
- vjG3yQOwkLb7Yr7Z9SZ++kRuAXsAO7kfLPAp8fLltSiwrKUbv5+ArHPmyCUT66t38QoV
- F4glRI8k2aGeeoFS9aq8E4nwE78wiKuDPGOl9+NjQQL//PUZYxlMDhycNPHyV9syHFLc
- tmfBdiwUVqVTcdznSDNj5/37wazsR7IOMIbu6Qo0g9/BFjjUQgXcncrfu7cJ/nxBKE1g
- oDHA==
+ bh=AeMYgqPNjsyamzteMz4JJUbia+3HcpDgXI4+3iGYjqA=;
+ b=XWwFhgsw0jy62ylwdGasi1YuRV0M1drEnIN3jNSmD9WAonjLsfbEA7hU4DteE1FAeW
+ Ie+6qGqPtOARntKNsgRJstxzfWVM5MQyk4m8nh6cpAVhH2w7H2xiE7T/pzZpxCkUYcwu
+ HEpM19RcB2tvIpKM1F8yvJqbid6mn8GN+sDQw/8i43aIqe28cYZzM8dSEvOYylmhX39/
+ t++myIfjITFWjSFJnrXu9VlSpUSHJ6JAYcpCxCSmLwwacVXTR4WUtVQF1ach9Fszoz02
+ tDq2kecCKTSUmI7ttzeMQoNIHRGkig8MqjZWHv6voqVmloRrqV3tyQ2VEHIMFDEfJ6+b
+ ck1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0Nc8381KvCAKtcJgWAO7GB/O/Xk1BB4fgkOydTh0/AI=;
- b=t5A6uK47fKytPMw1fvUUWFd2GpLEnGliRY0tuZl8PesBn+X1NJVWs3z12SKbHis0Kr
- Y80H99Mks5mRf0SzuVBwaRqP5KoD6ldOEGABo1UdRPkBcg1gmcFmLwx+BSITRyiZDpgd
- 9T8FeAvyVnUlOTR/49vriV3r0EQKzJlQ1Mc+1vFR2U0oULayUt8fQHZ1XijtaRMEv9eu
- Bz8KRAKEc36Z82JoxLxIsU6LSFkg6N5EVHxhIa4GlXN0PhRK8OUDXpXY6L90eHhRCqTH
- 6qSXrwcr/ZESOo7SgXnosNHs8dS8nIqVsy86SiqfWrrt4b0ftjrZA98nqwWYu96xBxjj
- DMlg==
-X-Gm-Message-State: AJIora8dWW0376v01v6rWMl/7RlipDnzEhk+kdrXHd2yRp1r2AUu7Xch
- 7DRzx9G4tR//ucwYt6XI1zSrihva5d0=
-X-Google-Smtp-Source: AGRyM1tp7ypYCYv+vdPXVIqoYc3/7lUZNcRSha0pNX2ckuBBSjZvdF0uTnc7vDAYtY9O1NAx/R9UjQ==
-X-Received: by 2002:a17:902:b193:b0:16a:2c23:37d0 with SMTP id
- s19-20020a170902b19300b0016a2c2337d0mr6326379plr.35.1656197724481; 
- Sat, 25 Jun 2022 15:55:24 -0700 (PDT)
+ bh=AeMYgqPNjsyamzteMz4JJUbia+3HcpDgXI4+3iGYjqA=;
+ b=AL2fyBZRDlyOX2amUcl7cG2dQZ6MG2scigpCI753KKh8WDsbMKSfKbHBVBdJJ8e5h/
+ BpwFhS56jb/pr1xeCSjW5kWixfzPR7OPSVZU90snsQQuSem4YNk4AfBs9V8xRcCP/RU4
+ uzfbrxvCN3MMj6KP/wGuFfuPMZyResWtlIU0bb/o/5DcfnUbu4iY7tr4fYC0a4Kyx1Ni
+ +56tLl0o9COsFAYhbq/u+7VZh2Cw4okq6dBNp3/wdIV9iL660dZUXAuhUDeiz3bxy/qd
+ mVFTDp9uQ8XcVWhn3ncS+rBBH7NhsqgMRxyvDNtjULnU+Zii3P012akjxlb4M/qgjLp+
+ sngA==
+X-Gm-Message-State: AJIora+e4+HCy1ZIygsAB8U7IX4R+E3Z4IsvxuV0FOyPfVhfB9EzE/Tg
+ CJG131L3ph9gKheiLObaVzkt0XpUcWE=
+X-Google-Smtp-Source: AGRyM1uvN7jJWa72gLy8ORBxW7G7eO/yFia+/uzSAqKPQMxlZ0yrLk+uyqWxPtfpepGB0y9z20z9ug==
+X-Received: by 2002:a17:902:d2d1:b0:16a:1dd9:4d3d with SMTP id
+ n17-20020a170902d2d100b0016a1dd94d3dmr6372390plc.18.1656197727296; 
+ Sat, 25 Jun 2022 15:55:27 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
  by smtp.gmail.com with ESMTPSA id
- cp2-20020a170902e78200b001664d88aab3sm4176540plb.240.2022.06.25.15.55.22
+ 9-20020a170902c20900b0015e8d4eb1dfsm4205062pll.41.2022.06.25.15.55.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Jun 2022 15:55:23 -0700 (PDT)
+ Sat, 25 Jun 2022 15:55:25 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 10/15] drm/msm/gem: Remove active refcnt
-Date: Sat, 25 Jun 2022 15:54:45 -0700
-Message-Id: <20220625225454.81039-11-robdclark@gmail.com>
+Subject: [PATCH 11/15] drm/gem: Add LRU/shrinker helper
+Date: Sat, 25 Jun 2022 15:54:46 -0700
+Message-Id: <20220625225454.81039-12-robdclark@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220625225454.81039-1-robdclark@gmail.com>
 References: <20220625225454.81039-1-robdclark@gmail.com>
@@ -69,231 +70,320 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ open list <linux-kernel@vger.kernel.org>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-At this point the pinned refcnt is sufficient, and the shrinker is
-already prepared to encounter objects which are still active according
-to fences attached to the resv.
+Add a simple LRU helper to assist with driver's shrinker implementation.
+It handles tracking the number of backing pages associated with a given
+LRU, and provides a helper to implement shrinker_scan.
 
+A driver can use multiple LRU instances to track objects in various
+states, for example a dontneed LRU for purgeable objects, a willneed LRU
+for evictable objects, and an unpinned LRU for objects without backing
+pages.
+
+All LRUs that the object can be moved between must share a single lock.
+
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem.c        | 45 ++--------------------------
- drivers/gpu/drm/msm/msm_gem.h        | 14 ++-------
- drivers/gpu/drm/msm/msm_gem_submit.c | 22 ++------------
- 3 files changed, 8 insertions(+), 73 deletions(-)
+ drivers/gpu/drm/drm_gem.c | 183 ++++++++++++++++++++++++++++++++++++++
+ include/drm/drm_gem.h     |  56 ++++++++++++
+ 2 files changed, 239 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 407b18a24dc4..209438744bab 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -734,8 +734,7 @@ int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv)
- 	/* If the obj is inactive, we might need to move it
- 	 * between inactive lists
- 	 */
--	if (msm_obj->active_count == 0)
--		update_lru(obj);
-+	update_lru(obj);
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index eb0c2d041f13..684db28cc71c 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -165,6 +165,7 @@ void drm_gem_private_object_init(struct drm_device *dev,
+ 		obj->resv = &obj->_resv;
  
- 	msm_gem_unlock(obj);
- 
-@@ -788,7 +787,6 @@ void msm_gem_evict(struct drm_gem_object *obj)
- 	GEM_WARN_ON(!msm_gem_is_locked(obj));
- 	GEM_WARN_ON(is_unevictable(msm_obj));
- 	GEM_WARN_ON(!msm_obj->evictable);
--	GEM_WARN_ON(msm_obj->active_count);
- 
- 	/* Get rid of any iommu mapping(s): */
- 	put_iova_spaces(obj, false);
-@@ -813,37 +811,6 @@ void msm_gem_vunmap(struct drm_gem_object *obj)
- 	msm_obj->vaddr = NULL;
+ 	drm_vma_node_reset(&obj->vma_node);
++	INIT_LIST_HEAD(&obj->lru_node);
  }
+ EXPORT_SYMBOL(drm_gem_private_object_init);
  
--void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
--{
--	struct msm_gem_object *msm_obj = to_msm_bo(obj);
--	struct msm_drm_private *priv = obj->dev->dev_private;
--
--	might_sleep();
--	GEM_WARN_ON(!msm_gem_is_locked(obj));
--	GEM_WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED);
--	GEM_WARN_ON(msm_obj->dontneed);
--
--	if (msm_obj->active_count++ == 0) {
--		mutex_lock(&priv->mm_lock);
--		if (msm_obj->evictable)
--			mark_unevictable(msm_obj);
--		list_move_tail(&msm_obj->mm_list, &gpu->active_list);
--		mutex_unlock(&priv->mm_lock);
--	}
--}
--
--void msm_gem_active_put(struct drm_gem_object *obj)
--{
--	struct msm_gem_object *msm_obj = to_msm_bo(obj);
--
--	might_sleep();
--	GEM_WARN_ON(!msm_gem_is_locked(obj));
--
--	if (--msm_obj->active_count == 0) {
--		update_lru(obj);
--	}
--}
--
- static void update_lru(struct drm_gem_object *obj)
- {
- 	struct msm_drm_private *priv = obj->dev->dev_private;
-@@ -851,9 +818,6 @@ static void update_lru(struct drm_gem_object *obj)
+@@ -951,6 +952,7 @@ drm_gem_object_release(struct drm_gem_object *obj)
  
- 	GEM_WARN_ON(!msm_gem_is_locked(&msm_obj->base));
+ 	dma_resv_fini(&obj->_resv);
+ 	drm_gem_free_mmap_offset(obj);
++	drm_gem_lru_remove(obj);
+ }
+ EXPORT_SYMBOL(drm_gem_object_release);
  
--	if (msm_obj->active_count != 0)
--		return;
--
- 	mutex_lock(&priv->mm_lock);
- 
- 	if (msm_obj->dontneed)
-@@ -926,7 +890,7 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
- 	stats->all.count++;
- 	stats->all.size += obj->size;
- 
--	if (is_active(msm_obj)) {
-+	if (msm_gem_active(obj)) {
- 		stats->active.count++;
- 		stats->active.size += obj->size;
- 	}
-@@ -954,7 +918,7 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
- 	}
- 
- 	seq_printf(m, "%08x: %c %2d (%2d) %08llx %p",
--			msm_obj->flags, is_active(msm_obj) ? 'A' : 'I',
-+			msm_obj->flags, msm_gem_active(obj) ? 'A' : 'I',
- 			obj->name, kref_read(&obj->refcount),
- 			off, msm_obj->vaddr);
- 
-@@ -1037,9 +1001,6 @@ static void msm_gem_free_object(struct drm_gem_object *obj)
- 	list_del(&msm_obj->mm_list);
- 	mutex_unlock(&priv->mm_lock);
- 
--	/* object should not be on active list: */
--	GEM_WARN_ON(is_active(msm_obj));
--
- 	put_iova_spaces(obj, true);
- 
- 	if (obj->import_attach) {
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 6fe521ccda45..420ba49bf21a 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -138,7 +138,6 @@ struct msm_gem_object {
- 
- 	char name[32]; /* Identifier to print for the debugfs files */
- 
--	int active_count;
- 	int pin_count;
+@@ -1274,3 +1276,184 @@ drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
+ 	ww_acquire_fini(acquire_ctx);
+ }
+ EXPORT_SYMBOL(drm_gem_unlock_reservations);
++
++/**
++ * drm_gem_lru_init - initialize a LRU
++ *
++ * @lru: The LRU to initialize
++ * @lock: The lock protecting the LRU
++ */
++void
++drm_gem_lru_init(struct drm_gem_lru *lru, struct mutex *lock)
++{
++	lru->lock = lock;
++	lru->count = 0;
++	INIT_LIST_HEAD(&lru->list);
++}
++EXPORT_SYMBOL(drm_gem_lru_init);
++
++static void
++lru_remove(struct drm_gem_object *obj)
++{
++	obj->lru->count -= obj->size >> PAGE_SHIFT;
++	WARN_ON(obj->lru->count < 0);
++	list_del(&obj->lru_node);
++	obj->lru = NULL;
++}
++
++/**
++ * drm_gem_lru_remove - remove object from whatever LRU it is in
++ *
++ * If the object is currently in any LRU, remove it.
++ *
++ * @obj: The GEM object to remove from current LRU
++ */
++void
++drm_gem_lru_remove(struct drm_gem_object *obj)
++{
++	struct drm_gem_lru *lru = obj->lru;
++
++	if (!lru)
++		return;
++
++	mutex_lock(lru->lock);
++	lru_remove(obj);
++	mutex_unlock(lru->lock);
++}
++EXPORT_SYMBOL(drm_gem_lru_remove);
++
++/**
++ * drm_gem_lru_move_tail - move the object to the tail of the LRU
++ *
++ * If the object is already in this LRU it will be moved to the
++ * tail.  Otherwise it will be removed from whichever other LRU
++ * it is in (if any) and moved into this LRU.
++ *
++ * @lru: The LRU to move the object into.
++ * @obj: The GEM object to move into this LRU
++ */
++void
++drm_gem_lru_move_tail(struct drm_gem_lru *lru, struct drm_gem_object *obj)
++{
++	mutex_lock(lru->lock);
++	drm_gem_lru_move_tail_locked(lru, obj);
++	mutex_unlock(lru->lock);
++}
++EXPORT_SYMBOL(drm_gem_lru_move_tail);
++
++/**
++ * drm_gem_lru_move_tail_locked - move the object to the tail of the LRU
++ *
++ * If the object is already in this LRU it will be moved to the
++ * tail.  Otherwise it will be removed from whichever other LRU
++ * it is in (if any) and moved into this LRU.
++ *
++ * Call with LRU lock held.
++ *
++ * @lru: The LRU to move the object into.
++ * @obj: The GEM object to move into this LRU
++ */
++void
++drm_gem_lru_move_tail_locked(struct drm_gem_lru *lru, struct drm_gem_object *obj)
++{
++	WARN_ON(!mutex_is_locked(lru->lock));
++
++	if (obj->lru)
++		lru_remove(obj);
++
++	lru->count += obj->size >> PAGE_SHIFT;
++	list_add_tail(&obj->lru_node, &lru->list);
++	obj->lru = lru;
++}
++EXPORT_SYMBOL(drm_gem_lru_move_tail_locked);
++
++/**
++ * drm_gem_lru_scan - helper to implement shrinker.scan_objects
++ *
++ * If the shrink callback succeeds, it is expected that the driver
++ * move the object out of this LRU.
++ *
++ * If the LRU possibly contain active buffers, it is the responsibility
++ * of the shrink callback to check for this (ie. dma_resv_test_signaled())
++ * or if necessary block until the buffer becomes idle.
++ *
++ * @lru: The LRU to scan
++ * @nr_to_scan: The number of pages to try to reclaim
++ * @shrink: Callback to try to shrink/reclaim the object.
++ */
++unsigned long
++drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
++		 bool (*shrink)(struct drm_gem_object *obj))
++{
++	struct drm_gem_lru still_in_lru;
++	struct drm_gem_object *obj;
++	unsigned freed = 0;
++
++	drm_gem_lru_init(&still_in_lru, lru->lock);
++
++	mutex_lock(lru->lock);
++
++	while (freed < nr_to_scan) {
++		obj = list_first_entry_or_null(&lru->list, typeof(*obj), lru_node);
++
++		if (!obj)
++			break;
++
++		drm_gem_lru_move_tail_locked(&still_in_lru, obj);
++
++		/*
++		 * If it's in the process of being freed, gem_object->free()
++		 * may be blocked on lock waiting to remove it.  So just
++		 * skip it.
++		 */
++		if (!kref_get_unless_zero(&obj->refcount))
++			continue;
++
++		/*
++		 * Now that we own a reference, we can drop the lock for the
++		 * rest of the loop body, to reduce contention with other
++		 * code paths that need the LRU lock
++		 */
++		mutex_unlock(lru->lock);
++
++		/*
++		 * Note that this still needs to be trylock, since we can
++		 * hit shrinker in response to trying to get backing pages
++		 * for this obj (ie. while it's lock is already held)
++		 */
++		if (!dma_resv_trylock(obj->resv))
++			goto tail;
++
++		if (shrink(obj)) {
++			freed += obj->size >> PAGE_SHIFT;
++
++			/*
++			 * If we succeeded in releasing the object's backing
++			 * pages, we expect the driver to have moved the object
++			 * out of this LRU
++			 */
++			WARN_ON(obj->lru == &still_in_lru);
++			WARN_ON(obj->lru == lru);
++		}
++
++		dma_resv_unlock(obj->resv);
++
++tail:
++		drm_gem_object_put(obj);
++		mutex_lock(lru->lock);
++	}
++
++	/*
++	 * Move objects we've skipped over out of the temporary still_in_lru
++	 * back into this LRU
++	 */
++	list_for_each_entry (obj, &still_in_lru.list, lru_node)
++		obj->lru = lru;
++	list_splice_tail(&still_in_lru.list, &lru->list);
++	lru->count += still_in_lru.count;
++
++	mutex_unlock(lru->lock);
++
++	return freed;
++}
++EXPORT_SYMBOL(drm_gem_lru_scan);
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index 87cffc9efa85..f13a9080af37 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -174,6 +174,41 @@ struct drm_gem_object_funcs {
+ 	const struct vm_operations_struct *vm_ops;
  };
- #define to_msm_bo(x) container_of(x, struct msm_gem_object, base)
-@@ -171,8 +170,6 @@ void *msm_gem_get_vaddr_active(struct drm_gem_object *obj);
- void msm_gem_put_vaddr_locked(struct drm_gem_object *obj);
- void msm_gem_put_vaddr(struct drm_gem_object *obj);
- int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv);
--void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu);
--void msm_gem_active_put(struct drm_gem_object *obj);
- bool msm_gem_active(struct drm_gem_object *obj);
- int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout);
- int msm_gem_cpu_fini(struct drm_gem_object *obj);
-@@ -245,12 +242,6 @@ msm_gem_is_locked(struct drm_gem_object *obj)
- 	return dma_resv_is_locked(obj->resv) || (kref_read(&obj->refcount) == 0);
- }
  
--static inline bool is_active(struct msm_gem_object *msm_obj)
--{
--	GEM_WARN_ON(!msm_gem_is_locked(&msm_obj->base));
--	return msm_obj->active_count;
--}
--
- /* imported/exported objects are not purgeable: */
- static inline bool is_unpurgeable(struct msm_gem_object *msm_obj)
- {
-@@ -391,9 +382,8 @@ struct msm_gem_submit {
- /* make sure these don't conflict w/ MSM_SUBMIT_BO_x */
- #define BO_VALID	0x8000	/* is current addr in cmdstream correct/valid? */
- #define BO_LOCKED	0x4000	/* obj lock is held */
--#define BO_ACTIVE	0x2000	/* active refcnt is held */
--#define BO_OBJ_PINNED	0x1000	/* obj (pages) is pinned and on active list */
--#define BO_VMA_PINNED	0x0800	/* vma (virtual address) is pinned */
-+#define BO_OBJ_PINNED	0x2000	/* obj (pages) is pinned and on active list */
-+#define BO_VMA_PINNED	0x1000	/* vma (virtual address) is pinned */
- 		uint32_t flags;
- 		union {
- 			struct msm_gem_object *obj;
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 16c662808522..adf358fb8e9d 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -243,17 +243,13 @@ static void submit_cleanup_bo(struct msm_gem_submit *submit, int i,
- 	if (flags & BO_OBJ_PINNED)
- 		msm_gem_unpin_locked(obj);
++/**
++ * struct drm_gem_lru - A simple LRU helper
++ *
++ * A helper for tracking GEM objects in a given state, to aid in
++ * driver's shrinker implementation.  Tracks the count of pages
++ * for lockless &shrinker.count_objects, and provides
++ * &drm_gem_lru_scan for driver's &shrinker.scan_objects
++ * implementation.
++ */
++struct drm_gem_lru {
++	/**
++	 * @lock:
++	 *
++	 * Lock protecting movement of GEM objects between LRUs.  All
++	 * LRUs that the object can move between should be protected
++	 * by the same lock.
++	 */
++	struct mutex *lock;
++
++	/**
++	 * @count:
++	 *
++	 * The total number of backing pages of the GEM objects in
++	 * this LRU.
++	 */
++	long count;
++
++	/**
++	 * @list:
++	 *
++	 * The LRU list.
++	 */
++	struct list_head list;
++};
++
+ /**
+  * struct drm_gem_object - GEM buffer object
+  *
+@@ -312,6 +347,20 @@ struct drm_gem_object {
+ 	 *
+ 	 */
+ 	const struct drm_gem_object_funcs *funcs;
++
++	/**
++	 * @lru_node:
++	 *
++	 * List node in a &drm_gem_lru.
++	 */
++	struct list_head lru_node;
++
++	/**
++	 * @lru:
++	 *
++	 * The current LRU list that the GEM object is on.
++	 */
++	struct drm_gem_lru *lru;
+ };
  
--	if (flags & BO_ACTIVE)
--		msm_gem_active_put(obj);
--
- 	if (flags & BO_LOCKED)
- 		dma_resv_unlock(obj->resv);
- }
+ /**
+@@ -420,4 +469,11 @@ void drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
+ int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+ 			    u32 handle, u64 *offset);
  
- static void submit_unlock_unpin_bo(struct msm_gem_submit *submit, int i)
- {
--	unsigned cleanup_flags = BO_VMA_PINNED | BO_OBJ_PINNED |
--				 BO_ACTIVE | BO_LOCKED;
-+	unsigned cleanup_flags = BO_VMA_PINNED | BO_OBJ_PINNED | BO_LOCKED;
- 	submit_cleanup_bo(submit, i, cleanup_flags);
- 
- 	if (!(submit->bos[i].flags & BO_VALID))
-@@ -358,18 +354,6 @@ static int submit_pin_objects(struct msm_gem_submit *submit)
- 
- 	submit->valid = true;
- 
--	/*
--	 * Increment active_count first, so if under memory pressure, we
--	 * don't inadvertently evict a bo needed by the submit in order
--	 * to pin an earlier bo in the same submit.
--	 */
--	for (i = 0; i < submit->nr_bos; i++) {
--		struct drm_gem_object *obj = &submit->bos[i].obj->base;
--
--		msm_gem_active_get(obj, submit->gpu);
--		submit->bos[i].flags |= BO_ACTIVE;
--	}
--
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		struct drm_gem_object *obj = &submit->bos[i].obj->base;
- 		struct msm_gem_vma *vma;
-@@ -521,7 +505,7 @@ static void submit_cleanup(struct msm_gem_submit *submit, bool error)
- 	unsigned i;
- 
- 	if (error)
--		cleanup_flags |= BO_VMA_PINNED | BO_OBJ_PINNED | BO_ACTIVE;
-+		cleanup_flags |= BO_VMA_PINNED | BO_OBJ_PINNED;
- 
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		struct msm_gem_object *msm_obj = submit->bos[i].obj;
-@@ -540,7 +524,7 @@ void msm_submit_retire(struct msm_gem_submit *submit)
- 
- 		msm_gem_lock(obj);
- 		/* Note, VMA already fence-unpinned before submit: */
--		submit_cleanup_bo(submit, i, BO_OBJ_PINNED | BO_ACTIVE);
-+		submit_cleanup_bo(submit, i, BO_OBJ_PINNED);
- 		msm_gem_unlock(obj);
- 		drm_gem_object_put(obj);
- 	}
++void drm_gem_lru_init(struct drm_gem_lru *lru, struct mutex *lock);
++void drm_gem_lru_remove(struct drm_gem_object *obj);
++void drm_gem_lru_move_tail(struct drm_gem_lru *lru, struct drm_gem_object *obj);
++void drm_gem_lru_move_tail_locked(struct drm_gem_lru *lru, struct drm_gem_object *obj);
++unsigned long drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
++			       bool (*shrink)(struct drm_gem_object *obj));
++
+ #endif /* __DRM_GEM_H__ */
 -- 
 2.36.1
 
