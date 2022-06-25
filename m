@@ -1,62 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D9B55A9E6
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 14:25:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 206B755AA01
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 14:39:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECD2010E311;
-	Sat, 25 Jun 2022 12:25:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A023D10E7DC;
+	Sat, 25 Jun 2022 12:39:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B3C6112066
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jun 2022 12:25:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656159904;
- bh=XzWlqKg0tZRmkyyhAvOskP/AntTF8gQ4y3i07JTitN0=;
- h=X-UI-Sender-Class:From:To:Subject:Date:In-Reply-To:References;
- b=Wr7PGcBvGrftl27TdTYgD4sB1GXS4scvf+MKOVNTny3VJP0xPekV3HiEmKec73DOV
- 9Lo+3M8ABdGrds+AohjfpeuNyixW+hNhxVmbTa+JS0zgOJ0UNcu6GuIN43EW7GLjBV
- 4ADJOk0ByrfAaPNFZyxqVCx6IfT5BAv3htk7G4Qc=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100.fritz.box ([92.116.162.44]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MnakR-1nM4za3cCz-00ja5s; Sat, 25
- Jun 2022 14:25:03 +0200
-From: Helge Deller <deller@gmx.de>
-To: linux-fbdev@vger.kernel.org, daniel.vetter@ffwll.ch,
- dri-devel@lists.freedesktop.org, deller@gmx.de
-Subject: [PATCH v2 4/4] fbmem: Catch possible driver bugs regarding too small
- virtual screen size
-Date: Sat, 25 Jun 2022 14:25:02 +0200
-Message-Id: <20220625122502.68095-5-deller@gmx.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220625122502.68095-1-deller@gmx.de>
-References: <20220625122502.68095-1-deller@gmx.de>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28B4E112974
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jun 2022 12:39:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656160751; x=1687696751;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=gUVh1otMnfm1JZsH4Bw5ldTSUYJyZgjBw+O/iuC0J74=;
+ b=FdJ/Cm5vl3PY1n18Ed+WVzy++iTiEp3FOChTOCfVJH4SWenzAN7zYIeA
+ sGocqaPcusld1jjVs86/c3opRzfiDRJi4tH12TPLnYdPAhP0jQlNfhwOY
+ GbqbksUX3oEeX0LDoI1iBSSW3UkTkMnPtIRCuXq7a2De3TsK2rl4RGXfM
+ b8tl6AmKmyCYECE+N7Tz6muZWALy2R+uk1vY3CoP1hTFYe717haEc9LGV
+ W1ZhS/3rpNPpo0Yfcth/U3pD+y/tmcRjTrJ4Bw+kD7rmk5lIGw2G/diqZ
+ LON3QNifx1ulL/HODzJWUKHQ3xNqtQyKndBkNwOdpjSpnhDedXQpZ/q+i g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10388"; a="281224753"
+X-IronPort-AV: E=Sophos;i="5.92,222,1650956400"; d="scan'208";a="281224753"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2022 05:39:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,222,1650956400"; d="scan'208";a="616260237"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+ by orsmga008.jf.intel.com with ESMTP; 25 Jun 2022 05:39:07 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1o5546-0005kN-Jo;
+ Sat, 25 Jun 2022 12:39:06 +0000
+Date: Sat, 25 Jun 2022 20:39:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chenyang Li <lichenyang@loongson.cn>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dan Carpenter <error27@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ devel@linuxdriverproject.org
+Subject: Re: [PATCH v7 2/4] drm/loongson: Add GPIO and I2C driver for
+ loongson drm.
+Message-ID: <202206252021.a42lokOo-lkp@intel.com>
+References: <20220625090715.3663-2-lichenyang@loongson.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:W8cNngBMUBHHJUV7dXjFa42WjdXUhH2wea0EeF11rpP1tPAtcrj
- Vy4tmjTNURbq+eTLhYSJ3RbTSUqWcUOiJh6tMT8hIxIdAt+3g0UBYjPfsRHg+/1Jfvt6uSz
- tkKkaHPi3xNpb4hamxPTSKlGbLRmYfthkj0i72290nt7jfNHaTATIMH4bWHxHhjVPpEvCEP
- AKwv6u3Wv3lMQkKJHJsMA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:j0Cb/1I6yu4=:kKTYRcbYUs3HdoMx5WWEa9
- PWTco1Zyie4e+8SCPHs7CfcbBKjiYeXfSiyuRZwqzSUXYBPKn+P4XMedgrbVbzx5sifvqZ4qT
- zs0guonrV/KGovkhFUlEP+ztrTYlqQODHsLqHImFx/151dDjauIpWizL471bVqUeLW/SnlZh6
- RuFIatAIRoMkKxGEoKICfNV/EUL0P8MEQ7TNDQ1G+dojcBmxUSbWSQFUz+cx0u4ia2DPQRiiW
- 02I+/vZZCqmMUkb9i1ueAIY9LjARrAdSwTdyb4W6M8uCtg4CaIQfjtcXV8lx39lez1I2lYq08
- C+KEnB+yk9tUVJ/FSn1ajoVXeJnXswos/BY+mjBdE3CBiZmPjb75NLbYWSu/0XeTiAz2tv8vS
- xm6l28aj0WyDSIhMcb+d6n6pWCq73CwATDnpq+FUS+X+8IJLSuRxSK5skIB3Dz3bIzRT7Q0sA
- /nlsd7a0XHhFOYglzzQ8fO7aRHftjDojl8HOKNFpyd99YGibUdYbogYkGejd7P/6PHaglxyCd
- g6N4AARSvp6lDOdH8nZTf1vkmhjU6SDeq2E2g+Mq4oNH02GzeBGyXXg1TbVZG1cNds54xoTtg
- J9P5HAOgSi5HQbP86inBoEfhHWhAP38R9uKHcroXAc63W1EdM8cPn7dN04WWyfR+P6yfE2yPX
- 0qdDK1FS+KcLlVeznK0LkpnzFltXUSz6E8tsMnLTQcbUCIXM3XX1vmE2q5mti26kn6u4oyL/n
- 5OaB4zD97mr7GuzJoWQAKSac/7cn6NFxaxAxMd0QMs+YyQxI8nNd1LwZD5bV7zYLjzbEFPrRe
- YHFffqT+1AxFrNWYeRXPpVO0lH8W/NTTUSdJPye5nUpyQY245VXYCmT7HIH07U7STPeJS6NJf
- dE4LdiB74KhARZVo9Nv1LIC7P8/MNV0QcZcNIFfEVzM7QNKpu/A5/xsJbURiWfjZqRY7Fl/1G
- h2+wn+frd5qJIaDnJDC/yGTljlPtPfKWT+LYqqyrNMsu6k8lIaF2EAFtn7Xt6yJ+ITK4TSd8Q
- 8V7RzQzK2is6145W5N7eA7Opk0Tab0mVS83NXmLep6rrHxHYqs99X4SdRURfnqUbfzSfpcM6S
- F5MV6LrRZH1GiVa9O/njI+G76d03bIV+fwNLv4ha9TZTusRXjlP2TwmCQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220625090715.3663-2-lichenyang@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,39 +64,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Sam Ravnborg <sam@ravnborg.org>, kbuild-all@lists.01.org,
+ linux-kernel@vger.kernel.org, Yi Li <liyi@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make sure that we catch, report and fix up fbdev and drm graphic drivers w=
-hich
-got the virtual screen resolution smaller than the physical screen resolut=
-ion.
+Hi Chenyang,
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-Cc: stable@vger.kernel.org # v5.4+
-=2D--
- drivers/video/fbdev/core/fbmem.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/f=
-bmem.c
-index 50fb66b954d6..6d262e341023 100644
-=2D-- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1006,6 +1006,12 @@ fb_set_var(struct fb_info *info, struct fb_var_scre=
-eninfo *var)
- 	if (var->xres < 8 || var->yres < 8)
- 		return -EINVAL;
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v5.19-rc3 next-20220624]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-+	/* make sure virtual resolution >=3D physical resolution */
-+	if (WARN_ON(var->xres_virtual < var->xres))
-+		var->xres_virtual =3D var->xres;
-+	if (WARN_ON(var->yres_virtual < var->yres))
-+		var->yres_virtual =3D var->yres;
-+
- 	/* Too huge resolution causes multiplication overflow. */
- 	if (check_mul_overflow(var->xres, var->yres, &unused) ||
- 	    check_mul_overflow(var->xres_virtual, var->yres_virtual, &unused))
-=2D-
-2.35.3
+url:    https://github.com/intel-lab-lkp/linux/commits/Chenyang-Li/drm-loongson-Add-DRM-Driver-for-Loongson-7A1000-bridge-chip/20220625-171037
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+config: powerpc-allmodconfig
+compiler: powerpc-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/3af56da81352153b38e05c082b8f2bf8c9fc0320
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Chenyang-Li/drm-loongson-Add-DRM-Driver-for-Loongson-7A1000-bridge-chip/20220625-171037
+        git checkout 3af56da81352153b38e05c082b8f2bf8c9fc0320
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/gpu/drm/loongson/
 
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/loongson/loongson_encoder.c:10:27: warning: no previous prototype for 'loongson_bridge_detect' [-Wmissing-prototypes]
+      10 | enum drm_connector_status loongson_bridge_detect(struct drm_bridge *bridge)
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/loongson_bridge_detect +10 drivers/gpu/drm/loongson/loongson_encoder.c
+
+     9	
+  > 10	enum drm_connector_status loongson_bridge_detect(struct drm_bridge *bridge)
+    11	{
+    12		unsigned char start = 0x0;
+    13		struct i2c_msg msgs = {
+    14			.addr = DDC_ADDR,
+    15			.flags = 0,
+    16			.len = 1,
+    17			.buf = &start,
+    18		};
+    19	
+    20		if (i2c_transfer(bridge->ddc, &msgs, 1) != 1)
+    21			return connector_status_disconnected;
+    22		else
+    23			return connector_status_connected;
+    24	}
+    25	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
