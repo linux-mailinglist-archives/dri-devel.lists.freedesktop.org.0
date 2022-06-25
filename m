@@ -2,127 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727C155AAAF
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 15:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC9855AAB3
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 16:01:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC3EF12BD06;
-	Sat, 25 Jun 2022 13:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4070812BD28;
+	Sat, 25 Jun 2022 14:01:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26DFF12BD06
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jun 2022 13:58:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hSsbceMq2/uUB3/4UkPkRUiTQYz8gDxtD7xavjj96Xkaj6bGU2ZfwMs+CBluMbTipGtsKr3RrKOLsz8p9hh8/uHeLmVT7/ol8NZaNbvu4Djc6nOl6eJKJWKD/VZqXDc6nj3p94tn1Nw/nzjM3XGGqSQJmIYcU1eLlNSVnxsXG8Arc1y08m4lPXRJZGBU1K2zkvkurr7gdesQvoj4/U3hKoDEkhUVaOZmzQ8nF739FAjWw9211W/HiyUAknESm7f1pDQ5gCStNEEjAuc0uC89C3wuxRmmEsq2aCjw3AQIhVVtEyYsnZTiRwJt4ZYfMZZSE/zySxV7lY6zTAiVJgjjyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lCANvwMvwFniYHJ/Cnu1OxJ3px06Jb6om3FcORbjxIo=;
- b=Ypl5apg9s2wWy2WX6TF/EUGykLStTcQ9EDodQicUCiYCw0F/tXNxy5A3Dh1Un5UBqvHtV+HXcj98TAvJPGwzwiBOynW00dgnE4MhdGEUGc6FLW0IsFMJXeJDQCrzt4BHkneGb2KyHSxS5QVl07gkqMl8mEU+em1D3RMJ8tJV+XA+T1QBhNABU+2LOyTOMY9I78LJCkT4LLOQQANSLECJqSisBOVuoJpiTWTb4SV2vfUymYrbDu3ZAEatT05EMEu9KUhxuxqbHvGo9I2SkQnIExU6jYVxfFv4bXpN714IjepreX2M2QYRM8UhlIwXgHnR1M1QUtVeOB+rG+BTXgPLpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lCANvwMvwFniYHJ/Cnu1OxJ3px06Jb6om3FcORbjxIo=;
- b=GgTUWQyrSAVAUPRM7gdk0MvbkgzRTTC7h5W/j4UuE76j1jSGbEJUJivJmmquO1M/kQd3SCl9AhGyxyZyHVLLptriGBHk7uRRjwq07ETJO8ZwEQUnSpTnHUEnHUXnMB3pZRwzq8YYARtZ7cg0/2wLFuMD+5U1cjDKK+TIQT2aB68=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CY5PR12MB6528.namprd12.prod.outlook.com (2603:10b6:930:43::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.16; Sat, 25 Jun
- 2022 13:58:22 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::e0fd:45cf:c701:2731%6]) with mapi id 15.20.5373.015; Sat, 25 Jun 2022
- 13:58:22 +0000
-Content-Type: multipart/alternative;
- boundary="------------S3jBpVoNnGJqrfzEebU0AVaL"
-Message-ID: <785d01ba-7d4a-1b69-a97a-6144ce0f6772@amd.com>
-Date: Sat, 25 Jun 2022 15:58:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [RFC PATCH 3/5] drm/amdgpu: Allow explicit sync for VM ops.
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <CAP+8YyFKOM1qztPBNGk4nzsaX7Dq8-cwg0h_GUgz6sUxBZLhEw@mail.gmail.com>
- <98c1ea95-2b1e-36dd-6706-b3667f0f5f47@amd.com>
- <CAP+8YyEWE9KCmo2pGOHMyT3fSEXskTG-tfymwQmmy7d1c9CuRQ@mail.gmail.com>
- <3b6a7d56-6c65-046d-0a51-bbe167e04322@amd.com>
- <CAP+8YyGL_WEME-1_oB_K5_K600c5kcmO0GxXBQGVQEF7aP_D7w@mail.gmail.com>
- <91e843ca-928a-7ab1-12e4-89fbba085403@amd.com>
- <CAP+8YyHqcoxVeropBpeuSRX4kNtVezi1-s3FKSic_Z_OQ8BcAg@mail.gmail.com>
- <1e04e766-4a5b-6825-6991-3bd542f562b5@amd.com>
- <CAP+8YyGEHUZhCCUa-3sSVmgGMrTkj=vQomPar=hTN=3-RCznOA@mail.gmail.com>
- <71cc9552-4bf6-4941-e903-2ea62a22a2e9@amd.com>
- <YrYfw6T4MGvifIco@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <YrYfw6T4MGvifIco@phenom.ffwll.local>
-X-ClientProxiedBy: AS8P189CA0009.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:31f::19) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
+ [IPv6:2607:f8b0:4864:20::1131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 415D512BD28
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jun 2022 14:01:01 +0000 (UTC)
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-317710edb9dso49021057b3.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jun 2022 07:01:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OlJBCh4/5PmpnOBhdoVJtvgIr2FzDQlSyXY7J+nK0VE=;
+ b=dBfvNQDZkFwNtS9+Lh+Xj52q2P3PzKSoPQmkSPiFqREMcsgU9kT5Nlm4rqdMKP1SAy
+ F92o3do1EeRNELMBwzrPKeLwxSWbxdZZVDNg9Xl2RJFbNoOSdNWsnhtlFPuOB7t5OEut
+ pyGu5ncq05nHPMQaocy3duodBXz7k5BLyLYztnSILOBSOG92Dz85BfU5Lux12wQUSBbh
+ dyfMon60GIfDZEdlWja7oI36wXpNCDmWtW/PR02yNoWs6ABu4ditgZRgR8eGO0QQQ/Ti
+ P5L2NW/u8MvnRQ5RiZGiF2Mk4JskcjroXprfV1C3tbyg5FjUwm5FDY4q9pXkZEHfcUMy
+ dejA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OlJBCh4/5PmpnOBhdoVJtvgIr2FzDQlSyXY7J+nK0VE=;
+ b=WHtyAczjnxG5MU/Vdo9T0wxj7xx8sIuQYuMYlmpL3Cfg9SKIIag8MiEYQphp+Ps+7g
+ 9nDeWvwQQnRaOb+MepC4FU+edWgqSzqGNzUX7rgGczhdxpnqhMX6S3L+mbWVvWjafGPe
+ AiTtH/fY7CxL1/32mYjoJ3JIlBrdWV2c9WvFMl7dC+qFweq/MJ6mlX/W8K9JKKw3cjfU
+ BxNr9oMbPEv3BuZhqSC2J1kzEeoybqkE2smnmqTCOpEtZ8hQclEwS8OMza2/Vh6zWN3g
+ punE1AkK2j+Y+1MKBoMGWyG+7GabVKRmMZgaHAcSaYwkt7pubREkIg1/k0jw4kO0pMpe
+ yYWw==
+X-Gm-Message-State: AJIora+POiZfqIv9pH9+E9cqm8PF+xNhouN4M71owO2mjVMNRp6hl/Wo
+ V+rSTugujx6tXw5lnzQVU4PhDo0ooRNUHqDCSu8=
+X-Google-Smtp-Source: AGRyM1uQlivRe5FWpvpscLIvjiOdf2TpFkPxQgyGtyGmj8sHtwRx5yQ6IrqG25Vxr9wWF/W4/8M/SsEdY8Os9zAlyk8=
+X-Received: by 2002:a81:754:0:b0:314:59e0:ceb7 with SMTP id
+ 81-20020a810754000000b0031459e0ceb7mr4500103ywh.178.1656165659927; Sat, 25
+ Jun 2022 07:00:59 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 222e5942-0bf4-49f9-eb93-08da56b2c45a
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6528:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: slefZf4gcGIacZn1MDk2w0px+MKOS0ITHbGm5YjAplNKvi+YwTXLDDprssygHM/Sr65I7ru3qvCQ0v9DuvKNmT38S2LrT/z0NTB/4gJbBc4jpez3dHqfRGVy/Z/yGyRMd+vJeTYmXKjZtWWrxVsLyrsdtQnJPgyLTDl6JGFcWed8gBjya7UHAUZ3grAY64TWWL5fe7oYPv4DWZLig+xTq0NZU5AuqNgiAz7JSPbIrakfhploGB0RVEVPPdMOo1QPNVqYbY/5/399rprPilGjIIY6/SkuC/uXt49hpQsKWBZJ6Oup2LeMA+2EVkE5EcNQ/zVpAvtlT8/lUWnu3wUXlbb+ay/fHvZ+4G1d9/f7p7vA9lMm6bDCqZBBL3c44MtjK6F6LniaGCbgLgLaecBozGTDB47evIkHfRXEpwUmGCbyiIK52qiBLr5N54tFIZ5YjteK1v4SjBnSeFL5GRfgaDCc1DULsg2GRzUtSR9jknzQRXdY+bDvrrh7Vl8q6iSaWGPcp3GGXDquQsUNUpBbSCcNPMFwKHW3934eJrzveFASGsiHdVb7aNy0+FzfPFanb0tfz0w9Dyw9N9+/HZbbQEQuZuxAx9b6uS/d1Tv/6gLjGGuwACxqwx+2U7nWXhSebzOUjJVrhCVCejr/bH/06UoDdvq4bkGla2D0G3AbgXnwcKCHOwJ1DS1w2GoDiNaUyzxYJBjaYxnmOUJyZhxrOLmZ4cYkfZDSaFjAd1MnJf2cFHh861F2zqHfTWGOzNeIYXfQ+E7C67p3VvYGvobEZm93qrqWrWAGh1ra2pp62RDsT843pEZwrxuXmUZnpvjuOSZJH/r/KfQj++alF+LUNQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(136003)(39860400002)(376002)(366004)(346002)(36756003)(6916009)(6512007)(66574015)(2906002)(2616005)(83380400001)(31686004)(186003)(54906003)(5660300002)(33964004)(8936002)(86362001)(31696002)(38100700002)(66476007)(66556008)(8676002)(4326008)(6506007)(6666004)(478600001)(316002)(66946007)(41300700001)(6486002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UHl0UTQ1OVpiNmcwMEhIdjF0Z0VHUTZ4a2E0ZzI1aEFUZU5oenhWaE5VcjV1?=
- =?utf-8?B?SmpZc2RwWndrN3pubU92ZytMWjVnREVLTkZPSlByUXRPb3E4RlN6VjBSWG1x?=
- =?utf-8?B?eFFjTDNwaGd0dHZMMXI2UlFUNTg5MTFGR1ZDSml5SHVBb2hmbHVhdkE0eDFN?=
- =?utf-8?B?eWM4bjNSeW4vanNvaDRaRXZwb0psUjMrMjhaNVI1eDJNRlRLaGtrRTl2V2ZN?=
- =?utf-8?B?djBDbk9NOWsydTlKNG90NXMwd1NlSEpRVVFtc21mMU5ReFAzdTQzZDNTWHU1?=
- =?utf-8?B?aFBIZzBWbE9LZGhmYkY0WGl0cUhNdHNOUVBpVlVrOXZPbXl2b2VHbXd0SFdD?=
- =?utf-8?B?Nk83RWx5anFNeWgydnBxcVlxRFMzamR6YTFRM3lXLzBDR1BYUFhQOEhpM05Y?=
- =?utf-8?B?U2NaQnlnSXp1MkV0K253ZVd0MXlrMytiaGozSUlaUjR3Uk5uOWZSZnZibHhB?=
- =?utf-8?B?OGZaMzJDMG5vRGIwaEgvR0JHaHdlQ0cvSXhRVTA3QkI5dWY1YVZRQXlMT1c1?=
- =?utf-8?B?WS9xRXZscUZvZDQvWDBWc0hHNW85WWFPVSsyVlhFMys3V25EQXhjbTd5VE1s?=
- =?utf-8?B?QnFhSmMzS1pGcndJUWR3R2lTR2hrR2dOemRXM1FuS1pQL1RYN3hQUW5Va2FJ?=
- =?utf-8?B?cmhoNkovditXQVBWM0p5V2hQRDJhVS81QnpITkJOdnlpclFWbDQzQ3VMcEgv?=
- =?utf-8?B?ZVZ5dW9zSFpzQlRkeFdWd0tPczVSd0tiWDByZFUvOHUxcms0Q2crUzBjTmNH?=
- =?utf-8?B?YitSa0dBd3ptSWNvWmZNVFc4dWI3WFd6RzRpRU5hSVl0MnVhS2Rha3BjU2NO?=
- =?utf-8?B?dGJpVXZVUVkwM1k3VktXQXlSYzB6RGlpVHpFSzdoWTRrcXRZdWFpSFlWbEgy?=
- =?utf-8?B?cXo1ODJ3ek5YZGVhSGhIVjdsWXNtalBOelZoTlRLQnY1TFdWQlhDOEgwVU5a?=
- =?utf-8?B?Y3BzNTJTVTNseFlZNlJYbktWUWY4Y3Q0TFFBTDN2NGNLQzFDa3ZKeXBOVnls?=
- =?utf-8?B?ZUU2S0dKODZMSnp1ck81R3JZR2xUbncxbkZTVUJQa3B0OHdVTzdybHlBVGxK?=
- =?utf-8?B?cTVDT2NvazY5RDVYQVVpNHlOV0VHa0g3b1VBekNLcC9sVVRPYkN3YlNUR1ND?=
- =?utf-8?B?WWFvYnl5Yzl3YW00dVJtdElTUXlTWDZuVmVHb3I4UlJzYXk1ME80ODM5a3pI?=
- =?utf-8?B?VC9BSlRWOGdGZ2dPclJ6WUZoQTNCL2M3THhncU1nZFdkSzFyWlM0RjV4UmdY?=
- =?utf-8?B?MitpL2ZwSGg4Q2hmeDBJdmRSM3ZmUGdSbDdWNDlwaUh4anRjOWFwOXN6bHhJ?=
- =?utf-8?B?VXBnbjdRYXQ3TEFlT0hBbUZqNlIwTUF1NW10WitIdndGVVJkNDNwVkh5Rk50?=
- =?utf-8?B?aHM5N3BqOExaaXUrcU1Qb2UvajBRTWZtcHhTd1JmNHpuT3RJM2Y1cVd0Yzhp?=
- =?utf-8?B?dDlZRTQ5ck90ZFJvanNLc1RkSnBYVXVQUmFyQk5VdExocjFXS0krWDkvaE9E?=
- =?utf-8?B?MWgwc2c0TEE1elFISWd3czlWam9pak91Q1ZzMTF0ZkRKYVRIY0FVOEFPQ3Q3?=
- =?utf-8?B?K0pjYlJtZGZqQW42SDI2SmZzYU9ab2ZHV1VmdG90Sjc5L1p5YmtwbmNVT3dS?=
- =?utf-8?B?ZzJBY1R2SVZ4SFQyWEtZUkNUQjMvRUk5d3oxcHZaTWE2bThBamNJYWVOL2Ns?=
- =?utf-8?B?V2lKSzRZUUJaQzlsU0c3MTJnTTNvYlowMC82YlJRdHBDYmhndzdMQVhpT0Fs?=
- =?utf-8?B?Vk5UU2ZDVTRGUTl6S3dWSjFrSkttSEcvNTdTWTJUNWpYVEdPVTBLaXp4cTZM?=
- =?utf-8?B?SGljd2RTUjBya3ZNR3dGV3BWcElHRlQyS1dubm5ySFdwY29jZVFDSktRVnJk?=
- =?utf-8?B?eUN4amVDOXF5WFY0R3NqOVlGR243S21IRE5iYTJreEJ3aHhicGlycmlmZFlT?=
- =?utf-8?B?OVdLdFdGKy9jenlYb2xDZUQreUlmTTlMd0sxdklZRzgxaU82YkpxMUovQTl0?=
- =?utf-8?B?dFdxUDkvWWFhZjR1cThOR0dNaUliK3RKUHdQaHV5UXBhSU5TRFNxOStLY082?=
- =?utf-8?B?VkVrQXlxd0xOU3Rwbm96ZVUxWFAyaTZWcXQzeW1EZ0tPNDI3ZVlRK2pQOFNT?=
- =?utf-8?B?SmFZMnJxVHV5TVJNYWZwY2JUeUE5eXFoM1BPQnZaeEFOR2pQK2tSRER3T3ZR?=
- =?utf-8?Q?8g1HO/LwqAbM8yE6AQsxU/MKSoIMVU0iFzgHrwKC+Wbh?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 222e5942-0bf4-49f9-eb93-08da56b2c45a
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2022 13:58:22.6369 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Qry560bz7Ydi51wLRbYzoOIk65/FK9gvS8JZbj8L7A/oQTPCVYCu43gn8MYxYpgo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6528
+References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
+ <20220422072841.2206452-21-s.hauer@pengutronix.de>
+ <A86359EC-5291-41BD-966E-EB7890644731@gmail.com>
+ <CAMdYzYoFG3wCQaWXQNJd7mE20OMCj=ZeuewwZfaCJyoCBT-kQQ@mail.gmail.com>
+ <0E6FE020-C95E-47CF-A9D6-AC3F2B2D334F@gmail.com>
+ <CAMdYzYobfJ7WGN+UQ7t5e1Zy9knjfHLse8KzrGrHPfeMkkG0gw@mail.gmail.com>
+ <9F2D8CFF-1EAE-4586-9EE9-82A9D67840BB@gmail.com>
+ <CAMdYzYrz7DRj7F9hGaAPaTSiZkQ4eMNujAp8uPuE9geL6kAz4g@mail.gmail.com>
+ <9567EECF-A154-4FE1-A03C-5ED080409030@gmail.com>
+ <190C3FD3-0185-4A99-B10E-A5790047D993@gmail.com>
+ <CAMdYzYqGGfWDr11iyyfzigxsL7_N2szuag9P6TUZGuzGF4oB+A@mail.gmail.com>
+ <AF6176F5-995E-473B-B494-844ECC26BC03@gmail.com>
+ <CAMdYzYocZw1SNtgbfqn1VuvKTCiuMNTYRn2MydiGnL-UxtnYuA@mail.gmail.com>
+ <0D8B18A1-82FD-4902-A443-AD774DE43DAD@gmail.com>
+In-Reply-To: <0D8B18A1-82FD-4902-A443-AD774DE43DAD@gmail.com>
+From: Peter Geis <pgwipeout@gmail.com>
+Date: Sat, 25 Jun 2022 10:00:48 -0400
+Message-ID: <CAMdYzYpdo6Hb30y1oEya5GT1eXHJVTETq--HcmMjF40gvCUZ9A@mail.gmail.com>
+Subject: Re: [PATCH v11 20/24] arm64: dts: rockchip: enable vop2 and hdmi tx
+ on rock-3a
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,179 +79,216 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------S3jBpVoNnGJqrfzEebU0AVaL
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Sat, Jun 25, 2022 at 9:18 AM Piotr Oniszczuk
+<piotr.oniszczuk@gmail.com> wrote:
+>
+>
+>
+> > Wiadomo=C5=9B=C4=87 napisana przez Peter Geis <pgwipeout@gmail.com> w d=
+niu 25.06.2022, o godz. 01:50:
+> >
+> > On Fri, Jun 24, 2022 at 2:57 PM Piotr Oniszczuk
+> > <piotr.oniszczuk@gmail.com> wrote:
+> >>
+> >>
+> >>
+> >>> Wiadomo=C5=9B=C4=87 napisana przez Peter Geis <pgwipeout@gmail.com> w=
+ dniu 24.06.2022, o godz. 14:40:
+> >>>
+> >>>>
+> >>>> Sascha, Peter
+> >>>>
+> >>>> I returned to trying to find why hdmi-cec is not working on rock3-a =
+v1.31 hw.
+> >>>>
+> >>>> I'm on vop2 v11 on 5.18 mainline.
+> >>>>
+> >>>> Current findings:
+> >>>>
+> >>>> (1) the same sw. stack/binaries works on rock-3b (where cec uses hdm=
+itx_m0 instead of hdmitx_m1 I/O line);
+> >>>>
+> >>>> (2) gpio-cec however works no problem on rock3-a;
+> >>>>
+> >>>> (3) monitoring cec messages with v4-utils 'cec-follower -s' shows ex=
+act the same events in non-working rock3-a and working rock3-b
+> >>>> (tested by issue configure cec by 'cec-ctl -d /dev/cec0 --phys-addr=
+=3D1.0.0.0 --playback' command)
+> >>>
+> >>> --phys-addr isn't a valid command for this controller. The device
+> >>> designation is only required if you have more than one cec device.
+> >>>
+> >>>>
+> >>>> --> i'm interpreting this as confirmation that low level phy layer r=
+eceives ok cec data from connected device on non-working rock3-a;
+> >>>>
+> >>>> (4) debug sysfs for cec shows "has CEC follower (in passthrough mode=
+)" for working rock-3b and there is NO "has CEC follower" debug message in =
+failing rock3-a.
+> >>>
+> >>> This makes me suspect you are in fact not using the same software
+> >>> stack, or are not running the same commands.
+> >>
+> >> It was the same SD card - with only DT declaration changed in boot.scr
+> >> Such SD card has cec perfectly working in rock3b
+> >>
+> >>> Running `cec-follower -v -m -T` on a rk3566 device with working cec
+> >>> using 5.19-rc1, I see no mention of cec-follower in the debugfs cec0
+> >>> status entry.
+> >>>
+> >>>>
+> >>>> For me It looks like low-level hdmi-cec works ok on failing rock3-a =
+- but upper layers (in hdmi vop2?) are not registering (or failing to regis=
+ter) cec-follower filehandle. This happens just when hdmitx I/O in DT is ch=
+anged from hdmitx_m0 to hdmutx_m1. A bit strange - but all my tests consist=
+ently confirming this observation....
+> >>>
+> >>> There is nothing wrong with vop2 as it is not involved at all in this=
+.
+> >>> The rockchip hdmi driver (which is not specific to vop2) does nothing
+> >>> more than call the cec registration method in the dw hdmi bridge
+> >>> driver, which then calls the kernel cec registration functions.
+> >>> Changing pinmux changes nothing in how this functions.
+> >>>
+> >>>>
+> >>>> I'm too weak in kernel cec internals - so maybe you have any pointer=
+s how to further debug/investigate this issue?
+> >>>
+> >>> As we discussed in the pine64 room, this is still very likely a
+> >>> hardware issue with this board. A configuration issue with your u-boo=
+t
+> >>> or tf-a is also a possibility, but is less likely.
+> >>>
+> >>> You showed with your logic analyzer with nothing plugged in and cec
+> >>> not muxed to m1, data was present on m1.
+> >>
+> >> Issue of presence of data on m1 with nothing plugged was mistake from =
+my side: wrong board pin used to connect logic analyser GND.
+> >> After correctly connecting GND - all is ok (no any unexpected data; pu=
+lses appears only after cec commands; pulses timings are ok so cec protocol=
+ analyser shows reasonable data; no cec timing errors reported by protocol =
+analyser).
+> >>
+> >>
+> >>> I requested you investigate
+> >>> the following, to which you haven't replied:
+> >>> Have you tried forcing m0 to be assigned to a device other than hdmi-=
+cec?
+> >>
+> >> I'm a bit lost here: v1.31 hw uses m1 and m0 is unused.
+> >> Is you idea to verify that m0 is not used by hdmi-cec - even when m1 i=
+s declared for hdmi-cec in DT?
+> >> May you pls hint me with any example of DT snippet for Your m0 assignm=
+ent idea?
+> >
+> > As pinctrl is only assigned when a device explicitly requests it in
+> > the kernel driver, it is possible to have multiple pinctrl pins
+> > assigned to a single device if it was left that way by previous
+> > software or userspace has fun with it. Such as both the m0 and m1 pins
+> > are assigned to the cec-controller. Such a case is broken.
+> >
+> > You can assign the m0 pin to another device explicitly, but before
+> > doing so I'd read the register manually just to see if it. For example
+> > that pin also is the spi3m1_cs1 pin.
+>
+> So done test where I assigned m0 for gpio-cec.
+> 2nd cec device appeared.
+> But this changed nothing regarding hdmi-cec.  Sill dead :-(
 
-Am 24.06.22 um 22:34 schrieb Daniel Vetter:
-> Digging out of a hole, apologies to everyone.
+On Rockchip devices, pinctrl and gpio are separate blocks. Even if you
+enable gpio, the pinctrl will still be assigned to the underlying
+device. You need to change the pinctrl assignment to another device.
+What was the result of your read of the register?
 
-No problem, I'm totally overworked as well.
+>
+> >
+> >>
+> >>> Have you checked if m1 is shorted to another pin?
+> >>
+> >> Yes. Looks ok for me.
+> >> (as radxa debian has working ok hdmi-cec i think hw is ok)
+> >>
+> >>>
+> >>> In regards to your data frames for 4.19 vs 5.18, image-view-on is not
+> >>> a valid command if the topology doesn't detect a device on the bus.
+> >>> I recommend running the same test, except run `cec-ctl -S --playback`
+> >>> and post the results for both.
+> >>
+> >> Pls find results for command `cec-ctl -S --playback`:
+> >>
+> >> 1.  radxa ubuntu 4.19 bsp:
+> >> logic analyser cec proto decoded + timings: https://pastebin.com/hHPmK=
+v4i
+> >> FYI logic analyser output (first 350msec): https://paste.pics/63cb4dc7=
+f9b51d8825d377b45bf71ae4
+> >>
+> >> 2. mainline 5.18.6:
+> >> logic analyser cec proto decoded + timings: https://pastebin.com/YYDUY=
+4x1
+> >> FYI logic analyser output (first 350msec): https://paste.pics/0d894b8c=
+eba164dc6d743f8044c7e01e
+> >>
+> >>
+> >
+> > Now this is interesting, the TV is responding in both cases. The TV
+> > does not show up at all in the return sequence in case 2?
+>
+>
+> So I started to compare `cec-ctl -S --playback`on rock3a and rock3b - but=
+ this time after cold reboots of: TV and board.
+>
+> overview of whole comm:
+> working OK rock3-b ( https://pastebin.com/ffthT5UQ )
+> non-working rock3-a ( https://pastebin.com/Qdn71qwS )
+>
+> First difference i see is idle/no idle between cec commands:
+> non-working: https://paste.pics/bb1616312d1f75b8808aff30f186ed76
+> working: https://paste.pics/96d96f4950f4d87defbfd8172819de2d
+>
+> i.e.
+> working: has 20ms idle before opcode 0xA6 https://paste.pics/346f482310ba=
+a0d6ed0a3d5b2e820e09
+> while non-working has no any idle https://paste.pics/640ee190e0d501d4fc9b=
+05c746a68502
+> data in frames is the same
+>
+> or
+> working: has 20ms idle before opcode 0x84 https://paste.pics/93cb7c3cd72a=
+b0f91c9a5b6ff24cadf3
+> while non-working has no any idle https://paste.pics/e9afed93f5b3acf6e11a=
+a00d390d52bc
+> data in frames is the same
+>
+> for opcode 0x87 data in frames is also the same
+>
+>
+> generally:
+> working has always around 16..20ms of idle between commands while non-wor=
+king has no any idles.
+>
+> How this is possible that changing m0->m1 changes timings in such way?
+>
+>
 
-> On Fri, Jun 17, 2022 at 03:08:00PM +0200, Christian König wrote:
->> Am 17.06.22 um 15:03 schrieb Bas Nieuwenhuizen:
->>> [SNIP]
->> BOOKKEEP is exactly for that, but as discussed with Daniel that's not what
->> we want in the kernel.
-> Not sure which Daniel you talked to, but this wasn't me.
+The first issue you have is the TV isn't responding until the absolute
+end. This strikes me as a signal integrity issue. Do you have an
+oscilloscope (not a logic analyzer, you need voltages and ramp times)
+to compare the working vs non-working signals? Check both sides of the
+level shifter.
 
-Hui what? Of course I'm talking about you.
+You can try bumping the drive levels for the m1 pin as well.
 
->> When you mix implicit with explicit synchronization (OpenGL with RADV for
->> example) it should be mandatory for the OpenGL to wait for any RADV
->> submission before issuing an operation.
->>
->> What you want to do is intentionally not supported.
-> vk is very intentional in it's rejecting of any implicit sync.
-
-[SNIP]
-
-> We should probably also document this in the kerneldoc for the BOOKKEEPING
-> usage that this is the fence type that vulkan cs should use in all
-> drivers, otherwise this will become an endless mess of driver specific
-> hacks (i.e. the world we currently live in).
-
-Well, Daniel somehow we are somehow not talking about the same thing here :)
-
-I've documented exactly what you describe above in the initial patch 
-which added BOOKKEEPING (I've still called it OTHER in that iteration):
-
-> >/+ /**/
-> >/+ * @DMA_RESV_USAGE_OTHER: No implicit sync./
-> >/+ */
-> >/+ * This should be used for operations which don't want to add an/
-> >/+ * implicit dependency at all, but still have a dependency on memory/
-> >/+ * management./
-> >/+ */
-> >/+ * This might include things like preemption fences as well as device/
-> >/+ * page table updates or even userspace command submissions./
-> >/+ */
-> >/+ * The kernel memory management *always* need to wait for those fences/
-> >/+ * before moving or freeing the resource protected by the dma_resv/
-> >/+ * object./
-> >/+ *//
-> >/+ DMA_RESV_USAGE_OTHER/
-
-Later on I've even explicitly mentioned that this is for Vulkan submissions.
-
-But it was *you* who made me remove that with the explanation that we 
-have to use READ for that or we break existing userspace.
-
-I mean that still makes a lot of sense to me because if I'm not 
-completely mistaken we do have use cases which break, especially 
-Vulkan+encoding.
-
-Regards,
-Christian.
-
-> -Daniel
-
---------------S3jBpVoNnGJqrfzEebU0AVaL
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    Am 24.06.22 um 22:34 schrieb Daniel Vetter:<br>
-    <blockquote type="cite" cite="mid:YrYfw6T4MGvifIco@phenom.ffwll.local">
-      <pre class="moz-quote-pre" wrap="">Digging out of a hole, apologies to everyone.</pre>
-    </blockquote>
-    <br>
-    No problem, I'm totally overworked as well.<br>
-    <br>
-    <blockquote type="cite" cite="mid:YrYfw6T4MGvifIco@phenom.ffwll.local">
-      <pre class="moz-quote-pre" wrap="">On Fri, Jun 17, 2022 at 03:08:00PM +0200, Christian König wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Am 17.06.22 um 15:03 schrieb Bas Nieuwenhuizen:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">[SNIP]
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">BOOKKEEP is exactly for that, but as discussed with Daniel that's not what
-we want in the kernel.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Not sure which Daniel you talked to, but this wasn't me.</pre>
-    </blockquote>
-    <br>
-    Hui what? Of course I'm talking about you.<br>
-    <br>
-    <blockquote type="cite" cite="mid:YrYfw6T4MGvifIco@phenom.ffwll.local">
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">When you mix implicit with explicit synchronization (OpenGL with RADV for
-example) it should be mandatory for the OpenGL to wait for any RADV
-submission before issuing an operation.
-
-What you want to do is intentionally not supported.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-vk is very intentional in it's rejecting of any implicit sync.</pre>
-    </blockquote>
-    <br>
-    [SNIP]<br>
-    <br>
-    <blockquote type="cite" cite="mid:YrYfw6T4MGvifIco@phenom.ffwll.local">
-      <pre class="moz-quote-pre" wrap="">We should probably also document this in the kerneldoc for the BOOKKEEPING
-usage that this is the fence type that vulkan cs should use in all
-drivers, otherwise this will become an endless mess of driver specific
-hacks (i.e. the world we currently live in).</pre>
-    </blockquote>
-    <br>
-    Well, Daniel somehow we are somehow not talking about the same thing
-    here :)<br>
-    <br>
-    I've documented exactly what you describe above in the initial patch
-    which added BOOKKEEPING (I've still called it OTHER in that
-    iteration):<br>
-    <br>
-    <blockquote type="cite">
-      <pre>&gt;<i> +	/**</i>
-&gt;<i> +	 * @DMA_RESV_USAGE_OTHER: No implicit sync.</i>
-&gt;<i> +	 *</i>
-&gt;<i> +	 * This should be used for operations which don't want to add an</i>
-&gt;<i> +	 * implicit dependency at all, but still have a dependency on memory</i>
-&gt;<i> +	 * management.</i>
-&gt;<i> +	 *</i>
-&gt;<i> +	 * This might include things like preemption fences as well as device</i>
-&gt;<i> +	 * page table updates or even userspace command submissions.</i>
-&gt;<i> +	 *</i>
-&gt;<i> +	 * The kernel memory management *always* need to wait for those fences</i>
-&gt;<i> +	 * before moving or freeing the resource protected by the dma_resv</i>
-&gt;<i> +	 * object.</i>
-&gt;<i> +	 */</i>
-&gt;<i> +	DMA_RESV_USAGE_OTHER</i></pre>
-    </blockquote>
-    <br>
-    Later on I've even explicitly mentioned that this is for Vulkan
-    submissions.<br>
-    <br>
-    But it was *you* who made me remove that with the explanation that
-    we have to use READ for that or we break existing userspace.<br>
-    <br>
-    I mean that still makes a lot of sense to me because if I'm not
-    completely mistaken we do have use cases which break, especially
-    Vulkan+encoding.<br>
-    <br>
-    Regards,<br>
-    Christian.<br>
-    <br>
-    <blockquote type="cite" cite="mid:YrYfw6T4MGvifIco@phenom.ffwll.local">
-      <pre class="moz-quote-pre" wrap="">
--Daniel
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------S3jBpVoNnGJqrfzEebU0AVaL--
+The m1 pin lives in the pmuio domain, whereas the other devices live
+in the normal domain. That could be affecting the signal strength.
