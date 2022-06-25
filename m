@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126C455A603
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 04:11:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E8555A654
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 05:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D4EE10E732;
-	Sat, 25 Jun 2022 02:11:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF01C10E2B6;
+	Sat, 25 Jun 2022 03:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9C4710E732;
- Sat, 25 Jun 2022 02:11:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1656123074; x=1687659074;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=PA+NlwtwluPHOiMrJMO876oPMfHwLC1uX43agZsOREk=;
- b=YOg2bZb9MHfF68nxam2iJlONpfVk7b1HNzXAw2v4mRCt5NhJee+0hXzW
- IltNsD6pC1zBXt1c9bMPiCSZ9q+a+RxyOInwIoW1MJzg884KOmePJZu2i
- fYVYl8CEvvy541Dx+Q5qMMJ83Ow71OA0Z8+XpoBled676QhL6xKsTQyLo Y=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 24 Jun 2022 19:11:14 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2022 19:11:13 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 24 Jun 2022 19:11:12 -0700
-Received: from [10.111.168.196] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 24 Jun
- 2022 19:11:10 -0700
-Message-ID: <dbc47ebe-ee03-8e3e-ed0d-b7ab299582d1@quicinc.com>
-Date: Fri, 24 Jun 2022 19:11:08 -0700
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7FB910E2B6;
+ Sat, 25 Jun 2022 03:32:45 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id e7so5438099wrc.13;
+ Fri, 24 Jun 2022 20:32:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LKSco285r+LBQaMK3CEIw2Y2qyyLlRxk1QU/hwtaC7w=;
+ b=pGbnH2iKlGn6nP41u7dMCmEWeVZTXyZSKKfbAPEqHgxJQEBNkUUfxz8QB8tfotERqO
+ 7g3bKs8R54D2UxsOeg7ziQQM9Oksyn1yEF9w0KBE2P7GgP8QdjFPTxE/LQ/0fIoK/Ci1
+ YA4KyDAcRtVK/PLy5jcz3EwUVqY7pyS052CuTZGNZDoBXC+68SbFSgFOfcGw8l/n1dQP
+ KO7chDVucEn5icBEv/yeYWFT3DAVns9rZmq9Gh4b3ozorLVK7BslOwmbRkgKOqRjcbhi
+ Onb3eLGfq184O65NvaewS95eKbWjS5PVVE7/PVT+u47z5EmUs119b04LbKCkbwr2A9o1
+ iHmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LKSco285r+LBQaMK3CEIw2Y2qyyLlRxk1QU/hwtaC7w=;
+ b=fWFF/QDP6q2cybc8kjP970KdUrzJuBiZhexf33KYdBgw9LrA6FHELmFb/Qy1AnZpQj
+ tCUDIJ75CfYS2QQ6go/1GVP/evcGdFyNJOhOVcOHpnXC1oKfFqb8Pk1hoFok093RK0Bg
+ iO3znggFckGgM4YTpGYnxrwSP5dzUsWskBWGF4QvG39qB52RKMY0SbBLDHXqiSd1jQfQ
+ tlK/6MOLVBPbddWUNHYR41dN98imGY4mI8BY6unBuIdTf2+gW7iGU45BSQZneUFX1mkx
+ uVhcu4C0+g54TF2j3PYtH62Er2KAEWEFI//e/NGS6HurPwxLRdLKgSMX79M5DpeL+FBb
+ CDcg==
+X-Gm-Message-State: AJIora/8zIqCJoRk9DlKwLYPRdOukrPX6BRnuFRpHkpg/o5g1iexLB8+
+ V08KXzpoRyevlZax1STgB9y+R57bMKSM6YdnZFo=
+X-Google-Smtp-Source: AGRyM1s7/4WbArtdYXdzQsrE61eW1zG66cSg/9SYyvW1Vr/b5J7u5RjICzNXTu+0WZziSzTzFzffhLTYZ8u/XYgr9VA=
+X-Received: by 2002:a5d:4251:0:b0:21b:885b:2fcc with SMTP id
+ s17-20020a5d4251000000b0021b885b2fccmr2065007wrr.52.1656127964050; Fri, 24
+ Jun 2022 20:32:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dp: Remove encoder pointer from struct msm_dp
-Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20220625002811.3225344-1-swboyd@chromium.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220625002811.3225344-1-swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220609174213.2265938-1-robdclark@gmail.com>
+ <YrYjO1oSUqL8f4xV@phenom.ffwll.local>
+In-Reply-To: <YrYjO1oSUqL8f4xV@phenom.ffwll.local>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 24 Jun 2022 20:32:57 -0700
+Message-ID: <CAF6AEGvB_uRAJG6YW4zFunHfigXLDdGV3R5Vp11vU4D5pzi0eA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] drm: Add DRM_GEM_FOPS
+To: Rob Clark <robdclark@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ freedreno <freedreno@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Chris Healy <cphealy@gmail.com>, Rob Clark <robdclark@chromium.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,106 +72,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- patches@lists.linux.dev, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jun 24, 2022 at 1:49 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, Jun 09, 2022 at 10:42:11AM -0700, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > The DEFINE_DRM_GEM_FOPS() helper is a bit limiting if a driver wants to
+> > provide additional file ops, like show_fdinfo().
+> >
+> > v2: Split out DRM_GEM_FOPS instead of making DEFINE_DRM_GEM_FOPS
+> >     varardic
+> > v3: nits
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> We're at three drivers, maybe it'd be better if this is more standardized?
+> I feel like we're opening a bit a can of worms here where everyone just
+> has some good odl fashioned fun. It's at least much better documented than
+> the old property proliferation :-)
 
+yeah, we could have a standardized drm_show_fdinfo() fop plus
+drm_driver callback.. at this point the drm core fxn would be rather
+boring, ie. only printing dev->driver->name, so I didn't pursue that
+approach (yet?).. but perhaps that changes over time.  I think we
+chose the right approach here, focusing on the documentation first so
+that userspace has a standardized experience.  The kernel side of
+things, we are free to refactor at any time ;-)
 
-On 6/24/2022 5:28 PM, Stephen Boyd wrote:
-> We don't need to stash the encoder here. Instead we can simply pass it
-> around as an argument.
-> 
-> Cc: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 4 +---
->   drivers/gpu/drm/msm/dp/dp_display.h | 1 -
->   drivers/gpu/drm/msm/dp/dp_drm.c     | 8 ++++----
->   drivers/gpu/drm/msm/dp/dp_drm.h     | 2 +-
->   4 files changed, 6 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index da5c03a8cc4c..798fd5398b48 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1621,8 +1621,6 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->   		return ret;
->   	}
->   
-> -	dp_display->encoder = encoder;
-> -
->   	ret = dp_display_get_next_bridge(dp_display);
->   	if (ret)
->   		return ret;
-> @@ -1638,7 +1636,7 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
->   
->   	priv->bridges[priv->num_bridges++] = dp_display->bridge;
->   
-> -	dp_display->connector = dp_drm_connector_init(dp_display);
-> +	dp_display->connector = dp_drm_connector_init(dp_display, encoder);
->   	if (IS_ERR(dp_display->connector)) {
->   		ret = PTR_ERR(dp_display->connector);
->   		DRM_DEV_ERROR(dev->dev,
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 4f9fe4d7610b..dcedf021f7fe 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -15,7 +15,6 @@ struct msm_dp {
->   	struct device *codec_dev;
->   	struct drm_bridge *bridge;
->   	struct drm_connector *connector;
-> -	struct drm_encoder *encoder;
->   	struct drm_bridge *next_bridge;
->   	bool is_connected;
->   	bool audio_enabled;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> index 62d58b9c4647..6df25f7662e7 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -116,7 +116,7 @@ struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *
->   	}
->   
->   	if (dp_display->next_bridge) {
-> -		rc = drm_bridge_attach(dp_display->encoder,
-> +		rc = drm_bridge_attach(encoder,
->   					dp_display->next_bridge, bridge,
->   					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->   		if (rc < 0) {
-> @@ -130,15 +130,15 @@ struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *
->   }
->   
->   /* connector initialization */
-> -struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
-> +struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder)
->   {
->   	struct drm_connector *connector = NULL;
->   
-> -	connector = drm_bridge_connector_init(dp_display->drm_dev, dp_display->encoder);
-> +	connector = drm_bridge_connector_init(dp_display->drm_dev, encoder);
->   	if (IS_ERR(connector))
->   		return connector;
->   
-> -	drm_connector_attach_encoder(connector, dp_display->encoder);
-> +	drm_connector_attach_encoder(connector, encoder);
->   
->   	return connector;
->   }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-> index f4b1ed1e24f7..82035dbb0578 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-> @@ -19,7 +19,7 @@ struct msm_dp_bridge {
->   
->   #define to_dp_bridge(x)     container_of((x), struct msm_dp_bridge, bridge)
->   
-> -struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display);
-> +struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder);
->   struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
->   			struct drm_encoder *encoder);
->   
-> 
-> base-commit: 24df12013853ac59c52cc726e9cbe51e38d09eda
+BR,
+-R
+
+> -Daniel
+>
+> > ---
+> >  include/drm/drm_gem.h | 26 ++++++++++++++++++--------
+> >  1 file changed, 18 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> > index 9d7c61a122dc..87cffc9efa85 100644
+> > --- a/include/drm/drm_gem.h
+> > +++ b/include/drm/drm_gem.h
+> > @@ -314,6 +314,23 @@ struct drm_gem_object {
+> >       const struct drm_gem_object_funcs *funcs;
+> >  };
+> >
+> > +/**
+> > + * DRM_GEM_FOPS - Default drm GEM file operations
+> > + *
+> > + * This macro provides a shorthand for setting the GEM file ops in the
+> > + * &file_operations structure.  If all you need are the default ops, use
+> > + * DEFINE_DRM_GEM_FOPS instead.
+> > + */
+> > +#define DRM_GEM_FOPS \
+> > +     .open           = drm_open,\
+> > +     .release        = drm_release,\
+> > +     .unlocked_ioctl = drm_ioctl,\
+> > +     .compat_ioctl   = drm_compat_ioctl,\
+> > +     .poll           = drm_poll,\
+> > +     .read           = drm_read,\
+> > +     .llseek         = noop_llseek,\
+> > +     .mmap           = drm_gem_mmap
+> > +
+> >  /**
+> >   * DEFINE_DRM_GEM_FOPS() - macro to generate file operations for GEM drivers
+> >   * @name: name for the generated structure
+> > @@ -330,14 +347,7 @@ struct drm_gem_object {
+> >  #define DEFINE_DRM_GEM_FOPS(name) \
+> >       static const struct file_operations name = {\
+> >               .owner          = THIS_MODULE,\
+> > -             .open           = drm_open,\
+> > -             .release        = drm_release,\
+> > -             .unlocked_ioctl = drm_ioctl,\
+> > -             .compat_ioctl   = drm_compat_ioctl,\
+> > -             .poll           = drm_poll,\
+> > -             .read           = drm_read,\
+> > -             .llseek         = noop_llseek,\
+> > -             .mmap           = drm_gem_mmap,\
+> > +             DRM_GEM_FOPS,\
+> >       }
+> >
+> >  void drm_gem_object_release(struct drm_gem_object *obj);
+> > --
+> > 2.36.1
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
