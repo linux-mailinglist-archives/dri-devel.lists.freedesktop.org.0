@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8983B55A6B3
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 05:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA34255A6B6
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jun 2022 05:59:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6893110EAFE;
-	Sat, 25 Jun 2022 03:59:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FBCD10EFB0;
+	Sat, 25 Jun 2022 03:59:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FCEE10EAFE;
- Sat, 25 Jun 2022 03:59:17 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1887010EE38;
+ Sat, 25 Jun 2022 03:59:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656129557; x=1687665557;
+ t=1656129579; x=1687665579;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=NUDwROg0Nj5+GhopjtKgYR+Ld7nKb8B4nReVTTJK10I=;
- b=hoPrWngi5UOps9apolL/vTreAJ7XepnBqXR+dFL4Rf8i8HPVw2paiZfv
- N/9R1fE5M+tpD3LxSGx9meY4a/iAjfRMWwhY3Dpaskew4FuowEvZc1EEs
- mVRGcmZzz6ZDkPoKchKzZCIxHCumvN0BBhMBjK/EGBES6sD4IyEgwXWMI
- lPrruN+aPQZaqoXyRbprRZOcJ2f+DmdNn7VRuxj6SW5zy7haP3QmHRwBp
- cNSp9I3Dq6gk50pmRyCLDDEAQFhyJL++9X9SdV72xWAKx3gmoVpHWCtCk
- 46X+jI7GuaiRkLYDmqbhYJ1ADZ+q97FHr5F3qSERE5lc5vkmjfj+loHYI w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10388"; a="269880219"
-X-IronPort-AV: E=Sophos;i="5.92,221,1650956400"; d="scan'208";a="269880219"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2022 20:59:15 -0700
-X-IronPort-AV: E=Sophos;i="5.92,221,1650956400"; d="scan'208";a="586805144"
+ bh=+lt1jj775IpGxnRP1hPtEExdO/EyzL8m73+oENsDHio=;
+ b=agTFeHm8QWelyVYfshExrK0a/jWo6coCWb6BpcYujJ+XOQJf17cUKbFY
+ 4sYhXhbS6o5vDH/Uaw2hxs76OjOGME6vEmCLP4sTLCwsIUjlXb4QXqpWZ
+ MqAYeIWIOaYavKDh92jeHJ9GZR45ASz8VNp3OgFur9892qBjbwlCuvcDt
+ Zc0iUnimkZClibndtqm3vHeiQtK3shyqRvPugrnItSxr4p72Z1WizJUBX
+ MMn2tzLLyLI9m6B1B5N5ES/8xo5sFMQjgNuIoabeiMsA39UFaS5q0zsZw
+ c2eGrB2f4BVGxIXVwC6OOvf6bOHx1z1LRBlqmpTOMgj7+SuWE5OqnC+Dh g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10388"; a="281187501"
+X-IronPort-AV: E=Sophos;i="5.92,221,1650956400"; d="scan'208";a="281187501"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 20:59:38 -0700
+X-IronPort-AV: E=Sophos;i="5.92,221,1650956400"; d="scan'208";a="835382888"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.209.58.126])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jun 2022 20:59:15 -0700
-Date: Fri, 24 Jun 2022 20:59:15 -0700
-Message-ID: <87letl8kbw.wl-ashutosh.dixit@intel.com>
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2022 20:59:38 -0700
+Date: Fri, 24 Jun 2022 20:59:38 -0700
+Message-ID: <87k0958kb9.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc/slpc: Add a new SLPC selftest
-In-Reply-To: <9d734dfa-ce26-465a-d20a-90dcd7355e78@intel.com>
-References: <20220610234712.36849-1-vinay.belgaumkar@intel.com>	<87leto1lsc.wl-ashutosh.dixit@intel.com>	<9d734dfa-ce26-465a-d20a-90dcd7355e78@intel.com>
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Subject: Re: [PATCH] drm/i915/guc/slpc: Add a new SLPC selftest
+In-Reply-To: <20220623233320.11041-1-vinay.belgaumkar@intel.com>
+References: <20220623233320.11041-1-vinay.belgaumkar@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -62,491 +62,53 @@ Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 Jun 2022 16:21:46 -0700, Belgaumkar, Vinay wrote:
-> On 6/22/2022 1:32 PM, Dixit, Ashutosh wrote:
-> > On Fri, 10 Jun 2022 16:47:12 -0700, Vinay Belgaumkar wrote:
-> >> This test will validate we can achieve actual frequency of RP0. Pcode
-> >> grants frequencies based on what GuC is requesting. However, thermal
-> >> throttling can limit what is being granted. Add a test to request for
-> >> max, but don't fail the test if RP0 is not granted due to throttle
-> >> reasons.
-> >>
-> >> Also optimize the selftest by using a common run_test function to avoid
-> >> code duplication.
-> > The refactoring does change the order of operations (changing the freq vs
-> > spawning the spinner) but should be fine I think.
-> Yes, we now start the spinner outside the for loop, so that freq changes
-> occur quickly. This ensures we don't mess with SLPC algorithm's history by
-> frequently restarting the WL in the for loop.
-> >
-> >> Rename the "clamp" tests to vary_max_freq and vary_min_freq.
-> > Either is ok, but maybe "clamp" names were ok I think since they verify req
-> > freq is clamped at min/max.
-> True, though clamp usually is associated with limiting, whereas we actually
-> increase the min.
-> >
-> >> v2: Fix compile warning
-> >>
-> >> Fixes 8ee2c227822e ("drm/i915/guc/slpc: Add SLPC selftest")
-> >> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> >> ---
-> >>   drivers/gpu/drm/i915/gt/selftest_slpc.c | 323 ++++++++++++------------
-> >>   1 file changed, 158 insertions(+), 165 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/gt/selftest_slpc.c b/drivers/gpu/drm/i915/gt/selftest_slpc.c
-> >> index b768cea5943d..099129aae9a5 100644
-> >> --- a/drivers/gpu/drm/i915/gt/selftest_slpc.c
-> >> +++ b/drivers/gpu/drm/i915/gt/selftest_slpc.c
-> >> @@ -8,6 +8,11 @@
-> >>   #define delay_for_h2g() usleep_range(H2G_DELAY, H2G_DELAY + 10000)
-> >>   #define FREQUENCY_REQ_UNIT	DIV_ROUND_CLOSEST(GT_FREQUENCY_MULTIPLIER, \
-> >>						  GEN9_FREQ_SCALER)
-> >> +enum test_type {
-> >> +	VARY_MIN,
-> >> +	VARY_MAX,
-> >> +	MAX_GRANTED
-> >> +};
-> >>
-> >>   static int slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 freq)
-> >>   {
-> >> @@ -36,147 +41,120 @@ static int slpc_set_max_freq(struct intel_guc_slpc *slpc, u32 freq)
-> >>	return ret;
-> >>   }
-> >>
-> >> -static int live_slpc_clamp_min(void *arg)
-> >> +static int vary_max_freq(struct intel_guc_slpc *slpc, struct intel_rps *rps,
-> >> +		  u32 *max_act_freq)
-> > Please run checkpatch, indentation seems off.
-> I had run it. Not sure why this wasn't caught.
-
-Need to use 'checkpatch --strict'.
-
-> >
-> >>   {
-> >> -	struct drm_i915_private *i915 = arg;
-> >> -	struct intel_gt *gt = to_gt(i915);
-> >> -	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
-> >> -	struct intel_rps *rps = &gt->rps;
-> >> -	struct intel_engine_cs *engine;
-> >> -	enum intel_engine_id id;
-> >> -	struct igt_spinner spin;
-> >> +	u32 step, max_freq, req_freq;
-> >> +	u32 act_freq;
-> >>	u32 slpc_min_freq, slpc_max_freq;
-> >>	int err = 0;
-> >>
-> >> -	if (!intel_uc_uses_guc_slpc(&gt->uc))
-> >> -		return 0;
-> >> -
-> >> -	if (igt_spinner_init(&spin, gt))
-> >> -		return -ENOMEM;
-> >> +	slpc_min_freq = slpc->min_freq;
-> >> +	slpc_max_freq = slpc->rp0_freq;
-> > nit but we don't really need such variables since we don't change their
-> > values, we should just use slpc->min_freq, slpc->rp0_freq directly. I'd
-> > change this in all places in this patch.
+On Thu, 23 Jun 2022 16:33:20 -0700, Vinay Belgaumkar wrote:
 >
-> I will remove it from the sub-functions, but will need to keep the one in
-> the main run_test(). We should query SLPC's min and max and then restore
-> that at the end of the test. It is possible that SLPC's min is different
-> from platform min for certain skus.
-
-Sorry, I am not following. The tests are varying freq between platform min
-to platform max correct? And platform min can be different from slpc min?
-So why don't the tests start at slpc min rather than platform min? Can't
-this return error?
-
-And shouldn't slpc->min set to the real slpc min rather than to the
-platform min when slpc initializes (in intel_guc_slpc_enable() or
-slpc_get_rp_values())? (I am assuming the issue is only for the min and not
-the max but not sure).
-
-So I'd expect everywhere a consistent set of freq's be used, in run_test()
-and the actual vary_min/max_freq tests and also in the main driver.
-
-> >
-> >> -	if (intel_guc_slpc_get_max_freq(slpc, &slpc_max_freq)) {
-> >> -		pr_err("Could not get SLPC max freq\n");
-> >> -		return -EIO;
-> >> -	}
-> >> -
-> >> -	if (intel_guc_slpc_get_min_freq(slpc, &slpc_min_freq)) {
-> >> -		pr_err("Could not get SLPC min freq\n");
-> >> -		return -EIO;
-> > Why do we need these two function calls? Can't we just use slpc->rp0_freq
-> > and slpc->min_freq as we are doing in the vary_min/max_freq() functions
-> > above?
-> Same as above.
-> >
-> > Also, as mentioned below I think here we should just do:
-> >
-> >          slpc_set_max_freq(slpc, slpc->rp0_freq);
-> >          slpc_set_min_freq(slpc, slpc->min_freq);
-> >
-> > to restore freq to a known state before starting the test (just in case a
-> > previous test changed the values).
-> Any test that changes the frequencies should restore them as well.
-
-I was saying restore the freq's *before* starting the tests as well to
-start from a known state.
-
-> >
-> >> -	}
-> >> -
-> >> -	if (slpc_min_freq == slpc_max_freq) {
-> >> -		pr_err("Min/Max are fused to the same value\n");
-> >> -		return -EINVAL;
-> > What if they are actually equal? I think basically the max/min freq test
-> > loops will just not be entered (so effectively the tests will just
-> > skip). The granted freq test will be fine. So I think we can just delete
-> > this if statement?
-> >
-> > (It is showing deleted above in the patch but is in the new code somewhere
-> > too).
-> Actually, we should set it to min/rp0 if this is the case. That change will
-> be in a separate patch. This is needed for certain cases.
-
-I don't see why it's needed as I said, can you explain? Set what to min/rp0?
-
-> >
-> >> -	}
-> >> -
-> >> -	intel_gt_pm_wait_for_idle(gt);
-> >> -	intel_gt_pm_get(gt);
-> >> -	for_each_engine(engine, gt, id) {
-> >> -		struct i915_request *rq;
-> >> -		u32 step, min_freq, req_freq;
-> >> -		u32 act_freq, max_act_freq;
-> >> -
-> >> -		if (!intel_engine_can_store_dword(engine))
-> >> -			continue;
-> >> +	/* Go from max to min in 5 steps */
-> >> +	step = (slpc_max_freq - slpc_min_freq) / NUM_STEPS;
-> >> +	*max_act_freq = slpc_min_freq;
-> >> +	for (max_freq = slpc_max_freq; max_freq > slpc_min_freq;
-> >> +				max_freq -= step) {
-> >> +		err = slpc_set_max_freq(slpc, max_freq);
-> >> +		if (err)
-> >> +			break;
-> >>
-> >> -		/* Go from min to max in 5 steps */
-> >> -		step = (slpc_max_freq - slpc_min_freq) / NUM_STEPS;
-> >> -		max_act_freq = slpc_min_freq;
-> >> -		for (min_freq = slpc_min_freq; min_freq < slpc_max_freq;
-> >> -					min_freq += step) {
-> >> -			err = slpc_set_min_freq(slpc, min_freq);
-> >> -			if (err)
-> >> -				break;
-> >> -
-> >> -			st_engine_heartbeat_disable(engine);
-> >> -
-> >> -			rq = igt_spinner_create_request(&spin,
-> >> -							engine->kernel_context,
-> >> -							MI_NOOP);
-> >> -			if (IS_ERR(rq)) {
-> >> -				err = PTR_ERR(rq);
-> >> -				st_engine_heartbeat_enable(engine);
-> >> -				break;
-> >> -			}
-> >> +		req_freq = intel_rps_read_punit_req_frequency(rps);
-> >>
-> >> -			i915_request_add(rq);
-> >> +		/* GuC requests freq in multiples of 50/3 MHz */
-> >> +		if (req_freq > (max_freq + FREQUENCY_REQ_UNIT)) {
-> >> +			pr_err("SWReq is %d, should be at most %d\n", req_freq,
-> >> +				max_freq + FREQUENCY_REQ_UNIT);
-> >> +			err = -EINVAL;
-> > Probably a nit but check can be (so should we be checking both high and low
-> > limits?):
-> >		if (req_freq > (max_freq + FREQUENCY_REQ_UNIT) ||
-> >		    req_freq < (slpc_min_freq - FREQUENCY_REQ_UNIT))
-> >
-> > Though if we do this we'd need to change the pr_err() or have two separate
-> > if statements. Not sure if it's worth it but thought I'll mention it.
-> We are looking to validate it does not cross the upper limit.
-
-OK.
-
-> >
-> >> +static int vary_min_freq(struct intel_guc_slpc *slpc, struct intel_rps *rps,
-> >> +		  u32 *max_act_freq)
-> >> +{
-> >> +	u32 step, min_freq, req_freq;
-> >> +	u32 act_freq;
-> >> +	u32 slpc_min_freq, slpc_max_freq;
-> >> +	int err = 0;
-> >>
-> >> -			act_freq =  intel_rps_read_actual_frequency(rps);
-> >> -			if (act_freq > max_act_freq)
-> >> -				max_act_freq = act_freq;
-> >> +	slpc_min_freq = slpc->min_freq;
-> >> +	slpc_max_freq = slpc->rp0_freq;
-> >>
-> >> -			igt_spinner_end(&spin);
-> >> -			st_engine_heartbeat_enable(engine);
-> >> -		}
-> >> +	/* Go from min to max in 5 steps */
-> >> +	step = (slpc_max_freq - slpc_min_freq) / NUM_STEPS;
-> >> +	*max_act_freq = slpc_min_freq;
-> >> +	for (min_freq = slpc_min_freq; min_freq < slpc_max_freq;
-> >> +				min_freq += step) {
-> >> +		err = slpc_set_min_freq(slpc, min_freq);
-> >> +		if (err)
-> >> +			break;
-> >>
-> >> -		pr_info("Max actual frequency for %s was %d\n",
-> >> -			engine->name, max_act_freq);
-> >> +		req_freq = intel_rps_read_punit_req_frequency(rps);
-> >>
-> >> -		/* Actual frequency should rise above min */
-> >> -		if (max_act_freq == slpc_min_freq) {
-> > Nit again. This check is somewhere in the new code but I think a better
-> > check is
-> >
-> >		if (max_act_freq <= slpc_min_freq)
-> >
-> > just in case the act freq for whatever reason falls below
-> > slpc_min_freq. Even if we know this is impossible (bugs make the impossible
-> > possible).
-> sure.
-> >
-> >> -			pr_err("Actual freq did not rise above min\n");
-> >> +		/* GuC requests freq in multiples of 50/3 MHz */
-> >> +		if (req_freq < (min_freq - FREQUENCY_REQ_UNIT)) {
-> >> +			pr_err("SWReq is %d, should be at least %d\n", req_freq,
-> >> +				min_freq - FREQUENCY_REQ_UNIT);
-> >>			err = -EINVAL;
-> > Again nit as above, but check can be:
-> >		if (req_freq < (min_freq - FREQUENCY_REQ_UNIT) ||
-> >		    req_freq > (slpc_max_freq + FREQUENCY_REQ_UNIT)) {
-> It can be higher, we want to validate lower range.
-
-OK.
-
-> >
-> >>		}
-> >>
-> >> +		act_freq =  intel_rps_read_actual_frequency(rps);
-> >> +		if (act_freq > *max_act_freq)
-> >> +			*max_act_freq = act_freq;
-> >> +
-> >>		if (err)
-> >>			break;
-> >>	}
-> >>
-> >> -	/* Restore min/max frequencies */
-> >> -	slpc_set_max_freq(slpc, slpc_max_freq);
-> >> -	slpc_set_min_freq(slpc, slpc_min_freq);
-> >> +	return err;
-> >> +}
-> >>
-> >> -	if (igt_flush_test(gt->i915))
-> >> -		err = -EIO;
-> >> +static int max_granted_freq(struct intel_guc_slpc *slpc, struct intel_rps *rps, u32 *max_act_freq)
-> >> +{
-> >> +	struct intel_gt *gt = rps_to_gt(rps);
-> >> +	u32 perf_limit_reasons;
-> >> +	int err = 0;
-> >>
-> >> -	intel_gt_pm_put(gt);
-> >> -	igt_spinner_fini(&spin);
-> >> -	intel_gt_pm_wait_for_idle(gt);
-> >> +	err = slpc_set_min_freq(slpc, slpc->rp0_freq);
-> >> +	if (err)
-> >> +		return err;
-> >> +
-> >> +	*max_act_freq =  intel_rps_read_actual_frequency(rps);
-> >> +	if (!(*max_act_freq == slpc->rp0_freq)) {
-> >> +		/* Check if there was some throttling by pcode */
-> >> +		perf_limit_reasons = intel_uncore_read(gt->uncore, GT0_PERF_LIMIT_REASONS);
-> >> +
-> >> +		/* If not, this is an error */
-> >> +		if (perf_limit_reasons && GT0_PERF_LIMIT_REASONS_MASK) {
-> >> +			pr_err("Pcode did not grant max freq\n");
-> >> +			err = -EINVAL;
-> > Looks incorrect, probably something like:
-> >		if (!(perf_limit_reasons & GT0_PERF_LIMIT_REASONS_MASK))
-> Hmm, good catch. We should flag error iff there is no throttling and act
-> freq does not go to max.
-> >
-> >> +		}
-> >> +	}
-> >>
-> >>	return err;
-> >>   }
-> >>
-> >> -static int live_slpc_clamp_max(void *arg)
-> >> +static int run_test(struct intel_gt *gt, int test_type)
-> >>   {
-> >> -	struct drm_i915_private *i915 = arg;
-> >> -	struct intel_gt *gt = to_gt(i915);
-> >> -	struct intel_guc_slpc *slpc;
-> >> -	struct intel_rps *rps;
-> >> +	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
-> >> +	struct intel_rps *rps = &gt->rps;
-> >>	struct intel_engine_cs *engine;
-> >>	enum intel_engine_id id;
-> >>	struct igt_spinner spin;
-> >> -	int err = 0;
-> >>	u32 slpc_min_freq, slpc_max_freq;
-> >> -
-> >> -	slpc = &gt->uc.guc.slpc;
-> >> -	rps = &gt->rps;
-> >> +	int err = 0;
-> >>
-> >>	if (!intel_uc_uses_guc_slpc(&gt->uc))
-> >>		return 0;
-> >> @@ -203,69 +181,56 @@ static int live_slpc_clamp_max(void *arg)
-> >>	intel_gt_pm_get(gt);
-> >>	for_each_engine(engine, gt, id) {
-> >>		struct i915_request *rq;
-> >> -		u32 max_freq, req_freq;
-> >> -		u32 act_freq, max_act_freq;
-> >> -		u32 step;
-> >> +		u32 max_act_freq;
-> >>
-> >>		if (!intel_engine_can_store_dword(engine))
-> >>			continue;
-> >>
-> >> -		/* Go from max to min in 5 steps */
-> >> -		step = (slpc_max_freq - slpc_min_freq) / NUM_STEPS;
-> >> -		max_act_freq = slpc_min_freq;
-> >> -		for (max_freq = slpc_max_freq; max_freq > slpc_min_freq;
-> >> -					max_freq -= step) {
-> >> -			err = slpc_set_max_freq(slpc, max_freq);
-> >> -			if (err)
-> >> -				break;
-> >> -
-> >> -			st_engine_heartbeat_disable(engine);
-> >> -
-> >> -			rq = igt_spinner_create_request(&spin,
-> >> -							engine->kernel_context,
-> >> -							MI_NOOP);
-> >> -			if (IS_ERR(rq)) {
-> >> -				st_engine_heartbeat_enable(engine);
-> >> -				err = PTR_ERR(rq);
-> >> -				break;
-> >> -			}
-> >> +		st_engine_heartbeat_disable(engine);
-> >>
-> >> -			i915_request_add(rq);
-> >> +		rq = igt_spinner_create_request(&spin,
-> >> +						engine->kernel_context,
-> >> +						MI_NOOP);
-> >> +		if (IS_ERR(rq)) {
-> >> +			err = PTR_ERR(rq);
-> >> +			st_engine_heartbeat_enable(engine);
-> >> +			break;
-> >> +		}
-> >>
-> >> -			if (!igt_wait_for_spinner(&spin, rq)) {
-> >> -				pr_err("%s: SLPC spinner did not start\n",
-> >> -				       engine->name);
-> >> -				igt_spinner_end(&spin);
-> >> -				st_engine_heartbeat_enable(engine);
-> >> -				intel_gt_set_wedged(engine->gt);
-> >> -				err = -EIO;
-> >> -				break;
-> >> -			}
-> >> +		i915_request_add(rq);
-> >> +
-> >> +		if (!igt_wait_for_spinner(&spin, rq)) {
-> >> +			pr_err("%s: Spinner did not start\n",
-> >> +			       engine->name);
-> >> +			igt_spinner_end(&spin);
-> >> +			st_engine_heartbeat_enable(engine);
-> >> +			intel_gt_set_wedged(engine->gt);
-> >> +			err = -EIO;
-> >> +			break;
-> >> +		}
-> >>
-> >> -			delay_for_h2g();
-> >> +		switch (test_type) {
-> >>
-> >> -			/* Verify that SWREQ indeed was set to specific value */
-> >> -			req_freq = intel_rps_read_punit_req_frequency(rps);
-> >> +		case VARY_MIN:
-> >> +			err = vary_min_freq(slpc, rps, &max_act_freq);
-> >> +			break;
-> >> +
-> >> +		case VARY_MAX:
-> >> +			err = vary_max_freq(slpc, rps, &max_act_freq);
-> >> +			break;
-> >>
-> >> -			/* GuC requests freq in multiples of 50/3 MHz */
-> >> -			if (req_freq > (max_freq + FREQUENCY_REQ_UNIT)) {
-> >> -				pr_err("SWReq is %d, should be at most %d\n", req_freq,
-> >> -				       max_freq + FREQUENCY_REQ_UNIT);
-> >> +		case MAX_GRANTED:
-> >> +			/* Media engines have a different RP0 */
-> >> +			if ((engine->class == VIDEO_DECODE_CLASS) ||
-> >> +			    (engine->class == VIDEO_ENHANCEMENT_CLASS)) {
-> >>				igt_spinner_end(&spin);
-> >>				st_engine_heartbeat_enable(engine);
-> >> -				err = -EINVAL;
-> >> -				break;
-> >> +				err = 0;
-> >> +				continue;
-> > I think it's preferable to move this media engine code out of the main loop
-> > into max_granted_freq() function if possible (maybe by faking max_act_freq
-> > if needed)?
-> All the engine related info is here. I will need to pass it to the
-> max_granted_freq() function.  Also, faking the act_freq probably
-> overkill. I can add a fixme here instead to update when we have a
-> reliable way to obtain media RP0 instead.
-
-OK let's leave as is, no need for FIXME, just leave the comment as before.
-
-> >
-> >>			}
-> >>
-> >> -			act_freq =  intel_rps_read_actual_frequency(rps);
-> >> -			if (act_freq > max_act_freq)
-> >> -				max_act_freq = act_freq;
-> >> -
-> >> -			st_engine_heartbeat_enable(engine);
-> >> -			igt_spinner_end(&spin);
-> >> -
-> >> -			if (err)
-> >> -				break;
-> >> +			err = max_granted_freq(slpc, rps, &max_act_freq);
-> >> +			break;
-> >>		}
-> >>
-> >>		pr_info("Max actual frequency for %s was %d\n",
-> >> @@ -277,31 +242,59 @@ static int live_slpc_clamp_max(void *arg)
-> >>			err = -EINVAL;
-> >>		}
-> >>
-> >> -		if (igt_flush_test(gt->i915)) {
-> >> -			err = -EIO;
-> >> -			break;
-> >> -		}
-> >> +		igt_spinner_end(&spin);
-> >> +		st_engine_heartbeat_enable(engine);
-> >>
-> >>		if (err)
-> >>			break;
-> >>	}
-> >>
-> >> -	/* Restore min/max freq */
-> >> +	/* Restore min/max frequencies */
-> >>	slpc_set_max_freq(slpc, slpc_max_freq);
-> >>	slpc_set_min_freq(slpc, slpc_min_freq);
-> > As mentioned above maybe we should restore at the beginning of the test too
-> > (before the for_each_engine() loop) to start from a known state?
-> >
-> > Anyway here maybe get rid of the variables and:
+> +static int max_granted_freq(struct intel_guc_slpc *slpc, struct intel_rps *rps, u32 *max_act_freq)
+> +{
+> +	struct intel_gt *gt = rps_to_gt(rps);
+> +	u32 perf_limit_reasons;
+> +	int err = 0;
 >
-> This is restoring whatever frequencies SLPC was running with
-> initially. Regarding resetting the frequencies to min for every engine loop
-> iteration, we are already iterating from min->max inside the for loop, so
-> will be duplication.
+> -			igt_spinner_end(&spin);
+> -			st_engine_heartbeat_enable(engine);
+> -		}
+> +	err = slpc_set_min_freq(slpc, slpc->rp0_freq);
+> +	if (err)
+> +		return err;
+>
+> -		pr_info("Max actual frequency for %s was %d\n",
+> -			engine->name, max_act_freq);
+> +	*max_act_freq =  intel_rps_read_actual_frequency(rps);
+> +	if (!(*max_act_freq == slpc->rp0_freq)) {
 
-I didn't say reset frequencies to min for every engine loop iteration, I
-said "before the for_each_engine() loop". Same as above: "I was saying
-restore the freq's *before* starting the tests as well to start from a
-known state".
+nit but '*max_act_freq != slpc->rp0_freq'
+
+
+> +		/* Check if there was some throttling by pcode */
+> +		perf_limit_reasons = intel_uncore_read(gt->uncore, GT0_PERF_LIMIT_REASONS);
+>
+> -		/* Actual frequency should rise above min */
+> -		if (max_act_freq == slpc_min_freq) {
+> -			pr_err("Actual freq did not rise above min\n");
+> +		/* If not, this is an error */
+> +		if (!(perf_limit_reasons && GT0_PERF_LIMIT_REASONS_MASK)) {
+
+Still wrong, should be & not &&
+
+> +			pr_err("Pcode did not grant max freq\n");
+>			err = -EINVAL;
+> -		}
+> +		} else {
+> +			pr_info("Pcode throttled frequency 0x%x\n", perf_limit_reasons);
+
+Another question, why are we using pr_err/info here rather than
+drm_err/info? pr_err/info is ok for mock selftests since there is no drm
+device but that is not the case here, I think this is done in other
+selftests too but maybe fix this as well if we are making so many changes
+here? Anyway can do later too.
+
+So let's settle issues in v2 thread first.
 
 Thanks.
 --
