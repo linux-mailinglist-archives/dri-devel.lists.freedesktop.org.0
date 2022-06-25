@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74EF55ACF3
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jun 2022 00:34:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8BF55ACF6
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jun 2022 00:37:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1FC010E0FD;
-	Sat, 25 Jun 2022 22:34:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6144D10E2B4;
+	Sat, 25 Jun 2022 22:37:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B96C110E0FD
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jun 2022 22:34:13 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id e2so8131990edv.3
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jun 2022 15:34:13 -0700 (PDT)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9BCD10E2B4
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jun 2022 22:37:04 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id mf9so11755975ejb.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jun 2022 15:37:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=L4B2P55ZFiYVCJ5DZUrHpNuoCg7yfMFjsA7dxqf94Ng=;
- b=CqNHYBzkAe+4uRJq+tgr9R+4iN85PvgiXpvwNIYaGcGIXorRGxtHVNIGaK99IVdvHT
- pUVMoPtPZq21KAi119Y47YaNA7tifutRngx+CWoVeN99hg/akvJEXvPC0wNJ41pEdVG9
- 0ynPpYCeziouXY4GdLbb6tymzQXgUcd37bbyY=
+ bh=YJINAh+SGkc8vWd5Li1rj+KiuqIn+stbSsKpfUxM85o=;
+ b=OG0cEsIKldUt6OHBZOkrHqhWP4/9Zw393OW32MSgG25xqO7li94raRoxrpU8BVUXlW
+ f85KURoa3KgtO7J1wpCi/THKCkFE95N9dMp4aCqRmzvuMqr3CczhlQmrE7DQ1xmPWHY+
+ sr0eeKFWUzMrGOp4R1Qzm1+X3mcrLOwcEXRUM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=L4B2P55ZFiYVCJ5DZUrHpNuoCg7yfMFjsA7dxqf94Ng=;
- b=uuhOQX3lxg1QFrHKlrEOYo1hB3gEcTqAJPs90fkfw8jqQu0P7cgkgVg6VEWYIIqRwH
- qHqIhJ7GeylGOVZHSLICTKcWvxEL472qZy1L7siKYv7ZFQO8uMJz447nBi+g8UWzZm1Q
- f51UPk/KnSHKUJjjxAQeWVeyKyxxuGWtZHHoFpcyDIS0vk4ap8R1YYvR6cZOHnPNUT/R
- R5nmAkfcLSah3sniG/iUtVbKwBdQ57YYiGWT93XjKxePBBRQVt1jzDUGMbq710X8K8Sd
- l5YGBUGmsF5f//byJIyVzbo4D3jwqn25BqRPQYLczgzvguV5P/TPmJLAedYcY/7Wvcl2
- PCng==
-X-Gm-Message-State: AJIora+M1e7gG3mcnXotjYadALToK6WyyN80bQyY87pKshMlrZIvjTCp
- EP2/FUu21ep0Ro2THjfEVWdBbw==
-X-Google-Smtp-Source: AGRyM1vFAMaVxrejgeHUVQtzbSf/+IsHavPxXruTBVbtBZT+dYhiGU9cCoDUlUW+zQyF/K8weo8tQA==
-X-Received: by 2002:a05:6402:50f:b0:435:7996:e90f with SMTP id
- m15-20020a056402050f00b004357996e90fmr7436475edv.110.1656196452357; 
- Sat, 25 Jun 2022 15:34:12 -0700 (PDT)
+ bh=YJINAh+SGkc8vWd5Li1rj+KiuqIn+stbSsKpfUxM85o=;
+ b=rrrM5bbp1wQujYGFYghcEOfXljJOWs+IhvwDlcQ+IXNSAzPbH0dih8o2gxbXriOFAS
+ I3gMnqmFC8xUk0jhxvB0+BhiRfkOOy16T40daJ7QyK7bGDKvsv3uJYJryitOe5C4SWlA
+ kimYppyODxV5Es+JzfK4uCJFCAFSYtXHU0fr3u3IoYjVV1ylHXzLKOESTeXuJcrg81n1
+ 0pNEimGAQNPHXHQGID6BNSasSET40JqSE8JJu8cLLmuM9M3VrM7vZ5JZ5FNrSFKKCTNd
+ T3y6boKjEB1PvBK95fI4rVWVw29EHsfxQ4ucaJAqskQp1l5XdaHl9pfxZhYE5nAcQ3vA
+ CdEg==
+X-Gm-Message-State: AJIora+YFxsphlWidVRrNChg3BeLEshoM6eROwy0UpGXWZGfdi5keBt+
+ b3ZxtaRDaYUyeUloFZO0aQalLQ==
+X-Google-Smtp-Source: AGRyM1tz6BcxEx+1rLxjnJilyDz4vyILX/H11JDKFW9vW6/NLDF+F0lHzjtHnoCgRfhirJeDNNQJyQ==
+X-Received: by 2002:a17:906:5344:b0:712:3c7e:cf58 with SMTP id
+ j4-20020a170906534400b007123c7ecf58mr5889772ejo.679.1656196623250; 
+ Sat, 25 Jun 2022 15:37:03 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- o7-20020a170906860700b00722d5f07864sm3004263ejx.225.2022.06.25.15.34.11
+ i13-20020a170906444d00b00722eeb368cesm3092150ejp.64.2022.06.25.15.37.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Jun 2022 15:34:11 -0700 (PDT)
-Date: Sun, 26 Jun 2022 00:34:10 +0200
+ Sat, 25 Jun 2022 15:37:02 -0700 (PDT)
+Date: Sun, 26 Jun 2022 00:37:01 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v3 4/4] fbmem: Prevent invalid virtual screen sizes
-Message-ID: <YreNYlP17bJGx6NV@phenom.ffwll.local>
+Subject: Re: [PATCH v3 3/4] fbmem: Check screen resolution change against
+ font size
+Message-ID: <YreODaSXhAhipJKa@phenom.ffwll.local>
 References: <20220625220630.333705-1-deller@gmx.de>
- <20220625220630.333705-5-deller@gmx.de>
+ <20220625220630.333705-4-deller@gmx.de>
+ <YreNUfv8d9QeJT8C@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220625220630.333705-5-deller@gmx.de>
+In-Reply-To: <YreNUfv8d9QeJT8C@phenom.ffwll.local>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,40 +75,54 @@ Cc: daniel.vetter@ffwll.ch, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 26, 2022 at 12:06:30AM +0200, Helge Deller wrote:
-> Prevent that drivers or the user sets the virtual screen resolution
-> smaller than the physical screen resolution.  This is important, because
-> otherwise we may get accesses outside of the graphics memory area.
+On Sun, Jun 26, 2022 at 12:33:53AM +0200, Daniel Vetter wrote:
+> On Sun, Jun 26, 2022 at 12:06:29AM +0200, Helge Deller wrote:
+> > Enhance the check in the FBIOPUT_VSCREENINFO ioctl handler to verify if the
+> > user-provided new screen size is bigger than the current font size.
+> > 
+> > Signed-off-by: Helge Deller <deller@gmx.de>
+> > Cc: stable@vger.kernel.org # v5.4+
 > 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> Cc: stable@vger.kernel.org # v5.4+
+> Please squash with previous patch. You might also want to add a note there
+> that on older kernels backporters need to open-code
+> fbcon_info_from_console instead, since it only exists since 
+> 409d6c95f9c6 ("fbcon: Introduce wrapper for console->fb_info lookup")
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Maybe easier would be to include that patch in the backports instead of
+open coding. I think that's what Greg generally prefers at least, less
+divergence between stable kernels.
+-Daniel
 
-> ---
->  drivers/video/fbdev/core/fbmem.c | 6 ++++++
->  1 file changed, 6 insertions(+)
 > 
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index 160389365a36..b6e1d0f2b974 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1006,6 +1006,12 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
->  	if (var->xres < 8 || var->yres < 8)
->  		return -EINVAL;
+> With these two nits: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > 
-> +	/* make sure virtual resolution >= physical resolution */
-> +	if (var->xres_virtual < var->xres)
-> +		return -EINVAL;
-> +	if (var->yres_virtual < var->yres)
-> +		return -EINVAL;
-> +
->  	/* Too huge resolution causes multiplication overflow. */
->  	if (check_mul_overflow(var->xres, var->yres, &unused) ||
->  	    check_mul_overflow(var->xres_virtual, var->yres_virtual, &unused))
-> --
-> 2.35.3
+> > ---
+> >  drivers/video/fbdev/core/fbmem.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
+> > index afa2863670f3..160389365a36 100644
+> > --- a/drivers/video/fbdev/core/fbmem.c
+> > +++ b/drivers/video/fbdev/core/fbmem.c
+> > @@ -1106,7 +1106,9 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
+> >  			return -EFAULT;
+> >  		console_lock();
+> >  		lock_fb_info(info);
+> > -		ret = fb_set_var(info, &var);
+> > +		ret = fbcon_modechange_possible(info, &var);
+> > +		if (!ret)
+> > +			ret = fb_set_var(info, &var);
+> >  		if (!ret)
+> >  			fbcon_update_vcs(info, var.activate & FB_ACTIVATE_ALL);
+> >  		unlock_fb_info(info);
+> > --
+> > 2.35.3
+> > 
 > 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
 -- 
 Daniel Vetter
