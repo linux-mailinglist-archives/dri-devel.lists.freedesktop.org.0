@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E95C55B451
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 00:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE6D55B452
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 00:33:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 333D610F9CA;
-	Sun, 26 Jun 2022 22:33:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5238B113297;
+	Sun, 26 Jun 2022 22:33:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7021A10F9CA
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 22:33:02 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id z19so10580955edb.11
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 15:33:02 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 215FE113297
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 22:33:44 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id q6so15330457eji.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 15:33:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=googlemail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=F8k/W+Y55YNpW+5hRXZc8dzAY2Bfqx0VzAHHDvBJbEQ=;
- b=EvzVxegXdnLpT4J/m79ocqLBhfICA3aOveENKgLoHTw2PewgZmqHZnOIyXjjdpgpoD
- q4pRwTMX+1sNXWX9YY6+gdMpG+wMluN9CmJs2UQBpccf5/+lqtwf4FmVS1sUGysODiOD
- fCQdOtjUlBKnqoFGWf5tpVOFFCcA0No1aMFAmlSwUVM7eRt7qBY/SYMlrgUyZW2EJ2Ju
- afSQFxf7TJTlNqRsecYmQrm+75SGqFT1EmvywuDZe2H1c4cvO72OE+ehHcltGNl8lckk
- IPq9J+wKuY2NoOD5IcoNljty1ZOyC1d80Hk+gsVvRhdesNfr8YYN10wioSgrZ0wZpYHR
- ll6Q==
+ :cc; bh=O51AM3Qzm9rWVB6oLrltcYSc31aaLTopfeRLV80m1Yk=;
+ b=gDLni17NhALEi/hNiPzVgFRh7cP8zgvivg+f5FfBrWXKmrg1ZfqlR/dpgGsuvU8xyA
+ s2gLamxDUBAvE4VWjcmMmB6LdzW0OqpGmPC6HF54CN/3jMjGSzbnB8bjcgNAQc/kNn6F
+ uCqte+fPbMKqCp1KcHL13Kcclk3RWtO+ua/WreTkTN8rE8KiD8eb+Oqxb+1oWpWQ3xhx
+ IHvYoKz6GnK3Wg8Lbq3T3noIe+fwmQ/glEBh58trPhABAv7X8On2N2Jgvvh5FqZsnAyO
+ o1SMsqUi0da/Z3AJjmJImlmNXX5SkTkmUldE9MKCLp0a4EfXklkri1+Xg5EoFXL8unoI
+ SxBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=F8k/W+Y55YNpW+5hRXZc8dzAY2Bfqx0VzAHHDvBJbEQ=;
- b=vjBX2X8rNjXuY8lWB10Nydn9OT9/pHUNA2zvEO6GiH1Q/5x33PADat4XYJbcBfd5KR
- C5zYjcrASx9PTJvpWDVdsvbJGCZ9fHAbAvmL132EjxJefEHkI7urrPCNO/7uPwzJiaZI
- LTNHPIXA4GoXpZdG0CFb80MgWf582PKeN672FBujw7E0t+fCh+iQKgViWbeVU20uyEwu
- 2mUTooxFhVgGQLhGWuUsEFIHkDf9Bisi+rqbcuQqewbiME35i3bstpfyeLW9Awdjsdsf
- G5Vgqk14Z/YFAuy5FZKrdfmh4CIzYfB8mpe8TL+yMXcdD6xRrXhHJ7pJIHhK4UIzmay/
- Suhw==
-X-Gm-Message-State: AJIora9riN0TFdLO8ImZSJJeNoaGT4EahdZPWiXs3Dz4AXpk/wajdVL6
- WVqy0R/RLyFnGxqAXqAQjwHGtMoRE/47oZ7f9pI=
-X-Google-Smtp-Source: AGRyM1tllWJ+xUlV0MtVwcue9xV0he/QRwjFk8QXLH+yTZ9inE1uvC3fO2UW4H0Avwx7eoYrlZg6ZCtCqYNHHS9gr5Y=
-X-Received: by 2002:aa7:c542:0:b0:435:75e:8a7b with SMTP id
- s2-20020aa7c542000000b00435075e8a7bmr13122141edr.108.1656282780812; Sun, 26
- Jun 2022 15:33:00 -0700 (PDT)
+ bh=O51AM3Qzm9rWVB6oLrltcYSc31aaLTopfeRLV80m1Yk=;
+ b=Zq59FReDcjJET0lLB/XkJqXhAVlfWhNSriyZaivNuGjapUHs3jECPrAgmQMAgBMJj7
+ +Qto41GLunMWlSFd5bekUyc2QI61egpJlJ1SPqp6jfRwGivzD+jwGgDh2MibB1jHalfU
+ gK5eR9eI7AuD7/LrdRZLq5RiZbug/mQsk+WYEMGUgHnGwrsNN8mxgmdEuU7dqBYeXBzK
+ 9tSIzATvgx2HDSG3syCUlKky9xJEgyQ8YefbmwcpWJUmmYPvct83VTo43gqMPuSv+mhv
+ GQ/Wp6NtLLCY0kz3FT2UVTRIeXjmO3S3Vjg1B0mFdJ7HY23lyiZk8QsbQWqcUIhglH8m
+ Nfaw==
+X-Gm-Message-State: AJIora/gK1d1lSzyW07h7yYCko390XXouYqIO6GDxHagblT8PNbvxVlD
+ 02musCtsuOyCbS/q+V4W1nV22RngmEpcskMpa1I=
+X-Google-Smtp-Source: AGRyM1uXR6Lm+Uqx2z3Aq3NI7bcB199Bsml3RGNzAeBEZ0KTVBjoaNUwUSrUDkKtwStl3kTYGYR3Bb5P7Was8WuQxGQ=
+X-Received: by 2002:a17:906:3f51:b0:712:3945:8c0d with SMTP id
+ f17-20020a1709063f5100b0071239458c0dmr9736344ejj.302.1656282822640; Sun, 26
+ Jun 2022 15:33:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220617072723.1742668-1-narmstrong@baylibre.com>
- <20220617072723.1742668-7-narmstrong@baylibre.com>
-In-Reply-To: <20220617072723.1742668-7-narmstrong@baylibre.com>
+ <20220617072723.1742668-6-narmstrong@baylibre.com>
+In-Reply-To: <20220617072723.1742668-6-narmstrong@baylibre.com>
 From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Mon, 27 Jun 2022 00:32:50 +0200
-Message-ID: <CAFBinCB=RJeaqVi+d6gGAsQTWAU68iFF6T9bXAQVYUWKxgiYaw@mail.gmail.com>
-Subject: Re: [PATCH v3 6/6] drm/meson: add support for MIPI-DSI transceiver
+Date: Mon, 27 Jun 2022 00:33:31 +0200
+Message-ID: <CAFBinCDJmjpix6Y4yN8PbNUvJddEhwFjiLJe+zBLo9vN2oNbng@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] drm/meson: add DSI encoder
 To: Neil Armstrong <narmstrong@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,13 +70,12 @@ Cc: Jagan Teki <jagan@amarulasolutions.com>, linux-amlogic@lists.infradead.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
-
 On Fri, Jun 17, 2022 at 9:27 AM Neil Armstrong <narmstrong@baylibre.com> wrote:
-> +/* [31:16] RW intr_stat/clr. Default 0.
-> + *             For each bit, read as this interrupt level status,
-> + *             write 1 to clear.
-Do you know if an interrupt line from GIC is routed to the MIPI-DSI
-transceiver? If so, we should make it mandatory in patch #1 of this
-series (dt-bindings patch), even though it's not in use by the driver
-at the moment.
+>
+> This adds an encoder bridge designed to drive a MIPI-DSI display
+> by using the ENCL encoder through the internal MIPI DSI transceiver
+> connected to the output of the ENCL pixel encoder.
+>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
+Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
