@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0082E55B068
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jun 2022 10:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF7755B074
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jun 2022 10:56:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46CF410FD90;
-	Sun, 26 Jun 2022 08:50:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D50C14ADAD;
+	Sun, 26 Jun 2022 08:56:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C48D410FD83
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 08:50:24 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id u12so13026682eja.8
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 01:50:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=SFCEfpaDlOL9hYml7KkA/FOqx9Sb54eiS155GWVwklM=;
- b=MnWD6z0LPe34WH9gWk0zAiiztfYEz9A65uau3VeI5LtTrqAcQZraMuJMlqpb6gl64/
- 11JQ6GCkiCalO4Zoc4ASTm1txitASCcYx9jjzVmuF3WXfGJnMloVIsOlrsHCjb1z2DVJ
- cOGaFkjFnDN9kFluKqkKpkuEgNdqHkYD5jbwY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=SFCEfpaDlOL9hYml7KkA/FOqx9Sb54eiS155GWVwklM=;
- b=Ak/bREeh5u2ADhFV4YwJKIodvQ1fQTr/DNj8xre1MgRGDvuMlg103FngA8C5P5GZR6
- q6Guc/A/f6g+YkM0O7nQOsc7nOA0muVRabBT69iJ415JgBQ0x82WQQsrpxUFiweym84D
- JS1ORsohIPx59stxVrRpuANmg4/Zq7wWEw3ll7gHn+4qEdZEHGZz/zyzrucFSihYE0Z7
- GMBOc9ndLCLSMP5TJ+E+9hhSaO9Z90ZZe7xbEUXHloybMNAP91TIT9jutzbXp4y2aJnn
- ZnKTCUzdLn0AqmThnEajh/Ev6lMfNS8GADrIjEjrJCHvQA/HtJ04ABQVLSOJPmFtimxM
- CLbg==
-X-Gm-Message-State: AJIora9HRo4V3i96R09/lub7A+MAOudRlTp6K7xNqAA7wyy0bYyBX+tz
- WCkhK5txYCU8MGrC/8ISTZqJEw==
-X-Google-Smtp-Source: AGRyM1vELRzz0C9nDQlgjLFs2MvjZPAik8xdHUmKO6PMy3pgJPjIGZlWyN8EOdnZ+vFlJwec2qFneg==
-X-Received: by 2002:a17:907:94ce:b0:726:449e:73cc with SMTP id
- dn14-20020a17090794ce00b00726449e73ccmr6040264ejc.270.1656233423330; 
- Sun, 26 Jun 2022 01:50:23 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- i10-20020a170906698a00b0071cbc7487e0sm3556304ejr.71.2022.06.26.01.50.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jun 2022 01:50:22 -0700 (PDT)
-Date: Sun, 26 Jun 2022 10:50:21 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Helge Deller <deller@gmx.de>
-Subject: Re: [PATCH v4 2/3] fbcon: Prevent that screen size is smaller than
- font size
-Message-ID: <YrgdzT7LwoCv6Vok@phenom.ffwll.local>
-References: <20220625232703.401821-1-deller@gmx.de>
- <20220625232703.401821-3-deller@gmx.de>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBCDD14ADA7
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 08:56:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1656233776;
+ bh=4JAuHaTLkz/JzLra4c18B+NmRKbJo0riSTivAcu/sJY=;
+ h=X-UI-Sender-Class:From:To:Subject:Date;
+ b=C9eTeVKUgKK4Q6PNeNa6vCXTc8J2sFojexwTdm9dkxZ+XMJDwF6GG/bq351xCeOvJ
+ 95ll91OQNo7sTm/ZkeksO0LnHAhjNUXLEfbf3DAU7isP40g5f5tNqCy0k7VHAyAi5X
+ jpWkmImRXOs1y1IeKZAElJ/0ITGo7S+7F4QhNCNo=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100.fritz.box ([92.116.135.166]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M4s4r-1o7IwR19j5-001x4b; Sun, 26
+ Jun 2022 10:56:16 +0200
+From: Helge Deller <deller@gmx.de>
+To: dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch,
+ linux-fbdev@vger.kernel.org
+Subject: [PATCH v5 0/4] fbcon: Fixes for screen resolution changes
+Date: Sun, 26 Jun 2022 10:56:11 +0200
+Message-Id: <20220626085615.53728-1-deller@gmx.de>
+X-Mailer: git-send-email 2.35.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220625232703.401821-3-deller@gmx.de>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:6WYwd5gOQ7tonxkhAAO1TF0Js4BLQQvOzKW7x2PuJrIBko/g9Pj
+ ZTzHffgui7A2vLV/WhEADI62PT5DVxC79X1HTmNHCybTc+SdAQKr+WS82We0odaFuMcE9u8
+ tk2mXOpD2GYHvHdUpx9OOYbZtdGEJU2YKguvZdTRDVSNZMeICKVOl1LZtVsf0LsDL9dpi3m
+ TymYY/+x4liFypsDVwYWw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ck5oGGMOf7c=:GABgZh38PdfBrhCiDTsR/5
+ Xq1OfRlHt/BaOcNedaqnTDQgwsmC+4WJ3RDyOhWl6gmX791ThawFY3C4SLc1ClIfH9iOeP3gb
+ u2B9GZQTBBOsj2o5H+UdD1QzWC6lz9tM8yCabkgdaxp6aLf2P8cbn/B5pBJpTudidNnOkxsSW
+ SQeQfJR0vhHW9iKv85hU0pJJMwGSK9yhOhs+Uboc4uIH8i307sQeIITDEd10nJBxyDa7WYIuj
+ v8MbnWNgbvlSw6S3WfnFkLIZzqXLMjM/nzEEta20GbI+c14LVcP+8VPwOPe6xeOr5FfhA+qOQ
+ aM1R/JopY0927RD8h9n+WBRAStyHazSutUUiNJFcl5MB73HIhpYZbi+x+rmftGaxUGF/wzT0N
+ 8WoTsIEoW04cEsC2pTklSbY7a2RMDsXSU2MNmw/fa+padCLl6pJLyNlvG7mmIZbKuWaMJ9Eqd
+ wJthqsbIC/Mtj9bhIlMu72pqTH/RQgXwapyInu22vXEG8palhr6UnJ2xeA04+lZMz5xvaGkgL
+ hlI/tXJsFuatqZ8zxCIk2TbUlv1xfWhPz5SJ0E5wl3xhstbfybJeAki5TH2UWTK4WYnc0Y209
+ RjpMuHv50K6iF1oYxayNmIqd1qPDsS5QWNNiWCguXs58cWM1WMSs8mX6IEQl1aK/kdl1LQWcS
+ +pZhKLkD4rPz+holUmYom87ZXvfh466roJC63xK2uJ7gG/a66eergCVppLzCKKWbASl1un6a1
+ 9R19QwvSwpV1radmkVQju/pP+SBYw55dYMZgV5tlLkH0oXL8YAQDLw2LFiS1XsPyNMtSDXy+D
+ Lszha1O5CNeLwDhop5XVeVXIi+9l21jbnFxU2I0mK9s8RGflO5UlmSNZMO3S77dacX7enaO4j
+ EKDshRFC8uYvb7QoOj60Ko27f09zMZ+c/rbgiMhQkOUJVXvMV5Y+SaBL0Ay7iYHWPZ54VRHIC
+ 9MzoJ8WrD86YHF8KV17ctZ7AG7m0PNFuwKhD4LEG3kWISHKQt5hvlVGYOoS7KFfwXinfl+jZ3
+ fwibK0bKsgU1fTR8L0Bvy5MvvN+Jh4a4dl3FZGRXN50dWTCFTZIoq9HLg8t81qJZV3lg2XiG/
+ iGLvFySa2jVQEkiqV7fCmFgeqgKz4L883BlpPJSLq83F1ni9hQ0MXjikg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,116 +67,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 26, 2022 at 01:27:02AM +0200, Helge Deller wrote:
-> We need to prevent that users configure a screen size which is smaller than the
-> currently selected font size. Otherwise rendering chars on the screen will
-> access memory outside the graphics memory region.
-> 
-> This patch adds a new function fbcon_modechange_possible() which
-> implements this check and which later may be extended with other checks
-> if necessary.  The new function is called from the FBIOPUT_VSCREENINFO
-> ioctl handler in fbmem.c, which will return -EINVAL if userspace asked
-> for a too small screen size.
-> 
-> This patch depends on commit 409d6c95f9c6 ("fbcon: Introduce wrapper for console->fb_info lookup"),
-> so it needs to be backported as well.
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> Cc: stable@vger.kernel.org # v5.4+
+This series fixes possible out-of-bound memory accesses when users trigger
+screen resolutions changes with invalid input parameters, e.g. reconfigure=
+s
+screen which is smaller than the current font size, or if the virtual scre=
+en
+size is smaller than the physical screen size.
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Major change in this version v5 is that since we can't easily push
+commit 409d6c95f9c6 ("fbcon: Introduce wrapper for console->fb_info lookup=
+")
+downwards, a new patch #4 to clean up the old usage of "registered_fb[con2=
+fb_map[i]]"
+afterwards has been added.
 
-> ---
->  drivers/video/fbdev/core/fbcon.c | 27 +++++++++++++++++++++++++++
->  drivers/video/fbdev/core/fbmem.c |  4 +++-
->  include/linux/fbcon.h            |  4 ++++
->  3 files changed, 34 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index e162d5e753e5..2ab7515ac842 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -2736,6 +2736,33 @@ void fbcon_update_vcs(struct fb_info *info, bool all)
->  }
->  EXPORT_SYMBOL(fbcon_update_vcs);
-> 
-> +/* let fbcon check if it supports a new screen resolution */
-> +int fbcon_modechange_possible(struct fb_info *info, struct fb_var_screeninfo *var)
-> +{
-> +	struct fbcon_ops *ops = info->fbcon_par;
-> +	struct vc_data *vc;
-> +	int i;
-> +
-> +	WARN_CONSOLE_UNLOCKED();
-> +
-> +	if (!ops || ops->currcon < 0)
-> +		return -EINVAL;
-> +
-> +	/* prevent setting a screen size which is smaller than font size */
-> +	for (i = first_fb_vc; i <= last_fb_vc; i++) {
-> +		vc = vc_cons[i].d;
-> +		if (!vc || fbcon_info_from_console(i) != info)
-> +			continue;
-> +
-> +		if (vc->vc_font.width  > FBCON_SWAP(var->rotate, var->xres, var->yres) ||
-> +		    vc->vc_font.height > FBCON_SWAP(var->rotate, var->yres, var->xres))
-> +			return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(fbcon_modechange_possible);
-> +
->  int fbcon_mode_deleted(struct fb_info *info,
->  		       struct fb_videomode *mode)
->  {
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index afa2863670f3..160389365a36 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1106,7 +1106,9 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
->  			return -EFAULT;
->  		console_lock();
->  		lock_fb_info(info);
-> -		ret = fb_set_var(info, &var);
-> +		ret = fbcon_modechange_possible(info, &var);
-> +		if (!ret)
-> +			ret = fb_set_var(info, &var);
->  		if (!ret)
->  			fbcon_update_vcs(info, var.activate & FB_ACTIVATE_ALL);
->  		unlock_fb_info(info);
-> diff --git a/include/linux/fbcon.h b/include/linux/fbcon.h
-> index ff5596dd30f8..2382dec6d6ab 100644
-> --- a/include/linux/fbcon.h
-> +++ b/include/linux/fbcon.h
-> @@ -15,6 +15,8 @@ void fbcon_new_modelist(struct fb_info *info);
->  void fbcon_get_requirement(struct fb_info *info,
->  			   struct fb_blit_caps *caps);
->  void fbcon_fb_blanked(struct fb_info *info, int blank);
-> +int  fbcon_modechange_possible(struct fb_info *info,
-> +			       struct fb_var_screeninfo *var);
->  void fbcon_update_vcs(struct fb_info *info, bool all);
->  void fbcon_remap_all(struct fb_info *info);
->  int fbcon_set_con2fb_map_ioctl(void __user *argp);
-> @@ -33,6 +35,8 @@ static inline void fbcon_new_modelist(struct fb_info *info) {}
->  static inline void fbcon_get_requirement(struct fb_info *info,
->  					 struct fb_blit_caps *caps) {}
->  static inline void fbcon_fb_blanked(struct fb_info *info, int blank) {}
-> +static inline int  fbcon_modechange_possible(struct fb_info *info,
-> +				struct fb_var_screeninfo *var) { return 0; }
->  static inline void fbcon_update_vcs(struct fb_info *info, bool all) {}
->  static inline void fbcon_remap_all(struct fb_info *info) {}
->  static inline int fbcon_set_con2fb_map_ioctl(void __user *argp) { return 0; }
-> --
-> 2.35.3
-> 
+v5:
+- swapped patch #2 and #3
+- modified patch #3 to use registered_fb[con2fb_map[i]] instead of
+  fbcon_info_from_console(). This is necessary that the patch can
+  be cleanly pushed back to v5.4
+- added cleanup patch #4 to fix up patch #3 again to use fbcon_info_from_c=
+onsole()
+  for v5.19+
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+v4:
+- merged former patch #2 and #3
+- added more Reviewed-by
+- new patch #2 needs more testing. Note added to comit message that
+  another patch needs to be backport as well.
+
+Helge Deller (4):
+  fbcon: Disallow setting font bigger than screen size
+  fbmem: Prevent invalid virtual screen sizes
+  fbcon: Prevent that screen size is smaller than font size
+  fbcon: Use fbcon_info_from_console() in fbcon_modechange_possible()
+
+ drivers/video/fbdev/core/fbcon.c | 32 ++++++++++++++++++++++++++++++++
+ drivers/video/fbdev/core/fbmem.c | 10 +++++++++-
+ include/linux/fbcon.h            |  4 ++++
+ 3 files changed, 45 insertions(+), 1 deletion(-)
+
+=2D-
+2.35.3
+
