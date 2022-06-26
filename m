@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF7B55B189
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jun 2022 13:49:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E8055B18C
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jun 2022 13:55:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8470410EC60;
-	Sun, 26 Jun 2022 11:49:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DDCF10FCEC;
+	Sun, 26 Jun 2022 11:55:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 727E011213F
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 11:49:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C71D10FA85
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 11:55:02 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D5FFC611FD
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 11:49:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A88D7C341CA
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 11:49:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2C98E60F85
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 11:55:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 795A9C34114
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 11:54:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656244144;
- bh=gjYEq2Q9SXbncNY7OtkPoCwe+GlOt1k19ptNzg2X6cQ=;
+ s=k20201202; t=1656244499;
+ bh=HQcwdHtbCwJFg6rZ+DgYxxEhwnfP1EksmHPqdzm2wBE=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=dTQEUwhbV/Oc3lXVMH/fF4JY+PQ0fA7Qa9QLly96WjhXw9GmLlsQ5dqecoU4ZV61b
- yPFwpms/HqcdbqlIx6bMQRlqIK7I8xWIUF+TrfNGtlvWFoeDcpPZ2R6hrvSsw89x86
- tPvp37Nu8UKDA6gKGnbwdaH6oBeX0bh9zckF0VqPy0twq6oFJZModjGbSG84rOYjV0
- IqswM5hAWkMxWkA9nKH9JqJPJqXdkngLLuIBJdy4ewxZY3nrSPbrhjgkh4D2aZPpN2
- X3hHzrqNPWZvID/ByOZxN9EXyiaHOd+Fz7E7ZtbUfr3YhaEwHLcPiAYma9YyAGucRa
- MqvBjcxG3NI8w==
+ b=RZjrFlPjk/UFR/ayU8vIjLinGzfCzqCl/AvkJMSwwXBIpMPy+S1UE9dL3dR7wbXHL
+ uwZxsCKoNM+lTzvePuZkJLbWuSEBNfzTs14II41wpGiq17B9B/lsRV0FceryLqC6Il
+ 8yuTC8QoX3ms+5od+Kbv2eibt6hezig7ru6PK4goJib0V9stiijwcKaQkU1E4Mzxf9
+ T8YffBFvH72OCbqxvDjK9FmGxG49g1p8Uf+OmSyMLxkvxvpeMmz0tjk1UtDkbiDl6E
+ LLYF4kVvEuNWIwuOKFY4TVC4nLYBJjgJ3ev46vncDOsKl24qJPy0uGWUr9iEzmCZGE
+ JnrgW+g1DJ19w==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 99650CAC6E2; Sun, 26 Jun 2022 11:49:04 +0000 (UTC)
+ from userid 48) id 5BC7BCAC6E2; Sun, 26 Jun 2022 11:54:59 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216175] PowerColor Radeon Rx 6400 ITX does not work.
-Date: Sun, 26 Jun 2022 11:49:04 +0000
+Date: Sun, 26 Jun 2022 11:54:59 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,8 +50,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-216175-2300-xaMs1Ha0NT@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.description
+Message-ID: <bug-216175-2300-gVNjkDC23P@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216175-2300@https.bugzilla.kernel.org/>
 References: <bug-216175-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,10 +76,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216175
 
---- Comment #2 from nobutarounosuke@gmail.com ---
-Created attachment 301279
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301279&action=3Dedit
-attachment-C
+nobutarounosuke@gmail.com changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #301277|Attachment-A                |Journal: Attachment-A
+        description|                            |
 
 --=20
 You may reply to this email to add a comment.
