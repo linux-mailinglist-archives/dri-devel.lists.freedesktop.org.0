@@ -2,55 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE7B55AE88
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jun 2022 05:46:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248D255B004
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jun 2022 09:52:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43C4310FD58;
-	Sun, 26 Jun 2022 03:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03ACE14A1A5;
+	Sun, 26 Jun 2022 07:52:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E210510FD58
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 03:46:26 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- h9-20020a17090a648900b001ecb8596e43so6311801pjj.5
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jun 2022 20:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NkR3yCBKwWtovdy4WYrNPg8uwIMMvvK6YP84XNpC5FM=;
- b=SxczHg72LRcYZZeyIiUC/dUDmUHIX+IHXLm7tA8PS5Ey9h032Xo+Sjupj1Ocg4iqZF
- irqH8LnQAzeWHEXHcpEt3W4vm6vsGmG6DIjsthtOpO5exP/Br/dq49lYYjfJebUUYmZb
- KrL7/zML1qJP6xaQ6jcxtxWNVEI9A8LuBDc/ePcgtgxx4XW/t7xnoij0Z/kNkT2bqVj9
- eMatniqkhJwtBACFarHU48BoitruvajYm4RApdoaFJy+smp6Ffyjf+yj/q1rmOhbfbzp
- uXy3tgH3cKC77M01KYi1TuygQFn3/FC5YO6Z4ZrGtitatyQwH9b+q52m3GKtVZ7h1nAc
- 8IuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NkR3yCBKwWtovdy4WYrNPg8uwIMMvvK6YP84XNpC5FM=;
- b=gkzeS8+SFAoOu0mcEy/HxzctC64E3PJeSDWODUsbJkbNSZ5LxIoZYof5WoUY9bd2K2
- SXNRinqax4/HzH/uwwG6QLtdrdQIaYYW5laVZ9ygRBMQ/4I+hUsvz+/YExivk4rUwrZd
- w5Dl/6UC7jL8QgtIHLQccDLSPVAPiYjZwIXIAQB7BS603oJ1g9PpGsELp60MEeU7yGfn
- CuuNsp6qe5VqmwC2yKAX3Sjp320OnC/q4RNir+BMb8ItD8WOpZlWO/iJQb5WOabL0/xe
- q8/FxUcWwN8qL/XIodJU+7m1MqH/y7ns758UoMbpRroYkX3qgmu6n1bCg4OskqBl0G7S
- SU8g==
-X-Gm-Message-State: AJIora9W5qj46m5QGejBwnZok7y66oZnBf/h4eXzU+sCwHD1LTQQLyiR
- M5G3kHZo0VvR/ueA/O6Eg0v/4eeQtvX7/tkYx2o=
-X-Google-Smtp-Source: AGRyM1vIlFu2iMfIY1UA/3VhwYoNMAHpoKy2HsfungMuGCOUct2c8BjuyKL2gt576KiN6kYP7FPK+vw5/HCjoIbmG5E=
-X-Received: by 2002:a17:902:e748:b0:16a:726e:7c9e with SMTP id
- p8-20020a170902e74800b0016a726e7c9emr7253919plf.12.1656215186453; Sat, 25 Jun
- 2022 20:46:26 -0700 (PDT)
+Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 957CB14A1A5
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 07:52:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=Usbj4xtxxEGp0kaYoyrQ4HKHDXVdkTN035WJkoI8zIc=;
+ b=CURkRsOtsfaF+pW7C9vxmgszJ2KjaXHEG6FrQvRrd2kVriKXjzXIe/NMVs9T4dBZzqlYY9p8mUaA3
+ 3RmJFXg1Hid+3jooy0BzOFoJq64YeCTNiY1MGe5p/k72knUgxsy4wkKpukeoyK0cBCdDzpMWjXdD9u
+ xgZ9Y5iyn5IJx/G2ISrCktK+X3Mb4VsDFYFLG30sQCogIbTXhx0OEKsNeM2BLyG7CErnc6+el34v9A
+ uhbSEtikSy37051gtn1mVH8QqmK36jN0/nPR4Eie4iDiNdmBhNyP+xCIfasNmetihqqgC94qO4JcZa
+ 1c93MsCx/D//7AARtxR3Hqt8AaT5diQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-transfer-encoding:content-type:mime-version:references:
+ message-id:subject:cc:to:from:date:from;
+ bh=Usbj4xtxxEGp0kaYoyrQ4HKHDXVdkTN035WJkoI8zIc=;
+ b=v4o1U+q+aFiaGu997X7hZZL4Q/XU5gNrQNLFUiShWnKLptmkZ4O+NEO9ZzkPAejJz1LIoYEcVSErI
+ PR1sDKyCw==
+X-HalOne-Cookie: 57526dece2acb09934b81452261f6ac3ad4b01c5
+X-HalOne-ID: db1b5ebd-f524-11ec-a6c4-d0431ea8a283
+Received: from mailproxy1.cst.dirpod4-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id db1b5ebd-f524-11ec-a6c4-d0431ea8a283;
+ Sun, 26 Jun 2022 07:51:58 +0000 (UTC)
+Date: Sun, 26 Jun 2022 09:51:57 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Kevin Brace <kevinbrace@gmx.com>
+Subject: Re: [PATCH 0/1] Delete VIA DRM
+Message-ID: <YrgQHe5fTnRhe6hV@ravnborg.org>
+References: <20220626025641.4464-1-kevinbrace@gmx.com>
 MIME-Version: 1.0
-References: <20220624005036.37268-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20220624005036.37268-1-yang.lee@linux.alibaba.com>
-From: Orson Zhai <orsonzhai@gmail.com>
-Date: Sun, 26 Jun 2022 11:46:15 +0800
-Message-ID: <CA+H2tpHf-LoJE45-OJ17M4r9oE7_ruitvq9P4tk8odQBiw0YPg@mail.gmail.com>
-Subject: Re: [PATCH -next] drm: Remove unnecessary print function dev_err()
-To: Yang Li <yang.lee@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220626025641.4464-1-kevinbrace@gmx.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,44 +59,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Lyra Zhang <zhang.lyra@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Baolin Wang <baolin.wang7@gmail.com>
+Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 24, 2022 at 8:50 AM Yang Li <yang.lee@linux.alibaba.com> wrote:
->
-> The print function dev_err() is redundant because platform_get_irq()
-> already prints an error.
->
-> Eliminate the follow coccicheck warning:
-> ./drivers/gpu/drm/sprd/sprd_dpu.c:808:2-9: line 808 is redundant because platform_get_irq() already prints an error
->
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Hi Kevin,
 
-Acked-by: Orson Zhai <orsonzhai@gmail.com>
+On Sat, Jun 25, 2022 at 09:56:40PM -0500, Kevin Brace wrote:
+> From: Kevin Brace <kevinbrace@bracecomputerlab.com>
+> 
+> This patch is a supplemental patch to delete VIA DRM so that the proposed
+> OpenChrome DRM module can be compiled against drm-next-2022-06-03-1 tag of
+> drm-next branch.
+> Apply this patch first before applying the rest of OpenChrome DRM patches.
+This almost works - you need to delete include/uapi/drm_via_drm.h too.
 
-> ---
->  drivers/gpu/drm/sprd/sprd_dpu.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
-> index 3664089b6983..de4848dc0d22 100644
-> --- a/drivers/gpu/drm/sprd/sprd_dpu.c
-> +++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-> @@ -804,10 +804,8 @@ static int sprd_dpu_context_init(struct sprd_dpu *dpu,
->         }
->
->         ctx->irq = platform_get_irq(pdev, 0);
-> -       if (ctx->irq < 0) {
-> -               dev_err(dev, "failed to get dpu irq\n");
-> +       if (ctx->irq < 0)
->                 return ctx->irq;
-> -       }
->
->         /* disable and clear interrupts before register dpu IRQ. */
->         writel(0x00, ctx->base + REG_DPU_INT_EN);
-> --
-> 2.20.1.7.g153144c
->
+For your v1 this is fine, but when you submit v2 it is not OK to just
+delete all files and then add new files on top.
+We want to see the diff between the original files and the new files.
+Even though this is almost a rewrite we need to verify that copyrights
+are kept for example.
+
+As an example via_drm.h generates the nice diff below which is exactly
+what we want to see for reviewing purposes.
+
+As your patches will break the build, just modify drm/Makefile in your
+very first patch to drop the driver, and in the last patch you can update
+drm/Makefile to include the driver in the build again.
+In this way you do not break the build and the bots can give you build
+coverage you cannot do yourself.
+
+I look forward to see v2 of the patch-set.
+
+	Sam
+
+
+
+diff --git a/include/uapi/drm/via_drm.h b/include/uapi/drm/via_drm.h
+index a1e125d42208..e9da45ce130a 100644
+--- a/include/uapi/drm/via_drm.h
++++ b/include/uapi/drm/via_drm.h
+@@ -1,4 +1,5 @@
+ /*
++ * Copyright © 2020 Kevin Brace
+  * Copyright 1998-2003 VIA Technologies, Inc. All Rights Reserved.
+  * Copyright 2001-2003 S3 Graphics, Inc. All Rights Reserved.
+  *
+@@ -16,10 +17,10 @@
+  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+- * VIA, S3 GRAPHICS, AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+- * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+- * DEALINGS IN THE SOFTWARE.
++ * THE AUTHORS, COPYRIGHT HOLDERS, AND/OR ITS SUPPLIERS BE LIABLE FOR ANY
++ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
++ * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
++ * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  */
+ #ifndef _VIA_DRM_H_
+ #define _VIA_DRM_H_
+@@ -81,6 +82,11 @@ extern "C" {
+ #define DRM_VIA_DMA_BLIT        0x0e
+ #define DRM_VIA_BLIT_SYNC       0x0f
+ 
++#define	DRM_VIA_GEM_CREATE	0x10
++#define	DRM_VIA_GEM_MAP		0x11
++#define	DRM_VIA_GEM_UNMAP	0x12
++
++
+ #define DRM_IOCTL_VIA_ALLOCMEM	  DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_ALLOCMEM, drm_via_mem_t)
+ #define DRM_IOCTL_VIA_FREEMEM	  DRM_IOW( DRM_COMMAND_BASE + DRM_VIA_FREEMEM, drm_via_mem_t)
+ #define DRM_IOCTL_VIA_AGP_INIT	  DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_AGP_INIT, drm_via_agp_t)
+@@ -97,6 +103,10 @@ extern "C" {
+ #define DRM_IOCTL_VIA_DMA_BLIT    DRM_IOW(DRM_COMMAND_BASE + DRM_VIA_DMA_BLIT, drm_via_dmablit_t)
+ #define DRM_IOCTL_VIA_BLIT_SYNC   DRM_IOW(DRM_COMMAND_BASE + DRM_VIA_BLIT_SYNC, drm_via_blitsync_t)
+ 
++#define	DRM_IOCTL_VIA_GEM_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_GEM_CREATE, struct drm_via_gem_create)
++#define	DRM_IOCTL_VIA_GEM_MAP		DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_GEM_MAP, struct drm_via_gem_map)
++#define	DRM_IOCTL_VIA_GEM_UNMAP		DRM_IOR(DRM_COMMAND_BASE + DRM_VIA_GEM_UNMAP, struct drm_via_gem_unmap)
++
+ /* Indices into buf.Setup where various bits of state are mirrored per
+  * context and per buffer.  These can be fired at the card as a unit,
+  * or in a piecewise fashion as required.
+@@ -275,6 +285,23 @@ typedef struct drm_via_dmablit {
+ 	drm_via_blitsync_t sync;
+ } drm_via_dmablit_t;
+ 
++struct drm_via_gem_create {
++	uint64_t size;
++	uint32_t alignment;
++	uint32_t domain;
++	uint32_t handle;
++	uint64_t offset;
++};
++
++struct drm_via_gem_map {
++	uint32_t handle;
++	uint64_t map_offset;
++};
++
++struct drm_via_gem_unmap {
++	uint32_t handle;
++};
++
+ #if defined(__cplusplus)
+ }
+ #endif
+
