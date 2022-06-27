@@ -1,70 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056BB55E534
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 16:09:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE5855BE92
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 08:03:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED9C1130BA;
-	Tue, 28 Jun 2022 14:08:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65AC0113D2F;
+	Tue, 28 Jun 2022 06:03:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4F1F8929B;
- Tue, 28 Jun 2022 14:08:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656425331; x=1687961331;
- h=date:from:to:cc:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding:resent-date:
- resent-from:subject:resent-message-id:resent-to;
- bh=NlN93CPLmTbVnxPPhc+BVfuBiZgxZ+dnkYTe/LYS/gQ=;
- b=GQFp4GSMz9aZsJu51arHOXiSc917AQpi6WBE1e4nVvydAmiIMOBLm7hm
- 1ObneK1tIPaJfOu630qcEi9ksKWUh7Ggel96xi4mLHBYh3l7LiNTJ6+qk
- km1qo9fL1RsgNVQf3kZuHv+DRl5N3gl+tR1O1/ZdatZs68AyKL7/e66Fj
- np2DYK12fXqB0yL6BaWGcHDpmgBkB/HPqe5RzB15ADRjgxyljoVWiECn9
- K3yL05MtXyhsEq4bFZfU5zGgczqM5DFZN9NCTXIcm0R6AJ2Gm66wIOAFm
- /oaVwwfjXm9PPxNop6OIwI+ORH2G7JteqsrJnS2snbV+Dp+F8Dqhps2pp Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="345747145"
-X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="345747145"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2022 07:08:51 -0700
-X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="594809580"
-Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2)
- ([10.252.40.41])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2022 07:08:44 -0700
-Date: Mon, 27 Jun 2022 11:00:56 +0200
-From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com> (by way of Mauro
- Carvalho Chehab <mauro.chehab@linux.intel.com>)
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Message-ID: <20220627110056.6dfa4f9b@maurocar-mobl2>
-In-Reply-To: <160e613f-a0a8-18ff-5d4b-249d4280caa8@linux.intel.com>
-References: <cover.1655306128.git.mchehab@kernel.org>
- <5ee647f243a774927ec328bfca8212abc4957909.1655306128.git.mchehab@kernel.org>
- <YrRLyg1IJoZpVGfg@intel.intel>
- <160e613f-a0a8-18ff-5d4b-249d4280caa8@linux.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
+ [IPv6:2607:f8b0:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BA7F11B47B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 19:53:47 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id e63so10057274pgc.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:53:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=networkplumber-org.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=k/l4LcE4w+6LYrCo6/Ek+44r04gbnpHm9yyPA0qKR6A=;
+ b=ryYp2naL1201DMNfPmSbpexCs+zqiLsBQDBXHc9esFHxBJ8Ep2LLrsgHtxJtosu2+J
+ 1iBYfvQQXv6NYwKQ2qXQCc4mHXYQGPYeeUC3hu2OgPUPjZXH+3Hi6Zqo5SyTeGerBVQA
+ p1Bh5daOuP6Q9UMRPxlj6vxZpUjBpxOPEYhjttl3pP6gtksJnO1wA5G3ERXmm3iOhFrs
+ MlyYmEaZt8I/cdZ0xlE1RQA9V/oE3k4e+iV7r8nrUlXmSvlRImOQktUmXD254MFh7ceV
+ 2zbWTxt+/QD0MTYLBrv8xqePAliI2A59OkEqXOPrksIatTeOcW53aiRz+65e7KopsoX+
+ 3osw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=k/l4LcE4w+6LYrCo6/Ek+44r04gbnpHm9yyPA0qKR6A=;
+ b=rBGqHipy+s3HcgtEjuLBajQfcQYJC+k3mWGJZIibF0M6TvZQ4sxJTLct8rLmdvEhSS
+ rCYvgTJGZullrBzeVE82qAotqbpVz2rRdSLYFsdK9ybE3JInqLBY7Kv05x6PlJBCS69b
+ DRtG7zf+hbVjEwoyW5vD6CGvJDnUAL1kNjdX7Ot+xiRkJBD//n7fP1CECgM1I+SS7SsS
+ utM129F/WiVGrSoBkb5/uDl88OY1hzkOUjGguslXOhOnOmZsYJySYF/iD/IqNklBPsWu
+ tQEn8LemYtrV7S3mOiIaieEQ4yeheJFTj3fQcZ/YA0+eAltUI/txyC2LqN8jOWsLuVfU
+ Diyg==
+X-Gm-Message-State: AJIora9jC7QrdNUkHpzXmLQUWAXyi4vDeqkLDTAoQExhPvljZzq+v3Ye
+ PfBIfNAAV4mYqoqJKXrkxP4HPQ==
+X-Google-Smtp-Source: AGRyM1ssDeW6Ux1oaY9ixgaaapzXMFszbxcRVeOWaHAYiiaVMZ4HUYtPzqxXzR6I8+fqeJNf8u9hpg==
+X-Received: by 2002:a63:7a5d:0:b0:40c:fcbe:4799 with SMTP id
+ j29-20020a637a5d000000b0040cfcbe4799mr14428539pgn.297.1656359626928; 
+ Mon, 27 Jun 2022 12:53:46 -0700 (PDT)
+Received: from hermes.local (204-195-112-199.wavecable.com. [204.195.112.199])
+ by smtp.gmail.com with ESMTPSA id
+ c16-20020a056a00009000b0051c1b445094sm7821510pfj.7.2022.06.27.12.53.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jun 2022 12:53:46 -0700 (PDT)
+Date: Mon, 27 Jun 2022 12:53:43 -0700
+From: Stephen Hemminger <stephen@networkplumber.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH][next] treewide: uapi: Replace zero-length arrays with
+ flexible-array members
+Message-ID: <20220627125343.44e24c41@hermes.local>
+In-Reply-To: <20220627180432.GA136081@embeddedor>
+References: <20220627180432.GA136081@embeddedor>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Resent-Date: Tue, 28 Jun 2022 16:08:42 +0200
-Resent-From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-Subject: Re: [PATCH 5/6] drm/i915/gt: Serialize GRDOM access between
- multiple engine resets
-Resent-Message-ID: <20220628160842.59a9bd94@maurocar-mobl2>
-Resent-To: <tvrtko.ursulin@linux.intel.com>, <andi.shyti@linux.intel.com>,
- <mchehab@kernel.org>, <chris.p.wilson@intel.com>, <fei.yang@intel.com>,
- <thomas.hellstrom@intel.com>, <yu.bruce.chang@intel.com>, <daniel@ffwll.ch>,
- <airlied@redhat.com>, <airlied@linux.ie>, <jani.nikula@linux.intel.com>,
- <John.C.Harrison@intel.com>, <joonas.lahtinen@linux.intel.com>,
- <matthew.d.roper@intel.com>, <matthew.brost@intel.com>,
- <rodrigo.vivi@intel.com>, <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- <umesh.nerlige.ramappa@intel.com>, <dri-devel@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <mika.kuoppala@linux.intel.com>, <chris@chris-wilson.co.uk>,
- <stable@vger.kernel.org>, <thomas.hellstrom@linux.intel.com>
+X-Mailman-Approved-At: Tue, 28 Jun 2022 06:03:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,118 +72,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>, Fei Yang <fei.yang@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Chris Wilson <chris.p.wilson@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Dave Airlie <airlied@redhat.com>,
- Thomas =?UTF-8?B?SGVs?= =?UTF-8?B?bHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Bruce Chang <yu.bruce.chang@intel.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <John.C.Harrison@intel.com>
+Cc: nvdimm@lists.linux.dev, alsa-devel@alsa-project.org, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dm-devel@redhat.com, target-devel@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-hardening@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net,
+ linux-stm32@st-md-mailman.stormreply.com, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org, x86@kernel.org,
+ kasan-dev@googlegroups.com, lvs-devel@vger.kernel.org, coreteam@netfilter.org,
+ v9fs-developer@lists.sourceforge.net, Kees Cook <keescook@chromium.org>,
+ intel-gfx@lists.freedesktop.org, linux-can@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ virtualization@lists.linux-foundation.org, io-uring@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-sctp@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+On Mon, 27 Jun 2022 20:04:32 +0200
+"Gustavo A. R. Silva" <gustavoars@kernel.org> wrote:
 
-On Fri, 24 Jun 2022 09:34:21 +0100
-Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-
-> On 23/06/2022 12:17, Andi Shyti wrote:
-> > Hi Mauro,
-> >=20
-> > On Wed, Jun 15, 2022 at 04:27:39PM +0100, Mauro Carvalho Chehab wrote: =
-=20
-> >> From: Chris Wilson <chris.p.wilson@intel.com>
-> >>
-> >> Don't allow two engines to be reset in parallel, as they would both
-> >> try to select a reset bit (and send requests to common registers)
-> >> and wait on that register, at the same time. Serialize control of
-> >> the reset requests/acks using the uncore->lock, which will also ensure
-> >> that no other GT state changes at the same time as the actual reset.
-> >>
-> >> Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing st=
-ore")
-> >>
-> >> Reported-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> >> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> >> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> >> Cc: Andi Shyti <andi.shyti@intel.com>
-> >> Cc: stable@vger.kernel.org
-> >> Acked-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> >> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org> =20
-> >=20
-> > Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com> =20
+> There is a regular need in the kernel to provide a way to declare
+> having a dynamically sized set of trailing elements in a structure.
+> Kernel code should always use =E2=80=9Cflexible array members=E2=80=9D[1]=
+ for these
+> cases. The older style of one-element or zero-length arrays should
+> no longer be used[2].
 >=20
-> Notice I had a bunch of questions and asks in this series so please do=20
-> not merge until those are addressed.
+> This code was transformed with the help of Coccinelle:
+> (linux-5.19-rc2$ spatch --jobs $(getconf _NPROCESSORS_ONLN) --sp-file scr=
+ipt.cocci --include-headers --dir . > output.patch)
 >=20
-> In this particular patch (and some others) for instance Fixes: tag, at=20
-> least against that sha, shouldn't be there.
+> @@
+> identifier S, member, array;
+> type T1, T2;
+> @@
+>=20
+> struct S {
+>   ...
+>   T1 member;
+>   T2 array[
+> - 0
+>   ];
+> };
+>=20
+> -fstrict-flex-arrays=3D3 is coming and we need to land these changes
+> to prevent issues like these in the short future:
+>=20
+> ../fs/minix/dir.c:337:3: warning: 'strcpy' will always overflow; destinat=
+ion buffer has size 0,
+> but the source string has length 2 (including NUL byte) [-Wfortify-source]
+> 		strcpy(de3->name, ".");
+> 		^
+>=20
+> Since these are all [0] to [] changes, the risk to UAPI is nearly zero. If
+> this breaks anything, we can use a union with a new member name.
+>=20
+> [1] https://en.wikipedia.org/wiki/Flexible_array_member
+> [2] https://www.kernel.org/doc/html/v5.16/process/deprecated.html#zero-le=
+ngth-and-one-element-arrays
+>=20
+> Link: https://github.com/KSPP/linux/issues/78
+> Build-tested-by: https://lore.kernel.org/lkml/62b675ec.wKX6AOZ6cbE71vtF%2=
+5lkp@intel.com/
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-Hmm... I sent an answer to your points, but I can't see it at:
-
-	https://lore.kernel.org/all/160e613f-a0a8-18ff-5d4b-249d4280caa8@linux.int=
-el.com/
-
-Maybe it got lost somewhere, I dunno.
-
-Yeah, indeed the fixes tag on patch 5/6 should be removed as this is not
-directly related to changeset 7938d61591d3. Yet, this one is required for
-patch 6 to work.
-
-The other patches on this series, though, are modifying the code=20
-introduced by changeset 7938d61591d3.
-
-Patch 2 is clearly a workaround needed for TLB cache invalidation to
-work on some GPUs. So, while not related to Broadwell, they're also
-fixing some TLB cache issues. So, IMO, it should keep the fixes.
-
-I tried to port just the two serialize patches to drm-tip, in order
-to solve the issues on Broadwell, but it didn't work, as the logic=20
-inside the spinlock could be calling schedule() with a spinlock hold:
-=20
-	Jun 14 17:38:48 silver kernel: [   23.227813] BUG: sleeping function calle=
-d from invalid context at drivers/gpu/drm/i915/intel_uncore.c:2496
-	Jun 14 17:38:48 silver kernel: [   23.227816] in_atomic(): 1, irqs_disable=
-d(): 1, non_block: 0, pid: 37, name: kworker/u8:1
-	Jun 14 17:38:48 silver kernel: [   23.227818] preempt_count: 1, expected: 0
-	Jun 14 17:38:48 silver kernel: [   23.227819] RCU nest depth: 0, expected:=
- 0
-	Jun 14 17:38:48 silver kernel: [   23.227820] 5 locks held by kworker/u8:1=
-/37:
-	Jun 14 17:38:48 silver kernel: [   23.227822]  #0: ffff88811159b538 ((wq_c=
-ompletion)i915){+.+.}-{0:0}, at: process_one_work+0x1e0/0x580
-	Jun 14 17:38:48 silver kernel: [   23.227831]  #1: ffffc90000183e60 ((work=
-_completion)(&(&i915->mm.free_work)->work)){+.+.}-{0:0}, at: process_one_wo=
-rk+0x1e0/0x580
-	Jun 14 17:38:48 silver kernel: [   23.227837]  #2: ffff88811b34c5e8 (reser=
-vation_ww_class_mutex){+.+.}-{3:3}, at: __i915_gem_free_objects+0xba/0x210 =
-[i915]
-	Jun 14 17:38:48 silver kernel: [   23.228283]  #3: ffff88810a66c2d8 (&gt->=
-tlb_invalidate_lock){+.+.}-{3:3}, at: intel_gt_invalidate_tlbs+0xe7/0x4d0 [=
-i915]
-	Jun 14 17:38:48 silver kernel: [   23.228663]  #4: ffff88810a668f28 (&unco=
-re->lock){-.-.}-{2:2}, at: intel_gt_invalidate_tlbs+0x115/0x4d0 [i915]
-
-I didn't investigate the root cause, but it seems related to PM, so=20
-patches 1 and 3 seem to be required for the serialization logic
-to actually work.
-
-So, I would keep the Fixes: tag mentioning changeset 7938d61591d3
-on patches: 1, 2, 3 and 6.
-
-Yet, IMO the entire series should be merged on -stable.
-
-If that's OK for you and there's no additional issues to be
-addressed, I'll submit a v2 of this series removing the Fixes tag
-from patches 4 and 5.
-
-Regards,
-Mauro
+Thanks this fixes warning with gcc-12 in iproute2.
+In function =E2=80=98xfrm_algo_parse=E2=80=99,
+    inlined from =E2=80=98xfrm_state_modify.constprop=E2=80=99 at xfrm_stat=
+e.c:573:5:
+xfrm_state.c:162:32: warning: writing 1 byte into a region of size 0 [-Wstr=
+ingop-overflow=3D]
+  162 |                         buf[j] =3D val;
+      |                         ~~~~~~~^~~~~
