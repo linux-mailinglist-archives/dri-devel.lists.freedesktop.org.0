@@ -1,80 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D0355B97E
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 14:22:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C53F255B98B
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 14:36:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFC17112084;
-	Mon, 27 Jun 2022 12:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC5E810E21B;
+	Mon, 27 Jun 2022 12:36:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
  [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32204112084
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:22:12 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id o16so12825807wra.4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 05:22:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=188VvDq1B6vx6sWxx4ceVbynV0wzhkvfQ94tlUBCWVo=;
- b=JWWBEC6UjGz31es5Orpifs2fmId+2PFWHpYPGqcUyEflB+3uOZHze9pg4t/TL3Ai4z
- ZxifaLGz+qaUA8iBaWRvlQptrX59LYqMUl2hPdenEnARk5NKOxdKJFI1EpG8xFJQT3Am
- dBOxj37Hgb2Z0Wl1inYBLUDvKEs6EkWHd5cXkO3PsfcieGjlEvL1LHOjIhwT3v7Ln9XA
- cr4qTjqks7uaMc6Val0kFxsl6S61zUT0dNK3b/zCs/yL+9IHVYJIBv9E+o+yegpTtC0b
- Cw13uLX61yOXRAVMIOnGgak/Vz7p4DI660bTgKvRQBtftZMc0zQhFng+eEI7CXYFA/cr
- aysA==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C136110E21B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:36:40 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id q9so12860480wrd.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 05:36:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=jhMnhvP16Ty9k8cx9JCXsgpH4aaz/Fmtpfaqc20VWcw=;
+ b=U2eoD6YDVpV31d326aqV/g/RltpyIY9rjQhWggIwoWRflNvpYzNZjKN5ZWbHmBMAni
+ BxvYB5z4hvivkexCcJPbQVEWe2aJV4lWBt/7wWqncgkl2lFMlZuDesqTog7utiql1i5/
+ Xz+MmTHHTMwk6bNlD+gi+eqn1zpJbjwNe/9uHC+VDab2/YDsuNFLHOq8TgipaXv7/N3W
+ UY4moBD/9CIxU4vaWTuOi/rQOb8x7su6rnXCgGxD0vBfZGpC4348dQ0dHayejMpY152u
+ 72GldKPx+N641AUIDCh8tF+cEUt5AZRc1Zd9qNdxRvOlV7AowEZmC+bfG8Njf1HBUajK
+ CHbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=188VvDq1B6vx6sWxx4ceVbynV0wzhkvfQ94tlUBCWVo=;
- b=SlvpXRcmWZxNaeVOInf7jwwTkKEmYO8ijsD1PBclDR4z/LCPWfUqvZB5EYbh9gNSuW
- IV80L9WB0qDq0XPF0UBEqxi1wlMLLYydxaYFN/s1Ild6Lq8nGdUVsDI4WQ8hamKDkN5c
- vwcOV+7jJrDTGERB4lMJYklyxzYgipQjDxOmUfuNeJazSRAZuqZFuQ67GZMdtw8Gch55
- Vj5mbpAEFGkjTSwRzPSlSIYPvohkiKQi3QI+Rar4zeDFmVVGwUe2g7zs6rywCGVFvBDD
- ypCWN/bIYaBK/eUJDsy/aLdyEzNmNXV12d/ObVL4uiXJ1UaLI+qH/TJa/SQpLgwEwATf
- CTMA==
-X-Gm-Message-State: AJIora9tkY0e5mvlFR8CMlCGvjCRRIn2y7+Kop7ONUkiOqoOoSjR0zT4
- FWnkWBEgXbV422F0Q06PynN21g==
-X-Google-Smtp-Source: AGRyM1uP9iNE+N88b9RoSyrLps3SkHLc2iB388m4oNY4BNDo4xDy3PzsZEiuqBl66tMHwbxuA1WY5Q==
-X-Received: by 2002:a05:6000:1147:b0:21b:93db:701a with SMTP id
- d7-20020a056000114700b0021b93db701amr11721409wrx.447.1656332530591; 
- Mon, 27 Jun 2022 05:22:10 -0700 (PDT)
-Received: from ?IPV6:2001:861:44c0:66c0:6f56:f3c6:ba4f:bf5c?
- ([2001:861:44c0:66c0:6f56:f3c6:ba4f:bf5c])
- by smtp.gmail.com with ESMTPSA id
- n17-20020a05600c501100b003975c7058bfsm13143413wmr.12.2022.06.27.05.22.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jun 2022 05:22:10 -0700 (PDT)
-Message-ID: <b625ba83-fee9-b668-09db-976cb3bef3ca@baylibre.com>
-Date: Mon, 27 Jun 2022 14:22:08 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=jhMnhvP16Ty9k8cx9JCXsgpH4aaz/Fmtpfaqc20VWcw=;
+ b=MseuRdNktaJ8v/oYNrDxZb59yYeK7/s8B25DcTnr00TQJa+WFd7E+787ykp6nE82JW
+ 2s53mV/cfGjcn8aW33mm3mdA/75ygtLVh3bJKJWlCbaEgTk6xiehnw4TS6DfHTfu5Tza
+ GFzWOqZdPiUPdJuiXkzwcAO0Wum9b4b/cP+H8FlLVpBVswiZi3bT/Fchh9I0oUXhyl24
+ SRtBkl7eOL/ykX2AmSanelk7wV2Guz1lAlutinzYU2n1n4rH4g9yKl/oe0lxyAkQ9msz
+ pEq7VyEDdcoNQlim+JxeFJk+sEVYgP8alAM5owwgFPt8++mKhir4yLqD0NM87Xz2x01F
+ WqLQ==
+X-Gm-Message-State: AJIora97asOB8M0CBrcPZY+ILJZTVH7N1PWm+L5S6ZXHjpBmyoR25K1M
+ hlS00rwndNHi4Dk9RtF0IKY=
+X-Google-Smtp-Source: AGRyM1svJUkoG5oAT5Lk55huQ5TszxhpG9aNgEtz8h6NX5RX9cQJEWBIL7AVwXyu5Ir1dSZHN90+xg==
+X-Received: by 2002:a5d:5107:0:b0:21b:8c5d:1072 with SMTP id
+ s7-20020a5d5107000000b0021b8c5d1072mr12859255wrt.378.1656333399251; 
+ Mon, 27 Jun 2022 05:36:39 -0700 (PDT)
+Received: from elementary ([94.73.36.128]) by smtp.gmail.com with ESMTPSA id
+ e12-20020a5d530c000000b002185d79dc7fsm10398933wrv.75.2022.06.27.05.36.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jun 2022 05:36:38 -0700 (PDT)
+Date: Mon, 27 Jun 2022 14:36:36 +0200
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [PATCH v3 3/3] drm/doc: Add KUnit documentation
+Message-ID: <20220627123636.GA1772666@elementary>
+References: <20220613171738.111013-1-jose.exposito89@gmail.com>
+ <20220613171738.111013-4-jose.exposito89@gmail.com>
+ <c50e5c87-3198-08b7-1e32-d0959af1f296@redhat.com>
+ <YrYmR+aCdO3ldORB@phenom.ffwll.local>
+ <b16eba9c-30cc-c71f-ad95-eb5398f84af8@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2] drm/bridge: imx: i.MX8 bridge drivers should depend on
- ARCH_MXC
-Content-Language: en-US
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <robert.foss@linaro.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Marek Vasut <marex@denx.de>
-References: <42c542b53a1c8027b23a045045fbb7b34479913d.1656072500.git.geert+renesas@glider.be>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <42c542b53a1c8027b23a045045fbb7b34479913d.1656072500.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b16eba9c-30cc-c71f-ad95-eb5398f84af8@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,52 +74,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, davidgow@google.com,
+ Maxime Ripard <maxime@cerno.tech>, airlied@linux.ie, dlatypov@google.com,
+ linux-kernel@vger.kernel.org, tzimmermann@suse.de, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Javier, Daniel,
 
-On 24/06/2022 14:10, Geert Uytterhoeven wrote:
-> The various Freescale i.MX8 display bridges are only present on
-> Freescale i.MX8 SoCs.  Hence add a dependency on ARCH_MXC, to prevent
-> asking the user about these drivers when configuring a kernel without
-> i.MX SoC support.
+On Fri, Jun 24, 2022 at 11:18:40PM +0200, Javier Martinez Canillas wrote:
+> Hello Daniel,
 > 
-> Fixes: e60c4354840b2fe8 ("drm/bridge: imx: Add LDB support for i.MX8qm")
-> Fixes: 3818715f62b42b5c ("drm/bridge: imx: Add LDB support for i.MX8qxp")
-> Fixes: 96988a526c97cfbe ("drm/bridge: imx: Add i.MX8qxp pixel link to DPI support")
-> Fixes: 1ec17c26bc06289d ("drm/bridge: imx: Add i.MX8qm/qxp display pixel link support")
-> Fixes: 93e163a9e0392aca ("drm/bridge: imx: Add i.MX8qm/qxp pixel combiner support")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v2:
->    - s/i.MX8MP/i.MX8/,
->    - Add Reviewed-by.
-> ---
->   drivers/gpu/drm/bridge/imx/Kconfig | 4 ++++
->   1 file changed, 4 insertions(+)
+> On 6/24/22 23:01, Daniel Vetter wrote:
+> >
+> > [...]
+> > 
+> > Hey so since you have a bunch of patches merged into drm already but seem
+> > to lack drm-misc commit rights to push these yourself I think it's time to
+> > get those:
+> > 
+> > https://drm.pages.freedesktop.org/maintainer-tools/commit-access.html#drm-misc
+> >
+> > And I guess Javier can help you with any questions you might have and make
+> > sure the request gets through by poking folks on #dri-devel irc?
+> >
 > 
-> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-> index 212a7b0e64fd8b5a..608f47f41bcd1c81 100644
-> --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> @@ -1,3 +1,5 @@
-> +if ARCH_MXC || COMPILE_TEST
-> +
->   config DRM_IMX8QM_LDB
->   	tristate "Freescale i.MX8QM LVDS display bridge"
->   	depends on OF
-> @@ -41,3 +43,5 @@ config DRM_IMX8QXP_PIXEL_LINK_TO_DPI
->   	help
->   	  Choose this to enable pixel link to display pixel interface(PXL2DPI)
->   	  found in Freescale i.MX8qxp processor.
-> +
-> +endif # ARCH_MXC || COMPILE_TEST
+> Yes, he already requested commit access and got the acks, so I think is
+> just a matter of time until he has this sorted out.
+> 
+> José, please don't hesitate to ask if you need any help or clarification
+> once you have a setup to push your patches. The dim documentation [0] is
+> superb but I know that it can be somewhat stressful the first time :)
 
-I was wondering why those were added in drivers/gpu/drm/bridge/imx since they are specific to NXP SoCs,
-I think they should be moved in the right drm imx subsystem instead of this change.
+Thanks for creating my ssh account :D
 
-Neil
+The tool is really well documented, setting it up was a piece of cake.
+I pushed the patches to drm-misc-next. The output didn't show any
+errors or warnings, hopefully meaning that I didn't mess up.
+
+Jose
+
+> [0]: https://drm.pages.freedesktop.org/maintainer-tools/dim.html
+>  -- 
+> Best regards,
+> 
+> Javier Martinez Canillas
+> Linux Engineering
+> Red Hat
+> 
