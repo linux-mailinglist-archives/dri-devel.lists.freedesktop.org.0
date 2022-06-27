@@ -1,59 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A5155BBB3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 21:19:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F06F555BBB8
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 21:26:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1EBE11B049;
-	Mon, 27 Jun 2022 19:19:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA89A11B114;
+	Mon, 27 Jun 2022 19:26:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
- [IPv6:2001:4860:4864:20::30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 478C411AE6F
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 19:19:43 +0000 (UTC)
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-fe023ab520so14142086fac.10
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=Z4BLBohMulDpiQGQwkIAJHPx8Gj0+neiaxc8ZfUwbzs=;
- b=FhXMKjKCFkRUVtJCSpdI3CkMufY98kLhUCjtQ6qz3yaP1HUGK46079/aOcGvtf4Vu6
- s+pQpMUiYXG3dEKsuLAYzthsqRht99ySLWEHdqzPnD0iTujCoBzl/SnTPfo7/qLYLSk5
- xZMyfJQ/H7aeX1nrYRJtFpD46dqGo9Z/K8TJU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=Z4BLBohMulDpiQGQwkIAJHPx8Gj0+neiaxc8ZfUwbzs=;
- b=vhTZKVqAtF6u+s7Dcm80IeSIsYg0R49NdHdFEsUm4QS7HeOVIKP/p/m5/zkZ62Zian
- IYH5+ioa0EUwNLTQu03JJltV+m/WIEaMBqEB6wgde8C8xNnL9BbazQRYlKqHD85nwAVX
- xGFNagX0p+EPCBqbFCqQYcysrfJdHPNo742Op0djYEADZWEaKR8/N90oaqODKzuok5si
- 1iYb6RlPwOY4FxuhBPr3xII+Zap6CHf7Ibug32aCznp/ix1GnqTue7h3HP5XssGVrnev
- 2Xf6xzGrdYjc6MFob/oYxjoj4dNOb1NORhAwbm+gLz6lb/4KNRET3du9qmYSmfqVpdS8
- 9vJg==
-X-Gm-Message-State: AJIora8+tXoBqNMFv9tiGAHxa461yiCdvKNBj8t2nVFhtQpEHrZRpKw5
- iCK4BuiYKYiKwdiVkE9Kl3VPVJoUYOu50W0BpBwTEQ==
-X-Google-Smtp-Source: AGRyM1tD+1otcDiEgbeGj10XjPtM+eHLnUuS+FgxcbXZDbTbvpy7V+WXNg3lEBi9QRly6nt/PZ2uBEKT7eNNpzkWjjo=
-X-Received: by 2002:a05:6870:b627:b0:102:f25:a460 with SMTP id
- cm39-20020a056870b62700b001020f25a460mr8608960oab.193.1656357582537; Mon, 27
- Jun 2022 12:19:42 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 27 Jun 2022 12:19:41 -0700
-MIME-Version: 1.0
-In-Reply-To: <20220627165413.657142-1-dmitry.baryshkov@linaro.org>
-References: <20220627165413.657142-1-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 27 Jun 2022 12:19:41 -0700
-Message-ID: <CAE-0n52OA=qSOmez983_J0PCa4D5qte-1VWMZcAMqjpMytGgEQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: use ARRAY_SIZE for calculating num_descs
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2400611B114
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 19:26:21 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 94BB761625
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 19:26:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 06479C36AE2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 19:26:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1656357980;
+ bh=wQ/Q0bC8jxhx8HVwb0zL/oHDgtAYpwhFTms3BKWmWbY=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=OwaFEbGUHCGUiZ1JiFzSFYgW4YPy5xerciRLNEJoOBnGyfY8HOX+EGiL7z5PkxNes
+ rFEMd8JrAWTRoLI5ZDD87FzZTjC0e/4/gJOomRHElBBVU1TPtODT++RiGJpf+O0Qer
+ pLIkMDzwEMWTOSr/t3mkC+JdbhjiacR28hjD2ZEfTtmzma/fOzW8SaRhxZ91hbRUHK
+ j0/QuQubjitvDKd+YjfgIKE+1pQpFNcxSuDeVVUwsg30AeYqwv55GbakCHSlcvvGHV
+ pA/mpAQDK4m3ledSZkCwznpHK1rVn9k1hNm+b1NoEiGmX+WYg9Q/b1TZrGLRcWj0P2
+ 2Z7VEwYS0KiWg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id E1003C05FD2; Mon, 27 Jun 2022 19:26:19 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
+ 390
+Date: Mon, 27 Jun 2022 19:26:19 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216119-2300-LOAmrmDCbw@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
+References: <bug-216119-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,20 +71,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-06-27 09:54:13)
-> If for some reason the msm_dp_config::descs array starts from non-zero
-> index or contains the hole, setting the msm_dp_config::num_descs might
-> be not that obvious and error-prone. Use ARRAY_SIZE to set this field
-> rather than encoding the value manually.
->
-> Reported-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+--- Comment #22 from Alex Deucher (alexdeucher@gmail.com) ---
+Does this patch help?
+https://patchwork.kernel.org/project/dri-devel/patch/20220621104617.8817-1-=
+tzimmermann@suse.de/
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
