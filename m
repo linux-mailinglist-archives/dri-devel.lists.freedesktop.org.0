@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1615E55BB43
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 19:15:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CADA55BB4A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 19:18:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B699C1120A6;
-	Mon, 27 Jun 2022 17:15:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8F6E112A66;
+	Mon, 27 Jun 2022 17:17:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
- [209.85.166.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D166C1121E7
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 17:15:04 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id k15so10238682iok.5
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 10:15:04 -0700 (PDT)
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+ [209.85.166.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACB7B112A4B;
+ Mon, 27 Jun 2022 17:17:58 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id l24so10213074ion.13;
+ Mon, 27 Jun 2022 10:17:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=An//ZVIBHusXq7ojPg64QggrwNUop5VEk57ILCBBv0U=;
- b=XsfRgiFY9pq61qNwToPBaEexI79UPNr/F9Y1ZFmkP/fL0pwm/INHWNzcsXv5YG/yt9
- xmwNqlny2MPVLFVv3KlOrI+u84xTjogoIpJpPrP//WvG9xMltuw/Rxnvs3DN0mzYzV/z
- 3aLJR94SGQglAfYXiPHlt2bv/QQ3cWU2hL3Jda3QbccQdCPMPK7Enx2HQP9OvcvTWRtC
- GUBcmKeH2EWDGamUFtFbQdRGHCd5Ta81ImYSACbjRLSAVoSyAhVLVlEUd5RbI0y0t1G8
- Ka0togwmE6UgwW1KM5nO1JlqQyKK1f0PuRI1z/80RK7IrZYQcAtAhvNxG2yCLWjNdoAv
- GNPw==
-X-Gm-Message-State: AJIora+lAeGta0BaEmybzXhpAsFgZRLWbzpe2lZp62xtSbetJquNsQrP
- efpVPmPing58c6T+22US6g==
-X-Google-Smtp-Source: AGRyM1trlOnex3HcAYrl5SVQu6l8zcvR+jlYFtBQiWM5jDgBNdFpV78MBBeicB8VYl+Oe0sIBxfwBA==
-X-Received: by 2002:a05:6638:3387:b0:33c:9f9e:5a17 with SMTP id
- h7-20020a056638338700b0033c9f9e5a17mr2713672jav.12.1656350104060; 
- Mon, 27 Jun 2022 10:15:04 -0700 (PDT)
+ bh=kaxFnNRB8GMdQ+miLrcwnlUrNBhYoVcXqeLxcTf0qVw=;
+ b=UT9Tt08dJx8hdNwjWIs3bjmzdn10K0PRhMv+xDy/mfQ2cm/DQXsbcj7Q49gGgbzhCX
+ mb2pm980LHkTs3bW/beDIdBFsZVQ0IKnDD5rvz/ckGAqiWLfAZZAA/slAs7UttJhLVPd
+ 5vGE0fNgHvXXbeuA7/MCyZqE/Ymtp/YNfxTh6d1hQfAsq0HGtgqAWOVLDBLWFkNG48do
+ uJ4oasNMAdcIoV3D/pQwE5uEfvyakDQFh1jGz9zXH+xLY5NnBeRAU/tG+j5ET+L73wpc
+ mIhG0NlVOlzuzSUE5oACQEnONEke4D/OAJqImyg+gxdzc5fA6Gp1hHhxF6g52l2ET0aQ
+ Oreg==
+X-Gm-Message-State: AJIora+LPAn2f2SK5p96pF1iNS5G5s8m/+PQVQGAx3l+xdRLs5t6RsIH
+ c1SFGEigsYeTzhCOpAnDn1F44DYo0A==
+X-Google-Smtp-Source: AGRyM1tsXTH75Mc66rG1PrT/Fid3kLPfbtvG3eWXiFBELiDbgFfLZQ3J7nT/9SjPJIebJNZsFsq4xQ==
+X-Received: by 2002:a05:6638:2684:b0:33b:afc4:298d with SMTP id
+ o4-20020a056638268400b0033bafc4298dmr8613041jat.49.1656350277868; 
+ Mon, 27 Jun 2022 10:17:57 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.253])
  by smtp.gmail.com with ESMTPSA id
- a23-20020a056638059700b003320e4b5bb7sm5118946jar.57.2022.06.27.10.15.01
+ w18-20020a6bd612000000b00674fe816f79sm5372452ioa.7.2022.06.27.10.17.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 10:15:03 -0700 (PDT)
-Received: (nullmailer pid 2608313 invoked by uid 1000);
- Mon, 27 Jun 2022 17:15:00 -0000
-Date: Mon, 27 Jun 2022 11:15:00 -0600
+ Mon, 27 Jun 2022 10:17:57 -0700 (PDT)
+Received: (nullmailer pid 2612764 invoked by uid 1000);
+ Mon, 27 Jun 2022 17:17:56 -0000
+Date: Mon, 27 Jun 2022 11:17:56 -0600
 From: Rob Herring <robh@kernel.org>
-To: Conor.Dooley@microchip.com
-Subject: Re: [PATCH 06/14] spi: dt-bindings: dw-apb-ssi: update
- spi-{r,t}x-bus-width for dwc-ssi
-Message-ID: <20220627171500.GA2600685-robh@kernel.org>
-References: <20220618123035.563070-1-mail@conchuod.ie>
- <20220618123035.563070-7-mail@conchuod.ie>
- <20220620205654.g7fyipwytbww5757@mobilestation>
- <61b0fb86-078d-0262-b142-df2984ce0f97@microchip.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 1/3] dt-bindings: phy: qcom,hdmi-phy-qmp: add
+ clock-cells and XO clock
+Message-ID: <20220627171756.GA2610798-robh@kernel.org>
+References: <20220620010300.1532713-1-dmitry.baryshkov@linaro.org>
+ <20220620010300.1532713-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <61b0fb86-078d-0262-b142-df2984ce0f97@microchip.com>
+In-Reply-To: <20220620010300.1532713-2-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,98 +63,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: niklas.cassel@wdc.com, alsa-devel@alsa-project.org, airlied@linux.ie,
- palmer@rivosinc.com, linux-kernel@vger.kernel.org, thierry.reding@gmail.com,
- jee.heng.sia@intel.com, krzysztof.kozlowski+dt@linaro.org,
- linux-riscv@lists.infradead.org, sam@ravnborg.org,
- damien.lemoal@opensource.wdc.com, daniel.lezcano@linaro.org,
- joabreu@synopsys.com, geert@linux-m68k.org, Eugeniy.Paltsev@synopsys.com,
- devicetree@vger.kernel.org, aou@eecs.berkeley.edu, broonie@kernel.org,
- dri-devel@lists.freedesktop.org, paul.walmsley@sifive.com, mail@conchuod.ie,
- tglx@linutronix.de, dillon.minfei@gmail.com, lgirdwood@gmail.com,
- fancer.lancer@gmail.com, linux-spi@vger.kernel.org, vkoul@kernel.org,
- palmer@dabbelt.com, dmaengine@vger.kernel.org, masahiroy@kernel.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 20, 2022 at 09:06:34PM +0000, Conor.Dooley@microchip.com wrote:
-> On 20/06/2022 21:56, Serge Semin wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > 
-> > On Sat, Jun 18, 2022 at 01:30:28PM +0100, Conor Dooley wrote:
-> >> From: Conor Dooley <conor.dooley@microchip.com>
-> >>
-> >> snps,dwc-ssi-1.01a has a single user - the Canaan k210, which uses a
-> >> width of 4 for spi-{r,t}x-bus-width. Update the binding to reflect
-> >> this.
-> >>
-> >> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> >> ---
-> >>  .../bindings/spi/snps,dw-apb-ssi.yaml         | 48 ++++++++++++++-----
-> >>  1 file changed, 35 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> >> index e25d44c218f2..f2b9e3f062cd 100644
-> >> --- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> >> +++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> >> @@ -135,19 +135,41 @@ properties:
-> >>        of the designware controller, and the upper limit is also subject to
-> >>        controller configuration.
-> >>
-> >> -patternProperties:
-> >> -  "^.*@[0-9a-f]+$":
-> >> -    type: object
-> >> -    properties:
-> >> -      reg:
-> >> -        minimum: 0
-> >> -        maximum: 3
-> >> -
-> >> -      spi-rx-bus-width:
-> >> -        const: 1
-> >> -
-> >> -      spi-tx-bus-width:
-> >> -        const: 1
-> >> +if:
-> >> +  properties:
-> >> +    compatible:
-> >> +      contains:
-> >> +        const: snps,dwc-ssi-1.01a
-> >> +
-> >> +then:
-> >> +  patternProperties:
-> >> +    "^.*@[0-9a-f]+$":
-> >> +      type: object
-> >> +      properties:
-> >> +        reg:
-> >> +          minimum: 0
-> >> +          maximum: 3
-> >> +
-> >> +        spi-rx-bus-width:
-> >> +          const: 4
-> >> +
-> >> +        spi-tx-bus-width:
-> >> +          const: 4
-> >> +
-> >> +else:
-> >> +  patternProperties:
-> >> +    "^.*@[0-9a-f]+$":
-> >> +      type: object
-> >> +      properties:
-> >> +        reg:
-> >> +          minimum: 0
-> >> +          maximum: 3
-> >> +
-> >> +        spi-rx-bus-width:
-> >> +          const: 1
-> >> +
-> >> +        spi-tx-bus-width:
-> >> +          const: 1
-> > 
-> > You can just use a more relaxed constraint "enum: [1 2 4 8]" here
+On Mon, Jun 20, 2022 at 04:02:58AM +0300, Dmitry Baryshkov wrote:
+> As the QMP HDMI PHY is a clock provider, add constant #clock-cells
+> property. For the compatibility with older DTs the property is not
+> marked as required. Also add the XO clock to the list of the clocks used
+> by the driver.
 > 
-> 8 too? sure.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
 
-Then no constraints needed because the common definition already has 
-this presumably.
+Doesn't apply, so no checks ran.
 
-Rob
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml b/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml
+> index eea2e02678ed..41e6492d4a0f 100644
+> --- a/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml
+> +++ b/Documentation/devicetree/bindings/phy/qcom,hdmi-phy-qmp.yaml
+> @@ -28,12 +28,14 @@ properties:
+>        - const: hdmi_phy
+>  
+>    clocks:
+> -    maxItems: 2
+> +    minItems: 2
+> +    maxItems: 3
+>  
+>    clock-names:
+>      items:
+>        - const: iface
+>        - const: ref
+> +      - const: xo
+
+minItems: 2
+
+>  
+>    power-domains:
+>      maxItems: 1
+> @@ -44,6 +46,9 @@ properties:
+>    vddio-supply:
+>      description: phandle to VDD I/O supply regulator
+>  
+> +  '#clock-cells':
+> +    const: 0
+> +
+>    '#phy-cells':
+>      const: 0
+>  
+> @@ -75,9 +80,12 @@ examples:
+>                    "hdmi_phy";
+>  
+>        clocks = <&mmcc 116>,
+> -               <&gcc 214>;
+> +               <&gcc 214>,
+> +               <&xo_board>;
+>        clock-names = "iface",
+> -                    "ref";
+> +                    "ref",
+> +                    "xo";
+> +      #clock-cells = <0>;
+>        #phy-cells = <0>;
+>  
+>        vddio-supply = <&vreg_l12a_1p8>;
+> -- 
+> 2.35.1
+> 
+> 
