@@ -2,47 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C553955B99F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 14:55:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B899555B9A3
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 14:59:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F4811A514;
-	Mon, 27 Jun 2022 12:55:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A0251139D3;
+	Mon, 27 Jun 2022 12:59:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0968B11A502
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:55:35 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 14261660178D;
- Mon, 27 Jun 2022 13:55:32 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1656334533;
- bh=ifdpDVxFAJ7x6mxjxCa3kTl2O13CzEnu51wJDDLj6yY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=RyIN62IlNGKr46nFhj1YIqMhkUGQA5IpK/U7l43Krbqfr1kdu0XwcBrWz/6/2uwvx
- SKOWM6L2frNS1rf/I1Bl2/V14E6B2P34q/WCw4ZiIZWUJJtLK2Dqgm3IIZHo2/2a9I
- BUNNlbpAaT6821/KUUXllBkfX8H3dKMtFWfMQlNE6O4GPj94f+aMBwCoEejB/0muHR
- a55UMYRUGRXWBdpe95SIRu13607xv7YY/qQXnQw70/T0dZnL1nDtgI2E6YobpgXWMT
- AiiX+KvNvYjxJfBdz85+RVYBnM7/fqY/MifNQmUTJl922YDOAZaaVm1o/uLKtcj7n7
- Syo3ePm5kq9qQ==
-Message-ID: <7f565036-df78-a4e7-db5e-259115daaf79@collabora.com>
-Date: Mon, 27 Jun 2022 14:55:29 +0200
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2081.outbound.protection.outlook.com [40.107.220.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C26511A67A;
+ Mon, 27 Jun 2022 12:59:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c7qQmrXQEyfgNMO88g0B6dYvu/oJqw0VmPGIZEix3tMC+E6Q9TNGAkDGjnOTbcX+tmw5DUjXloe1davnkdFs+pDdH8JMT89F+3rw4CmRXj2KnCoE1Qe/RV4F3iqtW4ydrFhjBe0V7dUOv5vNq/RCpz3xTmmfmrDsHkmC2STwMxlFGCspqucpNeTJLb2q3hcreGHqCzvd/7Bky7dweC7ruDZbi315HeqNJ++L3/k2WSY3vBIqOtPPfF2Xe1tQ8CvqBHFkGLUbbAEolfj1cEwtgcvOPNvEbmAvSk2I8PVJz24ezBbZzx3vlckdowTWW97NEvHdihPLe4XB18g4dWyiqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dMEpQkQ0GnZHAcdexr0JHZ9kk/u7yFuWBy/kPIeS1RU=;
+ b=Qf8g/T3g03Ne4wi9ANUq2aNdQ/9YSCwxhKJRwT5xYOF9QUO1bnVipixY5i8QbSYiIgOtTMDb/e9AMZ+w2GzxIZaelkxT1kzx57DtpdUWeOdxFN+rqzGEBiLTAIul/jXwu/8eYoXQgzwya4yxMr5bllNtJA09ghzth20WSkmYBHxSGtpTC0owwEsENU94UUC2tzwYOhejpgGNBLOGj9BlecEXMqCbjHMwrbdlmw4lGXIznYXzxZb3NuCP0guTOX9ziFnkG/go2akbibHjNKgQzgRdB9UEA3z4bqD+ueieQ4rmgukAvv7j4HlqqzoZYGfj4jAk4M8b2xkqOrVo5tLlog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dMEpQkQ0GnZHAcdexr0JHZ9kk/u7yFuWBy/kPIeS1RU=;
+ b=hbA4atJcz72m2r9aihXGlL/V/rohyjI7OP8eBvwDUxg3cb8B3s6I59ElapBh/mLeTH2UXtRSaFKgwfm45PCuKvTpHoqD14skW7d49L1zEEyDAVkQNEVmvWxNtzt5ODhWJlQIWyTT0ivyppO/WShZE2zBpYQjjAnXeegqeq19Dg0=
+Received: from BN6PR19CA0061.namprd19.prod.outlook.com (2603:10b6:404:e3::23)
+ by MW2PR12MB4665.namprd12.prod.outlook.com (2603:10b6:302:2::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17; Mon, 27 Jun
+ 2022 12:59:13 +0000
+Received: from BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:404:e3:cafe::8e) by BN6PR19CA0061.outlook.office365.com
+ (2603:10b6:404:e3::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.21 via Frontend
+ Transport; Mon, 27 Jun 2022 12:59:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT039.mail.protection.outlook.com (10.13.177.169) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5373.15 via Frontend Transport; Mon, 27 Jun 2022 12:59:12 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 27 Jun
+ 2022 07:59:12 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 27 Jun
+ 2022 07:58:48 -0500
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.28
+ via Frontend Transport; Mon, 27 Jun 2022 07:58:34 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>,
+ <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH] drm: amd: amdgpu: fix checkpatch warnings
+Date: Mon, 27 Jun 2022 18:28:33 +0530
+Message-ID: <20220627125834.481731-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/bridge: add it6505 driver read config from dt property
-Content-Language: en-US
-To: allen <allen.chen@ite.com.tw>
-References: <20220623093154.52701-1-allen.chen@ite.com.tw>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220623093154.52701-1-allen.chen@ite.com.tw>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c7c1e73e-a044-4e4d-84ce-08da583cd570
+X-MS-TrafficTypeDiagnostic: MW2PR12MB4665:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: w3jfi0sbVHnGdHKYU1BIjRnT0TYHl+1Tjxak8G2eDp2U3elSktUgPOfV0YxiXNJ/j73SeSX07UmvXQjsMC8nuvI2nuoIjV9xo/mQUmIaTHAxCZ9kHVDr6z3wJ/2uTJ4KIFGxvkBnCjY31pEkwqvkFnl7UNT3kTrcSzbHrvFFzSeKlHCmLoQRIU1b29Bp7McH0LUY436Kyb+wckWsJ/Y5+Lv66wEulb4CL9VCHLP92tuRJ9YZ+Yc+Hdr9wfyJ8boZVNmXp9gzypcJtXSaKpRWpPw0TL71suELOyseR6A9J1MRXdoa1qyH7YX+zLpNSotbw4ik+vrYC+ZbOxmcrqBOIpAB9PBvTL1ATAn/oauVNZB2f5/1eXvlS31eNuJhukF/LVqzp63kNYzEcMMEw3/HRQRtw/CFhDhx+ilSukngc3sa8y6Dsiwj8unSHarBt6NIbA1M1rUCVIXEbXDYGNTAKlR0EPYQ5+60JHMtFb5aOusSUwdBdrvIeCINpUhDAcVNzaqJBvaxVy0SfgQCrLKJ95ST0JLzX1YN0mBXQ7kDKdesTvQbZ9w4rRGslUAiYAq9VyvnVfI8sWOPXkn66GpXq9uR6Jh7MUtOTMVF1WrUaTet0HYK8dKI2oHdUObbIsX1MpQokDU4vRRkvvB8mboHeZt+MmN320zK3ytmE5bVo/xq8U30NBAXVNFc+sAHA8OKxu2zCddlO7nvfFxbCQbRW9NJETGdCJIudz3STs9rUcn1hd8gSzytB3SnTwy+DZPcYS26NMFY9r/stHoFfytOHo2OVhYo+3rjywQsoNHYNTXm1NQLrIJg9+z9FYiwe7yuJPxcPvSpStViCqMqxBrgGA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(39860400002)(396003)(136003)(346002)(46966006)(36840700001)(40470700004)(82310400005)(40460700003)(81166007)(336012)(86362001)(83380400001)(186003)(47076005)(2906002)(426003)(356005)(36860700001)(40480700001)(4326008)(70206006)(478600001)(5660300002)(54906003)(8936002)(110136005)(41300700001)(316002)(2616005)(36756003)(7696005)(70586007)(26005)(8676002)(82740400003)(1076003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2022 12:59:12.7924 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7c1e73e-a044-4e4d-84ce-08da583cd570
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT039.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB4665
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,109 +103,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:ARM/Mediatek SoC support"
- <linux-arm-kernel@lists.infradead.org>, Kenneth Hung <Kenneth.Hung@ite.com.tw>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Allen-kh Cheng <allen-kh.cheng@mediatek.corp-partner.google.com>,
- open list <linux-kernel@vger.kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>, Pin-yen Lin <treapking@chromium.org>,
- Hermes Wu <Hermes.Wu@ite.com.tw>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Pin-yen Lin <treapking@google.com>
+Cc: Sunil-kumar.Dommati@amd.com, David Airlie <airlied@linux.ie>,
+ Basavaraj.Hiregoudar@amd.com, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>, Vijendar
+ Mukunda <Vijendar.Mukunda@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 23/06/22 11:31, allen ha scritto:
-> From: allen chen <allen.chen@ite.com.tw>
-> 
-> add read max-lane and max-pixel-clock from dt property
-> 
-> Signed-off-by: Allen-kh Cheng <allen-kh.cheng@mediatek.corp-partner.google.com>
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+From: vijendar <vijendar.mukunda@amd.com>
 
-Hello Allen,
+Fixed below checkpatch warnings and errors
 
-as Sam also pointed out, please fix your S-o-b email: it has to match with the
-author one.
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:131: CHECK: Comparison to NULL could be written "apd"
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:150: CHECK: Comparison to NULL could be written "apd"
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:196: CHECK: Prefer kernel type 'u64' over 'uint64_t'
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:224: CHECK: Please don't use multiple blank lines
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:226: CHECK: Comparison to NULL could be written "!adev->acp.acp_genpd"
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:233: CHECK: Please don't use multiple blank lines
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:239: CHECK: Alignment should match open parenthesis
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:241: CHECK: Comparison to NULL could be written "!adev->acp.acp_cell"
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:247: CHECK: Comparison to NULL could be written "!adev->acp.acp_res"
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:253: CHECK: Comparison to NULL could be written "!i2s_pdata"
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:350: CHECK: Alignment should match open parenthesis
+drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c:550: ERROR: that open brace { should be on the previous line
 
-Anyway, you're adding devicetree properties, so this implies that you should
-also change the dt-bindings documentation for this driver... and also, I have
-some more comments, check below:
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c | 27 +++++++++----------------
+ 1 file changed, 10 insertions(+), 17 deletions(-)
 
-> ---
->   drivers/gpu/drm/bridge/ite-it6505.c | 35 ++++++++++++++++++++++++++---
->   1 file changed, 32 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index 4b673c4792d77..c9121d4635a52 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -436,6 +436,8 @@ struct it6505 {
->   	bool powered;
->   	bool hpd_state;
->   	u32 afe_setting;
-> +	u32 max_dpi_pixel_clock;
-> +	u32 max_lane_count;
->   	enum hdcp_state hdcp_status;
->   	struct delayed_work hdcp_work;
->   	struct work_struct hdcp_wait_ksv_list;
-> @@ -1466,7 +1468,8 @@ static void it6505_parse_link_capabilities(struct it6505 *it6505)
->   	it6505->lane_count = link->num_lanes;
->   	DRM_DEV_DEBUG_DRIVER(dev, "Sink support %d lanes training",
->   			     it6505->lane_count);
-> -	it6505->lane_count = min_t(int, it6505->lane_count, MAX_LANE_COUNT);
-> +	it6505->lane_count = min_t(int, it6505->lane_count,
-> +				   it6505->max_lane_count);
->   
->   	it6505->branch_device = drm_dp_is_branch(it6505->dpcd);
->   	DRM_DEV_DEBUG_DRIVER(dev, "Sink %sbranch device",
-> @@ -2895,7 +2898,7 @@ it6505_bridge_mode_valid(struct drm_bridge *bridge,
->   	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
->   		return MODE_NO_INTERLACE;
->   
-> -	if (mode->clock > DPI_PIXEL_CLK_MAX)
-> +	if (mode->clock > it6505->max_dpi_pixel_clock)
->   		return MODE_CLOCK_HIGH;
->   
->   	it6505->video_info.clock = mode->clock;
-> @@ -3057,6 +3060,8 @@ static void it6505_parse_dt(struct it6505 *it6505)
->   {
->   	struct device *dev = &it6505->client->dev;
->   	u32 *afe_setting = &it6505->afe_setting;
-> +	u32 *max_lane_count = &it6505->max_lane_count;
-> +	u32 *max_dpi_pixel_clock = &it6505->max_dpi_pixel_clock;
->   
->   	it6505->lane_swap_disabled =
->   		device_property_read_bool(dev, "no-laneswap");
-> @@ -3072,7 +3077,31 @@ static void it6505_parse_dt(struct it6505 *it6505)
->   	} else {
->   		*afe_setting = 0;
->   	}
-> -	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %d", *afe_setting);
-> +
-> +	if (device_property_read_u32(dev, "max-lane-count",
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
+index cc9c9f8b23b2..ba1605ff521f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acp.c
+@@ -128,7 +128,7 @@ static int acp_poweroff(struct generic_pm_domain *genpd)
+ 	struct amdgpu_device *adev;
+ 
+ 	apd = container_of(genpd, struct acp_pm_domain, gpd);
+-	if (apd != NULL) {
++	if (apd) {
+ 		adev = apd->adev;
+ 	/* call smu to POWER GATE ACP block
+ 	 * smu will
+@@ -147,7 +147,7 @@ static int acp_poweron(struct generic_pm_domain *genpd)
+ 	struct amdgpu_device *adev;
+ 
+ 	apd = container_of(genpd, struct acp_pm_domain, gpd);
+-	if (apd != NULL) {
++	if (apd) {
+ 		adev = apd->adev;
+ 	/* call smu to UNGATE ACP block
+ 	 * smu will
+@@ -193,7 +193,7 @@ static int acp_genpd_remove_device(struct device *dev, void *data)
+ static int acp_hw_init(void *handle)
+ {
+ 	int r;
+-	uint64_t acp_base;
++	u64 acp_base;
+ 	u32 val = 0;
+ 	u32 count = 0;
+ 	struct i2s_platform_data *i2s_pdata = NULL;
+@@ -220,37 +220,32 @@ static int acp_hw_init(void *handle)
+ 		return -EINVAL;
+ 
+ 	acp_base = adev->rmmio_base;
+-
+-
+ 	adev->acp.acp_genpd = kzalloc(sizeof(struct acp_pm_domain), GFP_KERNEL);
+-	if (adev->acp.acp_genpd == NULL)
++	if (!adev->acp.acp_genpd)
+ 		return -ENOMEM;
+ 
+ 	adev->acp.acp_genpd->gpd.name = "ACP_AUDIO";
+ 	adev->acp.acp_genpd->gpd.power_off = acp_poweroff;
+ 	adev->acp.acp_genpd->gpd.power_on = acp_poweron;
+-
+-
+ 	adev->acp.acp_genpd->adev = adev;
+ 
+ 	pm_genpd_init(&adev->acp.acp_genpd->gpd, NULL, false);
+ 
+-	adev->acp.acp_cell = kcalloc(ACP_DEVS, sizeof(struct mfd_cell),
+-							GFP_KERNEL);
++	adev->acp.acp_cell = kcalloc(ACP_DEVS, sizeof(struct mfd_cell), GFP_KERNEL);
+ 
+-	if (adev->acp.acp_cell == NULL) {
++	if (!adev->acp.acp_cell) {
+ 		r = -ENOMEM;
+ 		goto failure;
+ 	}
+ 
+ 	adev->acp.acp_res = kcalloc(5, sizeof(struct resource), GFP_KERNEL);
+-	if (adev->acp.acp_res == NULL) {
++	if (!adev->acp.acp_res) {
+ 		r = -ENOMEM;
+ 		goto failure;
+ 	}
+ 
+ 	i2s_pdata = kcalloc(3, sizeof(struct i2s_platform_data), GFP_KERNEL);
+-	if (i2s_pdata == NULL) {
++	if (!i2s_pdata) {
+ 		r = -ENOMEM;
+ 		goto failure;
+ 	}
+@@ -346,8 +341,7 @@ static int acp_hw_init(void *handle)
+ 	adev->acp.acp_cell[3].platform_data = &i2s_pdata[2];
+ 	adev->acp.acp_cell[3].pdata_size = sizeof(struct i2s_platform_data);
+ 
+-	r = mfd_add_hotplug_devices(adev->acp.parent, adev->acp.acp_cell,
+-								ACP_DEVS);
++	r = mfd_add_hotplug_devices(adev->acp.parent, adev->acp.acp_cell, ACP_DEVS);
+ 	if (r)
+ 		goto failure;
+ 
+@@ -546,8 +540,7 @@ static const struct amd_ip_funcs acp_ip_funcs = {
+ 	.set_powergating_state = acp_set_powergating_state,
+ };
+ 
+-const struct amdgpu_ip_block_version acp_ip_block =
+-{
++const struct amdgpu_ip_block_version acp_ip_block = {
+ 	.type = AMD_IP_BLOCK_TYPE_ACP,
+ 	.major = 2,
+ 	.minor = 2,
+-- 
+2.25.1
 
-Please use the standard property "data-lanes" from video-interfaces.yaml.
-
-> +				     max_lane_count) == 0) {
-> +		if (*max_lane_count > 4 || *max_lane_count == 3) {
-> +			dev_err(dev, "max lane count error, use default");
-> +			*max_lane_count = MAX_LANE_COUNT;
-> +		}
-> +	} else {
-> +		*max_lane_count = MAX_LANE_COUNT;
-> +	}
-> +
-> +	if (device_property_read_u32(dev, "max-dpi-pixel-clock",
-> +				     max_dpi_pixel_clock) == 0) {
-
-What about "max-pixel-clock-khz" or "max-pixel-clock-hz"?
-
-
-Regards,
-Angelo
