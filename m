@@ -1,65 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE5855BE92
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 08:03:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8A055BBE5
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 22:03:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65AC0113D2F;
-	Tue, 28 Jun 2022 06:03:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7223310E449;
+	Mon, 27 Jun 2022 20:03:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
- [IPv6:2607:f8b0:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BA7F11B47B
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 19:53:47 +0000 (UTC)
-Received: by mail-pg1-x52b.google.com with SMTP id e63so10057274pgc.5
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:53:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=networkplumber-org.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
+ [IPv6:2001:4860:4864:20::31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 833048923D
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 20:03:51 +0000 (UTC)
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-fb6b4da1dfso14332094fac.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 13:03:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k/l4LcE4w+6LYrCo6/Ek+44r04gbnpHm9yyPA0qKR6A=;
- b=ryYp2naL1201DMNfPmSbpexCs+zqiLsBQDBXHc9esFHxBJ8Ep2LLrsgHtxJtosu2+J
- 1iBYfvQQXv6NYwKQ2qXQCc4mHXYQGPYeeUC3hu2OgPUPjZXH+3Hi6Zqo5SyTeGerBVQA
- p1Bh5daOuP6Q9UMRPxlj6vxZpUjBpxOPEYhjttl3pP6gtksJnO1wA5G3ERXmm3iOhFrs
- MlyYmEaZt8I/cdZ0xlE1RQA9V/oE3k4e+iV7r8nrUlXmSvlRImOQktUmXD254MFh7ceV
- 2zbWTxt+/QD0MTYLBrv8xqePAliI2A59OkEqXOPrksIatTeOcW53aiRz+65e7KopsoX+
- 3osw==
+ bh=uBL8T3g3R0Pq3whUkb/j5eJUSIuSh7+BTEsAjLrbttw=;
+ b=tByXVs4oLqp70UnWrAelQLgAZ02AjGHlRCOv88PrYBSqr+tpiHU5Q+f/xG7zbiFenC
+ tiSrYxs9TC477G06hNDlrjxga5jvL580iaOVQGS6EHHO8M55FCPlukXVJTUMpkwdzO5P
+ bt9xGTTeA+6oUcHAnORPIsaOH90m5W/HxuLc0sGWNLScVokcy2cOBVkXLeqZNkhZR/HJ
+ +9gIG3dMRBkp3pA91MTASZcI6SxfpD2vHTSBtwEsD9C/ME9MWc+SZNyA9AzpAgFu3TGm
+ QNnpCpBGzCQzCXk0nqqQ1th0UuAX4myDZ9b36KaYhbKCKvwhJMxcWNugDfPdLOUI5ira
+ AR2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k/l4LcE4w+6LYrCo6/Ek+44r04gbnpHm9yyPA0qKR6A=;
- b=rBGqHipy+s3HcgtEjuLBajQfcQYJC+k3mWGJZIibF0M6TvZQ4sxJTLct8rLmdvEhSS
- rCYvgTJGZullrBzeVE82qAotqbpVz2rRdSLYFsdK9ybE3JInqLBY7Kv05x6PlJBCS69b
- DRtG7zf+hbVjEwoyW5vD6CGvJDnUAL1kNjdX7Ot+xiRkJBD//n7fP1CECgM1I+SS7SsS
- utM129F/WiVGrSoBkb5/uDl88OY1hzkOUjGguslXOhOnOmZsYJySYF/iD/IqNklBPsWu
- tQEn8LemYtrV7S3mOiIaieEQ4yeheJFTj3fQcZ/YA0+eAltUI/txyC2LqN8jOWsLuVfU
- Diyg==
-X-Gm-Message-State: AJIora9jC7QrdNUkHpzXmLQUWAXyi4vDeqkLDTAoQExhPvljZzq+v3Ye
- PfBIfNAAV4mYqoqJKXrkxP4HPQ==
-X-Google-Smtp-Source: AGRyM1ssDeW6Ux1oaY9ixgaaapzXMFszbxcRVeOWaHAYiiaVMZ4HUYtPzqxXzR6I8+fqeJNf8u9hpg==
-X-Received: by 2002:a63:7a5d:0:b0:40c:fcbe:4799 with SMTP id
- j29-20020a637a5d000000b0040cfcbe4799mr14428539pgn.297.1656359626928; 
- Mon, 27 Jun 2022 12:53:46 -0700 (PDT)
-Received: from hermes.local (204-195-112-199.wavecable.com. [204.195.112.199])
- by smtp.gmail.com with ESMTPSA id
- c16-20020a056a00009000b0051c1b445094sm7821510pfj.7.2022.06.27.12.53.45
+ bh=uBL8T3g3R0Pq3whUkb/j5eJUSIuSh7+BTEsAjLrbttw=;
+ b=C0I4+x4+j/U/QkAwliHf5H7R/LznP/2YvVH2vfMCok5WcHvbOVcIuitxAPv4iJhyna
+ Lwyr0LQZnaRtQ/xUM6nDZdqDgmwJRFZOrq8ppNaMjRdWHWeo0dAMQk7u6T669TsVIHIf
+ LZ6A+RNl+8WLAYK5S6buJIK7HruTm+0YIk7o0zqyODeSRoAceX2TrWmF371BQwtmVdao
+ QDZm/hD5JnAbk7lCM4hqQQM9N+lbHuJrKknXN1tMSJbzFogyStRYL4doLRtltbn9GWH9
+ /XmpDnJCF6mu9tIPtX9dBEr1rCI5aouCTaFWTI51pS00ERnY/A4zhuI36VzPlfg1BIy6
+ TASA==
+X-Gm-Message-State: AJIora+FifGMFk86CC+ZenoqRfyVqKwDK/jSWBGnyRLpbDUL5tqJeENs
+ fgamsH5PRRARecqSiQNvGN4OmA==
+X-Google-Smtp-Source: AGRyM1uyXxkCopnKmMrwc7YTmNhF77XP6v4iLuNzB3mcEoxBcwwNkqmrJxoiPfBIjXYpp1D8SYTD2Q==
+X-Received: by 2002:a05:6870:23a6:b0:f2:2dfd:d6d5 with SMTP id
+ e38-20020a05687023a600b000f22dfdd6d5mr8502700oap.100.1656360230798; 
+ Mon, 27 Jun 2022 13:03:50 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186]) by smtp.gmail.com with ESMTPSA id
+ m16-20020a4a9510000000b0041bdf977c6dsm6428729ooi.31.2022.06.27.13.03.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 12:53:46 -0700 (PDT)
-Date: Mon, 27 Jun 2022 12:53:43 -0700
-From: Stephen Hemminger <stephen@networkplumber.org>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH][next] treewide: uapi: Replace zero-length arrays with
- flexible-array members
-Message-ID: <20220627125343.44e24c41@hermes.local>
-In-Reply-To: <20220627180432.GA136081@embeddedor>
-References: <20220627180432.GA136081@embeddedor>
+ Mon, 27 Jun 2022 13:03:49 -0700 (PDT)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
+Subject: Re: (subset) [PATCH v7 0/5] Update mdp clk to max supported value to
+ support higher refresh rates
+Date: Mon, 27 Jun 2022 15:03:04 -0500
+Message-Id: <165636016347.3080661.10709114868531823730.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <1647919631-14447-1-git-send-email-quic_vpolimer@quicinc.com>
+References: <1647919631-14447-1-git-send-email-quic_vpolimer@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 28 Jun 2022 06:03:27 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,80 +74,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, alsa-devel@alsa-project.org, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dm-devel@redhat.com, target-devel@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-hardening@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net,
- linux-stm32@st-md-mailman.stormreply.com, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org, x86@kernel.org,
- kasan-dev@googlegroups.com, lvs-devel@vger.kernel.org, coreteam@netfilter.org,
- v9fs-developer@lists.sourceforge.net, Kees Cook <keescook@chromium.org>,
- intel-gfx@lists.freedesktop.org, linux-can@vger.kernel.org,
- linux-raid@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
- virtualization@lists.linux-foundation.org, io-uring@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-sctp@vger.kernel.org, netfilter-devel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
- linux-btrfs@vger.kernel.org
+Cc: quic_kalyant@quicinc.com, dmitry.baryshkov@linaro.org,
+ linux-kernel@vger.kernel.org, dianders@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Jun 2022 20:04:32 +0200
-"Gustavo A. R. Silva" <gustavoars@kernel.org> wrote:
+On Tue, 22 Mar 2022 08:57:06 +0530, Vinod Polimera wrote:
+> Drop the assigned clock rate property and vote on the mdp clock to
+> max frequency during bind/probe sequence.
+> 
+> Changes in v2:
+> - Remove assigned-clock-rate property and set mdp clk during
+> resume sequence.
+> - Add fixes tag.
+> 
+> [...]
 
-> There is a regular need in the kernel to provide a way to declare
-> having a dynamically sized set of trailing elements in a structure.
-> Kernel code should always use =E2=80=9Cflexible array members=E2=80=9D[1]=
- for these
-> cases. The older style of one-element or zero-length arrays should
-> no longer be used[2].
->=20
-> This code was transformed with the help of Coccinelle:
-> (linux-5.19-rc2$ spatch --jobs $(getconf _NPROCESSORS_ONLN) --sp-file scr=
-ipt.cocci --include-headers --dir . > output.patch)
->=20
-> @@
-> identifier S, member, array;
-> type T1, T2;
-> @@
->=20
-> struct S {
->   ...
->   T1 member;
->   T2 array[
-> - 0
->   ];
-> };
->=20
-> -fstrict-flex-arrays=3D3 is coming and we need to land these changes
-> to prevent issues like these in the short future:
->=20
-> ../fs/minix/dir.c:337:3: warning: 'strcpy' will always overflow; destinat=
-ion buffer has size 0,
-> but the source string has length 2 (including NUL byte) [-Wfortify-source]
-> 		strcpy(de3->name, ".");
-> 		^
->=20
-> Since these are all [0] to [] changes, the risk to UAPI is nearly zero. If
-> this breaks anything, we can use a union with a new member name.
->=20
-> [1] https://en.wikipedia.org/wiki/Flexible_array_member
-> [2] https://www.kernel.org/doc/html/v5.16/process/deprecated.html#zero-le=
-ngth-and-one-element-arrays
->=20
-> Link: https://github.com/KSPP/linux/issues/78
-> Build-tested-by: https://lore.kernel.org/lkml/62b675ec.wKX6AOZ6cbE71vtF%2=
-5lkp@intel.com/
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Applied, thanks!
 
-Thanks this fixes warning with gcc-12 in iproute2.
-In function =E2=80=98xfrm_algo_parse=E2=80=99,
-    inlined from =E2=80=98xfrm_state_modify.constprop=E2=80=99 at xfrm_stat=
-e.c:573:5:
-xfrm_state.c:162:32: warning: writing 1 byte into a region of size 0 [-Wstr=
-ingop-overflow=3D]
-  162 |                         buf[j] =3D val;
-      |                         ~~~~~~~^~~~~
+[2/5] arm64: dts: qcom: sm7280: remove assigned-clock-rate property for mdp clk
+      commit: 5241fd7fee9bee0cffa33f6d074194e94831e467
+[3/5] arm64: dts: qcom: sm7180: remove assigned-clock-rate property for mdp clk
+      commit: aa4ae511a760e66f22641d9b9b6052b469df3c10
+[4/5] arm64: dts: qcom: sdm845: remove assigned-clock-rate property for mdp clk
+      commit: 0b24829fd74cf954b3a02e9e4c4da3c098c69fbc
+[5/5] arm64: dts: qcom: sm8250: remove assigned-clock-rate property for mdp clk
+      commit: 6edb323837909462d493f22c07a38a23ef44f944
+
+Best regards,
+-- 
+Bjorn Andersson <bjorn.andersson@linaro.org>
