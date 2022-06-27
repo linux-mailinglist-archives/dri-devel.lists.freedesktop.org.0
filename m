@@ -1,74 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B7255BA21
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 15:51:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B3255BA26
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 15:54:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 286DB1136EE;
-	Mon, 27 Jun 2022 13:51:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC8310EADA;
+	Mon, 27 Jun 2022 13:54:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
- [IPv6:2607:f8b0:4864:20::f2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7D611136EE
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 13:51:27 +0000 (UTC)
-Received: by mail-qv1-xf2e.google.com with SMTP id 89so14865033qvc.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 06:51:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :content-transfer-encoding:user-agent:mime-version;
- bh=IO/5LQDipzPqsfiPf2oKew6mU+NIadwTqMByhggPg0I=;
- b=GOyk+HaLucKVVNkgp6ddt+d56vzd0A8t7G4KOm1AbUEU5/BeYVRzygTy8xCIa+lNPf
- Si1v7SHohI30eBXdgPyC7mZJixMFZ35tJljXaSgkh0Li26Q+p0JAIButdSaunBS85MXd
- WXo6/Mf1UKxdoyn+uUXME6FEzJ7YFXrx6o2LDBi9QFHEZtTbCLtan2urHYd2GWdvzte5
- 3V0ii1UopvsZFN2VxRhYSgOy6FU3B7szGbIf0CymZAbD0Ba5wzZmNVE7nN1mxUBGPJ2n
- duSOw6JuHYdOLa2znVpddX5BlAaBgG0AbhYMuNzwZXU/IS2NZvQlGSPIK6kyuB6VzIBx
- PFKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:content-transfer-encoding:user-agent:mime-version;
- bh=IO/5LQDipzPqsfiPf2oKew6mU+NIadwTqMByhggPg0I=;
- b=4CQtCODRWaiIEf85xGtXjQgXXkrY17iYBVShNVh2I7BzZo9TdpBqSGwI+gmjob7bBJ
- i4cfdYKUdrLAuzXMXNcw26cj5RGmCnlAxFgUE6wm0EtKXVAWhvxgN1sq4RD/2a1RLCPp
- WLhAFHgrCoNusZaK8cV8jFQXHpI4LzKrJhLTSTvKejceguAU2AtUEFB/aNC8+zJoG8MG
- +nw4nIHeIPdhxoDb8a1DZQI8ctraDUbpma9izDJ5J0Meuqap04dKqlbBBNEnEQIohl2L
- wXIgctP/D9Mg3lmUSoccfyPVRYcXvKJ1pTMMJBzBpPjwocokY8iLuJ6xy5mpq6zcr2S5
- CKog==
-X-Gm-Message-State: AJIora8U++73pAtj/0PGtsyUPGEO2I/mCsKQpnGtANaFWunJ5b3ChQiq
- w7D6qOGxzh7IbQ9UPWY8M77GMg==
-X-Google-Smtp-Source: AGRyM1uwTUgcdBTwPIHf6SCg4Il6IWSeM4ajg7IuHzzyn8HZDcP+XrUxKuXlZI8HzHEN016LOLSDHA==
-X-Received: by 2002:a05:622a:5985:b0:31b:899:3093 with SMTP id
- gb5-20020a05622a598500b0031b08993093mr2059921qtb.616.1656337886689; 
- Mon, 27 Jun 2022 06:51:26 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net.
- [192.222.136.102]) by smtp.gmail.com with ESMTPSA id
- s24-20020ac85ed8000000b00317c519be8bsm6996967qtx.66.2022.06.27.06.51.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 06:51:26 -0700 (PDT)
-Message-ID: <36eef859d63640b4456360e17383635644703e3d.camel@ndufresne.ca>
-Subject: Re: DMA-buf and uncached system memory
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Lucas Stach <l.stach@pengutronix.de>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Pekka Paalanen <ppaalanen@gmail.com>
-Date: Mon, 27 Jun 2022 09:51:24 -0400
-In-Reply-To: <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
-References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
- <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
- <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
- <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
- <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
- <20220623101326.18beeab3@eldfell>
- <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
- <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
- <adc626ec-ff5a-5c06-44ce-09111be450cd@amd.com>
- <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21F0810EADA
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 13:54:15 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id BC75A5C00E2;
+ Mon, 27 Jun 2022 09:54:10 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 27 Jun 2022 09:54:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1656338050; x=
+ 1656424450; bh=1sXcaHNvwQI7h/921KKpkJ57L1W6T3uEZqhu2eypuk4=; b=Y
+ 1Rqf+sdn09yuhpgGcoGAQOLtbdWZhXObj7G352cPvK6Zv/A8gUWMqIpGDb+mzeLV
+ C+umACtgrB6SDw6aoklf9H/fW0O/orFLGqOScW+0brUuyxKosOTYE2ATwRLMEjeO
+ EmLnD5omUAPddhU6aDH8uvrGb5EEVKmz5P07WTQLpmDL0bHC+JKxC3p6pRz2bdlp
+ dEaJmxh+oYaeWkpebqaSAXTUkhffPyVi9RSn4KAEPMGOHMWh5F7e96zi5uu548jv
+ n7JoFecCeu786WGpMSVxhjN6zorGzsKHyGG3bUIrAaAIw7bzgJHMc9z18wGvuLAz
+ WBnNmaN/E2BUqOEZ1bpIw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656338050; x=
+ 1656424450; bh=1sXcaHNvwQI7h/921KKpkJ57L1W6T3uEZqhu2eypuk4=; b=B
+ H/TyUHH1ezf3C1YYRARAykCOmS0g1X15s3YsghCcUSzXT4jv0mxMExzhGIbdcnEp
+ XQdLNAlOcGEcNQbX8TjdpGukN9LHL+5Ku6Yy3fVdaoKv3NJzrC2OTXlAOPNOix6V
+ 5jxqGZLcntfapfw9I1WtcbxEJ2MM9/aaOBvTrFHTrY1WXOKqZatnmuPBrWwGCWW1
+ zBDXguS3jFtcVRHbFsJi24h0c5I/RTUbQdZcMaARUdiOSqgWv5TB079uZvjnTWNy
+ bWWOgDTQQooFVfe8FeP/51AHyrvT0M2FFioUovqA8h8KvCQcuuNm+LLj54AxWpy3
+ 0D2W33rwfejCoG/T7uqyg==
+X-ME-Sender: <xms:gra5YrJQoWrhSMyhipPApTh159DnzhPYWrTIuBIAY3ioHUKWTxFtwg>
+ <xme:gra5YvJjPV3eu-0oSTBsv9oeo8Mx2B8-scQBHma0duclJrE2F2rOxpUazRwpbF_Mv
+ SdDUOhudmRRmslymfE>
+X-ME-Received: <xmr:gra5YjtSZ9GLN_0fSS1iasxgbEC8FMPlB19NpnTEOPxvyrq4J2-KN5VVLgZyDO3m0fseYS2Z-b4DllOgHP2RKD6JZmJ-G_POhUpbGz8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeghedgjeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfgggtgfesth
+ ekredtredtjeenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvges
+ tggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeeuieeggffhffffieefheduie
+ euvdetgeeufeffvefgtedvffehheekffevudefieenucevlhhushhtvghrufhiiigvpedt
+ necurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:gra5YkZxJjoTj81ZMP149EWzzjmyF0JOvV2JeXa-59jBo-j9XVa3Ag>
+ <xmx:gra5Yibj7qip2CP4izoKjA7X49DC-LWeKpPh2o-2Hjy2IBh0Gcz3Pg>
+ <xmx:gra5YoB3uWklatS5FWkSpMEkmtEJtBDiuqaNlU69Dw6DCtN7njw5Yg>
+ <xmx:gra5Ypz_S27WTPG59VFkURbnKo7IS-TwNGMlxOgtbhFWSWaSsx-BHg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Jun 2022 09:54:09 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: maxime@cerno.tech,
+	dri-devel@lists.freedesktop.org
+Subject: Re: (subset) [PATCH] drm/vc4: perfmon: Fix variable dereferenced
+ before check
+Date: Mon, 27 Jun 2022 15:54:04 +0200
+Message-Id: <165633801994.372965.15433742616843978348.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220622080243.22119-1-maxime@cerno.tech>
+References: <20220622080243.22119-1-maxime@cerno.tech>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,55 +85,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media <linux-media@vger.kernel.org>
+Cc: airlied@linux.ie, daniel.vetter@intel.com, dan.carpenter@oracle.com,
+ lkp@intel.com, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, 22 Jun 2022 10:02:43 +0200, Maxime Ripard wrote:
+> Commit 30f8c74ca9b7 ("drm/vc4: Warn if some v3d code is run on BCM2711")
+> introduced a check in vc4_perfmon_get() that dereferences a pointer before
+> we checked whether that pointer is valid or not.
+> 
+> Let's rework that function a bit to do things in the proper order.
+> 
+> 
+> [...]
 
-Le jeudi 23 juin 2022 =C3=A0 10:58 +0200, Lucas Stach a =C3=A9crit=C2=A0:
-> > > In the DMA API keeping things mapped is also a valid use-case, but th=
-en
-> > > you need to do explicit domain transfers via the dma_sync_* family,
-> > > which DMA-buf has not inherited. Again those sync are no-ops on cache
-> > > coherent architectures, but do any necessary cache maintenance on non
-> > > coherent arches.
-> >=20
-> > Correct, yes. Coherency is mandatory for DMA-buf, you can't use=20
-> > dma_sync_* on it when you are the importer.
-> >=20
-> > The exporter could of course make use of that because he is the owner o=
-f=20
-> > the buffer.
->=20
-> In the example given here with UVC video, you don't know that the
-> buffer will be exported and needs to be coherent without
-> synchronization points, due to the mapping cache at the DRM side. So
-> V4L2 naturally allocates the buffers from CPU cached memory. If the
-> expectation is that those buffers are device coherent without relying
-> on the map/unmap_attachment calls, then V4L2 needs to always
-> synchronize caches on DQBUF when the=C2=A0 buffer is allocated from CPU
-> cached memory and a single DMA-buf attachment exists. And while writing
-> this I realize that this is probably exactly what V4L2 should do...
+Applied to drm/drm-misc (drm-misc-fixes).
 
-I'm not sure we are making any progress here. Doing so will just regress
-performance of coherent devices used to render UVC video feeds. In fact, th=
-ey
-are all coherent except the display controller (on Intel). What my colleagu=
-e was
-suggesting me to try (with the expectation that some adaptation will be nee=
-ded,
-perhaps new signalling flags), is to read the dma_coherency_mask values on =
-the
-devices that calls attach() and adapt v4l2 exporter accordingly.
-
-Its likely wrong as-is, not intended to be used for that, but the value is =
-that
-it tries to fix the problem, unlike what I'm reading here.
-
-Nicolas
-
+Thanks!
+Maxime
