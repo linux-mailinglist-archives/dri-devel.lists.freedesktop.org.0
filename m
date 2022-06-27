@@ -1,42 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 756B255B7C3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 07:42:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F068955B808
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 08:55:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B576112E94;
-	Mon, 27 Jun 2022 05:42:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2789113FFB;
+	Mon, 27 Jun 2022 06:55:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net
- [60.251.196.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A896112E96
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 05:42:01 +0000 (UTC)
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 27 Jun 2022 13:40:54 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 25R5eoBa066608;
- Mon, 27 Jun 2022 13:40:50 +0800 (GMT-8)
- (envelope-from allen.chen@ite.com.tw)
-Received: from VirtualBox.internal.ite.com.tw (192.168.70.46) by
- CSBMAIL1.internal.ite.com.tw (192.168.65.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.14; Mon, 27 Jun 2022 13:40:49 +0800
-From: allen <allen.chen@ite.com.tw>
-To: 
-Subject: [PATCH] drm/bridge: add it6505 driver read config from dt property
-Date: Mon, 27 Jun 2022 13:40:32 +0800
-Message-ID: <20220627054038.18600-1-allen.chen@ite.com.tw>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C555113E44
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 06:55:24 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id fi2so17009723ejb.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jun 2022 23:55:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=l8DLyJeTvw1xggLYIHIAs8lG/FP9YwAC/H3QcrJQQbM=;
+ b=lfgBG6BcegbTxn3oISBf4RsaDUKM1nhVWAfcGq0zhvN4IJqH7WSK7JFr5tCQyT4LhR
+ d3gzqK1269FOcBTTQRj6VW3qzmmFI2wXSc64Nt2UxGUePVjixulD3AFbREgmAsN+lFeL
+ HwiLI3JD9ln4Ucm/7OFwUSa0edTyKBYwXARd8flIWAl5vo19z4kdrlu7947/py5QeJYl
+ 5geBx1o7hjeEa6/y+BjqBlLbb00NtPWXQVfDgYXenyBSH+m2KPcW22e8FAmdWrrzn1Kk
+ jK5n1XfVEc+py+OgSpy6lqVFDccn0L+WAbGo6nrf6yeJtVi6tgZY/qojyRLDyAWyox7c
+ /g5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=l8DLyJeTvw1xggLYIHIAs8lG/FP9YwAC/H3QcrJQQbM=;
+ b=wheESZOdlXiYX4rFjzQ1OjCFP0PN3VnU2CMND6V55ITOkAHutG1eYXTAQOAhMTp71w
+ jgBmvPu8iVxggCWcN+UWNtiT1wA1hEI0EQsiDgFkkVY1itY63xTcK4hMadCd0ZsF0ANW
+ zFW7rQ60ImVRGWksQkci6ETOn98f4bgM+DsvN148hl4MnZdYCEZ1xMgEZooX6RfKiGl6
+ s2BJwey/4BSqGV+7NZ9AMLPU+9cZJ337MJIq7RO3ewxY+Qt/ne7TtHVgGHTfC4EvDg3h
+ zZVGy0SGVGBVY5RN8IkelkHQqxJ4c9CWovVAo0iQYiQCrQMEZu6aiG8ibw5Bz2Z16eNi
+ vwxQ==
+X-Gm-Message-State: AJIora+g17Dshw7y74FEsqgEhwQFpIHlvn1sZCKl3haT/2JwF6BWmAGc
+ g6EBGFHTkrKbRNZXUKai9nyNdA==
+X-Google-Smtp-Source: AGRyM1uOrGGFKIKFwX1OUL+TaKzbf/DR/DTxjj1a56xgid+qPv5S8NCnwy6OhwV1/zW1L8jkeok5qg==
+X-Received: by 2002:a17:907:60d2:b0:725:5611:cea6 with SMTP id
+ hv18-20020a17090760d200b007255611cea6mr11136755ejc.60.1656312922947; 
+ Sun, 26 Jun 2022 23:55:22 -0700 (PDT)
+Received: from [192.168.0.246] (xdsl-188-155-176-92.adslplus.ch.
+ [188.155.176.92]) by smtp.gmail.com with ESMTPSA id
+ e17-20020a170906505100b006fece722508sm4615390ejk.135.2022.06.26.23.55.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 26 Jun 2022 23:55:22 -0700 (PDT)
+Message-ID: <70cd0066-9aa7-ca41-ad61-898d491328aa@linaro.org>
+Date: Mon, 27 Jun 2022 08:55:20 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.70.46]
-X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
- CSBMAIL1.internal.ite.com.tw (192.168.65.58)
-X-TM-SNTS-SMTP: FA5C19EDE9E2403BEC45E0E5928A380F566FC95DD8E76B36B835C2BC9F9744332002:8
-X-MAIL: mse.ite.com.tw 25R5eoBa066608
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 07/14] riscv: dts: canaan: fix the k210's memory node
+Content-Language: en-US
+To: Conor.Dooley@microchip.com, damien.lemoal@opensource.wdc.com,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+References: <20220618123035.563070-1-mail@conchuod.ie>
+ <20220618123035.563070-8-mail@conchuod.ie>
+ <9cd60b3b-44fe-62ac-9874-80ae2223d078@opensource.wdc.com>
+ <e1fbf363-d057-1000-a846-3df524801f15@microchip.com>
+ <891cf74c-ac0a-b380-1d5f-dd7ce5aeda9d@opensource.wdc.com>
+ <6c9de242-6ccf-49a2-8422-e6949c5169ff@microchip.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <6c9de242-6ccf-49a2-8422-e6949c5169ff@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,103 +79,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenneth Hung <Kenneth.Hung@ite.com.tw>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
- Allen Chen <allen.chen@ite.com.tw>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Pin-yen Lin <treapking@google.com>, open list <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Neil Armstrong <narmstrong@baylibre.com>,
- Pin-yen Lin <treapking@chromium.org>, Hermes Wu <Hermes.Wu@ite.com.tw>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>
+Cc: niklas.cassel@wdc.com, alsa-devel@alsa-project.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ thierry.reding@gmail.com, jee.heng.sia@intel.com,
+ linux-riscv@lists.infradead.org, sam@ravnborg.org, masahiroy@kernel.org,
+ daniel.lezcano@linaro.org, joabreu@synopsys.com, geert@linux-m68k.org,
+ Eugeniy.Paltsev@synopsys.com, devicetree@vger.kernel.org,
+ aou@eecs.berkeley.edu, broonie@kernel.org, palmer@rivosinc.com,
+ paul.walmsley@sifive.com, mail@conchuod.ie, tglx@linutronix.de,
+ dillon.minfei@gmail.com, lgirdwood@gmail.com, fancer.lancer@gmail.com,
+ linux-spi@vger.kernel.org, vkoul@kernel.org, palmer@dabbelt.com,
+ dmaengine@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: allen chen <allen.chen@ite.com.tw>
+On 21/06/2022 11:49, Conor.Dooley@microchip.com wrote:
+> On 20/06/2022 01:25, Damien Le Moal wrote:
+>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+>>
+>> On 6/20/22 08:54, Conor.Dooley@microchip.com wrote:
+>>> On 20/06/2022 00:38, Damien Le Moal wrote:
+>>>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+>>>>
+>>>> On 6/18/22 21:30, Conor Dooley wrote:
+>>>>> From: Conor Dooley <conor.dooley@microchip.com>
+>>>>>
+>>>>> The k210 memory node has a compatible string that does not match with
+>>>>> any driver or dt-binding & has several non standard properties.
+>>>>> Replace the reg names with a comment and delete the rest.
+>>>>>
+>>>>> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+>>>>> ---
+>>>>> ---
+>>>>>   arch/riscv/boot/dts/canaan/k210.dtsi | 6 ------
+>>>>>   1 file changed, 6 deletions(-)
+>>>>>
+>>>>> diff --git a/arch/riscv/boot/dts/canaan/k210.dtsi b/arch/riscv/boot/dts/canaan/k210.dtsi
+>>>>> index 44d338514761..287ea6eebe47 100644
+>>>>> --- a/arch/riscv/boot/dts/canaan/k210.dtsi
+>>>>> +++ b/arch/riscv/boot/dts/canaan/k210.dtsi
+>>>>> @@ -69,15 +69,9 @@ cpu1_intc: interrupt-controller {
+>>>>>
+>>>>>        sram: memory@80000000 {
+>>>>>                device_type = "memory";
+>>>>> -             compatible = "canaan,k210-sram";
+>>>>>                reg = <0x80000000 0x400000>,
+>>>>>                      <0x80400000 0x200000>,
+>>>>>                      <0x80600000 0x200000>;
+>>>>> -             reg-names = "sram0", "sram1", "aisram";
+>>>>> -             clocks = <&sysclk K210_CLK_SRAM0>,
+>>>>> -                      <&sysclk K210_CLK_SRAM1>,
+>>>>> -                      <&sysclk K210_CLK_AI>;
+>>>>> -             clock-names = "sram0", "sram1", "aisram";
+>>>>>        };
+>>>>
+>>>> These are used by u-boot to setup the memory clocks and initialize the
+>>>> aisram. Sure the kernel actually does not use this, but to be in sync with
+>>>> u-boot DT, I would prefer keeping this as is. Right now, u-boot *and* the
+>>>> kernel work fine with both u-boot internal DT and the kernel DT.
+>>>
+>>> Right, but unfortunately that desire alone doesn't do anything about
+>>> the dtbs_check complaints.
+>>>
+>>> I guess the alternative approach of actually documenting the compatible
+>>> would be more palatable?
+>>
+>> Yes, I think so. That would allow keeping the fields without the DTB build
+>> warnings.
+> 
+> Hmm looks like that approach contradicts the dt-schema;
+> https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/memory.yaml
+> 
+> @Rob,Krzysztof what is one meant to do here?
 
-add read max-lane and max-pixel-clock from dt property
+Why do you think it contradict bindings? Bindings for memory allow
+additional properties, so you just need to create binding for this one.
+And make it a correct binding, IOW, be sure that these clocks are real etc.
 
-Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 35 ++++++++++++++++++++++++++---
- 1 file changed, 32 insertions(+), 3 deletions(-)
+Although usually we had separate bindings (and device drivers) for
+memory controllers, instead of including them in the "memory" node.
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 4b673c4792d77..c9121d4635a52 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -436,6 +436,8 @@ struct it6505 {
- 	bool powered;
- 	bool hpd_state;
- 	u32 afe_setting;
-+	u32 max_dpi_pixel_clock;
-+	u32 max_lane_count;
- 	enum hdcp_state hdcp_status;
- 	struct delayed_work hdcp_work;
- 	struct work_struct hdcp_wait_ksv_list;
-@@ -1466,7 +1468,8 @@ static void it6505_parse_link_capabilities(struct it6505 *it6505)
- 	it6505->lane_count = link->num_lanes;
- 	DRM_DEV_DEBUG_DRIVER(dev, "Sink support %d lanes training",
- 			     it6505->lane_count);
--	it6505->lane_count = min_t(int, it6505->lane_count, MAX_LANE_COUNT);
-+	it6505->lane_count = min_t(int, it6505->lane_count,
-+				   it6505->max_lane_count);
- 
- 	it6505->branch_device = drm_dp_is_branch(it6505->dpcd);
- 	DRM_DEV_DEBUG_DRIVER(dev, "Sink %sbranch device",
-@@ -2895,7 +2898,7 @@ it6505_bridge_mode_valid(struct drm_bridge *bridge,
- 	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
- 		return MODE_NO_INTERLACE;
- 
--	if (mode->clock > DPI_PIXEL_CLK_MAX)
-+	if (mode->clock > it6505->max_dpi_pixel_clock)
- 		return MODE_CLOCK_HIGH;
- 
- 	it6505->video_info.clock = mode->clock;
-@@ -3057,6 +3060,8 @@ static void it6505_parse_dt(struct it6505 *it6505)
- {
- 	struct device *dev = &it6505->client->dev;
- 	u32 *afe_setting = &it6505->afe_setting;
-+	u32 *max_lane_count = &it6505->max_lane_count;
-+	u32 *max_dpi_pixel_clock = &it6505->max_dpi_pixel_clock;
- 
- 	it6505->lane_swap_disabled =
- 		device_property_read_bool(dev, "no-laneswap");
-@@ -3072,7 +3077,31 @@ static void it6505_parse_dt(struct it6505 *it6505)
- 	} else {
- 		*afe_setting = 0;
- 	}
--	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %d", *afe_setting);
-+
-+	if (device_property_read_u32(dev, "max-lane-count",
-+				     max_lane_count) == 0) {
-+		if (*max_lane_count > 4 || *max_lane_count == 3) {
-+			dev_err(dev, "max lane count error, use default");
-+			*max_lane_count = MAX_LANE_COUNT;
-+		}
-+	} else {
-+		*max_lane_count = MAX_LANE_COUNT;
-+	}
-+
-+	if (device_property_read_u32(dev, "max-dpi-pixel-clock",
-+				     max_dpi_pixel_clock) == 0) {
-+		if (*max_dpi_pixel_clock > 297000) {
-+			dev_err(dev, "max pixel clock error, use default");
-+			*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
-+		}
-+	} else {
-+		*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
-+	}
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %u, max_lane_count: %u",
-+			     it6505->afe_setting, it6505->max_lane_count);
-+	DRM_DEV_DEBUG_DRIVER(dev, "using max_dpi_pixel_clock: %u kHz",
-+			     it6505->max_dpi_pixel_clock);
- }
- 
- static ssize_t receive_timing_debugfs_show(struct file *file, char __user *buf,
--- 
-2.25.1
-
+Best regards,
+Krzysztof
