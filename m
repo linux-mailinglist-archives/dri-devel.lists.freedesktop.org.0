@@ -1,57 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B545855BAAB
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 17:12:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D6555BAC1
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 17:33:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F35C11A9DE;
-	Mon, 27 Jun 2022 15:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB7EC10E21F;
+	Mon, 27 Jun 2022 15:33:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7559711A9DE
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 15:12:36 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 25RFCLgk108561;
- Mon, 27 Jun 2022 10:12:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1656342741;
- bh=1x+NxdEoiSFo+pDWtHOPBfvhGy1WzeyR8WRyXcD8FVI=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=qNBVLupUI/bppft9D6NFgdfn2t1PCDSabHEwbnkQbFXXF3RExX9LmRPZv59ypspYt
- FFmSWRdrgN8tLkcn1ctlpoCBNZfrqaVUZoEYsRqaD9E0ZMzCsJp/2vkNmoGjpNcBsO
- TMT6uQJtb0VkYLh8tYNsk3P2up1eQsHgzLxOFhZM=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 25RFCLFV096646
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 27 Jun 2022 10:12:21 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Mon, 27
- Jun 2022 10:12:21 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Mon, 27 Jun 2022 10:12:21 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 25RFC5pn118508;
- Mon, 27 Jun 2022 10:12:06 -0500
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-To: Tomi Valkeinen <tomba@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, Rob
- Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v3 2/2] drm/tidss: Add support for AM625 DSS
-Date: Mon, 27 Jun 2022 20:42:00 +0530
-Message-ID: <20220627151200.4693-3-a-bhatia1@ti.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220627151200.4693-1-a-bhatia1@ti.com>
-References: <20220627151200.4693-1-a-bhatia1@ti.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6528810E0A6;
+ Mon, 27 Jun 2022 15:33:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1656343991; x=1687879991;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=tbyIxpKpueAF0ZAPFJeYqVJyHPz52aBeX2V7v4Ze61c=;
+ b=x/qW0Yy9gdPRUxEpD3cyoDB6j5rq0byixzZedtO8F9k++yfKJLGU/19P
+ JPyYKGqwkWOqkjApFzy4Z7GxYXGGPThPgACQp6+seKSGp3sCJveOKMSy3
+ 9cVHteVt48L9/w7hqWtK5dqyJa+BCKgxfY5zCC2zwbONViirnXIKbke/f k=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 27 Jun 2022 08:33:09 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2022 08:33:08 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 27 Jun 2022 08:33:08 -0700
+Received: from [10.110.113.167] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 27 Jun
+ 2022 08:33:07 -0700
+Message-ID: <9b197183-5306-bf19-0195-2dc1bb72c33b@quicinc.com>
+Date: Mon, 27 Jun 2022 08:33:06 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v1 2/3] drm/msm/dp: decoupling dp->id out of dp
+ controller_id at scxxxx_dp_cfg table
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>
+References: <1656090912-18074-1-git-send-email-quic_khsieh@quicinc.com>
+ <66ff4642-f268-f5b0-7e28-b196368c508a@quicinc.com>
+ <5cf094cf-343a-82d7-91c4-1284683f9748@quicinc.com>
+ <CAA8EJprqq=vxXT2DmEWii_Ajx2UbkHRexPTT58xFcWkBa_D5hA@mail.gmail.com>
+ <26263c16-8cbc-ccca-6081-7eba14635d73@quicinc.com>
+ <CAA8EJpqEoXXA=eKGHRGuQ3VOHnmEShY8u_SMZ6WFWORCFhFcrw@mail.gmail.com>
+ <8445f93a-00f0-64af-5650-07f2bc487742@quicinc.com>
+ <CAA8EJpqB2KPyvFehK9WRGgiVnqvD24cz5BcHsw8a5PQ2Vs1oKA@mail.gmail.com>
+ <CAA8EJppZdyutyNBG+OFinickQoDxg0i4GwbaNQubo_LSRWNh4w@mail.gmail.com>
+ <1a2e7574-8f78-d48e-a189-020ffcd39f60@quicinc.com>
+ <CAE-0n52L1fvvpEH56+HD_UXuV61tMvhh8Qjp781bW9tTKRQymw@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n52L1fvvpEH56+HD_UXuV61tMvhh8Qjp781bW9tTKRQymw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,165 +76,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree List <devicetree@vger.kernel.org>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Aradhya Bhatia <a-bhatia1@ti.com>, Rahul T R <r-ravikumar@ti.com>
+Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org, quic_aravindh@quicinc.com,
+ bjorn.andersson@linaro.org, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the DSS IP on TI's new AM625 SoC in the tidss driver.
 
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-Reviewed-by: Rahul T R <r-ravikumar@ti.com>
----
- drivers/gpu/drm/tidss/tidss_dispc.c | 56 ++++++++++++++++++++++++++++-
- drivers/gpu/drm/tidss/tidss_dispc.h |  2 ++
- drivers/gpu/drm/tidss/tidss_drv.c   |  1 +
- 3 files changed, 58 insertions(+), 1 deletion(-)
+On 6/24/2022 6:15 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-06-24 18:02:50)
+>> On 6/24/2022 5:46 PM, Dmitry Baryshkov wrote:
+>>> On Sat, 25 Jun 2022 at 03:28, Dmitry Baryshkov
+>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>> On Sat, 25 Jun 2022 at 03:23, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>>>>> On 6/24/2022 5:21 PM, Dmitry Baryshkov wrote:
+>>>>>> On Sat, 25 Jun 2022 at 03:19, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>>>>>>> How can I have eDP call dpu_encoder_init() before DP calls with
+>>>>>>> _dpu_kms_initialize_displayport()?
+>>>>>> Why do you want to do it? They are two different encoders.
+>>>>> eDP is primary display which in normal case should be bring up first if
+>>>>> DP is also presented.
+>>>> I do not like the concept of primary display. It is the user, who must
+>>>> decide which display is primary to him. I have seen people using just
+>>>> external monitors and ignoring built-in eDP completely.from
+>>>> Also, why does the bring up order matters here? What do you gain by
+>>>> bringing up eDP before the DP?
+>>> I should probably rephrase my question to be more clear. How does
+>>> changing the order of DP vs eDP bringup help you 'to fix screen
+>>> corruption'.
+>> it did fix the primary display correction issue if edp go first and i do
+>> not know the root cause yet.
+>>
+>> We are still investigating it.
+>>
+>> However I do think currently msm_dp_config sc7280_dp_cfg has issues need
+>> be addressed.
+>>
+> What issues exist with sc7280_dp_cfg? It looks correct to me.
 
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-index dae47853b728..f084f0688a54 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.c
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-@@ -272,6 +272,55 @@ const struct dispc_features dispc_j721e_feats = {
- 	.vid_order = { 1, 3, 0, 2 },
- };
- 
-+const struct dispc_features dispc_am625_feats = {
-+	.max_pclk_khz = {
-+		[DISPC_VP_DPI] = 165000,
-+		[DISPC_VP_OLDI] = 165000,
-+	},
-+
-+	.scaling = {
-+		.in_width_max_5tap_rgb = 1280,
-+		.in_width_max_3tap_rgb = 2560,
-+		.in_width_max_5tap_yuv = 2560,
-+		.in_width_max_3tap_yuv = 4096,
-+		.upscale_limit = 16,
-+		.downscale_limit_5tap = 4,
-+		.downscale_limit_3tap = 2,
-+		/*
-+		 * The max supported pixel inc value is 255. The value
-+		 * of pixel inc is calculated like this: 1+(xinc-1)*bpp.
-+		 * The maximum bpp of all formats supported by the HW
-+		 * is 8. So the maximum supported xinc value is 32,
-+		 * because 1+(32-1)*8 < 255 < 1+(33-1)*4.
-+		 */
-+		.xinc_max = 32,
-+	},
-+
-+	.subrev = DISPC_AM625,
-+
-+	.common = "common",
-+	.common_regs = tidss_am65x_common_regs,
-+
-+	.num_vps = 2,
-+	.vp_name = { "vp1", "vp2" },
-+	.ovr_name = { "ovr1", "ovr2" },
-+	.vpclk_name =  { "vp1", "vp2" },
-+	.vp_bus_type = { DISPC_VP_OLDI, DISPC_VP_DPI },
-+
-+	.vp_feat = { .color = {
-+			.has_ctm = true,
-+			.gamma_size = 256,
-+			.gamma_type = TIDSS_GAMMA_8BIT,
-+		},
-+	},
-+
-+	.num_planes = 2,
-+	/* note: vid is plane_id 0 and vidl1 is plane_id 1 */
-+	.vid_name = { "vid", "vidl1" },
-+	.vid_lite = { false, true, },
-+	.vid_order = { 1, 0 },
-+};
-+
- static const u16 *dispc_common_regmap;
- 
- struct dss_vp_data {
-@@ -775,6 +824,7 @@ dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc)
- 		return dispc_k2g_read_and_clear_irqstatus(dispc);
- 	case DISPC_AM65X:
- 	case DISPC_J721E:
-+	case DISPC_AM625:
- 		return dispc_k3_read_and_clear_irqstatus(dispc);
- 	default:
- 		WARN_ON(1);
-@@ -790,6 +840,7 @@ void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
- 		break;
- 	case DISPC_AM65X:
- 	case DISPC_J721E:
-+	case DISPC_AM625:
- 		dispc_k3_set_irqenable(dispc, mask);
- 		break;
- 	default:
-@@ -1279,6 +1330,7 @@ void dispc_ovr_set_plane(struct dispc_device *dispc, u32 hw_plane,
- 					x, y, layer);
- 		break;
- 	case DISPC_AM65X:
-+	case DISPC_AM625:
- 		dispc_am65x_ovr_set_plane(dispc, hw_plane, hw_videoport,
- 					  x, y, layer);
- 		break;
-@@ -2202,6 +2254,7 @@ static void dispc_plane_init(struct dispc_device *dispc)
- 		break;
- 	case DISPC_AM65X:
- 	case DISPC_J721E:
-+	case DISPC_AM625:
- 		dispc_k3_plane_init(dispc);
- 		break;
- 	default:
-@@ -2307,6 +2360,7 @@ static void dispc_vp_write_gamma_table(struct dispc_device *dispc,
- 		dispc_k2g_vp_write_gamma_table(dispc, hw_videoport);
- 		break;
- 	case DISPC_AM65X:
-+	case DISPC_AM625:
- 		dispc_am65x_vp_write_gamma_table(dispc, hw_videoport);
- 		break;
- 	case DISPC_J721E:
-@@ -2580,7 +2634,7 @@ int dispc_runtime_resume(struct dispc_device *dispc)
- 		REG_GET(dispc, DSS_SYSSTATUS, 2, 2),
- 		REG_GET(dispc, DSS_SYSSTATUS, 3, 3));
- 
--	if (dispc->feat->subrev == DISPC_AM65X)
-+	if (dispc->feat->subrev == DISPC_AM65X || dispc->feat->subrev == DISPC_AM625)
- 		dev_dbg(dispc->dev, "OLDI RESETDONE %d,%d,%d\n",
- 			REG_GET(dispc, DSS_SYSSTATUS, 5, 5),
- 			REG_GET(dispc, DSS_SYSSTATUS, 6, 6),
-diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-index e49432f0abf5..a28005dafdc9 100644
---- a/drivers/gpu/drm/tidss/tidss_dispc.h
-+++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-@@ -61,6 +61,7 @@ enum dispc_dss_subrevision {
- 	DISPC_K2G,
- 	DISPC_AM65X,
- 	DISPC_J721E,
-+	DISPC_AM625,
- };
- 
- struct dispc_features {
-@@ -88,6 +89,7 @@ struct dispc_features {
- extern const struct dispc_features dispc_k2g_feats;
- extern const struct dispc_features dispc_am65x_feats;
- extern const struct dispc_features dispc_j721e_feats;
-+extern const struct dispc_features dispc_am625_feats;
- 
- void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask);
- dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc);
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 04cfff89ee51..326059e99696 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -235,6 +235,7 @@ static const struct of_device_id tidss_of_table[] = {
- 	{ .compatible = "ti,k2g-dss", .data = &dispc_k2g_feats, },
- 	{ .compatible = "ti,am65x-dss", .data = &dispc_am65x_feats, },
- 	{ .compatible = "ti,j721e-dss", .data = &dispc_j721e_feats, },
-+	{ .compatible = "ti,am625-dss", .data = &dispc_am625_feats, },
- 	{ }
- };
- 
--- 
-2.36.1
 
+If we are going to bring up a new chipset with edp as primary only, i am 
+not sure the below configuration will work?
+
+> static const struct msm_dp_config sc7280_dp_cfg = {
+>          .descs = (const struct msm_dp_desc[]) {
+>                  [MSM_DP_CONTROLLER_1] = { .io_start = 0x0aea0000, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
+>          },
+>          .num_descs = 1,
+> };
