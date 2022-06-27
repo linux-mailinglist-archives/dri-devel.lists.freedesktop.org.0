@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A5C55BB01
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 18:13:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 025E355BB04
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 18:13:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F07D010E943;
-	Mon, 27 Jun 2022 16:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF50C10E98C;
+	Mon, 27 Jun 2022 16:13:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D6DA10E149
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 16:13:07 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id q9so13766830wrd.8
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 09:13:07 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0229C10E675
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 16:13:08 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id b26so1381770wrc.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 09:13:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pDNBhiLmVfVV+Ne/LbE/267jCUJxvNsVJYjt8/p09X8=;
- b=NSZPuSAPNl3/J0a/ww1tySEBOpRdxoi0GTHu14n97sUfgnnInXMiWim3dXIZF2//vS
- kzJfJwQJBhGcx9Wp1xLt390KArSmPba0zTcSewvF65CHYFnBc8HLyKnb6VezoPNuQGZ8
- WC8Evuv5b7L3vPSWXWfeldHCecGJHNIUanbkYrxxIeZgYCJWHXdiosK+W5pVGDcn9S3i
- JYNhw6TuSTgQPM+bDn2Oby++SC6VYXENStbHDLNMBGSCF10efi7QPO4OyAIbwwvxMMfh
- Y2y7r5yal7oRs0jymS903iXMzV8N0842Gf+bUnTjq5h2nVTPs+XcaZnrk35cdtmVhNRf
- JCqg==
+ bh=sR0i/5wHgKGgcKAj1oFVaLag4FmoRFAS+vJEGm7kxWA=;
+ b=o6JsORBuaxyA4y5Zgg0xWYAqgpc61ahcGe6qZ4qO/tS2TZ/LyerjvdUL0voByDPUWR
+ 91DyDM/t9B+gjqXYtgWEjKJJwVKKz4Ql/Ap8CkBhu4CMHZ9iiJAztrFu1oFaMxwCeIPc
+ hruIoRfw/9gZUtBfIi9hdltipebePdmqulNWSlAkX5Wnb84LqYC30IlCi/50LXqqcg5e
+ Gfl4yg3DKAsxxUK8hFKKxD/MEefpOVUNznyjXIEvZG4wtZ7w0SpwGyxPOb+tD+iBE/Cl
+ eSffdkdlWgbcykSQbjvHbd4O0d1qRAuTgY/H1rA2+mgBF5urCKxenIVmyE+tEk4UiAKO
+ V3mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pDNBhiLmVfVV+Ne/LbE/267jCUJxvNsVJYjt8/p09X8=;
- b=AMS54bI0zS/T3obl4PqV1O5VSWVWLagharFSnSDRQpPvS64u/LkSkS9PMpH+cbED4Q
- JbUKnYYv37ezfy48nuaH0+BZm0Zrs7FVoa/F3mu4pqbvo0sqPPkhl3ROqDBSqYmc7QQ9
- 8bCG7GAQyvnpFoVcraUdGc6jiROQbVM3E/zNgWj3f/heOpFfnCcEa3/f0ifTf5rwlLAM
- j1I15i3qrK2n/isZ20H+d1lASOGv1cNrZ89txA15xvfOBazHDD2GXI5p/9I9LiZt0xgo
- AdLXBjkgBN8sgJbnqL8l0cbeqvReqNw9L0G782lU/MfezNzkHnq4A6RJmyyvByjXXcGJ
- bl/g==
-X-Gm-Message-State: AJIora/+rLu6Lp/ZstJ6NLHLu7fVYRBWoPamN8Xh/bya/Ey6ca+oh2K+
- /gss5RH7/ep1SnE7qb7kQOg=
-X-Google-Smtp-Source: AGRyM1slA7u8TabruKXHhU8WYvPoHJ2BflQEkj8mUaP8ATALqTre8paJHdfYQayhYw6aS2fi93jPEw==
-X-Received: by 2002:adf:dc08:0:b0:21b:bcaf:8500 with SMTP id
- t8-20020adfdc08000000b0021bbcaf8500mr12257540wri.133.1656346386572; 
- Mon, 27 Jun 2022 09:13:06 -0700 (PDT)
+ bh=sR0i/5wHgKGgcKAj1oFVaLag4FmoRFAS+vJEGm7kxWA=;
+ b=WKwrk9VfNIgVQZzuTkNisHIlLxZNJ6Tzo4FBbunhHcGMhIitfUrxYW7aCsXAZE5Jhl
+ ZfHIVuU1Qd64vEO02T+1O1ZfciHKFrjB5aJy7auK8OxsudIPBTfuU8vjn1vxpWm+X/A6
+ +iGEuChKZwIf+H/Xe1FaOFeVcutfuDTI2m8m6JkpQBsUV6dM/V24BrIGklrpFx8mldGp
+ j9qpY98w/uaVj7mPd1LP0htOFOkDDcqamAD+wSzaQiuMSW9/S+h0oymZMGfZGVtX6U8r
+ E0lqdFbHI8tveWyTn2gst0iYPxei8w8AgjnQCqOoQFuj6XyYyZf535FEuOCOXZfBT17d
+ ARXg==
+X-Gm-Message-State: AJIora9c3vPl1Kbrlo5HV3rSNIysrGFAoWk+rj/mjHk7+GgKHMphWc5U
+ 5TEo6re+Xj3LS3YJ/yofGIw=
+X-Google-Smtp-Source: AGRyM1uXaUsdLwSruwTs8r/EWwloxLYVhaZMlSUZe9HsNODTVAnTJoypluHPz528fg7eu9C8QP9Ofg==
+X-Received: by 2002:a5d:5984:0:b0:21b:a858:3678 with SMTP id
+ n4-20020a5d5984000000b0021ba8583678mr13241777wri.293.1656346387544; 
+ Mon, 27 Jun 2022 09:13:07 -0700 (PDT)
 Received: from localhost.localdomain ([94.73.36.128])
  by smtp.gmail.com with ESMTPSA id
- c7-20020adffb47000000b0021b9504cc83sm10883600wrs.31.2022.06.27.09.13.05
+ c7-20020adffb47000000b0021b9504cc83sm10883600wrs.31.2022.06.27.09.13.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 09:13:06 -0700 (PDT)
+ Mon, 27 Jun 2022 09:13:07 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: javierm@redhat.com
-Subject: [PATCH 1/4] drm/format-helper: Rename test cases to make them more
- generic
-Date: Mon, 27 Jun 2022 18:11:29 +0200
-Message-Id: <20220627161132.33256-2-jose.exposito89@gmail.com>
+Subject: [PATCH 2/4] drm/format-helper: Transform tests to be agnostic of
+ target format
+Date: Mon, 27 Jun 2022 18:11:30 +0200
+Message-Id: <20220627161132.33256-3-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220627161132.33256-1-jose.exposito89@gmail.com>
 References: <20220627161132.33256-1-jose.exposito89@gmail.com>
@@ -80,75 +80,180 @@ Cc: dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tests available at the moment only check the conversion from
-XRGB8888 to RGB332. However, more conversion will be tested in the
-future.
-
-In order to make the struct and functions present in the tests more
-generic, rename xrgb8888_to_rgb332_* to convert_xrgb8888_*.
+In order to support multiple destination format conversions, store the
+target format, conversion function, parameters and expected result in
+its own structure.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- .../gpu/drm/tests/drm_format_helper_test.c    | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ .../gpu/drm/tests/drm_format_helper_test.c    | 88 ++++++++++++++-----
+ 1 file changed, 64 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-index 98583bf56044..de8cf525109e 100644
+index de8cf525109e..732d945e7f4e 100644
 --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
 +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-@@ -16,7 +16,7 @@
+@@ -16,34 +16,55 @@
  
  #define TEST_BUF_SIZE 50
  
--struct xrgb8888_to_rgb332_case {
-+struct convert_xrgb8888_case {
++struct convert_xrgb8888_result {
++	u32 dst_format;
++	void (*conv_func)(void *dst, unsigned int dst_pitch,
++			  const void *src,
++			  const struct drm_framebuffer *fb,
++			  const struct drm_rect *clip);
++	unsigned int dst_pitch;
++	const u8 expected[4 * TEST_BUF_SIZE];
++};
++
+ struct convert_xrgb8888_case {
  	const char *name;
  	unsigned int pitch;
- 	unsigned int dst_pitch;
-@@ -25,7 +25,7 @@ struct xrgb8888_to_rgb332_case {
- 	const u8 expected[4 * TEST_BUF_SIZE];
+-	unsigned int dst_pitch;
+ 	struct drm_rect clip;
+ 	const u32 xrgb8888[TEST_BUF_SIZE];
+-	const u8 expected[4 * TEST_BUF_SIZE];
++	struct convert_xrgb8888_result results[1];
  };
  
--static struct xrgb8888_to_rgb332_case xrgb8888_to_rgb332_cases[] = {
-+static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
  	{
  		.name = "single_pixel_source_buffer",
  		.pitch = 1 * 4,
-@@ -111,18 +111,18 @@ static size_t conversion_buf_size(u32 dst_format, unsigned int dst_pitch,
- 	return dst_pitch * drm_rect_height(clip);
- }
- 
--static void xrgb8888_to_rgb332_case_desc(struct xrgb8888_to_rgb332_case *t,
--					 char *desc)
-+static void convert_xrgb8888_case_desc(struct convert_xrgb8888_case *t,
-+				       char *desc)
+-		.dst_pitch = 0,
+ 		.clip = DRM_RECT_INIT(0, 0, 1, 1),
+ 		.xrgb8888 = { 0x01FF0000 },
+-		.expected = { 0xE0 },
++		.results = {
++			{
++				.dst_format = DRM_FORMAT_RGB332,
++				.conv_func = drm_fb_xrgb8888_to_rgb332,
++				.dst_pitch = 0,
++				.expected = { 0xE0 },
++			},
++		},
+ 	},
+ 	{
+ 		.name = "single_pixel_clip_rectangle",
+ 		.pitch = 2 * 4,
+-		.dst_pitch = 0,
+ 		.clip = DRM_RECT_INIT(1, 1, 1, 1),
+ 		.xrgb8888 = {
+ 			0x00000000, 0x00000000,
+ 			0x00000000, 0x10FF0000,
+ 		},
+-		.expected = { 0xE0 },
++		.results = {
++			{
++				.dst_format = DRM_FORMAT_RGB332,
++				.conv_func = drm_fb_xrgb8888_to_rgb332,
++				.dst_pitch = 0,
++				.expected = { 0xE0 },
++			},
++		},
+ 	},
+ 	{
+ 		/* Well known colors: White, black, red, green, blue, magenta,
+@@ -52,7 +73,6 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+ 		 */
+ 		.name = "well_known_colors",
+ 		.pitch = 4 * 4,
+-		.dst_pitch = 0,
+ 		.clip = DRM_RECT_INIT(1, 1, 2, 4),
+ 		.xrgb8888 = {
+ 			0x00000000, 0x00000000, 0x00000000, 0x00000000,
+@@ -61,28 +81,41 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+ 			0x00000000, 0x550000FF, 0x66FF00FF, 0x00000000,
+ 			0x00000000, 0x77FFFF00, 0x8800FFFF, 0x00000000,
+ 		},
+-		.expected = {
+-			0xFF, 0x00,
+-			0xE0, 0x1C,
+-			0x03, 0xE3,
+-			0xFC, 0x1F,
++		.results = {
++			{
++				.dst_format = DRM_FORMAT_RGB332,
++				.conv_func = drm_fb_xrgb8888_to_rgb332,
++				.dst_pitch = 0,
++				.expected = {
++					0xFF, 0x00,
++					0xE0, 0x1C,
++					0x03, 0xE3,
++					0xFC, 0x1F,
++				},
++			},
+ 		},
+ 	},
+ 	{
+ 		/* Randomly picked colors. Full buffer within the clip area. */
+ 		.name = "destination_pitch",
+ 		.pitch = 3 * 4,
+-		.dst_pitch = 5,
+ 		.clip = DRM_RECT_INIT(0, 0, 3, 3),
+ 		.xrgb8888 = {
+ 			0xA10E449C, 0xB1114D05, 0xC1A80303,
+ 			0xD16C7073, 0xA20E449C, 0xB2114D05,
+ 			0xC2A80303, 0xD26C7073, 0xA30E449C,
+ 		},
+-		.expected = {
+-			0x0A, 0x08, 0xA0, 0x00, 0x00,
+-			0x6D, 0x0A, 0x08, 0x00, 0x00,
+-			0xA0, 0x6D, 0x0A, 0x00, 0x00,
++		.results = {
++			{
++				.dst_format = DRM_FORMAT_RGB332,
++				.conv_func = drm_fb_xrgb8888_to_rgb332,
++				.dst_pitch = 5,
++				.expected = {
++					0x0A, 0x08, 0xA0, 0x00, 0x00,
++					0x6D, 0x0A, 0x08, 0x00, 0x00,
++					0xA0, 0x6D, 0x0A, 0x00, 0x00,
++				},
++			},
+ 		},
+ 	},
+ };
+@@ -123,24 +156,31 @@ KUNIT_ARRAY_PARAM(convert_xrgb8888, convert_xrgb8888_cases,
+ static void convert_xrgb8888_test(struct kunit *test)
  {
- 	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
- }
- 
--KUNIT_ARRAY_PARAM(xrgb8888_to_rgb332, xrgb8888_to_rgb332_cases,
--		  xrgb8888_to_rgb332_case_desc);
-+KUNIT_ARRAY_PARAM(convert_xrgb8888, convert_xrgb8888_cases,
-+		  convert_xrgb8888_case_desc);
- 
--static void xrgb8888_to_rgb332_test(struct kunit *test)
-+static void convert_xrgb8888_test(struct kunit *test)
- {
--	const struct xrgb8888_to_rgb332_case *params = test->param_value;
-+	const struct convert_xrgb8888_case *params = test->param_value;
+ 	const struct convert_xrgb8888_case *params = test->param_value;
++	const struct convert_xrgb8888_result *result;
  	size_t dst_size;
  	__u8 *dst = NULL;
++	int n;
  
-@@ -144,8 +144,7 @@ static void xrgb8888_to_rgb332_test(struct kunit *test)
+ 	struct drm_framebuffer fb = {
+ 		.format = drm_format_info(DRM_FORMAT_XRGB8888),
+ 		.pitches = { params->pitch, 0, 0 },
+ 	};
+ 
+-	dst_size = conversion_buf_size(DRM_FORMAT_RGB332, params->dst_pitch,
+-				       &params->clip);
+-	KUNIT_ASSERT_GT(test, dst_size, 0);
++	for (n = 0; n < ARRAY_SIZE(params->results); n++) {
++		result = &params->results[n];
++
++		dst_size = conversion_buf_size(result->dst_format,
++					       result->dst_pitch,
++					       &params->clip);
++		KUNIT_ASSERT_GT(test, dst_size, 0);
+ 
+-	dst = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+-	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dst);
++		dst = kunit_kzalloc(test, dst_size, GFP_KERNEL);
++		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dst);
+ 
+-	drm_fb_xrgb8888_to_rgb332(dst, params->dst_pitch, params->xrgb8888,
++		result->conv_func(dst, result->dst_pitch, params->xrgb8888,
+ 				  &fb, &params->clip);
+-	KUNIT_EXPECT_EQ(test, memcmp(dst, params->expected, dst_size), 0);
++		KUNIT_EXPECT_EQ(test, memcmp(dst, result->expected, dst_size), 0);
++	}
  }
  
  static struct kunit_case drm_format_helper_test_cases[] = {
--	KUNIT_CASE_PARAM(xrgb8888_to_rgb332_test,
--			 xrgb8888_to_rgb332_gen_params),
-+	KUNIT_CASE_PARAM(convert_xrgb8888_test, convert_xrgb8888_gen_params),
- 	{}
- };
- 
 -- 
 2.25.1
 
