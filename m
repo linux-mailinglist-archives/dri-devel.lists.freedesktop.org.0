@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E922655BBC8
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 21:41:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8586D55BBCC
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 21:41:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C6E11B2AA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B23FA11B2BE;
 	Mon, 27 Jun 2022 19:41:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCAC611B2A0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 19:41:23 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id v14so14489524wra.5
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:41:23 -0700 (PDT)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABFB411B2AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 19:41:25 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ be14-20020a05600c1e8e00b003a04a458c54so2265767wmb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rPDKSpav5hSShjOawRd8sA//kdWQiIl6x3DL8tBafaU=;
- b=C1x747pHFCl5BIqO2tKVzQODSEqSKX0M+cQ0VD6TIiatD4/0B898wZwGc+vBUmCQ0Z
- ADkKctZpaFeqts/DgO6pXu3oW1ot2vW9NotfT4U4Xa+zwfZDDxaHFDiYVvm2R9CNqtBj
- E06Rcknh3CHYad9cflRuFOXZX1vmY5B3c3ybS+4vwbu/3Wp9I852RvQRqqNz4cuKOOgI
- n6ASQz3H09UYndOSN0Sl15ncyePaPZCwy8CrQeWv2hWUXslPkctHVLpfaWL3RtoOlIom
- 6s/OUA/vQFDetPTA2Tu0u58R+o5XSwX+2TI4F7Y5afZgDMoZsAgvkVAFJy3S7tg8MlqF
- 4qZw==
+ bh=n9g/PqG7lJoC3tmWnVa7QkZ4DkjcrfTJ4GH+uywTgjo=;
+ b=fBShLNpQtv7TUZ91barPFgoTIEUnvm+iOoWI9KSV5y0be3zWz++I0wVDa70W2a6UsW
+ iXrpn0eNJnshM7Kg55T3v/FLL9Q2mB7Ai4DrCGnyMbVk6pF/REgpCn9dUSy7lyAopAD9
+ j3r06NCn19/uMcLoNccxZH0ckot2X1xiVMt7CCRH8wCkuk+NvcyyAXTP5JeicxJF3HpN
+ rRSWQ2U4ZoJ4LKlwoYlXVySg7PhPnChMKHnphYYQUG21xodnEwaQiTi5aEuy06+GQjjH
+ UFLICFNEkOOqHMpGQhj4Pn3kP2UFmRFdOmnFY32LKUWdvF9DjtySRJa8hHsK5o6snFRV
+ hdcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rPDKSpav5hSShjOawRd8sA//kdWQiIl6x3DL8tBafaU=;
- b=neaHyfR5fgC/+jNeAqr7ZX1Bdjt+Wxnc44R6XIYKh9bcEJ+24DCVzy8JaK2zQZqimM
- fBptZi4YE5s8uJCtnadIXx3BIF9lDax+S6JBNxpjQlMxYUb1DiCFIFDwCuyvMnP9fnOC
- vILKN9hZntUrdjCkGC4txn/hF7un0kQekUeSyVXC6MbMEnQtlb86WGkrANBpToYXzVLW
- cyicQzKyyKtptmvsZIRjTEvIyDlk/CuoNu37G66B8ZFqO5m2lVUelX/m9FXbx9Iio6OL
- 9aEjZNDf8UB3ZQLdhwnL/fiP7UzKNZ/QlQBsCROf1kL/gzZelgNa+OmhDJEOa5LXQyJU
- jsSg==
-X-Gm-Message-State: AJIora9X/SMa0AHu68hG7UUViikcSafcQcgbAwBnWHmgCWXzE2UoSAxF
- SJXMpBzmz3Qn3+m6Ksfi5kF+MQ==
-X-Google-Smtp-Source: AGRyM1tVL2lpq2bKGJHZFM8okKWTC0C0B/ryfKeZtLnMa7gdCDbQ3Nw3Z3guL69dxyfpeL6LZkAb/A==
-X-Received: by 2002:a5d:4592:0:b0:21b:8e50:7fb9 with SMTP id
- p18-20020a5d4592000000b0021b8e507fb9mr13593921wrq.428.1656358882170; 
- Mon, 27 Jun 2022 12:41:22 -0700 (PDT)
+ bh=n9g/PqG7lJoC3tmWnVa7QkZ4DkjcrfTJ4GH+uywTgjo=;
+ b=hBvBbimCYgNxRSETspKme/aV1Zx8CsbS4Een+4BC3vfoSL2ZTdJcVZBOUTg56tPn/q
+ IuOt1h9NDZgIqiIf6eflW4IiIoUsbcBQ76UsS9ESF6IN6z2Bqtvd8yINd7SAO+HFZQ1U
+ /kz3imXglnSRuUwVF2D6bgVL8sAMZRM2tYwyIShFRi2m2HpBdndtRchWV0J++q7RyRcM
+ JrKLIkW5+1lACfUmqYH+zekXZWy+6tQqZtP39+Zq28XJlruNr9RQDgMOxXovK98bgJPR
+ edTitOvG+rAK6WRUU6DEPe05LcXIzQxp6EbMfXIirTBLU4SCngr+PQmHURUNqFe7+jTi
+ WLsQ==
+X-Gm-Message-State: AJIora835djbb822yLujqegteSo07NjKX4R9DQopkrzTlnD/df8xeAJ9
+ J4EEP5dlHkxaBNdHDsA9zRi1Rg==
+X-Google-Smtp-Source: AGRyM1tgLminoVFd8/gex9iCPvDvAvZlo720feIAyAYXnietvnrirHV0xbRgxt8njho9c1rH24xk0Q==
+X-Received: by 2002:a05:600c:210d:b0:3a0:2eea:bf4b with SMTP id
+ u13-20020a05600c210d00b003a02eeabf4bmr17630369wml.28.1656358883905; 
+ Mon, 27 Jun 2022 12:41:23 -0700 (PDT)
 Received: from henark71.. ([51.37.234.167]) by smtp.gmail.com with ESMTPSA id
- e9-20020a5d4e89000000b0021a3a87fda9sm11428047wru.47.2022.06.27.12.41.20
+ e9-20020a5d4e89000000b0021a3a87fda9sm11428047wru.47.2022.06.27.12.41.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 12:41:21 -0700 (PDT)
+ Mon, 27 Jun 2022 12:41:23 -0700 (PDT)
 From: Conor Dooley <mail@conchuod.ie>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -56,10 +57,10 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Mark Brown <broonie@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
  Daniel Lezcano <daniel.lezcano@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v2 04/16] spi: dt-bindings: dw-apb-ssi: update spi-{r,
- t}x-bus-width
-Date: Mon, 27 Jun 2022 20:39:52 +0100
-Message-Id: <20220627194003.2395484-5-mail@conchuod.ie>
+Subject: [PATCH v2 05/16] dt-bindings: dma: add Canaan k210 to Synopsys
+ DesignWare DMA
+Date: Mon, 27 Jun 2022 20:39:53 +0100
+Message-Id: <20220627194003.2395484-6-mail@conchuod.ie>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220627194003.2395484-1-mail@conchuod.ie>
 References: <20220627194003.2395484-1-mail@conchuod.ie>
@@ -91,43 +92,96 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-Most users of dw-apb-ssi use spi-{r,t}x-bus-width of 1, however the
-Canaan k210 is wired up for a width of 4.
-Quoting Serge:
-The modern DW APB SSI controllers of v.4.* and newer also support the
-enhanced SPI Modes too (Dual, Quad and Octal). Since the IP-core
-version is auto-detected at run-time there is no way to create a
-DT-schema correctly constraining the Rx/Tx SPI bus widths.
-/endquote
+The Canaan k210 apparently has a Sysnopsys Designware AXI DMA
+controller, but according to the documentation & devicetree it has 6
+interrupts rather than the standard one. Add a custom compatible that
+supports the 6 interrupt configuration which falls back to the standard
+binding which is currently the one in use in the devicetree entry.
 
-As such, drop the restriction on only supporting a bus width of 1.
-
-Link: https://lore.kernel.org/all/20220620205654.g7fyipwytbww5757@mobilestation/
+Link: https://canaan-creative.com/wp-content/uploads/2020/03/kendryte_standalone_programming_guide_20190311144158_en.pdf #Page 58
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
-Serge, I dropped your R-b when I swapped to the default
-property since it changed the enum.
----
- Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml | 6 ------
- 1 file changed, 6 deletions(-)
+ .../bindings/dma/snps,dw-axi-dmac.yaml        | 35 ++++++++++++++-----
+ 1 file changed, 26 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-index e25d44c218f2..0a43d6e0ef91 100644
---- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-+++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-@@ -143,12 +143,6 @@ patternProperties:
-         minimum: 0
-         maximum: 3
+diff --git a/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml b/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
+index 4324a94b26b2..bc85598151ef 100644
+--- a/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
++++ b/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
+@@ -18,9 +18,13 @@ allOf:
  
--      spi-rx-bus-width:
--        const: 1
--
--      spi-tx-bus-width:
--        const: 1
--
- unevaluatedProperties: false
+ properties:
+   compatible:
+-    enum:
+-      - snps,axi-dma-1.01a
+-      - intel,kmb-axi-dma
++    oneOf:
++      - items:
++          - const: canaan,k210-axi-dma
++          - const: snps,axi-dma-1.01a
++      - enum:
++          - snps,axi-dma-1.01a
++          - intel,kmb-axi-dma
  
+   reg:
+     minItems: 1
+@@ -33,9 +37,6 @@ properties:
+       - const: axidma_ctrl_regs
+       - const: axidma_apb_regs
+ 
+-  interrupts:
+-    maxItems: 1
+-
+   clocks:
+     items:
+       - description: Bus Clock
+@@ -92,6 +93,22 @@ properties:
+     minimum: 1
+     maximum: 256
+ 
++if:
++  properties:
++    compatible:
++      contains:
++        const: canaan,k210-axi-dma
++
++then:
++  properties:
++    interrupts:
++      maxItems: 6
++
++else:
++  properties:
++    interrupts:
++      maxItems: 1
++
  required:
+   - compatible
+   - reg
+@@ -105,7 +122,7 @@ required:
+   - snps,priority
+   - snps,block-size
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
+@@ -113,12 +130,12 @@ examples:
+      #include <dt-bindings/interrupt-controller/irq.h>
+      /* example with snps,dw-axi-dmac */
+      dmac: dma-controller@80000 {
+-         compatible = "snps,axi-dma-1.01a";
++         compatible = "canaan,k210-axi-dma", "snps,axi-dma-1.01a";
+          reg = <0x80000 0x400>;
+          clocks = <&core_clk>, <&cfgr_clk>;
+          clock-names = "core-clk", "cfgr-clk";
+          interrupt-parent = <&intc>;
+-         interrupts = <27>;
++         interrupts = <27>, <28>, <29>, <30>, <31>, <32>;
+          #dma-cells = <1>;
+          dma-channels = <4>;
+          snps,dma-masters = <2>;
 -- 
 2.36.1
 
