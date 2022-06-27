@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7F455BBC9
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 21:41:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5091E55BBCE
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 21:42:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D254811B2C2;
-	Mon, 27 Jun 2022 19:41:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0338911B2E1;
+	Mon, 27 Jun 2022 19:42:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB22611B2BD
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 19:41:38 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- i67-20020a1c3b46000000b003a03567d5e9so6475311wma.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:41:38 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C07C11B2D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 19:41:41 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id k22so14495843wrd.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:41:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1RrlYN7xRo44UoZQ9vXu2CHD6ouZYfkPgpPQl3XW2/Q=;
- b=JSlI1sImVuIOJXOTiME+vQ4iJzMZIGLs79AVGgFi/4PGzp9uNq+ij4fgaq4v635z96
- iqu+qlmc2CiECMm4cbe0xKFYr+G0bJ9m5w/qt06RqK6+DYgKNGKu64YA1Ggyrg3bTcDj
- h9fgtLqXO7l+D1Ptq7BJ+bfj9GpPhEpyz0OtKZP2fdfMBXf439DK7uOf1R3SGH6PnWaN
- s/MNpEYNLa1akQZc/7jwyPlPi0BCuioZyE578J82CZOAhvUksEUtg9kPuoYFd7foZxqa
- Wz2VVt6ePjVl2/A5ZdagCh18QXlj6Gb36JemsKRegKW5rGQi0MPTcSTuEnFkg8i48gi+
- dWeg==
+ bh=ef3I7471zi7adAYmEZiBXZpXh9J/sRivupa07zlI37s=;
+ b=HJumt5kWS06mWGiL+4OpEcLUtAC7SNNT45MpSDG001Qi8EIc3dVNUQkn+knFTjW69J
+ R8mWOCqcz4e7Q/CPs83n2+HBdGAR/MzDo8iFe+iUMlIwG0BO4ENAltYbtbL4+2H5oDG3
+ 3WbwwkXTpMHcDzA4RGeRsnyQOybwev/kCCZNAV5bbmfuagFZNHAQw8fw3UnbgMKZLGK5
+ KkQqCMzp90DxTnxWzxGdvNfo4Chy7TQO1QO4MitEFQ3DF547kU9BQECLyLo3Uaceo6W+
+ sWjJxo+kCADRBxT1Zui4rHIfIWdahlWRan847eRFOyScrZ5BHz3b9KUA57p656/reecj
+ FWPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1RrlYN7xRo44UoZQ9vXu2CHD6ouZYfkPgpPQl3XW2/Q=;
- b=i8XBKcgbaRusd+8Y6rydlQlxLTF+tRC+9cBXrw+9jMYOenVq0INjsH6yCW0B4NnkoS
- aq1jnMSZMbpKIOX07koXq91qkuXNU03Uk2/qT4qvLkuqhUvs4LR3Dhx8cQGr2gFW+CkI
- VFOI9nPSfZJsWYAbFDS5V45vj3Kk1FDeZC06hwXrHGhRUNop2FZkOeB6AhBxq1H8RUzI
- gHLhAwBgCAtyGFLP5H78mSZQZpcmbUv+m8+TgvGPmUO+OYizi5YI7V8r9DHPewsBurC7
- G/CchJLLmdtaDKWloYja2uNTe9FTsKIRQzMK4xNrq5pMHsyhT5xaDmiMVP0Fcr3lChDE
- 6Rdg==
-X-Gm-Message-State: AJIora/7QFh3bZ1fvujMg5sKHyf45Br81q0qsrotJ1btqeeb/mosvtK0
- FzAnlZm066V/Z6TjAgM4fSrPUA==
-X-Google-Smtp-Source: AGRyM1sG2h/mawEtIGYv6YucN+AC/fcU+GXYsZ0RG4tU7euqny2eYvUYl3sfYU/deBMVuNdMP0smIQ==
-X-Received: by 2002:a1c:790c:0:b0:3a0:3e42:9c7c with SMTP id
- l12-20020a1c790c000000b003a03e429c7cmr17586763wme.171.1656358897396; 
- Mon, 27 Jun 2022 12:41:37 -0700 (PDT)
+ bh=ef3I7471zi7adAYmEZiBXZpXh9J/sRivupa07zlI37s=;
+ b=AQGY3uuwkB56BK7LL8g+PMicDigz4SNCAblTgvyNKMQAsKgu1xlGxt1OjMynLGi3eZ
+ v+j/9LEo1ZNggHTa0/pj08+IfNrmQhmu06HOt2u/vvkLQoaXr6Bi01ksYzBHiEzBNJSw
+ wuz1SYxKkEOqBwBFtUYURq0ksal2zq8XX14DniG9483JZCYPcJJzdc9eSSpJOu4KIukm
+ X6cYucP2CnAS/wJTC7y+yDekvYNzrIl7z4oxieS6OJWD0lO09fAWHfbSvpFmKMUvRFEw
+ 6gAT2ywHuTJmgZokXK02XFEImSUAL+rqIRbleKrJhLFN+OVPkrHiUH/6GCPToTAkDJsw
+ kKUA==
+X-Gm-Message-State: AJIora9CwKNDV5+rdvSCv5gjpnBTfrIPFGANGMEXT3sHzA+O1Pa96rkq
+ m9i4yQpre9CPQR0fC+p5na3zIA==
+X-Google-Smtp-Source: AGRyM1ttZZCmnyf7M6EsntZ4/SALGTw3iqAI7J+sn1WlB30nJAP/WNiYM9WiVd2M71fg6imXwScP2w==
+X-Received: by 2002:a5d:64c1:0:b0:21b:981a:594e with SMTP id
+ f1-20020a5d64c1000000b0021b981a594emr13681508wri.171.1656358899484; 
+ Mon, 27 Jun 2022 12:41:39 -0700 (PDT)
 Received: from henark71.. ([51.37.234.167]) by smtp.gmail.com with ESMTPSA id
- e9-20020a5d4e89000000b0021a3a87fda9sm11428047wru.47.2022.06.27.12.41.35
+ e9-20020a5d4e89000000b0021a3a87fda9sm11428047wru.47.2022.06.27.12.41.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 12:41:36 -0700 (PDT)
+ Mon, 27 Jun 2022 12:41:38 -0700 (PDT)
 From: Conor Dooley <mail@conchuod.ie>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -57,9 +56,10 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Mark Brown <broonie@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
  Daniel Lezcano <daniel.lezcano@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v2 12/16] riscv: dts: canaan: fix kd233 display spi frequency
-Date: Mon, 27 Jun 2022 20:40:00 +0100
-Message-Id: <20220627194003.2395484-13-mail@conchuod.ie>
+Subject: [PATCH v2 13/16] riscv: dts: canaan: use custom compatible for k210
+ i2s
+Date: Mon, 27 Jun 2022 20:40:01 +0100
+Message-Id: <20220627194003.2395484-14-mail@conchuod.ie>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220627194003.2395484-1-mail@conchuod.ie>
 References: <20220627194003.2395484-1-mail@conchuod.ie>
@@ -91,28 +91,47 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-The binding for the ili9341 specifies a const spi-max-frequency of 10
-MHz but the kd233 devicetree entry has it listed at 15 Mhz.
-Align the devicetree with the value in the binding.
+The devicetrees using the Canaan k210 all have a sound-dai-cells value
+of 1, whereas the standard binding example for the DesignWare i2s and
+other use cases suggest 0. Use a k210 specific compatible which
+supports this difference.
 
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- arch/riscv/boot/dts/canaan/canaan_kd233.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/riscv/boot/dts/canaan/k210.dtsi | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/riscv/boot/dts/canaan/canaan_kd233.dts b/arch/riscv/boot/dts/canaan/canaan_kd233.dts
-index 40992d495aa8..4a540158f287 100644
---- a/arch/riscv/boot/dts/canaan/canaan_kd233.dts
-+++ b/arch/riscv/boot/dts/canaan/canaan_kd233.dts
-@@ -130,7 +130,7 @@ panel@0 {
- 		compatible = "ilitek,ili9341";
- 		reg = <0>;
- 		dc-gpios = <&gpio0 21 GPIO_ACTIVE_HIGH>;
--		spi-max-frequency = <15000000>;
-+		spi-max-frequency = <10000000>;
- 		status = "disabled";
- 	};
- };
+diff --git a/arch/riscv/boot/dts/canaan/k210.dtsi b/arch/riscv/boot/dts/canaan/k210.dtsi
+index be42c56e770c..10c2a1417deb 100644
+--- a/arch/riscv/boot/dts/canaan/k210.dtsi
++++ b/arch/riscv/boot/dts/canaan/k210.dtsi
+@@ -251,7 +251,7 @@ spi2: spi@50240000 {
+ 			};
+ 
+ 			i2s0: i2s@50250000 {
+-				compatible = "snps,designware-i2s";
++				compatible = "canaan,k210-i2s", "snps,designware-i2s";
+ 				reg = <0x50250000 0x200>;
+ 				interrupts = <5>;
+ 				clocks = <&sysclk K210_CLK_I2S0>;
+@@ -260,7 +260,7 @@ i2s0: i2s@50250000 {
+ 			};
+ 
+ 			i2s1: i2s@50260000 {
+-				compatible = "snps,designware-i2s";
++				compatible = "canaan,k210-i2s", "snps,designware-i2s";
+ 				reg = <0x50260000 0x200>;
+ 				interrupts = <6>;
+ 				clocks = <&sysclk K210_CLK_I2S1>;
+@@ -269,7 +269,7 @@ i2s1: i2s@50260000 {
+ 			};
+ 
+ 			i2s2: i2s@50270000 {
+-				compatible = "snps,designware-i2s";
++				compatible = "canaan,k210-i2s", "snps,designware-i2s";
+ 				reg = <0x50270000 0x200>;
+ 				interrupts = <7>;
+ 				clocks = <&sysclk K210_CLK_I2S2>;
 -- 
 2.36.1
 
