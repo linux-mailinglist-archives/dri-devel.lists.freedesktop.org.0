@@ -1,63 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7A855B942
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 12:49:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0A355B948
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 12:52:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C44410E27D;
-	Mon, 27 Jun 2022 10:49:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D689D1127DC;
+	Mon, 27 Jun 2022 10:52:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
- [IPv6:2607:f8b0:4864:20::f35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11F0710E27D;
- Mon, 27 Jun 2022 10:49:13 +0000 (UTC)
-Received: by mail-qv1-xf35.google.com with SMTP id 89so14214816qvc.0;
- Mon, 27 Jun 2022 03:49:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ljfFd4lhgKZtraSwvbM41nnKFkuiOWpQfmHbtz8vIm4=;
- b=PgUxP1OGnaJceGxiRAWKkClS8JfdAqPpna+anzxt/SXhqla2gN/r9cK9arZpTYwqoT
- Oka2tcO8k92tBDbFQgDJ5feIgMh2bzounDyjV/rjOJJe8qxaDPwS203EZH24Ug6Qopah
- wQcdeNEEloN5f87f/eyV0P/PY1X8lsEJN2FybxJ9pZgWCef6cJXEZEqWJjJGZW2zv+Xg
- HFdynARYXrsz0OClTvzdiyE2OqYksAbCLLh8m2NuNJ4X9rYyasuFJ8YHZQCBFRtRLFyb
- rVyxdEnQ1QmjvWrvz9P1DRoySWEJR6kWmqjlrKQB3vMdX+FXSQSvJ1IoUnBKF3kULuyG
- hSvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ljfFd4lhgKZtraSwvbM41nnKFkuiOWpQfmHbtz8vIm4=;
- b=KuevJa9EdX9Z50hhASZpDADG5r6lQ1HCtw+9Au/vxQ1eD2DB3JTKE/CY2PLuWUepbF
- aStorTjWTlqghxO40OqxW6tjXC+sMxSsmK+yZ8r1xwN6v849zS2Xk+2NgQUTox0RfrVo
- KwPErmxbJh0ZNpjsDHmOSZKirEDXp0CkZVf9L78TjA7N5sKUBRKdBfKfue7S9LtRt5DA
- DXPKYfdQLO3fhr2aIxeU9+PqLutfBRVLreP3H3KPoAflW/nxDkGcjHDC3IXk0zkOYkZD
- zsZo/8DUGSFZb9CosGjakEiOapO5YitWXryTU40WNBLHfZO41nZnwQn77FQB5mG2/vp3
- GpAg==
-X-Gm-Message-State: AJIora8MekAQTLXGAKPIHExzylCYO9/kiM1p9Hkj7ai1Ug2fEOk4rD0I
- 8stATyggAK5qaQtp/ZUsaB1mSgLo1kDbXffMSVo=
-X-Google-Smtp-Source: AGRyM1saZ1LC1V74p9wXM27+SRMabZ+KmwF5rBMYGfzuqBdeo6i2poWG6VGB87w6B0a7kfHXlZcva1HQCVPKyPH8gXQ=
-X-Received: by 2002:a05:622a:178d:b0:317:7102:d046 with SMTP id
- s13-20020a05622a178d00b003177102d046mr8327537qtk.645.1656326951969; Mon, 27
- Jun 2022 03:49:11 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87C1F1127D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 10:52:37 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 53F8B6601695;
+ Mon, 27 Jun 2022 11:52:35 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1656327156;
+ bh=31OkOrWw1DO+tikKFkTVP/vIL3n46LNH7u7zf1VVoas=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=MRasHgN6imMVi+Ky842kdEK+bxObEBRRTatA44k84AXhPMGg05eYOWJbWgHD/TDqL
+ kYNd6ix6N4opgw0Qiu/Y+hYouCkqO/sh+bJrTqRR+xvnqC7PVw/6aEx/+4rKhhjCM8
+ gq0bTq9MY68dEk9kPWKeVyQPICrSzu2BEv22hTp+sSnGVw7VyU75o6/kGfZvOpv/sf
+ smoJJp1e2KaGhqmhGFpzr07/Tk8iFaIpEQSrirGm6RvWAeFtKmEXh39H79lbzxKcsV
+ Gi0KkvYbOGxOaojJMhoY3W/BDntZs80zZDWEAs9avTiVjwbAAG7Wwd/Ei/d5OKR6ee
+ sYrZl91FY0RZA==
+Message-ID: <718cdb35-1d87-3900-6de2-690964ff991b@collabora.com>
+Date: Mon, 27 Jun 2022 12:52:32 +0200
 MIME-Version: 1.0
-References: <20220621104434.190962-1-matthew.auld@intel.com>
- <20220621104434.190962-11-matthew.auld@intel.com>
- <142c82a44dc1ea6ec1d501d783679c3a513282b5.camel@linux.intel.com>
- <27334c5e-6ee0-361a-cc93-9785f6c7136f@intel.com>
- <5c5eec72-1dfd-4f66-c162-1556aa51ec9e@amd.com>
- <ac9e3b86-64c5-9e89-7a9f-4249b918f5e0@intel.com>
-In-Reply-To: <ac9e3b86-64c5-9e89-7a9f-4249b918f5e0@intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Mon, 27 Jun 2022 11:48:45 +0100
-Message-ID: <CAM0jSHMR8PYEK+vv63X=3UO_NC5OtseW8DAEyVU1R9pcsjZN-A@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v2 10/12] drm/i915/ttm: handle blitter failure
- on DG2
-To: Matthew Auld <matthew.auld@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v14 14/15] drm/mediatek: dpi: Add dp_intf support
+Content-Language: en-US
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, chunkuang.hu@kernel.org,
+ p.zabel@pengutronix.de, daniel@ffwll.ch, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com, airlied@linux.ie
+References: <20220624030946.14961-1-rex-bc.chen@mediatek.com>
+ <20220624030946.14961-15-rex-bc.chen@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220624030946.14961-15-rex-bc.chen@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,65 +58,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Kenneth Graunke <kenneth@whitecape.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 Jun 2022 at 16:31, Matthew Auld <matthew.auld@intel.com> wrote:
->
-> On 23/06/2022 15:52, Christian K=C3=B6nig wrote:
-> > Am 23.06.22 um 16:13 schrieb Matthew Auld:
-> >> [SNIP]
-> >>>> TTM_BO_VM_NUM_PREFAULT);
-> >>>> +               /*
-> >>>> +                * Ensure we check for any fatal errors if we had to
-> >>>> move/clear
-> >>>> +                * the object. The device should already be wedged i=
-f
-> >>>> we hit
-> >>>> +                * such an error.
-> >>>> +                */
-> >>>> +               if (i915_gem_object_wait_moving_fence(obj, true))
-> >>>> +                       ret =3D VM_FAULT_SIGBUS;
-> >>>
-> >>> We should check with Christian here whether it's ok to export
-> >>> ttm_bo_vm_fault_idle() as a helper, so that we release the proper loc=
-ks
-> >>> while waiting. The above is not a bug, but causes us to wait for the
-> >>> moving fence under the mmap_lock, which is considered bad.
-> >>
-> >> Christian, any chance we can export ttm_bo_vm_fault_idle() for use
-> >> here? Or is that NACK?
-> >
-> > Well question is why you want to do this? E.g. what's the background?
->
-> Right, so basically we need to prevent userspace from being able to
-> access the pages for the object, if the ttm blit/move hits an error
-> (some kind of GPU error). Normally we can just fall back to
-> memcpy/memset to ensure we never leak anything (i915 is never allowed to
-> hand userspace non-zeroed memory even for VRAM), but with small-BAR
-> systems this might not be possible. Anyway, if we do hit an error during
-> the ttm move we might now mark the object as being in an "unknown state"
-> before signalling the fence. Later when binding the GPU page-tables we
-> check for the "unknown state" and skip the bind (it will end up just
-> pointing to some scratch pages instead). And then here on the CPU side,
-> we need to sync against all the kernel fences, before then checking for
-> the potential "unknown state", which is then handled by returning SIBUS.
-> The i915_gem_object_wait_moving_fence() is basically doing exactly that,
-> but it looks dumb compared to what ttm_bo_vm_fault_idle() is doing. And
-> then while all this going on we then also "wedge" the device to
-> basically signal that it's busted, which should prevent further work
-> being submitted to the gpu.
+Il 24/06/22 05:09, Bo-Chen Chen ha scritto:
+> From: Guillaume Ranquet <granquet@baylibre.com>
+> 
+> Dpintf is the displayport interface hardware unit. This unit is similar
+> to dpi and can reuse most of the code.
+> 
+> This patch adds support for mt8195-dpintf to this dpi driver. Main
+> differences are:
+>   - 4 pixels for one iteration for dp_intf while dpi is 1 pixel for one
+>     iteration. Therefore, we add a new config "pixels_per_iter" to control
+>     quantity of transferred pixels per iteration.
+>   - Input of dp_intf is two pixels per iteration, so we add a new config
+>     "input_2pixel" to control this.
+>   - Some register contents differ slightly between the two components. To
+>     work around this I added register bits/masks with a DPINTF_ prefix
+>     and use them where different.
+> 
+> Based on a separate driver for dpintf created by
+> Jitao shi <jitao.shi@mediatek.com>.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> [Bo-Chen: Modify reviewers' comments.]
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
 
-Gentle ping?
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
->
-> >
-> > Regards,
-> > Christian.
