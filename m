@@ -2,83 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D20BA55B836
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 09:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A56755B837
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 09:32:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F6511A171;
-	Mon, 27 Jun 2022 07:31:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 965D211A174;
+	Mon, 27 Jun 2022 07:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2974911A17A
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 07:31:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656315113;
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::222])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8F0911A174
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 07:32:00 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPSA id 157184000A;
+ Mon, 27 Jun 2022 07:31:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1656315118;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EUlYsEPWWhOYMYkBLJK32cCzeHl6cStHfmVs4A5dSNU=;
- b=cUbnC8Mm5TAjO0stoVBDDuksPrLY4/OCOAr09T7yMurrxjLTg2yNs5cJlvK3R+i+/ggvjj
- 4YHFxKQowlV+9aMISRxWzdFDmj2jDWHC9XpnzsUGnM72VukNBo+eWh7O1IiL4CKfDmLPIX
- 2ONMHTr+EX0d8vMwrDJQ/smzT/FITbg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-637-q3uzT84OOdKkis_e94kh5A-1; Mon, 27 Jun 2022 03:31:48 -0400
-X-MC-Unique: q3uzT84OOdKkis_e94kh5A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v125-20020a1cac83000000b0039c832fbd02so6922770wme.4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 00:31:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=EUlYsEPWWhOYMYkBLJK32cCzeHl6cStHfmVs4A5dSNU=;
- b=Yn3W+186BPQF1MUfk4NghNwRE16+LZrBPLLkaqWxDcJAHoXI0JTn9YnsSD4PwPxaEo
- yt43vxpvphZQYTO6wgjdpjq0hTWz/lnU1Oi2Z1Sq1I5DHa2mw1y+T35aGywy7iS/jUmX
- rPraMN82Y2BuZ5W8CvBqbT5D7vypZh9fpaCFN6IdnMBqQJyR5WDVGEB76NrKBz7/cRpT
- mLvvZxnBEvtfvLJxk5gnB6fJ1TKGCAswX13hFz6KYqX8Yn+EgLw/esu7s2ak7BIsr9SQ
- aDWmSh3kxhdIaRfw/xIHVuTA+wZershEMPm+pAfQl6E8eTbdCMcv0NqNsZi0O07inM3Z
- r2mw==
-X-Gm-Message-State: AJIora/mKoo50EoHLCbIURH4Wk8U6zLywkQncJYR8CpKKk8vUiQ/UmtE
- mqPCkr5YpF+E52GkcI/Iyz8gBXXCGm6VePL1cBTkWYVPUbQbjNtI15WXbcyeekt8BomobMVtCFS
- urVwV4Jwf+lMIUHKiIvxAO1TOmNok
-X-Received: by 2002:a05:600c:3c8a:b0:3a0:4ad8:d3c4 with SMTP id
- bg10-20020a05600c3c8a00b003a04ad8d3c4mr3403553wmb.43.1656315107342; 
- Mon, 27 Jun 2022 00:31:47 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tIxzqXQBccOHGTb7BB9fchHY1rsuqvbNZzufCC258yfk9xTeBg9TXczNfsz2ETRTVBGoaPHA==
-X-Received: by 2002:a05:600c:3c8a:b0:3a0:4ad8:d3c4 with SMTP id
- bg10-20020a05600c3c8a00b003a04ad8d3c4mr3403540wmb.43.1656315107136; 
- Mon, 27 Jun 2022 00:31:47 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
- ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
- by smtp.gmail.com with ESMTPSA id
- n32-20020a05600c3ba000b0039c5224bfcbsm16758449wms.46.2022.06.27.00.31.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jun 2022 00:31:46 -0700 (PDT)
-Message-ID: <1c6517d8-396d-3a63-f4ed-f7dcd2159a2f@redhat.com>
-Date: Mon, 27 Jun 2022 09:31:45 +0200
+ bh=idapMRXYI8LK9pUAYFY1PYnrl5ucrW9SNpfI7s4FHE4=;
+ b=Vy9rHewE32491kgIJR1RVvJ1tFofhHp5SQGbZWRVyOH+8o8YDTqsOf4/xajaU3Y7ZWKqvf
+ NFRtHFfxv0E3OtoizaC6LpUP27SJqWSJOhgx+5v2+rZfGG5QqAUF6W4UzZBx1MDlt0Gqa2
+ 2/oFX8B0zXrKXmADX8Ms6CKGcRtY9CxzQciEAAXQFFHGZmzEA4+GtbbrWUwK56/8eknAWO
+ 0OrRS5RVKBYi07kknPeZIB4AL1ihWTuPm8pjpOgWAYt9jGouBNGCdDuLJv3gu427WwGRWW
+ yP+++ihGjQeBpldwqrQs1GVbz/iE98dDSFW23sF4inDOBBSSosJnvBet5A7ZjQ==
+Date: Mon, 27 Jun 2022 09:31:55 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [bug report] drm: Add support for the LogiCVC display controller
+Message-ID: <Yrlc67dOMJcnXVwv@aptenodytes>
+References: <Yqh6ErANSTEJpfvl@kili> <YrXP5Q16k/X0EVEI@aptenodytes>
+ <20220627052629.GH11460@kadam>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/ast: Fix black screen when getting out of suspend
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de, kuohsiang_chou@aspeedtech.com
-References: <20220622124815.356035-1-jfalempe@redhat.com>
- <8a6048576c440f1653121bb7be8583e9fee0c79a.camel@redhat.com>
- <9db1d8fd-1778-0811-ec70-ad5bb8de00a6@redhat.com>
-In-Reply-To: <9db1d8fd-1778-0811-ec70-ad5bb8de00a6@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="eX5xD+Upx/MLuNME"
+Content-Disposition: inline
+In-Reply-To: <20220627052629.GH11460@kadam>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,88 +51,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michel@daenzer.net, hungju_huang@aspeedtech.com,
- Venkat Tadikonda <venkateswara.rao@intel.com>, charles_kuan@aspeedtech.com,
- luke_chen@aspeedtech.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/06/2022 10:21, Jocelyn Falempe wrote:
-> On 22/06/2022 20:34, Lyude Paul wrote:
->> Some small nitpicks:
->>
->> On Wed, 2022-06-22 at 14:48 +0200, Jocelyn Falempe wrote:
->>> With an AST2600, the screen is garbage when going out of suspend.
->>> This is because color settings are lost, and not restored on resume.
->>> Force the color settings on DPMS_ON, to make sure the settings are 
->>> correct.
->>>
->>> I didn't write this code, it comes from the out-of-tree aspeed driver 
->>> v1.13
->>> https://www.aspeedtech.com/support_driver/
->>>
->>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->>> Tested-by: Venkat Tadikonda <venkateswara.rao@intel.com>
->>
->> Should have a Cc: to stable imho, `dim` can do this for you:
->>
->> https://drm.pages.freedesktop.org/maintainer-tools/dim.html
-> 
-> Sure I will add cc to stable for the v2
 
-In fact it doesn't apply to older kernel version, (it depends on 
-594e9c04b586 Create the driver for ASPEED proprietory Display-Port).
+--eX5xD+Upx/MLuNME
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So I think I will just push it to drm-misc-next, with the indentation fixed.
+Hi Dan,
 
->>
->>> ---
->>>   drivers/gpu/drm/ast/ast_mode.c | 13 +++++++++++++
->>>   1 file changed, 13 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
->>> b/drivers/gpu/drm/ast/ast_mode.c
->>> index 3eb9afecd9d4..cdddcb5c4439 100644
->>> --- a/drivers/gpu/drm/ast/ast_mode.c
->>> +++ b/drivers/gpu/drm/ast/ast_mode.c
->>> @@ -990,6 +990,9 @@ static void ast_crtc_dpms(struct drm_crtc *crtc, int
->>> mode)
->>>   {
->>>          struct ast_private *ast = to_ast_private(crtc->dev);
->>>          u8 ch = AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF;
->>> +       struct ast_crtc_state *ast_state;
->>> +       const struct drm_format_info *format;
->>> +       struct ast_vbios_mode_info *vbios_mode_info;
->>>          /* TODO: Maybe control display signal generation with
->>>           *       Sync Enable (bit CR17.7).
->>> @@ -1007,6 +1010,16 @@ static void ast_crtc_dpms(struct drm_crtc 
->>> *crtc, int
->>> mode)
->>>                          ast_dp_set_on_off(crtc->dev, 1);
->>>                  }
->>> +               ast_state = to_ast_crtc_state(crtc->state);
->>> +               format = ast_state->format;
->>> +
->>> +               if (format){
->>
->> Should be a space between ')' and '{'.
-> 
-> looks like I forget to run checkpatch.pl on it before sending :(
-> 
-> I'll wait a bit for other comments, and sent a v2 with cc for stable.
->>
->> With that fixed, this is: Reviewed-by: Lyude Paul <lyude@redhat.com>
->>
->>> +                       vbios_mode_info = &ast_state->vbios_mode_info;
->>> +
->>> +                       ast_set_color_reg(ast, format);
->>> +                       ast_set_vbios_color_reg(ast, format,
->>> vbios_mode_info);
->>> +               }
->>> +
->>>                  ast_crtc_load_lut(ast, crtc);
->>>                  break;
->>>          case DRM_MODE_DPMS_STANDBY:
->>
-> 
+On Mon 27 Jun 22, 08:26, Dan Carpenter wrote:
+> On Fri, Jun 24, 2022 at 04:53:25PM +0200, Paul Kocialkowski wrote:
+> > Hello Dan,
+> >=20
+> > On Tue 14 Jun 22, 15:07, Dan Carpenter wrote:
+> > > Hello Paul Kocialkowski,
+> > >=20
+> > > The patch efeeaefe9be5: "drm: Add support for the LogiCVC display
+> > > controller" from May 20, 2022, leads to the following Smatch static
+> > > checker warning:
+> > >=20
+> > > 	drivers/gpu/drm/logicvc/logicvc_layer.c:320 logicvc_layer_buffer_fin=
+d_setup()
+> > > 	warn: impossible condition '(hoffset > (((((1))) << (16)) - 1)) =3D>=
+ (0-u16max > u16max)'
+> > >=20
+> > > drivers/gpu/drm/logicvc/logicvc_layer.c
+> > >     258 int logicvc_layer_buffer_find_setup(struct logicvc_drm *logic=
+vc,
+> > >     259                                     struct logicvc_layer *lay=
+er,
+> > >     260                                     struct drm_plane_state *s=
+tate,
+> > >     261                                     struct logicvc_layer_buff=
+er_setup *setup)
+> > >     262 {
+> > >     263         struct drm_device *drm_dev =3D &logicvc->drm_dev;
+> > >     264         struct drm_framebuffer *fb =3D state->fb;
+> > >     265         /* All the supported formats have a single data plane=
+=2E */
+> > >     266         u32 layer_bytespp =3D fb->format->cpp[0];
+> > >     267         u32 layer_stride =3D layer_bytespp * logicvc->config.=
+row_stride;
+> > >     268         u32 base_offset =3D layer->config.base_offset * layer=
+_stride;
+> > >     269         u32 buffer_offset =3D layer->config.buffer_offset * l=
+ayer_stride;
+> > >     270         u8 buffer_sel =3D 0;
+> > >     271         u16 voffset =3D 0;
+> > >     272         u16 hoffset =3D 0;
+> > >     273         phys_addr_t fb_addr;
+> > >     274         u32 fb_offset;
+> > >     275         u32 gap;
+> > >     276=20
+> > >     277         if (!logicvc->reserved_mem_base) {
+> > >     278                 drm_err(drm_dev, "No reserved memory base was=
+ registered!\n");
+> > >     279                 return -ENOMEM;
+> > >     280         }
+> > >     281=20
+> > >     282         fb_addr =3D drm_fb_cma_get_gem_addr(fb, state, 0);
+> > >     283         if (fb_addr < logicvc->reserved_mem_base) {
+> > >     284                 drm_err(drm_dev,
+> > >     285                         "Framebuffer memory below reserved me=
+mory base!\n");
+> > >     286                 return -EINVAL;
+> > >     287         }
+> > >     288=20
+> > >     289         fb_offset =3D (u32) (fb_addr - logicvc->reserved_mem_=
+base);
+> > >     290=20
+> > >     291         if (fb_offset < base_offset) {
+> > >     292                 drm_err(drm_dev,
+> > >     293                         "Framebuffer offset below layer base =
+offset!\n");
+> > >     294                 return -EINVAL;
+> > >     295         }
+> > >     296=20
+> > >     297         gap =3D fb_offset - base_offset;
+> > >     298=20
+> > >     299         /* Use the possible video buffers selection. */
+> > >     300         if (gap && buffer_offset) {
+> > >     301                 buffer_sel =3D gap / buffer_offset;
+> > >     302                 if (buffer_sel > LOGICVC_BUFFER_SEL_MAX)
+> > >     303                         buffer_sel =3D LOGICVC_BUFFER_SEL_MAX;
+> > >     304=20
+> > >     305                 gap -=3D buffer_sel * buffer_offset;
+> > >     306         }
+> > >     307=20
+> > >     308         /* Use the vertical offset. */
+> > >     309         if (gap && layer_stride && logicvc->config.layers_con=
+figurable) {
+> > >     310                 voffset =3D gap / layer_stride;
+> > >     311                 if (voffset > LOGICVC_LAYER_VOFFSET_MAX)
+> > >     312                         voffset =3D LOGICVC_LAYER_VOFFSET_MAX;
+> > >     313=20
+> > >     314                 gap -=3D voffset * layer_stride;
+> > >     315         }
+> > >     316=20
+> > >     317         /* Use the horizontal offset. */
+> > >     318         if (gap && layer_bytespp && logicvc->config.layers_co=
+nfigurable) {
+> > >     319                 hoffset =3D gap / layer_bytespp;
+> > >=20
+> > > Can "gap / layer_bytespp" ever be more than USHRT_MAX?  Because if so
+> > > that won't fit into "hoffset"
+> >=20
+> > Well there is nothing that really restricts the size of the gap, so yes=
+ this
+> > could happen. At this stage the gap should have been reduced already bu=
+t we
+> > never really know.
+> >=20
+> > Would it make sense to add a check that gap / layer_bytespp <=3D USHRT_=
+MAX
+> > in that if statement?
+>=20
+> My favorite fix would be to declare "hoffset" as a unsigned int.
 
+Well the register itself only has 16 bits available for the value,
+so there would still be a problem in that situation.
+
+What do you think?
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--eX5xD+Upx/MLuNME
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmK5XOsACgkQ3cLmz3+f
+v9Hz+AgAjdw360ECNIa8e4NlLj9urjVV69fT2MOoHHvwBq8+p/tFI4RvDB//wKWu
+2Zq3aeRXOXmY7Rg5rPt3b7MmTPVbEkmBvzzXpPV+yvduNLB45pKJ1KvsRCzgKgVu
+9Z4POmMNCnWQqoiKpqlZ5e48ROZqPdGpZC1vZCcNz+kQUp0vitFDrvFvD8ij1727
+fQJ7kvn1QC/VluEnjb6ZmxNSUy1SYjqLSAr8r29tN77sCM+1iNQZGi8KwbxgRu8d
+tLHSgtANJ11tKyPCORzaW8CqUk4q4YUEoQZz4hjiig/ovYMi2BvmJ/AHcQtLFF4T
+7jiyzQTtPNd2pTrcetiAlsVHGWyDFQ==
+=ng7f
+-----END PGP SIGNATURE-----
+
+--eX5xD+Upx/MLuNME--
