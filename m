@@ -2,15 +2,15 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA2A55BA68
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 16:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67BDC55BA70
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 16:21:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B62310E864;
-	Mon, 27 Jun 2022 14:20:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC7A2112228;
+	Mon, 27 Jun 2022 14:20:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2E8110FCCB
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB86110F0E7
  for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 14:20:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -18,26 +18,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=dC/cTQo/MJ767nLnh5GC42ACRkqVvW3EbSSHwsx8exs=; b=FyVVzgTzkyNIIvS6ArZvjUNN8k
- ZPMmbS/N/qiCFnX+q3hpT1mY86q2/hTaXOuB0jQzd89hpC4ofa7ouTn6cegWAl3CVt17AcwoQCfq9
- A7iHHfYbD1BdZ1r8OGqNKt9WXMsnY4kP8DcrkJtN96h2N4h/UebUQbTfVPJ5AOtBRuf0Bunnpykp1
- 4b3xHabQGvxD6doggMAHArFZyVq7dIkB58srk0Dn/CAQBNZFovqLXvBlpWoNji5YzBBsDg0ewc0PY
- twiE9+IVB27SYqmMOq1BUxKa/yYQd5Bl3NZl9Q8IIX3hkpJ+M2GO7HIyYc99sB30S88I+wB20u/mC
- vewuOH1g==;
+ bh=jqNVkhlKQgqXtLeAWprMxZosE+nkqym2SEmCMhLQNlc=; b=UKrJgi8mpssJ8vUSIqsRaFlfde
+ NzafDBO/mC4aXw4QPBIneZ9kKb6AEmJoy0BSC0s0b7rv/H7Dd7LqU0WicsZ1oNrL9FepdSJBJJZL9
+ No54CShhzc5PlHZLn929qk+02aBERQiEvwLSkxtE08wrv/ujH5J5+CaE0BNdAEuxLJ+4Y9BE/tUhM
+ RZz6+IJLoH084FpFlzJicHkBjosb29+qpmnoL1qyLaOSCnj88DEtEmneqKhWfztwf1lvQW4saAQTn
+ mopHYgvC4FQxooW4ChNkaVvOKXmUM+68Yl4XgxIOwlG/3ucGwTVoa3TH7wYGaGr1AorNvWbULm17P
+ 0k6oZvhg==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <cyndis@kapsi.fi>)
- id 1o5pbN-003N2J-PR; Mon, 27 Jun 2022 17:20:32 +0300
+ id 1o5pbO-003N2J-0V; Mon, 27 Jun 2022 17:20:32 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Dmitry Osipenko <digetx@gmail.com>
-Subject: [PATCH v7/v3 14/22] gpu: host1x: Simplify register mapping and add
- common aperture
-Date: Mon, 27 Jun 2022 17:20:00 +0300
-Message-Id: <20220627142008.2072474-15-cyndis@kapsi.fi>
+Subject: [PATCH v7/v3 15/22] gpu: host1x: Program virtualization tables
+Date: Mon, 27 Jun 2022 17:20:01 +0300
+Message-Id: <20220627142008.2072474-16-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220627142008.2072474-1-cyndis@kapsi.fi>
 References: <20220627142008.2072474-1-cyndis@kapsi.fi>
@@ -66,124 +65,98 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Refactor 'regs' property loading using devm_platform_ioremap_*
-and add loading of the 'common' region found on Tegra234.
+Program virtualization tables specifying which VMs have access to which
+Host1x hardware resources. Programming these has become mandatory in
+Tegra234.
+
+For now, since the driver does not operate as a Host1x hypervisor, we
+basically allow access to everything to everyone.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/host1x/dev.c | 46 +++++++++++++++++-----------------------
- drivers/gpu/host1x/dev.h |  3 +++
- 2 files changed, 22 insertions(+), 27 deletions(-)
+ drivers/gpu/host1x/dev.c | 21 ++++++++++++++++++---
+ drivers/gpu/host1x/dev.h |  8 ++++++++
+ 2 files changed, 26 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index 89cc79a48eab..8c6ce8014c09 100644
+index 8c6ce8014c09..5a57165ab0f6 100644
 --- a/drivers/gpu/host1x/dev.c
 +++ b/drivers/gpu/host1x/dev.c
-@@ -40,6 +40,11 @@
- #include "hw/host1x06.h"
- #include "hw/host1x07.h"
+@@ -217,7 +217,7 @@ static const struct of_device_id host1x_of_match[] = {
+ };
+ MODULE_DEVICE_TABLE(of, host1x_of_match);
  
-+void host1x_common_writel(struct host1x *host1x, u32 v, u32 r)
-+{
-+	writel(v, host1x->common_regs + r);
-+}
-+
- void host1x_hypervisor_writel(struct host1x *host1x, u32 v, u32 r)
+-static void host1x_setup_sid_table(struct host1x *host)
++static void host1x_setup_virtualization_tables(struct host1x *host)
  {
- 	writel(v, host1x->hv_regs + r);
-@@ -412,7 +417,6 @@ static int host1x_get_resets(struct host1x *host)
- static int host1x_probe(struct platform_device *pdev)
- {
- 	struct host1x *host;
--	struct resource *regs, *hv_regs = NULL;
- 	int syncpt_irq;
- 	int err;
- 
-@@ -423,25 +427,23 @@ static int host1x_probe(struct platform_device *pdev)
- 	host->info = of_device_get_match_data(&pdev->dev);
- 
- 	if (host->info->has_hypervisor) {
--		regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "vm");
--		if (!regs) {
--			dev_err(&pdev->dev, "failed to get vm registers\n");
--			return -ENXIO;
--		}
-+		host->regs = devm_platform_ioremap_resource_byname(pdev, "vm");
-+		if (IS_ERR(host->regs))
-+			return PTR_ERR(host->regs);
+ 	const struct host1x_info *info = host->info;
+ 	unsigned int i;
+@@ -231,6 +231,21 @@ static void host1x_setup_sid_table(struct host1x *host)
+ 		host1x_hypervisor_writel(host, entry->offset, entry->base);
+ 		host1x_hypervisor_writel(host, entry->limit, entry->base + 4);
+ 	}
 +
-+		host->hv_regs = devm_platform_ioremap_resource_byname(pdev, "hypervisor");
-+		if (IS_ERR(host->hv_regs))
-+			return PTR_ERR(host->hv_regs);
++	for (i = 0; i < info->streamid_vm_table.count; i++) {
++		/* Allow access to all stream IDs to all VMs. */
++		host1x_hypervisor_writel(host, 0xff, info->streamid_vm_table.base + 4 * i);
++	}
++
++	for (i = 0; i < info->classid_vm_table.count; i++) {
++		/* Allow access to all classes to all VMs. */
++		host1x_hypervisor_writel(host, 0xff, info->classid_vm_table.base + 4 * i);
++	}
++
++	for (i = 0; i < info->mmio_vm_table.count; i++) {
++		/* Use VM1 (that's us) as originator VMID for engine MMIO accesses. */
++		host1x_hypervisor_writel(host, 0x1, info->mmio_vm_table.base + 4 * i);
++	}
+ }
  
--		hv_regs = platform_get_resource_byname(pdev, IORESOURCE_MEM,
--						       "hypervisor");
--		if (!hv_regs) {
--			dev_err(&pdev->dev,
--				"failed to get hypervisor registers\n");
--			return -ENXIO;
-+		if (host->info->has_common) {
-+			host->common_regs = devm_platform_ioremap_resource_byname(pdev, "common");
-+			if (IS_ERR(host->common_regs))
-+				return PTR_ERR(host->common_regs);
- 		}
- 	} else {
--		regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--		if (!regs) {
--			dev_err(&pdev->dev, "failed to get registers\n");
--			return -ENXIO;
--		}
-+		host->regs = devm_platform_ioremap_resource(pdev, 0);
-+		if (IS_ERR(host->regs))
-+			return PTR_ERR(host->regs);
+ static bool host1x_wants_iommu(struct host1x *host1x)
+@@ -602,7 +617,7 @@ static int __maybe_unused host1x_runtime_suspend(struct device *dev)
+ 	return 0;
+ 
+ resume_host1x:
+-	host1x_setup_sid_table(host);
++	host1x_setup_virtualization_tables(host);
+ 	host1x_syncpt_restore(host);
+ 	host1x_intr_start(host);
+ 
+@@ -632,7 +647,7 @@ static int __maybe_unused host1x_runtime_resume(struct device *dev)
+ 		goto disable_clk;
  	}
  
- 	syncpt_irq = platform_get_irq(pdev, 0);
-@@ -456,16 +458,6 @@ static int host1x_probe(struct platform_device *pdev)
- 	/* set common host1x device data */
- 	platform_set_drvdata(pdev, host);
- 
--	host->regs = devm_ioremap_resource(&pdev->dev, regs);
--	if (IS_ERR(host->regs))
--		return PTR_ERR(host->regs);
--
--	if (host->info->has_hypervisor) {
--		host->hv_regs = devm_ioremap_resource(&pdev->dev, hv_regs);
--		if (IS_ERR(host->hv_regs))
--			return PTR_ERR(host->hv_regs);
--	}
--
- 	host->dev->dma_parms = &host->dma_parms;
- 	dma_set_max_seg_size(host->dev, UINT_MAX);
+-	host1x_setup_sid_table(host);
++	host1x_setup_virtualization_tables(host);
+ 	host1x_syncpt_restore(host);
+ 	host1x_intr_start(host);
  
 diff --git a/drivers/gpu/host1x/dev.h b/drivers/gpu/host1x/dev.h
-index 7552a4554534..85edcc6e0fc7 100644
+index 85edcc6e0fc7..920e5548cfbc 100644
 --- a/drivers/gpu/host1x/dev.h
 +++ b/drivers/gpu/host1x/dev.h
-@@ -100,6 +100,7 @@ struct host1x_info {
- 	u64 dma_mask; /* mask of addressable memory */
- 	bool has_wide_gather; /* supports GATHER_W opcode */
- 	bool has_hypervisor; /* has hypervisor registers */
-+	bool has_common; /* has common registers separate from hypervisor */
- 	unsigned int num_sid_entries;
- 	const struct host1x_sid_entry *sid_table;
- 	/*
-@@ -115,6 +116,7 @@ struct host1x {
- 
- 	void __iomem *regs;
- 	void __iomem *hv_regs; /* hypervisor region */
-+	void __iomem *common_regs;
- 	struct host1x_syncpt *syncpt;
- 	struct host1x_syncpt_base *bases;
- 	struct device *dev;
-@@ -156,6 +158,7 @@ struct host1x {
- 	struct host1x_bo_cache cache;
+@@ -90,6 +90,11 @@ struct host1x_sid_entry {
+ 	unsigned int limit;
  };
  
-+void host1x_common_writel(struct host1x *host1x, u32 v, u32 r);
- void host1x_hypervisor_writel(struct host1x *host1x, u32 r, u32 v);
- u32 host1x_hypervisor_readl(struct host1x *host1x, u32 r);
- void host1x_sync_writel(struct host1x *host1x, u32 r, u32 v);
++struct host1x_table_desc {
++	unsigned int base;
++	unsigned int count;
++};
++
+ struct host1x_info {
+ 	unsigned int nb_channels; /* host1x: number of channels supported */
+ 	unsigned int nb_pts; /* host1x: number of syncpoints supported */
+@@ -103,6 +108,9 @@ struct host1x_info {
+ 	bool has_common; /* has common registers separate from hypervisor */
+ 	unsigned int num_sid_entries;
+ 	const struct host1x_sid_entry *sid_table;
++	struct host1x_table_desc streamid_vm_table;
++	struct host1x_table_desc classid_vm_table;
++	struct host1x_table_desc mmio_vm_table;
+ 	/*
+ 	 * On T20-T148, the boot chain may setup DC to increment syncpoints
+ 	 * 26/27 on VBLANK. As such we cannot use these syncpoints until
 -- 
 2.36.1
 
