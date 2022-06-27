@@ -2,62 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7B555B8B8
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 10:47:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C4755B8C7
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 10:54:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E0FF113EDC;
-	Mon, 27 Jun 2022 08:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A7F610EB0F;
+	Mon, 27 Jun 2022 08:53:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C7DB113ED5
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 08:47:37 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id n185so4924133wmn.4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 01:47:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LmXxME+uNJVkVZ9trvR46NnCjeAQJKd6DY2jQBz+oPs=;
- b=La9Lq2uF++jKkxat90ApM5v9JRDARjmbUF/Au7fPkkkvrCiMZZ5uTcEFrV9/5j6Y58
- 3Mo9u0GqzyUWGCEJaZNFO2UyVN9ZfXMdZouLDwxtdakiLw20DhEt567v+bBmwnzNS9ZP
- v8XFcbX8wbDKhg0jT+VtFORSrK0cSdCsOzeV1+rWP50JVPLtHEVgw3kgckcsUCm0io4k
- FVhQJ7N4l7GrwM4oMuJUIXTzXwNNQzKLXQpCZjhHSi4u9TGB95jook1mUJTYAy8pFTZm
- 9pkXAmJSwEQElsVU6YcAdPLTOXnPafLuLHWgcJeq3Kwl/HvKrXZdVMy6ad8KoiprHxCP
- PdBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LmXxME+uNJVkVZ9trvR46NnCjeAQJKd6DY2jQBz+oPs=;
- b=w5T3HXStiVYd7eH5mE+OPlRV8BvIzxt5HhiZVtAFR4HPN04MxMDfOlycJcoGXYdGB0
- pXfkYDwOxabQMmT3okeijYtgyL9cxDGTMX7E29/sIHonE92LrE4ZT/mY037opIEFpjiv
- ktS62lefiY2W2opWk/XlYDYkznIwt0aC19eF7rFvAjrz4KqFPnYZojJhVfd8N8awIJ0k
- llWH6fDlcyBWuJVAOhwxnzobbhQ/YWgz+lhlEh2+AnjZSG821AM5iFV7xLwlKX/yHs2n
- liPZ8hdQRfRhU52+8nxF//isflNp1spttajeFjilszhGNUHi1qEDAGjPAfzKuo2Q57j5
- kMKA==
-X-Gm-Message-State: AJIora+2xazYzBNlUXu/K7RxeMHRdmYHH981jPwJu01QpsbsCDqBNZai
- xUfh9Tv1vmr3A+rxbFw97XU=
-X-Google-Smtp-Source: AGRyM1uK0Mhl+GMgWCOO6FsR4TsSV1dv4xOGrbwt6BBS+fdtO5VrxRrEI9Feo4JvCBKqp8pvqDG+ZQ==
-X-Received: by 2002:a05:600c:1589:b0:3a0:2da9:bac0 with SMTP id
- r9-20020a05600c158900b003a02da9bac0mr18754522wmf.178.1656319655747; 
- Mon, 27 Jun 2022 01:47:35 -0700 (PDT)
-Received: from localhost.localdomain ([94.73.36.128])
- by smtp.gmail.com with ESMTPSA id
- x12-20020a05600c2d0c00b003a04a9504b0sm2660010wmf.40.2022.06.27.01.47.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 01:47:35 -0700 (PDT)
-From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To: maxime@cerno.tech
-Subject: Re:[PATCH] drm/vc4: perfmon: Fix variable dereferenced before check
-Date: Mon, 27 Jun 2022 10:47:03 +0200
-Message-Id: <20220627084703.230986-1-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220622080243.22119-1-maxime@cerno.tech>
-References: <20220622080243.22119-1-maxime@cerno.tech>
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBCD389F55
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 08:53:52 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 463B15C01EE;
+ Mon, 27 Jun 2022 04:53:49 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Mon, 27 Jun 2022 04:53:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1656320029; x=
+ 1656406429; bh=YbjaBfcwxsEJTLjjrwiaw6MoYuL/h+89W5hA8G79W4Q=; b=K
+ rnsdYJ7Gtd1gaPgHQgJ7CYrrdpgLodOOteQgjDXDuR/Gy4bWi31+C2S1zlWj/RsW
+ TPXPsN1BeYYYDs3GhntWmb8QnICNDcawD1BpWyuv+IYjxoniipRC9bAyiZIkfugl
+ 4FKtvLzSArJvoZx3617q5dc0k7ea6qUaIWyLa1yhjq+4VqDr8GPNv4PXSZhv56fC
+ 9JryqKy4CcZhKMUwPbQqFh2c+UO/0p8sX2hxRLS1mMly4v6Q/bD9JXywKrmHgSw9
+ GVClFImLMg2rs1g8TA68/HYBo8A8NldyABiUTVmgwLqvOefe+MGo/7gK8kfaFx95
+ oIwAXin58tJl7Bkj7HKkQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656320029; x=
+ 1656406429; bh=YbjaBfcwxsEJTLjjrwiaw6MoYuL/h+89W5hA8G79W4Q=; b=x
+ job176r5evUQOCs+fa4Qn0RiRtHHSnr7r8qv2q54xaYcSJ34sEuCQXMGQl2oWNSn
+ 3o6BWPUEMB3EebOdcDWhfambt8Q8IxMiMkHuPkRvMO4GDgeHcRH7v7QCjt2L8zYa
+ 6gCGOOKF2zBILFeOe9tZvFIQa/dJznMaepmNM875oFuy9vhJHVVIDjvgYpoFL0pg
+ B1qDVNoaNnosvfRdu1hibqXmrQ2AcxwVyCID6f+3NDuTo4+Y8XYczHV48IYYp+gq
+ //IhV+GT6/Ip42Ir6REwezI4yibDxiD1AYjE1AkX90FAqCiF63uaOIV1gvL8kb88
+ 158iYLkKKw9P2cJbH3S+g==
+X-ME-Sender: <xms:HHC5Yr6A370a_bV83zQbm-AC2gHCt23tCoeey9NSFmU78bRuD3wj7w>
+ <xme:HHC5Yg6h8mB-zjZ5HjkTPKZZHH74PHh8JBMAsgl_jBAsFTdcmwJzSD1UirHPGyWSs
+ t_U2f9IZaCUGpxB310>
+X-ME-Received: <xmr:HHC5Yid_Sdj0a5X99v9sRtgh3coU4JXi_a6GErhqJIMm0lUYErxs1dluFgRIYIo-b8Bm5YKA3t9EHL4vA2SMNgnckDdNCUDZ4r5Y5VY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeghedgtdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnheptefgleeggfegkeekgffgleduieduffejffegveevkeejudektdduueet
+ feetfefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:HHC5YsKZX24XRkV0TM-u-WX4Yj5_Clj2e1hYiUvyLyM25rSrPGFt6A>
+ <xmx:HHC5YvKH9BnYDaaAUNfMyooMbY_PneaCqLGSTrkSf0tUeW7dlZLT7w>
+ <xmx:HHC5YlzqP2-zgZj2zGU5hkuOLbD50XZwDnOBjC7KkFL6vv0Vel--1g>
+ <xmx:HXC5Ylh_QdmJd7Cm39OxlS8TFFPoTZlsgHZ4JKc6VEELSPYchLFWZQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Jun 2022 04:53:48 -0400 (EDT)
+Date: Mon, 27 Jun 2022 10:53:46 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH] drm: logicvc: Fix uninitialized variable in probe
+Message-ID: <20220627085346.6fnzgygajdu7wncc@houat>
+References: <Yqh6OfSiPFuVrGo4@kili> <YrXLrVUIavGWC4sx@aptenodytes>
+ <20220624143717.tykkcznvzq5e5qz2@houat>
+ <YrXOTAR6koA1b8XJ@aptenodytes>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YrXOTAR6koA1b8XJ@aptenodytes>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,30 +86,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lkp@intel.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- daniel.vetter@intel.com, dan.carpenter@oracle.com
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard wrote:
-> Commit 30f8c74ca9b7 ("drm/vc4: Warn if some v3d code is run on BCM2711")
-> introduced a check in vc4_perfmon_get() that dereferences a pointer before
-> we checked whether that pointer is valid or not.
->
-> Let's rework that function a bit to do things in the proper order.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Fixes: 30f8c74ca9b7 ("drm/vc4: Warn if some v3d code is run on BCM2711")
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+On Fri, Jun 24, 2022 at 04:46:36PM +0200, Paul Kocialkowski wrote:
+> Hi,
+>=20
+> On Fri 24 Jun 22, 16:37, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Fri, Jun 24, 2022 at 04:35:25PM +0200, Paul Kocialkowski wrote:
+> > > On Tue 14 Jun 22, 15:08, Dan Carpenter wrote:
+> > > > The "regmap" is supposed to be initialized to NULL but it's used
+> > > > without being initialized.
+> > > >=20
+> > > > Fixes: efeeaefe9be5 ("drm: Add support for the LogiCVC display cont=
+roller")
+> > > > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > >=20
+> > > Nice catch, thanks a lot!
+> > >=20
+> > > Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> >=20
+> > Since you have the commit rights to drm-misc, you should apply it
+>=20
+> Absolutely, I'm on my way to doing that.
+>=20
+> Do I need to reply to the emails with a message indicating that I merged =
+them
+> or is using the tool sufficient?
 
-Reviewed-by: José Expósito <jose.exposito89@gmail.com>
+Going back on this, but it's fairly easy with b4 to generate the
+messages that you applied them.
 
-I was about to send the same patch because Coverity reported this issue
-today, but you already found and fixed it :D
+For example, I'm using:
 
-Best wishes,
-José Expósito
+cat mail | b4 am -t --no-cover -o - -P _ | dim apply-branch drm-misc-fixes
 
+b4 am will retrieve the last version of the patch from lore (and only
+the current patch with --no-cover -P _), add the tags (-t) and output it
+on stdout (-o -) and pass it to dim apply-branch
+
+Then, you can do
+
+b4 ty -a && git send-email *.thanks && rm *.thanks
+
+And it will send a mail for every patch you applied in the current branch
+
+Maxime
