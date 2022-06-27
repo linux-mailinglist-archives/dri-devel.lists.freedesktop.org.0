@@ -1,54 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5E755BC2A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 23:39:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A6755BC31
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 23:42:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09D0D10E13D;
-	Mon, 27 Jun 2022 21:39:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55EC810F13E;
+	Mon, 27 Jun 2022 21:42:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47F7A10E081;
- Mon, 27 Jun 2022 21:39:15 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id lw20so21865381ejb.4;
- Mon, 27 Jun 2022 14:39:15 -0700 (PDT)
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A86E10EFE9;
+ Mon, 27 Jun 2022 21:42:33 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id lw20so21878838ejb.4;
+ Mon, 27 Jun 2022 14:42:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bbdSb2cTZ0htDASIs4pX7vkvL5oD25vksluOzr2XcSs=;
- b=GxRdWAzs+A4aw28qbnHYzF6sgFjJtNW/9+gd2VO19JgtV0Q7IQF7D22365cu5DoXD1
- gz56oEIsl+W22kzUC7dO8n4vFZzKyauew1ddf4+Po8WULnJNQEEx8qKedCEAvOmdB4p1
- jIUWOWdI8ma2GAnhvY+Fm7zd5+ejqXh6iU4AAm2VGvcvPVPEM6B3WcbJGRBf0i4r2UxC
- Iyfh0ZmhdjUZQqoBojFg3Pfb2ZQhQw0DKS8HBpvRSPaTxiy+XQsVXS92tKncxB0qn/q0
- jnrTk853Duoe+8dUamO33oScwdroGkW00qjNxgFMhxOwaOTH6wXbRgiia3S8e1TBiqlA
- zD0A==
+ :cc; bh=/m5gEvG4Nkhnu6c3440vB73PXnwZ2jewkhSAliGBXTg=;
+ b=CynNGWCzO8u27qkFDIzY+jXsy8vbILCE7VFIfDkmWApFEP/TyAInFPWtLoi8W4oAJv
+ yRP1bnPJv+PoEUvfh/hvO8Nnx2y2AjIz/CszaBG+aQkExDPFi7OJbr/+buyNM3cuJzpL
+ QiNruHf7RNp23wTV4F7qqgkqzrV/zED8wFZamXl60ftr7DKklUJED02KuOkfGa/+QuqK
+ eSR2sUlA7gfJPtbcReFLZRg/BzoXQ6QzGoIAuB2LbOV0xv7nN2/pZ78o8K66JVTTLvLl
+ uMcvFqANm4pcYdgcWj6bxJWqXtfIjhIrq59dKA1kQLW4msu2vFcBV7x9IOXQ5mD2jvYT
+ iK6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bbdSb2cTZ0htDASIs4pX7vkvL5oD25vksluOzr2XcSs=;
- b=i4nEereXgJbOY7aUlbHVBNLH5xCFy0PwoMAplCHVnul7fiUbMQAMvA2g6Rbe3wyNjk
- guASOoKxbXtL2k6UBjCz+GV64BWf973U4V4v9U1y7pEy/EMA5cOtPMPzn+zNbmovnJzt
- kr2r26hu0aeoTVyf+uLK/0tqJ+7RbwLnWY7WKS0XLuqepZQJSfY7sPYNIZsJgOYOesMC
- qGuwRdbi8lYD+GcytQNpwlFTng6D/ftd4q00Lfopzcd7iQJqkTYNJ3rBgIvRHVmy5g17
- wzLyWlnbbFAny1BnAFxwN7AysQKDjT69ig6JDrebQA4LhTb9RxWFFveKTECYAs7itSn0
- B6kA==
-X-Gm-Message-State: AJIora/LL+765f28NZLDz4TKICoj9QT6Ln+xFyJzjHg723dS5UgO1+QJ
- 9hPMO7fTnhf8eTBVO9JFvTIViKC4Y2yUvdwQF3M=
-X-Google-Smtp-Source: AGRyM1vR3YQYUmiaHSFQiFk4p7DhkSC+ahsp6sDc8p2/glRlJGZlfXGcuDzQXqHJdsSub/M0Ib2jJiBhUqFcH+JFpAc=
-X-Received: by 2002:a17:907:94cf:b0:726:c81a:f30e with SMTP id
- dn15-20020a17090794cf00b00726c81af30emr2387143ejc.451.1656365953879; Mon, 27
- Jun 2022 14:39:13 -0700 (PDT)
+ bh=/m5gEvG4Nkhnu6c3440vB73PXnwZ2jewkhSAliGBXTg=;
+ b=yiNszYttUltlaC4cQ9t3XGjoJUa4+y4FkDyGHTsOrXwFDLXUe5mFgrpG5DllBQqYfr
+ KSUeinUNdx4tCzVDMcYFok+Yno6m+n5QBwcZ/6R+b1X1Lor44rnErMTTKUKet5nFWVZn
+ gAT+37Itsae0yRHwxkWwJkFE1K3u0NUG9J/q8ssFsIQSxWw93nBXiizi7QR2Womoq4Fo
+ ABFXbr2sW87sEpaE3RwLsO2xEWPklCmdmqnOXiaduAwcvN/3Co2R2E5GpSyh4RLF+uy0
+ 7GUHGpuwmw0hQ+lvCkIh9ex7ES7OW4Y7n3pJAkQajbu7K7q6aiZ91q/lFthzgwhpweC4
+ YMbg==
+X-Gm-Message-State: AJIora8hKJklCmeKquWD0js12P6DqWKZhpxpm/hGx0P1FRsYVKFLb959
+ zen6H9eKWBFBqsoy5MxEZyCiY5ZmZWq0c81faic=
+X-Google-Smtp-Source: AGRyM1taWusL4FY3+GMWFIszRF5v07rsqFPHyB0aYp0PK+HTRRFV65ppUhrxHJAFgTBDtn2UdlK/lwl57yxqpNliC0Q=
+X-Received: by 2002:a17:907:a40f:b0:726:a8f5:1031 with SMTP id
+ sg15-20020a170907a40f00b00726a8f51031mr5833402ejc.185.1656366151850; Mon, 27
+ Jun 2022 14:42:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220625014157.5004-1-jrdr.linux@gmail.com>
-In-Reply-To: <20220625014157.5004-1-jrdr.linux@gmail.com>
+References: <20220626142053.3373970-1-trix@redhat.com>
+ <f55999ae-4ff3-2616-fda1-a97e5aa11524@amd.com>
+In-Reply-To: <f55999ae-4ff3-2616-fda1-a97e5aa11524@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 27 Jun 2022 17:39:02 -0400
-Message-ID: <CADnq5_McHFHKiXWMpMEo0QtKW_HMe5dkp9-Q-3LFs1AjDQ0Kzg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Removed unused variable ret
-To: Souptick Joarder <jrdr.linux@gmail.com>
+Date: Mon, 27 Jun 2022 17:42:20 -0400
+Message-ID: <CADnq5_Odt0jxU8voLjcmu8y1bQ57gzEd9ZBtAxrLLn9tHY65cg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Remove unused globals FORCE_RATE and
+ FORCE_LANE_COUNT
+To: Aurabindo Pillai <aurabindo.pillai@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,16 +64,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>,
- "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, Wenjing Liu <wenjing.liu@amd.com>,
+Cc: "Leo \(Sunpeng\) Li" <sunpeng.li@amd.com>, Tom Rix <trix@redhat.com>,
  xinhui pan <Xinhui.Pan@amd.com>, "Siqueira,
  Rodrigo" <Rodrigo.Siqueira@amd.com>, LKML <linux-kernel@vger.kernel.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Meenakshikumar Somasundaram <meenakshikumar.somasundaram@amd.com>,
- Dave Airlie <airlied@linux.ie>, Jerry Zuo <Jerry.Zuo@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- "Leo \(Hanghong\) Ma" <hanghong.ma@amd.com>, Jun Lei <Jun.Lei@amd.com>,
+ Wenjing Liu <wenjing.liu@amd.com>, Dave Airlie <airlied@linux.ie>,
+ Jerry Zuo <Jerry.Zuo@amd.com>, Michael Strauss <michael.strauss@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ George Shen <George.Shen@amd.com>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>, Jun Lei <Jun.Lei@amd.com>,
  Christian Koenig <christian.koenig@amd.com>,
  Jimmy Kizito <Jimmy.Kizito@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -81,47 +82,39 @@ Applied.  Thanks!
 
 Alex
 
-On Fri, Jun 24, 2022 at 9:42 PM Souptick Joarder <jrdr.linux@gmail.com> wrote:
+On Mon, Jun 27, 2022 at 9:20 AM Aurabindo Pillai
+<aurabindo.pillai@amd.com> wrote:
 >
-> From: "Souptick Joarder (HPE)" <jrdr.linux@gmail.com>
 >
-> Kernel test robot throws below warning ->
 >
-> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:
-> In function 'dc_link_reduce_mst_payload':
->    drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:3782:32:
-> warning: variable 'ret' set but not used [-Wunused-but-set-variable]
->     3782 |         enum act_return_status ret;
+> On 2022-06-26 10:20, Tom Rix wrote:
+> > sparse reports
+> > drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:3885:6: warning: symbol 'FORCE_RATE' was not declared. Should it be static?
+> > drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:3886:10: warning: symbol 'FORCE_LANE_COUNT' was not declared. Should it be static?
+> >
+> > Neither of thse variables is used in dc_link_dp.c.  Reviewing the commit listed in
+> > the fixes tag shows neither was used in the original patch.  So remove them.
+> >
+> > Fixes: 265280b99822 ("drm/amd/display: add CLKMGR changes for DCN32/321")
+> > Signed-off-by: Tom Rix <trix@redhat.com>
+> > ---
+> >   drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 3 ---
+> >   1 file changed, 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> > index be1dcb0a2a06..f3421f2bd52e 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> > @@ -3882,9 +3882,6 @@ static bool decide_mst_link_settings(const struct dc_link *link, struct dc_link_
+> >       return true;
+> >   }
+> >
+> > -bool FORCE_RATE = false;
+> > -uint32_t FORCE_LANE_COUNT = 0;
+> > -
+> >   void decide_link_settings(struct dc_stream_state *stream,
+> >       struct dc_link_settings *link_setting)
+> >   {
 >
-> Removed the unused ret variable.
 >
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Souptick Joarder (HPE) <jrdr.linux@gmail.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/core/dc_link.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> index 55a8f58ee239..445357623d8b 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-> @@ -3706,7 +3706,6 @@ enum dc_status dc_link_reduce_mst_payload(struct pipe_ctx *pipe_ctx, uint32_t bw
->         struct fixed31_32 pbn_per_slot;
->         struct dp_mst_stream_allocation_table proposed_table = {0};
->         uint8_t i;
-> -       enum act_return_status ret;
->         const struct link_hwss *link_hwss = get_link_hwss(link, &pipe_ctx->link_res);
->         DC_LOGGER_INIT(link->ctx->logger);
->
-> @@ -3777,7 +3776,7 @@ enum dc_status dc_link_reduce_mst_payload(struct pipe_ctx *pipe_ctx, uint32_t bw
->                         &link->mst_stream_alloc_table);
->
->         /* poll for immediate branch device ACT handled */
-> -       ret = dm_helpers_dp_mst_poll_for_allocation_change_trigger(
-> +       dm_helpers_dp_mst_poll_for_allocation_change_trigger(
->                         stream->ctx,
->                         stream);
->
-> --
-> 2.25.1
->
+> Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
