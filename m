@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DB355B97A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 14:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C0255B97B
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 14:20:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A2AB10EC81;
-	Mon, 27 Jun 2022 12:19:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82B4210FA25;
+	Mon, 27 Jun 2022 12:20:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3728310EC81
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:18:59 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id q9so12790350wrd.8
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 05:18:59 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44BDE10FC0B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:20:14 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id k22so12798456wrd.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 05:20:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:organization:in-reply-to
  :content-transfer-encoding;
- bh=1g17xM8gnJx00whU//iJuDwTqW1vNMfdEO12lxgIMRg=;
- b=nnRWhRQQn7M0KwLCecW+Y+EkDq9bIjiupyRwyOtlwv8MrNFBuARr4zHKZSKrIsTIJ3
- 0gVSH/b6ge/jCVktMQDQ9QJX+6tNNIRN2Q/t/GUu+KI1gIxGwHNo1WhQnFKh8HiSn/X7
- T9D3s0EQPQHzZgXuF2Z8RgB64TURRpe8MnzR8VF+xLoTuDZUpN1v3nXW1GmVcbNvzJWO
- EI6NRPO7CBAKwlqTVeEdrnJn5pTXP6yzTXLbxSZ3AdWKHH6s6ZEKXdHUDRpzyqTh0l5l
- B3vZkhEahSCbwj8OTzKuyLIElzg+4OYLundvzQmrZ8/Na3/9XU2mD6yo5y6mawwpE/E2
- CItA==
+ bh=ykO033+iYv9guXQy3V+HFivvq6rPSfa7YdgevQ57AXI=;
+ b=kAaia7P7lkezFgG+NFaBeJJRWWn2ucVn3yblXW/Pyp4nTXdnTYt8A69B6ZuecEu+Dw
+ i8j7GAJm7SDBqUIhZcgsmwvEaKKm99CqtO0yXADVH8ODwusoLiPoElvVFYCAH0qIZzet
+ Dpv/1q3BvMWnQ2kjTVIlQFKr8qqp+HH3tHXBxYUH6lhwj7sddc7NmJzjbmmmETkz7J5x
+ KCqEH0TB063Z1/rWrW5sb/dleqkxWFcAWOPvrArIYVMrYv53VJfR1MRsavxiESJ9pLRJ
+ SBeZbzvg6iSGQAXPEcKbIKnez8LmUH+F/lQR9cA1GcxEAzaU0Ezw4BuVF9EcSiaHB7tm
+ u7zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:organization:in-reply-to
  :content-transfer-encoding;
- bh=1g17xM8gnJx00whU//iJuDwTqW1vNMfdEO12lxgIMRg=;
- b=ceCnkiMSqQBzNeY+q2SVeExJwypmRmnIMflFeY8oDRYu9jDXqwnt51yDyMFHLAJHpK
- cv9802cqHZCGxWYSMkn64BbBO9Sn57nOMXxL8akFZ1n+4sx/EWdnkR9x1sE3+K4+tXJJ
- G+7GXFc8bA6Z+p+I9JJ/7TEddftZoM9PcgoYkbJpnRl56q+n876Fis5IsMItZUW6d6Jh
- PNuhc/AcX/bvL79Br5EEnidpdNti/YVLPY68qHRESJXW2obhANYceyo1s/oIQKzeOVpz
- k2YCUuKGgofn7oDxzH3F5mZiyT8W8C3AZUnLVdRFUKaD3Up0xvyolzf8OY6VhOmMbt2B
- Q4gQ==
-X-Gm-Message-State: AJIora/dO07uibHXL+a3ZN8BGM0hrER52aBXLFhIIPQdb7oVsADsz3r8
- APpSqtVHHEyxeIyV0Q5igHofdQ==
-X-Google-Smtp-Source: AGRyM1u4TP5LCca8253ru9d3GMUu8AESPz11A5pMqCmyN2YYdwnSPSoviXwuo6a+AgFlUTtD0v38Tg==
-X-Received: by 2002:a5d:69cd:0:b0:21b:a9a2:e6e2 with SMTP id
- s13-20020a5d69cd000000b0021ba9a2e6e2mr12114876wrw.332.1656332338290; 
- Mon, 27 Jun 2022 05:18:58 -0700 (PDT)
+ bh=ykO033+iYv9guXQy3V+HFivvq6rPSfa7YdgevQ57AXI=;
+ b=eN0ae/rpFw5vIe3MulDzL5vAC63VCQvuYagN4xGtp2yrQKMJfdUdyFB4SqhQLWYntT
+ MMgb/+d4LirYIr+CJo+LfsYvZ3h1Z+F7EPnVxUINQBPznXxBbFWVCSXd3xmzHtWnji3a
+ J7qbWQFzUeBGZFc8GUAbQeiyrcuU6vQbOqL4ab87KBzQf2dvnz20AMlGk0Pys1Hj5Y3a
+ NNzq6rYvCHWGiw9aYygAhvJFkADL9GatyQW1K7ZnKUlYZsjAxkExlatJmdUcYQad5zfL
+ 9w0frmQ9+OHYIBwg9JIoldGbGkmcGkA3qGy2L6KG992fKjuxa1bcFd5fgmLCqqX84Hrl
+ l8tQ==
+X-Gm-Message-State: AJIora/AVfmLtPRj2G4CkmEvPk+diImkas12SVkmrfhLMZTJSU2Fr9qo
+ 2pFZ0mnUEuYOLwZQdBNQdm+5Cg==
+X-Google-Smtp-Source: AGRyM1vSTnALwvK8vwllSlKst2dDE9xBQOUXnragdWlsnRCr3eY5Y0/WgVf9BJzF/a+hXq5LZ7pnHA==
+X-Received: by 2002:a05:6000:1f81:b0:21b:a1b5:776 with SMTP id
+ bw1-20020a0560001f8100b0021ba1b50776mr11540983wrb.201.1656332412700; 
+ Mon, 27 Jun 2022 05:20:12 -0700 (PDT)
 Received: from ?IPV6:2001:861:44c0:66c0:6f56:f3c6:ba4f:bf5c?
  ([2001:861:44c0:66c0:6f56:f3c6:ba4f:bf5c])
  by smtp.gmail.com with ESMTPSA id
- ay4-20020a05600c1e0400b003a047dccfffsm5564078wmb.42.2022.06.27.05.18.57
+ i8-20020a5d5588000000b002102f2fac37sm10350870wrv.51.2022.06.27.05.20.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jun 2022 05:18:57 -0700 (PDT)
-Message-ID: <19a3fd3b-ec9a-6b8e-5a79-46ff13f8f4e5@baylibre.com>
-Date: Mon, 27 Jun 2022 14:18:56 +0200
+ Mon, 27 Jun 2022 05:20:12 -0700 (PDT)
+Message-ID: <f00991d4-8a0a-84d2-39fb-5dcd110df952@baylibre.com>
+Date: Mon, 27 Jun 2022 14:20:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH] drm/bridge: add it6505 driver read config from dt property
+Subject: Re: [PATCH] drm/bridge: tc358767: Do not cache dsi_lanes twice
 Content-Language: en-US
-To: allen <allen.chen@ite.com.tw>
-References: <20220627054038.18600-1-allen.chen@ite.com.tw>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+References: <20220624181902.151959-1-marex@denx.de>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Organization: Baylibre
-In-Reply-To: <20220627054038.18600-1-allen.chen@ite.com.tw>
+In-Reply-To: <20220624181902.151959-1-marex@denx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,106 +77,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kenneth Hung <Kenneth.Hung@ite.com.tw>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jau-Chih Tseng <Jau-Chih.Tseng@ite.com.tw>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Pin-yen Lin <treapking@google.com>, open list <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>, Pin-yen Lin <treapking@chromium.org>,
- Hermes Wu <Hermes.Wu@ite.com.tw>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, robert.foss@linaro.org,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/06/2022 07:40, allen wrote:
-> From: allen chen <allen.chen@ite.com.tw>
+On 24/06/2022 20:19, Marek Vasut wrote:
+> The DSI lane count can be accessed via the dsi device pointer,
+> make use of that. No functional change.
 > 
-> add read max-lane and max-pixel-clock from dt property
-
-Those 2 properties should be documented first in the DT bindings.
-
-Neil
-
-> 
-> Signed-off-by: Allen Chen <allen.chen@ite.com.tw>
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
 > ---
->   drivers/gpu/drm/bridge/ite-it6505.c | 35 ++++++++++++++++++++++++++---
->   1 file changed, 32 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/bridge/tc358767.c | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index 4b673c4792d77..c9121d4635a52 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -436,6 +436,8 @@ struct it6505 {
->   	bool powered;
->   	bool hpd_state;
->   	u32 afe_setting;
-> +	u32 max_dpi_pixel_clock;
-> +	u32 max_lane_count;
->   	enum hdcp_state hdcp_status;
->   	struct delayed_work hdcp_work;
->   	struct work_struct hdcp_wait_ksv_list;
-> @@ -1466,7 +1468,8 @@ static void it6505_parse_link_capabilities(struct it6505 *it6505)
->   	it6505->lane_count = link->num_lanes;
->   	DRM_DEV_DEBUG_DRIVER(dev, "Sink support %d lanes training",
->   			     it6505->lane_count);
-> -	it6505->lane_count = min_t(int, it6505->lane_count, MAX_LANE_COUNT);
-> +	it6505->lane_count = min_t(int, it6505->lane_count,
-> +				   it6505->max_lane_count);
+> diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
+> index e4dd4f05f94b3..44f32bf483c51 100644
+> --- a/drivers/gpu/drm/bridge/tc358767.c
+> +++ b/drivers/gpu/drm/bridge/tc358767.c
+> @@ -288,7 +288,6 @@ struct tc_data {
+>   	struct drm_connector	connector;
 >   
->   	it6505->branch_device = drm_dp_is_branch(it6505->dpcd);
->   	DRM_DEV_DEBUG_DRIVER(dev, "Sink %sbranch device",
-> @@ -2895,7 +2898,7 @@ it6505_bridge_mode_valid(struct drm_bridge *bridge,
->   	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
->   		return MODE_NO_INTERLACE;
+>   	struct mipi_dsi_device	*dsi;
+> -	u8			dsi_lanes;
 >   
-> -	if (mode->clock > DPI_PIXEL_CLK_MAX)
-> +	if (mode->clock > it6505->max_dpi_pixel_clock)
->   		return MODE_CLOCK_HIGH;
+>   	/* link settings */
+>   	struct tc_edp_link	link;
+> @@ -1261,7 +1260,7 @@ static int tc_dsi_rx_enable(struct tc_data *tc)
+>   	regmap_write(tc->regmap, PPI_TX_RX_TA, TTA_GET | TTA_SURE);
+>   	regmap_write(tc->regmap, PPI_LPTXTIMECNT, LPX_PERIOD);
 >   
->   	it6505->video_info.clock = mode->clock;
-> @@ -3057,6 +3060,8 @@ static void it6505_parse_dt(struct it6505 *it6505)
->   {
->   	struct device *dev = &it6505->client->dev;
->   	u32 *afe_setting = &it6505->afe_setting;
-> +	u32 *max_lane_count = &it6505->max_lane_count;
-> +	u32 *max_dpi_pixel_clock = &it6505->max_dpi_pixel_clock;
+> -	value = ((LANEENABLE_L0EN << tc->dsi_lanes) - LANEENABLE_L0EN) |
+> +	value = ((LANEENABLE_L0EN << tc->dsi->lanes) - LANEENABLE_L0EN) |
+>   		LANEENABLE_CLEN;
+>   	regmap_write(tc->regmap, PPI_LANEENABLE, value);
+>   	regmap_write(tc->regmap, DSI_LANEENABLE, value);
+> @@ -1909,8 +1908,7 @@ static int tc_mipi_dsi_host_attach(struct tc_data *tc)
 >   
->   	it6505->lane_swap_disabled =
->   		device_property_read_bool(dev, "no-laneswap");
-> @@ -3072,7 +3077,31 @@ static void it6505_parse_dt(struct it6505 *it6505)
->   	} else {
->   		*afe_setting = 0;
->   	}
-> -	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %d", *afe_setting);
-> +
-> +	if (device_property_read_u32(dev, "max-lane-count",
-> +				     max_lane_count) == 0) {
-> +		if (*max_lane_count > 4 || *max_lane_count == 3) {
-> +			dev_err(dev, "max lane count error, use default");
-> +			*max_lane_count = MAX_LANE_COUNT;
-> +		}
-> +	} else {
-> +		*max_lane_count = MAX_LANE_COUNT;
-> +	}
-> +
-> +	if (device_property_read_u32(dev, "max-dpi-pixel-clock",
-> +				     max_dpi_pixel_clock) == 0) {
-> +		if (*max_dpi_pixel_clock > 297000) {
-> +			dev_err(dev, "max pixel clock error, use default");
-> +			*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
-> +		}
-> +	} else {
-> +		*max_dpi_pixel_clock = DPI_PIXEL_CLK_MAX;
-> +	}
-> +
-> +	DRM_DEV_DEBUG_DRIVER(dev, "using afe_setting: %u, max_lane_count: %u",
-> +			     it6505->afe_setting, it6505->max_lane_count);
-> +	DRM_DEV_DEBUG_DRIVER(dev, "using max_dpi_pixel_clock: %u kHz",
-> +			     it6505->max_dpi_pixel_clock);
->   }
+>   	tc->dsi = dsi;
 >   
->   static ssize_t receive_timing_debugfs_show(struct file *file, char __user *buf,
+> -	tc->dsi_lanes = dsi_lanes;
+> -	dsi->lanes = tc->dsi_lanes;
+> +	dsi->lanes = dsi_lanes;
+>   	dsi->format = MIPI_DSI_FMT_RGB888;
+>   	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+>   
 
+
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
