@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5909055BA6A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 16:21:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D44855BA6F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 16:21:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7B1710FCCB;
-	Mon, 27 Jun 2022 14:20:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55D59112944;
+	Mon, 27 Jun 2022 14:20:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C56E110FD87
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 14:20:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65E0D10E864
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 14:20:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
  Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=mTP9JKWbQi5X9Aiy3D3CFclT8K0qf8xcDbui6f15aq4=; b=W6sqRIxxffo0n30C1l7/fNRAmD
- BZCgVLH7F8ugAgt15IDudG2LwMVm2HLIjKFSNyo/RGTwsxeZXFJuOwqUyFrEklUIsBK2nEvjvAc1B
- VRu8xBrK0DEHlJWwrhrJ+bYeuLw1dkxoX3ZNJCUlTE8QzZY2PsM2CiwcmqPFEQ94jv2OxUpqw9rMA
- IyUwyct/W6JSoFHxz1+s+RqM68+yQouW16bHIRz2JgHZG+Kapnp2JMbP2OXTPBlUQbTSgX5+yHU39
- nB3V9Xw3uHjNIWG92tIrOqpRyke+NRKYKJ3OBpHGz/29ZHzwfjt7tqXUWbklh2Zu5PTYIvUkplE3/
- rRctnsPQ==;
+ bh=hAGGcw/SOg7X5CrJwFzinyDfIvPa2up8kxxxfJmr9MY=; b=OVT40zHQMaVJ519ektyNfliAPQ
+ ljmFiTrZ02TFysbAsdxJ7QhFfndm/e3NQViyKjltr8OWRFMHtWvxfyUbTTTQNmSfWayxmwRbGrz1L
+ rAEAsZ0EXg3JBo+x7z/dqk2SOgjaBnRVKI/b/E4Kb2beZSd5nybtrVKRxZDuDlCqR9odfnTkqmDT6
+ sKH41iWq3+lUiQUsHK1p6yIJ4hTtHUnIVtJ0vNMWDdZPoVEdV+cHYagQwe707FRyKUiti/Lp699iy
+ tl9SLdemFNpXuipmBnW9lAboz1swjoUjAvjUxR1yRF0JTX6vlbzoO+MMmtfL/YTy1AB8+v7jXD8X+
+ GiALNFMg==;
 Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
  helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <cyndis@kapsi.fi>)
- id 1o5pbO-003N2J-7w; Mon, 27 Jun 2022 17:20:33 +0300
+ id 1o5pbO-003N2J-Et; Mon, 27 Jun 2022 17:20:33 +0300
 From: Mikko Perttunen <cyndis@kapsi.fi>
 To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, Dmitry Osipenko <digetx@gmail.com>
-Subject: [PATCH v7/v3 16/22] gpu: host1x: Allow reset to be missing
-Date: Mon, 27 Jun 2022 17:20:02 +0300
-Message-Id: <20220627142008.2072474-17-cyndis@kapsi.fi>
+Subject: [PATCH v7/v3 17/22] gpu: host1x: Program interrupt destinations on
+ Tegra234
+Date: Mon, 27 Jun 2022 17:20:03 +0300
+Message-Id: <20220627142008.2072474-18-cyndis@kapsi.fi>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220627142008.2072474-1-cyndis@kapsi.fi>
 References: <20220627142008.2072474-1-cyndis@kapsi.fi>
@@ -65,28 +66,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikko Perttunen <mperttunen@nvidia.com>
 
-Host1x on Tegra234 does not have a software-controllable reset line.
-As such, don't bail out if we don't find one in the device tree.
+On Tegra234, each Host1x VM has 8 interrupt lines. Each syncpoint
+can be configured with which interrupt line should be used for
+threshold interrupt, allowing for load balancing.
+
+For now, to keep backwards compatibility, just set all syncpoints
+to the first interrupt.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/host1x/dev.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/host1x/hw/intr_hw.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index 5a57165ab0f6..c28939850bf6 100644
---- a/drivers/gpu/host1x/dev.c
-+++ b/drivers/gpu/host1x/dev.c
-@@ -423,9 +423,6 @@ static int host1x_get_resets(struct host1x *host)
- 		return err;
- 	}
- 
--	if (WARN_ON(!host->resets[1].rstc))
--		return -ENOENT;
--
- 	return 0;
+diff --git a/drivers/gpu/host1x/hw/intr_hw.c b/drivers/gpu/host1x/hw/intr_hw.c
+index f56375ee6e71..9acccdb139e6 100644
+--- a/drivers/gpu/host1x/hw/intr_hw.c
++++ b/drivers/gpu/host1x/hw/intr_hw.c
+@@ -76,6 +76,17 @@ static void intr_hw_init(struct host1x *host, u32 cpm)
+ 	/* update host clocks per usec */
+ 	host1x_sync_writel(host, cpm, HOST1X_SYNC_USEC_CLK);
+ #endif
++#if HOST1X_HW >= 8
++	u32 id;
++
++	/*
++	 * Program threshold interrupt destination among 8 lines per VM,
++	 * per syncpoint. For now, just direct all to the first interrupt
++	 * line.
++	 */
++	for (id = 0; id < host->info->nb_pts; id++)
++		host1x_sync_writel(host, 0, HOST1X_SYNC_SYNCPT_INTR_DEST(id));
++#endif
  }
  
+ static int
 -- 
 2.36.1
 
