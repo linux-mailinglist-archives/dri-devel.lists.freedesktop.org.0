@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7033C55BC0E
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 23:01:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB38455BC10
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 23:04:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 391C610E8D7;
-	Mon, 27 Jun 2022 21:01:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13E1510E394;
+	Mon, 27 Jun 2022 21:04:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20D0F10E8D7;
- Mon, 27 Jun 2022 21:01:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1656363668; x=1687899668;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=PHGEmUqcuQ8CNMlK82S2+1XpAymioMuxwRCHITnnzSI=;
- b=Z/LrixOwXEGQq3I/KS43WsMfEkVgJ7V32T5bMS1aHuCKFJvgpKLDGVaW
- XhfLGsWu9/KtyOq6TKDumwFgfv8fYxQzQB6Rveg/RySDlbOcRTlJSAu9b
- amUEvh8iwdwjg4PQ6jiCJTFwufl9ac4RNkqZ1G7RcKy5ddp2JTTuIxmuJ E=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 27 Jun 2022 14:01:07 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2022 14:01:07 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 27 Jun 2022 14:01:06 -0700
-Received: from [10.110.113.167] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 27 Jun
- 2022 14:01:05 -0700
-Message-ID: <9e7c1015-80e6-308d-7910-95d27df174b4@quicinc.com>
-Date: Mon, 27 Jun 2022 14:01:05 -0700
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
+ [209.85.166.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 232F710E394
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 21:04:11 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id m13so10994329ioj.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 14:04:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=VA6ORkBSx7XmeTMDyx85R9tA3TNtUa5l/wq0WUtTI6U=;
+ b=LiBkRo3KtHlBYrAJF5gh4WfKir2Io1m8DOD4NZh67N8+/A7YURFdJk8aXq2VirMQY7
+ IJ8K42Zw+x2/2ezNiLj3vWYCLLjQeWcLlB98RwwSG5SlpYhMM0uVvJ9qDgcjnaAOXV90
+ ewEjRBdIsBI347kfyMlqS7sQC0Wf3lhl0xl05OSKjACjoH+blU0Wd9r5rV19d7ww0hPE
+ FO7R+7XPtivswNI2HUPLGqb05R4+UZKMvJmwFdhMAXtL/g2QR+rtWfAZNsWlB7nt2PBE
+ ASSsdoFsSSmGQ1OX4tP8vVQrgyesbuhnxm1MoalmTMiBiBRy+bMoW8Qso7vMB5zIGKIv
+ SkXw==
+X-Gm-Message-State: AJIora/jiy3UAqudvwozUu8fjci+AxrrCl7iCvSDcQg5rob6Uu8NRv/l
+ ygbpxvPocgfmSF9PJOoVHw==
+X-Google-Smtp-Source: AGRyM1t4abnkeVbOz7m4JFXhTp+ZgOE+dhLfycD1T0nq7VKCENH5U1t29c/Aixyg12ceJlgkwe/REg==
+X-Received: by 2002:a05:6602:2a4b:b0:66a:44ad:89f3 with SMTP id
+ k11-20020a0566022a4b00b0066a44ad89f3mr7492274iov.10.1656363850219; 
+ Mon, 27 Jun 2022 14:04:10 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.253])
+ by smtp.gmail.com with ESMTPSA id
+ e4-20020a0566380cc400b00339dbd4c8d7sm5215727jak.45.2022.06.27.14.04.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jun 2022 14:04:09 -0700 (PDT)
+Received: (nullmailer pid 2954489 invoked by uid 1000);
+ Mon, 27 Jun 2022 21:04:07 -0000
+Date: Mon, 27 Jun 2022 15:04:07 -0600
+From: Rob Herring <robh@kernel.org>
+To: Prashant Malani <pmalani@chromium.org>
+Subject: Re: [PATCH v5 1/9] dt-bindings: usb: Add Type-C switch binding
+Message-ID: <20220627210407.GA2905757-robh@kernel.org>
+References: <20220622173605.1168416-1-pmalani@chromium.org>
+ <20220622173605.1168416-2-pmalani@chromium.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] drm/msm/dp: use ARRAY_SIZE for calculating num_descs
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20220627165413.657142-1-dmitry.baryshkov@linaro.org>
- <9f82dd3f-5ecc-4e1d-6cce-0749b8316d49@quicinc.com>
- <CAA8EJprR23ugdi926BDtGOGdGEqvWBgOQfekyJjD_OFE3yx0Aw@mail.gmail.com>
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-In-Reply-To: <CAA8EJprR23ugdi926BDtGOGdGEqvWBgOQfekyJjD_OFE3yx0Aw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+In-Reply-To: <20220622173605.1168416-2-pmalani@chromium.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,119 +64,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav
- Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ swboyd@chromium.org, Pin-Yen Lin <treapking@chromium.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jun 22, 2022 at 05:34:30PM +0000, Prashant Malani wrote:
+> Introduce a binding which represents a component that can control the
+> routing of USB Type-C data lines as well as address data line
+> orientation (based on CC lines' orientation).
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> Signed-off-by: Prashant Malani <pmalani@chromium.org>
+> ---
+> 
+> Changes since v4:
+> - Added Reviewed-by tags.
+> - Patch moved to 1/9 position (since Patch v4 1/7 and 2/7 were
+>   applied to usb-next)
+> 
+> Changes since v3:
+> - No changes.
+> 
+> Changes since v2:
+> - Added Reviewed-by and Tested-by tags.
+> 
+> Changes since v1:
+> - Removed "items" from compatible.
+> - Fixed indentation in example.
+> 
+>  .../devicetree/bindings/usb/typec-switch.yaml | 74 +++++++++++++++++++
+>  1 file changed, 74 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/typec-switch.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/typec-switch.yaml b/Documentation/devicetree/bindings/usb/typec-switch.yaml
+> new file mode 100644
+> index 000000000000..78b0190c8543
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/typec-switch.yaml
+> @@ -0,0 +1,74 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/typec-switch.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: USB Type-C Switch
+> +
+> +maintainers:
+> +  - Prashant Malani <pmalani@chromium.org>
+> +
+> +description:
+> +  A USB Type-C switch represents a component which routes USB Type-C data
+> +  lines to various protocol host controllers (e.g USB, VESA DisplayPort,
+> +  Thunderbolt etc.) depending on which mode the Type-C port, port partner
+> +  and cable are operating in. It can also modify lane routing based on
+> +  the orientation of a connected Type-C peripheral.
+> +
+> +properties:
+> +  compatible:
+> +    const: typec-switch
+> +
+> +  mode-switch:
+> +    type: boolean
+> +    description: Specify that this switch can handle alternate mode switching.
+> +
+> +  orientation-switch:
+> +    type: boolean
+> +    description: Specify that this switch can handle orientation switching.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    description: OF graph binding modelling data lines to the Type-C switch.
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Link between the switch and a Type-C connector.
+> +
+> +    required:
+> +      - port@0
+> +
+> +required:
+> +  - compatible
+> +  - ports
+> +
+> +anyOf:
+> +  - required:
+> +      - mode-switch
+> +  - required:
+> +      - orientation-switch
+> +
+> +additionalProperties: true
+> +
+> +examples:
+> +  - |
+> +    drm-bridge {
+> +        usb-switch {
+> +            compatible = "typec-switch";
 
-On 6/27/2022 1:05 PM, Dmitry Baryshkov wrote:
-> On Mon, 27 Jun 2022 at 22:26, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->>
->> On 6/27/2022 9:54 AM, Dmitry Baryshkov wrote:
->>> If for some reason the msm_dp_config::descs array starts from non-zero
->>> index or contains the hole, setting the msm_dp_config::num_descs might
->>> be not that obvious and error-prone. Use ARRAY_SIZE to set this field
->>> rather than encoding the value manually.
->>>
->>> Reported-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/dp/dp_display.c | 46 +++++++++++++++++------------
->>>    1 file changed, 27 insertions(+), 19 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->>> index f87fa3ba1e25..6fed738a9467 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->>> @@ -131,35 +131,43 @@ struct msm_dp_config {
->>>        size_t num_descs;
->>>    };
->>>
->>> +static const struct msm_dp_desc sc7180_dp_descs[] = {
->>> +     [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
->>> +};
->>> +
->>>    static const struct msm_dp_config sc7180_dp_cfg = {
->>> -     .descs = (const struct msm_dp_desc[]) {
->>> -             [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
->>> -     },
->>> -     .num_descs = 1,
->>> +     .descs = sc7180_dp_descs,
->>> +     .num_descs = ARRAY_SIZE(sc7180_dp_descs),
->>> +};
->>> +
->> why you want to do that?
->>
->> It is very clear only one entry, why you want to make it 2 entry here?
->>
->> can you just embedded MSM_DP_COTROLLER_x into struct msm_dp_config?
-> Because we had enough stories of using a manually set 'number of
-> something' field. So I'd prefer to have it done automatically.
-> Also using the indexed array spares us from 'look for the DP
-> controller number N' functions. You can just get it.
+Unless this child is supposed to represent what the parent output is 
+connected to, this is just wrong as, at least for the it6505 chip, it 
+doesn't know anything about Type-C functionality. The bridge is 
+just a protocol converter AFAICT. 
 
-static const struct msm_dp_config sc7280_dp_cfg = {
-          .descs = (const struct msm_dp_desc[]) {
-                  [MSM_DP_CONTROLLER_1] = { .io_start = 0x0aea0000, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
-          },
-          .num_descs = ARRAY_SIZE(sc7280_dp_descs),
-};
+If the child node represents what the output is connected to (like a 
+bus), then yes that is a pattern we have used. For example, a panel 
+represented as child node of a display controller. However, that only 
+works for simple cases, and is a pattern we have gotten away from in 
+favor of using the graph binding.
 
-At above example table, it just waste one entry. is it ok?
+I think Stephen and I are pretty much saying the same thing.
 
-can you elaborateÂ  more on 'look for the DP controller number N' 
-functions, where is it?
-
-
->>> +static const struct msm_dp_desc sc7280_dp_descs[] = {
->>> +     [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_en = true },
->>> +     [MSM_DP_CONTROLLER_1] = { .io_start = 0x0aea0000, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
->>>    };
->>>
->>>    static const struct msm_dp_config sc7280_dp_cfg = {
->>> -     .descs = (const struct msm_dp_desc[]) {
->>> -             [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort, .wide_bus_en = true },
->>> -             [MSM_DP_CONTROLLER_1] = { .io_start = 0x0aea0000, .connector_type = DRM_MODE_CONNECTOR_eDP, .wide_bus_en = true },
->>> -     },
->>> -     .num_descs = 2,
->>> +     .descs = sc7280_dp_descs,
->>> +     .num_descs = ARRAY_SIZE(sc7280_dp_descs),
->>> +};
->>> +
->>> +static const struct msm_dp_desc sc8180x_dp_descs[] = {
->>> +     [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
->>> +     [MSM_DP_CONTROLLER_1] = { .io_start = 0x0ae98000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
->>> +     [MSM_DP_CONTROLLER_2] = { .io_start = 0x0ae9a000, .connector_type = DRM_MODE_CONNECTOR_eDP },
->>>    };
->>>
->>>    static const struct msm_dp_config sc8180x_dp_cfg = {
->>> -     .descs = (const struct msm_dp_desc[]) {
->>> -             [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
->>> -             [MSM_DP_CONTROLLER_1] = { .io_start = 0x0ae98000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
->>> -             [MSM_DP_CONTROLLER_2] = { .io_start = 0x0ae9a000, .connector_type = DRM_MODE_CONNECTOR_eDP },
->>> -     },
->>> -     .num_descs = 3,
->>> +     .descs = sc8180x_dp_descs,
->>> +     .num_descs = ARRAY_SIZE(sc8180x_dp_descs),
->>> +};
->>> +
->>> +static const struct msm_dp_desc sm8350_dp_descs[] = {
->>> +     [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
->>>    };
->>>
->>>    static const struct msm_dp_config sm8350_dp_cfg = {
->>> -     .descs = (const struct msm_dp_desc[]) {
->>> -             [MSM_DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
->>> -     },
->>> -     .num_descs = 1,
->>> +     .descs = sm8350_dp_descs,
->>> +     .num_descs = ARRAY_SIZE(sm8350_dp_descs),
->>>    };
->>>
->>>    static const struct of_device_id dp_dt_match[] = {
->
->
+Rob
