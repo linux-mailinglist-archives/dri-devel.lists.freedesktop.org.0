@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F43655BC7C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 01:29:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1192C55BC7D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 01:30:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F276110E34A;
-	Mon, 27 Jun 2022 23:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0043510E562;
+	Mon, 27 Jun 2022 23:30:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
- [209.85.166.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF9F910E34A
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 23:29:22 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id y18so11259475iof.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 16:29:22 -0700 (PDT)
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
+ [209.85.166.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9EA10E562
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 23:30:29 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id a7so1987117ilj.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 16:30:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=9G9xzfoHgo3vygEsJjR4zL+mofIOaG7ELAHu9EXTEgk=;
- b=tY6uk1kJGgWPf3OTe+Q2jgMZR0KYjI8vqzuTuk3iuscochFcf5KT9nwXeHv+FxneZc
- 9hMBw5X5XsCrBaUBkCucfGpgdo8RnvwoGaGsUbXWhMZ8r437oITfngn+iCLJ3nEWMRvq
- yEDtHUMq2SUzn27q40QgR2OMv3UnULYT5SXoayKm5TIZN1qZ7YP1LmxANs64CLUc5PEp
- 6sTHyPrFvxU+HVNnARDehdYbecjjdFp+Xke1yPfzrmXb03iDFGv0TZddS9x1vTUPHl7+
- ZFsTMgCsFhPsaOZ0I8hxOOP9N0t6XZCOXzTgT/hepYnTyWWi/SiczBrkaAlJmg6iyxF9
- +TcA==
-X-Gm-Message-State: AJIora9cloumTBECOEaynZrBDdbwZamos3qDOu6jwNbiHw+8kp5xz1oD
- Zy0mXQL72uBnnYmLMwBuhDkXndJ6KA==
-X-Google-Smtp-Source: AGRyM1sVaI1eYRG04ScJ+CraadBpgnU6qQ4m5lVSPiS05KYADu+ifYinUFBXyTBFNfTqo7J/F/cw+w==
-X-Received: by 2002:a05:6602:729:b0:675:243e:a859 with SMTP id
- g9-20020a056602072900b00675243ea859mr6337527iox.58.1656372562103; 
- Mon, 27 Jun 2022 16:29:22 -0700 (PDT)
+ bh=x8JlGuBlsyv8u11qNoGLGDrkEldcGlScrLvA1xIrWcM=;
+ b=gTJr7LtFrBMvAapJyIrWdB/iGT5PUJ4qQ1wzl3z7IfhCft1qebEa2JRxbtzzGt+Jxa
+ 3RiviO/lHoPzNA4XbDuxKSn8wGuP7VwAAGppi0+xGDTVgM2Vs0Jg61BtbRu3qiyp64EJ
+ UawNfFu/aLK6DJ9NUKXU6b4xa8+yYrsn2M7iSWPTfAwQPiz9+FVWgJlTPgxCgZX4k0IU
+ oznD+616w7O52/2M/ZK3U45gPmanQVENdhZeDFbPg6P7oThxGNoyqyPv6s0j1OQ2HYGr
+ 8MJ5d8YMEwWpW7qIqB5BlAdJ9KgCXLO3leWMgAf6sHefBm5QQE3wMM3lCylLdZsOVQkX
+ x/WQ==
+X-Gm-Message-State: AJIora+nJZi2OSvCeoHWzod7ziCmDBus1mRmiJ/g9/Ui28LXk7ZkNtRy
+ 8XKBW3YfXLbYCpwN2W1rHQ==
+X-Google-Smtp-Source: AGRyM1v++vx5C2PZ1+V37WXzVu58JZoOtbgG4MxkB9S8u2iPl6cebvqf5cCXt4rpl+8ThnjePE2X0Q==
+X-Received: by 2002:a05:6e02:1d19:b0:2d9:1705:892b with SMTP id
+ i25-20020a056e021d1900b002d91705892bmr8430986ila.61.1656372628833; 
+ Mon, 27 Jun 2022 16:30:28 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.253])
  by smtp.gmail.com with ESMTPSA id
- i39-20020a023b67000000b00339e90e57e6sm5279502jaf.104.2022.06.27.16.29.19
+ s16-20020a5d9290000000b00672f405e911sm5910587iom.38.2022.06.27.16.30.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 16:29:21 -0700 (PDT)
-Received: (nullmailer pid 3167512 invoked by uid 1000);
- Mon, 27 Jun 2022 23:29:19 -0000
-Date: Mon, 27 Jun 2022 17:29:19 -0600
+ Mon, 27 Jun 2022 16:30:28 -0700 (PDT)
+Received: (nullmailer pid 3169022 invoked by uid 1000);
+ Mon, 27 Jun 2022 23:30:25 -0000
+Date: Mon, 27 Jun 2022 17:30:25 -0600
 From: Rob Herring <robh@kernel.org>
 To: Conor Dooley <mail@conchuod.ie>
-Subject: Re: [PATCH 04/14] dt-bindings: dma: add Canaan k210 to Synopsys
- DesignWare DMA
-Message-ID: <20220627232919.GA3158390-robh@kernel.org>
+Subject: Re: [PATCH 05/14] dt-bindings: timer: add Canaan k210 to Synopsys
+ DesignWare timer
+Message-ID: <20220627233025.GA3167724-robh@kernel.org>
 References: <20220618123035.563070-1-mail@conchuod.ie>
- <20220618123035.563070-5-mail@conchuod.ie>
+ <20220618123035.563070-6-mail@conchuod.ie>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220618123035.563070-5-mail@conchuod.ie>
+In-Reply-To: <20220618123035.563070-6-mail@conchuod.ie>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,110 +83,84 @@ Cc: Niklas Cassel <niklas.cassel@wdc.com>, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 18, 2022 at 01:30:26PM +0100, Conor Dooley wrote:
+On Sat, Jun 18, 2022 at 01:30:27PM +0100, Conor Dooley wrote:
 > From: Conor Dooley <conor.dooley@microchip.com>
 > 
-> The Canaan k210 apparently has a Sysnopsys Designware AXI DMA
-> controller, but according to the documentation & devicetree it has 6
-> interrupts rather than the standard one. Add a custom compatible that
-> supports the 6 interrupt configuration which falls back to the standard
-> binding which is currently the one in use in the devicetree entry.
-
-But it works with only 1 interrupt?
-
+> The Canaan k210 apparently has a Sysnopsys Designware timer but
+> according to the documentation & devicetree it has 2 interrupts rather
+> than the standard one. Add a custom compatible that supports the 2
+> interrupt configuration and falls back to the standard binding (which
+> is currently the one in use in the devicetree entry).
 > 
 > Link: https://canaan-creative.com/wp-content/uploads/2020/03/kendryte_standalone_programming_guide_20190311144158_en.pdf #Page 58
 > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
->  .../bindings/dma/snps,dw-axi-dmac.yaml        | 35 ++++++++++++++-----
->  1 file changed, 26 insertions(+), 9 deletions(-)
+>  .../bindings/timer/snps,dw-apb-timer.yaml     | 28 +++++++++++++++----
+>  1 file changed, 22 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml b/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
-> index 4324a94b26b2..bc85598151ef 100644
-> --- a/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
-> +++ b/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
-> @@ -18,9 +18,13 @@ allOf:
->  
+> diff --git a/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml b/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
+> index d33c9205a909..9a76acc7a66f 100644
+> --- a/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
+> +++ b/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
+> @@ -12,6 +12,9 @@ maintainers:
 >  properties:
 >    compatible:
-> -    enum:
-> -      - snps,axi-dma-1.01a
-> -      - intel,kmb-axi-dma
-> +    oneOf:
+>      oneOf:
 > +      - items:
-> +          - const: canaan,k210-axi-dma
-> +          - const: snps,axi-dma-1.01a
-
-I would drop this depending on your need for compatibility. Are you sure 
-on the IP version? It's not really compatible if the number of 
-interrupts is different.
-
-> +      - enum:
-> +          - snps,axi-dma-1.01a
-> +          - intel,kmb-axi-dma
->  
+> +          - const: canaan,k210-apb-timer
+> +          - const: snps,dw-apb-timer
+>        - const: snps,dw-apb-timer
+>        - enum:
+>            - snps,dw-apb-timer-sp
+> @@ -21,9 +24,6 @@ properties:
 >    reg:
->      minItems: 1
-> @@ -33,9 +37,6 @@ properties:
->        - const: axidma_ctrl_regs
->        - const: axidma_apb_regs
+>      maxItems: 1
 >  
 > -  interrupts:
 > -    maxItems: 1
 > -
->    clocks:
->      items:
->        - description: Bus Clock
-> @@ -92,6 +93,22 @@ properties:
->      minimum: 1
->      maximum: 256
+>    resets:
+>      maxItems: 1
 >  
+> @@ -41,7 +41,23 @@ properties:
+>  
+>    clock-frequency: true
+>  
+> -additionalProperties: false
+> +unevaluatedProperties: false
+> +
 > +if:
 > +  properties:
 > +    compatible:
 > +      contains:
-> +        const: canaan,k210-axi-dma
+> +        const: canaan,k210-apb-timer
 > +
 > +then:
 > +  properties:
 > +    interrupts:
-> +      maxItems: 6
+> +      maxItems: 2
+
+When more than 1, you need to define what they are and the order.
+
 > +
 > +else:
 > +  properties:
 > +    interrupts:
 > +      maxItems: 1
-> +
+>  
 >  required:
 >    - compatible
->    - reg
-> @@ -105,7 +122,7 @@ required:
->    - snps,priority
->    - snps,block-size
->  
-> -additionalProperties: false
-> +unevaluatedProperties: false
->  
+> @@ -60,8 +76,8 @@ oneOf:
 >  examples:
 >    - |
-> @@ -113,12 +130,12 @@ examples:
->       #include <dt-bindings/interrupt-controller/irq.h>
->       /* example with snps,dw-axi-dmac */
->       dmac: dma-controller@80000 {
-> -         compatible = "snps,axi-dma-1.01a";
-> +         compatible = "canaan,k210-axi-dma", "snps,axi-dma-1.01a";
->           reg = <0x80000 0x400>;
->           clocks = <&core_clk>, <&cfgr_clk>;
->           clock-names = "core-clk", "cfgr-clk";
->           interrupt-parent = <&intc>;
-> -         interrupts = <27>;
-> +         interrupts = <27>, <28>, <29>, <30>, <31>, <32>;
-
-Does the example really need changing? The old one was correct, right?
-
->           #dma-cells = <1>;
->           dma-channels = <4>;
->           snps,dma-masters = <2>;
+>      timer@ffe00000 {
+> -      compatible = "snps,dw-apb-timer";
+> -      interrupts = <0 170 4>;
+> +      compatible = "canaan,k210-apb-timer", "snps,dw-apb-timer";
+> +      interrupts = <0 170 4>, <0 170 4>;
+>        reg = <0xffe00000 0x1000>;
+>        clocks = <&timer_clk>, <&timer_pclk>;
+>        clock-names = "timer", "pclk";
 > -- 
 > 2.36.1
 > 
