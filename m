@@ -1,78 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B3255BA26
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 15:54:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D4F55BA27
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 15:54:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC8310EADA;
-	Mon, 27 Jun 2022 13:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E87DD10E275;
+	Mon, 27 Jun 2022 13:54:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21F0810EADA
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 13:54:15 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id BC75A5C00E2;
- Mon, 27 Jun 2022 09:54:10 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 27 Jun 2022 09:54:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1656338050; x=
- 1656424450; bh=1sXcaHNvwQI7h/921KKpkJ57L1W6T3uEZqhu2eypuk4=; b=Y
- 1Rqf+sdn09yuhpgGcoGAQOLtbdWZhXObj7G352cPvK6Zv/A8gUWMqIpGDb+mzeLV
- C+umACtgrB6SDw6aoklf9H/fW0O/orFLGqOScW+0brUuyxKosOTYE2ATwRLMEjeO
- EmLnD5omUAPddhU6aDH8uvrGb5EEVKmz5P07WTQLpmDL0bHC+JKxC3p6pRz2bdlp
- dEaJmxh+oYaeWkpebqaSAXTUkhffPyVi9RSn4KAEPMGOHMWh5F7e96zi5uu548jv
- n7JoFecCeu786WGpMSVxhjN6zorGzsKHyGG3bUIrAaAIw7bzgJHMc9z18wGvuLAz
- WBnNmaN/E2BUqOEZ1bpIw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656338050; x=
- 1656424450; bh=1sXcaHNvwQI7h/921KKpkJ57L1W6T3uEZqhu2eypuk4=; b=B
- H/TyUHH1ezf3C1YYRARAykCOmS0g1X15s3YsghCcUSzXT4jv0mxMExzhGIbdcnEp
- XQdLNAlOcGEcNQbX8TjdpGukN9LHL+5Ku6Yy3fVdaoKv3NJzrC2OTXlAOPNOix6V
- 5jxqGZLcntfapfw9I1WtcbxEJ2MM9/aaOBvTrFHTrY1WXOKqZatnmuPBrWwGCWW1
- zBDXguS3jFtcVRHbFsJi24h0c5I/RTUbQdZcMaARUdiOSqgWv5TB079uZvjnTWNy
- bWWOgDTQQooFVfe8FeP/51AHyrvT0M2FFioUovqA8h8KvCQcuuNm+LLj54AxWpy3
- 0D2W33rwfejCoG/T7uqyg==
-X-ME-Sender: <xms:gra5YrJQoWrhSMyhipPApTh159DnzhPYWrTIuBIAY3ioHUKWTxFtwg>
- <xme:gra5YvJjPV3eu-0oSTBsv9oeo8Mx2B8-scQBHma0duclJrE2F2rOxpUazRwpbF_Mv
- SdDUOhudmRRmslymfE>
-X-ME-Received: <xmr:gra5YjtSZ9GLN_0fSS1iasxgbEC8FMPlB19NpnTEOPxvyrq4J2-KN5VVLgZyDO3m0fseYS2Z-b4DllOgHP2RKD6JZmJ-G_POhUpbGz8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeghedgjeduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfgggtgfesth
- ekredtredtjeenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvges
- tggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeeuieeggffhffffieefheduie
- euvdetgeeufeffvefgtedvffehheekffevudefieenucevlhhushhtvghrufhiiigvpedt
- necurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:gra5YkZxJjoTj81ZMP149EWzzjmyF0JOvV2JeXa-59jBo-j9XVa3Ag>
- <xmx:gra5Yibj7qip2CP4izoKjA7X49DC-LWeKpPh2o-2Hjy2IBh0Gcz3Pg>
- <xmx:gra5YoB3uWklatS5FWkSpMEkmtEJtBDiuqaNlU69Dw6DCtN7njw5Yg>
- <xmx:gra5Ypz_S27WTPG59VFkURbnKo7IS-TwNGMlxOgtbhFWSWaSsx-BHg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Jun 2022 09:54:09 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: maxime@cerno.tech,
-	dri-devel@lists.freedesktop.org
-Subject: Re: (subset) [PATCH] drm/vc4: perfmon: Fix variable dereferenced
- before check
-Date: Mon, 27 Jun 2022 15:54:04 +0200
-Message-Id: <165633801994.372965.15433742616843978348.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220622080243.22119-1-maxime@cerno.tech>
-References: <20220622080243.22119-1-maxime@cerno.tech>
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com
+ [IPv6:2607:f8b0:4864:20::f2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A81B8112307
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 13:54:36 +0000 (UTC)
+Received: by mail-qv1-xf2b.google.com with SMTP id cu16so14781062qvb.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 06:54:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :content-transfer-encoding:user-agent:mime-version;
+ bh=+rT6LzOd0Ynn4L0BL114LxRE92j4qXXlsy4/5QmiSjk=;
+ b=VyTjn5Ro348LXEPtw2w2syMtzdMPEZ6X7C/Fw4X9wyUUT3HPVakiQB8V2V197BUjFp
+ PqUnOJH63MHHh5gWdb+uMnVyh8k1yPGBbnBaLlHgBlsFR8BbNniU01pw7FJckXFOf+51
+ zJaaiL3NjdTjjTj0GlpzdHcxuGcQt8lvRNWa7dkDDRQGn8cLkOUc3dhyAvJq/foeMak2
+ oe297m7nYPA+6+r2EUbtBfLXAhVBj3rLmL2tUc8gsu/fMp6mqbH5oJpcm47Q9+v717Jq
+ 82/NaHub6V3BEnXN2htMrunDsPSOGd5x+f4/OZ4aSlMRdkAwNzk5K3IJPVcnn5SYvsz8
+ 1j2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:content-transfer-encoding:user-agent:mime-version;
+ bh=+rT6LzOd0Ynn4L0BL114LxRE92j4qXXlsy4/5QmiSjk=;
+ b=r5Xc0yskPOxx3a79XCONioe4N2G/yLt0sgNFrTRYdGddHIgeXCSK5sxDnPLJWlm7Nl
+ HvLySMYKgGJSEqejRxnDD4NsiNIfrV7ZHNl/tGIQCHF5/be6QRCfyPWEjNI0GhTt/bKq
+ 5lOY6Zsog6wGsLu+LSJ5FrdaoySQ9MlwV6LBL9qyKXCIGuR1h1fOmJiEm27gLJ9Fg4cJ
+ F4hIEkpfSOk4/5OoF6/m0iE9wcS3jTIcmUV+pKVmJ0T82Dy/pchin4Vvh3AvtICVEzJ9
+ 2TNEHmSCR1YylqHwfyASL/uz6IqnrshD+vZEWN1IJJ/JVdt0QHQEAH+I2IVzATa1wwEY
+ KTsA==
+X-Gm-Message-State: AJIora/myFk/RVJYQsMpPCI61xzzURUPGimgjsHOPokgPiKiKJ6QcJxm
+ t2icx0Xh40gJ+0qtQH4eeXifaA==
+X-Google-Smtp-Source: AGRyM1u0PSq5wvrP+0gsBOTu5G7rYKCZmC5okHVqQiWH9j0V5hIV4K4cJ+oQ8PeKxOq7oGdESYJ8CQ==
+X-Received: by 2002:a05:622a:1209:b0:305:2d22:3248 with SMTP id
+ y9-20020a05622a120900b003052d223248mr9153550qtx.189.1656338075795; 
+ Mon, 27 Jun 2022 06:54:35 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net.
+ [192.222.136.102]) by smtp.gmail.com with ESMTPSA id
+ t16-20020a37aa10000000b006a760640118sm8624036qke.27.2022.06.27.06.54.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jun 2022 06:54:35 -0700 (PDT)
+Message-ID: <0abe475a7b4b04758c03a9d19b228e86d95ac1dd.camel@ndufresne.ca>
+Subject: Re: DMA-buf and uncached system memory
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Lucas Stach <l.stach@pengutronix.de>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Pekka Paalanen <ppaalanen@gmail.com>
+Date: Mon, 27 Jun 2022 09:54:34 -0400
+In-Reply-To: <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
+References: <91ff0bbb-ea3a-2663-3453-dea96ccd6dd8@amd.com>
+ <YCuPhOT4GhY3RR/6@phenom.ffwll.local>
+ <9178e19f5c0e141772b61b759abaa0d176f902b6.camel@ndufresne.ca>
+ <CAPj87rPYQNkgVEdHECQcHcYe2nCpgF3RYQKk_=wwhvJSxwHXCg@mail.gmail.com>
+ <c6e65ee1-531e-d72c-a6a6-da7149e34f18@amd.com>
+ <20220623101326.18beeab3@eldfell>
+ <954d0a9b-29ef-52ef-f6ca-22d7e6aa3f4d@amd.com>
+ <4b69f9f542d6efde2190b73c87096e87fa24d8ef.camel@pengutronix.de>
+ <adc626ec-ff5a-5c06-44ce-09111be450cd@amd.com>
+ <fbb228cd78e9bebd7e7921c19e0c4c09d0891f23.camel@pengutronix.de>
+ <e691bccc-171d-f674-2817-13a945970f4a@amd.com>
+ <95cca943bbfda6af07339fb8d2dc7f4da3aa0280.camel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,22 +83,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, daniel.vetter@intel.com, dan.carpenter@oracle.com,
- lkp@intel.com, tzimmermann@suse.de
+Cc: "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 22 Jun 2022 10:02:43 +0200, Maxime Ripard wrote:
-> Commit 30f8c74ca9b7 ("drm/vc4: Warn if some v3d code is run on BCM2711")
-> introduced a check in vc4_perfmon_get() that dereferences a pointer before
-> we checked whether that pointer is valid or not.
-> 
-> Let's rework that function a bit to do things in the proper order.
-> 
-> 
-> [...]
+Le jeudi 23 juin 2022 =C3=A0 11:33 +0200, Lucas Stach a =C3=A9crit=C2=A0:
+> >=20
+> > See for example on AMD/Intel hardware most of the engines can perfectly=
+=20
+> > deal with cache coherent memory accesses. Only the display engines can'=
+t.
+> >=20
+> > So on import time we can't even say if the access can be coherent and=
+=20
+> > snoop the CPU cache or not because we don't know how the imported=20
+> > DMA-buf will be used later on.
+> >=20
+> So for those mixed use cases, wouldn't it help to have something
+> similar to the dma_sync in the DMA-buf API, so your scanout usage can
+> tell the exporter that it's going to do non-snoop access and any dirty
+> cache lines must be cleaned? Signaling this to the exporter would allow
+> to skip the cache maintenance if the buffer is in CPU uncached memory,
+> which again is a default case for the ARM SoC world.
 
-Applied to drm/drm-misc (drm-misc-fixes).
+Telling the exporter for every scan is unneeded overhead. If that informati=
+on is
+made available "properly", then tracking it in attach/detach is sufficient =
+and
+lightweight.
 
-Thanks!
-Maxime
+Nicolas
+
