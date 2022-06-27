@@ -1,66 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D66855B89B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 10:30:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA3155B8B4
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 10:45:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0A351123BB;
-	Mon, 27 Jun 2022 08:30:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6C65112883;
+	Mon, 27 Jun 2022 08:45:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7462D1123BB;
- Mon, 27 Jun 2022 08:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656318608; x=1687854608;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=BO7cCVCgMcXNVm5aPAGKCwRr5wV7+kIuAxrS+mLWhbA=;
- b=TewGPYaYbUwZzuPquIXZbjJ7HQgPkkOY9/BTHOBGlNLBl6UFfaM8Bpq0
- 66k08pIfZz4oW3kGbqMVcvn/9wNrrujb2L63VOFMddmm1vHK8i/Z6MzvQ
- 7MhTg7wf1YHHdsdavxZGtD0pgdRPDyP4Paj4XCJY5/pj6AgWYJ7ub8TdA
- JrH5zgsioprmQ1monbswoUGIQgixisLrhUlOF5p8IKoE7YFAyL78DvjIB
- efACAc5uoY9bKl1pISpYA8FpwgD0t1HOTcdj/OXiif1SesjLMiQUgSUJx
- KyTUPqcgXlvXKJ+X04q9dmvG6cQeJTw+pBnF4YfozK2Pog3y0wUEJXQRb w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10390"; a="306870207"
-X-IronPort-AV: E=Sophos;i="5.92,225,1650956400"; d="scan'208";a="306870207"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2022 01:30:07 -0700
-X-IronPort-AV: E=Sophos;i="5.92,225,1650956400"; d="scan'208";a="916625439"
-Received: from snehalmp-mobl2.amr.corp.intel.com (HELO [10.212.2.18])
- ([10.212.2.18])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2022 01:30:05 -0700
-Message-ID: <1f2ce51e-4b45-c654-954a-a71899309fb5@linux.intel.com>
-Date: Mon, 27 Jun 2022 09:30:00 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AFE9112883
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 08:45:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656319513;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zeetajRxJH9k+1wiBL4+bpfxP7EvIFI/mhDbFEAam04=;
+ b=L+e7TWlNbcreAYkQpMvJE4SkqFW6vy8BKeXHVGg+2BFG+5TKwjWYPT36M4xXsyjngp1hHZ
+ dKuuN8zWnBFTNVzdj2Y2O5bXlfst8oz63fBKvTlQ7iqjoK29dde1reXMqNBeJx6/EURQf/
+ WrtPvgp85MKT2yG+1zMJtReUgmFOcHI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-151-bwX8Js9FOFep6tv_eZX8cA-1; Mon, 27 Jun 2022 04:45:10 -0400
+X-MC-Unique: bwX8Js9FOFep6tv_eZX8cA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s1-20020a5d69c1000000b0021b9f3abfebso1001639wrw.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 01:45:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=zeetajRxJH9k+1wiBL4+bpfxP7EvIFI/mhDbFEAam04=;
+ b=VRmdf7mxN9veI24i6zZRDgLuYYJ/rAZlHQbY2FRokjMh8IoG38B6/WYVMCfsqL5j3w
+ QjOol/03ppyQOdzyistyo5U50lP47EYGz52TU1NVLJ9xdVnS7DXKPZ17vhe/TMFlVIC1
+ JATuGZXOg/md3c3SbLMRepMh1DOJdZREJTTBvJqWhhIaKV3G2T2OBtTr4KNK17dPCMtT
+ BThrMXte6rBjZi0HIms/7fneKvNjH3KRjKMjvUCnesKDBEiHz71IzKElZ8dTp2IWKcRa
+ UZMPX3Te5QVOXrfSGno5r4wvZEqkke8Z/pKTZyGAQ7t27qdRmIjiXjyuQnPKowMJ/3HH
+ erzw==
+X-Gm-Message-State: AJIora/YEVFYYI6ZBQb2xPHqSyauK1ceUnmcMeLZan6H2uiLRG4aidxK
+ G504sKnR1/O3FMLcxC/uEC17w4Y38s72gKbNHA4GmeiFwYqYb0g340iUN8x933kx0273mZZIDke
+ Zk81GwZL+7gxA8rawDweOYIg7MeNL
+X-Received: by 2002:a1c:7c16:0:b0:3a0:4c5f:ce13 with SMTP id
+ x22-20020a1c7c16000000b003a04c5fce13mr2087309wmc.73.1656319508795; 
+ Mon, 27 Jun 2022 01:45:08 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1udK8ScDlve5szWmt1SK//uvMAP09bine922WM9zojuuIGAHewovWzziHBRHiE4+VMhKZOaaw==
+X-Received: by 2002:a1c:7c16:0:b0:3a0:4c5f:ce13 with SMTP id
+ x22-20020a1c7c16000000b003a04c5fce13mr2087290wmc.73.1656319508548; 
+ Mon, 27 Jun 2022 01:45:08 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
+ ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
+ by smtp.gmail.com with ESMTPSA id
+ j14-20020adfa54e000000b0021b93b29cacsm11685942wrb.99.2022.06.27.01.45.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jun 2022 01:45:07 -0700 (PDT)
+Message-ID: <e8da05d6-9dbb-0a9b-bfe5-be690e874820@redhat.com>
+Date: Mon, 27 Jun 2022 10:45:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/doc/rfc: VM_BIND uapi definition
+Subject: Re: [PATCH] drm/ast: Fix black screen when getting out of suspend
+To: Thomas Zimmermann <tzimmermann@suse.de>, Lyude Paul <lyude@redhat.com>,
+ dri-devel@lists.freedesktop.org, kuohsiang_chou@aspeedtech.com
+References: <20220622124815.356035-1-jfalempe@redhat.com>
+ <8a6048576c440f1653121bb7be8583e9fee0c79a.camel@redhat.com>
+ <9db1d8fd-1778-0811-ec70-ad5bb8de00a6@redhat.com>
+ <1c6517d8-396d-3a63-f4ed-f7dcd2159a2f@redhat.com>
+ <cf8697fb-c979-baae-e194-ec5b6b2bc3c7@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <cf8697fb-c979-baae-e194-ec5b6b2bc3c7@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: "Zeng, Oak" <oak.zeng@intel.com>,
- "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>,
- "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>
-References: <20220622035650.29256-1-niranjana.vishwanathapura@intel.com>
- <20220622035650.29256-4-niranjana.vishwanathapura@intel.com>
- <6ac2f495-8ead-4824-f9af-1c03fb3770c4@linux.intel.com>
- <20220622151229.GY376@nvishwa1-DESK>
- <b347fb63-5200-9f5c-b0d6-ca51b7a064f9@linux.intel.com>
- <20220622164445.GZ376@nvishwa1-DESK>
- <e6ed0d2f-ee2a-2219-c2cc-49efc32f0560@linux.intel.com>
- <1874e47b-4337-5ac6-ebea-fca21ea1ba4c@intel.com>
- <6d70cde9-f856-540a-b1d4-0325596b0c88@linux.intel.com>
- <BN6PR11MB1633C90D1B2E40359F1F168F92B59@BN6PR11MB1633.namprd11.prod.outlook.com>
- <1d36da1a-9224-5750-d103-60e7cdfdf8df@linux.intel.com>
- <BN6PR11MB1633F819E6DF445769061CF092B49@BN6PR11MB1633.namprd11.prod.outlook.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <BN6PR11MB1633F819E6DF445769061CF092B49@BN6PR11MB1633.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,156 +93,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Wilson,
- Chris P" <chris.p.wilson@intel.com>, "Vetter,
- Daniel" <daniel.vetter@intel.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>, "Auld,
- Matthew" <matthew.auld@intel.com>
+Cc: charles_kuan@aspeedtech.com, michel@daenzer.net, luke_chen@aspeedtech.com,
+ Venkat Tadikonda <venkateswara.rao@intel.com>, hungju_huang@aspeedtech.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 24/06/2022 21:23, Zeng, Oak wrote:
-> Let's compare "tlb invalidate at vm unbind" vs "tlb invalidate at backing storage":
-> 
-> Correctness:
-> consider this sequence of:
-> 1. unbind va1 from pa1,
-> 2. then bind va1 to pa2. //user space has the freedom to do this as it manages virtual address space
-> 3. Submit shader code using va1,
-> 4. Then retire pa1.
-> 
-> If you don't perform tlb invalidate at step #1, in step #3, shader will use stale entries in tlb and pa1 will be used for the shader. User want to use pa2. So I don't think invalidate tlb at step #4 make correctness.
-
-Define step 3. Is it a new execbuf? If so then there will be a TLB flush 
-there. Unless the plan is to stop doing that with eb3 but I haven't 
-picked up on that anywhere so far.
-
-> Performance:
-> It is straight forward to invalidate tlb at step 1. If platform support range based tlb invalidation, we can perform range based invalidation easily at step1.
-
-If the platform supports range base yes. If it doesn't _and_ the flush 
-at unbind is not needed for 99% of use cases then it is simply a waste.
-
-> If you do it at step 4, you either need to perform a whole gt tlb invalidation (worse performance), or you need to record all the VAs that this pa has been bound to and invalidate all the VA ranges - ugly program.
-
-Someone can setup some benchmarking? :)
-
-Regards,
-
-Tvrtko
-
+On 27/06/2022 09:39, Thomas Zimmermann wrote:
 > 
 > 
-> Thanks,
-> Oak
-> 
->> -----Original Message-----
->> From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->> Sent: June 24, 2022 4:32 AM
->> To: Zeng, Oak <oak.zeng@intel.com>; Landwerlin, Lionel G
->> <lionel.g.landwerlin@intel.com>; Vishwanathapura, Niranjana
->> <niranjana.vishwanathapura@intel.com>
->> Cc: Zanoni, Paulo R <paulo.r.zanoni@intel.com>; intel-
->> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Hellstrom,
->> Thomas <thomas.hellstrom@intel.com>; Wilson, Chris P
->> <chris.p.wilson@intel.com>; Vetter, Daniel <daniel.vetter@intel.com>;
->> christian.koenig@amd.com; Auld, Matthew <matthew.auld@intel.com>
->> Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/doc/rfc: VM_BIND uapi definition
->>
->>
->> On 23/06/2022 22:05, Zeng, Oak wrote:
->>>> -----Original Message-----
->>>> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf
->>>> Of Tvrtko Ursulin
->>>> Sent: June 23, 2022 7:06 AM
->>>> To: Landwerlin, Lionel G <lionel.g.landwerlin@intel.com>;
->>>> Vishwanathapura, Niranjana <niranjana.vishwanathapura@intel.com>
->>>> Cc: Zanoni, Paulo R <paulo.r.zanoni@intel.com>;
->>>> intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org;
->>>> Hellstrom, Thomas <thomas.hellstrom@intel.com>; Wilson, Chris P
->>>> <chris.p.wilson@intel.com>; Vetter, Daniel <daniel.vetter@intel.com>;
->>>> christian.koenig@amd.com; Auld, Matthew <matthew.auld@intel.com>
->>>> Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/doc/rfc: VM_BIND uapi
->>>> definition
+> Am 27.06.22 um 09:31 schrieb Jocelyn Falempe:
+>> On 23/06/2022 10:21, Jocelyn Falempe wrote:
+>>> On 22/06/2022 20:34, Lyude Paul wrote:
+>>>> Some small nitpicks:
 >>>>
+>>>> On Wed, 2022-06-22 at 14:48 +0200, Jocelyn Falempe wrote:
+>>>>> With an AST2600, the screen is garbage when going out of suspend.
+>>>>> This is because color settings are lost, and not restored on resume.
+>>>>> Force the color settings on DPMS_ON, to make sure the settings are 
+>>>>> correct.
+>>>>>
+>>>>> I didn't write this code, it comes from the out-of-tree aspeed 
+>>>>> driver v1.13
+>>>>> https://www.aspeedtech.com/support_driver/
+>>>>>
+>>>>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>>>> Tested-by: Venkat Tadikonda <venkateswara.rao@intel.com>
 >>>>
->>>> On 23/06/2022 09:57, Lionel Landwerlin wrote:
->>>>> On 23/06/2022 11:27, Tvrtko Ursulin wrote:
->>>>>>>
->>>>>>> After a vm_unbind, UMD can re-bind to same VA range against an
->>>>>>> active VM.
->>>>>>> Though I am not sue with Mesa usecase if that new mapping is
->>>>>>> required for running GPU job or it will be for the next
->>>>>>> submission. But ensuring the tlb flush upon unbind, KMD can ensure
->>>>>>> correctness.
->>>>>>
->>>>>> Isn't that their problem? If they re-bind for submitting _new_ work
->>>>>> then they get the flush as part of batch buffer pre-amble.
->>>>>
->>>>> In the non sparse case, if a VA range is unbound, it is invalid to
->>>>> use that range for anything until it has been rebound by something else.
->>>>>
->>>>> We'll take the fence provided by vm_bind and put it as a wait fence
->>>>> on the next execbuffer.
->>>>>
->>>>> It might be safer in case of memory over fetching?
->>>>>
->>>>>
->>>>> TLB flush will have to happen at some point right?
->>>>>
->>>>> What's the alternative to do it in unbind?
+>>>> Should have a Cc: to stable imho, `dim` can do this for you:
 >>>>
->>>> Currently TLB flush happens from the ring before every BB_START and
->>>> also when i915 returns the backing store pages to the system.
+>>>> https://drm.pages.freedesktop.org/maintainer-tools/dim.html
 >>>
+>>> Sure I will add cc to stable for the v2
+>>
+>> In fact it doesn't apply to older kernel version, (it depends on 
+>> 594e9c04b586 Create the driver for ASPEED proprietory Display-Port).
+>>
+>> So I think I will just push it to drm-misc-next, with the indentation 
+>> fixed.
+> 
+> Sure, go ahead.
+
+Applied to drm-misc-next, thank you all.
+
+> 
+>>
+>>>>
+>>>>> ---
+>>>>>   drivers/gpu/drm/ast/ast_mode.c | 13 +++++++++++++
+>>>>>   1 file changed, 13 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/ast/ast_mode.c 
+>>>>> b/drivers/gpu/drm/ast/ast_mode.c
+>>>>> index 3eb9afecd9d4..cdddcb5c4439 100644
+>>>>> --- a/drivers/gpu/drm/ast/ast_mode.c
+>>>>> +++ b/drivers/gpu/drm/ast/ast_mode.c
+>>>>> @@ -990,6 +990,9 @@ static void ast_crtc_dpms(struct drm_crtc 
+>>>>> *crtc, int
+>>>>> mode)
+>>>>>   {
+>>>>>          struct ast_private *ast = to_ast_private(crtc->dev);
+>>>>>          u8 ch = AST_DPMS_VSYNC_OFF | AST_DPMS_HSYNC_OFF;
+>>>>> +       struct ast_crtc_state *ast_state;
+>>>>> +       const struct drm_format_info *format;
+>>>>> +       struct ast_vbios_mode_info *vbios_mode_info;
+>>>>>          /* TODO: Maybe control display signal generation with
+>>>>>           *       Sync Enable (bit CR17.7).
+>>>>> @@ -1007,6 +1010,16 @@ static void ast_crtc_dpms(struct drm_crtc 
+>>>>> *crtc, int
+>>>>> mode)
+>>>>>                          ast_dp_set_on_off(crtc->dev, 1);
+>>>>>                  }
+>>>>> +               ast_state = to_ast_crtc_state(crtc->state);
+>>>>> +               format = ast_state->format;
+>>>>> +
+>>>>> +               if (format){
+>>>>
+>>>> Should be a space between ')' and '{'.
 >>>
->>> Can you explain more why tlb flush when i915 retire the backing storage? I
->> never figured that out when I looked at the codes. As I understand it, tlb
->> caches the gpu page tables which map a va to a pa. So it is straight forward to
->> me that we perform a tlb flush when we change the page table (either at vm
->> bind time or unbind time. Better at unbind time for performance reason).
+>>> looks like I forget to run checkpatch.pl on it before sending :(
+>>>
+>>> I'll wait a bit for other comments, and sent a v2 with cc for stable.
+>>>>
+>>>> With that fixed, this is: Reviewed-by: Lyude Paul <lyude@redhat.com>
+>>>>
+>>>>> +                       vbios_mode_info = &ast_state->vbios_mode_info;
+>>>>> +
+>>>>> +                       ast_set_color_reg(ast, format);
+>>>>> +                       ast_set_vbios_color_reg(ast, format,
+>>>>> vbios_mode_info);
+>>>>> +               }
+>>>>> +
+>>>>>                  ast_crtc_load_lut(ast, crtc);
+>>>>>                  break;
+>>>>>          case DRM_MODE_DPMS_STANDBY:
+>>>>
+>>>
 >>
->> I don't know what performs better - someone can measure the two
->> approaches? Certainly on platforms where we only have global TLB flushing
->> the cost is quite high so my thinking was to allow i915 to control when it will
->> be done and not guarantee it in the uapi if it isn't needed for security reasons.
->>
->>> But it is rather tricky to me to flush tlb when we retire a backing storage. I
->> don't see how backing storage can be connected to page table. Let's say user
->> unbind va1 from pa1, then bind va1 to pa2. Then retire pa1. Submit shader
->> code using va1. If we don't tlb flush after unbind va1, the new shader code
->> which is supposed to use pa2 will still use pa1 due to the stale entries in tlb,
->> right? The point is, tlb cached is tagged with virtual address, not physical
->> address. so after we unbind va1 from pa1, regardless we retire pa1 or not,
->> va1 can be bound to another pa2.
->>
->> When you say "retire pa1" I will assume you meant release backing storage
->> for pa1. At this point i915 currently does do the TLB flush and that ensures no
->> PTE can point to pa1.
->>
->> This approach deals with security of the system as a whole. Client may still
->> cause rendering corruption or a GPU hang for itself but that should be
->> completely isolated. (This is the part where you say "regardless if we retire
->> pa1 or not" I think.)
->>
->> But I think those are advanced use cases where userspace wants to
->> manipulate PTEs while something is running on the GPU in parallel. AFAIK
->> limited to compute "infinite batch" so my thinking is to avoid adding a
->> performance penalty to the common case. Especially on platforms which only
->> have global flush.
->>
->> But.. to circle back on the measuring angle. Until someone invests time and
->> effort to benchmark the two approaches (flush on unbind vs flush on backing
->> store release) we don't really know. All I know is the perf hit with the current
->> solution was significant, AFAIR up to teen digits on some games. And
->> considering the flushes were driven only by the shrinker activity, my thinking
->> was they would be less frequent than the unbinds, therefore have the
->> potential for a smaller perf hit.
->>
->> Regards,
->>
->> Tvrtko
+> 
+
