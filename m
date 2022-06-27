@@ -1,56 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A5655B86B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 10:03:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0840855B87E
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 10:12:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC56F10FD9A;
-	Mon, 27 Jun 2022 08:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAA13112D12;
+	Mon, 27 Jun 2022 08:12:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A135F10FD79
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 08:03:48 +0000 (UTC)
-X-UUID: 7bc381f0c03d4013a18472748058727e-20220627
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.6, REQID:28771fd2-7b14-4db6-8d37-999f3cf03d58, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:-5
-X-CID-META: VersionHash:b14ad71, CLOUDID:8cb9212e-1756-4fa3-be7f-474a6e4be921,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: 7bc381f0c03d4013a18472748058727e-20220627
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1554139360; Mon, 27 Jun 2022 16:03:45 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Mon, 27 Jun 2022 16:03:45 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 27 Jun 2022 16:03:44 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.792.3 via Frontend Transport; Mon, 27 Jun 2022 16:03:44 +0800
-From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <daniel@ffwll.ch>,
- <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <matthias.bgg@gmail.com>,
- <deller@gmx.de>, <airlied@linux.ie>
-Subject: [PATCH v12 10/10] drm/mediatek: fix no audio when resolution change
-Date: Mon, 27 Jun 2022 16:03:41 +0800
-Message-ID: <20220627080341.5087-11-rex-bc.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220627080341.5087-1-rex-bc.chen@mediatek.com>
-References: <20220627080341.5087-1-rex-bc.chen@mediatek.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D09B4112CFC
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 08:12:34 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[127.0.0.1]) by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <bst@pengutronix.de>)
+ id 1o5jrF-0007fD-04; Mon, 27 Jun 2022 10:12:33 +0200
+Message-ID: <0e7f616a-54ef-5b59-0068-87051189a7d7@pengutronix.de>
+Date: Mon, 27 Jun 2022 10:12:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 2/2] drm/panel: simple: add AM-800600P5TMQW-TB8H
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20220610111511.1421067-1-bst@pengutronix.de>
+ <20220610111511.1421067-2-bst@pengutronix.de> <YrYWkdqZG1sazr2N@ravnborg.org>
+From: Bastian Krause <bst@pengutronix.de>
+In-Reply-To: <YrYWkdqZG1sazr2N@ravnborg.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: bst@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,143 +48,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- granquet@baylibre.com, jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, msp@baylibre.com,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- wenst@chromium.org, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Yannick Fertre <yannick.fertre@st.com>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When switching resolutions, config the audio setting with the
-previous audio parameters.
 
-Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_dp.c | 55 ++++++++++---------------------
- 1 file changed, 18 insertions(+), 37 deletions(-)
+Hi Sam,
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 62a9ebadd2a8..ab98b962c17c 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -109,7 +109,7 @@ struct mtk_dp_audio_cfg {
- struct mtk_dp_info {
- 	u32 depth;
- 	enum dp_pixelformat format;
--	struct mtk_dp_audio_cfg audio_caps;
-+	struct mtk_dp_audio_cfg audio_cur_cfg;
- 	struct mtk_dp_timings timings;
- };
- 
-@@ -1921,9 +1921,7 @@ static bool mtk_dp_edid_parse_audio_capabilities(struct mtk_dp *mtk_dp,
- 						 struct mtk_dp_audio_cfg *cfg)
- {
- 	struct cea_sad *sads;
--	int sad_count;
--	int i;
--	bool ret = false;
-+	int ret;
- 
- 	if (mtk_dp_is_edp(mtk_dp))
- 		return false;
-@@ -1934,36 +1932,16 @@ static bool mtk_dp_edid_parse_audio_capabilities(struct mtk_dp *mtk_dp,
- 		dev_err(mtk_dp->dev, "EDID not found!\n");
- 		return false;
- 	}
--	sad_count = drm_edid_to_sad(mtk_dp->edid, &sads);
--	mutex_unlock(&mtk_dp->edid_lock);
- 
--	if (sad_count <= 0) {
-+	ret = drm_edid_to_sad(mtk_dp->edid, &sads);
-+	mutex_unlock(&mtk_dp->edid_lock);
-+	if (ret <= 0) {
- 		drm_info(mtk_dp->drm_dev, "The SADs is NULL\n");
- 		return false;
- 	}
--
--	for (i = 0; i < sad_count; i++) {
--		int sample_rate, word_length;
--
--		/* Only PCM supported at the moment */
--		if (sads[i].format != HDMI_AUDIO_CODING_TYPE_PCM)
--			continue;
--
--		sample_rate = drm_cea_sad_get_sample_rate(&sads[i]);
--		word_length =
--			drm_cea_sad_get_uncompressed_word_length(&sads[i]);
--		if (sample_rate <= 0 || word_length <= 0)
--			continue;
--
--		cfg->channels = sads[i].channels;
--		cfg->word_length_bits = word_length;
--		cfg->sample_rate = sample_rate;
--		ret = true;
--		break;
--	}
- 	kfree(sads);
- 
--	return ret;
-+	return true;
- }
- 
- static void mtk_dp_train_change_mode(struct mtk_dp *mtk_dp)
-@@ -2129,14 +2107,15 @@ static int mtk_dp_training(struct mtk_dp *mtk_dp)
- 
- 			mtk_dp->audio_enable =
- 				mtk_dp_edid_parse_audio_capabilities(mtk_dp,
--								     &mtk_dp->info.audio_caps);
-+								     &mtk_dp->info.audio_cur_cfg);
- 
- 			if (mtk_dp->audio_enable) {
--				mtk_dp_audio_setup(mtk_dp, &mtk_dp->info.audio_caps);
-+				mtk_dp_audio_setup(mtk_dp,
-+						   &mtk_dp->info.audio_cur_cfg);
- 				mtk_dp_audio_mute(mtk_dp, false);
- 			} else {
--				memset(&mtk_dp->info.audio_caps, 0,
--				       sizeof(mtk_dp->info.audio_caps));
-+				memset(&mtk_dp->info.audio_cur_cfg, 0,
-+				       sizeof(mtk_dp->info.audio_cur_cfg));
- 			}
- 
- 			training_done = true;
-@@ -2590,6 +2569,9 @@ static void mtk_dp_bridge_atomic_disable(struct drm_bridge *bridge,
- 	if (mtk_dp_plug_state(mtk_dp)) {
- 		drm_dp_dpcd_writeb(&mtk_dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
- 		usleep_range(2000, 3000);
-+	} else {
-+		memset(&mtk_dp->info.audio_cur_cfg, 0,
-+		       sizeof(mtk_dp->info.audio_cur_cfg));
- 	}
- 
- 	mtk_dp_video_mute(mtk_dp, true);
-@@ -2799,18 +2781,17 @@ static int mtk_dp_audio_hw_params(struct device *dev, void *data,
- 				  struct hdmi_codec_params *params)
- {
- 	struct mtk_dp *mtk_dp = dev_get_drvdata(dev);
--	struct mtk_dp_audio_cfg cfg;
- 
- 	if (!mtk_dp->enabled) {
- 		pr_err("%s, DP is not ready!\n", __func__);
- 		return -ENODEV;
- 	}
- 
--	cfg.channels = params->cea.channels;
--	cfg.sample_rate = params->sample_rate;
--	cfg.word_length_bits = 24;
-+	mtk_dp->info.audio_cur_cfg.channels = params->cea.channels;
-+	mtk_dp->info.audio_cur_cfg.sample_rate = params->sample_rate;
-+	mtk_dp->info.audio_cur_cfg.word_length_bits = 24;
- 
--	mtk_dp_audio_setup(mtk_dp, &cfg);
-+	mtk_dp_audio_setup(mtk_dp, &mtk_dp->info.audio_cur_cfg);
- 
- 	return 0;
- }
+On 6/24/22 21:54, Sam Ravnborg wrote:
+> On Fri, Jun 10, 2022 at 01:15:11PM +0200, Bastian Krause wrote:
+>> Add support for the Ampire AM-800600P5TMQW-TB8H 800x600 panel. Data
+>> sheet is currently not publicly available, unfortunately.
+>>
+>> Signed-off-by: Bastian Krause <bst@pengutronix.de>
+> 
+> Applied to drm-misc (drm-misc-next).
+> When applying I fixed up the compatible to match the binding.
+> You may need to fix your DT files if they used the old compatible.
+> The one from the binding had a dash like similar panels, so that is
+> the one I picked.
+
+Thanks! I changed the compatible in the yaml binding to resemble the
+other Ampire compabibles, but forgot to change that in the actual code,
+of course..
+
+> See below for the fix-up.
+> 
+> 	Sam
+> 
+>> ---
+>>   drivers/gpu/drm/panel/panel-simple.c | 33 ++++++++++++++++++++++++++++
+>>   1 file changed, 33 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+>> index 4a2e580a2f7b7..3a61873dd887c 100644
+>> --- a/drivers/gpu/drm/panel/panel-simple.c
+>> +++ b/drivers/gpu/drm/panel/panel-simple.c
+>> @@ -778,6 +778,36 @@ static const struct panel_desc ampire_am800480r3tmqwa1h = {
+>>   	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
+>>   };
+>>   
+>> +static const struct display_timing ampire_am800600p5tmqw_tb8h_timing = {
+>> +	.pixelclock = { 34500000, 39600000, 50400000 },
+>> +	.hactive = { 800, 800, 800 },
+>> +	.hfront_porch = { 12, 112, 312 },
+>> +	.hback_porch = { 87, 87, 48 },
+>> +	.hsync_len = { 1, 1, 40 },
+>> +	.vactive = { 600, 600, 600 },
+>> +	.vfront_porch = { 1, 21, 61 },
+>> +	.vback_porch = { 38, 38, 19 },
+>> +	.vsync_len = { 1, 1, 20 },
+>> +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
+>> +		DISPLAY_FLAGS_DE_HIGH | DISPLAY_FLAGS_PIXDATA_POSEDGE |
+>> +		DISPLAY_FLAGS_SYNC_POSEDGE,
+>> +};
+>> +
+>> +static const struct panel_desc ampire_am800600p5tmqwtb8h = {
+>> +	.timings = &ampire_am800600p5tmqw_tb8h_timing,
+>> +	.num_timings = 1,
+>> +	.bpc = 6,
+>> +	.size = {
+>> +		.width = 162,
+>> +		.height = 122,
+>> +	},
+>> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
+>> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH |
+>> +		DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE |
+>> +		DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE,
+>> +	.connector_type = DRM_MODE_CONNECTOR_DPI,
+>> +};
+>> +
+>>   static const struct display_timing santek_st0700i5y_rbslw_f_timing = {
+>>   	.pixelclock = { 26400000, 33300000, 46800000 },
+>>   	.hactive = { 800, 800, 800 },
+>> @@ -3754,6 +3784,9 @@ static const struct of_device_id platform_of_match[] = {
+>>   	}, {
+>>   		.compatible = "ampire,am800480r3tmqwa1h",
+>>   		.data = &ampire_am800480r3tmqwa1h,
+>> +	}, {
+>> +		.compatible = "ampire,am800600p5tmqwtb8h",
+> was changed to
+>> +		.compatible = "ampire,am800600p5tmqw-tb8h",
+>> +		.data = &ampire_am800600p5tmqwtb8h,
+
+Your fixup is correct.
+
+Regards,
+Bastian
+
+>>   	}, {
+>>   		.compatible = "arm,rtsm-display",
+>>   		.data = &arm_rtsm,
+>> -- 
+>> 2.30.2
+>>
+
 -- 
-2.18.0
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
