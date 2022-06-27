@@ -2,68 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBE555BBD1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 21:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8BED55BBD3
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jun 2022 21:43:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73B8311B2F9;
-	Mon, 27 Jun 2022 19:42:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80CCB11B33C;
+	Mon, 27 Jun 2022 19:43:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F73211B2CD
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 19:41:46 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id s1so14471638wra.9
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:41:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZPnaNl2N6OCS49bYwYg25LRRooD0U5t+6njnQfYqn3w=;
- b=MOohgr19HljbByTvyNxJnTzuFRc+80XEY83slSBV3T38pJReWc/r2vS/nOk5tM3fgh
- o0PeEHbIXwdYX8w8o/2Z+tOWI/pblKRMqN6cWcuVmoSgQJcUM4k7o3KZ8Bga/IW3cMxn
- htf5vt82qgwz2AdmKcvtLew4WTHJpzSLNlFEtSdw1lUDBPfmzQ6VPma4Ihqx416iMO9q
- OjG2BfW5Fb/pMNNGTa0W3lzf/5Uj3IdmCXYm0bDti+q5Vvni3wozuVRvHSs4b2osYT2/
- INsrbelKnz8FWtbN/E4RVTXkbha41T/RhTGSoWBux0TT5r20qWoUKgEs96eGFAOTBcM3
- SHKA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DED7F11B31B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 19:43:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656358979;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LmREPT/CJYaHcZ5uL+xmp5wGDyToSARasqjtfBi5A5A=;
+ b=bxfbauflmM/7kiyUxfUA8lpQq42lvM0K+qbn/qNWtXQ6lvFN4UmFMxV+11B/ysUgZn9V/l
+ 7y8bojqfQ8jgWiZuPGUFLFPKASQpZpBlRob7ZjtqvK2n1mOE2Y8AoA+VJtp/qBeSfsdMh6
+ O6HgEWHx2BjZADIZKjk50kjf3tPIjI0=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-614-zvXrQjGtMV6AQJ_ZyvBfdw-1; Mon, 27 Jun 2022 15:42:58 -0400
+X-MC-Unique: zvXrQjGtMV6AQJ_ZyvBfdw-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ ay8-20020a05620a178800b006a76e584761so11124431qkb.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jun 2022 12:42:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZPnaNl2N6OCS49bYwYg25LRRooD0U5t+6njnQfYqn3w=;
- b=P3TpwbX/8cSxaB024gQ49F7QrlfMfA5F+vq0yQnQbVTT68JCs9vZpX9smJnEH+S/pC
- JM7GfzVSUOlAeO9EryTmlUCL8hKitmH81ZcPYswq+2SOSomP2pKiPfgFHHQudN+oYk1I
- dtCcMm4yezTRV5e/INo/fXmhqtwLvDrMxEbbapAoFIvssG1rw+Fo+Zq+WURqIKDUdrpG
- gQzw4Xmi5kuRRpWEFvl8/4Lf3eA4SbzcjJZcGUJlB7MTYDicpwBcpyd5vfSR7nA8IARo
- oSt1JabtZAKD9axIv273fLWR1n2HTjQ6Bjwva32djqD8panZrpNgHl0canLjlMvZzOx6
- +U7Q==
-X-Gm-Message-State: AJIora9C94oidI5k/gT13uiGlcHop7zi6itID0xfLXHsCyKYkYU1SZa1
- grBaPRkAQRRWJ1Ugqzu4HosCeg==
-X-Google-Smtp-Source: AGRyM1tRVPClRCoBOM+0dnNBF8Xh0WBUSfTyTPIl0mjH8CFu3Jd18gFLSGXlP3EBu9PNI15KlSes5w==
-X-Received: by 2002:a5d:500a:0:b0:21b:8274:9ddc with SMTP id
- e10-20020a5d500a000000b0021b82749ddcmr14053574wrt.251.1656358904731; 
- Mon, 27 Jun 2022 12:41:44 -0700 (PDT)
-Received: from henark71.. ([51.37.234.167]) by smtp.gmail.com with ESMTPSA id
- e9-20020a5d4e89000000b0021a3a87fda9sm11428047wru.47.2022.06.27.12.41.43
+ h=x-gm-message-state:message-id:subject:from:to:date:organization
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=LmREPT/CJYaHcZ5uL+xmp5wGDyToSARasqjtfBi5A5A=;
+ b=BeROvqqJIHz69UnR+vwHiO6BJsTWD530MC3DihAWZ+aW2DAvGCH0+DkxFJYtIQfzQ3
+ ncT8C7jifJy8Cidnds/06BbqO5n9xBqwwWyvCMur3eIRMy6XTT0BZ+HhWwUogQ2vCq8e
+ 9a4XJnXMJvAJt1ehHFGQoS3GCS38dRYp4tJRypkK/RVRWQV+5NYd4Kclz/m8NgtQQHZ3
+ cgxI/9B7Yj2wHsOAWOlLlUMBRjrNoikSp7IiphL9oGg8CYEUFYIbgJ1WURlAPsWb/vcm
+ rzWMZZVIE1TelA/OUI3BPNMBM1WIS00FsumfY0y7ykC2RRysOcKDUZYDDUUMlARM3JML
+ D4EQ==
+X-Gm-Message-State: AJIora8Pogkou2OCxuQwQJfKMhgsuiACb41LHkxqINWC25IONIBhoR4y
+ kAtV8OL2T6vi1kqyYDSnUrHU/ARXWITM2iC32JEinXKsxCs9ui4LcktjUeZvCW3Va9S+siXEwso
+ jnSHJWBHtPJC1lKmzNkanHW6O2QDKlEw65Us7e5kLM8bcHXGzK4sTCYHfQkR13BYOC9no0tYVzX
+ oo
+X-Received: by 2002:a05:6214:c66:b0:470:5251:cb4d with SMTP id
+ t6-20020a0562140c6600b004705251cb4dmr10104440qvj.131.1656358977850; 
+ Mon, 27 Jun 2022 12:42:57 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t9Y9CMTLcVg6ELQ5aMBP6b3fTxrJpnPjJRoVd64fBaAQ8vxuuHEMW+cIO2rbHPghg57+DPPw==
+X-Received: by 2002:a05:6214:c66:b0:470:5251:cb4d with SMTP id
+ t6-20020a0562140c6600b004705251cb4dmr10104428qvj.131.1656358977509; 
+ Mon, 27 Jun 2022 12:42:57 -0700 (PDT)
+Received: from [192.168.8.138] ([141.154.49.182])
+ by smtp.gmail.com with ESMTPSA id
+ s9-20020ac85289000000b00304efba3d84sm7612505qtn.25.2022.06.27.12.42.56
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jun 2022 12:41:44 -0700 (PDT)
-From: Conor Dooley <mail@conchuod.ie>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v2 16/16] riscv: dts: canaan: build all devicetress if
- SOC_CANAAN
-Date: Mon, 27 Jun 2022 20:40:04 +0100
-Message-Id: <20220627194003.2395484-17-mail@conchuod.ie>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220627194003.2395484-1-mail@conchuod.ie>
-References: <20220627194003.2395484-1-mail@conchuod.ie>
+ Mon, 27 Jun 2022 12:42:57 -0700 (PDT)
+Message-ID: <9e4458d0933877ebc08a970af70692494a2d4ebb.camel@redhat.com>
+Subject: XDC 2022: Registration & Call for Presentations still open!
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Date: Mon, 27 Jun 2022 15:42:56 -0400
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,47 +84,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-riscv@lists.infradead.org, Niklas Cassel <niklas.cassel@wdc.com>,
- alsa-devel@alsa-project.org, Albert Ou <aou@eecs.berkeley.edu>,
- devicetree@vger.kernel.org, Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- linux-kernel@vger.kernel.org, Heng Sia <jee.heng.sia@intel.com>,
- linux-spi@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
- Jose Abreu <joabreu@synopsys.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- dri-devel@lists.freedesktop.org, Paul Walmsley <paul.walmsley@sifive.com>,
- dmaengine@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Dillon Min <dillon.minfei@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Conor Dooley <conor.dooley@microchip.com>
+Hello! This is just a reminder that the CFP for XDC in 2022 is still open!
 
-Testing & checking the Canaan devicetrees is inconvenient as only the
-devicetree corresponding to SOC_CANAAN_K210_DTB_BUILTIN will be built.
-Change the Makefile so that all devicetrees are built by default if
-SOC_CANAAN but only the one specified by SOC_CANAAN_K210_DTB_BUILTIN
-gets built as an object.
+The 2022 X.Org Developers Conference is being held in conjunction with
+the 2022 Wine Developers Conference.  This is a meeting to bring
+together developers working on all things open graphics (Linux kernel,
+Mesa, DRM, Wayland, X11, etc.) as well as developers for the Wine
+Project, a key consumer of open graphics.
 
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
- arch/riscv/boot/dts/canaan/Makefile | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+Registration & Call for Proposals are now open for both XDC 2022 and
+WineConf 2022, which will take place on October 4-6, 2022 in
+Minneapolis, Minnesota, USA. 
 
-diff --git a/arch/riscv/boot/dts/canaan/Makefile b/arch/riscv/boot/dts/canaan/Makefile
-index c61b08ac8554..befe4eb7527b 100644
---- a/arch/riscv/boot/dts/canaan/Makefile
-+++ b/arch/riscv/boot/dts/canaan/Makefile
-@@ -1,3 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0
--dtb-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += $(addsuffix .dtb, $(CONFIG_SOC_CANAAN_K210_DTB_SOURCE))
--obj-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += $(addsuffix .o, $(dtb-y))
-+dtb-$(CONFIG_SOC_CANAAN) += canaan_kd233.dtb
-+dtb-$(CONFIG_SOC_CANAAN) += k210_generic.dtb
-+dtb-$(CONFIG_SOC_CANAAN) += sipeed_maix_bit.dtb
-+dtb-$(CONFIG_SOC_CANAAN) += sipeed_maix_dock.dtb
-+dtb-$(CONFIG_SOC_CANAAN) += sipeed_maix_go.dtb
-+dtb-$(CONFIG_SOC_CANAAN) += sipeed_maixduino.dtb
-+
-+obj-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += $(addsuffix .dtb.o, $(CONFIG_SOC_CANAAN_K210_DTB_SOURCE))
+https://xdc2022.x.org
+ 
+As usual, the conference is free of charge and open to the general
+public. If you plan on attending, please make sure to register as early
+as possible!
+ 
+In order to register as attendee, you will therefore need to do it via
+the XDC website:
+ 
+https://indico.freedesktop.org/event/2/registrations/2/
+ 
+In addition to registration, the CfP is now open for talks, workshops
+and demos at XDC 2022. While any serious proposal will be gratefully
+considered, topics of interest to X.Org and freedesktop.org developers
+are encouraged. The program focus is on new development, ongoing
+challenges and anything else that will spark discussions among
+attendees in the hallway track.
+ 
+We are open to talks across all layers of the graphics stack, from the
+kernel to desktop environments / graphical applications and about how
+to make things better for the developers who build them. Head to the
+CfP page to learn more: 
+ 
+https://indico.freedesktop.org/event/2/abstracts/
+ 
+The deadline for submissions is Monday July 4th, 2022.
+ 
+Check out our Reimbursement Policy to accept speaker
+expenses for X.Org events like XDC 2022:
+ 
+https://www.x.org/wiki/XorgFoundation/Policies/Reimbursement/
+
+If you have any questions, please send me an email to
+xdc@codeweavers.com, adding on CC the X.org board (board
+at foundation.x.org).
+ 
+And don't forget, you can follow us on Twitter for all the latest
+updates and to stay connected:
+ 
+https://twitter.com/XOrgDevConf
+
+Best regards,
+Lyude Paul, on behalf of X.org
+
+
+
 -- 
-2.36.1
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
