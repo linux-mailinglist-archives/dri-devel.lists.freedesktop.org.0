@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404EE55F0B8
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:56:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A0755F0B6
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:56:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C66F0112DE6;
-	Tue, 28 Jun 2022 21:56:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A67AA112D63;
+	Tue, 28 Jun 2022 21:56:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89307112D8A
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:56:09 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 299B8112D63
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:56:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656453366;
- bh=Baon/zEAgxoICOMctw2qAfrWR3cher/M6GL6oxC5jV0=;
+ s=badeba3b8450; t=1656453370;
+ bh=U23eqdwgbh1fWzaBrh+KcikQcadXKAWQE5zohvIeQjs=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=F7ytxCMI3mw3EqbR971j1/RWmJD7TF/1RIHOugG/bucbiAfEHw9+5sUOK6T85RNlv
- iX01Wu2s/c4YAnZFWWEgnexSGzTf0vFql9yuJm8OgMDG4lbRDUIoSv4JALeIZOJ66M
- r4plLZREU1clfNMeyUxVNInTvBqtJxivHu+fYpxs=
+ b=MKG4kmwcSFWEpNQjLwf7ODBa2jroSUlD4Fxf1E8gMzFWV99DPaBVqnPbQ7UbPT2Kg
+ ZpXD4glRQNtRuQ9J8CXmafe/5kG7AYJ5IAg1OiAwwlnIwTBFzh8MDwQFgqKhWQRdtm
+ 6j4v1GCam37LVhwMFeIiQXuJXfTrmWCQUI+IMqyc=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([174.250.0.2]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MuDXz-1nnOpM2RUj-00uYEr; Tue, 28
- Jun 2022 23:56:06 +0200
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1N8ofE-1nc5DK46jO-015nqM; Tue, 28
+ Jun 2022 23:56:10 +0200
 From: Kevin Brace <kevinbrace@gmx.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 28/32] drm/via: Zero out chip type field
-Date: Tue, 28 Jun 2022 16:55:16 -0500
-Message-Id: <20220628215520.20674-9-kevinbrace@gmx.com>
+Subject: [PATCH v2 29/32] drm/via: Add new VIA Technologies PCI device IDs
+ related to graphics
+Date: Tue, 28 Jun 2022 16:55:17 -0500
+Message-Id: <20220628215520.20674-10-kevinbrace@gmx.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628215520.20674-1-kevinbrace@gmx.com>
 References: <20220628215520.20674-1-kevinbrace@gmx.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:/IcNBj9VpDyF/X1XXJdrfBIqvJCnsjAM9BZE8aDEnSA64TdGY4y
- cw2gxAdYbouSOsDU97D9gcszcBSdoykueIYhkNhFNwZCIUimHn4VfVrdfog/ViWCKKeS2NR
- iC2phNayvvg72Q2WWru4w4UMetBuCewcrVUGmK+EzCie97QQ1G/fZrqM298+imeTm8VRM+a
- wbHT6PiiRVB4G7FZnst1w==
+X-Provags-ID: V03:K1:RzUxnG4tSIxggVgEErreoLEklh0jvU5R0o6Uk0SGk+ifbHEEzuF
+ WsKy2qLlrUvuwfynf46VF/6MU7S5mzN9KeTGFtIkSLDR5EPe5TUccQvjna6veZnPTw8bqWe
+ UzkNCV37FQZMNg04KmxTItFqh/PGVuB7jwCkpNRqcbh3a11bvG909koVf6udZ+Jt2KzAlVy
+ YKWMeGj+xGaBmGFyzlQJg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jvucWZ/gno4=:7RqbC3UAbsXp20Gfeumc0T
- pSQ4Nc4TI7QEtsYUHCsfZ+2D9OOjtGEbQWnmE/tsREgkjjiorvUo87OLLtPOOtw+Ds6KApStr
- B3sYO1en9Vau4ACBgkfYUj0licqT7QL5jjTsxOdGaQjFt7HQWpBjsp5CryiO3qUCceSF5btUX
- 3ObAv57zF7Fu2StxQzurWtBizoClmE5sut+bm3Rgy+ANbSHP3iEUB4SbrAzex3Bfrhco4Otlw
- lvDjEg6BqN90wPAAf3JsXiyl9DwwbGazf56PMjOAOB51sWvv4pM78wFuGr7Yqb541QB4mAYrK
- 8xyqRO6MYCjeqg5tjbkPdHGwiZKm44JQA2/XuhlCdVcUc6218KjdFuvmRSTnqa7q5DNT+GHYK
- OAeBmiScWsL8ZXrl2llwcSzhk1y1NF0u7/T0qxG6hwcy15/ssGaw8msKAnMBA99RCKnBQgRer
- yoh6eK3lEMy/P9yVVRbrIVFfLLj1HUM+BUveIr2qCRFfO9pGgDrXI43s3vsSeARbZAjGU+2S7
- nOg9TR0lHSJDSytAUAEy0RgGFhd2FwbbmJaICP/Sm3CS2zQ4+Il/53hO0qt1ht87P518NnZMk
- fi/qSRv1ecThyjyYwDBAvIK1bbKLgrAaD+n61QLphG93yBJpwRAaEkHXlKFoTmpg4WvU1KXNq
- HthldZf5fSBV+ZpYhJY4aCzXJNRaetzYk18gPs2w4D1TBPVQk2Sr+kvWc2g0paNBnTZR0BEk5
- oqCQUnHYmxBncKMMu2z5IvrT6ttOqgy4/NHMBhSX7h/X1M0Qly49daJNjWVAIQVL3+V/5I1nE
- Mofpx6wtsSudin5UT7z8cpJGp28JOb3uX47Fn5uEdGG8jiqOUcCoekuPLUu0ecALTNoS2g3Dr
- 1rVRGi3r1BQ4pbzRFLc1ar1bkcsAnQ9PZhL5QrzbT0PVsgZyY3ERozzd4FN5rAGFUxV6+zrXX
- AI/L+iCRVY59F8cLuZKe8e0J1/GNG8Nhff/iOb0tiWUEHG0/Z1GpWiR0MGUoTB/yt0UDMiZG3
- XVI6XUMruyugj7pd1tkONW41jDNIjHJgsT31S5vfMWJqCsCJ+x14c47mabuKyXm6fHYEyuNAp
- pKPLwLnxPfjhkzW17RPpSc6nq0+B/ayfQUlqGxkomo+tU4oMGiIQxSZWw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CFOXf9xo64Y=:f7wGL3uB3nWmE91d0KR6Sb
+ IQiXoeTSOuxK0bvBqLzTDEq4kAp59kNHxnkinlalv9+gEqUMgF62SxlY5UT8r0ewQkVroy7oW
+ lfDiAEUZUa+H+JwvI9Og3FgUgaGkoeVhx3HOjnxasHC8twmFKb5m+BdLY8eN6DwiW6j+ackHo
+ qoPbT/yW9hQauhdx4tgivD9/LBaoDdm92B2pJoeQcAUuG7UQF7h6FSWitg5GpRObrUZ/1I2oI
+ 8vhpSBzmSNWKMUsESbuB0wRKCCkuXt5riSibioiBaNSbxEQBKzx4JNYA3pLhp8dPVr5EIQw8G
+ Hm2XMh+Ta8S9Kf0KTYC0jD6aaTohUAjYXkqNg754mpo8yvKVmrdF9DqUzB3Q7FyXdTrKACqJg
+ kaI0uoEaMlz8kk/TjhuceKARnCBvh2BXX6Gvbgkqy6f9uKXmpuXHv0q6wGBEnKX85EpBd20XI
+ JlT8oUwWePOaIzPSvgSEJNZsP+xgjRgkqiCQAU/Ni0SkCn7hDuu42QW6jaxo3Y+k7751isdWa
+ PUVvFZzgctdEr8Yfaf3VgabfL30ZrGafSaip0v6ADB25fatUwoz7Pgm2Ib2EsCG0K1TREhbLk
+ XGgtLs2GxNcv/78wF0+J17YJ8CCp57mE6KKas4Byov1e3Ww9JRhQpkV7mIE4I0V/cbqt834/t
+ ndhCutgEHgTrDLa9ZGvu3EfJRTJ5mjQaB0dO1AO2Y8zxgOcZXF4NgbGnoB+7nnHWu8yX3615y
+ Pvnc57Tyr78m/A56UeF47ohAm7kiKRn4brv1d294Af6RutyMJD1vijE84K+iaWZ5Rjt9NwvBi
+ BH/J6pDEQ9fumBQ6rf+NuhWVql0ajRUjxx4EkbTQ+E8HLduZFdQqXhgsmON+/P8pMZGeiE3Sm
+ tvCYu5ICtlDXVrDj5aiBuaLeSb35mf2rHWr3Q7ekNGjb7HNUUczLtFjOed5CQgv7l0/RKkd49
+ ACvSfIGTT1Uq1xlrf/rTCb3q3NygTLMKi1H4HvobDuAwx4miSA1TpnLh4j8sWzg5u3zTZpHeI
+ D74KTCQy+GGHBuVcT0pXiLqH+thIVULULWiZCp9tmKxtgGPNKlHdgGBiOjJjk4hFEWFXyDLew
+ 6dmpPuhX9/bSHPuSkXnMKMOgpUtWDWCzVdqxgTYlgZLmDPNJSsNcs+njQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,39 +76,73 @@ From: Kevin Brace <kevinbrace@bracecomputerlab.com>
 
 Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
 =2D--
- include/drm/drm_pciids.h | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ include/linux/pci_ids.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/include/drm/drm_pciids.h b/include/drm/drm_pciids.h
-index e91b93d635fa..a4567d2918a9 100644
-=2D-- a/include/drm/drm_pciids.h
-+++ b/include/drm/drm_pciids.h
-@@ -770,18 +770,18 @@
-
- #define viadrv_PCI_IDS \
- 	{0x1106, 0x3022, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
--	{0x1106, 0x3118, PCI_ANY_ID, PCI_ANY_ID, 0, 0, VIA_PRO_GROUP_A}, \
-+	{0x1106, 0x3118, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
- 	{0x1106, 0x3122, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
- 	{0x1106, 0x7205, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
- 	{0x1106, 0x3108, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
- 	{0x1106, 0x3344, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
- 	{0x1106, 0x3343, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
--	{0x1106, 0x3230, PCI_ANY_ID, PCI_ANY_ID, 0, 0, VIA_DX9_0}, \
--	{0x1106, 0x3371, PCI_ANY_ID, PCI_ANY_ID, 0, 0, VIA_DX9_0}, \
--	{0x1106, 0x3157, PCI_ANY_ID, PCI_ANY_ID, 0, 0, VIA_PRO_GROUP_A}, \
--	{0x1106, 0x1122, PCI_ANY_ID, PCI_ANY_ID, 0, 0, VIA_DX9_0}, \
--	{0x1106, 0x5122, PCI_ANY_ID, PCI_ANY_ID, 0, 0, VIA_DX9_0}, \
--	{0x1106, 0x7122, PCI_ANY_ID, PCI_ANY_ID, 0, 0, VIA_DX9_0}, \
-+	{0x1106, 0x3230, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
-+	{0x1106, 0x3371, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
-+	{0x1106, 0x3157, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
-+	{0x1106, 0x1122, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
-+	{0x1106, 0x5122, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
-+	{0x1106, 0x7122, PCI_ANY_ID, PCI_ANY_ID, 0, 0, 0}, \
- 	{0, 0, 0}
-
- #define i810_PCI_IDS \
+diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+index 0178823ce8c2..809c61a10fe1 100644
+=2D-- a/include/linux/pci_ids.h
++++ b/include/linux/pci_ids.h
+@@ -1423,8 +1423,11 @@
+ #define PCI_DEVICE_ID_VIA_VT3324	0x0324
+ #define PCI_DEVICE_ID_VIA_VT3336	0x0336
+ #define PCI_DEVICE_ID_VIA_VT3351	0x0351
++#define PCI_DEVICE_ID_VIA_VT3353	0x0353
+ #define PCI_DEVICE_ID_VIA_VT3364	0x0364
+ #define PCI_DEVICE_ID_VIA_8371_0	0x0391
++#define PCI_DEVICE_ID_VIA_VT3409	0x0409
++#define PCI_DEVICE_ID_VIA_VT3410	0x0410
+ #define PCI_DEVICE_ID_VIA_6415		0x0415
+ #define PCI_DEVICE_ID_VIA_8501_0	0x0501
+ #define PCI_DEVICE_ID_VIA_82C561	0x0561
+@@ -1438,6 +1441,7 @@
+ #define PCI_DEVICE_ID_VIA_8605_0	0x0605
+ #define PCI_DEVICE_ID_VIA_82C686	0x0686
+ #define PCI_DEVICE_ID_VIA_82C691_0	0x0691
++#define PCI_DEVICE_ID_VIA_VT1122	0x1122
+ #define PCI_DEVICE_ID_VIA_82C576_1	0x1571
+ #define PCI_DEVICE_ID_VIA_82C586_2	0x3038
+ #define PCI_DEVICE_ID_VIA_82C586_3	0x3040
+@@ -1452,16 +1456,20 @@
+ #define PCI_DEVICE_ID_VIA_8653_0	0x3101
+ #define PCI_DEVICE_ID_VIA_8622		0x3102
+ #define PCI_DEVICE_ID_VIA_8235_USB_2	0x3104
++#define PCI_DEVICE_ID_VIA_K8M800	0x3108
+ #define PCI_DEVICE_ID_VIA_8233C_0	0x3109
+ #define PCI_DEVICE_ID_VIA_8361		0x3112
+ #define PCI_DEVICE_ID_VIA_XM266		0x3116
++#define PCI_DEVICE_ID_VIA_PM800 	0x3118
+ #define PCI_DEVICE_ID_VIA_612X		0x3119
++#define PCI_DEVICE_ID_VIA_CLE266	0x3122
+ #define PCI_DEVICE_ID_VIA_862X_0	0x3123
+ #define PCI_DEVICE_ID_VIA_8753_0	0x3128
+ #define PCI_DEVICE_ID_VIA_8233A		0x3147
+ #define PCI_DEVICE_ID_VIA_8703_51_0	0x3148
+ #define PCI_DEVICE_ID_VIA_8237_SATA	0x3149
+ #define PCI_DEVICE_ID_VIA_XN266		0x3156
++#define PCI_DEVICE_ID_VIA_VT3157	0x3157
+ #define PCI_DEVICE_ID_VIA_6410		0x3164
+ #define PCI_DEVICE_ID_VIA_8754C_0	0x3168
+ #define PCI_DEVICE_ID_VIA_8235		0x3177
+@@ -1470,11 +1478,18 @@
+ #define PCI_DEVICE_ID_VIA_8378_0	0x3205
+ #define PCI_DEVICE_ID_VIA_8783_0	0x3208
+ #define PCI_DEVICE_ID_VIA_8237		0x3227
++#define PCI_DEVICE_ID_VIA_K8M890	0x3230
+ #define PCI_DEVICE_ID_VIA_8251		0x3287
++#define PCI_DEVICE_ID_VIA_VT3343	0x3343
++#define PCI_DEVICE_ID_VIA_CN700 	0x3344
++#define PCI_DEVICE_ID_VIA_P4M900	0x3371
+ #define PCI_DEVICE_ID_VIA_8261		0x3402
+ #define PCI_DEVICE_ID_VIA_8237A		0x3337
+ #define PCI_DEVICE_ID_VIA_8237S		0x3372
++#define PCI_DEVICE_ID_VIA_VX875 	0x5122
+ #define PCI_DEVICE_ID_VIA_SATA_EIDE	0x5324
++#define PCI_DEVICE_ID_VIA_VX900_VGA	0x7122
++#define PCI_DEVICE_ID_VIA_KM400 	0x7205
+ #define PCI_DEVICE_ID_VIA_8231		0x8231
+ #define PCI_DEVICE_ID_VIA_8231_4	0x8235
+ #define PCI_DEVICE_ID_VIA_8365_1	0x8305
 =2D-
 2.35.1
 
