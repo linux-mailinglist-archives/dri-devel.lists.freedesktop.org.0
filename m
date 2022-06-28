@@ -2,64 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0659655C08C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 13:06:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B2155C0AC
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 13:29:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00A2C1139FA;
-	Tue, 28 Jun 2022 11:06:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C85C210F40E;
+	Tue, 28 Jun 2022 11:29:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B0D31138D9
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 11:06:11 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id s14so14481174ljs.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 04:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=74ZknYvbAERmU3fgiRR2mY3FgoTL84vsypu6NISs3NA=;
- b=dDWLan8xSf2psi8Ku75yN5OgwcTLoIo4QLRQchGf/tnOHIEErsIqClR6R6jj0hHnE1
- glxdqv+Q+oNFas8s3KUFWDNz6pCfCPGtgu3GDRYlMy8tJSqLISPSkAXtSSB18Fc1cBl9
- K3i6ywdqZ7ooQdcDjGUO7jYYHtuMLkvdmJ0B7dpE8NaXa1Etww0PTwkNOS43/A+TUy5U
- fbSKJaRnMnBzQpBS8IlH8etIJaUkiMjzJuedU3YNzOd/a7muD3ZZ5O3Ejx5xtKj1NDNE
- X0K/TmyZEHl6Tx4YK+iB9mRmODqCTxt7r/nNT2QWhS3fceeeluPSUjYTDUwqbKQzyWX0
- vMoQ==
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B596811A231
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 11:28:59 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id q6so25026351eji.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 04:28:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rqVcJpXmSGHM7Xug1Bl66rqbVi1wrmeGRg2/Tsg9PRk=;
+ b=IcnGqZup2pSZ2wFPVOPRyaCtjp0DTMd/7FPG0BDH0rFv5TbHOxc07PyYzLv8rDlVEa
+ atLwmJ/Unlu9/2B/3TK9vt6vqgfJS9H51VbjVQQLTD8jfmJacZmfaLUd1XLfXxMkcil9
+ 8TN0kQ/mK5DjOWvhRei+AB99Zug99Qwu9fX62UKAX+grWj0C4gVhtEf312RnaMej+SF/
+ 6xQi8t388NLvF1hIHFC5yhsvGNeSADNhZIo+gOuWi/yMFjTMN+JcuxrcQ0z5i7Z0MlkJ
+ yQBCOoiGPytgum8uDiN9g5vPOvRgWbZzfjYQYDSABAydt7/GuS1Q4P0lrJ4vn4C5ELyq
+ 65Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=74ZknYvbAERmU3fgiRR2mY3FgoTL84vsypu6NISs3NA=;
- b=GohR9IKqo/YSMtsQGHU314OnOgRgEH6b/Zd8ZC+GZhTS+7hwPADaRYYNg/v09vwD6g
- 2feebi9/nYnH8o+UWuEJLoyY/AHmkSym+ivV7Oi6rYbkbEUIqvZSsHxyrymyrUVp5jfY
- pIWKFq6W1WVW8I+Pnel7fLk0arTGfQBWa+n5HYb2eevbE7q/uarl2k0L3tllgAVxEIux
- 9VvgmpeYdzwlm/X5KOV6w78RPwzGA9sdJaK5xUgWFK3G5kzHrFoFmLLxPJTo3eEGR+e0
- 2khnxmQUPSnld7vtt+0fY4nYkDtzNnOggwXUgQ9TDcB9gK/FQY6Gzl1YEjmdpgPM5SyL
- p4DQ==
-X-Gm-Message-State: AJIora/uKbUgtl3WZMlCaI6KYlipH/dnzVMSNuIwQgiD2S+ht2WUs1Gs
- GI+C5+lNWptYOm8tHo9RuyA=
-X-Google-Smtp-Source: AGRyM1uuwEf2Hbf380gJgJC1h2WOLcL2fEEXBsO7Ix96Zj9MMadTRjHIHgo7LzQz1OVzJUoUH5Gl+w==
-X-Received: by 2002:a2e:b88a:0:b0:25b:c698:eede with SMTP id
- r10-20020a2eb88a000000b0025bc698eedemr4258515ljp.205.1656414369905; 
- Tue, 28 Jun 2022 04:06:09 -0700 (PDT)
-Received: from mobilestation ([95.79.140.178])
- by smtp.gmail.com with ESMTPSA id
- z20-20020a056512371400b0047f9f075e04sm2156981lfr.296.2022.06.28.04.06.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 04:06:09 -0700 (PDT)
-Date: Tue, 28 Jun 2022 14:06:06 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 05/14] dt-bindings: timer: add Canaan k210 to Synopsys
- DesignWare timer
-Message-ID: <20220628110606.5xdzqxwrrqwymgvn@mobilestation>
-References: <20220618123035.563070-1-mail@conchuod.ie>
- <20220618123035.563070-6-mail@conchuod.ie>
- <20220627233025.GA3167724-robh@kernel.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rqVcJpXmSGHM7Xug1Bl66rqbVi1wrmeGRg2/Tsg9PRk=;
+ b=dLckk6f946TK/G1dAWteHjv3b9MO6pR8z2Z9bXd/CtXQAJgpPtmCOcjaCllJCH2qF0
+ amYQDoa8u5t8oKT0MWbB8Wp9RuuRjCMl7peGzXRT+9awo5IZFOiGpBn9tgw5ey1TZFuG
+ 2gFiwQpqdCq7Ezmdxl3pMfXdF64FRgmZgjX3t9Ne53Jg+RCbwg9OYdmRPfXj+7O0khMy
+ pw4j8oGYNxo2jrpqwwtt8pwAZco5dvaPLjnZnw0T+0T9691KKIXXaKUI2AinF9MfvjPD
+ 40nDV+/jmEEk6iZHfKG50Ze6EPH4+X29tntI1N59P2GsMn90+SDB/7xQoLYAAzu9d+WN
+ 8akw==
+X-Gm-Message-State: AJIora9nm/2SGPWRfOMAmttRt9RQL6eLa9ThSXQzfdoGUZ2hxnyOij0g
+ fZiCYxZ8g9IpjhWcbfTG+wq8I0NR3L24hCiE9z62GQ==
+X-Google-Smtp-Source: AGRyM1uTXvCC0CnyVbFFcRV/3HV3twBtL01JkksUir1D11h0A9pXzMWmKYJiFT/r/DulzerrhMilT50XRgB74n2Slh8=
+X-Received: by 2002:a17:906:c354:b0:726:3b55:7045 with SMTP id
+ ci20-20020a170906c35400b007263b557045mr16815936ejb.723.1656415738150; Tue, 28
+ Jun 2022 04:28:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220627233025.GA3167724-robh@kernel.org>
+References: <20220613144800.326124-1-maxime@cerno.tech>
+ <20220613144800.326124-3-maxime@cerno.tech>
+In-Reply-To: <20220613144800.326124-3-maxime@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 28 Jun 2022 12:28:42 +0100
+Message-ID: <CAPY8ntDiKN+DigKAXnTj2VhnSfRPLJcwP5qgsw-GUv0foE3qaw@mail.gmail.com>
+Subject: Re: [PATCH 02/33] drm/vc4: kms: Warn if clk_set_min_rate fails
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,115 +64,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>, alsa-devel@alsa-project.org,
- David Airlie <airlied@linux.ie>, Palmer Dabbelt <palmer@rivosinc.com>,
- linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-riscv@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Jose Abreu <joabreu@synopsys.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, devicetree@vger.kernel.org,
- Albert Ou <aou@eecs.berkeley.edu>, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org, Paul Walmsley <paul.walmsley@sifive.com>,
- Conor Dooley <mail@conchuod.ie>, Thomas Gleixner <tglx@linutronix.de>,
- Dillon Min <dillon.minfei@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Heng Sia <jee.heng.sia@intel.com>, linux-spi@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- dmaengine@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
+On Mon, 13 Jun 2022 at 15:48, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> We currently ignore the clk_set_min_rate return code assuming it would
+> succeed. However, it can fail if we ask for a rate higher than the
+> current maximum for example.
+>
+> Since we can't fail in atomic_commit, at least warn on failure.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-On Mon, Jun 27, 2022 at 05:30:25PM -0600, Rob Herring wrote:
-> On Sat, Jun 18, 2022 at 01:30:27PM +0100, Conor Dooley wrote:
-> > From: Conor Dooley <conor.dooley@microchip.com>
-> > 
-> > The Canaan k210 apparently has a Sysnopsys Designware timer but
-> > according to the documentation & devicetree it has 2 interrupts rather
-> > than the standard one. Add a custom compatible that supports the 2
-> > interrupt configuration and falls back to the standard binding (which
-> > is currently the one in use in the devicetree entry).
-> > 
-> > Link: https://canaan-creative.com/wp-content/uploads/2020/03/kendryte_standalone_programming_guide_20190311144158_en.pdf #Page 58
-> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> > ---
-> >  .../bindings/timer/snps,dw-apb-timer.yaml     | 28 +++++++++++++++----
-> >  1 file changed, 22 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml b/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
-> > index d33c9205a909..9a76acc7a66f 100644
-> > --- a/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
-> > +++ b/Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
-> > @@ -12,6 +12,9 @@ maintainers:
-> >  properties:
-> >    compatible:
-> >      oneOf:
-> > +      - items:
-> > +          - const: canaan,k210-apb-timer
-> > +          - const: snps,dw-apb-timer
-> >        - const: snps,dw-apb-timer
-> >        - enum:
-> >            - snps,dw-apb-timer-sp
-> > @@ -21,9 +24,6 @@ properties:
-> >    reg:
-> >      maxItems: 1
-> >  
-> > -  interrupts:
-> > -    maxItems: 1
-> > -
-> >    resets:
-> >      maxItems: 1
-> >  
-> > @@ -41,7 +41,23 @@ properties:
-> >  
-> >    clock-frequency: true
-> >  
-> > -additionalProperties: false
-> > +unevaluatedProperties: false
-> > +
-> > +if:
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        const: canaan,k210-apb-timer
-> > +
-> > +then:
-> > +  properties:
-> > +    interrupts:
-> > +      maxItems: 2
-> 
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-> When more than 1, you need to define what they are and the order.
-
-Please see my note to v2 of this patch:
-Link: https://lore.kernel.org/lkml/20220627211314.dc2hempelyl5ayjg@mobilestation/
-
--Sergey
-
-> 
-> > +
-> > +else:
-> > +  properties:
-> > +    interrupts:
-> > +      maxItems: 1
-> >  
-> >  required:
-> >    - compatible
-> > @@ -60,8 +76,8 @@ oneOf:
-> >  examples:
-> >    - |
-> >      timer@ffe00000 {
-> > -      compatible = "snps,dw-apb-timer";
-> > -      interrupts = <0 170 4>;
-> > +      compatible = "canaan,k210-apb-timer", "snps,dw-apb-timer";
-> > +      interrupts = <0 170 4>, <0 170 4>;
-> >        reg = <0xffe00000 0x1000>;
-> >        clocks = <&timer_clk>, <&timer_pclk>;
-> >        clock-names = "timer", "pclk";
-> > -- 
-> > 2.36.1
-> > 
-> > 
+> ---
+>  drivers/gpu/drm/vc4/vc4_kms.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+> index c169bd72e53b..7a7c90d8520b 100644
+> --- a/drivers/gpu/drm/vc4/vc4_kms.c
+> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
+> @@ -405,7 +405,7 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
+>                  * Do a temporary request on the core clock during the
+>                  * modeset.
+>                  */
+> -               clk_set_min_rate(hvs->core_clk, core_rate);
+> +               WARN_ON(clk_set_min_rate(hvs->core_clk, core_rate));
+>         }
+>
+>         drm_atomic_helper_commit_modeset_disables(dev, state);
+> @@ -438,7 +438,7 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
+>                  * Request a clock rate based on the current HVS
+>                  * requirements.
+>                  */
+> -               clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate);
+> +               WARN_ON(clk_set_min_rate(hvs->core_clk, new_hvs_state->core_clock_rate));
+>
+>                 drm_dbg(dev, "Core clock actual rate: %lu Hz\n",
+>                         clk_get_rate(hvs->core_clk));
+> --
+> 2.36.1
+>
