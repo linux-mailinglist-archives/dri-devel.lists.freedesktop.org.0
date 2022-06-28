@@ -1,55 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1841355E567
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 16:43:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A07955E586
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 16:52:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7D6610ECC1;
-	Tue, 28 Jun 2022 14:43:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C6BC10FCCD;
+	Tue, 28 Jun 2022 14:52:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 191B210EF7D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 14:43:08 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id cf14so17909389edb.8
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 07:43:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF6710FCCE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 14:52:48 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id lw20so26336689ejb.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 07:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7hmiP2nsm7GYKYeBHW+YUJEK/bavjayODZn3LUEPQfU=;
- b=Rg6Ce3D49JXUDLDeRZsgSz+yryqVA8Xki5kW8XtGn3by//+6dHO1GOAcOhbDNzgpwT
- aSztrbpOcnAUsBoPDQ7BV/QEUHC2BeteHolH+41XKkNYsy21dcDJNxo80eFEmFkffm7N
- xrlANZd2gutEao0wMT0i33DgFJ7qVkakqkuIKGzp1apMRQjGaeRIaAUATMXR7WhdJ1pG
- 22Ybwmrl96PlHmzzq1U2dt/7mck7yCPOvFY/wTosedx//6dKv/OjQ8DN+UYG+pnrQ3V1
- CF2MqOlXTIJg0bcE8VwAUgguFd0E7qr/7G9hWBMzW3DOJ4XewARcERMpgO+veI9YZr7q
- Vt8g==
+ :cc; bh=zLp244HRKuXK443MblJOFX9TiLKY+sMNN7lfWRmJzw4=;
+ b=Lk7xi3t/LB2zXUPx3APLw1OdwcapOiHYlZJA4tOn/NbuDoTBbMcIduKURJqTEBrkoj
+ YYZ4czzT6ihRD/blwTjeq6YA9LXg+DB/+iymb+sPgeQRaIxaptCod570AG3D80pBU9e4
+ 5+8iG89M5uxSJJ+dv/Ns8XdtFg+q/u0L7J170=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7hmiP2nsm7GYKYeBHW+YUJEK/bavjayODZn3LUEPQfU=;
- b=sXWFxp2Ce11BoduvSNK7VGCBWw/Pv6WPhKBuzf/19IKGsj6hztJ55bB3IwhoBq9teL
- agJB8kfRKOgdYqjdimJGRaR41vxr6YQQJrCwayYI/LjzpH7xtkLuboicFVCAEPTsIWJl
- 26txtWVFPJn7CvTZg0TynfFLnlyFvfhcSvYrCT40Ez+cLYaYnuCg60kwqk/6iNc88VyC
- /t54wRIW2RWuVPMKNd5KUQR8CBhIgyLc0Bj2P46pJGCpeFYbNMZ/ke5GJUtONBVc4dbi
- +Kd7TV67u7fFUAGOOw/DmvSP2K68yx2s0ELj2cvJo2qQ1zgfn4jlGPJvij6ouDNAPig3
- TX+A==
-X-Gm-Message-State: AJIora9j7k//JuMj0VfDdo/89UC6eNohrhZIaaY4y8GdEAfiV5j1Qx91
- ou8qXLAKqQ6nCqJR+qso+n4nA/y/HOSH3FPFHh4=
-X-Google-Smtp-Source: AGRyM1v3Zrmhh/ktA0MyQ64G0CINBj/oLTnBPPFjZQDaHSTrK7ZqnxVdUuVe2HWrTrfrPe56zqLklI36n15HTP7diSA=
-X-Received: by 2002:a05:6402:50ce:b0:435:9249:dfe9 with SMTP id
- h14-20020a05640250ce00b004359249dfe9mr23490212edb.310.1656427386662; Tue, 28
- Jun 2022 07:43:06 -0700 (PDT)
+ bh=zLp244HRKuXK443MblJOFX9TiLKY+sMNN7lfWRmJzw4=;
+ b=SFG4HEk6jT7C005mkVN0xpaXRjKABUTywaAfcBM/Z3Y5ESuQRvgSwaGv5nL+Vwrpk9
+ UQUaxOfWHU+GL5QF29OCf38/9+uTtEjupEW84I1XqqvZCXav+EzmWuGrJV2bm+dCcfMA
+ sphlxp0rbkHsCrCckmhbkytf/Ds6j/jOXWI1BfJHgXmyM9GE2/jbz8FVPjYqbulRE98n
+ ss3jb97pQSl65vY7oYlpU1G1QWBR+mItWCAcREulSkLchnzg7hVmKJtU2M46ddI8rHqR
+ rLgWUXwBgg48ndPI/5ZMXr1iCssPvEezjY6N2H0vjEIgG5WLnNVCfUVByoqlJ4Wv2tsJ
+ 8vig==
+X-Gm-Message-State: AJIora9CQe+WLgK9d78SAaySDGNrjcs4uWaWe2uJEmgeJmcRak3dMsOF
+ zoY6mnFExfYCaY1/lwqdewXUQAeL3FMzeoGZ
+X-Google-Smtp-Source: AGRyM1szTFnfxHWoIcOans1aHJFKtVWQpxHo12ZIclym41zmQEJ1AYNYL5X5sjEiX777xCMAKhIQ6A==
+X-Received: by 2002:a17:907:7f09:b0:726:2ba7:21c2 with SMTP id
+ qf9-20020a1709077f0900b007262ba721c2mr18364475ejc.744.1656427966302; 
+ Tue, 28 Jun 2022 07:52:46 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com.
+ [209.85.221.53]) by smtp.gmail.com with ESMTPSA id
+ fd5-20020a056402388500b00436f3107bdasm8823544edb.38.2022.06.28.07.52.43
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Jun 2022 07:52:44 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id i1so13585755wrb.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 07:52:43 -0700 (PDT)
+X-Received: by 2002:a5d:4046:0:b0:21a:3a12:239e with SMTP id
+ w6-20020a5d4046000000b0021a3a12239emr18136405wrp.138.1656427963334; Tue, 28
+ Jun 2022 07:52:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1656409369.git.mchehab@kernel.org>
- <0129fa0ffb8d418ab66f2ab0f1d525cb49f01f75.1656409369.git.mchehab@kernel.org>
-In-Reply-To: <0129fa0ffb8d418ab66f2ab0f1d525cb49f01f75.1656409369.git.mchehab@kernel.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 28 Jun 2022 10:42:54 -0400
-Message-ID: <CADnq5_Ps_Pp1tzroPh6VwDsaBP-q6bLeaap4159S5BkSzhK1Hg@mail.gmail.com>
-Subject: Re: [PATCH 12/22] drm: gpu_scheduler: fix a kernel-doc warning
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20220628085949.2147920-1-rexnie3@gmail.com>
+In-Reply-To: <20220628085949.2147920-1-rexnie3@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 28 Jun 2022 07:52:31 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=U8oR-L7XRJH7qVG2p2m1J8obnQSTzA2moZZ8Kmy2SzFw@mail.gmail.com>
+Message-ID: <CAD=FV=U8oR-L7XRJH7qVG2p2m1J8obnQSTzA2moZZ8Kmy2SzFw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] drm/panel-edp: Add eDP innolux panel support
+To: Rex Nie <rexnie3@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,54 +71,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
  LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Sandeep Panda <spanda@codeaurora.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 28, 2022 at 5:46 AM Mauro Carvalho Chehab
-<mchehab@kernel.org> wrote:
+Hi,
+
+On Tue, Jun 28, 2022 at 2:00 AM Rex Nie <rexnie3@gmail.com> wrote:
 >
-> The dev field was not documented:
+> Add support for the 14" innolux,n140hca-eac eDP panel.
 >
->         include/drm/gpu_scheduler.h:463: warning: Function parameter or member 'dev' not described in 'drm_gpu_scheduler'
->
-> Document it.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-
-Generally in the drm tree we use / rather than : in the patch titles.  E.g.,
-
-drm/scheduler: fix a kernel-doc warning
-
-With that fixed:
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-
+> Signed-off-by: Rex Nie <rexnie3@gmail.com>
+> Acked-by: Hsin-Yi Wang <hsinyi@chromium.org>
 > ---
+>  drivers/gpu/drm/panel/panel-edp.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
 >
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH 00/22] at: https://lore.kernel.org/all/cover.1656409369.git.mchehab@kernel.org/
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+> index 3626469c4cc2..2a8fcdffe80c 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -1355,6 +1355,29 @@ static const struct panel_desc innolux_n125hce_gn1 = {
+>         },
+>  };
 >
->  include/drm/gpu_scheduler.h | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index addb135eeea6..c7c487e0c40e 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -435,6 +435,7 @@ struct drm_sched_backend_ops {
->   * @_score: score used when the driver doesn't provide one
->   * @ready: marks if the underlying HW is ready to work
->   * @free_guilty: A hit to time out handler to free the guilty job.
-> + * @dev: pointer to struct device.
->   *
->   * One scheduler is implemented for each hardware ring.
->   */
-> --
-> 2.36.1
->
+> +static const struct display_timing innolux_n140hca_eac_timing = {
+> +       .pixelclock = { 72600000, 76420000, 80240000 },
+> +       .hactive = { 1920, 1920, 1920 },
+> +       .hfront_porch = { 80, 80, 80 },
+> +       .hback_porch = { 190, 190, 190 },
+> +       .hsync_len = { 60, 60, 60 },
+> +       .vactive = { 1080, 1080, 1080 },
+> +       .vfront_porch = { 6, 6, 6 },
+> +       .vback_porch = { 38, 38, 38 },
+> +       .vsync_len = { 8, 8, 8 },
+> +       .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW,
+> +};
+
+A few questions:
+
+1. If I'm doing my math right, you're saying that this panel runs at
+30 Hz refresh rate. Truly? While I won't dismiss that as impossible,
+it feels unlikely. Specifically:
+
+In [2]: 72600000 / ((1920 + 80 + 190 + 60) * (1080 + 6 + 38 + 8))
+Out[2]: 28.50412249705536
+
+In [3]: 80240000 / ((1920 + 80 + 190 + 60) * (1080 + 6 + 38 + 8))
+Out[3]: 31.503729878288183
+
+NOTE: I managed to dig up a datasheet for this panel and the datasheet
+I have shows it as a 60 Hz refresh rate panel.
+
+
+2. You're using the "struct display_timing" here instead of the
+"struct drm_display_mode". That can be OK, but can I ask why exactly?
+
+
+3. Are you sure you need to add this entry? Moving forward I'm trying
+to encourage people to use the generic "edp-panel". Mostly you'd want
+to add a hardcoded panel here if:
+
+a) Devices have already shipped using hardcoded timings and we don't
+want to risk breaking something in the field with "edp-panel".
+
+b) You're trying to support some eDP controller that can't handle the
+generic "edp-panel". In this case I'm OK with landing changes but I'd
+strongly encourage you to update the controller to handle things.
+
+
+> +static const struct panel_desc innolux_n140hca_eac = {
+> +       .timings = &innolux_n140hca_eac_timing,
+> +       .num_timings = 1,
+> +       .bpc = 6,
+
+Is it really 6 bpc? The datasheet I dug up claims 16777216 colors
+which would be 8 bpc. The EDID from that same datasheet also claims 8
+bpc.
+
+
+> +       .size = {
+> +               .width = 309,
+> +               .height = 174,
+> +       },
+
+Where are your delays? I know in old code these were hard to figure
+out from the panel spec, but the kernel doc comments now translate it
+into standard eDP terminology so this should be trivially easy for you
+to provide.
