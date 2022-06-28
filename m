@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456CE55F099
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:54:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C1055F09B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:54:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB0B610E2BA;
-	Tue, 28 Jun 2022 21:54:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60BB110F58E;
+	Tue, 28 Jun 2022 21:54:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03F1D10E4C6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:54:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82EF710F539
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:54:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656453240;
- bh=JYmN/df28yY4gLXLIhAX5mM+5FlGHKS7OLg9tWNIxgU=;
+ s=badeba3b8450; t=1656453244;
+ bh=G3vWKYkYM/vTX38+A0o/osqsuZtpk2/ky+zUR6oF68w=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=gvDnKhuq+xDkdbLzjGHIR0u2i1bT+zlfgO2S65HJ4qm5hNytgSVYat1i7fakunC9H
- DY/i8r8r/TjCDXrpocA5EKDpUqMJHOBor1YkJ+WMcmJSICvB6o16cKTb9450qGBHfG
- YQSZj7/CoC0ocdBaG0QMroTZ2eMhP2zzxuqDQk7Y=
+ b=MAEx1zV6DVC+nxk6+jKdH4fM0k//l7Izms3yTkNUZxZh+OoSmsPLj49c2BN+zLSEM
+ b9Qs5a9dUOh7+QZY6hkcaMDvzW9XDnB0/PrsWBsgruZl/vbG9ofq1G+6SKF9z2Gx3I
+ A+khAqULHMz4jr4bcnPDSNE6MNhPy3uginwoTxPM=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([174.250.0.5]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1M3DJv-1o4viF3BWv-003gar; Tue, 28
- Jun 2022 23:54:00 +0200
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1N5G9n-1ngm580D6z-0116lJ; Tue, 28
+ Jun 2022 23:54:04 +0200
 From: Kevin Brace <kevinbrace@gmx.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 08/32] drm/via: Add via_crtc_hw.c
-Date: Tue, 28 Jun 2022 16:52:22 -0500
-Message-Id: <20220628215246.19706-9-kevinbrace@gmx.com>
+Subject: [PATCH v2 09/32] drm/via: Add via_cursor.c
+Date: Tue, 28 Jun 2022 16:52:23 -0500
+Message-Id: <20220628215246.19706-10-kevinbrace@gmx.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628215246.19706-1-kevinbrace@gmx.com>
 References: <20220628215246.19706-1-kevinbrace@gmx.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:YkN5/m8tagqJ61mM3Bk1flvmFRf9ZduiCCSPn+iJUdraJJ5wbMV
- IgMTV9M7y6jOAYr/D3BKKZhAnUIHU/Ei4KQZCQxTT62d4TkhMNC1SyLO4d/lcsVQraTuCp5
- sDS6CSm4bwVnsiHoEl3dDlfVbSNcqa2P2O4gLLme6viprr/qB+eHsQlTlGYcMp18qhJoIRH
- Wb1/wIijAhWX47JaU1kPg==
+X-Provags-ID: V03:K1:mI8P9obFtHeQb9RWBccCVA0QrDPQ+L2XdWhKN87nXnxGcwV4wPn
+ 9tHgsqDhhCWG9Qiy+mnnK5zlj795sr0Zn8tvMYu+KDRVA5geg54ICTf8Nef4ojz2MTApRr5
+ 2UpRltjthfxkr1KoCHI9IfUFjY/xFLkdg70vmvjYjyuz1oegryQ4Jqe6aZTwfctGjcM9nhc
+ bcVSCwqvWqlwJVn+QRu0A==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nJ3W5BPFtMc=:jm2qUEUktXlnq4LEpDdpaW
- 4H5g5G7/ERN0EYjgYoILUngsQ6rNXITe34/AacZFeZIqPIXUjjv5btOazeNQanHNxt7faCXEX
- 0Aul2biQiA4ESAKtu9SSX2sWC+lzqtpqEYe9vxcw09RoFLDI3H+mVASUgcFo0CAjUT2cZE3Z9
- yfFIN+Ii/iqhc4zqxGd7TWSKMcgsfKY35ptfbF/iy1ykhlWtQnw4KkLWLwgeYVsNZe0wKO9lz
- NwIyI1pxg046uxmnbyv5/FSb5Bm+obMn4YvMmHY36LaXZidWNZtiM7cTNZu/ChoAPv0IlL957
- VZUvyn9aA5pVQftqnKv8WNrkFei7/flpO0xpXpkVGyjkdjNUj+jdp4h4CK8NenRqkPKGUlSwJ
- zSpSovZtLwxX6r2OLo4R62XpdlWi6KXjMEBWKfG8U32KYhZL/QNLLSBcLKnx5ERevIrlXw36p
- N/DhZPmd9sE3dyb6otB42K7+zFO9laOMwRGyG9FZHFE3Wqi7QEuEwYLK/A3HuZSlwtlGbJXKr
- FeAoGvPlsoQhD/M9y5qM7oT0OM6Gw1/nQKk0hbJZ3h1IkTyrfl+uz2GVmMxFUOWwajJNmO8eQ
- 9LDbCWEHrxH2mkTRoHenKZhwgpDfLP7QULiol+ZvZ+MdElKhtHbey04hOl+EgDaToFnNX9UQY
- vlCYIPyVxY2MRdd25O4cE9v2TXcSYodp+aum8x4PFkGHw8w45WSdra90Cf2Q5nG8WQNQJGRR0
- YyhvjPCviGr65BlgdTYe3QHX6Db7qGSAsosnw2ISwMLLKVquDHUbJyo7brHGsxpYnF2BH7MSM
- 2H3Sm1yCJBGXjgqXmysl68Dbxm0VCRDzmP0ZBbzn90Uw8y/j87D/OrxlotbV2sJf8V3gOM+Qo
- 3bOSafRfsIxdegBM1MKaGg3vC3lRMw7LqpT3AwWN9y/Z1+vDIobEUP1Gcx1DECruiLOUSDf1F
- nTcN8kFW00BFgyHTdicXu7KzKO97xjETUFUwb414upLLz5OU2XHzt+X3zo7ZpWQtvyH6fO9D9
- txliA+cue0Uu+Yd1LQI9oUzOPPTXuXkAHc6TLmKLu2gGzhw0+HC98egAiDuWiMAyy85oVni5Q
- 8NnY/TsgdMr95w6p2MwxXRmPpxl+iaW6xgdtG2MZP/IPAvpQxXpqC8bDQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:S6BEF63u734=:l7yeIJeZZmrmgA1ESivXCk
+ NuAyClv/Ix3ukDU2MNXTN1MH55GWfNn+Z8q2p2NwsNq9nu4nBbeUeO5wxH9j0m76CW5HeoPFP
+ sI0o1jsp7TPmQ1vrFcQa9LnNmRCXbSNlrZc9t3qEHvSj6le1P6hYcpqEV6HxXAtXLXnbyOooT
+ NipNz2n80/2lzjzlmgkE15kn4tGY0I0xUBygX7zOdMlSg73lqA97UH1O5d5Oxz7vtkC68Bk3v
+ 0OKpqN5oFTl9h1VVo5fMGX5dHRNkKQ+NZzvi4PQna7IisE3hSqa7ObYz2/bHr3vAyWTkVzHQk
+ Ej4hZ01pq9mrtbWnlG73nOrIfVIDaZzG4oOE0eO0/h7B5ByFEpp9YVUqNtNP3TQ2vFMMEgmwS
+ bzn//W4yxqqlqBmGkXyHQLuxCVzjC+rfwSr0bP0qbjhQ9rnW0N7KwwVJSJ1LyGqKk1RHCjY38
+ sDL5dugzwJnkHIADpXg2MRRqSJUTQas1P3NbqoGOvBxvhjhFhujcaFRqwHHqfuU0tpySRt71X
+ jKua3tYUyBvPrjFnT/I6Bb7P39Df6KN8yE4VGFmqnnnrBs3+LscnhT4r59X43KnZ0NgvPljEA
+ 4zeKAigYOtJTcfEr2H+D2BNirm8qEsQ6dymlJPjFbXHj299Brf9OFbrRt86DcfDOHaCYbeHCF
+ ngJIVNwIy7JJsxFVJsVknokA9Hzf4gPF9CnfH7CYgbSOcv1+CFw2GUs9BKFzv7OxZ8iFEo/m3
+ GAjLDiPMzs/qVIxETdIZv4IzRLme1D6l/A2qm19pK8bFSsgHliVcVRUXqxr63Sou7FJv+O9Z/
+ E7Cqoa0zAwFfDmZRnobfFRTm1RpCFEoidthpGBEp3LrunHi02ci7nOl30TrgX16gTTfsw9Jp2
+ PDJlXk7XoSXiAqgFRDHBP9FQ2ZsUFwtoeEB02T+AWzhHNlg0BS1IvzV8nKGYSMpYrICvPsLAr
+ iSDUFJBYjhr3UdtQ/fR24+tCgXpINv3UM6bqyYFWbFxXqEpmsu3jmmEWigYU9KqELru3a6T3F
+ Ua8jjk+Q+dlRoQbus0Y6g2pbpv5mCIRUhropsbNH/2q9E4Fs2eEFUyBmWBZ5M5HITQp11SP4/
+ 7vOMZ02iOLQhvGVhRsZa8vBIzuuNplPYVhuBc9QSS0g7jvAdomErJ4a1g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,19 +76,22 @@ From: Kevin Brace <kevinbrace@bracecomputerlab.com>
 
 Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
 =2D--
- drivers/gpu/drm/via/via_crtc_hw.c | 91 +++++++++++++++++++++++++++++++
- 1 file changed, 91 insertions(+)
- create mode 100644 drivers/gpu/drm/via/via_crtc_hw.c
+ drivers/gpu/drm/via/via_cursor.c | 419 +++++++++++++++++++++++++++++++
+ 1 file changed, 419 insertions(+)
+ create mode 100644 drivers/gpu/drm/via/via_cursor.c
 
-diff --git a/drivers/gpu/drm/via/via_crtc_hw.c b/drivers/gpu/drm/via/via_c=
-rtc_hw.c
+diff --git a/drivers/gpu/drm/via/via_cursor.c b/drivers/gpu/drm/via/via_cu=
+rsor.c
 new file mode 100644
-index 000000000000..f5446da52c0f
+index 000000000000..9a6bce1cf922
 =2D-- /dev/null
-+++ b/drivers/gpu/drm/via/via_crtc_hw.c
-@@ -0,0 +1,91 @@
++++ b/drivers/gpu/drm/via/via_cursor.c
+@@ -0,0 +1,419 @@
 +/*
++ * Copyright =C2=A9 2019-2020 Kevin Brace.
 + * Copyright 2012 James Simmons. All Rights Reserved.
++ * Copyright 1998-2009 VIA Technologies, Inc. All Rights Reserved.
++ * Copyright 2001-2009 S3 Graphics, Inc. All Rights Reserved.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining =
 a
@@ -119,75 +123,401 @@ OTHER
 + * DEALINGS IN THE SOFTWARE.
 + *
 + * Author(s):
++ * Kevin Brace <kevinbrace@bracecomputerlab.com>
 + * James Simmons <jsimmons@infradead.org>
 + */
 +
-+#include <video/vga.h>
++#include <linux/pci.h>
++#include <linux/pci_ids.h>
 +
-+#include "via_crtc_hw.h"
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_crtc.h>
++#include <drm/drm_fourcc.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_gem.h>
++#include <drm/drm_mode.h>
++#include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_plane.h>
++#include <drm/drm_plane_helper.h>
 +
-+/*
-+ * load_register_table enables the ability to set entire
-+ * tables of registers. For each register defined by the
-+ * port and the index for that register is programmed
-+ * with a masked value.
-+ */
-+void
-+load_register_tables(void __iomem *regbase, struct vga_registers *regs)
++#include <drm/ttm/ttm_bo_api.h>
++#include <drm/ttm/ttm_bo_driver.h>
++
++#include "via_drv.h"
++
++
++static void via_hide_cursor(struct drm_crtc *crtc)
 +{
-+	u8 cr_index, orig, reg_mask, data;
-+	unsigned int i;
-+	u16 port;
++	struct drm_device *dev =3D crtc->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct via_crtc *iga =3D container_of(crtc,
++					struct via_crtc, base);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	uint32_t temp;
 +
-+	for (i =3D 0; i < regs->count; i++) {
-+		reg_mask =3D regs->regs[i].start_bit;
-+		data =3D regs->regs[i].end_bit;
-+		cr_index =3D regs->regs[i].io_addr;
-+		port =3D regs->regs[i].ioport;
-+
-+		vga_w(regbase, port, cr_index);
-+		orig =3D (vga_r(regbase, port + 1) & ~reg_mask);
-+		vga_w(regbase, port + 1, ((data & reg_mask) | orig));
-+	}
-+}
-+
-+/*
-+ * Due to the limitation of how much data you can write to a single
-+ * register we run into data that can't be written in only one register.
-+ * So load_value_to_register was developed to be able to define register
-+ * tables that can load different bit ranges of the data to different
-+ * registers.
-+ */
-+void
-+load_value_to_registers(void __iomem *regbase, struct vga_registers *regs=
-,
-+			unsigned int value)
-+{
-+	unsigned int bit_num =3D 0, shift_next_reg, reg_mask;
-+	u8 start_index, end_index, cr_index, orig;
-+	unsigned int data, i, j;
-+	u16 get_bit, port;
-+
-+	for (i =3D 0; i < regs->count; i++) {
-+		start_index =3D regs->regs[i].start_bit;
-+		end_index =3D regs->regs[i].end_bit;
-+		cr_index =3D regs->regs[i].io_addr;
-+		port =3D regs->regs[i].ioport;
-+		reg_mask =3D data =3D 0;
-+
-+		shift_next_reg =3D bit_num;
-+		for (j =3D start_index; j <=3D end_index; j++) {
-+			reg_mask =3D reg_mask | (1 << j);
-+			get_bit =3D (value & (1 << bit_num));
-+			data |=3D ((get_bit >> shift_next_reg) << start_index);
-+			bit_num++;
++	switch (pdev->device) {
++	case PCI_DEVICE_ID_VIA_VT3157:
++	case PCI_DEVICE_ID_VIA_VT3343:
++	case PCI_DEVICE_ID_VIA_P4M900:
++	case PCI_DEVICE_ID_VIA_VT1122:
++	case PCI_DEVICE_ID_VIA_VX875:
++	case PCI_DEVICE_ID_VIA_VX900_VGA:
++		if (iga->index) {
++			temp =3D VIA_READ(HI_CONTROL);
++			VIA_WRITE(HI_CONTROL, temp & 0xFFFFFFFA);
++		} else {
++			temp =3D VIA_READ(PRIM_HI_CTRL);
++			VIA_WRITE(PRIM_HI_CTRL, temp & 0xFFFFFFFA);
 +		}
 +
-+		vga_w(regbase, port, cr_index);
-+		orig =3D (vga_r(regbase, port + 1) & ~reg_mask);
-+		vga_w(regbase, port + 1, ((data & reg_mask) | orig));
++		break;
++	default:
++		temp =3D VIA_READ(HI_CONTROL);
++		VIA_WRITE(HI_CONTROL, temp & 0xFFFFFFFA);
++		break;
 +	}
 +}
++
++static void via_show_cursor(struct drm_crtc *crtc)
++{
++	struct drm_device *dev =3D crtc->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct via_crtc *iga =3D container_of(crtc,
++					struct via_crtc, base);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++
++	switch (pdev->device) {
++	case PCI_DEVICE_ID_VIA_VT3157:
++	case PCI_DEVICE_ID_VIA_VT3343:
++	case PCI_DEVICE_ID_VIA_P4M900:
++	case PCI_DEVICE_ID_VIA_VT1122:
++	case PCI_DEVICE_ID_VIA_VX875:
++	case PCI_DEVICE_ID_VIA_VX900_VGA:
++		/*
++		 * Program Hardware Icon (HI) FIFO, foreground color,
++		 * and background color.
++		 */
++		if (iga->index) {
++			VIA_WRITE(HI_TRANSPARENT_COLOR, 0x00000000);
++			VIA_WRITE(HI_INVTCOLOR, 0x00FFFFFF);
++			VIA_WRITE(ALPHA_V3_PREFIFO_CONTROL,
++							0x000E0000);
++			VIA_WRITE(ALPHA_V3_FIFO_CONTROL, 0x0E0F0000);
++		} else {
++			VIA_WRITE(PRIM_HI_TRANSCOLOR, 0x00000000);
++			VIA_WRITE(PRIM_HI_INVTCOLOR, 0x00FFFFFF);
++			VIA_WRITE(V327_HI_INVTCOLOR, 0x00FFFFFF);
++			VIA_WRITE(PRIM_HI_FIFO, 0x0D000D0F);
++		}
++
++		break;
++	default:
++		/*
++		 * Program Hardware Icon (HI) FIFO, foreground color,
++		 * and background color.
++		 */
++		VIA_WRITE(HI_TRANSPARENT_COLOR, 0x00000000);
++		VIA_WRITE(HI_INVTCOLOR, 0x00FFFFFF);
++		VIA_WRITE(ALPHA_V3_PREFIFO_CONTROL, 0x000E0000);
++		VIA_WRITE(ALPHA_V3_FIFO_CONTROL, 0xE0F0000);
++		break;
++	}
++
++	switch (pdev->device) {
++	case PCI_DEVICE_ID_VIA_VT3157:
++	case PCI_DEVICE_ID_VIA_VT3343:
++	case PCI_DEVICE_ID_VIA_P4M900:
++	case PCI_DEVICE_ID_VIA_VT1122:
++	case PCI_DEVICE_ID_VIA_VX875:
++	case PCI_DEVICE_ID_VIA_VX900_VGA:
++		/*
++		 * Turn on Hardware Icon (HI).
++		 */
++		if (iga->index) {
++			VIA_WRITE(HI_CONTROL, 0xB6000005);
++		} else {
++			VIA_WRITE(PRIM_HI_CTRL, 0x36000005);
++		}
++
++		break;
++	default:
++		/*
++		 * Turn on Hardware Icon (HI).
++		 */
++		if (iga->index) {
++			VIA_WRITE(HI_CONTROL, 0xB6000005);
++		} else {
++			VIA_WRITE(HI_CONTROL, 0x36000005);
++		}
++
++		break;
++	}
++}
++
++static void via_cursor_address(struct drm_crtc *crtc,
++				struct ttm_buffer_object *ttm_bo)
++{
++	struct drm_device *dev =3D crtc->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct via_crtc *iga =3D container_of(crtc,
++					struct via_crtc, base);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++
++	switch (pdev->device) {
++	case PCI_DEVICE_ID_VIA_VT3157:
++	case PCI_DEVICE_ID_VIA_VT3343:
++	case PCI_DEVICE_ID_VIA_P4M900:
++	case PCI_DEVICE_ID_VIA_VT1122:
++	case PCI_DEVICE_ID_VIA_VX875:
++	case PCI_DEVICE_ID_VIA_VX900_VGA:
++		/*
++		 * Program Hardware Icon (HI) offset.
++		 */
++		if (iga->index) {
++			VIA_WRITE(HI_FBOFFSET,
++				ttm_bo->resource->start << PAGE_SHIFT);
++		} else {
++			VIA_WRITE(PRIM_HI_FBOFFSET,
++				ttm_bo->resource->start << PAGE_SHIFT);
++		}
++		break;
++	default:
++		/*
++		 * Program Hardware Icon (HI) offset.
++		 */
++		VIA_WRITE(HI_FBOFFSET, ttm_bo->resource->start << PAGE_SHIFT);
++		break;
++	}
++
++	return;
++}
++
++static void via_set_hi_location(struct drm_crtc *crtc, int crtc_x, int cr=
+tc_y)
++{
++	struct drm_device *dev =3D crtc->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct via_crtc *iga =3D container_of(crtc,
++					struct via_crtc, base);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	uint32_t location_x =3D 0, location_y =3D 0;
++	uint32_t offset_x =3D 0, offset_y =3D 0;
++
++	if (crtc_x < 0) {
++		offset_x =3D -crtc_x;
++	} else {
++		location_x =3D crtc_x;
++	}
++
++	if (crtc_y < 0) {
++		offset_y =3D -crtc_y;
++	} else {
++		location_y =3D crtc_y;
++	}
++
++	switch (pdev->device) {
++	case PCI_DEVICE_ID_VIA_VT3157:
++	case PCI_DEVICE_ID_VIA_VT3343:
++	case PCI_DEVICE_ID_VIA_P4M900:
++	case PCI_DEVICE_ID_VIA_VT1122:
++	case PCI_DEVICE_ID_VIA_VX875:
++	case PCI_DEVICE_ID_VIA_VX900_VGA:
++		if (iga->index) {
++			VIA_WRITE(HI_POSSTART,
++				(((location_x & 0x07ff) << 16) |
++				(location_y & 0x07ff)));
++			VIA_WRITE(HI_CENTEROFFSET,
++				(((offset_x & 0x07ff) << 16) |
++				(offset_y & 0x07ff)));
++		} else {
++			VIA_WRITE(PRIM_HI_POSSTART,
++				(((location_x & 0x07ff) << 16) |
++				(location_y & 0x07ff)));
++			VIA_WRITE(PRIM_HI_CENTEROFFSET,
++				(((offset_x & 0x07ff) << 16) |
++				(offset_y & 0x07ff)));
++		}
++
++		break;
++	default:
++		VIA_WRITE(HI_POSSTART,
++				(((location_x & 0x07ff) << 16) |
++				(location_y & 0x07ff)));
++		VIA_WRITE(HI_CENTEROFFSET,
++				(((offset_x & 0x07ff) << 16) |
++				(offset_y & 0x07ff)));
++		break;
++	}
++}
++
++static int via_cursor_prepare_fb(struct drm_plane *plane,
++					struct drm_plane_state *new_state)
++{
++	struct drm_gem_object *gem;
++	struct ttm_buffer_object *ttm_bo;
++	struct via_bo *bo;
++	int ret =3D 0;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (!new_state->fb) {
++		goto exit;
++	}
++
++	gem =3D new_state->fb->obj[0];
++	ttm_bo =3D container_of(gem, struct ttm_buffer_object, base);
++	bo =3D to_ttm_bo(ttm_bo);
++
++	ret =3D ttm_bo_reserve(ttm_bo, true, false, NULL);
++	if (ret) {
++		goto exit;
++	}
++
++	ret =3D via_bo_pin(bo, TTM_PL_VRAM);
++	ttm_bo_unreserve(ttm_bo);
++	ret =3D ttm_bo_kmap(ttm_bo, 0, ttm_bo->resource->num_pages, &bo->kmap);
++	if (ret) {
++		goto exit;
++	}
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
++}
++
++static void via_cursor_cleanup_fb(struct drm_plane *plane,
++					struct drm_plane_state *old_state)
++{
++	struct drm_gem_object *gem;
++	struct ttm_buffer_object *ttm_bo;
++	struct via_bo *bo;
++	int ret;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (!old_state->fb) {
++		goto exit;
++	}
++
++	gem =3D old_state->fb->obj[0];
++	ttm_bo =3D container_of(gem, struct ttm_buffer_object, base);
++	bo =3D to_ttm_bo(ttm_bo);
++
++	ttm_bo_kunmap(&bo->kmap);
++	ret =3D ttm_bo_reserve(ttm_bo, true, false, NULL);
++	if (ret) {
++		goto exit;
++	}
++
++	via_bo_unpin(bo);
++	ttm_bo_unreserve(ttm_bo);
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static int via_cursor_atomic_check(struct drm_plane *plane,
++					struct drm_atomic_state *state)
++{
++	struct drm_plane_state *new_plane_state =3D
++			drm_atomic_get_new_plane_state(state, plane);
++	struct drm_crtc_state *new_crtc_state;
++	struct drm_framebuffer *fb =3D new_plane_state->fb;
++	int ret =3D 0;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if ((!new_plane_state->crtc) || (!new_plane_state->visible)) {
++		goto exit;
++	}
++
++	if (fb->width !=3D fb->height) {
++		DRM_ERROR("Hardware cursor is expected to have "
++				"square dimensions.\n");
++		ret =3D -EINVAL;
++		goto exit;
++	}
++
++	new_crtc_state =3D drm_atomic_get_new_crtc_state(state,
++						new_plane_state->crtc);
++	ret =3D drm_atomic_helper_check_plane_state(
++					new_plane_state,
++					new_crtc_state,
++					DRM_PLANE_HELPER_NO_SCALING,
++					DRM_PLANE_HELPER_NO_SCALING,
++					true, true);
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
++}
++
++static void via_cursor_atomic_update(struct drm_plane *plane,
++					struct drm_atomic_state *state)
++{
++	struct drm_plane_state *new_state =3D
++			drm_atomic_get_new_plane_state(state, plane);
++	struct drm_plane_state *old_state =3D
++			drm_atomic_get_old_plane_state(state, plane);
++	struct drm_crtc *crtc =3D new_state->crtc;
++	struct drm_gem_object *gem;
++	struct ttm_buffer_object *ttm_bo;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (new_state->fb !=3D old_state->fb) {
++		gem =3D new_state->fb->obj[0];
++		ttm_bo =3D container_of(gem, struct ttm_buffer_object, base);
++		via_cursor_address(crtc, ttm_bo);
++	}
++
++	via_set_hi_location(crtc, new_state->crtc_x, new_state->crtc_y);
++	via_show_cursor(crtc);
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++void via_cursor_atomic_disable(struct drm_plane *plane,
++					struct drm_atomic_state *state)
++{
++	struct drm_plane_state *new_state =3D
++			drm_atomic_get_new_plane_state(state, plane);
++	struct drm_crtc *crtc =3D new_state->crtc;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (crtc) {
++		via_hide_cursor(crtc);
++	}
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++const struct drm_plane_helper_funcs via_cursor_drm_plane_helper_funcs =3D=
+ {
++	.prepare_fb	=3D via_cursor_prepare_fb,
++	.cleanup_fb	=3D via_cursor_cleanup_fb,
++	.atomic_check	=3D via_cursor_atomic_check,
++	.atomic_update	=3D via_cursor_atomic_update,
++	.atomic_disable	=3D via_cursor_atomic_disable,
++};
++
++const struct drm_plane_funcs via_cursor_drm_plane_funcs =3D {
++	.update_plane =3D drm_atomic_helper_update_plane,
++	.disable_plane =3D drm_atomic_helper_disable_plane,
++	.destroy =3D drm_plane_cleanup,
++	.reset =3D drm_atomic_helper_plane_reset,
++	.atomic_duplicate_state =3D drm_atomic_helper_plane_duplicate_state,
++	.atomic_destroy_state =3D drm_atomic_helper_plane_destroy_state,
++};
++
++const uint32_t via_cursor_formats[] =3D {
++	DRM_FORMAT_ARGB8888,
++};
++
++const unsigned int via_cursor_formats_size =3D
++				ARRAY_SIZE(via_cursor_formats);
 =2D-
 2.35.1
 
