@@ -2,56 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5D455ECF6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 20:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4CB55ECF0
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 20:47:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4C9D11B6FA;
-	Tue, 28 Jun 2022 18:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C700111B4B7;
+	Tue, 28 Jun 2022 18:47:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
- [IPv6:2607:f8b0:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA4211B6FA
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 18:48:21 +0000 (UTC)
-Received: by mail-pg1-x52d.google.com with SMTP id e63so13035007pgc.5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 11:48:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2ZFJGLWfARwse3I0qcbyHYAl+J8ZxqGlNp9EqF8Gt/4=;
- b=GcO0xSWTb1ngfjkZ8sUq94xD+QADBUfR+xEyDAxWGq2RsJsen2Y6E7nUoeF90QyEVQ
- JcOklYDKGIn630R8J5w7kVqK1tkQh6/fCb20+xc0qKQZXlWDNMdD+C9qaU8iHreNKkhu
- Qo9hPak8Ky7gG4m367+HnTi9Pq4v2UMtDMUjhJWR8Rucp58BZSZoZe06S1yRZ1p21v7W
- Xa2xPt+7bcY7lXz4nC9ODghyGMtYFTz18MYZMcXPkmawhZMqVnSl+qnDgQrFvwmVfxOz
- dA5pPoNxD0uGWNfYD3DgZ0+vA9QCnrSboz6itLf5sY6gjykq2ukBKo+6daDQq1UT6Faq
- 72sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2ZFJGLWfARwse3I0qcbyHYAl+J8ZxqGlNp9EqF8Gt/4=;
- b=b4H7vgbWhqpFkILWC5Pu4DzUgpmaRKF2BxirlWGLpWIw6JG4wqUeFACN+O3RXu+JcA
- Gjh5L5GS7ma3FPHGLeAgnINOlZH099vP/6/56Uj4cZEUk8ojclCucK4tCXN8qOeWczFC
- gXqTjv/4eZ9U7ELtxoHjdw+kIuHqY40v3wVBe4CAuTeL/ZOklm/P6oEze0DEqg1YPqFu
- U+LoprRF2ATOLD08o9ExXDx5VUlVDniffHcQQwrtQv1N3UbNzLRWgbu2D5hGpiEztKmx
- kOlA3IBcOYU/Z7soM6A8tvdbuP/xa6GAzMBF8Xp9l2oe4z3zIKhloo5azjHsrRL+fid5
- vx3g==
-X-Gm-Message-State: AJIora/MtUMFPLPeWQ7N7uBcFwK4uXPgxLTb5sDlc9BfH4JfxuX2+c07
- Wrq20Ifr5HPwy3Sc1ZlHcMg6215BoxKcY6FtDhk=
-X-Google-Smtp-Source: AGRyM1vl8i2+u/2GpoyflXi20qGW2LyjziGmL1IJ6Gl1HeMIS+2byGoaqomAzKOgxHlNrXYjLa3e4gBGdK9VLPJESQw=
-X-Received: by 2002:a65:6aa3:0:b0:40c:889d:4f16 with SMTP id
- x3-20020a656aa3000000b0040c889d4f16mr19029190pgu.106.1656442100828; Tue, 28
- Jun 2022 11:48:20 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E91E211B4B7;
+ Tue, 28 Jun 2022 18:47:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656442048; x=1687978048;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=0GXC8PS9KFq4Tp92Y8v9WqQXSNLZ3bTC0LdtCxzSVQU=;
+ b=er8pXB9LTEdVKU3ij4jH5mEXodKUKUyIJQjkeXbp/L61Y839oLjp3kJB
+ ZSl1pE600zkrNqDZlBqX5oVPFxX2tZwF0xMEfHCDCZNc41ohpe7iM/QQN
+ nvtnHRKPTjLIoVKdIzP/CntIKAk0+ZcQa4r7xuj281QQ6/IqQQ0Dphwop
+ lLkDP/TBwAQcITsQp/+rsxnCtGse2TkjGMciO+FX+c+iij9vAkw8hNsSg
+ uTkgKrhjkTCAiKS864QTDypLZDwNnmhBU7sM+V4ndq/yLOvjLHn2KCD8c
+ RzqiabBdtQe1YikSV2k9K0TCB7j32f/9ijttR7X14ZFq7ubJ+Wh1eFz3+ w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="282915814"
+X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; d="scan'208";a="282915814"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 11:47:28 -0700
+X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; d="scan'208";a="594908727"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 11:47:27 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [CI 1/3] drm-tip: 2022y-06m-27d-16h-18m-47s UTC integration manifest
+Date: Tue, 28 Jun 2022 11:47:45 -0700
+Message-Id: <20220628184747.3844242-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220627161132.33256-1-jose.exposito89@gmail.com>
-In-Reply-To: <20220627161132.33256-1-jose.exposito89@gmail.com>
-From: Tales <tales.aparecida@gmail.com>
-Date: Tue, 28 Jun 2022 15:47:44 -0300
-Message-ID: <CAGVoLp47kQTuMJWVGtY-KMPf=opv3ted7MkbooEbdb2UWZqevg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] KUnit tests for RGB565 conversion
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,59 +55,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, davidgow@google.com,
- magalilemes00@gmail.com, David Airlie <airlied@linux.ie>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>, dlatypov@google.com,
- javierm@redhat.com, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, isabbasso@riseup.net,
- kunit-dev@googlegroups.com
+Cc: Daniel Vetter <daniel.vetter@intel.com>, christian.koenig@amd.com,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em seg., 27 de jun. de 2022 =C3=A0s 13:13, Jos=C3=A9 Exp=C3=B3sito
-<jose.exposito89@gmail.com> escreveu:
->
-> Hello everyone,
->
-> This series is a follow up of the XRGB8888 to RGB332 conversion KUnit tes=
-ts.
->
-> The first 3 patches refactor the existing test to make them agnostic of t=
-he target format and add support for "swab".
->
-> The last patch adds the RGB565 conversion values, and shows how more form=
-ats will be easily added in the future.
->
-> Thank you very much in advance for your feedback,
-> Jos=C3=A9 Exp=C3=B3sito
->
-> Jos=C3=A9 Exp=C3=B3sito (4):
->   drm/format-helper: Rename test cases to make them more generic
->   drm/format-helper: Transform tests to be agnostic of target format
->   drm/format-helper: Add support for conversion functions with swab
->   drm/format-helper: Add KUnit tests for drm_fb_xrgb8888_to_rgb565()
->
->  .../gpu/drm/tests/drm_format_helper_test.c    | 231 +++++++++++++++---
->  1 file changed, 196 insertions(+), 35 deletions(-)
->
->
-> base-commit: 6fde8eec71796f3534f0c274066862829813b21f
-> prerequisite-patch-id: 8a16f4c8004d6161035eaea275c8eafaa0ac927e
-> prerequisite-patch-id: 53fded2a49e6212b546db76ec52563a683752e65
-> prerequisite-patch-id: 294b0ca27a6ee57096c8f097c0572336b8a2d583
-> prerequisite-patch-id: 5e05bfc5287d16c207bfc616b2776ad72eb4ab29
-> prerequisite-patch-id: e94560be85dffb62a5b3cf58d1f0fc3d278ad806
-> prerequisite-patch-id: a471df39c7b32c69dd2b138a7d0af015ea42e00a
-> --
-> 2.25.1
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
+---
+ integration-manifest | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+ create mode 100644 integration-manifest
 
-Tested with "./tools/testing/kunit/kunit.py run
---kunitconfig=3Ddrivers/gpu/drm/tests --arch=3Dx86_64", "... --arch=3Di386"
-and baremetal on x86_64 to be sure; everything looks fine, but I feel
-like some patches could be squashed, though.
+diff --git a/integration-manifest b/integration-manifest
+new file mode 100644
+index 000000000000..baffa2a57cd4
+--- /dev/null
++++ b/integration-manifest
+@@ -0,0 +1,26 @@
++drm drm-fixes 03c765b0e3b4cb5063276b086c76f7a612856a9a
++	Linux 5.19-rc4
++drm-misc drm-misc-fixes 5f701324c0fb6f9f5aaac3f8d1575321375f6d8f
++	drm/vc4: perfmon: Fix variable dereferenced before check
++drm-intel drm-intel-fixes 79538490fd7ade244dba400923e792519a2bdfea
++	drm/i915: tweak the ordering in cpu_write_needs_clflush
++drm drm-next 805ada63ba0567b15d10d40419bcc5e6f0b461e6
++	Merge tag 'drm-intel-next-2022-06-22' of git://anongit.freedesktop.org/drm/drm-intel into drm-next
++drm-misc drm-misc-next-fixes 5ee8c8f930ba7d20717c4fc2d9f1ce0e757d1155
++	drm/rockchip: Change register space names in vop2
++drm-intel drm-intel-next-fixes f2906aa863381afb0015a9eb7fefad885d4e5a56
++	Linux 5.19-rc1
++drm-misc drm-misc-next 7d008eecb0cfc2b1a1a742d6faa0a02f339535c2
++	drm/stm: ltdc: update hardware error management
++drm-intel drm-intel-next f7fb92cd2e39357f14846d69ae0e1d8692371f82
++	drm/i915: Move the color stuff under INTEL_INFO->display
++drm-intel drm-intel-gt-next 7d8097073caa334ed6187a964645335324231e01
++	drm/i915: Prefer "XEHP_" prefix for registers
++sound-upstream for-linus 7cf3dead1ad70c72edb03e2d98e1f3dcd332cdb2
++	Linux 5.13
++sound-upstream for-next 7cf3dead1ad70c72edb03e2d98e1f3dcd332cdb2
++	Linux 5.13
++drm-intel topic/core-for-CI f7d7dddaab81eeae4508197b5f38f0b974d97b8c
++	topic/core-for-CI: Add remaining DG2 and ATS-M device IDs
++drm-misc topic/i915-ttm 1e3944578b749449bd7fa6bf0bae4c3d3f5f1733
++	Merge tag 'amd-drm-next-5.16-2021-09-27' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
+-- 
+2.36.1
 
-Tested-by: Tales L. Aparecida <tales.aparecida@gmail.com>
-
-Inspiring work, Jos=C3=A9, keep it up!
-Best regards, Tales
