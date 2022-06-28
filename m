@@ -2,59 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EC155BF9C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 10:53:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A4255BF9D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 10:54:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5480C12A992;
-	Tue, 28 Jun 2022 08:53:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B2E10F143;
+	Tue, 28 Jun 2022 08:54:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E44512A991
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 08:53:46 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id l6so10454907plg.11
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 01:53:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3IiMMMDPLwz9F3UeFSzYtl7u8epQnprjfnqcTqmPDdc=;
- b=M7FwbiPTrRshJ5EgrsPP+VaYq1MR/BrHKsCNp7qXs2Gn3eknJyZQR1pI797nCEBhZ0
- 4QcsntzPyK7fynPM//y8CVknu8gqk/1DTCG2yjXz9uEKfUrWboN0zRKdUeL38lKfovY4
- RNOy0ERd+CxpfopeTzXUGDbhSTg/txJXaZud9pVuSnG+gt5wP5MHVqxonqpWDQ+Br3KZ
- tncEz7nyiYSo4CEe7eXGNHADuOXhcI0FRD/H2IsDyufXgmyZBnidDmVGMtOADgSleBgD
- cHrxBvUOnuNSITpAUmbaqSKDfDIRuzJseLDwuXuXwLOkpGbLI1MEFb0tHUBAPMA1NNG4
- vSsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3IiMMMDPLwz9F3UeFSzYtl7u8epQnprjfnqcTqmPDdc=;
- b=Q+Z+OxhCF2kaPM50A1DLUBA9i4zgViPczgbYXWr0kWBNz6rVMz92W0GDXkdDG/SZR+
- zmwxDLqnZgtBDhwjvLgtjmNOTtxEbna2+JSaxhX7FK8HLiehhNoDbCzFASa4oKF1B03a
- QGFCioV8OBzHGEwtisx5J8Y06ZOz45E2lQPmqWp5Bw7016MzHpVpr3HahJUkOj7SVjvl
- hWN4XHOvmtVG38FYIWeYNVjnm/z2cgZhQPh6MfQy8ezy8Mpk6FVQ0By2lSUuWd9xT7yk
- IvA/5z2dE/aFmuMRNcuOoTzAE8oM62/Kk30A55V+Efx+igSCx7+WA0sxy3UUxy+BTZxh
- riTA==
-X-Gm-Message-State: AJIora/omcNlByA8F+TT21dmhcwqBZyqg/CkZBvDOMao9rNBfJgBkPkc
- krZ5O/lghoqDh4cTmxam36A=
-X-Google-Smtp-Source: AGRyM1tQQaTMMPE0J7kPg5DjNRTKWH4fPNaHPbowka1suIhUb1wyYd5iyqgMSyFEIQR/Xy2Qz8J/8w==
-X-Received: by 2002:a17:902:ccc4:b0:156:5d37:b42f with SMTP id
- z4-20020a170902ccc400b001565d37b42fmr2555328ple.157.1656406425734; 
- Tue, 28 Jun 2022 01:53:45 -0700 (PDT)
-Received: from chrome.huaqin.com ([101.78.151.222])
- by smtp.gmail.com with ESMTPSA id
- md6-20020a17090b23c600b001e305f5cd22sm8875970pjb.47.2022.06.28.01.53.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 01:53:45 -0700 (PDT)
-From: Rex Nie <rexnie3@gmail.com>
-To: linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 1/2] drm/panel-edp: Add eDP innolux panel support
-Date: Tue, 28 Jun 2022 16:53:37 +0800
-Message-Id: <20220628085337.2147369-1-rexnie3@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C18B71122DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 08:54:08 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id BEE2B6601603;
+ Tue, 28 Jun 2022 09:54:06 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1656406447;
+ bh=ZVf1tU+97ZPJ79W3kJDyyqMHEqU7fzU+Cg2O7PGiYoA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ikGBmQvTsPF/yPzkBqqOBBsDUE3f5+Xt9F+I0fp8dsJ/giw/tIwAjtaSeWF1BLjm+
+ UfAOH9JR2P5Iwod/8SmNIrD3jg3qUGKOYxceft7oila7opVjNDeyOk7GjeCgKRBmS1
+ IeMy43W1rIPrU+aUN+jTtiz9EJwq8sszlAjYD2na2FT3NvrtnNDcmgMvXVOV67RWGd
+ vxMZDMY2yc4mD63laPjCBVoKRPQuoFtI1Le36HHMsskxgUCL4LFZt9ijIp78m2Vl6m
+ TxXBWY8BwqWDmhHcINo5YqRhBnFKT8pGokZXBSJajBJ5u1s2I+NOxwPHL3jna7eym7
+ ZiCY1QJJugVGQ==
+Date: Tue, 28 Jun 2022 10:54:03 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH] drm/bridge: Avoid uninitialized variable warning
+Message-ID: <20220628105403.49f1c425@collabora.com>
+In-Reply-To: <20220628074519.GL11460@kadam>
+References: <Yrqm5yYVa6xMY2vq@kili> <20220628092609.7d0b1ea3@collabora.com>
+ <20220628074519.GL11460@kadam>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,66 +54,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dianders@chromium.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, spanda@codeaurora.org, robh+dt@kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Rex Nie <rexnie3@gmail.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the 14" innolux,n140hca-eac eDP panel.
+On Tue, 28 Jun 2022 10:45:19 +0300
+Dan Carpenter <dan.carpenter@oracle.com> wrote:
 
-Signed-off-by: Rex Nie <rexnie3@gmail.com>
-Acked-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- drivers/gpu/drm/panel/panel-edp.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+> On Tue, Jun 28, 2022 at 09:26:09AM +0200, Boris Brezillon wrote:
+> > On Tue, 28 Jun 2022 09:59:51 +0300
+> > Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> >   
+> > > This works, but technically it uses "num_in_bus_fmts" before it has been
+> > > initialized so it leads to static checker warnings and probably KMEMsan
+> > > warnings at run time.  Reverse the checks so it checks for failure first
+> > > and then check for unsupported formats next.
+> > > 
+> > > Fixes: f32df58acc68 ("drm/bridge: Add the necessary bits to support bus format negotiation")
+> > > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_bridge.c | 12 ++++++------
+> > >  1 file changed, 6 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> > > index e275b4ca344b..00cbde654472 100644
+> > > --- a/drivers/gpu/drm/drm_bridge.c
+> > > +++ b/drivers/gpu/drm/drm_bridge.c
+> > > @@ -897,10 +897,10 @@ static int 	(struct drm_bridge *first_bridge,
+> > >  							conn_state,
+> > >  							out_bus_fmt,
+> > >  							&num_in_bus_fmts);
+> > > -	if (!num_in_bus_fmts)
+> > > -		return -ENOTSUPP;
+> > > -	else if (!in_bus_fmts)
+> > > +	if (!in_bus_fmts)
+> > >  		return -ENOMEM;
+> > > +	else if (!num_in_bus_fmts)
+> > > +		return -ENOTSUPP;  
+> > 
+> > Well, it changes the error we return when num_in_bus_fmts = 0
+> > && in_bus_fmts == NULL which is not an ENOMEM situation, so I'd rather
+> > initialize num_{in,out}_bus_fmts to 0 here.
+> >   
+> 
+> I can do that but there is no real consistency in how
+> ->atomic_get_input_bus_fmts() functions are implemented.  Some set  
+> *num_input_fmts = 0; before the kmalloc() and then reset it to
+> *num_input_fmts = 1; if the allocation succeeds.  Some just set it to
+> *num_input_fmts = 1 at the start.
+> 
+> This bug only affects the imx code like:
+> imx8qm_ldb_bridge_atomic_get_input_bus_fmts()
+> imx8qxp_pixel_link_bridge_atomic_get_input_bus_fmts
+> 
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 3626469c4cc2..2a8fcdffe80c 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1355,6 +1355,29 @@ static const struct panel_desc innolux_n125hce_gn1 = {
- 	},
- };
- 
-+static const struct display_timing innolux_n140hca_eac_timing = {
-+	.pixelclock = { 72600000, 76420000, 80240000 },
-+	.hactive = { 1920, 1920, 1920 },
-+	.hfront_porch = { 80, 80, 80 },
-+	.hback_porch = { 190, 190, 190 },
-+	.hsync_len = { 60, 60, 60 },
-+	.vactive = { 1080, 1080, 1080 },
-+	.vfront_porch = { 6, 6, 6 },
-+	.vback_porch = { 38, 38, 38 },
-+	.vsync_len = { 8, 8, 8 },
-+	.flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW,
-+};
-+
-+static const struct panel_desc innolux_n140hca_eac = {
-+	.timings = &innolux_n140hca_eac_timing,
-+	.num_timings = 1,
-+	.bpc = 6,
-+	.size = {
-+		.width = 309,
-+		.height = 174,
-+	},
-+};
-+
- static const struct drm_display_mode innolux_p120zdg_bf1_mode = {
- 	.clock = 206016,
- 	.hdisplay = 2160,
-@@ -1775,6 +1798,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "innolux,n125hce-gn1",
- 		.data = &innolux_n125hce_gn1,
-+	}, {
-+		.compatible = "innolux,n140hca-eac",
-+		.data = &innolux_n140hca_eac,
- 	}, {
- 		.compatible = "innolux,p120zdg-bf1",
- 		.data = &innolux_p120zdg_bf1,
--- 
-2.25.1
+I'd say imx8qm_ldb_bridge_atomic_get_input_bus_fmts() and
+imx8qxp_pixel_link_bridge_atomic_get_input_bus_fmts() should be patched
+to set *num_input_fmts = 0 when they return NULL on purpose, as
+documented here [1].
+
+[1]https://elixir.bootlin.com/linux/latest/source/include/drm/drm_bridge.h#L453
 
