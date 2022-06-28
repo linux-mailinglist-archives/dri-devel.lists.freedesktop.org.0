@@ -2,43 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA0655D23C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 15:10:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91AC455D2BE
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 15:11:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65D6B10EF4E;
-	Tue, 28 Jun 2022 13:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BAB6112014;
+	Tue, 28 Jun 2022 13:11:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6B7C10EF4E;
- Tue, 28 Jun 2022 13:10:31 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF86A112014;
+ Tue, 28 Jun 2022 13:11:14 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru
+ [109.252.118.164])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 148126170D;
- Tue, 28 Jun 2022 13:10:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86553C3411D;
- Tue, 28 Jun 2022 13:10:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656421830;
- bh=zaJPEAaU+2IfbqDeHuN4dAvwwL5eGrjWz/+JpqGOhkY=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=lZBjp0/akQQG/fsX+EOzNJDZnz3AgW8oxqYgMuJ9ki9PciNapkpDFse9sUtmk4DW+
- hVYKROeXjkxwHbMmIdTaxiPRNHushRD9zKxTC1x5gr7YL1BsfHCWObKDhOrjAF3LG0
- WoJLiFtW5PUfGrGu6eCn9tHLbj7l83vtpEgetMlBOIizblbmiXEvUA6LanFmZSBG2+
- e8zgAe7z/B48hU9t+1t8O1ffXmP4LV9XOd0C5CmCCiam2dXYESoVFlxgP5qj5hs1hn
- Eti9QjQMH9n6YUFbUvVe058E7zWtgwPORzUcNR3th/aQ9Hq+aG93r2lLgXfG653zHV
- rR7M5tigR+4+w==
-From: Mark Brown <broonie@kernel.org>
-To: mchehab@kernel.org, linux-doc@vger.kernel.org
-In-Reply-To: <cover.1656409369.git.mchehab@kernel.org>
-References: <cover.1656409369.git.mchehab@kernel.org>
-Subject: Re: (subset) [PATCH 00/22] Fix kernel-doc warnings at linux-next
-Message-Id: <165642182225.1205882.7217075149410531618.b4-ty@kernel.org>
-Date: Tue, 28 Jun 2022 14:10:22 +0100
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 714326601856;
+ Tue, 28 Jun 2022 14:11:10 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1656421873;
+ bh=KNSZUjyY4CuF71/A7Usafn7IJCqpjpqnNb+s/bjmhpM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=JVdCL4pOrZRjPYlW1sSxr0ov8MYwr/h/jFUMEmO4yZZL0Thh0VqUNftTIaNvUwEmY
+ myolbgF/rRAWBiGj8as5x4lXrPgfvowspQRix7IvWX3ujENW9n/A9RgofDbIFplpJ1
+ XKBUEiGyhohLkxg095z15R9kLoSIzKX7UR4GwSE03H/Wl5+upu3XGKE9fggwC3rLAJ
+ YwztUDyhr9vdUcLY8PyCIUcj0FTuvMwiQySOEZvk1YLzw5WODsuuCzO2945ZS6eOcK
+ kbjoe/4U6aWPVrza0Q6OS9hOE9m0uzU59dItxkwobNx4NGuRgKEN7SpAkBhFBnLjES
+ o9MoSYPi5XeiA==
+Message-ID: <8c5d3cb0-70fa-81a7-33a2-50f45bf8f40e@collabora.com>
+Date: Tue, 28 Jun 2022 16:11:07 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 00/22] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+Content-Language: en-US
+To: Robin Murphy <robin.murphy@arm.com>, David Airlie <airlied@linux.ie>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Qiang Yu <yuq825@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <49cc6f0c-e90e-8edd-52e7-4188620e2c28@arm.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <49cc6f0c-e90e-8edd-52e7-4188620e2c28@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,119 +82,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: heikki.krogerus@linux.intel.com, linux-cachefs@redhat.com,
-	airlied@linux.ie, dave.hansen@linux.intel.com,
-	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-	glider@google.com, myungjoo.ham@samsung.com, hpa@zytor.com,
-	sumit.semwal@linaro.org, corbet@lwn.net, mchehab+huawei@kernel.org,
-	x86@kernel.org, kyungmin.park@samsung.com,
-	kasan-dev@googlegroups.com, cw00.choi@samsung.com, mingo@redhat.com,
-	kuba@kernel.org, pabeni@redhat.com, linux-media@vger.kernel.org,
-	elver@google.com, linux-pm@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, bp@alien8.de,
-	Al Viro <viro@zeniv.linux.org.uk>, tglx@linutronix.de,
-	Andrew Morton <akpm@linux-foundation.org>, dvyukov@google.com,
-	linux-sgx@vger.kernel.org, balbi@kernel.org,
-	amd-gfx@lists.freedesktop.org, netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org, davem@davemloft.net,
-	ogle.com@freedesktop.org, linux-fsdevel@vger.kernel.org,
-	johannes@sipsolutions.net, edumazet@go, christian.koenig@amd.com
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ kernel@collabora.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Jun 2022 10:46:04 +0100, Mauro Carvalho Chehab wrote:
-> As we're currently discussing about making kernel-doc issues fatal when
-> CONFIG_WERROR is enable, let's fix all 60 kernel-doc warnings
-> inside linux-next:
+Hello Robin,
+
+On 6/28/22 15:31, Robin Murphy wrote:
+>> Hello,
+>>
+>> This patchset introduces memory shrinker for the VirtIO-GPU DRM driver
+>> and adds memory purging and eviction support to VirtIO-GPU driver.
+>>
+>> The new dma-buf locking convention is introduced here as well.
+>>
+>> During OOM, the shrinker will release BOs that are marked as "not needed"
+>> by userspace using the new madvise IOCTL, it will also evict idling BOs
+>> to SWAP. The userspace in this case is the Mesa VirGL driver, it will
+>> mark
+>> the cached BOs as "not needed", allowing kernel driver to release memory
+>> of the cached shmem BOs on lowmem situations, preventing OOM kills.
+>>
+>> The Panfrost driver is switched to use generic memory shrinker.
 > 
-> 	arch/x86/include/uapi/asm/sgx.h:19: warning: Enum value 'SGX_PAGE_MEASURE' not described in enum 'sgx_page_flags'
-> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rdi' not described in 'sgx_enclave_user_handler_t'
-> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rsi' not described in 'sgx_enclave_user_handler_t'
-> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rdx' not described in 'sgx_enclave_user_handler_t'
-> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rsp' not described in 'sgx_enclave_user_handler_t'
-> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'r8' not described in 'sgx_enclave_user_handler_t'
-> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'r9' not described in 'sgx_enclave_user_handler_t'
-> 	arch/x86/include/uapi/asm/sgx.h:124: warning: Function parameter or member 'reserved' not described in 'sgx_enclave_run'
-> 	drivers/devfreq/devfreq.c:707: warning: Function parameter or member 'val' not described in 'qos_min_notifier_call'
-> 	drivers/devfreq/devfreq.c:707: warning: Function parameter or member 'ptr' not described in 'qos_min_notifier_call'
-> 	drivers/devfreq/devfreq.c:717: warning: Function parameter or member 'val' not described in 'qos_max_notifier_call'
-> 	drivers/devfreq/devfreq.c:717: warning: Function parameter or member 'ptr' not described in 'qos_max_notifier_call'
-> 	drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:5095: warning: expecting prototype for amdgpu_device_gpu_recover_imp(). Prototype was for amdgpu_device_gpu_recover() instead
-> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'dmub_outbox_params' not described in 'amdgpu_display_manager'
-> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'num_of_edps' not described in 'amdgpu_display_manager'
-> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'disable_hpd_irq' not described in 'amdgpu_display_manager'
-> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'dmub_aux_transfer_done' not described in 'amdgpu_display_manager'
-> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'delayed_hpd_wq' not described in 'amdgpu_display_manager'
-> 	drivers/gpu/drm/amd/include/amd_shared.h:224: warning: Enum value 'PP_GFX_DCS_MASK' not described in enum 'PP_FEATURE_MASK'
-> 	drivers/gpu/drm/scheduler/sched_main.c:999: warning: Function parameter or member 'dev' not described in 'drm_sched_init'
-> 	drivers/usb/dwc3/core.h:1328: warning: Function parameter or member 'async_callbacks' not described in 'dwc3'
-> 	drivers/usb/dwc3/gadget.c:675: warning: Function parameter or member 'mult' not described in 'dwc3_gadget_calc_tx_fifo_size'
-> 	fs/attr.c:36: warning: Function parameter or member 'ia_vfsuid' not described in 'chown_ok'
-> 	fs/attr.c:36: warning: Excess function parameter 'uid' description in 'chown_ok'
-> 	fs/attr.c:63: warning: Function parameter or member 'ia_vfsgid' not described in 'chgrp_ok'
-> 	fs/attr.c:63: warning: Excess function parameter 'gid' description in 'chgrp_ok'
-> 	fs/namei.c:649: warning: Function parameter or member 'mnt' not described in 'path_connected'
-> 	fs/namei.c:649: warning: Function parameter or member 'dentry' not described in 'path_connected'
-> 	fs/namei.c:1089: warning: Function parameter or member 'inode' not described in 'may_follow_link'
-> 	include/drm/gpu_scheduler.h:463: warning: Function parameter or member 'dev' not described in 'drm_gpu_scheduler'
-> 	include/linux/dcache.h:309: warning: expecting prototype for dget, dget_dlock(). Prototype was for dget_dlock() instead
-> 	include/linux/fscache.h:270: warning: Function parameter or member 'cookie' not described in 'fscache_use_cookie'
-> 	include/linux/fscache.h:270: warning: Excess function parameter 'object' description in 'fscache_use_cookie'
-> 	include/linux/fscache.h:287: warning: Function parameter or member 'cookie' not described in 'fscache_unuse_cookie'
-> 	include/linux/fscache.h:287: warning: Excess function parameter 'object' description in 'fscache_unuse_cookie'
-> 	include/linux/genalloc.h:54: warning: Function parameter or member 'start_addr' not described in 'genpool_algo_t'
-> 	include/linux/kfence.h:221: warning: Function parameter or member 'slab' not described in '__kfence_obj_info'
-> 	include/linux/regulator/driver.h:434: warning: Function parameter or member 'n_ramp_values' not described in 'regulator_desc'
-> 	include/linux/textsearch.h:51: warning: Function parameter or member 'list' not described in 'ts_ops'
-> 	include/linux/usb/typec_altmode.h:132: warning: Function parameter or member 'altmode' not described in 'typec_altmode_get_orientation'
-> 	include/net/cfg80211.h:391: warning: Function parameter or member 'bw' not described in 'ieee80211_eht_mcs_nss_supp'
-> 	include/net/cfg80211.h:437: warning: Function parameter or member 'eht_cap' not described in 'ieee80211_sband_iftype_data'
-> 	include/net/cfg80211.h:507: warning: Function parameter or member 's1g' not described in 'ieee80211_sta_s1g_cap'
-> 	include/net/cfg80211.h:1390: warning: Function parameter or member 'counter_offset_beacon' not described in 'cfg80211_color_change_settings'
-> 	include/net/cfg80211.h:1390: warning: Function parameter or member 'counter_offset_presp' not described in 'cfg80211_color_change_settings'
-> 	include/net/cfg80211.h:1430: warning: Enum value 'STATION_PARAM_APPLY_STA_TXPOWER' not described in enum 'station_parameters_apply_mask'
-> 	include/net/cfg80211.h:2195: warning: Function parameter or member 'dot11MeshConnectedToAuthServer' not described in 'mesh_config'
-> 	include/net/cfg80211.h:2341: warning: Function parameter or member 'short_ssid' not described in 'cfg80211_scan_6ghz_params'
-> 	include/net/cfg80211.h:3328: warning: Function parameter or member 'kck_len' not described in 'cfg80211_gtk_rekey_data'
-> 	include/net/cfg80211.h:3698: warning: Function parameter or member 'ftm' not described in 'cfg80211_pmsr_result'
-> 	include/net/cfg80211.h:3828: warning: Function parameter or member 'global_mcast_stypes' not described in 'mgmt_frame_regs'
-> 	include/net/cfg80211.h:4977: warning: Function parameter or member 'ftm' not described in 'cfg80211_pmsr_capabilities'
-> 	include/net/cfg80211.h:5742: warning: Function parameter or member 'u' not described in 'wireless_dev'
-> 	include/net/cfg80211.h:5742: warning: Function parameter or member 'links' not described in 'wireless_dev'
-> 	include/net/cfg80211.h:5742: warning: Function parameter or member 'valid_links' not described in 'wireless_dev'
-> 	include/net/cfg80211.h:6076: warning: Function parameter or member 'is_amsdu' not described in 'ieee80211_data_to_8023_exthdr'
-> 	include/net/cfg80211.h:6949: warning: Function parameter or member 'sig_dbm' not described in 'cfg80211_notify_new_peer_candidate'
-> 	include/net/mac80211.h:6250: warning: Function parameter or member 'vif' not described in 'ieee80211_channel_switch_disconnect'
-> 	mm/memory.c:1729: warning: Function parameter or member 'mt' not described in 'unmap_vmas'
-> 	net/mac80211/sta_info.h:569: warning: Function parameter or member 'cur_max_bandwidth' not described in 'link_sta_info'
-> 
-> [...]
+> I think we still have some outstanding issues here - Alyssa reported
+> some weirdness yesterday, so I just tried provoking a low-memory
+> condition locally with this series applied and a few debug options
+> enabled, and the results as below were... interesting.
 
-Applied to
+The warning and crash that you got actually are the minor issues.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+Alyssa caught an interesting PREEMPT_DEBUG issue in the shrinker that I
+haven't seen before.
 
-Thanks!
+She is also experiencing another problem in the Panfrost driver with a
+bad shmem pages (I think). It is unrelated to this patchset and
+apparently require an extra setup for the reproduction.
 
-[18/22] regulator: fix a kernel-doc warning
-        commit: 0e584d46218e3b9dc12a98e18e81a0cd3e0d5419
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+Best regards,
+Dmitry
