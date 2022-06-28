@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0808255BD66
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:23:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6289355BD68
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:23:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBEEB10F0CD;
-	Tue, 28 Jun 2022 02:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5053A10F0DE;
+	Tue, 28 Jun 2022 02:23:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9563A10F0CD
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:22:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8FEC10F0DE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:23:00 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0D37661856;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2AC2F6185C;
+ Tue, 28 Jun 2022 02:23:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A68AC36AE2;
  Tue, 28 Jun 2022 02:22:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3379C36AF5;
- Tue, 28 Jun 2022 02:22:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656382977;
- bh=II5V8rlChEaxkbTfzU8c2e0+GO+md+FVXTxegTAgFtM=;
+ s=k20201202; t=1656382979;
+ bh=mZorZnBDhd8tM4rvi3iSjxVRtl1UH9oN/D4gw/tPpL8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lsATHVRsykbte+uNOXIqLB+7a+zb5qRIrWxFs7Atq/sipBi/cKQcRpe/bBhF3/1j2
- NKIshmJDJ7YI7M62kOaBdYAvfiJeTkG9+vO0xovVNyMViFkjevWqpKrFFl0Jrcj8Op
- AQqDuFlVETqu08tThGtZqb6ZwX+i9hA0Tpl5WOn7vP+Cg3dsaU/p0cH2Cstaze+r0j
- WE5/+l33E9W3GCZBKj208LNfXz+HRE8P64VD3DRXH2RgN4hWwcWJsXm93DA1WI3GZZ
- 8J9hnpg4p+pFB6ZHLWd68bYREi8NQMgst4kZDGSp57uQfoLnkmcO0TTbu4/CanS4Mt
- Ro9GG5FueAEQQ==
+ b=G1A/7izxd8ZfUnP++fvQU2Y3ixUS9ouGMbAvDj8cahTx7lGBWDzKhMAvDE+lLCcjL
+ 0y45jUpN6uxgFXyi04aU8rTFhrZFvRlA3dvNbfC3GzZ3Ea5Wqzw/0smq7/ZQ0iT1y7
+ tumR+8yqYta3k+HjgnmMBbHqbscKtXRl/vFKtzlPV0naBmGpEqkfoFS9oLTdf2Xfln
+ isxR6rMADrbOBLggggAhHcxFK4SdwPGlKV3o48dzgzm8e67uCSjpEsgLwqO0MQyCBA
+ KbBc9UAX8LhPET9vgzMAGt2vlJsRhlS3mVSf2n8f6qY6vez5AlDnRC4E8a58mhfCG3
+ hkxaGU0QjZO/g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 07/34] drm/vc4: crtc: Use an union to store the
- page flip callback
-Date: Mon, 27 Jun 2022 22:22:14 -0400
-Message-Id: <20220628022241.595835-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 08/34] drm/vc4: crtc: Move the BO handling out of
+ common page-flip callback
+Date: Mon, 27 Jun 2022 22:22:15 -0400
+Message-Id: <20220628022241.595835-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628022241.595835-1-sashal@kernel.org>
 References: <20220628022241.595835-1-sashal@kernel.org>
@@ -63,72 +63,75 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <maxime@cerno.tech>
 
-[ Upstream commit 2523e9dcc3be91bf9fdc0d1e542557ca00bbef42 ]
+[ Upstream commit 4d12c36fb73b5c49fe2f95d06515fd9846010fd2 ]
 
-We'll need to extend the vc4_async_flip_state structure to rely on
-another callback implementation, so let's move the current one into a
-union.
+We'll soon introduce another completion callback source that won't need
+to use the BO reference counting, so let's move it around to create a
+function we will be able to share between both callbacks.
 
 Reviewed-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://lore.kernel.org/r/20220610115149.964394-10-maxime@cerno.tech
+Link: https://lore.kernel.org/r/20220610115149.964394-11-maxime@cerno.tech
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 34 ++++++++++++++++++++--------------
+ 1 file changed, 20 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index f4ccca922e44..c0332b69d22c 100644
+index c0332b69d22c..94bc20247ef9 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -694,17 +694,17 @@ struct vc4_async_flip_state {
- 	struct drm_framebuffer *old_fb;
- 	struct drm_pending_vblank_event *event;
+@@ -722,21 +722,8 @@ vc4_async_page_flip_complete(struct vc4_async_flip_state *flip_state)
+ 	drm_crtc_vblank_put(crtc);
+ 	drm_framebuffer_put(flip_state->fb);
  
--	struct vc4_seqno_cb cb;
-+	union {
-+		struct vc4_seqno_cb seqno;
-+	} cb;
- };
+-	/* Decrement the BO usecnt in order to keep the inc/dec calls balanced
+-	 * when the planes are updated through the async update path.
+-	 * FIXME: we should move to generic async-page-flip when it's
+-	 * available, so that we can get rid of this hand-made cleanup_fb()
+-	 * logic.
+-	 */
+-	if (flip_state->old_fb) {
+-		struct drm_gem_cma_object *cma_bo;
+-		struct vc4_bo *bo;
+-
+-		cma_bo = drm_fb_cma_get_gem_obj(flip_state->old_fb, 0);
+-		bo = to_vc4_bo(&cma_bo->base);
+-		vc4_bo_dec_usecnt(bo);
++	if (flip_state->old_fb)
+ 		drm_framebuffer_put(flip_state->old_fb);
+-	}
  
- /* Called when the V3D execution for the BO being flipped to is done, so that
-  * we can actually update the plane's address to point to it.
-  */
- static void
--vc4_async_page_flip_complete(struct vc4_seqno_cb *cb)
-+vc4_async_page_flip_complete(struct vc4_async_flip_state *flip_state)
+ 	kfree(flip_state);
+ 
+@@ -747,8 +734,27 @@ static void vc4_async_page_flip_seqno_complete(struct vc4_seqno_cb *cb)
  {
--	struct vc4_async_flip_state *flip_state =
--		container_of(cb, struct vc4_async_flip_state, cb);
- 	struct drm_crtc *crtc = flip_state->crtc;
- 	struct drm_device *dev = crtc->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
-@@ -743,6 +743,14 @@ vc4_async_page_flip_complete(struct vc4_seqno_cb *cb)
- 	up(&vc4->async_modeset);
+ 	struct vc4_async_flip_state *flip_state =
+ 		container_of(cb, struct vc4_async_flip_state, cb.seqno);
++	struct vc4_bo *bo = NULL;
++
++	if (flip_state->old_fb) {
++		struct drm_gem_cma_object *cma_bo =
++			drm_fb_cma_get_gem_obj(flip_state->old_fb, 0);
++		bo = to_vc4_bo(&cma_bo->base);
++	}
+ 
+ 	vc4_async_page_flip_complete(flip_state);
++
++	/*
++	 * Decrement the BO usecnt in order to keep the inc/dec
++	 * calls balanced when the planes are updated through
++	 * the async update path.
++	 *
++	 * FIXME: we should move to generic async-page-flip when
++	 * it's available, so that we can get rid of this
++	 * hand-made cleanup_fb() logic.
++	 */
++	if (bo)
++		vc4_bo_dec_usecnt(bo);
  }
  
-+static void vc4_async_page_flip_seqno_complete(struct vc4_seqno_cb *cb)
-+{
-+	struct vc4_async_flip_state *flip_state =
-+		container_of(cb, struct vc4_async_flip_state, cb.seqno);
-+
-+	vc4_async_page_flip_complete(flip_state);
-+}
-+
  /* Implements async (non-vblank-synced) page flips.
-  *
-  * The page flip ioctl needs to return immediately, so we grab the
-@@ -813,8 +821,8 @@ static int vc4_async_page_flip(struct drm_crtc *crtc,
- 	 */
- 	drm_atomic_set_fb_for_plane(plane->state, fb);
- 
--	vc4_queue_seqno_cb(dev, &flip_state->cb, bo->seqno,
--			   vc4_async_page_flip_complete);
-+	vc4_queue_seqno_cb(dev, &flip_state->cb.seqno, bo->seqno,
-+			   vc4_async_page_flip_seqno_complete);
- 
- 	/* Driver takes ownership of state on successful async commit. */
- 	return 0;
 -- 
 2.35.1
 
