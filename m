@@ -1,73 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 969F855C587
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 14:51:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA0655D23C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 15:10:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B26B51131BB;
-	Tue, 28 Jun 2022 12:51:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65D6B10EF4E;
+	Tue, 28 Jun 2022 13:10:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73D4B1131BB;
- Tue, 28 Jun 2022 12:51:18 +0000 (UTC)
-Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru
- [109.252.118.164])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6B7C10EF4E;
+ Tue, 28 Jun 2022 13:10:31 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7ABBC6601856;
- Tue, 28 Jun 2022 13:51:14 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1656420677;
- bh=QW35y0ngxo74XEIz+a+5lGVgqnaeMkyQSyje1iFHTww=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VIJvhDUJcm5yDx9PlWKbGQ74WtOgaDIRlnuWjRl3RSZ92ypNqOuh2I3bpjSz7OH4H
- JGvnNJC8zmFqC7hT5uFxiAW5Dx635g6KUOblvf4uNCAiNufzsiyVGYH0HJTP6nChNV
- uH74sFdDAuum+u5SJdOOqnitGC6cxSx+PBAfF6ZBFwIz6UCVPzpKzW6K802UU551PJ
- 9gd/kmz/LZafsmptA87YaQCQzcdNPvE77r/6v9FAzKaet4EK+0nCX6vqvEl0rlf6Gm
- x1dq3kWwXK4S3yHxdJSm0xbxWEB4B/hMoLiQTHj6uc6GXhuywUCwPy1p9MPet+qr/A
- GRvQWmyiyl8nA==
-Message-ID: <17318333-d9b1-9184-4147-7e3123a6fccb@collabora.com>
-Date: Tue, 28 Jun 2022 15:51:11 +0300
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 148126170D;
+ Tue, 28 Jun 2022 13:10:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86553C3411D;
+ Tue, 28 Jun 2022 13:10:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1656421830;
+ bh=zaJPEAaU+2IfbqDeHuN4dAvwwL5eGrjWz/+JpqGOhkY=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=lZBjp0/akQQG/fsX+EOzNJDZnz3AgW8oxqYgMuJ9ki9PciNapkpDFse9sUtmk4DW+
+ hVYKROeXjkxwHbMmIdTaxiPRNHushRD9zKxTC1x5gr7YL1BsfHCWObKDhOrjAF3LG0
+ WoJLiFtW5PUfGrGu6eCn9tHLbj7l83vtpEgetMlBOIizblbmiXEvUA6LanFmZSBG2+
+ e8zgAe7z/B48hU9t+1t8O1ffXmP4LV9XOd0C5CmCCiam2dXYESoVFlxgP5qj5hs1hn
+ Eti9QjQMH9n6YUFbUvVe058E7zWtgwPORzUcNR3th/aQ9Hq+aG93r2lLgXfG653zHV
+ rR7M5tigR+4+w==
+From: Mark Brown <broonie@kernel.org>
+To: mchehab@kernel.org, linux-doc@vger.kernel.org
+In-Reply-To: <cover.1656409369.git.mchehab@kernel.org>
+References: <cover.1656409369.git.mchehab@kernel.org>
+Subject: Re: (subset) [PATCH 00/22] Fix kernel-doc warnings at linux-next
+Message-Id: <165642182225.1205882.7217075149410531618.b4-ty@kernel.org>
+Date: Tue, 28 Jun 2022 14:10:22 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v6 00/22] Add generic memory shrinker to VirtIO-GPU and
- Panfrost DRM drivers
-Content-Language: en-US
-To: Robin Murphy <robin.murphy@arm.com>, David Airlie <airlied@linux.ie>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- Qiang Yu <yuq825@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Thierry Reding
- <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
- <49cc6f0c-e90e-8edd-52e7-4188620e2c28@arm.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <49cc6f0c-e90e-8edd-52e7-4188620e2c28@arm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,73 +51,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- kernel@collabora.com, linux-media@vger.kernel.org
+Cc: heikki.krogerus@linux.intel.com, linux-cachefs@redhat.com,
+	airlied@linux.ie, dave.hansen@linux.intel.com,
+	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+	glider@google.com, myungjoo.ham@samsung.com, hpa@zytor.com,
+	sumit.semwal@linaro.org, corbet@lwn.net, mchehab+huawei@kernel.org,
+	x86@kernel.org, kyungmin.park@samsung.com,
+	kasan-dev@googlegroups.com, cw00.choi@samsung.com, mingo@redhat.com,
+	kuba@kernel.org, pabeni@redhat.com, linux-media@vger.kernel.org,
+	elver@google.com, linux-pm@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, bp@alien8.de,
+	Al Viro <viro@zeniv.linux.org.uk>, tglx@linutronix.de,
+	Andrew Morton <akpm@linux-foundation.org>, dvyukov@google.com,
+	linux-sgx@vger.kernel.org, balbi@kernel.org,
+	amd-gfx@lists.freedesktop.org, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org, davem@davemloft.net,
+	ogle.com@freedesktop.org, linux-fsdevel@vger.kernel.org,
+	johannes@sipsolutions.net, edumazet@go, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/28/22 15:31, Robin Murphy wrote:
-> [  100.511411]
-> ==================================================================
-> [  100.511419] BUG: KASAN: use-after-free in irq_work_single+0xa4/0x110
-> [  100.511445] Write of size 4 at addr ffff0000107f5830 by task
-> glmark2-es2-drm/280
-> [  100.511458]
-> [  100.511464] CPU: 1 PID: 280 Comm: glmark2-es2-drm Not tainted
-> 5.19.0-rc3+ #400
-> [  100.511479] Hardware name: ARM LTD ARM Juno Development Platform/ARM
-> Juno Development Platform, BIOS EDK II Sep  3 2019
-> [  100.511489] Call trace:
-> [  100.511494]  dump_backtrace+0x1e4/0x1f0
-> [  100.511512]  show_stack+0x20/0x70
-> [  100.511523]  dump_stack_lvl+0x8c/0xb8
-> [  100.511543]  print_report+0x16c/0x668
-> [  100.511559]  kasan_report+0x80/0x208
-> [  100.511574]  kasan_check_range+0x100/0x1b8
-> [  100.511590]  __kasan_check_write+0x34/0x60
-> [  100.511607]  irq_work_single+0xa4/0x110
-> [  100.511619]  irq_work_run_list+0x6c/0x88
-> [  100.511632]  irq_work_run+0x28/0x48
-> [  100.511644]  ipi_handler+0x254/0x468
-> [  100.511664]  handle_percpu_devid_irq+0x11c/0x518
-> [  100.511681]  generic_handle_domain_irq+0x50/0x70
-> [  100.511699]  gic_handle_irq+0xd4/0x118
-> [  100.511711]  call_on_irq_stack+0x2c/0x58
-> [  100.511725]  do_interrupt_handler+0xc0/0xc8
-> [  100.511741]  el1_interrupt+0x40/0x68
-> [  100.511754]  el1h_64_irq_handler+0x18/0x28
-> [  100.511767]  el1h_64_irq+0x64/0x68
-> [  100.511778]  irq_work_queue+0xc0/0xd8
-> [  100.511790]  drm_sched_entity_fini+0x2c4/0x3b0
-> [  100.511805]  drm_sched_entity_destroy+0x2c/0x40
-> [  100.511818]  panfrost_job_close+0x44/0x1c0
-> [  100.511833]  panfrost_postclose+0x38/0x60
-> [  100.511845]  drm_file_free.part.0+0x33c/0x4b8
-> [  100.511862]  drm_close_helper.isra.0+0xc0/0xd8
-> [  100.511877]  drm_release+0xe4/0x1e0
-> [  100.511891]  __fput+0xf8/0x390
-> [  100.511904]  ____fput+0x18/0x28
-> [  100.511917]  task_work_run+0xc4/0x1e0
-> [  100.511929]  do_exit+0x554/0x1168
-> [  100.511945]  do_group_exit+0x60/0x108
-> [  100.511960]  __arm64_sys_exit_group+0x34/0x38
-> [  100.511977]  invoke_syscall+0x64/0x180
-> [  100.511993]  el0_svc_common.constprop.0+0x13c/0x170
-> [  100.512012]  do_el0_svc+0x48/0xe8
-> [  100.512028]  el0_svc+0x5c/0xe0
-> [  100.512038]  el0t_64_sync_handler+0xb8/0xc0
-> [  100.512051]  el0t_64_sync+0x18c/0x190
-> [  100.512064]
+On Tue, 28 Jun 2022 10:46:04 +0100, Mauro Carvalho Chehab wrote:
+> As we're currently discussing about making kernel-doc issues fatal when
+> CONFIG_WERROR is enable, let's fix all 60 kernel-doc warnings
+> inside linux-next:
+> 
+> 	arch/x86/include/uapi/asm/sgx.h:19: warning: Enum value 'SGX_PAGE_MEASURE' not described in enum 'sgx_page_flags'
+> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rdi' not described in 'sgx_enclave_user_handler_t'
+> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rsi' not described in 'sgx_enclave_user_handler_t'
+> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rdx' not described in 'sgx_enclave_user_handler_t'
+> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'rsp' not described in 'sgx_enclave_user_handler_t'
+> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'r8' not described in 'sgx_enclave_user_handler_t'
+> 	arch/x86/include/uapi/asm/sgx.h:97: warning: Function parameter or member 'r9' not described in 'sgx_enclave_user_handler_t'
+> 	arch/x86/include/uapi/asm/sgx.h:124: warning: Function parameter or member 'reserved' not described in 'sgx_enclave_run'
+> 	drivers/devfreq/devfreq.c:707: warning: Function parameter or member 'val' not described in 'qos_min_notifier_call'
+> 	drivers/devfreq/devfreq.c:707: warning: Function parameter or member 'ptr' not described in 'qos_min_notifier_call'
+> 	drivers/devfreq/devfreq.c:717: warning: Function parameter or member 'val' not described in 'qos_max_notifier_call'
+> 	drivers/devfreq/devfreq.c:717: warning: Function parameter or member 'ptr' not described in 'qos_max_notifier_call'
+> 	drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:5095: warning: expecting prototype for amdgpu_device_gpu_recover_imp(). Prototype was for amdgpu_device_gpu_recover() instead
+> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'dmub_outbox_params' not described in 'amdgpu_display_manager'
+> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'num_of_edps' not described in 'amdgpu_display_manager'
+> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'disable_hpd_irq' not described in 'amdgpu_display_manager'
+> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'dmub_aux_transfer_done' not described in 'amdgpu_display_manager'
+> 	drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'delayed_hpd_wq' not described in 'amdgpu_display_manager'
+> 	drivers/gpu/drm/amd/include/amd_shared.h:224: warning: Enum value 'PP_GFX_DCS_MASK' not described in enum 'PP_FEATURE_MASK'
+> 	drivers/gpu/drm/scheduler/sched_main.c:999: warning: Function parameter or member 'dev' not described in 'drm_sched_init'
+> 	drivers/usb/dwc3/core.h:1328: warning: Function parameter or member 'async_callbacks' not described in 'dwc3'
+> 	drivers/usb/dwc3/gadget.c:675: warning: Function parameter or member 'mult' not described in 'dwc3_gadget_calc_tx_fifo_size'
+> 	fs/attr.c:36: warning: Function parameter or member 'ia_vfsuid' not described in 'chown_ok'
+> 	fs/attr.c:36: warning: Excess function parameter 'uid' description in 'chown_ok'
+> 	fs/attr.c:63: warning: Function parameter or member 'ia_vfsgid' not described in 'chgrp_ok'
+> 	fs/attr.c:63: warning: Excess function parameter 'gid' description in 'chgrp_ok'
+> 	fs/namei.c:649: warning: Function parameter or member 'mnt' not described in 'path_connected'
+> 	fs/namei.c:649: warning: Function parameter or member 'dentry' not described in 'path_connected'
+> 	fs/namei.c:1089: warning: Function parameter or member 'inode' not described in 'may_follow_link'
+> 	include/drm/gpu_scheduler.h:463: warning: Function parameter or member 'dev' not described in 'drm_gpu_scheduler'
+> 	include/linux/dcache.h:309: warning: expecting prototype for dget, dget_dlock(). Prototype was for dget_dlock() instead
+> 	include/linux/fscache.h:270: warning: Function parameter or member 'cookie' not described in 'fscache_use_cookie'
+> 	include/linux/fscache.h:270: warning: Excess function parameter 'object' description in 'fscache_use_cookie'
+> 	include/linux/fscache.h:287: warning: Function parameter or member 'cookie' not described in 'fscache_unuse_cookie'
+> 	include/linux/fscache.h:287: warning: Excess function parameter 'object' description in 'fscache_unuse_cookie'
+> 	include/linux/genalloc.h:54: warning: Function parameter or member 'start_addr' not described in 'genpool_algo_t'
+> 	include/linux/kfence.h:221: warning: Function parameter or member 'slab' not described in '__kfence_obj_info'
+> 	include/linux/regulator/driver.h:434: warning: Function parameter or member 'n_ramp_values' not described in 'regulator_desc'
+> 	include/linux/textsearch.h:51: warning: Function parameter or member 'list' not described in 'ts_ops'
+> 	include/linux/usb/typec_altmode.h:132: warning: Function parameter or member 'altmode' not described in 'typec_altmode_get_orientation'
+> 	include/net/cfg80211.h:391: warning: Function parameter or member 'bw' not described in 'ieee80211_eht_mcs_nss_supp'
+> 	include/net/cfg80211.h:437: warning: Function parameter or member 'eht_cap' not described in 'ieee80211_sband_iftype_data'
+> 	include/net/cfg80211.h:507: warning: Function parameter or member 's1g' not described in 'ieee80211_sta_s1g_cap'
+> 	include/net/cfg80211.h:1390: warning: Function parameter or member 'counter_offset_beacon' not described in 'cfg80211_color_change_settings'
+> 	include/net/cfg80211.h:1390: warning: Function parameter or member 'counter_offset_presp' not described in 'cfg80211_color_change_settings'
+> 	include/net/cfg80211.h:1430: warning: Enum value 'STATION_PARAM_APPLY_STA_TXPOWER' not described in enum 'station_parameters_apply_mask'
+> 	include/net/cfg80211.h:2195: warning: Function parameter or member 'dot11MeshConnectedToAuthServer' not described in 'mesh_config'
+> 	include/net/cfg80211.h:2341: warning: Function parameter or member 'short_ssid' not described in 'cfg80211_scan_6ghz_params'
+> 	include/net/cfg80211.h:3328: warning: Function parameter or member 'kck_len' not described in 'cfg80211_gtk_rekey_data'
+> 	include/net/cfg80211.h:3698: warning: Function parameter or member 'ftm' not described in 'cfg80211_pmsr_result'
+> 	include/net/cfg80211.h:3828: warning: Function parameter or member 'global_mcast_stypes' not described in 'mgmt_frame_regs'
+> 	include/net/cfg80211.h:4977: warning: Function parameter or member 'ftm' not described in 'cfg80211_pmsr_capabilities'
+> 	include/net/cfg80211.h:5742: warning: Function parameter or member 'u' not described in 'wireless_dev'
+> 	include/net/cfg80211.h:5742: warning: Function parameter or member 'links' not described in 'wireless_dev'
+> 	include/net/cfg80211.h:5742: warning: Function parameter or member 'valid_links' not described in 'wireless_dev'
+> 	include/net/cfg80211.h:6076: warning: Function parameter or member 'is_amsdu' not described in 'ieee80211_data_to_8023_exthdr'
+> 	include/net/cfg80211.h:6949: warning: Function parameter or member 'sig_dbm' not described in 'cfg80211_notify_new_peer_candidate'
+> 	include/net/mac80211.h:6250: warning: Function parameter or member 'vif' not described in 'ieee80211_channel_switch_disconnect'
+> 	mm/memory.c:1729: warning: Function parameter or member 'mt' not described in 'unmap_vmas'
+> 	net/mac80211/sta_info.h:569: warning: Function parameter or member 'cur_max_bandwidth' not described in 'link_sta_info'
+> 
+> [...]
 
-This one shall be fixed by [1] that is not in the RC kernel yet, please
-use linux-next.
+Applied to
 
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?h=next-20220628&id=7d64c40a7d96190d9d06e240305389e025295916
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
--- 
-Best regards,
-Dmitry
+Thanks!
+
+[18/22] regulator: fix a kernel-doc warning
+        commit: 0e584d46218e3b9dc12a98e18e81a0cd3e0d5419
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
