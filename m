@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E164355F0A4
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:54:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38BE055F0A5
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:54:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0155D1120F5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58872112A1D;
 	Tue, 28 Jun 2022 21:54:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CB711120F5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:54:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 722AC1120F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656453279;
- bh=8JIx/om8Mb8BZ/R3vYisik36DVhTHvjM1c8sD+W9BTw=;
+ s=badeba3b8450; t=1656453281;
+ bh=cTXTzsCe2FkTyUhfEq4PFZukFI41R7l0mhJjwNXqjZQ=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=Y0kzkjFRt7Bxojsd3V/vDgY+VEuKCLN9k8+7/JivtW2mto5MrbZSsjAZmtJTmTbOB
- 2zUGZ5rcr3P+QjT1FGG3SY2hI1KCctCxvjdx3gQyme3H5cW7zMSKW0oENE9XblIzUp
- ltFfDmYjXyd3wKfDt19WrZEJYCj/JHWWymCSkow8=
+ b=c6A4F1r/wFISNqYo0PLx+xfijUjcugusFdV0MOdMCcGNxwY+u/9AqKBOvMe4ZBqYi
+ grNME9t7O7JnKb5qWkY/HYD/7At1bbCQ9W88vYOij1GbK/M4hKSR5kRc6IAi44cAfC
+ aVGdLgemx7O46LAAbtS5pjPheI2bANkUwzF+9dxQ=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([174.250.0.5]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MO9zH-1oGwI11D0j-00OXMH; Tue, 28
- Jun 2022 23:54:38 +0200
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1My32L-1niR1646n9-00zWL1; Tue, 28
+ Jun 2022 23:54:41 +0200
 From: Kevin Brace <kevinbrace@gmx.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 18/32] drm/via: Add via_lvds.c
-Date: Tue, 28 Jun 2022 16:52:32 -0500
-Message-Id: <20220628215246.19706-19-kevinbrace@gmx.com>
+Subject: [PATCH v2 19/32] drm/via: Add via_object.c
+Date: Tue, 28 Jun 2022 16:52:33 -0500
+Message-Id: <20220628215246.19706-20-kevinbrace@gmx.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628215246.19706-1-kevinbrace@gmx.com>
 References: <20220628215246.19706-1-kevinbrace@gmx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:KP/bmKwUNGl+rEOC7QgZGGidjMpGRVbp/7iWz0ZnMdQFVU9s8oP
- jXaHN3MW8oOjoY4HQ/x+afwDcawfVxsx9gs3JyVil3tu5jOCvYveDm3jjw9GIwh/wJLtjk8
- of+bLre3jiR86h7DzyIrt/7y4tWVybsvz6Unl8v32tVmfVkiiefwsJ7ASbVjdol4GV6PG3J
- QIIAD6h/A+gpgJRH4C+uQ==
+X-Provags-ID: V03:K1:PYOJkH+A9zBQfAbIaWMMUwAt+SC8TARSYHAAvwKPjvCBS1nvYJ+
+ QQC9P639bjaOu1GdjOY/a4y7TNntOTgY81cK/o2IzREFk6JSuIlhXE7yAUqG/NwDKZNSpnb
+ NlZ+BM5hc7/l3xl/KK6YLfiNK4gFFjL5cNaMQEus9tMR25TTCrU6hvYr909CgSOAIv+dhpJ
+ D6helYfT5zJYyiXngd/7A==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/JfVT8rweRI=:cBTSIT5BbZ7qgqOLEfBX79
- /O3tWF+mdRfWb7+6jot3/NoOLoZjvt6hOCJuxZ9x1OwIfjfYCAi/W1JZtHJkX+vHBoD02bcAx
- 8glw10SSm9X1thjpTEoRP1qI962l5R+hSjDuALMZuIAmmmKjyKFThL+Jhz+SCZAT/Q19qIMFW
- qi/C0LmT2O9bX6EoTnWP0bSPBLeMT45j0uYNGx3cZs+5jpuDxpK2xjO2/DwB0tUOJxVMBKaiw
- SEsjkFnCb+JyGvQyqbjJNN/8XftAu4Our5ZkZ07dmUykeczZvFAsJchmLG8wTxHGq/cTFFxAD
- hB0nxRwrLU+ZgwlfqT9xuwibVZuDBTIp2z5sxrYHZZNPZYUjxaLNzeO4m+1mqrwSZockqyuE5
- To9tqo6ZAfC7o0NGg4/RJ7ngdLE4AQXfKSekiQZkLzKluhY0FEGhC0zt2cVQjKTDiUR6yI112
- osBDOidj4zvhho+ajEOVvBZNsHPI/N3ybj51OQoIS9k9Ir3oQ0Xf7WWtpWh3GvxzbXuxiHFlA
- EpInLasjPjdlD3z9lYvIVJGjAAjMOsIZmm6sQpcj88MM5LPjXEHPWUdLGx6SugSdGsisHEmJq
- m7/EgH1aYloG92hsPVaSkk8jMzs6Uab9YKcMa8hHZ4mgxNeBfagvkoRvbkkUYno8cK5DRHZYu
- Y2Nk66HcZ2knMCmqzTrnHtMRqZy4zj7wWq+vrDAtk4dtGHsoa2W8oVacj9mSoKnfW504x/TrH
- 78U+se9x4B7MujBon8X0qn+DWWptZWOZCHdsOTYCVHgGC2VWGcQEsTQ5dXBNQut226OOlmtVa
- cZYUNDiYlly+kvRoDMqJr/AUj35w/ppUWCuFyjHhuMQXG48PXQn64KpY7H+ZXyCYkZrK9G2Xa
- oMZKiDKw11DAbD9d9VRLV+bR5XHlL37vj6rI58gs0dHrkq296dZ5GUplZzx3QdNr1DFLrOG5T
- wb8U/BwKlVz7fc/xfK33Bix+eShLRFs2GrzhYuosO3p38nhunnfsfxAz/qZB78CHH5pUtUxVk
- 800q0bMK6IrtXecuVgZnvJZ8sTGSS8PO4PQeI0ssDcPhbordgZRZlGNgZxuGhUw5PcqL8zLX3
- lNTNDW7t4AGgVF/FRBHGSy6AeAzkywWd0me9mpNk0jltrCjNZPblxatEA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wpXu94YOloY=:9ldH46z5wjt4w/IYmQPqcK
+ 7QvczXmrzpr8IiA0xdVofrBE/D/mJ644eIx3U2UZRUFLAtl+sJCP/7RNcHAQ6/FzAMfba1Qmq
+ 84mRw7T2TCaMXNegLqgM+lC5+FvGgRccs4/VaiAViUh8rtcW+rTumMMKcGDTzQxbz4SDiHgd4
+ AdzNtwwNEWlX4W3SveCYoOP663kOrkIv5F0kkdAk1LnrsUnJWuJETICImN6DLi/D6nokfRnsa
+ Z/Mozrv+Lz1BHPKVeS4lWgmUDNQK/eC091rrZKhoHpJJh4Nuh6xU0d9Ra/bgnhPglKXY0GWBV
+ tQImfxnI4bsXaLSBI998Qxbp1ivbXNdKZHumhgeeQIrpLf0Yik/MRT6vBJU/AX1Iozlsqm+aI
+ iuKbxr3oB9opIEHFSxQBvVhPLhFQDHsE3iryYGcMKAX4YaHzBoEMBL8YYKEp8qF7sDPtnQeD5
+ OV+RzTfkZdgqycGZ8PiR1FrH8UJ8N6kVwDncQulOdnytwPJCaqjT4JzIfqErE9sO8EM6teU79
+ 1uKZ84e89vHC9KVHfVyqeBVEzoXMByWrBV3Ny2ggxCi++NSd0QdZ0b+UXSuuhZLaoIGSGe3aK
+ NMQ1i6gJ6EZ/y/2SH6fjxplrhRQ9ckyAxp6L6R9inPppEhlB3IkSclSRgNvcBpaqRZPz2S6oy
+ vr9Y26q7a/t/fOozdwmZNysYyh6oraQPZzTZDJcNhfmn0KF+fufWlowiIbvE/Ez1ongdr3q/K
+ 26XnGRCujTKOpqulbmjQVbdt5JXxOVtUwAMOiRmgjR2Vc1asl+IGFnyGRHTYVkitWMByTEu3M
+ LjyeoZ/oZS6nb7MD7o1D+pVE++qHH3/tIs+K8RNNSVTJXBNVknQUgG+EYF+WAQEZtDPkg9uW+
+ SkKc69vSpgezl/VG0A7K95prhqt+F4c6Gpdb3yTaJ+2ElL/eC3/5K44unTVOK3TZc3H55Kidc
+ cjkmoV47sJC+xoDKci/0y+WPSRY1WOvZtwUldevh5R0klOuAQEQggLT0xhY0/mnA7MkM4cqSD
+ 0lKV6vpZOzPKDrvXVONj47PRWZiisdM6Bfoi4A2KrWGupTb+E9/HtvY2nAgi9j/L1ECg40KV7
+ Ae8MXi9jvj5Upev32D/s1CfzQZt7fCRwg5xgY9U47SWGvvbyf62eJiKVA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,22 +76,19 @@ From: Kevin Brace <kevinbrace@bracecomputerlab.com>
 
 Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
 =2D--
- drivers/gpu/drm/via/via_lvds.c | 1420 ++++++++++++++++++++++++++++++++
- 1 file changed, 1420 insertions(+)
- create mode 100644 drivers/gpu/drm/via/via_lvds.c
+ drivers/gpu/drm/via/via_object.c | 324 +++++++++++++++++++++++++++++++
+ 1 file changed, 324 insertions(+)
+ create mode 100644 drivers/gpu/drm/via/via_object.c
 
-diff --git a/drivers/gpu/drm/via/via_lvds.c b/drivers/gpu/drm/via/via_lvds=
-.c
+diff --git a/drivers/gpu/drm/via/via_object.c b/drivers/gpu/drm/via/via_ob=
+ject.c
 new file mode 100644
-index 000000000000..44f80cc0d6ef
+index 000000000000..96fb2934d0de
 =2D-- /dev/null
-+++ b/drivers/gpu/drm/via/via_lvds.c
-@@ -0,0 +1,1420 @@
++++ b/drivers/gpu/drm/via/via_object.c
+@@ -0,0 +1,324 @@
 +/*
-+ * Copyright =C2=A9 2016-2018 Kevin Brace.
-+ * Copyright 2012 James Simmons. All Rights Reserved.
-+ * Copyright 1998-2008 VIA Technologies, Inc. All Rights Reserved.
-+ * Copyright 2001-2008 S3 Graphics, Inc. All Rights Reserved.
++ * Copyright =C2=A9 2018-2019 Kevin Brace.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining =
 a
@@ -124,942 +121,289 @@ OTHER
 + *
 + * Author(s):
 + * Kevin Brace <kevinbrace@bracecomputerlab.com>
-+ * James Simmons <jsimmons@infradead.org>
++ */
++/*
++ * via_object.c
++ *
++ * Manages Buffer Objects (BO) via TTM.
++ * Part of the TTM memory allocator.
++ *
 + */
 +
-+#include <linux/delay.h>
-+#include <linux/pci.h>
++#include <drm/drm_file.h>
++#include <drm/drm_gem.h>
++#include <drm/drm_gem_ttm_helper.h>
 +
-+#include <asm/olpc.h>
-+
-+#include <drm/drm_atomic_state_helper.h>
-+#include <drm/drm_probe_helper.h>
++#include <drm/ttm/ttm_bo_api.h>
++#include <drm/ttm/ttm_bo_driver.h>
++#include <drm/ttm/ttm_range_manager.h>
 +
 +#include "via_drv.h"
 +
-+#define TD0 200
-+#define TD1 25
-+#define TD2 0
-+#define TD3 25
 +
-+/* Non-I2C bus FP native screen resolution information table.*/
-+static via_lvds_info via_lvds_info_table[] =3D {
-+	{ 640,  480},
-+	{ 800,  600},
-+	{1024,  768},
-+	{1280,  768},
-+	{1280, 1024},
-+	{1400, 1050},
-+	{1600, 1200},
-+	{1280,  800},
-+	{ 800,  480},
-+	{1024,  768},
-+	{1366,  768},
-+	{1024,  768},
-+	{1280,  768},
-+	{1280, 1024},
-+	{1400, 1050},
-+	{1600, 1200}
-+};
-+
-+/* Power sequence relations */
-+struct td_timer {
-+	struct vga_regset tdRegs[2];
-+};
-+
-+static struct td_timer td_timer_regs[] =3D {
-+	/* td_timer0 */
-+	{ { { VGA_CRT_IC, 0x8B, 0, 7 }, { VGA_CRT_IC, 0x8F, 0, 3 } } },
-+	/* td_timer1 */
-+	{ { { VGA_CRT_IC, 0x8C, 0, 7 }, { VGA_CRT_IC, 0x8F, 4, 7 } } },
-+	/* td_timer2 */
-+	{ { { VGA_CRT_IC, 0x8D, 0, 7 }, { VGA_CRT_IC, 0x90, 0, 3 } } },
-+	/* td_timer3 */
-+	{ { { VGA_CRT_IC, 0x8E, 0, 7 }, { VGA_CRT_IC, 0x90, 4, 7 } } }
-+};
-+
-+/*
-+ * Function Name:  via_init_td_timing_regs
-+ * Description: Init TD timing register (power sequence)
-+ */
-+static void via_init_td_timing_regs(struct drm_device *dev)
++static void via_gem_free(struct drm_gem_object *obj)
 +{
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	unsigned int td_timer[4] =3D { 500, 50, 0, 510 }, i;
-+	struct vga_registers timings;
-+	u32 reg_value;
-+
-+	/* Fill primary power sequence */
-+	for (i =3D 0; i < 4; i++) {
-+		/* Calculate TD Timer, every step is 572.1uSec */
-+		reg_value =3D td_timer[i] * 10000 / 5721;
-+
-+		timings.count =3D ARRAY_SIZE(td_timer_regs[i].tdRegs);
-+		timings.regs =3D td_timer_regs[i].tdRegs;
-+		load_value_to_registers(VGABASE, &timings, reg_value);
-+	}
-+
-+	/* Note: VT3353 have two hardware power sequences
-+	 * other chips only have one hardware power sequence */
-+	if (pdev->device =3D=3D PCI_DEVICE_ID_VIA_VT1122) {
-+		/* set CRD4[0] to "1" to select 2nd LCD power sequence. */
-+		svga_wcrt_mask(VGABASE, 0xD4, BIT(0), BIT(0));
-+		/* Fill secondary power sequence */
-+		for (i =3D 0; i < 4; i++) {
-+			/* Calculate TD Timer, every step is 572.1uSec */
-+			reg_value =3D td_timer[i] * 10000 / 5721;
-+
-+			timings.count =3D ARRAY_SIZE(td_timer_regs[i].tdRegs);
-+			timings.regs =3D td_timer_regs[i].tdRegs;
-+			load_value_to_registers(VGABASE, &timings, reg_value);
-+		}
-+	}
-+}
-+
-+static bool via_fp_probe_edid(struct i2c_adapter *i2c_bus)
-+{
-+	u8 out =3D 0x0;
-+	u8 buf[8];
-+	struct i2c_msg msgs[] =3D {
-+		{
-+			.addr =3D DDC_ADDR,
-+			.flags =3D 0,
-+			.len =3D 1,
-+			.buf =3D &out,
-+		},
-+		{
-+			.addr =3D DDC_ADDR,
-+			.flags =3D I2C_M_RD,
-+			.len =3D 8,
-+			.buf =3D buf,
-+		}
-+	};
-+	int i2c_ret;
-+	bool ret =3D false;
++	struct ttm_buffer_object *ttm_bo;
 +
 +	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+	i2c_ret =3D i2c_transfer(i2c_bus, msgs, 2);
-+	if (i2c_ret !=3D 2) {
++	ttm_bo =3D container_of(obj, struct ttm_buffer_object, base);
++
++	ttm_bo_put(ttm_bo);
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static const struct vm_operations_struct via_ttm_bo_vm_ops =3D {
++	.fault =3D ttm_bo_vm_fault,
++	.open =3D ttm_bo_vm_open,
++	.close =3D ttm_bo_vm_close,
++	.access =3D ttm_bo_vm_access
++};
++
++static const struct drm_gem_object_funcs via_gem_object_funcs =3D {
++	.free =3D via_gem_free,
++	.vmap =3D drm_gem_ttm_vmap,
++	.vunmap =3D drm_gem_ttm_vunmap,
++	.mmap =3D drm_gem_ttm_mmap,
++	.vm_ops =3D &via_ttm_bo_vm_ops,
++};
++
++void via_ttm_domain_to_placement(struct via_bo *bo,
++					uint32_t ttm_domain)
++{
++	unsigned i =3D 0;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	bo->placement.placement =3D bo->placements;
++	bo->placement.busy_placement =3D bo->placements;
++
++	if (ttm_domain =3D=3D TTM_PL_SYSTEM) {
++		bo->placements[i].fpfn =3D 0;
++		bo->placements[i].lpfn =3D 0;
++		bo->placements[i].mem_type =3D TTM_PL_SYSTEM;
++		bo->placements[i].flags =3D 0;
++		i++;
++	}
++
++	if (ttm_domain =3D=3D TTM_PL_TT) {
++		bo->placements[i].fpfn =3D 0;
++		bo->placements[i].lpfn =3D 0;
++		bo->placements[i].mem_type =3D TTM_PL_TT;
++		bo->placements[i].flags =3D 0;
++		i++;
++	}
++
++	if (ttm_domain =3D=3D TTM_PL_VRAM) {
++		bo->placements[i].fpfn =3D 0;
++		bo->placements[i].lpfn =3D 0;
++		bo->placements[i].mem_type =3D TTM_PL_VRAM;
++		bo->placements[i].flags =3D 0;
++		i++;
++	}
++
++	bo->placement.num_placement =3D i;
++	bo->placement.num_busy_placement =3D i;
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++void via_ttm_bo_destroy(struct ttm_buffer_object *tbo)
++{
++	struct via_bo *bo;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	bo =3D to_ttm_bo(tbo);
++
++	drm_gem_object_release(&tbo->base);
++	kfree(bo);
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++int via_bo_pin(struct via_bo *bo, uint32_t ttm_domain)
++{
++	struct ttm_buffer_object *ttm_bo;
++	struct ttm_operation_ctx ctx =3D {false, false};
++	int ret =3D 0;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	ttm_bo =3D &bo->ttm_bo;
++
++	if (ttm_bo->pin_count) {
++		goto pin;
++	}
++
++	via_ttm_domain_to_placement(bo, ttm_domain);
++	ret =3D ttm_bo_validate(ttm_bo, &bo->placement, &ctx);
++	if (ret) {
 +		goto exit;
 +	}
 +
-+	if (drm_edid_header_is_valid(buf) < 6) {
-+		goto exit;
-+	}
-+
-+	ret =3D true;
++pin:
++	ttm_bo_pin(ttm_bo);
 +exit:
++
 +	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
 +	return ret;
 +}
 +
-+/* caculate the cetering timing using mode and adjusted_mode */
-+static void via_centering_timing(const struct drm_display_mode *mode,
-+				struct drm_display_mode *adjusted_mode)
++void via_bo_unpin(struct via_bo *bo)
 +{
-+	int panel_hsync_time =3D adjusted_mode->hsync_end -
-+		adjusted_mode->hsync_start;
-+	int panel_vsync_time =3D adjusted_mode->vsync_end -
-+		adjusted_mode->vsync_start;
-+	int panel_hblank_start =3D adjusted_mode->hdisplay;
-+	int panel_vbank_start =3D adjusted_mode->vdisplay;
-+	int hborder =3D (adjusted_mode->hdisplay - mode->hdisplay) / 2;
-+	int vborder =3D (adjusted_mode->vdisplay - mode->vdisplay) / 2;
-+	int new_hblank_start =3D hborder + mode->hdisplay;
-+	int new_vblank_start =3D vborder + mode->vdisplay;
++	struct ttm_buffer_object *ttm_bo;
 +
-+	adjusted_mode->hdisplay =3D mode->hdisplay;
-+	adjusted_mode->hsync_start =3D (adjusted_mode->hsync_start -
-+		panel_hblank_start) + new_hblank_start;
-+	adjusted_mode->hsync_end =3D adjusted_mode->hsync_start +
-+		panel_hsync_time;
-+	adjusted_mode->vdisplay =3D mode->vdisplay;
-+	adjusted_mode->vsync_start =3D (adjusted_mode->vsync_start -
-+		panel_vbank_start) + new_vblank_start;
-+	adjusted_mode->vsync_end =3D adjusted_mode->vsync_start +
-+		panel_vsync_time;
-+	/* Adjust Crtc H and V */
-+	adjusted_mode->crtc_hdisplay =3D adjusted_mode->hdisplay;
-+	adjusted_mode->crtc_hblank_start =3D new_hblank_start;
-+	adjusted_mode->crtc_hblank_end =3D adjusted_mode->crtc_htotal - hborder;
-+	adjusted_mode->crtc_hsync_start =3D adjusted_mode->hsync_start;
-+	adjusted_mode->crtc_hsync_end =3D adjusted_mode->hsync_end;
-+	adjusted_mode->crtc_vdisplay =3D adjusted_mode->vdisplay;
-+	adjusted_mode->crtc_vblank_start =3D new_vblank_start;
-+	adjusted_mode->crtc_vblank_end =3D adjusted_mode->crtc_vtotal - vborder;
-+	adjusted_mode->crtc_vsync_start =3D adjusted_mode->vsync_start;
-+	adjusted_mode->crtc_vsync_end =3D adjusted_mode->vsync_end;
-+}
-+
-+static void via_lvds_cle266_soft_power_seq(struct via_drm_priv *dev_priv,
-+						bool power_state)
-+{
 +	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+	if (power_state) {
-+		/* Wait for 25 ms. */
-+		mdelay(25);
++	ttm_bo =3D &bo->ttm_bo;
 +
-+		/* Turn on FP VDD rail. */
-+		via_lvds_set_primary_soft_vdd(VGABASE, true);
-+
-+		/* Wait for 510 ms. */
-+		mdelay(510);
-+
-+		/* Turn on FP data transmission. */
-+		via_lvds_set_primary_soft_data(VGABASE, true);
-+
-+		/* Wait for 1 ms. */
-+		mdelay(1);
-+
-+		/* Turn on FP VEE rail. */
-+		via_lvds_set_primary_soft_vee(VGABASE, true);
-+
-+		/* Turn on FP back light. */
-+		via_lvds_set_primary_soft_back_light(VGABASE, true);
-+	} else {
-+		/* Wait for 1 ms. */
-+		mdelay(1);
-+
-+		/* Turn off FP back light. */
-+		via_lvds_set_primary_soft_back_light(VGABASE, false);
-+
-+		/* Turn off FP VEE rail. */
-+		via_lvds_set_primary_soft_vee(VGABASE, false);
-+
-+		/* Wait for 510 ms. */
-+		mdelay(510);
-+
-+		/* Turn off FP data transmission. */
-+		via_lvds_set_primary_soft_data(VGABASE, false);
-+
-+		/* Wait for 25 ms. */
-+		mdelay(25);
-+
-+		/* Turn off FP VDD rail. */
-+		via_lvds_set_primary_soft_vdd(VGABASE, false);
-+	}
++	ttm_bo_unpin(ttm_bo);
 +
 +	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
 +}
 +
-+static void via_lvds_primary_soft_power_seq(struct via_drm_priv *dev_priv=
-,
-+						bool power_state)
++int via_bo_create(struct drm_device *dev,
++			struct ttm_device *bdev,
++			uint64_t size,
++			enum ttm_bo_type type,
++			uint32_t ttm_domain,
++			bool kmap,
++			struct via_bo **bo_ptr)
 +{
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	/* Turn off FP hardware power sequence. */
-+	via_lvds_set_primary_hard_power(VGABASE, false);
-+
-+	/* Use software FP power sequence control. */
-+	via_lvds_set_primary_power_seq_type(VGABASE, false);
-+
-+	if (power_state) {
-+		/* Turn on FP display period. */
-+		via_lvds_set_primary_direct_display_period(VGABASE, true);
-+
-+		/* Wait for TD0 ms. */
-+		mdelay(TD0);
-+
-+		/* Turn on FP VDD rail. */
-+		via_lvds_set_primary_soft_vdd(VGABASE, true);
-+
-+		/* Wait for TD1 ms. */
-+		mdelay(TD1);
-+
-+		/* Turn on FP data transmission. */
-+		via_lvds_set_primary_soft_data(VGABASE, true);
-+
-+		/* Wait for TD2 ms. */
-+		mdelay(TD2);
-+
-+		/* Turn on FP VEE rail. */
-+		via_lvds_set_primary_soft_vee(VGABASE, true);
-+
-+		/* Wait for TD3 ms. */
-+		mdelay(TD3);
-+
-+		/* Turn on FP back light. */
-+		via_lvds_set_primary_soft_back_light(VGABASE, true);
-+	} else {
-+		/* Turn off FP back light. */
-+		via_lvds_set_primary_soft_back_light(VGABASE, false);
-+
-+		/* Wait for TD3 ms. */
-+		mdelay(TD3);
-+
-+		/* Turn off FP VEE rail. */
-+		via_lvds_set_primary_soft_vee(VGABASE, false);
-+
-+		/* Wait for TD2 ms. */
-+		mdelay(TD2);
-+
-+		/* Turn off FP data transmission. */
-+		via_lvds_set_primary_soft_data(VGABASE, false);
-+
-+		/* Wait for TD1 ms. */
-+		mdelay(TD1);
-+
-+		/* Turn off FP VDD rail. */
-+		via_lvds_set_primary_soft_vdd(VGABASE, false);
-+
-+		/* Turn off FP display period. */
-+		via_lvds_set_primary_direct_display_period(VGABASE, false);
-+	}
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void via_lvds_secondary_soft_power_seq(struct via_drm_priv *dev_pr=
-iv,
-+						bool power_state)
-+{
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	/* Turn off FP hardware power sequence. */
-+	via_lvds_set_secondary_hard_power(VGABASE, false);
-+
-+	/* Use software FP power sequence control. */
-+	via_lvds_set_secondary_power_seq_type(VGABASE, false);
-+
-+	if (power_state) {
-+		/* Turn on FP display period. */
-+		via_lvds_set_secondary_direct_display_period(VGABASE, true);
-+
-+		/* Wait for TD0 ms. */
-+		mdelay(TD0);
-+
-+		/* Turn on FP VDD rail. */
-+		via_lvds_set_secondary_soft_vdd(VGABASE, true);
-+
-+		/* Wait for TD1 ms. */
-+		mdelay(TD1);
-+
-+		/* Turn on FP data transmission. */
-+		via_lvds_set_secondary_soft_data(VGABASE, true);
-+
-+		/* Wait for TD2 ms. */
-+		mdelay(TD2);
-+
-+		/* Turn on FP VEE rail. */
-+		via_lvds_set_secondary_soft_vee(VGABASE, true);
-+
-+		/* Wait for TD3 ms. */
-+		mdelay(TD3);
-+
-+		/* Turn on FP back light. */
-+		via_lvds_set_secondary_soft_back_light(VGABASE, true);
-+	} else {
-+		/* Turn off FP back light. */
-+		via_lvds_set_secondary_soft_back_light(VGABASE, false);
-+
-+		/* Wait for TD3 ms. */
-+		mdelay(TD3);
-+
-+		/* Turn off FP VEE rail. */
-+		via_lvds_set_secondary_soft_vee(VGABASE, false);
-+
-+		/* Wait for TD2 ms. */
-+		mdelay(TD2);
-+
-+		/* Turn off FP data transmission. */
-+		via_lvds_set_secondary_soft_data(VGABASE, false);
-+
-+		/* Wait for TD1 ms. */
-+		mdelay(TD1);
-+
-+		/* Turn off FP VDD rail. */
-+		via_lvds_set_secondary_soft_vdd(VGABASE, false);
-+
-+		/* Turn off FP display period. */
-+		via_lvds_set_secondary_direct_display_period(VGABASE, false);
-+	}
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void via_lvds_primary_hard_power_seq(struct via_drm_priv *dev_priv=
-,
-+						bool power_state)
-+{
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	/* Use hardware FP power sequence control. */
-+	via_lvds_set_primary_power_seq_type(VGABASE, true);
-+
-+	if (power_state) {
-+		/* Turn on FP display period. */
-+		via_lvds_set_primary_direct_display_period(VGABASE, true);
-+
-+		/* Turn on FP hardware power sequence. */
-+		via_lvds_set_primary_hard_power(VGABASE, true);
-+
-+		/* Turn on FP back light. */
-+		via_lvds_set_primary_direct_back_light_ctrl(VGABASE, true);
-+	} else {
-+		/* Turn off FP back light. */
-+		via_lvds_set_primary_direct_back_light_ctrl(VGABASE, false);
-+
-+		/* Turn off FP hardware power sequence. */
-+		via_lvds_set_primary_hard_power(VGABASE, false);
-+
-+		/* Turn on FP display period. */
-+		via_lvds_set_primary_direct_display_period(VGABASE, false);
-+	}
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void via_lvds_power(struct via_drm_priv *dev_priv,
-+				unsigned short device,
-+				u32 di_port, bool power_state)
-+{
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	switch (device) {
-+	case PCI_DEVICE_ID_VIA_CLE266:
-+		via_lvds_cle266_soft_power_seq(dev_priv, power_state);
-+		break;
-+	case PCI_DEVICE_ID_VIA_KM400:
-+	case PCI_DEVICE_ID_VIA_CN700:
-+	case PCI_DEVICE_ID_VIA_PM800:
-+	case PCI_DEVICE_ID_VIA_K8M800:
-+	case PCI_DEVICE_ID_VIA_VT3343:
-+	case PCI_DEVICE_ID_VIA_K8M890:
-+	case PCI_DEVICE_ID_VIA_P4M900:
-+		via_lvds_primary_hard_power_seq(dev_priv, power_state);
-+		break;
-+	case PCI_DEVICE_ID_VIA_VT3157:
-+	case PCI_DEVICE_ID_VIA_VT1122:
-+		if (di_port & VIA_DI_PORT_LVDS1) {
-+			via_lvds_primary_soft_power_seq(dev_priv, power_state);
-+			via_lvds1_set_power(VGABASE, power_state);
-+		}
-+
-+		if (di_port & VIA_DI_PORT_LVDS2) {
-+			via_lvds_secondary_soft_power_seq(dev_priv, power_state);
-+			via_lvds2_set_power(VGABASE, power_state);
-+		}
-+
-+		break;
-+	case PCI_DEVICE_ID_VIA_VX875:
-+	case PCI_DEVICE_ID_VIA_VX900_VGA:
-+		via_lvds_primary_hard_power_seq(dev_priv, power_state);
-+		via_lvds1_set_power(VGABASE, power_state);
-+		break;
-+	default:
-+		DRM_DEBUG_KMS("VIA Technologies Chrome IGP "
-+				"FP Power: Unrecognized "
-+				"PCI Device ID.\n");
-+		break;
-+	}
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+/*
-+ * Sets flat panel I/O pad state.
-+ */
-+static void via_lvds_io_pad_setting(struct via_drm_priv *dev_priv,
-+					u32 di_port, bool io_pad_on)
-+{
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	switch(di_port) {
-+	case VIA_DI_PORT_DVP0:
-+		via_dvp0_set_io_pad_state(VGABASE, io_pad_on ? 0x03 : 0x00);
-+		break;
-+	case VIA_DI_PORT_DVP1:
-+		via_dvp1_set_io_pad_state(VGABASE, io_pad_on ? 0x03 : 0x00);
-+		break;
-+	case VIA_DI_PORT_FPDPLOW:
-+		via_fpdp_low_set_io_pad_state(VGABASE, io_pad_on ? 0x03 : 0x00);
-+		break;
-+	case VIA_DI_PORT_FPDPHIGH:
-+		via_fpdp_high_set_io_pad_state(VGABASE, io_pad_on ? 0x03 : 0x00);
-+		break;
-+	case (VIA_DI_PORT_FPDPLOW |
-+		VIA_DI_PORT_FPDPHIGH):
-+		via_fpdp_low_set_io_pad_state(VGABASE, io_pad_on ? 0x03 : 0x00);
-+		via_fpdp_high_set_io_pad_state(VGABASE, io_pad_on ? 0x03 : 0x00);
-+		break;
-+	case VIA_DI_PORT_LVDS1:
-+		via_lvds1_set_io_pad_setting(VGABASE, io_pad_on ? 0x03 : 0x00);
-+		break;
-+	case VIA_DI_PORT_LVDS2:
-+		via_lvds2_set_io_pad_setting(VGABASE, io_pad_on ? 0x03 : 0x00);
-+		break;
-+	case (VIA_DI_PORT_LVDS1 |
-+		VIA_DI_PORT_LVDS2):
-+		via_lvds1_set_io_pad_setting(VGABASE, io_pad_on ? 0x03 : 0x00);
-+		via_lvds2_set_io_pad_setting(VGABASE, io_pad_on ? 0x03 : 0x00);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	DRM_DEBUG_KMS("FP I/O Pad: %s\n", io_pad_on ? "On": "Off");
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void via_lvds_format(struct via_drm_priv *dev_priv,
-+				u32 di_port, u8 format)
-+{
-+	u8 temp =3D format & 0x01;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	switch(di_port) {
-+	case VIA_DI_PORT_LVDS1:
-+		via_lvds1_set_format(VGABASE, temp);
-+		break;
-+	case VIA_DI_PORT_LVDS2:
-+		via_lvds2_set_format(VGABASE, temp);
-+		break;
-+	case (VIA_DI_PORT_LVDS1 |
-+		VIA_DI_PORT_LVDS2):
-+		via_lvds1_set_format(VGABASE, temp);
-+		via_lvds2_set_format(VGABASE, temp);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void via_lvds_output_format(struct via_drm_priv *dev_priv,
-+					u32 di_port, u8 output_format)
-+{
-+	u8 temp =3D output_format & 0x01;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	switch(di_port) {
-+	case VIA_DI_PORT_LVDS1:
-+		via_lvds1_set_output_format(VGABASE, temp);
-+		break;
-+	case VIA_DI_PORT_LVDS2:
-+		via_lvds2_set_output_format(VGABASE, temp);
-+		break;
-+	case (VIA_DI_PORT_LVDS1 |
-+		VIA_DI_PORT_LVDS2):
-+		via_lvds1_set_output_format(VGABASE, temp);
-+		via_lvds2_set_output_format(VGABASE, temp);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void via_lvds_dithering(struct via_drm_priv *dev_priv,
-+				u32 di_port, bool dithering)
-+{
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	switch(di_port) {
-+	case VIA_DI_PORT_LVDS1:
-+		via_lvds1_set_dithering(VGABASE, dithering);
-+		break;
-+	case VIA_DI_PORT_LVDS2:
-+		via_lvds2_set_dithering(VGABASE, dithering);
-+		break;
-+	case (VIA_DI_PORT_LVDS1 |
-+		VIA_DI_PORT_LVDS2):
-+		via_lvds1_set_dithering(VGABASE, dithering);
-+		via_lvds2_set_dithering(VGABASE, dithering);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+/*
-+ * Sets flat panel display source.
-+ */
-+static void via_lvds_display_source(struct via_drm_priv *dev_priv,
-+					u32 di_port, int index)
-+{
-+	u8 display_source =3D index & 0x01;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	switch(di_port) {
-+	case VIA_DI_PORT_DVP0:
-+		via_dvp0_set_display_source(VGABASE, display_source);
-+		break;
-+	case VIA_DI_PORT_DVP1:
-+		via_dvp1_set_display_source(VGABASE, display_source);
-+		break;
-+	case VIA_DI_PORT_FPDPLOW:
-+		via_fpdp_low_set_display_source(VGABASE, display_source);
-+		via_dvp1_set_display_source(VGABASE, display_source);
-+		break;
-+	case VIA_DI_PORT_FPDPHIGH:
-+		via_fpdp_high_set_display_source(VGABASE, display_source);
-+		via_dvp0_set_display_source(VGABASE, display_source);
-+		break;
-+	case (VIA_DI_PORT_FPDPLOW |
-+		VIA_DI_PORT_FPDPHIGH):
-+		via_fpdp_low_set_display_source(VGABASE, display_source);
-+		via_fpdp_high_set_display_source(VGABASE, display_source);
-+		break;
-+	case VIA_DI_PORT_LVDS1:
-+		via_lvds1_set_display_source(VGABASE, display_source);
-+		break;
-+	case VIA_DI_PORT_LVDS2:
-+		via_lvds2_set_display_source(VGABASE, display_source);
-+		break;
-+	case (VIA_DI_PORT_LVDS1 |
-+		VIA_DI_PORT_LVDS2):
-+		via_lvds1_set_display_source(VGABASE, display_source);
-+		via_lvds2_set_display_source(VGABASE, display_source);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	DRM_DEBUG_KMS("FP Display Source: IGA%d\n",
-+			display_source + 1);
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void via_lvds_dpms(struct drm_encoder *encoder, int mode)
-+{
-+	struct via_encoder *enc =3D container_of(encoder,
-+					struct via_encoder, base);
-+	struct drm_device *dev =3D encoder->dev;
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct ttm_buffer_object *ttm_bo;
 +	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+
-+	/* PCI Device ID */
-+	u16 chipset =3D pdev->device;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	switch (mode) {
-+	case DRM_MODE_DPMS_ON:
-+		via_lvds_power(dev_priv, chipset, enc->di_port, true);
-+		via_lvds_io_pad_setting(dev_priv, enc->di_port, true);
-+		break;
-+	case DRM_MODE_DPMS_SUSPEND:
-+	case DRM_MODE_DPMS_STANDBY:
-+	case DRM_MODE_DPMS_OFF:
-+		via_lvds_power(dev_priv, chipset, enc->di_port, false);
-+		via_lvds_io_pad_setting(dev_priv, enc->di_port, false);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static bool via_lvds_mode_fixup(struct drm_encoder *encoder,
-+				const struct drm_display_mode *mode,
-+				struct drm_display_mode *adjusted_mode)
-+{
-+	struct drm_property *prop =3D encoder->dev->mode_config.scaling_mode_pro=
-perty;
-+	struct via_crtc *iga =3D container_of(encoder->crtc, struct via_crtc, ba=
-se);
-+	struct drm_display_mode *native_mode =3D NULL, *tmp, *t;
-+	struct drm_connector *connector =3D NULL, *con;
-+	u64 scale_mode =3D DRM_MODE_SCALE_CENTER;
-+	struct drm_device *dev =3D encoder->dev;
-+
-+	list_for_each_entry(con, &dev->mode_config.connector_list, head) {
-+		if (encoder =3D=3D con->encoder) {
-+			connector =3D con;
-+			break;
-+		}
-+	}
-+
-+	if (!connector) {
-+		DRM_INFO("LVDS encoder is not used by any connector\n");
-+		return false;
-+	}
-+
-+	list_for_each_entry_safe(tmp, t, &connector->modes, head) {
-+		if (tmp->type & (DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER)) {
-+			native_mode =3D tmp;
-+			break;
-+		}
-+	}
-+
-+	if (!native_mode) {
-+		DRM_INFO("No native mode for LVDS\n");
-+		return false;
-+	}
-+
-+	drm_object_property_get_value(&connector->base, prop, &scale_mode);
-+
-+	if ((mode->hdisplay !=3D native_mode->hdisplay) ||
-+		(mode->vdisplay !=3D native_mode->vdisplay)) {
-+		if (scale_mode =3D=3D DRM_MODE_SCALE_NONE)
-+			return false;
-+		drm_mode_copy(adjusted_mode, native_mode);
-+	}
-+	drm_mode_set_crtcinfo(adjusted_mode, 0);
-+
-+	iga->scaling_mode =3D VIA_NO_SCALING;
-+	/* Take care of 410 downscaling */
-+	if ((mode->hdisplay > native_mode->hdisplay) ||
-+		(mode->vdisplay > native_mode->vdisplay)) {
-+		iga->scaling_mode =3D VIA_SHRINK;
-+	} else {
-+		if (!iga->index || scale_mode =3D=3D DRM_MODE_SCALE_CENTER) {
-+			/* Do centering according to mode and adjusted_mode */
-+			via_centering_timing(mode, adjusted_mode);
-+		} else {
-+			if (mode->hdisplay < native_mode->hdisplay)
-+				iga->scaling_mode |=3D VIA_HOR_EXPAND;
-+			if (mode->vdisplay < native_mode->vdisplay)
-+				iga->scaling_mode |=3D VIA_VER_EXPAND;
-+		}
-+	}
-+	return true;
-+}
-+
-+static void via_lvds_prepare(struct drm_encoder *encoder)
-+{
-+	struct via_encoder *enc =3D container_of(encoder,
-+					struct via_encoder, base);
-+	struct drm_device *dev =3D encoder->dev;
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+
-+	/* PCI Device ID */
-+	u16 chipset =3D pdev->device;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	via_lvds_power(dev_priv, chipset, enc->di_port, false);
-+	via_lvds_io_pad_setting(dev_priv, enc->di_port, false);
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void via_lvds_commit(struct drm_encoder *encoder)
-+{
-+	struct via_encoder *enc =3D container_of(encoder,
-+					struct via_encoder, base);
-+	struct drm_device *dev =3D encoder->dev;
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+
-+	/* PCI Device ID */
-+	u16 chipset =3D pdev->device;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	via_lvds_power(dev_priv, chipset, enc->di_port, true);
-+	via_lvds_io_pad_setting(dev_priv, enc->di_port, true);
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void
-+via_lvds_mode_set(struct drm_encoder *encoder, struct drm_display_mode *m=
-ode,
-+		struct drm_display_mode *adjusted_mode)
-+{
-+	struct via_crtc *iga =3D container_of(encoder->crtc, struct via_crtc, ba=
-se);
-+	struct via_encoder *enc =3D container_of(encoder, struct via_encoder, ba=
-se);
-+	struct drm_device *dev =3D encoder->dev;
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+
-+	/* PCI Device ID */
-+	u16 chipset =3D pdev->device;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	/* Temporary implementation.*/
-+	switch (chipset) {
-+	case PCI_DEVICE_ID_VIA_P4M900:
-+		via_fpdp_low_set_adjustment(VGABASE, 0x08);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	switch (chipset) {
-+	case PCI_DEVICE_ID_VIA_VT3157:
-+	case PCI_DEVICE_ID_VIA_VT1122:
-+	case PCI_DEVICE_ID_VIA_VX875:
-+	case PCI_DEVICE_ID_VIA_VX900_VGA:
-+		/* OPENLDI Mode */
-+		via_lvds_format(dev_priv, enc->di_port, 0x01);
-+
-+		/* Sequential Mode */
-+		via_lvds_output_format(dev_priv, enc->di_port, 0x01);
-+
-+		/* Turn on dithering. */
-+		via_lvds_dithering(dev_priv, enc->di_port, true);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	via_lvds_display_source(dev_priv, enc->di_port, iga->index);
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void via_lvds_disable(struct drm_encoder *encoder)
-+{
-+	struct via_encoder *enc =3D container_of(encoder,
-+					struct via_encoder, base);
-+	struct drm_device *dev =3D encoder->dev;
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+
-+	/* PCI Device ID */
-+	u16 chipset =3D pdev->device;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	via_lvds_power(dev_priv, chipset, enc->di_port, false);
-+	via_lvds_io_pad_setting(dev_priv, enc->di_port, false);
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+const struct drm_encoder_helper_funcs via_lvds_helper_funcs =3D {
-+	.dpms =3D via_lvds_dpms,
-+	.prepare =3D via_lvds_prepare,
-+	.commit =3D via_lvds_commit,
-+	.mode_set =3D via_lvds_mode_set,
-+	.disable =3D via_lvds_disable,
-+};
-+
-+const struct drm_encoder_funcs via_lvds_enc_funcs =3D {
-+	.destroy =3D via_encoder_cleanup,
-+};
-+
-+/* Detect FP presence. */
-+static enum drm_connector_status
-+via_lvds_detect(struct drm_connector *connector, bool force)
-+{
-+	struct drm_device *dev =3D connector->dev;
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	struct via_connector *con =3D container_of(connector,
-+					struct via_connector, base);
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	enum drm_connector_status ret =3D connector_status_disconnected;
-+	struct i2c_adapter *i2c_bus;
-+	struct edid *edid =3D NULL;
-+	u8 mask;
-+	uint32_t i, i2c_bus_bit;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if (machine_is_olpc()) {
-+		ret =3D connector_status_connected;
-+		goto exit;
-+	}
-+
-+	i2c_bus_bit =3D VIA_I2C_BUS2;
-+	for (i =3D 0; i < 2; i++) {
-+		if (con->i2c_bus & i2c_bus_bit) {
-+			if (i2c_bus_bit & VIA_I2C_BUS2) {
-+				i2c_bus =3D via_find_ddc_bus(0x31);
-+			} else if (i2c_bus_bit & VIA_I2C_BUS3) {
-+				i2c_bus =3D via_find_ddc_bus(0x2c);
-+			} else {
-+				i2c_bus =3D NULL;
-+				i2c_bus_bit =3D i2c_bus_bit << 1;
-+				continue;
-+			}
-+		} else {
-+			i2c_bus =3D NULL;
-+			i2c_bus_bit =3D i2c_bus_bit << 1;
-+			continue;
-+		}
-+
-+		if (!via_fp_probe_edid(i2c_bus)) {
-+			i2c_bus_bit =3D i2c_bus_bit << 1;
-+			continue;
-+		}
-+
-+		edid =3D drm_get_edid(&con->base, i2c_bus);
-+		if (edid) {
-+			if (edid->input & DRM_EDID_INPUT_DIGITAL) {
-+				ret =3D connector_status_connected;
-+				kfree(edid);
-+				DRM_DEBUG_KMS("FP detected.\n");
-+				DRM_DEBUG_KMS("i2c_bus_bit: %x\n", i2c_bus_bit);
-+				goto exit;
-+			} else {
-+				kfree(edid);
-+			}
-+		}
-+
-+		i2c_bus_bit =3D i2c_bus_bit << 1;
-+	}
-+
-+	if (pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266) {
-+		mask =3D BIT(3);
-+	} else {
-+		mask =3D BIT(1);
-+	}
-+
-+	if (vga_rcrt(VGABASE, 0x3B) & mask) {
-+		ret =3D connector_status_connected;
-+	}
-+
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return ret;
-+}
-+
-+static int via_lvds_set_property(struct drm_connector *connector,
-+				struct drm_property *property,
-+				uint64_t val)
-+{
-+	struct drm_device *dev =3D connector->dev;
-+	uint64_t orig;
++	struct via_bo *bo;
 +	int ret;
 +
 +	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+	ret =3D drm_object_property_get_value(&connector->base, property, &orig)=
-;
-+	if (ret) {
-+		DRM_ERROR("FP Property not found!\n");
-+		ret =3D -EINVAL;
++	bo =3D kzalloc(sizeof(*bo), GFP_KERNEL);
++	if (!bo) {
++		DRM_ERROR("Cannot allocate a TTM buffer object.\n");
++		ret =3D -ENOMEM;
 +		goto exit;
 +	}
 +
-+	if (orig !=3D val) {
-+		if (property =3D=3D dev->mode_config.scaling_mode_property) {
-+			switch (val) {
-+			case DRM_MODE_SCALE_NONE:
-+				break;
-+			case DRM_MODE_SCALE_CENTER:
-+				break;
-+			case DRM_MODE_SCALE_ASPECT:
-+				break;
-+			case DRM_MODE_SCALE_FULLSCREEN:
-+				break;
-+			default:
-+				DRM_ERROR("Invalid FP property!\n");
-+				ret =3D -EINVAL;
-+				break;
-+			}
++	ttm_bo =3D &bo->ttm_bo;
++
++	/*
++	 * It is an imperative to page align the requested buffer size
++	 * prior to a memory allocation request, or various memory
++	 * allocation related system instabilities may occur.
++	 */
++	size =3D ALIGN(size, PAGE_SIZE);
++
++	ret =3D drm_gem_object_init(dev, &ttm_bo->base, size);
++	if (ret) {
++		DRM_ERROR("Cannot initialize a GEM object.\n");
++		goto error;
++	}
++
++	ttm_bo->base.funcs =3D &via_gem_object_funcs;
++
++	via_ttm_domain_to_placement(bo, ttm_domain);
++	ret =3D ttm_bo_init(&dev_priv->bdev, ttm_bo,
++				size, type, &bo->placement,
++				PAGE_SIZE >> PAGE_SHIFT, false,
++				NULL, NULL, via_ttm_bo_destroy);
++	if (ret) {
++		DRM_ERROR("Cannot initialize a TTM object.\n");
++		goto exit;
++	}
++
++	if (kmap) {
++		ret =3D ttm_bo_reserve(ttm_bo, true, false, NULL);
++		if (ret) {
++			ttm_bo_put(ttm_bo);
++			goto exit;
 +		}
++
++		ret =3D via_bo_pin(bo, ttm_domain);
++		ttm_bo_unreserve(ttm_bo);
++		if (ret) {
++			ttm_bo_put(ttm_bo);
++			goto exit;
++		}
++
++		ret =3D ttm_bo_kmap(ttm_bo, 0, ttm_bo->resource->num_pages,
++					&bo->kmap);
++		if (ret) {
++			ttm_bo_put(ttm_bo);
++			goto exit;
++		}
++	}
++
++	*bo_ptr =3D bo;
++	goto exit;
++error:
++	kfree(bo);
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
++}
++
++void via_bo_destroy(struct via_bo *bo, bool kmap)
++{
++	struct ttm_buffer_object *ttm_bo;
++	int ret;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	ttm_bo =3D &bo->ttm_bo;
++
++	if (kmap) {
++		ttm_bo_kunmap(&bo->kmap);
++
++		ret =3D ttm_bo_reserve(ttm_bo, true, false, NULL);
++		if (ret) {
++			goto exit;
++		}
++
++		via_bo_unpin(bo);
++		ttm_bo_unreserve(ttm_bo);
++		if (ret) {
++			goto exit;
++		}
++	}
++
++	ttm_bo_put(ttm_bo);
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++int via_mm_init(struct via_drm_priv *dev_priv)
++{
++	struct drm_device *dev =3D &dev_priv->dev;
++	int ret;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	/*
++	 * Initialize bdev ttm_bo_device struct.
++	 */
++	ret =3D ttm_device_init(&dev_priv->bdev,
++				&via_bo_driver,
++				dev->dev,
++				dev->anon_inode->i_mapping,
++				dev->vma_offset_manager,
++				false,
++				dev_priv->need_dma32);
++	if (ret) {
++		DRM_ERROR("Failed initializing buffer object driver.\n");
++		goto exit;
++	}
++
++	/*
++	 * Initialize TTM range manager for VRAM management.
++	 */
++	ret =3D ttm_range_man_init(&dev_priv->bdev, TTM_PL_VRAM,
++				false,
++				dev_priv->vram_size >> PAGE_SHIFT);
++	if (ret) {
++		DRM_ERROR("Failed initializing TTM VRAM memory manager.\n");
++		goto exit;
 +	}
 +
 +exit:
@@ -1067,466 +411,15 @@ se);
 +	return ret;
 +}
 +
-+struct drm_connector_funcs via_lvds_connector_funcs =3D {
-+	.dpms =3D drm_helper_connector_dpms,
-+	.detect =3D via_lvds_detect,
-+	.fill_modes =3D drm_helper_probe_single_connector_modes,
-+	.destroy =3D via_connector_destroy,
-+	.reset =3D drm_atomic_helper_connector_reset,
-+	.atomic_duplicate_state =3D
-+			drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state =3D
-+			drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static int
-+via_lvds_get_modes(struct drm_connector *connector)
++void via_mm_fini(struct via_drm_priv *dev_priv)
 +{
-+	struct via_connector *con =3D container_of(connector, struct via_connect=
-or, base);
-+	struct drm_device *dev =3D connector->dev;
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	struct i2c_adapter *i2c_bus;
-+	struct edid *edid =3D NULL;
-+	struct drm_display_mode *native_mode =3D NULL;
-+	u8 reg_value;
-+	int hdisplay, vdisplay;
-+	int count =3D 0;
-+	uint32_t i, i2c_bus_bit;
-+
 +	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+	/* OLPC is very special */
-+	if (machine_is_olpc()) {
-+		native_mode =3D drm_mode_create(dev);
++	ttm_range_man_fini(&dev_priv->bdev, TTM_PL_VRAM);
 +
-+		native_mode->clock =3D 56519;
-+		native_mode->hdisplay =3D 1200;
-+		native_mode->hsync_start =3D 1211;
-+		native_mode->hsync_end =3D 1243;
-+		native_mode->htotal =3D 1264;
-+		native_mode->hskew =3D 0;
-+		native_mode->vdisplay =3D 900;
-+		native_mode->vsync_start =3D 901;
-+		native_mode->vsync_end =3D 911;
-+		native_mode->vtotal =3D 912;
-+		native_mode->vscan =3D 0;
-+
-+		native_mode->type =3D DRM_MODE_TYPE_PREFERRED |
-+					DRM_MODE_TYPE_DRIVER;
-+		drm_mode_set_name(native_mode);
-+		drm_mode_probed_add(connector, native_mode);
-+		count =3D 1;
-+		goto exit;
-+	}
-+
-+	i2c_bus_bit =3D VIA_I2C_BUS2;
-+	for (i =3D 0; i < 2; i++) {
-+		if (con->i2c_bus & i2c_bus_bit) {
-+			if (i2c_bus_bit & VIA_I2C_BUS2) {
-+				i2c_bus =3D via_find_ddc_bus(0x31);
-+			} else if (i2c_bus_bit & VIA_I2C_BUS3) {
-+				i2c_bus =3D via_find_ddc_bus(0x2c);
-+			} else {
-+				i2c_bus =3D NULL;
-+				i2c_bus_bit =3D i2c_bus_bit << 1;
-+				continue;
-+			}
-+		} else {
-+			i2c_bus =3D NULL;
-+			i2c_bus_bit =3D i2c_bus_bit << 1;
-+			continue;
-+		}
-+
-+		edid =3D drm_get_edid(&con->base, i2c_bus);
-+		if (edid) {
-+			if (edid->input & DRM_EDID_INPUT_DIGITAL) {
-+				drm_connector_update_edid_property(connector, edid);
-+				count =3D drm_add_edid_modes(connector, edid);
-+				kfree(edid);
-+				DRM_DEBUG_KMS("FP EDID information was obtained.\n");
-+				DRM_DEBUG_KMS("i2c_bus_bit: %x\n", i2c_bus_bit);
-+				break;
-+			} else {
-+				kfree(edid);
-+			}
-+		}
-+
-+		i2c_bus_bit =3D i2c_bus_bit << 1;
-+	}
-+
-+	reg_value =3D (vga_rcrt(VGABASE, 0x3f) & 0x0f);
-+	hdisplay =3D vdisplay =3D 0;
-+	hdisplay =3D via_lvds_info_table[reg_value].x;
-+	vdisplay =3D via_lvds_info_table[reg_value].y;
-+
-+	if (hdisplay && vdisplay) {
-+		native_mode =3D drm_cvt_mode(dev, hdisplay, vdisplay,
-+					60, false, false, false);
-+	}
-+
-+	if (native_mode) {
-+		native_mode->type =3D DRM_MODE_TYPE_PREFERRED |
-+						DRM_MODE_TYPE_DRIVER;
-+		drm_mode_set_name(native_mode);
-+		drm_mode_probed_add(connector, native_mode);
-+		count =3D 1;
-+	}
-+
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return count;
-+}
-+
-+static int via_lvds_mode_valid(struct drm_connector *connector,
-+				struct drm_display_mode *mode)
-+{
-+	struct drm_property *prop =3D connector->dev->mode_config.scaling_mode_p=
-roperty;
-+	struct drm_display_mode *native_mode =3D NULL, *tmp, *t;
-+	struct drm_device *dev =3D connector->dev;
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	u64 scale_mode =3D DRM_MODE_SCALE_CENTER;
-+
-+	list_for_each_entry_safe(tmp, t, &connector->modes, head) {
-+		if (tmp->type & (DRM_MODE_TYPE_PREFERRED | DRM_MODE_TYPE_DRIVER)) {
-+			native_mode =3D tmp;
-+			break;
-+		}
-+	}
-+
-+	drm_object_property_get_value(&connector->base, prop, &scale_mode);
-+
-+	if ((scale_mode =3D=3D DRM_MODE_SCALE_NONE) &&
-+		((mode->hdisplay !=3D native_mode->hdisplay) ||
-+		(mode->vdisplay !=3D native_mode->vdisplay)))
-+		return MODE_PANEL;
-+
-+	/* Don't support mode larger than physical size */
-+	if (pdev->device !=3D PCI_DEVICE_ID_VIA_VX900_VGA) {
-+		if (mode->hdisplay > native_mode->hdisplay)
-+			return MODE_PANEL;
-+		if (mode->vdisplay > native_mode->vdisplay)
-+			return MODE_PANEL;
-+	} else {
-+		/* HW limitation 410 only can
-+		 * do <=3D 1.33 scaling */
-+		if (mode->hdisplay * 100 > native_mode->hdisplay * 133)
-+			return MODE_PANEL;
-+		if (mode->vdisplay * 100 > native_mode->vdisplay * 133)
-+			return MODE_PANEL;
-+
-+		/* Now we can not support H V different scale */
-+		if ((mode->hdisplay > native_mode->hdisplay) &&
-+			(mode->vdisplay < native_mode->vdisplay))
-+			return MODE_PANEL;
-+
-+		if ((mode->hdisplay < native_mode->hdisplay) &&
-+			(mode->vdisplay > native_mode->vdisplay))
-+			return MODE_PANEL;
-+	}
-+	return MODE_OK;
-+}
-+
-+struct drm_connector_helper_funcs via_lvds_connector_helper_funcs =3D {
-+	.get_modes =3D via_lvds_get_modes,
-+};
-+
-+/*
-+ * Probe (pre-initialization detection) FP.
-+ */
-+void via_lvds_probe(struct drm_device *dev)
-+{
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	struct drm_connector connector;
-+	struct i2c_adapter *i2c_bus;
-+	struct edid *edid;
-+	u16 chipset =3D pdev->device;
-+	u8 sr12, sr13, sr5a;
-+	u8 cr3b;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	sr12 =3D vga_rseq(VGABASE, 0x12);
-+	sr13 =3D vga_rseq(VGABASE, 0x13);
-+	cr3b =3D vga_rcrt(VGABASE, 0x3b);
-+
-+	DRM_DEBUG_KMS("chipset: 0x%04x\n", chipset);
-+	DRM_DEBUG_KMS("sr12: 0x%02x\n", sr12);
-+	DRM_DEBUG_KMS("sr13: 0x%02x\n", sr13);
-+	DRM_DEBUG_KMS("cr3b: 0x%02x\n", cr3b);
-+
-+	/* Detect the presence of FPs. */
-+	switch (chipset) {
-+	case PCI_DEVICE_ID_VIA_CLE266:
-+		if ((sr12 & BIT(4)) || (cr3b & BIT(3))) {
-+			dev_priv->int_fp1_presence =3D true;
-+			dev_priv->int_fp1_di_port =3D VIA_DI_PORT_DIP0;
-+		} else {
-+			dev_priv->int_fp1_presence =3D false;
-+			dev_priv->int_fp1_di_port =3D VIA_DI_PORT_NONE;
-+		}
-+
-+		dev_priv->int_fp2_presence =3D false;
-+		dev_priv->int_fp2_di_port =3D VIA_DI_PORT_NONE;
-+		break;
-+	case PCI_DEVICE_ID_VIA_KM400:
-+	case PCI_DEVICE_ID_VIA_CN700:
-+	case PCI_DEVICE_ID_VIA_PM800:
-+	case PCI_DEVICE_ID_VIA_K8M800:
-+		/* 3C5.13[3] - DVP0D8 pin strapping
-+		 *             0: AGP pins are used for AGP
-+		 *             1: AGP pins are used by FPDP
-+		 *             (Flat Panel Display Port) */
-+		if ((sr13 & BIT(3)) && (cr3b & BIT(1))) {
-+			dev_priv->int_fp1_presence =3D true;
-+			dev_priv->int_fp1_di_port =3D VIA_DI_PORT_FPDPHIGH |
-+							VIA_DI_PORT_FPDPLOW;
-+		} else {
-+			dev_priv->int_fp1_presence =3D false;
-+			dev_priv->int_fp1_di_port =3D VIA_DI_PORT_NONE;
-+		}
-+
-+		dev_priv->int_fp2_presence =3D false;
-+		dev_priv->int_fp2_di_port =3D VIA_DI_PORT_NONE;
-+		break;
-+	case PCI_DEVICE_ID_VIA_VT3343:
-+	case PCI_DEVICE_ID_VIA_K8M890:
-+	case PCI_DEVICE_ID_VIA_P4M900:
-+		if (cr3b & BIT(1)) {
-+			/* 3C5.12[4] - DVP0D4 pin strapping
-+			 *             0: 12-bit FPDP (Flat Panel
-+			 *                Display Port)
-+			 *             1: 24-bit FPDP (Flat Panel
-+			 *                Display Port) */
-+			if (sr12 & BIT(4)) {
-+				dev_priv->int_fp1_presence =3D true;
-+				dev_priv->int_fp1_di_port =3D VIA_DI_PORT_FPDPLOW |
-+							VIA_DI_PORT_FPDPHIGH;
-+			} else {
-+				dev_priv->int_fp1_presence =3D true;
-+				dev_priv->int_fp1_di_port =3D
-+						VIA_DI_PORT_FPDPLOW;
-+			}
-+		} else {
-+			dev_priv->int_fp1_presence =3D false;
-+			dev_priv->int_fp1_di_port =3D VIA_DI_PORT_NONE;
-+		}
-+
-+		dev_priv->int_fp2_presence =3D false;
-+		dev_priv->int_fp2_di_port =3D VIA_DI_PORT_NONE;
-+		break;
-+	case PCI_DEVICE_ID_VIA_VT3157:
-+	case PCI_DEVICE_ID_VIA_VT1122:
-+	case PCI_DEVICE_ID_VIA_VX875:
-+	case PCI_DEVICE_ID_VIA_VX900_VGA:
-+		/* Save SR5A. */
-+		sr5a =3D vga_rseq(VGABASE, 0x5a);
-+
-+		DRM_DEBUG_KMS("sr5a: 0x%02x\n", sr5a);
-+
-+		/* Set SR5A[0] to 1.
-+		 * This allows the read out of the alternative
-+		 * pin strapping settings from SR12 and SR13. */
-+		svga_wseq_mask(VGABASE, 0x5a, BIT(0), BIT(0));
-+
-+		sr13 =3D vga_rseq(VGABASE, 0x13);
-+		if (cr3b & BIT(1)) {
-+			if (dev_priv->is_via_nanobook) {
-+				dev_priv->int_fp1_presence =3D false;
-+				dev_priv->int_fp1_di_port =3D VIA_DI_PORT_NONE;
-+				dev_priv->int_fp2_presence =3D true;
-+				dev_priv->int_fp2_di_port =3D VIA_DI_PORT_LVDS2;
-+			} else if (dev_priv->is_quanta_il1) {
-+				/* From the Quanta IL1 schematic. */
-+				dev_priv->int_fp1_presence =3D true;
-+				dev_priv->int_fp1_di_port =3D VIA_DI_PORT_DVP1;
-+				dev_priv->int_fp2_presence =3D false;
-+				dev_priv->int_fp2_di_port =3D VIA_DI_PORT_NONE;
-+
-+			} else if (dev_priv->is_samsung_nc20) {
-+				dev_priv->int_fp1_presence =3D false;
-+				dev_priv->int_fp1_di_port =3D VIA_DI_PORT_NONE;
-+				dev_priv->int_fp2_presence =3D true;
-+				dev_priv->int_fp2_di_port =3D VIA_DI_PORT_LVDS2;
-+
-+			/* 3C5.13[7:6] - Integrated LVDS / DVI
-+			 *               Mode Select (DVP1D15-14 pin
-+			 *               strapping)
-+			 *               00: LVDS1 + LVDS2
-+			 *               01: DVI + LVDS2
-+			 *               10: Dual LVDS Channel
-+			 *                   (High Resolution Panel)
-+			 *               11: One DVI only (decrease
-+			 *                   the clock jitter) */
-+			} else if ((!(sr13 & BIT(7))) &&
-+					(!(sr13 & BIT(6)))) {
-+				dev_priv->int_fp1_presence =3D true;
-+				dev_priv->int_fp1_di_port =3D VIA_DI_PORT_LVDS1;
-+
-+				/*
-+				 * For now, don't support the second
-+				 * FP.
-+				 */
-+				dev_priv->int_fp2_presence =3D false;
-+				dev_priv->int_fp2_di_port =3D VIA_DI_PORT_NONE;
-+			} else if ((!(sr13 & BIT(7))) &&
-+					(sr13 & BIT(6))) {
-+				dev_priv->int_fp1_presence =3D false;
-+				dev_priv->int_fp1_di_port =3D VIA_DI_PORT_NONE;
-+				dev_priv->int_fp2_presence =3D true;
-+				dev_priv->int_fp2_di_port =3D VIA_DI_PORT_LVDS2;
-+			} else if ((sr13 & BIT(7)) &&
-+					(!(sr13 & BIT(6)))) {
-+				dev_priv->int_fp1_presence =3D true;
-+				dev_priv->int_fp1_di_port =3D VIA_DI_PORT_LVDS1 |
-+							VIA_DI_PORT_LVDS2;
-+				dev_priv->int_fp2_presence =3D false;
-+				dev_priv->int_fp2_di_port =3D VIA_DI_PORT_NONE;
-+			} else {
-+				dev_priv->int_fp1_presence =3D false;
-+				dev_priv->int_fp1_di_port =3D VIA_DI_PORT_NONE;
-+				dev_priv->int_fp2_presence =3D false;
-+				dev_priv->int_fp2_di_port =3D VIA_DI_PORT_NONE;
-+			}
-+		} else {
-+			dev_priv->int_fp1_presence =3D false;
-+			dev_priv->int_fp1_di_port =3D VIA_DI_PORT_NONE;
-+			dev_priv->int_fp2_presence =3D false;
-+			dev_priv->int_fp2_di_port =3D VIA_DI_PORT_NONE;
-+		}
-+
-+		/* Restore SR5A. */
-+		vga_wseq(VGABASE, 0x5a, sr5a);
-+		break;
-+	default:
-+		dev_priv->int_fp1_presence =3D false;
-+		dev_priv->int_fp1_di_port =3D VIA_DI_PORT_NONE;
-+		dev_priv->int_fp2_presence =3D false;
-+		dev_priv->int_fp2_di_port =3D VIA_DI_PORT_NONE;
-+		break;
-+	}
-+
-+	dev_priv->int_fp1_i2c_bus =3D VIA_I2C_NONE;
-+	dev_priv->int_fp2_i2c_bus =3D VIA_I2C_NONE;
-+
-+	/* Zero clear connector struct.
-+	 * Not doing so leads to a crash. */
-+	memset(&connector, 0, sizeof(connector));
-+
-+	/* Register a connector only for I2C bus probing. */
-+	drm_connector_init(dev, &connector, &via_lvds_connector_funcs,
-+				DRM_MODE_CONNECTOR_LVDS);
-+	drm_connector_helper_add(&connector,
-+					&via_lvds_connector_helper_funcs);
-+	drm_connector_register(&connector);
-+
-+	if ((dev_priv->int_fp1_presence)
-+		&& (!(dev_priv->mapped_i2c_bus & VIA_I2C_BUS2))) {
-+		i2c_bus =3D via_find_ddc_bus(0x31);
-+		edid =3D drm_get_edid(&connector, i2c_bus);
-+		if (edid) {
-+			dev_priv->int_fp1_i2c_bus =3D VIA_I2C_BUS2;
-+			dev_priv->mapped_i2c_bus |=3D VIA_I2C_BUS2;
-+			kfree(edid);
-+		}
-+	}
-+
-+	if ((dev_priv->int_fp2_presence)
-+		&& (!(dev_priv->mapped_i2c_bus & VIA_I2C_BUS2))) {
-+		i2c_bus =3D via_find_ddc_bus(0x31);
-+		edid =3D drm_get_edid(&connector, i2c_bus);
-+		if (edid) {
-+			dev_priv->int_fp2_i2c_bus =3D VIA_I2C_BUS2;
-+			dev_priv->mapped_i2c_bus |=3D VIA_I2C_BUS2;
-+			kfree(edid);
-+		}
-+	}
-+
-+	/* Release the connector resource. */
-+	drm_connector_unregister(&connector);
-+	drm_connector_cleanup(&connector);
-+
-+	DRM_DEBUG_KMS("int_fp1_presence: %x\n",
-+			dev_priv->int_fp1_presence);
-+	DRM_DEBUG_KMS("int_fp1_di_port: 0x%08x\n",
-+			dev_priv->int_fp1_di_port);
-+	DRM_DEBUG_KMS("int_fp1_i2c_bus: 0x%08x\n",
-+			dev_priv->int_fp1_i2c_bus);
-+	DRM_DEBUG_KMS("int_fp2_presence: %x\n",
-+			dev_priv->int_fp2_presence);
-+	DRM_DEBUG_KMS("int_fp2_di_port: 0x%08x\n",
-+			dev_priv->int_fp2_di_port);
-+	DRM_DEBUG_KMS("int_fp2_i2c_bus: 0x%08x\n",
-+			dev_priv->int_fp2_i2c_bus);
-+	DRM_DEBUG_KMS("mapped_i2c_bus: 0x%08x\n",
-+			dev_priv->mapped_i2c_bus);
++	ttm_device_fini(&dev_priv->bdev);
 +
 +	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+void via_lvds_init(struct drm_device *dev)
-+{
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	struct via_connector *con;
-+	struct via_encoder *enc;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if ((!(dev_priv->int_fp1_presence)) &&
-+		(!(dev_priv->int_fp2_presence))) {
-+		goto exit;
-+	}
-+
-+	enc =3D kzalloc(sizeof(*enc) + sizeof(*con), GFP_KERNEL);
-+	if (!enc) {
-+		DRM_ERROR("Failed to allocate FP.\n");
-+		goto exit;
-+	}
-+
-+	con =3D &enc->cons[0];
-+	INIT_LIST_HEAD(&con->props);
-+
-+	drm_connector_init(dev, &con->base, &via_lvds_connector_funcs,
-+				DRM_MODE_CONNECTOR_LVDS);
-+	drm_connector_helper_add(&con->base, &via_lvds_connector_helper_funcs);
-+	drm_connector_register(&con->base);
-+
-+	if (dev_priv->int_fp1_presence) {
-+		con->i2c_bus =3D dev_priv->int_fp1_i2c_bus;
-+	} else if (dev_priv->int_fp2_presence) {
-+		con->i2c_bus =3D dev_priv->int_fp2_i2c_bus;
-+	} else {
-+		con->i2c_bus =3D VIA_I2C_NONE;
-+	}
-+
-+	con->base.doublescan_allowed =3D false;
-+	con->base.interlace_allowed =3D false;
-+
-+	/* Now setup the encoder */
-+	drm_encoder_init(dev, &enc->base, &via_lvds_enc_funcs,
-+						DRM_MODE_ENCODER_LVDS, NULL);
-+	drm_encoder_helper_add(&enc->base, &via_lvds_helper_funcs);
-+
-+	enc->base.possible_crtcs =3D BIT(1) | BIT(0);
-+
-+	if (dev_priv->int_fp1_presence) {
-+		enc->di_port =3D dev_priv->int_fp1_di_port;
-+	} else if (dev_priv->int_fp2_presence) {
-+		enc->di_port =3D dev_priv->int_fp2_di_port;
-+	} else {
-+		enc->di_port =3D VIA_DI_PORT_NONE;
-+	}
-+
-+	/* Put it all together */
-+	drm_connector_attach_encoder(&con->base, &enc->base);
-+
-+	/* Init TD timing register (power sequence) */
-+	via_init_td_timing_regs(dev);
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return;
 +}
 =2D-
 2.35.1
