@@ -1,35 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E1755C06D
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 12:55:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0721155C062
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 12:47:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB7E910E97C;
-	Tue, 28 Jun 2022 10:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4C07113F4D;
+	Tue, 28 Jun 2022 10:47:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A010A10E97C
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 10:55:27 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::227])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 651D6C6CA2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 10:46:14 +0000 (UTC)
-Received: (Authenticated sender: jacopo@jmondi.org)
- by mail.gandi.net (Postfix) with ESMTPSA id AF40B20009;
- Tue, 28 Jun 2022 10:46:04 +0000 (UTC)
-Date: Tue, 28 Jun 2022 12:46:03 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: media: Add macros for video
- interface bus types
-Message-ID: <20220628104603.2pugkopwluvgx7a7@uno.localdomain>
-References: <20220615221410.27459-1-laurent.pinchart@ideasonboard.com>
- <20220615221410.27459-2-laurent.pinchart@ideasonboard.com>
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A8C4113F4D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 10:46:59 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ x1-20020a17090abc8100b001ec7f8a51f5so15492360pjr.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 03:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YOIcgKg0TtpygR+M4l/a5Aie7Bx2vAFMNFWbFKFYQ8U=;
+ b=GuvFAaNjrohDIewzt9xxIfAXValLDg3IzoAnYxQQMA6X6zm4KAWN+PuxIBqzsm5/SI
+ mxV07tknmbPx8U/rDWAC363nkdVz+vHZYm4ufprrnfDdDpaIwSfb+QY8f8NgMrxOWgTM
+ h3qOMjrpAVTUPm2jQNgSKNjQ+iMx5CZOvcgeA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YOIcgKg0TtpygR+M4l/a5Aie7Bx2vAFMNFWbFKFYQ8U=;
+ b=zaprKNqFydpDaHuhKAgcIXTpcLTPqOMf3YYF/L+1otR5VqGY/ouBgru2qag6o7IM4J
+ SacFhcEG5CWFF6uf0AtcJWsaTMZN9Gv2xWM2/JaqlcyASyqtkopZh5Uu6E0d7R9TAU92
+ empiHJA3SW999OawKIg8ghQ2sK+pHPs9ZkxKtcYTldWAXWo1iQh6fcif62OyUFmGF4X0
+ ugmwDiVUw+eAFfjzT1J70zDMoWtapNuAVXTKvUB7cz7KyhBlOBfldCBw3Knr1weXqvIu
+ DCFABVLvvT2fQuOcqGCgWnOpgg/GsEVU0oxyZep/4pXbM4I5QjObVJJbsDXfV2tUKrBa
+ Aanw==
+X-Gm-Message-State: AJIora+Nyf6FKz74ptIXQRW1agMA0hiMrOOWpl4fbsH76A4Fow3rvDxf
+ 4nE6nmiu0v4bYarhAR05eXsZCw==
+X-Google-Smtp-Source: AGRyM1sdnK8kNyQNyHtoepsQkJEghWZ/ol0iWg2u5H/YPdHl6rnzDJLPpw+uJbtuDgeIVjMH8gSCPw==
+X-Received: by 2002:a17:90a:e7c2:b0:1ed:3a07:caa8 with SMTP id
+ kb2-20020a17090ae7c200b001ed3a07caa8mr21070377pjb.234.1656413219420; 
+ Tue, 28 Jun 2022 03:46:59 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:eafc:4c4c:9d0a:651e])
+ by smtp.gmail.com with ESMTPSA id
+ jj22-20020a170903049600b001674d61c1c6sm8846377plb.272.2022.06.28.03.46.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jun 2022 03:46:58 -0700 (PDT)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Robert Foss <robert.foss@linaro.org>,
+	Xin Ji <xji@analogixsemi.com>
+Subject: [PATCH] drm/bridge: anx7625: use pm_runtime_force_suspend(resume)
+Date: Tue, 28 Jun 2022 18:46:50 +0800
+Message-Id: <20220628104650.2239191-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220615221410.27459-2-laurent.pinchart@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,69 +67,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Rob Herring <robh+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Eugen Hristev <eugen.hristev@microchip.com>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent
+There's no need to check for IRQ or disable it in suspend.
 
-On Thu, Jun 16, 2022 at 01:14:05AM +0300, Laurent Pinchart wrote:
-> Add a new dt-bindings/media/video-interfaces.h header that defines
-> macros corresponding to the bus types from media/video-interfaces.yaml.
-> This allows avoiding hardcoded constants in device tree sources.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Use pm_runtime_force_suspend(resume) to make sure anx7625 is powered off
+correctly. Make the system suspend/resume and pm runtime suspend/resume
+more consistant.
 
-Just putting a tag here as we have more flags to add here (in example
-the device orientation)
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+---
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 33 ++---------------------
+ 1 file changed, 2 insertions(+), 31 deletions(-)
 
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 3710fa9ee0acd..09688a1076037 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -2542,38 +2542,9 @@ static int __maybe_unused anx7625_runtime_pm_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused anx7625_resume(struct device *dev)
+-{
+-	struct anx7625_data *ctx = dev_get_drvdata(dev);
+-
+-	if (!ctx->pdata.intp_irq)
+-		return 0;
+-
+-	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
+-		enable_irq(ctx->pdata.intp_irq);
+-		anx7625_runtime_pm_resume(dev);
+-	}
+-
+-	return 0;
+-}
+-
+-static int __maybe_unused anx7625_suspend(struct device *dev)
+-{
+-	struct anx7625_data *ctx = dev_get_drvdata(dev);
+-
+-	if (!ctx->pdata.intp_irq)
+-		return 0;
+-
+-	if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
+-		anx7625_runtime_pm_suspend(dev);
+-		disable_irq(ctx->pdata.intp_irq);
+-	}
+-
+-	return 0;
+-}
+-
+ static const struct dev_pm_ops anx7625_pm_ops = {
+-	SET_SYSTEM_SLEEP_PM_OPS(anx7625_suspend, anx7625_resume)
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				pm_runtime_force_resume)
+ 	SET_RUNTIME_PM_OPS(anx7625_runtime_pm_suspend,
+ 			   anx7625_runtime_pm_resume, NULL)
+ };
+-- 
+2.37.0.rc0.161.g10f37bed90-goog
 
-> ---
-> Changes since v2:
->
-> - Go back to PARALLEL
->
-> Changes since v1:
->
-> - Dual-license under GPL-2.0-only or MIT
-> - Rename PARALLEL TO BT601
-> ---
->  include/dt-bindings/media/video-interfaces.h | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->  create mode 100644 include/dt-bindings/media/video-interfaces.h
->
-> diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-bindings/media/video-interfaces.h
-> new file mode 100644
-> index 000000000000..68ac4e05e37f
-> --- /dev/null
-> +++ b/include/dt-bindings/media/video-interfaces.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
-> +/*
-> + * Copyright (C) 2022 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> + */
-> +
-> +#ifndef __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
-> +#define __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
-> +
-> +#define MEDIA_BUS_TYPE_CSI2_CPHY		1
-> +#define MEDIA_BUS_TYPE_CSI1			2
-> +#define MEDIA_BUS_TYPE_CCP2			3
-> +#define MEDIA_BUS_TYPE_CSI2_DPHY		4
-> +#define MEDIA_BUS_TYPE_PARALLEL			5
-> +#define MEDIA_BUS_TYPE_BT656			6
-> +
-> +#endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
-> --
-> Regards,
->
-> Laurent Pinchart
->
