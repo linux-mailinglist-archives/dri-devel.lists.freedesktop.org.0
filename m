@@ -1,49 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2352455EDA7
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 21:10:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C28A55EDC5
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 21:17:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA29210FB08;
-	Tue, 28 Jun 2022 19:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1213C112FA4;
+	Tue, 28 Jun 2022 19:17:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 866AB10F7AA;
- Tue, 28 Jun 2022 19:09:53 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0A6E112FA4;
+ Tue, 28 Jun 2022 19:17:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656443393; x=1687979393;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Gq0ZzJGdmcvmO4J+ld8VOXGM6Hpl0H6UEJdEzAkOF/M=;
- b=KE+KYo+VvdxJflYf5v3TVPfvBYpCl+NZJqx01aEtgUhNXpfgLJIENGdR
- tlYyXQh49Acvalzq302jc/Odk0riLmedEJNI8d17mTs5M6X2lIetEEYvt
- KlJMScZGDIlzoT/squXykr3gByio5KJZO8/JHfySHJJ5MgYq8BZU5Xj/1
- VFo/bVvlacCKVUtx1Oi4yEitb/jmuH+egzk3RJdr2w8i63dgygG1DvHMo
- i7L/+y2YrEgxhbNWs2a7g9Da7d6jqXvXozUsBfOvgdGv8OUPh0JwQlZ1I
- 7IS3dXqoFbl1fGW4jpGK5rWsUpTBEI7JFAQEog5K4OOqBZgXqnvTZNSc6 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="264866371"
-X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; d="scan'208";a="264866371"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2022 12:09:53 -0700
-X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; d="scan'208";a="623045373"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2022 12:09:52 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [CI 2/2] iosys-map: Add per-word write
-Date: Tue, 28 Jun 2022 12:10:16 -0700
-Message-Id: <20220628191016.3899428-2-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220628191016.3899428-1-lucas.demarchi@intel.com>
-References: <20220628191016.3899428-1-lucas.demarchi@intel.com>
+ t=1656443866; x=1687979866;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=GQJlT7LBDNLEOqeFlK9Ew25UILRZOeGNtugMH6AqiAE=;
+ b=BrBcxG06KvRWXoJk/Y417W4ve7QakTmkJwSGA/tQgAvpjsJZnxWwBcCp
+ TAZ55JQJfUJH6oUUQKF8THPK1sh49WU7/t05o8rGeY/4rJumqk2PKAOWQ
+ XA6TJFo5TM7GLE7gXaDFknat/zW4jRMF+roRKuaMrqlxceA/nJJyJSw1W
+ FBP2H1qBF40SLZjaYMKpn4qRrTJQFw1YzeGapqj7rOvdrfSx0zJT6bK7l
+ YMTXXQEeGtEBPdXmRb2zecUmfx4OZPPsBhrF47bl50dvzmDEr5DAxXHCF
+ 4jtZnMtow35mJZh+ADWI9V93XhBL4ZmOpCTdc/KmlhZYui2rp1dFgujAI g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="280590090"
+X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; d="scan'208";a="280590090"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 12:17:46 -0700
+X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; d="scan'208";a="647048082"
+Received: from orsosgc001.jf.intel.com ([10.165.21.154])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 12:17:46 -0700
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/reset: Handle reset timeouts under unrelated kernel
+ hangs
+Date: Tue, 28 Jun 2022 12:17:41 -0700
+Message-Id: <20220628191741.28866-1-ashutosh.dixit@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,107 +54,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, christian.koenig@amd.com,
- tzimmermann@suse.de
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@intel.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Like was done for read, provide the equivalent for write. Even if
-current users are not in the hot path, this should future-proof it.
+From: Chris Wilson <chris@chris-wilson.co.uk>
 
-v2:
-  - Remove default from _Generic() - callers wanting to write more
-    than u64 should use iosys_map_memcpy_to()
-  - Add WRITE_ONCE() cases dereferencing the pointer when using system
-    memory
-v3:
-  - Fix precedence issue when casting inside WRITE_ONCE(). By not using ()
-    around vaddr__ the offset was not part of the cast, but rather added
-    to it, producing a wrong address
-  - Remove compiletime_assert() as WRITE_ONCE() already contains it
+When resuming after hibernate sometimes we see hangs in unrelated kernel
+subsystems. These hangs often result in the following i915 trace:
 
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Reviewed-by: Reviewed-by: Christian König <christian.koenig@amd.com> # v1
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+i915 0000:00:02.0: [drm] \
+	*ERROR* intel_gt_reset_global timed out, cancelling all in-flight rendering.
+
+implying our reset task has been starved by the hanging kernel subsystem,
+causing us to inappropiately declare the system as wedged beyond recovery.
+
+The trace would be caused by our synchronize_srcu_expedited() taking more
+than the allowed 5s due to the unrelated kernel hang. But we neither need
+to perform that synchronisation inside the reset watchdog, nor do we need
+such a short timeout before declaring the device as unrecoverable.
+
+Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/3575
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
 ---
- include/linux/iosys-map.h | 38 +++++++++++++++++++++++++++++---------
- 1 file changed, 29 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_reset.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
-index 48e550b290fa..08dad5b0ad17 100644
---- a/include/linux/iosys-map.h
-+++ b/include/linux/iosys-map.h
-@@ -337,9 +337,13 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
- #ifdef CONFIG_64BIT
- #define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)				\
- 	u64: val_ = readq(vaddr_iomem_)
-+#define __iosys_map_wr_io_u64_case(val_, vaddr_iomem_)				\
-+	u64: writeq(val_, vaddr_iomem_)
- #else
- #define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)				\
- 	u64: memcpy_fromio(&(val_), vaddr_iomem_, sizeof(u64))
-+#define __iosys_map_wr_io_u64_case(val_, vaddr_iomem_)				\
-+	u64: memcpy_toio(vaddr_iomem_, &(val_), sizeof(u64))
- #endif
+diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
+index a5338c3fde7a0..e72744f6faedc 100644
+--- a/drivers/gpu/drm/i915/gt/intel_reset.c
++++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+@@ -1259,12 +1259,9 @@ static void intel_gt_reset_global(struct intel_gt *gt,
+ 	kobject_uevent_env(kobj, KOBJ_CHANGE, reset_event);
  
- #define __iosys_map_rd_io(val__, vaddr_iomem__, type__) _Generic(val__,		\
-@@ -351,6 +355,15 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
- #define __iosys_map_rd_sys(val__, vaddr__, type__)				\
- 	val__ = READ_ONCE(*(type__ *)(vaddr__));
+ 	/* Use a watchdog to ensure that our reset completes */
+-	intel_wedge_on_timeout(&w, gt, 5 * HZ) {
++	intel_wedge_on_timeout(&w, gt, 60 * HZ) {
+ 		intel_display_prepare_reset(gt->i915);
  
-+#define __iosys_map_wr_io(val__, vaddr_iomem__, type__) _Generic(val__,		\
-+	u8: writeb(val__, vaddr_iomem__),					\
-+	u16: writew(val__, vaddr_iomem__),					\
-+	u32: writel(val__, vaddr_iomem__),					\
-+	__iosys_map_wr_io_u64_case(val__, vaddr_iomem__))
+-		/* Flush everyone using a resource about to be clobbered */
+-		synchronize_srcu_expedited(&gt->reset.backoff_srcu);
+-
+ 		intel_gt_reset(gt, engine_mask, reason);
+ 
+ 		intel_display_finish_reset(gt->i915);
+@@ -1373,6 +1370,9 @@ void intel_gt_handle_error(struct intel_gt *gt,
+ 		}
+ 	}
+ 
++	/* Flush everyone using a resource about to be clobbered */
++	synchronize_srcu_expedited(&gt->reset.backoff_srcu);
 +
-+#define __iosys_map_wr_sys(val__, vaddr__, type__)				\
-+	WRITE_ONCE(*(type__ *)(vaddr__), val__);
-+
- /**
-  * iosys_map_rd - Read a C-type value from the iosys_map
-  *
-@@ -383,12 +396,17 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
-  * @type__:	Type of the value being written
-  * @val__:	Value to write
-  *
-- * Write a C-type value to the iosys_map, handling possible un-aligned accesses
-- * to the mapping.
-+ * Write a C type value (u8, u16, u32 and u64) to the iosys_map. For other types
-+ * or if pointer may be unaligned (and problematic for the architecture
-+ * supported), use iosys_map_memcpy_to()
-  */
--#define iosys_map_wr(map__, offset__, type__, val__) ({			\
--	type__ val = (val__);						\
--	iosys_map_memcpy_to(map__, offset__, &val, sizeof(val));	\
-+#define iosys_map_wr(map__, offset__, type__, val__) ({				\
-+	type__ val = (val__);							\
-+	if ((map__)->is_iomem) {						\
-+		__iosys_map_wr_io(val, (map__)->vaddr_iomem + (offset__), type__);\
-+	} else {								\
-+		__iosys_map_wr_sys(val, (map__)->vaddr + (offset__), type__);	\
-+	}									\
- })
+ 	intel_gt_reset_global(gt, engine_mask, msg);
  
- /**
-@@ -469,10 +487,12 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
-  * @field__:		Member of the struct to read
-  * @val__:		Value to write
-  *
-- * Write a value to the iosys_map considering its layout is described by a C struct
-- * starting at @struct_offset__. The field offset and size is calculated and the
-- * @val__ is written handling possible un-aligned memory accesses. Refer to
-- * iosys_map_rd_field() for expected usage and memory layout.
-+ * Write a value to the iosys_map considering its layout is described by a C
-+ * struct starting at @struct_offset__. The field offset and size is calculated
-+ * and the @val__ is written. If the field access would incur in un-aligned
-+ * access, then either iosys_map_memcpy_to() needs to be used or the
-+ * architecture must support it. Refer to iosys_map_rd_field() for expected
-+ * usage and memory layout.
-  */
- #define iosys_map_wr_field(map__, struct_offset__, struct_type__, field__, val__) ({	\
- 	struct_type__ *s;								\
+ 	if (!intel_uc_uses_guc_submission(&gt->uc)) {
 -- 
 2.36.1
 
