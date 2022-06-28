@@ -1,62 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E11955BFAC
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 11:01:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB6C55BFD1
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 11:41:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E98812A9E9;
-	Tue, 28 Jun 2022 09:01:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F261B12B0EE;
+	Tue, 28 Jun 2022 09:41:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A20F12A9EB
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 09:01:42 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- i8-20020a17090aee8800b001ecc929d14dso11935822pjz.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:01:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WC8mCwxcFPmaNTe2dlW1gLIl9Or1Z5lRzz4HZt059cU=;
- b=cHOv2tnOzN5DjBKRhNofHljKi7umJ5Xm/g76iK9eSCTRrXh7h9QUV4ZpaSQIy4iHMK
- gFauxi1NO/RZ/dqrZc0/7BXp2I4fI0FaxBcI4y0ixI74MDF8ooboITcKkadRq9sdUJaN
- SYJBcK4flKPKxECgN0jMIcz3BRODURWZVmF+eZBzHQSF3vMAn4jxIxVDtV5MPs3lhBlo
- /a0ZrY57Bl0+7gnWoQOK00/dlcNvCisyHckyR6/13P5V+VrXn/GEE2K0CyINlA86oImM
- jElfY+wwNCz+fuK9kCWtHz8IFiYuDmYJq1IguwhS0ItGdqaww3ZnvoF6zOlhFrBa8BFk
- Ttgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WC8mCwxcFPmaNTe2dlW1gLIl9Or1Z5lRzz4HZt059cU=;
- b=p6egip69cn1hjLrUMeMqP96mredd0DQtlVAim0l/TqnrLlS8duNYobS0gMlO5z716+
- EiHp+x0iH2ZljEmfaEmCY2NX537bgd8g0FnyUo0kGRyH3RKPAqbpVfGlnIMGT3KApUGl
- y4l6tklmWjtkZw1426N98hmky+lUgcDALaMXcfnEduxs4PdCv3B3nDKe+zmC6XCinoVK
- fjRvXZI69kDeOsPK8wH0kHiCnLOKZvei2hedwWV9mq/x0VzEHtNHrLQJU50apc+pp2me
- wbsjp3Irl6zm2570lwi3N+NlG0UbsHyASs0XV1n8+V6moY/ymsRIkb2moXgq5hI/QlA8
- cOqA==
-X-Gm-Message-State: AJIora9ZsbdwhJAeUcFSptwFUzNVTyNsxtEs8YdJNOLEZeSNJBywVor2
- bQ28ZpJOLrtBOW/k4rRtCHI=
-X-Google-Smtp-Source: AGRyM1uu7K7ZqUZpUVxaDaTHYPHo2j0dvxZYfU0UvSOI3CXJaRDKIP0kRZiYgo66dZ/5mvWwJIsEXA==
-X-Received: by 2002:a17:902:ea04:b0:16a:1f33:cb0d with SMTP id
- s4-20020a170902ea0400b0016a1f33cb0dmr3985871plg.103.1656406902005; 
- Tue, 28 Jun 2022 02:01:42 -0700 (PDT)
-Received: from chrome.huaqin.com ([101.78.151.222])
- by smtp.gmail.com with ESMTPSA id
- w6-20020a17090aaf8600b001eee7950428sm3163530pjq.44.2022.06.28.02.01.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 02:01:41 -0700 (PDT)
-From: Rex Nie <rexnie3@gmail.com>
-To: linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 2/2] dt-bindings: display: simple: Add InnoLux n140hca-eac
- panel
-Date: Tue, 28 Jun 2022 17:01:17 +0800
-Message-Id: <20220628090117.2148016-1-rexnie3@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6A412B0EE;
+ Tue, 28 Jun 2022 09:41:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656409263; x=1687945263;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=E1shaTiRi2MGix+vGmQFahHOJVh393tMghirsTFvSWs=;
+ b=Y5xKzfEJ91qaw7bzgc/7AsooEOXpqm4FkdUsIksyM3wI5cmOL4aCHtr7
+ Z/u4FRYZ5sxH76HPbYyDK7/cHkG4LtvPBGD8IwDR/Gz23WuUtY3oTsGJD
+ brhUwOnpUXjHlzYIazy/qPtw53sE1JLFBBLAiZ69RrNk6zXtbSvLRnd0D
+ vaHglrbm4LAwZzy46NRETnx1jGQHrBL/i5oNCjWmC5QkHM6mko3dwpCY5
+ lNWGPkuQm73fL4ow4Ab5PzOBEQxzvANbUuI7VzaZS1ISCNAK28l2OKqfX
+ n5R+9CgimiKXyIfxLY+M/jAvpBN+mMM3tzgR+G+zerc5/cJnqmpNpL9H0 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="262103721"
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="262103721"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 02:41:02 -0700
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="693036661"
+Received: from dlee-mobl1.gar.corp.intel.com (HELO [10.214.144.75])
+ ([10.214.144.75])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 02:41:00 -0700
+Message-ID: <61281f78-407f-8953-acd3-2de1b306e741@intel.com>
+Date: Tue, 28 Jun 2022 10:40:56 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.10.0
+Subject: Re: [PATCH] drm/i915/gt: handle null ptr at sg traversing
+Content-Language: en-GB
+To: Ramalingam C <ramalingam.c@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20220627173539.29094-1-ramalingam.c@intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20220627173539.29094-1-ramalingam.c@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,37 +61,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dianders@chromium.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, spanda@codeaurora.org, robh+dt@kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Rex Nie <rexnie3@gmail.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for InnoLux n140hca-eac display panel. It is a 14" eDP panel
-with 1920x1080 display resolution.
+On 27/06/2022 18:35, Ramalingam C wrote:
+> When calculating the starting address for ccs data in smem scatterlist,
+> handle the NULL pointer returned from sg_next, incase of scatterlist
+> less than required size..
 
-Signed-off-by: Rex Nie <rexnie3@gmail.com>
-Acked-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
- 1 file changed, 2 insertions(+)
+Do we have some more information on how we can hit this? Is this a 
+programmer error? Do we have a testcase?
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index a5568d1dc272..51e573615aab 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -186,6 +186,8 @@ properties:
-       - innolux,n116bge
-         # InnoLux 13.3" FHD (1920x1080) eDP TFT LCD panel
-       - innolux,n125hce-gn1
-+        # InnoLux 14" FHD (1920x1080) eDP TFT LCD panel
-+      - innolux,n140hca-eac
-         # InnoLux 15.6" WXGA TFT LCD panel
-       - innolux,n156bge-l21
-         # Innolux Corporation 7.0" WSVGA (1024x600) TFT LCD panel
--- 
-2.25.1
-
+> 
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_migrate.c | 13 ++++++++++---
+>   1 file changed, 10 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> index 2c35324b5f68..c206fb4f4186 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> @@ -669,7 +669,7 @@ calculate_chunk_sz(struct drm_i915_private *i915, bool src_is_lmem,
+>   	}
+>   }
+>   
+> -static void get_ccs_sg_sgt(struct sgt_dma *it, u32 bytes_to_cpy)
+> +static int get_ccs_sg_sgt(struct sgt_dma *it, u32 bytes_to_cpy)
+>   {
+>   	u32 len;
+>   
+> @@ -684,9 +684,13 @@ static void get_ccs_sg_sgt(struct sgt_dma *it, u32 bytes_to_cpy)
+>   		bytes_to_cpy -= len;
+>   
+>   		it->sg = __sg_next(it->sg);
+> +		if (!it->sg)
+> +			return -EINVAL;
+>   		it->dma = sg_dma_address(it->sg);
+>   		it->max = it->dma + sg_dma_len(it->sg);
+>   	} while (bytes_to_cpy);
+> +
+> +	return 0;
+>   }
+>   
+>   int
+> @@ -745,8 +749,11 @@ intel_context_migrate_copy(struct intel_context *ce,
+>   		 * Need to fix it.
+>   		 */
+>   		ccs_bytes_to_cpy = src_sz != dst_sz ? GET_CCS_BYTES(i915, bytes_to_cpy) : 0;
+> -		if (ccs_bytes_to_cpy)
+> -			get_ccs_sg_sgt(&it_ccs, bytes_to_cpy);
+> +		if (ccs_bytes_to_cpy) {
+> +			err = get_ccs_sg_sgt(&it_ccs, bytes_to_cpy);
+> +			if (err)
+> +				return err;
+> +		}
+>   	}
+>   
+>   	src_offset = 0;
