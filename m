@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B4455BF48
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 09:57:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B090055BF53
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 10:03:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA85E11BCF1;
-	Tue, 28 Jun 2022 07:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2645D11BDCA;
+	Tue, 28 Jun 2022 08:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0996411BCEF
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 07:57:43 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- a11-20020a17090acb8b00b001eca0041455so11589986pju.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 00:57:43 -0700 (PDT)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60FE711BDC7
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 08:03:11 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ g16-20020a17090a7d1000b001ea9f820449so15035351pjl.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 01:03:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Stsk2/bOU7vOuNWE32xaiTWPsuWgFOSh1G81qAcroFs=;
- b=efvDGc/ev+4cijhfPBF4Nvzs0ZZXbPwU0xQNMKkm4gKXuxNXfvFsypMVj9enPRWDqi
- PAVEbSmWuTTvrK+kuBK9YqUjKTCVa2LFiyIPiuFg5BxhukouXY1SX9WVZrNJYo27/Mbg
- oiJ9y2eoiqadbtnV2Y0wNyNmFSizMGZx4OjZBx2tJ2QgiCI+rqoIzOHfWwfyZU76EerD
- CVG36y/FRvuye/I9qEQ6n7eCTMm/+87SaWW1VippGe/xUZncXJz4eohEo31TzBSNrrvH
- CM74J7TPDHLRy0/Y+tTrgxuJqGZKQkztz+drwsES06Y0GR+KLgPxvj2I9D0I32t+1LjF
- V6PQ==
+ bh=hvMf3PepUugPqVKhQRoUgt1ly6hwpig91v9ZXdNJXbs=;
+ b=Fjmt0M1UVl7saO28IVQSKUeNq7CVK61mTdx2OLRFjYrnF46LcWL4yT9FNXKBWozPZd
+ ipW3hlY0RkuzbxFOkVlj84dyWzAquEl3wE2OsbYQxAB6CBOLjB1aMKKZ+IhoPBbuVDi+
+ ZpquvlsEvBTnZtGsVMWTHPsPNp6Hz/U/N7GG6QbeokVzGQZfht5T0yScWeykWC7UJXnX
+ NJ7gJuxTy/rY7WfrN97E9TPRXkpZHEUOa38ptMjvQMQTxO0qLwBIF/6UaYSXQPmYtqwH
+ GEZsLxh2SYX4QSZBd1/S7N9PCGmvJyYhPHn+qgA13r7ZEvJ+0fRhj5MF50pcLtK/NR/s
+ fHlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Stsk2/bOU7vOuNWE32xaiTWPsuWgFOSh1G81qAcroFs=;
- b=ADFdATPtuP2p5g3u28zPeZnR+7pS+vRrA3R+f/h3uMx73LClC0IpV1Lw1JFkTMBnHA
- 51OTQMRdE4Wy76T6dvoxlTFK5ROMaYpXQ10BA7I8GUnSpbhhpY5UG5XnO7rT0wdMLlts
- 3hic7DsExT6fkKuYFfVFCrPD1jl9J9i0B/9T0m5f+qKMbjG0Leu0PyrF8xqg0MR0mCti
- O8GkKAvhUc6g1cwJQMymV1IjM6+OfNEI91C9HWjB7UfoMp3lilZAZQguw8dcPCiHXG8P
- hz2FLB81hEIW3k6CM/QTXwTSEOKmHWyP4gYWsTlsv8HrlGz8REDM1w4/45QZz8sbpONy
- TZoA==
-X-Gm-Message-State: AJIora8HThyLBlvvFeNHDmsakp5yCmTCOqjMi08P7oarK/WmbyBpj4q8
- ZpRXWu9HMYDRQ6dA66scO7M=
-X-Google-Smtp-Source: AGRyM1uJlUVe1iOIyNUKGWDPgE10yf8e8d2ulYavyVmHfDTzgRpQbDfQXTH5ef6GSc7P2RmMP/oaMA==
-X-Received: by 2002:a17:90b:38cc:b0:1ed:474a:a675 with SMTP id
- nn12-20020a17090b38cc00b001ed474aa675mr18224216pjb.149.1656403062615; 
- Tue, 28 Jun 2022 00:57:42 -0700 (PDT)
+ bh=hvMf3PepUugPqVKhQRoUgt1ly6hwpig91v9ZXdNJXbs=;
+ b=Fa8nhzTIHQ48xWnUadH+KhVChGEKcuLbmOeuLXeSVIBXz+ie2GLwyARgFZr7TjTU1v
+ 4Ds8YxcczEYnHugIgGNeCpUyaXxd8GLV+l/+9mFyuXu1b3/dHclg4+LcIKcD8JwoLXgd
+ 58K+/BWm8S775E1Uj9KKAA4zGSHe5uT/Mv1ZCSGHMXs4kMd6JPSHF+nrC5yjzh6WYToG
+ fKwPAXjZ0bz467ABLfHkfl3GPjre0XEVpsY4BAdhUs3npN/zK+hiQdnCLxSH8X93m3Fl
+ HDh+K2wC/DW3AkXJf8lXQ9txK46eSTyIqzTO0mE9WnIO/Ln+0Mdw+J2C25UINiLSTSTJ
+ 643g==
+X-Gm-Message-State: AJIora/qKXkRAP8aSkwVf3hCYC1Lh7j3AttyL9WcEqcuZqex4hbT0coL
+ n6iuqMIvaH0YmITZp+HzfCyiLLBGN4lYyg==
+X-Google-Smtp-Source: AGRyM1vRXYXW+HKwEgrbxihFSnoNxPLYaNicpTq544RfbChi0sKL9blFN20gnk7oKaJwSUGtvmRUNw==
+X-Received: by 2002:a17:902:aa8a:b0:16a:1ea5:d417 with SMTP id
+ d10-20020a170902aa8a00b0016a1ea5d417mr3880598plr.4.1656403391046; 
+ Tue, 28 Jun 2022 01:03:11 -0700 (PDT)
 Received: from chrome.huaqin.com ([101.78.151.222])
  by smtp.gmail.com with ESMTPSA id
- p31-20020a056a000a1f00b0051bdb735647sm8681944pfh.159.2022.06.28.00.57.39
+ h5-20020a170902f7c500b00163bfaf0b17sm5249034plw.233.2022.06.28.01.03.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 00:57:42 -0700 (PDT)
+ Tue, 28 Jun 2022 01:03:10 -0700 (PDT)
 From: Rex Nie <rexnie3@gmail.com>
 To: linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 1/2] drm/panel-edp: Add eDP innolux panel support
-Date: Tue, 28 Jun 2022 15:57:35 +0800
-Message-Id: <20220628075735.2142949-1-rexnie3@gmail.com>
+Subject: [PATCH 2/2] dt-bindings: display: simple: Add InnoLux n140hca-eac
+ panel
+Date: Tue, 28 Jun 2022 16:03:03 +0800
+Message-Id: <20220628080303.2143291-1-rexnie3@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,6 +70,7 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, dianders@chromium.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, spanda@codeaurora.org, robh+dt@kernel.org,
  Thierry Reding <thierry.reding@gmail.com>, Rex Nie <rexnie3@gmail.com>,
@@ -76,57 +78,27 @@ Cc: devicetree@vger.kernel.org, dianders@chromium.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the 14" innolux,n140hca-eac eDP panel.
+Add support for InnoLux n140hca-eac display panel. It is a 14" eDP panel
+with 1920x1080 display resolution.
 
 Signed-off-by: Rex Nie <rexnie3@gmail.com>
 ---
- drivers/gpu/drm/panel/panel-edp.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 3626469c4cc2..2a8fcdffe80c 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1355,6 +1355,29 @@ static const struct panel_desc innolux_n125hce_gn1 = {
- 	},
- };
- 
-+static const struct display_timing innolux_n140hca_eac_timing = {
-+	.pixelclock = { 72600000, 76420000, 80240000 },
-+	.hactive = { 1920, 1920, 1920 },
-+	.hfront_porch = { 80, 80, 80 },
-+	.hback_porch = { 190, 190, 190 },
-+	.hsync_len = { 60, 60, 60 },
-+	.vactive = { 1080, 1080, 1080 },
-+	.vfront_porch = { 6, 6, 6 },
-+	.vback_porch = { 38, 38, 38 },
-+	.vsync_len = { 8, 8, 8 },
-+	.flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW,
-+};
-+
-+static const struct panel_desc innolux_n140hca_eac = {
-+	.timings = &innolux_n140hca_eac_timing,
-+	.num_timings = 1,
-+	.bpc = 6,
-+	.size = {
-+		.width = 309,
-+		.height = 174,
-+	},
-+};
-+
- static const struct drm_display_mode innolux_p120zdg_bf1_mode = {
- 	.clock = 206016,
- 	.hdisplay = 2160,
-@@ -1775,6 +1798,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "innolux,n125hce-gn1",
- 		.data = &innolux_n125hce_gn1,
-+	}, {
-+		.compatible = "innolux,n140hca-eac",
-+		.data = &innolux_n140hca_eac,
- 	}, {
- 		.compatible = "innolux,p120zdg-bf1",
- 		.data = &innolux_p120zdg_bf1,
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index a5568d1dc272..51e573615aab 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -186,6 +186,8 @@ properties:
+       - innolux,n116bge
+         # InnoLux 13.3" FHD (1920x1080) eDP TFT LCD panel
+       - innolux,n125hce-gn1
++        # InnoLux 14" FHD (1920x1080) eDP TFT LCD panel
++      - innolux,n140hca-eac
+         # InnoLux 15.6" WXGA TFT LCD panel
+       - innolux,n156bge-l21
+         # Innolux Corporation 7.0" WSVGA (1024x600) TFT LCD panel
 -- 
 2.25.1
 
