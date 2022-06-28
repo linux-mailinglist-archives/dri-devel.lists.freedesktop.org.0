@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6816355F0B1
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:56:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB37255F0B4
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:56:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEE8F112D48;
-	Tue, 28 Jun 2022 21:56:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6E38112D5B;
+	Tue, 28 Jun 2022 21:56:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 820CF112D5B
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:55:58 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34369112D5B
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:56:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656453355;
- bh=ZgyFbGSjB+RbVYJJD3DBCYtPZyFU3d6dPlEfsBmJE4I=;
+ s=badeba3b8450; t=1656453359;
+ bh=X9zeELfc2a9GMIkvgPLWEyn2DPu6Tl/gj62uj3TUtqg=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=d/9Vg9rw58NURCcJSdMXKuC8b4hIYWDkwu+GB8S/O8ru6JNlG7+J5JC5qP4YmXNGk
- 1NQoRA9+gQ8+PuIvFZPK8DGYrj45BKpSCeLOqB/W8CVKeZslqwwblMOSIVI7xb/V72
- gjncd4WLz5O6omWvFiX4mrneCWf6FoRLeLiukBNw=
+ b=SoRDNoGDo0fn9FFirPRHXUcLodLuIDCXApt6jtPYFj3zLvJpBmHvylRdC1/1D31QN
+ j9UhkcMtX441zJ9GLYWm4WUEkkzHhIuYjB9l69bVqcbHyUkf0JF9vSf/hze51MD4Ip
+ dnMLSmRuaavVWZIPgOIDoZ7wMnTO3Fqp1qi0liyU=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([174.250.0.2]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MHoRA-1ntc8V1cyU-00EwCw; Tue, 28
- Jun 2022 23:55:55 +0200
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MtfJd-1nmqrC1Vkt-00v6TD; Tue, 28
+ Jun 2022 23:55:59 +0200
 From: Kevin Brace <kevinbrace@gmx.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 25/32] drm/via: Add via_vt1632.c
-Date: Tue, 28 Jun 2022 16:55:13 -0500
-Message-Id: <20220628215520.20674-6-kevinbrace@gmx.com>
+Subject: [PATCH v2 26/32] drm/via: Add via_drm.h
+Date: Tue, 28 Jun 2022 16:55:14 -0500
+Message-Id: <20220628215520.20674-7-kevinbrace@gmx.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628215520.20674-1-kevinbrace@gmx.com>
 References: <20220628215520.20674-1-kevinbrace@gmx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Yweww56dT5qEgsLpVAsc/meZ4Xt5JtoVQ44vnqF2f25RM1ftyOi
- 7uMaadjDssjNKqoOLARdR+UT7Sf35BIRZVxoCNBFd96CJTvbQBz0XNLIviHABwzY54Gq3fv
- LtlbS3tknPZ1i4Hh15CVj/52i4wezt+iwWNgsL/cosmcRoYQhkh21M4JYe1hltnP+y66j9S
- lOPoq4BkB+wqmjgg3MpBg==
+X-Provags-ID: V03:K1:VWR92+IaMlpy2TUHr1m0PyvcpazQhcUBOLJB53/BxlI5tfJduz4
+ r6Z/1z86zyzbXMyKT8D8VRQp/JA4j3+MNgC3ffo2AoPqKE/Ibs0hjLsDVzLIC0cBMSy+Pit
+ IY3Coh09FvQCwvCxlYZXrMRQUIirkp2tNQ/xT07w1BxelxHqDqxLpbJu6Ei1fRFgLdA8Svu
+ UN+Up69G02jZCpVDVJXZg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QFU2UgfyPxc=:iJGIpU8jMTWHGhUyUg33HH
- o9074kvHo/MmzBLsXrUUjarx04TNkK7WBVgmQvPHRI/Q7AEp50NPJ578e0JfNqMg2U3u3E/Ig
- l71sk9uyIQlSjWbZLPRXF7KyAkqmBJcejb635nZyVsKiP/YlfKaHmWFRRAj5Qf7o9YaCgKpvd
- E3OmQt00so+xJbLtnwJvdkiE7HKYvarxFCR/8zMMcs7ylBEcoo1V4O2n+s/Zm8AJb4pGND0Zz
- w4veaXewbSDmgbkWAqWw4TVNMojUjm4UE8HQTkEh4VQbibfwQ2Ch4kKtGDbhJ1mZHyG0x1ejN
- anuW/LV26MP/0Q/jHSAfh/9LAAy4LgOTuCDmua+KEvQlkd86TDV1Zq1h80Bm9ItF6F2tALIra
- wOr1+eO+r9ZotiQ9x2DqEvJsJj/hCbAy7h5toLFPHGWySchl6vtEpxQ5xEiKuSdHzy1H8D1T8
- 7oMrcZYYuRV3dUFDNOXFjFiovzoKLdWO+Gs81hChNBzO8rRimE8Kqzuc3rWANsmLC6NFZaTkQ
- 2MFZvZnpTNn67xAVmmB19qm83qUDPLjfAzz2+Udssj0aTJWEukOPVj/cdpMLDoITnpxP3mdkw
- 51irZUo9FOfjnsFo3jnfko7c1BpYvX57izGQcT0rzIb8Xh24hQs72/eGaU+XOlGc6xKUhcq0r
- hFLoa/aguL1S7KRkX16XTFWTvYXcO7jOecgYjvS1xaPtXY0YKbveEGxTXJxsNgTxEHflQmsyA
- TfomskXlyivYNMuzguEO/3cLOKAvF/7GMoJ0yTpkZEO/Cl0A3o1Vg9XuTYJV9mWTjCjwwCA4b
- QKkTRGFFM5gYJ3+XHGdH5iznxJctx1PPP+91kcpNMwK7ciYgV9YHsnPuimJOGYJbjKm7Blogb
- Oyz17kneMgl0SAE2zRAXsRsIK8jWyJcV240QMMGFcYLnS7ya8Q92AJzujdt6ZyHtire2tko3t
- 27I9DCW5HNA1rJDeSje64Rj0ed2B1dHCwbPgPyYjHHNB03xNJibdcXmxhouUqKvgWS+MAYffM
- 9m7k9Y3d5AamuTJ7brgcubeH9Jt1YX3TcoCksAqZIYkV1OQCaFzoV/7y9Ln8JOblUGl5Lf4ax
- /rPKhEoOPvAUHq81LAH6BHTNMzfg36MpBPWMjLGd62HCW3vP4heVP9Q+A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ArMordPshYw=:LDFUa6M+KNb+uyeQBn+Ez2
+ m/aPDLXP715B0/d72YABOt+8xyUhTUH9TTvveJ1r7DDBjDpN+QF46y4SPD+Nc8EtbZXwbx5Ib
+ +MuA4Egy9VBbEU9a9+ZkyleqtE5eV99MAn/mTHUav9GSPHNyEH01z4i2ITXcKMiWtnILB95Oe
+ iIpgMnI9EYBWGvotclOiiTrPFVvz4jRNzSprHor2zisftg9z7IKM4/SwX7cP+3WrQRN+ICEF/
+ lqbKJaIENPdv2GJ2eYM/NKxekanqEgVeboLIs1vP78Yc94hkXeSCx9s81oTh6KwV0Ako0pIkm
+ AGBxSmKR3ym3C3wgXWIrgOdG8Kmh/tSP2lOoLIAPjIuMWkRgeiQzwEdEfsO9n0s4Tdw3l6V6t
+ T5lk9Jy7S1E2vyJO5dUz2CQrZRcEfw4+LKAJWEc2hn7plyasjR8+GgWrMz+rNNoFPdkMmq2H/
+ 0AKvUp8cWWlTrW65V19BUMpNT5FYR1aM25esWtXfziyJ2sNMJxhEm3/gQW+cc6+SvA+DXIfNS
+ d6xJ/5UzyJX8MmFKo7taQABn4DP5YhYJbkc1YFO6U4ExFm5clIZBvZR09ySVeCRhwMX6FEc5e
+ XAJZ/IEHT79SV7dqd5nCz1Q1xS6jwHCNzi4h+IWGxMHabYIJDHTlXwxHihWvHcPZL42UX7Fbh
+ 26DhEiWLkrYWE/oleTYtSqPW/0xOFDjQ8xHMk/lrGtpB031l4YyfWd41rSF8rYrnHMH6DuPif
+ VeTv4Kr9RGlSqeKrcvD31KT7gS84TRo3lCK1cTryZ8TxrfDXDbb0IrU+hytW3ABgMNY/wFmZS
+ Ca0p3JL+m6T7y1Scd++W0QCCoCyPGOjXRi+GbuzcA8Bji2ktlBC32JV3OtA15H7Jb6rKsaNly
+ 6RIsXYPjac/yQOj1sPjNmuPr9ITAy5M3Rq7fMNfhPHqGpWrCLhnSV6SYal7PIvwugM5uiYTYe
+ x5yKwUVXC70ILT3NoOpPS1+x+wjfK5mJx5pG88ekWxSVEqpqayDFL+Z8i9FqPxtxRQqJyJ3Pj
+ s2Hk8fcwkni6Ggqat9CrNwHFfRtl9yjMUI8BKePFknyZcgK6Ry1avXaqMEb0JDHPwm/aD14AJ
+ 7lYaEst6B9J18qOG1sEukZ9LOSSBJQ82ERDCD/76v38AqfmEYM58t1Wcw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,19 +76,20 @@ From: Kevin Brace <kevinbrace@bracecomputerlab.com>
 
 Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
 =2D--
- drivers/gpu/drm/via/via_vt1632.c | 583 +++++++++++++++++++++++++++++++
- 1 file changed, 583 insertions(+)
- create mode 100644 drivers/gpu/drm/via/via_vt1632.c
+ include/uapi/drm/via_drm.h | 309 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 309 insertions(+)
+ create mode 100644 include/uapi/drm/via_drm.h
 
-diff --git a/drivers/gpu/drm/via/via_vt1632.c b/drivers/gpu/drm/via/via_vt=
-1632.c
+diff --git a/include/uapi/drm/via_drm.h b/include/uapi/drm/via_drm.h
 new file mode 100644
-index 000000000000..c621b116933b
+index 000000000000..e9da45ce130a
 =2D-- /dev/null
-+++ b/drivers/gpu/drm/via/via_vt1632.c
-@@ -0,0 +1,583 @@
++++ b/include/uapi/drm/via_drm.h
+@@ -0,0 +1,309 @@
 +/*
-+ * Copyright =C2=A9 2016-2018 Kevin Brace.
++ * Copyright =C2=A9 2020 Kevin Brace
++ * Copyright 1998-2003 VIA Technologies, Inc. All Rights Reserved.
++ * Copyright 2001-2003 S3 Graphics, Inc. All Rights Reserved.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining =
 a
@@ -96,594 +97,332 @@ a
 e"),
 + * to deal in the Software without restriction, including without limitat=
 ion
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicens=
-e,
++ * the rights to use, copy, modify, merge, publish, distribute, sub licen=
+se,
 + * and/or sell copies of the Software, and to permit persons to whom the
 + * Software is furnished to do so, subject to the following conditions:
 + *
-+ * The above copyright notice and this permission notice (including the n=
-ext
-+ * paragraph) shall be included in all copies or substantial portions of =
-the
-+ * Software.
++ * The above copyright notice and this permission notice (including the
++ * next paragraph) shall be included in all copies or substantial portion=
+s
++ * of the Software.
 + *
 + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRES=
 S OR
 + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILIT=
 Y,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHA=
++ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHA=
 LL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR O=
-THER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISIN=
-G
-+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-+ * DEALINGS IN THE SOFTWARE.
-+ *
-+ * Author(s):
-+ * Kevin Brace <kevinbrace@bracecomputerlab.com>
++ * THE AUTHORS, COPYRIGHT HOLDERS, AND/OR ITS SUPPLIERS BE LIABLE FOR ANY
++ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, T=
+ORT
++ * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE =
+OR
++ * THE USE OR OTHER DEALINGS IN THE SOFTWARE.
++ */
++#ifndef _VIA_DRM_H_
++#define _VIA_DRM_H_
++
++#include "drm.h"
++
++#if defined(__cplusplus)
++extern "C" {
++#endif
++
++/* WARNING: These defines must be the same as what the Xserver uses.
++ * if you change them, you must change the defines in the Xserver.
 + */
 +
-+#include <drm/drm_atomic_state_helper.h>
-+#include <drm/drm_probe_helper.h>
-+
-+#include "via_drv.h"
++#ifndef _VIA_DEFINES_
++#define _VIA_DEFINES_
 +
 +
-+#define VIA_VT1632_VEN		BIT(5)
-+#define VIA_VT1632_HEN		BIT(4)
-+#define VIA_VT1632_DSEL		BIT(3)
-+#define VIA_VT1632_BSEL		BIT(2)
-+#define VIA_VT1632_EDGE		BIT(1)
-+#define VIA_VT1632_PDB		BIT(0)
++#define VIA_NR_SAREA_CLIPRECTS		8
++#define VIA_NR_XVMC_PORTS               10
++#define VIA_NR_XVMC_LOCKS               5
++#define VIA_MAX_CACHELINE_SIZE          64
++#define XVMCLOCKPTR(saPriv,lockNo)					\
++	((volatile struct drm_hw_lock *)(((((unsigned long) (saPriv)->XvMCLockAr=
+ea) + \
++				      (VIA_MAX_CACHELINE_SIZE - 1)) &	\
++				     ~(VIA_MAX_CACHELINE_SIZE - 1)) +	\
++				    VIA_MAX_CACHELINE_SIZE*(lockNo)))
++
++/* Each region is a minimum of 64k, and there are at most 64 of them.
++ */
++#define VIA_NR_TEX_REGIONS 64
++#define VIA_LOG_MIN_TEX_REGION_SIZE 16
++#endif
++
++#define VIA_UPLOAD_TEX0IMAGE  0x1	/* handled clientside */
++#define VIA_UPLOAD_TEX1IMAGE  0x2	/* handled clientside */
++#define VIA_UPLOAD_CTX        0x4
++#define VIA_UPLOAD_BUFFERS    0x8
++#define VIA_UPLOAD_TEX0       0x10
++#define VIA_UPLOAD_TEX1       0x20
++#define VIA_UPLOAD_CLIPRECTS  0x40
++#define VIA_UPLOAD_ALL        0xff
++
++/* VIA specific ioctls */
++#define DRM_VIA_ALLOCMEM	0x00
++#define DRM_VIA_FREEMEM	        0x01
++#define DRM_VIA_AGP_INIT	0x02
++#define DRM_VIA_FB_INIT	        0x03
++#define DRM_VIA_MAP_INIT	0x04
++#define DRM_VIA_DEC_FUTEX       0x05
++#define NOT_USED
++#define DRM_VIA_DMA_INIT	0x07
++#define DRM_VIA_CMDBUFFER	0x08
++#define DRM_VIA_FLUSH	        0x09
++#define DRM_VIA_PCICMD	        0x0a
++#define DRM_VIA_CMDBUF_SIZE	0x0b
++#define NOT_USED
++#define DRM_VIA_WAIT_IRQ        0x0d
++#define DRM_VIA_DMA_BLIT        0x0e
++#define DRM_VIA_BLIT_SYNC       0x0f
++
++#define	DRM_VIA_GEM_CREATE	0x10
++#define	DRM_VIA_GEM_MAP		0x11
++#define	DRM_VIA_GEM_UNMAP	0x12
 +
 +
-+static void via_vt1632_power(struct i2c_adapter *i2c_bus, bool power_stat=
-e)
-+{
-+	u8 buf;
-+	u8 power_bit;
++#define DRM_IOCTL_VIA_ALLOCMEM	  DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_ALLO=
+CMEM, drm_via_mem_t)
++#define DRM_IOCTL_VIA_FREEMEM	  DRM_IOW( DRM_COMMAND_BASE + DRM_VIA_FREEM=
+EM, drm_via_mem_t)
++#define DRM_IOCTL_VIA_AGP_INIT	  DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_AGP_=
+INIT, drm_via_agp_t)
++#define DRM_IOCTL_VIA_FB_INIT	  DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_FB_IN=
+IT, drm_via_fb_t)
++#define DRM_IOCTL_VIA_MAP_INIT	  DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_MAP_=
+INIT, drm_via_init_t)
++#define DRM_IOCTL_VIA_DEC_FUTEX   DRM_IOW( DRM_COMMAND_BASE + DRM_VIA_DEC=
+_FUTEX, drm_via_futex_t)
++#define DRM_IOCTL_VIA_DMA_INIT	  DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_DMA_=
+INIT, drm_via_dma_init_t)
++#define DRM_IOCTL_VIA_CMDBUFFER	  DRM_IOW( DRM_COMMAND_BASE + DRM_VIA_CMD=
+BUFFER, drm_via_cmdbuffer_t)
++#define DRM_IOCTL_VIA_FLUSH	  DRM_IO(  DRM_COMMAND_BASE + DRM_VIA_FLUSH)
++#define DRM_IOCTL_VIA_PCICMD	  DRM_IOW( DRM_COMMAND_BASE + DRM_VIA_PCICMD=
+, drm_via_cmdbuffer_t)
++#define DRM_IOCTL_VIA_CMDBUF_SIZE DRM_IOWR( DRM_COMMAND_BASE + DRM_VIA_CM=
+DBUF_SIZE, \
++					    drm_via_cmdbuf_size_t)
++#define DRM_IOCTL_VIA_WAIT_IRQ    DRM_IOWR( DRM_COMMAND_BASE + DRM_VIA_WA=
+IT_IRQ, drm_via_irqwait_t)
++#define DRM_IOCTL_VIA_DMA_BLIT    DRM_IOW(DRM_COMMAND_BASE + DRM_VIA_DMA_=
+BLIT, drm_via_dmablit_t)
++#define DRM_IOCTL_VIA_BLIT_SYNC   DRM_IOW(DRM_COMMAND_BASE + DRM_VIA_BLIT=
+_SYNC, drm_via_blitsync_t)
 +
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++#define	DRM_IOCTL_VIA_GEM_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_GEM_=
+CREATE, struct drm_via_gem_create)
++#define	DRM_IOCTL_VIA_GEM_MAP		DRM_IOWR(DRM_COMMAND_BASE + DRM_VIA_GEM_MA=
+P, struct drm_via_gem_map)
++#define	DRM_IOCTL_VIA_GEM_UNMAP		DRM_IOR(DRM_COMMAND_BASE + DRM_VIA_GEM_U=
+NMAP, struct drm_via_gem_unmap)
 +
-+	via_i2c_readbytes(i2c_bus, 0x08, 0x08, &buf, 1);
-+	power_bit =3D power_state ? VIA_VT1632_PDB : 0x00;
-+	buf &=3D ~power_bit;
-+	buf |=3D power_bit;
-+	via_i2c_writebytes(i2c_bus, 0x08, 0x08, &buf, 1);
-+	DRM_DEBUG_KMS("VT1632 (DVI) Power: %s\n",
-+			power_state ? "On" : "Off");
++/* Indices into buf.Setup where various bits of state are mirrored per
++ * context and per buffer.  These can be fired at the card as a unit,
++ * or in a piecewise fashion as required.
++ */
 +
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
++#define VIA_TEX_SETUP_SIZE 8
 +
++/* Flags for clear ioctl
++ */
++#define VIA_FRONT   0x1
++#define VIA_BACK    0x2
++#define VIA_DEPTH   0x4
++#define VIA_STENCIL 0x8
++#define VIA_MEM_VIDEO   0	/* matches drm constant */
++#define VIA_MEM_AGP     1	/* matches drm constant */
++#define VIA_MEM_SYSTEM  2
++#define VIA_MEM_MIXED   3
++#define VIA_MEM_UNKNOWN 4
 +
-+static bool via_vt1632_sense(struct i2c_adapter *i2c_bus)
-+{
-+	u8 buf;
-+	bool rx_detected =3D false;
++typedef struct {
++	__u32 offset;
++	__u32 size;
++} drm_via_agp_t;
 +
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++typedef struct {
++	__u32 offset;
++	__u32 size;
++} drm_via_fb_t;
 +
-+	via_i2c_readbytes(i2c_bus, 0x08, 0x09, &buf, 1);
-+	if (buf & BIT(2)) {
-+		rx_detected =3D true;
-+	}
++typedef struct {
++	__u32 context;
++	__u32 type;
++	__u32 size;
++	unsigned long index;
++	unsigned long offset;
++} drm_via_mem_t;
 +
-+	DRM_DEBUG_KMS("VT1632 (DVI) Connector Sense: %s\n",
-+			rx_detected ? "Connected" : "Not Connected");
++typedef struct _drm_via_init {
++	enum {
++		VIA_INIT_MAP =3D 0x01,
++		VIA_CLEANUP_MAP =3D 0x02
++	} func;
 +
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return rx_detected;
-+}
++	unsigned long sarea_priv_offset;
++	unsigned long fb_offset;
++	unsigned long mmio_offset;
++	unsigned long agpAddr;
++} drm_via_init_t;
 +
-+static void via_vt1632_display_registers(struct i2c_adapter *i2c_bus)
-+{
-+	uint8_t i;
-+	u8 buf;
++typedef struct _drm_via_futex {
++	enum {
++		VIA_FUTEX_WAIT =3D 0x00,
++		VIA_FUTEX_WAKE =3D 0X01
++	} func;
++	__u32 ms;
++	__u32 lock;
++	__u32 val;
++} drm_via_futex_t;
 +
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++typedef struct _drm_via_dma_init {
++	enum {
++		VIA_INIT_DMA =3D 0x01,
++		VIA_CLEANUP_DMA =3D 0x02,
++		VIA_DMA_INITIALIZED =3D 0x03
++	} func;
 +
-+	DRM_DEBUG_KMS("VT1632(A) Registers:\n");
-+	for (i =3D 0; i < 0x10; i++) {
-+		via_i2c_readbytes(i2c_bus, 0x08, i, &buf, 1);
-+		DRM_DEBUG_KMS("0x%02x: 0x%02x\n", i, buf);
-+	}
++	unsigned long offset;
++	unsigned long size;
++	unsigned long reg_pause_addr;
++} drm_via_dma_init_t;
 +
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
++typedef struct _drm_via_cmdbuffer {
++	char __user *buf;
++	unsigned long size;
++} drm_via_cmdbuffer_t;
 +
-+static void via_vt1632_init_registers(struct i2c_adapter *i2c_bus)
-+{
-+	u8 buf;
++/* Warning: If you change the SAREA structure you must change the Xserver
++ * structure as well */
 +
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++typedef struct _drm_via_tex_region {
++	unsigned char next, prev;	/* indices to form a circular LRU  */
++	unsigned char inUse;	/* owned by a client, or free? */
++	int age;		/* tracked by clients to update local LRU's */
++} drm_via_tex_region_t;
++
++typedef struct _drm_via_sarea {
++	unsigned int dirty;
++	unsigned int nbox;
++	struct drm_clip_rect boxes[VIA_NR_SAREA_CLIPRECTS];
++	drm_via_tex_region_t texList[VIA_NR_TEX_REGIONS + 1];
++	int texAge;		/* last time texture was uploaded */
++	int ctxOwner;		/* last context to upload state */
++	int vertexPrim;
 +
 +	/*
-+	 * For Wyse Cx0 thin client VX855 chipset DVP1 (Digital Video
-+	 * Port 1), use 12-bit mode with dual edge transfer, along
-+	 * with rising edge data capture first mode. This is likely
-+	 * true for CX700, VX700, VX800, and VX900 chipsets as well.
++	 * Below is for XvMC.
++	 * We want the lock integers alone on, and aligned to, a cache line.
++	 * Therefore this somewhat strange construct.
 +	 */
-+	buf =3D VIA_VT1632_VEN | VIA_VT1632_HEN |
-+		VIA_VT1632_DSEL |
-+		VIA_VT1632_EDGE | VIA_VT1632_PDB;
-+	via_i2c_writebytes(i2c_bus, 0x08, 0x08, &buf, 1);
 +
-+	/*
-+	 * Route receiver detect bit (Offset 0x09[2]) as the output
-+	 * of MSEN pin.
++	char XvMCLockArea[VIA_MAX_CACHELINE_SIZE * (VIA_NR_XVMC_LOCKS + 1)];
++
++	unsigned int XvMCDisplaying[VIA_NR_XVMC_PORTS];
++	unsigned int XvMCSubPicOn[VIA_NR_XVMC_PORTS];
++	unsigned int XvMCCtxNoGrabbed;	/* Last context to hold decoder */
++
++	/* Used by the 3d driver only at this point, for pageflipping:
 +	 */
-+	buf =3D BIT(5);
-+	via_i2c_writebytes(i2c_bus, 0x08, 0x09, &buf, 1);
++	unsigned int pfCurrentOffset;
++} drm_via_sarea_t;
 +
-+	/*
-+	 * Turning on deskew feature caused screen display issues.
-+	 * This was observed with Wyse Cx0.
-+	 */
-+	buf =3D 0x00;
-+	via_i2c_writebytes(i2c_bus, 0x08, 0x0a, &buf, 1);
++typedef struct _drm_via_cmdbuf_size {
++	enum {
++		VIA_CMDBUF_SPACE =3D 0x01,
++		VIA_CMDBUF_LAG =3D 0x02
++	} func;
++	int wait;
++	__u32 size;
++} drm_via_cmdbuf_size_t;
 +
-+	/*
-+	 * While VIA Technologies VT1632A datasheet insists on setting
-+	 * this register to 0x89 as the recommended setting, in
-+	 * practice, this leads to a blank screen on the display with
-+	 * Wyse Cx0. According to Silicon Image SiI 164 datasheet
-+	 * (VT1632(A) is a pin and mostly register compatible chip),
-+	 * offset 0x0C is for PLL filter enable, PLL filter setting,
-+	 * and continuous SYNC enable bits. All of these are turned
-+	 * off for proper operation.
-+	 */
-+	buf =3D 0x00;
-+	via_i2c_writebytes(i2c_bus, 0x08, 0x0c, &buf, 1);
++typedef enum {
++	VIA_IRQ_ABSOLUTE =3D 0x0,
++	VIA_IRQ_RELATIVE =3D 0x1,
++	VIA_IRQ_SIGNAL =3D 0x10000000,
++	VIA_IRQ_FORCE_SEQUENCE =3D 0x20000000
++} via_irq_seq_type_t;
 +
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
++#define VIA_IRQ_FLAGS_MASK 0xF0000000
 +
-+
-+static const struct drm_encoder_funcs via_vt1632_drm_encoder_funcs =3D {
-+	.destroy =3D via_encoder_cleanup,
++enum drm_via_irqs {
++	drm_via_irq_hqv0 =3D 0,
++	drm_via_irq_hqv1,
++	drm_via_irq_dma0_dd,
++	drm_via_irq_dma0_td,
++	drm_via_irq_dma1_dd,
++	drm_via_irq_dma1_td,
++	drm_via_irq_num
 +};
 +
-+static void via_vt1632_dpms(struct drm_encoder *encoder, int mode)
-+{
-+	struct via_encoder *enc =3D container_of(encoder,
-+					struct via_encoder, base);
-+	struct drm_device *dev =3D encoder->dev;
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	struct i2c_adapter *i2c_bus;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if (enc->i2c_bus & VIA_I2C_BUS1) {
-+		i2c_bus =3D via_find_ddc_bus(0x26);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS2) {
-+		i2c_bus =3D via_find_ddc_bus(0x31);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS3) {
-+		i2c_bus =3D via_find_ddc_bus(0x25);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS4) {
-+		i2c_bus =3D via_find_ddc_bus(0x2c);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS5) {
-+		i2c_bus =3D via_find_ddc_bus(0x3d);
-+	} else {
-+		i2c_bus =3D NULL;
-+		goto exit;
-+	}
-+
-+	via_vt1632_display_registers(i2c_bus);
-+	switch (mode) {
-+	case DRM_MODE_DPMS_ON:
-+		via_vt1632_power(i2c_bus, true);
-+		via_transmitter_io_pad_state(dev_priv, enc->di_port, true);
-+		break;
-+	case DRM_MODE_DPMS_STANDBY:
-+	case DRM_MODE_DPMS_SUSPEND:
-+	case DRM_MODE_DPMS_OFF:
-+		via_vt1632_power(i2c_bus, false);
-+		via_transmitter_io_pad_state(dev_priv, enc->di_port, false);
-+		break;
-+	default:
-+		DRM_ERROR("Bad DPMS mode.");
-+		break;
-+	}
-+
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static bool via_vt1632_mode_fixup(struct drm_encoder *encoder,
-+				const struct drm_display_mode *mode,
-+				struct drm_display_mode *adjusted_mode)
-+{
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	drm_mode_set_crtcinfo(adjusted_mode, 0);
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return true;
-+}
-+
-+static void via_vt1632_mode_set(struct drm_encoder *encoder,
-+				struct drm_display_mode *mode,
-+				struct drm_display_mode *adjusted_mode)
-+{
-+	struct via_crtc *iga =3D container_of(encoder->crtc, struct via_crtc, ba=
-se);
-+	struct via_encoder *enc =3D container_of(encoder,
-+					struct via_encoder, base);
-+	struct drm_device *dev =3D encoder->dev;
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	struct i2c_adapter *i2c_bus;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if (enc->i2c_bus & VIA_I2C_BUS1) {
-+		i2c_bus =3D via_find_ddc_bus(0x26);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS2) {
-+		i2c_bus =3D via_find_ddc_bus(0x31);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS3) {
-+		i2c_bus =3D via_find_ddc_bus(0x25);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS4) {
-+		i2c_bus =3D via_find_ddc_bus(0x2c);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS5) {
-+		i2c_bus =3D via_find_ddc_bus(0x3d);
-+	} else {
-+		i2c_bus =3D NULL;
-+		goto exit;
-+	}
-+
-+	via_transmitter_clock_drive_strength(dev_priv, enc->di_port, 0x03);
-+	via_transmitter_data_drive_strength(dev_priv, enc->di_port, 0x03);
-+	via_transmitter_io_pad_state(dev_priv, enc->di_port, true);
-+
-+	via_vt1632_display_registers(i2c_bus);
-+	via_vt1632_init_registers(i2c_bus);
-+	via_vt1632_display_registers(i2c_bus);
-+
-+	via_transmitter_display_source(dev_priv, enc->di_port, iga->index);
-+exit:
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void via_vt1632_prepare(struct drm_encoder *encoder)
-+{
-+	struct via_encoder *enc =3D container_of(encoder,
-+					struct via_encoder, base);
-+	struct drm_device *dev =3D encoder->dev;
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	struct i2c_adapter *i2c_bus;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if (enc->i2c_bus & VIA_I2C_BUS1) {
-+		i2c_bus =3D via_find_ddc_bus(0x26);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS2) {
-+		i2c_bus =3D via_find_ddc_bus(0x31);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS3) {
-+		i2c_bus =3D via_find_ddc_bus(0x25);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS4) {
-+		i2c_bus =3D via_find_ddc_bus(0x2c);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS5) {
-+		i2c_bus =3D via_find_ddc_bus(0x3d);
-+	} else {
-+		i2c_bus =3D NULL;
-+		goto exit;
-+	}
-+
-+	via_vt1632_power(i2c_bus, false);
-+	via_transmitter_io_pad_state(dev_priv, enc->di_port, false);
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void via_vt1632_commit(struct drm_encoder *encoder)
-+{
-+	struct via_encoder *enc =3D container_of(encoder,
-+					struct via_encoder, base);
-+	struct drm_device *dev =3D encoder->dev;
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	struct i2c_adapter *i2c_bus;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if (enc->i2c_bus & VIA_I2C_BUS1) {
-+		i2c_bus =3D via_find_ddc_bus(0x26);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS2) {
-+		i2c_bus =3D via_find_ddc_bus(0x31);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS3) {
-+		i2c_bus =3D via_find_ddc_bus(0x25);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS4) {
-+		i2c_bus =3D via_find_ddc_bus(0x2c);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS5) {
-+		i2c_bus =3D via_find_ddc_bus(0x3d);
-+	} else {
-+		i2c_bus =3D NULL;
-+		goto exit;
-+	}
-+
-+	via_vt1632_power(i2c_bus, true);
-+	via_transmitter_io_pad_state(dev_priv, enc->di_port, true);
-+
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static void via_vt1632_disable(struct drm_encoder *encoder)
-+{
-+	struct via_encoder *enc =3D container_of(encoder,
-+					struct via_encoder, base);
-+	struct drm_device *dev =3D encoder->dev;
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	struct i2c_adapter *i2c_bus;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if (enc->i2c_bus & VIA_I2C_BUS1) {
-+		i2c_bus =3D via_find_ddc_bus(0x26);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS2) {
-+		i2c_bus =3D via_find_ddc_bus(0x31);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS3) {
-+		i2c_bus =3D via_find_ddc_bus(0x25);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS4) {
-+		i2c_bus =3D via_find_ddc_bus(0x2c);
-+	} else if (enc->i2c_bus & VIA_I2C_BUS5) {
-+		i2c_bus =3D via_find_ddc_bus(0x3d);
-+	} else {
-+		i2c_bus =3D NULL;
-+		goto exit;
-+	}
-+
-+	via_vt1632_power(i2c_bus, false);
-+	via_transmitter_io_pad_state(dev_priv, enc->di_port, false);
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+
-+static const struct drm_encoder_helper_funcs
-+via_vt1632_drm_encoder_helper_funcs =3D {
-+	.dpms =3D via_vt1632_dpms,
-+	.mode_fixup =3D via_vt1632_mode_fixup,
-+	.mode_set =3D via_vt1632_mode_set,
-+	.prepare =3D via_vt1632_prepare,
-+	.commit =3D via_vt1632_commit,
-+	.disable =3D via_vt1632_disable,
++struct drm_via_wait_irq_request {
++	unsigned irq;
++	via_irq_seq_type_t type;
++	__u32 sequence;
++	__u32 signal;
 +};
 +
++typedef union drm_via_irqwait {
++	struct drm_via_wait_irq_request request;
++	struct drm_wait_vblank_reply reply;
++} drm_via_irqwait_t;
 +
-+static enum drm_connector_status via_vt1632_detect(
-+					struct drm_connector *connector,
-+					bool force)
-+{
-+	struct via_connector *con =3D container_of(connector,
-+					struct via_connector, base);
-+	struct i2c_adapter *i2c_bus;
-+	enum drm_connector_status ret =3D connector_status_disconnected;
++typedef struct drm_via_blitsync {
++	__u32 sync_handle;
++	unsigned engine;
++} drm_via_blitsync_t;
 +
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++/* - * Below,"flags" is currently unused but will be used for possible fu=
+ture
++ * extensions like kernel space bounce buffers for bad alignments and
++ * blit engine busy-wait polling for better latency in the absence of
++ * interrupts.
++ */
 +
-+	if (con->i2c_bus & VIA_I2C_BUS1) {
-+		i2c_bus =3D via_find_ddc_bus(0x26);
-+	} else if (con->i2c_bus & VIA_I2C_BUS2) {
-+		i2c_bus =3D via_find_ddc_bus(0x31);
-+	} else if (con->i2c_bus & VIA_I2C_BUS3) {
-+		i2c_bus =3D via_find_ddc_bus(0x25);
-+	} else if (con->i2c_bus & VIA_I2C_BUS4) {
-+		i2c_bus =3D via_find_ddc_bus(0x2c);
-+	} else if (con->i2c_bus & VIA_I2C_BUS5) {
-+		i2c_bus =3D via_find_ddc_bus(0x3d);
-+	} else {
-+		i2c_bus =3D NULL;
-+		goto exit;
-+	}
++typedef struct drm_via_dmablit {
++	__u32 num_lines;
++	__u32 line_length;
 +
-+	if (via_vt1632_sense(i2c_bus)) {
-+		ret =3D connector_status_connected;
-+		DRM_DEBUG_KMS("DVI detected.\n");
-+	}
++	__u32 fb_addr;
++	__u32 fb_stride;
 +
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return ret;
-+}
++	unsigned char *mem_addr;
++	__u32 mem_stride;
 +
-+static const struct drm_connector_funcs via_vt1632_drm_connector_funcs =
-=3D {
-+	.dpms =3D drm_helper_connector_dpms,
-+	.detect =3D via_vt1632_detect,
-+	.fill_modes =3D drm_helper_probe_single_connector_modes,
-+	.destroy =3D via_connector_destroy,
-+	.reset =3D drm_atomic_helper_connector_reset,
-+	.atomic_duplicate_state =3D
-+			drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state =3D
-+			drm_atomic_helper_connector_destroy_state,
++	__u32 flags;
++	int to_fb;
++
++	drm_via_blitsync_t sync;
++} drm_via_dmablit_t;
++
++struct drm_via_gem_create {
++	uint64_t size;
++	uint32_t alignment;
++	uint32_t domain;
++	uint32_t handle;
++	uint64_t offset;
 +};
 +
-+
-+int via_vt1632_mode_valid(struct drm_connector *connector,
-+					struct drm_display_mode *mode)
-+{
-+	struct via_connector *con =3D container_of(connector,
-+					struct via_connector, base);
-+	struct i2c_adapter *i2c_bus;
-+	u8 buf;
-+	uint32_t low_freq_limit, high_freq_limit;
-+	int ret;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if (con->i2c_bus & VIA_I2C_BUS1) {
-+		i2c_bus =3D via_find_ddc_bus(0x26);
-+	} else if (con->i2c_bus & VIA_I2C_BUS2) {
-+		i2c_bus =3D via_find_ddc_bus(0x31);
-+	} else if (con->i2c_bus & VIA_I2C_BUS3) {
-+		i2c_bus =3D via_find_ddc_bus(0x25);
-+	} else if (con->i2c_bus & VIA_I2C_BUS4) {
-+		i2c_bus =3D via_find_ddc_bus(0x2c);
-+	} else if (con->i2c_bus & VIA_I2C_BUS5) {
-+		i2c_bus =3D via_find_ddc_bus(0x3d);
-+	} else {
-+		i2c_bus =3D NULL;
-+		ret =3D MODE_ERROR;
-+		goto exit;
-+	}
-+
-+	via_i2c_readbytes(i2c_bus, 0x08, 0x06, &buf, 1);
-+	low_freq_limit =3D buf * 1000;
-+	via_i2c_readbytes(i2c_bus, 0x08, 0x07, &buf, 1);
-+	high_freq_limit =3D (buf + 65) * 1000;
-+	DRM_DEBUG_KMS("Low Frequency Limit: %u KHz\n", low_freq_limit);
-+	DRM_DEBUG_KMS("High Frequency Limit: %u KHz\n", high_freq_limit);
-+
-+	if (mode->clock < low_freq_limit) {
-+		ret =3D MODE_CLOCK_LOW;
-+		goto exit;
-+	}
-+
-+	if (mode->clock > high_freq_limit) {
-+		ret =3D MODE_CLOCK_HIGH;
-+		goto exit;
-+	}
-+
-+	ret =3D MODE_OK;
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return ret;
-+}
-+
-+static int via_vt1632_get_modes(struct drm_connector *connector)
-+{
-+	struct via_connector *con =3D container_of(connector,
-+					struct via_connector, base);
-+	int count =3D 0;
-+	struct i2c_adapter *i2c_bus;
-+	struct edid *edid =3D NULL;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if (con->i2c_bus & VIA_I2C_BUS1) {
-+		i2c_bus =3D via_find_ddc_bus(0x26);
-+	} else if (con->i2c_bus & VIA_I2C_BUS2) {
-+		i2c_bus =3D via_find_ddc_bus(0x31);
-+	} else if (con->i2c_bus & VIA_I2C_BUS3) {
-+		i2c_bus =3D via_find_ddc_bus(0x25);
-+	} else if (con->i2c_bus & VIA_I2C_BUS4) {
-+		i2c_bus =3D via_find_ddc_bus(0x2c);
-+	} else if (con->i2c_bus & VIA_I2C_BUS5) {
-+		i2c_bus =3D via_find_ddc_bus(0x3d);
-+	} else {
-+		i2c_bus =3D NULL;
-+		goto exit;
-+	}
-+
-+	edid =3D drm_get_edid(&con->base, i2c_bus);
-+	if (edid) {
-+		if (edid->input & DRM_EDID_INPUT_DIGITAL) {
-+			drm_connector_update_edid_property(connector, edid);
-+			count =3D drm_add_edid_modes(connector, edid);
-+			DRM_DEBUG_KMS("DVI EDID information was obtained.\n");
-+		}
-+
-+		kfree(edid);
-+	}
-+
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return count;
-+}
-+
-+static const struct drm_connector_helper_funcs
-+via_vt1632_drm_connector_helper_funcs =3D {
-+	.mode_valid =3D via_vt1632_mode_valid,
-+	.get_modes =3D via_vt1632_get_modes,
++struct drm_via_gem_map {
++	uint32_t handle;
++	uint64_t map_offset;
 +};
 +
-+bool via_vt1632_probe(struct i2c_adapter *i2c_bus)
-+{
-+	u8 buf;
-+	u16 vendor_id, device_id, revision;
-+	bool device_detected =3D false;
++struct drm_via_gem_unmap {
++	uint32_t handle;
++};
 +
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	via_i2c_readbytes(i2c_bus, 0x08, 0x00, &buf, 1);
-+	vendor_id =3D buf;
-+	via_i2c_readbytes(i2c_bus, 0x08, 0x01, &buf, 1);
-+	vendor_id |=3D (buf << 8);
-+	DRM_DEBUG_KMS("Vendor ID: %x\n", vendor_id);
-+	via_i2c_readbytes(i2c_bus, 0x08, 0x02, &buf, 1);
-+	device_id =3D buf;
-+	via_i2c_readbytes(i2c_bus, 0x08, 0x03, &buf, 1);
-+	device_id |=3D (buf << 8);
-+	DRM_DEBUG_KMS("Device ID: %x\n", device_id);
-+	via_i2c_readbytes(i2c_bus, 0x08, 0x04, &buf, 1);
-+	revision =3D buf;
-+	DRM_DEBUG_KMS("Revision: %x\n", revision);
-+
-+	if ((vendor_id !=3D 0x1106) || (device_id !=3D 0x3192)) {
-+		goto exit;
-+	}
-+
-+	device_detected =3D true;
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return device_detected;
++#if defined(__cplusplus)
 +}
++#endif
 +
-+void via_vt1632_init(struct drm_device *dev)
-+{
-+	struct via_connector *con;
-+	struct via_encoder *enc;
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if (!dev_priv->ext_tmds_presence) {
-+		goto exit;
-+	}
-+
-+	enc =3D kzalloc(sizeof(*enc) + sizeof(*con), GFP_KERNEL);
-+	if (!enc) {
-+		DRM_ERROR("Failed to allocate connector "
-+				"and encoder.\n");
-+		goto exit;
-+	}
-+
-+	drm_encoder_init(dev, &enc->base, &via_vt1632_drm_encoder_funcs,
-+						DRM_MODE_ENCODER_TMDS, NULL);
-+	drm_encoder_helper_add(&enc->base,
-+					&via_vt1632_drm_encoder_helper_funcs);
-+
-+	enc->base.possible_crtcs =3D BIT(1) | BIT(0);
-+	enc->base.possible_clones =3D 0;
-+
-+	enc->i2c_bus =3D dev_priv->ext_tmds_i2c_bus;
-+	enc->di_port =3D dev_priv->ext_tmds_di_port;
-+
-+	/* Increment the number of DVI connectors. */
-+	dev_priv->number_dvi++;
-+
-+
-+	con =3D &enc->cons[0];
-+
-+	drm_connector_init(dev, &con->base, &via_vt1632_drm_connector_funcs,
-+				DRM_MODE_CONNECTOR_DVID);
-+	drm_connector_helper_add(&con->base,
-+				&via_vt1632_drm_connector_helper_funcs);
-+	drm_connector_register(&con->base);
-+
-+	con->base.doublescan_allowed =3D false;
-+	con->base.interlace_allowed =3D false;
-+
-+	con->i2c_bus =3D dev_priv->ext_tmds_i2c_bus;
-+
-+	INIT_LIST_HEAD(&con->props);
-+	drm_connector_attach_encoder(&con->base, &enc->base);
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
++#endif				/* _VIA_DRM_H_ */
 =2D-
 2.35.1
 
