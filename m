@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8C155ECF5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 20:47:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6947055ECF3
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 20:47:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 115F311B6EF;
-	Tue, 28 Jun 2022 18:47:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B75E11B6F0;
+	Tue, 28 Jun 2022 18:47:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 304AB11B644;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7193D11B4B7;
  Tue, 28 Jun 2022 18:47:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1656442049; x=1687978049;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=OVCkXmzPo4ZLnXqtcavWwM/RJHKV1dEqAys5QUCvIJ0=;
- b=D3/YmoEFBLtdsvxg4Gh7vv2Oy8m5Gk237VyC6nhapP4QQ8O6jUBiLpca
- xW6Ji1U7FViUnyw6sOjj77f4oLn/lqkYiqfWWh2v9HKRace/hWIlmBNuw
- PNE2g8oAJ43/SZiRRWMhVvJRUSI1cDg3sX9U9oE0cJkxzzyTnNhQtCnXP
- Xd8C6apqFuKvxI7iJWwftAs4H0ODqbDxE0PyvGjiryYkjAd0czK4w7egE
- Qr5mRoh3bCE6cQ5LfEwa3hdg5A6YQW0eapIw4DEVhlTMl+oI+PpaT95Oz
- roiE2kOaHyA9020bmWujeG/JqukdL+VV0GMC6/3Dm+QLam7fnCpv7JK/0 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="282915815"
-X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; d="scan'208";a="282915815"
+ bh=Gq0ZzJGdmcvmO4J+ld8VOXGM6Hpl0H6UEJdEzAkOF/M=;
+ b=kKQLug4F/QijUQvpb0dnHsoJbKUbcB8UpZzEBpG3nVAy9v8hDPsA8KZ4
+ 8CMXDOKsSBSTwKmQAqqsyIw0CwfFYJYoQS7/0njfQ8/14Or0Bx7CJE2js
+ sjGYFP/0xz1hhN5jL0ZkrYST0s5CJyJOAVlh4U1DVJt01ZWYXrT2cHtvB
+ ESxX8eQf+4P+vIlrUfro2WLgfnOoNJuzXk4N2P78r1uhjKviWZPsv+81Z
+ gnRTO8Xat6NFrjpTRkvuQGQOfjlVGr1n57LWEwdZ/454G9HsSm5VngPQi
+ cTXW29b1O5j0eQ+oKPRIVx/N4dew2jTNSCLXtudRSruBmbyaWhQw6K6aA A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="282915816"
+X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; d="scan'208";a="282915816"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  28 Jun 2022 11:47:28 -0700
-X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; d="scan'208";a="594908730"
+X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; d="scan'208";a="594908733"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  28 Jun 2022 11:47:28 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [CI 2/3] iosys-map: Add per-word read
-Date: Tue, 28 Jun 2022 11:47:46 -0700
-Message-Id: <20220628184747.3844242-2-lucas.demarchi@intel.com>
+Subject: [CI 3/3] iosys-map: Add per-word write
+Date: Tue, 28 Jun 2022 11:47:47 -0700
+Message-Id: <20220628184747.3844242-3-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220628184747.3844242-1-lucas.demarchi@intel.com>
 References: <20220628184747.3844242-1-lucas.demarchi@intel.com>
@@ -63,153 +63,101 @@ Cc: Daniel Vetter <daniel.vetter@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of always falling back to memcpy_fromio() for any size, prefer
-using read{b,w,l}(). When reading struct members it's common to read
-individual integer variables individually. Going through memcpy_fromio()
-for each of them poses a high penalty.
-
-Employ a similar trick as __seqprop() by using _Generic() to generate
-only the specific call based on a type-compatible variable.
-
-For a pariticular i915 workload producing GPU context switches,
-__get_engine_usage_record() is particularly hot since the engine usage
-is read from device local memory with dgfx, possibly multiple times
-since it's racy. Test execution time for this test shows a ~12.5%
-improvement with DG2:
-
-Before:
-	nrepeats = 1000; min = 7.63243e+06; max = 1.01817e+07;
-	median = 9.52548e+06; var = 526149;
-After:
-	nrepeats = 1000; min = 7.03402e+06; max = 8.8832e+06;
-	median = 8.33955e+06; var = 333113;
-
-Other things attempted that didn't prove very useful:
-1) Change the _Generic() on x86 to just dereference the memory address
-2) Change __get_engine_usage_record() to do just 1 read per loop,
-   comparing with the previous value read
-3) Change __get_engine_usage_record() to access the fields directly as it
-   was before the conversion to iosys-map
-
-(3) did gave a small improvement (~3%), but doesn't seem to scale well
-to other similar cases in the driver.
-
-Additional test by Chris Wilson using gem_create from igt with some
-changes to track object creation time. This happens to accidentally
-stress this code path:
-
-	Pre iosys_map conversion of engine busyness:
-	lmem0: Creating    262144 4KiB objects took 59274.2ms
-
-	Unpatched:
-	lmem0: Creating    262144 4KiB objects took 108830.2ms
-
-	With readl (this patch):
-	lmem0: Creating    262144 4KiB objects took 61348.6ms
-
-	s/readl/READ_ONCE/
-	lmem0: Creating    262144 4KiB objects took 61333.2ms
-
-So we do take a little bit more time than before the conversion, but
-that is due to other factors: bringing the READ_ONCE back would be as
-good as just doing this conversion.
+Like was done for read, provide the equivalent for write. Even if
+current users are not in the hot path, this should future-proof it.
 
 v2:
-  - Remove default from _Generic() - callers wanting to read more
-    than u64 should use iosys_map_memcpy_from()
-  - Add READ_ONCE() cases dereferencing the pointer when using system
+  - Remove default from _Generic() - callers wanting to write more
+    than u64 should use iosys_map_memcpy_to()
+  - Add WRITE_ONCE() cases dereferencing the pointer when using system
     memory
 v3:
-  - Fix precedence issue when casting inside READ_ONCE(). By not using ()
+  - Fix precedence issue when casting inside WRITE_ONCE(). By not using ()
     around vaddr__ the offset was not part of the cast, but rather added
     to it, producing a wrong address
-  - Remove compiletime_assert() as READ_ONCE() already contains it
+  - Remove compiletime_assert() as WRITE_ONCE() already contains it
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com> # v1
+Reviewed-by: Reviewed-by: Christian König <christian.koenig@amd.com> # v1
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- include/linux/iosys-map.h | 42 ++++++++++++++++++++++++++++++---------
- 1 file changed, 33 insertions(+), 9 deletions(-)
+ include/linux/iosys-map.h | 38 +++++++++++++++++++++++++++++---------
+ 1 file changed, 29 insertions(+), 9 deletions(-)
 
 diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
-index 4b8406ee8bc4..48e550b290fa 100644
+index 48e550b290fa..08dad5b0ad17 100644
 --- a/include/linux/iosys-map.h
 +++ b/include/linux/iosys-map.h
-@@ -6,6 +6,7 @@
- #ifndef __IOSYS_MAP_H__
- #define __IOSYS_MAP_H__
+@@ -337,9 +337,13 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
+ #ifdef CONFIG_64BIT
+ #define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)				\
+ 	u64: val_ = readq(vaddr_iomem_)
++#define __iosys_map_wr_io_u64_case(val_, vaddr_iomem_)				\
++	u64: writeq(val_, vaddr_iomem_)
+ #else
+ #define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)				\
+ 	u64: memcpy_fromio(&(val_), vaddr_iomem_, sizeof(u64))
++#define __iosys_map_wr_io_u64_case(val_, vaddr_iomem_)				\
++	u64: memcpy_toio(vaddr_iomem_, &(val_), sizeof(u64))
+ #endif
  
-+#include <linux/compiler_types.h>
- #include <linux/io.h>
- #include <linux/string.h>
+ #define __iosys_map_rd_io(val__, vaddr_iomem__, type__) _Generic(val__,		\
+@@ -351,6 +355,15 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
+ #define __iosys_map_rd_sys(val__, vaddr__, type__)				\
+ 	val__ = READ_ONCE(*(type__ *)(vaddr__));
  
-@@ -333,6 +334,23 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
- 		memset(dst->vaddr + offset, value, len);
- }
- 
-+#ifdef CONFIG_64BIT
-+#define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)				\
-+	u64: val_ = readq(vaddr_iomem_)
-+#else
-+#define __iosys_map_rd_io_u64_case(val_, vaddr_iomem_)				\
-+	u64: memcpy_fromio(&(val_), vaddr_iomem_, sizeof(u64))
-+#endif
++#define __iosys_map_wr_io(val__, vaddr_iomem__, type__) _Generic(val__,		\
++	u8: writeb(val__, vaddr_iomem__),					\
++	u16: writew(val__, vaddr_iomem__),					\
++	u32: writel(val__, vaddr_iomem__),					\
++	__iosys_map_wr_io_u64_case(val__, vaddr_iomem__))
 +
-+#define __iosys_map_rd_io(val__, vaddr_iomem__, type__) _Generic(val__,		\
-+	u8: val__ = readb(vaddr_iomem__),					\
-+	u16: val__ = readw(vaddr_iomem__),					\
-+	u32: val__ = readl(vaddr_iomem__),					\
-+	__iosys_map_rd_io_u64_case(val__, vaddr_iomem__))
-+
-+#define __iosys_map_rd_sys(val__, vaddr__, type__)				\
-+	val__ = READ_ONCE(*(type__ *)(vaddr__));
++#define __iosys_map_wr_sys(val__, vaddr__, type__)				\
++	WRITE_ONCE(*(type__ *)(vaddr__), val__);
 +
  /**
   * iosys_map_rd - Read a C-type value from the iosys_map
   *
-@@ -340,16 +358,21 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
-  * @offset__:	The offset from which to read
-  * @type__:	Type of the value being read
+@@ -383,12 +396,17 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
+  * @type__:	Type of the value being written
+  * @val__:	Value to write
   *
-- * Read a C type value from iosys_map, handling possible un-aligned accesses to
-- * the mapping.
-+ * Read a C type value (u8, u16, u32 and u64) from iosys_map. For other types or
-+ * if pointer may be unaligned (and problematic for the architecture supported),
-+ * use iosys_map_memcpy_from().
-  *
-  * Returns:
-  * The value read from the mapping.
+- * Write a C-type value to the iosys_map, handling possible un-aligned accesses
+- * to the mapping.
++ * Write a C type value (u8, u16, u32 and u64) to the iosys_map. For other types
++ * or if pointer may be unaligned (and problematic for the architecture
++ * supported), use iosys_map_memcpy_to()
   */
--#define iosys_map_rd(map__, offset__, type__) ({			\
--	type__ val;							\
--	iosys_map_memcpy_from(&val, map__, offset__, sizeof(val));	\
--	val;								\
-+#define iosys_map_rd(map__, offset__, type__) ({				\
-+	type__ val;								\
+-#define iosys_map_wr(map__, offset__, type__, val__) ({			\
+-	type__ val = (val__);						\
+-	iosys_map_memcpy_to(map__, offset__, &val, sizeof(val));	\
++#define iosys_map_wr(map__, offset__, type__, val__) ({				\
++	type__ val = (val__);							\
 +	if ((map__)->is_iomem) {						\
-+		__iosys_map_rd_io(val, (map__)->vaddr_iomem + (offset__), type__);\
++		__iosys_map_wr_io(val, (map__)->vaddr_iomem + (offset__), type__);\
 +	} else {								\
-+		__iosys_map_rd_sys(val, (map__)->vaddr + (offset__), type__);	\
++		__iosys_map_wr_sys(val, (map__)->vaddr + (offset__), type__);	\
 +	}									\
-+	val;									\
  })
  
  /**
-@@ -379,9 +402,10 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
+@@ -469,10 +487,12 @@ static inline void iosys_map_memset(struct iosys_map *dst, size_t offset,
+  * @field__:		Member of the struct to read
+  * @val__:		Value to write
   *
-  * Read a value from iosys_map considering its layout is described by a C struct
-  * starting at @struct_offset__. The field offset and size is calculated and its
-- * value read handling possible un-aligned memory accesses. For example: suppose
-- * there is a @struct foo defined as below and the value ``foo.field2.inner2``
-- * needs to be read from the iosys_map:
-+ * value read. If the field access would incur in un-aligned access, then either
-+ * iosys_map_memcpy_from() needs to be used or the architecture must support it.
-+ * For example: suppose there is a @struct foo defined as below and the value
-+ * ``foo.field2.inner2`` needs to be read from the iosys_map:
-  *
-  * .. code-block:: c
-  *
+- * Write a value to the iosys_map considering its layout is described by a C struct
+- * starting at @struct_offset__. The field offset and size is calculated and the
+- * @val__ is written handling possible un-aligned memory accesses. Refer to
+- * iosys_map_rd_field() for expected usage and memory layout.
++ * Write a value to the iosys_map considering its layout is described by a C
++ * struct starting at @struct_offset__. The field offset and size is calculated
++ * and the @val__ is written. If the field access would incur in un-aligned
++ * access, then either iosys_map_memcpy_to() needs to be used or the
++ * architecture must support it. Refer to iosys_map_rd_field() for expected
++ * usage and memory layout.
+  */
+ #define iosys_map_wr_field(map__, struct_offset__, struct_type__, field__, val__) ({	\
+ 	struct_type__ *s;								\
 -- 
 2.36.1
 
