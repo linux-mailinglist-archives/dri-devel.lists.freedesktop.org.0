@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 415E055BFE5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 11:46:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C226D55BFDB
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 11:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9153D12B1D9;
-	Tue, 28 Jun 2022 09:46:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E81D812B1C5;
+	Tue, 28 Jun 2022 09:46:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61EAD12B1CA;
- Tue, 28 Jun 2022 09:46:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24C8912B1B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 09:46:32 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CA81E6182C;
- Tue, 28 Jun 2022 09:46:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77708C341EE;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5B6B6617BD;
+ Tue, 28 Jun 2022 09:46:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2580BC341CC;
  Tue, 28 Jun 2022 09:46:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1656409590;
- bh=KmE1n0kBTzhMcDi/Es4qlC1RvvMz696gfPuCpCdCwXA=;
+ bh=0NbCo+YW090Jj7w8/2xxoP/ojPkPgosUj8xMfRMxsao=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gwuiQNtLKte3nUdoCxdKSDOuRdlj/40+1HS65mhF7M/yFot3TsdTn7O24tvybSWgC
- W8ISK3Ms8GdYha5G8nCAt23Yoswo5flJ6O7ezyLVvU+w/yIfP5bYo2xCXCIvS9hmrb
- S759Ga4sNfLrqyuwTyZZm/4mersiFwGydZr9UQPPhYtZJWpUAOv+X4uX19/5REBqjI
- 1Qb/C2iiZ9mWBoXMilbVTGb1KIP4iaxbGqJ+AVrR7tl2cbPtQ5DYRptfDeEkfBxfo8
- gBjJPj0o96jsYKUX719G8Rq+8DKqK3LZH9jxhS1gPPZy9ZzwV9cbT401X7Z3UFIz4+
- tzfM/QEtoo3xg==
+ b=ZZZBB3B2yZQo7yy3G4Geuz38zgBKXEW3Nrm02C58j4UcwkLy6kw988E2IoNArMmX7
+ r+TJ5L6OXqthHeUEBTXoCkrGKHZjdBT6ZszKQzhma67ADFyzR0M0aAXbAC4CebXr9E
+ 0yAqdQPeZUMS2PJz+L18H8m5aLmykqgJCszCuz2AdfJ2MVcOWfEDFfZg3/Q/UUYCEo
+ es7SZfiqAXXIneq1tgySVZHENjRumhMRY3u8BaAizyCxDyaUsGd31WdQALc6f6sy4D
+ QN7oSmNrS/E3NcBm/vCdgUXM6ItvG20llGu6D9mfEIJUARqHdr6rG/H3bKwRZfzhx9
+ LOiGJPLvTAQzw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1o67nf-005HFG-Rk;
+ (envelope-from <mchehab@kernel.org>) id 1o67nf-005HFN-SY;
  Tue, 28 Jun 2022 10:46:27 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: [PATCH 11/22] drm: amd: amd_shared.h: Add missing doc for
- PP_GFX_DCS_MASK
-Date: Tue, 28 Jun 2022 10:46:15 +0100
-Message-Id: <3aee446a0e396fe3f338f270746939f6e803a4de.1656409369.git.mchehab@kernel.org>
+Subject: [PATCH 12/22] drm: gpu_scheduler: fix a kernel-doc warning
+Date: Tue, 28 Jun 2022 10:46:16 +0100
+Message-Id: <0129fa0ffb8d418ab66f2ab0f1d525cb49f01f75.1656409369.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1656409369.git.mchehab@kernel.org>
 References: <cover.1656409369.git.mchehab@kernel.org>
@@ -56,50 +55,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Evan Quan <evan.quan@amd.com>, David Zhang <dingchen.zhang@amd.com>,
- Jonathan Corbet <corbet@lwn.net>,
+Cc: Jonathan Corbet <corbet@lwn.net>,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Kenneth Feng <kenneth.feng@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Zhan Liu <zhan.liu@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, David Airlie <airlied@linux.ie>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This symbol is missing documentation:
+The dev field was not documented:
 
-	drivers/gpu/drm/amd/include/amd_shared.h:224: warning: Enum value 'PP_GFX_DCS_MASK' not described in enum 'PP_FEATURE_MASK'
+	include/drm/gpu_scheduler.h:463: warning: Function parameter or member 'dev' not described in 'drm_gpu_scheduler'
 
 Document it.
 
-Fixes: 680602d6c2d6 ("drm/amd/pm: enable DCS")
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/22] at: https://lore.kernel.org/all/cover.1656409369.git.mchehab@kernel.org/
 
- drivers/gpu/drm/amd/include/amd_shared.h | 1 +
+ include/drm/gpu_scheduler.h | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
-index bcdf7453a403..2e02a6fc1717 100644
---- a/drivers/gpu/drm/amd/include/amd_shared.h
-+++ b/drivers/gpu/drm/amd/include/amd_shared.h
-@@ -193,6 +193,7 @@ enum amd_powergating_state {
-  * @PP_ACG_MASK: Adaptive clock generator.
-  * @PP_STUTTER_MODE: Stutter mode.
-  * @PP_AVFS_MASK: Adaptive voltage and frequency scaling.
-+ * @PP_GFX_DCS_MASK: GFX Async DCS.
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index addb135eeea6..c7c487e0c40e 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -435,6 +435,7 @@ struct drm_sched_backend_ops {
+  * @_score: score used when the driver doesn't provide one
+  * @ready: marks if the underlying HW is ready to work
+  * @free_guilty: A hit to time out handler to free the guilty job.
++ * @dev: pointer to struct device.
   *
-  * To override these settings on boot, append amdgpu.ppfeaturemask=<mask> to
-  * the kernel's command line parameters. This is usually done through a system's
+  * One scheduler is implemented for each hardware ring.
+  */
 -- 
 2.36.1
 
