@@ -1,45 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32BCF55F001
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 22:53:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB1655E8E8
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 18:37:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C127210EA45;
-	Tue, 28 Jun 2022 20:53:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0057211298E;
+	Tue, 28 Jun 2022 16:37:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 969 seconds by postgrey-1.36 at gabe;
- Tue, 28 Jun 2022 16:55:11 UTC
-Received: from m12-15.163.com (m12-15.163.com [220.181.12.15])
- by gabe.freedesktop.org (Postfix) with ESMTP id AFC2F10FB66
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 16:55:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=nt05P
- 26I+/2qRv1d4aL/V6BIimpJ94Vgajr7RbdM3fE=; b=ixESMC2SVpxKnKjcPuT8d
- Ii/rwpVHzGEpzqphF/mLkA0jWuafIfBAEc4pprTg0Da702z3zDxAVs77ChpRvJTc
- yDl6xSKoIqyyDW2kVnFGK5LesGsklIRc2uQM0XlCk8oLf1iENODHH0NlNyOqK+Vh
- xAWm+0Q7+jlaIk8VdJKgJ4=
-Received: from ubuntu.localdomain (unknown [223.73.235.3])
- by smtp9 (Coremail) with SMTP id DcCowAAnhwySLrtiwy+mLw--.51135S2;
- Wed, 29 Jun 2022 00:38:50 +0800 (CST)
-From: Guiling Deng <greens9@163.com>
-To: daniel@ffwll.ch,
-	deller@gmx.de
-Subject: [PATCH] fbdev: fbmem: Fix logo center image dx issue
-Date: Tue, 28 Jun 2022 09:36:41 -0700
-Message-Id: <20220628163641.4167-1-greens9@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD9B9112535;
+ Tue, 28 Jun 2022 16:37:35 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id n185so7678282wmn.4;
+ Tue, 28 Jun 2022 09:37:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=zTrnKXsP357t4essNdCGgt/pIcSI3m0gn7jRuKNWiEQ=;
+ b=dYQyZu9hKQVdrmwLqjZuuis22j79t0huSOLkc/q7KbSN2p5jEDEmGQKqxKccXO4PEQ
+ /AF/u57LtJgqmCBOmjUXGL9LVX3784EwUj7hbppVcj/fRXLNxRe4Zn6KJsf9uH6TVtZs
+ Qm6EjILKgODglsV1SG+Vzn4jqAenxwNHHN4gB7I8CUYz+wJ+20h6HaE7BzonhBbSffEC
+ q6Hm7zIG/4bzIW9KxOYoJ+4T/kvaavYZX0DXsF3BJONMyOUsicaZoVq5xJOshlgck260
+ 5IiRk3gZ9x0e7Bu1fpYJytGdiA0otZ5WOfhrmUp7lyS9I17yjPUSYuDznR/GJrW6r6A/
+ qqDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=zTrnKXsP357t4essNdCGgt/pIcSI3m0gn7jRuKNWiEQ=;
+ b=agGyN0jWT1dWFinHfKEq66G5D/VRNSjdGd/UtDgYySVI+9Eoy3MPJMqo3FNAd8SY1S
+ rcfMko1I4MENEpcyrwdUalum4Dvh2zt5S8TGC2Hk7shlPrbxjZog83/wpdw7KnE5ynci
+ UOp+MIxy44rFNQSWsQ6tKfRTdXUY5NnUksiJuwrTE+rJX/sht6ScWnnjEGjxMfQw5/Vk
+ xnLdkLNLdAYO8VAlU2tWSOtFX1srrCH1eElFwCggrGSZDQ3YZF015gES+Mjesi5z7aYp
+ SQTiA2k/zf+JavBWWKb30KTig4Ky82Xj3WXIDWlK1lmw2wMN/jzcKNZBqEbpJKgx4KZI
+ 0WjQ==
+X-Gm-Message-State: AJIora9ZTj6wryywYw/vItsdvnMDJasOdv/TjHB95ycGi8euBOcQo4sH
+ sUHFBGDYGAO3cqjCf1X9hfJ+gBGmQyR8neuKKHk=
+X-Google-Smtp-Source: AGRyM1uOPdxafZdL1L2hYPRlKZOts53RkqBtiPY4vRVqV7TiAXTMG9m44Ga3PBCJeX+pOZH4DKOC2Gr5zsxTPxL6B/Y=
+X-Received: by 2002:a05:600c:4f96:b0:39c:951e:66b7 with SMTP id
+ n22-20020a05600c4f9600b0039c951e66b7mr556966wmq.84.1656434254256; Tue, 28 Jun
+ 2022 09:37:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DcCowAAnhwySLrtiwy+mLw--.51135S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZrW3Zr1ktw48WrWfAFy7Wrg_yoW3ArgEkw
- 4jvF97Zr9Ik3WIkFnYk3W3AFZayrWfZ3W3u3ZFkrykCF9Fgr4rXr1UZrsYqayagwnrXFZF
- qwnFqr48WryfCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRltC3JUUUUU==
-X-Originating-IP: [223.73.235.3]
-X-CM-SenderInfo: pjuhv0jvz6il2tof0z/1tbiURou3GDEOaLlSgAAsp
-X-Mailman-Approved-At: Tue, 28 Jun 2022 20:53:08 +0000
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 28 Jun 2022 09:37:48 -0700
+Message-ID: <CAF6AEGvswNKdd02EYKYv5Zjv7f+mcqeWC7hHQ1SBjqYzN_ZHnA@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-fixes-2022-06-28 for v5.19-rc5
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,33 +59,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Guiling Deng <greens9@163.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Image.dx gets wrong value because of missing '()'.
+Hi Dave,
 
-If xres == logo->width and n == 1, image.dx = -16.
+A couple remaining fixes for v5.19, summary below (and in tag msg)
 
-Signed-off-by: Guiling Deng <greens9@163.com>
----
- drivers/video/fbdev/core/fbmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit a6e2af64a79afa7f1b29375b5231e840a84bb845:
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index c4a18322dee9..1fd2bdb11266 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -511,7 +511,7 @@ static int fb_show_logo_line(struct fb_info *info, int rotate,
- 
- 		while (n && (n * (logo->width + 8) - 8 > xres))
- 			--n;
--		image.dx = (xres - n * (logo->width + 8) - 8) / 2;
-+		image.dx = (xres - (n * (logo->width + 8) - 8)) / 2;
- 		image.dy = y ?: (yres - logo->height) / 2;
- 	} else {
- 		image.dx = 0;
--- 
-2.25.1
+  drm/msm/dp: force link training for display resolution change
+(2022-06-18 09:14:06 -0700)
 
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-fixes-2022-06-28
+
+for you to fetch changes up to 08de214138cdea438a0dfcb10d355a6650c6017c:
+
+  drm/msm/gem: Fix error return on fence id alloc fail (2022-06-27
+12:48:27 -0700)
+
+----------------------------------------------------------------
+Fixes for v5.19-rc5
+
+- Fix to increment vsync_cnt before calling drm_crtc_handle_vblank so that
+  userspace sees the value *after* it is incremented if waiting for vblank
+  events
+- Fix to reset drm_dev to NULL in dp_display_unbind to avoid a crash in
+  probe/bind error paths
+- Fix to resolve the smatch error of de-referencing before NULL check in
+  dpu_encoder_phys_wb.c
+- Fix error return to userspace if fence-id allocation fails in submit
+  ioctl
+
+----------------------------------------------------------------
+Kuogee Hsieh (1):
+      drm/msm/dp: reset drm_dev to NULL at dp_display_unbind()
+
+Rob Clark (1):
+      drm/msm/gem: Fix error return on fence id alloc fail
+
+Stephen Boyd (1):
+      drm/msm/dpu: Increment vsync_cnt before waking up userspace
+
+sunliming (1):
+      drm/msm/dpu: Fix variable dereferenced before check
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c         |  3 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 10 +++++-----
+ drivers/gpu/drm/msm/dp/dp_display.c                 |  2 ++
+ drivers/gpu/drm/msm/msm_gem_submit.c                |  2 +-
+ 4 files changed, 10 insertions(+), 7 deletions(-)
