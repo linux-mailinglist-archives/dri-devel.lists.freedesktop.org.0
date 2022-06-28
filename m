@@ -1,61 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38BE055F0A5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:54:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D39B55F0AB
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:55:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58872112A1D;
-	Tue, 28 Jun 2022 21:54:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57D19112CF0;
+	Tue, 28 Jun 2022 21:55:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 722AC1120F5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:54:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89630112CFC
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:55:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656453281;
- bh=cTXTzsCe2FkTyUhfEq4PFZukFI41R7l0mhJjwNXqjZQ=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=c6A4F1r/wFISNqYo0PLx+xfijUjcugusFdV0MOdMCcGNxwY+u/9AqKBOvMe4ZBqYi
- grNME9t7O7JnKb5qWkY/HYD/7At1bbCQ9W88vYOij1GbK/M4hKSR5kRc6IAi44cAfC
- aVGdLgemx7O46LAAbtS5pjPheI2bANkUwzF+9dxQ=
+ s=badeba3b8450; t=1656453333;
+ bh=5B2DG+yoDk7eNL27AETxkQEHSlS9ljT6DPSAkzlfqEA=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=gFZHsxvRi7lLmw2obYyA/6Sa7maOsaj0bjNW3AEMba5IbCzFGN9Cx/PL+2HCnubFW
+ iUGALdI5Kcln9n5YU6w/zISCYjqrchItH5xHSMVZ5OZFnquslq2GQ88HzzKV/RMQu7
+ JoiKWh8KcI8k44rFLrEkMHcTtSLXN4qXcHpTIwAs=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([174.250.0.5]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1My32L-1niR1646n9-00zWL1; Tue, 28
- Jun 2022 23:54:41 +0200
+Received: from localhost.localdomain ([174.250.0.2]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MZkpR-1oAs0R1yIp-00Wk4h; Tue, 28
+ Jun 2022 23:55:33 +0200
 From: Kevin Brace <kevinbrace@gmx.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 19/32] drm/via: Add via_object.c
-Date: Tue, 28 Jun 2022 16:52:33 -0500
-Message-Id: <20220628215246.19706-20-kevinbrace@gmx.com>
+Subject: [PATCH v2 20/32] drm/via: Add via_pll.c
+Date: Tue, 28 Jun 2022 16:55:08 -0500
+Message-Id: <20220628215520.20674-1-kevinbrace@gmx.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220628215246.19706-1-kevinbrace@gmx.com>
-References: <20220628215246.19706-1-kevinbrace@gmx.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:PYOJkH+A9zBQfAbIaWMMUwAt+SC8TARSYHAAvwKPjvCBS1nvYJ+
- QQC9P639bjaOu1GdjOY/a4y7TNntOTgY81cK/o2IzREFk6JSuIlhXE7yAUqG/NwDKZNSpnb
- NlZ+BM5hc7/l3xl/KK6YLfiNK4gFFjL5cNaMQEus9tMR25TTCrU6hvYr909CgSOAIv+dhpJ
- D6helYfT5zJYyiXngd/7A==
+X-Provags-ID: V03:K1:P8eLnc5HLxckf1e1XfHO94RCgmMOkqsDfoKKZd1HyMjSLelEVOX
+ CteIf5BLeuAtju5CXjCRGvmC44EF7UCa37kBv3t9D9NjGqbjrccTMtvdRhK8bbXwpvvZvdi
+ TzAgBlKpq+6CeFBA41mUGihp4mGZmPHW/qI9YXr1d64eVhdmV+ceYkbCVCkFcV5pa0onLdO
+ A9fmtnSDyMhCoqqTEexoQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wpXu94YOloY=:9ldH46z5wjt4w/IYmQPqcK
- 7QvczXmrzpr8IiA0xdVofrBE/D/mJ644eIx3U2UZRUFLAtl+sJCP/7RNcHAQ6/FzAMfba1Qmq
- 84mRw7T2TCaMXNegLqgM+lC5+FvGgRccs4/VaiAViUh8rtcW+rTumMMKcGDTzQxbz4SDiHgd4
- AdzNtwwNEWlX4W3SveCYoOP663kOrkIv5F0kkdAk1LnrsUnJWuJETICImN6DLi/D6nokfRnsa
- Z/Mozrv+Lz1BHPKVeS4lWgmUDNQK/eC091rrZKhoHpJJh4Nuh6xU0d9Ra/bgnhPglKXY0GWBV
- tQImfxnI4bsXaLSBI998Qxbp1ivbXNdKZHumhgeeQIrpLf0Yik/MRT6vBJU/AX1Iozlsqm+aI
- iuKbxr3oB9opIEHFSxQBvVhPLhFQDHsE3iryYGcMKAX4YaHzBoEMBL8YYKEp8qF7sDPtnQeD5
- OV+RzTfkZdgqycGZ8PiR1FrH8UJ8N6kVwDncQulOdnytwPJCaqjT4JzIfqErE9sO8EM6teU79
- 1uKZ84e89vHC9KVHfVyqeBVEzoXMByWrBV3Ny2ggxCi++NSd0QdZ0b+UXSuuhZLaoIGSGe3aK
- NMQ1i6gJ6EZ/y/2SH6fjxplrhRQ9ckyAxp6L6R9inPppEhlB3IkSclSRgNvcBpaqRZPz2S6oy
- vr9Y26q7a/t/fOozdwmZNysYyh6oraQPZzTZDJcNhfmn0KF+fufWlowiIbvE/Ez1ongdr3q/K
- 26XnGRCujTKOpqulbmjQVbdt5JXxOVtUwAMOiRmgjR2Vc1asl+IGFnyGRHTYVkitWMByTEu3M
- LjyeoZ/oZS6nb7MD7o1D+pVE++qHH3/tIs+K8RNNSVTJXBNVknQUgG+EYF+WAQEZtDPkg9uW+
- SkKc69vSpgezl/VG0A7K95prhqt+F4c6Gpdb3yTaJ+2ElL/eC3/5K44unTVOK3TZc3H55Kidc
- cjkmoV47sJC+xoDKci/0y+WPSRY1WOvZtwUldevh5R0klOuAQEQggLT0xhY0/mnA7MkM4cqSD
- 0lKV6vpZOzPKDrvXVONj47PRWZiisdM6Bfoi4A2KrWGupTb+E9/HtvY2nAgi9j/L1ECg40KV7
- Ae8MXi9jvj5Upev32D/s1CfzQZt7fCRwg5xgY9U47SWGvvbyf62eJiKVA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Pa8iqc5axCE=:CxK3z0+4tsHHhvNZp49OLa
+ kNwUahxTKlMrQdurP+lYNuAXMrz1H+ScfCrdW07NB32DbHOhYd6ojtH0o5OvyGKGUmhnnd83u
+ DYguAWT8cOvyoXRB2Qb+v0/eWmi/jH3EJYQcWca7PsNO0fvxPUJbNfRDCaY29fkzm9vHbR5Pu
+ Mxvy5Gb4JMjN8I3BW9RClCy6IZiy3bzRQyIGosZB6o/g3sz2dmi7C9r4TJkKx4i9U6zL990xb
+ hbH2/R+zFNLmRx6HyLDiT9Uwo4BWX29oTnoLXW2lrgmBRXrB9nGPbsIUStKhb30zn6XTsyWfJ
+ 8R3DdMpitP0AngX9/hb80KY2SJ7aQgzkkImnIA7tRu0Q5b/J5kZXlNl1xHZLw4z9LFBsKbVsn
+ hZDAdXmXHb567OUwcrWUAFr5jMXv7QkLKMM4s2PclNajX6zT37k9w8O3Qq2XipcAMm6TAC+PA
+ JwlPNKYGJfbcCk0IMtO8ti3pPVLrDBzh7QwFRtg8S/cC7zqSh69md5QV/bME4vcBztUaeVklH
+ hFSM7xtFK78kqM8svS2DnD0cyaOPnLBBch5SqKnyME19IJi2jYzU6UVYyUMZRuDc1p4jdIJCR
+ bP6/0OTPcIjHrPiugQnJFdhQNYfOkivohl92RfMMxBv73zVBwl5/XW9Mrk51VsEOne5jpfB+i
+ J8MnWJxHl3eQMmcBYfN1snteXIDHxclPcrgzZr1zn9sC75eqyRDBqkwuXxvPzuPRxomPvFfai
+ 5bwcIv8T+y7PKqlboc+ciRBro5b9AJ7+G61CGCUVawZp3BMgvL0xbeaUIuh2drW+F8ZW/RLtH
+ bPFSaYjH8Qr8SqquxD84EgC7h+35ND1R54mcGDCTeGmwNah+Q54DGstqF3HEUD9bEe5H5n09g
+ UL3SwHNIVzDWffyGqDDdhvkpBDbsGr84741YH3A1+7LmeSDXu4nAell3FtUXrJG/oN2sma60B
+ FuJ5fI25/USsZJcJZNT/wixeNjOekbhatcRtDNxMqlePcDKw5gODYxGnKZQd4y5Ji0UD0jZeA
+ rn82wfR4lm4CY+uvxNlQsRzJgsP0AOJy5aFfp0Mle3DEhGt3C+HI7mlOSWi9FACw9M9fKCocZ
+ 4UFiMd7to0ruASMmst7DWqFjpXfBZcPqaB+qx301Ba5fCVeEwl0YU69KA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,19 +73,20 @@ From: Kevin Brace <kevinbrace@bracecomputerlab.com>
 
 Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
 =2D--
- drivers/gpu/drm/via/via_object.c | 324 +++++++++++++++++++++++++++++++
- 1 file changed, 324 insertions(+)
- create mode 100644 drivers/gpu/drm/via/via_object.c
+ drivers/gpu/drm/via/via_pll.c | 263 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 263 insertions(+)
+ create mode 100644 drivers/gpu/drm/via/via_pll.c
 
-diff --git a/drivers/gpu/drm/via/via_object.c b/drivers/gpu/drm/via/via_ob=
-ject.c
+diff --git a/drivers/gpu/drm/via/via_pll.c b/drivers/gpu/drm/via/via_pll.c
 new file mode 100644
-index 000000000000..96fb2934d0de
+index 000000000000..ec61d044504d
 =2D-- /dev/null
-+++ b/drivers/gpu/drm/via/via_object.c
-@@ -0,0 +1,324 @@
++++ b/drivers/gpu/drm/via/via_pll.c
+@@ -0,0 +1,263 @@
 +/*
-+ * Copyright =C2=A9 2018-2019 Kevin Brace.
++ * Copyright 2012 James Simmons. All Rights Reserved.
++ * Copyright 1998-2009 VIA Technologies, Inc. All Rights Reserved.
++ * Copyright 2001-2009 S3 Graphics, Inc. All Rights Reserved.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining =
 a
@@ -120,306 +118,245 @@ OTHER
 + * DEALINGS IN THE SOFTWARE.
 + *
 + * Author(s):
-+ * Kevin Brace <kevinbrace@bracecomputerlab.com>
-+ */
-+/*
-+ * via_object.c
-+ *
-+ * Manages Buffer Objects (BO) via TTM.
-+ * Part of the TTM memory allocator.
-+ *
++ * James Simmons <jsimmons@infradead.org>
 + */
 +
-+#include <drm/drm_file.h>
-+#include <drm/drm_gem.h>
-+#include <drm/drm_gem_ttm_helper.h>
-+
-+#include <drm/ttm/ttm_bo_api.h>
-+#include <drm/ttm/ttm_bo_driver.h>
-+#include <drm/ttm/ttm_range_manager.h>
++#include <linux/delay.h>
++#include <linux/pci.h>
++#include <linux/pci_ids.h>
 +
 +#include "via_drv.h"
 +
 +
-+static void via_gem_free(struct drm_gem_object *obj)
-+{
-+	struct ttm_buffer_object *ttm_bo;
++#define CSR_VCO_UP	600000000
++#define CSR_VCO_DOWN	300000000
 +
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++#define PLL_DTZ_DEFAULT		(BIT(0) | BIT(1))
 +
-+	ttm_bo =3D container_of(obj, struct ttm_buffer_object, base);
++#define VIA_CLK_REFERENCE	14318180
 +
-+	ttm_bo_put(ttm_bo);
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static const struct vm_operations_struct via_ttm_bo_vm_ops =3D {
-+	.fault =3D ttm_bo_vm_fault,
-+	.open =3D ttm_bo_vm_open,
-+	.close =3D ttm_bo_vm_close,
-+	.access =3D ttm_bo_vm_access
++struct pll_mrn_value {
++	u32 pll_m;
++	u32 pll_r;
++	u32 pll_n;
++	u32 diff_clk;
++	u32 pll_fout;
 +};
 +
-+static const struct drm_gem_object_funcs via_gem_object_funcs =3D {
-+	.free =3D via_gem_free,
-+	.vmap =3D drm_gem_ttm_vmap,
-+	.vunmap =3D drm_gem_ttm_vunmap,
-+	.mmap =3D drm_gem_ttm_mmap,
-+	.vm_ops =3D &via_ttm_bo_vm_ops,
-+};
-+
-+void via_ttm_domain_to_placement(struct via_bo *bo,
-+					uint32_t ttm_domain)
++/*
++ * This function first gets the best frequency M, R, N value
++ * to program the PLL according to the supplied frequence
++ * passed in. After we get the MRN values the results are
++ * formatted to fit properly into the PLL clock registers.
++ *
++ * PLL registers M, R, N value
++ * [31:16]  DM[7:0]
++ * [15:8 ]  DR[2:0]
++ * [7 :0 ]  DN[6:0]
++ */
++u32 via_get_clk_value(struct drm_device *dev, u32 freq)
 +{
-+	unsigned i =3D 0;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	u32 best_pll_n =3D 2, best_pll_r =3D 0, best_pll_m =3D 2, best_clk_diff =
+=3D freq;
++	u32 pll_fout, pll_fvco, pll_mrn =3D 0;
++	u32 pll_n, pll_r, pll_m, clk_diff;
++	struct pll_mrn_value pll_tmp[5] =3D {
++		{ 0, 0, 0, 0, 0 },
++		{ 0, 0, 0, 0, 0 },
++		{ 0, 0, 0, 0, 0 },
++		{ 0, 0, 0, 0, 0 },
++		{ 0, 0, 0, 0, 0 } };
++	int count;
 +
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++	if ((pdev->device !=3D PCI_DEVICE_ID_VIA_CLE266) &&
++		(pdev->device !=3D PCI_DEVICE_ID_VIA_KM400)) {
++		/* DN[6:0] */
++		for (pll_n =3D 2; pll_n < 6; pll_n++) {
++			/* DR[2:0] */
++			for (pll_r =3D 0; pll_r < 6; pll_r++) {
++				/* DM[9:0] */
++				for (pll_m =3D 2; pll_m < 512; pll_m++) {
++					/* first divide pll_n then multiply
++					 * pll_m. We have to reduce pll_m
++					 * to 512 to get rid of the overflow */
++					pll_fvco =3D (VIA_CLK_REFERENCE / pll_n) * pll_m;
++					if ((pll_fvco >=3D CSR_VCO_DOWN) && (pll_fvco <=3D CSR_VCO_UP)) {
++						pll_fout =3D pll_fvco >> pll_r;
++						if (pll_fout < freq)
++							clk_diff =3D freq - pll_fout;
++						else
++							clk_diff =3D pll_fout - freq;
 +
-+	bo->placement.placement =3D bo->placements;
-+	bo->placement.busy_placement =3D bo->placements;
++						/* if frequency (which is the PLL we want
++						 * to set) > 150MHz, the MRN value we
++						 * write in register must < frequency, and
++						 * get MRN value whose M is the largeset */
++						if (freq >=3D 150000000) {
++							if ((clk_diff <=3D pll_tmp[0].diff_clk) || pll_tmp[0].pll_fout =3D=
+=3D 0) {
++								for (count =3D ARRAY_SIZE(pll_tmp) - 1; count >=3D 1; count--)
++									pll_tmp[count] =3D pll_tmp[count - 1];
 +
-+	if (ttm_domain =3D=3D TTM_PL_SYSTEM) {
-+		bo->placements[i].fpfn =3D 0;
-+		bo->placements[i].lpfn =3D 0;
-+		bo->placements[i].mem_type =3D TTM_PL_SYSTEM;
-+		bo->placements[i].flags =3D 0;
-+		i++;
++								pll_tmp[0].pll_m =3D pll_m;
++								pll_tmp[0].pll_r =3D pll_r;
++								pll_tmp[0].pll_n =3D pll_n;
++								pll_tmp[0].diff_clk =3D clk_diff;
++								pll_tmp[0].pll_fout =3D pll_fout;
++							}
++						}
++
++						if (clk_diff < best_clk_diff) {
++							best_clk_diff =3D clk_diff;
++							best_pll_m =3D pll_m;
++							best_pll_n =3D pll_n;
++							best_pll_r =3D pll_r;
++						}
++					} /* if pll_fvco in VCO range */
++				} /* for PLL M */
++			} /* for PLL R */
++		} /* for PLL N */
++
++		/* if frequency(which is the PLL we want to set) > 150MHz,
++		 * the MRN value we write in register must < frequency,
++		 * and get MRN value whose M is the largeset */
++		if (freq > 150000000) {
++			best_pll_m =3D pll_tmp[0].pll_m;
++			best_pll_r =3D pll_tmp[0].pll_r;
++			best_pll_n =3D pll_tmp[0].pll_n;
++		}
++	/* UniChrome IGP (CLE266, KM400(A), KN400, and P4M800 chipsets)
++	 * requires a different formula for calculating the PLL parameters.
++	 * The code was borrowed from OpenChrome DDX device driver UMS
++	 * (User Mode Setting) section, but was modified to not use float type
++	 * variables. */
++	} else {
++		for (pll_r =3D 0; pll_r < 4; ++pll_r) {
++			for (pll_n =3D (pll_r =3D=3D 0) ? 2 : 1; pll_n <=3D 7; ++pll_n) {
++				for (pll_m =3D 1; pll_m <=3D 127; ++pll_m) {
++					pll_fout =3D VIA_CLK_REFERENCE * pll_m;
++					pll_fout /=3D (pll_n << pll_r);
++					if (pll_fout < freq)
++						clk_diff =3D freq - pll_fout;
++					else
++						clk_diff =3D pll_fout - freq;
++
++					if (clk_diff < best_clk_diff) {
++						best_clk_diff =3D clk_diff;
++						best_pll_m =3D pll_m & 0x7F;
++						best_pll_n =3D pll_n & 0x1F;
++						best_pll_r =3D pll_r & 0x03;
++					}
++				}
++			}
++		}
 +	}
 +
-+	if (ttm_domain =3D=3D TTM_PL_TT) {
-+		bo->placements[i].fpfn =3D 0;
-+		bo->placements[i].lpfn =3D 0;
-+		bo->placements[i].mem_type =3D TTM_PL_TT;
-+		bo->placements[i].flags =3D 0;
-+		i++;
++	switch (pdev->device) {
++	case PCI_DEVICE_ID_VIA_CLE266:
++	case PCI_DEVICE_ID_VIA_KM400:
++		/* Clock Synthesizer Value 0[7:6]: DR[1:0]
++		 * Clock Synthesizer Value 0[5:0]: DN[5:0] */
++		pll_mrn =3D ((best_pll_r & 0x3) << 14 |
++				(best_pll_n & 0x1F) << 8);
++		/* Clock Synthesizer Value 1[6:0]: DM[6:0] */
++		pll_mrn |=3D (best_pll_m & 0x7F);
++		break;
++	case PCI_DEVICE_ID_VIA_VX875:
++	case PCI_DEVICE_ID_VIA_VX900_VGA:
++		/* Clock Synthesizer Value 0 : DM[7:0] */
++		pll_mrn =3D (best_pll_m & 0xFF) << 16;
++		/* Clock Synthesizer Value 1[1:0] : DM[9:8]
++		 * Clock Synthesizer Value 1[4:2] : DR[2:0]
++		 * Clock Synthesizer Value 1[7] : DTZ[0] */
++		pll_mrn |=3D (((PLL_DTZ_DEFAULT & 0x1) << 7) |
++				((best_pll_r & 0x7) << 2) |
++				(((best_pll_m) >> 8) & 0x3)) << 8;
++		/* Clock Synthesizer Value 2[6:0] : DN[6:0]
++		 * Clock Synthesizer Value 2[7] : DTZ[1] */
++		pll_mrn |=3D (((PLL_DTZ_DEFAULT >> 1) & 0x1) << 7) |
++				((best_pll_n) & 0x7F);
++		break;
++	default:
++		/* Clock Synthesizer Value 0 : DM[7:0] */
++		pll_mrn =3D ((best_pll_m - 2) & 0xFF) << 16;
++		/* Clock Synthesizer Value 1[1:0] : DM[9:8]
++		 * Clock Synthesizer Value 1[4:2] : DR[2:0]
++		 * Clock Synthesizer Value 1[7] : DTZ[0] */
++		pll_mrn |=3D (((PLL_DTZ_DEFAULT & 0x1) << 7) |
++				((best_pll_r & 0x7) << 2) |
++				(((best_pll_m - 2) >> 8) & 0x3)) << 8;
++		/* Clock Synthesizer Value 2[6:0] : DN[6:0]
++		 * Clock Synthesizer Value 2[7] : DTZ[1] */
++		pll_mrn |=3D (((PLL_DTZ_DEFAULT >> 1) & 0x1) << 7) |
++				((best_pll_n - 2) & 0x7F);
++		break;
 +	}
-+
-+	if (ttm_domain =3D=3D TTM_PL_VRAM) {
-+		bo->placements[i].fpfn =3D 0;
-+		bo->placements[i].lpfn =3D 0;
-+		bo->placements[i].mem_type =3D TTM_PL_VRAM;
-+		bo->placements[i].flags =3D 0;
-+		i++;
-+	}
-+
-+	bo->placement.num_placement =3D i;
-+	bo->placement.num_busy_placement =3D i;
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return pll_mrn;
 +}
 +
-+void via_ttm_bo_destroy(struct ttm_buffer_object *tbo)
++/* Set VCLK */
++void via_set_vclock(struct drm_crtc *crtc, u32 clk)
 +{
-+	struct via_bo *bo;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	bo =3D to_ttm_bo(tbo);
-+
-+	drm_gem_object_release(&tbo->base);
-+	kfree(bo);
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+int via_bo_pin(struct via_bo *bo, uint32_t ttm_domain)
-+{
-+	struct ttm_buffer_object *ttm_bo;
-+	struct ttm_operation_ctx ctx =3D {false, false};
-+	int ret =3D 0;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	ttm_bo =3D &bo->ttm_bo;
-+
-+	if (ttm_bo->pin_count) {
-+		goto pin;
-+	}
-+
-+	via_ttm_domain_to_placement(bo, ttm_domain);
-+	ret =3D ttm_bo_validate(ttm_bo, &bo->placement, &ctx);
-+	if (ret) {
-+		goto exit;
-+	}
-+
-+pin:
-+	ttm_bo_pin(ttm_bo);
-+exit:
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return ret;
-+}
-+
-+void via_bo_unpin(struct via_bo *bo)
-+{
-+	struct ttm_buffer_object *ttm_bo;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	ttm_bo =3D &bo->ttm_bo;
-+
-+	ttm_bo_unpin(ttm_bo);
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+int via_bo_create(struct drm_device *dev,
-+			struct ttm_device *bdev,
-+			uint64_t size,
-+			enum ttm_bo_type type,
-+			uint32_t ttm_domain,
-+			bool kmap,
-+			struct via_bo **bo_ptr)
-+{
-+	struct ttm_buffer_object *ttm_bo;
++	struct via_crtc *iga =3D container_of(crtc, struct via_crtc, base);
++	struct drm_device *dev =3D crtc->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
 +	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	struct via_bo *bo;
-+	int ret;
++	unsigned long max_loop =3D 50, i =3D 0;
 +
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++	if (!iga->index) {
++		/* IGA1 HW Reset Enable */
++		svga_wcrt_mask(VGABASE, 0x17, 0x00, BIT(7));
 +
-+	bo =3D kzalloc(sizeof(*bo), GFP_KERNEL);
-+	if (!bo) {
-+		DRM_ERROR("Cannot allocate a TTM buffer object.\n");
-+		ret =3D -ENOMEM;
-+		goto exit;
-+	}
++		/* set clk */
++		if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266) ||
++			(pdev->device =3D=3D PCI_DEVICE_ID_VIA_KM400)) {
++			vga_wseq(VGABASE, 0x46, (clk & 0xFF00) >> 8);	/* rshift + divisor */
++			vga_wseq(VGABASE, 0x47, (clk & 0x00FF));	/* multiplier */
++		} else {
++			vga_wseq(VGABASE, 0x44, (clk & 0xFF0000) >> 16);
++			vga_wseq(VGABASE, 0x45, (clk & 0x00FF00) >> 8);
++			vga_wseq(VGABASE, 0x46, (clk & 0x0000FF));
++		}
++		/* Fire */
++		svga_wmisc_mask(VGABASE, BIT(3) | BIT(2), BIT(3) | BIT(2));
 +
-+	ttm_bo =3D &bo->ttm_bo;
++		/* reset pll */
++		svga_wseq_mask(VGABASE, 0x40, 0x02, 0x02);
++		svga_wseq_mask(VGABASE, 0x40, 0x00, 0x02);
 +
-+	/*
-+	 * It is an imperative to page align the requested buffer size
-+	 * prior to a memory allocation request, or various memory
-+	 * allocation related system instabilities may occur.
-+	 */
-+	size =3D ALIGN(size, PAGE_SIZE);
++		/* exit hw reset */
++		while ((vga_rseq(VGABASE, 0x3C) & BIT(3)) =3D=3D 0 && i++ < max_loop)
++			udelay(20);
 +
-+	ret =3D drm_gem_object_init(dev, &ttm_bo->base, size);
-+	if (ret) {
-+		DRM_ERROR("Cannot initialize a GEM object.\n");
-+		goto error;
-+	}
++		/* IGA1 HW Reset Disable */
++		svga_wcrt_mask(VGABASE, 0x17, BIT(7), BIT(7));
++	} else {
++		/* IGA2 HW Reset Enable */
++		svga_wcrt_mask(VGABASE, 0x6A, 0x00, BIT(6));
 +
-+	ttm_bo->base.funcs =3D &via_gem_object_funcs;
-+
-+	via_ttm_domain_to_placement(bo, ttm_domain);
-+	ret =3D ttm_bo_init(&dev_priv->bdev, ttm_bo,
-+				size, type, &bo->placement,
-+				PAGE_SIZE >> PAGE_SHIFT, false,
-+				NULL, NULL, via_ttm_bo_destroy);
-+	if (ret) {
-+		DRM_ERROR("Cannot initialize a TTM object.\n");
-+		goto exit;
-+	}
-+
-+	if (kmap) {
-+		ret =3D ttm_bo_reserve(ttm_bo, true, false, NULL);
-+		if (ret) {
-+			ttm_bo_put(ttm_bo);
-+			goto exit;
++		/* set clk */
++		if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266) ||
++			(pdev->device =3D=3D PCI_DEVICE_ID_VIA_KM400)) {
++			vga_wseq(VGABASE, 0x44, (clk & 0xFF00) >> 8);
++			vga_wseq(VGABASE, 0x45, (clk & 0x00FF));
++		} else {
++			vga_wseq(VGABASE, 0x4A, (clk & 0xFF0000) >> 16);
++			vga_wseq(VGABASE, 0x4B, (clk & 0x00FF00) >> 8);
++			vga_wseq(VGABASE, 0x4C, (clk & 0x0000FF));
 +		}
 +
-+		ret =3D via_bo_pin(bo, ttm_domain);
-+		ttm_bo_unreserve(ttm_bo);
-+		if (ret) {
-+			ttm_bo_put(ttm_bo);
-+			goto exit;
-+		}
++		/* reset pll */
++		svga_wseq_mask(VGABASE, 0x40, 0x04, 0x04);
++		svga_wseq_mask(VGABASE, 0x40, 0x00, 0x04);
 +
-+		ret =3D ttm_bo_kmap(ttm_bo, 0, ttm_bo->resource->num_pages,
-+					&bo->kmap);
-+		if (ret) {
-+			ttm_bo_put(ttm_bo);
-+			goto exit;
-+		}
++		/* exit hw reset */
++		while ((vga_rseq(VGABASE, 0x3C) & BIT(2)) =3D=3D 0 && i++ < max_loop)
++			udelay(20);
++
++		/* IGA2 HW Reset Disble, CR6A[6] =3D 1 */
++		svga_wcrt_mask(VGABASE, 0x6A, BIT(6), BIT(6));
 +	}
-+
-+	*bo_ptr =3D bo;
-+	goto exit;
-+error:
-+	kfree(bo);
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return ret;
-+}
-+
-+void via_bo_destroy(struct via_bo *bo, bool kmap)
-+{
-+	struct ttm_buffer_object *ttm_bo;
-+	int ret;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	ttm_bo =3D &bo->ttm_bo;
-+
-+	if (kmap) {
-+		ttm_bo_kunmap(&bo->kmap);
-+
-+		ret =3D ttm_bo_reserve(ttm_bo, true, false, NULL);
-+		if (ret) {
-+			goto exit;
-+		}
-+
-+		via_bo_unpin(bo);
-+		ttm_bo_unreserve(ttm_bo);
-+		if (ret) {
-+			goto exit;
-+		}
-+	}
-+
-+	ttm_bo_put(ttm_bo);
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+int via_mm_init(struct via_drm_priv *dev_priv)
-+{
-+	struct drm_device *dev =3D &dev_priv->dev;
-+	int ret;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	/*
-+	 * Initialize bdev ttm_bo_device struct.
-+	 */
-+	ret =3D ttm_device_init(&dev_priv->bdev,
-+				&via_bo_driver,
-+				dev->dev,
-+				dev->anon_inode->i_mapping,
-+				dev->vma_offset_manager,
-+				false,
-+				dev_priv->need_dma32);
-+	if (ret) {
-+		DRM_ERROR("Failed initializing buffer object driver.\n");
-+		goto exit;
-+	}
-+
-+	/*
-+	 * Initialize TTM range manager for VRAM management.
-+	 */
-+	ret =3D ttm_range_man_init(&dev_priv->bdev, TTM_PL_VRAM,
-+				false,
-+				dev_priv->vram_size >> PAGE_SHIFT);
-+	if (ret) {
-+		DRM_ERROR("Failed initializing TTM VRAM memory manager.\n");
-+		goto exit;
-+	}
-+
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return ret;
-+}
-+
-+void via_mm_fini(struct via_drm_priv *dev_priv)
-+{
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	ttm_range_man_fini(&dev_priv->bdev, TTM_PL_VRAM);
-+
-+	ttm_device_fini(&dev_priv->bdev);
-+
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
 +}
 =2D-
 2.35.1
