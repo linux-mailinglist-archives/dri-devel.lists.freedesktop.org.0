@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B2DE55EFF8
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 22:52:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9DAB55F003
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 22:56:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A873C10EA16;
-	Tue, 28 Jun 2022 20:52:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFC8010EAF5;
+	Tue, 28 Jun 2022 20:56:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B352710EA08
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 20:52:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656449558;
- bh=XazMmv0sZuZYFOGQjgLrbL0sqkc1ZYNkTxQdScLvQx0=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=Yp4yiW+IInbLOdBIFKwyQBw8u22Ilihc6TkI0neYI6HthBhyOac2MfDi0lovKrQqk
- CgXQelJGtbNy/KuM0OQ7dDAMnuH5FWXUVWJUpFJq4pQjnTEGMAHjV+OABrKwuRb/xX
- 3RmwtuiNCmHR1cKudd6/D/pgsdjKhVOpYhZXxDwQ=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.161.166]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MhU9j-1nS1Yr0JLn-00ehAj; Tue, 28
- Jun 2022 22:52:38 +0200
-Message-ID: <f3b01426-1cd4-40b9-7dd7-0965c4c0611c@gmx.de>
-Date: Tue, 28 Jun 2022 22:52:10 +0200
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D45410EAF5
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 20:56:35 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id i7so24261039ybe.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 13:56:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yKQEF36ycuzYUOPVu3KHfZYhntaUg963Kzu5sKnBaTc=;
+ b=hrycYo1Ilsww+6NSQ+00snPQqSnCaqYxagPNrHHbji/zEqKK13+YAs/PV+CuDfQbBu
+ 1hqyk4kUqZ87fcFU2QapjCjwUok2kTlDVLOgj8IhXpbiZ6Pk2rqljqQjXtn+fUJOBF4o
+ lHcwA+kIIuZmPGVBLi+HinV4qMJyrpvEDpgMU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yKQEF36ycuzYUOPVu3KHfZYhntaUg963Kzu5sKnBaTc=;
+ b=7gVodCmwVjYUS6xpysCEcf+AbLfKlIs+cSfmvJs1Z6HUdrJPbBew3RQ+XJ4cYVlLQb
+ m35zquhsOyunq7mByspxaw6tYzcgRAjg3Bafkj6kmRo/JjIeyjR/z/tB2nqA//y0Lxpu
+ liCgUw03ufwVIDbwVrojLkGm6RdD70fvrJ+puwBoX6CK1NOmjgh5ELA1S9GWEnzRpLgP
+ +ZfLTu6ARPGl+BVCclnvBE636ol4xeTvGlNvrhG0i0OgPMHjMn5pwtsB83Un3BXvEaPL
+ DPPPGeT/ekPLctNdpt1GODBF/h1iSBUbQs8qYU6biISE1tj5U2hXEsHLUdyWg8GJQXCL
+ lCSQ==
+X-Gm-Message-State: AJIora8p0RdswiR7SSDDS3OFFjDxg5e5wS7OghtupJK0LtAJuNCRJbPi
+ 3i9T04NSt/Y0swd/sqKEkciJRlM0o4thQ5OVnAsgKw==
+X-Google-Smtp-Source: AGRyM1vOU4sWRKsuKs1MQzRMOWXKj7H/A1ySaV28jwKyhx0FOruidnjEBvhX9AMkjs2jfYPoSZZSOGETFzHMDMKUVHo=
+X-Received: by 2002:a25:da0b:0:b0:66c:850f:1b71 with SMTP id
+ n11-20020a25da0b000000b0066c850f1b71mr22360839ybf.336.1656449794292; Tue, 28
+ Jun 2022 13:56:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v6 3/4] fbcon: Prevent that screen size is smaller than
- font size
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220626102853.124108-1-deller@gmx.de>
- <20220626102853.124108-4-deller@gmx.de>
- <CAMuHMdV5zLoQWi2qd9HpP65WEvCw_q3VTsZ0MnBV1t8xM7KFUw@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <CAMuHMdV5zLoQWi2qd9HpP65WEvCw_q3VTsZ0MnBV1t8xM7KFUw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:G1IGzPWmlSOzWu8OL/lk16TqA2P6zW0p5Y7XeMFLpdJF5WlT7gh
- a13xtQbT9Ezyok7RwAjOBkAFWV2bw0Q6S8EWL+mFhOrBYOp8tUs11OUbgWMYkq5HOqx1TLm
- ieONWyiETFMZP8Abynqh/TxiWqsKWeovARBdmz4jsCeV6CHwfIJh/pPHfdS34bODCvi23M5
- 5o8xGab+kcTx6MvuXhWuA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bApuQhifFEU=:XSoeIRreqI5pKq4Ig815UX
- 3//tZGqpbhX1u+7uhZQRyhd8BTTiRJhAst2Vg33SPY9ehtovNQ8pE2mMbrxy3RwHz3LS0JbKE
- Fmc0BqHUyjP5Reb3/TSKUQyVKZox3uvD4e+oheF/bBpB8mQoFXdJjYywbE2/WdYptjht4U/ar
- B7SytAz9P/c6NKqUtLIB6e+gU1n+1l2QmSRJEYRKCqs1pJb8CQ1emE0s4gew3kKGtjgUpCiPZ
- DkfG+rJeWhkWz5hwPSuCSD+7Jrcmu/jDres3PgAl9MOrObYDFyX63SG3HfKDldkhMQDntK/uW
- sKaOpyM4B9RtgpqGNk/k12PoSftypRpuHzG5ba+KYOTXaFl/eg/7juN5F5FGbB5tefLRNnarp
- auNqCqfJhTK6eZZeTq1OTP8+xyVaexT/7+jlFUXeSikEO21fBAC1j+IxxHvZ7lotdpKcQMwve
- fic2ahVHDczLH1nUqt7IE0djg1UPRwPFQi2qCuR/qy45MfQ0ebaJDzKyzhXLDU7c2phl0+Scd
- yU1ytlOzhqyQgKi3MeHYWNa2WCz38wzBhi8z2NQwXyi9fFiIVV0O8Jn6CjMApxIqdPMAMsqPe
- j7obVTCAYTDz+bkTxBjljbAeJqmQVwsNruQWQ2NeXSd9ls9IYz/zTmtLa4DPq3PcF8mhSg23U
- C3ba5pNhb1gfeYh6uMcWGckpTHC3Hlw+bo4KZOj4uL9/HjHorlfZSpc65byMan7jaL055v7ID
- q/wGsxDAY5k1/434Xkdd+kTDMF7qZjrStgNw94hQpvpnVpLprzvRuo4/ULaLMsy+WGqN9jBYl
- BKYIgQSuZ+7lRSNW1Yrfeo9Dp99Pwu3NP1g5q6WqJGQjt/J5nV6XvS6N5cNtMT6Ntm/NypHvw
- QFwXQpSIAnONbszdgcgPMbmapwRDQQPe4OZFRxX90PWXsuvkC9O6TEf+4+UTrJwbCTrK/ahd9
- qgWBfSo11kxn5PkHQURaktS6DnkmsrJFq24BWO/iuqHMlxevDaDnb+zNdbC1R1u5/bgjAoHkB
- M80Q3bze2WH5vBP1aqVRN8AKDRg0u+cGFajjZ+Mqv8rkqg8NkeXgTGVsYxGiLivQejmBXAJQL
- MgkxIkhI7F7gs/mm7xFjQHTefGdrYvsT/PR2CizrZ89WiosuPhqhALfdA==
+References: <20220622173605.1168416-1-pmalani@chromium.org>
+ <20220622173605.1168416-6-pmalani@chromium.org>
+ <CAE-0n517BB8YbN5AZG6M3ZrZGOJDV=+t0R9d8wD+gVqO1aD1Xg@mail.gmail.com>
+ <CACeCKafR8hFke_tc2=1VGDNF-CFrZoAG1aUKuxGJG-6pd37hbg@mail.gmail.com>
+ <CAE-0n50XbO5Wu4-429Ao05A4QrbSXoi1wBjTpGFjKm3pZj1Ybg@mail.gmail.com>
+In-Reply-To: <CAE-0n50XbO5Wu4-429Ao05A4QrbSXoi1wBjTpGFjKm3pZj1Ybg@mail.gmail.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Tue, 28 Jun 2022 13:56:22 -0700
+Message-ID: <CACeCKafzB0wW_B2TOEWywLMyB+UhYCpXYDVBV=UbyxBiGnv1Rw@mail.gmail.com>
+Subject: Re: [PATCH v5 5/9] drm/bridge: anx7625: Add typec_mux_set callback
+ function
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,89 +64,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: heikki.krogerus@linux.intel.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Pin-Yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Robert Foss <robert.foss@linaro.org>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/28/22 10:39, Geert Uytterhoeven wrote:
-> Hi Helge,
+On Tue, Jun 28, 2022 at 1:40 PM Stephen Boyd <swboyd@chromium.org> wrote:
 >
-> On Sun, Jun 26, 2022 at 12:33 PM Helge Deller <deller@gmx.de> wrote:
->> We need to prevent that users configure a screen size which is smaller =
-than the
->> currently selected font size. Otherwise rendering chars on the screen w=
-ill
->> access memory outside the graphics memory region.
->>
->> This patch adds a new function fbcon_modechange_possible() which
->> implements this check and which later may be extended with other checks
->> if necessary.  The new function is called from the FBIOPUT_VSCREENINFO
->> ioctl handler in fbmem.c, which will return -EINVAL if userspace asked
->> for a too small screen size.
->>
->> Signed-off-by: Helge Deller <deller@gmx.de>
->> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Cc: stable@vger.kernel.org # v5.4+
+> Quoting Prashant Malani (2022-06-28 12:48:11)
+> > On Tue, Jun 28, 2022 at 12:25 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> > >
+> > > Quoting Prashant Malani (2022-06-22 10:34:34)
+> > > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > index bd21f159b973..5992fc8beeeb 100644
+> > > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> [..]
+> > > > +
+> > > > +       if (ctx->num_typec_switches == 1)
+> > >
+> > > How do we handle the case where the usb-c-connector is directly
+> > > connected to the RX1/TX1 and RX2/TX2 pins? This device would be an
+> > > orientation (normal/reverse) and mode switch (usb/dp) in that scenario,
+> > > but this code is written in a way that the orientation switch isn't
+> > > going to flip the crosspoint switch for the different pin assignments.
+> >
+> > If all 4 SS lanes are connected to 1 usb-c-connector; there would be
+> > just 1 "typec-switch" node.
+> > In that case, the DT would only specify it as an "orientation-switch"
+> > and register
+> > an orientation-switch with the Type-C framework. The orientation switch would
+> > pretty much do what the mode-switch callback does here (configuring
+> > the crosspoint
+> > switch).
+> > One could also register a "mode-switch" there but it wouldn't do
+> > anything (all 4 lanes are already
+> > connected so there is nothing to re-route in the crosspoint switch).
+> > Hence the above "if" check.
 >
-> Thanks for your patch, which is now commit f0b6a66d33ca6e7e ("fbcon:
-> Prevent that screen size is smaller than font size") in fbdev/for-next
->
->> --- a/drivers/video/fbdev/core/fbcon.c
->> +++ b/drivers/video/fbdev/core/fbcon.c
->
->> --- a/drivers/video/fbdev/core/fbmem.c
->> +++ b/drivers/video/fbdev/core/fbmem.c
->> @@ -1112,7 +1112,9 @@ static long do_fb_ioctl(struct fb_info *info, uns=
-igned int cmd,
->>                         return -EFAULT;
->>                 console_lock();
->>                 lock_fb_info(info);
->> -               ret =3D fb_set_var(info, &var);
->> +               ret =3D fbcon_modechange_possible(info, &var);
->
-> Again, this should be done (if done at all) after the call to
-> fb_ops.check_var(), as it breaks the FBIOPUT_VSCREENINFO rounding rule.
->
-> What if the user just wants to display graphics, not text?
+> Would we still want to route the DP traffic out if the pin assignment
+> didn't have DP? Does the hardware support some mode where the DP traffic
+> is shutdown? Or maybe the HPD pin needs to be quieted unless DP is
+> assigned?
 
-Yes, I need to go back to an older version here too and check that
-the test is only run on text consoles.
-That check was dropped, due feedback that you could switch
-back from graphics (e.g. X11) to text console at any time....so the
-check for text-only is not correct.
-
-> Can't the text console be disabled instead?
-
-I think the solution is to return failure if switching back to text mode i=
-sn't possible if
-fonts are bigger than the screen resolution. That will be another patch.
-
-Thanks!
-
-Helge
-
+I reference this below, but in the 1 connector case, CC lines would also be
+routed to the anx7625 from the usb-connector, so it will know when HPD
+is asserted
+or not.
 
 >
->> +               if (!ret)
->> +                       ret =3D fb_set_var(info, &var);
->>                 if (!ret)
->>                         fbcon_update_vcs(info, var.activate & FB_ACTIVA=
-TE_ALL);
->>                 unlock_fb_info(info);
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m=
-68k.org
->
-> In personal conversations with technical people, I call myself a hacker.=
- But
-> when I'm talking to journalists I just say "programmer" or something lik=
-e that.
->                                 -- Linus Torvalds
+> I suppose none of those things matter though as long as there is some
+> typec switch registered here so that the driver can be informed of the
+> pin assignment. Is it right that the "mode-switch" property is only
+> required in DT if this device is going to control the mode of the
+> connector, i.e. USB+DP, or just DP? Where this device can't do that
+> because it doesn't support only DP.
 
+If the anx7625 is used just to route all lanes from 1 usb-c-connector (i.e
+the USB+DP case), a mode-switch wouldn't be of much use, since one
+would also route the CC lines to the built-in PD controller; so it will
+already have knowledge of what mode the switch is in.
+
+The mode-switch is likely only relevant for this hardware configuration(
+it's "DP only" in the sense that the USB pins to the SoC never go anywhere).
+One only has 2 SS lanes each (from each usb-c-connector).
+
+Since there is no CC-line, the anx7625 needs to know which one has DP
+enabled on it.
+
+>
+> >
+> > Unfortunately, I don't have hardware which connects all 4 SS lanes
+> > from 1 Type-C port
+> > to the anx7625, so I didn't add the orientation switch handling to the
+> > driver (since I have no way of verifying it).
+>
+> Alright. Maybe add a TODO then so it's more obvious that orientation
+> isn't handled.
+
+Ack. Will add a comment in v6.
+
+>
+> >
+> > Regarding DP alt-mode pin assignments : I think anx7625 will only support Pin D
+> > (only 2 lane DP, no 4 lane DP).
+> >
+>
+> Makes sense. Thanks!
