@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D9A55BD46
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:20:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D527955BD47
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:20:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BFD410EF54;
-	Tue, 28 Jun 2022 02:20:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0B9B10EF57;
+	Tue, 28 Jun 2022 02:20:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F32710EEE9
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:20:15 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C523910EF15
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:20:23 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id F410A617CB;
- Tue, 28 Jun 2022 02:20:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D90E2C34115;
- Tue, 28 Jun 2022 02:20:13 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4E28EB81C0B;
+ Tue, 28 Jun 2022 02:20:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6C61C34115;
+ Tue, 28 Jun 2022 02:20:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656382814;
- bh=E5NbZEQRq3XuusaBccycvE/L7K9nPCPxZRO2UdOKn1E=;
+ s=k20201202; t=1656382821;
+ bh=Asz9ew2hFmI18bnYpVbWeSIOuLQ9FU4MX/wfshCkR5w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dyMgKr8Z8In06RfEHWNkTssjbG3OEPErAOGBJCsQuRyolvfubGeHrukI0m5RqXcJm
- s+mXPEmW80+u5kh+KsX1036ndBJbQ7ZTAspi/zpRgSz58T7p0V/Zy9DUVxS5cV0pjy
- QjaNe+MqIUJ8Dzlzp5ZXAUq9T/5wF8WYpqTb+rjSO4MGA8ZzUU3L/spDMTNGVEwllY
- d5ehV2IN1iyLsELYgmlfRU7/Fq0QEfx4xb/Q6cscmxM5ZpTfx+ZBPhVqv9sLJDX7GR
- jFfnoHR4szVEPWiMuYW7Bwl1xdy8S2DtouzcMqy8b/5bLaCmcamuR+DsIrJSN7d6vT
- i5wUG0QRApIAQ==
+ b=Wm5qD/N3uSHISZ4abRUbRUHGlbp6c62EBG4ghbYADH1y0iqvooDAeYFKu/Z8xHajv
+ O/ZOgu6IvwnB6w8oofFgvGBub5Zr6RPiv7OivKBznV4zq/J4jkiV6G7LvJ/X68gN2r
+ qyyg1lE3bsqKR+K/IhuhYkGYqa9dT142qZwXaplHvhr3mxLjdx2RWa/G6eycCF+VKI
+ OD3SSDc2tyubnptvlVVLa4Zb4XIDX9XoYpQFxJ/aqNp4Jl6kZyXactH5c0MlnGdY8v
+ KmAI1V1sln3R00n6ZXBKb42phdZMC1rSbCowJ+57RxcYspLkdt8J1iEFw5CmPQL9up
+ B9cKq3/Ukrs8w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 34/53] video: fbdev: simplefb: Check before
- clk_put() not needed
-Date: Mon, 27 Jun 2022 22:18:20 -0400
-Message-Id: <20220628021839.594423-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 38/53] drm/xen: Add missing VM_DONTEXPAND flag in
+ mmap callback
+Date: Mon, 27 Jun 2022 22:18:24 -0400
+Message-Id: <20220628021839.594423-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628021839.594423-1-sashal@kernel.org>
 References: <20220628021839.594423-1-sashal@kernel.org>
@@ -56,41 +55,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Yihao Han <hanyihao@vivo.com>, Helge Deller <deller@gmx.de>,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>
+Cc: Juergen Gross <jgross@suse.com>, Sasha Levin <sashal@kernel.org>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ xen-devel@lists.xenproject.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yihao Han <hanyihao@vivo.com>
+From: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
 
-[ Upstream commit 5491424d17bdeb7b7852a59367858251783f8398 ]
+[ Upstream commit ca6969013d13282b42cb5edcc13db731a08e0ad8 ]
 
-clk_put() already checks the clk ptr using !clk and IS_ERR()
-so there is no need to check it again before calling it.
+With Xen PV Display driver in use the "expected" VM_DONTEXPAND flag
+is not set (neither explicitly nor implicitly), so the driver hits
+the code path in drm_gem_mmap_obj() which triggers the WARNING.
 
-Signed-off-by: Yihao Han <hanyihao@vivo.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+Reviewed-by: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+Link: https://lore.kernel.org/r/1652104303-5098-1-git-send-email-olekstysh@gmail.com
+Signed-off-by: Juergen Gross <jgross@suse.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/simplefb.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/xen/xen_drm_front_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-index 2c198561c338..f96ce8801be4 100644
---- a/drivers/video/fbdev/simplefb.c
-+++ b/drivers/video/fbdev/simplefb.c
-@@ -237,8 +237,7 @@ static int simplefb_clocks_get(struct simplefb_par *par,
- 		if (IS_ERR(clock)) {
- 			if (PTR_ERR(clock) == -EPROBE_DEFER) {
- 				while (--i >= 0) {
--					if (par->clks[i])
--						clk_put(par->clks[i]);
-+					clk_put(par->clks[i]);
- 				}
- 				kfree(par->clks);
- 				return -EPROBE_DEFER;
+diff --git a/drivers/gpu/drm/xen/xen_drm_front_gem.c b/drivers/gpu/drm/xen/xen_drm_front_gem.c
+index 5a5bf4e5b717..e31554d7139f 100644
+--- a/drivers/gpu/drm/xen/xen_drm_front_gem.c
++++ b/drivers/gpu/drm/xen/xen_drm_front_gem.c
+@@ -71,7 +71,7 @@ static int xen_drm_front_gem_object_mmap(struct drm_gem_object *gem_obj,
+ 	 * the whole buffer.
+ 	 */
+ 	vma->vm_flags &= ~VM_PFNMAP;
+-	vma->vm_flags |= VM_MIXEDMAP;
++	vma->vm_flags |= VM_MIXEDMAP | VM_DONTEXPAND;
+ 	vma->vm_pgoff = 0;
+ 
+ 	/*
 -- 
 2.35.1
 
