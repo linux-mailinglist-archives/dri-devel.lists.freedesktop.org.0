@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABF155BD9C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:27:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F9355BD9E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:27:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 841EF10F2EA;
-	Tue, 28 Jun 2022 02:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A52C10F32D;
+	Tue, 28 Jun 2022 02:27:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 496D710F2CB
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:27:14 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9AF10F2EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:27:17 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BC9B461953;
- Tue, 28 Jun 2022 02:27:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B113C341CB;
- Tue, 28 Jun 2022 02:27:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 69F606192B;
+ Tue, 28 Jun 2022 02:27:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB3B7C341CA;
+ Tue, 28 Jun 2022 02:27:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656383232;
- bh=tiXH/T7g462YrC81TWBszoTWj9vCYXtfXO+RNyErlGg=;
+ s=k20201202; t=1656383235;
+ bh=VttBdWDUBl9A3RqWXWoax22uYxYPC+6gtQNYnwCFaz4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JkKOigCJ47AF90eBC0S/PyUXbat6hueTExgV+gPkME0Ty+QmVb5VHYbcu9gEvQsx8
- 6c96kU+mFWkxtxzO74TRY5HaEqJPumiQk8TU1RcIryT9VJ01KARblIDnVHintqfzhv
- Ezbr8qIPsfEL0yr3x8AL3h5oFMkviqqOykHapbS9KkvSnZWgrXstvpPnnFqaXsOJa7
- 40OUjbfn97jmN7UdVWkvEnM0Ex3zoM6/YFRG8hQ6folRlRkYr1J+KEh7d9q4Ry18sc
- WBQaWIxn0uDTC1TBl0O5NeXvWwxA4vbLF0GWDE3TIo1Ing3caaVtLh8yReee5KOvpS
- OYnWw923+Xbrg==
+ b=J6LMcpc7hH0Nl+FZ6U9hMeJFp5fSLRrIby8pV2w++KjqKs1QyjDy0tNSBQpbayUaU
+ luWO7eJcoo8z5NXyctqNaprOWOPdI/Nzl2qgjVopiHaLpQo2UmhX5TSnzA/YnGjKRp
+ /Tftko6ayWWYb7V8r3CMO1F0B7WQEGj592BJDFAO6mpxwjjvL+sd4I1l2o+rdsIhtK
+ wQIqI2raYFk3PgFzqR/BMRl1u5z2lVu6NpTAuqUS63tv5HGgc6bXlF/8Te7J32/pdI
+ jVh4uw/0wxeZgkyhqxPmuZYbyC2sqX9wh1bBySkAXfCkOn/RtrJZxX/Za49jbTCbFG
+ U6VesoVEfhGgQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 06/13] video: fbdev: intelfb: Use aperture size
- from pci_resource_len
-Date: Mon, 27 Jun 2022 22:26:50 -0400
-Message-Id: <20220628022657.597208-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 07/13] video: fbdev: pxa3xx-gcu: Fix integer
+ overflow in pxa3xx_gcu_write
+Date: Mon, 27 Jun 2022 22:26:51 -0400
+Message-Id: <20220628022657.597208-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628022657.597208-1-sashal@kernel.org>
 References: <20220628022657.597208-1-sashal@kernel.org>
@@ -57,59 +56,40 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Helge Deller <deller@gmx.de>, mbroemme@libmpq.org,
- dri-devel@lists.freedesktop.org, Petr Cvek <petrcvekcz@gmail.com>
+ Helge Deller <deller@gmx.de>, Hyunwoo Kim <imv4bel@gmail.com>,
+ dri-devel@lists.freedesktop.org, cai.huoqing@linux.dev,
+ yangyingliang@huawei.com, yang.lee@linux.alibaba.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Petr Cvek <petrcvekcz@gmail.com>
+From: Hyunwoo Kim <imv4bel@gmail.com>
 
-[ Upstream commit 25c9a15fb7bbfafb94dd3b4e3165c18b8e1bd039 ]
+[ Upstream commit a09d2d00af53b43c6f11e6ab3cb58443c2cac8a7 ]
 
-Aperture size for i9x5 variants is determined from PCI base address.
+In pxa3xx_gcu_write, a count parameter of type size_t is passed to words of
+type int.  Then, copy_from_user() may cause a heap overflow because it is used
+as the third argument of copy_from_user().
 
-	if (pci_resource_start(pdev, 2) & 0x08000000)
-		*aperture_size = MB(128);
-	...
-
-This condition is incorrect as 128 MiB address can have the address
-set as 0x?8000000 or 0x?0000000. Also the code can be simplified to just
-use pci_resource_len().
-
-The true settings of the aperture size is in the MSAC register, which
-could be used instead. However the value is used only as an info message,
-so it doesn't matter.
-
-Signed-off-by: Petr Cvek <petrcvekcz@gmail.com>
+Signed-off-by: Hyunwoo Kim <imv4bel@gmail.com>
 Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/intelfb/intelfbhw.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/video/fbdev/pxa3xx-gcu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/intelfb/intelfbhw.c b/drivers/video/fbdev/intelfb/intelfbhw.c
-index d31ed4e2c46f..3aa93565e935 100644
---- a/drivers/video/fbdev/intelfb/intelfbhw.c
-+++ b/drivers/video/fbdev/intelfb/intelfbhw.c
-@@ -199,13 +199,11 @@ int intelfbhw_get_memory(struct pci_dev *pdev, int *aperture_size,
- 	case PCI_DEVICE_ID_INTEL_945GME:
- 	case PCI_DEVICE_ID_INTEL_965G:
- 	case PCI_DEVICE_ID_INTEL_965GM:
--		/* 915, 945 and 965 chipsets support a 256MB aperture.
--		   Aperture size is determined by inspected the
--		   base address of the aperture. */
--		if (pci_resource_start(pdev, 2) & 0x08000000)
--			*aperture_size = MB(128);
--		else
--			*aperture_size = MB(256);
-+		/*
-+		 * 915, 945 and 965 chipsets support 64MB, 128MB or 256MB
-+		 * aperture. Determine size from PCI resource length.
-+		 */
-+		*aperture_size = pci_resource_len(pdev, 2);
- 		break;
- 	default:
- 		if ((tmp & INTEL_GMCH_MEM_MASK) == INTEL_GMCH_MEM_64M)
+diff --git a/drivers/video/fbdev/pxa3xx-gcu.c b/drivers/video/fbdev/pxa3xx-gcu.c
+index 184773b6b9e4..2cca4b763d8d 100644
+--- a/drivers/video/fbdev/pxa3xx-gcu.c
++++ b/drivers/video/fbdev/pxa3xx-gcu.c
+@@ -391,7 +391,7 @@ pxa3xx_gcu_write(struct file *file, const char *buff,
+ 	struct pxa3xx_gcu_batch	*buffer;
+ 	struct pxa3xx_gcu_priv *priv = to_pxa3xx_gcu_priv(file);
+ 
+-	int words = count / 4;
++	size_t words = count / 4;
+ 
+ 	/* Does not need to be atomic. There's a lock in user space,
+ 	 * but anyhow, this is just for statistics. */
 -- 
 2.35.1
 
