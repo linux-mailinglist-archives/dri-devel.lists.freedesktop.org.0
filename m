@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F0055F097
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:53:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8B555F098
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:54:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3A38899B7;
-	Tue, 28 Jun 2022 21:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7F9110F525;
+	Tue, 28 Jun 2022 21:54:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE786113F15
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:53:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CD85112D08
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:54:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656453228;
- bh=Oe9uZ0F+U4XXW3uqveY1B/62faEGiSSeNt5Yqa1aqw4=;
+ s=badeba3b8450; t=1656453237;
+ bh=m0NRtnribhD/WG0F3iP4GYxlukVqwJpiBLyKPKllPrg=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=IcyO+X+BrbJuibEPcyxMK4afT76F4F3zwbf1MaIu923sCnACUjRidSX5Osv0zFABe
- Vp8/yu4PYuG6fjyjRBaj48WaGYrcQiTpFLCFLQ7QxXi1DnhmINclPJntdKSlNUqPge
- lJ9qf/9eTy/lHz+klLhye3pa5ZCUjfI2P9GLg05M=
+ b=BkOC2ItOYXhd4qzKSFKkctVw/54LsefoNx3iqlZl1gTmB0r0M/3z12j+m8yAFCDG1
+ TFu7j4y0jG/OEz62AhcJKHPYStoAqNQ/YmT/tFbetnVaTSEmMMY/9b27DeHbTiA+SK
+ x4lsP0tOrS0nPRWA1MYnnrvRPL/7PPxTvxcsp82E=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([174.250.0.5]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1Msq6M-1nmZNK23Fg-00tBLk; Tue, 28
- Jun 2022 23:53:47 +0200
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MysVs-1njoUe2G6k-00vwV0; Tue, 28
+ Jun 2022 23:53:56 +0200
 From: Kevin Brace <kevinbrace@gmx.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 06/32] drm/via: Add via_regs.h
-Date: Tue, 28 Jun 2022 16:52:20 -0500
-Message-Id: <20220628215246.19706-7-kevinbrace@gmx.com>
+Subject: [PATCH v2 07/32] drm/via: Add via_crtc.c
+Date: Tue, 28 Jun 2022 16:52:21 -0500
+Message-Id: <20220628215246.19706-8-kevinbrace@gmx.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628215246.19706-1-kevinbrace@gmx.com>
 References: <20220628215246.19706-1-kevinbrace@gmx.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:tIb4vtNllavtPzeTYvfHIUOSQu2MX+2BTN2f7k12M8Jf2pYmp1Q
- Ym7Zi2BKq1xKiSP1kIu+vcAKM4YoXPNaf7d7NxjihFASHxmBMgkrnjoofRFaTtG42pQMfu6
- 9rRsTaOGoZF27b9V4szrvB3HEMWu9+SY0R0a0U/LaSw5X1F/FsmzeI31n9t4JWHRkzmsohe
- LRXknkkm77HKDTt683LTg==
+X-Provags-ID: V03:K1:1FjK6E7jSCRRIEgierWZmftsAsKV3pWzcP0CLrvLziF5+6NCaAS
+ qDYoqLI7kZ2C9/68Siy23IhLxoR1lU/A19cJS6xRmkcG/Z6sK55QRWXzaGqkQPaAmKBv4pT
+ t16GQrs9mP5QCuGIy9SOSlzjPfLNeQbLcw/jNDA6UvetA86ii/nNklvRcJ8S/0DTF2Ymn/z
+ 4MOup8qjvYpTbkrbqWpCQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vIg89IpJU4k=:22qECSXqjg5g0y1HpOhmqC
- 7cKEX1TRVGoXMVodoA+KmuISBcyC7T3TQ7XRcnQim7L5YWIJhsrRqIWcWbLZIDuJh6kJiy92P
- X91IHo/3ys9gPr0HcVMMzjztQcCimaJCrSAGcjAPkJkwwTGccTbbQQ7WViHWCxj5/bgeWAghm
- 1SNlA5FgJWXIfGi3esucUxZ90vuPtJYreZqun+Op86SPqy8epkB5r+47zt0vHcUbBZPyz2MeQ
- U0pwRya0zwlyI/I99hkPWimWFeUrqV9rCsPAMQuF/uBLoKKYrc6cAsqH9OGk7Sg9L2eDyFbNR
- cnyNFdP3eNMQT+9IDTnoVUd1mf/OLIO7s+7uD6AVhS7h1rG8FQ/AHbLTV9BxW2M83S1CpkjIq
- RUwd39k6KBkYDbBB4qvCH6b4Lbhlxt1tmd5GYyHuCtp7aLtK2vYovLM3D3JhGRx8wDT9UuSK4
- W62XIuIH7B4sn2ZlDX3genZ9FtNtZi9pVGxSurUqCtygRPDJXAD50tVWNgsEEgh/c7DUqoIn5
- hSvSIEhiRHwFxCLPNTJ6vdfzP9QCgZIMtd8qKbtUOINqofjvvWcI/xBcXICQ4CUKVYxLdI0uR
- 2qaQZAcguekE/O6s4XGxtLQ+eIS+xal+RV9AoK6qkngCzx+PBwRuoP1/2xipO5eTf4G4w4H4Y
- qMMxQGigKpqmc3lfsEvPuY9Tb4o+4w4xkKNAQer4gtKdqwMYr8LR6fHQGuvgtoohl1/iuUk0j
- scoJBVCygKa7prSRUaGbKmjcV9+5Ze6Y0oqjFxti7sTFTNVOmuFwjSc3sRA1KEBLJTNVMxG58
- VrQiTvksBbXKPucj+YaEpbwEB9tK4yII+Ho9uZ5ucvUHryaF61OGBI1/G2k7SVIx8PEY0QYct
- 2tyF8+n3MqmaYw14bRaIzZBZjp/4SidVwhZieuta8Us9YrWuTNl6mgT5yZgGo4lhReevX1kML
- Y/AO+f3QoYbY0O6qRwNOoYDnCcXZLzr7/TuQV5tJHoL8BDK7Zzm64Bf1+uMUJ0HE20sJzDERA
- uWme3JnoxCIosOuF2ZTn968A6MY/V3KBucgS/MHu4lFTTt/LuGd8ikD/cZhzhVZ+U94mIgglu
- pVgLL0R1+nGl64dCh8Zo+I/RuHqFIlA3YcZcioccH2NxrO3Gjdn+VN9rg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:e9C1BmCImWA=:PpfZQryv+4WvLqlweXAyWJ
+ +767qGt9y9CxwavbfQYX08G7/2ekKh67tVdYZu/6NTOoUEbenmylL8XnFEgvndTSu0L34Dbxh
+ KzzSL2HTx9v9DCJwvZjRu+2iwgfqvSRUQmPA8rS74dCwmtqpvOPRLBh5vshsFcOnmSPOXBIzp
+ ltpIXJK7WqWFjcvDck+UvcmJFqsdm2J1yhk7edeW+NTKixdWgDBWB1hm4O30zZR0b/+oJ7rQ3
+ 76zL9AHyDY7LB8XKSXgA5WhyA+KxeBqj7Y/uGfgBpNpDRrb/xyYIMlIuzudeqmEXAtk+HrvjX
+ jcmwa+LkcgPtERDN38E7RyXP7Mo+InCtaAkhx2UA1FGLNY9oIWhpO2y4T93XbHhdZf4ZUvV6g
+ 9Z6/lMbwIBrXhPqLjrS2yaU+dvfhqYbcPNubArnQsj4bUUjyEXqDlSV5Tdhg0y3RjHiHf4oAf
+ g73VAAZA0cbAbXohXMRKGOU3JES25TcPQYX00cD0UYFaQWqEen1zeLLOh3wGWVdWiq44a3eSf
+ pJfCCSv9Ag/bEq6k7kixrczOOqfIHG/s1mKsc1mhXmG+SriYGy4h95RfK159JTlxXPpr9+SsZ
+ agFKbcvkCHv6qrofbko+IVTsVOKknm7OKgFE9vs7XU5vXqMjcprhNUntJbD1WY3Lf66NPYpF4
+ WG+KxlPOucoinvRwIog8vNnPWfhWXvOyxZRjgs4eE6m7JI1wn+kSXV1YYt6F6PzA5plKP07t4
+ ajoxxVojkaCybZo99VhPQBDSMJo9m6g1MdDgpHeVtUTBZKJJQ8KIGCvblONhrk03pmCXUBqYQ
+ MvWhnmV4jtnnhh72oMTdoevY3pJ2wQvCBvr/UNrJVd6bNZfqWATL1N8GnZ8rSM9bOhrsf9F7I
+ fg64dRBEHEN5IFXQv/hJwi3BoF5Ph9tco7MdUe6x+P8wvmZF8k7O3Py9NZg4EzqG7vStGH70J
+ dC3KIsevAeVhVZDUcE6tgdzPPYWquO5gue/ddw1hL78aMhbAJDyM5OnuxdY7OfRNgcq9uLEv5
+ T2U8DZL17DLGhrHHucZYNTOtEywGy81v/vjwDs3H87lHqVkFMOelKGcy/9R65Crb0e8J1NkZs
+ AEazgttrOCGEG+Llh92eGDPvR+1+PS0jFAS9xPO3vH/B9RK2ETfQpFJOw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,22 +74,22 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Kevin Brace <kevinbrace@bracecomputerlab.com>
 
-Likely originated from VIA Technologies.
-
 Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
 =2D--
- drivers/gpu/drm/via/via_regs.h | 296 +++++++++++++++++++++++++++++++++
- 1 file changed, 296 insertions(+)
- create mode 100644 drivers/gpu/drm/via/via_regs.h
+ drivers/gpu/drm/via/via_crtc.c | 2324 ++++++++++++++++++++++++++++++++
+ 1 file changed, 2324 insertions(+)
+ create mode 100644 drivers/gpu/drm/via/via_crtc.c
 
-diff --git a/drivers/gpu/drm/via/via_regs.h b/drivers/gpu/drm/via/via_regs=
-.h
+diff --git a/drivers/gpu/drm/via/via_crtc.c b/drivers/gpu/drm/via/via_crtc=
+.c
 new file mode 100644
-index 000000000000..5ac06d75f0b5
+index 000000000000..afd42bd99f25
 =2D-- /dev/null
-+++ b/drivers/gpu/drm/via/via_regs.h
-@@ -0,0 +1,296 @@
++++ b/drivers/gpu/drm/via/via_crtc.c
+@@ -0,0 +1,2324 @@
 +/*
++ * Copyright =C2=A9 2019-2020 Kevin Brace.
++ * Copyright 2012 James Simmons. All Rights Reserved.
 + * Copyright 1998-2009 VIA Technologies, Inc. All Rights Reserved.
 + * Copyright 2001-2009 S3 Graphics, Inc. All Rights Reserved.
 + *
@@ -114,288 +115,2343 @@ S OR
 Y,
 + * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHA=
 LL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR O=
-THER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISIN=
-G
-+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
++ * THE AUTHOR(S) OR COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES =
+OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR =
+OTHER
 + * DEALINGS IN THE SOFTWARE.
 + *
++ * Author(s):
++ * Kevin Brace <kevinbrace@bracecomputerlab.com>
++ * James Simmons <jsimmons@infradead.org>
 + */
 +
-+/************************************************************************=
-*
++#include <linux/pci.h>
++#include <linux/pci_ids.h>
++
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_atomic_state_helper.h>
++#include <drm/drm_crtc.h>
++#include <drm/drm_crtc_helper.h>
++#include <drm/drm_fourcc.h>
++#include <drm/drm_gem.h>
++#include <drm/drm_mode.h>
++#include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_plane.h>
++#include <drm/drm_plane_helper.h>
++
++#include <drm/ttm/ttm_bo_api.h>
++
++#include "via_drv.h"
++#include "via_disp_reg.h"
++
++
++static struct vga_regset vpit_table[] =3D {
++	{VGA_SEQ_I, 0x01, 0xFF, 0x01 },
++	{VGA_SEQ_I, 0x02, 0xFF, 0x0F },
++	{VGA_SEQ_I, 0x03, 0xFF, 0x00 },
++	{VGA_SEQ_I, 0x04, 0xFF, 0x0E },
++	{VGA_GFX_I, 0x00, 0xFF, 0x00 },
++	{VGA_GFX_I, 0x01, 0xFF, 0x00 },
++	{VGA_GFX_I, 0x02, 0xFF, 0x00 },
++	{VGA_GFX_I, 0x03, 0xFF, 0x00 },
++	{VGA_GFX_I, 0x04, 0xFF, 0x00 },
++	{VGA_GFX_I, 0x05, 0xFF, 0x00 },
++	{VGA_GFX_I, 0x06, 0xFF, 0x05 },
++	{VGA_GFX_I, 0x07, 0xFF, 0x0F },
++	{VGA_GFX_I, 0x08, 0xFF, 0xFF }
++};
++
++static void via_iga_common_init(void __iomem *regs)
++{
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	/* Be careful with 3C5.15[5] - Wrap Around Disable.
++	 * It must be set to 1 for proper operation. */
++	/* 3C5.15[5]   - Wrap Around Disable
++	 *               0: Disable (For Mode 0-13)
++	 *               1: Enable
++	 * 3C5.15[1]   - Extended Display Mode Enable
++	 *               0: Disable
++	 *               1: Enable */
++	svga_wseq_mask(regs, 0x15, BIT(5) | BIT(1), BIT(5) | BIT(1));
++
++	/*
++	 * Disable simultaneous display.
++	 * Turning this on causes IGA1 to have a display issue.
++	 */
++	/*
++	 * 3X5.6B[3]   - Simultaneous Display Enable
++	 *               0: Disable
++	 *               1: Enable
++	 */
++	svga_wcrt_mask(regs, 0x6B, 0x00, BIT(3));
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static void via_iga1_set_color_depth(struct via_drm_priv *dev_priv,
++					u8 depth)
++{
++	u8 value;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	value =3D 0x00;
++
++	/* Set the color depth for IGA1. */
++	switch (depth) {
++	case 8:
++		break;
++	case 16:
++		/* Bit 4 is for 555 (15-bit) / 565 (16-bit) color selection. */
++		value |=3D BIT(4) | BIT(2);
++		break;
++	case 24:
++		value |=3D BIT(3) | BIT(2);
++		break;
++	default:
++		break;
++	}
++
++	if ((depth =3D=3D 8) || (depth =3D=3D 16) || (depth =3D=3D 24)) {
++		/* 3C5.15[4]   - Hi Color Mode Select
++		 *               0: 555
++		 *               1: 565
++		 * 3C5.15[3:2] - Display Color Depth Select
++		 *               00: 8bpp
++		 *               01: 16bpp
++		 *               10: 30bpp
++		 *               11: 32bpp */
++		svga_wseq_mask(VGABASE, 0x15, value,
++				BIT(4) | BIT(3) | BIT(2));
++		DRM_INFO("IGA1 Color Depth: %d bit\n", depth);
++	} else {
++		DRM_ERROR("Unsupported IGA1 Color Depth: %d bit\n",
++				depth);
++	}
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static void via_iga2_set_color_depth(struct via_drm_priv *dev_priv,
++					u8 depth)
++{
++	u8 value;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	value =3D 0x00;
++
++	/* Set the color depth for IGA2. */
++	switch (depth) {
++	case 8:
++		break;
++	case 16:
++		value =3D BIT(6);
++		break;
++	case 24:
++		value =3D BIT(7) | BIT(6);
++		break;
++	default:
++		break;
++	}
++
++	if ((depth =3D=3D 8) || (depth =3D=3D 16) || (depth =3D=3D 24)) {
++		/* 3X5.67[7:6] - Display Color Depth Select
++		 *               00: 8bpp
++		 *               01: 16bpp
++		 *               10: 30bpp
++		 *               11: 32bpp */
++		svga_wcrt_mask(VGABASE, 0x67, value, 0xC0);
++		DRM_INFO("IGA2 Color Depth: %d bit\n", depth);
++	} else {
++		DRM_ERROR("Unsupported IGA2 Color Depth: %d bit\n",
++				depth);
++	}
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static int via_gamma_set(struct drm_crtc *crtc,
++				u16 *r, u16 *g, u16 *b,
++				uint32_t size,
++				struct drm_modeset_acquire_ctx *ctx)
++{
++	struct drm_device *dev =3D crtc->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	struct via_crtc *iga =3D container_of(crtc,
++						struct via_crtc, base);
++	int end =3D (size > 256) ? 256 : size, i;
++	u8 val =3D 0;
++	int ret =3D 0;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if ((!crtc->enabled) || (!crtc->primary->fb)) {
++		ret =3D -EINVAL;
++		goto exit;
++	}
++
++	if (!iga->index) {
++		/*
++		 * Access IGA1's pallette LUT.
++		 */
++		svga_wseq_mask(VGABASE, 0x1A, 0x00, BIT(0));
++
++		/*
++		 * Is it an 8-bit color mode?
++		 */
++		if (crtc->primary->fb->format->cpp[0] =3D=3D 1) {
++			/* Change to Primary Display's LUT */
++			val =3D vga_rseq(VGABASE, 0x1B);
++			vga_wseq(VGABASE, 0x1B, val);
++			val =3D vga_rcrt(VGABASE, 0x67);
++			vga_wcrt(VGABASE, 0x67, val);
++
++			/* Fill in IGA1's LUT */
++			for (i =3D 0; i < end; i++) {
++				/* Bit mask of palette */
++				vga_w(VGABASE, VGA_PEL_MSK, 0xFF);
++				vga_w(VGABASE, VGA_PEL_IW, i);
++				vga_w(VGABASE, VGA_PEL_D, r[i] >> 8);
++				vga_w(VGABASE, VGA_PEL_D, g[i] >> 8);
++				vga_w(VGABASE, VGA_PEL_D, b[i] >> 8);
++			}
++			/* enable LUT */
++			svga_wseq_mask(VGABASE, 0x1B, 0x00, BIT(0));
++			/*
++			 * Disable gamma in case it was enabled
++			 * previously
++			 */
++			svga_wcrt_mask(VGABASE, 0x33, 0x00, BIT(7));
++		} else {
++			/* Enable Gamma */
++			svga_wcrt_mask(VGABASE, 0x33, BIT(7), BIT(7));
++
++			/* Fill in IGA1's gamma */
++			for (i =3D 0; i < end; i++) {
++				/* bit mask of palette */
++				vga_w(VGABASE, VGA_PEL_MSK, 0xFF);
++				vga_w(VGABASE, VGA_PEL_IW, i);
++				vga_w(VGABASE, VGA_PEL_D, r[i] >> 8);
++				vga_w(VGABASE, VGA_PEL_D, g[i] >> 8);
++				vga_w(VGABASE, VGA_PEL_D, b[i] >> 8);
++			}
++		}
++	} else {
++		/*
++		 * Access IGA2's pallette LUT.
++		 */
++		svga_wseq_mask(VGABASE, 0x1A, BIT(0), BIT(0));
++
++		/*
++		 * Is it an 8-bit color mode?
++		 */
++		if (crtc->primary->fb->format->cpp[0] =3D=3D 1) {
++			/* Enable Secondary Display Engine */
++			svga_wseq_mask(VGABASE, 0x1B, BIT(7), BIT(7));
++			/* Second Display Color Depth, 8bpp */
++			svga_wcrt_mask(VGABASE, 0x67, 0x3F, 0x3F);
++
++			/*
++			 * Enable second display channel just in case.
++			 */
++			if (!(vga_rcrt(VGABASE, 0x6A) & BIT(7)))
++				svga_wcrt_mask(VGABASE, 0x6A,
++						BIT(7), BIT(7));
++
++			/* Fill in IGA2's LUT */
++			for (i =3D 0; i < end; i++) {
++				/* Bit mask of palette */
++				vga_w(VGABASE, VGA_PEL_MSK, 0xFF);
++				vga_w(VGABASE, VGA_PEL_IW, i);
++				vga_w(VGABASE, VGA_PEL_D, r[i] >> 8);
++				vga_w(VGABASE, VGA_PEL_D, g[i] >> 8);
++				vga_w(VGABASE, VGA_PEL_D, b[i] >> 8);
++			}
++			/*
++			 * Disable gamma in case it was enabled
++			 * previously
++			 */
++			svga_wcrt_mask(VGABASE, 0x6A, 0x00, BIT(1));
++		} else {
++			u8 reg_bits =3D BIT(1);
++
++			/* Bit 1 enables gamma */
++			svga_wcrt_mask(VGABASE, 0x6A, BIT(1), BIT(1));
++
++			/* Old platforms LUT are 6 bits in size.
++			 * Newer it is 8 bits. */
++			switch (pdev->device) {
++			case PCI_DEVICE_ID_VIA_CLE266:
++			case PCI_DEVICE_ID_VIA_KM400:
++			case PCI_DEVICE_ID_VIA_K8M800:
++			case PCI_DEVICE_ID_VIA_PM800:
++				break;
++
++			default:
++				reg_bits |=3D BIT(5);
++				break;
++			}
++			svga_wcrt_mask(VGABASE, 0x6A, reg_bits,
++					reg_bits);
++
++			/*
++			 * Before we fill the second LUT, we have to
++			 * enable second display channel. If it's
++			 * enabled before, we don't need to do that,
++			 * or else the secondary display will be dark
++			 * for about 1 sec and then be turned on
++			 * again.
++			 */
++			if (!(vga_rcrt(VGABASE, 0x6A) & BIT(7)))
++				svga_wcrt_mask(VGABASE, 0x6A,
++						BIT(7), BIT(7));
++
++			/* Fill in IGA2's gamma */
++			for (i =3D 0; i < end; i++) {
++				/* bit mask of palette */
++				vga_w(VGABASE, VGA_PEL_MSK, 0xFF);
++				vga_w(VGABASE, VGA_PEL_IW, i);
++				vga_w(VGABASE, VGA_PEL_D, r[i] >> 8);
++				vga_w(VGABASE, VGA_PEL_D, g[i] >> 8);
++				vga_w(VGABASE, VGA_PEL_D, b[i] >> 8);
++			}
++		}
++	}
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
++}
++
++static void via_crtc_destroy(struct drm_crtc *crtc)
++{
++	struct via_crtc *iga =3D container_of(crtc, struct via_crtc, base);
++
++	drm_crtc_cleanup(&iga->base);
++	kfree(iga);
++}
++
++static const struct drm_crtc_funcs via_drm_crtc_funcs =3D {
++	.reset =3D drm_atomic_helper_crtc_reset,
++	.gamma_set =3D via_gamma_set,
++	.set_config =3D drm_atomic_helper_set_config,
++	.destroy =3D via_crtc_destroy,
++	.page_flip =3D drm_atomic_helper_page_flip,
++	.atomic_duplicate_state =3D drm_atomic_helper_crtc_duplicate_state,
++	.atomic_destroy_state =3D drm_atomic_helper_crtc_destroy_state,
++};
++
++static void via_load_vpit_regs(struct via_drm_priv *dev_priv)
++{
++	u8 ar[] =3D {0x00, 0x01, 0x02, 0x03,
++			0x04, 0x05, 0x06, 0x07,
++			0x08, 0x09, 0x0A, 0x0B,
++			0x0C, 0x0D, 0x0E, 0x0F,
++			0x01, 0x00, 0x0F, 0x00};
++	struct vga_registers vpit_regs;
++	unsigned int i =3D 0;
++	u8 reg_value =3D 0;
++
++	/* Enable changing the palette registers */
++	reg_value =3D vga_r(VGABASE, VGA_IS1_RC);
++	vga_w(VGABASE, VGA_ATT_W, 0x00);
++
++	/* Write Misc register */
++	vga_w(VGABASE, VGA_MIS_W, 0xCF);
++
++	/* Fill VPIT registers */
++	vpit_regs.count =3D ARRAY_SIZE(vpit_table);
++	vpit_regs.regs =3D vpit_table;
++	load_register_tables(VGABASE, &vpit_regs);
++
++	/* Write Attribute Controller */
++	for (i =3D 0; i < 0x14; i++) {
++		reg_value =3D vga_r(VGABASE, VGA_IS1_RC);
++		vga_w(VGABASE, VGA_ATT_W, i);
++		vga_w(VGABASE, VGA_ATT_W, ar[i]);
++	}
++
++	/* Disable changing the palette registers */
++	reg_value =3D vga_r(VGABASE, VGA_IS1_RC);
++	vga_w(VGABASE, VGA_ATT_W, BIT(5));
++}
++
++static int via_iga1_display_fifo_regs(struct drm_device *dev,
++					struct via_drm_priv *dev_priv,
++					struct via_crtc *iga,
++					struct drm_display_mode *mode,
++					struct drm_framebuffer *fb)
++{
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	u32 reg_value;
++	unsigned int fifo_max_depth =3D 0;
++	unsigned int fifo_threshold =3D 0;
++	unsigned int fifo_high_threshold =3D 0;
++	unsigned int display_queue_expire_num =3D 0;
++	bool enable_extended_display_fifo =3D false;
++	int ret =3D 0;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	switch (pdev->device) {
++	case PCI_DEVICE_ID_VIA_CLE266:
++		if (dev_priv->revision =3D=3D CLE266_REVISION_AX) {
++			if (mode->hdisplay > 1024) {
++				/* SR17[6:0] */
++				fifo_max_depth =3D 96;
++
++				/* SR16[5:0] */
++				fifo_threshold =3D 92;
++
++				/* SR18[5:0] */
++				fifo_high_threshold =3D 92;
++
++				enable_extended_display_fifo =3D true;
++			} else {
++				/* SR17[6:0] */
++				fifo_max_depth =3D 64;
++
++				/* SR16[5:0] */
++				fifo_threshold =3D 32;
++
++				/* SR18[5:0] */
++				fifo_high_threshold =3D 56;
++
++				enable_extended_display_fifo =3D false;
++			}
++
++			if (dev_priv->vram_type <=3D VIA_MEM_DDR_200) {
++				if (fb->format->depth =3D=3D 24) {
++					if (mode->hdisplay > 1024) {
++						if (mode->vdisplay > 768) {
++							/* SR22[4:0] */
++							display_queue_expire_num =3D 16;
++						} else {
++							/* SR22[4:0] */
++							display_queue_expire_num =3D 12;
++						}
++					} else if (mode->hdisplay > 640) {
++						/* SR22[4:0] */
++						display_queue_expire_num =3D 40;
++					} else {
++						/* SR22[4:0] */
++						display_queue_expire_num =3D 124;
++					}
++				} else if (fb->format->depth =3D=3D 16){
++					if (mode->hdisplay > 1400) {
++						/* SR22[4:0] */
++						display_queue_expire_num =3D 16;
++					} else {
++						/* SR22[4:0] */
++						display_queue_expire_num =3D 12;
++					}
++				} else {
++					/* SR22[4:0] */
++					display_queue_expire_num =3D 124;
++				}
++			} else {
++				if (mode->hdisplay > 1280) {
++					/* SR22[4:0] */
++					display_queue_expire_num =3D 16;
++				} else if (mode->hdisplay > 1024) {
++					/* SR22[4:0] */
++					display_queue_expire_num =3D 12;
++				} else {
++					/* SR22[4:0] */
++					display_queue_expire_num =3D 124;
++				}
++			}
++		/* dev_priv->revision =3D=3D CLE266_REVISION_CX */
++		} else {
++			if (mode->hdisplay >=3D 1024) {
++				/* SR17[6:0] */
++				fifo_max_depth =3D 128;
++
++				/* SR16[5:0] */
++				fifo_threshold =3D 112;
++
++				/* SR18[5:0] */
++				fifo_high_threshold =3D 92;
++
++				enable_extended_display_fifo =3D false;
++			} else {
++				/* SR17[6:0] */
++				fifo_max_depth =3D 64;
++
++				/* SR16[5:0] */
++				fifo_threshold =3D 32;
++
++				/* SR18[5:0] */
++				fifo_high_threshold =3D 56;
++
++				enable_extended_display_fifo =3D false;
++			}
++
++			if (dev_priv->vram_type <=3D VIA_MEM_DDR_200) {
++				if (mode->hdisplay > 1024) {
++					if (mode->vdisplay > 768) {
++						/* SR22[4:0] */
++						display_queue_expire_num =3D 16;
++					} else {
++						/* SR22[4:0] */
++						display_queue_expire_num =3D 12;
++					}
++				} else if (mode->hdisplay > 640) {
++					/* SR22[4:0] */
++					display_queue_expire_num =3D 40;
++				} else {
++					/* SR22[4:0] */
++					display_queue_expire_num =3D 124;
++				}
++			} else {
++				if (mode->hdisplay >=3D 1280) {
++					/* SR22[4:0] */
++					display_queue_expire_num =3D 16;
++				} else {
++					/* SR22[4:0] */
++					display_queue_expire_num =3D 124;
++				}
++			}
++		}
++		break;
++
++	case PCI_DEVICE_ID_VIA_KM400:
++		if ((mode->hdisplay >=3D 1600) &&
++			(dev_priv->vram_type <=3D VIA_MEM_DDR_200)) {
++			/* SR17[6:0] */
++			fifo_max_depth =3D 58;
++
++			/* SR16[5:0] */
++			fifo_threshold =3D 24;
++
++			/* SR18[5:0] */
++			fifo_high_threshold =3D 92;
++		} else {
++			/* SR17[6:0] */
++			fifo_max_depth =3D 128;
++
++			/* SR16[5:0] */
++			fifo_threshold =3D 112;
++
++			/* SR18[5:0] */
++			fifo_high_threshold =3D 92;
++		}
++
++		enable_extended_display_fifo =3D false;
++
++		if (dev_priv->vram_type <=3D VIA_MEM_DDR_200) {
++			if (mode->hdisplay >=3D 1600) {
++				/* SR22[4:0] */
++				display_queue_expire_num =3D 16;
++			} else {
++				/* SR22[4:0] */
++				display_queue_expire_num =3D 8;
++			}
++		} else {
++			if (mode->hdisplay >=3D 1600) {
++				/* SR22[4:0] */
++				display_queue_expire_num =3D 40;
++			} else {
++				/* SR22[4:0] */
++				display_queue_expire_num =3D 36;
++			}
++		}
++
++		break;
++	case PCI_DEVICE_ID_VIA_K8M800:
++		/* SR17[7:0] */
++		fifo_max_depth =3D 384;
++
++		/* SR16[7], SR16[5:0] */
++		fifo_threshold =3D 328;
++
++		/* SR18[7], SR18[5:0] */
++		fifo_high_threshold =3D 296;
++
++		if ((fb->format->depth =3D=3D 24) &&
++			(mode->hdisplay >=3D 1400)) {
++			/* SR22[4:0] */
++			display_queue_expire_num =3D 64;
++		} else {
++			/* SR22[4:0] */
++			display_queue_expire_num =3D 128;
++		}
++
++		break;
++	case PCI_DEVICE_ID_VIA_PM800:
++		/* SR17[7:0] */
++		fifo_max_depth =3D 192;
++
++		/* SR16[7], SR16[5:0] */
++		fifo_threshold =3D 128;
++
++		/* SR18[7], SR18[5:0] */
++		fifo_high_threshold =3D 64;
++
++		if ((fb->format->depth =3D=3D 24) &&
++			(mode->hdisplay >=3D 1400)) {
++			/* SR22[4:0] */
++			display_queue_expire_num =3D 64;
++		} else {
++			/* SR22[4:0] */
++			display_queue_expire_num =3D 124;
++		}
++
++		break;
++	case PCI_DEVICE_ID_VIA_CN700:
++		/* SR17[7:0] */
++		fifo_max_depth =3D CN700_IGA1_FIFO_MAX_DEPTH;
++
++		/* SR16[7], SR16[5:0] */
++		fifo_threshold =3D CN700_IGA1_FIFO_THRESHOLD;
++
++		/* SR18[7], SR18[5:0] */
++		fifo_high_threshold =3D CN700_IGA1_FIFO_HIGH_THRESHOLD;
++
++		/* SR22[4:0] */
++		display_queue_expire_num =3D CN700_IGA1_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++		/* CX700 */
++	case PCI_DEVICE_ID_VIA_VT3157:
++		/* SR17[7:0] */
++		fifo_max_depth =3D CX700_IGA1_FIFO_MAX_DEPTH;
++
++		/* SR16[7], SR16[5:0] */
++		fifo_threshold =3D CX700_IGA1_FIFO_THRESHOLD;
++
++		/* SR18[7], SR18[5:0] */
++		fifo_high_threshold =3D CX700_IGA1_FIFO_HIGH_THRESHOLD;
++
++		/* SR22[4:0] */
++		display_queue_expire_num =3D CX700_IGA1_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++
++		/* K8M890 */
++	case PCI_DEVICE_ID_VIA_K8M890:
++		/* SR17[7:0] */
++		fifo_max_depth =3D K8M890_IGA1_FIFO_MAX_DEPTH;
++
++		/* SR16[7], SR16[5:0] */
++		fifo_threshold =3D K8M890_IGA1_FIFO_THRESHOLD;
++
++		/* SR18[7], SR18[5:0] */
++		fifo_high_threshold =3D K8M890_IGA1_FIFO_HIGH_THRESHOLD;
++
++		/* SR22[4:0] */
++		display_queue_expire_num =3D K8M890_IGA1_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++		/* P4M890 */
++	case PCI_DEVICE_ID_VIA_VT3343:
++		/* SR17[7:0] */
++		fifo_max_depth =3D P4M890_IGA1_FIFO_MAX_DEPTH;
++
++		/* SR16[7], SR16[5:0] */
++		fifo_threshold =3D P4M890_IGA1_FIFO_THRESHOLD;
++
++		/* SR18[7], SR18[5:0] */
++		fifo_high_threshold =3D P4M890_IGA1_FIFO_HIGH_THRESHOLD;
++
++		/* SR22[4:0] */
++		display_queue_expire_num =3D P4M890_IGA1_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++		/* P4M900 */
++	case PCI_DEVICE_ID_VIA_P4M900:
++		/* SR17[7:0] */
++		fifo_max_depth =3D P4M900_IGA1_FIFO_MAX_DEPTH;
++
++		/* SR16[7], SR16[5:0] */
++		fifo_threshold =3D P4M900_IGA1_FIFO_THRESHOLD;
++
++		/* SR18[7], SR18[5:0] */
++		fifo_high_threshold =3D P4M900_IGA1_FIFO_HIGH_THRESHOLD;
++
++		/* SR22[4:0] */
++		display_queue_expire_num =3D P4M900_IGA1_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++		/* VX800 */
++	case PCI_DEVICE_ID_VIA_VT1122:
++		/* SR17[7:0] */
++		fifo_max_depth =3D VX800_IGA1_FIFO_MAX_DEPTH;
++
++		/* SR16[7], SR16[5:0] */
++		fifo_threshold =3D VX800_IGA1_FIFO_THRESHOLD;
++
++		/* SR18[7], SR18[5:0] */
++		fifo_high_threshold =3D VX800_IGA1_FIFO_HIGH_THRESHOLD;
++
++		/* SR22[4:0] */
++		display_queue_expire_num =3D VX800_IGA1_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++		/* VX855 */
++	case PCI_DEVICE_ID_VIA_VX875:
++		/* SR17[7:0] */
++		fifo_max_depth =3D VX855_IGA1_FIFO_MAX_DEPTH;
++
++		/* SR16[7], SR16[5:0] */
++		fifo_threshold =3D VX855_IGA1_FIFO_THRESHOLD;
++
++		/* SR18[7], SR18[5:0] */
++		fifo_high_threshold =3D VX855_IGA1_FIFO_HIGH_THRESHOLD;
++
++		/* SR22[4:0] */
++		display_queue_expire_num =3D VX855_IGA1_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++		/* VX900 */
++	case PCI_DEVICE_ID_VIA_VX900_VGA:
++		/* SR17[7:0] */
++		fifo_max_depth =3D VX900_IGA1_FIFO_MAX_DEPTH;
++
++		/* SR16[7], SR16[5:0] */
++		fifo_threshold =3D VX900_IGA1_FIFO_THRESHOLD;
++
++		/* SR18[7], SR18[5:0] */
++		fifo_high_threshold =3D VX900_IGA1_FIFO_HIGH_THRESHOLD;
++
++		/* SR22[4:0] */
++		display_queue_expire_num =3D VX900_IGA1_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++	default:
++		ret =3D -EINVAL;
++		break;
++	}
++
++	if (ret) {
++		goto exit;
++	}
++
++	if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266) ||
++		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_KM400) ||
++		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_K8M800) ||
++		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_PM800) ||
++		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_CN700) ||
++		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_VT3157)) {
++		/* Force PREQ to be always higher than TREQ. */
++		svga_wseq_mask(VGABASE, 0x18, BIT(6), BIT(6));
++	} else {
++		svga_wseq_mask(VGABASE, 0x18, 0x00, BIT(6));
++	}
++
++	if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266) ||
++		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_KM400)) {
++		if (enable_extended_display_fifo) {
++			reg_value =3D VIA_READ(0x0298);
++			VIA_WRITE(0x0298, reg_value | 0x20000000);
++
++			/* Turn on IGA1 extended display FIFO. */
++			reg_value =3D VIA_READ(0x0230);
++			VIA_WRITE(0x0230, reg_value | 0x00200000);
++
++			reg_value =3D VIA_READ(0x0298);
++			VIA_WRITE(0x0298, reg_value & (~0x20000000));
++		} else {
++			reg_value =3D VIA_READ(0x0298);
++			VIA_WRITE(0x0298, reg_value | 0x20000000);
++
++			/* Turn off IGA1 extended display FIFO. */
++			reg_value =3D VIA_READ(0x0230);
++			VIA_WRITE(0x0230, reg_value & (~0x00200000));
++
++			reg_value =3D VIA_READ(0x0298);
++			VIA_WRITE(0x0298, reg_value & (~0x20000000));
++
++		}
++	}
++
++	/* Set IGA1 Display FIFO Depth Select */
++	reg_value =3D IGA1_FIFO_DEPTH_SELECT_FORMULA(fifo_max_depth);
++	load_value_to_registers(VGABASE, &iga->fifo_depth, reg_value);
++
++	/* Set Display FIFO Threshold Select */
++	reg_value =3D fifo_threshold / 4;
++	load_value_to_registers(VGABASE, &iga->threshold, reg_value);
++
++	/* Set FIFO High Threshold Select */
++	reg_value =3D fifo_high_threshold / 4;
++	load_value_to_registers(VGABASE, &iga->high_threshold, reg_value);
++
++	/* Set Display Queue Expire Num */
++	reg_value =3D display_queue_expire_num / 4;
++	load_value_to_registers(VGABASE, &iga->display_queue, reg_value);
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
++}
++
++static int via_iga2_display_fifo_regs(struct drm_device *dev,
++					struct via_drm_priv *dev_priv,
++					struct via_crtc *iga,
++					struct drm_display_mode *mode,
++					struct drm_framebuffer *fb)
++{
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	u32 reg_value;
++	unsigned int fifo_max_depth =3D 0;
++	unsigned int fifo_threshold =3D 0;
++	unsigned int fifo_high_threshold =3D 0;
++	unsigned int display_queue_expire_num =3D 0;
++	bool enable_extended_display_fifo =3D false;
++	int ret =3D 0;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	switch (pdev->device) {
++	case PCI_DEVICE_ID_VIA_CLE266:
++		if (dev_priv->revision =3D=3D CLE266_REVISION_AX) {
++			if (((dev_priv->vram_type <=3D VIA_MEM_DDR_200) &&
++				(fb->format->depth > 16) &&
++				(mode->vdisplay > 768)) ||
++				((dev_priv->vram_type <=3D VIA_MEM_DDR_266) &&
++				(fb->format->depth > 16) &&
++				(mode->hdisplay > 1280))) {
++				/* CR68[7:4] */
++				fifo_max_depth =3D 88;
++
++				/* CR68[3:0] */
++				fifo_threshold =3D 44;
++
++				enable_extended_display_fifo =3D true;
++			} else {
++				/* CR68[7:4] */
++				fifo_max_depth =3D 56;
++
++				/* CR68[3:0] */
++				fifo_threshold =3D 28;
++
++				enable_extended_display_fifo =3D false;
++			}
++		/* dev_priv->revision =3D=3D CLE266_REVISION_CX */
++		} else {
++			if (mode->hdisplay >=3D 1024) {
++				/* CR68[7:4] */
++				fifo_max_depth =3D 88;
++
++				/* CR68[3:0] */
++				fifo_threshold =3D 44;
++
++				enable_extended_display_fifo =3D false;
++			} else {
++				/* CR68[7:4] */
++				fifo_max_depth =3D 56;
++
++				/* CR68[3:0] */
++				fifo_threshold =3D 28;
++
++				enable_extended_display_fifo =3D false;
++			}
++		}
++
++		break;
++	case PCI_DEVICE_ID_VIA_KM400:
++		if (mode->hdisplay >=3D 1600) {
++			/* CR68[7:4] */
++			fifo_max_depth =3D 120;
++
++			/* CR68[3:0] */
++			fifo_threshold =3D 44;
++
++			enable_extended_display_fifo =3D true;
++		} else if (((mode->hdisplay > 1024) &&
++			(fb->format->depth =3D=3D 24) &&
++			(dev_priv->vram_type <=3D VIA_MEM_DDR_333)) ||
++			((mode->hdisplay =3D=3D 1024) &&
++			(fb->format->depth =3D=3D 24) &&
++			(dev_priv->vram_type <=3D VIA_MEM_DDR_200))) {
++			/* CR68[7:4] */
++			fifo_max_depth =3D 104;
++
++			/* CR68[3:0] */
++			fifo_threshold =3D 28;
++
++			enable_extended_display_fifo =3D true;
++		} else if (((mode->hdisplay > 1280) &&
++			(fb->format->depth =3D=3D 16) &&
++			(dev_priv->vram_type <=3D VIA_MEM_DDR_333)) ||
++			((mode->hdisplay =3D=3D 1280) &&
++			(fb->format->depth =3D=3D 16) &&
++			(dev_priv->vram_type <=3D VIA_MEM_DDR_200))) {
++			/* CR68[7:4] */
++			fifo_max_depth =3D 88;
++
++			/* CR68[3:0] */
++			fifo_threshold =3D 44;
++
++			enable_extended_display_fifo =3D true;
++		} else {
++			/* CR68[7:4] */
++			fifo_max_depth =3D 56;
++
++			/* CR68[3:0] */
++			fifo_threshold =3D 28;
++
++			enable_extended_display_fifo =3D false;
++		}
++
++		break;
++	case PCI_DEVICE_ID_VIA_K8M800:
++		/* CR95[7], CR94[7], CR68[7:4] */
++		fifo_max_depth =3D 376;
++
++		/* CR95[6:4], CR68[3:0] */
++		fifo_threshold =3D 328;
++
++		/* CR95[2:0], CR92[3:0] */
++		fifo_high_threshold =3D 296;
++
++		if ((fb->format->depth =3D=3D 24) &&
++			(mode->hdisplay >=3D 1400)) {
++			/* CR94[6:0] */
++			display_queue_expire_num =3D 64;
++		} else {
++			/* CR94[6:0] */
++			display_queue_expire_num =3D 128;
++		}
++
++		break;
++	case PCI_DEVICE_ID_VIA_PM800:
++		/* CR95[7], CR94[7], CR68[7:4] */
++		fifo_max_depth =3D 96;
++
++		/* CR95[6:4], CR68[3:0] */
++		fifo_threshold =3D 64;
++
++		/* CR95[2:0], CR92[3:0] */
++		fifo_high_threshold =3D 32;
++
++		if ((fb->format->depth =3D=3D 24) &&
++				(mode->hdisplay >=3D 1400)) {
++			/* CR94[6:0] */
++			display_queue_expire_num =3D 64;
++		} else {
++			/* CR94[6:0] */
++			display_queue_expire_num =3D 128;
++		}
++
++		break;
++	case PCI_DEVICE_ID_VIA_CN700:
++		/* CR95[7], CR94[7], CR68[7:4] */
++		fifo_max_depth =3D CN700_IGA2_FIFO_MAX_DEPTH;
++
++		/* CR95[6:4], CR68[3:0] */
++		fifo_threshold =3D CN700_IGA2_FIFO_THRESHOLD;
++
++		/* CR95[2:0], CR92[3:0] */
++		fifo_high_threshold =3D CN700_IGA2_FIFO_HIGH_THRESHOLD;
++
++		/* CR94[6:0] */
++		display_queue_expire_num =3D CN700_IGA2_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++		/* CX700 */
++	case PCI_DEVICE_ID_VIA_VT3157:
++		/* CR95[7], CR94[7], CR68[7:4] */
++		fifo_max_depth =3D CX700_IGA2_FIFO_MAX_DEPTH;
++
++		/* CR95[6:4], CR68[3:0] */
++		fifo_threshold =3D CX700_IGA2_FIFO_THRESHOLD;
++
++		/* CR95[2:0], CR92[3:0] */
++		fifo_high_threshold =3D CX700_IGA2_FIFO_HIGH_THRESHOLD;
++
++		/* CR94[6:0] */
++		display_queue_expire_num =3D CX700_IGA2_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++
++		/* K8M890 */
++	case PCI_DEVICE_ID_VIA_K8M890:
++		/* CR95[7], CR94[7], CR68[7:4] */
++		fifo_max_depth =3D K8M890_IGA2_FIFO_MAX_DEPTH;
++
++		/* CR95[6:4], CR68[3:0] */
++		fifo_threshold =3D K8M890_IGA2_FIFO_THRESHOLD;
++
++		/* CR95[2:0], CR92[3:0] */
++		fifo_high_threshold =3D K8M890_IGA2_FIFO_HIGH_THRESHOLD;
++
++		/* CR94[6:0] */
++		display_queue_expire_num =3D K8M890_IGA2_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++		/* P4M890 */
++	case PCI_DEVICE_ID_VIA_VT3343:
++		/* CR95[7], CR94[7], CR68[7:4] */
++		fifo_max_depth =3D P4M890_IGA2_FIFO_MAX_DEPTH;
++
++		/* CR95[6:4], CR68[3:0] */
++		fifo_threshold =3D P4M890_IGA2_FIFO_THRESHOLD;
++
++		/* CR95[2:0], CR92[3:0] */
++		fifo_high_threshold =3D P4M890_IGA2_FIFO_HIGH_THRESHOLD;
++
++		/* CR94[6:0] */
++		display_queue_expire_num =3D P4M890_IGA2_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++		/* P4M900 */
++	case PCI_DEVICE_ID_VIA_P4M900:
++		/* CR95[7], CR94[7], CR68[7:4] */
++		fifo_max_depth =3D P4M900_IGA2_FIFO_MAX_DEPTH;
++
++		/* CR95[7], CR94[7], CR68[7:4] */
++		fifo_threshold =3D P4M900_IGA2_FIFO_THRESHOLD;
++
++		/* CR95[2:0], CR92[3:0] */
++		fifo_high_threshold =3D P4M900_IGA2_FIFO_HIGH_THRESHOLD;
++
++		/* CR94[6:0] */
++		display_queue_expire_num =3D P4M900_IGA2_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++		/* VX800 */
++	case PCI_DEVICE_ID_VIA_VT1122:
++		/* CR95[7], CR94[7], CR68[7:4] */
++		fifo_max_depth =3D VX800_IGA2_FIFO_MAX_DEPTH;
++
++		/* CR95[6:4], CR68[3:0] */
++		fifo_threshold =3D VX800_IGA2_FIFO_THRESHOLD;
++
++		/* CR95[2:0], CR92[3:0] */
++		fifo_high_threshold =3D VX800_IGA2_FIFO_HIGH_THRESHOLD;
++
++		/* CR94[6:0] */
++		display_queue_expire_num =3D VX800_IGA2_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++		/* VX855 */
++	case PCI_DEVICE_ID_VIA_VX875:
++		/* CR95[7], CR94[7], CR68[7:4] */
++		fifo_max_depth =3D VX855_IGA2_FIFO_MAX_DEPTH;
++
++		/* CR95[6:4], CR68[3:0] */
++		fifo_threshold =3D VX855_IGA2_FIFO_THRESHOLD;
++
++		/* CR95[2:0], CR92[3:0] */
++		fifo_high_threshold =3D VX855_IGA2_FIFO_HIGH_THRESHOLD;
++
++		/* CR94[6:0] */
++		display_queue_expire_num =3D VX855_IGA2_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++		/* VX900 */
++	case PCI_DEVICE_ID_VIA_VX900_VGA:
++		/* CR95[7], CR94[7], CR68[7:4] */
++		fifo_max_depth =3D VX900_IGA2_FIFO_MAX_DEPTH;
++
++		/* CR95[6:4], CR68[3:0] */
++		fifo_threshold =3D VX900_IGA2_FIFO_THRESHOLD;
++
++		/* CR95[2:0], CR92[3:0] */
++		fifo_high_threshold =3D VX900_IGA2_FIFO_HIGH_THRESHOLD;
++
++		/* CR94[6:0] */
++		display_queue_expire_num =3D VX900_IGA2_DISPLAY_QUEUE_EXPIRE_NUM;
++		break;
++	default:
++		ret =3D -EINVAL;
++		break;
++	}
++
++	if (ret) {
++		goto exit;
++	}
++
++	if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266) ||
++		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_KM400)) {
++		if (enable_extended_display_fifo) {
++			/* Enable IGA2 extended display FIFO. */
++			svga_wcrt_mask(VGABASE, 0x6a, BIT(5), BIT(5));
++		} else {
++			/* Disable IGA2 extended display FIFO. */
++			svga_wcrt_mask(VGABASE, 0x6a, 0x00, BIT(5));
++		}
++	}
++
++	if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266) ||
++		(pdev->device =3D=3D PCI_DEVICE_ID_VIA_KM400)) {
++		/* Set IGA2 Display FIFO Depth Select */
++		reg_value =3D IGA2_FIFO_DEPTH_SELECT_FORMULA(fifo_max_depth);
++		load_value_to_registers(VGABASE, &iga->fifo_depth, reg_value);
++
++		/* Set Display FIFO Threshold Select */
++		reg_value =3D fifo_threshold / 4;
++		load_value_to_registers(VGABASE, &iga->threshold, reg_value);
++	} else {
++		/* Set IGA2 Display FIFO Depth Select */
++		reg_value =3D IGA2_FIFO_DEPTH_SELECT_FORMULA(fifo_max_depth);
++		load_value_to_registers(VGABASE, &iga->fifo_depth, reg_value);
++
++		/* Set Display FIFO Threshold Select */
++		reg_value =3D fifo_threshold / 4;
++		load_value_to_registers(VGABASE, &iga->threshold, reg_value);
++
++		/* Set FIFO High Threshold Select */
++		reg_value =3D fifo_high_threshold / 4;
++		load_value_to_registers(VGABASE, &iga->high_threshold, reg_value);
++
++		/* Set Display Queue Expire Num */
++		reg_value =3D display_queue_expire_num / 4;
++		load_value_to_registers(VGABASE, &iga->display_queue, reg_value);
++	}
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
++}
++
++/* Load CRTC Pixel Timing registers */
++void via_load_crtc_pixel_timing(struct drm_crtc *crtc,
++				struct drm_display_mode *mode)
++{
++	struct drm_device *dev =3D crtc->dev;
++	struct via_crtc *iga =3D container_of(crtc, struct via_crtc, base);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	u32 reg_value =3D 0;
++
++	reg_value =3D IGA1_PIXELTIMING_HOR_TOTAL_FORMULA(mode->crtc_htotal);
++	load_value_to_registers(VGABASE, &iga->pixel_timings.htotal,
++				reg_value);
++
++	reg_value =3D IGA1_PIXELTIMING_HOR_ADDR_FORMULA(mode->crtc_hdisplay) << =
+16;
++	load_value_to_registers(VGABASE, &iga->pixel_timings.hdisplay,
++				reg_value);
++
++	reg_value =3D IGA1_PIXELTIMING_HOR_BLANK_START_FORMULA(
++					mode->crtc_hblank_start);
++	load_value_to_registers(VGABASE, &iga->pixel_timings.hblank_start,
++				reg_value);
++
++	reg_value =3D IGA1_PIXELTIMING_HOR_BLANK_END_FORMULA(mode->crtc_hblank_e=
+nd) << 16;
++	load_value_to_registers(VGABASE, &iga->pixel_timings.hblank_end, reg_val=
+ue);
++
++	reg_value =3D IGA1_PIXELTIMING_HOR_SYNC_START_FORMULA(mode->crtc_hsync_s=
+tart);
++	load_value_to_registers(VGABASE, &iga->pixel_timings.hsync_start,
++				reg_value);
++
++	reg_value =3D IGA1_PIXELTIMING_HOR_SYNC_END_FORMULA(mode->crtc_hsync_end=
+) << 16;
++	load_value_to_registers(VGABASE, &iga->pixel_timings.hsync_end, reg_valu=
+e);
++
++	reg_value =3D IGA1_PIXELTIMING_VER_TOTAL_FORMULA(mode->crtc_vtotal);
++	load_value_to_registers(VGABASE, &iga->pixel_timings.vtotal, reg_value);
++
++	reg_value =3D IGA1_PIXELTIMING_VER_ADDR_FORMULA(mode->crtc_vdisplay) << =
+16;
++	load_value_to_registers(VGABASE, &iga->pixel_timings.vdisplay, reg_value=
+);
++
++	reg_value =3D IGA1_PIXELTIMING_VER_BLANK_START_FORMULA(
++					mode->crtc_vblank_start);
++	load_value_to_registers(VGABASE, &iga->pixel_timings.vblank_start, reg_v=
+alue);
++
++	reg_value =3D IGA1_PIXELTIMING_VER_BLANK_END_FORMULA(mode->crtc_vblank_e=
+nd) << 16;
++	load_value_to_registers(VGABASE, &iga->pixel_timings.vblank_end, reg_val=
+ue);
++
++	reg_value =3D IGA1_PIXELTIMING_VER_SYNC_START_FORMULA(mode->crtc_vsync_s=
+tart);
++	load_value_to_registers(VGABASE, &iga->pixel_timings.vsync_start, reg_va=
+lue);
++
++	reg_value =3D IGA1_PIXELTIMING_VER_SYNC_END_FORMULA(mode->crtc_vsync_end=
+) << 12;
++	load_value_to_registers(VGABASE, &iga->pixel_timings.vsync_end, reg_valu=
+e);
++
++	if (mode->flags & DRM_MODE_FLAG_INTERLACE) {
++		reg_value =3D IGA1_PIXELTIMING_HVSYNC_OFFSET_END_FORMULA(
++				mode->crtc_htotal, mode->crtc_hsync_start);
++		VIA_WRITE_MASK(IGA1_PIX_HALF_LINE_REG, reg_value,
++					IGA1_PIX_HALF_LINE_MASK);
++
++		svga_wcrt_mask(VGABASE, 0x32, BIT(2), BIT(2));
++		/**
++		 * According to information from HW team,
++		 * we need to set 0xC280[1] =3D 1 (HDMI function enable)
++		 * or 0xC640[0] =3D 1 (DP1 enable)
++		 * to let the half line function work.
++		 * Otherwise, the clock for interlace mode
++		 * will not correct.
++		 * This is a special setting for 410.
++		 */
++		VIA_WRITE_MASK(0xC280, BIT(1), BIT(1));
++	} else {
++		VIA_WRITE_MASK(IGA1_PIX_HALF_LINE_REG, 0x0, IGA1_PIX_HALF_LINE_MASK);
++		svga_wcrt_mask(VGABASE, 0x32, 0x00, BIT(2));
++
++	}
++	svga_wcrt_mask(VGABASE, 0xFD, BIT(5), BIT(5));
++}
++
++/* Load CRTC timing registers */
++void via_load_crtc_timing(struct via_crtc *iga, struct drm_display_mode *=
+mode)
++{
++	struct drm_device *dev =3D iga->base.dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	u32 reg_value =3D 0;
++
++	if (!iga->index) {
++		if (pdev->device =3D=3D PCI_DEVICE_ID_VIA_VX900_VGA) {
++			/* Disable IGA1 shadow timing */
++			svga_wcrt_mask(VGABASE, 0x45, 0x00, BIT(0));
++
++			/* Disable IGA1 pixel timing */
++			svga_wcrt_mask(VGABASE, 0xFD, 0x00, BIT(5));
++		}
++
++		reg_value =3D IGA1_HOR_TOTAL_FORMULA(mode->crtc_htotal);
++		load_value_to_registers(VGABASE, &iga->timings.htotal, reg_value);
++
++		reg_value =3D IGA1_HOR_ADDR_FORMULA(mode->crtc_hdisplay);
++		load_value_to_registers(VGABASE, &iga->timings.hdisplay, reg_value);
++
++		reg_value =3D IGA1_HOR_BLANK_START_FORMULA(mode->crtc_hblank_start);
++		load_value_to_registers(VGABASE, &iga->timings.hblank_start, reg_value)=
+;
++
++		reg_value =3D IGA1_HOR_BLANK_END_FORMULA(mode->crtc_hblank_end);
++		load_value_to_registers(VGABASE, &iga->timings.hblank_end, reg_value);
++
++		reg_value =3D IGA1_HOR_SYNC_START_FORMULA(mode->crtc_hsync_start);
++		load_value_to_registers(VGABASE, &iga->timings.hsync_start, reg_value);
++
++		reg_value =3D IGA1_HOR_SYNC_END_FORMULA(mode->crtc_hsync_end);
++		load_value_to_registers(VGABASE, &iga->timings.hsync_end, reg_value);
++
++		reg_value =3D IGA1_VER_TOTAL_FORMULA(mode->crtc_vtotal);
++		load_value_to_registers(VGABASE, &iga->timings.vtotal, reg_value);
++
++		reg_value =3D IGA1_VER_ADDR_FORMULA(mode->crtc_vdisplay);
++		load_value_to_registers(VGABASE, &iga->timings.vdisplay, reg_value);
++
++		reg_value =3D IGA1_VER_BLANK_START_FORMULA(mode->crtc_vblank_start);
++		load_value_to_registers(VGABASE, &iga->timings.vblank_start, reg_value)=
+;
++
++		reg_value =3D IGA1_VER_BLANK_END_FORMULA(mode->crtc_vblank_end);
++		load_value_to_registers(VGABASE, &iga->timings.vblank_end, reg_value);
++
++		reg_value =3D IGA1_VER_SYNC_START_FORMULA(mode->crtc_vsync_start);
++		load_value_to_registers(VGABASE, &iga->timings.vsync_start, reg_value);
++
++		reg_value =3D IGA1_VER_SYNC_END_FORMULA(mode->crtc_vsync_end);
++		load_value_to_registers(VGABASE, &iga->timings.vsync_end, reg_value);
++	} else {
++		reg_value =3D IGA2_HOR_TOTAL_FORMULA(mode->crtc_htotal);
++		load_value_to_registers(VGABASE, &iga->timings.htotal, reg_value);
++
++		reg_value =3D IGA2_HOR_ADDR_FORMULA(mode->crtc_hdisplay);
++		load_value_to_registers(VGABASE, &iga->timings.hdisplay, reg_value);
++
++		reg_value =3D IGA2_HOR_BLANK_START_FORMULA(mode->crtc_hblank_start);
++		load_value_to_registers(VGABASE, &iga->timings.hblank_start, reg_value)=
+;
++
++		reg_value =3D IGA2_HOR_BLANK_END_FORMULA(mode->crtc_hblank_end);
++		load_value_to_registers(VGABASE, &iga->timings.hblank_end, reg_value);
++
++		reg_value =3D IGA2_HOR_SYNC_START_FORMULA(mode->crtc_hsync_start);
++		load_value_to_registers(VGABASE, &iga->timings.hsync_start, reg_value);
++
++		reg_value =3D IGA2_HOR_SYNC_END_FORMULA(mode->crtc_hsync_end);
++		load_value_to_registers(VGABASE, &iga->timings.hsync_end, reg_value);
++
++		reg_value =3D IGA2_VER_TOTAL_FORMULA(mode->crtc_vtotal);
++		load_value_to_registers(VGABASE, &iga->timings.vtotal, reg_value);
++
++		reg_value =3D IGA2_VER_ADDR_FORMULA(mode->crtc_vdisplay);
++		load_value_to_registers(VGABASE, &iga->timings.vdisplay, reg_value);
++
++		reg_value =3D IGA2_VER_BLANK_START_FORMULA(mode->crtc_vblank_start);
++		load_value_to_registers(VGABASE, &iga->timings.vblank_start, reg_value)=
+;
++
++		reg_value =3D IGA2_VER_BLANK_END_FORMULA(mode->crtc_vblank_end);
++		load_value_to_registers(VGABASE, &iga->timings.vblank_end, reg_value);
++
++		reg_value =3D IGA2_VER_SYNC_START_FORMULA(mode->crtc_vsync_start);
++		load_value_to_registers(VGABASE, &iga->timings.vsync_start, reg_value);
++
++		reg_value =3D IGA2_VER_SYNC_END_FORMULA(mode->crtc_vsync_end);
++		load_value_to_registers(VGABASE, &iga->timings.vsync_end, reg_value);
++	}
++}
++
++/*
++ * This function changes the destination of scaling up/down
++ * and CRTC timing registers
++ * crtc : which IGA
++ * scale_type : upscaling(VIA_EXPAND) or downscaling(VIA_SHRINK)
++ */
++void via_set_scale_path(struct drm_crtc *crtc, u32 scale_type)
++{
++	struct via_crtc *iga =3D container_of(crtc, struct via_crtc, base);
++	struct drm_device *dev =3D crtc->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	u8 reg_cr_fd =3D vga_rcrt(VGABASE, 0xFD);
++
++	if (!iga->index)
++		/* register reuse: select IGA1 path */
++		reg_cr_fd |=3D BIT(7);
++	else
++		/* register reuse: select IGA2 path */
++		reg_cr_fd &=3D ~BIT(7);
++
++	/* only IGA1 up scaling need to clear this bit CRFD.5. */
++	if (pdev->device =3D=3D PCI_DEVICE_ID_VIA_VX900_VGA) {
++		if (!iga->index
++			&& ((VIA_HOR_EXPAND & scale_type)
++			|| (VIA_VER_EXPAND & scale_type)))
++			reg_cr_fd &=3D ~BIT(5);
++	}
++
++	/* CRFD.0 =3D 0 : common IGA2, =3D 1 : downscaling IGA */
++	switch (scale_type) {
++	case VIA_NO_SCALING:
++	case VIA_EXPAND:
++	case VIA_HOR_EXPAND:
++	case VIA_VER_EXPAND:
++		/* register reuse: as common IGA2 */
++		reg_cr_fd &=3D ~BIT(0);
++		break;
++
++	case VIA_SHRINK:
++		/* register reuse: as downscaling IGA */
++		reg_cr_fd |=3D BIT(0);
++		break;
++
++	default:
++		break;
++	}
++	vga_wcrt(VGABASE, 0xFD, reg_cr_fd);
++}
++
++/* disable IGA scaling */
++static void via_disable_iga_scaling(struct drm_crtc *crtc)
++{
++	struct via_crtc *iga =3D container_of(crtc, struct via_crtc, base);
++	struct drm_device *dev =3D crtc->dev;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++
++	if (iga->index) {
++		/* IGA2 scalings disable */
++		via_set_scale_path(crtc, VIA_SHRINK);
++		/* disable IGA down scaling and buffer sharing. */
++		svga_wcrt_mask(VGABASE, 0x89, 0x00, BIT(7) | BIT(0));
++		/* Horizontal and Vertical scaling disable */
++		svga_wcrt_mask(VGABASE, 0xA2, 0x00, BIT(7) | BIT(3));
++
++		/* Disable scale up as well */
++		via_set_scale_path(crtc, VIA_EXPAND);
++		/* disable IGA up scaling */
++		svga_wcrt_mask(VGABASE, 0x79, 0, BIT(0));
++		/* Horizontal and Vertical scaling disable */
++		svga_wcrt_mask(VGABASE, 0xA2, 0x00, BIT(7) | BIT(3));
++	} else {
++		/* IGA1 scalings disable */
++		via_set_scale_path(crtc, VIA_SHRINK);
++		/* disable IGA down scaling and buffer sharing. */
++		svga_wcrt_mask(VGABASE, 0x89, 0x00, BIT(7) | BIT(0));
++		/* Horizontal and Vertical scaling disable */
++		svga_wcrt_mask(VGABASE, 0xA2, 0x00, BIT(7) | BIT(3));
++
++		/* Disable scale up as well */
++		via_set_scale_path(crtc, VIA_EXPAND);
++		/* disable IGA up scaling */
++		svga_wcrt_mask(VGABASE, 0x79, 0, BIT(0));
++		/* Horizontal and Vertical scaling disable */
++		svga_wcrt_mask(VGABASE, 0xA2, 0x00, BIT(7) | BIT(3));
++	}
++}
++
++/*
++ * Enable IGA scale functions.
 + *
-+ *  File:       via_regs.h
-+ *  Content:    The defines of VIA Technologies Chrome registers.
++ * input : iga_path =3D	IGA1 or IGA2 or
++ *			IGA1+IGA2
 + *
-+ ************************************************************************=
-/
++ * scale_type	=3D	VIA_HOR_EXPAND or VIA_VER_EXPAND or VIA_EXPAND or
++ *			VIA_SHRINK or VIA_SHRINK + VIA_EXPAND
++ */
++bool via_set_iga_scale_function(struct drm_crtc *crtc, u32 scale_type)
++{
++	struct via_crtc *iga =3D container_of(crtc, struct via_crtc, base);
++	struct drm_device *dev =3D crtc->dev;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
 +
-+#ifndef _VIA_REGS_H_
-+#define _VIA_REGS_H_ 1
++	if (!(scale_type & (VIA_SHRINK + VIA_EXPAND)))
++		return false;
 +
-+#define BIOS_BSIZE              1024
-+#define BIOS_BASE               0xc0000
++	if (iga->index) {
++		/* IGA2 scalings enable */
++		if (VIA_SHRINK & scale_type) {
++			via_set_scale_path(crtc, VIA_SHRINK);
++			/* Horizontal and Vertical scaling enable */
++			svga_wcrt_mask(VGABASE, 0xA2, BIT(7) | BIT(3), BIT(7) | BIT(3));
++			/* enable IGA down scaling */
++			svga_wcrt_mask(VGABASE, 0x89, BIT(0), BIT(0));
++			/* hor and ver scaling : Interpolation */
++			svga_wcrt_mask(VGABASE, 0x79, BIT(2) | BIT(1), BIT(2) | BIT(1));
++		}
 +
-+#define VIA_MMIO_REGSIZE        0xD000		/* DisplayPort:0xC610~0xC7D4 */
-+#define VIA_MMIO_REGBASE        0x0
-+#define VIA_MMIO_VGABASE        0x8000
-+#define VIA_MMIO_BLTBASE        0x200000
-+#define VIA_MMIO_BLTSIZE        0x200000
++		if (VIA_EXPAND & scale_type) {
++			via_set_scale_path(crtc, VIA_EXPAND);
++			/* enable IGA up scaling */
++			svga_wcrt_mask(VGABASE, 0x79, BIT(0), BIT(0));
++		}
 +
-+/* defines for VIA 2D registers */
-+#define VIA_REG_GECMD		0x000
-+#define VIA_REG_GEMODE		0x004
-+#define VIA_REG_GESTATUS	0x004	/* as same as VIA_REG_GEMODE */
-+#define VIA_REG_SRCPOS		0x008
-+#define VIA_REG_DSTPOS		0x00C
-+#define VIA_REG_LINE_K1K2	0x008
-+#define VIA_REG_LINE_XY		0x00C
-+#define VIA_REG_DIMENSION	0x010	/* width and height */
-+#define VIA_REG_PATADDR		0x014
-+#define VIA_REG_FGCOLOR		0x018
-+#define VIA_REG_DSTCOLORKEY	0x018	/* as same as VIA_REG_FG */
-+#define VIA_REG_BGCOLOR		0x01C
-+#define VIA_REG_SRCCOLORKEY	0x01C	/* as same as VIA_REG_BG */
-+#define VIA_REG_CLIPTL		0x020	/* top and left of clipping */
-+#define VIA_REG_CLIPBR		0x024	/* bottom and right of clipping */
-+#define VIA_REG_OFFSET		0x028
-+#define VIA_REG_LINE_ERROR	0x028
-+#define VIA_REG_KEYCONTROL	0x02C	/* color key control */
-+#define VIA_REG_SRCBASE		0x030
-+#define VIA_REG_DSTBASE		0x034
-+#define VIA_REG_PITCH		0x038	/* pitch of src and dst */
-+#define VIA_REG_MONOPAT0	0x03C
-+#define VIA_REG_MONOPAT1	0x040
-+#define VIA_REG_COLORPAT	0x100	/* from 0x100 to 0x1ff */
++		if ((VIA_EXPAND & scale_type) =3D=3D VIA_EXPAND) {
++			/* Horizontal and Vertical scaling enable */
++			svga_wcrt_mask(VGABASE, 0xA2, BIT(7) | BIT(3), BIT(7) | BIT(3));
++			/* hor and ver scaling : Interpolation */
++			svga_wcrt_mask(VGABASE, 0x79, BIT(2) | BIT(1), BIT(2) | BIT(1));
++		} else if (VIA_HOR_EXPAND & scale_type) {
++			/* Horizontal scaling disable */
++			svga_wcrt_mask(VGABASE, 0xA2, BIT(7), BIT(7));
++			/* hor scaling : Interpolation */
++			svga_wcrt_mask(VGABASE, 0x79, BIT(1), BIT(1));
++		} else if (VIA_VER_EXPAND & scale_type) {
++			/* Vertical scaling disable */
++			svga_wcrt_mask(VGABASE, 0xA2, BIT(3), BIT(3));
++			/* ver scaling : Interpolation */
++			svga_wcrt_mask(VGABASE, 0x79, BIT(2), BIT(2));
++		}
++	} else {
++		/* IGA1 scalings enable */
++		if (VIA_SHRINK & scale_type) {
++			via_set_scale_path(crtc, VIA_SHRINK);
 +
-+/* defineds vor VIA 2D registers for VT3353 (M1 engine) */
-+#define VIA_REG_GECMD_M1	0x000
-+#define VIA_REG_GEMODE_M1	0x004
-+#define VIA_REG_GESTATUS_M1	0x004	/* as same as VIA_REG_GEMODE */
-+#define VIA_REG_PITCH_M1	0x008	/* pitch of src and dst */
-+#define VIA_REG_DIMENSION_M1	0x00C	/* width and height */
-+#define VIA_REG_DSTPOS_M1	0x010
-+#define VIA_REG_LINE_XY_M1	0x010
-+#define VIA_REG_DSTBASE_M1	0x014
-+#define VIA_REG_SRCPOS_M1	0x018
-+#define VIA_REG_LINE_K1K2_M1	0x018
-+#define VIA_REG_SRCBASE_M1	0x01C
-+#define VIA_REG_PATADDR_M1	0x020
-+#define VIA_REG_MONOPAT0_M1	0x024
-+#define VIA_REG_MONOPAT1_M1	0x028
-+#define VIA_REG_OFFSET_M1	0x02C
-+#define VIA_REG_LINE_ERROR_M1	0x02C
-+#define VIA_REG_CLIPTL_M1	0x040	/* top and left of clipping */
-+#define VIA_REG_CLIPBR_M1	0x044	/* bottom and right of clipping */
-+#define VIA_REG_KEYCONTROL_M1	0x048	/* color key control */
-+#define VIA_REG_FGCOLOR_M1	0x04C
-+#define VIA_REG_DSTCOLORKEY_M1	0x04C	/* as same as VIA_REG_FG */
-+#define VIA_REG_BGCOLOR_M1	0x050
-+#define VIA_REG_SRCCOLORKEY_M1	0x050	/* as same as VIA_REG_BG */
-+#define VIA_REG_MONOPATFGC_M1	0x058	/* Add foreground color of Pattern */
-+#define VIA_REG_MONOPATBGC_M1	0x05C	/* Add background color of Pattern */
-+#define VIA_REG_COLORPAT_M1	0x100	/* from 0x100 to 0x1ff */
++			/* Horizontal and Vertical scaling enable */
++			svga_wcrt_mask(VGABASE, 0xA2, BIT(7) | BIT(3), BIT(7) | BIT(3));
++			/* enable IGA down scaling */
++			svga_wcrt_mask(VGABASE, 0x89, BIT(0), BIT(0));
++			/* hor and ver scaling : Interpolation */
++			svga_wcrt_mask(VGABASE, 0x79, BIT(2) | BIT(1), BIT(2) | BIT(1));
++		}
 +
-+/* defines for VIA video registers */
-+#define VIA_REG_INTERRUPT	0x200
-+#define VIA_REG_CRTCSTART	0x214
++		if (VIA_EXPAND & scale_type) {
++			via_set_scale_path(crtc, VIA_EXPAND);
++			/* enable IGA up scaling */
++			svga_wcrt_mask(VGABASE, 0x79, BIT(0), BIT(0));
++		}
 +
-+/*CN400 and older Hardware Icon engine register*/
-+#define HI_POSSTART		0x208
-+#define HI_CENTEROFFSET		0x20C
-+#define HI_FBOFFSET		0x224
-+#define HI_CONTROL		0x260
-+#define HI_TRANSPARENT_COLOR	0x270
-+#define HI_INVTCOLOR		0x274
-+/* VT3324 primary Hardware Icon engine register */
-+#define PRIM_HI_POSEND		0x290
-+#define V327_HI_INVTCOLOR	0x2E4
-+#define PRIM_HI_FIFO		0x2E8
-+#define PRIM_HI_TRANSCOLOR	0x2EC
-+#define PRIM_HI_CTRL		0x2F0
-+#define PRIM_HI_FBOFFSET	0x2F4
-+#define PRIM_HI_POSSTART	0x2F8
-+#define PRIM_HI_CENTEROFFSET	0x2FC
-+#define PRIM_HI_INVTCOLOR	0x120C
++		if ((VIA_EXPAND & scale_type) =3D=3D VIA_EXPAND) {
++			/* Horizontal and Vertical scaling enable */
++			svga_wcrt_mask(VGABASE, 0xA2, BIT(7) | BIT(3), BIT(7) | BIT(3));
++			/* hor and ver scaling : Interpolation */
++			svga_wcrt_mask(VGABASE, 0x79, BIT(2) | BIT(1), BIT(2) | BIT(1));
++		} else if (VIA_HOR_EXPAND & scale_type) {
++			/* Horizontal scaling disable */
++			svga_wcrt_mask(VGABASE, 0xA2, BIT(7), BIT(7));
++			/* hor scaling : Interpolation */
++			svga_wcrt_mask(VGABASE, 0x79, BIT(1), BIT(1));
++		} else if (VIA_VER_EXPAND & scale_type) {
++			/* Vertical scaling disable */
++			svga_wcrt_mask(VGABASE, 0xA2, BIT(3), BIT(3));
++			/* ver scaling : Interpolation */
++			svga_wcrt_mask(VGABASE, 0x79, BIT(2), BIT(2));
++		}
++	}
++	return true;
++}
 +
-+#define ALPHA_V3_PREFIFO_CONTROL	0x268
-+#define ALPHA_V3_FIFO_CONTROL		0x278
++/*
++ * 1. get scale factors from source and dest H & V size
++ * 2. load scale factors into registers
++ * 3. enable H or V scale ( set CRA2 bit7 or bit3 )
++ */
++bool via_load_iga_scale_factor_regs(struct via_drm_priv *dev_priv,
++					struct drm_display_mode *mode,
++					struct drm_display_mode *adjusted_mode,
++					u32 scale_type, u32 is_hor_or_ver)
++{
++	u32 dst_hor_regs =3D adjusted_mode->crtc_hdisplay;
++	u32 dst_ver_regs =3D adjusted_mode->crtc_vdisplay;
++	u32 src_hor_regs =3D mode->crtc_hdisplay;
++	u32 src_ver_regs =3D mode->crtc_vdisplay;
++	u32 hor_factor =3D 0, ver_factor =3D 0;
++	struct vga_registers reg;
 +
-+/* defines for VIA 3D registers */
-+#define VIA_REG_STATUS		0x400
-+#define VIA_REG_TRANSET		0x43C
-+#define VIA_REG_TRANSPACE	0x440
++	if ((0 =3D=3D src_hor_regs) || (0 =3D=3D src_ver_regs) || (0 =3D=3D dst_=
+hor_regs)
++			|| (0 =3D=3D dst_ver_regs))
++		return false;
 +
-+/* VIA_REG_STATUS(0x400): Engine Status */
-+#define VIA_CMD_RGTR_BUSY	0x00000080	/* Command Regulator is busy */
-+#define VIA_2D_ENG_BUSY		0x00000002	/* 2D Engine is busy */
-+#define VIA_3D_ENG_BUSY		0x00000001	/* 3D Engine is busy */
-+#define VIA_VR_QUEUE_EMPTY	0x00020000	/* Virtual Queue is busy */
++	if (VIA_EXPAND =3D=3D scale_type) {
++		if (HOR_SCALE & is_hor_or_ver) {
++			hor_factor =3D ((src_hor_regs - 1) * 4096) / (dst_hor_regs - 1);
++			reg.count =3D ARRAY_SIZE(lcd_hor_scaling);
++			reg.regs =3D lcd_hor_scaling;
++			load_value_to_registers(VGABASE, &reg, hor_factor);
++			/* Horizontal scaling enable */
++			svga_wcrt_mask(VGABASE, 0xA2, BIT(7), BIT(7));
++		}
 +
-+/* VIA_REG_STATUS(0x400): Egine Status */
-+#define VIA_CMD_RGTR_BUSY_H5	0x00000010	/* Command Regulator is busy */
-+#define VIA_2D_ENG_BUSY_H5	0x00000002	/* 2D Engine is busy */
-+#define VIA_3D_ENG_BUSY_H5	0x00001FE1	/* 3D Engine is busy */
-+#define VIA_VR_QUEUE_BUSY_H5	0x00000004	/* Virtual Queue is busy */
++		if (VER_SCALE & is_hor_or_ver) {
++			ver_factor =3D ((src_ver_regs - 1) * 2048) / (dst_ver_regs - 1);
++			reg.count =3D ARRAY_SIZE(lcd_ver_scaling);
++			reg.regs =3D lcd_ver_scaling;
++			load_value_to_registers(VGABASE, &reg, ver_factor);
++			/* Vertical scaling enable */
++			svga_wcrt_mask(VGABASE, 0xA2, BIT(3), BIT(3));
++		}
 +
-+/* VIA_REG_GECMD(0x00): 2D Engine Command  */
-+#define VIA_GEC_NOOP		0x00000000
-+#define VIA_GEC_BLT		0x00000001
-+#define VIA_GEC_LINE		0x00000005
++	} else if (VIA_SHRINK =3D=3D scale_type) {
 +
-+#define VIA_GEC_SRC_XY		0x00000000
-+#define VIA_GEC_SRC_LINEAR	0x00000010
-+#define VIA_GEC_DST_XY		0x00000000
-+#define VIA_GEC_DST_LINRAT	0x00000020
++		if (src_hor_regs > dst_hor_regs)
++			hor_factor =3D ((src_hor_regs - dst_hor_regs) * 4096) / dst_hor_regs;
 +
-+#define VIA_GEC_SRC_FB		0x00000000
-+#define VIA_GEC_SRC_SYS		0x00000040
-+#define VIA_GEC_DST_FB		0x00000000
-+#define VIA_GEC_DST_SYS		0x00000080
++		if (src_ver_regs > dst_ver_regs)
++			ver_factor =3D ((src_ver_regs - dst_ver_regs) * 2048) / dst_ver_regs;
 +
-+#define VIA_GEC_SRC_MONO	0x00000100	/* source is mono */
-+#define VIA_GEC_PAT_MONO	0x00000200	/* pattern is mono */
++		reg.count =3D ARRAY_SIZE(lcd_hor_scaling);
++		reg.regs =3D lcd_hor_scaling;
++		load_value_to_registers(VGABASE, &reg, hor_factor);
 +
-+#define VIA_GEC_MSRC_OPAQUE	0x00000000	/* mono src is opaque */
-+#define VIA_GEC_MSRC_TRANS	0x00000400	/* mono src is transparent */
++		reg.count =3D ARRAY_SIZE(lcd_ver_scaling);
++		reg.regs =3D lcd_ver_scaling;
++		load_value_to_registers(VGABASE, &reg, ver_factor);
 +
-+#define VIA_GEC_PAT_FB		0x00000000	/* pattern is in frame buffer */
-+#define VIA_GEC_PAT_REG		0x00000800	/* pattern is from reg setting */
++		/* set buffer sharing enable bit . */
++		if (hor_factor || ver_factor) {
++			if (dst_hor_regs > 1024)
++				svga_wcrt_mask(VGABASE, 0x89, BIT(7), BIT(7));
++			else
++				svga_wcrt_mask(VGABASE, 0x89, 0x00, BIT(7));
++		}
 +
-+#define VIA_GEC_CLIP_DISABLE	0x00000000
-+#define VIA_GEC_CLIP_ENABLE	0x00001000
++		if (hor_factor)
++			/* CRA2[7]:1 Enable Hor scaling
++			   CRA2[6]:1 Linear Mode */
++			svga_wcrt_mask(VGABASE, 0xA2, BIT(7) | BIT(6), BIT(7) | BIT(6));
++		else
++			svga_wcrt_mask(VGABASE, 0xA2, 0, BIT(7));
 +
-+#define VIA_GEC_FIXCOLOR_PAT	0x00002000
++		if (ver_factor)
++			svga_wcrt_mask(VGABASE, 0xA2, BIT(3), BIT(3));
++		else
++			svga_wcrt_mask(VGABASE, 0xA2, 0, BIT(3));
++	}
++	return true;
++}
 +
-+#define VIA_GEC_INCX		0x00000000
-+#define VIA_GEC_DECY		0x00004000
-+#define VIA_GEC_INCY		0x00000000
-+#define VIA_GEC_DECX		0x00008000
++void via_set_iga2_downscale_source_timing(struct drm_crtc *crtc,
++				struct drm_display_mode *mode,
++				struct drm_display_mode *adjusted_mode)
++{
++	unsigned int viewx =3D adjusted_mode->hdisplay,
++			viewy =3D adjusted_mode->vdisplay;
++	unsigned int srcx =3D mode->crtc_hdisplay, srcy =3D mode->crtc_vdisplay;
++	struct via_crtc *iga =3D container_of(crtc, struct via_crtc, base);
++	struct drm_display_mode *src_timing;
 +
-+#define VIA_GEC_MPAT_OPAQUE	0x00000000	/* mono pattern is opaque */
-+#define VIA_GEC_MPAT_TRANS	0x00010000	/* mono pattern is transparent */
++	src_timing =3D drm_mode_duplicate(crtc->dev, adjusted_mode);
++	/* derived source timing */
++	if (srcx <=3D viewx) {
++		src_timing->crtc_htotal =3D adjusted_mode->crtc_htotal;
++		src_timing->crtc_hdisplay =3D adjusted_mode->crtc_hdisplay;
++	} else {
++		unsigned int htotal =3D adjusted_mode->crtc_htotal -
++					adjusted_mode->crtc_hdisplay;
 +
-+#define VIA_GEC_MONO_UNPACK	0x00000000
-+#define VIA_GEC_MONO_PACK	0x00020000
-+#define VIA_GEC_MONO_DWORD	0x00000000
-+#define VIA_GEC_MONO_WORD	0x00040000
-+#define VIA_GEC_MONO_BYTE	0x00080000
++		src_timing->crtc_htotal =3D htotal + srcx;
++		src_timing->crtc_hdisplay =3D srcx;
++	}
++	src_timing->crtc_hblank_start =3D src_timing->crtc_hdisplay;
++	src_timing->crtc_hblank_end =3D src_timing->crtc_htotal;
++	src_timing->crtc_hsync_start =3D src_timing->crtc_hdisplay + 2;
++	src_timing->crtc_hsync_end =3D src_timing->crtc_hsync_start + 1;
 +
-+#define VIA_GEC_LASTPIXEL_ON	0x00000000
-+#define VIA_GEC_LASTPIXEL_OFF	0x00100000
-+#define VIA_GEC_X_MAJOR		0x00000000
-+#define VIA_GEC_Y_MAJOR		0x00200000
-+#define VIA_GEC_QUICK_START	0x00800000
++	if (srcy <=3D viewy) {
++		src_timing->crtc_vtotal =3D adjusted_mode->crtc_vtotal;
++		src_timing->crtc_vdisplay =3D adjusted_mode->crtc_vdisplay;
++	} else {
++		unsigned int vtotal =3D adjusted_mode->crtc_vtotal -
++					adjusted_mode->crtc_vdisplay;
 +
++		src_timing->crtc_vtotal =3D vtotal + srcy;
++		src_timing->crtc_vdisplay =3D srcy;
++	}
++	src_timing->crtc_vblank_start =3D src_timing->crtc_vdisplay;
++	src_timing->crtc_vblank_end =3D src_timing->crtc_vtotal;
++	src_timing->crtc_vsync_start =3D src_timing->crtc_vdisplay + 2;
++	src_timing->crtc_vsync_end =3D src_timing->crtc_vsync_start + 1;
 +
-+/* VIA_REG_GEMODE(0x04): GE mode */
-+#define VIA_GEM_8bpp		0x00000000
-+#define VIA_GEM_16bpp		0x00000100
-+#define VIA_GEM_32bpp		0x00000300
++	via_set_scale_path(crtc, VIA_NO_SCALING);
++	/* load src timing */
++	via_load_crtc_timing(iga, src_timing);
 +
-+#define VIA_GEM_640		0x00000000	/* 640*480 */
-+#define VIA_GEM_800		0x00000400	/* 800*600 */
-+#define VIA_GEM_1024		0x00000800	/* 1024*768 */
-+#define VIA_GEM_1280		0x00000C00	/* 1280*1024 */
-+#define VIA_GEM_1600		0x00001000	/* 1600*1200 */
-+#define VIA_GEM_2048		0x00001400	/* 2048*1536 */
++	/* Cleanup up source timings */
++	drm_mode_destroy(crtc->dev, src_timing);
++}
 +
-+/* VIA_REG_PITCH(0x38): Pitch Setting */
-+#define VIA_PITCH_ENABLE	0x80000000
++void via_mode_set_nofb(struct drm_crtc *crtc)
++{
++	struct drm_device *dev =3D crtc->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct drm_display_mode *mode =3D &crtc->state->mode;
++	struct drm_display_mode *adjusted_mode =3D
++					&crtc->state->adjusted_mode;
++	struct via_crtc *iga =3D container_of(crtc,
++						struct via_crtc, base);
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	u8 reg_value =3D 0;
++	int ret;
 +
-+/* CN400 HQV offset */
-+#define REG_HQV1_INDEX		0x00001000
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+/************************************************
-+ *     DisplayPort Register
-+ ************************************************/
-+#define DP_DATA_PASS_ENABLE_REG 0xC000
++	if (!iga->index) {
++		/* Load standard registers */
++		via_load_vpit_regs(dev_priv);
 +
-+#define DP_ATTR_DATA_REG	0xC610
-+#define DP_LINK_TRAINING_REG	0xC614
-+#define DP_VIDEO_CTRL_REG	0xC618
-+#define DP_VER_EXT_PKT_HEAD_REG	0xC61C
++		/* Unlock */
++		via_unlock_crtc(VGABASE, pdev->device);
 +
-+/* DP Display Port Enable and InfoFrame Control */
-+#define DP_ENABLE_IF_REG	0xC640
-+#define DP_HWIDTH_TUSIZE_REG	0xC644
-+#define DP_HLINE_DUR_REG	0xC648
-+#define DP_MVID_MISC0_REG	0xC64C
++		/* IGA1 reset */
++		vga_wcrt(VGABASE, 0x09, 0x00); /* initial CR09=3D0 */
++		svga_wcrt_mask(VGABASE, 0x11, 0x00, BIT(6));
 +
-+#define DP_H_ATTR_REG		0xC650
-+#define DP_HV_START_REG		0xC654
-+#define DP_POLARITY_WIDTH_REG	0xC658
-+#define DP_ACITVE_WH_REG	0xC65C
++		/* disable IGA scales first */
++		via_disable_iga_scaling(crtc);
 +
-+#define AUX_W_DATA0_REG		0xC710
-+#define AUX_W_DATA1_REG		0xC714
-+#define AUX_W_DATA2_REG		0xC718
-+#define AUX_W_DATA3_REG		0xC71C
++		/*
++		 * when not down scaling, we only need load one
++		 * timing.
++		 */
++		via_load_crtc_timing(iga, adjusted_mode);
 +
-+#define AUX_R_DATA0_REG		0xC720
-+#define AUX_R_DATA1_REG		0xC724
-+#define AUX_R_DATA2_REG		0xC728
-+#define AUX_R_DATA3_REG		0xC72C
-+#define VIA_IRQ_DP_HOT_IRQ	0xC0000000
-+#define VIA_IRQ_DP_HOT_UNPLUG	0x80000000
-+#define VIA_IRQ_DP_HOT_PLUG	0x40000000
-+#define VIA_IRQ_DP_NO_INT	0x00000000
++		switch (adjusted_mode->crtc_htotal % 8) {
++		case 0:
++		default:
++			break;
++		case 2:
++			reg_value =3D BIT(7);
++			break;
++		case 4:
++			reg_value =3D BIT(6);
++			break;
++		case 6:
++			reg_value =3D BIT(3);
++			break;
++		}
 +
-+#define AUX_TIMER_REG		0xC730
-+#define AUX_CMD_REG		0xC734
-+#define DP_NAUD_MUTE_REG	0xC738
++		svga_wcrt_mask(VGABASE, 0x47,
++				reg_value, BIT(7) | BIT(6) | BIT(3));
 +
-+#define DP_EPHY_PLL_REG		0xC740
-+#define DP_EPHY_TX_PWR_REG	0xC744
-+#define DP_EPHY_MISC_PWR_REG	0xC748
++		/* Relock */
++		via_lock_crtc(VGABASE);
 +
-+/*************************************************
-+ *     DisplayPort2 Register
-+ *************************************************/
-+#define DP2_NVID_MISC0_REG		0xC690
-+#define DP2_LINK_TRAINING_REG		0xC694
-+#define DP2_VIDEO_CTRL_REG		0xC698
-+#define DP2_EXT_REG			0xC69C
-+#define DP2_VER_EXT_PKT_HEAD_REG	0xC61C
++		/* Set non-interlace / interlace mode. */
++		via_iga1_set_interlace_mode(VGABASE,
++					adjusted_mode->flags &
++					DRM_MODE_FLAG_INTERLACE);
 +
-+/* DP2 Display Port Enable and InfoFrame Control */
-+#define DP2_ENABLE_IF_REG	0xC6C0
-+#define DP2_HWIDTH_TUSIZE_REG	0xC6C4
-+#define DP2_HLINE_DUR_REG	0xC6C8
-+#define DP2_MVID_MISC0_REG	0xC6CC
++		/* No HSYNC shift. */
++		via_iga1_set_hsync_shift(VGABASE, 0x05);
 +
-+#define DP2_H_ATTR_REG		0xC6D0
-+#define DP2_HV_START_REG	0xC6D4
-+#define DP2_POLARITY_WIDTH_REG	0xC6D8
-+#define DP2_ACITVE_WH_REG	0xC6DC
++		/* Load display FIFO. */
++		ret =3D via_iga1_display_fifo_regs(dev, dev_priv,
++						iga, adjusted_mode,
++						crtc->primary->fb);
++		if (ret) {
++			goto exit;
++		}
 +
-+/* the same with DP1 */
-+#define DP2_EPHY_SSC_REG	0xC740
-+/* the same with DP1 */
-+#define DP2_EPHY_RT_REG		0xC744
++		/* Set PLL */
++		if (adjusted_mode->clock) {
++			u32 clock =3D adjusted_mode->clock * 1000;
++			u32 pll_regs;
 +
-+#define DP2_AUX_W_DATA0_REG	0xC790
-+#define DP2_AUX_W_DATA1_REG	0xC794
-+#define DP2_AUX_W_DATA2_REG	0xC798
-+#define DP2_AUX_W_DATA3_REG	0xC79C
++			if (iga->scaling_mode & VIA_SHRINK)
++				clock *=3D 2;
++			pll_regs =3D via_get_clk_value(crtc->dev, clock);
++			via_set_vclock(crtc, pll_regs);
++		}
 +
-+#define DP2_AUX_R_DATA0_REG	0xC7A0
-+#define DP2_AUX_R_DATA1_REG	0xC7A4
-+#define DP2_AUX_R_DATA2_REG	0xC7A8
-+#define DP2_AUX_R_DATA3_REG	0xC7AC
++		via_iga_common_init(VGABASE);
 +
-+#define DP2_AUX_TIMER_REG	0xC7B0
-+#define DP2_AUX_CMD_REG		0xC7B4
-+#define DP2_NAUD_MUTE_REG	0xC7B8
++		/* Set palette LUT to 8-bit mode. */
++		via_iga1_set_palette_lut_resolution(VGABASE, true);
++	} else {
++		/* Load standard registers */
++		via_load_vpit_regs(dev_priv);
 +
-+#define DP2_EPHY_TX_PWR_REG2	0xC7C0
-+#define DP2_EPHY_TX_IDLE_REG	0xC7C4
-+#define DP2_EPHY_TX_PWR_REG	0xC7C8
-+#define DP2_EPHY_PLL_REG	0xC7CC
++		/* Unlock */
++		via_unlock_crtc(VGABASE, pdev->device);
 +
-+#endif /* _VIA_REGS_H_ */
++		/* disable IGA scales first */
++		via_disable_iga_scaling(crtc);
++
++		/* Load crtc timing and IGA scaling */
++		if (iga->scaling_mode & VIA_SHRINK) {
++			/*
++			 * enable IGA2 down scaling and set
++			 * Interpolation
++			 */
++			via_set_iga_scale_function(crtc, VIA_SHRINK);
++
++			/* load hor and ver downscaling factor */
++			/*
++			 * interlace modes scaling support(example
++			 * 1080I): we should use mode->crtc_vdisplay
++			 * here, because crtc_vdisplay=3D540,
++			 * vdisplay=3D1080, we need 540 here, not 1080.
++			 */
++			via_load_iga_scale_factor_regs(dev_priv,
++							mode,
++							adjusted_mode,
++							VIA_SHRINK,
++							HOR_VER_SCALE);
++			/* load src timing to timing registers */
++			/*
++			 * interlace modes scaling support(example
++			 * 1080I): we should use mode->crtc_vdisplay
++			 * here, because crtc_vdisplay=3D540,
++			 * vdisplay=3D1080, we need 540 here, not 1080.
++			 */
++			via_set_iga2_downscale_source_timing(crtc,
++							mode,
++							adjusted_mode);
++
++			/* Download dst timing */
++			via_set_scale_path(crtc, VIA_SHRINK);
++			via_load_crtc_timing(iga, adjusted_mode);
++			/*
++			 * very necessary to set IGA to none scaling
++			 * status need to fix why so need.
++			 */
++			via_set_scale_path(crtc, VIA_NO_SCALING);
++		} else {
++			/*
++			 * when not down scaling, we only need load
++			 * one timing.
++			 */
++			via_load_crtc_timing(iga, adjusted_mode);
++
++			/* II. up scaling */
++			if (iga->scaling_mode & VIA_EXPAND) {
++				/* Horizontal scaling */
++				if (iga->scaling_mode &
++					VIA_HOR_EXPAND) {
++					via_set_iga_scale_function(
++						crtc,
++						VIA_HOR_EXPAND);
++					via_load_iga_scale_factor_regs(
++							dev_priv,
++							mode,
++							adjusted_mode,
++							VIA_EXPAND,
++							HOR_SCALE);
++				}
++
++				/* Vertical scaling */
++				if (iga->scaling_mode &
++					VIA_VER_EXPAND) {
++					via_set_iga_scale_function(
++							crtc,
++							VIA_VER_EXPAND);
++					via_load_iga_scale_factor_regs(
++							dev_priv,
++							mode,
++							adjusted_mode,
++							VIA_EXPAND,
++							VER_SCALE);
++				}
++			}
++		}
++
++		/* Relock */
++		via_lock_crtc(VGABASE);
++
++		/* Set non-interlace / interlace mode. */
++		via_iga2_set_interlace_mode(VGABASE,
++					adjusted_mode->flags &
++					DRM_MODE_FLAG_INTERLACE);
++
++		/* Load display FIFO. */
++		ret =3D via_iga2_display_fifo_regs(dev, dev_priv,
++						iga, adjusted_mode,
++						crtc->primary->fb);
++		if (ret) {
++			goto exit;
++		}
++
++		/* Set PLL */
++		if (adjusted_mode->clock) {
++			u32 clock =3D adjusted_mode->clock * 1000;
++			u32 pll_regs;
++
++			if (iga->scaling_mode & VIA_SHRINK)
++				clock *=3D 2;
++			pll_regs =3D via_get_clk_value(crtc->dev, clock);
++			via_set_vclock(crtc, pll_regs);
++		}
++
++		via_iga_common_init(VGABASE);
++
++		/* Set palette LUT to 8-bit mode. */
++		via_iga2_set_palette_lut_resolution(VGABASE, true);
++
++		svga_wcrt_mask(VGABASE, 0x6A, BIT(7), BIT(7));
++	}
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static void via_crtc_helper_atomic_enable(struct drm_crtc *crtc,
++					struct drm_atomic_state *state)
++{
++	struct drm_device *dev =3D crtc->dev;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	struct via_crtc *iga =3D container_of(crtc,
++						struct via_crtc, base);
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (!iga->index) {
++		svga_wseq_mask(VGABASE, 0x01, 0x00, BIT(5));
++	} else {
++		svga_wcrt_mask(VGABASE, 0x6B, 0x00, BIT(2));
++	}
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static void via_crtc_helper_atomic_disable(struct drm_crtc *crtc,
++					struct drm_atomic_state *state)
++{
++	struct drm_device *dev =3D crtc->dev;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	struct via_crtc *iga =3D container_of(crtc,
++						struct via_crtc, base);
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (!iga->index) {
++		svga_wseq_mask(VGABASE, 0x01, BIT(5), BIT(5));
++	} else {
++		svga_wcrt_mask(VGABASE, 0x6B, BIT(2), BIT(2));
++	}
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static const struct drm_crtc_helper_funcs via_drm_crtc_helper_funcs =3D {
++	.mode_set_nofb =3D via_mode_set_nofb,
++	.atomic_enable =3D via_crtc_helper_atomic_enable,
++	.atomic_disable =3D via_crtc_helper_atomic_disable,
++};
++
++static int via_primary_atomic_check(struct drm_plane *plane,
++					struct drm_atomic_state *state)
++{
++	struct drm_plane_state *new_plane_state =3D
++			drm_atomic_get_new_plane_state(state, plane);
++	struct drm_crtc_state *new_crtc_state;
++	struct drm_device *dev =3D plane->dev;
++	struct drm_framebuffer *fb =3D new_plane_state->fb;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	uint32_t frame_buffer_size;
++	int ret =3D 0;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if ((!new_plane_state->crtc) || (!new_plane_state->visible)) {
++		goto exit;
++	}
++
++	frame_buffer_size =3D (fb->width * fb->format->cpp[0]) *
++				fb->height;
++	if (frame_buffer_size > dev_priv->vram_size) {
++		ret =3D -ENOMEM;
++		goto exit;
++	}
++
++	if ((fb->width > dev->mode_config.max_width) ||
++		(fb->width < dev->mode_config.min_width)) {
++		ret =3D -EINVAL;
++		goto exit;
++	}
++
++	new_crtc_state =3D drm_atomic_get_new_crtc_state(state,
++						new_plane_state->crtc);
++	ret =3D drm_atomic_helper_check_plane_state(
++					new_plane_state,
++					new_crtc_state,
++					DRM_PLANE_HELPER_NO_SCALING,
++					DRM_PLANE_HELPER_NO_SCALING,
++					false, true);
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
++}
++
++static void via_primary_atomic_disable(struct drm_plane *plane,
++					struct drm_atomic_state *state)
++{
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return;
++}
++
++void via_primary_atomic_update(struct drm_plane *plane,
++					struct drm_atomic_state *state)
++{
++	struct drm_plane_state *new_state =3D
++			drm_atomic_get_new_plane_state(state, plane);
++	struct drm_crtc *crtc =3D new_state->crtc;
++	struct drm_framebuffer *fb =3D new_state->fb;
++	uint32_t pitch =3D (new_state->crtc_y * fb->pitches[0]) +
++			(new_state->crtc_x * fb->format->cpp[0]);
++	uint32_t addr;
++	struct via_crtc *iga =3D container_of(crtc, struct via_crtc, base);
++	struct drm_device *dev =3D crtc->dev;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	struct drm_gem_object *gem;
++	struct ttm_buffer_object *ttm_bo;
++	struct via_bo *bo;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	gem =3D fb->obj[0];
++	ttm_bo =3D container_of(gem, struct ttm_buffer_object, base);
++	bo =3D to_ttm_bo(ttm_bo);
++
++	if (!iga->index) {
++		via_iga1_set_color_depth(dev_priv, fb->format->depth);
++
++		/* Set the framebuffer offset */
++		addr =3D round_up((ttm_bo->resource->start << PAGE_SHIFT) +
++				pitch, 16) >> 1;
++
++		vga_wcrt(VGABASE, 0x0D, addr & 0xFF);
++		vga_wcrt(VGABASE, 0x0C, (addr >> 8) & 0xFF);
++		/* Yes order of setting these registers matters on some hardware */
++		svga_wcrt_mask(VGABASE, 0x48, ((addr >> 24) & 0x1F), 0x1F);
++		vga_wcrt(VGABASE, 0x34, (addr >> 16) & 0xFF);
++
++		/* Load fetch count registers */
++		pitch =3D ALIGN(crtc->mode.hdisplay * fb->format->cpp[0],
++				16);
++		load_value_to_registers(VGABASE, &iga->fetch, pitch >> 4);
++
++		/* Set the primary pitch */
++		pitch =3D ALIGN(fb->pitches[0], 16);
++		/* Spec does not say that first adapter skips 3 bits but old
++		 * code did it and seems to be reasonable in analogy to
++		 * second adapter */
++		load_value_to_registers(VGABASE, &iga->offset, pitch >> 3);
++	} else {
++		via_iga2_set_color_depth(dev_priv, fb->format->depth);
++
++		/* Set the framebuffer offset */
++		addr =3D round_up((ttm_bo->resource->start << PAGE_SHIFT) +
++				pitch, 16);
++		/* Bits 9 to 3 of the frame buffer go into bits 7 to 1
++		 * of the register. Bit 0 is for setting tile mode or
++		 * linear mode. A value of zero sets it to linear mode */
++		vga_wcrt(VGABASE, 0x62, ((addr >> 3) & 0x7F) << 1);
++		vga_wcrt(VGABASE, 0x63, (addr >> 10) & 0xFF);
++		vga_wcrt(VGABASE, 0x64, (addr >> 18) & 0xFF);
++		svga_wcrt_mask(VGABASE, 0xA3, ((addr >> 26) & 0x07), 0x07);
++
++		/* Load fetch count registers */
++		pitch =3D ALIGN(crtc->mode.hdisplay * (fb->format->cpp[0] * 8) >> 3, 16=
+);
++		load_value_to_registers(VGABASE, &iga->fetch, pitch >> 4);
++
++		/* Set secondary pitch */
++		pitch =3D ALIGN(fb->pitches[0], 16);
++		load_value_to_registers(VGABASE, &iga->offset, pitch >> 3);
++	}
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static int via_primary_prepare_fb(struct drm_plane *plane,
++				struct drm_plane_state *new_state)
++{
++	struct drm_gem_object *gem;
++	struct ttm_buffer_object *ttm_bo;
++	struct via_bo *bo;
++	int ret =3D 0;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (!new_state->fb) {
++		goto exit;
++	}
++
++	gem =3D new_state->fb->obj[0];
++	ttm_bo =3D container_of(gem, struct ttm_buffer_object, base);
++	bo =3D to_ttm_bo(ttm_bo);
++
++	ret =3D ttm_bo_reserve(ttm_bo, true, false, NULL);
++	if (ret) {
++		goto exit;
++	}
++
++	ret =3D via_bo_pin(bo, TTM_PL_VRAM);
++	ttm_bo_unreserve(ttm_bo);
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
++}
++
++static void via_primary_cleanup_fb(struct drm_plane *plane,
++				struct drm_plane_state *old_state)
++{
++	struct drm_gem_object *gem;
++	struct ttm_buffer_object *ttm_bo;
++	struct via_bo *bo;
++	int ret;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (!old_state->fb) {
++		goto exit;
++	}
++
++	gem =3D old_state->fb->obj[0];
++	ttm_bo =3D container_of(gem, struct ttm_buffer_object, base);
++	bo =3D to_ttm_bo(ttm_bo);
++
++	ret =3D ttm_bo_reserve(ttm_bo, true, false, NULL);
++	if (ret) {
++		goto exit;
++	}
++
++	via_bo_unpin(bo);
++	ttm_bo_unreserve(ttm_bo);
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static const struct drm_plane_helper_funcs
++via_primary_drm_plane_helper_funcs =3D {
++	.prepare_fb =3D via_primary_prepare_fb,
++	.cleanup_fb =3D via_primary_cleanup_fb,
++	.atomic_check =3D via_primary_atomic_check,
++	.atomic_update =3D via_primary_atomic_update,
++	.atomic_disable =3D via_primary_atomic_disable,
++};
++
++static const struct drm_plane_funcs via_primary_drm_plane_funcs =3D {
++	.update_plane	=3D drm_atomic_helper_update_plane,
++	.disable_plane =3D drm_atomic_helper_disable_plane,
++	.destroy =3D drm_plane_cleanup,
++	.reset =3D drm_atomic_helper_plane_reset,
++	.atomic_duplicate_state =3D
++			drm_atomic_helper_plane_duplicate_state,
++	.atomic_destroy_state =3D
++			drm_atomic_helper_plane_destroy_state,
++};
++
++static void via_crtc_param_init(struct via_drm_priv *dev_priv,
++					struct drm_crtc *crtc,
++					uint32_t index)
++{
++	struct drm_device *dev =3D &dev_priv->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	struct via_crtc *iga =3D container_of(crtc,
++						struct via_crtc, base);
++
++	if (iga->index) {
++		iga->timings.htotal.count =3D ARRAY_SIZE(iga2_hor_total);
++		iga->timings.htotal.regs =3D iga2_hor_total;
++
++		iga->timings.hdisplay.count =3D ARRAY_SIZE(iga2_hor_addr);
++		iga->timings.hdisplay.regs =3D iga2_hor_addr;
++		if (pdev->device !=3D PCI_DEVICE_ID_VIA_VX900_VGA)
++			iga->timings.hdisplay.count--;
++
++		iga->timings.hblank_start.count =3D ARRAY_SIZE(iga2_hor_blank_start);
++		iga->timings.hblank_start.regs =3D iga2_hor_blank_start;
++		if (pdev->device !=3D PCI_DEVICE_ID_VIA_VX900_VGA)
++			iga->timings.hblank_start.count--;
++
++		iga->timings.hblank_end.count =3D ARRAY_SIZE(iga2_hor_blank_end);
++		iga->timings.hblank_end.regs =3D iga2_hor_blank_end;
++
++		iga->timings.hsync_start.count =3D ARRAY_SIZE(iga2_hor_sync_start);
++		iga->timings.hsync_start.regs =3D iga2_hor_sync_start;
++		if (pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266
++			|| pdev->device =3D=3D PCI_DEVICE_ID_VIA_KM400)
++			iga->timings.hsync_start.count--;
++
++		iga->timings.hsync_end.count =3D ARRAY_SIZE(iga2_hor_sync_end);
++		iga->timings.hsync_end.regs =3D iga2_hor_sync_end;
++
++		iga->timings.vtotal.count =3D ARRAY_SIZE(iga2_ver_total);
++		iga->timings.vtotal.regs =3D iga2_ver_total;
++
++		iga->timings.vdisplay.count =3D ARRAY_SIZE(iga2_ver_addr);
++		iga->timings.vdisplay.regs =3D iga2_ver_addr;
++
++		iga->timings.vblank_start.count =3D ARRAY_SIZE(iga2_ver_blank_start);
++		iga->timings.vblank_start.regs =3D iga2_ver_blank_start;
++
++		iga->timings.vblank_end.count =3D ARRAY_SIZE(iga2_ver_blank_end);
++		iga->timings.vblank_end.regs =3D iga2_ver_blank_end;
++
++		iga->timings.vsync_start.count =3D ARRAY_SIZE(iga2_ver_sync_start);
++		iga->timings.vsync_start.regs =3D iga2_ver_sync_start;
++
++		iga->timings.vsync_end.count =3D ARRAY_SIZE(iga2_ver_sync_end);
++		iga->timings.vsync_end.regs =3D iga2_ver_sync_end;
++
++		/* Secondary FIFO setup */
++		if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266) ||
++			(pdev->device =3D=3D PCI_DEVICE_ID_VIA_KM400)) {
++			iga->fifo_depth.count =3D
++				ARRAY_SIZE(iga2_cle266_fifo_depth_select);
++			iga->fifo_depth.regs =3D iga2_cle266_fifo_depth_select;
++
++			iga->threshold.count =3D
++				ARRAY_SIZE(iga2_cle266_fifo_threshold_select);
++			iga->threshold.regs =3D iga2_cle266_fifo_threshold_select;
++		} else {
++			iga->fifo_depth.count =3D ARRAY_SIZE(iga2_k8m800_fifo_depth_select);
++			iga->fifo_depth.regs =3D iga2_k8m800_fifo_depth_select;
++
++			iga->threshold.count =3D ARRAY_SIZE(iga2_k8m800_fifo_threshold_select)=
+;
++			iga->threshold.regs =3D iga2_k8m800_fifo_threshold_select;
++
++			iga->high_threshold.count =3D ARRAY_SIZE(iga2_fifo_high_threshold_sele=
+ct);
++			iga->high_threshold.regs =3D iga2_fifo_high_threshold_select;
++
++			iga->display_queue.count =3D ARRAY_SIZE(iga2_display_queue_expire_num)=
+;
++			iga->display_queue.regs =3D iga2_display_queue_expire_num;
++		}
++
++		iga->fetch.count =3D ARRAY_SIZE(iga2_fetch_count);
++		iga->fetch.regs =3D iga2_fetch_count;
++
++		/* Older hardware only uses 12 bits */
++		iga->offset.count =3D ARRAY_SIZE(iga2_offset) - 1;
++		iga->offset.regs =3D iga2_offset;
++	} else {
++		iga->timings.htotal.count =3D ARRAY_SIZE(iga1_hor_total);
++		iga->timings.htotal.regs =3D iga1_hor_total;
++
++		iga->timings.hdisplay.count =3D ARRAY_SIZE(iga1_hor_addr);
++		iga->timings.hdisplay.regs =3D iga1_hor_addr;
++		if (pdev->device !=3D PCI_DEVICE_ID_VIA_VX900_VGA)
++			iga->timings.hdisplay.count--;
++
++		iga->timings.hblank_start.count =3D ARRAY_SIZE(iga1_hor_blank_start);
++		iga->timings.hblank_start.regs =3D iga1_hor_blank_start;
++		if (pdev->device !=3D PCI_DEVICE_ID_VIA_VX900_VGA)
++			iga->timings.hblank_start.count--;
++
++		iga->timings.hblank_end.count =3D ARRAY_SIZE(iga1_hor_blank_end);
++		iga->timings.hblank_end.regs =3D iga1_hor_blank_end;
++
++		iga->timings.hsync_start.count =3D ARRAY_SIZE(iga1_hor_sync_start);
++		iga->timings.hsync_start.regs =3D iga1_hor_sync_start;
++
++		iga->timings.hsync_end.count =3D ARRAY_SIZE(iga1_hor_sync_end);
++		iga->timings.hsync_end.regs =3D iga1_hor_sync_end;
++
++		iga->timings.vtotal.count =3D ARRAY_SIZE(iga1_ver_total);
++		iga->timings.vtotal.regs =3D iga1_ver_total;
++
++		iga->timings.vdisplay.count =3D ARRAY_SIZE(iga1_ver_addr);
++		iga->timings.vdisplay.regs =3D iga1_ver_addr;
++
++		iga->timings.vblank_start.count =3D ARRAY_SIZE(iga1_ver_blank_start);
++		iga->timings.vblank_start.regs =3D iga1_ver_blank_start;
++
++		iga->timings.vblank_end.count =3D ARRAY_SIZE(iga1_ver_blank_end);
++		iga->timings.vblank_end.regs =3D iga1_ver_blank_end;
++
++		iga->timings.vsync_start.count =3D ARRAY_SIZE(iga1_ver_sync_start);
++		iga->timings.vsync_start.regs =3D iga1_ver_sync_start;
++
++		iga->timings.vsync_end.count =3D ARRAY_SIZE(iga1_ver_sync_end);
++		iga->timings.vsync_end.regs =3D iga1_ver_sync_end;
++
++		/* Primary FIFO setup */
++		if ((pdev->device =3D=3D PCI_DEVICE_ID_VIA_CLE266) ||
++			(pdev->device =3D=3D PCI_DEVICE_ID_VIA_KM400)) {
++			iga->fifo_depth.count =3D ARRAY_SIZE(iga1_cle266_fifo_depth_select);
++			iga->fifo_depth.regs =3D iga1_cle266_fifo_depth_select;
++
++			iga->threshold.count =3D ARRAY_SIZE(iga1_cle266_fifo_threshold_select)=
+;
++			iga->threshold.regs =3D iga1_cle266_fifo_threshold_select;
++
++			iga->high_threshold.count =3D ARRAY_SIZE(iga1_cle266_fifo_high_thresho=
+ld_select);
++			iga->high_threshold.regs =3D iga1_cle266_fifo_high_threshold_select;
++
++			iga->display_queue.count =3D ARRAY_SIZE(iga1_cle266_display_queue_expi=
+re_num);
++			iga->display_queue.regs =3D iga1_cle266_display_queue_expire_num;
++		} else {
++			iga->fifo_depth.count =3D ARRAY_SIZE(iga1_k8m800_fifo_depth_select);
++			iga->fifo_depth.regs =3D iga1_k8m800_fifo_depth_select;
++
++			iga->threshold.count =3D ARRAY_SIZE(iga1_k8m800_fifo_threshold_select)=
+;
++			iga->threshold.regs =3D iga1_k8m800_fifo_threshold_select;
++
++			iga->high_threshold.count =3D ARRAY_SIZE(iga1_k8m800_fifo_high_thresho=
+ld_select);
++			iga->high_threshold.regs =3D iga1_k8m800_fifo_high_threshold_select;
++
++			iga->display_queue.count =3D ARRAY_SIZE(iga1_k8m800_display_queue_expi=
+re_num);
++			iga->display_queue.regs =3D iga1_k8m800_display_queue_expire_num;
++		}
++
++		iga->fetch.count =3D ARRAY_SIZE(iga1_fetch_count);
++		iga->fetch.regs =3D iga1_fetch_count;
++
++		iga->offset.count =3D ARRAY_SIZE(iga1_offset);
++		iga->offset.regs =3D iga1_offset;
++	}
++}
++
++static int via_gamma_init(struct drm_crtc *crtc)
++{
++	u16 *gamma;
++	uint32_t i;
++	int ret;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	ret =3D drm_mode_crtc_set_gamma_size(crtc, 256);
++	if (ret) {
++		DRM_ERROR("Failed to set gamma size!\n");
++		goto exit;
++	}
++
++	gamma =3D crtc->gamma_store;
++	for (i =3D 0; i < 256; i++) {
++		gamma[i] =3D i << 8 | i;
++		gamma[i + 256] =3D i << 8 | i;
++		gamma[i + 512] =3D i << 8 | i;
++	}
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
++}
++
++static const uint32_t via_primary_formats[] =3D {
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_RGB888,
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_RGB332,
++};
++
++int via_crtc_init(struct via_drm_priv *dev_priv, uint32_t index)
++{
++	struct drm_device *dev =3D &dev_priv->dev;
++	struct via_crtc *iga;
++	struct drm_plane *primary;
++	struct drm_plane *cursor;
++	uint32_t possible_crtcs;
++	int ret;
++
++	possible_crtcs =3D 1 << index;
++
++	primary =3D kzalloc(sizeof(struct drm_plane), GFP_KERNEL);
++	if (!primary) {
++		ret =3D -ENOMEM;
++		DRM_ERROR("Failed to allocate a primary plane.\n");
++		goto exit;
++	}
++
++	drm_plane_helper_add(primary,
++			&via_primary_drm_plane_helper_funcs);
++	ret =3D drm_universal_plane_init(dev, primary, possible_crtcs,
++			&via_primary_drm_plane_funcs,
++			via_primary_formats,
++			ARRAY_SIZE(via_primary_formats),
++			NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
++	if (ret) {
++		DRM_ERROR("Failed to initialize a primary "
++				"plane.\n");
++		goto free_primary;
++	}
++
++	cursor =3D kzalloc(sizeof(struct drm_plane), GFP_KERNEL);
++	if (!cursor) {
++		ret =3D -ENOMEM;
++		DRM_ERROR("Failed to allocate a cursor plane.\n");
++		goto cleanup_primary;
++	}
++
++	drm_plane_helper_add(cursor,
++			&via_cursor_drm_plane_helper_funcs);
++	ret =3D drm_universal_plane_init(dev, cursor, possible_crtcs,
++			&via_cursor_drm_plane_funcs,
++			via_cursor_formats,
++			via_cursor_formats_size,
++			NULL, DRM_PLANE_TYPE_CURSOR, NULL);
++	if (ret) {
++		DRM_ERROR("Failed to initialize a cursor "
++				"plane.\n");
++		goto free_cursor;
++	}
++
++	iga =3D kzalloc(sizeof(struct via_crtc), GFP_KERNEL);
++	if (!iga) {
++		ret =3D -ENOMEM;
++		DRM_ERROR("Failed to allocate CRTC storage.\n");
++		goto cleanup_cursor;
++	}
++
++	drm_crtc_helper_add(&iga->base,
++			&via_drm_crtc_helper_funcs);
++	ret =3D drm_crtc_init_with_planes(dev, &iga->base,
++					primary, cursor,
++					&via_drm_crtc_funcs,
++					NULL);
++	if (ret) {
++		DRM_ERROR("Failed to initialize CRTC!\n");
++		goto free_crtc;
++	}
++
++	iga->index =3D index;
++
++	via_crtc_param_init(dev_priv, &iga->base, index);
++	ret =3D via_gamma_init(&iga->base);
++	if (ret) {
++		goto free_crtc;
++	}
++
++	goto exit;
++free_crtc:
++	kfree(iga);
++cleanup_cursor:
++	drm_plane_cleanup(cursor);
++free_cursor:
++	kfree(cursor);
++cleanup_primary:
++	drm_plane_cleanup(primary);
++free_primary:
++	kfree(primary);
++exit:
++	return ret;
++}
 =2D-
 2.35.1
 
