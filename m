@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76CB55BD3E
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:19:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0A155BD41
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:20:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE61410EEF4;
-	Tue, 28 Jun 2022 02:19:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C090E10EECB;
+	Tue, 28 Jun 2022 02:20:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE6C310EEF2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:19:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C090E10EECB
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:20:00 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BFC6F617DF;
- Tue, 28 Jun 2022 02:19:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8991BC34115;
- Tue, 28 Jun 2022 02:19:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2EF05617D1;
+ Tue, 28 Jun 2022 02:20:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88504C36AEF;
+ Tue, 28 Jun 2022 02:19:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656382745;
- bh=5PvSbFxfARNIms1HUogdyCCmeKDNTtcnuleYeP753Qk=;
+ s=k20201202; t=1656382800;
+ bh=i1MqkCT0NLl9iJ1uNyGtqAn7ESc3mIGPD1O+e/eGeVo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=K4qy32ZGmRsX8JJGQn4tMJogA0rxCxH62YV6CyKtduoizcuFzoEfDgu0ukZmbg+yB
- PKU91rRlNoebgxxv84l+DTuZJG+F6fIf/6fuftqkPT74MzlrigqNm1+JE6Tc49cBYv
- /jU6BQ93v3uhfNl3qNCSbFD/ekB5ooflo05z6hIpC1abYRX3yt3pnFPeluJiwgOQ6P
- IP3DmI1D/7mdMfvLb2AF3sjYNSWwGNZhsRvfNuYCsWORoTc+C+/Hm43RAmOfNS6jx7
- WhydqvCyhEMw1fk+Zv73r5JtCKrrl91NvIAptQhMbQVi1pSuP/3DFphgJGzJQvI1FP
- MJ0So/sIZmt4w==
+ b=JnlfJ4bkhA1DIQAynZABBlpOp+77wZt65WdJDa+1v34ksXmmjsjMPazcklbN0PRMQ
+ tlSvjf70isQN7L8ZGs2OEC/uF9cH6x2PPfDrpH5Vw4fFAtfxM9H+S5atk6e6GVJdRt
+ 6bnYeIiITIkbIes+kgBavNtFWisyaU4xFFe33y4pRwdB0J5xbANi7jZpIESx5CbnOs
+ JvzU0OW6hU7z7MCYYCPh5mh8i64fyXoOUTjLYV1QcrpHfB4941Uk/v3Sa/zeapS66L
+ hn915ywx4RxJntfS8Mc15ba4cI2PZjSEUdHj/FIcphFt9vKk1KjoSmBdI1osxGBt+4
+ S6WFXab1MfAfQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 12/53] drm/vc4: crtc: Move the BO handling out of
- common page-flip callback
-Date: Mon, 27 Jun 2022 22:17:58 -0400
-Message-Id: <20220628021839.594423-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 27/53] drm: panel-orientation-quirks: Add quirk
+ for Aya Neo Next
+Date: Mon, 27 Jun 2022 22:18:13 -0400
+Message-Id: <20220628021839.594423-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628021839.594423-1-sashal@kernel.org>
 References: <20220628021839.594423-1-sashal@kernel.org>
@@ -55,83 +55,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, emma@anholt.net, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de, Maya Matuszczyk <maccraft123mc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maxime Ripard <maxime@cerno.tech>
+From: Maya Matuszczyk <maccraft123mc@gmail.com>
 
-[ Upstream commit 4d12c36fb73b5c49fe2f95d06515fd9846010fd2 ]
+[ Upstream commit be33d52ef5b4bdfec04cfdad39368c343bac97a3 ]
 
-We'll soon introduce another completion callback source that won't need
-to use the BO reference counting, so let's move it around to create a
-function we will be able to share between both callbacks.
+The device is identified by "NEXT" in board name, however there are
+different versions of it, "Next Advance" and "Next Pro", that have
+different DMI board names.
+Due to a production error a batch or two have their board names prefixed
+by "AYANEO", this makes it 6 different DMI board names. To save some
+space in final kernel image DMI_MATCH is used instead of
+DMI_EXACT_MATCH.
 
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://lore.kernel.org/r/20220610115149.964394-11-maxime@cerno.tech
+Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220619111952.8487-1-maccraft123mc@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 34 ++++++++++++++++++++--------------
- 1 file changed, 20 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 3669d7a06439..9956db71ad46 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -796,21 +796,8 @@ vc4_async_page_flip_complete(struct vc4_async_flip_state *flip_state)
- 	drm_crtc_vblank_put(crtc);
- 	drm_framebuffer_put(flip_state->fb);
- 
--	/* Decrement the BO usecnt in order to keep the inc/dec calls balanced
--	 * when the planes are updated through the async update path.
--	 * FIXME: we should move to generic async-page-flip when it's
--	 * available, so that we can get rid of this hand-made cleanup_fb()
--	 * logic.
--	 */
--	if (flip_state->old_fb) {
--		struct drm_gem_cma_object *cma_bo;
--		struct vc4_bo *bo;
--
--		cma_bo = drm_fb_cma_get_gem_obj(flip_state->old_fb, 0);
--		bo = to_vc4_bo(&cma_bo->base);
--		vc4_bo_dec_usecnt(bo);
-+	if (flip_state->old_fb)
- 		drm_framebuffer_put(flip_state->old_fb);
--	}
- 
- 	kfree(flip_state);
- }
-@@ -819,8 +806,27 @@ static void vc4_async_page_flip_seqno_complete(struct vc4_seqno_cb *cb)
- {
- 	struct vc4_async_flip_state *flip_state =
- 		container_of(cb, struct vc4_async_flip_state, cb.seqno);
-+	struct vc4_bo *bo = NULL;
-+
-+	if (flip_state->old_fb) {
-+		struct drm_gem_cma_object *cma_bo =
-+			drm_fb_cma_get_gem_obj(flip_state->old_fb, 0);
-+		bo = to_vc4_bo(&cma_bo->base);
-+	}
- 
- 	vc4_async_page_flip_complete(flip_state);
-+
-+	/*
-+	 * Decrement the BO usecnt in order to keep the inc/dec
-+	 * calls balanced when the planes are updated through
-+	 * the async update path.
-+	 *
-+	 * FIXME: we should move to generic async-page-flip when
-+	 * it's available, so that we can get rid of this
-+	 * hand-made cleanup_fb() logic.
-+	 */
-+	if (bo)
-+		vc4_bo_dec_usecnt(bo);
- }
- 
- /* Implements async (non-vblank-synced) page flips.
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 4e853acfd1e8..df87ba99a87c 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -152,6 +152,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "AYA NEO 2021"),
+ 		},
+ 		.driver_data = (void *)&lcd800x1280_rightside_up,
++	}, {	/* AYA NEO NEXT */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AYANEO"),
++		  DMI_MATCH(DMI_BOARD_NAME, "NEXT"),
++		},
++		.driver_data = (void *)&lcd800x1280_rightside_up,
+ 	}, {	/* Chuwi HiBook (CWI514) */
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
 -- 
 2.35.1
 
