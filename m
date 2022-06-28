@@ -1,68 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A0555BFA6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 10:58:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F7E55BFA9
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 11:01:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49E9D12A9CA;
-	Tue, 28 Jun 2022 08:58:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BCE211BF61;
+	Tue, 28 Jun 2022 09:00:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F24812A9C2;
- Tue, 28 Jun 2022 08:58:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656406687; x=1687942687;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=8ccncddsC7dzCiGIKRKLjjxcx6QDuw9ZKZ2b7p3u5fU=;
- b=cTjz10mp/poxno/V2WCDCmMxJw31i2BH570Mox6MGYI7sPV8vUlyO03i
- AKjW+uobAc1jHPiGhDR831Q3On7hKQtgskj4EQmiEz1DUzGwcRQ5YLiSF
- p8WJgsnwzovT6AV0K2iaRhCh3pMznsDBsGgCiAvl5+gSOlTpnKbp+mshv
- cTw8zP4fDnkLV5tGOmMMhotJ0SgSPkdL/OSVENq3Bri2UxEmkGXrt8ado
- OnDlcVVha7OuxPdFFLJsdpLiZL34rYz+tpaqcNPiQhXwcOk/5QZdnxStQ
- BJdlbR8zPTQ/Qfy63mGEJlLbW4RGRSLBcpr/+7Wd3DOiF9EF8AMJWN7QK g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="280441284"
-X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="280441284"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2022 01:58:05 -0700
-X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="587793739"
-Received: from leejust1-mobl.amr.corp.intel.com (HELO [10.209.162.132])
- ([10.209.162.132])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2022 01:58:03 -0700
-Message-ID: <2ce76c99-e0bc-8a96-9e1c-f9d96ece62d4@linux.intel.com>
-Date: Tue, 28 Jun 2022 09:58:01 +0100
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2CEF12A974
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 09:00:56 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ g10-20020a17090a708a00b001ea8aadd42bso12035380pjk.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:00:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3IiMMMDPLwz9F3UeFSzYtl7u8epQnprjfnqcTqmPDdc=;
+ b=fdgeeJCygTbWPCwOcRdRnM5k89FhhxUXjcu7q4k2tnjMEcJyiYkKCYjTsdEAOW87tB
+ w/LJTf+LO4X22TFU8tUXrtyWFwDPR52aYVR+q1ZWFT3vqv0NRZ6FGT/wkTLNThyRcp3Q
+ UxbI4gGUkWYVxk0iRRZZuIF+HwkJ6wk8YTF/D3o9cVZcPRYr0qY+6SEtx/YsXUU17kBO
+ B6v1tbxXZy0Ma72s+vAI2t+od7AWzoe8lR9/YGXO1n+iZcMgUWB2BmjI8JRRUlqjHvfZ
+ PV0uHJjVrfaHmbeXn+Ti2vmUY8gbz5CFN/7us+y8mnoWHg41b4t7kDRSXK7lTTAT+M48
+ IqZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3IiMMMDPLwz9F3UeFSzYtl7u8epQnprjfnqcTqmPDdc=;
+ b=b6obRgWNuF/Bz09DrZ7BsoqZXHYeAVkdGyNWxJ+9AutbPa8bVkGyfMAuVhFJJKq7i8
+ OexIOaTZL9BXF2p/WuT/wAid6fGqx7RtRwL4tOOaa7DY9u0JblU0mP2KxfaHssdjYO2Q
+ o41bmJhLDtW0vx4S7mPK4T/c9VY3+VNStwTdWGyagkjQPQLyKrVpqNXCJVXUbsgK/HyO
+ i+ha9vY9d7xOpRsy1SUzfKwkEckURTEdPEX4kXActsPenSSSOygknXJEpNL0wCLCW1B9
+ PtPzXATk8cW2x2s4jFZD18PN3qIZ553vrdyWrMhSxx3qooulYFAIcoMIfHGOmvGcUE36
+ a4Sw==
+X-Gm-Message-State: AJIora8RAT3hxyO1VN62mS77cpxlK/PUF7yLRAsgSW/6+DLcVnRC3yCP
+ nEXTCQLBB5aW7+MjEn8pgWg=
+X-Google-Smtp-Source: AGRyM1vLfFfPeOT7qcM6D3nurI9ZAJGl2I7PMQ26kHrnlwIMGUzDjswBsg44tVIcX7/8JAqZb+CBTw==
+X-Received: by 2002:a17:90b:895:b0:1ec:827c:ef0f with SMTP id
+ bj21-20020a17090b089500b001ec827cef0fmr25644802pjb.10.1656406856518; 
+ Tue, 28 Jun 2022 02:00:56 -0700 (PDT)
+Received: from chrome.huaqin.com ([101.78.151.222])
+ by smtp.gmail.com with ESMTPSA id
+ bf20-20020a056a000d9400b00525392cb386sm8789688pfb.201.2022.06.28.02.00.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jun 2022 02:00:56 -0700 (PDT)
+From: Rex Nie <rexnie3@gmail.com>
+To: linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 1/2] drm/panel-edp: Add eDP innolux panel support
+Date: Tue, 28 Jun 2022 16:59:49 +0800
+Message-Id: <20220628085949.2147920-1-rexnie3@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/doc/rfc: VM_BIND uapi definition
-Content-Language: en-US
-To: "Zeng, Oak" <oak.zeng@intel.com>,
- "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>,
- "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>
-References: <20220622035650.29256-1-niranjana.vishwanathapura@intel.com>
- <20220622035650.29256-4-niranjana.vishwanathapura@intel.com>
- <6ac2f495-8ead-4824-f9af-1c03fb3770c4@linux.intel.com>
- <20220622151229.GY376@nvishwa1-DESK>
- <b347fb63-5200-9f5c-b0d6-ca51b7a064f9@linux.intel.com>
- <20220622164445.GZ376@nvishwa1-DESK>
- <e6ed0d2f-ee2a-2219-c2cc-49efc32f0560@linux.intel.com>
- <1874e47b-4337-5ac6-ebea-fca21ea1ba4c@intel.com>
- <6d70cde9-f856-540a-b1d4-0325596b0c88@linux.intel.com>
- <BN6PR11MB1633C90D1B2E40359F1F168F92B59@BN6PR11MB1633.namprd11.prod.outlook.com>
- <1d36da1a-9224-5750-d103-60e7cdfdf8df@linux.intel.com>
- <BN6PR11MB1633F819E6DF445769061CF092B49@BN6PR11MB1633.namprd11.prod.outlook.com>
- <1f2ce51e-4b45-c654-954a-a71899309fb5@linux.intel.com>
- <BN6PR11MB1633B73631737329161B289A92B99@BN6PR11MB1633.namprd11.prod.outlook.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <BN6PR11MB1633B73631737329161B289A92B99@BN6PR11MB1633.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,76 +68,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Wilson,
- Chris P" <chris.p.wilson@intel.com>, "Vetter,
- Daniel" <daniel.vetter@intel.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>, "Auld,
- Matthew" <matthew.auld@intel.com>
+Cc: devicetree@vger.kernel.org, dianders@chromium.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, spanda@codeaurora.org, robh+dt@kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, Rex Nie <rexnie3@gmail.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add support for the 14" innolux,n140hca-eac eDP panel.
 
-On 27/06/2022 19:58, Zeng, Oak wrote:
-> 
-> 
-> Thanks,
-> Oak
-> 
->> -----Original Message-----
->> From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->> Sent: June 27, 2022 4:30 AM
->> To: Zeng, Oak <oak.zeng@intel.com>; Landwerlin, Lionel G
->> <lionel.g.landwerlin@intel.com>; Vishwanathapura, Niranjana
->> <niranjana.vishwanathapura@intel.com>
->> Cc: Zanoni, Paulo R <paulo.r.zanoni@intel.com>; intel-
->> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Hellstrom,
->> Thomas <thomas.hellstrom@intel.com>; Wilson, Chris P
->> <chris.p.wilson@intel.com>; Vetter, Daniel <daniel.vetter@intel.com>;
->> christian.koenig@amd.com; Auld, Matthew <matthew.auld@intel.com>
->> Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/doc/rfc: VM_BIND uapi definition
->>
->>
->> On 24/06/2022 21:23, Zeng, Oak wrote:
->>> Let's compare "tlb invalidate at vm unbind" vs "tlb invalidate at backing
->> storage":
->>>
->>> Correctness:
->>> consider this sequence of:
->>> 1. unbind va1 from pa1,
->>> 2. then bind va1 to pa2. //user space has the freedom to do this as it
->>> manages virtual address space 3. Submit shader code using va1, 4. Then
->>> retire pa1.
->>>
->>> If you don't perform tlb invalidate at step #1, in step #3, shader will use
->> stale entries in tlb and pa1 will be used for the shader. User want to use pa2.
->> So I don't think invalidate tlb at step #4 make correctness.
->>
->> Define step 3. Is it a new execbuf? If so then there will be a TLB flush there.
->> Unless the plan is to stop doing that with eb3 but I haven't picked up on that
->> anywhere so far.
-> 
-> In Niranjana's latest patch series, he removed the TLB flushing from vm_unbind. He also said explicitly TLB invalidation will be performed at job submission and backing storage releasing time, which is the existing behavior of the current i915 driver.
-> 
-> I think if we invalidate TLB on each vm_unbind, then we don't need to invalidate at submission and backing storage releasing. It doesn't make a lot of sense to me to perform a tlb invalidation at execbuf time. Maybe it is a behavior for the old implicit binding programming model. For vm_bind and eb3, we separate the binding and job submission into two APIs. It is more natural the TLB invalidation be coupled with the vm bind/unbind, not job submission. So in my opinion we should remove tlb invalidation from submission and backing storage releasing and add it to vm unbind. This is method is cleaner to me.
+Signed-off-by: Rex Nie <rexnie3@gmail.com>
+Acked-by: Hsin-Yi Wang <hsinyi@chromium.org>
+---
+ drivers/gpu/drm/panel/panel-edp.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-You can propose this model (not flushing in eb3) but I have my doubts. 
-Consider the pointlessness of flushing on N unbinds for 99% of clients 
-which are not infinite compute batch. And consider how you make the 
-behaviour consistent on all platforms (selective vs global tlb flush).
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 3626469c4cc2..2a8fcdffe80c 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1355,6 +1355,29 @@ static const struct panel_desc innolux_n125hce_gn1 = {
+ 	},
+ };
+ 
++static const struct display_timing innolux_n140hca_eac_timing = {
++	.pixelclock = { 72600000, 76420000, 80240000 },
++	.hactive = { 1920, 1920, 1920 },
++	.hfront_porch = { 80, 80, 80 },
++	.hback_porch = { 190, 190, 190 },
++	.hsync_len = { 60, 60, 60 },
++	.vactive = { 1080, 1080, 1080 },
++	.vfront_porch = { 6, 6, 6 },
++	.vback_porch = { 38, 38, 38 },
++	.vsync_len = { 8, 8, 8 },
++	.flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW,
++};
++
++static const struct panel_desc innolux_n140hca_eac = {
++	.timings = &innolux_n140hca_eac_timing,
++	.num_timings = 1,
++	.bpc = 6,
++	.size = {
++		.width = 309,
++		.height = 174,
++	},
++};
++
+ static const struct drm_display_mode innolux_p120zdg_bf1_mode = {
+ 	.clock = 206016,
+ 	.hdisplay = 2160,
+@@ -1775,6 +1798,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "innolux,n125hce-gn1",
+ 		.data = &innolux_n125hce_gn1,
++	}, {
++		.compatible = "innolux,n140hca-eac",
++		.data = &innolux_n140hca_eac,
+ 	}, {
+ 		.compatible = "innolux,p120zdg-bf1",
+ 		.data = &innolux_p120zdg_bf1,
+-- 
+2.25.1
 
-Also note that this discussion is orthogonal to unbind vs backing store 
-release.
-
-> Regarding performance, we don't have data. In my opinion, we should make things work in a most straight forward way as the first step. Then consider performance improvement if necessary. Consider some delayed tlb invalidation at submission and backing release time without performance data support wasn't a good decision.
-
-It is quite straightforward though. ;) It aligns with the eb2 model and 
-argument can be made backing store release is (much) less frequent than 
-unbind (consider softpin where client could trigger a lot of pointless 
-flushes).
-
-Regards,
-
-Tvrtko
