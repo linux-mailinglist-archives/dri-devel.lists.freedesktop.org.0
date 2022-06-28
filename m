@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D46D55BD3B
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:19:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8811755BD3C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:19:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A2D010EEAE;
-	Tue, 28 Jun 2022 02:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D2D410EEF2;
+	Tue, 28 Jun 2022 02:19:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC1210EA4C
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:19:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5E4310EEAE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:19:04 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E02A9617C8;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3DCB7617CE;
+ Tue, 28 Jun 2022 02:19:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFA1DC341CC;
  Tue, 28 Jun 2022 02:19:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17A36C341CE;
- Tue, 28 Jun 2022 02:19:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656382742;
- bh=k2HAsM0l+ykreE/fJNuXcsyKeFWV2M4YiasqmrUvriE=;
+ s=k20201202; t=1656382744;
+ bh=aJpHDBxSPKCrtqU2Fk3HhwOSeJ8BR8h2i1IZBNLNVyk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HxB2hf3tK1DeD3exhiTofPy4+D812wQWe9cM1yfEfpPFNU+UHOmsSxrtjEI8nGJZk
- aYuS2wjuvHNL9fVUxsjUPboD8/r/60pmxN39nlHdzI0MI8L1mL6vPZoah+dmOwzOUA
- Jv5f8IixjvMGiF7TaotWhX+avYlODD7EWxk/uslQV9tZPdzFv3VJYVjsav+J0R+Iqi
- 069eBQSHkERTFj9dcPOL4G0a6f/IeM8kJsHjx8SEG0gAiW14VwSUCsV6q7fpuaHQWj
- bdR7k6CWaXAr9KTyeHj8ZSp6pNXb5NWuRSIk30HcC9KDxxWRa+4aBSHv/LMMpzeLL3
- ueojVvSJnwnKw==
+ b=AbJKJFM7413prlg3NOX6WnA2HoSek/O5NLnJdJoyNBlMpyvWfi6DcGRK6QIN95gzA
+ a4irJ3dJlOhs4LAHV8rhBKiBRid/izBaI/YSlizta5PKy7m/V9wSi+K0U8IyWCMJiu
+ 9o+jBJRSOk3fG/TMi6MmY0jTQRsugkMBu3Zs6FJkaPN98siSOaSivkRya4aw5sFvuC
+ QZoufhweCdD0WaEexotmOH4byDgbrxy4RAtZGRut0pi+2yGJ8dnsCyG0feSESyO4Qi
+ hwgnrkg/XMNaqjBqvOFmIF3zBS9c7vai2x8K3Sg874mHPflo+rvAXoV5ECA+pJcMqD
+ fQOrBrpK8SO9A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 10/53] drm/vc4: plane: Prevent async update if we
- don't have a dlist
-Date: Mon, 27 Jun 2022 22:17:56 -0400
-Message-Id: <20220628021839.594423-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 11/53] drm/vc4: crtc: Use an union to store the
+ page flip callback
+Date: Mon, 27 Jun 2022 22:17:57 -0400
+Message-Id: <20220628021839.594423-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628021839.594423-1-sashal@kernel.org>
 References: <20220628021839.594423-1-sashal@kernel.org>
@@ -63,44 +63,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maxime Ripard <maxime@cerno.tech>
 
-[ Upstream commit cb468c7d84d174ab9cd638be9f5b3f1ba2b311a0 ]
+[ Upstream commit 2523e9dcc3be91bf9fdc0d1e542557ca00bbef42 ]
 
-The vc4 planes are setup in hardware by creating a hardware descriptor
-in a dedicated RAM. As part of the process to setup a plane in KMS, we
-thus need to allocate some part of that dedicated RAM to store our
-descriptor there.
-
-The async update path will just reuse the descriptor already allocated
-for that plane and will modify it directly in RAM to match whatever has
-been asked for.
-
-In order to do that, it will compare the descriptor for the old plane
-state and the new plane state, will make sure they fit in the same size,
-and check that only the position or buffer address have changed.
+We'll need to extend the vc4_async_flip_state structure to rely on
+another callback implementation, so let's move the current one into a
+union.
 
 Reviewed-by: Melissa Wen <mwen@igalia.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://lore.kernel.org/r/20220610115149.964394-2-maxime@cerno.tech
+Link: https://lore.kernel.org/r/20220610115149.964394-10-maxime@cerno.tech
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_plane.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/vc4/vc4_crtc.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
-index 920a9eefe426..ac91898f7ad5 100644
---- a/drivers/gpu/drm/vc4/vc4_plane.c
-+++ b/drivers/gpu/drm/vc4/vc4_plane.c
-@@ -1321,6 +1321,10 @@ static int vc4_plane_atomic_async_check(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index 477b3c5ad089..3669d7a06439 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -769,17 +769,17 @@ struct vc4_async_flip_state {
+ 	struct drm_framebuffer *old_fb;
+ 	struct drm_pending_vblank_event *event;
  
- 	old_vc4_state = to_vc4_plane_state(plane->state);
- 	new_vc4_state = to_vc4_plane_state(new_plane_state);
+-	struct vc4_seqno_cb cb;
++	union {
++		struct vc4_seqno_cb seqno;
++	} cb;
+ };
+ 
+ /* Called when the V3D execution for the BO being flipped to is done, so that
+  * we can actually update the plane's address to point to it.
+  */
+ static void
+-vc4_async_page_flip_complete(struct vc4_seqno_cb *cb)
++vc4_async_page_flip_complete(struct vc4_async_flip_state *flip_state)
+ {
+-	struct vc4_async_flip_state *flip_state =
+-		container_of(cb, struct vc4_async_flip_state, cb);
+ 	struct drm_crtc *crtc = flip_state->crtc;
+ 	struct drm_device *dev = crtc->dev;
+ 	struct drm_plane *plane = crtc->primary;
+@@ -815,6 +815,14 @@ vc4_async_page_flip_complete(struct vc4_seqno_cb *cb)
+ 	kfree(flip_state);
+ }
+ 
++static void vc4_async_page_flip_seqno_complete(struct vc4_seqno_cb *cb)
++{
++	struct vc4_async_flip_state *flip_state =
++		container_of(cb, struct vc4_async_flip_state, cb.seqno);
 +
-+	if (!new_vc4_state->hw_dlist)
-+		return -EINVAL;
++	vc4_async_page_flip_complete(flip_state);
++}
 +
- 	if (old_vc4_state->dlist_count != new_vc4_state->dlist_count ||
- 	    old_vc4_state->pos0_offset != new_vc4_state->pos0_offset ||
- 	    old_vc4_state->pos2_offset != new_vc4_state->pos2_offset ||
+ /* Implements async (non-vblank-synced) page flips.
+  *
+  * The page flip ioctl needs to return immediately, so we grab the
+@@ -875,8 +883,8 @@ static int vc4_async_page_flip(struct drm_crtc *crtc,
+ 	 */
+ 	drm_atomic_set_fb_for_plane(plane->state, fb);
+ 
+-	vc4_queue_seqno_cb(dev, &flip_state->cb, bo->seqno,
+-			   vc4_async_page_flip_complete);
++	vc4_queue_seqno_cb(dev, &flip_state->cb.seqno, bo->seqno,
++			   vc4_async_page_flip_seqno_complete);
+ 
+ 	/* Driver takes ownership of state on successful async commit. */
+ 	return 0;
 -- 
 2.35.1
 
