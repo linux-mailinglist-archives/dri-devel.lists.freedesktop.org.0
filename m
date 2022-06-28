@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C1055F09B
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:54:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1EC55F09A
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:54:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60BB110F58E;
-	Tue, 28 Jun 2022 21:54:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD5A210E4C6;
+	Tue, 28 Jun 2022 21:54:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82EF710F539
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:54:07 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB27910E4C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:54:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656453244;
- bh=G3vWKYkYM/vTX38+A0o/osqsuZtpk2/ky+zUR6oF68w=;
+ s=badeba3b8450; t=1656453248;
+ bh=t0Y94i+sp5jjrrl5kzK/bZIBiE1Wzp6z96Nv2fMAMdk=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=MAEx1zV6DVC+nxk6+jKdH4fM0k//l7Izms3yTkNUZxZh+OoSmsPLj49c2BN+zLSEM
- b9Qs5a9dUOh7+QZY6hkcaMDvzW9XDnB0/PrsWBsgruZl/vbG9ofq1G+6SKF9z2Gx3I
- A+khAqULHMz4jr4bcnPDSNE6MNhPy3uginwoTxPM=
+ b=GZShgD7bk0xpVysBuD0Y/7gfRI0KJapm5TfLIbrU2Y7v/dBVlriCUK4YYlcL3pWfI
+ fi+HQ+0uanUXwZXwQD8dLMlVc/oU1Xw0rQJ2JwpcvW3oaOrOxpm2E8jhFSNiGvACaT
+ fed9h2iRpvNlYkjkZJdIhlPTTxWPL67SwwpozNx8=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([174.250.0.5]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1N5G9n-1ngm580D6z-0116lJ; Tue, 28
- Jun 2022 23:54:04 +0200
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1N3KTo-1nfOdY1SQk-010I54; Tue, 28
+ Jun 2022 23:54:07 +0200
 From: Kevin Brace <kevinbrace@gmx.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 09/32] drm/via: Add via_cursor.c
-Date: Tue, 28 Jun 2022 16:52:23 -0500
-Message-Id: <20220628215246.19706-10-kevinbrace@gmx.com>
+Subject: [PATCH v2 10/32] drm/via: Add via_dac.c
+Date: Tue, 28 Jun 2022 16:52:24 -0500
+Message-Id: <20220628215246.19706-11-kevinbrace@gmx.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628215246.19706-1-kevinbrace@gmx.com>
 References: <20220628215246.19706-1-kevinbrace@gmx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:mI8P9obFtHeQb9RWBccCVA0QrDPQ+L2XdWhKN87nXnxGcwV4wPn
- 9tHgsqDhhCWG9Qiy+mnnK5zlj795sr0Zn8tvMYu+KDRVA5geg54ICTf8Nef4ojz2MTApRr5
- 2UpRltjthfxkr1KoCHI9IfUFjY/xFLkdg70vmvjYjyuz1oegryQ4Jqe6aZTwfctGjcM9nhc
- bcVSCwqvWqlwJVn+QRu0A==
+X-Provags-ID: V03:K1:qNJTjkAGPJ7mxk7tuQGqzww0SL+8qYdGtVBwwmqNRPqWq7oHcRp
+ BvGd3SAduiQkhYPIUC79nZ/CCJ3OvW9TRoOZ0PwwKkbmdG/BR8b7eqdKA7EespaKstjIPYS
+ Y/diMKGfQ0eZ6gaS3YDrBp70zvS8tzcxNwKS73k8jJ3kLOV6Bj5pLgcRuMNOGjTkfkg/8DG
+ lwEscATnW0fnrr+S1hUWA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:S6BEF63u734=:l7yeIJeZZmrmgA1ESivXCk
- NuAyClv/Ix3ukDU2MNXTN1MH55GWfNn+Z8q2p2NwsNq9nu4nBbeUeO5wxH9j0m76CW5HeoPFP
- sI0o1jsp7TPmQ1vrFcQa9LnNmRCXbSNlrZc9t3qEHvSj6le1P6hYcpqEV6HxXAtXLXnbyOooT
- NipNz2n80/2lzjzlmgkE15kn4tGY0I0xUBygX7zOdMlSg73lqA97UH1O5d5Oxz7vtkC68Bk3v
- 0OKpqN5oFTl9h1VVo5fMGX5dHRNkKQ+NZzvi4PQna7IisE3hSqa7ObYz2/bHr3vAyWTkVzHQk
- Ej4hZ01pq9mrtbWnlG73nOrIfVIDaZzG4oOE0eO0/h7B5ByFEpp9YVUqNtNP3TQ2vFMMEgmwS
- bzn//W4yxqqlqBmGkXyHQLuxCVzjC+rfwSr0bP0qbjhQ9rnW0N7KwwVJSJ1LyGqKk1RHCjY38
- sDL5dugzwJnkHIADpXg2MRRqSJUTQas1P3NbqoGOvBxvhjhFhujcaFRqwHHqfuU0tpySRt71X
- jKua3tYUyBvPrjFnT/I6Bb7P39Df6KN8yE4VGFmqnnnrBs3+LscnhT4r59X43KnZ0NgvPljEA
- 4zeKAigYOtJTcfEr2H+D2BNirm8qEsQ6dymlJPjFbXHj299Brf9OFbrRt86DcfDOHaCYbeHCF
- ngJIVNwIy7JJsxFVJsVknokA9Hzf4gPF9CnfH7CYgbSOcv1+CFw2GUs9BKFzv7OxZ8iFEo/m3
- GAjLDiPMzs/qVIxETdIZv4IzRLme1D6l/A2qm19pK8bFSsgHliVcVRUXqxr63Sou7FJv+O9Z/
- E7Cqoa0zAwFfDmZRnobfFRTm1RpCFEoidthpGBEp3LrunHi02ci7nOl30TrgX16gTTfsw9Jp2
- PDJlXk7XoSXiAqgFRDHBP9FQ2ZsUFwtoeEB02T+AWzhHNlg0BS1IvzV8nKGYSMpYrICvPsLAr
- iSDUFJBYjhr3UdtQ/fR24+tCgXpINv3UM6bqyYFWbFxXqEpmsu3jmmEWigYU9KqELru3a6T3F
- Ua8jjk+Q+dlRoQbus0Y6g2pbpv5mCIRUhropsbNH/2q9E4Fs2eEFUyBmWBZ5M5HITQp11SP4/
- 7vOMZ02iOLQhvGVhRsZa8vBIzuuNplPYVhuBc9QSS0g7jvAdomErJ4a1g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4CP5zMAZRbg=:Zn04qngCqe73F6kqr5znXE
+ jM2hjsSoAnhIsEkdoDQSGuNUxZlORTdOmBiGu7F+HKedoDi2A8h2HCSu4cV4vxx/YMrjzmOfp
+ pjlIj0JC94HQ7HfJ/M/ZTAUdUBFrGsNiFDYzQtzJrP6//RenEIkDRjgoDqfLCk/E6+t5uYbyI
+ z25VBWZ/f6JXEMQtdiJtxBOcZHGqvWNMOi7j6OF5qKd8eE55075rjeU1GiZWYj3XBiVt2Q3bL
+ IUy2ahgQq17ysHgNfcszcntLxhP5Wy1cyMZT8fG6BorgexP3e8ixsenzlZT5oqn9C8kV690Cg
+ U6KRZKD26X/hjhjEB9nVFI4+uq3phtkrHY+wF6Vn5i0XveV1nqM1lBXqR3Xhbsn1Fad9EoxwF
+ tjWT7VtNgTwoJy23SZgCx+HLIv6iCW4ZyTJQ8Nb+mM31SkS4rrdKL1N6DAkFXA5VLwbb69nLZ
+ plgq+P3wGz5YcxY/n3vHAMbSTXbBZDi1fA5x7BBitCu59jddwr+BQ5+NCQykINntEWOF6D2Uj
+ 527a9o7MwM18hVGyDY2wPlrzLQpaAKfx+iLpH6Wktpdtj5Bg7sYGRfAN/pwJPzWvMWn3GSgbw
+ SIquRmD1+wwcWeQcM2yeQHEXf1NDrvoAEMZK+jlkLI4gZHrXrrpd/jIUTzwo8xW3QfouHNsC6
+ 1PWFulghM34yUerWiBQOdUyW1h9oyx7+/n5YgUsZj1PkJ5EmNrKMxyjcrUQPcq6Gypg2TKrRb
+ vNV1etZmk1o/zol1boqsvXHYGrPl3zr/7wBnHsVyk+aqkoAyFB9bA5zmkVMHLsKzCgv2OPXC5
+ aCdScuLaViCjS6jCqsG0WKzBwNl+pCcSxkUfxEmZsWUFuHwj/T5jgJZYlL8GPSUFxxxqAjkn4
+ UGxxGWFOmvDu7WSbt9hm6KPu5Hr4DSXnXpzE/HqHA1ADjtRRY7ZzKZhn/Swvufwdpl9PghOG2
+ tgsmdw6GOMJGOs/txqhRz3ApsGISWg5Xma4FcQi/5Oh/ANe431ir/furC5SWfthbq66zm6n1l
+ sZkMr5IAZ1RfKd440vIT2C5MWBOjfHg4hLZmyZ0oCm8rp6e24iZQ46prG6X9GOfNBQl4sRPvm
+ jEJmcKRDyk75Cjl/RxRPDvzI2KIQgWE8jUIQtSXHhE4JLg8YEk2YBew8g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,22 +76,19 @@ From: Kevin Brace <kevinbrace@bracecomputerlab.com>
 
 Signed-off-by: Kevin Brace <kevinbrace@bracecomputerlab.com>
 =2D--
- drivers/gpu/drm/via/via_cursor.c | 419 +++++++++++++++++++++++++++++++
- 1 file changed, 419 insertions(+)
- create mode 100644 drivers/gpu/drm/via/via_cursor.c
+ drivers/gpu/drm/via/via_dac.c | 504 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 504 insertions(+)
+ create mode 100644 drivers/gpu/drm/via/via_dac.c
 
-diff --git a/drivers/gpu/drm/via/via_cursor.c b/drivers/gpu/drm/via/via_cu=
-rsor.c
+diff --git a/drivers/gpu/drm/via/via_dac.c b/drivers/gpu/drm/via/via_dac.c
 new file mode 100644
-index 000000000000..9a6bce1cf922
+index 000000000000..4921c93d1089
 =2D-- /dev/null
-+++ b/drivers/gpu/drm/via/via_cursor.c
-@@ -0,0 +1,419 @@
++++ b/drivers/gpu/drm/via/via_dac.c
+@@ -0,0 +1,504 @@
 +/*
-+ * Copyright =C2=A9 2019-2020 Kevin Brace.
++ * Copyright =C2=A9 2016-2018 Kevin Brace.
 + * Copyright 2012 James Simmons. All Rights Reserved.
-+ * Copyright 1998-2009 VIA Technologies, Inc. All Rights Reserved.
-+ * Copyright 2001-2009 S3 Graphics, Inc. All Rights Reserved.
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining =
 a
@@ -99,27 +96,28 @@ a
 e"),
 + * to deal in the Software without restriction, including without limitat=
 ion
-+ * the rights to use, copy, modify, merge, publish, distribute, sub licen=
-se,
++ * the rights to use, copy, modify, merge, publish, distribute, sublicens=
+e,
 + * and/or sell copies of the Software, and to permit persons to whom the
 + * Software is furnished to do so, subject to the following conditions:
 + *
-+ * The above copyright notice and this permission notice (including the
-+ * next paragraph) shall be included in all copies or substantial portion=
-s
-+ * of the Software.
++ * The above copyright notice and this permission notice (including the n=
+ext
++ * paragraph) shall be included in all copies or substantial portions of =
+the
++ * Software.
 + *
 + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRES=
 S OR
 + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILIT=
 Y,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHA=
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHA=
 LL
-+ * THE AUTHOR(S) OR COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES =
-OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR =
-OTHER
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR O=
+THER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISIN=
+G
++ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 + * DEALINGS IN THE SOFTWARE.
 + *
 + * Author(s):
@@ -128,396 +126,484 @@ OTHER
 + */
 +
 +#include <linux/pci.h>
-+#include <linux/pci_ids.h>
 +
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_atomic_helper.h>
 +#include <drm/drm_atomic_state_helper.h>
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_fourcc.h>
-+#include <drm/drm_framebuffer.h>
-+#include <drm/drm_gem.h>
-+#include <drm/drm_mode.h>
-+#include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_plane.h>
-+#include <drm/drm_plane_helper.h>
++#include <drm/drm_probe_helper.h>
 +
-+#include <drm/ttm/ttm_bo_api.h>
-+#include <drm/ttm/ttm_bo_driver.h>
-+
++#include "via_crtc_hw.h"
 +#include "via_drv.h"
 +
 +
-+static void via_hide_cursor(struct drm_crtc *crtc)
++/*
++ * Enables or disables DAC (VGA) output.
++ */
++static void via_dac_power(struct via_drm_priv *dev_priv, bool outputState=
+)
 +{
-+	struct drm_device *dev =3D crtc->dev;
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	struct via_crtc *iga =3D container_of(crtc,
-+					struct via_crtc, base);
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	uint32_t temp;
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+	switch (pdev->device) {
-+	case PCI_DEVICE_ID_VIA_VT3157:
-+	case PCI_DEVICE_ID_VIA_VT3343:
-+	case PCI_DEVICE_ID_VIA_P4M900:
-+	case PCI_DEVICE_ID_VIA_VT1122:
-+	case PCI_DEVICE_ID_VIA_VX875:
-+	case PCI_DEVICE_ID_VIA_VX900_VGA:
-+		if (iga->index) {
-+			temp =3D VIA_READ(HI_CONTROL);
-+			VIA_WRITE(HI_CONTROL, temp & 0xFFFFFFFA);
-+		} else {
-+			temp =3D VIA_READ(PRIM_HI_CTRL);
-+			VIA_WRITE(PRIM_HI_CTRL, temp & 0xFFFFFFFA);
-+		}
 +
-+		break;
-+	default:
-+		temp =3D VIA_READ(HI_CONTROL);
-+		VIA_WRITE(HI_CONTROL, temp & 0xFFFFFFFA);
-+		break;
-+	}
++	via_dac_set_power(VGABASE, outputState);
++	DRM_INFO("DAC (VGA) Power: %s\n",
++			outputState ? "On" : "Off");
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
 +}
 +
-+static void via_show_cursor(struct drm_crtc *crtc)
++/*
++ * Set DAC (VGA) sync polarity.
++ */
++static void via_dac_sync_polarity(struct via_drm_priv *dev_priv,
++					unsigned int flags)
 +{
-+	struct drm_device *dev =3D crtc->dev;
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	struct via_crtc *iga =3D container_of(crtc,
-+					struct via_crtc, base);
-+	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	u8 syncPolarity =3D 0x00;
 +
-+	switch (pdev->device) {
-+	case PCI_DEVICE_ID_VIA_VT3157:
-+	case PCI_DEVICE_ID_VIA_VT3343:
-+	case PCI_DEVICE_ID_VIA_P4M900:
-+	case PCI_DEVICE_ID_VIA_VT1122:
-+	case PCI_DEVICE_ID_VIA_VX875:
-+	case PCI_DEVICE_ID_VIA_VX900_VGA:
-+		/*
-+		 * Program Hardware Icon (HI) FIFO, foreground color,
-+		 * and background color.
-+		 */
-+		if (iga->index) {
-+			VIA_WRITE(HI_TRANSPARENT_COLOR, 0x00000000);
-+			VIA_WRITE(HI_INVTCOLOR, 0x00FFFFFF);
-+			VIA_WRITE(ALPHA_V3_PREFIFO_CONTROL,
-+							0x000E0000);
-+			VIA_WRITE(ALPHA_V3_FIFO_CONTROL, 0x0E0F0000);
-+		} else {
-+			VIA_WRITE(PRIM_HI_TRANSCOLOR, 0x00000000);
-+			VIA_WRITE(PRIM_HI_INVTCOLOR, 0x00FFFFFF);
-+			VIA_WRITE(V327_HI_INVTCOLOR, 0x00FFFFFF);
-+			VIA_WRITE(PRIM_HI_FIFO, 0x0D000D0F);
-+		}
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+		break;
-+	default:
-+		/*
-+		 * Program Hardware Icon (HI) FIFO, foreground color,
-+		 * and background color.
-+		 */
-+		VIA_WRITE(HI_TRANSPARENT_COLOR, 0x00000000);
-+		VIA_WRITE(HI_INVTCOLOR, 0x00FFFFFF);
-+		VIA_WRITE(ALPHA_V3_PREFIFO_CONTROL, 0x000E0000);
-+		VIA_WRITE(ALPHA_V3_FIFO_CONTROL, 0xE0F0000);
-+		break;
++	if (flags & DRM_MODE_FLAG_NHSYNC) {
++		syncPolarity |=3D BIT(0);
 +	}
 +
-+	switch (pdev->device) {
-+	case PCI_DEVICE_ID_VIA_VT3157:
-+	case PCI_DEVICE_ID_VIA_VT3343:
-+	case PCI_DEVICE_ID_VIA_P4M900:
-+	case PCI_DEVICE_ID_VIA_VT1122:
-+	case PCI_DEVICE_ID_VIA_VX875:
-+	case PCI_DEVICE_ID_VIA_VX900_VGA:
-+		/*
-+		 * Turn on Hardware Icon (HI).
-+		 */
-+		if (iga->index) {
-+			VIA_WRITE(HI_CONTROL, 0xB6000005);
-+		} else {
-+			VIA_WRITE(PRIM_HI_CTRL, 0x36000005);
-+		}
-+
-+		break;
-+	default:
-+		/*
-+		 * Turn on Hardware Icon (HI).
-+		 */
-+		if (iga->index) {
-+			VIA_WRITE(HI_CONTROL, 0xB6000005);
-+		} else {
-+			VIA_WRITE(HI_CONTROL, 0x36000005);
-+		}
-+
-+		break;
++	if (flags & DRM_MODE_FLAG_NVSYNC) {
++		syncPolarity |=3D BIT(1);
 +	}
++
++	via_dac_set_sync_polarity(VGABASE, syncPolarity);
++	DRM_INFO("DAC (VGA) Horizontal Sync Polarity: %s\n",
++		(syncPolarity & BIT(0)) ? "-" : "+");
++	DRM_INFO("DAC (VGA) Vertical Sync Polarity: %s\n",
++		(syncPolarity & BIT(1)) ? "-" : "+");
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
 +}
 +
-+static void via_cursor_address(struct drm_crtc *crtc,
-+				struct ttm_buffer_object *ttm_bo)
++/*
++ * Sets DAC (VGA) display source.
++ */
++static void via_dac_display_source(struct via_drm_priv *dev_priv,
++					int index)
 +{
-+	struct drm_device *dev =3D crtc->dev;
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	struct via_crtc *iga =3D container_of(crtc,
-+					struct via_crtc, base);
++	u8 displaySource =3D index;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	via_dac_set_display_source(VGABASE, displaySource & 0x01);
++	DRM_INFO("DAC (VGA) Display Source: IGA%d\n",
++			(displaySource & 0x01) + 1);
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++/*
++ * Routines for controlling stuff on the DAC port
++ */
++static const struct drm_encoder_funcs via_dac_enc_funcs =3D {
++	.destroy =3D via_encoder_cleanup,
++};
++
++/*
++ * Manage the power state of DAC (VGA).
++ */
++static void via_dac_dpms(struct drm_encoder *encoder, int mode)
++{
++	struct drm_device *dev =3D encoder->dev;
 +	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
 +
-+	switch (pdev->device) {
-+	case PCI_DEVICE_ID_VIA_VT3157:
-+	case PCI_DEVICE_ID_VIA_VT3343:
-+	case PCI_DEVICE_ID_VIA_P4M900:
-+	case PCI_DEVICE_ID_VIA_VT1122:
-+	case PCI_DEVICE_ID_VIA_VX875:
-+	case PCI_DEVICE_ID_VIA_VX900_VGA:
-+		/*
-+		 * Program Hardware Icon (HI) offset.
-+		 */
-+		if (iga->index) {
-+			VIA_WRITE(HI_FBOFFSET,
-+				ttm_bo->resource->start << PAGE_SHIFT);
-+		} else {
-+			VIA_WRITE(PRIM_HI_FBOFFSET,
-+				ttm_bo->resource->start << PAGE_SHIFT);
-+		}
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	switch (mode) {
++	case DRM_MODE_DPMS_ON:
++		via_dac_set_dpms_control(VGABASE, VIA_DAC_DPMS_ON);
++		via_dac_power(dev_priv, true);
++		break;
++	case DRM_MODE_DPMS_STANDBY:
++		via_dac_set_dpms_control(VGABASE, VIA_DAC_DPMS_STANDBY);
++		via_dac_power(dev_priv, true);
++		break;
++	case DRM_MODE_DPMS_SUSPEND:
++		via_dac_set_dpms_control(VGABASE, VIA_DAC_DPMS_SUSPEND);
++		via_dac_power(dev_priv, true);
++		break;
++	case DRM_MODE_DPMS_OFF:
++		via_dac_set_dpms_control(VGABASE, VIA_DAC_DPMS_OFF);
++		via_dac_power(dev_priv, false);
 +		break;
 +	default:
-+		/*
-+		 * Program Hardware Icon (HI) offset.
-+		 */
-+		VIA_WRITE(HI_FBOFFSET, ttm_bo->resource->start << PAGE_SHIFT);
++		DRM_ERROR("Bad DPMS mode.");
 +		break;
 +	}
 +
-+	return;
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
 +}
 +
-+static void via_set_hi_location(struct drm_crtc *crtc, int crtc_x, int cr=
-tc_y)
++/* Pass our mode to the connectors and the CRTC to give them a chance to
++ * adjust it according to limitations or connector properties, and also
++ * a chance to reject the mode entirely. Useful for things like scaling.
++ */
++static bool via_dac_mode_fixup(struct drm_encoder *encoder,
++				const struct drm_display_mode *mode,
++				struct drm_display_mode *adjusted_mode)
 +{
-+	struct drm_device *dev =3D crtc->dev;
-+	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-+	struct via_crtc *iga =3D container_of(crtc,
-+					struct via_crtc, base);
++	drm_mode_set_crtcinfo(adjusted_mode, 0);
++	return true;
++}
++
++/*
++ * Handle DAC (VGA) mode setting.
++ */
++static void via_dac_mode_set(struct drm_encoder *encoder,
++				struct drm_display_mode *mode,
++				struct drm_display_mode *adjusted_mode)
++{
++	struct drm_device *dev =3D encoder->dev;
 +	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
-+	uint32_t location_x =3D 0, location_y =3D 0;
-+	uint32_t offset_x =3D 0, offset_y =3D 0;
-+
-+	if (crtc_x < 0) {
-+		offset_x =3D -crtc_x;
-+	} else {
-+		location_x =3D crtc_x;
-+	}
-+
-+	if (crtc_y < 0) {
-+		offset_y =3D -crtc_y;
-+	} else {
-+		location_y =3D crtc_y;
-+	}
-+
-+	switch (pdev->device) {
-+	case PCI_DEVICE_ID_VIA_VT3157:
-+	case PCI_DEVICE_ID_VIA_VT3343:
-+	case PCI_DEVICE_ID_VIA_P4M900:
-+	case PCI_DEVICE_ID_VIA_VT1122:
-+	case PCI_DEVICE_ID_VIA_VX875:
-+	case PCI_DEVICE_ID_VIA_VX900_VGA:
-+		if (iga->index) {
-+			VIA_WRITE(HI_POSSTART,
-+				(((location_x & 0x07ff) << 16) |
-+				(location_y & 0x07ff)));
-+			VIA_WRITE(HI_CENTEROFFSET,
-+				(((offset_x & 0x07ff) << 16) |
-+				(offset_y & 0x07ff)));
-+		} else {
-+			VIA_WRITE(PRIM_HI_POSSTART,
-+				(((location_x & 0x07ff) << 16) |
-+				(location_y & 0x07ff)));
-+			VIA_WRITE(PRIM_HI_CENTEROFFSET,
-+				(((offset_x & 0x07ff) << 16) |
-+				(offset_y & 0x07ff)));
-+		}
-+
-+		break;
-+	default:
-+		VIA_WRITE(HI_POSSTART,
-+				(((location_x & 0x07ff) << 16) |
-+				(location_y & 0x07ff)));
-+		VIA_WRITE(HI_CENTEROFFSET,
-+				(((offset_x & 0x07ff) << 16) |
-+				(offset_y & 0x07ff)));
-+		break;
-+	}
-+}
-+
-+static int via_cursor_prepare_fb(struct drm_plane *plane,
-+					struct drm_plane_state *new_state)
-+{
-+	struct drm_gem_object *gem;
-+	struct ttm_buffer_object *ttm_bo;
-+	struct via_bo *bo;
-+	int ret =3D 0;
++	struct via_crtc *iga =3D container_of(encoder->crtc, struct via_crtc, ba=
+se);
 +
 +	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+	if (!new_state->fb) {
-+		goto exit;
-+	}
-+
-+	gem =3D new_state->fb->obj[0];
-+	ttm_bo =3D container_of(gem, struct ttm_buffer_object, base);
-+	bo =3D to_ttm_bo(ttm_bo);
-+
-+	ret =3D ttm_bo_reserve(ttm_bo, true, false, NULL);
-+	if (ret) {
-+		goto exit;
-+	}
-+
-+	ret =3D via_bo_pin(bo, TTM_PL_VRAM);
-+	ttm_bo_unreserve(ttm_bo);
-+	ret =3D ttm_bo_kmap(ttm_bo, 0, ttm_bo->resource->num_pages, &bo->kmap);
-+	if (ret) {
-+		goto exit;
-+	}
-+
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return ret;
-+}
-+
-+static void via_cursor_cleanup_fb(struct drm_plane *plane,
-+					struct drm_plane_state *old_state)
-+{
-+	struct drm_gem_object *gem;
-+	struct ttm_buffer_object *ttm_bo;
-+	struct via_bo *bo;
-+	int ret;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if (!old_state->fb) {
-+		goto exit;
-+	}
-+
-+	gem =3D old_state->fb->obj[0];
-+	ttm_bo =3D container_of(gem, struct ttm_buffer_object, base);
-+	bo =3D to_ttm_bo(ttm_bo);
-+
-+	ttm_bo_kunmap(&bo->kmap);
-+	ret =3D ttm_bo_reserve(ttm_bo, true, false, NULL);
-+	if (ret) {
-+		goto exit;
-+	}
-+
-+	via_bo_unpin(bo);
-+	ttm_bo_unreserve(ttm_bo);
-+
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+}
-+
-+static int via_cursor_atomic_check(struct drm_plane *plane,
-+					struct drm_atomic_state *state)
-+{
-+	struct drm_plane_state *new_plane_state =3D
-+			drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_crtc_state *new_crtc_state;
-+	struct drm_framebuffer *fb =3D new_plane_state->fb;
-+	int ret =3D 0;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if ((!new_plane_state->crtc) || (!new_plane_state->visible)) {
-+		goto exit;
-+	}
-+
-+	if (fb->width !=3D fb->height) {
-+		DRM_ERROR("Hardware cursor is expected to have "
-+				"square dimensions.\n");
-+		ret =3D -EINVAL;
-+		goto exit;
-+	}
-+
-+	new_crtc_state =3D drm_atomic_get_new_crtc_state(state,
-+						new_plane_state->crtc);
-+	ret =3D drm_atomic_helper_check_plane_state(
-+					new_plane_state,
-+					new_crtc_state,
-+					DRM_PLANE_HELPER_NO_SCALING,
-+					DRM_PLANE_HELPER_NO_SCALING,
-+					true, true);
-+exit:
-+	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
-+	return ret;
-+}
-+
-+static void via_cursor_atomic_update(struct drm_plane *plane,
-+					struct drm_atomic_state *state)
-+{
-+	struct drm_plane_state *new_state =3D
-+			drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_plane_state *old_state =3D
-+			drm_atomic_get_old_plane_state(state, plane);
-+	struct drm_crtc *crtc =3D new_state->crtc;
-+	struct drm_gem_object *gem;
-+	struct ttm_buffer_object *ttm_bo;
-+
-+	DRM_DEBUG_KMS("Entered %s.\n", __func__);
-+
-+	if (new_state->fb !=3D old_state->fb) {
-+		gem =3D new_state->fb->obj[0];
-+		ttm_bo =3D container_of(gem, struct ttm_buffer_object, base);
-+		via_cursor_address(crtc, ttm_bo);
-+	}
-+
-+	via_set_hi_location(crtc, new_state->crtc_x, new_state->crtc_y);
-+	via_show_cursor(crtc);
++	via_dac_sync_polarity(dev_priv, adjusted_mode->flags);
++	via_dac_display_source(dev_priv, iga->index);
 +
 +	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
 +}
 +
-+void via_cursor_atomic_disable(struct drm_plane *plane,
-+					struct drm_atomic_state *state)
++static void via_dac_prepare(struct drm_encoder *encoder)
 +{
-+	struct drm_plane_state *new_state =3D
-+			drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_crtc *crtc =3D new_state->crtc;
++	struct drm_device *dev =3D encoder->dev;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
 +
 +	DRM_DEBUG_KMS("Entered %s.\n", __func__);
 +
-+	if (crtc) {
-+		via_hide_cursor(crtc);
++	if (encoder->crtc) {
++		via_dac_set_dpms_control(VGABASE, VIA_DAC_DPMS_OFF);
++		via_dac_power(dev_priv, false);
 +	}
 +
 +	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
 +}
 +
-+const struct drm_plane_helper_funcs via_cursor_drm_plane_helper_funcs =3D=
++static void via_dac_commit(struct drm_encoder *encoder)
++{
++	struct drm_device *dev =3D encoder->dev;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (encoder->crtc) {
++		via_dac_set_dpms_control(VGABASE, VIA_DAC_DPMS_ON);
++		via_dac_power(dev_priv, true);
++	}
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static void via_dac_disable(struct drm_encoder *encoder)
++{
++	struct drm_device *dev =3D encoder->dev;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	via_dac_set_dpms_control(VGABASE, VIA_DAC_DPMS_OFF);
++	via_dac_power(dev_priv, false);
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++static const struct drm_encoder_helper_funcs via_dac_enc_helper_funcs =3D=
  {
-+	.prepare_fb	=3D via_cursor_prepare_fb,
-+	.cleanup_fb	=3D via_cursor_cleanup_fb,
-+	.atomic_check	=3D via_cursor_atomic_check,
-+	.atomic_update	=3D via_cursor_atomic_update,
-+	.atomic_disable	=3D via_cursor_atomic_disable,
++	.dpms =3D via_dac_dpms,
++	.mode_fixup =3D via_dac_mode_fixup,
++	.mode_set =3D via_dac_mode_set,
++	.prepare =3D via_dac_prepare,
++	.commit =3D via_dac_commit,
++	.disable =3D via_dac_disable,
 +};
 +
-+const struct drm_plane_funcs via_cursor_drm_plane_funcs =3D {
-+	.update_plane =3D drm_atomic_helper_update_plane,
-+	.disable_plane =3D drm_atomic_helper_disable_plane,
-+	.destroy =3D drm_plane_cleanup,
-+	.reset =3D drm_atomic_helper_plane_reset,
-+	.atomic_duplicate_state =3D drm_atomic_helper_plane_duplicate_state,
-+	.atomic_destroy_state =3D drm_atomic_helper_plane_destroy_state,
++static enum drm_connector_status
++via_dac_detect(struct drm_connector *connector, bool force)
++{
++	struct via_connector *con =3D container_of(connector,
++					struct via_connector, base);
++	enum drm_connector_status ret =3D connector_status_disconnected;
++	struct i2c_adapter *i2c_bus;
++	struct edid *edid =3D NULL;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (con->i2c_bus & VIA_I2C_BUS1) {
++		i2c_bus =3D via_find_ddc_bus(0x26);
++	} else {
++		i2c_bus =3D NULL;
++	}
++
++	if (i2c_bus) {
++		edid =3D drm_get_edid(&con->base, i2c_bus);
++		if (edid) {
++			if (!(edid->input & DRM_EDID_INPUT_DIGITAL)) {
++				ret =3D connector_status_connected;
++			}
++
++			kfree(edid);
++			goto exit;
++		}
++	}
++
++	if (con->i2c_bus & VIA_I2C_BUS2) {
++		i2c_bus =3D via_find_ddc_bus(0x31);
++	} else {
++		i2c_bus =3D NULL;
++	}
++
++	if (i2c_bus) {
++		edid =3D drm_get_edid(&con->base, i2c_bus);
++		if (edid) {
++			if (!(edid->input & DRM_EDID_INPUT_DIGITAL)) {
++				ret =3D connector_status_connected;
++			}
++
++			kfree(edid);
++			goto exit;
++		}
++	}
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return ret;
++}
++
++static const struct drm_connector_funcs via_dac_connector_funcs =3D {
++	.dpms =3D drm_helper_connector_dpms,
++	.detect =3D via_dac_detect,
++	.fill_modes =3D drm_helper_probe_single_connector_modes,
++	.destroy =3D via_connector_destroy,
++	.reset =3D drm_atomic_helper_connector_reset,
++	.atomic_duplicate_state =3D
++			drm_atomic_helper_connector_duplicate_state,
++	.atomic_destroy_state =3D
++			drm_atomic_helper_connector_destroy_state,
 +};
 +
-+const uint32_t via_cursor_formats[] =3D {
-+	DRM_FORMAT_ARGB8888,
++static enum drm_mode_status via_dac_mode_valid(
++					struct drm_connector *connector,
++					struct drm_display_mode *mode)
++{
++	struct drm_device *dev =3D connector->dev;
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	int min_clock, max_clock;
++	enum drm_mode_status status =3D MODE_OK;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	min_clock =3D 25000;
++	switch (pdev->device) {
++	/* CLE266 Chipset */
++	case PCI_DEVICE_ID_VIA_CLE266:
++	/* KM400(A) / KN400(A) / P4M800 Chipset */
++	case PCI_DEVICE_ID_VIA_KM400:
++		max_clock =3D 250000;
++		break;
++	/* K8M800(A) / K8N800(A) Chipset */
++	case PCI_DEVICE_ID_VIA_K8M800:
++	/* P4M800 Pro / P4M800CE / VN800 / CN700 / CN333 / CN400 Chipset */
++	case PCI_DEVICE_ID_VIA_CN700:
++		max_clock =3D 300000;
++		break;
++	/* PM800 / PN800 / PM880 / PN880 Chipset */
++	case PCI_DEVICE_ID_VIA_PM800:
++	/* P4M890 / P4N890 Chipset */
++	case PCI_DEVICE_ID_VIA_VT3343:
++	/* K8M890 / K8N890 Chipset */
++	case PCI_DEVICE_ID_VIA_K8M890:
++	/* P4M900 / VN896 / CN896 Chipset */
++	case PCI_DEVICE_ID_VIA_P4M900:
++	/* CX700(M/M2) / VX700(M/M2) Chipset */
++	case PCI_DEVICE_ID_VIA_VT3157:
++	/* VX800 / VX820 Chipset */
++	case PCI_DEVICE_ID_VIA_VT1122:
++	/* VX855 / VX875 Chipset */
++	case PCI_DEVICE_ID_VIA_VX875:
++	/* VX900(H) Chipset */
++	case PCI_DEVICE_ID_VIA_VX900_VGA:
++		max_clock =3D 350000;
++		break;
++	/* Illegal condition (should never get here) */
++	default:
++		max_clock =3D 0;
++		break;
++	}
++
++	if (mode->flags & DRM_MODE_FLAG_DBLSCAN) {
++		status =3D MODE_NO_DBLESCAN;
++		goto exit;
++	}
++
++	if (mode->clock < min_clock) {
++		status =3D MODE_CLOCK_LOW;
++		goto exit;
++	}
++
++	if (mode->clock > max_clock) {
++		status =3D MODE_CLOCK_HIGH;
++		goto exit;
++	}
++
++exit:
++	DRM_DEBUG_KMS("status: %u\n", status);
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return status;
++}
++
++static int via_dac_get_modes(struct drm_connector *connector)
++{
++	struct via_connector *con =3D container_of(connector,
++					struct via_connector, base);
++	int count =3D 0;
++	struct i2c_adapter *i2c_bus;
++	struct edid *edid =3D NULL;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	if (con->i2c_bus & VIA_I2C_BUS1) {
++		i2c_bus =3D via_find_ddc_bus(0x26);
++	} else {
++		i2c_bus =3D NULL;
++	}
++
++	if (i2c_bus) {
++		edid =3D drm_get_edid(&con->base, i2c_bus);
++		if (edid) {
++			if (!(edid->input & DRM_EDID_INPUT_DIGITAL)) {
++				drm_connector_update_edid_property(connector,
++									edid);
++				count =3D drm_add_edid_modes(connector, edid);
++			}
++
++			kfree(edid);
++			goto exit;
++		}
++	}
++
++	if (con->i2c_bus & VIA_I2C_BUS2) {
++		i2c_bus =3D via_find_ddc_bus(0x31);
++	} else {
++		i2c_bus =3D NULL;
++	}
++
++	if (i2c_bus) {
++		edid =3D drm_get_edid(&con->base, i2c_bus);
++		if (edid) {
++			if (!(edid->input & DRM_EDID_INPUT_DIGITAL)) {
++				drm_connector_update_edid_property(connector,
++									edid);
++				count =3D drm_add_edid_modes(connector, edid);
++			}
++
++			kfree(edid);
++			goto exit;
++		}
++	}
++
++exit:
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++	return count;
++}
++
++static const struct drm_connector_helper_funcs
++via_dac_connector_helper_funcs =3D {
++	.mode_valid =3D via_dac_mode_valid,
++	.get_modes =3D via_dac_get_modes,
 +};
 +
-+const unsigned int via_cursor_formats_size =3D
-+				ARRAY_SIZE(via_cursor_formats);
++void via_dac_probe(struct drm_device *dev)
++{
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
++	u16 chipset =3D pdev->device;
++	u8 sr13, sr5a;
++
++	DRM_DEBUG_KMS("Entered %s.\n", __func__);
++
++	switch (chipset) {
++	case PCI_DEVICE_ID_VIA_VT3157:
++	case PCI_DEVICE_ID_VIA_VT1122:
++	case PCI_DEVICE_ID_VIA_VX875:
++	case PCI_DEVICE_ID_VIA_VX900_VGA:
++		sr5a =3D vga_rseq(VGABASE, 0x5a);
++		DRM_DEBUG_KMS("SR5A: 0x%02x\n", sr5a);
++
++		/* Setting SR5A[0] to 1.
++		 * This allows the reading out the alternative
++		 * pin strapping information from SR12 and SR13. */
++		svga_wseq_mask(VGABASE, 0x5a, BIT(0), BIT(0));
++		DRM_DEBUG_KMS("SR5A: 0x%02x\n", sr5a);
++
++		sr13 =3D vga_rseq(VGABASE, 0x13);
++		DRM_DEBUG_KMS("SR13: 0x%02x\n", sr13);
++
++		if (!(sr13 & BIT(2))) {
++			dev_priv->dac_presence =3D true;
++			DRM_DEBUG_KMS("Detected the presence of VGA.\n");
++		} else {
++			dev_priv->dac_presence =3D false;
++		}
++
++		/* Restore SR5A. */
++		vga_wseq(VGABASE, 0x5a, sr5a);
++		break;
++	default:
++		dev_priv->dac_presence =3D true;
++		DRM_DEBUG_KMS("Detected the presence of VGA.\n");
++		break;
++	}
++
++	dev_priv->dac_i2c_bus =3D VIA_I2C_NONE;
++
++	if (dev_priv->dac_presence) {
++		dev_priv->dac_i2c_bus =3D VIA_I2C_BUS2 | VIA_I2C_BUS1;
++	}
++
++	dev_priv->mapped_i2c_bus |=3D dev_priv->dac_i2c_bus;
++
++	DRM_DEBUG_KMS("Exiting %s.\n", __func__);
++}
++
++void via_dac_init(struct drm_device *dev)
++{
++	struct via_connector *con;
++	struct via_encoder *enc;
++	struct via_drm_priv *dev_priv =3D to_via_drm_priv(dev);
++
++	enc =3D kzalloc(sizeof(*enc) + sizeof(*con), GFP_KERNEL);
++	if (!enc) {
++		DRM_ERROR("Failed to allocate connector and encoder\n");
++		return;
++	}
++	con =3D &enc->cons[0];
++	INIT_LIST_HEAD(&con->props);
++
++	/* Piece together our connector */
++	drm_connector_init(dev, &con->base, &via_dac_connector_funcs,
++				DRM_MODE_CONNECTOR_VGA);
++	drm_connector_helper_add(&con->base, &via_dac_connector_helper_funcs);
++	drm_connector_register(&con->base);
++
++	con->i2c_bus =3D dev_priv->dac_i2c_bus;
++	con->base.doublescan_allowed =3D false;
++	con->base.interlace_allowed =3D true;
++
++	/* Setup the encoders and attach them */
++	drm_encoder_init(dev, &enc->base, &via_dac_enc_funcs,
++						DRM_MODE_ENCODER_DAC, NULL);
++	drm_encoder_helper_add(&enc->base, &via_dac_enc_helper_funcs);
++
++	enc->base.possible_crtcs =3D BIT(1) | BIT(0);
++	enc->base.possible_clones =3D 0;
++	enc->di_port =3D VIA_DI_PORT_NONE;
++
++	drm_connector_attach_encoder(&con->base, &enc->base);
++}
 =2D-
 2.35.1
 
