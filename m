@@ -1,65 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9FC55BFA5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 10:56:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A0555BFA6
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 10:58:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81E8612A993;
-	Tue, 28 Jun 2022 08:56:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49E9D12A9CA;
+	Tue, 28 Jun 2022 08:58:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8A8811B242
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 08:55:58 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 77B0F21BFA;
- Tue, 28 Jun 2022 08:55:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1656406557; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=D8WFqB5T2024IqKWVKHGeA2jym8PfYKGlKwpWyZlxEY=;
- b=K0QKrGl856DCTRHSQ1DRMqHM0gXgE9q7IEpMLr7uPR8qPJoWX0rGRsRcqQ3w/hIcJNgqFq
- QpRkj0bkOy4iTiuDjGHknsFhwEwqG6V2uen5yp5vVPqe0Q/peKn+j0qSu0/yINfOwHA0Un
- VthuNp2dV8ZJG5VvOx9TS39FFhNqrQs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1656406557;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=D8WFqB5T2024IqKWVKHGeA2jym8PfYKGlKwpWyZlxEY=;
- b=4jGPdnvGgjN1nGiRdKKUuPXXcs8R5Vdqo4biYmA5jJ+ZbQCXCm2DV0RhDBwecVLtqBv308
- 5mQ1XfaHCDfNxmAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 48FFC13ACA;
- Tue, 28 Jun 2022 08:55:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id hw3sEB3CumIOOwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 28 Jun 2022 08:55:57 +0000
-Message-ID: <63e8fdc3-07c2-943b-9369-be1b7f3b2f2c@suse.de>
-Date: Tue, 28 Jun 2022 10:55:56 +0200
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F24812A9C2;
+ Tue, 28 Jun 2022 08:58:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656406687; x=1687942687;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=8ccncddsC7dzCiGIKRKLjjxcx6QDuw9ZKZ2b7p3u5fU=;
+ b=cTjz10mp/poxno/V2WCDCmMxJw31i2BH570Mox6MGYI7sPV8vUlyO03i
+ AKjW+uobAc1jHPiGhDR831Q3On7hKQtgskj4EQmiEz1DUzGwcRQ5YLiSF
+ p8WJgsnwzovT6AV0K2iaRhCh3pMznsDBsGgCiAvl5+gSOlTpnKbp+mshv
+ cTw8zP4fDnkLV5tGOmMMhotJ0SgSPkdL/OSVENq3Bri2UxEmkGXrt8ado
+ OnDlcVVha7OuxPdFFLJsdpLiZL34rYz+tpaqcNPiQhXwcOk/5QZdnxStQ
+ BJdlbR8zPTQ/Qfy63mGEJlLbW4RGRSLBcpr/+7Wd3DOiF9EF8AMJWN7QK g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="280441284"
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="280441284"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 01:58:05 -0700
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; d="scan'208";a="587793739"
+Received: from leejust1-mobl.amr.corp.intel.com (HELO [10.209.162.132])
+ ([10.209.162.132])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 01:58:03 -0700
+Message-ID: <2ce76c99-e0bc-8a96-9e1c-f9d96ece62d4@linux.intel.com>
+Date: Tue, 28 Jun 2022 09:58:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v2 03/68] drm/encoder: Introduce drmm_encoder_init
+Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/doc/rfc: VM_BIND uapi definition
 Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-References: <20220622143209.600298-1-maxime@cerno.tech>
- <20220622143209.600298-4-maxime@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220622143209.600298-4-maxime@cerno.tech>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------rxJH3vAFZqLIVHyJhjba6YkO"
+To: "Zeng, Oak" <oak.zeng@intel.com>,
+ "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>,
+ "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>
+References: <20220622035650.29256-1-niranjana.vishwanathapura@intel.com>
+ <20220622035650.29256-4-niranjana.vishwanathapura@intel.com>
+ <6ac2f495-8ead-4824-f9af-1c03fb3770c4@linux.intel.com>
+ <20220622151229.GY376@nvishwa1-DESK>
+ <b347fb63-5200-9f5c-b0d6-ca51b7a064f9@linux.intel.com>
+ <20220622164445.GZ376@nvishwa1-DESK>
+ <e6ed0d2f-ee2a-2219-c2cc-49efc32f0560@linux.intel.com>
+ <1874e47b-4337-5ac6-ebea-fca21ea1ba4c@intel.com>
+ <6d70cde9-f856-540a-b1d4-0325596b0c88@linux.intel.com>
+ <BN6PR11MB1633C90D1B2E40359F1F168F92B59@BN6PR11MB1633.namprd11.prod.outlook.com>
+ <1d36da1a-9224-5750-d103-60e7cdfdf8df@linux.intel.com>
+ <BN6PR11MB1633F819E6DF445769061CF092B49@BN6PR11MB1633.namprd11.prod.outlook.com>
+ <1f2ce51e-4b45-c654-954a-a71899309fb5@linux.intel.com>
+ <BN6PR11MB1633B73631737329161B289A92B99@BN6PR11MB1633.namprd11.prod.outlook.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <BN6PR11MB1633B73631737329161B289A92B99@BN6PR11MB1633.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,145 +75,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Wilson,
+ Chris P" <chris.p.wilson@intel.com>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>, "Auld,
+ Matthew" <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------rxJH3vAFZqLIVHyJhjba6YkO
-Content-Type: multipart/mixed; boundary="------------Z60H0iml8mcKPUBEPwOyTqNm";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <63e8fdc3-07c2-943b-9369-be1b7f3b2f2c@suse.de>
-Subject: Re: [PATCH v2 03/68] drm/encoder: Introduce drmm_encoder_init
-References: <20220622143209.600298-1-maxime@cerno.tech>
- <20220622143209.600298-4-maxime@cerno.tech>
-In-Reply-To: <20220622143209.600298-4-maxime@cerno.tech>
 
---------------Z60H0iml8mcKPUBEPwOyTqNm
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 27/06/2022 19:58, Zeng, Oak wrote:
+> 
+> 
+> Thanks,
+> Oak
+> 
+>> -----Original Message-----
+>> From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>> Sent: June 27, 2022 4:30 AM
+>> To: Zeng, Oak <oak.zeng@intel.com>; Landwerlin, Lionel G
+>> <lionel.g.landwerlin@intel.com>; Vishwanathapura, Niranjana
+>> <niranjana.vishwanathapura@intel.com>
+>> Cc: Zanoni, Paulo R <paulo.r.zanoni@intel.com>; intel-
+>> gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; Hellstrom,
+>> Thomas <thomas.hellstrom@intel.com>; Wilson, Chris P
+>> <chris.p.wilson@intel.com>; Vetter, Daniel <daniel.vetter@intel.com>;
+>> christian.koenig@amd.com; Auld, Matthew <matthew.auld@intel.com>
+>> Subject: Re: [Intel-gfx] [PATCH v3 3/3] drm/doc/rfc: VM_BIND uapi definition
+>>
+>>
+>> On 24/06/2022 21:23, Zeng, Oak wrote:
+>>> Let's compare "tlb invalidate at vm unbind" vs "tlb invalidate at backing
+>> storage":
+>>>
+>>> Correctness:
+>>> consider this sequence of:
+>>> 1. unbind va1 from pa1,
+>>> 2. then bind va1 to pa2. //user space has the freedom to do this as it
+>>> manages virtual address space 3. Submit shader code using va1, 4. Then
+>>> retire pa1.
+>>>
+>>> If you don't perform tlb invalidate at step #1, in step #3, shader will use
+>> stale entries in tlb and pa1 will be used for the shader. User want to use pa2.
+>> So I don't think invalidate tlb at step #4 make correctness.
+>>
+>> Define step 3. Is it a new execbuf? If so then there will be a TLB flush there.
+>> Unless the plan is to stop doing that with eb3 but I haven't picked up on that
+>> anywhere so far.
+> 
+> In Niranjana's latest patch series, he removed the TLB flushing from vm_unbind. He also said explicitly TLB invalidation will be performed at job submission and backing storage releasing time, which is the existing behavior of the current i915 driver.
+> 
+> I think if we invalidate TLB on each vm_unbind, then we don't need to invalidate at submission and backing storage releasing. It doesn't make a lot of sense to me to perform a tlb invalidation at execbuf time. Maybe it is a behavior for the old implicit binding programming model. For vm_bind and eb3, we separate the binding and job submission into two APIs. It is more natural the TLB invalidation be coupled with the vm bind/unbind, not job submission. So in my opinion we should remove tlb invalidation from submission and backing storage releasing and add it to vm unbind. This is method is cleaner to me.
 
-SGkNCg0KQW0gMjIuMDYuMjIgdW0gMTY6MzEgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBU
-aGUgRFJNLW1hbmFnZWQgZnVuY3Rpb24gdG8gcmVnaXN0ZXIgYW4gZW5jb2RlciBpcw0KPiBk
-cm1tX2VuY29kZXJfYWxsb2MoKSBhbmQgaXRzIHZhcmlhbnRzLCB3aGljaCB3aWxsIGFsbG9j
-YXRlIHRoZSB1bmRlcmx5aW5nDQo+IHN0cnVjdHVyZSBhbmQgaW5pdGlhbGlzYXRpb24gdGhl
-IGVuY29kZXIuDQo+IA0KPiBIb3dldmVyLCB3ZSBtaWdodCB3YW50IHRvIHNlcGFyYXRlIHRo
-ZSBzdHJ1Y3R1cmUgY3JlYXRpb24gYW5kIHRoZSBlbmNvZGVyDQo+IGluaXRpYWxpc2F0aW9u
-LCBmb3IgZXhhbXBsZSBpZiB0aGUgc3RydWN0dXJlIGlzIHNoYXJlZCBhY3Jvc3MgbXVsdGlw
-bGUgRFJNDQo+IGVudGl0aWVzLCBmb3IgZXhhbXBsZSBhbiBlbmNvZGVyIGFuZCBhIGNvbm5l
-Y3Rvci4NCj4gDQo+IExldCdzIGNyZWF0ZSBhbiBoZWxwZXIgdG8gb25seSBpbml0aWFsaXNl
-IGFuIGVuY29kZXIgdGhhdCB3b3VsZCBiZSBwYXNzZWQNCj4gYXMgYW4gYXJndW1lbnQuDQo+
-IA0KPiBTaWduZWQtb2ZmLWJ5OiBNYXhpbWUgUmlwYXJkIDxtYXhpbWVAY2Vybm8udGVjaD4N
-Cj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9lbmNvZGVyLmMgfCA1NyArKysrKysr
-KysrKysrKysrKysrKysrKysrKysrLS0tLS0tLQ0KPiAgIGluY2x1ZGUvZHJtL2RybV9lbmNv
-ZGVyLmggICAgIHwgIDUgKysrDQo+ICAgMiBmaWxlcyBjaGFuZ2VkLCA1MSBpbnNlcnRpb25z
-KCspLCAxMSBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2VuY29kZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZW5jb2Rlci5jDQo+IGlu
-ZGV4IGE5NDAwMjRjODA4Ny4uYjI5ZjJmMDc3NDRmIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2VuY29kZXIuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Vu
-Y29kZXIuYw0KPiBAQCAtMTQ4LDkgKzE0OCw5IEBAIHN0YXRpYyBpbnQgX19kcm1fZW5jb2Rl
-cl9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ICAgICogdGhlIGVuY29kZXIgc3Ry
-dWN0dXJlLiBUaGUgZW5jb2RlciBzdHJ1Y3R1cmUgc2hvdWxkIG5vdCBiZSBhbGxvY2F0ZWQg
-d2l0aA0KPiAgICAqIGRldm1fa3phbGxvYygpLg0KPiAgICAqDQo+IC0gKiBOb3RlOiBjb25z
-aWRlciB1c2luZyBkcm1tX2VuY29kZXJfYWxsb2MoKSBpbnN0ZWFkIG9mIGRybV9lbmNvZGVy
-X2luaXQoKSB0bw0KPiAtICogbGV0IHRoZSBEUk0gbWFuYWdlZCByZXNvdXJjZSBpbmZyYXN0
-cnVjdHVyZSB0YWtlIGNhcmUgb2YgY2xlYW51cCBhbmQNCj4gLSAqIGRlYWxsb2NhdGlvbi4N
-Cj4gKyAqIE5vdGU6IGNvbnNpZGVyIHVzaW5nIGRybW1fZW5jb2Rlcl9hbGxvYygpIG9yIGRy
-bW1fZW5jb2Rlcl9pbml0KCkNCj4gKyAqIGluc3RlYWQgb2YgZHJtX2VuY29kZXJfaW5pdCgp
-IHRvIGxldCB0aGUgRFJNIG1hbmFnZWQgcmVzb3VyY2UNCj4gKyAqIGluZnJhc3RydWN0dXJl
-IHRha2UgY2FyZSBvZiBjbGVhbnVwIGFuZCBkZWFsbG9jYXRpb24uDQo+ICAgICoNCj4gICAg
-KiBSZXR1cm5zOg0KPiAgICAqIFplcm8gb24gc3VjY2VzcywgZXJyb3IgY29kZSBvbiBmYWls
-dXJlLg0KPiBAQCAtMjIxLDkgKzIyMSw2IEBAIHZvaWQgKl9fZHJtbV9lbmNvZGVyX2FsbG9j
-KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHNpemVfdCBzaXplLCBzaXplX3Qgb2Zmc2V0LA0K
-PiAgIAl2YV9saXN0IGFwOw0KPiAgIAlpbnQgcmV0Ow0KPiAgIA0KPiAtCWlmIChXQVJOX09O
-KGZ1bmNzICYmIGZ1bmNzLT5kZXN0cm95KSkNCj4gLQkJcmV0dXJuIEVSUl9QVFIoLUVJTlZB
-TCk7DQo+IC0NCj4gICAJY29udGFpbmVyID0gZHJtbV9remFsbG9jKGRldiwgc2l6ZSwgR0ZQ
-X0tFUk5FTCk7DQo+ICAgCWlmICghY29udGFpbmVyKQ0KPiAgIAkJcmV0dXJuIEVSUl9QVFIo
-LUVOT01FTSk7DQo+IEBAIC0yMzEsMTkgKzIyOCw1NyBAQCB2b2lkICpfX2RybW1fZW5jb2Rl
-cl9hbGxvYyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzaXplX3Qgc2l6ZSwgc2l6ZV90IG9m
-ZnNldCwNCj4gICAJZW5jb2RlciA9IGNvbnRhaW5lciArIG9mZnNldDsNCj4gICANCj4gICAJ
-dmFfc3RhcnQoYXAsIG5hbWUpOw0KPiAtCXJldCA9IF9fZHJtX2VuY29kZXJfaW5pdChkZXYs
-IGVuY29kZXIsIGZ1bmNzLCBlbmNvZGVyX3R5cGUsIG5hbWUsIGFwKTsNCj4gKwlyZXQgPSBk
-cm1tX2VuY29kZXJfaW5pdChkZXYsIGVuY29kZXIsIGZ1bmNzLCBlbmNvZGVyX3R5cGUsIG5h
-bWUsIGFwKTsNCg0KVGhhdCdzIHRoZSBzYW1lIHByb2JsZW0gd2l0aCBhcCBhcyBpbiB0aGUg
-Q1JUQyBjYXNlLiBJIGd1ZXNzIG90aGVyIA0KcGF0Y2hlcyBhcmUgYWxzbyBhZmZlY3RlZC4N
-Cg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAgIAl2YV9lbmQoYXApOw0KPiAgIAlpZiAo
-cmV0KQ0KPiAgIAkJcmV0dXJuIEVSUl9QVFIocmV0KTsNCj4gICANCj4gLQlyZXQgPSBkcm1t
-X2FkZF9hY3Rpb25fb3JfcmVzZXQoZGV2LCBkcm1tX2VuY29kZXJfYWxsb2NfcmVsZWFzZSwg
-ZW5jb2Rlcik7DQo+IC0JaWYgKHJldCkNCj4gLQkJcmV0dXJuIEVSUl9QVFIocmV0KTsNCj4g
-LQ0KPiAgIAlyZXR1cm4gY29udGFpbmVyOw0KPiAgIH0NCj4gICBFWFBPUlRfU1lNQk9MKF9f
-ZHJtbV9lbmNvZGVyX2FsbG9jKTsNCj4gICANCj4gKy8qKg0KPiArICogZHJtbV9lbmNvZGVy
-X2luaXQgLSBJbml0aWFsaXplIGEgcHJlYWxsb2NhdGVkIGVuY29kZXINCj4gKyAqIEBkZXY6
-IGRybSBkZXZpY2UNCj4gKyAqIEBlbmNvZGVyOiB0aGUgZW5jb2RlciB0byBpbml0DQo+ICsg
-KiBAZnVuY3M6IGNhbGxiYWNrcyBmb3IgdGhpcyBlbmNvZGVyIChvcHRpb25hbCkNCj4gKyAq
-IEBlbmNvZGVyX3R5cGU6IHVzZXIgdmlzaWJsZSB0eXBlIG9mIHRoZSBlbmNvZGVyDQo+ICsg
-KiBAbmFtZTogcHJpbnRmIHN0eWxlIGZvcm1hdCBzdHJpbmcgZm9yIHRoZSBlbmNvZGVyIG5h
-bWUsIG9yIE5VTEwgZm9yIGRlZmF1bHQgbmFtZQ0KPiArICoNCj4gKyAqIEluaXRpYWxpemVz
-IGEgcHJlYWxsb2NhdGVkIGVuY29kZXIuIEVuY29kZXIgc2hvdWxkIGJlIHN1YmNsYXNzZWQg
-YXMNCj4gKyAqIHBhcnQgb2YgZHJpdmVyIGVuY29kZXIgb2JqZWN0cy4gQ2xlYW51cCBpcyBh
-dXRvbWF0aWNhbGx5IGhhbmRsZWQNCj4gKyAqIHRocm91Z2ggcmVnaXN0ZXJpbmcgZHJtX2Vu
-Y29kZXJfY2xlYW51cCgpIHdpdGggZHJtbV9hZGRfYWN0aW9uKCkuIFRoZQ0KPiArICogZW5j
-b2RlciBzdHJ1Y3R1cmUgc2hvdWxkIGJlIGFsbG9jYXRlZCB3aXRoIGRybW1fa3phbGxvYygp
-Lg0KPiArICoNCj4gKyAqIFRoZSBAZHJtX2VuY29kZXJfZnVuY3MuZGVzdHJveSBob29rIG11
-c3QgYmUgTlVMTC4NCj4gKyAqDQo+ICsgKiBSZXR1cm5zOg0KPiArICogWmVybyBvbiBzdWNj
-ZXNzLCBlcnJvciBjb2RlIG9uIGZhaWx1cmUuDQo+ICsgKi8NCj4gK2ludCBkcm1tX2VuY29k
-ZXJfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgZHJtX2VuY29kZXIgKmVu
-Y29kZXIsDQo+ICsJCSAgICAgIGNvbnN0IHN0cnVjdCBkcm1fZW5jb2Rlcl9mdW5jcyAqZnVu
-Y3MsDQo+ICsJCSAgICAgIGludCBlbmNvZGVyX3R5cGUsIGNvbnN0IGNoYXIgKm5hbWUsIC4u
-LikNCj4gK3sNCj4gKwl2YV9saXN0IGFwOw0KPiArCWludCByZXQ7DQo+ICsNCj4gKwlpZiAo
-V0FSTl9PTihmdW5jcyAmJiBmdW5jcy0+ZGVzdHJveSkpDQo+ICsJCXJldHVybiAtRUlOVkFM
-Ow0KPiArDQo+ICsJdmFfc3RhcnQoYXAsIG5hbWUpOw0KPiArCXJldCA9IF9fZHJtX2VuY29k
-ZXJfaW5pdChkZXYsIGVuY29kZXIsIGZ1bmNzLCBlbmNvZGVyX3R5cGUsIG5hbWUsIGFwKTsN
-Cj4gKwl2YV9lbmQoYXApOw0KPiArCWlmIChyZXQpDQo+ICsJCXJldHVybiByZXQ7DQo+ICsN
-Cj4gKwlyZXQgPSBkcm1tX2FkZF9hY3Rpb25fb3JfcmVzZXQoZGV2LCBkcm1tX2VuY29kZXJf
-YWxsb2NfcmVsZWFzZSwgZW5jb2Rlcik7DQo+ICsJaWYgKHJldCkNCj4gKwkJcmV0dXJuIHJl
-dDsNCj4gKw0KPiArCXJldHVybiAwOw0KPiArfQ0KPiArRVhQT1JUX1NZTUJPTChkcm1tX2Vu
-Y29kZXJfaW5pdCk7DQo+ICsNCj4gICBzdGF0aWMgc3RydWN0IGRybV9jcnRjICpkcm1fZW5j
-b2Rlcl9nZXRfY3J0YyhzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29kZXIpDQo+ICAgew0KPiAg
-IAlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yOw0KPiBkaWZmIC0tZ2l0IGEvaW5j
-bHVkZS9kcm0vZHJtX2VuY29kZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9lbmNvZGVyLmgNCj4g
-aW5kZXggNmU5MWEwMjgwZjMxLi42NzEzZmUxODA0ZTkgMTAwNjQ0DQo+IC0tLSBhL2luY2x1
-ZGUvZHJtL2RybV9lbmNvZGVyLmgNCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2VuY29kZXIu
-aA0KPiBAQCAtMTk0LDYgKzE5NCwxMSBAQCBpbnQgZHJtX2VuY29kZXJfaW5pdChzdHJ1Y3Qg
-ZHJtX2RldmljZSAqZGV2LA0KPiAgIAkJICAgICBjb25zdCBzdHJ1Y3QgZHJtX2VuY29kZXJf
-ZnVuY3MgKmZ1bmNzLA0KPiAgIAkJICAgICBpbnQgZW5jb2Rlcl90eXBlLCBjb25zdCBjaGFy
-ICpuYW1lLCAuLi4pOw0KPiAgIA0KPiAraW50IGRybW1fZW5jb2Rlcl9pbml0KHN0cnVjdCBk
-cm1fZGV2aWNlICpkZXYsDQo+ICsJCSAgICAgIHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2Rl
-ciwNCj4gKwkJICAgICAgY29uc3Qgc3RydWN0IGRybV9lbmNvZGVyX2Z1bmNzICpmdW5jcywN
-Cj4gKwkJICAgICAgaW50IGVuY29kZXJfdHlwZSwgY29uc3QgY2hhciAqbmFtZSwgLi4uKTsN
-Cj4gKw0KPiAgIF9fcHJpbnRmKDYsIDcpDQo+ICAgdm9pZCAqX19kcm1tX2VuY29kZXJfYWxs
-b2Moc3RydWN0IGRybV9kZXZpY2UgKmRldiwNCj4gICAJCQkgICBzaXplX3Qgc2l6ZSwgc2l6
-ZV90IG9mZnNldCwNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVy
-IERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhm
-ZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7D
-vHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+You can propose this model (not flushing in eb3) but I have my doubts. 
+Consider the pointlessness of flushing on N unbinds for 99% of clients 
+which are not infinite compute batch. And consider how you make the 
+behaviour consistent on all platforms (selective vs global tlb flush).
 
---------------Z60H0iml8mcKPUBEPwOyTqNm--
+Also note that this discussion is orthogonal to unbind vs backing store 
+release.
 
---------------rxJH3vAFZqLIVHyJhjba6YkO
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> Regarding performance, we don't have data. In my opinion, we should make things work in a most straight forward way as the first step. Then consider performance improvement if necessary. Consider some delayed tlb invalidation at submission and backing release time without performance data support wasn't a good decision.
 
------BEGIN PGP SIGNATURE-----
+It is quite straightforward though. ;) It aligns with the eb2 model and 
+argument can be made backing store release is (much) less frequent than 
+unbind (consider softpin where client could trigger a lot of pointless 
+flushes).
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmK6whwFAwAAAAAACgkQlh/E3EQov+AD
-Fw//TANnLPkXXW0QdkQ+AD4s5PqWdrTyKzeam5ma+MJCBO3gI4UEM4XAZsHE4D5wFJmdQRIfyOax
-dJMtKoVEiVYp8+P7Xm1uGc2wwp7/m3Vk4DaPWySP+1UaSgcIgDn8QZECfXfcvC+FSfLr0ud1+wEK
-lS1CRDu084qsga5YE+KMdrR9IL7vp3W4zBs8zKmYpmK8pFg+zS4yi4BSynD0HhLNfsgGbHVSVwyG
-CXsSwUK3c5DXRdKEZhro8jhJyzB3aDanoCdY/jx4jGT1ep6iEkzyw/gvqnWiZXAtEUBLxiRTzkhz
-OdFOZzXxMuQwxNFL0DqYZPe7V1nUxVZBFLABXpgMhCDYeSpBsSnz2fRx1UsX12uEVPzYXI110iEa
-mvxi779l19p5LxjAPjy9ndiIJxp7aRyqjyFf5vrE6EfmvM+hP+vclpZIA60yyzVPYtswG7VSDiYJ
-FSUm7KtePham6lOKjmQ8uebB0Z7QjkYiotM+hoEJHdGVRz14tVMoCoCkr76iFYgCk+3TEKYEruKh
-0jMsBZ80PDMEAIvHuZIWDqjwP743yIeWESp5eIjI0HVZIKA9yZh9R5lov0QpbWBia6MR//2zsMN/
-kvPfplMq3CbC+AZUX3ClHX3xby2/qM7GXxJExfUaLcx71TTUGO7EmPu3Z5wR0zjc6RJ+YFurkA9K
-I6I=
-=Qm0/
------END PGP SIGNATURE-----
+Regards,
 
---------------rxJH3vAFZqLIVHyJhjba6YkO--
+Tvrtko
