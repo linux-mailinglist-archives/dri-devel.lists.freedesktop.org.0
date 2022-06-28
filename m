@@ -1,48 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E1155BCCA
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 02:58:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D073C55BCF6
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 03:29:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98B6210E3DD;
-	Tue, 28 Jun 2022 00:58:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A245210E400;
+	Tue, 28 Jun 2022 01:29:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01CFC10E3DD;
- Tue, 28 Jun 2022 00:58:31 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B6EC2616BE;
- Tue, 28 Jun 2022 00:58:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBEABC341C8;
- Tue, 28 Jun 2022 00:58:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656377910;
- bh=x4KMhmowxPAczUMJ6x4nBeCjlIDio89Zlndd34Eza5Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rmtqPrxs/EakAnLyUZ+T1Y6Y2PuUVWE1p/lPmqQBXiapPC1WBd92tcHfgEnTJibSz
- 8Cqh6wp+mGRPQenFwVH/ncudi5b7Tg0x4DYK6LYwUDkNgU3v8Yk/6Or0HzPxa5QXgF
- OYkHqjzJwOTAIzA6m0DkNzWrhG6StDZ8wiRdHVw+Wnp/Deq+bcAy4GlTPygKnkBgqV
- sUW1DRx9UPn831OT0MRefhs1kf7ZlvXFnW9s3XTKUzsS60aUSNGKPAXfxyQi7QqZvQ
- a8VxNxF80uRWuCVjsLU3WaCLAUnTapHIuQJvInOf0IrcXvC7dKlHhnQt1FhIxUdbDj
- Qy7qblTn3AnuA==
-Date: Tue, 28 Jun 2022 02:58:25 +0200
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH][next] treewide: uapi: Replace zero-length arrays with
- flexible-array members
-Message-ID: <20220628005825.GA161566@embeddedor>
-References: <20220627180432.GA136081@embeddedor>
- <6bc1e94c-ce1d-a074-7d0c-8dbe6ce22637@iogearbox.net>
- <20220628004052.GM23621@ziepe.ca>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33E1510E2C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 01:28:59 +0000 (UTC)
+X-UUID: d25a3e05e8e04b07975f69cd97f093c1-20220628
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.7, REQID:598d69e1-2e86-4ed9-88fe-39ec2e4df200, OB:0,
+ LO
+ B:0,IP:0,URL:5,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:45
+X-CID-INFO: VERSION:1.1.7, REQID:598d69e1-2e86-4ed9-88fe-39ec2e4df200, OB:0,
+ LOB:
+ 0,IP:0,URL:5,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:45
+X-CID-META: VersionHash:87442a2, CLOUDID:9081fdd5-5d6d-4eaf-a635-828a3ee48b7c,
+ C
+ OID:654ee3ec7d39,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: d25a3e05e8e04b07975f69cd97f093c1-20220628
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 42291440; Tue, 28 Jun 2022 09:28:52 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Tue, 28 Jun 2022 09:28:50 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 28 Jun 2022 09:28:50 +0800
+Message-ID: <f005cbd101130cb8f9b6a347a9c24f6a437e6140.camel@mediatek.com>
+Subject: Re: [PATCH v23 01/14] dt-bindings: mediatek: add vdosys1 RDMA
+ definition for mt8195
+From: CK Hu <ck.hu@mediatek.com>
+To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Date: Tue, 28 Jun 2022 09:28:50 +0800
+In-Reply-To: <9749550d1f0cd8fd08d8bf684ea80cb6defc90d3.camel@mediatek.com>
+References: <20220620091930.27797-1-nancy.lin@mediatek.com>
+ <20220620091930.27797-2-nancy.lin@mediatek.com>
+ <9749550d1f0cd8fd08d8bf684ea80cb6defc90d3.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220628004052.GM23621@ziepe.ca>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,129 +69,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nvdimm@lists.linux.dev, alsa-devel@alsa-project.org, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- dm-devel@redhat.com, target-devel@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-hardening@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net,
- linux-stm32@st-md-mailman.stormreply.com, linux-s390@vger.kernel.org,
- Daniel Borkmann <daniel@iogearbox.net>, linux-rdma@vger.kernel.org,
- x86@kernel.org, kasan-dev@googlegroups.com, lvs-devel@vger.kernel.org,
- coreteam@netfilter.org, v9fs-developer@lists.sourceforge.net,
- Kees Cook <keescook@chromium.org>, intel-gfx@lists.freedesktop.org,
- linux-can@vger.kernel.org, linux-raid@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, virtualization@lists.linux-foundation.org,
- io-uring@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-scsi@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-sctp@vger.kernel.org,
- netfilter-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- bpf@vger.kernel.org, linux-btrfs@vger.kernel.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>, "jason-jh .
+ lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 27, 2022 at 09:40:52PM -0300, Jason Gunthorpe wrote:
-> On Mon, Jun 27, 2022 at 08:27:37PM +0200, Daniel Borkmann wrote:
-> > On 6/27/22 8:04 PM, Gustavo A. R. Silva wrote:
-> > > There is a regular need in the kernel to provide a way to declare
-> > > having a dynamically sized set of trailing elements in a structure.
-> > > Kernel code should always use “flexible array members”[1] for these
-> > > cases. The older style of one-element or zero-length arrays should
-> > > no longer be used[2].
-> > > 
-> > > This code was transformed with the help of Coccinelle:
-> > > (linux-5.19-rc2$ spatch --jobs $(getconf _NPROCESSORS_ONLN) --sp-file script.cocci --include-headers --dir . > output.patch)
-> > > 
-> > > @@
-> > > identifier S, member, array;
-> > > type T1, T2;
-> > > @@
-> > > 
-> > > struct S {
-> > >    ...
-> > >    T1 member;
-> > >    T2 array[
-> > > - 0
-> > >    ];
-> > > };
-> > > 
-> > > -fstrict-flex-arrays=3 is coming and we need to land these changes
-> > > to prevent issues like these in the short future:
-> > > 
-> > > ../fs/minix/dir.c:337:3: warning: 'strcpy' will always overflow; destination buffer has size 0,
-> > > but the source string has length 2 (including NUL byte) [-Wfortify-source]
-> > > 		strcpy(de3->name, ".");
-> > > 		^
-> > > 
-> > > Since these are all [0] to [] changes, the risk to UAPI is nearly zero. If
-> > > this breaks anything, we can use a union with a new member name.
-> > > 
-> > > [1] https://en.wikipedia.org/wiki/Flexible_array_member
-> > > [2] https://www.kernel.org/doc/html/v5.16/process/deprecated.html#zero-length-and-one-element-arrays
-> > > 
-> > > Link: https://github.com/KSPP/linux/issues/78
-> > > Build-tested-by: https://lore.kernel.org/lkml/62b675ec.wKX6AOZ6cbE71vtF%25lkp@intel.com/
-> > > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> > > ---
-> > > Hi all!
-> > > 
-> > > JFYI: I'm adding this to my -next tree. :)
+OK, it seems no one has comment on this patch, so applied to mediatek-
+drm-next [1], thanks.
+
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/log/?h=mediatek-drm-next
+
+Regards,
+CK
+
+On Wed, 2022-06-22 at 11:55 +0800, CK Hu wrote:
+> Hi, Rob:
+> 
+> You have ask Nancy question in old version and Nancy has reply in
+> [1],
+> how do you think about Nancy's reply?
+> 
+> [1] 
+> 
+http://lists.infradead.org/pipermail/linux-mediatek/2022-April/039890.html
+> 
+> Regards,
+> CK
+> 
+> On Mon, 2022-06-20 at 17:19 +0800, Nancy.Lin wrote:
+> > Add vdosys1 RDMA definition.
 > > 
-> > Fyi, this breaks BPF CI:
+> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Tested-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > ---
+> >  .../display/mediatek/mediatek,mdp-rdma.yaml   | 88
+> > +++++++++++++++++++
+> >  1 file changed, 88 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
+> > rdma.yaml
 > > 
-> > https://github.com/kernel-patches/bpf/runs/7078719372?check_suite_focus=true
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
+> > rdma.yaml
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
+> > rdma.yaml
+> > new file mode 100644
+> > index 000000000000..dd12e2ff685c
+> > --- /dev/null
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
+> > rdma.yaml
+> > @@ -0,0 +1,88 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: 
 > > 
-> >   [...]
-> >   progs/map_ptr_kern.c:314:26: error: field 'trie_key' with variable sized type 'struct bpf_lpm_trie_key' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
-> >           struct bpf_lpm_trie_key trie_key;
-> >                                   ^
-> 
-> This will break the rdma-core userspace as well, with a similar
-> error:
-> 
-> /usr/bin/clang-13 -DVERBS_DEBUG -Dibverbs_EXPORTS -Iinclude -I/usr/include/libnl3 -I/usr/include/drm -g -O2 -fdebug-prefix-map=/__w/1/s=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -Wmissing-prototypes -Wmissing-declarations -Wwrite-strings -Wformat=2 -Wcast-function-type -Wformat-nonliteral -Wdate-time -Wnested-externs -Wshadow -Wstrict-prototypes -Wold-style-definition -Werror -Wredundant-decls -g -fPIC   -std=gnu11 -MD -MT libibverbs/CMakeFiles/ibverbs.dir/cmd_flow.c.o -MF libibverbs/CMakeFiles/ibverbs.dir/cmd_flow.c.o.d -o libibverbs/CMakeFiles/ibverbs.dir/cmd_flow.c.o   -c ../libibverbs/cmd_flow.c
-> In file included from ../libibverbs/cmd_flow.c:33:
-> In file included from include/infiniband/cmd_write.h:36:
-> In file included from include/infiniband/cmd_ioctl.h:41:
-> In file included from include/infiniband/verbs.h:48:
-> In file included from include/infiniband/verbs_api.h:66:
-> In file included from include/infiniband/ib_user_ioctl_verbs.h:38:
-> include/rdma/ib_user_verbs.h:436:34: error: field 'base' with variable sized type 'struct ib_uverbs_create_cq_resp' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
->         struct ib_uverbs_create_cq_resp base;
->                                         ^
-> include/rdma/ib_user_verbs.h:644:34: error: field 'base' with variable sized type 'struct ib_uverbs_create_qp_resp' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
->         struct ib_uverbs_create_qp_resp base;
-> 
-> Which is why I gave up trying to change these..
-> 
-> Though maybe we could just switch off -Wgnu-variable-sized-type-not-at-end  during configuration ?
+https://urldefense.com/v3/__http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml*__;Iw!!CTRNKA9wMg0ARbw!2V-LPisZwDTVUkpQ5cJnZhaUV4iBSohT_B1_8bY3yar4Iuacq_NaTManclYLSA$
+> >  
+> > +$schema: 
+> > 
+https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!2V-LPisZwDTVUkpQ5cJnZhaUV4iBSohT_B1_8bY3yar4Iuacq_NaTMZYdJgbgQ$
+> >  
+> > +
+> > +title: MediaTek MDP RDMA
+> > +
+> > +maintainers:
+> > +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> > +  - Philipp Zabel <p.zabel@pengutronix.de>
+> > +
+> > +description:
+> > +  The MediaTek MDP RDMA stands for Read Direct Memory Access.
+> > +  It provides real time data to the back-end panel driver, such as
+> > DSI,
+> > +  DPI and DP_INTF.
+> > +  It contains one line buffer to store the sufficient pixel data.
+> > +  RDMA device node must be siblings to the central MMSYS_CONFIG
+> > node.
+> > +  For a description of the MMSYS_CONFIG binding, see
+> > +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.ya
+> > ml
+> > for details.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: mediatek,mt8195-vdo1-rdma
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: RDMA Clock
+> > +
+> > +  iommus:
+> > +    maxItems: 1
+> > +
+> > +  mediatek,gce-client-reg:
+> > +    description:
+> > +      The register of display function block to be set by gce.
+> > There
+> > are 4 arguments,
+> > +      such as gce node, subsys id, offset and register size. The
+> > subsys id that is
+> > +      mapping to the register of display function blocks is
+> > defined
+> > in the gce header
+> > +      include/dt-bindings/gce/<chip>-gce.h of each chips.
+> > +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> > +    items:
+> > +      items:
+> > +        - description: phandle of GCE
+> > +        - description: GCE subsys id
+> > +        - description: register offset
+> > +        - description: register size
+> > +    maxItems: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - power-domains
+> > +  - clocks
+> > +  - iommus
+> > +  - mediatek,gce-client-reg
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/mt8195-clk.h>
+> > +    #include <dt-bindings/power/mt8195-power.h>
+> > +    #include <dt-bindings/gce/mt8195-gce.h>
+> > +    #include <dt-bindings/memory/mt8195-memory-port.h>
+> > +
+> > +    soc {
+> > +        #address-cells = <2>;
+> > +        #size-cells = <2>;
+> > +
+> > +        rdma@1c104000 {
+> > +            compatible = "mediatek,mt8195-vdo1-rdma";
+> > +            reg = <0 0x1c104000 0 0x1000>;
+> > +            interrupts = <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH 0>;
+> > +            clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
+> > +            power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +            iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
+> > +            mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX
+> > 0x4000
+> > 0x1000>;
+> > +        };
+> > +    };
 
-No. I think now we can easily workaround these sorts of problems with
-something like this:
-
-	struct flex {
-		any_type any_member;
-		union {
-			type array[0];
-			__DECLARE_FLEX_ARRAY(type, array_flex);
-		};
-	};
-
-and use array_flex in kernel-space.
-
-The same for the one-elment arrays in UAPI:
-
-        struct flex {
-                any_type any_member;
-                union {
-                        type array[1];
-                        __DECLARE_FLEX_ARRAY(type, array_flex);
-                };
-        };
-
-I'll use the idiom above to resolve all these warnings in a follow-up
-patch. :)
-
-Thanks
---
-Gustavo
