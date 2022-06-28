@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D40755E564
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 16:42:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1841355E567
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 16:43:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED6DC10E3FB;
-	Tue, 28 Jun 2022 14:42:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7D6610ECC1;
+	Tue, 28 Jun 2022 14:43:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55F0B10E78E
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 14:42:18 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id cw10so26270204ejb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 07:42:18 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 191B210EF7D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 14:43:08 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id cf14so17909389edb.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 07:43:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=s8d6e8VlgKNljLwdtvogvE7E20oujzONVvU7lH7VUVY=;
- b=Ced1WYKRTc2AY0+y4fTNHnJQ/WwposEoSjqAMPFlDhp07sjFvsN2L2jto25G8xOpX9
- wH92Ev+6hDHWOEH7caBomeAOBBOE6M3Ebjy/WIzQpAwOwNdpktv/PgFqRR/0N9jmyd3P
- dl2D+yxP1FAwBhbWG8a/PepNjMADhV7QWm+sJ9U67i8bdpfZSd0ejdF7TKB59054NTgI
- dOH/g0g7E/bAUWS5/y56YZZKnhoKeCUwtmZLc6Ztxm3DG6/2xlbsGSu//zckLisxl6kl
- ZYjGYJs1KcA3wCj1iSGen4/M3TwGSjKCqLShIvNrWxBBTefwcUHQ758aLxZIaqyAM36h
- 9FTw==
+ :cc; bh=7hmiP2nsm7GYKYeBHW+YUJEK/bavjayODZn3LUEPQfU=;
+ b=Rg6Ce3D49JXUDLDeRZsgSz+yryqVA8Xki5kW8XtGn3by//+6dHO1GOAcOhbDNzgpwT
+ aSztrbpOcnAUsBoPDQ7BV/QEUHC2BeteHolH+41XKkNYsy21dcDJNxo80eFEmFkffm7N
+ xrlANZd2gutEao0wMT0i33DgFJ7qVkakqkuIKGzp1apMRQjGaeRIaAUATMXR7WhdJ1pG
+ 22Ybwmrl96PlHmzzq1U2dt/7mck7yCPOvFY/wTosedx//6dKv/OjQ8DN+UYG+pnrQ3V1
+ CF2MqOlXTIJg0bcE8VwAUgguFd0E7qr/7G9hWBMzW3DOJ4XewARcERMpgO+veI9YZr7q
+ Vt8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=s8d6e8VlgKNljLwdtvogvE7E20oujzONVvU7lH7VUVY=;
- b=uWq4DdVNu6wlBjg7F1c4+f/XByOSjvMh7+WSX/gKauPe926CHoBu/UABWj7JAQvwDU
- paDiEXUsQIdMWSaj/dWpyaUn2kr21kZlBP9Q8nW+myM0qnNKgXrlCT7ZJH+oTg31IAhB
- cqStw5TP9pvMoVgAQVrr2nR8WtnzhFqH+B/eK4fii70ZWJSs+If2RWX0aEbhqTEpTcQm
- rCqfKw3IXe004OHZXe9f5cd2Y7OmVIw7f7zAvlUBSPzOtQlted96eZC8Pbnfip39k0k1
- RrH4rGEacav3OZEgD3ymByCoWtlKFReu0QJpob0U4T5nftFH5e0SqNZJ6b4l9b4eS5+1
- 4LOA==
-X-Gm-Message-State: AJIora8REzX6ID+KECsqGTYPikCm+Gnd57zByX6Odj1RLfPiRywuktNk
- DPljHAZrlVkqkNOZCncjMtf7rEJwgbT92YkhVqrN1SbmZSg=
-X-Google-Smtp-Source: AGRyM1sPB+bqpAGxaW/+7kmrQ0Zy1eN6Ctko8Tko+6xd2JJXm0YyavGqRFgtvRCiHcC98o1oVJdKLxyIGf+ZaAv9VNQ=
-X-Received: by 2002:a17:906:5d0b:b0:726:a043:fcb4 with SMTP id
- g11-20020a1709065d0b00b00726a043fcb4mr11201597ejt.508.1656427336914; Tue, 28
- Jun 2022 07:42:16 -0700 (PDT)
+ bh=7hmiP2nsm7GYKYeBHW+YUJEK/bavjayODZn3LUEPQfU=;
+ b=sXWFxp2Ce11BoduvSNK7VGCBWw/Pv6WPhKBuzf/19IKGsj6hztJ55bB3IwhoBq9teL
+ agJB8kfRKOgdYqjdimJGRaR41vxr6YQQJrCwayYI/LjzpH7xtkLuboicFVCAEPTsIWJl
+ 26txtWVFPJn7CvTZg0TynfFLnlyFvfhcSvYrCT40Ez+cLYaYnuCg60kwqk/6iNc88VyC
+ /t54wRIW2RWuVPMKNd5KUQR8CBhIgyLc0Bj2P46pJGCpeFYbNMZ/ke5GJUtONBVc4dbi
+ +Kd7TV67u7fFUAGOOw/DmvSP2K68yx2s0ELj2cvJo2qQ1zgfn4jlGPJvij6ouDNAPig3
+ TX+A==
+X-Gm-Message-State: AJIora9j7k//JuMj0VfDdo/89UC6eNohrhZIaaY4y8GdEAfiV5j1Qx91
+ ou8qXLAKqQ6nCqJR+qso+n4nA/y/HOSH3FPFHh4=
+X-Google-Smtp-Source: AGRyM1v3Zrmhh/ktA0MyQ64G0CINBj/oLTnBPPFjZQDaHSTrK7ZqnxVdUuVe2HWrTrfrPe56zqLklI36n15HTP7diSA=
+X-Received: by 2002:a05:6402:50ce:b0:435:9249:dfe9 with SMTP id
+ h14-20020a05640250ce00b004359249dfe9mr23490212edb.310.1656427386662; Tue, 28
+ Jun 2022 07:43:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1656409369.git.mchehab@kernel.org>
- <e0a1fd8942a0e13ecf391ccd5634759d2281e2c2.1656409369.git.mchehab@kernel.org>
-In-Reply-To: <e0a1fd8942a0e13ecf391ccd5634759d2281e2c2.1656409369.git.mchehab@kernel.org>
+ <0129fa0ffb8d418ab66f2ab0f1d525cb49f01f75.1656409369.git.mchehab@kernel.org>
+In-Reply-To: <0129fa0ffb8d418ab66f2ab0f1d525cb49f01f75.1656409369.git.mchehab@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 28 Jun 2022 10:42:05 -0400
-Message-ID: <CADnq5_PAW_et564Sjt7HvQwnqcMyzukc3paeU-pWPMKRM55DMA@mail.gmail.com>
-Subject: Re: [PATCH 13/22] drm: scheduler: add a missing kernel-doc parameter
+Date: Tue, 28 Jun 2022 10:42:54 -0400
+Message-ID: <CADnq5_Ps_Pp1tzroPh6VwDsaBP-q6bLeaap4159S5BkSzhK1Hg@mail.gmail.com>
+Subject: Re: [PATCH 12/22] drm: gpu_scheduler: fix a kernel-doc warning
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,40 +75,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, Jun 28, 2022 at 5:46 AM Mauro Carvalho Chehab
 <mchehab@kernel.org> wrote:
 >
-> Add a description for struct device at drm_sched_init(), in order
-> to solve this warning:
+> The dev field was not documented:
 >
->         drivers/gpu/drm/scheduler/sched_main.c:999: warning: Function parameter or member 'dev' not described in 'drm_sched_init'
+>         include/drm/gpu_scheduler.h:463: warning: Function parameter or member 'dev' not described in 'drm_gpu_scheduler'
+>
+> Document it.
 >
 > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
+
 Generally in the drm tree we use / rather than : in the patch titles.  E.g.,
 
-drm/scheduler: add a missing kernel-doc parameter
+drm/scheduler: fix a kernel-doc warning
 
 With that fixed:
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-
 
 > ---
 >
 > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 > See [PATCH 00/22] at: https://lore.kernel.org/all/cover.1656409369.git.mchehab@kernel.org/
 >
->  drivers/gpu/drm/scheduler/sched_main.c | 1 +
+>  include/drm/gpu_scheduler.h | 1 +
 >  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 76fd2904c7c6..b45bd8473e9e 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -987,6 +987,7 @@ static int drm_sched_main(void *param)
->   *             used
->   * @score: optional score atomic shared with other schedulers
->   * @name: name used for debugging
-> + * @dev: pointer to struct device
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index addb135eeea6..c7c487e0c40e 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -435,6 +435,7 @@ struct drm_sched_backend_ops {
+>   * @_score: score used when the driver doesn't provide one
+>   * @ready: marks if the underlying HW is ready to work
+>   * @free_guilty: A hit to time out handler to free the guilty job.
+> + * @dev: pointer to struct device.
 >   *
->   * Return 0 on success, otherwise error code.
+>   * One scheduler is implemented for each hardware ring.
 >   */
 > --
 > 2.36.1
