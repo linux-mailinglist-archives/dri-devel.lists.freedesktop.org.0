@@ -2,56 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D073C55BCF6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 03:29:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF3E55BCF8
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 03:32:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A245210E400;
-	Tue, 28 Jun 2022 01:29:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E465F10E59A;
+	Tue, 28 Jun 2022 01:32:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33E1510E2C0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 01:28:59 +0000 (UTC)
-X-UUID: d25a3e05e8e04b07975f69cd97f093c1-20220628
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A7DC10E1F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 01:32:29 +0000 (UTC)
+X-UUID: 10075e183627463b93609fb1f3fe1787-20220628
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.7, REQID:598d69e1-2e86-4ed9-88fe-39ec2e4df200, OB:0,
+X-CID-O-INFO: VERSION:1.1.7, REQID:74026413-4d4e-4d4f-8345-5339b776a1ae, OB:0,
  LO
- B:0,IP:0,URL:5,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:45
-X-CID-INFO: VERSION:1.1.7, REQID:598d69e1-2e86-4ed9-88fe-39ec2e4df200, OB:0,
- LOB:
- 0,IP:0,URL:5,TC:0,Content:-5,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:45
-X-CID-META: VersionHash:87442a2, CLOUDID:9081fdd5-5d6d-4eaf-a635-828a3ee48b7c,
+ B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:5
+X-CID-META: VersionHash:87442a2, CLOUDID:c369cb62-0b3f-4b2c-b3a6-ed5c044366a0,
  C
- OID:654ee3ec7d39,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:1,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: d25a3e05e8e04b07975f69cd97f093c1-20220628
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 42291440; Tue, 28 Jun 2022 09:28:52 +0800
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
+ ,QS:nil,BEC:nil,COL:0
+X-UUID: 10075e183627463b93609fb1f3fe1787-20220628
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 773146642; Tue, 28 Jun 2022 09:32:23 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 28 Jun 2022 09:28:50 +0800
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 28 Jun 2022 09:32:21 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 28 Jun 2022 09:28:50 +0800
-Message-ID: <f005cbd101130cb8f9b6a347a9c24f6a437e6140.camel@mediatek.com>
-Subject: Re: [PATCH v23 01/14] dt-bindings: mediatek: add vdosys1 RDMA
- definition for mt8195
+ Transport; Tue, 28 Jun 2022 09:32:20 +0800
+Message-ID: <eb096460b04fed32d29db9f6b66c839e964d2a74.camel@mediatek.com>
+Subject: Re: [PATCH v23 04/14] drm/mediatek: add display merge advance
+ config API for MT8195
 From: CK Hu <ck.hu@mediatek.com>
 To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
  <wim@linux-watchdog.org>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Date: Tue, 28 Jun 2022 09:28:50 +0800
-In-Reply-To: <9749550d1f0cd8fd08d8bf684ea80cb6defc90d3.camel@mediatek.com>
+Date: Tue, 28 Jun 2022 09:32:21 +0800
+In-Reply-To: <20220620091930.27797-5-nancy.lin@mediatek.com>
 References: <20220620091930.27797-1-nancy.lin@mediatek.com>
- <20220620091930.27797-2-nancy.lin@mediatek.com>
- <9749550d1f0cd8fd08d8bf684ea80cb6defc90d3.camel@mediatek.com>
+ <20220620091930.27797-5-nancy.lin@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -79,8 +74,15 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>, "jason-jh .
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-OK, it seems no one has comment on this patch, so applied to mediatek-
-drm-next [1], thanks.
+Hi, Nancy:
+
+On Mon, 2022-06-20 at 17:19 +0800, Nancy.Lin wrote:
+> Add merge new advance config API. The original merge API is
+> mtk_ddp_comp_funcs function prototype. The API interface parameters
+> cannot be modified, so add a new config API for extension. This is
+> the preparation for ovl_adaptor merge control.
+
+Applied to mediatek-drm-next [1], thanks.
 
 [1] 
 https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/log/?h=mediatek-drm-next
@@ -88,152 +90,155 @@ https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/log/?h=me
 Regards,
 CK
 
-On Wed, 2022-06-22 at 11:55 +0800, CK Hu wrote:
-> Hi, Rob:
 > 
-> You have ask Nancy question in old version and Nancy has reply in
-> [1],
-> how do you think about Nancy's reply?
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> Tested-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h   |  3 ++
+>  drivers/gpu/drm/mediatek/mtk_disp_merge.c | 52 ++++++++++++++++++++-
+> --
+>  2 files changed, 48 insertions(+), 7 deletions(-)
 > 
-> [1] 
-> 
-http://lists.infradead.org/pipermail/linux-mediatek/2022-April/039890.html
-> 
-> Regards,
-> CK
-> 
-> On Mon, 2022-06-20 at 17:19 +0800, Nancy.Lin wrote:
-> > Add vdosys1 RDMA definition.
-> > 
-> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> > Reviewed-by: AngeloGioacchino Del Regno <
-> > angelogioacchino.delregno@collabora.com>
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > Tested-by: AngeloGioacchino Del Regno <
-> > angelogioacchino.delregno@collabora.com>
-> > ---
-> >  .../display/mediatek/mediatek,mdp-rdma.yaml   | 88
-> > +++++++++++++++++++
-> >  1 file changed, 88 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
-> > rdma.yaml
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
-> > rdma.yaml
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
-> > rdma.yaml
-> > new file mode 100644
-> > index 000000000000..dd12e2ff685c
-> > --- /dev/null
-> > +++
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
-> > rdma.yaml
-> > @@ -0,0 +1,88 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: 
-> > 
-https://urldefense.com/v3/__http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml*__;Iw!!CTRNKA9wMg0ARbw!2V-LPisZwDTVUkpQ5cJnZhaUV4iBSohT_B1_8bY3yar4Iuacq_NaTManclYLSA$
-> >  
-> > +$schema: 
-> > 
-https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!2V-LPisZwDTVUkpQ5cJnZhaUV4iBSohT_B1_8bY3yar4Iuacq_NaTMZYdJgbgQ$
-> >  
-> > +
-> > +title: MediaTek MDP RDMA
-> > +
-> > +maintainers:
-> > +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > +  - Philipp Zabel <p.zabel@pengutronix.de>
-> > +
-> > +description:
-> > +  The MediaTek MDP RDMA stands for Read Direct Memory Access.
-> > +  It provides real time data to the back-end panel driver, such as
-> > DSI,
-> > +  DPI and DP_INTF.
-> > +  It contains one line buffer to store the sufficient pixel data.
-> > +  RDMA device node must be siblings to the central MMSYS_CONFIG
-> > node.
-> > +  For a description of the MMSYS_CONFIG binding, see
-> > +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.ya
-> > ml
-> > for details.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: mediatek,mt8195-vdo1-rdma
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: RDMA Clock
-> > +
-> > +  iommus:
-> > +    maxItems: 1
-> > +
-> > +  mediatek,gce-client-reg:
-> > +    description:
-> > +      The register of display function block to be set by gce.
-> > There
-> > are 4 arguments,
-> > +      such as gce node, subsys id, offset and register size. The
-> > subsys id that is
-> > +      mapping to the register of display function blocks is
-> > defined
-> > in the gce header
-> > +      include/dt-bindings/gce/<chip>-gce.h of each chips.
-> > +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> > +    items:
-> > +      items:
-> > +        - description: phandle of GCE
-> > +        - description: GCE subsys id
-> > +        - description: register offset
-> > +        - description: register size
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - power-domains
-> > +  - clocks
-> > +  - iommus
-> > +  - mediatek,gce-client-reg
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/clock/mt8195-clk.h>
-> > +    #include <dt-bindings/power/mt8195-power.h>
-> > +    #include <dt-bindings/gce/mt8195-gce.h>
-> > +    #include <dt-bindings/memory/mt8195-memory-port.h>
-> > +
-> > +    soc {
-> > +        #address-cells = <2>;
-> > +        #size-cells = <2>;
-> > +
-> > +        rdma@1c104000 {
-> > +            compatible = "mediatek,mt8195-vdo1-rdma";
-> > +            reg = <0 0x1c104000 0 0x1000>;
-> > +            interrupts = <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +            clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
-> > +            power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-> > +            iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
-> > +            mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX
-> > 0x4000
-> > 0x1000>;
-> > +        };
-> > +    };
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> index 2cd1c660ace3..e847e90f436d 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> @@ -63,6 +63,9 @@ void mtk_merge_config(struct device *dev, unsigned
+> int width,
+>  		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+>  void mtk_merge_start(struct device *dev);
+>  void mtk_merge_stop(struct device *dev);
+> +void mtk_merge_advance_config(struct device *dev, unsigned int l_w,
+> unsigned int r_w,
+> +			      unsigned int h, unsigned int vrefresh,
+> unsigned int bpc,
+> +			      struct cmdq_pkt *cmdq_pkt);
+>  
+>  void mtk_ovl_bgclr_in_on(struct device *dev);
+>  void mtk_ovl_bgclr_in_off(struct device *dev);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> index 45face638153..40da0555416d 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> @@ -17,6 +17,7 @@
+>  #define DISP_REG_MERGE_CTRL		0x000
+>  #define MERGE_EN				1
+>  #define DISP_REG_MERGE_CFG_0		0x010
+> +#define DISP_REG_MERGE_CFG_1		0x014
+>  #define DISP_REG_MERGE_CFG_4		0x020
+>  #define DISP_REG_MERGE_CFG_10		0x038
+>  /* no swap */
+> @@ -25,9 +26,12 @@
+>  #define DISP_REG_MERGE_CFG_12		0x040
+>  #define CFG_10_10_1PI_2PO_BUF_MODE		6
+>  #define CFG_10_10_2PI_2PO_BUF_MODE		8
+> +#define CFG_11_10_1PI_2PO_MERGE			18
+>  #define FLD_CFG_MERGE_MODE			GENMASK(4, 0)
+>  #define DISP_REG_MERGE_CFG_24		0x070
+>  #define DISP_REG_MERGE_CFG_25		0x074
+> +#define DISP_REG_MERGE_CFG_26		0x078
+> +#define DISP_REG_MERGE_CFG_27		0x07c
+>  #define DISP_REG_MERGE_CFG_36		0x0a0
+>  #define ULTRA_EN				BIT(0)
+>  #define PREULTRA_EN				BIT(4)
+> @@ -98,12 +102,19 @@ static void mtk_merge_fifo_setting(struct
+> mtk_disp_merge *priv,
+>  void mtk_merge_config(struct device *dev, unsigned int w,
+>  		      unsigned int h, unsigned int vrefresh,
+>  		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
+> +{
+> +	mtk_merge_advance_config(dev, w, 0, h, vrefresh, bpc,
+> cmdq_pkt);
+> +}
+> +
+> +void mtk_merge_advance_config(struct device *dev, unsigned int l_w,
+> unsigned int r_w,
+> +			      unsigned int h, unsigned int vrefresh,
+> unsigned int bpc,
+> +			      struct cmdq_pkt *cmdq_pkt)
+>  {
+>  	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
+>  	unsigned int mode = CFG_10_10_1PI_2PO_BUF_MODE;
+>  
+> -	if (!h || !w) {
+> -		dev_err(dev, "%s: input width(%d) or height(%d) is
+> invalid\n", __func__, w, h);
+> +	if (!h || !l_w) {
+> +		dev_err(dev, "%s: input width(%d) or height(%d) is
+> invalid\n", __func__, l_w, h);
+>  		return;
+>  	}
+>  
+> @@ -112,14 +123,41 @@ void mtk_merge_config(struct device *dev,
+> unsigned int w,
+>  		mode = CFG_10_10_2PI_2PO_BUF_MODE;
+>  	}
+>  
+> -	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv-
+> >regs,
+> +	if (r_w)
+> +		mode = CFG_11_10_1PI_2PO_MERGE;
+> +
+> +	mtk_ddp_write(cmdq_pkt, h << 16 | l_w, &priv->cmdq_reg, priv-
+> >regs,
+>  		      DISP_REG_MERGE_CFG_0);
+> -	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv-
+> >regs,
+> +	mtk_ddp_write(cmdq_pkt, h << 16 | r_w, &priv->cmdq_reg, priv-
+> >regs,
+> +		      DISP_REG_MERGE_CFG_1);
+> +	mtk_ddp_write(cmdq_pkt, h << 16 | (l_w + r_w), &priv->cmdq_reg, 
+> priv->regs,
+>  		      DISP_REG_MERGE_CFG_4);
+> -	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv-
+> >regs,
+> +	/*
+> +	 * DISP_REG_MERGE_CFG_24 is merge SRAM0 w/h
+> +	 * DISP_REG_MERGE_CFG_25 is merge SRAM1 w/h.
+> +	 * If r_w > 0, the merge is in merge mode (input0 and input1
+> merge together),
+> +	 * the input0 goes to SRAM0, and input1 goes to SRAM1.
+> +	 * If r_w = 0, the merge is in buffer mode, the input goes
+> through SRAM0 and
+> +	 * then to SRAM1. Both SRAM0 and SRAM1 are set to the same
+> size.
+> +	 */
+> +	mtk_ddp_write(cmdq_pkt, h << 16 | l_w, &priv->cmdq_reg, priv-
+> >regs,
+>  		      DISP_REG_MERGE_CFG_24);
+> -	mtk_ddp_write(cmdq_pkt, h << 16 | w, &priv->cmdq_reg, priv-
+> >regs,
+> -		      DISP_REG_MERGE_CFG_25);
+> +	if (r_w)
+> +		mtk_ddp_write(cmdq_pkt, h << 16 | r_w, &priv->cmdq_reg, 
+> priv->regs,
+> +			      DISP_REG_MERGE_CFG_25);
+> +	else
+> +		mtk_ddp_write(cmdq_pkt, h << 16 | l_w, &priv->cmdq_reg, 
+> priv->regs,
+> +			      DISP_REG_MERGE_CFG_25);
+> +
+> +	/*
+> +	 * DISP_REG_MERGE_CFG_26 and DISP_REG_MERGE_CFG_27 is only used
+> in LR merge.
+> +	 * Only take effect when the merge is setting to merge mode.
+> +	 */
+> +	mtk_ddp_write(cmdq_pkt, h << 16 | l_w, &priv->cmdq_reg, priv-
+> >regs,
+> +		      DISP_REG_MERGE_CFG_26);
+> +	mtk_ddp_write(cmdq_pkt, h << 16 | r_w, &priv->cmdq_reg, priv-
+> >regs,
+> +		      DISP_REG_MERGE_CFG_27);
+> +
+>  	mtk_ddp_write_mask(cmdq_pkt, SWAP_MODE, &priv->cmdq_reg, priv-
+> >regs,
+>  			   DISP_REG_MERGE_CFG_10, FLD_SWAP_MODE);
+>  	mtk_ddp_write_mask(cmdq_pkt, mode, &priv->cmdq_reg, priv->regs,
 
