@@ -2,85 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE21B55C107
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 14:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F5E55C55E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 14:51:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78EE410F7E4;
-	Tue, 28 Jun 2022 12:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E156B10F551;
+	Tue, 28 Jun 2022 12:51:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DE7F10F7E4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 12:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656420117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IuD3Xs6rKkTrZfuL6GjG+VXLjBdgV/pwWBRud+rnjNc=;
- b=bdmXnntX8eiPxbUvVGVdg3/MpXcDdQkCwawpoUVFepeG8a935GGPLIkjF3M5LQBR8OTfUh
- t68H4kJQ8mHo+yEOCEA+qPpHuP+mMjFo/+SoLFyNkGuH/ECWlqp/nZnMVbY0Xp3oS6w2qn
- Z//RVnfcsHzvIxG9rxiamd/UHR5tfpQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-258-66mtIvc5PAOKyYc397p8yQ-1; Tue, 28 Jun 2022 08:41:56 -0400
-X-MC-Unique: 66mtIvc5PAOKyYc397p8yQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p22-20020a05600c359600b0039c7b23a1c7so8838845wmq.2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 05:41:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IuD3Xs6rKkTrZfuL6GjG+VXLjBdgV/pwWBRud+rnjNc=;
- b=I8WdloPpyPhh33dNLdm3/5WzWY1NbA+zaKl9R5G6v2dxF5qmXlpKybltmCmEnTNstI
- Al3NqRhiOMP1bq76iQrhIqvQmqaUN5nUtDg9UPJ3RFDooKptgLAetL2xtlTfqtP6E0dz
- YxLtqSQgVB9ImLa8tq7ec9x4j9VUf7ptJw0ivPIpwy92MQuNq8eJLfiWiHKka2XmJAE1
- 5kIMv71ccu4K/Fzvtx01TnBJ9ROtLKFJwnK7jE84ZSjEMRUwtSfvY2VDlh6lbHI3tMBk
- DdDrhRFZOvXFZSukpWzcHmNUx5gZFPw51k4RRstJLKGIspy1m/gM5q7RL6tj7E062YOi
- Yj/Q==
-X-Gm-Message-State: AJIora8iCcUQ1BqKrs15eumOopvb0KZGbrz7uQx41pS5HG7C3QKoZA3C
- dEswSiWCDV/81YmwIQ1JZv0NSpS23vfoPSgGQEKB/27HWhhMqMa7kph2JJz/EHVvrSVbt338qH6
- Xc79Ko0UWMY1eeeexFSnuNECIipeg
-X-Received: by 2002:adf:dbc1:0:b0:219:e994:6ba7 with SMTP id
- e1-20020adfdbc1000000b00219e9946ba7mr17337872wrj.229.1656420115318; 
- Tue, 28 Jun 2022 05:41:55 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tghK4nMsa8srfSVoGmmm2ilUn0MJSlRYh7VaV3mT8hXZHZauaQaEdSCMC2O7Lev7VXQSCsjw==
-X-Received: by 2002:adf:dbc1:0:b0:219:e994:6ba7 with SMTP id
- e1-20020adfdbc1000000b00219e9946ba7mr17337853wrj.229.1656420115062; 
- Tue, 28 Jun 2022 05:41:55 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:f4b2:2105:b039:7367?
- ([2a01:e0a:c:37e0:f4b2:2105:b039:7367])
- by smtp.gmail.com with ESMTPSA id
- f8-20020a1c6a08000000b003a044fe7fe7sm11253762wmc.9.2022.06.28.05.41.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jun 2022 05:41:54 -0700 (PDT)
-Message-ID: <98aab56e-b0a7-1a39-d715-9ad10d7705a0@redhat.com>
-Date: Tue, 28 Jun 2022 14:41:53 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4878310F551;
+ Tue, 28 Jun 2022 12:51:04 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru
+ [109.252.118.164])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0CAD76601856;
+ Tue, 28 Jun 2022 13:50:59 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1656420662;
+ bh=PFIWuLGIBDtoRI7sScn1Qx1sFNzrxav9CwBcyPc2Png=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=V6A4i4mgC7SygYLCmvg40e3M81RG/nLZ/L09nEF81ZEMMV40VCGpzFid5ug7Tsy+M
+ JJULMGU+7KkybWYvkIsvU/ssgYQavWAgTD+qaLt1ZFZMED89SRhVkbTpf0pkVLfkoR
+ JfMkEqOi6Jltg+VJCW0E6PxrF4y+o0UyiHoHJPm5iOgz2VnonBrpPs33i7rlIkHOWe
+ GbmYQjKXkSUuNfZXIi9JfAnVBSFfMhkr7oZUdkjoY+h8H0UjB5/VbfcY+JTYya+yEV
+ nUgQkyz86IxSI8sX2smo3E9EcgTcZljuRobh25uNSzXJ+0iLsUPXTV8KID1cNF+P49
+ tf0YoXH3FRlUA==
+Message-ID: <f77c1c2d-d9f9-db00-906a-ec10b535621d@collabora.com>
+Date: Tue, 28 Jun 2022 15:50:57 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: Annoying AMDGPU boot-time warning due to simplefb / amdgpu
- resource clash
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Javier Martinez Canillas <javierm@redhat.com>
-References: <CAHk-=wh42rU5mKU6=PCK5tdkYjh7r31dGNmYdHwqpFnRFvVudA@mail.gmail.com>
- <3920df43-37f5-618d-70ba-de34a886e8ab@redhat.com>
- <CAHk-=wjxzafG-=J8oT30s7upn4RhBs6TX-uVFZ5rME+L5_DoJA@mail.gmail.com>
- <561af3c0-c7cf-3580-ce35-320cb13a037c@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <561af3c0-c7cf-3580-ce35-320cb13a037c@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jfalempe@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v6 00/22] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Robin Murphy <robin.murphy@arm.com>, David Airlie <airlied@linux.ie>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Qiang Yu <yuq825@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <49cc6f0c-e90e-8edd-52e7-4188620e2c28@arm.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <49cc6f0c-e90e-8edd-52e7-4188620e2c28@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,156 +81,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ kernel@collabora.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/06/2022 10:43, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 27.06.22 um 19:25 schrieb Linus Torvalds:
->> On Mon, Jun 27, 2022 at 1:02 AM Javier Martinez Canillas
->> <javierm@redhat.com> wrote:
->>>
->>> The flag was dropped because it was causing drivers that requested their
->>> memory resource with pci_request_region() to fail with -EBUSY (e.g: the
->>> vmwgfx driver):
->>>
->>> https://www.spinics.net/lists/dri-devel/msg329672.html
->>
->> See, *that* link would have been useful in the commit.
->>
->> Rather than the useless link it has.
->>
->> Anyway, removing the busy bit just made things worse.
->>
->>>> If simplefb is actually still using that frame buffer, it's a problem.
->>>> If it isn't, then maybe that resource should have been released?
->>>
->>> It's supposed to be released once amdgpu asks for conflicting 
->>> framebuffers
->>> to be removed calling 
->>> drm_aperture_remove_conflicting_pci_framebuffers().
->>
->> That most definitely doesn't happen. This is on a running system:
->>
->>    [torvalds@ryzen linux]$ cat /proc/iomem | grep BOOTFB
->>          00000000-00000000 : BOOTFB
->>
->> so I suspect that the BUSY bit was never the problem - even for
->> vmwgfx). The problem was that simplefb doesn't remove its resource.
->>
->> Guys, the *reason* for resource management is to catch people that
->> trample over each other's resources.
->>
->> You literally basically disabled the code that checked for it by
->> removing the BUSY flag, and just continued to have conflicting
->> resources.
->>
->> That isn't a "fix", that is literally "we are ignoring and breaking
->> the whole reason that the resource tree exists, but we'll still use it
->> for no good reason".
-> 
-> The EFI/VESA framebuffer is represented by a platform device. The BUSY 
-> flag we removed is in the 'sysfb' code that creates this device. The 
-> BOOTFB resource you see in your /proc/iomem is the framebuffer memory. 
-> The code is in sysfb_create_simplefb() [1]
-> 
-> Later during boot a device driver, 'simplefb' or 'simpledrm', binds to 
-> the device and reserves the framebuffer memory for rendering into it. 
-> For example in simpledrm. [2] At that point a BUSY flag is set for that 
-> reservation.
-> 
->>
->> Yeah, yeah, most modern drivers ignore the IO resource tree, because
->> they end up working on another resource level entirely: they work on
->> not the IO resources, but on the "driver level" instead, and just
->> attach to PCI devices.
->>
->> So these days, few enough drivers even care about the IO resource
->> tree, and it's mostly used for (a) legacy devices (think ISA) and (b)
->> the actual bus resource handling (so the PCI code itself uses it to
->> sort out resource use and avoid conflicts, but PCI drivers themselves
->> generally then don't care, because the bus has "taken care of it".
->>
->> So that's why the amdgpu driver itself doesn't care about resource
->> allocations, and we only get a warning for that memory type case, not
->> for any deeper resource case.
->>
->> And apparently the vmwgfx driver still uses that legacy "let's claim
->> all PCI resources in the resource tree" instead of just claiming the
->> device itself. Which is why it hit this whole BOOTFB resource thing
->> even harder.
->>
->> But the real bug is that BOOTFB seems to claim this resource even
->> after it is done with it and other drivers want to take over.
-> 
-> Once amdgpu wants to take over, it has to remove the the platform device 
-> that represents the EFI framebuffer. It does so by calling the 
-> drm_aperture_ function, which in turn calls 
-> platform_device_unregister(). Afterwards, the platform device, driver 
-> and BOOTFB range are supposed to be entirely gone.
-> 
-> Unfortunately, this currently only works if a driver is bound to the 
-> platform device. Without simpledrm or simplefb, amdgpu won't find the 
-> platform device to remove.
-> 
-> I guess, what happens on your system is that sysfb create a device for 
-> the EFI framebuffer and then amdgpu comes and doesn't find it for 
-> removal. And later you see these warnings because BOOTFB is still around.
-> 
-> Javier already provided patches for this scenario, which are in the DRM 
-> tree. From drm-next, please cherry-pick
-> 
->    0949ee75da6c ("firmware: sysfb: Make sysfb_create_simplefb() return a 
-> pdev pointer")
-> 
->    bc824922b264 ("firmware: sysfb: Add sysfb_disable() helper function")
-> 
->    873eb3b11860 ("fbdev: Disable sysfb device registration when removing 
-> conflicting FBs")
-> 
-> for testing. With these patches, amdgpu will find the sysfb device and 
-> unregister it.
-> 
-> The patches are queued up for the next merge window. If they resolve the 
-> issue, we'll already send with the next round of fixes.
+On 6/28/22 15:31, Robin Murphy wrote:
+> ----->8-----
+> [   68.295951] ======================================================
+> [   68.295956] WARNING: possible circular locking dependency detected
+> [   68.295963] 5.19.0-rc3+ #400 Not tainted
+> [   68.295972] ------------------------------------------------------
+> [   68.295977] cc1/295 is trying to acquire lock:
+> [   68.295986] ffff000008d7f1a0
+> (reservation_ww_class_mutex){+.+.}-{3:3}, at: drm_gem_shmem_free+0x7c/0x198
+> [   68.296036]
+> [   68.296036] but task is already holding lock:
+> [   68.296041] ffff80000c14b820 (fs_reclaim){+.+.}-{0:0}, at:
+> __alloc_pages_slowpath.constprop.0+0x4d8/0x1470
+> [   68.296080]
+> [   68.296080] which lock already depends on the new lock.
+> [   68.296080]
+> [   68.296085]
+> [   68.296085] the existing dependency chain (in reverse order) is:
+> [   68.296090]
+> [   68.296090] -> #1 (fs_reclaim){+.+.}-{0:0}:
+> [   68.296111]        fs_reclaim_acquire+0xb8/0x150
+> [   68.296130]        dma_resv_lockdep+0x298/0x3fc
+> [   68.296148]        do_one_initcall+0xe4/0x5f8
+> [   68.296163]        kernel_init_freeable+0x414/0x49c
+> [   68.296180]        kernel_init+0x2c/0x148
+> [   68.296195]        ret_from_fork+0x10/0x20
+> [   68.296207]
+> [   68.296207] -> #0 (reservation_ww_class_mutex){+.+.}-{3:3}:
+> [   68.296229]        __lock_acquire+0x1724/0x2398
+> [   68.296246]        lock_acquire+0x218/0x5b0
+> [   68.296260]        __ww_mutex_lock.constprop.0+0x158/0x2378
+> [   68.296277]        ww_mutex_lock+0x7c/0x4d8
+> [   68.296291]        drm_gem_shmem_free+0x7c/0x198
+> [   68.296304]        panfrost_gem_free_object+0x118/0x138
+> [   68.296318]        drm_gem_object_free+0x40/0x68
+> [   68.296334]        drm_gem_shmem_shrinker_run_objects_scan+0x42c/0x5b8
+> [   68.296352]        drm_gem_shmem_shrinker_scan_objects+0xa4/0x170
+> [   68.296368]        do_shrink_slab+0x220/0x808
+> [   68.296381]        shrink_slab+0x11c/0x408
+> [   68.296392]        shrink_node+0x6ac/0xb90
+> [   68.296403]        do_try_to_free_pages+0x1dc/0x8d0
+> [   68.296416]        try_to_free_pages+0x1ec/0x5b0
+> [   68.296429]        __alloc_pages_slowpath.constprop.0+0x528/0x1470
+> [   68.296444]        __alloc_pages+0x4e0/0x5b8
+> [   68.296455]        __folio_alloc+0x24/0x60
+> [   68.296467]        vma_alloc_folio+0xb8/0x2f8
+> [   68.296483]        alloc_zeroed_user_highpage_movable+0x58/0x68
+> [   68.296498]        __handle_mm_fault+0x918/0x12a8
+> [   68.296513]        handle_mm_fault+0x130/0x300
+> [   68.296527]        do_page_fault+0x1d0/0x568
+> [   68.296539]        do_translation_fault+0xa0/0xb8
+> [   68.296551]        do_mem_abort+0x68/0xf8
+> [   68.296562]        el0_da+0x74/0x100
+> [   68.296572]        el0t_64_sync_handler+0x68/0xc0
+> [   68.296585]        el0t_64_sync+0x18c/0x190
+> [   68.296596]
+> [   68.296596] other info that might help us debug this:
+> [   68.296596]
+> [   68.296601]  Possible unsafe locking scenario:
+> [   68.296601]
+> [   68.296604]        CPU0                    CPU1
+> [   68.296608]        ----                    ----
+> [   68.296612]   lock(fs_reclaim);
+> [   68.296622] lock(reservation_ww_class_mutex);
+> [   68.296633]                                lock(fs_reclaim);
+> [   68.296644]   lock(reservation_ww_class_mutex);
+> [   68.296654]
+> [   68.296654]  *** DEADLOCK ***
 
-I was able to reproduce the warning with kernel v5.19-rc4, a radeon GPU 
-and the following config:
-
-CONFIG_SYSFB=y
-CONFIG_SYSFB_SIMPLEFB=y
-# CONFIG_DRM_SIMPLEDRM is not set
-# CONFIG_FB_SIMPLE is not set
-
-After applying the 3 patches you mentioned, the issue is resolved. (at 
-least on my setup).
-
-Best regards,
+This splat could be ignored for now. I'm aware about it, although
+haven't looked closely at how to fix it since it's a kind of a lockdep
+misreporting.
 
 -- 
-
-Jocelyn
-
-> 
-> Best regards
-> Thomas
-> 
-> [1] 
-> https://elixir.bootlin.com/linux/latest/source/drivers/firmware/sysfb_simplefb.c#L115 
-> 
-> [2] 
-> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/tiny/simpledrm.c#L544 
-> 
-> 
->>
->> Not the BUSY bit.
->>
->>                       Linus
-> 
-
+Best regards,
+Dmitry
