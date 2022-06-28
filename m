@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B090055BF53
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 10:03:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A2955BF79
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 10:36:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2645D11BDCA;
-	Tue, 28 Jun 2022 08:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7513D12A80A;
+	Tue, 28 Jun 2022 08:36:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60FE711BDC7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 08:03:11 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- g16-20020a17090a7d1000b001ea9f820449so15035351pjl.5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 01:03:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hvMf3PepUugPqVKhQRoUgt1ly6hwpig91v9ZXdNJXbs=;
- b=Fjmt0M1UVl7saO28IVQSKUeNq7CVK61mTdx2OLRFjYrnF46LcWL4yT9FNXKBWozPZd
- ipW3hlY0RkuzbxFOkVlj84dyWzAquEl3wE2OsbYQxAB6CBOLjB1aMKKZ+IhoPBbuVDi+
- ZpquvlsEvBTnZtGsVMWTHPsPNp6Hz/U/N7GG6QbeokVzGQZfht5T0yScWeykWC7UJXnX
- NJ7gJuxTy/rY7WfrN97E9TPRXkpZHEUOa38ptMjvQMQTxO0qLwBIF/6UaYSXQPmYtqwH
- GEZsLxh2SYX4QSZBd1/S7N9PCGmvJyYhPHn+qgA13r7ZEvJ+0fRhj5MF50pcLtK/NR/s
- fHlg==
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56FF412A804
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 08:36:33 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id i17so18903736qvo.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 01:36:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hvMf3PepUugPqVKhQRoUgt1ly6hwpig91v9ZXdNJXbs=;
- b=Fa8nhzTIHQ48xWnUadH+KhVChGEKcuLbmOeuLXeSVIBXz+ie2GLwyARgFZr7TjTU1v
- 4Ds8YxcczEYnHugIgGNeCpUyaXxd8GLV+l/+9mFyuXu1b3/dHclg4+LcIKcD8JwoLXgd
- 58K+/BWm8S775E1Uj9KKAA4zGSHe5uT/Mv1ZCSGHMXs4kMd6JPSHF+nrC5yjzh6WYToG
- fKwPAXjZ0bz467ABLfHkfl3GPjre0XEVpsY4BAdhUs3npN/zK+hiQdnCLxSH8X93m3Fl
- HDh+K2wC/DW3AkXJf8lXQ9txK46eSTyIqzTO0mE9WnIO/Ln+0Mdw+J2C25UINiLSTSTJ
- 643g==
-X-Gm-Message-State: AJIora/qKXkRAP8aSkwVf3hCYC1Lh7j3AttyL9WcEqcuZqex4hbT0coL
- n6iuqMIvaH0YmITZp+HzfCyiLLBGN4lYyg==
-X-Google-Smtp-Source: AGRyM1vRXYXW+HKwEgrbxihFSnoNxPLYaNicpTq544RfbChi0sKL9blFN20gnk7oKaJwSUGtvmRUNw==
-X-Received: by 2002:a17:902:aa8a:b0:16a:1ea5:d417 with SMTP id
- d10-20020a170902aa8a00b0016a1ea5d417mr3880598plr.4.1656403391046; 
- Tue, 28 Jun 2022 01:03:11 -0700 (PDT)
-Received: from chrome.huaqin.com ([101.78.151.222])
- by smtp.gmail.com with ESMTPSA id
- h5-20020a170902f7c500b00163bfaf0b17sm5249034plw.233.2022.06.28.01.03.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 01:03:10 -0700 (PDT)
-From: Rex Nie <rexnie3@gmail.com>
-To: linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 2/2] dt-bindings: display: simple: Add InnoLux n140hca-eac
- panel
-Date: Tue, 28 Jun 2022 16:03:03 +0800
-Message-Id: <20220628080303.2143291-1-rexnie3@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TYku9rjKrdtonQ7P4m2anxgeztiebT4+0Jpg1WxM5fM=;
+ b=tBEPlT32Or2wPspbMqs2yD7FavDEOSGRbudYZrJvjM5NUoM9sub5+oC4n7FzJYJWoy
+ 6mmmX85hnazGmMcK6fTckBEli3VR3/r27MYyNIHbfzn9VCDhQT1QtdDuqOEc1XDbLhdL
+ skZ7ZXwFMTC77b4zw/Lw2pTglXzjabkGKT2X+zP3iGKjlM8iAEQk4vx3Woba+AsCMtid
+ gmkI3y4cq2ts4YVkoNaBPItV5UgWCb3zdG4UFw7vgBbBiOItTok97Ar+yRD3AayYHvhe
+ LAJnDl4ZBYhh9p2K4/LruMM0nvMmUCz0Or06P6W3wa4wEy0ewWvGkU7oFkZ/RjAnE2hr
+ JE9A==
+X-Gm-Message-State: AJIora8d7ypoapd1/C74u57kiUFC9cWoFT5/4GC39Wj06smSD1XwD8B/
+ u0WfIIb0T33cru4a3DWA8zLX7r/ybfqK+Q==
+X-Google-Smtp-Source: AGRyM1vKjkPlNHb+A8IwHvhJAmDxz2KLeNYAtxqxMOHWOyDe+tOxnB2Myz0riRsDBttVQaUXvfCcPw==
+X-Received: by 2002:ac8:5b51:0:b0:317:3513:cf60 with SMTP id
+ n17-20020ac85b51000000b003173513cf60mr12300349qtw.495.1656405392221; 
+ Tue, 28 Jun 2022 01:36:32 -0700 (PDT)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com.
+ [209.85.128.174]) by smtp.gmail.com with ESMTPSA id
+ hj5-20020a05622a620500b00304fe5247bfsm8341334qtb.36.2022.06.28.01.36.31
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Jun 2022 01:36:31 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-2ef5380669cso109071387b3.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 01:36:31 -0700 (PDT)
+X-Received: by 2002:a81:9bcc:0:b0:317:9ff1:5a39 with SMTP id
+ s195-20020a819bcc000000b003179ff15a39mr20769784ywg.384.1656405391417; Tue, 28
+ Jun 2022 01:36:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220626102853.124108-1-deller@gmx.de>
+ <20220626102853.124108-3-deller@gmx.de>
+In-Reply-To: <20220626102853.124108-3-deller@gmx.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 28 Jun 2022 10:36:19 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV9atrvjFamenRY8UOVZSS2a+Gxsxxo+WfuCpBfuV+n2A@mail.gmail.com>
+Message-ID: <CAMuHMdV9atrvjFamenRY8UOVZSS2a+Gxsxxo+WfuCpBfuV+n2A@mail.gmail.com>
+Subject: Re: [PATCH v6 2/4] fbmem: Prevent invalid virtual screen sizes
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,36 +67,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dianders@chromium.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, spanda@codeaurora.org, robh+dt@kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Rex Nie <rexnie3@gmail.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for InnoLux n140hca-eac display panel. It is a 14" eDP panel
-with 1920x1080 display resolution.
+Hi Helge,
 
-Signed-off-by: Rex Nie <rexnie3@gmail.com>
----
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
- 1 file changed, 2 insertions(+)
+On Sun, Jun 26, 2022 at 12:32 PM Helge Deller <deller@gmx.de> wrote:
+> Prevent that drivers or the user sets the virtual screen resolution
+> smaller than the physical screen resolution.  This is important, because
+> otherwise we may access memory outside of the graphics memory area.
+>
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: stable@vger.kernel.org # v5.4+
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index a5568d1dc272..51e573615aab 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -186,6 +186,8 @@ properties:
-       - innolux,n116bge
-         # InnoLux 13.3" FHD (1920x1080) eDP TFT LCD panel
-       - innolux,n125hce-gn1
-+        # InnoLux 14" FHD (1920x1080) eDP TFT LCD panel
-+      - innolux,n140hca-eac
-         # InnoLux 15.6" WXGA TFT LCD panel
-       - innolux,n156bge-l21
-         # Innolux Corporation 7.0" WSVGA (1024x600) TFT LCD panel
--- 
-2.25.1
+Thanks for your patch, which is now commit fe04405ce5de13a5 ("fbmem:
+Prevent invalid virtual screen sizes") in fbdev/for-next.
 
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -1006,6 +1006,12 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
+>         if (var->xres < 8 || var->yres < 8)
+>                 return -EINVAL;
+>
+> +       /* make sure virtual resolution >= physical resolution */
+> +       if (var->xres_virtual < var->xres)
+> +               return -EINVAL;
+> +       if (var->yres_virtual < var->yres)
+> +               return -EINVAL;
+
+This breaks valid use cases (e.g. "fbset -xres <larger-value-than-before>") ,
+as the FBIOPUT_VSCREENINFO rule is to round up invalid values,
+if possible.
+
+Individual drivers may not follow that rule, so you could indeed end up
+with a virtual resolution here if such a driver fails to sanitize var.
+So either you have to move this after the call to fbops.fb_check_var()
+below, and/or change the code to enlarge virtual resolution to match
+physical resolution (at the risk of introducing another regression
+with an obscure driver?).
+
+So I'd go for moving it below.  And perhaps add a WARN(), as this
+is a driver bug?
+
+> +
+>         /* Too huge resolution causes multiplication overflow. */
+>         if (check_mul_overflow(var->xres, var->yres, &unused) ||
+>             check_mul_overflow(var->xres_virtual, var->yres_virtual, &unused))
+
+Note that doing the multiplication overflow check before calling
+fbops.fb_check_var() is fine, as too large values can never be
+rounded up to a valid value.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
