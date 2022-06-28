@@ -1,47 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6FEF55BF0D
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 09:26:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 020CF55BF13
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 09:27:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7440E11B775;
-	Tue, 28 Jun 2022 07:26:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 171E611B79E;
+	Tue, 28 Jun 2022 07:27:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BB1711B76C
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 07:26:15 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 85B676601856;
- Tue, 28 Jun 2022 08:26:13 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1656401174;
- bh=suXARUlqolSyiyZzoBq0PQIQXSuftLrXkHbx60ZkKso=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=IscQs1pzPwiYacCIUqogKrTu3P8hiBbpw8TUGn93rSNP11fK3wIz2twuEs2rqGIPC
- 80B7a1NTWSR1s8R4fxMFsD7Jth9FZzwUdvyQkoqKM0hyF6wES3zYGYlh4LKs/kUWOl
- c+UUspNmbbaX3Eordg//GgNxwKxoGqs4zLiZfFpGVIQF2CTuQZykVbQd/S6G2LtY2f
- 0N0FETqRjQ5FmWmouE6KCAX5Cj1A7tZ4V79evdz+cBGqmIuZxn/rpUoC+1BRYMjErx
- KOpR3utIc7tYjtFl1yQnhe/f8QWtqnMDUVuPi+nhyUmsJqDnboABR41WX9FhuuAM9T
- jPiyjrFtxtUZg==
-Date: Tue, 28 Jun 2022 09:26:09 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH] drm/bridge: Avoid uninitialized variable warning
-Message-ID: <20220628092609.7d0b1ea3@collabora.com>
-In-Reply-To: <Yrqm5yYVa6xMY2vq@kili>
-References: <Yrqm5yYVa6xMY2vq@kili>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
+ [209.85.219.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4761211B79E;
+ Tue, 28 Jun 2022 07:27:36 +0000 (UTC)
+Received: by mail-qv1-f44.google.com with SMTP id z1so1521710qvp.9;
+ Tue, 28 Jun 2022 00:27:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hwgLtruPC06mcRCnQAsf+kJqHCP1mf00hTNnpiQ34M0=;
+ b=bwYmCXWNDzg5YGwddJpSSLZhzRrIPHw2dxjBgbJa3ISoqv71aFG4NbyDtTseR3VjlU
+ LmneAKNTv5l3JWqEQzfiOw/E3gt6dNbLUAfSfft+qCEHmVM6mPrl7d9chAkL2ggtSYS3
+ 3u2/2cv8215sk5h8vL5G/2DlbNd4o1gzGUHY5Edy+FczLUIuLOuOyiYQEIl92UN7fgHS
+ cm8CzPOB/be3RzsKozQcYHmgsIYghmeLszM4PjXAotthTqbgMQPhnzZZjxb8NlilfiRy
+ Zfdddf5IOKav4jv+9H4gq5vgCFprT4jsr6ZrlXzjcv6ecdH8JOU4mJkwtJHyz994BW+l
+ dRCQ==
+X-Gm-Message-State: AJIora/0H6h0dDuZuhp7kUxSl1hXq4ix0IfMZOyMsfOHrmwNO6Tc+hnd
+ N2RRdSMXJyn7va6Un5JKi5PFVFrEqrvRtFBv
+X-Google-Smtp-Source: AGRyM1uf7/rTjmSjxFObE1njFiykhwx1rX4PjacGrDStsYTrMhIWPG78wAdbcXJK0HEB/cAJiN2ljw==
+X-Received: by 2002:a05:6214:ca7:b0:470:47dd:f449 with SMTP id
+ s7-20020a0562140ca700b0047047ddf449mr2459235qvs.112.1656401255157; 
+ Tue, 28 Jun 2022 00:27:35 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com.
+ [209.85.128.182]) by smtp.gmail.com with ESMTPSA id
+ bi13-20020a05620a318d00b006a6c552736asm10211778qkb.119.2022.06.28.00.27.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Jun 2022 00:27:34 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-3178acf2a92so107587867b3.6; 
+ Tue, 28 Jun 2022 00:27:33 -0700 (PDT)
+X-Received: by 2002:a81:a092:0:b0:318:5c89:a935 with SMTP id
+ x140-20020a81a092000000b003185c89a935mr20762801ywg.383.1656401253054; Tue, 28
+ Jun 2022 00:27:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20220627180432.GA136081@embeddedor>
+In-Reply-To: <20220627180432.GA136081@embeddedor>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 28 Jun 2022 09:27:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU27TG_rpd=WTRPRcY22A4j4aN-6d_8OmK2aNpX06G3ig@mail.gmail.com>
+Message-ID: <CAMuHMdU27TG_rpd=WTRPRcY22A4j4aN-6d_8OmK2aNpX06G3ig@mail.gmail.com>
+Subject: Re: [PATCH][next] treewide: uapi: Replace zero-length arrays with
+ flexible-array members
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,62 +67,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: nvdimm@lists.linux.dev,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ KVM list <kvm@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, dm-devel@redhat.com,
+ target-devel <target-devel@vger.kernel.org>,
+ MTD Maling List <linux-mtd@lists.infradead.org>,
+ linux-hardening@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-s390 <linux-s390@vger.kernel.org>, scsi <linux-scsi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>,
+ the arch/x86 maintainers <x86@kernel.org>,
+ kasan-dev <kasan-dev@googlegroups.com>, lvs-devel@vger.kernel.org,
+ coreteam@netfilter.org, V9FS Developers <v9fs-developer@lists.sourceforge.net>,
+ Kees Cook <keescook@chromium.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ linux-can@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-m68k <linux-m68k@lists.linux-m68k.org>,
+ virtualization@lists.linux-foundation.org, io-uring@vger.kernel.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ netdev <netdev@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>,
+ Linux MMC List <linux-mmc@vger.kernel.org>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ linux-perf-users@vger.kernel.org, linux-sctp@vger.kernel.org,
+ NetFilter <netfilter-devel@vger.kernel.org>,
+ Linux FS Devel <linux-fsdevel@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+ linux-btrfs <linux-btrfs@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Jun 2022 09:59:51 +0300
-Dan Carpenter <dan.carpenter@oracle.com> wrote:
+Hi Gustavo,
 
-> This works, but technically it uses "num_in_bus_fmts" before it has been
-> initialized so it leads to static checker warnings and probably KMEMsan
-> warnings at run time.  Reverse the checks so it checks for failure first
-> and then check for unsupported formats next.
-> 
-> Fixes: f32df58acc68 ("drm/bridge: Add the necessary bits to support bus format negotiation")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->  drivers/gpu/drm/drm_bridge.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index e275b4ca344b..00cbde654472 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -897,10 +897,10 @@ static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
->  							conn_state,
->  							out_bus_fmt,
->  							&num_in_bus_fmts);
-> -	if (!num_in_bus_fmts)
-> -		return -ENOTSUPP;
-> -	else if (!in_bus_fmts)
-> +	if (!in_bus_fmts)
->  		return -ENOMEM;
-> +	else if (!num_in_bus_fmts)
-> +		return -ENOTSUPP;
+Thanks for your patch!
 
-Well, it changes the error we return when num_in_bus_fmts = 0
-&& in_bus_fmts == NULL which is not an ENOMEM situation, so I'd rather
-initialize num_{in,out}_bus_fmts to 0 here.
+On Mon, Jun 27, 2022 at 8:04 PM Gustavo A. R. Silva
+<gustavoars@kernel.org> wrote:
+> There is a regular need in the kernel to provide a way to declare
+> having a dynamically sized set of trailing elements in a structure.
+> Kernel code should always use =E2=80=9Cflexible array members=E2=80=9D[1]=
+ for these
+> cases. The older style of one-element or zero-length arrays should
+> no longer be used[2].
 
->  
->  	if (first_bridge == cur_bridge) {
->  		cur_state->input_bus_cfg.format = in_bus_fmts[0];
-> @@ -993,10 +993,10 @@ drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
->  							crtc_state,
->  							conn_state,
->  							&num_out_bus_fmts);
-> -		if (!num_out_bus_fmts)
-> -			return -ENOTSUPP;
-> -		else if (!out_bus_fmts)
-> +		if (!out_bus_fmts)
->  			return -ENOMEM;
-> +		else if (!num_out_bus_fmts)
-> +			return -ENOTSUPP;
->  	} else {
->  		num_out_bus_fmts = 1;
->  		out_bus_fmts = kmalloc(sizeof(*out_bus_fmts), GFP_KERNEL);
+These rules apply to the kernel, but uapi is not considered part of the
+kernel, so different rules apply.  Uapi header files should work with
+whatever compiler that can be used for compiling userspace.
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
