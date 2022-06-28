@@ -2,63 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A07955E586
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 16:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB9EF55E58E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 17:01:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C6BC10FCCD;
-	Tue, 28 Jun 2022 14:52:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E459D11235E;
+	Tue, 28 Jun 2022 15:01:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AF6710FCCE
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 14:52:48 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id lw20so26336689ejb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 07:52:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zLp244HRKuXK443MblJOFX9TiLKY+sMNN7lfWRmJzw4=;
- b=Lk7xi3t/LB2zXUPx3APLw1OdwcapOiHYlZJA4tOn/NbuDoTBbMcIduKURJqTEBrkoj
- YYZ4czzT6ihRD/blwTjeq6YA9LXg+DB/+iymb+sPgeQRaIxaptCod570AG3D80pBU9e4
- 5+8iG89M5uxSJJ+dv/Ns8XdtFg+q/u0L7J170=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zLp244HRKuXK443MblJOFX9TiLKY+sMNN7lfWRmJzw4=;
- b=SFG4HEk6jT7C005mkVN0xpaXRjKABUTywaAfcBM/Z3Y5ESuQRvgSwaGv5nL+Vwrpk9
- UQUaxOfWHU+GL5QF29OCf38/9+uTtEjupEW84I1XqqvZCXav+EzmWuGrJV2bm+dCcfMA
- sphlxp0rbkHsCrCckmhbkytf/Ds6j/jOXWI1BfJHgXmyM9GE2/jbz8FVPjYqbulRE98n
- ss3jb97pQSl65vY7oYlpU1G1QWBR+mItWCAcREulSkLchnzg7hVmKJtU2M46ddI8rHqR
- rLgWUXwBgg48ndPI/5ZMXr1iCssPvEezjY6N2H0vjEIgG5WLnNVCfUVByoqlJ4Wv2tsJ
- 8vig==
-X-Gm-Message-State: AJIora9CQe+WLgK9d78SAaySDGNrjcs4uWaWe2uJEmgeJmcRak3dMsOF
- zoY6mnFExfYCaY1/lwqdewXUQAeL3FMzeoGZ
-X-Google-Smtp-Source: AGRyM1szTFnfxHWoIcOans1aHJFKtVWQpxHo12ZIclym41zmQEJ1AYNYL5X5sjEiX777xCMAKhIQ6A==
-X-Received: by 2002:a17:907:7f09:b0:726:2ba7:21c2 with SMTP id
- qf9-20020a1709077f0900b007262ba721c2mr18364475ejc.744.1656427966302; 
- Tue, 28 Jun 2022 07:52:46 -0700 (PDT)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com.
- [209.85.221.53]) by smtp.gmail.com with ESMTPSA id
- fd5-20020a056402388500b00436f3107bdasm8823544edb.38.2022.06.28.07.52.43
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jun 2022 07:52:44 -0700 (PDT)
-Received: by mail-wr1-f53.google.com with SMTP id i1so13585755wrb.11
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 07:52:43 -0700 (PDT)
-X-Received: by 2002:a5d:4046:0:b0:21a:3a12:239e with SMTP id
- w6-20020a5d4046000000b0021a3a12239emr18136405wrp.138.1656427963334; Tue, 28
- Jun 2022 07:52:43 -0700 (PDT)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E13AC11237D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 15:01:27 +0000 (UTC)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
+ helo=diego.localnet) by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1o6Ci1-0005Gn-Sy; Tue, 28 Jun 2022 17:00:57 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, Vinod Koul <vkoul@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Serge Semin <fancer.lancer@gmail.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>,
+ linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2 01/16] dt-bindings: display: convert ilitek,
+ ili9341.txt to dt-schema
+Date: Tue, 28 Jun 2022 17:00:56 +0200
+Message-ID: <3361801.QJadu78ljV@diego>
+In-Reply-To: <20220627194003.2395484-2-mail@conchuod.ie>
+References: <20220627194003.2395484-1-mail@conchuod.ie>
+ <20220627194003.2395484-2-mail@conchuod.ie>
 MIME-Version: 1.0
-References: <20220628085949.2147920-1-rexnie3@gmail.com>
-In-Reply-To: <20220628085949.2147920-1-rexnie3@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 28 Jun 2022 07:52:31 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U8oR-L7XRJH7qVG2p2m1J8obnQSTzA2moZZ8Kmy2SzFw@mail.gmail.com>
-Message-ID: <CAD=FV=U8oR-L7XRJH7qVG2p2m1J8obnQSTzA2moZZ8Kmy2SzFw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/panel-edp: Add eDP innolux panel support
-To: Rex Nie <rexnie3@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,98 +50,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Sandeep Panda <spanda@codeaurora.org>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-riscv@lists.infradead.org, Niklas Cassel <niklas.cassel@wdc.com>,
+ alsa-devel@alsa-project.org, Albert Ou <aou@eecs.berkeley.edu>,
+ devicetree@vger.kernel.org, Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ linux-kernel@vger.kernel.org, Heng Sia <jee.heng.sia@intel.com>,
+ linux-spi@vger.kernel.org, Conor Dooley <mail@conchuod.ie>,
+ Conor Dooley <conor.dooley@microchip.com>, Jose Abreu <joabreu@synopsys.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org,
+ Paul Walmsley <paul.walmsley@sifive.com>, dmaengine@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Dillon Min <dillon.minfei@gmail.com>,
+ Masahiro Yamada <masahiroy@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Conor,
 
-On Tue, Jun 28, 2022 at 2:00 AM Rex Nie <rexnie3@gmail.com> wrote:
->
-> Add support for the 14" innolux,n140hca-eac eDP panel.
->
-> Signed-off-by: Rex Nie <rexnie3@gmail.com>
-> Acked-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Am Montag, 27. Juni 2022, 21:39:49 CEST schrieb Conor Dooley:
+> From: Conor Dooley <conor.dooley@microchip.com>
+> 
+> A dt-schema binding for the Ilitek ili9341 was created as
+> panel/ilitek,ili9341.yaml but the txt binding was ignored in the
+> process. Move the remaining items in the txt binding to the yaml one &
+> delete it.
+> 
+> The example in the txt binding has a spi-max-frequency which disagrees
+> with the yaml replacement (and its own documentation) so change that to
+> conform with the binding. There are no users in tree of the Adafruit
+> yx240qv29 to check against.
+> 
+> Link: https://cdn-learn.adafruit.com/assets/assets/000/046/879/original/SPEC-YX240QV29-T_Rev.A__1_.pdf
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+
+in your v1 you already got a [0]
+Reviewed-by: Rob Herring <robh@kernel.org>
+for this patch
+
+Looking at the diffstat, which didn't change, you should
+include such tags in followup revisions, to prevent
+reviewers from double efforts.
+
+Heiko
+
+
+[0] https://lore.kernel.org/r/20220627232054.GA3155668-robh@kernel.org
+
 > ---
->  drivers/gpu/drm/panel/panel-edp.c | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
->
-> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-> index 3626469c4cc2..2a8fcdffe80c 100644
-> --- a/drivers/gpu/drm/panel/panel-edp.c
-> +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -1355,6 +1355,29 @@ static const struct panel_desc innolux_n125hce_gn1 = {
->         },
->  };
->
-> +static const struct display_timing innolux_n140hca_eac_timing = {
-> +       .pixelclock = { 72600000, 76420000, 80240000 },
-> +       .hactive = { 1920, 1920, 1920 },
-> +       .hfront_porch = { 80, 80, 80 },
-> +       .hback_porch = { 190, 190, 190 },
-> +       .hsync_len = { 60, 60, 60 },
-> +       .vactive = { 1080, 1080, 1080 },
-> +       .vfront_porch = { 6, 6, 6 },
-> +       .vback_porch = { 38, 38, 38 },
-> +       .vsync_len = { 8, 8, 8 },
-> +       .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW,
-> +};
+>  .../bindings/display/ilitek,ili9341.txt       | 27 -----------
+>  .../display/panel/ilitek,ili9341.yaml         | 48 +++++++++++++------
+>  2 files changed, 34 insertions(+), 41 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/ilitek,ili9341.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/display/ilitek,ili9341.txt b/Documentation/devicetree/bindings/display/ilitek,ili9341.txt
+> deleted file mode 100644
+> index 169b32e4ee4e..000000000000
+> --- a/Documentation/devicetree/bindings/display/ilitek,ili9341.txt
+> +++ /dev/null
+> @@ -1,27 +0,0 @@
+> -Ilitek ILI9341 display panels
+> -
+> -This binding is for display panels using an Ilitek ILI9341 controller in SPI
+> -mode.
+> -
+> -Required properties:
+> -- compatible:	"adafruit,yx240qv29", "ilitek,ili9341"
+> -- dc-gpios:	D/C pin
+> -- reset-gpios:	Reset pin
+> -
+> -The node for this driver must be a child node of a SPI controller, hence
+> -all mandatory properties described in ../spi/spi-bus.txt must be specified.
+> -
+> -Optional properties:
+> -- rotation:	panel rotation in degrees counter clockwise (0,90,180,270)
+> -- backlight:	phandle of the backlight device attached to the panel
+> -
+> -Example:
+> -	display@0{
+> -		compatible = "adafruit,yx240qv29", "ilitek,ili9341";
+> -		reg = <0>;
+> -		spi-max-frequency = <32000000>;
+> -		dc-gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
+> -		reset-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;
+> -		rotation = <270>;
+> -		backlight = <&backlight>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml b/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
+> index 6058948a9764..94ca92878434 100644
+> --- a/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/ilitek,ili9341.yaml
+> @@ -23,6 +23,7 @@ properties:
+>        - enum:
+>            # ili9341 240*320 Color on stm32f429-disco board
+>            - st,sf-tc240t-9370-t
+> +          - adafruit,yx240qv29
+>        - const: ilitek,ili9341
+>  
+>    reg: true
+> @@ -47,31 +48,50 @@ properties:
+>    vddi-led-supply:
+>      description: Voltage supply for the LED driver (1.65 .. 3.3 V)
+>  
+> -additionalProperties: false
+> +unevaluatedProperties: false
+>  
+>  required:
+>    - compatible
+>    - reg
+>    - dc-gpios
+> -  - port
+> +
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - st,sf-tc240t-9370-t
+> +then:
+> +  required:
+> +    - port
+>  
+>  examples:
+>    - |+
+> +    #include <dt-bindings/gpio/gpio.h>
+>      spi {
+>          #address-cells = <1>;
+>          #size-cells = <0>;
+>          panel: display@0 {
+> -                 compatible = "st,sf-tc240t-9370-t",
+> -                              "ilitek,ili9341";
+> -                 reg = <0>;
+> -                 spi-3wire;
+> -                 spi-max-frequency = <10000000>;
+> -                 dc-gpios = <&gpiod 13 0>;
+> -                 port {
+> -                         panel_in: endpoint {
+> -                           remote-endpoint = <&display_out>;
+> -                      };
+> -                 };
+> -             };
+> +            compatible = "st,sf-tc240t-9370-t",
+> +                         "ilitek,ili9341";
+> +            reg = <0>;
+> +            spi-3wire;
+> +            spi-max-frequency = <10000000>;
+> +            dc-gpios = <&gpiod 13 0>;
+> +            port {
+> +                panel_in: endpoint {
+> +                    remote-endpoint = <&display_out>;
+> +                };
+> +            };
+> +        };
+> +        display@1{
+> +            compatible = "adafruit,yx240qv29", "ilitek,ili9341";
+> +            reg = <1>;
+> +            spi-max-frequency = <10000000>;
+> +            dc-gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
+> +            reset-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;
+> +            rotation = <270>;
+> +            backlight = <&backlight>;
+>          };
+> +    };
+>  ...
+> 
 
-A few questions:
-
-1. If I'm doing my math right, you're saying that this panel runs at
-30 Hz refresh rate. Truly? While I won't dismiss that as impossible,
-it feels unlikely. Specifically:
-
-In [2]: 72600000 / ((1920 + 80 + 190 + 60) * (1080 + 6 + 38 + 8))
-Out[2]: 28.50412249705536
-
-In [3]: 80240000 / ((1920 + 80 + 190 + 60) * (1080 + 6 + 38 + 8))
-Out[3]: 31.503729878288183
-
-NOTE: I managed to dig up a datasheet for this panel and the datasheet
-I have shows it as a 60 Hz refresh rate panel.
 
 
-2. You're using the "struct display_timing" here instead of the
-"struct drm_display_mode". That can be OK, but can I ask why exactly?
 
-
-3. Are you sure you need to add this entry? Moving forward I'm trying
-to encourage people to use the generic "edp-panel". Mostly you'd want
-to add a hardcoded panel here if:
-
-a) Devices have already shipped using hardcoded timings and we don't
-want to risk breaking something in the field with "edp-panel".
-
-b) You're trying to support some eDP controller that can't handle the
-generic "edp-panel". In this case I'm OK with landing changes but I'd
-strongly encourage you to update the controller to handle things.
-
-
-> +static const struct panel_desc innolux_n140hca_eac = {
-> +       .timings = &innolux_n140hca_eac_timing,
-> +       .num_timings = 1,
-> +       .bpc = 6,
-
-Is it really 6 bpc? The datasheet I dug up claims 16777216 colors
-which would be 8 bpc. The EDID from that same datasheet also claims 8
-bpc.
-
-
-> +       .size = {
-> +               .width = 309,
-> +               .height = 174,
-> +       },
-
-Where are your delays? I know in old code these were hard to figure
-out from the panel spec, but the kernel doc comments now translate it
-into standard eDP terminology so this should be trivially easy for you
-to provide.
