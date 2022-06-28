@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0165055BD4B
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:20:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDEB55BD4D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:20:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9A1710EF26;
-	Tue, 28 Jun 2022 02:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3563F10EF68;
+	Tue, 28 Jun 2022 02:20:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3859010EF26
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:20:46 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA0E710EF68;
+ Tue, 28 Jun 2022 02:20:55 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A0A1E617D7;
- Tue, 28 Jun 2022 02:20:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77254C341CA;
- Tue, 28 Jun 2022 02:20:43 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 570AD6182F;
+ Tue, 28 Jun 2022 02:20:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D212AC34115;
+ Tue, 28 Jun 2022 02:20:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656382845;
- bh=3iPy89e4pvEBdGobMJlrcyFEDkIZtJfNhGqS/Dt9rPY=;
+ s=k20201202; t=1656382854;
+ bh=8EEm0dlpGRNW+1bRE51uF+/2iljO7Ff562zYe9PwjaY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=seL917t3R5c/qEbIvKvy/paMpTFnQzEZ/YnOyLNTHdM8F3BPEtbWbfMFaEPro2G7l
- mbb9IbNh/KWxegFQeOMBghzPMZimfH3trcfA02iq/HGWW/b8DgpMKAcFiFk5HoLdjH
- tJNmemEztFTnoDlK+FrSeeQoZfDyekObnA4afOlx0E5VbUA45ZBj2ODAbrGVDccZec
- dg6sibtCGWySKapJerFx1mF6ZxZOND+5S0Rsn5qIYCYAimOObrMSvNT7qHsVmNztGt
- yUQ+XcTLdHqIZf03FurfPQ0arrCpYefHHVJwpBfqmBQ82tRMtDxvyF4hoysL/5i0At
- hOQmwc0B7kUDA==
+ b=VKT+A9Dt6h5tXSArWh2YFiC+yYs735tniWDfnUYsZfoGewHNefDW3WFHwTgZtuslF
+ Aizfa1eAjaYdQIXoteNUy0u0JPkTzJI2MGi6axL5ePvEkJ6fG811ke8NwfEO7uuiw/
+ goTrCR6mlaxGCNTjnCq0xGHqBEG20xxJUk9lp4RO+2KgIVBxHc2Minm1IccWc3ivG2
+ izJWDqx0sdtIVmbW3sfFNT1fmp1zgRDk4lqRlj2fNQDN7qrbW6dU7/vYe4FLxcJ00E
+ CSbg+ifuTshQqcmTt33IJwFT7z7GyQ+i5qGSNyupYKgVIF7P4btsIGW0q0E7OdLl12
+ TwkQhqyC19/dA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.18 48/53] drm/sun4i: Return if frontend is not
- present
-Date: Mon, 27 Jun 2022 22:18:34 -0400
-Message-Id: <20220628021839.594423-48-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 50/53] drm/amdgpu: Adjust logic around GTT size
+ (v3)
+Date: Mon, 27 Jun 2022 22:18:36 -0400
+Message-Id: <20220628021839.594423-50-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628021839.594423-1-sashal@kernel.org>
 References: <20220628021839.594423-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -55,42 +57,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, jernej.skrabec@gmail.com,
- samuel@sholland.org, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- wens@csie.org, Maxime Ripard <maxime@cerno.tech>,
- Saud Farooqui <farooqui_saud@hotmail.com>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, jonathan.kim@amd.com,
+ dri-devel@lists.freedesktop.org, kevin1.wang@amd.com, airlied@linux.ie,
+ =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <marek.olsak@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, nirmoy.das@amd.com, matthew.auld@intel.com,
+ Alex Deucher <alexander.deucher@amd.com>, Felix.Kuehling@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Saud Farooqui <farooqui_saud@hotmail.com>
+From: Alex Deucher <alexander.deucher@amd.com>
 
-[ Upstream commit 85016f66af8506cb601fd4f4fde23ed327a266be ]
+[ Upstream commit f15345a377c6ea9c7cc74f079616af8856aff37f ]
 
-Added return statement in sun4i_layer_format_mod_supported()
-in case frontend is not present.
+Certain GL unit tests for large textures can cause problems
+with the OOM killer since there is no way to link this memory
+to a process.  This was originally mitigated (but not necessarily
+eliminated) by limiting the GTT size.  The problem is this limit
+is often too low for many modern games so just make the limit 1/2
+of system memory. The OOM accounting needs to be addressed, but
+we shouldn't prevent common 3D applications from being usable
+just to potentially mitigate that corner case.
 
-Signed-off-by: Saud Farooqui <farooqui_saud@hotmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/PA4P189MB1421E93EF5F8E8E00E71B7878BB29@PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+Set default GTT size to max(3G, 1/2 of system ram) by default.
+
+v2: drop previous logic and default to 3/4 of ram
+v3: default to half of ram to align with ttm
+v4: fix spelling in comment (Kent)
+
+Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1942
+Reviewed-by: Marek Olšák <marek.olsak@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/sun4i/sun4i_layer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
-index 6d43080791a0..85fb9e800ddf 100644
---- a/drivers/gpu/drm/sun4i/sun4i_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
-@@ -117,7 +117,7 @@ static bool sun4i_layer_format_mod_supported(struct drm_plane *plane,
- 	struct sun4i_layer *layer = plane_to_sun4i_layer(plane);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 4b9ee6e27f74..ef3ada98bdb6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -1798,18 +1798,26 @@ int amdgpu_ttm_init(struct amdgpu_device *adev)
+ 	DRM_INFO("amdgpu: %uM of VRAM memory ready\n",
+ 		 (unsigned) (adev->gmc.real_vram_size / (1024 * 1024)));
  
- 	if (IS_ERR_OR_NULL(layer->backend->frontend))
--		sun4i_backend_format_is_supported(format, modifier);
-+		return sun4i_backend_format_is_supported(format, modifier);
+-	/* Compute GTT size, either bsaed on 3/4th the size of RAM size
++	/* Compute GTT size, either based on 1/2 the size of RAM size
+ 	 * or whatever the user passed on module init */
+ 	if (amdgpu_gtt_size == -1) {
+ 		struct sysinfo si;
  
- 	return sun4i_backend_format_is_supported(format, modifier) ||
- 	       sun4i_frontend_format_is_supported(format, modifier);
+ 		si_meminfo(&si);
+-		gtt_size = min(max((AMDGPU_DEFAULT_GTT_SIZE_MB << 20),
+-			       adev->gmc.mc_vram_size),
+-			       ((uint64_t)si.totalram * si.mem_unit * 3/4));
+-	}
+-	else
++		/* Certain GL unit tests for large textures can cause problems
++		 * with the OOM killer since there is no way to link this memory
++		 * to a process.  This was originally mitigated (but not necessarily
++		 * eliminated) by limiting the GTT size.  The problem is this limit
++		 * is often too low for many modern games so just make the limit 1/2
++		 * of system memory which aligns with TTM. The OOM accounting needs
++		 * to be addressed, but we shouldn't prevent common 3D applications
++		 * from being usable just to potentially mitigate that corner case.
++		 */
++		gtt_size = max((AMDGPU_DEFAULT_GTT_SIZE_MB << 20),
++			       (u64)si.totalram * si.mem_unit / 2);
++	} else {
+ 		gtt_size = (uint64_t)amdgpu_gtt_size << 20;
++	}
+ 
+ 	/* Initialize GTT memory pool */
+ 	r = amdgpu_gtt_mgr_init(adev, gtt_size);
 -- 
 2.35.1
 
