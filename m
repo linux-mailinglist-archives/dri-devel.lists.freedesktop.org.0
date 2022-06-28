@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6289355BD68
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:23:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF9E55BD6B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:23:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5053A10F0DE;
-	Tue, 28 Jun 2022 02:23:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EEB510F0E6;
+	Tue, 28 Jun 2022 02:23:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8FEC10F0DE
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:23:00 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09EF710F0E6
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:23:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2AC2F6185C;
- Tue, 28 Jun 2022 02:23:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A68AC36AE2;
- Tue, 28 Jun 2022 02:22:58 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1B09FB808C0;
+ Tue, 28 Jun 2022 02:23:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A08EEC36AE2;
+ Tue, 28 Jun 2022 02:23:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656382979;
- bh=mZorZnBDhd8tM4rvi3iSjxVRtl1UH9oN/D4gw/tPpL8=;
+ s=k20201202; t=1656383009;
+ bh=IUT6pKmVPJ2q3phpRNPVddGlPUiUqgs/H5gsyFOvhSY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=G1A/7izxd8ZfUnP++fvQU2Y3ixUS9ouGMbAvDj8cahTx7lGBWDzKhMAvDE+lLCcjL
- 0y45jUpN6uxgFXyi04aU8rTFhrZFvRlA3dvNbfC3GzZ3Ea5Wqzw/0smq7/ZQ0iT1y7
- tumR+8yqYta3k+HjgnmMBbHqbscKtXRl/vFKtzlPV0naBmGpEqkfoFS9oLTdf2Xfln
- isxR6rMADrbOBLggggAhHcxFK4SdwPGlKV3o48dzgzm8e67uCSjpEsgLwqO0MQyCBA
- KbBc9UAX8LhPET9vgzMAGt2vlJsRhlS3mVSf2n8f6qY6vez5AlDnRC4E8a58mhfCG3
- hkxaGU0QjZO/g==
+ b=RoPOrkZdlXlwK8NJTsACEWruwEmj22+E5/YqqKDa0t5MwV/7/CthP2wl+immS+rdy
+ kI4I7PHWfm5owlHveOV196NpSD93UeGRIxSPaz2VKyTs6U4oqyhIImahhD4ouhsWV+
+ ZXOA/WoYYaXbvlbwPKgJ/FZgOiKXT3C5ubxaDSa646k8MBQKIEJM2BxdR6H2DpzIZK
+ /JtdrueIOgyxp/EQkuaNPZ8sWgrTiHrNp1PiFxrvls9cze1IsU6V51J8bNLv0A7J3C
+ R9nv6wcx520mUDs3Bcze3dKqk5ru8KIqyExN/+G0JVBo8pyh6iAyNyWqv4h19AvnyH
+ gJPPqxRFt/yPg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 08/34] drm/vc4: crtc: Move the BO handling out of
- common page-flip callback
-Date: Mon, 27 Jun 2022 22:22:15 -0400
-Message-Id: <20220628022241.595835-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 16/34] video: fbdev: skeletonfb: Fix syntax
+ errors in comments
+Date: Mon, 27 Jun 2022 22:22:23 -0400
+Message-Id: <20220628022241.595835-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220628022241.595835-1-sashal@kernel.org>
 References: <20220628022241.595835-1-sashal@kernel.org>
@@ -55,83 +56,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, emma@anholt.net, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Xiang wangx <wangxiang@cdjrlc.com>, daniel.vetter@ffwll.ch,
+ Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org, cssk@net-c.es,
+ bhelgaas@google.com, svens@stackframe.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maxime Ripard <maxime@cerno.tech>
+From: Xiang wangx <wangxiang@cdjrlc.com>
 
-[ Upstream commit 4d12c36fb73b5c49fe2f95d06515fd9846010fd2 ]
+[ Upstream commit fc378794a2f7a19cf26010dc33b89ba608d4c70f ]
 
-We'll soon introduce another completion callback source that won't need
-to use the BO reference counting, so let's move it around to create a
-function we will be able to share between both callbacks.
+Delete the redundant word 'its'.
 
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://lore.kernel.org/r/20220610115149.964394-11-maxime@cerno.tech
+Signed-off-by: Xiang wangx <wangxiang@cdjrlc.com>
+Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c | 34 ++++++++++++++++++++--------------
- 1 file changed, 20 insertions(+), 14 deletions(-)
+ drivers/video/fbdev/skeletonfb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index c0332b69d22c..94bc20247ef9 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -722,21 +722,8 @@ vc4_async_page_flip_complete(struct vc4_async_flip_state *flip_state)
- 	drm_crtc_vblank_put(crtc);
- 	drm_framebuffer_put(flip_state->fb);
+diff --git a/drivers/video/fbdev/skeletonfb.c b/drivers/video/fbdev/skeletonfb.c
+index bcacfb6934fa..3d4d78362ede 100644
+--- a/drivers/video/fbdev/skeletonfb.c
++++ b/drivers/video/fbdev/skeletonfb.c
+@@ -96,7 +96,7 @@ static const struct fb_fix_screeninfo xxxfb_fix = {
  
--	/* Decrement the BO usecnt in order to keep the inc/dec calls balanced
--	 * when the planes are updated through the async update path.
--	 * FIXME: we should move to generic async-page-flip when it's
--	 * available, so that we can get rid of this hand-made cleanup_fb()
--	 * logic.
--	 */
--	if (flip_state->old_fb) {
--		struct drm_gem_cma_object *cma_bo;
--		struct vc4_bo *bo;
--
--		cma_bo = drm_fb_cma_get_gem_obj(flip_state->old_fb, 0);
--		bo = to_vc4_bo(&cma_bo->base);
--		vc4_bo_dec_usecnt(bo);
-+	if (flip_state->old_fb)
- 		drm_framebuffer_put(flip_state->old_fb);
--	}
- 
- 	kfree(flip_state);
- 
-@@ -747,8 +734,27 @@ static void vc4_async_page_flip_seqno_complete(struct vc4_seqno_cb *cb)
- {
- 	struct vc4_async_flip_state *flip_state =
- 		container_of(cb, struct vc4_async_flip_state, cb.seqno);
-+	struct vc4_bo *bo = NULL;
-+
-+	if (flip_state->old_fb) {
-+		struct drm_gem_cma_object *cma_bo =
-+			drm_fb_cma_get_gem_obj(flip_state->old_fb, 0);
-+		bo = to_vc4_bo(&cma_bo->base);
-+	}
- 
- 	vc4_async_page_flip_complete(flip_state);
-+
-+	/*
-+	 * Decrement the BO usecnt in order to keep the inc/dec
-+	 * calls balanced when the planes are updated through
-+	 * the async update path.
-+	 *
-+	 * FIXME: we should move to generic async-page-flip when
-+	 * it's available, so that we can get rid of this
-+	 * hand-made cleanup_fb() logic.
-+	 */
-+	if (bo)
-+		vc4_bo_dec_usecnt(bo);
- }
- 
- /* Implements async (non-vblank-synced) page flips.
+     /*
+      * 	Modern graphical hardware not only supports pipelines but some 
+-     *  also support multiple monitors where each display can have its  
++     *  also support multiple monitors where each display can have
+      *  its own unique data. In this case each display could be  
+      *  represented by a separate framebuffer device thus a separate 
+      *  struct fb_info. Now the struct xxx_par represents the graphics
 -- 
 2.35.1
 
