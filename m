@@ -1,58 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7EA55EB60
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 19:54:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DDA555EB67
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 19:55:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19983113BE7;
-	Tue, 28 Jun 2022 17:54:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05FE8113667;
+	Tue, 28 Jun 2022 17:55:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F206511B3AF
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 17:54:19 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id r9so10520871ljp.9
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 10:54:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YsbR8XD51+2fDUx1DJn2r9aSmkJF1zCJMEEsWt0x5vM=;
- b=B3w6v5CCgKL41pcP+L2EqP7McAN7ZEWhXVobCQ0dUTE60bcgOwn6Q8f+c5O1e2Uxiw
- apFzNVvwz2N6tmXHzs5TGZeD8peEZrx4cfaze9Soa8XDpIK6uoVnqQvbyDxNgvZh8rDe
- nmcuyp58AN0coqb9rVIJ3MgAIQ+J28eiosYE40v8hq5IJJHcoPomcIY9atsa2q+LmiuU
- bkHVc9GwytBXLjqfmKyeryaorexOFNajbKdFzhxpQ9q+7NV6Nk+5cz7/uH2lNNb47OTt
- HpO7g5JevqN+629w3g/cEGgD4LSHUCcujOxc4BlMchbgk0vH0blQ6WI9y7B1qGbdFXhw
- parw==
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E43AB11B495
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 17:54:59 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ c6-20020a17090abf0600b001eee794a478so6039840pjs.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 10:54:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Ifakbg1KSXljeCc2KlqlOz+XfzIBohlTVCEx+b5hm2Y=;
+ b=Lpc3rw2lUDFTgNuiFkNi7vJ3FOoQQ8sPNV+A/xT7kPgFFi5TelrrdXlIUbrL4j9GT+
+ 3+ei8DuymmFwmq4TMtVSFXVwj/BEoFuIu2AqPN9i6R5zOS+ndUs4OIvpg1Fj2tZP3rAs
+ mZTqNdFC15vlNUFmjWu7inrraPu1BA3Mkzqts=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YsbR8XD51+2fDUx1DJn2r9aSmkJF1zCJMEEsWt0x5vM=;
- b=3i9E4rwi27HtTc1Kyu/rxYxw50Lpd6cCU/7ZyyTFUvP1l15BhH1Ly8k7xGd5cPKbxl
- 0xaLngNxTEV+xRLRxvvrQAvsDS9U13D0MZ59wpoR+NAFX9+BB9LYk7aaSr70pTwJjhGc
- ciXoEpwyuod5HDPjG692K7oIHv3172LweA43WbkurSZ3mkVvz5mqMCJ5gA47zlTlTVPW
- stY1pgG4nA5xXkzUO6smR52BKe0q5xzS40SD4k9tRj3M1fLohUdWRpBZT0UNG2e/hX2z
- BFIM4+4xlr44lgzLr5UdyeTelLJIqonor6inz8tWAVTjUfJ2yH390xlYk3HbWV25RgCJ
- nzcQ==
-X-Gm-Message-State: AJIora9rHabG0ahPLaFnKFtxIY7zKui94gf1x1FgrhfWGoYK2ThDvSAy
- TTR1zcwoSyUFscT/aRAO3DgoxckQcpX/idaXaDI=
-X-Google-Smtp-Source: AGRyM1sc6rUvzMNS3CKVGGXthQEHrKyFKK272MHUdtCpLmeRrPJMb4swE1HCuDd+KRVsOiR0yo3ur2dSKywPSi48Sx0=
-X-Received: by 2002:a2e:bc22:0:b0:25b:c3b6:eb11 with SMTP id
- b34-20020a2ebc22000000b0025bc3b6eb11mr6134193ljf.122.1656438858054; Tue, 28
- Jun 2022 10:54:18 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Ifakbg1KSXljeCc2KlqlOz+XfzIBohlTVCEx+b5hm2Y=;
+ b=Bz6q2aOs55VSA4rR9ftGKwcSjaklXM0rQ8KR3nbfNnU/S+czI2viugtVrRTpfRyh4R
+ XTtuFQv+QJqfK48RX+y5lPeg8cYjGLXJbkNLfVFtUggyUdbkDUls5nbkqPJd3FSsxoxr
+ VNahQImPlps40KhCcqt/2WOIN2p0P1BNy17cEhaoJ7DS6N80xT4xyV7RO/QYhrp6DlIc
+ cGJil3Az1M16I2L2Cv/YCm7UKZ9ekZm++yrNtoyQ8F4nppnRM+7mdLx1qRNC6P0aONSh
+ Y6yeZ/s6m1I2sFYlSC3h1MU0T0cDMFWgG3BrGAeIYayrbIr9js1UTPBOMeGBzzCEPIQm
+ eU2g==
+X-Gm-Message-State: AJIora9duzeIynlOXu5AKl0Sx43ZFq6H+gwNy3JBB8uCPR23wCRALgug
+ rJ2rwecOLiOWwgshP0va71jxzw==
+X-Google-Smtp-Source: AGRyM1vNNODoy68cNcew+BOwykVJS5AyiEbndqdKVVh3DpwTH+wUBJ1HcGxnO6zSsyx2Hva19xbd8w==
+X-Received: by 2002:a17:90b:3b52:b0:1ec:db2a:b946 with SMTP id
+ ot18-20020a17090b3b5200b001ecdb2ab946mr838564pjb.229.1656438899502; 
+ Tue, 28 Jun 2022 10:54:59 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+ by smtp.gmail.com with ESMTPSA id
+ f15-20020a170902ff0f00b0016a84d232a6sm5432810plj.46.2022.06.28.10.54.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jun 2022 10:54:59 -0700 (PDT)
+Date: Tue, 28 Jun 2022 10:54:58 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH][next] treewide: uapi: Replace zero-length arrays with
+ flexible-array members
+Message-ID: <202206281009.4332AA33@keescook>
+References: <20220627180432.GA136081@embeddedor>
+ <6bc1e94c-ce1d-a074-7d0c-8dbe6ce22637@iogearbox.net>
+ <20220628004052.GM23621@ziepe.ca>
 MIME-Version: 1.0
-References: <20220518115541.38407-1-max.oss.09@gmail.com>
- <20220518115541.38407-2-max.oss.09@gmail.com>
- <20220601201658.GA342879-robh@kernel.org>
-In-Reply-To: <20220601201658.GA342879-robh@kernel.org>
-From: Max Krummenacher <max.oss.09@gmail.com>
-Date: Tue, 28 Jun 2022 19:54:06 +0200
-Message-ID: <CAEHkU3UFSUq3sFTX8wC4+PYCN9gG4Lbgkao3E3VkQGxQzRZy0g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: add new bus-format property
- for panel-dpi
-To: Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220628004052.GM23621@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,142 +70,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Christoph Niedermaier <cniedermaier@dh-electronics.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Max Krummenacher <max.krummenacher@toradex.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: nvdimm@lists.linux.dev, alsa-devel@alsa-project.org, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ dm-devel@redhat.com, target-devel@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-hardening@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net,
+ linux-stm32@st-md-mailman.stormreply.com, linux-s390@vger.kernel.org,
+ Daniel Borkmann <daniel@iogearbox.net>, linux-rdma@vger.kernel.org,
+ x86@kernel.org, kasan-dev@googlegroups.com, lvs-devel@vger.kernel.org,
+ coreteam@netfilter.org, v9fs-developer@lists.sourceforge.net,
+ linux-mips@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-can@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, virtualization@lists.linux-foundation.org,
+ io-uring@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-scsi@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-sctp@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ bpf@vger.kernel.org, linux-btrfs@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob
+On Mon, Jun 27, 2022 at 09:40:52PM -0300, Jason Gunthorpe wrote:
+> On Mon, Jun 27, 2022 at 08:27:37PM +0200, Daniel Borkmann wrote:
+> > [...]
+> > Fyi, this breaks BPF CI:
+> > 
+> > https://github.com/kernel-patches/bpf/runs/7078719372?check_suite_focus=true
+> > 
+> >   [...]
+> >   progs/map_ptr_kern.c:314:26: error: field 'trie_key' with variable sized type 'struct bpf_lpm_trie_key' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+> >           struct bpf_lpm_trie_key trie_key;
+> >                                   ^
 
-Thanks for the feedback.
+The issue here seems to be a collision between "unknown array size"
+and known sizes:
 
-On Wed, Jun 1, 2022 at 10:17 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Wed, May 18, 2022 at 01:55:38PM +0200, Max Krummenacher wrote:
-> > From: Max Krummenacher <max.krummenacher@toradex.com>
-> >
-> > The property is used to set the enum bus_format and infer the bpc
-> > for a panel defined by 'panel-dpi'.
-> > This specifies how the panel is connected to the display interface.
-> >
-> > Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-> >
-> > ---
-> >
-> > Changes in v2:
-> >     - Fix errors found by dt_binding_check
-> >
-> >  .../bindings/display/panel/panel-dpi.yaml     | 11 +++++++++
-> >  .../dt-bindings/display/dt-media-bus-format.h | 23 +++++++++++++++++++
-> >  2 files changed, 34 insertions(+)
-> >  create mode 100644 include/dt-bindings/display/dt-media-bus-format.h
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > index dae0676b5c6e..a20b5898941e 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/panel-dpi.yaml
-> > @@ -21,6 +21,14 @@ properties:
-> >        - {}
-> >        - const: panel-dpi
-> >
-> > +  bus-format:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
->
-> Constraints?
+struct bpf_lpm_trie_key {
+        __u32   prefixlen;      /* up to 32 for AF_INET, 128 for AF_INET6 */
+        __u8    data[0];        /* Arbitrary size */
+};
 
-Will limit the range to the one used for RGB formats in v3.
->
-> > +    description: |
-> > +      Describes how the display panel is connected to the display interface.
-> > +      Valid values are defined in <dt-bindings/display/dt-media-bus-format.h>.
-> > +      The mapping between the color/significance of the panel lines to the
-> > +      parallel data lines are defined in [1].
->
-> Just drop the [1] and use a colon.
+struct lpm_key {
+	struct bpf_lpm_trie_key trie_key;
+	__u32 data;
+};
 
-Done in v3.
+This is treating trie_key as a header, which it's not: it's a complete
+structure. :)
 
->
-> > +      [1] https://www.kernel.org/doc/html/v5.17/userspace-api/media/v4l/subdev-formats.html#packed-rgb-formats
->
-> Why not just use the V4L number space rather than invent yet another
-> number space?
+Perhaps:
 
-That was a proposal from here:
-https://lore.kernel.org/all/20220323155817.xcsqxothziot7ba3@houat/
-But probably it makes more sense to use the number space as is, changed in v3.
+struct lpm_key {
+        __u32 prefixlen;
+        __u32 data;
+};
 
->
-> Need a blank line here too.
->
-> >    backlight: true
-> >    enable-gpios: true
-> >    height-mm: true
-> > @@ -39,11 +47,14 @@ additionalProperties: false
-> >
-> >  examples:
-> >    - |
-> > +    #include <dt-bindings/display/dt-media-bus-format.h>
-> > +
-> >      panel {
-> >          compatible = "startek,startek-kd050c", "panel-dpi";
-> >          label = "osddisplay";
-> >          power-supply = <&vcc_supply>;
-> >          backlight = <&backlight>;
-> > +        bus-format = <DT_MEDIA_BUS_FMT_RGB888_1X24>;
->
-> Other properties describing the interface have been put in the endpoint
-> node. This should too I think.
+I don't see anything else trying to include bpf_lpm_trie_key.
 
-That makes a lot of sense. Changed to be part of the endpoint node in v3.
+> 
+> This will break the rdma-core userspace as well, with a similar
+> error:
+> 
+> /usr/bin/clang-13 -DVERBS_DEBUG -Dibverbs_EXPORTS -Iinclude -I/usr/include/libnl3 -I/usr/include/drm -g -O2 -fdebug-prefix-map=/__w/1/s=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -Wmissing-prototypes -Wmissing-declarations -Wwrite-strings -Wformat=2 -Wcast-function-type -Wformat-nonliteral -Wdate-time -Wnested-externs -Wshadow -Wstrict-prototypes -Wold-style-definition -Werror -Wredundant-decls -g -fPIC   -std=gnu11 -MD -MT libibverbs/CMakeFiles/ibverbs.dir/cmd_flow.c.o -MF libibverbs/CMakeFiles/ibverbs.dir/cmd_flow.c.o.d -o libibverbs/CMakeFiles/ibverbs.dir/cmd_flow.c.o   -c ../libibverbs/cmd_flow.c
+> In file included from ../libibverbs/cmd_flow.c:33:
+> In file included from include/infiniband/cmd_write.h:36:
+> In file included from include/infiniband/cmd_ioctl.h:41:
+> In file included from include/infiniband/verbs.h:48:
+> In file included from include/infiniband/verbs_api.h:66:
+> In file included from include/infiniband/ib_user_ioctl_verbs.h:38:
+> include/rdma/ib_user_verbs.h:436:34: error: field 'base' with variable sized type 'struct ib_uverbs_create_cq_resp' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+>         struct ib_uverbs_create_cq_resp base;
+>                                         ^
+> include/rdma/ib_user_verbs.h:644:34: error: field 'base' with variable sized type 'struct ib_uverbs_create_qp_resp' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+>         struct ib_uverbs_create_qp_resp base;
 
-Cheers
-Max
+This looks very similar, a struct of unknown size is being treated as a
+header struct:
 
->
-> >
-> >          port {
-> >              lcd_in: endpoint {
-> > diff --git a/include/dt-bindings/display/dt-media-bus-format.h b/include/dt-bindings/display/dt-media-bus-format.h
-> > new file mode 100644
-> > index 000000000000..c0f2a7b59aa1
-> > --- /dev/null
-> > +++ b/include/dt-bindings/display/dt-media-bus-format.h
-> > @@ -0,0 +1,23 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only OR MIT */
-> > +/*
-> > + * Copyright 2022 Max Krummenacher <max.krummenacher@toradex.com>
-> > + */
-> > +
-> > +#ifndef __DT_BINDINGS_DT_MEDIA_BUS_FORMAT_H
-> > +#define __DT_BINDINGS_DT_MEDIA_BUS_FORMAT_H
-> > +
-> > +/*
-> > + * Attention: Keep these macro names in sync with
-> > + * include/uapi/linux/media-bus-format.h
-> > + */
-> > +
-> > +#define DT_MEDIA_BUS_FMT_RGB565_1X16         1
-> > +#define DT_MEDIA_BUS_FMT_RGB666_1X18         2
-> > +#define DT_MEDIA_BUS_FMT_RBG888_1X24         3
-> > +#define DT_MEDIA_BUS_FMT_RGB666_1X24_CPADHI  4
-> > +#define DT_MEDIA_BUS_FMT_BGR888_1X24         5
-> > +#define DT_MEDIA_BUS_FMT_GBR888_1X24         6
-> > +#define DT_MEDIA_BUS_FMT_RGB888_1X24         7
-> > +#define DT_MEDIA_BUS_FMT_RGB888_1X32_PADHI   8
-> > +
-> > +#endif /* __DT_BINDINGS_DT_MEDIA_BUS_FORMAT_H */
-> > --
-> > 2.20.1
-> >
-> >
+struct ib_uverbs_create_cq_resp {
+        __u32 cq_handle;
+        __u32 cqe;
+        __aligned_u64 driver_data[0];
+};
+
+struct ib_uverbs_ex_create_cq_resp {
+        struct ib_uverbs_create_cq_resp base;
+        __u32 comp_mask;
+        __u32 response_length;
+};
+
+And it only gets used here:
+
+                DECLARE_UVERBS_WRITE(IB_USER_VERBS_CMD_CREATE_CQ,
+                                     ib_uverbs_create_cq,
+                                     UAPI_DEF_WRITE_UDATA_IO(
+                                             struct ib_uverbs_create_cq,
+                                             struct ib_uverbs_create_cq_resp),
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                     UAPI_DEF_METHOD_NEEDS_FN(create_cq)),
+
+which must also be assuming it's a header. So probably better to just
+drop the driver_data field? I don't see anything using it (that I can
+find) besides as a sanity-check that the field exists and is at the end
+of the struct.
+
+-- 
+Kees Cook
