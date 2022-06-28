@@ -2,57 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4729E55BD34
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:15:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D46D55BD3B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 04:19:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97AEB10EE4B;
-	Tue, 28 Jun 2022 02:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A2D010EEAE;
+	Tue, 28 Jun 2022 02:19:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2204A10EE2A
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:15:39 +0000 (UTC)
-X-UUID: b179504e3878411094a1b26acce61b7b-20220628
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.7, REQID:717cc8a4-c1ce-4b56-90eb-7ea83dc9f664, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:87442a2, CLOUDID:8ef8fed5-5d6d-4eaf-a635-828a3ee48b7c,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: b179504e3878411094a1b26acce61b7b-20220628
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 518001723; Tue, 28 Jun 2022 10:15:33 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 28 Jun 2022 10:15:32 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 28 Jun 2022 10:15:32 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Tue, 28 Jun 2022 10:15:32 +0800
-Message-ID: <a59a61a81e45fd361774a28a66ffd3d673cb3148.camel@mediatek.com>
-Subject: Re: [PATCH v14 12/15] drm/mediatek: dpi: Add YUV422 output support
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <matthias.bgg@gmail.com>,
- <airlied@linux.ie>
-Date: Tue, 28 Jun 2022 10:15:30 +0800
-In-Reply-To: <20220624030946.14961-13-rex-bc.chen@mediatek.com>
-References: <20220624030946.14961-1-rex-bc.chen@mediatek.com>
- <20220624030946.14961-13-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC1210EA4C
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 02:19:03 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E02A9617C8;
+ Tue, 28 Jun 2022 02:19:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17A36C341CE;
+ Tue, 28 Jun 2022 02:19:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1656382742;
+ bh=k2HAsM0l+ykreE/fJNuXcsyKeFWV2M4YiasqmrUvriE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=HxB2hf3tK1DeD3exhiTofPy4+D812wQWe9cM1yfEfpPFNU+UHOmsSxrtjEI8nGJZk
+ aYuS2wjuvHNL9fVUxsjUPboD8/r/60pmxN39nlHdzI0MI8L1mL6vPZoah+dmOwzOUA
+ Jv5f8IixjvMGiF7TaotWhX+avYlODD7EWxk/uslQV9tZPdzFv3VJYVjsav+J0R+Iqi
+ 069eBQSHkERTFj9dcPOL4G0a6f/IeM8kJsHjx8SEG0gAiW14VwSUCsV6q7fpuaHQWj
+ bdR7k6CWaXAr9KTyeHj8ZSp6pNXb5NWuRSIk30HcC9KDxxWRa+4aBSHv/LMMpzeLL3
+ ueojVvSJnwnKw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.18 10/53] drm/vc4: plane: Prevent async update if we
+ don't have a dlist
+Date: Mon, 27 Jun 2022 22:17:56 -0400
+Message-Id: <20220628021839.594423-10-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220628021839.594423-1-sashal@kernel.org>
+References: <20220628021839.594423-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,159 +55,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- msp@baylibre.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Sasha Levin <sashal@kernel.org>, emma@anholt.net, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
+From: Maxime Ripard <maxime@cerno.tech>
 
-On Fri, 2022-06-24 at 11:09 +0800, Bo-Chen Chen wrote:
-> Dp_intf supports YUV422 as output format. In MT8195 Chrome project,
-> YUV422 output format is used for 4K resolution.
-> 
-> To support this, it is also needed to support color format transfer.
-> Color format transfer is a new feature for both dpi and dpintf of
-> MT8195.
-> 
-> The input format could be RGB888 and output format for dp_intf should
-> be
-> YUV422. Therefore, we add a mtk_dpi_matrix_sel() helper to update the
-> DPI_MATRIX_SET register depending on the color format.
-> 
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dpi.c      | 34
-> ++++++++++++++++++++++++-
->  drivers/gpu/drm/mediatek/mtk_dpi_regs.h |  3 +++
->  2 files changed, 36 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> index 9e4250356342..438bf3bc5e4a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -128,6 +128,7 @@ struct mtk_dpi_yc_limit {
->   * @num_output_fmts: Quantity of supported output formats.
->   * @is_ck_de_pol: Support CK/DE polarity.
->   * @swap_input_support: Support input swap function.
-> + * @color_fmt_trans_support: Enable color format transfer.
->   * @dimension_mask: Mask used for HWIDTH, HPORCH, VSYNC_WIDTH and
-> VSYNC_PORCH
->   *		    (no shift).
->   * @hvsize_mask: Mask of HSIZE and VSIZE mask (no shift).
-> @@ -144,6 +145,7 @@ struct mtk_dpi_conf {
->  	u32 num_output_fmts;
->  	bool is_ck_de_pol;
->  	bool swap_input_support;
-> +	bool color_fmt_trans_support;
->  	u32 dimension_mask;
->  	u32 hvsize_mask;
->  	u32 channel_swap_shift;
-> @@ -412,6 +414,31 @@ static void mtk_dpi_config_disable_edge(struct
-> mtk_dpi *dpi)
->  		mtk_dpi_mask(dpi, dpi->conf->reg_h_fre_con, 0,
-> EDGE_SEL_EN);
->  }
->  
-> +static void mtk_dpi_matrix_sel(struct mtk_dpi *dpi,
-> +			       enum mtk_dpi_out_color_format format)
-> +{
-> +	u32 matrix_sel = 0;
-> +
-> +	if (!dpi->conf->color_fmt_trans_support) {
-> +		dev_info(dpi->dev, "matrix_sel is not supported.\n");
-> +		return;
-> +	}
-> +
-> +	switch (format) {
-> +	case MTK_DPI_COLOR_FORMAT_YCBCR_422:
-> +	case MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL:
-> +	case MTK_DPI_COLOR_FORMAT_YCBCR_444:
-> +	case MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL:
+[ Upstream commit cb468c7d84d174ab9cd638be9f5b3f1ba2b311a0 ]
 
-I think the transform formula are different for full range and non-full 
-range. Please make sure '0x2' is for full range or non-full range. If
-you are not sure, you could provide the transform matrix of '0x2' so we
-could find out it's full or non-full.
+The vc4 planes are setup in hardware by creating a hardware descriptor
+in a dedicated RAM. As part of the process to setup a plane in KMS, we
+thus need to allocate some part of that dedicated RAM to store our
+descriptor there.
 
-> +	case MTK_DPI_COLOR_FORMAT_XV_YCC:
-> +		if (dpi->mode.hdisplay <= 720)
-> +			matrix_sel = 0x2;
+The async update path will just reuse the descriptor already allocated
+for that plane and will modify it directly in RAM to match whatever has
+been asked for.
 
-Symbolize '0x2'.
+In order to do that, it will compare the descriptor for the old plane
+state and the new plane state, will make sure they fit in the same size,
+and check that only the position or buffer address have changed.
 
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +	mtk_dpi_mask(dpi, DPI_MATRIX_SET, matrix_sel,
-> INT_MATRIX_SEL_MASK);
-> +}
-> +
->  static void mtk_dpi_config_color_format(struct mtk_dpi *dpi,
->  					enum mtk_dpi_out_color_format
-> format)
->  {
-> @@ -419,6 +446,7 @@ static void mtk_dpi_config_color_format(struct
-> mtk_dpi *dpi,
->  	    (format == MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL)) {
->  		mtk_dpi_config_yuv422_enable(dpi, false);
->  		mtk_dpi_config_csc_enable(dpi, true);
-> +		mtk_dpi_matrix_sel(dpi, format);
+Reviewed-by: Melissa Wen <mwen@igalia.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://lore.kernel.org/r/20220610115149.964394-2-maxime@cerno.tech
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/vc4/vc4_plane.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Why mt8173 support MTK_DPI_COLOR_FORMAT_YCBCR_444_FULL but it does not
-call mtk_dpi_matrix_sel()? It seems that mt8173 also need to call
-mtk_dpi_matrix_sel() but lost and this patch looks like a bug fix for
-all SoC DPI driver.
-
-Regards,
-CK
-
->  		if (dpi->conf->swap_input_support)
->  			mtk_dpi_config_swap_input(dpi, false);
->  		mtk_dpi_config_channel_swap(dpi,
-> MTK_DPI_OUT_CHANNEL_SWAP_BGR);
-> @@ -426,6 +454,7 @@ static void mtk_dpi_config_color_format(struct
-> mtk_dpi *dpi,
->  		   (format == MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL)) {
->  		mtk_dpi_config_yuv422_enable(dpi, true);
->  		mtk_dpi_config_csc_enable(dpi, true);
-> +		mtk_dpi_matrix_sel(dpi, format);
->  		if (dpi->conf->swap_input_support)
->  			mtk_dpi_config_swap_input(dpi, true);
->  		else
-> @@ -673,7 +702,10 @@ static int mtk_dpi_bridge_atomic_check(struct
-> drm_bridge *bridge,
->  	dpi->bit_num = MTK_DPI_OUT_BIT_NUM_8BITS;
->  	dpi->channel_swap = MTK_DPI_OUT_CHANNEL_SWAP_RGB;
->  	dpi->yc_map = MTK_DPI_OUT_YC_MAP_RGB;
-> -	dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
-> +	if (out_bus_format == MEDIA_BUS_FMT_YUYV8_1X16)
-> +		dpi->color_format =
-> MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL;
-> +	else
-> +		dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
->  
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> index 3a02fabe1662..cca0dccb84a2 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-> @@ -217,4 +217,7 @@
->  
->  #define EDGE_SEL_EN			BIT(5)
->  #define H_FRE_2N			BIT(25)
-> +
-> +#define DPI_MATRIX_SET		0xB4
-> +#define INT_MATRIX_SEL_MASK		GENMASK(4, 0)
->  #endif /* __MTK_DPI_REGS_H */
+diff --git a/drivers/gpu/drm/vc4/vc4_plane.c b/drivers/gpu/drm/vc4/vc4_plane.c
+index 920a9eefe426..ac91898f7ad5 100644
+--- a/drivers/gpu/drm/vc4/vc4_plane.c
++++ b/drivers/gpu/drm/vc4/vc4_plane.c
+@@ -1321,6 +1321,10 @@ static int vc4_plane_atomic_async_check(struct drm_plane *plane,
+ 
+ 	old_vc4_state = to_vc4_plane_state(plane->state);
+ 	new_vc4_state = to_vc4_plane_state(new_plane_state);
++
++	if (!new_vc4_state->hw_dlist)
++		return -EINVAL;
++
+ 	if (old_vc4_state->dlist_count != new_vc4_state->dlist_count ||
+ 	    old_vc4_state->pos0_offset != new_vc4_state->pos0_offset ||
+ 	    old_vc4_state->pos2_offset != new_vc4_state->pos2_offset ||
+-- 
+2.35.1
 
