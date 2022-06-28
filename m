@@ -1,74 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA2055BF00
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 09:16:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FEF55BF0D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 09:26:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6097F113685;
-	Tue, 28 Jun 2022 07:16:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7440E11B775;
+	Tue, 28 Jun 2022 07:26:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF36C11A7C5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 07:16:05 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id 189so6290902wmz.2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 00:16:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=bs+z55PCN7UQyUBJxgcy+aHliepyUTeZJS/7dKvj/Vs=;
- b=sx2iDbB52zthlCaNDBVZNobDlgLhSD3ltqD8N66Fiaxi4X1fVL66t+uiIzvb7A65Mn
- 0dkgdZw3jDQIrwciUUkKGYFm1+2c7x4P7jS82oGw3FM4YDUm5cUrcrvsoejStKegxmwK
- rIqU9BV2N8fyojtwLU4itejL82ywgNUMUXohMuCWHolLjWkvno2S5t9oIOVxCQdg1nr7
- 5aCS6N1SAMYo9dgjmSO7RK+Fmaj2EhlfTF+v6OYhvPTVcfCQeieqzODz6G2sUOSDkYJy
- GraE3yIS/cmpY1CaQiaFpsjhRhJjYQUxxYjeVSrCyza210OO5sycmVZEOTwbOOKK0iOy
- 3Hvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=bs+z55PCN7UQyUBJxgcy+aHliepyUTeZJS/7dKvj/Vs=;
- b=N0+Ptizk1cnAi87nZ+KlkkXb0tZYdbmLK3O1BXge4BSMjQJRnsyzLbyrg55d9SGHHh
- jd2BvwI6/JHQq7pGOYURsYUybbZtqPWnAzq41zuNVSpFYB6kD5LhlSrEsqOUyA2dM17d
- t86YhFD7auMCM/9CgqFOjwjoNTfPUdonarrl9mvnloKVaEUb41Kbf+ann5I62+rHVG5u
- xK9bQL7XjPp8+BC+Vmlo/wJaiU/7YTFeCupGaGEFGbP8/z2wl7nQfaSynprJYdF72GOt
- //8NeG5bGMrWUWfvFou1XS12plavT4ROIhREwdJqfsdGQp+ZN2XNMH3oLepNX3gwO+tq
- JVMw==
-X-Gm-Message-State: AJIora9Y9Q+pBErVBWddXChrj+8Yew+9kh3Lq5HFfpSKZ7nOJS3oi9C+
- hHI4xhX3MAcXdsTZhyz3rI2SbQ==
-X-Google-Smtp-Source: AGRyM1vxchna7WqIDzGoeRm1y3dk36g8qKBVE/8uNmDfNP0xD3EywJyopAiIJanVjVxMCEQ4qU1UGQ==
-X-Received: by 2002:a05:600c:3ca4:b0:3a0:1825:2e29 with SMTP id
- bg36-20020a05600c3ca400b003a018252e29mr19509305wmb.11.1656400564294; 
- Tue, 28 Jun 2022 00:16:04 -0700 (PDT)
-Received: from ?IPV6:2001:861:44c0:66c0:52cb:c433:b96:9ad?
- ([2001:861:44c0:66c0:52cb:c433:b96:9ad])
- by smtp.gmail.com with ESMTPSA id
- o4-20020a5d6484000000b0020d02262664sm12837096wri.25.2022.06.28.00.16.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jun 2022 00:16:03 -0700 (PDT)
-Message-ID: <3b1e41f3-3aa0-bf4e-685a-5dc148ac3753@baylibre.com>
-Date: Tue, 28 Jun 2022 09:16:02 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BB1711B76C
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 07:26:15 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 85B676601856;
+ Tue, 28 Jun 2022 08:26:13 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1656401174;
+ bh=suXARUlqolSyiyZzoBq0PQIQXSuftLrXkHbx60ZkKso=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=IscQs1pzPwiYacCIUqogKrTu3P8hiBbpw8TUGn93rSNP11fK3wIz2twuEs2rqGIPC
+ 80B7a1NTWSR1s8R4fxMFsD7Jth9FZzwUdvyQkoqKM0hyF6wES3zYGYlh4LKs/kUWOl
+ c+UUspNmbbaX3Eordg//GgNxwKxoGqs4zLiZfFpGVIQF2CTuQZykVbQd/S6G2LtY2f
+ 0N0FETqRjQ5FmWmouE6KCAX5Cj1A7tZ4V79evdz+cBGqmIuZxn/rpUoC+1BRYMjErx
+ KOpR3utIc7tYjtFl1yQnhe/f8QWtqnMDUVuPi+nhyUmsJqDnboABR41WX9FhuuAM9T
+ jPiyjrFtxtUZg==
+Date: Tue, 28 Jun 2022 09:26:09 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH] drm/bridge: Avoid uninitialized variable warning
+Message-ID: <20220628092609.7d0b1ea3@collabora.com>
+In-Reply-To: <Yrqm5yYVa6xMY2vq@kili>
+References: <Yrqm5yYVa6xMY2vq@kili>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] drm: bridge: dw_hdmi: only trigger hotplug event on real
- link state change
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss
- <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20220627124715.408258-1-l.stach@pengutronix.de>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <20220627124715.408258-1-l.stach@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,71 +54,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, 28 Jun 2022 09:59:51 +0300
+Dan Carpenter <dan.carpenter@oracle.com> wrote:
 
-On 27/06/2022 14:47, Lucas Stach wrote:
-> There are two events that signal a real change of the link state: HPD going
-> high means the sink is newly connected or wants the source to re-read the
-> EDID, RX sense going low is a indication that the link has been disconnected.
+> This works, but technically it uses "num_in_bus_fmts" before it has been
+> initialized so it leads to static checker warnings and probably KMEMsan
+> warnings at run time.  Reverse the checks so it checks for failure first
+> and then check for unsupported formats next.
 > 
-> Ignore the other two events that also trigger interrupts, but don't need
-> immediate attention: HPD going low does not necessarily mean the link has
-> been lost and should not trigger a immediate read of the status. RX sense
-> going high also does not require a detect cycle, as HPD going high is the
-> right point in time to read the EDID.
-> 
-> Ignoring the negative HPD edge does make the detection much more robust
-> against spurious link status changes due to EMI or marginal signal levels.
-
-Fair enough, but it means RX Sense must be totally functional with this change.
-
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Fixes: f32df58acc68 ("drm/bridge: Add the necessary bits to support bus format negotiation")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 > ---
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 13 ++++++++-----
->   1 file changed, 8 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/drm_bridge.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 3e1be9894ed1..24f991b5248d 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -3095,6 +3095,7 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
->   {
->   	struct dw_hdmi *hdmi = dev_id;
->   	u8 intr_stat, phy_int_pol, phy_pol_mask, phy_stat;
-> +	enum drm_connector_status status = connector_status_unknown;
->   
->   	intr_stat = hdmi_readb(hdmi, HDMI_IH_PHY_STAT0);
->   	phy_int_pol = hdmi_readb(hdmi, HDMI_PHY_POL0);
-> @@ -3133,13 +3134,15 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
->   			cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
->   			mutex_unlock(&hdmi->cec_notifier_mutex);
->   		}
-> -	}
->   
-> -	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
-> -		enum drm_connector_status status = phy_int_pol & HDMI_PHY_HPD
-> -						 ? connector_status_connected
-> -						 : connector_status_disconnected;
-> +		if (phy_stat & HDMI_PHY_HPD)
-> +			status = connector_status_connected;
-> +
-> +		if (!( phy_stat & HDMI_PHY_RX_SENSE))
-> +			status = connector_status_disconnected;
-> +	}
->   
-> +	if (status != connector_status_unknown) {
->   		dev_dbg(hdmi->dev, "EVENT=%s\n",
->   			status == connector_status_connected ?
->   			"plugin" : "plugout");
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index e275b4ca344b..00cbde654472 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -897,10 +897,10 @@ static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
+>  							conn_state,
+>  							out_bus_fmt,
+>  							&num_in_bus_fmts);
+> -	if (!num_in_bus_fmts)
+> -		return -ENOTSUPP;
+> -	else if (!in_bus_fmts)
+> +	if (!in_bus_fmts)
+>  		return -ENOMEM;
+> +	else if (!num_in_bus_fmts)
+> +		return -ENOTSUPP;
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+Well, it changes the error we return when num_in_bus_fmts = 0
+&& in_bus_fmts == NULL which is not an ENOMEM situation, so I'd rather
+initialize num_{in,out}_bus_fmts to 0 here.
 
-It would be nice to have this tested on another platform using the Synopsys PHY (unlike Amlogic platforms)
-like Renesas, Rockchip, Allwinner or Ingenic SoCs.
+>  
+>  	if (first_bridge == cur_bridge) {
+>  		cur_state->input_bus_cfg.format = in_bus_fmts[0];
+> @@ -993,10 +993,10 @@ drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
+>  							crtc_state,
+>  							conn_state,
+>  							&num_out_bus_fmts);
+> -		if (!num_out_bus_fmts)
+> -			return -ENOTSUPP;
+> -		else if (!out_bus_fmts)
+> +		if (!out_bus_fmts)
+>  			return -ENOMEM;
+> +		else if (!num_out_bus_fmts)
+> +			return -ENOTSUPP;
+>  	} else {
+>  		num_out_bus_fmts = 1;
+>  		out_bus_fmts = kmalloc(sizeof(*out_bus_fmts), GFP_KERNEL);
 
-Neil
