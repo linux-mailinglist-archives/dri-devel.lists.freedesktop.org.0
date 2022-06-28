@@ -1,80 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9543755F061
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:33:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A8CE55F062
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:33:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CC3811B1AB;
-	Tue, 28 Jun 2022 21:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38C4D11B1F7;
+	Tue, 28 Jun 2022 21:33:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1142C11B1CB
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:32:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656451974;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MLJSiS4iMX/nUV79ttiy0e8LOCrjE5iV4ITH0RqhCCY=;
- b=XaRrEdr7rJ81EjNaperm2JCDs+w0joOl4RaW2rpxz4QwNXesIA4eJWT1WR2KF0JSUajwGO
- tWftdIAiR+OTjRShvonorUAvLEIcoabVUkUHKyYlt2UQH5j4MzXhGQt+7PUKXCcmwdf8Gu
- uh39HQttMMFHLjE/Mcb44GDDuwsDAac=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-572-03ChPHKBO7GY44SOfytTwg-1; Tue, 28 Jun 2022 17:32:50 -0400
-X-MC-Unique: 03ChPHKBO7GY44SOfytTwg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- s11-20020a0562140cab00b0046e7d2b24b3so13590044qvs.16
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 14:32:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=MLJSiS4iMX/nUV79ttiy0e8LOCrjE5iV4ITH0RqhCCY=;
- b=IcQyPp3jKQpcW7tbJlErYa1LLib1P+S9MyAsD0Gn3692nLOZ4UA6zpVNcxjptsqN5h
- 1LOu3hXpVZFhUFIPEyxra3VyPVYU7utvsDMMNQWnPJ/Ale1+hsEhhUFhwKRa45eh4kFo
- IO7UmkfPEqo/zzEsQMshh2zy1Y5HEmn5FAyN/UQvmSMg2vYRXWV8g6TRFhTHmxOdGcMM
- w4ppSayAZu86FlUj+nj+QPqsLSkLYeaYq/u2LBQtuMdPougeuUcecDpLpc1ufCG61Cql
- HeY4o/CF8EiAnq+hxx4hvmZCJMUQX/Zij7mvWlNnvGZyjHvs8oh2QP6fA6hep82MTlps
- SdGg==
-X-Gm-Message-State: AJIora+0bL06lxhA77YVGsQy25FubRCMHEo6/2fO9X1YEseUkAHEl2kl
- 2K0Wo0gG1XDY4mE6EVYxqsVt28+lG4atCUah2GxSU9M1ilpQkxco7lrlyqZAjpj6Hchy41rkd+W
- w5bovg/Un3p2lQUK6EwwvKux5Z34u
-X-Received: by 2002:a05:6214:202d:b0:470:3e7a:d183 with SMTP id
- 13-20020a056214202d00b004703e7ad183mr5415962qvf.4.1656451970306; 
- Tue, 28 Jun 2022 14:32:50 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t5rc5cVQf8GWfwbbgQCuqUtlFNDHPZN0QGJCwkqxa7sPpHwlF5PDoTYE5KX7xZVqJJw4ldTQ==
-X-Received: by 2002:a05:6214:202d:b0:470:3e7a:d183 with SMTP id
- 13-20020a056214202d00b004703e7ad183mr5415949qvf.4.1656451970098; 
- Tue, 28 Jun 2022 14:32:50 -0700 (PDT)
-Received: from [192.168.8.138] ([141.154.49.182])
- by smtp.gmail.com with ESMTPSA id
- l13-20020a05620a28cd00b006a6bbc2725esm12406053qkp.118.2022.06.28.14.32.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jun 2022 14:32:49 -0700 (PDT)
-Message-ID: <1f196235b92e4123ce171980dd7bdbfe9bb0e055.camel@redhat.com>
-Subject: Re: [PATCH] gpu: drm: selftests: drop unexpected word 'for' in
- comments
-From: Lyude Paul <lyude@redhat.com>
-To: Jiang Jian <jiangjian@cdjrlc.com>, airlied@linux.ie, daniel@ffwll.ch
-Date: Tue, 28 Jun 2022 17:32:48 -0400
-In-Reply-To: <20220623100632.27056-1-jiangjian@cdjrlc.com>
-References: <20220623100632.27056-1-jiangjian@cdjrlc.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C25E411B1F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:33:07 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6F6FF6185C
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:33:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CE670C341CB
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:33:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1656451984;
+ bh=dacq7CUgfLe9WQ6NKiuihNRGlUhCWL9lrQk6HEE/Q+w=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=fyfuxfy/g3dYJNSGx8bJBy6w49Zfm3DSVixuGi3LzN1BJG1xNKJADbT4QAlXej94I
+ w0GFKqjw8yf2WR+iY45BHNLHQwPBAgjOEW2ZUas+biCEPfYHsMRBmrNCRA2Mjr+0x8
+ 1LbzTU6/mVOolODsxOwxdMkmbLWUNa8xmFa9QmT0mVQ38kf9EMhr5/yyt8pRjZsk3Q
+ oK0Qg9pY5Hz1Lm8ew5JSPHIRdTwUsjwwe69nxuLITPjYPOOR6Bw2suA8wHC5QXs+pw
+ 3WQm7+diaHnBTf/l/hKN+X7l1VRTJW1sTBAcnNAD+sEewTvwoEx7VAvpjQU7Px4lfL
+ rqVUDbSTeoQkA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id B8F82CC13B6; Tue, 28 Jun 2022 21:33:04 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
+ 390
+Date: Tue, 28 Jun 2022 21:33:04 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-216119-2300-saABSrnAV2@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
+References: <bug-216119-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,49 +72,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, jose.exposito89@gmail.com, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
 
-Going to change the name of the patch slightly so it's more obvious this is
-just about the MST selftests
+--- Comment #26 from Alex Deucher (alexdeucher@gmail.com) ---
+Created attachment 301299
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301299&action=3Dedit
+patch 1/2
 
-On Thu, 2022-06-23 at 18:06 +0800, Jiang Jian wrote:
-> there is an unexpected word 'for' in the comments that need to be dropped
-> 
-> file - ./drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-> line - 3
-> 
-> * Test cases for for the DRM DP MST helpers
-> 
-> changed to:
-> 
-> * Test cases for the DRM DP MST helpers
-> 
-> Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
-> ---
->  drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-> b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-> index 967c52150b67..4caa9be900ac 100644
-> --- a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-> +++ b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  /*
-> - * Test cases for for the DRM DP MST helpers
-> + * Test cases for the DRM DP MST helpers
->   */
->  
->  #define PREFIX_STR "[drm_dp_mst_helper]"
+Can you try the attached 2 patches (without any previous patches) both with=
+ and
+without amdgpu.dc=3D0?
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
