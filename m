@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C226D55BFDB
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 11:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D45B55BFDA
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 11:46:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E81D812B1C5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56B4012B1C8;
 	Tue, 28 Jun 2022 09:46:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24C8912B1B7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7159812B1C5
  for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 09:46:32 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5B6B6617BD;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E1648617D2;
  Tue, 28 Jun 2022 09:46:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2580BC341CC;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 357E2C341D2;
  Tue, 28 Jun 2022 09:46:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1656409590;
- bh=0NbCo+YW090Jj7w8/2xxoP/ojPkPgosUj8xMfRMxsao=;
+ bh=E1S37wDKTg+xS0E091LgAEWJ/wC5uO4LpBsUrtsrhqg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZZZBB3B2yZQo7yy3G4Geuz38zgBKXEW3Nrm02C58j4UcwkLy6kw988E2IoNArMmX7
- r+TJ5L6OXqthHeUEBTXoCkrGKHZjdBT6ZszKQzhma67ADFyzR0M0aAXbAC4CebXr9E
- 0yAqdQPeZUMS2PJz+L18H8m5aLmykqgJCszCuz2AdfJ2MVcOWfEDFfZg3/Q/UUYCEo
- es7SZfiqAXXIneq1tgySVZHENjRumhMRY3u8BaAizyCxDyaUsGd31WdQALc6f6sy4D
- QN7oSmNrS/E3NcBm/vCdgUXM6ItvG20llGu6D9mfEIJUARqHdr6rG/H3bKwRZfzhx9
- LOiGJPLvTAQzw==
+ b=nq+0AY3LCA0eoc4pLTKACsNle3YgbtmWHzZjyu3omVZgbS6g9Ga+k1qfSd9P6I8vy
+ /LEOo3hLEILda4Cy4B27lhFo4ditj4Gl+nKUe1IaBXQSJbQmANAPDSbcc0mbsEMQ4L
+ YJIHjA6c1R7cSx1QUmFP8WxiPe3V7Sxp6rBjP9c4QMXHblo0ZC16TKGPkVrvtURkie
+ pKYOPRzxYowoRNvh/LOBg/mlCVaQ35iGnEj3Ots023/0bSDALfYJOM9xMSy7BRLhxe
+ Hq40GV0sON0Itzgzqltku6pZRb/4LZ82nJJrkYFR04FRJ+Cly6nq6GUM+Pf22dpr7/
+ wnLs/UF7vk0dQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1o67nf-005HFN-SY;
+ (envelope-from <mchehab@kernel.org>) id 1o67nf-005HFQ-T9;
  Tue, 28 Jun 2022 10:46:27 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: [PATCH 12/22] drm: gpu_scheduler: fix a kernel-doc warning
-Date: Tue, 28 Jun 2022 10:46:16 +0100
-Message-Id: <0129fa0ffb8d418ab66f2ab0f1d525cb49f01f75.1656409369.git.mchehab@kernel.org>
+Subject: [PATCH 13/22] drm: scheduler: add a missing kernel-doc parameter
+Date: Tue, 28 Jun 2022 10:46:17 +0100
+Message-Id: <e0a1fd8942a0e13ecf391ccd5634759d2281e2c2.1656409369.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1656409369.git.mchehab@kernel.org>
 References: <cover.1656409369.git.mchehab@kernel.org>
@@ -62,11 +62,10 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The dev field was not documented:
+Add a description for struct device at drm_sched_init(), in order
+to solve this warning:
 
-	include/drm/gpu_scheduler.h:463: warning: Function parameter or member 'dev' not described in 'drm_gpu_scheduler'
-
-Document it.
+	drivers/gpu/drm/scheduler/sched_main.c:999: warning: Function parameter or member 'dev' not described in 'drm_sched_init'
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
@@ -74,20 +73,20 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/22] at: https://lore.kernel.org/all/cover.1656409369.git.mchehab@kernel.org/
 
- include/drm/gpu_scheduler.h | 1 +
+ drivers/gpu/drm/scheduler/sched_main.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index addb135eeea6..c7c487e0c40e 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -435,6 +435,7 @@ struct drm_sched_backend_ops {
-  * @_score: score used when the driver doesn't provide one
-  * @ready: marks if the underlying HW is ready to work
-  * @free_guilty: A hit to time out handler to free the guilty job.
-+ * @dev: pointer to struct device.
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 76fd2904c7c6..b45bd8473e9e 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -987,6 +987,7 @@ static int drm_sched_main(void *param)
+  *		used
+  * @score: optional score atomic shared with other schedulers
+  * @name: name used for debugging
++ * @dev: pointer to struct device
   *
-  * One scheduler is implemented for each hardware ring.
+  * Return 0 on success, otherwise error code.
   */
 -- 
 2.36.1
