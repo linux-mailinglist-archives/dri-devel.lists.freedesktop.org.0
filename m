@@ -1,50 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410E255F194
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 00:51:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C43F455F19B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 00:51:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B3E61120E7;
-	Tue, 28 Jun 2022 22:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00416112737;
+	Tue, 28 Jun 2022 22:51:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DDA61120E7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 22:51:26 +0000 (UTC)
-Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru
- [109.252.118.164])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id A876B66018E4;
- Tue, 28 Jun 2022 23:51:24 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1656456685;
- bh=/Xa85kzcd+3TxYdpCXZHSekH8rF5MDz3C8vqm/YZhmA=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=edGFzE3hZvQjX5emNeX9cmYpsE1FtsToie/JAquPNhQTp1CYdPPRQdSlarr3RY2Kl
- dViOi3z3v5KcLRyqyMWCD+0DoCnfsAQ/kuAnLTQC+P7TrVUBUaNBCQEyQgT+DJXMFd
- cG8VE5FkiWQrwuGEXyBlZDjyQ4/tIP4tcKJa5ZG3DtkVM7Pq7Ucbz02lgRGjmSQv4/
- TS+1rxovfL1mtOWXI4O1zH8Mof2CITGSftTuqpjIXRfIJx5Luyb40MKOwbzsG2LC0j
- B0SAvhTle+F8OcW1vi81PC/4CZzHcMPJqhX2IczrETLWCYHYnwDx/kKL18S72P57XQ
- MrXGBU8S8TK8Q==
-Message-ID: <55eebcb4-aeba-5b24-4830-07a526d58f35@collabora.com>
-Date: Wed, 29 Jun 2022 01:51:21 +0300
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37C59112737
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 22:51:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656456701;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oyl/HZb3SI8HFuQLBD60pevZNI/Uhf0WHtxfzC/4dus=;
+ b=RW/8D/AwKM6KpiCwyg2vht2Gu+z7nuH4XybF53RZ4fuOSo5I+ejlPyNvQnl9O5XHFJ/G2W
+ vq/Za6WF1KiScqfqYHyQ/jA5i1qK2VqnjgmSx6SjgOHXV0rm7v2zhLmDVU8i4P4zxXhmR0
+ PpXCD4NdXPIwOANXJ1nHAqTtWr5MvSo=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-205-d5oUO6FZMxKJqGlE56Wkkw-1; Tue, 28 Jun 2022 18:51:39 -0400
+X-MC-Unique: d5oUO6FZMxKJqGlE56Wkkw-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ s11-20020a0562140cab00b0046e7d2b24b3so13747940qvs.16
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 15:51:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=oyl/HZb3SI8HFuQLBD60pevZNI/Uhf0WHtxfzC/4dus=;
+ b=0EO6JFViDgrzozjDPk/Mv/YUhVJWrYbdyGtgj+YRSxJOZpKsxUi5bCxhvupJf1e5Uc
+ nDWB8MwpCM4ryI7SSqM519OkAJTEss6aiKYpGCy/kRmK09IuOH7f0Zq2iv0shveUSe2B
+ oxLK//13YWY4g9Uh9hijHFllQJAPMrYSOKc5FMJiXqCXdKHrijHo2I2Mk3qbPg6foJ4A
+ /UNQGu/qo+s/16q9oP4pGri/+ZRKwA5BLQet2xH0wNUaPenl3eL6LUHnVc7EXEqJ5cXB
+ QMzDnZ89OFIf7kHAKrykNSxc7PhpBFULbIvo6gcaMuXhkgHqEpxJqC27qTpdEx7Cp6hh
+ g5Dg==
+X-Gm-Message-State: AJIora/27DJj5MZGwzeflOhN1V+ikZdnTlf6Lm1CMdYrXvRX3gxptXxU
+ E2jEhJ4jzC2JQm3HJ0ka808xjIuNoAp1sunO6rhLbFwGBSX3/zNA3S2QAnZRA83ZtuNj5xY52Id
+ 6ldZTeNHGliJZYk+aNFPBiShZbhxU
+X-Received: by 2002:a05:6214:1c83:b0:46b:a79a:2f0b with SMTP id
+ ib3-20020a0562141c8300b0046ba79a2f0bmr5547802qvb.103.1656456699045; 
+ Tue, 28 Jun 2022 15:51:39 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1udyDEQwXavpJIYVRyrsdyEvotjuTUkOt6UvxlkbJ5gGTgtNxqyAFCyPEfK8HrsRHYsZtNJUg==
+X-Received: by 2002:a05:6214:1c83:b0:46b:a79a:2f0b with SMTP id
+ ib3-20020a0562141c8300b0046ba79a2f0bmr5547782qvb.103.1656456698661; 
+ Tue, 28 Jun 2022 15:51:38 -0700 (PDT)
+Received: from [192.168.8.138] ([141.154.49.182])
+ by smtp.gmail.com with ESMTPSA id
+ y18-20020a05622a121200b002f90a33c78csm10673903qtx.67.2022.06.28.15.51.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jun 2022 15:51:38 -0700 (PDT)
+Message-ID: <a9b1cc1bdc9830a6fd368c87fd514c7e560139f0.camel@redhat.com>
+Subject: Re: [PATCH] gpu: drm: selftests: drop unexpected word 'for' in
+ comments
+From: Lyude Paul <lyude@redhat.com>
+To: Jiang Jian <jiangjian@cdjrlc.com>, airlied@linux.ie, daniel@ffwll.ch
+Date: Tue, 28 Jun 2022 18:51:36 -0400
+In-Reply-To: <1bce93a46a6ff3ec5b228ea390ba7257f4512480.camel@redhat.com>
+References: <20220623100632.27056-1-jiangjian@cdjrlc.com>
+ <1f196235b92e4123ce171980dd7bdbfe9bb0e055.camel@redhat.com>
+ <1bce93a46a6ff3ec5b228ea390ba7257f4512480.camel@redhat.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v1] drm/tegra: Fix vmapping of prime buffers
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <cyndis@kapsi.fi>
-References: <20220628224239.578324-1-dmitry.osipenko@collabora.com>
-In-Reply-To: <20220628224239.578324-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,58 +89,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, kernel@collabora.com,
- dri-devel@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, jose.exposito89@gmail.com, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/29/22 01:42, Dmitry Osipenko wrote:
-> The code assumes that Tegra GEM is permanently vmapped, which is not
-> true for the scattered buffers. After converting Tegra video decoder
-> driver to V4L API, we're now getting a BUG_ON from dma-buf core on playing
-> video using libvdpau-tegra on T30+ because tegra_gem_prime_vmap() sets
-> vaddr to NULL. Older pre-V4L video decoder driver wasn't vmapping dma-bufs.
-> Fix it by actually vmapping the exported GEMs.
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/gpu/drm/tegra/gem.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-> index 7c7dd84e6db8..81991090adcc 100644
-> --- a/drivers/gpu/drm/tegra/gem.c
-> +++ b/drivers/gpu/drm/tegra/gem.c
-> @@ -704,14 +704,23 @@ static int tegra_gem_prime_vmap(struct dma_buf *buf, struct iosys_map *map)
->  {
->  	struct drm_gem_object *gem = buf->priv;
->  	struct tegra_bo *bo = to_tegra_bo(gem);
-> +	void *vaddr;
->  
-> -	iosys_map_set_vaddr(map, bo->vaddr);
-> +	vaddr = tegra_bo_mmap(&bo->base);
-> +	if (IS_ERR(vaddr))
-> +		return PTR_ERR(vaddr);
-> +
-> +	iosys_map_set_vaddr(map, vaddr);
->  
->  	return 0;
->  }
->  
->  static void tegra_gem_prime_vunmap(struct dma_buf *buf, struct iosys_map *map)
->  {
-> +	struct drm_gem_object *gem = buf->priv;
-> +	struct tegra_bo *bo = to_tegra_bo(gem);
-> +
-> +	tegra_bo_munmap(&bo->base, map->vaddr);
->  }
->  
->  static const struct dma_buf_ops tegra_gem_prime_dmabuf_ops = {
+Oh-it's back up now! will push now :)
 
-BTW, previously I only tested video dec on T30 using the grate-driver
-kernel that properly vmaps GEMs. That's why it wasn't caught earlier.
+On Tue, 2022-06-28 at 17:35 -0400, Lyude Paul wrote:
+> …ah, I totally forgot that gitlab happens to be down right now which part of
+> the DRM maintainer scripts rely on - so I can't actually push this patch
+> upstream right away. I will set this email as unread so hopefully I don't
+> lose
+> track of this, but please feel free to ping me if I do end up forgetting.
+> 
+> On Tue, 2022-06-28 at 17:32 -0400, Lyude Paul wrote:
+> > Reviewed-by: Lyude Paul <lyude@redhat.com>
+> > 
+> > Going to change the name of the patch slightly so it's more obvious this
+> > is
+> > just about the MST selftests
+> > 
+> > On Thu, 2022-06-23 at 18:06 +0800, Jiang Jian wrote:
+> > > there is an unexpected word 'for' in the comments that need to be
+> > > dropped
+> > > 
+> > > file - ./drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+> > > line - 3
+> > > 
+> > > * Test cases for for the DRM DP MST helpers
+> > > 
+> > > changed to:
+> > > 
+> > > * Test cases for the DRM DP MST helpers
+> > > 
+> > > Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
+> > > ---
+> > >  drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+> > > b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+> > > index 967c52150b67..4caa9be900ac 100644
+> > > --- a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+> > > +++ b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+> > > @@ -1,6 +1,6 @@
+> > >  // SPDX-License-Identifier: GPL-2.0-only
+> > >  /*
+> > > - * Test cases for for the DRM DP MST helpers
+> > > + * Test cases for the DRM DP MST helpers
+> > >   */
+> > >  
+> > >  #define PREFIX_STR "[drm_dp_mst_helper]"
+> > 
+> 
 
 -- 
-Best regards,
-Dmitry
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
+
