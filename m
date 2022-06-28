@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A8CE55F062
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:33:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB9CC55F063
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jun 2022 23:33:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38C4D11B1F7;
-	Tue, 28 Jun 2022 21:33:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA34E11B27D;
+	Tue, 28 Jun 2022 21:33:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C25E411B1F7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:33:07 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B239A11B27D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:33:29 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6F6FF6185C
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:33:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CE670C341CB
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:33:04 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 265DEB82055
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:33:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DCF68C341CD
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jun 2022 21:33:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656451984;
- bh=dacq7CUgfLe9WQ6NKiuihNRGlUhCWL9lrQk6HEE/Q+w=;
+ s=k20201202; t=1656452006;
+ bh=MTFRlqCvqT4wEgP6MnsHhz8ArQdz0I1RZ89rvl9SQ8I=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=fyfuxfy/g3dYJNSGx8bJBy6w49Zfm3DSVixuGi3LzN1BJG1xNKJADbT4QAlXej94I
- w0GFKqjw8yf2WR+iY45BHNLHQwPBAgjOEW2ZUas+biCEPfYHsMRBmrNCRA2Mjr+0x8
- 1LbzTU6/mVOolODsxOwxdMkmbLWUNa8xmFa9QmT0mVQ38kf9EMhr5/yyt8pRjZsk3Q
- oK0Qg9pY5Hz1Lm8ew5JSPHIRdTwUsjwwe69nxuLITPjYPOOR6Bw2suA8wHC5QXs+pw
- 3WQm7+diaHnBTf/l/hKN+X7l1VRTJW1sTBAcnNAD+sEewTvwoEx7VAvpjQU7Px4lfL
- rqVUDbSTeoQkA==
+ b=U1JZuLvgOWTK2iIYShMpLvF9cAzmfRH6ClHWWx8ik781SOj3waiWEKpEQwgri51Fi
+ r+228FL6pUmQLeN1nwvirtd0b3gen07W86WYWGL/K6Jml7cna79qex22EMc04Edb21
+ I9bIzyIg2DaH+8Rl8BbOwRc203D7aLGsp9X+Am54kXLe4HSp7woCl7X7ISd5g+i6D0
+ 0Iw4iqEsYD1SvCvZTE6CpBSxDlSX8vOzfHiiRh2n6XbXa32WXxcgOBaeIPck/SXube
+ ABaFBTSEKnCWM8/zXAWsjphAbTDEcRCy7IUZcZcpPNYyxPYpAK2vZqnRvvjI195VgW
+ F2whY/whYwkTQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id B8F82CC13B6; Tue, 28 Jun 2022 21:33:04 +0000 (UTC)
+ from userid 48) id CB457CC13B5; Tue, 28 Jun 2022 21:33:26 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
  390
-Date: Tue, 28 Jun 2022 21:33:04 +0000
+Date: Tue, 28 Jun 2022 21:33:26 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,7 +51,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-216119-2300-saABSrnAV2@https.bugzilla.kernel.org/>
+Message-ID: <bug-216119-2300-CUxyoUFFKC@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
 References: <bug-216119-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,14 +76,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
 
---- Comment #26 from Alex Deucher (alexdeucher@gmail.com) ---
-Created attachment 301299
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301299&action=3Dedit
-patch 1/2
-
-Can you try the attached 2 patches (without any previous patches) both with=
- and
-without amdgpu.dc=3D0?
+--- Comment #27 from Alex Deucher (alexdeucher@gmail.com) ---
+Created attachment 301300
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301300&action=3Dedit
+patch 2/2
 
 --=20
 You may reply to this email to add a comment.
