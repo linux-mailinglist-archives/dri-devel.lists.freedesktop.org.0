@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9959655FFF2
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:36:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9BB55FFF3
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:36:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD16A14A4A2;
-	Wed, 29 Jun 2022 12:35:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBB8A14A538;
+	Wed, 29 Jun 2022 12:36:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
  [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75DAF14A066
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:35:52 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 378FC320094B;
- Wed, 29 Jun 2022 08:35:51 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5E414A3BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:35:55 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 3895D320093F;
+ Wed, 29 Jun 2022 08:35:54 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 29 Jun 2022 08:35:51 -0400
+ by compute2.internal (MEProxy); Wed, 29 Jun 2022 08:35:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1656506150; x=1656592550; bh=4h
- zyTwqknhF0RfDHnhqMfZRIQQJYp16IbLpzWA2/cs4=; b=BoRDjhskoWpOLktR01
- bJehsherIoVsYjbt+xdT81bTKTSbDDfnFbVDJt2CiJweBnrW+HxBxUIu3fM6HLiZ
- lez6T7fjfdaqXXRpp9+fdPedusgugT3t1I9AhLLKxfEkNV15s+uwutGImhaWwy8v
- XHTOwIcYl9FFeVlymDPTeftkzl5xUBBORx+w+yXeczIp3NWq7dTc4ijFCSxsTQ+t
- a8v3pCsNP1R8Dk6vfZhJrTiwv5+AmAplIX88cuy8RhUTyoPt1dkIIjoS2nwyFhVd
- Nnh9hvwYk1A9OSTsYGjime5itLXrt1FHjGwgUFwuGabPzK1Cm6fRtok4xFcYXf1z
- V+kg==
+ :subject:subject:to:to; s=fm1; t=1656506153; x=1656592553; bh=wp
+ ldbioMahrMLRNbdDiExS3fw3hkUBa6pMjXNDSXu4g=; b=ddCv6//XsCiF1fhzE4
+ 7m4zw7YHuBB98kTMJ7yBqbSpP8nbJOKMCwGVM8ei+8xsHaOL+drkXDUzvWjEW30s
+ oXIX7HyfweCxpAW2Xk+rd5QfZPGGbu/dLyhbqAn7SKbQeQLaFEQiMQzLj8Gt8QPQ
+ i8OpqZQ1a1dBsKvYFMpjWWB6+46yF2KbtbYEVLe/5c/KMXkZPu4WeF9FK4mI6cdb
+ xhsaoUw1LZyoFlX4xkUC6EHllKzgtS3eRqlKaRZIrCc0VIJgI78bu8no3gPWWRTu
+ alCB08nm8mkT+GgBop4xEbkYQPPV6MvC+uXdswrgbgDY5ygPtma+yeJ63hrgLDbl
+ angw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1656506150; x=1656592550; bh=4hzyTwqknhF0R
- fDHnhqMfZRIQQJYp16IbLpzWA2/cs4=; b=osVb5rtsjRzE8pehto23x0FUvhnRN
- 8TV0C5HuTtB+w6WbOTl/5DZ+6LiVDTFonU2b3/RXOxQuLsoDAHnNyLGwV5Zf62c6
- 5E/FcWNgGU+hkRwW4/ry9lf9DR+OV7TEQNQjkmfGjuD0cbSDnAgH/bwWhYBVaiWE
- TFyhfmfAknNdA07y28VM7ZWBvrWR3oL/w/3PI7bjvReVgQk3hvM03izKKvdhYd/X
- lRHCQD2u/Y1wXxfXDQC7QQuWbkU+dS3Ef14Wt3Iqt3P8X6LAHQqG/gpuNBYv/vmi
- ReE5cZtxGMFdbK2eXNA80BZ24MlteRECw3mYohK9ylr7Y09ZuPg5dwp1g==
-X-ME-Sender: <xms:Jke8YjceUtGw2C1M0uq3DD5kbMdBZabpIQUwh6SK-taNk3oFvBbURw>
- <xme:Jke8YpNjxrunXeHVRxkG_jdBIher4_vfiKgjMkEc45NnoukSAJzUH90doFX1CYXtL
- py1QLaCNEPfBRLQRlk>
-X-ME-Received: <xmr:Jke8YsjP0m28nK2j3JrB2SRfIzXlZL4gReJmAiHoZSr5hBwS4KKwukNsjel-9f2QA4z4FBZXo_SCXkMfaKZz1nXRFQaPdfxbgF-dgv0>
+ :x-sasl-enc; s=fm2; t=1656506153; x=1656592553; bh=wpldbioMahrML
+ RNbdDiExS3fw3hkUBa6pMjXNDSXu4g=; b=OBhZaf23MIEw+Lky4b7wJudJ1SybS
+ Na/Bn/gBg6x+5/XPJD7uA2IDgNa9YryAa/xCO79DFgTQBkyCOS1vwJayP0pW6EuE
+ 04HHMya+w8idF6CbU2i3J82zhxgnJ8RP0O9s7z5KfyDVEhrYi91DOlm8kyE/Rhf3
+ O6Hq3yItfBMnPWagU10k0QtyBrLFSGp+zbr75IdvKzyywqGlHI8BXcAXuaTXKULS
+ 1OcCfkYLzomdDL/4PxEAeQWJFhfhjd0W/iQZyQdL2yuMiiz6q27TqCkFcYeV0c/J
+ RTik4p0xOPQFIsqDArp1fAKUeOu3Jmh63Y1Xmo+6O1no9egXtakeWFxhg==
+X-ME-Sender: <xms:KUe8Yie0R1-TKuPqcOq1Ghf8SlXg1zzzey1jvRPdWb0yo-fwRC9AGQ>
+ <xme:KUe8YsPaTCulGFNvAOm4M6i2c7o5aNqNuybjrMz_L6Rghiibu1BLQ-mFcL_f9cGJw
+ tFJmI0Xd_FWtwkkTq4>
+X-ME-Received: <xmr:KUe8YjivaDmOl1xX6sQStKb7l2OCsi4qBneofIU053fcTZhkvEVZC8z_UN4yOgMT9CKIErBbGy_yd1jzWhtp-cVSt7EcklvU5jR-2Hg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgheefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeeinecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Jke8Yk-Us2qdNsYkAuqIY4CL_5mlEz9wiIIO-3GKGhzIOEHRVvYYYg>
- <xmx:Jke8YvvjzDzu8rLFTmXCWSvMfi6AV70rMgy0N1EQ14BxrHBguU6YQw>
- <xmx:Jke8YjEwW07XrpnSaTPFCAYb78i6Ufu9kEqWkjTfqLAQyDcp-VRCjQ>
- <xmx:Jke8YlUEvwcm4zLfOcadyWk7DquWwyQ9yfXgK_S2a26oUmmcfpwE4g>
+X-ME-Proxy: <xmx:KUe8Yv9Wgtv3EYFJ0ja9FmucAPXn87eCKSiHBpnU8Aa9r_GZAPYjbw>
+ <xmx:KUe8Yuvo_yGT0QMDcfvjqqdbA41qVnxRm8EKvytC0X3cY_hy6gmLHA>
+ <xmx:KUe8YmHqw2hvHRIIFVxDNzzn8AyO_DKFbT8LQqek4m2IHuuSNb97DQ>
+ <xmx:KUe8YgJ5qXdsJcYuqzHaNH8TgL0uD9ce4m7g2GO7KHVaEl9eRLIk4A>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Jun 2022 08:35:50 -0400 (EDT)
+ 29 Jun 2022 08:35:53 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v3 12/71] drm/vc4: drv: Call component_unbind_all()
-Date: Wed, 29 Jun 2022 14:34:11 +0200
-Message-Id: <20220629123510.1915022-13-maxime@cerno.tech>
+Subject: [PATCH v3 13/71] drm/vc4: drv: Use drm_dev_unplug
+Date: Wed, 29 Jun 2022 14:34:12 +0200
+Message-Id: <20220629123510.1915022-14-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220629123510.1915022-1-maxime@cerno.tech>
 References: <20220629123510.1915022-1-maxime@cerno.tech>
@@ -84,82 +84,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While we were using the component framework to deal with all the DRM
-subdevices, we were not calling component_unbind_all().
+When our KMS driver is unbound, the device is no longer there but we might
+still have users with an opened fd to the KMS device.
 
-This leads to none of the subdevices freeing up their resources as part of
-their unbind() or device managed hooks.
+To avoid any issue in such a situation, every device access needs to be
+protected by calls to drm_dev_enter() and drm_dev_exit(), and the driver
+needs to call drm_dev_unplug().
 
-Fixes: c8b75bca92cb ("drm/vc4: Add KMS support for Raspberry Pi.")
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+We'll add calls to drm_dev_enter()/drm_dev_exit() in subsequent patches
+changing the relevant drivers, but let's start by calling drm_dev_unplug().
+
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_drv.c | 14 ++++++++++++--
- drivers/gpu/drm/vc4/vc4_drv.h |  1 +
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 2b014b6332a6..072c65aa1d98 100644
+index 072c65aa1d98..942b5442b843 100644
 --- a/drivers/gpu/drm/vc4/vc4_drv.c
 +++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -267,6 +267,13 @@ static void vc4_match_add_drivers(struct device *dev,
- 	}
- }
+@@ -399,8 +399,7 @@ static void vc4_drm_unbind(struct device *dev)
+ {
+ 	struct drm_device *drm = dev_get_drvdata(dev);
  
-+static void vc4_component_unbind_all(void *ptr)
-+{
-+	struct vc4_dev *vc4 = ptr;
-+
-+	component_unbind_all(vc4->dev, &vc4->base);
-+}
-+
- const struct of_device_id vc4_dma_range_matches[] = {
- 	{ .compatible = "brcm,bcm2711-hvs" },
- 	{ .compatible = "brcm,bcm2835-hvs" },
-@@ -310,6 +317,7 @@ static int vc4_drm_bind(struct device *dev)
- 	if (IS_ERR(vc4))
- 		return PTR_ERR(vc4);
- 	vc4->is_vc5 = is_vc5;
-+	vc4->dev = dev;
- 
- 	drm = &vc4->base;
- 	platform_set_drvdata(pdev, drm);
-@@ -360,6 +368,10 @@ static int vc4_drm_bind(struct device *dev)
- 	if (ret)
- 		return ret;
- 
-+	ret = devm_add_action_or_reset(dev, vc4_component_unbind_all, vc4);
-+	if (ret)
-+		return ret;
-+
- 	ret = vc4_plane_create_additional_planes(drm);
- 	if (ret)
- 		goto unbind_all;
-@@ -380,8 +392,6 @@ static int vc4_drm_bind(struct device *dev)
- 	return 0;
- 
- unbind_all:
--	component_unbind_all(dev, drm);
+-	drm_dev_unregister(drm);
 -
- 	return ret;
++	drm_dev_unplug(drm);
+ 	drm_atomic_helper_shutdown(drm);
  }
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 93fd55b9e99e..c48a73914200 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -75,6 +75,7 @@ struct vc4_perfmon {
- 
- struct vc4_dev {
- 	struct drm_device base;
-+	struct device *dev;
- 
- 	bool is_vc5;
  
 -- 
 2.36.1
