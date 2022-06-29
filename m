@@ -2,151 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF39856038B
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 16:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F358560B30
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 22:39:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59F6710E8A4;
-	Wed, 29 Jun 2022 14:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80A1810E6D9;
+	Wed, 29 Jun 2022 20:39:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr70077.outbound.protection.outlook.com [40.107.7.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E736810E806
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 14:46:50 +0000 (UTC)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=iWb8REIQUZ9nFGQ7raI458Wfzu0tJduMQIVPJzg+Zc31CtGd/epuX0kbG4KhaexVzNtvSloKeL9kSpyexbzEJWojgArniqnPM82t/jhzNIMiMOnGZ6UJSsDyW6XMpabwoFn/FwfPTzvOtEEc6qw3qHQnXvrhK6LWfV6QarLCPjbzO0LJOWPUXiSkOqHs1UsHed3Fvk8TAwWzeEgFT9YvbJzH+g8QRjG33zOCyZN0jSfRRLW3kcjNpPQfZweRGmr+6jqROYmPkAW/RoFA7opD6V/C/Gu7SxOxMiQF1yrJmQAkmLwxDx3aqL5pQrR0JQ8NFZ1kul/FFdqbBiQbTI3EnA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nCNuTTwxH7u6QhRhAgEPpQd5RBZOzHHHVqxF+negakM=;
- b=PRA0S5nSK5ZEfzdSl47Q3CDqZ1saqbBSeufbHrDANpbarb96l63dTvW6R2VFEsuaf0ChUuVwiWV3mVK+yOnmbJlVEDf+soroSNNqNHDod1eQ+a8mon1+ZB7cC0xUvxuHHwmCSfuz73l0r89l3WWqoUW9b3GeXuf1ve19+CNZwtvmsfSWhQdMnBtXfg7jAC6FLXrvlC5uTYBeFNDhchja9HFWj+3E6ZZA/pbB1aYFcMsHU4L7bEhb7C6/jKmbBJsuDf8YXRSUmCYiQXezaLlXEwaieWd4Wmo2fOSNQlzJcxLVDWIu9WwzfjMhWEikPyc/LphTLPJkySM+PKpJECejow==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nCNuTTwxH7u6QhRhAgEPpQd5RBZOzHHHVqxF+negakM=;
- b=xYewEEiHe2E6YwXugFNNcwHHWTt52J7WaEPXGAhThpArUsmNfFFfbhJkT4FKsgpnUKFWZRRgYV43sxSdTLNmOhgyYBUqOIwE+afxDaY/8BJRl28j8tjIY2Mj1SA8YFFL37lDvRhiCUrvtqmK2HMgd14aQ+gkCcX9liDdz2Vx8QE=
-Received: from DU2PR04CA0264.eurprd04.prod.outlook.com (2603:10a6:10:28e::29)
- by VI1PR08MB3358.eurprd08.prod.outlook.com (2603:10a6:803:47::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.18; Wed, 29 Jun
- 2022 14:46:44 +0000
-Received: from DBAEUR03FT045.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:28e:cafe::3a) by DU2PR04CA0264.outlook.office365.com
- (2603:10a6:10:28e::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.14 via Frontend
- Transport; Wed, 29 Jun 2022 14:46:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DBAEUR03FT045.mail.protection.outlook.com (100.127.142.142) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5373.15 via Frontend Transport; Wed, 29 Jun 2022 14:46:44 +0000
-Received: ("Tessian outbound 9336577968ca:v121");
- Wed, 29 Jun 2022 14:46:44 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 54b399280bc09e21
-X-CR-MTA-TID: 64aa7808
-Received: from 7b42733dac57.2
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- BB638F8F-FE66-4A8C-90AE-B171B8B02429.1; 
- Wed, 29 Jun 2022 14:46:33 +0000
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 7b42733dac57.2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Wed, 29 Jun 2022 14:46:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ReodyvBD2fjlP1lMYHt84wyUzficGq/wKvMfEMXInZXdfM7ki21+tum+akQUHCstONSV4eAGVuH8IfoWiLg08SRECtUwrq5wKgVw+dNtbzqUAOPo+Tw8bdsXRhoxpBi+j6R3F0r/qpfXYSlNuCSI0lTG9kn7Itf57IvldHFVkmXE1Jb6YPmsBJrQBg6R4Mu+7rYMVeUtgk/LS1gLsSqg5zw1H1C0p1rrMhYuWwNGrJlVBM1DPWVg5STnaUEaaCAgy6s/8h9dhVPTOohA/GNF+ET64G4Q5gtyhNelXoZC9Q8zcx45VLX8W2ZngEaVxBQuA0VOz8GFWOeQYk8fsaLK1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nCNuTTwxH7u6QhRhAgEPpQd5RBZOzHHHVqxF+negakM=;
- b=oJZzii4Yel1CdWvXRnYfokD5WIwjh/SaEp0q3V0+wXIkzfZHmQ0OaLJLAG5QJYN04k/DNRX21KUFyQYY6xXK+FGyZRwO02WmjHfeSVnJJNFWZ4lLMot/Mst/lRyb0Ko2+lZAYvPlim3B6e1a5vfOK3EVpHFz+Teh2VyQ585YlP+kypvXObgjgejdqaUbM/HjqhnVE5/6vfZq61vA4asOqc8LgD/SEkGf22qXGxl0FBIteaBFIK3WaLVTWjdJ+qgK9bJDqpekiejvifu85/Uxezz0l8PKj1v5MLhUB5I7WZNIchz5z80wNHNoPBHhI27xC7L6FkltTDRhwLw9Kw3m3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nCNuTTwxH7u6QhRhAgEPpQd5RBZOzHHHVqxF+negakM=;
- b=xYewEEiHe2E6YwXugFNNcwHHWTt52J7WaEPXGAhThpArUsmNfFFfbhJkT4FKsgpnUKFWZRRgYV43sxSdTLNmOhgyYBUqOIwE+afxDaY/8BJRl28j8tjIY2Mj1SA8YFFL37lDvRhiCUrvtqmK2HMgd14aQ+gkCcX9liDdz2Vx8QE=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from AS8PR08MB8111.eurprd08.prod.outlook.com (2603:10a6:20b:54d::22)
- by VI1PR08MB3711.eurprd08.prod.outlook.com (2603:10a6:803:bc::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.16; Wed, 29 Jun
- 2022 14:46:22 +0000
-Received: from AS8PR08MB8111.eurprd08.prod.outlook.com
- ([fe80::8bc:5425:ded2:3a38]) by AS8PR08MB8111.eurprd08.prod.outlook.com
- ([fe80::8bc:5425:ded2:3a38%4]) with mapi id 15.20.5395.014; Wed, 29 Jun 2022
- 14:46:22 +0000
-Message-ID: <05513f59-0bd9-77cd-36d4-41027bc339be@arm.com>
-Date: Wed, 29 Jun 2022 15:46:20 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 0/1] [RFC] drm/fourcc: Add new unsigned
- R16_UINT/RG1616_UINT formats
-Content-Language: en-US
-To: Pekka Paalanen <ppaalanen@gmail.com>
-References: <AS8PR08MB81117652E417826E741154B8F8B99@AS8PR08MB8111.eurprd08.prod.outlook.com>
- <20220627175026.6a5dd239@eldfell>
-From: Dennis Tsiang <dennis.tsiang@arm.com>
-In-Reply-To: <20220627175026.6a5dd239@eldfell>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P123CA0386.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18f::13) To AS8PR08MB8111.eurprd08.prod.outlook.com
- (2603:10a6:20b:54d::22)
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
+ [IPv6:2607:f8b0:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29C7C10E60C
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 14:51:07 +0000 (UTC)
+Received: by mail-il1-x130.google.com with SMTP id h5so10441209ili.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 07:51:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=pwGATE3wVInOXzoFm3DL2iTGSvGusyPbH0jPamzrOPg=;
+ b=B9oiCLcIrwwsffiAV8BVsVBfXybUkA5/wZMduPrd4uxnlky8stLK2tfDvUXny6iXKr
+ JgHfuIg1T4A2bBVpND7mj4ZD6v4EfH9ADxTObhcX6xPh3I7vZ9BQG5yE8imCWk/OhbYC
+ y77BYpEagODmPwREXk1EwgFqaosr/xKUAyn8S+8EchzGzV3HtL4IfoKvDu4K5Msq2ALx
+ f3dq0MlZFz4EQr6JyLTd/ftNsrK8HspcqE3W8redGkzLH/HNAK9wWORCS20wSfpKl6n9
+ 0fVin9rSjvVAY9WniBd6EJIncRKM5IK1k+ieCfjqPXFzsZhYgwSjUnYxv8hhRn4qPsQK
+ coGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pwGATE3wVInOXzoFm3DL2iTGSvGusyPbH0jPamzrOPg=;
+ b=AWEJNIu3IXdYe8aWicBoGlFiQ1nuHcmiC7Ob4u/o23QTOrnB9QZXPM27070bfiKtIC
+ VN9csEtxyUHEmbNQoM/k1+JKytsOhVdtQzHBPsrlQK8FKk8LiW4wnIaO2kaX+w+EQeBZ
+ nrtr5xWXTWyIgkqJBif8KKrrXFrvmuEn6trSsWQYzuv7qqS0potxP2/uVmNtkx4wq4uy
+ R2B/HcUZJaHiuLNz4cD2nVafw3h94CovNlwtuKqfm77K3gbOu+Y9hLnvqYYpkeBSCbjF
+ r7R7xfriYhE217x7+PLXDy90RsEDcVsXmMOejuXpETGaRsb/QJHVy067AMOuAWljsv0D
+ vR4g==
+X-Gm-Message-State: AJIora+s4LmaS0n/63BimPi+hVhznGwiAEV07j5lTjx32ol+1TdHU+SO
+ MChWik1+lbDL2a+SsYlt5g4roXhSsF1Z3qoNgJc=
+X-Google-Smtp-Source: AGRyM1siTyQHr7dYH2cCZ2A9wYi3Xsx12U7qGA8A84nAaysz0D1Kg/QCuzQFR25at5Ho6J2u+X/CmeSal2jIei9STV8=
+X-Received: by 2002:a05:6e02:168e:b0:2da:a9f0:c1aa with SMTP id
+ f14-20020a056e02168e00b002daa9f0c1aamr2147237ila.151.1656514266336; Wed, 29
+ Jun 2022 07:51:06 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 9a23d0ab-22d9-41ee-7462-08da59de2fde
-X-MS-TrafficTypeDiagnostic: VI1PR08MB3711:EE_|DBAEUR03FT045:EE_|VI1PR08MB3358:EE_
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: URFyHkDK2yR3bwJnRbZuhgkTUz6ULDYDfBbPvp7HVBP37lndakl3NDIKZZv2gjt2Fx8Wu7XnTtUdEUHAabsgEXLKRDQmzQ/pEwKSSIso1Xh421bgv8fN+D/+tF+AMs+r8DQyT5vxPH9KKP5IqoLejRJLsoXDayG5t7LL6zgkrQnSKSF4NpsflvoPVoBn8wdAgO0CnMG4274nw9O8FO7bhVw9uEqPtsv4m6rGCgwOSZ+5bXQQeU+cas31tqBhQg/LYVfhO6llwYLbOy5i1fSSQlGY3O85GmAYvqBzXJBvETRtnNpsnsv2uQJ1UJyFnf7JKKeDjpeQoFMxKJUYxOfLxO/eN6VfZ+rstH6aPOhSNpQdYH5Zzwdq30Nk40ie4EuDTdhnkOgjbWGs3xGsFv1rhd17KUGcA3ktuChT5WTkI9DVBFSPIYHvuzS76mSpujXWtOSrYP2ZlTNpZ7E9beRcls3AiQegWABpG+PbnvDBoEGkTc0ntSTrRlKGechce09BJApWSW10BdYti7doA0NK6Pgfpb+GOXGVUTS/LdgasDTb/f4q2K+yFlOgHUcPtpKNLby0ZZ3DJpuSeWMLrF4a2YRVUr9jgDWfBe4P/qQmks0RhcKBMDZWw+rUnmv4WRuOqQ3W+ZeDtWmfjBlx3M13JYuPWmx1k2Q9i85Eo4VeZ3tGPfOnesrMSq3cRN1wLUc3nztHSTxzi+YgP5HWxbFKYAVnKNUHGGbS8MFdbWK6igPV6TdzEHuzQUzXesZul6ElSFuKFO7sQU/K5urZqABLW/DJBfccgizX7PBvr2HIZwc+YttCNpUTrIQuWf4EiV1plB9cK8n2HvOtMEgHeVJokw==
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AS8PR08MB8111.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(366004)(376002)(346002)(39860400002)(136003)(8676002)(316002)(41300700001)(31696002)(478600001)(66556008)(2616005)(86362001)(36756003)(6916009)(6486002)(2906002)(6506007)(53546011)(66476007)(44832011)(31686004)(7416002)(83380400001)(54906003)(6512007)(5660300002)(4326008)(26005)(38100700002)(186003)(66946007)(8936002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3711
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DBAEUR03FT045.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 72356d92-de01-4898-937e-08da59de225b
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +pp0GOA9gaq9FxHZOe51OY6hf0BBDNbbIn2zDFLAUui5aBlWe4ZeHtH+avL8fMLxQH5SzKBmy1GheYCbVfl5wL2DGG4dtPnS87zzOjmna91W+uUhGTg96McBrdknnxkCFhpOh0IMdS1wHMSG5KTorxJy6G1nI+tGBBal0dBoclta39pkKF2Y2/lZTdoEhwRTpxKnSLlIGAaSoL+YnvShGFPf90kry4ToRN2noEI+QM+sp2hL5yK7+RxCl08jyp76uMrdBql+iL+SQ1MXSpuejrcP5/E+Xw7Gkx/IxZNkrak5iejF41KsgFXH71ThxCw4pyYpZgSNg32lgQ/u283oVjwlP7Nv9gTB27J8LYsAFRc+NpvY8cZfdKdezPKGjPhPEDs9Ah5r9m0ShPLqmlwFY9KvuReGStSWeBXCcB1aOo9HigA43r5AmUdGqHECpbfteVPzGEZeIWWUdlR7rwPHpIsPQ49gd5E9wNur7gfXUtHNeZgyuVn95dLdNgzS41MBbpCZDbMmZaBg1Y/P9PQkEpn86ky8KR/WRPJACm5F4gF9r9R0AIY31wasEF6s+gzoXN0+u1arwE8+tXhjv58qipzUmProO9tmRBT4EAJMuxmm8DhGhYGOik2oROfOSY1lgcnzHpBtPoRgBBA09BumCh/zXXx7Y5A9PoQ2y4jExdIrl6vvNTXoYArXiZxy0vGOXUH8b0OnBOTPVNjVQpyzi9ZvpI7GhtIu6FEo5+45xnSOSjXneIa2iERfbKicCqbm/YzzTgF9cdTnCtZQgG6C1Kvx88EQ7FS6FrGYHLWxnBRYy9JgJTqCd7zcgOyBi5hcWmVDniWukl4f8ezG7KBq+w==
-X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(39860400002)(396003)(376002)(346002)(46966006)(40470700004)(36840700001)(478600001)(5660300002)(70586007)(83380400001)(70206006)(31696002)(4326008)(41300700001)(26005)(6506007)(186003)(40480700001)(54906003)(8676002)(316002)(6512007)(356005)(81166007)(82740400003)(82310400005)(2616005)(8936002)(2906002)(6862004)(53546011)(31686004)(336012)(47076005)(36860700001)(86362001)(6486002)(36756003)(44832011)(40460700003)(43740500002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 14:46:44.7066 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a23d0ab-22d9-41ee-7462-08da59de2fde
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DBAEUR03FT045.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3358
+References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 29 Jun 2022 16:50:55 +0200
+Message-ID: <CANiq72nmXBv2z-LzEZe47iL39T2Bjjqr4pJqOCta-JCL4rZ9QA@mail.gmail.com>
+Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Wed, 29 Jun 2022 20:39:17 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,132 +66,233 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Normunds Rieksts <Normunds.Rieksts@arm.com>, airlied@linux.ie,
- tzimmermann@suse.de, Liviu Dudau <Liviu.Dudau@arm.com>,
- linux-kernel@vger.kernel.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
- david.harvey-macaulay@arm.com, Lisa Wu <lisa.wu@arm.com>, nd <nd@arm.com>,
- sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Cc: Andrew Lunn <andrew@lunn.ch>, Ricardo Ribalda <ribalda@kernel.org>,
+ Jimmy Su <jimmy.su@intel.com>, Sekhar Nori <nsekhar@ti.com>,
+ Gwendal Grignou <gwendal@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Jaroslav Kysela <perex@perex.cz>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Paul Mackerras <paulus@samba.org>, Minghao Chi <chi.minghao@zte.com.cn>,
+ Pavel Machek <pavel@ucw.cz>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Evgeniy Polyakov <zbr@ioremap.net>, Matt Johnston <matt@codeconstruct.com.au>,
+ Olli Salonen <olli.salonen@iki.fi>, Angela Czubak <acz@semihalf.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Luka Perkov <luka.perkov@sartura.hr>, Sean Young <sean@mess.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Zheyu Ma <zheyuma97@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Chanwoo Choi <cw00.choi@samsung.com>, linux-omap@vger.kernel.org,
+ Wenyou Yang <wenyou.yang@microchip.com>,
+ Dongchun Zhu <dongchun.zhu@mediatek.com>, Miaoqian Lin <linmq006@gmail.com>,
+ Steve Longerbeam <slongerbeam@gmail.com>, Bingbu Cao <bingbu.cao@intel.com>,
+ Shunqian Zheng <zhengsq@rock-chips.com>, lijian <lijian@yulong.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Viorel Suman <viorel.suman@nxp.com>, Petr Machata <petrm@nvidia.com>,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+ Jean Delvare <jdelvare@suse.com>, linux-serial@vger.kernel.org,
+ linux-pm@vger.kernel.org, MTD Maling List <linux-mtd@lists.infradead.org>,
+ Eddie James <eajames@linux.ibm.com>, Riku Voipio <riku.voipio@iki.fi>,
+ James Schulman <james.schulman@cirrus.com>, Scott Wood <oss@buserror.net>,
+ Cai Huoqing <cai.huoqing@linux.dev>, Jonas Malaco <jonas@protocubo.io>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Haibo Chen <haibo.chen@nxp.com>,
+ Petr Cvek <petrcvekcz@gmail.com>, linux-leds@vger.kernel.org,
+ Joe Tessler <jrt@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Andy Shevchenko <andy@kernel.org>, Robert Jones <rjones@gateworks.com>,
+ George Joseph <george.joseph@fairview5.com>,
+ Vincent Knecht <vincent.knecht@mailoo.org>,
+ Robin van der Gracht <robin@protonic.nl>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Phong LE <ple@baylibre.com>,
+ Daniel Beer <daniel.beer@igorinstitute.com>,
+ Krzysztof Opasiak <k.opasiak@samsung.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Heungjun Kim <riverful.kim@samsung.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, David Lin <CTLIN0@nuvoton.com>,
+ Vladimir Oltean <olteanv@gmail.com>, David Rhodes <david.rhodes@cirrus.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+ Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Dan Robertson <dan@dlrobertson.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>, Jiri Slaby <jirislaby@kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Jon Nettleton <jon.nettleton@gmail.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Marco Felsch <m.felsch@pengutronix.de>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Sebastian Reichel <sre@kernel.org>,
+ Max Filippov <jcmvbkbc@gmail.com>, "Lad,
+ Prabhakar" <prabhakar.csengg@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-i2c@vger.kernel.org,
+ Martiros Shakhzadyan <vrzh@vrzh.net>, Guenter Roeck <groeck@chromium.org>,
+ Matthias Schwarzott <zzam@gentoo.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Dmitry Rokosov <DDRokosov@sberdevices.ru>,
+ =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+ Saranya Gopal <saranya.gopal@intel.com>, Corey Minyard <minyard@acm.org>,
+ Evgeny Novikov <novikov@ispras.ru>, Frank Rowand <frowand.list@gmail.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Manivannan Sadhasivam <mani@kernel.org>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Eric Dumazet <edumazet@google.com>, linux-clk@vger.kernel.org,
+ Nathan Chancellor <nathan@kernel.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Charles Gorand <charles.gorand@effinnov.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, Martin Donnelly <martin.donnelly@ge.com>,
+ Woojung Huh <woojung.huh@microchip.com>, Rudolf Marek <r.marek@assembler.cz>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Ido Schimmel <idosch@nvidia.com>, acpi4asus-user@lists.sourceforge.net,
+ Simon Trimmer <simont@opensource.cirrus.com>,
+ Ricard Wanderlof <ricardw@axis.com>,
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ wengjianfeng <wengjianfeng@yulong.com>, Jiri Valek - 2N <valek@2n.cz>,
+ linux-rpi-kernel@lists.infradead.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Wayne Chang <waynec@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ Sing-Han Chen <singhanc@nvidia.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Hans de Goede <hdegoede@redhat.com>, Stephen Boyd <sboyd@kernel.org>,
+ Maslov Dmitry <maslovdmitry@seeed.cc>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Jens Frederich <jfrederich@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, Peter Rosin <peda@axentia.se>,
+ Wolfram Sang <wsa@kernel.org>, Jarkko Sakkinen <jarkko@kernel.org>,
+ USB list <linux-usb@vger.kernel.org>, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, CGEL ZTE <cgel.zte@gmail.com>,
+ Colin Leroy <colin@colino.net>,
+ Platform Driver <platform-driver-x86@vger.kernel.org>,
+ linux-integrity <linux-integrity@vger.kernel.org>,
+ Kevin Tsai <ktsai@capellamicro.com>,
+ =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Arec Kao <arec.kao@intel.com>, Crt Mori <cmo@melexis.com>,
+ Jose Cazarin <joseespiriki@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-iio@vger.kernel.org,
+ Tom Rix <trix@redhat.com>, Michael Turquette <mturquette@baylibre.com>,
+ Peter Senna Tschudin <peter.senna@gmail.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
+ Jan-Simon Moeller <jansimon.moeller@gmx.de>,
+ Wei Yongjun <weiyongjun1@huawei.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Nikita Travkin <nikita@trvn.ru>,
+ Jeremy Kerr <jk@codeconstruct.com.au>, Jasmin Jessich <jasmin@anw.at>,
+ Sam Ravnborg <sam@ravnborg.org>, Kevin Cernekee <cernekee@chromium.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-rtc@vger.kernel.org,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Lucas Tanure <tanureal@opensource.cirrus.com>,
+ Stefan Mavrodiev <stefan@olimex.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Network Development <netdev@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Xin Ji <xji@analogixsemi.com>,
+ Seven Lee <wtli@nuvoton.com>, Matt Ranostay <matt.ranostay@konsulko.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Yang Yingliang <yangyingliang@huawei.com>, chrome-platform@lists.linux.dev,
+ Mats Randgaard <matrandg@cisco.com>, Paolo Abeni <pabeni@redhat.com>,
+ Alexey Dobriyan <adobriyan@gmail.com>, Joel Stanley <joel@jms.id.au>,
+ linux-input <linux-input@vger.kernel.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Kees Cook <keescook@chromium.org>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Yang Li <yang.lee@linux.alibaba.com>,
+ Jiri Kosina <jikos@kernel.org>, Akinobu Mita <akinobu.mita@gmail.com>,
+ Mark Gross <markgross@kernel.org>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Sven Peter <sven@svenpeter.dev>,
+ Martin Kepplinger <martink@posteo.de>,
+ openipmi-developer@lists.sourceforge.net,
+ Robert Marko <robert.marko@sartura.hr>,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+ Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+ Alessandro Zummo <a.zummo@towertech.it>, linux-hwmon@vger.kernel.org,
+ Felipe Balbi <balbi@kernel.org>, Stephan Gerhold <stephan@gerhold.net>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Marc Hulsman <m.hulsman@tudelft.nl>, Corentin Chary <corentin.chary@gmail.com>,
+ Stephen Kitt <steve@sk2.org>, Daniel Scally <djrscally@gmail.com>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Kirill Shilimanov <kirill.shilimanov@huawei.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, patches@opensource.cirrus.com,
+ Zheng Yongjun <zhengyongjun3@huawei.com>,
+ Alejandro Tafalla <atafalla@dnyon.com>,
+ "David S. Miller" <davem@davemloft.net>, Daniel Palmer <daniel@0x0f.com>,
+ Hector Martin <marcan@marcan.st>,
+ Moses Christopher Bollavarapu <mosescb.dev@gmail.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Nick Dyer <nick@shmanahar.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Tony Lindgren <tony@atomide.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Takashi Iwai <tiwai@suse.com>,
+ Paul Cercueil <paul@crapouillou.net>, Mac Chiang <mac.chiang@intel.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>,
+ Alexander Potapenko <glider@google.com>, Adam Ford <aford173@gmail.com>,
+ Peter Huewe <peterhuewe@gmx.de>, UNGLinuxDriver@microchip.com,
+ Lee Jones <lee.jones@linaro.org>, Alexey Khoroshilov <khoroshilov@ispras.ru>,
+ Marek Vasut <marex@denx.de>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Eric Piel <eric.piel@tremplin-utc.net>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Tobias Schrammm <t.schramm@manjaro.org>, Richard Weinberger <richard@nod.at>,
+ Tomasz Duszynski <tduszyns@gmail.com>,
+ Janusz Krzysztofik <jmkrzyszt@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ linux-pwm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Bastien Nocera <hadess@hadess.net>,
+ Jingoo Han <jingoohan1@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ Vivien Didelot <vivien.didelot@gmail.com>, Yizhuo <yzhai003@ucr.edu>,
+ Shawn Tu <shawnx.tu@intel.com>, Leon Luo <leonl@leopardimaging.com>,
+ Yan Lei <yan_lei@dahuatech.com>, Akihiro Tsukada <tskd08@gmail.com>,
+ Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Oliver Graute <oliver.graute@kococonnector.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Dongliang Mu <mudongliangabcd@gmail.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ Eduardo Valentin <edubezval@gmail.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
+ Michael Srba <Michael.Srba@seznam.cz>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ kasan-dev <kasan-dev@googlegroups.com>,
+ "Paul J. Murphy" <paul.j.murphy@intel.com>,
+ Nicola Lunghi <nick83ola@gmail.com>,
+ Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+ Dmitry Vyukov <dvyukov@google.com>,
+ Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Juerg Haefliger <juergh@gmail.com>,
+ Oder Chiou <oder_chiou@realtek.com>, Shengjiu Wang <shengjiu.wang@nxp.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+ Luca Ceresoli <luca@lucaceresoli.net>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Colin Ian King <colin.king@intel.com>,
+ Maximilian Luz <luzmaximilian@gmail.com>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/06/2022 15:50, Pekka Paalanen wrote:
-> On Mon, 27 Jun 2022 13:40:04 +0000
-> Dennis Tsiang <Dennis.Tsiang@arm.com> wrote:
+On Tue, Jun 28, 2022 at 4:08 PM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
 >
->> This patch is an early RFC to discuss the viable options and
->> alternatives for inclusion of unsigned integer formats for the DRM API.
->>
->> This patch adds a new single component 16-bit and a two component 32-bit
->> DRM fourcc=E2=80=99s that represent unsigned integer formats. The use ca=
-se for
->> needing UINT formats, in our case, would be to support using raw buffers
->> for camera ISPs.
->>
->> For images imported with DRM fourcc + modifier combination, the GPU
->> driver needs a way to determine the datatype of the format which
->> currently the DRM API does not provide explicitly with a notable
->> exception of the floating-point fourccs such as DRM_FORMAT_XRGB16161616F
->> as an example. As the DRM fourccs do not currently define the
->> interpretation of the data, should the information be made explicit in
->> the DRM API similarly to how it is already done in Vulkan?
->>
->> The reason for introducing datatype to the DRM fourcc's is that the
->> alternative, for any API (e.g., EGL) that lacks the format datatype
->> information for fourcc/modifier combination for dma_buf interop would be
->> to introduce explicit additional metadata/attributes that encode this
->> information which then would be passed to the GPU driver but the
->> drawback of this is that it would require extending multiple graphics
->> APIs to support every single platform.
->>
->> By having the DRM API expose the datatype information for formats saves
->> a lot of integration/verification work for all of the different graphics
->> APIs and platforms as this information could be determined by the DRM
->> triple alone for dma_buf interop.
->>
->> It would be good to gather some opinions on what others think about
->> introducing datatypes to the DRM API.
->
-> Hi,
->
-> I didn't quite grasp where this information is necessary, and when it
-> is necessary, is it that simple to communicate? Does it even belong
-> with the pixel format at all?
->
-> Let us consider the existing problems.
->
-> All traditional integer formats in drm_fourcc.h right now are unsigned.
-> They get interpreted as being in the range [0.0, 1.0] for color
-> operations, which means converting to another bit depth works
-> implicitly. That's where the simplicity ends. We assume to have full
-> quantization range unless otherwise noted in some auxiliary data, like
-> KMS properties (I forget if there even was a property to say DRM
-> framebuffer uses limited quantization range). We assume all pixel data
-> is non-linearly encoded. There is no color space information. YUV-RGB
-> conversion matrix coefficients are handled by a KMS property IIRC.
->
-> Coming back to the nominal range [0.0, 1.0]. That's an implicit
-> assumption that allows us to apply things like LUTs. It already
-> breaks down if you choose a floating-point format instead of unsigned
-> integer format. Is FP pixel value 1.0 the same as nominal 1.0? Or is
-> the FP pixel value 255.0 the same as nominal 1.0? KMS has no way to
-> know or control that AFAIK.
->
-> If you had UINT format, meaning the nominal value range is [0.0, 65535.0]
-> (e.g. for 16 bpc) instead of [0.0, 1.0], then how does that work with a
-> LUT element in the color pipeline? How would it be both meaningful and
-> different to existing 16 bpc integer format?
->
-> What's the actual difference between R16 and R16_UINT, what difference
-> does it make to a GPU driver?
->
-> Maybe that is intimately dependent on the API where the pixel formats
-> are used?
->
-> Maybe for KMS R16 and R16_UINT would be completely equivalent, but not
-> for some other API?
->
-> We also need to be very careful to not load pixel format with meaning
-> that does not belong there. Non-linear encoding (transfer function) is
-> obviously something that is completely unrelated to the pixel format,
-> as long as the pixel format defines a conversion to nominal value
-> range. Color space (primaries and white point) are another thing that
-> has nothing to do with pixel format, and so must not be in any way
-> implied by pixel format.
->
-> Should a pixel format define how the raw pixel values are converted to
-> nominal values?
->
-> No, because we have quantization range as a separate property,
-> currently with "full" and "limited" understood, where "limited" means
-> different things depending on the color model.
->
-> Color model is defined by the pixel formats: we have RGB and YUV
-> formats, likewise is chroma sub-sampling.
->
-> Hmm.
->
->
-> Thanks,
-> pq
+>  drivers/auxdisplay/ht16k33.c                              | 4 +---
+>  drivers/auxdisplay/lcd2s.c                                | 3 +--
 
-Hi Pekka,
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
 
-Thanks for your comments. This is not intended to be used for KMS, where
-indeed there would be no difference. This proposal is for other Graphics
-APIs such as Vulkan, which requires the application to be explicit
-upfront about how they will interpret the data, whether that be UNORM,
-UINT .etc. We want to be able to import dma_bufs which create a VkImage
-with a "_UINT" VkFormat. However there is currently no explicit mapping
-between the DRM fourccs + modifiers combos to "_UINT" VkFormats. One
-solution is to encode that into the fourccs, which is what this RFC is
-proposing.
-
-Thanks,
-Dennis
-IMPORTANT NOTICE: The contents of this email and any attachments are confid=
-ential and may also be privileged. If you are not the intended recipient, p=
-lease notify the sender immediately and do not disclose the contents to any=
- other person, use it for any purpose, or store or copy the information in =
-any medium. Thank you.
+Cheers,
+Miguel
