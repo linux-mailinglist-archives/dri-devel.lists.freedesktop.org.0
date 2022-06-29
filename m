@@ -2,59 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD88E560B38
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 22:43:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22935560B43
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 22:50:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C227310EE36;
-	Wed, 29 Jun 2022 20:43:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D7310E379;
+	Wed, 29 Jun 2022 20:50:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10B1E10ED15
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 20:43:24 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id cl1so472836wrb.4
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:43:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=jK9//luGxpfbLffwOAXZvUD0KZmVzGC+4VJ1Mf8Ewyg=;
- b=k5WSowoVnLxuxKjSPP3cp1XzTEAHY3y45UhQuF8UEDAyCTaVCqG/CT+GI0HDpCJiRr
- qY92QFJIvnA+icgYFsho+2NHk8VIu8knAAsA4n5acDav+H8Bx/JChuc9/xU2pHxunkqn
- Xa7V6+8eHKvHEzuihehfP5VnTNMUxG2sVEkn+lldtmnf/cCTkXjtmmUEqEhHB1ghA1+P
- XiNUznA+U4VlknZfH43Wecpj/M1WX+pi8c7VlQcttS6Tn+4WR79rWAWtr3AWhjkWvAlB
- 8c14CN87gcOsljgVtquohoB6BqLa9yxRumbngWbW4Zv5Aafipq5gZb9HHF5pygsGcTHe
- sV5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jK9//luGxpfbLffwOAXZvUD0KZmVzGC+4VJ1Mf8Ewyg=;
- b=KWWAV5eZu1hR4EN8CMKKKkuevEjRkALwiqcoTd0wMfxer4b17YLj61FoVKCmuGJaOJ
- azOOV5Q6eNmyvPyMK4yYf6y/FU/JrFKEtkEpNbNfT+2JaPZR9p5SLGiSOs9iuTL/3TFC
- sqU4/2ysROENzU417Fo+rZ5xgTgA8hISv0HC80Kaa2j5vTY6mvdWf0LmzgZEp32T/ob2
- xucsX+4/mAPCcCsBn+/m9iOuhwOUn+DxR9CTpPCb1IjqMHte3YMzimgs9Rj7L5ld4GNP
- ehObkEqkh7RjZimGR9yk5S+a+hpFsKazWQCgKL8ipLWw1cNBuJ5GQo57jXpMppdHZaJc
- lKJw==
-X-Gm-Message-State: AJIora/bz116yj5GcS2jV4cGTGIivqw/LYEcrBdJIjuKE9t9zIWuAx9s
- OHMbi8k8X67q6F+hVq+XBtoTNus5QDwS6MwRMwOWTw==
-X-Google-Smtp-Source: AGRyM1sdZpRIIt8pzdPqsysENF0+n2K+v1kR9bTNvP8/I1WmweNa1mfdcg2Fg6hW5XcLplZP4kyRd9qLNe68d2DEstQ=
-X-Received: by 2002:a5d:52c6:0:b0:21b:9f39:78de with SMTP id
- r6-20020a5d52c6000000b0021b9f3978demr5179522wrv.699.1656535402268; Wed, 29
- Jun 2022 13:43:22 -0700 (PDT)
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2219310E379
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 20:50:27 +0000 (UTC)
+Received: from [192.168.1.107] ([37.4.249.155]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MfbwW-1nQh7O2knI-00fwYn; Wed, 29 Jun 2022 22:50:22 +0200
+Message-ID: <179330ab-951b-d9cd-bf73-a80fbc5666d9@i2se.com>
+Date: Wed, 29 Jun 2022 22:50:21 +0200
 MIME-Version: 1.0
-References: <20220623220613.3014268-1-kaleshsingh@google.com>
- <20220623220613.3014268-2-kaleshsingh@google.com> <Yrrrz7MxMu8OoEPU@bfoster>
- <CAC_TJvejs5gbggC1hekyjUNctC_8+3FmVn0B7zAZox2+MkEjaA@mail.gmail.com>
- <YrxEUbDkYLE6XF6x@bfoster>
-In-Reply-To: <YrxEUbDkYLE6XF6x@bfoster>
-From: Kalesh Singh <kaleshsingh@google.com>
-Date: Wed, 29 Jun 2022 13:43:11 -0700
-Message-ID: <CAC_TJvcRd7=9xGXP5-t8v3g5iFWtYANpGA-nTqaGZBVTwa=07w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] procfs: Add 'size' to /proc/<pid>/fdinfo/
-To: Brian Foster <bfoster@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Subject: drm-misc-next: WARNING: at drivers/gpu/drm/vc4/vc4_hdmi_regs.h:487
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:e8dn7A1AUNK9evlJdJnaOhNrzbU4/gdN7rMvj9CdG/+CxPG78uZ
+ h2J8WrqBQ7KU7DTod5dRxv7DuUdYcXwd5lmVytGpmlpsqpvpDOXXzDIhYRZ1nDQO+e7H4Nn
+ uVQczXy6JYGmLge5KiEjHD0P/WxANI5hoSOEREnZXo8kpYbHl8WcOKfk9cCMdRO63i6bgu+
+ LB5qC2XvjmvUSx4oDBzZA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ZFcbuXtknJU=:vwxC6OxTfUV1H6eJgte2wn
+ +W/M/WAVqsQB71fgT+UVpbxz04xYPYa2Y8wZm0wmOYh6IeCJ4VTNKbxIWl92ybw3gls1h48jH
+ dbzy3PVTJP5Clv0CCM+FdomxlFlnLhosGxndeTIn4MhzHiffcTsUOKkoVRI45EpDy8ufai5Gh
+ +4NdOQib0cDXUSJo/kU4pkIlgFORIrk/2njknW7NdLfPRt70uZpcrmMNJK99MS+CgXQzV670Y
+ YnGBAKBI84Gz3PH2BOffbMMun51cL5JarBLLlKOL+KUEO9w82rT6HnCy4wj8fhUXItG6u8HeH
+ r8WHkRo1Ee7E9pVyqXRLKPqTDpk1CaMbGG8eyrtOj3GABovb4QA5xMN52Mlvkx+4L6wpgdyGW
+ z/u1z8ynZl3IZ9wRHUiikn1/JTHhnpfg4jRJzOSzg+nre6c6us0MEuPeHR3Wpym2Z73ES1kTJ
+ znhVJUk702rZCl8KHAOZ7BOaHm3kuM5G/nl164rSKDGAWDhPhKerk43V3UE+7TiFmsNTV5Syb
+ x2CWb1yn8y78FRoMbRK3eJfCAbpg7ipoFJTei74AS1WOrBI2/qyTii8Q8EyUpw1izoCb7p+HR
+ xL2shC1a3ab30DxDsxAgBxVOthYUT4Tlv7evDzF87Vv4QpW98/1n7OAgCfv3RS7i39mjGKgdc
+ ms8y+RS3CC5wZrQd4WU43qgEsPqltwm0IzqqxizrzRV3BciWT6JJQ+8mfKdngLWgDVuZCo52J
+ fIgUq8Nus5TFPBPLAYM2TNoIZN0XdKcFxm3/hYu6Ar6nKwPZtnxVOxXFEFM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,191 +55,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Stephen Brennan <stephen.s.brennan@oracle.com>,
- Paul Gortmaker <paul.gortmaker@windriver.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
- Christoph Hellwig <hch@infradead.org>,
- "Cc: Android Kernel" <kernel-team@android.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Suren Baghdasaryan <surenb@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Randy Dunlap <rdunlap@infradead.org>, Ioannis Ilkos <ilkos@google.com>,
- LKML <linux-kernel@vger.kernel.org>, David.Laight@aculab.com,
- Johannes Weiner <hannes@cmpxchg.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mike Rapoport <rppt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 29, 2022 at 5:23 AM Brian Foster <bfoster@redhat.com> wrote:
->
-> On Tue, Jun 28, 2022 at 03:38:02PM -0700, Kalesh Singh wrote:
-> > On Tue, Jun 28, 2022 at 4:54 AM Brian Foster <bfoster@redhat.com> wrote=
-:
-> > >
-> > > On Thu, Jun 23, 2022 at 03:06:06PM -0700, Kalesh Singh wrote:
-> > > > To be able to account the amount of memory a process is keeping pin=
-ned
-> > > > by open file descriptors add a 'size' field to fdinfo output.
-> > > >
-> > > > dmabufs fds already expose a 'size' field for this reason, remove t=
-his
-> > > > and make it a common field for all fds. This allows tracking of
-> > > > other types of memory (e.g. memfd and ashmem in Android).
-> > > >
-> > > > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > > ---
-> > > >
-> > > > Changes in v2:
-> > > >   - Add Christian's Reviewed-by
-> > > >
-> > > > Changes from rfc:
-> > > >   - Split adding 'size' and 'path' into a separate patches, per Chr=
-istian
-> > > >   - Split fdinfo seq_printf into separate lines, per Christian
-> > > >   - Fix indentation (use tabs) in documentaion, per Randy
-> > > >
-> > > >  Documentation/filesystems/proc.rst | 12 ++++++++++--
-> > > >  drivers/dma-buf/dma-buf.c          |  1 -
-> > > >  fs/proc/fd.c                       |  9 +++++----
-> > > >  3 files changed, 15 insertions(+), 7 deletions(-)
-> > > >
-> ...
-> > >
-> > > Also not sure if it matters that much for your use case, but somethin=
-g
-> > > worth noting at least with shmem is that one can do something like:
-> > >
-> > > # cat /proc/meminfo | grep Shmem:
-> > > Shmem:               764 kB
-> > > # xfs_io -fc "falloc -k 0 10m" ./file
-> > > # ls -alh file
-> > > -rw-------. 1 root root 0 Jun 28 07:22 file
-> > > # stat file
-> > >   File: file
-> > >   Size: 0               Blocks: 20480      IO Block: 4096   regular e=
-mpty file
-> > > # cat /proc/meminfo | grep Shmem:
-> > > Shmem:             11004 kB
-> > >
-> > > ... where the resulting memory usage isn't reflected in i_size (but i=
-s
-> > > is in i_blocks/bytes).
-> >
-> > I tried a similar experiment a few times, but I don't see the same
-> > results. In my case, there is not any change in shmem. IIUC the
-> > fallocate is allocating the disk space not shared memory.
-> >
->
-> Sorry, it was implied in my previous test was that I was running against
-> tmpfs. So regardless of fs, the fallocate keep_size semantics shown in
-> both cases is as expected: the underlying blocks are allocated and the
-> inode size is unchanged.
->
-> What wasn't totally clear to me when I read this patch was 1. whether
-> tmpfs refers to Shmem and 2. whether tmpfs allowed this sort of
-> operation. The test above seems to confirm both, however, right? E.g., a
-> more detailed example:
->
-> # mount | grep /tmp
-> tmpfs on /tmp type tmpfs (rw,nosuid,nodev,seclabel,nr_inodes=3D1048576,in=
-ode64)
-> # cat /proc/meminfo | grep Shmem:
-> Shmem:              5300 kB
-> # xfs_io -fc "falloc -k 0 1g" /tmp/file
-> # stat /tmp/file
->   File: /tmp/file
->   Size: 0               Blocks: 2097152    IO Block: 4096   regular empty=
- file
-> Device: 22h/34d Inode: 45          Links: 1
-> Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    root)
-> Context: unconfined_u:object_r:user_tmp_t:s0
-> Access: 2022-06-29 08:04:01.301307154 -0400
-> Modify: 2022-06-29 08:04:01.301307154 -0400
-> Change: 2022-06-29 08:04:01.451312834 -0400
->  Birth: 2022-06-29 08:04:01.301307154 -0400
-> # cat /proc/meminfo | grep Shmem:
-> Shmem:           1053876 kB
-> # rm -f /tmp/file
-> # cat /proc/meminfo | grep Shmem:
-> Shmem:              5300 kB
->
-> So clearly this impacts Shmem.. was your test run against tmpfs or some
-> other (disk based) fs?
+Hi Maxime,
 
-Hi Brian,
+i tested todays drm-misc-next 9db35bb349 with Raspberry Pi 3 B Plus 
+(arm/multi_v7_defconfig, mainline DTB) and get the following warning in 
+the kernel logs:
 
-Thanks for clarifying. My issue was tmpfs not mounted at /tmp in my system:
+[   25.698459] vc4-drm soc:gpu: bound 3f400000.hvs (ops vc4_hvs_ops [vc4])
+[   25.698657] ------------[ cut here ]------------
+[   25.698660] WARNING: CPU: 1 PID: 153 at 
+drivers/gpu/drm/vc4/vc4_hdmi_regs.h:487 vc4_hdmi_reset+0x3e0/0x4e0 [vc4]
+[   25.698757] Modules linked in: brcmutil vc4(+) snd_soc_core ac97_bus 
+sha256_generic libsha256 snd_pcm_dmaengine sha256_arm snd_pcm cfg80211 
+snd_timer hci_uart btbcm snd soundcore bluetooth raspberrypi_hwmon 
+drm_cma_helper ecdh_generic ecc libaes bcm2835_thermal microchip lan78xx 
+crc32_arm_ce
+[   25.698831] CPU: 1 PID: 153 Comm: systemd-udevd Not tainted 
+5.19.0-rc2-00085-g9db35bb349a0 #2
+[   25.698839] Hardware name: BCM2835
+[   25.698850]  unwind_backtrace from show_stack+0x10/0x14
+[   25.698866]  show_stack from dump_stack_lvl+0x40/0x4c
+[   25.698879]  dump_stack_lvl from __warn+0xcc/0x144
+[   25.698890]  __warn from warn_slowpath_fmt+0x5c/0xb4
+[   25.698900]  warn_slowpath_fmt from vc4_hdmi_reset+0x3e0/0x4e0 [vc4]
+[   25.698996]  vc4_hdmi_reset [vc4] from 
+vc4_hdmi_runtime_resume+0x4c/0x64 [vc4]
+[   25.699165]  vc4_hdmi_runtime_resume [vc4] from 
+vc4_hdmi_bind+0x208/0x994 [vc4]
+[   25.699333]  vc4_hdmi_bind [vc4] from component_bind_all+0x100/0x230
+[   25.699428]  component_bind_all from vc4_drm_bind+0x1a8/0x280 [vc4]
+[   25.699518]  vc4_drm_bind [vc4] from 
+try_to_bring_up_aggregate_device+0x160/0x1bc
+[   25.699610]  try_to_bring_up_aggregate_device from 
+component_master_add_with_match+0xc4/0xf8
+[   25.699622]  component_master_add_with_match from 
+vc4_platform_drm_probe+0xa0/0xc0 [vc4]
+[   25.699712]  vc4_platform_drm_probe [vc4] from platform_probe+0x5c/0xbc
+[   25.699802]  platform_probe from really_probe.part.0+0x9c/0x2b0
+[   25.699812]  really_probe.part.0 from __driver_probe_device+0xa8/0x13c
+[   25.699823]  __driver_probe_device from driver_probe_device+0x34/0x108
+[   25.699834]  driver_probe_device from __driver_attach+0xb4/0x17c
+[   25.699846]  __driver_attach from bus_for_each_dev+0x70/0xb0
+[   25.699856]  bus_for_each_dev from bus_add_driver+0x164/0x1f0
+[   25.699867]  bus_add_driver from driver_register+0x88/0x11c
+[   25.699878]  driver_register from do_one_initcall+0x40/0x1d4
+[   25.699890]  do_one_initcall from do_init_module+0x44/0x1d4
+[   25.699901]  do_init_module from sys_finit_module+0xbc/0xf8
+[   25.699909]  sys_finit_module from __sys_trace_return+0x0/0x10
+[   25.699918] Exception stack(0xf568dfa8 to 0xf568dff0)
+[   25.699926] dfa0:                   6a09f700 00000000 00000016 
+b6dee8e0 00000000 b6def3f4
+[   25.699934] dfc0: 6a09f700 00000000 00000000 0000017b 0053b9a8 
+0052a1dc 0053af10 00000000
+[   25.699940] dfe0: be8e5160 be8e5150 b6de59d8 b6ed5ae0
+[   25.699944] ---[ end trace 0000000000000000 ]---
 
-=3D=3D> meminfo.start <=3D=3D
-Shmem:               572 kB
-=3D=3D> meminfo.stop <=3D=3D
-Shmem:             51688 kB
+I was able to bisect the warning to the following commit:
 
->
-> FWIW, I don't have any objection to exposing inode size if it's commonly
-> useful information. My feedback was more just an fyi that i_size doesn't
-> necessarily reflect underlying space consumption (whether it's memory or
-> disk space) in more generic cases, because it sounds like that is really
-> what you're after here. The opposite example to the above would be
-> something like an 'xfs_io -fc "truncate 1t" /tmp/file', which shows a
-> 1TB inode size with zero additional shmem usage.
+drm/vc4: hdmi: Move HDMI reset to pm_resume
 
-From these cases, it seems the more generic way to do this is by
-calculating the actual size consumed using the blocks. (i_blocks *
-512). So in the latter example  'xfs_io -fc "truncate 1t" /tmp/file'
-the size consumed would be zero. Let me know if it sounds ok to you
-and I can repost the updated version.
+The BCM2835-37 found in the RaspberryPi 0 to 3 have a power domain
+attached to the HDMI block, handled in Linux through runtime_pm.
 
-Thanks,
-Kalesh
+That power domain is shared with the VEC block, so even if we put our
+runtime_pm reference in the HDMI driver it would keep being on. If the
+VEC is disabled though, the power domain would be disabled and we would
+lose any initialization done in our bind implementation.
 
->
-> Brian
->
-> > cat /proc/meminfo > meminfo.start
-> > xfs_io -fc "falloc -k 0 50m" ./xfs_file
-> > cat /proc/meminfo > meminfo.stop
-> > tail -n +1 meminfo.st* | grep -i '=3D=3D\|Shmem:'
-> >
-> > =3D=3D> meminfo.start <=3D=3D
-> > Shmem:               484 kB
-> > =3D=3D> meminfo.stop <=3D=3D
-> > Shmem:               484 kB
-> >
-> > ls -lh xfs_file
-> > -rw------- 1 root root 0 Jun 28 15:12 xfs_file
-> >
-> > stat xfs_file
-> >   File: xfs_file
-> >   Size: 0               Blocks: 102400     IO Block: 4096   regular emp=
-ty file
-> >
-> > Thanks,
-> > Kalesh
-> >
-> > >
-> > > Brian
-> > >
-> > > >
-> > > >       /* show_fd_locks() never deferences files so a stale value is=
- safe */
-> > > >       show_fd_locks(m, file, files);
-> > > > --
-> > > > 2.37.0.rc0.161.g10f37bed90-goog
-> > > >
-> > >
-> >
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kernel-team+unsubscribe@android.com.
->
+That initialization involves calling the reset function and initializing
+the CEC registers.
+
+Let's move the initialization to our runtime_resume implementation so
+that we initialize everything properly if we ever need to.
+
+Fixes: c86b41214362 ("drm/vc4: hdmi: Move the HSM clock enable to 
+runtime_pm")
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Link: https://lore.kernel.org/r/20220613144800.326124-24-maxime@cerno.tech
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
