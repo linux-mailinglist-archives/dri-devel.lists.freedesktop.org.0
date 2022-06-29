@@ -1,44 +1,137 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F2E56019E
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 15:44:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B50575601AE
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 15:48:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC74A10E2AD;
-	Wed, 29 Jun 2022 13:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9FAD10F653;
+	Wed, 29 Jun 2022 13:48:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F93310E2AD
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:44:16 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 6D907B823B9;
- Wed, 29 Jun 2022 13:44:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01560C34114;
- Wed, 29 Jun 2022 13:44:10 +0000 (UTC)
-Message-ID: <2b6c4772-caa9-c66d-877a-de37e87d3753@xs4all.nl>
-Date: Wed, 29 Jun 2022 15:44:09 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 0/4] Add Toshiba Visconti DNN image processing accelerator
- driver
+Received: from esa.hc3962-90.iphmx.com (esa.hc3962-90.iphmx.com
+ [216.71.140.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3736E10F64B;
+ Wed, 29 Jun 2022 13:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
+ t=1656510516; x=1657115316;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=PFEA1dVqukxtcNBOrGRlUtw+K2Pxnyan+f5JTI6Pfo8=;
+ b=Xu7ZLu0TRaR/UhcazbZqJ1K3FdbFoY+XDj9zhBspjdG3P/sAX7Qf2Zhr
+ hJcZRzG48HnvkfrCf9dw2E6F6oW7e7vKGG+vn8J3Sw3dA6b5kSqnEVWrD
+ 9IoO5vSC+ANKvl5K8LrkQYWDV69gEKX8mFlNsOnnDDLZpxc0kC9LbCExv Q=;
+Received: from mail-dm3nam02lp2043.outbound.protection.outlook.com (HELO
+ NAM02-DM3-obe.outbound.protection.outlook.com) ([104.47.56.43])
+ by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jun 2022 13:48:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z4d0HBBR6BNm47y2XCsJTK+nsx4XtvPGUP6DL1nl1cMn/XZoMTNVJKdr4ZHsI4YsjeHvnsH47vPfRtGidmG5x32860Yxd0mQHsaO+BJDxPV0PUqrBwOWxtQWAKRpQoNf3BgkdrszDiLLMurnv1LbgfUpAQOSWh0HhE6QCrTtQAIj+DHpF3Gng1tzJtBsqsf4kue4gEglgF83riXjzJRHoPDWVpY6ZhiZ95Ws+eooCrpblw5+KdkMn98DZtg+ceYPneXb3YKngbSUHwzD/PPFdxuRjd1vgBved0cu80yslJqbOsqS6nSwCPygR6l3FBMYZJGH8FxKNAv6WhPEdY2yEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PFEA1dVqukxtcNBOrGRlUtw+K2Pxnyan+f5JTI6Pfo8=;
+ b=YjWD8eZNyD/sfuJ3/rHYZXJ9k+uBxlSj1MpWOjjI+unWKSCBraPA/HsW0Usvw7GoPgNL8bqjSY7+IDhwWqOx+4wZzn4mefs8p0CCJZDk7gsFv8Rl6fdIZcdn58uOgv5evzm63yGD7Jl+kotPSeS7ZJ42gNzJQs9Oic1DJOZvW1SH8JjEwlPzTysf1V7M3cLuDfmTdV19GR+Q2z2DkjGlqx2nZfuU/woHabxO1BMGhbeecZGsQGBx19LxDGGX4viy4KJJcsQ8k/desSN7FtAzFS39X3JX8foyiWK7Gno+kIah9x4wmRIFm9w4QsTWvLZ2rfa/TSwh32yFqLZ2dML+Qg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from MW4PR02MB7186.namprd02.prod.outlook.com (2603:10b6:303:73::6)
+ by BYAPR02MB5510.namprd02.prod.outlook.com (2603:10b6:a03:99::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.18; Wed, 29 Jun
+ 2022 13:48:31 +0000
+Received: from MW4PR02MB7186.namprd02.prod.outlook.com
+ ([fe80::29ab:75ef:34fd:3c13]) by MW4PR02MB7186.namprd02.prod.outlook.com
+ ([fe80::29ab:75ef:34fd:3c13%7]) with mapi id 15.20.5395.014; Wed, 29 Jun 2022
+ 13:48:31 +0000
+From: "Sankeerth Billakanti (QUIC)" <quic_sbillaka@quicinc.com>
+To: "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>, "Vinod
+ Polimera (QUIC)" <quic_vpolimer@quicinc.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: RE: [v3 3/5] drm/bridge: add psr support during panel bridge enable &
+ disable sequence
+Thread-Topic: [v3 3/5] drm/bridge: add psr support during panel bridge enable
+ & disable sequence
+Thread-Index: AQHYhV08HBFSXtN9PUa/vDcUTFIPR61aNzqAgAw73pA=
+Date: Wed, 29 Jun 2022 13:48:31 +0000
+Message-ID: <MW4PR02MB71863059F56CA1A32C4E1655E1BB9@MW4PR02MB7186.namprd02.prod.outlook.com>
+References: <y> <1655808800-3996-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1655808800-3996-4-git-send-email-quic_vpolimer@quicinc.com>
+ <47324fb3-c0d1-4839-8db1-c819c7389de7@linaro.org>
+In-Reply-To: <47324fb3-c0d1-4839-8db1-c819c7389de7@linaro.org>
+Accept-Language: en-US
 Content-Language: en-US
-To: yuji2.ishikawa@toshiba.co.jp, robh+dt@kernel.org,
- nobuhiro1.iwamatsu@toshiba.co.jp, sumit.semwal@linaro.org,
- christian.koenig@amd.com
-References: <20220428131128.5053-1-yuji2.ishikawa@toshiba.co.jp>
- <b5e35985-c159-6b11-8752-d6dd29fc6a64@xs4all.nl>
- <TYAPR01MB62015F4029956F009EC03FBE92D39@TYAPR01MB6201.jpnprd01.prod.outlook.com>
- <b7b5ac18-b4d2-a801-c2ff-6b48c8b863b9@xs4all.nl>
- <TYAPR01MB62014A1EEA60CA824850179692DF9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <TYAPR01MB62014A1EEA60CA824850179692DF9@TYAPR01MB6201.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=quicinc.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cec1e6ea-e4a1-4243-4a39-08da59d60daa
+x-ms-traffictypediagnostic: BYAPR02MB5510:EE_
+x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: UBdJ8lk4wi38nCknUQfvJiTmGwIKvzPOx/uxxqvhoSy5u1MtnP3ofojkDkLrOr++/TeiC0FOaphnBhJg0hzCSIepSjUb4RF96uwct4ed1bs/327OjgpffZdgCcgveN5ec4hBoPfjeIT8t/A+ji3AgnMzOB+pg+BpRadYi8Qwrf+7SAPD/C23QrjpW+6kzbpQ7kq+hnwdROp1bBKiq2LGBvVp9zHk0QgjctesebG1Chm7yAunHjvicSC3PS8t85JQjutddc2/9eKiI+Q5fCfTMt+pZofPOPSr4JtTWiNgTVJrB7B7ke4ompnQx0zN9H5Xa2G9MsY1lOmA/PvVjhfTL9fbgveHPUkCxOgqwnZSCO9+9dcp3HMkXPkK7XUq7u5DcQSYfJncLbC3Mt61XfkW4ahYCDFVmylTfpDnByqnvCqoFYgCf8je/Ak72zVYfI9pedOAZoIFPz6S27mC7FT0+abUEiPJy5fdOkt53pqu4qnezkicqynT2i1xVpwvaznE2vrkcVMGQUXxutYktH/fAXQbwicQPf14msusXyaG3psazqtMi/mytu+xVyX04o6jpfKcAgXwp11PsTSEIVYCjc3jJCCNfTYpDWB5P0iTCQ6lhGObXB5CTLVinsW4Puonx73uo0rb8obM07tJBZDRt96lZSh4Yol9wKnvMga1XjI2J13BsI4zg6/0Wegf2m92Jsvwm/PDB7vmuC5Whv679vCw34Brd0H9ta07X/R1gpQAlaufTe5fxEAHuxFRtQXj8KnrMD/14xMDZDohJl2PXcZ1kfhbwqGE+/wxXsGl+SA=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW4PR02MB7186.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(39860400002)(396003)(366004)(376002)(346002)(136003)(86362001)(38070700005)(52536014)(66556008)(66946007)(33656002)(9686003)(6506007)(41300700001)(4326008)(26005)(64756008)(66446008)(8676002)(8936002)(66476007)(5660300002)(83380400001)(76116006)(2906002)(71200400001)(7696005)(107886003)(54906003)(110136005)(38100700002)(55016003)(122000001)(478600001)(186003)(316002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RlZUWW5oRTVoYzFVQXJUT0ZpMWhNbHBycFpHTGErMEI4RUtyMDYzdUFxQmxM?=
+ =?utf-8?B?eFcwZDI3ZndQNkx1NWd1SHdaWHhjS01IZG9GMVlKZlZvc3JrRlpraTVnZ1I3?=
+ =?utf-8?B?REpvVUYxOUZOV2xaNUFOMlhQMExkd3FOc29GNE9hZDNEdW41V0gwVk5iVlR4?=
+ =?utf-8?B?TjZFakhzbFZnVCtqU3V1YzBqOVl5ZkZHQ1hhc1V4RHprdE1TaVFLN0RFSUpB?=
+ =?utf-8?B?aGhsTzVKdC92aXc4R2pSaFJnaHByNTVRREVjY3U4eXYwV0tNTW5ZaXI1cWls?=
+ =?utf-8?B?WEduRVVFdm80Ly93MS9QMnIvWnB0dHpUSXZFbUZka0lPcFpFK2RYSGRUQTJv?=
+ =?utf-8?B?MENhc1k4cFJKa0g3L3pvNU9GNHpvWk1SRk4ra091UUYxTzEwRWk4dTJmeVRx?=
+ =?utf-8?B?UkVWMHkzZDFZVmZBSjg1bVp1QzYvZmQ4aVdRbDQzWnZZSkxxbVJzeXM1MUxJ?=
+ =?utf-8?B?MXpoMDBFTkhLZTU0b20zTndteXlUdWpWRmJucE5YOHlTbzg2czFDNnpUaXJJ?=
+ =?utf-8?B?S04rbDJERE5obXR4TytCN2kwa2pwZjNLVWJuajA4OGFJVEVIM05WdmpxUkZC?=
+ =?utf-8?B?NjNZb3NOdjhOcFViRmZYYkwwaEhaeit5L1Vxc0ppL0FRNTBjL3lkWUg1QTFi?=
+ =?utf-8?B?d0Fqd0U2ODZtNXlYemVRdHNBN3V0dkZwNWlZK1FnSjlIWjdXVUw0eU8wdEVC?=
+ =?utf-8?B?T3dHNlJRZUFUZzlmVkhoMGtNRGU0Y0lyM1BuWlhUNnE1c0FBRUQ5dWgyODcy?=
+ =?utf-8?B?ekdaRXB2amsvMG0xbm9lTlRnTURvQVIrc3ZWSzR0UlNWS25GVDBGaXF6NjF6?=
+ =?utf-8?B?QUxHN0Rzd1cwNklxcDEvUDBEZFN3YitZc1JzMDNuNzFyV2J4Z21JdDN3MVN4?=
+ =?utf-8?B?UitscnUyaVRxNEsyZzNPWVpMVXM5NGlsVWpZd1JJdGVJMVErbDBJOHZMT0Y2?=
+ =?utf-8?B?TkJmdmpyZE52UXczVU9tQ1k1ZVFndnpNeUIyYU9ub0N6cU5FT1dPbmh0VGZ6?=
+ =?utf-8?B?NWp0cVVnTU01VVhYNEJuMVRxVUdnZ0RPeE5ZbkxCWWk0cDdZVDMrVWFRY0xs?=
+ =?utf-8?B?SWp1VTBXc0Zhd2p6TmZpWXRJd3NRZ041TzI5bjhwREFlYVBBQ0NxbVZ6eUdn?=
+ =?utf-8?B?WE5YY2tDUC9BOUFvRi84MmRZaHBFc1k2Q2wyMFUvVU1nYXM1T0V3ZldwMmlF?=
+ =?utf-8?B?Vit1UlhQQ2ZkZ08rdlo5RkFudnRhOGRQdXEyMVFrNGRQeUlmZ01nL0JSWEFu?=
+ =?utf-8?B?T2J6SEJoRWxlUlN6WVMwcVh4U3QxYWFzYnh5cmpwRzZNRXBHTHM1QlJNK2xv?=
+ =?utf-8?B?dVNXWlE5UDRZVDhpMHdnbG1VbUhFeDkzL2kveXlxeExsTnFlVnhxbmFCQmtP?=
+ =?utf-8?B?djcyWlZzM21YNk5vdDlUeXlwUXFLWUREZnZTSE02eE44Q1VBcjN3bkJleVhl?=
+ =?utf-8?B?ZC9MeGNaNTNXL2FCYzdBL0Q5U2FOR2RaejFaY1prVkRmOFhEYjFkYkRqMnFS?=
+ =?utf-8?B?WlBVWEF4Qzl4bjB2VkxNSE9PVjJWZXJNZW5ZKytMYmdiMmxDNmZBVk9wY2lt?=
+ =?utf-8?B?WUxrRWx5VmxlcnFKNG9pMkdicWdHOVM4NnlSUnhyRWE3NHFtZ0ZCNkFzZXho?=
+ =?utf-8?B?T3JEenBveWV5cWxqREdSYW9pd2FqU3hBdWY3bDFHRUc5WUw4OWhHTnNjOUlO?=
+ =?utf-8?B?STJUbXZTR012bVpocDc5dVppUnM0bmZUYUdxei9nMnlMTDhKbnlaTWlrN0xR?=
+ =?utf-8?B?dDlWdGE0YmVydkVEZmxTSEdQV0tsYVJTaWNZTU9wUTdXQXdaT1NFdzF5Y21L?=
+ =?utf-8?B?K2xyODgzbDB1ZjBCK2hTRkRkUytrM2JqOFpQdUxOVkRGNzdNdU03MUtCM1dE?=
+ =?utf-8?B?Sll4V09MUEtERHl0WHgvR21vaHRkaUlERHMzKzFSRUl6WlVTRVRobm1FL3RU?=
+ =?utf-8?B?ekhuWWpPK3lzTzE3UmNzNDNlMWdGUVluQitQc1MyY2EwZXZsUjlPUlp1MUw4?=
+ =?utf-8?B?RkhZS1FxdmZ6bWFKOVJqWitEc3BrL21VcVowNjlmOHBGOW12WldlQ1Q2WDVq?=
+ =?utf-8?B?Y1Uwc1Yram5rWVMvbDV5ZUdNbkljV2oxVXRubFVqRElPbVdoeW9WYlpRZnNI?=
+ =?utf-8?Q?nS5kstARnzZjoOf64yBW+unEH?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR02MB7186.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cec1e6ea-e4a1-4243-4a39-08da59d60daa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2022 13:48:31.3170 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zlarr30supl3swhVakqaIEvN3O4jvefELN33qcPoPzAACT91++bWBFft9utkmNCn79OcOXoWX7JhSIlPD3jXwclh4cfIdx22HWXRZPHnyQM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5510
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,347 +144,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: "Kalyan Thota \(QUIC\)" <quic_kalyant@quicinc.com>,
+ "Sankeerth Billakanti \(QUIC\)" <quic_sbillaka@quicinc.com>,
+ "dianders@chromium.org" <dianders@chromium.org>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ "Vishnuvardhan Prodduturi \(QUIC\)" <quic_vproddut@quicinc.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "swboyd@chromium.org" <swboyd@chromium.org>,
+ "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-My apologies for the late reply...
-
-On 01/06/2022 03:40, yuji2.ishikawa@toshiba.co.jp wrote:
-> Hi Hans,
-> 
-> Thank you for your advice.
-> I prepared some description of DNN accelerator and its usage.
-> 
-> #### Handling memory blocks for Visconti5 accelerators
-> 
-> Visconti5 Image-Processing-Accelerators do not have fine grained IOMMU, as CPU have.
-> Therefore, memory region to be passed to the accelerators should be physically contiguous.
-> We use DMA-BUF backed by CMA (Contiguous Memory Allocator) to allocate memory regions for sharing between CPU/IPAs.
-> Originally, in v4.19 based implementation, the ION allocator was used to allocate DMA-BUF instances.
-> For the latest implementation, DMA-BUF HEAPS is used.
-> 
-> Two structure types are used to represent memory region passed to drivers.
-> * struct drv_ipa_buffer_info
->   * to describe whole DMA-BUF instance
-> * struct drv_ipa_addr
->   * to describe a memory region in a DMA-BUF instance
-> 
-> for details, see usage sample of each IPA driver
-> 
-> 
-> #### Image Processing Accelerators overview
-> 
-> Visconti5 SoC has following image processing accererators
-> 
-> * AFFINE: 1 input image, 1 output image;                                             Affine transform, Homography transform, Polynomial lens distortion, LUT transform
-> * DNN:    N input feature vector, N output feature vector;                           Deep neural network operation
-> * PYRAMID 3 input image, 3 * N output image;                                         Resize grayscale/color image with N different parameters
-> * DSPIF:  M input image, N output image;                                             Various opeations on images
-> * HOX:    1 input image (multi ROI), 1 input dictionary1 likelihood/feature vector;  Extended Histogram of Oriented Gradient based pattern matching
-> * HAMAT:  2 input feature vectors: 1 output corrdinate vector;                       Hamming distance matching for stereo vision
-> * FLMAT:  3 input image, N input feature point, N output matched point;              Optical flow matching
-> * SMLDB:  1 input image, N input feature point, N output feature vector;             Accelerated-KAZE feature descriptor accelerator
-> * STMAT:  2 input image, 1 output disparity image;                                   Stereo disparity
-
-It's not really easy to decide what is best. I would say that if both input and output
-are images (RGB, YUV, Grayscale), then a V4L2 memory-to-memory driver is what I would
-expect to see.
-
-Where that is not the case, then a more custom approach makes sense.
-
-In the list above I would put AFFINE, PYRAMID, DSPIF and possible STMAT in the V4L2
-driver group, and the others more as custom drivers.
-
-I think it also depends on how it is used: if a captured sensor image is
-typically passed in for further processing, i.e. it is closely related to the
-video ISP, then V4L2 is a reasonable choice.
-
-A DNN driver, on the other hand, isn't using images at all, so for that something
-like this driver makes sense.
-
-Regards,
-
-	Hans
-
-> 
-> see [0] Fig 7.2.1 for block diagram (of prototype chip)
-> 
-> 
-> #### DNN accelerator overview
-> 
-> DNN accelerator is a proprietary CNN/DCNN processing accelerator developed by Toshiba.
-> Visconti5 SoC has 2 instances of DNN acclerator hardware.
-> Users convert existing Caffe/ONNX models to Visconti compatible models with an offline tool.
-> A converted model "Configuration Binary" includes:
->   * instruction sequence for given network
->   * weight/bias information
->   * DMA configuration from/to global memory (for input/output feature)
-> 
-> DNN acccelerator can handle either 1 plane or multiple ROIs at a single call.
-> 
-> see [0] Fig 7.2.2 for block diagram of DNN accelerator
-> 
-> CNN: Convolutional Neural Network
-> DCNN: Deep Convolutional Neural Network
-> 
-> 
-> #### Input / Output
-> 
-> Input image or feature: base type is either of FP16, FP32, INT8, UINT8, INT16
-> Output feature vector:  base type is either of FP16, FP32, INT8, UINT8, INT16
-> 
-> Input, Output, Weight, Bias can be placed on global memory and loaded/stored with DMA within DNN accelerator.
-> These data on global memory can be specified as either of:
->   * single address to point single data block
->   * list of address to point multiple data blocks (i.e. ROIs)
-> 
-> DNN acclerator driver accepts an instance of "struct drv_dnn_descriptor" which includes addresses of input/output features and a configuration binary.
-> 
-> 
-> #### Descriptor Builder at userland
-> 
-> Following APIs are provided to build a descriptor instance at userland.
-> 
-> /* defined in drv_dnn_util.h */
-> int32_t drv_DNN_config_descript_init(struct drv_dnn_descriptor *desc, struct drv_ipa_buffer_info *buffer, int32_t buffer_num);
-> int32_t drv_DNN_config_exec_configuration(struct drv_dnn_descriptor *desc, const void *configuration_binary,
->                                           struct drv_ipa_addr configuration_binary_addr, struct drv_ipa_addr *src_list,
->                                           struct drv_ipa_addr *dst_list, int32_t list_num, struct drv_ipa_addr temporary_addr,
->                                           int32_t temporary_size);
-> int32_t drv_DNN_config_descript_finalize(struct drv_dnn_descriptor *desc);
-> 
-> struct drv_dnn_descriptor is defined in drivers/soc/visconti/uapi/dnn.h.
-> I think this header should be placed anywhere else to be collected on "make headers_install" action of kernel building.
-> 
-> 
-> #### Usage sample (without error handlers)
-> 
->     #include <linux/dma-heap.h>
->     #include "drv_ipa.h"
->     #include "drv_dnn.h"
->     #include "drv_dnn_util.h" 
-> 
->     int allocate_buffer(int fd_heap, int size) 
->     {
->         struct dma_heap_allocation_data heap_data_in={0};
->         int ret;
-> 
->         heap_data_in.len = ROUNDUP_POW2(size);
->         heap_data_in.fd_flags = O_RDWR | O_CLOEXEC;
-> 
->         ret = ioctl(fd_heap, DMA_HEAP_IOCTL_ALLOC, &heap_data_in);
->         if (ret <0)
->             return -1;
->         else
->             return heap_data_in.fd;
->     }
-> 
->     void dnn_sample(int fd_dnn, int fd_conf, int fd_src, int fd_dst, int fd_temp)
->     {
->         int32_t ret;
->         struct drv_ipa_buffer_info bufinfo[4] = {
->             {.fd=fd_conf, .coherent=true, .direction=DRV_IPA_DIR_TO_DEVICE},
->             {.fd=fd_src,  .coherent=true, .direction=DRV_IPA_DIR_TO_DEVICE},
->             {.fd=fd_dst,  .coherent=true, .direction=DRV_IPA_DIR_FROM_DEVICE},
->             {.fd=fd_temp, .coherent=true, .direction=DRV_IPA_DIR_FROM_DEVICE},
->         };
->         struct drv_ipa_addr conf_addr = {.buffer_index=0, .offset=0};
->         struct drv_ipa_addr src_addr  = {.buffer_index=1, .offset=0};
->         struct drv_ipa_addr dst_addr  = {.buffer_index=2, .offset=0};
->         struct drv_ipa_addr temp_addr = {.buffer_index=3, .offset=0};
->         struct drv_dnn_descriptor desc;
-> 
->         struct drv_ipa_addr src_list[] = {src_addr};
->         struct drv_ipa_addr dst_list[] = {dst_addr};
-> 
->         uint8_t *config = (uint8_t*)mmap(NULL, DNN_CONF_BIN_SIZE, PROT_READ, MAP_SHARED, fd_conf, 0);
-> 
->         drv_DNN_config_descript_init(&desc, bufinfo, 4);
->         drv_DNN_config_exec_configuration(&desc, config, conf_addr, src_list, dst_list, 1, temp_addr, TEMP_BUF_SIZE);
->         drv_DNN_config_descript_finalize(&desc);
-> 
->         ioctl(fd_dnn, IOC_IPA_START, &desc);
-> 
->         {
->             struct pollfd fds[] = {.fd=fd_dnn, .events=POLL_IN, .revents=0};
->             poll(fds, 1, 1000);
->         }
->     }
-> 
->     void sample()
->     {
->         int fd_dnn, fd_heap, fd_conf, fd_src, fd_dst, fd_temp;
-> 
->         fd_dnn = open("/dev/dnn0", O_RDWR);
->         fd_heap = open("/dev/dma_heap/linux,cma", O_RDWR);
->         fd_conf = allocate_buffer(fd_heap, DNN_CONF_BIN_ALLOC_SIZE);
->         fd_src  = allocate_buffer(fd_heap, INPUT_IMG_ALLOC_SIZE);
->         fd_dst  = allocate_buffer(fd_heap, OUTPUT_IMG_ALLOC_SIZE);
->         fd_temp = allocate_buffer(fd_heap, TEMP_BUF_ALLOC_SIZE);
-> 
->         /* fill in input image and configuration here */
-> 
->         dnn_sample(fd_dnn, fd_conf, fd_src, fd_dst, fd_temp);
-> 
->         ...
->     };
-> 
-> 
-> #### Reference
-> 
-> * [0] https://toshiba.semicon-storage.com/content/dam/toshiba-ss-v2/master/en/company/technical-review/pdf/technical-review-18_e.pdf
->   * Fig 7.2.1 shows the whole architecture of prototype chip
->   * Fig 7.2.2 shows the architecture of DNN accelerator
-> 
-> 
-> Regards,
-> Yuji
-> 
->> -----Original Message-----
->> From: Hans Verkuil <hverkuil@xs4all.nl>
->> Sent: Friday, May 20, 2022 7:03 PM
->> To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
->> <yuji2.ishikawa@toshiba.co.jp>; robh+dt@kernel.org; iwamatsu nobuhiro(岩松
->> 信洋 □ＳＷＣ◯ＡＣＴ) <nobuhiro1.iwamatsu@toshiba.co.jp>;
->> sumit.semwal@linaro.org; christian.koenig@amd.com
->> Cc: linux-arm-kernel@lists.infradead.org; linux-kernel@vger.kernel.org;
->> linux-media@vger.kernel.org; dri-devel@lists.freedesktop.org;
->> linaro-mm-sig@lists.linaro.org
->> Subject: Re: [PATCH 0/4] Add Toshiba Visconti DNN image processing
->> accelerator driver
->>
->> Hi Yuji,
->>
->> On 5/20/22 11:48, yuji2.ishikawa@toshiba.co.jp wrote:
->>> Hi Hans,
->>>
->>> Thank you for your comment.
->>> I agree that this submission lacks documents sharing basic idea of the
->> accelerators; what do they accept and what do they yield.
->>> Where can I put a new document? Can I put it as a comment in a source? Can
->> I add a file under Documentation/misc-devices directory?
->>
->> Start with explaining it by replying to this mail. Without knowing anything about
->> the hardware, it is difficult to say what the best place is. Usually it is either the
->> public API header, or somewhere in Documentation.
->>
->> The first step is to have a better understanding of the Visconti image hardware
->> and to see what the best subsystem would be to support that hardware.
->>
->> Regards,
->>
->> 	Hans
->>
->>>
->>> Thanks,
->>> Yuji Ishikawa
->>>
->>>> -----Original Message-----
->>>> From: Hans Verkuil <hverkuil@xs4all.nl>
->>>> Sent: Thursday, May 12, 2022 8:15 PM
->>>> To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
->>>> <yuji2.ishikawa@toshiba.co.jp>; Rob Herring <robh+dt@kernel.org>;
->>>> iwamatsu nobuhiro(岩松 信洋 □ＳＷＣ◯ＡＣＴ)
->>>> <nobuhiro1.iwamatsu@toshiba.co.jp>; Sumit Semwal
->>>> <sumit.semwal@linaro.org>; Christian König
->> <christian.koenig@amd.com>
->>>> Cc: linux-arm-kernel@lists.infradead.org;
->>>> linux-kernel@vger.kernel.org; linux-media@vger.kernel.org;
->>>> dri-devel@lists.freedesktop.org; linaro-mm-sig@lists.linaro.org
->>>> Subject: Re: [PATCH 0/4] Add Toshiba Visconti DNN image processing
->>>> accelerator driver
->>>>
->>>> Hi Yuji,
->>>>
->>>> On 4/28/22 15:11, Yuji Ishikawa wrote:
->>>>> This series is the DNN image processing accelerator driver for
->>>>> Toshiba's ARM
->>>> SoC, Visconti[0].
->>>>> This provides DT binding documentation, device driver, MAINTAINER
->> files.
->>>>>
->>>>> The second patch "soc: visconti: Add Toshiba Visconti image
->>>>> processing
->>>> accelerator common source"
->>>>> and the fourth patch "MAINTAINERS: ..." are the same as the ones in
->>>>> the
->>>> preceding post for affine driver.
->>>>
->>>> There appears to be no documentation whatsoever, unless I am missing
->>>> something.
->>>>
->>>> How is the uAPI supposed to be used? What does it do? What formats
->>>> does it accept or produce?
->>>>
->>>> If this processes images, then (as Laurent mentioned) this is more
->>>> suitable as a
->>>> V4L2 mem2mem driver.
->>>>
->>>> See
->>>> https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-
->>>> me
->>>> m2mem.html
->>>> and the many drivers in drivers/media that use it (git grep
->> v4l2-mem2mem.h).
->>>>
->>>> But without any explanation whatsoever I have no idea what does or
->>>> does not make sense.
->>>>
->>>> Regards,
->>>>
->>>> 	Hans
->>>>
->>>>>
->>>>> Best regards,
->>>>> Yuji
->>>>>
->>>>> [0]:
->>>>>
->>>>
->> https://toshiba.semicon-storage.com/ap-en/semiconductor/product/image
->>>> -
->>>>> recognition-processors-visconti.html
->>>>>
->>>>> Yuji Ishikawa (4):
->>>>>   dt-bindings: soc: visconti: Add Toshiba Visconti DNN image processing
->>>>>     accelerator bindings
->>>>>   soc: visconti: Add Toshiba Visconti image processing accelerator
->>>>>     common source
->>>>>   soc: visconti: Add Toshiba Visconti DNN image processing accelerator
->>>>>   MAINTAINERS: Add entries for Toshiba Visconti DNN image processing
->>>>>     accelerator
->>>>>
->>>>>  .../soc/visconti/toshiba,visconti-dnn.yaml    |  54 ++
->>>>>  MAINTAINERS                                   |   2 +
->>>>>  drivers/soc/Kconfig                           |   1 +
->>>>>  drivers/soc/Makefile                          |   1 +
->>>>>  drivers/soc/visconti/Kconfig                  |   7 +
->>>>>  drivers/soc/visconti/Makefile                 |   8 +
->>>>>  drivers/soc/visconti/dnn/Makefile             |   6 +
->>>>>  drivers/soc/visconti/dnn/dnn.c                | 533
->>>> ++++++++++++++++++
->>>>>  drivers/soc/visconti/dnn/hwd_dnn.c            | 183 ++++++
->>>>>  drivers/soc/visconti/dnn/hwd_dnn.h            |  68 +++
->>>>>  drivers/soc/visconti/dnn/hwd_dnn_reg.h        | 228 ++++++++
->>>>>  drivers/soc/visconti/ipa_common.c             |  55 ++
->>>>>  drivers/soc/visconti/ipa_common.h             |  18 +
->>>>>  drivers/soc/visconti/uapi/dnn.h               |  77 +++
->>>>>  drivers/soc/visconti/uapi/ipa.h               |  88 +++
->>>>>  15 files changed, 1329 insertions(+)  create mode 100644
->>>>> Documentation/devicetree/bindings/soc/visconti/toshiba,visconti-dnn.
->>>>> ya ml  create mode 100644 drivers/soc/visconti/Kconfig  create mode
->>>>> 100644 drivers/soc/visconti/Makefile  create mode 100644
->>>>> drivers/soc/visconti/dnn/Makefile  create mode 100644
->>>>> drivers/soc/visconti/dnn/dnn.c  create mode 100644
->>>>> drivers/soc/visconti/dnn/hwd_dnn.c
->>>>>  create mode 100644 drivers/soc/visconti/dnn/hwd_dnn.h
->>>>>  create mode 100644 drivers/soc/visconti/dnn/hwd_dnn_reg.h
->>>>>  create mode 100644 drivers/soc/visconti/ipa_common.c  create mode
->>>>> 100644 drivers/soc/visconti/ipa_common.h  create mode 100644
->>>>> drivers/soc/visconti/uapi/dnn.h  create mode 100644
->>>>> drivers/soc/visconti/uapi/ipa.h
->>>>>
-
+SGkgRG1pdHJ5LA0KDQo+T24gMjEvMDYvMjAyMiAxMzo1MywgVmlub2QgUG9saW1lcmEgd3JvdGU6
+DQo+PiBUaGlzIGNoYW5nZSBhdm9pZHMgcGFuZWwgcHJlcGFyZS91bnByZXBhcmUgYmFzZWQgb24g
+c2VsZi1yZWZyZXNoDQo+PiBzdGF0ZS4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBTYW5rZWVydGgg
+QmlsbGFrYW50aSA8cXVpY19zYmlsbGFrYUBxdWljaW5jLmNvbT4NCj4+IFNpZ25lZC1vZmYtYnk6
+IEthbHlhbiBUaG90YSA8cXVpY19rYWx5YW50QHF1aWNpbmMuY29tPg0KPj4gU2lnbmVkLW9mZi1i
+eTogVmlub2QgUG9saW1lcmEgPHF1aWNfdnBvbGltZXJAcXVpY2luYy5jb20+DQo+PiAtLS0NCj4+
+ICAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9wYW5lbC5jIHwgMTAyDQo+KysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrLS0NCj4+ICAgMSBmaWxlIGNoYW5nZWQsIDk4IGluc2Vy
+dGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9icmlkZ2UvcGFuZWwuYw0KPj4gYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3BhbmVsLmMg
+aW5kZXggNTlhMzQ5Ni4uNmIwOWFlMCAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9i
+cmlkZ2UvcGFuZWwuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9wYW5lbC5jDQo+
+PiBAQCAtNDEsNiArNDEsNDAgQEAgc3RhdGljIGludCBwYW5lbF9icmlkZ2VfY29ubmVjdG9yX2dl
+dF9tb2RlcyhzdHJ1Y3QNCj5kcm1fY29ubmVjdG9yICpjb25uZWN0b3IpDQo+PiAgIAlyZXR1cm4g
+ZHJtX3BhbmVsX2dldF9tb2RlcyhwYW5lbF9icmlkZ2UtPnBhbmVsLCBjb25uZWN0b3IpOw0KPj4g
+ICB9DQo+Pg0KPj4gK3N0YXRpYyBzdHJ1Y3QgZHJtX2NydGMgKmJyaWRnZV9kcm1fZ2V0X29sZF9j
+b25uZWN0b3JfY3J0YyhzdHJ1Y3QNCj5kcm1fZW5jb2RlciAqZW5jb2RlciwNCj4+ICsJCQkJCQkJ
+c3RydWN0DQo+ZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpIHsNCj4+ICsJc3RydWN0IGRybV9jb25u
+ZWN0b3IgKmNvbm5lY3RvcjsNCj4+ICsJc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUgKmNvbm5f
+c3RhdGU7DQo+PiArDQo+PiArCWNvbm5lY3RvciA9IGRybV9hdG9taWNfZ2V0X29sZF9jb25uZWN0
+b3JfZm9yX2VuY29kZXIoc3RhdGUsDQo+ZW5jb2Rlcik7DQo+PiArCWlmICghY29ubmVjdG9yKQ0K
+Pj4gKwkJcmV0dXJuIE5VTEw7DQo+PiArDQo+PiArCWNvbm5fc3RhdGUgPSBkcm1fYXRvbWljX2dl
+dF9vbGRfY29ubmVjdG9yX3N0YXRlKHN0YXRlLA0KPmNvbm5lY3Rvcik7DQo+PiArCWlmICghY29u
+bl9zdGF0ZSkNCj4+ICsJCXJldHVybiBOVUxMOw0KPj4gKw0KPj4gKwlyZXR1cm4gY29ubl9zdGF0
+ZS0+Y3J0YzsNCj4+ICt9DQo+PiArDQo+PiArc3RhdGljIHN0cnVjdCBkcm1fY3J0YyAqYnJpZGdl
+X2RybV9nZXRfbmV3X2Nvbm5lY3Rvcl9jcnRjKHN0cnVjdA0KPmRybV9lbmNvZGVyICplbmNvZGVy
+LA0KPj4gKwkJCQkJCQlzdHJ1Y3QNCj5kcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkgew0KPj4gKwlz
+dHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yOw0KPj4gKwlzdHJ1Y3QgZHJtX2Nvbm5lY3Rv
+cl9zdGF0ZSAqY29ubl9zdGF0ZTsNCj4+ICsNCj4+ICsJY29ubmVjdG9yID0gZHJtX2F0b21pY19n
+ZXRfbmV3X2Nvbm5lY3Rvcl9mb3JfZW5jb2RlcihzdGF0ZSwNCj5lbmNvZGVyKTsNCj4+ICsJaWYg
+KCFjb25uZWN0b3IpDQo+PiArCQlyZXR1cm4gTlVMTDsNCj4+ICsNCj4+ICsJY29ubl9zdGF0ZSA9
+IGRybV9hdG9taWNfZ2V0X25ld19jb25uZWN0b3Jfc3RhdGUoc3RhdGUsDQo+Y29ubmVjdG9yKTsN
+Cj4+ICsJaWYgKCFjb25uX3N0YXRlKQ0KPj4gKwkJcmV0dXJuIE5VTEw7DQo+PiArDQo+PiArCXJl
+dHVybiBjb25uX3N0YXRlLT5jcnRjOw0KPj4gK30NCj4NCj5BcyBJIHdyb3RlIGVhcmxpZXIsIHRo
+aXMgc2hvdWxkIGJlY29tZSBnZW5lcmljIGRybSBoZWxwZXJzLg0KPg0KDQpZZXMsIHdpbGwgbW92
+ZSBpdC4NCg0KPj4gKw0KPj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9jb25uZWN0b3JfaGVs
+cGVyX2Z1bmNzDQo+PiAgIHBhbmVsX2JyaWRnZV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzID0gew0K
+Pj4gICAJLmdldF9tb2RlcyA9IHBhbmVsX2JyaWRnZV9jb25uZWN0b3JfZ2V0X21vZGVzLCBAQCAt
+MTA4LDMwDQo+KzE0Miw5MA0KPj4gQEAgc3RhdGljIHZvaWQgcGFuZWxfYnJpZGdlX2RldGFjaChz
+dHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQ0KPj4gICAJCWRybV9jb25uZWN0b3JfY2xlYW51cChj
+b25uZWN0b3IpOw0KPj4gICB9DQo+Pg0KPj4gLXN0YXRpYyB2b2lkIHBhbmVsX2JyaWRnZV9hdG9t
+aWNfcHJlX2VuYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQ0KPj4gK3N0YXRpYyB2b2lk
+IHBhbmVsX2JyaWRnZV9hdG9taWNfcHJlX2VuYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdl
+LA0KPj4gKwkJCQkJc3RydWN0IGRybV9icmlkZ2Vfc3RhdGUNCj4qb2xkX2JyaWRnZV9zdGF0ZSkN
+Cj4NCj5UaGlzIG11c3QgYmUgYSBwYXJ0IG9mIHRoZSBwcmV2aW91cyBwYXRjaD8NCj4NCg0KWWVz
+LCBpdCBzaG91bGQgYmUgbW92ZWQgdG8gdGhhdCBwYXRjaC4NCg0KPj4gICB7DQo+PiAgIAlzdHJ1
+Y3QgcGFuZWxfYnJpZGdlICpwYW5lbF9icmlkZ2UgPQ0KPj4gZHJtX2JyaWRnZV90b19wYW5lbF9i
+cmlkZ2UoYnJpZGdlKTsNCj4+ICsJc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKm9sZF9zdGF0ZSA9
+IG9sZF9icmlkZ2Vfc3RhdGUtPmJhc2Uuc3RhdGU7DQo+PiArCXN0cnVjdCBkcm1fZW5jb2RlciAq
+ZW5jb2RlciA9IGJyaWRnZS0+ZW5jb2RlcjsNCj4+ICsJc3RydWN0IGRybV9jcnRjICpjcnRjOw0K
+Pj4gKwlzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgKm9sZF9jcnRjX3N0YXRlOw0KPj4gKw0KPj4gKwlj
+cnRjID0gYnJpZGdlX2RybV9nZXRfbmV3X2Nvbm5lY3Rvcl9jcnRjKGVuY29kZXIsIG9sZF9zdGF0
+ZSk7DQo+PiArCWlmICghY3J0YykNCj4+ICsJCXJldHVybjsNCj4NCj5XaHk/IEFuZCB3aHkgZG8g
+eW91IGFzayBmb3IgdGhlIG5ldyBjcnRjIGZyb20gdGhlIG9sZCBzdGF0ZT8NCj4NCg0KSWYgdGhl
+IHByZXZpb3VzIGJyaWRnZSBkaXNhYmxlIGFuZCBwb3N0X2Rpc2FibGUgY2FsbHMgd2VyZSBpc3N1
+ZWQganVzdCB0byBlbnRlciBwc3IsDQp0aGVuIHRoZSBwYW5lbCBwb3dlciBhbmQgYmFja2xpZ2h0
+IHdpbGwgc3RpbGwgYmUgb24uDQoNCldlIG5lZWQgdG8ga25vdyB0aGUgcHNyIHN0YXR1cyBvZiB0
+aGUgb2xkIHN0YXRlIG9mIHRoZSBjcnRjIHRvIGRlY2lkZSB3aGV0aGVyIHRvDQplbmFibGUgdGhl
+IHBhbmVsIHBvd2VyIG9yIGp1c3QgZWFybHkgcmV0dXJuLg0KDQpvbGRfc3RhdGUgaXMgdGhlIGF0
+b21pY19zdGF0ZSBvYmplY3QuIFdpbGwgY2hhbmdlIHRoZSB2YXJpYWJsZSBuYW1lIHRvIGF0b21p
+Y19zdGF0ZS4NCg0KPj4gKw0KPj4gKwlvbGRfY3J0Y19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X29s
+ZF9jcnRjX3N0YXRlKG9sZF9zdGF0ZSwgY3J0Yyk7DQo+PiArDQo+PiArCS8qIERvbid0IHRvdWNo
+IHRoZSBwYW5lbCBpZiB3ZSdyZSBjb21pbmcgYmFjayBmcm9tIHNlbGYgcmVmcmVzaCBzdGF0ZQ0K
+PiovDQo+PiArCWlmIChvbGRfY3J0Y19zdGF0ZSAmJiBvbGRfY3J0Y19zdGF0ZS0+c2VsZl9yZWZy
+ZXNoX2FjdGl2ZSkNCj4+ICsJCXJldHVybjsNCj4+DQo+PiAgIAlkcm1fcGFuZWxfcHJlcGFyZShw
+YW5lbF9icmlkZ2UtPnBhbmVsKTsNCj4+ICAgfQ0KPj4NCj4+IC1zdGF0aWMgdm9pZCBwYW5lbF9i
+cmlkZ2VfYXRvbWljX2VuYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQ0KPj4gK3N0YXRp
+YyB2b2lkIHBhbmVsX2JyaWRnZV9hdG9taWNfZW5hYmxlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlk
+Z2UsDQo+PiArCQkJCQlzdHJ1Y3QgZHJtX2JyaWRnZV9zdGF0ZQ0KPipvbGRfYnJpZGdlX3N0YXRl
+KQ0KPj4gICB7DQo+PiAgIAlzdHJ1Y3QgcGFuZWxfYnJpZGdlICpwYW5lbF9icmlkZ2UgPQ0KPj4g
+ZHJtX2JyaWRnZV90b19wYW5lbF9icmlkZ2UoYnJpZGdlKTsNCj4+ICsJc3RydWN0IGRybV9hdG9t
+aWNfc3RhdGUgKm9sZF9zdGF0ZSA9IG9sZF9icmlkZ2Vfc3RhdGUtPmJhc2Uuc3RhdGU7DQo+PiAr
+CXN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciA9IGJyaWRnZS0+ZW5jb2RlcjsNCj4+ICsJc3Ry
+dWN0IGRybV9jcnRjICpjcnRjOw0KPj4gKwlzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgKm9sZF9jcnRj
+X3N0YXRlOw0KPj4gKw0KPj4gKwljcnRjID0gYnJpZGdlX2RybV9nZXRfbmV3X2Nvbm5lY3Rvcl9j
+cnRjKGVuY29kZXIsIG9sZF9zdGF0ZSk7DQo+PiArCWlmICghY3J0YykNCj4+ICsJCXJldHVybjsN
+Cj4+ICsNCj4+ICsJb2xkX2NydGNfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9vbGRfY3J0Y19zdGF0
+ZShvbGRfc3RhdGUsIGNydGMpOw0KPj4gKw0KPj4gKwkvKiBEb24ndCB0b3VjaCB0aGUgcGFuZWwg
+aWYgd2UncmUgY29taW5nIGJhY2sgZnJvbSBzZWxmIHJlZnJlc2ggc3RhdGUNCj4qLw0KPj4gKwlp
+ZiAob2xkX2NydGNfc3RhdGUgJiYgb2xkX2NydGNfc3RhdGUtPnNlbGZfcmVmcmVzaF9hY3RpdmUp
+DQo+PiArCQlyZXR1cm47DQo+Pg0KPj4gICAJZHJtX3BhbmVsX2VuYWJsZShwYW5lbF9icmlkZ2Ut
+PnBhbmVsKTsNCj4+ICAgfQ0KPj4NCj4+IC1zdGF0aWMgdm9pZCBwYW5lbF9icmlkZ2VfYXRvbWlj
+X2Rpc2FibGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSkNCj4+ICtzdGF0aWMgdm9pZCBwYW5l
+bF9icmlkZ2VfYXRvbWljX2Rpc2FibGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwNCj4+ICsJ
+CQkJCXN0cnVjdCBkcm1fYnJpZGdlX3N0YXRlDQo+Km9sZF9icmlkZ2Vfc3RhdGUpDQo+PiAgIHsN
+Cj4+ICAgCXN0cnVjdCBwYW5lbF9icmlkZ2UgKnBhbmVsX2JyaWRnZSA9DQo+PiBkcm1fYnJpZGdl
+X3RvX3BhbmVsX2JyaWRnZShicmlkZ2UpOw0KPj4gKwlzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAq
+b2xkX3N0YXRlID0gb2xkX2JyaWRnZV9zdGF0ZS0+YmFzZS5zdGF0ZTsNCj4+ICsJc3RydWN0IGRy
+bV9lbmNvZGVyICplbmNvZGVyID0gYnJpZGdlLT5lbmNvZGVyOw0KPj4gKwlzdHJ1Y3QgZHJtX2Ny
+dGMgKmNydGM7DQo+PiArCXN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqbmV3X2NydGNfc3RhdGU7DQo+
+PiArDQo+PiArCWNydGMgPSBicmlkZ2VfZHJtX2dldF9vbGRfY29ubmVjdG9yX2NydGMoZW5jb2Rl
+ciwgb2xkX3N0YXRlKTsNCj4+ICsJaWYgKCFjcnRjKQ0KPj4gKwkJcmV0dXJuOw0KPj4gKw0KPj4g
+KwluZXdfY3J0Y19zdGF0ZSA9IGRybV9hdG9taWNfZ2V0X25ld19jcnRjX3N0YXRlKG9sZF9zdGF0
+ZSwgY3J0Yyk7DQo+DQo+VGhpcyBkb2Vzbid0IHNvdW5kIHJpZ2h0IHRvby4NCj4NCg0KVGhlcmUg
+aXMgYSByaXNrIG9mIGNydGMgYmVpbmcgZGVhbGxvY2F0ZWQgaWYgdGhlIGRpc2FibGUgY2FsbCBj
+YW1lIGR1cmluZyBzY3JlZW4gb2ZmLg0KVG8gYmUgb24gc2FmZXIgc2lkZSwgd2UgYXJlIGdldHRp
+bmcgdGhlIG9sZCBjcnRjIGFuZCBjaGVjayBmb3IgdGhlIGFwcHJvcHJpYXRlIGNydGMgc3RhdGUu
+DQpJIGJlbGlldmUgdGhlIG9sZF9zdGF0ZSB2YXJpYWJsZSBuYW1lIGlzIGNhdXNpbmcgYSBjb25m
+dXNpb24uIEkgd2lsbCBjaGFuZ2UgdGhlIG5hbWUgdG8NCmF0b21pY19zdGF0ZS4NCg0KPj4gKw0K
+Pj4gKwkvKiBEb24ndCBkbyBhIGZ1bGwgZGlzYWJsZSBvbiBQU1IgdHJhbnNpdGlvbnMgaWYgbmV3
+IHN0YXRlIGlzIHNlbGYgcmVmcmVzaA0KPnN0YXRlICovDQo+PiArCWlmIChuZXdfY3J0Y19zdGF0
+ZSAmJiBuZXdfY3J0Y19zdGF0ZS0+c2VsZl9yZWZyZXNoX2FjdGl2ZSkNCj4+ICsJCXJldHVybjsN
+Cj4+DQo+PiAgIAlkcm1fcGFuZWxfZGlzYWJsZShwYW5lbF9icmlkZ2UtPnBhbmVsKTsNCj4+ICAg
+fQ0KPj4NCj4+IC1zdGF0aWMgdm9pZCBwYW5lbF9icmlkZ2VfYXRvbWljX3Bvc3RfZGlzYWJsZShz
+dHJ1Y3QgZHJtX2JyaWRnZQ0KPj4gKmJyaWRnZSkNCj4+ICtzdGF0aWMgdm9pZCBwYW5lbF9icmlk
+Z2VfYXRvbWljX3Bvc3RfZGlzYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLA0KPj4gKwkJ
+CQkJc3RydWN0IGRybV9icmlkZ2Vfc3RhdGUNCj4qb2xkX2JyaWRnZV9zdGF0ZSkNCj4+ICAgew0K
+Pj4gICAJc3RydWN0IHBhbmVsX2JyaWRnZSAqcGFuZWxfYnJpZGdlID0NCj4+IGRybV9icmlkZ2Vf
+dG9fcGFuZWxfYnJpZGdlKGJyaWRnZSk7DQo+PiArCXN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpv
+bGRfc3RhdGUgPSBvbGRfYnJpZGdlX3N0YXRlLT5iYXNlLnN0YXRlOw0KPj4gKwlzdHJ1Y3QgZHJt
+X2VuY29kZXIgKmVuY29kZXIgPSBicmlkZ2UtPmVuY29kZXI7DQo+PiArCXN0cnVjdCBkcm1fY3J0
+YyAqY3J0YzsNCj4+ICsJc3RydWN0IGRybV9jcnRjX3N0YXRlICpuZXdfY3J0Y19zdGF0ZTsNCj4+
+ICsNCj4+ICsJY3J0YyA9IGJyaWRnZV9kcm1fZ2V0X29sZF9jb25uZWN0b3JfY3J0YyhlbmNvZGVy
+LCBvbGRfc3RhdGUpOw0KPj4gKwlpZiAoIWNydGMpDQo+PiArCQlyZXR1cm47DQo+PiArDQo+PiAr
+CW5ld19jcnRjX3N0YXRlID0gZHJtX2F0b21pY19nZXRfbmV3X2NydGNfc3RhdGUob2xkX3N0YXRl
+LCBjcnRjKTsNCj4+ICsNCj4+ICsJLyogRG9uJ3QgZG8gdW5wcmVwYXJlIG9uIFBTUiB0cmFuc2l0
+aW9ucyBpZiBuZXcgc3RhdGUgaXMgc2VsZiByZWZyZXNoDQo+c3RhdGUgKi8NCj4+ICsJaWYgKG5l
+d19jcnRjX3N0YXRlICYmIG5ld19jcnRjX3N0YXRlLT5zZWxmX3JlZnJlc2hfYWN0aXZlKQ0KPj4g
+KwkJcmV0dXJuOw0KPj4NCj4+ICAgCWRybV9wYW5lbF91bnByZXBhcmUocGFuZWxfYnJpZGdlLT5w
+YW5lbCk7DQo+PiAgIH0NCj4NCj4NCj4tLQ0KPldpdGggYmVzdCB3aXNoZXMNCj5EbWl0cnkNCg0K
+VGhhbmsgeW91LA0KU2Fua2VlcnRoDQo=
