@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD84560C9F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 00:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD474560CA2
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 00:54:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F22D10F0F1;
-	Wed, 29 Jun 2022 22:53:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DB5610E16D;
+	Wed, 29 Jun 2022 22:54:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F7EB10F0D9
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 22:53:49 +0000 (UTC)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA37F10F0D9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 22:53:50 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id C74E93F7DC;
- Thu, 30 Jun 2022 00:53:46 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 6B18A3F762;
+ Thu, 30 Jun 2022 00:53:48 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Stephen Boyd <sboyd@kernel.org>
-Subject: [PATCH v3 06/11] drm/msm/dsi/phy: Replace hardcoded char-array length
- with sizeof()
-Date: Thu, 30 Jun 2022 00:53:26 +0200
-Message-Id: <20220629225331.357308-7-marijn.suijten@somainline.org>
+Subject: [PATCH v3 07/11] drm/msm/dsi_phy_28nm_8960: Replace parent names with
+ clk_hw pointers
+Date: Thu, 30 Jun 2022 00:53:27 +0200
+Message-Id: <20220629225331.357308-8-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220629225331.357308-1-marijn.suijten@somainline.org>
 References: <20220629225331.357308-1-marijn.suijten@somainline.org>
@@ -55,374 +55,73 @@ Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
  Martin Botka <martin.botka@somainline.org>,
  ~postmarketos/upstreaming@lists.sr.ht,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
  linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the last DSI PHY PLL driver (dsi_phy_28nm_8960) has been
-converted to use a simple stack-local char-array instead of a
-devm_kzalloc heap allocation we can safely call sizeof() on every string
-variable (that's now a sized array instead of a pointer) passed into
-snprintf instead of hardcoding the size.
+parent_hw pointers are easier to manage and cheaper to use than
+repeatedly formatting the parent name and subsequently leaving the clk
+framework to perform lookups based on that name.
 
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c    | 36 +++++++++----------
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c    | 18 +++++-----
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c    | 24 ++++++-------
- .../gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c   |  8 ++---
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     | 34 +++++++++---------
- 5 files changed, 60 insertions(+), 60 deletions(-)
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-index 56892036e419..8bd7b97b1b9b 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
-@@ -591,15 +591,15 @@ static int pll_10nm_register(struct dsi_pll_10nm *pll_10nm, struct clk_hw **prov
- 
- 	DBG("DSI%d", pll_10nm->phy->id);
- 
--	snprintf(vco_name, 32, "dsi%dvco_clk", pll_10nm->phy->id);
-+	snprintf(vco_name, sizeof(vco_name), "dsi%dvco_clk", pll_10nm->phy->id);
- 	pll_10nm->clk_hw.init = &vco_init;
- 
- 	ret = devm_clk_hw_register(dev, &pll_10nm->clk_hw);
- 	if (ret)
- 		return ret;
- 
--	snprintf(clk_name, 32, "dsi%d_pll_out_div_clk", pll_10nm->phy->id);
--	snprintf(parent, 32, "dsi%dvco_clk", pll_10nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_pll_out_div_clk", pll_10nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%dvco_clk", pll_10nm->phy->id);
- 
- 	hw = devm_clk_hw_register_divider(dev, clk_name, parent,
- 			CLK_SET_RATE_PARENT, pll_10nm->phy->pll_base +
-@@ -610,8 +610,8 @@ static int pll_10nm_register(struct dsi_pll_10nm *pll_10nm, struct clk_hw **prov
- 		goto fail;
- 	}
- 
--	snprintf(clk_name, 32, "dsi%d_pll_bit_clk", pll_10nm->phy->id);
--	snprintf(parent, 32, "dsi%d_pll_out_div_clk", pll_10nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_pll_bit_clk", pll_10nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%d_pll_out_div_clk", pll_10nm->phy->id);
- 
- 	/* BIT CLK: DIV_CTRL_3_0 */
- 	hw = devm_clk_hw_register_divider(dev, clk_name, parent,
-@@ -623,8 +623,8 @@ static int pll_10nm_register(struct dsi_pll_10nm *pll_10nm, struct clk_hw **prov
- 		goto fail;
- 	}
- 
--	snprintf(clk_name, 32, "dsi%d_phy_pll_out_byteclk", pll_10nm->phy->id);
--	snprintf(parent, 32, "dsi%d_pll_bit_clk", pll_10nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_phy_pll_out_byteclk", pll_10nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%d_pll_bit_clk", pll_10nm->phy->id);
- 
- 	/* DSI Byte clock = VCO_CLK / OUT_DIV / BIT_DIV / 8 */
- 	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent,
-@@ -636,8 +636,8 @@ static int pll_10nm_register(struct dsi_pll_10nm *pll_10nm, struct clk_hw **prov
- 
- 	provided_clocks[DSI_BYTE_PLL_CLK] = hw;
- 
--	snprintf(clk_name, 32, "dsi%d_pll_by_2_bit_clk", pll_10nm->phy->id);
--	snprintf(parent, 32, "dsi%d_pll_bit_clk", pll_10nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_pll_by_2_bit_clk", pll_10nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%d_pll_bit_clk", pll_10nm->phy->id);
- 
- 	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent,
- 					       0, 1, 2);
-@@ -646,8 +646,8 @@ static int pll_10nm_register(struct dsi_pll_10nm *pll_10nm, struct clk_hw **prov
- 		goto fail;
- 	}
- 
--	snprintf(clk_name, 32, "dsi%d_pll_post_out_div_clk", pll_10nm->phy->id);
--	snprintf(parent, 32, "dsi%d_pll_out_div_clk", pll_10nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_pll_post_out_div_clk", pll_10nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%d_pll_out_div_clk", pll_10nm->phy->id);
- 
- 	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent,
- 					       0, 1, 4);
-@@ -656,11 +656,11 @@ static int pll_10nm_register(struct dsi_pll_10nm *pll_10nm, struct clk_hw **prov
- 		goto fail;
- 	}
- 
--	snprintf(clk_name, 32, "dsi%d_pclk_mux", pll_10nm->phy->id);
--	snprintf(parent, 32, "dsi%d_pll_bit_clk", pll_10nm->phy->id);
--	snprintf(parent2, 32, "dsi%d_pll_by_2_bit_clk", pll_10nm->phy->id);
--	snprintf(parent3, 32, "dsi%d_pll_out_div_clk", pll_10nm->phy->id);
--	snprintf(parent4, 32, "dsi%d_pll_post_out_div_clk", pll_10nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_pclk_mux", pll_10nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%d_pll_bit_clk", pll_10nm->phy->id);
-+	snprintf(parent2, sizeof(parent2), "dsi%d_pll_by_2_bit_clk", pll_10nm->phy->id);
-+	snprintf(parent3, sizeof(parent3), "dsi%d_pll_out_div_clk", pll_10nm->phy->id);
-+	snprintf(parent4, sizeof(parent4), "dsi%d_pll_post_out_div_clk", pll_10nm->phy->id);
- 
- 	hw = devm_clk_hw_register_mux(dev, clk_name,
- 			((const char *[]){
-@@ -673,8 +673,8 @@ static int pll_10nm_register(struct dsi_pll_10nm *pll_10nm, struct clk_hw **prov
- 		goto fail;
- 	}
- 
--	snprintf(clk_name, 32, "dsi%d_phy_pll_out_dsiclk", pll_10nm->phy->id);
--	snprintf(parent, 32, "dsi%d_pclk_mux", pll_10nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_phy_pll_out_dsiclk", pll_10nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%d_pclk_mux", pll_10nm->phy->id);
- 
- 	/* PIX CLK DIV : DIV_CTRL_7_4*/
- 	hw = devm_clk_hw_register_divider(dev, clk_name, parent, 0,
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-index 055b48cf8008..e10ba1b09b2f 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-@@ -816,15 +816,15 @@ static int pll_14nm_register(struct dsi_pll_14nm *pll_14nm, struct clk_hw **prov
- 
- 	DBG("DSI%d", pll_14nm->phy->id);
- 
--	snprintf(vco_name, 32, "dsi%dvco_clk", pll_14nm->phy->id);
-+	snprintf(vco_name, sizeof(vco_name), "dsi%dvco_clk", pll_14nm->phy->id);
- 	pll_14nm->clk_hw.init = &vco_init;
- 
- 	ret = devm_clk_hw_register(dev, &pll_14nm->clk_hw);
- 	if (ret)
- 		return ret;
- 
--	snprintf(clk_name, 32, "dsi%dn1_postdiv_clk", pll_14nm->phy->id);
--	snprintf(parent, 32, "dsi%dvco_clk", pll_14nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%dn1_postdiv_clk", pll_14nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%dvco_clk", pll_14nm->phy->id);
- 
- 	/* N1 postdiv, bits 0-3 in REG_DSI_14nm_PHY_CMN_CLK_CFG0 */
- 	hw = pll_14nm_postdiv_register(pll_14nm, clk_name, parent,
-@@ -832,8 +832,8 @@ static int pll_14nm_register(struct dsi_pll_14nm *pll_14nm, struct clk_hw **prov
- 	if (IS_ERR(hw))
- 		return PTR_ERR(hw);
- 
--	snprintf(clk_name, 32, "dsi%dpllbyte", pll_14nm->phy->id);
--	snprintf(parent, 32, "dsi%dn1_postdiv_clk", pll_14nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%dpllbyte", pll_14nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%dn1_postdiv_clk", pll_14nm->phy->id);
- 
- 	/* DSI Byte clock = VCO_CLK / N1 / 8 */
- 	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent,
-@@ -843,8 +843,8 @@ static int pll_14nm_register(struct dsi_pll_14nm *pll_14nm, struct clk_hw **prov
- 
- 	provided_clocks[DSI_BYTE_PLL_CLK] = hw;
- 
--	snprintf(clk_name, 32, "dsi%dn1_postdivby2_clk", pll_14nm->phy->id);
--	snprintf(parent, 32, "dsi%dn1_postdiv_clk", pll_14nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%dn1_postdivby2_clk", pll_14nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%dn1_postdiv_clk", pll_14nm->phy->id);
- 
- 	/*
- 	 * Skip the mux for now, force DSICLK_SEL to 1, Add a /2 divider
-@@ -854,8 +854,8 @@ static int pll_14nm_register(struct dsi_pll_14nm *pll_14nm, struct clk_hw **prov
- 	if (IS_ERR(hw))
- 		return PTR_ERR(hw);
- 
--	snprintf(clk_name, 32, "dsi%dpll", pll_14nm->phy->id);
--	snprintf(parent, 32, "dsi%dn1_postdivby2_clk", pll_14nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%dpll", pll_14nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%dn1_postdivby2_clk", pll_14nm->phy->id);
- 
- 	/* DSI pixel clock = VCO_CLK / N1 / 2 / N2
- 	 * This is the output of N2 post-divider, bits 4-7 in
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-index ef04bb630c5d..7d3cabeca743 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
-@@ -539,14 +539,14 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
- 	else
- 		vco_init.ops = &clk_ops_dsi_pll_28nm_vco_hpm;
- 
--	snprintf(vco_name, 32, "dsi%dvco_clk", pll_28nm->phy->id);
-+	snprintf(vco_name, sizeof(vco_name), "dsi%dvco_clk", pll_28nm->phy->id);
- 	pll_28nm->clk_hw.init = &vco_init;
- 	ret = devm_clk_hw_register(dev, &pll_28nm->clk_hw);
- 	if (ret)
- 		return ret;
- 
--	snprintf(clk_name, 32, "dsi%danalog_postdiv_clk", pll_28nm->phy->id);
--	snprintf(parent1, 32, "dsi%dvco_clk", pll_28nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%danalog_postdiv_clk", pll_28nm->phy->id);
-+	snprintf(parent1, sizeof(parent1), "dsi%dvco_clk", pll_28nm->phy->id);
- 	hw = devm_clk_hw_register_divider(dev, clk_name, parent1,
- 			CLK_SET_RATE_PARENT, pll_28nm->phy->pll_base +
- 				REG_DSI_28nm_PHY_PLL_POSTDIV1_CFG,
-@@ -554,15 +554,15 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
- 	if (IS_ERR(hw))
- 		return PTR_ERR(hw);
- 
--	snprintf(clk_name, 32, "dsi%dindirect_path_div2_clk", pll_28nm->phy->id);
--	snprintf(parent1, 32, "dsi%danalog_postdiv_clk", pll_28nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%dindirect_path_div2_clk", pll_28nm->phy->id);
-+	snprintf(parent1, sizeof(parent1), "dsi%danalog_postdiv_clk", pll_28nm->phy->id);
- 	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent1,
- 			CLK_SET_RATE_PARENT, 1, 2);
- 	if (IS_ERR(hw))
- 		return PTR_ERR(hw);
- 
--	snprintf(clk_name, 32, "dsi%dpll", pll_28nm->phy->id);
--	snprintf(parent1, 32, "dsi%dvco_clk", pll_28nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%dpll", pll_28nm->phy->id);
-+	snprintf(parent1, sizeof(parent1), "dsi%dvco_clk", pll_28nm->phy->id);
- 	hw = devm_clk_hw_register_divider(dev, clk_name, parent1, 0,
- 			pll_28nm->phy->pll_base +
- 				REG_DSI_28nm_PHY_PLL_POSTDIV3_CFG,
-@@ -571,9 +571,9 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
- 		return PTR_ERR(hw);
- 	provided_clocks[DSI_PIXEL_PLL_CLK] = hw;
- 
--	snprintf(clk_name, 32, "dsi%dbyte_mux", pll_28nm->phy->id);
--	snprintf(parent1, 32, "dsi%dvco_clk", pll_28nm->phy->id);
--	snprintf(parent2, 32, "dsi%dindirect_path_div2_clk", pll_28nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%dbyte_mux", pll_28nm->phy->id);
-+	snprintf(parent1, sizeof(parent1), "dsi%dvco_clk", pll_28nm->phy->id);
-+	snprintf(parent2, sizeof(parent2), "dsi%dindirect_path_div2_clk", pll_28nm->phy->id);
- 	hw = devm_clk_hw_register_mux(dev, clk_name,
- 			((const char *[]){
- 				parent1, parent2,
-@@ -582,8 +582,8 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
- 	if (IS_ERR(hw))
- 		return PTR_ERR(hw);
- 
--	snprintf(clk_name, 32, "dsi%dpllbyte", pll_28nm->phy->id);
--	snprintf(parent1, 32, "dsi%dbyte_mux", pll_28nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%dpllbyte", pll_28nm->phy->id);
-+	snprintf(parent1, sizeof(parent1), "dsi%dbyte_mux", pll_28nm->phy->id);
- 	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent1,
- 			CLK_SET_RATE_PARENT, 1, 4);
- 	if (IS_ERR(hw))
 diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-index 24bac401b210..3deb306f4cc4 100644
+index 3deb306f4cc4..69c1b2d8333c 100644
 --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
 +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c
-@@ -404,7 +404,7 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
+@@ -383,7 +383,7 @@ static int dsi_28nm_pll_restore_state(struct msm_dsi_phy *phy)
+ 
+ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **provided_clocks)
+ {
+-	char clk_name[32], parent_name[32], vco_name[32];
++	char clk_name[32];
+ 	struct clk_init_data vco_init = {
+ 		.parent_data = &(const struct clk_parent_data) {
+ 			.fw_name = "ref",
+@@ -404,8 +404,8 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
  	if (!bytediv)
  		return -ENOMEM;
  
--	snprintf(vco_name, 32, "dsi%dvco_clk", pll_28nm->phy->id);
-+	snprintf(vco_name, sizeof(vco_name), "dsi%dvco_clk", pll_28nm->phy->id);
- 	vco_init.name = vco_name;
+-	snprintf(vco_name, sizeof(vco_name), "dsi%dvco_clk", pll_28nm->phy->id);
+-	vco_init.name = vco_name;
++	snprintf(clk_name, sizeof(clk_name), "dsi%dvco_clk", pll_28nm->phy->id);
++	vco_init.name = clk_name;
  
  	pll_28nm->clk_hw.init = &vco_init;
-@@ -417,8 +417,8 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
+ 
+@@ -417,13 +417,14 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
  	bytediv->hw.init = &bytediv_init;
  	bytediv->reg = pll_28nm->phy->pll_base + REG_DSI_28nm_8960_PHY_PLL_CTRL_9;
  
--	snprintf(parent_name, 32, "dsi%dvco_clk", pll_28nm->phy->id);
--	snprintf(clk_name, 32, "dsi%dpllbyte", pll_28nm->phy->id + 1);
-+	snprintf(parent_name, sizeof(parent_name), "dsi%dvco_clk", pll_28nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%dpllbyte", pll_28nm->phy->id + 1);
+-	snprintf(parent_name, sizeof(parent_name), "dsi%dvco_clk", pll_28nm->phy->id);
+ 	snprintf(clk_name, sizeof(clk_name), "dsi%dpllbyte", pll_28nm->phy->id + 1);
  
  	bytediv_init.name = clk_name;
  	bytediv_init.ops = &clk_bytediv_ops;
-@@ -432,7 +432,7 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
- 		return ret;
- 	provided_clocks[DSI_BYTE_PLL_CLK] = &bytediv->hw;
+ 	bytediv_init.flags = CLK_SET_RATE_PARENT;
+-	bytediv_init.parent_names = (const char * const *) &parent_name;
++	bytediv_init.parent_hws = (const struct clk_hw*[]){
++		&pll_28nm->clk_hw,
++	};
+ 	bytediv_init.num_parents = 1;
  
--	snprintf(clk_name, 32, "dsi%dpll", pll_28nm->phy->id + 1);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%dpll", pll_28nm->phy->id + 1);
+ 	/* DIV2 */
+@@ -434,8 +435,8 @@ static int pll_28nm_register(struct dsi_pll_28nm *pll_28nm, struct clk_hw **prov
+ 
+ 	snprintf(clk_name, sizeof(clk_name), "dsi%dpll", pll_28nm->phy->id + 1);
  	/* DIV3 */
- 	hw = devm_clk_hw_register_divider(dev, clk_name, parent_name, 0,
- 			pll_28nm->phy->pll_base +
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-index 36f1e6a40d9c..6a58dd62bac5 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-@@ -605,15 +605,15 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
- 
- 	DBG("DSI%d", pll_7nm->phy->id);
- 
--	snprintf(vco_name, 32, "dsi%dvco_clk", pll_7nm->phy->id);
-+	snprintf(vco_name, sizeof(vco_name), "dsi%dvco_clk", pll_7nm->phy->id);
- 	pll_7nm->clk_hw.init = &vco_init;
- 
- 	ret = devm_clk_hw_register(dev, &pll_7nm->clk_hw);
- 	if (ret)
- 		return ret;
- 
--	snprintf(clk_name, 32, "dsi%d_pll_out_div_clk", pll_7nm->phy->id);
--	snprintf(parent, 32, "dsi%dvco_clk", pll_7nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_pll_out_div_clk", pll_7nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%dvco_clk", pll_7nm->phy->id);
- 
- 	hw = devm_clk_hw_register_divider(dev, clk_name, parent,
- 			CLK_SET_RATE_PARENT, pll_7nm->phy->pll_base +
-@@ -624,8 +624,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
- 		goto fail;
- 	}
- 
--	snprintf(clk_name, 32, "dsi%d_pll_bit_clk", pll_7nm->phy->id);
--	snprintf(parent, 32, "dsi%d_pll_out_div_clk", pll_7nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_pll_bit_clk", pll_7nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%d_pll_out_div_clk", pll_7nm->phy->id);
- 
- 	/* BIT CLK: DIV_CTRL_3_0 */
- 	hw = devm_clk_hw_register_divider(dev, clk_name, parent,
-@@ -637,8 +637,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
- 		goto fail;
- 	}
- 
--	snprintf(clk_name, 32, "dsi%d_phy_pll_out_byteclk", pll_7nm->phy->id);
--	snprintf(parent, 32, "dsi%d_pll_bit_clk", pll_7nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_phy_pll_out_byteclk", pll_7nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%d_pll_bit_clk", pll_7nm->phy->id);
- 
- 	/* DSI Byte clock = VCO_CLK / OUT_DIV / BIT_DIV / 8 */
- 	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent,
-@@ -651,8 +651,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
- 
- 	provided_clocks[DSI_BYTE_PLL_CLK] = hw;
- 
--	snprintf(clk_name, 32, "dsi%d_pll_by_2_bit_clk", pll_7nm->phy->id);
--	snprintf(parent, 32, "dsi%d_pll_bit_clk", pll_7nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_pll_by_2_bit_clk", pll_7nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%d_pll_bit_clk", pll_7nm->phy->id);
- 
- 	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent,
- 					       0, 1, 2);
-@@ -661,8 +661,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
- 		goto fail;
- 	}
- 
--	snprintf(clk_name, 32, "dsi%d_pll_post_out_div_clk", pll_7nm->phy->id);
--	snprintf(parent, 32, "dsi%d_pll_out_div_clk", pll_7nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_pll_post_out_div_clk", pll_7nm->phy->id);
-+	snprintf(parent, sizeof(parent), "dsi%d_pll_out_div_clk", pll_7nm->phy->id);
- 
- 	if (pll_7nm->phy->cphy_mode)
- 		hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent, 0, 2, 7);
-@@ -682,11 +682,11 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
- 		data = dsi_phy_read(pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
- 		dsi_phy_write(pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1, data | 3);
- 
--		snprintf(parent, 32, "dsi%d_pll_post_out_div_clk", pll_7nm->phy->id);
-+		snprintf(parent, sizeof(parent), "dsi%d_pll_post_out_div_clk", pll_7nm->phy->id);
- 	} else {
--		snprintf(clk_name, 32, "dsi%d_pclk_mux", pll_7nm->phy->id);
--		snprintf(parent, 32, "dsi%d_pll_bit_clk", pll_7nm->phy->id);
--		snprintf(parent2, 32, "dsi%d_pll_by_2_bit_clk", pll_7nm->phy->id);
-+		snprintf(clk_name, sizeof(clk_name), "dsi%d_pclk_mux", pll_7nm->phy->id);
-+		snprintf(parent, sizeof(parent), "dsi%d_pll_bit_clk", pll_7nm->phy->id);
-+		snprintf(parent2, sizeof(parent2), "dsi%d_pll_by_2_bit_clk", pll_7nm->phy->id);
- 
- 		hw = devm_clk_hw_register_mux(dev, clk_name,
- 				((const char *[]){
-@@ -699,10 +699,10 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
- 			goto fail;
- 		}
- 
--		snprintf(parent, 32, "dsi%d_pclk_mux", pll_7nm->phy->id);
-+		snprintf(parent, sizeof(parent), "dsi%d_pclk_mux", pll_7nm->phy->id);
- 	}
- 
--	snprintf(clk_name, 32, "dsi%d_phy_pll_out_dsiclk", pll_7nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%d_phy_pll_out_dsiclk", pll_7nm->phy->id);
- 
- 	/* PIX CLK DIV : DIV_CTRL_7_4*/
- 	hw = devm_clk_hw_register_divider(dev, clk_name, parent, 0,
+-	hw = devm_clk_hw_register_divider(dev, clk_name, parent_name, 0,
+-			pll_28nm->phy->pll_base +
++	hw = devm_clk_hw_register_divider_parent_hw(dev, clk_name,
++			&pll_28nm->clk_hw, 0, pll_28nm->phy->pll_base +
+ 				REG_DSI_28nm_8960_PHY_PLL_CTRL_10,
+ 			0, 8, 0, NULL);
+ 	if (IS_ERR(hw))
 -- 
 2.37.0
 
