@@ -1,59 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A8155FA4D
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 10:23:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1571455FA51
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 10:24:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DF3D10E81E;
-	Wed, 29 Jun 2022 08:23:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FEC110E174;
+	Wed, 29 Jun 2022 08:24:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A1E410E81E;
- Wed, 29 Jun 2022 08:23:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656490983; x=1688026983;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=0h8gKuDxVpBMfEXvQ+5hx1/EJFE9Qmj0dGm5ASes7Lw=;
- b=LcTMdBuzvqvT6wIvlcEbNutZkEHFdWkPd9SzeH3e3yLTsmhvzSANquPD
- dyYrYK7ArkoP2DAIXAvb2UNXukF0xT/cVV/A2DfiDW/3NfNt0iRJiLEUV
- 0mxfv/+kMne1uNs6Yooczdn2n0RvsuT7gTx8V/rF9AqXpSqW0uyOSl5mH
- ZFV2C878EeU+IwaXqvjjqGHm1XRQojI/bbuXJhtfavJEObiIt/rjXFJai
- N3u868UKvKD9A37mIYxYj1RuwbQzjQoggBbmV9G9UCBum27EFCxzKTSo4
- y0ZDLpVn4UYiiwrFkvfJZ3H3rYbaIUw7ewhrebOmc/1wJkj+GqbstJfH3 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="261769630"
-X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="261769630"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2022 01:23:02 -0700
-X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="837038491"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.7.241])
- ([10.213.7.241])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2022 01:22:58 -0700
-Message-ID: <437bcbda-970d-2a83-051f-f350e53827bd@intel.com>
-Date: Wed, 29 Jun 2022 10:22:55 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 111BF10E182;
+ Wed, 29 Jun 2022 08:23:58 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru
+ [109.252.118.164])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 2C51C66018F6;
+ Wed, 29 Jun 2022 09:23:54 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1656491036;
+ bh=TKplUYktuy+fI9Fnwv5CbrVDB+CILHnu464IQXTpgjg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Hh50EXmRXalD8uakgN300BfHpmjducw9bC+QVgu+5qZJ+/06XJI6vmnwyVunKHvTu
+ UurO0sBxI/nVuIlAr3VXYn58dM1imSvobu55OFj091KfdlQDYptmB3FkuxkWooYgI5
+ NpSItA+GHgY6jPnWQbmqoBN/FD6L4QqvRvJdrRvwozQKplNFqn5bxByj5x7N8ZzztY
+ 1NGWfuHPh2QKNtJVxBm0HGaBnWhbCFAyCwSOa/+Zp73xpzBmDZHRMCEIF/ZeONMbYT
+ XUq5kP9/+4sLtdAJWqQ7HViJKJJxcDwBrTJthLmqG4Pw4WwunvIZwT0lC3xjDWQAmJ
+ 8GjaWihLHjnhA==
+Message-ID: <51d58fff-238e-33e9-20d0-0836b1197459@collabora.com>
+Date: Wed, 29 Jun 2022 11:23:51 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.10.0
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915/fbdev: suspend HPD before fbdev
- unregistration
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 01/22] drm/gem: Properly annotate WW context on
+ drm_gem_lock_reservations() error
 Content-Language: en-US
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>,
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20220623163813.1990801-1-andrzej.hajda@intel.com>
- <20220623163813.1990801-3-andrzej.hajda@intel.com>
- <DM6PR11MB317754BAC87AD15EF47D274FBABB9@DM6PR11MB3177.namprd11.prod.outlook.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <DM6PR11MB317754BAC87AD15EF47D274FBABB9@DM6PR11MB3177.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-2-dmitry.osipenko@collabora.com>
+ <d3fcb4ee-83ec-09b8-d1ef-0191512fda91@shipmail.org>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <d3fcb4ee-83ec-09b8-d1ef-0191512fda91@shipmail.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,42 +84,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ kernel@collabora.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for comments,
-
-
-On 29.06.2022 07:38, Murthy, Arun R wrote:
->>   void intel_fbdev_unregister(struct drm_i915_private *dev_priv)  {
->>        struct intel_fbdev *ifbdev = dev_priv->fbdev; @@ -573,6 +594,8 @@
->> void intel_fbdev_unregister(struct drm_i915_private *dev_priv)
->>        if (!ifbdev)
->>                return;
+On 6/28/22 23:12, Thomas Hellström (Intel) wrote:
+> Hi,
+> 
+> On 5/27/22 01:50, Dmitry Osipenko wrote:
+>> Use ww_acquire_fini() in the error code paths. Otherwise lockdep
+>> thinks that lock is held when lock's memory is freed after the
+>> drm_gem_lock_reservations() error. The WW needs to be annotated
+>> as "freed"
+> 
+> s /WW/ww_acquire_context/ ?
+> s /"freed"/"released"/ ?
+> 
+> 
+>> , which fixes the noisy "WARNING: held lock freed!" splat
+>> of VirtIO-GPU driver with CONFIG_DEBUG_MUTEXES=y and enabled lockdep.
 >>
->> +     intel_fbdev_hpd_set_suspend(dev_priv,
->> FBINFO_STATE_SUSPENDED);
->> +
+>> Cc: stable@vger.kernel.org
 > 
-> Instead of intel_fbdev_hpd_set_suspend(), will intel_fbdev_set_suspend() make more sense?
-> If intel_fbdev_set_suspend() is called, then the below cancel_work_sync() may not be required.
-
-
-It does more than I needed (calls drm_fb_helper_set_suspend), but it 
-shouldn't hurt. I will try this approach.
-
-Regards
-Andrzej
-
+> Can you dig up the commit in error and add a Fixes: Tag?
 > 
->>        cancel_work_sync(&dev_priv->fbdev_suspend_work);
->>        if (!current_is_async())
->>                intel_fbdev_sync(ifbdev);
+> Using that and "dim fixes" will also make the Cc: stable tag a bit more
+> verbose.
 > 
-> Thanks and Regards,
-> Arun R Murthy
-> --------------------
+> With that fixed,
+> 
+> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
+I'll update this patch, thank you for taking a look.
+
+-- 
+Best regards,
+Dmitry
