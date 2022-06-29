@@ -1,80 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5525E55FFBC
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:24:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9EF55FFE7
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:35:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8113C113B4B;
-	Wed, 29 Jun 2022 12:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B7D11BD23;
+	Wed, 29 Jun 2022 12:35:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00F538997E
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:23:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656505431;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EYDBXIB3xoIWC8aCI7RzeLW7qStzkUrLkNcQjH128XA=;
- b=AjmeGh54ohC+B1d1Oaph0T5hVlPOXMM0wUoOuogkzluu6wRroIX6sCmtMsfBxSIrhO73A6
- KG6XWRIZVRmGJWZAQygZGBypC7No8YfqZtQ8Kd4g/updeZUNcvOtAzE8a1qKceFR4EOqmd
- ZMQDKIN1MLAd+pYOUtwY8hQPX7/tdsI=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-148-cZEHVQ4UPLSs7xUmui4mVg-1; Wed, 29 Jun 2022 08:23:50 -0400
-X-MC-Unique: cZEHVQ4UPLSs7xUmui4mVg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- bl27-20020a05620a1a9b00b0069994eeb30cso16084945qkb.11
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 05:23:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=EYDBXIB3xoIWC8aCI7RzeLW7qStzkUrLkNcQjH128XA=;
- b=w8z4yKrSwZKZXRlHvRsKdf6ZHd69lKcCfaqrfykyg+1YDdqMh+w3ASc0z8OkXZzcoc
- VN8W2zZujHw7VKPWLAP3Vl0kDYpwpt0UU2HOBUVIU7NLg3fh/YOFbPhhV5LWMPfyoL//
- ZEvT+QnXihzLvxBtb2BWawmA4G6cRWmaE8RbofFVvNt6xy74kNUXGXKecFlto8H/ZD43
- KzJWjwsX0pEEKeftkfVXZIAqcYT1QQd0lvfYWMCs/thHShsNRi29/QxDIqQ895XWi7nE
- 7ScX6199tkf4ecCrlxxpXpwl37mcIodAntFcu0xTZv8iamx4Fapec4zfWwbuIIK2MZT6
- 9uMA==
-X-Gm-Message-State: AJIora9jyQ5tvMCC6vnxYqqSSs0LXKPEEtIfMTBsM94n1hO38vqrV9yT
- GwqUGOwR7K5DkmCCCBwBG0jJNLwQWmf9yxrYuPohOD/+L2K+hdTISaEL6byuwG0PJKMDWAf62/9
- lifAh1mUl1a9jYC4GrjOS40fI6cDH
-X-Received: by 2002:a05:6214:268d:b0:472:aaf1:5f27 with SMTP id
- gm13-20020a056214268d00b00472aaf15f27mr694660qvb.110.1656505429159; 
- Wed, 29 Jun 2022 05:23:49 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u3h0V3fdhVV+HucGS5oArvomDWB3I4qcdeLL7MDHAtkOnDR5VNPMUAvyAUfaXGCeU2LIejWA==
-X-Received: by 2002:a05:6214:268d:b0:472:aaf1:5f27 with SMTP id
- gm13-20020a056214268d00b00472aaf15f27mr694617qvb.110.1656505428790; 
- Wed, 29 Jun 2022 05:23:48 -0700 (PDT)
-Received: from bfoster (c-24-61-119-116.hsd1.ma.comcast.net. [24.61.119.116])
- by smtp.gmail.com with ESMTPSA id
- v123-20020a379381000000b006a6c230f5e0sm4399269qkd.31.2022.06.29.05.23.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jun 2022 05:23:48 -0700 (PDT)
-Date: Wed, 29 Jun 2022 08:23:45 -0400
-From: Brian Foster <bfoster@redhat.com>
-To: Kalesh Singh <kaleshsingh@google.com>
-Subject: Re: [PATCH v2 1/2] procfs: Add 'size' to /proc/<pid>/fdinfo/
-Message-ID: <YrxEUbDkYLE6XF6x@bfoster>
-References: <20220623220613.3014268-1-kaleshsingh@google.com>
- <20220623220613.3014268-2-kaleshsingh@google.com>
- <Yrrrz7MxMu8OoEPU@bfoster>
- <CAC_TJvejs5gbggC1hekyjUNctC_8+3FmVn0B7zAZox2+MkEjaA@mail.gmail.com>
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 490CF11BCCD
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:35:17 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 9CE81320093F;
+ Wed, 29 Jun 2022 08:35:14 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 29 Jun 2022 08:35:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1656506114; x=1656592514; bh=UkPF+DK2Hp
+ V37pH4gWnlVHN0f+99QflrQKTQhWJljgE=; b=TNd1aiWfyjXWP9Ug29+GztLgA0
+ 2iM7nH3vZ5hAUZluxkTaF3Ft48FXE79yyXjC/BjDLAQQ/ilV5gK9QpYI9wRybXGJ
+ rBzfF7iLpncbTW2HKtlEtpcNZb3bORnm0MKV8+/lAvtJSJ6DmQeHce7HOQerH9zG
+ kGhaPOqvFpvTk7bhdtjDUWamUEJNJi3wle8nAIQDXtmIT+fcENtPcAaQUFDSF+qD
+ Lb9SRdEpEQgtsQNEDNx3jjpUjwGkJ5RfrxpK+3iGe3Af8dG300zl0cR11lW/UfnJ
+ zbNCq4QZrp4jhGVUwPRfENbCOlG9CROUc9PSQv1DLZ3y1IgMGriLtTprE2KQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1656506114; x=1656592514; bh=UkPF+DK2HpV37
+ pH4gWnlVHN0f+99QflrQKTQhWJljgE=; b=M665vBmZWAHzoWp1RcOormiEwS9De
+ Ec6D71oHf7g8em8Cf/D9AzBwVKsNoNPCxYHMB1DM01f2Z9CgxreKln88+H/zhwZU
+ 1C6KPkYgjL8rxYWrpSfJIqim4Hy7uEbJy9A5ac9KyAep8D5PrzM7Blolk66jCwFr
+ haPlPu0CQkpPnOXL39onXmFqNJ4a/D0q4jy2O87dQWSxq9D5TZN5UdzUyhT97ps3
+ BmJ0ZPi1ZOtZmz2W7w+wJCH20m6indkGoHkCR2JDjkYLC7rt1sqJEaRhjzINJNfr
+ Z972kwDcCvt+co9OSwG6wivUVbCwsRAG+NhLwbJCeWYDPJKfWJSLseDiA==
+X-ME-Sender: <xms:AUe8Yie4OTBdpS7-D83R9t4e35PnWn_Cf7M3WDa0zmPT94ELMaaw3w>
+ <xme:AUe8YsOO8EEjgvi5LP5o5ls-Ir5tjquEFctlRTC1RXpWEi-_QCjFxNVYVXqU8CQ6G
+ hVR2oeDCxAoZ_QG98w>
+X-ME-Received: <xmr:AUe8YjhT1OB0B_UEi1mBI4_qEllh5KL4iUxYZLdtXnNi7cxrVgCnEDoyEJzs41d6TILdIQDM0EvVf6Syb56YErAX6uXn829JguOzQBw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgheefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofgtggfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepledvtdegkeegtdejvdejvdejleeifeegfeevueegvddvleevieeghffhtdet
+ geffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:AUe8Yv8qrwmb8soow7p4Ao0VarPp9TyW02czZaIa8mbmouqKTPhsRA>
+ <xmx:AUe8YussjoEPElTajwDhwAA8cakc18KYFsJ5mHdbCTV1-i1-0JwfcQ>
+ <xmx:AUe8YmHebpl9rFtk1U7wkG34cM8D3wWIGJxfzZ7_2DqSVee1WyrKIQ>
+ <xmx:Ake8YgLdg9i_XZlUt3WxlJk1RwdMdGguZOqwK76FEWDJ_UiETDYndw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Jun 2022 08:35:12 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: [PATCH v3 00/71] drm/vc4: Fix hotplug for vc4
+Date: Wed, 29 Jun 2022 14:33:59 +0200
+Message-Id: <20220629123510.1915022-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.36.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <CAC_TJvejs5gbggC1hekyjUNctC_8+3FmVn0B7zAZox2+MkEjaA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bfoster@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,154 +82,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Stephen Brennan <stephen.s.brennan@oracle.com>,
- Paul Gortmaker <paul.gortmaker@windriver.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
- Christoph Hellwig <hch@infradead.org>,
- "Cc: Android Kernel" <kernel-team@android.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Suren Baghdasaryan <surenb@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Randy Dunlap <rdunlap@infradead.org>, Ioannis Ilkos <ilkos@google.com>,
- LKML <linux-kernel@vger.kernel.org>, David.Laight@aculab.com,
- Johannes Weiner <hannes@cmpxchg.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Mike Rapoport <rppt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 28, 2022 at 03:38:02PM -0700, Kalesh Singh wrote:
-> On Tue, Jun 28, 2022 at 4:54 AM Brian Foster <bfoster@redhat.com> wrote:
-> >
-> > On Thu, Jun 23, 2022 at 03:06:06PM -0700, Kalesh Singh wrote:
-> > > To be able to account the amount of memory a process is keeping pinned
-> > > by open file descriptors add a 'size' field to fdinfo output.
-> > >
-> > > dmabufs fds already expose a 'size' field for this reason, remove this
-> > > and make it a common field for all fds. This allows tracking of
-> > > other types of memory (e.g. memfd and ashmem in Android).
-> > >
-> > > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > > Reviewed-by: Christian König <christian.koenig@amd.com>
-> > > ---
-> > >
-> > > Changes in v2:
-> > >   - Add Christian's Reviewed-by
-> > >
-> > > Changes from rfc:
-> > >   - Split adding 'size' and 'path' into a separate patches, per Christian
-> > >   - Split fdinfo seq_printf into separate lines, per Christian
-> > >   - Fix indentation (use tabs) in documentaion, per Randy
-> > >
-> > >  Documentation/filesystems/proc.rst | 12 ++++++++++--
-> > >  drivers/dma-buf/dma-buf.c          |  1 -
-> > >  fs/proc/fd.c                       |  9 +++++----
-> > >  3 files changed, 15 insertions(+), 7 deletions(-)
-> > >
-...
-> >
-> > Also not sure if it matters that much for your use case, but something
-> > worth noting at least with shmem is that one can do something like:
-> >
-> > # cat /proc/meminfo | grep Shmem:
-> > Shmem:               764 kB
-> > # xfs_io -fc "falloc -k 0 10m" ./file
-> > # ls -alh file
-> > -rw-------. 1 root root 0 Jun 28 07:22 file
-> > # stat file
-> >   File: file
-> >   Size: 0               Blocks: 20480      IO Block: 4096   regular empty file
-> > # cat /proc/meminfo | grep Shmem:
-> > Shmem:             11004 kB
-> >
-> > ... where the resulting memory usage isn't reflected in i_size (but is
-> > is in i_blocks/bytes).
-> 
-> I tried a similar experiment a few times, but I don't see the same
-> results. In my case, there is not any change in shmem. IIUC the
-> fallocate is allocating the disk space not shared memory.
-> 
+Hi,
 
-Sorry, it was implied in my previous test was that I was running against
-tmpfs. So regardless of fs, the fallocate keep_size semantics shown in
-both cases is as expected: the underlying blocks are allocated and the
-inode size is unchanged.
+Here is a series that address multiple issues when trying to unbind/rebind
+vc4-related devices to their drivers.
 
-What wasn't totally clear to me when I read this patch was 1. whether
-tmpfs refers to Shmem and 2. whether tmpfs allowed this sort of
-operation. The test above seems to confirm both, however, right? E.g., a
-more detailed example:
+Most of these issues involve either use-after-free, improper resource
+liberation or similar.
 
-# mount | grep /tmp
-tmpfs on /tmp type tmpfs (rw,nosuid,nodev,seclabel,nr_inodes=1048576,inode64)
-# cat /proc/meminfo | grep Shmem:
-Shmem:              5300 kB
-# xfs_io -fc "falloc -k 0 1g" /tmp/file
-# stat /tmp/file 
-  File: /tmp/file
-  Size: 0               Blocks: 2097152    IO Block: 4096   regular empty file
-Device: 22h/34d Inode: 45          Links: 1
-Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    root)
-Context: unconfined_u:object_r:user_tmp_t:s0
-Access: 2022-06-29 08:04:01.301307154 -0400
-Modify: 2022-06-29 08:04:01.301307154 -0400
-Change: 2022-06-29 08:04:01.451312834 -0400
- Birth: 2022-06-29 08:04:01.301307154 -0400
-# cat /proc/meminfo | grep Shmem:
-Shmem:           1053876 kB
-# rm -f /tmp/file 
-# cat /proc/meminfo | grep Shmem:
-Shmem:              5300 kB
+It has been tested on the Pi3 and Pi4, with X and glxgears running and KASAN
+enabled to properly validate our memory accesses.
 
-So clearly this impacts Shmem.. was your test run against tmpfs or some
-other (disk based) fs?
+Pi3 isn't functional after a rebind though, with vblank timeouts occuring. I'm
+not quite sure why at this point, but at least the kernel doesn't completely
+crash now.
 
-FWIW, I don't have any objection to exposing inode size if it's commonly
-useful information. My feedback was more just an fyi that i_size doesn't
-necessarily reflect underlying space consumption (whether it's memory or
-disk space) in more generic cases, because it sounds like that is really
-what you're after here. The opposite example to the above would be
-something like an 'xfs_io -fc "truncate 1t" /tmp/file', which shows a
-1TB inode size with zero additional shmem usage.
+Let me know what you think,
+Maxime
 
-Brian
+---
 
-> cat /proc/meminfo > meminfo.start
-> xfs_io -fc "falloc -k 0 50m" ./xfs_file
-> cat /proc/meminfo > meminfo.stop
-> tail -n +1 meminfo.st* | grep -i '==\|Shmem:'
-> 
-> ==> meminfo.start <==
-> Shmem:               484 kB
-> ==> meminfo.stop <==
-> Shmem:               484 kB
-> 
-> ls -lh xfs_file
-> -rw------- 1 root root 0 Jun 28 15:12 xfs_file
-> 
-> stat xfs_file
->   File: xfs_file
->   Size: 0               Blocks: 102400     IO Block: 4096   regular empty file
-> 
-> Thanks,
-> Kalesh
-> 
-> >
-> > Brian
-> >
-> > >
-> > >       /* show_fd_locks() never deferences files so a stale value is safe */
-> > >       show_fd_locks(m, file, files);
-> > > --
-> > > 2.37.0.rc0.161.g10f37bed90-goog
-> > >
-> >
-> 
+Changes from v2:
+  - Rebased on top of next-20220629
+  - Fix va arguments on the crtc and encoder init
+  - Removed drmm_connector_init_with_ddc and consolidated drm_connector_init*
+  - Reworked the doc for drmm_of_get_bridge
+
+Changes from v1:
+  - Rebased on top on next-20220622
+  - Consolidated the new drmm init helpers with their alloc counterparts
+  - Dropped the drmm writeback and simple encoder helpers
+  - Clarified the documentation of drm_connector_unregister
+  - Removed the drm_connector_unregister usage
+  - Fixed a vblank timeout when unbinding
+  - Renamed the kref functions in vc4_dsi
+  - Collected the tags
+
+Maxime Ripard (71):
+  drm/mipi-dsi: Detach devices when removing the host
+  drm/crtc: Introduce drmm_crtc_init_with_planes
+  drm/encoder: Introduce drmm_encoder_init
+  drm/connector: Reorder headers
+  drm/connector: Mention the cleanup after drm_connector_init
+  drm/connector: Clarify when drm_connector_unregister is needed
+  drm/connector: Consolidate Connector Initialization
+  drm/connector: Check for destroy implementation
+  drm/connector: Introduce drmm_connector_init
+  drm/bridge: panel: Introduce drmm_panel_bridge_add
+  drm/bridge: panel: Introduce drmm_of_get_bridge
+  drm/vc4: drv: Call component_unbind_all()
+  drm/vc4: drv: Use drm_dev_unplug
+  drm/vc4: crtc: Create vblank reporting function
+  drm/vc4: hvs: Protect device resources after removal
+  drm/vc4: hvs: Remove planes currently allocated before taking down
+  drm/vc4: plane: Take possible_crtcs as an argument
+  drm/vc4: crtc: Remove manual plane removal on error
+  drm/vc4: plane: Switch to drmm_universal_plane_alloc()
+  drm/vc4: crtc: Move debugfs_name to crtc_data
+  drm/vc4: crtc: Switch to drmm_kzalloc
+  drm/vc4: crtc: Switch to DRM-managed CRTC initialization
+  drm/vc4: dpi: Remove vc4_dev dpi pointer
+  drm/vc4: dpi: Embed DRM structures into the private structure
+  drm/vc4: dpi: Switch to drmm_kzalloc
+  drm/vc4: dpi: Return an error if we can't enable our clock
+  drm/vc4: dpi: Remove unnecessary drm_of_panel_bridge_remove call
+  drm/vc4: dpi: Add action to disable the clock
+  drm/vc4: dpi: Switch to DRM-managed encoder initialization
+  drm/vc4: dpi: Switch to drmm_of_get_bridge
+  drm/vc4: dpi: Protect device resources
+  drm/vc4: dsi: Embed DRM structures into the private structure
+  drm/vc4: dsi: Switch to DRM-managed encoder initialization
+  drm/vc4: dsi: Switch to drmm_of_get_bridge
+  drm/vc4: dsi: Fix the driver structure lifetime
+  drm/vc4: dsi: Switch to devm_pm_runtime_enable
+  drm/vc4: hdmi: Depends on CONFIG_PM
+  drm/vc4: hdmi: Rework power up
+  drm/vc4: hdmi: Switch to drmm_kzalloc
+  drm/vc4: hdmi: Remove call to drm_connector_unregister()
+  drm/vc4: hdmi: Switch to DRM-managed encoder initialization
+  drm/vc4: hdmi: Switch to DRM-managed connector initialization
+  drm/vc4: hdmi: Switch to device-managed ALSA initialization
+  drm/vc4: hdmi: Switch to device-managed CEC initialization
+  drm/vc4: hdmi: Use a device-managed action for DDC
+  drm/vc4: hdmi: Switch to DRM-managed kfree to build regsets
+  drm/vc4: hdmi: Use devm to register hotplug interrupts
+  drm/vc4: hdmi: Move audio structure offset checks
+  drm/vc4: hdmi: Protect device resources after removal
+  drm/vc4: hdmi: Switch to devm_pm_runtime_enable
+  drm/vc4: txp: Remove vc4_dev txp pointer
+  drm/vc4: txp: Remove duplicate regset
+  drm/vc4: txp: Switch to drmm_kzalloc
+  drm/vc4: txp: Remove call to drm_connector_unregister()
+  drm/vc4: txp: Protect device resources
+  drm/vc4: vec: Remove vc4_dev vec pointer
+  drm/vc4: vec: Embed DRM structures into the private structure
+  drm/vc4: vec: Switch to drmm_kzalloc
+  drm/vc4: vec: Remove call to drm_connector_unregister()
+  drm/vc4: vec: Switch to DRM-managed encoder initialization
+  drm/vc4: vec: Switch to DRM-managed connector initialization
+  drm/vc4: vec: Protect device resources after removal
+  drm/vc4: vec: Switch to devm_pm_runtime_enable
+  drm/vc4: debugfs: Protect device resources
+  drm/vc4: debugfs: Return an error on failure
+  drm/vc4: debugfs: Simplify debugfs registration
+  drm/vc4: Switch to drmm_mutex_init
+  drm/vc4: perfmon: Add missing mutex_destroy
+  drm/vc4: v3d: Stop disabling interrupts
+  drm/vc4: v3d: Rework the runtime_pm setup
+  drm/vc4: v3d: Switch to devm_pm_runtime_enable
+
+ drivers/gpu/drm/bridge/panel.c    |  74 ++++
+ drivers/gpu/drm/drm_connector.c   | 143 +++++--
+ drivers/gpu/drm/drm_crtc.c        |  93 +++-
+ drivers/gpu/drm/drm_encoder.c     |  76 +++-
+ drivers/gpu/drm/drm_mipi_dsi.c    |   1 +
+ drivers/gpu/drm/vc4/Kconfig       |   1 +
+ drivers/gpu/drm/vc4/vc4_bo.c      |  33 +-
+ drivers/gpu/drm/vc4/vc4_crtc.c    |  90 ++--
+ drivers/gpu/drm/vc4/vc4_debugfs.c |  71 ++--
+ drivers/gpu/drm/vc4/vc4_dpi.c     | 131 +++---
+ drivers/gpu/drm/vc4/vc4_drv.c     |  21 +-
+ drivers/gpu/drm/vc4/vc4_drv.h     |  47 +-
+ drivers/gpu/drm/vc4/vc4_dsi.c     | 133 ++++--
+ drivers/gpu/drm/vc4/vc4_gem.c     |  10 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c    | 683 ++++++++++++++++++++++--------
+ drivers/gpu/drm/vc4/vc4_hdmi.h    |   3 +-
+ drivers/gpu/drm/vc4/vc4_hvs.c     | 145 ++++++-
+ drivers/gpu/drm/vc4/vc4_irq.c     |   2 +-
+ drivers/gpu/drm/vc4/vc4_perfmon.c |   1 +
+ drivers/gpu/drm/vc4/vc4_plane.c   |  36 +-
+ drivers/gpu/drm/vc4/vc4_txp.c     |  55 ++-
+ drivers/gpu/drm/vc4/vc4_v3d.c     |  65 ++-
+ drivers/gpu/drm/vc4/vc4_vec.c     | 216 +++++-----
+ include/drm/drm_bridge.h          |   4 +
+ include/drm/drm_connector.h       |   5 +
+ include/drm/drm_crtc.h            |   9 +
+ include/drm/drm_encoder.h         |   6 +
+ 27 files changed, 1514 insertions(+), 640 deletions(-)
+
+-- 
+2.36.1
 
