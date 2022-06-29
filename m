@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF43560034
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0745A56003C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:39:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BCEF14A67F;
-	Wed, 29 Jun 2022 12:38:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DBF710FA91;
+	Wed, 29 Jun 2022 12:39:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
  [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 917D014A66E
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:38:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 806D614A672
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:38:28 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 6D34B320095E;
- Wed, 29 Jun 2022 08:38:24 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id 58FED3200956;
+ Wed, 29 Jun 2022 08:38:27 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 29 Jun 2022 08:38:25 -0400
+ by compute5.internal (MEProxy); Wed, 29 Jun 2022 08:38:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1656506303; x=
- 1656592703; bh=is1SUOCWblDIvymDE/eZ/WEELF4q6ov293jMzKQUzR8=; b=D
- hSi/UcRO92fvrUtQr0pahEeXNSZXymaxCqHB2h5lh+4v4/NR5wzfHy/EtPbId+O5
- vAoMg8bD+MtelYO3klurriqvAKJquWo8YkcbiTpTtxmkhHFWl+TSbGpFKclrUSB7
- 9C3kDhsbBnpIyB1yk+xuegd6kLCcxD+tkvjrHP5gPci1NMfH58rbq7Ol7VvJnQyG
- y6PzL8WrMzQb00EUTyj3d9GaeR1rN34Eb/ARmTqm2CLHnPzm2/IgaqtWv8mhgI6I
- 6t0go2bplJHudzkOvQqUUupByPgXgGGcdEd5kpQCcddWQGhUHT+Plwrck2te9eqS
- sAeFRDAnNFO1+tngF+wIg==
+ :cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1656506306; x=1656592706; bh=Vd
+ Lz+bNDyU6wNwEuYDjzbgjwCrsbL40xe63mL5tzsGg=; b=J3MO/TTkWl9Ynptl9p
+ D9Npr71vmaf+dNqS1GSkfzfj0JoNf8l0tHtJpnJ8HsHO8uODTbkr5zY40WqinKBx
+ 0dm+M1fxZjigA6VQKYKk+QvrnJ1mnnf/JRxrmuvCmp5B8TgWC40B4rqhRK7rXh97
+ OHx2/MQ6JGRzZlT8dljDYPhfZk+aY01ySEp75jJMaJ+pRE7VU7utHtlqvec+IZDU
+ sLvdjoCXBOrY6eYyyXpFkbGVhUzZYHn1itNcHEE0W8vjkJGuWeclfPygjHHD0ZUU
+ JpISOmgiXzMYjCj4GWTCJQlwhMU60Ze++TJimVtLX2qcR60dF904lhW8ZO+ABd7O
+ 468g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656506303; x=
- 1656592703; bh=is1SUOCWblDIvymDE/eZ/WEELF4q6ov293jMzKQUzR8=; b=l
- 35AgcfDxD5QnlMaYmyymaXyk4E5jVy+vr3oP8JLwKCJYd63vOWCmqLsAc6p+7ueM
- COypsjZnJxl2L3hmOMJhMCOyF/QuseaCnGp25XsQcs11/ql3nvX2Okv+2ZsSctj1
- K3P/M57otpHWmZ0XIgeNtFfwyBYVHQWA3yXDDOHzreSMI/9pTtBAt3gdhj8gNc1L
- xat42PcEs+nI9KCOSo849nNMcRmGfwpODOYWamjibsiiu0kNTamQWAMqYlBGAyZB
- 3lxKQ/Em9aqTnTHcBDEQN6tqk5cQ0lt41AQpARkQnC87rwTY3TYNymQjIDbiAiax
- b47oQ9K5aSyqL/j6THu0w==
-X-ME-Sender: <xms:v0e8Yqs1XZHg7qIgn8Um2N7Ljp6SlOklx6KzV3vjbGn-KH_LuokOVA>
- <xme:v0e8YveXga4l_5jBpFnj0W559n9EPWpv63BC-Y2LolEBtFD5RmW9VYVppDpkFe2Aq
- xxsP7dV4kicr_PNlno>
-X-ME-Received: <xmr:v0e8Ylz2yfzbIL3hyLKk4TzNlifOLMuiMvGoGbTOeMbxJg3eJWvyw8G-J_72wpCASfPOZudcZOyDmz2l5w9_BvtxLcB5DJhoGteAZ1w>
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1656506306; x=1656592706; bh=VdLz+bNDyU6wN
+ wEuYDjzbgjwCrsbL40xe63mL5tzsGg=; b=BGZ5kd9dgu+11w2gcJhZJLxZZEz1a
+ 3a00N8rxrz0Shg7StEs28h1qfthKbupe4G095MJ8EnYqZsf2LS5HpnKnm04SA65n
+ nSdZQCfJGvrMw3kuLG/QjNRg7bgv5vQUAIiz+ofRVRiOA7Nbw70w+vo6DCgGY7rr
+ v+JCEiSj4KRtKY2X15pyX64p+8RZR7HgB8/lKavu1FbxSSR7o33ThnUxPiKUI3Hn
+ YBAbvNbgTEQxdrYB6AFElWz8zc4fL2X9t17Ce4eEJM9oYNRt4o0edCkhRgnRA7Yq
+ b9Za75wn17Z8vGD9+9f3nWQDdnnxzEA6ReVkVKxsqdiD3OCxoUWKgxpUw==
+X-ME-Sender: <xms:wke8YtIjsexq-przU7eduRnIn8kMjxR4xSCvoy_P4llTdgEpVAYG5g>
+ <xme:wke8YpIIKVdjw5gmSOwx7zVOZbhtzj4nHnlwDQsq13muvTohpgWiLr-iUldS1vrAV
+ w4i_3FP68cR_Y3JYUA>
+X-ME-Received: <xmr:wke8YlsqJHRDJke--tzabMfKk1BawLCg99AfROG8df9DOUbzryyIFjHbeoHiXx9xsAp0CLFhM5DutMojKEGNfWlyYQ0ef-EjD9awygM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgheefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepueeigefghfffffeifeehudeiuedvteegueefffevgfetvdffheehkeff
- vedufeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:v0e8YlP5Bz85j-x2YBGmSlVkSZickVedcpPPm2q2sKU5bTDVjYm0Dw>
- <xmx:v0e8Yq9-LQ9q_sgy7A0TSoybQ468iXMaqbNBJhqjznZrAik5G7-pLw>
- <xmx:v0e8YtXGamJtXHwd4l-T9OLonZhSqvVwc-0DlTL16xsix4AJZqa4kA>
- <xmx:v0e8YuZW9VYoxSt6iNgAFLQBhk5P0rdOBlczF5m1mVNwx4As8knaAQ>
+ cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
+ vdejhfenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:wke8YuY2OyxeGGFG43arTsCfGNu-jXjLcPAugv2gkitlA34Ohyzmsw>
+ <xmx:wke8YkbI1FQGg7PhmURZsfg1agvPfukRlRqBRqpxnBd451qX5TvNnQ>
+ <xmx:wke8YiDG9h_PSVl9Ppt-iNvv5zfzD_qDI48hUzazsal8mpOAfIN_Bg>
+ <xmx:wke8YrV6QKGjv2vXSd_sIHIeGFrf6_Mamg9LJ5WkqT_jngwSFr40ww>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Jun 2022 08:38:23 -0400 (EDT)
+ 29 Jun 2022 08:38:26 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v3 64/71] drm/vc4: debugfs: Protect device resources
-Date: Wed, 29 Jun 2022 14:35:03 +0200
-Message-Id: <20220629123510.1915022-65-maxime@cerno.tech>
+Subject: [PATCH v3 65/71] drm/vc4: debugfs: Return an error on failure
+Date: Wed, 29 Jun 2022 14:35:04 +0200
+Message-Id: <20220629123510.1915022-66-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220629123510.1915022-1-maxime@cerno.tech>
 References: <20220629123510.1915022-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,55 +88,105 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Our current code now mixes some resources whose lifetime are tied to the
-device (clocks, IO mappings, etc.) and some that are tied to the DRM device
-(encoder, bridge).
-
-The device one will be freed at unbind time, but the DRM one will only be
-freed when the last user of the DRM device closes its file handle.
-
-So we end up with a time window during which we can call the encoder hooks,
-but we don't have access to the underlying resources and device.
-
-Let's protect all those sections with drm_dev_enter() and drm_dev_exit() so
-that we bail out if we are during that window.
+vc4_debugfs_add_file() can fail, so let's propagate its error code instead
+of silencing it.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_debugfs.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/gpu/drm/vc4/vc4_debugfs.c | 20 +++++++++++---------
+ drivers/gpu/drm/vc4/vc4_drv.h     | 30 ++++++++++++++++--------------
+ 2 files changed, 27 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_debugfs.c b/drivers/gpu/drm/vc4/vc4_debugfs.c
-index ba2d8ea562af..d6350a8ca048 100644
+index d6350a8ca048..b857fb9c94bc 100644
 --- a/drivers/gpu/drm/vc4/vc4_debugfs.c
 +++ b/drivers/gpu/drm/vc4/vc4_debugfs.c
-@@ -3,6 +3,8 @@
-  *  Copyright © 2014 Broadcom
+@@ -67,10 +67,10 @@ static int vc4_debugfs_regset32(struct seq_file *m, void *unused)
+  * track the request and delay it to be called on each minor during
+  * vc4_debugfs_init().
   */
- 
-+#include <drm/drm_drv.h>
-+
- #include <linux/seq_file.h>
- #include <linux/circ_buf.h>
- #include <linux/ctype.h>
-@@ -41,11 +43,18 @@ vc4_debugfs_init(struct drm_minor *minor)
- static int vc4_debugfs_regset32(struct seq_file *m, void *unused)
+-void vc4_debugfs_add_file(struct drm_device *dev,
+-			  const char *name,
+-			  int (*show)(struct seq_file*, void*),
+-			  void *data)
++int vc4_debugfs_add_file(struct drm_device *dev,
++			 const char *name,
++			 int (*show)(struct seq_file*, void*),
++			 void *data)
  {
- 	struct drm_info_node *node = (struct drm_info_node *)m->private;
-+	struct drm_device *drm = node->minor->dev;
- 	struct debugfs_regset32 *regset = node->info_ent->data;
- 	struct drm_printer p = drm_seq_file_printer(m);
-+	int idx;
-+
-+	if (!drm_dev_enter(drm, &idx))
-+		return -ENODEV;
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
  
- 	drm_print_regset32(&p, regset);
+@@ -78,18 +78,20 @@ void vc4_debugfs_add_file(struct drm_device *dev,
+ 		devm_kzalloc(dev->dev, sizeof(*entry), GFP_KERNEL);
  
-+	drm_dev_exit(idx);
+ 	if (!entry)
+-		return;
++		return -ENOMEM;
+ 
+ 	entry->info.name = name;
+ 	entry->info.show = show;
+ 	entry->info.data = data;
+ 
+ 	list_add(&entry->link, &vc4->debugfs_list);
 +
- 	return 0;
++	return 0;
  }
+ 
+-void vc4_debugfs_add_regset32(struct drm_device *drm,
+-			      const char *name,
+-			      struct debugfs_regset32 *regset)
++int vc4_debugfs_add_regset32(struct drm_device *drm,
++			     const char *name,
++			     struct debugfs_regset32 *regset)
+ {
+-	vc4_debugfs_add_file(drm, name, vc4_debugfs_regset32, regset);
++	return vc4_debugfs_add_file(drm, name, vc4_debugfs_regset32, regset);
+ }
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index ce12d7ec9c6e..e029dbd4567b 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -865,25 +865,27 @@ void vc4_crtc_get_margins(struct drm_crtc_state *state,
+ /* vc4_debugfs.c */
+ void vc4_debugfs_init(struct drm_minor *minor);
+ #ifdef CONFIG_DEBUG_FS
+-void vc4_debugfs_add_file(struct drm_device *drm,
+-			  const char *filename,
+-			  int (*show)(struct seq_file*, void*),
+-			  void *data);
+-void vc4_debugfs_add_regset32(struct drm_device *drm,
+-			      const char *filename,
+-			      struct debugfs_regset32 *regset);
++int vc4_debugfs_add_file(struct drm_device *drm,
++			 const char *filename,
++			 int (*show)(struct seq_file*, void*),
++			 void *data);
++int vc4_debugfs_add_regset32(struct drm_device *drm,
++			     const char *filename,
++			     struct debugfs_regset32 *regset);
+ #else
+-static inline void vc4_debugfs_add_file(struct drm_device *drm,
+-					const char *filename,
+-					int (*show)(struct seq_file*, void*),
+-					void *data)
++static inline int vc4_debugfs_add_file(struct drm_device *drm,
++				       const char *filename,
++				       int (*show)(struct seq_file*, void*),
++				       void *data)
+ {
++	return 0;
+ }
+ 
+-static inline void vc4_debugfs_add_regset32(struct drm_device *drm,
+-					    const char *filename,
+-					    struct debugfs_regset32 *regset)
++static inline int vc4_debugfs_add_regset32(struct drm_device *drm,
++					   const char *filename,
++					   struct debugfs_regset32 *regset)
+ {
++	return 0;
+ }
+ #endif
  
 -- 
 2.36.1
