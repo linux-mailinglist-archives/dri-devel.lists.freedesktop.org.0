@@ -1,52 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F4F560156
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 15:33:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8290560160
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 15:35:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 884C4112A7F;
-	Wed, 29 Jun 2022 13:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C60E410E996;
+	Wed, 29 Jun 2022 13:35:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04A66112885;
- Wed, 29 Jun 2022 13:33:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656509608; x=1688045608;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=xN97QMRyWKE3GLq5caI2Z/69zV73n52esPprkpGOnwY=;
- b=QVp2VoANmTZoxKmc3H/kvgA5EHCeD/UcnpQcBblNfH35AeQljyCKtAYi
- F/x+w6ZiXxnUGTwXgxdVcIav2PebQrnffphMI1WtIkZpuxhiXiEEjfrj5
- bphgxk8WUkKMIEx195cZPF4zkQsDSiDYZACzSr5ptkwvoLe0KGKt48a1m
- W19HeuOC1M9ACwC6kvLeqXNq9sjdhXoqh4Ad7T0GTKiHoruwyiPgaMZ1U
- NqOxIHx/JRDhbmwr7N8AxC26QRj8N/jdZudTpbMJpja7uDBgbubtvLr0w
- n1JVqgphul4kyUQgxgK1Ya65U+AowbVDSXUt5C4hdOWff1Q6j/KXmVCGZ g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="279575377"
-X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="279575377"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2022 06:33:27 -0700
-X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="647395862"
-Received: from clauter-mobl.amr.corp.intel.com (HELO localhost)
- ([10.252.48.175])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2022 06:33:21 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Subject: Re: [RESEND RFC 00/18] drm/display/dp_mst: Drop Radeon MST support,
- make MST atomic-only
-In-Reply-To: <20220607192933.1333228-1-lyude@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220607192933.1333228-1-lyude@redhat.com>
-Date: Wed, 29 Jun 2022 16:33:18 +0300
-Message-ID: <87o7ybppb5.fsf@intel.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 453BE10E996
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:35:14 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1o6Xqa-0006SP-06; Wed, 29 Jun 2022 15:35:12 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1o6XqQ-003PNQ-Vz; Wed, 29 Jun 2022 15:35:06 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1o6XqT-001txR-NY; Wed, 29 Jun 2022 15:35:05 +0200
+Date: Wed, 29 Jun 2022 15:35:04 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
+Message-ID: <20220629133504.syc6x4ptia3mnof5@pengutronix.de>
+References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+ <CAPAsAGwP4Mw_CJfsi7oapABdTBwO1HfiQux6X4UahspU74VjtQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="5z6hgi6euioj5d47"
+Content-Disposition: inline
+In-Reply-To: <CAPAsAGwP4Mw_CJfsi7oapABdTBwO1HfiQux6X4UahspU74VjtQ@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,126 +55,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Fangzhi Zuo <Jerry.Zuo@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, Sean Paul <sean@poorly.run>
+Cc: alsa-devel@alsa-project.org, linux-pwm@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-rtc@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-staging@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux-pm@vger.kernel.org, acpi4asus-user@lists.sourceforge.net,
+ linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, openipmi-developer@lists.sourceforge.net,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hwmon@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ UNGLinuxDriver@microchip.com, Wolfram Sang <wsa@kernel.org>,
+ linux-crypto@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ patches@opensource.cirrus.com, linux-integrity@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 07 Jun 2022, Lyude Paul <lyude@redhat.com> wrote:
-> Ugh, thanks ./scripts/get_maintainers.pl for confusing and breaking
-> git-send email <<. Sorry for the resend everyone.
->
-> For quite a while we've been carrying around a lot of legacy modesetting
-> code in the MST helpers that has been rather annoying to keep around,
-> and very often gets in the way of trying to implement additional
-> functionality in MST such as fallback link rate retraining, dynamic BPC
-> management and DSC support, etc. because of the fact that we can't rely
-> on atomic for everything.
->
-> Luckily, we only actually have one user of the legacy MST code in the
-> kernel - radeon. Originally I was thinking of trying to maintain this
-> code and keep it around in some form, but I'm pretty unconvinced anyone
-> is actually using this. My reasoning for that is because I've seen
-> nearly no issues regarding MST on radeon for quite a while now - despite
-> the fact my local testing seems to indicate it's quite broken. This
-> isn't too surprising either, as MST support in radeon.ko is gated behind
-> a module parameter that isn't enabled by default. This isn't to say I
-> wouldn't be open to alternative suggestions, but I'd rather not be the
-> one to have to spend time on that if at all possible! Plus, I already
-> floated the idea of dropping this code by AMD folks a few times and
-> didn't get much resistance.
->
-> As well, this series has some basic refactoring that I did along the way
-> and some bugs I had to fix in order to get my atomic-only MST code
-> working. Most of this is pretty straight forward and simply renaming
-> things to more closely match the DisplayPort specification, as I think
-> this will also make maintaining this code a lot easier in the long run
-> (I've gotten myself confused way too many times because of this).
->
-> So far I've tested this on all three MST drivers: amdgpu, i915 and
-> nouveau, along with making sure that removing the radeon MST code
-> doesn't break anything else. The one thing I very much could use help
-> with regarding testing though is making sure that this works with
-> amdgpu's DSC support on MST.
->
-> So, with this we should be using the atomic state as much as possible
-> with MST modesetting, hooray!
 
-I admit and regret I haven't had the time to go through this in detail
-and thought. I've glanced over it on a few occasions, and I don't have
-anything against it really.
+--5z6hgi6euioj5d47
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+[Dropped most people from Cc, keeping only lists]
 
-Before merging, please ensure you've sent the entire series Cc'd
-intel-gfx, and got a green light from CI.
+On Wed, Jun 29, 2022 at 04:11:26PM +0300, Andrey Ryabinin wrote:
+> On 6/28/22 17:03, Uwe Kleine-K=F6nig wrote:
+> > From: Uwe Kleine-K=F6nig <uwe@kleine-koenig.org>
+> >
+> > The value returned by an i2c driver's remove function is mostly ignored.
+> > (Only an error message is printed if the value is non-zero that the
+> > error is ignored.)
+> >
+> > So change the prototype of the remove function to return no value. This
+> > way driver authors are not tempted to assume that passing an error to
+> > the upper layer is a good idea. All drivers are adapted accordingly.
+> > There is no intended change of behaviour, all callbacks were prepared to
+> > return 0 before.
+> >
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > ---
+>                                     | 2 +-
+> >  lib/Kconfig.kasan                                         | 1 +
+>=20
+> > diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+> > index f0973da583e0..366e61639cb2 100644
+> > --- a/lib/Kconfig.kasan
+> > +++ b/lib/Kconfig.kasan
+> > @@ -149,6 +149,7 @@ config KASAN_STACK
+> >       depends on KASAN_GENERIC || KASAN_SW_TAGS
+> >       depends on !ARCH_DISABLE_KASAN_INLINE
+> >       default y if CC_IS_GCC
+> > +     depends on !ARM
+> >       help
+> >         Disables stack instrumentation and thus KASAN's ability to dete=
+ct
+> >         out-of-bounds bugs in stack variables.
+>=20
+>=20
+> What is this doing here?
 
->
-> Cc: Wayne Lin <Wayne.Lin@amd.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Fangzhi Zuo <Jerry.Zuo@amd.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Imre Deak <imre.deak@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Sean Paul <sean@poorly.run>
->
-> Lyude Paul (18):
->   drm/amdgpu/dc/mst: Rename dp_mst_stream_allocation(_table)
->   drm/amdgpu/dm/mst: Rename get_payload_table()
->   drm/display/dp_mst: Rename drm_dp_mst_vcpi_allocation
->   drm/display/dp_mst: Call them time slots, not VCPI slots
->   drm/display/dp_mst: Fix confusing docs for
->     drm_dp_atomic_release_time_slots()
->   drm/display/dp_mst: Add some missing kdocs for atomic MST structs
->   drm/display/dp_mst: Add helper for finding payloads in atomic MST
->     state
->   drm/display/dp_mst: Add nonblocking helpers for DP MST
->   drm/display/dp_mst: Don't open code modeset checks for releasing time
->     slots
->   drm/display/dp_mst: Fix modeset tracking in
->     drm_dp_atomic_release_vcpi_slots()
->   drm/nouveau/kms: Cache DP encoders in nouveau_connector
->   drm/nouveau/kms: Pull mst state in for all modesets
->   drm/display/dp_mst: Add helpers for serializing SST <-> MST
->     transitions
->   drm/display/dp_mst: Drop all ports from topology on CSNs before
->     queueing link address work
->   drm/display/dp_mst: Skip releasing payloads if last connected port
->     isn't connected
->   drm/display/dp_mst: Maintain time slot allocations when deleting
->     payloads
->   drm/radeon: Drop legacy MST support
->   drm/display/dp_mst: Move all payload info into the atomic state
->
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   72 +-
->  .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  111 +-
->  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  126 +-
->  drivers/gpu/drm/amd/display/dc/core/dc_link.c |   10 +-
->  drivers/gpu/drm/amd/display/dc/dm_helpers.h   |    4 +-
->  .../amd/display/include/link_service_types.h  |   18 +-
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 1160 ++++++++---------
->  drivers/gpu/drm/i915/display/intel_display.c  |   11 +
->  drivers/gpu/drm/i915/display/intel_dp.c       |    9 +
->  drivers/gpu/drm/i915/display/intel_dp_mst.c   |   91 +-
->  drivers/gpu/drm/i915/display/intel_hdcp.c     |   24 +-
->  drivers/gpu/drm/nouveau/dispnv50/disp.c       |  202 ++-
->  drivers/gpu/drm/nouveau/dispnv50/disp.h       |    2 +
->  drivers/gpu/drm/nouveau/nouveau_connector.c   |   18 +-
->  drivers/gpu/drm/nouveau/nouveau_connector.h   |    3 +
->  drivers/gpu/drm/radeon/Makefile               |    2 +-
->  drivers/gpu/drm/radeon/atombios_crtc.c        |   11 +-
->  drivers/gpu/drm/radeon/atombios_encoders.c    |   59 -
->  drivers/gpu/drm/radeon/radeon_atombios.c      |    2 -
->  drivers/gpu/drm/radeon/radeon_connectors.c    |   61 +-
->  drivers/gpu/drm/radeon/radeon_device.c        |    1 -
->  drivers/gpu/drm/radeon/radeon_dp_mst.c        |  778 -----------
->  drivers/gpu/drm/radeon/radeon_drv.c           |    4 -
->  drivers/gpu/drm/radeon/radeon_encoders.c      |   14 +-
->  drivers/gpu/drm/radeon/radeon_irq_kms.c       |   10 +-
->  drivers/gpu/drm/radeon/radeon_mode.h          |   40 -
->  include/drm/display/drm_dp_mst_helper.h       |  230 ++--
->  27 files changed, 991 insertions(+), 2082 deletions(-)
->  delete mode 100644 drivers/gpu/drm/radeon/radeon_dp_mst.c
+Huh, that is wrong. I needed that for build testing, but it shouldn't
+have been added to the patch. I'm dropping that for the final
+submission.
+
+Thanks for spotting.
+
+Best regards
+Uwe
 
 --=20
-Jani Nikula, Intel Open Source Graphics Center
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--5z6hgi6euioj5d47
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmK8VQUACgkQwfwUeK3K
+7AkL0wf/Ra+JtsXozoGjhV4ADtJcJAo/mOIZQ6qOdPZGqHYkMvBmkEJ9zbvY4Edk
+SwYoapiHgVT4tDX56ekEGnm/x3udNUt5wugpsqDm4oAgYtbBCMEVtHbp3t/AqMp2
+sZcn0JsvUs6FVWSTomD396Pt10x0r+JrPTJVY2pwj1nUUV63/25oIT/4I77IughK
+LvQBMIesHK9damtObmRGqI5Ljz1L6SP7WgiLSEq1R/LjSeEwbURT3ijca95YO2Jv
+YyxoC7TiNJj2uJiisjl/r1T/LdGF6RpMN197XQjcvaZ0sbTZRF2vXlqp3cSyXrCG
+BbT2nohQYXjznouz9TIuBFtA0iX7SA==
+=YEZr
+-----END PGP SIGNATURE-----
+
+--5z6hgi6euioj5d47--
