@@ -1,57 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 030DD55F8E7
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 09:28:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C7755F8FA
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 09:31:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B435C10F8D9;
-	Wed, 29 Jun 2022 07:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7442010EB33;
+	Wed, 29 Jun 2022 07:31:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54E4410F8C8
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 07:27:57 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- l2-20020a05600c4f0200b0039c55c50482so10882518wmq.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 00:27:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vRs0XrOzV8Rh0OM9RFXRPloSF1lTCj9AgW7rOs7fjWQ=;
- b=bv7EwdJaZ0WGGDbpFjMVGPhKnYSQRHYlSGMOV6T+KjCAPcrTIlF1/Ru3f84kSyJWvC
- kqXREU09wfNi7Kd9iCPwYQKPvecQMdSWH3xLQeWcrth6l7e+ZA6eKtEPTHXECplQJMmO
- NEjY03VBhc7cLPD634718KJ0L767pHLqAnMirvDyT2pra+gEIXR5/Y/WIo/ARgIUEf7y
- qxpATD9G8Px6vdzlWj7oFVJDw6nJHssE1cj6QvX7K4Gku9loumFlQEELd4DWLfbrGdm0
- kcW5bGf+C+qYoYMCA3jlY9QWvvMPqOTtD1klkOGPMrxk5t7Aqc+gXvrX0k7UcRHB8R4c
- 25+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vRs0XrOzV8Rh0OM9RFXRPloSF1lTCj9AgW7rOs7fjWQ=;
- b=Qn8Y8NLqyIb6pGbUPKU62GWcDs5ioVQlt+UgQFuuiaEtsBOXXnpK/UTyuVyVEo7a9H
- V2kBf0VBWMkiXiA0hZIns3UNlsnoB5hthAH/DPuRpnWRE2lpY0c8WgiRYD+8RWeSibmN
- ap9Jr+4kuQ8z9cANnF3cKS4Baa1MZlwzorZl7os+tp5IroRNBpLZ0xQ9Xx35XAtWzQCG
- sC/rSBRstr7MZJzVOUnadt7rtcprpji/7d+91H9SUHJIVUUAYJLLs4LJ2zPlHyOuu21v
- awhI62eQ2JRzPFMnKjGUDYM79zVMZsROhvhRhxwxqiFuWpCHWkWVfGZXzTMkv5iholGG
- XHkA==
-X-Gm-Message-State: AJIora/C0UG59kbzYTgC9iNeSOEuYnGtP1XBq1hbfameX0sjVqFvThLY
- 3QdGisrVtFWeBMt1BLzK53XAfdJpzUhQUN8RYySOng==
-X-Google-Smtp-Source: AGRyM1vX1et5X5mz0TfiUQfGt5r42MlS9P5AoEouVG6iSmiDWIia4jsISXgoMGQVb/dfN3A8JHdaEjmq7n7Mwbv7CFs=
-X-Received: by 2002:a7b:ce06:0:b0:3a0:39e0:b322 with SMTP id
- m6-20020a7bce06000000b003a039e0b322mr3968614wmc.55.1656487675643; Wed, 29 Jun
- 2022 00:27:55 -0700 (PDT)
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A531510E847
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 07:29:09 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25SM4B2q022295;
+ Wed, 29 Jun 2022 09:28:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=UD4IN9gRHJreA7opqpLKSzn8bQhDjxY56nGlMezzYAU=;
+ b=Hmn6FvPVIe1JV/8jdeH4lrAcunj3jl3REB3xYDBdF9ZN4b6RkFTT6lT6KZtl4mmnMULY
+ yAA0Sa0Pv4pp0gW9pAI909s/n+yVzCIy9x/8gkNIMHcNvH/wd/N5a29mktLlHuacHvId
+ U+H49m8hs6EdhrT6W6Qxqz4iTU6RlrV+9OHJkyrrVp/k5cAYXgB10B2rKSzBdWeRrwof
+ 3Lxh0OEfmu4obo+hWsqepyuPVRaNajqPVb/efHZXhD7VMy/Sm1QEUsVzY6mkpjx2gubd
+ q2yI71yh5iDUymcPF09XRxhn7BEzi70S08cEt1noNjvC2OS07X0lVYC+4eS78tGyA3Hj bA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3gwsq1cxjy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Jun 2022 09:28:00 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D6030100039;
+ Wed, 29 Jun 2022 09:27:58 +0200 (CEST)
+Received: from Webmail-eu.st.com (eqndag1node4.st.com [10.75.129.133])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A24252128A8;
+ Wed, 29 Jun 2022 09:27:58 +0200 (CEST)
+Received: from [10.0.2.15] (10.75.127.45) by EQNDAG1NODE4.st.com
+ (10.75.129.133) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Wed, 29 Jun
+ 2022 09:27:52 +0200
+Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Wolfram Sang <wsa@kernel.org>
+References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
+ <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Message-ID: <b3cab1de-a1eb-e669-0900-cf1833415f2c@foss.st.com>
+Date: Wed, 29 Jun 2022 09:27:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20220627161132.33256-1-jose.exposito89@gmail.com>
-In-Reply-To: <20220627161132.33256-1-jose.exposito89@gmail.com>
-From: David Gow <davidgow@google.com>
-Date: Wed, 29 Jun 2022 15:27:44 +0800
-Message-ID: <CABVgOSmC6WJxMo58VH0WSD7wdLn7_TmTktm=6txrn0ECXCNJZQ@mail.gmail.com>
-Subject: Re: [PATCH 0/4] KUnit tests for RGB565 conversion
-To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="00000000000080b8f405e29117dc"
+In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.45]
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To EQNDAG1NODE4.st.com
+ (10.75.129.133)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-28_11,2022-06-28_01,2022-06-22_01
+X-Mailman-Approved-At: Wed, 29 Jun 2022 07:31:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,173 +74,244 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- magalilemes00@gmail.com, David Airlie <airlied@linux.ie>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>,
- Daniel Latypov <dlatypov@google.com>,
+Cc: Andrew Lunn <andrew@lunn.ch>, Ricardo Ribalda <ribalda@kernel.org>,
+ Jimmy Su <jimmy.su@intel.com>, Sekhar Nori <nsekhar@ti.com>,
+ Gwendal Grignou <gwendal@chromium.org>, dri-devel@lists.freedesktop.org,
+ Jaroslav Kysela <perex@perex.cz>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Paul Mackerras <paulus@samba.org>, Minghao Chi <chi.minghao@zte.com.cn>,
+ Pavel Machek <pavel@ucw.cz>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Evgeniy Polyakov <zbr@ioremap.net>, Matt Johnston <matt@codeconstruct.com.au>,
+ Olli Salonen <olli.salonen@iki.fi>, Angela Czubak <acz@semihalf.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Luka Perkov <luka.perkov@sartura.hr>, Sean Young <sean@mess.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Zheyu Ma <zheyuma97@gmail.com>,
  Javier Martinez Canillas <javierm@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- tales.aparecida@gmail.com, Isabella Basso <isabbasso@riseup.net>,
- KUnit Development <kunit-dev@googlegroups.com>
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Chanwoo Choi <cw00.choi@samsung.com>, linux-omap@vger.kernel.org,
+ Wenyou Yang <wenyou.yang@microchip.com>,
+ Dongchun Zhu <dongchun.zhu@mediatek.com>, Viorel Suman <viorel.suman@nxp.com>,
+ Steve Longerbeam <slongerbeam@gmail.com>, Bingbu Cao <bingbu.cao@intel.com>,
+ Shunqian Zheng <zhengsq@rock-chips.com>, lijian <lijian@yulong.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ alsa-devel@alsa-project.org, Petr Machata <petrm@nvidia.com>,
+ =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>,
+ Jean Delvare <jdelvare@suse.com>, linux-serial@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-mtd@lists.infradead.org,
+ Eddie James <eajames@linux.ibm.com>, Riku Voipio <riku.voipio@iki.fi>,
+ James Schulman <james.schulman@cirrus.com>, Scott Wood <oss@buserror.net>,
+ Cai Huoqing <cai.huoqing@linux.dev>, Jonas Malaco <jonas@protocubo.io>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Haibo Chen <haibo.chen@nxp.com>,
+ Petr Cvek <petrcvekcz@gmail.com>, linux-leds@vger.kernel.org,
+ Joe Tessler <jrt@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Andy Shevchenko <andy@kernel.org>, Robert Jones <rjones@gateworks.com>,
+ George Joseph <george.joseph@fairview5.com>,
+ Vincent Knecht <vincent.knecht@mailoo.org>,
+ Robin van der Gracht <robin@protonic.nl>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Phong LE <ple@baylibre.com>,
+ Daniel Beer <daniel.beer@igorinstitute.com>,
+ Krzysztof Opasiak <k.opasiak@samsung.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, linux-crypto@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Heungjun Kim <riverful.kim@samsung.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, David Lin <CTLIN0@nuvoton.com>,
+ Vladimir Oltean <olteanv@gmail.com>, David Rhodes <david.rhodes@cirrus.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+ Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Dan Robertson <dan@dlrobertson.com>,
+ Martyn Welch <martyn.welch@collabora.co.uk>, Jiri Slaby <jirislaby@kernel.org>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Jon Nettleton <jon.nettleton@gmail.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Marco Felsch <m.felsch@pengutronix.de>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Sebastian Reichel <sre@kernel.org>,
+ Max Filippov <jcmvbkbc@gmail.com>, "Lad,
+ Prabhakar" <prabhakar.csengg@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-i2c@vger.kernel.org,
+ Martiros Shakhzadyan <vrzh@vrzh.net>, Guenter Roeck <groeck@chromium.org>,
+ Matthias Schwarzott <zzam@gentoo.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Dmitry Rokosov <DDRokosov@sberdevices.ru>,
+ =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
+ Saranya Gopal <saranya.gopal@intel.com>, Corey Minyard <minyard@acm.org>,
+ Evgeny Novikov <novikov@ispras.ru>, Frank Rowand <frowand.list@gmail.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Manivannan Sadhasivam <mani@kernel.org>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Eric Dumazet <edumazet@google.com>, linux-clk@vger.kernel.org,
+ Nathan Chancellor <nathan@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Charles Gorand <charles.gorand@effinnov.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, Martin Donnelly <martin.donnelly@ge.com>,
+ Woojung Huh <woojung.huh@microchip.com>, Rudolf Marek <r.marek@assembler.cz>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, linux-watchdog@vger.kernel.org,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Ido Schimmel <idosch@nvidia.com>, acpi4asus-user@lists.sourceforge.net,
+ Simon Trimmer <simont@opensource.cirrus.com>,
+ Ricard Wanderlof <ricardw@axis.com>,
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ wengjianfeng <wengjianfeng@yulong.com>, Jiri Valek - 2N <valek@2n.cz>,
+ linux-rpi-kernel@lists.infradead.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Wayne Chang <waynec@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ Sing-Han Chen <singhanc@nvidia.com>, linux-arm-kernel@lists.infradead.org,
+ =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Hans de Goede <hdegoede@redhat.com>, Stephen Boyd <sboyd@kernel.org>,
+ Maslov Dmitry <maslovdmitry@seeed.cc>, linux-gpio@vger.kernel.org,
+ Jens Frederich <jfrederich@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, Peter Rosin <peda@axentia.se>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, linux-usb@vger.kernel.org,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, CGEL ZTE <cgel.zte@gmail.com>,
+ Colin Leroy <colin@colino.net>, platform-driver-x86@vger.kernel.org,
+ linux-integrity@vger.kernel.org, Kevin Tsai <ktsai@capellamicro.com>,
+ =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Arec Kao <arec.kao@intel.com>, Crt Mori <cmo@melexis.com>,
+ Jose Cazarin <joseespiriki@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-iio@vger.kernel.org,
+ Tom Rix <trix@redhat.com>, Michael Turquette <mturquette@baylibre.com>,
+ Peter Senna Tschudin <peter.senna@gmail.com>,
+ Miaoqian Lin <linmq006@gmail.com>,
+ =?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>,
+ Jan-Simon Moeller <jansimon.moeller@gmx.de>,
+ Wei Yongjun <weiyongjun1@huawei.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Nikita Travkin <nikita@trvn.ru>,
+ Jeremy Kerr <jk@codeconstruct.com.au>, Jasmin Jessich <jasmin@anw.at>,
+ Sam Ravnborg <sam@ravnborg.org>, Kevin Cernekee <cernekee@chromium.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-rtc@vger.kernel.org,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Lucas Tanure <tanureal@opensource.cirrus.com>,
+ Stefan Mavrodiev <stefan@olimex.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>, netdev@vger.kernel.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Xin Ji <xji@analogixsemi.com>,
+ Seven Lee <wtli@nuvoton.com>, Matt Ranostay <matt.ranostay@konsulko.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Yang Yingliang <yangyingliang@huawei.com>, chrome-platform@lists.linux.dev,
+ Mats Randgaard <matrandg@cisco.com>, Paolo Abeni <pabeni@redhat.com>,
+ Alexey Dobriyan <adobriyan@gmail.com>, Joel Stanley <joel@jms.id.au>,
+ linux-input@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ Kees Cook <keescook@chromium.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <uwe@kleine-koenig.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Yang Li <yang.lee@linux.alibaba.com>,
+ Jiri Kosina <jikos@kernel.org>, Akinobu Mita <akinobu.mita@gmail.com>,
+ Mark Gross <markgross@kernel.org>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
+ linux-media@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
+ Sven Peter <sven@svenpeter.dev>, Martin Kepplinger <martink@posteo.de>,
+ openipmi-developer@lists.sourceforge.net,
+ Robert Marko <robert.marko@sartura.hr>,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+ Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+ Alessandro Zummo <a.zummo@towertech.it>, linux-hwmon@vger.kernel.org,
+ Felipe Balbi <balbi@kernel.org>, Stephan Gerhold <stephan@gerhold.net>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Marc Hulsman <m.hulsman@tudelft.nl>, Corentin Chary <corentin.chary@gmail.com>,
+ Stephen Kitt <steve@sk2.org>, Daniel Scally <djrscally@gmail.com>,
+ linux-fbdev@vger.kernel.org, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Kirill Shilimanov <kirill.shilimanov@huawei.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, patches@opensource.cirrus.com,
+ Zheng Yongjun <zhengyongjun3@huawei.com>,
+ Alejandro Tafalla <atafalla@dnyon.com>,
+ "David S. Miller" <davem@davemloft.net>, Daniel Palmer <daniel@0x0f.com>,
+ Hector Martin <marcan@marcan.st>,
+ Moses Christopher Bollavarapu <mosescb.dev@gmail.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Nick Dyer <nick@shmanahar.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Tony Lindgren <tony@atomide.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Takashi Iwai <tiwai@suse.com>,
+ Paul Cercueil <paul@crapouillou.net>, Mac Chiang <mac.chiang@intel.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>,
+ Alexander Potapenko <glider@google.com>, Adam Ford <aford173@gmail.com>,
+ Peter Huewe <peterhuewe@gmx.de>, UNGLinuxDriver@microchip.com,
+ Lee Jones <lee.jones@linaro.org>, Alexey Khoroshilov <khoroshilov@ispras.ru>,
+ Marek Vasut <marex@denx.de>, Yizhuo <yzhai003@ucr.edu>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Eric Piel <eric.piel@tremplin-utc.net>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Tobias Schrammm <t.schramm@manjaro.org>, Richard Weinberger <richard@nod.at>,
+ Tomasz Duszynski <tduszyns@gmail.com>,
+ Janusz Krzysztofik <jmkrzyszt@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ linux-pwm@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Bastien Nocera <hadess@hadess.net>,
+ Jingoo Han <jingoohan1@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ Vivien Didelot <vivien.didelot@gmail.com>, Shawn Tu <shawnx.tu@intel.com>,
+ Leon Luo <leonl@leopardimaging.com>, Yan Lei <yan_lei@dahuatech.com>,
+ Akihiro Tsukada <tskd08@gmail.com>,
+ Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Oliver Graute <oliver.graute@kococonnector.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Dongliang Mu <mudongliangabcd@gmail.com>,
+ =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
+ Eduardo Valentin <edubezval@gmail.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
+ Michael Srba <Michael.Srba@seznam.cz>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ kasan-dev@googlegroups.com, "Paul J. Murphy" <paul.j.murphy@intel.com>,
+ Nicola Lunghi <nick83ola@gmail.com>,
+ Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+ Dmitry Vyukov <dvyukov@google.com>,
+ Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Juerg Haefliger <juergh@gmail.com>,
+ Oder Chiou <oder_chiou@realtek.com>, Shengjiu Wang <shengjiu.wang@nxp.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ =?UTF-8?Q?Alvin_=c5=a0ipraga?= <alsi@bang-olufsen.dk>,
+ Luca Ceresoli <luca@lucaceresoli.net>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Colin Ian King <colin.king@intel.com>,
+ Maximilian Luz <luzmaximilian@gmail.com>, Helge Deller <deller@gmx.de>,
+ linux-staging@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000080b8f405e29117dc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Uwe,
 
-On Tue, Jun 28, 2022 at 12:13 AM Jos=C3=A9 Exp=C3=B3sito
-<jose.exposito89@gmail.com> wrote:
->
-> Hello everyone,
->
-> This series is a follow up of the XRGB8888 to RGB332 conversion KUnit tes=
-ts.
->
-> The first 3 patches refactor the existing test to make them agnostic of t=
-he target format and add support for "swab".
->
-> The last patch adds the RGB565 conversion values, and shows how more form=
-ats will be easily added in the future.
->
-> Thank you very much in advance for your feedback,
-> Jos=C3=A9 Exp=C3=B3sito
->
-> Jos=C3=A9 Exp=C3=B3sito (4):
->   drm/format-helper: Rename test cases to make them more generic
->   drm/format-helper: Transform tests to be agnostic of target format
->   drm/format-helper: Add support for conversion functions with swab
->   drm/format-helper: Add KUnit tests for drm_fb_xrgb8888_to_rgb565()
->
->  .../gpu/drm/tests/drm_format_helper_test.c    | 231 +++++++++++++++---
->  1 file changed, 196 insertions(+), 35 deletions(-)
->
->
-> base-commit: 6fde8eec71796f3534f0c274066862829813b21f
-> prerequisite-patch-id: 8a16f4c8004d6161035eaea275c8eafaa0ac927e
-> prerequisite-patch-id: 53fded2a49e6212b546db76ec52563a683752e65
-> prerequisite-patch-id: 294b0ca27a6ee57096c8f097c0572336b8a2d583
-> prerequisite-patch-id: 5e05bfc5287d16c207bfc616b2776ad72eb4ab29
-> prerequisite-patch-id: e94560be85dffb62a5b3cf58d1f0fc3d278ad806
-> prerequisite-patch-id: a471df39c7b32c69dd2b138a7d0af015ea42e00a
-> --
-> 2.25.1
->
+> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+> index ef976d085d72..0389223a61f7 100644
+> --- a/drivers/media/i2c/st-mipid02.c
+> +++ b/drivers/media/i2c/st-mipid02.c
+> @@ -1041,7 +1041,7 @@ static int mipid02_probe(struct i2c_client *client)
+>  	return ret;
+>  }
+>  
+> -static int mipid02_remove(struct i2c_client *client)
+> +static void mipid02_remove(struct i2c_client *client)
+>  {
+>  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+>  	struct mipid02_dev *bridge = to_mipid02_dev(sd);
+> @@ -1052,8 +1052,6 @@ static int mipid02_remove(struct i2c_client *client)
+>  	mipid02_set_power_off(bridge);
+>  	media_entity_cleanup(&bridge->sd.entity);
+>  	mutex_destroy(&bridge->lock);
+> -
+> -	return 0;
+>  }
+>  
+>  static const struct of_device_id mipid02_dt_ids[] = {
 
-These look pretty good overall to me, but there is one big issue
-(which is actually with the previous series -- oops!), and a few small
-stylistic thoughts.
+Thank you. All good for me.
 
-For the big issue: these tests don't work on big-endian systems. The
-'swab' bit in this series reminded me to check, and sure enough, all
-of the tests fail (including the rgb332 ones).
-
-I tested it on PowerPC with:
- ./tools/testing/kunit/kunit.py run
---kunitconfig=3Ddrivers/gpu/drm/tests --arch=3Dpowerpc
---cross_compile=3Dpowerpc64-linux-gnu-
-
-So that's something which needs to be fixed.
-
-The smaller stylistic thoughts basically all revolve around the
-complexity of convert_xrgb8888_cases: there are arrays of structs with
-arrays of unions of structs (with function pointers in them). This
-isn't a problem: it's actually a lot more readable than that
-description implies, but there are other ways it could be tackled
-(which have their own tradeoffs, of course).
-
-One possibility would be to split up the test into a separate test per
-destination format. They could reuse the convert_xrgb8888_cases array,
-and just each access a different result. You could make things even
-clearer (IMO) by replacing the results[] array with a separate, named,
-member (since you don't need to iterate over them any more), and
-remove the need to have the function pointer and swab union/members by
-just hardcoding those in the separate test functions. It'd also make
-the results a bit clearer, as each destination format would get its
-own separate set of results.
-
-Of course, that's just an idea: I don't actually have a problem with
-the existing design either (other than the endianness issue, of
-course).
+Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 
 Cheers,
--- David
 
---00000000000080b8f405e29117dc
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
 
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
-VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
-ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
-OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
-3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
-lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCq
-0cJabth/CeC42qLPvT3QCRTydOlcP2+6Z/+0R0rrgDAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA2MjkwNzI3NTZaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAB+p2fSd13zu4oeynjdVM
-hk34VpErytDn0msZVF13g/ULjgE8SLzC/6U71QSOxKz6kpOtZ2pglEHyer9dkr4o1oits6L2hSpS
-gA22eX2+ChbNpAN7cfcsiWCVU/yz3yNo/p4n8fXpVwegMct2gotraatwVBt2yLrCXKdrNSeGijMw
-U4xb5QfgY2+0yu+RwJU175RO//GV3zx4n+hw3ZcXlMNN588sTUqGC7OPMLMWSDNap3LX/uSnSlcl
-Xh1070f3Xe9biGYmke8A/s15yi4aBV3PYKxi6IT9hccX6JT9Do95D2aWcjqJZyYi9uQXrVArVmlv
-eo9N+CkR0yWAHaCkkg==
---00000000000080b8f405e29117dc--
+Benjamin
