@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2FB155FFEE
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:35:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F77355FFEF
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:35:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 081DC12B06E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 407E312BC83;
 	Wed, 29 Jun 2022 12:35:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4B9D12B06E
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:35:43 +0000 (UTC)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEA3512BC83
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:35:46 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 8934A320094C;
- Wed, 29 Jun 2022 08:35:42 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 29 Jun 2022 08:35:43 -0400
+ by mailout.nyi.internal (Postfix) with ESMTP id 09DA25C04C4;
+ Wed, 29 Jun 2022 08:35:46 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Wed, 29 Jun 2022 08:35:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1656506142; x=1656592542; bh=wr
- gTqJpwlaP7uznypi/vkcGmk9+x0MYrib1PBScwCSo=; b=QVTHLkw9EKtMMCCJZF
- /PV8oq5TujUVpiZXe63KhS49IUH0R0YyMdJFIl2FQ/2IS7wZRkW/TSE2S5aWEu5Y
- zqyX7WAQ+qyWPm7X9Q4ar8A8B2w5av+UCuC3HD3bNy6nykUb+VgoGWACkZC6KwAL
- BLLjqUcE0GlGtla062OXoeOmvhUmDHKdCw7goNZbq9jLHnhYe8uKUQAk6ZTtNKi0
- 4YiRifmpS8fnnxyLaYVKOnW2rjvAtiwg7cM+19VFCYOhoOefV9UpGiLIZw8YQfEj
- dde/bLGxn0gjpWkj2eLqw/nF2oswc4Y6a52zYPELU+egteFviFZvZMjth8h+Adfu
- ZNYg==
+ :subject:subject:to:to; s=fm1; t=1656506146; x=1656592546; bh=hW
+ QVOu8iVNrg9wcR/QoNI87zA1lr16Dki0RT5PQ7dek=; b=fBom2q/yFn5cRY2auE
+ SRSF+4vTGPpk+uvkTptdiDHLUpmWeW5ugzHVHMV27Ho02ajXQ3jn3QSwCtsxCr74
+ g5DIJrv2+PvH6aO0/V4tkgoUYQHbmoM6FZi14M/jo/QLiEmOYnsvIclrNspr/dpx
+ 507qL9YY8ueGHVANvv0GAETx6LgBGEsrlCMR8bQyZfhhrlDL5X5F1F3Qx8zzjYJi
+ JVEhP/VUKk9RBuqw3BBeh4sL/w/VKumVLWEVHKec93PyfC8kohLDlW5NKrdaVTyU
+ his69CBllrxh56z1MUWtd3xnkZO+VG7RcPBXT66gDQHQTJlaNSn9+EaUKUaxGiJL
+ dIDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1656506142; x=1656592542; bh=wrgTqJpwlaP7u
- znypi/vkcGmk9+x0MYrib1PBScwCSo=; b=X91ViNhbHItl2OIKrr8Mpp4yhnRl7
- lra3XLo2GJDBwxHi8aIPPYb8tTa6GEA9LnlpBQI8+DTaZVLysk4hNOkPBqlIbCDU
- RPmXtXSOD5HbsvOgB+dlfhKwd4u8L9Jz7qWoos6x2ZoLyFw+ZXS6MBy8L1BLSiPg
- /1GYZYtIA5wva1WY18c5xEF5OkWmEZikPi0jRjIhpsFhltKZbmix3yZgkXay3j7L
- 6f5ZBlK4/daoJHezO4X2KLEDxq97fFPhk5G/cH36dCZVnzP74ttjkj9tlJZJc2TC
- 5YQMfDAvChXFSQCyJCFhu7RqND9WgSY/piFLu92MOjBKWb8vF6fM7a5lA==
-X-ME-Sender: <xms:HUe8YtQvCgkRg0RqW3xR1KRTS9vDjANBD7cNC0DISaMK47d1hJbjZg>
- <xme:HUe8YmzxtDd0NuzC3cN5nUwu4VoFGqTN8jX6R_3oY_sX-47Vn9KOyl9Ks9gUh3jtm
- JvMD_cNE-XfCDFMmkY>
-X-ME-Received: <xmr:HUe8Yi0r4nfNGflehEaMcWWAk1aWi7alVbSe9ykOtdmSZ_6xgz97vdi5M3wnNkCtTTYtEJik6mA5OER-bDGIdy9mkiZfFE_BXquTicI>
+ :x-sasl-enc; s=fm2; t=1656506146; x=1656592546; bh=hWQVOu8iVNrg9
+ wcR/QoNI87zA1lr16Dki0RT5PQ7dek=; b=iWM8nqDnfwCMhPSFgc/2uQwZvUROd
+ UccSr3SM/X5aXt4/pUL+PPhtc/v9hBA9a1t6DMucs6+XMKkQwug+lXRO8OEOfn/+
+ zvSPD0f8vl6jefHd9UBOzEq5GLFqgwtv3UVZ+RNyHR8PWvMk3Wowsm4mh68MUqGC
+ 6dflaCCH/fWAGsyIibrXe1qF1WP7dNxaUDvUNYTyovDCw9sp06Z/+l+giiMt0HCp
+ RyOxnTYqg9s5kmXCEXJE8IiKSKp6r8YKyX9eYR7Z3YX0tj31cSmQtjn6Q5D0m0gW
+ wxuMofw7KHR5L/eq4LL/r2IoJxHw0uc6hZA7tHTm+rYrJMi51iXvuwYpg==
+X-ME-Sender: <xms:IEe8YkhZAN5UZtaacZFY9a-NKF-kXMx0L_aZj4nj81E0VhLFeYwDsQ>
+ <xme:IEe8YtDPstxYwga0Ipl9mXJxMWBy9mX8ekZGrWBRNzTTbZOBL6EetUDqA-e_CF-kF
+ cInFlQOWDtmaElixYY>
+X-ME-Received: <xmr:IEe8YsGz94nK-Hmbx-Qt3pwZWg4AQntH7aAOEuvxCyhzv6sICYof7TBI1ON-gT2qwCKlKvzyaEDd8sQ5joP1XjkKm88F33U_RGQx4WY>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgheefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:HUe8YlA8dlZCTtJ_iIze695Az2qxNZqnAyoRMbJT7zVCK0CvMbQTDw>
- <xmx:HUe8YmhSi0A_G5E7Ai75gBV1UpzAaK-6cjnMcSBlkOhvtTeXf0FxWA>
- <xmx:HUe8YpoiIlDo3ll1gEgDsvBxerb8YIjKujjMJOccQSaB9CqpzYu1tA>
- <xmx:Hke8Yob8uUi_Ev0r6b3RMF9XNhAe2rB_N4v4SS0YZe4ihlsM2Bkf7w>
+X-ME-Proxy: <xmx:IEe8YlRbxqIdx_VDI_Z4xyE6A5TPC6Z3QhjZvu4jKrKZMtq4ZykuVA>
+ <xmx:IEe8YhwfNsrWoZHphTH3UKj-FOsf-fIo-BEPrxEbzHsIIQ5G1wWoWQ>
+ <xmx:IEe8Yj4DtS8Y6A1YsjtHhSOHk6NeA6VVuGCI-ajKEHjKPY6HT6F3gw>
+ <xmx:Ike8YkosI6YSOnMDwgQxvgkdwvZeNF4xcI5Xr_AQgR_JS4Xth86tvg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Jun 2022 08:35:41 -0400 (EDT)
+ 29 Jun 2022 08:35:44 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v3 09/71] drm/connector: Introduce drmm_connector_init
-Date: Wed, 29 Jun 2022 14:34:08 +0200
-Message-Id: <20220629123510.1915022-10-maxime@cerno.tech>
+Subject: [PATCH v3 10/71] drm/bridge: panel: Introduce drmm_panel_bridge_add
+Date: Wed, 29 Jun 2022 14:34:09 +0200
+Message-Id: <20220629123510.1915022-11-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220629123510.1915022-1-maxime@cerno.tech>
 References: <20220629123510.1915022-1-maxime@cerno.tech>
@@ -88,128 +88,88 @@ Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unlike other DRM entities, there's no helper to create a DRM-managed
-initialisation of a connector.
+Unlike what can be found for other entities, there's no DRM-managed
+function to create a panel_bridge instance from a panel.
 
-Let's create an helper to initialise a connector that would be passed as an
-argument, and handle the cleanup through a DRM-managed action.
+Let's introduce one.
 
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_connector.c | 60 +++++++++++++++++++++++++++++++++
- include/drm/drm_connector.h     |  5 +++
- 2 files changed, 65 insertions(+)
+ drivers/gpu/drm/bridge/panel.c | 39 ++++++++++++++++++++++++++++++++++
+ include/drm/drm_bridge.h       |  2 ++
+ 2 files changed, 41 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 855267116e68..79bce5a3504b 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -26,6 +26,7 @@
- #include <drm/drm_edid.h>
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index 4277bf4f032b..56ac51b257b9 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -8,6 +8,7 @@
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_connector.h>
  #include <drm/drm_encoder.h>
- #include <drm/drm_file.h>
 +#include <drm/drm_managed.h>
+ #include <drm/drm_modeset_helper_vtables.h>
+ #include <drm/drm_of.h>
  #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_privacy_screen_consumer.h>
-@@ -339,6 +340,10 @@ static int __drm_connector_init(struct drm_device *dev,
-  * should call drm_connector_cleanup() and free the connector structure.
-  * The connector structure should not be allocated with devm_kzalloc().
-  *
-+ * Note: consider using drmm_connector_init() instead of
-+ * drm_connector_init() to let the DRM managed resource infrastructure
-+ * take care of cleanup and deallocation.
-+ *
-  * Returns:
-  * Zero on success, error code on failure.
-  */
-@@ -371,6 +376,10 @@ EXPORT_SYMBOL(drm_connector_init);
-  *
-  * Ensures that the ddc field of the connector is correctly set.
-  *
-+ * Note: consider using drmm_connector_init() instead of
-+ * drm_connector_init_with_ddc() to let the DRM managed resource
-+ * infrastructure take care of cleanup and deallocation.
-+ *
-  * Returns:
-  * Zero on success, error code on failure.
-  */
-@@ -387,6 +396,57 @@ int drm_connector_init_with_ddc(struct drm_device *dev,
+@@ -367,6 +368,44 @@ struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
  }
- EXPORT_SYMBOL(drm_connector_init_with_ddc);
+ EXPORT_SYMBOL(devm_drm_panel_bridge_add_typed);
  
-+static void drm_connector_cleanup_action(struct drm_device *dev,
-+					 void *ptr)
++static void drmm_drm_panel_bridge_release(struct drm_device *drm, void *ptr)
 +{
-+	struct drm_connector *connector = ptr;
++	struct drm_bridge *bridge = ptr;
 +
-+	drm_connector_cleanup(connector);
++	drm_panel_bridge_remove(bridge);
 +}
 +
 +/**
-+ * drmm_connector_init - Init a preallocated connector
-+ * @dev: DRM device
-+ * @connector: the connector to init
-+ * @funcs: callbacks for this connector
-+ * @connector_type: user visible type of the connector
-+ * @ddc: optional pointer to the associated ddc adapter
++ * drmm_panel_bridge_add - Creates a DRM-managed &drm_bridge and
++ *                         &drm_connector that just calls the
++ *                         appropriate functions from &drm_panel.
 + *
-+ * Initialises a preallocated connector. Connectors should be
-+ * subclassed as part of driver connector objects.
++ * @dev: DRM device to tie the bridge lifetime to
++ * @panel: The drm_panel being wrapped.  Must be non-NULL.
 + *
-+ * Cleanup is automatically handled with a call to
-+ * drm_connector_cleanup() in a DRM-managed action.
-+ *
-+ * The connector structure should be allocated with drmm_kzalloc().
-+ *
-+ * Returns:
-+ * Zero on success, error code on failure.
++ * This is the DRM-managed version of drm_panel_bridge_add() which
++ * automatically calls drm_panel_bridge_remove() when @dev is cleaned
++ * up.
 + */
-+int drmm_connector_init(struct drm_device *dev,
-+			struct drm_connector *connector,
-+			const struct drm_connector_funcs *funcs,
-+			int connector_type,
-+			struct i2c_adapter *ddc)
++struct drm_bridge *drmm_panel_bridge_add(struct drm_device *drm,
++					 struct drm_panel *panel)
 +{
++	struct drm_bridge *bridge;
 +	int ret;
 +
-+	if (WARN_ON(funcs && funcs->destroy))
-+		return -EINVAL;
++	bridge = drm_panel_bridge_add_typed(panel, panel->connector_type);
++	if (IS_ERR(bridge))
++		return bridge;
 +
-+	ret = __drm_connector_init(dev, connector, funcs, connector_type, NULL);
++	ret = drmm_add_action_or_reset(drm, drmm_drm_panel_bridge_release,
++				       bridge);
 +	if (ret)
-+		return ret;
++		return ERR_PTR(ret);
 +
-+	ret = drmm_add_action_or_reset(dev, drm_connector_cleanup_action,
-+				       connector);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
++	return bridge;
 +}
-+EXPORT_SYMBOL(drmm_connector_init);
++EXPORT_SYMBOL(drmm_panel_bridge_add);
 +
  /**
-  * drm_connector_attach_edid_property - attach edid property.
-  * @connector: the connector
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 94b422b55cc1..7a999e901c7b 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1673,6 +1673,11 @@ int drm_connector_init_with_ddc(struct drm_device *dev,
- 				const struct drm_connector_funcs *funcs,
- 				int connector_type,
- 				struct i2c_adapter *ddc);
-+int drmm_connector_init(struct drm_device *dev,
-+			struct drm_connector *connector,
-+			const struct drm_connector_funcs *funcs,
-+			int connector_type,
-+			struct i2c_adapter *ddc);
- void drm_connector_attach_edid_property(struct drm_connector *connector);
- int drm_connector_register(struct drm_connector *connector);
- void drm_connector_unregister(struct drm_connector *connector);
+  * drm_panel_bridge_connector - return the connector for the panel bridge
+  * @bridge: The drm_bridge.
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index d434ab416ad4..e37a419ac2b4 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -930,6 +930,8 @@ struct drm_bridge *devm_drm_panel_bridge_add(struct device *dev,
+ struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
+ 						   struct drm_panel *panel,
+ 						   u32 connector_type);
++struct drm_bridge *drmm_panel_bridge_add(struct drm_device *drm,
++					     struct drm_panel *panel);
+ struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge);
+ #else
+ static inline bool drm_bridge_is_panel(const struct drm_bridge *bridge)
 -- 
 2.36.1
 
