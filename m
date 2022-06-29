@@ -1,84 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A8E55F926
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 09:37:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C86E755F927
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 09:37:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 711FD10EECC;
-	Wed, 29 Jun 2022 07:37:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E868010EEB6;
+	Wed, 29 Jun 2022 07:37:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD9F010EEB6
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 07:37:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656488233;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD94810EEB6
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 07:37:15 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7B16A1FED5;
+ Wed, 29 Jun 2022 07:37:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1656488234; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1h0smKgkaQYyMckjg1gEO+92UXCJgyf7f6YfzsCAFg4=;
- b=A9r6z16eLePDP7bGnj4DQvo7y3G6bSPDfVUon8h8UU1fWVxsHhqlS7X5ho2Kg8bsJ94eAB
- ZpiagtHmU1cR+Mbl+pQ9uTE8c3wDDfX5ZBou6CQVNZ5jJ68lAXx9uYydmYJ32oQ+BT7P8w
- R0bVtv950eOUgOiUhg0nh9TLSJUseeI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-qzeadozTOPCJJaUp0Umq4A-1; Wed, 29 Jun 2022 03:37:12 -0400
-X-MC-Unique: qzeadozTOPCJJaUp0Umq4A-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i184-20020a1c3bc1000000b003a026f48333so6245801wma.4
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 00:37:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1h0smKgkaQYyMckjg1gEO+92UXCJgyf7f6YfzsCAFg4=;
- b=1/CmS8p0nSHTY6LAsDUfryWmjdNM3UG+igi/PAqcvs/CIDyT17RJ6p/LJ9XhNG3xvw
- /8SbgJQCbsugGOQhzYLDFD6TGEcOUxPFxhXGPEqqvyJT3W8XB8aZFwYLw4ggKrOVioD6
- xWMiKwuF6L/dMzQDZVXB1KyAs60uXonDxHuZmbTUqKz4bA75FO3JJLdGQlP0YSF75csG
- ExYuBqBzhDbFsQ2tvpngHuWn+ZW7xlYaV7RrjwROZQrTeWVEb+ZGlq+nVgSFz+oKSIaG
- Qd9nRbngdNASW/ze3sJRted/mArsvVBFxV/0bD6GkOP9YYOYblqiHK9XqsSfBjYBHYaG
- 3HcA==
-X-Gm-Message-State: AJIora+rTqxnNoNagFwukq9NOMBTixmCIxJS4aF3VcEiK6mvvjQAQXWq
- MaH3IeMrn5h3erkdc+53rkr2yHuTR3nIb4U2j9Y/WcG4hTlRKKaOuEh4sNQ/FYgju4p+9y/GklL
- wpYfbmcYl8c64RadslgjeFt1Cx2A7
-X-Received: by 2002:a05:6000:1448:b0:21b:b7db:c40b with SMTP id
- v8-20020a056000144800b0021bb7dbc40bmr1650261wrx.279.1656488230978; 
- Wed, 29 Jun 2022 00:37:10 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vfq7mqFRSJqFJPQOP6rs25Ch1nA7fBeueZwuaRaLaWENw0ay54yTOP4QHXmGLo1NEA4L9c5g==
-X-Received: by 2002:a05:6000:1448:b0:21b:b7db:c40b with SMTP id
- v8-20020a056000144800b0021bb7dbc40bmr1650238wrx.279.1656488230741; 
- Wed, 29 Jun 2022 00:37:10 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- j10-20020a5d448a000000b0021b8c99860asm15832366wrq.115.2022.06.29.00.37.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Jun 2022 00:37:10 -0700 (PDT)
-Message-ID: <7654a74e-a410-a8a5-c228-d006dbbc200f@redhat.com>
-Date: Wed, 29 Jun 2022 09:37:08 +0200
+ bh=c38rTmVRyrSx1oBNtL796f9BN9YxlYF09UiyRnUGgEI=;
+ b=lBJFXln3F0xGZj6/bBnZqwTcRbQG1Oag4OGNgNgDT39wOdLBwV1w4t+fNQhAUNUbEqcEKx
+ lHeelZj9wTwS807UtkDtd05mE97oXS8jJd7bDC8lGyaXRvS72iWueBUSe6j67XAA6knjiK
+ 5I3Gkc+NlszCBEOWqrTLo18hai0lDgE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1656488234;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=c38rTmVRyrSx1oBNtL796f9BN9YxlYF09UiyRnUGgEI=;
+ b=3+6z5JWrjw3chFGrznX9D3CvJxTA0NRgu7h/i3L+l6H8p3UxOCSlpshzq8YK/prj38vFkC
+ ln4eU55SodE3EmDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2A3C4133D1;
+ Wed, 29 Jun 2022 07:37:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id fRd7CSoBvGLrVAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 29 Jun 2022 07:37:14 +0000
+Message-ID: <a2c1e02a-46e1-5d4e-bdba-f89e2ca4e6d1@suse.de>
+Date: Wed, 29 Jun 2022 09:37:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Jeremy Kerr <jk@codeconstruct.com.au>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
- <60cc6796236f23c028a9ae76dbe00d1917df82a5.camel@codeconstruct.com.au>
- <20220629072304.qazmloqdi5h5kdre@pengutronix.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220629072304.qazmloqdi5h5kdre@pengutronix.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 0/4] KUnit tests for RGB565 conversion
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ javierm@redhat.com
+References: <20220627161132.33256-1-jose.exposito89@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220627161132.33256-1-jose.exposito89@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------OR00scsW6DGn0c2BN1eh7yrW"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,62 +70,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- patches@opensource.cirrus.com, linux-mtd@lists.infradead.org,
- linux-i2c@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-rtc@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-staging@lists.linux.dev, kasan-dev@googlegroups.com,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org,
- acpi4asus-user@lists.sourceforge.net, linux-gpio@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org,
- linux-hwmon@vger.kernel.org,
- Support Opensource <support.opensource@diasemi.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Wolfram Sang <wsa@kernel.org>,
- linux-crypto@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
- netdev@vger.kernel.org, linux-integrity@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
+Cc: dri-devel@lists.freedesktop.org, davidgow@google.com,
+ magalilemes00@gmail.com, airlied@linux.ie, maira.canal@usp.br,
+ dlatypov@google.com, linux-kernel@vger.kernel.org, tales.aparecida@gmail.com,
+ isabbasso@riseup.net, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/29/22 09:23, Uwe Kleine-König wrote:
-> Hello,
-> 
-> [I dropped nearly all individuals from the Cc: list because various
-> bounces reported to be unhappy about the long (logical) line.]
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------OR00scsW6DGn0c2BN1eh7yrW
+Content-Type: multipart/mixed; boundary="------------RxlC47capXm6ucMCkv2KhgjT";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ javierm@redhat.com
+Cc: davidgow@google.com, dlatypov@google.com, mripard@kernel.org,
+ daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ jani.nikula@linux.intel.com, maira.canal@usp.br, isabbasso@riseup.net,
+ magalilemes00@gmail.com, tales.aparecida@gmail.com,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org
+Message-ID: <a2c1e02a-46e1-5d4e-bdba-f89e2ca4e6d1@suse.de>
+Subject: Re: [PATCH 0/4] KUnit tests for RGB565 conversion
+References: <20220627161132.33256-1-jose.exposito89@gmail.com>
+In-Reply-To: <20220627161132.33256-1-jose.exposito89@gmail.com>
 
-Yes, it also bounced for me when I tried to reply earlier today.
+--------------RxlC47capXm6ucMCkv2KhgjT
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> diff --git a/drivers/gpu/drm/solomon/ssd130x-i2c.c b/drivers/gpu/drm/solomon/ssd130x-i2c.c
-> index 1e0fcec7be47..ddfa0bb5d9c9 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x-i2c.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x-i2c.c
-> @@ -39,13 +39,11 @@ static int ssd130x_i2c_probe(struct i2c_client *client)
->  	return 0;
->  }
->  
-> -static int ssd130x_i2c_remove(struct i2c_client *client)
-> +static void ssd130x_i2c_remove(struct i2c_client *client)
->  {
->  	struct ssd130x_device *ssd130x = i2c_get_clientdata(client);
->  
->  	ssd130x_remove(ssd130x);
-> -
-> -	return 0;
->  }
->  
->  static void ssd130x_i2c_shutdown(struct i2c_client *client)
+SGkNCg0KQW0gMjcuMDYuMjIgdW0gMTg6MTEgc2NocmllYiBKb3PDqSBFeHDDs3NpdG86DQo+
+IEhlbGxvIGV2ZXJ5b25lLA0KPiANCj4gVGhpcyBzZXJpZXMgaXMgYSBmb2xsb3cgdXAgb2Yg
+dGhlIFhSR0I4ODg4IHRvIFJHQjMzMiBjb252ZXJzaW9uIEtVbml0IHRlc3RzLg0KPiANCj4g
+VGhlIGZpcnN0IDMgcGF0Y2hlcyByZWZhY3RvciB0aGUgZXhpc3RpbmcgdGVzdCB0byBtYWtl
+IHRoZW0gYWdub3N0aWMgb2YgdGhlIHRhcmdldCBmb3JtYXQgYW5kIGFkZCBzdXBwb3J0IGZv
+ciAic3dhYiIuDQo+IA0KPiBUaGUgbGFzdCBwYXRjaCBhZGRzIHRoZSBSR0I1NjUgY29udmVy
+c2lvbiB2YWx1ZXMsIGFuZCBzaG93cyBob3cgbW9yZSBmb3JtYXRzIHdpbGwgYmUgZWFzaWx5
+IGFkZGVkIGluIHRoZSBmdXR1cmUuDQoNClRoYW5rcyBmb3IgeW91ciBwYXRjaGVzLiBJIGhh
+ZCBvbmUgY29tbWVudCBmb3IgdGhlIGZpbmFsIG9uZS4gV2l0aCB0aGlzIA0KZml4ZWQsIHlv
+dSBjYW4gYWRkDQoNCkFja2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
+c3VzZS5kZT4NCg0KdG8gdGhlIHNlcmllcy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0K
+PiANCj4gVGhhbmsgeW91IHZlcnkgbXVjaCBpbiBhZHZhbmNlIGZvciB5b3VyIGZlZWRiYWNr
+LA0KPiBKb3PDqSBFeHDDs3NpdG8NCj4gDQo+IEpvc8OpIEV4cMOzc2l0byAoNCk6DQo+ICAg
+IGRybS9mb3JtYXQtaGVscGVyOiBSZW5hbWUgdGVzdCBjYXNlcyB0byBtYWtlIHRoZW0gbW9y
+ZSBnZW5lcmljDQo+ICAgIGRybS9mb3JtYXQtaGVscGVyOiBUcmFuc2Zvcm0gdGVzdHMgdG8g
+YmUgYWdub3N0aWMgb2YgdGFyZ2V0IGZvcm1hdA0KPiAgICBkcm0vZm9ybWF0LWhlbHBlcjog
+QWRkIHN1cHBvcnQgZm9yIGNvbnZlcnNpb24gZnVuY3Rpb25zIHdpdGggc3dhYg0KPiAgICBk
+cm0vZm9ybWF0LWhlbHBlcjogQWRkIEtVbml0IHRlc3RzIGZvciBkcm1fZmJfeHJnYjg4ODhf
+dG9fcmdiNTY1KCkNCj4gDQo+ICAgLi4uL2dwdS9kcm0vdGVzdHMvZHJtX2Zvcm1hdF9oZWxw
+ZXJfdGVzdC5jICAgIHwgMjMxICsrKysrKysrKysrKysrKy0tLQ0KPiAgIDEgZmlsZSBjaGFu
+Z2VkLCAxOTYgaW5zZXJ0aW9ucygrKSwgMzUgZGVsZXRpb25zKC0pDQo+IA0KPiANCj4gYmFz
+ZS1jb21taXQ6IDZmZGU4ZWVjNzE3OTZmMzUzNGYwYzI3NDA2Njg2MjgyOTgxM2IyMWYNCj4g
+cHJlcmVxdWlzaXRlLXBhdGNoLWlkOiA4YTE2ZjRjODAwNGQ2MTYxMDM1ZWFlYTI3NWM4ZWFm
+YWEwYWM5MjdlDQo+IHByZXJlcXVpc2l0ZS1wYXRjaC1pZDogNTNmZGVkMmE0OWU2MjEyYjU0
+NmRiNzZlYzUyNTYzYTY4Mzc1MmU2NQ0KPiBwcmVyZXF1aXNpdGUtcGF0Y2gtaWQ6IDI5NGIw
+Y2EyN2E2ZWU1NzA5NmM4ZjA5N2MwNTcyMzM2YjhhMmQ1ODMNCj4gcHJlcmVxdWlzaXRlLXBh
+dGNoLWlkOiA1ZTA1YmZjNTI4N2QxNmMyMDdiZmM2MTZiMjc3NmFkNzJlYjRhYjI5DQo+IHBy
+ZXJlcXVpc2l0ZS1wYXRjaC1pZDogZTk0NTYwYmU4NWRmZmI2MmE1YjNjZjU4ZDFmMGZjM2Qy
+NzhhZDgwNg0KPiBwcmVyZXF1aXNpdGUtcGF0Y2gtaWQ6IGE0NzFkZjM5YzdiMzJjNjlkZDJi
+MTM4YTdkMGFmMDE1ZWE0MmUwMGENCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhp
+Y3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBH
+bWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4
+MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com> 
--- 
-Best regards,
+--------------RxlC47capXm6ucMCkv2KhgjT--
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+--------------OR00scsW6DGn0c2BN1eh7yrW
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmK8ASkFAwAAAAAACgkQlh/E3EQov+Am
+ghAApBcDFBDGX6r60lgjmBOeVSEOKgxXLkj41Hf9XSr7dJTiFfRVRASxmxayPDrZatlVyQvTL858
+iiiHS5ZkiFX6CiM99AFU9FGNSSjGaoUHxwBiPY6VK/WuBDz+CYwygaF4X0nMh0RTuNq+VKISVrob
+SmxK0ihvr5SvAQh/AIAKftb8Ec2PM8+CCBwXl713TveNg/i82S+KKSqoXj4DMcoWL0GhHUoOAMnY
+xoJJNHLvAvgdL8EMBw0GnRL2WeXClgmHDsqc+o1x2PJYLepN3e5QTRm7SlEqtQvEC7JvZ+AUwCnj
++Ybxl/YYpOlVmpp3T1xvKXCZfv9mYbMHflBJTVc/rfecBBpvMS2/b/G7KB8dkPt1764b+xgJ6h0t
+8GQyROTNFfuLzbXRqA05YRjmvoZFN9Dty0Sxjxp5sYQU8TN5cZ4+5k7XjbkguJqHe3Tv37nWhb+C
+99ySrt74MeDKPa40vsSKJ3f/oeLp8W51E3o/6MqXqIszPxH3BxmATeKylF5Bvb6R2k6AGzgm0qaJ
+y+y7sYNPAG+Cnf3LSiAU761BRaMbGppsbEtjj3p+KZeIf+80yj1yOHMpRY/WF7MVhVEV064IxayL
+FylNgbcFI1Ab/PvEgcLUynPpHBqtZJFjo8KnTbRejBoOjxbLGhVrHoP3vmlCkkasrIfickvPSbER
+/Mc=
+=XYLY
+-----END PGP SIGNATURE-----
+
+--------------OR00scsW6DGn0c2BN1eh7yrW--
