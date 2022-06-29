@@ -1,37 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2BD560B0B
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 22:31:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD88E560B38
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 22:43:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87DBC10E0D1;
-	Wed, 29 Jun 2022 20:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C227310EE36;
+	Wed, 29 Jun 2022 20:43:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A67510E8A3;
- Wed, 29 Jun 2022 20:31:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 74941B81F16;
- Wed, 29 Jun 2022 20:30:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10AC1C34114;
- Wed, 29 Jun 2022 20:30:53 +0000 (UTC)
-Date: Wed, 29 Jun 2022 16:30:52 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Jim Cromie <jim.cromie@gmail.com>
-Subject: Re: [PATCH v2 26/27] dyndbg: 4 new trace-events: pr_debug, dev_dbg,
- drm_{,dev}debug
-Message-ID: <20220629163052.6656c0cb@gandalf.local.home>
-In-Reply-To: <20220516225640.3102269-27-jim.cromie@gmail.com>
-References: <20220516225640.3102269-1-jim.cromie@gmail.com>
- <20220516225640.3102269-27-jim.cromie@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10B1E10ED15
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 20:43:24 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id cl1so472836wrb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jK9//luGxpfbLffwOAXZvUD0KZmVzGC+4VJ1Mf8Ewyg=;
+ b=k5WSowoVnLxuxKjSPP3cp1XzTEAHY3y45UhQuF8UEDAyCTaVCqG/CT+GI0HDpCJiRr
+ qY92QFJIvnA+icgYFsho+2NHk8VIu8knAAsA4n5acDav+H8Bx/JChuc9/xU2pHxunkqn
+ Xa7V6+8eHKvHEzuihehfP5VnTNMUxG2sVEkn+lldtmnf/cCTkXjtmmUEqEhHB1ghA1+P
+ XiNUznA+U4VlknZfH43Wecpj/M1WX+pi8c7VlQcttS6Tn+4WR79rWAWtr3AWhjkWvAlB
+ 8c14CN87gcOsljgVtquohoB6BqLa9yxRumbngWbW4Zv5Aafipq5gZb9HHF5pygsGcTHe
+ sV5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jK9//luGxpfbLffwOAXZvUD0KZmVzGC+4VJ1Mf8Ewyg=;
+ b=KWWAV5eZu1hR4EN8CMKKKkuevEjRkALwiqcoTd0wMfxer4b17YLj61FoVKCmuGJaOJ
+ azOOV5Q6eNmyvPyMK4yYf6y/FU/JrFKEtkEpNbNfT+2JaPZR9p5SLGiSOs9iuTL/3TFC
+ sqU4/2ysROENzU417Fo+rZ5xgTgA8hISv0HC80Kaa2j5vTY6mvdWf0LmzgZEp32T/ob2
+ xucsX+4/mAPCcCsBn+/m9iOuhwOUn+DxR9CTpPCb1IjqMHte3YMzimgs9Rj7L5ld4GNP
+ ehObkEqkh7RjZimGR9yk5S+a+hpFsKazWQCgKL8ipLWw1cNBuJ5GQo57jXpMppdHZaJc
+ lKJw==
+X-Gm-Message-State: AJIora/bz116yj5GcS2jV4cGTGIivqw/LYEcrBdJIjuKE9t9zIWuAx9s
+ OHMbi8k8X67q6F+hVq+XBtoTNus5QDwS6MwRMwOWTw==
+X-Google-Smtp-Source: AGRyM1sdZpRIIt8pzdPqsysENF0+n2K+v1kR9bTNvP8/I1WmweNa1mfdcg2Fg6hW5XcLplZP4kyRd9qLNe68d2DEstQ=
+X-Received: by 2002:a5d:52c6:0:b0:21b:9f39:78de with SMTP id
+ r6-20020a5d52c6000000b0021b9f3978demr5179522wrv.699.1656535402268; Wed, 29
+ Jun 2022 13:43:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20220623220613.3014268-1-kaleshsingh@google.com>
+ <20220623220613.3014268-2-kaleshsingh@google.com> <Yrrrz7MxMu8OoEPU@bfoster>
+ <CAC_TJvejs5gbggC1hekyjUNctC_8+3FmVn0B7zAZox2+MkEjaA@mail.gmail.com>
+ <YrxEUbDkYLE6XF6x@bfoster>
+In-Reply-To: <YrxEUbDkYLE6XF6x@bfoster>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Wed, 29 Jun 2022 13:43:11 -0700
+Message-ID: <CAC_TJvcRd7=9xGXP5-t8v3g5iFWtYANpGA-nTqaGZBVTwa=07w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] procfs: Add 'size' to /proc/<pid>/fdinfo/
+To: Brian Foster <bfoster@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,125 +67,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_saipraka@quicinc.com,
- catalin.marinas@arm.com, arnd@arndb.de, will@kernel.org,
- gregkh@linuxfoundation.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, maz@kernel.org,
- jbaron@akamai.com, mingo@redhat.com, seanpaul@chromium.org,
- dri-devel@lists.freedesktop.org, quic_psodagud@quicinc.com,
- daniel.vetter@ffwll.ch, mathieu.desnoyers@efficios.com,
- intel-gvt-dev@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Stephen Brennan <stephen.s.brennan@oracle.com>,
+ Paul Gortmaker <paul.gortmaker@windriver.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+ Christoph Hellwig <hch@infradead.org>,
+ "Cc: Android Kernel" <kernel-team@android.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Suren Baghdasaryan <surenb@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Ioannis Ilkos <ilkos@google.com>,
+ LKML <linux-kernel@vger.kernel.org>, David.Laight@aculab.com,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jun 29, 2022 at 5:23 AM Brian Foster <bfoster@redhat.com> wrote:
+>
+> On Tue, Jun 28, 2022 at 03:38:02PM -0700, Kalesh Singh wrote:
+> > On Tue, Jun 28, 2022 at 4:54 AM Brian Foster <bfoster@redhat.com> wrote=
+:
+> > >
+> > > On Thu, Jun 23, 2022 at 03:06:06PM -0700, Kalesh Singh wrote:
+> > > > To be able to account the amount of memory a process is keeping pin=
+ned
+> > > > by open file descriptors add a 'size' field to fdinfo output.
+> > > >
+> > > > dmabufs fds already expose a 'size' field for this reason, remove t=
+his
+> > > > and make it a common field for all fds. This allows tracking of
+> > > > other types of memory (e.g. memfd and ashmem in Android).
+> > > >
+> > > > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > ---
+> > > >
+> > > > Changes in v2:
+> > > >   - Add Christian's Reviewed-by
+> > > >
+> > > > Changes from rfc:
+> > > >   - Split adding 'size' and 'path' into a separate patches, per Chr=
+istian
+> > > >   - Split fdinfo seq_printf into separate lines, per Christian
+> > > >   - Fix indentation (use tabs) in documentaion, per Randy
+> > > >
+> > > >  Documentation/filesystems/proc.rst | 12 ++++++++++--
+> > > >  drivers/dma-buf/dma-buf.c          |  1 -
+> > > >  fs/proc/fd.c                       |  9 +++++----
+> > > >  3 files changed, 15 insertions(+), 7 deletions(-)
+> > > >
+> ...
+> > >
+> > > Also not sure if it matters that much for your use case, but somethin=
+g
+> > > worth noting at least with shmem is that one can do something like:
+> > >
+> > > # cat /proc/meminfo | grep Shmem:
+> > > Shmem:               764 kB
+> > > # xfs_io -fc "falloc -k 0 10m" ./file
+> > > # ls -alh file
+> > > -rw-------. 1 root root 0 Jun 28 07:22 file
+> > > # stat file
+> > >   File: file
+> > >   Size: 0               Blocks: 20480      IO Block: 4096   regular e=
+mpty file
+> > > # cat /proc/meminfo | grep Shmem:
+> > > Shmem:             11004 kB
+> > >
+> > > ... where the resulting memory usage isn't reflected in i_size (but i=
+s
+> > > is in i_blocks/bytes).
+> >
+> > I tried a similar experiment a few times, but I don't see the same
+> > results. In my case, there is not any change in shmem. IIUC the
+> > fallocate is allocating the disk space not shared memory.
+> >
+>
+> Sorry, it was implied in my previous test was that I was running against
+> tmpfs. So regardless of fs, the fallocate keep_size semantics shown in
+> both cases is as expected: the underlying blocks are allocated and the
+> inode size is unchanged.
+>
+> What wasn't totally clear to me when I read this patch was 1. whether
+> tmpfs refers to Shmem and 2. whether tmpfs allowed this sort of
+> operation. The test above seems to confirm both, however, right? E.g., a
+> more detailed example:
+>
+> # mount | grep /tmp
+> tmpfs on /tmp type tmpfs (rw,nosuid,nodev,seclabel,nr_inodes=3D1048576,in=
+ode64)
+> # cat /proc/meminfo | grep Shmem:
+> Shmem:              5300 kB
+> # xfs_io -fc "falloc -k 0 1g" /tmp/file
+> # stat /tmp/file
+>   File: /tmp/file
+>   Size: 0               Blocks: 2097152    IO Block: 4096   regular empty=
+ file
+> Device: 22h/34d Inode: 45          Links: 1
+> Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    root)
+> Context: unconfined_u:object_r:user_tmp_t:s0
+> Access: 2022-06-29 08:04:01.301307154 -0400
+> Modify: 2022-06-29 08:04:01.301307154 -0400
+> Change: 2022-06-29 08:04:01.451312834 -0400
+>  Birth: 2022-06-29 08:04:01.301307154 -0400
+> # cat /proc/meminfo | grep Shmem:
+> Shmem:           1053876 kB
+> # rm -f /tmp/file
+> # cat /proc/meminfo | grep Shmem:
+> Shmem:              5300 kB
+>
+> So clearly this impacts Shmem.. was your test run against tmpfs or some
+> other (disk based) fs?
 
-Sorry for the late review. I finally got some time to look at this.
+Hi Brian,
 
-On Mon, 16 May 2022 16:56:39 -0600
-Jim Cromie <jim.cromie@gmail.com> wrote:
+Thanks for clarifying. My issue was tmpfs not mounted at /tmp in my system:
 
+=3D=3D> meminfo.start <=3D=3D
+Shmem:               572 kB
+=3D=3D> meminfo.stop <=3D=3D
+Shmem:             51688 kB
 
-> diff --git a/include/trace/events/drm.h b/include/trace/events/drm.h
-> new file mode 100644
-> index 000000000000..6de80dd68620
-> --- /dev/null
-> +++ b/include/trace/events/drm.h
-> @@ -0,0 +1,68 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM drm
-> +
-> +#if !defined(_TRACE_DRM_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#define _TRACE_DRM_H
-> +
-> +#include <linux/tracepoint.h>
-> +
-> +/* drm_debug() was called, pass its args */
-> +TRACE_EVENT(drm_debug,
-> +	    TP_PROTO(int drm_debug_category, struct va_format *vaf),
-> +
-> +	    TP_ARGS(drm_debug_category, vaf),
-> +
-> +	    TP_STRUCT__entry(
-> +		    __field(int, drm_debug_category)
-> +		    __dynamic_array(char, msg, 256)
-> +		    ),
-> +
-> +	    TP_fast_assign(
-> +		    int len;
-> +
-> +		    __entry->drm_debug_category = drm_debug_category;
-> +		    vsnprintf(__get_str(msg), 256, vaf->fmt, *vaf->va);
-> +
-> +		    len = strlen(__get_str(msg));
-> +		    if (len > 0 && (__get_str(msg)[len - 1] == '\n'))
-> +			    len -= 1;
-> +		    __get_str(msg)[len] = 0;
-> +		    ),
-> +
-> +	    TP_printk("%s", __get_str(msg))
-> +);
-> +
-> +/* drm_devdbg() was called, pass its args, preserving order */
-> +TRACE_EVENT(drm_devdbg,
-> +	    TP_PROTO(const struct device *dev, int drm_debug_category, struct va_format *vaf),
-> +
-> +	    TP_ARGS(dev, drm_debug_category, vaf),
-> +
-> +	    TP_STRUCT__entry(
-> +		    __field(const struct device*, dev)
-> +		    __field(int, drm_debug_category)
-> +		    __dynamic_array(char, msg, 256)
+>
+> FWIW, I don't have any objection to exposing inode size if it's commonly
+> useful information. My feedback was more just an fyi that i_size doesn't
+> necessarily reflect underlying space consumption (whether it's memory or
+> disk space) in more generic cases, because it sounds like that is really
+> what you're after here. The opposite example to the above would be
+> something like an 'xfs_io -fc "truncate 1t" /tmp/file', which shows a
+> 1TB inode size with zero additional shmem usage.
 
-You do not want to hardcode the 256 here. That will cause 256 bytes to be
-reserved on the buffer, and you will not get that back. Might as well make
-it a static array, as you also add 4 bytes to for the offset and size.
+From these cases, it seems the more generic way to do this is by
+calculating the actual size consumed using the blocks. (i_blocks *
+512). So in the latter example  'xfs_io -fc "truncate 1t" /tmp/file'
+the size consumed would be zero. Let me know if it sounds ok to you
+and I can repost the updated version.
 
-I think you want (haven't tested it)
+Thanks,
+Kalesh
 
-		__dynamic_array(char, msg, get_msg_size(vaf))
-
-Where you have:
-
-static unsigned int get_msg_size(struct va_format *vaf)
-{
-	va_list aq;
-	unsigned int ret;
-
-	va_copy(aq, vaf->va);
-	ret = vsnprintf(NULL, 0, vaf->fmt, aq);
-	va_end(aq);
-
-	return min(ret + 1, 256);
-}
-
-What is in the last parameter of __dynamic_array() is used to calculate the
-size needed to store the dynamic array.
-
-Hmm, looking at other users of __dynamic_array(), this appears to be a
-constant problem. I need to document this better.
-
--- Steve
-
-
-> +		    ),
-> +
-> +	    TP_fast_assign(
-> +		    int len;
-> +
-> +		    __entry->drm_debug_category = drm_debug_category;
-> +		    __entry->dev = dev;
-> +		    vsnprintf(__get_str(msg), 256, vaf->fmt, *vaf->va);
-> +
-> +		    len = strlen(__get_str(msg));
-> +		    if (len > 0 && (__get_str(msg)[len - 1] == '\n'))
-> +			    len -= 1;
-> +		    __get_str(msg)[len] = 0;
-> +		    ),
-> +
-> +	    TP_printk("cat:%d, %s %s", __entry->drm_debug_category,
-> +		      dev_name(__entry->dev), __get_str(msg))
-> +);
-> +
-> +#endif /* _TRACE_DRM_H */
-> +
+>
+> Brian
+>
+> > cat /proc/meminfo > meminfo.start
+> > xfs_io -fc "falloc -k 0 50m" ./xfs_file
+> > cat /proc/meminfo > meminfo.stop
+> > tail -n +1 meminfo.st* | grep -i '=3D=3D\|Shmem:'
+> >
+> > =3D=3D> meminfo.start <=3D=3D
+> > Shmem:               484 kB
+> > =3D=3D> meminfo.stop <=3D=3D
+> > Shmem:               484 kB
+> >
+> > ls -lh xfs_file
+> > -rw------- 1 root root 0 Jun 28 15:12 xfs_file
+> >
+> > stat xfs_file
+> >   File: xfs_file
+> >   Size: 0               Blocks: 102400     IO Block: 4096   regular emp=
+ty file
+> >
+> > Thanks,
+> > Kalesh
+> >
+> > >
+> > > Brian
+> > >
+> > > >
+> > > >       /* show_fd_locks() never deferences files so a stale value is=
+ safe */
+> > > >       show_fd_locks(m, file, files);
+> > > > --
+> > > > 2.37.0.rc0.161.g10f37bed90-goog
+> > > >
+> > >
+> >
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kernel-team+unsubscribe@android.com.
+>
