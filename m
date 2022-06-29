@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C79E5605B8
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 18:24:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0AA5605BA
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 18:24:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A60AC10E3A4;
-	Wed, 29 Jun 2022 16:23:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 804AE10E250;
+	Wed, 29 Jun 2022 16:24:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4248A10E3A4
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 16:23:58 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFE410E250
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 16:24:06 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6C79061AC0;
+ by ams.source.kernel.org (Postfix) with ESMTPS id B4607B82584;
+ Wed, 29 Jun 2022 16:24:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E892C341CC;
  Wed, 29 Jun 2022 16:23:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF816C341C8;
- Wed, 29 Jun 2022 16:23:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656519836;
- bh=RFV17kA2etM59yr+SN253bVf49eBdGjyy0t6B21oRjo=;
+ s=k20201202; t=1656519843;
+ bh=BQk96XPXhMlTi13f6yCCrvn/8gYix9PjnzJYL42TN7s=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=cGr5NPOZVjoOE9RiyqdUubbitwp2BzC8tMvMAchRhOZ3AwMNZOD6GZRS6IePuY2ym
- 88NyXFPS3JBVchIAXJh5ullSO22rYW5Hb5jmqdMInVOFc+PkCtAMrCt4Y43CpMQT/U
- sxLBtnHOT6tZhVfystwT9SGmEr2bx6COWmnT16ySPc/cDlxOD+4aJAEq9mymcmAzl5
- 8rBBb4wIwf0xWhOENpfmIHGp2nRY/l8aVuGxJ5IuRJwSqH/Avqb7be/UD8XUBnXoLQ
- VX2yCnpK0z0fYjL62FBOewa8Y/hkS9djRysBIzQQpUOvC85ML8nRm17EcGWgfJgIqH
- Hf7b6rO7jXDwg==
+ b=VW2yy9wHGEB3RwMgTdrsQaoW/Ma/abZbffXSLvQ9Zqp6Axo0G2D24TTx5/Yl9FGE7
+ 4kFmiAHHKB7kXVfcoaKTk/CtYcJ9rLFHAYy3RpCkDV8fggVH41eMn8hAa5vNFK50/U
+ llHsfbIinN/MnhVCEfLf+e3cGGKyAVnxuT98gfaRko7gmvnfiDj15NQZAcj/hD3pSZ
+ c9YhVwSDPiwPZ+VaIkPJozCDt5Jx8KY5wSv0RxPiAM5EXlg/XnXRqNjB+EseDxBoa0
+ 7MpQjBJokUnMJysNj3I64tS+Eie2bZgRhLxqgyDq0vJ4S4hKUnrijIeYvNSkW/Qwcp
+ qIxPAH3f/PEtw==
 From: Mark Brown <broonie@kernel.org>
 To: ckeepax@opensource.cirrus.com
-In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
-References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH 00/96] Refactor non_legacy_dai_naming flag
-Message-Id: <165651983041.2058781.2369056940647429242.b4-ty@kernel.org>
-Date: Wed, 29 Jun 2022 17:23:50 +0100
+In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
+References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH v2 00/96] Refactor non_legacy_dai_naming flag
+Message-Id: <165651983704.2058781.8213227099502123936.b4-ty@kernel.org>
+Date: Wed, 29 Jun 2022 17:23:57 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -57,8 +57,8 @@ Cc: alsa-devel@alsa-project.org,
  lgirdwood@gmail.com, srinivas.kandagatla@linaro.org, peter.ujfalusi@gmail.com,
  linux-stm32@st-md-mailman.stormreply.com, jbrunet@baylibre.com,
  pierre-louis.bossart@linux.intel.com, krzk@kernel.org,
- linux-rockchip@lists.infradead.org, linux-imx@nxp.com,
- linux-mips@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ frattaroli.nicolas@gmail.com, linux-rockchip@lists.infradead.org,
+ linux-imx@nxp.com, linux-mips@vger.kernel.org, linux-sunxi@lists.linux.dev,
  linux-xtensa@linux-xtensa.org, nsaenz@kernel.org,
  linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
  linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
@@ -68,7 +68,7 @@ Cc: alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Jun 2022 15:32:53 +0100, Charles Keepax wrote:
+On Thu, 23 Jun 2022 13:51:14 +0100, Charles Keepax wrote:
 > Historically, the legacy DAI naming scheme was applied to platform
 > drivers and the newer scheme to CODEC drivers. During componentisation
 > the core lost the knowledge of if a driver was a CODEC or platform, they
