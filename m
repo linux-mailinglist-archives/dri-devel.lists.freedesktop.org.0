@@ -1,51 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDE1560B52
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 23:00:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCD4560B8A
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 23:19:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84B7510E5EE;
-	Wed, 29 Jun 2022 21:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3FE510E03D;
+	Wed, 29 Jun 2022 21:19:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
- [209.85.166.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 321E210E5EE
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 21:00:40 +0000 (UTC)
-Received: by mail-il1-f170.google.com with SMTP id a16so11109037ilr.6
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 14:00:39 -0700 (PDT)
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBE0110E03D;
+ Wed, 29 Jun 2022 21:19:07 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id a15so16214176pfv.13;
+ Wed, 29 Jun 2022 14:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=os8p+GPAgFQmOrekd67LxmGjSZ9E3oajR6XVGq4rXGs=;
+ b=Fxa7JJ3tBHPzRrzLasvGyK11P7IMVCNsoz9yBpjCyeHc+PjcVwYvdEk6F3Sj/Hqe5K
+ 27ZH6wW65NtW05mDIiGHxfl7iulE9Wb6ZDLfc7N0wkfnaZQ0u255pw6f2ZXioQ+g8zJu
+ r+XjqGvAG6Ob5J7fABtrw1dIC2hpuIR/FhFAPBXj5qkZ8WaqG6hQ/Igpw9WWVV3svRmU
+ atSV23qmTPeuOeBv5E2I0bJJOrDLZIL6JcpKnuLDwy7kBcPEnOvgHIjJMEi7DjaQA/Zn
+ gGq6ws2qdCXzxmBU1lNcFRbR2Hno+yiStMuyzqmdQvtLAEV30/cFeLOOUIjZWB9Gwn0k
+ IV3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=QNDYng6HiaUQ2XzlbhKa6Kje7mjtGzKFFC9Apcml49c=;
- b=O24pfxV2XSvpi+QbeGrSJ6gKS0nfBZav+z+sHn4ArX6D8OJRrtq8ZLIIAhLwJsphA3
- cAH4tjiRcSGyDusmJ3v/kkUxVRCn1TS2YI8gHqHj3ZSnQUto6fbbHlFesr1Bbwn6XBDs
- +FUwbrnRDKfItuvbzXQiCEmfgS99FUlhHlY/p2ORar6dNtRrQD4NnUh1nmdy/UDmdvsE
- r0LU44D9NxyrQZxolAh6NvdIazAzm9m/UgK8bxF4YPNZwRB7ixHtJiVVXyBEV68lY3l4
- PD8Ov/gkF5088YQ2uDIpMKzCjP9UGvjbAQ1TX+PP2p++mDNsmyNuVpzw7B8vTVI5/4Lh
- nVZA==
-X-Gm-Message-State: AJIora+Cws6frHPUOx6fbg4TA/Gg92WT2DecstjfXLekB8xdUj5vzOKZ
- xYtTsh3jF+ka7uPdolFOAg==
-X-Google-Smtp-Source: AGRyM1vaLdz2tY8DbktMG5UohpiNPszRj0YNupGJE9+wwsg3tChAw/usAM6+QnPklIlRt9YF5xSJoQ==
-X-Received: by 2002:a05:6e02:19cd:b0:2da:d593:d32 with SMTP id
- r13-20020a056e0219cd00b002dad5930d32mr49391ill.145.1656536439211; 
- Wed, 29 Jun 2022 14:00:39 -0700 (PDT)
-Received: from xps15.herring.priv ([64.188.179.253])
- by smtp.googlemail.com with ESMTPSA id
- u13-20020a5d818d000000b0067513ad66c3sm7061434ion.41.2022.06.29.14.00.38
+ bh=os8p+GPAgFQmOrekd67LxmGjSZ9E3oajR6XVGq4rXGs=;
+ b=vKIs2SUkRyd8U8VtLUFZSwwgQw8niQZfytwdhfK1Ael3OYZAAtLGmjTGKZvoa58CQW
+ K7hSvTGREL+yBW/ED+Es/YaU+alpmE5JzGBkd5NG8uycp+pc7GYoMNQsiSNZoFU3h3j9
+ +su0j7SVn5RkTlmx8tQ42DWEawjcCmuVlc0AtqrEpx7QX0GdCdk7MAaYeN9BRs4OuY3S
+ YZVwbYxDbn0uWHKgnGcDfocplqV4/+XJq7k1wNZau39hg9X0nw2gzCQC/pidoVh/u9Nm
+ owefBsQakwTpuyxrH9Zni5mWvkSG0FGWew7LFpxXqa5eMysVwwHnLAjSF1bYfFPkiMkK
+ 6zYQ==
+X-Gm-Message-State: AJIora8XT1xeh7atmalK7QyEM/UNcVezwW1epQjv9FDue89l2xTww3hA
+ N/WD07BCVyoQjlU+dKI5yj6ySoSflf8=
+X-Google-Smtp-Source: AGRyM1uwm93lIJuDOjZiKwc+5OlO5luquq44ur9YrjetzeEh60E0gVYtcFvgBeeABInX7xJ5DufvRw==
+X-Received: by 2002:a05:6a00:21c8:b0:4fd:f89f:ec0e with SMTP id
+ t8-20020a056a0021c800b004fdf89fec0emr12174218pfj.83.1656537546574; 
+ Wed, 29 Jun 2022 14:19:06 -0700 (PDT)
+Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
+ by smtp.gmail.com with ESMTPSA id
+ bt11-20020a17090af00b00b001d95c09f877sm2660330pjb.35.2022.06.29.14.19.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jun 2022 14:00:38 -0700 (PDT)
-From: Rob Herring <robh@kernel.org>
-To: Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Subject: [PATCH] Revert "drivers/video/backlight/platform_lcd.c: add support
- for device tree based probe"
-Date: Wed, 29 Jun 2022 15:00:23 -0600
-Message-Id: <20220629210024.815761-1-robh@kernel.org>
-X-Mailer: git-send-email 2.34.1
+ Wed, 29 Jun 2022 14:19:05 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] drm/msm: A couple GPU devcore enhancements
+Date: Wed, 29 Jun 2022 14:19:14 -0700
+Message-Id: <20220629211919.563585-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,54 +67,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jg1.han@samsung.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Emma Anholt <emma@anholt.net>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 52e842432f36d5b15227d0ee0d2aa3d2bc3cc0b2.
+From: Rob Clark <robdclark@chromium.org>
 
-The DT support never would have worked because there's no platform_data
-providing ops. There's not any documented binding for it either.
+A couple things useful for debugging iova faults:
 
-Cc: Jingoo Han <jg1.han@samsung.com>
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- drivers/video/backlight/platform_lcd.c | 10 ----------
- 1 file changed, 10 deletions(-)
+1. caputre all buffer addresses and sizes even if we don't capture their
+   contents.
+2. capture the GEM buffer debug labels
 
-diff --git a/drivers/video/backlight/platform_lcd.c b/drivers/video/backlight/platform_lcd.c
-index b2bfbf070200..dc37494baf42 100644
---- a/drivers/video/backlight/platform_lcd.c
-+++ b/drivers/video/backlight/platform_lcd.c
-@@ -12,7 +12,6 @@
- #include <linux/fb.h>
- #include <linux/backlight.h>
- #include <linux/lcd.h>
--#include <linux/of.h>
- #include <linux/slab.h>
- 
- #include <video/platform_lcd.h>
-@@ -133,19 +132,10 @@ static int platform_lcd_resume(struct device *dev)
- static SIMPLE_DEV_PM_OPS(platform_lcd_pm_ops, platform_lcd_suspend,
- 			platform_lcd_resume);
- 
--#ifdef CONFIG_OF
--static const struct of_device_id platform_lcd_of_match[] = {
--	{ .compatible = "platform-lcd" },
--	{},
--};
--MODULE_DEVICE_TABLE(of, platform_lcd_of_match);
--#endif
--
- static struct platform_driver platform_lcd_driver = {
- 	.driver		= {
- 		.name	= "platform-lcd",
- 		.pm	= &platform_lcd_pm_ops,
--		.of_match_table = of_match_ptr(platform_lcd_of_match),
- 	},
- 	.probe		= platform_lcd_probe,
- };
+Rob Clark (2):
+  drm/msm/gpu: Capture all BO addr+size in devcore
+  drm/msm/gpu: Add GEM debug label to devcore
+
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  1 +
+ drivers/gpu/drm/msm/msm_gpu.c           | 40 ++++++++-----------------
+ drivers/gpu/drm/msm/msm_gpu.h           |  1 +
+ 3 files changed, 14 insertions(+), 28 deletions(-)
+
 -- 
-2.34.1
+2.36.1
 
