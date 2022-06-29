@@ -1,64 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78165600B6
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 15:10:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2EA35600FE
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 15:10:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4606A10E9EA;
-	Wed, 29 Jun 2022 13:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0756410EC06;
+	Wed, 29 Jun 2022 13:10:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4D1310E9EA
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:09:58 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 06990B82479
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:09:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C80A3C341CC
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:09:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656508194;
- bh=w1PKcCzYvPIyLmJPK8je3YdKOQ3zTDzv2OaG6iKesF8=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=MdGcQLtI6G5xkO0unxKjD3YAv8qFT2DJQ1V8GN6HuG8Yyi1Dhhxii8A8Cvix/TAUc
- gNSHgNXwbmbOtZKwEbFvkbM0Ewe1lfBqcN96CYzUt46a+8N5a2hbhyAlf7AjhAnqxr
- pewG5eAOJMxGo9p90EKe96lxa1CwvTF6noj7bTbszE9c8CNCV+9U8owRA7MPXFhEFp
- EwNSZOYNJryb2Hg62XCUud7BgrX2ZP++IU+McdAudMTTbEcWx0EuPqgDW2Eg6tIBxq
- rUXyvUR39TECKqxJZVAzu9PN4UT92u/suWgBXhr5S3F7BY52Svf8QxyyD9FOqG6dC9
- vYiHVayhyMtRA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id B0C3CC05FD6; Wed, 29 Jun 2022 13:09:54 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216173] amdgpu [gfxhub] page fault (src_id:0 ring:173 vmid:1
- pasid:32769, for process Xorg pid 2994 thread Xorg:cs0 pid 3237)
-Date: Wed, 29 Jun 2022 13:09:54 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216173-2300-LUo4vbu2Xv@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216173-2300@https.bugzilla.kernel.org/>
-References: <bug-216173-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 414 seconds by postgrey-1.36 at gabe;
+ Wed, 29 Jun 2022 13:10:31 UTC
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9021310EC06
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:10:31 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id 316B81C0B8F; Wed, 29 Jun 2022 15:10:30 +0200 (CEST)
+Date: Wed, 29 Jun 2022 15:10:29 +0200
+From: Pavel Machek <pavel@denx.de>
+To: Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH AUTOSEL 4.19 04/22] drm/vc4: crtc: Use an union to store
+ the page flip callback
+Message-ID: <20220629131029.GF13395@duo.ucw.cz>
+References: <20220628022518.596687-1-sashal@kernel.org>
+ <20220628022518.596687-4-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="aPdhxNJGSeOG9wFI"
+Content-Disposition: inline
+In-Reply-To: <20220628022518.596687-4-sashal@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,18 +42,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: emma@anholt.net, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Melissa Wen <mwen@igalia.com>,
+ stable@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216173
 
---- Comment #10 from Alex Deucher (alexdeucher@gmail.com) ---
-Duplicate of:
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216120
-https://gitlab.freedesktop.org/drm/amd/-/issues/2050
+--aPdhxNJGSeOG9wFI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi!
+
+> From: Maxime Ripard <maxime@cerno.tech>
+>=20
+> [ Upstream commit 2523e9dcc3be91bf9fdc0d1e542557ca00bbef42 ]
+>=20
+> We'll need to extend the vc4_async_flip_state structure to rely on
+> another callback implementation, so let's move the current one into a
+> union.
+
+This and [04/22] drm/vc4: crtc: Use an union to store the page flip
+callback is queued for 4.9 / 4.19, preparing for change that is not
+queued into 4.19.
+
+Please drop at least from 4.9 and 4.19.
+
+Best regards,
+								Pavel
 --=20
-You may reply to this email to add a comment.
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+--aPdhxNJGSeOG9wFI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYrxPRQAKCRAw5/Bqldv6
+8vunAJ9lfwO+e+BGTRNn3nLenP8oCx3WkACeKN+qG6clKzbdd92Cy422TOmsId8=
+=f3LC
+-----END PGP SIGNATURE-----
+
+--aPdhxNJGSeOG9wFI--
