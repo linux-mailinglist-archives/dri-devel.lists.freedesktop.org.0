@@ -2,64 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C3A560146
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 15:30:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4505456014C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 15:32:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F01DF10E810;
-	Wed, 29 Jun 2022 13:30:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C187112685;
+	Wed, 29 Jun 2022 13:32:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 830C810E810
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:30:37 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0C21061E53
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:30:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 721A2C341CC
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:30:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656509436;
- bh=RWTD799Tu9BKTVtzaD3uTAZeoueQx76Oe5v3nbWOUUY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=OiC8ugZ36Hu3g+LHeKZR2nlU5i8FVIeRWRn5Ss6Iz1flJuzossfqVONyIpFLrcd7h
- +iBem6zKw5PRX/lCrzZlo5VHmz6MGa+10thKhKVygAl9z5Xugc6kfcVSLHDs68XmVl
- iM59xhpe4W5cCSR+hcrBsDRjcibzIvmWPmQCczXsuM+366ZD0rDPv/alC7ZJQg1l5/
- k8jFoZtu/JdjfRg+aHke5hEMam2yEFIObWX/MavNlpVQUxTZv646mQqmVxq0HZKbqh
- 8uMcP9iI4I6BtOQVKLoaToNULWOW0aaZindyZ+N/KvdYieHHOTwV60SiX4TSllsM41
- JJVuE6fB4vVWw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 5F1DBCC13B6; Wed, 29 Jun 2022 13:30:36 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216119] 087451f372bf76d breaks hibernation on amdgpu Radeon R9
- 390
-Date: Wed, 29 Jun 2022 13:30:36 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: h.judt@gmx.at
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216119-2300-1uC6PAQ5fj@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216119-2300@https.bugzilla.kernel.org/>
-References: <bug-216119-2300@https.bugzilla.kernel.org/>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBE91112685
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:32:22 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1o6Xnj-00068h-61; Wed, 29 Jun 2022 15:32:15 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1o6Xne-003PN6-2X; Wed, 29 Jun 2022 15:32:13 +0200
+Received: from pza by lupine with local (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1o6Xng-0009Pb-UN; Wed, 29 Jun 2022 15:32:12 +0200
+Message-ID: <1c926f032f1af5d48c227e711dbb6b07b9c1de2f.camel@pengutronix.de>
+Subject: Re: [PATCH v3 03/71] drm/encoder: Introduce drmm_encoder_init
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Maxime Ripard <maxime@cerno.tech>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>,  Daniel Vetter <daniel.vetter@intel.com>, David
+ Airlie <airlied@linux.ie>
+Date: Wed, 29 Jun 2022 15:32:12 +0200
+In-Reply-To: <20220629123510.1915022-4-maxime@cerno.tech>
+References: <20220629123510.1915022-1-maxime@cerno.tech>
+ <20220629123510.1915022-4-maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,19 +57,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216119
+On Mi, 2022-06-29 at 14:34 +0200, Maxime Ripard wrote:
+> The DRM-managed function to register an encoder is
+> drmm_encoder_alloc() and its variants, which will allocate the underlying
+> structure and initialisation the encoder.
+>=20
+> However, we might want to separate the structure creation and the encoder
+> initialisation, for example if the structure is shared across multiple DR=
+M
+> entities, for example an encoder and a connector.
+>=20
+> Let's create an helper to only initialise an encoder that would be passed
+> as an argument.
 
---- Comment #30 from Harald Judt (h.judt@gmx.at) ---
-I will have to test this. I have not known this option exists and what it d=
-oes
-nor what will happen if I disable it and if that is good or bad, so I have
-never used it before.
+Daniel pointed out here [1],=C2=A0that it might be good to check the passed
+encoders are actually in drmm managed memory.
 
---=20
-You may reply to this email to add a comment.
+[1] https://lore.kernel.org/dri-devel/CAKMK7uGaAtk4AY5y=3DjbC7nDduRYFBfLSdH=
+E8wykJ602Lk-3n+Q@mail.gmail.com/
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+regards
+Philipp
