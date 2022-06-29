@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6512A55F467
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 05:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA83A55F466
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 05:55:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0137612A7A0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A46C12A7A2;
 	Wed, 29 Jun 2022 03:55:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 620D312A76F;
- Wed, 29 Jun 2022 03:55:12 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2065.outbound.protection.outlook.com [40.107.244.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64F4711BFDB;
+ Wed, 29 Jun 2022 03:55:11 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d+37sKLM2zPm1Tpt2kZJzd4AQBevnr5B9nQYN1d2azP3cD7Iuy1hlu2u2Tfg8FWfobXzQ1pzqc7IvJRfdWU96++bcFZTpr1oRNckBHOFUCibr4yv6sVV36b58362zMDN3EPETuRrUt/6zvgCnn1MYpop39lsOHqcOvecXhKswXkYsxpTePUF8OtCpjrS0Kb+0bnwnbSaXtxNuBstRwmhKoUoH59WxcwjZzBsbq3oRkBRYIQSbOktnlfl2MD7MEICnueBCYR3UxAIl4pCGDQB+eWxIk1XrrfATdHp7KxS72vo3VY/iPhhUmgR66zWDeqUHxJPShZatt2NlWTUtOVtQQ==
+ b=foRori54YIgkOCtWCJNRZxciVBBQgLEOepHAZrA2JEzuAMkkk9LwJRFOTWlIStBbeUOiF20RempvtuBJvpmhI3aCPDoUh0YFhXs/LisAH710DgsIUbNtKDLoT8Q0scxohMVaMb4R5ug2GMjmdXb01xNPPzrbcoKNKnvwqbhPwwO0HzLjwCFFMwwJpwXdHH2iQgTHJ/LULCjqSs9FLILSYwUvD34EMksOfIDHZf4bkNLlIkP5JrAyChezYHIVi+T+rmF2TJQh+zCt3dGj3LKQNibiYd6XV3iWTa2omsLLd+Z/Rt6vVyn1tvO6YmNxP6qiv2EFhRkGI92EsfYYucO95Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1ro+esyoxspRcCdLcy2c3opq7pjdPJz4su/UKS3EEj8=;
- b=L5/dd9byXRKiABq+FxM/3bT4vVmqwsukUec6B+O6Ao4202JQD+kZUaSmb1eI96Q+ukmFvBuUP2A+58OB59eyjsFSHMgx8fTWjhhL1NToNbNWhRTpb1shV+w99NueuzQH1kuoy5dmoqagduS2VBNKa4Fvzn/QfWIshuPQfhN/X3ZIi2AZuJj0SrNHx8SGk7shmVAy5DpCz1IbYQG8Oqr34mGuyPHKSAyNLnL1OtBpHYtpw3EdV/8+Zwh2m+To5kaMDhYjrt9V/RtaATmnxhvNE/+mAB1dPHTP9E5qqGna/e3vhYRLgHJ5LRpowamXx7bPId+TobkvzZRFeCrW2XS6lA==
+ bh=Tsm1npeQJz5adlkprwdiF30iBrFOX7mFKo901b9QP1o=;
+ b=O97aNftRAgmGKSf6qMxqxC9tC8yXa2Eh63vwfYkb5SKB4bxzl7IMDzOEaujpztgkuVyp/7GwLi3FreOHLhXa3v0vcZbExwJRm6TyaSnxZ7uFgk5kIEZUnX9Q8mDcH4Gu0xpJ3c6GjFDTZlkUodlBX8V4AXPxC0uH3Vz6Rk5SwyH/JZ4E1u12VpfrFTBWfSzyXf9RUFigq/IRHIhq9X9jYgAM9CkEd5uOY6SGc9zpUCRP2VWqdIDbrZ1yNEvm6j5z7XbaM5oe7mxa3JZdESVOnBOaBXQevT5nq+lEzY0uBoloVm56AVxUL4TFWdFwJKIpju5+5N50lRFBnBej1oVskQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1ro+esyoxspRcCdLcy2c3opq7pjdPJz4su/UKS3EEj8=;
- b=RzxQvGFt0/WA09990l1te3UIfpr6Hob+djzBt1KnvXU+B8ddagrsMEuRQE5ASUkUmhqollT9V8e//LWS5E2Pi/KVLcnbnMzPIxQjW3iJ4Fm67uSM0OdxncSaHvz6ND4KX/xQK4Nwpj5pCKxHZexG0uAKJdr31FOjU4IAaRRXbi4=
-Received: from DM6PR03CA0073.namprd03.prod.outlook.com (2603:10b6:5:333::6) by
- BN6PR12MB1140.namprd12.prod.outlook.com (2603:10b6:404:19::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5373.16; Wed, 29 Jun 2022 03:55:08 +0000
+ bh=Tsm1npeQJz5adlkprwdiF30iBrFOX7mFKo901b9QP1o=;
+ b=PICJoyzxncOk47jyZR1rgoCf8qgUMsbZl9bqjliscdm09P2RLfS7R9wkkwMUJtCOFTH6pXtwImJlWyxy/y2rng6IEQz7V+pgJI/c2KDM5c+2WE4UOqw/5FHrIbzZEJ5Wb11QWnU+8hljHbZCZ2iNBAgOHSjRY0v3MhIzTurWAYI=
+Received: from DM6PR03CA0092.namprd03.prod.outlook.com (2603:10b6:5:333::25)
+ by MW3PR12MB4442.namprd12.prod.outlook.com (2603:10b6:303:55::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17; Wed, 29 Jun
+ 2022 03:55:09 +0000
 Received: from DM6NAM11FT068.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:333:cafe::27) by DM6PR03CA0073.outlook.office365.com
- (2603:10b6:5:333::6) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:5:333:cafe::b) by DM6PR03CA0092.outlook.office365.com
+ (2603:10b6:5:333::25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.16 via Frontend
  Transport; Wed, 29 Jun 2022 03:55:08 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
@@ -51,13 +51,13 @@ Received: from SATLEXMB04.amd.com (165.204.84.17) by
 Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Tue, 28 Jun
- 2022 22:55:06 -0500
+ 2022 22:55:07 -0500
 From: Alex Sierra <alex.sierra@amd.com>
 To: <jgg@nvidia.com>
-Subject: [PATCH v7 03/14] mm: handling Non-LRU pages returned by
- vm_normal_pages
-Date: Tue, 28 Jun 2022 22:54:15 -0500
-Message-ID: <20220629035426.20013-4-alex.sierra@amd.com>
+Subject: [PATCH v7 04/14] mm: add device coherent vma selection for memory
+ migration
+Date: Tue, 28 Jun 2022 22:54:16 -0500
+Message-ID: <20220629035426.20013-5-alex.sierra@amd.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220629035426.20013-1-alex.sierra@amd.com>
 References: <20220629035426.20013-1-alex.sierra@amd.com>
@@ -69,26 +69,26 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e5828bf4-80f9-4764-2478-08da5983289b
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1140:EE_
+X-MS-Office365-Filtering-Correlation-Id: b40f0858-cdb4-4182-a7c1-08da59832901
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4442:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aoCxg7DJSQpR/i8OGojddBkZwD0fqxxrxUEQ9wTvsMPlUl+4/cv1hFnrdPVrvnIK8HxdOJFzy7uP3U5arN9s2Zt315iG1OH6yOyjQS8xIZedico4JeiQuJi0jO6hfng8KFhU/ImYyN8nbsiiBA7XwQUTPb1RyXuaS0ZKQnQuSm11L/Mc5T1QPNjXEaIWgvtiAMKFgxt2uzHHln9GK5I6XLa7hh3Co9Lpv5N3E7w15PvIofHu9yWPZp5ChwIGfy9ONULiuFUj98mNiJZRJ7PsW36KsWGnEV6R5I1yWF1WF6okK39dRwkv2FGlkycqtktpdB57hURKOBcIgtxgHgbXnj1EoBHqXPYJjzEAkNC0ER6Nq1O/M/PyjGY62MqV/7FbcGu4BEYmXF8z0hMpRUYYsS04ti1LgdfByHe3e5yIcI+RjG7XiQOevEgQZJxxWyK5wqr1rEH9kzvn1NHcx18unbj1+E/DHxUgOB2SyUJFuEO9lFFOLdXdNqXfE4lytTs6+RQ9gH8DzZzq0Ez1DCB9CYr96YquwZEd+8k8MV0RfPXvwniPPpGFDjpue61R6i84eLIIZrCLVVVAFMjiP/YVsJiQ6vBIG8S0B3NelWBgONd67cCO5yiqo/6Mi0sppJgeO6aKP8P5XW7KStd7VCGMMfzpuhpqBJcqQ8rL8fHi8+tOErFrVgoNwVA2dWosNVnJClaXiJkf7PZ7JJf59/zY1ONoVuQr6oGT2MbUVez1bMDRh8XVVO3RiNL0m44SGpxe4gWf6g1REiAilParmhtMRexxtVbVLK6JndtaujKL3+mFxo/2dXytaBUVLIxVcx5fRfmBEwCDQNFhIcN3TFmUCA==
+X-Microsoft-Antispam-Message-Info: DK585iY9gEgPfYFUevAbU2Awii+SHxPI3M2mNVEMhGyo6dy0SUTi/RtPrjLLduOkb6yos7W8PWnZQ8hEmVVaI7m1tk/3evUjcOM/GwJIDl/PnZrQ+dFUQuWltQdiUlrxgHVa5C8wQ/8sxxiFd3mCYo1uQNOMWqPT8EbT+YGaaavZoAcNpu6FQan0Pz9toYF0dxRQDl09RFYzIqbLOphoQH5k0Hco28lzL+YXQT5czmleCeCyr6msEJtd7svgQPsUd483zq5FRQE31B8OnER0Oagso1MFmOzlmp4Bw5soy403AFrVmG6ODb4a7v0/IU5Dir8qaoCD1T12KJ5Z41eezGktgEYWsdcli+BQ2YitvKTujoGVBr+OU5nZNl7t0gaHWcFEIVU2Vgn4gROnaIfNdtRf0UyT5Ku4N8kHxm5KFYE0t9LqFFS8de9CwLb92ZJypxM2FVQ2yT+JmtumFV9GShRWuLYCsMU8FmIJcWdNWevLGywL/VCq0gm5ZelYztExbG5I4TUDWDVro+WiCLV39Ywpy/aeg/Hd41AtqkLJptOfig3b71gq2cbEajHQdWvZ3GcP8F5vMm+zu41KKb7ASKI+qEPRla7QsX1l1pblTf/0prz7weHtPatO/5Ta3hT4DgQ7rxqjVh/LktGX7LOutestgZ5lXkJWBxnLMxLU53s5XmvU23oNf5GcvweQizamSU8y1jPu7BzBieBDMpLSgjFkJM7lCkz8zmPBH9OzfAlyAKq7iFXwgefq6G3elW80ccxueiYjprOIQ7AXj9h5l4KNpOviAfN22AYk6SdA+wbjZgi5Jm2a5y/mmxazMhU8gbMYQ40e/4hT3rhVrqRnYw==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(346002)(376002)(396003)(39860400002)(136003)(36840700001)(40470700004)(46966006)(6666004)(36860700001)(70206006)(2906002)(47076005)(4326008)(81166007)(36756003)(82740400003)(41300700001)(5660300002)(6916009)(40480700001)(2616005)(478600001)(86362001)(7696005)(26005)(8936002)(16526019)(83380400001)(82310400005)(44832011)(356005)(316002)(186003)(7416002)(426003)(54906003)(8676002)(70586007)(1076003)(336012)(40460700003)(36900700001);
+ SFS:(13230016)(4636009)(39860400002)(396003)(136003)(346002)(376002)(46966006)(36840700001)(40470700004)(4326008)(83380400001)(86362001)(36756003)(54906003)(47076005)(1076003)(6916009)(2616005)(26005)(316002)(41300700001)(5660300002)(81166007)(2906002)(16526019)(8936002)(186003)(6666004)(40480700001)(70206006)(336012)(82310400005)(40460700003)(478600001)(426003)(8676002)(44832011)(356005)(7416002)(70586007)(36860700001)(82740400003)(7696005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 03:55:08.2096 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5828bf4-80f9-4764-2478-08da5983289b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 03:55:08.8815 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b40f0858-cdb4-4182-a7c1-08da59832901
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT068.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1140
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4442
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,238 +109,60 @@ Cc: rcampbell@nvidia.com, willy@infradead.org, david@redhat.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With DEVICE_COHERENT, we'll soon have vm_normal_pages() return
-device-managed anonymous pages that are not LRU pages. Although they
-behave like normal pages for purposes of mapping in CPU page, and for
-COW. They do not support LRU lists, NUMA migration or THP.
-
-Callers to follow_page that expect LRU pages, are also checked for
-device zone pages due to DEVICE_COHERENT type.
+This case is used to migrate pages from device memory, back to system
+memory. Device coherent type memory is cache coherent from device and CPU
+point of view.
 
 Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com> (v2)
-Reviewed-by: Alistair Popple <apopple@nvidia.com> (v6)
+Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Reviewed-by: Alistair Poppple <apopple@nvidia.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/proc/task_mmu.c | 2 +-
- mm/huge_memory.c   | 2 +-
- mm/khugepaged.c    | 9 ++++++---
- mm/ksm.c           | 6 +++---
- mm/madvise.c       | 4 ++--
- mm/memory.c        | 9 ++++++++-
- mm/mempolicy.c     | 2 +-
- mm/migrate.c       | 4 ++--
- mm/mlock.c         | 2 +-
- mm/mprotect.c      | 2 +-
- 10 files changed, 26 insertions(+), 16 deletions(-)
+ include/linux/migrate.h |  1 +
+ mm/migrate_device.c     | 12 +++++++++---
+ 2 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 2d04e3470d4c..2dd8c8a66924 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -1792,7 +1792,7 @@ static struct page *can_gather_numa_stats(pte_t pte, struct vm_area_struct *vma,
- 		return NULL;
+diff --git a/include/linux/migrate.h b/include/linux/migrate.h
+index 069a89e847f3..b84908debe5c 100644
+--- a/include/linux/migrate.h
++++ b/include/linux/migrate.h
+@@ -148,6 +148,7 @@ static inline unsigned long migrate_pfn(unsigned long pfn)
+ enum migrate_vma_direction {
+ 	MIGRATE_VMA_SELECT_SYSTEM = 1 << 0,
+ 	MIGRATE_VMA_SELECT_DEVICE_PRIVATE = 1 << 1,
++	MIGRATE_VMA_SELECT_DEVICE_COHERENT = 1 << 2,
+ };
  
- 	page = vm_normal_page(vma, addr, pte);
--	if (!page)
-+	if (!page || is_zone_device_page(page))
- 		return NULL;
- 
- 	if (PageReserved(page))
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 834f288b3769..c47e95b02244 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -2910,7 +2910,7 @@ static int split_huge_pages_pid(int pid, unsigned long vaddr_start,
- 
- 		if (IS_ERR(page))
- 			continue;
--		if (!page)
-+		if (!page || is_zone_device_page(page))
- 			continue;
- 
- 		if (!is_transparent_hugepage(page))
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index 16be62d493cd..671ac7800e53 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -618,7 +618,7 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
- 			goto out;
- 		}
- 		page = vm_normal_page(vma, address, pteval);
--		if (unlikely(!page)) {
-+		if (unlikely(!page) || unlikely(is_zone_device_page(page))) {
- 			result = SCAN_PAGE_NULL;
- 			goto out;
- 		}
-@@ -1267,7 +1267,7 @@ static int khugepaged_scan_pmd(struct mm_struct *mm,
- 			writable = true;
- 
- 		page = vm_normal_page(vma, _address, pteval);
--		if (unlikely(!page)) {
-+		if (unlikely(!page) || unlikely(is_zone_device_page(page))) {
- 			result = SCAN_PAGE_NULL;
- 			goto out_unmap;
- 		}
-@@ -1479,7 +1479,8 @@ void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr)
- 			goto abort;
- 
- 		page = vm_normal_page(vma, addr, *pte);
--
-+		if (WARN_ON_ONCE(page && is_zone_device_page(page)))
-+			page = NULL;
- 		/*
- 		 * Note that uprobe, debugger, or MAP_PRIVATE may change the
- 		 * page table, but the new page will not be a subpage of hpage.
-@@ -1497,6 +1498,8 @@ void collapse_pte_mapped_thp(struct mm_struct *mm, unsigned long addr)
- 		if (pte_none(*pte))
- 			continue;
- 		page = vm_normal_page(vma, addr, *pte);
-+		if (WARN_ON_ONCE(page && is_zone_device_page(page)))
-+			goto abort;
- 		page_remove_rmap(page, vma, false);
- 	}
- 
-diff --git a/mm/ksm.c b/mm/ksm.c
-index 54f78c9eecae..831b18a7a50b 100644
---- a/mm/ksm.c
-+++ b/mm/ksm.c
-@@ -475,7 +475,7 @@ static int break_ksm(struct vm_area_struct *vma, unsigned long addr)
- 		cond_resched();
- 		page = follow_page(vma, addr,
- 				FOLL_GET | FOLL_MIGRATION | FOLL_REMOTE);
--		if (IS_ERR_OR_NULL(page))
-+		if (IS_ERR_OR_NULL(page) || is_zone_device_page(page))
- 			break;
- 		if (PageKsm(page))
- 			ret = handle_mm_fault(vma, addr,
-@@ -560,7 +560,7 @@ static struct page *get_mergeable_page(struct rmap_item *rmap_item)
- 		goto out;
- 
- 	page = follow_page(vma, addr, FOLL_GET);
--	if (IS_ERR_OR_NULL(page))
-+	if (IS_ERR_OR_NULL(page) || is_zone_device_page(page))
- 		goto out;
- 	if (PageAnon(page)) {
- 		flush_anon_page(vma, page, addr);
-@@ -2308,7 +2308,7 @@ static struct rmap_item *scan_get_next_rmap_item(struct page **page)
- 			if (ksm_test_exit(mm))
- 				break;
- 			*page = follow_page(vma, ksm_scan.address, FOLL_GET);
--			if (IS_ERR_OR_NULL(*page)) {
-+			if (IS_ERR_OR_NULL(*page) || is_zone_device_page(*page)) {
- 				ksm_scan.address += PAGE_SIZE;
- 				cond_resched();
- 				continue;
-diff --git a/mm/madvise.c b/mm/madvise.c
-index 0316bbc6441b..e252635fe935 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -421,7 +421,7 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
- 			continue;
- 
- 		page = vm_normal_page(vma, addr, ptent);
--		if (!page)
-+		if (!page || is_zone_device_page(page))
- 			continue;
- 
- 		/*
-@@ -639,7 +639,7 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
- 		}
- 
- 		page = vm_normal_page(vma, addr, ptent);
--		if (!page)
-+		if (!page || is_zone_device_page(page))
- 			continue;
- 
- 		/*
-diff --git a/mm/memory.c b/mm/memory.c
-index 7a089145cad4..e18555af9024 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -624,6 +624,13 @@ struct page *vm_normal_page(struct vm_area_struct *vma, unsigned long addr,
- 		if (is_zero_pfn(pfn))
- 			return NULL;
- 		if (pte_devmap(pte))
-+/*
-+ * NOTE: New uers of ZONE_DEVICE will not set pte_devmap() and will have
-+ * refcounts incremented on their struct pages when they are inserted into
-+ * PTEs, thus they are safe to return here. Legacy ZONE_DEVICE pages that set
-+ * pte_devmap() do not have refcounts. Example of legacy ZONE_DEVICE is
-+ * MEMORY_DEVICE_FS_DAX type in pmem or virtio_fs drivers.
-+ */
- 			return NULL;
- 
- 		print_bad_pte(vma, addr, pte, NULL);
-@@ -4693,7 +4700,7 @@ static vm_fault_t do_numa_page(struct vm_fault *vmf)
- 	pte = pte_modify(old_pte, vma->vm_page_prot);
- 
- 	page = vm_normal_page(vma, vmf->address, pte);
--	if (!page)
-+	if (!page || is_zone_device_page(page))
- 		goto out_map;
- 
- 	/* TODO: handle PTE-mapped THP */
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index d39b01fd52fe..abc26890fc95 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -523,7 +523,7 @@ static int queue_pages_pte_range(pmd_t *pmd, unsigned long addr,
- 		if (!pte_present(*pte))
- 			continue;
- 		page = vm_normal_page(vma, addr, *pte);
--		if (!page)
-+		if (!page || is_zone_device_page(page))
- 			continue;
- 		/*
- 		 * vm_normal_page() filters out zero pages, but there might
-diff --git a/mm/migrate.c b/mm/migrate.c
-index 6c1ea61f39d8..a98a219d12ab 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -1620,7 +1620,7 @@ static int add_page_for_migration(struct mm_struct *mm, unsigned long addr,
- 		goto out;
- 
- 	err = -ENOENT;
--	if (!page)
-+	if (!page || is_zone_device_page(page))
- 		goto out;
- 
- 	err = 0;
-@@ -1810,7 +1810,7 @@ static void do_pages_stat_array(struct mm_struct *mm, unsigned long nr_pages,
- 		if (IS_ERR(page))
- 			goto set_status;
- 
--		if (page) {
-+		if (page && !is_zone_device_page(page)) {
- 			err = page_to_nid(page);
- 			put_page(page);
+ struct migrate_vma {
+diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+index a4847ad65da3..18bc6483f63a 100644
+--- a/mm/migrate_device.c
++++ b/mm/migrate_device.c
+@@ -148,15 +148,21 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 			if (is_writable_device_private_entry(entry))
+ 				mpfn |= MIGRATE_PFN_WRITE;
  		} else {
-diff --git a/mm/mlock.c b/mm/mlock.c
-index 716caf851043..b14e929084cc 100644
---- a/mm/mlock.c
-+++ b/mm/mlock.c
-@@ -333,7 +333,7 @@ static int mlock_pte_range(pmd_t *pmd, unsigned long addr,
- 		if (!pte_present(*pte))
- 			continue;
- 		page = vm_normal_page(vma, addr, *pte);
--		if (!page)
-+		if (!page || is_zone_device_page(page))
- 			continue;
- 		if (PageTransCompound(page))
- 			continue;
-diff --git a/mm/mprotect.c b/mm/mprotect.c
-index ba5592655ee3..e034aae2a98b 100644
---- a/mm/mprotect.c
-+++ b/mm/mprotect.c
-@@ -95,7 +95,7 @@ static unsigned long change_pte_range(struct mmu_gather *tlb,
- 					continue;
- 
- 				page = vm_normal_page(vma, addr, oldpte);
--				if (!page || PageKsm(page))
-+				if (!page || is_zone_device_page(page) || PageKsm(page))
- 					continue;
- 
- 				/* Also skip shared copy-on-write pages */
+-			if (!(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM))
+-				goto next;
+ 			pfn = pte_pfn(pte);
+-			if (is_zero_pfn(pfn)) {
++			if (is_zero_pfn(pfn) &&
++			    (migrate->flags & MIGRATE_VMA_SELECT_SYSTEM)) {
+ 				mpfn = MIGRATE_PFN_MIGRATE;
+ 				migrate->cpages++;
+ 				goto next;
+ 			}
+ 			page = vm_normal_page(migrate->vma, addr, pte);
++			if (page && !is_zone_device_page(page) &&
++			    !(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM))
++				goto next;
++			else if (page && is_device_coherent_page(page) &&
++			    (!(migrate->flags & MIGRATE_VMA_SELECT_DEVICE_COHERENT) ||
++			     page->pgmap->owner != migrate->pgmap_owner))
++				goto next;
+ 			mpfn = migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
+ 			mpfn |= pte_write(pte) ? MIGRATE_PFN_WRITE : 0;
+ 		}
 -- 
 2.32.0
 
