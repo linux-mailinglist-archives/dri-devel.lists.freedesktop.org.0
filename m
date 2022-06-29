@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A391560983
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 20:45:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650CC560986
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 20:45:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD05810E95C;
-	Wed, 29 Jun 2022 18:45:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37F9A10EA0F;
+	Wed, 29 Jun 2022 18:45:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB7A010E7EC
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 18:45:00 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- t17-20020a1c7711000000b003a0434b0af7so200880wmi.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 11:45:00 -0700 (PDT)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6739B10E95C
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 18:45:02 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ h186-20020a1c21c3000000b003a03567d5e9so185857wmh.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 11:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qoN7yg76UgsEFXHXaQt2AveJ+WlGKI9wi9pTAfeqlpQ=;
- b=e4CuTg/9p48DvSTUNdv17K46g3T0j+a8aeAGEEKwZCfJKs9OjS34vhGZ7HFoE764Hd
- j8xFaBJnEvmew0GGSReaaY9xNCu/fR2Sc34atEiERkguYgduxUnuc58gW9QTCtElfHoh
- +e4aG+8roo0EfND8Dp2rzL5lveRBxroMVkaiGySBPM8Qh9bYqkiTIqpFq/W5RA0SiiOj
- PkZRxnuQRLUqrKTYridgjCyNZyMdVCaIDrvKh8cbK07c3fQ7hSJhIcZF+zo6hofXTYZU
- rLSvEmCJJCmqf5LBxTtJA5BYCL/pC3D+iLf1VIJRxuvt++JTQuIt9u9ZtTRVQGNCwcNI
- LZMg==
+ bh=ZPnaNl2N6OCS49bYwYg25LRRooD0U5t+6njnQfYqn3w=;
+ b=cun3Fr5kbB1kc8fHUe1Pp/5QcguZXRCH+7TrDGk+ZMirUtgQL36YLVbJCyhLZkOBJy
+ LhvI1GVPT1ZTiqmhJOU4Q4LLd5pGvHUxjtjZGRI3dGMdUZcBN86wcFBgUizT8kZoHfh+
+ rzleb2gxRvUVaOsxtxjzB3eOBv6fv6XHPIx7hcXbCi9kY8hS+dv7hGMpXyC9zsYxLjVV
+ OdIhzsTDSyIcq3kRndNjuRbrJ/XkT7HQi3aadRk0Mm5KKIz0aoZlheM2JjydatfBmbmE
+ b2/Cw63ViZ4v3295nkIXbKulmCKxxxTgoEJn+r+AuOx8BCV+qEspBTkmWddspDZSYqKX
+ yfng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qoN7yg76UgsEFXHXaQt2AveJ+WlGKI9wi9pTAfeqlpQ=;
- b=CKXUhYly/I305tuPiqrPzGGlNjZSdl710GknDphWaT1gNkoK16//KI7AP5Xm1E3RaK
- 1cr6yHqr3M3sK0TT6M8O88ZNJ0WxrT0QdPCUYE7P4KPAYhBtU+6nbDgCewKAbniS5bYX
- QhUCJjTQE+DBRjbpL8L92dZca3XFfxLnRi4zk8qZZPEqzVNA0dT7UPLytetfXnBePz6Z
- uCHVNFsOZYhQMjMTYLuOOhFcdD3nRqrAWDX6LgpIirvfx5b86vdSnhjsdzUQURy4OqIv
- 0OOqQ54V8jGGe9uSD36F+Gh8JOuUbOL51tTbgYYE9z6GyQefrDryrROniHbwABaM95qn
- Np9g==
-X-Gm-Message-State: AJIora+GxHFVarFEgY15ZOK1fe7dI4VY4wR10Ibr2DfGkyMMQ7hcNg45
- /tk77pq7EnYUbHGWulBJ3Kkd0w==
-X-Google-Smtp-Source: AGRyM1sAH2pQyXCWdny+eGMynhGGuuyXhbj2gCp3uhWDHvXjt8YqOA4VdUet5wJ8GqcAeQgDcQfsCA==
-X-Received: by 2002:a7b:c1ca:0:b0:3a0:3b9e:fd96 with SMTP id
- a10-20020a7bc1ca000000b003a03b9efd96mr5210627wmj.86.1656528299365; 
- Wed, 29 Jun 2022 11:44:59 -0700 (PDT)
+ bh=ZPnaNl2N6OCS49bYwYg25LRRooD0U5t+6njnQfYqn3w=;
+ b=AHDe5wOWkxnX4EGRWft+Blv1k5d7WKvGpFD5dqskboDcSqZcPTh6PNKtqRVeb3HTXL
+ 8Iv9zZM+mPtO8FgbIAMFkGbUlwG3lENrA6047+ewxs0oiTlk8HgPK3ua0mDrPeeX/NGB
+ aC+warl6zVYnRFHVoxOQVh4xCRzvFI/ad+M3av7E4Kx0iL8/f/alWrU1aosRkSbNkvzN
+ uH5Q4Y9p7k4jQp6IZJTJEzZREXs1xcAjUg+9K+mfTezQJyzwnsyzRIzORE1wtXSeWLjk
+ hpsRnE8mIHVk/7OCUyNKBSxbfKvUaIYJRpZctKWpXrnmpnFLp1oaZDVLznD96a8ovn55
+ fHxA==
+X-Gm-Message-State: AJIora8f1hzDYrmy+Avz9vUckfCw9DLnLDZC6mU9MPoCXuexUrujn6JN
+ WaMAQLNfD++/TgojrpvNMoU4dQ==
+X-Google-Smtp-Source: AGRyM1ssGrLiDWDuNuov06ew/GRkUp9AxME43xf1zuFe29c5Ad1nznXlVQLFaI/03jH4fxep5tbDyQ==
+X-Received: by 2002:a05:600c:886:b0:3a0:49d7:d8b9 with SMTP id
+ l6-20020a05600c088600b003a049d7d8b9mr7557614wmp.115.1656528300967; 
+ Wed, 29 Jun 2022 11:45:00 -0700 (PDT)
 Received: from henark71.. ([51.37.234.167]) by smtp.gmail.com with ESMTPSA id
- u23-20020a7bcb17000000b0039aef592ca0sm3834371wmj.35.2022.06.29.11.44.57
+ u23-20020a7bcb17000000b0039aef592ca0sm3834371wmj.35.2022.06.29.11.44.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jun 2022 11:44:58 -0700 (PDT)
+ Wed, 29 Jun 2022 11:45:00 -0700 (PDT)
 From: Conor Dooley <mail@conchuod.ie>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -57,10 +57,10 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Mark Brown <broonie@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
  Daniel Lezcano <daniel.lezcano@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v3 14/15] riscv: dts: canaan: add specific compatible for
- kd233's LCD
-Date: Wed, 29 Jun 2022 19:43:43 +0100
-Message-Id: <20220629184343.3438856-15-mail@conchuod.ie>
+Subject: [PATCH v3 15/15] riscv: dts: canaan: build all devicetress if
+ SOC_CANAAN
+Date: Wed, 29 Jun 2022 19:43:44 +0100
+Message-Id: <20220629184343.3438856-16-mail@conchuod.ie>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220629184343.3438856-1-mail@conchuod.ie>
 References: <20220629184343.3438856-1-mail@conchuod.ie>
@@ -92,26 +92,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-Add the recently introduced compatible for the LCD on the Canaan KD233.
+Testing & checking the Canaan devicetrees is inconvenient as only the
+devicetree corresponding to SOC_CANAAN_K210_DTB_BUILTIN will be built.
+Change the Makefile so that all devicetrees are built by default if
+SOC_CANAAN but only the one specified by SOC_CANAAN_K210_DTB_BUILTIN
+gets built as an object.
 
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- arch/riscv/boot/dts/canaan/canaan_kd233.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/riscv/boot/dts/canaan/Makefile | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/arch/riscv/boot/dts/canaan/canaan_kd233.dts b/arch/riscv/boot/dts/canaan/canaan_kd233.dts
-index 4a540158f287..b0cd0105a5bd 100644
---- a/arch/riscv/boot/dts/canaan/canaan_kd233.dts
-+++ b/arch/riscv/boot/dts/canaan/canaan_kd233.dts
-@@ -127,7 +127,7 @@ &spi0 {
- 	cs-gpios = <&gpio0 20 GPIO_ACTIVE_HIGH>;
- 
- 	panel@0 {
--		compatible = "ilitek,ili9341";
-+		compatible = "canaan,kd233-tft", "ilitek,ili9341";
- 		reg = <0>;
- 		dc-gpios = <&gpio0 21 GPIO_ACTIVE_HIGH>;
- 		spi-max-frequency = <10000000>;
+diff --git a/arch/riscv/boot/dts/canaan/Makefile b/arch/riscv/boot/dts/canaan/Makefile
+index c61b08ac8554..befe4eb7527b 100644
+--- a/arch/riscv/boot/dts/canaan/Makefile
++++ b/arch/riscv/boot/dts/canaan/Makefile
+@@ -1,3 +1,9 @@
+ # SPDX-License-Identifier: GPL-2.0
+-dtb-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += $(addsuffix .dtb, $(CONFIG_SOC_CANAAN_K210_DTB_SOURCE))
+-obj-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += $(addsuffix .o, $(dtb-y))
++dtb-$(CONFIG_SOC_CANAAN) += canaan_kd233.dtb
++dtb-$(CONFIG_SOC_CANAAN) += k210_generic.dtb
++dtb-$(CONFIG_SOC_CANAAN) += sipeed_maix_bit.dtb
++dtb-$(CONFIG_SOC_CANAAN) += sipeed_maix_dock.dtb
++dtb-$(CONFIG_SOC_CANAAN) += sipeed_maix_go.dtb
++dtb-$(CONFIG_SOC_CANAAN) += sipeed_maixduino.dtb
++
++obj-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += $(addsuffix .dtb.o, $(CONFIG_SOC_CANAAN_K210_DTB_SOURCE))
 -- 
 2.36.1
 
