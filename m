@@ -2,61 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86451560ACD
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 22:00:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C59FA560ACE
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 22:01:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A8FF10F0BA;
-	Wed, 29 Jun 2022 20:00:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5C1B10F0BC;
+	Wed, 29 Jun 2022 20:01:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE4010F0B4
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 20:00:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656532826;
- bh=SsyOzrNfen9QSl5eCWj5qx7UuBmcX7tHqF8EIXkCPfU=;
- h=X-UI-Sender-Class:From:To:Subject:Date:In-Reply-To:References;
- b=LP7HwpA51b8s2igA9tMKOyKG8KqBnTH0Q7KftF6+TBpjZNmspwqSdJgltRQ0hojSb
- OSfJHX0e5BMMfSJFDJc0CBS9yHy7ly9mW5l1Zpip7Hruxy+yGpvS8K+rfZWdadeJoU
- B5yNNP9ME60L3jtVBfDaiBiIAKHUc3JpAezkr3Pk=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100.fritz.box ([92.116.135.51]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M9nxn-1o1Qey3tHp-005tdD; Wed, 29
- Jun 2022 22:00:25 +0200
-From: Helge Deller <deller@gmx.de>
-To: daniel.vetter@ffwll.ch, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, geert@linux-m68k.org
-Subject: [PATCH 5/5] fbcon: Use fbcon_info_from_console() in
- fbcon_modechange_possible()
-Date: Wed, 29 Jun 2022 22:00:24 +0200
-Message-Id: <20220629200024.187187-6-deller@gmx.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220629200024.187187-1-deller@gmx.de>
-References: <20220629200024.187187-1-deller@gmx.de>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0020B10F0C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 20:01:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656532867;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AmJoOaiBEwTvOlBR6tPF1TnQpeu1brYhbJVBBtBBv/U=;
+ b=h+WcKp8bZjqQpDYs263ir53WMunXxap1xEWWfoNl8KG5LVdAnPxeBC2pFejP6FJv4HylPp
+ EX/swBYLw6XBCXOcwi6llPlEZPNiiuI+lVs9z85VQaOQFQu1pcysJJtZGIwne7/MjY6eI7
+ Pl6z/2q2ieB6KcEVpkTfTrj47GPUBSs=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-257-yEYkqxPIOheG1AmEDvFwiA-1; Wed, 29 Jun 2022 16:01:05 -0400
+X-MC-Unique: yEYkqxPIOheG1AmEDvFwiA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ k190-20020a37bac7000000b006af6d953751so4377446qkf.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 13:01:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AmJoOaiBEwTvOlBR6tPF1TnQpeu1brYhbJVBBtBBv/U=;
+ b=v7AZEPhC+kWrft2xwLEeppMOuLNwv4QhK8Y2z2fEBYc1E11otvRiwPLoDlOPXJPEwI
+ m3zCRRXfBjy2XqtNzax7ZoE60eunkt+RXhsuZYR3HqHQ7l09WGofmy4XWWYhKoPb2cWF
+ LXU9tQsMjDmqiM4whq0H2TLsKFUuHV07RTmJV/4rGSiyQa0biZVz5v/nAjZjCGShqiKP
+ YJlrJpa3uAz2oZm0cuOzqIM+DlWdRxlHRY9dK9GesVatuld7K+5GDHDyl7R90vlwtNKC
+ 7VjA/wg2MdTE+Jkp6TRbF99D+wnvOnd53I4Cg0SWWjD59cGcWfgOmSKAJQDj8x9CNoEf
+ Uv6Q==
+X-Gm-Message-State: AJIora/iigWMnUoY/HFmBifWwSYSoilVC1+GkDOSP3frBtojtsyzLRkA
+ GlzZmJA/O6sc4qHVfi0A/Icoa52OWXuvqydMkCNrogCF/+5ln0TXu3k+cVfHBDDmtkTdzwWNb5Q
+ 3Utxt0W8cP2LUhFggNM/pcsuaPgxf
+X-Received: by 2002:a05:620a:4502:b0:6a6:deef:75ac with SMTP id
+ t2-20020a05620a450200b006a6deef75acmr3558703qkp.69.1656532864847; 
+ Wed, 29 Jun 2022 13:01:04 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vC964FyYrkteZarVUW140Wh6U7bPa3vZk++aoOryCFqOhwM79b4t1kGovUXgTXVmT/qMkHJw==
+X-Received: by 2002:a05:620a:4502:b0:6a6:deef:75ac with SMTP id
+ t2-20020a05620a450200b006a6deef75acmr3558668qkp.69.1656532864430; 
+ Wed, 29 Jun 2022 13:01:04 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ u12-20020a05620a454c00b006afd667535asm3280362qkp.83.2022.06.29.13.01.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jun 2022 13:01:03 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: emma@anholt.net, mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch,
+ dave.stevenson@raspberrypi.com
+Subject: [PATCH] drm/vc4: change vc4_dma_range_matches from a global to static
+Date: Wed, 29 Jun 2022 16:01:01 -0400
+Message-Id: <20220629200101.498138-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qgR2YkR2U9Hhrf/Lb7ITElH+EopY19iZaEZNkKj6yg28vpgyZcx
- ZhYKieMegQ3Hkll49prgqNn1NspvOL5cUPuEPohg8mSjzXc/VrbhOymGhxjzKZMs2rFcc1U
- Gc3E6usfmCgAArUCYk5N6m5a+HZ3BR8XtZxqhYegY4mxJE5nTpgDcNNnuraDLbdDWf9SeA2
- K2b0Om1l8JENDF0XbyliQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gwVllAQRozg=:O4QIxmyOqHYKduFMAQwiJL
- fo328kdPr3uZzgORGAMWIqPNE/3yrQwom1yaQ/AkANObRb70Q3+Rhke+H+fPdYKi6gZjSbhcQ
- GihsOUAmAMPUqf8EStIlXc1q9oHkMDo7PT8XyRjQAou2/zOEgpcU0Y88zWXfd/3aA+G+KpT8M
- kPGJX6pzP+ADKroB51givNh+XAWtt9QkGO/FyitngqfJNVZ+YVL4cwJrfldLDUIdspJibzMkg
- oD0hBrWeM0m/rtkyaj46Bic1OrCxdIeaJT0IxqG+v8EZ86BsMz9HsJ0lKbwV4Rfh1j9/fHIU7
- hSgFmn1y+a7f0PMYKKgH9+6TlB36ycqKii+xhXOcbk3XNFmQ1keNAXXwPzh8h/lE+h9moNTG8
- 8im/BVkJYwTd8UFvA6CBAMP8o62uv394wkWEuHNv3A1Air4QSXWNi00JEYYI+PMHv3jPjNoG5
- 3YuzsOaTqT1NKW77uAzcaxbXO3ML+hbWfiIwNoweLfkGXgSwEnNEMnll9i+XgNSLXeeCuwIqV
- 2hg5PPT3RRsWHE11x77ReYEqD6WeP+E3ShFajsj9f4muBg14jytaSmmlLe2x8CYJ2sGIB92cS
- 7d+Syz55gcOW1VdN/6ZAMqv6qC60Na04BavlQEIIbenfWyzsJTiVoo+kO0XfynIkuTvtELsZt
- Ypjl366A3IZmZH+YEpqESUlalfOn1RK5n4lZRX8P2nrtuOHq5Da6ApskIJKd2QEFEYO6z69Nv
- +4r+4WkuvcVNdL0F6fEtrl0VqdGlGw/TkCrbPoivrnSaJPQtVPc5CLtuodAlWs6+jGp8gpRTq
- 4a8Ya5msCHxo4lzKd8MTTxuwHqw4w1GT5VlvSk4eGrQMHAJhE1SWcXusj/OzLXz0VVj0BVc8b
- S/fJr7acf3rEy54OvXghQxMPWHSVxbdMkOjQapwto7NMxPQSkB5esu39KrgKQY/6dXGvLzJNn
- KrGkXFNnpWUWWO8yDdkcT1ZBwAG9PxarRodh0rLJRA4cFZ6yBYYzlwLHaiyrcB5S4GUPKB779
- E+woaROme9z7Z+X/8UoTHlkJbyM0ZO0QkNZrY05eeBn/onVwQYB3PX/H3ZLoOy1ZjnQqGvyVO
- JL9j7z/nY2c44ntPRET6Rax5iLuc/mK1N1HpQia3bQTqD+n7sDGlkALAw==
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,34 +83,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the fbcon_info_from_console() wrapper which was added to kernel
-v5.19 with commit 409d6c95f9c6 ("fbcon: Introduce wrapper for console->fb_=
-info lookup").
+sparse reports
+drivers/gpu/drm/vc4/vc4_drv.c:270:27: warning: symbol 'vc4_dma_range_matches' was not declared. Should it be static?
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- drivers/video/fbdev/core/fbcon.c | 2 +-
+vc4_dma_range_matches is only used in vc4_drv.c, so it's storage class specifier
+should be static.
+
+Fixes: da8e393e23ef ("drm/vc4: drv: Adopt the dma configuration from the HVS or V3D component")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/vc4/vc4_drv.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/f=
-bcon.c
-index 278c065722b7..ec1cfc6c2451 100644
-=2D-- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2752,7 +2752,7 @@ int fbcon_modechange_possible(struct fb_info *info, =
-struct fb_var_screeninfo *va
- 	for (i =3D first_fb_vc; i <=3D last_fb_vc; i++) {
- 		vc =3D vc_cons[i].d;
- 		if (!vc || vc->vc_mode !=3D KD_TEXT ||
--			   registered_fb[con2fb_map[i]] !=3D info)
-+			   fbcon_info_from_console(i) !=3D info)
- 			continue;
-
- 		if (vc->vc_font.width  > FBCON_SWAP(var->rotate, var->xres, var->yres) =
-||
-=2D-
-2.35.3
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 2b014b6332a6..292d1b6a01b6 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -267,7 +267,7 @@ static void vc4_match_add_drivers(struct device *dev,
+ 	}
+ }
+ 
+-const struct of_device_id vc4_dma_range_matches[] = {
++static const struct of_device_id vc4_dma_range_matches[] = {
+ 	{ .compatible = "brcm,bcm2711-hvs" },
+ 	{ .compatible = "brcm,bcm2835-hvs" },
+ 	{ .compatible = "brcm,bcm2835-v3d" },
+-- 
+2.27.0
 
