@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31D3560981
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 20:45:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C128D560984
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 20:45:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0602510E71E;
-	Wed, 29 Jun 2022 18:44:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3160710E9AB;
+	Wed, 29 Jun 2022 18:45:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E794710E3E9
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 18:44:48 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id i1so19294301wrb.11
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 11:44:48 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C68C10E3E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 18:44:49 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id d17so18141591wrc.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 11:44:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xPbPYlymephNVmTF4XMmqzgSP29N1hKW0nY3OhQ8kt4=;
- b=bIL3O+08jSafbGtb7U08BFLv6ancGGHOyy8t0PuyztZ0247LnqujD+WEk1rMsOM5Hz
- x4rbXKhptTq9voYY62GNR7QzTopeKEUDk0JivS1uwsBcjxPN2n/CXBB4IOSdhPCdVN30
- iF4DDu2c2NUkBuOkWAkNrx+XHLu5HWbytieuTXQ6YOIsvbQ3CRlZuDbN/QNvkIFSLxZj
- KsKxVsL/5aI2KP2l0tOnjXqGzGAaXjkz+ia9erDlkqPPUZmRGN65QSlMuzTTewm+GZuH
- ISKmZiEQbwwDDwl11tRKVMC2d29J4mdLuNUJQ9OcdhM2RVwpRHFZFcpIHcUw/K+zE38G
- XLlw==
+ bh=Juzz+Ngk10Ta05//fxfH00O+jv/gMrP+Bqb9Q3jKosQ=;
+ b=ZA8y7P8hKKrPtisjdtqQq+qA1CID6TRmuw8f26eSBGt1WTJeML7gtXTyV7fNJDHMK3
+ uuo7s6uFAg+bbTdr6RVne+0z6egOsvto5QiZ6mK0zZwxu/+Wi7VHR3Sih2KhTPitJxxv
+ lTfuAXeyZvMxoG6sYUHkPFi0QiV+MOFey0wVpULURsN00zFfHAxuzQa2wJRk2MJYufak
+ ZBER6WKxnutHozCshebTmqJ5yG6ZaDruFHXsj5/te+pMua81k77zKXbcbZvi+jh9fqcm
+ 2tlxPmKfOjotnkDLVyD5TXiHh4tRn3SOWxgppXhFA3DURAdXDHGX1ICJCnx8LDK9p3Ha
+ 1wZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xPbPYlymephNVmTF4XMmqzgSP29N1hKW0nY3OhQ8kt4=;
- b=6zJAqAtdM40wCwr66jzji9nmO36i8HJkZ0/N3OaoXZc8ntHHprPwOc5Hv2h0GbAjhx
- VFe5/tPmV3Gz3s+w5Fu1ePhd7klGvHSYpo4/sJwHLY9PgfwOq/S12MnYrvThWMGKlCjr
- I7jfcyP46iH4iEhWcS+07JaqXDcQhVibmKZ0YDjOH+cGX3hh1tfhK8L0yyVR3Tn3YpxD
- OVDysjxAZ7TjhMQrlGoBzAVjs5kKgl3u488OQV1OV2NcNu+cpDq/Se6FqL+PLy4cMTtR
- wCwbc+/bGP7gQvYCgWCBFly9ZFv3njScZ+dEyuw29ObeQPg6HUCzNE/GbBlHN24uNOpE
- S1GQ==
-X-Gm-Message-State: AJIora8+LLolrA7sIX1XBbhqsbHU4uk2+ge/AQKALqvNjzv4ND0XjyXF
- tpjqiqX02MQBYRH9/ztnvwScwg==
-X-Google-Smtp-Source: AGRyM1thyJi31gfTX2uVAqIx3UeLhb+ISWNyFKRvah2HDTfAAbgqaVsuL5zuItNJWE1qpvCtHqQqvg==
-X-Received: by 2002:a05:6000:1446:b0:21d:2245:ab65 with SMTP id
- v6-20020a056000144600b0021d2245ab65mr4552665wrx.315.1656528287443; 
- Wed, 29 Jun 2022 11:44:47 -0700 (PDT)
+ bh=Juzz+Ngk10Ta05//fxfH00O+jv/gMrP+Bqb9Q3jKosQ=;
+ b=Na1dWbrWB37vu0KTS3gKevLxEX93fx57sucORFdNNkDoMZOJNdmF8/u4hS/oVHCDPy
+ FIr1B/nTH40LXTL8lnCw829/3JK0sMjUiVnQ4jWX/fqKFzg2+SziqWENeJFMde0sO1xD
+ wgIadvCaL9uMiOLtcOf7nvyT5YqR6E5j3jOxNs67BImtoLxBv08nvwg+MOTspD3wb0j7
+ os7426tIAQjDf9+84QFB9I27E4llRUFCM72y5mjedTn3HxDbR1gS+Z+4LaQpp8iVusj9
+ XzukuMapPqssKMZjZJhtalMj3E94WPJj1MVcVEbPmmsVzla53tm6lRbJOmYQQFZAl7yx
+ eJZw==
+X-Gm-Message-State: AJIora/T6/vgGuXOtlAKO2yMyBBiA1zDvES0mlWXo0bWJRbz+mrCl+fj
+ GCxTuXZ5GyXSfrPUp3zl317svg==
+X-Google-Smtp-Source: AGRyM1s0I5FJ4BJCXP+3NEy7+7xMkTJben+77vrmXua6sh2SuaEOzmm9e8Tj0lFsY/ZmuWdd66mstA==
+X-Received: by 2002:a5d:6d45:0:b0:21a:2f43:cb76 with SMTP id
+ k5-20020a5d6d45000000b0021a2f43cb76mr4604259wri.254.1656528289159; 
+ Wed, 29 Jun 2022 11:44:49 -0700 (PDT)
 Received: from henark71.. ([51.37.234.167]) by smtp.gmail.com with ESMTPSA id
- u23-20020a7bcb17000000b0039aef592ca0sm3834371wmj.35.2022.06.29.11.44.45
+ u23-20020a7bcb17000000b0039aef592ca0sm3834371wmj.35.2022.06.29.11.44.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jun 2022 11:44:46 -0700 (PDT)
+ Wed, 29 Jun 2022 11:44:48 -0700 (PDT)
 From: Conor Dooley <mail@conchuod.ie>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -56,9 +56,9 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Mark Brown <broonie@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
  Daniel Lezcano <daniel.lezcano@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v3 07/15] riscv: dts: canaan: fix the k210's memory node
-Date: Wed, 29 Jun 2022 19:43:36 +0100
-Message-Id: <20220629184343.3438856-8-mail@conchuod.ie>
+Subject: [PATCH v3 08/15] riscv: dts: canaan: fix the k210's timer nodes
+Date: Wed, 29 Jun 2022 19:43:37 +0100
+Message-Id: <20220629184343.3438856-9-mail@conchuod.ie>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220629184343.3438856-1-mail@conchuod.ie>
 References: <20220629184343.3438856-1-mail@conchuod.ie>
@@ -90,39 +90,91 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-The k210 U-Boot port has been using the clocks defined in the
-devicetree to bring up the board's SRAM, but this violates the
-dt-schema. As such, move the clocks to a dedicated node with
-the same compatible string. The regs property does not fit in
-either node, so is replaced by comments.
+The timers on the k210 have non standard interrupt configurations,
+which leads to dtbs_check warnings:
+
+k210_generic.dtb: timer@502d0000: interrupts: [[14], [15]] is too long
+From schema: Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
+
+Split the timer nodes in two, so that the second timer in the IP block
+can actually be accessed & in the process solve the dtbs_check warning.
 
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- arch/riscv/boot/dts/canaan/k210.dtsi | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ arch/riscv/boot/dts/canaan/k210.dtsi | 46 +++++++++++++++++++++++-----
+ 1 file changed, 38 insertions(+), 8 deletions(-)
 
 diff --git a/arch/riscv/boot/dts/canaan/k210.dtsi b/arch/riscv/boot/dts/canaan/k210.dtsi
-index 44d338514761..cd4eae82d8b2 100644
+index cd4eae82d8b2..72f70128d751 100644
 --- a/arch/riscv/boot/dts/canaan/k210.dtsi
 +++ b/arch/riscv/boot/dts/canaan/k210.dtsi
-@@ -69,11 +69,13 @@ cpu1_intc: interrupt-controller {
+@@ -319,28 +319,58 @@ fpioa: pinmux@502b0000 {
  
- 	sram: memory@80000000 {
- 		device_type = "memory";
-+		reg = <0x80000000 0x400000>, /* sram0 4 MiB */
-+		      <0x80400000 0x200000>, /* sram1 2 MiB */
-+		      <0x80600000 0x200000>; /* aisram 2 MiB */
-+	};
+ 			timer0: timer@502d0000 {
+ 				compatible = "snps,dw-apb-timer";
+-				reg = <0x502D0000 0x100>;
+-				interrupts = <14>, <15>;
++				reg = <0x502D0000 0x14>;
++				interrupts = <14>;
+ 				clocks = <&sysclk K210_CLK_TIMER0>,
+ 					 <&sysclk K210_CLK_APB0>;
+ 				clock-names = "timer", "pclk";
+ 				resets = <&sysrst K210_RST_TIMER0>;
+ 			};
+ 
+-			timer1: timer@502e0000 {
++			timer1: timer@502d0014 {
+ 				compatible = "snps,dw-apb-timer";
+-				reg = <0x502E0000 0x100>;
+-				interrupts = <16>, <17>;
++				reg = <0x502D0014 0x14>;
++				interrupts = <15>;
++				clocks = <&sysclk K210_CLK_TIMER0>,
++					 <&sysclk K210_CLK_APB0>;
++				clock-names = "timer", "pclk";
++				resets = <&sysrst K210_RST_TIMER0>;
++			};
 +
-+	sram_controller: memory-controller {
- 		compatible = "canaan,k210-sram";
--		reg = <0x80000000 0x400000>,
--		      <0x80400000 0x200000>,
--		      <0x80600000 0x200000>;
--		reg-names = "sram0", "sram1", "aisram";
- 		clocks = <&sysclk K210_CLK_SRAM0>,
- 			 <&sysclk K210_CLK_SRAM1>,
- 			 <&sysclk K210_CLK_AI>;
++			timer2: timer@502e0000 {
++				compatible = "snps,dw-apb-timer";
++				reg = <0x502E0000 0x14>;
++				interrupts = <16>;
+ 				clocks = <&sysclk K210_CLK_TIMER1>,
+ 					 <&sysclk K210_CLK_APB0>;
+ 				clock-names = "timer", "pclk";
+ 				resets = <&sysrst K210_RST_TIMER1>;
+ 			};
+ 
+-			timer2: timer@502f0000 {
++			timer3: timer@502e0014 {
++				compatible = "snps,dw-apb-timer";
++				reg = <0x502E0014 0x114>;
++				interrupts = <17>;
++				clocks = <&sysclk K210_CLK_TIMER1>,
++					 <&sysclk K210_CLK_APB0>;
++				clock-names = "timer", "pclk";
++				resets = <&sysrst K210_RST_TIMER1>;
++			};
++
++			timer4: timer@502f0000 {
++				compatible = "snps,dw-apb-timer";
++				reg = <0x502F0000 0x14>;
++				interrupts = <18>;
++				clocks = <&sysclk K210_CLK_TIMER2>,
++					 <&sysclk K210_CLK_APB0>;
++				clock-names = "timer", "pclk";
++				resets = <&sysrst K210_RST_TIMER2>;
++			};
++
++			timer5: timer@502f0014 {
+ 				compatible = "snps,dw-apb-timer";
+-				reg = <0x502F0000 0x100>;
+-				interrupts = <18>, <19>;
++				reg = <0x502F0014 0x14>;
++				interrupts = <19>;
+ 				clocks = <&sysclk K210_CLK_TIMER2>,
+ 					 <&sysclk K210_CLK_APB0>;
+ 				clock-names = "timer", "pclk";
 -- 
 2.36.1
 
