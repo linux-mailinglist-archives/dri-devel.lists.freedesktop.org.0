@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CCD4560B8A
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 23:19:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 219B1560B8B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 23:19:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3FE510E03D;
-	Wed, 29 Jun 2022 21:19:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28F0A10E682;
+	Wed, 29 Jun 2022 21:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
  [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBE0110E03D;
- Wed, 29 Jun 2022 21:19:07 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id a15so16214176pfv.13;
- Wed, 29 Jun 2022 14:19:07 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F5B310E626;
+ Wed, 29 Jun 2022 21:19:10 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id d17so16218711pfq.9;
+ Wed, 29 Jun 2022 14:19:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=os8p+GPAgFQmOrekd67LxmGjSZ9E3oajR6XVGq4rXGs=;
- b=Fxa7JJ3tBHPzRrzLasvGyK11P7IMVCNsoz9yBpjCyeHc+PjcVwYvdEk6F3Sj/Hqe5K
- 27ZH6wW65NtW05mDIiGHxfl7iulE9Wb6ZDLfc7N0wkfnaZQ0u255pw6f2ZXioQ+g8zJu
- r+XjqGvAG6Ob5J7fABtrw1dIC2hpuIR/FhFAPBXj5qkZ8WaqG6hQ/Igpw9WWVV3svRmU
- atSV23qmTPeuOeBv5E2I0bJJOrDLZIL6JcpKnuLDwy7kBcPEnOvgHIjJMEi7DjaQA/Zn
- gGq6ws2qdCXzxmBU1lNcFRbR2Hno+yiStMuyzqmdQvtLAEV30/cFeLOOUIjZWB9Gwn0k
- IV3Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=n2Zdhl1Vth3N791afpZ91OOSQKmJLxwVGhQJiS1zs08=;
+ b=X6A1iyb7amxPMTinALXe9WnPvRw9BmErsaGGx5wSw/0hXZZaCfz/DVmu74S5girWgE
+ 1xZxKJDiSn5IA/bEthWfEZ+MfJAwG7eCqnKFIadsT0BQKA9fQtwX2OKx06xMcgbEXO1Y
+ BqlAHohP5LmPnaAiMlcWxyipAY/YO6RVKVsL5wVhXtfZRX6o4/B1EoCTsD/knuQ2pvEC
+ sXXz2UYxyEB5ADkdFUZBajYQtrCxSLCGegl+DX2pIK0UKbteu9r9zkSP/KvbGFNQVF8B
+ eEzfNxfE9Qsd+YyHwAECfvUgMmDDN1hyXuK0N6R3yAirzjb6hydx+6SXKEMCUXq0NfS7
+ uITw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=os8p+GPAgFQmOrekd67LxmGjSZ9E3oajR6XVGq4rXGs=;
- b=vKIs2SUkRyd8U8VtLUFZSwwgQw8niQZfytwdhfK1Ael3OYZAAtLGmjTGKZvoa58CQW
- K7hSvTGREL+yBW/ED+Es/YaU+alpmE5JzGBkd5NG8uycp+pc7GYoMNQsiSNZoFU3h3j9
- +su0j7SVn5RkTlmx8tQ42DWEawjcCmuVlc0AtqrEpx7QX0GdCdk7MAaYeN9BRs4OuY3S
- YZVwbYxDbn0uWHKgnGcDfocplqV4/+XJq7k1wNZau39hg9X0nw2gzCQC/pidoVh/u9Nm
- owefBsQakwTpuyxrH9Zni5mWvkSG0FGWew7LFpxXqa5eMysVwwHnLAjSF1bYfFPkiMkK
- 6zYQ==
-X-Gm-Message-State: AJIora8XT1xeh7atmalK7QyEM/UNcVezwW1epQjv9FDue89l2xTww3hA
- N/WD07BCVyoQjlU+dKI5yj6ySoSflf8=
-X-Google-Smtp-Source: AGRyM1uwm93lIJuDOjZiKwc+5OlO5luquq44ur9YrjetzeEh60E0gVYtcFvgBeeABInX7xJ5DufvRw==
-X-Received: by 2002:a05:6a00:21c8:b0:4fd:f89f:ec0e with SMTP id
- t8-20020a056a0021c800b004fdf89fec0emr12174218pfj.83.1656537546574; 
- Wed, 29 Jun 2022 14:19:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=n2Zdhl1Vth3N791afpZ91OOSQKmJLxwVGhQJiS1zs08=;
+ b=D5uUFT6gLZVH1TUkkdSEuW7EGcXXzfwgXwGtjSBl+KsOG4zz3s+OzwEC77uQoWowtz
+ Lrom86HEXJhjwThc499kKayNx3/pO1rjFQA/y5eILzGRS60bqGzWfzuRbH50hj6bwoC1
+ FDvo6sdrJ4vc1f5CKlFm0uWhQOh4bgTd47sziCWMsvLQ65QwAwBLq6cJF5L3yIAkop4f
+ 32PAti3N1t/qLmeloBbEzbEUrjtrRIDNJ7W+o/qH8jPJXz2JH8OmFhM0vP6Jv9LVwnvd
+ W9aqm6/OaiZ1nCPYBq0fBkFVe17T4Sm3cbqo4DrnvnnNYqG6tbgDZe7IHHPRdW+bowxi
+ khKw==
+X-Gm-Message-State: AJIora/ojp5naRSvoLfLoudWwGZBUUI5BOnlsIqGywbVl7la5lPLOZ3F
+ JJMMQ7+YewnIgmqBmyqKgq4g5rKNfFM=
+X-Google-Smtp-Source: AGRyM1tncV+wdkEe9ODsLbjt1i1UurGbKs3QCkDEr9bCikJKDnjX+qkvQ+UuSVzVwb1X86OO0T0qkw==
+X-Received: by 2002:a65:4848:0:b0:3fc:52c3:6ca5 with SMTP id
+ i8-20020a654848000000b003fc52c36ca5mr4493416pgs.264.1656537549190; 
+ Wed, 29 Jun 2022 14:19:09 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
  by smtp.gmail.com with ESMTPSA id
- bt11-20020a17090af00b00b001d95c09f877sm2660330pjb.35.2022.06.29.14.19.04
+ a8-20020a656408000000b003fd1111d73csm11868744pgv.4.2022.06.29.14.19.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jun 2022 14:19:05 -0700 (PDT)
+ Wed, 29 Jun 2022 14:19:08 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/2] drm/msm: A couple GPU devcore enhancements
-Date: Wed, 29 Jun 2022 14:19:14 -0700
-Message-Id: <20220629211919.563585-1-robdclark@gmail.com>
+Subject: [PATCH 1/2] drm/msm/gpu: Capture all BO addr+size in devcore
+Date: Wed, 29 Jun 2022 14:19:15 -0700
+Message-Id: <20220629211919.563585-2-robdclark@gmail.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220629211919.563585-1-robdclark@gmail.com>
+References: <20220629211919.563585-1-robdclark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,32 +69,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Emma Anholt <emma@anholt.net>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-A couple things useful for debugging iova faults:
+It is useful to know what buffers userspace thinks are associated with
+the submit, even if we don't care to capture their content.  This brings
+things more inline with $debugfs/rd cmdstream dumping.
 
-1. caputre all buffer addresses and sizes even if we don't capture their
-   contents.
-2. capture the GEM buffer debug labels
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_gpu.c | 36 ++++++++---------------------------
+ 1 file changed, 8 insertions(+), 28 deletions(-)
 
-Rob Clark (2):
-  drm/msm/gpu: Capture all BO addr+size in devcore
-  drm/msm/gpu: Add GEM debug label to devcore
-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c |  1 +
- drivers/gpu/drm/msm/msm_gpu.c           | 40 ++++++++-----------------
- drivers/gpu/drm/msm/msm_gpu.h           |  1 +
- 3 files changed, 14 insertions(+), 28 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index bdee6ea51b73..293f3380fafe 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -221,7 +221,7 @@ static void msm_gpu_devcoredump_free(void *data)
+ }
+ 
+ static void msm_gpu_crashstate_get_bo(struct msm_gpu_state *state,
+-		struct msm_gem_object *obj, u64 iova, u32 flags)
++		struct msm_gem_object *obj, u64 iova, bool full)
+ {
+ 	struct msm_gpu_state_bo *state_bo = &state->bos[state->nr_bos];
+ 
+@@ -229,8 +229,7 @@ static void msm_gpu_crashstate_get_bo(struct msm_gpu_state *state,
+ 	state_bo->size = obj->base.size;
+ 	state_bo->iova = iova;
+ 
+-	/* Only store data for non imported buffer objects marked for read */
+-	if ((flags & MSM_SUBMIT_BO_READ) && !obj->base.import_attach) {
++	if (full) {
+ 		void *ptr;
+ 
+ 		state_bo->data = kvmalloc(obj->base.size, GFP_KERNEL);
+@@ -276,34 +275,15 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
+ 	state->fault_info = gpu->fault_info;
+ 
+ 	if (submit) {
+-		int i, nr = 0;
+-
+-		/* count # of buffers to dump: */
+-		for (i = 0; i < submit->nr_bos; i++)
+-			if (should_dump(submit, i))
+-				nr++;
+-		/* always dump cmd bo's, but don't double count them: */
+-		for (i = 0; i < submit->nr_cmds; i++)
+-			if (!should_dump(submit, submit->cmd[i].idx))
+-				nr++;
+-
+-		state->bos = kcalloc(nr,
++		int i;
++
++		state->bos = kcalloc(submit->nr_bos,
+ 			sizeof(struct msm_gpu_state_bo), GFP_KERNEL);
+ 
+ 		for (i = 0; state->bos && i < submit->nr_bos; i++) {
+-			if (should_dump(submit, i)) {
+-				msm_gpu_crashstate_get_bo(state, submit->bos[i].obj,
+-					submit->bos[i].iova, submit->bos[i].flags);
+-			}
+-		}
+-
+-		for (i = 0; state->bos && i < submit->nr_cmds; i++) {
+-			int idx = submit->cmd[i].idx;
+-
+-			if (!should_dump(submit, submit->cmd[i].idx)) {
+-				msm_gpu_crashstate_get_bo(state, submit->bos[idx].obj,
+-					submit->bos[idx].iova, submit->bos[idx].flags);
+-			}
++			msm_gpu_crashstate_get_bo(state, submit->bos[i].obj,
++						  submit->bos[i].iova,
++						  should_dump(submit, i));
+ 		}
+ 	}
+ 
 -- 
 2.36.1
 
