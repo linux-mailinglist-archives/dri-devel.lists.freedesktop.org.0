@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E890F560CA4
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 00:54:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E68560CA1
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 00:54:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9E7910F070;
-	Wed, 29 Jun 2022 22:54:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03F5610F103;
+	Wed, 29 Jun 2022 22:54:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A16F10F0C8;
- Wed, 29 Jun 2022 22:53:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38A8E10F0D9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 22:53:55 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id A4AD13F796;
- Thu, 30 Jun 2022 00:53:51 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 4DD373F7DC;
+ Thu, 30 Jun 2022 00:53:53 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Stephen Boyd <sboyd@kernel.org>
-Subject: [PATCH v3 09/11] drm/msm/dsi_phy_14nm: Replace parent names with
+Subject: [PATCH v3 10/11] drm/msm/dsi_phy_10nm: Replace parent names with
  clk_hw pointers
-Date: Thu, 30 Jun 2022 00:53:29 +0200
-Message-Id: <20220629225331.357308-10-marijn.suijten@somainline.org>
+Date: Thu, 30 Jun 2022 00:53:30 +0200
+Message-Id: <20220629225331.357308-11-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220629225331.357308-1-marijn.suijten@somainline.org>
 References: <20220629225331.357308-1-marijn.suijten@somainline.org>
@@ -67,35 +67,19 @@ framework to perform lookups based on that name.
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c | 40 ++++++++++------------
- 1 file changed, 19 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c | 79 ++++++++++------------
+ 1 file changed, 36 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-index e10ba1b09b2f..1a855351654c 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-@@ -764,14 +764,14 @@ static int dsi_14nm_set_usecase(struct msm_dsi_phy *phy)
- 
- static struct clk_hw *pll_14nm_postdiv_register(struct dsi_pll_14nm *pll_14nm,
- 						const char *name,
--						const char *parent_name,
-+						const struct clk_hw *parent_hw,
- 						unsigned long flags,
- 						u8 shift)
- {
- 	struct dsi_pll_14nm_postdiv *pll_postdiv;
- 	struct device *dev = &pll_14nm->phy->pdev->dev;
- 	struct clk_init_data postdiv_init = {
--		.parent_names = (const char *[]) { parent_name },
-+		.parent_hws = (const struct clk_hw *[]) { parent_hw },
- 		.num_parents = 1,
- 		.name = name,
- 		.flags = flags,
-@@ -800,23 +800,23 @@ static struct clk_hw *pll_14nm_postdiv_register(struct dsi_pll_14nm *pll_14nm,
- 
- static int pll_14nm_register(struct dsi_pll_14nm *pll_14nm, struct clk_hw **provided_clocks)
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
+index 8bd7b97b1b9b..ae57f95edf63 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c
+@@ -574,24 +574,24 @@ static int dsi_10nm_set_usecase(struct msm_dsi_phy *phy)
+  */
+ static int pll_10nm_register(struct dsi_pll_10nm *pll_10nm, struct clk_hw **provided_clocks)
  {
 -	char clk_name[32], parent[32], vco_name[32];
+-	char parent2[32], parent3[32], parent4[32];
 +	char clk_name[32];
  	struct clk_init_data vco_init = {
  		.parent_data = &(const struct clk_parent_data) {
@@ -105,82 +89,138 @@ index e10ba1b09b2f..1a855351654c 100644
 -		.name = vco_name,
 +		.name = clk_name,
  		.flags = CLK_IGNORE_UNUSED,
- 		.ops = &clk_ops_dsi_pll_14nm_vco,
+ 		.ops = &clk_ops_dsi_pll_10nm_vco,
  	};
- 	struct device *dev = &pll_14nm->phy->pdev->dev;
+ 	struct device *dev = &pll_10nm->phy->pdev->dev;
 -	struct clk_hw *hw;
-+	struct clk_hw *hw, *n1_postdiv, *n1_postdivby2;
++	struct clk_hw *hw, *pll_out_div, *pll_bit, *pll_by_2_bit;
++	struct clk_hw *pll_post_out_div, *pclk_mux;
  	int ret;
  
- 	DBG("DSI%d", pll_14nm->phy->id);
+ 	DBG("DSI%d", pll_10nm->phy->id);
  
--	snprintf(vco_name, sizeof(vco_name), "dsi%dvco_clk", pll_14nm->phy->id);
-+	snprintf(clk_name, sizeof(clk_name), "dsi%dvco_clk", pll_14nm->phy->id);
- 	pll_14nm->clk_hw.init = &vco_init;
+-	snprintf(vco_name, sizeof(vco_name), "dsi%dvco_clk", pll_10nm->phy->id);
++	snprintf(clk_name, sizeof(clk_name), "dsi%dvco_clk", pll_10nm->phy->id);
+ 	pll_10nm->clk_hw.init = &vco_init;
  
- 	ret = devm_clk_hw_register(dev, &pll_14nm->clk_hw);
-@@ -824,48 +824,46 @@ static int pll_14nm_register(struct dsi_pll_14nm *pll_14nm, struct clk_hw **prov
+ 	ret = devm_clk_hw_register(dev, &pll_10nm->clk_hw);
+@@ -599,36 +599,34 @@ static int pll_10nm_register(struct dsi_pll_10nm *pll_10nm, struct clk_hw **prov
  		return ret;
  
- 	snprintf(clk_name, sizeof(clk_name), "dsi%dn1_postdiv_clk", pll_14nm->phy->id);
--	snprintf(parent, sizeof(parent), "dsi%dvco_clk", pll_14nm->phy->id);
+ 	snprintf(clk_name, sizeof(clk_name), "dsi%d_pll_out_div_clk", pll_10nm->phy->id);
+-	snprintf(parent, sizeof(parent), "dsi%dvco_clk", pll_10nm->phy->id);
  
- 	/* N1 postdiv, bits 0-3 in REG_DSI_14nm_PHY_CMN_CLK_CFG0 */
--	hw = pll_14nm_postdiv_register(pll_14nm, clk_name, parent,
--				       CLK_SET_RATE_PARENT, 0);
--	if (IS_ERR(hw))
--		return PTR_ERR(hw);
-+	n1_postdiv = pll_14nm_postdiv_register(pll_14nm, clk_name,
-+			&pll_14nm->clk_hw, CLK_SET_RATE_PARENT, 0);
-+	if (IS_ERR(n1_postdiv))
-+		return PTR_ERR(n1_postdiv);
+-	hw = devm_clk_hw_register_divider(dev, clk_name, parent,
+-			CLK_SET_RATE_PARENT, pll_10nm->phy->pll_base +
++	pll_out_div = devm_clk_hw_register_divider_parent_hw(dev, clk_name,
++			&pll_10nm->clk_hw, CLK_SET_RATE_PARENT,
++			pll_10nm->phy->pll_base +
+ 				REG_DSI_10nm_PHY_PLL_PLL_OUTDIV_RATE,
+ 			0, 2, CLK_DIVIDER_POWER_OF_TWO, NULL);
+-	if (IS_ERR(hw)) {
+-		ret = PTR_ERR(hw);
++	if (IS_ERR(pll_out_div)) {
++		ret = PTR_ERR(pll_out_div);
+ 		goto fail;
+ 	}
  
- 	snprintf(clk_name, sizeof(clk_name), "dsi%dpllbyte", pll_14nm->phy->id);
--	snprintf(parent, sizeof(parent), "dsi%dn1_postdiv_clk", pll_14nm->phy->id);
+ 	snprintf(clk_name, sizeof(clk_name), "dsi%d_pll_bit_clk", pll_10nm->phy->id);
+-	snprintf(parent, sizeof(parent), "dsi%d_pll_out_div_clk", pll_10nm->phy->id);
  
- 	/* DSI Byte clock = VCO_CLK / N1 / 8 */
+ 	/* BIT CLK: DIV_CTRL_3_0 */
+-	hw = devm_clk_hw_register_divider(dev, clk_name, parent,
+-			CLK_SET_RATE_PARENT,
++	pll_bit = devm_clk_hw_register_divider_parent_hw(dev, clk_name,
++			pll_out_div, CLK_SET_RATE_PARENT,
+ 			pll_10nm->phy->base + REG_DSI_10nm_PHY_CMN_CLK_CFG0,
+ 			0, 4, CLK_DIVIDER_ONE_BASED, &pll_10nm->postdiv_lock);
+-	if (IS_ERR(hw)) {
+-		ret = PTR_ERR(hw);
++	if (IS_ERR(pll_bit)) {
++		ret = PTR_ERR(pll_bit);
+ 		goto fail;
+ 	}
+ 
+ 	snprintf(clk_name, sizeof(clk_name), "dsi%d_phy_pll_out_byteclk", pll_10nm->phy->id);
+-	snprintf(parent, sizeof(parent), "dsi%d_pll_bit_clk", pll_10nm->phy->id);
+ 
+ 	/* DSI Byte clock = VCO_CLK / OUT_DIV / BIT_DIV / 8 */
 -	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent,
 -					       CLK_SET_RATE_PARENT, 1, 8);
 +	hw = devm_clk_hw_register_fixed_factor_parent_hw(dev, clk_name,
-+			n1_postdiv, CLK_SET_RATE_PARENT, 1, 8);
- 	if (IS_ERR(hw))
- 		return PTR_ERR(hw);
- 
++			pll_bit, CLK_SET_RATE_PARENT, 1, 8);
+ 	if (IS_ERR(hw)) {
+ 		ret = PTR_ERR(hw);
+ 		goto fail;
+@@ -637,48 +635,43 @@ static int pll_10nm_register(struct dsi_pll_10nm *pll_10nm, struct clk_hw **prov
  	provided_clocks[DSI_BYTE_PLL_CLK] = hw;
  
- 	snprintf(clk_name, sizeof(clk_name), "dsi%dn1_postdivby2_clk", pll_14nm->phy->id);
--	snprintf(parent, sizeof(parent), "dsi%dn1_postdiv_clk", pll_14nm->phy->id);
+ 	snprintf(clk_name, sizeof(clk_name), "dsi%d_pll_by_2_bit_clk", pll_10nm->phy->id);
+-	snprintf(parent, sizeof(parent), "dsi%d_pll_bit_clk", pll_10nm->phy->id);
  
- 	/*
- 	 * Skip the mux for now, force DSICLK_SEL to 1, Add a /2 divider
- 	 * on the way. Don't let it set parent.
- 	 */
--	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent, 0, 1, 2);
--	if (IS_ERR(hw))
--		return PTR_ERR(hw);
-+	n1_postdivby2 = devm_clk_hw_register_fixed_factor_parent_hw(dev,
-+			clk_name, n1_postdiv, 0, 1, 2);
-+	if (IS_ERR(n1_postdivby2))
-+		return PTR_ERR(n1_postdivby2);
+-	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent,
+-					       0, 1, 2);
+-	if (IS_ERR(hw)) {
+-		ret = PTR_ERR(hw);
++	pll_by_2_bit = devm_clk_hw_register_fixed_factor_parent_hw(dev,
++			clk_name, pll_bit, 0, 1, 2);
++	if (IS_ERR(pll_by_2_bit)) {
++		ret = PTR_ERR(pll_by_2_bit);
+ 		goto fail;
+ 	}
  
- 	snprintf(clk_name, sizeof(clk_name), "dsi%dpll", pll_14nm->phy->id);
--	snprintf(parent, sizeof(parent), "dsi%dn1_postdivby2_clk", pll_14nm->phy->id);
+ 	snprintf(clk_name, sizeof(clk_name), "dsi%d_pll_post_out_div_clk", pll_10nm->phy->id);
+-	snprintf(parent, sizeof(parent), "dsi%d_pll_out_div_clk", pll_10nm->phy->id);
  
- 	/* DSI pixel clock = VCO_CLK / N1 / 2 / N2
- 	 * This is the output of N2 post-divider, bits 4-7 in
- 	 * REG_DSI_14nm_PHY_CMN_CLK_CFG0. Don't let it set parent.
- 	 */
--	hw = pll_14nm_postdiv_register(pll_14nm, clk_name, parent, 0, 4);
-+	hw = pll_14nm_postdiv_register(pll_14nm, clk_name, n1_postdivby2,
-+			0, 4);
- 	if (IS_ERR(hw))
- 		return PTR_ERR(hw);
+-	hw = devm_clk_hw_register_fixed_factor(dev, clk_name, parent,
+-					       0, 1, 4);
+-	if (IS_ERR(hw)) {
+-		ret = PTR_ERR(hw);
++	pll_post_out_div = devm_clk_hw_register_fixed_factor_parent_hw(dev,
++			clk_name, pll_out_div, 0, 1, 4);
++	if (IS_ERR(pll_post_out_div)) {
++		ret = PTR_ERR(pll_post_out_div);
+ 		goto fail;
+ 	}
  
--	provided_clocks[DSI_PIXEL_PLL_CLK]	= hw;
-+	provided_clocks[DSI_PIXEL_PLL_CLK] = hw;
+ 	snprintf(clk_name, sizeof(clk_name), "dsi%d_pclk_mux", pll_10nm->phy->id);
+-	snprintf(parent, sizeof(parent), "dsi%d_pll_bit_clk", pll_10nm->phy->id);
+-	snprintf(parent2, sizeof(parent2), "dsi%d_pll_by_2_bit_clk", pll_10nm->phy->id);
+-	snprintf(parent3, sizeof(parent3), "dsi%d_pll_out_div_clk", pll_10nm->phy->id);
+-	snprintf(parent4, sizeof(parent4), "dsi%d_pll_post_out_div_clk", pll_10nm->phy->id);
+-
+-	hw = devm_clk_hw_register_mux(dev, clk_name,
+-			((const char *[]){
+-				parent, parent2, parent3, parent4,
++
++	pclk_mux = devm_clk_hw_register_mux_parent_hws(dev, clk_name,
++			((const struct clk_hw *[]){
++				pll_bit,
++				pll_by_2_bit,
++				pll_out_div,
++				pll_post_out_div,
+ 			}), 4, 0, pll_10nm->phy->base +
+-				REG_DSI_10nm_PHY_CMN_CLK_CFG1,
+-			0, 2, 0, NULL);
+-	if (IS_ERR(hw)) {
+-		ret = PTR_ERR(hw);
++				REG_DSI_10nm_PHY_CMN_CLK_CFG1, 0, 2, 0, NULL);
++	if (IS_ERR(pclk_mux)) {
++		ret = PTR_ERR(pclk_mux);
+ 		goto fail;
+ 	}
  
- 	return 0;
- }
+ 	snprintf(clk_name, sizeof(clk_name), "dsi%d_phy_pll_out_dsiclk", pll_10nm->phy->id);
+-	snprintf(parent, sizeof(parent), "dsi%d_pclk_mux", pll_10nm->phy->id);
+ 
+ 	/* PIX CLK DIV : DIV_CTRL_7_4*/
+-	hw = devm_clk_hw_register_divider(dev, clk_name, parent, 0,
+-			pll_10nm->phy->base + REG_DSI_10nm_PHY_CMN_CLK_CFG0,
++	hw = devm_clk_hw_register_divider_parent_hw(dev, clk_name, pclk_mux,
++			0, pll_10nm->phy->base + REG_DSI_10nm_PHY_CMN_CLK_CFG0,
+ 			4, 4, CLK_DIVIDER_ONE_BASED, &pll_10nm->postdiv_lock);
+ 	if (IS_ERR(hw)) {
+ 		ret = PTR_ERR(hw);
 -- 
 2.37.0
 
