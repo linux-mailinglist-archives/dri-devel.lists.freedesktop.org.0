@@ -1,51 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BFDA560566
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 18:09:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C911A56056F
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 18:09:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF2E110E10A;
-	Wed, 29 Jun 2022 16:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9795F10E19C;
+	Wed, 29 Jun 2022 16:09:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4347510E10A
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 16:09:19 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id mf9so33660213ejb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 09:09:19 -0700 (PDT)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65E3510E19C
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 16:09:37 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id a11so19550009ljb.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 09:09:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JDZdXHc/WphZg80zTh85LyzZS5T7NHb+tCoW2mm59OU=;
- b=J9HxEwV3n+R04yS/42UfmWmxhW+k5z5P8BuhtL4w53/Nl5JV6km2qp6KrCt4X7eGx2
- 67xG74PT4oJtkgzPJ3GlNoYKFINs1daCGdR0q2yyKAELO5jwm9nDPmXyxEWYGaUpUm76
- rzVb0HTiuU+JlLEuJEESm9M/c3xQFxHgJ1y7A=
+ :cc; bh=RjA9yoeKJEit30gXR1L+5b7fCv6aeEhkvnEzo2CvTOo=;
+ b=c9zgsASaoXDw3UAW9z/JyC6raq4R+K2Q4R5Z9gkF1HRMSOOFEaRhvK6xNxvAtLHyOa
+ V8lFlr0suG13wcricDo1rlod8JeQ+DESqcE88LClj6NyK86MP1vakz5pXdujIq2fUHu8
+ arLYYncHkJ3E1IDHpZwqDEWzK+1Ip9QbtVtDs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=JDZdXHc/WphZg80zTh85LyzZS5T7NHb+tCoW2mm59OU=;
- b=s89sZvoIXpVrRMbkfYyHQBXLR8+i6WobkfzhNA4zmfDiL1OH3nviGPDZnIvTue3h0L
- jt3Wclxvr5aRx6rqoVvo9FRFaBsRIWZEItL8w2h0ra0A5Jxri0wfK6WNT5lCol07y244
- 3Oz5gj/IMRCm7whTevt5KETjirxidnD2oA3inYd5dtbmDrS4TnzVek1fAbvka+tYNN0z
- YgcByo/fISZs1HjlwJlP5bFKjs8yYcKqorzk0kSiw9gBkZ8SDMyqP0JAdHkZ3tT3k7DL
- OYlHouoJaZ5jbREEYrcc3oq93gl8L8a6sk66Uo2gWPeMYjHok32EGZ/0Ti8lxEQhm3fj
- kDeA==
-X-Gm-Message-State: AJIora8kA4htT8keFJTYqTw1LUccwNcafmIHeTmhTd0WuaNFa5A60fcJ
- a/j02scaMA9dVHdCj41R1V+Ee6TS1werem+/W9WZrw==
-X-Google-Smtp-Source: AGRyM1szLBHVbi6zOMzheJPJbhBaypovfe5Tpwg0NHcZ0Qb5aSvDOhIremhJNjtUHHe+ifmv75aalV85sZjzYtAkVe0=
-X-Received: by 2002:a17:906:9b92:b0:722:f705:759d with SMTP id
- dd18-20020a1709069b9200b00722f705759dmr4069538ejc.745.1656518957624; Wed, 29
- Jun 2022 09:09:17 -0700 (PDT)
+ bh=RjA9yoeKJEit30gXR1L+5b7fCv6aeEhkvnEzo2CvTOo=;
+ b=AA/aw50vjyGvsImMJLA/2ZP2phLpDOk91kUNNaDyuIGMUoDzZuE1VQLNJDTFriSa2P
+ 5iN5RVGkap5ekBgBtYfd6acW4Mdb709eBfmtfxkannJqIM1jEOJxmAGnFJSyolpbCvev
+ ngN7S6iwp3ntfjmA9cqxyKDw6ew40RuBnN4to+QmZlWfynulvn7mS+u4cUed+krpZLE/
+ 0kQ3DRg0F+OoDDXIqvtx/YZHuhPdey7mkyIWrYGiOivzoeL+ypV4DhIjhBtP/ZnAvZbc
+ joLot/rP/wB5c2zjt7OpzB/ULrTDQR5ibG20QkvqYb94HYgQ3VG9WXWxu58qrYSeB2Gj
+ H3Bg==
+X-Gm-Message-State: AJIora8J245KZWELcrPQsUotWxWmvMvlqC/LG+yoCfBHKqaBcTzXJxi9
+ 41GLgWAtm8VKfbKeZfROfienxHK6WMEFhg2YOf9TJw==
+X-Google-Smtp-Source: AGRyM1troXfDF2PbFQdMbX3rjPYO2u7G7NCrGjw/WOULU33WWRfa+1zKQEAFOp2U02qZYxdlV5POzxub3MBhKXJ88tc=
+X-Received: by 2002:a2e:9656:0:b0:25a:7584:b095 with SMTP id
+ z22-20020a2e9656000000b0025a7584b095mr2171675ljh.17.1656518974178; Wed, 29
+ Jun 2022 09:09:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220628104650.2239191-1-hsinyi@chromium.org>
-In-Reply-To: <20220628104650.2239191-1-hsinyi@chromium.org>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Thu, 30 Jun 2022 00:08:51 +0800
-Message-ID: <CAJMQK-j6VMBrt+31ozUw7V50SFn-PXQWtO1jq+b05TTCNToiAg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: anx7625: use pm_runtime_force_suspend(resume)
-To: Robert Foss <robert.foss@linaro.org>, Xin Ji <xji@analogixsemi.com>
+References: <20220510190823.1552920-1-markyacoub@chromium.org>
+ <878rr0fvcs.fsf@intel.com>
+ <CAJUqKUpk4=oOYUmEAqEK2q_+xNiLfpvixPMXiC8sDu1pkwUyfQ@mail.gmail.com>
+In-Reply-To: <CAJUqKUpk4=oOYUmEAqEK2q_+xNiLfpvixPMXiC8sDu1pkwUyfQ@mail.gmail.com>
+From: Mark Yacoub <markyacoub@chromium.org>
+Date: Wed, 29 Jun 2022 12:09:23 -0400
+Message-ID: <CAJUqKUpae5cf-GD1LPQrxfHAMb3K+gY5Q4yxiVCafW9_A9gxfw@mail.gmail.com>
+Subject: Re: [PATCH] drm: Create support for Write-Only property blob
+To: Jani Nikula <jani.nikula@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,78 +61,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, markyacoub@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 28, 2022 at 6:46 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
->
-> There's no need to check for IRQ or disable it in suspend.
->
-> Use pm_runtime_force_suspend(resume) to make sure anx7625 is powered off
-> correctly. Make the system suspend/resume and pm runtime suspend/resume
-> more consistant.
->
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
-The patch is re-sent again with other anx7625 patches in this series:
-https://lore.kernel.org/lkml/20220629160550.433980-1-hsinyi@chromium.org/
+Hi Jani, let me know if you need more info or more changes are needed. Thanks!
 
-
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 33 ++---------------------
->  1 file changed, 2 insertions(+), 31 deletions(-)
+On Wed, May 25, 2022 at 3:31 PM Mark Yacoub <markyacoub@chromium.org> wrote:
 >
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 3710fa9ee0acd..09688a1076037 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -2542,38 +2542,9 @@ static int __maybe_unused anx7625_runtime_pm_resume(struct device *dev)
->         return 0;
->  }
+> Hi Jani, thanks for your review. I got all the user space
+> implementation ready to see it in context.
 >
-> -static int __maybe_unused anx7625_resume(struct device *dev)
-> -{
-> -       struct anx7625_data *ctx = dev_get_drvdata(dev);
-> -
-> -       if (!ctx->pdata.intp_irq)
-> -               return 0;
-> -
-> -       if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
-> -               enable_irq(ctx->pdata.intp_irq);
-> -               anx7625_runtime_pm_resume(dev);
-> -       }
-> -
-> -       return 0;
-> -}
-> -
-> -static int __maybe_unused anx7625_suspend(struct device *dev)
-> -{
-> -       struct anx7625_data *ctx = dev_get_drvdata(dev);
-> -
-> -       if (!ctx->pdata.intp_irq)
-> -               return 0;
-> -
-> -       if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
-> -               anx7625_runtime_pm_suspend(dev);
-> -               disable_irq(ctx->pdata.intp_irq);
-> -       }
-> -
-> -       return 0;
-> -}
-> -
->  static const struct dev_pm_ops anx7625_pm_ops = {
-> -       SET_SYSTEM_SLEEP_PM_OPS(anx7625_suspend, anx7625_resume)
-> +       SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-> +                               pm_runtime_force_resume)
->         SET_RUNTIME_PM_OPS(anx7625_runtime_pm_suspend,
->                            anx7625_runtime_pm_resume, NULL)
->  };
-> --
-> 2.37.0.rc0.161.g10f37bed90-goog
+> libdrm patch to wrap this functionality:
+> https://www.spinics.net/lists/dri-devel/msg347318.html
 >
+> Chromium user space implementation making direct use of the new prop flag:
+> crrev.com/c/3655850
+> The first call made to such functionality is in
+> https://chromium-review.googlesource.com/c/chromium/src/+/3655850/2/ui/display/manager/content_protection_key_manager.cc#137
+> where the call stack flows to the libdrm wrapper call at
+> https://chromium-review.googlesource.com/c/chromium/src/+/3655850/2/ui/ozone/platform/drm/gpu/drm_display.cc#203
+>
+> I also wrote an IGT test to verify the intended behavior:
+> https://patchwork.freedesktop.org/patch/487331/?series=104373&rev=1
+>
+> Let me know if I would need to update the commit message with any of
+> the aforementioned context.
+>
+> Thanks!
+> -Mark Yacoub
+>
+> On Tue, May 17, 2022 at 3:53 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> >
+> > On Tue, 10 May 2022, Mark Yacoub <markyacoub@chromium.org> wrote:
+> > > [Why]
+> > > User space might need to inject data into the kernel without allowing it
+> > > to be read again by any user space.
+> > > An example of where this is particularly useful is secret keys fetched
+> > > by user space and injected into the kernel to enable content protection.
+> >
+> > I think we're going to need more than an example in the commit
+> > message. See Documentation/gpu/drm-uapi.rst.
+> >
+> > BR,
+> > Jani.
+> >
+> >
+> > >
+> > > [How]
+> > > Create a DRM_MODE_CREATE_BLOB_WRITE_ONLY flag used by user space to
+> > > create a blob and mark the blob as write only.
+> > > On reading back the blob, data will be not be copied if it's a write
+> > > only blob
+> > >
+> > > Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+> > >
+> > > ---
+> > >  drivers/gpu/drm/drm_property.c | 3 ++-
+> > >  include/drm/drm_property.h     | 2 ++
+> > >  include/uapi/drm/drm_mode.h    | 6 ++++++
+> > >  3 files changed, 10 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
+> > > index dfec479830e4..afedf7109d00 100644
+> > > --- a/drivers/gpu/drm/drm_property.c
+> > > +++ b/drivers/gpu/drm/drm_property.c
+> > > @@ -765,7 +765,7 @@ int drm_mode_getblob_ioctl(struct drm_device *dev,
+> > >       if (!blob)
+> > >               return -ENOENT;
+> > >
+> > > -     if (out_resp->length == blob->length) {
+> > > +     if (out_resp->length == blob->length && !blob->is_write_only) {
+> > >               if (copy_to_user(u64_to_user_ptr(out_resp->data),
+> > >                                blob->data,
+> > >                                blob->length)) {
+> > > @@ -800,6 +800,7 @@ int drm_mode_createblob_ioctl(struct drm_device *dev,
+> > >               ret = -EFAULT;
+> > >               goto out_blob;
+> > >       }
+> > > +     blob->is_write_only = out_resp->flags & DRM_MODE_CREATE_BLOB_WRITE_ONLY;
+> > >
+> > >       /* Dropping the lock between create_blob and our access here is safe
+> > >        * as only the same file_priv can remove the blob; at this point, it is
+> > > diff --git a/include/drm/drm_property.h b/include/drm/drm_property.h
+> > > index 65bc9710a470..700782f021b9 100644
+> > > --- a/include/drm/drm_property.h
+> > > +++ b/include/drm/drm_property.h
+> > > @@ -205,6 +205,7 @@ struct drm_property {
+> > >   *   &drm_mode_config.property_blob_list.
+> > >   * @head_file: entry on the per-file blob list in &drm_file.blobs list.
+> > >   * @length: size of the blob in bytes, invariant over the lifetime of the object
+> > > + * @is_write_only: user space can't read the blob data.
+> > >   * @data: actual data, embedded at the end of this structure
+> > >   *
+> > >   * Blobs are used to store bigger values than what fits directly into the 64
+> > > @@ -219,6 +220,7 @@ struct drm_property_blob {
+> > >       struct list_head head_global;
+> > >       struct list_head head_file;
+> > >       size_t length;
+> > > +     bool is_write_only;
+> > >       void *data;
+> > >  };
+> > >
+> > > diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> > > index 0a0d56a6158e..de192d3813e9 100644
+> > > --- a/include/uapi/drm/drm_mode.h
+> > > +++ b/include/uapi/drm/drm_mode.h
+> > > @@ -1107,6 +1107,9 @@ struct drm_format_modifier {
+> > >       __u64 modifier;
+> > >  };
+> > >
+> > > +#define DRM_MODE_CREATE_BLOB_WRITE_ONLY                                        \
+> > > +     (1 << 0) /* data of the blob can't be read by user space */
+> > > +
+> > >  /**
+> > >   * struct drm_mode_create_blob - Create New blob property
+> > >   *
+> > > @@ -1120,6 +1123,9 @@ struct drm_mode_create_blob {
+> > >       __u32 length;
+> > >       /** @blob_id: Return: new property ID. */
+> > >       __u32 blob_id;
+> > > +     /** Flags for special handling. */
+> > > +     __u32 flags;
+> > > +     __u32 pad;
+> > >  };
+> > >
+> > >  /**
+> >
+> > --
+> > Jani Nikula, Intel Open Source Graphics Center
