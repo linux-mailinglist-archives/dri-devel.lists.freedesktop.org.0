@@ -1,93 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A294B55F477
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 05:55:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CDFE55F4A0
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 05:56:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E75F12A7BB;
-	Wed, 29 Jun 2022 03:55:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35E2E12A7D6;
+	Wed, 29 Jun 2022 03:56:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2087.outbound.protection.outlook.com [40.107.94.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 495AA12A79F;
- Wed, 29 Jun 2022 03:55:41 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2049.outbound.protection.outlook.com [40.107.96.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0345612A7DC;
+ Wed, 29 Jun 2022 03:56:42 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HyvlGl3XuwEPA3DAbviLZj0t6ezx6eS2LvWbFhQ6qwoqfhKuI8n4Vm5A3I8nSj/csCRMg0Sm4TOWXbOcpw++MjxMEJpgAewgMBD2FLBJRLb+y8g59FK71wIIbB3ak/0FY/k77FM3lGj7v/8GOfj/teEY6oM96PH6noQqrpAEKWDWZ/z0xH9TDRfS+zPnqtecLNIzkgN1a4y/188moHUVWiS7qaeLOTp3KJW3D4MpidwwVg1Mpq88itW80NFCE25bUQp80/TIF22hnzVFNaSHrT0JU4f9WxvNqkTD6EyJmOw5ehDPyMaOa/3sE1PrVUIAU89uRoAdF9JOB+Pm0fl5QA==
+ b=cjvE0FZith52EmgKtGs06Lr7l0W9cqEFrkvfog8a75hswfQZQ+Ef/sE/yyp8ra0tAJxjwn9d2aSgwIkTTBiCs6eIX24WYJ5/8f6ZcDfZXRmbn//jg4gE/GfKgZaJ7Y2VeIsKe6dCCYQ7Cxkb8LRy8sxrVwaeTXHmvxjigHffvz7h2slL6Gu8JZ2rcCH/DIgcNSEDcsRO2ed4LuoLJE/5j2lO6uT+rHUud7Ed1cfqmT7TiSbL7ZgpE+fk5hFxbuq+aCkPaNYb35ZG06mnJ60muBIoxdycNr7lmCkCTsUtegrHI5NiauxwpntVKNvIeAJ65EGliegkYYWMfWm314Qmyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ghINYxYAaP35msqhqy+uXLJjlA8u9eNbkgf4YFEOveA=;
- b=dnSkhpXB6X3ZTpWF7MdLfFP/XAVsh/p905IioKjFd6jUafM3wO2ZsXpoVFYYpMUetu/+hLrUt9m5ZGPa+p/mmXhvPFz6n91wo77g38howRVINhXRig5YmVHYF851iMPFSFDTP2DPBGYQ2MZJ/RwRpAgD6AGUzP/sSarMNS+cvLAwDvRjullIBDEe6jGPqI7zGyQu/YJzE8RMqTGwlMwrp14xI9glaB4G7w3HjiYm+oJscnKE4L60YcjmggBlyeS3vcr7SX0uoZC3LsQr6jF9ufhGEVCXDquw75hXgqRZ0Rxu0ferxAIRLNpYhO1TgQvC6I3ieh/IeL0WZemc2iGwZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
+ bh=k9Sc6LYpVPfoVFE5y7D4sSctWQmL3zBIK2SZB3p/gHQ=;
+ b=McOqE2TWC/w4+hff0t4LimPCcZp+V0P20BrVxCRuOUGRriXZduZr0mQeopyBh6Gpvk4UM5KY1EFKqCtGSvO/SCxWnT48OORcivEEw85MksWQ3Ob0ZO5Qq08kdEKF7MpE+Sy33Na2AScWscw+iGw2H25RPYaYOiDK2ZzUd5NxrbOk/fZIGc/eRO6R0PkqNghq2Esu4s7F9RvwJRrPOSzA2rnu1SRuOkwAKv1VqCjk4CHnyQIS6hNT1hoYJ4yM/xMOX9UZAy2siQt2hyOLGdFCJxrtxYMGjNRg0gal6EWlo6rfeRobitBIWAYtH/jKJOqZmRN+fTvFEmB2eA1phA5HGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ghINYxYAaP35msqhqy+uXLJjlA8u9eNbkgf4YFEOveA=;
- b=K81oENj98EF1QcQLUJ4pMag6GMJN/mH+DFF7PUGa3mcDfaljWtmeEBMDLK8dKQYLvOOM4tUf5IpMSldGBo9zomJ8BdEQ56HHztvyWgC46uZ3SjMcrMgKmYutDpQjHl1234tIx6KyCZl3S36Zgd9SfnLYZ/y4QozRqeBDSsK1xoc=
-Received: from DM6PR11CA0039.namprd11.prod.outlook.com (2603:10b6:5:14c::16)
- by MN2PR12MB3360.namprd12.prod.outlook.com (2603:10b6:208:c7::30) with
+ bh=k9Sc6LYpVPfoVFE5y7D4sSctWQmL3zBIK2SZB3p/gHQ=;
+ b=4GhwoRSF7OHDRieExBkZXQ5uGflV3C8jCZQfQuE+w3ph6hdb6250xsT8E//uAXpgi/HRb1MT73BUI4kLsXUDR6qFZdPnEQUSzTpby2Ey4UMmMv5Cr9ni9oFBvvYLeht4TwMvNLho8ORy557XvbcfpjhQOX7dIfOYpQ0LoCoCIK0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2717.namprd12.prod.outlook.com (2603:10b6:805:68::29)
+ by DM6PR12MB3274.namprd12.prod.outlook.com (2603:10b6:5:182::25) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17; Wed, 29 Jun
- 2022 03:55:37 +0000
-Received: from DM6NAM11FT026.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:14c:cafe::90) by DM6PR11CA0039.outlook.office365.com
- (2603:10b6:5:14c::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.15 via Frontend
- Transport; Wed, 29 Jun 2022 03:55:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT026.mail.protection.outlook.com (10.13.172.161) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5373.15 via Frontend Transport; Wed, 29 Jun 2022 03:55:37 +0000
-Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Tue, 28 Jun
- 2022 22:55:15 -0500
-From: Alex Sierra <alex.sierra@amd.com>
-To: <jgg@nvidia.com>
-Subject: [PATCH v7 14/14] tools: add selftests to hmm for COW in device memory
-Date: Tue, 28 Jun 2022 22:54:26 -0500
-Message-ID: <20220629035426.20013-15-alex.sierra@amd.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220629035426.20013-1-alex.sierra@amd.com>
-References: <20220629035426.20013-1-alex.sierra@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.18; Wed, 29 Jun
+ 2022 03:56:39 +0000
+Received: from SN6PR12MB2717.namprd12.prod.outlook.com
+ ([fe80::4534:eee9:f4ea:e9fb]) by SN6PR12MB2717.namprd12.prod.outlook.com
+ ([fe80::4534:eee9:f4ea:e9fb%6]) with mapi id 15.20.5373.018; Wed, 29 Jun 2022
+ 03:56:38 +0000
+Message-ID: <3c9345ca-7dd8-3833-e341-4f97f124b772@amd.com>
+Date: Tue, 28 Jun 2022 22:56:33 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v6 02/14] mm: handling Non-LRU pages returned by
+ vm_normal_pages
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>, jgg@nvidia.com
+References: <20220628001454.3503-1-alex.sierra@amd.com>
+ <20220628001454.3503-3-alex.sierra@amd.com>
+ <79a7969c-311f-d36b-4d44-dfe2f02c9b99@redhat.com>
+From: "Sierra Guiza, Alejandro (Alex)" <alex.sierra@amd.com>
+In-Reply-To: <79a7969c-311f-d36b-4d44-dfe2f02c9b99@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR13CA0002.namprd13.prod.outlook.com
+ (2603:10b6:610:b1::7) To SN6PR12MB2717.namprd12.prod.outlook.com
+ (2603:10b6:805:68::29)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 35ccc442-4936-46ef-d565-08da598339ca
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3360:EE_
+X-MS-Office365-Filtering-Correlation-Id: ebb10a27-23f7-480a-c9e5-08da59835e6b
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3274:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sohPt/tLKahvcUc+fgO7WJRI0HUuXtEEmYQJUojtfwUI5p8JfST88odGxz9+58Q+eV3hQJSesDctosNpnmf5pSA9IWhi/MHqHKIJmJmckFCICqAnKaH/vU7uIG6h2MtY/jLAisfs8aCS7lrptnuYaWE8p/XhWzmnT3/VXjTYfM4gGT5YafvxLjkFpHoxQi0V9ZN8pq4crpnt5Vh7Ksff3p0bn0OxBTYfqJoHZfbrJQatk5nvLOFp84yHDDFNYeoFncjzDkCrMFxcorJ48AyhdviWHgmMEf3svLvbYSf+6KAA9YBB6347YaKGx8A65aJHLYYrc3cmp+39zkv+xIj8ARunLcwd1FFZI/H4QF5poF9drQFKsXYKHY30io28jTuxU4Ri2I5AvHJB6Mt0tEi63EneVg8omJF3qtRvmWgdsJtPtJ7vwDh6u98w9ULeqvKIBBAR1dL3j8so4thL2uNj5qP88W+kr/uBQbbBWKRuN4faE3TzIDPlvXvjk1jakJtsyDWKjc1t0JWoSLVJYveyC293pa7j2uBlY9zZpuwOjHjyatn+Rxa7oRbcyuu16GbslBST0c43dbi80WrOiIti5d5XcaRECoPG12j4gtFdVZWbdET8ZYIX2WOdoxxrNtfHnd5zA8z1+RXjoTgU4460P1p0MxxuIJX4EWzX+6f7+wTQTARVNKxSLPIu08GjUp36ozOnWXuYIPOA19/72Fhrs9UfqTj00vD3S94jWZd3ctNya434Sk+bMLWJLALkddDjxRI5Pl5wqCPBNsiR7xl6vtUsloazcDtlgzDCTZ9Chzblvbo421+qh9hIjhCZECMAOY6obTKnQoZO4aENFhQsuQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(376002)(39860400002)(346002)(396003)(46966006)(40470700004)(36840700001)(2616005)(1076003)(16526019)(47076005)(83380400001)(8936002)(336012)(186003)(86362001)(82740400003)(36860700001)(356005)(7416002)(36756003)(81166007)(5660300002)(426003)(44832011)(82310400005)(40480700001)(2906002)(41300700001)(8676002)(26005)(7696005)(70206006)(40460700003)(316002)(70586007)(6666004)(6916009)(54906003)(4326008)(478600001)(36900700001);
+X-Microsoft-Antispam-Message-Info: P59XlSUBffc3QrjqssvI87XKmNYYFrr1OzQ0J43zkDtEZilmfWSqKTFWtPcDEywlTTYc1DfS/TEQDYKwycPIT3XZ6xsXkVLj4F1AnjjA8k3TyVV2Bwv+gQFx9BfFNbTlSTcD6BK030XlMt6NGdxsy86Id3zxoa62wiNRl9hgnZm6zBfG/BYaywoezGhRH20cCzZI1tqFLrymA/t+piKuW8GZ0Qs23N+DLzDx3hkS/TZd6Q6czG8xAd1QO1C1IzzYuZ/l1C0v094bOH/kodAS5LlKlfCw24Tpyr2UE0+Q8wUFbO30slE1vpdQAib+8gW3+9gkQVNAju6a1yfKAQTwSaODqRznSmLFF8u8eFIiRg08I3SWmFdyYcPfwB6ebOekFy0rQlb8chzd8GttgTEOalEsc7oDETolv8TH7zxxC4nixj1BFMCD1Lt0P4wfdhNLIdP7t2mHjMoBCFgCRYwYVSjXy2VQsBmwDPIThrHGz8jsJO3G/KlPK3rqX84XxeCL7rFGT56SOI/2V0A5nbFb89N3WkCvGgm+3QJKhotOuJeHzw/KdHayjn3D+6kWUgSGI8jh8Ws5XNAh7FeFPwo8Pry/Lw2Kc1jh8RDTF52gt9jtLWErN8YP5/lKu4UCoQtFtZ4UlM/L7ZoiLdUQgTdyDfpf/IYMrbiesst3CkscKChQ4+KYp9Ay7f7MTc+6EV46X90lolQVXp5jo+k4aHEkZIWwIXZp+I0DD3qjwwyzs7EmaCsK092O9KUKp4CweuV12nREGDLZXCccFqtuZMr5dtkdGOT9GUVNbwgyXiSZAYbiIbhoYKDM/SZx9v9+wYTg
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2717.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(346002)(136003)(39860400002)(396003)(366004)(6486002)(8676002)(66556008)(4326008)(31696002)(66946007)(86362001)(66476007)(7416002)(41300700001)(53546011)(478600001)(6512007)(6666004)(26005)(6506007)(186003)(4744005)(8936002)(2906002)(36756003)(38100700002)(2616005)(316002)(5660300002)(31686004)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d3ArR2psMVU4SDBCQSsxY1VaSURJYTJURTFsVzVISFNaYnNNSEg4V1VGcS8w?=
+ =?utf-8?B?dDNVY2lZY2dvWDlDRmZUTWJGbFFFUVdacDVIMXNmN25KL0tEc3NlUmtlSW01?=
+ =?utf-8?B?RCtzb1pPRGJnMFBBK0M2SWN2cmhaVjE2NG5oeDUxUFVGQ2c0bkw2T1lGTGN2?=
+ =?utf-8?B?V1pRMVB2eTV4SlkwSGZoUDJ2ak1abFlacUhSMkR2SXRVUUxrTE5wM3RrRkND?=
+ =?utf-8?B?cTNVcnJoa01oWm5ORlZ6dUJzSWU3VkJ3aXEwWllRblE5aThJWDZkcDZYdUt5?=
+ =?utf-8?B?N1M3NHJUNldIT0IyY2tQZFgxa0dqbmNScjZXVllScTFQMmpldTNIWS9MeCs4?=
+ =?utf-8?B?OUgzNkZvYkVOTVVJeWY5ZzdBTFIxN0FyMEU4cWJSZ0tXa2JmbFJSSTJsZFNX?=
+ =?utf-8?B?MzVINzB4cDRZVnBvL1ZkV2lZUm9GZGRoWW1rNGZLeG9SeTJyTlJ5UlN3S1h2?=
+ =?utf-8?B?Q1I1aGc1Q1ZzS1I2L3MvRTUxb0xYOEdEcTE4VjNRWTZnYnU4U3gydFlCTXk1?=
+ =?utf-8?B?MGlWY0R6R013dHMzTkJ4RmNSd3J2ejl0c2x2RXRDMFZQU1J2aFdlL2ZDQlZj?=
+ =?utf-8?B?c1lQZ1dlam1jdGlhYVZkOHpCQmFBKzY2aUhqeW5sK0tSa2Q3VUk5Z29BdFN5?=
+ =?utf-8?B?OWFjTWRFQkdybzdZMUtqaUVBSFJINXNLalN4TGhwbG9pS1IwWG9acHQxWVVx?=
+ =?utf-8?B?c1FpaUJ4aU9DNFJjUzYvMXJIM1ZQUHNVMGdrRFNBenFNYitLOFZqQ2Fjdmlt?=
+ =?utf-8?B?bG55TW80aTlHcDdTbkhpdnd6cGxnOEVHL1g4aWF3bWRHRi90TEdEZG5vbGd0?=
+ =?utf-8?B?WWYrM2NqbHlJMGY4MmxNUUxIeld5TzRyT3NuMWEvR3lwYkdNMFBnMDFSQ3pB?=
+ =?utf-8?B?ZE1zU3ByWGF6bEFPUFExc3hMcFVlTmpBMTBWRG13WThvVS8wSDBpNUtvSXRz?=
+ =?utf-8?B?ODljUDgrbGFzdjYvR0pYaEsxTitsUDgvNytlcXg1NTVxUnBkRzJBTW82NjB1?=
+ =?utf-8?B?ZjJ5ME5VMTZvRVplSGcvZTFXMG1Dcy9IQmdBWDkweEk3TmI1dFl3bDkrZlh3?=
+ =?utf-8?B?all2dTljYmM3d0MzNDNFV0tZb2s5WUVwMFg5STMzQXg4bzZ6Z1BlUHJZSWt2?=
+ =?utf-8?B?T25FaStoUG04T29pN2J1NG1UWU5RUTFuQUcyN2UrMDdJZXlLbEJ6L0VaTVR0?=
+ =?utf-8?B?ZEhBLzY0QW96MkhxK2JEZ2p4cjFkb2FLLzR1OCs4MWc4dndUdnQ1Z3Via2ZB?=
+ =?utf-8?B?RFNtWXRpSG55Q2xEalJNRGpJTGxVVytCY1JpSXltWWFTSXNXTnN2bDV2bUw1?=
+ =?utf-8?B?c3UrL041TkFONEpJNVIwSmRYL21qNlVyQXZrSUdYUVM1NkJ2VEozQnZXZGlu?=
+ =?utf-8?B?V2J5dGovL3VBc3pydi9xQ25OMi9pWXlXMnE0N1hweTN3dHRncUY5R3VuSitZ?=
+ =?utf-8?B?VkdacFpoNStNdzB3Q3B6QS9WYzlBMjZpMWZlc1lHN1dZOXBldGQzVXE0V3JE?=
+ =?utf-8?B?eXdJcVZ1SzEzWXAwRE5walc2ZFN0SFhBcFppdG02S2RGeWRGdVRPUFdtZEJj?=
+ =?utf-8?B?M0lDblFzR0VhRUpDRXBvZUhueEFwQ3VsVlIwODlOY1FBM0l0NU12SVBiakZL?=
+ =?utf-8?B?Mkl2ZERZU3NWYndrV1RyQzY2Tm9LUlo3SjdQNnJuR3l2eHJXMnl3bEZKK3NC?=
+ =?utf-8?B?bUo2UWQrMGtMby9JcjdyVDUxaFdmRmcyb2VjaVBLN0U0RThsa0ZrTnJ6Q1lN?=
+ =?utf-8?B?bDI1L29wTG1ET1B2T2V2ZkkrTExzWVN3Ui9ZeXZ4b2l3b3QyK1dPNmF4Nktz?=
+ =?utf-8?B?SjBKV0F3Q2pHZksvQ3RTQlowdk5qWjNsa29OOHlXRk5BQjE2T080UGJ5U0xk?=
+ =?utf-8?B?QlJnRUk5ZFhWL3pWTmEvcDA4cDlYUytSdE1oSkh6UlB3VXE0cUhSUTlKU3Y2?=
+ =?utf-8?B?YkxYdG9ZUUJUSDJQKysvamxiRXVpNldOcTFxenpnQjdsUm1aQ3hzV3RnSmpC?=
+ =?utf-8?B?NDBpZ1kzVTQ4NGVUbGdIajhoRnpPakJXZHpiOVVTSitod3d0cHY0TndRdEVs?=
+ =?utf-8?B?ZXVqZGg2VGFYWGhSSC91ZzJsck9qdEd0ZFo2U3hlWmtYcnprTmpZanB3YWg5?=
+ =?utf-8?Q?IBHgHE9u7wcEPnfSXyaYJgzec?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 03:55:37.0122 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35ccc442-4936-46ef-d565-08da598339ca
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebb10a27-23f7-480a-c9e5-08da59835e6b
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2717.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 03:56:38.8400 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT026.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3360
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T8s2QwEeEbhVzcNh2BqkK7Z1FvQzr8jS541m7H90TQqC+XLpGZ+Lnt3Ad788+Ibl8bqQTxstgPK5NLlRWwaisA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3274
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,116 +127,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, willy@infradead.org, david@redhat.com,
- Felix.Kuehling@amd.com, apopple@nvidia.com, amd-gfx@lists.freedesktop.org,
- linux-xfs@vger.kernel.org, linux-mm@kvack.org, jglisse@redhat.com,
- dri-devel@lists.freedesktop.org, akpm@linux-foundation.org,
- linux-ext4@vger.kernel.org, hch@lst.de
+Cc: rcampbell@nvidia.com, willy@infradead.org, Felix.Kuehling@amd.com,
+ apopple@nvidia.com, amd-gfx@lists.freedesktop.org, linux-xfs@vger.kernel.org,
+ linux-mm@kvack.org, jglisse@redhat.com, dri-devel@lists.freedesktop.org,
+ akpm@linux-foundation.org, linux-ext4@vger.kernel.org, hch@lst.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The objective is to test device migration mechanism in pages marked
-as COW, for private and coherent device type. In case of writing to
-COW private page(s), a page fault will migrate pages back to system
-memory first. Then, these pages will be duplicated. In case of COW
-device coherent type, pages are duplicated directly from device
-memory.
 
-Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
----
- tools/testing/selftests/vm/hmm-tests.c | 80 ++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+On 6/28/2022 5:42 AM, David Hildenbrand wrote:
+> On 28.06.22 02:14, Alex Sierra wrote:
+>> With DEVICE_COHERENT, we'll soon have vm_normal_pages() return
+>> device-managed anonymous pages that are not LRU pages. Although they
+>> behave like normal pages for purposes of mapping in CPU page, and for
+>> COW. They do not support LRU lists, NUMA migration or THP.
+>>
+>> We also introduced a FOLL_LRU flag that adds the same behaviour to
+>> follow_page and related APIs, to allow callers to specify that they
+>> expect to put pages on an LRU list.
+>>
+>> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
+>> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+>> Reviewed-by: Alistair Popple <apopple@nvidia.com>
+>> ---
+> I think my review feedback regarding FOLL_LRU has been ignored.
 
-diff --git a/tools/testing/selftests/vm/hmm-tests.c b/tools/testing/selftests/vm/hmm-tests.c
-index bb38b9777610..716b62c05e3d 100644
---- a/tools/testing/selftests/vm/hmm-tests.c
-+++ b/tools/testing/selftests/vm/hmm-tests.c
-@@ -1874,4 +1874,84 @@ TEST_F(hmm, hmm_gup_test)
- 	close(gup_fd);
- 	hmm_buffer_free(buffer);
- }
-+
-+/*
-+ * Test copy-on-write in device pages.
-+ * In case of writing to COW private page(s), a page fault will migrate pages
-+ * back to system memory first. Then, these pages will be duplicated. In case
-+ * of COW device coherent type, pages are duplicated directly from device
-+ * memory.
-+ */
-+TEST_F(hmm, hmm_cow_in_device)
-+{
-+	struct hmm_buffer *buffer;
-+	unsigned long npages;
-+	unsigned long size;
-+	unsigned long i;
-+	int *ptr;
-+	int ret;
-+	unsigned char *m;
-+	pid_t pid;
-+	int status;
-+
-+	npages = 4;
-+	size = npages << self->page_shift;
-+
-+	buffer = malloc(sizeof(*buffer));
-+	ASSERT_NE(buffer, NULL);
-+
-+	buffer->fd = -1;
-+	buffer->size = size;
-+	buffer->mirror = malloc(size);
-+	ASSERT_NE(buffer->mirror, NULL);
-+
-+	buffer->ptr = mmap(NULL, size,
-+			   PROT_READ | PROT_WRITE,
-+			   MAP_PRIVATE | MAP_ANONYMOUS,
-+			   buffer->fd, 0);
-+	ASSERT_NE(buffer->ptr, MAP_FAILED);
-+
-+	/* Initialize buffer in system memory. */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Migrate memory to device. */
-+
-+	ret = hmm_migrate_sys_to_dev(self->fd, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+
-+	pid = fork();
-+	if (pid == -1)
-+		ASSERT_EQ(pid, 0);
-+	if (!pid) {
-+		/* Child process waitd for SIGTERM from the parent. */
-+		while (1) {
-+		}
-+		perror("Should not reach this\n");
-+		exit(0);
-+	}
-+	/* Parent process writes to COW pages(s) and gets a
-+	 * new copy in system. In case of device private pages,
-+	 * this write causes a migration to system mem first.
-+	 */
-+	for (i = 0, ptr = buffer->ptr; i < size / sizeof(*ptr); ++i)
-+		ptr[i] = i;
-+
-+	/* Terminate child and wait */
-+	EXPECT_EQ(0, kill(pid, SIGTERM));
-+	EXPECT_EQ(pid, waitpid(pid, &status, 0));
-+	EXPECT_NE(0, WIFSIGNALED(status));
-+	EXPECT_EQ(SIGTERM, WTERMSIG(status));
-+
-+	/* Take snapshot to CPU pagetables */
-+	ret = hmm_dmirror_cmd(self->fd, HMM_DMIRROR_SNAPSHOT, buffer, npages);
-+	ASSERT_EQ(ret, 0);
-+	ASSERT_EQ(buffer->cpages, npages);
-+	m = buffer->mirror;
-+	for (i = 0; i < npages; i++)
-+		ASSERT_EQ(HMM_DMIRROR_PROT_WRITE, m[i]);
-+
-+	hmm_buffer_free(buffer);
-+}
- TEST_HARNESS_MAIN
--- 
-2.32.0
+Sorry David, this has been addressed in v7.
 
+Regards,
+Alex Sierra
+
+>
+>
