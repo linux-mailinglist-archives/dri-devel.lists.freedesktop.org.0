@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC8656001B
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:37:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9936560017
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:37:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7427014A630;
-	Wed, 29 Jun 2022 12:37:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFD6414A620;
+	Wed, 29 Jun 2022 12:37:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
  [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C160514A620
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:37:12 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 8ADC9320094D;
- Wed, 29 Jun 2022 08:37:11 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E68114A620
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:37:15 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 6A6C8320016F;
+ Wed, 29 Jun 2022 08:37:14 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 29 Jun 2022 08:37:12 -0400
+ by compute5.internal (MEProxy); Wed, 29 Jun 2022 08:37:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1656506231; x=1656592631; bh=Oo
- /xgkgHuPeXPtxtevn6/2FkFM6qrNvylIlNu/uvFgA=; b=R/q24MAxKP0yHHc0tT
- /j0OJEw0x8NXIrMOp1ARlOyqIQlQ92ggrJJt9SNRtLt965qKE69eM7rqdmyLTngo
- Tn9ahCTslAm06XEHZoVoP2w1AxWFj362RRABZJudi3wSkwtiKo3EvL34kfXltQl5
- QEAqdKIpjkz8qHA/bsKG5B7KSsvcN/x2nFySlx5bOMmQDXcYmYiww3BuyO8hSJrX
- fOWeOot1IiRJl2wJcrMwT1WHg12heql7bsHwhI/rbJitoSoXbgaXw1Ir9PXTEiPE
- 8LlbyGyg1vrSnnO+PRvGf6Kz9aeV6AWWQxdOc+9PmCVOUUVdgViCoI0i8V7DVRcn
- 4aMA==
+ :subject:subject:to:to; s=fm1; t=1656506233; x=1656592633; bh=BO
+ M0WKdvZgjojD3ZrgMK7LoTkJCNWJUtbs3m/EhLkmU=; b=Xs7msZ0hV/6Lkjsghr
+ Uzt2lj+CMkrq4AAsojZDMmMYSbU/Z+CJpQJpmavxKCqh8A00gP/nRu1myv+A8xsi
+ 4gVUSU5eJytqCQPo7ZR6BZaFedgubcjUeTGM4GN9uOa+QpWhpMptv5QaJ0BHYATF
+ uUy2n/4S6xOmK/TQANy4tmM4OScWvdYE1Al7nincBULvYhVyC/Cx0KcVF6s603Sp
+ px4Pg3qIxfV35XaeSkz4jMdfiN9yJpyadSKJI/G7vw857L5+MPaPVww1E4HqbFEA
+ HQsgW3q/flzlT4IO764Be2QFBvou+2OXwQYrSFTxd+pks8p4cXAKx6SRB44VlwhU
+ 6lCQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1656506231; x=1656592631; bh=Oo/xgkgHuPeXP
- txtevn6/2FkFM6qrNvylIlNu/uvFgA=; b=rhZtvurFNqpKaGuGJBn7EZB8BrB26
- LLPbL4fCVSLYktijhMZ3jzNSaLIrcfXFRVJ+Y75kiX78VFAxHHyBsY66wq6kr+NK
- UcUBAV9FS9iJy3fzmpaTTw3WZFDao/QHqXj1bIn0ESOpLtd7MIh+ECS/Jmm/usvK
- gO/5GJB6fzLB/Iks/Phrz5F7tL+BrpT0bRKZWS8AYyBWhYclyOcUeAzsj0aQMB9L
- pPARnEvW+ZFwoQ1lm+WuoFtmNROGN0f97rKDKo/RkND8TiLRyoh4V2dr6/QBsDSv
- 3Qmp0WODTuwfs8ZmHjk/AiWhc6VVjwskMQhsuBi+taBH5bRp0IvgBGSfA==
-X-ME-Sender: <xms:dke8YmyzLkYTRncCyHaquInt6cmdpz0BGoVl8nLK7v9LnK_jvuetuw>
- <xme:dke8YiSJmy6MKWyz6si8jJcfK-9kIgTDrpbe8qxsCl9oYV9cH18LnRV63_WeyOuTW
- kkVYW3LNObUgFFN_qc>
-X-ME-Received: <xmr:dke8YoUUADIgQhX3nVXnnaOyL_zMXMFtHR-3QdOpcto3UJzT72DDGGxW9VBR8g69JQaZ49i6j6mj2Ul88oG4my3BLbOeJBM_Ua8nymM>
+ :x-sasl-enc; s=fm2; t=1656506233; x=1656592633; bh=BOM0WKdvZgjoj
+ D3ZrgMK7LoTkJCNWJUtbs3m/EhLkmU=; b=ku+DEOAyMlDxYtanruazUbTmP0zux
+ XW+vaFfRyrFRSuh5UwpJjH51GuC2R0zHJ+jXVNxb57ffzzUptyGiZw962JT1VLkW
+ ALJ7tdjNlMiK6dM7xELWGhwsGyWxeQyeLvv6DrWf1V3SKbb1OWfMEGBg1kPbQHfg
+ GGe3oujkNdc2v1p8rnZuuKvwzCJlZWV++UrfQJpkuGXqaJtiK/YH6v5/J9VWTUAX
+ 6ucZx8/JkWUSc/PbjmDVOGny5n4DG7/M0zE6xcqq67HB3OnkBHCLyt9Rmkh5xqSQ
+ XdiYfc0Uhm17y7dHQezgw0S41pi9k3Ug5J2Spg0aTxkXbAlroZNaB7YcA==
+X-ME-Sender: <xms:eUe8Yi3TlNDjgiKjdArs3UQ-XK5iU4oYfYHJ4f5jwByxpGom9pT_dQ>
+ <xme:eUe8YlF0ioDUI6oiWY8WPR4UuoLpF8BzMyGkOY7zG5RQUb0RHERR9rOWhkvLMLv3T
+ 98u3f-K7SGIXQK5FbE>
+X-ME-Received: <xmr:eUe8Yq6kgI85Y1CmVdLiwG-hNQW2DZBYF7LYCVq2pCPFmdxLsj0RARjEL1bottezuKMI5k6JyynJcBvE6jOCP2wguiyt7Laq5sznQUk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgheefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeeinecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:dke8Ysim9-GNkzxrXZ5z0G5kLuL038LqFQBjBUKOyqTkREPcR8BpoA>
- <xmx:dke8YoB37SKKtzEnmdFa0_kSL7S3l9ssFhWTJMUpNjT5ACURtrPZJw>
- <xmx:dke8YtJ9X-PyQygMIyahzEmV1qYG6ISsWgKHxt4mnatPq8DZQhziqw>
- <xmx:d0e8Yr9syg8rNtiG9jIUPZyWK8GM_vWKna7ZbEeGSk3KOzNxCkBMXg>
+X-ME-Proxy: <xmx:eUe8Yj3eBacSAMuYuLGLBXp3EZJ6C-G-uR_fTKoquASVYgObdhvHiA>
+ <xmx:eUe8YlEyqmVhSuPczOC76o9N5EKbJA79XEoyhoVmpJoq05EguYacMg>
+ <xmx:eUe8Ys_OPlQZbVYCkCcoCq4PP5Up3UfzA4Gbea2Ps6bprvqWouyeaQ>
+ <xmx:eUe8YphUf-v6j0yOwlx3xqaIZPw5SX3z3YpV_17a8RDTAesOncWxhQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Jun 2022 08:37:10 -0400 (EDT)
+ 29 Jun 2022 08:37:13 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v3 39/71] drm/vc4: hdmi: Switch to drmm_kzalloc
-Date: Wed, 29 Jun 2022 14:34:38 +0200
-Message-Id: <20220629123510.1915022-40-maxime@cerno.tech>
+Subject: [PATCH v3 40/71] drm/vc4: hdmi: Remove call to
+ drm_connector_unregister()
+Date: Wed, 29 Jun 2022 14:34:39 +0200
+Message-Id: <20220629123510.1915022-41-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220629123510.1915022-1-maxime@cerno.tech>
 References: <20220629123510.1915022-1-maxime@cerno.tech>
@@ -88,40 +89,59 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Our internal structure that stores the DRM entities structure is allocated
-through a device-managed kzalloc.
-
-This means that this will eventually be freed whenever the device is
-removed. In our case, the most likely source of removal is that the main
-device is going to be unbound, and component_unbind_all() is being run.
-
-However, it occurs while the DRM device is still registered, which will
-create dangling pointers, eventually resulting in use-after-free.
-
-Switch to a DRM-managed allocation to keep our structure until the DRM
-driver doesn't need it anymore.
+drm_connector_unregister() is only to be used for connectors that have been
+registered through drm_connector_register() after drm_dev_register() has
+been called. This is our case here so let's remove the call.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 73fb2f91c3e4..fba549edcfc5 100644
+index fba549edcfc5..05f769474903 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -2907,9 +2907,10 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 	struct device_node *ddc_node;
- 	int ret;
+@@ -267,12 +267,6 @@ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
+ 	return connector_status_disconnected;
+ }
  
--	vc4_hdmi = devm_kzalloc(dev, sizeof(*vc4_hdmi), GFP_KERNEL);
-+	vc4_hdmi = drmm_kzalloc(drm, sizeof(*vc4_hdmi), GFP_KERNEL);
- 	if (!vc4_hdmi)
- 		return -ENOMEM;
-+
- 	mutex_init(&vc4_hdmi->mutex);
- 	spin_lock_init(&vc4_hdmi->hw_lock);
- 	INIT_DELAYED_WORK(&vc4_hdmi->scrambling_work, vc4_hdmi_scrambling_wq);
+-static void vc4_hdmi_connector_destroy(struct drm_connector *connector)
+-{
+-	drm_connector_unregister(connector);
+-	drm_connector_cleanup(connector);
+-}
+-
+ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+@@ -380,7 +374,7 @@ vc4_hdmi_connector_duplicate_state(struct drm_connector *connector)
+ static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
+ 	.detect = vc4_hdmi_connector_detect,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+-	.destroy = vc4_hdmi_connector_destroy,
++	.destroy = drm_connector_cleanup,
+ 	.reset = vc4_hdmi_connector_reset,
+ 	.atomic_duplicate_state = vc4_hdmi_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+@@ -3022,7 +3016,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ err_free_hotplug:
+ 	vc4_hdmi_hotplug_exit(vc4_hdmi);
+ err_destroy_conn:
+-	vc4_hdmi_connector_destroy(&vc4_hdmi->connector);
++	drm_connector_cleanup(&vc4_hdmi->connector);
+ err_destroy_encoder:
+ 	drm_encoder_cleanup(encoder);
+ 	pm_runtime_put_sync(dev);
+@@ -3066,7 +3060,7 @@ static void vc4_hdmi_unbind(struct device *dev, struct device *master,
+ 	vc4_hdmi_audio_exit(vc4_hdmi);
+ 	vc4_hdmi_cec_exit(vc4_hdmi);
+ 	vc4_hdmi_hotplug_exit(vc4_hdmi);
+-	vc4_hdmi_connector_destroy(&vc4_hdmi->connector);
++	drm_connector_cleanup(&vc4_hdmi->connector);
+ 	drm_encoder_cleanup(&vc4_hdmi->encoder.base);
+ 
+ 	pm_runtime_disable(dev);
 -- 
 2.36.1
 
