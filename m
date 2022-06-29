@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C107956003B
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8C256003D
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:39:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D473C112A50;
-	Wed, 29 Jun 2022 12:39:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41D0210F181;
+	Wed, 29 Jun 2022 12:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
  [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24C0E14A686
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:38:40 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id E7C09320095D;
- Wed, 29 Jun 2022 08:38:38 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 29 Jun 2022 08:38:39 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04F5514A688
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:38:43 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id CF1C5320095D;
+ Wed, 29 Jun 2022 08:38:41 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Wed, 29 Jun 2022 08:38:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1656506318; x=1656592718; bh=s1
- 3mDaOXGseVHogNjUbtAv7YrCQb3luxl4rFd+wZ0oU=; b=M9yjGbFHaXiw/ox0hY
- KgQrh2lSVC+waYT85qzrnl+V8xwRDr/cX++RrdLKOjKCmOw7lUH9waGNT38mAhJO
- xQvEzMVs7wJ+2+ulbucdzb9HLc/tr99IyrlQxbhWuvWQxdUe5HSSYsUMr2bIfbJf
- fB1qfKxfOsO2eXf2niR6B8AmJjpZsUW5kL6GxvRJA+c8nj5ANRcM83V2GxIWrhCY
- 2A0Fw2woTn6sTpNsbFf1ms01emZddK65ISAl5tlcWw6q4yAn5LMx9Fj5uhKw1bdV
- IW4rSLkdKXzdMiGv/xSQxX0qXcEA2/dQwfpt7AYhr15lWtPQmUk/cCkY94Sf20CX
- o93A==
+ :subject:subject:to:to; s=fm1; t=1656506321; x=1656592721; bh=tW
+ 9gHHAr3/SFxBGkP15TF2KXATD+AqOtU7XzI5GTQjU=; b=bH5aFMeVCaCkkJdqK0
+ w5nwRtIoPjiILb1PeO1L/gKXV+/pkERqKQDyfYacPyQUOcPRVgEUenuo0Q66vxPb
+ wuJMCvG6M0C64YSIDaT7o6UXhOohQaud69AV6vzUwesus/viBbIDTOh4/06CkPpW
+ iClZUsEKSlH+/1W97Z++V7yRV2rUUlLixXdn1TsitUCX0fBK+R4mMuRzpjtqqEZY
+ pL3LiC2iWuUa9apEKcE/dJ0s/cy8RRoPi6BN46ZBBPKxsdmwKg7+/K597dw7Bo17
+ 38CXF4+BgJZJQYf162HNEcGH2BOLhY45xTg0fuqIG0IEtGCPmTu9BsEWU3GJFmxi
+ GnBA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1656506318; x=1656592718; bh=s13mDaOXGseVH
- ogNjUbtAv7YrCQb3luxl4rFd+wZ0oU=; b=O/pKJgECCfnlvwZ/sdw+X3BrUylsi
- jqwbpztAaKZlTWDIexFa9f4AJHMekLXf9EHxSWixsE0n9K30b/N6Q+KVcAf32fRS
- G/90r0BDTxpAVkHrIsc5+54tk63z0CUisSzo51iwqPjNxkDilTnrQNpM0E+2ASmM
- tPx9hUwWJvR9Ij6WQwC39AGgq+/ZzF4pB+iSZyN6hGPfofHf7EYFafDSc2z9tQei
- WwYrzPo+1ETo+nyaPeNAPfqfS9TuXptl7ezfMhoJshSVM2aSIpcvV3zRVwAckiC0
- mhZBKriCBa3Rjz/jH+KVeCsr/oDhzvtCplz350qTzEdg+wS8cJUcavu7g==
-X-ME-Sender: <xms:zke8Ys0cxa4SQOXP4a9-0jwwAtZFQYpdwnzk-_HAj6-iV0CjJ-VlMw>
- <xme:zke8YnGNvxz7mUhAXhfnByeG-ScahUuKPHxaOwemjQCLnZyTl1zGoUJn66uotxE9v
- koW6j0bYFa7DPfTgEg>
-X-ME-Received: <xmr:zke8Yk4XL7CML1rld9dtE_rFW6uGRBjiJkEXo2qkDE5i5XjeFsyVaDmHjwQ1h0_YK1wrtsFivSxXPui2KyBkTIbL_tFSMGlHYxnyv_s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgheefucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm2; t=1656506321; x=1656592721; bh=tW9gHHAr3/SFx
+ BGkP15TF2KXATD+AqOtU7XzI5GTQjU=; b=IM17SSUfIYOSkUE6oqn6Q90Wk49UJ
+ hk4vRLMBCokQFhyB9HQEst6nDV568K4U+cvmfZflFUHMTkPvDxrKes8cnkLIgLy8
+ HOfUdHk2P7VIsU+5PEkZdKvDhJp0r78zY5dGpw9ABHTGKDI4v3n3bGhLYDBpN4z2
+ lTeBnJlzDLiMsKVqhKKbI6sUNrEIDeAIfEl83oHHYZW/cD5mDAWWZ3iJ9oRK+RIF
+ EXcXsAiiGXF7W4AvCck7Fa+SM97Fwlsk2txGzh0ADBMSVvooCyD0DVuDRGfT0qkR
+ a0pz9f30U+VytHNrCVj5NwIkBYNG3FZLcZWSkzebwZC3g3EqSnEAzmPXw==
+X-ME-Sender: <xms:0Ue8YqEs7xy0XmSI5coDUIuiB_HjonDEM12XkpqJ-LBxxoh1XQhENw>
+ <xme:0Ue8YrXCUD6DbWp_WbJWEz5GAnNExWJt-tGT5Plqpflo2AjrBdPgHH90TGUkkIRtI
+ g70p_qyJIagQ3WaFls>
+X-ME-Received: <xmr:0Ue8YkLdjYPmLt8ohOO3fbbCQY9s2C0fhvwI0NP8LjfIAXgCABOa5mo-XdvV5bPuPxLxxaEmUDSpT6qq45jxKU3BNwRrpNizr0MW6yg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgheegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:zke8Yl1syLfyAbT_ziASiNPlF60gTRB12cKpp-gjZjgE0fTQ4Gm6yg>
- <xmx:zke8YvF1sRlZAqVuxN3_mFPpGYpAx6ZjfYrtRjfov2LKJOw6Fo3X-Q>
- <xmx:zke8Yu9ZmJlVL4Vco_ETV5qNM_v-bWn8jeBZL0_EvqfvllUDhsznpg>
- <xmx:zke8YjhFBf0FD3ALEc41FIs8q-O32kIQptdhtxDX-KWJJ0q7ni64VA>
+X-ME-Proxy: <xmx:0Ue8YkHt6_H7ffNnYIrfbsOIOsUJ1WLZZX6v8cOsTCX4IZrpdRDeLw>
+ <xmx:0Ue8YgUvzEpqxTe1zI4GoaE4dg3WCtF2HzpnpZHWeW3HSr_FvRooSA>
+ <xmx:0Ue8YnMfsXodYJvhdzU7HUNPl-oJzUVE5mCTsExTQdtZ5HAlhTRnug>
+ <xmx:0Ue8YuxoXyA44LFTdHsRcyJ3opH80o5RuB9Vb3WPZhu9z_5KW-mx1g>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Jun 2022 08:38:37 -0400 (EDT)
+ 29 Jun 2022 08:38:40 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v3 69/71] drm/vc4: v3d: Stop disabling interrupts
-Date: Wed, 29 Jun 2022 14:35:08 +0200
-Message-Id: <20220629123510.1915022-70-maxime@cerno.tech>
+Subject: [PATCH v3 70/71] drm/vc4: v3d: Rework the runtime_pm setup
+Date: Wed, 29 Jun 2022 14:35:09 +0200
+Message-Id: <20220629123510.1915022-71-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220629123510.1915022-1-maxime@cerno.tech>
 References: <20220629123510.1915022-1-maxime@cerno.tech>
@@ -88,59 +88,112 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vc4_irq_disable(), among other things, will call disable_irq() to
-complete any in-flight interrupts.
+At bind time, vc4_v3d_bind() will read a register to retrieve the v3d
+version and make sure it's a version we're compatible with.
 
-This requires its counterpart, vc4_irq_enable(), to call enable_irq() which
-causes issues addressed in a later patch.
+However, the v3d has an optional clock that is enabled only after the
+register read-out and a power domain that wasn't enabled at all in the bind
+implementation. This was working fine at boot because both were enabled,
+but resulted in the version check failing if we were unbinding and
+rebinding the driver because the unbinding would have turned them off.
 
-However, vc4_irq_disable() is called by two callees: vc4_irq_uninstall()
-and vc4_v3d_runtime_suspend().
+The fix isn't as easy as calling pm_runtime_resume_and_get() prior to the
+register access to power up the power domain though.
 
-vc4_irq_uninstall() also calls free_irq() which already disables the
-interrupt line. We thus don't require an explicit disable_irq() for that
-call site.
+Indeed, the runtime_resume implementation will enable the clock mentioned
+above, call vc4_v3d_init_hw() and then vc4_irq_enable().
 
-vc4_v3d_runtime_suspend() doesn't have any other code. However, the rest of
-vc4_irq_disable() masks the interrupts coming from the v3d, so explictly
-disabling the interrupt line is also redundant.
+Prior to the previous patch, vc4_irq_enable() needed to occur after our
+call to platform_get_irq() and vc4_irq_install(), since vc4_irq_enable()
+used to call enable_irq() and vc4_irq_install() will call request_irq().
 
-The only thing we really care about is thus to make sure we don't have any
-handler in-flight, as suggested by the comment. We can thus replace
-disable_irq() by synchronize_irq().
+vc4_irq_install() will also do some register access, so needs the power
+domain to be on. So we ended up in a situation where
+vc4_v3d_runtime_resume() needed vc4_irq_install() to have been called
+before, and vc4_irq_install() needed vc4_v3d_runtime_resume().
+
+The previous patch removed the enable_irq() call in vc4_irq_enable() and
+thus removed the dependency of vc4_v3d_runtime_resume() on
+vc4_irq_install().
+
+Thus, we can now rework our bind implementation to call
+pm_runtime_resume_and_get() before our register access to make sure the
+power domain is on. vc4_v3d_runtime_resume() also takes care of turning the
+clock on and calling vc4_v3d_init_hw() so we can remove them from bind.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_irq.c | 2 +-
- drivers/gpu/drm/vc4/vc4_v3d.c | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_v3d.c | 37 +++++++++++++++++++++--------------
+ 1 file changed, 22 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_irq.c b/drivers/gpu/drm/vc4/vc4_irq.c
-index 2eacfb6773d2..a9fc63d9a7f0 100644
---- a/drivers/gpu/drm/vc4/vc4_irq.c
-+++ b/drivers/gpu/drm/vc4/vc4_irq.c
-@@ -295,7 +295,7 @@ vc4_irq_disable(struct drm_device *dev)
- 	V3D_WRITE(V3D_INTCTL, V3D_DRIVER_IRQS);
- 
- 	/* Finish any interrupt handler still in flight. */
--	disable_irq(vc4->irq);
-+	synchronize_irq(vc4->irq);
- 
- 	cancel_work_sync(&vc4->overflow_mem_work);
- }
 diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index e7990bed0a96..a2da0db73a5c 100644
+index a2da0db73a5c..d82c86865079 100644
 --- a/drivers/gpu/drm/vc4/vc4_v3d.c
 +++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -393,8 +393,6 @@ static int vc4_v3d_runtime_resume(struct device *dev)
+@@ -463,41 +463,48 @@ static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
+ 		}
+ 	}
  
- 	vc4_v3d_init_hw(&vc4->base);
++	ret = platform_get_irq(pdev, 0);
++	if (ret < 0)
++		return ret;
++	vc4->irq = ret;
++
++	pm_runtime_enable(dev);
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret)
++		goto err_disable_runtime_pm;
++
+ 	if (V3D_READ(V3D_IDENT0) != V3D_EXPECTED_IDENT0) {
+ 		DRM_ERROR("V3D_IDENT0 read 0x%08x instead of 0x%08x\n",
+ 			  V3D_READ(V3D_IDENT0), V3D_EXPECTED_IDENT0);
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto err_put_runtime_pm;
+ 	}
  
--	/* We disabled the IRQ as part of vc4_irq_uninstall in suspend. */
--	enable_irq(vc4->irq);
- 	vc4_irq_enable(&vc4->base);
+-	ret = clk_prepare_enable(v3d->clk);
+-	if (ret != 0)
+-		return ret;
+-
+ 	/* Reset the binner overflow address/size at setup, to be sure
+ 	 * we don't reuse an old one.
+ 	 */
+ 	V3D_WRITE(V3D_BPOA, 0);
+ 	V3D_WRITE(V3D_BPOS, 0);
+ 
+-	vc4_v3d_init_hw(drm);
+-
+-	ret = platform_get_irq(pdev, 0);
+-	if (ret < 0)
+-		return ret;
+-	vc4->irq = ret;
+-
+ 	ret = vc4_irq_install(drm, vc4->irq);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to install IRQ handler\n");
+-		return ret;
++		goto err_put_runtime_pm;
+ 	}
+ 
+-	pm_runtime_set_active(dev);
+ 	pm_runtime_use_autosuspend(dev);
+ 	pm_runtime_set_autosuspend_delay(dev, 40); /* a little over 2 frames. */
+-	pm_runtime_enable(dev);
  
  	return 0;
++
++err_put_runtime_pm:
++	pm_runtime_put(dev);
++
++err_disable_runtime_pm:
++	pm_runtime_disable(dev);
++
++	return ret;
+ }
+ 
+ static void vc4_v3d_unbind(struct device *dev, struct device *master,
 -- 
 2.36.1
 
