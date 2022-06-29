@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E695955FBF4
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 11:28:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE37D55FBF3
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 11:28:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 797A511A556;
-	Wed, 29 Jun 2022 09:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 559D211A4DE;
+	Wed, 29 Jun 2022 09:28:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66B1911A4D8;
- Wed, 29 Jun 2022 09:28:29 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6729511A526;
+ Wed, 29 Jun 2022 09:28:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656494909; x=1688030909;
+ t=1656494913; x=1688030913;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=w0lZ3sqz8CHlzJhKHWY8xJMepUh+bKOJ3DCY6PLowaU=;
- b=GyJ+nHfE85E4svGPsAuBjyLUHF4Vuam7D4nKhOoe3V3XRbxuBdqJUgdI
- KMDC6IvgD2zDatTbMVbMATiyBVDP56pSusysK4i/a8WbWNHNDFjfsgZOM
- lwew/T3G/H9YKALdIdrmg5bJ1mMRT7olevkTdSSsrpbM6m7dbKq5NZBzx
- eoPnLLdupOn6gWRGjVotbw3aH6LopLo3RPleDY3pUHHSjuqupfy5nRPa2
- BmsLtUCG/bwf99jPzKINhHIdlVPbRG/H9PFegciBaXMxW46rnxYIFKolw
- LwpSa2m+bezYDRqcWmFqHvtssXAcex6BxsCKHu5IF4xbkooDnYptofHzm w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="345976311"
-X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="345976311"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2022 02:28:28 -0700
-X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="658488800"
+ bh=nwfOlHL2nglw9+d59/d+TvytzF+TBnMwuokxXU7/USI=;
+ b=XKCjIN2YhyHyGBcu8sQUumTzjv8LeFSsRsxEBEhoDD/6KtIrV7UgpZCX
+ xzexQ88tW6FzTRj9YuOSYABqBUKX6pl069J6riDbQyiI+/vmw0o9Bws/G
+ xJyIU8YitTZYejUKgn8s2irfCPx+M8UIaZG3xflQcWAP7Z4f2bnF0Hey2
+ 4hZgBGGzB+FrxAtqGhZJmqctktPvdM38inVl3BRvSpCVjEoKk/kqnnHt3
+ 2XC1K4hf7hl9ypKy0BedqY5LVPUMIh+S1IH2DGS3QFNQkpDERuFpIqZCx
+ vRT0mwc/xTGSfyIfO599wMIvR1YQ6WXd0pRgSEctjFhvncJIIAw/jfLni w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="283079075"
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="283079075"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jun 2022 02:28:32 -0700
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="837062451"
 Received: from srdoo-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.63.102])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2022 02:28:26 -0700
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jun 2022 02:28:30 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [CI RESEND 06/10] drm/probe-helper: add
- drm_connector_helper_get_modes()
-Date: Wed, 29 Jun 2022 12:27:51 +0300
-Message-Id: <d985449ed4b95971490ab7c09d2d59b58a892769.1656494768.git.jani.nikula@intel.com>
+Subject: [CI RESEND 07/10] drm/edid: add drm_edid_raw() to access the raw EDID
+ data
+Date: Wed, 29 Jun 2022 12:27:52 +0300
+Message-Id: <fb55d0b580d556bf2b8e58070239657ac9cb4b2f.1656494768.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1656494768.git.jani.nikula@intel.com>
 References: <cover.1656494768.git.jani.nikula@intel.com>
@@ -63,71 +63,69 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a helper function to be used as the "default" .get_modes()
-hook. This also works as an example of what the driver .get_modes()
-hooks are supposed to do regarding the new drm_edid_read*() and
-drm_edid_connector_update() calls.
+Unfortunately, there are still plenty of interfaces around that require
+a struct edid pointer, and it's impossible to change them all at
+once. Add an accessor to the raw EDID data to help the transition.
+
+While there are no such cases now, be defensive against raw EDID
+extension count indicating bigger EDID than is actually allocated.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_probe_helper.c | 34 ++++++++++++++++++++++++++++++
- include/drm/drm_probe_helper.h     |  1 +
- 2 files changed, 35 insertions(+)
+ drivers/gpu/drm/drm_edid.c | 26 ++++++++++++++++++++++++++
+ include/drm/drm_edid.h     |  1 +
+ 2 files changed, 27 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index a8d26b29bfa0..bb427c5a4f1f 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -1049,3 +1049,37 @@ int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector)
- 	return count;
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 41b3de52b8f1..1c761e12820e 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -2359,6 +2359,32 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
  }
- EXPORT_SYMBOL(drm_connector_helper_get_modes_from_ddc);
-+
+ EXPORT_SYMBOL_GPL(drm_do_get_edid);
+ 
 +/**
-+ * drm_connector_helper_get_modes - Read EDID and update connector.
-+ * @connector: The connector
++ * drm_edid_raw - Get a pointer to the raw EDID data.
++ * @drm_edid: drm_edid container
 + *
-+ * Read the EDID using drm_edid_read() (which requires that connector->ddc is
-+ * set), and update the connector using the EDID.
++ * Get a pointer to the raw EDID data.
 + *
-+ * This can be used as the "default" connector helper .get_modes() hook if the
-+ * driver does not need any special processing. This is sets the example what
-+ * custom .get_modes() hooks should do regarding EDID read and connector update.
++ * This is for transition only. Avoid using this like the plague.
 + *
-+ * Returns: Number of modes.
++ * Return: Pointer to raw EDID data.
 + */
-+int drm_connector_helper_get_modes(struct drm_connector *connector)
++const struct edid *drm_edid_raw(const struct drm_edid *drm_edid)
 +{
-+	const struct drm_edid *drm_edid;
-+	int count;
-+
-+	drm_edid = drm_edid_read(connector);
++	if (!drm_edid || !drm_edid->size)
++		return NULL;
 +
 +	/*
-+	 * Unconditionally update the connector. If the EDID was read
-+	 * successfully, fill in the connector information derived from the
-+	 * EDID. Otherwise, if the EDID is NULL, clear the connector
-+	 * information.
++	 * Do not return pointers where relying on EDID extension count would
++	 * lead to buffer overflow.
 +	 */
-+	count = drm_edid_connector_update(connector, drm_edid);
++	if (WARN_ON(edid_size(drm_edid->edid) > drm_edid->size))
++		return NULL;
 +
-+	drm_edid_free(drm_edid);
-+
-+	return count;
++	return drm_edid->edid;
 +}
-+EXPORT_SYMBOL(drm_connector_helper_get_modes);
-diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
-index c80cab7a53b7..8075e02aa865 100644
---- a/include/drm/drm_probe_helper.h
-+++ b/include/drm/drm_probe_helper.h
-@@ -27,5 +27,6 @@ void drm_kms_helper_poll_enable(struct drm_device *dev);
- bool drm_kms_helper_is_poll_worker(void);
- 
- int drm_connector_helper_get_modes_from_ddc(struct drm_connector *connector);
-+int drm_connector_helper_get_modes(struct drm_connector *connector);
- 
- #endif
++EXPORT_SYMBOL(drm_edid_raw);
++
+ /* Allocate struct drm_edid container *without* duplicating the edid data */
+ static const struct drm_edid *_drm_edid_alloc(const void *edid, size_t size)
+ {
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index aeb2fa95bc04..2181977ae683 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -597,6 +597,7 @@ drm_display_mode_from_cea_vic(struct drm_device *dev,
+ const struct drm_edid *drm_edid_alloc(const void *edid, size_t size);
+ const struct drm_edid *drm_edid_dup(const struct drm_edid *drm_edid);
+ void drm_edid_free(const struct drm_edid *drm_edid);
++const struct edid *drm_edid_raw(const struct drm_edid *drm_edid);
+ const struct drm_edid *drm_edid_read(struct drm_connector *connector);
+ const struct drm_edid *drm_edid_read_ddc(struct drm_connector *connector,
+ 					 struct i2c_adapter *adapter);
 -- 
 2.30.2
 
