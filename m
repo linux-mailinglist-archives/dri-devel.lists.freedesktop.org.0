@@ -2,78 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9110755F9FB
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 10:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1FBB55FA40
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 10:21:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18C7210E5C3;
-	Wed, 29 Jun 2022 08:09:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A38010E5A6;
+	Wed, 29 Jun 2022 08:21:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16ED110E038
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 08:09:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C12AA10E45D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 08:21:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656490149;
+ s=mimecast20190719; t=1656490859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7hQQnP6ElkRz6EikrOqVkat5RAwQAYxqOhDbZ9zjeug=;
- b=Oxo53p/fRlsSMA3GK80B0wxaV+6dXETfzm7WdLOVZ6ix/DWgAC4nx09DRv2BO5T3ohmv20
- WFpRdwRzwIbXgLzlxSwbe0a0TGiN1FLVjwVL2nrpk7uL5xzPTqbhjom+lLFue6AafELb3x
- Mdn4CcLpWouX/V4cSNrOhKmZTH845mo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bPJV1uPaZV9JJhbBrJp826ArqFj4Q0dOTMcobO8NbR8=;
+ b=bTfT4BwTUhHjKsnZYXSh5osiP15x8TrNok7Lze+/ZuYwAlgSSLHJmjayhxrdKjOUSTpYgx
+ wyb8ukdtI3ZFh/7ZKejx6FPnUlrP4frbBNQIybJtsXGdNVz3f0cv2Y41/abyrDfgUZh0wm
+ BQGw/Mxq8JJwCVusZFA5+Z50YKbX5As=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-132-cuvLq9jiOYKV62Z5q1WI4Q-1; Wed, 29 Jun 2022 04:09:05 -0400
-X-MC-Unique: cuvLq9jiOYKV62Z5q1WI4Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 6-20020a1c0206000000b003a02cd754d1so6265483wmc.9
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 01:09:05 -0700 (PDT)
+ us-mta-442-n_53vZjDNC2kBAzPintW6w-1; Wed, 29 Jun 2022 04:20:58 -0400
+X-MC-Unique: n_53vZjDNC2kBAzPintW6w-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ s14-20020adfa28e000000b0020ac7532f08so2160761wra.15
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 01:20:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=7hQQnP6ElkRz6EikrOqVkat5RAwQAYxqOhDbZ9zjeug=;
- b=fljfC6XznjalQ/DqwA7bl9cRgOrCjeaWWHa46Vy7xU71zWY9IzMKiflfzRXpWGQRa7
- QHy/yXl5DlxISLu2TxYO4mCJ/5TyZiKQp4nXryhDRj1bGpJKReA5LclWCyeGsuYCMb/v
- kOMvv3XOYLmCq9drrnvMby7VHnc6qzBrAqGWEgc6AssVZZm2LNoY+pZLtvoO4nzFrcAd
- 7wBcWZI/r2NeHdYmiuTE5GCW+VasssrB7wkyvsBNXPJ9OQmkJkbgyoWZV+IURH1BDzpf
- 87SGDmvYyAY0F4tv4aeg7a+pPVjy5og5yt5YQM6PFOcqrEZIWTH5oAH5zm0ElZ8RYhPE
- hFEQ==
-X-Gm-Message-State: AJIora94knYWmB4D01ueZRFv34v9W5cEzlG3SDIN497sbxCt+FYUpysh
- 42FZMJX0GemPKGWcZMmTPVCb6v20f0mtDAQ2j75UkEqPrt3ovnYNh8j9ux0QIgdQ7HV15hdg3Zj
- CHCFy0oda+pOJkXfQ4wAE89vnWCSJ
-X-Received: by 2002:a05:600c:2246:b0:3a0:4d14:e9d5 with SMTP id
- a6-20020a05600c224600b003a04d14e9d5mr2201668wmm.70.1656490144655; 
- Wed, 29 Jun 2022 01:09:04 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1usFW/96xeCeX9gWa5EcwEsowhB540yEb4Gaanj9433iMcJH3n1uDXhdEWzSLPQicn1TmuJ9w==
-X-Received: by 2002:a05:600c:2246:b0:3a0:4d14:e9d5 with SMTP id
- a6-20020a05600c224600b003a04d14e9d5mr2201616wmm.70.1656490144372; 
- Wed, 29 Jun 2022 01:09:04 -0700 (PDT)
+ bh=bPJV1uPaZV9JJhbBrJp826ArqFj4Q0dOTMcobO8NbR8=;
+ b=0KSgC3MQuyp9PIM1RslLTDHwfLlJlJndxvRGLPfJ9hSbZuFzf4/+GUe2Zj+X59t0ug
+ E7IZxsE5UfzNluiRXK4b04a6hzpCwddzH9cDJCxMwLji2TM3N7+bEolPPTSDkzVXJwbY
+ 3vM0qHeAZpYdm9+qVWCYFxvRWE6efL9vTJQKJzPvdPKG7hUrd4Wvo9MQZusQsYQE+vOn
+ xWEGP5g/5TIRUFXD+CwYu2pgJAxC4V4lRZjLFAzNOjlUaph90McfrOkPAHtWYdKQIZ+R
+ TK80CAnYi6tQ2CAP5wgBkGx2bw5t8eHFr4OSKL5/P/qy+tO0KHdR+APwW9fTYKmgud/Y
+ NkpA==
+X-Gm-Message-State: AJIora9y5fe32veIrtspcJAwDsMn/fYCKaJeEsJvprenj1xkOViGGsEM
+ 81D4lG/7PN5N+GMUeNXkqZ7WqJIRU4Ix96b6dqCld0KVXcrUes+mu2L3N+4cPH+rKXdvWcQoop/
+ /leGaKydoQUUWO8mbVUm9Fs19pc37
+X-Received: by 2002:a05:600c:5127:b0:397:4862:e474 with SMTP id
+ o39-20020a05600c512700b003974862e474mr2361009wms.68.1656490857404; 
+ Wed, 29 Jun 2022 01:20:57 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1shi4ix35sLHrGEKb1EVEpzZ6zezB9IEV96DzmuPKrPxyxIUpeHBq+yzab4VpxhCVtEA3DMUg==
+X-Received: by 2002:a05:600c:5127:b0:397:4862:e474 with SMTP id
+ o39-20020a05600c512700b003974862e474mr2360986wms.68.1656490857136; 
+ Wed, 29 Jun 2022 01:20:57 -0700 (PDT)
 Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- p2-20020a05600c358200b003942a244f47sm2507134wmq.32.2022.06.29.01.09.02
+ b3-20020a5d6343000000b0021a36955493sm15495488wrw.74.2022.06.29.01.20.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Jun 2022 01:09:03 -0700 (PDT)
-Message-ID: <a5a3e2ca-030a-4838-296e-50dbb6d87330@redhat.com>
-Date: Wed, 29 Jun 2022 10:09:01 +0200
+ Wed, 29 Jun 2022 01:20:56 -0700 (PDT)
+Message-ID: <d21e22dd-baa4-44c7-348b-e21844215277@redhat.com>
+Date: Wed, 29 Jun 2022 10:20:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Jeremy Kerr <jk@codeconstruct.com.au>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
- <60cc6796236f23c028a9ae76dbe00d1917df82a5.camel@codeconstruct.com.au>
- <20220629072304.qazmloqdi5h5kdre@pengutronix.de>
- <5517f329-b6ba-efbd-ccab-3d5caa658b80@csgroup.eu>
+Subject: Re: Annoying AMDGPU boot-time warning due to simplefb / amdgpu
+ resource clash
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <CAHk-=wh42rU5mKU6=PCK5tdkYjh7r31dGNmYdHwqpFnRFvVudA@mail.gmail.com>
+ <3920df43-37f5-618d-70ba-de34a886e8ab@redhat.com>
+ <CAHk-=wjxzafG-=J8oT30s7upn4RhBs6TX-uVFZ5rME+L5_DoJA@mail.gmail.com>
+ <561af3c0-c7cf-3580-ce35-320cb13a037c@suse.de>
+ <98aab56e-b0a7-1a39-d715-9ad10d7705a0@redhat.com>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <5517f329-b6ba-efbd-ccab-3d5caa658b80@csgroup.eu>
+In-Reply-To: <98aab56e-b0a7-1a39-d715-9ad10d7705a0@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,61 +94,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
- "chrome-platform@lists.linux.dev" <chrome-platform@lists.linux.dev>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
- "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "acpi4asus-user@lists.sourceforge.net" <acpi4asus-user@lists.sourceforge.net>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-rpi-kernel@lists.infradead.org" <linux-rpi-kernel@lists.infradead.org>,
- "openipmi-developer@lists.sourceforge.net"
- <openipmi-developer@lists.sourceforge.net>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- Support Opensource <support.opensource@diasemi.com>,
- "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
- Wolfram Sang <wsa@kernel.org>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/29/22 09:55, Christophe Leroy wrote:
-> 
-> 
-> Le 29/06/2022 à 09:23, Uwe Kleine-König a écrit :
->> Hello,
+On 6/28/22 14:41, Jocelyn Falempe wrote:
+> On 28/06/2022 10:43, Thomas Zimmermann wrote:
+
+[snip]
+
 >>
->> [I dropped nearly all individuals from the Cc: list because various
->> bounces reported to be unhappy about the long (logical) line.]
+>> Unfortunately, this currently only works if a driver is bound to the 
+>> platform device. Without simpledrm or simplefb, amdgpu won't find the 
+>> platform device to remove.
+>>
+>> I guess, what happens on your system is that sysfb create a device for 
+>> the EFI framebuffer and then amdgpu comes and doesn't find it for 
+>> removal. And later you see these warnings because BOOTFB is still around.
+>>
+>> Javier already provided patches for this scenario, which are in the DRM 
+>> tree. From drm-next, please cherry-pick
+>>
+>>    0949ee75da6c ("firmware: sysfb: Make sysfb_create_simplefb() return a 
+>> pdev pointer")
+>>
+>>    bc824922b264 ("firmware: sysfb: Add sysfb_disable() helper function")
+>>
+>>    873eb3b11860 ("fbdev: Disable sysfb device registration when removing 
+>> conflicting FBs")
+>>
+>> for testing. With these patches, amdgpu will find the sysfb device and 
+>> unregister it.
+>>
+>> The patches are queued up for the next merge window. If they resolve the 
+>> issue, we'll already send with the next round of fixes.
 > 
-> Good idea, even patchwork made a mess of it, see 
-> https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20220628140313.74984-7-u.kleine-koenig@pengutronix.de/
-> 
+> I was able to reproduce the warning with kernel v5.19-rc4, a radeon GPU 
+> and the following config:
+>
+> CONFIG_SYSFB=y
+> CONFIG_SYSFB_SIMPLEFB=y
+> # CONFIG_DRM_SIMPLEDRM is not set
+> # CONFIG_FB_SIMPLE is not set
+>
 
-FYI, for patches like these what I usually use is:
+Yes, and this could happen even if both drivers (e.g: simplefb and amdgpu)
+are enabled but built-in. For example, if amdgpu probes before simplefb.
 
-./scripts/get_maintainer.pl --nogit-fallback --no-m --no-r
+> After applying the 3 patches you mentioned, the issue is resolved. (at 
+> least on my setup).
+>
+
+Thanks for testing Jocelyn! I've pushed the patches to drm-misc-fixes now.
 
 -- 
 Best regards,
