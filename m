@@ -1,55 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4DA560C2C
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 00:15:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 766CA560C92
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 00:53:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBFEA10E6B6;
-	Wed, 29 Jun 2022 22:15:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7437310F085;
+	Wed, 29 Jun 2022 22:53:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A0CB10E6B6
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 22:15:41 +0000 (UTC)
-Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru
- [109.252.118.164])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92BB210F070;
+ Wed, 29 Jun 2022 22:53:36 +0000 (UTC)
+Received: from Marijn-Arch-PC.localdomain
+ (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 38C876601926;
- Wed, 29 Jun 2022 23:15:39 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1656540939;
- bh=bhZaA7/Smyh0XRFzLMtb69xiZ0vjfNMCv3A/P8IEc9A=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=GQAFeGCODBDvgPPPfTOVe6b1O0JI9XmFrldGCjBUVPpAve5u+tifIgw3p+z0dsSzn
- MsxeZ2Ls/EYGoOsHY1YAnAcveilANEz78hi5n/PG/HP0KZJLqMOtqzSVfBCyGkxQ50
- xVSwZ5CQMESPmzX2ZM+6zPRXJzxSRRU3mfxZLAe1CG+bnEaAVlLBUtfkY0p9pcyULc
- x0ib1AUlTSxC6M5gkhLw3zCsDw3SygmqdR9bI1xDJTZbQSAY0qqAPaCrq3jIxv29cS
- +tG2oDLZ12JWyDK6dNCjpDP151J9EGvoV503417rLmNtSbA7XoHSsryKTSATTIpHLW
- JmyGkm/q6YKxg==
-Message-ID: <d2852b09-7613-3d6c-fec7-7cf9fdf959ed@collabora.com>
-Date: Thu, 30 Jun 2022 01:15:36 +0300
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id A50943F762;
+ Thu, 30 Jun 2022 00:53:32 +0200 (CEST)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: phone-devel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Stephen Boyd <sboyd@kernel.org>
+Subject: [PATCH v3 00/11] drm/msm/dsi_phy: Replace parent names with clk_hw
+ pointers
+Date: Thu, 30 Jun 2022 00:53:20 +0200
+Message-Id: <20220629225331.357308-1-marijn.suijten@somainline.org>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2] drm/virtio: Fix NULL vs IS_ERR checking in
- virtio_gpu_object_shmem_init
-Content-Language: en-US
-To: Miaoqian Lin <linmq006@gmail.com>, David Airlie <airlied@linux.ie>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org
-References: <20220602104223.54527-1-linmq006@gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220602104223.54527-1-linmq006@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,53 +43,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Rajeev Nandan <quic_rajeevny@quicinc.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Martin Botka <martin.botka@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>,
+ linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/2/22 13:42, Miaoqian Lin wrote:
-> Since drm_prime_pages_to_sg() function return error pointers.
-> The drm_gem_shmem_get_sg_table() function returns error pointers too.
-> Using IS_ERR() to check the return value to fix this.
-> 
-> Fixes: 2f2aa13724d5 ("drm/virtio: move virtio_gpu_mem_entry initialization to new function")
-> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
-> ---
-> changes in v2:
-> - Update Fixes tag.
-> - rebase the working tree.
-> v1 Link: https://lore.kernel.org/all/20211222072649.18169-1-linmq006@gmail.com/
-> ---
->  drivers/gpu/drm/virtio/virtgpu_object.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-> index f293e6ad52da..1cc8f3fc8e4b 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-> @@ -168,9 +168,9 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
->  	 * since virtio_gpu doesn't support dma-buf import from other devices.
->  	 */
->  	shmem->pages = drm_gem_shmem_get_sg_table(&bo->base);
-> -	if (!shmem->pages) {
-> +	if (IS_ERR(shmem->pages)) {
->  		drm_gem_shmem_unpin(&bo->base);
-> -		return -EINVAL;
-> +		return PTR_ERR(shmem->pages);
->  	}
->  
->  	if (use_dma_api) {
+parent_hw pointers are easier to manage and cheaper to use than
+repeatedly formatting the parent name and subsequently leaving the clk
+framework to perform lookups based on that name.
 
-Sorry for noticing this late. This patch is incorrect because
-shmem->pages must be NULLed on error, otherwise
-virtio_gpu_cleanup_object() will crash :/
+This series starts out by adding extra constructors for divider, mux and
+fixed-factor clocks that have parent_hw(s) pointer argument(s) instead
+of some DT index or name.  Followed by individual patches performing the
+conversion, one DSI PHY at a time.
 
-I also had a patch that fixes this problem [1] and it did it properly. I
-see that this patch is in -next already, so will update my patch to fix
-the fix now.
+dsi_phy_28nm_8960 includes an extra fixup to replace "eternal"
+devm_kzalloc allocations (for the lifetime of the device) with
+stack-local char arrays, like all the other DSI PHY drivers.
 
-[1]
-https://vanko.io/project/dri-devel/patch/20220526235040.678984-6-dmitry.osipenko@collabora.com/
+(Questions from v1 cover letter regarding the future of these drivers
+ is omitted for brevity.)
+
+And with enough future improvements out of the way, let's round out this
+patch-series by stating that it has been successfully tested on:
+
+- Sony Nile Discovery (Xperia XA2 Ultra): 14nm;
+- Sony Seine PDX201 (Xperia 10II): 14nm;
+- Sony Loire Suzu (Xperia X): 28nm.
+
+And no diff is observed in debugfs's clk_summary.
+
+Unfortunately all other devices in my collection with a 7/10nm DSI PHY
+have a DSC panel which we have yet to get working.
+
+Changes since v2:
+- in fixed-factor:
+  - Reorder if - else if change to consume less diff;
+  - Go over 80-char column lint when adding new arguments to function
+    calls, instead of reflowing all arguments to adhere to this limit;
+    also consuming less diff.
+
+v2: https://lore.kernel.org/linux-arm-msm/20220601220747.1145095-1-marijn.suijten@somainline.org/
+
+Changes since v1:
+
+- Moved indentation changes to separate patch (Dmitry);
+- dsi_phy_28nm_8960: move clock name allocation removal prior to
+  parent_hw refactor;
+- Remove vco_name stack-local char array in favour of reusing clk_name
+  (Dmitry);
+- Inserted additional patch to replace hardcoded char-array length
+  constant 32 with sizeof(clk_name).
+
+v1: https://lore.kernel.org/linux-arm-msm/20220523213837.1016542-1-marijn.suijten@somainline.org/T/#u
+
+Marijn Suijten (11):
+  clk: divider: Introduce devm_clk_hw_register_divider_parent_hw()
+  clk: mux: Introduce devm_clk_hw_register_mux_parent_hws()
+  clk: fixed-factor: Introduce *clk_hw_register_fixed_factor_parent_hw()
+  drm/msm/dsi/phy: Reindent and reflow multiline function calls
+  drm/msm/dsi_phy_28nm_8960: Use stack memory for temporary clock names
+  drm/msm/dsi/phy: Replace hardcoded char-array length with sizeof()
+  drm/msm/dsi_phy_28nm_8960: Replace parent names with clk_hw pointers
+  drm/msm/dsi_phy_28nm: Replace parent names with clk_hw pointers
+  drm/msm/dsi_phy_14nm: Replace parent names with clk_hw pointers
+  drm/msm/dsi_phy_10nm: Replace parent names with clk_hw pointers
+  drm/msm/dsi_phy_7nm: Replace parent names with clk_hw pointers
+
+ drivers/clk/clk-fixed-factor.c                |  45 ++++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c    | 165 +++++++++---------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c    |  55 +++---
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c    | 117 ++++++-------
+ .../gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c   |  90 +++++-----
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c     | 156 ++++++++---------
+ include/linux/clk-provider.h                  |  34 ++++
+ 7 files changed, 351 insertions(+), 311 deletions(-)
 
 -- 
-Best regards,
-Dmitry
+2.37.0
+
