@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD0D55609F0
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 21:06:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A987D560A00
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 21:09:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5F5B10EB41;
-	Wed, 29 Jun 2022 19:06:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02C7B10E164;
+	Wed, 29 Jun 2022 19:09:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51DA510EB41
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 19:06:11 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id n12so16029321pfq.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4iLjVUVD01Ec5lhezzfL4b6+r3st8AOk4JH6YYFpua4=;
- b=LjxdwGocB300LRlrR3clI8v8Q6E/VOBSmVpRm49ABnVrx64ZPtRJw6AYgvjQrC+zFP
- fnXrQCrsYOVOEJ/GV5LF/hPis5i67QMn6Qq6P7Qkc8gaMByE2H0BaG8PUJq2fAsw5Cqh
- io1ISaJDdagUxdEYmHYGp26m3cHHacY3Aa2M4=
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D14EE10E164;
+ Wed, 29 Jun 2022 19:09:17 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id c13so23505541eds.10;
+ Wed, 29 Jun 2022 12:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OrNvgOY5RAk72nhKHu4tyOFGjEav6bi7u0FirHs24tE=;
+ b=DvOFtZaNKDm/WCuIFcpQJZv28h688eY2HFandqL4paFlKxliJC/6kniZE2t/Yi/Qz9
+ Ij3D9uYIeaCXSM9RpxYH4r6fbiuT7vVtb7st/BUsqnSkEaKcX4xpIjXhMTchEoyufBPg
+ YYvFs9J9gME5pcIhcISYzNLX7Q+g8R+0FEXAL6qQX1bWW+Zc2x+LzYnRybuZKip1X8EZ
+ hU1xjPWgPEhMPGqvJRCfACH1igNu29j9LOG+1pwLxTmLYKl8rK3Am9DIPNBIdcTnAcCg
+ Ko7nfovKa3Sul2CudLFgviFL5rAPCpmsa5QKvisKC9VbUZ0/AQgWMtIUOXOJGlS2OumF
+ 68GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4iLjVUVD01Ec5lhezzfL4b6+r3st8AOk4JH6YYFpua4=;
- b=k32ucrYvOXz/90qkaecd/YclUgHRaFQzossqHC49AIHapP/PDi0xZc/WHnfvTeuKOA
- aE0517H31eaub99pEzOAPaKiwWbtFLaS6lxk1Q4K+bTto+PcFzkpruvmld6w3GD+2f4n
- 3K35cWY+zzrBhBD58qyZhhL82ICM4BodNx1TlkNRTx9hz38QR4SsvZKH3dE5gC0++2K9
- egr0Ty0dNd1a6bwaxBRfS8NmLD3tW9h+dIzH+xg99TdhgWDVMBYDsD2FkFl7P5ynOYGZ
- OgCe5UIRrImOIUZWlbKYuw+qUeNb959s7zdjVcSypIPfoMoW0JbYaNzfxNDVRQqlAEuL
- pE8g==
-X-Gm-Message-State: AJIora+xKgtItsUItS7E/O4dVyfjh+D2MywCjGUUIvfTA8JAMPJPN0/6
- ui1jTemRKG9MRq9dlf5czxXLeA==
-X-Google-Smtp-Source: AGRyM1tdAZEaXsMXy4WDHw5pEvorBzaveQ/9uCKpadAq4lprCZEMl9Q/ZZY7m+ks6j6sgcZ+ER9EZw==
-X-Received: by 2002:a62:82cb:0:b0:525:79d9:ddc4 with SMTP id
- w194-20020a6282cb000000b0052579d9ddc4mr10478560pfd.48.1656529570846; 
- Wed, 29 Jun 2022 12:06:10 -0700 (PDT)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:9841:721:7d8b:4502])
- by smtp.gmail.com with ESMTPSA id
- y11-20020a63de4b000000b0040c644e82efsm11572917pgi.43.2022.06.29.12.06.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jun 2022 12:06:10 -0700 (PDT)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH] drm/mediatek: ensure bridge disable happends before suspend
-Date: Thu, 30 Jun 2022 03:05:46 +0800
-Message-Id: <20220629190545.478113-1-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OrNvgOY5RAk72nhKHu4tyOFGjEav6bi7u0FirHs24tE=;
+ b=lCFtjW3mt1bkJBEdqVM2hpuJoY73BTIRwlOYqXtD2mxdr49FCM2kdwXwUD/jH3isoF
+ tz9YT+xKJB5QyFPebywHzHsBeqcKPJQWH/LjKzohFwGU9bW5y+sPbWNZ+MzNST/XgM7r
+ OWyIT4oUBcxXt3m0mGf8fMmOZuF0CmngIpvVqEDWG8E1tMyaYvVj6WvgGtFjyshFMPAN
+ OYgcQOEdnFcGf+uwzlHq/XAnFm6DX5yAGKBrXli3XwFtvPuVk//jUY1FStU4sbi5Jr65
+ fUdrFebF/Xwi/Zr2kp4VuGPcQVwtefzIpsVK2EF36HOh4MJr/rigQKxCTKK/Hqf7c7Tn
+ rpwQ==
+X-Gm-Message-State: AJIora+ha+fwzUrOwe2HvqXDGvHqAxjxU20TXi7sYHmc+VrQAee234oI
+ JcJyh2CTWvgm2yqNn1DLM1+vK40rdGNsOn44uEY=
+X-Google-Smtp-Source: AGRyM1vljw0OPVPx4ePeNz3ebYUJM/CaHXL4aCrVgrLX7hD32ZeMCrkQJZQGH1yvRCYitDnbf/mb8XUvdiNzz3agC+s=
+X-Received: by 2002:a05:6402:158e:b0:435:7d0f:ac85 with SMTP id
+ c14-20020a056402158e00b004357d0fac85mr6191148edv.93.1656529756386; Wed, 29
+ Jun 2022 12:09:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220629172316.2f28afeb@canb.auug.org.au>
+ <e10b5fa0-095d-d5d7-9fe7-5e1620d9cd27@infradead.org>
+In-Reply-To: <e10b5fa0-095d-d5d7-9fe7-5e1620d9cd27@infradead.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 29 Jun 2022 15:09:03 -0400
+Message-ID: <CADnq5_OR270zrjsYFM=6o5dAxusBfdav92b+qgWMaWJf50fqpg@mail.gmail.com>
+Subject: Re: linux-next: Tree for Jun 29 (gpu/drm/amd/display/dc/)
+To: Randy Dunlap <rdunlap@infradead.org>, "Siqueira,
+ Rodrigo" <Rodrigo.Siqueira@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,69 +64,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make sure bridge_disable will be called before suspend by calling
-drm_mode_config_helper_suspend() in .prepare callback.
+On Wed, Jun 29, 2022 at 3:05 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+>
+>
+> On 6/29/22 00:23, Stephen Rothwell wrote:
+> > Hi all,
+> >
+> > Changes since 20220628:
+> >
+>
+> on i386:
+>
+> ld: drivers/gpu/drm/amd/display/dc/clk_mgr/dcn32/dcn32_clk_mgr.o: in function `dcn32_init_clocks':
+> dcn32_clk_mgr.c:(.text+0x70d): undefined reference to `__nedf2'
+> ld: dcn32_clk_mgr.c:(.text+0x9bf): undefined reference to `__floatunsidf'
+> ld: dcn32_clk_mgr.c:(.text+0xa03): undefined reference to `__muldf3'
+> ld: dcn32_clk_mgr.c:(.text+0xa37): undefined reference to `__muldf3'
+> ld: drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.o: in function `dcn32_calculate_cab_allocation':
+> dcn32_hwseq.c:(.text+0xda): undefined reference to `__umoddi3'
+> ld: dcn32_hwseq.c:(.text+0x112): undefined reference to `__umoddi3'
+> ld: dcn32_hwseq.c:(.text+0x16d): undefined reference to `__umoddi3'
+>
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
-The issue is found if suspend is called via VT2 in several MTK SoC (eg.
-MT8173, MT8183, MT8186) chromebook boards with eDP bridge:
-bridge disable is called through mtk-drm's suspend, and it needs to be
-called before bridge pm runtime suspend.
-So we move the hook to .prepare() and .complete().
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Siqueira is working on this.  Patch should be available soon.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 13a1bbe7ead7f..a42812e490007 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -828,8 +828,7 @@ static int mtk_drm_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--#ifdef CONFIG_PM_SLEEP
--static int mtk_drm_sys_suspend(struct device *dev)
-+static int mtk_drm_sys_prepare(struct device *dev)
- {
- 	struct mtk_drm_private *private = dev_get_drvdata(dev);
- 	struct drm_device *drm = private->drm;
-@@ -840,20 +839,21 @@ static int mtk_drm_sys_suspend(struct device *dev)
- 	return ret;
- }
- 
--static int mtk_drm_sys_resume(struct device *dev)
-+static void mtk_drm_sys_complete(struct device *dev)
- {
- 	struct mtk_drm_private *private = dev_get_drvdata(dev);
- 	struct drm_device *drm = private->drm;
- 	int ret;
- 
- 	ret = drm_mode_config_helper_resume(drm);
--
--	return ret;
-+	if (ret)
-+		dev_err(dev, "Failed to resume\n");
- }
--#endif
- 
--static SIMPLE_DEV_PM_OPS(mtk_drm_pm_ops, mtk_drm_sys_suspend,
--			 mtk_drm_sys_resume);
-+static const struct dev_pm_ops mtk_drm_pm_ops = {
-+	.prepare = mtk_drm_sys_prepare,
-+	.complete = mtk_drm_sys_complete,
-+};
- 
- static struct platform_driver mtk_drm_platform_driver = {
- 	.probe	= mtk_drm_probe,
--- 
-2.37.0.rc0.161.g10f37bed90-goog
+Alex
 
+
+>
+> Full randconfig file is attached.
+>
+>
+> --
+> ~Randy
