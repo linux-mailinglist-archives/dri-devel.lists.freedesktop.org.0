@@ -2,76 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBCA56003F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:39:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B0C560049
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:42:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EC6610F8D6;
-	Wed, 29 Jun 2022 12:39:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A763D11B21D;
+	Wed, 29 Jun 2022 12:42:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB37F14A68B
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:38:45 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id BD4F8320095D;
- Wed, 29 Jun 2022 08:38:44 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 29 Jun 2022 08:38:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1656506324; x=1656592724; bh=Re
- awkRMJ8LKdk/DjyJv/gQ5A2bJhpQaE3jvLxUM3anw=; b=BqRL75bwIfx2Nd5LHr
- mhhe6dSZFm/y3n9YGyOkAODZUTpm/sH8W2mrdUs3LIxzxJzgTiNLDn2vlrJ5MWp/
- SvJKMyrivPjm0MDfPeKfeTJ4Tz1VR0oj+e4hTos4+5uBHUxCmYx7N3SqRXdnH7RT
- vq06LtX7CrR6cLptd9FESV0M3um/Fe/LxxvHc3reYQ0WFTk3srmPcC/caJTfnp9Q
- a5hJkQ9WslIZ4JYzZlmP3zBaXcRA9aNHJuPJrGSPDXBRxCi4tsk7t+cwxo/P8sms
- /ut7LCMegbU5Z5sPFb8LBSkCJ/+02uCw+aGoaNTPh0qqBw9uUZ+RkJKd7A/Csn20
- EECg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1656506324; x=1656592724; bh=ReawkRMJ8LKdk
- /DjyJv/gQ5A2bJhpQaE3jvLxUM3anw=; b=EykwF1ZEqxAAxhLm0QAjNxEBDgCD6
- EEF2MrJJ/L97qTT8hcNXEhrHZ4c79r4ZXy9W2es5PE7789aLiANcpYhqnocAE83r
- aGko+OThwhBjz8usaWXJBS3k9cZdjWGLANMoC8dt9i0/et2VfASZyxoeXGPzLPrC
- /DYtaBjGA/SiG4HpIUJ73U1XWrBjsjvLDITQES/GkXmoFWhGBuQJ/oJD2TLMEgmt
- T0SWrwLGwB9AMyRKVR4nt5dcHEHmqQerHSiPPBVGagkSIZ29YEOXQbxeRBJL0yAt
- o9tpExGdbIJlwrzFwlaWaiUB2mQAVH+aZ/gKzRt3p1bvSYcwtWMbfW3IA==
-X-ME-Sender: <xms:1Ee8Yo35oYVpCiJcla9AG9dYCP1CWqlZ3hsFGRS58b6Yd0BEUf3edw>
- <xme:1Ee8YjELHgheiGhhNsEBeJS2FgKp0YFyrs5oDPNCRhD72v8K5dM_K4HMGxwPCU4Gs
- _SHDUEgw0qgU7giMPw>
-X-ME-Received: <xmr:1Ee8Yg4iZTnMNSKBL34jsPdkT8drKxLYOzqTou1TuU6FYZOXRn-wEv8sj4fE8G_cJYZ8KV5LmlJAaLv-jwZsr53ybdaWBu3HancT6iM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgheefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeejnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:1Ee8Yh2AcxrxaUAd3spkvTiAwt8jvhdg60OBQjnIaB9Lm-qsKmYdDw>
- <xmx:1Ee8YrFeR4Wy4weggkE5h-ViXWgC6aQuafcoYilLuYoz41jWi0qvrw>
- <xmx:1Ee8Yq_ziCiZD-uPxsofQamcvsf81991zFxduNlvPNlCWLJSDZa4gQ>
- <xmx:1Ee8YvhTGYMGDHpzEnl7i-0PDvYViPr28pkYSOs9JexVkr8LPUevIg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Jun 2022 08:38:43 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v3 71/71] drm/vc4: v3d: Switch to devm_pm_runtime_enable
-Date: Wed, 29 Jun 2022 14:35:10 +0200
-Message-Id: <20220629123510.1915022-72-maxime@cerno.tech>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220629123510.1915022-1-maxime@cerno.tech>
-References: <20220629123510.1915022-1-maxime@cerno.tech>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4501A11B1A6;
+ Wed, 29 Jun 2022 12:42:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656506544; x=1688042544;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=ljfmA8wgpbJfUvWbzXtFmRgE1xjNdp5/5KZAo7SLthQ=;
+ b=ikPoapVFmJCjhvxjC5vrqIgBrMPBhFoCKnpIF8hYd4515KiAkEj+AmCq
+ 2RcfPjZfXSP1/bTbJb3mKoyBo4ubiq6vVBJONZwl9GOeWeM/rsAYnuuOa
+ joaXVUPRuG4xszUrTIt1dux7CxeX2IRKWaGQHHQOPIEanB/NlfTIV8ybl
+ aYQmQ2taop4HB5vWsgXWkAy/aoYIzu48Qr+JvjLTIJqbBkjlTavkjDVWX
+ O1Xva82YHq6twCaNLxlJ8Gw3Lps1MhPMUtOKXyd6BHrTBeUnqkn9RQ3KF
+ VPJqJ4vHt3d7rzkkpnWRx8MdUZ4v2fgMz47+w5krsNNpBrsz/2iniCDcX g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="307514338"
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="307514338"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jun 2022 05:42:19 -0700
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="917588337"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.203.144.108])
+ by fmsmga005-auth.fm.intel.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 05:42:16 -0700
+Date: Wed, 29 Jun 2022 18:13:55 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [PATCH v3 12/13] drm/i915/ttm: disallow CPU fallback mode for
+ ccs pages
+Message-ID: <20220629124354.GA27934@intel.com>
+References: <20220629121427.353800-1-matthew.auld@intel.com>
+ <20220629121427.353800-13-matthew.auld@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220629121427.353800-13-matthew.auld@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,57 +59,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Kenneth Graunke <kenneth@whitecape.org>,
+ Jon Bloomfield <jon.bloomfield@intel.com>, dri-devel@lists.freedesktop.org,
+ Jordan Justen <jordan.l.justen@intel.com>,
+ Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_pm_runtime_enable() simplifies the driver a bit since it will call
-pm_runtime_disable() automatically through a device-managed action.
+On 2022-06-29 at 13:14:26 +0100, Matthew Auld wrote:
+> Falling back to memcpy/memset shouldn't be allowed if we know we have
+> CCS state to manage using the blitter. Otherwise we are potentially
+> leaving the aux CCS state in an unknown state, which smells like an info
+> leak.
+> 
+> Fixes: 48760ffe923a ("drm/i915/gt: Clear compress metadata for Flat-ccs objects")
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_v3d.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+Looks good to me.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
-index d82c86865079..40f04157ea39 100644
---- a/drivers/gpu/drm/vc4/vc4_v3d.c
-+++ b/drivers/gpu/drm/vc4/vc4_v3d.c
-@@ -468,11 +468,13 @@ static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
- 		return ret;
- 	vc4->irq = ret;
- 
--	pm_runtime_enable(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return ret;
- 
- 	ret = pm_runtime_resume_and_get(dev);
- 	if (ret)
--		goto err_disable_runtime_pm;
-+		return ret;
- 
- 	if (V3D_READ(V3D_IDENT0) != V3D_EXPECTED_IDENT0) {
- 		DRM_ERROR("V3D_IDENT0 read 0x%08x instead of 0x%08x\n",
-@@ -501,9 +503,6 @@ static int vc4_v3d_bind(struct device *dev, struct device *master, void *data)
- err_put_runtime_pm:
- 	pm_runtime_put(dev);
- 
--err_disable_runtime_pm:
--	pm_runtime_disable(dev);
--
- 	return ret;
- }
- 
-@@ -513,8 +512,6 @@ static void vc4_v3d_unbind(struct device *dev, struct device *master,
- 	struct drm_device *drm = dev_get_drvdata(master);
- 	struct vc4_dev *vc4 = to_vc4_dev(drm);
- 
--	pm_runtime_disable(dev);
--
- 	vc4_irq_uninstall(drm);
- 
- 	/* Disable the binner's overflow memory address, so the next
--- 
-2.36.1
+Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
 
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Kenneth Graunke <kenneth@whitecape.org>
+> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_object.c   | 26 ++++++++++++++++++++
+>  drivers/gpu/drm/i915/gem/i915_gem_object.h   |  2 ++
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c      | 18 --------------
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c |  3 +++
+>  4 files changed, 31 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+> index 642a5d59ce26..ccec4055fde3 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+> @@ -717,6 +717,32 @@ bool i915_gem_object_placement_possible(struct drm_i915_gem_object *obj,
+>  	return false;
+>  }
+>  
+> +/**
+> + * i915_gem_object_needs_ccs_pages - Check whether the object requires extra
+> + * pages when placed in system-memory, in order to save and later restore the
+> + * flat-CCS aux state when the object is moved between local-memory and
+> + * system-memory
+> + * @obj: Pointer to the object
+> + *
+> + * Return: True if the object needs extra ccs pages. False otherwise.
+> + */
+> +bool i915_gem_object_needs_ccs_pages(struct drm_i915_gem_object *obj)
+> +{
+> +	bool lmem_placement = false;
+> +	int i;
+> +
+> +	for (i = 0; i < obj->mm.n_placements; i++) {
+> +		/* Compression is not allowed for the objects with smem placement */
+> +		if (obj->mm.placements[i]->type == INTEL_MEMORY_SYSTEM)
+> +			return false;
+> +		if (!lmem_placement &&
+> +		    obj->mm.placements[i]->type == INTEL_MEMORY_LOCAL)
+> +			lmem_placement = true;
+> +	}
+> +
+> +	return lmem_placement;
+> +}
+> +
+>  void i915_gem_init__objects(struct drm_i915_private *i915)
+>  {
+>  	INIT_DELAYED_WORK(&i915->mm.free_work, __i915_gem_free_work);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> index 0bf3ee27a2a8..6f0a3ce35567 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> @@ -618,6 +618,8 @@ int i915_gem_object_wait_migration(struct drm_i915_gem_object *obj,
+>  bool i915_gem_object_placement_possible(struct drm_i915_gem_object *obj,
+>  					enum intel_memory_type type);
+>  
+> +bool i915_gem_object_needs_ccs_pages(struct drm_i915_gem_object *obj);
+> +
+>  int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
+>  			 size_t size, struct intel_memory_region *mr,
+>  			 struct address_space *mapping,
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index 098409a33e10..7e1f8b83077f 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -266,24 +266,6 @@ static const struct i915_refct_sgt_ops tt_rsgt_ops = {
+>  	.release = i915_ttm_tt_release
+>  };
+>  
+> -static inline bool
+> -i915_gem_object_needs_ccs_pages(struct drm_i915_gem_object *obj)
+> -{
+> -	bool lmem_placement = false;
+> -	int i;
+> -
+> -	for (i = 0; i < obj->mm.n_placements; i++) {
+> -		/* Compression is not allowed for the objects with smem placement */
+> -		if (obj->mm.placements[i]->type == INTEL_MEMORY_SYSTEM)
+> -			return false;
+> -		if (!lmem_placement &&
+> -		    obj->mm.placements[i]->type == INTEL_MEMORY_LOCAL)
+> -			lmem_placement = true;
+> -	}
+> -
+> -	return lmem_placement;
+> -}
+> -
+>  static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+>  					 uint32_t page_flags)
+>  {
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> index 364e7fe8efb1..d22e38aad6b9 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> @@ -429,6 +429,9 @@ i915_ttm_memcpy_work_arm(struct i915_ttm_memcpy_work *work,
+>  static bool i915_ttm_memcpy_allowed(struct ttm_buffer_object *bo,
+>  				    struct ttm_resource *dst_mem)
+>  {
+> +	if (i915_gem_object_needs_ccs_pages(i915_ttm_to_gem(bo)))
+> +		return false;
+> +
+>  	if (!(i915_ttm_resource_mappable(bo->resource) &&
+>  	      i915_ttm_resource_mappable(dst_mem)))
+>  		return false;
+> -- 
+> 2.36.1
+> 
