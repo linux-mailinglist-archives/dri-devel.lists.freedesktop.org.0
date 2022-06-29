@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C05560029
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:38:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD46560025
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 14:38:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34BC414A656;
-	Wed, 29 Jun 2022 12:38:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BFD514A653;
+	Wed, 29 Jun 2022 12:37:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
  [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8A8214A638
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:37:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD3E814A638
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 12:37:47 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id B118A320094C;
- Wed, 29 Jun 2022 08:37:43 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id A46323200952;
+ Wed, 29 Jun 2022 08:37:46 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 29 Jun 2022 08:37:44 -0400
+ by compute1.internal (MEProxy); Wed, 29 Jun 2022 08:37:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1656506263; x=1656592663; bh=6b
- Td2XCxuorYb+HUNd7k5/1AnBwNmKgTpmFXZX3orOg=; b=pro7JxFvydxI2HlnKQ
- Euc1aXRnxj5c1risMV576+ZsjA0Eb9j1N1Jvi9Fxn2o7kp3SvtXHwfPETlPlXprE
- /5d+R1i9lHsUagpkSXPjOUYDEXu+6uhvuppnLe8H/y4gxaKblgdHfFYMkjc6G8mr
- M/aTtJn3En3NpuFbLXIje0WyA1SC4TF+OTEA4Ok7S7p2aQWO8KUUE5Tin3rrnodA
- opJiQEHCXODldUZXlAusVl7HAwkj0xiT8CnQ3tjzQawpVldQr07xff9Zp90IeKdN
- nV+bMJUszDweno3yTRKCV9ihLHwv6Nc9WacI4b3POq673U1mlaMW/DwaTvWRlykR
- nV8g==
+ :subject:subject:to:to; s=fm1; t=1656506266; x=1656592666; bh=ir
+ xUiBzMnRYI3gOoSOE1ycmJn1cn+8O/4mhVAyz2FqE=; b=enNZ2hj+y39TRaO9md
+ XvsUh4u3fAOKfoXxoQWoxwa4sZsZCOq5uRmTByDhNVhl7J2EiKEpQ2wQTEcFEP6H
+ xjNuhqTa0Dfi9bnPfIj8zarlM0JogafS8GaIQXSxVfvqx+YRuU2pv1vqsYV9LtYe
+ dVmWef7b+q/kr8/ZUfPAtKK11QWYOGHMdwXjalkniLGyQRzoUZD1bcAwNmA3lOtP
+ Mr23xqgcY0LfkDJlseA47k+EVSl85cIYe8R13eNfK33zZh3vYzNgAddgqQAeOJc1
+ mJMgEoymPhG+YA3IzsJPVzaPXorg3IFqhp8O1mCaEKOtkYFdwlDFFCnLwKlYbWVk
+ v5FQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1656506263; x=1656592663; bh=6bTd2XCxuorYb
- +HUNd7k5/1AnBwNmKgTpmFXZX3orOg=; b=azVwDFDeaZ/6fRmOdrtJdOmkvsBZ6
- 8me4yiun+unF00Wuxr/wjG2Gjp1fy9D0SzX3Bp1h4bDexEEOl+wWSK/qhSCLuBJD
- 2D0C3xgyzx4zZGYMXrv8X410e1OQmk4hQL+m2/imaVRBMRzI04QHNVfeayLSuGrk
- kkftG0fzWg8gX/9AL05Fjx2iJ9bjkX63DTYDas27O2Mupy9nDXp9pIlfXOMgtRmq
- DxYKRIaJSd8Dpqrij9tN92iKFFopGr2P4Jwan9z5xiEsLPWhGjxptY5v/S0lxDFi
- LAuhzVYtqmJwLntZgJiJMWPZ4zErzMepInygAyKdgMrSkHvUXM9LMDTzQ==
-X-ME-Sender: <xms:l0e8Yp5gfS0CxkNgu21dP4qCkuf-T408UABfW6WTjlfLtdMZxcn6pA>
- <xme:l0e8Ym4zzmBwZP620xUlsK8ZFZwswr6Tkgs5JHWUR1B591Z_fqsCFfnEKQFT7E5ME
- _v_yQaTWl2DJIqGhjM>
-X-ME-Received: <xmr:l0e8YgcSyT5LKilcG34k7e7PC5C5vKe3ZxMZb8zm3KkjE3fVcCkndqWGivhX7paF_3a3IYTDHo6bQCKj9Oy38vYi6V5hLY_08Dfk9cU>
+ :x-sasl-enc; s=fm2; t=1656506266; x=1656592666; bh=irxUiBzMnRYI3
+ gOoSOE1ycmJn1cn+8O/4mhVAyz2FqE=; b=E4apW6QoddxBG0C2YLM2i6g9zulHd
+ RuhiknoZcy5qZIiaoF+rGuO6qUorpBsG+gfTSPsidylif+moxYv/qSITK9sgaiUg
+ e6zcG23JwAOgUCkswTK2L849NXTFgIDYUBNjXm4kASoOEQBKej91Jjbpye/ILJTd
+ q8y1aazOwiIotCVPYAie6htgBs49j5YBODsDO00Fe/Spatx6x65A91cX7SuMUzic
+ zuuL9jOsvVEDRjcFYQks6EkdKz4l29hdWvuV67b1d2qXqsrMYn85roakKuvBtCTg
+ ujVVTs38dkrVjNBraZUWQ8WKYSHlvvCtL63QOd5QyaR2EfE/uLpawComA==
+X-ME-Sender: <xms:mUe8YoD4RM6A-YLkV2F7CaX6--70elkC7KSC9UR-UEhO8GHaUYWjkA>
+ <xme:mUe8Yqjqlijy1BjmX9LVx26ErvIITw492BPHayBIH6DUXr_zZtqxoZOdJG2GEGOkQ
+ pnYyNB-UTatNo-x-Eo>
+X-ME-Received: <xmr:mUe8YrkxVdlWOm9ZD5km8McKsLg-NCUGx16D89FZGnqYEUGXZDdCgRi4qz9AoMMHGR7bbyofBYdnKYkW7T5GASPMsYKn1PtYKNFyZGY>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegledgheefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeelkeefteduhfekjeeihfetudfguedvveekkeetteekhfekhfdtlefgfedu
- vdejhfenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ vdejhfenucevlhhushhtvghrufhiiigvpeeinecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:l0e8YiJjJlf9yVJM9RbLhPSKOPZa8hl_XEqh7kE83YLUKUzbgZoE8Q>
- <xmx:l0e8YtKFBLS7uI33cTaQy9eEGGZoJAvxSR7Au_v2bAVZazZDbRYCxw>
- <xmx:l0e8YrxCprB44RpJBHnUCLB7FXzBRRXNAr3Z00ASMtIenVcOwl4F6g>
- <xmx:l0e8YqGSrLS0zEdJpquwyiiZpTJaik3sNca9Q4Hv-bPe8ua6Cc39_Q>
+X-ME-Proxy: <xmx:mke8YuzNYZ3ieJbaQtsK9j1peKonN8QWpgAyS2A4lnLifnUjRB1tsw>
+ <xmx:mke8YtR5eptcb0Tl2WtlWDrrxefABawO_c9YvVksx7_nqCizsBhbHg>
+ <xmx:mke8Ypbz8OTR_pn7_RK4wkxFc-hp-sWRMtJAO-R_3ivB2cQTyPm-4Q>
+ <xmx:mke8YrNDLwKG2_o0NA9E1VysKFmOvKdj-NjIsQbkSZONHbICck0Izw>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Jun 2022 08:37:42 -0400 (EDT)
+ 29 Jun 2022 08:37:45 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v3 50/71] drm/vc4: hdmi: Switch to devm_pm_runtime_enable
-Date: Wed, 29 Jun 2022 14:34:49 +0200
-Message-Id: <20220629123510.1915022-51-maxime@cerno.tech>
+Subject: [PATCH v3 51/71] drm/vc4: txp: Remove vc4_dev txp pointer
+Date: Wed, 29 Jun 2022 14:34:50 +0200
+Message-Id: <20220629123510.1915022-52-maxime@cerno.tech>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220629123510.1915022-1-maxime@cerno.tech>
 References: <20220629123510.1915022-1-maxime@cerno.tech>
@@ -88,60 +88,61 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_pm_runtime_enable() simplifies the driver a bit since it will call
-pm_runtime_disable() automatically through a device-managed action.
+There's no user for that pointer so let's just get rid of it.
 
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.h | 1 -
+ drivers/gpu/drm/vc4/vc4_txp.c | 6 ------
+ 2 files changed, 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index a826faf8b02d..166d22d62d99 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -3314,7 +3314,9 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 			vc4_hdmi->disable_4kp60 = true;
- 	}
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index db51dd3e20b8..9c5b31fa4b9c 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -84,7 +84,6 @@ struct vc4_dev {
+ 	struct vc4_hvs *hvs;
+ 	struct vc4_v3d *v3d;
+ 	struct vc4_vec *vec;
+-	struct vc4_txp *txp;
  
--	pm_runtime_enable(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return ret;
+ 	struct vc4_hang_state *hang_state;
  
- 	/*
- 	 *  We need to have the device powered up at this point to call
-@@ -3322,7 +3324,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 	 */
- 	ret = pm_runtime_resume_and_get(dev);
- 	if (ret)
--		goto err_disable_runtime_pm;
-+		return ret;
+diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+index 448d48e7e99f..483a03a07ed2 100644
+--- a/drivers/gpu/drm/vc4/vc4_txp.c
++++ b/drivers/gpu/drm/vc4/vc4_txp.c
+@@ -469,7 +469,6 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct drm_device *drm = dev_get_drvdata(master);
+-	struct vc4_dev *vc4 = to_vc4_dev(drm);
+ 	struct vc4_crtc *vc4_crtc;
+ 	struct vc4_txp *txp;
+ 	struct drm_crtc *crtc;
+@@ -523,7 +522,6 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 		return ret;
  
- 	if ((of_device_is_compatible(dev->of_node, "brcm,bcm2711-hdmi0") ||
- 	     of_device_is_compatible(dev->of_node, "brcm,bcm2711-hdmi1")) &&
-@@ -3367,21 +3369,12 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 	dev_set_drvdata(dev, txp);
+-	vc4->txp = txp;
  
- err_put_runtime_pm:
- 	pm_runtime_put_sync(dev);
--err_disable_runtime_pm:
--	pm_runtime_disable(dev);
+ 	vc4_debugfs_add_regset32(drm, "txp_regs", &txp->regset);
  
- 	return ret;
+@@ -533,13 +531,9 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ static void vc4_txp_unbind(struct device *dev, struct device *master,
+ 			   void *data)
+ {
+-	struct drm_device *drm = dev_get_drvdata(master);
+-	struct vc4_dev *vc4 = to_vc4_dev(drm);
+ 	struct vc4_txp *txp = dev_get_drvdata(dev);
+ 
+ 	vc4_txp_connector_destroy(&txp->connector.base);
+-
+-	vc4->txp = NULL;
  }
  
--static void vc4_hdmi_unbind(struct device *dev, struct device *master,
--			    void *data)
--{
--	pm_runtime_disable(dev);
--}
--
- static const struct component_ops vc4_hdmi_ops = {
- 	.bind   = vc4_hdmi_bind,
--	.unbind = vc4_hdmi_unbind,
- };
- 
- static int vc4_hdmi_dev_probe(struct platform_device *pdev)
+ static const struct component_ops vc4_txp_ops = {
 -- 
 2.36.1
 
