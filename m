@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CB8560964
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 20:44:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C59560980
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 20:45:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE25710E674;
-	Wed, 29 Jun 2022 18:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC0B010E7EA;
+	Wed, 29 Jun 2022 18:44:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43E9B10E3E9
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 18:44:43 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id d17so18141591wrc.10
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 11:44:43 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE41810E3E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 18:44:45 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id q9so23797923wrd.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 11:44:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=conchuod.ie; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lSAtLBVYvrx4+26h7+GvQLFIbOLj8yUyLWcfE4t8YDc=;
- b=Gg05/t+/FXPkRenwx1qHvhlOMODtFpKL/no0hINP8JMW14scbGTJqbUefdhtwratgU
- grEGM8eU4lWFIiPESGiueYpts7cjDlJRLBIzM5ZsXVuH9FzkMr9tHsBgVVqjWBN1GlvK
- 8Q8loTffgUn8dEzgkBiOh2xMyV0VFHVAZAtsSavWDwGncJhky3H7ImOtJQlzgOOWAqUY
- iJQrWXeLhD8IqbgRQGGdxV35uefbG0o1zSbrLcVIYjgZlRqMq28pTN5szQsAw/tFRiJo
- YAy9bH1NwbpaHtrgHoUWaU2YAC7ZpC+O10b5BEj7lUVsyLa3x39mZw6dh7g0gC0fT41X
- T7gQ==
+ bh=1sKeykQQRtYj4kj+xEuSgs82fAmu7DyyvRULZ2/Pb6I=;
+ b=BMdHLMoOwn6zAxEtDDa7k0h1f/DZxYTgThu3U2sNuU1A+J2K+WADunh8MBK6GQasvX
+ bZvbX2AUE3WkwwdX1tNkMtXNA8L7f1blGzcC68saXHEBzsdK22yycaVeMLYkxq7AyhLL
+ 0C4t2FTjsmp0VGR7E+AoaIvn0ZeON/zWIol2+bxphxTssK2+9gqxMql6G//GigObaYxf
+ /NoPS2HGfbugk99X8z9aoWaMuWtx6qv4eWquj/tnR5Pol/4lsSCRVCWYtIA+UAXYn6Mr
+ TDsy1g8lVTt47WmMpnvavQWY3UdJ+fGtNafwfqqmqUbeYTMgSgBnM66BgnnczfD5P+y+
+ Hv6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lSAtLBVYvrx4+26h7+GvQLFIbOLj8yUyLWcfE4t8YDc=;
- b=scatTai74PnvaKOiPf+0DyQ2/1vOxREO68gEGOooIwhoGgMcreH/oE/G1xiTynJ0FC
- GROJWMqHEDL/l67dI/vEig78xpJB8dH7oKDT3/uox/4nnm6ALfOZFu+8M4g34Zxrg55M
- w4QA5ZP/FFx2s4RL2zVEkQhLLIBPT0kQxvYVZjzHKXh7fRj7iE8onE2cAUSyHVL4yzDr
- vC6a0PRwZpNC/qFgztSpCNg3sU1uFdRxobQwnBynDUw3qX9Ul1ajK1KIXHEz0fj0FIEu
- g47pMgaP9Q9bPPUU4SWzexElbHFD/m0wYfTNkTNiyaxTQzhBZQlOkOafi41FBX3n40sC
- 4euQ==
-X-Gm-Message-State: AJIora9Tdnzwb0MpQUTB+yCG4HhYbViI1CKK98wNgoO/zR9JR8Zmh/8K
- hWjKYTIiwBCV2J5rKp5WPizbGQ==
-X-Google-Smtp-Source: AGRyM1sKo8OaJK8TbEgNGzQ3er/g31kuw/qeXLGUV3MKWqoytAx3LrG09RNZ7rN7G4m3of4rSEmYUA==
-X-Received: by 2002:a5d:4e47:0:b0:21a:39fd:5bb5 with SMTP id
- r7-20020a5d4e47000000b0021a39fd5bb5mr4583796wrt.712.1656528282726; 
- Wed, 29 Jun 2022 11:44:42 -0700 (PDT)
+ bh=1sKeykQQRtYj4kj+xEuSgs82fAmu7DyyvRULZ2/Pb6I=;
+ b=cbmcWaxRlqPY0Uvyc3KPiYKUPqQdjxoTNnj8jNPEigNDBTBF3m4ymV7hMXuMLw2+/H
+ 9nfVbSBF+1Bblj/tI8ssTlOFMg43S/6DeJ30sRYJGsLFY82pcJwh0Pp+DF9leBo7DSlD
+ FCllv8nnFoIZICCRvpGBwmwTg534Bho4Ks4aZuX2tZcdpV0In6yEv2cDxSsdXWeZ41wf
+ JV6DPbNuQI7aQmSuL6ESnn3P40se93Bf/s1rliSPo9AoHbnNLG0F39ftbRsonz+IkP5q
+ 5ygaN3WfD5OUJ47DcjY+WOdt+x15k4Ss2+Xp884LIh2O9TdmhJKZZEIdIn5bqMFH4gZS
+ Ta9g==
+X-Gm-Message-State: AJIora9lUsW9hDhCR7/9qFTch+1Xp8z5SQnx2/Ncxbja3i+fdR/vkUIr
+ s3ybYu6/Je3cA2Pn4AACqt7ykw==
+X-Google-Smtp-Source: AGRyM1txmcVZd3QPq2DQpn3PG07YMXIn7w8Wmsh9JviOd6mCe5xqRBVB6TunKvps0uLWXYGFL6mRJA==
+X-Received: by 2002:adf:d1c9:0:b0:20f:c3dc:e980 with SMTP id
+ b9-20020adfd1c9000000b0020fc3dce980mr4479112wrd.552.1656528284293; 
+ Wed, 29 Jun 2022 11:44:44 -0700 (PDT)
 Received: from henark71.. ([51.37.234.167]) by smtp.gmail.com with ESMTPSA id
- u23-20020a7bcb17000000b0039aef592ca0sm3834371wmj.35.2022.06.29.11.44.41
+ u23-20020a7bcb17000000b0039aef592ca0sm3834371wmj.35.2022.06.29.11.44.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jun 2022 11:44:42 -0700 (PDT)
+ Wed, 29 Jun 2022 11:44:43 -0700 (PDT)
 From: Conor Dooley <mail@conchuod.ie>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -56,10 +56,10 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Mark Brown <broonie@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
  Daniel Lezcano <daniel.lezcano@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v3 04/15] spi: dt-bindings: dw-apb-ssi: update spi-{r,
- t}x-bus-width
-Date: Wed, 29 Jun 2022 19:43:33 +0100
-Message-Id: <20220629184343.3438856-5-mail@conchuod.ie>
+Subject: [PATCH v3 05/15] dt-bindings: dma: dw-axi-dmac: extend the number of
+ interrupts
+Date: Wed, 29 Jun 2022 19:43:34 +0100
+Message-Id: <20220629184343.3438856-6-mail@conchuod.ie>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220629184343.3438856-1-mail@conchuod.ie>
 References: <20220629184343.3438856-1-mail@conchuod.ie>
@@ -91,40 +91,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-Most users of dw-apb-ssi use spi-{r,t}x-bus-width of 1, however the
-Canaan k210 is wired up for a width of 4.
-Quoting Serge:
-The modern DW APB SSI controllers of v.4.* and newer also support the
-enhanced SPI Modes too (Dual, Quad and Octal). Since the IP-core
-version is auto-detected at run-time there is no way to create a
-DT-schema correctly constraining the Rx/Tx SPI bus widths.
-/endquote
+The Canaan k210 apparently has a Sysnopsys Designware AXI DMA
+controller, but according to the documentation & devicetree it has 6
+interrupts rather than the standard one. Support the 6 interrupt
+configuration by unconditionally extending the binding to a maximum of
+8 per-channel interrupts thereby matching the number of possible
+channels.
 
-As such, drop the restriction on only supporting a bus width of 1.
-
-Link: https://lore.kernel.org/all/20220620205654.g7fyipwytbww5757@mobilestation/
+Link: https://canaan-creative.com/wp-content/uploads/2020/03/kendryte_standalone_programming_guide_20190311144158_en.pdf #Page 51
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml | 6 ------
- 1 file changed, 6 deletions(-)
+ Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-index e25d44c218f2..0a43d6e0ef91 100644
---- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-+++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-@@ -143,12 +143,6 @@ patternProperties:
-         minimum: 0
-         maximum: 3
+diff --git a/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml b/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
+index 4324a94b26b2..e33ef22aec9c 100644
+--- a/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
++++ b/Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
+@@ -34,7 +34,9 @@ properties:
+       - const: axidma_apb_regs
  
--      spi-rx-bus-width:
--        const: 1
--
--      spi-tx-bus-width:
--        const: 1
--
- unevaluatedProperties: false
+   interrupts:
+-    maxItems: 1
++    description: per channel interrupts
++    minItems: 1
++    maxItems: 8
  
- required:
+   clocks:
+     items:
 -- 
 2.36.1
 
