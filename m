@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0175155F5B0
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 07:34:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D9AC55F5B2
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 07:34:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB8AC112B26;
-	Wed, 29 Jun 2022 05:34:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90AC8113096;
+	Wed, 29 Jun 2022 05:34:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C5DB11271C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 05:34:19 +0000 (UTC)
-X-UUID: 37ddd689f04e49b9bcd731470b3f0d60-20220629
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.7, REQID:850cf4fb-fd0c-485d-b8b6-9c90c83c4667, OB:10,
- L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:45
-X-CID-INFO: VERSION:1.1.7, REQID:850cf4fb-fd0c-485d-b8b6-9c90c83c4667, OB:10,
- LOB
- :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:45
-X-CID-META: VersionHash:87442a2, CLOUDID:27d60e86-57f0-47ca-ba27-fe8c57fbf305,
- C
- OID:3081cad28a70,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,QS:nil,BEC:nil,COL:0
-X-UUID: 37ddd689f04e49b9bcd731470b3f0d60-20220629
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1882402547; Wed, 29 Jun 2022 13:34:12 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Wed, 29 Jun 2022 13:34:10 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 29 Jun 2022 13:34:10 +0800
-Message-ID: <78d71a052d214e0c11cab5c2f4dee39c4f67c0bc.camel@mediatek.com>
-Subject: Re: [PATCH v12 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
- driver
-From: CK Hu <ck.hu@mediatek.com>
-To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
- <airlied@linux.ie>
-Date: Wed, 29 Jun 2022 13:34:10 +0800
-In-Reply-To: <20220627080341.5087-6-rex-bc.chen@mediatek.com>
-References: <20220627080341.5087-1-rex-bc.chen@mediatek.com>
- <20220627080341.5087-6-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
+ [213.80.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42A2F112F70;
+ Wed, 29 Jun 2022 05:34:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 38BEB40D31;
+ Wed, 29 Jun 2022 07:34:33 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.11
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.11 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01, URIBL_BLOCKED=0.001]
+ autolearn=ham autolearn_force=no
+Authentication-Results: ste-pvt-msa1.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dHvBiPj_ZNU2; Wed, 29 Jun 2022 07:34:32 +0200 (CEST)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 5970C40D2E;
+ Wed, 29 Jun 2022 07:34:29 +0200 (CEST)
+Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id E5B4B360156;
+ Wed, 29 Jun 2022 07:34:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1656480869; bh=Q4NBmXKQNd4S9R0Q0tluaMDDBb+gkO5M4n/nZzST2s8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cD0Al4nZPkkWhtkupV6UMY9WzNjwA4yOn4lSWUJV5mx3+9fY+LQ+34BxCdZyjAxZD
+ 8cBZugucs8JUVP2M1t+Qi6I3gaIZTfu6u0retUCaeaek0f0L9TzSSQ8LHH8r4BxhQL
+ gReaCzntbjj25n5ZtYikQDB0OQPymOnTyZQyk6lk=
+Message-ID: <0971d84e-e8a9-6fda-5620-3eb3f90f3ecb@shipmail.org>
+Date: Wed, 29 Jun 2022 07:34:28 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [Linaro-mm-sig] [PATCH] drm/i915: Remove __dma_fence_is_chain()
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20220628233512.439555-1-robdclark@gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <20220628233512.439555-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,87 +67,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- granquet@baylibre.com, jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, msp@baylibre.com,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, wenst@chromium.org,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Bo-Chen:
 
-On Mon, 2022-06-27 at 16:03 +0800, Bo-Chen Chen wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
-> 
-> This patch adds a embedded displayport driver for the MediaTek mt8195
-> SoC.
-> 
-> It supports the MT8195, the embedded DisplayPort units. It offers
-> DisplayPort 1.4 with up to 4 lanes.
-> 
-> The driver creates a child device for the phy. The child device will
-> never exist without the parent being active. As they are sharing a
-> register range, the parent passes a regmap pointer to the child so
-> that
-> both can work with the same register range. The phy driver sets
-> device
-> data that is read by the parent to get the phy device that can be
-> used
-> to control the phy properties.
-> 
-> This driver is based on an initial version by
-> Jitao shi <jitao.shi@mediatek.com>
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> [Bo-Chen: Cleanup the drivers and modify comments from reviewers]
-> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+On 6/29/22 01:35, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+>
+> drive-by cleanup
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+
 > ---
-
-[snip]
-
-> +
-> +static void mtk_dp_power_enable(struct mtk_dp *mtk_dp)
-> +{
-> +	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_RESET_AND_PROBE,
-> +			   0, SW_RST_B_PHYD);
-> +
-> +	/* Wait for power enable */
-> +	usleep_range(10, 200);
-> +
-> +	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_RESET_AND_PROBE,
-> +			   SW_RST_B_PHYD, SW_RST_B_PHYD);
-> +	mtk_dp_update_bits(mtk_dp, MTK_DP_TOP_PWR_STATE,
-> +			   DP_PWR_STATE_BANDGAP_TPLL,
-> DP_PWR_STATE_MASK);
-> +}
-> +
-> +static void mtk_dp_power_disable(struct mtk_dp *mtk_dp)
-> +{
-> +	mtk_dp_write(mtk_dp, MTK_DP_TOP_PWR_STATE, 0);
-> +
-> +	mtk_dp_write(mtk_dp, MTK_DP_0034,
-> +		     DA_CKM_CKTX0_EN_FORCE_EN |
-> +		     DA_CKM_BIAS_LPF_EN_FORCE_VAL |
-> +		     DA_CKM_BIAS_EN_FORCE_VAL |
-> +		     DA_XTP_GLB_LDO_EN_FORCE_VAL |
-> +		     DA_XTP_GLB_AVD10_ON_FORCE_VAL);
-> +
-> +	/* Disable RX */
-> +	mtk_dp_write(mtk_dp, MTK_DP_1040, 0);
-
-MTK_DP_1040 is set to 0 in mtk_dp_power_disable(), but it is not set to
-other value in mtk_dp_power_enable(). Does any thing would be wrong
-when mtk_dp_power_disable() and mtk_dp_power_enable()?
-
-Regards,
-CK
-
-> +	mtk_dp_write(mtk_dp, MTK_DP_TOP_MEM_PD,
-> +		     0x550 | BIT(FUSE_SEL_SHIFT) |
-> BIT(MEM_ISO_EN_SHIFT));
-> +}
-> +
-
+>   drivers/gpu/drm/i915/gem/i915_gem_wait.c | 7 +------
+>   1 file changed, 1 insertion(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> index 319936f91ac5..667841780514 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> @@ -73,11 +73,6 @@ static void fence_set_priority(struct dma_fence *fence,
+>   	rcu_read_unlock();
+>   }
+>   
+> -static inline bool __dma_fence_is_chain(const struct dma_fence *fence)
+> -{
+> -	return fence->ops == &dma_fence_chain_ops;
+> -}
+> -
+>   void i915_gem_fence_wait_priority(struct dma_fence *fence,
+>   				  const struct i915_sched_attr *attr)
+>   {
+> @@ -93,7 +88,7 @@ void i915_gem_fence_wait_priority(struct dma_fence *fence,
+>   
+>   		for (i = 0; i < array->num_fences; i++)
+>   			fence_set_priority(array->fences[i], attr);
+> -	} else if (__dma_fence_is_chain(fence)) {
+> +	} else if (dma_fence_is_chain(fence)) {
+>   		struct dma_fence *iter;
+>   
+>   		/* The chain is ordered; if we boost the last, we boost all */
