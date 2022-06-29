@@ -1,54 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3234655FD82
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 12:41:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1229855FDAA
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 12:45:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B0D12BB66;
-	Wed, 29 Jun 2022 10:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D95512BC05;
+	Wed, 29 Jun 2022 10:45:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF7CB12BB6A
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 10:41:00 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73CEC12BBFE;
+ Wed, 29 Jun 2022 10:45:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656499260; x=1688035260;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=R8VB6/tjMDgTxKnue93AU4hdI5XOBKB8dDAwO/qOwjg=;
- b=Q47r8A0k6O+KbSQxE7QKOybQNqzINlm9NltLApLBNz2uvxsd8zoILlGe
- gfsIwo8OnZTBUdDxKjxjPqaF9qD/ZKYdhi845E/jtsVdEvwwjTWGssk4P
- sDWRfb0EaSX76A6tSDL21cxxqRnCDTdEu3LLYFPLBahr3fNMluVjCN5dD
- eShlELhvU2sryXZZlUU0xCqfQEtRxrTBkvGehylXK1d3Kmlzg5py69hS1
- TKsh7Km4dtdIKQcKLbr2opYAhE8N2ieITE7LxoaDkZZEfonejDV9fr6QZ
- kzfYoqKJlUzu93to8gARc7QqKrnc2Ebjy84SZ9JGT994FIB2Z0enrx1uX g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="280760250"
-X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="280760250"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2022 03:40:54 -0700
-X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="617536648"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2022 03:40:46 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1o6V7i-000xcv-MD; Wed, 29 Jun 2022 13:40:42 +0300
-Date: Wed, 29 Jun 2022 13:40:42 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-Message-ID: <YrwsKnRZqksuTCVe@smile.fi.intel.com>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
+ t=1656499505; x=1688035505;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=vH3+l2+F7SRb1mTzzPdVGF+ue6c4bBjE1LbI/oijHgo=;
+ b=myO7OhavJBM/k993mrfaBU+n4c7laoGa0vwLyfp3NKpPh0O6SztJR1Au
+ UsKg/bxrXVQFca1SQBcGqvaxkKM8R0jwerk4O8sDmCslOoacTig/ewP/P
+ FLoPPtKtYRHnsoW8gyc9BuKrV0p+PpVjK+LEJIsEwqullFk59Im10lREl
+ wJIrW5QTxKn9yPH77tUOESX2wgSvSMJSXsjOySiFvMTNMaQf6vNExxs2e
+ LK/YEO1aepRo1VXFnkQ+bZ1u9HmdyMNaHZbISCoN5qeMQlWS26dSE+Axy
+ XvZmBnZSP2ClqG9JKgd+axqVPLVfTJ8/Y4YDiWopYBVGELsrMKU0uXJ7c g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="345990370"
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="345990370"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jun 2022 03:45:04 -0700
+X-IronPort-AV: E=Sophos;i="5.92,231,1650956400"; d="scan'208";a="917559434"
+Received: from dmurr12x-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.213.211.77])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jun 2022 03:45:01 -0700
+Date: Wed, 29 Jun 2022 11:45:00 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-gt-next
+Message-ID: <YrwtLM081SQUG1Dc@tursulin-desk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,671 +55,611 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-pwm@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-leds@vger.kernel.org,
- linux-rtc@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-staging@lists.linux.dev, kasan-dev@googlegroups.com,
- linux-clk@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
- linux-pm@vger.kernel.org, acpi4asus-user@lists.sourceforge.net,
- linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, openipmi-developer@lists.sourceforge.net,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-hwmon@vger.kernel.org, patches@opensource.cirrus.com,
- linux-usb@vger.kernel.org, linux-crypto@vger.kernel.org,
- netdev@vger.kernel.org, linux-integrity@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 28, 2022 at 04:03:12PM +0200, Uwe Kleine-König wrote:
-> From: Uwe Kleine-König <uwe@kleine-koenig.org>
-> 
-> The value returned by an i2c driver's remove function is mostly ignored.
-> (Only an error message is printed if the value is non-zero that the
-> error is ignored.)
-> 
-> So change the prototype of the remove function to return no value. This
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour, all callbacks were prepared to
-> return 0 before.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->  Documentation/i2c/writing-clients.rst                     | 2 +-
->  arch/arm/mach-davinci/board-dm644x-evm.c                  | 3 +--
->  arch/arm/mach-davinci/board-dm646x-evm.c                  | 3 +--
->  arch/powerpc/platforms/83xx/mcu_mpc8349emitx.c            | 3 +--
->  drivers/auxdisplay/ht16k33.c                              | 4 +---
->  drivers/auxdisplay/lcd2s.c                                | 3 +--
->  drivers/char/ipmi/ipmb_dev_int.c                          | 4 +---
->  drivers/char/ipmi/ipmi_ipmb.c                             | 4 +---
->  drivers/char/ipmi/ipmi_ssif.c                             | 6 ++----
->  drivers/char/tpm/st33zp24/i2c.c                           | 4 +---
->  drivers/char/tpm/tpm_i2c_atmel.c                          | 3 +--
->  drivers/char/tpm/tpm_i2c_infineon.c                       | 4 +---
->  drivers/char/tpm/tpm_i2c_nuvoton.c                        | 3 +--
->  drivers/char/tpm/tpm_tis_i2c_cr50.c                       | 6 ++----
->  drivers/clk/clk-cdce706.c                                 | 3 +--
->  drivers/clk/clk-cs2000-cp.c                               | 4 +---
->  drivers/clk/clk-si514.c                                   | 3 +--
->  drivers/clk/clk-si5341.c                                  | 4 +---
->  drivers/clk/clk-si5351.c                                  | 4 +---
->  drivers/clk/clk-si570.c                                   | 3 +--
->  drivers/clk/clk-versaclock5.c                             | 4 +---
->  drivers/crypto/atmel-ecc.c                                | 6 ++----
->  drivers/crypto/atmel-sha204a.c                            | 6 ++----
->  drivers/extcon/extcon-rt8973a.c                           | 4 +---
->  drivers/gpio/gpio-adp5588.c                               | 4 +---
->  drivers/gpio/gpio-max7300.c                               | 4 +---
->  drivers/gpio/gpio-pca953x.c                               | 4 +---
->  drivers/gpio/gpio-pcf857x.c                               | 4 +---
->  drivers/gpio/gpio-tpic2810.c                              | 4 +---
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c              | 4 +---
->  drivers/gpu/drm/bridge/analogix/analogix-anx6345.c        | 4 +---
->  drivers/gpu/drm/bridge/analogix/analogix-anx78xx.c        | 4 +---
->  drivers/gpu/drm/bridge/analogix/anx7625.c                 | 4 +---
->  drivers/gpu/drm/bridge/chrontel-ch7033.c                  | 4 +---
->  drivers/gpu/drm/bridge/cros-ec-anx7688.c                  | 4 +---
->  drivers/gpu/drm/bridge/ite-it6505.c                       | 4 +---
->  drivers/gpu/drm/bridge/ite-it66121.c                      | 4 +---
->  drivers/gpu/drm/bridge/lontium-lt8912b.c                  | 3 +--
->  drivers/gpu/drm/bridge/lontium-lt9211.c                   | 4 +---
->  drivers/gpu/drm/bridge/lontium-lt9611.c                   | 4 +---
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c                | 4 +---
->  drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c  | 8 ++------
->  drivers/gpu/drm/bridge/nxp-ptn3460.c                      | 4 +---
->  drivers/gpu/drm/bridge/parade-ps8622.c                    | 4 +---
->  drivers/gpu/drm/bridge/parade-ps8640.c                    | 4 +---
->  drivers/gpu/drm/bridge/sii902x.c                          | 4 +---
->  drivers/gpu/drm/bridge/sii9234.c                          | 4 +---
->  drivers/gpu/drm/bridge/sil-sii8620.c                      | 4 +---
->  drivers/gpu/drm/bridge/tc358767.c                         | 4 +---
->  drivers/gpu/drm/bridge/tc358768.c                         | 4 +---
->  drivers/gpu/drm/bridge/tc358775.c                         | 4 +---
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c                     | 4 +---
->  drivers/gpu/drm/bridge/ti-tfp410.c                        | 4 +---
->  drivers/gpu/drm/i2c/ch7006_drv.c                          | 4 +---
->  drivers/gpu/drm/i2c/tda9950.c                             | 4 +---
->  drivers/gpu/drm/i2c/tda998x_drv.c                         | 3 +--
->  drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c        | 4 +---
->  drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c     | 4 +---
->  drivers/gpu/drm/solomon/ssd130x-i2c.c                     | 4 +---
->  drivers/hid/i2c-hid/i2c-hid-core.c                        | 4 +---
->  drivers/hid/i2c-hid/i2c-hid.h                             | 2 +-
->  drivers/hwmon/adc128d818.c                                | 4 +---
->  drivers/hwmon/adt7470.c                                   | 3 +--
->  drivers/hwmon/asb100.c                                    | 6 ++----
->  drivers/hwmon/asc7621.c                                   | 4 +---
->  drivers/hwmon/dme1737.c                                   | 4 +---
->  drivers/hwmon/f75375s.c                                   | 5 ++---
->  drivers/hwmon/fschmd.c                                    | 6 ++----
->  drivers/hwmon/ftsteutates.c                               | 3 +--
->  drivers/hwmon/ina209.c                                    | 4 +---
->  drivers/hwmon/ina3221.c                                   | 4 +---
->  drivers/hwmon/jc42.c                                      | 3 +--
->  drivers/hwmon/mcp3021.c                                   | 4 +---
->  drivers/hwmon/occ/p8_i2c.c                                | 4 +---
->  drivers/hwmon/pcf8591.c                                   | 3 +--
->  drivers/hwmon/smm665.c                                    | 3 +--
->  drivers/hwmon/tps23861.c                                  | 4 +---
->  drivers/hwmon/w83781d.c                                   | 4 +---
->  drivers/hwmon/w83791d.c                                   | 6 ++----
->  drivers/hwmon/w83792d.c                                   | 6 ++----
->  drivers/hwmon/w83793.c                                    | 6 ++----
->  drivers/hwmon/w83795.c                                    | 4 +---
->  drivers/hwmon/w83l785ts.c                                 | 6 ++----
->  drivers/i2c/i2c-core-base.c                               | 6 +-----
->  drivers/i2c/i2c-slave-eeprom.c                            | 4 +---
->  drivers/i2c/i2c-slave-testunit.c                          | 3 +--
->  drivers/i2c/i2c-smbus.c                                   | 3 +--
->  drivers/i2c/muxes/i2c-mux-ltc4306.c                       | 4 +---
->  drivers/i2c/muxes/i2c-mux-pca9541.c                       | 3 +--
->  drivers/i2c/muxes/i2c-mux-pca954x.c                       | 3 +--
->  drivers/iio/accel/bma180.c                                | 4 +---
->  drivers/iio/accel/bma400_i2c.c                            | 4 +---
->  drivers/iio/accel/bmc150-accel-i2c.c                      | 4 +---
->  drivers/iio/accel/kxcjk-1013.c                            | 4 +---
->  drivers/iio/accel/kxsd9-i2c.c                             | 4 +---
->  drivers/iio/accel/mc3230.c                                | 4 +---
->  drivers/iio/accel/mma7455_i2c.c                           | 4 +---
->  drivers/iio/accel/mma7660.c                               | 4 +---
->  drivers/iio/accel/mma8452.c                               | 4 +---
->  drivers/iio/accel/mma9551.c                               | 4 +---
->  drivers/iio/accel/mma9553.c                               | 4 +---
->  drivers/iio/accel/stk8312.c                               | 4 +---
->  drivers/iio/accel/stk8ba50.c                              | 4 +---
->  drivers/iio/adc/ad799x.c                                  | 4 +---
->  drivers/iio/adc/ina2xx-adc.c                              | 4 +---
->  drivers/iio/adc/ltc2497.c                                 | 4 +---
->  drivers/iio/adc/ti-ads1015.c                              | 4 +---
->  drivers/iio/chemical/atlas-sensor.c                       | 4 +---
->  drivers/iio/chemical/ccs811.c                             | 4 +---
->  drivers/iio/chemical/sgp30.c                              | 4 +---
->  drivers/iio/dac/ad5380.c                                  | 4 +---
->  drivers/iio/dac/ad5446.c                                  | 4 +---
->  drivers/iio/dac/ad5593r.c                                 | 4 +---
->  drivers/iio/dac/ad5696-i2c.c                              | 4 +---
->  drivers/iio/dac/ds4424.c                                  | 4 +---
->  drivers/iio/dac/m62332.c                                  | 4 +---
->  drivers/iio/dac/mcp4725.c                                 | 4 +---
->  drivers/iio/dac/ti-dac5571.c                              | 4 +---
->  drivers/iio/gyro/bmg160_i2c.c                             | 4 +---
->  drivers/iio/gyro/fxas21002c_i2c.c                         | 4 +---
->  drivers/iio/gyro/itg3200_core.c                           | 4 +---
->  drivers/iio/gyro/mpu3050-i2c.c                            | 4 +---
->  drivers/iio/health/afe4404.c                              | 4 +---
->  drivers/iio/health/max30100.c                             | 4 +---
->  drivers/iio/health/max30102.c                             | 4 +---
->  drivers/iio/humidity/hdc2010.c                            | 4 +---
->  drivers/iio/imu/inv_mpu6050/inv_mpu_i2c.c                 | 4 +---
->  drivers/iio/imu/kmx61.c                                   | 4 +---
->  drivers/iio/light/apds9300.c                              | 4 +---
->  drivers/iio/light/apds9960.c                              | 4 +---
->  drivers/iio/light/bh1750.c                                | 4 +---
->  drivers/iio/light/bh1780.c                                | 4 +---
->  drivers/iio/light/cm3232.c                                | 4 +---
->  drivers/iio/light/cm36651.c                               | 4 +---
->  drivers/iio/light/gp2ap002.c                              | 4 +---
->  drivers/iio/light/gp2ap020a00f.c                          | 4 +---
->  drivers/iio/light/isl29028.c                              | 4 +---
->  drivers/iio/light/isl29125.c                              | 4 +---
->  drivers/iio/light/jsa1212.c                               | 4 +---
->  drivers/iio/light/ltr501.c                                | 4 +---
->  drivers/iio/light/opt3001.c                               | 6 ++----
->  drivers/iio/light/pa12203001.c                            | 4 +---
->  drivers/iio/light/rpr0521.c                               | 4 +---
->  drivers/iio/light/stk3310.c                               | 4 +---
->  drivers/iio/light/tcs3472.c                               | 4 +---
->  drivers/iio/light/tsl2563.c                               | 4 +---
->  drivers/iio/light/tsl2583.c                               | 4 +---
->  drivers/iio/light/tsl4531.c                               | 4 +---
->  drivers/iio/light/us5182d.c                               | 4 +---
->  drivers/iio/light/vcnl4000.c                              | 4 +---
->  drivers/iio/light/vcnl4035.c                              | 4 +---
->  drivers/iio/light/veml6070.c                              | 4 +---
->  drivers/iio/magnetometer/ak8974.c                         | 4 +---
->  drivers/iio/magnetometer/ak8975.c                         | 4 +---
->  drivers/iio/magnetometer/bmc150_magn_i2c.c                | 4 +---
->  drivers/iio/magnetometer/hmc5843_i2c.c                    | 4 +---
->  drivers/iio/magnetometer/mag3110.c                        | 4 +---
->  drivers/iio/magnetometer/yamaha-yas530.c                  | 4 +---
->  drivers/iio/potentiostat/lmp91000.c                       | 4 +---
->  drivers/iio/pressure/mpl3115.c                            | 4 +---
->  drivers/iio/pressure/ms5611_i2c.c                         | 4 +---
->  drivers/iio/pressure/zpa2326_i2c.c                        | 4 +---
->  drivers/iio/proximity/pulsedlight-lidar-lite-v2.c         | 4 +---
->  drivers/iio/proximity/sx9500.c                            | 4 +---
->  drivers/iio/temperature/mlx90614.c                        | 4 +---
->  drivers/iio/temperature/mlx90632.c                        | 4 +---
->  drivers/input/joystick/as5011.c                           | 4 +---
->  drivers/input/keyboard/adp5588-keys.c                     | 4 +---
->  drivers/input/keyboard/lm8323.c                           | 4 +---
->  drivers/input/keyboard/lm8333.c                           | 4 +---
->  drivers/input/keyboard/mcs_touchkey.c                     | 4 +---
->  drivers/input/keyboard/qt1070.c                           | 4 +---
->  drivers/input/keyboard/qt2160.c                           | 4 +---
->  drivers/input/keyboard/tca6416-keypad.c                   | 4 +---
->  drivers/input/misc/adxl34x-i2c.c                          | 4 +---
->  drivers/input/misc/bma150.c                               | 4 +---
->  drivers/input/misc/cma3000_d0x_i2c.c                      | 4 +---
->  drivers/input/misc/pcf8574_keypad.c                       | 4 +---
->  drivers/input/mouse/synaptics_i2c.c                       | 4 +---
->  drivers/input/rmi4/rmi_smbus.c                            | 4 +---
->  drivers/input/touchscreen/atmel_mxt_ts.c                  | 4 +---
->  drivers/input/touchscreen/bu21013_ts.c                    | 4 +---
->  drivers/input/touchscreen/cyttsp4_i2c.c                   | 4 +---
->  drivers/input/touchscreen/edt-ft5x06.c                    | 4 +---
->  drivers/input/touchscreen/goodix.c                        | 4 +---
->  drivers/input/touchscreen/migor_ts.c                      | 4 +---
->  drivers/input/touchscreen/s6sy761.c                       | 4 +---
->  drivers/input/touchscreen/stmfts.c                        | 4 +---
->  drivers/input/touchscreen/tsc2004.c                       | 4 +---
->  drivers/leds/flash/leds-as3645a.c                         | 4 +---
->  drivers/leds/flash/leds-lm3601x.c                         | 4 +---
->  drivers/leds/flash/leds-rt4505.c                          | 3 +--
->  drivers/leds/leds-an30259a.c                              | 4 +---
->  drivers/leds/leds-aw2013.c                                | 4 +---
->  drivers/leds/leds-bd2802.c                                | 4 +---
->  drivers/leds/leds-blinkm.c                                | 3 +--
->  drivers/leds/leds-is31fl319x.c                            | 3 +--
->  drivers/leds/leds-is31fl32xx.c                            | 4 +---
->  drivers/leds/leds-lm3530.c                                | 3 +--
->  drivers/leds/leds-lm3532.c                                | 4 +---
->  drivers/leds/leds-lm355x.c                                | 4 +---
->  drivers/leds/leds-lm3642.c                                | 3 +--
->  drivers/leds/leds-lm3692x.c                               | 4 +---
->  drivers/leds/leds-lm3697.c                                | 4 +---
->  drivers/leds/leds-lp3944.c                                | 4 +---
->  drivers/leds/leds-lp3952.c                                | 4 +---
->  drivers/leds/leds-lp50xx.c                                | 4 +---
->  drivers/leds/leds-lp5521.c                                | 4 +---
->  drivers/leds/leds-lp5523.c                                | 4 +---
->  drivers/leds/leds-lp5562.c                                | 4 +---
->  drivers/leds/leds-lp8501.c                                | 4 +---
->  drivers/leds/leds-lp8860.c                                | 4 +---
->  drivers/leds/leds-pca9532.c                               | 6 ++----
->  drivers/leds/leds-tca6507.c                               | 4 +---
->  drivers/leds/leds-turris-omnia.c                          | 4 +---
->  drivers/macintosh/ams/ams-i2c.c                           | 4 +---
->  drivers/macintosh/therm_adt746x.c                         | 4 +---
->  drivers/macintosh/therm_windtunnel.c                      | 4 +---
->  drivers/macintosh/windfarm_ad7417_sensor.c                | 4 +---
->  drivers/macintosh/windfarm_fcu_controls.c                 | 3 +--
->  drivers/macintosh/windfarm_lm75_sensor.c                  | 4 +---
->  drivers/macintosh/windfarm_lm87_sensor.c                  | 4 +---
->  drivers/macintosh/windfarm_max6690_sensor.c               | 4 +---
->  drivers/macintosh/windfarm_smu_sat.c                      | 4 +---
->  drivers/media/cec/i2c/ch7322.c                            | 4 +---
->  drivers/media/dvb-frontends/a8293.c                       | 3 +--
->  drivers/media/dvb-frontends/af9013.c                      | 4 +---
->  drivers/media/dvb-frontends/af9033.c                      | 4 +---
->  drivers/media/dvb-frontends/au8522_decoder.c              | 3 +--
->  drivers/media/dvb-frontends/cxd2099.c                     | 4 +---
->  drivers/media/dvb-frontends/cxd2820r_core.c               | 4 +---
->  drivers/media/dvb-frontends/dvb-pll.c                     | 3 +--
->  drivers/media/dvb-frontends/lgdt3306a.c                   | 4 +---
->  drivers/media/dvb-frontends/lgdt330x.c                    | 4 +---
->  drivers/media/dvb-frontends/m88ds3103.c                   | 3 +--
->  drivers/media/dvb-frontends/mn88443x.c                    | 4 +---
->  drivers/media/dvb-frontends/mn88472.c                     | 4 +---
->  drivers/media/dvb-frontends/mn88473.c                     | 4 +---
->  drivers/media/dvb-frontends/mxl692.c                      | 4 +---
->  drivers/media/dvb-frontends/rtl2830.c                     | 4 +---
->  drivers/media/dvb-frontends/rtl2832.c                     | 4 +---
->  drivers/media/dvb-frontends/si2165.c                      | 3 +--
->  drivers/media/dvb-frontends/si2168.c                      | 4 +---
->  drivers/media/dvb-frontends/sp2.c                         | 3 +--
->  drivers/media/dvb-frontends/stv090x.c                     | 3 +--
->  drivers/media/dvb-frontends/stv6110x.c                    | 3 +--
->  drivers/media/dvb-frontends/tc90522.c                     | 3 +--
->  drivers/media/dvb-frontends/tda10071.c                    | 3 +--
->  drivers/media/dvb-frontends/ts2020.c                      | 3 +--
->  drivers/media/i2c/ad5820.c                                | 3 +--
->  drivers/media/i2c/ad9389b.c                               | 3 +--
->  drivers/media/i2c/adp1653.c                               | 4 +---
->  drivers/media/i2c/adv7170.c                               | 3 +--
->  drivers/media/i2c/adv7175.c                               | 3 +--
->  drivers/media/i2c/adv7180.c                               | 4 +---
->  drivers/media/i2c/adv7183.c                               | 3 +--
->  drivers/media/i2c/adv7343.c                               | 4 +---
->  drivers/media/i2c/adv7393.c                               | 4 +---
->  drivers/media/i2c/adv748x/adv748x-core.c                  | 4 +---
->  drivers/media/i2c/adv7511-v4l2.c                          | 3 +--
->  drivers/media/i2c/adv7604.c                               | 3 +--
->  drivers/media/i2c/adv7842.c                               | 3 +--
->  drivers/media/i2c/ak7375.c                                | 4 +---
->  drivers/media/i2c/ak881x.c                                | 4 +---
->  drivers/media/i2c/bt819.c                                 | 3 +--
->  drivers/media/i2c/bt856.c                                 | 3 +--
->  drivers/media/i2c/bt866.c                                 | 3 +--
->  drivers/media/i2c/ccs/ccs-core.c                          | 4 +---
->  drivers/media/i2c/cs3308.c                                | 3 +--
->  drivers/media/i2c/cs5345.c                                | 3 +--
->  drivers/media/i2c/cs53l32a.c                              | 3 +--
->  drivers/media/i2c/cx25840/cx25840-core.c                  | 3 +--
->  drivers/media/i2c/dw9714.c                                | 4 +---
->  drivers/media/i2c/dw9768.c                                | 4 +---
->  drivers/media/i2c/dw9807-vcm.c                            | 4 +---
->  drivers/media/i2c/et8ek8/et8ek8_driver.c                  | 4 +---
->  drivers/media/i2c/hi556.c                                 | 4 +---
->  drivers/media/i2c/hi846.c                                 | 4 +---
->  drivers/media/i2c/hi847.c                                 | 4 +---
->  drivers/media/i2c/imx208.c                                | 4 +---
->  drivers/media/i2c/imx214.c                                | 4 +---
->  drivers/media/i2c/imx219.c                                | 4 +---
->  drivers/media/i2c/imx258.c                                | 4 +---
->  drivers/media/i2c/imx274.c                                | 3 +--
->  drivers/media/i2c/imx290.c                                | 4 +---
->  drivers/media/i2c/imx319.c                                | 4 +---
->  drivers/media/i2c/imx334.c                                | 4 +---
->  drivers/media/i2c/imx335.c                                | 4 +---
->  drivers/media/i2c/imx355.c                                | 4 +---
->  drivers/media/i2c/imx412.c                                | 4 +---
->  drivers/media/i2c/ir-kbd-i2c.c                            | 4 +---
->  drivers/media/i2c/isl7998x.c                              | 4 +---
->  drivers/media/i2c/ks0127.c                                | 3 +--
->  drivers/media/i2c/lm3560.c                                | 4 +---
->  drivers/media/i2c/lm3646.c                                | 4 +---
->  drivers/media/i2c/m52790.c                                | 3 +--
->  drivers/media/i2c/m5mols/m5mols_core.c                    | 4 +---
->  drivers/media/i2c/max2175.c                               | 4 +---
->  drivers/media/i2c/max9286.c                               | 4 +---
->  drivers/media/i2c/ml86v7667.c                             | 4 +---
->  drivers/media/i2c/msp3400-driver.c                        | 3 +--
->  drivers/media/i2c/mt9m001.c                               | 4 +---
->  drivers/media/i2c/mt9m032.c                               | 3 +--
->  drivers/media/i2c/mt9m111.c                               | 4 +---
->  drivers/media/i2c/mt9p031.c                               | 4 +---
->  drivers/media/i2c/mt9t001.c                               | 3 +--
->  drivers/media/i2c/mt9t112.c                               | 4 +---
->  drivers/media/i2c/mt9v011.c                               | 4 +---
->  drivers/media/i2c/mt9v032.c                               | 4 +---
->  drivers/media/i2c/mt9v111.c                               | 4 +---
->  drivers/media/i2c/noon010pc30.c                           | 4 +---
->  drivers/media/i2c/og01a1b.c                               | 4 +---
->  drivers/media/i2c/ov02a10.c                               | 4 +---
->  drivers/media/i2c/ov08d10.c                               | 4 +---
->  drivers/media/i2c/ov13858.c                               | 4 +---
->  drivers/media/i2c/ov13b10.c                               | 4 +---
->  drivers/media/i2c/ov2640.c                                | 3 +--
->  drivers/media/i2c/ov2659.c                                | 4 +---
->  drivers/media/i2c/ov2680.c                                | 4 +---
->  drivers/media/i2c/ov2685.c                                | 4 +---
->  drivers/media/i2c/ov2740.c                                | 4 +---
->  drivers/media/i2c/ov5640.c                                | 4 +---
->  drivers/media/i2c/ov5645.c                                | 4 +---
->  drivers/media/i2c/ov5647.c                                | 4 +---
->  drivers/media/i2c/ov5648.c                                | 4 +---
->  drivers/media/i2c/ov5670.c                                | 4 +---
->  drivers/media/i2c/ov5675.c                                | 4 +---
->  drivers/media/i2c/ov5693.c                                | 4 +---
->  drivers/media/i2c/ov5695.c                                | 4 +---
->  drivers/media/i2c/ov6650.c                                | 3 +--
->  drivers/media/i2c/ov7251.c                                | 4 +---
->  drivers/media/i2c/ov7640.c                                | 4 +---
->  drivers/media/i2c/ov7670.c                                | 3 +--
->  drivers/media/i2c/ov772x.c                                | 4 +---
->  drivers/media/i2c/ov7740.c                                | 3 +--
->  drivers/media/i2c/ov8856.c                                | 4 +---
->  drivers/media/i2c/ov8865.c                                | 4 +---
->  drivers/media/i2c/ov9282.c                                | 4 +---
->  drivers/media/i2c/ov9640.c                                | 4 +---
->  drivers/media/i2c/ov9650.c                                | 4 +---
->  drivers/media/i2c/ov9734.c                                | 4 +---
->  drivers/media/i2c/rdacm20.c                               | 4 +---
->  drivers/media/i2c/rdacm21.c                               | 4 +---
->  drivers/media/i2c/rj54n1cb0c.c                            | 4 +---
->  drivers/media/i2c/s5c73m3/s5c73m3-core.c                  | 4 +---
->  drivers/media/i2c/s5k4ecgx.c                              | 4 +---
->  drivers/media/i2c/s5k5baf.c                               | 4 +---
->  drivers/media/i2c/s5k6a3.c                                | 3 +--
->  drivers/media/i2c/s5k6aa.c                                | 4 +---
->  drivers/media/i2c/saa6588.c                               | 4 +---
->  drivers/media/i2c/saa6752hs.c                             | 3 +--
->  drivers/media/i2c/saa7110.c                               | 3 +--
->  drivers/media/i2c/saa7115.c                               | 3 +--
->  drivers/media/i2c/saa7127.c                               | 3 +--
->  drivers/media/i2c/saa717x.c                               | 3 +--
->  drivers/media/i2c/saa7185.c                               | 3 +--
->  drivers/media/i2c/sony-btf-mpx.c                          | 4 +---
->  drivers/media/i2c/sr030pc30.c                             | 3 +--
->  drivers/media/i2c/st-mipid02.c                            | 4 +---
->  drivers/media/i2c/tc358743.c                              | 4 +---
->  drivers/media/i2c/tda1997x.c                              | 4 +---
->  drivers/media/i2c/tda7432.c                               | 3 +--
->  drivers/media/i2c/tda9840.c                               | 3 +--
->  drivers/media/i2c/tea6415c.c                              | 3 +--
->  drivers/media/i2c/tea6420.c                               | 3 +--
->  drivers/media/i2c/ths7303.c                               | 4 +---
->  drivers/media/i2c/ths8200.c                               | 4 +---
->  drivers/media/i2c/tlv320aic23b.c                          | 3 +--
->  drivers/media/i2c/tvaudio.c                               | 3 +--
->  drivers/media/i2c/tvp514x.c                               | 3 +--
->  drivers/media/i2c/tvp5150.c                               | 4 +---
->  drivers/media/i2c/tvp7002.c                               | 3 +--
->  drivers/media/i2c/tw2804.c                                | 3 +--
->  drivers/media/i2c/tw9903.c                                | 3 +--
->  drivers/media/i2c/tw9906.c                                | 3 +--
->  drivers/media/i2c/tw9910.c                                | 4 +---
->  drivers/media/i2c/uda1342.c                               | 3 +--
->  drivers/media/i2c/upd64031a.c                             | 3 +--
->  drivers/media/i2c/upd64083.c                              | 3 +--
->  drivers/media/i2c/video-i2c.c                             | 4 +---
->  drivers/media/i2c/vp27smpx.c                              | 3 +--
->  drivers/media/i2c/vpx3220.c                               | 4 +---
->  drivers/media/i2c/vs6624.c                                | 3 +--
->  drivers/media/i2c/wm8739.c                                | 3 +--
->  drivers/media/i2c/wm8775.c                                | 3 +--
->  drivers/media/radio/radio-tea5764.c                       | 3 +--
->  drivers/media/radio/saa7706h.c                            | 3 +--
->  drivers/media/radio/si470x/radio-si470x-i2c.c             | 3 +--
->  drivers/media/radio/si4713/si4713.c                       | 4 +---
->  drivers/media/radio/tef6862.c                             | 3 +--
->  drivers/media/test-drivers/vidtv/vidtv_demod.c            | 4 +---
->  drivers/media/test-drivers/vidtv/vidtv_tuner.c            | 4 +---
->  drivers/media/tuners/e4000.c                              | 4 +---
->  drivers/media/tuners/fc2580.c                             | 3 +--
->  drivers/media/tuners/m88rs6000t.c                         | 4 +---
->  drivers/media/tuners/mt2060.c                             | 4 +---
->  drivers/media/tuners/mxl301rf.c                           | 3 +--
->  drivers/media/tuners/qm1d1b0004.c                         | 3 +--
->  drivers/media/tuners/qm1d1c0042.c                         | 3 +--
->  drivers/media/tuners/si2157.c                             | 4 +---
->  drivers/media/tuners/tda18212.c                           | 4 +---
->  drivers/media/tuners/tda18250.c                           | 4 +---
->  drivers/media/tuners/tua9001.c                            | 3 +--
->  drivers/media/usb/go7007/s2250-board.c                    | 3 +--
->  drivers/media/v4l2-core/tuner-core.c                      | 3 +--
->  drivers/mfd/88pm800.c                                     | 4 +---
->  drivers/mfd/88pm805.c                                     | 4 +---
->  drivers/mfd/88pm860x-core.c                               | 3 +--
->  drivers/mfd/acer-ec-a500.c                                | 4 +---
->  drivers/mfd/arizona-i2c.c                                 | 4 +---
->  drivers/mfd/axp20x-i2c.c                                  | 4 +---
->  drivers/mfd/da903x.c                                      | 3 +--
->  drivers/mfd/da9052-i2c.c                                  | 3 +--
->  drivers/mfd/da9055-i2c.c                                  | 4 +---
->  drivers/mfd/da9062-core.c                                 | 4 +---
->  drivers/mfd/da9150-core.c                                 | 4 +---
->  drivers/mfd/dm355evm_msp.c                                | 3 +--
->  drivers/mfd/ene-kb3930.c                                  | 4 +---
->  drivers/mfd/gateworks-gsc.c                               | 4 +---
->  drivers/mfd/intel_soc_pmic_core.c                         | 4 +---
->  drivers/mfd/iqs62x.c                                      | 4 +---
->  drivers/mfd/lm3533-core.c                                 | 4 +---
->  drivers/mfd/lp8788.c                                      | 3 +--
->  drivers/mfd/madera-i2c.c                                  | 4 +---
->  drivers/mfd/max14577.c                                    | 4 +---
->  drivers/mfd/max77693.c                                    | 4 +---
->  drivers/mfd/max8907.c                                     | 4 +---
->  drivers/mfd/max8925-i2c.c                                 | 3 +--
->  drivers/mfd/mc13xxx-i2c.c                                 | 3 +--
->  drivers/mfd/menelaus.c                                    | 3 +--
->  drivers/mfd/ntxec.c                                       | 4 +---
->  drivers/mfd/palmas.c                                      | 4 +---
->  drivers/mfd/pcf50633-core.c                               | 4 +---
->  drivers/mfd/retu-mfd.c                                    | 4 +---
->  drivers/mfd/rk808.c                                       | 4 +---
->  drivers/mfd/rn5t618.c                                     | 4 +---
->  drivers/mfd/rsmu_i2c.c                                    | 4 +---
->  drivers/mfd/rt4831.c                                      | 4 +---
->  drivers/mfd/si476x-i2c.c                                  | 4 +---
->  drivers/mfd/stmfx.c                                       | 4 +---
->  drivers/mfd/stmpe-i2c.c                                   | 4 +---
->  drivers/mfd/tc3589x.c                                     | 4 +---
->  drivers/mfd/tps6105x.c                                    | 4 +---
->  drivers/mfd/tps65010.c                                    | 3 +--
->  drivers/mfd/tps65086.c                                    | 4 +---
->  drivers/mfd/tps65217.c                                    | 4 +---
->  drivers/mfd/tps6586x.c                                    | 3 +--
->  drivers/mfd/tps65912-i2c.c                                | 4 +---
->  drivers/mfd/twl-core.c                                    | 3 +--
->  drivers/mfd/twl6040.c                                     | 4 +---
->  drivers/mfd/wm8994-core.c                                 | 4 +---
->  drivers/misc/ad525x_dpot-i2c.c                            | 3 +--
->  drivers/misc/apds9802als.c                                | 3 +--
->  drivers/misc/apds990x.c                                   | 3 +--
->  drivers/misc/bh1770glc.c                                  | 4 +---
->  drivers/misc/ds1682.c                                     | 3 +--
->  drivers/misc/eeprom/at24.c                                | 4 +---
->  drivers/misc/eeprom/ee1004.c                              | 4 +---
->  drivers/misc/eeprom/eeprom.c                              | 4 +---
->  drivers/misc/eeprom/idt_89hpesx.c                         | 4 +---
->  drivers/misc/eeprom/max6875.c                             | 4 +---
->  drivers/misc/hmc6352.c                                    | 3 +--
->  drivers/misc/ics932s401.c                                 | 5 ++---
->  drivers/misc/isl29003.c                                   | 3 +--
->  drivers/misc/isl29020.c                                   | 3 +--
->  drivers/misc/lis3lv02d/lis3lv02d_i2c.c                    | 3 +--
->  drivers/misc/tsl2550.c                                    | 4 +---
->  drivers/mtd/maps/pismo.c                                  | 4 +---
->  drivers/net/dsa/lan9303_i2c.c                             | 6 ++----
->  drivers/net/dsa/microchip/ksz9477_i2c.c                   | 4 +---
->  drivers/net/dsa/xrs700x/xrs700x_i2c.c                     | 6 ++----
->  drivers/net/ethernet/mellanox/mlxsw/i2c.c                 | 4 +---
->  drivers/net/mctp/mctp-i2c.c                               | 3 +--
->  drivers/nfc/fdp/i2c.c                                     | 4 +---
->  drivers/nfc/microread/i2c.c                               | 4 +---
->  drivers/nfc/nfcmrvl/i2c.c                                 | 4 +---
->  drivers/nfc/nxp-nci/i2c.c                                 | 4 +---
->  drivers/nfc/pn533/i2c.c                                   | 4 +---
->  drivers/nfc/pn544/i2c.c                                   | 4 +---
->  drivers/nfc/s3fwrn5/i2c.c                                 | 4 +---
->  drivers/nfc/st-nci/i2c.c                                  | 4 +---
->  drivers/nfc/st21nfca/i2c.c                                | 4 +---
->  drivers/of/unittest.c                                     | 6 ++----
->  drivers/platform/chrome/cros_ec_i2c.c                     | 4 +---
->  drivers/platform/surface/surface3_power.c                 | 4 +---
->  drivers/platform/x86/asus-tf103c-dock.c                   | 4 +---
->  drivers/platform/x86/intel/int3472/tps68470.c             | 4 +---
->  drivers/power/supply/bq2415x_charger.c                    | 4 +---
->  drivers/power/supply/bq24190_charger.c                    | 4 +---
->  drivers/power/supply/bq24257_charger.c                    | 4 +---
->  drivers/power/supply/bq25890_charger.c                    | 4 +---
->  drivers/power/supply/bq27xxx_battery_i2c.c                | 4 +---
->  drivers/power/supply/cw2015_battery.c                     | 3 +--
->  drivers/power/supply/ds2782_battery.c                     | 4 +---
->  drivers/power/supply/lp8727_charger.c                     | 3 +--
->  drivers/power/supply/rt5033_battery.c                     | 4 +---
->  drivers/power/supply/rt9455_charger.c                     | 4 +---
->  drivers/power/supply/smb347-charger.c                     | 4 +---
->  drivers/power/supply/z2_battery.c                         | 4 +---
->  drivers/pwm/pwm-pca9685.c                                 | 4 +---
->  drivers/regulator/da9121-regulator.c                      | 3 +--
->  drivers/regulator/lp8755.c                                | 4 +---
->  drivers/regulator/rpi-panel-attiny-regulator.c            | 4 +---
->  drivers/rtc/rtc-bq32k.c                                   | 4 +---
->  drivers/rtc/rtc-ds1374.c                                  | 4 +---
->  drivers/rtc/rtc-isl12026.c                                | 3 +--
->  drivers/rtc/rtc-m41t80.c                                  | 4 +---
->  drivers/rtc/rtc-rs5c372.c                                 | 3 +--
->  drivers/rtc/rtc-x1205.c                                   | 3 +--
->  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c        | 4 +---
->  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c        | 4 +---
->  drivers/staging/media/atomisp/i2c/atomisp-lm3554.c        | 4 +---
->  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c       | 3 +--
->  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c        | 4 +---
->  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c        | 4 +---
->  drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c | 4 +---
->  drivers/staging/media/max96712/max96712.c                 | 4 +---
->  drivers/staging/most/i2c/i2c.c                            | 4 +---
->  drivers/staging/olpc_dcon/olpc_dcon.c                     | 4 +---
->  drivers/tty/serial/sc16is7xx.c                            | 4 +---
->  drivers/usb/misc/usb3503.c                                | 4 +---
->  drivers/usb/phy/phy-isp1301-omap.c                        | 4 +---
->  drivers/usb/phy/phy-isp1301.c                             | 4 +---
->  drivers/usb/typec/hd3ss3220.c                             | 4 +---
->  drivers/usb/typec/mux/fsa4480.c                           | 4 +---
->  drivers/usb/typec/mux/pi3usb30532.c                       | 3 +--
->  drivers/usb/typec/rt1719.c                                | 4 +---
->  drivers/usb/typec/stusb160x.c                             | 4 +---
->  drivers/usb/typec/tcpm/fusb302.c                          | 4 +---
->  drivers/usb/typec/tcpm/tcpci.c                            | 4 +---
->  drivers/usb/typec/tcpm/tcpci_maxim.c                      | 4 +---
->  drivers/usb/typec/tcpm/tcpci_rt1711h.c                    | 3 +--
->  drivers/usb/typec/tipd/core.c                             | 4 +---
->  drivers/usb/typec/ucsi/ucsi_ccg.c                         | 4 +---
->  drivers/usb/typec/wusb3801.c                              | 4 +---
->  drivers/video/backlight/adp8860_bl.c                      | 4 +---
->  drivers/video/backlight/adp8870_bl.c                      | 4 +---
->  drivers/video/backlight/arcxcnn_bl.c                      | 4 +---
->  drivers/video/backlight/bd6107.c                          | 4 +---
->  drivers/video/backlight/lm3630a_bl.c                      | 3 +--
->  drivers/video/backlight/lm3639_bl.c                       | 3 +--
->  drivers/video/backlight/lp855x_bl.c                       | 4 +---
->  drivers/video/backlight/lv5207lp.c                        | 4 +---
->  drivers/video/backlight/tosa_bl.c                         | 3 +--
->  drivers/video/fbdev/matrox/matroxfb_maven.c               | 3 +--
->  drivers/video/fbdev/ssd1307fb.c                           | 4 +---
->  drivers/w1/masters/ds2482.c                               | 3 +--
->  drivers/watchdog/ziirave_wdt.c                            | 4 +---
->  include/linux/i2c.h                                       | 2 +-
->  lib/Kconfig.kasan                                         | 1 +
->  sound/aoa/codecs/onyx.c                                   | 3 +--
->  sound/aoa/codecs/tas.c                                    | 3 +--
->  sound/pci/hda/cs35l41_hda_i2c.c                           | 4 +---
->  sound/ppc/keywest.c                                       | 6 ++----
->  sound/soc/codecs/adau1761-i2c.c                           | 3 +--
->  sound/soc/codecs/adau1781-i2c.c                           | 3 +--
->  sound/soc/codecs/ak4375.c                                 | 4 +---
->  sound/soc/codecs/ak4458.c                                 | 4 +---
->  sound/soc/codecs/ak4641.c                                 | 4 +---
->  sound/soc/codecs/ak5558.c                                 | 4 +---
->  sound/soc/codecs/cs35l32.c                                | 4 +---
->  sound/soc/codecs/cs35l33.c                                | 4 +---
->  sound/soc/codecs/cs35l34.c                                | 4 +---
->  sound/soc/codecs/cs35l35.c                                | 4 +---
->  sound/soc/codecs/cs35l36.c                                | 4 +---
->  sound/soc/codecs/cs35l41-i2c.c                            | 4 +---
->  sound/soc/codecs/cs35l45-i2c.c                            | 4 +---
->  sound/soc/codecs/cs4234.c                                 | 4 +---
->  sound/soc/codecs/cs4265.c                                 | 4 +---
->  sound/soc/codecs/cs4270.c                                 | 4 +---
->  sound/soc/codecs/cs42l42.c                                | 4 +---
->  sound/soc/codecs/cs42l51-i2c.c                            | 4 +---
->  sound/soc/codecs/cs42l56.c                                | 3 +--
->  sound/soc/codecs/cs42xx8-i2c.c                            | 4 +---
->  sound/soc/codecs/cs43130.c                                | 4 +---
->  sound/soc/codecs/cs4349.c                                 | 4 +---
->  sound/soc/codecs/cs53l30.c                                | 4 +---
->  sound/soc/codecs/cx2072x.c                                | 3 +--
->  sound/soc/codecs/max98090.c                               | 4 +---
->  sound/soc/codecs/max9860.c                                | 3 +--
->  sound/soc/codecs/max98927.c                               | 4 +---
->  sound/soc/codecs/mt6660.c                                 | 3 +--
->  sound/soc/codecs/nau8821.c                                | 4 +---
->  sound/soc/codecs/nau8825.c                                | 6 ++----
->  sound/soc/codecs/pcm1789-i2c.c                            | 4 +---
->  sound/soc/codecs/pcm3168a-i2c.c                           | 4 +---
->  sound/soc/codecs/pcm512x-i2c.c                            | 3 +--
->  sound/soc/codecs/rt274.c                                  | 4 +---
->  sound/soc/codecs/rt286.c                                  | 4 +---
->  sound/soc/codecs/rt298.c                                  | 4 +---
->  sound/soc/codecs/rt5616.c                                 | 6 ++----
->  sound/soc/codecs/rt5631.c                                 | 6 ++----
->  sound/soc/codecs/rt5645.c                                 | 4 +---
->  sound/soc/codecs/rt5663.c                                 | 4 +---
->  sound/soc/codecs/rt5670.c                                 | 4 +---
->  sound/soc/codecs/rt5677.c                                 | 4 +---
->  sound/soc/codecs/rt5682-i2c.c                             | 4 +---
->  sound/soc/codecs/rt5682s.c                                | 4 +---
->  sound/soc/codecs/rt9120.c                                 | 3 +--
->  sound/soc/codecs/sgtl5000.c                               | 4 +---
->  sound/soc/codecs/sta350.c                                 | 6 ++----
->  sound/soc/codecs/tas2552.c                                | 3 +--
->  sound/soc/codecs/tas5086.c                                | 6 ++----
->  sound/soc/codecs/tas571x.c                                | 4 +---
->  sound/soc/codecs/tas5805m.c                               | 3 +--
->  sound/soc/codecs/tas6424.c                                | 4 +---
->  sound/soc/codecs/tlv320adc3xxx.c                          | 3 +--
->  sound/soc/codecs/tlv320aic32x4-i2c.c                      | 4 +---
->  sound/soc/codecs/tlv320aic3x-i2c.c                        | 4 +---
->  sound/soc/codecs/tlv320dac33.c                            | 4 +---
->  sound/soc/codecs/wm1250-ev1.c                             | 4 +---
->  sound/soc/codecs/wm2200.c                                 | 4 +---
->  sound/soc/codecs/wm5100.c                                 | 4 +---
->  sound/soc/codecs/wm8804-i2c.c                             | 3 +--
->  sound/soc/codecs/wm8900.c                                 | 6 ++----
->  sound/soc/codecs/wm8903.c                                 | 4 +---
->  sound/soc/codecs/wm8960.c                                 | 6 ++----
->  sound/soc/codecs/wm8962.c                                 | 3 +--
->  sound/soc/codecs/wm8993.c                                 | 4 +---
->  sound/soc/codecs/wm8996.c                                 | 4 +---
->  sound/soc/codecs/wm9081.c                                 | 6 ++----
+Hi Dave, Daniel,
 
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+This is the first pull request for 5.20 merge window.
 
-for the drivers I'm involved in development of.
+A lot of fixes across the board, a few improvements and quite a lot of driver
+refactoring to prepare for Ponte Vecchio, and then a bunch of Ponte Vecchio
+early enablement on top.
 
--- 
-With Best Regards,
-Andy Shevchenko
+In terms of improvements, we now enable huge pages on Icelake and above
+regardless of the IOMMU status. This is after confirming with hardware
+architects and measuring the performance regression which we had on older
+platforms is gone.
 
+Resume speed on modern integrated platforms has also been improved with around
+100ms improvement measured.
 
+DG2 has gained HuC support and some new workarounds.
+
+In terms of fixes, the headline ones are:
+
+* Driver load on DG2 small BAR configurations has been fixed to not crash.
+
+* GuC backend has fixed the EU scheduling priority for DG2 and in general fixed
+  reset handling, improved error capture and optimised performance of querying
+  engine busyness.
+
+* Rendering corruption on Haswell and older platforms caused by some recent
+  refactoring has also been fixed, as was the dma_resv handling in the
+  relatively new multi-batch execbuf code.
+
+* Temporary and unintended relaxation of the persistent contexts handling in the
+  protocontext code has been fixed up before it hopefully "escaped" into the
+  wild.
+
+* Reset handling on Icelake and above has been improved with a new workaround
+  which should improve the stability in some corner cases.
+
+* Processes which use non-persistent context and abruptly exit will now be
+  allowed to exit gracefuly without triggering resets and error capture in the
+  logs.
+
+* A bunch more as mentioned in the tag summary.
+
+On the uapi front we have deprecation of some legacy get params on Xe_HP+ and
+media block frequency control exposed in per gt sysfs.
+
+Outside i915 we have a rename in the intel-gtt module and one cross-merge from
+drm-intel-next.
+
+Regards,
+
+Tvrtko
+
+drm-intel-gt-next-2022-06-29:
+UAPI Changes:
+
+- Expose per tile media freq factor in sysfs (Ashutosh Dixit, Dale B Stimson)
+- Document memory residency and Flat-CCS capability of obj (Ramalingam C)
+- Disable GETPARAM lookups of I915_PARAM_[SUB]SLICE_MASK on Xe_HP+ (Matt Roper)
+
+Cross-subsystem Changes:
+
+- Rename intel-gtt symbols (Lucas De Marchi)
+
+Core Changes:
+
+Driver Changes:
+
+- Support programming the EU priority in the GuC descriptor (DG2) (Matthew Brost)
+- DG2 HuC loading support (Daniele Ceraolo Spurio)
+- Fix build error without CONFIG_PM (YueHaibing)
+- Enable THP on Icelake and beyond (Tvrtko Ursulin)
+- Only setup private tmpfs mount when needed and fix logging (Tvrtko Ursulin)
+- Make __guc_reset_context aware of guilty engines (Umesh Nerlige Ramappa)
+- DG2 small bar memory probing fixes (Nirmoy Das)
+- Remove unnecessary GuC err capture noise (Alan Previn)
+- Fix i915_gem_object_ggtt_pin_ww regression on old platforms (Maarten Lankhorst)
+- Fix undefined behavior in GuC backend due to shift overflowing the constant (Borislav Petkov)
+- New DG2 workarounds (Swathi Dhanavanthri, Anshuman Gupta)
+- Report no hwconfig support on ADL-N (Balasubramani Vivekanandan)
+- Fix error_state_read ptr + offset use (Alan Previn)
+- Expose per tile media freq factor in sysfs (Ashutosh Dixit, Dale B Stimson)
+- Fix memory leaks in per-gt sysfs (Ashutosh Dixit)
+- Fix dma_resv fence handling in multi-batch execbuf (Nirmoy Das)
+- Add extra registers to GPU error dump on Gen11+ (Stuart Summers)
+- More PVC+DG2 workarounds (Matt Roper)
+- Improve user experience and driver robustness under SIGINT or similar (Tvrtko Ursulin)
+- Don't show engine classes not present (Tvrtko Ursulin)
+- Improve on suspend / resume time with VT-d enabled (Thomas Hellström)
+- Add missing else (katrinzhou)
+- Don't leak lmem mapping in vma_evict (Juha-Pekka Heikkila)
+- Add smem fallback allocation for dpt (Juha-Pekka Heikkila)
+- Tweak the ordering in cpu_write_needs_clflush (Matthew Auld)
+- Do not access rq->engine without a reference (Niranjana Vishwanathapura)
+- Revert "drm/i915: Hold reference to intel_context over life of i915_request" (Niranjana Vishwanathapura)
+- Don't update engine busyness stats too frequently (Alan Previn)
+- Add additional steps for Wa_22011802037 for execlist backend (Umesh Nerlige Ramappa)
+- Fix a lockdep warning at error capture (Nirmoy Das)
+
+- Ponte Vecchio prep work and new blitter engines (Matt Roper, John Harrison, Lucas De Marchi)
+- Read correct RP_STATE_CAP register (PVC) (Matt Roper)
+- Define MOCS table for PVC (Ayaz A Siddiqui)
+- Driver refactor and support Ponte Vecchio forcewake handling (Matt Roper)
+- Remove additional 3D flags from PIPE_CONTROL (Ponte Vecchio) (Stuart Summers)
+- XEHPSDV and PVC do not use HuC (Daniele Ceraolo Spurio)
+- Extract stepping information from PCI revid (Ponte Vecchio) (Matt Roper)
+- Add initial PVC workarounds (Stuart Summers)
+- SSEU handling driver refactor and Ponte Vecchio support (Matt Roper)
+- GuC depriv applies to PVC (Matt Roper)
+- Add register steering (Ponte Vecchio) (Matt Roper)
+- Add recommended MMIO setting (Ponte Vecchio) (Matt Roper)
+
+- Move multicast register handling to a dedicated file (Matt Roper)
+- Cleanup interface for MCR operations (Matt Roper)
+- Extend i915_vma_pin_iomap() (CQ Tang)
+- Re-do the intel-gtt split (Lucas De Marchi)
+- Correct duplicated/misplaced GT register definitions (Matt Roper)
+- Prefer "XEHP_" prefix for registers (Matt Roper)
+
+- Don't use DRM_DEBUG_WARN_ON for unexpected l3bank/mslice config (Tvrtko Ursulin)
+- Don't use DRM_DEBUG_WARN_ON for ring unexpectedly not idle (Tvrtko Ursulin)
+- Make drop_pages() return bool (Lucas De Marchi)
+- Fix CFI violation with show_dynamic_id() (Nathan Chancellor)
+- Use i915_probe_error instead of drm_error in GuC code (Vinay Belgaumkar)
+- Fix use of static in macro mismatch (Andi Shyti)
+- Update tiled blits selftest (Bommu Krishnaiah)
+- Future-proof platform checks (Matt Roper)
+- Only include what's needed (Jani Nikula)
+- remove accidental static from a local variable (Jani Nikula)
+- Add global forcewake request to drpc (Vinay Belgaumkar)
+- Fix spelling typo in comment (pengfuyuan)
+- Increase timeout for live_parallel_switch selftest (Akeem G Abodunrin)
+- Use non-blocking H2G for waitboost (Vinay Belgaumkar)
+The following changes since commit 5f38c3fb55ce3814b4353320d7a205068a420e48:
+
+  drm/i915/pcode: Add a couple of pcode helpers (2022-05-20 09:11:45 +0100)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2022-06-29
+
+for you to fetch changes up to a06968563775181690125091f470a8655742dcbf:
+
+  drm/i915: Fix a lockdep warning at error capture (2022-06-29 14:52:50 +0530)
+
+----------------------------------------------------------------
+UAPI Changes:
+
+- Expose per tile media freq factor in sysfs (Ashutosh Dixit, Dale B Stimson)
+- Document memory residency and Flat-CCS capability of obj (Ramalingam C)
+- Disable GETPARAM lookups of I915_PARAM_[SUB]SLICE_MASK on Xe_HP+ (Matt Roper)
+
+Cross-subsystem Changes:
+
+- Rename intel-gtt symbols (Lucas De Marchi)
+
+Core Changes:
+
+Driver Changes:
+
+- Support programming the EU priority in the GuC descriptor (DG2) (Matthew Brost)
+- DG2 HuC loading support (Daniele Ceraolo Spurio)
+- Fix build error without CONFIG_PM (YueHaibing)
+- Enable THP on Icelake and beyond (Tvrtko Ursulin)
+- Only setup private tmpfs mount when needed and fix logging (Tvrtko Ursulin)
+- Make __guc_reset_context aware of guilty engines (Umesh Nerlige Ramappa)
+- DG2 small bar memory probing fixes (Nirmoy Das)
+- Remove unnecessary GuC err capture noise (Alan Previn)
+- Fix i915_gem_object_ggtt_pin_ww regression on old platforms (Maarten Lankhorst)
+- Fix undefined behavior in GuC backend due to shift overflowing the constant (Borislav Petkov)
+- New DG2 workarounds (Swathi Dhanavanthri, Anshuman Gupta)
+- Report no hwconfig support on ADL-N (Balasubramani Vivekanandan)
+- Fix error_state_read ptr + offset use (Alan Previn)
+- Expose per tile media freq factor in sysfs (Ashutosh Dixit, Dale B Stimson)
+- Fix memory leaks in per-gt sysfs (Ashutosh Dixit)
+- Fix dma_resv fence handling in multi-batch execbuf (Nirmoy Das)
+- Add extra registers to GPU error dump on Gen11+ (Stuart Summers)
+- More PVC+DG2 workarounds (Matt Roper)
+- Improve user experience and driver robustness under SIGINT or similar (Tvrtko Ursulin)
+- Don't show engine classes not present (Tvrtko Ursulin)
+- Improve on suspend / resume time with VT-d enabled (Thomas Hellström)
+- Add missing else (katrinzhou)
+- Don't leak lmem mapping in vma_evict (Juha-Pekka Heikkila)
+- Add smem fallback allocation for dpt (Juha-Pekka Heikkila)
+- Tweak the ordering in cpu_write_needs_clflush (Matthew Auld)
+- Do not access rq->engine without a reference (Niranjana Vishwanathapura)
+- Revert "drm/i915: Hold reference to intel_context over life of i915_request" (Niranjana Vishwanathapura)
+- Don't update engine busyness stats too frequently (Alan Previn)
+- Add additional steps for Wa_22011802037 for execlist backend (Umesh Nerlige Ramappa)
+- Fix a lockdep warning at error capture (Nirmoy Das)
+
+- Ponte Vecchio prep work and new blitter engines (Matt Roper, John Harrison, Lucas De Marchi)
+- Read correct RP_STATE_CAP register (PVC) (Matt Roper)
+- Define MOCS table for PVC (Ayaz A Siddiqui)
+- Driver refactor and support Ponte Vecchio forcewake handling (Matt Roper)
+- Remove additional 3D flags from PIPE_CONTROL (Ponte Vecchio) (Stuart Summers)
+- XEHPSDV and PVC do not use HuC (Daniele Ceraolo Spurio)
+- Extract stepping information from PCI revid (Ponte Vecchio) (Matt Roper)
+- Add initial PVC workarounds (Stuart Summers)
+- SSEU handling driver refactor and Ponte Vecchio support (Matt Roper)
+- GuC depriv applies to PVC (Matt Roper)
+- Add register steering (Ponte Vecchio) (Matt Roper)
+- Add recommended MMIO setting (Ponte Vecchio) (Matt Roper)
+
+- Move multicast register handling to a dedicated file (Matt Roper)
+- Cleanup interface for MCR operations (Matt Roper)
+- Extend i915_vma_pin_iomap() (CQ Tang)
+- Re-do the intel-gtt split (Lucas De Marchi)
+- Correct duplicated/misplaced GT register definitions (Matt Roper)
+- Prefer "XEHP_" prefix for registers (Matt Roper)
+
+- Don't use DRM_DEBUG_WARN_ON for unexpected l3bank/mslice config (Tvrtko Ursulin)
+- Don't use DRM_DEBUG_WARN_ON for ring unexpectedly not idle (Tvrtko Ursulin)
+- Make drop_pages() return bool (Lucas De Marchi)
+- Fix CFI violation with show_dynamic_id() (Nathan Chancellor)
+- Use i915_probe_error instead of drm_error in GuC code (Vinay Belgaumkar)
+- Fix use of static in macro mismatch (Andi Shyti)
+- Update tiled blits selftest (Bommu Krishnaiah)
+- Future-proof platform checks (Matt Roper)
+- Only include what's needed (Jani Nikula)
+- remove accidental static from a local variable (Jani Nikula)
+- Add global forcewake request to drpc (Vinay Belgaumkar)
+- Fix spelling typo in comment (pengfuyuan)
+- Increase timeout for live_parallel_switch selftest (Akeem G Abodunrin)
+- Use non-blocking H2G for waitboost (Vinay Belgaumkar)
+
+----------------------------------------------------------------
+Akeem G Abodunrin (1):
+      drm/i915/selftests: Increase timeout for live_parallel_switch
+
+Alan Previn (3):
+      drm/i915/guc: Remove unnecessary GuC err capture noise
+      drm/i915/reset: Fix error_state_read ptr + offset use
+      drm/i915/guc: Don't update engine busyness stats too frequently
+
+Andi Shyti (1):
+      drm/i915/gt: Fix use of static in macro mismatch
+
+Anshuman Gupta (1):
+      drm/i915/dg2: Add Wa_14015795083
+
+Ashutosh Dixit (3):
+      drm/i915/gt: Add media freq factor to per-gt sysfs
+      drm/i915/pcode: Init pcode on different gt's
+      drm/i915/gt: Fix memory leaks in per-gt sysfs
+
+Ayaz A Siddiqui (1):
+      drm/i915/pvc: Define MOCS table for PVC
+
+Balasubramani Vivekanandan (1):
+      drm/i915/hwconfig: Report no hwconfig support on ADL-N
+
+Bommu Krishnaiah (1):
+      drm/i915: Update tiled blits selftest
+
+Borislav Petkov (1):
+      drm/i915/uc: Fix undefined behavior due to shift overflowing the constant
+
+CQ Tang (1):
+      drm/i915: extend i915_vma_pin_iomap()
+
+Dale B Stimson (1):
+      drm/i915/gt: Add media RP0/RPn to per-gt sysfs
+
+Daniele Ceraolo Spurio (5):
+      drm/i915/huc: drop intel_huc_is_authenticated
+      drm/i915/huc: Add fetch support for gsc-loaded HuC binary
+      drm/i915/huc: Prepare for GSC-loaded HuC
+      drm/i915/huc: Don't fail the probe if HuC init fails
+      drm/i915/guc: XEHPSDV and PVC do not use HuC
+
+Jani Nikula (2):
+      drm/i915/client: only include what's needed
+      drm/i915/uc: remove accidental static from a local variable
+
+John Harrison (1):
+      drm/i915/pvc: Reduce stack usage in reset selftest with extra blitter engine
+
+José Roberto de Souza (7):
+      drm/i915: Drop has_gt_uc from device info
+      drm/i915: Drop has_rc6 from device info
+      drm/i915: Drop has_reset_engine from device info
+      drm/i915: Drop has_logical_ring_elsq from device info
+      drm/i915: Drop has_ddi from device info
+      drm/i915: Drop has_dp_mst from device info
+      drm/i915: Drop has_psr from device info
+
+Juha-Pekka Heikkila (2):
+      drm/i915: don't leak lmem mapping in vma_evict
+      drm/i915/display: Add smem fallback allocation for dpt
+
+Lucas De Marchi (5):
+      drm/i915/gem: Make drop_pages() return bool
+      drm/i915/pvc: skip all copy engines from aux table invalidate
+      drm/i915/pvc: read fuses for link copy engines
+      agp/intel: Rename intel-gtt symbols
+      drm/i915/gt: Re-do the intel-gtt split
+
+Maarten Lankhorst (1):
+      drm/i915: Use i915_gem_object_ggtt_pin_ww for reloc_iomap
+
+Matt Roper (27):
+      drm/i915/pvc: Read correct RP_STATE_CAP register
+      drm/i915/gvt: Use intel_engine_mask_t for ring mask
+      drm/i915/pvc: Engine definitions for new copy engines
+      drm/i915/pvc: Interrupt support for new copy engines
+      drm/i915/pvc: Reset support for new copy engines
+      drm/i915/uncore: Reorganize and document shadow and forcewake tables
+      drm/i915/pvc: Add forcewake support
+      drm/i915/pvc: Add new BCS engines to GuC engine list
+      drm/i915/hwconfig: Future-proof platform checks
+      drm/i915/pvc: Extract stepping information from PCI revid
+      drm/i915/xehp: Use separate sseu init function
+      drm/i915/xehp: Drop GETPARAM lookups of I915_PARAM_[SUB]SLICE_MASK
+      drm/i915/sseu: Simplify gen11+ SSEU handling
+      drm/i915/sseu: Don't try to store EU mask internally in UAPI format
+      drm/i915/sseu: Disassociate internal subslice mask representation from uapi
+      drm/i915/pvc: Add SSEU changes
+      drm/i915/pvc: GuC depriv applies to PVC
+      drm/i915/dg2: Correct DSS check for Wa_1308578152
+      drm/i915: More PVC+DG2 workarounds
+      drm/i915/xehp: Correct steering initialization
+      drm/i915/pvc: Add register steering
+      drm/i915/pvc: Adjust EU per SS according to HAS_ONE_EU_PER_FUSE_BIT()
+      drm/i915/pvc: Add recommended MMIO setting
+      drm/i915/gt: Move multicast register handling to a dedicated file
+      drm/i915/gt: Cleanup interface for MCR operations
+      drm/i915: Correct duplicated/misplaced GT register definitions
+      drm/i915: Prefer "XEHP_" prefix for registers
+
+Matthew Auld (1):
+      drm/i915: tweak the ordering in cpu_write_needs_clflush
+
+Matthew Brost (1):
+      drm/i915/guc: Support programming the EU priority in the GuC descriptor
+
+Nathan Chancellor (1):
+      drm/i915: Fix CFI violation with show_dynamic_id()
+
+Niranjana Vishwanathapura (2):
+      drm/i915: Do not access rq->engine without a reference
+      Revert "drm/i915: Hold reference to intel_context over life of i915_request"
+
+Nirmoy Das (5):
+      drm/i915: return -EIO on lmem setup failure
+      drm/i915: determine lmem_size properly
+      drm/i915: gracefully error out on platform with small-bar
+      drm/i915: Individualize fences before adding to dma_resv obj
+      drm/i915: Fix a lockdep warning at error capture
+
+Ramalingam C (1):
+      uapi/drm/i915: Document memory residency and Flat-CCS capability of obj
+
+Stuart Summers (3):
+      drm/i915/pvc: Remove additional 3D flags from PIPE_CONTROL
+      drm/i915/pvc: Add initial PVC workarounds
+      drm/i915: Add extra registers to GPU error dump
+
+Swathi Dhanavanthri (2):
+      drm/i915/dg2: Add workaround 22014600077
+      drm/i915/dg2: Extend Wa_22010954014 to DG2-G11 and DG2-G12
+
+Thomas Hellström (1):
+      drm/i915: Improve on suspend / resume time with VT-d enabled
+
+Tvrtko Ursulin (14):
+      drm/i915: Don't use DRM_DEBUG_WARN_ON for unexpected l3bank/mslice config
+      drm/i915: Don't use DRM_DEBUG_WARN_ON for ring unexpectedly not idle
+      drm/i915: Enable THP on Icelake and beyond
+      drm/i915: Only setup private tmpfs mount when needed and fix logging
+      Revert "drm/i915: Drop has_psr from device info"
+      Revert "drm/i915: Drop has_dp_mst from device info"
+      Revert "drm/i915: Drop has_ddi from device info"
+      Revert "drm/i915: Drop has_logical_ring_elsq from device info"
+      Revert "drm/i915: Drop has_reset_engine from device info"
+      Revert "drm/i915: Drop has_rc6 from device info"
+      Revert "drm/i915: Drop has_gt_uc from device info"
+      Merge tag 'drm-intel-next-2022-05-20' of git://anongit.freedesktop.org/drm/drm-intel into drm-intel-gt-next
+      drm/i915: Improve user experience and driver robustness under SIGINT or similar
+      drm/i915/fdinfo: Don't show engine classes not present
+
+Umesh Nerlige Ramappa (2):
+      i915/guc/reset: Make __guc_reset_context aware of guilty engines
+      drm/i915/reset: Add additional steps for Wa_22011802037 for execlist backend
+
+Vinay Belgaumkar (3):
+      drm/i915/guc/rc: Use i915_probe_error instead of drm_error
+      drm/i915: Add global forcewake request to drpc
+      drm/i915/guc/slpc: Use non-blocking H2G for waitboost
+
+YueHaibing (1):
+      drm/i915/gt: Fix build error without CONFIG_PM
+
+katrinzhou (1):
+      drm/i915/gem: add missing else
+
+pengfuyuan (1):
+      drm/i915: Fix spelling typo in comment
+
+ Documentation/gpu/drm-usage-stats.rst              |  112 ++
+ Documentation/gpu/i915.rst                         |   40 +
+ Documentation/gpu/index.rst                        |    1 +
+ MAINTAINERS                                        |    1 +
+ drivers/char/agp/intel-gtt.c                       |   58 +-
+ drivers/gpu/drm/i915/Kconfig                       |    3 +-
+ drivers/gpu/drm/i915/Makefile                      |   11 +
+ drivers/gpu/drm/i915/display/intel_dpt.c           |   18 +-
+ drivers/gpu/drm/i915/display/intel_fb.c            |    2 +-
+ drivers/gpu/drm/i915/display/intel_fb_pin.c        |    2 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c         |    4 +-
+ drivers/gpu/drm/i915/display/intel_plane_initial.c |   56 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c        |  103 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context_types.h  |    6 +
+ drivers/gpu/drm/i915/gem/i915_gem_create.c         |    2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c         |   15 +-
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c         |    6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   23 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c           |    4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c           |    2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c         |    3 +
+ drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |    2 +
+ drivers/gpu/drm/i915/gem/i915_gem_region.c         |   50 +-
+ drivers/gpu/drm/i915/gem/i915_gem_region.h         |    7 +
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |   12 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c       |    2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c         |  146 +-
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.h         |    4 -
+ drivers/gpu/drm/i915/gem/i915_gem_tiling.c         |    2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c            |   52 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h            |    1 +
+ drivers/gpu/drm/i915/gem/i915_gemfs.c              |   50 +-
+ drivers/gpu/drm/i915/gem/i915_gemfs.h              |    3 +-
+ .../drm/i915/gem/selftests/i915_gem_client_blt.c   |  250 ++-
+ .../gpu/drm/i915/gem/selftests/i915_gem_context.c  |    2 +-
+ .../gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c   |    6 +-
+ .../gpu/drm/i915/gem/selftests/i915_gem_migrate.c  |   12 +-
+ drivers/gpu/drm/i915/gem/selftests/mock_context.c  |    5 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c               |    2 +-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c           |  186 ++-
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.h           |   11 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |   12 +-
+ drivers/gpu/drm/i915/gt/intel_context.c            |   53 +-
+ drivers/gpu/drm/i915/gt/intel_context.h            |   40 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h      |   28 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h             |   15 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c          |  251 +++-
+ drivers/gpu/drm/i915/gt/intel_engine_regs.h        |   13 +-
+ drivers/gpu/drm/i915/gt/intel_engine_types.h       |   25 +-
+ drivers/gpu/drm/i915/gt/intel_engine_user.c        |   13 +-
+ .../gpu/drm/i915/gt/intel_execlists_submission.c   |   89 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c               |  238 ++-
+ drivers/gpu/drm/i915/gt/intel_ggtt_gmch.c          |  132 ++
+ drivers/gpu/drm/i915/gt/intel_ggtt_gmch.h          |   27 +
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h       |   68 +-
+ drivers/gpu/drm/i915/gt/intel_gsc.c                |  224 +++
+ drivers/gpu/drm/i915/gt/intel_gsc.h                |   37 +
+ drivers/gpu/drm/i915/gt/intel_gt.c                 |  294 ++--
+ drivers/gpu/drm/i915/gt/intel_gt.h                 |   31 +-
+ drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c     |    4 +
+ drivers/gpu/drm/i915/gt/intel_gt_debugfs.c         |   21 +-
+ drivers/gpu/drm/i915/gt/intel_gt_debugfs.h         |    2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c             |   29 +
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.c             |  497 ++++++
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.h             |   34 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c              |   18 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |   48 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h      |    4 +-
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h            |   98 +-
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs.c           |  117 ++
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs.h           |   30 +
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c        |  779 ++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.h        |   15 +
+ drivers/gpu/drm/i915/gt/intel_gt_types.h           |   29 +
+ drivers/gpu/drm/i915/gt/intel_gtt.c                |   56 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h                |   96 +-
+ drivers/gpu/drm/i915/gt/intel_hwconfig.h           |   21 +
+ drivers/gpu/drm/i915/gt/intel_lrc.c                |  114 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.h                |   36 +-
+ drivers/gpu/drm/i915/gt/intel_migrate.c            |  385 ++++-
+ drivers/gpu/drm/i915/gt/intel_mocs.c               |   24 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c              |    2 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c                |    8 +-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c        |   31 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c              |    9 +-
+ drivers/gpu/drm/i915/gt/intel_ring_submission.c    |   13 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c                |  128 +-
+ drivers/gpu/drm/i915/gt/intel_rps.h                |    6 +-
+ drivers/gpu/drm/i915/gt/intel_rps_types.h          |   15 +
+ drivers/gpu/drm/i915/gt/intel_sseu.c               |  478 +++---
+ drivers/gpu/drm/i915/gt/intel_sseu.h               |  122 +-
+ drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c       |   60 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c        |  201 ++-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c       |   86 +-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c       |    9 +-
+ drivers/gpu/drm/i915/gt/selftest_lrc.c             |   63 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c         |  259 +++-
+ drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h   |   16 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h  |    6 +
+ .../drm/i915/gt/uc/abi/guc_communication_ctb_abi.h |    2 +-
+ drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h    |    4 +
+ drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h      |   15 +
+ drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h  |    2 +-
+ drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h      |  218 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c             |   52 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h             |   29 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c         |  188 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c     | 1584 ++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_capture.h     |   33 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h        |   93 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c    |  164 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c         |  125 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.h         |    7 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c          |    5 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h         |    3 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c        |  114 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h        |    1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h  |    3 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  661 +++++---
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c             |   97 +-
+ drivers/gpu/drm/i915/gt/uc/intel_huc.h             |    5 +-
+ drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c          |    5 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c              |   28 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.h              |    2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |  137 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h           |    2 +
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw_abi.h       |    9 +
+ drivers/gpu/drm/i915/gt/uc/selftest_guc.c          |    2 +-
+ drivers/gpu/drm/i915/gvt/cmd_parser.c              |    2 +-
+ drivers/gpu/drm/i915/i915_debugfs.c                |   12 +-
+ drivers/gpu/drm/i915/i915_driver.c                 |   73 +-
+ drivers/gpu/drm/i915/i915_drm_client.c             |  160 ++
+ drivers/gpu/drm/i915/i915_drm_client.h             |   68 +
+ drivers/gpu/drm/i915/i915_drv.h                    |   51 +-
+ drivers/gpu/drm/i915/i915_file_private.h           |    3 +
+ drivers/gpu/drm/i915/i915_gem.c                    |   89 +-
+ drivers/gpu/drm/i915/i915_getparam.c               |   11 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c              |  324 ++--
+ drivers/gpu/drm/i915/i915_gpu_error.h              |   44 +-
+ drivers/gpu/drm/i915/i915_params.c                 |    3 +
+ drivers/gpu/drm/i915/i915_params.h                 |    1 +
+ drivers/gpu/drm/i915/i915_pci.c                    |   47 +-
+ drivers/gpu/drm/i915/i915_perf.c                   |    4 +-
+ drivers/gpu/drm/i915/i915_perf_types.h             |    2 +-
+ drivers/gpu/drm/i915/i915_query.c                  |  108 +-
+ drivers/gpu/drm/i915/i915_reg.h                    |   46 +-
+ drivers/gpu/drm/i915/i915_reg_defs.h               |    2 -
+ drivers/gpu/drm/i915/i915_request.c                |   57 +-
+ drivers/gpu/drm/i915/i915_request.h                |    2 +
+ drivers/gpu/drm/i915/i915_sysfs.c                  |  327 +---
+ drivers/gpu/drm/i915/i915_sysfs.h                  |    3 +
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.c      |    4 +-
+ drivers/gpu/drm/i915/i915_vma.c                    |  214 +--
+ drivers/gpu/drm/i915/i915_vma.h                    |   15 -
+ drivers/gpu/drm/i915/i915_vma_resource.c           |    2 +-
+ drivers/gpu/drm/i915/i915_vma_resource.h           |    6 +
+ drivers/gpu/drm/i915/i915_vma_types.h              |    8 +-
+ drivers/gpu/drm/i915/intel_device_info.c           |    1 +
+ drivers/gpu/drm/i915/intel_device_info.h           |    8 +-
+ drivers/gpu/drm/i915/intel_memory_region.c         |    2 +-
+ drivers/gpu/drm/i915/intel_memory_region.h         |    8 +-
+ drivers/gpu/drm/i915/intel_pm.c                    |   23 +-
+ drivers/gpu/drm/i915/intel_region_ttm.c            |    7 +-
+ drivers/gpu/drm/i915/intel_region_ttm.h            |    1 +
+ drivers/gpu/drm/i915/intel_step.c                  |   70 +-
+ drivers/gpu/drm/i915/intel_step.h                  |    4 +-
+ drivers/gpu/drm/i915/intel_uncore.c                |  332 ++--
+ drivers/gpu/drm/i915/intel_uncore.h                |    9 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      |   18 +-
+ drivers/gpu/drm/i915/selftests/intel_uncore.c      |    2 +
+ drivers/gpu/drm/i915/selftests/mock_gem_device.c   |   13 +-
+ drivers/gpu/drm/i915/selftests/mock_region.c       |    4 +
+ drivers/misc/mei/Kconfig                           |   14 +
+ drivers/misc/mei/Makefile                          |    3 +
+ drivers/misc/mei/bus-fixup.c                       |   25 +
+ drivers/misc/mei/gsc-me.c                          |  259 ++++
+ drivers/misc/mei/hw-me.c                           |   29 +-
+ drivers/misc/mei/hw-me.h                           |    2 +
+ include/drm/intel-gtt.h                            |   24 +-
+ include/linux/mei_aux.h                            |   19 +
+ include/uapi/drm/i915_drm.h                        |  369 ++++-
+ 181 files changed, 10550 insertions(+), 2810 deletions(-)
+ create mode 100644 Documentation/gpu/drm-usage-stats.rst
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_ggtt_gmch.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_ggtt_gmch.h
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gsc.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gsc.h
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_sysfs.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_sysfs.h
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.h
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_hwconfig.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+ create mode 100644 drivers/gpu/drm/i915/i915_drm_client.c
+ create mode 100644 drivers/gpu/drm/i915/i915_drm_client.h
+ create mode 100644 drivers/misc/mei/gsc-me.c
+ create mode 100644 include/linux/mei_aux.h
