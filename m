@@ -2,59 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D9AC55F5B2
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 07:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A7455F5B4
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 07:35:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90AC8113096;
-	Wed, 29 Jun 2022 05:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4345A12B0D9;
+	Wed, 29 Jun 2022 05:35:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
- [213.80.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42A2F112F70;
- Wed, 29 Jun 2022 05:34:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 38BEB40D31;
- Wed, 29 Jun 2022 07:34:33 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.11
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.11 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Authentication-Results: ste-pvt-msa1.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dHvBiPj_ZNU2; Wed, 29 Jun 2022 07:34:32 +0200 (CEST)
-Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 5970C40D2E;
- Wed, 29 Jun 2022 07:34:29 +0200 (CEST)
-Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id E5B4B360156;
- Wed, 29 Jun 2022 07:34:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1656480869; bh=Q4NBmXKQNd4S9R0Q0tluaMDDBb+gkO5M4n/nZzST2s8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=cD0Al4nZPkkWhtkupV6UMY9WzNjwA4yOn4lSWUJV5mx3+9fY+LQ+34BxCdZyjAxZD
- 8cBZugucs8JUVP2M1t+Qi6I3gaIZTfu6u0retUCaeaek0f0L9TzSSQ8LHH8r4BxhQL
- gReaCzntbjj25n5ZtYikQDB0OQPymOnTyZQyk6lk=
-Message-ID: <0971d84e-e8a9-6fda-5620-3eb3f90f3ecb@shipmail.org>
-Date: Wed, 29 Jun 2022 07:34:28 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [Linaro-mm-sig] [PATCH] drm/i915: Remove __dma_fence_is_chain()
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20220628233512.439555-1-robdclark@gmail.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-In-Reply-To: <20220628233512.439555-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E264C12B0D9;
+ Wed, 29 Jun 2022 05:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656480919; x=1688016919;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=/jyYU4HIgQP020SyOHYuI4AOgaxDm1uh7N8yu8084mc=;
+ b=kbZnT27utr6QZTioNBweSsDng+7mqI9XxLS7O4qx30sM1XmdjbE9iMDd
+ kra3QG75aXum0FXJGJZZW/xlgdKgTqVb/7r8qcrd+glGFCbIBgylexZ92
+ SXx4hnP5pdan9pRezRIUcQ6HIWWnq/jj7AXo/FGhakoynZkj5+d5oWFa7
+ oShQ+PYrC66f3nNH16ZJCrXwRPNZxPXwjK91AdcfPAQdM0B2lW7nwKDs8
+ zxyKdwGHi6gUiiUsGM6oN8ggejVv9qlWJ0S1bKgG76KjGIMD1t1BFs04Z
+ MTjq9xS1cqr6vll9EPB1HZVxhVWcPXcUIrXwiAHlm9tWsyPYw1DpEKlAy A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="270692094"
+X-IronPort-AV: E=Sophos;i="5.92,230,1650956400"; d="scan'208";a="270692094"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 22:35:19 -0700
+X-IronPort-AV: E=Sophos;i="5.92,230,1650956400"; d="scan'208";a="658414420"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.209.82.188])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2022 22:35:15 -0700
+Date: Tue, 28 Jun 2022 22:35:13 -0700
+Message-ID: <87o7ycowvi.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/reset: Handle reset timeouts under unrelated
+ kernel hangs
+In-Reply-To: <20220628191741.28866-1-ashutosh.dixit@intel.com>
+References: <20220628191741.28866-1-ashutosh.dixit@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,56 +59,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Matthew Auld <matthew.auld@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris.p.wilson@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 6/29/22 01:35, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Tue, 28 Jun 2022 12:17:41 -0700, Ashutosh Dixit wrote:
 >
-> drive-by cleanup
+> From: Chris Wilson <chris@chris-wilson.co.uk>
 >
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-
+> When resuming after hibernate sometimes we see hangs in unrelated kernel
+> subsystems. These hangs often result in the following i915 trace:
+>
+> i915 0000:00:02.0: [drm] \
+>	*ERROR* intel_gt_reset_global timed out, cancelling all in-flight rendering.
+>
+> implying our reset task has been starved by the hanging kernel subsystem,
+> causing us to inappropiately declare the system as wedged beyond recovery.
+>
+> The trace would be caused by our synchronize_srcu_expedited() taking more
+> than the allowed 5s due to the unrelated kernel hang. But we neither need
+> to perform that synchronisation inside the reset watchdog, nor do we need
+> such a short timeout before declaring the device as unrecoverable.
+>
+> Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/3575
+> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
 > ---
->   drivers/gpu/drm/i915/gem/i915_gem_wait.c | 7 +------
->   1 file changed, 1 insertion(+), 6 deletions(-)
+>  drivers/gpu/drm/i915/gt/intel_reset.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> index 319936f91ac5..667841780514 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> @@ -73,11 +73,6 @@ static void fence_set_priority(struct dma_fence *fence,
->   	rcu_read_unlock();
->   }
->   
-> -static inline bool __dma_fence_is_chain(const struct dma_fence *fence)
-> -{
-> -	return fence->ops == &dma_fence_chain_ops;
-> -}
+> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
+> index a5338c3fde7a0..e72744f6faedc 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+> @@ -1259,12 +1259,9 @@ static void intel_gt_reset_global(struct intel_gt *gt,
+>	kobject_uevent_env(kobj, KOBJ_CHANGE, reset_event);
+>
+>	/* Use a watchdog to ensure that our reset completes */
+> -	intel_wedge_on_timeout(&w, gt, 5 * HZ) {
+> +	intel_wedge_on_timeout(&w, gt, 60 * HZ) {
+
+How about we take one step at a time so if we are moving
+synchronize_srcu_expedited() out of the reset watchdog, we leave the
+timeout to the previous 5s? With the original timeout restored this patch
+is:
+
+Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+
+>		intel_display_prepare_reset(gt->i915);
+>
+> -		/* Flush everyone using a resource about to be clobbered */
+> -		synchronize_srcu_expedited(&gt->reset.backoff_srcu);
 > -
->   void i915_gem_fence_wait_priority(struct dma_fence *fence,
->   				  const struct i915_sched_attr *attr)
->   {
-> @@ -93,7 +88,7 @@ void i915_gem_fence_wait_priority(struct dma_fence *fence,
->   
->   		for (i = 0; i < array->num_fences; i++)
->   			fence_set_priority(array->fences[i], attr);
-> -	} else if (__dma_fence_is_chain(fence)) {
-> +	} else if (dma_fence_is_chain(fence)) {
->   		struct dma_fence *iter;
->   
->   		/* The chain is ordered; if we boost the last, we boost all */
+>		intel_gt_reset(gt, engine_mask, reason);
+>
+>		intel_display_finish_reset(gt->i915);
+> @@ -1373,6 +1370,9 @@ void intel_gt_handle_error(struct intel_gt *gt,
+>		}
+>	}
+>
+> +	/* Flush everyone using a resource about to be clobbered */
+> +	synchronize_srcu_expedited(&gt->reset.backoff_srcu);
+> +
+>	intel_gt_reset_global(gt, engine_mask, msg);
+>
+>	if (!intel_uc_uses_guc_submission(&gt->uc)) {
+> --
+> 2.36.1
+>
