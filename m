@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6722255F56B
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 06:54:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E570255F598
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 07:11:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6326C10FCD1;
-	Wed, 29 Jun 2022 04:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3EA810F69E;
+	Wed, 29 Jun 2022 05:11:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 044BB10FCD1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 04:54:47 +0000 (UTC)
-X-UUID: 249f1d6a89144764b965b93fc9ef0a55-20220629
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87D3110F69E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 05:11:51 +0000 (UTC)
+X-UUID: 9a1486d20bb3489990da920137bdb134-20220629
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.7, REQID:1b9d52b0-fbe2-4d78-8438-ac87ad9fd276, OB:0,
+X-CID-O-INFO: VERSION:1.1.7, REQID:2071d344-248b-4313-a445-cbe165339b19, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:0
-X-CID-META: VersionHash:87442a2, CLOUDID:f45eeb62-0b3f-4b2c-b3a6-ed5c044366a0,
+X-CID-META: VersionHash:87442a2, CLOUDID:a65e0e86-57f0-47ca-ba27-fe8c57fbf305,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
  ,QS:nil,BEC:nil,COL:0
-X-UUID: 249f1d6a89144764b965b93fc9ef0a55-20220629
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 54832002; Wed, 29 Jun 2022 12:54:46 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.792.15; Wed, 29 Jun 2022 12:54:44 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n1.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Wed, 29 Jun 2022 12:54:44 +0800
-Message-ID: <795ff1c78743f2345c9036b1b96966d238be0482.camel@mediatek.com>
+X-UUID: 9a1486d20bb3489990da920137bdb134-20220629
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 358576716; Wed, 29 Jun 2022 13:11:35 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Wed, 29 Jun 2022 13:11:34 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 29 Jun 2022 13:11:33 +0800
+Message-ID: <9c9e8e796abd339fe755cfa33ea14d137fd51257.camel@mediatek.com>
 Subject: Re: [PATCH v12 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
  driver
 From: CK Hu <ck.hu@mediatek.com>
@@ -43,7 +43,7 @@ To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
  <airlied@linux.ie>
-Date: Wed, 29 Jun 2022 12:54:44 +0800
+Date: Wed, 29 Jun 2022 13:11:33 +0800
 In-Reply-To: <20220627080341.5087-6-rex-bc.chen@mediatek.com>
 References: <20220627080341.5087-1-rex-bc.chen@mediatek.com>
  <20220627080341.5087-6-rex-bc.chen@mediatek.com>
@@ -106,34 +106,30 @@ On Mon, 2022-06-27 at 16:03 +0800, Bo-Chen Chen wrote:
 [snip]
 
 > +
-> +static void mtk_dp_setup_tu(struct mtk_dp *mtk_dp)
+> +static int link_rate_to_mb_per_s(struct mtk_dp *mtk_dp, u32
+> linkrate)
 > +{
-> +	u32 sram_read_start = MTK_DP_TBC_BUF_READ_START_ADDR;
+> +	switch (linkrate) {
+> +	case DP_LINK_BW_1_62:
+> +		return 1620;
+> +	case DP_LINK_BW_2_7:
+> +		return 2700;
+> +	case DP_LINK_BW_5_4:
+> +		return 5400;
+> +	case DP_LINK_BW_8_1:
+> +		return 8100;
+> +	default:
+> +		drm_err(mtk_dp->drm_dev,
+> +			"Implementation error, unknown linkrate %d\n",
+> +			linkrate);
+> +		return -EINVAL;
+> +	}
+> +}
 
-This initial value is redundant. So remove this initial value.
-
-> +
-> +	if (mtk_dp->train_info.lane_count > 0) {
-
-This checking would always be true.
-This function would be called after training success, so mtk_dp-
->train_info.lane_count would be greater than 0.
-So remove this checking.
+It looks like this function is equal to drm_dp_bw_code_to_link_rate(),
+so remove this function and use drm_dp_bw_code_to_link_rate().
 
 Regards,
 CK
 
-> +		sram_read_start = min_t(u32,
-> +					MTK_DP_TBC_BUF_READ_START_ADDR,
-> +					mtk_dp->info.timings.vm.hactive 
-> /
-> +					mtk_dp->train_info.lane_count /
-> +					MTK_DP_4P1T / MTK_DP_HDE /
-> MTK_DP_PIX_PER_ADDR);
-> +		mtk_dp_set_sram_read_start(mtk_dp, sram_read_start);
-> +	}
-> +
-> +	mtk_dp_setup_encoder(mtk_dp);
-> +}
-> +
 
