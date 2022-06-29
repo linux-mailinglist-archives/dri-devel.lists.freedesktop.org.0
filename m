@@ -2,61 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E45D560552
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 18:06:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BFDA560566
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jun 2022 18:09:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8F610E2FE;
-	Wed, 29 Jun 2022 16:06:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF2E110E10A;
+	Wed, 29 Jun 2022 16:09:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A5FE10E52A
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 16:06:11 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- g16-20020a17090a7d1000b001ea9f820449so19898365pjl.5
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 09:06:11 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4347510E10A
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 16:09:19 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id mf9so33660213ejb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jun 2022 09:09:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jjoZa4oRghyRXFlLw4DClOAhKTZMl2uJvOPWFlMMk24=;
- b=ci6b5plqfpyMOn/13KVzANy4B4Rw1UFEP8CVEpPlw6wBopmzuXQme/cGfxNlpgxG1f
- mmTB4kdLCSpAEwAyqVvM0ReKyOuCbetN6Vtc9KdptUPJJU3JAorOKZ1fODsDgpTR3Hsh
- jFFDXR3iw4NZEsFlRNgMcRZUd3+U9jjmD8dz4=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JDZdXHc/WphZg80zTh85LyzZS5T7NHb+tCoW2mm59OU=;
+ b=J9HxEwV3n+R04yS/42UfmWmxhW+k5z5P8BuhtL4w53/Nl5JV6km2qp6KrCt4X7eGx2
+ 67xG74PT4oJtkgzPJ3GlNoYKFINs1daCGdR0q2yyKAELO5jwm9nDPmXyxEWYGaUpUm76
+ rzVb0HTiuU+JlLEuJEESm9M/c3xQFxHgJ1y7A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jjoZa4oRghyRXFlLw4DClOAhKTZMl2uJvOPWFlMMk24=;
- b=pBLrXfCvI/doqgOAZAhVUAu+jiwM/1b8rZwKQT91+4uXLZkcKcrsoT6j62dS+kcQyf
- ho1k/sQzgbV0o1Qw4i9C2sQwwO1VPXjfcOMzdJUNKUenjc8Ws7t5FQXCW4B6CK6GqwCR
- WKcEjQdu3tEv8s5ixX8IT+suWoWRCKOPmfBatrSbJbKmGBApTATl2o1EXxUgdZQHiLvv
- QoUy31/u3X6mOiFKn+d6Em+qccUnG1yVgg0WdOlz6ILJ2JC0eU8G79jXLRYOzMjrokX1
- h+0EZuI13yiA4/Apn6xnmBiRyWIycyXYryo4hikdXU0/Ug313igWj8r7setuoEcZin3X
- AI8g==
-X-Gm-Message-State: AJIora+8FhdBYH7wYCfjDvEdXuiYhF8RWK2xjcz25Din2nBL0KTTHvr6
- QyDSjQUXPIwecI8rOZQScf8Ymf/uJ+6o4g==
-X-Google-Smtp-Source: AGRyM1u+U191CnPQy0WhIfImTsCFkxYOpxdbN26rcYsm/FPVqX/YPldsedf3YCIavcqiQsWlmZY2xg==
-X-Received: by 2002:a17:902:ef46:b0:168:bac3:2fd4 with SMTP id
- e6-20020a170902ef4600b00168bac32fd4mr11007834plx.132.1656518771029; 
- Wed, 29 Jun 2022 09:06:11 -0700 (PDT)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:9841:721:7d8b:4502])
- by smtp.gmail.com with ESMTPSA id
- r19-20020a170902e3d300b00163f8ddf160sm11495350ple.161.2022.06.29.09.06.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jun 2022 09:06:10 -0700 (PDT)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Robert Foss <robert.foss@linaro.org>,
-	Xin Ji <xji@analogixsemi.com>
-Subject: [PATCH 4/4] drm/bridge: anx7625: Add wait_hpd_asserted() callback
-Date: Thu, 30 Jun 2022 00:05:50 +0800
-Message-Id: <20220629160550.433980-5-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
-In-Reply-To: <20220629160550.433980-1-hsinyi@chromium.org>
-References: <20220629160550.433980-1-hsinyi@chromium.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JDZdXHc/WphZg80zTh85LyzZS5T7NHb+tCoW2mm59OU=;
+ b=s89sZvoIXpVrRMbkfYyHQBXLR8+i6WobkfzhNA4zmfDiL1OH3nviGPDZnIvTue3h0L
+ jt3Wclxvr5aRx6rqoVvo9FRFaBsRIWZEItL8w2h0ra0A5Jxri0wfK6WNT5lCol07y244
+ 3Oz5gj/IMRCm7whTevt5KETjirxidnD2oA3inYd5dtbmDrS4TnzVek1fAbvka+tYNN0z
+ YgcByo/fISZs1HjlwJlP5bFKjs8yYcKqorzk0kSiw9gBkZ8SDMyqP0JAdHkZ3tT3k7DL
+ OYlHouoJaZ5jbREEYrcc3oq93gl8L8a6sk66Uo2gWPeMYjHok32EGZ/0Ti8lxEQhm3fj
+ kDeA==
+X-Gm-Message-State: AJIora8kA4htT8keFJTYqTw1LUccwNcafmIHeTmhTd0WuaNFa5A60fcJ
+ a/j02scaMA9dVHdCj41R1V+Ee6TS1werem+/W9WZrw==
+X-Google-Smtp-Source: AGRyM1szLBHVbi6zOMzheJPJbhBaypovfe5Tpwg0NHcZ0Qb5aSvDOhIremhJNjtUHHe+ifmv75aalV85sZjzYtAkVe0=
+X-Received: by 2002:a17:906:9b92:b0:722:f705:759d with SMTP id
+ dd18-20020a1709069b9200b00722f705759dmr4069538ejc.745.1656518957624; Wed, 29
+ Jun 2022 09:09:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220628104650.2239191-1-hsinyi@chromium.org>
+In-Reply-To: <20220628104650.2239191-1-hsinyi@chromium.org>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Thu, 30 Jun 2022 00:08:51 +0800
+Message-ID: <CAJMQK-j6VMBrt+31ozUw7V50SFn-PXQWtO1jq+b05TTCNToiAg@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: anx7625: use pm_runtime_force_suspend(resume)
+To: Robert Foss <robert.foss@linaro.org>, Xin Ji <xji@analogixsemi.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,113 +69,68 @@ Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move hpd polling check into wait_hpd_asserted() callback. For the cases
-that aux transfer function wasn't used, do hpd polling check after pm
-runtime resume, which will power on the bridge.
+On Tue, Jun 28, 2022 at 6:46 PM Hsin-Yi Wang <hsinyi@chromium.org> wrote:
+>
+> There's no need to check for IRQ or disable it in suspend.
+>
+> Use pm_runtime_force_suspend(resume) to make sure anx7625 is powered off
+> correctly. Make the system suspend/resume and pm runtime suspend/resume
+> more consistant.
+>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> ---
+The patch is re-sent again with other anx7625 patches in this series:
+https://lore.kernel.org/lkml/20220629160550.433980-1-hsinyi@chromium.org/
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 33 ++++++++++++++++++-----
- 1 file changed, 27 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 59ddeba33652b..ea5a0b86fe52a 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -1443,23 +1443,24 @@ static int anx7625_read_hpd_status_p0(struct anx7625_data *ctx)
- 	return anx7625_reg_read(ctx, ctx->i2c.rx_p0_client, SYSTEM_STSTUS);
- }
- 
--static void anx7625_hpd_polling(struct anx7625_data *ctx)
-+static int _anx7625_hpd_polling(struct anx7625_data *ctx,
-+				 unsigned long wait_us)
- {
- 	int ret, val;
- 	struct device *dev = &ctx->client->dev;
- 
- 	/* Interrupt mode, no need poll HPD status, just return */
- 	if (ctx->pdata.intp_irq)
--		return;
-+		return 0;
- 
- 	ret = readx_poll_timeout(anx7625_read_hpd_status_p0,
- 				 ctx, val,
- 				 ((val & HPD_STATUS) || (val < 0)),
--				 5000,
--				 5000 * 100);
-+				 wait_us / 100,
-+				 wait_us);
- 	if (ret) {
- 		DRM_DEV_ERROR(dev, "no hpd.\n");
--		return;
-+		return ret;
- 	}
- 
- 	DRM_DEV_DEBUG_DRIVER(dev, "system status: 0x%x. HPD raise up.\n", val);
-@@ -1472,6 +1473,23 @@ static void anx7625_hpd_polling(struct anx7625_data *ctx)
- 
- 	if (!ctx->pdata.panel_bridge && ctx->bridge_attached)
- 		drm_helper_hpd_irq_event(ctx->bridge.dev);
-+
-+	return 0;
-+}
-+
-+static int anx7625_wait_hpd_asserted(struct drm_dp_aux *aux,
-+				     unsigned long wait_us)
-+{
-+	struct anx7625_data *ctx = container_of(aux, struct anx7625_data, aux);
-+	struct device *dev = &ctx->client->dev;
-+	int ret;
-+
-+	pm_runtime_get_sync(dev);
-+	ret = _anx7625_hpd_polling(ctx, wait_us);
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
-+	return ret;
- }
- 
- static void anx7625_remove_edid(struct anx7625_data *ctx)
-@@ -1741,6 +1759,7 @@ static struct edid *anx7625_get_edid(struct anx7625_data *ctx)
- 	}
- 
- 	pm_runtime_get_sync(dev);
-+	_anx7625_hpd_polling(ctx, 5000 * 100);
- 	edid_num = sp_tx_edid_read(ctx, p_edid->edid_raw_data);
- 	pm_runtime_put_sync(dev);
- 
-@@ -2378,6 +2397,7 @@ static void anx7625_bridge_atomic_enable(struct drm_bridge *bridge,
- 	ctx->connector = connector;
- 
- 	pm_runtime_get_sync(dev);
-+	_anx7625_hpd_polling(ctx, 5000 * 100);
- 
- 	anx7625_dp_start(ctx);
- }
-@@ -2497,7 +2517,6 @@ static int __maybe_unused anx7625_runtime_pm_resume(struct device *dev)
- 	mutex_lock(&ctx->lock);
- 
- 	anx7625_power_on_init(ctx);
--	anx7625_hpd_polling(ctx);
- 
- 	mutex_unlock(&ctx->lock);
- 
-@@ -2589,6 +2608,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
- 	platform->aux.name = "anx7625-aux";
- 	platform->aux.dev = dev;
- 	platform->aux.transfer = anx7625_aux_transfer;
-+	platform->aux.wait_hpd_asserted = anx7625_wait_hpd_asserted;
- 	drm_dp_aux_init(&platform->aux);
- 
- 	if (anx7625_register_i2c_dummy_clients(platform, client) != 0) {
-@@ -2617,6 +2637,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
- 	if (!platform->pdata.low_power_mode) {
- 		anx7625_disable_pd_protocol(platform);
- 		pm_runtime_get_sync(dev);
-+		_anx7625_hpd_polling(platform, 5000 * 100);
- 	}
- 
- 	/* Add work function */
--- 
-2.37.0.rc0.161.g10f37bed90-goog
-
+>  drivers/gpu/drm/bridge/analogix/anx7625.c | 33 ++---------------------
+>  1 file changed, 2 insertions(+), 31 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> index 3710fa9ee0acd..09688a1076037 100644
+> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> @@ -2542,38 +2542,9 @@ static int __maybe_unused anx7625_runtime_pm_resume(struct device *dev)
+>         return 0;
+>  }
+>
+> -static int __maybe_unused anx7625_resume(struct device *dev)
+> -{
+> -       struct anx7625_data *ctx = dev_get_drvdata(dev);
+> -
+> -       if (!ctx->pdata.intp_irq)
+> -               return 0;
+> -
+> -       if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
+> -               enable_irq(ctx->pdata.intp_irq);
+> -               anx7625_runtime_pm_resume(dev);
+> -       }
+> -
+> -       return 0;
+> -}
+> -
+> -static int __maybe_unused anx7625_suspend(struct device *dev)
+> -{
+> -       struct anx7625_data *ctx = dev_get_drvdata(dev);
+> -
+> -       if (!ctx->pdata.intp_irq)
+> -               return 0;
+> -
+> -       if (!pm_runtime_enabled(dev) || !pm_runtime_suspended(dev)) {
+> -               anx7625_runtime_pm_suspend(dev);
+> -               disable_irq(ctx->pdata.intp_irq);
+> -       }
+> -
+> -       return 0;
+> -}
+> -
+>  static const struct dev_pm_ops anx7625_pm_ops = {
+> -       SET_SYSTEM_SLEEP_PM_OPS(anx7625_suspend, anx7625_resume)
+> +       SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
+> +                               pm_runtime_force_resume)
+>         SET_RUNTIME_PM_OPS(anx7625_runtime_pm_suspend,
+>                            anx7625_runtime_pm_resume, NULL)
+>  };
+> --
+> 2.37.0.rc0.161.g10f37bed90-goog
+>
