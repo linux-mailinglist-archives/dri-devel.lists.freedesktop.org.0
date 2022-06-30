@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911F5562002
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 18:11:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6348D56201F
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 18:20:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A627110F319;
-	Thu, 30 Jun 2022 16:11:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50768112524;
+	Thu, 30 Jun 2022 16:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
- [IPv6:2607:f8b0:4864:20::c31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C0CC10F319
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 16:11:36 +0000 (UTC)
-Received: by mail-oo1-xc31.google.com with SMTP id
- p6-20020a4aa846000000b0042599456d32so2951203oom.9
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 09:11:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=ebuDjjYvCn67A/ZUjfTPJiUITfX+4rysbbkqGg2nGLI=;
- b=HhBKTpe4Tlkzwktgdf4itiANzlx6CO61F3GvAzY16HOAazW63Cl4oZQ2z3EXEve9y4
- QNiwVmO1PCOjlQgIbrlHg7H8dfNwDGZno+l0aDrkrAe3sOOqWo4ag3La9SipsaPJdBZJ
- dJoUnRvirWU73foatn0TYKtNXR2QX5lPYTR9BQhimyaXWq/EgeBaYfMK6NZjQE32PGWu
- wGEtA0ZBov+1JYJ9NyJRqPl07NDsuqIGbD2qq7/sHSw3y+MjDLnMpv7kDaZ4uOkB5N7Y
- dbXTyekAfvky+jsrGtN1TcySGS3Md1Yml127R5HHN/fnxArYBxSuz2rc9AnS0acxiB5z
- gXHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=ebuDjjYvCn67A/ZUjfTPJiUITfX+4rysbbkqGg2nGLI=;
- b=i/tvAoDod/Mkl64hgFqoXdVfbogEgRunvkghFW4cYF3CZJZ6aMD4xyLlc/W+w9scVj
- NUzk/VF4RzFUd7HB250VlyD71kSxEzLG69GLAx3WpQrdaeO/MmX72JmEZVjfiRBgU6Sb
- ydLsOnfRbYYiZIb9HgtSTajAvyr40fS6X5YFVRIb+a/eD7uZPtZFdSriLnrNN9GGdCd3
- G0f41AJJkcZku3NFtTJDbNfLVSWk9/wBZ8thxgn8ppTi2uxoIZdU4LfjXDfgEpc8ljQr
- EA5J66DSlVtad/dTOOpbnBey3yholUnrvrsIsszJri9P5GM3LObLedaGX8fuOOu141hT
- SIQA==
-X-Gm-Message-State: AJIora9IOhUkas35B8l+lhT4+VQicSpgdixL7MuyAPmM1BjkAIQALFkk
- ZjuxgVYJ3UdSpFHItSaaubrCwBd19gG2zzeBvxGPa+Rr9kLeCg==
-X-Google-Smtp-Source: AGRyM1tGNSbCPdbHfcJ/1d923LhfQ9joj5XYIiO1XhAY1NdZMGqSmyqXD2GhXRgjBoJuQ9e78/EFELJrN8T80akVx6A=
-X-Received: by 2002:a4a:e616:0:b0:425:9f4c:36b2 with SMTP id
- f22-20020a4ae616000000b004259f4c36b2mr4134090oot.77.1656605494837; Thu, 30
- Jun 2022 09:11:34 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3733511264C;
+ Thu, 30 Jun 2022 16:20:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656606002; x=1688142002;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=vCfcFBwVzLgjcWafOLHuS9b7OnfcJifWpaAae9T7Xbk=;
+ b=fItRpHCkKwzwPGj0nJ/Sn1G6v90LdvTt7sfBDyjuX1Gsr0SM3jxA+rj8
+ 20jky33hm+kGwVv/Pfaqp4wDRvS+1GstjIOYY+sf0WjrJQg5j2o4WSf2w
+ zadgo/WmyXcUs7J56rqxjy8z5h4S1o5TyQviRLDsZJMXZFgZ/GH4rV14h
+ nWozJcJRPCLGj7ZwlBaMQlrPefr57+PFIFp304eWblbTKYlnXQqWJioFr
+ 91F8RQ1zQwQYw17iKrKU+J7FiJNrdlf2XW+AE9JtD98pmkJfnFuUwKRgi
+ uIlbszz+v/Kdr56Hmx3eMjI+g4bmlC894PRaA3LS9VX24KsQHbMfTP0ya g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10394"; a="282426508"
+X-IronPort-AV: E=Sophos;i="5.92,234,1650956400"; d="scan'208";a="282426508"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2022 09:18:31 -0700
+X-IronPort-AV: E=Sophos;i="5.92,234,1650956400"; d="scan'208";a="918109402"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2022 09:18:31 -0700
+Date: Thu, 30 Jun 2022 09:18:11 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>
+Subject: Re: [PATCH v6 3/3] drm/doc/rfc: VM_BIND uapi definition
+Message-ID: <20220630161811.GF14039@nvishwa1-DESK>
+References: <20220626014916.5130-1-niranjana.vishwanathapura@intel.com>
+ <20220626014916.5130-4-niranjana.vishwanathapura@intel.com>
+ <d805c4bfb11acd1f9271a72650f39174be30501c.camel@intel.com>
+ <20220630060820.GB14039@nvishwa1-DESK>
+ <406c2c67ad85258d1f8ee0fa918706a7e8b6605d.camel@intel.com>
 MIME-Version: 1.0
-From: Naresh Kamboju <naresh.kamboju@linaro.org>
-Date: Thu, 30 Jun 2022 21:41:23 +0530
-Message-ID: <CA+G9fYve16J7=4f+WAVrTUspxkKA+3BonHzGyk8VP=U+D9irOQ@mail.gmail.com>
-Subject: [next] Rpi4 : WARNING: at drivers/gpu/drm/vc4/vc4_hdmi_regs.h:487
- vc5_hdmi_reset+0x1f0/0x240 [vc4]
-To: open list <linux-kernel@vger.kernel.org>,
- linux-rpi-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <406c2c67ad85258d1f8ee0fa918706a7e8b6605d.camel@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,113 +61,430 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
- Emma Anholt <emma@anholt.net>, Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: "Brost, Matthew" <matthew.brost@intel.com>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Zeng,
+ Oak" <oak.zeng@intel.com>, "Wilson, Chris P" <chris.p.wilson@intel.com>,
+ "jason@jlekstrand.net" <jason@jlekstrand.net>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>, "Landwerlin,
+ Lionel G" <lionel.g.landwerlin@intel.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>, "Auld,
+ Matthew" <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The following kernel warning found on Rpi4 while booting linux next-20220630.
-Boot log details [1] & [2].
+On Wed, Jun 29, 2022 at 11:39:52PM -0700, Zanoni, Paulo R wrote:
+>On Wed, 2022-06-29 at 23:08 -0700, Niranjana Vishwanathapura wrote:
+>> On Wed, Jun 29, 2022 at 05:33:49PM -0700, Zanoni, Paulo R wrote:
+>> > On Sat, 2022-06-25 at 18:49 -0700, Niranjana Vishwanathapura wrote:
+>> > > VM_BIND and related uapi definitions
+>> > >
+>> > > v2: Reduce the scope to simple Mesa use case.
+>> > > v3: Expand VM_UNBIND documentation and add
+>> > >     I915_GEM_VM_BIND/UNBIND_FENCE_VALID
+>> > >     and I915_GEM_VM_BIND_TLB_FLUSH flags.
+>> > > v4: Remove I915_GEM_VM_BIND_TLB_FLUSH flag and add additional
+>> > >     documentation for vm_bind/unbind.
+>> > > v5: Remove TLB flush requirement on VM_UNBIND.
+>> > >     Add version support to stage implementation.
+>> > > v6: Define and use drm_i915_gem_timeline_fence structure for
+>> > >     all timeline fences.
+>> > > v7: Rename I915_PARAM_HAS_VM_BIND to I915_PARAM_VM_BIND_VERSION.
+>> > >     Update documentation on async vm_bind/unbind and versioning.
+>> > >     Remove redundant vm_bind/unbind FENCE_VALID flag, execbuf3
+>> > >     batch_count field and I915_EXEC3_SECURE flag.
+>> > >
+>> > > Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>> > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> > > ---
+>> > >  Documentation/gpu/rfc/i915_vm_bind.h | 280 +++++++++++++++++++++++++++
+>> > >  1 file changed, 280 insertions(+)
+>> > >  create mode 100644 Documentation/gpu/rfc/i915_vm_bind.h
+>> > >
+>> > > diff --git a/Documentation/gpu/rfc/i915_vm_bind.h b/Documentation/gpu/rfc/i915_vm_bind.h
+>> > > new file mode 100644
+>> > > index 000000000000..a93e08bceee6
+>> > > --- /dev/null
+>> > > +++ b/Documentation/gpu/rfc/i915_vm_bind.h
+>> > > @@ -0,0 +1,280 @@
+>> > > +/* SPDX-License-Identifier: MIT */
+>> > > +/*
+>> > > + * Copyright © 2022 Intel Corporation
+>> > > + */
+>> > > +
+>> > > +/**
+>> > > + * DOC: I915_PARAM_VM_BIND_VERSION
+>> > > + *
+>> > > + * VM_BIND feature version supported.
+>> > > + * See typedef drm_i915_getparam_t param.
+>> > > + *
+>> > > + * Specifies the VM_BIND feature version supported.
+>> > > + * The following versions of VM_BIND have been defined:
+>> > > + *
+>> > > + * 0: No VM_BIND support.
+>> > > + *
+>> > > + * 1: In VM_UNBIND calls, the UMD must specify the exact mappings created
+>> > > + *    previously with VM_BIND, the ioctl will not support unbinding multiple
+>> > > + *    mappings or splitting them. Similarly, VM_BIND calls will not replace
+>> > > + *    any existing mappings.
+>> > > + *
+>> > > + * 2: The restrictions on unbinding partial or multiple mappings is
+>> > > + *    lifted, Similarly, binding will replace any mappings in the given range.
+>> > > + *
+>> > > + * See struct drm_i915_gem_vm_bind and struct drm_i915_gem_vm_unbind.
+>> > > + */
+>> > > +#define I915_PARAM_VM_BIND_VERSION   57
+>> > > +
+>> > > +/**
+>> > > + * DOC: I915_VM_CREATE_FLAGS_USE_VM_BIND
+>> > > + *
+>> > > + * Flag to opt-in for VM_BIND mode of binding during VM creation.
+>> > > + * See struct drm_i915_gem_vm_control flags.
+>> > > + *
+>> > > + * The older execbuf2 ioctl will not support VM_BIND mode of operation.
+>> > > + * For VM_BIND mode, we have new execbuf3 ioctl which will not accept any
+>> > > + * execlist (See struct drm_i915_gem_execbuffer3 for more details).
+>> > > + */
+>> > > +#define I915_VM_CREATE_FLAGS_USE_VM_BIND     (1 << 0)
+>> > > +
+>> > > +/* VM_BIND related ioctls */
+>> > > +#define DRM_I915_GEM_VM_BIND         0x3d
+>> > > +#define DRM_I915_GEM_VM_UNBIND               0x3e
+>> > > +#define DRM_I915_GEM_EXECBUFFER3     0x3f
+>> > > +
+>> > > +#define DRM_IOCTL_I915_GEM_VM_BIND           DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_BIND, struct drm_i915_gem_vm_bind)
+>> > > +#define DRM_IOCTL_I915_GEM_VM_UNBIND         DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_VM_UNBIND, struct drm_i915_gem_vm_bind)
+>> > > +#define DRM_IOCTL_I915_GEM_EXECBUFFER3               DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_EXECBUFFER3, struct drm_i915_gem_execbuffer3)
+>> > > +
+>> > > +/**
+>> > > + * struct drm_i915_gem_timeline_fence - An input or output timeline fence.
+>> > > + *
+>> > > + * The operation will wait for input fence to signal.
+>> > > + *
+>> > > + * The returned output fence will be signaled after the completion of the
+>> > > + * operation.
+>> > > + */
+>> > > +struct drm_i915_gem_timeline_fence {
+>> > > +     /** @handle: User's handle for a drm_syncobj to wait on or signal. */
+>> > > +     __u32 handle;
+>> > > +
+>> > > +     /**
+>> > > +      * @flags: Supported flags are:
+>> > > +      *
+>> > > +      * I915_TIMELINE_FENCE_WAIT:
+>> > > +      * Wait for the input fence before the operation.
+>> > > +      *
+>> > > +      * I915_TIMELINE_FENCE_SIGNAL:
+>> > > +      * Return operation completion fence as output.
+>> > > +      */
+>> > > +     __u32 flags;
+>> > > +#define I915_TIMELINE_FENCE_WAIT            (1 << 0)
+>> > > +#define I915_TIMELINE_FENCE_SIGNAL          (1 << 1)
+>> > > +#define __I915_TIMELINE_FENCE_UNKNOWN_FLAGS (-(I915_TIMELINE_FENCE_SIGNAL << 1))
+>> > > +
+>> > > +     /**
+>> > > +      * @value: A point in the timeline.
+>> > > +      * Value must be 0 for a binary drm_syncobj. A Value of 0 for a
+>> > > +      * timeline drm_syncobj is invalid as it turns a drm_syncobj into a
+>> > > +      * binary one.
+>> > > +      */
+>> > > +     __u64 value;
+>> > > +};
+>> > > +
+>> > > +/**
+>> > > + * struct drm_i915_gem_vm_bind - VA to object mapping to bind.
+>> > > + *
+>> > > + * This structure is passed to VM_BIND ioctl and specifies the mapping of GPU
+>> > > + * virtual address (VA) range to the section of an object that should be bound
+>> > > + * in the device page table of the specified address space (VM).
+>> > > + * The VA range specified must be unique (ie., not currently bound) and can
+>> > > + * be mapped to whole object or a section of the object (partial binding).
+>> > > + * Multiple VA mappings can be created to the same section of the object
+>> > > + * (aliasing).
+>> > > + *
+>> > > + * The @start, @offset and @length must be 4K page aligned. However the DG2
+>> > > + * and XEHPSDV has 64K page size for device local-memory and has compact page
+>> > > + * table. On those platforms, for binding device local-memory objects, the
+>> > > + * @start must be 2M aligned, @offset and @length must be 64K aligned.
+>> > > + * Also, for such mappings, i915 will reserve the whole 2M range for it so as
+>> > > + * to not allow multiple mappings in that 2M range (Compact page tables do not
+>> > > + * allow 64K page and 4K page bindings in the same 2M range).
+>> > > + *
+>> > > + * Error code -EINVAL will be returned if @start, @offset and @length are not
+>> > > + * properly aligned. In version 1 (See I915_PARAM_VM_BIND_VERSION), error code
+>> > > + * -ENOSPC will be returned if the VA range specified can't be reserved.
+>> > > + *
+>> > > + * VM_BIND/UNBIND ioctl calls executed on different CPU threads concurrently
+>> > > + * are not ordered. Furthermore, parts of the VM_BIND operation can be done
+>> > > + * asynchronously, if valid @fence is specified.
+>> >
+>> > Does that mean that if I don't provide @fence, then this ioctl will be
+>> > synchronous (i.e., when it returns, the memory will be guaranteed to be
+>> > bound)? The text is kinda implying that, but from one of your earlier
+>> > replies to Tvrtko, that doesn't seem to be the case. I guess we could
+>> > change the text to make this more explicit.
+>> >
+>>
+>> Yes, I thought, if user doesn't specify the out fence, KMD better make
+>> the ioctl synchronous by waiting until the binding finishes before
+>> returning. Otherwise, UMD has no way to ensure binding is complete and
+>> UMD must pass in out fence for VM_BIND calls.
+>>
+>> But latest comment form Daniel on other thread might suggest something else.
+>> Daniel, can you comment?
+>
+>Whatever we decide, let's make sure it's documented.
+>
+>>
+>> > In addition, previously we had the guarantee that an execbuf ioctl
+>> > would wait for all the pending vm_bind operations to finish before
+>> > doing anything. Do we still have this guarantee or do we have to make
+>> > use of the fences now?
+>> >
+>>
+>> No, we don't have that anymore (execbuf is decoupled from VM_BIND).
+>> Execbuf3 submission will not wait for any previous VM_BIND to finish.
+>> UMD must pass in VM_BIND out fence as in fence for execbuf3 to ensure
+>> that.
+>
+>Got it, thanks.
+>
+>>
+>> > > + */
+>> > > +struct drm_i915_gem_vm_bind {
+>> > > +     /** @vm_id: VM (address space) id to bind */
+>> > > +     __u32 vm_id;
+>> > > +
+>> > > +     /** @handle: Object handle */
+>> > > +     __u32 handle;
+>> > > +
+>> > > +     /** @start: Virtual Address start to bind */
+>> > > +     __u64 start;
+>> > > +
+>> > > +     /** @offset: Offset in object to bind */
+>> > > +     __u64 offset;
+>> > > +
+>> > > +     /** @length: Length of mapping to bind */
+>> > > +     __u64 length;
+>> > > +
+>> > > +     /**
+>> > > +      * @flags: Supported flags are:
+>> > > +      *
+>> > > +      * I915_GEM_VM_BIND_READONLY:
+>> > > +      * Mapping is read-only.
+>> >
+>> > Can you please explain what happens when we try to write to a range
+>> > that's bound as read-only?
+>> >
+>>
+>> It will be mapped as read-only in device page table. Hence any
+>> write access will fail. I would expect a CAT error reported.
+>
+>What's a CAT error? Does this lead to machine freeze or a GPU hang?
+>Let's make sure we document this.
+>
 
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+Catastrophic error.
 
-[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd083]
-[    0.000000] Linux version 5.19.0-rc4-next-20220630
-(tuxmake@tuxmake) (aarch64-linux-gnu-gcc (Debian 11.3.0-3) 11.3.0, GNU
-ld (GNU Binutils for Debian) 2.38) #1 SMP PREEMPT @1656576657
-[    0.000000] Machine model: Raspberry Pi 4 Model B
-<trim>
-[   21.702341] vc4-drm gpu: [drm] Couldn't stop firmware display driver: -22
-[   21.711580] vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-[   21.719271] ------------[ cut here ]------------
-[   21.723971] WARNING: CPU: 0 PID: 246 at
-drivers/gpu/drm/vc4/vc4_hdmi_regs.h:487 vc5_hdmi_reset+0x1f0/0x240
-[vc4]
-[   21.734403] Modules linked in: cfg80211(+) raspberrypi_hwmon
-clk_raspberrypi bluetooth reset_raspberrypi crct10dif_ce vc4(+) cec
-drm_display_helper rfkill iproc_rng200 drm_cma_helper drm_kms_helper
-pwm_bcm2835 i2c_bcm2835 rng_core v3d bcm2711_thermal drm_shmem_helper
-gpu_sched pcie_brcmstb drm fuse
-[   21.761318] CPU: 0 PID: 246 Comm: systemd-udevd Not tainted
-5.19.0-rc4-next-20220630 #1
-[   21.769445] Hardware name: Raspberry Pi 4 Model B (DT)
-[   21.774656] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   21.781725] pc : vc5_hdmi_reset+0x1f0/0x240 [vc4]
-[   21.786587] lr : vc5_hdmi_reset+0x38/0x240 [vc4]
-[   21.791356] sp : ffff80000b533630
-[   21.794715] x29: ffff80000b533630 x28: 0000000000000000 x27: ffff0000411d4080
-[   21.801967] x26: 0000000000000000 x25: ffff800009cdd980 x24: ffff80000ae15410
-[   21.809218] x23: ffff000040fce000 x22: ffff0000fb83a978 x21: 0000000000000000
-[   21.816467] x20: ffff0000411d4cf0 x19: ffff0000411d4080 x18: 0000000000000000
-[   21.823716] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-[   21.830963] x14: 0000000000000000 x13: 0000000000000030 x12: 0101010101010101
-[   21.838211] x11: 7f7f7f7f7f7f7f7f x10: ffff84000386a50f x9 : ffff8000093b1660
-[   21.845460] x8 : 0101010101010101 x7 : 0000000000000000 x6 : 0000000000000001
-[   21.852709] x5 : ffff80000a9bf2e0 x4 : ffff80000a9bf000 x3 : 0000000000000000
-[   21.859958] x2 : 0000000000000001 x1 : 0000000000000002 x0 : ffff800001587ae8
-[   21.867207] Call trace:
-[   21.869684]  vc5_hdmi_reset+0x1f0/0x240 [vc4]
-[   21.874188]  vc4_hdmi_runtime_resume+0x74/0xb0 [vc4]
-[   21.879308]  vc4_hdmi_bind+0x22c/0x880 [vc4]
-[   21.880064] cfg80211: Loading compiled-in X.509 certificates for
-regulatory database
-[   21.883719]  component_bind_all+0x130/0x290
-[   21.883747]  vc4_drm_bind+0x19c/0x2a4 [vc4]
-[   21.900105]  try_to_bring_up_aggregate_device+0x1f8/0x300
-[   21.905597]  component_master_add_with_match+0xbc/0x104
-[   21.910910]  vc4_platform_drm_probe+0xcc/0x10c [vc4]
-[   21.916028]  platform_probe+0x74/0xf0
-[   21.919750]  really_probe+0xc8/0x3e0
-[   21.923385]  __driver_probe_device+0x84/0x190
-[   21.927811]  driver_probe_device+0x44/0x100
-[   21.932062]  __driver_attach+0xd8/0x210
-[   21.935959]  bus_for_each_dev+0x7c/0xe0
-[   21.939857]  driver_attach+0x30/0x3c
-[   21.943489]  bus_add_driver+0x188/0x244
-[   21.947384]  driver_register+0x84/0x140
-[   21.951282]  __platform_driver_register+0x34/0x40
-[   21.956055]  vc4_drm_register+0x5c/0x1000 [vc4]
-[   21.960730]  do_one_initcall+0x50/0x2b0
-[   21.964628]  do_init_module+0x50/0x200
-[   21.968440]  load_module+0x1a8c/0x1f40
-[   21.972243]  __do_sys_finit_module+0xac/0x12c
-[   21.976663]  __arm64_sys_finit_module+0x2c/0x40
-[   21.981259]  invoke_syscall+0x50/0x120
-[   21.985069]  el0_svc_common.constprop.0+0x104/0x124
-[   21.990024]  do_el0_svc+0x3c/0xd0
-[   21.993392]  el0_svc+0x38/0xc0
-[   21.996494]  el0t_64_sync_handler+0xbc/0x140
-[   22.000828]  el0t_64_sync+0x18c/0x190
-[   22.004544] ---[ end trace 0000000000000000 ]---
-[   22.009327] ------------[ cut here ]------------
-[   22.014009] WARNING: CPU: 0 PID: 246 at
-drivers/gpu/drm/vc4/vc4_hdmi_regs.h:457 vc4_hdmi_read+0xec/0x134 [vc4]
-[   22.024243] Modules linked in: cfg80211(+) raspberrypi_hwmon
-clk_raspberrypi bluetooth reset_raspberrypi crct10dif_ce vc4(+) cec
-drm_display_helper rfkill iproc_rng200 drm_cma_helper drm_kms_helper
-pwm_bcm2835 i2c_bcm2835 rng_core v3d bcm2711_thermal drm_shmem_helper
-gpu_sched pcie_brcmstb drm fuse
-[   22.051149] CPU: 0 PID: 246 Comm: systemd-udevd Tainted: G        W
-        5.19.0-rc4-next-20220630 #1
-[   22.060684] Hardware name: Raspberry Pi 4 Model B (DT)
-[   22.065894] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   22.072959] pc : vc4_hdmi_read+0xec/0x134 [vc4]
-[   22.077631] lr : vc5_hdmi_reset+0xac/0x240 [vc4]
+>>
+>> I am seeing that currently the page table R/W setting is based
+>> on whether BO is readonly or not (UMDs can request a userptr
+>> BO to readonly). We can make this READONLY here as a subset.
+>> ie., if BO is readonly, the mappings must be readonly. If BO
+>> is not readonly, then the mapping can be either readonly or
+>> not.
+>>
+>> But if Mesa doesn't have a use for this, then we can remove
+>> this flag for now.
+>>
+>
+>I was considering using it for Vulkan's Sparse
+>residencyNonResidentStrict, so we map all unbound pages to a read-only
+>page. But for that to work, the required behavior would have to be:
+>reads all return zero, writes are ignored without any sort of error.
+>
+>But maybe our hardware provides other ways to implement this, I haven't
+>checked yet.
+>
 
-metadata:
-  git_ref: master
-  git_repo: https://gitlab.com/Linaro/lkft/mirrors/next/linux-next
-  git_sha: 6cc11d2a1759275b856e464265823d94aabd5eaf
-  git_describe: next-20220630
-  kernel_version: 5.19.0-rc4
-  kernel-config: https://builds.tuxbuild.com/2BHwwIpQQ4jA4OQSp6ecOQNPxTg/config
-  build-url: https://gitlab.com/Linaro/lkft/mirrors/next/linux-next/-/pipelines/576712449
-  artifact-location: https://builds.tuxbuild.com/2BHwwIpQQ4jA4OQSp6ecOQNPxTg
-  toolchain: gcc-11
+I am not sure what the behavior is. Probably writes are not simply ignored,
+will check.
+Looks like we can remove this flag for now. We can always add it back
+later if we need it. Is that Ok with you?
 
-[1] https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20220630/testrun/10438428/suite/log-parser-boot/tests/
-[2] https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20220630/testrun/10438428/suite/log-parser-boot/test/check-kernel-exception-5227708/details/
+Niranjana
 
---
-Linaro LKFT
-https://lkft.linaro.org
+>
+>> >
+>> > > +      *
+>> > > +      * I915_GEM_VM_BIND_CAPTURE:
+>> > > +      * Capture this mapping in the dump upon GPU error.
+>> > > +      */
+>> > > +     __u64 flags;
+>> > > +#define I915_GEM_VM_BIND_READONLY    (1 << 1)
+>> > > +#define I915_GEM_VM_BIND_CAPTURE     (1 << 2)
+>> > > +
+>> > > +     /**
+>> > > +      * @fence: Timeline fence for bind completion signaling.
+>> > > +      *
+>> > > +      * It is an out fence, hence using I915_TIMELINE_FENCE_WAIT flag
+>> > > +      * is invalid, and an error will be returned.
+>> > > +      */
+>> > > +     struct drm_i915_gem_timeline_fence fence;
+>> > > +
+>> > > +     /**
+>> > > +      * @extensions: Zero-terminated chain of extensions.
+>> > > +      *
+>> > > +      * For future extensions. See struct i915_user_extension.
+>> > > +      */
+>> > > +     __u64 extensions;
+>> > > +};
+>> > > +
+>> > > +/**
+>> > > + * struct drm_i915_gem_vm_unbind - VA to object mapping to unbind.
+>> > > + *
+>> > > + * This structure is passed to VM_UNBIND ioctl and specifies the GPU virtual
+>> > > + * address (VA) range that should be unbound from the device page table of the
+>> > > + * specified address space (VM). VM_UNBIND will force unbind the specified
+>> > > + * range from device page table without waiting for any GPU job to complete.
+>> > > + * It is UMDs responsibility to ensure the mapping is no longer in use before
+>> > > + * calling VM_UNBIND.
+>> > > + *
+>> > > + * If the specified mapping is not found, the ioctl will simply return without
+>> > > + * any error.
+>> > > + *
+>> > > + * VM_BIND/UNBIND ioctl calls executed on different CPU threads concurrently
+>> > > + * are not ordered. Furthermore, parts of the VM_UNBIND operation can be done
+>> > > + * asynchronously, if valid @fence is specified.
+>> > > + */
+>> > > +struct drm_i915_gem_vm_unbind {
+>> > > +     /** @vm_id: VM (address space) id to bind */
+>> > > +     __u32 vm_id;
+>> > > +
+>> > > +     /** @rsvd: Reserved, MBZ */
+>> > > +     __u32 rsvd;
+>> > > +
+>> > > +     /** @start: Virtual Address start to unbind */
+>> > > +     __u64 start;
+>> > > +
+>> > > +     /** @length: Length of mapping to unbind */
+>> > > +     __u64 length;
+>> > > +
+>> > > +     /** @flags: Currently reserved, MBZ */
+>> > > +     __u64 flags;
+>> > > +
+>> > > +     /**
+>> > > +      * @fence: Timeline fence for unbind completion signaling.
+>> > > +      *
+>> > > +      * It is an out fence, hence using I915_TIMELINE_FENCE_WAIT flag
+>> > > +      * is invalid, and an error will be returned.
+>> > > +      */
+>> > > +     struct drm_i915_gem_timeline_fence fence;
+>> > > +
+>> > > +     /**
+>> > > +      * @extensions: Zero-terminated chain of extensions.
+>> > > +      *
+>> > > +      * For future extensions. See struct i915_user_extension.
+>> > > +      */
+>> > > +     __u64 extensions;
+>> > > +};
+>> > > +
+>> > > +/**
+>> > > + * struct drm_i915_gem_execbuffer3 - Structure for DRM_I915_GEM_EXECBUFFER3
+>> > > + * ioctl.
+>> > > + *
+>> > > + * DRM_I915_GEM_EXECBUFFER3 ioctl only works in VM_BIND mode and VM_BIND mode
+>> > > + * only works with this ioctl for submission.
+>> > > + * See I915_VM_CREATE_FLAGS_USE_VM_BIND.
+>> > > + */
+>> > > +struct drm_i915_gem_execbuffer3 {
+>> > > +     /**
+>> > > +      * @ctx_id: Context id
+>> > > +      *
+>> > > +      * Only contexts with user engine map are allowed.
+>> > > +      */
+>> > > +     __u32 ctx_id;
+>> > > +
+>> > > +     /**
+>> > > +      * @engine_idx: Engine index
+>> > > +      *
+>> > > +      * An index in the user engine map of the context specified by @ctx_id.
+>> > > +      */
+>> > > +     __u32 engine_idx;
+>> > > +
+>> > > +     /**
+>> > > +      * @batch_address: Batch gpu virtual address/es.
+>> > > +      *
+>> > > +      * For normal submission, it is the gpu virtual address of the batch
+>> > > +      * buffer. For parallel submission, it is a pointer to an array of
+>> > > +      * batch buffer gpu virtual addresses with array size equal to the
+>> > > +      * number of (parallel) engines involved in that submission (See
+>> > > +      * struct i915_context_engines_parallel_submit).
+>> > > +      */
+>> > > +     __u64 batch_address;
+>> > > +
+>> > > +     /** @flags: Currently reserved, MBZ */
+>> > > +     __u64 flags;
+>> > > +
+>> > > +     /** @rsvd1: Reserved, MBZ */
+>> > > +     __u32 rsvd1;
+>> > > +
+>> > > +     /** @fence_count: Number of fences in @timeline_fences array. */
+>> > > +     __u32 fence_count;
+>> > > +
+>> > > +     /**
+>> > > +      * @timeline_fences: Pointer to an array of timeline fences.
+>> > > +      *
+>> > > +      * Timeline fences are of format struct drm_i915_gem_timeline_fence.
+>> > > +      */
+>> > > +     __u64 timeline_fences;
+>> > > +
+>> > > +     /** @rsvd2: Reserved, MBZ */
+>> > > +     __u64 rsvd2;
+>> > > +
+>> >
+>> > Just out of curiosity: if we can extend behavior with @extensions and
+>> > even @flags, why would we need a rsvd2? Perhaps we could kill rsvd2?
+>> >
+>>
+>> True. I added it just in case some requests came up that would require
+>> some additional fields. During this review process itself there were
+>> some requests. Adding directly here should have a slight performance
+>> edge over adding it as an extension (one less copy_from_user).
+>>
+>> But if folks think this is an overkill, I will remove it.
+>
+>I do not have strong opinions here, I'm just curious.
+>
+>Thanks,
+>Paulo
+>
+>>
+>> Niranjana
+>>
+>> > > +     /**
+>> > > +      * @extensions: Zero-terminated chain of extensions.
+>> > > +      *
+>> > > +      * For future extensions. See struct i915_user_extension.
+>> > > +      */
+>> > > +     __u64 extensions;
+>> > > +};
+>> > > +
+>> > > +/**
+>> > > + * struct drm_i915_gem_create_ext_vm_private - Extension to make the object
+>> > > + * private to the specified VM.
+>> > > + *
+>> > > + * See struct drm_i915_gem_create_ext.
+>> > > + */
+>> > > +struct drm_i915_gem_create_ext_vm_private {
+>> > > +#define I915_GEM_CREATE_EXT_VM_PRIVATE               2
+>> > > +     /** @base: Extension link. See struct i915_user_extension. */
+>> > > +     struct i915_user_extension base;
+>> > > +
+>> > > +     /** @vm_id: Id of the VM to which the object is private */
+>> > > +     __u32 vm_id;
+>> > > +};
+>> >
+>
