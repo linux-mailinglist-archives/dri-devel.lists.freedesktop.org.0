@@ -2,67 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F75561528
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 10:34:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE1C561587
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 10:58:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E28861125CC;
-	Thu, 30 Jun 2022 08:33:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3D211377C;
+	Thu, 30 Jun 2022 08:58:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 335061135AF
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 08:33:54 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D316421CA5;
- Thu, 30 Jun 2022 08:33:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1656578032; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ket32blTy4NbP/l+b91cRa55bHiQPxShe9budd4LOi4=;
- b=iA3N8bn1gWX2/52jTTGYhPXgUVD07XT1nePPZPiUSgnCwgrnfjq1ZE5ipy3k8JNDGsAil4
- NCf9NRuEnOo2AC2lP5TQ2P7J0ysqRpRln6JYlw1veNCq+fvCu7Nsx34qMLoun1oLJz4/n7
- hAAoPvmzE5TcHm07BA7WYNVcaeQG2k0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1656578032;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ket32blTy4NbP/l+b91cRa55bHiQPxShe9budd4LOi4=;
- b=+9jKEzqhyDSyrTKdRoUGXaHsN27TEraoRfKbG3vGf8T+dd5BidD37XpCpLY875BzrbpJCw
- Xq1XoBpEmNDCiuDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B3859139E9;
- Thu, 30 Jun 2022 08:33:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id GO6QKvBfvWJgSgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 30 Jun 2022 08:33:52 +0000
-Message-ID: <f64fc02f-f82f-17f8-a669-61c9d9b4e869@suse.de>
-Date: Thu, 30 Jun 2022 10:33:52 +0200
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEE3311377C
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 08:58:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656579522; x=1688115522;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=VaJAXuapvCcyRj6Tdn41kPgXCjxckGoz1qAI2IRCArQ=;
+ b=P1pfIjLyrxn/jKYaYMr3oEm6t9/xZ6npIC9/meQRZ3WuR/j33+EYBgFo
+ 4c4CEYacpPIngmWWixYNs4bs+YfaRbg58HYosaf6aLlfEQhX/nn7qkDLL
+ 3l/EVAYhA1pH5shrcVpsl/9xnrDGpp0KrfVusDseJbwywG5CdlqdkXMx7
+ noomirTOL6PzGcuaBqXM36GvGiF2ruWZUUz0FmWO+vRBddtrbukX8xDkD
+ DlqlbWX/DggzIPIB/Wppm4oRqkn6c2hLIEbOdD6XxwGmDXE4nBhibxlcZ
+ b07sAn8yy3yB45pV/6wvP+Q/4JnRVqPTJIDWMO4DNNqwJRJxfn7NmZsY0 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="307798632"
+X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; d="scan'208";a="307798632"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2022 01:58:41 -0700
+X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; d="scan'208";a="647804597"
+Received: from fdugast-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.252.39.70])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2022 01:58:39 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Mark Yacoub <markyacoub@chromium.org>
+Subject: Re: [PATCH] drm: Create support for Write-Only property blob
+In-Reply-To: <CAJUqKUpae5cf-GD1LPQrxfHAMb3K+gY5Q4yxiVCafW9_A9gxfw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220510190823.1552920-1-markyacoub@chromium.org>
+ <878rr0fvcs.fsf@intel.com>
+ <CAJUqKUpk4=oOYUmEAqEK2q_+xNiLfpvixPMXiC8sDu1pkwUyfQ@mail.gmail.com>
+ <CAJUqKUpae5cf-GD1LPQrxfHAMb3K+gY5Q4yxiVCafW9_A9gxfw@mail.gmail.com>
+Date: Thu, 30 Jun 2022 11:58:36 +0300
+Message-ID: <87h742plxf.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 00/28] OpenChrome DRM for Linux 5.20
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20220624202633.3978-1-kevinbrace@gmx.com>
- <dacc0636-d307-3f2f-260d-09208a0dd9c1@suse.de>
- <Yroh0fe4Fzqgam3W@ravnborg.org>
- <58475858-cc98-0aab-d248-f3473b179fab@suse.de>
- <6de4f449-bd4a-48ec-974b-8ace58947b70@redhat.com>
- <dae59187-a055-2699-bee1-c066b69627b0@suse.de>
-In-Reply-To: <dae59187-a055-2699-bee1-c066b69627b0@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------pCcDYezgc6GiH0OmdZsGAr8D"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,122 +59,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>,
- dri-devel@lists.freedesktop.org, Kevin Brace <kevinbrace@gmx.com>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, seanpaul@chromium.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, markyacoub@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------pCcDYezgc6GiH0OmdZsGAr8D
-Content-Type: multipart/mixed; boundary="------------Emws6pfZct0WzXX0EtVeT0sl";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Cc: Kevin Brace <kevinbrace@bracecomputerlab.com>,
- dri-devel@lists.freedesktop.org, Kevin Brace <kevinbrace@gmx.com>
-Message-ID: <f64fc02f-f82f-17f8-a669-61c9d9b4e869@suse.de>
-Subject: Re: [PATCH 00/28] OpenChrome DRM for Linux 5.20
-References: <20220624202633.3978-1-kevinbrace@gmx.com>
- <dacc0636-d307-3f2f-260d-09208a0dd9c1@suse.de>
- <Yroh0fe4Fzqgam3W@ravnborg.org>
- <58475858-cc98-0aab-d248-f3473b179fab@suse.de>
- <6de4f449-bd4a-48ec-974b-8ace58947b70@redhat.com>
- <dae59187-a055-2699-bee1-c066b69627b0@suse.de>
-In-Reply-To: <dae59187-a055-2699-bee1-c066b69627b0@suse.de>
+On Wed, 29 Jun 2022, Mark Yacoub <markyacoub@chromium.org> wrote:
+> Hi Jani, let me know if you need more info or more changes are needed. Thanks!
 
---------------Emws6pfZct0WzXX0EtVeT0sl
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Sorry, I really haven't had the time to think this through.
 
-SGkNCg0KQW0gMzAuMDYuMjIgdW0gMTA6MTkgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoN
-Cj4gSGkNCj4gDQo+IEFtIDMwLjA2LjIyIHVtIDEwOjA3IHNjaHJpZWIgSmF2aWVyIE1hcnRp
-bmV6IENhbmlsbGFzOg0KPj4gSGVsbG8sDQo+Pg0KPj4gT24gNi8yOC8yMiAxNDoyMSwgVGhv
-bWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+Pj4gSGkNCj4+Pg0KPj4+IEFtIDI3LjA2LjIyIHVt
-IDIzOjMyIHNjaHJpZWIgU2FtIFJhdm5ib3JnOg0KPj4+PiBIaSBLZXZpbi9UaG9tYXMsDQo+
-Pj4+DQo+Pj4+Pg0KPj4+Pj4gSSBoYWQgYSBicmllZiBsb29rIG92ZXIgdGhlIHBhdGNoZXMu
-IEV2ZW4gdGhvdWdoIHRoZSBjb2RlIGxvb2tzIA0KPj4+Pj4gZmFpcmx5IHJvdWdoDQo+Pj4+
-PiBpbiBwbGFjZXMsIEkgdGhpbmsgd2Ugc2hvdWxkIGdldCB0aGlzIGRyaXZlciBtZXJnZWQg
-QVNBUC4NCj4+Pj4NCj4+Pj4gQWdyZWVkLCB3ZSBoYXZlIGEgaGFkIGEgZmV3IGNhc2VzIHdo
-ZXJlIHdlIGRyYWdnZWQgb3V0IGNvbW1pdHRpbmcgbXVjaA0KPj4+PiB0b28gbG9uZyB0aW1l
-Lg0KPj4+Pg0KPj4+PiBUaW1pbmcgd2lzZSwgaXQgd291bGQgYmUgZ29vZCBpZiB3ZSBjYW4g
-YWxyZWFkeSBoaXQgZHJtLW1pc2MtbmV4dCByaWdodA0KPj4+PiBfYWZ0ZXJfIHRoZSBwdWxs
-IC1zbyB3ZSBoYXZlIGEgZnVsbCBjeWNsZSB0byBmaXggYW55dGhpbmcgYmVmb3JlIGl0IA0K
-Pj4+PiBoaXRzDQo+Pj4+IG1haW5saW5lLg0KPj4+Pg0KPj4+Pj4gRm9yIHRoZSBvbGQgdmlh
-IGRyaXZlciwgSSB0aGluayB3ZSBuZWVkIGEgYmV0dGVyIGFwcHJhY2guIElNSE8gaXQgDQo+
-Pj4+PiB3b3VsZCBiZQ0KPj4+Pj4gcHJlZmVyYWJsZSB0byBwdXQgdGhlIG5ldyBkcml2ZXIg
-aW50byB2aWEvIGJ1dCBrZWVwIHRoZSBvbGQgZHJpdmVyIA0KPj4+Pj4gdGhlcmUgYXMNCj4+
-Pj4+IHdlbGwuwqAgQSBidWlsZCBvcHRpb24gd291bGQgY29udHJvbCB3aGljaCBpcyBiZWlu
-ZyB1c2VkLg0KPj4+Pg0KPj4+PiBJIGFzc3VtZSB0aGUgdXNlciBiYXNlIGZvciB2aWEgZHJp
-dmVycyBhcmUgdmVyeSBzbWFsbCBhbmQgdGhleSBoYXZlIHRoZQ0KPj4+PiBmYmRldiBkcml2
-ZXIgYWxyZWFkeS4NCj4+Pj4gU28gSSBzdXBwb3J0IHJlcGxhY2luZyB0aGUgY3VycmVudCB2
-aWEgZHJtIGRyaXZlciBhcyBLZXZpbiB0cmllcyB0byBkby4NCj4+Pg0KPj4+IEkgZG9uJ3Qg
-a25vdyBpZiB0aGVyZSBhcmUgc3RpbGwgdXNlcnMgb2YgdGhlIG9sZCB1c2Vyc3BhY2UsIGJ1
-dCBpZiBzbyBJDQo+Pj4gd291bGQgY29uc2lkZXIgdGhpcyByZW1vdmFsIGEgcmVncmVzc2lv
-bi4gSSB0aGluayB0aGUgb2xkIGNvZGUgc3VwcG9ydHMNCj4+PiAzZCBhbmQgdmlkZW8gZGVj
-b2RpbmcuIERlcGVuZGluZyBvbiB0aGUgZmVhdHVyZSBzZXQsIDNkIHN1cHBvcnQgbWlnaHQN
-Cj4+PiBub3QgYmUgdXNlZnVsIGFueSBsb25nZXIsIGJ1dCB2aWRlbyBkZWNvZGluZyBwcm9i
-YWJseSBpcy7CoCAoSSBtaWdodCBiZQ0KPj4+IHdyb25nIGFib3V0IGFsbCB0aGlzLikgSU1I
-TyB3ZSBzaG91bGQgbm90IHNpbXBseSByZW1vdmUgdGhpcyBhdCBsZWFzdA0KPj4+IHVudGls
-IHdlIGNhbiB2ZXJpZnkgdGhhdCBpdCdzIG5vIGxvbmdlciB1c2VmdWwgdG8gYW55b25lLg0K
-Pj4+DQo+Pg0KPj4gSSBzdHJvbmdseSBhZ3JlZSB3aXRoIFRob21hcyBvbiB0aGlzLg0KPj4+
-IEhvd2V2ZXIsIGxlZ2FjeSBzdXBwb3J0IGlzIHRyaXZpYWwuIEtldmluLCBwbGVhc2Ugc2Vl
-IHRoZSBhdHRhY2hlZCBmaWxlcw0KPj4+IGZvciB0d28gY2xlYW51cCBwYXRjaGVzLiBZb3Un
-cmUgd2VsY29tZSB0byBhZGQgdGhlbSB0byB0aGUgc3RhcnQgb2YgeW91cg0KPj4+IHBhdGNo
-c2V0IHRvIGdldCB0aGUgbGVnYWN5IGNvZGUgb3V0IG9mIHRoZSB3YXkuDQo+Pj4NCj4+DQo+
-PiBJJ20gbm90IHN1cmUgYWJvdXQgdGhpcyBhcHByb2FjaCwgSSB0aGluayB0aGF0IGhhdmlu
-ZyBjb21wbGV0ZWx5IA0KPj4gc2VwYXJhdGVkDQo+PiBkcml2ZXJzIHdvdWxkIGJlIGJldHRl
-ciB0byBtYWludGFpbiBpbiB0aGUgbG9uZyBydW4gc2luY2UgaXQncyBsaWtlbHkgDQo+PiB0
-aGF0DQo+PiB0aGUgbGVnYWN5IFZJQSBkcml2ZXIgd2lsbCBvbmx5IGdldCBidWcgZml4ZXMg
-KGlmIGFueSkgYW5kIGNvdWxkIGJlIA0KPj4gcmVtb3ZlZA0KPj4gb25jZSB0aGUgbmV3IG1v
-ZHNldHRpbmcgZHJpdmVyIGhhcyBmZWF0dXJlIHBhcml0eSwgdGhlIGxlZ2FjeSBjYW4gYmUg
-DQo+PiBkcm9wcGVkLg0KPj4gTWF5YmUgYW4gYWx0ZXJuYXRpdmUgY291bGQgYmUgdG8gYWRk
-IGEgZHJpdmVycy9ncHUvZHJtL2xlZ2FjeSANCj4+IGRpcmVjdG9yeSBhbmQNCj4+IG1vdmUg
-YWxsIHRoZSBsZWdhY3kgRFJNIGRyaXZlcnMgdGhlcmUgPyBBbmQgdGhlIEtjb25maWcgc3lt
-Ym9sIGNvdWxkIA0KPj4gYmUgaS5lOg0KPj4gQ09ORklHX0RSTV9MRUdBQ1lfVklBIGFuZCBz
-YW1lIGZvciB0aGUgb3RoZXJzIGxlZ2FjeSBEUk0gZHJpdmVycy4NCj4+DQo+PiBBbmQgdGhl
-IGRpcmVjdG9yeSBjb3VsZCBvbmx5IGJlIHNvdXJjZWQgZnJvbSBLY29uZmlnIHdoZW4gDQo+
-PiBDT05GSUdfRFJNX0xFR0FDWQ0KPj4gaXMgZW5hYmxlZCBhbmQgbWFrZSBpdCBkZWZhdWx0
-IHRvIG4uIElmIGluIGEgZmV3IG9mIHJlbGVhc2VzIG5vYm9keSANCj4+IGNvbXBsYWlucw0K
-Pj4gdGhlbiB0aGUgd2hvbGUgZGlyZWN0b3J5IGNvdWxkIGJlIHJlbW92ZWQuDQoNClRvIGFk
-ZCBhbm90aGVyIGNvbW1lbnQgaGVyZSwgaWYgd2UgZG8gdGhpcyB0aGVuIGxldCdzIHBsZWFz
-ZSBub3QgY2FsbCBpdCANCmxlZ2FjeS4gIFdlIGFsc28gaGF2ZSBub24tYXRvbWljIG1vZGVz
-ZXR0aW5nLCBub24tYXRvbWljIGNvbG9yIG1nbXQsIA0Kbm9uLXVuaXZlcnNhbCBwbGFuZXMs
-IGV0Yy4gQWxsIHRoYXQgaXMgYWxzbyBsZWdhY3kgaW4gc29tZSB3YXkuDQoNCklmIHdlJ3Jl
-IGdvaW5nIHRvIHJlbmFtZSBhbmQgbW92ZSB0aGUgb2xkIGRyaXZlcnMsIGxldCdzIGNhbGwg
-aXQgDQpjb25zaXN0ZW50bHkgQ09ORklHX0RSSTEgYW5kIGRyaTEvLg0KDQpCZXN0IHJlZ2Fy
-ZA0KVGhvbWFzDQoNCj4+DQo+IA0KPiBUaGF0IHNlZW1zIGEgbG90IG9mIHdvcmsgZm9yIHNp
-bXBseSByZW1vdmluZyBzb21ldGhpbmcuIEFuZCBJJ20gc3VyZSANCj4gdGhhdCBwZW9wbGUg
-d2lsbCBvbmx5IGNvbXBsYWluIGFmdGVyIGxlZ2FjeS92aWEgZ290IHJlbW92ZWQuDQo+IA0K
-PiBJZiB3ZSB3YW50IHRvIHNlcGFyYXRlIGNvZGUgZm9yIHRoZSBvbGQgYW5kIG5ldyBWSUEg
-ZHJpdmVyLCBsZXQncyBwdXQgDQo+IHRoZSBuZXcgY29kZSBpbnRvwqAgdW5pY2hyb21lLyBh
-bmQgYmUgZG9uZSB3aXRoIGl0Lg0KPiANCj4gQmVzdCByZWdhcmRzDQo+IFRob21hcw0KPiAN
-Cj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9w
-ZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4g
-NSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcp
-DQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+At a glance, I'm unable to find the hdcp key property that this is being
+used with. Am I missing something? Where's that created and used in the
+kernel?
 
---------------Emws6pfZct0WzXX0EtVeT0sl--
 
---------------pCcDYezgc6GiH0OmdZsGAr8D
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+BR,
+Jani.
 
------BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmK9X/AFAwAAAAAACgkQlh/E3EQov+CF
-2w/9Fha3x9Ff03heRnRCgNpM/Ae946bTlr+FFcHvdzJbbLZHMMZhFiMxwy2iUi63CvGzefg62lWi
-LWHaCPZf51DGmTIInAmzQj/LQGtlcWucip1uAK3tWhau5pmRCcZxURiyP8Pk8cRKbtsyAWNEClBZ
-m6zCR4nhmSoMzrhkwoeAPfKsefX0lKtDuHctgBg1nxKMIlcfS+cwvMZnYrFah3QWJmrMt5xv6gLg
-tPIL+d63zs8qscKOV50EGr+3WjbRX4RkYgEoE/JZjaTvvfqocWG/+Lu3B2Jq+qZaSe8tPmjA8B0F
-4z9ZV4SzYYWASW9WjNfRCbR76mNn62tZOY3G27HGyS29siB+bkv141vHPoDIuQcAjQsujGjGHPsX
-5p9Lzu1ToOz1oKcYFK6XBXTwUfJZW0qihH1FUswe5ssddlWqtwOS7Is6fV8m3XczhqD2HD0OuSZC
-YUOyChlwqXJujb9eobi85ZfRkuBeA+FYNVgq9FTI15E0nG8QcmOQrkmgdcDDC4o3XLxbJCfrhJmy
-szEzdKBb8dBM9H38Pz5VMpC4SM9A4DDAC+eXAmyHFDJpNpgqXbuSSOAQX9aH2NfQztkhw8QStZA3
-cMd/IXcaQjEtZVbyGStVulU+0S7WpdY+Icjfyf7BE91f6CWQbLYT2UX1j7GvrEQF3BA4/m8aedLC
-lqc=
-=X3X3
------END PGP SIGNATURE-----
 
---------------pCcDYezgc6GiH0OmdZsGAr8D--
+>
+> On Wed, May 25, 2022 at 3:31 PM Mark Yacoub <markyacoub@chromium.org> wrote:
+>>
+>> Hi Jani, thanks for your review. I got all the user space
+>> implementation ready to see it in context.
+>>
+>> libdrm patch to wrap this functionality:
+>> https://www.spinics.net/lists/dri-devel/msg347318.html
+>>
+>> Chromium user space implementation making direct use of the new prop flag:
+>> crrev.com/c/3655850
+>> The first call made to such functionality is in
+>> https://chromium-review.googlesource.com/c/chromium/src/+/3655850/2/ui/display/manager/content_protection_key_manager.cc#137
+>> where the call stack flows to the libdrm wrapper call at
+>> https://chromium-review.googlesource.com/c/chromium/src/+/3655850/2/ui/ozone/platform/drm/gpu/drm_display.cc#203
+>>
+>> I also wrote an IGT test to verify the intended behavior:
+>> https://patchwork.freedesktop.org/patch/487331/?series=104373&rev=1
+>>
+>> Let me know if I would need to update the commit message with any of
+>> the aforementioned context.
+>>
+>> Thanks!
+>> -Mark Yacoub
+>>
+>> On Tue, May 17, 2022 at 3:53 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>> >
+>> > On Tue, 10 May 2022, Mark Yacoub <markyacoub@chromium.org> wrote:
+>> > > [Why]
+>> > > User space might need to inject data into the kernel without allowing it
+>> > > to be read again by any user space.
+>> > > An example of where this is particularly useful is secret keys fetched
+>> > > by user space and injected into the kernel to enable content protection.
+>> >
+>> > I think we're going to need more than an example in the commit
+>> > message. See Documentation/gpu/drm-uapi.rst.
+>> >
+>> > BR,
+>> > Jani.
+>> >
+>> >
+>> > >
+>> > > [How]
+>> > > Create a DRM_MODE_CREATE_BLOB_WRITE_ONLY flag used by user space to
+>> > > create a blob and mark the blob as write only.
+>> > > On reading back the blob, data will be not be copied if it's a write
+>> > > only blob
+>> > >
+>> > > Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+>> > >
+>> > > ---
+>> > >  drivers/gpu/drm/drm_property.c | 3 ++-
+>> > >  include/drm/drm_property.h     | 2 ++
+>> > >  include/uapi/drm/drm_mode.h    | 6 ++++++
+>> > >  3 files changed, 10 insertions(+), 1 deletion(-)
+>> > >
+>> > > diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
+>> > > index dfec479830e4..afedf7109d00 100644
+>> > > --- a/drivers/gpu/drm/drm_property.c
+>> > > +++ b/drivers/gpu/drm/drm_property.c
+>> > > @@ -765,7 +765,7 @@ int drm_mode_getblob_ioctl(struct drm_device *dev,
+>> > >       if (!blob)
+>> > >               return -ENOENT;
+>> > >
+>> > > -     if (out_resp->length == blob->length) {
+>> > > +     if (out_resp->length == blob->length && !blob->is_write_only) {
+>> > >               if (copy_to_user(u64_to_user_ptr(out_resp->data),
+>> > >                                blob->data,
+>> > >                                blob->length)) {
+>> > > @@ -800,6 +800,7 @@ int drm_mode_createblob_ioctl(struct drm_device *dev,
+>> > >               ret = -EFAULT;
+>> > >               goto out_blob;
+>> > >       }
+>> > > +     blob->is_write_only = out_resp->flags & DRM_MODE_CREATE_BLOB_WRITE_ONLY;
+>> > >
+>> > >       /* Dropping the lock between create_blob and our access here is safe
+>> > >        * as only the same file_priv can remove the blob; at this point, it is
+>> > > diff --git a/include/drm/drm_property.h b/include/drm/drm_property.h
+>> > > index 65bc9710a470..700782f021b9 100644
+>> > > --- a/include/drm/drm_property.h
+>> > > +++ b/include/drm/drm_property.h
+>> > > @@ -205,6 +205,7 @@ struct drm_property {
+>> > >   *   &drm_mode_config.property_blob_list.
+>> > >   * @head_file: entry on the per-file blob list in &drm_file.blobs list.
+>> > >   * @length: size of the blob in bytes, invariant over the lifetime of the object
+>> > > + * @is_write_only: user space can't read the blob data.
+>> > >   * @data: actual data, embedded at the end of this structure
+>> > >   *
+>> > >   * Blobs are used to store bigger values than what fits directly into the 64
+>> > > @@ -219,6 +220,7 @@ struct drm_property_blob {
+>> > >       struct list_head head_global;
+>> > >       struct list_head head_file;
+>> > >       size_t length;
+>> > > +     bool is_write_only;
+>> > >       void *data;
+>> > >  };
+>> > >
+>> > > diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+>> > > index 0a0d56a6158e..de192d3813e9 100644
+>> > > --- a/include/uapi/drm/drm_mode.h
+>> > > +++ b/include/uapi/drm/drm_mode.h
+>> > > @@ -1107,6 +1107,9 @@ struct drm_format_modifier {
+>> > >       __u64 modifier;
+>> > >  };
+>> > >
+>> > > +#define DRM_MODE_CREATE_BLOB_WRITE_ONLY                                        \
+>> > > +     (1 << 0) /* data of the blob can't be read by user space */
+>> > > +
+>> > >  /**
+>> > >   * struct drm_mode_create_blob - Create New blob property
+>> > >   *
+>> > > @@ -1120,6 +1123,9 @@ struct drm_mode_create_blob {
+>> > >       __u32 length;
+>> > >       /** @blob_id: Return: new property ID. */
+>> > >       __u32 blob_id;
+>> > > +     /** Flags for special handling. */
+>> > > +     __u32 flags;
+>> > > +     __u32 pad;
+>> > >  };
+>> > >
+>> > >  /**
+>> >
+>> > --
+>> > Jani Nikula, Intel Open Source Graphics Center
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
