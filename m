@@ -2,45 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85762562408
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 22:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD3F562CBC
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 09:34:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 621EC12B045;
-	Thu, 30 Jun 2022 20:18:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E8331120FA;
+	Fri,  1 Jul 2022 07:33:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE0412AE6E;
- Thu, 30 Jun 2022 20:18:00 +0000 (UTC)
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4LYqQH5R6Bz9t3L;
- Thu, 30 Jun 2022 20:17:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1656620280; bh=rZZfTNxDEfSl9tcQU9oW6x/190Q0/3YhqEuXiQqK7tc=;
- h=From:To:Cc:Subject:Date:From;
- b=Z5neAfw6FJWvEKnmAkKxtDBR7mPWFcK0KThHbQk4FVFiBHM37Xk8glqfnW+rJ/7+i
- A3WXYYudiN+65jLligELy9ICWxm+cHUzkDCHkCXG2pUtA8UR4ke0fJRordPIPpK/AY
- DdzFkdZ9XNyPI9IOPnmYvmgVvL06xCwm6odfYA88=
-X-Riseup-User-ID: 73FC3F6A18D9107A66E3AA6B055D55B48A0B10E1AC8A5CB2E4BDF06A14DB9CA1
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4LYqQC4893z1yTL;
- Thu, 30 Jun 2022 20:17:55 +0000 (UTC)
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/amd/display: Remove duplicate code across dcn30 and dcn31
-Date: Thu, 30 Jun 2022 17:17:41 -0300
-Message-Id: <20220630201741.991501-1-mairacanal@riseup.net>
+X-Greylist: delayed 354 seconds by postgrey-1.36 at gabe;
+ Thu, 30 Jun 2022 20:24:26 UTC
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D07611139E3;
+ Thu, 30 Jun 2022 20:24:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1656620309;
+ s=strato-dkim-0002; d=gerhold.net;
+ h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=jTBh8tpUX4wS523jclqgriqIEwT1It3h9ZxxUKd4K3w=;
+ b=Ubkd7PR1Ml9pFUB48ByHTQBPaguLqxqeSK12bVHkWL2V9we8Jt5qg2tlBtN3Qj+iA5
+ uj0IBBU6CIvZ3wLV3XTF7IbLPmzLCkC1HtBRggADtkVPxkEEXnIiDjXCfav8Nbgc2bVj
+ UsWplxEZeXbc8sQHefmniQzlrBeO9pbO8VP6jyBMK5C28sQCZabngGbKNS28WCyXaYBk
+ 2dm3Utv2GjXq/22ZVHzx5RLnYjna6G6P+6BfS4DRjWQg0jud45UHneKV56zsVQtLjxkW
+ 9Nt/lkjjXTTF1jl4MZ5oX7ok1LUttsTZQnQpG2di36RkyvNobO/Fl5ZJfp8ovbcAnRCO
+ VMhg==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u267FZF9PwpcNKLUrK8+86Y="
+X-RZG-CLASS-ID: mo00
+Received: from gerhold.net by smtp.strato.de (RZmta 47.46.1 AUTH)
+ with ESMTPSA id yfdd30y5UKIS4u1
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Thu, 30 Jun 2022 22:18:28 +0200 (CEST)
+Date: Thu, 30 Jun 2022 22:18:13 +0200
+From: Stephan Gerhold <stephan@gerhold.net>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: Re: [Freedreno] [PATCH 3/7] dt-bindings: msm: dsi: Fix power-domains
+ constraint
+Message-ID: <Yr4E+AsXRBZuYCpx@gerhold.net>
+References: <20220630120845.3356144-1-bryan.odonoghue@linaro.org>
+ <20220630120845.3356144-4-bryan.odonoghue@linaro.org>
+ <225e70ec-553d-4d44-fc61-543128b2ad67@linaro.org>
+ <054043a5-3643-aa5b-4204-8cacb7b3ae9a@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <054043a5-3643-aa5b-4204-8cacb7b3ae9a@linaro.org>
+X-Mailman-Approved-At: Fri, 01 Jul 2022 07:33:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,494 +62,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ airlied@linux.ie, linux-arm-msm@vger.kernel.org, swboyd@chromium.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ quic_abhinavk@quicinc.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
+ quic_mkrishn@quicinc.com, dmitry.baryshkov@linaro.org,
+ bjorn.andersson@linaro.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The function CalculateBytePerPixelAnd256BBlockSizes was defined four
-times: on display_mode_vba_30.c, display_rq_dlg_calc_30.c,
-display_mode_vba_31.c and display_rq_dlg_calc_31.c. In order to avoid
-code duplication, the CalculateBytePerPixelAnd256BBlockSizes is defined
-on display_mode_vba_30.h and used across dcn30 and dcn31.
+On Thu, Jun 30, 2022 at 08:49:03PM +0100, Bryan O'Donoghue wrote:
+> On 30/06/2022 20:01, Krzysztof Kozlowski wrote:
+> > On 30/06/2022 14:08, Bryan O'Donoghue wrote:
+> > > The existing msm8916.dtsi does not depend on nor require power-domains.
+> > > Drop from the list of required.
+> > 
+> > That's not good reason. The bindings are about hardware so the question
+> > is whether being a part of power domain or toggling power domain on/off
+> > is considered required for the DSI.
+> 
+> AFAIK no but, I will check this again and if it is definitely not required,
+> I'll churn the commit log to describe it better.
+> 
 
-Signed-off-by: Maíra Canal <mairacanal@riseup.net>
----
- .../dc/dml/dcn30/display_mode_vba_30.c        |  21 +---
- .../dc/dml/dcn30/display_mode_vba_30.h        |  11 ++
- .../dc/dml/dcn30/display_rq_dlg_calc_30.c     |  93 +--------------
- .../dc/dml/dcn31/display_mode_vba_31.c        | 106 +-----------------
- .../dc/dml/dcn31/display_rq_dlg_calc_31.c     |  91 +--------------
- 5 files changed, 23 insertions(+), 299 deletions(-)
+The power domain in the DSI node is used together with the OPP table to
+vote for performance states depending on the clock frequency of the byte
+clock. In the downstream kernel this is part of the clock driver.
+In mainline this needs to be done in the consumer driver.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-index fb4aa4c800bf..842eb94ebe04 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-@@ -712,18 +712,6 @@ static double CalculateUrgentLatency(
- 		double UrgentLatencyAdjustmentFabricClockReference,
- 		double FabricClockSingle);
- 
--static bool CalculateBytePerPixelAnd256BBlockSizes(
--		enum source_format_class SourcePixelFormat,
--		enum dm_swizzle_mode SurfaceTiling,
--		unsigned int *BytePerPixelY,
--		unsigned int *BytePerPixelC,
--		double       *BytePerPixelDETY,
--		double       *BytePerPixelDETC,
--		unsigned int *BlockHeight256BytesY,
--		unsigned int *BlockHeight256BytesC,
--		unsigned int *BlockWidth256BytesY,
--		unsigned int *BlockWidth256BytesC);
--
- void dml30_recalculate(struct display_mode_lib *mode_lib)
- {
- 	ModeSupportAndSystemConfiguration(mode_lib);
-@@ -2095,7 +2083,7 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerforman
- 	DTRACE("   return_bus_bw      = %f", v->ReturnBW);
- 
- 	for (k = 0; k < v->NumberOfActivePlanes; ++k) {
--		CalculateBytePerPixelAnd256BBlockSizes(
-+		dml30_CalculateBytePerPixelAnd256BBlockSizes(
- 				v->SourcePixelFormat[k],
- 				v->SurfaceTiling[k],
- 				&v->BytePerPixelY[k],
-@@ -3165,7 +3153,7 @@ static void DisplayPipeConfiguration(struct display_mode_lib *mode_lib)
- 
- 	for (k = 0; k < mode_lib->vba.NumberOfActivePlanes; ++k) {
- 
--		CalculateBytePerPixelAnd256BBlockSizes(
-+		dml30_CalculateBytePerPixelAnd256BBlockSizes(
- 				mode_lib->vba.SourcePixelFormat[k],
- 				mode_lib->vba.SurfaceTiling[k],
- 				&BytePerPixY[k],
-@@ -3218,7 +3206,7 @@ static void DisplayPipeConfiguration(struct display_mode_lib *mode_lib)
- 			&dummysinglestring);
- }
- 
--static bool CalculateBytePerPixelAnd256BBlockSizes(
-+void dml30_CalculateBytePerPixelAnd256BBlockSizes(
- 		enum source_format_class SourcePixelFormat,
- 		enum dm_swizzle_mode SurfaceTiling,
- 		unsigned int *BytePerPixelY,
-@@ -3305,7 +3293,6 @@ static bool CalculateBytePerPixelAnd256BBlockSizes(
- 		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
- 		*BlockWidth256BytesC = 256U / *BytePerPixelC / *BlockHeight256BytesC;
- 	}
--	return true;
- }
- 
- static double CalculateTWait(
-@@ -3709,7 +3696,7 @@ void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
- 	/*Bandwidth Support Check*/
- 
- 	for (k = 0; k <= v->NumberOfActivePlanes - 1; k++) {
--		CalculateBytePerPixelAnd256BBlockSizes(
-+		dml30_CalculateBytePerPixelAnd256BBlockSizes(
- 				v->SourcePixelFormat[k],
- 				v->SurfaceTiling[k],
- 				&v->BytePerPixelY[k],
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.h b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.h
-index 4e249eaabfdb..daaf0883b84d 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.h
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.h
-@@ -39,5 +39,16 @@ double dml30_CalculateWriteBackDISPCLK(
- 		long   WritebackDestinationWidth,
- 		unsigned int HTotal,
- 		unsigned int WritebackLineBufferSize);
-+void dml30_CalculateBytePerPixelAnd256BBlockSizes(
-+		enum source_format_class SourcePixelFormat,
-+		enum dm_swizzle_mode SurfaceTiling,
-+		unsigned int *BytePerPixelY,
-+		unsigned int *BytePerPixelC,
-+		double       *BytePerPixelDETY,
-+		double       *BytePerPixelDETC,
-+		unsigned int *BlockHeight256BytesY,
-+		unsigned int *BlockHeight256BytesC,
-+		unsigned int *BlockWidth256BytesY,
-+		unsigned int *BlockWidth256BytesC);
- 
- #endif /* __DML30_DISPLAY_MODE_VBA_H__ */
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
-index 747167083dea..8179be1f34bb 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
-@@ -29,6 +29,7 @@
- #include "../display_mode_vba.h"
- #include "../dml_inline_defs.h"
- #include "display_rq_dlg_calc_30.h"
-+#include "display_mode_vba_30.h"
- 
- static bool is_dual_plane(enum source_format_class source_format)
- {
-@@ -275,96 +276,6 @@ static void handle_det_buf_split(struct display_mode_lib *mode_lib,
- 		full_swath_bytes_packed_c);
- }
- 
--static bool CalculateBytePerPixelAnd256BBlockSizes(
--		enum source_format_class SourcePixelFormat,
--		enum dm_swizzle_mode SurfaceTiling,
--		unsigned int *BytePerPixelY,
--		unsigned int *BytePerPixelC,
--		double       *BytePerPixelDETY,
--		double       *BytePerPixelDETC,
--		unsigned int *BlockHeight256BytesY,
--		unsigned int *BlockHeight256BytesC,
--		unsigned int *BlockWidth256BytesY,
--		unsigned int *BlockWidth256BytesC)
--{
--	if (SourcePixelFormat == dm_444_64) {
--		*BytePerPixelDETY = 8;
--		*BytePerPixelDETC = 0;
--		*BytePerPixelY = 8;
--		*BytePerPixelC = 0;
--	} else if (SourcePixelFormat == dm_444_32 || SourcePixelFormat == dm_rgbe) {
--		*BytePerPixelDETY = 4;
--		*BytePerPixelDETC = 0;
--		*BytePerPixelY = 4;
--		*BytePerPixelC = 0;
--	} else if (SourcePixelFormat == dm_444_16) {
--		*BytePerPixelDETY = 2;
--		*BytePerPixelDETC = 0;
--		*BytePerPixelY = 2;
--		*BytePerPixelC = 0;
--	} else if (SourcePixelFormat == dm_444_8) {
--		*BytePerPixelDETY = 1;
--		*BytePerPixelDETC = 0;
--		*BytePerPixelY = 1;
--		*BytePerPixelC = 0;
--	} else if (SourcePixelFormat == dm_rgbe_alpha) {
--		*BytePerPixelDETY = 4;
--		*BytePerPixelDETC = 1;
--		*BytePerPixelY = 4;
--		*BytePerPixelC = 1;
--	} else if (SourcePixelFormat == dm_420_8) {
--		*BytePerPixelDETY = 1;
--		*BytePerPixelDETC = 2;
--		*BytePerPixelY = 1;
--		*BytePerPixelC = 2;
--	} else if (SourcePixelFormat == dm_420_12) {
--		*BytePerPixelDETY = 2;
--		*BytePerPixelDETC = 4;
--		*BytePerPixelY = 2;
--		*BytePerPixelC = 4;
--	} else {
--		*BytePerPixelDETY = 4.0 / 3;
--		*BytePerPixelDETC = 8.0 / 3;
--		*BytePerPixelY = 2;
--		*BytePerPixelC = 4;
--	}
--
--	if ((SourcePixelFormat == dm_444_64 || SourcePixelFormat == dm_444_32
--			|| SourcePixelFormat == dm_444_16 || SourcePixelFormat == dm_444_8
--			|| SourcePixelFormat == dm_mono_16 || SourcePixelFormat == dm_mono_8
--			|| SourcePixelFormat == dm_rgbe)) {
--		if (SurfaceTiling == dm_sw_linear) {
--			*BlockHeight256BytesY = 1;
--		} else if (SourcePixelFormat == dm_444_64) {
--			*BlockHeight256BytesY = 4;
--		} else if (SourcePixelFormat == dm_444_8) {
--			*BlockHeight256BytesY = 16;
--		} else {
--			*BlockHeight256BytesY = 8;
--		}
--		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
--		*BlockHeight256BytesC = 0;
--		*BlockWidth256BytesC = 0;
--	} else {
--		if (SurfaceTiling == dm_sw_linear) {
--			*BlockHeight256BytesY = 1;
--			*BlockHeight256BytesC = 1;
--		} else if (SourcePixelFormat == dm_rgbe_alpha) {
--			*BlockHeight256BytesY = 8;
--			*BlockHeight256BytesC = 16;
--		} else if (SourcePixelFormat == dm_420_8) {
--			*BlockHeight256BytesY = 16;
--			*BlockHeight256BytesC = 8;
--		} else {
--			*BlockHeight256BytesY = 8;
--			*BlockHeight256BytesC = 8;
--		}
--		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
--		*BlockWidth256BytesC = 256U / *BytePerPixelC / *BlockHeight256BytesC;
--	}
--	return true;
--}
--
- static void get_meta_and_pte_attr(struct display_mode_lib *mode_lib,
- 	display_data_rq_dlg_params_st *rq_dlg_param,
- 	display_data_rq_misc_params_st *rq_misc_param,
-@@ -450,7 +361,7 @@ static void get_meta_and_pte_attr(struct display_mode_lib *mode_lib,
- 	double byte_per_pixel_det_y = 0;
- 	double byte_per_pixel_det_c = 0;
- 
--	CalculateBytePerPixelAnd256BBlockSizes((enum source_format_class)(source_format),
-+	dml30_CalculateBytePerPixelAnd256BBlockSizes((enum source_format_class)(source_format),
- 		(enum dm_swizzle_mode)(tiling),
- 		&bytes_per_element_y,
- 		&bytes_per_element_c,
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-index 448fbbcdf88a..9957313da732 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
-@@ -26,6 +26,7 @@
- #include "dc.h"
- #include "dc_link.h"
- #include "../display_mode_lib.h"
-+#include "dml/dcn30/display_mode_vba_30.h"
- #include "display_mode_vba_31.h"
- #include "../dml_inline_defs.h"
- 
-@@ -86,17 +87,6 @@ typedef struct {
- #define BPP_INVALID 0
- #define BPP_BLENDED_PIPE 0xffffffff
- 
--static bool CalculateBytePerPixelAnd256BBlockSizes(
--		enum source_format_class SourcePixelFormat,
--		enum dm_swizzle_mode SurfaceTiling,
--		unsigned int *BytePerPixelY,
--		unsigned int *BytePerPixelC,
--		double *BytePerPixelDETY,
--		double *BytePerPixelDETC,
--		unsigned int *BlockHeight256BytesY,
--		unsigned int *BlockHeight256BytesC,
--		unsigned int *BlockWidth256BytesY,
--		unsigned int *BlockWidth256BytesC);
- static void DisplayPipeConfiguration(struct display_mode_lib *mode_lib);
- static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation(struct display_mode_lib *mode_lib);
- static unsigned int dscceComputeDelay(
-@@ -2220,7 +2210,7 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerforman
- 	DTRACE("   return_bus_bw      = %f", v->ReturnBW);
- 
- 	for (k = 0; k < v->NumberOfActivePlanes; ++k) {
--		CalculateBytePerPixelAnd256BBlockSizes(
-+		dml30_CalculateBytePerPixelAnd256BBlockSizes(
- 				v->SourcePixelFormat[k],
- 				v->SurfaceTiling[k],
- 				&v->BytePerPixelY[k],
-@@ -3415,7 +3405,7 @@ static void DisplayPipeConfiguration(struct display_mode_lib *mode_lib)
- 
- 	for (k = 0; k < v->NumberOfActivePlanes; ++k) {
- 
--		CalculateBytePerPixelAnd256BBlockSizes(
-+		dml30_CalculateBytePerPixelAnd256BBlockSizes(
- 				v->SourcePixelFormat[k],
- 				v->SurfaceTiling[k],
- 				&BytePerPixY[k],
-@@ -3469,94 +3459,6 @@ static void DisplayPipeConfiguration(struct display_mode_lib *mode_lib)
- 			&dummysinglestring);
- }
- 
--static bool CalculateBytePerPixelAnd256BBlockSizes(
--		enum source_format_class SourcePixelFormat,
--		enum dm_swizzle_mode SurfaceTiling,
--		unsigned int *BytePerPixelY,
--		unsigned int *BytePerPixelC,
--		double *BytePerPixelDETY,
--		double *BytePerPixelDETC,
--		unsigned int *BlockHeight256BytesY,
--		unsigned int *BlockHeight256BytesC,
--		unsigned int *BlockWidth256BytesY,
--		unsigned int *BlockWidth256BytesC)
--{
--	if (SourcePixelFormat == dm_444_64) {
--		*BytePerPixelDETY = 8;
--		*BytePerPixelDETC = 0;
--		*BytePerPixelY = 8;
--		*BytePerPixelC = 0;
--	} else if (SourcePixelFormat == dm_444_32 || SourcePixelFormat == dm_rgbe) {
--		*BytePerPixelDETY = 4;
--		*BytePerPixelDETC = 0;
--		*BytePerPixelY = 4;
--		*BytePerPixelC = 0;
--	} else if (SourcePixelFormat == dm_444_16) {
--		*BytePerPixelDETY = 2;
--		*BytePerPixelDETC = 0;
--		*BytePerPixelY = 2;
--		*BytePerPixelC = 0;
--	} else if (SourcePixelFormat == dm_444_8) {
--		*BytePerPixelDETY = 1;
--		*BytePerPixelDETC = 0;
--		*BytePerPixelY = 1;
--		*BytePerPixelC = 0;
--	} else if (SourcePixelFormat == dm_rgbe_alpha) {
--		*BytePerPixelDETY = 4;
--		*BytePerPixelDETC = 1;
--		*BytePerPixelY = 4;
--		*BytePerPixelC = 1;
--	} else if (SourcePixelFormat == dm_420_8) {
--		*BytePerPixelDETY = 1;
--		*BytePerPixelDETC = 2;
--		*BytePerPixelY = 1;
--		*BytePerPixelC = 2;
--	} else if (SourcePixelFormat == dm_420_12) {
--		*BytePerPixelDETY = 2;
--		*BytePerPixelDETC = 4;
--		*BytePerPixelY = 2;
--		*BytePerPixelC = 4;
--	} else {
--		*BytePerPixelDETY = 4.0 / 3;
--		*BytePerPixelDETC = 8.0 / 3;
--		*BytePerPixelY = 2;
--		*BytePerPixelC = 4;
--	}
--
--	if ((SourcePixelFormat == dm_444_64 || SourcePixelFormat == dm_444_32 || SourcePixelFormat == dm_444_16 || SourcePixelFormat == dm_444_8 || SourcePixelFormat == dm_mono_16
--			|| SourcePixelFormat == dm_mono_8 || SourcePixelFormat == dm_rgbe)) {
--		if (SurfaceTiling == dm_sw_linear) {
--			*BlockHeight256BytesY = 1;
--		} else if (SourcePixelFormat == dm_444_64) {
--			*BlockHeight256BytesY = 4;
--		} else if (SourcePixelFormat == dm_444_8) {
--			*BlockHeight256BytesY = 16;
--		} else {
--			*BlockHeight256BytesY = 8;
--		}
--		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
--		*BlockHeight256BytesC = 0;
--		*BlockWidth256BytesC = 0;
--	} else {
--		if (SurfaceTiling == dm_sw_linear) {
--			*BlockHeight256BytesY = 1;
--			*BlockHeight256BytesC = 1;
--		} else if (SourcePixelFormat == dm_rgbe_alpha) {
--			*BlockHeight256BytesY = 8;
--			*BlockHeight256BytesC = 16;
--		} else if (SourcePixelFormat == dm_420_8) {
--			*BlockHeight256BytesY = 16;
--			*BlockHeight256BytesC = 8;
--		} else {
--			*BlockHeight256BytesY = 8;
--			*BlockHeight256BytesC = 8;
--		}
--		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
--		*BlockWidth256BytesC = 256U / *BytePerPixelC / *BlockHeight256BytesC;
--	}
--	return true;
--}
--
- static double CalculateTWait(unsigned int PrefetchMode, double DRAMClockChangeLatency, double UrgentLatency, double SREnterPlusExitTime)
- {
- 	if (PrefetchMode == 0) {
-@@ -4066,7 +3968,7 @@ void dml31_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
- 	/*Bandwidth Support Check*/
- 
- 	for (k = 0; k < v->NumberOfActivePlanes; k++) {
--		CalculateBytePerPixelAnd256BBlockSizes(
-+		dml30_CalculateBytePerPixelAnd256BBlockSizes(
- 				v->SourcePixelFormat[k],
- 				v->SurfaceTiling[k],
- 				&v->BytePerPixelY[k],
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
-index dd570689c095..c94cf6e01e25 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
-@@ -27,94 +27,7 @@
- #include "../display_mode_vba.h"
- #include "../dml_inline_defs.h"
- #include "display_rq_dlg_calc_31.h"
--
--static bool CalculateBytePerPixelAnd256BBlockSizes(
--		enum source_format_class SourcePixelFormat,
--		enum dm_swizzle_mode SurfaceTiling,
--		unsigned int *BytePerPixelY,
--		unsigned int *BytePerPixelC,
--		double *BytePerPixelDETY,
--		double *BytePerPixelDETC,
--		unsigned int *BlockHeight256BytesY,
--		unsigned int *BlockHeight256BytesC,
--		unsigned int *BlockWidth256BytesY,
--		unsigned int *BlockWidth256BytesC)
--{
--	if (SourcePixelFormat == dm_444_64) {
--		*BytePerPixelDETY = 8;
--		*BytePerPixelDETC = 0;
--		*BytePerPixelY = 8;
--		*BytePerPixelC = 0;
--	} else if (SourcePixelFormat == dm_444_32 || SourcePixelFormat == dm_rgbe) {
--		*BytePerPixelDETY = 4;
--		*BytePerPixelDETC = 0;
--		*BytePerPixelY = 4;
--		*BytePerPixelC = 0;
--	} else if (SourcePixelFormat == dm_444_16) {
--		*BytePerPixelDETY = 2;
--		*BytePerPixelDETC = 0;
--		*BytePerPixelY = 2;
--		*BytePerPixelC = 0;
--	} else if (SourcePixelFormat == dm_444_8) {
--		*BytePerPixelDETY = 1;
--		*BytePerPixelDETC = 0;
--		*BytePerPixelY = 1;
--		*BytePerPixelC = 0;
--	} else if (SourcePixelFormat == dm_rgbe_alpha) {
--		*BytePerPixelDETY = 4;
--		*BytePerPixelDETC = 1;
--		*BytePerPixelY = 4;
--		*BytePerPixelC = 1;
--	} else if (SourcePixelFormat == dm_420_8) {
--		*BytePerPixelDETY = 1;
--		*BytePerPixelDETC = 2;
--		*BytePerPixelY = 1;
--		*BytePerPixelC = 2;
--	} else if (SourcePixelFormat == dm_420_12) {
--		*BytePerPixelDETY = 2;
--		*BytePerPixelDETC = 4;
--		*BytePerPixelY = 2;
--		*BytePerPixelC = 4;
--	} else {
--		*BytePerPixelDETY = 4.0 / 3;
--		*BytePerPixelDETC = 8.0 / 3;
--		*BytePerPixelY = 2;
--		*BytePerPixelC = 4;
--	}
--
--	if ((SourcePixelFormat == dm_444_64 || SourcePixelFormat == dm_444_32 || SourcePixelFormat == dm_444_16 || SourcePixelFormat == dm_444_8 || SourcePixelFormat == dm_mono_16
--			|| SourcePixelFormat == dm_mono_8 || SourcePixelFormat == dm_rgbe)) {
--		if (SurfaceTiling == dm_sw_linear) {
--			*BlockHeight256BytesY = 1;
--		} else if (SourcePixelFormat == dm_444_64) {
--			*BlockHeight256BytesY = 4;
--		} else if (SourcePixelFormat == dm_444_8) {
--			*BlockHeight256BytesY = 16;
--		} else {
--			*BlockHeight256BytesY = 8;
--		}
--		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
--		*BlockHeight256BytesC = 0;
--		*BlockWidth256BytesC = 0;
--	} else {
--		if (SurfaceTiling == dm_sw_linear) {
--			*BlockHeight256BytesY = 1;
--			*BlockHeight256BytesC = 1;
--		} else if (SourcePixelFormat == dm_rgbe_alpha) {
--			*BlockHeight256BytesY = 8;
--			*BlockHeight256BytesC = 16;
--		} else if (SourcePixelFormat == dm_420_8) {
--			*BlockHeight256BytesY = 16;
--			*BlockHeight256BytesC = 8;
--		} else {
--			*BlockHeight256BytesY = 8;
--			*BlockHeight256BytesC = 8;
--		}
--		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
--		*BlockWidth256BytesC = 256U / *BytePerPixelC / *BlockHeight256BytesC;
--	}
--	return true;
--}
-+#include "dml/dcn30/display_mode_vba_30.h"
- 
- static bool is_dual_plane(enum source_format_class source_format)
- {
-@@ -467,7 +380,7 @@ static void get_meta_and_pte_attr(
- 	double byte_per_pixel_det_y;
- 	double byte_per_pixel_det_c;
- 
--	CalculateBytePerPixelAnd256BBlockSizes(
-+	dml30_CalculateBytePerPixelAnd256BBlockSizes(
- 			(enum source_format_class) (source_format),
- 			(enum dm_swizzle_mode) (tiling),
- 			&bytes_per_element_y,
--- 
-2.36.1
+The MSM8916 port was never really optimized for power usage. With
+incomplete interconnect support etc the power domains tend to be at
+maximum state most of the time, so it does not cause any issues if you
+forget to vote for performance states in some places.
 
+In general, the situation on MSM8916/MSM8939 is not really any different
+from newer SoCs. The downstream MSM8916 gcc driver contains:
+
+static struct rcg_clk byte0_clk_src = {
+	/* ... */
+	.c = {
+		/* ... */
+		VDD_DIG_FMAX_MAP2(LOW, 94400000, NOMINAL, 188500000),
+	},
+};
+
+which should be ideally translated into an OPP table with
+power-domains = <&rpmpd MSM8916_VDDCX>; similar to newer SoCs.
+
+(I'm not saying that "power-domains" should be required, just that it
+ could be added for MSM8916/MSM8939 if someone wants to properly
+ power-optimize them...)
+
+Thanks,
+Stephan
