@@ -1,49 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8451562129
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 19:23:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7DA3562CB3
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 09:33:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC4C711B4BC;
-	Thu, 30 Jun 2022 17:23:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3166810FA88;
+	Fri,  1 Jul 2022 07:33:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EBD111B4BE
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 17:23:11 +0000 (UTC)
-Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru
- [109.252.118.164])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 45383660196C;
- Thu, 30 Jun 2022 18:23:09 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1656609790;
- bh=LJhSooS9IKyrkGhIs6fkyHnN38CkHuggqq2CmdQEVaA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ER4ulT9P0QybLv69xoZ3bZoWAVUKLsOeSv8QTbdsK6cDJ/3bo5P7LUiuZBlAoFbFN
- Uj1hg6uWtiZ1iT1CsAZxQ0PUekp2vXJuOZhOvoGKvb1tMWvzB9CD33W7ci9TN3pI/5
- GoxZ48aTIyjQmVlakrGpyAD/baZpWpMhvp3J/EuCd4LGUzCqE2Ujzg31TQHm6VIR5U
- gljtZPg8RhCeRcUomsL02VE1yajs06QiDFYvlHqqrKdnOhoO6IB56eAW+4zfphZyAb
- BH+uc+zEGV9idmOCa++Jj/FHMkHPDDhvjg4lcR7sygCZbfjyS3pAgcvGZivvHvLAWs
- S/4WJqwMriGKA==
-Message-ID: <b7715f7d-c69d-2bb0-8226-bcb29e5bf91c@collabora.com>
-Date: Thu, 30 Jun 2022 20:23:06 +0300
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FCEF1129AF
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 17:30:06 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ u12-20020a05600c210c00b003a02b16d2b8so25182wml.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 10:30:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=rBlnAHZeL5VXmWVXaof16R/ixBz+W8sUAmztG7bWwdA=;
+ b=K/Dd7SQmYF1n30wjzfyn+wicHPLnbgHBONWFA8yAzv5u7Fky/uX0TGZGQaO+6dFuom
+ awxlBLCLS0X9hQhgqJoAMg6wxGndw53pbu69G315tkgEUpHyFbeY3Vpkjirw3+vb3tsw
+ kNoYgqP9blq7fPXcJEIZzxuE2kCGoQrJMzxEMeOs6A1FPTa++hVZHHveIt8jEWbTf5Vt
+ sCpqz0irESo8uEhacBZmzgdgVIJPeRrkYnCmhBNcXs7TrBn3tDc7J7VYMcCXHCI2wxgR
+ oQdua2yioRJKcxkhcmgDSVtH8LOas0DUeKKZe0WnAmVmagyolaBzbSzPqiudslvlVrnY
+ sdJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=rBlnAHZeL5VXmWVXaof16R/ixBz+W8sUAmztG7bWwdA=;
+ b=a8E3UfE+g9Hwo+h/IQXH5Xu+697YYx/zrz3phRFJyzq464huMOfQEt5mcyzAKsrdhs
+ zxqwBUKbnFNz9gHUTskS9sZU5On2zJNpK0uCNmh6yVZbESPXzmmDzPrmb5WP/FApBsGf
+ ENPZ2ePALcQnnLodBCSceh86JnPuCFpnsqw285Scyd2ltSz/PQdn9pAININYIzE5Dv2K
+ l/Xd8YiT3Eg8qO0LijoGwmSFKdVpBQqcW9WeH4rK2fN3/1aa1ATgD8AkzMg8Q2v4XjW8
+ IDqxlwV7eqaD6bFSLT14zmVkno3eTMwxNBcQbnRG/zwN/6ypq0YDPBu4TTbpeeEK3uzB
+ XgYQ==
+X-Gm-Message-State: AJIora+jWg+TXzXpRjFApCuostdNwxayxftLYvR9zagxgr17yY2jf5pw
+ qo24UuQSV4GnXOnFJwdgeXScAw==
+X-Google-Smtp-Source: AGRyM1tLj/vYf0am5BBMHwtKy2IXo0Ez0eVYfADzx1DrAlAhLtgm15DK4/UdzX7sr7zxKR5O2uYPJg==
+X-Received: by 2002:a7b:c354:0:b0:39c:6753:21f8 with SMTP id
+ l20-20020a7bc354000000b0039c675321f8mr11578038wmj.113.1656610204470; 
+ Thu, 30 Jun 2022 10:30:04 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+ by smtp.gmail.com with ESMTPSA id
+ w24-20020a7bc758000000b003a018e43df2sm3323922wmk.34.2022.06.30.10.30.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jun 2022 10:30:04 -0700 (PDT)
+Message-ID: <d177d650-0c61-0ae0-17bb-9d4311582652@linaro.org>
+Date: Thu, 30 Jun 2022 18:30:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v5 0/3] Support Sharp LQ101R1SX03 and HannStar HSD101PWW2
- panels
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 4/7] dt-bindings: msm: dsi: Add vdd* descriptions back in
 Content-Language: en-US
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20220529180548.9942-1-clamor95@gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20220529180548.9942-1-clamor95@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, robdclark@gmail.com,
+ quic_abhinavk@quicinc.com, sean@poorly.run, airlied@linux.ie,
+ daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
+References: <20220630120845.3356144-1-bryan.odonoghue@linaro.org>
+ <20220630120845.3356144-5-bryan.odonoghue@linaro.org>
+ <9BCE52A8-E26D-43A0-86D2-90DFE6CB6C62@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <9BCE52A8-E26D-43A0-86D2-90DFE6CB6C62@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Fri, 01 Jul 2022 07:33:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,62 +79,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- David Airlie <airlied@linux.ie>, Svyatoslav Ryhel <clamor95@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Anton Bambura <jenneron@protonmail.com>, Dmitry Osipenko <digetx@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
+ quic_mkrishn@quicinc.com, swboyd@chromium.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Sam,
+On 30/06/2022 18:16, Dmitry Baryshkov wrote:
+> 
+> All three descriptions are the same. This looks like a c&p issue
 
-On 5/29/22 21:05, Svyatoslav Ryhel wrote:
-> This series adds support for Sharp LQ101R1SX03 and HannStar HSD101PWW2
-> display panels that are used by Asus Transformer tablets, which we're
-> planning to support since 5.17 kernel.
+Those are what the previous values were.
 
-The tablets now supported since 5.17 and awaiting for the panel patches.
-
-> Changelog:
-> v5: - previously patches were sent by Dmitry and he asked me to resend them
-> 
-> v4: - Added r-b from Rob Herring that he gave to the LQ101R1SX01 DT patch
->       of v2. I missed to add it to the v3 by accident.
-> 
-> v3: - No changes. Re-sending for 5.18. Device-trees of devices that use
->       these panels were merged to 5.17, so we're missing the display support.
-> 
-> v2: - Added ack from Rob Herring to the HSD101PWW2 binding.
-> 
->     - Updated LQ101R1SX01 binding, like it was suggested by Rob Herring,
->       making LQ101R1SX03 directly compatible with the LQ101R1SX01.
->       Such that ["sharp,lq101r1sx03", "sharp,lq101r1sx01"] could be
->       used in DT. This removes need to update panel driver with the new
->       compatible.
-> 
->     - Improved commit message of the LQ101R1SX03 patch.
-> 
->     - Added my s-o-b to all patches.
-> 
-> Anton Bambura (1):
->   dt-bindings: sharp,lq101r1sx01: Add compatible for LQ101R1SX03
-> 
-> Svyatoslav Ryhel (2):
->   dt-bindings: display: simple: Add HannStar HSD101PWW2
->   drm/panel: simple: Add support for HannStar HSD101PWW2 panel
-> 
->  .../bindings/display/panel/panel-simple.yaml  |  2 ++
->  .../display/panel/sharp,lq101r1sx01.yaml      |  7 ++++-
->  drivers/gpu/drm/panel/panel-simple.c          | 28 +++++++++++++++++++
->  3 files changed, 36 insertions(+), 1 deletion(-)
-> 
-
-Sam, could you please take a look at these patches? They missed two
-kernel versions already because there was nobody to apply them. Thanks
-in advance.
-
--- 
-Best regards,
-Dmitry
+I'll come up with something less robotic though.
