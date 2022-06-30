@@ -2,62 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 714A3562597
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 23:52:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A1E562598
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 23:53:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06FE3112638;
-	Thu, 30 Jun 2022 21:52:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 410CC11376A;
+	Thu, 30 Jun 2022 21:53:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1C911258C
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 21:52:00 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id x3so643592lfd.2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 14:52:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=NrGas5lulMJdCQFvtdHCPkDfHPqr2UrmNuzK4irkMDQ=;
- b=qNhf+eF3ou+OVuBeZcYuSohm7adWxuKi6Yti0wH8bSh+rn6DndIf7DuGYB1f4KK8qt
- DQh7A3jNA52nPGbBERaiWj+hhdug4lHLUcYgbylBVnN1M1rmnL4bHVXl9so2OAk70Kol
- ppPogOM7Yfz5iZIO7ZCRIJrAxmaPYXsarHk0xmmqdn0cMqNbblQh3pyw2vY/FtMgJd5y
- hCQtcbwDeYyKxHz0lXeQPvCW4k5sS7l2OGN6ra/IfS/OBFcMG7EvKJhz4Qi0RLZVnkms
- eTpsxPnvbqwvQr/Y+dzniw6/aIav/3pP1gfyXYwGI+HaXsv6x2RppynNq4a0m+ieGc0n
- IN0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NrGas5lulMJdCQFvtdHCPkDfHPqr2UrmNuzK4irkMDQ=;
- b=J+SSKi6rVwfJTcTnOML1oXo59wgMBB69HLt0Vow1hr8H3oanYzE+xNMXubyjY9c0jQ
- qII8XtTOyDgH4i7oL8hfOhIxlnykKXnQ8VvL8oXYUw2OfpMTsD8OQ70fLXKnHz/8vPSL
- 6rFF5mYfVD0qOM9tN/W5xdp/1h9iLsPHTsP9gUFJNRVGchOey+wwAgy+zhNCCfcO19fr
- Lozli+FH4Noh0URtAOs/qmqCFx/q6EabZvhR+0EErJ4ogfim9s2Jz6SEdty2iwwjpDsZ
- NP5b7821paq8d1SC1ZPZIjGDaqFEy3bQu21DKdjkIp4RnA41kxbVMn2fPGY5lWi3hMTx
- In/g==
-X-Gm-Message-State: AJIora/VCSUjB2HiXRL+neAS88Zdti1Rq1aUwXZ4+BJDFferBvT2bniN
- nIOjmox3bNSoMwOJ11+hQmM=
-X-Google-Smtp-Source: AGRyM1smx3NRBQNbNVKAperCZ6SfrYZXWBWZAqtLbA5mlnisA9vFR0m9cfl7wPwPzhY7YfaqPG1NNw==
-X-Received: by 2002:a05:6512:2292:b0:47f:68b3:3c21 with SMTP id
- f18-20020a056512229200b0047f68b33c21mr7126215lfu.316.1656625918646; 
- Thu, 30 Jun 2022 14:51:58 -0700 (PDT)
-Received: from mobilestation ([95.79.140.178])
- by smtp.gmail.com with ESMTPSA id
- c16-20020a056512325000b0047f963bf815sm3293106lfr.93.2022.06.30.14.51.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jun 2022 14:51:58 -0700 (PDT)
-Date: Fri, 1 Jul 2022 00:51:55 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Conor Dooley <mail@conchuod.ie>
-Subject: Re: [PATCH v3 08/15] riscv: dts: canaan: fix the k210's timer nodes
-Message-ID: <20220630215155.xzhtfkolgy2iubqe@mobilestation>
-References: <20220629184343.3438856-1-mail@conchuod.ie>
- <20220629184343.3438856-9-mail@conchuod.ie>
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FF3E11376A;
+ Thu, 30 Jun 2022 21:53:32 +0000 (UTC)
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4LYsXW4FcCz9t3L;
+ Thu, 30 Jun 2022 21:53:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1656626011; bh=RqJKTEPUdoC1D9GIM8x0UctkWHtsVb+6wjMsLs0x0AI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Hy/pb4x66b/TSannBUttIKlvROq5Ku/c0uYouxfsx72ixV8wvWZC5kR+t3DSMd4Vy
+ 6Gn3ZVncJLrZAlJ/EPtXvN7kRO+lJOUe0i80zfCgVCwNdtOO8zyldWT/u5YTl7mE8p
+ Tr55qEkT6raiumklFg5QlkAH33P5mwBTwuntLYEI=
+X-Riseup-User-ID: F2684EDD2FB94981689F68EA8BD196BB1BD1523BABCB7B9467C80C26E05249A8
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews1.riseup.net (Postfix) with ESMTPSA id 4LYsXR1mCNz5vQt;
+ Thu, 30 Jun 2022 21:53:26 +0000 (UTC)
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/amd/display: Remove unused variables from vba_vars_st
+Date: Thu, 30 Jun 2022 18:53:16 -0300
+Message-Id: <20220630215316.1078841-1-mairacanal@riseup.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220629184343.3438856-9-mail@conchuod.ie>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,127 +53,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Niklas Cassel <niklas.cassel@wdc.com>, alsa-devel@alsa-project.org,
- David Airlie <airlied@linux.ie>, Palmer Dabbelt <palmer@rivosinc.com>,
- linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-riscv@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Jose Abreu <joabreu@synopsys.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, devicetree@vger.kernel.org,
- Albert Ou <aou@eecs.berkeley.edu>, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org, Paul Walmsley <paul.walmsley@sifive.com>,
- Thomas Gleixner <tglx@linutronix.de>, Dillon Min <dillon.minfei@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-spi@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, dmaengine@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 29, 2022 at 07:43:37PM +0100, Conor Dooley wrote:
-> From: Conor Dooley <conor.dooley@microchip.com>
-> 
-> The timers on the k210 have non standard interrupt configurations,
-> which leads to dtbs_check warnings:
-> 
-> k210_generic.dtb: timer@502d0000: interrupts: [[14], [15]] is too long
-> From schema: Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
-> 
-> Split the timer nodes in two, so that the second timer in the IP block
-> can actually be accessed & in the process solve the dtbs_check warning.
+Some variables from the struct vba_vars_st are not referenced in any
+other place on the codebase. As they are not used, this commit removes
+those variables.
 
-Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+---
 
-Just to note. IMO the DW APB Timer driver has been incorrectly
-designed in the first place. The dts-node is supposed to describe the
-whole IP-core timers set as the original Canaan k210 DT-file expected,
-since there are common CSRs in the registers range, which currently
-get to be unreachable. But since the DT-bindings has already been
-defined that way in the framework of DW APB Timer driver alas there
-is nothing we can do to fix it.
+Unused variables from structs are not warned by compilers, so they are a bit
+harder to find. In order to find these unused variables, I used git grep and
+checked if they were used anywhere else.
 
--Sergey
+Any feedback or suggestion (maybe a tool to check unused variables from structs)
+is welcomed!
 
-> 
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->  arch/riscv/boot/dts/canaan/k210.dtsi | 46 +++++++++++++++++++++++-----
->  1 file changed, 38 insertions(+), 8 deletions(-)
-> 
-> diff --git a/arch/riscv/boot/dts/canaan/k210.dtsi b/arch/riscv/boot/dts/canaan/k210.dtsi
-> index cd4eae82d8b2..72f70128d751 100644
-> --- a/arch/riscv/boot/dts/canaan/k210.dtsi
-> +++ b/arch/riscv/boot/dts/canaan/k210.dtsi
-> @@ -319,28 +319,58 @@ fpioa: pinmux@502b0000 {
->  
->  			timer0: timer@502d0000 {
->  				compatible = "snps,dw-apb-timer";
-> -				reg = <0x502D0000 0x100>;
-> -				interrupts = <14>, <15>;
-> +				reg = <0x502D0000 0x14>;
-> +				interrupts = <14>;
->  				clocks = <&sysclk K210_CLK_TIMER0>,
->  					 <&sysclk K210_CLK_APB0>;
->  				clock-names = "timer", "pclk";
->  				resets = <&sysrst K210_RST_TIMER0>;
->  			};
->  
-> -			timer1: timer@502e0000 {
-> +			timer1: timer@502d0014 {
->  				compatible = "snps,dw-apb-timer";
-> -				reg = <0x502E0000 0x100>;
-> -				interrupts = <16>, <17>;
-> +				reg = <0x502D0014 0x14>;
-> +				interrupts = <15>;
-> +				clocks = <&sysclk K210_CLK_TIMER0>,
-> +					 <&sysclk K210_CLK_APB0>;
-> +				clock-names = "timer", "pclk";
-> +				resets = <&sysrst K210_RST_TIMER0>;
-> +			};
-> +
-> +			timer2: timer@502e0000 {
-> +				compatible = "snps,dw-apb-timer";
-> +				reg = <0x502E0000 0x14>;
-> +				interrupts = <16>;
->  				clocks = <&sysclk K210_CLK_TIMER1>,
->  					 <&sysclk K210_CLK_APB0>;
->  				clock-names = "timer", "pclk";
->  				resets = <&sysrst K210_RST_TIMER1>;
->  			};
->  
-> -			timer2: timer@502f0000 {
-> +			timer3: timer@502e0014 {
-> +				compatible = "snps,dw-apb-timer";
-> +				reg = <0x502E0014 0x114>;
-> +				interrupts = <17>;
-> +				clocks = <&sysclk K210_CLK_TIMER1>,
-> +					 <&sysclk K210_CLK_APB0>;
-> +				clock-names = "timer", "pclk";
-> +				resets = <&sysrst K210_RST_TIMER1>;
-> +			};
-> +
-> +			timer4: timer@502f0000 {
-> +				compatible = "snps,dw-apb-timer";
-> +				reg = <0x502F0000 0x14>;
-> +				interrupts = <18>;
-> +				clocks = <&sysclk K210_CLK_TIMER2>,
-> +					 <&sysclk K210_CLK_APB0>;
-> +				clock-names = "timer", "pclk";
-> +				resets = <&sysrst K210_RST_TIMER2>;
-> +			};
-> +
-> +			timer5: timer@502f0014 {
->  				compatible = "snps,dw-apb-timer";
-> -				reg = <0x502F0000 0x100>;
-> -				interrupts = <18>, <19>;
-> +				reg = <0x502F0014 0x14>;
-> +				interrupts = <19>;
->  				clocks = <&sysclk K210_CLK_TIMER2>,
->  					 <&sysclk K210_CLK_APB0>;
->  				clock-names = "timer", "pclk";
-> -- 
-> 2.36.1
-> 
+Best Regards,
+- Maíra Canal
+
+---
+ .../drm/amd/display/dc/dml/display_mode_vba.c |  1 -
+ .../drm/amd/display/dc/dml/display_mode_vba.h | 33 -------------------
+ 2 files changed, 34 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c b/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
+index ed23c7c79d86..6b3918609d26 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
+@@ -346,7 +346,6 @@ static void fetch_socbb_params(struct display_mode_lib *mode_lib)
+ 	mode_lib->vba.DRAMClockChangeRequirementFinal = 1;
+ 	mode_lib->vba.FCLKChangeRequirementFinal = 1;
+ 	mode_lib->vba.USRRetrainingRequiredFinal = 1;
+-	mode_lib->vba.ConfigurableDETSizeEnFinal = 0;
+ 	mode_lib->vba.AllowForPStateChangeOrStutterInVBlankFinal = soc->allow_for_pstate_or_stutter_in_vblank_final;
+ 	mode_lib->vba.DRAMClockChangeLatency = soc->dram_clock_change_latency_us;
+ 	mode_lib->vba.DummyPStateCheck = soc->dram_clock_change_latency_us == soc->dummy_pstate_latency_us;
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.h b/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.h
+index 25a9a606ab6f..e95b2199d85a 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.h
++++ b/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.h
+@@ -232,7 +232,6 @@ struct vba_vars_st {
+ 	double DISPCLKWithRampingRoundedToDFSGranularity;
+ 	double DISPCLKWithoutRampingRoundedToDFSGranularity;
+ 	double MaxDispclkRoundedToDFSGranularity;
+-	double MaxDppclkRoundedToDFSGranularity;
+ 	bool DCCEnabledAnyPlane;
+ 	double ReturnBandwidthToDCN;
+ 	unsigned int TotalActiveDPP;
+@@ -249,7 +248,6 @@ struct vba_vars_st {
+ 	double VBlankTime;
+ 	double SmallestVBlank;
+ 	enum dm_prefetch_modes AllowForPStateChangeOrStutterInVBlankFinal; // Mode Support only
+-	double DCFCLKDeepSleepPerSurface[DC__NUM_DPP__MAX];
+ 	double DCFCLKDeepSleepPerPlane[DC__NUM_DPP__MAX];
+ 	double EffectiveDETPlusLBLinesLuma;
+ 	double EffectiveDETPlusLBLinesChroma;
+@@ -297,7 +295,6 @@ struct vba_vars_st {
+ 	double SMNLatency;
+ 	double FCLKChangeLatency;
+ 	unsigned int MALLAllocatedForDCNFinal;
+-	double DefaultGPUVMMinPageSizeKBytes; // Default for the project
+ 	double MaxAveragePercentOfIdealFabricBWDisplayCanUseInNormalSystemOperation;
+ 	double MaxAveragePercentOfIdealDRAMBWDisplayCanUseInNormalSystemOperationSTROBE;
+ 	double PercentOfIdealDRAMBWReceivedAfterUrgLatencySTROBE;
+@@ -819,8 +816,6 @@ struct vba_vars_st {
+ 	double         dummy8[DC__NUM_DPP__MAX];
+ 	double         dummy13[DC__NUM_DPP__MAX];
+ 	double         dummy_double_array[2][DC__NUM_DPP__MAX];
+-	unsigned int        dummyinteger1ms[DC__NUM_DPP__MAX];
+-	double        dummyinteger2ms[DC__NUM_DPP__MAX];
+ 	unsigned int        dummyinteger3[DC__NUM_DPP__MAX];
+ 	unsigned int        dummyinteger4[DC__NUM_DPP__MAX];
+ 	unsigned int        dummyinteger5;
+@@ -830,16 +825,7 @@ struct vba_vars_st {
+ 	unsigned int        dummyinteger9;
+ 	unsigned int        dummyinteger10;
+ 	unsigned int        dummyinteger11;
+-	unsigned int        dummyinteger12;
+-	unsigned int        dummyinteger30;
+-	unsigned int        dummyinteger31;
+-	unsigned int        dummyinteger32;
+-	unsigned int        dummyintegerarr1[DC__NUM_DPP__MAX];
+-	unsigned int        dummyintegerarr2[DC__NUM_DPP__MAX];
+-	unsigned int        dummyintegerarr3[DC__NUM_DPP__MAX];
+-	unsigned int        dummyintegerarr4[DC__NUM_DPP__MAX];
+ 	unsigned int        dummy_integer_array[8][DC__NUM_DPP__MAX];
+-	unsigned int        dummy_integer_array22[22][DC__NUM_DPP__MAX];
+ 
+ 	bool           dummysinglestring;
+ 	bool           SingleDPPViewportSizeSupportPerPlane[DC__NUM_DPP__MAX];
+@@ -980,7 +966,6 @@ struct vba_vars_st {
+ 	double TimePerChromaMetaChunkFlip[DC__NUM_DPP__MAX];
+ 	unsigned int DCCCMaxUncompressedBlock[DC__NUM_DPP__MAX];
+ 	unsigned int DCCCMaxCompressedBlock[DC__NUM_DPP__MAX];
+-	unsigned int DCCCIndependent64ByteBlock[DC__NUM_DPP__MAX];
+ 	double VStartupMargin;
+ 	bool NotEnoughTimeForDynamicMetadata[DC__NUM_DPP__MAX];
+ 
+@@ -1085,8 +1070,6 @@ struct vba_vars_st {
+ 	double WritebackDelayTime[DC__NUM_DPP__MAX];
+ 	unsigned int DCCYIndependentBlock[DC__NUM_DPP__MAX];
+ 	unsigned int DCCCIndependentBlock[DC__NUM_DPP__MAX];
+-	unsigned int dummyinteger15;
+-	unsigned int dummyinteger16;
+ 	unsigned int dummyinteger17;
+ 	unsigned int dummyinteger18;
+ 	unsigned int dummyinteger19;
+@@ -1147,17 +1130,11 @@ struct vba_vars_st {
+ 	int Z8NumberOfStutterBurstsPerFrame;
+ 	unsigned int MaximumDSCBitsPerComponent;
+ 	unsigned int NotEnoughUrgentLatencyHidingA[DC__VOLTAGE_STATES][2];
+-	double UrgentLatencyWithUSRRetraining;
+-	double UrgLatencyWithUSRRetraining[DC__VOLTAGE_STATES];
+ 	double ReadBandwidthSurfaceLuma[DC__NUM_DPP__MAX];
+ 	double ReadBandwidthSurfaceChroma[DC__NUM_DPP__MAX];
+ 	double SurfaceRequiredDISPCLKWithoutODMCombine;
+ 	double SurfaceRequiredDISPCLK;
+-	double SurfaceRequiredDISPCLKWithODMCombine2To1;
+-	double SurfaceRequiredDISPCLKWithODMCombine4To1;
+ 	double MinActiveFCLKChangeLatencySupported;
+-	double dummy14;
+-	double dummy15;
+ 	int MinVoltageLevel;
+ 	int MaxVoltageLevel;
+ 	unsigned int TotalNumberOfSingleDPPSurfaces[DC__VOLTAGE_STATES][2];
+@@ -1168,17 +1145,10 @@ struct vba_vars_st {
+ 	bool ExceededMALLSize;
+ 	bool PTE_BUFFER_MODE[DC__NUM_DPP__MAX];
+ 	unsigned int BIGK_FRAGMENT_SIZE[DC__NUM_DPP__MAX];
+-	unsigned int dummyinteger33;
+ 	unsigned int CompressedBufferSizeInkByteThisState;
+ 	enum dm_fclock_change_support FCLKChangeSupport[DC__VOLTAGE_STATES][2];
+-	Latencies myLatency;
+-	Latencies mLatency;
+-	Watermarks DummyWatermark;
+ 	bool USRRetrainingSupport[DC__VOLTAGE_STATES][2];
+-	bool dummyBooleanvector1[DC__NUM_DPP__MAX];
+-	bool dummyBooleanvector2[DC__NUM_DPP__MAX];
+ 	enum dm_use_mall_for_pstate_change_mode UsesMALLForPStateChange[DC__NUM_DPP__MAX];
+-	bool NotEnoughUrgentLatencyHiding_dml32[DC__VOLTAGE_STATES][2];
+ 	bool UnboundedRequestEnabledAllStates[DC__VOLTAGE_STATES][2];
+ 	bool SingleDPPViewportSizeSupportPerSurface[DC__NUM_DPP__MAX];
+ 	enum dm_use_mall_for_static_screen_mode UseMALLForStaticScreen[DC__NUM_DPP__MAX];
+@@ -1186,9 +1156,6 @@ struct vba_vars_st {
+ 	bool DRAMClockChangeRequirementFinal;
+ 	bool FCLKChangeRequirementFinal;
+ 	bool USRRetrainingRequiredFinal;
+-	bool MALLUseFinal;
+-	bool ConfigurableDETSizeEnFinal;
+-	bool dummyboolean;
+ 	unsigned int DETSizeOverride[DC__NUM_DPP__MAX];
+ 	unsigned int nomDETInKByte;
+ 	enum mpc_combine_affinity  MPCCombineUse[DC__NUM_DPP__MAX];
+-- 
+2.36.1
+
