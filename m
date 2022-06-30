@@ -1,67 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817305620D7
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 19:07:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2940A5620EB
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 19:10:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B20B911A72F;
-	Thu, 30 Jun 2022 17:07:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 632D911A99D;
+	Thu, 30 Jun 2022 17:10:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AA4811A73B
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 17:07:47 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id f39so34879967lfv.3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 10:07:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:user-agent:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=5h9m2r1as3dVO5Ej+4ZiJew20CUmK76LyEozgtg6ehk=;
- b=RpClWCfbqMGu2IaKWsyy/R7HM5UFKNt5IfpnOqCRNW7IeAGO0hOQ8gg3W3l8GwANGS
- DndKo5NBBpM7M4OzjLhDl4yyHG1a2jZ4FTPnoNrWLzvsn56ATwrLWpSkSt5wSv3rKAzi
- b1UlsdO/ZFFZxcP7I301pb460P5tLR90qusgBA9D80fQZCRHaYD/f/Mndrmv46pmuxKa
- qEzW8NhW1huy78tXn0ahmqTf/fRTK83e6KpRM2Og0b/4LkNTnPkTIS2PQ3Ww9KSWtv6m
- aaO7S3XYrMgcSvL2T3iBfBcprAhBJamvksBcnSLMCPD8Pwrhs6FSQnvorU6rgaqtRhRa
- q6qg==
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F156311A99D
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 17:10:44 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-317741c86fdso185769507b3.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 10:10:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=C4tyH3Wyg1tODv7Sm2smKsBoDS+J8nqhwGQaq6vu3uY=;
+ b=gnYGD2jS1FIJGGpq0jD3UITkms56aodG5VSVUw4KGb2NOASUoMBZF4GAF2pCZD4yuT
+ 1BUfIMSa7UwkVNInhHWxVQsdUY45IwPorOfEp3ZMwrgvpq7Eq/wAAm816woi+NAnVzkO
+ puOGIsOCuaPz5ZUYu6Y4EcKmJFWfdgBhBGv2w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:user-agent:in-reply-to
- :references:message-id:mime-version:content-transfer-encoding;
- bh=5h9m2r1as3dVO5Ej+4ZiJew20CUmK76LyEozgtg6ehk=;
- b=nTyNRvwtMpSuzEDsGMZilqCeyRNcYqP1KDGLqkenJDTb1VwXL/xvpDLEacl920CPwr
- wCKLvhQAUOn87j94wAVSdvKIibu/2u9BCkulUSQ8bo0IGQaTgaY0cIwiAyXjbPIUstzh
- 1cOt4QzCI1/5FeVBMSvCTBY2h7vOCFEc7EvmLs9q30iofB5X4QE9rhEe4o9glA7um1iJ
- Ps6o9wPWxih+y+Z3gTw2rJ33Myk8F7LnrrMAfNYZ5X5xUz7wq4gv9MutBYFiH1rdoEsk
- +clWntD/0ySiCvrRG6iNPqpCHJWdlFFcJBfWWk29bbfuEI8h12XYIHFfWU1MuqbjjP/t
- TleA==
-X-Gm-Message-State: AJIora/DTA3Do9uvI4YP21s0ZXTeD+DFFyEK9GEygVEwwLQjgv0O1xLG
- p7PWw2r6wa3sD2wN+KTqdCkOdQ==
-X-Google-Smtp-Source: AGRyM1sYxOrvJE5VNAQuV35nuPVYN8Uc4ZOlo7XwTERwo1oW9GaijikgQCz+byZALgT7XFQduQmvEg==
-X-Received: by 2002:a05:6512:3e0e:b0:47f:6a95:9b98 with SMTP id
- i14-20020a0565123e0e00b0047f6a959b98mr6372997lfv.177.1656608865898; 
- Thu, 30 Jun 2022 10:07:45 -0700 (PDT)
-Received: from [127.0.0.1] ([94.25.229.210]) by smtp.gmail.com with ESMTPSA id
- c7-20020a19e347000000b004791fc12f6asm3194067lfk.46.2022.06.30.10.07.43
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 30 Jun 2022 10:07:44 -0700 (PDT)
-Date: Thu, 30 Jun 2022 20:07:41 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, sean@poorly.run, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_2/7=5D_dt-bindings=3A_msm=3A_ds?=
- =?US-ASCII?Q?i=3A_Fix_operating-points-v2_constraint?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20220630120845.3356144-3-bryan.odonoghue@linaro.org>
-References: <20220630120845.3356144-1-bryan.odonoghue@linaro.org>
- <20220630120845.3356144-3-bryan.odonoghue@linaro.org>
-Message-ID: <6334180D-C29F-4EB4-BD2D-1F832E9FF990@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=C4tyH3Wyg1tODv7Sm2smKsBoDS+J8nqhwGQaq6vu3uY=;
+ b=wgBwOhOHR4GTlI6nBsoeAwDEACJZEJRKem9WqRlNS0tWEOWXv9AGgVAqL7m24bwA1p
+ 7ORjLTcujvT0B6ALvOAfxc2EzzCfPkTDkzHuAP21rBx95xy1/qH/6Dwg+WgCh5T9Djjv
+ Z9NFoDBB5Pswe8DY97nAPJkmM57lzB7DeWh2zCH7JuYwIwPF6fJDff9lldSuu8PUwYUS
+ rA8lyyy38+GPW+C585MVPV6FHvDYjqbfhtBTJoz9YTROoltntSm+EKn7i7ghRrn7Vjz2
+ ztCE0UrlAhRYLa/wb+x8ITMC+YI+kArOUafDWe1NLUi7vBd4wBYPcts9k2ONGkRdGpLo
+ Bvhw==
+X-Gm-Message-State: AJIora/PxlNAD7HVeZ7tKBGNURFEcXtC0U9Myf6L1VChTmGNltXa3bY5
+ rz+QUqj3TteEFFs+u9bhR/2Z9zGI4tMLwKzvmzjOI/agFGs=
+X-Google-Smtp-Source: AGRyM1uMIL9QXjLW/PVKIiDg5RY+SUgQa/orAvMkYfMDivtbvx25fWOLwDlCvs4yZik4khUw0Q+DzoBnfW9oVFDgjCg=
+X-Received: by 2002:a81:5745:0:b0:318:99e6:3279 with SMTP id
+ l66-20020a815745000000b0031899e63279mr11262932ywb.311.1656609043950; Thu, 30
+ Jun 2022 10:10:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20220622173605.1168416-1-pmalani@chromium.org>
+ <20220622173605.1168416-2-pmalani@chromium.org>
+ <20220627210407.GA2905757-robh@kernel.org>
+ <CACeCKackdbDZrk5fk7qyMwSdTdzyTS=m1vHPFnQOj672W=2nOA@mail.gmail.com>
+ <20220628182336.GA711518-robh@kernel.org>
+ <CAEXTbpex9nxP-nyPWvSBchAW4j3C4MZfVHTb=5X0iSLY1bSAKg@mail.gmail.com>
+ <CAEXTbpf_jxK-R5aA81FCbpAH4bChA2B9+8qExZUbA7Y+Ort=Gg@mail.gmail.com>
+ <CAL_Jsq+C04RXLtm6Ac85Ru3EGwJbqV_UD3_dDWVrKvFSvdm7Ng@mail.gmail.com>
+ <CAE-0n53ers881LOTCEmKDDxJQt+5vvXJSURs=o6TcOiR5m_EAw@mail.gmail.com>
+ <CACeCKacJnnk4_dXEX7XiboOWrYpfAcE=ukP63agVAYUxWR9Vbg@mail.gmail.com>
+ <CAE-0n50jm1ovUcBC0GCQJszk-4u+0vDQtAxHxsu9SLyn_CkQuQ@mail.gmail.com>
+In-Reply-To: <CAE-0n50jm1ovUcBC0GCQJszk-4u+0vDQtAxHxsu9SLyn_CkQuQ@mail.gmail.com>
+From: Prashant Malani <pmalani@chromium.org>
+Date: Thu, 30 Jun 2022 10:10:32 -0700
+Message-ID: <CACeCKadtmGZ5iuTHdMms6ZHGn-Uv=MbcdtqmUzqCb=5WHuPj2Q@mail.gmail.com>
+Subject: Re: [PATCH v5 1/9] dt-bindings: usb: Add Type-C switch binding
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,49 +70,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- quic_mkrishn@quicinc.com, bryan.odonoghue@linaro.org, swboyd@chromium.org,
- freedreno@lists.freedesktop.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Pin-yen Lin <treapking@chromium.org>, Maxime Ripard <maxime@cerno.tech>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux USB List <linux-usb@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+(CC+ Bjorn)
 
-
-On 30 June 2022 15:08:40 GMT+03:00, Bryan O'Donoghue <bryan=2Eodonoghue@li=
-naro=2Eorg> wrote:
->The existing msm8916=2Edtsi does not depend on nor require operating poin=
-ts=2E
+On Wed, Jun 29, 2022 at 4:55 PM Stephen Boyd <swboyd@chromium.org> wrote:
 >
->Fixes: 4dbe55c97741 ("dt-bindings: msm: dsi: add yaml schemas for DSI bin=
-dings")
->Signed-off-by: Bryan O'Donoghue <bryan=2Eodonoghue@linaro=2Eorg>
-
-
-Reviewed-by: Dmitry Baryshkov <dmitry=2Ebaryshkov@linaro=2Eorg>
-
->---
-> =2E=2E=2E/devicetree/bindings/display/msm/dsi-controller-main=2Eyaml    =
- | 1 -
-> 1 file changed, 1 deletion(-)
+> Quoting Prashant Malani (2022-06-29 15:55:10)
+> > On Wed, Jun 29, 2022 at 2:58 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> > >
+> > > My understanding is there are 4 DP lanes on it6505 and two lanes are
+> > > connected to one usb-c-connector and the other two lanes are connected
+> > > to a different usb-c-connector. The IT6505 driver will send DP out on
+> > > the associated two DP lanes depending on which usb-c-connector has DP
+> > > pins assigned by the typec manager.
+> [...]
+> >
+> > We can adopt this binding, but from what I gathered in this thread, that
+> > shouldn't be done, because IT6505 isn't meant to be aware of Type-C
+> > connections at all.
 >
->diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller=
--main=2Eyaml b/Documentation/devicetree/bindings/display/msm/dsi-controller=
--main=2Eyaml
->index 717a5d255ffe4=2E=2E101adec8d9152 100644
->--- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main=
-=2Eyaml
->+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main=
-=2Eyaml
->@@ -137,7 +137,6 @@ required:
->   - assigned-clocks
->   - assigned-clock-parents
->   - power-domains
->-  - operating-points-v2
->   - ports
->=20
-> additionalProperties: false
+> How will the driver know which usb-c-connector to route DP to without
+> making the binding aware of typec connections?
 
---=20
-With best wishes
-Dmitry
+I agree with you; I'm saying my interpretation of the comments of this
+thread are that it's not the intended usage of the it6505 part, so the driver
+shouldn't be updated to support that.
+
+>
+> HPD can be signalled out of band, or not at all (no-hpd). I suspect it's
+> valid to ignore/disconnect the HPD pin here and start/stop DP when, for
+> example, the HPD pin toggles within a dp-connector. HPD could be
+> signaled directly to the kernel via an out of band gpio going from the
+> dp-connector to the SoC. In this case HPD for each dp-connector could be
+> a different gpio and the driver may be required to arbitrate between the
+> two dp-connectors with some 'first to signal wins' logic or something.
+
+Sure, it's possible. I just didn't see anything in the anx7625 datasheet
+to suggest it supported 2x1-lane DP outputs.
+
+For that matter I don't think even it6505 supports > 1 DP sink (based
+on my reading of the datasheet), but I don't have too much experience
+with these parts.
+
+
+> > My interpretation of the current mode-switch search code [1] is that
+> > a top level property of "mode-switch" is required.
+>
+> Yeah that's how it is right now, but does it have to stay that way?
+> Could the code search the graph and look for a matching node that's
+> registered with the typec framework?
+
+I'll have to get back to you on that after reading the code a bit more.
+Maybe Heikki or Bjorn have some comments about it.
+The ACPI Type-C ports do require a device handle labelled "mode-switch"
+which points to the switch device.
