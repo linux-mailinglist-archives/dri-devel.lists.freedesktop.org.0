@@ -1,72 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7DA3562CB3
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 09:33:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 302B7562155
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 19:34:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3166810FA88;
-	Fri,  1 Jul 2022 07:33:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D40F7112EE1;
+	Thu, 30 Jun 2022 17:34:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FCEF1129AF
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 17:30:06 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- u12-20020a05600c210c00b003a02b16d2b8so25182wml.2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 10:30:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=rBlnAHZeL5VXmWVXaof16R/ixBz+W8sUAmztG7bWwdA=;
- b=K/Dd7SQmYF1n30wjzfyn+wicHPLnbgHBONWFA8yAzv5u7Fky/uX0TGZGQaO+6dFuom
- awxlBLCLS0X9hQhgqJoAMg6wxGndw53pbu69G315tkgEUpHyFbeY3Vpkjirw3+vb3tsw
- kNoYgqP9blq7fPXcJEIZzxuE2kCGoQrJMzxEMeOs6A1FPTa++hVZHHveIt8jEWbTf5Vt
- sCpqz0irESo8uEhacBZmzgdgVIJPeRrkYnCmhBNcXs7TrBn3tDc7J7VYMcCXHCI2wxgR
- oQdua2yioRJKcxkhcmgDSVtH8LOas0DUeKKZe0WnAmVmagyolaBzbSzPqiudslvlVrnY
- sdJQ==
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D59E11B163
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 17:34:26 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id 136so86047pfy.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 10:34:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1s1jurQNn/fJ4wlZGRfg1PNeoKP8xQg/ofkOwb0NO2E=;
+ b=N0Zd0OVM4bQky4uabYzuMEV8PyZPfQ/N09BFx0mH52wgBdjlxbeg3dltvfkX2ydhgZ
+ qGVMGj4nSzoaZK0ajiSbgouaegww7bDUoWn2zDXg/JhW89N1ZOAeMeamP4XyqoL0bX+A
+ Z3qdd0mFEG9XDfttKG3enTn3ZS0Gyytg1pdi4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=rBlnAHZeL5VXmWVXaof16R/ixBz+W8sUAmztG7bWwdA=;
- b=a8E3UfE+g9Hwo+h/IQXH5Xu+697YYx/zrz3phRFJyzq464huMOfQEt5mcyzAKsrdhs
- zxqwBUKbnFNz9gHUTskS9sZU5On2zJNpK0uCNmh6yVZbESPXzmmDzPrmb5WP/FApBsGf
- ENPZ2ePALcQnnLodBCSceh86JnPuCFpnsqw285Scyd2ltSz/PQdn9pAININYIzE5Dv2K
- l/Xd8YiT3Eg8qO0LijoGwmSFKdVpBQqcW9WeH4rK2fN3/1aa1ATgD8AkzMg8Q2v4XjW8
- IDqxlwV7eqaD6bFSLT14zmVkno3eTMwxNBcQbnRG/zwN/6ypq0YDPBu4TTbpeeEK3uzB
- XgYQ==
-X-Gm-Message-State: AJIora+jWg+TXzXpRjFApCuostdNwxayxftLYvR9zagxgr17yY2jf5pw
- qo24UuQSV4GnXOnFJwdgeXScAw==
-X-Google-Smtp-Source: AGRyM1tLj/vYf0am5BBMHwtKy2IXo0Ez0eVYfADzx1DrAlAhLtgm15DK4/UdzX7sr7zxKR5O2uYPJg==
-X-Received: by 2002:a7b:c354:0:b0:39c:6753:21f8 with SMTP id
- l20-20020a7bc354000000b0039c675321f8mr11578038wmj.113.1656610204470; 
- Thu, 30 Jun 2022 10:30:04 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+ bh=1s1jurQNn/fJ4wlZGRfg1PNeoKP8xQg/ofkOwb0NO2E=;
+ b=a+PTUJFdY8m2++zdzZBMQpZdXL9IfuTh8W59+D5bwi8keFnRw4o79bwzAHC0Kh4SJ5
+ DgRbsyZgc8rq+4KMiBkJSl1Fcz5zlXfIj1PSh+44xQZgZ9TVu+ZNgvj16VDgCJAx8DYt
+ xyN8iC9hydexdqvSDhoReG7aJjwy6Sl7uITvxUApxa5QEzBAh8ux6s9a3yPs9bbdXFlP
+ snN60Goosyaq7bsqG4C8nJipcJx3eQNEOg7RfOYgYAJb5lqZz/r6tJBe8RPgB1kWeVQo
+ UTDVg/SxSqIP1kxAhqNzO7pQMoKkAYmAt6Akweustyb6LNMNQHxgfuG6A4VW057GTq+Y
+ PSxQ==
+X-Gm-Message-State: AJIora837mHO0peWtZ1RlHNjtxEl+kxWC/RNVQ+GnYMp2dsJHjOB2mX4
+ WCCfglWp7Pm8bcwL3ZYT6Nqef2CvRxXAuQ==
+X-Google-Smtp-Source: AGRyM1sTkUaMZfcu6ioDPGwJiwe0TTGaBaUHp6sw3z9cYqSKpyM+kx7JG47ES5+UsaveuyB1Qkoe6A==
+X-Received: by 2002:aa7:910b:0:b0:524:f8d9:a4c4 with SMTP id
+ 11-20020aa7910b000000b00524f8d9a4c4mr17128695pfh.5.1656610465558; 
+ Thu, 30 Jun 2022 10:34:25 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:5175:e079:2e5a:2405])
  by smtp.gmail.com with ESMTPSA id
- w24-20020a7bc758000000b003a018e43df2sm3323922wmk.34.2022.06.30.10.30.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jun 2022 10:30:04 -0700 (PDT)
-Message-ID: <d177d650-0c61-0ae0-17bb-9d4311582652@linaro.org>
-Date: Thu, 30 Jun 2022 18:30:02 +0100
+ m20-20020aa78a14000000b00518950bfc82sm14331125pfa.10.2022.06.30.10.34.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jun 2022 10:34:25 -0700 (PDT)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: [PATCH] video: of_display_timing.h: include errno.h
+Date: Fri,  1 Jul 2022 01:33:29 +0800
+Message-Id: <20220630173328.1369576-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 4/7] dt-bindings: msm: dsi: Add vdd* descriptions back in
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, sean@poorly.run, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-References: <20220630120845.3356144-1-bryan.odonoghue@linaro.org>
- <20220630120845.3356144-5-bryan.odonoghue@linaro.org>
- <9BCE52A8-E26D-43A0-86D2-90DFE6CB6C62@linaro.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <9BCE52A8-E26D-43A0-86D2-90DFE6CB6C62@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Fri, 01 Jul 2022 07:33:24 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,16 +65,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- quic_mkrishn@quicinc.com, swboyd@chromium.org, freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/06/2022 18:16, Dmitry Baryshkov wrote:
-> 
-> All three descriptions are the same. This looks like a c&p issue
+If CONFIG_OF is not enabled, default of_get_display_timing() returns an
+errno, so include the header.
 
-Those are what the previous values were.
+Fixes: 422b67e0b31a ("videomode: provide dummy inline functions for !CONFIG_OF")
+Suggested-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+---
+ include/video/of_display_timing.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I'll come up with something less robotic though.
+diff --git a/include/video/of_display_timing.h b/include/video/of_display_timing.h
+index e1126a74882a5..eff166fdd81b9 100644
+--- a/include/video/of_display_timing.h
++++ b/include/video/of_display_timing.h
+@@ -8,6 +8,8 @@
+ #ifndef __LINUX_OF_DISPLAY_TIMING_H
+ #define __LINUX_OF_DISPLAY_TIMING_H
+ 
++#include <linux/errno.h>
++
+ struct device_node;
+ struct display_timing;
+ struct display_timings;
+-- 
+2.37.0.rc0.161.g10f37bed90-goog
+
