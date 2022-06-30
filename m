@@ -2,50 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62E7561A91
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 14:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D523561AD4
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 14:57:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CB8511A940;
-	Thu, 30 Jun 2022 12:43:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55D0511AB1F;
+	Thu, 30 Jun 2022 12:57:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C467D11A938
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 12:43:04 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1o6tVb-0008Id-0W; Thu, 30 Jun 2022 14:42:59 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1o6tVW-003arP-1Y; Thu, 30 Jun 2022 14:42:57 +0200
-Received: from pza by lupine with local (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1o6tVY-0008LZ-NG; Thu, 30 Jun 2022 14:42:56 +0200
-Message-ID: <96843b60824294eaa02c333754a17bac36f085ce.camel@pengutronix.de>
-Subject: Re: [PATCH] drm: bridge: dw_hdmi: only trigger hotplug event on
- real link state change
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Lucas Stach <l.stach@pengutronix.de>, Neil Armstrong
- <narmstrong@baylibre.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Robert
- Foss <robert.foss@linaro.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>,  Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Date: Thu, 30 Jun 2022 14:42:56 +0200
-In-Reply-To: <20220627124715.408258-1-l.stach@pengutronix.de>
-References: <20220627124715.408258-1-l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 447AF11AB1F;
+ Thu, 30 Jun 2022 12:57:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656593849; x=1688129849;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=vYSZhASn8tgU9zD73wAmd/QG7LxjpopV+5RbTxlmf1o=;
+ b=aXzEkBAhOZ0LAnMhiG5KeCJBkllNeUNJ52g2WGRGyWYkSzaN/8GMQcL/
+ UYF+hR6XQSzYW4M1xW0OwfSalkIxoN3FtzZBTQOa6bcmsVrF3fggWIM/+
+ uNSg7iYhYrPt4KR553Jdy7MlUVKY154EU72OmV8zEgc8ldyaZAO1SUzec
+ 4Kx3q9RVKCNfUrGbIgcG7qipsTy7OK3qds7YDxoorL5v+I/bnk4aq6mAf
+ yYrGolmLkiQkvSSOLDjPR6VYnxGTeWQupsaAcQ7WC3MUlO+jWsb4h8dKB
+ xwDjqUN0aS0kMU2RohuddSdV1hqMsnNZ4K7gCH1lJadDlb/ogew4hUu1J Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="281104231"
+X-IronPort-AV: E=Sophos;i="5.92,234,1650956400"; d="scan'208";a="281104231"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2022 05:57:28 -0700
+X-IronPort-AV: E=Sophos;i="5.92,234,1650956400"; d="scan'208";a="918035298"
+Received: from hanj1-mobl1.ccr.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.202.230])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2022 05:57:26 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/selftests: Remove flush_scheduled_work() from
+ live_execlists
+Date: Thu, 30 Jun 2022 13:57:16 +0100
+Message-Id: <20220630125716.50835-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,68 +55,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mo, 2022-06-27 at 14:47 +0200, Lucas Stach wrote:
-There are two events that signal a real change of the link state: HPD going
-high means the sink is newly connected or wants the source to re-read the
-EDID, RX sense going low is a indication that the link has been disconnecte=
-d.
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Ignore the other two events that also trigger interrupts, but don't need
-immediate attention: HPD going low does not necessarily mean the link has
-been lost and should not trigger a immediate read of the status. RX sense
-going high also does not require a detect cycle, as HPD going high is the
-right point in time to read the EDID.
+There are ongoing efforts to remove usages of flush_scheduled_work() from
+drivers in order to avoid several cases of potentential problems when
+flushing is done from certain contexts.
 
-Ignoring the negative HPD edge does make the detection much more robust
-against spurious link status changes due to EMI or marginal signal levels.
+Remove the call from the live_execlists selftest. Its purpose was to be
+thorough and sync with the execlists capture state handling, but that is
+not strictly required for the test to function and can be removed.
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 ---
-=C2=A0drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 13 ++++++++-----
-=C2=A01 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gt/selftest_execlists.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/br=
-idge/synopsys/dw-hdmi.c
-index 3e1be9894ed1..24f991b5248d 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -3095,6 +3095,7 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
-=C2=A0{
-=C2=A0	struct dw_hdmi *hdmi =3D dev_id;
-=C2=A0	u8 intr_stat, phy_int_pol, phy_pol_mask, phy_stat;
-+	enum drm_connector_status status =3D connector_status_unknown;
-=C2=A0
+diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+index 09f8cd2d0e2c..e62d089257ae 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
++++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+@@ -85,8 +85,6 @@ static int wait_for_reset(struct intel_engine_cs *engine,
+ 			break;
+ 	} while (time_before(jiffies, timeout));
+ 
+-	flush_scheduled_work();
+-
+ 	if (rq->fence.error != -EIO) {
+ 		pr_err("%s: hanging request %llx:%lld not reset\n",
+ 		       engine->name,
+-- 
+2.34.1
 
-=C2=A0	intr_stat =3D hdmi_readb(hdmi, HDMI_IH_PHY_STAT0);
-=C2=A0	phy_int_pol =3D hdmi_readb(hdmi, HDMI_PHY_POL0);
-@@ -3133,13 +3134,15 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_i=
-d)
-=C2=A0			cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
-=C2=A0			mutex_unlock(&hdmi->cec_notifier_mutex);
-=C2=A0		}
--	}
-=C2=A0
-
--	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
--		enum drm_connector_status status =3D phy_int_pol & HDMI_PHY_HPD
--						 ? connector_status_connected
--						 : connector_status_disconnected;
-+		if (phy_stat & HDMI_PHY_HPD)
-+			status =3D connector_status_connected;
-+
-+		if (!( phy_stat & HDMI_PHY_RX_SENSE))
-
-Too much space:       ^
-
-Also, would it make sense to check
-
-		if (!(phy_stat & (HDMI_PHY_HPD | HDMI_PHY_RX_SENSE)))
-
-instead?
-
-regards
-Philipp
