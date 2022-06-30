@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA41E562122
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 19:20:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADC2562126
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 19:21:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 880F311B20C;
-	Thu, 30 Jun 2022 17:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2085F11B34A;
+	Thu, 30 Jun 2022 17:21:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4421B11B1F8
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 17:20:08 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id b23so23967115ljh.7
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 10:20:08 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63D5611B34A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 17:21:24 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id y16so11038199lfb.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 10:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:user-agent:in-reply-to:references
  :message-id:mime-version:content-transfer-encoding;
- bh=damohPfMdpLkq66NtoK5mlqa9rA96R50kIkGHbj3Spc=;
- b=gmjrbUpiJM7zv5Def7+C0oPeRN6HLsd0lqOL/zTp5emkqBsBJSSchUWI8g1iUiSdHa
- CNqWEC5k0ZHEV1Vxpw0dp3ibfnwEH0+buty8lhvIG6PYRxN3mgmAgOOIWxnezK1HJfD4
- DXWNfUQOrNgXyA8twNaiIhIYB9isSOTkxSG0BaPmVrf0Z8JpkqjxG7NUQhQimabywtQt
- gk76F9HxbrVrGA6QYuYIH18axeu/2W5qmMbSogk//RLOYgujOaG8+paWtW+/p81HrApX
- DQMzHTMJE0KfKjTNvCHGmgYk3PcXkEl1j9DroviDiwrYZE3/xcOc5feyq4CllI6mg72O
- p5fA==
+ bh=BohL4XV8r1xt0c24TIuYDlP8R/meGuCrMEtn1MhTCXI=;
+ b=wuWu6XFubEpJUzf4oKOWPwR/Ni5MgstHBQVZSoGrPo5OQ2j/JJzHSOIpseOT4tlYiz
+ EKu+RQ7K4KvLKZ7znlUg+z+9D1VlMaxHwjHzk6YXNYIaylEOwy6Ab3O6RHruoLzS7BKo
+ WUDfTBxkJxsbSj8c9OOzEAIG13agptse6eg9/eemuFzwt7nb+xD3hj7Z7WccXc+LtOHI
+ 9M6BjnFxAiHGYtYzu8ZZDsbcKJjLfu3jswLr8kDqoDJtCct2HASjWexULB+p2qxuC7lZ
+ q21XvRA3OCKGJK7KJuvyer3VWn6T6iT84/pRyhlMMu3Vz1Fecu8iIPPKa7hcC/T+Tk63
+ lwKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:user-agent:in-reply-to
  :references:message-id:mime-version:content-transfer-encoding;
- bh=damohPfMdpLkq66NtoK5mlqa9rA96R50kIkGHbj3Spc=;
- b=CBfiQM8yXKWgS/2i/q+nwSSeTrME5maqL08YHENX8igbfckuVQZ8DyTZBzIn+rfuCq
- RLqPNvQBr6tdJvGn8RnT+i/CS/TqfFLhLOhKmRCD7Ht2CQF1WsIaKaL78WN7lycgW6wS
- o99mpptHx/ErBO+sciQIcFzOpstC28NOK6Qsz8pQb/wv76cu396yIYUvgh3VKgy27DwC
- /LCUWYo8n8OAOVVSj5svk3OwUKCn3eg9SK6uc3auD/wQNthmtD2t1EOs8qsBLxosfcRF
- JDaHGiV2wXqomAPRqnP6ItJZjdBEcNvrMrP1apfCVt/t4wTZYQ++LiHcH69UrgdV/PQf
- JBSA==
-X-Gm-Message-State: AJIora8235kfgn2AjsMLQl5PyjUTaIKdTcGlwsVOn5siqJZ8mL9zWmWE
- oD9GJV8LERlAqjaLo4wlzyiVEg==
-X-Google-Smtp-Source: AGRyM1uvlzgvoIauk6FepAZQ9ApDovAivrQMxolpgVL3q7pogIma25pTH0Wsl/qZ/jhThMGXMy3Efw==
-X-Received: by 2002:a2e:6e0c:0:b0:255:98fb:cb45 with SMTP id
- j12-20020a2e6e0c000000b0025598fbcb45mr5692263ljc.55.1656609606623; 
- Thu, 30 Jun 2022 10:20:06 -0700 (PDT)
+ bh=BohL4XV8r1xt0c24TIuYDlP8R/meGuCrMEtn1MhTCXI=;
+ b=t8JKNJLG4UyNQXnr0VU3Tc/xKKAge0ob+GcOUXYVXAwlixpGNenVrSVlqLS0Nxwi7B
+ 8JBv9mC80rQizgIK9+8LhZI6Hf54/EQL1tp56ZbDCqXgIeeafJLaYvHlftN4wyZG5/eg
+ GlVDQyA+8CI2ak2P4+ajIUP0co+VZVGyMe/RV173loBqfiD8lNfvSGsw4khATyAzLmqn
+ aex1KN8x2ggg9jmGtFeWiNZOR/iR4s+k6Fv2VsLZ49J96bqhFO8Q3l7O+K6HuBYd72wp
+ RThwLizpNhZmdcE/Ke20C33lkEz7wT/G3xccRTtL9hQHJU/nIDjir/dQwlVu+9tcCDig
+ FDlQ==
+X-Gm-Message-State: AJIora9X9fBmwoXAfat7+pi8XbtvkV46iQ2LZMz4FHdIgKxv3lux4OgG
+ TOT6m2OrksgPzQw6BQGAfQOyvw==
+X-Google-Smtp-Source: AGRyM1sR1CtTf9+8L+GphpYCYpwDNnxyY1KqkI8/i9uzVJT0bmWYlpGK15LRaDnHmM45M+BszRz83w==
+X-Received: by 2002:a05:6512:139f:b0:47d:c633:2fa7 with SMTP id
+ p31-20020a056512139f00b0047dc6332fa7mr6704763lfa.513.1656609682669; 
+ Thu, 30 Jun 2022 10:21:22 -0700 (PDT)
 Received: from [127.0.0.1] ([94.25.229.210]) by smtp.gmail.com with ESMTPSA id
- bx38-20020a05651c19a600b0025a6d563c57sm2733279ljb.134.2022.06.30.10.20.05
+ bi16-20020a05651c231000b0025a66b3fc45sm2765061ljb.97.2022.06.30.10.21.21
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 30 Jun 2022 10:20:06 -0700 (PDT)
-Date: Thu, 30 Jun 2022 20:20:02 +0300
+ Thu, 30 Jun 2022 10:21:22 -0700 (PDT)
+Date: Thu, 30 Jun 2022 20:21:18 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, robdclark@gmail.com,
  quic_abhinavk@quicinc.com, sean@poorly.run, airlied@linux.ie,
  daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_6/7=5D_dt-bindings=3A_msm=3A_dsi=3A_?=
- =?US-ASCII?Q?Add_missing_clocks_to_28nm_DSI_PHY_YAML?=
+Subject: Re: [PATCH 5/7] dt-bindings: msm: dsi: Fix clock declarations
 User-Agent: K-9 Mail for Android
-In-Reply-To: <20220630120845.3356144-7-bryan.odonoghue@linaro.org>
+In-Reply-To: <20220630120845.3356144-6-bryan.odonoghue@linaro.org>
 References: <20220630120845.3356144-1-bryan.odonoghue@linaro.org>
- <20220630120845.3356144-7-bryan.odonoghue@linaro.org>
-Message-ID: <0F822D11-788F-4527-B50E-0C79F05D69FA@linaro.org>
+ <20220630120845.3356144-6-bryan.odonoghue@linaro.org>
+Message-ID: <CD1AA865-0891-4160-A920-FDB65BFC4087@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain;
  charset=utf-8
@@ -83,61 +82,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 30 June 2022 15:08:44 GMT+03:00, Bryan O'Donoghue <bryan=2Eodonoghue@li=
+On 30 June 2022 15:08:43 GMT+03:00, Bryan O'Donoghue <bryan=2Eodonoghue@li=
 naro=2Eorg> wrote:
->Add in missing clock and clock-names declarations to the 28nm DSI PHY=2E
->When converting from =2Etxt to =2Eyaml we missed these=2E
+>When converting from =2Etxt to =2Eyaml dt-binding descriptions we appear =
+to
+>have missed some of the previous detail on the number and names of
+>permissible clocks=2E
 >
 >Fixes: 4dbe55c97741 ("dt-bindings: msm: dsi: add yaml schemas for DSI bin=
 dings")
 >Signed-off-by: Bryan O'Donoghue <bryan=2Eodonoghue@linaro=2Eorg>
 >---
-> =2E=2E=2E/bindings/display/msm/dsi-phy-28nm=2Eyaml      | 17 +++++++++++=
-++++++
-> 1 file changed, 17 insertions(+)
+> =2E=2E=2E/display/msm/dsi-controller-main=2Eyaml      | 23 +++++++++++++=
+------
+> 1 file changed, 16 insertions(+), 7 deletions(-)
 >
->diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm=
-=2Eyaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm=2Eyaml
->index 3d8540a06fe22=2E=2E9ecd513d93661 100644
->--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm=2Eyaml
->+++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm=2Eyaml
->@@ -19,6 +19,21 @@ properties:
->       - qcom,dsi-phy-28nm-lp
->       - qcom,dsi-phy-28nm-8960
+>diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller=
+-main=2Eyaml b/Documentation/devicetree/bindings/display/msm/dsi-controller=
+-main=2Eyaml
+>index fd9d472437853=2E=2Eb24ba6c346a77 100644
+>--- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main=
+=2Eyaml
+>+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main=
+=2Eyaml
+>@@ -28,22 +28,31 @@ properties:
+>     maxItems: 1
 >=20
->+  clocks:
->+    minItems: 1
->+    maxItems: 2
->+
->+  clock-names:
->+    items:
->+      - const: iface
->+        description: AHB clock
->+      - const: iface_clk
->+        description: AHB clock
->+      - const: ref
->+        description: Block reference clock
->+    minItems: 1
->+    maxItems: 2
+>   clocks:
+>-    items:
+>-      - description: Display byte clock
+>-      - description: Display byte interface clock
+>-      - description: Display pixel clock
+>-      - description: Display escape clock
+>-      - description: Display AHB clock
+>-      - description: Display AXI clock
+>+    minItems: 6
+>+    maxItems: 9
 
-This looks incorrect=2E You have 3 items, but maxItems in 2
+Please leave descriptions here=2E They are better suited for the clocks ra=
+ther than clock-names=2E
 
-Also I'd put description to the clocks node=2E Clock-names are self-descri=
-ptive enough=2E
+With that fixed:
 
->+
->   reg:
+Reviewed-by: Dmitry Baryshkov <dmitry=2Ebaryshkov@linaro=2Eorg>
+
+>=20
+>   clock-names:
 >     items:
->       - description: dsi pll register set
->@@ -36,6 +51,8 @@ properties:
+>       - const: byte
+>+        description: Display byte clock
+>       - const: byte_intf
+>+        description: Display byte interface clock
+>       - const: pixel
+>+        description: Display pixel clock
+>       - const: core
+>+        description: Display escape clock
+>       - const: iface
+>+        description: Display AHB clock
+>       - const: bus
+>+        description: Display AXI clock
+>+      - const: core_mmss
+>+        description: Core MultiMedia SubSystem clock
+>+      - const: mdp_core
+>+        description: MDP Core clock
+>+      - const: mnoc
+>+        description: MNOC clock
+>+    minItems: 6
+>+    maxItems: 9
 >=20
-> required:
->   - compatible
->+  - clocks
->+  - clock-names
->   - reg
->   - reg-names
->   - vddio-supply
+>   phys:
+>     maxItems: 1
 
 --=20
 With best wishes
