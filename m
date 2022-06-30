@@ -1,65 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F089560FDB
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 06:03:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A04A6560FF0
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 06:16:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB93C10EAC1;
-	Thu, 30 Jun 2022 04:03:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD44E10F1D8;
+	Thu, 30 Jun 2022 04:16:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51A4810EAC1
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 04:03:35 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 814416209E
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 04:03:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DCEE6C3411E
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 04:03:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656561813;
- bh=MZ2M4AeoTnYvqELIvMUwXfXlddchfGTNjuKXIze1zjQ=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=KId+NSRWfUFSo4Ise9X8fiqsoaVwsDv3DyfVoZHKXl8qIlVtgEPExUW0v6nLWkCDl
- Ir9BGZNPIumMFFZeRl71VGPr7szoIuq/6Qhc5lTvAAVk0mbN/SWMHccnA3OqDKmbeL
- ymOnGuwGXLEUo61K8PgFvaxVYWkeoz09EX45SJtXV7HjSD9wwnybFyscpT3mFQ20Vz
- adlRQFNhxb4leFh7zNYIC72CpyHm/e+oQUIo7RWyqelTOkGAXOOfuxPUtgjVqryiwv
- ILK0qf1LhjArimoJgzW0OUw64afS3Dh/SVHVLqMoU9S8DGSgUCmg3RVg8FEdyILlhJ
- TjMhPyYI4IGlw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id C9EAFCC13B5; Thu, 30 Jun 2022 04:03:33 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215618] vblank related lockup during start of SteamVR using
- Valve Index HMD
-Date: Thu, 30 Jun 2022 04:03:33 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: perk11@perk11.info
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-215618-2300-1ciBH7v91u@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215618-2300@https.bugzilla.kernel.org/>
-References: <bug-215618-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50AF310F1D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 04:16:20 +0000 (UTC)
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20220630041617epoutp0292882b25975269399feb32f3ff0ff257~9SuM0e0DR1635916359epoutp02i
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 04:16:17 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20220630041617epoutp0292882b25975269399feb32f3ff0ff257~9SuM0e0DR1635916359epoutp02i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1656562577;
+ bh=WYo+8++U2XG7rGkYKmdbzvrC7WI9k8fTzCRkX5FeOR8=;
+ h=From:To:In-Reply-To:Subject:Date:References:From;
+ b=RZlHy7Y3RgnXhaktEJeZTYJEACo5Npfj7cDGJSAcSo/BLwvC/pj5J3K2imVX0tkKH
+ GUCoQNo1GxlOExUzhIxee1LDT2+99C3IgXBxXASvSIwzppfkAg61ZfGJMtm1/y76Zt
+ W7BRmC/gImTvvm8kqUnd74xcaI6wJm6VwxuXAEoo=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220630041617epcas1p2e6c393b9dd489291a46448eb94d680cb~9SuMRhUi91655416554epcas1p23;
+ Thu, 30 Jun 2022 04:16:17 +0000 (GMT)
+Received: from epsmges1p4.samsung.com (unknown [182.195.38.237]) by
+ epsnrtp1.localdomain (Postfix) with ESMTP id 4LYQ4c0Fkvz4x9Q3; Thu, 30 Jun
+ 2022 04:16:16 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+ epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+ AA.26.10203.F832DB26; Thu, 30 Jun 2022 13:16:15 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220630041615epcas1p17a727ebc024297c2a5e6ed879abcef6d~9SuKz4mJP1022110221epcas1p1-;
+ Thu, 30 Jun 2022 04:16:15 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220630041615epsmtrp1c20ff3825e2619240e59b05ce64a628c~9SuKynX7W1942119421epsmtrp1r;
+ Thu, 30 Jun 2022 04:16:15 +0000 (GMT)
+X-AuditID: b6c32a38-597ff700000027db-c2-62bd238f7c17
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 0A.B3.08802.F832DB26; Thu, 30 Jun 2022 13:16:15 +0900 (KST)
+Received: from inkidae001 (unknown [10.113.221.213]) by epsmtip2.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20220630041615epsmtip2daa72489fc999f2f6cee0e9f8bcaaf03~9SuKdaJQY0204302043epsmtip2k;
+ Thu, 30 Jun 2022 04:16:15 +0000 (GMT)
+From: =?ks_c_5601-1987?B?tOvAzrHiL1RpemVuIFBsYXRmb3JtIExhYihTUikvu++8usD8wNo=?=
+ <inki.dae@samsung.com>
+To: "'Krzysztof Kozlowski'" <krzysztof.kozlowski@linaro.org>, "'Seung-Woo
+ Kim'" <sw0312.kim@samsung.com>, "'Kyungmin Park'"
+ <kyungmin.park@samsung.com>, "'David Airlie'" <airlied@linux.ie>, "'Daniel
+ Vetter'" <daniel@ffwll.ch>, "'Rob Herring'" <robh+dt@kernel.org>,
+ "'Krzysztof	Kozlowski'" <krzysztof.kozlowski+dt@linaro.org>, "'Alim Akhtar'"
+ <alim.akhtar@samsung.com>, "'Kishon Vijay Abraham I'" <kishon@ti.com>,
+ "'Vinod	Koul'" <vkoul@kernel.org>, <linux-kernel@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+ <linux-phy@lists.infradead.org>
+In-Reply-To: <20220626163320.6393-1-krzysztof.kozlowski@linaro.org>
+Subject: RE: [PATCH 1/2] drm/exynos: MAINTAINERS: move Joonyoung Shim to
+ credits
+Date: Thu, 30 Jun 2022 13:16:14 +0900
+Message-ID: <0de401d88c38$23aeb8e0$6b0c2aa0$@samsung.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="ks_c_5601-1987"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: ko
+Thread-Index: AQJghn6p1dSqDKoivxgEEVwDdxk9yAKXUcLlrEKoniA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrFJsWRmVeSWpSXmKPExsWy7bCmgW6/8t4kg+U3rSx6z51ksngwbxub
+ xf9tE5kt5h85x2px5et7NosLT3vYLPpePGS22Pt6K7vF2aY37BabHl9jtbi8aw6bxYRV31gs
+ Zpzfx2TRuvcIu8WMyS/ZLHbeOcHsIOCx99sCFo9NqzrZPO5c28Pmsf3bA1aP+93HmTw2L6n3
+ 6NuyitHj+I3tTB6fN8kFcEZl22SkJqakFimk5iXnp2TmpdsqeQfHO8ebmhkY6hpaWpgrKeQl
+ 5qbaKrn4BOi6ZeYAvaGkUJaYUwoUCkgsLlbSt7Mpyi8tSVXIyC8usVVKLUjJKTAt0CtOzC0u
+ zUvXy0stsTI0MDAyBSpMyM44/u4fa8FhgYrri3ayNzA+4O1i5OSQEDCRuPPpAUsXIxeHkMAO
+ Ronl05cwQjifGCVOXT/OCuF8ZpSYOPk2K0zLvCsNUIldjBI3dx+Dcl4ySjRMecsIUsUmkCFx
+ t30xWIeIwHxWiUfPk0FsTgFnies3X7GD2MICQRLv/v0FWs7BwSKgKnFhvSlImFfAUqJ17SsW
+ CFtQ4uTMJ2A2s4CRxJLV85kgbHmJ7W/nMEMcpCDx8+kyVoi4iMTszjZmiLVWEmsWrQP7TULg
+ BYfEh//fWCAaXCTeNfyAahaWeHV8CzuELSXxsr+NHaJhMqPEnesroLpnMEoc/nmdEaLKWGL/
+ 0slMELaixM7fcxkhVvNJvPvawwryjYQAr0RHmxBEiZLEsYs3oFolJC4smcgGUeIhcfBK7QRG
+ xVlI/pyF5M9ZSP6cheS3BYwsqxjFUguKc9NTiw0LTODxnZyfu4kRnMi1LHYwzn37Qe8QIxMH
+ 4yFGCQ5mJRHehWd2JgnxpiRWVqUW5ccXleakFh9iNAWG/ERmKdHkfGAuySuJNzSxNDAxMzI2
+ sTA0M1QS5+2dejpRSCA9sSQ1OzW1ILUIpo+Jg1OqgSmix9NS5+S5+y0vTjyenDJlhkTs50fT
+ 3V9fd21PNpCa4s/99fbH+GMiTO921co8DK79mfWIQ/PTdp0D9p7f0lRm7AyoZFZMm3He4Gqo
+ htyn7HeqRlrXKl6fS1n166cOz92Vs7puGbBaPXGzv3LM6c/Vld+2KuamBHC4cv/68qnx4SH+
+ 9cvXrPomxTWJX5s90GiOapPWirTjzzz+8uy0V+w9OPmy5eXs1XwBFu+kk1hWPdn6eBZ/xfwP
+ b68KROpaNatP3vCk2EixRPmM0Ju6O2uLpVVvR4dX/VE90DZRef6kyYX96XxlKYvuW8m85NeZ
+ Wz9xVXq2Bvsm5rQnuhWeZmEypzftm5bGqh6yjHPtllAlluKMREMt5qLiRABvXwPAbQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGIsWRmVeSWpSXmKPExsWy7bCSvG6/8t4kg/svRC16z51ksngwbxub
+ xf9tE5kt5h85x2px5et7NosLT3vYLPpePGS22Pt6K7vF2aY37BabHl9jtbi8aw6bxYRV31gs
+ Zpzfx2TRuvcIu8WMyS/ZLHbeOcHsIOCx99sCFo9NqzrZPO5c28Pmsf3bA1aP+93HmTw2L6n3
+ 6NuyitHj+I3tTB6fN8kFcEZx2aSk5mSWpRbp2yVwZRx/94+14LBAxfVFO9kbGB/wdjFyckgI
+ mEjMu9LA2sXIxSEksINRYu+RZvYuRg6ghITElq0cEKawxOHDxRAlzxklnsxezAbSyyaQJjFp
+ 7n6wXhGB1awSV7asYoKomsIo8WHBEVaQKk4BZ4nrN1+xg9jCAgESO498BVvAIqAqcWG9KUiY
+ V8BSonXtKxYIW1Di5MwnYDYz0HGNh7uhbHmJ7W/nMEMcrSDx8+kyVoi4iMTszjawuIiAlcSa
+ RetYJjAKzUIyahaSUbOQjJqFpH0BI8sqRsnUguLc9NxiwwKjvNRyveLE3OLSvHS95PzcTYzg
+ qNXS2sG4Z9UHvUOMTByMhxglOJiVRHgXntmZJMSbklhZlVqUH19UmpNafIhRmoNFSZz3QtfJ
+ eCGB9MSS1OzU1ILUIpgsEwenVAPT+Z9b5M9Pf6bJEb7wvd/y3W5mjyJdbdN9ft+sV+1Z8nDi
+ oxeGpzvTJkZsvd3/Tf94X6Rft7R2eDnn9EPH+9lldFIseYL9Pyw90L5JKm2DgLPOOo5PizJe
+ 3XNzLf2mGCl7ev0muwIB8aT4F5r9a28+Eo/sZtz/dIuNSwfnkuz6e5sY/vjtljfpPXTr876u
+ fycbl908m+OkkrSqw+aJvfmfSWos0gG8mx9O/jP5phCPu6+peIzeqobGc0ofMhViuubILex+
+ uDEmx7lOOfuJ+Ov9jD0Kj8//8Nl0ep5/7lKby81qLVfnSL6tYNR9GaDZ+ujsinuTmZpXTjR0
+ 1Qt1n/qrmTN+xtTV6txHlLcE/qxWYinOSDTUYi4qTgQAKL4DqUkDAAA=
+X-CMS-MailID: 20220630041615epcas1p17a727ebc024297c2a5e6ed879abcef6d
+X-Msg-Generator: CA
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220626163558epcas1p3f525431b9fb237bd420ad1453daaf1ac
+References: <CGME20220626163558epcas1p3f525431b9fb237bd420ad1453daaf1ac@epcas1p3.samsung.com>
+ <20220626163320.6393-1-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,140 +132,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215618
-
-Konstantin Pereiaslov (perk11@perk11.info) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |perk11@perk11.info
-
---- Comment #3 from Konstantin Pereiaslov (perk11@perk11.info) ---
-Getting the same issue as the original post most times when starting SteamVR
-with Valve Index connected.
-
-Linux perk11-home 5.18.6-1-MANJARO #1 SMP PREEMPT_DYNAMIC Wed Jun 22 14:16:=
-20
-UTC 2022 x86_64 GNU/Linux
 
 
-Jun 29 22:38:01 perk11-home kernel: [drm:dm_vblank_get_counter [amdgpu]]
-*ERROR* dc_stream_state is NULL for crtc '1'!
-Jun 29 22:38:01 perk11-home kernel: [drm:dm_crtc_get_scanoutpos [amdgpu]]
-*ERROR* dc_stream_state is NULL for crtc '1'!
-Jun 29 22:38:01 perk11-home kernel: [drm:dm_vblank_get_counter [amdgpu]]
-*ERROR* dc_stream_state is NULL for crtc '1'!
-Jun 29 22:38:01 perk11-home kernel: ------------[ cut here ]------------
-Jun 29 22:38:01 perk11-home kernel: amdgpu 0000:0a:00.0:
-drm_WARN_ON_ONCE(drm_drv_uses_atomic_modeset(dev))
-Jun 29 22:38:01 perk11-home kernel: WARNING: CPU: 0 PID: 24962 at
-drivers/gpu/drm/drm_vblank.c:728
-drm_crtc_vblank_helper_get_vblank_timestamp_internal+0x343/0x350
-Jun 29 22:38:01 perk11-home kernel: Modules linked in: cdc_acm xt_REDIRECT
-xt_nat xt_tcpudp veth xt_conntrack xt_MASQUERADE nf_conntrack_netlink nfnet=
-link
-xt_addrtype iptable_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4
-br_netfilter bridge stp>
-Jun 29 22:38:01 perk11-home kernel:  gpu_sched crypto_simd drm_ttm_helper
-cryptd ttm snd_timer rapl snd drm_dp_helper tpm_crb soundcore pcspkr tpm_tis
-tpm_tis_core ccp tpm joydev rng_core pinctrl_amd mac_hid sp5100_tco wmi k10=
-temp
-i2c_piix4 acpi_cpufre>
-Jun 29 22:38:01 perk11-home kernel: CPU: 0 PID: 24962 Comm: VulkanVblankThr
-Tainted: G           OE     5.18.6-1-MANJARO #1
-b31d9f0a4836337638fdda8256aa2395a26153d9
-Jun 29 22:38:01 perk11-home kernel: Hardware name: Gigabyte Technology Co.,
-Ltd. X570 AORUS ELITE/X570 AORUS ELITE, BIOS F37a 02/16/2022
-Jun 29 22:38:01 perk11-home kernel: RIP:
-0010:drm_crtc_vblank_helper_get_vblank_timestamp_internal+0x343/0x350
-Jun 29 22:38:01 perk11-home kernel: Code: 48 8b 5f 50 48 85 db 75 03 48 8b =
-1f
-e8 46 5b 01 00 48 c7 c1 10 9b 14 b8 48 89 da 48 c7 c7 0c a0 0b b8 48 89 c6 =
-e8
-59 4e 3e 00 <0f> 0b e9 c7 fd ff ff e8 f1 fa 43 00 90 f3 0f 1e fa 0f 1f 44 0=
-0 00
-Jun 29 22:38:01 perk11-home kernel: RSP: 0018:ffffba908622bb98 EFLAGS: 0001=
-0086
-Jun 29 22:38:01 perk11-home kernel: RAX: 0000000000000000 RBX: ffff9ec78170=
-b600
-RCX: 0000000000000027
-Jun 29 22:38:01 perk11-home kernel: RDX: ffff9ed67ea216a8 RSI: 000000000000=
-0001
-RDI: ffff9ed67ea216a0
-Jun 29 22:38:01 perk11-home kernel: RBP: ffffba908622bc08 R08: 000000000000=
-0000
-R09: ffffba908622b9a8
-Jun 29 22:38:01 perk11-home kernel: R10: 0000000000000003 R11: ffff9ed6bf32=
-48a8
-R12: ffffba908622bc68
-Jun 29 22:38:01 perk11-home kernel: R13: ffffffffc0ea51e0 R14: 000000000000=
-0003
-R15: ffff9ec7a0ab41d8
-Jun 29 22:38:01 perk11-home kernel: FS:  00007f4f18238640(0000)
-GS:ffff9ed67ea00000(0000) knlGS:0000000000000000
-Jun 29 22:38:01 perk11-home kernel: CS:  0010 DS: 0000 ES: 0000 CR0:
-0000000080050033
-Jun 29 22:38:01 perk11-home kernel: CR2: 00007f4eb4001278 CR3: 00000001b7dc=
-8000
-CR4: 0000000000350ef0
-Jun 29 22:38:01 perk11-home kernel: Call Trace:
-Jun 29 22:38:01 perk11-home kernel:  <TASK>
-Jun 29 22:38:01 perk11-home kernel:  drm_get_last_vbltimestamp+0xaa/0xc0
-Jun 29 22:38:01 perk11-home kernel:  drm_update_vblank_count+0x8f/0x3a0
-Jun 29 22:38:01 perk11-home kernel:  drm_vblank_enable+0x14b/0x180
-Jun 29 22:38:01 perk11-home kernel:  drm_vblank_get+0x97/0xe0
-Jun 29 22:38:01 perk11-home kernel:  drm_crtc_queue_sequence_ioctl+0xf9/0x2=
-d0
-Jun 29 22:38:01 perk11-home kernel:  ? drm_ioctl+0x250/0x410
-Jun 29 22:38:01 perk11-home kernel:  ? drm_crtc_get_sequence_ioctl+0x1a0/0x=
-1a0
-Jun 29 22:38:01 perk11-home kernel:  drm_ioctl_kernel+0xca/0x170
-Jun 29 22:38:01 perk11-home kernel:  drm_ioctl+0x22e/0x410
-Jun 29 22:38:01 perk11-home kernel:  ? drm_crtc_get_sequence_ioctl+0x1a0/0x=
-1a0
-Jun 29 22:38:01 perk11-home kernel:  amdgpu_drm_ioctl+0x4e/0x80 [amdgpu
-87a94d2005d4986ad8a825609f070d6f446ae712]
-Jun 29 22:38:01 perk11-home kernel:  __x64_sys_ioctl+0x91/0xc0
-Jun 29 22:38:01 perk11-home kernel:  do_syscall_64+0x5f/0x90
-Jun 29 22:38:01 perk11-home kernel:  ? exc_page_fault+0x74/0x170
-Jun 29 22:38:01 perk11-home kernel:  entry_SYSCALL_64_after_hwframe+0x44/0x=
-ae
-Jun 29 22:38:01 perk11-home kernel: RIP: 0033:0x7f4f2f3077af
-Jun 29 22:38:01 perk11-home kernel: Code: 00 48 89 44 24 18 31 c0 48 8d 44 =
-24
-60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 =
-00
-00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 0=
-0 00
-Jun 29 22:38:01 perk11-home kernel: RSP: 002b:00007f4f18237a80 EFLAGS: 0000=
-0246
-ORIG_RAX: 0000000000000010
-Jun 29 22:38:01 perk11-home kernel: RAX: ffffffffffffffda RBX: 000000000000=
-0000
-RCX: 00007f4f2f3077af
-Jun 29 22:38:01 perk11-home kernel: RDX: 00007f4f18237b10 RSI: 00000000c018=
-643c
-RDI: 0000000000000060
-Jun 29 22:38:01 perk11-home kernel: RBP: 00007f4f18237b10 R08: 000000000000=
-0000
-R09: 00007f4eb4000be0
-Jun 29 22:38:01 perk11-home kernel: R10: 0000000000004022 R11: 000000000000=
-0246
-R12: 00000000c018643c
-Jun 29 22:38:01 perk11-home kernel: R13: 0000000000000060 R14: 000055f449aa=
-abd0
-R15: 00007f4f18138000
-Jun 29 22:38:01 perk11-home kernel:  </TASK>
-Jun 29 22:38:01 perk11-home kernel: ---[ end trace 0000000000000000 ]---
-Jun 29 22:38:01 perk11-home kernel: [drm:dm_vblank_get_counter [amdgpu]]
-*ERROR* dc_stream_state is NULL for crtc '1'!
-Jun 29 22:38:01 perk11-home kernel: [drm:dm_crtc_get_scanoutpos [amdgpu]]
-*ERROR* dc_stream_state is NULL for crtc '1'!
-Jun 29 22:38:01 perk11-home kernel: [drm:dm_vblank_get_counter [amdgpu]]
-*ERROR* dc_stream_state is NULL for crtc '1'!
+> -----Original Message-----
+> From: Krzysztof Kozlowski [mailto:krzysztof.kozlowski@linaro.org]
+> Sent: Monday, June 27, 2022 1:33 AM
+> To: Inki Dae <inki.dae@samsung.com>; Seung-Woo Kim
+> <sw0312.kim@samsung.com>; Kyungmin Park <kyungmin.park@samsung.com>; David
+> Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Rob Herring
+> <robh+dt@kernel.org>; Krzysztof Kozlowski
+> <krzysztof.kozlowski+dt@linaro.org>; Alim Akhtar
+<alim.akhtar@samsung.com>;
+> Kishon Vijay Abraham I <kishon@ti.com>; Vinod Koul <vkoul@kernel.org>;
+> linux-kernel@vger.kernel.org; dri-devel@lists.freedesktop.org;
+> devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org; linux-
+> samsung-soc@vger.kernel.org; linux-phy@lists.infradead.org
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Subject: [PATCH 1/2] drm/exynos: MAINTAINERS: move Joonyoung Shim to
+> credits
+> 
+> Emails to Joonyoung Shim bounce ("550 5.1.1 Recipient address rejected:
+> User unknown"), so move him to credits file.
+> 
 
---=20
-You may reply to this email to add a comment.
+Applied.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Thanks,
+Inki Dae
+
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  CREDITS     | 4 ++++
+>  MAINTAINERS | 1 -
+>  2 files changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/CREDITS b/CREDITS
+> index 7e85a53b6a88..91a564c17012 100644
+> --- a/CREDITS
+> +++ b/CREDITS
+> @@ -3491,6 +3491,10 @@ D: wd33c93 SCSI driver (linux-m68k)
+>  S: San Jose, California
+>  S: USA
+> 
+> +N: Joonyoung Shim
+> +E: y0922.shim@samsung.com
+> +D: Samsung Exynos DRM drivers
+> +
+>  N: Robert Siemer
+>  E: Robert.Siemer@gmx.de
+>  P: 2048/C99A4289 2F DC 17 2E 56 62 01 C8  3D F2 AC 09 F2 E5 DD EE
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 19875f60ebb1..d208bf3b6f11 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6695,7 +6695,6 @@ F:	drivers/gpu/drm/bridge/
+> 
+>  DRM DRIVERS FOR EXYNOS
+>  M:	Inki Dae <inki.dae@samsung.com>
+> -M:	Joonyoung Shim <jy0922.shim@samsung.com>
+>  M:	Seung-Woo Kim <sw0312.kim@samsung.com>
+>  M:	Kyungmin Park <kyungmin.park@samsung.com>
+>  L:	dri-devel@lists.freedesktop.org
+> --
+> 2.34.1
+
+
