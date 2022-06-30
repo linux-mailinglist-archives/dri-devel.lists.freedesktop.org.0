@@ -1,84 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF188561716
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 12:04:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F1956177A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 12:17:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCF8010E434;
-	Thu, 30 Jun 2022 10:04:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8335C10F51B;
+	Thu, 30 Jun 2022 10:17:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E51E10ECCB
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 10:04:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656583455;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DmU0ygkfQICKkJrotNjuaw4hfz5r1ur5tb6+FXoicmQ=;
- b=S7DdhvTSXScIYVmG+10yxGEIzaU38pDoU6AEU8eqEeM6lYPQRNAmg/9LSRUtlI7YMCpcB2
- rXpIgPX6aUjg9nddnqZoIjjVmzrexj61oGAewgES+rb1acfkWR8cr6gpeLnrjAizH2sjCZ
- NRcNHWuUkj7Qbb+RW/Pm06XuuMs1Tfo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-656-GN_HP-UQM-yqFeyhqHJmzQ-1; Thu, 30 Jun 2022 06:04:11 -0400
-X-MC-Unique: GN_HP-UQM-yqFeyhqHJmzQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- e5-20020adff345000000b0021b9f00e882so2943809wrp.6
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 03:04:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:organization:subject
- :in-reply-to:content-transfer-encoding;
- bh=DmU0ygkfQICKkJrotNjuaw4hfz5r1ur5tb6+FXoicmQ=;
- b=FYcRgPz7iVJeuTmDTHXrPFr0kmhMVEnyUf1sAVDtqt0luQIx+xA4Ca1tTlV0C0ukbW
- kPFE6rfkLfICaMQlr5SPJvWTgU+Qr/vYsdB56pLh7sXxr281AeCPEUXzmxGvhsC7b3kk
- T/33V3yupkahUGUs3ujOSemJboWpWlRaiQ73om6EJSPxRhG1rI0a1tnFPJoYWjdPvn3h
- sMnnwzPnYRe+wYu6M81BSVpuLmQMDYg9PP1oLlg8UDPSvngRTvOwzpSh9i8G2omj9HyE
- 8KrHL9HD5iFRH6mrE8PWsDaCLi6yjqzK72iSKQavZEygyUclUveuCcSqokVjb//8mQli
- WZwA==
-X-Gm-Message-State: AJIora8gUg99id6Yc/vAGb07jTr6hGxV57twjp3X0z6y/w0azhvuxkke
- w08KV6ezliyTcT09flpwAIuXnBE2EmglhAGSogMnmoAT4MXJU5qTfv63j2Kmt+P/aq42ILJGzsf
- HiK2s/I2e7ZlRfaYjU42hYSxG+DZC
-X-Received: by 2002:a7b:c152:0:b0:3a0:3e53:aa17 with SMTP id
- z18-20020a7bc152000000b003a03e53aa17mr11394760wmi.78.1656583450235; 
- Thu, 30 Jun 2022 03:04:10 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vuI1sm5VybPo4wkaCR+sryKNwQzXdsHV339ZfkUZFjdgFAR5z/wUEvUcNLFrEOEmcW1irqSA==
-X-Received: by 2002:a7b:c152:0:b0:3a0:3e53:aa17 with SMTP id
- z18-20020a7bc152000000b003a03e53aa17mr11394724wmi.78.1656583449915; 
- Thu, 30 Jun 2022 03:04:09 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c708:7f00:214b:cffb:c693:2b71?
- (p200300cbc7087f00214bcffbc6932b71.dip0.t-ipconnect.de.
- [2003:cb:c708:7f00:214b:cffb:c693:2b71])
- by smtp.gmail.com with ESMTPSA id
- j22-20020a05600c1c1600b003a046549a85sm2150594wms.37.2022.06.30.03.04.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jun 2022 03:04:09 -0700 (PDT)
-Message-ID: <956b1c51-b8f1-0480-81ca-5d03b45110f7@redhat.com>
-Date: Thu, 30 Jun 2022 12:04:03 +0200
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 743BE10F51B;
+ Thu, 30 Jun 2022 10:17:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656584247; x=1688120247;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=5Zeh7z1jlhybCi2/CC0GiRXfeBYwNYRO9qZXlCvuT6s=;
+ b=EAXfIMO5D/sPdVDVey8ozytCTtUWT7hBLq88eu9Evf9k9Bw7hr7MfGe9
+ xFmFJfVEx20Hvze+VUflbYGRz+G2ZcJj55BKPbaBy2946EJJjsh/bJN0X
+ sjPq887VCA35CE5Y9w8AjDQuJoSvybHdVAjoiOjE0DFtzTQxIQNCsFiEC
+ YHXWD/talZ74BRMOvl+Wfn40PYEJ8LzER+6GMIHLH+OE4QIZD0CKsp6XA
+ 15uT9/thzVGK+759BxyDoNjdqtZR0QyHa20KtEoyomENyRStuv42CsS/c
+ GN0JtuUUDKdx3oXkyLVIOXTw3RU9p0T+bFREo7+RyRXuRmr0ZJZ4DTzZL g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="283407358"
+X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; d="scan'208";a="283407358"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2022 03:17:26 -0700
+X-IronPort-AV: E=Sophos;i="5.92,233,1650956400"; d="scan'208";a="837551459"
+Received: from hanj1-mobl1.ccr.corp.intel.com (HELO [10.213.202.230])
+ ([10.213.202.230])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2022 03:17:25 -0700
+Message-ID: <703244a5-f2c9-adfb-892f-dd2353cf384e@linux.intel.com>
+Date: Thu, 30 Jun 2022 11:17:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-To: Alex Sierra <alex.sierra@amd.com>, jgg@nvidia.com
-References: <20220629035426.20013-1-alex.sierra@amd.com>
- <20220629035426.20013-5-alex.sierra@amd.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v7 04/14] mm: add device coherent vma selection for memory
- migration
-In-Reply-To: <20220629035426.20013-5-alex.sierra@amd.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.10.0
+Subject: Re: How to convert drivers/gpu/drm/i915/ to use local workqueue?
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <bdf23a1c-0d89-c395-4a7a-2840ce5f639a@I-love.SAKURA.ne.jp>
+ <98c6d61e-0c0f-e385-6100-6b7ebe6874b1@linux.intel.com>
+ <c379bbe5-a416-7757-b0e3-1b767bb5a775@I-love.SAKURA.ne.jp>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <c379bbe5-a416-7757-b0e3-1b767bb5a775@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,61 +65,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rcampbell@nvidia.com, willy@infradead.org, Felix.Kuehling@amd.com,
- apopple@nvidia.com, amd-gfx@lists.freedesktop.org, linux-xfs@vger.kernel.org,
- linux-mm@kvack.org, jglisse@redhat.com, dri-devel@lists.freedesktop.org,
- akpm@linux-foundation.org, linux-ext4@vger.kernel.org, hch@lst.de
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29.06.22 05:54, Alex Sierra wrote:
-> This case is used to migrate pages from device memory, back to system
-> memory. Device coherent type memory is cache coherent from device and CPU
-> point of view.
+
+On 30/06/2022 09:06, Tetsuo Handa wrote:
+> On 2022/06/30 16:46, Tvrtko Ursulin wrote:
+>>
+>> Hi,
+>>
+>> On 10/06/2022 15:57, Tetsuo Handa wrote:
+>>> Hello.
+>>>
+>>> Like commit c4f135d643823a86 ("workqueue: Wrap flush_workqueue() using
+>>> a macro") explains, we are removing flush_scheduled_work() calls. And now
+>>>
+>>>     drivers/gpu/drm/i915/display/intel_display.c
+>>>     drivers/gpu/drm/i915/gt/selftest_execlists.c
+>>>
+>>> are the last flush_scheduled_work() callers which have no patch proposed.
+>>> I want to make a patch like
+>>> https://lkml.kernel.org/r/e9b95132-89cd-5cfc-1a09-966393c5ecb0@I-love.SAKURA.ne.jp
+>>> but I couldn't understand how to interpret drivers/gpu/drm/i915/ part.
+>>
+>> Could you provide some more context please? I did not immediately understand
+>> whether the goal is remove flush_schedule_work helper with no arguments, or
+>> actually stop drivers using the system work queues.
 > 
-> Signed-off-by: Alex Sierra <alex.sierra@amd.com>
-> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> Reviewed-by: Alistair Poppple <apopple@nvidia.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> The goal is to remove flush_schedule_work().
+> 
+> Any kernel module is expected to stop using system workqueues if that module
+> needs to call flush_scheduled_work() or flush_workqueue(system_*_wq).
+> Continuing use of system workqueues is OK as long as that module does not
+> need to call flush_scheduled_work() nor flush_workqueue(system_*_wq).
 
+Could you give more context on reasoning here please? What is the 
+difference between using the system_wq and flushing it from a random 
+context? Or concern is about flushing from specific contexts?
 
-I'm not too familiar with this code, please excuse my naive questions:
+> All in-tree kernel modules stopped calling flush_workqueue(system_*_wq) in 5.19.
+> 
+> Many of in-tree kernel modules already have patches for stop calling
+> flush_scheduled_work(). But gpu/drm/i915 is one of in-tree kernel modules
+> which do not have patches for stop calling flush_scheduled_work().
+> 
+> I want help from those who are familiar with this module.
 
-> @@ -148,15 +148,21 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
->  			if (is_writable_device_private_entry(entry))
->  				mpfn |= MIGRATE_PFN_WRITE;
->  		} else {
-> -			if (!(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM))
-> -				goto next;
+On the i915 specifics, the caller in 
+drivers/gpu/drm/i915/gt/selftest_execlists.c I am pretty sure can be 
+removed. It is synchronized with the error capture side of things which 
+is not required for the test to work.
 
-Why not exclude MIGRATE_VMA_SELECT_DEVICE_PRIVATE here? IIRC that would
-have happened before this change.
+I can send a patch for that or you can, as you prefer?
 
+The drivers/gpu/drm/i915/display/intel_display.c one will have to be 
+looked at by Jani or someone familiar with display code paths.
 
->  			pfn = pte_pfn(pte);
-> -			if (is_zero_pfn(pfn)) {
-> +			if (is_zero_pfn(pfn) &&
-> +			    (migrate->flags & MIGRATE_VMA_SELECT_SYSTEM)) {
->  				mpfn = MIGRATE_PFN_MIGRATE;
->  				migrate->cpages++;
->  				goto next;
->  			}
->  			page = vm_normal_page(migrate->vma, addr, pte);
-> +			if (page && !is_zone_device_page(page) &&
+Regards,
 
-I'm wondering if that check logically belongs into patch #2.
-
-> +			    !(migrate->flags & MIGRATE_VMA_SELECT_SYSTEM))
-> +				goto next;
-> +			else if (page && is_device_coherent_page(page) &&
-> +			    (!(migrate->flags & MIGRATE_VMA_SELECT_DEVICE_COHERENT) ||
-> +			     page->pgmap->owner != migrate->pgmap_owner))
-
-
-In general LGTM
-
--- 
-Thanks,
-
-David / dhildenb
-
+Tvrtko
