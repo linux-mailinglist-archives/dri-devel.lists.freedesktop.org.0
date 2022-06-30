@@ -1,92 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2CB3562CB1
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 09:33:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2157562542
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 23:30:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5233910F289;
-	Fri,  1 Jul 2022 07:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22C1310EC24;
+	Thu, 30 Jun 2022 21:30:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa3.hgst.iphmx.com (esa3.hgst.iphmx.com [216.71.153.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94BFD12B38C
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 21:16:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1656623783; x=1688159783;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=S3lpds+Dm08bh0wmuZJxD7UtITL3wTfX27aPen8VTS4=;
- b=L08f//uVVAqasHYcso2YTgVcDladYUMu20X4p38hNGZmPr3RJrInGZpW
- oDydX6kq6AeTSxb+c5Gym+iEiFvdd2ibjXJlyFRf9n2u0PvWDNXo9/Kch
- hPCBq8x24nQebE+wBcfEJcWeOZSeN0oIXyRHaG6GisWhsWyCRaxeU89A4
- hkEdZsS3g79pyXTELaqB64IrxLaSN8NEY5gwrRTgTGPFemSx1P0Qxrt5C
- pQ1msxBY2OnIgtVXC5MPP2iNJXmhxxcjR6dvJiBPMyh34y/HmnxVHfc7J
- /ESoLT0K63PHXh4hSnVosxQNY8v63wQpjPfBIgVFCI9oC3vYcFNlu79sS w==;
-X-IronPort-AV: E=Sophos;i="5.92,235,1650902400"; d="scan'208";a="209407243"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 01 Jul 2022 05:16:22 +0800
-IronPort-SDR: LekjFPHDV3qxao/GzTlp4lva6+dsnr7NW8oV3H1WAoi0KjyOE4dNtYp2MITUW0VRtFd2us9ecj
- 2zooYrOgFTLrKNl4e2yBWK6TePtLGkXTP5UbMcGG3K1dCyqE8n1ph0sndU5dazWmcWNnw6bCrw
- Nm5Cz7cN4k2oQr8AngAQXvPCnxKZL6uuHqO3Rxc/PJe/OwKaOrYIc75EAeytIIoAKDKjiD4o/H
- uinME2EXQLLgnA22mLhzMm1KK/o4tBhZvwwZ1YkzVkg5SBqA7G3wS2/DpjNrX+mnGtBPNTrVMe
- +aSUPaF+eu6xxrgKuuctg3e4
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 30 Jun 2022 13:33:57 -0700
-IronPort-SDR: f/25Bk/q3+FMV01mrSplfgK+Tg/PTPB0uDEAWsXQPUkbL5OjoGN6rCzy7IHmtqR0f+HO45p+Q+
- bO3tjlWDXwFJgUCE5AodATTlgN9VkN/HRLB1VBiZgC7AvIdfb6GhyDmJZp4T/pNmW4eNP8R6lc
- 72dknmJS64JzWCUZ9sQTwdxF3AUovWEKXxgaVUa8sjAIc8ykWi3t/2TBWBqjcTXHRNjlL0+B8F
- YxCbAUmHQ5q+/8/kxs0DkKBOcjPsHzRvjvGy9fv1L8SAsitdFRWC1D1BdM6Bno6fe+ncjsVo8Z
- 36g=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 30 Jun 2022 14:16:24 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LYrjf4qhwz1Rws8
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 14:16:22 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :in-reply-to:organization:from:references:to:content-language
- :subject:user-agent:mime-version:date:message-id; s=dkim; t=
- 1656623781; x=1659215782; bh=S3lpds+Dm08bh0wmuZJxD7UtITL3wTfX27a
- Pen8VTS4=; b=Zv6Mnk5EbWMx+llj8qJU8aBOizcZtGxsux4YRgT/p/ff+YddkCe
- 9YVKoHzbIir/H0fnTayYjpqqZKzpZmwf8/JmV+x2HGK0OJbxeyWPowvwoCbOgf6b
- hDXYRdfhJsYM8O5XBQetyYO5ITVdKfOBisvEiYA1ScpiS4ZaepvTK5syZaX0Xc07
- odZgk6A0B0wcFNMaUSZ/CslIlzsMpM0q8joScup+JSn2MkdjdVwPzg/mAmNzS6EB
- kj9evFhgFjor7EXMKSoR8K0vRGAWTqI5NU+/1RRHqkUygH40iW/Ud/+E2ba/nLRi
- qEYhnoJu8DhosGyMkfT7BM8CPxRJxR6qKVw==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026)
- with ESMTP id eMxD3eaOt9KH for <dri-devel@lists.freedesktop.org>;
- Thu, 30 Jun 2022 14:16:21 -0700 (PDT)
-Received: from [10.225.163.102] (unknown [10.225.163.102])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LYrjX18xMz1RtVk;
- Thu, 30 Jun 2022 14:16:15 -0700 (PDT)
-Message-ID: <f228057b-7c17-e536-ce6f-6597e263f06d@opensource.wdc.com>
-Date: Fri, 1 Jul 2022 06:16:14 +0900
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F20D510EC03
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 21:30:26 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id k7so378027wrc.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 14:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=TK13O2fc2Qey/nv0w8Yb46V++JBjODuVf0Eb/jbY6Gc=;
+ b=H3MitQaRwHJtdIHW7Q0yV8AMtLIJ5fN2TAYTsv8ANTQdrxHy1APK5cKBkHMrH66THT
+ tM2gjSeVpOVxY+zTrqNGHXsHf1u3Uk6g5l6nlUhuuRnKOft2rpFffn9ceeL8/E+UC4Ws
+ 8hF3stIJ3SQefsOUmMOuM2rzkm+pxUlRB5E6VM0Vpkq3roiIB4foy/0ueECQqIv1pvKd
+ IuEXSkf5AkU+H5FM5qTVp2egIr/K2VwXMsSXHkq26joE6ICs7u1LXBw4IlsBez7roZlc
+ qDA8FHIJWouhvuF6XU8Rr4URUmIOVx7N7MO9jyPBVDpEEstOvNpZsGaBoNycLzZMbIvr
+ 2OvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TK13O2fc2Qey/nv0w8Yb46V++JBjODuVf0Eb/jbY6Gc=;
+ b=XGfO1D/dZd1gjwO6ZVm1cNnXVJ9szA0EjI2T7tCcR2au1gk0xSJqmSNVmnJ20Oh8X/
+ S5MNLdkkms5gEvNmADKSl18nQejyv45TtetXsj68O8DeNuvXPHyaSlnAkT/NaUtfTc2v
+ Wj1KQLhfg4RAfsbGMcXc/LpNeKgfs4D2jHCC2YvFqXbtfnQHMKQglN0CcbMNhuEfS70N
+ G6aJ36bctVgwwhxn7Tvg9cbm8P3E1yiSe4dwgUxS0S+BSxaHNQ/4qdmuRGuMayosY6/d
+ HiPOYxeOsGHcIsUzc3sMR6jaASsl8y1lg1otKaDmHXJs5L3/rK3HMZbN9GQMtEy8NX5s
+ 0cuQ==
+X-Gm-Message-State: AJIora9Yj3Eke5l4UYDz4d3zEXmsrRklzAuw+icbaFTM1QhOF/nGdgXb
+ Exoolnoz7xfjq1O/UnscDdxTRDJtULaKqmoWbm3YKQ==
+X-Google-Smtp-Source: AGRyM1sBdFPDTyGDxyCVLXM2YiEFLpMYmDgVyNGLTnahTzUn7DUvqpAjuY+EarzFOF5+Fb7jlTi5g474LC3KMTnGpJg=
+X-Received: by 2002:a5d:4304:0:b0:21b:9b2c:be34 with SMTP id
+ h4-20020a5d4304000000b0021b9b2cbe34mr11026223wrq.577.1656624625307; Thu, 30
+ Jun 2022 14:30:25 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3 00/15] Canaan devicetree fixes
-Content-Language: en-US
-To: Sudeep Holla <sudeep.holla@arm.com>, Niklas Cassel <Niklas.Cassel@wdc.com>
-References: <20220629184343.3438856-1-mail@conchuod.ie>
- <Yr3PKR0Uj1bE5Y6O@x1-carbon> <20220630175318.g2zmu6ek7l5iakve@bogus>
-From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <20220630175318.g2zmu6ek7l5iakve@bogus>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Fri, 01 Jul 2022 07:33:24 +0000
+References: <20220623220613.3014268-1-kaleshsingh@google.com>
+ <20220623220613.3014268-2-kaleshsingh@google.com> <Yrrrz7MxMu8OoEPU@bfoster>
+ <CAC_TJvejs5gbggC1hekyjUNctC_8+3FmVn0B7zAZox2+MkEjaA@mail.gmail.com>
+ <YrxEUbDkYLE6XF6x@bfoster>
+ <CAC_TJvcRd7=9xGXP5-t8v3g5iFWtYANpGA-nTqaGZBVTwa=07w@mail.gmail.com>
+ <Yr2NngYE2qX8WzPV@bfoster> <Yr2RI3dJ0B4TALE5@bfoster>
+In-Reply-To: <Yr2RI3dJ0B4TALE5@bfoster>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Thu, 30 Jun 2022 14:30:14 -0700
+Message-ID: <CAC_TJvfpVR1ioD=S11XV4dqM0PvDBXB+CpgCwDp5RoB=BVYOKg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] procfs: Add 'size' to /proc/<pid>/fdinfo/
+To: Brian Foster <bfoster@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,84 +69,260 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- David Airlie <airlied@linux.ie>, Palmer Dabbelt <palmer@rivosinc.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Conor Dooley <conor.dooley@microchip.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- Sam Ravnborg <sam@ravnborg.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Jose Abreu <joabreu@synopsys.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Mark Brown <broonie@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Conor Dooley <mail@conchuod.ie>,
- Thomas Gleixner <tglx@linutronix.de>, Dillon Min <dillon.minfei@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Serge Semin <fancer.lancer@gmail.com>,
- "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Stephen Brennan <stephen.s.brennan@oracle.com>,
+ Paul Gortmaker <paul.gortmaker@windriver.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
+ Christoph Hellwig <hch@infradead.org>,
+ "Cc: Android Kernel" <kernel-team@android.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Suren Baghdasaryan <surenb@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Ioannis Ilkos <ilkos@google.com>,
+ LKML <linux-kernel@vger.kernel.org>, David.Laight@aculab.com,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mike Rapoport <rppt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/1/22 02:53, Sudeep Holla wrote:
-> On Thu, Jun 30, 2022 at 04:28:26PM +0000, Niklas Cassel wrote:
->> On Wed, Jun 29, 2022 at 07:43:29PM +0100, Conor Dooley wrote:
->>> From: Conor Dooley <conor.dooley@microchip.com>
->>>
->>> Hey all,
->>> This series should rid us of dtbs_check errors for the RISC-V Canaan k210
->>> based boards. To make keeping it that way a little easier, I changed the
->>> Canaan devicetree Makefile so that it would build all of the devicetrees
->>> in the directory if SOC_CANAAN.
->>>
->>> I *DO NOT* have any Canaan hardware so I have not tested any of this in
->>> action. Since I sent v1, I tried to buy some since it's cheap - but could
->>> out of the limited stockists none seemed to want to deliver to Ireland :(
->>> I based the series on next-20220617.
->>>
->>
->> I first tried to apply your series on top of next-20220630,
->> but was greeted by a bunch of different warnings on boot,
->> including endless RCU stall warnings.
->> However, even when booting next-20220630 without your patches,
->> I got the same warnings and RCU stall.
->>
-> 
-> Is it possible to share the boot logs please ?
-> Conor is having issues with my arch_topology/cacheinfo updates in -next.
-> I would like to know if your issue is related to that or not ?
+On Thu, Jun 30, 2022 at 5:03 AM Brian Foster <bfoster@redhat.com> wrote:
+>
+> On Thu, Jun 30, 2022 at 07:48:46AM -0400, Brian Foster wrote:
+> > On Wed, Jun 29, 2022 at 01:43:11PM -0700, Kalesh Singh wrote:
+> > > On Wed, Jun 29, 2022 at 5:23 AM Brian Foster <bfoster@redhat.com> wro=
+te:
+> > > >
+> > > > On Tue, Jun 28, 2022 at 03:38:02PM -0700, Kalesh Singh wrote:
+> > > > > On Tue, Jun 28, 2022 at 4:54 AM Brian Foster <bfoster@redhat.com>=
+ wrote:
+> > > > > >
+> > > > > > On Thu, Jun 23, 2022 at 03:06:06PM -0700, Kalesh Singh wrote:
+> > > > > > > To be able to account the amount of memory a process is keepi=
+ng pinned
+> > > > > > > by open file descriptors add a 'size' field to fdinfo output.
+> > > > > > >
+> > > > > > > dmabufs fds already expose a 'size' field for this reason, re=
+move this
+> > > > > > > and make it a common field for all fds. This allows tracking =
+of
+> > > > > > > other types of memory (e.g. memfd and ashmem in Android).
+> > > > > > >
+> > > > > > > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+> > > > > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > > > > ---
+> > > > > > >
+> > > > > > > Changes in v2:
+> > > > > > >   - Add Christian's Reviewed-by
+> > > > > > >
+> > > > > > > Changes from rfc:
+> > > > > > >   - Split adding 'size' and 'path' into a separate patches, p=
+er Christian
+> > > > > > >   - Split fdinfo seq_printf into separate lines, per Christia=
+n
+> > > > > > >   - Fix indentation (use tabs) in documentaion, per Randy
+> > > > > > >
+> > > > > > >  Documentation/filesystems/proc.rst | 12 ++++++++++--
+> > > > > > >  drivers/dma-buf/dma-buf.c          |  1 -
+> > > > > > >  fs/proc/fd.c                       |  9 +++++----
+> > > > > > >  3 files changed, 15 insertions(+), 7 deletions(-)
+> > > > > > >
+> > > > ...
+> > > > > >
+> > > > > > Also not sure if it matters that much for your use case, but so=
+mething
+> > > > > > worth noting at least with shmem is that one can do something l=
+ike:
+> > > > > >
+> > > > > > # cat /proc/meminfo | grep Shmem:
+> > > > > > Shmem:               764 kB
+> > > > > > # xfs_io -fc "falloc -k 0 10m" ./file
+> > > > > > # ls -alh file
+> > > > > > -rw-------. 1 root root 0 Jun 28 07:22 file
+> > > > > > # stat file
+> > > > > >   File: file
+> > > > > >   Size: 0               Blocks: 20480      IO Block: 4096   reg=
+ular empty file
+> > > > > > # cat /proc/meminfo | grep Shmem:
+> > > > > > Shmem:             11004 kB
+> > > > > >
+> > > > > > ... where the resulting memory usage isn't reflected in i_size =
+(but is
+> > > > > > is in i_blocks/bytes).
+> > > > >
+> > > > > I tried a similar experiment a few times, but I don't see the sam=
+e
+> > > > > results. In my case, there is not any change in shmem. IIUC the
+> > > > > fallocate is allocating the disk space not shared memory.
+> > > > >
+> > > >
+> > > > Sorry, it was implied in my previous test was that I was running ag=
+ainst
+> > > > tmpfs. So regardless of fs, the fallocate keep_size semantics shown=
+ in
+> > > > both cases is as expected: the underlying blocks are allocated and =
+the
+> > > > inode size is unchanged.
+> > > >
+> > > > What wasn't totally clear to me when I read this patch was 1. wheth=
+er
+> > > > tmpfs refers to Shmem and 2. whether tmpfs allowed this sort of
+> > > > operation. The test above seems to confirm both, however, right? E.=
+g., a
+> > > > more detailed example:
+> > > >
+> > > > # mount | grep /tmp
+> > > > tmpfs on /tmp type tmpfs (rw,nosuid,nodev,seclabel,nr_inodes=3D1048=
+576,inode64)
+> > > > # cat /proc/meminfo | grep Shmem:
+> > > > Shmem:              5300 kB
+> > > > # xfs_io -fc "falloc -k 0 1g" /tmp/file
+> > > > # stat /tmp/file
+> > > >   File: /tmp/file
+> > > >   Size: 0               Blocks: 2097152    IO Block: 4096   regular=
+ empty file
+> > > > Device: 22h/34d Inode: 45          Links: 1
+> > > > Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    =
+root)
+> > > > Context: unconfined_u:object_r:user_tmp_t:s0
+> > > > Access: 2022-06-29 08:04:01.301307154 -0400
+> > > > Modify: 2022-06-29 08:04:01.301307154 -0400
+> > > > Change: 2022-06-29 08:04:01.451312834 -0400
+> > > >  Birth: 2022-06-29 08:04:01.301307154 -0400
+> > > > # cat /proc/meminfo | grep Shmem:
+> > > > Shmem:           1053876 kB
+> > > > # rm -f /tmp/file
+> > > > # cat /proc/meminfo | grep Shmem:
+> > > > Shmem:              5300 kB
+> > > >
+> > > > So clearly this impacts Shmem.. was your test run against tmpfs or =
+some
+> > > > other (disk based) fs?
+> > >
+> > > Hi Brian,
+> > >
+> > > Thanks for clarifying. My issue was tmpfs not mounted at /tmp in my s=
+ystem:
+> > >
+> > > =3D=3D> meminfo.start <=3D=3D
+> > > Shmem:               572 kB
+> > > =3D=3D> meminfo.stop <=3D=3D
+> > > Shmem:             51688 kB
+> > >
+> >
+> > Ok, makes sense.
+> >
+> > > >
+> > > > FWIW, I don't have any objection to exposing inode size if it's com=
+monly
+> > > > useful information. My feedback was more just an fyi that i_size do=
+esn't
+> > > > necessarily reflect underlying space consumption (whether it's memo=
+ry or
+> > > > disk space) in more generic cases, because it sounds like that is r=
+eally
+> > > > what you're after here. The opposite example to the above would be
+> > > > something like an 'xfs_io -fc "truncate 1t" /tmp/file', which shows=
+ a
+> > > > 1TB inode size with zero additional shmem usage.
+> > >
+> > > From these cases, it seems the more generic way to do this is by
+> > > calculating the actual size consumed using the blocks. (i_blocks *
+> > > 512). So in the latter example  'xfs_io -fc "truncate 1t" /tmp/file'
+> > > the size consumed would be zero. Let me know if it sounds ok to you
+> > > and I can repost the updated version.
+> > >
+> >
+> > That sounds a bit more useful to me if you're interested in space usage=
+,
+> > or at least I don't have a better idea for you. ;)
+> >
+> > One thing to note is that I'm not sure whether all fs' use i_blocks
+> > reliably. E.g., XFS populates stat->blocks via a separate block counter
+> > in the XFS specific inode structure (see xfs_vn_getattr()). A bunch of
+> > other fs' seem to touch it so perhaps that is just an outlier. You coul=
+d
+> > consider fixing that up, perhaps make a ->getattr() call to avoid it, o=
+r
+> > just use the field directly if it's useful enough as is and there are n=
+o
+> > other objections. Something to think about anyways..
+> >
 
-FYI, I see rcu warnings on boot on my dual-socket 8-cores Xeon system, but
-the same kernel does not have the rcu warnings with an AMD Epyc single
-socket 16-cores box.
+Hi Brian,
 
-> 
->> So I tested your series on top of v5.19-rc4 +
->> commit 0397d50f4cad ("spi: dt-bindings: Move 'rx-sample-delay-ns' to
->> spi-peripheral-props.yaml") cherry-picked,
->> (in order to avoid conflicts when applying your series,)
->> and the board was working as intended, no warnings or RCU stalls.
->>
-> 
-> If possible can you give this branch[1] a try where my changes are and doesn't
-> have any other changes from -next. Sorry to bother you.
-> 
-> Conor seem to have issue with this commit[2], so if you get issues try to
-> check if [3] works.
-> 
-> Regards,
-> Sudeep
-> 
-> [1] https://git.kernel.org/sudeep.holla/c/ae85abf284e7
-> [2] https://git.kernel.org/sudeep.holla/c/155bd845d17b
-> [3] https://git.kernel.org/sudeep.holla/c/009297d29faa
+Thanks for pointing it out. Let me take a look into the xfs case.
 
+>
+> Oh, I wonder if you're looking for similar "file rss" information this
+> series wants to collect/expose..?
+>
+> https://lore.kernel.org/linux-fsdevel/20220624080444.7619-1-christian.koe=
+nig@amd.com/#r
 
--- 
-Damien Le Moal
-Western Digital Research
+Christian's series seems to have some overlap with what we want to
+achieve here. IIUC it exposes the information on the per process
+granularity. Perhaps if that approach is agreed on, I think we can use
+the file_rss() f_op to expose the  per file size in the fdinfo for the
+cases where the i_blocks are unreliable.
+
+Thanks,
+Kalesh
+
+>
+> Brian
+>
+> > Brian
+> >
+> > > Thanks,
+> > > Kalesh
+> > >
+> > > >
+> > > > Brian
+> > > >
+> > > > > cat /proc/meminfo > meminfo.start
+> > > > > xfs_io -fc "falloc -k 0 50m" ./xfs_file
+> > > > > cat /proc/meminfo > meminfo.stop
+> > > > > tail -n +1 meminfo.st* | grep -i '=3D=3D\|Shmem:'
+> > > > >
+> > > > > =3D=3D> meminfo.start <=3D=3D
+> > > > > Shmem:               484 kB
+> > > > > =3D=3D> meminfo.stop <=3D=3D
+> > > > > Shmem:               484 kB
+> > > > >
+> > > > > ls -lh xfs_file
+> > > > > -rw------- 1 root root 0 Jun 28 15:12 xfs_file
+> > > > >
+> > > > > stat xfs_file
+> > > > >   File: xfs_file
+> > > > >   Size: 0               Blocks: 102400     IO Block: 4096   regul=
+ar empty file
+> > > > >
+> > > > > Thanks,
+> > > > > Kalesh
+> > > > >
+> > > > > >
+> > > > > > Brian
+> > > > > >
+> > > > > > >
+> > > > > > >       /* show_fd_locks() never deferences files so a stale va=
+lue is safe */
+> > > > > > >       show_fd_locks(m, file, files);
+> > > > > > > --
+> > > > > > > 2.37.0.rc0.161.g10f37bed90-goog
+> > > > > > >
+> > > > > >
+> > > > >
+> > > >
+> > > > --
+> > > > To unsubscribe from this group and stop receiving emails from it, s=
+end an email to kernel-team+unsubscribe@android.com.
+> > > >
+> > >
+>
