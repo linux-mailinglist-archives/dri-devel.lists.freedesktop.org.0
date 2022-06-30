@@ -1,67 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35024562CBA
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 09:33:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B62E7561A91
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 14:43:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F78C10FAA4;
-	Fri,  1 Jul 2022 07:33:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CB8511A940;
+	Thu, 30 Jun 2022 12:43:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7268112FBA
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 12:08:58 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- c130-20020a1c3588000000b0039c6fd897b4so1546668wma.4
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 05:08:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7Y364367ZETPbYUxjT/bYJ3on1jew7iPHooGEySLfcg=;
- b=F2Th9MYS3e7kKEY/PRcP6iGG14Gg3stmsqlhD5Ge+759FtxKhNZrh1YznniTP37FnI
- iwv1WQ+X8RB2mt7SO+JOLBbP4aC/haKWp6wfdrXP1pkz/qQqX06jy1iYzoZJZPCl/tup
- n9slmYihLyneqnI513seDapb8epkBQksUV2yyFKCnVewyiKsFr2UYJD+3aHs2GXhf/u0
- 69TMQmj9yzEFT2/p9DKx6LiifFIkrsclsKK2MGMWVvOL06XARM28CpPb08EPAXDwUZiv
- DrIaJIXD/NFwL9TNKUZIg2S99wW+xY9NCxtEh2UXu2HeQnLoPCxIOcKlLg/1s56ISUQm
- ocUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7Y364367ZETPbYUxjT/bYJ3on1jew7iPHooGEySLfcg=;
- b=usCAb+KA/jZ1pe/vi9hd5qqLNDQbzbQ9tyiUi61S590XmtyuuOhr/1ikxdl4ZGWt5f
- aQ/3DxfIg/5gNxNu/np81r7xO2mCqPCZ8FDYK7lgv25Ju3cIPvjZ57HU4bokZ2njPYWk
- 6WQ8nSt7fgJfLrZAGdBMWvzuz5MpEfK+ABqEcB0IIF/xjslaTx9gSeUEKlUdpEf6cUws
- S3v/FUQBcSCYCYWrZzmvdAFoNbUrw0HmIwwWETMDX0Gzf/RqZhtmf7O7/jtjkk12NsTw
- aJfm4XrpkvfInA1zhEQtwUE29Rhe4xjsmy6O+urRMDqV0Sn5y0LO9aPHF2DaLew+ZnET
- DqaQ==
-X-Gm-Message-State: AJIora8KQRCxr04YscM9kk1X54IUm9Dfpc9mn9RR4ABiLkvh7aZh/g9C
- h0rIfN0q+UuZzd4hn20KKwJVug==
-X-Google-Smtp-Source: AGRyM1sObV4Rfm6jYF+yKcTsDVbHI1OJZvADjgK9ncMMPWFLgqXPeWQ03hNKyahysgx1uF02bIV4nQ==
-X-Received: by 2002:a05:600c:190d:b0:3a0:585a:256 with SMTP id
- j13-20020a05600c190d00b003a0585a0256mr9309229wmq.54.1656590937377; 
- Thu, 30 Jun 2022 05:08:57 -0700 (PDT)
-Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie.
- [188.141.3.169]) by smtp.gmail.com with ESMTPSA id
- m1-20020a7bcb81000000b003a05621dc53sm6286532wmi.29.2022.06.30.05.08.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jun 2022 05:08:56 -0700 (PDT)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
- dmitry.baryshkov@linaro.org, sean@poorly.run, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-Subject: [PATCH 7/7] dt-bindings: msm: dsi: Add missing qcom,
- dsi-phy-regulator-ldo-mode
-Date: Thu, 30 Jun 2022 13:08:45 +0100
-Message-Id: <20220630120845.3356144-8-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220630120845.3356144-1-bryan.odonoghue@linaro.org>
-References: <20220630120845.3356144-1-bryan.odonoghue@linaro.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C467D11A938
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 12:43:04 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1o6tVb-0008Id-0W; Thu, 30 Jun 2022 14:42:59 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1o6tVW-003arP-1Y; Thu, 30 Jun 2022 14:42:57 +0200
+Received: from pza by lupine with local (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1o6tVY-0008LZ-NG; Thu, 30 Jun 2022 14:42:56 +0200
+Message-ID: <96843b60824294eaa02c333754a17bac36f085ce.camel@pengutronix.de>
+Subject: Re: [PATCH] drm: bridge: dw_hdmi: only trigger hotplug event on
+ real link state change
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Lucas Stach <l.stach@pengutronix.de>, Neil Armstrong
+ <narmstrong@baylibre.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Robert
+ Foss <robert.foss@linaro.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>,  Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Date: Thu, 30 Jun 2022 14:42:56 +0200
+In-Reply-To: <20220627124715.408258-1-l.stach@pengutronix.de>
+References: <20220627124715.408258-1-l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 01 Jul 2022 07:33:24 +0000
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,36 +58,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- quic_mkrishn@quicinc.com, bryan.odonoghue@linaro.org, swboyd@chromium.org,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add in missing qcom,dsi-phy-regulator-ldo-mode to the 28nm DSI PHY.
-When converting from .txt to .yaml we missed this one.
+On Mo, 2022-06-27 at 14:47 +0200, Lucas Stach wrote:
+There are two events that signal a real change of the link state: HPD going
+high means the sink is newly connected or wants the source to re-read the
+EDID, RX sense going low is a indication that the link has been disconnecte=
+d.
 
-Fixes: 4dbe55c97741 ("dt-bindings: msm: dsi: add yaml schemas for DSI bindings")
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Ignore the other two events that also trigger interrupts, but don't need
+immediate attention: HPD going low does not necessarily mean the link has
+been lost and should not trigger a immediate read of the status. RX sense
+going high also does not require a detect cycle, as HPD going high is the
+right point in time to read the EDID.
+
+Ignoring the negative HPD edge does make the detection much more robust
+against spurious link status changes due to EMI or marginal signal levels.
+
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- .../devicetree/bindings/display/msm/dsi-phy-28nm.yaml          | 3 +++
- 1 file changed, 3 insertions(+)
+=C2=A0drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 13 ++++++++-----
+=C2=A01 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
-index 9ecd513d93661..3551e166db966 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-28nm.yaml
-@@ -40,6 +40,9 @@ properties:
-       - description: dsi phy register set
-       - description: dsi phy regulator register set
- 
-+  qcom,dsi-phy-regulator-ldo-mode:
-+    description: Boolean value indicating if the LDO mode PHY regulator is wanted.
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/br=
+idge/synopsys/dw-hdmi.c
+index 3e1be9894ed1..24f991b5248d 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -3095,6 +3095,7 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
+=C2=A0{
+=C2=A0	struct dw_hdmi *hdmi =3D dev_id;
+=C2=A0	u8 intr_stat, phy_int_pol, phy_pol_mask, phy_stat;
++	enum drm_connector_status status =3D connector_status_unknown;
+=C2=A0
+
+=C2=A0	intr_stat =3D hdmi_readb(hdmi, HDMI_IH_PHY_STAT0);
+=C2=A0	phy_int_pol =3D hdmi_readb(hdmi, HDMI_PHY_POL0);
+@@ -3133,13 +3134,15 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_i=
+d)
+=C2=A0			cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
+=C2=A0			mutex_unlock(&hdmi->cec_notifier_mutex);
+=C2=A0		}
+-	}
+=C2=A0
+
+-	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
+-		enum drm_connector_status status =3D phy_int_pol & HDMI_PHY_HPD
+-						 ? connector_status_connected
+-						 : connector_status_disconnected;
++		if (phy_stat & HDMI_PHY_HPD)
++			status =3D connector_status_connected;
 +
-   reg-names:
-     items:
-       - const: dsi_pll
--- 
-2.36.1
++		if (!( phy_stat & HDMI_PHY_RX_SENSE))
 
+Too much space:       ^
+
+Also, would it make sense to check
+
+		if (!(phy_stat & (HDMI_PHY_HPD | HDMI_PHY_RX_SENSE)))
+
+instead?
+
+regards
+Philipp
