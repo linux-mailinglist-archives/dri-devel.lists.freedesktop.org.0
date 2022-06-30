@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8218D56257E
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 23:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714A3562597
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 23:52:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1284912B41B;
-	Thu, 30 Jun 2022 21:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06FE3112638;
+	Thu, 30 Jun 2022 21:52:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F81912B41A
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 21:43:41 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id a39so293820ljq.11
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 14:43:41 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B1C911258C
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 21:52:00 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id x3so643592lfd.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 14:52:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=m2lAzkI1kyUA6X4SSjR8xwr1vZy0wQogLl8c1xpaHQU=;
- b=lrWda6wWNqrPSJmZGSOm1ISr7wKduLFWi1rtfL/yScVS9rHmDVD4N/9zCj+VSJ1+Oa
- FO9NZKuJMIQLUjdIYTiAb8HTBGYm+o9Ez2NIlum6kfuR5+fovJBM/7p+CV2LxVlJ3E6G
- KbNf1TNhzph7T0TL/sDQ4Hw8iQagGqS9jY2lgDmk2pKIsLr0eEUC7CM3K/ir9SVbBuVr
- mnIbczJybBGXfmK7KjkwqGLjfxGX15NKjz6h67HEK5siEgqdufHy9gcSjXVGAN/0WIOu
- yx7sM7I+pjTlcSePBegIfy7IPhw66UH8cQ9c4cOTJEpeHnzk0zgK/utetinXxDnU/V10
- Rp3A==
+ bh=NrGas5lulMJdCQFvtdHCPkDfHPqr2UrmNuzK4irkMDQ=;
+ b=qNhf+eF3ou+OVuBeZcYuSohm7adWxuKi6Yti0wH8bSh+rn6DndIf7DuGYB1f4KK8qt
+ DQh7A3jNA52nPGbBERaiWj+hhdug4lHLUcYgbylBVnN1M1rmnL4bHVXl9so2OAk70Kol
+ ppPogOM7Yfz5iZIO7ZCRIJrAxmaPYXsarHk0xmmqdn0cMqNbblQh3pyw2vY/FtMgJd5y
+ hCQtcbwDeYyKxHz0lXeQPvCW4k5sS7l2OGN6ra/IfS/OBFcMG7EvKJhz4Qi0RLZVnkms
+ eTpsxPnvbqwvQr/Y+dzniw6/aIav/3pP1gfyXYwGI+HaXsv6x2RppynNq4a0m+ieGc0n
+ IN0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=m2lAzkI1kyUA6X4SSjR8xwr1vZy0wQogLl8c1xpaHQU=;
- b=GkRukzSeI5pc1QyNNIKGdoVqPQ87Bx2F38lYZ2beih8DzQMZSCKAtHJ5azPSQwKR6j
- ATzEDIMW3IuBYZnBVEE3heGQ3iVIjKEeCMYPwGtCix2YDh28bP4f9+cx7ipbv5xT31Vz
- h+HaRTsQIR817M7LSqWKDMD/YU5K7fd7NAeJvXeq2/BO++sjpoz4qU7oh+dUG9yjQUcc
- qeVo4/diOJaiWdwce+v+yLuinid7hGOEqbbjEKXI0bjdkAvMSvDCgWQVfg8/uH9xDBPl
- CKZlCttH9RCYwdQavDIAUTCcpqZkKyCOaeYNLrph1J/mT/SFj/fiXXo+FtqSEl37/av0
- aaeQ==
-X-Gm-Message-State: AJIora9H/KOGGJ3ZoJrcliCzJtoAuXAxEFL2xQoCr2TVFZJKlGJIzvZp
- z6A9RuLPdw51r8NyuXWbRFI=
-X-Google-Smtp-Source: AGRyM1tiXOSoDewIDtJQjZ6heJh2v6Etx9okcGhLJIyxUHhTxknHodjEWzqlCQs2mLldDoYhOHP8Ow==
-X-Received: by 2002:a2e:a793:0:b0:25a:74f4:b377 with SMTP id
- c19-20020a2ea793000000b0025a74f4b377mr6429372ljf.177.1656625419868; 
- Thu, 30 Jun 2022 14:43:39 -0700 (PDT)
+ bh=NrGas5lulMJdCQFvtdHCPkDfHPqr2UrmNuzK4irkMDQ=;
+ b=J+SSKi6rVwfJTcTnOML1oXo59wgMBB69HLt0Vow1hr8H3oanYzE+xNMXubyjY9c0jQ
+ qII8XtTOyDgH4i7oL8hfOhIxlnykKXnQ8VvL8oXYUw2OfpMTsD8OQ70fLXKnHz/8vPSL
+ 6rFF5mYfVD0qOM9tN/W5xdp/1h9iLsPHTsP9gUFJNRVGchOey+wwAgy+zhNCCfcO19fr
+ Lozli+FH4Noh0URtAOs/qmqCFx/q6EabZvhR+0EErJ4ogfim9s2Jz6SEdty2iwwjpDsZ
+ NP5b7821paq8d1SC1ZPZIjGDaqFEy3bQu21DKdjkIp4RnA41kxbVMn2fPGY5lWi3hMTx
+ In/g==
+X-Gm-Message-State: AJIora/VCSUjB2HiXRL+neAS88Zdti1Rq1aUwXZ4+BJDFferBvT2bniN
+ nIOjmox3bNSoMwOJ11+hQmM=
+X-Google-Smtp-Source: AGRyM1smx3NRBQNbNVKAperCZ6SfrYZXWBWZAqtLbA5mlnisA9vFR0m9cfl7wPwPzhY7YfaqPG1NNw==
+X-Received: by 2002:a05:6512:2292:b0:47f:68b3:3c21 with SMTP id
+ f18-20020a056512229200b0047f68b33c21mr7126215lfu.316.1656625918646; 
+ Thu, 30 Jun 2022 14:51:58 -0700 (PDT)
 Received: from mobilestation ([95.79.140.178])
  by smtp.gmail.com with ESMTPSA id
- v22-20020ac258f6000000b00478f739f1fdsm3296894lfo.103.2022.06.30.14.43.37
+ c16-20020a056512325000b0047f963bf815sm3293106lfr.93.2022.06.30.14.51.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jun 2022 14:43:39 -0700 (PDT)
-Date: Fri, 1 Jul 2022 00:43:36 +0300
+ Thu, 30 Jun 2022 14:51:58 -0700 (PDT)
+Date: Fri, 1 Jul 2022 00:51:55 +0300
 From: Serge Semin <fancer.lancer@gmail.com>
 To: Conor Dooley <mail@conchuod.ie>
-Subject: Re: [PATCH v3 04/15] spi: dt-bindings: dw-apb-ssi: update
- spi-{r,t}x-bus-width
-Message-ID: <20220630214336.tyhll4ldrgdibnjv@mobilestation>
+Subject: Re: [PATCH v3 08/15] riscv: dts: canaan: fix the k210's timer nodes
+Message-ID: <20220630215155.xzhtfkolgy2iubqe@mobilestation>
 References: <20220629184343.3438856-1-mail@conchuod.ie>
- <20220629184343.3438856-5-mail@conchuod.ie>
+ <20220629184343.3438856-9-mail@conchuod.ie>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220629184343.3438856-5-mail@conchuod.ie>
+In-Reply-To: <20220629184343.3438856-9-mail@conchuod.ie>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,48 +90,107 @@ Cc: Niklas Cassel <niklas.cassel@wdc.com>, alsa-devel@alsa-project.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 29, 2022 at 07:43:33PM +0100, Conor Dooley wrote:
+On Wed, Jun 29, 2022 at 07:43:37PM +0100, Conor Dooley wrote:
 > From: Conor Dooley <conor.dooley@microchip.com>
 > 
-> Most users of dw-apb-ssi use spi-{r,t}x-bus-width of 1, however the
-> Canaan k210 is wired up for a width of 4.
-> Quoting Serge:
-> The modern DW APB SSI controllers of v.4.* and newer also support the
-> enhanced SPI Modes too (Dual, Quad and Octal). Since the IP-core
-> version is auto-detected at run-time there is no way to create a
-> DT-schema correctly constraining the Rx/Tx SPI bus widths.
-> /endquote
+> The timers on the k210 have non standard interrupt configurations,
+> which leads to dtbs_check warnings:
 > 
-> As such, drop the restriction on only supporting a bus width of 1.
+> k210_generic.dtb: timer@502d0000: interrupts: [[14], [15]] is too long
+> From schema: Documentation/devicetree/bindings/timer/snps,dw-apb-timer.yaml
+> 
+> Split the timer nodes in two, so that the second timer in the IP block
+> can actually be accessed & in the process solve the dtbs_check warning.
 
 Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+
+Just to note. IMO the DW APB Timer driver has been incorrectly
+designed in the first place. The dts-node is supposed to describe the
+whole IP-core timers set as the original Canaan k210 DT-file expected,
+since there are common CSRs in the registers range, which currently
+get to be unreachable. But since the DT-bindings has already been
+defined that way in the framework of DW APB Timer driver alas there
+is nothing we can do to fix it.
 
 -Sergey
 
 > 
-> Link: https://lore.kernel.org/all/20220620205654.g7fyipwytbww5757@mobilestation/
 > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
->  Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml | 6 ------
->  1 file changed, 6 deletions(-)
+>  arch/riscv/boot/dts/canaan/k210.dtsi | 46 +++++++++++++++++++++++-----
+>  1 file changed, 38 insertions(+), 8 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> index e25d44c218f2..0a43d6e0ef91 100644
-> --- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> +++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
-> @@ -143,12 +143,6 @@ patternProperties:
->          minimum: 0
->          maximum: 3
+> diff --git a/arch/riscv/boot/dts/canaan/k210.dtsi b/arch/riscv/boot/dts/canaan/k210.dtsi
+> index cd4eae82d8b2..72f70128d751 100644
+> --- a/arch/riscv/boot/dts/canaan/k210.dtsi
+> +++ b/arch/riscv/boot/dts/canaan/k210.dtsi
+> @@ -319,28 +319,58 @@ fpioa: pinmux@502b0000 {
 >  
-> -      spi-rx-bus-width:
-> -        const: 1
-> -
-> -      spi-tx-bus-width:
-> -        const: 1
-> -
->  unevaluatedProperties: false
+>  			timer0: timer@502d0000 {
+>  				compatible = "snps,dw-apb-timer";
+> -				reg = <0x502D0000 0x100>;
+> -				interrupts = <14>, <15>;
+> +				reg = <0x502D0000 0x14>;
+> +				interrupts = <14>;
+>  				clocks = <&sysclk K210_CLK_TIMER0>,
+>  					 <&sysclk K210_CLK_APB0>;
+>  				clock-names = "timer", "pclk";
+>  				resets = <&sysrst K210_RST_TIMER0>;
+>  			};
 >  
->  required:
+> -			timer1: timer@502e0000 {
+> +			timer1: timer@502d0014 {
+>  				compatible = "snps,dw-apb-timer";
+> -				reg = <0x502E0000 0x100>;
+> -				interrupts = <16>, <17>;
+> +				reg = <0x502D0014 0x14>;
+> +				interrupts = <15>;
+> +				clocks = <&sysclk K210_CLK_TIMER0>,
+> +					 <&sysclk K210_CLK_APB0>;
+> +				clock-names = "timer", "pclk";
+> +				resets = <&sysrst K210_RST_TIMER0>;
+> +			};
+> +
+> +			timer2: timer@502e0000 {
+> +				compatible = "snps,dw-apb-timer";
+> +				reg = <0x502E0000 0x14>;
+> +				interrupts = <16>;
+>  				clocks = <&sysclk K210_CLK_TIMER1>,
+>  					 <&sysclk K210_CLK_APB0>;
+>  				clock-names = "timer", "pclk";
+>  				resets = <&sysrst K210_RST_TIMER1>;
+>  			};
+>  
+> -			timer2: timer@502f0000 {
+> +			timer3: timer@502e0014 {
+> +				compatible = "snps,dw-apb-timer";
+> +				reg = <0x502E0014 0x114>;
+> +				interrupts = <17>;
+> +				clocks = <&sysclk K210_CLK_TIMER1>,
+> +					 <&sysclk K210_CLK_APB0>;
+> +				clock-names = "timer", "pclk";
+> +				resets = <&sysrst K210_RST_TIMER1>;
+> +			};
+> +
+> +			timer4: timer@502f0000 {
+> +				compatible = "snps,dw-apb-timer";
+> +				reg = <0x502F0000 0x14>;
+> +				interrupts = <18>;
+> +				clocks = <&sysclk K210_CLK_TIMER2>,
+> +					 <&sysclk K210_CLK_APB0>;
+> +				clock-names = "timer", "pclk";
+> +				resets = <&sysrst K210_RST_TIMER2>;
+> +			};
+> +
+> +			timer5: timer@502f0014 {
+>  				compatible = "snps,dw-apb-timer";
+> -				reg = <0x502F0000 0x100>;
+> -				interrupts = <18>, <19>;
+> +				reg = <0x502F0014 0x14>;
+> +				interrupts = <19>;
+>  				clocks = <&sysclk K210_CLK_TIMER2>,
+>  					 <&sysclk K210_CLK_APB0>;
+>  				clock-names = "timer", "pclk";
 > -- 
 > 2.36.1
 > 
