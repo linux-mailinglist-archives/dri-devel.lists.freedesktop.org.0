@@ -2,50 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185B9561E60
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 16:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10AC7561E8A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 16:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB19811BA8E;
-	Thu, 30 Jun 2022 14:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB48911283A;
+	Thu, 30 Jun 2022 14:59:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC20811B9EA
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 14:46:50 +0000 (UTC)
-Received: from [192.168.1.107] ([37.4.249.155]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MLz3R-1oOJhV3iF7-00Hspo; Thu, 30 Jun 2022 16:46:44 +0200
-Message-ID: <dfbc0c61-c87e-743b-cf79-b57c7321143d@i2se.com>
-Date: Thu, 30 Jun 2022 16:46:43 +0200
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A8BF10FAA8;
+ Thu, 30 Jun 2022 14:58:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1656601140; x=1688137140;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=dl0T0/ZqHNImad3GS8CWBbWkVe6ZyWn8E2ecnN+CA2Q=;
+ b=n1fQmMuy6hDesWWY/Qhr73vZ57+R7ttNR5TIzSedoekA55+9/N+yVfZ+
+ WT/hOoZ6fsZ5d2nQORzIH6efoiX8zy9/I48s6TT/4GCAjmI1fqBKf769Q
+ ksiYOQTQXoa/yadLYMqSgRD/iczXV8Wj8Tja7Ch4QfWR2OaONA37qQ+ZN k=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 30 Jun 2022 07:58:58 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2022 07:58:57 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 30 Jun 2022 07:58:57 -0700
+Received: from [10.216.41.7] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 30 Jun
+ 2022 07:58:49 -0700
+Message-ID: <6bb3d055-6c28-db00-a550-2bdf396aeaf4@quicinc.com>
+Date: Thu, 30 Jun 2022 20:28:45 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: drm-misc-next: WARNING: at drivers/gpu/drm/vc4/vc4_hdmi_regs.h:487
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v3 2/4] drm/msm/adreno: Add A619 support
 Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <179330ab-951b-d9cd-bf73-a80fbc5666d9@i2se.com>
- <20220630073750.cjsskqq6bid7ayhf@houat>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20220630073750.cjsskqq6bid7ayhf@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ <~postmarketos/upstreaming@lists.sr.ht>
+References: <20220528160353.157870-1-konrad.dybcio@somainline.org>
+ <20220528160353.157870-2-konrad.dybcio@somainline.org>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <20220528160353.157870-2-konrad.dybcio@somainline.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TezPKN58sXw5/uOw0t8WoO/WCoX/sxE7N4H19rcyo/TvFaI8ii1
- gwyA5rkaj8loyqnjJmlLnt3WDocKYIdeoG9OZPP6Jn+/2gPnYZTSPm1dcIijOpuqDgGZQCP
- oc3xi6/dOfC2dNmbS/o70IStm0w4Dgw3tsDVD0p+IxgvyYB3y1w54IqHMMFaTCduZvcvraR
- zlQuiYNvP8DSpv3pPv0FA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Gw+lDkRSCqU=:uuvOWsPlQgVohwgVLwym5o
- yv3kWWV7ykQoHBNG0Tv/puMfQSndHtV1Y8PBL5KMl/Z3inzmb82DKJiWmufnPRcbHjHZa8MBz
- CasSYSt0u2ENtpKyL1kth+UEWKX3+y/JUMHqoNq2GQBDmMA8+U/LJRZEGUmfgf7H0Er7jBsa1
- FMNw2DOAprqoxAlFiFJNByQnPdCNUrq+WEXYW5lEpcq1NOZ6j/ku0wKFZLMIqmbB+JcfqRb5Y
- nHJ5ZdLOUOD1Yso56TJVVZ7I1EtW29TPOzo3979plYFsXtGWx3qB7qh4MdmLntpgkRgqJfyiP
- gaBCRLF91g+tJFhGkl3uCc2a98MEt0qHrNK1El823YpbHWSyd5UHVxjfbhyl6d+nTpCPlgXYL
- mV+f7AI+4RiNp+7ZObsqEsYxTG7YYv89Ovr6e7ffOC75+bEjsbMrMgX82eWMWZlgiubOFZ0ce
- U8NYZL9XOjVgS3Mfrm5Al45PUH/hYW94yMGfZGPshPM/FlGOz1in8eioMBR1X3vYZ1JYBm4d3
- 4Hrp8ndraQhCD8hnxH+Q7v3VxzXr/TuDiLtZH/v2BeTsE9oF6ss5V9zoj+LW2K5/+ozIPeO9y
- V/aq2/PgdS6uOWDXExu5kJY7Vrm55N0CS1rkUY9txZOxHczIOLNO6INMSKASvlxepVu9VJJvJ
- G8H8R9h3o5VtNbo1mfA9y3r88s3UBgwrdpxU0jgJjMSRSFyKv6Lw+BxEwNgePgLfqELEYAafl
- 6Py62Xs3N4oow2nVOkJKUIX8e13J5gUuRb/yr7vTkBCjrkv1gKmBFa3FjMs=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,117 +66,344 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
+ angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
+ Jonathan Marek <jonathan@marek.ca>, Yangtao Li <tiny.windzz@gmail.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, jamipkettunen@somainline.org,
+ Nathan Chancellor <nathan@kernel.org>, martin.botka@somainline.org, Bjorn
+ Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-Am 30.06.22 um 09:37 schrieb Maxime Ripard:
-> Hi Stefan,
+On 5/28/2022 9:33 PM, Konrad Dybcio wrote:
+> Add support for the Adreno 619 GPU, as found in Snapdragon 690 (SM6350),
+> 480 (SM4350) and 750G (SM7225).
 >
-> On Wed, Jun 29, 2022 at 10:50:21PM +0200, Stefan Wahren wrote:
->> Hi Maxime,
->>
->> i tested todays drm-misc-next 9db35bb349 with Raspberry Pi 3 B Plus
->> (arm/multi_v7_defconfig, mainline DTB) and get the following warning in the
->> kernel logs:
->>
->> [   25.698459] vc4-drm soc:gpu: bound 3f400000.hvs (ops vc4_hvs_ops [vc4])
->> [   25.698657] ------------[ cut here ]------------
->> [   25.698660] WARNING: CPU: 1 PID: 153 at
->> drivers/gpu/drm/vc4/vc4_hdmi_regs.h:487 vc4_hdmi_reset+0x3e0/0x4e0 [vc4]
->> [   25.698757] Modules linked in: brcmutil vc4(+) snd_soc_core ac97_bus
->> sha256_generic libsha256 snd_pcm_dmaengine sha256_arm snd_pcm cfg80211
->> snd_timer hci_uart btbcm snd soundcore bluetooth raspberrypi_hwmon
->> drm_cma_helper ecdh_generic ecc libaes bcm2835_thermal microchip lan78xx
->> crc32_arm_ce
->> [   25.698831] CPU: 1 PID: 153 Comm: systemd-udevd Not tainted
->> 5.19.0-rc2-00085-g9db35bb349a0 #2
->> [   25.698839] Hardware name: BCM2835
->> [   25.698850]  unwind_backtrace from show_stack+0x10/0x14
->> [   25.698866]  show_stack from dump_stack_lvl+0x40/0x4c
->> [   25.698879]  dump_stack_lvl from __warn+0xcc/0x144
->> [   25.698890]  __warn from warn_slowpath_fmt+0x5c/0xb4
->> [   25.698900]  warn_slowpath_fmt from vc4_hdmi_reset+0x3e0/0x4e0 [vc4]
->> [   25.698996]  vc4_hdmi_reset [vc4] from vc4_hdmi_runtime_resume+0x4c/0x64
->> [vc4]
->> [   25.699165]  vc4_hdmi_runtime_resume [vc4] from vc4_hdmi_bind+0x208/0x994
->> [vc4]
->> [   25.699333]  vc4_hdmi_bind [vc4] from component_bind_all+0x100/0x230
->> [   25.699428]  component_bind_all from vc4_drm_bind+0x1a8/0x280 [vc4]
->> [   25.699518]  vc4_drm_bind [vc4] from
->> try_to_bring_up_aggregate_device+0x160/0x1bc
->> [   25.699610]  try_to_bring_up_aggregate_device from
->> component_master_add_with_match+0xc4/0xf8
->> [   25.699622]  component_master_add_with_match from
->> vc4_platform_drm_probe+0xa0/0xc0 [vc4]
->> [   25.699712]  vc4_platform_drm_probe [vc4] from platform_probe+0x5c/0xbc
->> [   25.699802]  platform_probe from really_probe.part.0+0x9c/0x2b0
->> [   25.699812]  really_probe.part.0 from __driver_probe_device+0xa8/0x13c
->> [   25.699823]  __driver_probe_device from driver_probe_device+0x34/0x108
->> [   25.699834]  driver_probe_device from __driver_attach+0xb4/0x17c
->> [   25.699846]  __driver_attach from bus_for_each_dev+0x70/0xb0
->> [   25.699856]  bus_for_each_dev from bus_add_driver+0x164/0x1f0
->> [   25.699867]  bus_add_driver from driver_register+0x88/0x11c
->> [   25.699878]  driver_register from do_one_initcall+0x40/0x1d4
->> [   25.699890]  do_one_initcall from do_init_module+0x44/0x1d4
->> [   25.699901]  do_init_module from sys_finit_module+0xbc/0xf8
->> [   25.699909]  sys_finit_module from __sys_trace_return+0x0/0x10
->> [   25.699918] Exception stack(0xf568dfa8 to 0xf568dff0)
->> [   25.699926] dfa0:                   6a09f700 00000000 00000016 b6dee8e0
->> 00000000 b6def3f4
->> [   25.699934] dfc0: 6a09f700 00000000 00000000 0000017b 0053b9a8 0052a1dc
->> 0053af10 00000000
->> [   25.699940] dfe0: be8e5160 be8e5150 b6de59d8 b6ed5ae0
->> [   25.699944] ---[ end trace 0000000000000000 ]---
->>
->> I was able to bisect the warning to the following commit:
->>
->> drm/vc4: hdmi: Move HDMI reset to pm_resume
->>
->> The BCM2835-37 found in the RaspberryPi 0 to 3 have a power domain
->> attached to the HDMI block, handled in Linux through runtime_pm.
->>
->> That power domain is shared with the VEC block, so even if we put our
->> runtime_pm reference in the HDMI driver it would keep being on. If the
->> VEC is disabled though, the power domain would be disabled and we would
->> lose any initialization done in our bind implementation.
->>
->> That initialization involves calling the reset function and initializing
->> the CEC registers.
->>
->> Let's move the initialization to our runtime_resume implementation so
->> that we initialize everything properly if we ever need to.
->>
->> Fixes: c86b41214362 ("drm/vc4: hdmi: Move the HSM clock enable to
->> runtime_pm")
->> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->> Link: https://lore.kernel.org/r/20220613144800.326124-24-maxime@cerno.tech
->> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> Yeah, I noticed it yesterday
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> ---
+> Changes since v2:
+> - Fix some values in a619_build_bw_table (I think I miscopied things last
+> time around..)
+> - Add a comment about icache/dcache allocation for future porters
+> - Resolve Dmitry's comment about BUG_ON (check patch 1/4)
 >
-> https://lore.kernel.org/dri-devel/20220629123510.1915022-1-maxime@cerno.tech/T/#m1027cef33d8c66a302b2b8a80bab8a9dc6652f04
+>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c      | 13 +++-
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 70 +++++++++++++++++++++-
+>   drivers/gpu/drm/msm/adreno/a6xx_hfi.c      | 65 +++++++++++++++++++-
+>   drivers/gpu/drm/msm/adreno/adreno_device.c | 14 +++++
+>   drivers/gpu/drm/msm/adreno/adreno_gpu.h    | 13 +++-
+>   5 files changed, 169 insertions(+), 6 deletions(-)
 >
-> and
->
-> https://lore.kernel.org/dri-devel/20220629123510.1915022-1-maxime@cerno.tech/T/#mc869819c66f7b3df8b31a320636a9172780a58e7
->
-> Should address it
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index b1c876c339d0..0a7c3514e51b 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -527,6 +527,8 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
+>   		pdc_in_aop = true;
+>   	else if (adreno_is_a618(adreno_gpu) || adreno_is_a640_family(adreno_gpu))
+>   		pdc_address_offset = 0x30090;
+> +	else if (adreno_is_a619(adreno_gpu))
+> +		pdc_address_offset = 0x300a0;
+>   	else
+>   		pdc_address_offset = 0x30080;
+>   
+> @@ -601,7 +603,8 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
+>   
+>   	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_MSGID + 4, 0x10108);
+>   	pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_ADDR + 4, 0x30000);
+> -	if (adreno_is_a618(adreno_gpu) || adreno_is_a650_family(adreno_gpu))
+> +	if (adreno_is_a618(adreno_gpu) || adreno_is_a619(adreno_gpu) ||
+> +			adreno_is_a650_family(adreno_gpu))
+>   		pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_DATA + 4, 0x2);
+>   	else
+>   		pdc_write(pdcptr, REG_A6XX_PDC_GPU_TCS3_CMD0_DATA + 4, 0x3);
+> @@ -1537,6 +1540,12 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+>   			SZ_16M - SZ_16K, 0x04000, "icache");
+>   		if (ret)
+>   			goto err_memory;
+> +	/*
+> +	 * NOTE: when porting legacy ("pre-650-family") GPUs you may be tempted to add a condition
+> +	 * to allocate icache/dcache here, as per downstream code flow, but it may not actually be
+> +	 * necessary. If you omit this step and you don't get random pagefaults, you are likely
+> +	 * good to go without this!
+> +	 */
+IOW, legacy gmu fw fits entirely within TCMs. So no need for 
+icache/dcache backing allocations.
+>   	} else if (adreno_is_a640_family(adreno_gpu)) {
+>   		ret = a6xx_gmu_memory_alloc(gmu, &gmu->icache,
+>   			SZ_256K - SZ_16K, 0x04000, "icache");
+> @@ -1547,7 +1556,7 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+>   			SZ_256K - SZ_16K, 0x44000, "dcache");
+>   		if (ret)
+>   			goto err_memory;
+> -	} else {
+> +	} else if (adreno_is_a630(adreno_gpu) || adreno_is_a615_family(adreno_gpu)) {
+>   		/* HFI v1, has sptprac */
+>   		gmu->legacy = true;
+>   
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index ccc4fcf7a630..331cd2f6b9e3 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -252,6 +252,74 @@ static void a6xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+>   	a6xx_flush(gpu, ring);
+>   }
+>   
+> +/* For a615 family (a615, a616, a618 and a619) */
+> +const struct adreno_reglist a615_hwcg[] = {
+> +	{REG_A6XX_RBBM_CLOCK_CNTL_SP0,  0x02222222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL2_SP0, 0x02222220},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY_SP0, 0x00000080},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_SP0,  0x0000F3CF},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL_TP0,  0x02222222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL_TP1,  0x02222222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL2_TP0, 0x22222222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL2_TP1, 0x22222222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL3_TP0, 0x22222222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL3_TP1, 0x22222222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL4_TP0, 0x00022222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL4_TP1, 0x00022222},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_TP0,  0x77777777},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_TP1,  0x77777777},
+> +	{REG_A6XX_RBBM_CLOCK_HYST2_TP0, 0x77777777},
+> +	{REG_A6XX_RBBM_CLOCK_HYST2_TP1, 0x77777777},
+> +	{REG_A6XX_RBBM_CLOCK_HYST3_TP0, 0x77777777},
+> +	{REG_A6XX_RBBM_CLOCK_HYST3_TP1, 0x77777777},
+> +	{REG_A6XX_RBBM_CLOCK_HYST4_TP0, 0x00077777},
+> +	{REG_A6XX_RBBM_CLOCK_HYST4_TP1, 0x00077777},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY_TP0, 0x11111111},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY_TP1, 0x11111111},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY2_TP0, 0x11111111},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY2_TP1, 0x11111111},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY3_TP0, 0x11111111},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY3_TP1, 0x11111111},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY4_TP0, 0x00011111},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY4_TP1, 0x00011111},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL_UCHE,  0x22222222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL2_UCHE, 0x22222222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL3_UCHE, 0x22222222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL4_UCHE, 0x00222222},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_UCHE,  0x00000004},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY_UCHE, 0x00000002},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL_RB0, 0x22222222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL2_RB0, 0x00002222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL_CCU0, 0x00002020},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL_CCU1, 0x00002220},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL_CCU2, 0x00002220},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL_CCU3, 0x00002220},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_RB_CCU0, 0x00040F00},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_RB_CCU1, 0x00040F00},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_RB_CCU2, 0x00040F00},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_RB_CCU3, 0x00040F00},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL_RAC, 0x05022022},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL2_RAC, 0x00005555},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY_RAC, 0x00000011},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_RAC, 0x00445044},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL_TSE_RAS_RBBM, 0x04222222},
+> +	{REG_A6XX_RBBM_CLOCK_MODE_GPC, 0x00222222},
+> +	{REG_A6XX_RBBM_CLOCK_MODE_VFD, 0x00002222},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_TSE_RAS_RBBM, 0x00000000},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_GPC, 0x04104004},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_VFD, 0x00000000},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY_HLSQ, 0x00000000},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY_TSE_RAS_RBBM, 0x00004000},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY_GPC, 0x00000200},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY_VFD, 0x00002222},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY_HLSQ_2, 0x00000002},
+> +	{REG_A6XX_RBBM_CLOCK_MODE_HLSQ, 0x00002222},
+> +	{REG_A6XX_RBBM_CLOCK_CNTL_GMU_GX, 0x00000222},
+> +	{REG_A6XX_RBBM_CLOCK_DELAY_GMU_GX, 0x00000111},
+> +	{REG_A6XX_RBBM_CLOCK_HYST_GMU_GX, 0x00000555},
+> +	{},
+> +};
+> +
+>   const struct adreno_reglist a630_hwcg[] = {
+>   	{REG_A6XX_RBBM_CLOCK_CNTL_SP0, 0x22222222},
+>   	{REG_A6XX_RBBM_CLOCK_CNTL_SP1, 0x22222222},
+> @@ -555,7 +623,7 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
+>   	gpu_write(gpu, REG_A6XX_RBBM_CLOCK_CNTL, state ? clock_cntl_on : 0);
+>   }
+>   
+> -/* For a615, a616, a618, A619, a630, a640 and a680 */
+> +/* For a615, a616, a618, a619, a630, a640 and a680 */
+>   static const u32 a6xx_protect[] = {
+>   	A6XX_PROTECT_RDONLY(0x00000, 0x04ff),
+>   	A6XX_PROTECT_RDONLY(0x00501, 0x0005),
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> index d73fce5fdf1f..2cc83e049613 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> @@ -205,8 +205,8 @@ static int a6xx_hfi_get_fw_version(struct a6xx_gmu *gmu, u32 *version)
+>   {
+>   	struct a6xx_hfi_msg_fw_version msg = { 0 };
+>   
+> -	/* Currently supporting version 1.1 */
+> -	msg.supported_version = (1 << 28) | (1 << 16);
+> +	/* Currently supporting version 1.10 */
+> +	msg.supported_version = (1 << 28) | (1 << 19) | (1 << 17);
 
-i applied them and it fixed the issue on the Raspberry Pi 3 B Plus.
+why not the more readable "msg.supported_version = (1 << 28) | (10 << 16);" ?
 
-You can have
+>   
+>   	return a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_FW_VERSION, &msg, sizeof(msg),
+>   		version, sizeof(*version));
+> @@ -285,6 +285,65 @@ static void a618_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>   	msg->cnoc_cmds_data[1][0] =  0x60000001;
+>   }
+>   
+> +static void a619_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+> +{
+> +	msg->bw_level_num = 13;
+> +
+> +	msg->ddr_cmds_num = 3;
+> +	msg->ddr_wait_bitmask = 0x0;
+> +
+> +	msg->ddr_cmds_addrs[0] = 0x50000;
+> +	msg->ddr_cmds_addrs[1] = 0x50004;
+> +	msg->ddr_cmds_addrs[2] = 0x50080;
+> +
+> +	msg->ddr_cmds_data[0][0]  = 0x40000000;
+> +	msg->ddr_cmds_data[0][1]  = 0x40000000;
+> +	msg->ddr_cmds_data[0][2]  = 0x40000000;
+> +	msg->ddr_cmds_data[1][0]  = 0x6000030c;
+> +	msg->ddr_cmds_data[1][1]  = 0x600000db;
+> +	msg->ddr_cmds_data[1][2]  = 0x60000008;
+> +	msg->ddr_cmds_data[2][0]  = 0x60000618;
+> +	msg->ddr_cmds_data[2][1]  = 0x600001b6;
+> +	msg->ddr_cmds_data[2][2]  = 0x60000008;
+> +	msg->ddr_cmds_data[3][0]  = 0x60000925;
+> +	msg->ddr_cmds_data[3][1]  = 0x60000291;
+> +	msg->ddr_cmds_data[3][2]  = 0x60000008;
+> +	msg->ddr_cmds_data[4][0]  = 0x60000dc1;
+> +	msg->ddr_cmds_data[4][1]  = 0x600003dc;
+> +	msg->ddr_cmds_data[4][2]  = 0x60000008;
+> +	msg->ddr_cmds_data[5][0]  = 0x600010ad;
+> +	msg->ddr_cmds_data[5][1]  = 0x600004ae;
+> +	msg->ddr_cmds_data[5][2]  = 0x60000008;
+> +	msg->ddr_cmds_data[6][0]  = 0x600014c3;
+> +	msg->ddr_cmds_data[6][1]  = 0x600005d4;
+> +	msg->ddr_cmds_data[6][2]  = 0x60000008;
+> +	msg->ddr_cmds_data[7][0]  = 0x6000176a;
+> +	msg->ddr_cmds_data[7][1]  = 0x60000693;
+> +	msg->ddr_cmds_data[7][2]  = 0x60000008;
+> +	msg->ddr_cmds_data[8][0]  = 0x60001f01;
+> +	msg->ddr_cmds_data[8][1]  = 0x600008b5;
+> +	msg->ddr_cmds_data[8][2]  = 0x60000008;
+> +	msg->ddr_cmds_data[9][0]  = 0x60002940;
+> +	msg->ddr_cmds_data[9][1]  = 0x60000b95;
+> +	msg->ddr_cmds_data[9][2]  = 0x60000008;
+> +	msg->ddr_cmds_data[10][0] = 0x60002f68;
+> +	msg->ddr_cmds_data[10][1] = 0x60000d50;
+> +	msg->ddr_cmds_data[10][2] = 0x60000008;
+> +	msg->ddr_cmds_data[11][0] = 0x60003700;
+> +	msg->ddr_cmds_data[11][1] = 0x60000f71;
+> +	msg->ddr_cmds_data[11][2] = 0x60000008;
+> +	msg->ddr_cmds_data[12][0] = 0x60003fce;
+> +	msg->ddr_cmds_data[12][1] = 0x600011ea;
+> +	msg->ddr_cmds_data[12][2] = 0x60000008;
+except msg->ddr_cmds_data[0] we don't need the rest, because we vote for 
+bw using icc driver not gmu.
+> +
+> +	msg->cnoc_cmds_num = 1;
+> +	msg->cnoc_wait_bitmask = 0x0;
+> +
+> +	msg->cnoc_cmds_addrs[0] = 0x50054;
+> +
+> +	msg->cnoc_cmds_data[0][0] = 0x40000000;
+> +}
+> +
+>   static void a640_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>   {
+>   	/*
+> @@ -462,6 +521,8 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
+>   
+>   	if (adreno_is_a618(adreno_gpu))
+>   		a618_build_bw_table(&msg);
+> +	else if (adreno_is_a619(adreno_gpu))
+> +		a619_build_bw_table(&msg);
+>   	else if (adreno_is_a640_family(adreno_gpu))
+>   		a640_build_bw_table(&msg);
+>   	else if (adreno_is_a650(adreno_gpu))
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> index 8706bcdd1472..87be25aec540 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> @@ -264,6 +264,19 @@ static const struct adreno_info gpulist[] = {
+>   		.gmem = SZ_512K,
+>   		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>   		.init = a6xx_gpu_init,
+> +	}, {
+> +		.rev = ADRENO_REV(6, 1, 9, ANY_ID),
+> +		.revn = 619,
+> +		.name = "A619",
+> +		.fw = {
+> +			[ADRENO_FW_SQE] = "a630_sqe.fw",
+> +			[ADRENO_FW_GMU] = "a619_gmu.bin",
+> +		},
+> +		.gmem = SZ_512K,
+> +		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+> +		.init = a6xx_gpu_init,
+> +		.zapfw = "a615_zap.mdt",
+> +		.hwcg = a615_hwcg,
+>   	}, {
+>   		.rev = ADRENO_REV(6, 3, 0, ANY_ID),
+>   		.revn = 630,
+> @@ -355,6 +368,7 @@ MODULE_FIRMWARE("qcom/a530_zap.mdt");
+>   MODULE_FIRMWARE("qcom/a530_zap.b00");
+>   MODULE_FIRMWARE("qcom/a530_zap.b01");
+>   MODULE_FIRMWARE("qcom/a530_zap.b02");
+> +MODULE_FIRMWARE("qcom/a619_gmu.bin");
+>   MODULE_FIRMWARE("qcom/a630_sqe.fw");
+>   MODULE_FIRMWARE("qcom/a630_gmu.bin");
+>   MODULE_FIRMWARE("qcom/a630_zap.mbn");
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index 0490c5fbb780..a13a3e5a294b 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -57,7 +57,7 @@ struct adreno_reglist {
+>   	u32 value;
+>   };
+>   
+> -extern const struct adreno_reglist a630_hwcg[], a640_hwcg[], a650_hwcg[], a660_hwcg[];
+> +extern const struct adreno_reglist a615_hwcg[], a630_hwcg[], a640_hwcg[], a650_hwcg[], a660_hwcg[];
+>   
+>   struct adreno_info {
+>   	struct adreno_rev rev;
+> @@ -242,6 +242,11 @@ static inline int adreno_is_a618(struct adreno_gpu *gpu)
+>          return gpu->revn == 618;
+>   }
+>   
+> +static inline int adreno_is_a619(struct adreno_gpu *gpu)
+> +{
+> +	return gpu->revn == 619;
+> +}
+> +
+>   static inline int adreno_is_a630(struct adreno_gpu *gpu)
+>   {
+>          return gpu->revn == 630;
+> @@ -268,6 +273,12 @@ static inline int adreno_is_a660(struct adreno_gpu *gpu)
+>          return gpu->revn == 660;
+>   }
+>   
+> +/* check for a615, a616, a618, a619 or any derivatives */
+> +static inline int adreno_is_a615_family(struct adreno_gpu *gpu)
+> +{
+> +	return gpu->revn == 615 || gpu->revn == 616 || gpu->revn == 618 || gpu->revn == 619;
+> +}
+> +
+>   static inline int adreno_is_a660_family(struct adreno_gpu *gpu)
+>   {
+>          return adreno_is_a660(gpu) || adreno_is_7c3(gpu);
 
-Tested-by: Stefan Wahren <stefan.wahren@i2se.com>
+Minor nits, but any way  "Reviewed-by: Akhil P Oommen 
+<quic_akhilpo@quicinc.com>"
 
-for both of them.
+-Akhil
 
-Btw i noticed that the offending patch introduced a #ifdef block within 
-the code. AFAIK this is undesirable. Should i send i patch?
 
-Best regards
-
->
-> Maxime
