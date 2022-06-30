@@ -2,98 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD4C560F83
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 05:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F089560FDB
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 06:03:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C564510E732;
-	Thu, 30 Jun 2022 03:18:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB93C10EAC1;
+	Thu, 30 Jun 2022 04:03:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2044.outbound.protection.outlook.com [40.107.237.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E998110E77C;
- Thu, 30 Jun 2022 03:18:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ic8eTOQlr3NhNoZVwWU/YUd2z6EbuQmEe7BPbhxGRGFcOUSB9OiwCpjYjWIYTuewoEucUs1XkgVmKXxtu+o1R2ycO24qRUxoajvOkYbXOsLm6w2+OiGj2ajrqMi6EpiOBiGl5KpYP8cIcygqCNdHozuAoca4HMPfj7ZDrRQrbvxN48hC6pOdr1o22yIA59LwwKDheFI+jVusV4lOEawYegCHDao0tuFy4TjEDf+MVWNQolbrLn1QH7JWhl6gqR0vNMMkDgCm4snf2xw9SFT8nWyxgUruO54LyZeOqUO7nDFquiEC7royiZtxKHrDwhTkApAPEPi8Sh9RwOCHo8zRVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PbcrE8o3BqQ0wkcaWspm54rvor8qZt/971uAd7IHLf0=;
- b=HR5QKYIQYMnk6Oa+YNtRNwxJ15KcjJQi2FFfyL+LKv/juf1HDEfgHicGu9YLn4tjlOlFdHDE5uJv+3MGwBAIKftrtYKtbHu9IytIepYU4eZAUP02MkIv+gkaXvqsZLyVkWOS8ayqmNVjXHnf3KUsJKEebuxhAKx1vk1zeOBln+7b0MJAW1zYSiOgIsfbtsui/gF3Cws8EuaP7C+a/S4SB4Ai90gzmP+EvTuytzmNQg5FaA9e85WAitP/Hx23Dh1hUkHNx6QmUFBL1zYoyehmZlQCGO3coj2PYt8PPBxgXxdeihcVRrL7E4VAUQQEW/hlrJ4xvrndvglc88QFz7tgMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PbcrE8o3BqQ0wkcaWspm54rvor8qZt/971uAd7IHLf0=;
- b=fYy4ZzrTI9cJrI7Z2uIaXqko5GR/FKGjb9uLqGVhsvtrKQ/G0mUEKKpgqBCu3b3b7w/cvfj0d2wlClrgXpzRjenzeYX75uthW5IKHpl8dqKiVuB/xsQ+gJrnqil2P44YuZ4NZ4JZ0RwMZTsX1/FCM3FTOYlul71cK/ZVBBUDJvM=
-Received: from BN0PR07CA0009.namprd07.prod.outlook.com (2603:10b6:408:141::8)
- by MW5PR12MB5652.namprd12.prod.outlook.com (2603:10b6:303:1a0::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.18; Thu, 30 Jun
- 2022 03:18:50 +0000
-Received: from BN8NAM11FT030.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:141::4) by BN0PR07CA0009.outlook.office365.com
- (2603:10b6:408:141::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15 via Frontend
- Transport; Thu, 30 Jun 2022 03:18:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN8NAM11FT030.mail.protection.outlook.com (10.13.177.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5373.15 via Frontend Transport; Thu, 30 Jun 2022 03:18:49 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 29 Jun
- 2022 22:18:45 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Wed, 29 Jun
- 2022 20:18:44 -0700
-Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
- SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.28
- via Frontend Transport; Wed, 29 Jun 2022 22:18:39 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>,
- <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH 5/5] ASoC: amd: enable machine driver build for Jadeite
- platform
-Date: Thu, 30 Jun 2022 08:47:55 +0530
-Message-ID: <20220630031755.1055413-6-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220630031755.1055413-1-Vijendar.Mukunda@amd.com>
-References: <20220630031755.1055413-1-Vijendar.Mukunda@amd.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51A4810EAC1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 04:03:35 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 814416209E
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 04:03:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DCEE6C3411E
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 04:03:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1656561813;
+ bh=MZ2M4AeoTnYvqELIvMUwXfXlddchfGTNjuKXIze1zjQ=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=KId+NSRWfUFSo4Ise9X8fiqsoaVwsDv3DyfVoZHKXl8qIlVtgEPExUW0v6nLWkCDl
+ Ir9BGZNPIumMFFZeRl71VGPr7szoIuq/6Qhc5lTvAAVk0mbN/SWMHccnA3OqDKmbeL
+ ymOnGuwGXLEUo61K8PgFvaxVYWkeoz09EX45SJtXV7HjSD9wwnybFyscpT3mFQ20Vz
+ adlRQFNhxb4leFh7zNYIC72CpyHm/e+oQUIo7RWyqelTOkGAXOOfuxPUtgjVqryiwv
+ ILK0qf1LhjArimoJgzW0OUw64afS3Dh/SVHVLqMoU9S8DGSgUCmg3RVg8FEdyILlhJ
+ TjMhPyYI4IGlw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id C9EAFCC13B5; Thu, 30 Jun 2022 04:03:33 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215618] vblank related lockup during start of SteamVR using
+ Valve Index HMD
+Date: Thu, 30 Jun 2022 04:03:33 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: perk11@perk11.info
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-215618-2300-1ciBH7v91u@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215618-2300@https.bugzilla.kernel.org/>
+References: <bug-215618-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cd0e86ff-b98a-4605-d005-08da5a47409c
-X-MS-TrafficTypeDiagnostic: MW5PR12MB5652:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VoWMJDhMfeIUbNwQk0ZYCmNysvCeNG1griFSp9cGliUGMcWBGnQYfvwfc+WYdSWC3euUD4HwGxLIS3JSkP4IDQmNJzZaNJmpLu7hOA8R+KDJqJsGSxcM1mGP42/qDM2xDnJc5ma5fFGXtwotzWd11LnTkWD1SPVUwOLcOAfB4V8apCqdoPDzXydde56s9GGtXRiZGQ18pWq27dyCRlpixGTc777zAXoJgtkba/WSyB6KmNLirevrq9/XJHoURntt8csvOnmJmPklt6PubBSFg+i7NUh2AdtVcb4O3ahph807024Rvy48FeccBQ5j+J38Di6oEKpkzZNQHNgDxfHQoYq8e2SOEd2GH39rQUTfMW7yXBJVcIYhlXXni1HNagcC6I8DT/bF+WKqzbZXhfvLvm0VY41sG7l8Jzx+1FZXmOpOqOId8a6AYqC4O1cwyJKgN/yny3ARDiGTnXNHflSrsiDdYxNgxCV0wUfmw0ICUR5VQUHvHCHQ9AqD1Uc2UI876XV4Spi0R3zi+mvEBI29CYnaneFgXeJOhCjVfFNzm2jAvYxbKn0mPuzRNkZxDHJnPoiJsCXMdBhdWeeeFvp7AXgNQ7f6u25T6bU44OgPDOMuF2DXJPucgS5I81EstmN0kFqdn7ixbHdUbXrMTOAB3Ir73lvDwrQB4J7FwlIfBtWDQrUV5mEQZ5FfTxGig6dsebdLfQC9sT7y9AzZbc3BZ14yORz6sf3TQ+4+y0440qyj/ROIs6FZL1Ks1wtDAsy08ywR2J0zsRMss/Q4uPsv0hp97JFGQyJyjXAU/3yd7gzgxOj0SQVQ5ePHA2MclQln+6TxPLe4QjZm+GHVUdI9BCyDXDynJ/gm6lGS1BBIYhA=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(136003)(39860400002)(376002)(346002)(40470700004)(36840700001)(46966006)(6666004)(110136005)(478600001)(4326008)(36756003)(5660300002)(8936002)(1076003)(2906002)(8676002)(47076005)(26005)(70586007)(186003)(70206006)(2616005)(7416002)(316002)(336012)(426003)(54906003)(41300700001)(40480700001)(82740400003)(86362001)(81166007)(356005)(40460700003)(7696005)(83380400001)(82310400005)(36860700001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2022 03:18:49.8761 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd0e86ff-b98a-4605-d005-08da5a47409c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT030.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5652
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,67 +72,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Sunil-kumar.Dommati@amd.com, Lucas Tanure <tanureal@opensource.cirrus.com>,
- Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>,
- open list <linux-kernel@vger.kernel.org>, Basavaraj.Hiregoudar@amd.com,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav
- Kysela <perex@perex.cz>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- Alexander.Deucher@amd.com, zhuning@everest-semi.com,
- Julian Braha <julianbraha@gmail.com>, Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable machine driver build for Jadeite platform using ES8336 Codec.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215618
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- sound/soc/amd/Kconfig  | 11 +++++++++++
- sound/soc/amd/Makefile |  2 ++
- 2 files changed, 13 insertions(+)
+Konstantin Pereiaslov (perk11@perk11.info) changed:
 
-diff --git a/sound/soc/amd/Kconfig b/sound/soc/amd/Kconfig
-index 1381aec23048..da0c3dc357cf 100644
---- a/sound/soc/amd/Kconfig
-+++ b/sound/soc/amd/Kconfig
-@@ -23,6 +23,17 @@ config SND_SOC_AMD_CZ_RT5645_MACH
- 	help
- 	 This option enables machine driver for rt5645.
- 
-+config SND_SOC_AMD_ST_ES8336_MACH
-+	tristate "AMD ST support for ES8336"
-+	select SND_SOC_ACPI
-+	select SND_SOC_ES8316
-+	depends on SND_SOC_AMD_ACP && I2C && ACPI
-+	help
-+	 This option enables machine driver for Jadeite platform
-+	 using es8336 codec.
-+	 Say m if you have such a device.
-+	 If unsure select "N".
-+
- config SND_SOC_AMD_ACP3x
- 	tristate "AMD Audio Coprocessor-v3.x support"
- 	depends on X86 && PCI
-diff --git a/sound/soc/amd/Makefile b/sound/soc/amd/Makefile
-index 4b1f77930a4a..8823f6f28611 100644
---- a/sound/soc/amd/Makefile
-+++ b/sound/soc/amd/Makefile
-@@ -2,12 +2,14 @@
- acp_audio_dma-objs := acp-pcm-dma.o
- snd-soc-acp-da7219mx98357-mach-objs := acp-da7219-max98357a.o
- snd-soc-acp-rt5645-mach-objs := acp-rt5645.o
-+snd-soc-acp-es8336-mach-objs := acp-es8336.o
- snd-soc-acp-rt5682-mach-objs := acp3x-rt5682-max9836.o
- snd-acp-config-objs := acp-config.o
- 
- obj-$(CONFIG_SND_SOC_AMD_ACP) += acp_audio_dma.o
- obj-$(CONFIG_SND_SOC_AMD_CZ_DA7219MX98357_MACH) += snd-soc-acp-da7219mx98357-mach.o
- obj-$(CONFIG_SND_SOC_AMD_CZ_RT5645_MACH) += snd-soc-acp-rt5645-mach.o
-+obj-$(CONFIG_SND_SOC_AMD_ST_ES8336_MACH) += snd-soc-acp-es8336-mach.o
- obj-$(CONFIG_SND_SOC_AMD_ACP3x) += raven/
- obj-$(CONFIG_SND_SOC_AMD_RV_RT5682_MACH) += snd-soc-acp-rt5682-mach.o
- obj-$(CONFIG_SND_SOC_AMD_RENOIR) += renoir/
--- 
-2.25.1
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |perk11@perk11.info
 
+--- Comment #3 from Konstantin Pereiaslov (perk11@perk11.info) ---
+Getting the same issue as the original post most times when starting SteamVR
+with Valve Index connected.
+
+Linux perk11-home 5.18.6-1-MANJARO #1 SMP PREEMPT_DYNAMIC Wed Jun 22 14:16:=
+20
+UTC 2022 x86_64 GNU/Linux
+
+
+Jun 29 22:38:01 perk11-home kernel: [drm:dm_vblank_get_counter [amdgpu]]
+*ERROR* dc_stream_state is NULL for crtc '1'!
+Jun 29 22:38:01 perk11-home kernel: [drm:dm_crtc_get_scanoutpos [amdgpu]]
+*ERROR* dc_stream_state is NULL for crtc '1'!
+Jun 29 22:38:01 perk11-home kernel: [drm:dm_vblank_get_counter [amdgpu]]
+*ERROR* dc_stream_state is NULL for crtc '1'!
+Jun 29 22:38:01 perk11-home kernel: ------------[ cut here ]------------
+Jun 29 22:38:01 perk11-home kernel: amdgpu 0000:0a:00.0:
+drm_WARN_ON_ONCE(drm_drv_uses_atomic_modeset(dev))
+Jun 29 22:38:01 perk11-home kernel: WARNING: CPU: 0 PID: 24962 at
+drivers/gpu/drm/drm_vblank.c:728
+drm_crtc_vblank_helper_get_vblank_timestamp_internal+0x343/0x350
+Jun 29 22:38:01 perk11-home kernel: Modules linked in: cdc_acm xt_REDIRECT
+xt_nat xt_tcpudp veth xt_conntrack xt_MASQUERADE nf_conntrack_netlink nfnet=
+link
+xt_addrtype iptable_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4
+br_netfilter bridge stp>
+Jun 29 22:38:01 perk11-home kernel:  gpu_sched crypto_simd drm_ttm_helper
+cryptd ttm snd_timer rapl snd drm_dp_helper tpm_crb soundcore pcspkr tpm_tis
+tpm_tis_core ccp tpm joydev rng_core pinctrl_amd mac_hid sp5100_tco wmi k10=
+temp
+i2c_piix4 acpi_cpufre>
+Jun 29 22:38:01 perk11-home kernel: CPU: 0 PID: 24962 Comm: VulkanVblankThr
+Tainted: G           OE     5.18.6-1-MANJARO #1
+b31d9f0a4836337638fdda8256aa2395a26153d9
+Jun 29 22:38:01 perk11-home kernel: Hardware name: Gigabyte Technology Co.,
+Ltd. X570 AORUS ELITE/X570 AORUS ELITE, BIOS F37a 02/16/2022
+Jun 29 22:38:01 perk11-home kernel: RIP:
+0010:drm_crtc_vblank_helper_get_vblank_timestamp_internal+0x343/0x350
+Jun 29 22:38:01 perk11-home kernel: Code: 48 8b 5f 50 48 85 db 75 03 48 8b =
+1f
+e8 46 5b 01 00 48 c7 c1 10 9b 14 b8 48 89 da 48 c7 c7 0c a0 0b b8 48 89 c6 =
+e8
+59 4e 3e 00 <0f> 0b e9 c7 fd ff ff e8 f1 fa 43 00 90 f3 0f 1e fa 0f 1f 44 0=
+0 00
+Jun 29 22:38:01 perk11-home kernel: RSP: 0018:ffffba908622bb98 EFLAGS: 0001=
+0086
+Jun 29 22:38:01 perk11-home kernel: RAX: 0000000000000000 RBX: ffff9ec78170=
+b600
+RCX: 0000000000000027
+Jun 29 22:38:01 perk11-home kernel: RDX: ffff9ed67ea216a8 RSI: 000000000000=
+0001
+RDI: ffff9ed67ea216a0
+Jun 29 22:38:01 perk11-home kernel: RBP: ffffba908622bc08 R08: 000000000000=
+0000
+R09: ffffba908622b9a8
+Jun 29 22:38:01 perk11-home kernel: R10: 0000000000000003 R11: ffff9ed6bf32=
+48a8
+R12: ffffba908622bc68
+Jun 29 22:38:01 perk11-home kernel: R13: ffffffffc0ea51e0 R14: 000000000000=
+0003
+R15: ffff9ec7a0ab41d8
+Jun 29 22:38:01 perk11-home kernel: FS:  00007f4f18238640(0000)
+GS:ffff9ed67ea00000(0000) knlGS:0000000000000000
+Jun 29 22:38:01 perk11-home kernel: CS:  0010 DS: 0000 ES: 0000 CR0:
+0000000080050033
+Jun 29 22:38:01 perk11-home kernel: CR2: 00007f4eb4001278 CR3: 00000001b7dc=
+8000
+CR4: 0000000000350ef0
+Jun 29 22:38:01 perk11-home kernel: Call Trace:
+Jun 29 22:38:01 perk11-home kernel:  <TASK>
+Jun 29 22:38:01 perk11-home kernel:  drm_get_last_vbltimestamp+0xaa/0xc0
+Jun 29 22:38:01 perk11-home kernel:  drm_update_vblank_count+0x8f/0x3a0
+Jun 29 22:38:01 perk11-home kernel:  drm_vblank_enable+0x14b/0x180
+Jun 29 22:38:01 perk11-home kernel:  drm_vblank_get+0x97/0xe0
+Jun 29 22:38:01 perk11-home kernel:  drm_crtc_queue_sequence_ioctl+0xf9/0x2=
+d0
+Jun 29 22:38:01 perk11-home kernel:  ? drm_ioctl+0x250/0x410
+Jun 29 22:38:01 perk11-home kernel:  ? drm_crtc_get_sequence_ioctl+0x1a0/0x=
+1a0
+Jun 29 22:38:01 perk11-home kernel:  drm_ioctl_kernel+0xca/0x170
+Jun 29 22:38:01 perk11-home kernel:  drm_ioctl+0x22e/0x410
+Jun 29 22:38:01 perk11-home kernel:  ? drm_crtc_get_sequence_ioctl+0x1a0/0x=
+1a0
+Jun 29 22:38:01 perk11-home kernel:  amdgpu_drm_ioctl+0x4e/0x80 [amdgpu
+87a94d2005d4986ad8a825609f070d6f446ae712]
+Jun 29 22:38:01 perk11-home kernel:  __x64_sys_ioctl+0x91/0xc0
+Jun 29 22:38:01 perk11-home kernel:  do_syscall_64+0x5f/0x90
+Jun 29 22:38:01 perk11-home kernel:  ? exc_page_fault+0x74/0x170
+Jun 29 22:38:01 perk11-home kernel:  entry_SYSCALL_64_after_hwframe+0x44/0x=
+ae
+Jun 29 22:38:01 perk11-home kernel: RIP: 0033:0x7f4f2f3077af
+Jun 29 22:38:01 perk11-home kernel: Code: 00 48 89 44 24 18 31 c0 48 8d 44 =
+24
+60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 =
+00
+00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 0=
+0 00
+Jun 29 22:38:01 perk11-home kernel: RSP: 002b:00007f4f18237a80 EFLAGS: 0000=
+0246
+ORIG_RAX: 0000000000000010
+Jun 29 22:38:01 perk11-home kernel: RAX: ffffffffffffffda RBX: 000000000000=
+0000
+RCX: 00007f4f2f3077af
+Jun 29 22:38:01 perk11-home kernel: RDX: 00007f4f18237b10 RSI: 00000000c018=
+643c
+RDI: 0000000000000060
+Jun 29 22:38:01 perk11-home kernel: RBP: 00007f4f18237b10 R08: 000000000000=
+0000
+R09: 00007f4eb4000be0
+Jun 29 22:38:01 perk11-home kernel: R10: 0000000000004022 R11: 000000000000=
+0246
+R12: 00000000c018643c
+Jun 29 22:38:01 perk11-home kernel: R13: 0000000000000060 R14: 000055f449aa=
+abd0
+R15: 00007f4f18138000
+Jun 29 22:38:01 perk11-home kernel:  </TASK>
+Jun 29 22:38:01 perk11-home kernel: ---[ end trace 0000000000000000 ]---
+Jun 29 22:38:01 perk11-home kernel: [drm:dm_vblank_get_counter [amdgpu]]
+*ERROR* dc_stream_state is NULL for crtc '1'!
+Jun 29 22:38:01 perk11-home kernel: [drm:dm_crtc_get_scanoutpos [amdgpu]]
+*ERROR* dc_stream_state is NULL for crtc '1'!
+Jun 29 22:38:01 perk11-home kernel: [drm:dm_vblank_get_counter [amdgpu]]
+*ERROR* dc_stream_state is NULL for crtc '1'!
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
