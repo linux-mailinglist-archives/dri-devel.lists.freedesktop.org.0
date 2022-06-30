@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84CB5560F49
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 04:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 558B9560F58
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 04:54:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58C1110E267;
-	Thu, 30 Jun 2022 02:43:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D8F410E362;
+	Thu, 30 Jun 2022 02:54:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77A2F10E267
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 02:43:17 +0000 (UTC)
-X-UUID: 3fded47f00f74905ac2fb7bb98ab1515-20220630
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1C2510E1BD
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 02:54:49 +0000 (UTC)
+X-UUID: 67dec22abf944279ba7a59ae7782d158-20220630
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.7, REQID:410322cb-2bf8-459c-881b-7f909a35037b, OB:0,
+X-CID-O-INFO: VERSION:1.1.7, REQID:198f82f8-0228-40e3-8a7c-526944c141a4, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:0
-X-CID-META: VersionHash:87442a2, CLOUDID:d7412586-57f0-47ca-ba27-fe8c57fbf305,
+X-CID-META: VersionHash:87442a2, CLOUDID:4d2435d6-5d6d-4eaf-a635-828a3ee48b7c,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil
  ,QS:nil,BEC:nil,COL:0
-X-UUID: 3fded47f00f74905ac2fb7bb98ab1515-20220630
+X-UUID: 67dec22abf944279ba7a59ae7782d158-20220630
 Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 111650536; Thu, 30 Jun 2022 10:43:11 +0800
+ with ESMTP id 1096596635; Thu, 30 Jun 2022 10:54:44 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Thu, 30 Jun 2022 10:43:09 +0800
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Thu, 30 Jun 2022 10:54:42 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Thu, 30 Jun 2022 10:43:09 +0800
-Message-ID: <c4017901a0a1dc073f8060d46dcddf6753278fa4.camel@mediatek.com>
+ Transport; Thu, 30 Jun 2022 10:54:42 +0800
+Message-ID: <3e1992f0fabccb07a1994d17cc773895fea92139.camel@mediatek.com>
 Subject: Re: [PATCH v12 05/10] drm/mediatek: Add MT8195 Embedded DisplayPort
  driver
 From: CK Hu <ck.hu@mediatek.com>
@@ -43,7 +43,7 @@ To: Bo-Chen Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
  <krzysztof.kozlowski+dt@linaro.org>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <matthias.bgg@gmail.com>, <deller@gmx.de>,
  <airlied@linux.ie>
-Date: Thu, 30 Jun 2022 10:43:09 +0800
+Date: Thu, 30 Jun 2022 10:54:41 +0800
 In-Reply-To: <20220627080341.5087-6-rex-bc.chen@mediatek.com>
 References: <20220627080341.5087-1-rex-bc.chen@mediatek.com>
  <20220627080341.5087-6-rex-bc.chen@mediatek.com>
@@ -106,49 +106,51 @@ On Mon, 2022-06-27 at 16:03 +0800, Bo-Chen Chen wrote:
 [snip]
 
 > +
-> +static void mtk_dp_set_color_depth(struct mtk_dp *mtk_dp)
+> +static void mtk_dp_set_color_format(struct mtk_dp *mtk_dp,
+> +				    enum dp_pixelformat color_format)
 > +{
 > +	u32 val;
-> +	/* Only support 8 bits currently */
-> +	u32 color_depth = DP_MSA_MISC_8_BPC;
 > +
-> +	mtk_dp->info.depth = color_depth;
-> +
-> +	/* Update MISC0 */
-> +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3034,
-> +			   color_depth, DP_TEST_BIT_DEPTH_MASK);
-> +
-> +	switch (color_depth) {
-> +	case DP_MSA_MISC_6_BPC:
-> +		val = VIDEO_COLOR_DEPTH_DP_ENC0_P0_6BIT;
-> +		break;
-> +	case DP_MSA_MISC_8_BPC:
-> +		val = VIDEO_COLOR_DEPTH_DP_ENC0_P0_8BIT;
+> +	mtk_dp->info.format = color_format;
 
-This driver just use DP_MSA_MISC_8_BPC, so keep this and drop others.
+Drop this. mtk_dp->info.format is alwasy set out of this function.
+
+> +
+> +	/* update MISC0 */
+> +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3034,
+> +			   color_format << DP_TEST_COLOR_FORMAT_SHIFT,
+> +			   DP_TEST_COLOR_FORMAT_MASK);
+> +
+> +	switch (color_format) {
+> +	case DP_PIXELFORMAT_YUV422:
+> +		val = PIXEL_ENCODE_FORMAT_DP_ENC0_P0_YCBCR422;
+> +		break;
+
+This driver use only DP_PIXELFORMAT_YUV422 and DP_PIXELFORMAT_RGB, so
+keep these two and drop others.
 
 Regards,
 CK
 
+> +	case DP_PIXELFORMAT_YUV420:
+> +		val = PIXEL_ENCODE_FORMAT_DP_ENC0_P0_YCBCR420;
 > +		break;
-> +	case DP_MSA_MISC_10_BPC:
-> +		val = VIDEO_COLOR_DEPTH_DP_ENC0_P0_10BIT;
+> +	case DP_PIXELFORMAT_RGB:
+> +	case DP_PIXELFORMAT_YUV444:
+> +		val = PIXEL_ENCODE_FORMAT_DP_ENC0_P0_RGB;
 > +		break;
-> +	case DP_MSA_MISC_12_BPC:
-> +		val = VIDEO_COLOR_DEPTH_DP_ENC0_P0_12BIT;
-> +		break;
-> +	case DP_MSA_MISC_16_BPC:
-> +		val = VIDEO_COLOR_DEPTH_DP_ENC0_P0_16BIT;
-> +		break;
+> +	case DP_PIXELFORMAT_Y_ONLY:
+> +	case DP_PIXELFORMAT_RAW:
+> +	case DP_PIXELFORMAT_RESERVED:
 > +	default:
-> +		drm_warn(mtk_dp->drm_dev, "Unsupported color depth
+> +		drm_warn(mtk_dp->drm_dev, "Unsupported color format:
 > %d\n",
-> +			 color_depth);
+> +			 color_format);
 > +		return;
 > +	}
 > +
-> +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_303C, val,
-> +			   VIDEO_COLOR_DEPTH_DP_ENC0_P0_MASK);
+> +	mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_303C,
+> +			   val, PIXEL_ENCODE_FORMAT_DP_ENC0_P0_MASK);
 > +}
 > +
 
