@@ -2,53 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C29656134C
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 09:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF146561359
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 09:37:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A363111268B;
-	Thu, 30 Jun 2022 07:33:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 188C9112758;
+	Thu, 30 Jun 2022 07:37:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0744E112666;
- Thu, 30 Jun 2022 07:33:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 78666615DD;
- Thu, 30 Jun 2022 07:33:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC2DAC34115;
- Thu, 30 Jun 2022 07:33:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656574385;
- bh=qdJ1ojG9FqadeWBXMNSsSNxd/lwx2dqBZ2YeAVl+g+Q=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=MbZL5eKqEHaju7VKRVwNDolxeozHoNlnAdtBglMqRVbabNDh6BljVGTbCDAP+o+kh
- IDnCn8rOZoBW7dWJnrmPULuCm4BDXD5Bx6lYEeeQ0pGJfh+LneIb4Q8xUn6wqvw79L
- 4gJKcCb7roY+QtUGUH2OzZr4OgTR7srfsOBMQRh4Lb25x14bRjWtjDNWBvEgqG1p8H
- S8coVw117PyBR2iNMzGWkTQ4hRa0cMj+QAcNY2Fi1zmfA/7ty1WgCSU8ibpPagLyCP
- HEJ6B6B+bYeplk1KzYVF+6SsUhPhuKz8OXND7AohryRw1kMumpSIy1t3wbopRNb7xH
- egX77JL8hr5Ng==
-Date: Thu, 30 Jun 2022 08:32:56 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH 5/6] drm/i915/gt: Serialize GRDOM access between
- multiple engine resets
-Message-ID: <20220630083256.35a56cb1@sal.lan>
-In-Reply-To: <7e6a9a27-7286-7f21-7fec-b9832b93b10c@linux.intel.com>
-References: <cover.1655306128.git.mchehab@kernel.org>
- <5ee647f243a774927ec328bfca8212abc4957909.1655306128.git.mchehab@kernel.org>
- <YrRLyg1IJoZpVGfg@intel.intel>
- <160e613f-a0a8-18ff-5d4b-249d4280caa8@linux.intel.com>
- <20220627110056.6dfa4f9b@maurocar-mobl2>
- <d79492ad-b99a-f9a9-f64a-52b94db68a3b@linux.intel.com>
- <20220629172955.64ffb5c3@maurocar-mobl2>
- <7e6a9a27-7286-7f21-7fec-b9832b93b10c@linux.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC3C112762
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 07:37:53 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 1F2283200893;
+ Thu, 30 Jun 2022 03:37:52 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 30 Jun 2022 03:37:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1656574671; x=1656661071; bh=nqZKN3ZyBe
+ wz4i5wwR7cb47guy4KEThcHWzu9ubDxTY=; b=m3o+WSWPpn+U51fjYPqYQbGqqR
+ XR9CUrRuTXh2YNbcRC4hHH9rX6U+05Ey/s/10dX2dw+2uvi1OmX1gGqdcddcCdAr
+ VOYh6tT/N23bc3i3DR2beUbucSnmzDGXjcvPAwJfSfyjVMszk5Vqyz099zRv9tXX
+ rF1mtisjvWQSKLrV3wqjnKtlqhKzVMK/qTskCGLaA8VWQ67xibPsYdoU3LrSa/6H
+ 7C4xz1rdOjiDrDjVXBtQMaCKSrKQFLk8CAOJhcMuDGQhAn66Ue7zgd9nYY20Ci6H
+ YzNCWEu3hg52EG9OofHlXZjVGr0E1RZcrwa3JEsg6hx9AoAmFA2zIxmQkcmw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; t=1656574671; x=1656661071; bh=nqZKN3ZyBewz4i5wwR7cb47guy4K
+ EThcHWzu9ubDxTY=; b=Yo9b8jg1OVaTa9XhUsoR6N03YxvbpYyqgm4En7W+usHp
+ 5R1Tq/sMNUet3yCyw+Yt50HCeHe0OMcLLaWgjhwEJdQIFsUf+4PxJLRxpimbyEv1
+ uXzShuH37jS/YuQ/rnXa1cQbDcdZom5ppQlnhTidIbMdqyP8IKEzQNmOxk82pRET
+ cHWNUKSSxEPZ4QpgF7f2ZK2e1LZtxxK2yq3O5i34Fa8uNMiQ6HSQ2uAVAZ7GBOHV
+ OzOL18EN9ZbNH3okRLQFpdeJEtgv+nybAG+iqHGfxvG5z3ljpWe+dhCBwvr4XC/L
+ gzZh3xWrUZn82NPdb6Z84kesxbrkPbsd7lqZ58V8JQ==
+X-ME-Sender: <xms:z1K9Ys9rkOluKDGAfcDDFTSekmMwhom3oor7-222secThkT_kKS8_Q>
+ <xme:z1K9Ykv9I2DcVjuWu2OmR7cd9-5zQu8jKfRY3IdhmOH6qw7mijSY2XS0sJ3M6EOWV
+ qrL2T86qAzFpvWxJW0>
+X-ME-Received: <xmr:z1K9YiCTaMdNuEPim7jA7iC66tH4gPi8vF9f_IlOWnmu029XzLBKBLMvrP0HSbM9HENvzK9AQU6yjsfoUdO-0GuKWWE-jBiQScV_pFI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehtddguddvfecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepleejuefggeevteelveekteffgeduveeiteeiueegueegiedvtdejjedv
+ feeftefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
+ tghh
+X-ME-Proxy: <xmx:z1K9YsfQGIKaKge7eS9cNQnFse_44UMTltnjLbmb1Pd93Frq8UW39w>
+ <xmx:z1K9YhNz2_WQqvh6YXmwWSIipT8j_Mz_lWkymBm0QQ-ko51zhBgtfQ>
+ <xmx:z1K9YmmtPeh05nQUFd_WX29zcptFrZNyb28C3HxgfeHPsUJCHIFqSQ>
+ <xmx:z1K9Yv2N-A_sTol5Yntw2sQ7Si6-tQzK5h-oLaxsrIhXEGqWtmI_7w>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 30 Jun 2022 03:37:51 -0400 (EDT)
+Date: Thu, 30 Jun 2022 09:37:50 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Subject: Re: drm-misc-next: WARNING: at drivers/gpu/drm/vc4/vc4_hdmi_regs.h:487
+Message-ID: <20220630073750.cjsskqq6bid7ayhf@houat>
+References: <179330ab-951b-d9cd-bf73-a80fbc5666d9@i2se.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="7b7pervf5vzxvbra"
+Content-Disposition: inline
+In-Reply-To: <179330ab-951b-d9cd-bf73-a80fbc5666d9@i2se.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,158 +83,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
- Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, David Airlie <airlied@linux.ie>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Chris Wilson <chris.p.wilson@intel.com>, Fei Yang <fei.yang@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>,
- stable@vger.kernel.org,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <John.C.Harrison@intel.com>,
- Bruce Chang <yu.bruce.chang@intel.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Wed, 29 Jun 2022 17:02:59 +0100
-Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> escreveu:
 
-> On 29/06/2022 16:30, Mauro Carvalho Chehab wrote:
-> > On Tue, 28 Jun 2022 16:49:23 +0100
-> > Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> >  =20
-> >> .. which for me means a different patch 1, followed by patch 6 (moved
-> >> to be patch 2) would be ideal stable material.
-> >>
-> >> Then we have the current patch 2 which is open/unknown (to me at least=
-).
-> >>
-> >> And the rest seem like optimisations which shouldn't be tagged as fixe=
-s.
-> >>
-> >> Apart from patch 5 which should be cc: stable, but no fixes as agreed.
-> >>
-> >> Could you please double check if what I am suggesting here is feasible
-> >> to implement and if it is just send those minimal patches out alone? =
-=20
-> >=20
-> > Tested and porting just those 3 patches are enough to fix the Broadwell
-> > bug.
-> >=20
-> > So, I submitted a v2 of this series with just those. They all need to
-> > be backported to stable. =20
->=20
-> I would really like to give even a smaller fix a try. Something like, alt=
-hough not even compile tested:
->=20
-> commit 4d5e94aef164772f4d85b3b4c1a46eac9a2bd680
-> Author: Chris Wilson <chris.p.wilson@intel.com>
-> Date:   Wed Jun 29 16:25:24 2022 +0100
->=20
->      drm/i915/gt: Serialize TLB invalidates with GT resets
->     =20
->      Avoid trying to invalidate the TLB in the middle of performing an
->      engine reset, as this may result in the reset timing out. Currently,
->      the TLB invalidate is only serialised by its own mutex, forgoing the
->      uncore lock, but we can take the uncore->lock as well to serialise
->      the mmio access, thereby serialising with the GDRST.
->     =20
->      Tested on a NUC5i7RYB, BIOS RYBDWi35.86A.0380.2019.0517.1530 with
->      i915 selftest/hangcheck.
->     =20
->      Cc: stable@vger.kernel.org
->      Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing =
-store")
->      Reported-by: Mauro Carvalho Chehab <mchehab@kernel.org>
->      Tested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
->      Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
->      Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
->      Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
->      Acked-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
->      Reviewed-by: Andi Shyti <andi.shyti@intel.com>
->      Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
->      Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->=20
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt=
-/intel_gt.c
-> index 8da3314bb6bf..aaadd0b02043 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -952,7 +952,23 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
->          mutex_lock(&gt->tlb_invalidate_lock);
->          intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
->  =20
-> +       spin_lock_irq(&uncore->lock); /* serialise invalidate with GT res=
-et */
-> +
-> +       for_each_engine(engine, gt, id) {
-> +               struct reg_and_bit rb;
-> +
-> +               rb =3D get_reg_and_bit(engine, regs =3D=3D gen8_regs, reg=
-s, num);
-> +               if (!i915_mmio_reg_offset(rb.reg))
-> +                       continue;
-> +
-> +               intel_uncore_write_fw(uncore, rb.reg, rb.bit);
-> +       }
-> +
-> +       spin_unlock_irq(&uncore->lock);
-> +
->          for_each_engine(engine, gt, id) {
-> +               struct reg_and_bit rb;
-> +
->                  /*
->                   * HW architecture suggest typical invalidation time at =
-40us,
->                   * with pessimistic cases up to 100us and a recommendati=
-on to
-> @@ -960,13 +976,11 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
->                   */
->                  const unsigned int timeout_us =3D 100;
->                  const unsigned int timeout_ms =3D 4;
-> -               struct reg_and_bit rb;
->  =20
->                  rb =3D get_reg_and_bit(engine, regs =3D=3D gen8_regs, re=
-gs, num);
->                  if (!i915_mmio_reg_offset(rb.reg))
->                          continue;
->  =20
-> -               intel_uncore_write_fw(uncore, rb.reg, rb.bit);
->                  if (__intel_wait_for_register_fw(uncore,
->                                                   rb.reg, rb.bit, 0,
->                                                   timeout_us, timeout_ms,
->=20
+--7b7pervf5vzxvbra
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This won't work, as it is not serializing TLB cache invalidation with
-i915 resets. Besides that, this is more or less merging patches 1 and 3,
-placing patches with different rationales altogether. Upstream rule is
-to have one logical change per patch.
+Hi Stefan,
 
-> If this works it would be least painful to backport. The other improvemen=
-ts can then be devoid of the fixes tag.
-
-=46rom backport PoV, it wouldn't make any difference applying one patch
-or two. See, intel_gt_invalidate_tlbs() function doesn't exist before
-changeset 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing stor=
-e"),
-so, it shouldn't have merge conflicts while backporting it, maybe except
-if some functions it calls (or parameters) have changed. On such case,
-the backport fix should be trivial, and the end result of backporting
-one folded patch or two would be the same.
-
-If any conflict happens, I can help doing the backports.
-
-> > I still think that other TLB patches are needed/desired upstream, but
-> > I'll submit them on a separate series. Let's fix the regression first ;=
--) =20
+On Wed, Jun 29, 2022 at 10:50:21PM +0200, Stefan Wahren wrote:
+> Hi Maxime,
 >=20
-> Yep, that's exactly right.
+> i tested todays drm-misc-next 9db35bb349 with Raspberry Pi 3 B Plus
+> (arm/multi_v7_defconfig, mainline DTB) and get the following warning in t=
+he
+> kernel logs:
 >=20
-> Regards,
+> [=A0=A0 25.698459] vc4-drm soc:gpu: bound 3f400000.hvs (ops vc4_hvs_ops [=
+vc4])
+> [=A0=A0 25.698657] ------------[ cut here ]------------
+> [=A0=A0 25.698660] WARNING: CPU: 1 PID: 153 at
+> drivers/gpu/drm/vc4/vc4_hdmi_regs.h:487 vc4_hdmi_reset+0x3e0/0x4e0 [vc4]
+> [=A0=A0 25.698757] Modules linked in: brcmutil vc4(+) snd_soc_core ac97_b=
+us
+> sha256_generic libsha256 snd_pcm_dmaengine sha256_arm snd_pcm cfg80211
+> snd_timer hci_uart btbcm snd soundcore bluetooth raspberrypi_hwmon
+> drm_cma_helper ecdh_generic ecc libaes bcm2835_thermal microchip lan78xx
+> crc32_arm_ce
+> [=A0=A0 25.698831] CPU: 1 PID: 153 Comm: systemd-udevd Not tainted
+> 5.19.0-rc2-00085-g9db35bb349a0 #2
+> [=A0=A0 25.698839] Hardware name: BCM2835
+> [=A0=A0 25.698850]=A0 unwind_backtrace from show_stack+0x10/0x14
+> [=A0=A0 25.698866]=A0 show_stack from dump_stack_lvl+0x40/0x4c
+> [=A0=A0 25.698879]=A0 dump_stack_lvl from __warn+0xcc/0x144
+> [=A0=A0 25.698890]=A0 __warn from warn_slowpath_fmt+0x5c/0xb4
+> [=A0=A0 25.698900]=A0 warn_slowpath_fmt from vc4_hdmi_reset+0x3e0/0x4e0 [=
+vc4]
+> [=A0=A0 25.698996]=A0 vc4_hdmi_reset [vc4] from vc4_hdmi_runtime_resume+0=
+x4c/0x64
+> [vc4]
+> [=A0=A0 25.699165]=A0 vc4_hdmi_runtime_resume [vc4] from vc4_hdmi_bind+0x=
+208/0x994
+> [vc4]
+> [=A0=A0 25.699333]=A0 vc4_hdmi_bind [vc4] from component_bind_all+0x100/0=
+x230
+> [=A0=A0 25.699428]=A0 component_bind_all from vc4_drm_bind+0x1a8/0x280 [v=
+c4]
+> [=A0=A0 25.699518]=A0 vc4_drm_bind [vc4] from
+> try_to_bring_up_aggregate_device+0x160/0x1bc
+> [=A0=A0 25.699610]=A0 try_to_bring_up_aggregate_device from
+> component_master_add_with_match+0xc4/0xf8
+> [=A0=A0 25.699622]=A0 component_master_add_with_match from
+> vc4_platform_drm_probe+0xa0/0xc0 [vc4]
+> [=A0=A0 25.699712]=A0 vc4_platform_drm_probe [vc4] from platform_probe+0x=
+5c/0xbc
+> [=A0=A0 25.699802]=A0 platform_probe from really_probe.part.0+0x9c/0x2b0
+> [=A0=A0 25.699812]=A0 really_probe.part.0 from __driver_probe_device+0xa8=
+/0x13c
+> [=A0=A0 25.699823]=A0 __driver_probe_device from driver_probe_device+0x34=
+/0x108
+> [=A0=A0 25.699834]=A0 driver_probe_device from __driver_attach+0xb4/0x17c
+> [=A0=A0 25.699846]=A0 __driver_attach from bus_for_each_dev+0x70/0xb0
+> [=A0=A0 25.699856]=A0 bus_for_each_dev from bus_add_driver+0x164/0x1f0
+> [=A0=A0 25.699867]=A0 bus_add_driver from driver_register+0x88/0x11c
+> [=A0=A0 25.699878]=A0 driver_register from do_one_initcall+0x40/0x1d4
+> [=A0=A0 25.699890]=A0 do_one_initcall from do_init_module+0x44/0x1d4
+> [=A0=A0 25.699901]=A0 do_init_module from sys_finit_module+0xbc/0xf8
+> [=A0=A0 25.699909]=A0 sys_finit_module from __sys_trace_return+0x0/0x10
+> [=A0=A0 25.699918] Exception stack(0xf568dfa8 to 0xf568dff0)
+> [=A0=A0 25.699926] dfa0:=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 6a09f700 00000000 00000016 b6dee8e0
+> 00000000 b6def3f4
+> [=A0=A0 25.699934] dfc0: 6a09f700 00000000 00000000 0000017b 0053b9a8 005=
+2a1dc
+> 0053af10 00000000
+> [=A0=A0 25.699940] dfe0: be8e5160 be8e5150 b6de59d8 b6ed5ae0
+> [=A0=A0 25.699944] ---[ end trace 0000000000000000 ]---
 >=20
-> Tvrtko
+> I was able to bisect the warning to the following commit:
+>=20
+> drm/vc4: hdmi: Move HDMI reset to pm_resume
+>=20
+> The BCM2835-37 found in the RaspberryPi 0 to 3 have a power domain
+> attached to the HDMI block, handled in Linux through runtime_pm.
+>=20
+> That power domain is shared with the VEC block, so even if we put our
+> runtime_pm reference in the HDMI driver it would keep being on. If the
+> VEC is disabled though, the power domain would be disabled and we would
+> lose any initialization done in our bind implementation.
+>=20
+> That initialization involves calling the reset function and initializing
+> the CEC registers.
+>=20
+> Let's move the initialization to our runtime_resume implementation so
+> that we initialize everything properly if we ever need to.
+>=20
+> Fixes: c86b41214362 ("drm/vc4: hdmi: Move the HSM clock enable to
+> runtime_pm")
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Link: https://lore.kernel.org/r/20220613144800.326124-24-maxime@cerno.tech
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Yeah, I noticed it yesterday
+
+https://lore.kernel.org/dri-devel/20220629123510.1915022-1-maxime@cerno.tec=
+h/T/#m1027cef33d8c66a302b2b8a80bab8a9dc6652f04
+
+and
+
+https://lore.kernel.org/dri-devel/20220629123510.1915022-1-maxime@cerno.tec=
+h/T/#mc869819c66f7b3df8b31a320636a9172780a58e7
+
+Should address it
+
+Maxime
+
+--7b7pervf5vzxvbra
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYr1SzgAKCRDj7w1vZxhR
+xYnMAPwLHpAWOF+snfe2HPdBVsnphfzr7ZQRScAMDQcG7Ng9WAEAyatIo2PFwaXM
+v/3RnW/epVDooSutAazDqOzlX/f36Ak=
+=4QiW
+-----END PGP SIGNATURE-----
+
+--7b7pervf5vzxvbra--
