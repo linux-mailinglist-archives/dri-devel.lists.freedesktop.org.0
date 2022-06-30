@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1FA3562342
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 21:37:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 310B1562352
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 21:39:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEC3212ACB3;
-	Thu, 30 Jun 2022 19:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5944010E182;
+	Thu, 30 Jun 2022 19:39:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
- [209.85.219.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5103512ACB3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 19:37:00 +0000 (UTC)
-Received: by mail-qv1-f46.google.com with SMTP id t16so785330qvh.1
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 12:37:00 -0700 (PDT)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA73D112794
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 19:38:59 +0000 (UTC)
+Received: by mail-qk1-f180.google.com with SMTP id b125so15177373qkg.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 12:38:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=p6c5f2NCl92cN1Bu7KR0c/XkNY03WVgxoY3koBCNk38=;
- b=QLQ+3YfkdWgfT3pR/A8+uWHiwAIfE1GMGElhrDCe9SPw2NcrvHSbyZ6bDzB/qXvhrX
- CEAHtPvK9WAutaVCj+uPiG0Vt9l+oxJSm0zxIjc/zCacoOXJevbtQDRCvaKozOR3rx1R
- bNicILN8FrC8GZzac+U1wLkbfNCePJPNzaD9zvHY+F2BKnV2cY+mPDT1w11Y98ies2c0
- ETANvWhgWZyITfA0sykIjiqa5dQnbw03mwxRFVKTmWo6IG88iu2az1YYbHe0dj8jbUB8
- MeJalHo5g+V4AF4zsTBfi7RoMosdnXG/jApzlGxJeW91SHUJ3Jx+6RiV38qZMaAwIoa+
- fD0w==
-X-Gm-Message-State: AJIora+c3kxu2XC+cPlisHmtFv8qou4r4cGpOpy+CISWvXOa3kV4tZns
- SL8GXtThnoqlVpY8IAubeq6z2mJuRgmb6w==
-X-Google-Smtp-Source: AGRyM1uy5E2PcLLBJHk66A1Pr3VAVhIv/JCAPfQ8wwKeMYzNtVq+owzi266Q5n1HhyTCXuQefvSy4Q==
-X-Received: by 2002:a05:6214:27e7:b0:471:c3cf:1490 with SMTP id
- jt7-20020a05621427e700b00471c3cf1490mr12865910qvb.13.1656617818892; 
- Thu, 30 Jun 2022 12:36:58 -0700 (PDT)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com.
- [209.85.219.169]) by smtp.gmail.com with ESMTPSA id
- c19-20020a05622a059300b00304edcfa109sm14291456qtb.33.2022.06.30.12.36.58
+ bh=rkKYgFZp/qSKYESmXqwsAioaMLByN2eEJsgXebEsRR0=;
+ b=7jgm7r/43iR17r2txOksZKMyRLvVNcFCmlVOVH3raunnjBLsJcAiRiD/eB2oswYmZL
+ KTjKxin+kgIPlvCoDYNgzTlsGstYFLNGcrZvPVuAzU05F/acQTTfEbf8HI93UufLIdal
+ QiDiPOYL/pIUi1uTyyjF//nm07xZppRuOHZA+BkSlFliKEMwBGDn/i8H1muXYAPGZIVY
+ zYu87Z2ScrNjVMSJXp0yVuqGK+uyCt19DzcVoIacnzqUMZboKUBc6LFtzTcoxJgvDkFT
+ TgWNR3UuVXNZqrb9SsaYMShzG9gQc/EfSPPWq3jr+OFwQ8KmcSSS6uOwZCXiZF3L/+5D
+ W6Fw==
+X-Gm-Message-State: AJIora98R3I56H3yIvNZ3FTFfttfu4myahWJdKHJpwupKpUN1JSU/PNL
+ M3G9sn7RorIWMDZKsLEF8yX8CV8zD2cdEw==
+X-Google-Smtp-Source: AGRyM1sizVkB5hDCp8y8bvFwOSuB10D9CcfGGZGnzH0E6PJrWDFNwK6/nfcwORiiuup7TxK/r+1raQ==
+X-Received: by 2002:a05:620a:4e9:b0:6a7:8357:303d with SMTP id
+ b9-20020a05620a04e900b006a78357303dmr7913550qkh.105.1656617938717; 
+ Thu, 30 Jun 2022 12:38:58 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com.
+ [209.85.128.179]) by smtp.gmail.com with ESMTPSA id
+ t15-20020ac865cf000000b0031aaf05420fsm7991352qto.57.2022.06.30.12.38.58
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jun 2022 12:36:58 -0700 (PDT)
-Received: by mail-yb1-f169.google.com with SMTP id q132so171584ybg.10
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 12:36:58 -0700 (PDT)
-X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
- s14-20020a056902120e00b006346f296b84mr11068429ybu.604.1656617818106; Thu, 30
- Jun 2022 12:36:58 -0700 (PDT)
+ Thu, 30 Jun 2022 12:38:58 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id
+ 00721157ae682-318889e6a2cso3710797b3.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 12:38:58 -0700 (PDT)
+X-Received: by 2002:a81:574c:0:b0:317:7c3a:45be with SMTP id
+ l73-20020a81574c000000b003177c3a45bemr12091300ywb.316.1656617938226; Thu, 30
+ Jun 2022 12:38:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220629200024.187187-1-deller@gmx.de>
- <20220629200024.187187-3-deller@gmx.de>
- <CAMuHMdXJRBywf+h_u1jgA6X7hLSByDDwSkskff47a0BHfd93iA@mail.gmail.com>
- <0c418b7d-474a-3f93-a1fb-2f13c4d19941@gmx.de>
-In-Reply-To: <0c418b7d-474a-3f93-a1fb-2f13c4d19941@gmx.de>
+ <20220629200024.187187-5-deller@gmx.de>
+ <CAMuHMdVJ0PsDyTdGoOHPOKdaR7AffG2FpFmw6fxoNdXx9y-J4A@mail.gmail.com>
+ <1ba5f6d6-1c31-a8fb-867b-e2a7fda7da56@gmx.de>
+In-Reply-To: <1ba5f6d6-1c31-a8fb-867b-e2a7fda7da56@gmx.de>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 30 Jun 2022 21:36:46 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUoMJ6CmiKDh4MW_b-7uoxEF+H6QimsA7SfcE5kjo17vw@mail.gmail.com>
-Message-ID: <CAMuHMdUoMJ6CmiKDh4MW_b-7uoxEF+H6QimsA7SfcE5kjo17vw@mail.gmail.com>
-Subject: Re: [PATCH 2/5] fbcon: Fix up user-provided virtual screen size
+Date: Thu, 30 Jun 2022 21:38:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVMp-ywWmDevdZTwHHhdiHnsFhze376guTEMd1T=tb-Pg@mail.gmail.com>
+Message-ID: <CAMuHMdVMp-ywWmDevdZTwHHhdiHnsFhze376guTEMd1T=tb-Pg@mail.gmail.com>
+Subject: Re: [PATCH 4/5] fbmem: Prevent invalid virtual screen sizes in
+ fb_set_var()
 To: Helge Deller <deller@gmx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,12 +78,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Helge,
 
-On Thu, Jun 30, 2022 at 9:31 PM Helge Deller <deller@gmx.de> wrote:
-> On 6/30/22 21:00, Geert Uytterhoeven wrote:
+On Thu, Jun 30, 2022 at 9:17 PM Helge Deller <deller@gmx.de> wrote:
+> On 6/30/22 21:11, Geert Uytterhoeven wrote:
 > > On Wed, Jun 29, 2022 at 10:00 PM Helge Deller <deller@gmx.de> wrote:
-> >> The virtual screen size can't be smaller than the physical screen size.
-> >> Based on the general rule that we round up user-provided input if
-> >> neccessary, adjust the virtual screen size as well if needed.
+> >> Prevent that drivers configure a virtual screen resolution smaller than
+> >> the physical screen resolution.  This is important, because otherwise we
+> >> may access memory outside of the graphics memory area.
 > >>
 > >> Signed-off-by: Helge Deller <deller@gmx.de>
 > >> Cc: stable@vger.kernel.org # v5.4+
@@ -90,44 +92,23 @@ On Thu, Jun 30, 2022 at 9:31 PM Helge Deller <deller@gmx.de> wrote:
 > >
 > >> --- a/drivers/video/fbdev/core/fbmem.c
 > >> +++ b/drivers/video/fbdev/core/fbmem.c
-> >> @@ -1106,6 +1106,11 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
-> >>                         return -EFAULT;
-> >>                 console_lock();
-> >>                 lock_fb_info(info);
-> >> +               /* adjust virtual screen size if user missed it */
-> >> +               if (var.xres_virtual < var.xres)
-> >> +                       var.xres_virtual = var.xres;
-> >> +               if (var.yres_virtual < var.yres)
-> >> +                       var.yres_virtual = var.yres;
-> >>                 ret = fb_set_var(info, &var);
-> >>                 if (!ret)
-> >>                         fbcon_update_vcs(info, var.activate & FB_ACTIVATE_ALL);
+> >> @@ -1006,6 +1006,12 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
+> >>         if (var->xres < 8 || var->yres < 8)
+> >>                 return -EINVAL;
+> >>
+> >> +       /* make sure virtual resolution >= physical resolution */
+> >> +       if (WARN_ON(var->xres_virtual < var->xres))
+> >> +               var->xres_virtual = var->xres;
+> >> +       if (WARN_ON(var->yres_virtual < var->yres))
+> >> +               var->yres_virtual = var->yres;
 > >
-> > Given "[PATCH 4/5] fbmem: Prevent invalid virtual screen sizes in
-> > fb_set_var", I don't think we need this patch.
+> > This should be moved below the call to info->fbops->fb_check_var(),
+> > so the WARN_ON() catches buggy fbdev drivers, not userspace fuzzers.
 >
-> We do.
+> Yes, makes sense.
 
-Why? It will be caught by [PATCH 4/5].
-
-> > Moreover, this
-> > patch will prevent triggering the WARN_ON()s in [PATCH 4/5]
->
-> Right.
->
-> > in the most common buggy case of drivers plainly ignoring var.[xy]res_virtual.
->
-> In summary:
-> This patch #2 is fixing up user-space invalid input and is not
-> allowed to trigger any WARN_ON().
-
-It's the responsibility of the driver to at least look at its parameters.
-What other invalid values might it let pass, that we cannot catch
-at the generic level?
-
-> We could drop patch #4, but then we wouldn't catch bad drivers.
-
-I do want to keep patch #4.
+And print the name of the frame buffer device driver, so people know
+who to blame.
 
 Gr{oetje,eeting}s,
 
