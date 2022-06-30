@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249465624AD
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 22:57:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D295624AC
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 22:57:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D581129FF;
-	Thu, 30 Jun 2022 20:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75DC71129F4;
+	Thu, 30 Jun 2022 20:57:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E70E11129EC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E75C61129F4
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 20:57:47 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.bb.vodafone.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 8F3DC843DC;
+ by phobos.denx.de (Postfix) with ESMTPSA id 02433843E8;
  Thu, 30 Jun 2022 22:57:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1656622665;
- bh=xWXbTM9QWrfwqvu8ClxHRcbOE1KpyfdNmB/qZ0jn4I0=;
+ s=phobos-20191101; t=1656622666;
+ bh=TAkFMgFOfkGA81QU3BdnD6PmHVnKme7tbKfbqiZgRto=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bIxggh0bXk9ExQc5qgW/ZartgUeic6tWksmdfMcxceW+H1aXGWNQ13uf/S4A0s2wP
- D4OYvOqk8iXrvBDgUzy/SsJlgxxBoq01LqyF/apE1fKVGIMGtgbt3lAKRFKk/SAYsA
- aaOZaLcC0/Mav4PM5Eu3JKUOkZJDvdPK8czqEh8N8UdxieFM2gbRBlCT6etqTYRN3Z
- COboyGn8/oukERteu2d97pmmYhs6Iwc8JHuDa4sylb7xqXRjlc3uJ1CG4vFImsX0H9
- 38MmxFZoKWjhxrWyNHFsRzVfhJ2M5eH2Kj0ggozCBelK1kR8viIHiLRGOtrwJqaVjd
- 6Rv2lqNAA6B/g==
+ b=OdgnuS/T4U0+L3aZXUzryLKjPezUJNEYQyKfUK8PmzCmJKhrnhGzZudqjF1j/gcSz
+ dPXH2Re2lnoH83gZo9jyuqZ07AhhwuizNNu/mz4/xNg/VRFRSH5kf+43ZXGQ53Zl2X
+ jAGz7mf6toY24EIprsuGebObW2ep4kuAyGaby9XTnPw7GqdVUh7Y3wbJpj8JIEG+6F
+ tEel7wZMWyAjmOtqh+wzOIpZ5i2OK4Djz8vksqj9yzv1N0jEedHbWLK7EAm4N9kk02
+ m/xatfgRdLLil9xdBUyZZnrKbnM5ZUfUKfMYcxbXxzf5yhOeHjz/dwQKq/n4EG5Zky
+ Q8G+0EupBtFDg==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/4] drm/lcdif: Consistently use plane timings
-Date: Thu, 30 Jun 2022 22:57:26 +0200
-Message-Id: <20220630205728.128127-2-marex@denx.de>
+Subject: [PATCH 3/4] drm/lcdif: Clean up debug prints and comments
+Date: Thu, 30 Jun 2022 22:57:27 +0200
+Message-Id: <20220630205728.128127-3-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220630205728.128127-1-marex@denx.de>
 References: <20220630205728.128127-1-marex@denx.de>
@@ -62,7 +62,8 @@ Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the crtc_ prefix from mode, consistently use the plane one.
+Update debug print to report bridge timings over connector ones.
+Drop missed comment commit from mxsfb.
 
 Fixes: 9db35bb349a0e ("drm: lcdif: Add support for i.MX8MP LCDIF variant")
 Signed-off-by: Marek Vasut <marex@denx.de>
@@ -77,35 +78,30 @@ Cc: Robby Cai <robby.cai@nxp.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Stefan Agner <stefan@agner.ch>
 ---
- drivers/gpu/drm/mxsfb/lcdif_kms.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/mxsfb/lcdif_kms.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-index c9224126e2d54..df3d1832caae8 100644
+index df3d1832caae8..4fbb7898ac91d 100644
 --- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
 +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-@@ -122,8 +122,8 @@ static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
+@@ -203,7 +203,7 @@ static void lcdif_crtc_mode_set_nofb(struct lcdif_drm_private *lcdif,
+ 	DRM_DEV_DEBUG_DRIVER(drm->dev, "Pixel clock: %dkHz (actual: %dkHz)\n",
+ 			     m->crtc_clock,
+ 			     (int)(clk_get_rate(lcdif->clk) / 1000));
+-	DRM_DEV_DEBUG_DRIVER(drm->dev, "Connector bus_flags: 0x%08X\n",
++	DRM_DEV_DEBUG_DRIVER(drm->dev, "Bridge bus_flags: 0x%08X\n",
+ 			     bus_flags);
+ 	DRM_DEV_DEBUG_DRIVER(drm->dev, "Mode flags: 0x%08X\n", m->flags);
  
- 	writel(ctrl, lcdif->base + LCDC_V8_CTRL);
+@@ -295,7 +295,6 @@ static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
  
--	writel(DISP_SIZE_DELTA_Y(m->crtc_vdisplay) |
--	       DISP_SIZE_DELTA_X(m->crtc_hdisplay),
-+	writel(DISP_SIZE_DELTA_Y(m->vdisplay) |
-+	       DISP_SIZE_DELTA_X(m->hdisplay),
- 	       lcdif->base + LCDC_V8_DISP_SIZE);
+ 	lcdif_crtc_mode_set_nofb(lcdif, bridge_state, bus_format);
  
- 	writel(HSYN_PARA_BP_H(m->htotal - m->hsync_end) |
-@@ -138,8 +138,8 @@ static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
- 	       VSYN_HSYN_WIDTH_PW_H(m->hsync_end - m->hsync_start),
- 	       lcdif->base + LCDC_V8_VSYN_HSYN_WIDTH);
- 
--	writel(CTRLDESCL0_1_HEIGHT(m->crtc_vdisplay) |
--	       CTRLDESCL0_1_WIDTH(m->crtc_hdisplay),
-+	writel(CTRLDESCL0_1_HEIGHT(m->vdisplay) |
-+	       CTRLDESCL0_1_WIDTH(m->hdisplay),
- 	       lcdif->base + LCDC_V8_CTRLDESCL0_1);
- 
- 	writel(CTRLDESCL0_3_PITCH(lcdif->crtc.primary->state->fb->pitches[0]),
+-	/* Write cur_buf as well to avoid an initial corrupt frame */
+ 	paddr = drm_fb_cma_get_gem_addr(new_pstate->fb, new_pstate, 0);
+ 	if (paddr) {
+ 		writel(lower_32_bits(paddr),
 -- 
 2.35.1
 
