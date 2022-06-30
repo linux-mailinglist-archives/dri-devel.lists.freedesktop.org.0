@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0327F561FD2
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 18:01:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 911F5562002
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 18:11:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91E021131C5;
-	Thu, 30 Jun 2022 16:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A627110F319;
+	Thu, 30 Jun 2022 16:11:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAAD71131C5;
- Thu, 30 Jun 2022 16:01:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5FD2961F2F;
- Thu, 30 Jun 2022 16:01:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB750C34115;
- Thu, 30 Jun 2022 16:01:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656604904;
- bh=9a7QJETb8qsbuncRpKStDGFKmjVy6m0K4HKIoKMMraU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=V/N8XLuksk5MA93MtP65IvD7QRm6kOLDphiRkrcJ5MtaosHu31TRkakySZuHwYo90
- rogmqcWoZ1QRiAV0sCQGHVYnmySgxLFNjDVq3ptVjPJCdLefLEmfw3Xxr0wYdcVsqI
- a8gjOBcEa4AJtTZ31xzfkhuzScgblTIbwRpqpyTZQGDzunmlIOjDsw6Z1flIZPriHj
- iCyhwIKgVE1NKu81yg6j3SBZCZ+a+HvOIbtDj8bUhuzoAW6DSzIn2dzzI2h79dx7uz
- Yx9UoqFuM7S1WUqhkrgbeZo14g95py2IcmGzBLLjTtJDjj+OKBl1RsX5NBOuEiaHSh
- Cp4bLllWiFveA==
-Date: Thu, 30 Jun 2022 17:01:34 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH 5/6] drm/i915/gt: Serialize GRDOM access between
- multiple engine resets
-Message-ID: <20220630170134.3f89e0a3@sal.lan>
-In-Reply-To: <9477a8f1-3535-ed7f-c491-9ca9f27a10dc@linux.intel.com>
-References: <cover.1655306128.git.mchehab@kernel.org>
- <5ee647f243a774927ec328bfca8212abc4957909.1655306128.git.mchehab@kernel.org>
- <YrRLyg1IJoZpVGfg@intel.intel>
- <160e613f-a0a8-18ff-5d4b-249d4280caa8@linux.intel.com>
- <20220627110056.6dfa4f9b@maurocar-mobl2>
- <d79492ad-b99a-f9a9-f64a-52b94db68a3b@linux.intel.com>
- <20220629172955.64ffb5c3@maurocar-mobl2>
- <7e6a9a27-7286-7f21-7fec-b9832b93b10c@linux.intel.com>
- <20220630083256.35a56cb1@sal.lan>
- <9477a8f1-3535-ed7f-c491-9ca9f27a10dc@linux.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
+ [IPv6:2607:f8b0:4864:20::c31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C0CC10F319
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 16:11:36 +0000 (UTC)
+Received: by mail-oo1-xc31.google.com with SMTP id
+ p6-20020a4aa846000000b0042599456d32so2951203oom.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 09:11:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=ebuDjjYvCn67A/ZUjfTPJiUITfX+4rysbbkqGg2nGLI=;
+ b=HhBKTpe4Tlkzwktgdf4itiANzlx6CO61F3GvAzY16HOAazW63Cl4oZQ2z3EXEve9y4
+ QNiwVmO1PCOjlQgIbrlHg7H8dfNwDGZno+l0aDrkrAe3sOOqWo4ag3La9SipsaPJdBZJ
+ dJoUnRvirWU73foatn0TYKtNXR2QX5lPYTR9BQhimyaXWq/EgeBaYfMK6NZjQE32PGWu
+ wGEtA0ZBov+1JYJ9NyJRqPl07NDsuqIGbD2qq7/sHSw3y+MjDLnMpv7kDaZ4uOkB5N7Y
+ dbXTyekAfvky+jsrGtN1TcySGS3Md1Yml127R5HHN/fnxArYBxSuz2rc9AnS0acxiB5z
+ gXHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=ebuDjjYvCn67A/ZUjfTPJiUITfX+4rysbbkqGg2nGLI=;
+ b=i/tvAoDod/Mkl64hgFqoXdVfbogEgRunvkghFW4cYF3CZJZ6aMD4xyLlc/W+w9scVj
+ NUzk/VF4RzFUd7HB250VlyD71kSxEzLG69GLAx3WpQrdaeO/MmX72JmEZVjfiRBgU6Sb
+ ydLsOnfRbYYiZIb9HgtSTajAvyr40fS6X5YFVRIb+a/eD7uZPtZFdSriLnrNN9GGdCd3
+ G0f41AJJkcZku3NFtTJDbNfLVSWk9/wBZ8thxgn8ppTi2uxoIZdU4LfjXDfgEpc8ljQr
+ EA5J66DSlVtad/dTOOpbnBey3yholUnrvrsIsszJri9P5GM3LObLedaGX8fuOOu141hT
+ SIQA==
+X-Gm-Message-State: AJIora9IOhUkas35B8l+lhT4+VQicSpgdixL7MuyAPmM1BjkAIQALFkk
+ ZjuxgVYJ3UdSpFHItSaaubrCwBd19gG2zzeBvxGPa+Rr9kLeCg==
+X-Google-Smtp-Source: AGRyM1tGNSbCPdbHfcJ/1d923LhfQ9joj5XYIiO1XhAY1NdZMGqSmyqXD2GhXRgjBoJuQ9e78/EFELJrN8T80akVx6A=
+X-Received: by 2002:a4a:e616:0:b0:425:9f4c:36b2 with SMTP id
+ f22-20020a4ae616000000b004259f4c36b2mr4134090oot.77.1656605494837; Thu, 30
+ Jun 2022 09:11:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Thu, 30 Jun 2022 21:41:23 +0530
+Message-ID: <CA+G9fYve16J7=4f+WAVrTUspxkKA+3BonHzGyk8VP=U+D9irOQ@mail.gmail.com>
+Subject: [next] Rpi4 : WARNING: at drivers/gpu/drm/vc4/vc4_hdmi_regs.h:487
+ vc5_hdmi_reset+0x1f0/0x240 [vc4]
+To: open list <linux-kernel@vger.kernel.org>,
+ linux-rpi-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,260 +62,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Thomas =?UTF-8?B?SGVsbHN0csO2?= =?UTF-8?B?bQ==?=
- <thomas.hellstrom@linux.intel.com>,
- Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>,
- Fei Yang <fei.yang@intel.com>, David Airlie <airlied@linux.ie>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
- Chris Wilson <chris.p.wilson@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dave Airlie <airlied@redhat.com>, stable@vger.kernel.org,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <John.C.Harrison@intel.com>,
- Bruce Chang <yu.bruce.chang@intel.com>
+Cc: David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
+ Emma Anholt <emma@anholt.net>, Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Thu, 30 Jun 2022 09:12:41 +0100
-Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> escreveu:
+The following kernel warning found on Rpi4 while booting linux next-20220630.
+Boot log details [1] & [2].
 
-> On 30/06/2022 08:32, Mauro Carvalho Chehab wrote:
-> > Em Wed, 29 Jun 2022 17:02:59 +0100
-> > Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> escreveu:
-> >  =20
-> >> On 29/06/2022 16:30, Mauro Carvalho Chehab wrote: =20
-> >>> On Tue, 28 Jun 2022 16:49:23 +0100
-> >>> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> >>>     =20
-> >>>> .. which for me means a different patch 1, followed by patch 6 (moved
-> >>>> to be patch 2) would be ideal stable material.
-> >>>>
-> >>>> Then we have the current patch 2 which is open/unknown (to me at lea=
-st).
-> >>>>
-> >>>> And the rest seem like optimisations which shouldn't be tagged as fi=
-xes.
-> >>>>
-> >>>> Apart from patch 5 which should be cc: stable, but no fixes as agree=
-d.
-> >>>>
-> >>>> Could you please double check if what I am suggesting here is feasib=
-le
-> >>>> to implement and if it is just send those minimal patches out alone?=
- =20
-> >>>
-> >>> Tested and porting just those 3 patches are enough to fix the Broadwe=
-ll
-> >>> bug.
-> >>>
-> >>> So, I submitted a v2 of this series with just those. They all need to
-> >>> be backported to stable. =20
-> >>
-> >> I would really like to give even a smaller fix a try. Something like, =
-although not even compile tested:
-> >>
-> >> commit 4d5e94aef164772f4d85b3b4c1a46eac9a2bd680
-> >> Author: Chris Wilson <chris.p.wilson@intel.com>
-> >> Date:   Wed Jun 29 16:25:24 2022 +0100
-> >>
-> >>       drm/i915/gt: Serialize TLB invalidates with GT resets
-> >>      =20
-> >>       Avoid trying to invalidate the TLB in the middle of performing an
-> >>       engine reset, as this may result in the reset timing out. Curren=
-tly,
-> >>       the TLB invalidate is only serialised by its own mutex, forgoing=
- the
-> >>       uncore lock, but we can take the uncore->lock as well to seriali=
-se
-> >>       the mmio access, thereby serialising with the GDRST.
-> >>      =20
-> >>       Tested on a NUC5i7RYB, BIOS RYBDWi35.86A.0380.2019.0517.1530 with
-> >>       i915 selftest/hangcheck.
-> >>      =20
-> >>       Cc: stable@vger.kernel.org
-> >>       Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing back=
-ing store")
-> >>       Reported-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> >>       Tested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> >>       Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> >>       Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
-> >>       Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> >>       Acked-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.co=
-m>
-> >>       Reviewed-by: Andi Shyti <andi.shyti@intel.com>
-> >>       Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> >>       Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915=
-/gt/intel_gt.c
-> >> index 8da3314bb6bf..aaadd0b02043 100644
-> >> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> >> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> >> @@ -952,7 +952,23 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
-> >>           mutex_lock(&gt->tlb_invalidate_lock);
-> >>           intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
-> >>   =20
-> >> +       spin_lock_irq(&uncore->lock); /* serialise invalidate with GT =
-reset */
-> >> +
-> >> +       for_each_engine(engine, gt, id) {
-> >> +               struct reg_and_bit rb;
-> >> +
-> >> +               rb =3D get_reg_and_bit(engine, regs =3D=3D gen8_regs, =
-regs, num);
-> >> +               if (!i915_mmio_reg_offset(rb.reg))
-> >> +                       continue;
-> >> +
-> >> +               intel_uncore_write_fw(uncore, rb.reg, rb.bit);
-> >> +       }
-> >> +
-> >> +       spin_unlock_irq(&uncore->lock);
-> >> +
-> >>           for_each_engine(engine, gt, id) {
-> >> +               struct reg_and_bit rb;
-> >> +
-> >>                   /*
-> >>                    * HW architecture suggest typical invalidation time=
- at 40us,
-> >>                    * with pessimistic cases up to 100us and a recommen=
-dation to
-> >> @@ -960,13 +976,11 @@ void intel_gt_invalidate_tlbs(struct intel_gt *g=
-t)
-> >>                    */
-> >>                   const unsigned int timeout_us =3D 100;
-> >>                   const unsigned int timeout_ms =3D 4;
-> >> -               struct reg_and_bit rb;
-> >>   =20
-> >>                   rb =3D get_reg_and_bit(engine, regs =3D=3D gen8_regs=
-, regs, num);
-> >>                   if (!i915_mmio_reg_offset(rb.reg))
-> >>                           continue;
-> >>   =20
-> >> -               intel_uncore_write_fw(uncore, rb.reg, rb.bit);
-> >>                   if (__intel_wait_for_register_fw(uncore,
-> >>                                                    rb.reg, rb.bit, 0,
-> >>                                                    timeout_us, timeout=
-_ms,
-> >> =20
-> >=20
-> > This won't work, as it is not serializing TLB cache invalidation with
-> > i915 resets. Besides that, this is more or less merging patches 1 and 3=
-, =20
->=20
-> Could you explain why you think it is not doing exactly that? In both=20
-> versions end result is TLB flush requests are under the uncore lock and=20
-> waits are outside it.
+Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
 
-Sure, but patch 2/3 (see v2) serializes i915 reset with TLB cache changes.
-This is needed in order to fix the regression.
+[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd083]
+[    0.000000] Linux version 5.19.0-rc4-next-20220630
+(tuxmake@tuxmake) (aarch64-linux-gnu-gcc (Debian 11.3.0-3) 11.3.0, GNU
+ld (GNU Binutils for Debian) 2.38) #1 SMP PREEMPT @1656576657
+[    0.000000] Machine model: Raspberry Pi 4 Model B
+<trim>
+[   21.702341] vc4-drm gpu: [drm] Couldn't stop firmware display driver: -22
+[   21.711580] vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+[   21.719271] ------------[ cut here ]------------
+[   21.723971] WARNING: CPU: 0 PID: 246 at
+drivers/gpu/drm/vc4/vc4_hdmi_regs.h:487 vc5_hdmi_reset+0x1f0/0x240
+[vc4]
+[   21.734403] Modules linked in: cfg80211(+) raspberrypi_hwmon
+clk_raspberrypi bluetooth reset_raspberrypi crct10dif_ce vc4(+) cec
+drm_display_helper rfkill iproc_rng200 drm_cma_helper drm_kms_helper
+pwm_bcm2835 i2c_bcm2835 rng_core v3d bcm2711_thermal drm_shmem_helper
+gpu_sched pcie_brcmstb drm fuse
+[   21.761318] CPU: 0 PID: 246 Comm: systemd-udevd Not tainted
+5.19.0-rc4-next-20220630 #1
+[   21.769445] Hardware name: Raspberry Pi 4 Model B (DT)
+[   21.774656] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   21.781725] pc : vc5_hdmi_reset+0x1f0/0x240 [vc4]
+[   21.786587] lr : vc5_hdmi_reset+0x38/0x240 [vc4]
+[   21.791356] sp : ffff80000b533630
+[   21.794715] x29: ffff80000b533630 x28: 0000000000000000 x27: ffff0000411d4080
+[   21.801967] x26: 0000000000000000 x25: ffff800009cdd980 x24: ffff80000ae15410
+[   21.809218] x23: ffff000040fce000 x22: ffff0000fb83a978 x21: 0000000000000000
+[   21.816467] x20: ffff0000411d4cf0 x19: ffff0000411d4080 x18: 0000000000000000
+[   21.823716] x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+[   21.830963] x14: 0000000000000000 x13: 0000000000000030 x12: 0101010101010101
+[   21.838211] x11: 7f7f7f7f7f7f7f7f x10: ffff84000386a50f x9 : ffff8000093b1660
+[   21.845460] x8 : 0101010101010101 x7 : 0000000000000000 x6 : 0000000000000001
+[   21.852709] x5 : ffff80000a9bf2e0 x4 : ffff80000a9bf000 x3 : 0000000000000000
+[   21.859958] x2 : 0000000000000001 x1 : 0000000000000002 x0 : ffff800001587ae8
+[   21.867207] Call trace:
+[   21.869684]  vc5_hdmi_reset+0x1f0/0x240 [vc4]
+[   21.874188]  vc4_hdmi_runtime_resume+0x74/0xb0 [vc4]
+[   21.879308]  vc4_hdmi_bind+0x22c/0x880 [vc4]
+[   21.880064] cfg80211: Loading compiled-in X.509 certificates for
+regulatory database
+[   21.883719]  component_bind_all+0x130/0x290
+[   21.883747]  vc4_drm_bind+0x19c/0x2a4 [vc4]
+[   21.900105]  try_to_bring_up_aggregate_device+0x1f8/0x300
+[   21.905597]  component_master_add_with_match+0xbc/0x104
+[   21.910910]  vc4_platform_drm_probe+0xcc/0x10c [vc4]
+[   21.916028]  platform_probe+0x74/0xf0
+[   21.919750]  really_probe+0xc8/0x3e0
+[   21.923385]  __driver_probe_device+0x84/0x190
+[   21.927811]  driver_probe_device+0x44/0x100
+[   21.932062]  __driver_attach+0xd8/0x210
+[   21.935959]  bus_for_each_dev+0x7c/0xe0
+[   21.939857]  driver_attach+0x30/0x3c
+[   21.943489]  bus_add_driver+0x188/0x244
+[   21.947384]  driver_register+0x84/0x140
+[   21.951282]  __platform_driver_register+0x34/0x40
+[   21.956055]  vc4_drm_register+0x5c/0x1000 [vc4]
+[   21.960730]  do_one_initcall+0x50/0x2b0
+[   21.964628]  do_init_module+0x50/0x200
+[   21.968440]  load_module+0x1a8c/0x1f40
+[   21.972243]  __do_sys_finit_module+0xac/0x12c
+[   21.976663]  __arm64_sys_finit_module+0x2c/0x40
+[   21.981259]  invoke_syscall+0x50/0x120
+[   21.985069]  el0_svc_common.constprop.0+0x104/0x124
+[   21.990024]  do_el0_svc+0x3c/0xd0
+[   21.993392]  el0_svc+0x38/0xc0
+[   21.996494]  el0t_64_sync_handler+0xbc/0x140
+[   22.000828]  el0t_64_sync+0x18c/0x190
+[   22.004544] ---[ end trace 0000000000000000 ]---
+[   22.009327] ------------[ cut here ]------------
+[   22.014009] WARNING: CPU: 0 PID: 246 at
+drivers/gpu/drm/vc4/vc4_hdmi_regs.h:457 vc4_hdmi_read+0xec/0x134 [vc4]
+[   22.024243] Modules linked in: cfg80211(+) raspberrypi_hwmon
+clk_raspberrypi bluetooth reset_raspberrypi crct10dif_ce vc4(+) cec
+drm_display_helper rfkill iproc_rng200 drm_cma_helper drm_kms_helper
+pwm_bcm2835 i2c_bcm2835 rng_core v3d bcm2711_thermal drm_shmem_helper
+gpu_sched pcie_brcmstb drm fuse
+[   22.051149] CPU: 0 PID: 246 Comm: systemd-udevd Tainted: G        W
+        5.19.0-rc4-next-20220630 #1
+[   22.060684] Hardware name: Raspberry Pi 4 Model B (DT)
+[   22.065894] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   22.072959] pc : vc4_hdmi_read+0xec/0x134 [vc4]
+[   22.077631] lr : vc5_hdmi_reset+0xac/0x240 [vc4]
 
-> > placing patches with different rationales altogether. Upstream rule is
-> > to have one logical change per patch. =20
->=20
-> I don't think it applies in this case. It is simply splitting into two=20
-> loops so lock can be held across all mmio writes. I think of it this way=
-=20
-> - what is the rationale for sending only the first patch to stable? What=
-=20
-> does it _fix_ on it's own?
+metadata:
+  git_ref: master
+  git_repo: https://gitlab.com/Linaro/lkft/mirrors/next/linux-next
+  git_sha: 6cc11d2a1759275b856e464265823d94aabd5eaf
+  git_describe: next-20220630
+  kernel_version: 5.19.0-rc4
+  kernel-config: https://builds.tuxbuild.com/2BHwwIpQQ4jA4OQSp6ecOQNPxTg/config
+  build-url: https://gitlab.com/Linaro/lkft/mirrors/next/linux-next/-/pipelines/576712449
+  artifact-location: https://builds.tuxbuild.com/2BHwwIpQQ4jA4OQSp6ecOQNPxTg
+  toolchain: gcc-11
 
-There's no -stable rule enforcing that only one patch would be allowed,
-nor saying that patches should be fold, doing multiple changes on as single
-patch just due to "Fixes" tag.
+[1] https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20220630/testrun/10438428/suite/log-parser-boot/tests/
+[2] https://qa-reports.linaro.org/lkft/linux-next-master/build/next-20220630/testrun/10438428/suite/log-parser-boot/test/check-kernel-exception-5227708/details/
 
-So, while several -stable fixes can be done on a single patch, there are
-fixes that will require multiple patches. That's nothing wrong with that.
-
-The only rule is that backports should follow what's merged upstream.
-So, if, in order to fix a regression, multiple patches are needed upstream,
-in principle, all of those can be backported if they fit at -stable rules.
-
-As an example, once we backported a patch series on media that had ~20 patc=
-hes,
-addressing security issues at the media compat32 logic (media ioctls usually
-pass structs and some with pointers). As the issue was discovered several
-years after compat32 got introduced, those 22 patches (some containing
-compat32 redesigns) had to be backported to all maintained LTS.
-
--
-
-In this specific case, fixing the regression requires 3 logical changes:
-
-	1) Split the loop;
-	2) Add serialize logic to i915 reset;
-	3) use the same i915 reset spinlock to serialize TLB cache
-	   invalidation.
-
-Neither one of those logical changes alone would solve the issue. That's
-why I originally added the same Fixes: to the entire series: basically,
-any Kernel that has the TLB patch backported will require those
-three logical changes to be backported too.
-
-That basically will follow what's there at the Kernel process docs:
-
-	"If your patch fixes a bug in a specific commit, e.g. you found an issue u=
-sing
-	 ``git bisect``, please use the 'Fixes:' tag with the first 12 characters =
-of
-	 the SHA-1 ID, and the one line summary."
-
-	Documentation/process/submitting-patches.rst
-
-See, Fixes was originally introduced to be a hint to help stable=20
-and distro maintainers to identify how far they need to backport
-a patch. That's mainly why I placed fixes to the entire series.=20
-Yet, the same will also happen, in practice, if we place:
-
-	Cc: stable@vger.kernel.org # Up to version 4.4
-
-Greg, Sasha and others -stable/distro maintainers will also have a=20
-(much less precise) hint about how far the backport is needed.
-
->> If this works it would be least painful to backport. The other improveme=
-nts can then be devoid of the fixes tag. =20
-> >=20
-> >  From backport PoV, it wouldn't make any difference applying one patch
-> > or two. See, intel_gt_invalidate_tlbs() function doesn't exist before
-> > changeset 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing =
-store"),
-> > so, it shouldn't have merge conflicts while backporting it, maybe except
-> > if some functions it calls (or parameters) have changed. On such case,
-> > the backport fix should be trivial, and the end result of backporting
-> > one folded patch or two would be the same. =20
->=20
-> Yes a lot of things changed. Not least engine and GT pm code. Note that=20
-> TLB flushing was backported all the way to 4.4 so any hunk you don't=20
-> strictly need can and will bite you. I have attached a tarball of=20
-> patches for you to explore. :)
-> Regards,
-
-Thanks! That's very helpful to check the amount of work. It makes easy
-to use interdiff and (k)diff3 to check what changed.
-
-=46rom it, the differences between 5.4 and 5.16 at intel_gt_invalidate_tlbs()
-are really trivial.
-
-On 4.14, the function was added on a different file (intel_gem), and
-there were a few more API differences, as only gen8 code is there,
-but again, the changes are trivial: mostly macros/functions were renamed
-and some function parameters changed.
-
-=46rom 4.9 to 4.14 there were also some changes but they also look trivial.
-
-Kernel 4.4 has some other differences - the loop logic is different, and
-there's a ring initialization function, but, as version 4.4 is not listed
-anymore as LTS at kernel.org, we probably need to backport only up to
-4.9.
-
-All the above should be affecting patch v2 1/3. Patches v2 2/3 and 3/3 just
-have spin lock/unlock for the gt uncore spinlock. Those will very likely
-require some work on Kernels 4.x, but folding (or not) the patches won't
-really help.
-
-Regards,
-Mauro
+--
+Linaro LKFT
+https://lkft.linaro.org
