@@ -2,65 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248B75623FD
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 22:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85762562408
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 22:18:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D7F111280E;
-	Thu, 30 Jun 2022 20:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 621EC12B045;
+	Thu, 30 Jun 2022 20:18:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa2.bahnhof.se (pio-pvt-msa2.bahnhof.se [79.136.2.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A33EF10FCE8
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 20:15:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 287903FBC7;
- Thu, 30 Jun 2022 22:15:15 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.11
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.11 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, URIBL_BLOCKED=0.001]
- autolearn=ham autolearn_force=no
-Authentication-Results: pio-pvt-msa2.bahnhof.se (amavisd-new);
- dkim=pass (1024-bit key) header.d=shipmail.org
-Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zMRp0Gpm_aAo; Thu, 30 Jun 2022 22:15:14 +0200 (CEST)
-Received: by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 9F1973F2B6;
- Thu, 30 Jun 2022 22:15:11 +0200 (CEST)
-Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
- [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPSA id 17C36362576;
- Thu, 30 Jun 2022 22:15:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1656620111; bh=4c+nxp1qLKRL4M+Rz8maAK/c0bGA3bi5lIsZV+iAH9g=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=onHF8Fi28t/842R78D+UlPauOYwI7CxxedzxutH5Boka9+X2FsfwDSuwq5JHZOD1T
- oTppCghKwsgmjgvQtGbqHOImhhF3gtDbhSZCD8f4GfcjvW87PGfYdF2C7okdELmdo/
- 65NRuAdsEEZbsrTlQMgaqipY9gkxo+X6qL/bUyio=
-Message-ID: <75b677b6-c704-e270-c921-93c982020c38@shipmail.org>
-Date: Thu, 30 Jun 2022 22:15:10 +0200
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE0412AE6E;
+ Thu, 30 Jun 2022 20:18:00 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4LYqQH5R6Bz9t3L;
+ Thu, 30 Jun 2022 20:17:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1656620280; bh=rZZfTNxDEfSl9tcQU9oW6x/190Q0/3YhqEuXiQqK7tc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Z5neAfw6FJWvEKnmAkKxtDBR7mPWFcK0KThHbQk4FVFiBHM37Xk8glqfnW+rJ/7+i
+ A3WXYYudiN+65jLligELy9ICWxm+cHUzkDCHkCXG2pUtA8UR4ke0fJRordPIPpK/AY
+ DdzFkdZ9XNyPI9IOPnmYvmgVvL06xCwm6odfYA88=
+X-Riseup-User-ID: 73FC3F6A18D9107A66E3AA6B055D55B48A0B10E1AC8A5CB2E4BDF06A14DB9CA1
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4LYqQC4893z1yTL;
+ Thu, 30 Jun 2022 20:17:55 +0000 (UTC)
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/amd/display: Remove duplicate code across dcn30 and dcn31
+Date: Thu, 30 Jun 2022 17:17:41 -0300
+Message-Id: <20220630201741.991501-1-mairacanal@riseup.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v7 2/2] drm/gem: Don't map imported GEMs
-Content-Language: en-US
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220630200405.1883897-1-dmitry.osipenko@collabora.com>
- <20220630200405.1883897-3-dmitry.osipenko@collabora.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-In-Reply-To: <20220630200405.1883897-3-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,85 +53,494 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
- Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com
+Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dmitry,
+The function CalculateBytePerPixelAnd256BBlockSizes was defined four
+times: on display_mode_vba_30.c, display_rq_dlg_calc_30.c,
+display_mode_vba_31.c and display_rq_dlg_calc_31.c. In order to avoid
+code duplication, the CalculateBytePerPixelAnd256BBlockSizes is defined
+on display_mode_vba_30.h and used across dcn30 and dcn31.
 
-On 6/30/22 22:04, Dmitry Osipenko wrote:
-> Drivers that use drm_gem_mmap() and drm_gem_mmap_obj() helpers don't
-> handle imported dma-bufs properly, which results in mapping of something
-> else than the imported dma-buf. On NVIDIA Tegra we get a hard lockup when
-> userspace writes to the memory mapping of a dma-buf that was imported into
-> Tegra's DRM GEM.
->
-> Majority of DRM drivers prohibit mapping of the imported GEM objects.
-> Mapping of imported GEMs require special care from userspace since it
-> should sync dma-buf because mapping coherency of the exporter device may
-> not match the DRM device. Let's prohibit the mapping for all DRM drivers
-> for consistency.
->
-> Cc: stable@vger.kernel.org
-> Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+---
+ .../dc/dml/dcn30/display_mode_vba_30.c        |  21 +---
+ .../dc/dml/dcn30/display_mode_vba_30.h        |  11 ++
+ .../dc/dml/dcn30/display_rq_dlg_calc_30.c     |  93 +--------------
+ .../dc/dml/dcn31/display_mode_vba_31.c        | 106 +-----------------
+ .../dc/dml/dcn31/display_rq_dlg_calc_31.c     |  91 +--------------
+ 5 files changed, 23 insertions(+), 299 deletions(-)
 
-This might break drivers whose obj->funcs->mmap() callback already 
-handles this case, and has userspace that does the right thing.
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+index fb4aa4c800bf..842eb94ebe04 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
+@@ -712,18 +712,6 @@ static double CalculateUrgentLatency(
+ 		double UrgentLatencyAdjustmentFabricClockReference,
+ 		double FabricClockSingle);
+ 
+-static bool CalculateBytePerPixelAnd256BBlockSizes(
+-		enum source_format_class SourcePixelFormat,
+-		enum dm_swizzle_mode SurfaceTiling,
+-		unsigned int *BytePerPixelY,
+-		unsigned int *BytePerPixelC,
+-		double       *BytePerPixelDETY,
+-		double       *BytePerPixelDETC,
+-		unsigned int *BlockHeight256BytesY,
+-		unsigned int *BlockHeight256BytesC,
+-		unsigned int *BlockWidth256BytesY,
+-		unsigned int *BlockWidth256BytesC);
+-
+ void dml30_recalculate(struct display_mode_lib *mode_lib)
+ {
+ 	ModeSupportAndSystemConfiguration(mode_lib);
+@@ -2095,7 +2083,7 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerforman
+ 	DTRACE("   return_bus_bw      = %f", v->ReturnBW);
+ 
+ 	for (k = 0; k < v->NumberOfActivePlanes; ++k) {
+-		CalculateBytePerPixelAnd256BBlockSizes(
++		dml30_CalculateBytePerPixelAnd256BBlockSizes(
+ 				v->SourcePixelFormat[k],
+ 				v->SurfaceTiling[k],
+ 				&v->BytePerPixelY[k],
+@@ -3165,7 +3153,7 @@ static void DisplayPipeConfiguration(struct display_mode_lib *mode_lib)
+ 
+ 	for (k = 0; k < mode_lib->vba.NumberOfActivePlanes; ++k) {
+ 
+-		CalculateBytePerPixelAnd256BBlockSizes(
++		dml30_CalculateBytePerPixelAnd256BBlockSizes(
+ 				mode_lib->vba.SourcePixelFormat[k],
+ 				mode_lib->vba.SurfaceTiling[k],
+ 				&BytePerPixY[k],
+@@ -3218,7 +3206,7 @@ static void DisplayPipeConfiguration(struct display_mode_lib *mode_lib)
+ 			&dummysinglestring);
+ }
+ 
+-static bool CalculateBytePerPixelAnd256BBlockSizes(
++void dml30_CalculateBytePerPixelAnd256BBlockSizes(
+ 		enum source_format_class SourcePixelFormat,
+ 		enum dm_swizzle_mode SurfaceTiling,
+ 		unsigned int *BytePerPixelY,
+@@ -3305,7 +3293,6 @@ static bool CalculateBytePerPixelAnd256BBlockSizes(
+ 		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
+ 		*BlockWidth256BytesC = 256U / *BytePerPixelC / *BlockHeight256BytesC;
+ 	}
+-	return true;
+ }
+ 
+ static double CalculateTWait(
+@@ -3709,7 +3696,7 @@ void dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 	/*Bandwidth Support Check*/
+ 
+ 	for (k = 0; k <= v->NumberOfActivePlanes - 1; k++) {
+-		CalculateBytePerPixelAnd256BBlockSizes(
++		dml30_CalculateBytePerPixelAnd256BBlockSizes(
+ 				v->SourcePixelFormat[k],
+ 				v->SurfaceTiling[k],
+ 				&v->BytePerPixelY[k],
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.h b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.h
+index 4e249eaabfdb..daaf0883b84d 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.h
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.h
+@@ -39,5 +39,16 @@ double dml30_CalculateWriteBackDISPCLK(
+ 		long   WritebackDestinationWidth,
+ 		unsigned int HTotal,
+ 		unsigned int WritebackLineBufferSize);
++void dml30_CalculateBytePerPixelAnd256BBlockSizes(
++		enum source_format_class SourcePixelFormat,
++		enum dm_swizzle_mode SurfaceTiling,
++		unsigned int *BytePerPixelY,
++		unsigned int *BytePerPixelC,
++		double       *BytePerPixelDETY,
++		double       *BytePerPixelDETC,
++		unsigned int *BlockHeight256BytesY,
++		unsigned int *BlockHeight256BytesC,
++		unsigned int *BlockWidth256BytesY,
++		unsigned int *BlockWidth256BytesC);
+ 
+ #endif /* __DML30_DISPLAY_MODE_VBA_H__ */
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
+index 747167083dea..8179be1f34bb 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_rq_dlg_calc_30.c
+@@ -29,6 +29,7 @@
+ #include "../display_mode_vba.h"
+ #include "../dml_inline_defs.h"
+ #include "display_rq_dlg_calc_30.h"
++#include "display_mode_vba_30.h"
+ 
+ static bool is_dual_plane(enum source_format_class source_format)
+ {
+@@ -275,96 +276,6 @@ static void handle_det_buf_split(struct display_mode_lib *mode_lib,
+ 		full_swath_bytes_packed_c);
+ }
+ 
+-static bool CalculateBytePerPixelAnd256BBlockSizes(
+-		enum source_format_class SourcePixelFormat,
+-		enum dm_swizzle_mode SurfaceTiling,
+-		unsigned int *BytePerPixelY,
+-		unsigned int *BytePerPixelC,
+-		double       *BytePerPixelDETY,
+-		double       *BytePerPixelDETC,
+-		unsigned int *BlockHeight256BytesY,
+-		unsigned int *BlockHeight256BytesC,
+-		unsigned int *BlockWidth256BytesY,
+-		unsigned int *BlockWidth256BytesC)
+-{
+-	if (SourcePixelFormat == dm_444_64) {
+-		*BytePerPixelDETY = 8;
+-		*BytePerPixelDETC = 0;
+-		*BytePerPixelY = 8;
+-		*BytePerPixelC = 0;
+-	} else if (SourcePixelFormat == dm_444_32 || SourcePixelFormat == dm_rgbe) {
+-		*BytePerPixelDETY = 4;
+-		*BytePerPixelDETC = 0;
+-		*BytePerPixelY = 4;
+-		*BytePerPixelC = 0;
+-	} else if (SourcePixelFormat == dm_444_16) {
+-		*BytePerPixelDETY = 2;
+-		*BytePerPixelDETC = 0;
+-		*BytePerPixelY = 2;
+-		*BytePerPixelC = 0;
+-	} else if (SourcePixelFormat == dm_444_8) {
+-		*BytePerPixelDETY = 1;
+-		*BytePerPixelDETC = 0;
+-		*BytePerPixelY = 1;
+-		*BytePerPixelC = 0;
+-	} else if (SourcePixelFormat == dm_rgbe_alpha) {
+-		*BytePerPixelDETY = 4;
+-		*BytePerPixelDETC = 1;
+-		*BytePerPixelY = 4;
+-		*BytePerPixelC = 1;
+-	} else if (SourcePixelFormat == dm_420_8) {
+-		*BytePerPixelDETY = 1;
+-		*BytePerPixelDETC = 2;
+-		*BytePerPixelY = 1;
+-		*BytePerPixelC = 2;
+-	} else if (SourcePixelFormat == dm_420_12) {
+-		*BytePerPixelDETY = 2;
+-		*BytePerPixelDETC = 4;
+-		*BytePerPixelY = 2;
+-		*BytePerPixelC = 4;
+-	} else {
+-		*BytePerPixelDETY = 4.0 / 3;
+-		*BytePerPixelDETC = 8.0 / 3;
+-		*BytePerPixelY = 2;
+-		*BytePerPixelC = 4;
+-	}
+-
+-	if ((SourcePixelFormat == dm_444_64 || SourcePixelFormat == dm_444_32
+-			|| SourcePixelFormat == dm_444_16 || SourcePixelFormat == dm_444_8
+-			|| SourcePixelFormat == dm_mono_16 || SourcePixelFormat == dm_mono_8
+-			|| SourcePixelFormat == dm_rgbe)) {
+-		if (SurfaceTiling == dm_sw_linear) {
+-			*BlockHeight256BytesY = 1;
+-		} else if (SourcePixelFormat == dm_444_64) {
+-			*BlockHeight256BytesY = 4;
+-		} else if (SourcePixelFormat == dm_444_8) {
+-			*BlockHeight256BytesY = 16;
+-		} else {
+-			*BlockHeight256BytesY = 8;
+-		}
+-		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
+-		*BlockHeight256BytesC = 0;
+-		*BlockWidth256BytesC = 0;
+-	} else {
+-		if (SurfaceTiling == dm_sw_linear) {
+-			*BlockHeight256BytesY = 1;
+-			*BlockHeight256BytesC = 1;
+-		} else if (SourcePixelFormat == dm_rgbe_alpha) {
+-			*BlockHeight256BytesY = 8;
+-			*BlockHeight256BytesC = 16;
+-		} else if (SourcePixelFormat == dm_420_8) {
+-			*BlockHeight256BytesY = 16;
+-			*BlockHeight256BytesC = 8;
+-		} else {
+-			*BlockHeight256BytesY = 8;
+-			*BlockHeight256BytesC = 8;
+-		}
+-		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
+-		*BlockWidth256BytesC = 256U / *BytePerPixelC / *BlockHeight256BytesC;
+-	}
+-	return true;
+-}
+-
+ static void get_meta_and_pte_attr(struct display_mode_lib *mode_lib,
+ 	display_data_rq_dlg_params_st *rq_dlg_param,
+ 	display_data_rq_misc_params_st *rq_misc_param,
+@@ -450,7 +361,7 @@ static void get_meta_and_pte_attr(struct display_mode_lib *mode_lib,
+ 	double byte_per_pixel_det_y = 0;
+ 	double byte_per_pixel_det_c = 0;
+ 
+-	CalculateBytePerPixelAnd256BBlockSizes((enum source_format_class)(source_format),
++	dml30_CalculateBytePerPixelAnd256BBlockSizes((enum source_format_class)(source_format),
+ 		(enum dm_swizzle_mode)(tiling),
+ 		&bytes_per_element_y,
+ 		&bytes_per_element_c,
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
+index 448fbbcdf88a..9957313da732 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_mode_vba_31.c
+@@ -26,6 +26,7 @@
+ #include "dc.h"
+ #include "dc_link.h"
+ #include "../display_mode_lib.h"
++#include "dml/dcn30/display_mode_vba_30.h"
+ #include "display_mode_vba_31.h"
+ #include "../dml_inline_defs.h"
+ 
+@@ -86,17 +87,6 @@ typedef struct {
+ #define BPP_INVALID 0
+ #define BPP_BLENDED_PIPE 0xffffffff
+ 
+-static bool CalculateBytePerPixelAnd256BBlockSizes(
+-		enum source_format_class SourcePixelFormat,
+-		enum dm_swizzle_mode SurfaceTiling,
+-		unsigned int *BytePerPixelY,
+-		unsigned int *BytePerPixelC,
+-		double *BytePerPixelDETY,
+-		double *BytePerPixelDETC,
+-		unsigned int *BlockHeight256BytesY,
+-		unsigned int *BlockHeight256BytesC,
+-		unsigned int *BlockWidth256BytesY,
+-		unsigned int *BlockWidth256BytesC);
+ static void DisplayPipeConfiguration(struct display_mode_lib *mode_lib);
+ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculation(struct display_mode_lib *mode_lib);
+ static unsigned int dscceComputeDelay(
+@@ -2220,7 +2210,7 @@ static void DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerforman
+ 	DTRACE("   return_bus_bw      = %f", v->ReturnBW);
+ 
+ 	for (k = 0; k < v->NumberOfActivePlanes; ++k) {
+-		CalculateBytePerPixelAnd256BBlockSizes(
++		dml30_CalculateBytePerPixelAnd256BBlockSizes(
+ 				v->SourcePixelFormat[k],
+ 				v->SurfaceTiling[k],
+ 				&v->BytePerPixelY[k],
+@@ -3415,7 +3405,7 @@ static void DisplayPipeConfiguration(struct display_mode_lib *mode_lib)
+ 
+ 	for (k = 0; k < v->NumberOfActivePlanes; ++k) {
+ 
+-		CalculateBytePerPixelAnd256BBlockSizes(
++		dml30_CalculateBytePerPixelAnd256BBlockSizes(
+ 				v->SourcePixelFormat[k],
+ 				v->SurfaceTiling[k],
+ 				&BytePerPixY[k],
+@@ -3469,94 +3459,6 @@ static void DisplayPipeConfiguration(struct display_mode_lib *mode_lib)
+ 			&dummysinglestring);
+ }
+ 
+-static bool CalculateBytePerPixelAnd256BBlockSizes(
+-		enum source_format_class SourcePixelFormat,
+-		enum dm_swizzle_mode SurfaceTiling,
+-		unsigned int *BytePerPixelY,
+-		unsigned int *BytePerPixelC,
+-		double *BytePerPixelDETY,
+-		double *BytePerPixelDETC,
+-		unsigned int *BlockHeight256BytesY,
+-		unsigned int *BlockHeight256BytesC,
+-		unsigned int *BlockWidth256BytesY,
+-		unsigned int *BlockWidth256BytesC)
+-{
+-	if (SourcePixelFormat == dm_444_64) {
+-		*BytePerPixelDETY = 8;
+-		*BytePerPixelDETC = 0;
+-		*BytePerPixelY = 8;
+-		*BytePerPixelC = 0;
+-	} else if (SourcePixelFormat == dm_444_32 || SourcePixelFormat == dm_rgbe) {
+-		*BytePerPixelDETY = 4;
+-		*BytePerPixelDETC = 0;
+-		*BytePerPixelY = 4;
+-		*BytePerPixelC = 0;
+-	} else if (SourcePixelFormat == dm_444_16) {
+-		*BytePerPixelDETY = 2;
+-		*BytePerPixelDETC = 0;
+-		*BytePerPixelY = 2;
+-		*BytePerPixelC = 0;
+-	} else if (SourcePixelFormat == dm_444_8) {
+-		*BytePerPixelDETY = 1;
+-		*BytePerPixelDETC = 0;
+-		*BytePerPixelY = 1;
+-		*BytePerPixelC = 0;
+-	} else if (SourcePixelFormat == dm_rgbe_alpha) {
+-		*BytePerPixelDETY = 4;
+-		*BytePerPixelDETC = 1;
+-		*BytePerPixelY = 4;
+-		*BytePerPixelC = 1;
+-	} else if (SourcePixelFormat == dm_420_8) {
+-		*BytePerPixelDETY = 1;
+-		*BytePerPixelDETC = 2;
+-		*BytePerPixelY = 1;
+-		*BytePerPixelC = 2;
+-	} else if (SourcePixelFormat == dm_420_12) {
+-		*BytePerPixelDETY = 2;
+-		*BytePerPixelDETC = 4;
+-		*BytePerPixelY = 2;
+-		*BytePerPixelC = 4;
+-	} else {
+-		*BytePerPixelDETY = 4.0 / 3;
+-		*BytePerPixelDETC = 8.0 / 3;
+-		*BytePerPixelY = 2;
+-		*BytePerPixelC = 4;
+-	}
+-
+-	if ((SourcePixelFormat == dm_444_64 || SourcePixelFormat == dm_444_32 || SourcePixelFormat == dm_444_16 || SourcePixelFormat == dm_444_8 || SourcePixelFormat == dm_mono_16
+-			|| SourcePixelFormat == dm_mono_8 || SourcePixelFormat == dm_rgbe)) {
+-		if (SurfaceTiling == dm_sw_linear) {
+-			*BlockHeight256BytesY = 1;
+-		} else if (SourcePixelFormat == dm_444_64) {
+-			*BlockHeight256BytesY = 4;
+-		} else if (SourcePixelFormat == dm_444_8) {
+-			*BlockHeight256BytesY = 16;
+-		} else {
+-			*BlockHeight256BytesY = 8;
+-		}
+-		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
+-		*BlockHeight256BytesC = 0;
+-		*BlockWidth256BytesC = 0;
+-	} else {
+-		if (SurfaceTiling == dm_sw_linear) {
+-			*BlockHeight256BytesY = 1;
+-			*BlockHeight256BytesC = 1;
+-		} else if (SourcePixelFormat == dm_rgbe_alpha) {
+-			*BlockHeight256BytesY = 8;
+-			*BlockHeight256BytesC = 16;
+-		} else if (SourcePixelFormat == dm_420_8) {
+-			*BlockHeight256BytesY = 16;
+-			*BlockHeight256BytesC = 8;
+-		} else {
+-			*BlockHeight256BytesY = 8;
+-			*BlockHeight256BytesC = 8;
+-		}
+-		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
+-		*BlockWidth256BytesC = 256U / *BytePerPixelC / *BlockHeight256BytesC;
+-	}
+-	return true;
+-}
+-
+ static double CalculateTWait(unsigned int PrefetchMode, double DRAMClockChangeLatency, double UrgentLatency, double SREnterPlusExitTime)
+ {
+ 	if (PrefetchMode == 0) {
+@@ -4066,7 +3968,7 @@ void dml31_ModeSupportAndSystemConfigurationFull(struct display_mode_lib *mode_l
+ 	/*Bandwidth Support Check*/
+ 
+ 	for (k = 0; k < v->NumberOfActivePlanes; k++) {
+-		CalculateBytePerPixelAnd256BBlockSizes(
++		dml30_CalculateBytePerPixelAnd256BBlockSizes(
+ 				v->SourcePixelFormat[k],
+ 				v->SurfaceTiling[k],
+ 				&v->BytePerPixelY[k],
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
+index dd570689c095..c94cf6e01e25 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
+@@ -27,94 +27,7 @@
+ #include "../display_mode_vba.h"
+ #include "../dml_inline_defs.h"
+ #include "display_rq_dlg_calc_31.h"
+-
+-static bool CalculateBytePerPixelAnd256BBlockSizes(
+-		enum source_format_class SourcePixelFormat,
+-		enum dm_swizzle_mode SurfaceTiling,
+-		unsigned int *BytePerPixelY,
+-		unsigned int *BytePerPixelC,
+-		double *BytePerPixelDETY,
+-		double *BytePerPixelDETC,
+-		unsigned int *BlockHeight256BytesY,
+-		unsigned int *BlockHeight256BytesC,
+-		unsigned int *BlockWidth256BytesY,
+-		unsigned int *BlockWidth256BytesC)
+-{
+-	if (SourcePixelFormat == dm_444_64) {
+-		*BytePerPixelDETY = 8;
+-		*BytePerPixelDETC = 0;
+-		*BytePerPixelY = 8;
+-		*BytePerPixelC = 0;
+-	} else if (SourcePixelFormat == dm_444_32 || SourcePixelFormat == dm_rgbe) {
+-		*BytePerPixelDETY = 4;
+-		*BytePerPixelDETC = 0;
+-		*BytePerPixelY = 4;
+-		*BytePerPixelC = 0;
+-	} else if (SourcePixelFormat == dm_444_16) {
+-		*BytePerPixelDETY = 2;
+-		*BytePerPixelDETC = 0;
+-		*BytePerPixelY = 2;
+-		*BytePerPixelC = 0;
+-	} else if (SourcePixelFormat == dm_444_8) {
+-		*BytePerPixelDETY = 1;
+-		*BytePerPixelDETC = 0;
+-		*BytePerPixelY = 1;
+-		*BytePerPixelC = 0;
+-	} else if (SourcePixelFormat == dm_rgbe_alpha) {
+-		*BytePerPixelDETY = 4;
+-		*BytePerPixelDETC = 1;
+-		*BytePerPixelY = 4;
+-		*BytePerPixelC = 1;
+-	} else if (SourcePixelFormat == dm_420_8) {
+-		*BytePerPixelDETY = 1;
+-		*BytePerPixelDETC = 2;
+-		*BytePerPixelY = 1;
+-		*BytePerPixelC = 2;
+-	} else if (SourcePixelFormat == dm_420_12) {
+-		*BytePerPixelDETY = 2;
+-		*BytePerPixelDETC = 4;
+-		*BytePerPixelY = 2;
+-		*BytePerPixelC = 4;
+-	} else {
+-		*BytePerPixelDETY = 4.0 / 3;
+-		*BytePerPixelDETC = 8.0 / 3;
+-		*BytePerPixelY = 2;
+-		*BytePerPixelC = 4;
+-	}
+-
+-	if ((SourcePixelFormat == dm_444_64 || SourcePixelFormat == dm_444_32 || SourcePixelFormat == dm_444_16 || SourcePixelFormat == dm_444_8 || SourcePixelFormat == dm_mono_16
+-			|| SourcePixelFormat == dm_mono_8 || SourcePixelFormat == dm_rgbe)) {
+-		if (SurfaceTiling == dm_sw_linear) {
+-			*BlockHeight256BytesY = 1;
+-		} else if (SourcePixelFormat == dm_444_64) {
+-			*BlockHeight256BytesY = 4;
+-		} else if (SourcePixelFormat == dm_444_8) {
+-			*BlockHeight256BytesY = 16;
+-		} else {
+-			*BlockHeight256BytesY = 8;
+-		}
+-		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
+-		*BlockHeight256BytesC = 0;
+-		*BlockWidth256BytesC = 0;
+-	} else {
+-		if (SurfaceTiling == dm_sw_linear) {
+-			*BlockHeight256BytesY = 1;
+-			*BlockHeight256BytesC = 1;
+-		} else if (SourcePixelFormat == dm_rgbe_alpha) {
+-			*BlockHeight256BytesY = 8;
+-			*BlockHeight256BytesC = 16;
+-		} else if (SourcePixelFormat == dm_420_8) {
+-			*BlockHeight256BytesY = 16;
+-			*BlockHeight256BytesC = 8;
+-		} else {
+-			*BlockHeight256BytesY = 8;
+-			*BlockHeight256BytesC = 8;
+-		}
+-		*BlockWidth256BytesY = 256U / *BytePerPixelY / *BlockHeight256BytesY;
+-		*BlockWidth256BytesC = 256U / *BytePerPixelC / *BlockHeight256BytesC;
+-	}
+-	return true;
+-}
++#include "dml/dcn30/display_mode_vba_30.h"
+ 
+ static bool is_dual_plane(enum source_format_class source_format)
+ {
+@@ -467,7 +380,7 @@ static void get_meta_and_pte_attr(
+ 	double byte_per_pixel_det_y;
+ 	double byte_per_pixel_det_c;
+ 
+-	CalculateBytePerPixelAnd256BBlockSizes(
++	dml30_CalculateBytePerPixelAnd256BBlockSizes(
+ 			(enum source_format_class) (source_format),
+ 			(enum dm_swizzle_mode) (tiling),
+ 			&bytes_per_element_y,
+-- 
+2.36.1
 
-I think the disabling must be checked on a per-driver basis to avoid 
-that; in particular drivers that already call dma_buf_mmap() should be 
-able to continue doing this.
-
-Also the Fixes: review comment remains,
-
-thanks,
-
-Thomas
-
-
-
-> ---
->   drivers/gpu/drm/drm_gem.c              | 4 ++++
->   drivers/gpu/drm/drm_gem_shmem_helper.c | 9 ---------
->   2 files changed, 4 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 86d670c71286..fc9ec42fa0ab 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -1034,6 +1034,10 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
->   {
->   	int ret;
->   
-> +	/* Don't allow imported objects to be mapped */
-> +	if (obj->import_attach)
-> +		return -EINVAL;
-> +
->   	/* Check for valid size. */
->   	if (obj_size < vma->vm_end - vma->vm_start)
->   		return -EINVAL;
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index 8ad0e02991ca..6190f5018986 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -609,17 +609,8 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_ops);
->    */
->   int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct *vma)
->   {
-> -	struct drm_gem_object *obj = &shmem->base;
->   	int ret;
->   
-> -	if (obj->import_attach) {
-> -		/* Drop the reference drm_gem_mmap_obj() acquired.*/
-> -		drm_gem_object_put(obj);
-> -		vma->vm_private_data = NULL;
-> -
-> -		return dma_buf_mmap(obj->dma_buf, vma, 0);
-> -	}
-> -
->   	ret = drm_gem_shmem_get_pages(shmem);
->   	if (ret) {
->   		drm_gem_vm_close(vma);
