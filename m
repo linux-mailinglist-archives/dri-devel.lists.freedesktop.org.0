@@ -1,58 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302B7562155
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 19:34:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DDFF562166
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 19:40:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D40F7112EE1;
-	Thu, 30 Jun 2022 17:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6783B11BA09;
+	Thu, 30 Jun 2022 17:40:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D59E11B163
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 17:34:26 +0000 (UTC)
-Received: by mail-pf1-x42e.google.com with SMTP id 136so86047pfy.10
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 10:34:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1s1jurQNn/fJ4wlZGRfg1PNeoKP8xQg/ofkOwb0NO2E=;
- b=N0Zd0OVM4bQky4uabYzuMEV8PyZPfQ/N09BFx0mH52wgBdjlxbeg3dltvfkX2ydhgZ
- qGVMGj4nSzoaZK0ajiSbgouaegww7bDUoWn2zDXg/JhW89N1ZOAeMeamP4XyqoL0bX+A
- Z3qdd0mFEG9XDfttKG3enTn3ZS0Gyytg1pdi4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1s1jurQNn/fJ4wlZGRfg1PNeoKP8xQg/ofkOwb0NO2E=;
- b=a+PTUJFdY8m2++zdzZBMQpZdXL9IfuTh8W59+D5bwi8keFnRw4o79bwzAHC0Kh4SJ5
- DgRbsyZgc8rq+4KMiBkJSl1Fcz5zlXfIj1PSh+44xQZgZ9TVu+ZNgvj16VDgCJAx8DYt
- xyN8iC9hydexdqvSDhoReG7aJjwy6Sl7uITvxUApxa5QEzBAh8ux6s9a3yPs9bbdXFlP
- snN60Goosyaq7bsqG4C8nJipcJx3eQNEOg7RfOYgYAJb5lqZz/r6tJBe8RPgB1kWeVQo
- UTDVg/SxSqIP1kxAhqNzO7pQMoKkAYmAt6Akweustyb6LNMNQHxgfuG6A4VW057GTq+Y
- PSxQ==
-X-Gm-Message-State: AJIora837mHO0peWtZ1RlHNjtxEl+kxWC/RNVQ+GnYMp2dsJHjOB2mX4
- WCCfglWp7Pm8bcwL3ZYT6Nqef2CvRxXAuQ==
-X-Google-Smtp-Source: AGRyM1sTkUaMZfcu6ioDPGwJiwe0TTGaBaUHp6sw3z9cYqSKpyM+kx7JG47ES5+UsaveuyB1Qkoe6A==
-X-Received: by 2002:aa7:910b:0:b0:524:f8d9:a4c4 with SMTP id
- 11-20020aa7910b000000b00524f8d9a4c4mr17128695pfh.5.1656610465558; 
- Thu, 30 Jun 2022 10:34:25 -0700 (PDT)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:5175:e079:2e5a:2405])
- by smtp.gmail.com with ESMTPSA id
- m20-20020aa78a14000000b00518950bfc82sm14331125pfa.10.2022.06.30.10.34.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jun 2022 10:34:25 -0700 (PDT)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH] video: of_display_timing.h: include errno.h
-Date: Fri,  1 Jul 2022 01:33:29 +0800
-Message-Id: <20220630173328.1369576-1-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2575311BA1B
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 17:40:42 +0000 (UTC)
+Received: from tr.lan (ip-86-49-12-201.bb.vodafone.cz [86.49.12.201])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 3C0C9838BB;
+ Thu, 30 Jun 2022 19:40:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1656610840;
+ bh=W9guudHH89vmObZIPNajFsVoiMmESYuvXuBkund8uCY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=NuZU5o4OlqIDQZAiGX1c/U5EjkYrK+wikE2O9hL6ayYRthwhZ42vNAm0fEjC1aev3
+ 4wknnVL8lzuanj9ef1OnHXsbCXD00/KpBLlWzBl8gryVfnsLhBupRoMtc5WUoy/03T
+ IMtV4Xdy/9i7WeQmnYwc+q/Y0x24/Fg7F6N33QnRxZlnJJjUiXsxy8f32oBAgchdn4
+ fG6msheshfkR4+/uovaF1uQcYbruDZAGaxfJ6t72Kdwkn5Il9Hr+F/xcwPTPqbxiMs
+ sDo9t/Xfb8HHF/ohdEnFPbWEL5xOVjhrK5AkJz24AcjIjvxDP3/rTsSYKHHogGtYYD
+ nr9GsUieJ/aLw==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: bridge: ldb: Drop DE flip from Freescale i.MX8MP LDB
+ bridge
+Date: Thu, 30 Jun 2022 19:40:31 +0200
+Message-Id: <20220630174031.92354-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,35 +52,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>
+Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
+ robert.foss@linaro.org, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Robby Cai <robby.cai@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If CONFIG_OF is not enabled, default of_get_display_timing() returns an
-errno, so include the header.
+The DE inversion is implemented in LCDIFv3 driver and is no longer
+needed in the LDB bridge which does not invert the DE signal. Drop
+the inversion.
 
-Fixes: 422b67e0b31a ("videomode: provide dummy inline functions for !CONFIG_OF")
-Suggested-by: Stephen Boyd <swboyd@chromium.org>
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Fixes: 463db5c2ed4ae ("drm: bridge: ldb: Implement simple Freescale i.MX8MP LDB bridge")
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Peng Fan <peng.fan@nxp.com>
+Cc: Robby Cai <robby.cai@nxp.com>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+To: dri-devel@lists.freedesktop.org
 ---
- include/video/of_display_timing.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/bridge/fsl-ldb.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-diff --git a/include/video/of_display_timing.h b/include/video/of_display_timing.h
-index e1126a74882a5..eff166fdd81b9 100644
---- a/include/video/of_display_timing.h
-+++ b/include/video/of_display_timing.h
-@@ -8,6 +8,8 @@
- #ifndef __LINUX_OF_DISPLAY_TIMING_H
- #define __LINUX_OF_DISPLAY_TIMING_H
+diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
+index b2675c769a550..10077d4aed358 100644
+--- a/drivers/gpu/drm/bridge/fsl-ldb.c
++++ b/drivers/gpu/drm/bridge/fsl-ldb.c
+@@ -74,22 +74,6 @@ static int fsl_ldb_attach(struct drm_bridge *bridge,
+ 				 bridge, flags);
+ }
  
-+#include <linux/errno.h>
-+
- struct device_node;
- struct display_timing;
- struct display_timings;
+-static int fsl_ldb_atomic_check(struct drm_bridge *bridge,
+-				struct drm_bridge_state *bridge_state,
+-				struct drm_crtc_state *crtc_state,
+-				struct drm_connector_state *conn_state)
+-{
+-	/* Invert DE signal polarity. */
+-	bridge_state->input_bus_cfg.flags &= ~(DRM_BUS_FLAG_DE_LOW |
+-					       DRM_BUS_FLAG_DE_HIGH);
+-	if (bridge_state->output_bus_cfg.flags & DRM_BUS_FLAG_DE_LOW)
+-		bridge_state->input_bus_cfg.flags |= DRM_BUS_FLAG_DE_HIGH;
+-	else if (bridge_state->output_bus_cfg.flags & DRM_BUS_FLAG_DE_HIGH)
+-		bridge_state->input_bus_cfg.flags |= DRM_BUS_FLAG_DE_LOW;
+-
+-	return 0;
+-}
+-
+ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
+ 				  struct drm_bridge_state *old_bridge_state)
+ {
+@@ -241,7 +225,6 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
+ 
+ static const struct drm_bridge_funcs funcs = {
+ 	.attach = fsl_ldb_attach,
+-	.atomic_check = fsl_ldb_atomic_check,
+ 	.atomic_enable = fsl_ldb_atomic_enable,
+ 	.atomic_disable = fsl_ldb_atomic_disable,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
 -- 
-2.37.0.rc0.161.g10f37bed90-goog
+2.35.1
 
