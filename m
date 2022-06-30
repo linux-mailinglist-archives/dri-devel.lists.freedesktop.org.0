@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD3F562CBC
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 09:34:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B422D562416
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 22:23:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E8331120FA;
-	Fri,  1 Jul 2022 07:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA65C12A249;
+	Thu, 30 Jun 2022 20:23:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 354 seconds by postgrey-1.36 at gabe;
- Thu, 30 Jun 2022 20:24:26 UTC
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D07611139E3;
- Thu, 30 Jun 2022 20:24:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1656620309;
- s=strato-dkim-0002; d=gerhold.net;
- h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
- From:Subject:Sender;
- bh=jTBh8tpUX4wS523jclqgriqIEwT1It3h9ZxxUKd4K3w=;
- b=Ubkd7PR1Ml9pFUB48ByHTQBPaguLqxqeSK12bVHkWL2V9we8Jt5qg2tlBtN3Qj+iA5
- uj0IBBU6CIvZ3wLV3XTF7IbLPmzLCkC1HtBRggADtkVPxkEEXnIiDjXCfav8Nbgc2bVj
- UsWplxEZeXbc8sQHefmniQzlrBeO9pbO8VP6jyBMK5C28sQCZabngGbKNS28WCyXaYBk
- 2dm3Utv2GjXq/22ZVHzx5RLnYjna6G6P+6BfS4DRjWQg0jud45UHneKV56zsVQtLjxkW
- 9Nt/lkjjXTTF1jl4MZ5oX7ok1LUttsTZQnQpG2di36RkyvNobO/Fl5ZJfp8ovbcAnRCO
- VMhg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u267FZF9PwpcNKLUrK8+86Y="
-X-RZG-CLASS-ID: mo00
-Received: from gerhold.net by smtp.strato.de (RZmta 47.46.1 AUTH)
- with ESMTPSA id yfdd30y5UKIS4u1
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Thu, 30 Jun 2022 22:18:28 +0200 (CEST)
-Date: Thu, 30 Jun 2022 22:18:13 +0200
-From: Stephan Gerhold <stephan@gerhold.net>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: Re: [Freedreno] [PATCH 3/7] dt-bindings: msm: dsi: Fix power-domains
- constraint
-Message-ID: <Yr4E+AsXRBZuYCpx@gerhold.net>
-References: <20220630120845.3356144-1-bryan.odonoghue@linaro.org>
- <20220630120845.3356144-4-bryan.odonoghue@linaro.org>
- <225e70ec-553d-4d44-fc61-543128b2ad67@linaro.org>
- <054043a5-3643-aa5b-4204-8cacb7b3ae9a@linaro.org>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3543912A26F
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 20:23:05 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru
+ [109.252.118.164])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D012C660196E;
+ Thu, 30 Jun 2022 21:23:02 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1656620583;
+ bh=1v+6BIiQfnlEpsbZeQo8zPsdXAp9SuOZj8i80daLiwc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=P69XYB0fXO5KxnstqDFC7Z6J4IyUeL+7tTDTninT2yyPlMsceNxziM91IXFo72ded
+ xxoUMj7t5JIYcLXZYFokWqicvqhtYW+pNbg87S5FIpWUOLP0oLPx9AW8vwJJ4BpfAq
+ 62m9qRCesmuxwgc5wScbtvHUcM/GtCs0rO8BBHvDzyrfkYw+J/6+1ThmidAXVsQuAB
+ fsSx/W+GuqL0BWbpAHk+P/M3XkmW+GM1a3xdiH8icCJ9TM6aJsFP2ha+3hEydRrDwc
+ vkRRk+fjFf6XNN3V1MMKEgWMNvnMkpxqKocxE67yQ3K8HvGYhshske+7HURrsnbhRT
+ KxAAnN1XE8MOA==
+Message-ID: <8ab15669-889b-1119-9323-ec47689c7fb7@collabora.com>
+Date: Thu, 30 Jun 2022 23:22:59 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <054043a5-3643-aa5b-4204-8cacb7b3ae9a@linaro.org>
-X-Mailman-Approved-At: Fri, 01 Jul 2022 07:33:24 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 2/2] drm/gem: Don't map imported GEMs
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
+ David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20220630200405.1883897-1-dmitry.osipenko@collabora.com>
+ <20220630200405.1883897-3-dmitry.osipenko@collabora.com>
+ <75b677b6-c704-e270-c921-93c982020c38@shipmail.org>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <75b677b6-c704-e270-c921-93c982020c38@shipmail.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +65,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
- airlied@linux.ie, linux-arm-msm@vger.kernel.org, swboyd@chromium.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- quic_abhinavk@quicinc.com,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
- quic_mkrishn@quicinc.com, dmitry.baryshkov@linaro.org,
- bjorn.andersson@linaro.org, sean@poorly.run
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+ Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 30, 2022 at 08:49:03PM +0100, Bryan O'Donoghue wrote:
-> On 30/06/2022 20:01, Krzysztof Kozlowski wrote:
-> > On 30/06/2022 14:08, Bryan O'Donoghue wrote:
-> > > The existing msm8916.dtsi does not depend on nor require power-domains.
-> > > Drop from the list of required.
-> > 
-> > That's not good reason. The bindings are about hardware so the question
-> > is whether being a part of power domain or toggling power domain on/off
-> > is considered required for the DSI.
+Hello Thomas,
+
+On 6/30/22 23:15, Thomas Hellström (Intel) wrote:
+> Hi, Dmitry,
 > 
-> AFAIK no but, I will check this again and if it is definitely not required,
-> I'll churn the commit log to describe it better.
+> On 6/30/22 22:04, Dmitry Osipenko wrote:
+>> Drivers that use drm_gem_mmap() and drm_gem_mmap_obj() helpers don't
+>> handle imported dma-bufs properly, which results in mapping of something
+>> else than the imported dma-buf. On NVIDIA Tegra we get a hard lockup when
+>> userspace writes to the memory mapping of a dma-buf that was imported
+>> into
+>> Tegra's DRM GEM.
+>>
+>> Majority of DRM drivers prohibit mapping of the imported GEM objects.
+>> Mapping of imported GEMs require special care from userspace since it
+>> should sync dma-buf because mapping coherency of the exporter device may
+>> not match the DRM device. Let's prohibit the mapping for all DRM drivers
+>> for consistency.
+>>
+>> Cc: stable@vger.kernel.org
+>> Suggested-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 > 
+> This might break drivers whose obj->funcs->mmap() callback already
+> handles this case, and has userspace that does the right thing.
 
-The power domain in the DSI node is used together with the OPP table to
-vote for performance states depending on the clock frequency of the byte
-clock. In the downstream kernel this is part of the clock driver.
-In mainline this needs to be done in the consumer driver.
+The drm-shmem helper should be the only that maps imported GEMs
+properly, but drivers that use drm-shmem already prohibit to map
+imported GEMs. Okay, I'll try to re-check once again to be sure.
 
-The MSM8916 port was never really optimized for power usage. With
-incomplete interconnect support etc the power domains tend to be at
-maximum state most of the time, so it does not cause any issues if you
-forget to vote for performance states in some places.
+> I think the disabling must be checked on a per-driver basis to avoid
+> that; in particular drivers that already call dma_buf_mmap() should be
+> able to continue doing this.
+> 
+> Also the Fixes: review comment remains,
 
-In general, the situation on MSM8916/MSM8939 is not really any different
-from newer SoCs. The downstream MSM8916 gcc driver contains:
+This should've been broken forever, don't think that we have a fixes tag
+here. I looked thought all my previous patches and added the Fixes
+wherever was possible. If I really missed something, then please let me
+know.
 
-static struct rcg_clk byte0_clk_src = {
-	/* ... */
-	.c = {
-		/* ... */
-		VDD_DIG_FMAX_MAP2(LOW, 94400000, NOMINAL, 188500000),
-	},
-};
-
-which should be ideally translated into an OPP table with
-power-domains = <&rpmpd MSM8916_VDDCX>; similar to newer SoCs.
-
-(I'm not saying that "power-domains" should be required, just that it
- could be added for MSM8916/MSM8939 if someone wants to properly
- power-optimize them...)
-
-Thanks,
-Stephan
+-- 
+Best regards,
+Dmitry
