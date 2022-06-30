@@ -1,66 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ADC2562126
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 19:21:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8451562129
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 19:23:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2085F11B34A;
-	Thu, 30 Jun 2022 17:21:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC4C711B4BC;
+	Thu, 30 Jun 2022 17:23:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63D5611B34A
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 17:21:24 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id y16so11038199lfb.9
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 10:21:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:user-agent:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=BohL4XV8r1xt0c24TIuYDlP8R/meGuCrMEtn1MhTCXI=;
- b=wuWu6XFubEpJUzf4oKOWPwR/Ni5MgstHBQVZSoGrPo5OQ2j/JJzHSOIpseOT4tlYiz
- EKu+RQ7K4KvLKZ7znlUg+z+9D1VlMaxHwjHzk6YXNYIaylEOwy6Ab3O6RHruoLzS7BKo
- WUDfTBxkJxsbSj8c9OOzEAIG13agptse6eg9/eemuFzwt7nb+xD3hj7Z7WccXc+LtOHI
- 9M6BjnFxAiHGYtYzu8ZZDsbcKJjLfu3jswLr8kDqoDJtCct2HASjWexULB+p2qxuC7lZ
- q21XvRA3OCKGJK7KJuvyer3VWn6T6iT84/pRyhlMMu3Vz1Fecu8iIPPKa7hcC/T+Tk63
- lwKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:user-agent:in-reply-to
- :references:message-id:mime-version:content-transfer-encoding;
- bh=BohL4XV8r1xt0c24TIuYDlP8R/meGuCrMEtn1MhTCXI=;
- b=t8JKNJLG4UyNQXnr0VU3Tc/xKKAge0ob+GcOUXYVXAwlixpGNenVrSVlqLS0Nxwi7B
- 8JBv9mC80rQizgIK9+8LhZI6Hf54/EQL1tp56ZbDCqXgIeeafJLaYvHlftN4wyZG5/eg
- GlVDQyA+8CI2ak2P4+ajIUP0co+VZVGyMe/RV173loBqfiD8lNfvSGsw4khATyAzLmqn
- aex1KN8x2ggg9jmGtFeWiNZOR/iR4s+k6Fv2VsLZ49J96bqhFO8Q3l7O+K6HuBYd72wp
- RThwLizpNhZmdcE/Ke20C33lkEz7wT/G3xccRTtL9hQHJU/nIDjir/dQwlVu+9tcCDig
- FDlQ==
-X-Gm-Message-State: AJIora9X9fBmwoXAfat7+pi8XbtvkV46iQ2LZMz4FHdIgKxv3lux4OgG
- TOT6m2OrksgPzQw6BQGAfQOyvw==
-X-Google-Smtp-Source: AGRyM1sR1CtTf9+8L+GphpYCYpwDNnxyY1KqkI8/i9uzVJT0bmWYlpGK15LRaDnHmM45M+BszRz83w==
-X-Received: by 2002:a05:6512:139f:b0:47d:c633:2fa7 with SMTP id
- p31-20020a056512139f00b0047dc6332fa7mr6704763lfa.513.1656609682669; 
- Thu, 30 Jun 2022 10:21:22 -0700 (PDT)
-Received: from [127.0.0.1] ([94.25.229.210]) by smtp.gmail.com with ESMTPSA id
- bi16-20020a05651c231000b0025a66b3fc45sm2765061ljb.97.2022.06.30.10.21.21
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 30 Jun 2022 10:21:22 -0700 (PDT)
-Date: Thu, 30 Jun 2022 20:21:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, sean@poorly.run, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-Subject: Re: [PATCH 5/7] dt-bindings: msm: dsi: Fix clock declarations
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20220630120845.3356144-6-bryan.odonoghue@linaro.org>
-References: <20220630120845.3356144-1-bryan.odonoghue@linaro.org>
- <20220630120845.3356144-6-bryan.odonoghue@linaro.org>
-Message-ID: <CD1AA865-0891-4160-A920-FDB65BFC4087@linaro.org>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EBD111B4BE
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 17:23:11 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru
+ [109.252.118.164])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 45383660196C;
+ Thu, 30 Jun 2022 18:23:09 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1656609790;
+ bh=LJhSooS9IKyrkGhIs6fkyHnN38CkHuggqq2CmdQEVaA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ER4ulT9P0QybLv69xoZ3bZoWAVUKLsOeSv8QTbdsK6cDJ/3bo5P7LUiuZBlAoFbFN
+ Uj1hg6uWtiZ1iT1CsAZxQ0PUekp2vXJuOZhOvoGKvb1tMWvzB9CD33W7ci9TN3pI/5
+ GoxZ48aTIyjQmVlakrGpyAD/baZpWpMhvp3J/EuCd4LGUzCqE2Ujzg31TQHm6VIR5U
+ gljtZPg8RhCeRcUomsL02VE1yajs06QiDFYvlHqqrKdnOhoO6IB56eAW+4zfphZyAb
+ BH+uc+zEGV9idmOCa++Jj/FHMkHPDDhvjg4lcR7sygCZbfjyS3pAgcvGZivvHvLAWs
+ S/4WJqwMriGKA==
+Message-ID: <b7715f7d-c69d-2bb0-8226-bcb29e5bf91c@collabora.com>
+Date: Thu, 30 Jun 2022 20:23:06 +0300
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v5 0/3] Support Sharp LQ101R1SX03 and HannStar HSD101PWW2
+ panels
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20220529180548.9942-1-clamor95@gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20220529180548.9942-1-clamor95@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,86 +56,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- quic_mkrishn@quicinc.com, bryan.odonoghue@linaro.org, swboyd@chromium.org,
- freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ David Airlie <airlied@linux.ie>, Svyatoslav Ryhel <clamor95@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Anton Bambura <jenneron@protonmail.com>, Dmitry Osipenko <digetx@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Sam,
 
+On 5/29/22 21:05, Svyatoslav Ryhel wrote:
+> This series adds support for Sharp LQ101R1SX03 and HannStar HSD101PWW2
+> display panels that are used by Asus Transformer tablets, which we're
+> planning to support since 5.17 kernel.
 
-On 30 June 2022 15:08:43 GMT+03:00, Bryan O'Donoghue <bryan=2Eodonoghue@li=
-naro=2Eorg> wrote:
->When converting from =2Etxt to =2Eyaml dt-binding descriptions we appear =
-to
->have missed some of the previous detail on the number and names of
->permissible clocks=2E
->
->Fixes: 4dbe55c97741 ("dt-bindings: msm: dsi: add yaml schemas for DSI bin=
-dings")
->Signed-off-by: Bryan O'Donoghue <bryan=2Eodonoghue@linaro=2Eorg>
->---
-> =2E=2E=2E/display/msm/dsi-controller-main=2Eyaml      | 23 +++++++++++++=
-------
-> 1 file changed, 16 insertions(+), 7 deletions(-)
->
->diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller=
--main=2Eyaml b/Documentation/devicetree/bindings/display/msm/dsi-controller=
--main=2Eyaml
->index fd9d472437853=2E=2Eb24ba6c346a77 100644
->--- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main=
-=2Eyaml
->+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main=
-=2Eyaml
->@@ -28,22 +28,31 @@ properties:
->     maxItems: 1
->=20
->   clocks:
->-    items:
->-      - description: Display byte clock
->-      - description: Display byte interface clock
->-      - description: Display pixel clock
->-      - description: Display escape clock
->-      - description: Display AHB clock
->-      - description: Display AXI clock
->+    minItems: 6
->+    maxItems: 9
+The tablets now supported since 5.17 and awaiting for the panel patches.
 
-Please leave descriptions here=2E They are better suited for the clocks ra=
-ther than clock-names=2E
+> Changelog:
+> v5: - previously patches were sent by Dmitry and he asked me to resend them
+> 
+> v4: - Added r-b from Rob Herring that he gave to the LQ101R1SX01 DT patch
+>       of v2. I missed to add it to the v3 by accident.
+> 
+> v3: - No changes. Re-sending for 5.18. Device-trees of devices that use
+>       these panels were merged to 5.17, so we're missing the display support.
+> 
+> v2: - Added ack from Rob Herring to the HSD101PWW2 binding.
+> 
+>     - Updated LQ101R1SX01 binding, like it was suggested by Rob Herring,
+>       making LQ101R1SX03 directly compatible with the LQ101R1SX01.
+>       Such that ["sharp,lq101r1sx03", "sharp,lq101r1sx01"] could be
+>       used in DT. This removes need to update panel driver with the new
+>       compatible.
+> 
+>     - Improved commit message of the LQ101R1SX03 patch.
+> 
+>     - Added my s-o-b to all patches.
+> 
+> Anton Bambura (1):
+>   dt-bindings: sharp,lq101r1sx01: Add compatible for LQ101R1SX03
+> 
+> Svyatoslav Ryhel (2):
+>   dt-bindings: display: simple: Add HannStar HSD101PWW2
+>   drm/panel: simple: Add support for HannStar HSD101PWW2 panel
+> 
+>  .../bindings/display/panel/panel-simple.yaml  |  2 ++
+>  .../display/panel/sharp,lq101r1sx01.yaml      |  7 ++++-
+>  drivers/gpu/drm/panel/panel-simple.c          | 28 +++++++++++++++++++
+>  3 files changed, 36 insertions(+), 1 deletion(-)
+> 
 
-With that fixed:
+Sam, could you please take a look at these patches? They missed two
+kernel versions already because there was nobody to apply them. Thanks
+in advance.
 
-Reviewed-by: Dmitry Baryshkov <dmitry=2Ebaryshkov@linaro=2Eorg>
-
->=20
->   clock-names:
->     items:
->       - const: byte
->+        description: Display byte clock
->       - const: byte_intf
->+        description: Display byte interface clock
->       - const: pixel
->+        description: Display pixel clock
->       - const: core
->+        description: Display escape clock
->       - const: iface
->+        description: Display AHB clock
->       - const: bus
->+        description: Display AXI clock
->+      - const: core_mmss
->+        description: Core MultiMedia SubSystem clock
->+      - const: mdp_core
->+        description: MDP Core clock
->+      - const: mnoc
->+        description: MNOC clock
->+    minItems: 6
->+    maxItems: 9
->=20
->   phys:
->     maxItems: 1
-
---=20
-With best wishes
+-- 
+Best regards,
 Dmitry
