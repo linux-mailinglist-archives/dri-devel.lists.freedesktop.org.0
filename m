@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238D35622F3
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 21:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE37562300
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 21:21:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAD6510E3AC;
-	Thu, 30 Jun 2022 19:18:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE19A12AA31;
+	Thu, 30 Jun 2022 19:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
- [209.85.222.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4959D113C37
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 19:18:53 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id b24so14429700qkn.4
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 12:18:53 -0700 (PDT)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+ [209.85.222.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8435112AA34
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 19:21:49 +0000 (UTC)
+Received: by mail-qk1-f169.google.com with SMTP id b133so15191013qkc.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 12:21:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=D7pML6UMsrO1AGKh9xvcZgROuleHW3uaJmPAn03Yhfg=;
- b=USeUOyJrLXpSXnbmz/6pcNugvDIzsLBEDwrgJL3j8E7f6VNybwVFRmD+exxjLMyoWA
- nQF75kz3lvdmd93/LWpvS+REL3dr+LxQUUXlF2s6WSIviVEy4//nN5VskhZDAy1KtzOG
- w6B895FQ7ZBeTizGnLsPRICRlpo13Tcu2MKVtcXnZ+sNo+sg6+EqKzalRAc3CElARHG7
- LsV3t9FFQsN9XKMGs7QctLpCkXOLNtoKXXiLsxRbEP8ANDU8JAkdORiRZeKt6k6AhcNw
- vMq7CEjuyHEeqJ8LXEaYNEovZwezYrnofa6ChODMIoH3p+2YSAvacyT7Pb2R6CFU1yYe
- knfQ==
-X-Gm-Message-State: AJIora/CPPTOpnJIA+NABVGuaoQL/SGaCSKJe/bylHzwJeTeP8hIL78/
- cSLBpX+o9tz3AnXifzKp7xNDTRUdhF5RaA==
-X-Google-Smtp-Source: AGRyM1sStSRNuYwL0uFNRRNiTUkYnJhLhWLnnpQvveNBp9EQXK8HuBTgsZdRHq8haiqRewqzUZZ8vw==
-X-Received: by 2002:a05:620a:854:b0:6af:306c:faff with SMTP id
- u20-20020a05620a085400b006af306cfaffmr7574866qku.641.1656616731964; 
- Thu, 30 Jun 2022 12:18:51 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com.
- [209.85.219.179]) by smtp.gmail.com with ESMTPSA id
- k1-20020a05620a414100b006af039ff090sm17719176qko.97.2022.06.30.12.18.51
+ bh=a3PYIklwKRbZib6lnKejKJfseVyL5UdoclVR+DLTM0c=;
+ b=o9J6rdbs2D7tLiT2cA742JOjf5fHGnux40JBnVF5XgH9mo7OAJdVIjFUd5NtdO/X0E
+ EpEpyeE8aJ+UnTrjxM9/9mgQA6dJccLLKd2pWL0MAfYNMz0aNUDNSmu80FZtk+xb/Zcc
+ DbEv6qV5zSMs6xPLrgRoXZO4sc1uMcmCk8yKz4CjD81oxgpfSF4Qne6xrlH8206xnfXn
+ PyOlSPJgcS+lV7/DfPmu1dArU5TUaybA7mR6PdcaA6WuuZkcnQCxDVT6PAyn5EKhnnua
+ Bpl5AdY3OnJv92YLEUufBoBpqb4uppqUcWCnWkkMbt9CTfRSrPTcEL/7md7gHWOxa8OG
+ L4Cw==
+X-Gm-Message-State: AJIora9tDv/gMHotspeSUiYChLsRmPhXFmv9vx3MA/5AQS9sqF6RDIEi
+ 9ssfCrSRyfy0kib0xMcwvTUqeWQ6438fDQ==
+X-Google-Smtp-Source: AGRyM1uyXJKx+LFHZYuIT5CFE0yEZ7FKEaaUsJFNak41DtalJlqmJ0Z8hQoFUTTzEgalhdnPOUwctw==
+X-Received: by 2002:a05:620a:1275:b0:6af:e17:3dcf with SMTP id
+ b21-20020a05620a127500b006af0e173dcfmr7441319qkl.215.1656616908205; 
+ Thu, 30 Jun 2022 12:21:48 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com.
+ [209.85.219.182]) by smtp.gmail.com with ESMTPSA id
+ i11-20020a05620a248b00b006af4f9b77fdsm7887950qkn.44.2022.06.30.12.21.47
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jun 2022 12:18:51 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id i7so84934ybe.11
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 12:18:51 -0700 (PDT)
-X-Received: by 2002:a25:2b48:0:b0:668:3b7d:326c with SMTP id
- r69-20020a252b48000000b006683b7d326cmr10859442ybr.380.1656616731229; Thu, 30
- Jun 2022 12:18:51 -0700 (PDT)
+ Thu, 30 Jun 2022 12:21:47 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id v38so163505ybi.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 12:21:47 -0700 (PDT)
+X-Received: by 2002:a05:6902:a:b0:65c:b38e:6d9f with SMTP id
+ l10-20020a056902000a00b0065cb38e6d9fmr11777905ybh.36.1656616907463; Thu, 30
+ Jun 2022 12:21:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220629200024.187187-1-deller@gmx.de>
- <20220629200024.187187-4-deller@gmx.de>
- <CAMuHMdWVe3TPCpEiNks2p1AAc-7KXx8fnEa8J=Qsvc0d+WTL+w@mail.gmail.com>
-In-Reply-To: <CAMuHMdWVe3TPCpEiNks2p1AAc-7KXx8fnEa8J=Qsvc0d+WTL+w@mail.gmail.com>
+ <20220629200024.187187-6-deller@gmx.de>
+In-Reply-To: <20220629200024.187187-6-deller@gmx.de>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 30 Jun 2022 21:18:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU2pFR9NGjSBsyZn7KbV1yeGaS4v-Q8QnckHfFO18K=rg@mail.gmail.com>
-Message-ID: <CAMuHMdU2pFR9NGjSBsyZn7KbV1yeGaS4v-Q8QnckHfFO18K=rg@mail.gmail.com>
-Subject: Re: [PATCH 3/5] fbcon: Prevent that screen size is smaller than font
- size
+Date: Thu, 30 Jun 2022 21:21:36 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXs+m80hPjcbW6XfNrgQYyO8G5McyGSjY5bPqAxQjqk_g@mail.gmail.com>
+Message-ID: <CAMuHMdXs+m80hPjcbW6XfNrgQYyO8G5McyGSjY5bPqAxQjqk_g@mail.gmail.com>
+Subject: Re: [PATCH 5/5] fbcon: Use fbcon_info_from_console() in
+ fbcon_modechange_possible()
 To: Helge Deller <deller@gmx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,59 +75,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Helge,
 
-On Thu, Jun 30, 2022 at 9:09 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Wed, Jun 29, 2022 at 10:00 PM Helge Deller <deller@gmx.de> wrote:
-> > We need to prevent that users configure a screen size which is smaller than the
-> > currently selected font size. Otherwise rendering chars on the screen will
-> > access memory outside the graphics memory region.
-> > This patch adds a new function fbcon_modechange_possible() which
-> > implements this check and which later may be extended with other checks
-> > if necessary.  The new function is called from the FBIOPUT_VSCREENINFO
-> > ioctl handler in fbmem.c, which will return -EINVAL if userspace asked
-> > for a too small screen size.
-> >
-> > Signed-off-by: Helge Deller <deller@gmx.de>
-> > Cc: stable@vger.kernel.org # v5.4+
+On Wed, Jun 29, 2022 at 10:00 PM Helge Deller <deller@gmx.de> wrote:
+> Use the fbcon_info_from_console() wrapper which was added to kernel
+> v5.19 with commit 409d6c95f9c6 ("fbcon: Introduce wrapper for console->fb_info lookup").
 >
-> Thanks for your patch!
->
-> > --- a/drivers/video/fbdev/core/fbcon.c
-> > +++ b/drivers/video/fbdev/core/fbcon.c
-> > @@ -2736,6 +2736,34 @@ void fbcon_update_vcs(struct fb_info *info, bool all)
-> >  }
-> >  EXPORT_SYMBOL(fbcon_update_vcs);
-> >
-> > +/* let fbcon check if it supports a new screen resolution */
-> > +int fbcon_modechange_possible(struct fb_info *info, struct fb_var_screeninfo *var)
-> > +{
-> > +       struct fbcon_ops *ops = info->fbcon_par;
-> > +       struct vc_data *vc;
-> > +       int i;
-> > +
-> > +       WARN_CONSOLE_UNLOCKED();
-> > +
-> > +       if (!ops || ops->currcon < 0)
-> > +               return -EINVAL;
->
-> So if the virtual console is _not_ used as a text console, we refuse
-> mode changes?
->
-> > +
-> > +       /* prevent setting a screen size which is smaller than font size */
-> > +       for (i = first_fb_vc; i <= last_fb_vc; i++) {
-> > +               vc = vc_cons[i].d;
-> > +               if (!vc || vc->vc_mode != KD_TEXT ||
-> > +                          registered_fb[con2fb_map[i]] != info)
+> Signed-off-by: Helge Deller <deller@gmx.de>
 
-Looks like registered_fb[] is wrong since commit cad564ca557f8d3b
-("fbcon: Fix boundary checks for fbcon=vc:n1-n2 parameters")?
+Thanks for your patch!
 
-> > +                       continue;
-> > +
-> > +               if (vc->vc_font.width  > FBCON_SWAP(var->rotate, var->xres, var->yres) ||
-> > +                   vc->vc_font.height > FBCON_SWAP(var->rotate, var->yres, var->xres))
-> > +                       return -EINVAL;
-> > +       }
+I guess you kept this separate, to ease backporting?
+This does mean that upstream will never really see if using
+registered_fb[] directly may cause problems...
+
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -2752,7 +2752,7 @@ int fbcon_modechange_possible(struct fb_info *info, struct fb_var_screeninfo *va
+>         for (i = first_fb_vc; i <= last_fb_vc; i++) {
+>                 vc = vc_cons[i].d;
+>                 if (!vc || vc->vc_mode != KD_TEXT ||
+> -                          registered_fb[con2fb_map[i]] != info)
+> +                          fbcon_info_from_console(i) != info)
+>                         continue;
+>
+>                 if (vc->vc_font.width  > FBCON_SWAP(var->rotate, var->xres, var->yres) ||
+
+Anyway, LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
 Gr{oetje,eeting}s,
 
