@@ -1,60 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9B9561F01
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 17:18:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABAC561F0C
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jun 2022 17:19:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E198D10F5D6;
-	Thu, 30 Jun 2022 15:17:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B608B10F033;
+	Thu, 30 Jun 2022 15:19:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73BD010F5EB;
- Thu, 30 Jun 2022 15:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1656602278; x=1688138278;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=FDi0FOKTrj8PQy31Ckcb5baI4yZzM2OKFrPDYMBFWyQ=;
- b=fAMALFF96QJJx02GpidsUetH1xR7zbCxptjGyzEF7OvkrfEAOlNAqifr
- CVaNX9ZDSrVBL/P1SbdP7MUTONUF/I2JrwErPVSHCQIe+17TLHVKMEQqH
- S9UPP7WF9tBxkKpPwiUpkkGvTPzyqdE99VQ34dIMXQfed5aC6hZU+U+ja E=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 30 Jun 2022 08:17:58 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2022 08:17:57 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 30 Jun 2022 08:17:56 -0700
-Received: from [10.216.41.7] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 30 Jun
- 2022 08:17:50 -0700
-Message-ID: <78bfe8bd-b07e-5a53-156b-ad8b24829f29@quicinc.com>
-Date: Thu, 30 Jun 2022 20:47:46 +0530
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
+ [209.85.166.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5716910F200
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 15:19:39 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id w10so12613306ilj.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jun 2022 08:19:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ADsvCR0mog9Wctcf3viijqLXbCb8A/ISSb9KkaYOBcQ=;
+ b=8Ryr30xGzkhbIHhBtpBocl9ge8s8mfNvxjUOf1Tszcxa10UhyIAZT5/k+Gvl/6VnvE
+ KaXuJHLt1KrnumpzJpWzY1d/IKTQTdfkdRd4HtBqD3lWJSPs89aJBgXnOzYOGNvAJBOe
+ ovnqO/IS+2l9mbq/q+Pc+AFWMhT5EuznHpJHWWy+ZivulCOr6hzWGILFG5Aky17mlAaV
+ G2Il8O4/IUahSVFDuw/74zzH9wZW3BK60wSkdXZuw8vnVxlJO92zrMlSBbFwoAgfshC1
+ Ykz237o+Ro9xs9ivF+TtT2xgrJBLDEJlEJSZNAladec1VQBBqjQXsttqVFhQkywZzrV+
+ cKYw==
+X-Gm-Message-State: AJIora95lFafR0F4Axip8hfW1JcqzBGSJclnvOwu7pOrEsdsv743Z6/h
+ daCaFW4XK3ssOC36YgK9CQ==
+X-Google-Smtp-Source: AGRyM1syNumhIZ9i8WZw9tGrKUzdzJYR0RUCc8u+zCX5QaXsZAZPAG6uCSOCyYG4AF4BzG+LxuqWjA==
+X-Received: by 2002:a05:6e02:b22:b0:2d9:2bda:34e9 with SMTP id
+ e2-20020a056e020b2200b002d92bda34e9mr5615211ilu.273.1656602378655; 
+ Thu, 30 Jun 2022 08:19:38 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+ by smtp.gmail.com with ESMTPSA id
+ r19-20020a02c853000000b00339dfb793aesm8731583jao.86.2022.06.30.08.19.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jun 2022 08:19:38 -0700 (PDT)
+Received: (nullmailer pid 2729118 invoked by uid 1000);
+ Thu, 30 Jun 2022 15:19:36 -0000
+Date: Thu, 30 Jun 2022 09:19:36 -0600
+From: Rob Herring <robh@kernel.org>
+To: Mikko Perttunen <cyndis@kapsi.fi>
+Subject: Re: [PATCH v7/v3 00/22] Host1x context isolation / Tegra234 support
+Message-ID: <20220630151936.GA2722229-robh@kernel.org>
+References: <20220627142008.2072474-1-cyndis@kapsi.fi>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v3 4/4] drm/msm/adreno: Fix up formatting
-Content-Language: en-US
-To: Joe Perches <joe@perches.com>, Konrad Dybcio
- <konrad.dybcio@somainline.org>, <~postmarketos/upstreaming@lists.sr.ht>
-References: <20220528160353.157870-1-konrad.dybcio@somainline.org>
- <20220528160353.157870-4-konrad.dybcio@somainline.org>
- <d470331985c7d82c6e5bb6d548ab610479416761.camel@perches.com>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <d470331985c7d82c6e5bb6d548ab610479416761.camel@perches.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220627142008.2072474-1-cyndis@kapsi.fi>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,48 +61,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, jamipkettunen@somainline.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, martin.botka@somainline.org,
- dri-devel@lists.freedesktop.org, angelogioacchino.delregno@somainline.org,
- marijn.suijten@somainline.org, Sean Paul <sean@poorly.run>,
- linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 5/28/2022 10:22 PM, Joe Perches wrote:
-> On Sat, 2022-05-28 at 18:03 +0200, Konrad Dybcio wrote:
->> Leading spaces are not something checkpatch likes, and it says so when
->> they are present. Use tabs consistently to indent function body and
->> unwrap a 83-char-long line, as 100 is cool nowadays.
-> unassociated trivia:
->
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> []
->> @@ -199,7 +199,7 @@ static inline int adreno_is_a420(struct adreno_gpu *gpu)
->>   
->>   static inline int adreno_is_a430(struct adreno_gpu *gpu)
->>   {
->> -       return gpu->revn == 430;
->> +	return gpu->revn == 430;
->>   }
-> looks like these could/should return bool
-But this is just a format fix.
+On Mon, Jun 27, 2022 at 05:19:46PM +0300, Mikko Perttunen wrote:
+> From: Mikko Perttunen <mperttunen@nvidia.com>
+> 
+> Integrated the Host1x context isolation series (patches 1 to 8) and
+> Tegra234 support series (patches 9 to 22) in one email thread for
+> the benefit of automatic testers.
 
->
->>   static inline int adreno_is_a506(struct adreno_gpu *gpu)
->> @@ -239,7 +239,7 @@ static inline int adreno_is_a540(struct adreno_gpu *gpu)
->>   
->>   static inline int adreno_is_a618(struct adreno_gpu *gpu)
->>   {
->> -       return gpu->revn == 618;
->> +	return gpu->revn == 618;
->>   }
-> etc...
+And probably to the detriment of tools looking at the version number 
+like b4 with the double version. Don't get creative like this.
 
-Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-
-
--Akhil.
+Rob
