@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9FC563AE7
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 22:25:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A21563AEC
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 22:29:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A40418B318;
-	Fri,  1 Jul 2022 20:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2693F10E325;
+	Fri,  1 Jul 2022 20:29:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C0F518B317
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 20:25:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656707152;
- bh=oA6y+SK8FlTxLms9vHVELuWXS3dG5C4vOJ9qnM6h38g=;
- h=X-UI-Sender-Class:Date:Subject:From:To:References:In-Reply-To;
- b=ZK43zNdj0nxSkJtRc9DcRs3tAQCt8LwDdq+jHrO1PbBG6vd1sodBVI7bft/w/1g4E
- ATL6IY797lmZ/d+5966DLBwJO9E9sQHTOXb5R3dwC5hkfuymwsDk/3kNDQ2sQMT2UQ
- KYPViLOdy0Kg/rbkHnrE10mXBLtjPEe5CVT8r414=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.182.192]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M6UZv-1o0TSD0Lmb-0070hx; Fri, 01
- Jul 2022 22:25:52 +0200
-Message-ID: <593bd3f3-901d-3374-30ff-b1c5d24d5af9@gmx.de>
-Date: Fri, 1 Jul 2022 22:25:22 +0200
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com
+ [209.85.166.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECE6F10E325
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 20:29:17 +0000 (UTC)
+Received: by mail-il1-f178.google.com with SMTP id f15so2079960ilj.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Jul 2022 13:29:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=uo+ZyI55hAfSIWqq6L8CrLiVvmJn3xH9wA2nHRVPzqs=;
+ b=WByNj4OPLuU6UdpUSAVk+M/qyo1neTYROTrzuyvJTF3zVJ8F5bfhlbfkxqMdFoJUrZ
+ +RSxbn1m4nKxIb5Kg1gJejPsSOUHcHXNqb/24gE0KVcwO9KDlKREw3G8QxkVLVV6jiqY
+ cAi4asm4Uf68CRj8tEsBx8hIoN6G1aT2yV5K2fOrKHPYxFPH1z2oXkOdXmCsDZzfV9Nr
+ 5iE/+SmevXtJft1W/MWl9sdcvLHjLX6h7aytNthdbKOKx9ML9oE1FzCdXG4v9PHCoxbx
+ qGL/71OuQ5gILm3Y0ieGB5HPxGmVF7N1uz+jFuphpJ3ZF94Hfvbe4Jg8rp3RFVWIC9aJ
+ 2Xfw==
+X-Gm-Message-State: AJIora8RmeewiqsNAtbU8iQ0X391VtKOf4OUO5gDaH8rw8Un5dW9qlGh
+ ExoY+Q5J4Z8QNU0TSy+t/6730kuP4A==
+X-Google-Smtp-Source: AGRyM1tZiGuUdsxhrqYhUe40OKpKjKLHpucAiduiag1kEaPCFa4zBB7r9DaKoLV8cPTwKhI5n7GFIA==
+X-Received: by 2002:a92:b10e:0:b0:2d8:d8a7:8b29 with SMTP id
+ t14-20020a92b10e000000b002d8d8a78b29mr9510641ilh.233.1656707357164; 
+ Fri, 01 Jul 2022 13:29:17 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+ by smtp.gmail.com with ESMTPSA id
+ a22-20020a027356000000b00331cfbce17csm10280153jae.100.2022.07.01.13.29.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Jul 2022 13:29:16 -0700 (PDT)
+Received: (nullmailer pid 1469333 invoked by uid 1000);
+ Fri, 01 Jul 2022 20:29:14 -0000
+Date: Fri, 1 Jul 2022 14:29:14 -0600
+From: Rob Herring <robh@kernel.org>
+To: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+Subject: Re: [PATCH v13 01/10] dt-bindings: mediatek,dp: Add Display Port
+ binding
+Message-ID: <20220701202914.GA1457156-robh@kernel.org>
+References: <20220701062808.18596-1-rex-bc.chen@mediatek.com>
+ <20220701062808.18596-2-rex-bc.chen@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 0/4] fbcon: Fixes for screen resolution changes - round
- 2
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-To: geert@linux-m68k.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, linux-fbdev@vger.kernel.org
-References: <20220701202352.559808-1-deller@gmx.de>
-In-Reply-To: <20220701202352.559808-1-deller@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:96LBxG8R0vUB2OY7vEtbOQZBxj7XsI1EK4QdOk8sOb3dpbJcnlJ
- RqkGdNBnFDPnyR4t49rhSAZkFGXxpcxqqx3hx16zY510EOJGflEuefqWS7uf5PmDWkhhdGs
- Cw17AyAy8EhfI2H0/rO3w8nRl3XnJNjhoxFZHe8qFBI1bbb6uP/cZ6Pq2U77XLLVIoq6Yew
- MPvjE2mzoizqIR3i+jsrA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:G/nhvvvuFqs=:4yvNC7RnY4NTGDr/uiTCJL
- QHyq/EwO3Xx4QKdlB2QbRi6zh4lq+bpLeOvA0vFQe2hUvhQ+SNioUoVSfrt2e7POwU5lLHZvP
- 4SE+5vRZZllBkSyrXzfxV+gyL8pyTP6+9YKZjJtl3aRek94+pQEBMNDJn3ukYSJK9mvTu2HFU
- HBXC5RybuLTaZUGO2zTuyygUUJb+s8l6OCqFWzhA55LwTFNUrNTjnCOGfCX46dHOEBfffbjFL
- HAdE/WLgYSR6+p9MyQRRnQq9vIrBjDZ0rzwu5Wtbu3ZZv8/UG6a6m3klxYPNt0B44Azf6eB5g
- 7WqBKuG0d5X+48a6IIshfb/A69i0Ayup6dyiul5aO3p4Yhli+VbwbrryIilU6sD+rE0fL9iMg
- 8RbrmRVo6pZ/xon6y6Bs7/ADHNuag11JSFoiBAllCSzjzEmpWwOEedlMTTYaHQ3z3nq8T9HQk
- +RPNQWdOUfAmS3mB51kCltriY6cYvMz0nEDy6QfkPmaVeY8z5T0dLh8pKYiwJe8FbEQRZP7uX
- cpqRPw0ssP3q9OUGgI36IaLEQDlKrFC8QIapz238dyE4q35oApOKdlirwqva98qxHzafyZKYW
- dlTAW2VW09PKcUuSZRPkHrJ9G5in3Ap+TXYXd+bcwUkqNhva/eTF6x0oQrc3un5GG/dwu4BIQ
- a8Y+7zQgkQH3nIHZZu0QboeZwy4bs647rQvj93AiV3oKUMGMt0irehQ4BTM5yv4bSskLdn7Hf
- 5msPtQT/c1ai+zmj5RNvhLbZNiHovsMGeKXlAQ6f6vJyiz+gMSbZqHK3Fg/FExCvn1Zu8WGLD
- GSev4DHh1oPW9WVYl5SBeDMD/18dbLg1gUBwvg4Xr1AMM6vE/WuJv/hwdlJU3+7dbsEfGpmA4
- xFscwSzd2V1fIEMvC+2Ss4RXF5hjS4IySCvxLDU6EpsjdHjtCfaaLS1QFShHXmOJI4rjFBxbS
- rAlpTSgPrMdRrc0B29tjoOFDmpfRDI46Rum5dUx8edTipWH8fqEET7ursexrJKDQHhaG2JQdj
- 8ui2SHvkJdVzX3SLXtsdQkjjtHJYjadsj9OLJNemixF6YKug26sU5poIdC2eDkEH9wxUvDWdR
- HtvZsSwn9j38pzlD8OSw8RtNk7a3ZP3bOuAfbzyvaBhrMvxryeFQeP5SQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220701062808.18596-2-rex-bc.chen@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,7 +63,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, krzysztof.kozlowski+dt@linaro.org,
+ deller@gmx.de, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ wenst@chromium.org, chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
+ tzimmermann@suse.de, liangxu.xu@mediatek.com, msp@baylibre.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ granquet@baylibre.com, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I resent this v2 patch series - this time including patch 4/4.
+On Fri, Jul 01, 2022 at 02:27:59PM +0800, Bo-Chen Chen wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+> 
+> This controller is present on several mediatek hardware. Currently
+> mt8195 and mt8395 have this controller without a functional difference,
+> so only one compatible field is added.
+> 
+> The controller can have two forms, as a normal display port and as an
+> embedded display port.
+
+I'm sure you answered this before, but I'll keep asking until the 
+information is contained within this patch. Otherwise, I won't remember. 
+Is there a h/w difference in the 2 blocks? Different registers? Why 
+can't you just look at what the output is connected to?
+
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Signed-off-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+> ---
+>  .../display/mediatek/mediatek,dp.yaml         | 108 ++++++++++++++++++
+>  1 file changed, 108 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> new file mode 100644
+> index 000000000000..26047fc65e7d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> @@ -0,0 +1,108 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Display Port Controller
+> +
+> +maintainers:
+> +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> +  - Jitao shi <jitao.shi@mediatek.com>
+> +
+> +description: |
+> +  Device tree bindings for the MediaTek display port and
+> +  embedded display port controller present on some MediaTek SoCs.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt8195-dp-tx
+> +      - mediatek,mt8195-edp-tx
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  nvmem-cells:
+> +    maxItems: 1
+> +    description: efuse data for display port calibration
+> +
+> +  nvmem-cell-names:
+> +    const: dp_calibration_data
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Input endpoint of the controller, usually dp_intf
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Output endpoint of the controller
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +  data-lanes:
+
+This is not where data-lanes belongs. It goes in port@1 endpoint. Look 
+at other users.
+
+> +    $ref: /schemas/media/video-interfaces.yaml#/properties/data-lanes
+
+Generally, not how references look in DT bindings.
+
+> +    description: |
+> +      number of lanes supported by the hardware.
+> +      The possible values:
+> +      0       - For 1 lane enabled in IP.
+> +      0 1     - For 2 lanes enabled in IP.
+> +      0 1 2 3 - For 4 lanes enabled in IP.
+> +    minItems: 1
+> +    maxItems: 4
+> +
+> +  max-linkrate-mhz:
+> +    enum: [ 1620, 2700, 5400, 8100 ]
+> +    description: maximum link rate supported by the hardware.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - ports
+> +  - data-lanes
+> +  - max-linkrate-mhz
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/mt8195-power.h>
+> +    dp_tx@1c600000 {
+> +        compatible = "mediatek,mt8195-dp-tx";
+> +        reg = <0x1c600000 0x8000>;
+> +        power-domains = <&spm MT8195_POWER_DOMAIN_DP_TX>;
+> +        interrupts = <GIC_SPI 458 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        data-lanes = <0 1 2 3>;
+> +        max-linkrate-mhz = <8100>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                edp_in: endpoint {
+> +                    remote-endpoint = <&dp_intf0_out>;
+> +                };
+> +            };
+> +            port@1 {
+> +                reg = <1>;
+> +                edp_out: endpoint {
+> +                    remote-endpoint = <&panel_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.18.0
+> 
+> 
