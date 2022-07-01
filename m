@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B405639AF
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 21:24:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D73685639B0
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 21:24:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EA4E11BE2A;
-	Fri,  1 Jul 2022 19:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D38AE89786;
+	Fri,  1 Jul 2022 19:24:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B63DB11BE2A
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 19:24:38 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFC2612B553
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 19:24:42 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 560ECB831A8;
- Fri,  1 Jul 2022 19:24:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A077C341D0;
- Fri,  1 Jul 2022 19:24:30 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 64E0C61F89;
+ Fri,  1 Jul 2022 19:24:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B0BBC341CD;
+ Fri,  1 Jul 2022 19:24:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656703475;
- bh=4Dw8o4Ni+/DIiNaSaTnUmrQEB08oB1ZRamr7MN1V+tQ=;
+ s=k20201202; t=1656703481;
+ bh=Hx5muWw17Jb0oqDiAd8+qbBnr1W1BbGEsr7q+7oKh+o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pMhXY41NKw9L9gf7dOedkxHWG7+XTyZ2beNaUFCb9eRP1cTFNQJ2a8889bkSxASUv
- grB2HZL6+SGKndT4SXJHqdPEJ9LIQF/cNti2iBngLDBnwMsDJhjjRV9TxqnJD0D5S3
- WXgT+MtiZxqXDLAAryj09i2+TMFiHYW3Tfh31LxTTsJBLEv9/t6hZDg/7vrIUfbsS9
- pb51wJDldYwXbsChbZVZGBhAYuQWZnoCD1e7clOCXicJ0YC4GnWR29LTDoAsj7g6mv
- GZMs4ITv8bjDFpkyKQUIg5Kqlze4aSU1L3MkxaNqv0/gcQzPeRtGzyFEQ+4k+//1eo
- w7KoJB0k0h/cg==
+ b=Lnc/A97NcUj3poedeyd4maMRBOzjDxYynybF3AhzHkmX2+PNvDX93LK+Dye2Tcfhj
+ W6F9KzI6TN0ISSmu0RU6HprkI/hGEfMl17gHrSMnrJ/XtnmhScTeuA7ncJCsdepcLD
+ mMIjE2XVvGLH8k3sNm7/686bkqm4q13pOYY4gbcL/EnI5gUgbxjBXaDKubCEO8QcZm
+ cCFSv2FwS5A3KzfVx1XgWb+YP2U5Td1PrrW6Rz3c1DZzJiiVBkm9bLkYWcQL36LI7u
+ b+oeZ4rFcUotmSlv62g8y71lrbVka0o9HStErLS965dX5IokL8STNI8rJMIwGv/bTL
+ 6cewHuFvVD+kw==
 From: Conor Dooley <conor@kernel.org>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -40,10 +39,10 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Mark Brown <broonie@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
  Daniel Lezcano <daniel.lezcano@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v4 10/14] riscv: dts: canaan: use custom compatible for k210
- i2s
-Date: Fri,  1 Jul 2022 20:22:56 +0100
-Message-Id: <20220701192300.2293643-11-conor@kernel.org>
+Subject: [PATCH v4 11/14] riscv: dts: canaan: remove spi-max-frequency from
+ controllers
+Date: Fri,  1 Jul 2022 20:22:57 +0100
+Message-Id: <20220701192300.2293643-12-conor@kernel.org>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220701192300.2293643-1-conor@kernel.org>
 References: <20220701192300.2293643-1-conor@kernel.org>
@@ -75,47 +74,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-The devicetrees using the Canaan k210 all have a sound-dai-cells value
-of 1, whereas the standard binding example for the DesignWare i2s and
-other use cases suggest 0. Use a k210 specific compatible which
-supports this difference.
+spi-max-frequency is a device, not a controller  property and should be
+removed.
 
+Link: https://lore.kernel.org/lkml/20220526014141.2872567-1-robh@kernel.org/
+Tested-by: Niklas Cassel <niklas.cassel@wdc.com>
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- arch/riscv/boot/dts/canaan/k210.dtsi | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/riscv/boot/dts/canaan/k210.dtsi | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/arch/riscv/boot/dts/canaan/k210.dtsi b/arch/riscv/boot/dts/canaan/k210.dtsi
-index 72f70128d751..900dc629a945 100644
+index 900dc629a945..948dc235e39d 100644
 --- a/arch/riscv/boot/dts/canaan/k210.dtsi
 +++ b/arch/riscv/boot/dts/canaan/k210.dtsi
-@@ -251,7 +251,7 @@ spi2: spi@50240000 {
+@@ -451,7 +451,6 @@ spi0: spi@52000000 {
+ 				clock-names = "ssi_clk", "pclk";
+ 				resets = <&sysrst K210_RST_SPI0>;
+ 				reset-names = "spi";
+-				spi-max-frequency = <25000000>;
+ 				num-cs = <4>;
+ 				reg-io-width = <4>;
  			};
- 
- 			i2s0: i2s@50250000 {
--				compatible = "snps,designware-i2s";
-+				compatible = "canaan,k210-i2s", "snps,designware-i2s";
- 				reg = <0x50250000 0x200>;
- 				interrupts = <5>;
- 				clocks = <&sysclk K210_CLK_I2S0>;
-@@ -260,7 +260,7 @@ i2s0: i2s@50250000 {
+@@ -467,7 +466,6 @@ spi1: spi@53000000 {
+ 				clock-names = "ssi_clk", "pclk";
+ 				resets = <&sysrst K210_RST_SPI1>;
+ 				reset-names = "spi";
+-				spi-max-frequency = <25000000>;
+ 				num-cs = <4>;
+ 				reg-io-width = <4>;
  			};
- 
- 			i2s1: i2s@50260000 {
--				compatible = "snps,designware-i2s";
-+				compatible = "canaan,k210-i2s", "snps,designware-i2s";
- 				reg = <0x50260000 0x200>;
- 				interrupts = <6>;
- 				clocks = <&sysclk K210_CLK_I2S1>;
-@@ -269,7 +269,7 @@ i2s1: i2s@50260000 {
+@@ -483,8 +481,7 @@ spi3: spi@54000000 {
+ 				clock-names = "ssi_clk", "pclk";
+ 				resets = <&sysrst K210_RST_SPI3>;
+ 				reset-names = "spi";
+-				/* Could possibly go up to 200 MHz */
+-				spi-max-frequency = <100000000>;
++
+ 				num-cs = <4>;
+ 				reg-io-width = <4>;
  			};
- 
- 			i2s2: i2s@50270000 {
--				compatible = "snps,designware-i2s";
-+				compatible = "canaan,k210-i2s", "snps,designware-i2s";
- 				reg = <0x50270000 0x200>;
- 				interrupts = <7>;
- 				clocks = <&sysclk K210_CLK_I2S2>;
 -- 
 2.37.0
 
