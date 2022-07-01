@@ -2,73 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C228562E2F
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 10:29:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4EDD563501
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 16:20:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87F0710EE0B;
-	Fri,  1 Jul 2022 08:29:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D93614A0BE;
+	Fri,  1 Jul 2022 14:20:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D368210EE0B
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 08:29:54 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id k22so2103305wrd.6
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Jul 2022 01:29:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=z6ULNT3zXtL+jR9dX9ryJVFmHZaHUROnfIZg7MaGIM8=;
- b=PDhtLDK+oMJB8ag8YZaDeZQbJ2+wR7L8YCEzyPRB7urkxatJH8NpS+oAsNQwTI8gxk
- jSgJsvqP79Gnjx0jND3FTapmImW93sAHTW/YS4kkuA8qtu3ri9/pZtsR1fBhjl0L8DZn
- pfBeDE8do0HfAnrjPy33S0yPzOwfUdzeTPG7sJTr3UG4tcCSB9pT5Vyaf9YAGHgTodXx
- FNlpDi3LTZuf5ZO/8vo1JPeMcWrVlPw0Xg87CdVwaUxLr1lv1+3g/CB8Klyar0h7W/li
- 5/CjgRFr90jxVfU9vWJnancu13GeRNeDO8OhCOiOxDRCZ8dAtGyY1Y/SoAd/KyCVq/oD
- MTLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=z6ULNT3zXtL+jR9dX9ryJVFmHZaHUROnfIZg7MaGIM8=;
- b=3tiTM0M/uLXp5O8z2nud+B0eQwV997yTFx0W49pJ5G4z4gVU9eVNYcQneQZtqqpc0l
- KGcWxnYgMJoGNcMAapwXZsNrZUG1Hs5XuQgNlOmmqFJWBArKEavWTBWW5jp+4JnWTnhj
- FgJpr8Sm3QIfzbvXfHcdIVdxuY/nRV6l7ilYyWtA8o8Z9fX7P0Fsf9y9zbnqcCKvJepW
- Z/GlkCSbhBB0Yn51qplw4tvOZtcHbpcCtNwd9ZJj8ifyDbmC3UtL8LYmQXFVl7gcTMku
- e+4f35+R0P0+KCaApAEN+b4yaK+nJcrVOvQR7OkH6Ax2vfcX/+RHidhBXm0diIoffbAF
- 25hQ==
-X-Gm-Message-State: AJIora/vCTihMrJl7fMagC4ro+1b2i9FpXkIv4PB5PEwSXiSeoQwsJYK
- TKVFsV73iJQ9J/mdBUif0yOObA==
-X-Google-Smtp-Source: AGRyM1stZC7VPm2CCUa3SRAgIUiALXV0JZLbbYbJ4yuR2mPcSmHvwSMM689NlSoteFJe+4RktBHoNg==
-X-Received: by 2002:a5d:5050:0:b0:21b:a348:7c0 with SMTP id
- h16-20020a5d5050000000b0021ba34807c0mr12052542wrt.184.1656664193308; 
- Fri, 01 Jul 2022 01:29:53 -0700 (PDT)
-Received: from localhost.localdomain ([2001:861:44c0:66c0:5d81:390:1737:2a33])
- by smtp.gmail.com with ESMTPSA id
- f18-20020adfb612000000b002185631adf0sm22494784wre.23.2022.07.01.01.29.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Jul 2022 01:29:52 -0700 (PDT)
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: NXP Linux Team <linux-imx@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Robert Foss <robert.foss@linaro.org>, David Airlie <airlied@linux.ie>,
- Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v2] drm/bridge: imx: i.MX8 bridge drivers should depend on
- ARCH_MXC
-Date: Fri,  1 Jul 2022 10:29:50 +0200
-Message-Id: <165666417227.2909452.2369233598376215828.b4-ty@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <42c542b53a1c8027b23a045045fbb7b34479913d.1656072500.git.geert+renesas@glider.be>
-References: <42c542b53a1c8027b23a045045fbb7b34479913d.1656072500.git.geert+renesas@glider.be>
+X-Greylist: delayed 1161 seconds by postgrey-1.36 at gabe;
+ Fri, 01 Jul 2022 08:58:49 UTC
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87BDC10F7D7
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 08:58:49 +0000 (UTC)
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LZ7qZ0DZbzkWWL;
+ Fri,  1 Jul 2022 16:37:30 +0800 (CST)
+Received: from dggpemm500019.china.huawei.com (7.185.36.180) by
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 1 Jul 2022 16:39:24 +0800
+Received: from huawei.com (10.175.112.208) by dggpemm500019.china.huawei.com
+ (7.185.36.180) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 1 Jul
+ 2022 16:39:23 +0800
+From: Jian Zhang <zhangjian210@huawei.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>, <krzysztof.kozlowski@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 3/5] drm/exynos/exynos7_drm_decon: free resources when
+ clk_set_parent() failed.
+Date: Fri, 1 Jul 2022 08:37:28 +0000
+Message-ID: <20220701083728.66975-1-zhangjian210@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.112.208]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500019.china.huawei.com (7.185.36.180)
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Fri, 01 Jul 2022 14:20:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,25 +53,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, Neil Armstrong <narmstrong@baylibre.com>
+Cc: xuqiang36@huawei.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+In exynos7_decon_resume, When it fails, we must use clk_disable_unprepare()
+to free resource that have been used.
 
-On Fri, 24 Jun 2022 14:10:51 +0200, Geert Uytterhoeven wrote:
-> The various Freescale i.MX8 display bridges are only present on
-> Freescale i.MX8 SoCs.  Hence add a dependency on ARCH_MXC, to prevent
-> asking the user about these drivers when configuring a kernel without
-> i.MX SoC support.
-> 
-> 
+Fixes: 6f83d20838c09 ("drm/exynos: use DRM_DEV_ERROR to print out error message")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Jian Zhang <zhangjian210@huawei.com>
+---
+ drivers/gpu/drm/exynos/exynos7_drm_decon.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
-
-[1/1] drm/bridge: imx: i.MX8 bridge drivers should depend on ARCH_MXC
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=5cd561688b3e8a248fdbb37a1b10801b06736865
-
+diff --git a/drivers/gpu/drm/exynos/exynos7_drm_decon.c b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
+index c04264f70ad1..3c31405600f0 100644
+--- a/drivers/gpu/drm/exynos/exynos7_drm_decon.c
++++ b/drivers/gpu/drm/exynos/exynos7_drm_decon.c
+@@ -800,31 +800,40 @@ static int exynos7_decon_resume(struct device *dev)
+ 	if (ret < 0) {
+ 		DRM_DEV_ERROR(dev, "Failed to prepare_enable the pclk [%d]\n",
+ 			      ret);
+-		return ret;
++		goto err_pclk_enable;
+ 	}
+ 
+ 	ret = clk_prepare_enable(ctx->aclk);
+ 	if (ret < 0) {
+ 		DRM_DEV_ERROR(dev, "Failed to prepare_enable the aclk [%d]\n",
+ 			      ret);
+-		return ret;
++		goto err_aclk_enable;
+ 	}
+ 
+ 	ret = clk_prepare_enable(ctx->eclk);
+ 	if  (ret < 0) {
+ 		DRM_DEV_ERROR(dev, "Failed to prepare_enable the eclk [%d]\n",
+ 			      ret);
+-		return ret;
++		goto err_eclk_enable;
+ 	}
+ 
+ 	ret = clk_prepare_enable(ctx->vclk);
+ 	if  (ret < 0) {
+ 		DRM_DEV_ERROR(dev, "Failed to prepare_enable the vclk [%d]\n",
+ 			      ret);
+-		return ret;
++		goto err_vclk_enable;
+ 	}
+ 
+ 	return 0;
++
++err_vclk_enable:
++	clk_disable_unprepare(ctx->eclk);
++err_eclk_enable:
++	clk_disable_unprepare(ctx->aclk);
++err_aclk_enable:
++	clk_disable_unprepare(ctx->pclk);
++err_pclk_enable:
++	return ret;
+ }
+ #endif
+ 
 -- 
-Neil
+2.17.1
+
