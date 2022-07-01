@@ -2,78 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B38215631B6
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 12:44:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC11156325E
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 13:14:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26E0E10F3EF;
-	Fri,  1 Jul 2022 10:44:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96E71112317;
+	Fri,  1 Jul 2022 11:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26BC710F3EF;
- Fri,  1 Jul 2022 10:44:00 +0000 (UTC)
-Received: from [192.168.2.145] (109-252-118-164.nat.spd-mgts.ru
- [109.252.118.164])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id EF4536601596;
- Fri,  1 Jul 2022 11:43:55 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1656672238;
- bh=i4sbwr4hhjkUIAG7olH1BdTwsBlNFqkIOpYSjFNHV/w=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ULKCbZZHPga04p61cEES7RO/PSbb0r9MTw2jLhk1vi7BxkUF2s/2oUlr45wDJ32Zl
- hIi0EggvcohKCTYDuxjdSAD59R7x9Ho2wjo4+6Ny8R8XDP/2VnA+4rXHqSae59y5RQ
- u5g9F4c0oWXgkQsy4x9ghsH1A+H0ASGLlB/xYvVhJTwQ62LFKi02GoHFAf3sMxSS6Y
- geLgbeGzXOFcaOwO/w4rVpiXrZFLjie0W6FtGRjOo0ip0CObSJ6s7RbR690zd9JtQj
- nYXKDpzfPVg8bswZlSutaJYkriJpXv9aMGuffojK4WnalY6TM+1VIHOnL0NBjdCTlr
- +nAwSqj+vBJNw==
-Message-ID: <0d88cf7c-61e5-d7a8-a6ba-83388114a1fa@collabora.com>
-Date: Fri, 1 Jul 2022 13:43:53 +0300
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A29CB112C47
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 11:14:19 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BE8FA1424;
+ Fri,  1 Jul 2022 04:14:18 -0700 (PDT)
+Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 551EF3F66F;
+ Fri,  1 Jul 2022 04:14:13 -0700 (PDT)
+Date: Fri, 1 Jul 2022 12:14:10 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Subject: Re: [PATCH v3 00/15] Canaan devicetree fixes
+Message-ID: <20220701111410.mzfgmdabzmfubygm@bogus>
+References: <20220629184343.3438856-1-mail@conchuod.ie>
+ <Yr3PKR0Uj1bE5Y6O@x1-carbon>
+ <20220630175318.g2zmu6ek7l5iakve@bogus>
+ <f228057b-7c17-e536-ce6f-6597e263f06d@opensource.wdc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Thierry Reding <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
- <20220526235040.678984-15-dmitry.osipenko@collabora.com>
- <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
- <e6e17c52-43c2-064b-500e-325bb3ba3b2c@collabora.com>
- <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
- <7372dd1b-06f7-5336-4738-15f9b4d4d4b3@collabora.com>
- <90fe74f6-a622-e4ae-3004-6f1bc1790247@shipmail.org>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <90fe74f6-a622-e4ae-3004-6f1bc1790247@shipmail.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f228057b-7c17-e536-ce6f-6597e263f06d@opensource.wdc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,106 +43,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- kernel@collabora.com, linux-media@vger.kernel.org
+Cc: Niklas Cassel <Niklas.Cassel@wdc.com>,
+ "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+ David Airlie <airlied@linux.ie>, Palmer Dabbelt <palmer@rivosinc.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Jose Abreu <joabreu@synopsys.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Mark Brown <broonie@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Conor Dooley <mail@conchuod.ie>,
+ Thomas Gleixner <tglx@linutronix.de>, Dillon Min <dillon.minfei@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Serge Semin <fancer.lancer@gmail.com>,
+ "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/29/22 00:26, Thomas Hellström (Intel) wrote:
+On Fri, Jul 01, 2022 at 06:16:14AM +0900, Damien Le Moal wrote:
+> On 7/1/22 02:53, Sudeep Holla wrote:
+> > On Thu, Jun 30, 2022 at 04:28:26PM +0000, Niklas Cassel wrote:
+> >> On Wed, Jun 29, 2022 at 07:43:29PM +0100, Conor Dooley wrote:
+> >>> From: Conor Dooley <conor.dooley@microchip.com>
+> >>>
+> >>> Hey all,
+> >>> This series should rid us of dtbs_check errors for the RISC-V Canaan k210
+> >>> based boards. To make keeping it that way a little easier, I changed the
+> >>> Canaan devicetree Makefile so that it would build all of the devicetrees
+> >>> in the directory if SOC_CANAAN.
+> >>>
+> >>> I *DO NOT* have any Canaan hardware so I have not tested any of this in
+> >>> action. Since I sent v1, I tried to buy some since it's cheap - but could
+> >>> out of the limited stockists none seemed to want to deliver to Ireland :(
+> >>> I based the series on next-20220617.
+> >>>
+> >>
+> >> I first tried to apply your series on top of next-20220630,
+> >> but was greeted by a bunch of different warnings on boot,
+> >> including endless RCU stall warnings.
+> >> However, even when booting next-20220630 without your patches,
+> >> I got the same warnings and RCU stall.
+> >>
+> > 
+> > Is it possible to share the boot logs please ?
+> > Conor is having issues with my arch_topology/cacheinfo updates in -next.
+> > I would like to know if your issue is related to that or not ?
 > 
-> On 5/30/22 15:57, Dmitry Osipenko wrote:
->> On 5/30/22 16:41, Christian König wrote:
->>> Hi Dmitry,
->>>
->>> Am 30.05.22 um 15:26 schrieb Dmitry Osipenko:
->>>> Hello Christian,
->>>>
->>>> On 5/30/22 09:50, Christian König wrote:
->>>>> Hi Dmitry,
->>>>>
->>>>> First of all please separate out this patch from the rest of the
->>>>> series,
->>>>> since this is a complex separate structural change.
->>>> I assume all the patches will go via the DRM tree in the end since the
->>>> rest of the DRM patches in this series depend on this dma-buf change.
->>>> But I see that separation may ease reviewing of the dma-buf changes, so
->>>> let's try it.
->>> That sounds like you are underestimating a bit how much trouble this
->>> will be.
->>>
->>>>> I have tried this before and failed because catching all the locks in
->>>>> the right code paths are very tricky. So expect some fallout from this
->>>>> and make sure the kernel test robot and CI systems are clean.
->>>> Sure, I'll fix up all the reported things in the next iteration.
->>>>
->>>> BTW, have you ever posted yours version of the patch? Will be great if
->>>> we could compare the changed code paths.
->>> No, I never even finished creating it after realizing how much work it
->>> would be.
->>>
->>>>>> This patch introduces new locking convention for dma-buf users. From
->>>>>> now
->>>>>> on all dma-buf importers are responsible for holding dma-buf
->>>>>> reservation
->>>>>> lock around operations performed over dma-bufs.
->>>>>>
->>>>>> This patch implements the new dma-buf locking convention by:
->>>>>>
->>>>>>      1. Making dma-buf API functions to take the reservation lock.
->>>>>>
->>>>>>      2. Adding new locked variants of the dma-buf API functions for
->>>>>> drivers
->>>>>>         that need to manage imported dma-bufs under the held lock.
->>>>> Instead of adding new locked variants please mark all variants which
->>>>> expect to be called without a lock with an _unlocked postfix.
->>>>>
->>>>> This should make it easier to remove those in a follow up patch set
->>>>> and
->>>>> then fully move the locking into the importer.
->>>> Do we really want to move all the locks to the importers? Seems the
->>>> majority of drivers should be happy with the dma-buf helpers handling
->>>> the locking for them.
->>> Yes, I clearly think so.
->>>
->>>>>>      3. Converting all drivers to the new locking scheme.
->>>>> I have strong doubts that you got all of them. At least radeon and
->>>>> nouveau should grab the reservation lock in their ->attach callbacks
->>>>> somehow.
->>>> Radeon and Nouveau use gem_prime_import_sg_table() and they take resv
->>>> lock already, seems they should be okay (?)
->>> You are looking at the wrong side. You need to fix the export code path,
->>> not the import ones.
->>>
->>> See for example attach on radeon works like this
->>> drm_gem_map_attach->drm_gem_pin->radeon_gem_prime_pin->radeon_bo_reserve->ttm_bo_reserve->dma_resv_lock.
->>>
->> Yeah, I was looking at the both sides, but missed this one.
-> 
-> Also i915 will run into trouble with attach. In particular since i915
-> starts a full ww transaction in its attach callback to be able to lock
-> other objects if migration is needed. I think i915 CI would catch this
-> in a selftest.
+> FYI, I see rcu warnings on boot on my dual-socket 8-cores Xeon system, but
+> the same kernel does not have the rcu warnings with an AMD Epyc single
+> socket 16-cores box.
 
-Seems it indeed it should deadlock. But i915 selftests apparently
-should've caught it and they didn't, I'll re-check what happened.
-
-> Perhaps it's worthwile to take a step back and figure out, if the
-> importer is required to lock, which callbacks might need a ww acquire
-> context?
-
-I'll take this into account, thanks.
-
-> (And off-topic, Since we do a lot of fancy stuff under dma-resv locks
-> including waiting for fences and other locks, IMO taking these locks
-> uninterruptible should ring a warning bell)
-
-I had the same thought and had a version that used the interruptible
-locking variant, but then decided to fall back to the uninterruptible,
-don't remember why. I'll revisit this.
+And any chances of seeing the logs ?
 
 -- 
-Best regards,
-Dmitry
+Regards,
+Sudeep
