@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FAC5639B3
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 21:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E9D5639B4
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 21:25:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A78C14AEC6;
-	Fri,  1 Jul 2022 19:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33AC714AF33;
+	Fri,  1 Jul 2022 19:25:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9910A14AEC6
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 19:24:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C797314AEEC
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 19:25:02 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 0D1CCB831A9;
- Fri,  1 Jul 2022 19:24:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4551FC3411E;
- Fri,  1 Jul 2022 19:24:48 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 75CE5B831B1;
+ Fri,  1 Jul 2022 19:25:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4433EC341CE;
+ Fri,  1 Jul 2022 19:24:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656703493;
- bh=GQBZkYsOARLee0LoWUcB5KK1izgdhhT3qdxeMqPT9Js=;
+ s=k20201202; t=1656703499;
+ bh=8p0CrcOywNuZ8dCyl/5AL75RraFYWheVunkwKedwW2g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dj44/KsDsj9XCsKlI0DYZVNdzzBwOR1+6l6nZKtgV32waooME0H55JVPqqGngOxeZ
- /haG+mvmWd90gDOODN5oXUN7hxE9/mfPigkQIAvxorJzI+EOLFq6dXA8IfenN9E7ou
- qFyHheDQXzI2/FKBLNevZzeurvxUzMKf2Qoe/MvGXtX4flvYEznJ32IgT+mVFJyjzY
- R0SogVpw8kQHqYI3+tSQn9bKIwIkZbQvIe+vgZOs3Wy0CZDseklj+i7W8Qn3YyxVJq
- PbxRL5tzIljlVA4aAb2mHKmQHgucMAvRIqcKAPEJ9KzAB4ylsbWQMQhaQ3F/RWVI03
- NqiPFta0VCoPQ==
+ b=Tafm5NL7FvMwnLrPtK16jpCVhnv7dnfHP/dqMYMiz/wgTQDk6Bx3IhzIhFuq1uMyK
+ RtqJTzqIjmVXIJvk40i2jXmaSeVBNn9WL/IrxoF7hfU1Vhw3IP0HJPTjYiqm+FhWir
+ xyKa6Nql7yFSUqNUYIXaJNvBcMUm4IC6gkeyHUJ/F1RN8+h5ZrW5ZvyA37dZjHlPWi
+ t23k7s7TGCluKhM84Ll4O44D6vKjIZkOzcsnu7tKOzZA61GDxOKqRxUxA1IMLJYob/
+ 7bZUdov1NUX3tf/ocua/Al36fJ+Sa2heU2eRkDNxbPGgxgO0lGtFlf4yEYGIv3A7zU
+ iEzZ6f1N6h3VQ==
 From: Conor Dooley <conor@kernel.org>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -40,10 +40,10 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Mark Brown <broonie@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
  Daniel Lezcano <daniel.lezcano@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v4 13/14] riscv: dts: canaan: add specific compatible for
- kd233's LCD
-Date: Fri,  1 Jul 2022 20:22:59 +0100
-Message-Id: <20220701192300.2293643-14-conor@kernel.org>
+Subject: [PATCH v4 14/14] riscv: dts: canaan: build all devicetress if
+ SOC_CANAAN
+Date: Fri,  1 Jul 2022 20:23:00 +0100
+Message-Id: <20220701192300.2293643-15-conor@kernel.org>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220701192300.2293643-1-conor@kernel.org>
 References: <20220701192300.2293643-1-conor@kernel.org>
@@ -75,26 +75,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-Add the recently introduced compatible for the LCD on the Canaan KD233.
+Testing & checking the Canaan devicetrees is inconvenient as only the
+devicetree corresponding to SOC_CANAAN_K210_DTB_BUILTIN will be built.
+Change the Makefile so that all devicetrees are built by default if
+SOC_CANAAN but only the one specified by SOC_CANAAN_K210_DTB_BUILTIN
+gets built as an object.
 
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- arch/riscv/boot/dts/canaan/canaan_kd233.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/riscv/boot/dts/canaan/Makefile | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/arch/riscv/boot/dts/canaan/canaan_kd233.dts b/arch/riscv/boot/dts/canaan/canaan_kd233.dts
-index 4a540158f287..b0cd0105a5bd 100644
---- a/arch/riscv/boot/dts/canaan/canaan_kd233.dts
-+++ b/arch/riscv/boot/dts/canaan/canaan_kd233.dts
-@@ -127,7 +127,7 @@ &spi0 {
- 	cs-gpios = <&gpio0 20 GPIO_ACTIVE_HIGH>;
- 
- 	panel@0 {
--		compatible = "ilitek,ili9341";
-+		compatible = "canaan,kd233-tft", "ilitek,ili9341";
- 		reg = <0>;
- 		dc-gpios = <&gpio0 21 GPIO_ACTIVE_HIGH>;
- 		spi-max-frequency = <10000000>;
+diff --git a/arch/riscv/boot/dts/canaan/Makefile b/arch/riscv/boot/dts/canaan/Makefile
+index c61b08ac8554..befe4eb7527b 100644
+--- a/arch/riscv/boot/dts/canaan/Makefile
++++ b/arch/riscv/boot/dts/canaan/Makefile
+@@ -1,3 +1,9 @@
+ # SPDX-License-Identifier: GPL-2.0
+-dtb-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += $(addsuffix .dtb, $(CONFIG_SOC_CANAAN_K210_DTB_SOURCE))
+-obj-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += $(addsuffix .o, $(dtb-y))
++dtb-$(CONFIG_SOC_CANAAN) += canaan_kd233.dtb
++dtb-$(CONFIG_SOC_CANAAN) += k210_generic.dtb
++dtb-$(CONFIG_SOC_CANAAN) += sipeed_maix_bit.dtb
++dtb-$(CONFIG_SOC_CANAAN) += sipeed_maix_dock.dtb
++dtb-$(CONFIG_SOC_CANAAN) += sipeed_maix_go.dtb
++dtb-$(CONFIG_SOC_CANAAN) += sipeed_maixduino.dtb
++
++obj-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += $(addsuffix .dtb.o, $(CONFIG_SOC_CANAAN_K210_DTB_SOURCE))
 -- 
 2.37.0
 
