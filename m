@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7C35638B1
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 19:47:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0AD5638C5
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 19:56:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C299C18A173;
-	Fri,  1 Jul 2022 17:47:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B566F18A2F0;
+	Fri,  1 Jul 2022 17:55:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com
- [IPv6:2607:f8b0:4864:20::930])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 589C318A16F
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 17:47:39 +0000 (UTC)
-Received: by mail-ua1-x930.google.com with SMTP id b7so1087320uap.5
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Jul 2022 10:47:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Owhb694VNyKXL9BTeHyWfPv7VjySMI0QfeQx3kqvgGY=;
- b=db+nhfvC/RPkYrPjhilWcAUW0Br1Vmg7cACLD2aJRlOdO7IOv19o+3yJM1/koHPZ3j
- ojMBdTf2KAEdhu//3OrMvcs9tu/MuO9qOUOX9XiQj8nwyaN49RGfiQ91svbr0yKXGebM
- Q06i5dMm+SH7WmylW8Wm2x2wo5Gx5jHQHoNOXQaiHlNcJr9/gtaUns5J0yqjhfgTclJd
- CIf9BGgux0xMjMyBTG/NPNjYmensBpCfMPExE9lpFV1hlgn+7CP4ny8ASHUAkQpUtgye
- orJKEHiFrzGoBcg/oELdDFU0+cobRUI4v7vsTzV8gWw+aHiyFn3TpDMYFBQ4mcTBe3gv
- EiUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Owhb694VNyKXL9BTeHyWfPv7VjySMI0QfeQx3kqvgGY=;
- b=p9eUMwkKIaoHWZwrW1qW/2j4AOv6lYfufkk5wvVdI/ZtDROSP4sF/R4/N9QrA7Ipwu
- rX2KoKht9kPbxKM5qJyKI0Wl+n2T4MO7FRAJ4wHSVQWJguvydtryfm6xmv1M3JXB4iWj
- 4XtLNcSAg8210TGFAC+bbrfmCXjNb6h/7O+IICJj3ZWabPt/PobhIF95Kq8/xL3HKZPD
- OMgoicJ8NDjZsb7fknEffxCVJhXl8DiVmbdctG3pH4gDHYKg0xjPfGxAthzDnZLrXBLg
- F0YuBTI/C9wP1OeToKp7rlhxBr93nGeUy5brZ2iJnsh7OZYubzNNNycDVO9n/C3sn8jW
- +yZA==
-X-Gm-Message-State: AJIora+OtWIJeGG1RASJOitVDb/HMsukyVfhMj5nFjCpvVP1YssqY36a
- Vv9RLhzXZ7jseamImJ3kMNjiPbrZ0OL9zOYvXLQ=
-X-Google-Smtp-Source: AGRyM1tvJiLTYOBz10GyPOSW+SJJWdSYxXiWHlOwB3Nvk1vNG56ZttGuBQslfMO3zERMcHcYmuzdQ67PO3cjfgM8cZw=
-X-Received: by 2002:ab0:244f:0:b0:37f:2985:e620 with SMTP id
- g15-20020ab0244f000000b0037f2985e620mr8967541uan.36.1656697658397; Fri, 01
- Jul 2022 10:47:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220701120755.2135100-1-javierm@redhat.com>
-In-Reply-To: <20220701120755.2135100-1-javierm@redhat.com>
-From: Peter Robinson <pbrobinson@gmail.com>
-Date: Fri, 1 Jul 2022 18:47:27 +0100
-Message-ID: <CALeDE9P4vcJ3UgZdH8-4iaAHiYziS29G7WgtzcJbv0SwVANOyw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] drm: A couple of fixes for drm_copy_field() helper
- function
-To: Javier Martinez Canillas <javierm@redhat.com>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1080B18A2ED
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 17:55:57 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 35C30CE3499
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 17:55:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 73849C341C6
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 17:55:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1656698152;
+ bh=myZ9dwkKeQO2uaqr3No/oHDh39Hheti+fHng453WYCw=;
+ h=From:To:Subject:Date:From;
+ b=lEuddt6xmDWc37L3SysrX2USMVTpJ48hUgLi9hblqMLjA2v61RkIMFN5vVOY8KUpo
+ uXNmIFr3wzoHKhoN05qfW/SX9VAdQw22bi+JuH6xAKbD80XXWdUV5pmpGv8eAv0Bv5
+ 3L9xwXsfhfF0CGn03/vWZsWXLM67SqBkzQmiygxktCJGeT9sq9Z9xzWBAJtAjIb0TL
+ xc7iySOV7UHORI5AXIZPVW/t/sR47/aMWzwc865WBfEaWhIGDmc01GZ3hzUathd+na
+ uf5+M6iwMtjeFA1vxCerE9z8VAYY94VvDfqLT2qiebiW2C6AZ6XAtFvgost5wv6/AO
+ mohbuUoajKjEw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 55749CC13AD; Fri,  1 Jul 2022 17:55:52 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216198] New: uvd page faults on Radeon
+Date: Fri, 01 Jul 2022 17:55:52 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: nutodafozo@freeweb.email
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-216198-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,41 +70,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 1, 2022 at 1:08 PM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> Hello,
->
-> Peter Robinson reported me a kernel bug in one of his aarch64 test boards
-> and even though I was not able to reproduce it, I think that figured out
-> what the problem was. It seems the cause is that a DRM driver doesn't set
-> some of the struct drm fields copied to userspace via DRM_IOCTL_VERSION.
->
-> Even though this is a driver bug, we can make drm_copy_field() more robust
-> and warn about it instead of leading to an attempt to copy a NULL pointer.
->
-> While looking at this, I also found that a variable in drm_copy_field() is
-> not using the correct type. So I included that change in the patch-set too.
->
-> Best regards,
-> Javier
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216198
 
-For the series
-Tested-by: Peter Robinson <pbrobinson@gmail.com>
+            Bug ID: 216198
+           Summary: uvd page faults on Radeon
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.15
+          Hardware: AMD
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: nutodafozo@freeweb.email
+        Regression: No
 
->
-> Javier Martinez Canillas (2):
->   drm: Use size_t type for len variable in drm_copy_field()
->   drm: Prevent drm_copy_field() to attempt copying a NULL pointer
->
->  drivers/gpu/drm/drm_ioctl.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> --
-> 2.36.1
->
+Created attachment 301322
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301322&action=3Dedit
+oops
+
+After upgrading ubuntu from 20.04 (had stock kernels 5.4, 5.8 and 5.13) to
+22.04 with 5.15, I've started to experience page faults when hw acceleratio=
+n on
+Radeon RX550 is working in Firefox.
+
+
+2 times already in 5 days, same stacktraces / addresses of faulting instruc=
+tion
+and the same zero $rbx register.
+I've had the same configuration for over a year, never had such oopses befo=
+re
+on previous kernels.
+
+
+> [X77.269660] BUG: unable to handle page fault for address: ffffffffffffff=
+f8
+>=20
+> ffffffff8111d4f0 <swake_up_locked>:
+> ffffffff8111d4f0:       e8 fb 90 f6 ff          call   ffffffff810865f0
+> <__fentry__>
+> ffffffff8111d4f5:       48 8b 57 08             mov    0x8(%rdi),%rdx
+> ffffffff8111d4f9:       48 8d 47 08             lea    0x8(%rdi),%rax
+> ffffffff8111d4fd:       48 39 c2                cmp    %rax,%rdx
+> ffffffff8111d500:       74 2d                   je     ffffffff8111d52f
+> <swake_up_locked+0x3f>
+> ffffffff8111d502:       55                      push   %rbp
+> ffffffff8111d503:       48 89 e5                mov    %rsp,%rbp
+> ffffffff8111d506:       53                      push   %rbx
+> ffffffff8111d507:       48 8b 5f 08             mov    0x8(%rdi),%rbx
+> ffffffff8111d50b:       48 8b 7b f8             mov    -0x8(%rbx),%rdi=20=
+=20
+> !<<<<<<<<<
+> ffffffff8111d50f:       e8 4c d6 fd ff          call   ffffffff810fab60
+> <wake_up_process>
+>=20
+> void swake_up_locked(struct swait_queue_head *q)
+> {
+>       struct swait_queue *curr;
+>       if (list_empty(&q->task_list))
+>               return;
+>       curr =3D list_first_entry(&q->task_list, typeof(*curr), task_list);
+>       wake_up_process(curr->task);
+>       list_del_init(&curr->task_list);
+> }
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
