@@ -1,70 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44265632B0
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 13:41:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D57145632B3
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 13:42:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90C2211BAB3;
-	Fri,  1 Jul 2022 11:41:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B28E411BABB;
+	Fri,  1 Jul 2022 11:42:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2082.outbound.protection.outlook.com [40.107.237.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D92311BAB3;
- Fri,  1 Jul 2022 11:41:52 +0000 (UTC)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2065.outbound.protection.outlook.com [40.107.102.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12F6E11BAC1;
+ Fri,  1 Jul 2022 11:42:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M2XK0NLeRNA9z03ud3JleuWdLrQH9H38XD4cRzfOHEdldfv/0bQDICd8in2S/bj/LKO4le4YfGmEwiuWa8uk+gPqpASSLNzqHj5XE7gOEcyRKGadRb9McYG3S4ksESt0cr7nX5K3CcVoGYM3CQhN4KPHgInGxFvrWoZK8ZNYytiG4vX9uz5xUZXwkq6e1+wYHoCmaiXnPdjtMvtRDpl/h8eS5RzrPilF0I12h4OA5/Js/5FkBXhtpqUfNe+NfmALrmhrHe11ypSYEGYUEWwo5nXmVN+u1XYO7YaPARl5O8rDZ2AyLP7eu+btFH8EjqTRcM26GOwvGn8ucy+rZCuL6Q==
+ b=b77I6uNxXpL3EgZOwfLJLJDX2wDMvZpRDNY48tCBLz0R+RAjRqC318xLKd2HSpGqKd3wo6tpB33V45NlpthzYcCtNTEcXJcBjeHO+g9Z1UM195uNKuPbR7lJ5EPssAQrVZCuzdCw4ATBenG/rptEech3K/d8r7LhV3BZOveehA7dMbCmvK7KUKdF9RE9l1npfPZlJ/Vbal9bHSb2/tvqIx/WzXbiXyXjApCZuTOaPRh6hpWeP+FMpT0a5W49EPoWAkxGCkyhgIy5WNJ6M1A9MWdNMrshCB1xkzlC79iQnCBWqJv2WZRjq54y1obH6fsIsXpqZQfkoshbfgms1jJoIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ICABZwNdVzUwLSlk+XuVEOv6wxXrM9NPNXp6PnCGyT0=;
- b=I7rBiGYlRUgcUqC12nngAeddXlyC0o2HyW2Jq9ajHIIoNBfq+j5x1Bdqq6/i4qLV7Y1dlTiNomMOM/ew0TEhS1i7dT3qQZQA2KqSc3zufCAuqFvHTfuXQ/MAxizJXmxwm/BbmpF/Ua3awakHWaWoUfTadMD0QNq6XOlQDipHAKEZ0KFP8ba7zPb1hnzcvIrujveoPylWLHvP+uT+MAasLYlJvsIvKpVl5R/ww2hApVD3NdJ8deegBkeTCL9UDx30PqMv3RGRJ/BkAS5KcUG8xWmHK+GaWVTpOIkWQDSA80RT3Ki3v3U04LW1q/2K7ZRK1dCvNcXLc2z0amm9RvY/FA==
+ bh=gG8r0QwDPrHhTq49NWepI7vVWWbhZNs41DgdabjQv+w=;
+ b=UMGFiLnXAzwzVXEZQhYQuoEAUutsWutoeV1Oz/ObHfWpqQSuh5r3CNyX30ARHDhUeMZ6MjwTJTcm3xNC86zhmznPjobKMZjaWTv1XUt5bCSgPIc515Avf2rH2SyROysxttD+dH90xEEQ3tOXoMpRpjlMi2cwoj4pEnk7g7TSHODCcqlPG6K/usZqfnUX6OCVf3he7UBAz8k8nBMmrBF0EoOH2dn6snlgpAtR5y8Mdi7ZIhZ9D4/0reHexYXHQiaZBz4JxdpTg7TmMXInc1LTsJ9pY8NtHEI70uJAtWT1qWOHt9WNOIH8g4LtD0D1opBnMcXPB+vLZY/fVDd/YfXn1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ICABZwNdVzUwLSlk+XuVEOv6wxXrM9NPNXp6PnCGyT0=;
- b=Ui8Mtvmii5XjRdx2bA56oPNnMk/P5M1SSQilNc7fXMBe3OHYVg0MjnXEPUVtNXVLX1jkakiK5a5B7qTlwtAGAAkNhF2yddXstjjI/20Q5UdFKxGPQ7cGfj6RGog8W1sf3p4J2ngXOKBQcUlGUasw8061NiqQK6IaIj3fwQW/eZU=
-Received: from DS7PR03CA0033.namprd03.prod.outlook.com (2603:10b6:5:3b5::8) by
- BYAPR12MB3398.namprd12.prod.outlook.com (2603:10b6:a03:aa::24) with
- Microsoft
+ bh=gG8r0QwDPrHhTq49NWepI7vVWWbhZNs41DgdabjQv+w=;
+ b=E2/uzhXzpZJQQ8AiNFQYl6+X2jKeOcPHxs3RNdOtN70Iapew/NOdQlhW74gandr9hxubryVVIXRiz5FLH6tRsJPpKizixNqC5u++Byf/cFDx4NyNcpO31LcCJEAY/jGf/YYR/ykW2lOwxcp9AzmufzToYuMmktEorVJPpySIeI8=
+Received: from DS7PR03CA0087.namprd03.prod.outlook.com (2603:10b6:5:3bb::32)
+ by DM5PR12MB1388.namprd12.prod.outlook.com (2603:10b6:3:78::8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5373.18; Fri, 1 Jul 2022 11:41:49 +0000
-Received: from DM6NAM11FT017.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:3b5:cafe::58) by DS7PR03CA0033.outlook.office365.com
- (2603:10b6:5:3b5::8) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.5373.18; Fri, 1 Jul 2022 11:41:59 +0000
+Received: from DM6NAM11FT013.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3bb:cafe::f0) by DS7PR03CA0087.outlook.office365.com
+ (2603:10b6:5:3bb::32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17 via Frontend
- Transport; Fri, 1 Jul 2022 11:41:48 +0000
+ Transport; Fri, 1 Jul 2022 11:41:59 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DM6NAM11FT017.mail.protection.outlook.com (10.13.172.145) with Microsoft SMTP
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT013.mail.protection.outlook.com (10.13.173.142) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5395.14 via Frontend Transport; Fri, 1 Jul 2022 11:41:48 +0000
-Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.5395.14 via Frontend Transport; Fri, 1 Jul 2022 11:41:59 +0000
+Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Fri, 1 Jul
- 2022 06:41:48 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
- (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
+ 2022 06:41:56 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB08.amd.com
+ (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Fri, 1 Jul
- 2022 04:41:47 -0700
+ 2022 04:41:55 -0700
 Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
  SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.28
- via Frontend Transport; Fri, 1 Jul 2022 06:41:43 -0500
+ via Frontend Transport; Fri, 1 Jul 2022 06:41:51 -0500
 From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>,
  <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
-Subject: [PATCH V2 3/5] ASoC: amd: add I2S MICSP instance support
-Date: Fri, 1 Jul 2022 17:11:05 +0530
-Message-ID: <20220701114107.1105948-4-Vijendar.Mukunda@amd.com>
+Subject: [PATCH V2 4/5] ASoC: amd: add Machine driver for Jadeite platform
+Date: Fri, 1 Jul 2022 17:11:06 +0530
+Message-ID: <20220701114107.1105948-5-Vijendar.Mukunda@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220701114107.1105948-1-Vijendar.Mukunda@amd.com>
 References: <20220701114107.1105948-1-Vijendar.Mukunda@amd.com>
@@ -73,26 +72,26 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ea04261b-506d-43c2-b06c-08da5b56af10
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3398:EE_
+X-MS-Office365-Filtering-Correlation-Id: 023fb7d5-a96b-4c82-8460-08da5b56b58d
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1388:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TIcLvG365gwQ/5Ra8zGBmdSRTO59Tt2fbrK3QngdKNdkBJMZKil1X38pu0pL2FND9rHiYpcG+JqZ+BM+/L39DkrJGBywe0BCJlCOvh6NuJGX2qUWqE5s3Q2dM7QkKybjkNolPwDz9lXBqYk1mTJzPXyW0P6ki4b2a47KmSQJrgXnsmY7iIhcXqM9PQwT3k67kVv+IqbvPxzZlAK6O4gimIr7xuVMsJZt8w++RanUu8XRc+hviNbtE2ebpL458qIvWYBNEji6wo9HnjHA1sADiP2frCorqndtTlfN5w2Hb3Sawo8w4TPzBJii40KAKgtQru5FZ1B7cflq0ZaJ1y3k9tHjWlBlDwyy6c0LJbKbVSiVD13DwbjI94dudMAC0HMXXzsFiTbe1xqnhISf4YQ1mzZecvjrBUGtxahZWSxWEjMV9Dr0BmXPpdFweENsyLBbDzzD6kiinVZktd8diYm7liU7Wb2DVx+mDeKuUSMOLZHHyKlm8yh1HTaKKVksfRDIoWrECs6ATJmSAO5uNtnP6Gn+XYd//Vb3Wje5iSPDEqdA6DNTpc+pAO2FvSK3Md2aE3654qA9pS4GiQ6xcpscoY/pC3OoaX1d/1WT2q7TXYHPs1ex0Z8M/KbvF4fO41Lg7y84clAgsCBFJkUPsLcQJ+ug/s4ywOV+b8nyXnEVPjN1Ydp+Uk6jutHTVCS5WsVzoiKcfxeAwpHgliqUSFmy88nx7y8ut+Z0It0knt+CPCeFxyGMnmDpY4c8G3JrCstGnwwWJpErLKSabseikkocs3l8VYZNYdQAIduzr5LyEGDbKpiHXHoK5dHppsNYTl+xWdxX3pcy6wzs+ycWSKoOFQk08A3UM4DvLNy3/cjORyQ=
+X-Microsoft-Antispam-Message-Info: 0Ae95xwYXpjmVO8feEKQ+5Nn95qT6qam/HCsQ0dhnU1Wmnp671k8+xk4ssXtK0gzJo9eSUbq9zc2VK6S4SBCsgyoQ/fNM6Leg1c+ilR79xs74gDkbefmUQDIKIjmCBpxiAWvptgHCwn2mXYbO04HASY+Ev/OiV7bmNUK6kvM/hRqcyrZpzoRCvrP7OiCiGEECc428VOxfwjgoncZShbJS/fd73Uqv8XJ2fV1265VVbLhjOUpMWgIrloUjL3DSztCVxGmuyQDHQ8jsjcoMXnZXjCbqcjPvODjWrSEpSqBRPO1O/4q4tJPdRBGf5xKwU7RpnYulMoftF2Aj3WK4J4hFOKfWYITmTIfSGaXGRUXpFfN0FN+hwOIFIzoh38TjO7o8qu4u2Sm6qMbRmQd/NNhaOEUEaIiGfZU3wBIE1zgW1hH0JLKwuA06IGJrWXYOsJFXaya9prCDApLtMUVUTBpngtQ6OClqvJT2gO2uimJifJ7tRWEs7E21n6SOLtZv/wO+6CqOm6ooFdjZlFn+I7noCj/BVbauSZVy0rx5PfVK3RtHxtSuiOSVyfckQFFi67VSg00kC6LygU+sZtef9gwRoFw5mkCQUbom623cELPT9xjgcM7UbqzgjGxaojAuELc24BnncFV+KuQiM6q0A/CdCf+sfd8YvwAJzO7/WRtnZ1O8jWO/IGKIO7UQvWanAEr4VYZ/TzS+LVmC8j7Qon2fvhZuC9hbUdNowODJDUq7P/09baWcrLaveG2J6Ve56Oz86RE+yRn7TMVWZ1jqi24v2smfvccPxDBbtGUOthwlQWZPPqCZ51inuayR1UIP2e2b5N9QHni52JnhwNDX/2U7odFoWHDvaXOmZnazZHuVJs=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(136003)(346002)(396003)(376002)(40470700004)(36840700001)(46966006)(7696005)(316002)(47076005)(8936002)(26005)(8676002)(70586007)(82310400005)(110136005)(36756003)(426003)(336012)(5660300002)(81166007)(83380400001)(4326008)(186003)(82740400003)(356005)(70206006)(41300700001)(54906003)(1076003)(7416002)(86362001)(40480700001)(36860700001)(478600001)(40460700003)(2616005)(6666004)(2906002)(36900700001);
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230016)(4636009)(346002)(396003)(39860400002)(136003)(376002)(40470700004)(36840700001)(46966006)(83380400001)(36756003)(40460700003)(356005)(54906003)(82310400005)(86362001)(2906002)(336012)(36860700001)(426003)(81166007)(47076005)(40480700001)(186003)(7696005)(8676002)(8936002)(70206006)(478600001)(316002)(5660300002)(26005)(82740400003)(70586007)(2616005)(6666004)(4326008)(1076003)(41300700001)(110136005)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2022 11:41:48.7830 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea04261b-506d-43c2-b06c-08da5b56af10
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2022 11:41:59.6518 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 023fb7d5-a96b-4c82-8460-08da5b56b58d
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT017.eop-nam11.prod.protection.outlook.com
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT013.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3398
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1388
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,210 +104,352 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Sunil-kumar.Dommati@amd.com, open list <linux-kernel@vger.kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Meng Tang <tangmeng@uniontech.com>, Basavaraj.Hiregoudar@amd.com,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav
+Cc: Sunil-kumar.Dommati@amd.com, open list <linux-kernel@vger.kernel.org>,
+ Basavaraj.Hiregoudar@amd.com, Takashi Iwai <tiwai@suse.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav
  Kysela <perex@perex.cz>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- Alexander.Deucher@amd.com, zhuning@everest-semi.com,
- Gu Shengxian <gushengxian@yulong.com>
+ Alexander.Deucher@amd.com, zhuning@everest-semi.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add I2S MICSP instance support for Stoney variant.
+Add Machine driver for Jadeite platform which uses ES8336 codec.
 
 Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
- sound/soc/amd/acp-pcm-dma.c | 50 +++++++++++++++++++++++++++++++++++--
- sound/soc/amd/acp.h         | 13 ++++++++++
- 2 files changed, 61 insertions(+), 2 deletions(-)
+ sound/soc/amd/acp-es8336.c | 324 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 324 insertions(+)
+ create mode 100644 sound/soc/amd/acp-es8336.c
 
-diff --git a/sound/soc/amd/acp-pcm-dma.c b/sound/soc/amd/acp-pcm-dma.c
-index 1cd2e70a57df..198358d28ea9 100644
---- a/sound/soc/amd/acp-pcm-dma.c
-+++ b/sound/soc/amd/acp-pcm-dma.c
-@@ -433,6 +433,7 @@ static void acp_dma_start(void __iomem *acp_mmio, u16 ch_num, bool is_circular)
- 	case I2S_TO_ACP_DMA_CH_NUM:
- 	case ACP_TO_I2S_DMA_BT_INSTANCE_CH_NUM:
- 	case I2S_TO_ACP_DMA_BT_INSTANCE_CH_NUM:
-+	case ACP_TO_I2S_DMA_MICSP_INSTANCE_CH_NUM:
- 		dma_ctrl |= ACP_DMA_CNTL_0__DMAChIOCEn_MASK;
- 		break;
- 	default:
-@@ -710,6 +711,13 @@ static irqreturn_t dma_irq_handler(int irq, void *arg)
- 			      acp_mmio, mmACP_EXTERNAL_INTR_STAT);
- 	}
- 
-+	if ((intr_flag & BIT(ACP_TO_I2S_DMA_MICSP_INSTANCE_CH_NUM)) != 0) {
-+		valid_irq = true;
-+		snd_pcm_period_elapsed(irq_data->play_i2s_micsp_stream);
-+		acp_reg_write((intr_flag & BIT(ACP_TO_I2S_DMA_MICSP_INSTANCE_CH_NUM)) << 16,
-+			      acp_mmio, mmACP_EXTERNAL_INTR_STAT);
+diff --git a/sound/soc/amd/acp-es8336.c b/sound/soc/amd/acp-es8336.c
+new file mode 100644
+index 000000000000..eec3d57092fa
+--- /dev/null
++++ b/sound/soc/amd/acp-es8336.c
+@@ -0,0 +1,324 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Machine driver for AMD Stoney platform using ES8336 Codec
++ *
++ * Copyright 2022 Advanced Micro Devices, Inc.
++ */
++
++#include <sound/core.h>
++#include <sound/soc.h>
++#include <sound/pcm.h>
++#include <sound/pcm_params.h>
++#include <sound/soc-dapm.h>
++#include <sound/jack.h>
++#include <linux/gpio.h>
++#include <linux/device.h>
++#include <linux/dmi.h>
++#include <linux/gpio/consumer.h>
++#include <linux/gpio/machine.h>
++#include <linux/i2c.h>
++#include <linux/input.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/module.h>
++#include <linux/acpi.h>
++
++#include "../codecs/es8316.h"
++#include "acp.h"
++
++#define DUAL_CHANNEL	2
++#define DRV_NAME "acp2x_mach"
++#define ST_JADEITE	1
++#define ES8336_PLL_FREQ (48000 * 256)
++
++static unsigned long acp2x_machine_id;
++static struct snd_soc_jack st_jack;
++struct device *codec_dev;
++struct gpio_desc *gpio_pa;
++
++static int sof_es8316_speaker_power_event(struct snd_soc_dapm_widget *w,
++					  struct snd_kcontrol *kcontrol, int event)
++{
++	if (SND_SOC_DAPM_EVENT_ON(event))
++		gpiod_set_value_cansleep(gpio_pa, true);
++	else
++		gpiod_set_value_cansleep(gpio_pa, false);
++
++	return 0;
++}
++
++static struct snd_soc_jack_pin st_es8316_jack_pins[] = {
++	{
++		.pin	= "Headphone",
++		.mask	= SND_JACK_HEADPHONE,
++	},
++	{
++		.pin	= "Headset Mic",
++		.mask	= SND_JACK_MICROPHONE,
++	},
++};
++
++static int st_es8336_init(struct snd_soc_pcm_runtime *rtd)
++{
++	int ret;
++	struct snd_soc_card *card;
++	struct snd_soc_component *codec;
++
++	codec = asoc_rtd_to_codec(rtd, 0)->component;
++	card = rtd->card;
++
++	ret = snd_soc_card_jack_new_pins(card, "Headset", SND_JACK_HEADSET | SND_JACK_BTN_0,
++					 &st_jack, st_es8316_jack_pins,
++					 ARRAY_SIZE(st_es8316_jack_pins));
++	if (ret) {
++		dev_err(card->dev, "HP jack creation failed %d\n", ret);
++		return ret;
++	}
++	snd_jack_set_key(st_jack.jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
++	ret = snd_soc_component_set_jack(codec, &st_jack, NULL);
++	if (ret) {
++		dev_err(rtd->dev, "Headset Jack call-back failed: %d\n", ret);
++		return ret;
++	}
++	return 0;
++}
++
++static const unsigned int st_channels[] = {
++	DUAL_CHANNEL,
++};
++
++static const unsigned int st_rates[] = {
++	48000,
++};
++
++static const struct snd_pcm_hw_constraint_list st_constraints_rates = {
++	.count = ARRAY_SIZE(st_rates),
++	.list  = st_rates,
++	.mask = 0,
++};
++
++static const struct snd_pcm_hw_constraint_list st_constraints_channels = {
++	.count = ARRAY_SIZE(st_channels),
++	.list = st_channels,
++	.mask = 0,
++};
++
++static int st_es8336_codec_startup(struct snd_pcm_substream *substream)
++{
++	struct snd_pcm_runtime *runtime;
++	struct snd_soc_pcm_runtime *rtd;
++	struct snd_soc_card *card;
++	struct acp_platform_info *machine;
++	struct snd_soc_dai *codec_dai;
++	int ret;
++
++	runtime = substream->runtime;
++	rtd = asoc_substream_to_rtd(substream);
++	card = rtd->card;
++	machine = snd_soc_card_get_drvdata(card);
++	codec_dai = asoc_rtd_to_codec(rtd, 0);
++	ret = snd_soc_dai_set_sysclk(codec_dai, 0, ES8336_PLL_FREQ, SND_SOC_CLOCK_IN);
++	if (ret < 0) {
++		dev_err(rtd->dev, "can't set codec sysclk: %d\n", ret);
++		return ret;
++	}
++	runtime->hw.channels_max = DUAL_CHANNEL;
++	snd_pcm_hw_constraint_list(runtime, 0, SNDRV_PCM_HW_PARAM_CHANNELS,
++				   &st_constraints_channels);
++	snd_pcm_hw_constraint_list(runtime, 0, SNDRV_PCM_HW_PARAM_RATE,
++				   &st_constraints_rates);
++
++	machine->play_i2s_instance = I2S_MICSP_INSTANCE;
++	machine->cap_i2s_instance = I2S_MICSP_INSTANCE;
++	machine->capture_channel = CAP_CHANNEL0;
++	return 0;
++}
++
++static const struct snd_soc_ops st_es8336_ops = {
++	.startup = st_es8336_codec_startup,
++};
++
++SND_SOC_DAILINK_DEF(designware1,
++		    DAILINK_COMP_ARRAY(COMP_CPU("designware-i2s.2.auto")));
++SND_SOC_DAILINK_DEF(codec,
++		    DAILINK_COMP_ARRAY(COMP_CODEC("i2c-ESSX8336:00", "ES8316 HiFi")));
++SND_SOC_DAILINK_DEF(platform,
++		    DAILINK_COMP_ARRAY(COMP_PLATFORM("acp_audio_dma.1.auto")));
++
++static struct snd_soc_dai_link st_dai_es8336[] = {
++	{
++		.name = "amdes8336",
++		.stream_name = "ES8336 HiFi Play",
++		.dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
++				| SND_SOC_DAIFMT_CBP_CFP,
++		.stop_dma_first = 1,
++		.dpcm_capture = 1,
++		.dpcm_playback = 1,
++		.init = st_es8336_init,
++		.ops = &st_es8336_ops,
++		SND_SOC_DAILINK_REG(designware1, codec, platform),
++	},
++};
++
++static const struct snd_soc_dapm_widget st_widgets[] = {
++	SND_SOC_DAPM_SPK("Speaker", NULL),
++	SND_SOC_DAPM_HP("Headphone", NULL),
++	SND_SOC_DAPM_MIC("Headset Mic", NULL),
++	SND_SOC_DAPM_MIC("Internal Mic", NULL),
++
++	SND_SOC_DAPM_SUPPLY("Speaker Power", SND_SOC_NOPM, 0, 0,
++			    sof_es8316_speaker_power_event,
++			    SND_SOC_DAPM_PRE_PMD | SND_SOC_DAPM_POST_PMU),
++};
++
++static const struct snd_soc_dapm_route st_audio_route[] = {
++	{"Speaker", NULL, "HPOL"},
++	{"Speaker", NULL, "HPOR"},
++	{"Headphone", NULL, "HPOL"},
++	{"Headphone", NULL, "HPOR"},
++	{"MIC1", NULL, "Headset Mic"},
++	{"MIC2", NULL, "Internal Mic"},
++	{"Speaker", NULL, "Speaker Power"},
++};
++
++static const struct snd_kcontrol_new st_mc_controls[] = {
++	SOC_DAPM_PIN_SWITCH("Speaker"),
++	SOC_DAPM_PIN_SWITCH("Headphone"),
++	SOC_DAPM_PIN_SWITCH("Headset Mic"),
++	SOC_DAPM_PIN_SWITCH("Internal Mic"),
++};
++
++static const struct acpi_gpio_params pa_enable_gpio = { 0, 0, false };
++static const struct acpi_gpio_mapping acpi_es8336_gpios[] = {
++	{ "pa-enable-gpios", &pa_enable_gpio, 1 },
++	{ }
++};
++
++static int st_es8336_late_probe(struct snd_soc_card *card)
++{
++	struct acpi_device *adev;
++	int ret;
++
++	adev = acpi_dev_get_first_match_dev("ESSX8336", NULL, -1);
++	if (adev)
++		put_device(&adev->dev);
++	codec_dev = acpi_get_first_physical_node(adev);
++	if (!codec_dev)
++		dev_err(card->dev, "can not find codec dev\n");
++
++	ret = devm_acpi_dev_add_driver_gpios(codec_dev, acpi_es8336_gpios);
++
++	gpio_pa = gpiod_get_optional(codec_dev, "pa-enable", GPIOD_OUT_LOW);
++	if (IS_ERR(gpio_pa)) {
++		ret = dev_err_probe(card->dev, PTR_ERR(gpio_pa),
++				    "could not get pa-enable GPIO\n");
++		gpiod_put(gpio_pa);
++		put_device(codec_dev);
++	}
++	return 0;
++}
++
++static struct snd_soc_card st_card = {
++	.name = "acpes8336",
++	.owner = THIS_MODULE,
++	.dai_link = st_dai_es8336,
++	.num_links = ARRAY_SIZE(st_dai_es8336),
++	.dapm_widgets = st_widgets,
++	.num_dapm_widgets = ARRAY_SIZE(st_widgets),
++	.dapm_routes = st_audio_route,
++	.num_dapm_routes = ARRAY_SIZE(st_audio_route),
++	.controls = st_mc_controls,
++	.num_controls = ARRAY_SIZE(st_mc_controls),
++	.late_probe = st_es8336_late_probe,
++};
++
++static int st_es8336_quirk_cb(const struct dmi_system_id *id)
++{
++	acp2x_machine_id = ST_JADEITE;
++	return 1;
++}
++
++static const struct dmi_system_id st_es8336_quirk_table[] = {
++	{
++		.callback = st_es8336_quirk_cb,
++		.matches = {
++			DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "AMD"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jadeite"),
++		},
++	},
++	{
++		.callback = st_es8336_quirk_cb,
++		.matches = {
++			DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "IP3 Technology CO.,Ltd."),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ASN1D"),
++		},
++	},
++	{
++		.callback = st_es8336_quirk_cb,
++		.matches = {
++			DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Standard"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ASN10"),
++		},
++	},
++	{}
++};
++
++static int st_es8336_probe(struct platform_device *pdev)
++{
++	int ret;
++	struct snd_soc_card *card;
++	struct acp_platform_info *machine;
++
++	machine = devm_kzalloc(&pdev->dev, sizeof(struct acp_platform_info), GFP_KERNEL);
++	if (!machine)
++		return -ENOMEM;
++
++	dmi_check_system(st_es8336_quirk_table);
++	switch (acp2x_machine_id) {
++	case ST_JADEITE:
++		card = &st_card;
++		st_card.dev = &pdev->dev;
++		break;
++	default:
++		return -ENODEV;
 +	}
 +
- 	if ((intr_flag & BIT(ACP_TO_I2S_DMA_BT_INSTANCE_CH_NUM)) != 0) {
- 		valid_irq = true;
- 		snd_pcm_period_elapsed(irq_data->play_i2sbt_stream);
-@@ -807,7 +815,8 @@ static int acp_dma_open(struct snd_soc_component *component,
- 	 * stream is not closed
- 	 */
- 	if (!intr_data->play_i2ssp_stream && !intr_data->capture_i2ssp_stream &&
--	    !intr_data->play_i2sbt_stream && !intr_data->capture_i2sbt_stream)
-+	    !intr_data->play_i2sbt_stream && !intr_data->capture_i2sbt_stream &&
-+	    !intr_data->play_i2s_micsp_stream)
- 		acp_reg_write(1, adata->acp_mmio, mmACP_EXTERNAL_INTR_ENB);
- 
- 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-@@ -867,6 +876,9 @@ static int acp_dma_hw_params(struct snd_soc_component *component,
- 			case I2S_BT_INSTANCE:
- 				val |= ACP_I2S_BT_16BIT_RESOLUTION_EN;
- 				break;
-+			case I2S_MICSP_INSTANCE:
-+				val |= ACP_I2S_MICSP_16BIT_RESOLUTION_EN;
-+				break;
- 			case I2S_SP_INSTANCE:
- 			default:
- 				val |= ACP_I2S_SP_16BIT_RESOLUTION_EN;
-@@ -876,6 +888,7 @@ static int acp_dma_hw_params(struct snd_soc_component *component,
- 			case I2S_BT_INSTANCE:
- 				val |= ACP_I2S_BT_16BIT_RESOLUTION_EN;
- 				break;
-+			case I2S_MICSP_INSTANCE:
- 			case I2S_SP_INSTANCE:
- 			default:
- 				val |= ACP_I2S_MIC_16BIT_RESOLUTION_EN;
-@@ -901,6 +914,27 @@ static int acp_dma_hw_params(struct snd_soc_component *component,
- 					mmACP_I2S_BT_TRANSMIT_BYTE_CNT_LOW;
- 			adata->play_i2sbt_stream = substream;
- 			break;
-+		case I2S_MICSP_INSTANCE:
-+			switch (adata->asic_type) {
-+			case CHIP_STONEY:
-+				rtd->pte_offset = ACP_ST_PLAYBACK_PTE_OFFSET;
-+				break;
-+			default:
-+				rtd->pte_offset = ACP_PLAYBACK_PTE_OFFSET;
-+			}
-+			rtd->ch1 = SYSRAM_TO_ACP_MICSP_INSTANCE_CH_NUM;
-+			rtd->ch2 = ACP_TO_I2S_DMA_MICSP_INSTANCE_CH_NUM;
-+			rtd->sram_bank = ACP_SRAM_BANK_1_ADDRESS;
-+			rtd->destination = TO_ACP_I2S_2;
-+			rtd->dma_dscr_idx_1 = PLAYBACK_START_DMA_DESCR_CH4;
-+			rtd->dma_dscr_idx_2 = PLAYBACK_START_DMA_DESCR_CH5;
-+			rtd->byte_cnt_high_reg_offset =
-+					mmACP_I2S_MICSP_TRANSMIT_BYTE_CNT_HIGH;
-+			rtd->byte_cnt_low_reg_offset =
-+					mmACP_I2S_MICSP_TRANSMIT_BYTE_CNT_LOW;
++	platform_set_drvdata(pdev, card);
++	snd_soc_card_set_drvdata(card, machine);
++	ret = devm_snd_soc_register_card(&pdev->dev, &st_card);
++	if (ret) {
++		return dev_err_probe(&pdev->dev, ret,
++				     "devm_snd_soc_register_card(%s) failed\n",
++				     card->name);
++	}
++	return 0;
++}
 +
-+			adata->play_i2s_micsp_stream = substream;
-+			break;
- 		case I2S_SP_INSTANCE:
- 		default:
- 			switch (adata->asic_type) {
-@@ -939,6 +973,7 @@ static int acp_dma_hw_params(struct snd_soc_component *component,
- 			rtd->dma_curr_dscr = mmACP_DMA_CUR_DSCR_11;
- 			adata->capture_i2sbt_stream = substream;
- 			break;
-+		case I2S_MICSP_INSTANCE:
- 		case I2S_SP_INSTANCE:
- 		default:
- 			rtd->pte_offset = ACP_CAPTURE_PTE_OFFSET;
-@@ -1160,6 +1195,9 @@ static int acp_dma_close(struct snd_soc_component *component,
- 		case I2S_BT_INSTANCE:
- 			adata->play_i2sbt_stream = NULL;
- 			break;
-+		case I2S_MICSP_INSTANCE:
-+			adata->play_i2s_micsp_stream = NULL;
-+			break;
- 		case I2S_SP_INSTANCE:
- 		default:
- 			adata->play_i2ssp_stream = NULL;
-@@ -1181,6 +1219,7 @@ static int acp_dma_close(struct snd_soc_component *component,
- 		case I2S_BT_INSTANCE:
- 			adata->capture_i2sbt_stream = NULL;
- 			break;
-+		case I2S_MICSP_INSTANCE:
- 		case I2S_SP_INSTANCE:
- 		default:
- 			adata->capture_i2ssp_stream = NULL;
-@@ -1197,7 +1236,8 @@ static int acp_dma_close(struct snd_soc_component *component,
- 	 * another stream is also not active.
- 	 */
- 	if (!adata->play_i2ssp_stream && !adata->capture_i2ssp_stream &&
--	    !adata->play_i2sbt_stream && !adata->capture_i2sbt_stream)
-+	    !adata->play_i2sbt_stream && !adata->capture_i2sbt_stream &&
-+	    !adata->play_i2s_micsp_stream)
- 		acp_reg_write(0, adata->acp_mmio, mmACP_EXTERNAL_INTR_ENB);
- 	kfree(rtd);
- 	return 0;
-@@ -1245,6 +1285,7 @@ static int acp_audio_probe(struct platform_device *pdev)
- 	audio_drv_data->capture_i2ssp_stream = NULL;
- 	audio_drv_data->play_i2sbt_stream = NULL;
- 	audio_drv_data->capture_i2sbt_stream = NULL;
-+	audio_drv_data->play_i2s_micsp_stream = NULL;
- 
- 	audio_drv_data->asic_type =  *pdata;
- 
-@@ -1333,6 +1374,11 @@ static int acp_pcm_resume(struct device *dev)
- 		config_acp_dma(adata->acp_mmio, rtd, adata->asic_type);
- 	}
- 	if (adata->asic_type != CHIP_CARRIZO) {
-+		if (adata->play_i2s_micsp_stream &&
-+		    adata->play_i2s_micsp_stream->runtime) {
-+			rtd = adata->play_i2s_micsp_stream->runtime->private_data;
-+			config_acp_dma(adata->acp_mmio, rtd, adata->asic_type);
-+		}
- 		if (adata->play_i2sbt_stream &&
- 		    adata->play_i2sbt_stream->runtime) {
- 			rtd = adata->play_i2sbt_stream->runtime->private_data;
-diff --git a/sound/soc/amd/acp.h b/sound/soc/amd/acp.h
-index db80a73aa593..b29bef90f886 100644
---- a/sound/soc/amd/acp.h
-+++ b/sound/soc/amd/acp.h
-@@ -55,6 +55,7 @@
- 
- #define I2S_SP_INSTANCE                 0x01
- #define I2S_BT_INSTANCE                 0x02
-+#define I2S_MICSP_INSTANCE		0x03
- #define CAP_CHANNEL0			0x00
- #define CAP_CHANNEL1			0x01
- 
-@@ -85,6 +86,10 @@
- #define I2S_TO_ACP_DMA_BT_INSTANCE_CH_NUM 10
- #define ACP_TO_SYSRAM_BT_INSTANCE_CH_NUM 11
- 
-+/* Playback DMA channels for I2S MICSP instance */
-+#define SYSRAM_TO_ACP_MICSP_INSTANCE_CH_NUM  4
-+#define ACP_TO_I2S_DMA_MICSP_INSTANCE_CH_NUM 5
++static int st_es8336_remove(struct platform_device *pdev)
++{
++	return 0;
++}
 +
- #define NUM_DSCRS_PER_CHANNEL 2
- 
- #define PLAYBACK_START_DMA_DESCR_CH12 0
-@@ -108,8 +113,15 @@
- #define CAPTURE_START_DMA_DESCR_CH11 14
- #define CAPTURE_END_DMA_DESCR_CH11 15
- 
-+/* I2S MICSP Instance DMA Descriptors */
-+#define PLAYBACK_START_DMA_DESCR_CH4 0
-+#define PLAYBACK_END_DMA_DESCR_CH4 1
-+#define PLAYBACK_START_DMA_DESCR_CH5 2
-+#define PLAYBACK_END_DMA_DESCR_CH5 3
++#ifdef CONFIG_ACPI
++static const struct acpi_device_id st_audio_acpi_match[] = {
++	{"AMDI8336", 0},
++	{},
++};
++MODULE_DEVICE_TABLE(acpi, st_audio_acpi_match);
++#endif
 +
- #define mmACP_I2S_16BIT_RESOLUTION_EN       0x5209
- #define ACP_I2S_MIC_16BIT_RESOLUTION_EN 0x01
-+#define ACP_I2S_MICSP_16BIT_RESOLUTION_EN 0x01
- #define ACP_I2S_SP_16BIT_RESOLUTION_EN	0x02
- #define ACP_I2S_BT_16BIT_RESOLUTION_EN	0x04
- #define ACP_BT_UART_PAD_SELECT_MASK	0x1
-@@ -149,6 +161,7 @@ struct audio_drv_data {
- 	struct snd_pcm_substream *capture_i2ssp_stream;
- 	struct snd_pcm_substream *play_i2sbt_stream;
- 	struct snd_pcm_substream *capture_i2sbt_stream;
-+	struct snd_pcm_substream *play_i2s_micsp_stream;
- 	void __iomem *acp_mmio;
- 	u32 asic_type;
- 	snd_pcm_sframes_t delay;
++static struct platform_driver st_mach_driver = {
++	.driver = {
++		.name = "st-es8316",
++		.acpi_match_table = ACPI_PTR(st_audio_acpi_match),
++		.pm = &snd_soc_pm_ops,
++	},
++	.probe = st_es8336_probe,
++	.remove = st_es8336_remove,
++};
++
++module_platform_driver(st_mach_driver);
++
++MODULE_AUTHOR("Vijendar.Mukunda@amd.com");
++MODULE_DESCRIPTION("st-es8316 audio support");
++MODULE_LICENSE("GPL v2");
 -- 
 2.25.1
 
