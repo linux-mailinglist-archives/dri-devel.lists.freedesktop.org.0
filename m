@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD482563869
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 19:09:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7C35638B1
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 19:47:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4E05113426;
-	Fri,  1 Jul 2022 17:08:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C299C18A173;
+	Fri,  1 Jul 2022 17:47:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
- [209.85.166.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FEB812A182
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 17:08:57 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id p128so2887806iof.1
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Jul 2022 10:08:57 -0700 (PDT)
+Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com
+ [IPv6:2607:f8b0:4864:20::930])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 589C318A16F
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 17:47:39 +0000 (UTC)
+Received: by mail-ua1-x930.google.com with SMTP id b7so1087320uap.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Jul 2022 10:47:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Owhb694VNyKXL9BTeHyWfPv7VjySMI0QfeQx3kqvgGY=;
+ b=db+nhfvC/RPkYrPjhilWcAUW0Br1Vmg7cACLD2aJRlOdO7IOv19o+3yJM1/koHPZ3j
+ ojMBdTf2KAEdhu//3OrMvcs9tu/MuO9qOUOX9XiQj8nwyaN49RGfiQ91svbr0yKXGebM
+ Q06i5dMm+SH7WmylW8Wm2x2wo5Gx5jHQHoNOXQaiHlNcJr9/gtaUns5J0yqjhfgTclJd
+ CIf9BGgux0xMjMyBTG/NPNjYmensBpCfMPExE9lpFV1hlgn+7CP4ny8ASHUAkQpUtgye
+ orJKEHiFrzGoBcg/oELdDFU0+cobRUI4v7vsTzV8gWw+aHiyFn3TpDMYFBQ4mcTBe3gv
+ EiUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7x9Mh8w297MwFJ5ekAbnyTjXL0rl1Jcq1H4Y3M0yNlk=;
- b=olvGjTklbTtrRztXJnjmccCVojYXSHFoLt1ZYTESODexO0vqBAOXu9h1zdpuNcT3P9
- Eo4YhleMvOsVTBA0CnKoBWb3X+A/HSx8kF4uTS8NaISxJarBy82YpZyAfFzDxAb7nECk
- WpJjBY/KOKaPyLMrp/4a63Jwb8I8FRPsLcsef5wbWen+jL1nT5TqQkdSi+dOoHr/DD9j
- tkmQEr/yQF0IC6tg/GZfLRlxC8vXbDOZka0GRRqvX+BOYCNKF8DkONbk+KK4TvJCi3Ov
- YvboiWteQ3m6NOKBiiakUcdBTo3xKE7WILzAn1g69q3Hg/KmNpvRWQ160eELw9boQoum
- VJTA==
-X-Gm-Message-State: AJIora86IDefMMqzep39ddjt/ogiJKCpbeE2q/eVCRMwJ21w0X7K5jLd
- jxT9qKNUG9lQRAQGckK+9g==
-X-Google-Smtp-Source: AGRyM1vBRNpsTzEOkSJyjDkutfX14+32xQ6Li0MoOtnjvfsPztC0GvxitNjaHnOMuLw2m0eRj4VzBg==
-X-Received: by 2002:a05:6602:2112:b0:675:8c8f:e8c with SMTP id
- x18-20020a056602211200b006758c8f0e8cmr7385488iox.70.1656695336690; 
- Fri, 01 Jul 2022 10:08:56 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
- by smtp.gmail.com with ESMTPSA id
- i16-20020a02cc50000000b0033d76a6196asm2235378jaq.171.2022.07.01.10.08.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Jul 2022 10:08:56 -0700 (PDT)
-Received: (nullmailer pid 1146926 invoked by uid 1000);
- Fri, 01 Jul 2022 17:08:54 -0000
-Date: Fri, 1 Jul 2022 11:08:54 -0600
-From: Rob Herring <robh@kernel.org>
-To: Max Krummenacher <max.oss.09@gmail.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: panel-common: allow for
- additional port node properties
-Message-ID: <20220701170854.GA1092383-robh@kernel.org>
-References: <20220628181838.2031-1-max.oss.09@gmail.com>
- <20220628181838.2031-2-max.oss.09@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Owhb694VNyKXL9BTeHyWfPv7VjySMI0QfeQx3kqvgGY=;
+ b=p9eUMwkKIaoHWZwrW1qW/2j4AOv6lYfufkk5wvVdI/ZtDROSP4sF/R4/N9QrA7Ipwu
+ rX2KoKht9kPbxKM5qJyKI0Wl+n2T4MO7FRAJ4wHSVQWJguvydtryfm6xmv1M3JXB4iWj
+ 4XtLNcSAg8210TGFAC+bbrfmCXjNb6h/7O+IICJj3ZWabPt/PobhIF95Kq8/xL3HKZPD
+ OMgoicJ8NDjZsb7fknEffxCVJhXl8DiVmbdctG3pH4gDHYKg0xjPfGxAthzDnZLrXBLg
+ F0YuBTI/C9wP1OeToKp7rlhxBr93nGeUy5brZ2iJnsh7OZYubzNNNycDVO9n/C3sn8jW
+ +yZA==
+X-Gm-Message-State: AJIora+OtWIJeGG1RASJOitVDb/HMsukyVfhMj5nFjCpvVP1YssqY36a
+ Vv9RLhzXZ7jseamImJ3kMNjiPbrZ0OL9zOYvXLQ=
+X-Google-Smtp-Source: AGRyM1tvJiLTYOBz10GyPOSW+SJJWdSYxXiWHlOwB3Nvk1vNG56ZttGuBQslfMO3zERMcHcYmuzdQ67PO3cjfgM8cZw=
+X-Received: by 2002:ab0:244f:0:b0:37f:2985:e620 with SMTP id
+ g15-20020ab0244f000000b0037f2985e620mr8967541uan.36.1656697658397; Fri, 01
+ Jul 2022 10:47:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220628181838.2031-2-max.oss.09@gmail.com>
+References: <20220701120755.2135100-1-javierm@redhat.com>
+In-Reply-To: <20220701120755.2135100-1-javierm@redhat.com>
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Fri, 1 Jul 2022 18:47:27 +0100
+Message-ID: <CALeDE9P4vcJ3UgZdH8-4iaAHiYziS29G7WgtzcJbv0SwVANOyw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] drm: A couple of fixes for drm_copy_field() helper
+ function
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,54 +63,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Christoph Niedermaier <cniedermaier@dh-electronics.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- max.krummenacher@toradex.com,
- Francesco Dolcini <francesco.dolcini@toradex.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 28, 2022 at 08:18:35PM +0200, Max Krummenacher wrote:
-> From: Max Krummenacher <max.krummenacher@toradex.com>
-> 
-> Allow bindings which reference panel-common.yaml to add additional
-> properties under the port node.
-> I.e. 'panel-dpi' needs to add a new property to 'port/endpoint'.
-> 
-> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-> 
-> ---
-> 
-> Changes in v3:
-> - New commit to allow for additional port node properties
-> 
->  .../devicetree/bindings/display/panel/panel-common.yaml         | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-common.yaml b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-> index 5b38dc89cb21..ff8dc07ef3b5 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-common.yaml
-> @@ -68,7 +68,7 @@ properties:
->  
->    # Connectivity
->    port:
-> -    $ref: /schemas/graph.yaml#/properties/port
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
+On Fri, Jul 1, 2022 at 1:08 PM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+>
+> Hello,
+>
+> Peter Robinson reported me a kernel bug in one of his aarch64 test boards
+> and even though I was not able to reproduce it, I think that figured out
+> what the problem was. It seems the cause is that a DRM driver doesn't set
+> some of the struct drm fields copied to userspace via DRM_IOCTL_VERSION.
+>
+> Even though this is a driver bug, we can make drm_copy_field() more robust
+> and warn about it instead of leading to an attempt to copy a NULL pointer.
+>
+> While looking at this, I also found that a variable in drm_copy_field() is
+> not using the correct type. So I included that change in the patch-set too.
+>
+> Best regards,
+> Javier
 
-This will allow extra properties for everyone using this. That means 
-either bus-format needs to go in here (so that it is the only extra 
-property allowed) or we should remove 'port' here and push this into all 
-the users.
+For the series
+Tested-by: Peter Robinson <pbrobinson@gmail.com>
 
-But we should reach agreement on bus-format before doing anything.
-
-Rob
+>
+> Javier Martinez Canillas (2):
+>   drm: Use size_t type for len variable in drm_copy_field()
+>   drm: Prevent drm_copy_field() to attempt copying a NULL pointer
+>
+>  drivers/gpu/drm/drm_ioctl.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> --
+> 2.36.1
+>
