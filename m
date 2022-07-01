@@ -2,127 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B2F562C48
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 09:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCA3562C98
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 09:28:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F345810E23B;
-	Fri,  1 Jul 2022 07:09:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79F7B10E481;
+	Fri,  1 Jul 2022 07:28:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-VE1-obe.outbound.protection.outlook.com
- (mail-eopbgr20061.outbound.protection.outlook.com [40.107.2.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5026910E23B
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 07:09:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dSaft92XWbpEltESWJRcq1BpplL1XDPyTZAJFvfLxELVc/+KeeA3xXh1sE58VSgE7toQcPybqK8iDECvkjtnhW3mTafxITgivP6VsqroYTNH+UNeiKee1tGvaSXpNVPLvGQcb0PbXp5NfbsBA5k1oaJfwtZ1Lm2Dpn6we4O50Q8dvJbWaB9stoFNuw5FWr/tu1dXmiBjTlMEJn/0+dJfems8t4Y0LeY2mkFnOqJyUfNt0obuXafIQM7oh7737iM224yyjRMzGGSepFieR4ghxL15oKkYB86/3rs9arfLsKvYNpvXsLJMe1iciqwl0Y6Sl1X7YZsvE/MxYBzRt18OiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pWzQ5YDYDuhod+ndGlr/6xUYKOW180orx78DH0n2MjU=;
- b=RYXJ2GsIp/gfsctiW2+wQiHNS7DzV7sDw6TMCU2LEiP5vKQbaGZs1pdXyQwBWGClPdORUGkXpFQj70df9eilaVZUOmI8pncFVF/h/7/SM6f+o8AocJn4qRF2phL1qzN2MGGgZJbQSSK0vXeKGjwt9GgJAwiuImmJpb1S0auwmwhUwFBTir79oQJCoIAJ0TOIsTDB/qbzksuo7a69b0scb59ORtBZmqHwYe2fovXJQGYRnmgFWIwiR8UUXG2+3TscCVxVgaKr5L+4ZYvepDof8uhzF64vhMLhkuUANG7RucAXX4rbZYvnAP3VockpwzlryV7GzrpY7JYylNv+n57ksw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pWzQ5YDYDuhod+ndGlr/6xUYKOW180orx78DH0n2MjU=;
- b=qmsrlI3WMYMoptgERKjL80DEEp04ozT9KvvCEHbTA5XLcZPZh2g6ZKWEEwhPDXBeZ5BURba5YMRVC/A68ugRf0vAMn2nFIrqP6HVe7Uh10jQaOQ9rYfFke+sxMzAcXDjDa7RB+XQ86HZsy0H19C+qgBWMKdD8lVQDaKlKdARF7M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by VE1PR04MB6446.eurprd04.prod.outlook.com (2603:10a6:803:11f::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.18; Fri, 1 Jul
- 2022 07:09:32 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::416e:6e99:bac6:d3a9]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::416e:6e99:bac6:d3a9%6]) with mapi id 15.20.5395.015; Fri, 1 Jul 2022
- 07:09:32 +0000
-Message-ID: <bfcbbc3aff61f373a238c5ecb6a996eb963831d7.camel@nxp.com>
-Subject: Re: [PATCH v2] drm/bridge: imx: i.MX8 bridge drivers should depend
- on ARCH_MXC
-From: Liu Ying <victor.liu@nxp.com>
-To: Neil Armstrong <narmstrong@baylibre.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, Robert
- Foss <robert.foss@linaro.org>, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>,  Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team
- <linux-imx@nxp.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Marek
- Vasut <marex@denx.de>
-Date: Fri, 01 Jul 2022 15:09:19 +0800
-In-Reply-To: <123b8767-7ea4-e6fe-6d47-0f2444a88dd9@baylibre.com>
-References: <42c542b53a1c8027b23a045045fbb7b34479913d.1656072500.git.geert+renesas@glider.be>
- <b625ba83-fee9-b668-09db-976cb3bef3ca@baylibre.com>
- <9f5b511708ca9b30ef101a46a5d1b76f03b2c4fc.camel@nxp.com>
- <123b8767-7ea4-e6fe-6d47-0f2444a88dd9@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR02CA0079.apcprd02.prod.outlook.com
- (2603:1096:4:90::19) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
+ [209.85.219.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E42E10E481
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 07:28:34 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id z1so3310692qvp.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Jul 2022 00:28:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ItiQX8JxxOqPGnMxDgw8fRBl9Ocf7hYz3g9osOjYopM=;
+ b=3FasDR05dti2a6Zb3Gni3rKXO8ph2pvrCVXDh1LzBLZfsDlYjwVuAAEeGM+LyFJSho
+ ThgFyTa2e9O5PNbNu68GCE1DC9DEoIb91R7rG99i21/fxWUex+U7KyPM1dZFmLul+ua5
+ x7AJUVrsne1fyJi0o2S3zfCRq84OvVD7eV5AmSfgOcXX5vOZsqw9ho+3T2n59urWUod2
+ 4Zsgnpw3UJK7YTfgttLTa4v+2W5HIAa5Mr1P30nAp87KKxdqUBIjm1ZlAYAD+uSsWpgV
+ yBUoCgOyfOsB2FBEZ1ugoxNYCO3/l9sZrwQju1Ntqnn6LgEFru0OtOmJ+IYyuiTgNZy3
+ d/2Q==
+X-Gm-Message-State: AJIora+ogXbsKRbZMWo81lQsMBCiW2JoYoD5ylXOj6T9Z7fZX5vHt2N2
+ idTxmjv4jEh8fjxQBq5t/XxXP2BYJdsmEw==
+X-Google-Smtp-Source: AGRyM1sYHAjMeeJGeGsGcjNRJOi/eChc93h5MalrdBJJCb3mFj2rIuKmjrsaStj4N5bIDHRLISLuUw==
+X-Received: by 2002:ac8:5f13:0:b0:31b:b33f:2c09 with SMTP id
+ x19-20020ac85f13000000b0031bb33f2c09mr11101015qta.686.1656660513139; 
+ Fri, 01 Jul 2022 00:28:33 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com.
+ [209.85.128.172]) by smtp.gmail.com with ESMTPSA id
+ q8-20020a37f708000000b006b1fe4a103dsm3234547qkj.51.2022.07.01.00.28.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Jul 2022 00:28:32 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-317741c86fdso15506767b3.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Jul 2022 00:28:32 -0700 (PDT)
+X-Received: by 2002:a81:74c5:0:b0:31b:ca4b:4bc4 with SMTP id
+ p188-20020a8174c5000000b0031bca4b4bc4mr15131919ywc.358.1656660512246; Fri, 01
+ Jul 2022 00:28:32 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e4fc675f-5adc-4b24-ac64-08da5b30a564
-X-MS-TrafficTypeDiagnostic: VE1PR04MB6446:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zEgxRV3AKCyo6FGrAR/PlKSv8vbtw1w63/92X1Gcd1w7WcurSsAKXb14jYG97S/jnmUdZlLLej4veZTwpvwCQKKhHvoL7G0Si5yD+t4DkaSYgj4erVBEYw7mZ/zv3xNeE1ktbd6jdzn6yst/hRSMVa4lzdadsA1BELW+xcqJR2LbC65Tha57BJuR7cBbKJQ0rrng7feGos2AfwrZxvE+D823VSmSP+TzF04usFj2KvmiNbK2QB9ftvGxaWLXG6WVK+Glhq7amUrQOLJJe4DCugVsefx2FL13dIzJJHP5I0u05Ly2at8hXhPZQGzJ17ew6rLYW68fjPvJVyGPQx1b4fNNGrL+WOO/LbQbIzkBqyfRUt64rPTmUxQq2a6pYnD1V0eZVmZLmopSEfTnoW3Z1n1bjpMRnmgE6c2FBpK7/hkGHQ7N54DJCZMKjg/7BEOmhXFZ51SG3xCtaE825YkVrDydKbMYvavPFpBEqGZ/wQ03VHZa24ztt8adWecLFAgrrWrqySx3Q2JTgnW7hSid/iUkdX5ZjSa8Hf2pojSgO/LEVLzU7p97K8AX9sLInyBTT0O1BiTF7qUsWyQ8ijy0sA+bFGDHIcn6TBE66eHwbNGbyE9oTw8k+FSL6pGTBzvOnzjhMFbMaz1mfnH0Jb6a/DEbsU4ZG1ra3njGtbf3ENlQenfgKIxqeK8PuNfxbF4L26np3G+rXq73eB/nXV+X9vQNmyl5McG7CSs8y/UoPUCBjAckTeUwd+xzfOPO6lTZac9TyZb2CJyXk3TVyJklwt5uyRvlPOtpPUfyZvIfeHu272Td8+IC6uL/4S13Y8OZokMMvLa6r/tTpDR7tooCJ+qnntL+oplT3UKOR4qewSA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(366004)(346002)(136003)(376002)(396003)(8936002)(53546011)(921005)(8676002)(6506007)(66946007)(6486002)(26005)(7416002)(316002)(52116002)(2906002)(66476007)(5660300002)(110136005)(478600001)(6512007)(38350700002)(6666004)(86362001)(38100700002)(4326008)(66556008)(186003)(2616005)(36756003)(41300700001)(99106002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aGt5bWhRWEVaNXhQOHZ4ejF1bjIwblJVTGJLU3Vac0hkYmpyZWd4Um1XYUdV?=
- =?utf-8?B?T3ptck9waW9lc0ZiSzZPUlo2dm11aWVJNFExRWtoQ3Fka2luUFAzQlBCNWNM?=
- =?utf-8?B?MjBPc2pUSEtkTXNVaHRraHFQSDRHN1kxN0NvTzJLMWVxV2dhb0UxWkMvcGIx?=
- =?utf-8?B?a2xjQzJ2U0pQajNzbXV1Y3ArT2EyQ2h0WDR0cXpLVzVxTm8vTTh1anR6aHNW?=
- =?utf-8?B?d0V4eW5zM0pFT212WFFET2ZHMXIveFJudjFFbzlhVDJmNjMzR3JWZlBRSHVZ?=
- =?utf-8?B?LzFkcVZVVVZ6ckhEUW4yeTljK3ZQbDIveFJHUGh5emVGQ3BzVStLNVFMTUlZ?=
- =?utf-8?B?RFRNcDYzOTZjZjJUamtEb3AybkdMeDZndk9oZk9jYjA2N0Jnc1ZZQnQ0QkFO?=
- =?utf-8?B?bUtScTI1L0pORWtQTW9CWFdQc0lmR2daOW5iaDNlWHE2S1p0L3dUeCtDVFc5?=
- =?utf-8?B?ZmN3S3VEUXErbmFaSWw5bnVUbWZmaWh0T0hZSUFqbE95bExxUzA2clNzTUVa?=
- =?utf-8?B?bjh3NHVaRlNEazk5d2Y0TEswT2Rjc1dvd0Q2RmZSb3NQTWo3eS9VY0YrenRn?=
- =?utf-8?B?SXB0YWtBcWJUQ2VPcU9aRjRmc3pKMjhJczhDQi9ienBxMW9ZMDlPZWxxNHhr?=
- =?utf-8?B?dUVMYVdDTXZESEZQU0lKVG9oVWFTRVUxVk9IR2VjcEcyNlNLeWhQYmg1bTBY?=
- =?utf-8?B?L3hBNGI0ZW84Y3dWemU4MzJoVElPMXZtQkRqL1U4ZlB6dU1jMzFVVVhDdFJk?=
- =?utf-8?B?SHd2VHZQelBmVEwvMUhmWFVBWEg1cDJTZjFaa3hNM3RXQnNKOXlwcXJDNEoz?=
- =?utf-8?B?T0NRaU9UTzA2NGpNemR5cTNwWTVqaXB1c2QrMjlyOE1qYVo1V3RaamxGUDFq?=
- =?utf-8?B?Kyt6aTlqb0srU1dSTDFMNVJ5Q25lYVFCZUhpKzJhOWpCK0sxdFNscUlWRmhr?=
- =?utf-8?B?UGpJS3czL1lyb01VZXFBSStwaTlydTg2UU9XazhSeUFld3FPRmpPUFlkVW5Q?=
- =?utf-8?B?bFl6NDFqc1lodE4yZHc3dWIzVHZQSCsyR09MSWlhamNzUjU1R3MzS1JmSWgr?=
- =?utf-8?B?SXhPNUNVeXB2VEVyMGF6cFJFcnMvdDZ6N204YjlXOW5NSFZTSkp1Wk1sb3ZH?=
- =?utf-8?B?ZWhSSFRBQVFDcnBRWGZkbG85Y2dSU0tOOWh0dndQMUlqdzByWkRMVU9jaWRS?=
- =?utf-8?B?WHZobnZPU1l5alV3Q3Y5aEZ6MnRoZ3FqQXoyTjdBZDVHV2tYMUhzMmZ5WDMx?=
- =?utf-8?B?aXNQMmdRd3B6NWNUMzV6MGN2VE13TUpVNDBDYjA5WkZySW1iaisySlFyRXRv?=
- =?utf-8?B?bHVaNEtackYvZHVjSDJ2YjRicCtLSENFTVRzbW1qQzY5NVI3RzBINzUveDZs?=
- =?utf-8?B?R2Y4SktKU2ZwQzlRaWNqZFQxbUdPUXZRM0ZodGRON2FQbmw3MmU4US9YcVp2?=
- =?utf-8?B?NSt0T1VLZVR5cURTWS83aC9BNmNHWTB6SE1md1dJMk1hK2pGNGFBWTRldy9X?=
- =?utf-8?B?Wjh2eHBwMlc1cDVNMklMUXo5VjEyZnN4d0xRejQ2UEJYN0RzbEpkWXJiNFBs?=
- =?utf-8?B?a0llK3pKZDJmWXAvR0pyUkZ5Vk4vSlpCaTI0YnE4bG9SNUJ6dkF0SDBKMUJ3?=
- =?utf-8?B?UEdTVmYvNUlCS1ptck93Zm5NSEFpWXJtMFRDeTZOcTJpY3lYT0E0S2Zia3ZX?=
- =?utf-8?B?KytKdzNyVnA0OUZxcFhEYjcyRWp4a0tiMnNoNjFSRVZDbmo4QVNNamFFbDlq?=
- =?utf-8?B?Z3llTytMS05Fdkh2MXQ4dkxuZnVxSlZEUWRuNXlFUG5uRWs0dXdWbld2US84?=
- =?utf-8?B?V2RERFJiWi81eldpYTBKdUpGamFIQjBKdzlNeWtkY0RuR0N6ZEtsbTU4amg2?=
- =?utf-8?B?a3ZZU0QrZ01zdVBueGhpSmlPTGJnVFJuMUh1K2FLVU00MmVSdVZaeWRLUU1z?=
- =?utf-8?B?UW8yZ0g0dmpFV1BrOERoNk1OZnRBd1VQNElRTkpnUGNBVnhKVE1ZM1ZhRFQ5?=
- =?utf-8?B?bU10TFZJcVZXMThsMFcwMkRSeVFqTjQ1UTNIdnYyYU5SaDhabWU2cGVwcXpk?=
- =?utf-8?B?eExOYWxvb1hFSXZuYjZXNC9OSXJaMU1UeG9tYlNRN2VBWVdDRVd4VmpkK2Q3?=
- =?utf-8?Q?BnZGVCyv4jDigXJza64vSm1N3?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4fc675f-5adc-4b24-ac64-08da5b30a564
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2022 07:09:32.0398 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qfCWRCUheRuB0gfRn+qNFAhqh6x/Tj6zWrAQRRxeOqSFMYElcvcM/BybkRkl2dutRktWnoR6WY/QSY5fhjNzuw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6446
+References: <20220629200024.187187-1-deller@gmx.de>
+ <20220629200024.187187-3-deller@gmx.de>
+ <CAMuHMdXJRBywf+h_u1jgA6X7hLSByDDwSkskff47a0BHfd93iA@mail.gmail.com>
+ <0c418b7d-474a-3f93-a1fb-2f13c4d19941@gmx.de>
+ <CAMuHMdUoMJ6CmiKDh4MW_b-7uoxEF+H6QimsA7SfcE5kjo17vw@mail.gmail.com>
+ <d57655b2-44d1-4083-c4e9-ef4f004f2b64@gmx.de>
+ <CAMuHMdXk9Kz4-pv7-M9tufj-pruhOZWw_b51fegkr2JSqzL65g@mail.gmail.com>
+ <cae3dc86-8156-eef5-1af4-b16cb2a42849@gmx.de>
+In-Reply-To: <cae3dc86-8156-eef5-1af4-b16cb2a42849@gmx.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 1 Jul 2022 09:28:20 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdViqMgpiB2a-cLt1viVMgGbBz_Q=youNsWdLPYxcXxFpA@mail.gmail.com>
+Message-ID: <CAMuHMdViqMgpiB2a-cLt1viVMgGbBz_Q=youNsWdLPYxcXxFpA@mail.gmail.com>
+Subject: Re: [PATCH 2/5] fbcon: Fix up user-provided virtual screen size
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,97 +73,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil, Robert,
+Hi Helge,
 
-On Tue, 2022-06-28 at 09:10 +0200, Neil Armstrong wrote:
-> On 28/06/2022 04:31, Liu Ying wrote:
-> > On Mon, 2022-06-27 at 14:22 +0200, Neil Armstrong wrote:
-> > > Hi,
-> > 
-> > Hi,
-> > 
-> > > 
-> > > On 24/06/2022 14:10, Geert Uytterhoeven wrote:
-> > > > The various Freescale i.MX8 display bridges are only present on
-> > > > Freescale i.MX8 SoCs.  Hence add a dependency on ARCH_MXC, to
-> > > > prevent
-> > > > asking the user about these drivers when configuring a kernel
-> > > > without
-> > > > i.MX SoC support.
-> > > > 
-> > > > Fixes: e60c4354840b2fe8 ("drm/bridge: imx: Add LDB support for
-> > > > i.MX8qm")
-> > > > Fixes: 3818715f62b42b5c ("drm/bridge: imx: Add LDB support for
-> > > > i.MX8qxp")
-> > > > Fixes: 96988a526c97cfbe ("drm/bridge: imx: Add i.MX8qxp pixel
-> > > > link
-> > > > to DPI support")
-> > > > Fixes: 1ec17c26bc06289d ("drm/bridge: imx: Add i.MX8qm/qxp
-> > > > display
-> > > > pixel link support")
-> > > > Fixes: 93e163a9e0392aca ("drm/bridge: imx: Add i.MX8qm/qxp
-> > > > pixel
-> > > > combiner support")
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > Reviewed-by: Liu Ying <victor.liu@nxp.com>
-> > > > ---
-> > > > v2:
-> > > >     - s/i.MX8MP/i.MX8/,
-> > > >     - Add Reviewed-by.
-> > > > ---
-> > > >    drivers/gpu/drm/bridge/imx/Kconfig | 4 ++++
-> > > >    1 file changed, 4 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/bridge/imx/Kconfig
-> > > > b/drivers/gpu/drm/bridge/imx/Kconfig
-> > > > index 212a7b0e64fd8b5a..608f47f41bcd1c81 100644
-> > > > --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> > > > +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> > > > @@ -1,3 +1,5 @@
-> > > > +if ARCH_MXC || COMPILE_TEST
-> > > > +
-> > > >    config DRM_IMX8QM_LDB
-> > > >    	tristate "Freescale i.MX8QM LVDS display bridge"
-> > > >    	depends on OF
-> > > > @@ -41,3 +43,5 @@ config DRM_IMX8QXP_PIXEL_LINK_TO_DPI
-> > > >    	help
-> > > >    	  Choose this to enable pixel link to display pixel
-> > > > interface(PXL2DPI)
-> > > >    	  found in Freescale i.MX8qxp processor.
-> > > > +
-> > > > +endif # ARCH_MXC || COMPILE_TEST
-> > > 
-> > > I was wondering why those were added in
-> > > drivers/gpu/drm/bridge/imx
-> > > since they are specific to NXP SoCs,
-> > > I think they should be moved in the right drm imx subsystem
-> > > instead
-> > > of this change.
-> > 
-> > There are 2 directories which contain display controller drivers
-> > for
-> > i.MX SoCs:
-> > a. drivers/gpu/drm/imx - i.MX51/53/6qdl IPUv3, i.MX8mq DCSS and
-> >     i.MX8qm/qxp DPU([1], not landed yet)
-> > b. drivers/gpu/drm/mxsfb - i.MX23/28/6sx/8mq LCDIF and i.MX8mp
-> >     LCDIFv3([2], not landed yet)
-> > 
-> > Bridges added in drivers/gpu/drm/bridge/imx make it possible to
-> > share
-> > bridge drivers across display controllers.  I see chance to use the
-> > LVDS Display Bridge(LDB) helper(imx-ldb-helper.c) for i.MX6sx LDB.
-> 
-> Thanks for the explanation, LGTM
-> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+On Thu, Jun 30, 2022 at 10:10 PM Helge Deller <deller@gmx.de> wrote:
+> On 6/30/22 22:00, Geert Uytterhoeven wrote:
+> > On Thu, Jun 30, 2022 at 9:46 PM Helge Deller <deller@gmx.de> wrote:
+> >> On 6/30/22 21:36, Geert Uytterhoeven wrote:
+> >>> On Thu, Jun 30, 2022 at 9:31 PM Helge Deller <deller@gmx.de> wrote:
+> >>>> On 6/30/22 21:00, Geert Uytterhoeven wrote:
+> >>>>> On Wed, Jun 29, 2022 at 10:00 PM Helge Deller <deller@gmx.de> wrote:
+> >>>>>> The virtual screen size can't be smaller than the physical screen size.
+> >>>>>> Based on the general rule that we round up user-provided input if
+> >>>>>> neccessary, adjust the virtual screen size as well if needed.
+> >>>>>>
+> >>>>>> Signed-off-by: Helge Deller <deller@gmx.de>
+> >>>>>> Cc: stable@vger.kernel.org # v5.4+
+> >>>>>
+> >>>>> Thanks for your patch!
+> >>>>>
+> >>>>>> --- a/drivers/video/fbdev/core/fbmem.c
+> >>>>>> +++ b/drivers/video/fbdev/core/fbmem.c
+> >>>>>> @@ -1106,6 +1106,11 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
+> >>>>>>                         return -EFAULT;
+> >>>>>>                 console_lock();
+> >>>>>>                 lock_fb_info(info);
+> >>>>>> +               /* adjust virtual screen size if user missed it */
+> >>>>>> +               if (var.xres_virtual < var.xres)
+> >>>>>> +                       var.xres_virtual = var.xres;
+> >>>>>> +               if (var.yres_virtual < var.yres)
+> >>>>>> +                       var.yres_virtual = var.yres;
+> >>>>>>                 ret = fb_set_var(info, &var);
+> >>>>>>                 if (!ret)
+> >>>>>>                         fbcon_update_vcs(info, var.activate & FB_ACTIVATE_ALL);
+> >>>>>
+> >>>>> Given "[PATCH 4/5] fbmem: Prevent invalid virtual screen sizes in
+> >>>>> fb_set_var", I don't think we need this patch.
+> >>>>
+> >>>> We do.
+> >>>
+> >>> Why? It will be caught by [PATCH 4/5].
+> >>
+> >> Right, it will be caught by patch #4.
+> >> But if you drop this part, then everytime a user runs
+> >>         fbset -xres 800 -yres 600 -xvres 200
+> >> users will get the KERNEL BUG WARNING (from patch #4) including
+> >> a kernel backtrace in their syslogs.
+> >
+> > No, they will only see that warning if they are using a broken fbdev
+> > driver that implements .fb_check_var(), but fails to validate or
+> > update the passed geometry.
+>
+> IMHO this argument is mood.
+> That way you put pressure on and need such simple code in
+> each single driver to fix it up, instead of cleaning it up at a central
+> place.
 
-Care to pick this up?
-I don't have permission to push this to drm-misc.
+Most hardware has restrictions on resolution (e.g. xres must be a
+multiple of N), so the driver has to round up the resolution to make
+it fit.  And after that the driver has to validate and update the
+virtual resolution again anyway...
 
-Regards,
-Liu Ying
+If a driver does not support changing the video mode, it can leave
+out the .fb_check_var() and .fb_set_par() callbacks, so the fbdev
+core will ignore the userspace-supplied parameters, and reinstate
+the single supported mode. See e.g. "[PATCH] drm/fb-helper:
+Remove helpers to change frame buffer config"
+(https://lore.kernel.org/all/20220629105658.1373770-1-geert@linux-m68k.org).
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
