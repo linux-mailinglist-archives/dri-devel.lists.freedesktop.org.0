@@ -2,78 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD8D563B25
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 22:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DF6563C95
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 00:51:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E6CF113160;
-	Fri,  1 Jul 2022 20:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1904A11263F;
+	Fri,  1 Jul 2022 22:51:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39BB01132BF
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 20:32:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656707569;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DwOaP2o/ijrgj8vUo4oYF/o/pPE6cbtbSwpHocDbRsE=;
- b=BWa8ijb/Q2dK5gru3TH7AgJCT3n2h82EMKVJDCNBFSXs8CvJr3rtrJMyhzEu/fKrp3iRkC
- NT1NPWIUNFzR5KXGek2mQm7KSpz1e/poRCsTpffxkMpbNEEhOu82l27VrKdFkZ+SX6EEGS
- yqIeo7uolOIJJlOvt/2xRv1VeluqvSQ=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-_GdJqEt0P6KFiHyr_0DyBQ-1; Fri, 01 Jul 2022 16:32:40 -0400
-X-MC-Unique: _GdJqEt0P6KFiHyr_0DyBQ-1
-Received: by mail-qk1-f199.google.com with SMTP id
- bq31-20020a05620a469f00b006b1f5c16e4cso2779091qkb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Jul 2022 13:32:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DwOaP2o/ijrgj8vUo4oYF/o/pPE6cbtbSwpHocDbRsE=;
- b=nZROmLj8RQmWlfj77pQxMYw9pqeIfsM8MiN53cCJtZD1BI1cDIU89OKTb7rWs0qoTa
- FBVyGHkxZ9/nP13V4c923eWtuXYW1OaG9pd8kftAKTK57hVcNOgT8zfso+PpNdOj+rs0
- 36zTQr6p2uSiWlTkf278MJ4Us/2SiQwzDVfeULu8iidy2Hkpha9Wd46lBxH5I/PZwwpW
- C/QtPOtO/hHKqMkbpX6DsCdQ6rjKKWRQv1WuuV+6krtACv7MP0soHMXFsIfQq2hmUyn8
- WoINVwhhsfqwECnvWg21+h4JAVzqKdAmW7zPAwuiwaasWfuRH02kWQniHkYgr1xMvEb3
- vGig==
-X-Gm-Message-State: AJIora8zdKuKssMKodAjdoCOJtFXZ/4CNkp/Xno+RJ8Jko3T6ipX0OAv
- XtjsiYUfqSLYmONznCJzHjWs2yf6syx2CUZfh5kACYievIIQvRw+hkr9fpRCvYLIFvUlp0Uc+2P
- K/r+rVQB+sbNRTmZNeXuWM2ZfdOJf
-X-Received: by 2002:a05:620a:75b:b0:6ae:e611:bd5 with SMTP id
- i27-20020a05620a075b00b006aee6110bd5mr11871040qki.319.1656707560370; 
- Fri, 01 Jul 2022 13:32:40 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ugnMWyfmfVtM3ayR6RS9jLsuRyWUyzIriYbwM9D2BNQBRCrpDRP+IBJ4J8OiSPKazN46nuHg==
-X-Received: by 2002:a05:620a:75b:b0:6ae:e611:bd5 with SMTP id
- i27-20020a05620a075b00b006aee6110bd5mr11871017qki.319.1656707560141; 
- Fri, 01 Jul 2022 13:32:40 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- c3-20020ac84e03000000b00304f55e56e4sm15139103qtw.40.2022.07.01.13.32.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Jul 2022 13:32:39 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
- daniel@ffwll.ch, jose.souza@intel.com, jouni.hogander@intel.com,
- gwan-gyeong.mun@intel.com, ville.syrjala@linux.intel.com,
- matthew.d.roper@intel.com
-Subject: [PATCH] drm/i915/display: clean up comments
-Date: Fri,  1 Jul 2022 16:32:36 -0400
-Message-Id: <20220701203236.1871668-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D933411255E;
+ Fri,  1 Jul 2022 22:51:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656715877; x=1688251877;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=eTLEmEdoSyx1SHLJ+DenIW3nicq9M9VRzvFU5oL8xz0=;
+ b=KHYCtEtKpzH352nEjaHexOQEA3ypsSwhr24yQfm//q6I9rpb6A6DrORt
+ o6tAhPbedc2w0PEuCMFCfdVUxCytpCKfRQO7HcrgTc5HfltO486erBaZm
+ hf/6omwbStla2bu/Km2bkey/mHKkQ7DW3WqHcJruowX+Su2OBPQInyPHt
+ sdCGviFicsDl2uvseUwfubibFJIE35Is5Zs7X66bt9r/vFynERBKbWdX1
+ /7RRgMyF87+AUQPWulgUeeuZhZlzmOhblK8VYsdrnC3jCg2V4a0AXxkAC
+ aksqyK3b46iKvHK/jPrkC26aeosv5rbdWUPiUxOp1H2GeFMlZw0wGIvzQ g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10395"; a="282789046"
+X-IronPort-AV: E=Sophos;i="5.92,238,1650956400"; d="scan'208";a="282789046"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2022 15:51:17 -0700
+X-IronPort-AV: E=Sophos;i="5.92,238,1650956400"; d="scan'208";a="918645083"
+Received: from nvishwa1-desk.sc.intel.com ([172.25.29.76])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 01 Jul 2022 15:51:17 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [RFC 00/10] drm/i915/vm_bind: Add VM_BIND functionality
+Date: Fri,  1 Jul 2022 15:50:45 -0700
+Message-Id: <20220701225055.8204-1-niranjana.vishwanathapura@intel.com>
+X-Mailer: git-send-email 2.21.0.rc0.32.g243a4c7e27
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,62 +54,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: matthew.brost@intel.com, paulo.r.zanoni@intel.com, tvrtko.ursulin@intel.com,
+ lionel.g.landwerlin@intel.com, thomas.hellstrom@intel.com,
+ matthew.auld@intel.com, jason@jlekstrand.net, daniel.vetter@intel.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-spelling changes
-resoluition -> resolution
-dont        -> don't
-commmit     -> commit
-Invalidade  -> Invalidate
+DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM
+buffer objects (BOs) or sections of a BOs at specified GPU virtual
+addresses on a specified address space (VM). Multiple mappings can map
+to the same physical pages of an object (aliasing). These mappings (also
+referred to as persistent mappings) will be persistent across multiple
+GPU submissions (execbuf calls) issued by the UMD, without user having
+to provide a list of all required mappings during each submission (as
+required by older execbuf mode).
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/i915/display/intel_psr.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+This patch series support VM_BIND version 1, as described by the param
+I915_PARAM_VM_BIND_VERSION.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index 7d61c55184e5..e6a870641cd2 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -555,7 +555,7 @@ static void hsw_activate_psr2(struct intel_dp *intel_dp)
- 		/*
- 		 * TODO: 7 lines of IO_BUFFER_WAKE and FAST_WAKE are default
- 		 * values from BSpec. In order to setting an optimal power
--		 * consumption, lower than 4k resoluition mode needs to decrese
-+		 * consumption, lower than 4k resolution mode needs to decrease
- 		 * IO_BUFFER_WAKE and FAST_WAKE. And higher than 4K resolution
- 		 * mode needs to increase IO_BUFFER_WAKE and FAST_WAKE.
- 		 */
-@@ -959,7 +959,7 @@ void intel_psr_compute_config(struct intel_dp *intel_dp,
- 	int psr_setup_time;
- 
- 	/*
--	 * Current PSR panels dont work reliably with VRR enabled
-+	 * Current PSR panels don't work reliably with VRR enabled
- 	 * So if VRR is enabled, do not enable PSR.
- 	 */
- 	if (crtc_state->vrr.enable)
-@@ -1664,7 +1664,7 @@ static void intel_psr2_sel_fetch_pipe_alignment(const struct intel_crtc_state *c
-  *
-  * Plane scaling and rotation is not supported by selective fetch and both
-  * properties can change without a modeset, so need to be check at every
-- * atomic commmit.
-+ * atomic commit.
-  */
- static bool psr2_sel_fetch_plane_state_supported(const struct intel_plane_state *plane_state)
- {
-@@ -2203,7 +2203,7 @@ static void _psr_invalidate_handle(struct intel_dp *intel_dp)
- }
- 
- /**
-- * intel_psr_invalidate - Invalidade PSR
-+ * intel_psr_invalidate - Invalidate PSR
-  * @dev_priv: i915 device
-  * @frontbuffer_bits: frontbuffer plane tracking bits
-  * @origin: which operation caused the invalidate
+Add new execbuf3 ioctl (I915_GEM_EXECBUFFER3) which only works in
+vm_bind mode. The vm_bind mode only works with this new execbuf3 ioctl.
+The new execbuf3 ioctl will not have any execlist support and all the
+legacy support like relocations etc., are removed.
+
+TODOs:
+* Support out fence for VM_UNBIND ioctl.
+* Async VM_UNBIND support.
+* Share code between execbuf2 and execbuf3 where possible.
+* Cleanups and optimizations.
+
+NOTEs:
+* It is based on below VM_BIND design+uapi patch series.
+  https://lists.freedesktop.org/archives/intel-gfx/2022-July/300760.html
+
+* The IGT RFC series is posted as,
+  [RFC 0/5] vm_bind: Add VM_BIND validation support
+
+Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+
+Niranjana Vishwanathapura (10):
+  drm/i915/vm_bind: Introduce VM_BIND ioctl
+  drm/i915/vm_bind: Bind and unbind mappings
+  drm/i915/vm_bind: Support private and shared BOs
+  drm/i915/vm_bind: Add out fence support
+  drm/i915/vm_bind: Handle persistent vmas
+  drm/i915/vm_bind: Add I915_GEM_EXECBUFFER3 ioctl
+  drm/i915/vm_bind: Handle persistent vmas in execbuf3
+  drm/i915/vm_bind: userptr dma-resv changes
+  drm/i915/vm_bind: Skip vma_lookup for persistent vmas
+  drm/i915/vm_bind: Fix vm->vm_bind_mutex and vm->mutex nesting
+
+ drivers/gpu/drm/i915/Makefile                 |    2 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |   20 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |   15 +
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |   51 +-
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |    6 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |    5 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer3.c   | 1270 +++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ioctls.h    |    2 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |    1 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |    2 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |    3 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |    3 +
+ drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h   |   54 +
+ .../drm/i915/gem/i915_gem_vm_bind_object.c    |  342 +++++
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |   37 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |   20 +
+ drivers/gpu/drm/i915/i915_driver.c            |   38 +
+ drivers/gpu/drm/i915/i915_gem_gtt.h           |   22 +
+ drivers/gpu/drm/i915/i915_getparam.c          |    3 +
+ drivers/gpu/drm/i915/i915_vma.c               |   59 +-
+ drivers/gpu/drm/i915/i915_vma.h               |   80 +-
+ drivers/gpu/drm/i915/i915_vma_types.h         |   40 +
+ include/uapi/drm/i915_drm.h                   |  289 +++-
+ 23 files changed, 2316 insertions(+), 48 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_execbuffer3.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind.h
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_vm_bind_object.c
+
 -- 
-2.27.0
+2.21.0.rc0.32.g243a4c7e27
 
