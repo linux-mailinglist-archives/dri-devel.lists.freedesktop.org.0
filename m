@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73685639B0
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 21:24:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5753E5639B2
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 21:24:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D38AE89786;
-	Fri,  1 Jul 2022 19:24:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5945D14AEB7;
+	Fri,  1 Jul 2022 19:24:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFC2612B553
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 19:24:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82F9714A284
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 19:24:48 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 64E0C61F89;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0773161F62;
+ Fri,  1 Jul 2022 19:24:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 481DCC341C6;
  Fri,  1 Jul 2022 19:24:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B0BBC341CD;
- Fri,  1 Jul 2022 19:24:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656703481;
- bh=Hx5muWw17Jb0oqDiAd8+qbBnr1W1BbGEsr7q+7oKh+o=;
+ s=k20201202; t=1656703487;
+ bh=v3VQwG2NtptqwFEUzzJSGE4djAGkkIxaAlfTuu7Uy4Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Lnc/A97NcUj3poedeyd4maMRBOzjDxYynybF3AhzHkmX2+PNvDX93LK+Dye2Tcfhj
- W6F9KzI6TN0ISSmu0RU6HprkI/hGEfMl17gHrSMnrJ/XtnmhScTeuA7ncJCsdepcLD
- mMIjE2XVvGLH8k3sNm7/686bkqm4q13pOYY4gbcL/EnI5gUgbxjBXaDKubCEO8QcZm
- cCFSv2FwS5A3KzfVx1XgWb+YP2U5Td1PrrW6Rz3c1DZzJiiVBkm9bLkYWcQL36LI7u
- b+oeZ4rFcUotmSlv62g8y71lrbVka0o9HStErLS965dX5IokL8STNI8rJMIwGv/bTL
- 6cewHuFvVD+kw==
+ b=Bo1YSEQWBtsQxjjZ6V/V9zfVVr1LPjX+OkRO7g+JdY42lnfBsXK6eDyNSYntCpqXl
+ D0SdVJJQiJcHYbpV3Vxv/mTMbZCX3Fpp1+GinglxD2u1lCjUV7b2PL4m9iITAprG6C
+ +TNYMGxLd7CkEpaUXAsLH+hzAv/aCuI6O76qHrvPIeWN6frOlfZLfm1c8UFYGZtVCe
+ 26pQSo7KtLjo8/b2DP3llRUiYsf20fD0srQvlXUM+gBpoCUAwlHwqRTkd2uxuGdd4z
+ ogUfCf/ZNwGX6fCBNOMonMB3Ue8wLG6DhU7rmXo/h552aZb9L4eMgNvGduH4f/7QAJ
+ BfCennKpdhGnA==
 From: Conor Dooley <conor@kernel.org>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
@@ -39,10 +39,9 @@ To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Mark Brown <broonie@kernel.org>, Serge Semin <fancer.lancer@gmail.com>,
  Daniel Lezcano <daniel.lezcano@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>, Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v4 11/14] riscv: dts: canaan: remove spi-max-frequency from
- controllers
-Date: Fri,  1 Jul 2022 20:22:57 +0100
-Message-Id: <20220701192300.2293643-12-conor@kernel.org>
+Subject: [PATCH v4 12/14] riscv: dts: canaan: fix bus {ranges,reg} warnings
+Date: Fri,  1 Jul 2022 20:22:58 +0100
+Message-Id: <20220701192300.2293643-13-conor@kernel.org>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220701192300.2293643-1-conor@kernel.org>
 References: <20220701192300.2293643-1-conor@kernel.org>
@@ -74,46 +73,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-spi-max-frequency is a device, not a controller  property and should be
-removed.
+The k210 devicetrees warn about missing/empty reg and/or ranges
+properties:
+arch/riscv/boot/dts/canaan/k210.dtsi:408.22-460.5: Warning (unit_address_vs_reg): /soc/bus@52000000: node has a unit name, but no reg or ranges property
+arch/riscv/boot/dts/canaan/k210.dtsi:352.22-406.5: Warning (simple_bus_reg): /soc/bus@50400000: missing or empty reg/ranges property
 
-Link: https://lore.kernel.org/lkml/20220526014141.2872567-1-robh@kernel.org/
+Add a ranges properties that naively caps the buses after the
+allocation of their last devices.
+
 Tested-by: Niklas Cassel <niklas.cassel@wdc.com>
 Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- arch/riscv/boot/dts/canaan/k210.dtsi | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ arch/riscv/boot/dts/canaan/k210.dtsi | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/arch/riscv/boot/dts/canaan/k210.dtsi b/arch/riscv/boot/dts/canaan/k210.dtsi
-index 900dc629a945..948dc235e39d 100644
+index 948dc235e39d..a515e5fb1af3 100644
 --- a/arch/riscv/boot/dts/canaan/k210.dtsi
 +++ b/arch/riscv/boot/dts/canaan/k210.dtsi
-@@ -451,7 +451,6 @@ spi0: spi@52000000 {
- 				clock-names = "ssi_clk", "pclk";
- 				resets = <&sysrst K210_RST_SPI0>;
- 				reset-names = "spi";
--				spi-max-frequency = <25000000>;
- 				num-cs = <4>;
- 				reg-io-width = <4>;
- 			};
-@@ -467,7 +466,6 @@ spi1: spi@53000000 {
- 				clock-names = "ssi_clk", "pclk";
- 				resets = <&sysrst K210_RST_SPI1>;
- 				reset-names = "spi";
--				spi-max-frequency = <25000000>;
- 				num-cs = <4>;
- 				reg-io-width = <4>;
- 			};
-@@ -483,8 +481,7 @@ spi3: spi@54000000 {
- 				clock-names = "ssi_clk", "pclk";
- 				resets = <&sysrst K210_RST_SPI3>;
- 				reset-names = "spi";
--				/* Could possibly go up to 200 MHz */
--				spi-max-frequency = <100000000>;
-+
- 				num-cs = <4>;
- 				reg-io-width = <4>;
- 			};
+@@ -163,7 +163,7 @@ apb0: bus@50200000 {
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
+ 			compatible = "simple-pm-bus";
+-			ranges;
++			ranges = <0x50200000 0x50200000 0x200000>;
+ 			clocks = <&sysclk K210_CLK_APB0>;
+ 
+ 			gpio1: gpio@50200000 {
+@@ -382,7 +382,7 @@ apb1: bus@50400000 {
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
+ 			compatible = "simple-pm-bus";
+-			ranges;
++			ranges = <0x50400000 0x50400000 0x40100>;
+ 			clocks = <&sysclk K210_CLK_APB1>;
+ 
+ 			wdt0: watchdog@50400000 {
+@@ -437,7 +437,7 @@ apb2: bus@52000000 {
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
+ 			compatible = "simple-pm-bus";
+-			ranges;
++			ranges = <0x52000000 0x52000000 0x2000200>;
+ 			clocks = <&sysclk K210_CLK_APB2>;
+ 
+ 			spi0: spi@52000000 {
 -- 
 2.37.0
 
