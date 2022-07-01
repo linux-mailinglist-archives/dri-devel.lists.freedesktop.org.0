@@ -1,54 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67465633D2
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 14:57:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9043563622
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 16:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F178012ADA6;
-	Fri,  1 Jul 2022 12:57:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E71111A355;
+	Fri,  1 Jul 2022 14:50:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 866D812ADAE;
- Fri,  1 Jul 2022 12:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656680258; x=1688216258;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=IYzQf8FqUaGx8FIrsGZJ3KHuK6nVvxjZd6ICoek3Sf4=;
- b=G32hYfRKoxe7HlaXvpmBOWk6WJgEqr8sfJUo8apvurm+paZOlF53VCok
- wGrpBf7NxZGCylcjhshAuUwQccD9auQqhDPyTS1mPoM8BQmej7cNJmecD
- UDs4bbKSMxLF1pdRJPi9+qrWjY6UkQwE1ZPI1Dxp12eOu/cx/Wkfdu4iy
- QQ9yfsZylMXa/a5MHl2nz+8b3S9HZK+GzN+WveO7LyuL61xl7kzDDvshW
- 98eAEI+KM2PDzh4mvB5+1RIJZ257wDTm+0GvpNc1vnZfltr94Va6FAbyj
- xTeqfP+ZKgDRSnetFLYJjY4kS1pfJVI5xIFnh1yGp8mPjTFT34GIvtHDV Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10394"; a="346632740"
-X-IronPort-AV: E=Sophos;i="5.92,237,1650956400"; d="scan'208";a="346632740"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2022 05:57:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,237,1650956400"; d="scan'208";a="648338479"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.161])
- by fmsmga008.fm.intel.com with SMTP; 01 Jul 2022 05:57:35 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 01 Jul 2022 15:57:34 +0300
-Date: Fri, 1 Jul 2022 15:57:34 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v4 1/2] drm/i915/edid: convert DP, HDMI and LVDS to
- drm_edid
-Message-ID: <Yr7vPttkbHBBbkdA@intel.com>
-References: <cover.1656665533.git.jani.nikula@intel.com>
- <368510f2fe8ef8651c54b3512eb366da1fcef2b2.1656665533.git.jani.nikula@intel.com>
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 895E611A05F
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 14:50:06 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id ay10so563084qtb.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Jul 2022 07:50:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gNmMPejZxFSddU5yd/bVeRCt+NvlGBtVWJ+UptuK+EM=;
+ b=XO0lGJnWs4atvg+QXZLolXXl81Cm7muGn/+LbB9ZQ/QhloPPgvtBWC4XIRPFr/JSrJ
+ GLg2w56zRLQ/nyeAXUqFBMDYKiJnif2Q8SqFgEJwjYpwj9kACDgBe01KLNn3uBm5LFoh
+ 5L3/2R3Hk/7f8kw2CiSYIeeL3jh+5Y7qn34CpuB92xSQVov93SrpzAo745ZQcVppBs7w
+ Mwghdsu84hJQr4YLeZsULi8vP5v8QLisjqljzSxih7PjIZpAv1Iiwy+A8Gjsf6dl5jW6
+ IBL0dzVNwS3vS7YcqDE3U0PPNWbWhf8e2bIaWGTjMDXyRlVzAh26FLTVXoGGBKdrgFN1
+ FV7g==
+X-Gm-Message-State: AJIora+4nMIKct61vjwYpu5upcUrstQ7u9FP9pH9zRB6/o82GwUX1H3W
+ llUOTGYfLubhAJx7U0lfTs1aKjO5zAL4YA==
+X-Google-Smtp-Source: AGRyM1vwwmE0wqhXo7jtsOZSyWQk3g50PnbJI9kpznHmhdvkIrT43w3nxw+7PlhuyvGWGmM/HqvKHA==
+X-Received: by 2002:a05:622a:610:b0:307:c8bc:2e2d with SMTP id
+ z16-20020a05622a061000b00307c8bc2e2dmr12624917qta.321.1656687005304; 
+ Fri, 01 Jul 2022 07:50:05 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com.
+ [209.85.128.175]) by smtp.gmail.com with ESMTPSA id
+ a5-20020ac85b85000000b00307cb34aa8asm16002940qta.47.2022.07.01.07.50.04
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Jul 2022 07:50:05 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-31780ad7535so25906277b3.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Jul 2022 07:50:04 -0700 (PDT)
+X-Received: by 2002:a81:a092:0:b0:318:5c89:a935 with SMTP id
+ x140-20020a81a092000000b003185c89a935mr17867481ywg.383.1656687004729; Fri, 01
+ Jul 2022 07:50:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <368510f2fe8ef8651c54b3512eb366da1fcef2b2.1656665533.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+References: <20220629200024.187187-1-deller@gmx.de>
+ <20220629200024.187187-5-deller@gmx.de>
+ <CAMuHMdVJ0PsDyTdGoOHPOKdaR7AffG2FpFmw6fxoNdXx9y-J4A@mail.gmail.com>
+ <1ba5f6d6-1c31-a8fb-867b-e2a7fda7da56@gmx.de>
+ <CAMuHMdVMp-ywWmDevdZTwHHhdiHnsFhze376guTEMd1T=tb-Pg@mail.gmail.com>
+In-Reply-To: <CAMuHMdVMp-ywWmDevdZTwHHhdiHnsFhze376guTEMd1T=tb-Pg@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 1 Jul 2022 16:49:53 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVs1J0kvA2Kinx121vF=35dUEY+1Jrx3sjF3NHoD=wMfQ@mail.gmail.com>
+Message-ID: <CAMuHMdVs1J0kvA2Kinx121vF=35dUEY+1Jrx3sjF3NHoD=wMfQ@mail.gmail.com>
+Subject: Re: [PATCH 4/5] fbmem: Prevent invalid virtual screen sizes in
+ fb_set_var()
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,415 +71,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rodrigo.vivi@intel.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 01, 2022 at 11:55:38AM +0300, Jani Nikula wrote:
-> Convert all the connectors that use cached connector edid and
-> detect_edid to drm_edid.
-> 
-> Since drm_get_edid() calls drm_connector_update_edid_property() while
-> drm_edid_read*() do not, we need to call drm_edid_connector_update()
-> separately, in part due to the EDID caching behaviour in HDMI and
-> DP. Especially DP depends on the details parsed from EDID. (The big
-> behavioural change conflating EDID reading with parsing and property
-> update was done in commit 5186421cbfe2 ("drm: Introduce epoch counter to
-> drm_connector"))
-> 
-> v4: Call drm_edid_connector_update() after reading HDMI/DP EDID
-> 
-> v3: Don't leak vga switcheroo EDID in LVDS init (Ville)
-> 
-> v2: Don't leak opregion fallback EDID (Ville)
-> 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  .../gpu/drm/i915/display/intel_connector.c    |  4 +-
->  .../drm/i915/display/intel_display_types.h    |  4 +-
->  drivers/gpu/drm/i915/display/intel_dp.c       | 80 +++++++++++--------
->  drivers/gpu/drm/i915/display/intel_hdmi.c     | 28 ++++---
->  drivers/gpu/drm/i915/display/intel_lvds.c     | 37 +++++----
->  5 files changed, 87 insertions(+), 66 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
-> index 1dcc268927a2..d83b2a64f618 100644
-> --- a/drivers/gpu/drm/i915/display/intel_connector.c
-> +++ b/drivers/gpu/drm/i915/display/intel_connector.c
-> @@ -95,12 +95,12 @@ void intel_connector_destroy(struct drm_connector *connector)
->  {
->  	struct intel_connector *intel_connector = to_intel_connector(connector);
->  
-> -	kfree(intel_connector->detect_edid);
-> +	drm_edid_free(intel_connector->detect_edid);
->  
->  	intel_hdcp_cleanup(intel_connector);
->  
->  	if (!IS_ERR_OR_NULL(intel_connector->edid))
-> -		kfree(intel_connector->edid);
-> +		drm_edid_free(intel_connector->edid);
->  
->  	intel_panel_fini(intel_connector);
->  
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 0da9b208d56e..d476df0ac9df 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -592,8 +592,8 @@ struct intel_connector {
->  	struct intel_panel panel;
->  
->  	/* Cached EDID for eDP and LVDS. May hold ERR_PTR for invalid EDID. */
-> -	struct edid *edid;
-> -	struct edid *detect_edid;
-> +	const struct drm_edid *edid;
-> +	const struct drm_edid *detect_edid;
->  
->  	/* Number of times hotplug detection was tried after an HPD interrupt */
->  	int hotplug_retries;
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 32292c0be2bd..8a3b2dbebe04 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -3577,12 +3577,11 @@ static u8 intel_dp_autotest_edid(struct intel_dp *intel_dp)
->  				    intel_dp->aux.i2c_defer_count);
->  		intel_dp->compliance.test_data.edid = INTEL_DP_RESOLUTION_FAILSAFE;
->  	} else {
-> -		struct edid *block = intel_connector->detect_edid;
-> +		/* FIXME: Get rid of drm_edid_raw() */
-> +		const struct edid *block = drm_edid_raw(intel_connector->detect_edid);
->  
-> -		/* We have to write the checksum
-> -		 * of the last block read
-> -		 */
-> -		block += intel_connector->detect_edid->extensions;
-> +		/* We have to write the checksum of the last block read */
-> +		block += block->extensions;
->  
->  		if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_TEST_EDID_CHECKSUM,
->  				       block->checksum) <= 0)
-> @@ -4461,7 +4460,7 @@ bool intel_digital_port_connected(struct intel_encoder *encoder)
->  	return is_connected;
->  }
->  
-> -static struct edid *
-> +static const struct drm_edid *
->  intel_dp_get_edid(struct intel_dp *intel_dp)
->  {
->  	struct intel_connector *intel_connector = intel_dp->attached_connector;
-> @@ -4472,18 +4471,22 @@ intel_dp_get_edid(struct intel_dp *intel_dp)
->  		if (IS_ERR(intel_connector->edid))
->  			return NULL;
->  
-> -		return drm_edid_duplicate(intel_connector->edid);
-> +		return drm_edid_dup(intel_connector->edid);
->  	} else
-> -		return drm_get_edid(&intel_connector->base,
-> -				    &intel_dp->aux.ddc);
-> +		return drm_edid_read_ddc(&intel_connector->base,
-> +					 &intel_dp->aux.ddc);
->  }
->  
->  static void
->  intel_dp_update_dfp(struct intel_dp *intel_dp,
-> -		    const struct edid *edid)
-> +		    const struct drm_edid *drm_edid)
->  {
->  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
->  	struct intel_connector *connector = intel_dp->attached_connector;
-> +	const struct edid *edid;
-> +
-> +	/* FIXME: Get rid of drm_edid_raw() */
-> +	edid = drm_edid_raw(drm_edid);
->  
->  	intel_dp->dfp.max_bpc =
->  		drm_dp_downstream_max_bpc(intel_dp->dpcd,
-> @@ -4583,21 +4586,27 @@ intel_dp_set_edid(struct intel_dp *intel_dp)
->  {
->  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
->  	struct intel_connector *connector = intel_dp->attached_connector;
-> -	struct edid *edid;
-> +	const struct drm_edid *drm_edid;
-> +	const struct edid *edid;
->  	bool vrr_capable;
->  
->  	intel_dp_unset_edid(intel_dp);
-> -	edid = intel_dp_get_edid(intel_dp);
-> -	connector->detect_edid = edid;
-> +	drm_edid = intel_dp_get_edid(intel_dp);
-> +	connector->detect_edid = drm_edid;
-> +
-> +	/* Below we depend on display info having been updated */
-> +	drm_edid_connector_update(&connector->base, drm_edid);
+Hi Helge,
 
-Hmm. Just the VRR thing needs it for the moment I guess?
+On Thu, Jun 30, 2022 at 9:38 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Thu, Jun 30, 2022 at 9:17 PM Helge Deller <deller@gmx.de> wrote:
+> > On 6/30/22 21:11, Geert Uytterhoeven wrote:
+> > > On Wed, Jun 29, 2022 at 10:00 PM Helge Deller <deller@gmx.de> wrote:
+> > >> Prevent that drivers configure a virtual screen resolution smaller than
+> > >> the physical screen resolution.  This is important, because otherwise we
+> > >> may access memory outside of the graphics memory area.
+> > >>
+> > >> Signed-off-by: Helge Deller <deller@gmx.de>
+> > >> Cc: stable@vger.kernel.org # v5.4+
+> > >
+> > > Thanks for your patch!
+> > >
+> > >> --- a/drivers/video/fbdev/core/fbmem.c
+> > >> +++ b/drivers/video/fbdev/core/fbmem.c
+> > >> @@ -1006,6 +1006,12 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
+> > >>         if (var->xres < 8 || var->yres < 8)
+> > >>                 return -EINVAL;
+> > >>
+> > >> +       /* make sure virtual resolution >= physical resolution */
+> > >> +       if (WARN_ON(var->xres_virtual < var->xres))
+> > >> +               var->xres_virtual = var->xres;
+> > >> +       if (WARN_ON(var->yres_virtual < var->yres))
+> > >> +               var->yres_virtual = var->yres;
+> > >
+> > > This should be moved below the call to info->fbops->fb_check_var(),
+> > > so the WARN_ON() catches buggy fbdev drivers, not userspace fuzzers.
+> >
+> > Yes, makes sense.
+>
+> And print the name of the frame buffer device driver, so people know
+> who to blame.
 
-Oh, and IIRC there was also a patch to replace
-drm_detect_hdmi_monitor() with display_info floating around
-somewhere. That one might have fallen through the cracks...
+Or better, do not continue, but return with a failure:
 
-Anyways, I think what's going to happen now is we're going to 
-add all the modes to the probed_modes list twice (first from
-.detect()->set_edid() and a second time from .get_modes()).
-I suppose that's not a huge problem as the duplicates should
-just get discarded by drm_connector_list_update(). But it is
-a bit wasteful.
+    if (WARN(var->xres_virtual < var->xres || var->yres_virtual < var->yres,
+        "%ps for %s is broken\n", info->fbops->fb_check_var, info->fix.id)
+            return -EINVAL;
 
-OTOH using display_info without having it fully populated
-(which only gets done if we do the full mode parsing) is super
-sketchy. So I suppose this is better than the alterntive.
+Gr{oetje,eeting}s,
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+                        Geert
 
->  
->  	vrr_capable = intel_vrr_is_capable(connector);
->  	drm_dbg_kms(&i915->drm, "[CONNECTOR:%d:%s] VRR capable: %s\n",
->  		    connector->base.base.id, connector->base.name, str_yes_no(vrr_capable));
->  	drm_connector_set_vrr_capable_property(&connector->base, vrr_capable);
->  
-> -	intel_dp_update_dfp(intel_dp, edid);
-> +	intel_dp_update_dfp(intel_dp, drm_edid);
->  	intel_dp_update_420(intel_dp);
->  
-> +	/* FIXME: Get rid of drm_edid_raw() */
-> +	edid = drm_edid_raw(drm_edid);
->  	if (edid && edid->input & DRM_EDID_INPUT_DIGITAL) {
->  		intel_dp->has_hdmi_sink = drm_detect_hdmi_monitor(edid);
->  		intel_dp->has_audio = drm_detect_monitor_audio(edid);
-> @@ -4612,7 +4621,7 @@ intel_dp_unset_edid(struct intel_dp *intel_dp)
->  	struct intel_connector *connector = intel_dp->attached_connector;
->  
->  	drm_dp_cec_unset_edid(&intel_dp->aux);
-> -	kfree(connector->detect_edid);
-> +	drm_edid_free(connector->detect_edid);
->  	connector->detect_edid = NULL;
->  
->  	intel_dp->has_hdmi_sink = false;
-> @@ -4776,12 +4785,11 @@ intel_dp_force(struct drm_connector *connector)
->  static int intel_dp_get_modes(struct drm_connector *connector)
->  {
->  	struct intel_connector *intel_connector = to_intel_connector(connector);
-> -	struct edid *edid;
-> +	const struct drm_edid *drm_edid;
->  	int num_modes = 0;
->  
-> -	edid = intel_connector->detect_edid;
-> -	if (edid)
-> -		num_modes = intel_connector_update_modes(connector, edid);
-> +	drm_edid = intel_connector->detect_edid;
-> +	num_modes = drm_edid_connector_update(connector, drm_edid);
->  
->  	/* Also add fixed mode, which may or may not be present in EDID */
->  	if (intel_dp_is_edp(intel_attached_dp(intel_connector)))
-> @@ -4790,7 +4798,7 @@ static int intel_dp_get_modes(struct drm_connector *connector)
->  	if (num_modes)
->  		return num_modes;
->  
-> -	if (!edid) {
-> +	if (!drm_edid) {
->  		struct intel_dp *intel_dp = intel_attached_dp(intel_connector);
->  		struct drm_display_mode *mode;
->  
-> @@ -5198,7 +5206,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
->  	struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
->  	bool has_dpcd;
->  	enum pipe pipe = INVALID_PIPE;
-> -	struct edid *edid;
-> +	const struct drm_edid *drm_edid;
->  
->  	if (!intel_dp_is_edp(intel_dp))
->  		return true;
-> @@ -5231,29 +5239,33 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
->  	}
->  
->  	mutex_lock(&dev->mode_config.mutex);
-> -	edid = drm_get_edid(connector, &intel_dp->aux.ddc);
-> -	if (!edid) {
-> +	drm_edid = drm_edid_read_ddc(connector, &intel_dp->aux.ddc);
-> +	if (!drm_edid) {
-> +		const struct edid *edid;
-> +
->  		/* Fallback to EDID from ACPI OpRegion, if any */
-> +		/* FIXME: Make intel_opregion_get_edid() return drm_edid */
->  		edid = intel_opregion_get_edid(intel_connector);
-> -		if (edid)
-> +		if (edid) {
-> +			drm_edid = drm_edid_alloc(edid, (edid->extensions + 1) * EDID_LENGTH);
->  			drm_dbg_kms(&dev_priv->drm,
->  				    "[CONNECTOR:%d:%s] Using OpRegion EDID\n",
->  				    connector->base.id, connector->name);
-> -	}
-> -	if (edid) {
-> -		if (drm_add_edid_modes(connector, edid)) {
-> -			drm_connector_update_edid_property(connector, edid);
-> -		} else {
->  			kfree(edid);
-> -			edid = ERR_PTR(-EINVAL);
-> +		}
-> +	}
-> +	if (drm_edid) {
-> +		if (!drm_edid_connector_update(connector, drm_edid)) {
-> +			drm_edid_free(drm_edid);
-> +			drm_edid = ERR_PTR(-EINVAL);
->  		}
->  	} else {
-> -		edid = ERR_PTR(-ENOENT);
-> +		drm_edid = ERR_PTR(-ENOENT);
->  	}
-> -	intel_connector->edid = edid;
-> +	intel_connector->edid = drm_edid;
->  
-> -	intel_bios_init_panel(dev_priv, &intel_connector->panel,
-> -			      encoder->devdata, IS_ERR(edid) ? NULL : edid);
-> +	intel_bios_init_panel(dev_priv, &intel_connector->panel, encoder->devdata,
-> +			      IS_ERR_OR_NULL(drm_edid) ? NULL : drm_edid_raw(drm_edid));
->  
->  	intel_panel_add_edid_fixed_modes(intel_connector,
->  					 intel_connector->panel.vbt.drrs_type != DRRS_TYPE_NONE,
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> index 1ae09431f53a..81f24185e3a0 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> @@ -2340,7 +2340,7 @@ intel_hdmi_unset_edid(struct drm_connector *connector)
->  	intel_hdmi->dp_dual_mode.type = DRM_DP_DUAL_MODE_NONE;
->  	intel_hdmi->dp_dual_mode.max_tmds_clock = 0;
->  
-> -	kfree(to_intel_connector(connector)->detect_edid);
-> +	drm_edid_free(to_intel_connector(connector)->detect_edid);
->  	to_intel_connector(connector)->detect_edid = NULL;
->  }
->  
-> @@ -2407,7 +2407,8 @@ intel_hdmi_set_edid(struct drm_connector *connector)
->  	struct drm_i915_private *dev_priv = to_i915(connector->dev);
->  	struct intel_hdmi *intel_hdmi = intel_attached_hdmi(to_intel_connector(connector));
->  	intel_wakeref_t wakeref;
-> -	struct edid *edid;
-> +	const struct drm_edid *drm_edid;
-> +	const struct edid *edid;
->  	bool connected = false;
->  	struct i2c_adapter *i2c;
->  
-> @@ -2415,21 +2416,26 @@ intel_hdmi_set_edid(struct drm_connector *connector)
->  
->  	i2c = intel_gmbus_get_adapter(dev_priv, intel_hdmi->ddc_bus);
->  
-> -	edid = drm_get_edid(connector, i2c);
-> +	drm_edid = drm_edid_read_ddc(connector, i2c);
->  
-> -	if (!edid && !intel_gmbus_is_forced_bit(i2c)) {
-> +	if (!drm_edid && !intel_gmbus_is_forced_bit(i2c)) {
->  		drm_dbg_kms(&dev_priv->drm,
->  			    "HDMI GMBUS EDID read failed, retry using GPIO bit-banging\n");
->  		intel_gmbus_force_bit(i2c, true);
-> -		edid = drm_get_edid(connector, i2c);
-> +		drm_edid = drm_edid_read_ddc(connector, i2c);
->  		intel_gmbus_force_bit(i2c, false);
->  	}
->  
-> -	intel_hdmi_dp_dual_mode_detect(connector, edid != NULL);
-> +	drm_edid_connector_update(connector, drm_edid);
-> +
-> +	intel_hdmi_dp_dual_mode_detect(connector, drm_edid != NULL);
->  
->  	intel_display_power_put(dev_priv, POWER_DOMAIN_GMBUS, wakeref);
->  
-> -	to_intel_connector(connector)->detect_edid = edid;
-> +	to_intel_connector(connector)->detect_edid = drm_edid;
-> +
-> +	/* FIXME: Get rid of drm_edid_raw() */
-> +	edid = drm_edid_raw(drm_edid);
->  	if (edid && edid->input & DRM_EDID_INPUT_DIGITAL) {
->  		intel_hdmi->has_audio = drm_detect_monitor_audio(edid);
->  		intel_hdmi->has_hdmi_sink = drm_detect_hdmi_monitor(edid);
-> @@ -2501,13 +2507,11 @@ intel_hdmi_force(struct drm_connector *connector)
->  
->  static int intel_hdmi_get_modes(struct drm_connector *connector)
->  {
-> -	struct edid *edid;
-> +	const struct drm_edid *drm_edid;
->  
-> -	edid = to_intel_connector(connector)->detect_edid;
-> -	if (edid == NULL)
-> -		return 0;
-> +	drm_edid = to_intel_connector(connector)->detect_edid;
->  
-> -	return intel_connector_update_modes(connector, edid);
-> +	return drm_edid_connector_update(connector, drm_edid);
->  }
->  
->  static struct i2c_adapter *
-> diff --git a/drivers/gpu/drm/i915/display/intel_lvds.c b/drivers/gpu/drm/i915/display/intel_lvds.c
-> index 730480ac3300..98c07fd3bd3e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_lvds.c
-> +++ b/drivers/gpu/drm/i915/display/intel_lvds.c
-> @@ -479,7 +479,7 @@ static int intel_lvds_get_modes(struct drm_connector *connector)
->  
->  	/* use cached edid if we have one */
->  	if (!IS_ERR_OR_NULL(intel_connector->edid))
-> -		return drm_add_edid_modes(connector, intel_connector->edid);
-> +		return drm_edid_connector_update(connector, intel_connector->edid);
->  
->  	return intel_panel_get_modes(intel_connector);
->  }
-> @@ -829,7 +829,7 @@ void intel_lvds_init(struct drm_i915_private *dev_priv)
->  	struct intel_connector *intel_connector;
->  	struct drm_connector *connector;
->  	struct drm_encoder *encoder;
-> -	struct edid *edid;
-> +	const struct drm_edid *drm_edid;
->  	i915_reg_t lvds_reg;
->  	u32 lvds;
->  	u8 pin;
-> @@ -948,27 +948,32 @@ void intel_lvds_init(struct drm_i915_private *dev_priv)
->  	 * preferred mode is the right one.
->  	 */
->  	mutex_lock(&dev->mode_config.mutex);
-> -	if (vga_switcheroo_handler_flags() & VGA_SWITCHEROO_CAN_SWITCH_DDC)
-> +	if (vga_switcheroo_handler_flags() & VGA_SWITCHEROO_CAN_SWITCH_DDC) {
-> +		const struct edid *edid;
-> +
-> +		/* FIXME: Make drm_get_edid_switcheroo() return drm_edid */
->  		edid = drm_get_edid_switcheroo(connector,
-> -				    intel_gmbus_get_adapter(dev_priv, pin));
-> -	else
-> -		edid = drm_get_edid(connector,
-> -				    intel_gmbus_get_adapter(dev_priv, pin));
-> -	if (edid) {
-> -		if (drm_add_edid_modes(connector, edid)) {
-> -			drm_connector_update_edid_property(connector,
-> -								edid);
-> -		} else {
-> +					       intel_gmbus_get_adapter(dev_priv, pin));
-> +		if (edid) {
-> +			drm_edid = drm_edid_alloc(edid, (edid->extensions + 1) * EDID_LENGTH);
->  			kfree(edid);
-> -			edid = ERR_PTR(-EINVAL);
->  		}
->  	} else {
-> -		edid = ERR_PTR(-ENOENT);
-> +		drm_edid = drm_edid_read_ddc(connector,
-> +					     intel_gmbus_get_adapter(dev_priv, pin));
-> +	}
-> +	if (drm_edid) {
-> +		if (!drm_edid_connector_update(connector, drm_edid)) {
-> +			drm_edid_free(drm_edid);
-> +			drm_edid = ERR_PTR(-EINVAL);
-> +		}
-> +	} else {
-> +		drm_edid = ERR_PTR(-ENOENT);
->  	}
-> -	intel_connector->edid = edid;
-> +	intel_connector->edid = drm_edid;
->  
->  	intel_bios_init_panel(dev_priv, &intel_connector->panel, NULL,
-> -			      IS_ERR(edid) ? NULL : edid);
-> +			      IS_ERR_OR_NULL(drm_edid) ? NULL : drm_edid_raw(drm_edid));
->  
->  	/* Try EDID first */
->  	intel_panel_add_edid_fixed_modes(intel_connector,
-> -- 
-> 2.30.2
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
--- 
-Ville Syrjälä
-Intel
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
