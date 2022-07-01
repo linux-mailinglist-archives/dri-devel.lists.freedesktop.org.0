@@ -2,106 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5705562C0C
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 08:55:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25B2F562C48
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Jul 2022 09:09:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A8BB10E2DF;
-	Fri,  1 Jul 2022 06:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F345810E23B;
+	Fri,  1 Jul 2022 07:09:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
- (mail-eopbgr140082.outbound.protection.outlook.com [40.107.14.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B37D10E2DF
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 06:55:08 +0000 (UTC)
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr20061.outbound.protection.outlook.com [40.107.2.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5026910E23B
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Jul 2022 07:09:36 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g5SnxWllch55cco3TkdBejm/zDnS/x1EHPdgV4+V7+SiTfOcpmiNkHnHvcHoYOBcXDIc+FJCwNpL7BzzYV5ZUJ3IONHM92VlulGFnTG27HgnXg61bnbhAeoOsISL3H83oSy7/xpQtGgT2uBIckotN9U2fp/k5qNxnuSlJBW3Zy4MdJIPaqfycc/4gdr16n3jueLN1mLVWhkd0dr6/POStn/k/fcmNw8uLxA82xqW8qNhnBtvm1zB3/WPBnSaxiyzkBMI9+jYCWY7xsfw6iND63TmvJ3Pg52cDGnbnJh2xXitwTCjIYQh2vZ6H/j4dqbcZOzC86cA5Vxp2LCjIbZFdg==
+ b=dSaft92XWbpEltESWJRcq1BpplL1XDPyTZAJFvfLxELVc/+KeeA3xXh1sE58VSgE7toQcPybqK8iDECvkjtnhW3mTafxITgivP6VsqroYTNH+UNeiKee1tGvaSXpNVPLvGQcb0PbXp5NfbsBA5k1oaJfwtZ1Lm2Dpn6we4O50Q8dvJbWaB9stoFNuw5FWr/tu1dXmiBjTlMEJn/0+dJfems8t4Y0LeY2mkFnOqJyUfNt0obuXafIQM7oh7737iM224yyjRMzGGSepFieR4ghxL15oKkYB86/3rs9arfLsKvYNpvXsLJMe1iciqwl0Y6Sl1X7YZsvE/MxYBzRt18OiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Uf2rt0cy7GFOP8pf/wqQaLnlTUQgi7RaDY6tAOvbLq0=;
- b=SF5SnlRhriQY+ItnR1pGAh1z+WeqjsXgENfINwhLuPD34SwIpnVxiJSLzTtQzIHAyktiFdSN+P4dpJmMTWO/hZuDd4oK+v3JCBHDR/+76uHxz35VlY78PhxwS+S/MXQUiZ+drWJc3AGctqRnCpZJS05SridVC9GbI0+YjgA9U8YFLkgxxF8+hwqRZuPQahXa0Ip28ZAZWPK8rcCl1ay9OY6yiVmrUvqIZ4BJ+jhhjcXd5FHRm2vPqTOmM0j1ddK4I1qT9wFiKNmHCvGW0rm4MkbU7XDzsguoIi6OiETZH5EHvL1GpfNj5CbvKo2Ol/j9FjQBSOWGdzgum7EClHouxA==
+ bh=pWzQ5YDYDuhod+ndGlr/6xUYKOW180orx78DH0n2MjU=;
+ b=RYXJ2GsIp/gfsctiW2+wQiHNS7DzV7sDw6TMCU2LEiP5vKQbaGZs1pdXyQwBWGClPdORUGkXpFQj70df9eilaVZUOmI8pncFVF/h/7/SM6f+o8AocJn4qRF2phL1qzN2MGGgZJbQSSK0vXeKGjwt9GgJAwiuImmJpb1S0auwmwhUwFBTir79oQJCoIAJ0TOIsTDB/qbzksuo7a69b0scb59ORtBZmqHwYe2fovXJQGYRnmgFWIwiR8UUXG2+3TscCVxVgaKr5L+4ZYvepDof8uhzF64vhMLhkuUANG7RucAXX4rbZYvnAP3VockpwzlryV7GzrpY7JYylNv+n57ksw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Uf2rt0cy7GFOP8pf/wqQaLnlTUQgi7RaDY6tAOvbLq0=;
- b=bl9lSkErK7Lj+7np97VWu2E4LboEn0dzbEkao5AGFzv0J5NdzQmjoDR0GMGy9fR9Bi5wsqYAqEw8DogWlVYZgQ0WlCDcM1kRhfJLghrqrRL43cpd6Geg4fDVjz+huSWor2xs4UjSt/HFUlwo9ZKcw423SFZuthX1npjPjqZNmP8=
+ bh=pWzQ5YDYDuhod+ndGlr/6xUYKOW180orx78DH0n2MjU=;
+ b=qmsrlI3WMYMoptgERKjL80DEEp04ozT9KvvCEHbTA5XLcZPZh2g6ZKWEEwhPDXBeZ5BURba5YMRVC/A68ugRf0vAMn2nFIrqP6HVe7Uh10jQaOQ9rYfFke+sxMzAcXDjDa7RB+XQ86HZsy0H19C+qgBWMKdD8lVQDaKlKdARF7M=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DB6PR04MB3270.eurprd04.prod.outlook.com (2603:10a6:6:11::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15; Fri, 1 Jul
- 2022 06:55:05 +0000
+ by VE1PR04MB6446.eurprd04.prod.outlook.com (2603:10a6:803:11f::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.18; Fri, 1 Jul
+ 2022 07:09:32 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::416e:6e99:bac6:d3a9]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::416e:6e99:bac6:d3a9%6]) with mapi id 15.20.5395.015; Fri, 1 Jul 2022
- 06:55:05 +0000
+ 07:09:32 +0000
+Message-ID: <bfcbbc3aff61f373a238c5ecb6a996eb963831d7.camel@nxp.com>
+Subject: Re: [PATCH v2] drm/bridge: imx: i.MX8 bridge drivers should depend
+ on ARCH_MXC
 From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] drm/bridge: fsl-ldb: Drop DE signal polarity inversion
-Date: Fri,  1 Jul 2022 14:56:34 +0800
-Message-Id: <20220701065634.4027537-4-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220701065634.4027537-1-victor.liu@nxp.com>
-References: <20220701065634.4027537-1-victor.liu@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR04CA0013.apcprd04.prod.outlook.com
- (2603:1096:4:197::6) To AM7PR04MB7046.eurprd04.prod.outlook.com
+To: Neil Armstrong <narmstrong@baylibre.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, Robert
+ Foss <robert.foss@linaro.org>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>,  Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team
+ <linux-imx@nxp.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Marek
+ Vasut <marex@denx.de>
+Date: Fri, 01 Jul 2022 15:09:19 +0800
+In-Reply-To: <123b8767-7ea4-e6fe-6d47-0f2444a88dd9@baylibre.com>
+References: <42c542b53a1c8027b23a045045fbb7b34479913d.1656072500.git.geert+renesas@glider.be>
+ <b625ba83-fee9-b668-09db-976cb3bef3ca@baylibre.com>
+ <9f5b511708ca9b30ef101a46a5d1b76f03b2c4fc.camel@nxp.com>
+ <123b8767-7ea4-e6fe-6d47-0f2444a88dd9@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR02CA0079.apcprd02.prod.outlook.com
+ (2603:1096:4:90::19) To AM7PR04MB7046.eurprd04.prod.outlook.com
  (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a94d84ea-b28d-414b-8044-08da5b2ea0c2
-X-MS-TrafficTypeDiagnostic: DB6PR04MB3270:EE_
+X-MS-Office365-Filtering-Correlation-Id: e4fc675f-5adc-4b24-ac64-08da5b30a564
+X-MS-TrafficTypeDiagnostic: VE1PR04MB6446:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VHZmvsTfPuT8w2GeSSMLs8dgkz/ITzsf0K0UKfILNKvvUmcuB112JMRMcuJQ60Xf9gIsjYOG1FKtuQMqvYkm6allvNrs+sqPe+XDUhvOju51tWMRR3BY2Rdxf0XYo9Ez5tjgvDdsTjGBa1E3NgiCgcw4GMaAENmoga6l+M6C8nFRd0947oWEvA1fQXnktwaYNKHLIhJZm81VFcL1rgAjlqRiou/EHAY9ik4XobdmBDv2SImrcoyFTIAKqMhAtyKIOl3adW1nJYjg+vPPZNVEY47C+WZiGLB7MjGQBe5KSjsQq0Kqg3D71crY8U95+EsVggRdf3DQpzcCRuMKxHIKhYX08EdzHZ66XQMpd+W/qGl8yVeD60vHvXbh/vnr0XZk1QVidBP8vSX1avgP/GNZoowgjTLbA2Z+fb9hRWc3R/jcJN0hZhMsbIoaJLB15+/3eDetDJmWK2I0q8wQe6Ddc/Zcorf56em6IjW6I4qUbVlkbwe6VSmtGOFpK2PjDbsmbNAtCud5cViJmDePpRJOPiQLxH51r0mo+usUrqgm8yYv3/4o7ow+aGCHsxrfhBvmPF0dN46yR8XU6Bv9PYZ0jwimw9ochRiFqOv5YaPG2yque5U+W8pYXV6nwHK+Dz8LzrK4r3QNRSbExc/deNme6pnFwOb25f5NkmSEvDJvVJkpmxpy/CepCHFvtRYBr/tdAR7n/31hF8VBDttnDMe7w8lnTB1kp30N6dFgvmothcXGZX3U6qRIgdDqFGn3BrKd5nPcycl92S8f7sRDSUOt7gdU6DmqoH1INKDaPk6kTBLVIZtMB5rZg7c47tnttoei
+X-Microsoft-Antispam-Message-Info: zEgxRV3AKCyo6FGrAR/PlKSv8vbtw1w63/92X1Gcd1w7WcurSsAKXb14jYG97S/jnmUdZlLLej4veZTwpvwCQKKhHvoL7G0Si5yD+t4DkaSYgj4erVBEYw7mZ/zv3xNeE1ktbd6jdzn6yst/hRSMVa4lzdadsA1BELW+xcqJR2LbC65Tha57BJuR7cBbKJQ0rrng7feGos2AfwrZxvE+D823VSmSP+TzF04usFj2KvmiNbK2QB9ftvGxaWLXG6WVK+Glhq7amUrQOLJJe4DCugVsefx2FL13dIzJJHP5I0u05Ly2at8hXhPZQGzJ17ew6rLYW68fjPvJVyGPQx1b4fNNGrL+WOO/LbQbIzkBqyfRUt64rPTmUxQq2a6pYnD1V0eZVmZLmopSEfTnoW3Z1n1bjpMRnmgE6c2FBpK7/hkGHQ7N54DJCZMKjg/7BEOmhXFZ51SG3xCtaE825YkVrDydKbMYvavPFpBEqGZ/wQ03VHZa24ztt8adWecLFAgrrWrqySx3Q2JTgnW7hSid/iUkdX5ZjSa8Hf2pojSgO/LEVLzU7p97K8AX9sLInyBTT0O1BiTF7qUsWyQ8ijy0sA+bFGDHIcn6TBE66eHwbNGbyE9oTw8k+FSL6pGTBzvOnzjhMFbMaz1mfnH0Jb6a/DEbsU4ZG1ra3njGtbf3ENlQenfgKIxqeK8PuNfxbF4L26np3G+rXq73eB/nXV+X9vQNmyl5McG7CSs8y/UoPUCBjAckTeUwd+xzfOPO6lTZac9TyZb2CJyXk3TVyJklwt5uyRvlPOtpPUfyZvIfeHu272Td8+IC6uL/4S13Y8OZokMMvLa6r/tTpDR7tooCJ+qnntL+oplT3UKOR4qewSA=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(39860400002)(346002)(136003)(376002)(366004)(83380400001)(2616005)(36756003)(2906002)(6512007)(66946007)(41300700001)(6506007)(6666004)(1076003)(52116002)(26005)(186003)(7416002)(478600001)(4326008)(8936002)(38350700002)(38100700002)(316002)(8676002)(5660300002)(86362001)(6486002)(66556008)(66476007);
+ SFS:(13230016)(4636009)(39860400002)(366004)(346002)(136003)(376002)(396003)(8936002)(53546011)(921005)(8676002)(6506007)(66946007)(6486002)(26005)(7416002)(316002)(52116002)(2906002)(66476007)(5660300002)(110136005)(478600001)(6512007)(38350700002)(6666004)(86362001)(38100700002)(4326008)(66556008)(186003)(2616005)(36756003)(41300700001)(99106002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?s3NSSw/I48QQfDFgUjoNFyk4FwM4iBgo2JROC4xq5TyruvcqbaSZ6pv1JvXB?=
- =?us-ascii?Q?pXf8TkMtC0ax1BhHvYCRFD93M2iagKEEEGhoptsHm67dQXi1XyW82RSFcf7D?=
- =?us-ascii?Q?zQemLMJS6181dk5q7cp78ZorbMtLDJXMexDGMbd6ntT8CGJ+8JdDDXTcW2gW?=
- =?us-ascii?Q?bHW3SozCCiUqx617Zsr7sz/oaEuVDJ/3rE1U+YyNfn2RuZx24uRDHZaEBI9L?=
- =?us-ascii?Q?fRJs4sAuHnn8nBg/uOEAwyLec8FCgWJXH6aV7j6Jd4BI9NiYWJXiRfmFJUYA?=
- =?us-ascii?Q?yD49uBYK8s1j+xerpj6Es3oUtOeFSEacVby/t/fhu3wSeM+NZhEGo0vtX++e?=
- =?us-ascii?Q?WuE3sbNF0Sdr5f1j+VjP0zFX+YpG0RtcsRYgj5/ZiggLKbQbPZz9YMr2zGFX?=
- =?us-ascii?Q?H/6HhIXuajW2+Ul73lGASXFMo48I3XHUH93KVIkxVzXXE+ZE5tE4FDakaS2v?=
- =?us-ascii?Q?eE8N2oFSbVY8AOZC3Sx9ML2tAShxJ3etlsiGuwEjuLe7PlC2YKvNzIGqOKKE?=
- =?us-ascii?Q?0Ebhuk48wvDxCFxRndTFqmyVUBrb4V0LdJZmCwD9GpF6ZWa++xKs/Ljq8rSn?=
- =?us-ascii?Q?RP8U/DWdHP05QNjFD9QOkm/E6aJbxlM37JJQu5vaU1l6Yhpyy7ox12h29TlF?=
- =?us-ascii?Q?BdhOSnauUgcBxlz3cHqw5wDCyXltwKY1Ws9Edpl2ACbKCWYXEaV2f+3OK2st?=
- =?us-ascii?Q?OLukgQjAbJqUpkUWIUaQ8hPo7lHYM4+iawbF4JARhKFFUvYBDolNlwR0xicL?=
- =?us-ascii?Q?p51BppaqjdQy3SCC7DBAooLw8Q+uKiOt7K1rSUQk89RVCw/EslpNz2Bww7QA?=
- =?us-ascii?Q?t5dhMBNBAZMukmMObwTbb/bdGiWEXJaEggOC+6C7BdzzcF1YYgi/IIjtyzeW?=
- =?us-ascii?Q?hw5VpEWyOqkR/jhEhLhIr4rA0exW5FiXt7hXVedf1npesSdIDDiR9/CohufR?=
- =?us-ascii?Q?wdTkiDV3Rm4H7zwirIy+Y6K+gHvpek/txLoFw8AutzNF9GA1+PVgBq6xD1J7?=
- =?us-ascii?Q?FiTFKJBM0LJug8X3cjY61YIMvCMiUSSPhVoRaaLJyHUh3/65dDjwE4DE28hz?=
- =?us-ascii?Q?rP8ilZFTVMReSVtHaZCd/ULaF2MBqFSuFJXZKaofeMbIZPKvGbcl/QntjwDg?=
- =?us-ascii?Q?CNekK1hAFifbnLIkEVui4FVPZ9XGLazDjOuRABxLUsOl9vuFoF/3a9C4eaBh?=
- =?us-ascii?Q?tY+otw4gDauaMXLv2Mg2u45Kw82nVo8Yc+DC9wLimx1ONe1E2o9wFVQuXpZ0?=
- =?us-ascii?Q?9jh4tjOmoipMCVE+WDL08avj3T989QZ7u8D/8hf/48IBQeWMxuWC/b86VYlk?=
- =?us-ascii?Q?7YS5JPWrM/7UckQYMLVtLh6xYat2C1/21NA8CpZdhDUHA/U1JbUdEiXc55pn?=
- =?us-ascii?Q?95/ceH3BZX+fHSsaVYvRsBQl3guORg7fgIHMETVxrQfP9S1Dbp470Cqii5HM?=
- =?us-ascii?Q?MIFu3Npi56gkwvTfdmhkf5sQj5FCJkX551ZHvMEK4yl4bNIaaElYFbO/vARb?=
- =?us-ascii?Q?eM6DVWjUXxlUN4wIKLMf9shIdtkRkl65WJQELFd09B+DzLZ0R5SndXsd+dV5?=
- =?us-ascii?Q?hnzD23F3v2VArMJ9ywKDkjWjnME7OAThdCqWGyKE?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aGt5bWhRWEVaNXhQOHZ4ejF1bjIwblJVTGJLU3Vac0hkYmpyZWd4Um1XYUdV?=
+ =?utf-8?B?T3ptck9waW9lc0ZiSzZPUlo2dm11aWVJNFExRWtoQ3Fka2luUFAzQlBCNWNM?=
+ =?utf-8?B?MjBPc2pUSEtkTXNVaHRraHFQSDRHN1kxN0NvTzJLMWVxV2dhb0UxWkMvcGIx?=
+ =?utf-8?B?a2xjQzJ2U0pQajNzbXV1Y3ArT2EyQ2h0WDR0cXpLVzVxTm8vTTh1anR6aHNW?=
+ =?utf-8?B?d0V4eW5zM0pFT212WFFET2ZHMXIveFJudjFFbzlhVDJmNjMzR3JWZlBRSHVZ?=
+ =?utf-8?B?LzFkcVZVVVZ6ckhEUW4yeTljK3ZQbDIveFJHUGh5emVGQ3BzVStLNVFMTUlZ?=
+ =?utf-8?B?RFRNcDYzOTZjZjJUamtEb3AybkdMeDZndk9oZk9jYjA2N0Jnc1ZZQnQ0QkFO?=
+ =?utf-8?B?bUtScTI1L0pORWtQTW9CWFdQc0lmR2daOW5iaDNlWHE2S1p0L3dUeCtDVFc5?=
+ =?utf-8?B?ZmN3S3VEUXErbmFaSWw5bnVUbWZmaWh0T0hZSUFqbE95bExxUzA2clNzTUVa?=
+ =?utf-8?B?bjh3NHVaRlNEazk5d2Y0TEswT2Rjc1dvd0Q2RmZSb3NQTWo3eS9VY0YrenRn?=
+ =?utf-8?B?SXB0YWtBcWJUQ2VPcU9aRjRmc3pKMjhJczhDQi9ienBxMW9ZMDlPZWxxNHhr?=
+ =?utf-8?B?dUVMYVdDTXZESEZQU0lKVG9oVWFTRVUxVk9IR2VjcEcyNlNLeWhQYmg1bTBY?=
+ =?utf-8?B?L3hBNGI0ZW84Y3dWemU4MzJoVElPMXZtQkRqL1U4ZlB6dU1jMzFVVVhDdFJk?=
+ =?utf-8?B?SHd2VHZQelBmVEwvMUhmWFVBWEg1cDJTZjFaa3hNM3RXQnNKOXlwcXJDNEoz?=
+ =?utf-8?B?T0NRaU9UTzA2NGpNemR5cTNwWTVqaXB1c2QrMjlyOE1qYVo1V3RaamxGUDFq?=
+ =?utf-8?B?Kyt6aTlqb0srU1dSTDFMNVJ5Q25lYVFCZUhpKzJhOWpCK0sxdFNscUlWRmhr?=
+ =?utf-8?B?UGpJS3czL1lyb01VZXFBSStwaTlydTg2UU9XazhSeUFld3FPRmpPUFlkVW5Q?=
+ =?utf-8?B?bFl6NDFqc1lodE4yZHc3dWIzVHZQSCsyR09MSWlhamNzUjU1R3MzS1JmSWgr?=
+ =?utf-8?B?SXhPNUNVeXB2VEVyMGF6cFJFcnMvdDZ6N204YjlXOW5NSFZTSkp1Wk1sb3ZH?=
+ =?utf-8?B?ZWhSSFRBQVFDcnBRWGZkbG85Y2dSU0tOOWh0dndQMUlqdzByWkRMVU9jaWRS?=
+ =?utf-8?B?WHZobnZPU1l5alV3Q3Y5aEZ6MnRoZ3FqQXoyTjdBZDVHV2tYMUhzMmZ5WDMx?=
+ =?utf-8?B?aXNQMmdRd3B6NWNUMzV6MGN2VE13TUpVNDBDYjA5WkZySW1iaisySlFyRXRv?=
+ =?utf-8?B?bHVaNEtackYvZHVjSDJ2YjRicCtLSENFTVRzbW1qQzY5NVI3RzBINzUveDZs?=
+ =?utf-8?B?R2Y4SktKU2ZwQzlRaWNqZFQxbUdPUXZRM0ZodGRON2FQbmw3MmU4US9YcVp2?=
+ =?utf-8?B?NSt0T1VLZVR5cURTWS83aC9BNmNHWTB6SE1md1dJMk1hK2pGNGFBWTRldy9X?=
+ =?utf-8?B?Wjh2eHBwMlc1cDVNMklMUXo5VjEyZnN4d0xRejQ2UEJYN0RzbEpkWXJiNFBs?=
+ =?utf-8?B?a0llK3pKZDJmWXAvR0pyUkZ5Vk4vSlpCaTI0YnE4bG9SNUJ6dkF0SDBKMUJ3?=
+ =?utf-8?B?UEdTVmYvNUlCS1ptck93Zm5NSEFpWXJtMFRDeTZOcTJpY3lYT0E0S2Zia3ZX?=
+ =?utf-8?B?KytKdzNyVnA0OUZxcFhEYjcyRWp4a0tiMnNoNjFSRVZDbmo4QVNNamFFbDlq?=
+ =?utf-8?B?Z3llTytMS05Fdkh2MXQ4dkxuZnVxSlZEUWRuNXlFUG5uRWs0dXdWbld2US84?=
+ =?utf-8?B?V2RERFJiWi81eldpYTBKdUpGamFIQjBKdzlNeWtkY0RuR0N6ZEtsbTU4amg2?=
+ =?utf-8?B?a3ZZU0QrZ01zdVBueGhpSmlPTGJnVFJuMUh1K2FLVU00MmVSdVZaeWRLUU1z?=
+ =?utf-8?B?UW8yZ0g0dmpFV1BrOERoNk1OZnRBd1VQNElRTkpnUGNBVnhKVE1ZM1ZhRFQ5?=
+ =?utf-8?B?bU10TFZJcVZXMThsMFcwMkRSeVFqTjQ1UTNIdnYyYU5SaDhabWU2cGVwcXpk?=
+ =?utf-8?B?eExOYWxvb1hFSXZuYjZXNC9OSXJaMU1UeG9tYlNRN2VBWVdDRVd4VmpkK2Q3?=
+ =?utf-8?Q?BnZGVCyv4jDigXJza64vSm1N3?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a94d84ea-b28d-414b-8044-08da5b2ea0c2
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4fc675f-5adc-4b24-ac64-08da5b30a564
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2022 06:55:05.2726 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2022 07:09:32.0398 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TtOWmZBiJiK5/HPl1BxFIS61ekfEEBNroEBAe5dV6/d9Aw7Lszyedkds4NIDm4zU+de/zqWuhiNMzTS1GEYYfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR04MB3270
+X-MS-Exchange-CrossTenant-UserPrincipalName: qfCWRCUheRuB0gfRn+qNFAhqh6x/Tj6zWrAQRRxeOqSFMYElcvcM/BybkRkl2dutRktWnoR6WY/QSY5fhjNzuw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6446
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,73 +135,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, jonas@kwiboo.se, airlied@linux.ie, robert.foss@linaro.org,
- narmstrong@baylibre.com, jernej.skrabec@gmail.com,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com, sam@ravnborg.org,
- linux-imx@nxp.com
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's unnecessary to invert input data enable signal polarity
-according to the output one. Let's drop the inversion.
-Since ->atomic_check() does nothing more than the inversion,
-it can be dropped entirely as well.
+Hi Neil, Robert,
 
-Without this patch, 'koe,tx26d202vm0bwa' LVDS panel connected
-with i.MX8MP EVK board does not show any data on screen.
+On Tue, 2022-06-28 at 09:10 +0200, Neil Armstrong wrote:
+> On 28/06/2022 04:31, Liu Ying wrote:
+> > On Mon, 2022-06-27 at 14:22 +0200, Neil Armstrong wrote:
+> > > Hi,
+> > 
+> > Hi,
+> > 
+> > > 
+> > > On 24/06/2022 14:10, Geert Uytterhoeven wrote:
+> > > > The various Freescale i.MX8 display bridges are only present on
+> > > > Freescale i.MX8 SoCs.  Hence add a dependency on ARCH_MXC, to
+> > > > prevent
+> > > > asking the user about these drivers when configuring a kernel
+> > > > without
+> > > > i.MX SoC support.
+> > > > 
+> > > > Fixes: e60c4354840b2fe8 ("drm/bridge: imx: Add LDB support for
+> > > > i.MX8qm")
+> > > > Fixes: 3818715f62b42b5c ("drm/bridge: imx: Add LDB support for
+> > > > i.MX8qxp")
+> > > > Fixes: 96988a526c97cfbe ("drm/bridge: imx: Add i.MX8qxp pixel
+> > > > link
+> > > > to DPI support")
+> > > > Fixes: 1ec17c26bc06289d ("drm/bridge: imx: Add i.MX8qm/qxp
+> > > > display
+> > > > pixel link support")
+> > > > Fixes: 93e163a9e0392aca ("drm/bridge: imx: Add i.MX8qm/qxp
+> > > > pixel
+> > > > combiner support")
+> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > Reviewed-by: Liu Ying <victor.liu@nxp.com>
+> > > > ---
+> > > > v2:
+> > > >     - s/i.MX8MP/i.MX8/,
+> > > >     - Add Reviewed-by.
+> > > > ---
+> > > >    drivers/gpu/drm/bridge/imx/Kconfig | 4 ++++
+> > > >    1 file changed, 4 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/bridge/imx/Kconfig
+> > > > b/drivers/gpu/drm/bridge/imx/Kconfig
+> > > > index 212a7b0e64fd8b5a..608f47f41bcd1c81 100644
+> > > > --- a/drivers/gpu/drm/bridge/imx/Kconfig
+> > > > +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+> > > > @@ -1,3 +1,5 @@
+> > > > +if ARCH_MXC || COMPILE_TEST
+> > > > +
+> > > >    config DRM_IMX8QM_LDB
+> > > >    	tristate "Freescale i.MX8QM LVDS display bridge"
+> > > >    	depends on OF
+> > > > @@ -41,3 +43,5 @@ config DRM_IMX8QXP_PIXEL_LINK_TO_DPI
+> > > >    	help
+> > > >    	  Choose this to enable pixel link to display pixel
+> > > > interface(PXL2DPI)
+> > > >    	  found in Freescale i.MX8qxp processor.
+> > > > +
+> > > > +endif # ARCH_MXC || COMPILE_TEST
+> > > 
+> > > I was wondering why those were added in
+> > > drivers/gpu/drm/bridge/imx
+> > > since they are specific to NXP SoCs,
+> > > I think they should be moved in the right drm imx subsystem
+> > > instead
+> > > of this change.
+> > 
+> > There are 2 directories which contain display controller drivers
+> > for
+> > i.MX SoCs:
+> > a. drivers/gpu/drm/imx - i.MX51/53/6qdl IPUv3, i.MX8mq DCSS and
+> >     i.MX8qm/qxp DPU([1], not landed yet)
+> > b. drivers/gpu/drm/mxsfb - i.MX23/28/6sx/8mq LCDIF and i.MX8mp
+> >     LCDIFv3([2], not landed yet)
+> > 
+> > Bridges added in drivers/gpu/drm/bridge/imx make it possible to
+> > share
+> > bridge drivers across display controllers.  I see chance to use the
+> > LVDS Display Bridge(LDB) helper(imx-ldb-helper.c) for i.MX6sx LDB.
+> 
+> Thanks for the explanation, LGTM
+> Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 
-Fixes: 463db5c2ed4a ("drm: bridge: ldb: Implement simple Freescale i.MX8MP LDB bridge")
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Marek Vasut <marex@denx.de>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
- drivers/gpu/drm/bridge/fsl-ldb.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+Care to pick this up?
+I don't have permission to push this to drm-misc.
 
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index d4f005eef6f6..4b503c544256 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -74,22 +74,6 @@ static int fsl_ldb_attach(struct drm_bridge *bridge,
- 				 bridge, flags);
- }
- 
--static int fsl_ldb_atomic_check(struct drm_bridge *bridge,
--				struct drm_bridge_state *bridge_state,
--				struct drm_crtc_state *crtc_state,
--				struct drm_connector_state *conn_state)
--{
--	/* Invert DE signal polarity. */
--	bridge_state->input_bus_cfg.flags &= ~(DRM_BUS_FLAG_DE_LOW |
--					       DRM_BUS_FLAG_DE_HIGH);
--	if (bridge_state->output_bus_cfg.flags & DRM_BUS_FLAG_DE_LOW)
--		bridge_state->input_bus_cfg.flags |= DRM_BUS_FLAG_DE_HIGH;
--	else if (bridge_state->output_bus_cfg.flags & DRM_BUS_FLAG_DE_HIGH)
--		bridge_state->input_bus_cfg.flags |= DRM_BUS_FLAG_DE_LOW;
--
--	return 0;
--}
--
- static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
- 				  struct drm_bridge_state *old_bridge_state)
- {
-@@ -241,7 +225,6 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs funcs = {
- 	.attach = fsl_ldb_attach,
--	.atomic_check = fsl_ldb_atomic_check,
- 	.atomic_enable = fsl_ldb_atomic_enable,
- 	.atomic_disable = fsl_ldb_atomic_disable,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
--- 
-2.25.1
+Regards,
+Liu Ying
 
