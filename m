@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B507563FDF
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 13:48:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 478D5563FE1
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 13:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 667C72BCA8;
-	Sat,  2 Jul 2022 11:48:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D45FF113D8F;
+	Sat,  2 Jul 2022 11:49:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C61F2BCAA
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 11:48:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0FF410FDD5
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 11:48:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656762526;
+ s=mimecast20190719; t=1656762537;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wsk5LtoJ5L3Sna553tYxn8C/ppvSkfs3ONiQ9booEt0=;
- b=AR2zjsLfpsvr0Mdt+pgmgF3GV8eMiyYRR03qluOrdwhcwjOUtWUUWVuW+TkpgjNexc75hw
- PlQy7CCkv2WfFzrBvCGIKhV73lUoBkTnUV8MbO1QNQr6pJIJlM5sWcqiEJEz+lGeToGDs2
- 9cAzi9TGyKU7ejNS4l79bLJKO9Iln2Y=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kBzEfGWVygyiM8W1L6ivraoo44EoMnZSdZ7RWUgjnqY=;
+ b=g3JAbkomZPLx8vst9ye1bafNMitfBXaPUYd23QzMkhTNYMHMMHWHiXx5rCmYlDgdPzQM/d
+ GhrLjvqrT6edxlvyiCIEEmB4BuRcYUydSjMKA4fwRfwHXzjg40qqr3fTABwFKeOkY9jG5+
+ XAiXm/SaNI5NBsekP+N9p744TmPQg5I=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-569-JZfa1tXINb2G9Qi_xiWM2Q-1; Sat, 02 Jul 2022 07:48:37 -0400
-X-MC-Unique: JZfa1tXINb2G9Qi_xiWM2Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v8-20020a05600c214800b003a1819451b1so2640542wml.7
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Jul 2022 04:48:37 -0700 (PDT)
+ us-mta-197-0pL1OaRoN6OmiXcuJlxktA-1; Sat, 02 Jul 2022 07:48:56 -0400
+X-MC-Unique: 0pL1OaRoN6OmiXcuJlxktA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c185-20020a1c35c2000000b0039db3e56c39so4391536wma.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Jul 2022 04:48:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=wsk5LtoJ5L3Sna553tYxn8C/ppvSkfs3ONiQ9booEt0=;
- b=OjWkACKi6NrC9B9rn/EN6fDgAoelkvSKjRNn6DwFy+HVCYA3aXejJxh0iwlyGZ9CU0
- pirZ8aSkokCJPaJ8ulTCfArofe6JGjFdwLy+onDSdR8qnC1whoVRmSXvum+TmxwqdmJq
- hqeBjv4RaYElDIuVLcH5xeOC1rGYf1p/rsWY79VY5OsoFqiKQblBDqNrkMZ7RxGTK7sK
- 1xCT92TLYXcm5ewCf7LzoguQY/UYNkbkiS1sR2vEQ7y07o+rvLQCH8qUSnkD39yJ+uCo
- uDIxxexuiMEP93BTDb9bX6YDcPvv0yTFtHRxAo92RYhnolX2vEMgN2PPGlIwHIadv0zH
- VL7g==
-X-Gm-Message-State: AJIora9jLSNM215bDTxqUfKIEAsLl+FENrOeUTaUxcbIyfcfakgInMqs
- igidQ3kqi93jKJKkd68OEixVW+WyPqQAavqpZQed4qLjQoUELJt0RHY2kB5qnpGJv3W4V4NifCN
- C9ovR5jDPJrTBj2kdZbzRItmnj5aV
-X-Received: by 2002:a5d:598c:0:b0:21d:26b6:ee94 with SMTP id
- n12-20020a5d598c000000b0021d26b6ee94mr17887647wri.457.1656762516666; 
- Sat, 02 Jul 2022 04:48:36 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ttlfskSCAotB8xeeIXxHixn2sjYEgxtb1ckGEMA1lPqvwqnqGgGkPjbHj3Rl/IhS7i3ZNuuA==
-X-Received: by 2002:a5d:598c:0:b0:21d:26b6:ee94 with SMTP id
- n12-20020a5d598c000000b0021d26b6ee94mr17887631wri.457.1656762516436; 
- Sat, 02 Jul 2022 04:48:36 -0700 (PDT)
+ bh=kBzEfGWVygyiM8W1L6ivraoo44EoMnZSdZ7RWUgjnqY=;
+ b=4SC95Yc/25uBnWt5nruV1jJP1axuNppuBVgC55ax53lwq/Lj/WoUcbxN45zj0hSzNl
+ N0zJXHKRioLTuQtRkcUauJ1RSFOv6MltDy6py8+VIzVzycHAciky12m4ykFuM9OgjSH1
+ Jxkpa2gIAGddNlkWMIkFF1Tgg8FHx7U6DaPn6YK9IVMrPT5aERBJ6xv/uWrFXHTCt31a
+ a0n9tTZFZllWYZbKKJbZb8a3x33v83E+h2zpnA3TT1NcqmTAnFm89/AEwtxYNuDrkhQ+
+ oU/vkLluzOsiPIO56HgCitwI/UcOgtTFglVMjc98nyii3yHcCzgtS7u+D2O15RFaHtjK
+ mKWw==
+X-Gm-Message-State: AJIora/ui8NEQcKzISnBXpmKidjdbhrMcxO/c7d+/WHnzhw5V5iM2QIH
+ uiErsyfloHXoeCziOvYbQciLOS5Th9e4N6kcy6OCTlR9IGfPfRbjFUHcTN34elg5aSSvEN7z4VZ
+ lvLy5SkQcGAbmP4/+g3Edt8oLCpAx
+X-Received: by 2002:a05:600c:4fc8:b0:3a1:987c:82d4 with SMTP id
+ o8-20020a05600c4fc800b003a1987c82d4mr1515600wmq.26.1656762535556; 
+ Sat, 02 Jul 2022 04:48:55 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1swi8yT8lpV7nvJfPgVektW9uU61vfUOnnidEB+Xc2gOSrZeoWzU44iyITMmphx0FKxo3RADw==
+X-Received: by 2002:a05:600c:4fc8:b0:3a1:987c:82d4 with SMTP id
+ o8-20020a05600c4fc800b003a1987c82d4mr1515575wmq.26.1656762535333; 
+ Sat, 02 Jul 2022 04:48:55 -0700 (PDT)
 Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c21-20020a05600c0a5500b0039c4d022a44sm13621989wmq.1.2022.07.02.04.48.34
+ e3-20020adfef03000000b0021bbd525b8esm25724496wro.45.2022.07.02.04.48.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Jul 2022 04:48:36 -0700 (PDT)
-Message-ID: <7ebde68e-7710-d0da-dff8-a06e1b6ba870@redhat.com>
-Date: Sat, 2 Jul 2022 13:48:34 +0200
+ Sat, 02 Jul 2022 04:48:54 -0700 (PDT)
+Message-ID: <5e612797-3506-527c-46c5-cae9045c69e4@redhat.com>
+Date: Sat, 2 Jul 2022 13:48:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v3 5/9] drm: selftest: convert drm_plane_helper selftest
+Subject: Re: [PATCH v3 6/9] drm: selftest: convert drm_dp_mst_helper selftest
  to KUnit
 To: =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>,
  Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
@@ -77,9 +77,9 @@ To: =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>,
  David Gow <davidgow@google.com>, Daniel Latypov <dlatypov@google.com>,
  brendanhiggins@google.com
 References: <20220630004611.114441-1-maira.canal@usp.br>
- <20220630004611.114441-6-maira.canal@usp.br>
+ <20220630004611.114441-7-maira.canal@usp.br>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220630004611.114441-6-maira.canal@usp.br>
+In-Reply-To: <20220630004611.114441-7-maira.canal@usp.br>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -99,23 +99,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Djakson C . G . Filho" <djakson.filho@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Anderson Fraga <aaafraga@gmail.com>, linux-kselftest@vger.kernel.org,
+Cc: linux-kernel@vger.kernel.org, Rubens Gomes Neto <rubens.gomes.neto@usp.br>,
+ dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
  kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 6/30/22 02:46, Maíra Canal wrote:
 > Considering the current adoption of the KUnit framework, convert the
-> DRM plane helper selftest to the KUnit API.
+> DRM DP MST helper selftest to the KUnit API.
 > 
 > Acked-by: Daniel Latypov <dlatypov@google.com>
 > Tested-by: David Gow <davidgow@google.com>
-> Co-developed-by: Djakson C. G. Filho <djakson.filho@gmail.com>
-> Signed-off-by: Djakson C. G. Filho <djakson.filho@gmail.com>
-> Co-developed-by: Anderson Fraga <aaafraga@gmail.com>
-> Signed-off-by: Anderson Fraga <aaafraga@gmail.com>
+> Co-developed-by: Rubens Gomes Neto <rubens.gomes.neto@usp.br>
+> Signed-off-by: Rubens Gomes Neto <rubens.gomes.neto@usp.br>
 > Signed-off-by: Maíra Canal <maira.canal@usp.br>
 > ---
 
