@@ -1,47 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7428563E68
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 06:26:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D6A563F25
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 11:03:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C76A1127B6;
-	Sat,  2 Jul 2022 04:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2200B18BDB0;
+	Sat,  2 Jul 2022 09:03:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 873C01127B6;
- Sat,  2 Jul 2022 04:25:58 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4364518BDB0
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 09:03:22 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C301E608C3;
- Sat,  2 Jul 2022 04:25:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2C8EC34114;
- Sat,  2 Jul 2022 04:25:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1656735952;
- bh=CnLxEWfEVwpNoTxWsiwQ1LQuKst+72BKDbjbXAesDa4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=LQCMYCHDQR6Snh03VJXykPrYGM58AdpZzxwBcPzIoKS+eBA9CKb8Ndukm4D2HfPUa
- i4yAErDdhscv7vlgetKrJZ7oiJZp8dU98i+LE/12HMErHBMVVau0tOR8gyM7ntkFIH
- yJLFkEd0F9svS2uuJzXBntMgT6QOg+GCbOO/3Vn8=
-Date: Fri, 1 Jul 2022 21:25:51 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v7 01/14] mm: rename is_pinnable_pages to
- is_pinnable_longterm_pages
-Message-Id: <20220701212551.7198162dbd65746a69bc41b4@linux-foundation.org>
-In-Reply-To: <49315889-96de-8e41-f8ee-dd5b33c5e1db@redhat.com>
-References: <20220629035426.20013-1-alex.sierra@amd.com>
- <20220629035426.20013-2-alex.sierra@amd.com>
- <f00f9c93-c115-d222-dc8c-11493ccd2567@redhat.com>
- <575b48a6-e372-acda-9a7c-449f307a588c@amd.com>
- <49315889-96de-8e41-f8ee-dd5b33c5e1db@redhat.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+ by ams.source.kernel.org (Postfix) with ESMTPS id 13425B82D7B;
+ Sat,  2 Jul 2022 09:03:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57486C34114;
+ Sat,  2 Jul 2022 09:03:16 +0000 (UTC)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Subject: [PATCH V2] drivers/firmware: Move sysfb_init() from device_initcall
+ to subsys_initcall_sync
+Date: Sat,  2 Jul 2022 17:04:16 +0800
+Message-Id: <20220702090416.1217209-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,39 +42,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Sierra <alex.sierra@amd.com>, rcampbell@nvidia.com,
- willy@infradead.org, Felix Kuehling <felix.kuehling@amd.com>,
- apopple@nvidia.com, amd-gfx@lists.freedesktop.org, linux-xfs@vger.kernel.org,
- linux-mm@kvack.org, jglisse@redhat.com, dri-devel@lists.freedesktop.org,
- jgg@nvidia.com, linux-ext4@vger.kernel.org, hch@lst.de
+Cc: dri-devel@lists.freedesktop.org, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Jun 2022 00:15:06 +0200 David Hildenbrand <david@redhat.com> wrote:
+Consider a configuration like this:
+1, efifb (or simpledrm) is built-in;
+2, a native display driver (such as radeon) is also built-in.
 
-> On 30.06.22 00:08, Felix Kuehling wrote:
-> > On 2022-06-29 03:33, David Hildenbrand wrote:
-> >> On 29.06.22 05:54, Alex Sierra wrote:
-> >>> is_pinnable_page() and folio_is_pinnable() were renamed to
-> >>> is_longterm_pinnable_page() and folio_is_longterm_pinnable()
-> >>> respectively. These functions are used in the FOLL_LONGTERM flag
-> >>> context.
-> >> Subject talks about "*_pages"
-> >>
-> >>
-> >> Can you elaborate why the move from mm.h to memremap.h is justified?
-> > 
-> > Patch 2 adds is_device_coherent_page in memremap.h and updates 
-> > is_longterm_pinnable_page to call is_device_coherent_page. memremap.h 
-> > cannot include mm.h because it is itself included by mm.h. So the choice 
-> > was to move is_longterm_pinnable_page to memremap.h, or move 
-> > is_device_coherent_page and all its dependencies to mm.h. The latter 
-> > would have been a bigger change.
-> 
-> I really don't think something mm generic that compiles without
-> ZONE_DEVICE belongs into memremap.h. Please find a cleaner way to get
-> this done.
+As Javier said, this is not a common configuration (the native display
+driver is usually built as a module), but it can happen and cause some
+trouble.
 
-(without having bothered to look at the code...)
+In this case, since efifb, radeon and sysfb are all in device_initcall()
+level, the order in practise is like this:
 
-The solution is always to create a new purpose-specific header file.
+efifb registered at first, but no "efi-framebuffer" device yet. radeon
+registered later, and /dev/fb0 created. sysfb_init() comes at last, it
+registers "efi-framebuffer" and then causes an error message "efifb: a
+framebuffer is already registered". Make sysfb_init() to be subsys_
+initcall_sync() can avoid this. And Javier Martinez Canillas is trying
+to make a more general solution [1].
+
+However, this patch still makes sense because it can make the screen
+display as early as possible (We cannot move to subsys_initcall, since
+sysfb_init() should be executed after PCI enumeration).
+
+[1] https://lore.kernel.org/all/20220607182338.344270-1-javierm@redhat.com/
+
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+---
+V2: Update commit messages.
+
+ drivers/firmware/sysfb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
+index 2bfbb05f7d89..aecf91517e54 100644
+--- a/drivers/firmware/sysfb.c
++++ b/drivers/firmware/sysfb.c
+@@ -80,4 +80,4 @@ static __init int sysfb_init(void)
+ }
+ 
+ /* must execute after PCI subsystem for EFI quirks */
+-device_initcall(sysfb_init);
++subsys_initcall_sync(sysfb_init);
+-- 
+2.27.0
+
