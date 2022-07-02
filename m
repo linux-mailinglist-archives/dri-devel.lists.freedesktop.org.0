@@ -1,63 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E19565ABD
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:14:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B51A565AC4
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:15:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DF2810E361;
-	Mon,  4 Jul 2022 16:14:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 418EE10E33C;
+	Mon,  4 Jul 2022 16:14:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEFFB10E002
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 19:06:10 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id z19so6674472edb.11
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Jul 2022 12:06:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=N0yu1El6vOD8A0gSx756Jt25HtpMxiSxwi6fNvLtoxg=;
- b=I4sXXmxDa/iZ225kkuLhwo9R+auGLloq99vC99wWuA7xov8rtKLRnD4nCrU8UbINB3
- 6xypnAMT5Waiixv3xn8tW1xeyEQ3+ClVhd81CjOcKXGVDOeUkT13SqX3XM6EoCl4mZNF
- +gupnlPKVrv0MSsooUatuOJEyIqAypMd/4gRbTSOt3QzPcMyq7FsIVVW1SQM/uuDIXkZ
- gVa6joh8wIdt8MOBwVgeGryWLGywj8xdbq7UKuJjQGapV49d7kXlcme/mY3W+5Sygbsf
- ea11/cp1vHsccmOcFr8rrgx2yEulKEoC9ytXTXwOwDo4/zZTf5D1RGcoti6J8eK3cMXC
- v4/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=N0yu1El6vOD8A0gSx756Jt25HtpMxiSxwi6fNvLtoxg=;
- b=PH10EcfEHs5UetywWDKtPT4Yd+QdWOrikVoSg1pxNgroqlkTP78/NZ4goLfk9RUShD
- dI+Qf02Dj8gTn36WaMWufqjH1/tXu2qvEhW+wnKm1B7t0fX5TDbNxm3lD7JSSvLw+djj
- JKC2GHkrFDqCNIeNAb0hblWZDcyDhu3AoijjPBrNXeov31Ox//B0zvFfJwuYA7TSryOL
- 7f63x5tvg+zIjNRRMeY/N0aIet4+UU7o7Cezxghnh3VgEsuS9J0xv9mSHPQbSgW7mjlP
- rJp+DX8f1uR+uuGv+meJEcBnsY2Pufz+4AOW+kPnzKJN+Lo3FgQfSS2uV7G9KekpFd3x
- MvTA==
-X-Gm-Message-State: AJIora8zmtDXeiAcHdtxf/pvPbMg6okuJogsxHeC12VzinzS5GdqCTqP
- 9p5f2Clat85Fz+6hqRMU4hw=
-X-Google-Smtp-Source: AGRyM1uMMhIQ4Yw/s8eXzx+VpJdxchNQa9w2WGeJr1Rl6GkGJCDIxVskSkBGawHb9dTWaD4Ev/CxTA==
-X-Received: by 2002:a05:6402:1774:b0:435:7fea:8c02 with SMTP id
- da20-20020a056402177400b004357fea8c02mr27136096edb.213.1656788769330; 
- Sat, 02 Jul 2022 12:06:09 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net.
- [89.212.118.115]) by smtp.gmail.com with ESMTPSA id
- c22-20020aa7c756000000b00439c146efc9sm1244786eds.60.2022.07.02.12.06.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Jul 2022 12:06:09 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH] dt-bindings: display: sun4i: Fix D1 pipeline count
-Date: Sat, 02 Jul 2022 21:06:07 +0200
-Message-ID: <3674367.kQq0lBPeGt@jernej-laptop>
-In-Reply-To: <20220702032921.22433-1-samuel@sholland.org>
-References: <20220702032921.22433-1-samuel@sholland.org>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C56D210E004
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 19:32:55 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6DDE35C0132;
+ Sat,  2 Jul 2022 15:32:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Sat, 02 Jul 2022 15:32:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+ cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm3; t=1656790372; x=1656876772; bh=NFzetHdLCqetwr73VJiN2bfUP
+ 4tyajVF75O728IzP2s=; b=CBWebKpBWjZnYdpPp9ncptZsa28Yp69MMLIzgXWph
+ XL0AGNWkc8I7QNBnAD/gLx2EXijzLpYmgt7043/QjEvKNOBPSqmuydqOnyp95akV
+ Gq5QnpFYFXYr6nlXZQbqo1kw8m2Q2LV2fJFwFgu48qzexijCmJg5zVMFlAfN+5vp
+ Bpisr8gDWUQ2PZdZViuwEDLPL/8r6rIzrqp4vqiJPeC6R5nJt3vkzuLqBeRP+b/j
+ a5sG9T6fXfEs2wrJdZXq9DbYTJru6MSx0d+iX7DOb+UaYlVpAgNtUoibtfpUkl0X
+ X/QJYlAsQccFnomrZltasTnOtOQ/kqcSMfetldgNmQ2uQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1656790372; x=1656876772; bh=NFzetHdLCqetwr73VJiN2bfUP4tyajVF75O
+ 728IzP2s=; b=wJTwxZbxlYBJO8gemZplA7wZT1a6QsNynnz/GYw3HU2RC4c9RSD
+ pTYY1VP8W7EiPH678LT0QpznIv2P7haTmc4p67nP4ZIdoD6cQMsMShVIFcfmZyFi
+ FQWfctS+lSPmKxuBRBU1munSImB/B0ofkVG16+sxOyP/lCJC58ID/xMhKC9k0JWh
+ 8q0cjD3xl8JhYygR0gp6ce6POz6iCK1l1htZvZKxSmqyY2lai2UXpEq+LmyL0IRh
+ I3JYmR4iJ0A919S+tRD5DIJJ9l+I2xPg1LDoH/ZIEAgRYYeiTApULqCKuzI2iyqY
+ Wh6XfRZcfUrZc3chAySd2RIl1M1Cx1giE1w==
+X-ME-Sender: <xms:Y53AYtngb2kiljCdyrK0CBEO4ZsbHbxXwl-ITtv0zUAAe3EnUL2KkQ>
+ <xme:Y53AYo3OpyY3v9EE0PM1CRUXj_zlq_eAiyP_--fetb-lNYAwH_Z7DcRLi9X-9effY
+ -Fv6JPdSV0gFtV6iQ>
+X-ME-Received: <xmr:Y53AYjr4YeAsDMH4MSaEbXIOZOtIHbvOsb5fR-BYmfEFd0PhgyJz1oM61jiqa0E7XFSD_55aSetv_WqKxOln_TjJ1HQFPerVDFdCuOR8vqRzMl87VIvyshirdIyBjcyrGiR9XQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedgudefkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+ lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+ frrghtthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeeh
+ hffhkeekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:Y53AYtk4FvX_uQ10YNqC_C9VYr_dP5h1nvKwrKnd3JSveUA4EG0RyA>
+ <xmx:Y53AYr3u2COdryL7g7u6oQN3-sWORSPDNlU84olL5keQQCVOcGZXlg>
+ <xmx:Y53AYssQ_qYFo0-BEfNZwsF4EwJ4XvuQ46yXSQpDKHScEkOC-ybIPQ>
+ <xmx:ZJ3AYkJjxy5Z1kJTjrjAbeZTYn-EQWLBgzDVwgoaFnebuSltI1PoAg>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 2 Jul 2022 15:32:51 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Maxime Ripard <mripard@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>
+Subject: [PATCH] drm/sun4i: Update Kconfig defaults and descriptions
+Date: Sat,  2 Jul 2022 14:32:50 -0500
+Message-Id: <20220702193250.52959-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,25 +80,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+Cc: Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne sobota, 02. julij 2022 ob 05:29:21 CEST je Samuel Holland napisal(a):
-> When adding the bindings for the D1 display engine, I missed the
-> condition for the number of pipelines. D1 has two mixers, so it
-> will have two pipeline references.
-> 
-> Fixes: ae5a5d26c15c ("dt-bindings: display: Add D1 display engine
-> compatibles") Signed-off-by: Samuel Holland <samuel@sholland.org>
+Allwinner display drivers are split roughly into two generations. The
+first generation was found on early 32-bit ARM SoCs and contains DE1.0
+and a custom HDMI controller. Clarify that these options only apply to
+a specific list of SoCs, and limit selecting them to 32-bit ARM, to
+avoid confusion.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+The second generation, found in A83T and newer SoCs (both 32-bit and
+64-bit), contains a DE2.0 and a DesignWare HDMI controller. Since this
+is the most widely-used generation, enable it by default. The previous
+default condition (MACH_SUN8I) was limited to 32-bit SoCs. Also enable
+the DSI controller by default, which is found on 64-bit SoCs as well.
 
-Best regards,
-Jernej
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
+ drivers/gpu/drm/sun4i/Kconfig | 26 +++++++++++++++-----------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
+index 3a43c436c74a..1c2f8909f3cd 100644
+--- a/drivers/gpu/drm/sun4i/Kconfig
++++ b/drivers/gpu/drm/sun4i/Kconfig
+@@ -16,23 +16,25 @@ config DRM_SUN4I
+ if DRM_SUN4I
+ 
+ config DRM_SUN4I_HDMI
+-	tristate "Allwinner A10 HDMI Controller Support"
++	tristate "Allwinner A10/A10s/A20/A31 HDMI Controller Support"
++	depends on ARM || COMPILE_TEST
+ 	default DRM_SUN4I
+ 	help
+-	  Choose this option if you have an Allwinner SoC with an HDMI
+-	  controller.
++	  Choose this option if you have an Allwinner A10/A10s/A20/A31
++	  SoC with an HDMI controller.
+ 
+ config DRM_SUN4I_HDMI_CEC
+-	bool "Allwinner A10 HDMI CEC Support"
++	bool "Allwinner A10/A10s/A20/A31 HDMI CEC Support"
+ 	depends on DRM_SUN4I_HDMI
+ 	select CEC_CORE
+ 	select CEC_PIN
+ 	help
+-	  Choose this option if you have an Allwinner SoC with an HDMI
+-	  controller and want to use CEC.
++	  Choose this option if you have an Allwinner A10/A10s/A20/A31
++	  SoC with an HDMI controller and want to use CEC.
+ 
+ config DRM_SUN4I_BACKEND
+ 	tristate "Support for Allwinner A10 Display Engine Backend"
++	depends on ARM || COMPILE_TEST
+ 	default DRM_SUN4I
+ 	help
+ 	  Choose this option if you have an Allwinner SoC with the
+@@ -41,8 +43,8 @@ config DRM_SUN4I_BACKEND
+ 	  selected the module will be called sun4i-backend.
+ 
+ config DRM_SUN6I_DSI
+-	tristate "Allwinner A31 MIPI-DSI Controller Support"
+-	default MACH_SUN8I
++	tristate "Allwinner A31/A64 MIPI-DSI Controller Support"
++	default DRM_SUN4I
+ 	select CRC_CCITT
+ 	select DRM_MIPI_DSI
+ 	select RESET_CONTROLLER
+@@ -55,15 +57,17 @@ config DRM_SUN6I_DSI
+ config DRM_SUN8I_DW_HDMI
+ 	tristate "Support for Allwinner version of DesignWare HDMI"
+ 	depends on DRM_SUN4I
++	default DRM_SUN4I
+ 	select DRM_DW_HDMI
+ 	help
+ 	  Choose this option if you have an Allwinner SoC with the
+-	  DesignWare HDMI controller with custom HDMI PHY. If M is
++	  DesignWare HDMI controller. SoCs that support HDMI and
++	  have a Display Engine 2.0 contain this controller. If M is
+ 	  selected the module will be called sun8i_dw_hdmi.
+ 
+ config DRM_SUN8I_MIXER
+ 	tristate "Support for Allwinner Display Engine 2.0 Mixer"
+-	default MACH_SUN8I
++	default DRM_SUN4I
+ 	help
+ 	  Choose this option if you have an Allwinner SoC with the
+ 	  Allwinner Display Engine 2.0, which has a mixer to do some
+@@ -75,6 +79,6 @@ config DRM_SUN8I_TCON_TOP
+ 	default DRM_SUN4I if DRM_SUN8I_MIXER!=n
+ 	help
+ 	  TCON TOP is responsible for configuring display pipeline for
+-	  HTMI, TVE and LCD.
++	  HDMI, TVE and LCD.
+ 
+ endif
+-- 
+2.35.1
 
