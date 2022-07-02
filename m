@@ -2,72 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B51A565AC4
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:15:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711A0565AC6
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:15:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 418EE10E33C;
-	Mon,  4 Jul 2022 16:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4228410E4FD;
+	Mon,  4 Jul 2022 16:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C56D210E004
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 19:32:55 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 6DDE35C0132;
- Sat,  2 Jul 2022 15:32:52 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Sat, 02 Jul 2022 15:32:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm3; t=1656790372; x=1656876772; bh=NFzetHdLCqetwr73VJiN2bfUP
- 4tyajVF75O728IzP2s=; b=CBWebKpBWjZnYdpPp9ncptZsa28Yp69MMLIzgXWph
- XL0AGNWkc8I7QNBnAD/gLx2EXijzLpYmgt7043/QjEvKNOBPSqmuydqOnyp95akV
- Gq5QnpFYFXYr6nlXZQbqo1kw8m2Q2LV2fJFwFgu48qzexijCmJg5zVMFlAfN+5vp
- Bpisr8gDWUQ2PZdZViuwEDLPL/8r6rIzrqp4vqiJPeC6R5nJt3vkzuLqBeRP+b/j
- a5sG9T6fXfEs2wrJdZXq9DbYTJru6MSx0d+iX7DOb+UaYlVpAgNtUoibtfpUkl0X
- X/QJYlAsQccFnomrZltasTnOtOQ/kqcSMfetldgNmQ2uQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1656790372; x=1656876772; bh=NFzetHdLCqetwr73VJiN2bfUP4tyajVF75O
- 728IzP2s=; b=wJTwxZbxlYBJO8gemZplA7wZT1a6QsNynnz/GYw3HU2RC4c9RSD
- pTYY1VP8W7EiPH678LT0QpznIv2P7haTmc4p67nP4ZIdoD6cQMsMShVIFcfmZyFi
- FQWfctS+lSPmKxuBRBU1munSImB/B0ofkVG16+sxOyP/lCJC58ID/xMhKC9k0JWh
- 8q0cjD3xl8JhYygR0gp6ce6POz6iCK1l1htZvZKxSmqyY2lai2UXpEq+LmyL0IRh
- I3JYmR4iJ0A919S+tRD5DIJJ9l+I2xPg1LDoH/ZIEAgRYYeiTApULqCKuzI2iyqY
- Wh6XfRZcfUrZc3chAySd2RIl1M1Cx1giE1w==
-X-ME-Sender: <xms:Y53AYtngb2kiljCdyrK0CBEO4ZsbHbxXwl-ITtv0zUAAe3EnUL2KkQ>
- <xme:Y53AYo3OpyY3v9EE0PM1CRUXj_zlq_eAiyP_--fetb-lNYAwH_Z7DcRLi9X-9effY
- -Fv6JPdSV0gFtV6iQ>
-X-ME-Received: <xmr:Y53AYjr4YeAsDMH4MSaEbXIOZOtIHbvOsb5fR-BYmfEFd0PhgyJz1oM61jiqa0E7XFSD_55aSetv_WqKxOln_TjJ1HQFPerVDFdCuOR8vqRzMl87VIvyshirdIyBjcyrGiR9XQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedgudefkecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
- lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
- frrghtthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeeh
- hffhkeekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:Y53AYtk4FvX_uQ10YNqC_C9VYr_dP5h1nvKwrKnd3JSveUA4EG0RyA>
- <xmx:Y53AYr3u2COdryL7g7u6oQN3-sWORSPDNlU84olL5keQQCVOcGZXlg>
- <xmx:Y53AYssQ_qYFo0-BEfNZwsF4EwJ4XvuQ46yXSQpDKHScEkOC-ybIPQ>
- <xmx:ZJ3AYkJjxy5Z1kJTjrjAbeZTYn-EQWLBgzDVwgoaFnebuSltI1PoAg>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 2 Jul 2022 15:32:51 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Maxime Ripard <mripard@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>
-Subject: [PATCH] drm/sun4i: Update Kconfig defaults and descriptions
-Date: Sat,  2 Jul 2022 14:32:50 -0500
-Message-Id: <20220702193250.52959-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D98C10E059
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 22:14:45 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E1091B80907
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 22:14:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8C052C341CE
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 22:14:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1656800082;
+ bh=oCE/i8+/CueQ3Zaicsv0mVTtS1Az+0FPVXuLOPt+0oc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=uBvBnvYzN4WoqOqIQvVUX+GGgL/0ldZU5gdUs5eIBcrIzD5U/gB65+TA8Lb7WJ4KL
+ D1w0RTb6jG+Y/tW41EPE89ODJkl8ARvTeTqZH5xJADFvTNn6w3/7t1wA8TpWXQpagi
+ S+0m0J6CwXc614+alnhKeCDR4FtUIqI2546WTjzM+pjdr2JZsq6NnFI8MRDafJOICc
+ lIf+uqkgeEIB1avJbPBU2cRUh+Ia+z+mqf5hn/29TQwQ8N2IzVu4kRdIQdXoDh7qsw
+ DeLFotZwaBtCPfhsuwG0rOIdcu229U+u4/oSJK46lGz9uQ8tT2+SVVswJXKobiMhAM
+ TtKYbZfMOwOnw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 71EBBC05FD5; Sat,  2 Jul 2022 22:14:42 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 216143] [bisected] garbled screen when starting X + dmesg
+ cluttered with "[drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed in the
+ dependencies handling -1431655766!"
+Date: Sat, 02 Jul 2022 22:14:42 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216143-2300-YCi5ZzEzK1@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216143-2300@https.bugzilla.kernel.org/>
+References: <bug-216143-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,105 +73,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allwinner display drivers are split roughly into two generations. The
-first generation was found on early 32-bit ARM SoCs and contains DE1.0
-and a custom HDMI controller. Clarify that these options only apply to
-a specific list of SoCs, and limit selecting them to 32-bit ARM, to
-avoid confusion.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216143
 
-The second generation, found in A83T and newer SoCs (both 32-bit and
-64-bit), contains a DE2.0 and a DesignWare HDMI controller. Since this
-is the most widely-used generation, enable it by default. The previous
-default condition (MACH_SUN8I) was limited to 32-bit SoCs. Also enable
-the DSI controller by default, which is found on 64-bit SoCs as well.
+--- Comment #7 from Erhard F. (erhard_f@mailbox.org) ---
+(In reply to Alex Deucher from comment #5)
+> Does this patch help?
+> https://patchwork.freedesktop.org/patch/490475/
+Had a closer look at the patch as it did not apply on top of v5.19-rc4. See=
+ms
+like almost all of the patch diff is already in upstream v5.19-rc4. Only th=
+ing
+left to patch is:
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c    2022-07-02 21:59:53.1715282=
+02
++0200
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c    2022-07-02 23:12:13.4819856=
+65
++0200
+@@ -579,16 +579,6 @@ static int amdgpu_cs_parser_bos(struct a
+                e->bo_va =3D amdgpu_vm_bo_find(vm, bo);
+        }
 
- drivers/gpu/drm/sun4i/Kconfig | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+-       /* Move fence waiting after getting reservation lock of
+-        * PD root. Then there is no need on a ctx mutex lock.
+-        */
+-       r =3D amdgpu_ctx_wait_prev_fence(p->ctx, p->entity);
+-       if (unlikely(r !=3D 0)) {
+-               if (r !=3D -ERESTARTSYS)
+-                       DRM_ERROR("amdgpu_ctx_wait_prev_fence failed.\n");
+-               goto error_validate;
+-       }
+-
+        amdgpu_cs_get_threshold_for_moves(p->adev, &p->bytes_moved_threshol=
+d,
+                                          &p->bytes_moved_vis_threshold);
+        p->bytes_moved =3D 0;
+@@ -947,7 +937,7 @@ static int amdgpu_cs_ib_fill(struct amdg
+        if (parser->job->uf_addr && ring->funcs->no_user_fence)
+                return -EINVAL;
 
-diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
-index 3a43c436c74a..1c2f8909f3cd 100644
---- a/drivers/gpu/drm/sun4i/Kconfig
-+++ b/drivers/gpu/drm/sun4i/Kconfig
-@@ -16,23 +16,25 @@ config DRM_SUN4I
- if DRM_SUN4I
- 
- config DRM_SUN4I_HDMI
--	tristate "Allwinner A10 HDMI Controller Support"
-+	tristate "Allwinner A10/A10s/A20/A31 HDMI Controller Support"
-+	depends on ARM || COMPILE_TEST
- 	default DRM_SUN4I
- 	help
--	  Choose this option if you have an Allwinner SoC with an HDMI
--	  controller.
-+	  Choose this option if you have an Allwinner A10/A10s/A20/A31
-+	  SoC with an HDMI controller.
- 
- config DRM_SUN4I_HDMI_CEC
--	bool "Allwinner A10 HDMI CEC Support"
-+	bool "Allwinner A10/A10s/A20/A31 HDMI CEC Support"
- 	depends on DRM_SUN4I_HDMI
- 	select CEC_CORE
- 	select CEC_PIN
- 	help
--	  Choose this option if you have an Allwinner SoC with an HDMI
--	  controller and want to use CEC.
-+	  Choose this option if you have an Allwinner A10/A10s/A20/A31
-+	  SoC with an HDMI controller and want to use CEC.
- 
- config DRM_SUN4I_BACKEND
- 	tristate "Support for Allwinner A10 Display Engine Backend"
-+	depends on ARM || COMPILE_TEST
- 	default DRM_SUN4I
- 	help
- 	  Choose this option if you have an Allwinner SoC with the
-@@ -41,8 +43,8 @@ config DRM_SUN4I_BACKEND
- 	  selected the module will be called sun4i-backend.
- 
- config DRM_SUN6I_DSI
--	tristate "Allwinner A31 MIPI-DSI Controller Support"
--	default MACH_SUN8I
-+	tristate "Allwinner A31/A64 MIPI-DSI Controller Support"
-+	default DRM_SUN4I
- 	select CRC_CCITT
- 	select DRM_MIPI_DSI
- 	select RESET_CONTROLLER
-@@ -55,15 +57,17 @@ config DRM_SUN6I_DSI
- config DRM_SUN8I_DW_HDMI
- 	tristate "Support for Allwinner version of DesignWare HDMI"
- 	depends on DRM_SUN4I
-+	default DRM_SUN4I
- 	select DRM_DW_HDMI
- 	help
- 	  Choose this option if you have an Allwinner SoC with the
--	  DesignWare HDMI controller with custom HDMI PHY. If M is
-+	  DesignWare HDMI controller. SoCs that support HDMI and
-+	  have a Display Engine 2.0 contain this controller. If M is
- 	  selected the module will be called sun8i_dw_hdmi.
- 
- config DRM_SUN8I_MIXER
- 	tristate "Support for Allwinner Display Engine 2.0 Mixer"
--	default MACH_SUN8I
-+	default DRM_SUN4I
- 	help
- 	  Choose this option if you have an Allwinner SoC with the
- 	  Allwinner Display Engine 2.0, which has a mixer to do some
-@@ -75,6 +79,6 @@ config DRM_SUN8I_TCON_TOP
- 	default DRM_SUN4I if DRM_SUN8I_MIXER!=n
- 	help
- 	  TCON TOP is responsible for configuring display pipeline for
--	  HTMI, TVE and LCD.
-+	  HDMI, TVE and LCD.
- 
- endif
--- 
-2.35.1
+-       return 0;
++       return amdgpu_ctx_wait_prev_fence(parser->ctx, parser->entity);
+ }
 
+ static int amdgpu_cs_process_fence_dep(struct amdgpu_cs_parser *p,
+
+
+But applying this on top of v5.19-rc4 does not help either. I still need to
+revert 94f4c4965e5513ba624488f4b601d6b385635aec to get X going.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
