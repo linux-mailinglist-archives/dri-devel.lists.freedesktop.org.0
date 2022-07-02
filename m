@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA3E563FF7
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 13:57:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B690564008
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 14:05:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7479A2BCC8;
-	Sat,  2 Jul 2022 11:57:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6452D11A37D;
+	Sat,  2 Jul 2022 12:05:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A5082BCBE;
- Sat,  2 Jul 2022 11:57:55 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id sb34so8354149ejc.11;
- Sat, 02 Jul 2022 04:57:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5oct/Mca2P8XVhFy4lRX/Nm0TdLF7CZqD8kLxnCcVmw=;
- b=A9WAgXr9lDhNKgP4G8HYvjMcdINUQ+O0blKLB2tcp8kUZ/63IzSI/xZYQRUPLhrpfy
- OHlqJdRk1qxy0kKQDL3Kq+olIkO8QGyBDFDVHu4rvee9UY0ZMyXfzvxsfnEKJZCweEl9
- BK6I2ijY+vefkdzBrISFQlcPNajvjDFiLhIKoSSSVqUqjhbU+GA/19kyBalC7dHA4oOy
- RpAsKubmLZDqRQ31FWS1b30RpIxKLrGPxoKJlXfvDbMUr0QX7EsIUFJ3wqpGsGp81hYj
- e3P0ZWKU7TwiDIPYOgRgIOQc2AwHEA3qH78W04xh11GQGMc0EluD7megk9BWP123aSvX
- QMCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5oct/Mca2P8XVhFy4lRX/Nm0TdLF7CZqD8kLxnCcVmw=;
- b=jRijDCDeRppb8ez3JYYeBrcF2IiIVnrcfMXZQlFMaibkb5ZgmEtEetn/BH5IARTgsG
- wSrxa4g5IwzLjU3VPWIrgtSfbxuQBby3/TH9FALp9LH5ZmieadiZvJgO0WIz/O0WujeW
- nvDbXIuSZo3/vDJ7oi3k9jlzQXIPCHfQHu1TqrMZUbyQZX7LeuFV23Bt0bhH+B5VsDaN
- vvgOhkkvouDR5OiSviFRMnplIqco46kIaHp9fV14g4aKQqM5CM/F8raIaPDD6E8WvA3/
- 8uVE/TvP0A8W3hmPJlo+brja8+1bsfZ5zwQgh7QRljVHn65FXbExLDGI4BIbs1hsrfkI
- eH4Q==
-X-Gm-Message-State: AJIora/oWheXwScaAvss09w1EVr/sEa2PlLvQoIa/u463uHAOqflVRWI
- f6orHFrVPXewLPZvAecroaiPjSCqT5dVMPjjIHs=
-X-Google-Smtp-Source: AGRyM1sDKUNsykNANtDv0rrY4Qpou+53/pM5SXzCaaqED1Um11bXdi1XtBe/fgiKFE1UZZjQL3ZeH8oqIS9RfIUtfeM=
-X-Received: by 2002:a17:906:d550:b0:726:2b34:2fd6 with SMTP id
- cr16-20020a170906d55000b007262b342fd6mr18529741ejc.311.1656763073979; Sat, 02
- Jul 2022 04:57:53 -0700 (PDT)
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org
+ [IPv6:2001:67c:2050:0:465::202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FFB311A37D
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 12:05:41 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4LZrPC55Klz9sS1;
+ Sat,  2 Jul 2022 14:05:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1656763535;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=T4i6YsC82SbgYm466G0gN0m48qpoPvni1wETTM+UPl4=;
+ b=XhNHIiUw7S9BqDa+9Dt0jRBXYiCz9rxGvsZriqthJT7vZ9YXEDxgcSuMNbImJu2T/RU312
+ s6zO8YuG7W+YFo1BiW7FtKrtFg0kkSFaTryu+pbZmSBnmorDR0IISqN8PODz2nbU3Qb2I3
+ C+R1cugSwuNcMzYe/HcNqxiDTdd5OKgLhxCOJ7+t3Waa67KsSD/mHkQr20bIA+3qmyHmsD
+ yjjpatAASZ0YIt9t5JeAH6eIpYHj7CumPndZnrAeH3fbtXuGCzDTaShFhFXvppNxF9CSTn
+ vLwX5PvND36xhhMq538ElLsYawhob5Vmnik+zgDpiaVHYc93CnelPYRMfpbQHA==
+Message-ID: <f6c687a5-539d-965f-fc2a-6ff3044798a8@mailbox.org>
+Date: Sat, 2 Jul 2022 14:05:34 +0200
 MIME-Version: 1.0
-References: <20220621072050.76229-1-christian.gmeiner@gmail.com>
- <20220621072050.76229-5-christian.gmeiner@gmail.com>
- <2d475e77dca2395ee5b6fcff0e1d3ade2b0a36ef.camel@pengutronix.de>
-In-Reply-To: <2d475e77dca2395ee5b6fcff0e1d3ade2b0a36ef.camel@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Sat, 2 Jul 2022 13:57:43 +0200
-Message-ID: <CAH9NwWc7x2nUQAhL4vpeOJ-gRUHs4QqqBeo4jbQt0e2Mb=a7_w@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drm/etnaviv: export loadavg via perfmon
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 4/5] fbmem: Prevent invalid virtual screen sizes in
+ fb_set_var()
+Content-Language: en-CA
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Helge Deller <deller@gmx.de>
+References: <20220629200024.187187-1-deller@gmx.de>
+ <20220629200024.187187-5-deller@gmx.de>
+ <CAMuHMdVJ0PsDyTdGoOHPOKdaR7AffG2FpFmw6fxoNdXx9y-J4A@mail.gmail.com>
+ <1ba5f6d6-1c31-a8fb-867b-e2a7fda7da56@gmx.de>
+ <CAMuHMdVMp-ywWmDevdZTwHHhdiHnsFhze376guTEMd1T=tb-Pg@mail.gmail.com>
+ <CAMuHMdVs1J0kvA2Kinx121vF=35dUEY+1Jrx3sjF3NHoD=wMfQ@mail.gmail.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <CAMuHMdVs1J0kvA2Kinx121vF=35dUEY+1Jrx3sjF3NHoD=wMfQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: wbzqs45mrdut6b6uzcqddhdyp311iwnw
+X-MBO-RS-ID: a026cb9e7468604e143
+X-Rspamd-Queue-Id: 4LZrPC55Klz9sS1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,33 +64,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS FOR VIVANTE GPU IP"
- <dri-devel@lists.freedesktop.org>,
- "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
- <etnaviv@lists.freedesktop.org>, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas
+On 2022-07-01 16:49, Geert Uytterhoeven wrote:
+> On Thu, Jun 30, 2022 at 9:38 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>> On Thu, Jun 30, 2022 at 9:17 PM Helge Deller <deller@gmx.de> wrote:
+>>> On 6/30/22 21:11, Geert Uytterhoeven wrote:
+>>>> On Wed, Jun 29, 2022 at 10:00 PM Helge Deller <deller@gmx.de> wrote:
+>>>>> Prevent that drivers configure a virtual screen resolution smaller than
+>>>>> the physical screen resolution.  This is important, because otherwise we
+>>>>> may access memory outside of the graphics memory area.
+>>>>>
+>>>>> Signed-off-by: Helge Deller <deller@gmx.de>
+>>>>> Cc: stable@vger.kernel.org # v5.4+
+>>>>
+>>>> Thanks for your patch!
+>>>>
+>>>>> --- a/drivers/video/fbdev/core/fbmem.c
+>>>>> +++ b/drivers/video/fbdev/core/fbmem.c
+>>>>> @@ -1006,6 +1006,12 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
+>>>>>         if (var->xres < 8 || var->yres < 8)
+>>>>>                 return -EINVAL;
+>>>>>
+>>>>> +       /* make sure virtual resolution >= physical resolution */
+>>>>> +       if (WARN_ON(var->xres_virtual < var->xres))
+>>>>> +               var->xres_virtual = var->xres;
+>>>>> +       if (WARN_ON(var->yres_virtual < var->yres))
+>>>>> +               var->yres_virtual = var->yres;
+>>>>
+>>>> This should be moved below the call to info->fbops->fb_check_var(),
+>>>> so the WARN_ON() catches buggy fbdev drivers, not userspace fuzzers.
+>>>
+>>> Yes, makes sense.
+>>
+>> And print the name of the frame buffer device driver, so people know
+>> who to blame.
+> 
+> Or better, do not continue, but return with a failure:
+> 
+>     if (WARN(var->xres_virtual < var->xres || var->yres_virtual < var->yres,
+>         "%ps for %s is broken\n", info->fbops->fb_check_var, info->fix.id)
+>             return -EINVAL;
 
-> You need to explain a bit more how you intend to use those.
->
-> Contrary to all other perfmon values, where we go to great lengths to
-> only count the load put onto the GPU by the specific process requesting
-> the perfmon, the loadavg values also include the load caused by other
-> submits. Due to this difference in behavior I fear that those new
-> counters might be confusing to use. But maybe you have a use-case in
-> mind that I don't see right now.
+I'd also recommend WARN(_ON)_ONCE, or users with a broken driver might get spammed.
 
-I see these values as total load avg of a sub-GPU component. Sure it is not per
-process but it is a starting point. I have no problem introducing per
-process load avg
-values .. lets see how the next version of this series will look like,
 
 -- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
