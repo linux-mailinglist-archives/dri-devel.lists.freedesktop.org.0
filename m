@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB84563FBD
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 13:33:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A699E563FC8
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 13:40:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFDCD2BC6C;
-	Sat,  2 Jul 2022 11:33:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9365814AE45;
+	Sat,  2 Jul 2022 11:40:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD9152BC6D
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 11:33:00 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389C714AE45
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 11:40:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656761579;
+ s=mimecast20190719; t=1656762045;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+/CG7OlSvFtvPwBtKbOScoNNsNb5w33jEJ9roT+riGE=;
- b=FzJ286yJKDiIKtk3SqvCGauI3vQBpLtqS6TXf2z0r4JVfCxY6N0UauC4kL2g3pciwI7WIH
- 8THS0RU5HVScaFdOQ+6qpK7BgmV7lCgOnGDHmvEh6Np971glCqxzVdsXRFMAf84MBCZgjP
- wJFezK/wkVs++pqcYxzlTy7d49RYrdo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=N1gV0SWQGG0jtxPst9R8skJs6pB6sIXEtXSGdtyycaY=;
+ b=ixAtNuJT8SMpwArHqie7Ww8NC6UX6jTOyylfbvcpI6vbeTTyVhye7bHhTshaPzYxxdZ24s
+ 8ztKHYBtzi0wTZbMaq1jEXIQWDz1a8k+2FJ+jjeWq/kFrH1iv6UvWthCQK+1P3qITvLsAk
+ eCzrunq5Si4MngdKPPWnVPrWX+ANsys=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-460-gBezw3mtMwesX49dYG5Xcg-1; Sat, 02 Jul 2022 07:32:56 -0400
-X-MC-Unique: gBezw3mtMwesX49dYG5Xcg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p6-20020a05600c358600b003a0483b3c2eso2634968wmq.3
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Jul 2022 04:32:56 -0700 (PDT)
+ us-mta-463-Z8FeebZqNu2FxS0GXmIDaA-1; Sat, 02 Jul 2022 07:40:43 -0400
+X-MC-Unique: Z8FeebZqNu2FxS0GXmIDaA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m20-20020a05600c4f5400b003a03aad6bdfso2047665wmq.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Jul 2022 04:40:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+/CG7OlSvFtvPwBtKbOScoNNsNb5w33jEJ9roT+riGE=;
- b=h5wYXglrP9iQPgxfy+HuC9Ft9icEC+JCV9D2tuXG975BqBnDdt9pam7LhTfEawe96Y
- F78HRxY1vnnzD/iFKArAz0lPoTTIjsoAmMOZO4VQQFtj8QqLe/rfzC7YqNSVhGQjMxRg
- /ejpQewV6RQR87MnBSUxLwOk/SOL3EZWPR8xa0UeLuEH72LjMSky0UUxveiVUr3QfIfE
- 2AfO24uQ46uEHEwIIxh5va2MCVGvfQhVzV6ZF9YzXgeBCSyBDwz/y5rY0tPKXT90rzRu
- mkHa1R2SoEFf2E4cQGPWIdwgJei6bN8Ip42udyd3OBqx3vZSCq2fLYU6jXNK/wMktAU/
- 8LYA==
-X-Gm-Message-State: AJIora/meh4AR6fxx36vJ0KsrVnEN3/xt6GLT7iSgpsKXY7VIsFa8ClV
- fdJjTdtpQMcX/s6rgEtTOaWqvCi17TArZRIApQiVBNqMr3+sE//nSEXXnZ9h2G1qAoAOCVjkB+g
- 2SibzDSS71HNlU3uXTkR73WLTvsTB
-X-Received: by 2002:a05:600c:2051:b0:3a0:3c58:6ff6 with SMTP id
- p17-20020a05600c205100b003a03c586ff6mr22334033wmg.98.1656761575579; 
- Sat, 02 Jul 2022 04:32:55 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uK7lyTTBd7+vx/Qhs8VIxakL50jdfDusliR+VYkqGsWVRmfyQsHe77h/XIU94xnlgnS61zoQ==
-X-Received: by 2002:a05:600c:2051:b0:3a0:3c58:6ff6 with SMTP id
- p17-20020a05600c205100b003a03c586ff6mr22334016wmg.98.1656761575330; 
- Sat, 02 Jul 2022 04:32:55 -0700 (PDT)
+ bh=N1gV0SWQGG0jtxPst9R8skJs6pB6sIXEtXSGdtyycaY=;
+ b=67J2anP7o0eGxz+9MMJFAFg15LqS+UqonJMmOan7a1v1t/AoYlr4J0vRL7M/Rqfl3U
+ KlyJ1QLHzwXD5U7VB++TmZQfdYOVw8A8ESRE/w1v0CsEg6blgN0S+Tp8q++wkTYXuR+m
+ WucOUGJSHZhMBMuE2ncA6hJFmD6zcDk6IpYh7D6GLgan8Lz5Z+vRdxOIg+mVs3PJ6F/v
+ gVIoPVhGjGMcjHcIcuooFnam7JpYcpHYdT913wRqmRS4UViZ/4fIPxwg2zquR0Q0bPO7
+ weYkunNqC9iCYRrbyKmhZrO0ix1izciIL+q0aBn2IO/OUnchby+/SA0z3qCIPx+JagJx
+ Q5hQ==
+X-Gm-Message-State: AJIora8vKKms6T6wPMbBCYT6g/XL9Hah3H7aBilKHVMYc+GWDaLlgtAU
+ fOW/X4763yKHZs/JFwNCheresmCMJt1I5ZCeqTNADRI74jVRXItHU3Eew0sc3Lol+ABU+rpWnpX
+ sT7Qh4C/eowEIGP7AmgFdUFHzb3Wy
+X-Received: by 2002:a5d:65c3:0:b0:21b:bca9:83b1 with SMTP id
+ e3-20020a5d65c3000000b0021bbca983b1mr17978549wrw.568.1656762042558; 
+ Sat, 02 Jul 2022 04:40:42 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1smlbPjXQrVerb4/3Ymo2Qf1Ug72Ro6TTlgsuyqWW26iQT6fsK+QD8Wszhjm8qWkLiad+LSYA==
+X-Received: by 2002:a5d:65c3:0:b0:21b:bca9:83b1 with SMTP id
+ e3-20020a5d65c3000000b0021bbca983b1mr17978529wrw.568.1656762042322; 
+ Sat, 02 Jul 2022 04:40:42 -0700 (PDT)
 Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- y15-20020adff14f000000b0021d2f322e50sm9308324wro.41.2022.07.02.04.32.53
+ e20-20020a5d5954000000b0020fcaba73bcsm25124017wri.104.2022.07.02.04.40.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Jul 2022 04:32:54 -0700 (PDT)
-Message-ID: <ff375c95-96e9-6bcf-66ea-f70a44d0a5d1@redhat.com>
-Date: Sat, 2 Jul 2022 13:32:52 +0200
+ Sat, 02 Jul 2022 04:40:41 -0700 (PDT)
+Message-ID: <05f5a0a0-5583-29cb-5406-77d24987d39f@redhat.com>
+Date: Sat, 2 Jul 2022 13:40:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v3 1/9] drm: selftest: convert drm_damage_helper selftest
+Subject: Re: [PATCH v3 2/9] drm: selftest: convert drm_cmdline_parser selftest
  to KUnit
 To: =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>,
  Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
@@ -77,9 +77,9 @@ To: =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>,
  David Gow <davidgow@google.com>, Daniel Latypov <dlatypov@google.com>,
  brendanhiggins@google.com
 References: <20220630004611.114441-1-maira.canal@usp.br>
- <20220630004611.114441-2-maira.canal@usp.br>
+ <20220630004611.114441-3-maira.canal@usp.br>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220630004611.114441-2-maira.canal@usp.br>
+In-Reply-To: <20220630004611.114441-3-maira.canal@usp.br>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -105,44 +105,45 @@ Cc: Arthur Grillo <arthur.grillo@usp.br>, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maíra,
-
-Thanks a lot for your patch.
-
 On 6/30/22 02:46, Maíra Canal wrote:
 > Considering the current adoption of the KUnit framework, convert the
-> DRM damage helper selftest to the KUnit API.
+> DRM cmdline parser selftest to the KUnit API.
 > 
 > Acked-by: Daniel Latypov <dlatypov@google.com>
 > Tested-by: David Gow <davidgow@google.com>
 > Co-developed-by: Arthur Grillo <arthur.grillo@usp.br>
 > Signed-off-by: Arthur Grillo <arthur.grillo@usp.br>
 > Signed-off-by: Maíra Canal <maira.canal@usp.br>
+> ---
 
-I believe the order of the tags should be chronological. That is, Daniel and
-David tags should be after your Co-developed-by and Signed-off-by tags.
+Same comment for patch #1 apply to all the others. I think you need
+to change the order of these.
 
 [...]
 
-> +++ b/drivers/gpu/drm/tests/drm_damage_helper_test.c
-> @@ -0,0 +1,634 @@
+> diff --git a/drivers/gpu/drm/tests/drm_cmdline_parser_test.c b/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
+> new file mode 100644
+> index 000000000000..ca7669350c64
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tests/drm_cmdline_parser_test.c
+> @@ -0,0 +1,1078 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * Test case for drm_damage_helper functions
+> + * Copyright (c) 2019 Bootlin
+
+I believe is fair for you to add your Copyright here too since the test
+changed considerably when ported to the KUnit framework API. Same for
+the other tests.
+
 > + */
 > +
 > +#include <kunit/test.h>
 
-Please add a blank line here to separate non-DRM headers include from DRM headers.
+Please add a blank line here. And this also applies to all other tests.
 
-> +#include <drm/drm_damage_helper.h>
-> +#include <drm/drm_framebuffer.h>
-> +#include <drm/drm_plane.h>
-> +#include <drm/drm_drv.h>
+> +#include <drm/drm_connector.h>
+> +#include <drm/drm_modes.h>
 > +
-
-I haven't looked at the KUnits tests in detail since Daniel and David already
-reviewed them. But from a quick glance, the tests look good to me as well.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
