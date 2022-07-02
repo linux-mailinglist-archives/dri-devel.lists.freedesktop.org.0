@@ -2,56 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C85563FCD
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 13:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D94563FCB
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 13:42:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D1F318AF5F;
-	Sat,  2 Jul 2022 11:42:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A302418AF23;
+	Sat,  2 Jul 2022 11:42:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CEC718AF40;
- Sat,  2 Jul 2022 11:42:07 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id d2so8412974ejy.1;
- Sat, 02 Jul 2022 04:42:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WhjM8Dp4mS9IBPn4kroy2wdgNNIdUgixClIV/mTih4M=;
- b=G5aRF3FDYzEYd2OJ5K35vT+eFEdkrmjc4c7Eyr428zyoAOxx1WuwoNBVxL5OykT9Lu
- RexthZ66BUxwMN9n+wsoTcNXyZfAWPmJtVqp8TW1NBR0a0fgCWytzFhLUCOCAAfzoi/y
- EPTkROUbArwuiq64voho2IYwp5VGYM1UQW5d7qK0MhzACkhycCA4xNkh3wfBjqpi4ZDq
- knyLD82Xsy8Q3GNqABz6Kqqd3MqaucKwLepqBbevKFMi3DBzmifbOTj8j5y4N3gQdF2A
- 8hwR7Cjop8kQXTMOF5hNlmszW/Rtada7eBDmlBxAAeoxCjfRH68icS46M6HcvSmBoBuh
- C2Tg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A792918AF23
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 11:42:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1656762123;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U/E75hYHnDmeoMvjyYpzgfBvleWEuDkid2Zmq4jEV8k=;
+ b=PGYdJuqCaa8J1j6QpkG74Q0SHpN4W2PxXHcoYvQ+LNCp3r7BfHQQNGmTn2WSmakKCWTsts
+ DyPyZiKh8ddA1aG985TOJDtDiWhZGCl0MPCU49epxwWt5bqufVhE2Ci+w3hq96VeniekMU
+ SobBJSPMJZ5z5BlN7YhUfKcCUkyixkM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-142-to5b_NyTPRetGul3cnnkFw-1; Sat, 02 Jul 2022 07:42:02 -0400
+X-MC-Unique: to5b_NyTPRetGul3cnnkFw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ o28-20020a05600c511c00b003a04f97f27aso2625934wms.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Jul 2022 04:42:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WhjM8Dp4mS9IBPn4kroy2wdgNNIdUgixClIV/mTih4M=;
- b=fz14tV3y4F0sFpMhKd8q09C9EYiCruJw5jrVIbh0vOo2MRO5vNk8o9kArk0pWQam2m
- 8TppBR6iNzFIIErm4L2jVao4aU2nwU9nzEQj6EaegoYjAyI+WOTgt+hTJyhfYtHOul4y
- 5Hn3AKf8efQTreLE6w2LkBEkd1Cf5HXCq73lGvwbKAppwjRAbDJfa0r+YqrVSfKXogZL
- rzTxkvXEoNIdVWW4mC0f8Ev8qW/AKto2ObhPWLYQ/3FBvR/BtO3qIXexXpLM24HDIeUc
- D58QlqZJqzJtWXhtbgBDVTBMygW2EOog2raXR10cfdK8n6oXnMwAbiiTtdCcIO3PdMmD
- 6j8g==
-X-Gm-Message-State: AJIora/hu+WRt535/cAqML8i/VVShMtPGzd5/NuAjTMYltNBuJw8XtTW
- xNtetR36UL+8A9RpNSEI+7TM2MzzMC4ITpZqOOo=
-X-Google-Smtp-Source: AGRyM1sMKM+Zutej2Lk/Zoiz7uwcW9yWj8/qcDHkuNHPs5bqlatUV3f7qzNzERj7fejcIgDRX7YVW7CkMZKXqYYhmYk=
-X-Received: by 2002:a17:906:4e91:b0:722:f996:fa20 with SMTP id
- v17-20020a1709064e9100b00722f996fa20mr19148286eju.733.1656762125876; Sat, 02
- Jul 2022 04:42:05 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=U/E75hYHnDmeoMvjyYpzgfBvleWEuDkid2Zmq4jEV8k=;
+ b=Up0+cuDUjsVGRIzzAtrjyCAyp5Wm2MeAqWZc6ioitJfZIh3+9a8CM9NfaUNKHPE73+
+ lpu7/ljm3es2FSrzjEzSzxWkqFJOsB0OBwT/WL3Kc+Z910Wc29wwBG7shGCsfK5ZpYI1
+ kjUYMD7mYdx2c38q8UMoNKvSvj4VponKpKgHTcOUpYyl9mnYUYh+GBrqr9nhfyYT11K1
+ zjHKazJHw5EDD54Q5syQkO9++ElPn9OR31/D1AcJpVWbi3MrCctly/hjyNEuh3o6Nu0H
+ TXWhHnBAO5LrjpX/+01uQErcFqTvDKODU8h0lChxS61EoJF2wxFsEbNr4ubP1+BQFASa
+ j25g==
+X-Gm-Message-State: AJIora9bFDQULccEMg1MjEvxx6hz9Gu9n8mULdNsF7vNIOMZmERXN4Co
+ +abaE4YqSdZX0Q75eYarXmgLEuLfTcr++Bqil9DSf3YyDw6sG4bK0dePnsRrw8bELbL8/VAkzMr
+ DVtO6W8eh4ppVU3HVobQdeK/HdlhP
+X-Received: by 2002:a05:600c:19cc:b0:3a1:99b7:524 with SMTP id
+ u12-20020a05600c19cc00b003a199b70524mr22924wmq.37.1656762121608; 
+ Sat, 02 Jul 2022 04:42:01 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tBQ3B3FAODT/Ald/2hl3TmPSH2nx4GxQVOeZWV3poSwjCXGzwimr+qiULYTSJ8jvIi1ip5hA==
+X-Received: by 2002:a05:600c:19cc:b0:3a1:99b7:524 with SMTP id
+ u12-20020a05600c19cc00b003a199b70524mr22894wmq.37.1656762121389; 
+ Sat, 02 Jul 2022 04:42:01 -0700 (PDT)
+Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ v15-20020a5d43cf000000b0021badf3cb26sm29564696wrr.63.2022.07.02.04.41.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 02 Jul 2022 04:42:00 -0700 (PDT)
+Message-ID: <00bb12a1-de3c-7a29-109e-ee0faa900b66@redhat.com>
+Date: Sat, 2 Jul 2022 13:41:59 +0200
 MIME-Version: 1.0
-References: <20220621072050.76229-1-christian.gmeiner@gmail.com>
- <20220621072050.76229-2-christian.gmeiner@gmail.com>
- <1a694037c631c298c6952cdf4bf54fcc6d2f08e9.camel@pengutronix.de>
-In-Reply-To: <1a694037c631c298c6952cdf4bf54fcc6d2f08e9.camel@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Sat, 2 Jul 2022 13:41:54 +0200
-Message-ID: <CAH9NwWf11tcQctdQhk5AoKT-Nz-ujMRaQJjfVydNDnT==+S+_w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] drm/etnaviv: add simple moving average (SMA)
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3 3/9] drm: selftest: convert drm_rect selftest to KUnit
+To: =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>,
+ Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
+ tales.aparecida@gmail.com, mwen@igalia.com, andrealmeid@riseup.net,
+ siqueirajordao@riseup.net, Trevor Woerner <twoerner@gmail.com>,
+ leandro.ribeiro@collabora.com, n@nfraprado.net,
+ Daniel Vetter <daniel@ffwll.ch>, Shuah Khan <skhan@linuxfoundation.org>,
+ David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, michal.winiarski@intel.com,
+ =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ David Gow <davidgow@google.com>, Daniel Latypov <dlatypov@google.com>,
+ brendanhiggins@google.com
+References: <20220630004611.114441-1-maira.canal@usp.br>
+ <20220630004611.114441-4-maira.canal@usp.br>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220630004611.114441-4-maira.canal@usp.br>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,32 +98,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS FOR VIVANTE GPU IP"
- <dri-devel@lists.freedesktop.org>,
- "moderated list:DRM DRIVERS FOR VIVANTE GPU IP"
- <etnaviv@lists.freedesktop.org>, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Carlos Veras <carlos.craveiro@usp.br>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Matheus Vieira <matheus.vieira.g@usp.br>,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas
+On 6/30/22 02:46, Maíra Canal wrote:
+> Considering the current adoption of the KUnit framework, convert the
+> DRM rect selftest to the KUnit API.
+> 
+> Acked-by: Daniel Latypov <dlatypov@google.com>
+> Tested-by: David Gow <davidgow@google.com>
+> Co-developed-by: Carlos Veras <carlos.craveiro@usp.br>
+> Signed-off-by: Carlos Veras <carlos.craveiro@usp.br>
+> Co-developed-by: Matheus Vieira <matheus.vieira.g@usp.br>
+> Signed-off-by: Matheus Vieira <matheus.vieira.g@usp.br>
+> Signed-off-by: Maíra Canal <maira.canal@usp.br>
+> ---
 
->
-> Am Dienstag, dem 21.06.2022 um 09:20 +0200 schrieb Christian Gmeiner:
-> > This adds a SMA algorithm inspired by Exponentially weighted moving
-> > average (EWMA) algorithm found in the kernel.
-> >
-> Still not sure about this one. I _feel_ that a simple moving average
-> over a period of one second does not do a good job of reflecting the
-> real GPU load for a bursty workload, where EWMA might be better suited.
-> But then I also don't have a real informed opinion to offer on this.
->
-
-I will play with EWMA and see what happens.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-greets
---
-Christian Gmeiner, MSc
+Best regards,
 
-https://christian-gmeiner.info/privacypolicy
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
