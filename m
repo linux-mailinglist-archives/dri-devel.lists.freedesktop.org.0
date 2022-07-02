@@ -2,89 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25AC564052
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 15:18:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F368E564118
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Jul 2022 17:39:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2E398A2B7;
-	Sat,  2 Jul 2022 13:18:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 440961128FD;
+	Sat,  2 Jul 2022 15:39:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 014888A2A7
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 13:17:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 016DD10EB34
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Jul 2022 15:39:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656767877;
+ s=mimecast20190719; t=1656776357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7wQWnDeTi8uNY3ltPnFoch0K9/rDLf1kzMqZRJMA7Nw=;
- b=JILMMAD0/XuzWQfCGpIb2ck+Ndnudg7LbEwC/9w3nZls6CgUfH1hqwbdaLZ/3U9yjTzMWu
- yCMfE+UMW4cEByfd+s0EVStOQuDorpGJORiF+GAAiKoQxn/Y67UqyldW4OV/CAld+8YSd2
- GpGNGxcwEmppfoY6+7UuryPRS+rj2jM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=W8c1SlBUxYM10s99ei02CiGdLvmIh2XzeBEOuTV4Qx0=;
+ b=h4N0nmHaSEW+szFcC/zw/PEbBmR6J6mp5oMfzDtmHOMujLWliAdiHjq3DpJAkuhQh4/lii
+ i+Z9DWNn15z0Zs6jZoMVwTr02iUrih2W1dBecnCgvNpWm0rQ3sACn4wR487Z0o/xryuk+0
+ 17PIF9C6KYRldL6xFZe+jMqe/bbXxGo=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-gNK3UH77NiugeZVoEFJ3kA-1; Sat, 02 Jul 2022 09:17:54 -0400
-X-MC-Unique: gNK3UH77NiugeZVoEFJ3kA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j19-20020a05600c191300b003a048196712so2722845wmq.4
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Jul 2022 06:17:54 -0700 (PDT)
+ us-mta-341-rnaKSkJ2NO-LWVPfCVrW0w-1; Sat, 02 Jul 2022 11:39:14 -0400
+X-MC-Unique: rnaKSkJ2NO-LWVPfCVrW0w-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ q21-20020ac84115000000b0031bf60d9b35so2832343qtl.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Jul 2022 08:39:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=7wQWnDeTi8uNY3ltPnFoch0K9/rDLf1kzMqZRJMA7Nw=;
- b=2sgwaItDmHVVpPqaAbiSdk1RnoMQFnUs1iZv5kwz+MuBlXO1xE+qgAKPou1/sUsMv3
- ECLQIRcIggW2Q/11sBYzy06aTTd2Kw2lYPdPsKwIHqBLT7qdzBhEPddEovFOGo5IGezT
- BbHyb6imVdKo9gm27YtNc3fnvucmxiF6UzwfHfEFAmdR2uOSq7TnzfHhiVXfrOZ+3qWv
- bVzUoh0umvdyRQ9e72J+SYGqzngPbAMEsnkC4bxcQQvVKrQ7iC89cTo75cK9ODWmPHVl
- eoQJZ6IHphpoeGlv205UE2z1jh/nU1ZOv6RKOKiB0Uil6bk2QqYz0XprsF4XqvlKVfjE
- n8TQ==
-X-Gm-Message-State: AJIora9gwNAkEkhCtVwFiKH/c9nvy2NNHZrM6PEaLK7bgMzcaEeUK7lk
- nlY1kwjV1D/wHoICdqw0QENIfswoy4wSnKN41Koqzk7f4MpHnWenvQfk9egVxR4wCQ3cRuujd38
- ejPzRY5fu/MEAwYB7CS570Tf2ZuVq
-X-Received: by 2002:a05:600c:3caa:b0:3a0:18e4:781b with SMTP id
- bg42-20020a05600c3caa00b003a018e4781bmr21754910wmb.199.1656767873500; 
- Sat, 02 Jul 2022 06:17:53 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vu2EJ+eqiyEMxGUkvKkZOQdhu9zVQtQLZAzTQirdJVvvl4MeRJd20akcdE/RUh+2SrmUL0sA==
-X-Received: by 2002:a05:600c:3caa:b0:3a0:18e4:781b with SMTP id
- bg42-20020a05600c3caa00b003a018e4781bmr21754878wmb.199.1656767873173; 
- Sat, 02 Jul 2022 06:17:53 -0700 (PDT)
-Received: from [192.168.1.129] (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- d10-20020adff2ca000000b0021a38089e99sm24999260wrp.57.2022.07.02.06.17.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Jul 2022 06:17:52 -0700 (PDT)
-Message-ID: <4c2dc8cd-56c4-6e15-d76e-429dba87407c@redhat.com>
-Date: Sat, 2 Jul 2022 15:17:49 +0200
+ bh=W8c1SlBUxYM10s99ei02CiGdLvmIh2XzeBEOuTV4Qx0=;
+ b=BRAb1orMQFKD0sgvXBJF4rAYgt1qa0zLIqy4ge+yLQlo9fFQn5ZcwGVrfHH8XL8Unc
+ tU6DRqgFFirMG5r06ENxzIiMKeNKiyl/49ZsUHueXUVAMWpCeJCOS8Bq0B8KmaLFQ57/
+ axxA78tX2jD0auPKzLLiuYuF74jjzVgzW1VR8CmHAUXb7mDmkgGs46yGRuqo4qxAFeuh
+ yzicCSfxO+rruSVpkHe1MUaydtW6N2mtHA/uxDKHu11IouwWIXmZskaZtljh5Z2gvqjK
+ bOzvEyZMmJfwnMAWxzB/cKn8hgelaIVBD9eBE0hVNywOVmfQTzVH05KRAilcw2W31Acy
+ iokw==
+X-Gm-Message-State: AJIora/wK+LzObSdJkeMijAoXKc+e2gQ5WhdnqC5ld8AgJCKLLqzpvqp
+ e1jvdfqLnINck8Qxo6YBdLgg1VKg8CMxnTLWDnDR+L+++cG0Li2riRRsfRf0xMpMBCGSg7coGvM
+ x88B1wjYxE2EbryBJoVQeDcOSXAnu
+X-Received: by 2002:a37:4549:0:b0:69f:556c:4e38 with SMTP id
+ s70-20020a374549000000b0069f556c4e38mr13936458qka.202.1656776353565; 
+ Sat, 02 Jul 2022 08:39:13 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1s4kMDCJkO3l6rc/tzkcDONaBzbN/O5Ul2p3pH701RTsQYUDroNVnzGAdCYv5GPNqp46q1+Vw==
+X-Received: by 2002:a37:4549:0:b0:69f:556c:4e38 with SMTP id
+ s70-20020a374549000000b0069f556c4e38mr13936437qka.202.1656776353290; 
+ Sat, 02 Jul 2022 08:39:13 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ x9-20020a05620a448900b006a708baa069sm14569688qkp.101.2022.07.02.08.39.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 02 Jul 2022 08:39:12 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: bskeggs@redhat.com, kherbst@redhat.com, lyude@redhat.com, airlied@linux.ie,
+ daniel@ffwll.ch, nathan@kernel.org, ndesaulniers@google.com
+Subject: [PATCH] drm/nouveau/bios: set info only when the return is not 0
+Date: Sat,  2 Jul 2022 11:39:04 -0400
+Message-Id: <20220702153904.1696595-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v4 0/9] drm: selftest: Convert to KUnit
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <maira.canal@usp.br>,
- Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
- tales.aparecida@gmail.com, mwen@igalia.com, andrealmeid@riseup.net,
- siqueirajordao@riseup.net, Trevor Woerner <twoerner@gmail.com>,
- leandro.ribeiro@collabora.com, n@nfraprado.net,
- Daniel Vetter <daniel@ffwll.ch>, Shuah Khan <skhan@linuxfoundation.org>,
- David Airlie <airlied@linux.ie>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, michal.winiarski@intel.com,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- David Gow <davidgow@google.com>, Daniel Latypov <dlatypov@google.com>,
- brendanhiggins@google.com
-References: <20220702131116.457444-1-maira.canal@usp.br>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220702131116.457444-1-maira.canal@usp.br>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,34 +83,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Cc: nouveau@lists.freedesktop.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Tom Rix <trix@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maíra,
+clang static analysis reports
+drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c:68:17: warning: The right operand of '*' is a garbage value [core.UndefinedBinaryOperatorResult]
+        switch (!!data * *ver) {
+                       ^ ~~~~
+A switch statement with only a default should be reduced to an if.
 
-On 7/2/22 15:11, Maíra Canal wrote:
-> Hi everyone,
-> 
-> Here is the v4 of the conversion of selftests to KUnit. Since the v3, there
-> have been minor fixes, asked by Javier. Basically, fixes on the SoB chain and
-> addition of Copywrites.
-> 
-> Thanks for your attention and any feedback is welcomed!
->
+If nvbios_pmuEp() returns 0, via the data variable, the output info parameter
+is not used.  So set info only when data is not 0.
 
-Thanks a lot for the quick re-spin of the series! I'll wait a few days in case
-someone else has additional feedback and then push to drm-misc (drm-misc-next).
- 
-> Best Regards,
-> - Maíra Canal
-> 
+The struct nvbios_pmuE only has the type and data elements.  Since both of these
+are explicitly set, memset is not needed.  So remove it.
 
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c
+index b4a308f3cf7b..49e2664a734c 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c
+@@ -64,12 +64,9 @@ nvbios_pmuEp(struct nvkm_bios *bios, int idx, u8 *ver, u8 *hdr,
+ 	     struct nvbios_pmuE *info)
+ {
+ 	u32 data = nvbios_pmuEe(bios, idx, ver, hdr);
+-	memset(info, 0x00, sizeof(*info));
+-	switch (!!data * *ver) {
+-	default:
++	if (data) {
+ 		info->type = nvbios_rd08(bios, data + 0x00);
+ 		info->data = nvbios_rd32(bios, data + 0x02);
+-		break;
+ 	}
+ 	return data;
+ }
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+2.27.0
 
