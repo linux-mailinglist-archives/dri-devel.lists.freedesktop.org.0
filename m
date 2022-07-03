@@ -2,62 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8946F565AEA
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:16:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D637E565B32
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:17:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FB6F10E58F;
-	Mon,  4 Jul 2022 16:14:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA8610E3C5;
+	Mon,  4 Jul 2022 16:14:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A8C710E00F
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 15:19:31 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- g39-20020a05600c4ca700b003a03ac7d540so6519490wmp.3
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Jul 2022 08:19:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=+CMs8UMxqlzkS/Qmt0OCCCKfDi92HEEc4PUy8wummUs=;
- b=RQOq+mQs9FgWUuYaRg9hDTuBRcwKYe+KY7O7x9AcozKgRKkzNA8O2ydVuVZ1x+tH6H
- LMsY/P8flCSaptp79IYJasRg/CCBKY/n9y2JU9wXxkVNWs5D/mrvW1GImFb0E8mIS+FM
- ynl10XKGOGztnDeezxSwB4pqQp/3VhSvpRG55310dC2lFZUXw2e0i9fqoXiJ53BP/i68
- eGqiCcup5XLo+jOgGrcASUrCIrYw/GhDhwVT5YLiyVIM4t0Joe+39h38MwVkqndxTOfK
- cd0viRJ44tRDsq4fNEQZ40Aw8P8xXyrjXmONQFKoIhHldZ8sclQzGrnT45wn8Z3npTVE
- w6lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+CMs8UMxqlzkS/Qmt0OCCCKfDi92HEEc4PUy8wummUs=;
- b=EJljhdW3rMM6h+JIm7Och/zp+OqvgKfh7C7fZmeJJ7ktAOfF7jqI/5ZUDbImVtRHvL
- 2uMA3kZO20i7UV/kDHw+O+SYJKjn1XpeYyGLRSXy3vC2GnUMAO1PSD345UjrkiAnnAnL
- cWOWLYAUWKDMyW4p9j0fhidNNntUVRQ96hJ/J0+2ZFBkelSFoCwzLp4LkKM5J9QNsySu
- oAS+EWo2xDek3OpR5QbIAFqVrhErghVlsIpuqYWFbPqcygBQr2CYJsHS8XdMPn03Y0tv
- Y8oVOERDgsxGq2LUq4g2cejBp7WsKU6tKRsYA5deOJHqHBD6PhQiVDz65cN7Llz1EiPM
- ATOA==
-X-Gm-Message-State: AJIora+QQAnR1ZTRfEX5TYx7tiB3MaVqAbhu5Jbl8TY3iv6GW1L6k3WU
- uSX8Q4hMQmr4wmAA5iOtyrE=
-X-Google-Smtp-Source: AGRyM1v2CJgezpMOiZS+/XQO8P8h1S1Kyf6c+QVbF8BG5113gnVeUqUs2XTlqyNY5H4wB5WNO7E+NA==
-X-Received: by 2002:a05:600c:286:b0:3a0:49ce:51bf with SMTP id
- 6-20020a05600c028600b003a049ce51bfmr25543836wmk.18.1656861569566; 
- Sun, 03 Jul 2022 08:19:29 -0700 (PDT)
-Received: from elementary ([94.73.36.128]) by smtp.gmail.com with ESMTPSA id
- e2-20020adfdbc2000000b0021b9f126fd3sm28187755wrj.14.2022.07.03.08.19.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 08:19:29 -0700 (PDT)
-Date: Sun, 3 Jul 2022 17:19:26 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: David Gow <davidgow@google.com>
-Subject: Re: [PATCH 0/4] KUnit tests for RGB565 conversion
-Message-ID: <20220703151926.GA130430@elementary>
-References: <20220627161132.33256-1-jose.exposito89@gmail.com>
- <CABVgOSmC6WJxMo58VH0WSD7wdLn7_TmTktm=6txrn0ECXCNJZQ@mail.gmail.com>
+Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C84A110E0EA
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 18:40:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+ from; bh=4kWBlhX48ugLz7wGbz+4r3FaRpJLbtgDuearbg+Xg1Y=;
+ b=VyAT6mXYmjP5kTdDZw/Xt9Wd90goJGg5j4/u/Xy4VokCnDysV2spV0KYIMB9yCbQzC6WUTIpqPsa+
+ XUoBNb1BUsYN+qmOc9OiI5t16rGk4wohE3QHljba1PSsiRHudvMTEsTcXbF0aX+k6UfBbnl7MEWTSn
+ SlX2zKf2q7UlAzuW7+grVgWJT0IlqnhvUTZzaaijTpHeXRYZtPw38adeCPrJs2TKzO0BZdU7NJBRKo
+ nBXUWl+3IktBBZdiTx7jOaIcaiZOiPhOgl31uLBlmcQxTqk7LXO9AthGNs4A8uQhFiL9cxd/UijMiC
+ iykbCNTLXIdBcUinkrZRUDFs3N1syEw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+ from; bh=4kWBlhX48ugLz7wGbz+4r3FaRpJLbtgDuearbg+Xg1Y=;
+ b=iC9ORRasy/dXE7vXf6+UXjg9rKpdk1R66igacz4oU8Qj4hQ8Y/C1pmQDpoMgW2eF9Dv4AwYuBelno
+ B/5tvnOBg==
+X-HalOne-Cookie: 068ca046496dedbb40e419f4053a01112316fb2c
+X-HalOne-ID: 962821bb-faff-11ec-a917-d0431ea8a290
+Received: from mailproxy1.cst.dirpod3-cph3.one.com
+ (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 962821bb-faff-11ec-a917-d0431ea8a290;
+ Sun, 03 Jul 2022 18:40:19 +0000 (UTC)
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v2 0/1] bridge/ti-sn65dsi86.c: convert to atomic operations
+Date: Sun,  3 Jul 2022 20:40:06 +0200
+Message-Id: <20220703184007.3488567-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABVgOSmC6WJxMo58VH0WSD7wdLn7_TmTktm=6txrn0ECXCNJZQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,71 +55,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- magalilemes00@gmail.com, David Airlie <airlied@linux.ie>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>,
- Daniel Latypov <dlatypov@google.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- tales.aparecida@gmail.com, Isabella Basso <isabbasso@riseup.net>,
- KUnit Development <kunit-dev@googlegroups.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi David,
+This patch is what is left on a previous attempt to make the
+ti-sn65dsi86 support DRM_BRIDGE_ATTACH_NO_CONNECTOR.
 
-Sorry for not getting back to you sooner, I've been swamped with work
-this week.
+I ran into several challenges on the way:
+- I never found a way to retreive bpc when the driver
+  do not create the connector - and the driver needs it.
+  There may be ways to change how bpc is used but as I have no access
+  to HW it is not easy to change much.
+- My understanding of the driver is limited so I dropped trying to
+  do the proper implmentation of format negotiation
+- I had made a small macro to encapsulate a few of the common functions
+  in drm_bridge_funcs - but looking at it with fresh eyes told me
+  this is not a good idea.
 
-On Wed, Jun 29, 2022 at 03:27:44PM +0800, David Gow wrote:
-> These look pretty good overall to me, but there is one big issue
-> (which is actually with the previous series -- oops!), and a few small
-> stylistic thoughts.
-> 
-> For the big issue: these tests don't work on big-endian systems. The
-> 'swab' bit in this series reminded me to check, and sure enough, all
-> of the tests fail (including the rgb332 ones).
-> 
-> I tested it on PowerPC with:
->  ./tools/testing/kunit/kunit.py run
-> --kunitconfig=drivers/gpu/drm/tests --arch=powerpc
-> --cross_compile=powerpc64-linux-gnu-
-> 
-> So that's something which needs to be fixed.
+I dropped previous a-b / r-b as the driver has changed a bit since
+last submission.
+Especially to Kieran - sorry for letting you wait so long for almost nothing.
 
-Oops, yes, definitely something that I need to fix!
-I'll include an extra patch at the beginning of v2 fixing this bug.
+Previous attempt:
+https://lore.kernel.org/dri-devel/20220206154405.1243333-1-sam@ravnborg.org/
 
-> The smaller stylistic thoughts basically all revolve around the
-> complexity of convert_xrgb8888_cases: there are arrays of structs with
-> arrays of unions of structs (with function pointers in them). This
-> isn't a problem: it's actually a lot more readable than that
-> description implies, but there are other ways it could be tackled
-> (which have their own tradeoffs, of course).
-> 
-> One possibility would be to split up the test into a separate test per
-> destination format. They could reuse the convert_xrgb8888_cases array,
-> and just each access a different result. You could make things even
-> clearer (IMO) by replacing the results[] array with a separate, named,
-> member (since you don't need to iterate over them any more), and
-> remove the need to have the function pointer and swab union/members by
-> just hardcoding those in the separate test functions. It'd also make
-> the results a bit clearer, as each destination format would get its
-> own separate set of results.
-> 
-> Of course, that's just an idea: I don't actually have a problem with
-> the existing design either (other than the endianness issue, of
-> course).
+	Sam
 
-I like from your approach that the output of the tests would be easier
-to understand. At the moment, if a test fails, there is not enough
-context to know which target format failed. I'll explore this approach
-and see how it looks like.
 
-Thanks,
-Jose
+Sam Ravnborg (1):
+      drm/bridge: ti-sn65dsi86: Use atomic variants of drm_bridge_funcs
 
-> Cheers,
-> -- David
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
 
