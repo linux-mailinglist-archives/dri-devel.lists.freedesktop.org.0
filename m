@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29076565AF0
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21940565B34
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:17:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F10C010E853;
-	Mon,  4 Jul 2022 16:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BD1810E56A;
+	Mon,  4 Jul 2022 16:14:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9768910E027
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 11:11:43 +0000 (UTC)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
- helo=phil.lan) by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1o7xVi-00047D-JN; Sun, 03 Jul 2022 13:11:30 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Daniel Vetter <daniel@ffwll.ch>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Sandy Huang <hjc@rock-chips.com>, Maxime Ripard <maxime@cerno.tech>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Andy Yan <andy.yan@rock-chips.com>, David Airlie <airlied@linux.ie>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH] drm/rockchip: Fix an error handling path
- rockchip_dp_probe()
-Date: Sun,  3 Jul 2022 13:11:27 +0200
-Message-Id: <165684667536.1187961.10202917102569434363.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <b719d9061bb97eb85145fbd3c5e63f4549f2e13e.1655572071.git.christophe.jaillet@wanadoo.fr>
-References: <b719d9061bb97eb85145fbd3c5e63f4549f2e13e.1655572071.git.christophe.jaillet@wanadoo.fr>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A884E10E027
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 11:45:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1656848728; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sXnapAA8AB7IePhGfDT35N7Hgo2H+tcnMEbnApSgbgc=;
+ b=NrlNvnLQqaM9/3j5GyuFg5OW9YqnMc4LaDWtfmSJ+w/+y4rwR/bRs6CscjrRLvprIugR9f
+ HTqN3nj4q/n/eDV5pTR8WQFolR6qQoFSwPuqgGWaLIwrX30n3SJyLgtumddYNmCkxDvSS+
+ M3ZLmGd665inHTDo0y5E+dfT9rbwBgY=
+Date: Sun, 03 Jul 2022 12:45:18 +0100
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH] drm/ingenic: Use the highest possible DMA burst size
+To: Sam Ravnborg <sam@ravnborg.org>
+Message-Id: <IN0GER.UCST485AI2YD1@crapouillou.net>
+In-Reply-To: <YsE6mZanHLy9LpBd@ravnborg.org>
+References: <20220702230727.66704-1-paul@crapouillou.net>
+ <YsE6mZanHLy9LpBd@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,21 +45,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, list@opendingux.net,
+ Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 18 Jun 2022 19:08:05 +0200, Christophe JAILLET wrote:
-> Should component_add() fail, we should call analogix_dp_remove() in the
-> error handling path, as already done in the remove function.
+Hi Sam,
 
-Applied, thanks!
+Le dim., juil. 3 2022 at 08:43:37 +0200, Sam Ravnborg=20
+<sam@ravnborg.org> a =E9crit :
+> Hi Paul,
+>=20
+> On Sun, Jul 03, 2022 at 12:07:27AM +0100, Paul Cercueil wrote:
+>>  Until now, when running at the maximum resolution of 1280x720 at=20
+>> 32bpp
+>>  on the JZ4770 SoC the output was garbled, the X/Y position of the
+>>  top-left corner of the framebuffer warping to a random position with
+>>  the whole image being offset accordingly, every time a new frame was
+>>  being submitted.
+>>=20
+>>  This problem can be eliminated by using a bigger burst size for the=20
+>> DMA.
+>=20
+> Are there any alignment constraints of the framebuffer that depends on
+> the burst size? I am hit by this with some atmel IP - which is why I
+> ask.
 
-[1/1] drm/rockchip: Fix an error handling path rockchip_dp_probe()
-      commit: 5074376822fe99fa4ce344b851c5016d00c0444f
+I would think that the framebuffer needs to be aligned with the burst=20
+size, indeed. Here, our buffers are always page-aligned so that's not a=20
+problem.
 
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
+> Patch looks good and is a-b.
+
+Thanks!
+
+Cheers,
+-Paul
+
+>>=20
+>>  Set in each soc_info structure the maximum burst size supported by=20
+>> the
+>>  corresponding SoC, and use it in the driver.
+>>=20
+>>  Set the new value using regmap_update_bits() instead of
+>>  regmap_set_bits(), since we do want to override the old value of the
+>>  burst size. (Note that regmap_set_bits() wasn't really valid before=20
+>> for
+>>  the same reason, but it never seemed to be a problem).
+>>=20
+>>  Cc: <stable@vger.kernel.org>
+>>  Fixes: 90b86fcc47b4 ("DRM: Add KMS driver for the Ingenic JZ47xx=20
+>> SoCs")
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+
