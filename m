@@ -1,65 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A40565B64
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:19:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 149F5565B07
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:17:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECD5C10ECB6;
-	Mon,  4 Jul 2022 16:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F53810E85D;
+	Mon,  4 Jul 2022 16:14:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FED110E086
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 22:50:33 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 847A210E042
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 23:27:59 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-119-232.nat.spd-mgts.ru
+ [109.252.119.232])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 135E561216
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 22:50:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 74265C341CB
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 22:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656888632;
- bh=34bf27dHAURY47tIqHJKTPNFndihCDa/bhRLNXFmh6w=;
- h=From:To:Subject:Date:From;
- b=TALWvJcg/hvJdTRZrM1VATS/q11nhqT3fecbEmOBTmIasqZkTKHbj194dpH7MAdsT
- ooE1HFFtZUKFTeYiI5wuQ0TP9Z7aMOWNg5wCzXfVDUFKI/Qage29IxMl6rUCJEJlLi
- Az2pv5vLkkWa+FxX7VKFfwEBBAooGrK08RSk+W1TakVq0LnTqA4Su4UPRm9zyT6iZu
- mUGkYWgU3dSvft7VTwT7jRw0iqa2147beC0ilh1CYb3R26o6AYOsI5pKzXpx3m7BWR
- xXX8cpieGI6ab/3I4/TsvcynuIKrIzgDy7a8a/jtaFtb8sc0dhQbXpabxiaB/WYQtN
- Pm2NxwBZvq4nw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 6236FCC13B0; Sun,  3 Jul 2022 22:50:32 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216201] New: AMDGPU hung after enabling HIP for gpu
- acceleration in Blender Cycles 3.2
-Date: Sun, 03 Jul 2022 22:50:32 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: toadron@yandex.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-216201-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 186596601649;
+ Mon,  4 Jul 2022 00:27:57 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1656890878;
+ bh=5MGJ0vMu4p7gV9rxIqrR/BItCetuv+SX60W/DXOi4bY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=kNILAW2SGM0fjPAJgjA5Q7E2Eg9OFPy3voluKf0iBgGPGGxxWUjpxuNF2u6LVNAYo
+ GQ7LREYrzl1z0uebqCHL/MhqK7iUtc+cjQdL4ppdNYsku7C4OL/EZPrE3ZnOdiMDo/
+ zeJWU17zsgBUkNV1CN+JP93mO5OeCwwV/FKENkQ2I3+5O9xrjH3a4Y/3tp+n8c574T
+ 6irq/tViuRXkiamCCpw2yD2AqhMDpnERrQAoAhuB6U42nnpT0au3XoRvLNn1qup4h3
+ 9jm7Vj3ub0O9elhNb3mFrlh5FCexSYeZO2SMB2wxTXTyEuLzP/kyLNJryaReSSQzk6
+ NB3SNin0fpbwA==
+Message-ID: <ddc8352b-655c-23aa-1907-d4e3815dae90@collabora.com>
+Date: Mon, 4 Jul 2022 02:27:54 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v5 0/3] Support Sharp LQ101R1SX03 and HannStar HSD101PWW2
+ panels
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20220529180548.9942-1-clamor95@gmail.com>
+ <b7715f7d-c69d-2bb0-8226-bcb29e5bf91c@collabora.com>
+ <YsHmTdvSyX/DYAzP@ravnborg.org>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <YsHmTdvSyX/DYAzP@ravnborg.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,247 +59,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ David Airlie <airlied@linux.ie>, Svyatoslav Ryhel <clamor95@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Anton Bambura <jenneron@protonmail.com>, Dmitry Osipenko <digetx@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216201
+On 7/3/22 21:56, Sam Ravnborg wrote:
+> Hi Dmitry,
+> On Thu, Jun 30, 2022 at 08:23:06PM +0300, Dmitry Osipenko wrote:
+>> Hello Sam,
+>>
+>> On 5/29/22 21:05, Svyatoslav Ryhel wrote:
+>>> This series adds support for Sharp LQ101R1SX03 and HannStar HSD101PWW2
+>>> display panels that are used by Asus Transformer tablets, which we're
+>>> planning to support since 5.17 kernel.
+>>
+>> The tablets now supported since 5.17 and awaiting for the panel patches.
+>>
+>>> Changelog:
+>>> v5: - previously patches were sent by Dmitry and he asked me to resend them
+>>>
+>>> v4: - Added r-b from Rob Herring that he gave to the LQ101R1SX01 DT patch
+>>>       of v2. I missed to add it to the v3 by accident.
+>>>
+>>> v3: - No changes. Re-sending for 5.18. Device-trees of devices that use
+>>>       these panels were merged to 5.17, so we're missing the display support.
+>>>
+>>> v2: - Added ack from Rob Herring to the HSD101PWW2 binding.
+>>>
+>>>     - Updated LQ101R1SX01 binding, like it was suggested by Rob Herring,
+>>>       making LQ101R1SX03 directly compatible with the LQ101R1SX01.
+>>>       Such that ["sharp,lq101r1sx03", "sharp,lq101r1sx01"] could be
+>>>       used in DT. This removes need to update panel driver with the new
+>>>       compatible.
+>>>
+>>>     - Improved commit message of the LQ101R1SX03 patch.
+>>>
+>>>     - Added my s-o-b to all patches.
+>>>
+>>> Anton Bambura (1):
+>>>   dt-bindings: sharp,lq101r1sx01: Add compatible for LQ101R1SX03
+>>>
+>>> Svyatoslav Ryhel (2):
+>>>   dt-bindings: display: simple: Add HannStar HSD101PWW2
+>>>   drm/panel: simple: Add support for HannStar HSD101PWW2 panel
+>>>
+>>>  .../bindings/display/panel/panel-simple.yaml  |  2 ++
+>>>  .../display/panel/sharp,lq101r1sx01.yaml      |  7 ++++-
+>>>  drivers/gpu/drm/panel/panel-simple.c          | 28 +++++++++++++++++++
+>>>  3 files changed, 36 insertions(+), 1 deletion(-)
+>>>
+>>
+>> Sam, could you please take a look at these patches? They missed two
+>> kernel versions already because there was nobody to apply them. Thanks
+>> in advance.
+> 
+> I went through the panel backlog a week or two ago, but missed these.
+> Likely because I did not look more than a week back.
+> Sorry for letting it take so long - but I am not the most reliable linux
+> developer these days (hobby time only, and time is limited).
 
-            Bug ID: 216201
-           Summary: AMDGPU hung after enabling HIP for gpu acceleration in
-                    Blender Cycles 3.2
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.18.9
-          Hardware: AMD
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: toadron@yandex.ru
-        Regression: No
+That is totally fine. There are not that many full-time maintainers in
+kernel.
 
-Description:
+> Patches are now applied to drm-misc (drm-misc-next) and should soon be
+> visible in -next.
 
-HIP for gpu acceleration in Blender render cycles 3.2 causes the screen to
-freeze.
+Awesome, thank you.
 
-Video showing the problem on Youtube video hosting:
-https://www.youtube.com/watch?v=3DtZzTuvRn3cw
-
-Hardware:
-
-CPU: AMD Ryzen=E2=84=A2 5 3600
-MOTHERBOARD: MSI X470 GAMING PLUS MAX
-GPU: SAPPHIRE Radeon RX 6600 8192Mb PULSE (11310-01-20G)
-
-Software version:
-
-Arch Linux x86-64
-linux 5.18.9.arch1-1
-xf86-video-amdgpu 22.0.0-1
-mesa 22.1.3-1
-rocm-llvm 5.2.0-1
-hip-runtime-amd 5.2.0-3
-blender 3.2.0-4
-
-Partial log with the problem (see attachment for full log):
-
-Jul 04 01:01:55 sanka kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]]
-*ERROR* Waiting for fences timed out!
-Jul 04 01:01:55 sanka kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ri=
-ng
-gfx_0.0.0 timeout, signaled seq=3D6213, emitted seq=3D6215
-Jul 04 01:01:55 sanka kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
-Process information: process blender pid 2776 thread blender:cs0 pid 2798
-Jul 04 01:01:55 sanka kernel: amdgpu 0000:29:00.0: amdgpu: GPU reset begin!
-Jul 04 01:01:55 sanka kernel: amdgpu: Failed to suspend process 0x800c
-Jul 04 01:01:55 sanka /usr/lib/gdm-x-session[1604]: [2022-07-04 01:01:55.07=
-2]
-[1649] (device_info_linux.cc:45): NumberOfDevices
-Jul 04 01:01:55 sanka /usr/lib/gdm-x-session[1604]: [2022-07-04 01:01:55.18=
-9]
-[1649] (device_info_linux.cc:45): NumberOfDevices
-Jul 04 01:01:55 sanka /usr/lib/gdm-x-session[1604]: [2022-07-04 01:01:55.18=
-9]
-[1649] (device_info_linux.cc:78): GetDeviceName
-Jul 04 01:01:55 sanka kernel: [drm:amdgpu_dm_atomic_commit_tail [amdgpu]]
-*ERROR* Waiting for fences timed out!
-Jul 04 01:01:55 sanka kernel: amdgpu 0000:29:00.0: [drm:amdgpu_ring_test_he=
-lper
-[amdgpu]] *ERROR* ring kiq_2.1.0 test failed (-110)
-Jul 04 01:01:55 sanka kernel: [drm:gfx_v10_0_hw_fini [amdgpu]] *ERROR* KGQ
-disable failed
-Jul 04 01:01:55 sanka kernel: amdgpu 0000:29:00.0: [drm:amdgpu_ring_test_he=
-lper
-[amdgpu]] *ERROR* ring kiq_2.1.0 test failed (-110)
-Jul 04 01:01:55 sanka kernel: [drm:gfx_v10_0_hw_fini [amdgpu]] *ERROR* KCQ
-disable failed
-Jul 04 01:01:55 sanka kernel: [drm:gfx_v10_0_hw_fini [amdgpu]] *ERROR* fail=
-ed
-to halt cp gfx
-Jul 04 01:01:55 sanka kernel: [drm] free PSP TMR buffer
-Jul 04 01:01:55 sanka kernel: CPU: 5 PID: 158 Comm: kworker/u64:7 Tainted: =
-G=20=20=20
-       OE     5.18.9-arch1-1 #1 137f0035b2ece06cb65382579db27e9de66af504
-Jul 04 01:01:55 sanka kernel: Hardware name: Micro-Star International Co., =
-Ltd.
-MS-7B79/X470 GAMING PLUS MAX (MS-7B79), BIOS H.F1 05/24/2022
-Jul 04 01:01:55 sanka kernel: Workqueue: amdgpu-reset-dev
-drm_sched_job_timedout [gpu_sched]
-Jul 04 01:01:55 sanka kernel: Call Trace:
-Jul 04 01:01:55 sanka kernel:  <TASK>
-Jul 04 01:01:55 sanka kernel:  dump_stack_lvl+0x48/0x5d
-Jul 04 01:01:55 sanka kernel:  amdgpu_do_asic_reset+0x2a/0x470 [amdgpu
-c3399060640045ce33894f35f697ceceab8d3be0]
-Jul 04 01:01:55 sanka kernel:  amdgpu_device_gpu_recover_imp.cold+0x537/0x8=
-cc
-[amdgpu c3399060640045ce33894f35f697ceceab8d3be0]
-Jul 04 01:01:55 sanka kernel:  amdgpu_job_timedout+0x18c/0x1c0 [amdgpu
-c3399060640045ce33894f35f697ceceab8d3be0]
-Jul 04 01:01:55 sanka kernel:  drm_sched_job_timedout+0x76/0x100 [gpu_sched
-b54a976254cd79f6332eedc913d0037b3c33b883]
-Jul 04 01:01:55 sanka kernel:  process_one_work+0x1c7/0x380
-Jul 04 01:01:55 sanka kernel:  worker_thread+0x51/0x380
-Jul 04 01:01:55 sanka kernel:  ? rescuer_thread+0x3a0/0x3a0
-Jul 04 01:01:55 sanka kernel:  kthread+0xde/0x110
-Jul 04 01:01:55 sanka kernel:  ? kthread_complete_and_exit+0x20/0x20
-Jul 04 01:01:55 sanka kernel:  ret_from_fork+0x22/0x30
-Jul 04 01:01:55 sanka kernel:  </TASK>
-Jul 04 01:01:55 sanka kernel: amdgpu 0000:29:00.0: amdgpu: MODE1 reset
-Jul 04 01:01:55 sanka kernel: amdgpu 0000:29:00.0: amdgpu: GPU mode1 reset
-Jul 04 01:01:55 sanka kernel: amdgpu 0000:29:00.0: amdgpu: GPU smu mode1 re=
-set
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: GPU reset succee=
-ded,
-trying to resume
-Jul 04 01:01:56 sanka kernel: [drm] PCIE GART of 512M enabled (table at
-0x0000008000300000).
-Jul 04 01:01:56 sanka kernel: [drm] VRAM is lost due to GPU reset!
-Jul 04 01:01:56 sanka kernel: [drm] PSP is resuming...
-Jul 04 01:01:56 sanka kernel: [drm] reserve 0xa00000 from 0x81fe000000 for =
-PSP
-TMR
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: RAS: optional ra=
-s ta
-ucode is not available
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: SECUREDISPLAY:
-securedisplay ta ucode is not available
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: SMU is resuming.=
-..
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: smu driver if
-version =3D 0x0000000f, smu fw if version =3D 0x00000013, smu fw program =
-=3D 0,
-version =3D 0x003b2900 (59.41.0)
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: SMU driver if
-version not matched
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: SMU is resumed
-successfully!
-Jul 04 01:01:56 sanka kernel: [drm] DMUB hardware initialized:
-version=3D0x0202000F
-Jul 04 01:01:56 sanka kernel: [drm] kiq ring mec 2 pipe 1 q 0
-Jul 04 01:01:56 sanka kernel: [drm] VCN decode and encode initialized
-successfully(under DPG Mode).
-Jul 04 01:01:56 sanka kernel: [drm] JPEG decode initialized successfully.
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring gfx_0.0.0 u=
-ses
-VM inv eng 0 on hub 0
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring comp_1.0.0 =
-uses
-VM inv eng 1 on hub 0
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring comp_1.1.0 =
-uses
-VM inv eng 4 on hub 0
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring comp_1.2.0 =
-uses
-VM inv eng 5 on hub 0
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring comp_1.3.0 =
-uses
-VM inv eng 6 on hub 0
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring comp_1.0.1 =
-uses
-VM inv eng 7 on hub 0
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring comp_1.1.1 =
-uses
-VM inv eng 8 on hub 0
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring comp_1.2.1 =
-uses
-VM inv eng 9 on hub 0
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring comp_1.3.1 =
-uses
-VM inv eng 10 on hub 0
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring kiq_2.1.0 u=
-ses
-VM inv eng 11 on hub 0
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring sdma0 uses =
-VM
-inv eng 12 on hub 0
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring sdma1 uses =
-VM
-inv eng 13 on hub 0
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring vcn_dec_0 u=
-ses
-VM inv eng 0 on hub 1
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring vcn_enc_0.0
-uses VM inv eng 1 on hub 1
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring vcn_enc_0.1
-uses VM inv eng 4 on hub 1
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: ring jpeg_dec us=
-es
-VM inv eng 5 on hub 1
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: recover vram bo =
-from
-shadow start
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: recover vram bo =
-from
-shadow done
-Jul 04 01:01:56 sanka kernel: [drm] Skip scheduling IBs!
-Jul 04 01:01:56 sanka kernel: [drm] Skip scheduling IBs!
-Jul 04 01:01:56 sanka kernel: amdgpu 0000:29:00.0: amdgpu: GPU reset(2)
-succeeded!
-Jul 04 01:01:56 sanka kernel: [drm] Skip scheduling IBs!
-Jul 04 01:01:56 sanka kernel: [drm] Skip scheduling IBs!
-Jul 04 01:01:56 sanka kernel: [drm] Skip scheduling IBs!
-...I skip repeated lines...
-Jul 04 01:01:56 sanka kernel: [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed=
- to
-initialize parser -125!
-Jul 04 01:01:56 sanka kernel: [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed=
- to
-initialize parser -125!
-Jul 04 01:01:56 sanka kernel: [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed=
- to
-initialize parser -125!
-Jul 04 01:01:56 sanka /usr/lib/gdm-x-session[2747]: amdgpu: The CS has been
-cancelled because the context is lost.
-Jul 04 01:01:56 sanka /usr/lib/gdm-x-session[1000]: amdgpu: The CS has been
-cancelled because the context is lost.
-Jul 04 01:01:56 sanka /usr/lib/gdm-x-session[1000]: amdgpu: The CS has been
-cancelled because the context is lost.
-Jul 04 01:01:56 sanka /usr/lib/gdm-x-session[1000]: amdgpu: The CS has been
-cancelled because the context is lost.
-Jul 04 01:01:56 sanka /usr/lib/gdm-x-session[1000]: amdgpu: The CS has been
-cancelled because the context is lost.
-Jul 04 01:01:56 sanka /usr/lib/gdm-x-session[1000]: amdgpu: The CS has been
-cancelled because the context is lost.
-Jul 04 01:01:56 sanka /usr/lib/gdm-x-session[1000]: amdgpu: The CS has been
-cancelled because the context is lost.
-Jul 04 01:01:56 sanka /usr/lib/gdm-x-session[1000]: amdgpu: The CS has been
-cancelled because the context is lost.
-Jul 04 01:01:56 sanka kernel: [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed=
- to
-initialize parser -125!
-Jul 04 01:01:56 sanka kernel: [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed=
- to
-initialize parser -125!
-Jul 04 01:01:56 sanka kernel: [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed=
- to
-initialize parser -125!
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+Best regards,
+Dmitry
