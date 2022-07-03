@@ -2,84 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597B3565B26
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:17:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0F0565B37
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:18:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC35510EA08;
-	Mon,  4 Jul 2022 16:14:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E886010E516;
+	Mon,  4 Jul 2022 16:14:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F235F10E04F
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 07:47:13 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 488705C00AB;
- Sun,  3 Jul 2022 03:47:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Sun, 03 Jul 2022 03:47:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1656834433; x=
- 1656920833; bh=q7xFVKw+pnU3N3bfvFQJh/csLKrqR85Ga+dbzzZjpME=; b=L
- lYykUMBxJdu+JS8YR7oH0sHFa0UkkjmrdKpqvxJkjC8WULkTkQQ6+br16PqK+NfU
- QyJttfgiFQKw2Ad6fWfdSk07FJMa7jYk8nbcy+PhehEK+CBuGdRbfJWyWudzPvXp
- +TsI+7md4313vilF2a8pzBdybpfikTRouhiX5sUcRwpHNvoIvP43UnuTBrRw+RgL
- SPayP4IqSDMBgDxrKr4UjM2iuTgPxU0/w5S031LCp7jf5m0F9FP7Kbxmdlaje6Tb
- KNsDrqI21mSdwa+Vz1MdmitwPnfMHv97pPHThn0xaqPYPgKevH0LYY6gGMPzwWZw
- IWowGICuVo+BZbksOkt8g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656834433; x=
- 1656920833; bh=q7xFVKw+pnU3N3bfvFQJh/csLKrqR85Ga+dbzzZjpME=; b=E
- DhJPakOO7QVrK1CUNeynJ8tJCCQkLlTngXzj0/yAVxJlFU4P7yKdtn5yCKLf879r
- sO+CqyVmWAI44xdiYd+3lm+zDTSK60TA0sKMxC+ydbT7J0aKG3wKC9z76gNyl1YD
- 31SK/FDdcxS3C4BYLm8JKkXsQdyHXnyO+1rf0Xh4ywsJ3of0AyWJVLi3WOeznS3q
- jrWgNQKpZJqdyjxJSQUSy957lVYYAO5IVUtSc1r1ZBVBQeXL17iHoWX/HWp7tVdn
- kWAulaBvACr/trVBgZ3LsfqTeN14+Dp57JYEOh99GHjSgSK4DasXZkAu/3AdhX7K
- CZ+MLkEFKAUgqU5nbWWLg==
-X-ME-Sender: <xms:gUnBYg_06Lyq13esrxJJPENR6z4b0eJ_JTZ8nZ-sgWuTUYhlPbfD2w>
- <xme:gUnBYouAPwI3m88LQ8Dxgj1xzUJpuyRJgAp15u7sZYpMWA0tVfkY0QgDAVHBBHjTx
- 5DqAAoOcp51nbUVEA>
-X-ME-Received: <xmr:gUnBYmD1CgROOraYXWO-NjLQsB7C6JQkY_O_mnAIkW7D5l9XZWfLfN7Dcq6h23h_1zIPe7ASkhPxXcIboGrNaq_hqJB7P7W62NnKvCjrHeNjuP7UFK-dqmTiYg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehiedguddvhecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgr
- mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
- cuggftrfgrthhtvghrnhepleetjeffvdegheektdekveeuueetffetffehudefueejvddu
- feduteeiieejveelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
- hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhl
- lhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:gUnBYgcmgkpr4XjDtr68U7-BRDBuR-hTWnf_H9qt7CdX4u6O60CnVQ>
- <xmx:gUnBYlM_TASXSf1UiDq2OMm-B9uQK_2bN6bco2SVcYtrhMrMyoYQcQ>
- <xmx:gUnBYqkkxjDe6oHFvT8d4d1VAM-X18pSaqSXXSZ_jjVmYFRbyAAn0g>
- <xmx:gUnBYpnY5suVGWTcyGT2HQayO0ocLQgQ7Fl6Tj3imOK_IiSidB4qqg>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 3 Jul 2022 03:47:12 -0400 (EDT)
-Subject: Re: [PATCH v2 1/2] dt-bindings: arm: sunxi: Add binding for
- RenewWorldOutReach R16-Vista-E board
-To: Suniel Mahesh <sunil@amarulasolutions.com>, Chen-Yu Tsai <wens@csie.org>, 
- Christopher Vollo <chris@renewoutreach.org>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-References: <20220615093900.344726-1-sunil@amarulasolutions.com>
- <20220615093900.344726-2-sunil@amarulasolutions.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <e65211d3-110b-3f25-57b7-6f65c45cf9ea@sholland.org>
-Date: Sun, 3 Jul 2022 02:47:11 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA0A10E02B
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 08:50:16 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id q16so5861350qtn.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Jul 2022 01:50:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q10avrUQvDZXQrB8NbI6GXVYl9CBfKWMfdOzIE6Fs90=;
+ b=v5yXkdg39SKjSOtEWb+93CrN7yZcT4PqLz2zjDIj6a/sFcCZ/JhTpNYcI3M2EvjZGS
+ f4/kMllIbszPF+jE+pnVMQWqwapggGYQI3FoVDoq5B/x8LgA0Jt3ZM067OzB+27cK/tN
+ oT39TELbtx4vZWeQ73h574Fkd1fkxp/9CFHF1cO32lBBAGJ6agurZ3kG+u1SgFiJ9kvv
+ ayOT2CAiwIUagNpuasAZB5rJPH1EA3TSuxN62QOHj/Mkrrq7QvibArTdpwS5YhLdXvJG
+ MkV+a1eyJb8F/dKLRSobXN+h8tNgqsDC1BJOn18lE4m87JF+uxBY78pZRjXh0kXjL2mR
+ SDgg==
+X-Gm-Message-State: AJIora+CUMrSToiaavi7CURrkIW6UpiTEQSmpyPrObbasaYES8R9psan
+ 48xJVkzWsmAx8+YMk2/ffnc7pebwQA4uWQ==
+X-Google-Smtp-Source: AGRyM1uhZtLLYS0+W72jNnsKswxtC+/kJmsI23AqSwt5zgm1q9muBUCg0KoowBqmJ+8jA+H4VTZ8HA==
+X-Received: by 2002:ac8:5a0a:0:b0:31d:28b4:56c with SMTP id
+ n10-20020ac85a0a000000b0031d28b4056cmr18325534qta.298.1656838215317; 
+ Sun, 03 Jul 2022 01:50:15 -0700 (PDT)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com.
+ [209.85.128.172]) by smtp.gmail.com with ESMTPSA id
+ w4-20020a05620a424400b006af08c26774sm21535668qko.47.2022.07.03.01.50.14
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 03 Jul 2022 01:50:15 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id
+ 00721157ae682-31c8bb90d09so4014277b3.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Jul 2022 01:50:14 -0700 (PDT)
+X-Received: by 2002:a81:af27:0:b0:31c:833f:eda5 with SMTP id
+ n39-20020a81af27000000b0031c833feda5mr5763706ywh.358.1656838214734; Sun, 03
+ Jul 2022 01:50:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220615093900.344726-2-sunil@amarulasolutions.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20220701202352.559808-1-deller@gmx.de>
+ <20220701202352.559808-3-deller@gmx.de>
+In-Reply-To: <20220701202352.559808-3-deller@gmx.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sun, 3 Jul 2022 10:50:03 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUCSbd38H95jSGiTARekE1Y2YUtKfak9cK3xLwd+ubGdQ@mail.gmail.com>
+Message-ID: <CAMuHMdUCSbd38H95jSGiTARekE1Y2YUtKfak9cK3xLwd+ubGdQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] fbcon: Prevent that screen size is smaller than
+ font size
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,58 +68,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-amarula@amarulasolutions.com,
- Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/15/22 4:38 AM, Suniel Mahesh wrote:
-> Add a binding for the RenewWorldOutReach R16-Vista-E board based on
-> allwinner R16.
-> 
-> Signed-off-by: Christopher Vollo <chris@renewoutreach.org>
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> Signed-off-by: Suniel Mahesh <sunil@amarulasolutions.com>
+Hi Helge,
 
-The primary author of the commit (the From:) should be the first signer, unless
-you are using Co-developed-by:. See the examples here:
+On Fri, Jul 1, 2022 at 10:23 PM Helge Deller <deller@gmx.de> wrote:
+> We need to prevent that users configure a screen size which is smaller than the
+> currently selected font size. Otherwise rendering chars on the screen will
+> access memory outside the graphics memory region.
+>
+> This patch adds a new function fbcon_modechange_possible() which
+> implements this check and which later may be extended with other checks
+> if necessary.  The new function is called from the FBIOPUT_VSCREENINFO
+> ioctl handler in fbmem.c, which will return -EINVAL if userspace asked
+> for a too small screen size.
+>
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> Cc: stable@vger.kernel.org # v5.4+
 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
+Thanks for your patch!
 
-> ---
-> Changes for v2:
-> - Add missing compatible string
-> - insert missing signatures of contributors
-> ---
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> index 95278a6a9a8e..52b8c9aba6f3 100644
-> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-> @@ -787,6 +787,12 @@ properties:
->            - const: allwinner,r7-tv-dongle
->            - const: allwinner,sun5i-a10s
->  
-> +      - description: RenewWorldOutreach R16-Vista-E
-> +        items:
-> +          - const: renewworldoutreach,r16-vista-e
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -2736,6 +2736,34 @@ void fbcon_update_vcs(struct fb_info *info, bool all)
+>  }
+>  EXPORT_SYMBOL(fbcon_update_vcs);
+>
+> +/* let fbcon check if it supports a new screen resolution */
+> +int fbcon_modechange_possible(struct fb_info *info, struct fb_var_screeninfo *var)
+> +{
+> +       struct fbcon_ops *ops = info->fbcon_par;
+> +       struct vc_data *vc;
+> +       int i;
 
-This vendor prefix should be documented.
+unsigned int i
 
-Regards,
-Samuel
-
-> +          - const: allwinner,sun8i-r16
-> +          - const: allwinner,sun8i-a33
 > +
->        - description: RerVision H3-DVK
->          items:
->            - const: rervision,h3-dvk
-> 
+> +       WARN_CONSOLE_UNLOCKED();
+> +
+> +       if (!ops)
+> +               return -EINVAL;
 
+This means the frame buffer device is not used as a text console
+(i.e. the text console is mapped to a different frame buffer device),
+hence it should return success.
+
+> +
+> +       /* prevent setting a screen size which is smaller than font size */
+> +       for (i = first_fb_vc; i <= last_fb_vc; i++) {
+> +               vc = vc_cons[i].d;
+> +               if (!vc || vc->vc_mode != KD_TEXT ||
+> +                          registered_fb[con2fb_map[i]] != info)
+> +                       continue;
+> +
+> +               if (vc->vc_font.width  > FBCON_SWAP(var->rotate, var->xres, var->yres) ||
+> +                   vc->vc_font.height > FBCON_SWAP(var->rotate, var->yres, var->xres))
+> +                       return -EINVAL;
+> +       }
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL(fbcon_modechange_possible);
+
+EXPORT_SYMBOL_GPL()?
+No idea why most of fbcon uses the non-GPL variant.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
