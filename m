@@ -2,67 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5E9565ACD
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:16:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74452565AE7
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:16:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB3A10E690;
-	Mon,  4 Jul 2022 16:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39C7510E592;
+	Mon,  4 Jul 2022 16:14:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
- [IPv6:2001:4860:4864:20::35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D86010E082
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 03:57:14 +0000 (UTC)
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-f2a4c51c45so8815157fac.9
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Jul 2022 20:57:14 -0700 (PDT)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12E2310E06A
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 03:57:27 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-10bd4812c29so3083698fac.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Jul 2022 20:57:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8pyUyqVKFfsPns6kkRYcl2oPKrKQVySYYiE4xgpYN7k=;
- b=sg0Mf81AA/jHMB1Cnn1hgvmo9Je2PEjby6cq8FtWMppDV0dwTUm//kJBHbv8pR4BwB
- j/FtBj4e+TRgW0b8LLpE75Wl/UfDgN709J3WOsfkzkGqFrIy564VLTVlm0+sHgOW5DKX
- MSChhovfWwB/MwOeg3N7teweUFs8YJabN58sYDuRd6ZkoX14s1xq1HxH6K3VyF0Bwjry
- i+veKmfxr+3s/KqsXC6tv8EpMERmtrqerMQkdN72RjBqsfbB4eGnIPTLngTx4y1hItZk
- pcd18M4XQ7uT8kIY6cHEz++jthJoe+kJSmxLt8i7cpOKc53OBfjFf7+CQSb5Ufla3+Re
- QOrw==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=VCyTfnH8NjSlB3wEmVmV8+vhbVUl0hOr4poBEopVoGU=;
+ b=ziliVqzxy9/dOwyks9UKmfls7XduSVgh+N+IrqkD3A0u3sXMbzU3JczzX6OH1WaANo
+ CB72tXVOYtCU+j1mqaWhM4IPQOq+14fuPISKLGGJkjyBQvngZPGhrTEqw6dt1fXm56LS
+ aVWn3H3aIyZBk4nvM0s2cdauUBXh2PHECe0oC9UWmmR538VZB94H39VvxLf18YU0eRzI
+ ykK6FW5hgOffY39yEUbCQwa5SOYPzYjVXvcsfUIZHYJ0wmIVkCedfNY4pD30gV/bXtST
+ kSwRIZ4S6nx90lkm4dxVMCM2kOceLEbljBQhh60YXB+yDnHL2u3w5n4MSVlabNX0euIh
+ LC9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8pyUyqVKFfsPns6kkRYcl2oPKrKQVySYYiE4xgpYN7k=;
- b=beoxqVpFL7lbRB7loiO0FNVPvmOpw5gT7ZiTY9gUnsNpOPVI+wFuVdEJnKpeJjV+DH
- Ha7TUBL6z6xHRIHzTR133hhJ52KCDYBSFhm70H3W9gjIfPNKvvQktAdYdMwyddo6rKEn
- Dmd+EbE2J4qceFjHx6agiyJOaEisPP8pkgHC1L3sZ55MG9tvjZiekKky1euCP5zyJhZ+
- WJO/cyRctTB7u0Cr7RAoPjVwATXfPy4pTVJkVj/mokfCu6Gr88WD7PWCNeuWWcDqf4/V
- AWQFPNX/oxyUmXgIo9k35FJXul6nlF6uTTAq1z+0S1GkS/mUPmJRrh31c2fe0jwIlcgP
- Vrxg==
-X-Gm-Message-State: AJIora/KRm48XS7m3419Cp7TtN5i3UjHgAah4mWvg+7zCy8HO200CXkK
- 6Jhluk6VuMhW0ycXD7ebLGDQ9w==
-X-Google-Smtp-Source: AGRyM1uiElpgE5xH020B9DsxznQsQNmrJaanTne9n2tfx5H6+oy7R6pbP02jWzluWtfowxz9M4K1wQ==
-X-Received: by 2002:a05:6870:8292:b0:101:c67e:1b4d with SMTP id
- q18-20020a056870829200b00101c67e1b4dmr14586983oae.88.1656820633300; 
- Sat, 02 Jul 2022 20:57:13 -0700 (PDT)
+ bh=VCyTfnH8NjSlB3wEmVmV8+vhbVUl0hOr4poBEopVoGU=;
+ b=HuI3q07rIj9bqKPLiXy57EaCaEWXJwINoIx00klQojmERrRYHfPu0iZftcQUGwrXiN
+ gvJ0exVsh1fdyLQFTz0UAOzNLZulhqiAnMcgrtQdTYEj4jc2o3/pecz9DOF/4KMYZCLl
+ 9py3dQSrAoucplIq/CodQN8dlyXnpPuU5MoP8z3CafS3X3EFG4o0KvIOBL8ABc34VNM2
+ oe/mRhiKWQ8xQsvu5k3VeU6H1/XzvdiyWx+0PAyAOqVXU4q1zvf1G30Utv+WldUizGTj
+ kxDUQ6ry1OjK4t6Sj2zJ5JX7eYz9C/twLZxFx1JQ4/FHsCnda82Y0C53PwKlTCiB2JSx
+ Hflg==
+X-Gm-Message-State: AJIora9TkYoC23a3TV9RdAC6/sqL99ypHTqFplmm57yYB+rPZb9/OdyP
+ fvG3F2ZtOl9lQOExxbujt4tfng==
+X-Google-Smtp-Source: AGRyM1tUe+bpIIrEEtZ/9Nb0bCXCTN+7KLHFUmOrWnqm3jYRBvbR6skQvCorgt/Z+fIn6n4ArzIUHg==
+X-Received: by 2002:a05:6870:7097:b0:101:229:eb1b with SMTP id
+ v23-20020a056870709700b001010229eb1bmr14324564oae.121.1656820646368; 
+ Sat, 02 Jul 2022 20:57:26 -0700 (PDT)
 Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
  [104.57.184.186]) by smtp.gmail.com with ESMTPSA id
- 25-20020aca0f19000000b0032e5d0b5d5fsm12965910oip.58.2022.07.02.20.57.12
+ 25-20020aca0f19000000b0032e5d0b5d5fsm12965910oip.58.2022.07.02.20.57.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Jul 2022 20:57:12 -0700 (PDT)
+ Sat, 02 Jul 2022 20:57:25 -0700 (PDT)
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Will Deacon <will@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
- Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>,
- dri-devel@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
- Jordan Crouse <jcrouse@codeaurora.org>, Emma Anholt <emma@anholt.net>,
- freedreno@lists.freedesktop.org
-Subject: Re: (subset) [PATCH 2/2] arm64: dts: qcom: sm8250: Enable per-process
- page tables.
-Date: Sat,  2 Jul 2022 22:56:09 -0500
-Message-Id: <165682055971.445910.5959383973914812219.b4-ty@linaro.org>
+To: Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Kiran Gunda <kgunda@codeaurora.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, linux-leds@vger.kernel.org,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee.jones@linaro.org>
+Subject: Re: (subset) [PATCH 2/2] arm64: dts: qcom: correct SPMI WLED register
+ range encoding
+Date: Sat,  2 Jul 2022 22:56:22 -0500
+Message-Id: <165682055968.445910.9322003122830573708.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220614230136.3726047-2-emma@anholt.net>
-References: <20220614230136.3726047-1-emma@anholt.net>
- <20220614230136.3726047-2-emma@anholt.net>
+In-Reply-To: <20220505154702.422108-2-krzysztof.kozlowski@linaro.org>
+References: <20220505154702.422108-1-krzysztof.kozlowski@linaro.org>
+ <20220505154702.422108-2-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -78,22 +81,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Jun 2022 16:01:36 -0700, Emma Anholt wrote:
-> This is an SMMU for the adreno gpu, and adding this compatible lets
-> the driver use per-fd page tables, which are required for security
-> between GPU clients.
+On Thu, 5 May 2022 17:47:02 +0200, Krzysztof Kozlowski wrote:
+> On PM660L, PMI8994 and PMI8998, the WLED has two address spaces and with
+> size-cells=0, they should be encoded as two separate items.
 > 
 > 
 
 Applied, thanks!
 
-[2/2] arm64: dts: qcom: sm8250: Enable per-process page tables.
-      commit: 213d7368723709cf4567488e63dd667802378202
+[2/2] arm64: dts: qcom: correct SPMI WLED register range encoding
+      commit: d66b1d2e4afc0c8a9eb267740825240b67f6b1d1
 
 Best regards,
 -- 
