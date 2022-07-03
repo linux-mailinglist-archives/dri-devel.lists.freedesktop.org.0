@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D72565B83
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:19:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A40565B64
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:19:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E54610ED08;
-	Mon,  4 Jul 2022 16:15:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECD5C10ECB6;
+	Mon,  4 Jul 2022 16:15:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB66B10E086
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 22:50:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FED110E086
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 22:50:33 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A8F04611D0
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 22:50:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 09B7BC341CA
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 22:50:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 135E561216
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 22:50:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 74265C341CB
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Jul 2022 22:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656888608;
- bh=WTkCwU9JLpbG2jfS2fGa+LYHhLkwWftf/Ee5njDCF9Q=;
+ s=k20201202; t=1656888632;
+ bh=34bf27dHAURY47tIqHJKTPNFndihCDa/bhRLNXFmh6w=;
  h=From:To:Subject:Date:From;
- b=NCb84wmtynAXEnIGcbdEer7b3ABJO0IMqUsp0DVNknDk9POcc7iywbmbMNHEfxoNI
- mCB5dw3wcVgGp4iB2k0sjPeLsNk4ZHPOYJa6rZFlyB+D4fv705TWzamfoLhEIZ01yN
- dcf0PZbdGaJnA8a2EKoH8yFZQgQlXHjzGdCIHjBwrmj/YxsmhptanGm9bHN6o6nrN7
- I/LjtmcX+/II52F+ROaze9DNkygfbHmiz0zXM9n52bxvsmVakfk6xg9kHXaAmjcupb
- NKzgtB3LUtGHC9nD9iXgCN9QGf1YhUUd4sCK3dHLekZJGqlD/r8vzoo13HtgHgU3Tv
- rYzIhVrLyDSow==
+ b=TALWvJcg/hvJdTRZrM1VATS/q11nhqT3fecbEmOBTmIasqZkTKHbj194dpH7MAdsT
+ ooE1HFFtZUKFTeYiI5wuQ0TP9Z7aMOWNg5wCzXfVDUFKI/Qage29IxMl6rUCJEJlLi
+ Az2pv5vLkkWa+FxX7VKFfwEBBAooGrK08RSk+W1TakVq0LnTqA4Su4UPRm9zyT6iZu
+ mUGkYWgU3dSvft7VTwT7jRw0iqa2147beC0ilh1CYb3R26o6AYOsI5pKzXpx3m7BWR
+ xXX8cpieGI6ab/3I4/TsvcynuIKrIzgDy7a8a/jtaFtb8sc0dhQbXpabxiaB/WYQtN
+ Pm2NxwBZvq4nw==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id D406FCC13B0; Sun,  3 Jul 2022 22:50:07 +0000 (UTC)
+ from userid 48) id 6236FCC13B0; Sun,  3 Jul 2022 22:50:32 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216200] New: AMDGPU hung after enabling HIP for gpu
+Subject: [Bug 216201] New: AMDGPU hung after enabling HIP for gpu
  acceleration in Blender Cycles 3.2
-Date: Sun, 03 Jul 2022 22:50:07 +0000
+Date: Sun, 03 Jul 2022 22:50:32 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,8 +53,8 @@ X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_id short_desc product version
  cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-216200-2300@https.bugzilla.kernel.org/>
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-216201-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -74,9 +75,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216200
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216201
 
-            Bug ID: 216200
+            Bug ID: 216201
            Summary: AMDGPU hung after enabling HIP for gpu acceleration in
                     Blender Cycles 3.2
            Product: Drivers
@@ -92,10 +93,6 @@ https://bugzilla.kernel.org/show_bug.cgi?id=3D216200
           Assignee: drivers_video-dri@kernel-bugs.osdl.org
           Reporter: toadron@yandex.ru
         Regression: No
-
-Created attachment 301326
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D301326&action=3Dedit
-Full journal from the moment the system was launched
 
 Description:
 
