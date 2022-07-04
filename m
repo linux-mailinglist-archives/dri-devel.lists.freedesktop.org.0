@@ -2,68 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 895D7565BAC
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796AB565B61
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:18:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E078A10E753;
-	Mon,  4 Jul 2022 16:16:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D1E610EC1C;
+	Mon,  4 Jul 2022 16:15:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFFC410E028
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 08:38:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1656923922;
- bh=EoWxwT9/rvJfVDYjeyx47WXlpm1gsKW1JIjaJJT/qjE=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=PD2HDbTtdxKx5IO3J2W4rq70ZmKX06+77y6teurjlTQWNAqSpGZi9F3myHZHb9ghg
- Vye3XjL7Ff2BB+DcuInSb7O05YTghZZq+w7Vzv/CBOgeGzrmiKjNwYIOvCzeHuySFN
- xy6Mdtf8X9CNzyNMetxnkDaINeD9RUFOZfkGDxM8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.146.45]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MRCK6-1nwGWc1ii4-00NB1B; Mon, 04
- Jul 2022 10:38:42 +0200
-Message-ID: <2f534dd1-418d-7bc0-aca8-15d26fac4132@gmx.de>
-Date: Mon, 4 Jul 2022 10:38:11 +0200
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 972E210E028;
+ Mon,  4 Jul 2022 08:43:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1656924182; x=1688460182;
+ h=date:from:to:cc:subject:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=Z5AgiPRT1LGOtg/2zx17iOgDnsUMebMSOWAh7X2B8b0=;
+ b=HVtTpeiBOJ2BFoi1oNCL1I5ULt39ZC8Z7unaN04jthDQDDwF6FrV6P5E
+ 7pGyuEpGok3fd/pMJZz2TznodLscvY4JE5sYt9C9EsQ1ecWo5XD7HNScz
+ znMneRbeYswySIOhA8Gb1No8OFuA2zJ96Q1+FAClqRFacKM1WAf/65KNa
+ mrZKC7Y8iYRA9jerdFBUD3On3IKmXX51djoChhnbDMRhL5tqGGWPBuFTY
+ 0KEwYf4ZjE+thT4B0OiUYfHm8CqeTCnUnhN9W6ypSsIp0b91bfTUMx9Q3
+ 9FamvK9BrF7l21alQrgfL0xXu04MT/IGMLOwdGeKSri6sRP2wEU8nosSU A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10397"; a="263494937"
+X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; d="scan'208";a="263494937"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2022 01:43:01 -0700
+X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; d="scan'208";a="619194805"
+Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2)
+ ([10.252.33.112])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2022 01:42:55 -0700
+Date: Mon, 4 Jul 2022 10:42:52 +0200
+From: Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH 5/6] drm/i915/gt: Serialize GRDOM access between
+ multiple engine resets
+Message-ID: <20220704104252.1ab7c579@maurocar-mobl2>
+In-Reply-To: <4c46e69e-9af7-3c20-7569-7a4b5897ec7d@linux.intel.com>
+References: <cover.1655306128.git.mchehab@kernel.org>
+ <5ee647f243a774927ec328bfca8212abc4957909.1655306128.git.mchehab@kernel.org>
+ <YrRLyg1IJoZpVGfg@intel.intel>
+ <160e613f-a0a8-18ff-5d4b-249d4280caa8@linux.intel.com>
+ <20220627110056.6dfa4f9b@maurocar-mobl2>
+ <d79492ad-b99a-f9a9-f64a-52b94db68a3b@linux.intel.com>
+ <20220629172955.64ffb5c3@maurocar-mobl2>
+ <7e6a9a27-7286-7f21-7fec-b9832b93b10c@linux.intel.com>
+ <20220630083256.35a56cb1@sal.lan>
+ <9477a8f1-3535-ed7f-c491-9ca9f27a10dc@linux.intel.com>
+ <20220630170134.3f89e0a3@sal.lan>
+ <4c46e69e-9af7-3c20-7569-7a4b5897ec7d@linux.intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 3/4] fbmem: Prevent invalid virtual screen sizes in
- fb_set_var()
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20220701202352.559808-1-deller@gmx.de>
- <20220701202352.559808-4-deller@gmx.de>
- <CAMuHMdUTwM+y+yi5ASY9hQLgJD-4pjtStGA9m82853LmbdywOA@mail.gmail.com>
- <YsGfdEO4lU+y2004@p100>
- <CAMuHMdULPGmK_K3QeyEpBbO5Dr9_WEszHXDGLzvdv7f3Y2O7vw@mail.gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <CAMuHMdULPGmK_K3QeyEpBbO5Dr9_WEszHXDGLzvdv7f3Y2O7vw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:r+c1TAW8rAPitzEZceC5MtJZfhFBg2tkFiwcRpHMMd66AzQI5OL
- VRlsTXAiA5XljMa0h80xXoV3Dyf/DLAAxLeadaNWp7Wkn5uMIWN/ZCGZabwZ+6cQpQkg/lh
- XhKuLOU7TTed+60vcawrG+O1HJH8vifP+FMdZH0jB5gwmb+7Zk18x7V0kyDz4fyOuv8QSNA
- s2GCnDQ9XhLlIy47lNzkQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pJk3w8wI76o=:XwlYdtlKuGU4LKWzuBWh1w
- aF6EPFe47DIq2zXd8ZR5pEKJ8d2cyc6T0KNTHZNrJ72H0luGjbDWgeAEJC/yIdAxpF+5RpcLj
- n7LT1tmKWJofDDd2i4za0WUNzShPX7LTy0XodAVApQwemPoqlAUtCEV5u8A25ze4FHjxZKOg3
- VN7OpSh1EDO7FtCWdBRaYU8H5JX5hGJjTNldRSxJzZrwxGGeqf1J7BnHBtBh6+pRrJuXfXkJm
- kqQ7vOFCIuG0/SjGbjRvrNRDRDYNqBIyld45YV015YStLw/19Hp/VLqM36OQZl1Bc97YfiIPa
- VCyTxPDMG0jRr/OB9TBaw9RgsLZ+gZEjXYtGMfkvevgjP+x3/89Zfr4iEfbHY4ncvJbCF+3W8
- 5Y2OMq7lkWQ66ZsqaN9J7+WJ+Pq0qYpodKA8NPGjmMSoATuqoOFL9HXNVsfH4VMMsWvRj3IRK
- 6L2WxrLgDHwydKabIM6P6S8Wdys6h+RSLRsb5ML1W5Fsk6T4FGgN7TSdeq6zKPB1z3aeCNY8L
- YuXQ4UeofHXhklVBj6mILuV7Kq/kGcL9fCBXuOov/Obut0Dc+YghtvOGUhW0j7X6wicUBz0g6
- mmKfin+0d0dJ9VaC8yVrP9z+E+SrlxFCUy6yVno7Z0aVfd1bT8XOIp7IE66XAbcb2clXEfcYq
- /qIEoA7RMGo+FfXKhokLEyQ1eGILH868PvbWE+7rLk5ILrUiOHSGjdrmMvD7XFcRPYPKJ/eg5
- p8k7nqEM2DnoC2a0IIZ9hwzaul/OWg1BVS4JbxOwCWTe1oSRzgDnQetSwGlKYVuua6V7eCfPJ
- IRBdBF9dB9Odq+7Nuvb8YcO3HLo6qHUApGOSXWqgrUgmdIX++gH+jd3w8jinPPcoaCMBZdV2l
- Lz5qYbFjwxCZLjUVrzXyOKxui1cFLP5A2WCC+uYtAHT8FfBOJYp+VuDvY1bcOxG5CDS5+eIBi
- JdKrMYZTeaqHJl45xRsGsndgoDHYrX4X6xW/oOfyC1HmNfati9nbkr8fB3W+p1UL3iU3xq41/
- qQyqnwvGtW1v9Mnlduy4tIdEvdEmjRENWaYNK/Sarope0a1RHfkM/5LqXuPXCUZCJSLUGYL2b
- EDr1crdzjDBWIZE5Gy+ngAu8s8dC23Zi9GJ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,141 +69,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
+ Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
+ Fei Yang <fei.yang@intel.com>, David Airlie <airlied@linux.ie>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Thomas Hellstrom <thomas.hellstrom@intel.com>,
+ Chris Wilson <chris.p.wilson@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Dave Airlie <airlied@redhat.com>, stable@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ John Harrison <John.C.Harrison@intel.com>,
+ Bruce Chang <yu.bruce.chang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel & DRM developers,
+On Fri, 1 Jul 2022 08:56:53 +0100
+Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
 
-could you please comment on the change below?
+> On 30/06/2022 17:01, Mauro Carvalho Chehab wrote:
+> > Em Thu, 30 Jun 2022 09:12:41 +0100
+> > Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> escreveu:
+> >  =20
+> >> On 30/06/2022 08:32, Mauro Carvalho Chehab wrote: =20
+> >>> Em Wed, 29 Jun 2022 17:02:59 +0100
+> >>> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> escreveu:
+> >>>     =20
+> >>>> On 29/06/2022 16:30, Mauro Carvalho Chehab wrote: =20
+> >>>>> On Tue, 28 Jun 2022 16:49:23 +0100
+> >>>>> Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+> >>>>>        =20
+> >>>>>> .. which for me means a different patch 1, followed by patch 6 (mo=
+ved
+> >>>>>> to be patch 2) would be ideal stable material.
+> >>>>>>
+> >>>>>> Then we have the current patch 2 which is open/unknown (to me at l=
+east).
+> >>>>>>
+> >>>>>> And the rest seem like optimisations which shouldn't be tagged as =
+fixes.
+> >>>>>>
+> >>>>>> Apart from patch 5 which should be cc: stable, but no fixes as agr=
+eed.
+> >>>>>>
+> >>>>>> Could you please double check if what I am suggesting here is feas=
+ible
+> >>>>>> to implement and if it is just send those minimal patches out alon=
+e? =20
+> >>>>>
+> >>>>> Tested and porting just those 3 patches are enough to fix the Broad=
+well
+> >>>>> bug.
+> >>>>>
+> >>>>> So, I submitted a v2 of this series with just those. They all need =
+to
+> >>>>> be backported to stable. =20
+> >>>>
+> >>>> I would really like to give even a smaller fix a try. Something like=
+, although not even compile tested:
+> >>>>
+> >>>> commit 4d5e94aef164772f4d85b3b4c1a46eac9a2bd680
+> >>>> Author: Chris Wilson <chris.p.wilson@intel.com>
+> >>>> Date:   Wed Jun 29 16:25:24 2022 +0100
+> >>>>
+> >>>>        drm/i915/gt: Serialize TLB invalidates with GT resets
+> >>>>       =20
+> >>>>        Avoid trying to invalidate the TLB in the middle of performin=
+g an
+> >>>>        engine reset, as this may result in the reset timing out. Cur=
+rently,
+> >>>>        the TLB invalidate is only serialised by its own mutex, forgo=
+ing the
+> >>>>        uncore lock, but we can take the uncore->lock as well to seri=
+alise
+> >>>>        the mmio access, thereby serialising with the GDRST.
+> >>>>       =20
+> >>>>        Tested on a NUC5i7RYB, BIOS RYBDWi35.86A.0380.2019.0517.1530 =
+with
+> >>>>        i915 selftest/hangcheck.
+> >>>>       =20
+> >>>>        Cc: stable@vger.kernel.org
+> >>>>        Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing b=
+acking store")
+> >>>>        Reported-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> >>>>        Tested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> >>>>        Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> >>>>        Signed-off-by: Chris Wilson <chris.p.wilson@intel.com>
+> >>>>        Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> >>>>        Acked-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel=
+.com>
+> >>>>        Reviewed-by: Andi Shyti <andi.shyti@intel.com>
+> >>>>        Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> >>>>        Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i9=
+15/gt/intel_gt.c
+> >>>> index 8da3314bb6bf..aaadd0b02043 100644
+> >>>> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> >>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> >>>> @@ -952,7 +952,23 @@ void intel_gt_invalidate_tlbs(struct intel_gt *=
+gt)
+> >>>>            mutex_lock(&gt->tlb_invalidate_lock);
+> >>>>            intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
+> >>>>    =20
+> >>>> +       spin_lock_irq(&uncore->lock); /* serialise invalidate with G=
+T reset */
+> >>>> +
+> >>>> +       for_each_engine(engine, gt, id) {
+> >>>> +               struct reg_and_bit rb;
+> >>>> +
+> >>>> +               rb =3D get_reg_and_bit(engine, regs =3D=3D gen8_regs=
+, regs, num);
+> >>>> +               if (!i915_mmio_reg_offset(rb.reg))
+> >>>> +                       continue;
+> >>>> +
+> >>>> +               intel_uncore_write_fw(uncore, rb.reg, rb.bit);
+> >>>> +       }
+> >>>> +
+> >>>> +       spin_unlock_irq(&uncore->lock);
+> >>>> +
+> >>>>            for_each_engine(engine, gt, id) {
+> >>>> +               struct reg_and_bit rb;
+> >>>> +
+> >>>>                    /*
+> >>>>                     * HW architecture suggest typical invalidation t=
+ime at 40us,
+> >>>>                     * with pessimistic cases up to 100us and a recom=
+mendation to
+> >>>> @@ -960,13 +976,11 @@ void intel_gt_invalidate_tlbs(struct intel_gt =
+*gt)
+> >>>>                     */
+> >>>>                    const unsigned int timeout_us =3D 100;
+> >>>>                    const unsigned int timeout_ms =3D 4;
+> >>>> -               struct reg_and_bit rb;
+> >>>>    =20
+> >>>>                    rb =3D get_reg_and_bit(engine, regs =3D=3D gen8_r=
+egs, regs, num);
+> >>>>                    if (!i915_mmio_reg_offset(rb.reg))
+> >>>>                            continue;
+> >>>>    =20
+> >>>> -               intel_uncore_write_fw(uncore, rb.reg, rb.bit);
+> >>>>                    if (__intel_wait_for_register_fw(uncore,
+> >>>>                                                     rb.reg, rb.bit, =
+0,
+> >>>>                                                     timeout_us, time=
+out_ms,
+> >>>>    =20
 
+...
 
-On 7/3/22 16:41, Geert Uytterhoeven wrote:
-> Hi Helge,
->
-> On Sun, Jul 3, 2022 at 3:54 PM Helge Deller <deller@gmx.de> wrote:
->> * Geert Uytterhoeven <geert@linux-m68k.org>:
->>>> --- a/drivers/video/fbdev/core/fbmem.c
->>>> +++ b/drivers/video/fbdev/core/fbmem.c
->>>> @@ -1016,6 +1016,18 @@ fb_set_var(struct fb_info *info, struct fb_var=
-_screeninfo *var)
->>>>         if (ret)
->>>>                 return ret;
->>>>
->>>> +       /* make sure virtual resolution >=3D physical resolution */
->>>> +       if (WARN_ON(var->xres_virtual < var->xres)) {
->>>
->>> WARN_ON_ONCE()?
->>> This does mean we would miss two or more buggy drivers in a single sys=
-tem.
->>>
->>>> +               pr_warn("fbcon: Fix up invalid xres %d for %s\n",
->>>
->>> xres_virtual?
->>>
->>>> +                       var->xres_virtual, info->fix.id);
->>>> +               var->xres_virtual =3D var->xres;
->>>
->>> I think it's better to not fix this up, but return -EINVAL instead.
->>> After all if we get here, we have a buggy driver that needs to be fixe=
-d.
->>>
->>>> +       }
->>>> +       if (WARN_ON(var->yres_virtual < var->yres)) {
->>>> +               pr_warn("fbcon: Fix up invalid yres %d for %s\n",
->>>> +                       var->yres_virtual, info->fix.id);
->>>> +               var->yres_virtual =3D var->yres;
->>>> +       }
->>>
->>> Same for yres.
->>
->> Geert, thanks for your valuable feedback!
->>
->> In general I don't like for this case any of the WARN_ON* functions.
->> They don't provide any useful info for us, dumps unneccessarily the
->> stack backtrace and would annoy existing users.
->
-> Without the stack trace, most people won't notice...
->
->> We know, that DRM drivers can't change the resolution. If we would leav=
-e
->> in any kind of warning, all DRM users will ask back - and we don't have
->> a solution for them. It's also no regression, because it didn't worked
->> before either.
->
-> The warning will only be triggered when the requested virtual
-> resolution is smaller than the requested physical resolution.  As
-> long as the requested virtual and physical resolution match what
-> was returned by FBIOGET_VSCREENINFO before, the warning won't
-> be triggered.  So in normal use cases, the user won't be impacted.
-> Fuzzers will see the warning, but the kernel will no longer crash
-> on invalid values.
+> What about intel_engine_pm_is_awake, what will you do with that one?
 
-Still, fuzzers will crash if they have panic_on_warn enabled, which
-was the case for the reproducer I got.
+Ok, let's keep this series plain simple. I'm dropping PM awake logic
+as you suggested on v3, keeping just the bare minimal required to
+fix the selftest breakage.
 
->> But we want to detect fbdev drivers which behave badly - so we should
->> print that info with the driver name.
->>
->> Below is a new patch which addresses this. The search for drm drivers
->> looks somewhat hackish - maybe someone can propose a better approach?
->>
->> Thoughts?
->>
->> Helge
->>
->>
->> From 0f33e2a3730342ab85df372f80b4f61762fb1130 Mon Sep 17 00:00:00 2001
->> From: Helge Deller <deller@gmx.de>
->> Date: Wed, 29 Jun 2022 15:53:55 +0200
->> Subject: [PATCH] fbmem: Check virtual screen sizes in fb_set_var()
->>
->> Verify that the fbdev or drm driver correctly adjusted the virtual scre=
-en
->> sizes. On failure report (in case of fbdev drivers) the failing driver.
->>
->> Signed-off-by: Helge Deller <deller@gmx.de>
->> Cc: stable@vger.kernel.org # v5.4+
->>
->> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/cor=
-e/fbmem.c
->> index 160389365a36..9b75aa4405ee 100644
->> --- a/drivers/video/fbdev/core/fbmem.c
->> +++ b/drivers/video/fbdev/core/fbmem.c
->> @@ -1016,6 +1016,21 @@ fb_set_var(struct fb_info *info, struct fb_var_s=
-creeninfo *var)
->>         if (ret)
->>                 return ret;
->>
->> +       /* verify that virtual resolution >=3D physical resolution */
->> +       if (var->xres_virtual < var->xres ||
->> +           var->yres_virtual < var->yres) {
+That actually means that we're not considering on such backports that TLB=20
+cache invalidation does add performance penalties and might cause apps
+to break.
 
-This is the part I'd like to get feedback from DRM on:
-Shall we leave that in, or drop it as Geert suggested?
+I suspect that we'll need to also backport at least some of the other
+patches like the PM awake logic and the one that avoids TLB cache=20
+invalidation when the memory was not touched by userspace, but let's
+focus first on fixing the regression pointed by selftest.
 
->> +               /* drm drivers don't support mode changes yet. Do not r=
-eport. */
->> +               if (strstr(info->fix.id, "drm"))
->> +                       return -ENOTSUPP;
-
-
-
-
-
->> +
->> +               pr_warn("WARNING: fbcon: Driver %s missed to adjust vir=
-tual"
->> +                       " screen size (%dx%d vs. %dx%d)\n",
->> +                       info->fix.id,
->> +                       var->xres_virtual, var->yres_virtual,
->> +                       var->xres, var->yres);
->> +               return -EINVAL;
->> +       }
->> +
->>         if ((var->activate & FB_ACTIVATE_MASK) !=3D FB_ACTIVATE_NOW)
->>                 return 0;
->
-> Hence I think there is no need for ignoring drm.
-
+Regards,
+Mauro
