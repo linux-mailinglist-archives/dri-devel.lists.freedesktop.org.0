@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 431B7565B7E
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:19:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB12565BAB
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B316C10ED11;
-	Mon,  4 Jul 2022 16:15:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 447B710F2B7;
+	Mon,  4 Jul 2022 16:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFC5810E00A
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 05:40:41 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- 89-20020a17090a09e200b001ef7638e536so4289615pjo.3
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Jul 2022 22:40:41 -0700 (PDT)
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3D0010E02E
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 05:40:47 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ y14-20020a17090a644e00b001ef775f7118so4151394pjm.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Jul 2022 22:40:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JOyoIKv8eJkTO4TtedUmrYM/L+pGXP980DFC6bZiVu8=;
- b=n1YbMFNgquDu53bGGv6I0kN/YuIouVCD0OLw4gIPxedTRBSa0gHrJ7HXfbVlngdu2W
- ETUzKOtjp4ge4lG47a7APkV3Jv0VgIk44Sa0S8zOtCJpSEuSfpKyo+GSePhbKlGH3Oj0
- 3EoNhQRmaRtoyTt3JundUzeC6j81U85SIMgoy4Y53ob9JojH/f8HFMbqlNyE9JS0RitO
- ez1QxS1MCA0Cw27BixKJojC2/MnQs3YB1ct1vHc+JFv6PUXsxgBSu2KtiX12eRY4ONwe
- DTo0mMIJqfLffDdMggF0lNRQxUwDdr150xcKyxyKGb3xqVeB9GhtY+9v1YznjXOLfWZb
- 2urg==
+ bh=o0IdJl7Hsjvbe7x+uEA8vR6YW41+zDyWjgNTqfni6nw=;
+ b=MySNsJRXmwredOylpVzeT7P2ct+JtxDp5AmGEQtciguLE5kkQ3M8d05Fnn59IGfj/3
+ io5TQnyBM/tVid/i/B+nZFe/o/ZZSiX54M2EYe6G5tukeeCTy6ssDerVLQTm19jI2b/q
+ Tc7MS5avnlzZv5157B23x2l+hR0mNSbKPrBS3QwAiUZS4jOELcRgCVeiPbAsnKrnQP1l
+ 64CvUWB8+yLC0UhZoZ/kMIYlHPazR2vElwtb2LmV8woEuUe7A5nu2amjjgHyX2NxbzIG
+ GAUagTob7yst3Gjc/U054NkxUDPGmSB42F7pLKvfx1OYTnRBbwjRG8Mfsc2Kj9ojBh6B
+ enYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JOyoIKv8eJkTO4TtedUmrYM/L+pGXP980DFC6bZiVu8=;
- b=at35eDQ1iWc2Rzv4pZD/SwSO0QcXl1Qz2rM3/zIjPB5mGIjQ7rvWVLKbBtamJ05wqe
- mRfbZkQ3WocdJB5L1Gd6ghguDF3pD3hz+HCL1jQ6Bn3ohloKIjhcCVS/caZNl8xhTXlL
- EPesz89g96w7CAg6d82tU/wUSvbdvVNehvB0VcITRubOM1hb5RRdM41b47N1/i7rbd/Z
- +kbiWstci3NFnNWliQ/ooHIfKVxmz8apfxLp2TILzKeKH36/U09IOG0RR2R3FnBGe9+N
- ZKlYPZbRl21550ZXtu8y8Tah8thhW8rUgVsVoQ8CIja45MYpKZlv9gJmXApPacoDDjpm
- QO0w==
-X-Gm-Message-State: AJIora91iuMb7SvBKpGQvjUS0mawE7p4mlwZE/3WktrlgeVpL+10dfiA
- SX9NKFcUa2OsSew720RPolE=
-X-Google-Smtp-Source: AGRyM1sDqaxUjOxycYEtbwq1Ex8BKWoVp8MOlaonMrsYJUmw4kaUlDHoGWM5eaPeI3oD5KxYfZZ3kw==
-X-Received: by 2002:a17:903:2cb:b0:14f:4fb6:2fb0 with SMTP id
- s11-20020a17090302cb00b0014f4fb62fb0mr34909989plk.172.1656913241310; 
- Sun, 03 Jul 2022 22:40:41 -0700 (PDT)
+ bh=o0IdJl7Hsjvbe7x+uEA8vR6YW41+zDyWjgNTqfni6nw=;
+ b=Sy8pbceSIgnEMBsdbccTOO0ASCY5ska18QkTmQvFBV86mWqLCJpkiL0I+9jO5+uYHR
+ h4CuvqPJBmpXCQg0MIiwhY+9jATcLnR+Wwp29LM+OFbGt1Mg+jL16X8TL6Gm3CI0yZ+Z
+ dGFvf6JgE3Uhi8ZlvzuFm44OtSCk4MOfsLkhup3FfFBmcgwzVrRnnqZ9fIwp22ouy2pt
+ e2tvfbT/VIbHvOjycs/ZiMbagBw5erAbarsnLPf4S9LoU0OYUTjxTNVFI+fPup14BwNt
+ 69TVL3LKMals8/jk2uYTte+dsJv5KcE8hblo9jZiC9OeRWLN3AiNYGvh3pnrrFiVDm/O
+ 21Gg==
+X-Gm-Message-State: AJIora8asdz+lu1Z9jzPZWPXSImV8zJY9M8N05Z3FJR9aZ4PucTDHde8
+ OfhyKmz6tfOAcgF/8A+9ej8=
+X-Google-Smtp-Source: AGRyM1tEWuArdnts4GgrQly2CxPwSTG3rl/8eoq9OxTRn7WyibWYuu/FcV3qdjvkun7iIkUL+2WZDQ==
+X-Received: by 2002:a17:90a:6809:b0:1ec:c213:56c8 with SMTP id
+ p9-20020a17090a680900b001ecc21356c8mr34472043pjj.82.1656913247276; 
+ Sun, 03 Jul 2022 22:40:47 -0700 (PDT)
 Received: from RD-3580-24288.rt.l (42-72-4-255.emome-ip.hinet.net.
  [42.72.4.255]) by smtp.gmail.com with ESMTPSA id
- h24-20020a635318000000b0040dffa7e3d7sm13904507pgb.16.2022.07.03.22.40.35
+ h24-20020a635318000000b0040dffa7e3d7sm13904507pgb.16.2022.07.03.22.40.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 22:40:40 -0700 (PDT)
+ Sun, 03 Jul 2022 22:40:46 -0700 (PDT)
 From: ChiaEn Wu <peterwu.pub@gmail.com>
 To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -55,10 +55,9 @@ To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
  lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
  heikki.krogerus@linux.intel.com, deller@gmx.de
-Subject: [PATCH v4 12/13] leds: flashlight: mt6370: Add Mediatek MT6370
- flashlight support
-Date: Mon,  4 Jul 2022 13:39:00 +0800
-Message-Id: <20220704053901.728-13-peterwu.pub@gmail.com>
+Subject: [PATCH v4 13/13] video: backlight: mt6370: Add Mediatek MT6370 support
+Date: Mon,  4 Jul 2022 13:39:01 +0800
+Message-Id: <20220704053901.728-14-peterwu.pub@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220704053901.728-1-peterwu.pub@gmail.com>
 References: <20220704053901.728-1-peterwu.pub@gmail.com>
@@ -86,720 +85,416 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alice Chen <alice_chen@richtek.com>
+From: ChiaEn Wu <chiaen_wu@richtek.com>
 
-Add Mediatek MT6370 flashlight support.
+Add Mediatek MT6370 Backlight support.
 
-Signed-off-by: Alice Chen <alice_chen@richtek.com>
+Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
 ---
 
 v4:
 - Replace text "Mediatek" with "MediaTek" in Kconfig
 - Add Copyright in the source code
+- Revise the comment of "PWM HYS STEPS"
 ---
- drivers/leds/flash/Kconfig             |  12 +
- drivers/leds/flash/Makefile            |   1 +
- drivers/leds/flash/leds-mt6370-flash.c | 662 +++++++++++++++++++++++++++++++++
- 3 files changed, 675 insertions(+)
- create mode 100644 drivers/leds/flash/leds-mt6370-flash.c
+ drivers/video/backlight/Kconfig            |  12 +
+ drivers/video/backlight/Makefile           |   1 +
+ drivers/video/backlight/mt6370-backlight.c | 352 +++++++++++++++++++++++++++++
+ 3 files changed, 365 insertions(+)
+ create mode 100644 drivers/video/backlight/mt6370-backlight.c
 
-diff --git a/drivers/leds/flash/Kconfig b/drivers/leds/flash/Kconfig
-index d3eb689..cd366e8 100644
---- a/drivers/leds/flash/Kconfig
-+++ b/drivers/leds/flash/Kconfig
-@@ -90,4 +90,16 @@ config LEDS_SGM3140
- 	  This option enables support for the SGM3140 500mA Buck/Boost Charge
- 	  Pump LED Driver.
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index a003e02..099b0d0 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -268,6 +268,18 @@ config BACKLIGHT_MAX8925
+ 	  If you have a LCD backlight connected to the WLED output of MAX8925
+ 	  WLED output, say Y here to enable this driver.
  
-+config LEDS_MT6370_FLASHLIGHT
-+	tristate "Flash LED Support for MediaTek MT6370 PMIC"
-+	depends on LEDS_CLASS
++config BACKLIGHT_MT6370
++	tristate "MediaTek MT6370 Backlight Driver"
 +	depends on MFD_MT6370
 +	help
-+	  Support 2 channels and torch/strobe mode.
-+	  Say Y here to enable support for
-+	  MT6370_FLASH_LED device.
++	  This enables support for Mediatek MT6370 Backlight driver.
++	  It's commonly used to drive the display WLED. There are 4 channels
++	  inside, and each channel supports up to 30mA of current capability
++	  with 2048 current steps in exponential or linear mapping curves.
 +
 +	  This driver can also be built as a module. If so the module
-+	  will be called "leds-mt6370-flash.ko".
++	  will be called "mt6370-backlight.ko".
 +
- endif # LEDS_CLASS_FLASH
-diff --git a/drivers/leds/flash/Makefile b/drivers/leds/flash/Makefile
-index 0acbddc..4c4c171 100644
---- a/drivers/leds/flash/Makefile
-+++ b/drivers/leds/flash/Makefile
-@@ -9,3 +9,4 @@ obj-$(CONFIG_LEDS_MAX77693)	+= leds-max77693.o
- obj-$(CONFIG_LEDS_RT4505)	+= leds-rt4505.o
- obj-$(CONFIG_LEDS_RT8515)	+= leds-rt8515.o
- obj-$(CONFIG_LEDS_SGM3140)	+= leds-sgm3140.o
-+obj-$(CONFIG_LEDS_MT6370_FLASHLIGHT)	+= leds-mt6370-flash.o
-diff --git a/drivers/leds/flash/leds-mt6370-flash.c b/drivers/leds/flash/leds-mt6370-flash.c
+ config BACKLIGHT_APPLE
+ 	tristate "Apple Backlight Driver"
+ 	depends on X86 && ACPI
+diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+index cae2c83..e815f3f 100644
+--- a/drivers/video/backlight/Makefile
++++ b/drivers/video/backlight/Makefile
+@@ -44,6 +44,7 @@ obj-$(CONFIG_BACKLIGHT_LP855X)		+= lp855x_bl.o
+ obj-$(CONFIG_BACKLIGHT_LP8788)		+= lp8788_bl.o
+ obj-$(CONFIG_BACKLIGHT_LV5207LP)	+= lv5207lp.o
+ obj-$(CONFIG_BACKLIGHT_MAX8925)		+= max8925_bl.o
++obj-$(CONFIG_BACKLIGHT_MT6370)		+= mt6370-backlight.o
+ obj-$(CONFIG_BACKLIGHT_OMAP1)		+= omap1_bl.o
+ obj-$(CONFIG_BACKLIGHT_PANDORA)		+= pandora_bl.o
+ obj-$(CONFIG_BACKLIGHT_PCF50633)	+= pcf50633-backlight.o
+diff --git a/drivers/video/backlight/mt6370-backlight.c b/drivers/video/backlight/mt6370-backlight.c
 new file mode 100644
-index 0000000..d988977
+index 0000000..655f585
 --- /dev/null
-+++ b/drivers/leds/flash/leds-mt6370-flash.c
-@@ -0,0 +1,662 @@
++++ b/drivers/video/backlight/mt6370-backlight.c
+@@ -0,0 +1,352 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2022 Richtek Technology Corp.
 + *
-+ * Author: Alice Chen <alice_chen@richtek.com
++ * Author: ChiaEn Wu <chiaen_wu@richtek.com>
 + */
 +
-+#include <linux/bitops.h>
-+#include <linux/delay.h>
-+#include <linux/init.h>
-+#include <linux/interrupt.h>
++#include <linux/backlight.h>
++#include <linux/bitfield.h>
++#include <linux/bits.h>
++#include <linux/gpio/consumer.h>
++#include <linux/gpio/driver.h>
 +#include <linux/kernel.h>
-+#include <linux/led-class-flash.h>
++#include <linux/log2.h>
++#include <linux/minmax.h>
 +#include <linux/module.h>
-+#include <linux/mutex.h>
++#include <linux/of.h>
 +#include <linux/platform_device.h>
-+#include <linux/property.h>
 +#include <linux/regmap.h>
 +
-+#include <media/v4l2-flash-led-class.h>
++#define MT6370_REG_DEV_INFO		0x100
++#define MT6370_REG_BL_EN		0x1A0
++#define MT6370_REG_BL_BSTCTRL		0x1A1
++#define MT6370_REG_BL_PWM		0x1A2
++#define MT6370_REG_BL_DIM2		0x1A4
++
++#define MT6370_VENID_MASK		GENMASK(7, 4)
++#define MT6370_BL_EXT_EN_MASK		BIT(7)
++#define MT6370_BL_EN_MASK		BIT(6)
++#define MT6370_BL_CONFIG_MASK		BIT(0)
++#define MT6370_BL_CH_MASK		GENMASK(5, 2)
++#define MT6370_BL_DIM2_MASK		GENMASK(2, 0)
++#define MT6370_BL_DUMMY_6372_MASK	GENMASK(2, 0)
++#define MT6370_BL_DIM2_6372_SHIFT	3
++#define MT6370_BL_PWM_EN_MASK		BIT(7)
++#define MT6370_BL_PWM_HYS_EN_MASK	BIT(2)
++#define MT6370_BL_PWM_HYS_SEL_MASK	GENMASK(1, 0)
++#define MT6370_BL_OVP_EN_MASK		BIT(7)
++#define MT6370_BL_OVP_SEL_MASK		GENMASK(6, 5)
++#define MT6370_BL_OC_EN_MASK		BIT(3)
++#define MT6370_BL_OC_SEL_MASK		GENMASK(2, 1)
++
++#define MT6370_BL_PWM_HYS_TH_MIN_STEP	1
++#define MT6370_BL_PWM_HYS_TH_MAX_STEP	64
++#define MT6370_BL_OVP_MIN_UV		17000000
++#define MT6370_BL_OVP_MAX_UV		29000000
++#define MT6370_BL_OVP_STEP_UV		4000000
++#define MT6370_BL_OCP_MIN_UA		900000
++#define MT6370_BL_OCP_MAX_UA		1800000
++#define MT6370_BL_OCP_STEP_UA		300000
++#define MT6370_BL_MAX_BRIGHTNESS	2048
++#define MT6370_BL_MAX_CH		15
 +
 +enum {
-+	MT6370_LED_FLASH1,
-+	MT6370_LED_FLASH2,
-+	MT6370_MAX_LEDS
-+};
-+
-+/* Virtual definition for multicolor */
-+
-+#define MT6370_REG_FLEDEN		0x17E
-+#define MT6370_REG_STRBTO		0x173
-+#define MT6370_REG_CHGSTAT2		0x1D1
-+#define MT6370_REG_FLEDSTAT1		0x1D9
-+#define	MT6370_REG_FLEDISTRB(_id)	(0x174 + 4 * _id)
-+#define MT6370_REG_FLEDITOR(_id)	(0x175 + 4 * _id)
-+#define MT6370_ITORCH_MASK		GENMASK(4, 0)
-+#define MT6370_ISTROBE_MASK		GENMASK(6, 0)
-+#define MT6370_STRBTO_MASK		GENMASK(6, 0)
-+#define MT6370_TORCHEN_MASK		BIT(3)
-+#define MT6370_STROBEN_MASK		BIT(2)
-+#define MT6370_FLCSEN_MASK(_id)		BIT(MT6370_LED_FLASH2 - _id)
-+#define MT6370_FLCSEN_MASK_ALL		(BIT(0) | BIT(1))
-+#define MT6370_FLEDCHGVINOVP_MASK	BIT(3)
-+#define MT6370_FLED1STRBTO_MASK		BIT(11)
-+#define MT6370_FLED2STRBTO_MASK		BIT(10)
-+#define MT6370_FLED1STRB_MASK		BIT(9)
-+#define MT6370_FLED2STRB_MASK		BIT(8)
-+#define MT6370_FLED1SHORT_MASK		BIT(7)
-+#define MT6370_FLED2SHORT_MASK		BIT(6)
-+#define MT6370_FLEDLVF_MASK		BIT(3)
-+
-+#define MT6370_LED_JOINT		2
-+#define MT6370_RANGE_FLED_REG		4
-+#define MT6370_ITORCH_MINUA		25000
-+#define MT6370_ITORCH_STEPUA		12500
-+#define MT6370_ITORCH_MAXUA		400000
-+#define MT6370_ITORCH_DOUBLE_MAXUA	800000
-+#define MT6370_ISTRB_MINUA		50000
-+#define MT6370_ISTRB_STEPUA		12500
-+#define MT6370_ISTRB_MAXUA		1500000
-+#define MT6370_ISTRB_DOUBLE_MAXUA	3000000
-+#define MT6370_STRBTO_MINUS		64000
-+#define MT6370_STRBTO_STEPUS		32000
-+#define MT6370_STRBTO_MAXUS		2432000
-+
-+#define STATE_OFF			0
-+#define STATE_KEEP			1
-+#define STATE_ON			2
-+
-+#define to_mt6370_led(ptr, member) container_of(ptr, struct mt6370_led, member)
-+
-+struct mt6370_led {
-+	struct led_classdev_flash flash;
-+	struct v4l2_flash *v4l2_flash;
-+	struct mt6370_priv *priv;
-+	u32 led_no;
-+	u32 default_state;
++	MT6370_VID_COMMON = 0,
++	MT6370_VID_6372,
 +};
 +
 +struct mt6370_priv {
++	int vid_type;
++	struct backlight_device *bl;
 +	struct device *dev;
++	struct gpio_desc *enable_gpio;
 +	struct regmap *regmap;
-+	struct mutex lock;
-+	unsigned int fled_strobe_used;
-+	unsigned int fled_torch_used;
-+	unsigned int leds_active;
-+	unsigned int leds_count;
-+	struct mt6370_led leds[];
 +};
 +
-+static int mt6370_torch_brightness_set(struct led_classdev *lcdev,
-+				       enum led_brightness level)
++static int mt6370_bl_update_status(struct backlight_device *bl_dev)
 +{
-+	struct mt6370_led *led = to_mt6370_led(lcdev, flash.led_cdev);
-+	struct mt6370_priv *priv = led->priv;
-+	u32 led_enable_mask = (led->led_no == MT6370_LED_JOINT) ?
-+			      MT6370_FLCSEN_MASK_ALL :
-+			      MT6370_FLCSEN_MASK(led->led_no);
-+	u32 enable_mask = MT6370_TORCHEN_MASK | led_enable_mask;
-+	u32 val = level ? led_enable_mask : 0;
-+	u32 prev = priv->fled_torch_used, curr;
-+	int ret, i;
++	struct mt6370_priv *priv = bl_get_data(bl_dev);
++	int brightness = backlight_get_brightness(bl_dev);
++	unsigned int enable_val;
++	u8 brightness_val[2];
++	int ret;
 +
-+	mutex_lock(&priv->lock);
++	if (brightness) {
++		brightness_val[0] = (brightness - 1) & MT6370_BL_DIM2_MASK;
++		brightness_val[1] = (brightness - 1)
++				    >> fls(MT6370_BL_DIM2_MASK);
 +
-+	/*
-+	 * Only one set of flash control logic,
-+	 * use the flag to avoid strobe is currently used.
-+	 */
-+	if (priv->fled_strobe_used) {
-+		dev_warn(lcdev->dev, "Please disable strobe first [%d]\n",
-+			 priv->fled_strobe_used);
-+		ret = -EBUSY;
-+		goto unlock;
-+	}
-+
-+	if (level)
-+		curr = prev | BIT(led->led_no);
-+	else
-+		curr = prev & ~BIT(led->led_no);
-+
-+	if (curr)
-+		val |= MT6370_TORCHEN_MASK;
-+
-+
-+	if (level) {
-+		level -= 1;
-+		if (led->led_no == MT6370_LED_JOINT) {
-+			int flevel[MT6370_MAX_LEDS];
-+
-+			flevel[0] = level / 2;
-+			flevel[1] = level - flevel[0];
-+			for (i = 0; i < MT6370_MAX_LEDS; i++) {
-+				ret = regmap_update_bits(priv->regmap,
-+						MT6370_REG_FLEDITOR(i),
-+						MT6370_ITORCH_MASK, flevel[i]);
-+				if (ret)
-+					goto unlock;
-+			}
-+		} else {
-+			ret = regmap_update_bits(priv->regmap,
-+					MT6370_REG_FLEDITOR(led->led_no),
-+					MT6370_ITORCH_MASK, level);
-+			if (ret)
-+				goto unlock;
++		/*
++		 * To make MT6372 using 14 bits to control the brightness
++		 * backward compatible with 11 bits brightness control
++		 * (like MT6370 and MT6371 do), we left shift the value
++		 * and pad with 1 to remaining bits. Hence, the MT6372's
++		 * backlight brightness will be almost the same as MT6370's
++		 * and MT6371's.
++		 */
++		if (priv->vid_type == MT6370_VID_6372) {
++			brightness_val[0] <<= MT6370_BL_DIM2_6372_SHIFT;
++			brightness_val[0] |= MT6370_BL_DUMMY_6372_MASK;
 +		}
-+	}
 +
-+	ret = regmap_update_bits(priv->regmap, MT6370_REG_FLEDEN,
-+				 enable_mask, val);
-+	if (ret)
-+		goto unlock;
-+
-+	priv->fled_torch_used = curr;
-+
-+unlock:
-+	mutex_unlock(&priv->lock);
-+	return ret;
-+}
-+
-+static int mt6370_flash_brightness_set(struct led_classdev_flash *fl_cdev,
-+				       u32 brightness)
-+{
-+	/*
-+	 * Due to the current spike when turning on flash,
-+	 * let brightness to be kept by framework.
-+	 * This empty function is used to
-+	 * prevent led_classdev_flash register ops check failure.
-+	 */
-+	return 0;
-+}
-+
-+static int _mt6370_flash_brightness_set(struct led_classdev_flash *fl_cdev,
-+					u32 brightness)
-+{
-+	struct mt6370_led *led = to_mt6370_led(fl_cdev, flash);
-+	struct mt6370_priv *priv = led->priv;
-+	struct led_flash_setting *s = &fl_cdev->brightness;
-+	u32 val = (brightness - s->min) / s->step;
-+	int ret, i;
-+
-+	if (led->led_no == MT6370_LED_JOINT) {
-+		int flevel[MT6370_MAX_LEDS];
-+
-+		flevel[0] = val / 2;
-+		flevel[1] = val - flevel[0];
-+		for (i = 0; i < MT6370_MAX_LEDS; i++) {
-+			ret = regmap_update_bits(priv->regmap,
-+						MT6370_REG_FLEDISTRB(i),
-+						MT6370_ISTROBE_MASK, flevel[i]);
-+			if (ret)
-+				return ret;
-+		}
-+	} else {
-+		ret = regmap_update_bits(priv->regmap,
-+					 MT6370_REG_FLEDISTRB(led->led_no),
-+					 MT6370_ISTROBE_MASK, val);
++		ret = regmap_raw_write(priv->regmap, MT6370_REG_BL_DIM2,
++				       brightness_val, sizeof(brightness_val));
 +		if (ret)
 +			return ret;
 +	}
-+	return ret;
++
++	if (priv->enable_gpio)
++		gpiod_set_value(priv->enable_gpio, brightness ? 1 : 0);
++
++	enable_val = brightness ? MT6370_BL_EN_MASK : 0;
++	return regmap_update_bits(priv->regmap, MT6370_REG_BL_EN,
++				  MT6370_BL_EN_MASK, enable_val);
 +}
 +
-+static int mt6370_strobe_set(struct led_classdev_flash *fl_cdev, bool state)
++static int mt6370_bl_get_brightness(struct backlight_device *bl_dev)
 +{
-+	struct mt6370_led *led = to_mt6370_led(fl_cdev, flash);
-+	struct mt6370_priv *priv = led->priv;
-+	struct led_classdev *lcdev = &fl_cdev->led_cdev;
-+	struct led_flash_setting *s = &fl_cdev->brightness;
-+	u32 led_enable_mask = (led->led_no == MT6370_LED_JOINT) ?
-+			      MT6370_FLCSEN_MASK_ALL :
-+			      MT6370_FLCSEN_MASK(led->led_no);
-+	u32 enable_mask = MT6370_STROBEN_MASK | led_enable_mask;
-+	u32 val = state ? led_enable_mask : 0;
-+	u32 prev = priv->fled_strobe_used, curr;
-+	int ret;
++	struct mt6370_priv *priv = bl_get_data(bl_dev);
++	unsigned int enable;
++	u8 brightness_val[2];
++	int brightness, ret;
 +
-+	mutex_lock(&priv->lock);
-+
-+	/*
-+	 * Only one set of flash control logic,
-+	 * use the flag to avoid torch is currently used
-+	 */
-+	if (priv->fled_torch_used) {
-+		dev_warn(lcdev->dev, "Please disable torch first [0x%x]\n",
-+				      priv->fled_torch_used);
-+		ret = -EBUSY;
-+		goto unlock;
-+	}
-+
-+	if (state)
-+		curr = prev | BIT(led->led_no);
-+	else
-+		curr = prev & ~BIT(led->led_no);
-+
-+	if (curr)
-+		val |= MT6370_STROBEN_MASK;
-+
-+	ret = regmap_update_bits(priv->regmap, MT6370_REG_FLEDEN, enable_mask,
-+				 val);
-+	if (ret) {
-+		dev_err(lcdev->dev, "[%d] control current source %d fail\n",
-+				     led->led_no, state);
-+		goto unlock;
-+	}
-+
-+	/*
-+	 * If the flash need to be on,
-+	 * config the flash current ramping up to the setting value
-+	 * Else, always recover back to the minimum one
-+	 */
-+	ret = _mt6370_flash_brightness_set(fl_cdev, state ? s->val : s->min);
++	ret = regmap_read(priv->regmap, MT6370_REG_BL_EN, &enable);
 +	if (ret)
-+		goto unlock;
++		return ret;
 +
-+	/*
-+	 * For the flash turn on/off, HW ramping up/down time is 5ms/500us
-+	 * respectively.
-+	 */
-+	if (!prev && curr)
-+		usleep_range(5000, 6000);
-+	else if (prev && !curr)
-+		udelay(500);
++	if (!(enable & MT6370_BL_EN_MASK))
++		return 0;
 +
-+	priv->fled_strobe_used = curr;
-+
-+unlock:
-+	mutex_unlock(&priv->lock);
-+	return ret;
-+}
-+
-+static int mt6370_strobe_get(struct led_classdev_flash *fl_cdev, bool *state)
-+{
-+	struct mt6370_led *led = to_mt6370_led(fl_cdev, flash);
-+	struct mt6370_priv *priv = led->priv;
-+
-+	mutex_lock(&priv->lock);
-+	*state = !!(priv->fled_strobe_used & BIT(led->led_no));
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static int mt6370_timeout_set(struct led_classdev_flash *fl_cdev, u32 timeout)
-+{
-+	struct mt6370_led *led = to_mt6370_led(fl_cdev, flash);
-+	struct mt6370_priv *priv = led->priv;
-+	struct led_flash_setting *s = &fl_cdev->timeout;
-+	u32 val = (timeout - s->min) / s->step;
-+	int ret;
-+
-+	mutex_lock(&priv->lock);
-+	ret = regmap_update_bits(priv->regmap, MT6370_REG_STRBTO,
-+				 MT6370_STRBTO_MASK, val);
-+	mutex_unlock(&priv->lock);
-+
-+	return ret;
-+}
-+
-+static int mt6370_fault_get(struct led_classdev_flash *fl_cdev, u32 *fault)
-+{
-+	struct mt6370_led *led = to_mt6370_led(fl_cdev, flash);
-+	struct mt6370_priv *priv = led->priv;
-+	u16 fled_stat;
-+	unsigned int chg_stat, strobe_timeout_mask, fled_short_mask;
-+	u32 rfault = 0;
-+	int ret;
-+
-+	mutex_lock(&priv->lock);
-+	ret = regmap_read(priv->regmap, MT6370_REG_CHGSTAT2, &chg_stat);
++	ret = regmap_raw_read(priv->regmap, MT6370_REG_BL_DIM2,
++			      brightness_val, sizeof(brightness_val));
 +	if (ret)
-+		goto unlock;
++		return ret;
 +
-+	ret = regmap_raw_read(priv->regmap, MT6370_REG_FLEDSTAT1, &fled_stat,
-+			      sizeof(fled_stat));
-+	if (ret)
-+		goto unlock;
++	if (priv->vid_type == MT6370_VID_6372)
++		brightness_val[0] >>= MT6370_BL_DIM2_6372_SHIFT;
 +
-+	switch (led->led_no) {
-+	case MT6370_LED_FLASH1:
-+		strobe_timeout_mask = MT6370_FLED1STRBTO_MASK;
-+		fled_short_mask = MT6370_FLED1SHORT_MASK;
-+		break;
++	brightness = brightness_val[1] << fls(MT6370_BL_DIM2_MASK);
++	brightness += (brightness_val[0] & MT6370_BL_DIM2_MASK);
 +
-+	case MT6370_LED_FLASH2:
-+		strobe_timeout_mask = MT6370_FLED2STRBTO_MASK;
-+		fled_short_mask = MT6370_FLED2SHORT_MASK;
-+		break;
-+
-+	case MT6370_LED_JOINT:
-+		strobe_timeout_mask = MT6370_FLED1STRBTO_MASK |
-+				      MT6370_FLED2STRBTO_MASK;
-+		fled_short_mask = MT6370_FLED1SHORT_MASK |
-+				  MT6370_FLED2SHORT_MASK;
-+	}
-+
-+	if (chg_stat & MT6370_FLEDCHGVINOVP_MASK)
-+		rfault |= LED_FAULT_INPUT_VOLTAGE;
-+
-+	if (fled_stat & strobe_timeout_mask)
-+		rfault |= LED_FAULT_TIMEOUT;
-+
-+	if (fled_stat & fled_short_mask)
-+		rfault |= LED_FAULT_SHORT_CIRCUIT;
-+
-+	if (fled_stat & MT6370_FLEDLVF_MASK)
-+		rfault |= LED_FAULT_UNDER_VOLTAGE;
-+
-+	*fault = rfault;
-+unlock:
-+	mutex_unlock(&priv->lock);
-+	return ret;
++	return brightness + 1;
 +}
 +
-+static const struct led_flash_ops mt6370_flash_ops = {
-+	.flash_brightness_set = mt6370_flash_brightness_set,
-+	.strobe_set = mt6370_strobe_set,
-+	.strobe_get = mt6370_strobe_get,
-+	.timeout_set = mt6370_timeout_set,
-+	.fault_get = mt6370_fault_get,
++static const struct backlight_ops mt6370_bl_ops = {
++	.options = BL_CORE_SUSPENDRESUME,
++	.update_status = mt6370_bl_update_status,
++	.get_brightness = mt6370_bl_get_brightness,
 +};
 +
-+#if IS_ENABLED(CONFIG_V4L2_FLASH_LED_CLASS)
-+static int mt6370_flash_external_strobe_set(struct v4l2_flash *v4l2_flash,
-+					    bool enable)
++static int mt6370_init_backlight_properties(struct mt6370_priv *priv,
++					    struct backlight_properties *props)
 +{
-+	struct led_classdev_flash *flash = v4l2_flash->fled_cdev;
-+	struct mt6370_led *led = to_mt6370_led(flash, flash);
-+	struct mt6370_priv *priv = led->priv;
-+	u32 mask = (led->led_no == MT6370_LED_JOINT) ? MT6370_FLCSEN_MASK_ALL :
-+		   MT6370_FLCSEN_MASK(led->led_no);
-+	u32 val = enable ? mask : 0;
++	struct device *dev = priv->dev;
++	u8 prop_val;
++	u32 brightness, ovp_uV, ocp_uA;
++	unsigned int mask, val;
 +	int ret;
 +
-+	mutex_lock(&priv->lock);
-+	ret = regmap_update_bits(priv->regmap, MT6370_REG_FLEDEN, mask, val);
++	/* Vendor optional properties */
++	val = 0;
++	if (device_property_read_bool(dev, "mediatek,bled-pwm-enable"))
++		val |= MT6370_BL_PWM_EN_MASK;
++
++	if (device_property_read_bool(dev, "mediatek,bled-pwm-hys-enable"))
++		val |= MT6370_BL_PWM_HYS_EN_MASK;
++
++	ret = device_property_read_u8(dev,
++				      "mediatek,bled-pwm-hys-input-th-steps",
++				      &prop_val);
++	if (!ret) {
++		prop_val = clamp_val(prop_val,
++				     MT6370_BL_PWM_HYS_TH_MIN_STEP,
++				     MT6370_BL_PWM_HYS_TH_MAX_STEP);
++		/*
++		 * prop_val =  1      -->  1 steps --> 0x00
++		 * prop_val =  2 ~  4 -->  4 steps --> 0x01
++		 * prop_val =  5 ~ 16 --> 16 steps --> 0x10
++		 * prop_val = 17 ~ 64 --> 64 steps --> 0x11
++		 */
++		prop_val = (ilog2(roundup_pow_of_two(prop_val)) + 1) >> 1;
++		val |= prop_val << (ffs(MT6370_BL_PWM_HYS_SEL_MASK) - 1);
++	}
++
++	ret = regmap_update_bits(priv->regmap, MT6370_REG_BL_PWM,
++				 val, val);
 +	if (ret)
-+		goto unlock;
++		return ret;
 +
-+	if (enable)
-+		priv->fled_strobe_used |= BIT(led->led_no);
-+	else
-+		priv->fled_strobe_used &= ~BIT(led->led_no);
++	val = 0;
++	if (device_property_read_bool(dev, "mediatek,bled-ovp-shutdown"))
++		val |= MT6370_BL_OVP_EN_MASK;
 +
-+unlock:
-+	mutex_unlock(&priv->lock);
-+	return ret;
-+}
++	ret = device_property_read_u32(dev, "mediatek,bled-ovp-microvolt",
++				       &ovp_uV);
++	if (!ret) {
++		ovp_uV = clamp_val(ovp_uV, MT6370_BL_OVP_MIN_UV,
++				   MT6370_BL_OVP_MAX_UV);
++		ovp_uV = DIV_ROUND_UP(ovp_uV - MT6370_BL_OVP_MIN_UV,
++				      MT6370_BL_OVP_STEP_UV);
++		val |= ovp_uV << (ffs(MT6370_BL_OVP_SEL_MASK) - 1);
++	}
 +
-+static const struct v4l2_flash_ops v4l2_flash_ops = {
-+	.external_strobe_set = mt6370_flash_external_strobe_set,
-+};
++	if (device_property_read_bool(dev, "mediatek,bled-ocp-shutdown"))
++		val |= MT6370_BL_OC_EN_MASK;
 +
-+static void mt6370_init_v4l2_flash_config(struct mt6370_led *led,
-+					  struct v4l2_flash_config *config)
-+{
-+	struct led_classdev *lcdev;
-+	struct led_flash_setting *s = &config->intensity;
++	ret = device_property_read_u32(dev, "mediatek,bled-ocp-microamp",
++				       &ocp_uA);
++	if (!ret) {
++		ocp_uA = clamp_val(ocp_uA, MT6370_BL_OCP_MIN_UA,
++				   MT6370_BL_OCP_MAX_UA);
++		ocp_uA = DIV_ROUND_UP(ocp_uA - MT6370_BL_OCP_MIN_UA,
++				      MT6370_BL_OCP_STEP_UA);
++		val |= ocp_uA << (ffs(MT6370_BL_OC_SEL_MASK) - 1);
++	}
 +
-+	lcdev = &led->flash.led_cdev;
++	ret = regmap_update_bits(priv->regmap, MT6370_REG_BL_BSTCTRL,
++				 val, val);
++	if (ret)
++		return ret;
 +
-+	s->min = MT6370_ITORCH_MINUA;
-+	s->step = MT6370_ITORCH_STEPUA;
-+	s->val = s->max = s->min + (lcdev->max_brightness - 1) * s->step;
++	/* Common properties */
++	ret = device_property_read_u32(dev, "max-brightness", &brightness);
++	if (ret)
++		brightness = MT6370_BL_MAX_BRIGHTNESS;
 +
-+	config->has_external_strobe = 1;
-+	strscpy(config->dev_name, lcdev->dev->kobj.name,
-+		sizeof(config->dev_name));
++	props->max_brightness = min_t(u32, brightness,
++				      MT6370_BL_MAX_BRIGHTNESS);
 +
-+	config->flash_faults = LED_FAULT_SHORT_CIRCUIT | LED_FAULT_TIMEOUT |
-+			       LED_FAULT_INPUT_VOLTAGE |
-+			       LED_FAULT_UNDER_VOLTAGE;
-+}
-+#else
-+static const struct v4l2_flash_ops v4l2_flash_ops;
-+static void mt6370_init_v4l2_flash_config(struct mt6370_led *led,
-+					  struct v4l2_flash_config *config)
-+{
-+}
-+#endif
++	ret = device_property_read_u32(dev, "default-brightness", &brightness);
++	if (ret)
++		brightness = props->max_brightness;
 +
-+static int mt6370_led_register(struct device *parent, struct mt6370_led *led,
-+				struct led_init_data *init_data)
-+{
-+	struct v4l2_flash_config v4l2_config = {0};
-+	int ret;
++	props->brightness = min_t(u32, brightness, props->max_brightness);
 +
-+	ret = devm_led_classdev_flash_register_ext(parent, &led->flash,
-+						   init_data);
++	val = 0;
++	prop_val = 0;
++	ret = device_property_read_u8(dev, "mediatek,bled-channel-use",
++				      &prop_val);
 +	if (ret) {
-+		dev_err(parent, "Couldn't register flash %d\n", led->led_no);
++		dev_err(dev, "mediatek,bled-channel-use DT property missing\n");
 +		return ret;
 +	}
 +
-+	mt6370_init_v4l2_flash_config(led, &v4l2_config);
-+	led->v4l2_flash = v4l2_flash_init(parent, init_data->fwnode,
-+					  &led->flash, &v4l2_flash_ops,
-+					  &v4l2_config);
-+	if (IS_ERR(led->v4l2_flash)) {
-+		dev_err(parent, "Failed to register %d v4l2 sd\n", led->led_no);
-+		return PTR_ERR(led->v4l2_flash);
-+	}
-+
-+	return 0;
-+}
-+
-+static u32 clamp_align(u32 val, u32 min, u32 max, u32 step)
-+{
-+	u32 retval;
-+
-+	retval = clamp_val(val, min, max);
-+	if (step > 1)
-+		retval = rounddown(retval - min, step) + min;
-+
-+	return retval;
-+}
-+
-+static int mt6370_init_flash_properties(struct mt6370_led *led,
-+					struct led_init_data *init_data)
-+{
-+	struct led_classdev_flash *flash = &led->flash;
-+	struct led_classdev *lcdev = &flash->led_cdev;
-+	struct mt6370_priv *priv = led->priv;
-+	struct led_flash_setting *s;
-+	u32 sources[MT6370_MAX_LEDS];
-+	u32 max_uA, val;
-+	int i, ret, num;
-+
-+	num = fwnode_property_count_u32(init_data->fwnode, "led-sources");
-+	if (num < 1 || num > MT6370_MAX_LEDS) {
-+		dev_err(priv->dev,
-+			"Not specified or wrong number of led-sources\n");
++	if (!prop_val || prop_val > MT6370_BL_MAX_CH) {
++		dev_err(dev,
++			"No channel specified or over than upper bound (%d)\n",
++			prop_val);
 +		return -EINVAL;
 +	}
 +
-+	ret = fwnode_property_read_u32_array(init_data->fwnode,
-+					     "led-sources", sources, num);
-+	if (ret)
-+		return ret;
++	mask = MT6370_BL_EXT_EN_MASK | MT6370_BL_CH_MASK;
++	val = prop_val << (ffs(MT6370_BL_CH_MASK) - 1);
 +
-+	for (i = 0; i < num; i++) {
-+		if (sources[i] >= MT6370_MAX_LEDS)
-+			return -EINVAL;
-+		if (priv->leds_active & BIT(sources[i]))
-+			return -EINVAL;
-+		priv->leds_active |= BIT(sources[i]);
++	if (priv->enable_gpio)
++		val |= MT6370_BL_EXT_EN_MASK;
 +
-+	}
-+	led->led_no = (num == MT6370_MAX_LEDS) ? MT6370_LED_JOINT :
-+		       sources[0];
-+
-+	max_uA = (num == 2) ? MT6370_ITORCH_DOUBLE_MAXUA : MT6370_ITORCH_MAXUA;
-+	ret = fwnode_property_read_u32(init_data->fwnode, "led-max-microamp",
-+				       &val);
-+	if (ret) {
-+		dev_warn(priv->dev,
-+		     "Not specified led-max-microamp, config to the minimum\n");
-+		val = MT6370_ITORCH_MINUA;
-+	} else
-+		val = clamp_align(val, MT6370_ITORCH_MINUA, max_uA,
-+				  MT6370_ITORCH_STEPUA);
-+
-+	lcdev->max_brightness = (val - MT6370_ITORCH_MINUA) /
-+				MT6370_ITORCH_STEPUA + 1;
-+	lcdev->brightness_set_blocking = mt6370_torch_brightness_set;
-+	lcdev->flags |= LED_DEV_CAP_FLASH;
-+
-+	max_uA = (num == 2) ? MT6370_ISTRB_DOUBLE_MAXUA : MT6370_ISTRB_MAXUA;
-+	ret = fwnode_property_read_u32(init_data->fwnode, "flash-max-microamp",
-+				       &val);
-+	if (ret) {
-+		dev_warn(priv->dev,
-+		   "Not specified flash-max-microamp, config to the minimum\n");
-+		val = MT6370_ISTRB_MINUA;
-+	} else
-+		val = clamp_align(val, MT6370_ISTRB_MINUA, max_uA,
-+				  MT6370_ISTRB_STEPUA);
-+
-+	s = &flash->brightness;
-+	s->min = MT6370_ISTRB_MINUA;
-+	s->step = MT6370_ISTRB_STEPUA;
-+	s->val = s->max = val;
-+
-+	/*
-+	 * Always configure as min level when off to
-+	 * prevent flash current spike
-+	 */
-+	ret = _mt6370_flash_brightness_set(flash, s->min);
-+	if (ret)
-+		return ret;
-+
-+	ret = fwnode_property_read_u32(init_data->fwnode,
-+				       "flash-max-timeout-us", &val);
-+	if (ret) {
-+		dev_warn(priv->dev,
-+		 "Not specified flash-max-timeout-us, config to the minimum\n");
-+		val = MT6370_STRBTO_MINUS;
-+	} else
-+		val = clamp_align(val, MT6370_STRBTO_MINUS, MT6370_STRBTO_MAXUS,
-+				  MT6370_STRBTO_STEPUS);
-+
-+
-+	s = &flash->timeout;
-+	s->min = MT6370_STRBTO_MINUS;
-+	s->step = MT6370_STRBTO_STEPUS;
-+	s->val = s->max = val;
-+
-+	flash->ops = &mt6370_flash_ops;
-+
-+	return 0;
++	return regmap_update_bits(priv->regmap, MT6370_REG_BL_EN, mask, val);
 +}
 +
-+static int mt6370_init_common_properties(struct mt6370_led *led,
-+					 struct led_init_data *init_data)
++static int mt6370_check_vendor_info(struct mt6370_priv *priv)
 +{
-+	const char * const states[] = { "off", "keep", "on" };
-+	const char *str = states[STATE_OFF];
++	/*
++	 * MT6372 uses 14 bits to control the brightness but MT6370 and MT6371
++	 * use 11 bits. They are different so we have to use this function to
++	 * check the vendor ID and use different methods to calculate the
++	 * brightness.
++	 */
++	unsigned int dev_info, vid;
 +	int ret;
 +
-+	fwnode_property_read_string(init_data->fwnode, "default-state", &str);
-+	ret = match_string(states, ARRAY_SIZE(states), str);
-+	if (ret >= 0)
-+		led->default_state = ret;
++	ret = regmap_read(priv->regmap, MT6370_REG_DEV_INFO, &dev_info);
++	if (ret)
++		return ret;
++
++	vid = FIELD_GET(MT6370_VENID_MASK, dev_info);
++	if (vid == 0x9 || vid == 0xb)
++		priv->vid_type = MT6370_VID_6372;
++	else
++		priv->vid_type = MT6370_VID_COMMON;
 +
 +	return 0;
 +}
 +
-+static void mt6370_v4l2_flash_release(struct mt6370_priv *priv)
-+{
-+	int i;
-+
-+	for (i = 0; i < priv->leds_count; i++) {
-+		struct mt6370_led *led = priv->leds + i;
-+
-+		if (led->v4l2_flash)
-+			v4l2_flash_release(led->v4l2_flash);
-+	}
-+}
-+
-+static int mt6370_led_probe(struct platform_device *pdev)
++static int mt6370_bl_probe(struct platform_device *pdev)
 +{
 +	struct mt6370_priv *priv;
-+	struct fwnode_handle *child;
-+	size_t count;
-+	int i = 0, ret;
++	struct backlight_properties props = {
++		.type = BACKLIGHT_RAW,
++		.scale = BACKLIGHT_SCALE_LINEAR,
++	};
++	int ret;
 +
-+	count = device_get_child_node_count(&pdev->dev);
-+	if (!count || count > MT6370_MAX_LEDS)
-+		return dev_err_probe(&pdev->dev, -EINVAL,
-+		       "No child node or node count over max led number %zu\n",
-+		       count);
-+
-+	priv = devm_kzalloc(&pdev->dev, struct_size(priv, leds, count),
-+			    GFP_KERNEL);
++	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
 +	if (!priv)
 +		return -ENOMEM;
 +
-+	priv->leds_count = count;
 +	priv->dev = &pdev->dev;
-+	mutex_init(&priv->lock);
 +
 +	priv->regmap = dev_get_regmap(pdev->dev.parent, NULL);
 +	if (!priv->regmap)
 +		return dev_err_probe(&pdev->dev, -ENODEV,
-+				     "Failed to get parent regmap\n");
++				     "Failed to get regmap\n");
 +
-+	device_for_each_child_node(&pdev->dev, child) {
-+		struct mt6370_led *led = priv->leds + i;
-+		struct led_init_data init_data = { .fwnode = child, };
++	ret = mt6370_check_vendor_info(priv);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "Failed to check vendor info\n");
 +
-+		led->priv = priv;
-+		ret = mt6370_init_common_properties(led, &init_data);
-+		if (ret)
-+			goto out_flash_release;
++	priv->enable_gpio = devm_gpiod_get_optional(&pdev->dev, "enable",
++						    GPIOD_OUT_HIGH);
++	if (IS_ERR(priv->enable_gpio))
++		dev_err(&pdev->dev, "Failed to get 'enable' gpio\n");
 +
-+		ret = mt6370_init_flash_properties(led, &init_data);
++	ret = mt6370_init_backlight_properties(priv, &props);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "Failed to init backlight properties\n");
 +
-+		if (ret)
-+			goto out_flash_release;
++	priv->bl = devm_backlight_device_register(&pdev->dev, pdev->name,
++						  &pdev->dev, priv,
++						  &mt6370_bl_ops, &props);
++	if (IS_ERR(priv->bl))
++		return dev_err_probe(&pdev->dev, PTR_ERR(priv->bl),
++				     "Failed to register backlight\n");
 +
-+		ret = mt6370_led_register(&pdev->dev, led, &init_data);
-+		if (ret)
-+			goto out_flash_release;
-+
-+		i++;
-+	}
-+
++	backlight_update_status(priv->bl);
 +	platform_set_drvdata(pdev, priv);
-+	return 0;
 +
-+out_flash_release:
-+	mt6370_v4l2_flash_release(priv);
-+	return ret;
++	return 0;
 +}
 +
-+static int mt6370_led_remove(struct platform_device *pdev)
++static int mt6370_bl_remove(struct platform_device *pdev)
 +{
 +	struct mt6370_priv *priv = platform_get_drvdata(pdev);
++	struct backlight_device *bl_dev = priv->bl;
 +
-+	mt6370_v4l2_flash_release(priv);
++	bl_dev->props.brightness = 0;
++	backlight_update_status(priv->bl);
++
 +	return 0;
 +}
 +
-+static const struct of_device_id __maybe_unused mt6370_led_of_id[] = {
-+	{ .compatible = "mediatek,mt6370-flashlight", },
++static const struct of_device_id __maybe_unused mt6370_bl_of_match[] = {
++	{ .compatible = "mediatek,mt6370-backlight", },
 +	{}
 +};
-+MODULE_DEVICE_TABLE(of, mt6370_led_of_id);
++MODULE_DEVICE_TABLE(of, mt6370_bl_of_match);
 +
-+static struct platform_driver mt6370_led_driver = {
++static struct platform_driver mt6370_bl_driver = {
 +	.driver = {
-+		.name = "mt6370-flashlight",
-+		.of_match_table = mt6370_led_of_id,
++		.name = "mt6370-backlight",
++		.of_match_table = mt6370_bl_of_match,
 +	},
-+	.probe = mt6370_led_probe,
-+	.remove = mt6370_led_remove,
++	.probe = mt6370_bl_probe,
++	.remove = mt6370_bl_remove,
 +};
-+module_platform_driver(mt6370_led_driver);
++module_platform_driver(mt6370_bl_driver);
 +
-+MODULE_AUTHOR("Alice Chen <alice_chen@richtek.com>");
-+MODULE_DESCRIPTION("MT6370 FLASH LED Driver");
++MODULE_AUTHOR("ChiaEn Wu <chiaen_wu@richtek.com>");
++MODULE_DESCRIPTION("MediaTek MT6370 Backlight Driver");
 +MODULE_LICENSE("GPL v2");
 -- 
 2.7.4
