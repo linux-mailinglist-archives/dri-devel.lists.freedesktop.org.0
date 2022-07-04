@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652CD56697A
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:33:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F45F566934
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:30:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB5210FA77;
-	Tue,  5 Jul 2022 11:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54B7510E295;
+	Tue,  5 Jul 2022 11:29:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE37F10E00B
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 02:52:38 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id 145so7702880pga.12
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Jul 2022 19:52:38 -0700 (PDT)
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F1A910E00B
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 02:52:40 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id m14so7405866plg.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Jul 2022 19:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BbPSpMez8xnrmoHOdUaXU+ajKB+3TOpV+ohNDV+XsDk=;
- b=BYmceRCcQvSn82mFF/HsQve/AffveQZCTUbJWICcFji0Fx3bbdZ6cdKI5MO2yfUULj
- fJxFMWNyH0/rSQToQnVlFtQFiTQ2t7sjkfEvqg8ap7UzJPgkea/Jv7+Px5ItxGHEAYDv
- j4z+eODnElEWhn7kJHO5kDnkDcB1xFMrtYCRA2i0huJkpKN33wVLw5jOcjxDP17Gabus
- AbBkX0kOdJI5xt4rcW0S9FIDYuDvoI4YWQh3mbGG33TkQRu5o3ch0WNCwnDg8ck5MWnW
- S2k1sxCvskT4kysOf+j5tuFYjZbreYmagPOWxw5bcNwAt3c2VS+e9h3bsMeEy0qOX6z4
- dAWw==
+ bh=KoE/Nl7CA68voHNLmRyXiLiHPFnMwUitmY6p2+8OjAM=;
+ b=ME6L4Ur68fTru7929aD2k6RPdLKaJEFrAcHqqjHocKoH9iJobzUocCY8YxK64z5jid
+ xxinLsGajnw1g+D0HaIisFuOACzPvfoUUoDmvllUJUjHijA+drCHJu0qCOxXvmPo7Eaz
+ wWTy9Y9qTXdeSZkMrCuaK3vU/0ZJg1AuuT8X8sXXymi52N65BEfQSJay/x4BXtKu0L0c
+ efPGx/kWQ1zFjL7KgPFZzf8e+JJIdm0Q71u0rFiOWDskIagBoXpatQlAHHZWx0rIubEr
+ QSVB6yryAmSTeR1uVVMNNvA/RlKGbx50ZoqJFyhaDXG4gb6jNI5y4929G5TpbENavZdb
+ K8Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BbPSpMez8xnrmoHOdUaXU+ajKB+3TOpV+ohNDV+XsDk=;
- b=ag6zr10RvKR9C2YJr3aIFfyTqLP+fLkqpR7WWzcJchCbiq5QJTIwhiyBjOsBEz+Jfk
- ghgH5ihlC8+s4t5SrBenbakzX87GSGiPeHzXsgCXOFEKA0jDmfhyv4Tkvjih6XT07nHb
- B7APJT6uA93IN0Q63jnkQzLCUHlkeXXSsqr5hj5FXYk+qfvgihuE/4jjLusQMjHJFbQv
- p6nfI+aplHo2IIB9dm+wul8/HW922PwkW9J1dKU1ulCQSdmLfdY0oUdeVbMaugF5jUci
- 9Ah3SpyyL/3yNQ/1K+VL0m72Z035ZH19u6+YNKNUK3YtcuzUDFXTE+C6Bhjg+ZdzgSoC
- 0jIQ==
-X-Gm-Message-State: AJIora/CbPmxcA2u7XCfVzhtbAZPYcOaAb07Q+7+blLL+yh4Herg9GlC
- xzPlRAHkVErzzoZrnf7r4OSCXffgoaQRhidX
-X-Google-Smtp-Source: AGRyM1sqISqDaGGk3Vu/CgGdgUCMHgaePoGFbge3anE6UdgKtisdVwiuAdyE6DVU2fixJ4Lv5bcHrw==
-X-Received: by 2002:a63:fd54:0:b0:40d:dfde:857c with SMTP id
- m20-20020a63fd54000000b0040ddfde857cmr23899918pgj.19.1656903157942; 
- Sun, 03 Jul 2022 19:52:37 -0700 (PDT)
+ bh=KoE/Nl7CA68voHNLmRyXiLiHPFnMwUitmY6p2+8OjAM=;
+ b=i4a7vjB783GeAFztyeaP/rEyaawk5Cxu/dj9OUM0dyek1RUfLRFD+HNQlasaEF3ZnE
+ a/iAPT2N7kSXcIVipMvbM/6EAVPXKTATnTinPJXmbJw5/UR6yGNvb+Lph9igKjNKr02p
+ DysR6q7Rq+YKjGOkQkhcHiP9oKpliItv544zLr6GX6nWFSwTsBa0MNyvtNRQRNovRFeb
+ Ei8FTRLyfRP+mitKMMqEnp0FObXx7wp0fAaI4X3WBDCnUqA1oVFXY19iCPPvWhOUqQpt
+ UZEW0sPayb2mCOZoF0DnL/rsZn6amV/fASrjGEvLft7CPDPzAAGwGFMmRxgxFp1UGaC8
+ ZYxw==
+X-Gm-Message-State: AJIora9e4n4L8F9SD59qo7Nh3O4zLXy58fiOglA/lotWCHdyDI7EUVdp
+ nLtJoOPZpcPKHX+taKurKFONbj7+gxgF3uH2
+X-Google-Smtp-Source: AGRyM1teqaW2blXchXZwLy8aBx9cHEM0uu5yx9xOZVRKxK+PDV0HQ+8fi6KboYsUL02Yg2h3b7Re+w==
+X-Received: by 2002:a17:90b:4ac7:b0:1ed:20a2:f547 with SMTP id
+ mh7-20020a17090b4ac700b001ed20a2f547mr33629569pjb.19.1656903159678; 
+ Sun, 03 Jul 2022 19:52:39 -0700 (PDT)
 Received: from taki-u2.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
  by smtp.gmail.com with ESMTPSA id
- o11-20020a634e4b000000b004118fd18476sm8730813pgl.60.2022.07.03.19.52.36
+ o11-20020a634e4b000000b004118fd18476sm8730813pgl.60.2022.07.03.19.52.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 19:52:37 -0700 (PDT)
+ Sun, 03 Jul 2022 19:52:39 -0700 (PDT)
 From: Takanari Hayama <taki@igel.co.jp>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] media: vsp1: save pixel alpha info in vsp1_rwpf
-Date: Mon,  4 Jul 2022 11:52:29 +0900
-Message-Id: <20220704025231.3911138-2-taki@igel.co.jp>
+Subject: [PATCH 2/3] media: vsp1: add blend mode support
+Date: Mon,  4 Jul 2022 11:52:30 +0900
+Message-Id: <20220704025231.3911138-3-taki@igel.co.jp>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220704025231.3911138-1-taki@igel.co.jp>
 References: <20220704025231.3911138-1-taki@igel.co.jp>
@@ -76,63 +76,81 @@ Cc: linux-renesas-soc@vger.kernel.org, kieran.bingham+renesas@ideasonboard.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to support DRM blend mode, we need to able to override pixel
-alpha flag. When DRM_MODE_BLEND_PIXEL_NONE is desired, we'd like to let
-VSP1 to ignore the pixel alpha by overriding the flag.
+To support DRM blend mode in R-Car DU driver, we must add blend mode
+support in VSP1. Although VSP1 hardware is capable to support all blend
+mode defined in DRM, the current R-Car DU driver implicitly supports
+DRM_MODE_BLEND_COVERAGE only.
+
+We add a new property to vsp1_du_atomic_config, so that R-Car DU driver
+can pass the desired blend mode.
 
 Signed-off-by: Takanari Hayama <taki@igel.co.jp>
 ---
- drivers/media/platform/renesas/vsp1/vsp1_drm.c  | 1 +
- drivers/media/platform/renesas/vsp1/vsp1_rpf.c  | 6 +++---
- drivers/media/platform/renesas/vsp1/vsp1_rwpf.h | 2 ++
- 3 files changed, 6 insertions(+), 3 deletions(-)
+ drivers/media/platform/renesas/vsp1/vsp1_drm.c | 11 +++++++++++
+ include/media/vsp1.h                           | 14 ++++++++++++++
+ 2 files changed, 25 insertions(+)
 
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-index 0c2507dc03d6..9ec3ac835987 100644
+index 9ec3ac835987..ed0cf552fce2 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
 +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-@@ -600,6 +600,7 @@ static int vsp1_du_pipeline_set_rwpf_format(struct vsp1_device *vsp1,
- 	rwpf->format.num_planes = fmtinfo->planes;
- 	rwpf->format.plane_fmt[0].bytesperline = pitch;
- 	rwpf->format.plane_fmt[1].bytesperline = pitch / chroma_hsub;
-+	rwpf->pixel_alpha = fmtinfo->alpha;
+@@ -861,6 +861,17 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+ 	vsp1->drm->inputs[rpf_index].compose = cfg->dst;
+ 	vsp1->drm->inputs[rpf_index].zpos = cfg->zpos;
+ 
++	switch (cfg->blend_mode) {
++	case VSP1_DU_BLEND_MODE_PREMULTI:
++		rpf->format.flags = V4L2_PIX_FMT_FLAG_PREMUL_ALPHA;
++		break;
++	case VSP1_DU_BLEND_MODE_PIXEL_NONE:
++		rpf->pixel_alpha = false;
++		fallthrough;
++	case VSP1_DU_BLEND_MODE_COVERAGE:
++		rpf->format.flags = 0;
++	}
++
+ 	drm_pipe->pipe.inputs[rpf_index] = rpf;
  
  	return 0;
- }
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-index 75083cb234fe..e6bd813dc68c 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-@@ -152,13 +152,13 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
- 	 * In all cases, disable color keying.
- 	 */
- 	vsp1_rpf_write(rpf, dlb, VI6_RPF_ALPH_SEL, VI6_RPF_ALPH_SEL_AEXT_EXT |
--		       (fmtinfo->alpha ? VI6_RPF_ALPH_SEL_ASEL_PACKED
--				       : VI6_RPF_ALPH_SEL_ASEL_FIXED));
-+		       (rpf->pixel_alpha ? VI6_RPF_ALPH_SEL_ASEL_PACKED
-+					 : VI6_RPF_ALPH_SEL_ASEL_FIXED));
+diff --git a/include/media/vsp1.h b/include/media/vsp1.h
+index cc1b0d42ce95..1ba7459b7a06 100644
+--- a/include/media/vsp1.h
++++ b/include/media/vsp1.h
+@@ -42,6 +42,18 @@ struct vsp1_du_lif_config {
+ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+ 		      const struct vsp1_du_lif_config *cfg);
  
- 	if (entity->vsp1->info->gen == 3) {
- 		u32 mult;
- 
--		if (fmtinfo->alpha) {
-+		if (rpf->pixel_alpha) {
- 			/*
- 			 * When the input contains an alpha channel enable the
- 			 * alpha multiplier. If the input is premultiplied we
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
-index eac5c04c2239..07ddebb78dfa 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
-@@ -43,6 +43,8 @@ struct vsp1_rwpf {
- 	const struct vsp1_format_info *fmtinfo;
- 	unsigned int brx_input;
- 
-+	bool pixel_alpha;
++/**
++ * enum vsp1_du_blend_mode - Pixel blend mode
++ * @VSP1_DU_BLEND_MODE_PREMULTI: Pixel alpha is pre-mutiplied
++ * @VSP1_DU_BLEND_MODE_COVERAGE: Pixel alpha is not pre-mutiplied
++ * @VSP1_DU_BLEND_MODE_PIXEL_NONE: Ignores the pixel alpha
++ */
++enum vsp1_du_blend_mode {
++	VSP1_DU_BLEND_MODE_PREMULTI,
++	VSP1_DU_BLEND_MODE_COVERAGE,
++	VSP1_DU_BLEND_MODE_PIXEL_NONE,
++};
 +
+ /**
+  * struct vsp1_du_atomic_config - VSP atomic configuration parameters
+  * @pixelformat: plane pixel format (V4L2 4CC)
+@@ -51,6 +63,7 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
+  * @dst: destination rectangle on the display (integer coordinates)
+  * @alpha: alpha value (0: fully transparent, 255: fully opaque)
+  * @zpos: Z position of the plane (from 0 to number of planes minus 1)
++ * @blend_mode: Pixel blend mode of the plane
+  */
+ struct vsp1_du_atomic_config {
+ 	u32 pixelformat;
+@@ -60,6 +73,7 @@ struct vsp1_du_atomic_config {
+ 	struct v4l2_rect dst;
  	unsigned int alpha;
+ 	unsigned int zpos;
++	enum vsp1_du_blend_mode blend_mode;
+ };
  
- 	u32 mult_alpha;
+ /**
 -- 
 2.25.1
 
