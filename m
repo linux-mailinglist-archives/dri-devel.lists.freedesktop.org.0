@@ -1,63 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A8D9565E0D
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 21:35:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 298C3565E5D
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 22:20:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61DEC9149A;
-	Mon,  4 Jul 2022 19:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6D1910E238;
+	Mon,  4 Jul 2022 20:20:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C5D59149A;
- Mon,  4 Jul 2022 19:35:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656963323; x=1688499323;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=Jx+mqVQKClB+jIdhZESBCHiuORDkWfeqiI8ialcmygk=;
- b=OuIWzoheAthKXOJ7UoEfpd328jtzNmo0537kAMt3iRTSJyYFK99QTXif
- KOGwQcQ0J7KHTnLBWWDKlDmDzmddHkbuDJ8YNCejRZtbp7+921BteMe9W
- frqAHv/FjLjoF/cNlB5t80fYAXNZjxBJGhZ/7+OOhFGCBXgvlyJ/bS21b
- CNkL8xtBRyh7cscwF0V63yiLaP5MkC1WMDHDQpHAYbaz/2HlkxPJsFGC2
- yAcTgojt1eIDbudWw5eX/Kh2XXyl2E81RWNDWZWSCdn+EvlVZ43wTLkX+
- 2gZAtGAvOjJzFA+KMr+Y83RhSXgcCRfnAjdLzma2F0WFTNk5cFwYhOgts A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10398"; a="369512382"
-X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; 
- d="scan'208,217";a="369512382"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2022 12:35:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; 
- d="scan'208,217";a="619415256"
-Received: from linux.intel.com ([10.54.29.200])
- by orsmga008.jf.intel.com with ESMTP; 04 Jul 2022 12:35:22 -0700
-Received: from [10.249.128.238] (unknown [10.249.128.238])
- by linux.intel.com (Postfix) with ESMTP id 764AE580AF2;
- Mon,  4 Jul 2022 12:35:19 -0700 (PDT)
-Content-Type: multipart/alternative;
- boundary="------------Wypu3C8b1k4Fy05jClBTGrk8"
-Message-ID: <093da09a-7c75-b052-d789-04404be813a6@intel.com>
-Date: Mon, 4 Jul 2022 22:35:18 +0300
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
+ [IPv6:2607:f8b0:4864:20::b2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ACF610E144
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 20:20:33 +0000 (UTC)
+Received: by mail-yb1-xb2b.google.com with SMTP id l11so18449420ybu.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Jul 2022 13:20:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6/OYescpC12d20RwbBmj4WBQ3v7OC1u9RlDvkq13ckI=;
+ b=cegCCcDkUoo9P6FNcssziPe3wSPrKUvAGCjIOIIy9fhcj35RkgxKJl+LbBpnuq3wjU
+ JtZm3oS9OqN+sojHrPwB50NIagpcab7QJIX1ILsQ1nJ3StpvjNnYljM49uisc2SiVCWu
+ j+rtopNKTrfSTkSrCEj5pkG8bfUOxmoh6VMMD0Z3C7+zk3OYZ7p4bcaWrLSOEPhtwFjV
+ ukHS++YJVwKW7lmRgBitYGThBKP4TMSFRMAMUNaen1amEPS1C+rGOUMq/TS5XsdgdxNa
+ DPHYNnx/8ldISZwxJH+AJ4LPwa6A5JV5wzs0BLypkdYT38ysetCoOfRolw7meRpF0evK
+ WYMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6/OYescpC12d20RwbBmj4WBQ3v7OC1u9RlDvkq13ckI=;
+ b=B8EQBPUUbfwBevg0SP7glULEWVy4/TBDgXiNvXG8/TcCvcZI4S9YZkdHSCmYi5/hML
+ 6qZjin/LvWdRcKncY048V5f5DuxqH9AWTJ4nRIsLB9woMUA3dP17u4JjqrhFv7OvQ8Ei
+ n/On2Mxbud6M9xo+qv0oFccIkj6sEQxyWRd7y8nrsHoRzkoiMqtMYd0O+MmZdoL/v+6l
+ 1DuAtFb/g2bCRSry6VN2EsLqhAGFho6JkuYEXW/UTgMwZHPMcqHnCwF5E43zyVZzlaiM
+ EEjE1uANZzygDNfLejRk41kpT+CkmQqWxQ6d7ev5yH8/mZAQHGxm8is4qbSkfovvl+ts
+ rlug==
+X-Gm-Message-State: AJIora8K/Lqo6bz29TGKRUTruqzWxPv2FHa9XNPG/4Q2mdwi+fO0c6t0
+ QmfWoyFotA0GnmDlfAEV1YtjW2Kl7kOe45k9lxk=
+X-Google-Smtp-Source: AGRyM1vGN87zp2vOQSkYPHdy4U3iFiPDyi3SOwkZWy9X2zeUnXbmXLO8oItZWKupT1Gp6nG69Gr+SrGEdJWU94cJNCE=
+X-Received: by 2002:a5b:68a:0:b0:66e:472a:83f4 with SMTP id
+ j10-20020a5b068a000000b0066e472a83f4mr8514627ybq.570.1656966032191; Mon, 04
+ Jul 2022 13:20:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v6 3/3] drm/doc/rfc: VM_BIND uapi definition
-Content-Language: en-US
-To: "Zanoni, Paulo R" <paulo.r.zanoni@intel.com>,
- "Vishwanathapura, Niranjana" <niranjana.vishwanathapura@intel.com>
-References: <20220626014916.5130-1-niranjana.vishwanathapura@intel.com>
- <20220626014916.5130-4-niranjana.vishwanathapura@intel.com>
- <d805c4bfb11acd1f9271a72650f39174be30501c.camel@intel.com>
- <20220630060820.GB14039@nvishwa1-DESK>
- <406c2c67ad85258d1f8ee0fa918706a7e8b6605d.camel@intel.com>
- <20220630161811.GF14039@nvishwa1-DESK>
- <d5fee715c3489b943f055f925935871fda3899e7.camel@intel.com>
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-In-Reply-To: <d5fee715c3489b943f055f925935871fda3899e7.camel@intel.com>
+References: <20220704053901.728-1-peterwu.pub@gmail.com>
+ <20220704053901.728-9-peterwu.pub@gmail.com>
+In-Reply-To: <20220704053901.728-9-peterwu.pub@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 4 Jul 2022 22:19:55 +0200
+Message-ID: <CAHp75VeNRVHr-LorfnWAkwfXzT+ix6S9sZ623OBA8+0Zi8Xucg@mail.gmail.com>
+Subject: Re: [PATCH v4 08/13] usb: typec: tcpci_mt6370: Add Mediatek MT6370
+ tcpci driver
+To: ChiaEn Wu <peterwu.pub@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,108 +64,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Brost, Matthew" <matthew.brost@intel.com>, "Wilson,
- Chris P" <chris.p.wilson@intel.com>, "Ursulin,
- Tvrtko" <tvrtko.ursulin@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Hellstrom, Thomas" <thomas.hellstrom@intel.com>, "Zeng,
- Oak" <oak.zeng@intel.com>, "Auld, Matthew" <matthew.auld@intel.com>,
- "jason@jlekstrand.net" <jason@jlekstrand.net>, "Vetter,
- Daniel" <daniel.vetter@intel.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Alice Chen <alice_chen@richtek.com>, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, cy_huang <cy_huang@richtek.com>,
+ Pavel Machek <pavel@ucw.cz>, Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, szuni chen <szunichen@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ChiaEn Wu <chiaen_wu@richtek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------Wypu3C8b1k4Fy05jClBTGrk8
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-On 30/06/2022 20:12, Zanoni, Paulo R wrote:
->>>> Can you please explain what happens when we try to write to a range
->>>> that's bound as read-only?
->>>>
->>> It will be mapped as read-only in device page table. Hence any
->>> write access will fail. I would expect a CAT error reported.
->> What's a CAT error? Does this lead to machine freeze or a GPU hang?
->> Let's make sure we document this.
->>
-> Catastrophic error.
+On Mon, Jul 4, 2022 at 7:42 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
 >
-Reading the documentation, it seems the behavior depends on the context 
-type.
+> Add chip level mt6370 tcpci driver.
 
-With the Legacy 64bit context type, writes are ignored (BSpec 531) :
+...
 
-     - "For legacy context, the access rights are not applicable and 
-should not be considered during page walk."
+> +static const struct reg_sequence mt6370_reg_init[] = {
+> +       REG_SEQ(0xA0, 0x1, 1000),
+> +       REG_SEQ(0x81, 0x38, 0),
+> +       REG_SEQ(0x82, 0x82, 0),
+> +       REG_SEQ(0xBA, 0xFC, 0),
+> +       REG_SEQ(0xBB, 0x50, 0),
+> +       REG_SEQ(0x9E, 0x8F, 0),
+> +       REG_SEQ(0xA1, 0x5, 0),
+> +       REG_SEQ(0xA2, 0x4, 0),
+> +       REG_SEQ(0xA3, 0x4A, 0),
+> +       REG_SEQ(0xA4, 0x01, 0),
+> +       REG_SEQ(0x95, 0x01, 0),
+> +       REG_SEQ(0x80, 0x71, 0),
+> +       REG_SEQ(0x9B, 0x3A, 1000)
 
-For Advanced 64bit context type, I think the HW will generate a pagefault.
+Keep a comma here in case something would be added later on.
 
+> +};
 
--Lionel
+...
 
---------------Wypu3C8b1k4Fy05jClBTGrk8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+> +       if (ret && !source)
+> +               return regulator_disable(priv->vbus);
+> +       else if (!ret && source)
+> +               return regulator_enable(priv->vbus);
+> +       else
+> +               return 0;
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 30/06/2022 20:12, Zanoni, Paulo R
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:d5fee715c3489b943f055f925935871fda3899e7.camel@intel.com">
-      <blockquote type="cite" style="color: #007cff;">
-        <blockquote type="cite" style="color: #007cff;">
-          <blockquote type="cite" style="color: #007cff;">
-            <pre class="moz-quote-pre" wrap="">Can you please explain what happens when we try to write to a range
-that's bound as read-only?
+'else' is redundant in both cases.
 
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">It will be mapped as read-only in device page table. Hence any
-write access will fail. I would expect a CAT error reported.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">What's a CAT error? Does this lead to machine freeze or a GPU hang?
-Let's make sure we document this.
+...
 
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">Catastrophic error.
+> +static int mt6370_check_vendor_info(struct mt6370_priv *priv)
+> +{
+> +       struct regmap *regmap = priv->tcpci_data.regmap;
+> +       u16 vid;
+> +       int ret;
+> +
+> +       ret = regmap_raw_read(regmap, TCPC_VENDOR_ID, &vid, sizeof(u16));
+> +       if (ret)
+> +               return ret;
+> +
+> +       if (vid != MT6370_VENDOR_ID) {
+> +               dev_err(priv->dev, "Vendor ID not correct 0x%02x\n", vid);
+> +               return -ENODEV;
 
-</pre>
-    </blockquote>
-    <p>Reading the documentation, it seems the behavior depends on the
-      context type.</p>
-    <p>With the Legacy 64bit context type, writes are ignored (BSpec
-      531) :</p>
-    <p>    - "<span style="color: rgb(64, 64, 64); font-family:
-        &quot;Segoe UI&quot;, &quot;Arial Unicode MS&quot;, &quot;Lucida
-        Grande&quot;, Helvetica, &quot;Ubuntu Light&quot;, &quot;DejaVu
-        Sans&quot;, FreeSans, sans-serif; font-size: 14.6667px;
-        font-style: normal; font-variant-ligatures: normal;
-        font-variant-caps: normal; font-weight: 400; letter-spacing:
-        normal; orphans: 2; text-align: start; text-indent: 0px;
-        text-transform: none; white-space: normal; widows: 2;
-        word-spacing: 0px; -webkit-text-stroke-width: 0px;
-        background-color: rgb(255, 255, 255); text-decoration-thickness:
-        initial; text-decoration-style: initial; text-decoration-color:
-        initial; display: inline !important; float: none;">For legacy
-        context, the access rights are not applicable and should not be
-        considered during page walk."</span></p>
-    <p>For Advanced 64bit context type, I think the HW will generate a
-      pagefault.</p>
-    <p><br>
-    </p>
-    <p>-Lionel<br>
-    </p>
-  </body>
-</html>
+return dev_err_probe(...);
 
---------------Wypu3C8b1k4Fy05jClBTGrk8--
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int mt6370_tcpc_probe(struct platform_device *pdev)
+> +{
+> +       struct mt6370_priv *priv;
+> +       int ret;
+> +
+> +       priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       priv->dev = &pdev->dev;
+> +       platform_set_drvdata(pdev, priv);
+> +
+> +       priv->tcpci_data.regmap = dev_get_regmap(pdev->dev.parent, NULL);
+> +       if (!priv->tcpci_data.regmap)
+
+> +               return dev_err_probe(&pdev->dev, -ENODEV,
+> +                                    "Failed to init regmap\n");
+
+You may save some LoCs by introducing a temporary variable
+
+  struct device *dev = &pdev->dev;
+
+and here on a single line
+
+  return dev_err_probe(dev, ...);
+
+Ditto for the rest.
+
+...
+
+> +       ret = mt6370_check_vendor_info(priv);
+> +       if (ret)
+
+> +               return dev_err_probe(&pdev->dev, ret,
+> +                                    "Failed to check vendor info\n");
+
+This duplicates (with less info given) the message from the callee.
+
+...
+
+> +       { .compatible = "mediatek,mt6370-tcpc", },
+
+Inner comma is not needed.
+
+-- 
+With Best Regards,
+Andy Shevchenko
