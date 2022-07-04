@@ -1,52 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA87565BD2
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:22:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F667565BCB
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:22:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA8B210F6D9;
-	Mon,  4 Jul 2022 16:16:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5423510F55E;
+	Mon,  4 Jul 2022 16:16:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C483210E028
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 09:16:32 +0000 (UTC)
-X-UUID: e9b2141855f94f6dbd5189379df3b4be-20220704
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.7, REQID:5cab4f8f-2ec6-4f62-9f19-39fded9d65c4, OB:0,
- LO
- B:0,IP:0,URL:5,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:5
-X-CID-META: VersionHash:87442a2, CLOUDID:65087d86-57f0-47ca-ba27-fe8c57fbf305,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil
- ,QS:nil,BEC:nil,COL:0
-X-UUID: e9b2141855f94f6dbd5189379df3b4be-20220704
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1370740734; Mon, 04 Jul 2022 17:16:28 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
- Mon, 4 Jul 2022 17:16:27 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkmbs11n2.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.2.792.3 via Frontend
- Transport; Mon, 4 Jul 2022 17:16:27 +0800
-Message-ID: <870cac7815d0f2ec9cfe4a18b19c141723fcd178.camel@mediatek.com>
-Subject: Re: [PATCH] drm/mediatek: ensure bridge disable happends before
- suspend
-From: CK Hu <ck.hu@mediatek.com>
-To: Hsin-Yi Wang <hsinyi@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 4 Jul 2022 17:16:27 +0800
-In-Reply-To: <20220629190545.478113-1-hsinyi@chromium.org>
-References: <20220629190545.478113-1-hsinyi@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CC1010E028
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 09:31:41 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id c13so4334355pla.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Jul 2022 02:31:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xIA0tkEJFCPwLmR+R6eKHNKrvI9a6bVM4TsihGfrld0=;
+ b=f8MhiLRjvn4JhQhz9F64yCgS5B6jrH8tJwT1awj7AGv9RShuJdBVz84vc1kQVsx0Lv
+ eNwaezjyn3nuI01xLjtA8+y0NZAqsqTswX489ZxWe/DK4qA3KOAt8JChBJylkfu6iBcj
+ ORlmB+OW6RB+2+Vau8HlQetnTopYsjVTFjp0f9KRNoR/+YI371o5iIsodX7EUGlhLxKP
+ kIepqqS2tlY+l7PfLRiLbmuc06ZAkcN8W3clHbhEfFPx2LGi5BU/JurrZIflfzIJK1dI
+ KLvXaDm+sy2U5Xe0lntfK9VA1zVFQuJyC2Hbzq2cctn7nouM2bwK0yqcoPWSdeZyN5vE
+ +/GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xIA0tkEJFCPwLmR+R6eKHNKrvI9a6bVM4TsihGfrld0=;
+ b=x/Ok4oeuNNqTbNicsFZTxCTPWhCZBp/qZ517vJnBMPx/PEjocJaXAzpe2IvXorba3T
+ 03guJFG4aHXKPVzxcfT0mcgfzRaianbVEas3l07t/YPChm+BceA1HoTdYYpIxWKp9j+V
+ MMlJpCBIspKFCniJAAPMivRNMKjdSquLsz+VOI/8pZSSdlvqJcP/T6YydMAWPJXEGLS+
+ XwefBhTMTohhTkc5aQaYzpclmBpQt2XaSNEPAEr2x5BL4imDISRgsF5wGJ/HILZXJhqx
+ Fe6Qq+G5kTTInmsN9qcbZRuTvbJjjZoomVC8bcqbmsBzOpMVBAzqyozOnJ1sVywbCb8l
+ qjFQ==
+X-Gm-Message-State: AJIora+p0N/bYTRnvyjoPZKYQ/WxO1NvG35LglAepU10ioQna1ttAZ59
+ ZScO4rYSMfhG+8orcoygZ3J4OEMmECH0oLysZ3Q=
+X-Google-Smtp-Source: AGRyM1snqrRpQbd96zgAVBmjrPX1x2o3afFwTRTiOLpzM13U4eENpimphE3z0PHrUTRqdjm3Nu9HaCkQlEPGsPeCLlE=
+X-Received: by 2002:a17:903:110c:b0:168:fa61:1440 with SMTP id
+ n12-20020a170903110c00b00168fa611440mr34740455plh.149.1656927100855; Mon, 04
+ Jul 2022 02:31:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+References: <20220704053901.728-1-peterwu.pub@gmail.com>
+ <20220704053901.728-9-peterwu.pub@gmail.com>
+ <YsKXcnys2Wa8Zz0p@kroah.com>
+In-Reply-To: <YsKXcnys2Wa8Zz0p@kroah.com>
+From: szuni chen <szunichen@gmail.com>
+Date: Mon, 4 Jul 2022 17:31:29 +0800
+Message-ID: <CA+hk2fYA3phYAoh+BFr0ddy9MR8Ro1WCoqBpa1UK2StwMtLyfQ@mail.gmail.com>
+Subject: Re: [PATCH v4 08/13] usb: typec: tcpci_mt6370: Add Mediatek MT6370
+ tcpci driver
+To: Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,78 +67,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
+ Heikki" <heikki.krogerus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
+ alice_chen@richtek.com, linux-iio <linux-iio@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, ChiYuan Huang <cy_huang@richtek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Linux LED Subsystem <linux-leds@vger.kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
+ Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, ChiaEn Wu <peterwu.pub@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
+ Sebastian Reichel <sre@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ chiaen_wu@richtek.com, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Hsin-yi:
+Greg KH <gregkh@linuxfoundation.org> =E6=96=BC 2022=E5=B9=B47=E6=9C=884=E6=
+=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=883:32=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> On Mon, Jul 04, 2022 at 01:38:56PM +0800, ChiaEn Wu wrote:
+> > From: ChiYuan Huang <cy_huang@richtek.com>
+> >
+> > Add chip level mt6370 tcpci driver.
+>
+> What does this mean?  Please provide more information about the hardware
+> being supported here so we know how to review this.
 
-On Thu, 2022-06-30 at 03:05 +0800, Hsin-Yi Wang wrote:
-> Make sure bridge_disable will be called before suspend by calling
-> drm_mode_config_helper_suspend() in .prepare callback.
+Dear Greg,
 
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
+MediaTek MT6370 is a highly-integrated smart power management IC,
+which includes a single cell Li-Ion/Li-Polymer switching battery charger,
+a USB Type-C & Power Delivery (PD) controller, dual flash LED current sourc=
+es,
+a RGB LED driver, a backlight WLED driver, a display bias driver and a
+general LDO for portable devices.
 
-> 
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-> ---
-> The issue is found if suspend is called via VT2 in several MTK SoC
-> (eg.
-> MT8173, MT8183, MT8186) chromebook boards with eDP bridge:
-> bridge disable is called through mtk-drm's suspend, and it needs to
-> be
-> called before bridge pm runtime suspend.
-> So we move the hook to .prepare() and .complete().
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> index 13a1bbe7ead7f..a42812e490007 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -828,8 +828,7 @@ static int mtk_drm_remove(struct platform_device
-> *pdev)
->  	return 0;
->  }
->  
-> -#ifdef CONFIG_PM_SLEEP
-> -static int mtk_drm_sys_suspend(struct device *dev)
-> +static int mtk_drm_sys_prepare(struct device *dev)
->  {
->  	struct mtk_drm_private *private = dev_get_drvdata(dev);
->  	struct drm_device *drm = private->drm;
-> @@ -840,20 +839,21 @@ static int mtk_drm_sys_suspend(struct device
-> *dev)
->  	return ret;
->  }
->  
-> -static int mtk_drm_sys_resume(struct device *dev)
-> +static void mtk_drm_sys_complete(struct device *dev)
->  {
->  	struct mtk_drm_private *private = dev_get_drvdata(dev);
->  	struct drm_device *drm = private->drm;
->  	int ret;
->  
->  	ret = drm_mode_config_helper_resume(drm);
-> -
-> -	return ret;
-> +	if (ret)
-> +		dev_err(dev, "Failed to resume\n");
->  }
-> -#endif
->  
-> -static SIMPLE_DEV_PM_OPS(mtk_drm_pm_ops, mtk_drm_sys_suspend,
-> -			 mtk_drm_sys_resume);
-> +static const struct dev_pm_ops mtk_drm_pm_ops = {
-> +	.prepare = mtk_drm_sys_prepare,
-> +	.complete = mtk_drm_sys_complete,
-> +};
->  
->  static struct platform_driver mtk_drm_platform_driver = {
->  	.probe	= mtk_drm_probe,
+This driver is used for the Type-C & Power Delivery controller in
+MediaTek MT6370 IC.
 
+If we change the commit message to
+
+"Add MediaTek MT6370 tcpci driver.
+MediaTek MT6370 is a multi-functional IC that includes USB Type-C.
+It works with Type-C Port Controller Manager to provide USB PD and USB
+Type-C functionalities."
+
+does this meet your requirements?
+Or =E2=80=9CAdd tcpci driver for Mediatek MT6370 IC=E2=80=9D is enough?
+
+Sincerely,
+Alice Chen
