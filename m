@@ -1,53 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD83565BA4
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:21:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5F0565B5C
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:18:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCC0310E681;
-	Mon,  4 Jul 2022 16:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6C3310E5F8;
+	Mon,  4 Jul 2022 16:15:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0858B10E00A
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 05:40:17 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- b12-20020a17090a6acc00b001ec2b181c98so12537621pjm.4
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Jul 2022 22:40:17 -0700 (PDT)
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98B7D10E00A
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 05:40:23 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id s206so7996865pgs.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Jul 2022 22:40:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qmbAcE8ucNCYLt4ga1wuXkXkTF22YmYu3x2174DL3Do=;
- b=jLkYWdBVz3tIB3P/NacM3FLEuOh8IbEQ0/L3ShYszKHPYy25I4ZnRb1dKJrxihsPe7
- TDTWlUh5fBpnJvFXPKhCmCE6amtPSUXeU2ItzkoXjwO9ckVXj6yOhm1mHua2Ybqs1j2v
- YkkQ8fJ7dS6ekn9twk6PMF6RLe9ttQSfhKn0LtsXW2reogGALSsorq0e1HH1wHvSGCLL
- kCr65QQrlAxOuSq1iLcEqVyjrKXJ9eJrAgxKUsx1FDSH2c2LRyPh3MOmx/EsMDTrEqEl
- qlMZE/1Ds1DbfyOIbvmIm7cYYstszdTTWfrsAdR4Z9ksosQUHweyBpCXRsTW7ou7xUMY
- CAhQ==
+ bh=R3O0/Mz/lprdpPQOxLl+wwsZwG8lzgV8rVDy4Bhr3IQ=;
+ b=LfjYDKckD6QosPH8c+tLDdw+5/mzeQKKNB7KunOFbiwA6AE7+LlzyHUpDrxd6DCXay
+ yaRZEJ9Fwi13+PnQv/MwE76wNw/dStNPDRB6Jgd27InfjwT+YsNLxnSs3BYTXr2HLeqX
+ 1h5nroIrM+dNsxJwlrIkAz5lGlJrNHDLOlDFqvCN1BRzdIytcBwRGbnzjCCR2e7Ij8A4
+ NCE/H597ksTIhaGHrBCtchOhbynMY+GlwEEiSj8iLX7Tu/ocI3EVVrLhQ3AF0dfKXyNe
+ 5ZFQQ1PS6sDjM1SrM30aaKV7OGB+OaSdBuPqREsgv0opmyNvrxBfEswIJqSivldbnMoH
+ /PNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qmbAcE8ucNCYLt4ga1wuXkXkTF22YmYu3x2174DL3Do=;
- b=JsEFonfEiVoZo7780lKz+ZAxZNy7QXgNjDcxP1O25R3pIF9NLu1r6r9YH8b7aNdfTX
- An0sDo53tGtOPuHjr8ns8M7qv5fHTiiJ4t/DLA7hnq2jIihhN6zfBCnsAl3G0rvMkBW1
- iZMwL/cSfT2p71/Qc6PG2414fkM0qGOJKKUEnNwWq8+/+Qmrff+XfqSZGY9wJosrc79M
- LrL1/FrxaCV3mXadM53GOqNeofOZNNcDwkAANttYLKq98hM/TyWOwWvaWnFqTMgcGa/4
- cWeR0Q9cdvALixu+tZu6iM0MWAuqyBnsxzS7mGlg/Va2MTm3Kcj/v4l6Azx0qho93pdn
- KE9A==
-X-Gm-Message-State: AJIora+Mjndlb6oZW2G9chMCe+N/eLNMvtSGbb8cVhcce5cComUhLzyt
- fDWRLtW0wMCKcg2i+PML1OQ=
-X-Google-Smtp-Source: AGRyM1tjpfQMU6NpRx+ZLLTKVALvOT82SVBvOEBrGDuMkRBOrlTQUDeFwFE3UVeLgEVZpcIbyYYL6Q==
-X-Received: by 2002:a17:90b:508f:b0:1ec:a212:1e41 with SMTP id
- rt15-20020a17090b508f00b001eca2121e41mr33351934pjb.226.1656913216604; 
- Sun, 03 Jul 2022 22:40:16 -0700 (PDT)
+ bh=R3O0/Mz/lprdpPQOxLl+wwsZwG8lzgV8rVDy4Bhr3IQ=;
+ b=W3taMTU0P2kH/8Iy0i8IXLGLE0Wt+ascC6y85p2RRMs8lLSK1ySHh5Kr2PmFS6BoEO
+ qMmL9NlFbrbqzp2lowWMFBj93WenpWTa0mSiF8nJySH7mdzGiSkwyGav7G98Q6cOEstk
+ 8eiQQ5T9/NZCGpXanZXX9RB5hWIfxv1WLVhDUUPgCbcfVGo6P/Hlyrg0NBwTDfJKVqKM
+ 0ErclrjcbdhOr2pmTl61rHtcmXJK/i+uJumgEnpXmOBy8In+bAmK0HSfSj8TKuA+uutV
+ 6w0asFP+4qNiCMc6NKbS/pdNNaKV21SluOSJgaq5GhH5rCh6SqulRKe7w1g18KlJiW2X
+ tzUw==
+X-Gm-Message-State: AJIora+IR3atBpq0y2xoY73/kTAay7vFp72nMzFcMPeC34YFIDb1vTuP
+ XFIbPCFJXfrAGvlY0hQ6qW0z/kx8rag=
+X-Google-Smtp-Source: AGRyM1uQwVVIIoFF691YQuefKWsQKT2SWLpYihUrJhJ9/upo8cRNTYJbPoin4zmRFrTroppH2P/RNQ==
+X-Received: by 2002:aa7:92d2:0:b0:51b:4d60:6475 with SMTP id
+ k18-20020aa792d2000000b0051b4d606475mr33212509pfa.73.1656913223184; 
+ Sun, 03 Jul 2022 22:40:23 -0700 (PDT)
 Received: from RD-3580-24288.rt.l (42-72-4-255.emome-ip.hinet.net.
  [42.72.4.255]) by smtp.gmail.com with ESMTPSA id
- h24-20020a635318000000b0040dffa7e3d7sm13904507pgb.16.2022.07.03.22.40.10
+ h24-20020a635318000000b0040dffa7e3d7sm13904507pgb.16.2022.07.03.22.40.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 22:40:16 -0700 (PDT)
+ Sun, 03 Jul 2022 22:40:22 -0700 (PDT)
 From: ChiaEn Wu <peterwu.pub@gmail.com>
 To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  pavel@ucw.cz, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
@@ -55,10 +54,9 @@ To: lee.jones@linaro.org, daniel.thompson@linaro.org, jingoohan1@gmail.com,
  gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
  lgirdwood@gmail.com, broonie@kernel.org, linux@roeck-us.net,
  heikki.krogerus@linux.intel.com, deller@gmx.de
-Subject: [PATCH v4 08/13] usb: typec: tcpci_mt6370: Add Mediatek MT6370 tcpci
- driver
-Date: Mon,  4 Jul 2022 13:38:56 +0800
-Message-Id: <20220704053901.728-9-peterwu.pub@gmail.com>
+Subject: [PATCH v4 09/13] iio: adc: mt6370: Add Mediatek MT6370 support
+Date: Mon,  4 Jul 2022 13:38:57 +0800
+Message-Id: <20220704053901.728-10-peterwu.pub@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220704053901.728-1-peterwu.pub@gmail.com>
 References: <20220704053901.728-1-peterwu.pub@gmail.com>
@@ -86,273 +84,346 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: ChiYuan Huang <cy_huang@richtek.com>
+From: ChiaEn Wu <chiaen_wu@richtek.com>
 
-Add chip level mt6370 tcpci driver.
+Add Mediatek MT6370 ADC support.
 
-Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+Signed-off-by: ChiaEn Wu <chiaen_wu@richtek.com>
 ---
 
 v4:
-- Replace text "Mediatek" with "MediaTek" in Kconfig
-- Replace "first ret=regulator_(dis/en)able and then return"
-  with "return directly" in "mt6370_tcpc_set_vbus()"
-- Replace header file <linux/of.h> with <linux/mod_devicetable.h>
+- Replace text "Mediatek" with "MediaTek"
+- Replace all "first dev_err() and then return" with "return
+  dev_err_probe()"
 - Add Copyright in the source code
-- Add module name related description in Kconfig helptext
-- Remove header file <linux/of.h>
-- Refine all probe error by using dev_err_probe()
+- Add module name related description in Kconfig
+- Add unit suffix of macro "ADC_CONV_POLLING_TIME"
+- Add new macro "ADC_CONV_TIME_MS"
+- Adjust the position of include file <mediatek,mt6370_adc.h>
+- Adjust the postions between <linux/module.h> and
+  <linux/mod_devicetable.h>
+- Fix some incorrect characters
 ---
- drivers/usb/typec/tcpm/Kconfig        |  11 ++
- drivers/usb/typec/tcpm/Makefile       |   1 +
- drivers/usb/typec/tcpm/tcpci_mt6370.c | 207 ++++++++++++++++++++++++++++++++++
- 3 files changed, 219 insertions(+)
- create mode 100644 drivers/usb/typec/tcpm/tcpci_mt6370.c
+ drivers/iio/adc/Kconfig      |  12 ++
+ drivers/iio/adc/Makefile     |   1 +
+ drivers/iio/adc/mt6370-adc.c | 274 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 287 insertions(+)
+ create mode 100644 drivers/iio/adc/mt6370-adc.c
 
-diff --git a/drivers/usb/typec/tcpm/Kconfig b/drivers/usb/typec/tcpm/Kconfig
-index 073fd2e..ccdd791 100644
---- a/drivers/usb/typec/tcpm/Kconfig
-+++ b/drivers/usb/typec/tcpm/Kconfig
-@@ -35,6 +35,17 @@ config TYPEC_MT6360
- 	  USB Type-C. It works with Type-C Port Controller Manager
- 	  to provide USB PD and USB Type-C functionalities.
+diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+index 48ace74..fca382d 100644
+--- a/drivers/iio/adc/Kconfig
++++ b/drivers/iio/adc/Kconfig
+@@ -737,6 +737,18 @@ config MEDIATEK_MT6360_ADC
+ 	  is used in smartphones and tablets and supports a 11 channel
+ 	  general purpose ADC.
  
-+config TYPEC_TCPCI_MT6370
-+	tristate "MediaTek MT6370 Type-C driver"
++config MEDIATEK_MT6370_ADC
++	tristate "MediaTek MT6370 ADC driver"
 +	depends on MFD_MT6370
 +	help
-+	  MediaTek MT6370 is a multi-functional IC that includes
-+	  USB Type-C. It works with Type-C Port Controller Manager
-+	  to provide USB PD and USB Type-C functionalities.
++	  Say yes here to enable MediaTek MT6370 ADC support.
++
++	  This ADC driver provides 9 channels for system monitoring (charger
++	  current, voltage, and temperature).
 +
 +	  This driver can also be built as a module. If so the module
-+	  will be called "tcpci_mt6370.ko".
++	  will be called "mt6370-adc.ko".
 +
- config TYPEC_TCPCI_MAXIM
- 	tristate "Maxim TCPCI based Type-C chip driver"
- 	help
-diff --git a/drivers/usb/typec/tcpm/Makefile b/drivers/usb/typec/tcpm/Makefile
-index 7d499f3..906d9dc 100644
---- a/drivers/usb/typec/tcpm/Makefile
-+++ b/drivers/usb/typec/tcpm/Makefile
-@@ -6,4 +6,5 @@ typec_wcove-y				:= wcove.o
- obj-$(CONFIG_TYPEC_TCPCI)		+= tcpci.o
- obj-$(CONFIG_TYPEC_RT1711H)		+= tcpci_rt1711h.o
- obj-$(CONFIG_TYPEC_MT6360)		+= tcpci_mt6360.o
-+obj-$(CONFIG_TYPEC_TCPCI_MT6370)	+= tcpci_mt6370.o
- obj-$(CONFIG_TYPEC_TCPCI_MAXIM)		+= tcpci_maxim.o
-diff --git a/drivers/usb/typec/tcpm/tcpci_mt6370.c b/drivers/usb/typec/tcpm/tcpci_mt6370.c
+ config MEDIATEK_MT6577_AUXADC
+ 	tristate "MediaTek AUXADC driver"
+ 	depends on ARCH_MEDIATEK || COMPILE_TEST
+diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
+index 39d806f..0ce285c 100644
+--- a/drivers/iio/adc/Makefile
++++ b/drivers/iio/adc/Makefile
+@@ -68,6 +68,7 @@ obj-$(CONFIG_MCP320X) += mcp320x.o
+ obj-$(CONFIG_MCP3422) += mcp3422.o
+ obj-$(CONFIG_MCP3911) += mcp3911.o
+ obj-$(CONFIG_MEDIATEK_MT6360_ADC) += mt6360-adc.o
++obj-$(CONFIG_MEDIATEK_MT6370_ADC) += mt6370-adc.o
+ obj-$(CONFIG_MEDIATEK_MT6577_AUXADC) += mt6577_auxadc.o
+ obj-$(CONFIG_MEN_Z188_ADC) += men_z188_adc.o
+ obj-$(CONFIG_MESON_SARADC) += meson_saradc.o
+diff --git a/drivers/iio/adc/mt6370-adc.c b/drivers/iio/adc/mt6370-adc.c
 new file mode 100644
-index 0000000..12336ca
+index 0000000..0493d6e
 --- /dev/null
-+++ b/drivers/usb/typec/tcpm/tcpci_mt6370.c
-@@ -0,0 +1,207 @@
++++ b/drivers/iio/adc/mt6370-adc.c
+@@ -0,0 +1,274 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (C) 2022 Richtek Technology Corp.
 + *
-+ * Author: ChiYuan Huang <cy_huang@richtek.com>
++ * Author: ChiaEn Wu <chiaen_wu@richtek.com>
 + */
 +
 +#include <linux/bits.h>
-+#include <linux/interrupt.h>
++#include <linux/bitfield.h>
++#include <linux/iio/iio.h>
 +#include <linux/kernel.h>
 +#include <linux/mod_devicetable.h>
 +#include <linux/module.h>
++#include <linux/mutex.h>
 +#include <linux/platform_device.h>
-+#include <linux/pm_wakeup.h>
-+#include <linux/pm_wakeirq.h>
 +#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/usb/tcpm.h>
-+#include "tcpci.h"
 +
-+#define MT6370_REG_SYSCTRL8	0x9B
++#include <dt-bindings/iio/adc/mediatek,mt6370_adc.h>
 +
-+#define MT6370_AUTOIDLE_MASK	BIT(3)
++#define MT6370_REG_CHG_CTRL3		0x113 /* AICR */
++#define MT6370_REG_CHG_CTRL7		0x117 /* ICHG */
++#define MT6370_REG_CHG_ADC		0x121
++#define MT6370_REG_ADC_DATA_H		0x14C
 +
-+#define MT6370_VENDOR_ID	0x29CF
-+#define MT6370_TCPC_DID_A	0x2170
++#define MT6370_ADC_START_MASK		BIT(0)
++#define MT6370_ADC_IN_SEL_MASK		GENMASK(7, 4)
++#define MT6370_AICR_ICHG_MASK		GENMASK(7, 2)
 +
-+struct mt6370_priv {
++#define MT6370_AICR_400MA		0x6
++#define MT6370_ICHG_500MA		0x4
++#define MT6370_ICHG_900MA		0x8
++
++#define ADC_CONV_TIME_US		35000
++#define ADC_CONV_TIME_MS		(ADC_CONV_TIME_US / 1000)
++#define ADC_CONV_POLLING_TIME_US	1000
++
++struct mt6370_adc_data {
 +	struct device *dev;
-+	struct regulator *vbus;
-+	struct tcpci *tcpci;
-+	struct tcpci_data tcpci_data;
-+	int irq;
++	struct regmap *regmap;
++	/*
++	 * This mutex lock is for preventing the different ADC channels
++	 * from being read at the same time.
++	 */
++	struct mutex adc_lock;
 +};
 +
-+static const struct reg_sequence mt6370_reg_init[] = {
-+	REG_SEQ(0xA0, 0x1, 1000),
-+	REG_SEQ(0x81, 0x38, 0),
-+	REG_SEQ(0x82, 0x82, 0),
-+	REG_SEQ(0xBA, 0xFC, 0),
-+	REG_SEQ(0xBB, 0x50, 0),
-+	REG_SEQ(0x9E, 0x8F, 0),
-+	REG_SEQ(0xA1, 0x5, 0),
-+	REG_SEQ(0xA2, 0x4, 0),
-+	REG_SEQ(0xA3, 0x4A, 0),
-+	REG_SEQ(0xA4, 0x01, 0),
-+	REG_SEQ(0x95, 0x01, 0),
-+	REG_SEQ(0x80, 0x71, 0),
-+	REG_SEQ(0x9B, 0x3A, 1000)
-+};
-+
-+static int mt6370_tcpc_init(struct tcpci *tcpci, struct tcpci_data *data)
++static int mt6370_adc_read_channel(struct mt6370_adc_data *priv, int chan,
++				   unsigned long addr, int *val)
 +{
-+	u16 did;
++	__be16 be_val;
++	unsigned int reg_val;
 +	int ret;
 +
-+	ret = regmap_register_patch(data->regmap, mt6370_reg_init,
-+				    ARRAY_SIZE(mt6370_reg_init));
++	mutex_lock(&priv->adc_lock);
++
++	reg_val = MT6370_ADC_START_MASK |
++		  FIELD_PREP(MT6370_ADC_IN_SEL_MASK, addr);
++	ret = regmap_write(priv->regmap, MT6370_REG_CHG_ADC, reg_val);
 +	if (ret)
-+		return ret;
++		goto adc_unlock;
 +
-+	ret = regmap_raw_read(data->regmap, TCPC_BCD_DEV, &did, sizeof(u16));
-+	if (ret)
-+		return ret;
++	msleep(ADC_CONV_TIME_MS);
 +
-+	if (did == MT6370_TCPC_DID_A)
-+		return regmap_write(data->regmap, TCPC_FAULT_CTRL, 0x80);
-+
-+	return 0;
-+}
-+
-+static int mt6370_tcpc_set_vconn(struct tcpci *tcpci, struct tcpci_data *data,
-+				 bool enable)
-+{
-+	return regmap_update_bits(data->regmap, MT6370_REG_SYSCTRL8,
-+				  MT6370_AUTOIDLE_MASK,
-+				  !enable ? MT6370_AUTOIDLE_MASK : 0);
-+}
-+
-+static int mt6370_tcpc_set_vbus(struct tcpci *tcpci, struct tcpci_data *data,
-+				bool source, bool sink)
-+{
-+	struct mt6370_priv *priv = container_of(data, struct mt6370_priv,
-+						tcpci_data);
-+	int ret;
-+
-+	ret = regulator_is_enabled(priv->vbus);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ret && !source)
-+		return regulator_disable(priv->vbus);
-+	else if (!ret && source)
-+		return regulator_enable(priv->vbus);
-+	else
-+		return 0;
-+}
-+
-+static irqreturn_t mt6370_irq_handler(int irq, void *dev_id)
-+{
-+	struct mt6370_priv *priv = dev_id;
-+
-+	return tcpci_irq(priv->tcpci);
-+}
-+
-+static int mt6370_check_vendor_info(struct mt6370_priv *priv)
-+{
-+	struct regmap *regmap = priv->tcpci_data.regmap;
-+	u16 vid;
-+	int ret;
-+
-+	ret = regmap_raw_read(regmap, TCPC_VENDOR_ID, &vid, sizeof(u16));
-+	if (ret)
-+		return ret;
-+
-+	if (vid != MT6370_VENDOR_ID) {
-+		dev_err(priv->dev, "Vendor ID not correct 0x%02x\n", vid);
-+		return -ENODEV;
++	ret = regmap_read_poll_timeout(priv->regmap,
++				       MT6370_REG_CHG_ADC, reg_val,
++				       !(reg_val & MT6370_ADC_START_MASK),
++				       ADC_CONV_POLLING_TIME_US,
++				       ADC_CONV_TIME_US * 3);
++	if (ret) {
++		dev_err(priv->dev, "Failed to read ADC register (%d)\n", ret);
++		goto adc_unlock;
 +	}
 +
-+	return 0;
++	ret = regmap_raw_read(priv->regmap, MT6370_REG_ADC_DATA_H,
++			      &be_val, sizeof(be_val));
++	if (ret)
++		goto adc_unlock;
++
++	*val = be16_to_cpu(be_val);
++	ret = IIO_VAL_INT;
++
++adc_unlock:
++	mutex_unlock(&priv->adc_lock);
++
++	return ret;
 +}
 +
-+static int mt6370_tcpc_probe(struct platform_device *pdev)
++static int mt6370_adc_read_scale(struct mt6370_adc_data *priv,
++				 int chan, int *val1, int *val2)
 +{
-+	struct mt6370_priv *priv;
++	unsigned int reg_val;
 +	int ret;
 +
-+	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
++	switch (chan) {
++	case MT6370_CHAN_VBAT:
++	case MT6370_CHAN_VSYS:
++	case MT6370_CHAN_CHG_VDDP:
++		*val1 = 5;
++		return IIO_VAL_INT;
++	case MT6370_CHAN_IBUS:
++		ret = regmap_read(priv->regmap, MT6370_REG_CHG_CTRL3, &reg_val);
++		if (ret)
++			return ret;
++
++		reg_val = FIELD_GET(MT6370_AICR_ICHG_MASK, reg_val);
++		if (reg_val < MT6370_AICR_400MA)
++			*val1 = 3350;
++		else
++			*val1 = 5000;
++
++		*val2 = 100;
++
++		return IIO_VAL_FRACTIONAL;
++	case MT6370_CHAN_IBAT:
++		ret = regmap_read(priv->regmap, MT6370_REG_CHG_CTRL7, &reg_val);
++		if (ret)
++			return ret;
++
++		reg_val = FIELD_GET(MT6370_AICR_ICHG_MASK, reg_val);
++		if (reg_val < MT6370_ICHG_500MA)
++			*val1 = 2375;
++		else if (reg_val >= MT6370_ICHG_500MA &&
++			 reg_val < MT6370_ICHG_900MA)
++			*val1 = 2680;
++		else
++			*val1 = 5000;
++
++		*val2 = 100;
++
++		return IIO_VAL_FRACTIONAL;
++	case MT6370_CHAN_VBUSDIV5:
++		*val1 = 25;
++		return IIO_VAL_INT;
++	case MT6370_CHAN_VBUSDIV2:
++		*val1 = 50;
++		return IIO_VAL_INT;
++	case MT6370_CHAN_TS_BAT:
++		*val1 = 25;
++		*val2 = 10000;
++		return IIO_VAL_FRACTIONAL;
++	case MT6370_CHAN_TEMP_JC:
++		*val1 = 2000;
++		return IIO_VAL_FRACTIONAL;
++	default:
++		return -EINVAL;
++	}
++}
++
++static int mt6370_adc_read_offset(struct mt6370_adc_data *priv,
++				  int chan, int *val)
++{
++	*val = -20;
++
++	return IIO_VAL_INT;
++}
++
++static int mt6370_adc_read_raw(struct iio_dev *iio_dev,
++			       const struct iio_chan_spec *chan,
++			       int *val, int *val2, long mask)
++{
++	struct mt6370_adc_data *priv = iio_priv(iio_dev);
++
++	switch (mask) {
++	case IIO_CHAN_INFO_RAW:
++		return mt6370_adc_read_channel(priv, chan->channel,
++					       chan->address, val);
++	case IIO_CHAN_INFO_SCALE:
++		return mt6370_adc_read_scale(priv, chan->channel, val, val2);
++	case IIO_CHAN_INFO_OFFSET:
++		return mt6370_adc_read_offset(priv, chan->channel, val);
++	default:
++		return -EINVAL;
++	}
++}
++
++static const char * const mt6370_channel_labels[MT6370_CHAN_MAX] = {
++	[MT6370_CHAN_VBUSDIV5] = "vbusdiv5",
++	[MT6370_CHAN_VBUSDIV2] = "vbusdiv2",
++	[MT6370_CHAN_VSYS] = "vsys",
++	[MT6370_CHAN_VBAT] = "vbat",
++	[MT6370_CHAN_TS_BAT] = "ts_bat",
++	[MT6370_CHAN_IBUS] = "ibus",
++	[MT6370_CHAN_IBAT] = "ibat",
++	[MT6370_CHAN_CHG_VDDP] = "chg_vddp",
++	[MT6370_CHAN_TEMP_JC] = "temp_jc",
++};
++
++static int mt6370_adc_read_label(struct iio_dev *iio_dev,
++				 struct iio_chan_spec const *chan, char *label)
++{
++	return snprintf(label, PAGE_SIZE, "%s\n",
++			mt6370_channel_labels[chan->channel]);
++}
++
++static const struct iio_info mt6370_adc_iio_info = {
++	.read_raw = mt6370_adc_read_raw,
++	.read_label = mt6370_adc_read_label,
++};
++
++#define MT6370_ADC_CHAN(_idx, _type, _addr, _extra_info) {	\
++	.type = _type,						\
++	.channel = MT6370_CHAN_##_idx,				\
++	.address = _addr,					\
++	.scan_index = MT6370_CHAN_##_idx,			\
++	.indexed = 1,						\
++	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |		\
++			      BIT(IIO_CHAN_INFO_SCALE) |	\
++			      _extra_info,			\
++}
++
++static const struct iio_chan_spec mt6370_adc_channels[] = {
++	MT6370_ADC_CHAN(VBUSDIV5, IIO_VOLTAGE, 1, 0),
++	MT6370_ADC_CHAN(VBUSDIV2, IIO_VOLTAGE, 2, 0),
++	MT6370_ADC_CHAN(VSYS, IIO_VOLTAGE, 3, 0),
++	MT6370_ADC_CHAN(VBAT, IIO_VOLTAGE, 4, 0),
++	MT6370_ADC_CHAN(TS_BAT, IIO_VOLTAGE, 6, 0),
++	MT6370_ADC_CHAN(IBUS, IIO_CURRENT, 8, 0),
++	MT6370_ADC_CHAN(IBAT, IIO_CURRENT, 9, 0),
++	MT6370_ADC_CHAN(CHG_VDDP, IIO_VOLTAGE, 11, 0),
++	MT6370_ADC_CHAN(TEMP_JC, IIO_TEMP, 12, BIT(IIO_CHAN_INFO_OFFSET)),
++};
++
++static int mt6370_adc_probe(struct platform_device *pdev)
++{
++	int ret;
++	struct mt6370_adc_data *priv;
++	struct regmap *regmap;
++	struct iio_dev *indio_dev;
++
++	regmap = dev_get_regmap(pdev->dev.parent, NULL);
++	if (!regmap)
++		return dev_err_probe(&pdev->dev, -ENODEV,
++				     "Failed to get regmap\n");
++
++	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*priv));
++	if (!indio_dev)
 +		return -ENOMEM;
 +
++	priv = iio_priv(indio_dev);
 +	priv->dev = &pdev->dev;
-+	platform_set_drvdata(pdev, priv);
++	priv->regmap = regmap;
++	mutex_init(&priv->adc_lock);
 +
-+	priv->tcpci_data.regmap = dev_get_regmap(pdev->dev.parent, NULL);
-+	if (!priv->tcpci_data.regmap)
-+		return dev_err_probe(&pdev->dev, -ENODEV,
-+				     "Failed to init regmap\n");
-+
-+	ret = mt6370_check_vendor_info(priv);
++	ret = regmap_write(priv->regmap, MT6370_REG_CHG_ADC, 0);
 +	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "Failed to check vendor info\n");
++		return dev_err_probe(&pdev->dev, ret, "Failed to reset ADC\n");
 +
-+	priv->irq = platform_get_irq(pdev, 0);
-+	if (priv->irq < 0)
-+		return priv->irq;
++	indio_dev->name = "mt6370-adc";
++	indio_dev->info = &mt6370_adc_iio_info;
++	indio_dev->modes = INDIO_DIRECT_MODE;
++	indio_dev->channels = mt6370_adc_channels;
++	indio_dev->num_channels = ARRAY_SIZE(mt6370_adc_channels);
 +
-+	/* Assign TCPCI feature and ops */
-+	priv->tcpci_data.auto_discharge_disconnect = 1;
-+	priv->tcpci_data.init = mt6370_tcpc_init;
-+	priv->tcpci_data.set_vconn = mt6370_tcpc_set_vconn;
-+
-+	priv->vbus = devm_regulator_get_optional(&pdev->dev, "vbus");
-+	if (!IS_ERR(priv->vbus))
-+		priv->tcpci_data.set_vbus = mt6370_tcpc_set_vbus;
-+
-+	priv->tcpci = tcpci_register_port(&pdev->dev, &priv->tcpci_data);
-+	if (IS_ERR(priv->tcpci))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(priv->tcpci),
-+				     "Failed to register tcpci port\n");
-+
-+	ret = devm_request_threaded_irq(&pdev->dev, priv->irq, NULL,
-+					mt6370_irq_handler, IRQF_ONESHOT,
-+					dev_name(&pdev->dev), priv);
-+	if (ret) {
-+		tcpci_unregister_port(priv->tcpci);
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "Failed to allocate irq\n");
-+	}
-+
-+	device_init_wakeup(&pdev->dev, true);
-+	dev_pm_set_wake_irq(&pdev->dev, priv->irq);
-+	return 0;
++	return devm_iio_device_register(&pdev->dev, indio_dev);
 +}
 +
-+static int mt6370_tcpc_remove(struct platform_device *pdev)
-+{
-+	struct mt6370_priv *priv = platform_get_drvdata(pdev);
-+
-+	disable_irq(priv->irq);
-+	tcpci_unregister_port(priv->tcpci);
-+	dev_pm_clear_wake_irq(&pdev->dev);
-+	device_init_wakeup(&pdev->dev, false);
-+	return 0;
-+}
-+
-+static const struct of_device_id mt6370_tcpc_devid_table[] = {
-+	{ .compatible = "mediatek,mt6370-tcpc", },
++static const struct of_device_id mt6370_adc_of_id[] = {
++	{ .compatible = "mediatek,mt6370-adc", },
 +	{}
 +};
-+MODULE_DEVICE_TABLE(of, mt6370_tcpc_devid_table);
++MODULE_DEVICE_TABLE(of, mt6370_adc_of_id);
 +
-+static struct platform_driver mt6370_tcpc_driver = {
++static struct platform_driver mt6370_adc_driver = {
 +	.driver = {
-+		.name = "mt6370-tcpc",
-+		.of_match_table = mt6370_tcpc_devid_table,
++		.name = "mt6370-adc",
++		.of_match_table = mt6370_adc_of_id,
 +	},
-+	.probe = mt6370_tcpc_probe,
-+	.remove = mt6370_tcpc_remove,
++	.probe = mt6370_adc_probe,
 +};
-+module_platform_driver(mt6370_tcpc_driver);
++module_platform_driver(mt6370_adc_driver);
 +
-+MODULE_AUTHOR("ChiYuan Huang <cy_huang@richtek.com>");
-+MODULE_DESCRIPTION("MT6370 USB Type-C Port Controller Interface Driver");
++MODULE_AUTHOR("ChiaEn Wu <chiaen_wu@richtek.com>");
++MODULE_DESCRIPTION("MT6370 ADC Drvier");
 +MODULE_LICENSE("GPL v2");
 -- 
 2.7.4
