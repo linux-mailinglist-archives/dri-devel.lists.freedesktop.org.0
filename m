@@ -1,61 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509A7565BC6
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:22:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB225669B9
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:35:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44BFE10F4FA;
-	Mon,  4 Jul 2022 16:16:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13602113582;
+	Tue,  5 Jul 2022 11:31:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF92B10E013
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 12:08:30 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id t21so8809149pfq.1
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Jul 2022 05:08:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zM6k7wksuNvGlGq6D8pYCpU91RIfKXfSwe1O1batFpM=;
- b=Pk79kImAgR1NPXrXBciuZ0mSuzaxskitVfe4NlJ2XlyTl0xMFuwItkbbi0cprHg6PF
- O/koDJOxvLb0hVLFIl0DvA3UYks4ajZlwD4ysoMPfq7cLIuLD03ucdgN2W1XiBgARkHG
- 7XXdd4ID1CI9ykMAZaCXoaLOjf8pE4W2kR2G4bfMprveeyUOPvS4zKR2JCZdXUWp0n3M
- BvXSI4iI1+i9VJvp9SqVajDbKSPxAT9OjTUmp8X3DENT2hpcktHKFwRZLJaPWxNA4+VR
- L9qNGc7D7VVgeW0RoD4RKMKciIRAyKpnz//IV2y8FJuiSwgmInto+4iwU4jgt+Nejrp6
- wPFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zM6k7wksuNvGlGq6D8pYCpU91RIfKXfSwe1O1batFpM=;
- b=IlbAQE1SWFA9yiRdK2Zp6bxejwa+xax24Z4+U8UTOIapb4l/Eif06SwI74VXJjQZ06
- bxRHQKOXUkRN5g6Sh7xChxpOrpdrsSmdvA1fp4y4mvcTBRensIoIrZ5rbHeD4+Crm348
- smLxBJlrikDkxD0O2uljobsYQQKLcVOCQS7MP0wTuDGvcKUhCEdjAlhbUuNcevZh9ltU
- DhmN4iifej0TF+cjSfwWiX0bHXF1DZCxIf8WuENR8qM9M/yCgMzC6R2qkf/E6CASa4Oa
- zNlKYdLpn1388n8KMYJfhW5oZu9TSqYvkWpNAWhvWL54kBboCtFtM51uoqvfu4kFUsgv
- SxjA==
-X-Gm-Message-State: AJIora/GyRgMxQMfgFh+UipuAykTmSWkrdLnrS6ZiL2A7e2MqQzGNVQ+
- 96dhQk2toNAJzOyB7pLn24u7tg==
-X-Google-Smtp-Source: AGRyM1uqmJynJNrbJeDxw4sHqdMSf2eDgcVImaSFfyVb2XrpmBPc3tF3N1I5pjtaPgA1Xtm+BTaJ5Q==
-X-Received: by 2002:a65:6054:0:b0:411:5e12:21b2 with SMTP id
- a20-20020a656054000000b004115e1221b2mr24544781pgp.222.1656936510437; 
- Mon, 04 Jul 2022 05:08:30 -0700 (PDT)
-Received: from localhost ([122.171.18.80]) by smtp.gmail.com with ESMTPSA id
- u2-20020a170902714200b0016a522915e5sm21089580plm.83.2022.07.04.05.08.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jul 2022 05:08:30 -0700 (PDT)
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Qiang Yu <yuq825@gmail.com>
-Subject: [PATCH V3 07/20] drm/lima: Migrate to dev_pm_opp_set_config()
-Date: Mon,  4 Jul 2022 17:37:45 +0530
-Message-Id: <734af371b2523219c719111be72d932dc3fd7eb9.1656935522.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
-In-Reply-To: <cover.1656935522.git.viresh.kumar@linaro.org>
-References: <cover.1656935522.git.viresh.kumar@linaro.org>
+Received: from smtp2.tsag.net (smtp2.tsag.net [208.118.68.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB0A10E02D
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 12:12:23 +0000 (UTC)
+Received: from linuxfromscratch.org (rivendell.linuxfromscratch.org
+ [208.118.68.85])
+ (user=smtprelay@linuxfromscratch.org mech=PLAIN bits=0)
+ by smtp2.tsag.net  with ESMTP id 264CCEb3016295-264CCEb5016295
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 4 Jul 2022 06:12:15 -0600
+Received: from [192.168.124.21] (unknown [113.140.29.6])
+ by linuxfromscratch.org (Postfix) with ESMTPSA id 94E8B1C33A3;
+ Mon,  4 Jul 2022 12:12:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfromscratch.org;
+ s=cert4; t=1656936734;
+ bh=GrL/vpguVZ9tP47CYdZCrW41xA+hiKUSJdUUeQWLGpE=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References;
+ b=cih1+QImaS5HdEMectcuxojxwRTLah2ZFL57ICfKWJvgQEpOF1/UT/N0n+LTwAB87
+ zgVYrxsIEzMpjAoI+sLSjNhNYZ8S6EXNRpDplk52OHsliZA7wOwyUZNZadL820INJq
+ eY3q1NXW20y6Bgmxv0notT4Xyhlr4pXswC7bF9zz9Ca3GrCRV3I5WKT+cPDDMzOLuQ
+ HusFDkbVEZxP7LGcslMs6RjXhPWkeLuEpzszbqewJlkcgfeXlgwl4LK3OJNX1Aslqv
+ 4b8acQN+j70cUyQ9aKttzbeG2jT2wCtXZKfHp7yINnYUGq5vvPt6YoqF8rVdse9UNj
+ GCNBwJzDPhkUQ==
+Message-ID: <2ae767b0439133ca4e60885a1843ee72b69adfc5.camel@linuxfromscratch.org>
+Subject: Re: [PATCH v6 3/5] fbdev: Disable sysfb device registration when
+ removing conflicting FBs
+From: Xi Ruoyao <xry111@linuxfromscratch.org>
+To: Javier Martinez Canillas <javierm@redhat.com>, Zack Rusin
+ <zackr@vmware.com>,  "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Date: Mon, 04 Jul 2022 20:11:40 +0800
+In-Reply-To: <fddf5ca6-77dc-88f9-c191-7de09717063c@redhat.com>
+References: <20220607182338.344270-1-javierm@redhat.com>
+ <20220607182338.344270-4-javierm@redhat.com>
+ <de83ae8cb6de7ee7c88aa2121513e91bb0a74608.camel@vmware.com>
+ <38473dcd-0666-67b9-28bd-afa2d0ce434a@redhat.com>
+ <603e3613b9b8ff7815b63f294510d417b5b12937.camel@vmware.com>
+ <a633d605-4cb3-2e04-1818-85892cf6f7b0@redhat.com>
+ <97565fb5-cf7f-5991-6fb3-db96fe239ee8@redhat.com>
+ <711c88299ef41afd8556132b7c1dcb75ee7e6117.camel@vmware.com>
+ <aa144e20-a555-5c30-4796-09713c12ab0e@redhat.com>
+ <64c753c98488a64b470009e45769ceab29fd8130.camel@linuxfromscratch.org>
+ <61f2e4e2af40cb9d853504d0a6fe01829ff8ca60.camel@linuxfromscratch.org>
+ <fddf5ca6-77dc-88f9-c191-7de09717063c@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.3 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-FEAS-Auth-User: smtprelay@linuxfromscratch.org
+X-FEAS-DKIM: Valid
+Authentication-Results: smtp2.tsag.net;
+ dkim=pass header.i=@linuxfromscratch.org;
+ dmarc=pass header.from=linuxfromscratch.org
+X-FE-Policy-ID: 0:14:3:linuxfromscratch.org
+X-Mailman-Approved-At: Tue, 05 Jul 2022 07:31:09 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,53 +75,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- lima@lists.freedesktop.org, "Rafael J. Wysocki" <rafael@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "deller@gmx.de" <deller@gmx.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
+ "lersek@redhat.com" <lersek@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The OPP core now provides a unified API for setting all configuration
-types, i.e. dev_pm_opp_set_config().
+On Mon, 2022-07-04 at 13:04 +0200, Javier Martinez Canillas wrote:
+> Hello Xi,
+> >=20
+> > With CONFIG_SYSFB_SIMPLEFB and CONFIG_FB_SIMPLE enabled, there is no
+> > issue.
+> >=20
+> > I guess it's something going wrong on a "drm -> drm" pass over.=C2=A0 F=
+or now
+> > I'll continue to use simpledrm with this commit reverted.
+> >=20
+>=20
+> Yes, we need to also cherry-pick b84efa28a48 ("drm/aperture: Run fbdev
+> removal before internal helpers") now that the sysfb_disable() patches
+> are in v5.19-rc5.
 
-Lets start using it.
-
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- drivers/gpu/drm/lima/lima_devfreq.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/lima/lima_devfreq.c b/drivers/gpu/drm/lima/lima_devfreq.c
-index dc83c5421125..011be7ff51e1 100644
---- a/drivers/gpu/drm/lima/lima_devfreq.c
-+++ b/drivers/gpu/drm/lima/lima_devfreq.c
-@@ -112,6 +112,11 @@ int lima_devfreq_init(struct lima_device *ldev)
- 	unsigned long cur_freq;
- 	int ret;
- 	const char *regulator_names[] = { "mali", NULL };
-+	const char *clk_names[] = { "core", NULL };
-+	struct dev_pm_opp_config config = {
-+		.regulator_names = regulator_names,
-+		.clk_names = clk_names,
-+	};
- 
- 	if (!device_property_present(dev, "operating-points-v2"))
- 		/* Optional, continue without devfreq */
-@@ -119,11 +124,7 @@ int lima_devfreq_init(struct lima_device *ldev)
- 
- 	spin_lock_init(&ldevfreq->lock);
- 
--	ret = devm_pm_opp_set_clkname(dev, "core");
--	if (ret)
--		return ret;
--
--	ret = devm_pm_opp_set_regulators(dev, regulator_names);
-+	ret = devm_pm_opp_set_config(dev, &config);
- 	if (ret) {
- 		/* Continue if the optional regulator is missing */
- 		if (ret != -ENODEV)
--- 
-2.31.1.272.g89b43f80a514
-
+I confirm that cherry-picking b84efa28a48 fixes the issue for v5.19-rc5.
