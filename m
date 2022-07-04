@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17657565EBB
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 23:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A39E565EC6
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 23:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4170B18A5DA;
-	Mon,  4 Jul 2022 21:06:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A44FA10E87E;
+	Mon,  4 Jul 2022 21:14:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5647718A5A8
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 21:06:00 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id g4so18647589ybg.9
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Jul 2022 14:06:00 -0700 (PDT)
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64CC210ED3D
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 21:14:41 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-3137316bb69so91450837b3.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Jul 2022 14:14:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VjZ3yzk/koQQf8zjxBLs4QwpOzuOIkcuZx3e6uOiaGo=;
- b=XAO9XvLkJnavV0BlpGD+ClNY1uK6ZfLyjbo4n/ZLW8wmrgbwYg5bneBkPszuL0qItE
- XJI/Um1JbtICgrAWB2CbGTIQL3XiiI2CrvIzS3z6cX+0fWMEmTP/m05hoU/XeDh0JO+1
- eeHvwD6DxA036OjtJ1Awdqd8jOkI2onMTEJcqz2T5m6m+nRgsY0HzmkAIs+HuG9M0gvY
- OFUCInVfTCYeAF0Lc4c62oICHpgKN8SFXHnHvcx1YtkZYz9O+ZylSp/45sY17OaSjN0m
- IlghfWm5NOnrrvHQ0++R9QZOLHNJ+fo0gumeOMXqd+yZ0GZJC1bXUW/tMLgcUZq+m6/s
- 0PeQ==
+ :cc; bh=HpdquBLgwxS+q6MF90ETAqdi+gZ5jGI/bw3VMe7+rpM=;
+ b=pisWhvytYZKcu+6yG4fRYH2VSnfWPvpTWA+gGM2H9VsDnz1Nib2CFiFmg3pHrwfMLA
+ jDwEDffpRMjn8/A+wioAF9Cq2+qv8EhBQqcsEuO3EMmu14Zw8HGGpmsNHlSX+BjaPIYz
+ v9swYPqNcfcEpwpvhj9RHrNU7Kr3NnRhPDvVKnrmzZYXLtriCDIeXN+U0W9ia0fF5mRC
+ Fs4O7JBhbxC04sxj2Jq4uzhG+waPhMmluTQCcYWdp949oDqMk74B2o8JYRErDbJgojw7
+ iC21Q1WweofBJD8188y54cG3nP/c8Wr4aV16mZq9v2Xdu0smJbbPholxpaf2ZKiPz9cp
+ KVJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VjZ3yzk/koQQf8zjxBLs4QwpOzuOIkcuZx3e6uOiaGo=;
- b=v/KQh2G47zh8Jw7cjPnUDc/lKCWdWLhpb8QE3a7uH5mELSCdESm6CcWCV4oi1/didW
- jnK8iIiJZEuBdEDtKzz7/qh+fl+r5feNWr2zTnrV89sdHewoD7PO7cwg8gJVK204Z62o
- VOhYiklRFmiHrxRh+0fFf5yLTbSuuqG9Hlt6qHQUmj7TV/aiDCFBmCt7iHSr1oQJ3X9F
- YNB4ycWf8ILEgBfzBjSp5QzUDPBjFgvD5Hh9SYuVPdL1QuRLJ0WLB1lTogFJpU6pXcp5
- 4R9PrUKjj7zsUQp7lTIukAznigVsFLjGzanhSpX+BAHNUta1hRMHgAgLH7LwK3bCXABw
- rHAA==
-X-Gm-Message-State: AJIora8PBJo1KPubw4ICA8jQ3iAvGyApN+gKIT0I1VCZHtJgt5lkRi6A
- /1f/iyfWIYWq9NYFfBDZicXQ45Amuc0bPQbV0qQ=
-X-Google-Smtp-Source: AGRyM1sv4WckZUH06N23fcQXnL/x2rHJiYiT8ToR3cUqaWbGObXlg//Fkee64+CFjVKfldQI9mTw3vJ9ryFFyL1X6HM=
-X-Received: by 2002:a5b:68a:0:b0:66e:472a:83f4 with SMTP id
- j10-20020a5b068a000000b0066e472a83f4mr8717309ybq.570.1656968759476; Mon, 04
- Jul 2022 14:05:59 -0700 (PDT)
+ bh=HpdquBLgwxS+q6MF90ETAqdi+gZ5jGI/bw3VMe7+rpM=;
+ b=d+kIVRTQi/7oz7Sbh0Ei7DfvJelITI8qeWMAfDF1L43wNKgy7qLz3izurFrBD8r94O
+ xe1T/4rnMiQFggOu6GS3pFQkYn8pJZrYPxOKVunTRTk8bxbuJHag1eZ9n0aVDQkstCXC
+ n3TiFg26kKV0gePBzK28QcPptrPmQxPUGZP5s/0eXk4U3jdUUy6ACfd3/u5K05pfmPmb
+ 8CGZufQkpEqwESaDMCoVDn5IgtJ+leJ0aXK3lovOQF8ltSRcte910A9UgUOTHRhTKmhc
+ /M5LRmVH4zxAB8cWLURz/IXD4t3VW76X38yQGNB7wVBXYLB3FTeErtHaY4MwkR3+Wvdf
+ WYAA==
+X-Gm-Message-State: AJIora+EyH/x8nmHsDqfBkN343c33ABLgbHE4I79lDxoBbgMCme4gga/
+ hSkpQ+9ewoPAvz6gvUkL+yH3pPkF7KrIk9Lmq0I=
+X-Google-Smtp-Source: AGRyM1vYxguLbsBOzRTVw1vvx756PgfmGkkRGrCT+1/7YzT9o6SbOC3eiybdUymDSM+qqhALtY73LfI5pY/jFLAqsJ8=
+X-Received: by 2002:a81:468b:0:b0:318:4cac:6576 with SMTP id
+ t133-20020a81468b000000b003184cac6576mr34256097ywa.277.1656969280331; Mon, 04
+ Jul 2022 14:14:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220704053901.728-1-peterwu.pub@gmail.com>
- <20220704053901.728-13-peterwu.pub@gmail.com>
-In-Reply-To: <20220704053901.728-13-peterwu.pub@gmail.com>
+ <20220704053901.728-14-peterwu.pub@gmail.com>
+In-Reply-To: <20220704053901.728-14-peterwu.pub@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 4 Jul 2022 23:05:22 +0200
-Message-ID: <CAHp75Vciq4M4kVrabNV9vTLLcd1vR=bMe8JLEdAF9MkRTpcB5g@mail.gmail.com>
-Subject: Re: [PATCH v4 12/13] leds: flashlight: mt6370: Add Mediatek MT6370
- flashlight support
+Date: Mon, 4 Jul 2022 23:14:03 +0200
+Message-ID: <CAHp75VdwEc9AW1w8ejsxkw+sBTF1dumd99QyzTY9BZaXiViRWQ@mail.gmail.com>
+Subject: Re: [PATCH v4 13/13] video: backlight: mt6370: Add Mediatek MT6370
+ support
 To: ChiaEn Wu <peterwu.pub@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,8 +91,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, Jul 4, 2022 at 7:43 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
-
-> Add Mediatek MT6370 flashlight support.
+>
+> From: ChiaEn Wu <chiaen_wu@richtek.com>
+>
+> Add Mediatek MT6370 Backlight support.
 
 ...
 
@@ -99,125 +102,110 @@ On Mon, Jul 4, 2022 at 7:43 AM ChiaEn Wu <peterwu.pub@gmail.com> wrote:
 
 If so,
 
-> +         will be called "leds-mt6370-flash.ko".
+> +         will be called "mt6370-backlight.ko".
 
 No ".ko" part.
 
 ...
 
-> +#define MT6370_ITORCH_MINUA            25000
-> +#define MT6370_ITORCH_STEPUA           12500
-> +#define MT6370_ITORCH_MAXUA            400000
-> +#define MT6370_ITORCH_DOUBLE_MAXUA     800000
-> +#define MT6370_ISTRB_MINUA             50000
-> +#define MT6370_ISTRB_STEPUA            12500
-> +#define MT6370_ISTRB_MAXUA             1500000
-> +#define MT6370_ISTRB_DOUBLE_MAXUA      3000000
-> +#define MT6370_STRBTO_MINUS            64000
-> +#define MT6370_STRBTO_STEPUS           32000
-> +#define MT6370_STRBTO_MAXUS            2432000
+> +#include <linux/gpio/driver.h>
 
-Make units suffix visible, i.e. _US, _uA, etc.
+Can you elaborate on this?
 
-...
+> +#include <linux/kernel.h>
+> +#include <linux/log2.h>
+> +#include <linux/minmax.h>
+> +#include <linux/module.h>
 
-> +       if (curr)
-> +               val |= MT6370_TORCHEN_MASK;
-> +
-> +
+> +#include <linux/of.h>
 
-One blank line is enough.
+Can you elaborate on this?
+
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+
+Missed mod_devicetable.h.
 
 ...
 
-> +       /*
-> +        * Due to the current spike when turning on flash,
-> +        * let brightness to be kept by framework.
+> +               brightness_val[0] = (brightness - 1) & MT6370_BL_DIM2_MASK;
+> +               brightness_val[1] = (brightness - 1)
+> +                                   >> fls(MT6370_BL_DIM2_MASK);
 
-brightness be
-the framework
-
-> +        * This empty function is used to
-> +        * prevent led_classdev_flash register ops check failure.
-> +        */
+Bad indentation. One line?
 
 ...
 
-> +       } else {
-> +               ret = regmap_update_bits(priv->regmap,
-> +                                        MT6370_REG_FLEDISTRB(led->led_no),
-> +                                        MT6370_ISTROBE_MASK, val);
+> +       if (priv->enable_gpio)
 
-> +               if (ret)
-> +                       return ret;
+Dup check.
 
-Dup of the below.
-
-> +       }
-> +       return ret;
+> +               gpiod_set_value(priv->enable_gpio, brightness ? 1 : 0);
 
 ...
 
-> +       /*
-> +        * If the flash need to be on,
-> +        * config the flash current ramping up to the setting value
-> +        * Else, always recover back to the minimum one
+> +       brightness = brightness_val[1] << fls(MT6370_BL_DIM2_MASK);
+> +       brightness += (brightness_val[0] & MT6370_BL_DIM2_MASK);
 
-Missed periods.
-
-> +        */
+Too many parentheses.
 
 ...
 
-> +       /*
-> +        * For the flash turn on/off, HW ramping up/down time is 5ms/500us
-> +        * respectively.
-> +        */
-> +       if (!prev && curr)
-> +               usleep_range(5000, 6000);
-> +       else if (prev && !curr)
-> +               udelay(500);
+> +               /*
+> +                * prop_val =  1      -->  1 steps --> 0x00
+> +                * prop_val =  2 ~  4 -->  4 steps --> 0x01
+> +                * prop_val =  5 ~ 16 --> 16 steps --> 0x10
+> +                * prop_val = 17 ~ 64 --> 64 steps --> 0x11
+> +                */
+> +               prop_val = (ilog2(roundup_pow_of_two(prop_val)) + 1) >> 1;
 
-Comment doesn't explain why this is suddenly a busy loop operation?
+Isn't something closer to get_order() or fls()?
 
+...
 
-> +static int mt6370_led_register(struct device *parent, struct mt6370_led *led,
-> +                               struct led_init_data *init_data)
-> +{
-> +       struct v4l2_flash_config v4l2_config = {0};
-> +       int ret;
-> +
-> +       ret = devm_led_classdev_flash_register_ext(parent, &led->flash,
-> +                                                  init_data);
+> +       props->max_brightness = min_t(u32, brightness,
+> +                                     MT6370_BL_MAX_BRIGHTNESS);
+
+One line?
+
+...
+
+> +       val = 0;
+
+Do you need this here?
+
+> +       prop_val = 0;
+
+Useless.
+
+> +       ret = device_property_read_u8(dev, "mediatek,bled-channel-use",
+> +                                     &prop_val);
 > +       if (ret) {
-> +               dev_err(parent, "Couldn't register flash %d\n", led->led_no);
+> +               dev_err(dev, "mediatek,bled-channel-use DT property missing\n");
 > +               return ret;
 > +       }
 > +
-> +       mt6370_init_v4l2_flash_config(led, &v4l2_config);
-> +       led->v4l2_flash = v4l2_flash_init(parent, init_data->fwnode,
-> +                                         &led->flash, &v4l2_flash_ops,
-> +                                         &v4l2_config);
-> +       if (IS_ERR(led->v4l2_flash)) {
-> +               dev_err(parent, "Failed to register %d v4l2 sd\n", led->led_no);
-> +               return PTR_ERR(led->v4l2_flash);
+> +       if (!prop_val || prop_val > MT6370_BL_MAX_CH) {
+> +               dev_err(dev,
+> +                       "No channel specified or over than upper bound (%d)\n",
+> +                       prop_val);
+> +               return -EINVAL;
 > +       }
-> +
-> +       return 0;
-> +}
 
 ...
 
-> +       } else
-> +               val = clamp_align(val, MT6370_STRBTO_MINUS, MT6370_STRBTO_MAXUS,
-> +                                 MT6370_STRBTO_STEPUS);
+> +static int mt6370_bl_probe(struct platform_device *pdev)
+> +{
+> +       struct mt6370_priv *priv;
+> +       struct backlight_properties props = {
+> +               .type = BACKLIGHT_RAW,
+> +               .scale = BACKLIGHT_SCALE_LINEAR,
+> +       };
+> +       int ret;
 
-Missed {}
+  struct device *dev = &pdev->dev;
 
-> +
-> +
-
-One blank line is enough.
+will save you a few LoCs.
 
 -- 
 With Best Regards,
