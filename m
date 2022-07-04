@@ -1,67 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78B8565C0C
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:24:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B25F5565BA6
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:21:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86BAC11210F;
-	Mon,  4 Jul 2022 16:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94CA610F285;
+	Mon,  4 Jul 2022 16:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2671210E068
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 14:28:14 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B9D891FF80;
- Mon,  4 Jul 2022 14:28:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1656944892; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jljU4+CCx2N89sbXYbT+Pz7HW5CCTrKSfc9kb43QdKo=;
- b=nTapdA7kZmDFXnXxbhrtQBY+U6/eb9wOCCuHkx+oAulkxiFo0YuecP4ux3zV9yf+GcW3ZO
- hylPC3aAWXVkSXN0DCRDUhlYbpZebWEtwUu1I+cBLGigXDn31KVlUWV/7FN7jFfh1o9xv5
- j3MK6MyWoUpg8cThRzJ92s8cLgAvAUA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1656944892;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jljU4+CCx2N89sbXYbT+Pz7HW5CCTrKSfc9kb43QdKo=;
- b=cOIwUDjK3XKwFmdaa8PzEiNBb4j/ba+XA7e9VF1XqpmVIGFYXLUKodFw9BseW2cl7YuSpq
- Eag32TWgaCZzXFDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 95A9E13451;
- Mon,  4 Jul 2022 14:28:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4LeUI/z4wmKUXwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 04 Jul 2022 14:28:12 +0000
-Message-ID: <48e682b2-ec5e-781f-da07-0ebaf7ab65ec@suse.de>
-Date: Mon, 4 Jul 2022 16:28:12 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AAECD10E068;
+ Mon,  4 Jul 2022 14:35:11 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DBF9423A;
+ Mon,  4 Jul 2022 07:35:10 -0700 (PDT)
+Received: from [10.57.41.70] (unknown [10.57.41.70])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 419853F66F;
+ Mon,  4 Jul 2022 07:35:07 -0700 (PDT)
+Message-ID: <48d865e8-6c0d-99c0-a43b-89793d5c3f85@arm.com>
+Date: Mon, 4 Jul 2022 15:35:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] drm: Prevent drm_copy_field() to attempt copying a
- NULL pointer
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20220701120755.2135100-1-javierm@redhat.com>
- <20220701120755.2135100-3-javierm@redhat.com>
- <b90d5ae5-8629-8be8-6390-f22f97ec4f5e@suse.de>
- <8e783b8c-e7b9-3d8e-e80d-2f2608421293@redhat.com>
- <83fa378f-b331-0cb7-5878-d4d23a543b18@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <83fa378f-b331-0cb7-5878-d4d23a543b18@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------a6jnEekHrVkHrgR25y6vPjhU"
+ Thunderbird/91.9.1
+Subject: Re: [PATCH V3 02/20] OPP: Make dev_pm_opp_set_regulators() accept
+ NULL terminated list
+Content-Language: en-GB
+To: Viresh Kumar <viresh.kumar@linaro.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Chanwoo Choi
+ <cw00.choi@samsung.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Qiang Yu <yuq825@gmail.com>,
+ Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>
+References: <cover.1656935522.git.viresh.kumar@linaro.org>
+ <9730e011004b7526e79c6f409f5147fb235b414a.1656935522.git.viresh.kumar@linaro.org>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <9730e011004b7526e79c6f409f5147fb235b414a.1656935522.git.viresh.kumar@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,117 +55,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Peter Robinson <pbrobinson@gmail.com>,
- dri-devel@lists.freedesktop.org
+Cc: linux-samsung-soc@vger.kernel.org,
+ Vincent Guittot <vincent.guittot@linaro.org>, lima@lists.freedesktop.org,
+ linux-pm@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------a6jnEekHrVkHrgR25y6vPjhU
-Content-Type: multipart/mixed; boundary="------------Hd0Z1ERFRdvvO5q0NpVW3dO4";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Peter Robinson <pbrobinson@gmail.com>
-Message-ID: <48e682b2-ec5e-781f-da07-0ebaf7ab65ec@suse.de>
-Subject: Re: [PATCH 2/2] drm: Prevent drm_copy_field() to attempt copying a
- NULL pointer
-References: <20220701120755.2135100-1-javierm@redhat.com>
- <20220701120755.2135100-3-javierm@redhat.com>
- <b90d5ae5-8629-8be8-6390-f22f97ec4f5e@suse.de>
- <8e783b8c-e7b9-3d8e-e80d-2f2608421293@redhat.com>
- <83fa378f-b331-0cb7-5878-d4d23a543b18@redhat.com>
-In-Reply-To: <83fa378f-b331-0cb7-5878-d4d23a543b18@redhat.com>
+On 04/07/2022 13:07, Viresh Kumar wrote:
+> Make dev_pm_opp_set_regulators() accept a NULL terminated list of names
+> instead of making the callers keep the two parameters in sync, which
+> creates an opportunity for bugs to get in.
+> 
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
+>  drivers/cpufreq/cpufreq-dt.c                |  9 ++++-----
+>  drivers/cpufreq/ti-cpufreq.c                |  7 +++----
+>  drivers/devfreq/exynos-bus.c                |  4 ++--
+>  drivers/gpu/drm/lima/lima_devfreq.c         |  3 ++-
+>  drivers/gpu/drm/panfrost/panfrost_devfreq.c |  4 ++--
+>  drivers/opp/core.c                          | 18 ++++++++++++------
+>  drivers/soc/tegra/pmc.c                     |  4 ++--
+>  include/linux/pm_opp.h                      |  9 ++++-----
+>  8 files changed, 31 insertions(+), 27 deletions(-)
+> 
+[...]
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> index 194af7f607a6..12784f349550 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> @@ -91,6 +91,7 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>  	struct devfreq *devfreq;
+>  	struct thermal_cooling_device *cooling;
+>  	struct panfrost_devfreq *pfdevfreq = &pfdev->pfdevfreq;
+> +	const char *supplies[] = { pfdev->comp->supply_names[0], NULL };
+>  
+>  	if (pfdev->comp->num_supplies > 1) {
+>  		/*
+> @@ -101,8 +102,7 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+>  		return 0;
+>  	}
+>  
+> -	ret = devm_pm_opp_set_regulators(dev, pfdev->comp->supply_names,
+> -					 pfdev->comp->num_supplies);
+> +	ret = devm_pm_opp_set_regulators(dev, supplies);
+>  	if (ret) {
+>  		/* Continue if the optional regulator is missing */
+>  		if (ret != -ENODEV) {
 
---------------Hd0Z1ERFRdvvO5q0NpVW3dO4
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I have to say the 'new improved' list ending with NULL approach doesn't
+work out so well for Panfrost. We already have to have a separate
+'num_supplies' variable for devm_regulator_bulk_get() /
+regulator_bulk_{en,dis}able(), so the keeping everything in sync
+argument is lost here.
 
-SGksDQoNCnRvIHN1bW1hcml6ZSBvdXIgZGlzY3Vzc2lvbiBvbiBJUkMsIEknZCByZXR1cm4g
-YW4gZW1wdHkgc3RyaW5nIGFuZCBkbyBhIA0KZHJtX3dhcm5fb25jZSgpIGlmIHRoZXJlJ3Mg
-YSBOVUxMIHBvaW50ZXIuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCkFtIDA0LjA3LjIy
-IHVtIDE0OjU1IHNjaHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzOg0KPiBPbiA3LzQv
-MjIgMTQ6MzYsIEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyB3cm90ZToNCj4+IEhlbGxvIFRo
-b21hcywNCj4+DQo+PiBUaGFua3MgZm9yIHlvdXIgZmVlZGJhY2suDQo+Pg0KPiANCj4gW3Nu
-aXBdDQo+IA0KPj4+PiArCS8qIGRvbid0IGF0dGVtcHQgdG8gY29weSBhIE5VTEwgcG9pbnRl
-ciAqLw0KPj4+PiArCWlmIChXQVJOX09OQ0UoIXZhbHVlLCAiQlVHOiB0aGUgdmFsdWUgdG8g
-Y29weSB3YXMgbm90IHNldCEiKSkNCj4+Pj4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+Pj4+ICsN
-Cj4+Pg0KPj4+IFdlIHVzdWFsbHkgYXNzdW1lIHRoYXQgdGhlIGNhbGxlciBwYXNzZXMgdGhl
-IGNvcnJlY3QgYXJndW1lbnRzLiBUaGlzIGlzDQo+Pj4gZGlmZmVyZW50IGZvciBubyByZWFz
-b25zLiBJJ2QgcmF0aGVyIG5vdCB0YWtlIHRoaXMgcGF0Y2ggdW5sZXNzIHRoZXJlJ3MNCj4+
-PiBhIHNlY3VyaXR5IGltcGxpY2F0aW9uIHRvIHRoZSBpb2N0bCBpbnRlcmZhY2UgKGUuZy4s
-IGxlYWtpbmcgaW5mb3JtYXRpb24NCj4+PiBiZWNhdXNlIG9mIHRoaXMgTlVMTCBwdHIpLg0K
-Pj4+DQo+Pg0KPj4gVGhpcyBjYW4gbGVhZCBmcm9tIGFuIG9vcHMgKHNvZnQgcGFuaWMpIHRv
-IGEga2VybmVsIGNyYXNoIGZvciBhIGJ1Z2d5IGRyaXZlci4NCj4+DQo+PiBJIHNlZSBmcm9t
-IHdoZXJlIHlvdSBhcmUgY29taW5nIGZyb20gYnV0IHRoZW4gSSB0aGluayB3ZSBzaG91bGQg
-c2FuaXRpemUgdGhlDQo+PiBmaWxsZWQgc3RydWN0IGRybV9kcml2ZXIgZmllbGRzIGluIGRy
-bV9kZXZfcmVnaXN0ZXIoKSBhbmQgbWFrZSBpdCBmYWlsIGVhcmx5Lg0KPj4NCj4+IFdvdWxk
-IHlvdSBhZ3JlZSB3aXRoIHN1Y2ggYSBwYXRjaD8gQnV0IHdoYXQgSSB0aGluayB0aGF0IHdl
-IHNob3VsZG4ndCBhbGxvdw0KPj4gaXMgdG8gYXR0ZW1wdCBjb3B5aW5nIGEgTlVMTCBwb2lu
-dGVyLCBpZiB3ZSBjYW4gZWFzaWx5IHByZXZlbnQgaXQuDQo+Pg0KPiANCj4gSSBtZWFuIHNv
-bWV0aGluZyBsaWtlIHRoZSBmb2xsb3dpbmcgcGF0Y2ggKGRpZG4ndCBhZGQgYSBjb21taXQg
-bWVzc2FnZQ0KPiBmb3IgYnJldml0eSk6DQo+IA0KPiAgRnJvbSA0YzEzNDAwYzU0ZTBlMjk5
-MThhOGViMjQ4MDEzZjU0Y2QyNjYwZjRmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KPiBG
-cm9tOiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNvbT4NCj4g
-RGF0ZTogTW9uLCA0IEp1bCAyMDIyIDE0OjUzOjQ4ICswMjAwDQo+IFN1YmplY3Q6IFtQQVRD
-SF0gZHJtOiBDaGVjayBpbiBkcm1fZGV2X3JlZ2lzdGVyKCkgdGhhdCByZXF1aXJlZCBEUk0g
-ZHJpdmVyDQo+ICAgZmllbGRzIHdlcmUgc2V0DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBKYXZp
-ZXIgTWFydGluZXogQ2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAg
-ZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYyB8IDEzICsrKysrKysrKysrKy0NCj4gICAxIGZp
-bGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2Rydi5jDQo+IGluZGV4IDgyMTRhMGIxYWI3Zi4uZDRlZWJhZjM3ZTIzIDEwMDY0NA0K
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fZHJ2LmMNCj4gQEAgLTg0Miw2ICs4NDIsMTIgQEAgc3RhdGljIHZvaWQgcmVt
-b3ZlX2NvbXBhdF9jb250cm9sX2xpbmsoc3RydWN0IGRybV9kZXZpY2UgKmRldikNCj4gICAJ
-a2ZyZWUobmFtZSk7DQo+ICAgfQ0KPiAgIA0KPiArc3RhdGljIGlubGluZSBib29sIGNoZWNr
-X2RybV9kcml2ZXJfZmllbGRzKGNvbnN0IHN0cnVjdCBkcm1fZHJpdmVyICpkcml2ZXIpDQo+
-ICt7DQo+ICsJLyogcmVxdWlyZWQgc2luY2UgYXJlIGNvcGllZCB0byB1c2VyLXNwYWNlIGJ5
-IERSTV9JT0NUTF9WRVJTSU9OICovDQo+ICsJcmV0dXJuIGRyaXZlci0+bmFtZSAmJiBkcml2
-ZXItPmRhdGUgJiYgZHJpdmVyLT5kZXNjOw0KPiArfQ0KPiArDQo+ICAgLyoqDQo+ICAgICog
-ZHJtX2Rldl9yZWdpc3RlciAtIFJlZ2lzdGVyIERSTSBkZXZpY2UNCj4gICAgKiBAZGV2OiBE
-ZXZpY2UgdG8gcmVnaXN0ZXINCj4gQEAgLTg2NSw3ICs4NzEsMTEgQEAgc3RhdGljIHZvaWQg
-cmVtb3ZlX2NvbXBhdF9jb250cm9sX2xpbmsoc3RydWN0IGRybV9kZXZpY2UgKmRldikNCj4g
-ICBpbnQgZHJtX2Rldl9yZWdpc3RlcihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB1bnNpZ25l
-ZCBsb25nIGZsYWdzKQ0KPiAgIHsNCj4gICAJY29uc3Qgc3RydWN0IGRybV9kcml2ZXIgKmRy
-aXZlciA9IGRldi0+ZHJpdmVyOw0KPiAtCWludCByZXQ7DQo+ICsJaW50IHJldCA9IC1FSU5W
-QUw7DQo+ICsNCj4gKwlpZiAoZHJtX1dBUk4oZGV2LCAhY2hlY2tfZHJtX2RyaXZlcl9maWVs
-ZHMoZHJpdmVyKSwNCj4gKwkJICAgICAiUmVxdWlyZWQgRFJNIGRyaXZlcnMgZmllbGRzIG5v
-dCBzZXQuXG4iKSkNCj4gKwkJCWdvdG8gb3V0X2VycjsNCj4gICANCj4gICAJaWYgKCFkcml2
-ZXItPmxvYWQpDQo+ICAgCQlkcm1fbW9kZV9jb25maWdfdmFsaWRhdGUoZGV2KTsNCj4gQEAg
-LTkxMyw2ICs5MjMsNyBAQCBpbnQgZHJtX2Rldl9yZWdpc3RlcihzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZGV2LCB1bnNpZ25lZCBsb25nIGZsYWdzKQ0KPiAgIG91dF91bmxvY2s6DQo+ICAgCWlm
-IChkcm1fZGV2X25lZWRzX2dsb2JhbF9tdXRleChkZXYpKQ0KPiAgIAkJbXV0ZXhfdW5sb2Nr
-KCZkcm1fZ2xvYmFsX211dGV4KTsNCj4gK291dF9lcnI6DQo+ICAgCXJldHVybiByZXQ7DQo+
-ICAgfQ0KPiAgIEVYUE9SVF9TWU1CT0woZHJtX2Rldl9yZWdpc3Rlcik7DQoNCi0tIA0KVGhv
-bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
-cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5i
-ZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8
-aHJlcjogSXZvIFRvdGV2DQo=
+I would suggest added the NULL on the end of the lists in panfrost_drv.c
+but then it would break the use of ARRAY_SIZE() to automagically keep
+the length correct...
 
---------------Hd0Z1ERFRdvvO5q0NpVW3dO4--
+For now the approach isn't too bad because Panfrost doesn't yet support
+enabling devfreq with more than one supply. But that array isn't going
+to work so nicely when that restriction is removed.
 
---------------a6jnEekHrVkHrgR25y6vPjhU
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+The only sane way I can see of handling this in Panfrost would be
+replicating the loop to count the supplies in the Panfrost code which
+would allow dropping num_supplies from struct panfrost_compatible and
+then supply_names in the same struct could be NULL terminated ready for
+devm_pm_opp_set_regulators().
 
------BEGIN PGP SIGNATURE-----
+Steve
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLC+PwFAwAAAAAACgkQlh/E3EQov+A2
-MA/+M+IbBZ2NqDIeP5Re0XOp8Mdov71eEbSRzPFFD6SX4yp4WZonwXtDFc5OHwxXdah3d4xbNnDc
-E2qlXHb7GVAFZitFWkcvc8AE7NhSZe9X17tceRV1Elk4nVLJ492PBi5oNoVr6+mQT0OeHCPk/TUw
-BinnxnC4uCExRw46bkCNS9urZYX8JKm5YU5X7LnzCmn6h3gC3dMZ0BKEc4bEociyFyfnuYYFhy84
-rCVOiyuAWzrVE2JR7m/x1k26qk6pqsbtlKPrLBTZFotS7RvfTFoMJhwiabNBPBP7QaEo8T6LcmFG
-zt6IxQps/SldsOQ3JsKSsdrdN79U5C1KQZrywYa3Xm+FI1K/HCwVhTKjNid6W9uG9ssMmllgl/5b
-nRwG3xXuzL8NpRTmN+6+TMbGwbhEK8mGYpCn1eTUTX+wdc+wfu6yVo4sH4/peAeceI56eMBGG/Hz
-Fpbh1bo9qbNPw0ZG26DYJ9RQXk2FqhN7BRa3yUK9TaYqDdGpH4vF3p6iP7vq0Ubx3mX6zqDJkoF8
-RmOzlGyxlA8afBGW1ZJs8ggGhynV4mZeor08VJ2yJ/L51q906eQUW1ofKz6uloIQkWKs2Jh/VLO1
-2+Uk2C9Nrk/s+jkzpi7eTIEfQHXq41P9kXzu0XEGeAlnePrNMq6pQtWmJ3A0hShlbdKNDE94N9Yy
-VCg=
-=82FZ
------END PGP SIGNATURE-----
+> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
+> index e166bfe5fc90..4e4593957ec5 100644
+> --- a/drivers/opp/core.c
+> +++ b/drivers/opp/core.c
+> @@ -2105,13 +2105,20 @@ EXPORT_SYMBOL_GPL(dev_pm_opp_put_prop_name);
+>   * This must be called before any OPPs are initialized for the device.
+>   */
+>  struct opp_table *dev_pm_opp_set_regulators(struct device *dev,
+> -					    const char * const names[],
+> -					    unsigned int count)
+> +					    const char * const names[])
+>  {
+>  	struct dev_pm_opp_supply *supplies;
+> +	const char * const *temp = names;
+>  	struct opp_table *opp_table;
+>  	struct regulator *reg;
+> -	int ret, i;
+> +	int count = 0, ret, i;
+> +
+> +	/* Count number of regulators */
+> +	while (*temp++)
+> +		count++;
+> +
+> +	if (!count)
+> +		return ERR_PTR(-EINVAL);
+>  
+>  	opp_table = _add_opp_table(dev, false);
+>  	if (IS_ERR(opp_table))
+> @@ -2236,12 +2243,11 @@ static void devm_pm_opp_regulators_release(void *data)
+>   * Return: 0 on success and errorno otherwise.
+>   */
+>  int devm_pm_opp_set_regulators(struct device *dev,
+> -			       const char * const names[],
+> -			       unsigned int count)
+> +			       const char * const names[])
+>  {
+>  	struct opp_table *opp_table;
+>  
+> -	opp_table = dev_pm_opp_set_regulators(dev, names, count);
+> +	opp_table = dev_pm_opp_set_regulators(dev, names);
+>  	if (IS_ERR(opp_table))
+>  		return PTR_ERR(opp_table);
+>  
+> diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+> index 5611d14d3ba2..6a4b8f7e7948 100644
+> --- a/drivers/soc/tegra/pmc.c
+> +++ b/drivers/soc/tegra/pmc.c
+> @@ -1384,7 +1384,7 @@ tegra_pmc_core_pd_opp_to_performance_state(struct generic_pm_domain *genpd,
+>  static int tegra_pmc_core_pd_add(struct tegra_pmc *pmc, struct device_node *np)
+>  {
+>  	struct generic_pm_domain *genpd;
+> -	const char *rname = "core";
+> +	const char *rname[] = { "core", NULL};
+>  	int err;
+>  
+>  	genpd = devm_kzalloc(pmc->dev, sizeof(*genpd), GFP_KERNEL);
+> @@ -1395,7 +1395,7 @@ static int tegra_pmc_core_pd_add(struct tegra_pmc *pmc, struct device_node *np)
+>  	genpd->set_performance_state = tegra_pmc_core_pd_set_performance_state;
+>  	genpd->opp_to_performance_state = tegra_pmc_core_pd_opp_to_performance_state;
+>  
+> -	err = devm_pm_opp_set_regulators(pmc->dev, &rname, 1);
+> +	err = devm_pm_opp_set_regulators(pmc->dev, rname);
+>  	if (err)
+>  		return dev_err_probe(pmc->dev, err,
+>  				     "failed to set core OPP regulator\n");
+> diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
+> index 6708b4ec244d..4c490865d574 100644
+> --- a/include/linux/pm_opp.h
+> +++ b/include/linux/pm_opp.h
+> @@ -159,9 +159,9 @@ void dev_pm_opp_put_supported_hw(struct opp_table *opp_table);
+>  int devm_pm_opp_set_supported_hw(struct device *dev, const u32 *versions, unsigned int count);
+>  struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, const char *name);
+>  void dev_pm_opp_put_prop_name(struct opp_table *opp_table);
+> -struct opp_table *dev_pm_opp_set_regulators(struct device *dev, const char * const names[], unsigned int count);
+> +struct opp_table *dev_pm_opp_set_regulators(struct device *dev, const char * const names[]);
+>  void dev_pm_opp_put_regulators(struct opp_table *opp_table);
+> -int devm_pm_opp_set_regulators(struct device *dev, const char * const names[], unsigned int count);
+> +int devm_pm_opp_set_regulators(struct device *dev, const char * const names[]);
+>  struct opp_table *dev_pm_opp_set_clkname(struct device *dev, const char *name);
+>  void dev_pm_opp_put_clkname(struct opp_table *opp_table);
+>  int devm_pm_opp_set_clkname(struct device *dev, const char *name);
+> @@ -379,7 +379,7 @@ static inline struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, con
+>  
+>  static inline void dev_pm_opp_put_prop_name(struct opp_table *opp_table) {}
+>  
+> -static inline struct opp_table *dev_pm_opp_set_regulators(struct device *dev, const char * const names[], unsigned int count)
+> +static inline struct opp_table *dev_pm_opp_set_regulators(struct device *dev, const char * const names[])
+>  {
+>  	return ERR_PTR(-EOPNOTSUPP);
+>  }
+> @@ -387,8 +387,7 @@ static inline struct opp_table *dev_pm_opp_set_regulators(struct device *dev, co
+>  static inline void dev_pm_opp_put_regulators(struct opp_table *opp_table) {}
+>  
+>  static inline int devm_pm_opp_set_regulators(struct device *dev,
+> -					     const char * const names[],
+> -					     unsigned int count)
+> +					     const char * const names[])
+>  {
+>  	return -EOPNOTSUPP;
+>  }
 
---------------a6jnEekHrVkHrgR25y6vPjhU--
