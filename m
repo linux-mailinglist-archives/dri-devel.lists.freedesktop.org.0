@@ -1,49 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55C1565B36
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:18:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 895D7565BAC
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:21:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B35A510EA4E;
-	Mon,  4 Jul 2022 16:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E078A10E753;
+	Mon,  4 Jul 2022 16:16:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E790210E00A;
- Mon,  4 Jul 2022 08:09:38 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 65A0CB80DF2;
- Mon,  4 Jul 2022 08:09:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0664CC341CD;
- Mon,  4 Jul 2022 08:09:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1656922176;
- bh=06YFOWy5ci6Ny48R6RNGVBykXsXj0MvRxiXVVF8DTPE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Yy0qAlNtXVAGX0wBXJFMGzhJ8+MCbNo8U9DyoSrbGtZjpLs9Dw6b1RBFC4eRmv4Cl
- OmjeY2/sehbLyXjOyUFe0K16h/2Gc6qJebr1WyMIWl7yMTMW41GEJOjocyowsnW6to
- M+de7o4z1OrhVYyeLHb118weP6oGa9RyyzjDqKoWno5Va6VX3xgPOaAUlvvyPcxCMk
- JnFi2XSZ8BBEb/GsfwLf3GFnft6gYCZgY8Cyk2Tl1jGWudN7pR9nbQ1krZ4LNDQouu
- N2yxaOgKmxMFB7E/TYalKSWQfrn6AsEWtApNwqN1svpG/nFMLW9BZsazsRcu7wHW5m
- FkEnFjpYeC0wg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.95)
- (envelope-from <mchehab@kernel.org>) id 1o8H9A-009Oab-Si;
- Mon, 04 Jul 2022 09:09:32 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: 
-Subject: [PATCH v3 2/2] drm/i915/gt: Serialize TLB invalidates with GT resets
-Date: Mon,  4 Jul 2022 09:09:29 +0100
-Message-Id: <3ecc1f94290a66b2e682f956b5232b4903c32a2c.1656921701.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <cover.1656921701.git.mchehab@kernel.org>
-References: <cover.1656921701.git.mchehab@kernel.org>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFFC410E028
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 08:38:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1656923922;
+ bh=EoWxwT9/rvJfVDYjeyx47WXlpm1gsKW1JIjaJJT/qjE=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=PD2HDbTtdxKx5IO3J2W4rq70ZmKX06+77y6teurjlTQWNAqSpGZi9F3myHZHb9ghg
+ Vye3XjL7Ff2BB+DcuInSb7O05YTghZZq+w7Vzv/CBOgeGzrmiKjNwYIOvCzeHuySFN
+ xy6Mdtf8X9CNzyNMetxnkDaINeD9RUFOZfkGDxM8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.146.45]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MRCK6-1nwGWc1ii4-00NB1B; Mon, 04
+ Jul 2022 10:38:42 +0200
+Message-ID: <2f534dd1-418d-7bc0-aca8-15d26fac4132@gmx.de>
+Date: Mon, 4 Jul 2022 10:38:11 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 3/4] fbmem: Prevent invalid virtual screen sizes in
+ fb_set_var()
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20220701202352.559808-1-deller@gmx.de>
+ <20220701202352.559808-4-deller@gmx.de>
+ <CAMuHMdUTwM+y+yi5ASY9hQLgJD-4pjtStGA9m82853LmbdywOA@mail.gmail.com>
+ <YsGfdEO4lU+y2004@p100>
+ <CAMuHMdULPGmK_K3QeyEpBbO5Dr9_WEszHXDGLzvdv7f3Y2O7vw@mail.gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <CAMuHMdULPGmK_K3QeyEpBbO5Dr9_WEszHXDGLzvdv7f3Y2O7vw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:r+c1TAW8rAPitzEZceC5MtJZfhFBg2tkFiwcRpHMMd66AzQI5OL
+ VRlsTXAiA5XljMa0h80xXoV3Dyf/DLAAxLeadaNWp7Wkn5uMIWN/ZCGZabwZ+6cQpQkg/lh
+ XhKuLOU7TTed+60vcawrG+O1HJH8vifP+FMdZH0jB5gwmb+7Zk18x7V0kyDz4fyOuv8QSNA
+ s2GCnDQ9XhLlIy47lNzkQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pJk3w8wI76o=:XwlYdtlKuGU4LKWzuBWh1w
+ aF6EPFe47DIq2zXd8ZR5pEKJ8d2cyc6T0KNTHZNrJ72H0luGjbDWgeAEJC/yIdAxpF+5RpcLj
+ n7LT1tmKWJofDDd2i4za0WUNzShPX7LTy0XodAVApQwemPoqlAUtCEV5u8A25ze4FHjxZKOg3
+ VN7OpSh1EDO7FtCWdBRaYU8H5JX5hGJjTNldRSxJzZrwxGGeqf1J7BnHBtBh6+pRrJuXfXkJm
+ kqQ7vOFCIuG0/SjGbjRvrNRDRDYNqBIyld45YV015YStLw/19Hp/VLqM36OQZl1Bc97YfiIPa
+ VCyTxPDMG0jRr/OB9TBaw9RgsLZ+gZEjXYtGMfkvevgjP+x3/89Zfr4iEfbHY4ncvJbCF+3W8
+ 5Y2OMq7lkWQ66ZsqaN9J7+WJ+Pq0qYpodKA8NPGjmMSoATuqoOFL9HXNVsfH4VMMsWvRj3IRK
+ 6L2WxrLgDHwydKabIM6P6S8Wdys6h+RSLRsb5ML1W5Fsk6T4FGgN7TSdeq6zKPB1z3aeCNY8L
+ YuXQ4UeofHXhklVBj6mILuV7Kq/kGcL9fCBXuOov/Obut0Dc+YghtvOGUhW0j7X6wicUBz0g6
+ mmKfin+0d0dJ9VaC8yVrP9z+E+SrlxFCUy6yVno7Z0aVfd1bT8XOIp7IE66XAbcb2clXEfcYq
+ /qIEoA7RMGo+FfXKhokLEyQ1eGILH868PvbWE+7rLk5ILrUiOHSGjdrmMvD7XFcRPYPKJ/eg5
+ p8k7nqEM2DnoC2a0IIZ9hwzaul/OWg1BVS4JbxOwCWTe1oSRzgDnQetSwGlKYVuua6V7eCfPJ
+ IRBdBF9dB9Odq+7Nuvb8YcO3HLo6qHUApGOSXWqgrUgmdIX++gH+jd3w8jinPPcoaCMBZdV2l
+ Lz5qYbFjwxCZLjUVrzXyOKxui1cFLP5A2WCC+uYtAHT8FfBOJYp+VuDvY1bcOxG5CDS5+eIBi
+ JdKrMYZTeaqHJl45xRsGsndgoDHYrX4X6xW/oOfyC1HmNfati9nbkr8fB3W+p1UL3iU3xq41/
+ qQyqnwvGtW1v9Mnlduy4tIdEvdEmjRENWaYNK/Sarope0a1RHfkM/5LqXuPXCUZCJSLUGYL2b
+ EDr1crdzjDBWIZE5Gy+ngAu8s8dC23Zi9GJ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,81 +76,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
- Chris Wilson <chris.p.wilson@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@redhat.com>,
- stable@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- intel-gfx@lists.freedesktop.org, John Harrison <John.C.Harrison@Intel.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris.p.wilson@intel.com>
+Hi Daniel & DRM developers,
 
-Avoid trying to invalidate the TLB in the middle of performing an
-engine reset, as this may result in the reset timing out. Currently,
-the TLB invalidate is only serialised by its own mutex, forgoing the
-uncore lock, but we can take the uncore->lock as well to serialise
-the mmio access, thereby serialising with the GDRST.
+could you please comment on the change below?
 
-Tested on a NUC5i7RYB, BIOS RYBDWi35.86A.0380.2019.0517.1530 with
-i915 selftest/hangcheck.
 
-Cc: stable@vger.kernel.org # Up to 4.4
-Fixes: 7938d61591d3 ("drm/i915: Flush TLBs before releasing backing store")
-Reported-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Tested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Chris Wilson <chris.p.wilson@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Andi Shyti <andi.shyti@intel.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
+On 7/3/22 16:41, Geert Uytterhoeven wrote:
+> Hi Helge,
+>
+> On Sun, Jul 3, 2022 at 3:54 PM Helge Deller <deller@gmx.de> wrote:
+>> * Geert Uytterhoeven <geert@linux-m68k.org>:
+>>>> --- a/drivers/video/fbdev/core/fbmem.c
+>>>> +++ b/drivers/video/fbdev/core/fbmem.c
+>>>> @@ -1016,6 +1016,18 @@ fb_set_var(struct fb_info *info, struct fb_var=
+_screeninfo *var)
+>>>>         if (ret)
+>>>>                 return ret;
+>>>>
+>>>> +       /* make sure virtual resolution >=3D physical resolution */
+>>>> +       if (WARN_ON(var->xres_virtual < var->xres)) {
+>>>
+>>> WARN_ON_ONCE()?
+>>> This does mean we would miss two or more buggy drivers in a single sys=
+tem.
+>>>
+>>>> +               pr_warn("fbcon: Fix up invalid xres %d for %s\n",
+>>>
+>>> xres_virtual?
+>>>
+>>>> +                       var->xres_virtual, info->fix.id);
+>>>> +               var->xres_virtual =3D var->xres;
+>>>
+>>> I think it's better to not fix this up, but return -EINVAL instead.
+>>> After all if we get here, we have a buggy driver that needs to be fixe=
+d.
+>>>
+>>>> +       }
+>>>> +       if (WARN_ON(var->yres_virtual < var->yres)) {
+>>>> +               pr_warn("fbcon: Fix up invalid yres %d for %s\n",
+>>>> +                       var->yres_virtual, info->fix.id);
+>>>> +               var->yres_virtual =3D var->yres;
+>>>> +       }
+>>>
+>>> Same for yres.
+>>
+>> Geert, thanks for your valuable feedback!
+>>
+>> In general I don't like for this case any of the WARN_ON* functions.
+>> They don't provide any useful info for us, dumps unneccessarily the
+>> stack backtrace and would annoy existing users.
+>
+> Without the stack trace, most people won't notice...
+>
+>> We know, that DRM drivers can't change the resolution. If we would leav=
+e
+>> in any kind of warning, all DRM users will ask back - and we don't have
+>> a solution for them. It's also no regression, because it didn't worked
+>> before either.
+>
+> The warning will only be triggered when the requested virtual
+> resolution is smaller than the requested physical resolution.  As
+> long as the requested virtual and physical resolution match what
+> was returned by FBIOGET_VSCREENINFO before, the warning won't
+> be triggered.  So in normal use cases, the user won't be impacted.
+> Fuzzers will see the warning, but the kernel will no longer crash
+> on invalid values.
 
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH v3 0/2] at: https://lore.kernel.org/all/cover.1656921701.git.mchehab@kernel.org/
+Still, fuzzers will crash if they have panic_on_warn enabled, which
+was the case for the reproducer I got.
 
- drivers/gpu/drm/i915/gt/intel_gt.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+>> But we want to detect fbdev drivers which behave badly - so we should
+>> print that info with the driver name.
+>>
+>> Below is a new patch which addresses this. The search for drm drivers
+>> looks somewhat hackish - maybe someone can propose a better approach?
+>>
+>> Thoughts?
+>>
+>> Helge
+>>
+>>
+>> From 0f33e2a3730342ab85df372f80b4f61762fb1130 Mon Sep 17 00:00:00 2001
+>> From: Helge Deller <deller@gmx.de>
+>> Date: Wed, 29 Jun 2022 15:53:55 +0200
+>> Subject: [PATCH] fbmem: Check virtual screen sizes in fb_set_var()
+>>
+>> Verify that the fbdev or drm driver correctly adjusted the virtual scre=
+en
+>> sizes. On failure report (in case of fbdev drivers) the failing driver.
+>>
+>> Signed-off-by: Helge Deller <deller@gmx.de>
+>> Cc: stable@vger.kernel.org # v5.4+
+>>
+>> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/cor=
+e/fbmem.c
+>> index 160389365a36..9b75aa4405ee 100644
+>> --- a/drivers/video/fbdev/core/fbmem.c
+>> +++ b/drivers/video/fbdev/core/fbmem.c
+>> @@ -1016,6 +1016,21 @@ fb_set_var(struct fb_info *info, struct fb_var_s=
+creeninfo *var)
+>>         if (ret)
+>>                 return ret;
+>>
+>> +       /* verify that virtual resolution >=3D physical resolution */
+>> +       if (var->xres_virtual < var->xres ||
+>> +           var->yres_virtual < var->yres) {
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 8da3314bb6bf..68c2b0d8f187 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -952,6 +952,20 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
- 	mutex_lock(&gt->tlb_invalidate_lock);
- 	intel_uncore_forcewake_get(uncore, FORCEWAKE_ALL);
- 
-+	spin_lock_irq(&uncore->lock); /* serialise invalidate with GT reset */
-+
-+	for_each_engine(engine, gt, id) {
-+		struct reg_and_bit rb;
-+
-+		rb = get_reg_and_bit(engine, regs == gen8_regs, regs, num);
-+		if (!i915_mmio_reg_offset(rb.reg))
-+			continue;
-+
-+		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
-+	}
-+
-+	spin_unlock_irq(&uncore->lock);
-+
- 	for_each_engine(engine, gt, id) {
- 		/*
- 		 * HW architecture suggest typical invalidation time at 40us,
-@@ -966,7 +980,6 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
- 		if (!i915_mmio_reg_offset(rb.reg))
- 			continue;
- 
--		intel_uncore_write_fw(uncore, rb.reg, rb.bit);
- 		if (__intel_wait_for_register_fw(uncore,
- 						 rb.reg, rb.bit, 0,
- 						 timeout_us, timeout_ms,
--- 
-2.36.1
+This is the part I'd like to get feedback from DRM on:
+Shall we leave that in, or drop it as Geert suggested?
+
+>> +               /* drm drivers don't support mode changes yet. Do not r=
+eport. */
+>> +               if (strstr(info->fix.id, "drm"))
+>> +                       return -ENOTSUPP;
+
+
+
+
+
+>> +
+>> +               pr_warn("WARNING: fbcon: Driver %s missed to adjust vir=
+tual"
+>> +                       " screen size (%dx%d vs. %dx%d)\n",
+>> +                       info->fix.id,
+>> +                       var->xres_virtual, var->yres_virtual,
+>> +                       var->xres, var->yres);
+>> +               return -EINVAL;
+>> +       }
+>> +
+>>         if ((var->activate & FB_ACTIVATE_MASK) !=3D FB_ACTIVATE_NOW)
+>>                 return 0;
+>
+> Hence I think there is no need for ignoring drm.
 
