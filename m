@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F45F566934
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:30:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F24E566936
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:30:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54B7510E295;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25ECA10E1E2;
 	Tue,  5 Jul 2022 11:29:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F1A910E00B
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 02:52:40 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id m14so7405866plg.5
- for <dri-devel@lists.freedesktop.org>; Sun, 03 Jul 2022 19:52:40 -0700 (PDT)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3039E10E00B
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 02:52:42 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id l12so2049383plk.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Jul 2022 19:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KoE/Nl7CA68voHNLmRyXiLiHPFnMwUitmY6p2+8OjAM=;
- b=ME6L4Ur68fTru7929aD2k6RPdLKaJEFrAcHqqjHocKoH9iJobzUocCY8YxK64z5jid
- xxinLsGajnw1g+D0HaIisFuOACzPvfoUUoDmvllUJUjHijA+drCHJu0qCOxXvmPo7Eaz
- wWTy9Y9qTXdeSZkMrCuaK3vU/0ZJg1AuuT8X8sXXymi52N65BEfQSJay/x4BXtKu0L0c
- efPGx/kWQ1zFjL7KgPFZzf8e+JJIdm0Q71u0rFiOWDskIagBoXpatQlAHHZWx0rIubEr
- QSVB6yryAmSTeR1uVVMNNvA/RlKGbx50ZoqJFyhaDXG4gb6jNI5y4929G5TpbENavZdb
- K8Nw==
+ bh=lZVf3tUH/gMJbN3bSxzTMFNpOOUqgp+lgLlS3ACMryU=;
+ b=A9/a5QZGd8dM7D5cLyfh/RBwOulvMmGuSV6TAXSKjvR5bCDNwQuEepesBQuDW8SDwb
+ 8CbBKhm7ZqDHMF/VqcEw6sCl2R5uOHdgdq8J8huUnKXR2Gs7b6d5I2YnpTw3o/UvbebG
+ xWHjOMyxZyLntbG6DpnJOSsK1yEUGRQAe05b+a0NhjyFnaKK3NXm4cEtGLHLzzF2gNyu
+ Y98Y/bCP0H6WNWa5hy11K955DDOQEjY8ymspAHFdP95b6y2CMHymzfsd5I/JUcZWYoiw
+ Jxw1BQb+f2NRxwbu55/yLX9+xuNgJrhVyfQOtQ2RkyYWPx8iNen9ApIGFHz+2/SovUlT
+ SbBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KoE/Nl7CA68voHNLmRyXiLiHPFnMwUitmY6p2+8OjAM=;
- b=i4a7vjB783GeAFztyeaP/rEyaawk5Cxu/dj9OUM0dyek1RUfLRFD+HNQlasaEF3ZnE
- a/iAPT2N7kSXcIVipMvbM/6EAVPXKTATnTinPJXmbJw5/UR6yGNvb+Lph9igKjNKr02p
- DysR6q7Rq+YKjGOkQkhcHiP9oKpliItv544zLr6GX6nWFSwTsBa0MNyvtNRQRNovRFeb
- Ei8FTRLyfRP+mitKMMqEnp0FObXx7wp0fAaI4X3WBDCnUqA1oVFXY19iCPPvWhOUqQpt
- UZEW0sPayb2mCOZoF0DnL/rsZn6amV/fASrjGEvLft7CPDPzAAGwGFMmRxgxFp1UGaC8
- ZYxw==
-X-Gm-Message-State: AJIora9e4n4L8F9SD59qo7Nh3O4zLXy58fiOglA/lotWCHdyDI7EUVdp
- nLtJoOPZpcPKHX+taKurKFONbj7+gxgF3uH2
-X-Google-Smtp-Source: AGRyM1teqaW2blXchXZwLy8aBx9cHEM0uu5yx9xOZVRKxK+PDV0HQ+8fi6KboYsUL02Yg2h3b7Re+w==
-X-Received: by 2002:a17:90b:4ac7:b0:1ed:20a2:f547 with SMTP id
- mh7-20020a17090b4ac700b001ed20a2f547mr33629569pjb.19.1656903159678; 
- Sun, 03 Jul 2022 19:52:39 -0700 (PDT)
+ bh=lZVf3tUH/gMJbN3bSxzTMFNpOOUqgp+lgLlS3ACMryU=;
+ b=ECZLxx5SlkuVK2gqhge/rLuRSKfBDOXadi8CmE5TdbL0YZxWnO532UOJbmHzY9GoMG
+ cHJu7OJohDA9uM20bWDyGxS4OqrAPbTCRZmHjEHeqq76mfkIf+X7fhfoQOl5mry6fwxV
+ fzBcDBrqQG0QaPaGaZeHqapV+oD7OGY4kn6O2/Pz9FYNuqlBqH59Iotjo15Dd2EUzE4c
+ 9ndERoInC/Ith2I4m2NpbFwegeTRVF8Zj6TbBJsHBOo/M1gekFp1eV0wzkOjL+NAd5+D
+ SPzgd6HDuHl9Qddav+vpBWcozfY/R24zPMhuW9CZlyeIHiW/qSaoCKHXahVa6pDI7zP8
+ dmnQ==
+X-Gm-Message-State: AJIora/hcG50i+b5G2MdoNnvhvz8cJ2SNbTpFGM0kZB8jcaQoeFxavGe
+ 89aXiQeTHTtEZ4wlwXwWJA2EHqdvG7Y5WPeT
+X-Google-Smtp-Source: AGRyM1vO/Njs9T0QhxWnmdp88EO+UHnV3xJPjx2zr3gtlS9l2dz9a1jSMTXQ3cQL+jJU+j1HJ2aYvg==
+X-Received: by 2002:a17:90b:1bc5:b0:1ee:9563:2fca with SMTP id
+ oa5-20020a17090b1bc500b001ee95632fcamr31487156pjb.87.1656903161569; 
+ Sun, 03 Jul 2022 19:52:41 -0700 (PDT)
 Received: from taki-u2.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
  by smtp.gmail.com with ESMTPSA id
- o11-20020a634e4b000000b004118fd18476sm8730813pgl.60.2022.07.03.19.52.38
+ o11-20020a634e4b000000b004118fd18476sm8730813pgl.60.2022.07.03.19.52.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 19:52:39 -0700 (PDT)
+ Sun, 03 Jul 2022 19:52:41 -0700 (PDT)
 From: Takanari Hayama <taki@igel.co.jp>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] media: vsp1: add blend mode support
-Date: Mon,  4 Jul 2022 11:52:30 +0900
-Message-Id: <20220704025231.3911138-3-taki@igel.co.jp>
+Subject: [PATCH 3/3] drm: rcar-du: Add DRM blend mode support
+Date: Mon,  4 Jul 2022 11:52:31 +0900
+Message-Id: <20220704025231.3911138-4-taki@igel.co.jp>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220704025231.3911138-1-taki@igel.co.jp>
 References: <20220704025231.3911138-1-taki@igel.co.jp>
@@ -76,81 +76,55 @@ Cc: linux-renesas-soc@vger.kernel.org, kieran.bingham+renesas@ideasonboard.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To support DRM blend mode in R-Car DU driver, we must add blend mode
-support in VSP1. Although VSP1 hardware is capable to support all blend
-mode defined in DRM, the current R-Car DU driver implicitly supports
-DRM_MODE_BLEND_COVERAGE only.
+R-Car DU supports different blend modes via VSP1. Add DRM blend mode
+supports to make it configurable.
 
-We add a new property to vsp1_du_atomic_config, so that R-Car DU driver
-can pass the desired blend mode.
+As drm_plane_create_blend_mode_property() creates the blend mode
+property with the default value of DRM_MODE_BLEND_PREMULTI, it changes
+the default blending behavior on R-Car DU. The rcar-du's blend mode was
+same as DRM_MODE_BLEND_COVERAGE, i.e., pixel color values have not been
+pre-multitplied.
 
 Signed-off-by: Takanari Hayama <taki@igel.co.jp>
 ---
- drivers/media/platform/renesas/vsp1/vsp1_drm.c | 11 +++++++++++
- include/media/vsp1.h                           | 14 ++++++++++++++
- 2 files changed, 25 insertions(+)
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-index 9ec3ac835987..ed0cf552fce2 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-@@ -861,6 +861,17 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
- 	vsp1->drm->inputs[rpf_index].compose = cfg->dst;
- 	vsp1->drm->inputs[rpf_index].zpos = cfg->zpos;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index 8eb9b2b097ae..283327046aa5 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -170,6 +170,18 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
+ 	format = rcar_du_format_info(state->format->fourcc);
+ 	cfg.pixelformat = format->v4l2;
  
-+	switch (cfg->blend_mode) {
-+	case VSP1_DU_BLEND_MODE_PREMULTI:
-+		rpf->format.flags = V4L2_PIX_FMT_FLAG_PREMUL_ALPHA;
++	switch (state->state.pixel_blend_mode) {
++	case DRM_MODE_BLEND_PREMULTI:
++		cfg.blend_mode = VSP1_DU_BLEND_MODE_PREMULTI;
 +		break;
-+	case VSP1_DU_BLEND_MODE_PIXEL_NONE:
-+		rpf->pixel_alpha = false;
-+		fallthrough;
-+	case VSP1_DU_BLEND_MODE_COVERAGE:
-+		rpf->format.flags = 0;
++	case DRM_MODE_BLEND_COVERAGE:
++		cfg.blend_mode = VSP1_DU_BLEND_MODE_COVERAGE;
++		break;
++	case DRM_MODE_BLEND_PIXEL_NONE:
++		cfg.blend_mode = VSP1_DU_BLEND_MODE_PIXEL_NONE;
++		break;
 +	}
 +
- 	drm_pipe->pipe.inputs[rpf_index] = rpf;
+ 	vsp1_du_atomic_update(plane->vsp->vsp, crtc->vsp_pipe,
+ 			      plane->index, &cfg);
+ }
+@@ -444,6 +456,11 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+ 						       num_planes - 1);
+ 		}
  
- 	return 0;
-diff --git a/include/media/vsp1.h b/include/media/vsp1.h
-index cc1b0d42ce95..1ba7459b7a06 100644
---- a/include/media/vsp1.h
-+++ b/include/media/vsp1.h
-@@ -42,6 +42,18 @@ struct vsp1_du_lif_config {
- int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
- 		      const struct vsp1_du_lif_config *cfg);
- 
-+/**
-+ * enum vsp1_du_blend_mode - Pixel blend mode
-+ * @VSP1_DU_BLEND_MODE_PREMULTI: Pixel alpha is pre-mutiplied
-+ * @VSP1_DU_BLEND_MODE_COVERAGE: Pixel alpha is not pre-mutiplied
-+ * @VSP1_DU_BLEND_MODE_PIXEL_NONE: Ignores the pixel alpha
-+ */
-+enum vsp1_du_blend_mode {
-+	VSP1_DU_BLEND_MODE_PREMULTI,
-+	VSP1_DU_BLEND_MODE_COVERAGE,
-+	VSP1_DU_BLEND_MODE_PIXEL_NONE,
-+};
++		drm_plane_create_blend_mode_property(&plane->plane,
++					BIT(DRM_MODE_BLEND_PIXEL_NONE) |
++					BIT(DRM_MODE_BLEND_PREMULTI) |
++					BIT(DRM_MODE_BLEND_COVERAGE));
 +
- /**
-  * struct vsp1_du_atomic_config - VSP atomic configuration parameters
-  * @pixelformat: plane pixel format (V4L2 4CC)
-@@ -51,6 +63,7 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
-  * @dst: destination rectangle on the display (integer coordinates)
-  * @alpha: alpha value (0: fully transparent, 255: fully opaque)
-  * @zpos: Z position of the plane (from 0 to number of planes minus 1)
-+ * @blend_mode: Pixel blend mode of the plane
-  */
- struct vsp1_du_atomic_config {
- 	u32 pixelformat;
-@@ -60,6 +73,7 @@ struct vsp1_du_atomic_config {
- 	struct v4l2_rect dst;
- 	unsigned int alpha;
- 	unsigned int zpos;
-+	enum vsp1_du_blend_mode blend_mode;
- };
+ 		vsp->num_planes++;
+ 	}
  
- /**
 -- 
 2.25.1
 
