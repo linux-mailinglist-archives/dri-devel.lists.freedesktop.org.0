@@ -2,45 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE3A565BF6
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:24:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991F6565BEB
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:23:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE35F10F990;
-	Mon,  4 Jul 2022 16:16:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16F8A10F8C7;
+	Mon,  4 Jul 2022 16:16:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 211A010E14A;
- Mon,  4 Jul 2022 13:53:20 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 965D010E14A;
+ Mon,  4 Jul 2022 13:53:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1656942800; x=1688478800;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=DZxY6zVl4Yu5rlmCpzKQErgJ7yFuXf8s2eN4HPg8oCE=;
- b=XCxPPcNEToujKVrVJpTxITOT+cUc6hy80FYnG1tykwyup7SMFblAzf2c
- FUTLv1u++Ip/eYFUQjn3vL3UXnAxy2X3owxytnzGuAjCTmabyEX0pY76T
- d8DUe4H8nK5CFVRT9ShqdZ6TQnVZUyoNtxH5NuVKNhUEK9J0L+TTRIju7
- nVoxklI/sIQIVAZbbYB9/VFA0iR/A/T4Vu8MOr80SGOjNb7gLZplfCkRq
- 6eA7+5+HV0+7U4bzCS0nKmbJLZcJEvxTEIXT9ldWHE6Ylmi0CrJZIQT71
- s7DISMQbXzpruD5SZqh/06gip6mbYpmtOlmqw04itMu9i82B0xOx/GChh g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10397"; a="271905996"
-X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; d="scan'208";a="271905996"
+ t=1656942804; x=1688478804;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=gi+steff+c6wtID9tUVp9+ZOlW7suAdBL8AT0jTG1sY=;
+ b=mGfbNx5F8Ocx13KerJMtbCiQXhqoTrH1lfRx+s48+NeRmq1kDnhDKuBX
+ qrim/q+3d90Xy/ndGhhFKa0r3y1xuHwlQSytExfk0Cg0pqeJ2/oWNlQQ4
+ 8fVCNQq4J1PkfxMMWVPE5kd1v0FnDgqHBL90DdSfdGtEaM9jZBGBthncB
+ mmz3QZ5aRKmz45TsIY3wm9EYNyzZMwyZ6n3ltArWaIMSiyAAL4gM0zbdk
+ irLso6c+qAWdPKuhscSf8vU/BwsSAlaay4lH2gy0StT7IV1mP/ObMN44K
+ w5VpR9Tu6rpovJcbswtSqhSfvYq31uBkEZJCjXtL0P9WQ/FuVpvg1EvYt A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10397"; a="347112573"
+X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; d="scan'208";a="347112573"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2022 06:53:19 -0700
-X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; d="scan'208";a="542595751"
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2022 06:53:24 -0700
+X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; d="scan'208";a="542595777"
 Received: from acagidia-mobl.ger.corp.intel.com (HELO
  thellstr-mobl1.intel.com) ([10.249.254.34])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2022 06:53:18 -0700
+ 04 Jul 2022 06:53:24 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/2] Protect vma destruction with the object lock
-Date: Mon,  4 Jul 2022 15:52:47 +0200
-Message-Id: <20220704135249.8241-1-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 1/2] drm/i915: Take the object lock when destroying vmas from
+ vm destruction
+Date: Mon,  4 Jul 2022 15:52:48 +0200
+Message-Id: <20220704135249.8241-2-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220704135249.8241-1-thomas.hellstrom@linux.intel.com>
+References: <20220704135249.8241-1-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -60,31 +63,54 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Protecting vma destruction with the object lock is already
-implemented everywhere as part of the "Remove short-term pinning" work,
-except in the vm destructor where the reasoning was that most code that
-needs to keep vmas alive also holds a vm reference.
+Currently we guarantee that vmas stay alive when the object lock is held
+only if we also hold a private vm reference. In order to relax the latter
+requirement, take the object lock also when destroying vmas from the
+vm destruction path.
 
-However this complicates lifetime rules for vmas, so take the
-object lock around vma destruction also in the vm destructor, trying
-first with trylock to avoid having to unnecessarily release and
-re-take the vm mutex that protects the vma lists.
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gtt.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-As a follow up remove the now unnecessary taking of the vm reference in
-i915_gem_object_unbind(), and the "BARRIER" retry when taking that
-reference fails.
-
-Thomas Hellström (2):
-  drm/i915: Take the object lock when destroying vmas from vm
-    destruction
-  drm/i915/gem: Rework i915_gem_object_unbind to rely on the object lock
-
- drivers/gpu/drm/i915/gem/i915_gem_domain.c |  4 +---
- drivers/gpu/drm/i915/gt/intel_gtt.c        | 17 +++++++++++++++++
- drivers/gpu/drm/i915/i915_drv.h            |  7 +++----
- drivers/gpu/drm/i915/i915_gem.c            | 18 ------------------
- 4 files changed, 21 insertions(+), 25 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+index b67831833c9a..92e22f727f88 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+@@ -112,7 +112,10 @@ int map_pt_dma_locked(struct i915_address_space *vm, struct drm_i915_gem_object
+ static void clear_vm_list(struct list_head *list)
+ {
+ 	struct i915_vma *vma, *vn;
++	bool unlocked;
+ 
++restart:
++	unlocked = false;
+ 	list_for_each_entry_safe(vma, vn, list, vm_link) {
+ 		struct drm_i915_gem_object *obj = vma->obj;
+ 
+@@ -138,8 +141,22 @@ static void clear_vm_list(struct list_head *list)
+ 			i915_vm_resv_get(vma->vm);
+ 			vma->vm_ddestroy = true;
+ 		} else {
++			if (!i915_gem_object_trylock(obj, NULL)) {
++				unlocked = true;
++				mutex_unlock(&vma->vm->mutex);
++				i915_gem_object_lock(obj, NULL);
++				mutex_lock(&vma->vm->mutex);
++				/*
++				 * The vma may now be on a different list,
++				 * but not destroyed. We don't care.
++				 * destroy it.
++				 */
++			}
+ 			i915_vma_destroy_locked(vma);
++			i915_gem_object_unlock(obj);
+ 			i915_gem_object_put(obj);
++			if (unlocked)
++				goto restart;
+ 		}
+ 
+ 	}
 -- 
 2.36.1
 
