@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA273565BA5
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C788565B8C
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:19:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03A9C10F1A1;
-	Mon,  4 Jul 2022 16:15:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44EA610E739;
+	Mon,  4 Jul 2022 16:15:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26B0C10E00A
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 05:04:12 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14E7F10E00A
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 05:04:11 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 1FD17CE0880
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 05:04:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 41AA0C3411E
+ by ams.source.kernel.org (Postfix) with ESMTPS id B9AF4B80159
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 05:04:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6781CC341CB
  for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 05:04:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1656911046;
- bh=o60AJuiV8yneL/F9M38GfUQRK0I/Rnxn9qIgHxr2HrY=;
+ bh=CIstlOVSb5P4UvptktY6VsSgthHmsMXHPACw0D673M8=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=NetkVD8/oRNZnttHMM054zP/OkI85GQB8FlyWx9lg+zPo+vdY8qTyi8BDCJ0iE+Mw
- 3Yhpp2FSoYx9DPLJTzzB94EV7AjRqMBidfYtXWrUHBoWH0d6jVV1qReSjSGV/XdbCf
- imNffAGj/qok8azEVIVbhCtGmMrqr5rBHvby1tezC9ZZcIy1lZGcdTrWA6ahKNosgJ
- tdAHqMpf/+DLzhv/RWvKcekL5b01vy0nb18JOns8H2P7FaByuFQfBQSzGqnXMz3Rwt
- PecmJcZ0eWgcfHNokLPstaRfCqotr5S19oOqtz2z/DS9z7xLnimfJAblXSWR8kabUV
- 2dNh5we8aS9XA==
+ b=SM7pR0QsJuFOOx7dXI+r0PxBytBViwlO5bVi2vrgqXBPsIVM1pgRtL/6RNNf+xjmu
+ IHygmdlELgNGvBtC/hxngjg/LEBVekiGQCtyC6jDZBMr6Xun+d73s6/P0cc5gdUJkB
+ 7jaAlTDkM0nBiVmBAuIKCftHGnidFjVY1WcbWVnhYKbQd3qzvSknRiS/RfoJdnVCjW
+ F1WqHEFODODzJ4liCWyjwuYClNy2Uu7+mc0Hmzut2lNNb4Razly/OFJEkLwLu9Qqit
+ O01SuiIk6RoACFI30+KoAnoUAqU2vkWBOFnJFXq9ud446L3Zy/hk0UWo5AmZbDZ+NE
+ 1UBFRagkdJXAg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 2192EC05FF5; Mon,  4 Jul 2022 05:04:06 +0000 (UTC)
+ from userid 48) id 43A55CC13B6; Mon,  4 Jul 2022 05:04:06 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216201] AMDGPU hung after enabling HIP for gpu acceleration in
+Subject: [Bug 216200] AMDGPU hung after enabling HIP for gpu acceleration in
  Blender Cycles 3.2
 Date: Mon, 04 Jul 2022 05:04:05 +0000
 X-Bugzilla-Reason: None
@@ -45,15 +46,15 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: toadron@yandex.ru
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: DUPLICATE
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-216201-2300-6uKWlVKW5A@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216201-2300@https.bugzilla.kernel.org/>
-References: <bug-216201-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216200-2300-VNmrQwjixA@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216200-2300@https.bugzilla.kernel.org/>
+References: <bug-216200-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -74,19 +75,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216201
-
-Andrey Solomatin (toadron@yandex.ru) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |DUPLICATE
+https://bugzilla.kernel.org/show_bug.cgi?id=3D216200
 
 --- Comment #1 from Andrey Solomatin (toadron@yandex.ru) ---
-
-
-*** This bug has been marked as a duplicate of bug 216200 ***
+*** Bug 216201 has been marked as a duplicate of this bug. ***
 
 --=20
 You may reply to this email to add a comment.
