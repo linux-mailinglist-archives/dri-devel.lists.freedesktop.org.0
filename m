@@ -2,79 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E160565F20
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 23:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00522566941
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:31:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3435810FA32;
-	Mon,  4 Jul 2022 21:32:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39F6010E2A4;
+	Tue,  5 Jul 2022 11:30:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B0FA10FAFE
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 21:32:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1656970353;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+CZe8Sqi7DtJlbJu8xa2TOlRoA4m6XJLDJlm9ljsZMU=;
- b=eoEQH1QW+GLlBWMmSlKVhJoSFBY3kaDBzBl0JzmQqXVQlxjgQJXLe7LG9yvFjS2d5rKGwu
- k2bx1qxV6rMgUSHKLa6e58ZugXXz3rsIu2psNECOS/ExCE1EkvxBYfubPhGZz+7RnlD2j1
- W+Q2nJYOR7P4MWh3d2OZPI/SDR3HosE=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-186-FfDCy-ZIPay9WvYTFxaH2A-1; Mon, 04 Jul 2022 17:32:32 -0400
-X-MC-Unique: FfDCy-ZIPay9WvYTFxaH2A-1
-Received: by mail-qt1-f197.google.com with SMTP id
- u2-20020ac80502000000b002f94701339eso7699240qtg.13
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Jul 2022 14:32:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=+CZe8Sqi7DtJlbJu8xa2TOlRoA4m6XJLDJlm9ljsZMU=;
- b=mhLQdE6caiij3gLnw7UudWd4+1BlfmqCKTYoCykyOWnl2uBuZDuM6L7Ulz5FjAShBx
- 0FXueqUhEtmFCWvq00P7MPeR3yPWki5GK/h8mm/RMGjrgJQC52ZYJNcY+0IEork6LOiE
- 0Mw8vPycWOelWHg/Rec7hiEKpMdydq+UR1gulWtcD3hqD5pWujwcTj1QERgQzfGynDCi
- 0AFQYlHVI6gfOaTTnCPjGACWTJKTFthbpsrmJQa1cQ2XZkAlVHLjfOmA0v/+s2D5QbOw
- W2IiJ0VNOTG7Co/nPxzd1V+KjpU5rUxDkcd7Y/4jMquWrY7fuU4q0SVzpPj0yQ+qmnri
- ujDQ==
-X-Gm-Message-State: AJIora8nbC6LEbJb3ZqWN6aKrnyaMn4XjAgaX9kXV3oGNyg3FmPW/JpM
- WKKc3awRyVFlDST6FRl3StLtukwubSBipl5y/ys3aa0ypBiXblS2hl0uLBbJHfNA7ubL0xITY8T
- V4aIVv8cVIBeh7w7IVLYdw9pG7RvO
-X-Received: by 2002:a05:6214:2a8e:b0:470:911e:9565 with SMTP id
- jr14-20020a0562142a8e00b00470911e9565mr29602439qvb.37.1656970351716; 
- Mon, 04 Jul 2022 14:32:31 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sYMDnzTOdu6YjQ9ZTKxQBwIiV3zh8YsFLMwenBFFfbrSK9BSxwAVULZ9blVHT+e6pMwUZk9Q==
-X-Received: by 2002:a05:6214:2a8e:b0:470:911e:9565 with SMTP id
- jr14-20020a0562142a8e00b00470911e9565mr29602418qvb.37.1656970351439; 
- Mon, 04 Jul 2022 14:32:31 -0700 (PDT)
-Received: from [192.168.57.2] ([172.58.188.184])
- by smtp.gmail.com with ESMTPSA id
- u12-20020a05620a454c00b006afd667535asm16029818qkp.83.2022.07.04.14.32.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jul 2022 14:32:30 -0700 (PDT)
-Message-ID: <91194b7190081545a8eeb10d20e24de864dfe259.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/bios: set info only when the return is not 0
-From: Lyude Paul <lyude@redhat.com>
-To: Tom Rix <trix@redhat.com>, bskeggs@redhat.com, kherbst@redhat.com, 
- airlied@linux.ie, daniel@ffwll.ch, nathan@kernel.org,
- ndesaulniers@google.com
-Date: Mon, 04 Jul 2022 17:32:18 -0400
-In-Reply-To: <20220702153904.1696595-1-trix@redhat.com>
-References: <20220702153904.1696595-1-trix@redhat.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03DD210E202;
+ Tue,  5 Jul 2022 06:55:04 +0000 (UTC)
+Received: from [192.168.2.145] (109-252-119-232.nat.spd-mgts.ru
+ [109.252.119.232])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id AEB39660199B;
+ Mon,  4 Jul 2022 23:38:39 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1656974322;
+ bh=VRx6udoXxSq0dZb7twvztDgIdzhjYZHCPJJRsM4dVqQ=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=KwvHGSsu2bJpgBrKrgPDv83tWaOdVmGMPR8xlDdCPLhk9xw7Ud+ZimwXxR2cr6Bmp
+ u3TauupmhYOD/BkPc+8ksFovTJTbAcBpLSx299Nu/F9NLYkyvIwA7hazvWNS1Ox8iE
+ oWyqhlB87oYwccFQeaom4XZ5SLTzFf4krAuEcymZX+yHDFAVa73And9pvwQQQaqVG0
+ uVbLJZX3cSps+jjvkOrgPRu1fS1he6n4GOm4SrJjDL0Yuyb5LZkxCAnhCGLYb/AJAq
+ YXka1J9BEeBH6cDYDCae5AG19iXh8wYiVOrUyqTONSTh6YULDs1xUwy4JXtD8NNKBR
+ zdbCJFJEnjwYQ==
+Message-ID: <fd026c44-b067-3537-3020-4ae8f24137ad@collabora.com>
+Date: Tue, 5 Jul 2022 01:38:36 +0300
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 14/22] dma-buf: Introduce new locking convention
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+References: <20220526235040.678984-1-dmitry.osipenko@collabora.com>
+ <20220526235040.678984-15-dmitry.osipenko@collabora.com>
+ <0a02a31d-a256-4ca4-0e35-e2ea1868a8ae@amd.com>
+ <e6e17c52-43c2-064b-500e-325bb3ba3b2c@collabora.com>
+ <02e7946b-34ca-b48e-1ba6-e7b63740a2d9@amd.com>
+ <7372dd1b-06f7-5336-4738-15f9b4d4d4b3@collabora.com>
+ <90fe74f6-a622-e4ae-3004-6f1bc1790247@shipmail.org>
+ <0d88cf7c-61e5-d7a8-a6ba-83388114a1fa@collabora.com>
+In-Reply-To: <0d88cf7c-61e5-d7a8-a6ba-83388114a1fa@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,60 +63,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ Thierry Reding <thierry.reding@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <digetx@gmail.com>, kernel@collabora.com,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ linux-media@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-tegra@vger.kernel.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, amd-gfx@lists.freedesktop.org,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, Qiang Yu <yuq825@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Robin Murphy <robin.murphy@arm.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+On 7/1/22 13:43, Dmitry Osipenko wrote:
+> On 6/29/22 00:26, Thomas Hellström (Intel) wrote:
+>> On 5/30/22 15:57, Dmitry Osipenko wrote:
+>>> On 5/30/22 16:41, Christian König wrote:
+>>>> Hi Dmitry,
+>>>>
+>>>> Am 30.05.22 um 15:26 schrieb Dmitry Osipenko:
+>>>>> Hello Christian,
+>>>>>
+>>>>> On 5/30/22 09:50, Christian König wrote:
+>>>>>> Hi Dmitry,
+>>>>>>
+>>>>>> First of all please separate out this patch from the rest of the
+>>>>>> series,
+>>>>>> since this is a complex separate structural change.
+>>>>> I assume all the patches will go via the DRM tree in the end since the
+>>>>> rest of the DRM patches in this series depend on this dma-buf change.
+>>>>> But I see that separation may ease reviewing of the dma-buf changes, so
+>>>>> let's try it.
+>>>> That sounds like you are underestimating a bit how much trouble this
+>>>> will be.
+>>>>
+>>>>>> I have tried this before and failed because catching all the locks in
+>>>>>> the right code paths are very tricky. So expect some fallout from this
+>>>>>> and make sure the kernel test robot and CI systems are clean.
+>>>>> Sure, I'll fix up all the reported things in the next iteration.
+>>>>>
+>>>>> BTW, have you ever posted yours version of the patch? Will be great if
+>>>>> we could compare the changed code paths.
+>>>> No, I never even finished creating it after realizing how much work it
+>>>> would be.
+>>>>
+>>>>>>> This patch introduces new locking convention for dma-buf users. From
+>>>>>>> now
+>>>>>>> on all dma-buf importers are responsible for holding dma-buf
+>>>>>>> reservation
+>>>>>>> lock around operations performed over dma-bufs.
+>>>>>>>
+>>>>>>> This patch implements the new dma-buf locking convention by:
+>>>>>>>
+>>>>>>>      1. Making dma-buf API functions to take the reservation lock.
+>>>>>>>
+>>>>>>>      2. Adding new locked variants of the dma-buf API functions for
+>>>>>>> drivers
+>>>>>>>         that need to manage imported dma-bufs under the held lock.
+>>>>>> Instead of adding new locked variants please mark all variants which
+>>>>>> expect to be called without a lock with an _unlocked postfix.
+>>>>>>
+>>>>>> This should make it easier to remove those in a follow up patch set
+>>>>>> and
+>>>>>> then fully move the locking into the importer.
+>>>>> Do we really want to move all the locks to the importers? Seems the
+>>>>> majority of drivers should be happy with the dma-buf helpers handling
+>>>>> the locking for them.
+>>>> Yes, I clearly think so.
+>>>>
+>>>>>>>      3. Converting all drivers to the new locking scheme.
+>>>>>> I have strong doubts that you got all of them. At least radeon and
+>>>>>> nouveau should grab the reservation lock in their ->attach callbacks
+>>>>>> somehow.
+>>>>> Radeon and Nouveau use gem_prime_import_sg_table() and they take resv
+>>>>> lock already, seems they should be okay (?)
+>>>> You are looking at the wrong side. You need to fix the export code path,
+>>>> not the import ones.
+>>>>
+>>>> See for example attach on radeon works like this
+>>>> drm_gem_map_attach->drm_gem_pin->radeon_gem_prime_pin->radeon_bo_reserve->ttm_bo_reserve->dma_resv_lock.
+>>>>
+>>> Yeah, I was looking at the both sides, but missed this one.
+>> Also i915 will run into trouble with attach. In particular since i915
+>> starts a full ww transaction in its attach callback to be able to lock
+>> other objects if migration is needed. I think i915 CI would catch this
+>> in a selftest.
+> Seems it indeed it should deadlock. But i915 selftests apparently
+> should've caught it and they didn't, I'll re-check what happened.
+> 
 
-Currently on flakey internet in the back of a car, so I probably won't be able
-to push this until I get back tonight or early tomorrow
+The i915 selftests use a separate mock_dmabuf_ops. That's why it works
+for the selftests, i.e. there is no deadlock.
 
-On Sat, 2022-07-02 at 11:39 -0400, Tom Rix wrote:
-> clang static analysis reports
-> drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c:68:17: warning: The right
-> operand of '*' is a garbage value [core.UndefinedBinaryOperatorResult]
->         switch (!!data * *ver) {
->                        ^ ~~~~
-> A switch statement with only a default should be reduced to an if.
-> 
-> If nvbios_pmuEp() returns 0, via the data variable, the output info
-> parameter
-> is not used.  So set info only when data is not 0.
-> 
-> The struct nvbios_pmuE only has the type and data elements.  Since both of
-> these
-> are explicitly set, memset is not needed.  So remove it.
-> 
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c
-> b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c
-> index b4a308f3cf7b..49e2664a734c 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/pmu.c
-> @@ -64,12 +64,9 @@ nvbios_pmuEp(struct nvkm_bios *bios, int idx, u8 *ver, u8
-> *hdr,
->              struct nvbios_pmuE *info)
->  {
->         u32 data = nvbios_pmuEe(bios, idx, ver, hdr);
-> -       memset(info, 0x00, sizeof(*info));
-> -       switch (!!data * *ver) {
-> -       default:
-> +       if (data) {
->                 info->type = nvbios_rd08(bios, data + 0x00);
->                 info->data = nvbios_rd32(bios, data + 0x02);
-> -               break;
->         }
->         return data;
->  }
+Thomas, would i915 CI run a different set of tests or will it be the
+default i915 selftests ran by IGT?
 
 -- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+Best regards,
+Dmitry
