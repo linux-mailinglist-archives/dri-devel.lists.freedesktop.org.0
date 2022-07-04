@@ -1,46 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65378565B81
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:19:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0582C565BFB
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Jul 2022 18:24:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE43910EDB9;
-	Mon,  4 Jul 2022 16:15:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7945610FA05;
+	Mon,  4 Jul 2022 16:16:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8223810E02D
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 11:07:33 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BBF07615F6;
- Mon,  4 Jul 2022 11:07:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E4F6C3411E;
- Mon,  4 Jul 2022 11:07:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1656932850;
- bh=ShPSNOvgzATtn2/Bsxk03dhF7u+9UjNpwSKkcGRvTT0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=yg7oJSBac1jklWTdfgCXuJ3ysIGEvXrqf9/zfqWj42Iyu5IX6vLXQxNYM/N8zePVv
- gl+h3HeUDHDoljmR2gePU76jeomtKSKBVHs4jLc0sVpZAXzp8rEBO43+ANIOsKdZ6Y
- UAo9IGe43RtjSE/pzqD1J5iVI+6bU5b1kL+Sse4w=
-Date: Mon, 4 Jul 2022 13:07:27 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: szuni chen <szunichen@gmail.com>
-Subject: Re: [PATCH v4 08/13] usb: typec: tcpci_mt6370: Add Mediatek MT6370
- tcpci driver
-Message-ID: <YsLJ7+HiqaBTwCLg@kroah.com>
-References: <20220704053901.728-1-peterwu.pub@gmail.com>
- <20220704053901.728-9-peterwu.pub@gmail.com>
- <YsKXcnys2Wa8Zz0p@kroah.com>
- <CA+hk2fYA3phYAoh+BFr0ddy9MR8Ro1WCoqBpa1UK2StwMtLyfQ@mail.gmail.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01B7D10E02D
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Jul 2022 11:44:56 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B65B06601606;
+ Mon,  4 Jul 2022 12:44:54 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1656935095;
+ bh=jjo/dyeQs/GxvVIxuo7XEbbDAa6wk9DN2Its8ccnRJ0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=nbJnzWpIAwOdT1NnRPK3dzVlUURFg7owdJam04RFnvJ1M7R5J4KEmBvJsOP+V62Qh
+ cY5xqLdSoHcmUI1epUxuKG90LJlj5x7P9/YpS1EfHuyIYfayhQnnHzB9256yBDKyDP
+ M2ubH3i6prhjBmd1BXjyeoDFPIr+8Ccn1khWm1dNo6cRhlEz7hhqswvZxf/yFv8wM6
+ elWZfMriM/zOTb1xhCbkpKSl6ls0PEEQXcwEVLwMWnP8a71fKlm2EAr8VzXnKkUw2g
+ qj/elSmFNeBE3KTdMf4xaVV4bWxSfwIWabWi6niy/+tiqVJDzTFL/4QwFSbaxW7N+n
+ NedgxcEU4P/Xw==
+Message-ID: <e405bbc2-c1af-f445-5b78-021b8e88090a@collabora.com>
+Date: Mon, 4 Jul 2022 13:44:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+hk2fYA3phYAoh+BFr0ddy9MR8Ro1WCoqBpa1UK2StwMtLyfQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] drm/mediatek: ensure bridge disable happends before
+ suspend
+Content-Language: en-US
+To: Hsin-Yi Wang <hsinyi@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20220629190545.478113-1-hsinyi@chromium.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220629190545.478113-1-hsinyi@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,62 +55,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, "Krogerus,
- Heikki" <heikki.krogerus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
- alice_chen@richtek.com, linux-iio <linux-iio@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Liam Girdwood <lgirdwood@gmail.com>, ChiYuan Huang <cy_huang@richtek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Lee Jones <lee.jones@linaro.org>,
- Linux LED Subsystem <linux-leds@vger.kernel.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, ChiaEn Wu <peterwu.pub@gmail.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Jingoo Han <jingoohan1@gmail.com>, USB <linux-usb@vger.kernel.org>,
- Sebastian Reichel <sre@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- chiaen_wu@richtek.com, Jonathan Cameron <jic23@kernel.org>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 04, 2022 at 05:31:29PM +0800, szuni chen wrote:
-> Greg KH <gregkh@linuxfoundation.org> 於 2022年7月4日 週一 下午3:32寫道：
-> >
-> > On Mon, Jul 04, 2022 at 01:38:56PM +0800, ChiaEn Wu wrote:
-> > > From: ChiYuan Huang <cy_huang@richtek.com>
-> > >
-> > > Add chip level mt6370 tcpci driver.
-> >
-> > What does this mean?  Please provide more information about the hardware
-> > being supported here so we know how to review this.
+Il 29/06/22 21:05, Hsin-Yi Wang ha scritto:
+> Make sure bridge_disable will be called before suspend by calling
+> drm_mode_config_helper_suspend() in .prepare callback.
 > 
-> Dear Greg,
-> 
-> MediaTek MT6370 is a highly-integrated smart power management IC,
-> which includes a single cell Li-Ion/Li-Polymer switching battery charger,
-> a USB Type-C & Power Delivery (PD) controller, dual flash LED current sources,
-> a RGB LED driver, a backlight WLED driver, a display bias driver and a
-> general LDO for portable devices.
-> 
-> This driver is used for the Type-C & Power Delivery controller in
-> MediaTek MT6370 IC.
-> 
-> If we change the commit message to
-> 
-> "Add MediaTek MT6370 tcpci driver.
-> MediaTek MT6370 is a multi-functional IC that includes USB Type-C.
-> It works with Type-C Port Controller Manager to provide USB PD and USB
-> Type-C functionalities."
-> 
-> does this meet your requirements?
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
-What would you want to see if you were reading a changelog text for an
-unfamiliar hardware device?  More text is always better!
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-thanks,
-
-greg k-h
+> ---
+> The issue is found if suspend is called via VT2 in several MTK SoC (eg.
+> MT8173, MT8183, MT8186) chromebook boards with eDP bridge:
+> bridge disable is called through mtk-drm's suspend, and it needs to be
+> called before bridge pm runtime suspend.
+> So we move the hook to .prepare() and .complete().
+> ---
+>   drivers/gpu/drm/mediatek/mtk_drm_drv.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
+> 
