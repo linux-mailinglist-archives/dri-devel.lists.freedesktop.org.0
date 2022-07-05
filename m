@@ -1,64 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82114568023
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Jul 2022 09:41:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DEBC566997
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Jul 2022 13:34:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F27ED11237E;
-	Wed,  6 Jul 2022 07:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F3D81123E6;
+	Tue,  5 Jul 2022 11:30:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6662910E021
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 10:08:57 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4BB4A1F91F;
- Tue,  5 Jul 2022 10:08:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1657015735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qvMJ4J1/LuqJ2bm7BlZIoOLJOYmWh+4Rpvkk33SZGOA=;
- b=eByb4sSPqg6rRuVWR7Uyol2qkXUh2FlAJZJl6kQB2+c8EEhcdaxtq/jkX0dVzdvL/5s6D3
- /efNTsY/bdasP3pVQxu6qP4nvHO+zcS4O9fblGgs1NR89rSYgTvYETM292rGHy3CrhOSj+
- qGcOFU+GGl+mKHAF54mbZA9ZrTUJOaY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1657015735;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qvMJ4J1/LuqJ2bm7BlZIoOLJOYmWh+4Rpvkk33SZGOA=;
- b=jKWTp5GMggeoLloojImrUvPvKkYL+8GQzQSR8Qi8VzqCYEK46zUKh7GMjl/cO3qvfPDiP7
- DHXFfHIde+vxx5CQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2E2AF1339A;
- Tue,  5 Jul 2022 10:08:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id VBGsCbYNxGK1BQAAMHmgww
- (envelope-from <jdelvare@suse.de>); Tue, 05 Jul 2022 10:08:54 +0000
-Date: Tue, 5 Jul 2022 12:08:52 +0200
-From: Jean Delvare <jdelvare@suse.de>
-To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 6/6] i2c: Make remove callback return void
-Message-ID: <20220705120852.049dc235@endymion.delvare>
-In-Reply-To: <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
-References: <20220628140313.74984-1-u.kleine-koenig@pengutronix.de>
- <20220628140313.74984-7-u.kleine-koenig@pengutronix.de>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A0B610E048
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Jul 2022 10:25:38 +0000 (UTC)
+X-UUID: 97de2dd08bf74424afe93a7b053a3fca-20220705
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.8, REQID:2767743d-9db3-4103-be55-2f0f30d08cb4, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:90
+X-CID-INFO: VERSION:1.1.8, REQID:2767743d-9db3-4103-be55-2f0f30d08cb4, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,AC
+ TION:quarantine,TS:90
+X-CID-META: VersionHash:0f94e32, CLOUDID:96a47563-0b3f-4b2c-b3a6-ed5c044366a0,
+ C
+ OID:75d5afd46aa7,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,IP:nil,U
+ RL:1,File:nil,QS:nil,BEC:nil,COL:0
+X-UUID: 97de2dd08bf74424afe93a7b053a3fca-20220705
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 649888291; Tue, 05 Jul 2022 18:25:32 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3; 
+ Tue, 5 Jul 2022 18:25:31 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Tue, 5 Jul 2022 18:25:30 +0800
+From: Bo-Chen Chen <rex-bc.chen@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <daniel@ffwll.ch>,
+ <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <matthias.bgg@gmail.com>, <airlied@linux.ie>
+Subject: [PATCH v16 0/5] drm/mediatek: Add MT8195 dp_intf driver
+Date: Tue, 5 Jul 2022 18:25:25 +0800
+Message-ID: <20220705102530.1344-1-rex-bc.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Wed, 06 Jul 2022 07:41:40 +0000
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,79 +61,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-pwm@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
- Guenter Roeck <groeck@chromium.org>, linux-stm32@st-md-mailman.stormreply.com,
- linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
- chrome-platform@lists.linux.dev, linux-staging@lists.linux.dev,
- kasan-dev@googlegroups.com, linux-clk@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-pm@vger.kernel.org,
- acpi4asus-user@lists.sourceforge.net, linux-gpio@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- openipmi-developer@lists.sourceforge.net, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- patches@opensource.cirrus.com, linux-usb@vger.kernel.org,
- Wolfram Sang <wsa@kernel.org>, linux-crypto@vger.kernel.org,
- netdev@vger.kernel.org, linux-integrity@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org
+Cc: devicetree@vger.kernel.org, granquet@baylibre.com, jitao.shi@mediatek.com,
+ xinlei.lee@mediatek.com, liangxu.xu@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, msp@baylibre.com,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Bo-Chen Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
+ wenst@chromium.org, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Jun 2022 16:03:12 +0200, Uwe Kleine-K=C3=B6nig wrote:
-> From: Uwe Kleine-K=C3=B6nig <uwe@kleine-koenig.org>
->=20
-> The value returned by an i2c driver's remove function is mostly ignored.
-> (Only an error message is printed if the value is non-zero that the
-> error is ignored.)
->=20
-> So change the prototype of the remove function to return no value. This
-> way driver authors are not tempted to assume that passing an error to
-> the upper layer is a good idea. All drivers are adapted accordingly.
-> There is no intended change of behaviour, all callbacks were prepared to
-> return 0 before.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
+The dpi/dpintf driver and the added helper functions are required for
+the DisplayPort driver to work.
 
-That's a huge change for a relatively small benefit, but if this is
-approved by the I2C core maintainer then fine with me. For:
+This series is separated from [1] which is original from Guillaume.
+The display port driver is [2].
 
->  drivers/hwmon/adc128d818.c                                | 4 +---
->  drivers/hwmon/adt7470.c                                   | 3 +--
->  drivers/hwmon/asb100.c                                    | 6 ++----
->  drivers/hwmon/asc7621.c                                   | 4 +---
->  drivers/hwmon/dme1737.c                                   | 4 +---
->  drivers/hwmon/f75375s.c                                   | 5 ++---
->  drivers/hwmon/fschmd.c                                    | 6 ++----
->  drivers/hwmon/ftsteutates.c                               | 3 +--
->  drivers/hwmon/ina209.c                                    | 4 +---
->  drivers/hwmon/ina3221.c                                   | 4 +---
->  drivers/hwmon/jc42.c                                      | 3 +--
->  drivers/hwmon/mcp3021.c                                   | 4 +---
->  drivers/hwmon/occ/p8_i2c.c                                | 4 +---
->  drivers/hwmon/pcf8591.c                                   | 3 +--
->  drivers/hwmon/smm665.c                                    | 3 +--
->  drivers/hwmon/tps23861.c                                  | 4 +---
->  drivers/hwmon/w83781d.c                                   | 4 +---
->  drivers/hwmon/w83791d.c                                   | 6 ++----
->  drivers/hwmon/w83792d.c                                   | 6 ++----
->  drivers/hwmon/w83793.c                                    | 6 ++----
->  drivers/hwmon/w83795.c                                    | 4 +---
->  drivers/hwmon/w83l785ts.c                                 | 6 ++----
->  drivers/i2c/i2c-core-base.c                               | 6 +-----
->  drivers/i2c/i2c-slave-eeprom.c                            | 4 +---
->  drivers/i2c/i2c-slave-testunit.c                          | 3 +--
->  drivers/i2c/i2c-smbus.c                                   | 3 +--
->  drivers/i2c/muxes/i2c-mux-ltc4306.c                       | 4 +---
->  drivers/i2c/muxes/i2c-mux-pca9541.c                       | 3 +--
->  drivers/i2c/muxes/i2c-mux-pca954x.c                       | 3 +--
+Changes for v16:
+1. Separate input_2pixel and pixels_per_iter to other patches.
+2. Remove function "mtk_dpi_matrix_sel" and color_fmt_trans_support
+   in patch "Add YUV422 output support".
+3. Drop patches which are accepted.
 
-Reviewed-by: Jean Delvare <jdelvare@suse.de>
+Changes for v15:
+1. Add a patch to remove support for output yuv422 for previous socs.
+2. Only remain output format of reg888/yuv422 support for mt8195.
+3. Adjust the order of patches.
 
---=20
-Jean Delvare
-SUSE L3 Support
+Changes for v14:
+1. Separate a new binding patch to modify mediatek string format.
+2. Use GENMASK(4, 0) for INT_MATRIX_SEL_MASK in patch
+   "Add YUV422 output support"
+3. Change kernel doc description of support_direct_pin.
+4. Change to use pixels_per_iter to control quantity of transferred
+   pixels per iterration.
+
+Changes for v13:
+1. Change mediatek,mt8195-dp_intf to mediatek,mt8195-dp-intf.
+2. Add kernel doc for mtk_dpi_conf.
+3. Drop patch of tvd_pll enable.
+4. Squash some color format transfer related patches.
+5. Add new patch to support setting of direct connection to pins.
+6. Change fix tag of "drm/mediatek: dpi: Only enable dpi after the bridge
+   is enabled".
+
+Changes for v12:
+1. Remove pll_gate.
+2. Add more detailed commit message.
+3. Separate tvd_clk patch and yuv422 output support from add dpintf
+   support patch
+4. Remove limit patch and use common driver codes to determine this.
+
+Changes for v11:
+1. Rename ck_cg to pll_gate.
+2. Add some commit message to clarify the modification reason.
+3. Fix some driver order and modify for reviewers' comments.
+
+[1]:https://lore.kernel.org/all/20220523104758.29531-1-granquet@baylibre.com/
+[2]:https://lore.kernel.org/all/20220610105522.13449-1-rex-bc.chen@mediatek.com/
+
+Bo-Chen Chen (4):
+  drm/mediatek: dpi: Add YUV422 output support
+  drm/mediatek: dpi: add config to support direct connection to dpi
+    panels
+  drm/mediatek: dpi: Add input_2pixel config support
+  drm/mediatek: dpi: Add pixels_per_iter config support
+
+Guillaume Ranquet (1):
+  drm/mediatek: dpi: Add dp_intf support
+
+ drivers/gpu/drm/mediatek/mtk_dpi.c          | 115 +++++++++++++++++---
+ drivers/gpu/drm/mediatek/mtk_dpi_regs.h     |  18 +++
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |   4 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |   3 +
+ 5 files changed, 126 insertions(+), 15 deletions(-)
+
+-- 
+2.18.0
+
